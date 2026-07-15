@@ -64,6 +64,15 @@ Telemetry I/O and disposal now use `ConfigureAwait(false)`. Repeated stress runs
 exit cleanly. Scenario scripts also enforce an external 120-second watchdog,
 and CI Godot jobs have a 10-minute hard timeout.
 
+The first clean Linux CI run also found that the unanchored `telemetry/`
+ignore rule matched `src/Cannonball.Core/Telemetry/` on the case-insensitive
+macOS development filesystem. The telemetry implementation existed locally but
+had never been tracked, so Godot could not compile or instantiate `game/Main.cs`
+on a clean runner and waited until the watchdog fired. The rule is now anchored
+to the repository-root runtime artifact directory and the source is tracked.
+Both scenario and capture front doors also run `dotnet build` before Godot so
+an incomplete checkout fails immediately instead of entering the engine loop.
+
 ## Visual capture finding
 
 Combining `--write-movie` and `--headless` on macOS selected Godot's dummy

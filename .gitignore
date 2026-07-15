@@ -17,4 +17,4 @@ tools/map_pipeline/.coverage
 tools/map_pipeline/.ruff_cache/
 data/processed/
 data/downloads/
-telemetry/
+/telemetry/

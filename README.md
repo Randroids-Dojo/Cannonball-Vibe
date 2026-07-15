@@ -47,6 +47,9 @@ Run a Godot-only scenario through the same exact-version CLI front door:
 ./scripts/run-scenario.sh --smoke-test --stress-driver
 ```
 
+The scenario command builds the C# game assembly before launching Godot, so it
+also works from a clean checkout rather than relying on editor-generated state.
+
 Capture a fixed-FPS visual artifact on a machine with a real graphics renderer:
 
 ```

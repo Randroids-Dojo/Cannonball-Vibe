@@ -10,6 +10,8 @@ fi
 
 timeout_seconds="${CANNONBALL_SCENARIO_TIMEOUT_SECONDS:-120}"
 
+dotnet build "$repo_root/Cannonball.sln" --nologo
+
 "$repo_root/scripts/godot.sh" \
   --headless \
   --rendering-method gl_compatibility \

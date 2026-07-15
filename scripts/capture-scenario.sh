@@ -14,6 +14,8 @@ capture_fps="${CANNONBALL_CAPTURE_FPS:-60}"
 capture_frames="${CANNONBALL_CAPTURE_FRAMES:-60}"
 timeout_seconds="${CANNONBALL_SCENARIO_TIMEOUT_SECONDS:-120}"
 
+dotnet build "$repo_root/Cannonball.sln" --nologo
+
 "$repo_root/scripts/godot.sh" \
   --rendering-method gl_compatibility \
   --path "$repo_root" \
