@@ -1,0 +1,389 @@
+{
+  "schema_version": 1,
+  "updated": "2026-07-14",
+  "project": "Cannonball-Vibe",
+  "authority": {
+    "architecture_decisions": "docs/decisions/",
+    "open_questions": "docs/OPEN_QUESTIONS.md",
+    "audit_evidence": "docs/audits/",
+    "agent_contract": "AGENTS.md"
+  },
+  "readiness": {
+    "stack": "conditional_go",
+    "autonomous_internal_delivery": "blocked_on_p0",
+    "autonomous_public_release": "human_approval_required"
+  },
+  "status_values": [
+    "open",
+    "in_progress",
+    "verified_local",
+    "complete",
+    "blocked",
+    "superseded"
+  ],
+  "tasks": [
+    {
+      "id": "BASE-001",
+      "milestone": "M0",
+      "priority": "baseline",
+      "title": "Local technical slice",
+      "status": "verified_local",
+      "dependencies": [],
+      "owned_paths": [
+        "game/",
+        "src/Cannonball.Core/",
+        "tools/map_pipeline/",
+        "tests/"
+      ],
+      "acceptance": [
+        "C# solution builds without warnings or errors",
+        "8 xUnit tests pass",
+        "6 pytest tests pass",
+        "Godot headless smoke completes and writes a save"
+      ],
+      "verification": [
+        "./scripts/check.sh"
+      ],
+      "evidence": [
+        "docs/audits/2026-07-14-agentic-readiness.md"
+      ],
+      "human_gate": null,
+      "notes": "Not complete until the same code has run in required remote CI."
+    },
+    {
+      "id": "P0-001",
+      "milestone": "M0",
+      "priority": "P0",
+      "title": "Strict bootstrap and verification front door",
+      "status": "open",
+      "dependencies": [],
+      "owned_paths": [
+        "scripts/",
+        ".github/workflows/",
+        "README.md"
+      ],
+      "acceptance": [
+        "A documented doctor command validates exact required tool versions",
+        "The required verification command fails when Godot is unavailable",
+        "Linux and Windows CI execute all required M0 checks",
+        "Failure logs and machine-readable test results are uploaded"
+      ],
+      "verification": [
+        "./scripts/doctor.sh",
+        "./scripts/check.sh"
+      ],
+      "evidence": [
+        "evidence/M0/P0-001.json"
+      ],
+      "human_gate": null
+    },
+    {
+      "id": "P0-002",
+      "milestone": "M2",
+      "priority": "P0",
+      "title": "Correct deterministic geodata record emission",
+      "status": "open",
+      "dependencies": [],
+      "owned_paths": [
+        "tools/map_pipeline/src/cannonball_map/pipeline.py",
+        "tools/map_pipeline/tests/"
+      ],
+      "acceptance": [
+        "Edge IDs remain paired with their source IDs and geometries after sorting",
+        "Reversed input feature order produces equivalent semantic output",
+        "Topology uses a multigraph and preserves legitimate parallel directed edges",
+        "Endpoint topology and emitted geometry cannot create seam gaps"
+      ],
+      "verification": [
+        "uv run --project tools/map_pipeline pytest",
+        "uv run --project tools/map_pipeline ruff check tools/map_pipeline"
+      ],
+      "evidence": [
+        "evidence/M2/P0-002.json"
+      ],
+      "human_gate": null
+    },
+    {
+      "id": "P0-003",
+      "milestone": "M2",
+      "priority": "P0",
+      "title": "Locked public-domain source acquisition and elevation",
+      "status": "open",
+      "dependencies": [
+        "P0-002"
+      ],
+      "owned_paths": [
+        "data/sources/",
+        "tools/map_pipeline/"
+      ],
+      "acceptance": [
+        "Manifest source IDs, publishers, URLs, and licenses are enforced against the catalog",
+        "NHPN acquisition paginates in stable order, resumes, retries, deduplicates, and reconciles expected counts",
+        "3DEP acquisition locks an explicit product and exact artifacts for a route corridor",
+        "Rebuilds from the acquisition lockfile perform no discovery and fail on hash drift",
+        "Elevation, grade, CRS, and horizontal and vertical datums survive into packaged content"
+      ],
+      "verification": [
+        "uv run --project tools/map_pipeline pytest",
+        "uv run --project tools/map_pipeline cannonball-map validate-lock data/sources/source-lock.json"
+      ],
+      "evidence": [
+        "data/sources/source-lock.json",
+        "evidence/M2/P0-003.json"
+      ],
+      "human_gate": {
+        "name": "Final source rights review",
+        "required_for": "public_release"
+      }
+    },
+    {
+      "id": "P0-004",
+      "milestone": "M2",
+      "priority": "P0",
+      "title": "Sharded route packaging and runtime streaming",
+      "status": "open",
+      "dependencies": [
+        "P0-002",
+        "P0-003"
+      ],
+      "owned_paths": [
+        "schemas/",
+        "src/Cannonball.Core/Routes/",
+        "game/World/",
+        "tools/map_pipeline/"
+      ],
+      "acceptance": [
+        "The root route index is under 64 MB",
+        "Each runtime chunk is under 16 MB and independently hashed",
+        "Missing and corrupt chunks are rejected before use",
+        "The game streams packaged chunks instead of the procedural RoadMath corridor",
+        "A committed official-source fixture passes pipeline-to-C#-to-Godot integration"
+      ],
+      "verification": [
+        "./scripts/check.sh",
+        "./scripts/run-scenario.sh --fixture official-corridor --distance-miles 100"
+      ],
+      "evidence": [
+        "evidence/M2/P0-004.json"
+      ],
+      "human_gate": {
+        "name": "Representative route map sanity review",
+        "required_for": "M2"
+      }
+    },
+    {
+      "id": "P0-005",
+      "milestone": "M1",
+      "priority": "P0",
+      "title": "Exact save, resume, and recovery",
+      "status": "open",
+      "dependencies": [
+        "P0-004"
+      ],
+      "owned_paths": [
+        "src/Cannonball.Core/Saves/",
+        "game/Main.cs",
+        "tests/Cannonball.Core.Tests/"
+      ],
+      "acceptance": [
+        "Runtime load reconstructs authoritative route, origin, vehicle, elapsed time, systems, and stream state",
+        "The checksum covers the actual route package",
+        "Thousands of seeded save points reload to equivalent authoritative state",
+        "Interrupted, corrupt, and previous-version saves recover or fail with an actionable result"
+      ],
+      "verification": [
+        "dotnet test Cannonball.sln",
+        "./scripts/run-resume-fuzz.sh --cases 10000"
+      ],
+      "evidence": [
+        "evidence/M1/P0-005.json"
+      ],
+      "human_gate": null
+    },
+    {
+      "id": "P0-006",
+      "milestone": "M1",
+      "priority": "P0",
+      "title": "Deterministic long-route scenario runner",
+      "status": "open",
+      "dependencies": [
+        "P0-001",
+        "P0-004",
+        "P0-005"
+      ],
+      "owned_paths": [
+        "game/Automation/",
+        "scripts/run-scenario.sh",
+        ".github/workflows/"
+      ],
+      "acceptance": [
+        "Scenario inputs include route package, seed, assist profile, target distance, save points, and expected completion",
+        "Evidence reports seams, route transitions, rebases, maximum local coordinate, frame-time and chunk-build percentiles, memory growth, collision misses, and resume equivalence",
+        "A 500-mile Linux and Windows traversal has zero missing chunks, hash failures, road gaps, and save divergence",
+        "All three assist profiles have deterministic regression scenarios"
+      ],
+      "verification": [
+        "./scripts/run-scenario.sh --distance-miles 500 --platform current --evidence evidence/M1/P0-006.json"
+      ],
+      "evidence": [
+        "evidence/M1/P0-006.json"
+      ],
+      "human_gate": {
+        "name": "30-minute keyboard and controller handling sessions",
+        "required_for": "M0"
+      }
+    },
+    {
+      "id": "P0-007",
+      "milestone": "M1",
+      "priority": "P0",
+      "title": "Reproducible unsigned desktop exports",
+      "status": "open",
+      "dependencies": [
+        "P0-001",
+        "P0-006"
+      ],
+      "owned_paths": [
+        "export_presets.cfg",
+        ".github/workflows/",
+        "scripts/release/"
+      ],
+      "acceptance": [
+        "CI installs exact Godot 4.6.3 export templates",
+        "Linux and Windows packages are produced from checked-in presets",
+        "Each package passes a clean-machine launch smoke",
+        "Each package has checksums, tool versions, source revision, content hashes, and an SBOM",
+        "Artifact promotion is immutable and rollback is documented"
+      ],
+      "verification": [
+        "./scripts/release/build-unsigned.sh",
+        "./scripts/release/verify-package.sh"
+      ],
+      "evidence": [
+        "evidence/M1/P0-007.json"
+      ],
+      "human_gate": null
+    },
+    {
+      "id": "P0-008",
+      "milestone": "M0",
+      "priority": "P0",
+      "title": "Remote authority and protected integration",
+      "status": "open",
+      "dependencies": [
+        "P0-001"
+      ],
+      "owned_paths": [
+        ".github/",
+        "AGENTS.md",
+        "docs/"
+      ],
+      "acceptance": [
+        "The implementation is committed and required workflows pass remotely",
+        "Main requires the declared CI checks",
+        "Delivery tasks have dependency and evidence records",
+        "Concurrent tasks declare generated-output ownership before work begins"
+      ],
+      "verification": [
+        "gh run list --limit 20",
+        "gh api repos/{owner}/{repo}/branches/main/protection"
+      ],
+      "evidence": [
+        "evidence/M0/P0-008.json"
+      ],
+      "human_gate": {
+        "name": "Repository governance approval",
+        "required_for": "protected_main"
+      }
+    },
+    {
+      "id": "P1-001",
+      "milestone": "M1",
+      "priority": "P1",
+      "title": "Visual and collision streaming separation",
+      "status": "open",
+      "dependencies": [
+        "P0-004"
+      ],
+      "owned_paths": [
+        "game/World/"
+      ],
+      "acceptance": [
+        "Only the declared near-player window carries collision",
+        "Visual lookahead remains available through the declared time-to-arrival horizon",
+        "Chunk work respects the measured frame-time and build-latency budgets"
+      ],
+      "verification": [
+        "./scripts/run-scenario.sh --distance-miles 500 --profile streaming"
+      ],
+      "evidence": [
+        "evidence/M1/P1-001.json"
+      ],
+      "human_gate": null
+    },
+    {
+      "id": "P1-002",
+      "milestone": "M5",
+      "priority": "P1",
+      "title": "Deterministic asset and provenance pipeline",
+      "status": "open",
+      "dependencies": [
+        "P0-007"
+      ],
+      "owned_paths": [
+        "assets/",
+        "tools/assets/",
+        "data/assets/"
+      ],
+      "acceptance": [
+        "Blender and export tooling are pinned",
+        "Headless exports enforce naming, scale, import profiles, LOD, collision, and budget rules",
+        "Every source asset and audio file has license and provenance metadata",
+        "Visual regression artifacts are produced for representative scenes"
+      ],
+      "verification": [
+        "./scripts/validate-assets.sh"
+      ],
+      "evidence": [
+        "evidence/M5/P1-002.json"
+      ],
+      "human_gate": {
+        "name": "Art direction and final rights approval",
+        "required_for": "M5"
+      }
+    },
+    {
+      "id": "P1-003",
+      "milestone": "M6",
+      "priority": "P1",
+      "title": "Signed public release promotion",
+      "status": "blocked",
+      "dependencies": [
+        "P0-007",
+        "P0-008",
+        "P1-002"
+      ],
+      "owned_paths": [
+        ".github/workflows/release.yml",
+        "scripts/release/",
+        "docs/RELEASE.md"
+      ],
+      "acceptance": [
+        "Signed or notarized packages pass clean-machine installation and launch",
+        "Release checksums, SBOM, provenance, migration evidence, and rollback artifacts are published",
+        "Production credentials are isolated in an approval-gated environment"
+      ],
+      "verification": [
+        "./scripts/release/verify-public-release.sh"
+      ],
+      "evidence": [
+        "evidence/M6/P1-003.json"
+      ],
+      "human_gate": {
+        "name": "Signing credentials, store submission, and public release approval",
+        "required_for": "public_release"
+      },
+      "notes": "Blocked until a release channel is decided and credentials are provisioned by a human."
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+<Project Sdk="Godot.NET.Sdk/4.6.3">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>Cannonball</RootNamespace>
+    <AssemblyName>Cannonball</AssemblyName>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="game/**/*.cs" />
+    <ProjectReference Include="src/Cannonball.Core/Cannonball.Core.csproj" />
+  </ItemGroup>
+</Project>

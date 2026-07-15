@@ -1,0 +1,57 @@
+namespace Cannonball.Content;
+
+struct SourceCoordinate {
+  longitude:double;
+  latitude:double;
+  elevation_meters:double;
+}
+
+struct RouteSample {
+  distance_meters:double;
+  lateral_meters:float;
+  elevation_meters:float;
+  curvature:float;
+  grade:float;
+}
+
+table RouteNodeData {
+  id:string (key);
+  source:SourceCoordinate;
+  kind:string;
+  outgoing_edge_ids:[string];
+}
+
+table RouteEdgeData {
+  id:string (key);
+  from_node_id:string;
+  to_node_id:string;
+  length_meters:double;
+  lane_count:ubyte;
+  speed_limit_mps:float;
+  region_id:string;
+  generation_profile:string;
+  chunk_ids:[string];
+  samples:[RouteSample];
+}
+
+table ChunkManifestData {
+  id:string (key);
+  edge_id:string;
+  start_meters:double;
+  end_meters:double;
+  content_hash:string;
+  relative_path:string;
+  probable_branch_chunk_ids:[string];
+}
+
+table RouteGraphBuffer {
+  schema_version:uint;
+  content_version:string;
+  nodes:[RouteNodeData];
+  edges:[RouteEdgeData];
+  chunks:[ChunkManifestData];
+}
+
+root_type RouteGraphBuffer;
+file_identifier "CBRG";
+file_extension "cbrg";

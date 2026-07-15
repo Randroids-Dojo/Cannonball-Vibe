@@ -1,0 +1,28 @@
+{
+  "policy": {
+    "allowed_statuses": ["public_domain"],
+    "derived_from_openstreetmap_allowed": false,
+    "require_sha256_at_ingest": true,
+    "require_acquisition_date": true
+  },
+  "sources": [
+    {
+      "id": "usdot-national-highway-planning-network",
+      "name": "National Highway Planning Network",
+      "publisher": "U.S. Department of Transportation",
+      "landing_page": "https://doi.org/10.21949/1522161",
+      "license_status": "public_domain",
+      "use": "Network topology and route-family backbone only",
+      "limitations": "Nominal 1:100,000 source scale; horizontal error can reach approximately 80 meters. Never treat as final lane geometry."
+    },
+    {
+      "id": "usgs-3dep",
+      "name": "3D Elevation Program",
+      "publisher": "U.S. Geological Survey",
+      "landing_page": "https://www.usgs.gov/3d-elevation-program",
+      "license_status": "public_domain",
+      "use": "Elevation and grade sampling",
+      "limitations": "Record the exact product URL, publication date, and checksum for each acquired raster."
+    }
+  ]
+}

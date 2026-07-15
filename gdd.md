@@ -1403,7 +1403,7 @@ __D-008__
 
 Unreal Engine is the recommended prototype engine; route and run state remain engine-agnostic.
 
-RECOMMENDED
+SUPERSEDED BY D-011
 
 __D-009__
 
@@ -1416,6 +1416,12 @@ __D-010__
 Cargo/contraband, deep narrative, weather, and multiplayer are outside MVP.
 
 LOCKED
+
+__D-011__
+
+Godot 4.6.3 .NET is the prototype engine; route and run state remain engine-agnostic.
+
+LOCKED FOR PROTOTYPE — see docs/decisions/ADR-0001-godot-dotnet-prototype-stack.md
 
 # Top project risks and mitigations
 

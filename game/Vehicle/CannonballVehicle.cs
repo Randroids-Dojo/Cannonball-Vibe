@@ -1,0 +1,225 @@
+using Cannonball.Game.Input;
+using Cannonball.Core.Runs;
+using Godot;
+
+namespace Cannonball.Game.Vehicle;
+
+public sealed partial class CannonballVehicle : RigidBody3D
+{
+    private const float SpringRestLength = 0.62f;
+    private const float WheelRadius = 0.34f;
+    private const float SpringStrength = 42_000.0f;
+    private const float SpringDamping = 5_500.0f;
+    private const float EngineForce = 25_000.0f;
+    private const float BrakeForce = 36_000.0f;
+    private const float LateralGrip = 7_800.0f;
+    private const float AerodynamicDrag = 0.42f;
+    private const float DownforceCoefficient = 9.0f;
+    private const float MaximumSteerAngleRadians = 0.38f;
+
+    private static readonly Vector3[] WheelPositions =
+    [
+        new(-0.82f, -0.18f, -1.42f),
+        new(0.82f, -0.18f, -1.42f),
+        new(-0.82f, -0.18f, 1.42f),
+        new(0.82f, -0.18f, 1.42f),
+    ];
+
+    private readonly IDriveInput _driveInput = new GodotDriveInput();
+    private bool _resetRequested;
+
+    public bool AutopilotEnabled { get; set; }
+    public AssistProfile AssistProfile { get; private set; } = AssistProfile.Balanced;
+    public double RouteDistanceMeters { get; set; }
+    public float TargetRoadCenterX { get; set; }
+    public float SpeedMetersPerSecond => LinearVelocity.Length();
+
+    public override void _Ready()
+    {
+        Name = "CannonballVehicle";
+        Mass = 1_450;
+        GravityScale = 1;
+        LinearDamp = 0.03f;
+        AngularDamp = 0.7f;
+        CanSleep = false;
+        ContinuousCd = true;
+        ContactMonitor = true;
+        MaxContactsReported = 12;
+        CollisionLayer = 2;
+        CollisionMask = 1;
+        BuildChassis();
+        BuildCamera();
+    }
+
+    public override void _PhysicsProcess(double delta)
+    {
+        _ = delta;
+        var input = AutopilotEnabled ? ReadAutopilot() : _driveInput.Read();
+        if (input.Reset || _resetRequested || Position.Y < -20)
+        {
+            ResetToRoad();
+            _resetRequested = false;
+            return;
+        }
+
+        ApplySuspensionAndTireForces(input);
+        ApplyPowerAndStability(input);
+    }
+
+    public void RequestReset() => _resetRequested = true;
+
+    public void CycleAssistProfile()
+    {
+        AssistProfile = AssistProfile switch
+        {
+            AssistProfile.Accessible => AssistProfile.Balanced,
+            AssistProfile.Balanced => AssistProfile.Raw,
+            _ => AssistProfile.Accessible,
+        };
+    }
+
+    public void SetAssistProfile(AssistProfile profile) => AssistProfile = profile;
+
+    private DriveInputState ReadAutopilot()
+    {
+        var lateralError = TargetRoadCenterX - GlobalPosition.X;
+        var heading = -GlobalTransform.Basis.Z;
+        var steering = Mathf.Clamp(lateralError * 0.025f - heading.X * 1.8f - AngularVelocity.Y * 0.18f, -1, 1);
+        var throttle = SpeedMetersPerSecond < 91 ? 1.0f : 0.15f;
+        return new DriveInputState(throttle, 0, steering, false);
+    }
+
+    private void ApplySuspensionAndTireForces(DriveInputState input)
+    {
+        var space = GetWorld3D().DirectSpaceState;
+        var chassisUp = GlobalTransform.Basis.Y.Normalized();
+        var chassisForward = -GlobalTransform.Basis.Z.Normalized();
+        var speed = SpeedMetersPerSecond;
+        var steerScale = Mathf.Lerp(1.0f, 0.24f, Mathf.Clamp(speed / 90.0f, 0, 1));
+        var steerResponse = AssistProfile switch
+        {
+            AssistProfile.Accessible => 0.85f,
+            AssistProfile.Raw => 1.1f,
+            _ => 1.0f,
+        };
+        var steerAngle = input.Steering * MaximumSteerAngleRadians * steerScale * steerResponse;
+        var groundedWheels = 0;
+
+        for (var index = 0; index < WheelPositions.Length; index++)
+        {
+            var wheelOrigin = GlobalTransform * WheelPositions[index];
+            var rayStart = wheelOrigin + chassisUp * 0.15f;
+            var rayLength = SpringRestLength + WheelRadius + 0.15f;
+            var rayEnd = rayStart - chassisUp * rayLength;
+            var query = PhysicsRayQueryParameters3D.Create(rayStart, rayEnd, collisionMask: 1);
+            query.Exclude = [GetRid()];
+            var hit = space.IntersectRay(query);
+            if (hit.Count == 0)
+            {
+                continue;
+            }
+
+            groundedWheels++;
+            var contact = (Vector3)hit["position"];
+            var normal = ((Vector3)hit["normal"]).Normalized();
+            var distance = rayStart.DistanceTo(contact) - 0.15f - WheelRadius;
+            var compression = Mathf.Clamp(SpringRestLength - distance, 0, SpringRestLength);
+            var offset = contact - GlobalPosition;
+            var pointVelocity = LinearVelocity + AngularVelocity.Cross(offset);
+            var suspensionVelocity = pointVelocity.Dot(normal);
+            var suspensionForce = Math.Max(0, compression * SpringStrength - suspensionVelocity * SpringDamping);
+            ApplyForce(normal * suspensionForce, offset);
+
+            var wheelForward = index < 2
+                ? chassisForward.Rotated(normal, -steerAngle).Normalized()
+                : chassisForward;
+            var wheelRight = wheelForward.Cross(normal).Normalized();
+            var lateralSpeed = pointVelocity.Dot(wheelRight);
+            var gripScale = Mathf.Lerp(1.0f, 0.68f, Mathf.Clamp(speed / 100.0f, 0, 1));
+            var assistGrip = AssistProfile switch
+            {
+                AssistProfile.Accessible => 1.25f,
+                AssistProfile.Raw => 0.82f,
+                _ => 1.0f,
+            };
+            ApplyForce(-wheelRight * lateralSpeed * LateralGrip * gripScale * assistGrip, offset);
+        }
+
+        if (groundedWheels > 0)
+        {
+            var longitudinalSpeed = LinearVelocity.Dot(chassisForward);
+            var driveForce = chassisForward * input.Throttle * EngineForce;
+            var brakingDirection = Math.Abs(longitudinalSpeed) < 0.5f
+                ? Vector3.Zero
+                : -chassisForward * Math.Sign(longitudinalSpeed);
+            ApplyCentralForce(driveForce + brakingDirection * input.Brake * BrakeForce);
+            ApplyCentralForce(-chassisUp * speed * speed * DownforceCoefficient);
+        }
+    }
+
+    private void ApplyPowerAndStability(DriveInputState input)
+    {
+        var velocity = LinearVelocity;
+        var speed = velocity.Length();
+        if (speed > 0.01f)
+        {
+            ApplyCentralForce(-velocity.Normalized() * speed * speed * AerodynamicDrag);
+        }
+
+        var up = GlobalTransform.Basis.Y.Normalized();
+        var correctionAxis = up.Cross(Vector3.Up);
+        var stability = AssistProfile switch
+        {
+            AssistProfile.Accessible => 1.3f,
+            AssistProfile.Raw => 0.35f,
+            _ => 1.0f,
+        };
+        ApplyTorque(correctionAxis * 9_000.0f * stability - AngularVelocity * 850.0f * stability);
+
+        var speedRatio = Mathf.Clamp(speed / 90.0f, 0, 1);
+        var yawAuthority = Mathf.Lerp(7_500.0f, 2_200.0f, speedRatio);
+        ApplyTorque(Vector3.Up * -input.Steering * yawAuthority);
+    }
+
+    private void ResetToRoad()
+    {
+        Freeze = true;
+        Position = new Vector3(TargetRoadCenterX, 0.78f, Position.Z);
+        Rotation = Vector3.Zero;
+        LinearVelocity = Vector3.Zero;
+        AngularVelocity = Vector3.Zero;
+        Freeze = false;
+    }
+
+    private void BuildChassis()
+    {
+        var shape = new BoxShape3D { Size = new Vector3(1.86f, 0.64f, 4.45f) };
+        AddChild(new CollisionShape3D { Name = "ChassisCollision", Shape = shape });
+        var material = new StandardMaterial3D
+        {
+            AlbedoColor = new Color("b7172b"),
+            Metallic = 0.7f,
+            Roughness = 0.24f,
+        };
+        AddChild(new MeshInstance3D
+        {
+            Name = "ChassisMesh",
+            Mesh = new BoxMesh { Size = shape.Size },
+            MaterialOverride = material,
+        });
+    }
+
+    private void BuildCamera()
+    {
+        var arm = new SpringArm3D
+        {
+            Name = "ChaseCameraArm",
+            Position = new Vector3(0, 1.3f, 1.5f),
+            RotationDegrees = new Vector3(-8, 0, 0),
+            SpringLength = 7.5f,
+            CollisionMask = 1,
+        };
+        arm.AddChild(new Camera3D { Name = "ChaseCamera", Current = true, Fov = 76 });
+        AddChild(arm);
+    }
+}

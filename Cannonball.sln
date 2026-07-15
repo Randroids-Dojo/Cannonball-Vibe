@@ -1,0 +1,30 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cannonball", "Cannonball.csproj", "{F57ACB68-5AE3-4CFD-A937-0B3FD73ED11A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cannonball.Core", "src/Cannonball.Core/Cannonball.Core.csproj", "{912C557D-7872-42E9-8111-E36B0D5AF7A6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cannonball.Core.Tests", "tests/Cannonball.Core.Tests/Cannonball.Core.Tests.csproj", "{5A044EAA-6603-4CDE-99E4-2C2B9E04DFA7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F57ACB68-5AE3-4CFD-A937-0B3FD73ED11A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F57ACB68-5AE3-4CFD-A937-0B3FD73ED11A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F57ACB68-5AE3-4CFD-A937-0B3FD73ED11A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F57ACB68-5AE3-4CFD-A937-0B3FD73ED11A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{912C557D-7872-42E9-8111-E36B0D5AF7A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{912C557D-7872-42E9-8111-E36B0D5AF7A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{912C557D-7872-42E9-8111-E36B0D5AF7A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{912C557D-7872-42E9-8111-E36B0D5AF7A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A044EAA-6603-4CDE-99E4-2C2B9E04DFA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A044EAA-6603-4CDE-99E4-2C2B9E04DFA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A044EAA-6603-4CDE-99E4-2C2B9E04DFA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A044EAA-6603-4CDE-99E4-2C2B9E04DFA7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

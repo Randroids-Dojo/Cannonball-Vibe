@@ -1,0 +1,25 @@
+config_version=5
+
+[application]
+config/name="Cannonball Run"
+run/main_scene="res://game/Main.tscn"
+config/features=PackedStringArray("4.6", "C#", "Forward Plus")
+
+[display]
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+window/size/window_width_override=1280
+window/size/window_height_override=720
+window/stretch/mode="canvas_items"
+
+[dotnet]
+project/assembly_name="Cannonball"
+
+[physics]
+common/physics_ticks_per_second=120
+common/max_physics_steps_per_frame=16
+3d/physics_engine="Jolt Physics"
+
+[rendering]
+renderer/rendering_method="forward_plus"
+renderer/rendering_method.mobile="mobile"
