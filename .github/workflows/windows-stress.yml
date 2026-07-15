@@ -11,6 +11,7 @@ permissions:
 jobs:
   windows-smoke:
     runs-on: windows-latest
+    timeout-minutes: 10
     env:
       DOTNET_ROLL_FORWARD: Major
     steps:
@@ -24,7 +25,7 @@ jobs:
             10.0.102
       - uses: chickensoft-games/setup-godot@v2
         with:
-          version: 4.6.3
+          version: 4.7.1
           use-dotnet: true
           include-templates: false
       - run: godot --headless --rendering-method gl_compatibility --path . --editor --quit

@@ -1,5 +1,11 @@
 # Agentic delivery readiness audit
 
+> Historical baseline: this audit was executed with Godot 4.6.3. The active
+> project pin is now Godot 4.7.1; see
+> [ADR-0004](../decisions/ADR-0004-godot-4-7-1.md). The measured 4.6.3 results
+> below are intentionally preserved until equivalent 4.7.1 evidence replaces
+> them.
+
 - Date: 2026-07-14
 - Scope: runtime, geodata/content, CI/release, and autonomous delivery
 - Outcome: conditional go for the selected stack; no-go for claiming autonomous M0-M6 acceptance today
@@ -151,9 +157,10 @@ must still be implemented and verified.
 - Upload telemetry, saves, logs, metrics, and screenshots on CI failures.
 - Pin GitHub Actions by immutable commit SHA and add timeouts, concurrency,
   retention, dependency scanning, and provenance generation.
-- Keep official-Godot scenario drivers as the primary automation path.
-  PlayGodot remains optional until its custom engine fork is available at the
-  exact project version on every required platform.
+- Keep official-Godot scenario drivers as the primary automation path. The
+  unmaintained custom engine fork and legacy debugger transport are retired;
+  evaluate a modern PlayGodot addon for semantic rendered-UI automation under
+  ADR-0005.
 
 ## Human gates
 

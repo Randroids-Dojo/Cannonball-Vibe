@@ -11,17 +11,19 @@ ADR, GDD decision, or delivery-ledger change.
 | Q-002 | P0 | M2 | Geodata | Is NHPN's coarse and aging topology acceptable for geographically inspired corridors? | Use NHPN as a route-family backbone, never as lane geometry. | Official-source corridor fixtures, measured correction burden, and human map sanity review. |
 | Q-003 | P0 | M2 | Geodata | Can deterministic spline reconstruction and generated interchange corrections eliminate routine hand authoring? | Allow generated overrides only when continuity, grade, curvature, collision, sightline, and self-intersection gates pass. | Representative divided-highway, ramp, overpass, border, and parallel-edge fixtures. |
 | Q-004 | P0 | M1 | Runtime | What root-index and chunk-size budgets keep continental streaming bounded? | Root index under 64 MB and individual chunks under 16 MB. | Cached 500-mile and coast-to-coast traversals with latency and memory telemetry. |
-| Q-005 | P1 | M1 | Automation | Is PlayGodot worth maintaining beside the official-Godot scenario runner? | Use the official engine and in-process scenario runner first. | Exact-version Linux, Windows, and macOS fork availability plus a UI/input test that cannot be covered otherwise. |
 | Q-006 | P1 | M1 | Input | Which physical wheel defines the MVP calibration baseline? | One common force-feedback-capable Windows wheel; force feedback remains optional. | Device selection, calibration protocol, and a recorded human handling session. |
 | Q-007 | P1 | M5 | Release | Which release channel is authoritative: GitHub Releases, itch.io, or Steam? | Produce unsigned CI artifacts before choosing a storefront. | Audience, patching, signing, telemetry, cost, and approval requirements compared in an ADR. |
 | Q-008 | P1 | M2 | Geodata | Must GeoPackage be byte-reproducible or only semantically reproducible? | Treat it as a non-shipping audit artifact and normalize volatile timestamps where practical. | Cross-platform comparison proving stable feature IDs, geometry, CRS, attributes, and content version. |
 | Q-009 | P1 | M1 | Platform | When does macOS become a required validation and export platform? | Linux and Windows are required for M1; add macOS before public platform commitment. | Target-platform decision and available clean-machine CI/export capacity. |
 | Q-010 | P1 | M3 | Product | How dense must meaningful driving and route decisions be? | Target one meaningful tactical or strategic change every few minutes with deliberate quiet periods. | Telemetry and player recall from representative 45-60 minute sessions. |
+| Q-011 | P1 | M1 | Automation | Which rendered UI surfaces require a stable external scene-node API beyond CLI state evidence and Computer Use? | Prototype a modern PlayGodot bridge against the first interactive `Control` UI before accepting the M1 UI automation strategy. | Cross-platform tests showing stable selection, semantic assertions, signals, input, screenshots, failure artifacts, and lower flake or diagnosis cost than pixel-only automation. |
+| Q-012 | P2 | M3 | Automation | Does an MCP adapter or editor bridge add unique value beyond the PlayGodot protocol, CLI, filesystem tools, and Computer Use? | Keep the runtime protocol host-neutral and do not require MCP. | Exact 4.7.1 support, security review, transactional edits, audit logs, narrow tool profile, and a measured workflow improvement. |
 
 ## Recently resolved
 
 | Decision | Resolution |
 | --- | --- |
-| Prototype engine | Godot 4.6.3 .NET; see [ADR-0001](decisions/ADR-0001-godot-dotnet-prototype-stack.md). |
+| Prototype engine | Godot 4.7.1 .NET; see [ADR-0004](decisions/ADR-0004-godot-4-7-1.md). |
 | Runtime route format | FlatBuffer index and independently hashable chunks; see [ADR-0002](decisions/ADR-0002-public-domain-geodata-contract.md). |
 | Fully agentic acceptance | Machine gates may be autonomous; subjective, physical, legal, credential, and release gates require humans; see [ADR-0003](decisions/ADR-0003-agentic-delivery-contract.md). |
+| Legacy PlayGodot engine fork and debugger transport | Retired; modern PlayGodot may return as a debug-only official-engine addon for semantic rendered-UI automation; see [ADR-0005](decisions/ADR-0005-official-engine-agentic-automation.md). |

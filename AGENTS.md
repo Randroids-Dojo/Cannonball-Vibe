@@ -20,7 +20,7 @@ code.
 
 ## Current stack
 
-- Godot 4.6.3 .NET, Forward+, Godot Jolt, 120 Hz physics.
+- Godot 4.7.1 .NET, Forward+, Godot Jolt, 120 Hz physics.
 - C# 12 targeting .NET 8; the repository pins .NET SDK 10.0.102.
 - `Cannonball.Core` is engine-independent.
 - Python/uv, GeoPandas, Rasterio, PROJ, GeoPackage, and FlatBuffers implement
@@ -69,8 +69,8 @@ GODOT_BIN=/absolute/path/to/Godot ./scripts/check.sh
 ```
 
 It runs the C# build and xUnit suite, Python lint and pytest suite, and a Godot
-headless smoke. Until task `P0-001` is complete, `scripts/check.sh` skips Godot
-when the binary is missing; that skip is not a verified pass.
+headless smoke. `scripts/godot.sh` enforces the exact engine version and fails
+when the editor is absent or stale.
 
 Use the smallest relevant checks during development, then run the full required
 gate before handoff:
@@ -83,10 +83,14 @@ uv run --project tools/map_pipeline pytest
 GODOT_BIN=/absolute/path/to/Godot ./scripts/check.sh
 ```
 
-Godot runtime behavior is tested through C# unit tests and headless Godot
-scenarios. PlayGodot is optional and must not become a required gate until its
-custom engine fork matches the exact project version on every required
-platform.
+Godot runtime behavior is tested through C# unit tests and official-engine
+headless scenarios. Do not use the retired custom Godot automation fork or
+engine patches. A modern PlayGodot addon may provide stable semantic scene-node
+automation for rendered UI under ADR-0005; it must remain debug-only, secure,
+and compatible with the official engine. Use Computer Use for black-box
+visual/editor validation that cannot be made deterministic through the CLI. An
+MCP adapter is optional and must be accepted by ADR before it becomes a required
+project dependency.
 
 ## Evidence and definition of done
 

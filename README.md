@@ -3,7 +3,7 @@
 A coast-to-coast driving roguelite about finding the fastest pace the car, route,
 and driver can still survive.
 
-The repository now contains the M0/P0 technical slice: a Godot 4.6.3 .NET game,
+The repository now contains the M0/P0 technical slice: a Godot 4.7.1 .NET game,
 an engine-independent C# rules layer, a custom raycast-suspension vehicle, a
 streamed 25-mile graybox road with local-origin rebasing, versioned saves,
 JSONL telemetry, and a public-domain-only geodata pipeline.
@@ -16,7 +16,7 @@ route remain later milestones.
 
 Requirements:
 
-- Godot 4.6.3 Mono
+- Godot 4.7.1 .NET
 - .NET SDK 10.0.102 (the game targets .NET 8)
 - `uv` 0.9.x for the Python pipeline
 - Git LFS
@@ -24,7 +24,7 @@ Requirements:
 Open `project.godot` in Godot Mono and run the main scene, or use:
 
 ```
-.tools/godot-4.6.3/Godot_mono.app/Contents/MacOS/Godot --path .
+./scripts/godot.sh --path .
 ```
 
 Controls: W/right trigger accelerates, S/left trigger brakes, A/D or the left
@@ -39,6 +39,19 @@ stick steers, R resets the vehicle, and F5 writes a suspend save.
 The check runs xUnit core tests, Python pipeline tests, and a headless Godot
 autopilot smoke test. Use `GODOT_BIN=/path/to/godot ./scripts/check.sh` when the
 engine is installed elsewhere.
+
+Run a Godot-only scenario through the same exact-version CLI front door:
+
+```
+./scripts/run-scenario.sh --smoke-test
+./scripts/run-scenario.sh --smoke-test --stress-driver
+```
+
+Capture a fixed-FPS visual artifact on a machine with a real graphics renderer:
+
+```
+./scripts/capture-scenario.sh /tmp/cannonball.avi --smoke-test
+```
 
 ## Repository map
 
@@ -58,5 +71,9 @@ engine is installed elsewhere.
 - [Agentic-readiness audit](docs/audits/2026-07-14-agentic-readiness.md) — dated
   findings and prioritized delivery blockers.
 - [Architecture decisions](docs/decisions/README.md) — append-only ADRs.
+- [Agentic Godot automation research](docs/research/2026-07-14-godot-agentic-automation.md)
+  — official CLI, C# tests, visual capture, Computer Use, and modern PlayGodot.
+- [PlayGodot modernization plan](docs/research/2026-07-15-playgodot-modernization.md)
+  — stable scene-node automation on the official engine without a fork.
 - [Open questions](docs/OPEN_QUESTIONS.md) — unresolved choices and required
   evidence.

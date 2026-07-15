@@ -1,8 +1,11 @@
 # ADR-0001: Godot 4.6.3 .NET prototype stack
 
-- Status: Accepted
+- Status: Superseded by [ADR-0004](ADR-0004-godot-4-7-1.md)
 - Date: 2026-07-14
 - Supersedes: GDD decision D-008
+
+This record preserves the version that was validated during the initial M0
+audit. It is historical and no longer defines the active engine pin.
 
 ## Context
 

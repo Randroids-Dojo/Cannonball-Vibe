@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated": "2026-07-14",
+  "updated": "2026-07-15",
   "project": "Cannonball-Vibe",
   "authority": {
     "architecture_decisions": "docs/decisions/",
@@ -249,7 +249,7 @@
         "scripts/release/"
       ],
       "acceptance": [
-        "CI installs exact Godot 4.6.3 export templates",
+        "CI installs exact Godot 4.7.1 export templates",
         "Linux and Windows packages are produced from checked-in presets",
         "Each package passes a clean-machine launch smoke",
         "Each package has checksums, tool versions, source revision, content hashes, and an SBOM",
@@ -318,6 +318,39 @@
       ],
       "evidence": [
         "evidence/M1/P1-001.json"
+      ],
+      "human_gate": null
+    },
+    {
+      "id": "P1-004",
+      "milestone": "M1",
+      "priority": "P1",
+      "title": "Modern PlayGodot semantic UI automation spike",
+      "status": "open",
+      "dependencies": [
+        "P0-001"
+      ],
+      "owned_paths": [
+        "addons/playgodot/",
+        "automation/playgodot/",
+        "docs/research/2026-07-15-playgodot-modernization.md"
+      ],
+      "acceptance": [
+        "The bridge runs on unmodified official Godot 4.7.1 on macOS, Linux, and Windows",
+        "Interactive Control nodes expose unique stable automation IDs and normalized semantic state",
+        "The protocol supports bounded tree inspection, signal waits, input, and node or viewport screenshots",
+        "Transport binds only to loopback on an ephemeral port and requires a per-run token and version handshake",
+        "Mutation and method calls are absent by default or constrained by explicit capability allowlists",
+        "Malformed, oversized, unauthenticated, timed-out, and disallowed requests fail closed with transcripts",
+        "Release packages prove that no enabled PlayGodot server or rendezvous surface is present",
+        "The spike measures unique defect coverage, flake rate, execution time, and diagnosis cost against CLI plus Computer Use"
+      ],
+      "verification": [
+        "uv run --project automation/playgodot pytest",
+        "./scripts/verify-playgodot-package-boundary.sh"
+      ],
+      "evidence": [
+        "evidence/M1/P1-004.json"
       ],
       "human_gate": null
     },

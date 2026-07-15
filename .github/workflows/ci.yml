@@ -43,8 +43,9 @@ jobs:
       - run: uv run --project tools/map_pipeline pytest
 
   godot-smoke:
-    name: Godot 4.6.3 smoke
+    name: Godot 4.7.1 smoke
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     env:
       DOTNET_ROLL_FORWARD: Major
     steps:
@@ -58,8 +59,8 @@ jobs:
             10.0.102
       - uses: chickensoft-games/setup-godot@v2
         with:
-          version: 4.6.3
+          version: 4.7.1
           use-dotnet: true
           include-templates: false
       - run: godot --headless --rendering-method gl_compatibility --path . --editor --quit
-      - run: godot --headless --rendering-method gl_compatibility --path . -- --smoke-test
+      - run: GODOT_BIN="$(command -v godot)" ./scripts/run-scenario.sh --smoke-test

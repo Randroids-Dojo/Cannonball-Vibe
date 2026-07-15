@@ -5,10 +5,14 @@ For current delivery readiness and blockers, see the
 [agentic-readiness audit](audits/2026-07-14-agentic-readiness.md) and
 [delivery ledger](DELIVERY_LEDGER.json). Unresolved choices live in
 [OPEN_QUESTIONS.md](OPEN_QUESTIONS.md).
+The [agentic Godot automation research](research/2026-07-14-godot-agentic-automation.md)
+defines the official-engine CLI, modern PlayGodot, and Computer Use strategy.
+The [4.7.1 migration audit](audits/2026-07-14-godot-4-7-1-migration.md)
+records the rebaseline evidence and renderer-backed capture constraint.
 
 ## Decision
 
-Cannonball-Vibe uses an open-source-first stack built around Godot 4.6.3 .NET.
+Cannonball-Vibe uses an open-source-first stack built around Godot 4.7.1 .NET.
 The game targets C# 12 and .NET 8 while the repository pins the available .NET
 10.0.102 SDK. Forward+ is the shipping renderer, Godot Jolt is the default
 physics backend, and the physics loop runs at 120 Hz.
@@ -110,6 +114,25 @@ itself is outside the MVP unless testing justifies it.
 CI runs core tests on Linux and Windows, the geodata suite on Linux, and a
 headless Godot smoke on Linux. A scheduled Windows Godot workflow establishes
 the second-platform runner before M1 stress testing.
+
+## Agent automation
+
+The project uses the official Godot editor and a project-owned C# scenario
+runner. The custom Godot automation fork and legacy PlayGodot debugger transport
+are retired; the PlayGodot concept remains the selected modernization path when
+rendered UI needs a stable semantic scene-node API. Pure logic uses xUnit,
+content tooling uses pytest, scene and physics behavior uses headless Godot
+scenarios, and deterministic frame capture supplies visual artifacts. Computer
+Use may exercise actual editor or packaged-game windows as a black-box visual
+layer, but deterministic CLI evidence remains authoritative.
+
+A modern PlayGodot implementation must be a debug-only addon on the official
+engine, with loopback-only authenticated transport, a versioned protocol,
+stable automation IDs, allowlisted mutation, transcripts, and no release-export
+surface. MCP editor bridges or an MCP adapter over PlayGodot are optional
+experiments. They must not become required infrastructure without an ADR
+demonstrating exact-version support, security, transactional behavior,
+auditability, and unique value beyond the existing tools.
 
 ## Asset and observability stack
 

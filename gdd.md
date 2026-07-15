@@ -1421,7 +1421,13 @@ __D-011__
 
 Godot 4.6.3 .NET is the prototype engine; route and run state remain engine-agnostic.
 
-LOCKED FOR PROTOTYPE — see docs/decisions/ADR-0001-godot-dotnet-prototype-stack.md
+SUPERSEDED BY D-012
+
+__D-012__
+
+Godot 4.7.1 .NET is the prototype engine; agent automation uses the official engine CLI and may add a modern PlayGodot runtime addon for stable rendered-UI scene-node access, never a custom engine fork.
+
+LOCKED FOR PROTOTYPE — see docs/decisions/ADR-0004-godot-4-7-1.md and ADR-0005-official-engine-agentic-automation.md
 
 # Top project risks and mitigations
 
