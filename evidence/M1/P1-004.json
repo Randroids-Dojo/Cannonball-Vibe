@@ -1,0 +1,281 @@
+{
+  "schema_version": 1,
+  "task_id": "P1-004",
+  "milestone": "M1",
+  "status": "implementation_spike_verified_locally_and_on_three_ci_platforms_release_gates_pending",
+  "git_revision": "e5b140e7c686e48ededd66b4d2cc647c301abdc7",
+  "platform": {
+    "local": "macOS arm64",
+    "remote": [
+      "ubuntu-latest",
+      "macos-latest",
+      "windows-latest"
+    ]
+  },
+  "utc_time": "2026-07-16T09:52:54Z",
+  "verified_at": "2026-07-16T09:52:54Z",
+  "engine": "Godot 4.7.1.stable.mono.official.a13da4feb",
+  "tool_versions": {
+    "dotnet_sdk": "10.0.102",
+    "uv": "0.9.24",
+    "python": "3.13.11",
+    "pytest": "9.1.1",
+    "ruff": "0.15.21",
+    "pillow": "12.3.0"
+  },
+  "scenario": {
+    "name": "official-corridor",
+    "deterministic_seed": null,
+    "arguments": [
+      "addons/playgodot/bootstrap.tscn",
+      "--playgodot",
+      "--route-package=.tools/scenarios/official-corridor/route_graph-b2ada13ecc634df150f24a16ee3ae9b3499e36daf867b855861fe5a73b939f54.cbrg"
+    ]
+  },
+  "input_artifacts": [
+    {
+      "path": ".tools/scenarios/official-corridor/current-package.json",
+      "sha256": "95389f007708eb0173b9a03c218c5b46a1af67461da1b364f6de951bb7de5ddd"
+    },
+    {
+      "path": ".tools/scenarios/official-corridor/route_graph-b2ada13ecc634df150f24a16ee3ae9b3499e36daf867b855861fe5a73b939f54.cbrg",
+      "sha256": "8ee287814e68d6de3418c9a1469cad9ffd252a25e600859077e4bcf4c52bf485"
+    },
+    {
+      "path": ".tools/scenarios/official-corridor/route_graph-b2ada13ecc634df150f24a16ee3ae9b3499e36daf867b855861fe5a73b939f54.json",
+      "sha256": "ace37d0f2bd5c2e2ae6632f5c0d05edc177c5bf5816fa4c53d38a1e685df546e"
+    }
+  ],
+  "implementation": {
+    "transport": "newline-delimited JSON-RPC 2.0 over TCP",
+    "bind_address": "127.0.0.1",
+    "port": "ephemeral",
+    "authentication": "per-run inherited token plus protocol handshake with bounded failure cooldown",
+    "default_capabilities": [
+      "read"
+    ],
+    "optional_capabilities": [
+      "input",
+      "screenshot"
+    ],
+    "arbitrary_property_mutation": false,
+    "arbitrary_method_calls": false,
+    "autoload": false,
+    "bounded_partial_write_queue": true,
+    "bounded_selector_and_state_traversal": true,
+    "pending_signal_wait_limit": 8
+  },
+  "metrics": {
+    "local_suite_tests": 16,
+    "unit_tests": 12,
+    "official_engine_live_tests": 4,
+    "consecutive_repeat_runs": 3,
+    "repeat_failures": 0,
+    "observed_flake_rate": 0.0,
+    "repeat_wall_seconds": 28.67,
+    "mean_full_run_seconds": 9.56,
+    "remote_platforms_required": 3,
+    "remote_platforms_passed": 3,
+    "pending_wait_capacity_before_disconnect": 8,
+    "pending_wait_capacity_after_reconnect": 8,
+    "semantic_probe": {
+      "automation_id": "hud.speed",
+      "class": "Label",
+      "text": "60 MPH",
+      "minimum_width_pixels": 40,
+      "minimum_height_pixels": 20,
+      "normalized_fields": [
+        "text",
+        "visible",
+        "enabled",
+        "focused",
+        "bounds"
+      ]
+    }
+  },
+  "acceptance_comparisons": [
+    {
+      "criterion": "official engine compatibility",
+      "target": "Godot 4.7.1 on macOS, Linux, and Windows",
+      "observed": "all three PlayGodot matrix jobs passed",
+      "passed": true
+    },
+    {
+      "criterion": "stable rendered semantic state",
+      "target": "unique automation ID with nondegenerate normalized state and screenshot",
+      "observed": "hud.speed reported 60 MPH with bounds above 40 by 20 pixels and a verified PNG crop",
+      "passed": true
+    },
+    {
+      "criterion": "fail-closed transport",
+      "target": "loopback, token handshake, bounded requests, cooldown, and cleanup",
+      "observed": "hostile live test passed and restored held input plus all eight pending-wait slots after reconnect",
+      "passed": true
+    },
+    {
+      "criterion": "normal startup boundary",
+      "target": "no autoload, listener, rendezvous, or transcript",
+      "observed": "static project checks and default-scene launch exposed no PlayGodot surface on all three platforms",
+      "passed": true
+    },
+    {
+      "criterion": "release package absence",
+      "target": "inspect a real release export",
+      "observed": "blocked on P0-007 release-export pipeline",
+      "passed": false
+    },
+    {
+      "criterion": "diagnosis cost versus Computer Use",
+      "target": "representative interactive-menu comparison",
+      "observed": "unique semantic coverage shown; timed representative comparison remains pending",
+      "passed": false
+    }
+  ],
+  "verified_behaviors": [
+    "stable automation-ID lookup and duplicate rejection",
+    "bounded scene-tree inspection",
+    "concurrent zero-argument signal wait and node-relative click",
+    "logical-to-render-pixel node crop with solid-color pixel, PNG length, and SHA-256 verification",
+    "viewport screenshot capture",
+    "read-only capability denial for input",
+    "unknown method denial with no arbitrary mutation surface",
+    "malformed JSON rejection",
+    "unauthenticated request rejection",
+    "wrong-token rejection and disconnect",
+    "terminal authentication failure blocks pipelined recovery and reads",
+    "authentication failure rate limiting with bounded reconnect cooldown",
+    "reconnect cleanup visibly releases held input and restores all pending signal-wait capacity",
+    "oversized request rejection",
+    "bounded wait timeout",
+    "terminal signal outcomes and bounded secret-free JSONL transcripts",
+    "large-response client framing above 64 KiB",
+    "concurrent request-ID correlation with reversed responses",
+    "versioned hello and ping wire golden replay",
+    "structured process-start failures without tracebacks",
+    "agent JSONL plan with deferred wait and allowlisted input",
+    "normal project startup has no listener, rendezvous, or transcript"
+  ],
+  "commands": [
+    {
+      "command": "GODOT_BIN=.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot ./scripts/check.sh",
+      "exit_code": 0
+    },
+    {
+      "command": "GODOT_BIN=.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot ./scripts/verify-playgodot.sh",
+      "exit_code": 0
+    },
+    {
+      "command": "three consecutive executions of ./scripts/verify-playgodot.sh with the pinned GODOT_BIN",
+      "exit_code": 0
+    },
+    {
+      "command": "GitHub Actions CI run 29488612147",
+      "exit_code": 0
+    }
+  ],
+  "output_artifacts": [
+    {
+      "path": "/tmp/cannonball-playgodot-final/round-trip.jsonl",
+      "sha256": "5aa8d1bf65291662aa34b4a6cf14c352b330eb9cb32c1ea6586e7a6150eb8733"
+    },
+    {
+      "path": "/tmp/cannonball-playgodot-final/hostile.jsonl",
+      "sha256": "2213ce6384454b11eaefec8fc67f9f33fda0e835c889455a2139ef6ec196e49b"
+    },
+    {
+      "path": "/tmp/cannonball-playgodot-final/godot.log",
+      "sha256": "674aee0cec985356916c7613635616302c49a2ab7552ab6fe3ae0782d840a947"
+    },
+    {
+      "path": "/tmp/cannonball-playgodot-final/raw-godot.log",
+      "sha256": "9d062ef94dbd71e328243139d161660d9a49f1f5c6b377c88da2a7026586837f"
+    },
+    {
+      "path": "/tmp/cannonball-playgodot-final/speed.png",
+      "sha256": "f7772018bc8c085727fa2721ffa3446f64af6b8bdaa8b84baf61f3b897de667f"
+    },
+    {
+      "path": "/tmp/cannonball-playgodot-final/color.png",
+      "sha256": "47b0ae80a3f0d9418d9e6325b64a91de36d2c51b04227ebb53967fce596daf0c"
+    },
+    {
+      "path": "/tmp/cannonball-playgodot-final/viewport.png",
+      "sha256": "bda04a6402fc9c9ec46fb1f3e549e373f7fe47400998d1484080245f9812daad"
+    }
+  ],
+  "remote_ci": {
+    "run_id": 29488612147,
+    "revision": "e5b140e7c686e48ededd66b4d2cc647c301abdc7",
+    "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29488612147",
+    "platforms": {
+      "ubuntu-latest": "passed",
+      "macos-latest": "passed",
+      "windows-latest": "passed"
+    },
+    "artifacts": [
+      {
+        "path": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29488612147/artifacts/8371462278",
+        "name": "playgodot-Linux-1",
+        "sha256": "412595653bfdc2824aacb9a7ae34f416e86db4805aee4a0c9fecd3e790e458cb"
+      },
+      {
+        "path": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29488612147/artifacts/8371476857",
+        "name": "playgodot-macOS-1",
+        "sha256": "0af08aa1082784ec704e5546895016ffb40271c779df0856a710c58e3bcda2cf"
+      },
+      {
+        "path": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29488612147/artifacts/8371493420",
+        "name": "playgodot-Windows-1",
+        "sha256": "cff27bcd5f610f94e86a8c6c8821cdd7693becc0d3bebaf2f4341507cb3c6363"
+      }
+    ]
+  },
+  "retry_count": 10,
+  "failure_history": [
+    {
+      "failure": "The first three-platform run depended on rg, which is not installed on hosted runners by default.",
+      "logs": [
+        "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29486022211/job/87580580681",
+        "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29486022211/job/87580580713",
+        "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29486022211/job/87580580740"
+      ],
+      "recovery": "Replaced the runner dependency with git grep and portable grep; run 29486213624 passed all three platforms."
+    },
+    {
+      "failure": "macOS exposed connection resets and refusals during session cleanup and process output handling.",
+      "logs": [
+        "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29486461932/job/87582005661",
+        "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29486969080/job/87583650156",
+        "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29487105548/job/87584092100",
+        "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29487329100/job/87584826980"
+      ],
+      "recovery": "Added deterministic cleanup retries, process-output draining, and isolated the semantic fixture from world startup."
+    },
+    {
+      "failure": "The isolated production HUD was initially blank, creating a degenerate one-pixel semantic screenshot on macOS and Windows.",
+      "logs": [
+        "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29487749150/job/87586178597",
+        "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29487749150/job/87586178603"
+      ],
+      "recovery": "Populated the real HUD fixture with 60 MPH state and asserted meaningful text and bounds."
+    },
+    {
+      "failure": "The macOS hosted VM correctly exceeded the production 40 ms first-frame chunk-build budget inside the listener-absence boundary.",
+      "logs": [
+        "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29488070346/job/87587244456"
+      ],
+      "recovery": "Separated the listener assertion from the exact typed budget exit while keeping all other startup failures fatal."
+    }
+  ],
+  "recovery_result": {
+    "run_id": 29488612147,
+    "result": "all five jobs passed; PlayGodot passed on Linux, macOS, and Windows and M0 passed on Linux and Windows"
+  },
+  "human_gate": null,
+  "pending": [
+    "release-export content and startup inspection after P0-007",
+    "representative interactive-menu diagnosis comparison with Computer Use",
+    "expanded method and error golden corpus plus an extended 50-launch reliability sample",
+    "adoption decision for Q-011"
+  ]
+}

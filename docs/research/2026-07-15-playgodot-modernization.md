@@ -1,7 +1,7 @@
 # PlayGodot modernization plan
 
 - Date: 2026-07-15
-- Status: proposed M1 spike
+- Status: implementing M1 spike
 - Decision owner: Automation
 - Related: [ADR-0005](../decisions/ADR-0005-official-engine-agentic-automation.md),
   [Q-011](../OPEN_QUESTIONS.md), and delivery task `P1-004`
@@ -143,6 +143,53 @@ PlayGodot becomes required Cannonball infrastructure only if the spike proves:
 - release packages contain no enabled automation server; and
 - materially lower flake rate or diagnosis cost, or unique rendered-UI defect
   detection, compared with CLI plus Computer Use alone.
+
+## Spike implementation and measured result
+
+The Cannonball spike now implements the smallest useful official-engine slice:
+
+- `addons/playgodot/bootstrap.tscn` is an explicit test scene, not an autoload;
+  it renders the production HUD without starting the unrelated world streamer;
+- `server.gd` binds `127.0.0.1:0`, requires a 256-bit-equivalent inherited
+  token and protocol handshake, and exposes only named read, input, wait, and
+  screenshot operations;
+- `automation/playgodot` provides an asyncio client and an agent-facing CLI;
+- the prototype HUD exposes stable IDs such as `hud.speed`; and
+- hostile-input and live-engine tests exercise authentication, bounds,
+  capability denial, semantic state, concurrent signal/input correlation,
+  screenshots, and redacted transcripts.
+
+The adversarial pass added byte-framed UTF-8 handling, a bounded nonblocking
+outbound queue, capped selector/state traversal, terminal signal transcripts,
+latched-input cleanup, strict handshake/response validation, process-group
+cleanup, and a one-session JSONL action-plan CLI. Visual artifact inspection
+also found and corrected logical-to-render-pixel crop drift; a solid-color
+fixture now checks the actual cropped pixels on every live run.
+
+On local macOS with official Godot 4.7.1, three consecutive complete 16-test
+runs produced zero failures in 28.67 wall-clock seconds (0% observed flake
+rate, about 9.56 seconds per full boundary, unit, and live-engine run). A direct
+CLI query returned the populated live speed label's stable ID, normalized text,
+visibility, focus, and global bounds in one fresh process. That is unique
+semantic coverage: the existing deterministic scenario CLI reports
+run/streaming state but cannot identify or assert a
+rendered `Control`, while pixel-oriented Computer Use cannot reliably name the
+underlying node or wait on its signal.
+
+The live suite now passes on GitHub-hosted macOS, Linux, and Windows. The spike
+still does not justify making PlayGodot required infrastructure: P0-007 must
+provide a real release package for absence inspection, and a representative
+interactive menu must compare diagnosis time against Computer Use. Until then,
+PlayGodot is an optional debug-only semantic layer and the deterministic CLI
+remains the milestone authority.
+
+## Deliberately excluded legacy authority
+
+The spike does not copy the legacy NativeClient/Variant transport, fixed ports,
+wildcard binding, arbitrary property mutation, arbitrary method calls, remote
+scene loading, filesystem access, pause/time-scale control, or permanent
+autoload. Those surfaces were convenient in the old fork but are unnecessary
+for the current semantic-UI question and materially widen risk.
 
 ## Primary Godot references
 

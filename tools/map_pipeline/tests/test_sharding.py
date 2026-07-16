@@ -139,11 +139,11 @@ def test_two_clean_official_cli_builds_are_byte_deterministic(tmp_path: Path) ->
     first_package = json.loads(first_metadata.read_text(encoding="utf-8"))
     second_package = json.loads(second_metadata.read_text(encoding="utf-8"))
     assert first_package["audit_artifacts"] == second_package["audit_artifacts"]
-    assert (
-        outputs[0] / first_package["audit_artifacts"][0]["relative_path"]
-    ).read_bytes() == (
-        outputs[1] / second_package["audit_artifacts"][0]["relative_path"]
-    ).read_bytes()
+    first_audit = outputs[0] / first_package["audit_artifacts"][0]["relative_path"]
+    second_audit = outputs[1] / second_package["audit_artifacts"][0]["relative_path"]
+    first_audit_bytes = first_audit.read_bytes()
+    assert first_audit_bytes == second_audit.read_bytes()
+    assert first_audit_bytes[24:28] == first_audit_bytes[92:96] == (1).to_bytes(4, "big")
 
 
 def test_deterministic_rebuild_reuses_identical_versioned_chunks(tmp_path: Path) -> None:

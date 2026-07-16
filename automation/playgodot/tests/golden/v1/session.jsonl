@@ -1,0 +1,4 @@
+{"direction":"client","message":{"jsonrpc":"2.0","id":1,"method":"session.hello","params":{"token":"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx","protocol":"1.0","capabilities":["read"]}}}
+{"direction":"server","message":{"jsonrpc":"2.0","id":1,"result":{"protocol":"1.0","engine":"4.7.1-stable (official)","build":"debug","capabilities":["read"],"limits":{"request_bytes":65536,"response_bytes":2000000,"json_depth":12,"tree_depth":8,"tree_nodes":512,"signal_wait_ms":10000,"pending_signal_waits":8,"screenshot_bytes":1400000}}}}
+{"direction":"client","message":{"jsonrpc":"2.0","id":2,"method":"session.ping","params":{}}}
+{"direction":"server","message":{"jsonrpc":"2.0","id":2,"result":{"ok":true}}}
