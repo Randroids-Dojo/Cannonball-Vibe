@@ -1,0 +1,277 @@
+{
+  "schema_version": 1,
+  "task_id": "P0-003",
+  "milestone": "M2",
+  "status": "complete",
+  "verified_at": "2026-07-16T06:14:02Z",
+  "git_revision": "fdb5354a4ae6809fa2561f782639684409253990",
+  "platform": {
+    "local": "macOS",
+    "remote": [
+      "ubuntu-latest",
+      "windows-latest"
+    ]
+  },
+  "tool_versions": {
+    "godot": "4.7.1.stable.mono.official.a13da4feb",
+    "dotnet_sdk": "10.0.102",
+    "python": "3.13.11",
+    "uv": "0.9.24",
+    "pytest": "9.1.1",
+    "ruff": "0.15.21",
+    "geopandas": "1.1.4",
+    "networkx": "3.6.1",
+    "pyogrio": "0.13.0",
+    "rasterio": "1.5.0",
+    "gdal": "3.12.1",
+    "pyproj": "3.7.2",
+    "proj": "9.5.1",
+    "shapely": "2.1.2"
+  },
+  "inputs": [
+    {
+      "path": "data/sources/catalog.json",
+      "sha256": "356a0fe4810a37bb5e5970bba3ae8295208908bc800e016c22e3b608bbb7c9eb"
+    },
+    {
+      "path": "data/sources/source-lock.json",
+      "sha256": "a3f640c9f804909a9b171c1a169ce5704544fd5905bec73dcc8d7da64b67e2cd"
+    },
+    {
+      "path": "data/sources/fixtures/nhpn-boulder-us36.geojson",
+      "sha256": "f1021915997f7cb94a00db58feed86f8f9e13e1ac264fc0dd8ba1605d052ae9b"
+    },
+    {
+      "path": "data/sources/fixtures/nhpn-boulder-us36.manifest.json",
+      "sha256": "54da0c7b64e476909f9e62008f09f94abc622631971b6549d030b67778fe429b"
+    },
+    {
+      "path": "data/sources/fixtures/usgs-13-n40w106-boulder.tif",
+      "sha256": "16af3387633b982f3363f34c638f8ca72646b04ec18aa2dcab1189f0352af507"
+    },
+    {
+      "path": "data/sources/fixtures/usgs-13-n40w106-boulder.metadata.json",
+      "sha256": "d626a7d24235884e089effcd38b4d173a26a5427cbec3ffedc063963e55e1cea"
+    },
+    {
+      "path": "schemas/route_graph.fbs",
+      "sha256": "3646d0479c8c4769b327a09143c749ccd127bf50ad421ad45dcd48c1a32016b8"
+    },
+    {
+      "path": "tools/map_pipeline/uv.lock",
+      "sha256": "6bbd9d08562d15fa8cf849a5177d243d467811d2bcebf8dc90d3d14ed25bff93"
+    }
+  ],
+  "source_artifacts": {
+    "nhpn": {
+      "service_item_id": "4179a784a8d547ac869b14505c168430",
+      "layer_id": 0,
+      "object_ids": [62346],
+      "expected_count": 1,
+      "raw_response_sha256": "09a40d3a89bfa5ac379a027542f874ead2b5409f915d2841678d0b62866a98f1",
+      "raw_response_bytes": 1210
+    },
+    "three_dep": {
+      "product_id": "620de4b0d34e6c7e83ba9fde",
+      "title": "USGS 1/3 Arc Second n40w106 20220216",
+      "publication_date": "2022-02-16",
+      "candidate_count": 2,
+      "parent_sha256": "2aed906edb0db1e56d6ee5d1f5e9acc596bb97d63d05449a97d66e4a29d14d5e",
+      "parent_bytes": 410392672,
+      "metadata_sha256": "ff83d11fc30120ea6bdeba772d0eacfb90a74311cd649e9449bd0b65e0829280",
+      "crop_sha256": "16af3387633b982f3363f34c638f8ca72646b04ec18aa2dcab1189f0352af507",
+      "raster_crs": "EPSG:4269",
+      "horizontal_datum": "North American Datum of 1983",
+      "vertical_datum": "North American Vertical Datum of 1988",
+      "elevation_units": "meters"
+    }
+  },
+  "acceptance": [
+    {
+      "criterion": "Manifest source IDs, publishers, URLs, and licenses are enforced against the catalog",
+      "status": "passed",
+      "comparison": {
+        "cataloged_sources": 2,
+        "unknown_source_rejected": true,
+        "publisher_drift_rejected": true,
+        "license_drift_rejected": true,
+        "license_evidence_drift_rejected": true,
+        "unapproved_url_rejected": true,
+        "path_suffix_confusion_rejected": true,
+        "unsafe_local_path_rejected": true
+      }
+    },
+    {
+      "criterion": "NHPN acquisition paginates in stable order, resumes, retries, deduplicates, and reconciles expected counts",
+      "status": "passed",
+      "comparison": {
+        "test_snapshot_ids": 5,
+        "test_page_size": 2,
+        "test_pages": 3,
+        "transient_retries": 1,
+        "resumed_pages": 3,
+        "identical_duplicate_deduplicated": true,
+        "missing_page_member_rejected": true,
+        "poison_checkpoint_removed": true,
+        "changed_query_invalidates_checkpoint": true
+      }
+    },
+    {
+      "criterion": "3DEP acquisition locks an explicit product and exact artifacts for a route corridor",
+      "status": "passed",
+      "comparison": {
+        "explicit_dataset": "National Elevation Dataset (NED) 1/3 arc-second",
+        "explicit_format": "GeoTIFF",
+        "explicit_extent": "1 x 1 degree",
+        "selected_product_count": 1,
+        "full_parent_hash_verified": true,
+        "metadata_hash_verified": true,
+        "corridor_crop_hash_verified": true
+      }
+    },
+    {
+      "criterion": "Rebuilds from the acquisition lockfile perform no discovery and fail on hash drift",
+      "status": "passed",
+      "comparison": {
+        "discovery_calls_during_replay": 0,
+        "exact_nhpn_response_replayed": true,
+        "derived_json_artifacts_byte_identical": 3,
+        "derived_raster_artifacts_byte_identical": 1,
+        "download_hash_drift_rejected": true,
+        "local_hash_drift_rejected": true,
+        "dangling_ancestry_rejected": true
+      }
+    },
+    {
+      "criterion": "Elevation, grade, CRS, and horizontal and vertical datums survive into packaged content",
+      "status": "passed",
+      "comparison": {
+        "schema_version": 2,
+        "route_crs": "EPSG:5070",
+        "elevation_crs": "EPSG:4269",
+        "sample_count": 16,
+        "minimum_elevation_meters": 1631.77001953125,
+        "maximum_elevation_meters": 1638.0015869140625,
+        "minimum_grade": -0.0367138671875,
+        "maximum_grade": 0.12463134765625,
+        "python_flatbuffer_round_trip": true,
+        "csharp_schema_2_runtime_round_trip": true,
+        "schema_1_backward_compatibility": true
+      }
+    }
+  ],
+  "determinism": {
+    "seed": null,
+    "build_count": 2,
+    "flatbuffer_byte_diff_count": 0,
+    "json_byte_diff_count": 0,
+    "content_version": "route-v2-3cc43af13edf9976",
+    "flatbuffer_sha256": "4678cc479fe5d63bbf05e1be132764b774ca5a842e907d4bf5603a099755e3fc",
+    "audit_json_sha256": "abcfde5e276cd3f007ec358d7ae4a796a2b3334cfcc49cc4b02cdc14c8509a99"
+  },
+  "metrics": {
+    "pytest_passed": 25,
+    "pytest_failed": 0,
+    "csharp_tests_passed": 9,
+    "csharp_tests_failed": 0,
+    "ruff_errors": 0,
+    "full_gate_steps_passed": 6,
+    "full_gate_steps_failed": 0
+  },
+  "commands": [
+    {
+      "command": "uv run --project tools/map_pipeline pytest",
+      "exit_code": 0
+    },
+    {
+      "command": "uv run --project tools/map_pipeline ruff check tools/map_pipeline",
+      "exit_code": 0
+    },
+    {
+      "command": "uv run --project tools/map_pipeline cannonball-map validate-lock data/sources/source-lock.json",
+      "exit_code": 0
+    },
+    {
+      "command": "uv run --project tools/map_pipeline cannonball-map materialize-lock data/sources/source-lock.json --role official-corridor-crop --output /tmp/cli-rebuilt-crop.tif",
+      "exit_code": 0
+    },
+    {
+      "command": "uv run --project tools/map_pipeline cannonball-map build --source data/sources/fixtures/nhpn-boulder-us36.geojson --manifest data/sources/fixtures/nhpn-boulder-us36.manifest.json --elevation data/sources/fixtures/usgs-13-n40w106-boulder.tif --elevation-metadata data/sources/fixtures/usgs-13-n40w106-boulder.metadata.json --acquisition-lock data/sources/source-lock.json --output /tmp/p003-evidence-build-1",
+      "exit_code": 0
+    },
+    {
+      "command": "GODOT_BIN=.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot ./scripts/check.sh",
+      "exit_code": 0
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0
+    }
+  ],
+  "adversarial_review": {
+    "reviewers": 3,
+    "method": "Independent acquisition, schema/runtime, and acceptance-evidence reviews",
+    "review_service_fallback": "Supplementary review was rate-limited; repository fallback review was recorded on pull request 4.",
+    "resolved_findings": [
+      "Preserved runtime elevation and complete sample profiles",
+      "Required and validated acquisition locks for elevation builds",
+      "Bound raster bytes and metadata fields to exact lock artifacts",
+      "Separated raw responses from deterministic derived artifacts",
+      "Required response metadata, product identity, safe paths, and recursive ancestry",
+      "Bound checkpoints to the complete request and removed malformed checkpoints",
+      "Deduplicated identical features while rejecting conflicts",
+      "Normalized URL allowlists and validated redirects",
+      "Added discovery-free recursive lock materialization"
+    ],
+    "unresolved_actionable_findings": 0
+  },
+  "remote_verification": {
+    "implementation_pull_request": "https://github.com/Randroids-Dojo/Cannonball-Vibe/pull/4",
+    "run_id": 29475811240,
+    "run_url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29475811240",
+    "head_sha": "fdb5354a4ae6809fa2561f782639684409253990",
+    "conclusion": "success",
+    "jobs": [
+      {
+        "job_id": 87548408224,
+        "name": "M0 (ubuntu-latest)",
+        "conclusion": "success"
+      },
+      {
+        "job_id": 87548408261,
+        "name": "M0 (windows-latest)",
+        "conclusion": "success"
+      }
+    ]
+  },
+  "outputs": [
+    {
+      "artifact_id": 8366503767,
+      "path": "m0-Linux-1",
+      "sha256": "89393842bc27a8203594e97faf37ad3d656390a4e8fd31c830b0b764b9a73dec",
+      "validation": "Downloaded archive; summary, doctor, pytest JUnit, and Godot scenario reports passed."
+    },
+    {
+      "artifact_id": 8366535716,
+      "path": "m0-Windows-1",
+      "sha256": "21db690a5e80ed903c907570ae1335f3c7807c74e1d2f51c4aca3cab364c5443",
+      "validation": "Downloaded archive; summary, doctor, pytest JUnit, and Godot scenario reports passed."
+    }
+  ],
+  "failure_handling": {
+    "failure_logs": [
+      "Initial full local gate used installed Godot 4.6 and failed the exact-version doctor check.",
+      "Adversarial review reproduced unbound schema-2 metadata and poisonable checkpoints before correction.",
+      "Supplementary review was rate-limited and replaced by the documented independent fallback review."
+    ],
+    "retry_count": 2,
+    "recovery_result": "Installed the exact official Godot 4.7.1 editor locally, corrected all adversarial findings, and passed local plus protected Linux and Windows gates."
+  },
+  "human_gate": {
+    "name": "Final source rights review",
+    "required_for": "public_release",
+    "status": "pending",
+    "approval_reference": null,
+    "technical_completion_blocked": false
+  }
+}

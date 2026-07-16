@@ -2,7 +2,7 @@
 
 - Date: 2026-07-16
 - Task: P0-003
-- Status: implementation verified locally; remote evidence pending
+- Status: complete; protected Linux and Windows evidence recorded
 
 ## Findings and decisions
 
