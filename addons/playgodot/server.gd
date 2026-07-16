@@ -21,6 +21,7 @@ const AUTH_FAILURE_WINDOW_MS := 10_000
 const MAX_AUTH_FAILURES_PER_WINDOW := 5
 const AUTH_FAILURE_COOLDOWN_MS := 5_000
 const MAX_SIGNAL_WAIT_MS := 10_000
+const MAX_PENDING_SIGNAL_WAITS := 8
 const TARGET_ID_PATTERN := "^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*$"
 
 var _listener: TCPServer
@@ -335,6 +336,7 @@ func _capability_document() -> Dictionary:
 			"tree_depth": MAX_TREE_DEPTH,
 			"tree_nodes": MAX_TREE_NODES,
 			"signal_wait_ms": MAX_SIGNAL_WAIT_MS,
+			"pending_signal_waits": MAX_PENDING_SIGNAL_WAITS,
 			"screenshot_bytes": MAX_SCREENSHOT_BYTES,
 			"transcript_bytes": MAX_TRANSCRIPT_BYTES,
 		},
@@ -524,7 +526,7 @@ func _normalize_test_state(value: Variant, depth: int, budget: Dictionary) -> Di
 
 
 func _signal_wait(params: Dictionary, request_id: Variant) -> Dictionary:
-	if _pending_signals.size() >= 8:
+	if _pending_signals.size() >= MAX_PENDING_SIGNAL_WAITS:
 		return _error(-32007, "BUSY", "Too many pending waits")
 	var resolved := _resolve_target(params)
 	if resolved.has("error"):

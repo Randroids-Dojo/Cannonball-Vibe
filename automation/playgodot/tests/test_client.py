@@ -24,6 +24,7 @@ def _hello(capabilities: list[str] | None = None) -> dict:
             "tree_depth": 8,
             "tree_nodes": 512,
             "signal_wait_ms": 10_000,
+            "pending_signal_waits": 8,
             "screenshot_bytes": 1_400_000,
         },
     }
@@ -78,6 +79,27 @@ async def test_remote_errors_keep_machine_readable_identity() -> None:
         with pytest.raises(PlayGodotError, match="CAPABILITY_DENIED") as caught:
             await client.request("input.action", {"action": "accelerate", "state": "press"})
         assert caught.value.code == -32003
+        await client.close(abort=True)
+
+
+@pytest.mark.asyncio
+async def test_connect_normalizes_capabilities_read_first_without_duplicates() -> None:
+    def responses(request):
+        assert request["params"]["capabilities"] == ["read", "input", "screenshot"]
+        return {
+            "jsonrpc": "2.0",
+            "id": request["id"],
+            "result": _hello(["read", "input", "screenshot"]),
+        }
+
+    server, port = await _serve_once(responses)
+    async with server:
+        client = await PlayGodotClient.connect(
+            "127.0.0.1",
+            port,
+            token="x" * 32,
+            capabilities=("input", "read", "input", "screenshot"),
+        )
         await client.close(abort=True)
 
 

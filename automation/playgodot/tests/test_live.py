@@ -70,14 +70,20 @@ async def _raw_server(tmp_path: Path) -> AsyncIterator[tuple[str, int, str, Path
     )
     assert process.stdout is not None
     try:
-        while line := await asyncio.wait_for(process.stdout.readline(), 20):
+        loop = asyncio.get_running_loop()
+        deadline = loop.time() + 20
+        while True:
+            remaining = deadline - loop.time()
+            if remaining <= 0:
+                raise TimeoutError("Godot did not become ready within 20 seconds")
+            line = await asyncio.wait_for(process.stdout.readline(), remaining)
+            if not line:
+                raise RuntimeError("Godot exited before the hostile-input fixture was ready")
             decoded = line.decode(errors="replace").rstrip()
             if decoded.startswith("PLAYGODOT_READY "):
                 ready = json.loads(decoded.removeprefix("PLAYGODOT_READY "))
                 yield ready["address"], ready["port"], token, transcript
                 break
-        else:
-            raise RuntimeError("Godot exited before the hostile-input fixture was ready")
     finally:
         with contextlib.suppress(ProcessLookupError):
             if os.name == "posix":

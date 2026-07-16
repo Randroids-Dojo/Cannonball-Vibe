@@ -14,7 +14,7 @@ if [[ -z "$GODOT_BIN" || ! -x "$GODOT_BIN" ]]; then
 fi
 export GODOT_BIN
 
-actual_version="$($GODOT_BIN --version)"
+actual_version="$("$GODOT_BIN" --version)"
 if [[ "$actual_version" != "$CANNONBALL_GODOT_VERSION" ]]; then
   echo "Expected official Godot $CANNONBALL_GODOT_VERSION, found $actual_version." >&2
   exit 1

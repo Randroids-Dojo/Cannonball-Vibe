@@ -18,6 +18,7 @@ REQUIRED_LIMITS = {
     "tree_depth",
     "tree_nodes",
     "signal_wait_ms",
+    "pending_signal_waits",
     "screenshot_bytes",
 }
 
@@ -68,15 +69,16 @@ class PlayGodotClient:
         )
         client = cls(reader, writer, timeout=timeout)
         try:
+            requested = tuple(dict.fromkeys(("read", *capabilities)))
             hello = await client.request(
                 "session.hello",
                 {
                     "token": token,
                     "protocol": PROTOCOL_VERSION,
-                    "capabilities": list(capabilities),
+                    "capabilities": list(requested),
                 },
             )
-            client._validate_hello(hello, capabilities)
+            client._validate_hello(hello, requested)
         except BaseException:
             await client.close(abort=True)
             raise

@@ -45,6 +45,7 @@ async def test_jsonl_plan_defers_wait_then_correlates_click(tmp_path: Path) -> N
     assert [result["line"] for result in results] == [1, 2, 3]
     assert results[0]["result"] == {"signal": "pressed"}
     assert results[1]["result"] == {"automation_id": "button"}
+    assert results[2]["result"] == {"automation_id": "hud.speed"}
 
 
 def test_cli_process_failure_is_structured_json(tmp_path: Path) -> None:

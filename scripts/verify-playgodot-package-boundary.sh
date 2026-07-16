@@ -21,9 +21,10 @@ grep -Eq -- '--playgodot' addons/playgodot/server.gd
 grep -Eq 'PLAYGODOT_TOKEN' addons/playgodot/server.gd
 grep -Eq 'listen\(0, "127\.0\.0\.1"\)' addons/playgodot/server.gd
 
-runtime_log="$(mktemp "${TMPDIR:-/tmp}/cannonball-playgodot-boundary.XXXXXX")"
-transcript="$(mktemp -u "${TMPDIR:-/tmp}/cannonball-playgodot-transcript.XXXXXX")"
-trap 'rm -f "$runtime_log" "$transcript"' EXIT
+temp_dir="$(mktemp -d "${TMPDIR:-/tmp}/cannonball-playgodot-boundary.XXXXXX")"
+runtime_log="$temp_dir/runtime.log"
+transcript="$temp_dir/transcript.jsonl"
+trap 'rm -rf "$temp_dir"' EXIT
 
 PLAYGODOT_TOKEN=0123456789abcdef0123456789abcdef \
 PLAYGODOT_TRANSCRIPT="$transcript" \

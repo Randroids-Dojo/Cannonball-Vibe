@@ -15,6 +15,8 @@ Operational selectors accept only a unique lowercase `automation_id`. Scene
 paths are returned for diagnostics but are not accepted as selectors. Requests,
 responses, JSON depth, tree depth, tree nodes, screenshots, signal waits, and
 pending waits all have finite advertised limits.
+The handshake names the concurrent pending-wait bound as
+`pending_signal_waits`; the server enforces that same value.
 
 Node screenshots transform logical `Control` bounds into rendered viewport
 pixels before clipping, so project stretch and window overrides do not silently

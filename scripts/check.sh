@@ -38,8 +38,11 @@ run_step "dotnet-test" env DOTNET_ROLL_FORWARD=Major \
   --results-directory "$report_root/dotnet"
 run_step "ruff" uv run --project tools/map_pipeline --frozen \
   ruff check tools/map_pipeline
-run_step "pytest" uv run --project tools/map_pipeline --frozen \
+run_step "pytest-map-pipeline" uv run --project tools/map_pipeline --frozen \
   pytest tools/map_pipeline/tests --junitxml "$report_root/python/junit.xml"
+run_step "pytest-playgodot-unit" uv run --project automation/playgodot --frozen \
+  pytest automation/playgodot/tests/test_client.py automation/playgodot/tests/test_cli.py \
+  --junitxml "$report_root/python/playgodot-unit.xml"
 run_step "godot-smoke" env \
   CANNONBALL_GODOT_LOG_FILE="$report_root/godot/godot.log" \
   CANNONBALL_SCENARIO_RESULT_FILE="$report_root/godot/scenario.json" \
