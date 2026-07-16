@@ -38,7 +38,7 @@
       "acceptance": [
         "C# solution builds without warnings or errors",
         "8 xUnit tests pass",
-        "6 pytest tests pass",
+        "Python pytest suite passes",
         "Godot headless smoke completes and writes a save"
       ],
       "verification": [
@@ -82,11 +82,12 @@
       "milestone": "M2",
       "priority": "P0",
       "title": "Correct deterministic geodata record emission",
-      "status": "open",
+      "status": "verified_local",
       "dependencies": [],
       "owned_paths": [
         "tools/map_pipeline/src/cannonball_map/pipeline.py",
-        "tools/map_pipeline/tests/"
+        "tools/map_pipeline/tests/",
+        "tools/map_pipeline/README.md"
       ],
       "acceptance": [
         "Edge IDs remain paired with their source IDs and geometries after sorting",

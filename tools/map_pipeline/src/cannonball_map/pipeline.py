@@ -3,7 +3,9 @@ from __future__ import annotations
 import hashlib
 import json
 import math
+from dataclasses import dataclass
 from pathlib import Path
+from typing import Any
 
 import geopandas as gpd
 import networkx as nx
@@ -13,6 +15,17 @@ from cannonball_map.manifest import SourceManifest, validate_source
 from cannonball_map.models import PipelineChunk, PipelineEdge, RouteSample
 
 PROJECTED_CRS = "EPSG:5070"
+SOURCE_ID_COLUMNS = ("source_feature_id", "source_id", "id", "objectid")
+
+
+@dataclass(frozen=True)
+class _EdgeRecord:
+    source_feature_id: str
+    geometry: LineString
+    edge: PipelineEdge
+
+    def edge_dict(self) -> dict[str, object]:
+        return {"source_feature_id": self.source_feature_id, **self.edge.to_dict()}
 
 
 def build_route_graph(
@@ -31,24 +44,37 @@ def build_route_graph(
         raise ValueError("Source geometry must declare a coordinate reference system.")
     frame = frame.to_crs(PROJECTED_CRS)
 
-    lines: list[LineString] = []
-    for geometry in frame.geometry:
-        if isinstance(geometry, LineString):
-            lines.append(geometry)
-        elif isinstance(geometry, MultiLineString):
-            lines.extend(geometry.geoms)
-    if not lines:
+    source_id_column = _source_id_column(frame)
+    records: list[_EdgeRecord] = []
+    for _, row in frame.iterrows():
+        geometry = row.geometry
+        line_parts = _line_parts(geometry)
+        if not line_parts:
+            continue
+        source_feature_id = _source_feature_id(row, source_id_column)
+        for line in line_parts:
+            if line.length <= 0:
+                continue
+            snapped_geometry = _snap_line_endpoints(line, snap_tolerance_meters)
+            if snapped_geometry.length <= 0:
+                raise ValueError("Endpoint snapping collapsed a source line to zero length.")
+            edge = _build_edge(
+                snapped_geometry,
+                manifest.source_id,
+                source_feature_id,
+                resample_meters,
+                snap_tolerance_meters,
+            )
+            records.append(_EdgeRecord(source_feature_id, snapped_geometry, edge))
+    if not records:
         raise ValueError("Source contains no line geometry.")
 
-    edges = [
-        _build_edge(line, resample_meters, snap_tolerance_meters)
-        for line in lines
-        if line.length > 0
-    ]
-    edges.sort(key=lambda edge: edge.edge_id)
+    records.sort(key=lambda record: record.edge.edge_id)
+    edges = [record.edge for record in records]
     _validate_topology(edges)
+    _validate_endpoint_geometry(records)
     chunks = _partition(edges, chunk_meters)
-    content_version = _content_version(manifest, edges, chunks)
+    content_version = _content_version(manifest, records, chunks)
     package = {
         "schema_version": 1,
         "content_version": content_version,
@@ -61,7 +87,7 @@ def build_route_graph(
             "sha256": manifest.sha256,
         },
         "nodes": _nodes(edges),
-        "edges": [edge.to_dict() for edge in edges],
+        "edges": [record.edge_dict() for record in records],
         "chunks": [chunk.to_dict() for chunk in chunks],
     }
 
@@ -72,7 +98,16 @@ def build_route_graph(
         encoding="utf-8",
     )
     normalized = gpd.GeoDataFrame(
-        {"edge_id": [edge.edge_id for edge in edges], "geometry": lines},
+        [
+            {
+                "edge_id": record.edge.edge_id,
+                "source_feature_id": record.source_feature_id,
+                "from_node_id": record.edge.from_node_id,
+                "to_node_id": record.edge.to_node_id,
+                "geometry": record.geometry,
+            }
+            for record in records
+        ],
         crs=PROJECTED_CRS,
     )
     normalized.to_file(output_directory / "normalized.gpkg", layer="route_edges", driver="GPKG")
@@ -81,6 +116,8 @@ def build_route_graph(
 
 def _build_edge(
     line: LineString,
+    dataset_source_id: str,
+    source_feature_id: str,
     resample_meters: float,
     snap_tolerance_meters: float,
 ) -> PipelineEdge:
@@ -89,7 +126,9 @@ def _build_edge(
     from_node_id = _stable_id("node", start)
     to_node_id = _stable_id("node", end)
     canonical = (
-        tuple(round(value, 3) for coordinate in line.coords for value in coordinate[:2]),
+        dataset_source_id,
+        source_feature_id,
+        tuple(round(value, 3) for coordinate in line.coords for value in coordinate),
         from_node_id,
         to_node_id,
     )
@@ -155,12 +194,29 @@ def _partition(edges: list[PipelineEdge], chunk_meters: float) -> list[PipelineC
 
 
 def _validate_topology(edges: list[PipelineEdge]) -> None:
-    graph = nx.DiGraph()
-    graph.add_edges_from((edge.from_node_id, edge.to_node_id) for edge in edges)
+    graph = nx.MultiDiGraph()
+    for edge in edges:
+        graph.add_edge(edge.from_node_id, edge.to_node_id, key=edge.edge_id)
     if graph.number_of_edges() != len(edges):
-        raise ValueError("Duplicate route edge collapsed during topology validation.")
+        raise ValueError("Duplicate route edge ID collapsed during topology validation.")
     if not nx.is_weakly_connected(graph):
         raise ValueError("Selected route data is disconnected after endpoint snapping.")
+
+
+def _validate_endpoint_geometry(records: list[_EdgeRecord]) -> None:
+    coordinates_by_node: dict[str, tuple[float, ...]] = {}
+    for record in records:
+        endpoints = (
+            (record.edge.from_node_id, record.geometry.coords[0]),
+            (record.edge.to_node_id, record.geometry.coords[-1]),
+        )
+        for node_id, coordinate in endpoints:
+            point = tuple(coordinate)
+            existing = coordinates_by_node.setdefault(node_id, point)
+            if existing != point:
+                raise ValueError(
+                    f"Node '{node_id}' has emitted geometry endpoints that do not meet."
+                )
 
 
 def _sample_distances(length: float, spacing: float) -> list[float]:
@@ -181,6 +237,40 @@ def _snap(coordinate: tuple[float, ...], tolerance: float) -> tuple[float, float
     )
 
 
+def _snap_line_endpoints(line: LineString, tolerance: float) -> LineString:
+    coordinates = list(line.coords)
+    start = _snap(coordinates[0], tolerance)
+    end = _snap(coordinates[-1], tolerance)
+    coordinates[0] = (*start, *coordinates[0][2:])
+    coordinates[-1] = (*end, *coordinates[-1][2:])
+    return LineString(coordinates)
+
+
+def _line_parts(geometry: object) -> tuple[LineString, ...]:
+    if isinstance(geometry, LineString):
+        return (geometry,)
+    if isinstance(geometry, MultiLineString):
+        return tuple(geometry.geoms)
+    return ()
+
+
+def _source_id_column(frame: gpd.GeoDataFrame) -> Any | None:
+    columns = {str(column).casefold(): column for column in frame.columns}
+    return next((columns[name] for name in SOURCE_ID_COLUMNS if name in columns), None)
+
+
+def _source_feature_id(row: Any, column: Any | None) -> str:
+    if column is None:
+        raise ValueError(
+            "Source features require a stable source_feature_id, source_id, id, "
+            "or OBJECTID column."
+        )
+    value = str(row[column]).strip()
+    if not value or value.casefold() in {"<na>", "nan", "none"}:
+        raise ValueError(f"Source feature has no value for identifier column '{column}'.")
+    return value
+
+
 def _stable_id(prefix: str, value: object) -> str:
     encoded = json.dumps(value, separators=(",", ":"), sort_keys=True).encode()
     return f"{prefix}-{hashlib.sha256(encoded).hexdigest()[:20]}"
@@ -188,12 +278,12 @@ def _stable_id(prefix: str, value: object) -> str:
 
 def _content_version(
     manifest: SourceManifest,
-    edges: list[PipelineEdge],
+    records: list[_EdgeRecord],
     chunks: list[PipelineChunk],
 ) -> str:
     payload = {
         "source_sha256": manifest.sha256,
-        "edges": [edge.to_dict() for edge in edges],
+        "edges": [record.edge_dict() for record in records],
         "chunks": [chunk.to_dict() for chunk in chunks],
     }
     digest = hashlib.sha256(

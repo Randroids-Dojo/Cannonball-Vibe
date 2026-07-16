@@ -16,7 +16,7 @@ Every source file needs a sidecar manifest:
   "source_url": "https://example.gov/exact-download",
   "acquired_on": "2026-07-14",
   "license_status": "public_domain",
-  "license_evidence_url": "https://doi.org/10.21949/1518325",
+  "license_evidence_url": "https://doi.org/10.21949/1522161",
   "sha256": "64-lowercase-hex-characters",
   "derived_from": []
 }
@@ -31,8 +31,19 @@ uv run cannonball-map build --source route.gpkg --manifest route.manifest.json -
 ```
 
 The pipeline fails closed on unknown licenses, OpenStreetMap ancestry, malformed
-dates, missing hashes, changed files, disconnected selected geometry, and
-duplicate directed edges.
+dates, missing hashes, changed files, disconnected selected geometry, and exact
+duplicate edge IDs. It preserves parallel directed edges in a multigraph.
+
+Source features should expose a stable `source_feature_id`, `source_id`, `id`,
+or `OBJECTID` attribute. The normalized GeoPackage and audit JSON retain it as
+`source_feature_id` on the complete sorted edge record, distinct from the
+dataset-level manifest `source_id`. The build fails closed when none of those
+fields exists. Edge identity includes both the dataset and feature identifiers.
+
+Reordering features changes the acquired source bytes and therefore may change
+the provenance SHA-256 and `content_version`. Semantic order invariance applies
+to the sorted nodes, edges, chunks, and normalized GeoPackage rows; those
+records remain equivalent independent of input feature order.
 
 Local JSONL telemetry can be summarized without a service:
 
