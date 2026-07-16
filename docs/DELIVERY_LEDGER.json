@@ -289,6 +289,7 @@
         "export_presets.cfg",
         ".github/workflows/unsigned-exports.yml",
         "scripts/release/",
+        "game/Main.tscn",
         "Cannonball.csproj",
         "src/Cannonball.Core/Cannonball.Core.csproj",
         "packages.lock.json",
