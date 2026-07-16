@@ -21,6 +21,9 @@ if [[ "$actual_godot" != "$CANNONBALL_RELEASE_GODOT_VERSION" ]]; then
 fi
 [[ "$(dotnet --version)" == "$CANNONBALL_RELEASE_DOTNET_VERSION" ]] || { echo "dotnet version mismatch" >&2; exit 1; }
 [[ "$(uv --version | awk '{print $2}')" == "$CANNONBALL_RELEASE_UV_VERSION" ]] || { echo "uv version mismatch" >&2; exit 1; }
+[[ "$(node --version | sed 's/^v//')" == "$CANNONBALL_RELEASE_NODE_VERSION" ]] || { echo "Node.js version mismatch" >&2; exit 1; }
+python_bin="${PYTHON_BIN:-python3}"
+[[ "$($python_bin -c 'import platform; print(platform.python_version())')" == "$CANNONBALL_RELEASE_PYTHON_VERSION" ]] || { echo "Python version mismatch" >&2; exit 1; }
 revision="${SOURCE_REVISION:-$(git rev-parse HEAD)}"
 [[ "$revision" == "$(git rev-parse HEAD)" ]] || { echo "SOURCE_REVISION must equal the checked-out HEAD." >&2; exit 1; }
 if [[ -n "$(git status --porcelain --untracked-files=all)" ]]; then
@@ -89,9 +92,9 @@ build_once() {
   node "$source_root/scripts/release/package-tools.mjs" metadata "$stage/package" "$source_root" "$platform" "$revision" "$epoch" "$preset" "$binary" "$launcher" \
     "$CANNONBALL_RELEASE_TEMPLATE_SHA256" "$CANNONBALL_RELEASE_TEMPLATE_VERSION" "$CANNONBALL_RELEASE_GODOT_VERSION" \
     "$CANNONBALL_RELEASE_DOTNET_VERSION" "$CANNONBALL_RELEASE_RUNTIME_VERSION" "$CANNONBALL_RELEASE_UV_VERSION" \
-    "$(node --version | sed 's/^v//')" "$(python3 -c 'import platform; print(platform.python_version())')"
+    "$CANNONBALL_RELEASE_NODE_VERSION" "$CANNONBALL_RELEASE_PYTHON_VERSION"
   "$source_root/scripts/release/verify-package.sh" "$stage/package"
-  python3 "$source_root/scripts/release/archive.py" "$stage/package" "Cannonball-$platform-x86_64" "$stage/Cannonball-$platform-x86_64.zip"
+  "$python_bin" "$source_root/scripts/release/archive.py" "$stage/package" "Cannonball-$platform-x86_64" "$stage/Cannonball-$platform-x86_64.zip"
 }
 
 build_target() {

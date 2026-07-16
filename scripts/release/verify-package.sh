@@ -11,6 +11,7 @@ package_root="$(cd "$package_root" && pwd)"
 smoke="${2:-}"
 node_package_root="$package_root"
 if command -v cygpath >/dev/null 2>&1; then node_package_root="$(cygpath -w "$package_root")"; fi
+echo "CANNONBALL_VERIFIER_TOOLS node=$(node --version) bash=$(bash --version | sed -n '1p')"
 
 (cd "$package_root" && sha256sum --check metadata/SHA256SUMS)
 
@@ -59,10 +60,12 @@ if [[ ! -s "$shipping_list" ]]; then
   exit 1
 fi
 for forbidden in PLAYGODOT_READY PLAYGODOT_TOKEN addons/playgodot bootstrap.tscn server.gd; do
-  if while IFS= read -r shipping_file; do LC_ALL=C grep -a -F -i -l -- "$forbidden" "$shipping_file"; done <"$shipping_list" | grep -q .; then
-    echo "Release payload contains forbidden PlayGodot marker: $forbidden" >&2
-    exit 1
-  fi
+  while IFS= read -r shipping_file; do
+    if LC_ALL=C grep -a -F -i -q -- "$forbidden" "$shipping_file"; then
+      echo "Release payload contains forbidden PlayGodot marker: $forbidden in $shipping_file" >&2
+      exit 1
+    fi
+  done <"$shipping_list"
 done
 rm -f "$shipping_list"
 pck_file="$(find "$package_root" -maxdepth 1 -type f -name '*.pck' -print -quit)"

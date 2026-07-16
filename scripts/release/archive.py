@@ -16,9 +16,11 @@ def main() -> None:
     output.parent.mkdir(parents=True, exist_ok=True)
     timestamp = (1980, 1, 1, 0, 0, 0)
     with zipfile.ZipFile(output, "w", zipfile.ZIP_STORED) as archive:
-        for path in sorted(item for item in source.rglob("*") if item.is_file()):
+        for path in sorted(source.rglob("*")):
             if path.is_symlink():
                 raise SystemExit(f"package archives must not contain symlinks: {path}")
+            if not path.is_file():
+                continue
             relative = path.relative_to(source).as_posix()
             info = zipfile.ZipInfo(f"{root_name}/{relative}", timestamp)
             info.create_system = 3

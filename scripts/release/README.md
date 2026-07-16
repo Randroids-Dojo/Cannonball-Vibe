@@ -9,7 +9,9 @@ Run the same build twice and compare every packaged byte:
 
 ```bash
 GODOT_BIN=/absolute/path/to/Godot ./scripts/release/install-templates.sh
-GODOT_BIN=/absolute/path/to/Godot ./scripts/release/build-unsigned.sh
+GODOT_BIN=/absolute/path/to/Godot ./scripts/check.sh
+PYTHON_BIN="$(uv python find 3.13.11)" \
+  GODOT_BIN=/absolute/path/to/Godot ./scripts/release/build-unsigned.sh
 ```
 
 Each content-addressed ZIP includes the loose route bundle, checksums, a

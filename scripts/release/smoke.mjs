@@ -3,12 +3,29 @@
 import { spawn } from "node:child_process";
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { dirname, join, resolve } from "node:path";
+import { isAbsolute, join, relative, resolve, sep } from "node:path";
 
 const packageRoot = resolve(process.argv[2] ?? ".");
 const transcriptPath = resolve(process.argv[3] ?? join(tmpdir(), "cannonball-smoke.log"));
 const manifest = JSON.parse(readFileSync(join(packageRoot, "metadata", "manifest.json"), "utf8"));
-const launcher = join(packageRoot, manifest.artifact.launcher);
+const launcherRelative = manifest.artifact.launcher;
+const launcher = typeof launcherRelative === "string" ? resolve(packageRoot, launcherRelative) : "";
+const launcherFromRoot = launcher ? relative(packageRoot, launcher) : "";
+const inventoryPaths = new Set(manifest.files.map((item) => item.path));
+if (
+  typeof launcherRelative !== "string" ||
+  !launcherRelative ||
+  isAbsolute(launcherRelative) ||
+  launcherRelative.split(/[\\/]/).includes("..") ||
+  !launcherFromRoot ||
+  launcherFromRoot === ".." ||
+  launcherFromRoot.startsWith(`..${sep}`) ||
+  isAbsolute(launcherFromRoot) ||
+  !inventoryPaths.has(launcherRelative) ||
+  !existsSync(launcher)
+) {
+  throw new Error("Manifest launcher must be an inventory-listed package path.");
+}
 const runtimeHome = mkdtempSync(join(tmpdir(), "cannonball-release-smoke-"));
 mkdirSync(join(runtimeHome, "empty-dotnet-root"));
 const forbiddenTranscript = join(runtimeHome, "playgodot-transcript.jsonl");

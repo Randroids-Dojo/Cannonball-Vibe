@@ -52,6 +52,16 @@ jobs:
       - name: Install exact export templates
         shell: bash
         run: ./scripts/release/install-templates.sh
+      - name: Verify repository gate before artifact build
+        shell: bash
+        env:
+          GODOT_BIN: ${{ env.GODOT }}
+        run: |
+          if [[ -z "${GODOT_BIN:-}" || ! -x "$GODOT_BIN" ]]; then
+            GODOT_BIN="$(command -v godot)"
+          fi
+          export GODOT_BIN
+          ./scripts/check.sh
       - name: Build each export twice
         id: release
         shell: bash

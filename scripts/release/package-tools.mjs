@@ -140,6 +140,7 @@ function generateMetadata(args) {
   const contentSetSha256 = createHash("sha256").update(
     inventory.map((item) => `${item.path}\0${item.sha256}\0${item.bytes}\n`).join("")
   ).digest("hex");
+  const runtimeId = target === "linux" ? "linux-x64" : "win-x64";
   writeJson(join(metadataDir, "manifest.json"), {
     schema_version: 1,
     artifact: {
@@ -168,7 +169,7 @@ function generateMetadata(args) {
       python_version: pythonVersion,
       restore_locked_mode: true,
       content_set_sha256: contentSetSha256,
-      lockfiles: ["packages.lock.json", "src/Cannonball.Core/packages.lock.json"].map((path) => ({ path, sha256: sha256(join(repoRoot, path)) })),
+      lockfiles: [`packages.${runtimeId}.lock.json`, `src/Cannonball.Core/packages.${runtimeId}.lock.json`].map((path) => ({ path, sha256: sha256(join(repoRoot, path)) })),
       inputs: ["project.godot", "Cannonball.csproj", "src/Cannonball.Core/Cannonball.Core.csproj"].map((path) => ({ path, sha256: sha256(join(repoRoot, path)) })),
     },
     content: {
