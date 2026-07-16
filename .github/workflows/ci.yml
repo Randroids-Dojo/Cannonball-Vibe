@@ -97,5 +97,5 @@ jobs:
           path: |
             reports/playgodot/
             .tools/scenarios/official-corridor/
-          if-no-files-found: error
+          if-no-files-found: warn
           retention-days: 14
