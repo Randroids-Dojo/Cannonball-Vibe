@@ -60,6 +60,16 @@ gate and a superseding ADR.
 Use separate branches or worktrees for concurrent tasks. Preserve unrelated
 changes in a dirty worktree.
 
+### Review-service fallback
+
+CodeRabbit is supplementary to the required first-party verification. If its
+check times out or remains unavailable after the normal review window, perform
+and record an independent adversarial review of the complete diff. Merge only
+when the Linux and Windows M0 checks pass and that review has no unresolved
+actionable findings. An administrator bypass may clear only the timed-out
+CodeRabbit gate under this policy; never use it to bypass failed M0 checks or
+substantive review findings.
+
 ## Required verification
 
 The current local front door is:

@@ -82,7 +82,7 @@
       "milestone": "M2",
       "priority": "P0",
       "title": "Correct deterministic geodata record emission",
-      "status": "verified_local",
+      "status": "complete",
       "dependencies": [],
       "owned_paths": [
         "tools/map_pipeline/src/cannonball_map/pipeline.py",

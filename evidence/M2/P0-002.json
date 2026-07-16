@@ -1,0 +1,212 @@
+{
+  "schema_version": 1,
+  "task_id": "P0-002",
+  "milestone": "M2",
+  "status": "complete",
+  "verified_at": "2026-07-16T04:29:11Z",
+  "git_revision": "a16c3f183743e1cda253bfd75efc2cd6d005a24d",
+  "platform": {
+    "local": "macOS",
+    "remote": [
+      "ubuntu-latest",
+      "windows-latest"
+    ]
+  },
+  "tool_versions": {
+    "python": "3.13.11",
+    "uv": "0.9.24",
+    "pytest": "9.1.1",
+    "ruff": "0.15.21",
+    "geopandas": "1.1.4",
+    "networkx": "3.6.1",
+    "pyogrio": "0.13.0",
+    "gdal": "3.12.4",
+    "pyproj": "3.7.2",
+    "proj": "9.5.1",
+    "shapely": "2.1.2"
+  },
+  "inputs": [
+    {
+      "path": "tools/map_pipeline/src/cannonball_map/pipeline.py",
+      "sha256": "b2fed5b483fd2a87f59edc689dcfa43e61ff5fadfe38f85fc055123c16227515"
+    },
+    {
+      "path": "tools/map_pipeline/tests/test_pipeline.py",
+      "sha256": "30037dc4f57b917b4591351c10c19ef22eaaf26e879171846dc4b78516e92ab0"
+    },
+    {
+      "path": "tools/map_pipeline/pyproject.toml",
+      "sha256": "a96e5cb515b9ad415785446e8b00ace21b4a24db8997fb5317605f4e6587395b"
+    },
+    {
+      "path": "tools/map_pipeline/uv.lock",
+      "sha256": "6bbd9d08562d15fa8cf849a5177d243d467811d2bcebf8dc90d3d14ed25bff93"
+    },
+    {
+      "path": "tools/map_pipeline/README.md",
+      "sha256": "ad1952f31b9bca799f261e89a5fd871a7b781c32073b25fe8cc154e24fe136c3"
+    },
+    {
+      "path": "docs/DELIVERY_LEDGER.json",
+      "sha256": "75b9a12b062a601847b00b0474b650f83ed08aa1021c328384ebe4f1fdc5002b"
+    }
+  ],
+  "scenario_arguments": {
+    "projected_crs": "EPSG:5070",
+    "snap_tolerance_meters": 10.0,
+    "reversed_feature_count": 2,
+    "parallel_feature_count": 2,
+    "multiline_part_count": 2,
+    "dimensions_exercised": [
+      "2D",
+      "3D"
+    ]
+  },
+  "deterministic_seed": null,
+  "acceptance": [
+    {
+      "criterion": "Edge IDs remain paired with their source IDs and geometries after sorting",
+      "status": "passed",
+      "comparison": {
+        "edge_source_geometry_rows_checked": 4,
+        "edge_source_geometry_mismatch_count": 0,
+        "duplicate_json_edge_id_count": 0,
+        "multiline_parts_checked": 2,
+        "multiline_parent_id_mismatch_count": 0
+      }
+    },
+    {
+      "criterion": "Reversed input feature order produces equivalent semantic output",
+      "status": "passed",
+      "comparison": {
+        "node_semantic_diff_count": 0,
+        "edge_semantic_diff_count": 0,
+        "chunk_semantic_diff_count": 0,
+        "normalized_geopackage_rows_compared": 2,
+        "normalized_geopackage_semantic_diff_count": 0,
+        "allowed_provenance_differences": [
+          "source.sha256",
+          "content_version"
+        ]
+      }
+    },
+    {
+      "criterion": "Topology uses a multigraph and preserves legitimate parallel directed edges",
+      "status": "passed",
+      "comparison": {
+        "parallel_2d_inputs": 2,
+        "parallel_2d_unique_edges_emitted": 2,
+        "shared_directed_endpoint_pairs": 1,
+        "stacked_3d_inputs": 2,
+        "stacked_3d_unique_edges_emitted": 2,
+        "exact_duplicate_fixture_rejected": true
+      }
+    },
+    {
+      "criterion": "Endpoint topology and emitted geometry cannot create seam gaps",
+      "status": "passed",
+      "comparison": {
+        "raw_planar_endpoint_gap_meters": 5.656854,
+        "emitted_planar_endpoint_gap_meters": 0.0,
+        "shared_node_count": 1,
+        "length_geometry_mismatch_count": 0,
+        "terminal_sample_geometry_mismatch_count": 0,
+        "vertical_mismatch_meters": 5.0,
+        "vertical_mismatch_failed_closed": true
+      }
+    }
+  ],
+  "metrics": {
+    "pytest": {
+      "passed": 13,
+      "failed": 0
+    },
+    "pipeline_regression_tests": 8,
+    "ruff_errors": 0,
+    "full_gate_steps_passed": 6,
+    "full_gate_steps_failed": 0
+  },
+  "commands": [
+    {
+      "command": "uv run --project tools/map_pipeline pytest",
+      "exit_code": 0
+    },
+    {
+      "command": "uv run --project tools/map_pipeline ruff check tools/map_pipeline",
+      "exit_code": 0
+    },
+    {
+      "command": "./scripts/check.sh",
+      "exit_code": 0
+    },
+    {
+      "command": "bash -n scripts/*.sh",
+      "exit_code": 0
+    },
+    {
+      "command": "shellcheck scripts/*.sh",
+      "exit_code": 0
+    },
+    {
+      "command": "actionlint .github/workflows/*.yml",
+      "exit_code": 0
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0
+    }
+  ],
+  "adversarial_review": {
+    "reviewers": 3,
+    "method": "Independent pipeline, test-design, and delivery-evidence reviews",
+    "resolved_findings": [
+      "Included elevation in edge identity so stacked 3D parallels remain distinct",
+      "Required stable source feature identifiers and dataset namespacing",
+      "Rejected vertical endpoint seams",
+      "Asserted complete JSON-to-GeoPackage record pairing",
+      "Added MultiLineString parent-ID and exact-duplicate regressions"
+    ],
+    "unresolved_actionable_findings": 0
+  },
+  "remote_verification": {
+    "implementation_pull_request": "https://github.com/Randroids-Dojo/Cannonball-Vibe/pull/2",
+    "run_id": 29471395736,
+    "run_url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29471395736",
+    "head_sha": "a16c3f183743e1cda253bfd75efc2cd6d005a24d",
+    "conclusion": "success",
+    "jobs": [
+      {
+        "job_id": 87535131172,
+        "name": "M0 (ubuntu-latest)",
+        "conclusion": "success"
+      },
+      {
+        "job_id": 87535131169,
+        "name": "M0 (windows-latest)",
+        "conclusion": "success"
+      }
+    ]
+  },
+  "outputs": [
+    {
+      "artifact_id": 8364909909,
+      "path": "m0-Linux-1",
+      "sha256": "4c45c737198ff8b6293fd517a5ed4296d49492ca20ccc98a7ca8f26399e92026",
+      "validation": "Downloaded; summary, doctor, pytest JUnit, and Godot scenario reports passed."
+    },
+    {
+      "artifact_id": 8364926880,
+      "path": "m0-Windows-1",
+      "sha256": "bcb894e44fe0b7610bcd9dab8dcf1b79dc5ad6bb38cad2be830ff3aeef53eee4",
+      "validation": "Downloaded; summary, doctor, pytest JUnit, and Godot scenario reports passed."
+    }
+  ],
+  "failure_handling": {
+    "failure_logs": [
+      "Initial Ruff review reported E501 at pipeline.py:265 before the final implementation commit."
+    ],
+    "retry_count": 1,
+    "recovery_result": "Line wrapping was corrected; Ruff and the complete gate passed locally and remotely."
+  },
+  "human_gate": null
+}
