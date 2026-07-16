@@ -48,20 +48,20 @@ build_fixture() {
 build_once() {
   local platform="$1" iteration="$2"
   local stage="$output_root/work/$platform-$iteration"
-  local preset binary launcher windows_route runtime_id source_root export_path
+  local preset binary launcher windows_route runtime_id target_platform source_root export_path
   rm -rf "$stage"
   source_root="$stage/source"
   mkdir -p "$stage/package/content/official-corridor" "$stage/package/verification" "$stage/fixture" "$source_root"
   git archive "$revision" | tar -x -C "$source_root"
   if [[ "$platform" == linux ]]; then
-    preset="Linux x86_64"; binary="CannonballRun.x86_64"; launcher="run-cannonball.sh"; runtime_id="linux-x64"
+    preset="Linux x86_64"; binary="CannonballRun.x86_64"; launcher="run-cannonball.sh"; runtime_id="linux-x64"; target_platform="linuxbsd"
   else
-    preset="Windows x86_64"; binary="CannonballRun.console.exe"; launcher="run-cannonball.cmd"; runtime_id="win-x64"
+    preset="Windows x86_64"; binary="CannonballRun.console.exe"; launcher="run-cannonball.cmd"; runtime_id="win-x64"; target_platform="windows"
   fi
   cp "$source_root/packages.$runtime_id.lock.json" "$source_root/packages.lock.json"
   cp "$source_root/src/Cannonball.Core/packages.$runtime_id.lock.json" "$source_root/src/Cannonball.Core/packages.lock.json"
-  RuntimeIdentifiers="$runtime_id" dotnet restore "$source_root/Cannonball.csproj" --locked-mode --nologo
-  RuntimeIdentifiers="$runtime_id" dotnet build "$source_root/Cannonball.csproj" -c Release --no-restore --nologo
+  RuntimeIdentifiers="$runtime_id" dotnet restore "$source_root/Cannonball.csproj" --locked-mode --nologo -p:GodotTargetPlatform="$target_platform"
+  RuntimeIdentifiers="$runtime_id" dotnet build "$source_root/Cannonball.csproj" -c Release --no-restore --nologo -p:GodotTargetPlatform="$target_platform"
   export_path="$stage/package/CannonballRun${platform/linux/.x86_64}"
   if [[ "$platform" == windows ]]; then export_path="$stage/package/CannonballRun.exe"; fi
   RuntimeIdentifiers="$runtime_id" "$godot_bin" --headless --path "$source_root" --export-release "$preset" "$export_path"
