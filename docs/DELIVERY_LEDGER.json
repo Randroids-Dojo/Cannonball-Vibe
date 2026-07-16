@@ -150,7 +150,7 @@
       "milestone": "M2",
       "priority": "P0",
       "title": "Sharded route packaging and runtime streaming",
-      "status": "open",
+      "status": "in_progress",
       "dependencies": [
         "P0-002",
         "P0-003"
@@ -158,8 +158,20 @@
       "owned_paths": [
         "schemas/",
         "src/Cannonball.Core/Routes/",
+        "src/Cannonball.Core/Content/",
+        "tests/Cannonball.Core.Tests/",
         "game/World/",
-        "tools/map_pipeline/"
+        "game/Main.cs",
+        "game/Vehicle/CannonballVehicle.cs",
+        "tools/map_pipeline/",
+        "scripts/check.sh",
+        "scripts/run-scenario.sh",
+        "scripts/capture-scenario.sh",
+        ".github/workflows/windows-stress.yml",
+        "README.md",
+        "docs/TECH_STACK.md",
+        "docs/QUESTIONS_FOR_RANDROID.md",
+        "evidence/M2/P0-004.json"
       ],
       "acceptance": [
         "The root route index is under 64 MB",

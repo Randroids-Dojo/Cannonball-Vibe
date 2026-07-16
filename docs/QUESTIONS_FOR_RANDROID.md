@@ -4,6 +4,27 @@ This is the short human-inbox for questions uncovered during autonomous work.
 None of these blocks the current technical implementation because each has a
 recorded working default in [OPEN_QUESTIONS.md](OPEN_QUESTIONS.md).
 
+## Representative route map sanity review (P0-004)
+
+After the official-corridor packaged streaming candidate is merged, please run
+or inspect the recorded route scenario and approve whether the reconstructed
+road is geographically recognizable and free of obvious map mistakes. This is
+the required human gate for completing M2; automated topology, hash, size and
+runtime checks cannot substitute for it.
+
+The committed official fixture contains 0.226102 unique route miles. The ledger's
+100-mile command therefore performs 443 repetitions and 1,772 verified shard
+reads of the same immutable package as a repeated transport stress; it does not
+claim 100 unique drivable miles. A longer locked corridor remains necessary for
+representative long-route streaming and local-origin evidence.
+
+Run the candidate with:
+
+```bash
+GODOT_BIN=/absolute/path/to/Godot ./scripts/run-scenario.sh \
+  --fixture official-corridor --distance-miles 100
+```
+
 ## Source rights approval (Q-013)
 
 Before public release, please approve or reject distribution of the exact NHPN

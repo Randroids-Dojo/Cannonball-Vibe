@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import json
 import math
+import sqlite3
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -123,8 +124,20 @@ def build_route_graph(
         ],
         crs=PROJECTED_CRS,
     )
-    normalized.to_file(output_directory / "normalized.gpkg", layer="route_edges", driver="GPKG")
+    normalized_path = output_directory / "normalized.gpkg"
+    normalized.to_file(normalized_path, layer="route_edges", driver="GPKG")
+    _normalize_geopackage(normalized_path)
     return package
+
+
+def _normalize_geopackage(path: Path) -> None:
+    with sqlite3.connect(path) as connection:
+        connection.execute(
+            "UPDATE gpkg_contents SET last_change = ?",
+            ("1970-01-01T00:00:00.000Z",),
+        )
+        connection.commit()
+        connection.execute("VACUUM")
 
 
 def _build_edge(
@@ -166,7 +179,15 @@ def _build_edge(
         curvatures.append(curvature)
     grades = _grades(distances, elevations)
     samples = [
-        RouteSample(distance, 0.0, elevations[index], curvatures[index], grades[index])
+        RouteSample(
+            distance,
+            0.0,
+            elevations[index],
+            curvatures[index],
+            grades[index],
+            points[index].x,
+            points[index].y,
+        )
         for index, distance in enumerate(distances)
     ]
     return PipelineEdge(

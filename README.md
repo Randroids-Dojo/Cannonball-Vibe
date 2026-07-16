@@ -5,8 +5,10 @@ and driver can still survive.
 
 The repository now contains the M0/P0 technical slice: a Godot 4.7.1 .NET game,
 an engine-independent C# rules layer, a custom raycast-suspension vehicle, a
-streamed 25-mile graybox road with local-origin rebasing, versioned saves,
-JSONL telemetry, and a public-domain-only geodata pipeline.
+verified sharded route runtime with local-origin rebasing, versioned saves,
+JSONL telemetry, and a public-domain-only geodata pipeline. The checked-in
+official NHPN/3DEP fixture is intentionally short; the continental route remains
+a later milestone.
 
 This is a prototype foundation, not the complete MVP described in
 [gdd.md](gdd.md). Traffic, enforcement, stops, builds, and the continental
@@ -22,10 +24,11 @@ Requirements:
 - Git LFS 3.7.1
 - Bash and Perl (included with Git for Windows) for the guarded CLI scripts
 
-Open `project.godot` in Godot Mono and run the main scene, or use:
+The main scene requires a built route package. Use the scenario front door,
+which builds the locked official fixture before launching Godot:
 
 ```
-./scripts/godot.sh --path .
+./scripts/run-scenario.sh --fixture official-corridor --smoke-test
 ```
 
 Controls: W/right trigger accelerates, S/left trigger brakes, A/D or the left
@@ -49,11 +52,16 @@ Run a Godot-only scenario through the same exact-version CLI front door:
 
 ```
 ./scripts/run-scenario.sh --smoke-test
-./scripts/run-scenario.sh --smoke-test --stress-driver
+./scripts/run-scenario.sh --short-corridor-soak
+./scripts/run-scenario.sh --fixture official-corridor --distance-miles 100
 ```
 
-The scenario command builds the C# game assembly before launching Godot, so it
-also works from a clean checkout rather than relying on editor-generated state.
+The scenario command builds the locked route package and C# game assembly
+before launching Godot, so it also works from a clean checkout. The 100-mile
+command is explicitly a repeated transport verification of 0.226102 unique
+fixture miles, not a claim that the short fixture is a representative long run.
+Likewise, `--short-corridor-soak` is a high-speed packaged-fixture regression;
+the 200 mph plus local-origin-rebase stress gate still requires a longer route.
 
 Capture a fixed-FPS visual artifact on a machine with a real graphics renderer:
 
@@ -63,7 +71,7 @@ Capture a fixed-FPS visual artifact on a machine with a real graphics renderer:
 
 ## Repository map
 
-- `game/` — Godot presentation, vehicle physics, and streamed graybox world.
+- `game/` — Godot presentation, vehicle physics, and sample-driven streamed world.
 - `src/Cannonball.Core/` — route, run, save, seed, telemetry, and FlatBuffer code
   without Godot dependencies.
 - `schemas/` — versioned runtime route-data contract.

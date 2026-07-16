@@ -1,5 +1,7 @@
 import hashlib
 import json
+import shutil
+import tempfile
 import urllib.request
 from pathlib import Path
 
@@ -8,10 +10,10 @@ import typer
 from cannonball_map.acquisition import UrllibArcGisTransport, acquire_nhpn
 from cannonball_map.catalog import load_catalog, url_matches_prefix
 from cannonball_map.elevation import ElevationMetadata, ElevationSampler
-from cannonball_map.flatbuffer_writer import write_flatbuffer
 from cannonball_map.lockfile import materialize_locked_role, validate_lock
 from cannonball_map.manifest import SourceManifest, validate_source
 from cannonball_map.pipeline import build_route_graph
+from cannonball_map.sharding import write_sharded_package
 from cannonball_map.telemetry import summarize_telemetry
 
 app = typer.Typer(no_args_is_help=True)
@@ -49,6 +51,10 @@ def build(
     """Build deterministic GeoPackage, audit JSON, and FlatBuffer route data."""
     if (elevation is None) != (elevation_metadata is None):
         raise typer.BadParameter("elevation and elevation-metadata must be provided together")
+    if elevation is None:
+        raise typer.BadParameter(
+            "runtime schema 3 requires elevation, elevation-metadata, and acquisition-lock"
+        )
     if elevation is not None and acquisition_lock is None:
         raise typer.BadParameter("acquisition-lock is required when elevation is provided")
     metadata = None
@@ -90,32 +96,44 @@ def build(
                     raise typer.BadParameter(
                         f"elevation metadata field '{field}' does not match acquisition-lock"
                     )
-    if elevation and metadata:
-        with ElevationSampler(elevation, metadata, "EPSG:5070") as sampler:
+    output.parent.mkdir(parents=True, exist_ok=True)
+    audit_output = Path(
+        tempfile.mkdtemp(prefix=f".{output.name}-audit-staging-", dir=output.parent)
+    )
+    try:
+        if elevation and metadata:
+            with ElevationSampler(elevation, metadata, "EPSG:5070") as sampler:
+                package = build_route_graph(
+                    source,
+                    manifest,
+                    audit_output,
+                    resample_meters=resample_meters,
+                    chunk_meters=chunk_meters,
+                    snap_tolerance_meters=snap_tolerance_meters,
+                    catalog_path=catalog,
+                    elevation_sampler=sampler,
+                    acquisition_lock_sha256=lock_digest,
+                )
+        else:
             package = build_route_graph(
                 source,
                 manifest,
-                output,
+                audit_output,
                 resample_meters=resample_meters,
                 chunk_meters=chunk_meters,
                 snap_tolerance_meters=snap_tolerance_meters,
                 catalog_path=catalog,
-                elevation_sampler=sampler,
                 acquisition_lock_sha256=lock_digest,
             )
-    else:
-        package = build_route_graph(
-            source,
-            manifest,
+        package = write_sharded_package(
+            package,
             output,
-            resample_meters=resample_meters,
-            chunk_meters=chunk_meters,
-            snap_tolerance_meters=snap_tolerance_meters,
-            catalog_path=catalog,
-            acquisition_lock_sha256=lock_digest,
+            audit_artifacts={"normalized.gpkg": audit_output / "normalized.gpkg"},
         )
-    runtime_path = output / "route_graph.cbrg"
-    write_flatbuffer(package, runtime_path)
+    finally:
+        shutil.rmtree(audit_output, ignore_errors=True)
+    pointer = json.loads((output / "current-package.json").read_text(encoding="utf-8"))
+    runtime_path = output / pointer["root_relative_path"]
     typer.echo(f"built: {runtime_path} ({len(package['edges'])} edges)")
 
 

@@ -10,6 +10,8 @@ class RouteSample:
     elevation_meters: float
     curvature: float
     grade: float
+    projected_x_meters: float = 0.0
+    projected_y_meters: float = 0.0
 
 
 @dataclass(frozen=True)

@@ -1,0 +1,29 @@
+include "route_graph.fbs";
+
+namespace Cannonball.Content;
+
+struct ChunkRouteSample {
+  distance_meters:double;
+  lateral_meters:float;
+  elevation_meters:float;
+  curvature:float;
+  grade:float;
+  projected_x_meters:double;
+  projected_y_meters:double;
+  projected_tangent_x:double;
+  projected_tangent_y:double;
+}
+
+table RouteChunkBuffer {
+  schema_version:uint;
+  content_version:string;
+  id:string;
+  edge_id:string;
+  start_meters:double;
+  end_meters:double;
+  samples:[ChunkRouteSample];
+}
+
+root_type RouteChunkBuffer;
+file_identifier "CBCK";
+file_extension "cbck";

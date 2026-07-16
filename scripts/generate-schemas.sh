@@ -6,6 +6,10 @@ cd "$repo_root"
 
 flatc --csharp --gen-object-api -o src/Cannonball.Core/Content/Generated schemas/route_graph.fbs
 flatc --python --gen-object-api -o tools/map_pipeline/src schemas/route_graph.fbs
+flatc --csharp --gen-object-api -o src/Cannonball.Core/Content/Generated \
+  -I schemas schemas/route_chunk.fbs
+flatc --python --gen-object-api -o tools/map_pipeline/src \
+  -I schemas schemas/route_chunk.fbs
 
 # NuGet's newest C# runtime is 25.2.10. The generated wire code is compatible;
 # normalize only flatc's compile-time version assertion until NuGet catches up.

@@ -31,7 +31,8 @@ public sealed partial class CannonballVehicle : RigidBody3D
     public bool AutopilotEnabled { get; set; }
     public AssistProfile AssistProfile { get; private set; } = AssistProfile.Balanced;
     public double RouteDistanceMeters { get; set; }
-    public float TargetRoadCenterX { get; set; }
+    public Vector3 TargetRoadPoint { get; set; }
+    public Vector3 TargetRoadForward { get; set; } = Vector3.Forward;
     public float SpeedMetersPerSecond => LinearVelocity.Length();
 
     public override void _Ready()
@@ -82,9 +83,15 @@ public sealed partial class CannonballVehicle : RigidBody3D
 
     private DriveInputState ReadAutopilot()
     {
-        var lateralError = TargetRoadCenterX - GlobalPosition.X;
-        var heading = -GlobalTransform.Basis.Z;
-        var steering = Mathf.Clamp(lateralError * 0.025f - heading.X * 1.8f - AngularVelocity.Y * 0.18f, -1, 1);
+        var heading = -GlobalTransform.Basis.Z.Normalized();
+        var desiredHeading = TargetRoadForward.Normalized();
+        var vehicleRight = heading.Cross(Vector3.Up).Normalized();
+        var lateralError = (TargetRoadPoint - GlobalPosition).Dot(vehicleRight);
+        var headingError = -heading.Cross(desiredHeading).Y;
+        var steering = Mathf.Clamp(
+            lateralError * 0.025f + headingError * 1.8f - AngularVelocity.Y * 0.18f,
+            -1,
+            1);
         var throttle = SpeedMetersPerSecond < 91 ? 1.0f : 0.15f;
         return new DriveInputState(throttle, 0, steering, false);
     }
@@ -184,8 +191,8 @@ public sealed partial class CannonballVehicle : RigidBody3D
     private void ResetToRoad()
     {
         Freeze = true;
-        Position = new Vector3(TargetRoadCenterX, 0.78f, Position.Z);
-        Rotation = Vector3.Zero;
+        Position = TargetRoadPoint + Vector3.Up * 0.78f;
+        Basis = Basis.LookingAt(TargetRoadForward, Vector3.Up);
         LinearVelocity = Vector3.Zero;
         AngularVelocity = Vector3.Zero;
         Freeze = false;

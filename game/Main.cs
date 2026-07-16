@@ -1,3 +1,4 @@
+using Cannonball.Core.Content;
 using Cannonball.Core.Routes;
 using Cannonball.Core.Runs;
 using Cannonball.Core.Saves;
@@ -11,14 +12,19 @@ namespace Cannonball.Game;
 
 public sealed partial class Main : Node3D
 {
-    private const string ContentVersion = "graybox-m0-v1";
+    private const int MaximumTransportProbeReads = 10_000;
     private WorldStreamer _streamer = null!;
     private CannonballVehicle _vehicle = null!;
     private PrototypeHud _hud = null!;
     private JsonRunStateRepository _saves = null!;
     private JsonlTelemetrySink _telemetry = null!;
+    private RouteContentPackage _package = null!;
+    private VerifiedFileChunkSource _chunkSource = null!;
+    private Task<TransportProbeResult>? _transportProbe;
+    private bool _transportProbeReported;
     private bool _smokeTest;
     private bool _stressTest;
+    private bool _shortCorridorSoak;
     private bool _shutdownStarted;
     private int _smokeFrames;
     private double _telemetryElapsed;
@@ -28,38 +34,88 @@ public sealed partial class Main : Node3D
 
     public override void _Ready()
     {
-        ConfigureInputMap();
-        BuildLighting();
-        _streamer = new WorldStreamer { Name = "WorldStreamer" };
-        AddChild(_streamer);
-        _vehicle = new CannonballVehicle { Position = new Vector3(0, 0.78f, 0) };
-        AddChild(_vehicle);
-        _streamer.Track(_vehicle);
-        _hud = new PrototypeHud { Name = "PrototypeHud" };
-        AddChild(_hud);
-
-        _saves = new JsonRunStateRepository(
-            ProjectSettings.GlobalizePath("user://runs/suspended-run.json"),
-            ContentVersion);
-        _telemetry = new JsonlTelemetrySink(
-            ProjectSettings.GlobalizePath("user://telemetry/prototype.jsonl"));
-
-        var arguments = OS.GetCmdlineUserArgs();
-        _smokeTest = arguments.Contains("--smoke-test", StringComparer.Ordinal);
-        _stressTest = arguments.Contains("--stress-driver", StringComparer.Ordinal);
-        _smokeTargetFrames = _stressTest ? 3_600 : 360;
-        _vehicle.AutopilotEnabled = _smokeTest || _stressTest;
-        var assistArgument = arguments.FirstOrDefault(value => value.StartsWith("--assist=", StringComparison.Ordinal));
-        if (assistArgument is not null &&
-            Enum.TryParse<AssistProfile>(assistArgument["--assist=".Length..], ignoreCase: true, out var assist))
+        try
         {
-            _vehicle.SetAssistProfile(assist);
+            var arguments = OS.GetCmdlineUserArgs();
+            var routePath = RequiredArgument(arguments, "--route-package");
+            var requestedProbeMiles = OptionalPositiveDouble(arguments, "--distance-miles");
+            _smokeTest = arguments.Contains("--smoke-test", StringComparer.Ordinal) || requestedProbeMiles > 0;
+            _stressTest = arguments.Contains("--stress-driver", StringComparer.Ordinal);
+            _shortCorridorSoak = arguments.Contains("--short-corridor-soak", StringComparer.Ordinal);
+            _smokeTest = _smokeTest || _stressTest || _shortCorridorSoak;
+            _smokeTargetFrames = _stressTest || _shortCorridorSoak ? 3_600 : 360;
+
+            var absoluteRoutePath = Path.GetFullPath(routePath);
+            _package = FlatBufferRouteContent.Load(absoluteRoutePath);
+            _chunkSource = new VerifiedFileChunkSource(
+                _package,
+                Path.GetDirectoryName(absoluteRoutePath)
+                    ?? throw new InvalidDataException("Route package has no parent directory."));
+            var initialManifest = _package.Chunks.Values
+                .OrderBy(manifest => manifest.EdgeId, StringComparer.Ordinal)
+                .ThenBy(manifest => manifest.StartMeters)
+                .FirstOrDefault()
+                ?? throw new InvalidDataException("Route package has no runtime chunks.");
+            var initialChunk = _chunkSource.LoadChunk(initialManifest.Id);
+
+            ConfigureInputMap();
+            BuildLighting();
+            _streamer = new WorldStreamer { Name = "WorldStreamer" };
+            _streamer.Configure(_package, _chunkSource, initialChunk);
+            AddChild(_streamer);
+            _vehicle = new CannonballVehicle
+            {
+                Transform = new Transform3D(
+                    Basis.LookingAt(_streamer.InitialRoadForward, Vector3.Up),
+                    _streamer.InitialRoadPoint + Vector3.Up * 0.78f),
+            };
+            AddChild(_vehicle);
+            _streamer.Track(_vehicle);
+            _hud = new PrototypeHud { Name = "PrototypeHud" };
+            AddChild(_hud);
+
+            _saves = new JsonRunStateRepository(
+                ProjectSettings.GlobalizePath("user://runs/suspended-run.json"),
+                _package.Graph.ContentVersion);
+            _telemetry = new JsonlTelemetrySink(
+                ProjectSettings.GlobalizePath("user://telemetry/prototype.jsonl"));
+
+            _vehicle.AutopilotEnabled = _smokeTest;
+            var assistArgument = arguments.FirstOrDefault(value => value.StartsWith("--assist=", StringComparison.Ordinal));
+            if (assistArgument is not null &&
+                Enum.TryParse<AssistProfile>(assistArgument["--assist=".Length..], ignoreCase: true, out var assist))
+            {
+                _vehicle.SetAssistProfile(assist);
+            }
+            if (requestedProbeMiles > 0)
+            {
+                _transportProbe = RunTransportProbeAsync(requestedProbeMiles);
+            }
+
+            GD.Print(
+                $"CANNONBALL_READY engine={Engine.GetVersionInfo()["string"]} " +
+                $"physics_hz={Engine.PhysicsTicksPerSecond} " +
+                $"content_source=packaged content_version={_package.Graph.ContentVersion}");
         }
-        GD.Print($"CANNONBALL_READY engine={Engine.GetVersionInfo()["string"]} physics_hz={Engine.PhysicsTicksPerSecond}");
+        catch (Exception exception)
+        {
+            GD.PushError(exception.ToString());
+            GetTree().Quit(1);
+        }
     }
 
     public override void _Process(double delta)
     {
+        if (_streamer is null || _vehicle is null || _hud is null)
+        {
+            return;
+        }
+
+        if (!ReportTransportProbeWhenComplete())
+        {
+            return;
+        }
+
         _hud.UpdateTelemetry(
             _vehicle.SpeedMetersPerSecond,
             _streamer.RouteDistanceMeters,
@@ -105,6 +161,71 @@ public sealed partial class Main : Node3D
         }
     }
 
+    private bool ReportTransportProbeWhenComplete()
+    {
+        if (_transportProbe is null || _transportProbeReported)
+        {
+            return true;
+        }
+        if (!_transportProbe.IsCompleted)
+        {
+            return false;
+        }
+        _transportProbeReported = true;
+        if (!_transportProbe.IsCompletedSuccessfully)
+        {
+            GD.PushError($"Packaged route transport probe failed: {_transportProbe.Exception?.GetBaseException()}");
+            GetTree().Quit(1);
+            return false;
+        }
+        var result = _transportProbe.Result;
+        GD.Print(
+            $"CANNONBALL_OFFICIAL_CORRIDOR_OK content_source=packaged " +
+            $"unique_route_miles={result.UniqueRouteMiles:0.000000} " +
+            $"requested_probe_miles={result.RequestedMiles:0.######} " +
+            $"route_repetitions={result.Repetitions} " +
+            $"verified_chunk_reads={result.VerifiedChunkReads} chunk_failures=0");
+        return true;
+    }
+
+    private async Task<TransportProbeResult> RunTransportProbeAsync(double requestedMiles)
+    {
+        var uniqueMeters = _package.Chunks.Values
+            .GroupBy(manifest => manifest.EdgeId, StringComparer.Ordinal)
+            .Sum(group => group.Max(manifest => manifest.EndMeters));
+        var uniqueMiles = uniqueMeters / 1_609.344;
+        if (!double.IsFinite(uniqueMeters) || !double.IsFinite(uniqueMiles) || uniqueMiles <= 0)
+        {
+            throw new InvalidDataException("Route package has no positive traversal distance.");
+        }
+        var manifests = _package.Chunks.Values.OrderBy(manifest => manifest.Id, StringComparer.Ordinal).ToArray();
+        var repetitionValue = Math.Ceiling(requestedMiles / uniqueMiles);
+        if (!double.IsFinite(repetitionValue) || repetitionValue < 1 || repetitionValue > int.MaxValue)
+        {
+            throw new ArgumentOutOfRangeException(
+                nameof(requestedMiles),
+                "Requested transport probe requires too many route repetitions.");
+        }
+        var repetitions = checked((int)repetitionValue);
+        var expectedReads = checked((long)repetitions * manifests.Length);
+        if (expectedReads > MaximumTransportProbeReads)
+        {
+            throw new ArgumentOutOfRangeException(
+                nameof(requestedMiles),
+                $"Requested transport probe exceeds the {MaximumTransportProbeReads} read budget.");
+        }
+        var reads = 0;
+        for (var repetition = 0; repetition < repetitions; repetition++)
+        {
+            foreach (var manifest in manifests)
+            {
+                _ = await _chunkSource.LoadChunkAsync(manifest.Id);
+                reads++;
+            }
+        }
+        return new TransportProbeResult(requestedMiles, uniqueMiles, repetitions, reads);
+    }
+
     private async Task PersistAsync(bool quitAfterSave)
     {
         try
@@ -113,17 +234,28 @@ public sealed partial class Main : Node3D
             {
                 ValidateStressRun();
             }
+            if (quitAfterSave && _shortCorridorSoak)
+            {
+                ValidateShortCorridorSoak();
+            }
             var save = CaptureSave();
             await _saves.SaveAsync(save);
             await RecordTelemetryAsync("run_suspended");
             GD.Print($"CANNONBALL_SAVE_OK distance_m={save.Run.Position.DistanceMeters:0.0}");
             if (quitAfterSave)
             {
+                if (_streamer.ChunkFailureCount > 0)
+                {
+                    throw new InvalidOperationException(
+                        $"Streaming encountered {_streamer.ChunkFailureCount} verified chunk failures.");
+                }
                 GD.Print(
                     $"CANNONBALL_SMOKE_OK chunks={_streamer.LoadedChunkCount} " +
                     $"distance_m={_streamer.RouteDistanceMeters:0.0} " +
                     $"peak_mph={_peakSpeedMetersPerSecond * 2.236936f:0.0} " +
-                    $"rebases={_streamer.RebaseCount}");
+                    $"rebases={_streamer.RebaseCount} " +
+                    $"max_chunk_build_ms={_streamer.MaximumBuildMilliseconds:0.000} " +
+                    $"content_source=packaged");
                 GetTree().Quit();
             }
         }
@@ -140,11 +272,12 @@ public sealed partial class Main : Node3D
     private RunSave CaptureSave()
     {
         var routeDistance = _streamer.RouteDistanceMeters;
+        var edge = _package.Graph.GetEdge(_streamer.CurrentEdgeId);
         var position = new RoutePosition(
-            "graybox-25mi",
+            edge.Id,
             routeDistance,
-            1,
-            _vehicle.GlobalPosition.X - RoadMath.CenterX(routeDistance),
+            Math.Min(1, edge.LaneCount - 1),
+            _streamer.CurrentLateralOffsetMeters,
             0);
         var runState = new RunState(
             Seed: 20_260_714,
@@ -167,8 +300,8 @@ public sealed partial class Main : Node3D
             _vehicle.AngularVelocity.Z);
         return new RunSave(
             RunSave.CurrentSchemaVersion,
-            ContentVersion,
-            RunSave.ComputeContentChecksum(ContentVersion),
+            _package.Graph.ContentVersion,
+            RunSave.ComputeContentChecksum(_package.Graph.ContentVersion),
             DateTimeOffset.UtcNow,
             runState,
             localVehicle,
@@ -184,13 +317,16 @@ public sealed partial class Main : Node3D
             ["loadedChunks"] = _streamer.LoadedChunkCount,
             ["lookAheadMeters"] = _streamer.CurrentLookAheadMeters,
             ["distanceDeltaMeters"] = distance - _previousDistance,
+            ["contentSource"] = "packaged",
+            ["chunkFailures"] = _streamer.ChunkFailureCount,
+            ["maximumChunkBuildMilliseconds"] = _streamer.MaximumBuildMilliseconds,
         };
         _previousDistance = distance;
         await _telemetry.WriteAsync(new TelemetryEvent(
             name,
             DateTimeOffset.UtcNow,
             20_260_714,
-            "graybox-25mi",
+            _streamer.CurrentEdgeId,
             distance,
             properties));
     }
@@ -206,11 +342,77 @@ public sealed partial class Main : Node3D
         {
             throw new InvalidOperationException("Stress driver did not cross a local-origin rebase.");
         }
-        if (_streamer.LoadedChunkCount is < 5 or > 8)
+        if (_streamer.ChunkFailureCount > 0)
+        {
+            throw new InvalidOperationException("Stress driver encountered a route chunk failure.");
+        }
+    }
+
+    private void ValidateShortCorridorSoak()
+    {
+        if (_peakSpeedMetersPerSecond < 70)
         {
             throw new InvalidOperationException(
-                $"Streaming window escaped its bound: {_streamer.LoadedChunkCount} chunks.");
+                $"Short-corridor soak only reached {_peakSpeedMetersPerSecond * 2.236936f:0.0} mph.");
         }
+        if (_streamer.ChunkFailureCount > 0)
+        {
+            throw new InvalidOperationException("Short-corridor soak encountered a route chunk failure.");
+        }
+        GD.Print(
+            $"CANNONBALL_SHORT_CORRIDOR_SOAK_OK chunks={_streamer.LoadedChunkCount} " +
+            $"peak_mph={_peakSpeedMetersPerSecond * 2.236936f:0.0} chunk_failures=0");
+    }
+
+    private static string RequiredArgument(IReadOnlyList<string> arguments, string name)
+    {
+        var prefix = name + "=";
+        var inline = arguments.FirstOrDefault(value => value.StartsWith(prefix, StringComparison.Ordinal));
+        if (inline is not null && inline.Length > prefix.Length)
+        {
+            return inline[prefix.Length..];
+        }
+        var index = ArgumentIndex(arguments, name);
+        if (index >= 0 && index + 1 < arguments.Count)
+        {
+            return arguments[index + 1];
+        }
+        throw new ArgumentException($"Missing required game argument '{name}=<path>'.");
+    }
+
+    private static double OptionalPositiveDouble(IReadOnlyList<string> arguments, string name)
+    {
+        var prefix = name + "=";
+        var raw = arguments.FirstOrDefault(value => value.StartsWith(prefix, StringComparison.Ordinal));
+        raw = raw is null ? null : raw[prefix.Length..];
+        if (raw is null)
+        {
+            var index = ArgumentIndex(arguments, name);
+            raw = index >= 0 && index + 1 < arguments.Count ? arguments[index + 1] : null;
+        }
+        if (raw is null)
+        {
+            return 0;
+        }
+        if (!double.TryParse(raw, System.Globalization.NumberStyles.Float,
+                System.Globalization.CultureInfo.InvariantCulture, out var value) ||
+            !double.IsFinite(value) || value <= 0)
+        {
+            throw new ArgumentException($"Game argument '{name}' must be a positive finite number.");
+        }
+        return value;
+    }
+
+    private static int ArgumentIndex(IReadOnlyList<string> arguments, string value)
+    {
+        for (var index = 0; index < arguments.Count; index++)
+        {
+            if (string.Equals(arguments[index], value, StringComparison.Ordinal))
+            {
+                return index;
+            }
+        }
+        return -1;
     }
 
     private void BuildLighting()
@@ -269,4 +471,10 @@ public sealed partial class Main : Node3D
         }
         InputMap.ActionAddEvent(action, new InputEventJoypadMotion { Axis = axis, AxisValue = axisValue });
     }
+
+    private sealed record TransportProbeResult(
+        double RequestedMiles,
+        double UniqueRouteMiles,
+        int Repetitions,
+        int VerifiedChunkReads);
 }

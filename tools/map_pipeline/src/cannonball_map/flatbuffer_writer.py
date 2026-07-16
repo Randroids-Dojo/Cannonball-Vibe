@@ -14,7 +14,12 @@ from Cannonball.Content.SourceProvenanceData import SourceProvenanceDataT
 from Cannonball.Content.SpatialReferenceData import SpatialReferenceDataT
 
 
-def write_flatbuffer(package: dict[str, object], output_path: Path) -> None:
+def write_flatbuffer(
+    package: dict[str, object],
+    output_path: Path,
+    *,
+    include_samples: bool = True,
+) -> None:
     chunks = [
         ChunkManifestDataT(
             id=chunk["chunk_id"],
@@ -22,8 +27,9 @@ def write_flatbuffer(package: dict[str, object], output_path: Path) -> None:
             startMeters=chunk["start_meters"],
             endMeters=chunk["end_meters"],
             contentHash=chunk["content_hash"],
-            relativePath=f"chunks/{chunk['chunk_id']}.chunk",
+            relativePath=chunk.get("relative_path", f"chunks/{chunk['chunk_id']}.chunk"),
             probableBranchChunkIds=[],
+            byteCount=chunk.get("byte_count", 0),
         )
         for chunk in package["chunks"]
     ]
@@ -50,7 +56,9 @@ def write_flatbuffer(package: dict[str, object], output_path: Path) -> None:
                     grade=sample["grade"],
                 )
                 for sample in edge["samples"]
-            ],
+            ]
+            if include_samples
+            else [],
         )
         for edge in package["edges"]
     ]

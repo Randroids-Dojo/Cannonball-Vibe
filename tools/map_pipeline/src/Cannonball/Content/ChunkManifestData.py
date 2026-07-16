@@ -90,8 +90,15 @@ class ChunkManifestData(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(16))
         return o == 0
 
+    # ChunkManifestData
+    def ByteCount(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(18))
+        if o != 0:
+            return self._tab.Get(flatbuffers.number_types.Uint64Flags, o + self._tab.Pos)
+        return 0
+
 def ChunkManifestDataStart(builder):
-    builder.StartObject(7)
+    builder.StartObject(8)
 
 def Start(builder):
     ChunkManifestDataStart(builder)
@@ -144,6 +151,12 @@ def ChunkManifestDataStartProbableBranchChunkIdsVector(builder, numElems):
 def StartProbableBranchChunkIdsVector(builder, numElems):
     return ChunkManifestDataStartProbableBranchChunkIdsVector(builder, numElems)
 
+def ChunkManifestDataAddByteCount(builder, byteCount):
+    builder.PrependUint64Slot(7, byteCount, 0)
+
+def AddByteCount(builder, byteCount):
+    ChunkManifestDataAddByteCount(builder, byteCount)
+
 def ChunkManifestDataEnd(builder):
     return builder.EndObject()
 
@@ -167,6 +180,7 @@ class ChunkManifestDataT(object):
         contentHash = None,
         relativePath = None,
         probableBranchChunkIds = None,
+        byteCount = 0,
     ):
         self.id = id  # type: Optional[str]
         self.edgeId = edgeId  # type: Optional[str]
@@ -175,6 +189,7 @@ class ChunkManifestDataT(object):
         self.contentHash = contentHash  # type: Optional[str]
         self.relativePath = relativePath  # type: Optional[str]
         self.probableBranchChunkIds = probableBranchChunkIds  # type: Optional[List[Optional[str]]]
+        self.byteCount = byteCount  # type: int
 
     @classmethod
     def InitFromBuf(cls, buf, pos):
@@ -207,6 +222,7 @@ class ChunkManifestDataT(object):
             self.probableBranchChunkIds = []
             for i in range(chunkManifestData.ProbableBranchChunkIdsLength()):
                 self.probableBranchChunkIds.append(chunkManifestData.ProbableBranchChunkIds(i))
+        self.byteCount = chunkManifestData.ByteCount()
 
     # ChunkManifestDataT
     def Pack(self, builder):
@@ -239,5 +255,6 @@ class ChunkManifestDataT(object):
             ChunkManifestDataAddRelativePath(builder, relativePath)
         if self.probableBranchChunkIds is not None:
             ChunkManifestDataAddProbableBranchChunkIds(builder, probableBranchChunkIds)
+        ChunkManifestDataAddByteCount(builder, self.byteCount)
         chunkManifestData = ChunkManifestDataEnd(builder)
         return chunkManifestData
