@@ -73,12 +73,13 @@ fi
 # sole ERROR record; any additional error or fatal signature remains a failure.
 known_budget_exit=false
 if (( runtime_exit == 1 )); then
-  error_count="$(grep -Ec '^ERROR:' "$runtime_log" || true)"
-  if [[ "$error_count" == "1" ]] && \
+  failure_signature_count="$(grep -Eic \
+    '^(ERROR:|SCRIPT ERROR:|FATAL:|PANIC:)|unhandled exception|uncaught exception|segmentation fault|core dumped|libc\+\+abi|BUG:|assertion failed|(^|[[:space:]])abort(ed)?([:[:space:]]|$)' \
+    "$runtime_log" || true)"
+  if [[ "$failure_signature_count" == "1" ]] && \
     grep -Eq "^ERROR: System\.InvalidOperationException: Route chunk '[^']+' took [0-9]+\.[0-9]{3} ms to build; budget is 40\.000 ms\.$" "$runtime_log" && \
     grep -Fq 'at Cannonball.Game.World.WorldStreamer.AttachChunk' "$runtime_log" && \
-    grep -Fq 'at Cannonball.Game.Main._Ready()' "$runtime_log" && \
-    ! grep -Eiq 'fatal|segmentation fault|core dumped|uncaught exception|libc\+\+abi|BUG:' "$runtime_log"; then
+    grep -Fq 'at Cannonball.Game.Main._Ready()' "$runtime_log"; then
     known_budget_exit=true
   fi
 fi
