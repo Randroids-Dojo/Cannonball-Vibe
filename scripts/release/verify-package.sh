@@ -9,10 +9,12 @@ if [[ -z "$package_root" || ! -d "$package_root" ]]; then
 fi
 package_root="$(cd "$package_root" && pwd)"
 smoke="${2:-}"
+node_package_root="$package_root"
+if command -v cygpath >/dev/null 2>&1; then node_package_root="$(cygpath -w "$package_root")"; fi
 
 (cd "$package_root" && sha256sum --check metadata/SHA256SUMS)
 
-node - "$package_root" <<'NODE'
+node - "$node_package_root" <<'NODE'
 const fs = require("node:fs");
 const path = require("node:path");
 const crypto = require("node:crypto");
@@ -72,7 +74,13 @@ pck_inspector="$repo_root/scripts/release/pck-inspect.mjs"
 if [[ -f "$package_root/verification/pck-inspect.mjs" ]]; then
   pck_inspector="$package_root/verification/pck-inspect.mjs"
 fi
-node "$pck_inspector" "$pck_file"
+node_pck_inspector="$pck_inspector"
+node_pck_file="$pck_file"
+if command -v cygpath >/dev/null 2>&1; then
+  node_pck_inspector="$(cygpath -w "$pck_inspector")"
+  node_pck_file="$(cygpath -w "$pck_file")"
+fi
+node "$node_pck_inspector" "$node_pck_file"
 
 data_directory="$(find "$package_root" -maxdepth 1 -type d -name 'data_Cannonball*' -print -quit)"
 if [[ -z "$data_directory" ]]; then
@@ -92,8 +100,8 @@ if [[ -z "$(find "$data_directory" -type f \( -name 'hostfxr.dll' -o -name 'libh
 fi
 
 if [[ "$smoke" == "--smoke" ]]; then
-  binary_relative="$(node -p 'require(process.argv[1]).artifact.binary' "$package_root/metadata/manifest.json")"
-  launcher_relative="$(node -p 'require(process.argv[1]).artifact.launcher' "$package_root/metadata/manifest.json")"
+  binary_relative="$(node -p 'require(process.argv[1]).artifact.binary' "$node_package_root/metadata/manifest.json")"
+  launcher_relative="$(node -p 'require(process.argv[1]).artifact.launcher' "$node_package_root/metadata/manifest.json")"
   if [[ "$(uname -s)" != MINGW* && "$(uname -s)" != MSYS* ]] && \
     { [[ ! -x "$package_root/$binary_relative" ]] || [[ ! -x "$package_root/$launcher_relative" ]]; }; then
     echo "Linux package entrypoints are not executable as distributed." >&2
@@ -105,7 +113,8 @@ if [[ "$smoke" == "--smoke" ]]; then
   fi
   smoke_log="$(mktemp "${TMPDIR:-/tmp}/cannonball-release-smoke.XXXXXX")"
   trap 'rm -f "$smoke_log"' EXIT
-  node "$smoke_script" "$package_root" "$smoke_log"
+  if command -v cygpath >/dev/null 2>&1; then smoke_script="$(cygpath -w "$smoke_script")"; smoke_log="$(cygpath -w "$smoke_log")"; fi
+  node "$smoke_script" "$node_package_root" "$smoke_log"
 fi
 
 echo "CANNONBALL_PACKAGE_OK root=$package_root smoke=$([[ "$smoke" == "--smoke" ]] && echo true || echo false)"

@@ -33,17 +33,19 @@ const child = spawn(launcher, ["--smoke-test", "--playgodot"], {
   },
 });
 
-let transcript = "";
-for (const stream of [child.stdout, child.stderr]) {
-  stream.setEncoding("utf8");
-  stream.on("data", (chunk) => { transcript += chunk; process.stdout.write(chunk); });
-}
+let stdout = "";
+let stderr = "";
+child.stdout.setEncoding("utf8");
+child.stderr.setEncoding("utf8");
+child.stdout.on("data", (chunk) => { stdout += chunk; process.stdout.write(chunk); });
+child.stderr.on("data", (chunk) => { stderr += chunk; process.stderr.write(chunk); });
 const timeout = setTimeout(() => {
   if (process.platform === "win32") spawn("taskkill", ["/pid", String(child.pid), "/t", "/f"]);
   else process.kill(-child.pid, "SIGKILL");
 }, 120_000);
 const [code, signal] = await new Promise((done) => child.on("close", (...result) => done(result)));
 clearTimeout(timeout);
+const transcript = `${stdout}\n${stderr}`;
 writeFileSync(transcriptPath, transcript);
 
 const required = [
@@ -52,7 +54,8 @@ const required = [
   "CANNONBALL_SAVE_OK",
   "CANNONBALL_SMOKE_OK",
 ];
-const missing = required.filter((marker) => !transcript.includes(marker));
+const normalizedTranscript = transcript.replace(/\x1B\[[0-?]*[ -/]*[@-~]/g, "").replace(/\r/g, "");
+const missing = required.filter((marker) => !normalizedTranscript.includes(marker));
 const forbidden = ["PLAYGODOT_", hostileToken, "SCRIPT ERROR", "ERROR:", "FATAL", "Unhandled exception"].filter((marker) => transcript.includes(marker));
 const transcriptCreated = existsSync(forbiddenTranscript);
 rmSync(runtimeHome, { recursive: true, force: true });
