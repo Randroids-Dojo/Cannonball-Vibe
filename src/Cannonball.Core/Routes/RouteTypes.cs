@@ -47,7 +47,14 @@ public sealed record RouteEdge(
     IReadOnlyList<float> GradeSamples,
     string RegionId,
     string GenerationProfile,
-    IReadOnlyList<string> ChunkIds);
+    IReadOnlyList<string> ChunkIds)
+{
+    public IReadOnlyList<double> SampleDistancesMeters { get; init; } = [];
+
+    public IReadOnlyList<float> LateralSamples { get; init; } = [];
+
+    public IReadOnlyList<float> ElevationSamples { get; init; } = [];
+}
 
 public readonly record struct RouteBounds(
     double MinimumLongitude,

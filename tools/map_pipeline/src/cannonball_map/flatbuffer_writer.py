@@ -10,6 +10,8 @@ from Cannonball.Content.RouteGraphBuffer import RouteGraphBufferT
 from Cannonball.Content.RouteNodeData import RouteNodeDataT
 from Cannonball.Content.RouteSample import RouteSampleT
 from Cannonball.Content.SourceCoordinate import SourceCoordinateT
+from Cannonball.Content.SourceProvenanceData import SourceProvenanceDataT
+from Cannonball.Content.SpatialReferenceData import SpatialReferenceDataT
 
 
 def write_flatbuffer(package: dict[str, object], output_path: Path) -> None:
@@ -61,12 +63,36 @@ def write_flatbuffer(package: dict[str, object], output_path: Path) -> None:
         )
         for node in package["nodes"]
     ]
+    source = package["source"]
+    spatial = package.get("spatial_reference")
     graph = RouteGraphBufferT(
         schemaVersion=package["schema_version"],
         contentVersion=package["content_version"],
         nodes=nodes,
         edges=edges,
         chunks=chunks,
+        provenance=SourceProvenanceDataT(
+            sourceId=source["source_id"],
+            publisher=source["publisher"],
+            sourceUrl=source["source_url"],
+            artifactSha256=source["sha256"],
+            acquisitionLockSha256=source.get("acquisition_lock_sha256", ""),
+        ),
+        spatialReference=(
+            SpatialReferenceDataT(
+                routeCrs=spatial["route_crs"],
+                elevationCrs=spatial["elevation_crs"],
+                horizontalDatum=spatial["horizontal_datum"],
+                verticalDatum=spatial["vertical_datum"],
+                elevationUnits=spatial["elevation_units"],
+                elevationProductId=spatial["elevation_product_id"],
+                elevationProductTitle=spatial["elevation_product_title"],
+                elevationProductResolution=spatial["elevation_product_resolution"],
+                elevationArtifactSha256=spatial["elevation_artifact_sha256"],
+            )
+            if spatial
+            else None
+        ),
     )
     builder = flatbuffers.Builder(1024 * 1024)
     root = graph.Pack(builder)

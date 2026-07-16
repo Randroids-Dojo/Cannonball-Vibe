@@ -1,0 +1,104 @@
+{
+  "crs": {
+    "properties": {
+      "name": "EPSG:4326"
+    },
+    "type": "name"
+  },
+  "features": [
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            -105.258386000014,
+            40.0003080000142
+          ],
+          [
+            -105.258226999876,
+            40.0000630004072
+          ],
+          [
+            -105.258011999854,
+            39.9998990000389
+          ],
+          [
+            -105.257368999879,
+            39.9995069999482
+          ],
+          [
+            -105.256773000274,
+            39.9991240002724
+          ],
+          [
+            -105.256706999928,
+            39.9990899996038
+          ],
+          [
+            -105.255717000139,
+            39.9985780002746
+          ],
+          [
+            -105.255595999955,
+            39.9985079997444
+          ],
+          [
+            -105.255212000234,
+            39.9982850002526
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": 62346,
+      "properties": {
+        "BEGIN_POIN": 37.53,
+        "BEGMP": 21.6,
+        "CONN_DES": " ",
+        "CONN_ID": " ",
+        "CONN_MILES": 0,
+        "CTFIPS": 13,
+        "ENDMP": 23.055,
+        "END_POINT": 37.749,
+        "FACILITY_T": 2,
+        "FAC_ID": " ",
+        "FCLASS": 2,
+        "F_SYSTEM": 2,
+        "KM": 0.353,
+        "LGURB": 238,
+        "LNAME": "MOORHEAD AV",
+        "LRSKEY": "000000036B00013",
+        "LRSSEQ": 9,
+        "MILES": 0.219,
+        "NHS": 7,
+        "OBJECTID": 62346,
+        "ORIGID": 8002934,
+        "RECID": 8002934,
+        "RECTYPE": "L",
+        "ROUTE_ID": "036B",
+        "RUCODE": 3,
+        "SIGN1": "U36",
+        "SIGN2": " ",
+        "SIGN3": " ",
+        "SIGNN1": "36",
+        "SIGNN2": " ",
+        "SIGNN3": " ",
+        "SIGNQ1": " ",
+        "SIGNQ2": " ",
+        "SIGNQ3": " ",
+        "SIGNT1": "U",
+        "SIGNT2": " ",
+        "SIGNT3": " ",
+        "SMURB": 9298,
+        "SOURCE": "H",
+        "STATUS": 1,
+        "STFIPS": "08",
+        "STRAHNET": 0,
+        "Shape__Length": 0.003796649154126663,
+        "URBAN_CODE": 9298,
+        "VERSION": "2014.05",
+        "YEAR_RECOR": 2010
+      },
+      "type": "Feature"
+    }
+  ],
+  "type": "FeatureCollection"
+}

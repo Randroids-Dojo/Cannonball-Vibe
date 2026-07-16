@@ -117,8 +117,30 @@ class RouteGraphBuffer(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
         return o == 0
 
+    # RouteGraphBuffer
+    def Provenance(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(14))
+        if o != 0:
+            x = self._tab.Indirect(o + self._tab.Pos)
+            from Cannonball.Content.SourceProvenanceData import SourceProvenanceData
+            obj = SourceProvenanceData()
+            obj.Init(self._tab.Bytes, x)
+            return obj
+        return None
+
+    # RouteGraphBuffer
+    def SpatialReference(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(16))
+        if o != 0:
+            x = self._tab.Indirect(o + self._tab.Pos)
+            from Cannonball.Content.SpatialReferenceData import SpatialReferenceData
+            obj = SpatialReferenceData()
+            obj.Init(self._tab.Bytes, x)
+            return obj
+        return None
+
 def RouteGraphBufferStart(builder):
-    builder.StartObject(5)
+    builder.StartObject(7)
 
 def Start(builder):
     RouteGraphBufferStart(builder)
@@ -171,6 +193,18 @@ def RouteGraphBufferStartChunksVector(builder, numElems):
 def StartChunksVector(builder, numElems):
     return RouteGraphBufferStartChunksVector(builder, numElems)
 
+def RouteGraphBufferAddProvenance(builder, provenance):
+    builder.PrependUOffsetTRelativeSlot(5, flatbuffers.number_types.UOffsetTFlags.py_type(provenance), 0)
+
+def AddProvenance(builder, provenance):
+    RouteGraphBufferAddProvenance(builder, provenance)
+
+def RouteGraphBufferAddSpatialReference(builder, spatialReference):
+    builder.PrependUOffsetTRelativeSlot(6, flatbuffers.number_types.UOffsetTFlags.py_type(spatialReference), 0)
+
+def AddSpatialReference(builder, spatialReference):
+    RouteGraphBufferAddSpatialReference(builder, spatialReference)
+
 def RouteGraphBufferEnd(builder):
     return builder.EndObject()
 
@@ -180,8 +214,10 @@ def End(builder):
 import Cannonball.Content.ChunkManifestData
 import Cannonball.Content.RouteEdgeData
 import Cannonball.Content.RouteNodeData
+import Cannonball.Content.SourceProvenanceData
+import Cannonball.Content.SpatialReferenceData
 try:
-    from typing import List
+    from typing import List, Optional
 except:
     pass
 
@@ -195,12 +231,16 @@ class RouteGraphBufferT(object):
         nodes = None,
         edges = None,
         chunks = None,
+        provenance = None,
+        spatialReference = None,
     ):
         self.schemaVersion = schemaVersion  # type: int
         self.contentVersion = contentVersion  # type: Optional[str]
         self.nodes = nodes  # type: Optional[List[Cannonball.Content.RouteNodeData.RouteNodeDataT]]
         self.edges = edges  # type: Optional[List[Cannonball.Content.RouteEdgeData.RouteEdgeDataT]]
         self.chunks = chunks  # type: Optional[List[Cannonball.Content.ChunkManifestData.ChunkManifestDataT]]
+        self.provenance = provenance  # type: Optional[Cannonball.Content.SourceProvenanceData.SourceProvenanceDataT]
+        self.spatialReference = spatialReference  # type: Optional[Cannonball.Content.SpatialReferenceData.SpatialReferenceDataT]
 
     @classmethod
     def InitFromBuf(cls, buf, pos):
@@ -249,6 +289,10 @@ class RouteGraphBufferT(object):
                 else:
                     chunkManifestData_ = Cannonball.Content.ChunkManifestData.ChunkManifestDataT.InitFromObj(routeGraphBuffer.Chunks(i))
                     self.chunks.append(chunkManifestData_)
+        if routeGraphBuffer.Provenance() is not None:
+            self.provenance = Cannonball.Content.SourceProvenanceData.SourceProvenanceDataT.InitFromObj(routeGraphBuffer.Provenance())
+        if routeGraphBuffer.SpatialReference() is not None:
+            self.spatialReference = Cannonball.Content.SpatialReferenceData.SpatialReferenceDataT.InitFromObj(routeGraphBuffer.SpatialReference())
 
     # RouteGraphBufferT
     def Pack(self, builder):
@@ -278,6 +322,10 @@ class RouteGraphBufferT(object):
             for i in reversed(range(len(self.chunks))):
                 builder.PrependUOffsetTRelative(chunkslist[i])
             chunks = builder.EndVector()
+        if self.provenance is not None:
+            provenance = self.provenance.Pack(builder)
+        if self.spatialReference is not None:
+            spatialReference = self.spatialReference.Pack(builder)
         RouteGraphBufferStart(builder)
         RouteGraphBufferAddSchemaVersion(builder, self.schemaVersion)
         if self.contentVersion is not None:
@@ -288,5 +336,9 @@ class RouteGraphBufferT(object):
             RouteGraphBufferAddEdges(builder, edges)
         if self.chunks is not None:
             RouteGraphBufferAddChunks(builder, chunks)
+        if self.provenance is not None:
+            RouteGraphBufferAddProvenance(builder, provenance)
+        if self.spatialReference is not None:
+            RouteGraphBufferAddSpatialReference(builder, spatialReference)
         routeGraphBuffer = RouteGraphBufferEnd(builder)
         return routeGraphBuffer

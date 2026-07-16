@@ -13,10 +13,10 @@ Every source file needs a sidecar manifest:
 {
   "source_id": "usdot-national-highway-planning-network",
   "publisher": "U.S. Department of Transportation",
-  "source_url": "https://example.gov/exact-download",
-  "acquired_on": "2026-07-14",
+  "source_url": "https://services.arcgis.com/.../FeatureServer/0/query?objectIds=...",
+  "acquired_on": "2026-07-16",
   "license_status": "public_domain",
-  "license_evidence_url": "https://doi.org/10.21949/1522161",
+  "license_evidence_url": "https://services.arcgis.com/.../FeatureServer/0",
   "sha256": "64-lowercase-hex-characters",
   "derived_from": []
 }
@@ -25,12 +25,46 @@ Every source file needs a sidecar manifest:
 Build with:
 
 ```bash
-uv sync --locked
-uv run cannonball-map validate-source --source route.gpkg --manifest route.manifest.json
-uv run cannonball-map build --source route.gpkg --manifest route.manifest.json --output ../../data/processed
+uv sync --project tools/map_pipeline --locked
+uv run --project tools/map_pipeline cannonball-map validate-lock data/sources/source-lock.json
+uv run --project tools/map_pipeline cannonball-map validate-source \
+  --source route.gpkg --manifest route.manifest.json
+uv run --project tools/map_pipeline cannonball-map build \
+  --source route.gpkg --manifest route.manifest.json --output data/processed
 ```
 
-The pipeline fails closed on unknown licenses, OpenStreetMap ancestry, malformed
+`source-lock.json` pins the NHPN service/layer, sorted OBJECTID snapshot and
+count, the exact 3DEP product edition, remote artifact hashes, CRS and datums,
+and every checked-in corridor artifact. `validate-lock` is deliberately offline:
+it performs no ArcGIS or TNM discovery and rejects local hash drift. Locked
+remote rebuilds accept an exact URL plus SHA-256 only.
+
+Rebuild any raw or derived locked artifact without discovery:
+
+```bash
+uv run --project tools/map_pipeline cannonball-map materialize-lock \
+  data/sources/source-lock.json --role official-corridor-geojson \
+  --output /tmp/nhpn-corridor.geojson
+```
+
+Raw downloads are verified before use. Derived JSON and raster windows are
+rebuilt recursively from their locked ancestors and deterministic recipes, then
+verified against their own SHA-256 values.
+
+NHPN acquisition snapshots and sorts IDs before fetching pages of at most 2,000
+features. Page checkpoints are request- and response-hashed, so an interrupted
+run can resume without trusting partial output. Retryable transport and service
+errors are bounded; counts, IDs, page membership, duplicates, and final feature
+counts must reconcile.
+
+When `build` receives `--elevation`, `--elevation-metadata`, and
+`--acquisition-lock`, route samples are transformed into the locked raster CRS,
+sampled from 3DEP, and assigned signed grade. The schema-2 FlatBuffer preserves
+the route and elevation CRS, horizontal and vertical datums, product identity,
+artifact hashes, elevations, and grades for the portable C# runtime.
+
+The pipeline fails closed on sources not in the catalog, catalog identity or URL
+drift, unknown licenses, OpenStreetMap ancestry, malformed
 dates, missing hashes, changed files, disconnected selected geometry, and exact
 duplicate edge IDs. It preserves parallel directed edges in a multigraph.
 

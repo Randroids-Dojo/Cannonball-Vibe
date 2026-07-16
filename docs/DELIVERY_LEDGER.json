@@ -109,13 +109,21 @@
       "milestone": "M2",
       "priority": "P0",
       "title": "Locked public-domain source acquisition and elevation",
-      "status": "open",
+      "status": "in_progress",
       "dependencies": [
         "P0-002"
       ],
       "owned_paths": [
         "data/sources/",
-        "tools/map_pipeline/"
+        "tools/map_pipeline/",
+        "schemas/route_graph.fbs",
+        "src/Cannonball.Core/Content/",
+        "src/Cannonball.Core/Routes/RouteTypes.cs",
+        "tests/Cannonball.Core.Tests/FlatBufferRouteContentTests.cs",
+        "docs/OPEN_QUESTIONS.md",
+        "docs/QUESTIONS_FOR_RANDROID.md",
+        "docs/audits/2026-07-16-p0-003-locked-sources.md",
+        "evidence/M2/P0-003.json"
       ],
       "acceptance": [
         "Manifest source IDs, publishers, URLs, and licenses are enforced against the catalog",

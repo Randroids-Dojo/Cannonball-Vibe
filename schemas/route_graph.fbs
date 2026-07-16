@@ -44,12 +44,34 @@ table ChunkManifestData {
   probable_branch_chunk_ids:[string];
 }
 
+table SourceProvenanceData {
+  source_id:string;
+  publisher:string;
+  source_url:string;
+  artifact_sha256:string;
+  acquisition_lock_sha256:string;
+}
+
+table SpatialReferenceData {
+  route_crs:string;
+  elevation_crs:string;
+  horizontal_datum:string;
+  vertical_datum:string;
+  elevation_units:string;
+  elevation_product_id:string;
+  elevation_product_title:string;
+  elevation_product_resolution:string;
+  elevation_artifact_sha256:string;
+}
+
 table RouteGraphBuffer {
   schema_version:uint;
   content_version:string;
   nodes:[RouteNodeData];
   edges:[RouteEdgeData];
   chunks:[ChunkManifestData];
+  provenance:SourceProvenanceData;
+  spatial_reference:SpatialReferenceData;
 }
 
 root_type RouteGraphBuffer;

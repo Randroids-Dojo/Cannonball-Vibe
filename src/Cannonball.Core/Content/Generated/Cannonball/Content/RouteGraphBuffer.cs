@@ -38,14 +38,20 @@ public struct RouteGraphBuffer : IFlatbufferObject
   public Cannonball.Content.ChunkManifestData? Chunks(int j) { int o = __p.__offset(12); return o != 0 ? (Cannonball.Content.ChunkManifestData?)(new Cannonball.Content.ChunkManifestData()).__assign(__p.__indirect(__p.__vector(o) + j * 4), __p.bb) : null; }
   public int ChunksLength { get { int o = __p.__offset(12); return o != 0 ? __p.__vector_len(o) : 0; } }
   public Cannonball.Content.ChunkManifestData? ChunksByKey(string key) { int o = __p.__offset(12); return o != 0 ? Cannonball.Content.ChunkManifestData.__lookup_by_key(__p.__vector(o), key, __p.bb) : null; }
+  public Cannonball.Content.SourceProvenanceData? Provenance { get { int o = __p.__offset(14); return o != 0 ? (Cannonball.Content.SourceProvenanceData?)(new Cannonball.Content.SourceProvenanceData()).__assign(__p.__indirect(o + __p.bb_pos), __p.bb) : null; } }
+  public Cannonball.Content.SpatialReferenceData? SpatialReference { get { int o = __p.__offset(16); return o != 0 ? (Cannonball.Content.SpatialReferenceData?)(new Cannonball.Content.SpatialReferenceData()).__assign(__p.__indirect(o + __p.bb_pos), __p.bb) : null; } }
 
   public static Offset<Cannonball.Content.RouteGraphBuffer> CreateRouteGraphBuffer(FlatBufferBuilder builder,
       uint schema_version = 0,
       StringOffset content_versionOffset = default(StringOffset),
       VectorOffset nodesOffset = default(VectorOffset),
       VectorOffset edgesOffset = default(VectorOffset),
-      VectorOffset chunksOffset = default(VectorOffset)) {
-    builder.StartTable(5);
+      VectorOffset chunksOffset = default(VectorOffset),
+      Offset<Cannonball.Content.SourceProvenanceData> provenanceOffset = default(Offset<Cannonball.Content.SourceProvenanceData>),
+      Offset<Cannonball.Content.SpatialReferenceData> spatial_referenceOffset = default(Offset<Cannonball.Content.SpatialReferenceData>)) {
+    builder.StartTable(7);
+    RouteGraphBuffer.AddSpatialReference(builder, spatial_referenceOffset);
+    RouteGraphBuffer.AddProvenance(builder, provenanceOffset);
     RouteGraphBuffer.AddChunks(builder, chunksOffset);
     RouteGraphBuffer.AddEdges(builder, edgesOffset);
     RouteGraphBuffer.AddNodes(builder, nodesOffset);
@@ -54,7 +60,7 @@ public struct RouteGraphBuffer : IFlatbufferObject
     return RouteGraphBuffer.EndRouteGraphBuffer(builder);
   }
 
-  public static void StartRouteGraphBuffer(FlatBufferBuilder builder) { builder.StartTable(5); }
+  public static void StartRouteGraphBuffer(FlatBufferBuilder builder) { builder.StartTable(7); }
   public static void AddSchemaVersion(FlatBufferBuilder builder, uint schemaVersion) { builder.AddUint(0, schemaVersion, 0); }
   public static void AddContentVersion(FlatBufferBuilder builder, StringOffset contentVersionOffset) { builder.AddOffset(1, contentVersionOffset.Value, 0); }
   public static void AddNodes(FlatBufferBuilder builder, VectorOffset nodesOffset) { builder.AddOffset(2, nodesOffset.Value, 0); }
@@ -75,6 +81,8 @@ public struct RouteGraphBuffer : IFlatbufferObject
   public static VectorOffset CreateChunksVectorBlock(FlatBufferBuilder builder, ArraySegment<Offset<Cannonball.Content.ChunkManifestData>> data) { builder.StartVector(4, data.Count, 4); builder.Add(data); return builder.EndVector(); }
   public static VectorOffset CreateChunksVectorBlock(FlatBufferBuilder builder, IntPtr dataPtr, int sizeInBytes) { builder.StartVector(1, sizeInBytes, 1); builder.Add<Offset<Cannonball.Content.ChunkManifestData>>(dataPtr, sizeInBytes); return builder.EndVector(); }
   public static void StartChunksVector(FlatBufferBuilder builder, int numElems) { builder.StartVector(4, numElems, 4); }
+  public static void AddProvenance(FlatBufferBuilder builder, Offset<Cannonball.Content.SourceProvenanceData> provenanceOffset) { builder.AddOffset(5, provenanceOffset.Value, 0); }
+  public static void AddSpatialReference(FlatBufferBuilder builder, Offset<Cannonball.Content.SpatialReferenceData> spatialReferenceOffset) { builder.AddOffset(6, spatialReferenceOffset.Value, 0); }
   public static Offset<Cannonball.Content.RouteGraphBuffer> EndRouteGraphBuffer(FlatBufferBuilder builder) {
     int o = builder.EndTable();
     return new Offset<Cannonball.Content.RouteGraphBuffer>(o);
@@ -95,6 +103,8 @@ public struct RouteGraphBuffer : IFlatbufferObject
     for (var _j = 0; _j < this.EdgesLength; ++_j) {_o.Edges.Add(this.Edges(_j).HasValue ? this.Edges(_j).Value.UnPack() : null);}
     _o.Chunks = new List<Cannonball.Content.ChunkManifestDataT>();
     for (var _j = 0; _j < this.ChunksLength; ++_j) {_o.Chunks.Add(this.Chunks(_j).HasValue ? this.Chunks(_j).Value.UnPack() : null);}
+    _o.Provenance = this.Provenance.HasValue ? this.Provenance.Value.UnPack() : null;
+    _o.SpatialReference = this.SpatialReference.HasValue ? this.SpatialReference.Value.UnPack() : null;
   }
   public static Offset<Cannonball.Content.RouteGraphBuffer> Pack(FlatBufferBuilder builder, RouteGraphBufferT _o) {
     if (_o == null) return default(Offset<Cannonball.Content.RouteGraphBuffer>);
@@ -117,13 +127,17 @@ public struct RouteGraphBuffer : IFlatbufferObject
       for (var _j = 0; _j < __chunks.Length; ++_j) { __chunks[_j] = Cannonball.Content.ChunkManifestData.Pack(builder, _o.Chunks[_j]); }
       _chunks = CreateChunksVector(builder, __chunks);
     }
+    var _provenance = _o.Provenance == null ? default(Offset<Cannonball.Content.SourceProvenanceData>) : Cannonball.Content.SourceProvenanceData.Pack(builder, _o.Provenance);
+    var _spatial_reference = _o.SpatialReference == null ? default(Offset<Cannonball.Content.SpatialReferenceData>) : Cannonball.Content.SpatialReferenceData.Pack(builder, _o.SpatialReference);
     return CreateRouteGraphBuffer(
       builder,
       _o.SchemaVersion,
       _content_version,
       _nodes,
       _edges,
-      _chunks);
+      _chunks,
+      _provenance,
+      _spatial_reference);
   }
 }
 
@@ -134,6 +148,8 @@ public class RouteGraphBufferT
   public List<Cannonball.Content.RouteNodeDataT> Nodes { get; set; }
   public List<Cannonball.Content.RouteEdgeDataT> Edges { get; set; }
   public List<Cannonball.Content.ChunkManifestDataT> Chunks { get; set; }
+  public Cannonball.Content.SourceProvenanceDataT Provenance { get; set; }
+  public Cannonball.Content.SpatialReferenceDataT SpatialReference { get; set; }
 
   public RouteGraphBufferT() {
     this.SchemaVersion = 0;
@@ -141,6 +157,8 @@ public class RouteGraphBufferT
     this.Nodes = null;
     this.Edges = null;
     this.Chunks = null;
+    this.Provenance = null;
+    this.SpatialReference = null;
   }
   public static RouteGraphBufferT DeserializeFromBinary(byte[] fbBuffer) {
     return RouteGraphBuffer.GetRootAsRouteGraphBuffer(new ByteBuffer(fbBuffer)).UnPack();
@@ -163,6 +181,8 @@ static public class RouteGraphBufferVerify
       && verifier.VerifyVectorOfTables(tablePos, 8 /*Nodes*/, Cannonball.Content.RouteNodeDataVerify.Verify, false)
       && verifier.VerifyVectorOfTables(tablePos, 10 /*Edges*/, Cannonball.Content.RouteEdgeDataVerify.Verify, false)
       && verifier.VerifyVectorOfTables(tablePos, 12 /*Chunks*/, Cannonball.Content.ChunkManifestDataVerify.Verify, false)
+      && verifier.VerifyTable(tablePos, 14 /*Provenance*/, Cannonball.Content.SourceProvenanceDataVerify.Verify, false)
+      && verifier.VerifyTable(tablePos, 16 /*SpatialReference*/, Cannonball.Content.SpatialReferenceDataVerify.Verify, false)
       && verifier.VerifyTableEnd(tablePos);
   }
 }
