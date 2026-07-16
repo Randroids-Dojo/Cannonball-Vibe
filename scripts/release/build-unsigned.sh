@@ -60,7 +60,7 @@ build_once() {
   fi
   cp "$source_root/packages.$runtime_id.lock.json" "$source_root/packages.lock.json"
   cp "$source_root/src/Cannonball.Core/packages.$runtime_id.lock.json" "$source_root/src/Cannonball.Core/packages.lock.json"
-  RuntimeIdentifiers="$runtime_id" dotnet restore "$source_root/Cannonball.csproj" --locked-mode --nologo -p:GodotTargetPlatform="$target_platform"
+  RuntimeIdentifiers="$runtime_id" dotnet restore "$source_root/Cannonball.csproj" --locked-mode --nologo -p:Configuration=Release -p:GodotTargetPlatform="$target_platform"
   RuntimeIdentifiers="$runtime_id" dotnet build "$source_root/Cannonball.csproj" -c Release --no-restore --nologo -p:GodotTargetPlatform="$target_platform"
   export_path="$stage/package/CannonballRun${platform/linux/.x86_64}"
   if [[ "$platform" == windows ]]; then export_path="$stage/package/CannonballRun.exe"; fi
