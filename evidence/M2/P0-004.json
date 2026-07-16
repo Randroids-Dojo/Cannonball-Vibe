@@ -3,8 +3,8 @@
   "task_id": "P0-004",
   "milestone": "M2",
   "status": "technical_verification_complete_human_gate_pending",
-  "verified_at": "2026-07-16T07:30:37Z",
-  "git_revision": "adbfe2035019cdebd54036e6fbe3bfc740020838",
+  "verified_at": "2026-07-16T07:43:27Z",
+  "git_revision": "44850a93824527bdfdd35bdabd74d2cddfb69150",
   "platform": {
     "local": "macOS",
     "remote": [
@@ -19,7 +19,8 @@
       "uv": "0.9.24",
       "pytest": "9.1.1",
       "ruff": "0.15.21",
-      "flatbuffers": "25.12.19",
+      "python_flatbuffers": "25.12.19",
+      "csharp_google_flatbuffers": "25.2.10",
       "geopandas": "1.1.4",
       "networkx": "3.6.1",
       "pyogrio": "0.13.0",
@@ -46,12 +47,24 @@
       "sha256": "a3f640c9f804909a9b171c1a169ce5704544fd5905bec73dcc8d7da64b67e2cd"
     },
     {
+      "path": "data/sources/catalog.json",
+      "sha256": "356a0fe4810a37bb5e5970bba3ae8295208908bc800e016c22e3b608bbb7c9eb"
+    },
+    {
       "path": "data/sources/fixtures/nhpn-boulder-us36.geojson",
       "sha256": "f1021915997f7cb94a00db58feed86f8f9e13e1ac264fc0dd8ba1605d052ae9b"
     },
     {
+      "path": "data/sources/fixtures/nhpn-boulder-us36.manifest.json",
+      "sha256": "54da0c7b64e476909f9e62008f09f94abc622631971b6549d030b67778fe429b"
+    },
+    {
       "path": "data/sources/fixtures/usgs-13-n40w106-boulder.tif",
       "sha256": "16af3387633b982f3363f34c638f8ca72646b04ec18aa2dcab1189f0352af507"
+    },
+    {
+      "path": "data/sources/fixtures/usgs-13-n40w106-boulder.metadata.json",
+      "sha256": "d626a7d24235884e089effcd38b4d173a26a5427cbec3ffedc063963e55e1cea"
     }
   ],
   "local_macos_package": {
@@ -99,7 +112,53 @@
       "ubuntu-latest",
       "windows-latest"
     ],
-    "durable_artifact_references": "pending current pull request M0 run"
+    "cross_platform_byte_diff_count": 0,
+    "artifact_names": [
+      "m0-Linux-1",
+      "m0-Windows-1"
+    ],
+    "files": [
+      {
+        "path": ".tools/scenarios/official-corridor/current-package.json",
+        "bytes": 298,
+        "sha256": "cd9604d98c14eb3ff68e21d8dfe23611c881b6a0aaea18d5f004cb036ec6a423"
+      },
+      {
+        "path": ".tools/scenarios/official-corridor/route_graph-df276acb20487e3121425363fa104e400eecedac69b241926d11a67aadcea5df.cbrg",
+        "bytes": 2904,
+        "sha256": "accd1f431828ee1000c78e999ed8b4bdcae27f359e27e9a3785e7b0207391589"
+      },
+      {
+        "path": ".tools/scenarios/official-corridor/route_graph-df276acb20487e3121425363fa104e400eecedac69b241926d11a67aadcea5df.json",
+        "bytes": 9055,
+        "sha256": "80d13e390c4a20bf14968f5a565af3b5bb9a9e5ff87897c3cd890460500693cd"
+      },
+      {
+        "path": ".tools/scenarios/official-corridor/audit/route-v3-a1b7a4b5d677bbc6/dcf60dc652451f9eb1c4bbce98eb6c3ae844e953de17f56bb5f20a86586f5ea6-normalized.gpkg",
+        "bytes": 98304,
+        "sha256": "dcf60dc652451f9eb1c4bbce98eb6c3ae844e953de17f56bb5f20a86586f5ea6"
+      },
+      {
+        "path": ".tools/scenarios/official-corridor/chunks/route-v3-a1b7a4b5d677bbc6/93de5b31c90ec10dbf488d5002d83c30581e2b851f5cef4f4c4321599d55789c.cbck",
+        "bytes": 464,
+        "sha256": "5a7dbbc2d5239658f86bd12bdb7ae5716f5d34d0b8b3bcdadfe7f94dde0ffcc8"
+      },
+      {
+        "path": ".tools/scenarios/official-corridor/chunks/route-v3-a1b7a4b5d677bbc6/a7696d74c694d2bfde058e0925e10baf58dd6146a1e81fd644c6db7a44beb4b7.cbck",
+        "bytes": 456,
+        "sha256": "5eff5425458c9fe899b64d042e2849945af1e63a449a3210d9affa5d5cb1806b"
+      },
+      {
+        "path": ".tools/scenarios/official-corridor/chunks/route-v3-a1b7a4b5d677bbc6/e37c53f5de01b7b84536a27786db2de3a5211f8623786c9b60808d395a2a6639.cbck",
+        "bytes": 464,
+        "sha256": "a55a01c21a821d360aad98af91cef1ee284776c03cf81c444a079bbaac885850"
+      },
+      {
+        "path": ".tools/scenarios/official-corridor/chunks/route-v3-a1b7a4b5d677bbc6/ef3be8b24af023a4624873f42f9f0646edaa515f72048cd8e404dbaa586a029f.cbck",
+        "bytes": 408,
+        "sha256": "362c5ffa5189ad89b68e655d95a98b61e85461d9363e6213ef418c11c5e3325b"
+      }
+    ]
   },
   "scenario_arguments": {
     "fixture": "official-corridor",
@@ -160,8 +219,8 @@
         "csharp_tests_passed": 25,
         "linux_godot_smoke": "passed",
         "windows_godot_smoke": "passed",
-        "linux_max_chunk_build_ms": 37.388,
-        "windows_max_chunk_build_ms": 27.233
+        "linux_max_chunk_build_ms": 37.541,
+        "windows_max_chunk_build_ms": 25.023
       }
     }
   ],
@@ -199,26 +258,27 @@
   },
   "adversarial_review": {
     "reviewers": 3,
-    "method": "Independent Windows-startup, regression, and CI-evidence reviews after the final implementation change",
+    "method": "Independent package-accuracy, evidence-contract, and security reviews after the package-normalization change",
     "review_service_fallback": "Supplementary review was rate-limited; repository fallback reviews were recorded on pull request 6.",
     "unresolved_actionable_findings": 0,
-    "record": "https://github.com/Randroids-Dojo/Cannonball-Vibe/pull/6#issuecomment-4989300709"
+    "record": "https://github.com/Randroids-Dojo/Cannonball-Vibe/pull/7"
   },
   "remote_verification": {
-    "implementation_pull_request": "https://github.com/Randroids-Dojo/Cannonball-Vibe/pull/6",
-    "run_id": 29479903450,
-    "run_url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29479903450",
-    "head_sha": "ac33d7509126a5d53a27176fcc9db2de08f7c9d0",
-    "merged_revision": "adbfe2035019cdebd54036e6fbe3bfc740020838",
+    "initial_implementation_pull_request": "https://github.com/Randroids-Dojo/Cannonball-Vibe/pull/6",
+    "verification_pull_request": "https://github.com/Randroids-Dojo/Cannonball-Vibe/pull/7",
+    "run_id": 29480732746,
+    "run_url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29480732746",
+    "head_sha": "44850a93824527bdfdd35bdabd74d2cddfb69150",
+    "initial_merged_revision": "adbfe2035019cdebd54036e6fbe3bfc740020838",
     "conclusion": "success",
     "jobs": [
       {
-        "job_id": 87561046296,
+        "job_id": 87563637589,
         "name": "M0 (ubuntu-latest)",
         "conclusion": "success"
       },
       {
-        "job_id": 87561046291,
+        "job_id": 87563637616,
         "name": "M0 (windows-latest)",
         "conclusion": "success"
       }
@@ -226,16 +286,20 @@
   },
   "outputs": [
     {
-      "artifact_id": 8368048767,
+      "artifact_id": 8368380125,
       "path": "m0-Linux-1",
-      "sha256": "f6508e2b928e29ba2c495fb259368570cae4cc450ac2f3b43b94c5ae0d741f95",
-      "validation": "Downloaded; summary, doctor, 25-test TRX, 42-test JUnit, and packaged Godot smoke reports passed."
+      "sha256": "52d6cc56f21edd70a5692669407bd3b9beaeae17e26c20257ad5c958ff732ae2",
+      "retention_days": 14,
+      "expires_at": "2026-07-30T07:41:40Z",
+      "validation": "Downloaded; summary, doctor, 25-test TRX, 42-test JUnit, packaged Godot smoke reports, and the complete official fixture package passed."
     },
     {
-      "artifact_id": 8368083593,
+      "artifact_id": 8368407845,
       "path": "m0-Windows-1",
-      "sha256": "4761c0da69c2a262c6d7e8f7bcd576f289cbb9ecb539665e248f36ca2895a96e",
-      "validation": "Downloaded; summary, doctor, 25-test TRX, 42-test JUnit, and packaged Godot smoke reports passed."
+      "sha256": "4c54e97f1f380f98887eebe7c45ab35380788e9aa8b804c3127779a791cec39c",
+      "retention_days": 14,
+      "expires_at": "2026-07-30T07:42:52Z",
+      "validation": "Downloaded; summary, doctor, 25-test TRX, 42-test JUnit, packaged Godot smoke reports, and the complete official fixture package passed."
     }
   ],
   "failure_handling": {
