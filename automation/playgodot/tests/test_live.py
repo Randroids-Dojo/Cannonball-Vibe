@@ -9,6 +9,7 @@ import signal
 import socket
 from collections.abc import AsyncIterator
 from pathlib import Path
+from typing import BinaryIO
 
 import pytest
 from PIL import Image
@@ -21,6 +22,7 @@ from cannonball_playgodot import (
 )
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
+MAX_RAW_LOG_BYTES = 2_000_000
 
 
 def _route_package() -> Path:
@@ -40,6 +42,7 @@ def _artifact_directory(tmp_path: Path) -> Path:
 async def _raw_server(tmp_path: Path) -> AsyncIterator[tuple[str, int, str, Path]]:
     token = "integration-test-token-0123456789abcdef"
     transcript = tmp_path / "hostile.jsonl"
+    runtime_log = tmp_path / "raw-godot.log"
     environment = os.environ.copy()
     environment.update(
         PLAYGODOT_TOKEN=token,
@@ -69,6 +72,8 @@ async def _raw_server(tmp_path: Path) -> AsyncIterator[tuple[str, int, str, Path
         start_new_session=os.name == "posix",
     )
     assert process.stdout is not None
+    drain_task: asyncio.Task[None] | None = None
+    log = runtime_log.open("wb")
     try:
         loop = asyncio.get_running_loop()
         deadline = loop.time() + 20
@@ -79,9 +84,11 @@ async def _raw_server(tmp_path: Path) -> AsyncIterator[tuple[str, int, str, Path
             line = await asyncio.wait_for(process.stdout.readline(), remaining)
             if not line:
                 raise RuntimeError("Godot exited before the hostile-input fixture was ready")
+            _write_bounded_log(log, line)
             decoded = line.decode(errors="replace").rstrip()
             if decoded.startswith("PLAYGODOT_READY "):
                 ready = json.loads(decoded.removeprefix("PLAYGODOT_READY "))
+                drain_task = asyncio.create_task(_drain_process_output(process.stdout, log))
                 yield ready["address"], ready["port"], token, transcript
                 break
     finally:
@@ -95,6 +102,21 @@ async def _raw_server(tmp_path: Path) -> AsyncIterator[tuple[str, int, str, Path
         except TimeoutError:
             process.kill()
             await process.wait()
+        if drain_task is not None:
+            await drain_task
+        log.close()
+
+
+async def _drain_process_output(stream: asyncio.StreamReader, log: BinaryIO) -> None:
+    while line := await stream.readline():
+        _write_bounded_log(log, line)
+
+
+def _write_bounded_log(log: BinaryIO, line: bytes) -> None:
+    remaining = MAX_RAW_LOG_BYTES - log.tell()
+    if remaining > 0:
+        log.write(line[:remaining])
+        log.flush()
 
 
 async def _raw_request(host: str, port: int, payload: bytes) -> dict | None:
