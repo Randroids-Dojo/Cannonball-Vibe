@@ -11,6 +11,7 @@ import geopandas as gpd
 import networkx as nx
 from shapely.geometry import LineString, MultiLineString
 
+from cannonball_map.elevation import ElevationSampler
 from cannonball_map.manifest import SourceManifest, validate_source
 from cannonball_map.models import PipelineChunk, PipelineEdge, RouteSample
 
@@ -36,9 +37,12 @@ def build_route_graph(
     resample_meters: float = 25.0,
     chunk_meters: float = 2_000.0,
     snap_tolerance_meters: float = 10.0,
+    catalog_path: Path | None = None,
+    elevation_sampler: ElevationSampler | None = None,
+    acquisition_lock_sha256: str = "",
 ) -> dict[str, object]:
     manifest = SourceManifest.load(manifest_path)
-    validate_source(manifest, source_path)
+    validate_source(manifest, source_path, catalog_path)
     frame = gpd.read_file(source_path)
     if frame.crs is None:
         raise ValueError("Source geometry must declare a coordinate reference system.")
@@ -64,6 +68,7 @@ def build_route_graph(
                 source_feature_id,
                 resample_meters,
                 snap_tolerance_meters,
+                elevation_sampler,
             )
             records.append(_EdgeRecord(source_feature_id, snapped_geometry, edge))
     if not records:
@@ -74,9 +79,15 @@ def build_route_graph(
     _validate_topology(edges)
     _validate_endpoint_geometry(records)
     chunks = _partition(edges, chunk_meters)
-    content_version = _content_version(manifest, records, chunks)
+    content_version = _content_version(
+        manifest,
+        records,
+        chunks,
+        elevation_sampler,
+        acquisition_lock_sha256,
+    )
     package = {
-        "schema_version": 1,
+        "schema_version": 2 if elevation_sampler else 1,
         "content_version": content_version,
         "source": {
             "source_id": manifest.source_id,
@@ -85,7 +96,9 @@ def build_route_graph(
             "acquired_on": manifest.acquired_on,
             "license_status": manifest.license_status,
             "sha256": manifest.sha256,
+            "acquisition_lock_sha256": acquisition_lock_sha256,
         },
+        "spatial_reference": _spatial_reference(elevation_sampler),
         "nodes": _nodes(edges),
         "edges": [record.edge_dict() for record in records],
         "chunks": [chunk.to_dict() for chunk in chunks],
@@ -120,6 +133,7 @@ def _build_edge(
     source_feature_id: str,
     resample_meters: float,
     snap_tolerance_meters: float,
+    elevation_sampler: ElevationSampler | None,
 ) -> PipelineEdge:
     start = _snap(line.coords[0], snap_tolerance_meters)
     end = _snap(line.coords[-1], snap_tolerance_meters)
@@ -135,16 +149,26 @@ def _build_edge(
     edge_id = _stable_id("edge", canonical)
     distances = _sample_distances(line.length, resample_meters)
     points = [line.interpolate(distance) for distance in distances]
-    samples: list[RouteSample] = []
+    curvatures: list[float] = []
+    elevations = [
+        elevation_sampler.sample(point.x, point.y)
+        if elevation_sampler is not None
+        else (point.z if point.has_z else 0.0)
+        for point in points
+    ]
     previous_heading: float | None = None
-    for index, (distance, point) in enumerate(zip(distances, points, strict=True)):
+    for index in range(len(points)):
         before = points[max(0, index - 1)]
         after = points[min(len(points) - 1, index + 1)]
         heading = math.atan2(after.y - before.y, after.x - before.x)
         curvature = 0.0 if previous_heading is None else _angle_delta(previous_heading, heading)
         previous_heading = heading
-        elevation = point.z if point.has_z else 0.0
-        samples.append(RouteSample(distance, 0.0, elevation, curvature, 0.0))
+        curvatures.append(curvature)
+    grades = _grades(distances, elevations)
+    samples = [
+        RouteSample(distance, 0.0, elevations[index], curvatures[index], grades[index])
+        for index, distance in enumerate(distances)
+    ]
     return PipelineEdge(
         edge_id=edge_id,
         from_node_id=from_node_id,
@@ -280,17 +304,51 @@ def _content_version(
     manifest: SourceManifest,
     records: list[_EdgeRecord],
     chunks: list[PipelineChunk],
+    elevation_sampler: ElevationSampler | None,
+    acquisition_lock_sha256: str,
 ) -> str:
     payload = {
         "source_sha256": manifest.sha256,
         "edges": [record.edge_dict() for record in records],
         "chunks": [chunk.to_dict() for chunk in chunks],
+        "spatial_reference": _spatial_reference(elevation_sampler),
+        "acquisition_lock_sha256": acquisition_lock_sha256,
     }
     digest = hashlib.sha256(
         json.dumps(payload, separators=(",", ":"), sort_keys=True).encode()
     ).hexdigest()
-    return f"route-v1-{digest[:16]}"
+    schema_version = 2 if elevation_sampler else 1
+    return f"route-v{schema_version}-{digest[:16]}"
 
 
 def _angle_delta(first: float, second: float) -> float:
     return (second - first + math.pi) % (2 * math.pi) - math.pi
+
+
+def _grades(distances: list[float], elevations: list[float]) -> list[float]:
+    if len(distances) == 1:
+        return [0.0]
+    result: list[float] = []
+    for index in range(len(distances)):
+        before = max(0, index - 1)
+        after = min(len(distances) - 1, index + 1)
+        run = distances[after] - distances[before]
+        result.append(0.0 if run == 0 else (elevations[after] - elevations[before]) / run)
+    return result
+
+
+def _spatial_reference(sampler: ElevationSampler | None) -> dict[str, str] | None:
+    if sampler is None:
+        return None
+    metadata = sampler.metadata
+    return {
+        "route_crs": PROJECTED_CRS,
+        "elevation_crs": metadata.raster_crs,
+        "horizontal_datum": metadata.horizontal_datum,
+        "vertical_datum": metadata.vertical_datum,
+        "elevation_units": metadata.elevation_units,
+        "elevation_product_id": metadata.product_id,
+        "elevation_product_title": metadata.product_title,
+        "elevation_product_resolution": metadata.product_resolution,
+        "elevation_artifact_sha256": metadata.artifact_sha256,
+    }

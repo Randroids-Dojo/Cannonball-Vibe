@@ -7,6 +7,8 @@ from dataclasses import dataclass
 from datetime import date
 from pathlib import Path
 
+from cannonball_map.catalog import load_catalog, require_catalog_source
+
 SHA256_PATTERN = re.compile(r"^[0-9a-f]{64}$")
 
 
@@ -44,7 +46,11 @@ def compute_sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
-def validate_source(manifest: SourceManifest, source_path: Path) -> None:
+def validate_source(
+    manifest: SourceManifest,
+    source_path: Path,
+    catalog_path: Path | None = None,
+) -> None:
     if manifest.license_status != "public_domain":
         raise ValueError(
             f"Source '{manifest.source_id}' is '{manifest.license_status}', not public_domain."
@@ -65,3 +71,12 @@ def validate_source(manifest: SourceManifest, source_path: Path) -> None:
     actual = compute_sha256(source_path)
     if actual != manifest.sha256:
         raise ValueError(f"SHA-256 mismatch: expected {manifest.sha256}, got {actual}.")
+    if catalog_path is not None:
+        require_catalog_source(
+            load_catalog(catalog_path),
+            source_id=manifest.source_id,
+            publisher=manifest.publisher,
+            license_status=manifest.license_status,
+            source_url=manifest.source_url,
+            license_evidence_url=manifest.license_evidence_url,
+        )
