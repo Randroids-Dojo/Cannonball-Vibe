@@ -2,9 +2,9 @@
   "schema_version": 1,
   "task_id": "P1-004",
   "milestone": "M1",
-  "status": "implementation_spike_verified_locally_cross_platform_and_release_gates_pending",
-  "verified_at": "2026-07-16T09:05:53Z",
-  "git_revision": "f1b33a4ca945ce7005d03964bb03d850279857f9",
+  "status": "implementation_spike_verified_locally_and_on_three_ci_platforms_release_gates_pending",
+  "verified_at": "2026-07-16T09:14:26Z",
+  "git_revision": "a2abe90a08c210a2cb8ba31aaaf1b02bf0b8dca0",
   "engine": "Godot 4.7.1.stable.mono.official.a13da4feb",
   "tool_versions": {
     "uv": "0.9.24",
@@ -96,6 +96,30 @@
       "sha256": "81a45cb091e607a058a86d8488ca95366ed9eda39a026564a6a0bf47b898a09f"
     }
   ],
+  "remote_ci": {
+    "run_id": 29486213624,
+    "revision": "a2abe90a08c210a2cb8ba31aaaf1b02bf0b8dca0",
+    "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29486213624",
+    "platforms": {
+      "ubuntu-latest": "passed",
+      "windows-latest": "passed",
+      "macos-latest": "passed"
+    },
+    "artifacts": [
+      {
+        "name": "playgodot-Linux-1",
+        "sha256": "dee6c9f2c9955c7bd15f575ef6f574c9a4efc2dbe10e7136636f17f1af393c5e"
+      },
+      {
+        "name": "playgodot-Windows-1",
+        "sha256": "3a9eb9c0ed1993b0177d96358ecfcc5ddee03db0cb89780d5740beceffa8bb8d"
+      },
+      {
+        "name": "playgodot-macOS-1",
+        "sha256": "08c027214e5a7611b06e5074a9cf738076e68880202cd4cb504f69dea01c0ef7"
+      }
+    ]
+  },
   "commands": [
     {
       "command": "GODOT_BIN=.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot ./scripts/verify-playgodot.sh",
@@ -103,7 +127,6 @@
     }
   ],
   "pending": [
-    "remote live-suite evidence from macos-latest, ubuntu-latest, and windows-latest",
     "release-export content and startup inspection after P0-007",
     "representative interactive-menu diagnosis comparison with Computer Use",
     "expanded method and error golden corpus plus an extended 50-launch reliability sample",

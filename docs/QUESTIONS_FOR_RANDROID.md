@@ -9,13 +9,13 @@ recorded working default in [OPEN_QUESTIONS.md](OPEN_QUESTIONS.md).
 The official-Godot spike now has a stable-ID semantic query, bounded signal
 waits and input, verified screenshots, capability negotiation, hostile-request
 tests, and a CLI. The local macOS suite completed ten fresh-engine runs with
-zero failures in 30 seconds. The working default is to keep this debug-only and
-optional until three remaining facts exist:
+zero failures in 30 seconds, and the live suite now passes on GitHub-hosted
+macOS, Linux, and Windows. The working default is to keep this debug-only and
+optional until two remaining facts exist:
 
-1. the new CI job passes the live suite on macOS, Linux, and Windows;
-2. P0-007 produces a real release package whose contents and startup behavior
+1. P0-007 produces a real release package whose contents and startup behavior
    prove that no enabled server or rendezvous surface ships; and
-3. the first representative interactive menu shows lower diagnosis cost or a
+2. the first representative interactive menu shows lower diagnosis cost or a
    unique defect compared with CLI evidence plus Computer Use.
 
 When those facts exist, should PlayGodot become required project infrastructure

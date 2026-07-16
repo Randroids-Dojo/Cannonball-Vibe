@@ -174,12 +174,12 @@ scenario CLI reports run/streaming state but cannot identify or assert a
 rendered `Control`, while pixel-oriented Computer Use cannot reliably name the
 underlying node or wait on its signal.
 
-The spike does not yet justify making PlayGodot required infrastructure. CI
-must reproduce the live suite on macOS, Linux, and Windows, P0-007 must provide
-a real release package for absence inspection, and a representative interactive
-menu must compare diagnosis time against Computer Use. Until then, PlayGodot is
-an optional debug-only semantic layer and the deterministic CLI remains the
-milestone authority.
+The live suite now passes on GitHub-hosted macOS, Linux, and Windows. The spike
+still does not justify making PlayGodot required infrastructure: P0-007 must
+provide a real release package for absence inspection, and a representative
+interactive menu must compare diagnosis time against Computer Use. Until then,
+PlayGodot is an optional debug-only semantic layer and the deterministic CLI
+remains the milestone authority.
 
 ## Deliberately excluded legacy authority
 
