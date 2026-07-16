@@ -269,7 +269,7 @@
       "milestone": "M0",
       "priority": "P0",
       "title": "Remote authority and protected integration",
-      "status": "open",
+      "status": "complete",
       "dependencies": [
         "P0-001"
       ],
@@ -286,7 +286,7 @@
       ],
       "verification": [
         "gh run list --limit 20",
-        "gh api repos/{owner}/{repo}/branches/main/protection"
+        "gh api repos/{owner}/{repo}/rules/branches/main"
       ],
       "evidence": [
         "evidence/M0/P0-008.json"
