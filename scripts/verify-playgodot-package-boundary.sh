@@ -53,15 +53,14 @@ if ! dotnet build "$repo_root/Cannonball.sln" --nologo >>"$runtime_log" 2>&1; th
   sed -n '1,160p' "$runtime_log" >&2
   exit 1
 fi
-if ! PLAYGODOT_TOKEN="$playgodot_token" \
+set +e
+PLAYGODOT_TOKEN="$playgodot_token" \
   PLAYGODOT_TRANSCRIPT="$transcript" \
   "$GODOT_BIN" --headless --rendering-method gl_compatibility \
   --path "$repo_root" --quit-after 30 -- \
-  "--route-package=$route_package" --playgodot >>"$runtime_log" 2>&1; then
-  echo "Normal project startup failed during the PlayGodot boundary check." >&2
-  sed -n '1,160p' "$runtime_log" >&2
-  exit 1
-fi
+  "--route-package=$route_package" --playgodot >>"$runtime_log" 2>&1
+runtime_exit=$?
+set -e
 
 if grep -Eq 'PLAYGODOT_READY|PLAYGODOT_START_FAILED' "$runtime_log" || [[ -e "$transcript" ]]; then
   echo "Normal project startup exposed a PlayGodot rendezvous or transcript surface." >&2
@@ -69,4 +68,14 @@ if grep -Eq 'PLAYGODOT_READY|PLAYGODOT_START_FAILED' "$runtime_log" || [[ -e "$t
   exit 1
 fi
 
-echo "PlayGodot normal-start boundary passed: no autoload, listener, rendezvous, or transcript."
+# The macOS hosted VM can correctly trip the production chunk-build budget during
+# first-frame JIT. That proves the normal scene ran but is orthogonal to this
+# boundary's listener-absence assertion; every other startup failure remains fatal.
+if (( runtime_exit != 0 )) && \
+  ! grep -Eq "Route chunk '.*' took [0-9.]+ ms to build; budget is [0-9.]+ ms\." "$runtime_log"; then
+  echo "Normal project startup failed during the PlayGodot boundary check." >&2
+  sed -n '1,160p' "$runtime_log" >&2
+  exit 1
+fi
+
+echo "PlayGodot normal-start boundary passed: no autoload, listener, rendezvous, or transcript (runtime_exit=$runtime_exit)."
