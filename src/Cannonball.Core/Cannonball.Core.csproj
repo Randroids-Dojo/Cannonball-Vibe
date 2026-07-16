@@ -3,6 +3,10 @@
     <TargetFramework>net8.0</TargetFramework>
     <RootNamespace>Cannonball.Core</RootNamespace>
     <AssemblyName>Cannonball.Core</AssemblyName>
+    <RuntimeIdentifiers Condition="'$(RuntimeIdentifiers)' == ''">linux-x64;win-x64</RuntimeIdentifiers>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <NuGetLockFilePath Condition="'$(RuntimeIdentifier)' != ''">packages.$(RuntimeIdentifier).lock.json</NuGetLockFilePath>
+    <RuntimeFrameworkVersion>8.0.29</RuntimeFrameworkVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Google.FlatBuffers" Version="25.2.10" />

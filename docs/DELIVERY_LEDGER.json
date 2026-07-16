@@ -259,15 +259,43 @@
       "milestone": "M1",
       "priority": "P0",
       "title": "Reproducible unsigned desktop exports",
-      "status": "open",
+      "status": "in_progress",
       "dependencies": [
         "P0-001",
         "P0-006"
       ],
+      "scope": {
+        "fixture_work_allowed_before_dependencies_complete": true,
+        "fixture_id": "official-corridor",
+        "allowed_work": [
+          "checked-in export presets",
+          "Linux and Windows release export scripts",
+          "fixture-bundle verification",
+          "SBOM and provenance generation",
+          "PlayGodot release-exclusion verification",
+          "immutable internal CI artifacts and rollback rehearsal"
+        ],
+        "completion_blocked_by": [
+          "P0-006"
+        ],
+        "excluded_claims": [
+          "representative long-route packaging",
+          "500-mile traversal",
+          "M1 completion",
+          "public release readiness"
+        ]
+      },
       "owned_paths": [
         "export_presets.cfg",
-        ".github/workflows/",
-        "scripts/release/"
+        ".github/workflows/unsigned-exports.yml",
+        "scripts/release/",
+        "game/Main.tscn",
+        "Cannonball.csproj",
+        "src/Cannonball.Core/Cannonball.Core.csproj",
+        "packages.lock.json",
+        "packages.*.lock.json",
+        "src/Cannonball.Core/packages.lock.json",
+        "src/Cannonball.Core/packages.*.lock.json"
       ],
       "acceptance": [
         "CI installs exact Godot 4.7.1 export templates",

@@ -1,0 +1,433 @@
+{
+  "schema_version": 1,
+  "task_id": "P0-007",
+  "milestone": "M1",
+  "status": "fixture_verification_complete_dependency_pending",
+  "verified_at": "2026-07-16T11:02:00Z",
+  "git_revision": "e940bd5f47a40f22f6533b1ae73ccae37ba2edb7",
+  "package_source_revision": {
+    "local_branch_head": "e940bd5f47a40f22f6533b1ae73ccae37ba2edb7",
+    "pull_request_merge_revision": "bf695d534670abc5b72f1b32cb43335cfc6ccf61",
+    "note": "Pull-request artifacts are built from GitHub's tested synthetic merge revision; the branch implementation revision is recorded separately."
+  },
+  "platform": {
+    "local": "macOS 26 arm64 cross-export builder",
+    "remote_build": {
+      "runner": "ubuntu-24.04",
+      "runner_image_version": "20260705.232.1"
+    },
+    "remote_smoke": [
+      {
+        "runner": "ubuntu-24.04",
+        "runner_image_version": "20260714.240.1"
+      },
+      {
+        "runner": "windows-2022",
+        "runner_image_version": "20260706.237.1"
+      }
+    ]
+  },
+  "scope": {
+    "fixture": "official-corridor",
+    "fixture_work_authorized": true,
+    "completion_blocked_by": [
+      "P0-006"
+    ],
+    "excluded_claims": [
+      "representative long-route packaging",
+      "500-mile traversal",
+      "M1 completion",
+      "public release readiness"
+    ]
+  },
+  "tool_versions": {
+    "godot": "4.7.1.stable.mono.official.a13da4feb",
+    "export_template_version": "4.7.1.stable.mono",
+    "export_template_archive_sha256": "ef9a708be51ecd974cd7dccdcafd7a1870da3d3e1c24c072bdbb9818c7a7db63",
+    "dotnet_sdk": "10.0.102",
+    "dotnet_runtime": "8.0.29",
+    "uv": "0.9.24",
+    "node_build": "22.22.1",
+    "python_build": "3.13.11",
+    "local_verifier": {
+      "node": "22.22.1",
+      "bash": "3.2.57(1)-release"
+    },
+    "clean_smoke_verifier": {
+      "linux": {
+        "node": "22.23.1",
+        "bash": "5.2.21(1)-release"
+      },
+      "windows": {
+        "node": "22.23.1",
+        "bash": "5.3.15(1)-release"
+      }
+    }
+  },
+  "inputs": [
+    {
+      "path": "export_presets.cfg",
+      "sha256": "57b6200451f1f2c18702a1e4ee041f50943935d4db774d344705f1e389186336"
+    },
+    {
+      "path": "project.godot",
+      "sha256": "e4b4750b144460dcf73cca91ab0b4305afb67811ce652b36e323696b01c292e0"
+    },
+    {
+      "path": "game/Main.tscn",
+      "sha256": "a2be6dd62c07044460e36f07a278431a74946933ae45d9203b85eabba05d8861"
+    },
+    {
+      "path": "Cannonball.csproj",
+      "sha256": "2dd44f2b4af44500ce5dfce3c3bfc4c86f952cabd6c36197e7af9795c3c80dbc"
+    },
+    {
+      "path": "src/Cannonball.Core/Cannonball.Core.csproj",
+      "sha256": "c2b47090349478ba37dedf7c4af312c7d63d5741ddfd6307f69d6d559fa25aef"
+    },
+    {
+      "path": "packages.linux-x64.lock.json",
+      "sha256": "02e108991f1b84cb3d83866d9837bf3b034c92672b2bfe2953433076c5a291e2"
+    },
+    {
+      "path": "src/Cannonball.Core/packages.linux-x64.lock.json",
+      "sha256": "d7762ad5cf553808f68e3ee06f182fbc3eea97b7ed4cbe2b447dbd059a52cbe3"
+    },
+    {
+      "path": "packages.win-x64.lock.json",
+      "sha256": "083de18e9a9df7512abb41657a1555abea84fdcbd6a4b05a3e0b3bd6b794ba05"
+    },
+    {
+      "path": "src/Cannonball.Core/packages.win-x64.lock.json",
+      "sha256": "3577722f281c83a63577686c768f8bdda59207ebb2ce969d1cad1b25068a7526"
+    },
+    {
+      "path": "data/sources/catalog.json",
+      "sha256": "356a0fe4810a37bb5e5970bba3ae8295208908bc800e016c22e3b608bbb7c9eb"
+    },
+    {
+      "path": "data/sources/source-lock.json",
+      "sha256": "a3f640c9f804909a9b171c1a169ce5704544fd5905bec73dcc8d7da64b67e2cd"
+    },
+    {
+      "path": "data/sources/fixtures/nhpn-boulder-us36.geojson",
+      "sha256": "f1021915997f7cb94a00db58feed86f8f9e13e1ac264fc0dd8ba1605d052ae9b"
+    },
+    {
+      "path": "data/sources/fixtures/nhpn-boulder-us36.manifest.json",
+      "sha256": "54da0c7b64e476909f9e62008f09f94abc622631971b6549d030b67778fe429b"
+    },
+    {
+      "path": "data/sources/fixtures/usgs-13-n40w106-boulder.tif",
+      "sha256": "16af3387633b982f3363f34c638f8ca72646b04ec18aa2dcab1189f0352af507"
+    },
+    {
+      "path": "data/sources/fixtures/usgs-13-n40w106-boulder.metadata.json",
+      "sha256": "d626a7d24235884e089effcd38b4d173a26a5427cbec3ffedc063963e55e1cea"
+    },
+    {
+      "path": "tools/map_pipeline/uv.lock",
+      "sha256": "6bbd9d08562d15fa8cf849a5177d243d467811d2bcebf8dc90d3d14ed25bff93"
+    }
+  ],
+  "scenario_arguments": {
+    "architecture": "x86_64",
+    "fixture": "official-corridor",
+    "chunk_meters": 100,
+    "targets": [
+      {
+        "platform": "linux",
+        "preset": "Linux x86_64",
+        "runtime_id": "linux-x64",
+        "godot_target_platform": "linuxbsd"
+      },
+      {
+        "platform": "windows",
+        "preset": "Windows x86_64",
+        "runtime_id": "win-x64",
+        "godot_target_platform": "windows"
+      }
+    ],
+    "configuration": "Release",
+    "restore_locked_mode": true,
+    "self_contained": true,
+    "deterministic_seed": null
+  },
+  "acceptance": [
+    {
+      "criterion": "CI installs exact Godot 4.7.1 export templates",
+      "status": "passed",
+      "comparison": {
+        "expected_version": "4.7.1.stable.mono",
+        "actual_version": "4.7.1.stable.mono",
+        "expected_sha256": "ef9a708be51ecd974cd7dccdcafd7a1870da3d3e1c24c072bdbb9818c7a7db63",
+        "actual_sha256": "ef9a708be51ecd974cd7dccdcafd7a1870da3d3e1c24c072bdbb9818c7a7db63"
+      }
+    },
+    {
+      "criterion": "Linux and Windows packages are produced from checked-in presets",
+      "status": "passed",
+      "comparison": {
+        "preset_sha256": "57b6200451f1f2c18702a1e4ee041f50943935d4db774d344705f1e389186336",
+        "platforms_built": 2,
+        "builds_per_platform": 2,
+        "package_tree_diff_count": 0,
+        "archive_byte_diff_count": 0
+      }
+    },
+    {
+      "criterion": "Each package passes a clean-machine launch smoke",
+      "status": "passed",
+      "comparison": {
+        "linux": "passed",
+        "windows": "passed",
+        "packaged_launcher_invoked": true,
+        "self_contained_runtime_asserted": true,
+        "bogus_dotnet_root_used": true,
+        "global_dotnet_lookup_disabled": true,
+        "save_marker_present": true,
+        "smoke_marker_present": true
+      }
+    },
+    {
+      "criterion": "Each package has checksums, tool versions, source revision, content hashes, and an SBOM",
+      "status": "passed",
+      "comparison": {
+        "manifest_exact_inventory": true,
+        "checksum_exact_inventory": true,
+        "content_root_hash_present": true,
+        "chunk_hashes_present": 4,
+        "cyclonedx_version": "1.6",
+        "runtime_component_in_sbom": true,
+        "rid_lockfile_hashes_resolve_at_source_revision": true
+      }
+    },
+    {
+      "criterion": "Artifact promotion is immutable and rollback is documented",
+      "status": "passed",
+      "comparison": {
+        "content_addressed_names": true,
+        "upload_overwrite": false,
+        "download_digest_mismatch": "error",
+        "rollback_documented": "scripts/release/README.md"
+      }
+    },
+    {
+      "criterion": "PlayGodot automation does not ship or activate",
+      "status": "passed",
+      "comparison": {
+        "pck_entries": 5,
+        "playgodot_pck_entries": 0,
+        "static_shipping_marker_matches": 0,
+        "hostile_playgodot_argument_used": true,
+        "hostile_token_observed": false,
+        "transcript_created": false
+      }
+    }
+  ],
+  "determinism": {
+    "same_builder_builds_per_platform": 2,
+    "linux_package_tree_diff_count": 0,
+    "windows_package_tree_diff_count": 0,
+    "linux_archive_byte_diff_count": 0,
+    "windows_archive_byte_diff_count": 0,
+    "cross_builder_byte_identity_claimed": false,
+    "note": "Linux and Windows exports are both produced twice on the same pinned Ubuntu builder. macOS cross-builder fixture bytes are recorded but are not claimed to match Ubuntu geospatial output."
+  },
+  "metrics": {
+    "local_csharp_tests_passed": 25,
+    "local_map_tests_passed": 42,
+    "local_playgodot_unit_tests_passed": 12,
+    "remote_build_gate_csharp_tests_passed": 25,
+    "remote_build_gate_map_tests_passed": 42,
+    "remote_build_gate_playgodot_unit_tests_passed": 12,
+    "platforms_exported": 2,
+    "native_clean_smokes_passed": 2,
+    "native_clean_smokes_failed": 0,
+    "runtime_chunks_loaded": 4,
+    "unique_route_miles": 0.22610210923573093,
+    "linux_max_chunk_build_ms": 17.849,
+    "windows_max_chunk_build_ms": 19.81
+  },
+  "commands": [
+    {
+      "command": "GODOT_BIN=.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot ./scripts/check.sh",
+      "exit_code": 0
+    },
+    {
+      "command": "GODOT_BIN=.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot ./scripts/release/install-templates.sh",
+      "exit_code": 0
+    },
+    {
+      "command": "SOURCE_REVISION=e940bd5f47a40f22f6533b1ae73ccae37ba2edb7 PYTHON_BIN=$(uv python find 3.13.11) GODOT_BIN=.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot ./scripts/release/build-unsigned.sh all /tmp/cannonball-p0-007-e940bd5",
+      "exit_code": 0
+    },
+    {
+      "command": "shellcheck scripts/release/*.sh && actionlint .github/workflows/unsigned-exports.yml && node --check scripts/release/smoke.mjs && node --check scripts/release/package-tools.mjs && uv run --project tools/map_pipeline ruff check scripts/release/archive.py && git diff --check",
+      "exit_code": 0
+    },
+    {
+      "command": "temporary negative probes: broken symlink archive; ../ launcher; coherently checksummed PLAYGODOT_READY shipping DLL",
+      "exit_code": 0,
+      "expected_rejections": 3,
+      "actual_rejections": 3
+    },
+    {
+      "command": "GitHub Actions run 29492663160",
+      "exit_code": 0
+    }
+  ],
+  "failures_and_recovery": {
+    "failed_runs": [
+      {
+        "run_id": 29491597728,
+        "head_sha": "f03cfbe1462d305230e4b24abc80bcd55dfcc6df",
+        "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29491597728",
+        "build_result": "passed",
+        "linux_failure": "The native game completed, but the verifier expected editor punctuation 4.7.1.stable instead of exported-runtime punctuation 4.7.1-stable.",
+        "windows_failure": "Checksums passed, then Node could not resolve the MSYS-style package path.",
+        "recovery": "Harden transcript capture and normalize ANSI/CR, then convert MSYS paths with cygpath. The exact version-marker mismatch remained visible for the next retry."
+      },
+      {
+        "run_id": 29491881997,
+        "head_sha": "0c2d1f204219c1ef322e3c7320ed9343fa336726",
+        "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29491881997",
+        "build_result": "passed",
+        "linux_failure": "The native game completed, but the verifier expected editor punctuation 4.7.1.stable instead of exported-runtime punctuation 4.7.1-stable.",
+        "windows_failure": "The native game completed with the same exact marker mismatch.",
+        "recovery": "Match the exact exported official-runtime marker."
+      }
+    ],
+    "retry_count_before_first_success": 2,
+    "first_successful_run_id": 29492161735,
+    "post_review_validation_run_id": 29492663160,
+    "recovery_result": "Build, Linux clean smoke, and Windows clean smoke all passed after review hardening."
+  },
+  "adversarial_review": {
+    "specialist_passes": 6,
+    "final_diff_reviewers": 3,
+    "methods": [
+      "release determinism and provenance review",
+      "native runtime and PlayGodot exclusion review",
+      "scope and evidence review"
+    ],
+    "resolved_findings": [
+      "Installed Mono templates under the exact 4.7.1.stable.mono directory",
+      "Used Release-mode RID-specific locked restores and pinned .NET runtime bytes",
+      "Made scene node identity and ZIP metadata deterministic",
+      "Invoked distributed launchers on clean native runners with an isolated self-contained runtime",
+      "Parsed the PCK directory and scanned shipping binaries for PlayGodot resources and markers",
+      "Made the forbidden-marker scan failure-safe instead of pipeline-order dependent",
+      "Rejected symlinked directories, broken symlinks, and uncontained manifest launchers",
+      "Pinned Node and Python for standalone reproducibility",
+      "Recorded committed RID lockfiles rather than overwritten staging paths",
+      "Required the complete repository gate before artifact construction"
+    ],
+    "coderabbit": {
+      "initial_review_id": 4712920521,
+      "initial_state": "changes_requested",
+      "threads_resolved": 4,
+      "approval_review_id": 4712980338,
+      "current_head_state": "approved",
+      "check_state": "success"
+    },
+    "unresolved_actionable_findings": 0
+  },
+  "remote_verification": {
+    "implementation_pull_request": "https://github.com/Randroids-Dojo/Cannonball-Vibe/pull/9",
+    "run_id": 29492663160,
+    "run_url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29492663160",
+    "branch_head_sha": "e940bd5f47a40f22f6533b1ae73ccae37ba2edb7",
+    "package_source_revision": "bf695d534670abc5b72f1b32cb43335cfc6ccf61",
+    "conclusion": "success",
+    "jobs": [
+      {
+        "job_id": 87602259244,
+        "name": "Build reproducible fixture exports",
+        "conclusion": "success"
+      },
+      {
+        "job_id": 87602819419,
+        "name": "Clean-machine smoke (linux)",
+        "conclusion": "success"
+      },
+      {
+        "job_id": 87602819443,
+        "name": "Clean-machine smoke (windows)",
+        "conclusion": "success"
+      }
+    ]
+  },
+  "outputs": {
+    "local": [
+      {
+        "platform": "linux",
+        "path": "/tmp/cannonball-p0-007-e940bd5/linux/Cannonball-linux-x86_64-95d0905e1be01075ab778d5d2c748d5351ed3e3ed60973ea2a7d99b9b78675f3.zip",
+        "bytes": 153796844,
+        "sha256": "95d0905e1be01075ab778d5d2c748d5351ed3e3ed60973ea2a7d99b9b78675f3",
+        "content_set_sha256": "2a0cfc48b80d15af9de7caf0c236d95124457673f841be213f9001a0d96a7ba2",
+        "manifest_sha256": "bb5c2eec06ceb036de30e6ddbdd86fd4305bab4e4aaeea0113febf082812c857",
+        "sbom_sha256": "a3859d8df2fe23584bf3a421cc432f8158260c705c4070bfe0c7fb19105d4aaf",
+        "checksums_sha256": "e11cd63894e85cef44b208cd3e5c86bfc679de716e83bf2428a22fe25d2c7db1"
+      },
+      {
+        "platform": "windows",
+        "path": "/tmp/cannonball-p0-007-e940bd5/windows/Cannonball-windows-x86_64-3a584bd638f63667c679592b4c4dfa2a310dd7ba7cbe9a27b86799ce1e759a98.zip",
+        "bytes": 189707376,
+        "sha256": "3a584bd638f63667c679592b4c4dfa2a310dd7ba7cbe9a27b86799ce1e759a98",
+        "content_set_sha256": "8bfa5109ebf730e3cd329b1ee4c32559726861903e2ca99ab73b101851c14e3b",
+        "manifest_sha256": "421e707122d3cca01a0d4a86b67bbc134ed5b790d56c52a155bee14aaa65918c",
+        "sbom_sha256": "ed9dcbf8e096cf6a0c32fdbf45dc965311073dedd491a74965667d9815df3649",
+        "checksums_sha256": "0e4c66a0be2b06c084aa424d37c4128044bf4d0860d1c2d843b3fff2a24ec709"
+      }
+    ],
+    "ci": [
+      {
+        "platform": "linux",
+        "artifact_id": 8373121161,
+        "artifact_name": "unsigned-linux-bf695d534670abc5b72f1b32cb43335cfc6ccf61-7051f629910b346f93f050c8488e2a0866de81a2de5cfd1fcd266ecd8b162521",
+        "artifact_api_digest": "sha256:aaf4897344610105bad38d4982f59c46e6f9e2ce010e8057f3e752a42e8feda6",
+        "artifact_api_bytes": 63744123,
+        "created_at": "2026-07-16T11:00:11Z",
+        "expires_at": "2026-07-30T11:00:06Z",
+        "archive_path": "Cannonball-linux-x86_64-7051f629910b346f93f050c8488e2a0866de81a2de5cfd1fcd266ecd8b162521.zip",
+        "archive_bytes": 153796829,
+        "archive_sha256": "7051f629910b346f93f050c8488e2a0866de81a2de5cfd1fcd266ecd8b162521",
+        "sidecar_sha256": "5e9829fda66b3b03f3d3f4e47e103b4d3870cd45d4f1b941ab28305062f8d4fd",
+        "content_set_sha256": "53049d08062c9d68c30ec1a563ebb40d5fae7d6ac0d7fc0551649321868b8608",
+        "manifest_sha256": "7e519fe4642d98969014e64dbd728ed6d33d31bfe50c5b6b7f6d99c740d83b42",
+        "sbom_sha256": "06a00a787a76712bcbcd008782acae84d9444e0cff59e1190797e5dbccc9f59e",
+        "checksums_sha256": "2cbcfa4fa989ecf0534ad257989cfb525393ce81a221781f261129710dd97313"
+      },
+      {
+        "platform": "windows",
+        "artifact_id": 8373123969,
+        "artifact_name": "unsigned-windows-bf695d534670abc5b72f1b32cb43335cfc6ccf61-76718ccf6af458f2b823053cb70e22c9523f5e978b84ab5738660bec2f3dae36",
+        "artifact_api_digest": "sha256:d02f0be2403601ea3ae1c3587c543ec533f8d4bf32419e0caeb98d4741743043",
+        "artifact_api_bytes": 74444968,
+        "created_at": "2026-07-16T11:00:18Z",
+        "expires_at": "2026-07-30T11:00:12Z",
+        "archive_path": "Cannonball-windows-x86_64-76718ccf6af458f2b823053cb70e22c9523f5e978b84ab5738660bec2f3dae36.zip",
+        "archive_bytes": 189707361,
+        "archive_sha256": "76718ccf6af458f2b823053cb70e22c9523f5e978b84ab5738660bec2f3dae36",
+        "sidecar_sha256": "2757d0d3dfe68262bb8498a1e2b265be9fbd473d5823d907799802594e0db1f6",
+        "content_set_sha256": "fcba64cf528e2fb2122d1e15c7e54547f819fb44f3296bdca78bc36187be161a",
+        "manifest_sha256": "9f7c84962def8b67096409007edb69fa9588c33ad4d879b1b7b03c8ae211348a",
+        "sbom_sha256": "4933fd507e3fa6fe8b6974b2d771695dbcef4018ed05bcce11fe1eb7e65bf597",
+        "checksums_sha256": "5d03ae753c51328fac66ce4e0a7f747d0e61a9858cfba03dd2d94b8dcd6c84df"
+      }
+    ],
+    "remote_content": {
+      "content_version": "route-v3-a1b7a4b5d677bbc6",
+      "route_root_sha256": "accd1f431828ee1000c78e999ed8b4bdcae27f359e27e9a3785e7b0207391589",
+      "metadata_sha256": "9d94ed43d951ccd98ba6c773ad03d924fde2762994867fe1a7323b2849268445",
+      "chunk_sha256": [
+        "5eff5425458c9fe899b64d042e2849945af1e63a449a3210d9affa5d5cb1806b",
+        "a55a01c21a821d360aad98af91cef1ee284776c03cf81c444a079bbaac885850",
+        "5a7dbbc2d5239658f86bd12bdb7ae5716f5d34d0b8b3bcdadfe7f94dde0ffcc8",
+        "362c5ffa5189ad89b68e655d95a98b61e85461d9363e6213ef418c11c5e3325b"
+      ]
+    }
+  },
+  "human_gate": null
+}

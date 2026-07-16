@@ -10,15 +10,16 @@ The official-Godot spike now has a stable-ID semantic query, bounded signal
 waits and input, verified screenshots, capability negotiation, hostile-request
 tests, and a CLI. The local macOS suite completed three consecutive full
 16-test runs with zero failures in 28.67 seconds, and the live suite now passes
-on GitHub-hosted macOS, Linux, and Windows. The working default is to keep this
-debug-only and optional until two remaining facts exist:
+on GitHub-hosted macOS, Linux, and Windows. P0-007 has also produced
+fixture-scoped Linux and Windows packages whose PCK inventory, shipping-binary
+scan, and hostile startup probe prove that PlayGodot does not ship or activate.
+The working default is to keep PlayGodot debug-only and optional until the one
+remaining product fact exists:
 
-1. P0-007 produces a real release package whose contents and startup behavior
-   prove that no enabled server or rendezvous surface ships; and
-2. the first representative interactive menu shows lower diagnosis cost or a
+1. The first representative interactive menu shows lower diagnosis cost or a
    unique defect compared with CLI evidence plus Computer Use.
 
-When those facts exist, should PlayGodot become required project infrastructure
+When that fact exists, should PlayGodot become required project infrastructure
 or remain an opt-in debugging tool? No answer is needed for current gameplay,
 map, or release-pipeline work.
 

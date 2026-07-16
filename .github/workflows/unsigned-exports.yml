@@ -1,0 +1,125 @@
+name: Reproducible unsigned fixture exports
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build reproducible fixture exports
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    outputs:
+      linux_artifact: unsigned-linux-${{ github.sha }}-${{ steps.release.outputs.linux_sha }}
+      windows_artifact: unsigned-windows-${{ github.sha }}-${{ steps.release.outputs.windows_sha }}
+    env:
+      DOTNET_ROLL_FORWARD: Major
+      SOURCE_REVISION: ${{ github.sha }}
+      RestoreLockedMode: "true"
+      ContinuousIntegrationBuild: "true"
+      DOTNET_CLI_TELEMETRY_OPTOUT: "1"
+      NUGET_XMLDOC_MODE: skip
+    steps:
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+        with:
+          lfs: true
+          persist-credentials: false
+      - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5
+        with:
+          dotnet-version: |
+            8.0.423
+            10.0.102
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 22.22.1
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: 3.13.11
+      - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990 # v8.3.2
+        with:
+          version: "0.9.24"
+          enable-cache: true
+      - uses: chickensoft-games/setup-godot@f166999204a4f2722c6fe042fbaa3b3ea0d9c789 # v2
+        with:
+          version: 4.7.1
+          use-dotnet: true
+          include-templates: false
+      - name: Install exact export templates
+        shell: bash
+        run: ./scripts/release/install-templates.sh
+      - name: Verify repository gate before artifact build
+        shell: bash
+        env:
+          GODOT_BIN: ${{ env.GODOT }}
+        run: |
+          if [[ -z "${GODOT_BIN:-}" || ! -x "$GODOT_BIN" ]]; then
+            GODOT_BIN="$(command -v godot)"
+          fi
+          export GODOT_BIN
+          ./scripts/check.sh
+      - name: Build each export twice
+        id: release
+        shell: bash
+        env:
+          GODOT_BIN: ${{ env.GODOT }}
+        run: |
+          if [[ -z "${GODOT_BIN:-}" || ! -x "$GODOT_BIN" ]]; then
+            GODOT_BIN="$(command -v godot)"
+          fi
+          export GODOT_BIN
+          ./scripts/release/build-unsigned.sh all "$RUNNER_TEMP/unsigned-exports"
+      - name: Upload immutable Linux artifact
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: unsigned-linux-${{ github.sha }}-${{ steps.release.outputs.linux_sha }}
+          path: |
+            ${{ steps.release.outputs.linux_archive }}
+            ${{ steps.release.outputs.linux_archive }}.sha256
+          if-no-files-found: error
+          overwrite: false
+          retention-days: 14
+      - name: Upload immutable Windows artifact
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: unsigned-windows-${{ github.sha }}-${{ steps.release.outputs.windows_sha }}
+          path: |
+            ${{ steps.release.outputs.windows_archive }}
+            ${{ steps.release.outputs.windows_archive }}.sha256
+          if-no-files-found: error
+          overwrite: false
+          retention-days: 14
+
+  smoke:
+    name: Clean-machine smoke (${{ matrix.target }})
+    needs: build
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: linux
+            os: ubuntu-24.04
+          - target: windows
+            os: windows-2022
+    steps:
+      - name: Download immutable package only
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: ${{ matrix.target == 'linux' && needs.build.outputs.linux_artifact || needs.build.outputs.windows_artifact }}
+          path: artifact
+          digest-mismatch: error
+      - name: Verify and launch package
+        shell: bash
+        run: |
+          cd artifact
+          sha256sum --check -- *.sha256
+          archive="$(find . -maxdepth 1 -name '*.zip' -print -quit)"
+          unzip -q "$archive" -d unpacked
+          package_root="unpacked/Cannonball-${{ matrix.target }}-x86_64"
+          bash "$package_root/verification/verify-package.sh" "$package_root" --smoke
