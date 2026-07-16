@@ -8,10 +8,10 @@ recorded working default in [OPEN_QUESTIONS.md](OPEN_QUESTIONS.md).
 
 The official-Godot spike now has a stable-ID semantic query, bounded signal
 waits and input, verified screenshots, capability negotiation, hostile-request
-tests, and a CLI. The local macOS suite completed ten fresh-engine runs with
-zero failures in 30 seconds, and the live suite now passes on GitHub-hosted
-macOS, Linux, and Windows. The working default is to keep this debug-only and
-optional until two remaining facts exist:
+tests, and a CLI. The local macOS suite completed three consecutive full
+16-test runs with zero failures in 28.67 seconds, and the live suite now passes
+on GitHub-hosted macOS, Linux, and Windows. The working default is to keep this
+debug-only and optional until two remaining facts exist:
 
 1. P0-007 produces a real release package whose contents and startup behavior
    prove that no enabled server or rendezvous surface ships; and

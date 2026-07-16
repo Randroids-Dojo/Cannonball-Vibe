@@ -149,6 +149,7 @@ PlayGodot becomes required Cannonball infrastructure only if the spike proves:
 The Cannonball spike now implements the smallest useful official-engine slice:
 
 - `addons/playgodot/bootstrap.tscn` is an explicit test scene, not an autoload;
+  it renders the production HUD without starting the unrelated world streamer;
 - `server.gd` binds `127.0.0.1:0`, requires a 256-bit-equivalent inherited
   token and protocol handshake, and exposes only named read, input, wait, and
   screenshot operations;
@@ -165,12 +166,13 @@ cleanup, and a one-session JSONL action-plan CLI. Visual artifact inspection
 also found and corrected logical-to-render-pixel crop drift; a solid-color
 fixture now checks the actual cropped pixels on every live run.
 
-On local macOS with official Godot 4.7.1, ten complete seven-test runs produced
-zero failures in 30 wall-clock seconds (0% observed flake rate, about three
-seconds per fresh-engine run). A direct CLI query returned the live speed
-label's stable ID, normalized text, visibility, focus, and global bounds in one
-fresh process. That is unique semantic coverage: the existing deterministic
-scenario CLI reports run/streaming state but cannot identify or assert a
+On local macOS with official Godot 4.7.1, three consecutive complete 16-test
+runs produced zero failures in 28.67 wall-clock seconds (0% observed flake
+rate, about 9.56 seconds per full boundary, unit, and live-engine run). A direct
+CLI query returned the populated live speed label's stable ID, normalized text,
+visibility, focus, and global bounds in one fresh process. That is unique
+semantic coverage: the existing deterministic scenario CLI reports
+run/streaming state but cannot identify or assert a
 rendered `Control`, while pixel-oriented Computer Use cannot reliably name the
 underlying node or wait on its signal.
 
