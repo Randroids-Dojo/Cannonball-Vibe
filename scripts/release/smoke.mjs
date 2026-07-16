@@ -49,7 +49,7 @@ const transcript = `${stdout}\n${stderr}`;
 writeFileSync(transcriptPath, transcript);
 
 const required = [
-  "CANNONBALL_READY engine=4.7.1.stable (official)",
+  "CANNONBALL_READY engine=4.7.1-stable (official)",
   `content_version=${manifest.content.content_version}`,
   "CANNONBALL_SAVE_OK",
   "CANNONBALL_SMOKE_OK",
