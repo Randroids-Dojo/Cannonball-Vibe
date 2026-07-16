@@ -1,11 +1,12 @@
 [gd_scene load_steps=3 format=3]
 
-[ext_resource type="PackedScene" path="res://game/Main.tscn" id="1_main"]
+[ext_resource type="Script" path="res://game/UI/PrototypeHud.cs" id="1_hud"]
 [ext_resource type="Script" path="res://addons/playgodot/server.gd" id="2_server"]
 
 [node name="PlayGodotBootstrap" type="Node"]
 
-[node name="Main" parent="." instance=ExtResource("1_main")]
+[node name="PrototypeHud" type="CanvasLayer" parent="."]
+script = ExtResource("1_hud")
 
 [node name="PlayGodotServer" type="Node" parent="."]
 script = ExtResource("2_server")

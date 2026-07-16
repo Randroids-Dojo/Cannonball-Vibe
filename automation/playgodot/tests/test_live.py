@@ -346,7 +346,7 @@ async def test_hostile_requests_fail_closed_and_are_transcribed(tmp_path: Path) 
             token=token,
             capabilities=("read", "input"),
         )
-        await first_client.request("input.action", {"action": "accelerate", "state": "press"})
+        await first_client.request("input.action", {"action": "ui_accept", "state": "press"})
         abandoned_wait = asyncio.create_task(
             first_client.request(
                 "signal.wait",
