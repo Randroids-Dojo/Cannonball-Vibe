@@ -70,4 +70,7 @@ public sealed record ChunkManifest(
     string ContentHash,
     string RelativePath,
     RouteBounds Bounds,
-    IReadOnlyList<string> ProbableBranchChunkIds);
+    IReadOnlyList<string> ProbableBranchChunkIds)
+{
+    public ulong ByteCount { get; init; }
+}

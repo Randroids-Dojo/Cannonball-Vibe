@@ -42,6 +42,7 @@ table ChunkManifestData {
   content_hash:string;
   relative_path:string;
   probable_branch_chunk_ids:[string];
+  byte_count:ulong;
 }
 
 table SourceProvenanceData {

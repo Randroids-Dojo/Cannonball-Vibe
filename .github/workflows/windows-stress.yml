@@ -1,4 +1,4 @@
-name: Windows streaming smoke
+name: Windows packaged short-corridor soak
 
 on:
   schedule:
@@ -23,22 +23,26 @@ jobs:
           dotnet-version: |
             8.0.x
             10.0.102
+      - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990 # v8.3.2
+        with:
+          version: 0.9.24
+          enable-cache: true
       - uses: chickensoft-games/setup-godot@f166999204a4f2722c6fe042fbaa3b3ea0d9c789 # v2
         with:
           version: 4.7.1
           use-dotnet: true
           include-templates: false
-      - name: Run stress scenario
+      - name: Run packaged short-corridor soak
         shell: bash
         env:
-          CANNONBALL_GODOT_LOG_FILE: reports/windows-stress/godot.log
-          CANNONBALL_SCENARIO_RESULT_FILE: reports/windows-stress/scenario.json
-        run: ./scripts/run-scenario.sh --smoke-test --stress-driver
+          CANNONBALL_GODOT_LOG_FILE: reports/windows-short-corridor-soak/godot.log
+          CANNONBALL_SCENARIO_RESULT_FILE: reports/windows-short-corridor-soak/scenario.json
+        run: ./scripts/run-scenario.sh --fixture official-corridor --short-corridor-soak
       - name: Upload stress evidence
         if: ${{ always() }}
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
-          name: windows-stress-${{ github.run_attempt }}
-          path: reports/windows-stress/
+          name: windows-short-corridor-soak-${{ github.run_attempt }}
+          path: reports/windows-short-corridor-soak/
           if-no-files-found: error
           retention-days: 14

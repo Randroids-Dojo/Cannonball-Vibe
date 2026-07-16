@@ -43,7 +43,7 @@ run_step "pytest" uv run --project tools/map_pipeline --frozen \
 run_step "godot-smoke" env \
   CANNONBALL_GODOT_LOG_FILE="$report_root/godot/godot.log" \
   CANNONBALL_SCENARIO_RESULT_FILE="$report_root/godot/scenario.json" \
-  "$repo_root/scripts/run-scenario.sh" --smoke-test
+  "$repo_root/scripts/run-scenario.sh" --fixture official-corridor --smoke-test
 
 finished_at="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
 check_status="passed"

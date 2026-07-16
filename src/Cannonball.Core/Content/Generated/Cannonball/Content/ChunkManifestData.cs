@@ -51,6 +51,7 @@ public struct ChunkManifestData : IFlatbufferObject
   public byte[] GetRelativePathArray() { return __p.__vector_as_array<byte>(14); }
   public string ProbableBranchChunkIds(int j) { int o = __p.__offset(16); return o != 0 ? __p.__string(__p.__vector(o) + j * 4) : null; }
   public int ProbableBranchChunkIdsLength { get { int o = __p.__offset(16); return o != 0 ? __p.__vector_len(o) : 0; } }
+  public ulong ByteCount { get { int o = __p.__offset(18); return o != 0 ? __p.bb.GetUlong(o + __p.bb_pos) : (ulong)0; } }
 
   public static Offset<Cannonball.Content.ChunkManifestData> CreateChunkManifestData(FlatBufferBuilder builder,
       StringOffset idOffset = default(StringOffset),
@@ -59,8 +60,10 @@ public struct ChunkManifestData : IFlatbufferObject
       double end_meters = 0.0,
       StringOffset content_hashOffset = default(StringOffset),
       StringOffset relative_pathOffset = default(StringOffset),
-      VectorOffset probable_branch_chunk_idsOffset = default(VectorOffset)) {
-    builder.StartTable(7);
+      VectorOffset probable_branch_chunk_idsOffset = default(VectorOffset),
+      ulong byte_count = 0) {
+    builder.StartTable(8);
+    ChunkManifestData.AddByteCount(builder, byte_count);
     ChunkManifestData.AddEndMeters(builder, end_meters);
     ChunkManifestData.AddStartMeters(builder, start_meters);
     ChunkManifestData.AddProbableBranchChunkIds(builder, probable_branch_chunk_idsOffset);
@@ -71,7 +74,7 @@ public struct ChunkManifestData : IFlatbufferObject
     return ChunkManifestData.EndChunkManifestData(builder);
   }
 
-  public static void StartChunkManifestData(FlatBufferBuilder builder) { builder.StartTable(7); }
+  public static void StartChunkManifestData(FlatBufferBuilder builder) { builder.StartTable(8); }
   public static void AddId(FlatBufferBuilder builder, StringOffset idOffset) { builder.AddOffset(0, idOffset.Value, 0); }
   public static void AddEdgeId(FlatBufferBuilder builder, StringOffset edgeIdOffset) { builder.AddOffset(1, edgeIdOffset.Value, 0); }
   public static void AddStartMeters(FlatBufferBuilder builder, double startMeters) { builder.AddDouble(2, startMeters, 0.0); }
@@ -84,6 +87,7 @@ public struct ChunkManifestData : IFlatbufferObject
   public static VectorOffset CreateProbableBranchChunkIdsVectorBlock(FlatBufferBuilder builder, ArraySegment<StringOffset> data) { builder.StartVector(4, data.Count, 4); builder.Add(data); return builder.EndVector(); }
   public static VectorOffset CreateProbableBranchChunkIdsVectorBlock(FlatBufferBuilder builder, IntPtr dataPtr, int sizeInBytes) { builder.StartVector(1, sizeInBytes, 1); builder.Add<StringOffset>(dataPtr, sizeInBytes); return builder.EndVector(); }
   public static void StartProbableBranchChunkIdsVector(FlatBufferBuilder builder, int numElems) { builder.StartVector(4, numElems, 4); }
+  public static void AddByteCount(FlatBufferBuilder builder, ulong byteCount) { builder.AddUlong(7, byteCount, 0); }
   public static Offset<Cannonball.Content.ChunkManifestData> EndChunkManifestData(FlatBufferBuilder builder) {
     int o = builder.EndTable();
     builder.Required(o, 4);  // id
@@ -132,6 +136,7 @@ public struct ChunkManifestData : IFlatbufferObject
     _o.RelativePath = this.RelativePath;
     _o.ProbableBranchChunkIds = new List<string>();
     for (var _j = 0; _j < this.ProbableBranchChunkIdsLength; ++_j) {_o.ProbableBranchChunkIds.Add(this.ProbableBranchChunkIds(_j));}
+    _o.ByteCount = this.ByteCount;
   }
   public static Offset<Cannonball.Content.ChunkManifestData> Pack(FlatBufferBuilder builder, ChunkManifestDataT _o) {
     if (_o == null) return default(Offset<Cannonball.Content.ChunkManifestData>);
@@ -153,7 +158,8 @@ public struct ChunkManifestData : IFlatbufferObject
       _o.EndMeters,
       _content_hash,
       _relative_path,
-      _probable_branch_chunk_ids);
+      _probable_branch_chunk_ids,
+      _o.ByteCount);
   }
 }
 
@@ -166,6 +172,7 @@ public class ChunkManifestDataT
   public string ContentHash { get; set; }
   public string RelativePath { get; set; }
   public List<string> ProbableBranchChunkIds { get; set; }
+  public ulong ByteCount { get; set; }
 
   public ChunkManifestDataT() {
     this.Id = null;
@@ -175,6 +182,7 @@ public class ChunkManifestDataT
     this.ContentHash = null;
     this.RelativePath = null;
     this.ProbableBranchChunkIds = null;
+    this.ByteCount = 0;
   }
 }
 
@@ -191,6 +199,7 @@ static public class ChunkManifestDataVerify
       && verifier.VerifyString(tablePos, 12 /*ContentHash*/, false)
       && verifier.VerifyString(tablePos, 14 /*RelativePath*/, false)
       && verifier.VerifyVectorOfStrings(tablePos, 16 /*ProbableBranchChunkIds*/, false)
+      && verifier.VerifyField(tablePos, 18 /*ByteCount*/, 8 /*ulong*/, 8, false)
       && verifier.VerifyTableEnd(tablePos);
   }
 }

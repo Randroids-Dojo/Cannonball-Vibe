@@ -27,11 +27,45 @@ public sealed record RouteContentMetadata(
 
 public static class FlatBufferRouteContent
 {
-    public static RouteContentPackage Load(string path) => Load(File.ReadAllBytes(path));
+    public const int MaximumRootBytes = 64_000_000;
+
+    public static RouteContentPackage Load(string path)
+    {
+        try
+        {
+            using var stream = new FileStream(
+                path,
+                FileMode.Open,
+                FileAccess.Read,
+                FileShare.Read,
+                bufferSize: 1,
+                FileOptions.SequentialScan);
+            if (stream.Length >= MaximumRootBytes)
+            {
+                throw new InvalidDataException("Route content root exceeds the 64 MB budget.");
+            }
+
+            var bytes = new byte[checked((int)stream.Length)];
+            stream.ReadExactly(bytes);
+            if (stream.ReadByte() != -1)
+            {
+                throw new InvalidDataException("Route content root changed while it was being read.");
+            }
+            return Load(bytes);
+        }
+        catch (FileNotFoundException)
+        {
+            throw new FileNotFoundException("Route content root is missing.", path);
+        }
+    }
 
     public static RouteContentPackage Load(byte[] bytes)
     {
         ArgumentNullException.ThrowIfNull(bytes);
+        if (bytes.Length >= MaximumRootBytes)
+        {
+            throw new InvalidDataException("Route content root exceeds the 64 MB budget.");
+        }
         var buffer = new ByteBuffer(bytes);
         if (!RouteGraphBuffer.RouteGraphBufferBufferHasIdentifier(buffer) ||
             !RouteGraphBuffer.VerifyRouteGraphBuffer(buffer))
@@ -40,7 +74,7 @@ public static class FlatBufferRouteContent
         }
 
         var root = RouteGraphBuffer.GetRootAsRouteGraphBuffer(buffer);
-        if (root.SchemaVersion is not (1 or 2))
+        if (root.SchemaVersion is not (1 or 2 or 3))
         {
             throw new InvalidDataException($"Unsupported route schema {root.SchemaVersion}.");
         }
@@ -72,6 +106,14 @@ public static class FlatBufferRouteContent
         {
             var data = root.Edges(index)
                 ?? throw new InvalidDataException($"Route edge {index} is missing.");
+            if (!double.IsFinite(data.LengthMeters) || data.LengthMeters <= 0 || data.LaneCount <= 0)
+            {
+                throw new InvalidDataException($"Route edge {index} has invalid dimensions.");
+            }
+            if (root.SchemaVersion >= 3 && data.SamplesLength != 0)
+            {
+                throw new InvalidDataException("Route schema 3 must not inline edge samples.");
+            }
             var curvature = new float[data.SamplesLength];
             var grade = new float[data.SamplesLength];
             var distance = new double[data.SamplesLength];
@@ -115,24 +157,37 @@ public static class FlatBufferRouteContent
         {
             var data = root.Chunks(index)
                 ?? throw new InvalidDataException($"Chunk manifest {index} is missing.");
+            if (!double.IsFinite(data.StartMeters) || !double.IsFinite(data.EndMeters) ||
+                data.StartMeters < 0 || data.EndMeters <= data.StartMeters)
+            {
+                throw new InvalidDataException($"Chunk manifest {index} has an invalid range.");
+            }
+            if ((root.SchemaVersion >= 3 && data.ByteCount == 0) ||
+                data.ByteCount >= FlatBufferRouteChunkContent.MaximumChunkBytes)
+            {
+                throw new InvalidDataException($"Chunk manifest {index} has an invalid byte count.");
+            }
             var manifest = new ChunkManifest(
                 Required(data.Id, "chunk id"),
                 Required(data.EdgeId, "chunk edge id"),
                 data.StartMeters,
                 data.EndMeters,
-                Required(data.ContentHash, "chunk hash"),
-                data.RelativePath ?? string.Empty,
+                RequiredSha256(data.ContentHash, "chunk hash"),
+                RequiredRelativePath(data.RelativePath, "chunk path"),
                 default,
                 Enumerable.Range(0, data.ProbableBranchChunkIdsLength)
                     .Select(data.ProbableBranchChunkIds)
                     .Where(value => value is not null)
                     .Cast<string>()
-                    .ToArray());
+                    .ToArray())
+            {
+                ByteCount = data.ByteCount,
+            };
             chunks.Add(manifest.Id, manifest);
         }
 
         RouteContentMetadata? metadata = null;
-        if (root.SchemaVersion == 2)
+        if (root.SchemaVersion >= 2)
         {
             var provenance = root.Provenance
                 ?? throw new InvalidDataException("Route schema 2 is missing source provenance.");
@@ -155,13 +210,60 @@ public static class FlatBufferRouteContent
                 RequiredSha256(spatial.ElevationArtifactSha256, "elevation artifact hash"));
         }
 
-        return new RouteContentPackage(
-            new InMemoryRouteGraph(
+        var graph = new InMemoryRouteGraph(
                 Required(root.ContentVersion, "content version"),
                 nodes,
-                edges),
-            chunks,
-            metadata);
+                edges);
+        var referenced = new HashSet<string>(StringComparer.Ordinal);
+        foreach (var edge in edges)
+        {
+            if (root.SchemaVersion >= 3 && edge.ChunkIds.Count == 0)
+            {
+                throw new InvalidDataException($"Edge '{edge.Id}' has no runtime chunks.");
+            }
+            var expectedStart = 0.0;
+            foreach (var chunkId in edge.ChunkIds)
+            {
+                if (!chunks.TryGetValue(chunkId, out var chunk) || chunk.EdgeId != edge.Id)
+                {
+                    throw new InvalidDataException(
+                        $"Edge '{edge.Id}' references missing or mismatched chunk '{chunkId}'.");
+                }
+                if (!referenced.Add(chunkId))
+                {
+                    throw new InvalidDataException($"Route chunk '{chunkId}' is referenced more than once.");
+                }
+                if (root.SchemaVersion >= 3 &&
+                    (chunk.StartMeters != expectedStart || chunk.EndMeters > edge.LengthMeters))
+                {
+                    throw new InvalidDataException(
+                        $"Edge '{edge.Id}' chunks are not contiguous and ordered.");
+                }
+                expectedStart = chunk.EndMeters;
+            }
+            if (root.SchemaVersion >= 3 && expectedStart != edge.LengthMeters)
+            {
+                throw new InvalidDataException(
+                    $"Edge '{edge.Id}' chunks do not cover its complete length.");
+            }
+        }
+        if (referenced.Count != chunks.Count)
+        {
+            throw new InvalidDataException("Route content contains an unreferenced chunk manifest.");
+        }
+        foreach (var manifest in chunks.Values)
+        {
+            foreach (var branchChunkId in manifest.ProbableBranchChunkIds)
+            {
+                if (!chunks.ContainsKey(branchChunkId))
+                {
+                    throw new InvalidDataException(
+                        $"Chunk '{manifest.Id}' references unknown probable branch '{branchChunkId}'.");
+                }
+            }
+        }
+
+        return new RouteContentPackage(graph, chunks, metadata);
     }
 
     private static string Required(string? value, string description) =>
@@ -179,5 +281,18 @@ public static class FlatBufferRouteContent
         }
 
         return digest;
+    }
+
+    private static string RequiredRelativePath(string? value, string description)
+    {
+        var relativePath = Required(value, description);
+        if (Path.IsPathRooted(relativePath) || relativePath.Contains('\\') ||
+            relativePath.Contains(':') || relativePath.Split('/').Any(segment =>
+                string.IsNullOrEmpty(segment) || segment is "." or ".."))
+        {
+            throw new InvalidDataException($"Route content has an invalid {description}.");
+        }
+
+        return relativePath;
     }
 }
