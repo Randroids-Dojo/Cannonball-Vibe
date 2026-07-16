@@ -3,7 +3,7 @@
   "task_id": "P0-008",
   "milestone": "M0",
   "status": "complete",
-  "verified_at": "2026-07-16T03:41:26Z",
+  "verified_at": "2026-07-16T03:59:50Z",
   "git_revision": "c068506f785534a19935eed84139101daf2910e5",
   "platform": "github.com/Randroids-Dojo/Cannonball-Vibe",
   "tool_versions": {
@@ -50,7 +50,7 @@
         "actual": [
           "M0 (ubuntu-latest)",
           "M0 (windows-latest)",
-          "Coderabbitai"
+          "CodeRabbit"
         ]
       }
     },
@@ -79,8 +79,8 @@
     "target": "branch",
     "ref_condition": "~DEFAULT_BRANCH",
     "enforcement": "active",
-    "updated_at": "2026-07-15T22:41:26.255-05:00",
-    "canonical_snapshot_sha256": "2651d91bc791d3f375f0a917e2643129a9e8c2c783a42a75ac79fa0403ae5665",
+    "updated_at": "2026-07-15T22:59:50.220-05:00",
+    "canonical_snapshot_sha256": "3b3dac01fc9ec5699052b78f48c7131d92a0b92527df4336244b9291b7d49640",
     "rules": [
       "deletion",
       "non_fast_forward",
@@ -98,7 +98,7 @@
         "integration_id": 15368
       },
       {
-        "context": "Coderabbitai",
+        "context": "CodeRabbit",
         "integration_id": 347564
       }
     ]
