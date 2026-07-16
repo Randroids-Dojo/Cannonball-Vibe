@@ -288,7 +288,9 @@
       "owned_paths": [
         "export_presets.cfg",
         ".github/workflows/unsigned-exports.yml",
-        "scripts/release/"
+        "scripts/release/",
+        "packages.lock.json",
+        "src/Cannonball.Core/packages.lock.json"
       ],
       "acceptance": [
         "CI installs exact Godot 4.7.1 export templates",
