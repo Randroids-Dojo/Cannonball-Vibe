@@ -138,6 +138,15 @@ def _normalize_geopackage(path: Path) -> None:
         )
         connection.commit()
         connection.execute("VACUUM")
+    # SQLite increments both header counters when GDAL reuses a process-level
+    # connection. They do not describe route content, but otherwise make two
+    # semantically identical GeoPackages differ at bytes 24-27 and 92-95.
+    with path.open("r+b") as geopackage:
+        fixed_counter = (1).to_bytes(4, "big")
+        geopackage.seek(24)
+        geopackage.write(fixed_counter)
+        geopackage.seek(92)
+        geopackage.write(fixed_counter)
 
 
 def _build_edge(
