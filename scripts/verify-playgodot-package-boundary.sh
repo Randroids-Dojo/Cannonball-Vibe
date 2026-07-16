@@ -25,11 +25,43 @@ temp_dir="$(mktemp -d "${TMPDIR:-/tmp}/cannonball-playgodot-boundary.XXXXXX")"
 runtime_log="$temp_dir/runtime.log"
 transcript="$temp_dir/transcript.jsonl"
 trap 'rm -rf "$temp_dir"' EXIT
+playgodot_token="$(uv run --project "$repo_root/automation/playgodot" --frozen \
+  python -c 'import secrets; print(secrets.token_hex(32))')"
 
-PLAYGODOT_TOKEN=0123456789abcdef0123456789abcdef \
-PLAYGODOT_TRANSCRIPT="$transcript" \
-  "$repo_root/scripts/run-scenario.sh" --fixture official-corridor --smoke-test --playgodot \
-  >"$runtime_log" 2>&1
+package_directory="$repo_root/.tools/scenarios/official-corridor"
+if ! uv run --project "$repo_root/tools/map_pipeline" --frozen cannonball-map build \
+  --source "$repo_root/data/sources/fixtures/nhpn-boulder-us36.geojson" \
+  --manifest "$repo_root/data/sources/fixtures/nhpn-boulder-us36.manifest.json" \
+  --catalog "$repo_root/data/sources/catalog.json" \
+  --elevation "$repo_root/data/sources/fixtures/usgs-13-n40w106-boulder.tif" \
+  --elevation-metadata "$repo_root/data/sources/fixtures/usgs-13-n40w106-boulder.metadata.json" \
+  --acquisition-lock "$repo_root/data/sources/source-lock.json" \
+  --chunk-meters 100 \
+  --output "$package_directory" >"$runtime_log" 2>&1; then
+  echo "PlayGodot boundary fixture build failed." >&2
+  sed -n '1,160p' "$runtime_log" >&2
+  exit 1
+fi
+
+route_package="$package_directory/$(jq -r .root_relative_path "$package_directory/current-package.json")"
+if [[ ! -f "$route_package" ]]; then
+  echo "PlayGodot boundary fixture did not publish its route package." >&2
+  exit 1
+fi
+if ! dotnet build "$repo_root/Cannonball.sln" --nologo >>"$runtime_log" 2>&1; then
+  echo "PlayGodot boundary build failed." >&2
+  sed -n '1,160p' "$runtime_log" >&2
+  exit 1
+fi
+if ! PLAYGODOT_TOKEN="$playgodot_token" \
+  PLAYGODOT_TRANSCRIPT="$transcript" \
+  "$GODOT_BIN" --headless --rendering-method gl_compatibility \
+  --path "$repo_root" --quit-after 30 -- \
+  "--route-package=$route_package" --playgodot >>"$runtime_log" 2>&1; then
+  echo "Normal project startup failed during the PlayGodot boundary check." >&2
+  sed -n '1,160p' "$runtime_log" >&2
+  exit 1
+fi
 
 if grep -Eq 'PLAYGODOT_READY|PLAYGODOT_START_FAILED' "$runtime_log" || [[ -e "$transcript" ]]; then
   echo "Normal project startup exposed a PlayGodot rendezvous or transcript surface." >&2
