@@ -50,3 +50,52 @@ jobs:
             .tools/scenarios/official-corridor/
           if-no-files-found: error
           retention-days: 14
+
+  playgodot:
+    name: PlayGodot spike (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    env:
+      DOTNET_ROLL_FORWARD: Major
+    steps:
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+        with:
+          lfs: true
+      - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5
+        with:
+          dotnet-version: |
+            8.0.x
+            10.0.102
+      - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990 # v8.3.2
+        with:
+          version: "0.9.24"
+          enable-cache: true
+      - uses: chickensoft-games/setup-godot@f166999204a4f2722c6fe042fbaa3b3ea0d9c789 # v2
+        with:
+          version: 4.7.1
+          use-dotnet: true
+          include-templates: false
+      - name: Verify optional PlayGodot spike
+        shell: bash
+        run: |
+          godot_bin="$(command -v godot)"
+          export GODOT_BIN="$godot_bin"
+          if [[ "$RUNNER_OS" == "Linux" ]]; then
+            export PLAYGODOT_XVFB=1
+          fi
+          export PLAYGODOT_ARTIFACT_DIR="$PWD/reports/playgodot"
+          ./scripts/verify-playgodot.sh
+      - name: Upload PlayGodot evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: playgodot-${{ runner.os }}-${{ github.run_attempt }}
+          path: |
+            reports/playgodot/
+            .tools/scenarios/official-corridor/
+          if-no-files-found: error
+          retention-days: 14

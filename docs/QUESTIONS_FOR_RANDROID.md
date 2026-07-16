@@ -4,6 +4,24 @@ This is the short human-inbox for questions uncovered during autonomous work.
 None of these blocks the current technical implementation because each has a
 recorded working default in [OPEN_QUESTIONS.md](OPEN_QUESTIONS.md).
 
+## Adopt PlayGodot after the spike? (Q-011)
+
+The official-Godot spike now has a stable-ID semantic query, bounded signal
+waits and input, verified screenshots, capability negotiation, hostile-request
+tests, and a CLI. The local macOS suite completed ten fresh-engine runs with
+zero failures in 30 seconds. The working default is to keep this debug-only and
+optional until three remaining facts exist:
+
+1. the new CI job passes the live suite on macOS, Linux, and Windows;
+2. P0-007 produces a real release package whose contents and startup behavior
+   prove that no enabled server or rendezvous surface ships; and
+3. the first representative interactive menu shows lower diagnosis cost or a
+   unique defect compared with CLI evidence plus Computer Use.
+
+When those facts exist, should PlayGodot become required project infrastructure
+or remain an opt-in debugging tool? No answer is needed for current gameplay,
+map, or release-pipeline work.
+
 ## Representative route map sanity review (P0-004)
 
 After the official-corridor packaged streaming candidate is merged, please

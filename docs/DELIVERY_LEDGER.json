@@ -347,14 +347,21 @@
       "milestone": "M1",
       "priority": "P1",
       "title": "Modern PlayGodot semantic UI automation spike",
-      "status": "open",
+      "status": "in_progress",
       "dependencies": [
         "P0-001"
       ],
       "owned_paths": [
         "addons/playgodot/",
         "automation/playgodot/",
-        "docs/research/2026-07-15-playgodot-modernization.md"
+        "docs/QUESTIONS_FOR_RANDROID.md",
+        "docs/research/2026-07-15-playgodot-modernization.md",
+        "evidence/M1/P1-004.json",
+        "game/UI/PrototypeHud.cs",
+        "project.godot",
+        "scripts/verify-playgodot-package-boundary.sh",
+        "scripts/verify-playgodot.sh",
+        ".github/workflows/ci.yml"
       ],
       "acceptance": [
         "The bridge runs on unmodified official Godot 4.7.1 on macOS, Linux, and Windows",
@@ -367,8 +374,7 @@
         "The spike measures unique defect coverage, flake rate, execution time, and diagnosis cost against CLI plus Computer Use"
       ],
       "verification": [
-        "uv run --project automation/playgodot pytest",
-        "./scripts/verify-playgodot-package-boundary.sh"
+        "./scripts/verify-playgodot.sh"
       ],
       "evidence": [
         "evidence/M1/P1-004.json"
