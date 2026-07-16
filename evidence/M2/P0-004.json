@@ -259,7 +259,7 @@
   "adversarial_review": {
     "reviewers": 3,
     "method": "Independent package-accuracy, evidence-contract, and security reviews after the package-normalization change",
-    "review_service_fallback": "Supplementary review was rate-limited; repository fallback reviews were recorded on pull request 6.",
+    "review_service_fallback": "Supplementary review was rate-limited; repository fallback reviews were recorded on pull request 7.",
     "unresolved_actionable_findings": 0,
     "record": "https://github.com/Randroids-Dojo/Cannonball-Vibe/pull/7"
   },

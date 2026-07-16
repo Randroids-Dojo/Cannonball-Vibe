@@ -18,11 +18,13 @@ reads of the same immutable package as a repeated transport stress; it does not
 claim 100 unique drivable miles. A longer locked corridor remains necessary for
 representative long-route streaming and local-origin evidence.
 
-Create a deterministic six-second rendered review capture with:
+Create a deterministic 60-second rendered review capture that traverses the
+short corridor and crosses every chunk boundary with:
 
 ```bash
-GODOT_BIN=/absolute/path/to/Godot CANNONBALL_CAPTURE_FRAMES=360 \
-  ./scripts/capture-scenario.sh /tmp/p0-004-route-review.avi --smoke-test
+GODOT_BIN=/absolute/path/to/Godot CANNONBALL_CAPTURE_FPS=60 \
+  CANNONBALL_CAPTURE_FRAMES=3600 ./scripts/capture-scenario.sh \
+  /tmp/p0-004-route-review.avi --short-corridor-soak
 ```
 
 Review `/tmp/p0-004-route-review.avi` for route shape, grade, seams, scenery
