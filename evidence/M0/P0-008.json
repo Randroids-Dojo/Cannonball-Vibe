@@ -1,0 +1,164 @@
+{
+  "schema_version": 1,
+  "task_id": "P0-008",
+  "milestone": "M0",
+  "status": "complete",
+  "verified_at": "2026-07-16T03:59:50Z",
+  "git_revision": "c068506f785534a19935eed84139101daf2910e5",
+  "platform": "github.com/Randroids-Dojo/Cannonball-Vibe",
+  "tool_versions": {
+    "dotnet_sdk": "10.0.102",
+    "godot": "4.7.1.stable.mono.official.a13da4feb",
+    "git_lfs": "3.7.1",
+    "uv": "0.9.24"
+  },
+  "inputs": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "b1bc991d4af6a4d7741c49529add6780a3b475a29015cf1ab7836c4f4d59786a"
+    },
+    {
+      "path": "docs/DELIVERY_LEDGER.json",
+      "sha256": "cd4e5b8b983763eb31c3b063a147b474f747356139c599d6bc83e1e64c67ff38"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "sha256": "858af30a9b962a7fe299dafcc9b1da393c9e5e913804a411d9ef9f1b67e1ef24"
+    },
+    {
+      "path": "evidence/M0/P0-001.json",
+      "sha256": "b5fc4bab614040594aa437edb0412647b3a3cf13e96b9f6b402d35e9c990710b"
+    }
+  ],
+  "acceptance": [
+    {
+      "criterion": "The implementation is committed and required workflows pass remotely",
+      "status": "passed",
+      "comparison": {
+        "expected": "main revision is remote and both M0 matrix jobs pass",
+        "actual": "c068506f785534a19935eed84139101daf2910e5 is on main; GitHub Actions run 29463624323 and both M0 jobs concluded success"
+      }
+    },
+    {
+      "criterion": "Main requires the declared CI checks",
+      "status": "passed",
+      "comparison": {
+        "expected": [
+          "M0 (ubuntu-latest)",
+          "M0 (windows-latest)"
+        ],
+        "actual": [
+          "M0 (ubuntu-latest)",
+          "M0 (windows-latest)",
+          "CodeRabbit"
+        ]
+      }
+    },
+    {
+      "criterion": "Delivery tasks have dependency and evidence records",
+      "status": "passed",
+      "comparison": {
+        "task_count": 13,
+        "tasks_missing_dependencies": 0,
+        "tasks_missing_evidence_paths": 0
+      }
+    },
+    {
+      "criterion": "Concurrent tasks declare generated-output ownership before work begins",
+      "status": "passed",
+      "comparison": {
+        "ledger_tasks_missing_owned_paths": 0,
+        "policy": "AGENTS.md requires file and generated-output ownership declarations and separate branches or worktrees for concurrent tasks"
+      }
+    }
+  ],
+  "remote_governance": {
+    "ruleset_id": 19023294,
+    "ruleset_name": "auto-review",
+    "ruleset_url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/rules/19023294",
+    "target": "branch",
+    "ref_condition": "~DEFAULT_BRANCH",
+    "enforcement": "active",
+    "updated_at": "2026-07-15T22:59:50.220-05:00",
+    "canonical_snapshot_sha256": "3b3dac01fc9ec5699052b78f48c7131d92a0b92527df4336244b9291b7d49640",
+    "rules": [
+      "deletion",
+      "non_fast_forward",
+      "code_quality",
+      "pull_request",
+      "required_status_checks"
+    ],
+    "required_status_checks": [
+      {
+        "context": "M0 (ubuntu-latest)",
+        "integration_id": 15368
+      },
+      {
+        "context": "M0 (windows-latest)",
+        "integration_id": 15368
+      },
+      {
+        "context": "CodeRabbit",
+        "integration_id": 347564
+      }
+    ]
+  },
+  "remote_verification": {
+    "run_id": 29463624323,
+    "run_url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29463624323",
+    "head_sha": "c068506f785534a19935eed84139101daf2910e5",
+    "conclusion": "success",
+    "jobs": [
+      {
+        "job_id": 87512052954,
+        "name": "M0 (ubuntu-latest)",
+        "conclusion": "success"
+      },
+      {
+        "job_id": 87512052978,
+        "name": "M0 (windows-latest)",
+        "conclusion": "success"
+      }
+    ],
+    "artifacts": [
+      {
+        "artifact_id": 8362110016,
+        "name": "m0-Linux-1",
+        "sha256": "513a7bdc2bb5606ae93f54ea980fc120e0fe8b4e9960c04fee8cc412ca4e62ef"
+      },
+      {
+        "artifact_id": 8362132753,
+        "name": "m0-Windows-1",
+        "sha256": "2d96d0fcf41c5054fef05af0a0e4131381149e4c6ade5018e9a6af702a87f605"
+      }
+    ]
+  },
+  "commands": [
+    {
+      "command": "git fetch origin --prune",
+      "exit_code": 0
+    },
+    {
+      "command": "gh api repos/Randroids-Dojo/Cannonball-Vibe/rules/branches/main",
+      "exit_code": 0
+    },
+    {
+      "command": "gh api repos/Randroids-Dojo/Cannonball-Vibe/rulesets/19023294",
+      "exit_code": 0
+    },
+    {
+      "command": "gh api repos/Randroids-Dojo/Cannonball-Vibe/actions/runs/29463624323/jobs",
+      "exit_code": 0
+    }
+  ],
+  "failure_handling": {
+    "failure_logs": [],
+    "retry_count": 0,
+    "recovery_result": "not_applicable"
+  },
+  "human_gate": {
+    "name": "Repository governance approval",
+    "status": "approved",
+    "approval_reference": "User confirmed completion of branch protection in the implementation task on 2026-07-15; active ruleset 19023294 is the durable GitHub configuration."
+  }
+}
