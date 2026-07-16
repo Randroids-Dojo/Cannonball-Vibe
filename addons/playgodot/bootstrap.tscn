@@ -1,9 +1,11 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://game/UI/PrototypeHud.cs" id="1_hud"]
 [ext_resource type="Script" path="res://addons/playgodot/server.gd" id="2_server"]
+[ext_resource type="Script" path="res://addons/playgodot/bootstrap.gd" id="3_bootstrap"]
 
 [node name="PlayGodotBootstrap" type="Node"]
+script = ExtResource("3_bootstrap")
 
 [node name="PrototypeHud" type="CanvasLayer" parent="."]
 script = ExtResource("1_hud")
@@ -34,3 +36,11 @@ offset_right = 1020.0
 offset_bottom = 84.0
 color = Color(0.25, 0.5, 0.75, 1)
 metadata/automation_id = "playgodot.fixture.color"
+
+[node name="ActionStateFixture" type="Label" parent="."]
+offset_left = 680.0
+offset_top = 24.0
+offset_right = 840.0
+offset_bottom = 72.0
+text = "released"
+metadata/automation_id = "playgodot.fixture.action-state"

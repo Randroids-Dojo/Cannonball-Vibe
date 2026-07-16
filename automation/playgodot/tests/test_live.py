@@ -183,7 +183,9 @@ async def test_official_engine_semantic_round_trip(tmp_path: Path) -> None:
         assert speed["automation_id"] == "hud.speed"
         assert speed["class"] == "Label"
         assert speed["visible"] is True
-        assert speed["bounds"]["width"] > 0
+        assert speed["text"] == "60 MPH"
+        assert speed["bounds"]["width"] > 40
+        assert speed["bounds"]["height"] > 20
 
         with pytest.raises(PlayGodotError, match="DUPLICATE_ID"):
             await client.describe("playgodot.fixture.duplicate")
@@ -346,14 +348,19 @@ async def test_hostile_requests_fail_closed_and_are_transcribed(tmp_path: Path) 
             token=token,
             capabilities=("read", "input"),
         )
+        initial_action_state = await first_client.describe("playgodot.fixture.action-state")
+        assert initial_action_state["text"] == "released"
         await first_client.request("input.action", {"action": "ui_accept", "state": "press"})
+        await asyncio.sleep(0.05)
+        pressed_action_state = await first_client.describe("playgodot.fixture.action-state")
+        assert pressed_action_state["text"] == "pressed"
         abandoned_wait = asyncio.create_task(
             first_client.request(
                 "signal.wait",
                 {
                     "automation_id": "playgodot.fixture.button",
                     "signal": "pressed",
-                    "timeout_ms": 200,
+                    "timeout_ms": 2_000,
                 },
             )
         )
@@ -365,6 +372,26 @@ async def test_hostile_requests_fail_closed_and_are_transcribed(tmp_path: Path) 
 
         second_client = await _connect_after_session_cleanup(host, port, token=token)
         await asyncio.sleep(0.25)
+        released_action_state = await second_client.describe("playgodot.fixture.action-state")
+        assert released_action_state["text"] == "released"
+        capacity_results = await asyncio.gather(
+            *(
+                second_client.request(
+                    "signal.wait",
+                    {
+                        "automation_id": "playgodot.fixture.button",
+                        "signal": "pressed",
+                        "timeout_ms": 20,
+                    },
+                )
+                for _wait in range(8)
+            ),
+            return_exceptions=True,
+        )
+        assert all(
+            isinstance(result, PlayGodotError) and result.name == "TIMEOUT"
+            for result in capacity_results
+        )
         assert await second_client.request("session.ping") == {"ok": True}
         await second_client.close(abort=True)
         await asyncio.sleep(0.1)
