@@ -55,7 +55,7 @@
       "milestone": "M0",
       "priority": "P0",
       "title": "Strict bootstrap and verification front door",
-      "status": "in_progress",
+      "status": "complete",
       "dependencies": [],
       "owned_paths": [
         "scripts/",

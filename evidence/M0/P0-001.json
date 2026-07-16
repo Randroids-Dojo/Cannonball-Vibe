@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "task_id": "P0-001",
+  "status": "complete",
+  "verified_at": "2026-07-16T01:12:55Z",
+  "implementation": {
+    "bootstrap_commit": "d0e8218557b28af0ba012f2a7c4b2db5e8a2c07f",
+    "verified_commit": "75cce95bd2fedaee84e430d49e4a594292b1916d",
+    "tool_versions": {
+      "dotnet_sdk": "10.0.102",
+      "godot": "4.7.1.stable.mono.official.a13da4feb",
+      "git_lfs": "3.7.1",
+      "uv": "0.9.24"
+    },
+    "commands": {
+      "doctor": "./scripts/doctor.sh",
+      "verification": "./scripts/check.sh"
+    }
+  },
+  "acceptance": [
+    {
+      "criterion": "A documented doctor command validates exact required tool versions",
+      "status": "passed",
+      "evidence": "README.md documents ./scripts/doctor.sh; both uploaded doctor.json reports contain exact expected and actual versions with zero failed checks."
+    },
+    {
+      "criterion": "The required verification command fails when Godot is unavailable",
+      "status": "passed",
+      "evidence": "A local negative-path run with GODOT_BIN set to a missing executable exited 1 and wrote failed doctor, scenario, and summary JSON reports while completing the remaining checks."
+    },
+    {
+      "criterion": "Linux and Windows CI execute all required M0 checks",
+      "status": "passed",
+      "evidence": "GitHub Actions run 29463466966 completed successfully; both matrix jobs report doctor, .NET build, xUnit, Ruff, pytest, and Godot smoke as passed."
+    },
+    {
+      "criterion": "Failure logs and machine-readable test results are uploaded",
+      "status": "passed",
+      "evidence": "Both retained artifacts contain per-step logs, summary.json, doctor.json, an xUnit TRX report, pytest JUnit XML, Godot scenario JSON, and the Godot log. Artifact upload is guarded by always()."
+    }
+  ],
+  "local_verification": {
+    "doctor": "passed",
+    "complete_gate": "passed",
+    "missing_godot_negative_path": {
+      "expected_exit_code": 1,
+      "actual_exit_code": 1,
+      "status": "passed"
+    },
+    "static_checks": [
+      "bash -n scripts/*.sh",
+      "shellcheck scripts/*.sh",
+      "actionlint .github/workflows/*.yml",
+      "git diff --check"
+    ]
+  },
+  "remote_verification": {
+    "provider": "GitHub Actions",
+    "run_id": 29463466966,
+    "run_url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29463466966",
+    "conclusion": "success",
+    "head_sha": "75cce95bd2fedaee84e430d49e4a594292b1916d",
+    "jobs": [
+      {
+        "job_id": 87511589271,
+        "name": "M0 (ubuntu-latest)",
+        "conclusion": "success",
+        "job_url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29463466966/job/87511589271"
+      },
+      {
+        "job_id": 87511589280,
+        "name": "M0 (windows-latest)",
+        "conclusion": "success",
+        "job_url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29463466966/job/87511589280"
+      }
+    ],
+    "artifacts": [
+      {
+        "artifact_id": 8362051655,
+        "name": "m0-Linux-1",
+        "digest": "sha256:7db0f8f52e8579e345bc09f3be7319db7a8e84ed87b5b7b26146ad3f332e64cd",
+        "expires_at": "2026-07-30T01:11:39Z",
+        "validation": "Downloaded; summary, doctor, and Godot scenario reports passed."
+      },
+      {
+        "artifact_id": 8362071099,
+        "name": "m0-Windows-1",
+        "digest": "sha256:ea53d5ee1ee2cd4309c7287fa73ca163642e89093d39f2d0febe36d21049a0e8",
+        "expires_at": "2026-07-30T01:12:49Z",
+        "validation": "Downloaded; summary, doctor, and Godot scenario reports passed."
+      }
+    ],
+    "artifact_contents": [
+      "summary.json",
+      "doctor.json",
+      "logs/*.log",
+      "dotnet/core-tests.trx",
+      "python/junit.xml",
+      "godot/scenario.json",
+      "godot/godot.log"
+    ]
+  }
+}
