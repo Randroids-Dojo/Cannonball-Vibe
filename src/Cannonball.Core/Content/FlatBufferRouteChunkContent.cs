@@ -142,10 +142,35 @@ public sealed class VerifiedFileChunkSource : IChunkSource
         return result.Content;
     }
 
+    public RouteChunkContent LoadChunk(string chunkId)
+    {
+        var manifest = GetManifest(chunkId);
+        var path = ResolvePath(manifest.RelativePath);
+        byte[] bytes;
+        try
+        {
+            using var stream = new FileStream(
+                path,
+                FileMode.Open,
+                FileAccess.Read,
+                FileShare.Read,
+                bufferSize: 1,
+                FileOptions.SequentialScan);
+            bytes = ReadChunk(stream, chunkId, manifest);
+        }
+        catch (FileNotFoundException)
+        {
+            throw new FileNotFoundException($"Route chunk '{chunkId}' is missing.", path);
+        }
+
+        return ValidateChunk(chunkId, manifest, bytes);
+    }
+
     private async ValueTask<(ReadOnlyMemory<byte> Bytes, RouteChunkContent Content)>
         ReadAndValidateChunkAsync(string chunkId, CancellationToken cancellationToken)
     {
-        var manifest = await GetManifestAsync(chunkId, cancellationToken);
+        cancellationToken.ThrowIfCancellationRequested();
+        var manifest = GetManifest(chunkId);
         var path = ResolvePath(manifest.RelativePath);
         byte[] bytes;
         try
@@ -157,12 +182,7 @@ public sealed class VerifiedFileChunkSource : IChunkSource
                 FileShare.Read,
                 bufferSize: 1,
                 FileOptions.Asynchronous | FileOptions.SequentialScan);
-            if (stream.Length >= FlatBufferRouteChunkContent.MaximumChunkBytes ||
-                manifest.ByteCount == 0 ||
-                (ulong)stream.Length != manifest.ByteCount)
-            {
-                throw new InvalidDataException($"Route chunk '{chunkId}' has an invalid byte count.");
-            }
+            ValidateByteCount(stream, chunkId, manifest);
             bytes = new byte[checked((int)stream.Length)];
             await stream.ReadExactlyAsync(bytes, cancellationToken);
             var trailingByte = new byte[1];
@@ -177,16 +197,57 @@ public sealed class VerifiedFileChunkSource : IChunkSource
             throw new FileNotFoundException($"Route chunk '{chunkId}' is missing.", path);
         }
 
+        return (bytes, ValidateChunk(chunkId, manifest, bytes));
+    }
+
+    private ChunkManifest GetManifest(string chunkId) =>
+        _package.Chunks.TryGetValue(chunkId, out var manifest)
+            ? manifest
+            : throw new KeyNotFoundException($"Unknown route chunk '{chunkId}'.");
+
+    private static byte[] ReadChunk(
+        FileStream stream,
+        string chunkId,
+        ChunkManifest manifest)
+    {
+        ValidateByteCount(stream, chunkId, manifest);
+        var bytes = new byte[checked((int)stream.Length)];
+        stream.ReadExactly(bytes);
+        if (stream.ReadByte() != -1)
+        {
+            throw new InvalidDataException(
+                $"Route chunk '{chunkId}' changed while it was being read.");
+        }
+        return bytes;
+    }
+
+    private static void ValidateByteCount(
+        FileStream stream,
+        string chunkId,
+        ChunkManifest manifest)
+    {
+        if (stream.Length >= FlatBufferRouteChunkContent.MaximumChunkBytes ||
+            manifest.ByteCount == 0 ||
+            (ulong)stream.Length != manifest.ByteCount)
+        {
+            throw new InvalidDataException($"Route chunk '{chunkId}' has an invalid byte count.");
+        }
+    }
+
+    private RouteChunkContent ValidateChunk(
+        string chunkId,
+        ChunkManifest manifest,
+        byte[] bytes)
+    {
         var digest = Convert.ToHexString(SHA256.HashData(bytes)).ToLowerInvariant();
         if (!string.Equals(digest, manifest.ContentHash, StringComparison.Ordinal))
         {
             throw new InvalidDataException($"Route chunk '{chunkId}' failed SHA-256 verification.");
         }
-        var content = FlatBufferRouteChunkContent.Load(
+        return FlatBufferRouteChunkContent.Load(
             bytes,
             manifest,
             _package.Graph.ContentVersion);
-        return (bytes, content);
     }
 
     private string ResolvePath(string relativePath)

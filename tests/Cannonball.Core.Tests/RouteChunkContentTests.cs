@@ -27,6 +27,23 @@ public sealed class RouteChunkContentTests
         }
     }
 
+    [Fact]
+    public void VerifiedSourceSynchronouslyLoadsInitialChunk()
+    {
+        var fixture = CreateFixture();
+        try
+        {
+            var chunk = fixture.Source.LoadChunk("chunk-1");
+
+            Assert.Equal("edge-1", chunk.EdgeId);
+            Assert.Equal(2, chunk.Samples.Count);
+        }
+        finally
+        {
+            Directory.Delete(fixture.Directory, recursive: true);
+        }
+    }
+
     [Theory]
     [InlineData("uppercase-hash")]
     [InlineData("unsafe-path")]

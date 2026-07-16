@@ -56,11 +56,7 @@ public sealed partial class Main : Node3D
                 .ThenBy(manifest => manifest.StartMeters)
                 .FirstOrDefault()
                 ?? throw new InvalidDataException("Route package has no runtime chunks.");
-            var initialChunk = _chunkSource
-                .LoadChunkAsync(initialManifest.Id)
-                .AsTask()
-                .GetAwaiter()
-                .GetResult();
+            var initialChunk = _chunkSource.LoadChunk(initialManifest.Id);
 
             ConfigureInputMap();
             BuildLighting();
