@@ -1,0 +1,331 @@
+{
+  "schema_version": 1,
+  "task_id": "P0-004",
+  "milestone": "M2",
+  "status": "technical_verification_complete_human_gate_pending",
+  "verified_at": "2026-07-16T07:43:27Z",
+  "git_revision": "44850a93824527bdfdd35bdabd74d2cddfb69150",
+  "platform": {
+    "local": "macOS",
+    "remote": [
+      "ubuntu-latest",
+      "windows-latest"
+    ]
+  },
+  "tool_versions": {
+    "common": {
+      "godot": "4.7.1.stable.mono.official.a13da4feb",
+      "dotnet_sdk": "10.0.102",
+      "uv": "0.9.24",
+      "pytest": "9.1.1",
+      "ruff": "0.15.21",
+      "python_flatbuffers": "25.12.19",
+      "csharp_google_flatbuffers": "25.2.10",
+      "geopandas": "1.1.4",
+      "networkx": "3.6.1",
+      "pyogrio": "0.13.0",
+      "rasterio": "1.5.0",
+      "pyproj": "3.7.2",
+      "shapely": "2.1.2"
+    },
+    "local_macos": {
+      "python": "3.13.11",
+      "gdal_pyogrio": "3.12.4",
+      "gdal_rasterio": "3.12.1",
+      "proj": "9.5.1"
+    },
+    "remote_ubuntu": {
+      "python": "3.13.11"
+    },
+    "remote_windows": {
+      "python": "3.13.14"
+    }
+  },
+  "inputs": [
+    {
+      "path": "data/sources/source-lock.json",
+      "sha256": "a3f640c9f804909a9b171c1a169ce5704544fd5905bec73dcc8d7da64b67e2cd"
+    },
+    {
+      "path": "data/sources/catalog.json",
+      "sha256": "356a0fe4810a37bb5e5970bba3ae8295208908bc800e016c22e3b608bbb7c9eb"
+    },
+    {
+      "path": "data/sources/fixtures/nhpn-boulder-us36.geojson",
+      "sha256": "f1021915997f7cb94a00db58feed86f8f9e13e1ac264fc0dd8ba1605d052ae9b"
+    },
+    {
+      "path": "data/sources/fixtures/nhpn-boulder-us36.manifest.json",
+      "sha256": "54da0c7b64e476909f9e62008f09f94abc622631971b6549d030b67778fe429b"
+    },
+    {
+      "path": "data/sources/fixtures/usgs-13-n40w106-boulder.tif",
+      "sha256": "16af3387633b982f3363f34c638f8ca72646b04ec18aa2dcab1189f0352af507"
+    },
+    {
+      "path": "data/sources/fixtures/usgs-13-n40w106-boulder.metadata.json",
+      "sha256": "d626a7d24235884e089effcd38b4d173a26a5427cbec3ffedc063963e55e1cea"
+    }
+  ],
+  "local_macos_package": {
+    "content_version": "route-v3-7b29691bf42eabf1",
+    "schema_version": 3,
+    "root": {
+      "path": ".tools/scenarios/official-corridor/route_graph-cebf3d2270fffbead57c404ed9381728c0710f0ff6d24d16bbd8d924600182be.cbrg",
+      "bytes": 2904,
+      "maximum_exclusive_bytes": 64000000,
+      "sha256": "8ee287814e68d6de3418c9a1469cad9ffd252a25e600859077e4bcf4c52bf485"
+    },
+    "chunks": [
+      {
+        "path": ".tools/scenarios/official-corridor/chunks/route-v3-7b29691bf42eabf1/93de5b31c90ec10dbf488d5002d83c30581e2b851f5cef4f4c4321599d55789c.cbck",
+        "bytes": 464,
+        "sha256": "c307ec3a46a06ad133233169e915231160110ee11368806705dead6015518574"
+      },
+      {
+        "path": ".tools/scenarios/official-corridor/chunks/route-v3-7b29691bf42eabf1/a7696d74c694d2bfde058e0925e10baf58dd6146a1e81fd644c6db7a44beb4b7.cbck",
+        "bytes": 456,
+        "sha256": "948f3b256144653a1b0641f3c9cec29037c8366896e0fb7a7284aea20ed643f6"
+      },
+      {
+        "path": ".tools/scenarios/official-corridor/chunks/route-v3-7b29691bf42eabf1/e37c53f5de01b7b84536a27786db2de3a5211f8623786c9b60808d395a2a6639.cbck",
+        "bytes": 464,
+        "sha256": "3e1f67c200d31457b403ad07d0adf9937b1ff2823752fe878c2c81bd57a124e0"
+      },
+      {
+        "path": ".tools/scenarios/official-corridor/chunks/route-v3-7b29691bf42eabf1/ef3be8b24af023a4624873f42f9f0646edaa515f72048cd8e404dbaa586a029f.cbck",
+        "bytes": 408,
+        "sha256": "354cb0c3f29896ce9edc1bb98ede475df3f0affb7cdad366a91c3f2fc074d291"
+      }
+    ],
+    "maximum_chunk_exclusive_bytes": 16000000,
+    "audit_geopackage": {
+      "path": ".tools/scenarios/official-corridor/audit/route-v3-7b29691bf42eabf1/c93557549cc4ec809523c4a082222fd1c20bf761c0d12486217f498f50ef6031-normalized.gpkg",
+      "sha256": "c93557549cc4ec809523c4a082222fd1c20bf761c0d12486217f498f50ef6031"
+    },
+    "same_platform_rebuilds": 2,
+    "same_platform_byte_diff_count": 0
+  },
+  "remote_package": {
+    "content_version": "route-v3-a1b7a4b5d677bbc6",
+    "platforms": [
+      "ubuntu-latest",
+      "windows-latest"
+    ],
+    "cross_platform_byte_diff_count": 0,
+    "artifact_names": [
+      "m0-Linux-1",
+      "m0-Windows-1"
+    ],
+    "files": [
+      {
+        "path": ".tools/scenarios/official-corridor/current-package.json",
+        "bytes": 298,
+        "sha256": "cd9604d98c14eb3ff68e21d8dfe23611c881b6a0aaea18d5f004cb036ec6a423"
+      },
+      {
+        "path": ".tools/scenarios/official-corridor/route_graph-df276acb20487e3121425363fa104e400eecedac69b241926d11a67aadcea5df.cbrg",
+        "bytes": 2904,
+        "sha256": "accd1f431828ee1000c78e999ed8b4bdcae27f359e27e9a3785e7b0207391589"
+      },
+      {
+        "path": ".tools/scenarios/official-corridor/route_graph-df276acb20487e3121425363fa104e400eecedac69b241926d11a67aadcea5df.json",
+        "bytes": 9055,
+        "sha256": "80d13e390c4a20bf14968f5a565af3b5bb9a9e5ff87897c3cd890460500693cd"
+      },
+      {
+        "path": ".tools/scenarios/official-corridor/audit/route-v3-a1b7a4b5d677bbc6/dcf60dc652451f9eb1c4bbce98eb6c3ae844e953de17f56bb5f20a86586f5ea6-normalized.gpkg",
+        "bytes": 98304,
+        "sha256": "dcf60dc652451f9eb1c4bbce98eb6c3ae844e953de17f56bb5f20a86586f5ea6"
+      },
+      {
+        "path": ".tools/scenarios/official-corridor/chunks/route-v3-a1b7a4b5d677bbc6/93de5b31c90ec10dbf488d5002d83c30581e2b851f5cef4f4c4321599d55789c.cbck",
+        "bytes": 464,
+        "sha256": "5a7dbbc2d5239658f86bd12bdb7ae5716f5d34d0b8b3bcdadfe7f94dde0ffcc8"
+      },
+      {
+        "path": ".tools/scenarios/official-corridor/chunks/route-v3-a1b7a4b5d677bbc6/a7696d74c694d2bfde058e0925e10baf58dd6146a1e81fd644c6db7a44beb4b7.cbck",
+        "bytes": 456,
+        "sha256": "5eff5425458c9fe899b64d042e2849945af1e63a449a3210d9affa5d5cb1806b"
+      },
+      {
+        "path": ".tools/scenarios/official-corridor/chunks/route-v3-a1b7a4b5d677bbc6/e37c53f5de01b7b84536a27786db2de3a5211f8623786c9b60808d395a2a6639.cbck",
+        "bytes": 464,
+        "sha256": "a55a01c21a821d360aad98af91cef1ee284776c03cf81c444a079bbaac885850"
+      },
+      {
+        "path": ".tools/scenarios/official-corridor/chunks/route-v3-a1b7a4b5d677bbc6/ef3be8b24af023a4624873f42f9f0646edaa515f72048cd8e404dbaa586a029f.cbck",
+        "bytes": 408,
+        "sha256": "362c5ffa5189ad89b68e655d95a98b61e85461d9363e6213ef418c11c5e3325b"
+      }
+    ]
+  },
+  "scenario_arguments": {
+    "fixture": "official-corridor",
+    "requested_distance_miles": 100,
+    "unique_route_miles": 0.226102,
+    "route_repetitions": 443,
+    "verification_mode": "repeated-transport-verification",
+    "verified_chunk_reads": 1772,
+    "chunk_failures": 0,
+    "deterministic_seed": null
+  },
+  "acceptance": [
+    {
+      "criterion": "The root route index is under 64 MB",
+      "status": "passed",
+      "comparison": {
+        "actual_bytes": 2904,
+        "maximum_exclusive_bytes": 64000000
+      }
+    },
+    {
+      "criterion": "Each runtime chunk is under 16 MB and independently hashed",
+      "status": "passed",
+      "comparison": {
+        "chunk_count": 4,
+        "largest_chunk_bytes": 464,
+        "maximum_exclusive_bytes": 16000000,
+        "hashes_verified": 4,
+        "hash_failures": 0
+      }
+    },
+    {
+      "criterion": "Missing and corrupt chunks are rejected before use",
+      "status": "passed",
+      "comparison": {
+        "missing_chunk_regression": true,
+        "byte_count_drift_regression": true,
+        "sha256_corruption_regression": true,
+        "unsafe_path_regressions": true
+      }
+    },
+    {
+      "criterion": "The game streams packaged chunks instead of the procedural RoadMath corridor",
+      "status": "passed",
+      "comparison": {
+        "procedural_road_math_present": false,
+        "content_source": "packaged",
+        "runtime_chunks_loaded": 4,
+        "maximum_concurrent_reads": 2,
+        "maximum_chunk_build_budget_ms": 40
+      }
+    },
+    {
+      "criterion": "A committed official-source fixture passes pipeline-to-C#-to-Godot integration",
+      "status": "passed",
+      "comparison": {
+        "pipeline_tests_passed": 42,
+        "csharp_tests_passed": 25,
+        "linux_godot_smoke": "passed",
+        "windows_godot_smoke": "passed",
+        "linux_max_chunk_build_ms": 37.541,
+        "windows_max_chunk_build_ms": 25.023
+      }
+    }
+  ],
+  "commands": [
+    {
+      "command": "GODOT_BIN=.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot ./scripts/check.sh",
+      "exit_code": 0
+    },
+    {
+      "command": "./scripts/run-scenario.sh --fixture official-corridor --distance-miles 100",
+      "exit_code": 0
+    },
+    {
+      "command": "./scripts/run-scenario.sh --fixture official-corridor --short-corridor-soak",
+      "exit_code": 0
+    },
+    {
+      "command": "rm -rf /tmp/cannonball-p004-build-a /tmp/cannonball-p004-build-b && for out in /tmp/cannonball-p004-build-a /tmp/cannonball-p004-build-b; do uv run --project tools/map_pipeline --frozen cannonball-map build --source data/sources/fixtures/nhpn-boulder-us36.geojson --manifest data/sources/fixtures/nhpn-boulder-us36.manifest.json --catalog data/sources/catalog.json --elevation data/sources/fixtures/usgs-13-n40w106-boulder.tif --elevation-metadata data/sources/fixtures/usgs-13-n40w106-boulder.metadata.json --acquisition-lock data/sources/source-lock.json --chunk-meters 100 --output \"$out\"; done && diff -qr /tmp/cannonball-p004-build-a /tmp/cannonball-p004-build-b",
+      "exit_code": 0
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0
+    }
+  ],
+  "metrics": {
+    "csharp_tests_passed": 25,
+    "csharp_tests_failed": 0,
+    "pytest_passed": 42,
+    "pytest_failed": 0,
+    "ruff_errors": 0,
+    "remote_platforms_passed": 2,
+    "remote_platforms_failed": 0,
+    "short_corridor_soak_status": "passed"
+  },
+  "adversarial_review": {
+    "reviewers": 3,
+    "method": "Independent package-accuracy, evidence-contract, and security reviews after the package-normalization change",
+    "review_service_fallback": "Supplementary review was rate-limited; repository fallback reviews were recorded on pull request 7.",
+    "unresolved_actionable_findings": 0,
+    "record": "https://github.com/Randroids-Dojo/Cannonball-Vibe/pull/7#issuecomment-4989489099"
+  },
+  "remote_verification": {
+    "initial_implementation_pull_request": "https://github.com/Randroids-Dojo/Cannonball-Vibe/pull/6",
+    "verification_pull_request": "https://github.com/Randroids-Dojo/Cannonball-Vibe/pull/7",
+    "run_id": 29480732746,
+    "run_url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29480732746",
+    "head_sha": "44850a93824527bdfdd35bdabd74d2cddfb69150",
+    "initial_merged_revision": "adbfe2035019cdebd54036e6fbe3bfc740020838",
+    "conclusion": "success",
+    "jobs": [
+      {
+        "job_id": 87563637589,
+        "name": "M0 (ubuntu-latest)",
+        "conclusion": "success"
+      },
+      {
+        "job_id": 87563637616,
+        "name": "M0 (windows-latest)",
+        "conclusion": "success"
+      }
+    ]
+  },
+  "outputs": [
+    {
+      "artifact_id": 8368380125,
+      "path": "m0-Linux-1",
+      "sha256": "52d6cc56f21edd70a5692669407bd3b9beaeae17e26c20257ad5c958ff732ae2",
+      "retention_days": 14,
+      "expires_at": "2026-07-30T07:41:40Z",
+      "validation": "Downloaded; summary, doctor, 25-test TRX, 42-test JUnit, packaged Godot smoke reports, and the complete official fixture package passed."
+    },
+    {
+      "artifact_id": 8368407845,
+      "path": "m0-Windows-1",
+      "sha256": "4c54e97f1f380f98887eebe7c45ab35380788e9aa8b804c3127779a791cec39c",
+      "retention_days": 14,
+      "expires_at": "2026-07-30T07:42:52Z",
+      "validation": "Downloaded; summary, doctor, 25-test TRX, 42-test JUnit, packaged Godot smoke reports, and the complete official fixture package passed."
+    }
+  ],
+  "failure_handling": {
+    "failure_logs": [
+      "The first Windows M0 run timed out after Godot printed its engine banner because startup synchronously blocked an asynchronous first-chunk read.",
+      "Supplementary review was rate-limited and replaced by the documented independent fallback review."
+    ],
+    "retry_count": 1,
+    "recovery_result": "The initial chunk now uses a bounded synchronous verified read; local M0 and fresh protected Linux and Windows M0 gates passed.",
+    "failed_remote_verification": {
+      "run_id": 29479359418,
+      "run_url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29479359418",
+      "windows_job_id": 87559332330,
+      "windows_job_url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29479359418/job/87559332330",
+      "artifact_id": 8367914996,
+      "artifact_name": "m0-Windows-1",
+      "artifact_sha256": "3d8084a2e468b2dc1f47d26b40d5633433d2481669271325cbf33b54c6d6eb6a",
+      "log_path": "logs/godot-smoke.log"
+    }
+  },
+  "human_gate": {
+    "name": "Representative route map sanity review",
+    "required_for": "M2",
+    "status": "pending",
+    "approval_reference": null,
+    "task_completion_blocked": true,
+    "question_document": "docs/QUESTIONS_FOR_RANDROID.md"
+  }
+}

@@ -6,10 +6,10 @@ recorded working default in [OPEN_QUESTIONS.md](OPEN_QUESTIONS.md).
 
 ## Representative route map sanity review (P0-004)
 
-After the official-corridor packaged streaming candidate is merged, please run
-or inspect the recorded route scenario and approve whether the reconstructed
-road is geographically recognizable and free of obvious map mistakes. This is
-the required human gate for completing M2; automated topology, hash, size and
+After the official-corridor packaged streaming candidate is merged, please
+inspect a rendered capture and approve whether the reconstructed road is
+geographically recognizable and free of obvious map mistakes. This is the
+required human gate for completing M2; automated topology, hash, size and
 runtime checks cannot substitute for it.
 
 The committed official fixture contains 0.226102 unique route miles. The ledger's
@@ -18,12 +18,19 @@ reads of the same immutable package as a repeated transport stress; it does not
 claim 100 unique drivable miles. A longer locked corridor remains necessary for
 representative long-route streaming and local-origin evidence.
 
-Run the candidate with:
+Create a deterministic 60-second rendered review capture that traverses the
+short corridor and crosses every chunk boundary with:
 
 ```bash
-GODOT_BIN=/absolute/path/to/Godot ./scripts/run-scenario.sh \
-  --fixture official-corridor --distance-miles 100
+GODOT_BIN=/absolute/path/to/Godot CANNONBALL_CAPTURE_FPS=60 \
+  CANNONBALL_CAPTURE_FRAMES=3600 ./scripts/capture-scenario.sh \
+  /tmp/p0-004-route-review.avi --short-corridor-soak
 ```
+
+Review `/tmp/p0-004-route-review.avi` for route shape, grade, seams, scenery
+placement, and obvious geographic mistakes. Record approval or concrete issues
+in this section; the headless 100-mile transport command remains technical
+stress evidence and is not the visual approval mechanism.
 
 ## Source rights approval (Q-013)
 

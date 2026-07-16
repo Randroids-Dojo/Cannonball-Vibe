@@ -134,6 +134,8 @@ def test_two_clean_official_cli_builds_are_byte_deterministic(tmp_path: Path) ->
     second_metadata = _current_metadata(outputs[1])
     assert _current_root(outputs[0]).read_bytes() == _current_root(outputs[1]).read_bytes()
     assert first_metadata.read_bytes() == second_metadata.read_bytes()
+    assert b"\r" not in first_metadata.read_bytes()
+    assert b"\r" not in (outputs[0] / "current-package.json").read_bytes()
     first_package = json.loads(first_metadata.read_text(encoding="utf-8"))
     second_package = json.loads(second_metadata.read_text(encoding="utf-8"))
     assert first_package["audit_artifacts"] == second_package["audit_artifacts"]
