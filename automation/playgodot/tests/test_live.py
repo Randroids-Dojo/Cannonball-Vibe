@@ -111,6 +111,29 @@ async def _raw_request(host: str, port: int, payload: bytes) -> dict | None:
     raise AssertionError("raw request retry loop exhausted")
 
 
+async def _connect_after_session_cleanup(
+    host: str,
+    port: int,
+    *,
+    token: str,
+    capabilities: tuple[str, ...] = ("read",),
+) -> PlayGodotClient:
+    deadline = asyncio.get_running_loop().time() + 2
+    while True:
+        try:
+            return await PlayGodotClient.connect(
+                host,
+                port,
+                token=token,
+                capabilities=capabilities,
+                timeout=1,
+            )
+        except (OSError, ProtocolError):
+            if asyncio.get_running_loop().time() >= deadline:
+                raise
+            await asyncio.sleep(0.05)
+
+
 @pytest.mark.skipif("GODOT_BIN" not in os.environ, reason="GODOT_BIN enables live 4.7.1 tests")
 @pytest.mark.asyncio
 async def test_official_engine_semantic_round_trip(tmp_path: Path) -> None:
@@ -289,8 +312,11 @@ async def test_hostile_requests_fail_closed_and_are_transcribed(tmp_path: Path) 
         await asyncio.sleep(0.1)
         assert [response["error"]["name"] for response in pipelined] == ["AUTH_FAILED"]
 
-        first_client = await PlayGodotClient.connect(
-            host, port, token=token, capabilities=("read", "input")
+        first_client = await _connect_after_session_cleanup(
+            host,
+            port,
+            token=token,
+            capabilities=("read", "input"),
         )
         await first_client.request("input.action", {"action": "accelerate", "state": "press"})
         abandoned_wait = asyncio.create_task(
@@ -309,7 +335,7 @@ async def test_hostile_requests_fail_closed_and_are_transcribed(tmp_path: Path) 
             await abandoned_wait
         await asyncio.sleep(0.1)
 
-        second_client = await PlayGodotClient.connect(host, port, token=token)
+        second_client = await _connect_after_session_cleanup(host, port, token=token)
         await asyncio.sleep(0.25)
         assert await second_client.request("session.ping") == {"ok": True}
         await second_client.close(abort=True)
