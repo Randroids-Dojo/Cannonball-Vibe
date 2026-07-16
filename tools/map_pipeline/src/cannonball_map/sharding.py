@@ -103,9 +103,8 @@ def write_sharded_package(
         if staged_root.stat().st_size >= MAX_ROOT_BYTES:
             raise ValueError("Runtime route root exceeds 64 MB.")
         staged_json = staging / "route_graph.json"
-        staged_json.write_text(
-            json.dumps(sharded, indent=2, sort_keys=True) + "\n",
-            encoding="utf-8",
+        staged_json.write_bytes(
+            (json.dumps(sharded, indent=2, sort_keys=True) + "\n").encode("utf-8")
         )
         _publish(staging, output_directory, content_version)
         return sharded
@@ -161,7 +160,9 @@ def _publish(staging: Path, output_directory: Path, content_version: str) -> Non
         "metadata_relative_path": final_json.name,
     }
     staged_pointer = staging / "current-package.json"
-    staged_pointer.write_text(json.dumps(pointer, indent=2, sort_keys=True) + "\n")
+    staged_pointer.write_bytes(
+        (json.dumps(pointer, indent=2, sort_keys=True) + "\n").encode("utf-8")
+    )
     os.replace(staged_pointer, output_directory / "current-package.json")
 
 
