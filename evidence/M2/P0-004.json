@@ -13,12 +13,32 @@
     ]
   },
   "tool_versions": {
-    "godot": "4.7.1.stable.mono.official.a13da4feb",
-    "dotnet_sdk": "10.0.102",
-    "uv": "0.9.24",
-    "python": "3.13.11",
-    "pytest": "9.1.1",
-    "ruff": "0.15.21"
+    "common": {
+      "godot": "4.7.1.stable.mono.official.a13da4feb",
+      "dotnet_sdk": "10.0.102",
+      "uv": "0.9.24",
+      "pytest": "9.1.1",
+      "ruff": "0.15.21",
+      "flatbuffers": "25.12.19",
+      "geopandas": "1.1.4",
+      "networkx": "3.6.1",
+      "pyogrio": "0.13.0",
+      "rasterio": "1.5.0",
+      "pyproj": "3.7.2",
+      "shapely": "2.1.2"
+    },
+    "local_macos": {
+      "python": "3.13.11",
+      "gdal_pyogrio": "3.12.4",
+      "gdal_rasterio": "3.12.1",
+      "proj": "9.5.1"
+    },
+    "remote_ubuntu": {
+      "python": "3.13.11"
+    },
+    "remote_windows": {
+      "python": "3.13.14"
+    }
   },
   "inputs": [
     {
@@ -34,36 +54,52 @@
       "sha256": "16af3387633b982f3363f34c638f8ca72646b04ec18aa2dcab1189f0352af507"
     }
   ],
-  "package": {
+  "local_macos_package": {
     "content_version": "route-v3-7b29691bf42eabf1",
     "schema_version": 3,
     "root": {
+      "path": ".tools/scenarios/official-corridor/route_graph-cebf3d2270fffbead57c404ed9381728c0710f0ff6d24d16bbd8d924600182be.cbrg",
       "bytes": 2904,
       "maximum_exclusive_bytes": 64000000,
       "sha256": "8ee287814e68d6de3418c9a1469cad9ffd252a25e600859077e4bcf4c52bf485"
     },
     "chunks": [
       {
+        "path": ".tools/scenarios/official-corridor/chunks/route-v3-7b29691bf42eabf1/93de5b31c90ec10dbf488d5002d83c30581e2b851f5cef4f4c4321599d55789c.cbck",
         "bytes": 464,
         "sha256": "c307ec3a46a06ad133233169e915231160110ee11368806705dead6015518574"
       },
       {
+        "path": ".tools/scenarios/official-corridor/chunks/route-v3-7b29691bf42eabf1/a7696d74c694d2bfde058e0925e10baf58dd6146a1e81fd644c6db7a44beb4b7.cbck",
         "bytes": 456,
         "sha256": "948f3b256144653a1b0641f3c9cec29037c8366896e0fb7a7284aea20ed643f6"
       },
       {
+        "path": ".tools/scenarios/official-corridor/chunks/route-v3-7b29691bf42eabf1/e37c53f5de01b7b84536a27786db2de3a5211f8623786c9b60808d395a2a6639.cbck",
         "bytes": 464,
         "sha256": "3e1f67c200d31457b403ad07d0adf9937b1ff2823752fe878c2c81bd57a124e0"
       },
       {
+        "path": ".tools/scenarios/official-corridor/chunks/route-v3-7b29691bf42eabf1/ef3be8b24af023a4624873f42f9f0646edaa515f72048cd8e404dbaa586a029f.cbck",
         "bytes": 408,
         "sha256": "354cb0c3f29896ce9edc1bb98ede475df3f0affb7cdad366a91c3f2fc074d291"
       }
     ],
     "maximum_chunk_exclusive_bytes": 16000000,
-    "audit_geopackage_sha256": "c93557549cc4ec809523c4a082222fd1c20bf761c0d12486217f498f50ef6031",
+    "audit_geopackage": {
+      "path": ".tools/scenarios/official-corridor/audit/route-v3-7b29691bf42eabf1/c93557549cc4ec809523c4a082222fd1c20bf761c0d12486217f498f50ef6031-normalized.gpkg",
+      "sha256": "c93557549cc4ec809523c4a082222fd1c20bf761c0d12486217f498f50ef6031"
+    },
     "same_platform_rebuilds": 2,
     "same_platform_byte_diff_count": 0
+  },
+  "remote_package": {
+    "content_version": "route-v3-a1b7a4b5d677bbc6",
+    "platforms": [
+      "ubuntu-latest",
+      "windows-latest"
+    ],
+    "durable_artifact_references": "pending current pull request M0 run"
   },
   "scenario_arguments": {
     "fixture": "official-corridor",
@@ -143,7 +179,7 @@
       "exit_code": 0
     },
     {
-      "command": "uv run --project tools/map_pipeline --frozen cannonball-map build (two clean output directories) && diff -qr outputs",
+      "command": "rm -rf /tmp/cannonball-p004-build-a /tmp/cannonball-p004-build-b && for out in /tmp/cannonball-p004-build-a /tmp/cannonball-p004-build-b; do uv run --project tools/map_pipeline --frozen cannonball-map build --source data/sources/fixtures/nhpn-boulder-us36.geojson --manifest data/sources/fixtures/nhpn-boulder-us36.manifest.json --catalog data/sources/catalog.json --elevation data/sources/fixtures/usgs-13-n40w106-boulder.tif --elevation-metadata data/sources/fixtures/usgs-13-n40w106-boulder.metadata.json --acquisition-lock data/sources/source-lock.json --chunk-meters 100 --output \"$out\"; done && diff -qr /tmp/cannonball-p004-build-a /tmp/cannonball-p004-build-b",
       "exit_code": 0
     },
     {
@@ -162,8 +198,8 @@
     "short_corridor_soak_status": "passed"
   },
   "adversarial_review": {
-    "reviewers": 6,
-    "method": "Parallel data-package, runtime, delivery, Windows-startup, regression, and CI-evidence reviews",
+    "reviewers": 3,
+    "method": "Independent Windows-startup, regression, and CI-evidence reviews after the final implementation change",
     "review_service_fallback": "Supplementary review was rate-limited; repository fallback reviews were recorded on pull request 6.",
     "unresolved_actionable_findings": 0,
     "record": "https://github.com/Randroids-Dojo/Cannonball-Vibe/pull/6#issuecomment-4989300709"
@@ -208,14 +244,24 @@
       "Supplementary review was rate-limited and replaced by the documented independent fallback review."
     ],
     "retry_count": 1,
-    "recovery_result": "The initial chunk now uses a bounded synchronous verified read; local M0 and fresh protected Linux and Windows M0 gates passed."
+    "recovery_result": "The initial chunk now uses a bounded synchronous verified read; local M0 and fresh protected Linux and Windows M0 gates passed.",
+    "failed_remote_verification": {
+      "run_id": 29479359418,
+      "run_url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29479359418",
+      "windows_job_id": 87559332330,
+      "windows_job_url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29479359418/job/87559332330",
+      "artifact_id": 8367914996,
+      "artifact_name": "m0-Windows-1",
+      "artifact_sha256": "3d8084a2e468b2dc1f47d26b40d5633433d2481669271325cbf33b54c6d6eb6a",
+      "log_path": "logs/godot-smoke.log"
+    }
   },
   "human_gate": {
     "name": "Representative route map sanity review",
     "required_for": "M2",
     "status": "pending",
     "approval_reference": null,
-    "technical_completion_blocked": true,
+    "task_completion_blocked": true,
     "question_document": "docs/QUESTIONS_FOR_RANDROID.md"
   }
 }
