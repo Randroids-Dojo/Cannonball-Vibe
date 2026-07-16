@@ -68,9 +68,11 @@ The current local front door is:
 GODOT_BIN=/absolute/path/to/Godot ./scripts/check.sh
 ```
 
-It runs the C# build and xUnit suite, Python lint and pytest suite, and a Godot
-headless smoke. `scripts/godot.sh` enforces the exact engine version and fails
-when the editor is absent or stale.
+Run `scripts/doctor.sh` first when diagnosing a machine. It enforces the pinned
+.NET SDK, uv, Git LFS, and official Godot versions. `scripts/check.sh` runs the
+C# build and xUnit suite, Python lint and pytest suite, and a Godot headless
+smoke. It always writes structured results and logs under `reports/m0/`.
+`scripts/godot.sh` fails when the editor is absent, unofficial, or stale.
 
 Use the smallest relevant checks during development, then run the full required
 gate before handoff:

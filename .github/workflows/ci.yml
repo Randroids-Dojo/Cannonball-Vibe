@@ -9,9 +9,10 @@ permissions:
   contents: read
 
 jobs:
-  core:
-    name: Core (${{ matrix.os }})
+  m0:
+    name: M0 (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
     strategy:
       fail-fast: false
       matrix:
@@ -19,48 +20,31 @@ jobs:
     env:
       DOTNET_ROLL_FORWARD: Major
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
         with:
           lfs: true
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5
         with:
           dotnet-version: |
             8.0.x
             10.0.102
-      - run: dotnet test Cannonball.sln
-
-  map-pipeline:
-    name: Public-domain map pipeline
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v6
+      - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990 # v8.3.2
         with:
           version: "0.9.24"
           enable-cache: true
-      - run: uv sync --project tools/map_pipeline --locked
-      - run: uv run --project tools/map_pipeline ruff check tools/map_pipeline
-      - run: uv run --project tools/map_pipeline pytest
-
-  godot-smoke:
-    name: Godot 4.7.1 smoke
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    env:
-      DOTNET_ROLL_FORWARD: Major
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          lfs: true
-      - uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: |
-            8.0.x
-            10.0.102
-      - uses: chickensoft-games/setup-godot@v2
+      - uses: chickensoft-games/setup-godot@f166999204a4f2722c6fe042fbaa3b3ea0d9c789 # v2
         with:
           version: 4.7.1
           use-dotnet: true
           include-templates: false
-      - run: godot --headless --rendering-method gl_compatibility --path . --editor --quit
-      - run: GODOT_BIN="$(command -v godot)" ./scripts/run-scenario.sh --smoke-test
+      - name: Verify complete M0 gate
+        shell: bash
+        run: ./scripts/check.sh
+      - name: Upload M0 evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: m0-${{ runner.os }}-${{ github.run_attempt }}
+          path: reports/m0/
+          if-no-files-found: error
+          retention-days: 14

@@ -2,7 +2,7 @@
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-required_version="4.7.1.stable.mono"
+source "$repo_root/scripts/tool-versions.sh"
 
 if [[ -n "${GODOT_BIN:-}" ]]; then
   godot_bin="$GODOT_BIN"
@@ -16,8 +16,8 @@ else
 fi
 
 actual_version="$($godot_bin --version)"
-if [[ "$actual_version" != "$required_version"* ]]; then
-  echo "Expected Godot $required_version, found $actual_version at $godot_bin." >&2
+if [[ "$actual_version" != "$CANNONBALL_GODOT_VERSION" ]]; then
+  echo "Expected Godot $CANNONBALL_GODOT_VERSION, found $actual_version at $godot_bin." >&2
   exit 1
 fi
 

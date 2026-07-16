@@ -77,8 +77,13 @@ Required evidence to close:
 The scheduled stress mode runs 3,600 frames and currently covers about 1.9 km.
 It asserts speed, one rebase, and chunk count, but not distance completion,
 seams, collision misses, frame-time percentiles, chunk latency, memory growth,
-or resumed-state equivalence. `scripts/check.sh` also succeeds when Godot is
-missing.
+or resumed-state equivalence. At audit time, `scripts/check.sh` also succeeded
+when Godot was missing.
+
+The missing-tool false pass is addressed by delivery task `P0-001`: the doctor
+and full verification command now fail on absent or mismatched Godot while
+retaining JSON, TRX, JUnit XML, and logs. The long-distance requirements below
+remain open under `P0-006`.
 
 Required evidence to close:
 

@@ -15,18 +15,30 @@ jobs:
     env:
       DOTNET_ROLL_FORWARD: Major
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
         with:
           lfs: true
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5
         with:
           dotnet-version: |
             8.0.x
             10.0.102
-      - uses: chickensoft-games/setup-godot@v2
+      - uses: chickensoft-games/setup-godot@f166999204a4f2722c6fe042fbaa3b3ea0d9c789 # v2
         with:
           version: 4.7.1
           use-dotnet: true
           include-templates: false
-      - run: godot --headless --rendering-method gl_compatibility --path . --editor --quit
-      - run: godot --headless --rendering-method gl_compatibility --path . -- --smoke-test --stress-driver
+      - name: Run stress scenario
+        shell: bash
+        env:
+          CANNONBALL_GODOT_LOG_FILE: reports/windows-stress/godot.log
+          CANNONBALL_SCENARIO_RESULT_FILE: reports/windows-stress/scenario.json
+        run: ./scripts/run-scenario.sh --smoke-test --stress-driver
+      - name: Upload stress evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: windows-stress-${{ github.run_attempt }}
+          path: reports/windows-stress/
+          if-no-files-found: error
+          retention-days: 14

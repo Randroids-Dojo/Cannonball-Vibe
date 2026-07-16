@@ -18,8 +18,9 @@ Requirements:
 
 - Godot 4.7.1 .NET
 - .NET SDK 10.0.102 (the game targets .NET 8)
-- `uv` 0.9.x for the Python pipeline
-- Git LFS
+- `uv` 0.9.24 for the Python pipeline
+- Git LFS 3.7.1
+- Bash and Perl (included with Git for Windows) for the guarded CLI scripts
 
 Open `project.godot` in Godot Mono and run the main scene, or use:
 
@@ -33,12 +34,16 @@ stick steers, R resets the vehicle, and F5 writes a suspend save.
 ## Verify everything
 
 ```
+./scripts/doctor.sh
 ./scripts/check.sh
 ```
 
-The check runs xUnit core tests, Python pipeline tests, and a headless Godot
-autopilot smoke test. Use `GODOT_BIN=/path/to/godot ./scripts/check.sh` when the
-engine is installed elsewhere.
+The doctor enforces the exact toolchain. The check runs the doctor, xUnit core
+tests, Python lint and tests, and a headless Godot autopilot smoke on both Linux
+and Windows CI. It writes JSON, TRX, JUnit XML, engine logs, and step logs under
+`reports/m0/`; CI uploads that directory even when verification fails. Use
+`GODOT_BIN=/path/to/godot ./scripts/check.sh` when the engine is installed
+elsewhere.
 
 Run a Godot-only scenario through the same exact-version CLI front door:
 

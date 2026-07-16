@@ -111,9 +111,10 @@ deadzone and separate trigger axes. M1 must add an in-game calibration screen
 and validate one common force-feedback-capable wheel on Windows; force feedback
 itself is outside the MVP unless testing justifies it.
 
-CI runs core tests on Linux and Windows, the geodata suite on Linux, and a
-headless Godot smoke on Linux. A scheduled Windows Godot workflow establishes
-the second-platform runner before M1 stress testing.
+CI runs the complete M0 gate on Linux and Windows: exact-tool doctor, core build
+and tests, geodata lint and tests, and the official-engine headless Godot smoke.
+Each runner uploads structured results and logs even after failure. A separate
+scheduled Windows workflow exercises the stronger streaming stress scenario.
 
 ## Agent automation
 
