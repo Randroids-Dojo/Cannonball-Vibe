@@ -44,6 +44,11 @@ while [[ $# -gt 0 ]]; do
       scenario_args+=("$1")
       shift
       ;;
+    --render-integrity)
+      scenario_mode="render-integrity"
+      scenario_args+=("$1")
+      shift
+      ;;
     --stress-driver)
       scenario_mode="long-route-stress"
       scenario_args+=("$1")

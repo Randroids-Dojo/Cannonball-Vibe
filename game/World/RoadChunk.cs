@@ -15,6 +15,19 @@ public sealed partial class RoadChunk : Node3D
     public double EndMeters { get; private init; }
     public double BuildMilliseconds { get; private set; }
 
+    public bool HasReviewGeometry()
+    {
+        var road = GetNodeOrNull<MeshInstance3D>("RoadSurface");
+        var terrain = GetNodeOrNull<MeshInstance3D>("TerrainShoulders");
+        var scenery = GetNodeOrNull<MultiMeshInstance3D>("TerrainScenery");
+        return road is { Visible: true, Mesh: not null } &&
+            road.Mesh.GetAabb().Size.LengthSquared() > 0 &&
+            terrain is { Visible: true, Mesh: not null } &&
+            terrain.Mesh.GetAabb().Size.LengthSquared() > 0 &&
+            scenery is { Visible: true, Multimesh: not null } &&
+            scenery.Multimesh.InstanceCount > 0;
+    }
+
     public static RoadChunk Create(
         RouteChunkContent content,
         RouteFrame frame,
@@ -39,6 +52,7 @@ public sealed partial class RoadChunk : Node3D
             EndMeters = content.EndMeters,
             Position = anchor.RelativeTo(localOriginWorld),
         };
+        chunk.BuildTerrain(points, tangents, content.Samples);
         chunk.BuildRoad(points, tangents, content.Samples);
         chunk.BuildLaneMarkings(points, tangents);
         chunk.BuildScenery(points, tangents);
@@ -62,7 +76,7 @@ public sealed partial class RoadChunk : Node3D
         IReadOnlyList<Vector3> tangents,
         IReadOnlyList<RouteChunkSample> samples)
     {
-        var mesh = BuildRibbonMesh(points, tangents, samples);
+        var mesh = BuildRibbonMesh(points, tangents, samples, RoadHalfWidth, 0);
         var material = new StandardMaterial3D
         {
             AlbedoColor = new Color("151820"),
@@ -88,20 +102,22 @@ public sealed partial class RoadChunk : Node3D
     private static ArrayMesh BuildRibbonMesh(
         IReadOnlyList<Vector3> points,
         IReadOnlyList<Vector3> tangents,
-        IReadOnlyList<RouteChunkSample> samples)
+        IReadOnlyList<RouteChunkSample> samples,
+        float halfWidth,
+        float verticalOffset)
     {
         var surface = new SurfaceTool();
         surface.Begin(Mesh.PrimitiveType.Triangles);
         for (var index = 0; index < points.Count - 1; index++)
         {
-            var center0 = points[index];
-            var center1 = points[index + 1];
+            var center0 = points[index] + Vector3.Up * verticalOffset;
+            var center1 = points[index + 1] + Vector3.Up * verticalOffset;
             var right0Direction = tangents[index].Cross(Vector3.Up).Normalized();
             var right1Direction = tangents[index + 1].Cross(Vector3.Up).Normalized();
-            var left0 = center0 - right0Direction * RoadHalfWidth;
-            var right0 = center0 + right0Direction * RoadHalfWidth;
-            var left1 = center1 - right1Direction * RoadHalfWidth;
-            var right1 = center1 + right1Direction * RoadHalfWidth;
+            var left0 = center0 - right0Direction * halfWidth;
+            var right0 = center0 + right0Direction * halfWidth;
+            var left1 = center1 - right1Direction * halfWidth;
+            var right1 = center1 + right1Direction * halfWidth;
             var v0 = (float)(samples[index].DistanceMeters / 20.0);
             var v1 = (float)(samples[index + 1].DistanceMeters / 20.0);
 
@@ -111,6 +127,24 @@ public sealed partial class RoadChunk : Node3D
 
         surface.GenerateNormals();
         return surface.Commit();
+    }
+
+    private void BuildTerrain(
+        IReadOnlyList<Vector3> points,
+        IReadOnlyList<Vector3> tangents,
+        IReadOnlyList<RouteChunkSample> samples)
+    {
+        var material = new StandardMaterial3D
+        {
+            AlbedoColor = new Color("344536"),
+            Roughness = 1.0f,
+        };
+        AddChild(new MeshInstance3D
+        {
+            Name = "TerrainShoulders",
+            Mesh = BuildRibbonMesh(points, tangents, samples, 48, -0.18f),
+            MaterialOverride = material,
+        });
     }
 
     private static void AddTriangle(
@@ -174,7 +208,7 @@ public sealed partial class RoadChunk : Node3D
         IReadOnlyList<Vector3> tangents)
     {
         var transforms = new List<Transform3D>();
-        for (var index = 0; index < points.Count - 1; index += 3)
+        for (var index = 0; index < points.Count - 1; index++)
         {
             var tangent = tangents[index];
             var right = tangent.Cross(Vector3.Up).Normalized();
@@ -183,7 +217,11 @@ public sealed partial class RoadChunk : Node3D
         }
 
         var postMesh = new CylinderMesh { TopRadius = 0.12f, BottomRadius = 0.16f, Height = 1.1f };
-        postMesh.Material = new StandardMaterial3D { AlbedoColor = new Color("3f4654"), Roughness = 0.9f };
+        postMesh.Material = new StandardMaterial3D
+        {
+            AlbedoColor = new Color("d6d0ad"),
+            Roughness = 0.9f,
+        };
         var multiMesh = new MultiMesh
         {
             TransformFormat = MultiMesh.TransformFormatEnum.Transform3D,
@@ -195,5 +233,40 @@ public sealed partial class RoadChunk : Node3D
             multiMesh.SetInstanceTransform(index, transforms[index]);
         }
         AddChild(new MultiMeshInstance3D { Name = "RoadsidePosts", Multimesh = multiMesh });
+
+        var treeTransforms = new List<Transform3D>();
+        for (var index = 0; index < points.Count - 1; index += 2)
+        {
+            var right = tangents[index].Cross(Vector3.Up).Normalized();
+            var distance = 19 + index % 3 * 2;
+            treeTransforms.Add(new Transform3D(
+                Basis.Identity,
+                points[index] - right * distance + Vector3.Up * 2.25f));
+            treeTransforms.Add(new Transform3D(
+                Basis.Identity,
+                points[index] + right * distance + Vector3.Up * 2.25f));
+        }
+        var treeMesh = new CylinderMesh
+        {
+            TopRadius = 0,
+            BottomRadius = 1.35f,
+            Height = 4.5f,
+            Material = new StandardMaterial3D
+            {
+                AlbedoColor = new Color("557052"),
+                Roughness = 1.0f,
+            },
+        };
+        var treeMultiMesh = new MultiMesh
+        {
+            TransformFormat = MultiMesh.TransformFormatEnum.Transform3D,
+            Mesh = treeMesh,
+            InstanceCount = treeTransforms.Count,
+        };
+        for (var index = 0; index < treeTransforms.Count; index++)
+        {
+            treeMultiMesh.SetInstanceTransform(index, treeTransforms[index]);
+        }
+        AddChild(new MultiMeshInstance3D { Name = "TerrainScenery", Multimesh = treeMultiMesh });
     }
 }

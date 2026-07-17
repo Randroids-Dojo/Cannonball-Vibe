@@ -42,22 +42,25 @@ reads of the same immutable package as a repeated transport stress; it does not
 claim 100 unique drivable miles. A longer locked corridor remains necessary for
 representative long-route streaming and local-origin evidence.
 
-First diagnose camera framing, streamed road geometry, and fixture behavior,
-then create a replacement deterministic 60-second render-integrity capture with:
+The diagnosed failure was endpoint overshoot: the high-speed soak exhausted the
+363.876-meter road while the chase camera continued following the vehicle. A
+separate moderate-speed render-integrity traversal now completes at 300 meters:
 
 ```bash
 GODOT_BIN=/absolute/path/to/Godot CANNONBALL_CAPTURE_FPS=60 \
-  CANNONBALL_CAPTURE_FRAMES=3600 ./scripts/capture-scenario.sh \
-  /tmp/p0-004-route-review.avi --short-corridor-soak
+  CANNONBALL_CAPTURE_FRAMES=4800 ./scripts/capture-scenario.sh \
+  /tmp/p0-004-render-integrity.avi --render-integrity
 ```
 
-The short-fixture replacement must keep the roadway visible and show terrain and
-scenery while all four chunks are loaded. It can prove the rendering defect is
-fixed, but it cannot clear the representative geography gate. Final approval
-requires a separate capture of a longer locked corridor that makes route shape,
-grade, seams, placement, and obvious geographic mistakes reviewable. The
-headless 100-mile transport command remains technical stress evidence and is not
-the visual approval mechanism.
+The replacement keeps the roadway, graybox terrain shoulders, and scenery
+visible through all three chunk seams while all four chunks remain loaded. Its
+exact artifacts, 45-frame adversarial review, and automated comparisons are in
+the review record. This fixes the short-fixture rendering defect but cannot
+clear the representative geography gate. Final approval requires a separate
+capture of a longer locked corridor that makes route shape, grade, seams,
+placement, and obvious geographic mistakes reviewable. The headless 100-mile
+transport command remains technical stress evidence and is not the visual
+approval mechanism.
 
 ## Source rights approval (Q-013) — answered
 
@@ -89,14 +92,15 @@ Lock, preferring Vercel integration where it satisfies the recovery contract.
 Research found that Vercel Blob permits object overwrite, object deletion, and
 whole-store deletion and does not expose the required WORM retention controls.
 
-The recovery authority is therefore a dedicated AWS S3 bucket with Versioning
-and `COMPLIANCE` Object Lock. Vercel uses short-lived OIDC credentials to
-provide independent, read-only inventory and retention monitoring. Replication
-goes directly from the release job to S3, and restoration uses an independent
-AWS identity so neither GitHub nor Vercel is a recovery dependency. See
+The implementation design, if needed, is a dedicated AWS S3 bucket with
+Versioning and `COMPLIANCE` Object Lock. Vercel may use short-lived OIDC
+credentials for independent, read-only monitoring, but neither GitHub nor
+Vercel would be a restore dependency. See
 [ADR-0009](decisions/ADR-0009-s3-object-lock-recovery-replica.md).
 
-P1-005 remains open until the AWS recovery account, region, roles, out-of-band
-recovery pointer, and budget alarms are provisioned; every retained source is
-replicated; permanent deletion is denied; and a clean destructive restore drill
-passes.
+Follow-up decision recorded 2026-07-16: do not provision that recovery plane
+while retained sources remain public, checksum-locked, and reliably
+reacquirable. P1-005 is conditional backlog and activates before the project
+retains unique, privately licensed, legally critical, expensive-to-reconstruct,
+or unreliable-to-reacquire source material. See
+[ADR-0010](decisions/ADR-0010-defer-independent-source-replica.md).

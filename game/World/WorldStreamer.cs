@@ -14,6 +14,7 @@ public sealed partial class WorldStreamer : Node3D
     public const float RebaseThresholdMeters = 1_000;
     public const double ChunkBuildBudgetMilliseconds = 40;
     public const int MaximumConcurrentChunkReads = 2;
+    public const double ShortCorridorLoopResetLeadMeters = 25;
 
     private readonly Dictionary<string, RoadChunk> _loaded = new(StringComparer.Ordinal);
     private readonly Dictionary<string, RouteChunkContent> _content = new(StringComparer.Ordinal);
@@ -30,11 +31,15 @@ public sealed partial class WorldStreamer : Node3D
     private string _currentEdgeId = string.Empty;
     private double _routeDistanceMeters;
     private double _lateralOffsetMeters;
+    private RouteWorldPoint _initialRoadWorldPoint;
+    private double _previousProjectedDistanceMeters;
 
     public double RouteDistanceMeters => _routeDistanceMeters;
     public double LocalOriginMeters { get; private set; }
     public double CurrentLookAheadMeters { get; private set; } = ActivePhysicsAheadMeters;
     public int LoadedChunkCount => _loaded.Count;
+    public int ExpectedChunkCount => _manifests.Count;
+    public int ReviewReadyChunkCount => _loaded.Values.Count(chunk => chunk.HasReviewGeometry());
     public int RebaseCount { get; private set; }
     public int ChunkFailureCount { get; private set; }
     public double MaximumBuildMilliseconds { get; private set; }
@@ -44,6 +49,9 @@ public sealed partial class WorldStreamer : Node3D
     public double TotalRouteLengthMeters => RouteLengthMeters;
     public Vector3 InitialRoadPoint { get; private set; }
     public Vector3 InitialRoadForward { get; private set; }
+    public bool ShortCorridorLoopEnabled { get; set; }
+    public int CompletedShortCorridorLoops { get; private set; }
+    public int CrossedReviewSeamCount { get; private set; }
 
     public void Configure(
         RouteContentPackage package,
@@ -67,7 +75,8 @@ public sealed partial class WorldStreamer : Node3D
             throw new InvalidDataException($"Route edge '{_currentEdgeId}' has no chunk manifests.");
         }
         _frame = new RouteFrame(initialChunk.Samples);
-        InitialRoadPoint = _frame.ToWorld(initialChunk.Samples[0]).RelativeTo(_localOriginWorld);
+        _initialRoadWorldPoint = _frame.ToWorld(initialChunk.Samples[0]);
+        InitialRoadPoint = _initialRoadWorldPoint.RelativeTo(_localOriginWorld);
         InitialRoadForward = _frame.InitialForward;
         AttachChunk(initialChunk);
     }
@@ -97,6 +106,29 @@ public sealed partial class WorldStreamer : Node3D
         }
 
         UpdateRouteProjection();
+        foreach (var seam in new[] { 100.0, 200.0, 300.0 })
+        {
+            if (_previousProjectedDistanceMeters < seam && _routeDistanceMeters >= seam)
+            {
+                CrossedReviewSeamCount++;
+            }
+        }
+        _previousProjectedDistanceMeters = _routeDistanceMeters;
+        if (ShortCorridorLoopEnabled &&
+            _routeDistanceMeters >= Math.Max(0, RouteLengthMeters - ShortCorridorLoopResetLeadMeters))
+        {
+            _routeDistanceMeters = 0;
+            _previousProjectedDistanceMeters = 0;
+            _lateralOffsetMeters = 0;
+            var resetPoint = _initialRoadWorldPoint.RelativeTo(_localOriginWorld);
+            _vehicle.RouteDistanceMeters = 0;
+            _vehicle.TargetRoadPoint = resetPoint;
+            _vehicle.TargetRoadForward = InitialRoadForward;
+            _vehicle.RequestResetToRoad(resetPoint, InitialRoadForward);
+            CompletedShortCorridorLoops++;
+            GD.Print($"CANNONBALL_SHORT_CORRIDOR_LOOP count={CompletedShortCorridorLoops}");
+            return;
+        }
         var target = GetRoadPose(Math.Min(RouteLengthMeters, _routeDistanceMeters + 20));
         _vehicle.RouteDistanceMeters = _routeDistanceMeters;
         _vehicle.TargetRoadPoint = target.Point.RelativeTo(_localOriginWorld);

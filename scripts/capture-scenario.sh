@@ -4,7 +4,7 @@ set -euo pipefail
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 if [[ $# -lt 2 ]]; then
-  echo "Usage: $0 OUTPUT.avi --smoke-test [scenario arguments]" >&2
+  echo "Usage: $0 OUTPUT.avi --render-integrity [scenario arguments]" >&2
   exit 2
 fi
 
