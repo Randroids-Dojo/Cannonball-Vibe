@@ -270,8 +270,15 @@
   "human_gate": {
     "name": "Final source rights review",
     "required_for": "public_release",
-    "status": "pending",
-    "approval_reference": null,
+    "status": "approved",
+    "reviewed_at": "2026-07-16",
+    "approval_reference": "docs/QUESTIONS_FOR_RANDROID.md#source-rights-approval-q-013--answered",
+    "conditions": [
+      "Distribute only exact checksum-locked NHPN and USGS 3DEP government data and project derivatives",
+      "Include source credit and provenance",
+      "Include a no-endorsement statement",
+      "Do not use agency logos"
+    ],
     "technical_completion_blocked": false
   }
 }

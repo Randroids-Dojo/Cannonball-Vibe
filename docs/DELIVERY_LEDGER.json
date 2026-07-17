@@ -142,7 +142,10 @@
       ],
       "human_gate": {
         "name": "Final source rights review",
-        "required_for": "public_release"
+        "required_for": "public_release",
+        "status": "approved",
+        "reviewed_at": "2026-07-16",
+        "approval_reference": "docs/QUESTIONS_FOR_RANDROID.md#source-rights-approval-q-013--answered"
       }
     },
     {
@@ -171,6 +174,7 @@
         "README.md",
         "docs/TECH_STACK.md",
         "docs/QUESTIONS_FOR_RANDROID.md",
+        "docs/audits/2026-07-16-p0-004-route-sanity-review.md",
         "evidence/M2/P0-004.json"
       ],
       "acceptance": [
@@ -189,7 +193,11 @@
       ],
       "human_gate": {
         "name": "Representative route map sanity review",
-        "required_for": "M2"
+        "required_for": "M2",
+        "status": "rejected",
+        "reviewed_at": "2026-07-16",
+        "review_reference": "docs/audits/2026-07-16-p0-004-route-sanity-review.md",
+        "task_completion_blocked": true
       }
     },
     {

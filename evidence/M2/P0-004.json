@@ -2,7 +2,7 @@
   "schema_version": 1,
   "task_id": "P0-004",
   "milestone": "M2",
-  "status": "technical_verification_complete_human_gate_pending",
+  "status": "technical_verification_complete_human_gate_rejected",
   "verified_at": "2026-07-16T07:43:27Z",
   "git_revision": "44850a93824527bdfdd35bdabd74d2cddfb69150",
   "platform": {
@@ -320,10 +320,48 @@
       "log_path": "logs/godot-smoke.log"
     }
   },
+  "visual_review_capture": {
+    "recorded_at": "2026-07-16",
+    "godot": "4.7.1.stable.mono.official.a13da4feb",
+    "scenario": "--short-corridor-soak",
+    "width": 1280,
+    "height": 720,
+    "fps": 60,
+    "frames": 3600,
+    "duration_seconds": 60,
+    "chunks_traversed": 4,
+    "chunk_failures": 0,
+    "artifacts": [
+      {
+        "role": "original-mjpeg-capture",
+        "bytes": 96390500,
+        "sha256": "8cbdcf43e43c9f7557ca91fa28101c711099d7efe57ed6c1ccc383b9089d10e5"
+      },
+      {
+        "role": "h264-review-copy",
+        "bytes": 1654166,
+        "sha256": "f222da5732e973b76caf5dc9760f08186cfd24e0ae3bef879102d6e280660588"
+      },
+      {
+        "role": "six-frame-contact-sheet",
+        "bytes": 71712,
+        "sha256": "662156613d3bba70f93e70eb007141bb1aaa431fbd4047a798b1f7677a60c96c"
+      }
+    ],
+    "review_reference": "docs/audits/2026-07-16-p0-004-route-sanity-review.md"
+  },
   "human_gate": {
     "name": "Representative route map sanity review",
     "required_for": "M2",
-    "status": "pending",
+    "status": "rejected",
+    "reviewed_at": "2026-07-16",
+    "review_reference": "docs/audits/2026-07-16-p0-004-route-sanity-review.md",
+    "findings": [
+      "Roadway disappears from most sampled frames",
+      "Vehicle appears suspended against empty space after the opening view",
+      "Terrain and scenery are insufficient to judge route placement or seams",
+      "Route is not geographically recognizable, so obvious map mistakes cannot be ruled out"
+    ],
     "approval_reference": null,
     "task_completion_blocked": true,
     "question_document": "docs/QUESTIONS_FOR_RANDROID.md"
