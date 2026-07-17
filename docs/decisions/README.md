@@ -13,3 +13,4 @@ new ADR that supersedes the old one instead of rewriting history.
 | [ADR-0006](ADR-0006-github-release-source-retention.md) | Accepted | GitHub Releases as the primary immutable full-size source store |
 | [ADR-0007](ADR-0007-tiered-elevation-and-locked-source-distribution.md) | Accepted | Tiered 3DEP elevation and guarded distribution of locked government sources |
 | [ADR-0008](ADR-0008-required-playgodot-after-ui-value-gate.md) | Accepted | Require modern PlayGodot after the representative rendered-UI value gate |
+| [ADR-0009](ADR-0009-s3-object-lock-recovery-replica.md) | Accepted | AWS S3 Object Lock recovery replica with a read-only Vercel health plane |

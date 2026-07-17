@@ -86,6 +86,13 @@ overrides before a route becomes drivable content.
 Generated continental packages belong in release/CI artifacts, not Git. Source
 art, audio, and binary models use Git LFS.
 
+Exact retained source artifacts use immutable GitHub Releases as their primary
+store and, after P1-005 is provisioned and verified, a dedicated AWS S3 bucket
+with Versioning and `COMPLIANCE` Object Lock as the independent recovery
+replica. Vercel observes replica health through a read-only OIDC role, but
+Vercel Blob is not the recovery authority and neither Vercel nor GitHub is
+required for a disaster restore. See [ADR-0009](decisions/ADR-0009-s3-object-lock-recovery-replica.md).
+
 ## Determinism contract
 
 Stable seeds govern route content, events, macro traffic, scoring, and

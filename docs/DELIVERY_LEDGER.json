@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated": "2026-07-15",
+  "updated": "2026-07-16",
   "project": "Cannonball-Vibe",
   "authority": {
     "architecture_decisions": "docs/decisions/",
@@ -462,16 +462,30 @@
       ],
       "owned_paths": [
         ".github/workflows/source-retention.yml",
+        "infra/source-retention/",
+        "ops/source-retention-observer/",
         "scripts/source-retention/",
         "docs/RELEASE.md",
+        "docs/decisions/ADR-0009-s3-object-lock-recovery-replica.md",
+        "docs/research/2026-07-16-source-recovery-storage.md",
         "docs/OPEN_QUESTIONS.md",
         "evidence/M4/P1-005.json"
       ],
       "acceptance": [
         "An independent provider, retention policy, access model, and cost boundary are recorded in an ADR",
-        "Every authoritative GitHub Release source asset is replicated and inventoried by content hash and provider version",
-        "A destructive drill restores locked source artifacts without GitHub Releases, upstream public URLs, or local and CI caches",
-        "The restored bytes, recursive manifests, and source-lock hashes match the authoritative records"
+        "S3 Versioning and a bucket-level 365-day COMPLIANCE Object Lock default are verified through provider APIs, every upload inherits retention, and a permanent version-delete attempt is denied",
+        "Every authoritative GitHub Release source asset is replicated and inventoried by content hash, byte count, S3 key, version ID, provider checksum, storage class, and retain-until timestamp",
+        "Separate least-privilege replication, catalog-signing, retention-steward, restoration, and drill-evidence roles use short-lived or AWS-native identities and none can bypass or shorten retention",
+        "The accepted catalog is signed outside the replication writer's authority and its public key, catalog hash, and exact version ID are anchored in the out-of-band recovery pointer",
+        "An AWS-native retention steward extends every version under the protected source, catalog, recovery-kit, and drill prefixes in a drill that runs with GitHub and Vercel unavailable",
+        "A Vercel OIDC observer with no write access reports version, checksum, retention-horizon, drill-freshness, and heartbeat status",
+        "The locked replica contains its own inventory, manifest schema, restore tooling, and infrastructure snapshot",
+        "Two human-controlled locations hold an out-of-band pointer with the AWS account, region, bucket, bootstrap key/version, restore role, independent credential-custody procedure, catalog anchor, and first CLI command",
+        "A destructive drill initiated outside GitHub restores locked source artifacts without GitHub Releases, Vercel, upstream public URLs, or local and CI caches",
+        "The drill writes evidence to a unique run-ID and content-hash key through a prefix-limited role; prior versions and source or catalog objects cannot be altered or deleted and consumers use the exact evidence version ID",
+        "The restored bytes, recursive manifests, and source-lock hashes match the authoritative records",
+        "A deterministic pre-upload estimate covers storage, requests, retrieval, and the full retention commitment and blocks publication above the unapproved cost boundary",
+        "Actual monthly cost and configured USD 5 and USD 10 budget alerts are recorded"
       ],
       "verification": [
         "./scripts/source-retention/verify-replica.sh --destructive-restore-drill"
@@ -481,9 +495,11 @@
       ],
       "human_gate": {
         "name": "Recovery provider, credentials, and spending approval",
-        "required_for": "M4"
+        "required_for": "M4",
+        "status": "provider_approved_credentials_and_spend_pending",
+        "provider_approval_reference": "docs/QUESTIONS_FOR_RANDROID.md#independent-source-recovery-replica-q-016--answered"
       },
-      "notes": "Resolves Q-016; GitHub Releases remain the primary immutable store but do not provide independent disaster recovery."
+      "notes": "Q-016 is resolved by ADR-0009. GitHub Releases remain primary; AWS S3 Object Lock is the recovery replica; Vercel is the read-only health plane. Completion still requires AWS credentials, spending approval, provisioning, replication, and a destructive restore drill."
     },
     {
       "id": "P1-003",
