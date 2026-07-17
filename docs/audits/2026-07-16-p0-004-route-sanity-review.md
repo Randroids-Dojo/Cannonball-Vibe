@@ -92,7 +92,7 @@ The renderer-backed Godot 4.7.1 capture completed 1,554 frames at 1280x720 and
 60 FPS, for 25.9 seconds. The runtime reported:
 
 ```text
-CANNONBALL_RENDER_INTEGRITY_OK chunks=4 distance_m=300.1 peak_mph=26.9 seams=3 review_chunks=4 well_grounded_ratio=0.9488 max_unsupported_frames=11 chunk_failures=0
+CANNONBALL_RENDER_INTEGRITY_OK chunks=4 distance_m=300.1 peak_mph=26.9 seams=3 review_chunks=4 well_grounded_ratio=0.9509 max_unsupported_frames=11 chunk_failures=0
 ```
 
 ```bash
@@ -108,7 +108,7 @@ GODOT_BIN=.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot \
 | H.264 review copy | `/tmp/p0-004-render-integrity.mp4` | 1,673,083 | `9a145d401c8edf29c61a914481dad72cf42e27640f4a813922a26234a7956d00` |
 | Six-frame contact sheet | `/tmp/p0-004-render-integrity-contact-sheet.png` | 209,469 | `b0536ee92d4e2cd8975aee5dc0fe5da471de7b918e4efa32c8fea17d2ffd96c3` |
 | 45-frame adversarial sheet | `/tmp/p0-004-render-integrity-45-frame-sheet.png` | 547,724 | `216379c0a48e6dbc8bc808fd60d53812a6f7f7eb6f7b1ac14a2e482664fad64a` |
-| Capture log | `/tmp/p0-004-render-integrity.log` | 1,871 | `5f7f7d6e353849a6346fc51884cc0b80602035d8248bd11751bca39902af6ca4` |
+| Capture log | `/tmp/p0-004-render-integrity.log` | 1,871 | `efa610c531bc48b25c80dca50d7074b14c7e33bd305fdf9cd0d1d49be1c06179` |
 
 Adversarial inspection sampled 45 evenly spaced frames. Roadway, road-following
 graybox terrain shoulders, the vehicle, roadside posts, and cone scenery were
