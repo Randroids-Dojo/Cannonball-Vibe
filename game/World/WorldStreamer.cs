@@ -51,7 +51,7 @@ public sealed partial class WorldStreamer : Node3D
     public Vector3 InitialRoadForward { get; private set; }
     public bool ShortCorridorLoopEnabled { get; set; }
     public int CompletedShortCorridorLoops { get; private set; }
-    public int CrossedReviewSeamCount { get; private set; }
+    public int CrossedReviewDistanceThresholdCount { get; private set; }
 
     public void Configure(
         RouteContentPackage package,
@@ -110,7 +110,9 @@ public sealed partial class WorldStreamer : Node3D
             : _routeDistanceMeters >= 200 ? 2
             : _routeDistanceMeters >= 100 ? 1
             : 0;
-        CrossedReviewSeamCount = Math.Max(CrossedReviewSeamCount, crossedSeams);
+        CrossedReviewDistanceThresholdCount = Math.Max(
+            CrossedReviewDistanceThresholdCount,
+            crossedSeams);
         if (ShortCorridorLoopEnabled &&
             _routeDistanceMeters >= Math.Max(0, RouteLengthMeters - ShortCorridorLoopResetLeadMeters))
         {

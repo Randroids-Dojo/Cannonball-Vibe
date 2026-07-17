@@ -441,10 +441,11 @@ public sealed partial class Main : Node3D
                 $"Render-integrity traversal has review geometry for " +
                 $"{_streamer.ReviewReadyChunkCount} of {_streamer.ExpectedChunkCount} chunks.");
         }
-        if (_streamer.CrossedReviewSeamCount != 3)
+        if (_streamer.CrossedReviewDistanceThresholdCount != 3)
         {
             throw new InvalidOperationException(
-                $"Render-integrity traversal crossed {_streamer.CrossedReviewSeamCount} of 3 chunk seams.");
+                $"Render-integrity traversal crossed " +
+                $"{_streamer.CrossedReviewDistanceThresholdCount} of 3 distance thresholds.");
         }
         if (_streamer.ChunkFailureCount > 0)
         {
@@ -473,7 +474,7 @@ public sealed partial class Main : Node3D
             $"CANNONBALL_RENDER_INTEGRITY_OK chunks={_streamer.LoadedChunkCount} " +
             $"distance_m={_streamer.RouteDistanceMeters:0.0} " +
             $"peak_mph={_peakSpeedMetersPerSecond * 2.236936f:0.0} " +
-            $"seams={_streamer.CrossedReviewSeamCount} " +
+            $"distance_thresholds={_streamer.CrossedReviewDistanceThresholdCount} " +
             $"review_chunks={_streamer.ReviewReadyChunkCount} " +
             $"well_grounded_ratio={wellGroundedRatio:0.0000} " +
             $"max_unsupported_frames={_vehicle.MaximumConsecutiveUnsupportedPhysicsFrames} " +

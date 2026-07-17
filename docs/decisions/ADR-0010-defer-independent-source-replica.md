@@ -8,7 +8,7 @@
 
 ADR-0009 defines a sound independent disaster-recovery architecture: S3
 Versioning and `COMPLIANCE` Object Lock for retained source bytes, with Vercel
-as an optional read-only health plane. The current retained-source corpus is
+as its required read-only health plane upon P1-005 activation. The current retained-source corpus is
 small, consists of public government data that can be reacquired from recorded
 upstream URLs, and is protected by exact checksums and recursive manifests.
 The project has not yet published its first immutable GitHub source release.
@@ -17,6 +17,8 @@ The storage charge would be negligible, but a second provider introduces
 credentials, billing, retention stewardship, restore drills, and an additional
 operational plane before there is unique or irreplaceable material to recover.
 That work does not currently reduce the highest delivery risk.
+The current inventory and accepted reacquisition risk are recorded in the
+[source-replica deferral audit](../audits/2026-07-16-source-replica-deferral.md).
 
 ## Decision
 

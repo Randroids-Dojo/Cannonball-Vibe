@@ -468,6 +468,7 @@
         "docs/decisions/ADR-0009-s3-object-lock-recovery-replica.md",
         "docs/decisions/ADR-0010-defer-independent-source-replica.md",
         "docs/research/2026-07-16-source-recovery-storage.md",
+        "docs/audits/2026-07-16-source-replica-deferral.md",
         "docs/OPEN_QUESTIONS.md",
         "evidence/M4/P1-005.json"
       ],
@@ -517,7 +518,8 @@
       ],
       "owned_paths": [
         ".github/workflows/source-retention.yml",
-        "scripts/source-retention/",
+        "scripts/source-retention/publish-release.sh",
+        "scripts/source-retention/verify-release.sh",
         "docs/RELEASE.md",
         "docs/decisions/ADR-0006-github-release-source-retention.md",
         "evidence/M4/P1-006.json"
@@ -527,10 +529,11 @@
         "Oversized assets are deterministically split and reconstruct from a checksum-verified manifest",
         "The complete draft release is independently downloaded and verified before immutable publication",
         "Published release tags and assets are immutable and carry checksums, provenance, and attestations",
-        "A clean environment reconstructs every retained source and matches source-lock hashes without local or CI caches"
+        "A clean environment reconstructs every retained source and matches source-lock hashes without local or CI caches",
+        "Every source is classified against ADR-0010 before authoritative publication, and publication fails when a mandatory P1-005 trigger is present without complete P1-005 evidence"
       ],
       "verification": [
-        "./scripts/source-retention/verify-release.sh"
+        "./scripts/source-retention/verify-release.sh --classify-replica-trigger"
       ],
       "evidence": [
         "evidence/M4/P1-006.json"

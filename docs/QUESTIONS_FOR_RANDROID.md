@@ -93,8 +93,8 @@ Research found that Vercel Blob permits object overwrite, object deletion, and
 whole-store deletion and does not expose the required WORM retention controls.
 
 The implementation design, if needed, is a dedicated AWS S3 bucket with
-Versioning and `COMPLIANCE` Object Lock. Vercel may use short-lived OIDC
-credentials for independent, read-only monitoring, but neither GitHub nor
+Versioning and `COMPLIANCE` Object Lock. Upon P1-005 activation, Vercel must use
+short-lived OIDC credentials for independent, read-only monitoring, but neither GitHub nor
 Vercel would be a restore dependency. See
 [ADR-0009](decisions/ADR-0009-s3-object-lock-recovery-replica.md).
 
