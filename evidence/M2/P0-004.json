@@ -2,10 +2,10 @@
   "schema_version": 1,
   "task_id": "P0-004",
   "milestone": "M2",
-  "status": "technical_verification_complete_human_gate_rejected",
+  "status": "short_render_integrity_repaired_human_geography_gate_rejected",
   "verified_at": "2026-07-16T07:43:27Z",
-  "updated_at": "2026-07-17T03:24:12Z",
-  "git_revision": "44850a93824527bdfdd35bdabd74d2cddfb69150",
+  "updated_at": "2026-07-17T04:32:44Z",
+  "git_revision": "7ac8bfa10595a0b44f5bfb4383d73956b06b2356",
   "platform": {
     "local": "macOS",
     "remote": [
@@ -244,6 +244,24 @@
         "linux_max_chunk_build_ms": 37.541,
         "windows_max_chunk_build_ms": 25.023
       }
+    },
+    {
+      "criterion": "A corrected short-fixture render-integrity capture keeps roadway, terrain, and scenery reviewable while all four chunks are loaded",
+      "status": "passed",
+      "comparison": {
+        "route_distance_meters": 300.1,
+        "ordered_chunk_seams_crossed": 3,
+        "expected_visual_chunks": 4,
+        "review_ready_visual_chunks": 4,
+        "minimum_loaded_chunks_during_traversal": 4,
+        "well_grounded_physics_frame_ratio": 0.9488,
+        "minimum_well_grounded_ratio": 0.9,
+        "maximum_consecutive_unsupported_physics_frames": 11,
+        "maximum_allowed_consecutive_unsupported_physics_frames": 30,
+        "evenly_sampled_visual_frames": 45,
+        "samples_with_road_terrain_and_scenery_visible": 45,
+        "chunk_failures": 0
+      }
     }
   ],
   "commands": [
@@ -257,6 +275,14 @@
     },
     {
       "command": "./scripts/run-scenario.sh --fixture official-corridor --short-corridor-soak",
+      "exit_code": 0
+    },
+    {
+      "command": "./scripts/run-scenario.sh --fixture official-corridor --render-integrity",
+      "exit_code": 0
+    },
+    {
+      "command": "GODOT_BIN=.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot CANNONBALL_CAPTURE_FPS=60 CANNONBALL_CAPTURE_FRAMES=4800 ./scripts/capture-scenario.sh /tmp/p0-004-render-integrity.avi --render-integrity",
       "exit_code": 0
     },
     {
@@ -276,7 +302,12 @@
     "ruff_errors": 0,
     "remote_platforms_passed": 2,
     "remote_platforms_failed": 0,
-    "short_corridor_soak_status": "passed"
+    "short_corridor_soak_status": "passed",
+    "short_corridor_route_loops": 2,
+    "render_integrity_status": "passed",
+    "render_integrity_frames": 1554,
+    "render_integrity_duration_seconds": 25.9,
+    "render_integrity_visual_samples_passed": 45
   },
   "adversarial_review": {
     "reviewers": 3,
@@ -382,6 +413,75 @@
       }
     ],
     "review_reference": "docs/audits/2026-07-16-p0-004-route-sanity-review.md"
+  },
+  "render_integrity_repair_capture": {
+    "recorded_at": "2026-07-17T04:28:00Z",
+    "git_revision": "7ac8bfa10595a0b44f5bfb4383d73956b06b2356",
+    "godot": "4.7.1.stable.mono.official.a13da4feb",
+    "scenario": "--render-integrity",
+    "content_version": "route-v3-7b29691bf42eabf1",
+    "width": 1280,
+    "height": 720,
+    "fps": 60,
+    "frames": 1554,
+    "duration_seconds": 25.9,
+    "chunks_loaded": 4,
+    "review_ready_chunks": 4,
+    "ordered_seams_crossed": 3,
+    "route_distance_meters": 300.1,
+    "well_grounded_ratio": 0.9488,
+    "maximum_unsupported_frames": 11,
+    "chunk_failures": 0,
+    "visual_review": {
+      "method": "45 evenly spaced renderer-backed frames inspected adversarially",
+      "samples": 45,
+      "samples_with_road_terrain_and_scenery_visible": 45,
+      "result": "passed_short_fixture_only"
+    },
+    "artifacts": [
+      {
+        "role": "original-mjpeg-capture",
+        "path": "/tmp/p0-004-render-integrity.avi",
+        "retention": "ephemeral_local_review_output_not_published",
+        "durable_url": null,
+        "bytes": 52400950,
+        "sha256": "46121a3b48ab9f76fd791d5b2805fb85621a165b61b008a47f53ded214371d36"
+      },
+      {
+        "role": "h264-review-copy",
+        "path": "/tmp/p0-004-render-integrity.mp4",
+        "retention": "ephemeral_local_review_output_not_published",
+        "durable_url": null,
+        "bytes": 1673083,
+        "sha256": "9a145d401c8edf29c61a914481dad72cf42e27640f4a813922a26234a7956d00"
+      },
+      {
+        "role": "six-frame-contact-sheet",
+        "path": "/tmp/p0-004-render-integrity-contact-sheet.png",
+        "retention": "ephemeral_local_review_output_not_published",
+        "durable_url": null,
+        "bytes": 209469,
+        "sha256": "b0536ee92d4e2cd8975aee5dc0fe5da471de7b918e4efa32c8fea17d2ffd96c3"
+      },
+      {
+        "role": "45-frame-adversarial-sheet",
+        "path": "/tmp/p0-004-render-integrity-45-frame-sheet.png",
+        "retention": "ephemeral_local_review_output_not_published",
+        "durable_url": null,
+        "bytes": 547724,
+        "sha256": "216379c0a48e6dbc8bc808fd60d53812a6f7f7eb6f7b1ac14a2e482664fad64a"
+      },
+      {
+        "role": "capture-log",
+        "path": "/tmp/p0-004-render-integrity.log",
+        "retention": "ephemeral_local_review_output_not_published",
+        "durable_url": null,
+        "bytes": 1871,
+        "sha256": "5f7f7d6e353849a6346fc51884cc0b80602035d8248bd11751bca39902af6ca4"
+      }
+    ],
+    "review_reference": "docs/audits/2026-07-16-p0-004-route-sanity-review.md",
+    "scope_limit": "Does not clear the longer-corridor geographic human gate"
   },
   "human_gate": {
     "name": "Representative route map sanity review",
