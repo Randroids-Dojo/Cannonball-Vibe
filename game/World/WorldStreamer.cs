@@ -33,7 +33,6 @@ public sealed partial class WorldStreamer : Node3D
     private double _routeDistanceMeters;
     private double _lateralOffsetMeters;
     private RouteWorldPoint _initialRoadWorldPoint;
-    private double _previousProjectedDistanceMeters;
 
     public double RouteDistanceMeters => _routeDistanceMeters;
     public double LocalOriginMeters { get; private set; }
@@ -107,19 +106,15 @@ public sealed partial class WorldStreamer : Node3D
         }
 
         UpdateRouteProjection();
-        foreach (var seam in new[] { 100.0, 200.0, 300.0 })
-        {
-            if (_previousProjectedDistanceMeters < seam && _routeDistanceMeters >= seam)
-            {
-                CrossedReviewSeamCount++;
-            }
-        }
-        _previousProjectedDistanceMeters = _routeDistanceMeters;
+        var crossedSeams = _routeDistanceMeters >= 300 ? 3
+            : _routeDistanceMeters >= 200 ? 2
+            : _routeDistanceMeters >= 100 ? 1
+            : 0;
+        CrossedReviewSeamCount = Math.Max(CrossedReviewSeamCount, crossedSeams);
         if (ShortCorridorLoopEnabled &&
             _routeDistanceMeters >= Math.Max(0, RouteLengthMeters - ShortCorridorLoopResetLeadMeters))
         {
             _routeDistanceMeters = 0;
-            _previousProjectedDistanceMeters = 0;
             _lateralOffsetMeters = 0;
             var resetPoint = _initialRoadWorldPoint.RelativeTo(_localOriginWorld);
             _vehicle.RouteDistanceMeters = 0;

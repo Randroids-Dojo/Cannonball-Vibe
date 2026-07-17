@@ -89,7 +89,7 @@ art, audio, and binary models use Git LFS.
 Exact retained source artifacts use immutable GitHub Releases as their required
 store. Their recorded upstream URLs, exact checksums, and recursive manifests
 support deterministic reacquisition. An independent AWS S3 Object Lock replica
-and optional read-only Vercel health plane are deferred until the activation
+and its read-only Vercel health plane are deferred until the activation
 threshold in
 [ADR-0010](decisions/ADR-0010-defer-independent-source-replica.md) is met; the
 implementation design remains documented in

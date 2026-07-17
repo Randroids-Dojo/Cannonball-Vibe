@@ -145,6 +145,7 @@ public sealed partial class Main : Node3D
                 _streamer.ReviewReadyChunkCount == _streamer.ExpectedChunkCount)
             {
                 _renderTraversalStarted = true;
+                _vehicle.ResetGroundingTelemetry();
                 _vehicle.AutopilotEnabled = true;
             }
             if (_renderTraversalStarted)

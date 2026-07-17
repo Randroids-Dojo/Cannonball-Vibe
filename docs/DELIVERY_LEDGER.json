@@ -500,7 +500,7 @@
         "provider_approval_reference": "docs/QUESTIONS_FOR_RANDROID.md#independent-source-recovery-replica-q-016--answered"
       },
       "activation": {
-        "mandatory_when": "A retained source is unique, privately licensed, legally critical, expensive to reconstruct, or no longer reliably reacquirable",
+        "mandatory_when": "Before retaining source material that is unique, privately licensed, legally critical, expensive to reconstruct, or no longer reliably reacquirable",
         "may_activate_when": "The project owner explicitly approves the additional recovery plane early",
         "status": "not_triggered"
       },

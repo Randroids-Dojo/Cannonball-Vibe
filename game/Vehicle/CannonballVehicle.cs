@@ -84,6 +84,16 @@ public sealed partial class CannonballVehicle : RigidBody3D
         _resetRequested = true;
     }
 
+    public void ResetGroundingTelemetry()
+    {
+        GroundedWheelCount = 0;
+        PostGroundingPhysicsFrames = 0;
+        WellGroundedPhysicsFrames = 0;
+        MaximumConsecutiveUnsupportedPhysicsFrames = 0;
+        _consecutiveUnsupportedPhysicsFrames = 0;
+        _hasBeenGrounded = false;
+    }
+
     public void CycleAssistProfile()
     {
         AssistProfile = AssistProfile switch
