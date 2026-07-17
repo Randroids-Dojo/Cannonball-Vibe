@@ -4,8 +4,8 @@
   "milestone": "M2",
   "status": "short_render_integrity_repaired_human_geography_gate_rejected",
   "verified_at": "2026-07-16T07:43:27Z",
-  "updated_at": "2026-07-17T04:46:00Z",
-  "git_revision": "a5bc20e19c0008242389acccf2318f1162a7f262",
+  "updated_at": "2026-07-17T04:49:00Z",
+  "git_revision": "ae9e193e6141b769b17cc99b71a15ffd586b27ef",
   "platform": {
     "local": "macOS",
     "remote": [
@@ -190,7 +190,7 @@
         "exit_code": 0
       }
     ],
-    "deterministic_seed": null
+    "deterministic_seed": 20260714
   },
   "acceptance": [
     {
@@ -251,7 +251,7 @@
       "status": "passed",
       "comparison": {
         "route_distance_meters": 300.1,
-        "ordered_chunk_seams_crossed": 3,
+        "distance_thresholds_crossed": 3,
         "expected_visual_chunks": 4,
         "review_ready_visual_chunks": 4,
         "minimum_loaded_chunks_during_traversal": 4,
@@ -283,7 +283,7 @@
       "exit_code": 0
     },
     {
-      "command": "GODOT_BIN=.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot CANNONBALL_CAPTURE_FPS=60 CANNONBALL_CAPTURE_FRAMES=4800 ./scripts/capture-scenario.sh /tmp/p0-004-render-integrity.avi --render-integrity",
+      "command": "set -o pipefail; GODOT_BIN=.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot CANNONBALL_CAPTURE_FPS=60 CANNONBALL_CAPTURE_FRAMES=4800 CANNONBALL_SCENARIO_TIMEOUT_SECONDS=180 ./scripts/capture-scenario.sh /tmp/p0-004-render-integrity.avi --render-integrity 2>&1 | tee /tmp/p0-004-render-integrity.log",
       "exit_code": 0
     },
     {
@@ -416,8 +416,10 @@
     "review_reference": "docs/audits/2026-07-16-p0-004-route-sanity-review.md"
   },
   "render_integrity_repair_capture": {
-    "recorded_at": "2026-07-17T04:28:00Z",
-    "git_revision": "a5bc20e19c0008242389acccf2318f1162a7f262",
+    "capture_started_at": "2026-07-17T04:47:51Z",
+    "capture_completed_at": "2026-07-17T04:48:06Z",
+    "derived_artifacts_completed_at": "2026-07-17T04:48:34Z",
+    "git_revision": "ae9e193e6141b769b17cc99b71a15ffd586b27ef",
     "godot": "4.7.1.stable.mono.official.a13da4feb",
     "scenario": "--render-integrity",
     "content_version": "route-v3-7b29691bf42eabf1",
@@ -428,11 +430,12 @@
     "duration_seconds": 25.9,
     "chunks_loaded": 4,
     "review_ready_chunks": 4,
-    "ordered_seams_crossed": 3,
+    "distance_thresholds_crossed": 3,
     "route_distance_meters": 300.1,
     "well_grounded_ratio": 0.9509,
     "maximum_unsupported_frames": 11,
     "chunk_failures": 0,
+    "deterministic_seed": 20260714,
     "visual_review": {
       "method": "45 evenly spaced renderer-backed frames inspected adversarially",
       "samples": 45,
@@ -442,14 +445,15 @@
     "derivations": [
       {
         "role": "capture-and-log",
-        "command": "GODOT_BIN=.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot CANNONBALL_CAPTURE_FPS=60 CANNONBALL_CAPTURE_FRAMES=4800 CANNONBALL_SCENARIO_TIMEOUT_SECONDS=180 ./scripts/capture-scenario.sh /tmp/p0-004-render-integrity.avi --render-integrity 2>&1 | tee /tmp/p0-004-render-integrity.log",
+        "command": "set -o pipefail; GODOT_BIN=.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot CANNONBALL_CAPTURE_FPS=60 CANNONBALL_CAPTURE_FRAMES=4800 CANNONBALL_SCENARIO_TIMEOUT_SECONDS=180 ./scripts/capture-scenario.sh /tmp/p0-004-render-integrity.avi --render-integrity 2>&1 | tee /tmp/p0-004-render-integrity.log",
         "exit_code": 0,
+        "capture_process_exit_code": 0,
         "input_sha256": {
           ".tools/scenarios/official-corridor/route_graph-b2ada13ecc634df150f24a16ee3ae9b3499e36daf867b855861fe5a73b939f54.cbrg": "8ee287814e68d6de3418c9a1469cad9ffd252a25e600859077e4bcf4c52bf485"
         },
         "output_sha256": {
           "/tmp/p0-004-render-integrity.avi": "46121a3b48ab9f76fd791d5b2805fb85621a165b61b008a47f53ded214371d36",
-          "/tmp/p0-004-render-integrity.log": "efa610c531bc48b25c80dca50d7074b14c7e33bd305fdf9cd0d1d49be1c06179"
+          "/tmp/p0-004-render-integrity.log": "9836232a80fc5a6818cd71837641b78b5bac9afe708b17aa3f54e011452f0cd5"
         }
       },
       {
@@ -524,8 +528,8 @@
         "path": "/tmp/p0-004-render-integrity.log",
         "retention": "ephemeral_local_review_output_not_published",
         "durable_url": null,
-        "bytes": 1871,
-        "sha256": "efa610c531bc48b25c80dca50d7074b14c7e33bd305fdf9cd0d1d49be1c06179"
+        "bytes": 1885,
+        "sha256": "9836232a80fc5a6818cd71837641b78b5bac9afe708b17aa3f54e011452f0cd5"
       }
     ],
     "review_reference": "docs/audits/2026-07-16-p0-004-route-sanity-review.md",
@@ -539,11 +543,15 @@
     "status": "rejected",
     "reviewed_at": "2026-07-16",
     "review_reference": "docs/audits/2026-07-16-p0-004-route-sanity-review.md",
-    "findings": [
+    "rejected_candidate_findings": [
       "Roadway disappears from most sampled frames",
       "Vehicle appears suspended against empty space after the opening view",
       "Terrain and scenery are insufficient to judge route placement or seams",
       "Route is not geographically recognizable, so obvious map mistakes cannot be ruled out"
+    ],
+    "current_outstanding_findings": [
+      "No longer locked representative multi-edge corridor has been captured",
+      "Geographic recognizability, placement, grade, terrain context, and obvious map mistakes remain unreviewed"
     ],
     "approval_reference": null,
     "task_completion_blocked": true,
