@@ -86,12 +86,14 @@ overrides before a route becomes drivable content.
 Generated continental packages belong in release/CI artifacts, not Git. Source
 art, audio, and binary models use Git LFS.
 
-Exact retained source artifacts use immutable GitHub Releases as their primary
-store and, after P1-005 is provisioned and verified, a dedicated AWS S3 bucket
-with Versioning and `COMPLIANCE` Object Lock as the independent recovery
-replica. Vercel observes replica health through a read-only OIDC role, but
-Vercel Blob is not the recovery authority and neither Vercel nor GitHub is
-required for a disaster restore. See [ADR-0009](decisions/ADR-0009-s3-object-lock-recovery-replica.md).
+Exact retained source artifacts use immutable GitHub Releases as their required
+store. Their recorded upstream URLs, exact checksums, and recursive manifests
+support deterministic reacquisition. An independent AWS S3 Object Lock replica
+and its read-only Vercel health plane are deferred until the activation
+threshold in
+[ADR-0010](decisions/ADR-0010-defer-independent-source-replica.md) is met; the
+implementation design remains documented in
+[ADR-0009](decisions/ADR-0009-s3-object-lock-recovery-replica.md).
 
 ## Determinism contract
 

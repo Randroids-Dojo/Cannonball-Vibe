@@ -27,6 +27,8 @@ public sealed partial class CannonballVehicle : RigidBody3D
 
     private readonly IDriveInput _driveInput = new GodotDriveInput();
     private bool _resetRequested;
+    private int _consecutiveUnsupportedPhysicsFrames;
+    private bool _hasBeenGrounded;
 
     public bool AutopilotEnabled { get; set; }
     public AssistProfile AssistProfile { get; private set; } = AssistProfile.Balanced;
@@ -34,6 +36,12 @@ public sealed partial class CannonballVehicle : RigidBody3D
     public Vector3 TargetRoadPoint { get; set; }
     public Vector3 TargetRoadForward { get; set; } = Vector3.Forward;
     public float SpeedMetersPerSecond => LinearVelocity.Length();
+    public float AutopilotSpeedLimitMetersPerSecond { get; set; } = 91;
+    public int GroundedWheelCount { get; private set; }
+    public bool HasBeenGrounded => _hasBeenGrounded;
+    public int PostGroundingPhysicsFrames { get; private set; }
+    public int WellGroundedPhysicsFrames { get; private set; }
+    public int MaximumConsecutiveUnsupportedPhysicsFrames { get; private set; }
 
     public override void _Ready()
     {
@@ -69,6 +77,23 @@ public sealed partial class CannonballVehicle : RigidBody3D
 
     public void RequestReset() => _resetRequested = true;
 
+    public void RequestResetToRoad(Vector3 point, Vector3 forward)
+    {
+        TargetRoadPoint = point;
+        TargetRoadForward = forward;
+        _resetRequested = true;
+    }
+
+    public void ResetGroundingTelemetry()
+    {
+        GroundedWheelCount = 0;
+        PostGroundingPhysicsFrames = 0;
+        WellGroundedPhysicsFrames = 0;
+        MaximumConsecutiveUnsupportedPhysicsFrames = 0;
+        _consecutiveUnsupportedPhysicsFrames = 0;
+        _hasBeenGrounded = false;
+    }
+
     public void CycleAssistProfile()
     {
         AssistProfile = AssistProfile switch
@@ -92,8 +117,16 @@ public sealed partial class CannonballVehicle : RigidBody3D
             lateralError * 0.025f + headingError * 1.8f - AngularVelocity.Y * 0.18f,
             -1,
             1);
-        var throttle = SpeedMetersPerSecond < 91 ? 1.0f : 0.15f;
-        return new DriveInputState(throttle, 0, steering, false);
+        var forwardSpeed = LinearVelocity.Dot(heading);
+        var speedError = AutopilotSpeedLimitMetersPerSecond - forwardSpeed;
+        var speedLimited = AutopilotSpeedLimitMetersPerSecond < 91;
+        var throttle = speedLimited
+            ? speedError <= 0 ? 0 : Mathf.Clamp(speedError / 5, 0.12f, 1.0f)
+            : SpeedMetersPerSecond < 91 ? 1.0f : 0.15f;
+        var brake = speedLimited && speedError < 0
+            ? Mathf.Clamp(-speedError / 5, 0, 0.35f)
+            : 0;
+        return new DriveInputState(throttle, brake, steering, false);
     }
 
     private void ApplySuspensionAndTireForces(DriveInputState input)
@@ -150,6 +183,28 @@ public sealed partial class CannonballVehicle : RigidBody3D
                 _ => 1.0f,
             };
             ApplyForce(-wheelRight * lateralSpeed * LateralGrip * gripScale * assistGrip, offset);
+        }
+
+        GroundedWheelCount = groundedWheels;
+        if (groundedWheels > 0)
+        {
+            _hasBeenGrounded = true;
+            _consecutiveUnsupportedPhysicsFrames = 0;
+        }
+        else if (_hasBeenGrounded)
+        {
+            _consecutiveUnsupportedPhysicsFrames++;
+            MaximumConsecutiveUnsupportedPhysicsFrames = Math.Max(
+                MaximumConsecutiveUnsupportedPhysicsFrames,
+                _consecutiveUnsupportedPhysicsFrames);
+        }
+        if (_hasBeenGrounded)
+        {
+            PostGroundingPhysicsFrames++;
+            if (groundedWheels >= 3)
+            {
+                WellGroundedPhysicsFrames++;
+            }
         }
 
         if (groundedWheels > 0)

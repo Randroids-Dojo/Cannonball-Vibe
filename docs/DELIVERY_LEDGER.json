@@ -188,7 +188,8 @@
       ],
       "verification": [
         "./scripts/check.sh",
-        "./scripts/run-scenario.sh --fixture official-corridor --distance-miles 100"
+        "./scripts/run-scenario.sh --fixture official-corridor --distance-miles 100",
+        "CANNONBALL_CAPTURE_FPS=60 CANNONBALL_CAPTURE_FRAMES=4800 ./scripts/capture-scenario.sh /tmp/p0-004-render-integrity.avi --render-integrity"
       ],
       "evidence": [
         "evidence/M2/P0-004.json"
@@ -454,20 +455,20 @@
     {
       "id": "P1-005",
       "milestone": "M4",
-      "priority": "P1",
-      "title": "Independent immutable-source recovery replica",
+      "priority": "P2",
+      "title": "Conditional independent immutable-source recovery replica",
       "status": "open",
       "dependencies": [
         "P0-003"
       ],
       "owned_paths": [
-        ".github/workflows/source-retention.yml",
         "infra/source-retention/",
         "ops/source-retention-observer/",
-        "scripts/source-retention/",
-        "docs/RELEASE.md",
+        "scripts/source-retention/verify-replica.sh",
         "docs/decisions/ADR-0009-s3-object-lock-recovery-replica.md",
+        "docs/decisions/ADR-0010-defer-independent-source-replica.md",
         "docs/research/2026-07-16-source-recovery-storage.md",
+        "docs/audits/2026-07-16-source-replica-deferral.md",
         "docs/OPEN_QUESTIONS.md",
         "evidence/M4/P1-005.json"
       ],
@@ -495,11 +496,53 @@
       ],
       "human_gate": {
         "name": "Recovery provider, credentials, and spending approval",
-        "required_for": "M4",
-        "status": "provider_approved_credentials_and_spend_pending",
+        "required_for": "activation_of_P1-005",
+        "status": "not_required_until_activation",
         "provider_approval_reference": "docs/QUESTIONS_FOR_RANDROID.md#independent-source-recovery-replica-q-016--answered"
       },
-      "notes": "Q-016 is resolved by ADR-0009. GitHub Releases remain primary; AWS S3 Object Lock is the recovery replica; Vercel is the read-only health plane. Completion still requires AWS credentials, spending approval, provisioning, replication, and a destructive restore drill."
+      "activation": {
+        "mandatory_when": "Before retaining source material that is unique, privately licensed, legally critical, expensive to reconstruct, or no longer reliably reacquirable",
+        "may_activate_when": "The project owner explicitly approves the additional recovery plane early",
+        "status": "not_triggered"
+      },
+      "notes": "ADR-0010 defers provisioning and removes this task from the release-critical path. If activated, ADR-0009 remains the implementation design and completion still requires credentials, spending approval, provisioning, replication, and a destructive restore drill."
+    },
+    {
+      "id": "P1-006",
+      "milestone": "M4",
+      "priority": "P1",
+      "title": "Primary immutable GitHub source publication",
+      "status": "open",
+      "dependencies": [
+        "P0-003"
+      ],
+      "owned_paths": [
+        ".github/workflows/source-retention.yml",
+        "scripts/source-retention/publish-release.sh",
+        "scripts/source-retention/verify-release.sh",
+        "docs/RELEASE.md",
+        "docs/decisions/ADR-0006-github-release-source-retention.md",
+        "evidence/M4/P1-006.json"
+      ],
+      "acceptance": [
+        "Every authoritative source-lock artifact is mapped to a content-addressed immutable GitHub Release asset",
+        "Oversized assets are deterministically split and reconstruct from a checksum-verified manifest",
+        "The complete draft release is independently downloaded and verified before immutable publication",
+        "Published release tags and assets are immutable and carry checksums, provenance, and attestations",
+        "A clean environment reconstructs every retained source and matches source-lock hashes without local or CI caches",
+        "Every source is classified against ADR-0010 before authoritative publication, and publication fails when a mandatory P1-005 trigger is present without complete P1-005 evidence"
+      ],
+      "verification": [
+        "./scripts/source-retention/verify-release.sh --classify-replica-trigger"
+      ],
+      "evidence": [
+        "evidence/M4/P1-006.json"
+      ],
+      "human_gate": {
+        "name": "Authoritative source publication approval",
+        "required_for": "M4"
+      },
+      "notes": "ADR-0006 remains release-critical. ADR-0010 defers only the independent AWS/Vercel recovery replica, not primary immutable GitHub source publication."
     },
     {
       "id": "P1-003",
@@ -511,7 +554,7 @@
         "P0-007",
         "P0-008",
         "P1-002",
-        "P1-005"
+        "P1-006"
       ],
       "owned_paths": [
         ".github/workflows/release.yml",

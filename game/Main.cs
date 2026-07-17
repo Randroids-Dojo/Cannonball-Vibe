@@ -13,6 +13,8 @@ namespace Cannonball.Game;
 public sealed partial class Main : Node3D
 {
     private const int MaximumTransportProbeReads = 10_000;
+    private const int MaximumRenderIntegrityUnsupportedPhysicsFrames = 30;
+    private const double MinimumRenderIntegrityWellGroundedRatio = 0.90;
     private WorldStreamer _streamer = null!;
     private CannonballVehicle _vehicle = null!;
     private PrototypeHud _hud = null!;
@@ -25,12 +27,15 @@ public sealed partial class Main : Node3D
     private bool _smokeTest;
     private bool _stressTest;
     private bool _shortCorridorSoak;
+    private bool _renderIntegrity;
     private bool _shutdownStarted;
     private int _smokeFrames;
     private double _telemetryElapsed;
     private double _previousDistance;
     private float _peakSpeedMetersPerSecond;
     private int _smokeTargetFrames = 360;
+    private bool _renderTraversalStarted;
+    private int _minimumLoadedChunksDuringRenderTraversal = int.MaxValue;
 
     public override void _Ready()
     {
@@ -42,8 +47,13 @@ public sealed partial class Main : Node3D
             _smokeTest = arguments.Contains("--smoke-test", StringComparer.Ordinal) || requestedProbeMiles > 0;
             _stressTest = arguments.Contains("--stress-driver", StringComparer.Ordinal);
             _shortCorridorSoak = arguments.Contains("--short-corridor-soak", StringComparer.Ordinal);
-            _smokeTest = _smokeTest || _stressTest || _shortCorridorSoak;
+            _renderIntegrity = arguments.Contains("--render-integrity", StringComparer.Ordinal);
+            _smokeTest = _smokeTest || _stressTest || _shortCorridorSoak || _renderIntegrity;
             _smokeTargetFrames = _stressTest || _shortCorridorSoak ? 3_600 : 360;
+            if (_renderIntegrity)
+            {
+                _smokeTargetFrames = 4_800;
+            }
 
             var absoluteRoutePath = Path.GetFullPath(routePath);
             _package = FlatBufferRouteContent.Load(absoluteRoutePath);
@@ -62,6 +72,7 @@ public sealed partial class Main : Node3D
             BuildLighting();
             _streamer = new WorldStreamer { Name = "WorldStreamer" };
             _streamer.Configure(_package, _chunkSource, initialChunk);
+            _streamer.ShortCorridorLoopEnabled = _shortCorridorSoak;
             AddChild(_streamer);
             _vehicle = new CannonballVehicle
             {
@@ -80,7 +91,11 @@ public sealed partial class Main : Node3D
             _telemetry = new JsonlTelemetrySink(
                 ProjectSettings.GlobalizePath("user://telemetry/prototype.jsonl"));
 
-            _vehicle.AutopilotEnabled = _smokeTest;
+            _vehicle.AutopilotEnabled = _smokeTest && !_renderIntegrity;
+            if (_renderIntegrity)
+            {
+                _vehicle.AutopilotSpeedLimitMetersPerSecond = 12;
+            }
             var assistArgument = arguments.FirstOrDefault(value => value.StartsWith("--assist=", StringComparison.Ordinal));
             if (assistArgument is not null &&
                 Enum.TryParse<AssistProfile>(assistArgument["--assist=".Length..], ignoreCase: true, out var assist))
@@ -123,6 +138,23 @@ public sealed partial class Main : Node3D
             _streamer.LocalOriginMeters,
             _vehicle.AssistProfile);
         _peakSpeedMetersPerSecond = Math.Max(_peakSpeedMetersPerSecond, _vehicle.SpeedMetersPerSecond);
+        if (_renderIntegrity)
+        {
+            if (!_renderTraversalStarted &&
+                _streamer.LoadedChunkCount == _streamer.ExpectedChunkCount &&
+                _streamer.ReviewReadyChunkCount == _streamer.ExpectedChunkCount)
+            {
+                _renderTraversalStarted = true;
+                _vehicle.ResetGroundingTelemetry();
+                _vehicle.AutopilotEnabled = true;
+            }
+            if (_renderTraversalStarted)
+            {
+                _minimumLoadedChunksDuringRenderTraversal = Math.Min(
+                    _minimumLoadedChunksDuringRenderTraversal,
+                    _streamer.LoadedChunkCount);
+            }
+        }
         _telemetryElapsed += delta;
         if (_telemetryElapsed >= 5)
         {
@@ -146,7 +178,9 @@ public sealed partial class Main : Node3D
         }
 
         _smokeFrames++;
-        if (_smokeFrames >= _smokeTargetFrames)
+        var renderTraversalComplete = _renderIntegrity &&
+            _streamer.RouteDistanceMeters >= Math.Min(300, _streamer.TotalRouteLengthMeters - 35);
+        if (_smokeFrames >= _smokeTargetFrames || renderTraversalComplete)
         {
             _shutdownStarted = true;
             _ = PersistAsync(quitAfterSave: true);
@@ -238,6 +272,10 @@ public sealed partial class Main : Node3D
             {
                 ValidateShortCorridorSoak();
             }
+            if (quitAfterSave && _renderIntegrity)
+            {
+                ValidateRenderIntegrity();
+            }
             var save = CaptureSave();
             await _saves.SaveAsync(save);
             await RecordTelemetryAsync("run_suspended");
@@ -320,6 +358,7 @@ public sealed partial class Main : Node3D
             ["contentSource"] = "packaged",
             ["chunkFailures"] = _streamer.ChunkFailureCount,
             ["maximumChunkBuildMilliseconds"] = _streamer.MaximumBuildMilliseconds,
+            ["shortCorridorLoops"] = _streamer.CompletedShortCorridorLoops,
         };
         _previousDistance = distance;
         await _telemetry.WriteAsync(new TelemetryEvent(
@@ -359,9 +398,87 @@ public sealed partial class Main : Node3D
         {
             throw new InvalidOperationException("Short-corridor soak encountered a route chunk failure.");
         }
+        if (_streamer.CompletedShortCorridorLoops < 1)
+        {
+            throw new InvalidOperationException("Short-corridor soak did not complete a route loop.");
+        }
         GD.Print(
             $"CANNONBALL_SHORT_CORRIDOR_SOAK_OK chunks={_streamer.LoadedChunkCount} " +
-            $"peak_mph={_peakSpeedMetersPerSecond * 2.236936f:0.0} chunk_failures=0");
+            $"peak_mph={_peakSpeedMetersPerSecond * 2.236936f:0.0} " +
+            $"route_loops={_streamer.CompletedShortCorridorLoops} chunk_failures=0");
+    }
+
+    private void ValidateRenderIntegrity()
+    {
+        const double requiredDistance = 300;
+        if (_streamer.TotalRouteLengthMeters < requiredDistance + 35)
+        {
+            throw new InvalidOperationException(
+                $"Render-integrity route is only {_streamer.TotalRouteLengthMeters:0.0} m; " +
+                $"required at least {requiredDistance + 35:0.0} m.");
+        }
+        if (_streamer.RouteDistanceMeters < requiredDistance)
+        {
+            throw new InvalidOperationException(
+                $"Render-integrity traversal only reached {_streamer.RouteDistanceMeters:0.0} m; " +
+                $"required {requiredDistance:0.0} m.");
+        }
+        if (_streamer.LoadedChunkCount != _streamer.ExpectedChunkCount)
+        {
+            throw new InvalidOperationException(
+                $"Render-integrity traversal loaded {_streamer.LoadedChunkCount} of " +
+                $"{_streamer.ExpectedChunkCount} route chunks.");
+        }
+        if (!_renderTraversalStarted ||
+            _minimumLoadedChunksDuringRenderTraversal != _streamer.ExpectedChunkCount)
+        {
+            throw new InvalidOperationException(
+                "Render-integrity traversal did not retain every expected chunk after visual readiness.");
+        }
+        if (_streamer.ReviewReadyChunkCount != _streamer.ExpectedChunkCount)
+        {
+            throw new InvalidOperationException(
+                $"Render-integrity traversal has review geometry for " +
+                $"{_streamer.ReviewReadyChunkCount} of {_streamer.ExpectedChunkCount} chunks.");
+        }
+        if (_streamer.CrossedReviewDistanceThresholdCount != 3)
+        {
+            throw new InvalidOperationException(
+                $"Render-integrity traversal crossed " +
+                $"{_streamer.CrossedReviewDistanceThresholdCount} of 3 distance thresholds.");
+        }
+        if (_streamer.ChunkFailureCount > 0)
+        {
+            throw new InvalidOperationException("Render-integrity traversal encountered a route chunk failure.");
+        }
+        if (_vehicle.MaximumConsecutiveUnsupportedPhysicsFrames >
+            MaximumRenderIntegrityUnsupportedPhysicsFrames)
+        {
+            throw new InvalidOperationException(
+                $"Render-integrity traversal was unsupported for " +
+                $"{_vehicle.MaximumConsecutiveUnsupportedPhysicsFrames} consecutive physics frames.");
+        }
+        if (!_vehicle.HasBeenGrounded || _vehicle.PostGroundingPhysicsFrames == 0)
+        {
+            throw new InvalidOperationException("Render-integrity traversal never established road contact.");
+        }
+        var wellGroundedRatio =
+            (double)_vehicle.WellGroundedPhysicsFrames / _vehicle.PostGroundingPhysicsFrames;
+        if (wellGroundedRatio < MinimumRenderIntegrityWellGroundedRatio)
+        {
+            throw new InvalidOperationException(
+                $"Render-integrity traversal had at least three grounded wheels for only " +
+                $"{wellGroundedRatio:P2} of post-contact physics frames.");
+        }
+        GD.Print(
+            $"CANNONBALL_RENDER_INTEGRITY_OK chunks={_streamer.LoadedChunkCount} " +
+            $"distance_m={_streamer.RouteDistanceMeters:0.0} " +
+            $"peak_mph={_peakSpeedMetersPerSecond * 2.236936f:0.0} " +
+            $"distance_thresholds={_streamer.CrossedReviewDistanceThresholdCount} " +
+            $"review_chunks={_streamer.ReviewReadyChunkCount} " +
+            $"well_grounded_ratio={wellGroundedRatio:0.0000} " +
+            $"max_unsupported_frames={_vehicle.MaximumConsecutiveUnsupportedPhysicsFrames} " +
+            $"chunk_failures=0");
     }
 
     private static string RequiredArgument(IReadOnlyList<string> arguments, string name)

@@ -14,3 +14,4 @@ new ADR that supersedes the old one instead of rewriting history.
 | [ADR-0007](ADR-0007-tiered-elevation-and-locked-source-distribution.md) | Accepted | Tiered 3DEP elevation and guarded distribution of locked government sources |
 | [ADR-0008](ADR-0008-required-playgodot-after-ui-value-gate.md) | Accepted | Require modern PlayGodot after the representative rendered-UI value gate |
 | [ADR-0009](ADR-0009-s3-object-lock-recovery-replica.md) | Accepted | AWS S3 Object Lock recovery replica with a read-only Vercel health plane |
+| [ADR-0010](ADR-0010-defer-independent-source-replica.md) | Accepted | Defer the independent recovery replica until its activation threshold is met |
