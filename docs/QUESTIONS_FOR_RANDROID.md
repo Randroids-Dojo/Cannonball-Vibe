@@ -82,9 +82,21 @@ and creates attestations. Assets are content-addressed and checksum-verified;
 artifacts exceeding the per-file limit are deterministically split with a
 checked reconstruction manifest. Local and CI copies remain disposable caches.
 
-## Independent source recovery replica (Q-016)
+## Independent source recovery replica (Q-016) — answered
 
-An immutable release protects its tag and assets from modification, but an
-administrator can still delete the entire release or repository. Select an
-independent durable replica and restore procedure before claiming disaster
-recovery for production source retention.
+Decision recorded 2026-07-16: use versioned object storage with enforced Object
+Lock, preferring Vercel integration where it satisfies the recovery contract.
+Research found that Vercel Blob permits object overwrite, object deletion, and
+whole-store deletion and does not expose the required WORM retention controls.
+
+The recovery authority is therefore a dedicated AWS S3 bucket with Versioning
+and `COMPLIANCE` Object Lock. Vercel uses short-lived OIDC credentials to
+provide independent, read-only inventory and retention monitoring. Replication
+goes directly from the release job to S3, and restoration uses an independent
+AWS identity so neither GitHub nor Vercel is a recovery dependency. See
+[ADR-0009](decisions/ADR-0009-s3-object-lock-recovery-replica.md).
+
+P1-005 remains open until the AWS recovery account, region, roles, out-of-band
+recovery pointer, and budget alarms are provisioned; every retained source is
+replicated; permanent deletion is denied; and a clean destructive restore drill
+passes.
