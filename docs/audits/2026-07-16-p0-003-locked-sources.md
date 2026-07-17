@@ -21,7 +21,9 @@ resume state. Retryable transport and ArcGIS errors use bounded backoff.
 
 The production elevation baseline is the seamless USGS 3DEP 1/3 arc-second
 GeoTIFF product because it provides full CONUS coverage at approximately
-10-meter resolution. The lock records the exact historical tile, TNM discovery
+10-meter resolution. Per Q-014, a corridor may upgrade to locked 1-meter 3DEP
+only after coverage, seam, visual/grade value, package-size, and acquisition-time
+gates pass. The lock records the exact historical tile, TNM discovery
 request and response hash, candidate count, deterministic selection policy,
 product ID, publication date, raster and metadata URLs, response metadata, and
 SHA-256 values. The locked FGDC metadata supplies NAD83 and NAVD88 explicitly;
@@ -59,9 +61,13 @@ The final adversarial pass reported no remaining acceptance-blocking findings.
 
 ## Human boundary
 
-The technical gate does not approve public distribution rights. Final source
-rights review remains open for public release as Q-013. Product resolution and
-immutable source retention remain Q-014 and Q-015. The short human inbox is
+The technical gate did not itself approve public distribution rights. The
+project owner resolved Q-013 on 2026-07-16 by approving distribution of the
+exact locked NHPN and USGS 3DEP government data and project derivatives with
+source credit, provenance, a no-endorsement statement, and no agency logos.
+Product resolution was resolved by Q-014, and Q-015 selected content-addressed
+immutable GitHub Release assets as the primary source store. Independent
+disaster recovery remains open as Q-016. The short human inbox is
 [QUESTIONS_FOR_RANDROID.md](../QUESTIONS_FOR_RANDROID.md).
 
 ## Primary official references

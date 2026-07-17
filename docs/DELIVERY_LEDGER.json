@@ -142,7 +142,10 @@
       ],
       "human_gate": {
         "name": "Final source rights review",
-        "required_for": "public_release"
+        "required_for": "public_release",
+        "status": "approved",
+        "reviewed_at": "2026-07-16",
+        "approval_reference": "docs/QUESTIONS_FOR_RANDROID.md#source-rights-approval-q-013--answered"
       }
     },
     {
@@ -171,6 +174,7 @@
         "README.md",
         "docs/TECH_STACK.md",
         "docs/QUESTIONS_FOR_RANDROID.md",
+        "docs/audits/2026-07-16-p0-004-route-sanity-review.md",
         "evidence/M2/P0-004.json"
       ],
       "acceptance": [
@@ -178,7 +182,9 @@
         "Each runtime chunk is under 16 MB and independently hashed",
         "Missing and corrupt chunks are rejected before use",
         "The game streams packaged chunks instead of the procedural RoadMath corridor",
-        "A committed official-source fixture passes pipeline-to-C#-to-Godot integration"
+        "A committed official-source fixture passes pipeline-to-C#-to-Godot integration",
+        "A corrected short-fixture render-integrity capture keeps roadway, terrain, and scenery reviewable while all four chunks are loaded",
+        "A longer locked representative corridor capture passes the human geographic sanity review"
       ],
       "verification": [
         "./scripts/check.sh",
@@ -189,7 +195,12 @@
       ],
       "human_gate": {
         "name": "Representative route map sanity review",
-        "required_for": "M2"
+        "required_for": "M2",
+        "required_candidate": "longer locked representative corridor",
+        "status": "rejected",
+        "reviewed_at": "2026-07-16",
+        "review_reference": "docs/audits/2026-07-16-p0-004-route-sanity-review.md",
+        "task_completion_blocked": true
       }
     },
     {
@@ -441,6 +452,40 @@
       }
     },
     {
+      "id": "P1-005",
+      "milestone": "M4",
+      "priority": "P1",
+      "title": "Independent immutable-source recovery replica",
+      "status": "open",
+      "dependencies": [
+        "P0-003"
+      ],
+      "owned_paths": [
+        ".github/workflows/source-retention.yml",
+        "scripts/source-retention/",
+        "docs/RELEASE.md",
+        "docs/OPEN_QUESTIONS.md",
+        "evidence/M4/P1-005.json"
+      ],
+      "acceptance": [
+        "An independent provider, retention policy, access model, and cost boundary are recorded in an ADR",
+        "Every authoritative GitHub Release source asset is replicated and inventoried by content hash and provider version",
+        "A destructive drill restores locked source artifacts without GitHub Releases, upstream public URLs, or local and CI caches",
+        "The restored bytes, recursive manifests, and source-lock hashes match the authoritative records"
+      ],
+      "verification": [
+        "./scripts/source-retention/verify-replica.sh --destructive-restore-drill"
+      ],
+      "evidence": [
+        "evidence/M4/P1-005.json"
+      ],
+      "human_gate": {
+        "name": "Recovery provider, credentials, and spending approval",
+        "required_for": "M4"
+      },
+      "notes": "Resolves Q-016; GitHub Releases remain the primary immutable store but do not provide independent disaster recovery."
+    },
+    {
       "id": "P1-003",
       "milestone": "M6",
       "priority": "P1",
@@ -449,7 +494,8 @@
       "dependencies": [
         "P0-007",
         "P0-008",
-        "P1-002"
+        "P1-002",
+        "P1-005"
       ],
       "owned_paths": [
         ".github/workflows/release.yml",
@@ -459,7 +505,9 @@
       "acceptance": [
         "Signed or notarized packages pass clean-machine installation and launch",
         "Release checksums, SBOM, provenance, migration evidence, and rollback artifacts are published",
-        "Production credentials are isolated in an approval-gated environment"
+        "Production credentials are isolated in an approval-gated environment",
+        "Every distributed NHPN and USGS 3DEP artifact matches its locked checksum and recursive provenance",
+        "Release materials include source credit and a no-endorsement statement and contain no agency logos"
       ],
       "verification": [
         "./scripts/release/verify-public-release.sh"

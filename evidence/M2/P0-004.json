@@ -2,8 +2,9 @@
   "schema_version": 1,
   "task_id": "P0-004",
   "milestone": "M2",
-  "status": "technical_verification_complete_human_gate_pending",
+  "status": "technical_verification_complete_human_gate_rejected",
   "verified_at": "2026-07-16T07:43:27Z",
+  "updated_at": "2026-07-17T03:24:12Z",
   "git_revision": "44850a93824527bdfdd35bdabd74d2cddfb69150",
   "platform": {
     "local": "macOS",
@@ -69,6 +70,10 @@
   ],
   "local_macos_package": {
     "content_version": "route-v3-7b29691bf42eabf1",
+    "route_package": {
+      "path": ".tools/scenarios/official-corridor/route_graph-b2ada13ecc634df150f24a16ee3ae9b3499e36daf867b855861fe5a73b939f54.cbrg",
+      "sha256": "8ee287814e68d6de3418c9a1469cad9ffd252a25e600859077e4bcf4c52bf485"
+    },
     "schema_version": 3,
     "root": {
       "path": ".tools/scenarios/official-corridor/route_graph-cebf3d2270fffbead57c404ed9381728c0710f0ff6d24d16bbd8d924600182be.cbrg",
@@ -168,6 +173,23 @@
     "verification_mode": "repeated-transport-verification",
     "verified_chunk_reads": 1772,
     "chunk_failures": 0,
+    "tools": {
+      "ffmpeg": "8.1"
+    },
+    "commands": [
+      {
+        "command": "GODOT_BIN=.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot CANNONBALL_CAPTURE_FPS=60 CANNONBALL_CAPTURE_FRAMES=3600 ./scripts/capture-scenario.sh /tmp/p0-004-route-review.avi --short-corridor-soak",
+        "exit_code": 0
+      },
+      {
+        "command": "ffmpeg -y -v error -i /tmp/p0-004-route-review.avi -c:v libx264 -preset medium -crf 24 -pix_fmt yuv420p -an -movflags +faststart /tmp/p0-004-route-review.mp4",
+        "exit_code": 0
+      },
+      {
+        "command": "ffmpeg -y -v error -i /tmp/p0-004-route-review.avi -vf fps=1/10,scale=640:-1,tile=3x2 -frames:v 1 /tmp/p0-004-route-review-contact-sheet.png",
+        "exit_code": 0
+      }
+    ],
     "deterministic_seed": null
   },
   "acceptance": [
@@ -320,10 +342,61 @@
       "log_path": "logs/godot-smoke.log"
     }
   },
+  "visual_review_capture": {
+    "recorded_at": "2026-07-17T03:07:27Z",
+    "git_revision": "84a9f24a0b5c1a4b40cee311ae0c12d1b9efa9ef",
+    "godot": "4.7.1.stable.mono.official.a13da4feb",
+    "scenario": "--short-corridor-soak",
+    "content_version": "route-v3-7b29691bf42eabf1",
+    "width": 1280,
+    "height": 720,
+    "fps": 60,
+    "frames": 3600,
+    "duration_seconds": 60,
+    "chunks_loaded": 4,
+    "chunk_failures": 0,
+    "artifacts": [
+      {
+        "role": "original-mjpeg-capture",
+        "path": "/tmp/p0-004-route-review.avi",
+        "retention": "ephemeral_local_review_output_not_published",
+        "durable_url": null,
+        "bytes": 96390500,
+        "sha256": "8cbdcf43e43c9f7557ca91fa28101c711099d7efe57ed6c1ccc383b9089d10e5"
+      },
+      {
+        "role": "h264-review-copy",
+        "path": "/tmp/p0-004-route-review.mp4",
+        "retention": "ephemeral_local_review_output_not_published",
+        "durable_url": null,
+        "bytes": 1654166,
+        "sha256": "f222da5732e973b76caf5dc9760f08186cfd24e0ae3bef879102d6e280660588"
+      },
+      {
+        "role": "six-frame-contact-sheet",
+        "path": "/tmp/p0-004-route-review-contact-sheet.png",
+        "retention": "ephemeral_local_review_output_not_published",
+        "durable_url": null,
+        "bytes": 71712,
+        "sha256": "662156613d3bba70f93e70eb007141bb1aaa431fbd4047a798b1f7677a60c96c"
+      }
+    ],
+    "review_reference": "docs/audits/2026-07-16-p0-004-route-sanity-review.md"
+  },
   "human_gate": {
     "name": "Representative route map sanity review",
     "required_for": "M2",
-    "status": "pending",
+    "required_candidate": "longer locked representative corridor",
+    "short_fixture_recapture_can_clear_gate": false,
+    "status": "rejected",
+    "reviewed_at": "2026-07-16",
+    "review_reference": "docs/audits/2026-07-16-p0-004-route-sanity-review.md",
+    "findings": [
+      "Roadway disappears from most sampled frames",
+      "Vehicle appears suspended against empty space after the opening view",
+      "Terrain and scenery are insufficient to judge route placement or seams",
+      "Route is not geographically recognizable, so obvious map mistakes cannot be ruled out"
+    ],
     "approval_reference": null,
     "task_completion_blocked": true,
     "question_document": "docs/QUESTIONS_FOR_RANDROID.md"
