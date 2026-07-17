@@ -66,7 +66,8 @@ project owner resolved Q-013 on 2026-07-16 by approving distribution of the
 exact locked NHPN and USGS 3DEP government data and project derivatives with
 source credit, provenance, a no-endorsement statement, and no agency logos.
 Product resolution was resolved by Q-014, and Q-015 selected content-addressed
-GitHub Release assets for immutable source retention. The short human inbox is
+immutable GitHub Release assets as the primary source store. Independent
+disaster recovery remains open as Q-016. The short human inbox is
 [QUESTIONS_FOR_RANDROID.md](../QUESTIONS_FOR_RANDROID.md).
 
 ## Primary official references

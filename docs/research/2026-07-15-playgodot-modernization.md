@@ -141,8 +141,8 @@ PlayGodot becomes required Cannonball infrastructure only if the spike proves:
 - no listener without explicit enablement and no non-loopback binding;
 - rejected unauthenticated, oversized, malformed, and disallowed requests;
 - release packages contain no enabled automation server; and
-- materially lower flake rate or diagnosis cost, or unique rendered-UI defect
-  detection, compared with CLI plus Computer Use alone.
+- materially lower diagnosis cost or unique rendered-UI defect detection,
+  compared with CLI plus Computer Use alone.
 
 ## Spike implementation and measured result
 
@@ -178,12 +178,14 @@ underlying node or wait on its signal.
 
 The live suite now passes on GitHub-hosted macOS, Linux, and Windows, and P0-007
 has proved through real release-package inspection and hostile startup probes
-that PlayGodot does not ship or activate. The project owner selected required
-infrastructure on 2026-07-16 once the remaining representative interactive-menu
-comparison proves lower diagnosis cost or unique defect coverage against
-Computer Use. Until that measurement exists, PlayGodot remains an optional,
-debug-only semantic layer and the deterministic CLI remains milestone
-authority.
+that PlayGodot does not ship or activate. On 2026-07-16, the project owner
+selected the conditional adoption policy: PlayGodot becomes required only after
+the remaining representative interactive-menu comparison proves lower diagnosis
+cost or unique defect coverage against Computer Use. Until that measurement
+exists, PlayGodot remains an optional, debug-only semantic layer and the
+deterministic CLI remains milestone authority. The conditional adoption policy
+is authoritative in
+[ADR-0008](../decisions/ADR-0008-required-playgodot-after-ui-value-gate.md).
 
 ## Deliberately excluded legacy authority
 
