@@ -120,3 +120,8 @@ This clears the short-fixture render defect for continued engineering work. It
 does not change the rejected human geographic gate: a longer locked corridor,
 multi-edge traversal support, and a new owner review remain required before
 P0-004 can complete.
+
+The initial chunk is constructed synchronously before the first rendered frame
+and has a 50 ms cold-start budget to absorb runtime/JIT initialization on hosted
+runners. Every later asynchronously streamed chunk retains the 40 ms build
+budget.

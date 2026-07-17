@@ -230,7 +230,8 @@
         "content_source": "packaged",
         "runtime_chunks_loaded": 4,
         "maximum_concurrent_reads": 2,
-        "maximum_chunk_build_budget_ms": 40
+        "initial_chunk_build_budget_ms": 50,
+        "streamed_chunk_build_budget_ms": 40
       }
     },
     {

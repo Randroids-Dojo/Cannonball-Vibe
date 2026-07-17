@@ -13,6 +13,7 @@ public sealed partial class WorldStreamer : Node3D
     public const double PrefetchHorizonSeconds = 112;
     public const float RebaseThresholdMeters = 1_000;
     public const double ChunkBuildBudgetMilliseconds = 40;
+    public const double InitialChunkBuildBudgetMilliseconds = 50;
     public const int MaximumConcurrentChunkReads = 2;
     public const double ShortCorridorLoopResetLeadMeters = 25;
 
@@ -78,7 +79,7 @@ public sealed partial class WorldStreamer : Node3D
         _initialRoadWorldPoint = _frame.ToWorld(initialChunk.Samples[0]);
         InitialRoadPoint = _initialRoadWorldPoint.RelativeTo(_localOriginWorld);
         InitialRoadForward = _frame.InitialForward;
-        AttachChunk(initialChunk);
+        AttachChunk(initialChunk, InitialChunkBuildBudgetMilliseconds);
     }
 
     public override void _Ready()
@@ -256,19 +257,21 @@ public sealed partial class WorldStreamer : Node3D
         }
     }
 
-    private void AttachChunk(RouteChunkContent content)
+    private void AttachChunk(
+        RouteChunkContent content,
+        double buildBudgetMilliseconds = ChunkBuildBudgetMilliseconds)
     {
         if (_loaded.ContainsKey(content.Id))
         {
             return;
         }
         var chunk = RoadChunk.Create(content, _frame, _localOriginWorld);
-        if (chunk.BuildMilliseconds > ChunkBuildBudgetMilliseconds)
+        if (chunk.BuildMilliseconds > buildBudgetMilliseconds)
         {
             chunk.Free();
             throw new InvalidOperationException(
                 $"Route chunk '{content.Id}' took {chunk.BuildMilliseconds:0.000} ms to build; " +
-                $"budget is {ChunkBuildBudgetMilliseconds:0.000} ms.");
+                $"budget is {buildBudgetMilliseconds:0.000} ms.");
         }
         _content.Add(content.Id, content);
         _loaded.Add(content.Id, chunk);
