@@ -2,13 +2,13 @@
   "schema_version": 1,
   "task_id": "P0-010",
   "milestone": "M2",
-  "status": "variable_lane_mainline_generation_verified_branch_geometry_pending",
-  "git_revision": "5cada632adfef0e1f48c8836e7c473c3d9fd21c2",
+  "status": "acceptance_verified_locally_remote_gates_pending",
+  "git_revision": "cc1f2f5f8edf0d6b2db7d3bba443f633a94b3465",
   "platform": {
     "os": "Darwin 25.6.0",
     "architecture": "arm64"
   },
-  "recorded_at_utc": "2026-07-18T13:39:15Z",
+  "recorded_at_utc": "2026-07-18T14:07:37Z",
   "tool_versions": {
     "dotnet_sdk": "10.0.102",
     "uv": "0.9.24",
@@ -20,17 +20,17 @@
       "two-to-four-lane width and stable-lane-center transitions",
       "variable shoulders, dashed markings, guard barriers, gore indicators, and collision",
       "entrance-only, auxiliary, exit-only, merge, split, and highway-transfer maneuver roles",
-      "stream-chunk transitions, eviction, collision activation, and local-origin rebasing",
-      "high-speed stable-lane traversal and deterministic chase plus elevated capture"
+      "stable lane-to-lane Entrance and HighwayTransfer connector traversal",
+      "stream-chunk transitions, probable-branch prewarming, eviction, collision activation, and local-origin rebasing",
+      "junction seam visual and collision fill",
+      "high-speed stable-lane traversal and six-waypoint chase plus elevated capture"
     ],
     "completion_pending": [
-      "physical ramp and highway-transfer branch connector geometry",
-      "probable-branch prewarming and unchosen-branch eviction",
-      "high-speed traversal of an actual branching interchange"
+      "remote Linux and Windows pull-request gates"
     ],
     "excluded_claims": [
-      "P0-010 completion",
       "P0-011 interchange routing completion",
+      "diamond, cloverleaf, or directional-interchange route-choice coverage",
       "observed real-world lane geometry"
     ]
   },
@@ -95,17 +95,23 @@
     "transition_collision_chunks": 2,
     "gore_geometry_observed": true,
     "maximum_paved_width_meters": 18.9,
-    "peak_speed_mph": 160.6,
-    "local_origin_rebases": 2,
+    "peak_speed_mph": 161.1,
+    "local_origin_rebases": 4,
+    "traversed_connector_movements": [
+      "Entrance",
+      "HighwayTransfer"
+    ],
+    "probable_branch_prewarms": 1,
+    "probable_branch_evictions": 1,
     "maximum_unsupported_physics_frames": 1,
-    "maximum_visual_build_milliseconds": 15.104,
-    "maximum_collision_build_milliseconds": 1.05,
+    "maximum_visual_build_milliseconds": 14.093,
+    "maximum_collision_build_milliseconds": 0.957,
     "visual_build_budget_milliseconds": 50,
     "collision_build_budget_milliseconds": 50,
-    "capture_frames": 360,
+    "capture_frames": 480,
     "capture_fps": 60,
-    "capture_duration_seconds": 6,
-    "capture_transition_waypoints": 4,
+    "capture_duration_seconds": 8,
+    "capture_review_waypoints": 6,
     "capture_camera_modes": 2,
     "dotnet_tests_passed": 42,
     "map_pipeline_tests_passed": 66,
@@ -114,27 +120,27 @@
   "acceptance_comparisons": [
     {
       "criterion": "road width, lane centers, markings, shoulders, barriers, gore, and collision follow lane sections",
-      "observed": "all generated surfaces follow the shared continuous lane profile and all four boundaries were captured from chase and elevated cameras",
+      "observed": "all generated surfaces follow the shared continuous lane profile; streamed junction seams fill edge-heading changes; four internal boundaries and two connector seams were captured from chase and elevated cameras",
       "passed": true
     },
     {
       "criterion": "additions, drops, merges, splits, exit-only lanes, entrance ramps, and highway-transfer connectors remain drivable at high speed",
-      "observed": "mainline additions, drops, maneuver roles, and a stable through-lane pass reached 160.6 mph; physical ramp and transfer branches remain pending",
-      "passed": false
+      "observed": "the authored fixture covers every declared lane role and maneuver, follows explicit Entrance and HighwayTransfer lane successors, and crossed the connector seams at 161.1 mph",
+      "passed": true
     },
     {
       "criterion": "continuity across chunks, branch prewarming, eviction, and rebases",
-      "observed": "chunk and collision windows settled at 12 checkpoints, chunks evicted cleanly, and the high-speed pass crossed two rebases; probable branch prewarming remains pending",
-      "passed": false
+      "observed": "chunk and collision windows settled at 12 checkpoints, one checksum-verified probable branch prewarmed outside the direct horizon and later evicted, and the high-speed pass crossed four rebases",
+      "passed": true
     },
     {
       "criterion": "visual and collision generation remain within budgets",
-      "observed": "15.104 ms visual and 1.050 ms collision versus separate 50 ms initial budgets",
+      "observed": "14.093 ms visual and 0.957 ms collision versus separate 50 ms initial budgets",
       "passed": true
     },
     {
       "criterion": "deterministic chase and elevated captures cover every transition form",
-      "observed": "the six-second capture visited all four authored lane-section boundaries in both camera modes",
+      "observed": "the eight-second capture visited the entrance seam, four authored lane-section boundaries, and transfer seam in both camera modes",
       "passed": true
     }
   ],
@@ -153,15 +159,15 @@
     },
     {
       "path": "/tmp/p0-010-variable-lanes.avi",
-      "sha256": "0e13d53aca03e74e552c0f5eda2112af594671467617e9df0ef8ddc9959b1f17"
+      "sha256": "2ee366bce28639b83f987f7c34ac31f6c7ebcf4f3c8dc7901823698484b192b4"
     },
     {
-      "path": "/tmp/p0-010-variable-lanes-contact-final.png",
-      "sha256": "bd55738fdbc366c58db333acfcc55ebad2d86336281871acc39cd0ca83a580cd"
+      "path": "/tmp/p0-010-variable-lanes-contact-connectors-final.png",
+      "sha256": "5f9128f5a737645fe1eef910b1d415057843ae622c3f7b3c0b71513c2b6a37dd"
     },
     {
       "path": "reports/m0/summary.json",
-      "sha256": "44427a46941438433122ae69085c48685e3794320dc409a7bac8682193a87491"
+      "sha256": "d3f0ec40995528e26938c31953fcc69fdefc969d4df4241ffcc0a33282744250"
     }
   ],
   "failure_logs": [
@@ -172,9 +178,17 @@
     {
       "failure": "first guard-barrier capture scaled instance transforms in world axes and produced cross-road beams",
       "recovery": "scaled only the local longitudinal basis axis and confirmed corrected chase and elevated captures"
+    },
+    {
+      "failure": "first connector pass lost the stable lane ID by using section-local centers and missed the HighwayTransfer successor",
+      "recovery": "unified runtime lane projection with the aligned lane profile and followed the explicit connector target lane"
+    },
+    {
+      "failure": "first junction barrier link crossed the roadway at a sharp source heading change",
+      "recovery": "removed the unsafe same-side assumption, retained edge-local barriers, and verified a two-sided visual and physical road seam"
     }
   ],
-  "retry_count": 2,
+  "retry_count": 5,
   "recovery_result": "all local gates passed; remote Linux and Windows checks pending pull-request publication",
   "human_gate": null,
   "adversarial_review": "docs/audits/2026-07-18-p0-010-variable-lane-generation-review.md"
