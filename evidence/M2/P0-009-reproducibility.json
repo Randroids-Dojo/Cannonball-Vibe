@@ -1,0 +1,63 @@
+{
+  "task_id": "P0-009",
+  "milestone": "M2",
+  "git_revision": "dd4d3d4ba5d43dfe1f71e7f562142766a67fe717",
+  "platform": "Darwin arm64",
+  "recorded_at_utc": "2026-07-18T04:41:56Z",
+  "tool_versions": {
+    "dotnet_sdk": "10.0.102",
+    "uv": "0.9.24",
+    "godot": "4.7.1.stable.mono.official.a13da4feb",
+    "flatbuffers": "25.2.10"
+  },
+  "input_artifacts": {
+    "data/sources/fixtures/nhpn-boulder-us36.geojson": "f1021915997f7cb94a00db58feed86f8f9e13e1ac264fc0dd8ba1605d052ae9b",
+    "data/sources/fixtures/nhpn-boulder-us36.manifest.json": "54da0c7b64e476909f9e62008f09f94abc622631971b6549d030b67778fe429b",
+    "data/sources/fixtures/usgs-13-n40w106-boulder.tif": "16af3387633b982f3363f34c638f8ca72646b04ec18aa2dcab1189f0352af507",
+    "data/sources/fixtures/usgs-13-n40w106-boulder.metadata.json": "d626a7d24235884e089effcd38b4d173a26a5427cbec3ffedc063963e55e1cea",
+    "data/sources/source-lock.json": "a3f640c9f804909a9b171c1a169ce5704544fd5905bec73dcc8d7da64b67e2cd"
+  },
+  "builds": [
+    {
+      "command": "uv run --project tools/map_pipeline cannonball-map build --source data/sources/fixtures/nhpn-boulder-us36.geojson --manifest data/sources/fixtures/nhpn-boulder-us36.manifest.json --elevation data/sources/fixtures/usgs-13-n40w106-boulder.tif --elevation-metadata data/sources/fixtures/usgs-13-n40w106-boulder.metadata.json --acquisition-lock data/sources/source-lock.json --chunk-meters 100 --output .tools/routes/p0-009/review-20260718-a",
+      "output_path": ".tools/routes/p0-009/review-20260718-a",
+      "exit_status": 0
+    },
+    {
+      "command": "uv run --project tools/map_pipeline cannonball-map build --source data/sources/fixtures/nhpn-boulder-us36.geojson --manifest data/sources/fixtures/nhpn-boulder-us36.manifest.json --elevation data/sources/fixtures/usgs-13-n40w106-boulder.tif --elevation-metadata data/sources/fixtures/usgs-13-n40w106-boulder.metadata.json --acquisition-lock data/sources/source-lock.json --chunk-meters 100 --output .tools/routes/p0-009/review-20260718-b",
+      "output_path": ".tools/routes/p0-009/review-20260718-b",
+      "exit_status": 0
+    }
+  ],
+  "comparison_command": "diff -rq .tools/routes/p0-009/review-20260718-a .tools/routes/p0-009/review-20260718-b",
+  "comparison_exit_status": 0,
+  "byte_identical": true,
+  "normalized_geopackage_equivalent": true,
+  "normalized_geopackage_byte_identical": true,
+  "content_version": "route-v4-5ce61bdb9dc3ed88",
+  "artifacts": {
+    "flatbuffer_root": "51571e68f9899d366ce4127386195fc718c324d42532a3a30c4bb6de55219871",
+    "metadata_json": "52fd9e8f1d04fc2b7c3164fc0a65335f9938b64d4bc767f6a80cd23897dce38c",
+    "normalized_geopackage": "adf6a510b08c54d5d399f083f14e6858d813aad4bb67256e08aba6c94cd126f4",
+    "current_package_pointer": "f65773d0639bfac1f990daae53e47a67fd58d373a876360c1c090e50b62c9e7c",
+    "chunks": [
+      "fd13cdc0eb5ea3a20cf9f77b7a99df0f65b99153afbea3b1cfce85c6ca0041e8",
+      "746e62039df956fa0f34aebb3ddc0886c8fb59e8c3ec3fd02be37bed03bcbc4f",
+      "c2487fea076400aab9913a403e12866f6b22d371756b53dc036767cdeff56300",
+      "07082940d849d5d4b05fed98c5272103cf6381d12d778474b42dfdd9d382c82b"
+    ]
+  },
+  "artifact_count_per_run": 8,
+  "retry_count": 2,
+  "failure_logs": [
+    "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29630246765"
+  ],
+  "recovery_result": {
+    "status": "passed",
+    "revision": "b164909ba9c92e58ad2586ef56178c786b8f597c",
+    "workflow": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29631043392",
+    "linux_clean_machine_smoke": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29631043392/job/88044774619",
+    "windows_clean_machine_smoke": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29631043392/job/88044774620"
+  },
+  "human_gate": null
+}

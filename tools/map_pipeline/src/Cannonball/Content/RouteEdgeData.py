@@ -128,8 +128,48 @@ class RouteEdgeData(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(22))
         return o == 0
 
+    # RouteEdgeData
+    def LaneSectionIds(self, j):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(24))
+        if o != 0:
+            a = self._tab.Vector(o)
+            return self._tab.String(a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 4))
+        return ""
+
+    # RouteEdgeData
+    def LaneSectionIdsLength(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(24))
+        if o != 0:
+            return self._tab.VectorLen(o)
+        return 0
+
+    # RouteEdgeData
+    def LaneSectionIdsIsNone(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(24))
+        return o == 0
+
+    # RouteEdgeData
+    def RouteIdentityIds(self, j):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(26))
+        if o != 0:
+            a = self._tab.Vector(o)
+            return self._tab.String(a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 4))
+        return ""
+
+    # RouteEdgeData
+    def RouteIdentityIdsLength(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(26))
+        if o != 0:
+            return self._tab.VectorLen(o)
+        return 0
+
+    # RouteEdgeData
+    def RouteIdentityIdsIsNone(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(26))
+        return o == 0
+
 def RouteEdgeDataStart(builder):
-    builder.StartObject(10)
+    builder.StartObject(12)
 
 def Start(builder):
     RouteEdgeDataStart(builder)
@@ -206,6 +246,30 @@ def RouteEdgeDataStartSamplesVector(builder, numElems):
 def StartSamplesVector(builder, numElems):
     return RouteEdgeDataStartSamplesVector(builder, numElems)
 
+def RouteEdgeDataAddLaneSectionIds(builder, laneSectionIds):
+    builder.PrependUOffsetTRelativeSlot(10, flatbuffers.number_types.UOffsetTFlags.py_type(laneSectionIds), 0)
+
+def AddLaneSectionIds(builder, laneSectionIds):
+    RouteEdgeDataAddLaneSectionIds(builder, laneSectionIds)
+
+def RouteEdgeDataStartLaneSectionIdsVector(builder, numElems):
+    return builder.StartVector(4, numElems, 4)
+
+def StartLaneSectionIdsVector(builder, numElems):
+    return RouteEdgeDataStartLaneSectionIdsVector(builder, numElems)
+
+def RouteEdgeDataAddRouteIdentityIds(builder, routeIdentityIds):
+    builder.PrependUOffsetTRelativeSlot(11, flatbuffers.number_types.UOffsetTFlags.py_type(routeIdentityIds), 0)
+
+def AddRouteIdentityIds(builder, routeIdentityIds):
+    RouteEdgeDataAddRouteIdentityIds(builder, routeIdentityIds)
+
+def RouteEdgeDataStartRouteIdentityIdsVector(builder, numElems):
+    return builder.StartVector(4, numElems, 4)
+
+def StartRouteIdentityIdsVector(builder, numElems):
+    return RouteEdgeDataStartRouteIdentityIdsVector(builder, numElems)
+
 def RouteEdgeDataEnd(builder):
     return builder.EndObject()
 
@@ -233,6 +297,8 @@ class RouteEdgeDataT(object):
         generationProfile = None,
         chunkIds = None,
         samples = None,
+        laneSectionIds = None,
+        routeIdentityIds = None,
     ):
         self.id = id  # type: Optional[str]
         self.fromNodeId = fromNodeId  # type: Optional[str]
@@ -244,6 +310,8 @@ class RouteEdgeDataT(object):
         self.generationProfile = generationProfile  # type: Optional[str]
         self.chunkIds = chunkIds  # type: Optional[List[Optional[str]]]
         self.samples = samples  # type: Optional[List[Cannonball.Content.RouteSample.RouteSampleT]]
+        self.laneSectionIds = laneSectionIds  # type: Optional[List[Optional[str]]]
+        self.routeIdentityIds = routeIdentityIds  # type: Optional[List[Optional[str]]]
 
     @classmethod
     def InitFromBuf(cls, buf, pos):
@@ -286,6 +354,14 @@ class RouteEdgeDataT(object):
                 else:
                     routeSample_ = Cannonball.Content.RouteSample.RouteSampleT.InitFromObj(routeEdgeData.Samples(i))
                     self.samples.append(routeSample_)
+        if not routeEdgeData.LaneSectionIdsIsNone():
+            self.laneSectionIds = []
+            for i in range(routeEdgeData.LaneSectionIdsLength()):
+                self.laneSectionIds.append(routeEdgeData.LaneSectionIds(i))
+        if not routeEdgeData.RouteIdentityIdsIsNone():
+            self.routeIdentityIds = []
+            for i in range(routeEdgeData.RouteIdentityIdsLength()):
+                self.routeIdentityIds.append(routeEdgeData.RouteIdentityIds(i))
 
     # RouteEdgeDataT
     def Pack(self, builder):
@@ -312,6 +388,22 @@ class RouteEdgeDataT(object):
             for i in reversed(range(len(self.samples))):
                 self.samples[i].Pack(builder)
             samples = builder.EndVector()
+        if self.laneSectionIds is not None:
+            laneSectionIdslist = []
+            for i in range(len(self.laneSectionIds)):
+                laneSectionIdslist.append(builder.CreateString(self.laneSectionIds[i]))
+            RouteEdgeDataStartLaneSectionIdsVector(builder, len(self.laneSectionIds))
+            for i in reversed(range(len(self.laneSectionIds))):
+                builder.PrependUOffsetTRelative(laneSectionIdslist[i])
+            laneSectionIds = builder.EndVector()
+        if self.routeIdentityIds is not None:
+            routeIdentityIdslist = []
+            for i in range(len(self.routeIdentityIds)):
+                routeIdentityIdslist.append(builder.CreateString(self.routeIdentityIds[i]))
+            RouteEdgeDataStartRouteIdentityIdsVector(builder, len(self.routeIdentityIds))
+            for i in reversed(range(len(self.routeIdentityIds))):
+                builder.PrependUOffsetTRelative(routeIdentityIdslist[i])
+            routeIdentityIds = builder.EndVector()
         RouteEdgeDataStart(builder)
         if self.id is not None:
             RouteEdgeDataAddId(builder, id)
@@ -330,5 +422,9 @@ class RouteEdgeDataT(object):
             RouteEdgeDataAddChunkIds(builder, chunkIds)
         if self.samples is not None:
             RouteEdgeDataAddSamples(builder, samples)
+        if self.laneSectionIds is not None:
+            RouteEdgeDataAddLaneSectionIds(builder, laneSectionIds)
+        if self.routeIdentityIds is not None:
+            RouteEdgeDataAddRouteIdentityIds(builder, routeIdentityIds)
         routeEdgeData = RouteEdgeDataEnd(builder)
         return routeEdgeData

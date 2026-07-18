@@ -30,7 +30,9 @@ uv run --project tools/map_pipeline cannonball-map validate-lock data/sources/so
 uv run --project tools/map_pipeline cannonball-map validate-source \
   --source route.gpkg --manifest route.manifest.json
 uv run --project tools/map_pipeline cannonball-map build \
-  --source route.gpkg --manifest route.manifest.json --output data/processed
+  --source route.gpkg --manifest route.manifest.json \
+  --elevation corridor.tif --elevation-metadata corridor.metadata.json \
+  --acquisition-lock data/sources/source-lock.json --output data/processed
 ```
 
 `source-lock.json` pins the NHPN service/layer, sorted OBJECTID snapshot and
@@ -57,11 +59,34 @@ run can resume without trusting partial output. Retryable transport and service
 errors are bounded; counts, IDs, page membership, duplicates, and final feature
 counts must reconcile.
 
-When `build` receives `--elevation`, `--elevation-metadata`, and
-`--acquisition-lock`, route samples are transformed into the locked raster CRS,
-sampled from 3DEP, and assigned signed grade. The schema-2 FlatBuffer preserves
-the route and elevation CRS, horizontal and vertical datums, product identity,
-artifact hashes, elevations, and grades for the portable C# runtime.
+`build` requires `--elevation`, `--elevation-metadata`, and
+`--acquisition-lock`. Route samples are transformed into the locked raster CRS,
+sampled from 3DEP, and assigned signed grade. The shipping schema-4 FlatBuffer
+preserves the route and elevation CRS, horizontal and vertical datums, product
+identity, artifact hashes, elevations, and grades for the portable C# runtime.
+
+Schema 4 also carries the route-semantic contract:
+
+- ordered distance-bounded lane sections, stable lane IDs, lane roles,
+  maneuver masks, shoulders, signed direction, and provenance;
+- explicit lane connectors for continuation, merge, split, exit, entrance, and
+  highway-transfer movement;
+- route identities, exits, destinations, services, milepoint anchors, and
+  roadside markers;
+- independently hashed simplified map geometry at LODs 0–2 for every edge.
+
+Validation fails on section gaps or overlaps, invalid provenance, orphan lanes,
+crossing or ambiguous connectors, disallowed connector movements, invalid
+route-context placement, missing map LODs, hash drift, and the 16 MB simplified
+map or 64 MB root budgets. `Cannonball.Core` performs corresponding validation
+when it reads the FlatBuffer.
+
+NHPN does not contain authoritative lane geometry. The default build therefore
+labels its two-lane sections, shoulders, and index-preserving connectors as
+deterministic `derived` graybox data. It preserves route-system hints and source
+BEGMP/ENDMP milepoints without presenting those defaults as surveyed lanes or
+signage. Corrected lanes and exits must use an approved source or an authored
+overlay with a stable override ID and recursive source ancestry under Q-017.
 
 Multi-edge linear corridors apply a deterministic nine-sample median and a
 route-wide 7 percent grade projection to reject localized 3DEP surface-model
@@ -84,6 +109,18 @@ Reordering features changes the acquired source bytes and therefore may change
 the provenance SHA-256 and `content_version`. Semantic order invariance applies
 to the sorted nodes, edges, chunks, and normalized GeoPackage rows; those
 records remain equivalent independent of input feature order.
+
+The normalized GeoPackage contains `route_*` semantic audit tables alongside
+`route_edges`. Each table stores stable record IDs and canonical JSON payloads.
+The shipping FlatBuffer, every `CBCK` chunk, and published audit artifacts are
+content-addressed; two locked builds must reproduce identical shipping bytes and
+equivalent normalized GeoPackage content before reproducibility is claimed.
+
+The representative contract matrix is
+`data/routes/fixtures/semantics/representative-contract.json`. It locks the
+official fixture inputs and enumerates movement, context, map-LOD, migration,
+and malformed-data coverage. Its synthetic junction data is contract evidence,
+not a claim about real-world I-70 geometry.
 
 Local JSONL telemetry can be summarized without a service:
 

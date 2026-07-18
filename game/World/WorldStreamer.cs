@@ -52,6 +52,8 @@ public sealed partial class WorldStreamer : Node3D
     public double CurrentEdgeDistanceMeters =>
         _routeDistanceMeters - _routePlan.GetEdge(_currentEdgeId).StartMeters;
     public double CurrentLateralOffsetMeters => _lateralOffsetMeters;
+    public int CurrentLaneIndex { get; private set; }
+    public string CurrentStableLaneId { get; private set; } = string.Empty;
     public string ContentVersion => _package.Graph.ContentVersion;
     public double TotalRouteLengthMeters => RouteLengthMeters;
     public IReadOnlyList<string> RoutePlan => _routePlan.EdgeIds;
@@ -99,6 +101,7 @@ public sealed partial class WorldStreamer : Node3D
             throw new InvalidDataException("The initial route chunk is not the first chunk in the corridor plan.");
         }
         _currentEdgeId = initialChunk.EdgeId;
+        UpdateCurrentLane();
         _manifests = package.Chunks.Values
             .Select(manifest =>
             {
@@ -156,6 +159,7 @@ public sealed partial class WorldStreamer : Node3D
 
         UpdateRouteProjection();
         UpdateCurrentEdge();
+        UpdateCurrentLane();
         var crossedSeams = _routeDistanceMeters >= 300 ? 3
             : _routeDistanceMeters >= 200 ? 2
             : _routeDistanceMeters >= 100 ? 1
@@ -169,6 +173,7 @@ public sealed partial class WorldStreamer : Node3D
             _routeDistanceMeters = 0;
             UpdateCurrentEdge();
             _lateralOffsetMeters = 0;
+            UpdateCurrentLane();
             var resetPoint = _initialRoadWorldPoint.RelativeTo(_localOriginWorld);
             _vehicle.RouteDistanceMeters = 0;
             _vehicle.TargetRoadPoint = resetPoint;
@@ -401,6 +406,15 @@ public sealed partial class WorldStreamer : Node3D
         }
         _routeDistanceMeters = Math.Clamp(bestRouteDistance, 0, RouteLengthMeters);
         _lateralOffsetMeters = bestLateral;
+    }
+
+    private void UpdateCurrentLane()
+    {
+        var edge = _package.Graph.GetEdge(_currentEdgeId);
+        var lane = edge.GetLaneSection(CurrentEdgeDistanceMeters)
+            .GetClosestLane(_lateralOffsetMeters);
+        CurrentLaneIndex = lane.Index;
+        CurrentStableLaneId = lane.Id;
     }
 
     private (RouteWorldPoint Point, Vector3 Forward) GetRoadPose(double distanceMeters)

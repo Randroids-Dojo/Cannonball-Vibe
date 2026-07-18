@@ -38,7 +38,7 @@ def test_official_fixture_preserves_elevation_grade_datums_and_provenance(
             acquisition_lock_sha256=lock_digest,
         )
 
-    assert package["schema_version"] == 2
+    assert package["schema_version"] == 4
     assert package["spatial_reference"]["route_crs"] == "EPSG:5070"
     assert package["spatial_reference"]["vertical_datum"] == (
         "North American Vertical Datum of 1988"
@@ -50,7 +50,7 @@ def test_official_fixture_preserves_elevation_grade_datums_and_provenance(
     output = tmp_path / "route_graph.cbrg"
     write_flatbuffer(package, output)
     root = RouteGraphBuffer.GetRootAs(output.read_bytes())
-    assert root.SchemaVersion() == 2
+    assert root.SchemaVersion() == 4
     assert root.SpatialReference().VerticalDatum().decode() == (
         "North American Vertical Datum of 1988"
     )
@@ -115,15 +115,12 @@ def test_representative_corridor_conditions_surface_spikes_and_shared_seams(
         )
 
     edges = package["edges"]
-    assert max(
-        abs(sample["grade"])
-        for edge in edges
-        for sample in edge["samples"]
-    ) <= 0.0700001
+    assert max(abs(sample["grade"]) for edge in edges for sample in edge["samples"]) <= 0.0700001
     by_from = {edge["from_node_id"]: edge for edge in edges}
     for edge in edges:
         continuation = by_from.get(edge["to_node_id"])
         if continuation is not None:
-            assert edge["samples"][-1]["elevation_meters"] == (
-                continuation["samples"][0]["elevation_meters"]
+            assert (
+                edge["samples"][-1]["elevation_meters"]
+                == (continuation["samples"][0]["elevation_meters"])
             )

@@ -15,6 +15,7 @@ from shapely.geometry import LineString, MultiLineString
 from cannonball_map.elevation import ElevationSampler
 from cannonball_map.manifest import SourceManifest, validate_source
 from cannonball_map.models import PipelineChunk, PipelineEdge, RouteSample
+from cannonball_map.semantics import attach_derived_route_semantics
 
 PROJECTED_CRS = "EPSG:5070"
 SOURCE_ID_COLUMNS = ("source_feature_id", "source_id", "id", "objectid")
@@ -27,9 +28,14 @@ class _EdgeRecord:
     source_feature_id: str
     geometry: LineString
     edge: PipelineEdge
+    semantic_hints: dict[str, object]
 
     def edge_dict(self) -> dict[str, object]:
-        return {"source_feature_id": self.source_feature_id, **self.edge.to_dict()}
+        return {
+            "source_feature_id": self.source_feature_id,
+            **self.semantic_hints,
+            **self.edge.to_dict(),
+        }
 
 
 def build_route_graph(
@@ -73,7 +79,14 @@ def build_route_graph(
                 snap_tolerance_meters,
                 elevation_sampler,
             )
-            records.append(_EdgeRecord(source_feature_id, snapped_geometry, edge))
+            records.append(
+                _EdgeRecord(
+                    source_feature_id,
+                    snapped_geometry,
+                    edge,
+                    _semantic_hints(row),
+                )
+            )
     if not records:
         raise ValueError("Source contains no line geometry.")
 
@@ -92,7 +105,7 @@ def build_route_graph(
         acquisition_lock_sha256,
     )
     package = {
-        "schema_version": 2 if elevation_sampler else 1,
+        "schema_version": 4,
         "content_version": content_version,
         "source": {
             "source_id": manifest.source_id,
@@ -108,6 +121,7 @@ def build_route_graph(
         "edges": [record.edge_dict() for record in records],
         "chunks": [chunk.to_dict() for chunk in chunks],
     }
+    attach_derived_route_semantics(package)
 
     output_directory.mkdir(parents=True, exist_ok=True)
     package_path = output_directory / "route_graph.json"
@@ -130,8 +144,38 @@ def build_route_graph(
     )
     normalized_path = output_directory / "normalized.gpkg"
     normalized.to_file(normalized_path, layer="route_edges", driver="GPKG")
+    _write_semantic_audit_tables(normalized_path, package["semantics"])
     _normalize_geopackage(normalized_path)
     return package
+
+
+def _write_semantic_audit_tables(path: Path, semantics: dict[str, Any]) -> None:
+    table_names = {
+        "lane_sections": "route_lane_sections",
+        "junction_connectors": "route_junction_connectors",
+        "route_identities": "route_identities",
+        "exits": "route_exits",
+        "milepoint_anchors": "route_milepoint_anchors",
+        "roadside_markers": "route_roadside_markers",
+        "simplified_map_geometry": "route_simplified_map_geometry",
+    }
+    with sqlite3.connect(path) as connection:
+        for key, table_name in table_names.items():
+            connection.execute(
+                f"CREATE TABLE {table_name} "
+                "(record_id TEXT PRIMARY KEY, payload_json TEXT NOT NULL)"
+            )
+            records = semantics[key]
+            normalized = []
+            for record in records:
+                record_id = str(record.get("id") or f"{record['edge_id']}:lod-{record['lod']}")
+                payload = json.dumps(record, separators=(",", ":"), sort_keys=True)
+                normalized.append((record_id, payload))
+            connection.executemany(
+                f"INSERT INTO {table_name} (record_id, payload_json) VALUES (?, ?)",
+                sorted(normalized),
+            )
+        connection.commit()
 
 
 def _normalize_geopackage(path: Path) -> None:
@@ -320,13 +364,47 @@ def _source_id_column(frame: gpd.GeoDataFrame) -> Any | None:
 def _source_feature_id(row: Any, column: Any | None) -> str:
     if column is None:
         raise ValueError(
-            "Source features require a stable source_feature_id, source_id, id, "
-            "or OBJECTID column."
+            "Source features require a stable source_feature_id, source_id, id, or OBJECTID column."
         )
     value = str(row[column]).strip()
     if not value or value.casefold() in {"<na>", "nan", "none"}:
         raise ValueError(f"Source feature has no value for identifier column '{column}'.")
     return value
+
+
+def _semantic_hints(row: Any) -> dict[str, object]:
+    sign_type = _clean_source_value(row, "SIGNT1")
+    route_system = {
+        "I": "I",
+        "U": "US",
+        "S": "CO",
+    }.get(sign_type, "unknown")
+    route_number = _clean_source_value(row, "SIGNN1") or _clean_source_value(row, "ROUTE_ID")
+    return {
+        "source_route_system": route_system,
+        "source_route_number": route_number or "unknown",
+        "source_signed_direction": _clean_source_value(row, "SIGNQ1") or "unspecified",
+        "source_local_name": _clean_source_value(row, "LNAME"),
+        "source_begin_mile": _optional_source_number(row, "BEGMP"),
+        "source_end_mile": _optional_source_number(row, "ENDMP"),
+        "source_jurisdiction": _clean_source_value(row, "STFIPS") or "unknown",
+    }
+
+
+def _clean_source_value(row: Any, field: str) -> str:
+    try:
+        value = str(row[field]).strip()
+    except (KeyError, TypeError):
+        return ""
+    return "" if value.casefold() in {"<na>", "nan", "none"} else value
+
+
+def _optional_source_number(row: Any, field: str) -> float | None:
+    try:
+        value = float(row[field])
+    except (KeyError, TypeError, ValueError):
+        return None
+    return value if math.isfinite(value) else None
 
 
 def _stable_id(prefix: str, value: object) -> str:
@@ -386,9 +464,7 @@ def _condition_linear_corridor_elevations(
     ordered = _ordered_linear_records(records)
     if ordered is None:
         maximum_raw_grade = max(
-            abs(sample.grade)
-            for record in records
-            for sample in record.edge.samples
+            abs(sample.grade) for record in records for sample in record.edge.samples
         )
         if maximum_raw_grade > MAXIMUM_CONDITIONED_GRADE:
             raise ValueError(
@@ -416,9 +492,7 @@ def _condition_linear_corridor_elevations(
     radius = ELEVATION_MEDIAN_WINDOW_SAMPLES // 2
     conditioned: list[float] = []
     for index in range(len(raw_elevations)):
-        window = sorted(
-            raw_elevations[max(0, index - radius) : index + radius + 1]
-        )
+        window = sorted(raw_elevations[max(0, index - radius) : index + radius + 1])
         conditioned.append(window[len(window) // 2])
     _project_maximum_grade(global_distances, conditioned, MAXIMUM_CONDITIONED_GRADE)
 
@@ -444,9 +518,7 @@ def _ordered_linear_records(records: list[_EdgeRecord]) -> list[_EdgeRecord] | N
     destination_nodes = {record.edge.to_node_id for record in records}
     for record in records:
         by_from.setdefault(record.edge.from_node_id, []).append(record)
-    starts = [
-        record for record in records if record.edge.from_node_id not in destination_nodes
-    ]
+    starts = [record for record in records if record.edge.from_node_id not in destination_nodes]
     if len(starts) != 1:
         return None
     remaining = {record.edge.edge_id: record for record in records}

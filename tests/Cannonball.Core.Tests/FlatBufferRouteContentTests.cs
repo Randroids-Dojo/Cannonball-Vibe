@@ -77,6 +77,9 @@ public sealed class FlatBufferRouteContentTests
         Assert.Equal(2_000, package.Graph.GetEdge("edge-1").LengthMeters);
         Assert.Equal(321, Assert.Single(package.Graph.GetEdge("edge-1").ElevationSamples));
         Assert.Equal("chunk-1", Assert.Single(package.Chunks).Key);
+        Assert.NotNull(package.Semantics);
+        Assert.True(package.Semantics.IsLegacySynthesis);
+        Assert.Equal("legacy:edge-1:lane:1", package.Graph.GetEdge("edge-1").LaneSections[0].Lanes[1].Id);
         Assert.Equal(
             1_750,
             package.Graph.GetRemainingDistance(

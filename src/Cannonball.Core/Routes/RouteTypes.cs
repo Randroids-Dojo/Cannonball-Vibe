@@ -9,6 +9,8 @@ public readonly record struct RoutePosition(
     double LateralOffsetMeters,
     double HeadingOffsetRadians)
 {
+    public string? StableLaneId { get; init; }
+
     public RoutePosition Validate(RouteEdge edge)
     {
         if (!string.Equals(EdgeId, edge.Id, StringComparison.Ordinal))
@@ -21,9 +23,19 @@ public readonly record struct RoutePosition(
             throw new ArgumentOutOfRangeException(nameof(DistanceMeters));
         }
 
-        if (LaneIndex < 0 || LaneIndex >= edge.LaneCount)
+        var section = edge.GetLaneSection(DistanceMeters);
+        var laneIndex = LaneIndex;
+        var lane = section.Lanes.SingleOrDefault(candidate => candidate.Index == laneIndex);
+        if (lane is null)
         {
             throw new ArgumentOutOfRangeException(nameof(LaneIndex));
+        }
+        if (!string.IsNullOrWhiteSpace(StableLaneId) &&
+            !string.Equals(StableLaneId, lane.Id, StringComparison.Ordinal))
+        {
+            throw new ArgumentException(
+                $"Stable lane '{StableLaneId}' does not match lane index {LaneIndex}.",
+                nameof(StableLaneId));
         }
 
         return this;
@@ -54,6 +66,10 @@ public sealed record RouteEdge(
     public IReadOnlyList<float> LateralSamples { get; init; } = [];
 
     public IReadOnlyList<float> ElevationSamples { get; init; } = [];
+
+    public IReadOnlyList<LaneSection> LaneSections { get; init; } = [];
+
+    public IReadOnlyList<string> RouteIdentityIds { get; init; } = [];
 }
 
 public readonly record struct RouteBounds(

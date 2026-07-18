@@ -40,6 +40,26 @@ public struct RouteGraphBuffer : IFlatbufferObject
   public Cannonball.Content.ChunkManifestData? ChunksByKey(string key) { int o = __p.__offset(12); return o != 0 ? Cannonball.Content.ChunkManifestData.__lookup_by_key(__p.__vector(o), key, __p.bb) : null; }
   public Cannonball.Content.SourceProvenanceData? Provenance { get { int o = __p.__offset(14); return o != 0 ? (Cannonball.Content.SourceProvenanceData?)(new Cannonball.Content.SourceProvenanceData()).__assign(__p.__indirect(o + __p.bb_pos), __p.bb) : null; } }
   public Cannonball.Content.SpatialReferenceData? SpatialReference { get { int o = __p.__offset(16); return o != 0 ? (Cannonball.Content.SpatialReferenceData?)(new Cannonball.Content.SpatialReferenceData()).__assign(__p.__indirect(o + __p.bb_pos), __p.bb) : null; } }
+  public Cannonball.Content.LaneSectionData? LaneSections(int j) { int o = __p.__offset(18); return o != 0 ? (Cannonball.Content.LaneSectionData?)(new Cannonball.Content.LaneSectionData()).__assign(__p.__indirect(__p.__vector(o) + j * 4), __p.bb) : null; }
+  public int LaneSectionsLength { get { int o = __p.__offset(18); return o != 0 ? __p.__vector_len(o) : 0; } }
+  public Cannonball.Content.LaneSectionData? LaneSectionsByKey(string key) { int o = __p.__offset(18); return o != 0 ? Cannonball.Content.LaneSectionData.__lookup_by_key(__p.__vector(o), key, __p.bb) : null; }
+  public Cannonball.Content.JunctionConnectorData? JunctionConnectors(int j) { int o = __p.__offset(20); return o != 0 ? (Cannonball.Content.JunctionConnectorData?)(new Cannonball.Content.JunctionConnectorData()).__assign(__p.__indirect(__p.__vector(o) + j * 4), __p.bb) : null; }
+  public int JunctionConnectorsLength { get { int o = __p.__offset(20); return o != 0 ? __p.__vector_len(o) : 0; } }
+  public Cannonball.Content.JunctionConnectorData? JunctionConnectorsByKey(string key) { int o = __p.__offset(20); return o != 0 ? Cannonball.Content.JunctionConnectorData.__lookup_by_key(__p.__vector(o), key, __p.bb) : null; }
+  public Cannonball.Content.RouteIdentityData? RouteIdentities(int j) { int o = __p.__offset(22); return o != 0 ? (Cannonball.Content.RouteIdentityData?)(new Cannonball.Content.RouteIdentityData()).__assign(__p.__indirect(__p.__vector(o) + j * 4), __p.bb) : null; }
+  public int RouteIdentitiesLength { get { int o = __p.__offset(22); return o != 0 ? __p.__vector_len(o) : 0; } }
+  public Cannonball.Content.RouteIdentityData? RouteIdentitiesByKey(string key) { int o = __p.__offset(22); return o != 0 ? Cannonball.Content.RouteIdentityData.__lookup_by_key(__p.__vector(o), key, __p.bb) : null; }
+  public Cannonball.Content.ExitData? Exits(int j) { int o = __p.__offset(24); return o != 0 ? (Cannonball.Content.ExitData?)(new Cannonball.Content.ExitData()).__assign(__p.__indirect(__p.__vector(o) + j * 4), __p.bb) : null; }
+  public int ExitsLength { get { int o = __p.__offset(24); return o != 0 ? __p.__vector_len(o) : 0; } }
+  public Cannonball.Content.ExitData? ExitsByKey(string key) { int o = __p.__offset(24); return o != 0 ? Cannonball.Content.ExitData.__lookup_by_key(__p.__vector(o), key, __p.bb) : null; }
+  public Cannonball.Content.MilepointAnchorData? MilepointAnchors(int j) { int o = __p.__offset(26); return o != 0 ? (Cannonball.Content.MilepointAnchorData?)(new Cannonball.Content.MilepointAnchorData()).__assign(__p.__indirect(__p.__vector(o) + j * 4), __p.bb) : null; }
+  public int MilepointAnchorsLength { get { int o = __p.__offset(26); return o != 0 ? __p.__vector_len(o) : 0; } }
+  public Cannonball.Content.MilepointAnchorData? MilepointAnchorsByKey(string key) { int o = __p.__offset(26); return o != 0 ? Cannonball.Content.MilepointAnchorData.__lookup_by_key(__p.__vector(o), key, __p.bb) : null; }
+  public Cannonball.Content.RoadsideMarkerData? RoadsideMarkers(int j) { int o = __p.__offset(28); return o != 0 ? (Cannonball.Content.RoadsideMarkerData?)(new Cannonball.Content.RoadsideMarkerData()).__assign(__p.__indirect(__p.__vector(o) + j * 4), __p.bb) : null; }
+  public int RoadsideMarkersLength { get { int o = __p.__offset(28); return o != 0 ? __p.__vector_len(o) : 0; } }
+  public Cannonball.Content.RoadsideMarkerData? RoadsideMarkersByKey(string key) { int o = __p.__offset(28); return o != 0 ? Cannonball.Content.RoadsideMarkerData.__lookup_by_key(__p.__vector(o), key, __p.bb) : null; }
+  public Cannonball.Content.SimplifiedMapGeometryData? SimplifiedMapGeometry(int j) { int o = __p.__offset(30); return o != 0 ? (Cannonball.Content.SimplifiedMapGeometryData?)(new Cannonball.Content.SimplifiedMapGeometryData()).__assign(__p.__indirect(__p.__vector(o) + j * 4), __p.bb) : null; }
+  public int SimplifiedMapGeometryLength { get { int o = __p.__offset(30); return o != 0 ? __p.__vector_len(o) : 0; } }
 
   public static Offset<Cannonball.Content.RouteGraphBuffer> CreateRouteGraphBuffer(FlatBufferBuilder builder,
       uint schema_version = 0,
@@ -48,8 +68,22 @@ public struct RouteGraphBuffer : IFlatbufferObject
       VectorOffset edgesOffset = default(VectorOffset),
       VectorOffset chunksOffset = default(VectorOffset),
       Offset<Cannonball.Content.SourceProvenanceData> provenanceOffset = default(Offset<Cannonball.Content.SourceProvenanceData>),
-      Offset<Cannonball.Content.SpatialReferenceData> spatial_referenceOffset = default(Offset<Cannonball.Content.SpatialReferenceData>)) {
-    builder.StartTable(7);
+      Offset<Cannonball.Content.SpatialReferenceData> spatial_referenceOffset = default(Offset<Cannonball.Content.SpatialReferenceData>),
+      VectorOffset lane_sectionsOffset = default(VectorOffset),
+      VectorOffset junction_connectorsOffset = default(VectorOffset),
+      VectorOffset route_identitiesOffset = default(VectorOffset),
+      VectorOffset exitsOffset = default(VectorOffset),
+      VectorOffset milepoint_anchorsOffset = default(VectorOffset),
+      VectorOffset roadside_markersOffset = default(VectorOffset),
+      VectorOffset simplified_map_geometryOffset = default(VectorOffset)) {
+    builder.StartTable(14);
+    RouteGraphBuffer.AddSimplifiedMapGeometry(builder, simplified_map_geometryOffset);
+    RouteGraphBuffer.AddRoadsideMarkers(builder, roadside_markersOffset);
+    RouteGraphBuffer.AddMilepointAnchors(builder, milepoint_anchorsOffset);
+    RouteGraphBuffer.AddExits(builder, exitsOffset);
+    RouteGraphBuffer.AddRouteIdentities(builder, route_identitiesOffset);
+    RouteGraphBuffer.AddJunctionConnectors(builder, junction_connectorsOffset);
+    RouteGraphBuffer.AddLaneSections(builder, lane_sectionsOffset);
     RouteGraphBuffer.AddSpatialReference(builder, spatial_referenceOffset);
     RouteGraphBuffer.AddProvenance(builder, provenanceOffset);
     RouteGraphBuffer.AddChunks(builder, chunksOffset);
@@ -60,7 +94,7 @@ public struct RouteGraphBuffer : IFlatbufferObject
     return RouteGraphBuffer.EndRouteGraphBuffer(builder);
   }
 
-  public static void StartRouteGraphBuffer(FlatBufferBuilder builder) { builder.StartTable(7); }
+  public static void StartRouteGraphBuffer(FlatBufferBuilder builder) { builder.StartTable(14); }
   public static void AddSchemaVersion(FlatBufferBuilder builder, uint schemaVersion) { builder.AddUint(0, schemaVersion, 0); }
   public static void AddContentVersion(FlatBufferBuilder builder, StringOffset contentVersionOffset) { builder.AddOffset(1, contentVersionOffset.Value, 0); }
   public static void AddNodes(FlatBufferBuilder builder, VectorOffset nodesOffset) { builder.AddOffset(2, nodesOffset.Value, 0); }
@@ -83,6 +117,48 @@ public struct RouteGraphBuffer : IFlatbufferObject
   public static void StartChunksVector(FlatBufferBuilder builder, int numElems) { builder.StartVector(4, numElems, 4); }
   public static void AddProvenance(FlatBufferBuilder builder, Offset<Cannonball.Content.SourceProvenanceData> provenanceOffset) { builder.AddOffset(5, provenanceOffset.Value, 0); }
   public static void AddSpatialReference(FlatBufferBuilder builder, Offset<Cannonball.Content.SpatialReferenceData> spatialReferenceOffset) { builder.AddOffset(6, spatialReferenceOffset.Value, 0); }
+  public static void AddLaneSections(FlatBufferBuilder builder, VectorOffset laneSectionsOffset) { builder.AddOffset(7, laneSectionsOffset.Value, 0); }
+  public static VectorOffset CreateLaneSectionsVector(FlatBufferBuilder builder, Offset<Cannonball.Content.LaneSectionData>[] data) { builder.StartVector(4, data.Length, 4); for (int i = data.Length - 1; i >= 0; i--) builder.AddOffset(data[i].Value); return builder.EndVector(); }
+  public static VectorOffset CreateLaneSectionsVectorBlock(FlatBufferBuilder builder, Offset<Cannonball.Content.LaneSectionData>[] data) { builder.StartVector(4, data.Length, 4); builder.Add(data); return builder.EndVector(); }
+  public static VectorOffset CreateLaneSectionsVectorBlock(FlatBufferBuilder builder, ArraySegment<Offset<Cannonball.Content.LaneSectionData>> data) { builder.StartVector(4, data.Count, 4); builder.Add(data); return builder.EndVector(); }
+  public static VectorOffset CreateLaneSectionsVectorBlock(FlatBufferBuilder builder, IntPtr dataPtr, int sizeInBytes) { builder.StartVector(1, sizeInBytes, 1); builder.Add<Offset<Cannonball.Content.LaneSectionData>>(dataPtr, sizeInBytes); return builder.EndVector(); }
+  public static void StartLaneSectionsVector(FlatBufferBuilder builder, int numElems) { builder.StartVector(4, numElems, 4); }
+  public static void AddJunctionConnectors(FlatBufferBuilder builder, VectorOffset junctionConnectorsOffset) { builder.AddOffset(8, junctionConnectorsOffset.Value, 0); }
+  public static VectorOffset CreateJunctionConnectorsVector(FlatBufferBuilder builder, Offset<Cannonball.Content.JunctionConnectorData>[] data) { builder.StartVector(4, data.Length, 4); for (int i = data.Length - 1; i >= 0; i--) builder.AddOffset(data[i].Value); return builder.EndVector(); }
+  public static VectorOffset CreateJunctionConnectorsVectorBlock(FlatBufferBuilder builder, Offset<Cannonball.Content.JunctionConnectorData>[] data) { builder.StartVector(4, data.Length, 4); builder.Add(data); return builder.EndVector(); }
+  public static VectorOffset CreateJunctionConnectorsVectorBlock(FlatBufferBuilder builder, ArraySegment<Offset<Cannonball.Content.JunctionConnectorData>> data) { builder.StartVector(4, data.Count, 4); builder.Add(data); return builder.EndVector(); }
+  public static VectorOffset CreateJunctionConnectorsVectorBlock(FlatBufferBuilder builder, IntPtr dataPtr, int sizeInBytes) { builder.StartVector(1, sizeInBytes, 1); builder.Add<Offset<Cannonball.Content.JunctionConnectorData>>(dataPtr, sizeInBytes); return builder.EndVector(); }
+  public static void StartJunctionConnectorsVector(FlatBufferBuilder builder, int numElems) { builder.StartVector(4, numElems, 4); }
+  public static void AddRouteIdentities(FlatBufferBuilder builder, VectorOffset routeIdentitiesOffset) { builder.AddOffset(9, routeIdentitiesOffset.Value, 0); }
+  public static VectorOffset CreateRouteIdentitiesVector(FlatBufferBuilder builder, Offset<Cannonball.Content.RouteIdentityData>[] data) { builder.StartVector(4, data.Length, 4); for (int i = data.Length - 1; i >= 0; i--) builder.AddOffset(data[i].Value); return builder.EndVector(); }
+  public static VectorOffset CreateRouteIdentitiesVectorBlock(FlatBufferBuilder builder, Offset<Cannonball.Content.RouteIdentityData>[] data) { builder.StartVector(4, data.Length, 4); builder.Add(data); return builder.EndVector(); }
+  public static VectorOffset CreateRouteIdentitiesVectorBlock(FlatBufferBuilder builder, ArraySegment<Offset<Cannonball.Content.RouteIdentityData>> data) { builder.StartVector(4, data.Count, 4); builder.Add(data); return builder.EndVector(); }
+  public static VectorOffset CreateRouteIdentitiesVectorBlock(FlatBufferBuilder builder, IntPtr dataPtr, int sizeInBytes) { builder.StartVector(1, sizeInBytes, 1); builder.Add<Offset<Cannonball.Content.RouteIdentityData>>(dataPtr, sizeInBytes); return builder.EndVector(); }
+  public static void StartRouteIdentitiesVector(FlatBufferBuilder builder, int numElems) { builder.StartVector(4, numElems, 4); }
+  public static void AddExits(FlatBufferBuilder builder, VectorOffset exitsOffset) { builder.AddOffset(10, exitsOffset.Value, 0); }
+  public static VectorOffset CreateExitsVector(FlatBufferBuilder builder, Offset<Cannonball.Content.ExitData>[] data) { builder.StartVector(4, data.Length, 4); for (int i = data.Length - 1; i >= 0; i--) builder.AddOffset(data[i].Value); return builder.EndVector(); }
+  public static VectorOffset CreateExitsVectorBlock(FlatBufferBuilder builder, Offset<Cannonball.Content.ExitData>[] data) { builder.StartVector(4, data.Length, 4); builder.Add(data); return builder.EndVector(); }
+  public static VectorOffset CreateExitsVectorBlock(FlatBufferBuilder builder, ArraySegment<Offset<Cannonball.Content.ExitData>> data) { builder.StartVector(4, data.Count, 4); builder.Add(data); return builder.EndVector(); }
+  public static VectorOffset CreateExitsVectorBlock(FlatBufferBuilder builder, IntPtr dataPtr, int sizeInBytes) { builder.StartVector(1, sizeInBytes, 1); builder.Add<Offset<Cannonball.Content.ExitData>>(dataPtr, sizeInBytes); return builder.EndVector(); }
+  public static void StartExitsVector(FlatBufferBuilder builder, int numElems) { builder.StartVector(4, numElems, 4); }
+  public static void AddMilepointAnchors(FlatBufferBuilder builder, VectorOffset milepointAnchorsOffset) { builder.AddOffset(11, milepointAnchorsOffset.Value, 0); }
+  public static VectorOffset CreateMilepointAnchorsVector(FlatBufferBuilder builder, Offset<Cannonball.Content.MilepointAnchorData>[] data) { builder.StartVector(4, data.Length, 4); for (int i = data.Length - 1; i >= 0; i--) builder.AddOffset(data[i].Value); return builder.EndVector(); }
+  public static VectorOffset CreateMilepointAnchorsVectorBlock(FlatBufferBuilder builder, Offset<Cannonball.Content.MilepointAnchorData>[] data) { builder.StartVector(4, data.Length, 4); builder.Add(data); return builder.EndVector(); }
+  public static VectorOffset CreateMilepointAnchorsVectorBlock(FlatBufferBuilder builder, ArraySegment<Offset<Cannonball.Content.MilepointAnchorData>> data) { builder.StartVector(4, data.Count, 4); builder.Add(data); return builder.EndVector(); }
+  public static VectorOffset CreateMilepointAnchorsVectorBlock(FlatBufferBuilder builder, IntPtr dataPtr, int sizeInBytes) { builder.StartVector(1, sizeInBytes, 1); builder.Add<Offset<Cannonball.Content.MilepointAnchorData>>(dataPtr, sizeInBytes); return builder.EndVector(); }
+  public static void StartMilepointAnchorsVector(FlatBufferBuilder builder, int numElems) { builder.StartVector(4, numElems, 4); }
+  public static void AddRoadsideMarkers(FlatBufferBuilder builder, VectorOffset roadsideMarkersOffset) { builder.AddOffset(12, roadsideMarkersOffset.Value, 0); }
+  public static VectorOffset CreateRoadsideMarkersVector(FlatBufferBuilder builder, Offset<Cannonball.Content.RoadsideMarkerData>[] data) { builder.StartVector(4, data.Length, 4); for (int i = data.Length - 1; i >= 0; i--) builder.AddOffset(data[i].Value); return builder.EndVector(); }
+  public static VectorOffset CreateRoadsideMarkersVectorBlock(FlatBufferBuilder builder, Offset<Cannonball.Content.RoadsideMarkerData>[] data) { builder.StartVector(4, data.Length, 4); builder.Add(data); return builder.EndVector(); }
+  public static VectorOffset CreateRoadsideMarkersVectorBlock(FlatBufferBuilder builder, ArraySegment<Offset<Cannonball.Content.RoadsideMarkerData>> data) { builder.StartVector(4, data.Count, 4); builder.Add(data); return builder.EndVector(); }
+  public static VectorOffset CreateRoadsideMarkersVectorBlock(FlatBufferBuilder builder, IntPtr dataPtr, int sizeInBytes) { builder.StartVector(1, sizeInBytes, 1); builder.Add<Offset<Cannonball.Content.RoadsideMarkerData>>(dataPtr, sizeInBytes); return builder.EndVector(); }
+  public static void StartRoadsideMarkersVector(FlatBufferBuilder builder, int numElems) { builder.StartVector(4, numElems, 4); }
+  public static void AddSimplifiedMapGeometry(FlatBufferBuilder builder, VectorOffset simplifiedMapGeometryOffset) { builder.AddOffset(13, simplifiedMapGeometryOffset.Value, 0); }
+  public static VectorOffset CreateSimplifiedMapGeometryVector(FlatBufferBuilder builder, Offset<Cannonball.Content.SimplifiedMapGeometryData>[] data) { builder.StartVector(4, data.Length, 4); for (int i = data.Length - 1; i >= 0; i--) builder.AddOffset(data[i].Value); return builder.EndVector(); }
+  public static VectorOffset CreateSimplifiedMapGeometryVectorBlock(FlatBufferBuilder builder, Offset<Cannonball.Content.SimplifiedMapGeometryData>[] data) { builder.StartVector(4, data.Length, 4); builder.Add(data); return builder.EndVector(); }
+  public static VectorOffset CreateSimplifiedMapGeometryVectorBlock(FlatBufferBuilder builder, ArraySegment<Offset<Cannonball.Content.SimplifiedMapGeometryData>> data) { builder.StartVector(4, data.Count, 4); builder.Add(data); return builder.EndVector(); }
+  public static VectorOffset CreateSimplifiedMapGeometryVectorBlock(FlatBufferBuilder builder, IntPtr dataPtr, int sizeInBytes) { builder.StartVector(1, sizeInBytes, 1); builder.Add<Offset<Cannonball.Content.SimplifiedMapGeometryData>>(dataPtr, sizeInBytes); return builder.EndVector(); }
+  public static void StartSimplifiedMapGeometryVector(FlatBufferBuilder builder, int numElems) { builder.StartVector(4, numElems, 4); }
   public static Offset<Cannonball.Content.RouteGraphBuffer> EndRouteGraphBuffer(FlatBufferBuilder builder) {
     int o = builder.EndTable();
     return new Offset<Cannonball.Content.RouteGraphBuffer>(o);
@@ -105,6 +181,20 @@ public struct RouteGraphBuffer : IFlatbufferObject
     for (var _j = 0; _j < this.ChunksLength; ++_j) {_o.Chunks.Add(this.Chunks(_j).HasValue ? this.Chunks(_j).Value.UnPack() : null);}
     _o.Provenance = this.Provenance.HasValue ? this.Provenance.Value.UnPack() : null;
     _o.SpatialReference = this.SpatialReference.HasValue ? this.SpatialReference.Value.UnPack() : null;
+    _o.LaneSections = new List<Cannonball.Content.LaneSectionDataT>();
+    for (var _j = 0; _j < this.LaneSectionsLength; ++_j) {_o.LaneSections.Add(this.LaneSections(_j).HasValue ? this.LaneSections(_j).Value.UnPack() : null);}
+    _o.JunctionConnectors = new List<Cannonball.Content.JunctionConnectorDataT>();
+    for (var _j = 0; _j < this.JunctionConnectorsLength; ++_j) {_o.JunctionConnectors.Add(this.JunctionConnectors(_j).HasValue ? this.JunctionConnectors(_j).Value.UnPack() : null);}
+    _o.RouteIdentities = new List<Cannonball.Content.RouteIdentityDataT>();
+    for (var _j = 0; _j < this.RouteIdentitiesLength; ++_j) {_o.RouteIdentities.Add(this.RouteIdentities(_j).HasValue ? this.RouteIdentities(_j).Value.UnPack() : null);}
+    _o.Exits = new List<Cannonball.Content.ExitDataT>();
+    for (var _j = 0; _j < this.ExitsLength; ++_j) {_o.Exits.Add(this.Exits(_j).HasValue ? this.Exits(_j).Value.UnPack() : null);}
+    _o.MilepointAnchors = new List<Cannonball.Content.MilepointAnchorDataT>();
+    for (var _j = 0; _j < this.MilepointAnchorsLength; ++_j) {_o.MilepointAnchors.Add(this.MilepointAnchors(_j).HasValue ? this.MilepointAnchors(_j).Value.UnPack() : null);}
+    _o.RoadsideMarkers = new List<Cannonball.Content.RoadsideMarkerDataT>();
+    for (var _j = 0; _j < this.RoadsideMarkersLength; ++_j) {_o.RoadsideMarkers.Add(this.RoadsideMarkers(_j).HasValue ? this.RoadsideMarkers(_j).Value.UnPack() : null);}
+    _o.SimplifiedMapGeometry = new List<Cannonball.Content.SimplifiedMapGeometryDataT>();
+    for (var _j = 0; _j < this.SimplifiedMapGeometryLength; ++_j) {_o.SimplifiedMapGeometry.Add(this.SimplifiedMapGeometry(_j).HasValue ? this.SimplifiedMapGeometry(_j).Value.UnPack() : null);}
   }
   public static Offset<Cannonball.Content.RouteGraphBuffer> Pack(FlatBufferBuilder builder, RouteGraphBufferT _o) {
     if (_o == null) return default(Offset<Cannonball.Content.RouteGraphBuffer>);
@@ -129,6 +219,48 @@ public struct RouteGraphBuffer : IFlatbufferObject
     }
     var _provenance = _o.Provenance == null ? default(Offset<Cannonball.Content.SourceProvenanceData>) : Cannonball.Content.SourceProvenanceData.Pack(builder, _o.Provenance);
     var _spatial_reference = _o.SpatialReference == null ? default(Offset<Cannonball.Content.SpatialReferenceData>) : Cannonball.Content.SpatialReferenceData.Pack(builder, _o.SpatialReference);
+    var _lane_sections = default(VectorOffset);
+    if (_o.LaneSections != null) {
+      var __lane_sections = new Offset<Cannonball.Content.LaneSectionData>[_o.LaneSections.Count];
+      for (var _j = 0; _j < __lane_sections.Length; ++_j) { __lane_sections[_j] = Cannonball.Content.LaneSectionData.Pack(builder, _o.LaneSections[_j]); }
+      _lane_sections = CreateLaneSectionsVector(builder, __lane_sections);
+    }
+    var _junction_connectors = default(VectorOffset);
+    if (_o.JunctionConnectors != null) {
+      var __junction_connectors = new Offset<Cannonball.Content.JunctionConnectorData>[_o.JunctionConnectors.Count];
+      for (var _j = 0; _j < __junction_connectors.Length; ++_j) { __junction_connectors[_j] = Cannonball.Content.JunctionConnectorData.Pack(builder, _o.JunctionConnectors[_j]); }
+      _junction_connectors = CreateJunctionConnectorsVector(builder, __junction_connectors);
+    }
+    var _route_identities = default(VectorOffset);
+    if (_o.RouteIdentities != null) {
+      var __route_identities = new Offset<Cannonball.Content.RouteIdentityData>[_o.RouteIdentities.Count];
+      for (var _j = 0; _j < __route_identities.Length; ++_j) { __route_identities[_j] = Cannonball.Content.RouteIdentityData.Pack(builder, _o.RouteIdentities[_j]); }
+      _route_identities = CreateRouteIdentitiesVector(builder, __route_identities);
+    }
+    var _exits = default(VectorOffset);
+    if (_o.Exits != null) {
+      var __exits = new Offset<Cannonball.Content.ExitData>[_o.Exits.Count];
+      for (var _j = 0; _j < __exits.Length; ++_j) { __exits[_j] = Cannonball.Content.ExitData.Pack(builder, _o.Exits[_j]); }
+      _exits = CreateExitsVector(builder, __exits);
+    }
+    var _milepoint_anchors = default(VectorOffset);
+    if (_o.MilepointAnchors != null) {
+      var __milepoint_anchors = new Offset<Cannonball.Content.MilepointAnchorData>[_o.MilepointAnchors.Count];
+      for (var _j = 0; _j < __milepoint_anchors.Length; ++_j) { __milepoint_anchors[_j] = Cannonball.Content.MilepointAnchorData.Pack(builder, _o.MilepointAnchors[_j]); }
+      _milepoint_anchors = CreateMilepointAnchorsVector(builder, __milepoint_anchors);
+    }
+    var _roadside_markers = default(VectorOffset);
+    if (_o.RoadsideMarkers != null) {
+      var __roadside_markers = new Offset<Cannonball.Content.RoadsideMarkerData>[_o.RoadsideMarkers.Count];
+      for (var _j = 0; _j < __roadside_markers.Length; ++_j) { __roadside_markers[_j] = Cannonball.Content.RoadsideMarkerData.Pack(builder, _o.RoadsideMarkers[_j]); }
+      _roadside_markers = CreateRoadsideMarkersVector(builder, __roadside_markers);
+    }
+    var _simplified_map_geometry = default(VectorOffset);
+    if (_o.SimplifiedMapGeometry != null) {
+      var __simplified_map_geometry = new Offset<Cannonball.Content.SimplifiedMapGeometryData>[_o.SimplifiedMapGeometry.Count];
+      for (var _j = 0; _j < __simplified_map_geometry.Length; ++_j) { __simplified_map_geometry[_j] = Cannonball.Content.SimplifiedMapGeometryData.Pack(builder, _o.SimplifiedMapGeometry[_j]); }
+      _simplified_map_geometry = CreateSimplifiedMapGeometryVector(builder, __simplified_map_geometry);
+    }
     return CreateRouteGraphBuffer(
       builder,
       _o.SchemaVersion,
@@ -137,7 +269,14 @@ public struct RouteGraphBuffer : IFlatbufferObject
       _edges,
       _chunks,
       _provenance,
-      _spatial_reference);
+      _spatial_reference,
+      _lane_sections,
+      _junction_connectors,
+      _route_identities,
+      _exits,
+      _milepoint_anchors,
+      _roadside_markers,
+      _simplified_map_geometry);
   }
 }
 
@@ -150,6 +289,13 @@ public class RouteGraphBufferT
   public List<Cannonball.Content.ChunkManifestDataT> Chunks { get; set; }
   public Cannonball.Content.SourceProvenanceDataT Provenance { get; set; }
   public Cannonball.Content.SpatialReferenceDataT SpatialReference { get; set; }
+  public List<Cannonball.Content.LaneSectionDataT> LaneSections { get; set; }
+  public List<Cannonball.Content.JunctionConnectorDataT> JunctionConnectors { get; set; }
+  public List<Cannonball.Content.RouteIdentityDataT> RouteIdentities { get; set; }
+  public List<Cannonball.Content.ExitDataT> Exits { get; set; }
+  public List<Cannonball.Content.MilepointAnchorDataT> MilepointAnchors { get; set; }
+  public List<Cannonball.Content.RoadsideMarkerDataT> RoadsideMarkers { get; set; }
+  public List<Cannonball.Content.SimplifiedMapGeometryDataT> SimplifiedMapGeometry { get; set; }
 
   public RouteGraphBufferT() {
     this.SchemaVersion = 0;
@@ -159,6 +305,13 @@ public class RouteGraphBufferT
     this.Chunks = null;
     this.Provenance = null;
     this.SpatialReference = null;
+    this.LaneSections = null;
+    this.JunctionConnectors = null;
+    this.RouteIdentities = null;
+    this.Exits = null;
+    this.MilepointAnchors = null;
+    this.RoadsideMarkers = null;
+    this.SimplifiedMapGeometry = null;
   }
   public static RouteGraphBufferT DeserializeFromBinary(byte[] fbBuffer) {
     return RouteGraphBuffer.GetRootAsRouteGraphBuffer(new ByteBuffer(fbBuffer)).UnPack();
@@ -183,6 +336,13 @@ static public class RouteGraphBufferVerify
       && verifier.VerifyVectorOfTables(tablePos, 12 /*Chunks*/, Cannonball.Content.ChunkManifestDataVerify.Verify, false)
       && verifier.VerifyTable(tablePos, 14 /*Provenance*/, Cannonball.Content.SourceProvenanceDataVerify.Verify, false)
       && verifier.VerifyTable(tablePos, 16 /*SpatialReference*/, Cannonball.Content.SpatialReferenceDataVerify.Verify, false)
+      && verifier.VerifyVectorOfTables(tablePos, 18 /*LaneSections*/, Cannonball.Content.LaneSectionDataVerify.Verify, false)
+      && verifier.VerifyVectorOfTables(tablePos, 20 /*JunctionConnectors*/, Cannonball.Content.JunctionConnectorDataVerify.Verify, false)
+      && verifier.VerifyVectorOfTables(tablePos, 22 /*RouteIdentities*/, Cannonball.Content.RouteIdentityDataVerify.Verify, false)
+      && verifier.VerifyVectorOfTables(tablePos, 24 /*Exits*/, Cannonball.Content.ExitDataVerify.Verify, false)
+      && verifier.VerifyVectorOfTables(tablePos, 26 /*MilepointAnchors*/, Cannonball.Content.MilepointAnchorDataVerify.Verify, false)
+      && verifier.VerifyVectorOfTables(tablePos, 28 /*RoadsideMarkers*/, Cannonball.Content.RoadsideMarkerDataVerify.Verify, false)
+      && verifier.VerifyVectorOfTables(tablePos, 30 /*SimplifiedMapGeometry*/, Cannonball.Content.SimplifiedMapGeometryDataVerify.Verify, false)
       && verifier.VerifyTableEnd(tablePos);
   }
 }

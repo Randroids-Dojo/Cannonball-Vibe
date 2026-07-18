@@ -139,8 +139,183 @@ class RouteGraphBuffer(object):
             return obj
         return None
 
+    # RouteGraphBuffer
+    def LaneSections(self, j):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(18))
+        if o != 0:
+            x = self._tab.Vector(o)
+            x += flatbuffers.number_types.UOffsetTFlags.py_type(j) * 4
+            x = self._tab.Indirect(x)
+            from Cannonball.Content.LaneSectionData import LaneSectionData
+            obj = LaneSectionData()
+            obj.Init(self._tab.Bytes, x)
+            return obj
+        return None
+
+    # RouteGraphBuffer
+    def LaneSectionsLength(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(18))
+        if o != 0:
+            return self._tab.VectorLen(o)
+        return 0
+
+    # RouteGraphBuffer
+    def LaneSectionsIsNone(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(18))
+        return o == 0
+
+    # RouteGraphBuffer
+    def JunctionConnectors(self, j):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(20))
+        if o != 0:
+            x = self._tab.Vector(o)
+            x += flatbuffers.number_types.UOffsetTFlags.py_type(j) * 4
+            x = self._tab.Indirect(x)
+            from Cannonball.Content.JunctionConnectorData import JunctionConnectorData
+            obj = JunctionConnectorData()
+            obj.Init(self._tab.Bytes, x)
+            return obj
+        return None
+
+    # RouteGraphBuffer
+    def JunctionConnectorsLength(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(20))
+        if o != 0:
+            return self._tab.VectorLen(o)
+        return 0
+
+    # RouteGraphBuffer
+    def JunctionConnectorsIsNone(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(20))
+        return o == 0
+
+    # RouteGraphBuffer
+    def RouteIdentities(self, j):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(22))
+        if o != 0:
+            x = self._tab.Vector(o)
+            x += flatbuffers.number_types.UOffsetTFlags.py_type(j) * 4
+            x = self._tab.Indirect(x)
+            from Cannonball.Content.RouteIdentityData import RouteIdentityData
+            obj = RouteIdentityData()
+            obj.Init(self._tab.Bytes, x)
+            return obj
+        return None
+
+    # RouteGraphBuffer
+    def RouteIdentitiesLength(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(22))
+        if o != 0:
+            return self._tab.VectorLen(o)
+        return 0
+
+    # RouteGraphBuffer
+    def RouteIdentitiesIsNone(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(22))
+        return o == 0
+
+    # RouteGraphBuffer
+    def Exits(self, j):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(24))
+        if o != 0:
+            x = self._tab.Vector(o)
+            x += flatbuffers.number_types.UOffsetTFlags.py_type(j) * 4
+            x = self._tab.Indirect(x)
+            from Cannonball.Content.ExitData import ExitData
+            obj = ExitData()
+            obj.Init(self._tab.Bytes, x)
+            return obj
+        return None
+
+    # RouteGraphBuffer
+    def ExitsLength(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(24))
+        if o != 0:
+            return self._tab.VectorLen(o)
+        return 0
+
+    # RouteGraphBuffer
+    def ExitsIsNone(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(24))
+        return o == 0
+
+    # RouteGraphBuffer
+    def MilepointAnchors(self, j):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(26))
+        if o != 0:
+            x = self._tab.Vector(o)
+            x += flatbuffers.number_types.UOffsetTFlags.py_type(j) * 4
+            x = self._tab.Indirect(x)
+            from Cannonball.Content.MilepointAnchorData import MilepointAnchorData
+            obj = MilepointAnchorData()
+            obj.Init(self._tab.Bytes, x)
+            return obj
+        return None
+
+    # RouteGraphBuffer
+    def MilepointAnchorsLength(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(26))
+        if o != 0:
+            return self._tab.VectorLen(o)
+        return 0
+
+    # RouteGraphBuffer
+    def MilepointAnchorsIsNone(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(26))
+        return o == 0
+
+    # RouteGraphBuffer
+    def RoadsideMarkers(self, j):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(28))
+        if o != 0:
+            x = self._tab.Vector(o)
+            x += flatbuffers.number_types.UOffsetTFlags.py_type(j) * 4
+            x = self._tab.Indirect(x)
+            from Cannonball.Content.RoadsideMarkerData import RoadsideMarkerData
+            obj = RoadsideMarkerData()
+            obj.Init(self._tab.Bytes, x)
+            return obj
+        return None
+
+    # RouteGraphBuffer
+    def RoadsideMarkersLength(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(28))
+        if o != 0:
+            return self._tab.VectorLen(o)
+        return 0
+
+    # RouteGraphBuffer
+    def RoadsideMarkersIsNone(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(28))
+        return o == 0
+
+    # RouteGraphBuffer
+    def SimplifiedMapGeometry(self, j):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(30))
+        if o != 0:
+            x = self._tab.Vector(o)
+            x += flatbuffers.number_types.UOffsetTFlags.py_type(j) * 4
+            x = self._tab.Indirect(x)
+            from Cannonball.Content.SimplifiedMapGeometryData import SimplifiedMapGeometryData
+            obj = SimplifiedMapGeometryData()
+            obj.Init(self._tab.Bytes, x)
+            return obj
+        return None
+
+    # RouteGraphBuffer
+    def SimplifiedMapGeometryLength(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(30))
+        if o != 0:
+            return self._tab.VectorLen(o)
+        return 0
+
+    # RouteGraphBuffer
+    def SimplifiedMapGeometryIsNone(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(30))
+        return o == 0
+
 def RouteGraphBufferStart(builder):
-    builder.StartObject(7)
+    builder.StartObject(14)
 
 def Start(builder):
     RouteGraphBufferStart(builder)
@@ -205,6 +380,90 @@ def RouteGraphBufferAddSpatialReference(builder, spatialReference):
 def AddSpatialReference(builder, spatialReference):
     RouteGraphBufferAddSpatialReference(builder, spatialReference)
 
+def RouteGraphBufferAddLaneSections(builder, laneSections):
+    builder.PrependUOffsetTRelativeSlot(7, flatbuffers.number_types.UOffsetTFlags.py_type(laneSections), 0)
+
+def AddLaneSections(builder, laneSections):
+    RouteGraphBufferAddLaneSections(builder, laneSections)
+
+def RouteGraphBufferStartLaneSectionsVector(builder, numElems):
+    return builder.StartVector(4, numElems, 4)
+
+def StartLaneSectionsVector(builder, numElems):
+    return RouteGraphBufferStartLaneSectionsVector(builder, numElems)
+
+def RouteGraphBufferAddJunctionConnectors(builder, junctionConnectors):
+    builder.PrependUOffsetTRelativeSlot(8, flatbuffers.number_types.UOffsetTFlags.py_type(junctionConnectors), 0)
+
+def AddJunctionConnectors(builder, junctionConnectors):
+    RouteGraphBufferAddJunctionConnectors(builder, junctionConnectors)
+
+def RouteGraphBufferStartJunctionConnectorsVector(builder, numElems):
+    return builder.StartVector(4, numElems, 4)
+
+def StartJunctionConnectorsVector(builder, numElems):
+    return RouteGraphBufferStartJunctionConnectorsVector(builder, numElems)
+
+def RouteGraphBufferAddRouteIdentities(builder, routeIdentities):
+    builder.PrependUOffsetTRelativeSlot(9, flatbuffers.number_types.UOffsetTFlags.py_type(routeIdentities), 0)
+
+def AddRouteIdentities(builder, routeIdentities):
+    RouteGraphBufferAddRouteIdentities(builder, routeIdentities)
+
+def RouteGraphBufferStartRouteIdentitiesVector(builder, numElems):
+    return builder.StartVector(4, numElems, 4)
+
+def StartRouteIdentitiesVector(builder, numElems):
+    return RouteGraphBufferStartRouteIdentitiesVector(builder, numElems)
+
+def RouteGraphBufferAddExits(builder, exits):
+    builder.PrependUOffsetTRelativeSlot(10, flatbuffers.number_types.UOffsetTFlags.py_type(exits), 0)
+
+def AddExits(builder, exits):
+    RouteGraphBufferAddExits(builder, exits)
+
+def RouteGraphBufferStartExitsVector(builder, numElems):
+    return builder.StartVector(4, numElems, 4)
+
+def StartExitsVector(builder, numElems):
+    return RouteGraphBufferStartExitsVector(builder, numElems)
+
+def RouteGraphBufferAddMilepointAnchors(builder, milepointAnchors):
+    builder.PrependUOffsetTRelativeSlot(11, flatbuffers.number_types.UOffsetTFlags.py_type(milepointAnchors), 0)
+
+def AddMilepointAnchors(builder, milepointAnchors):
+    RouteGraphBufferAddMilepointAnchors(builder, milepointAnchors)
+
+def RouteGraphBufferStartMilepointAnchorsVector(builder, numElems):
+    return builder.StartVector(4, numElems, 4)
+
+def StartMilepointAnchorsVector(builder, numElems):
+    return RouteGraphBufferStartMilepointAnchorsVector(builder, numElems)
+
+def RouteGraphBufferAddRoadsideMarkers(builder, roadsideMarkers):
+    builder.PrependUOffsetTRelativeSlot(12, flatbuffers.number_types.UOffsetTFlags.py_type(roadsideMarkers), 0)
+
+def AddRoadsideMarkers(builder, roadsideMarkers):
+    RouteGraphBufferAddRoadsideMarkers(builder, roadsideMarkers)
+
+def RouteGraphBufferStartRoadsideMarkersVector(builder, numElems):
+    return builder.StartVector(4, numElems, 4)
+
+def StartRoadsideMarkersVector(builder, numElems):
+    return RouteGraphBufferStartRoadsideMarkersVector(builder, numElems)
+
+def RouteGraphBufferAddSimplifiedMapGeometry(builder, simplifiedMapGeometry):
+    builder.PrependUOffsetTRelativeSlot(13, flatbuffers.number_types.UOffsetTFlags.py_type(simplifiedMapGeometry), 0)
+
+def AddSimplifiedMapGeometry(builder, simplifiedMapGeometry):
+    RouteGraphBufferAddSimplifiedMapGeometry(builder, simplifiedMapGeometry)
+
+def RouteGraphBufferStartSimplifiedMapGeometryVector(builder, numElems):
+    return builder.StartVector(4, numElems, 4)
+
+def StartSimplifiedMapGeometryVector(builder, numElems):
+    return RouteGraphBufferStartSimplifiedMapGeometryVector(builder, numElems)
+
 def RouteGraphBufferEnd(builder):
     return builder.EndObject()
 
@@ -212,8 +471,15 @@ def End(builder):
     return RouteGraphBufferEnd(builder)
 
 import Cannonball.Content.ChunkManifestData
+import Cannonball.Content.ExitData
+import Cannonball.Content.JunctionConnectorData
+import Cannonball.Content.LaneSectionData
+import Cannonball.Content.MilepointAnchorData
+import Cannonball.Content.RoadsideMarkerData
 import Cannonball.Content.RouteEdgeData
+import Cannonball.Content.RouteIdentityData
 import Cannonball.Content.RouteNodeData
+import Cannonball.Content.SimplifiedMapGeometryData
 import Cannonball.Content.SourceProvenanceData
 import Cannonball.Content.SpatialReferenceData
 try:
@@ -233,6 +499,13 @@ class RouteGraphBufferT(object):
         chunks = None,
         provenance = None,
         spatialReference = None,
+        laneSections = None,
+        junctionConnectors = None,
+        routeIdentities = None,
+        exits = None,
+        milepointAnchors = None,
+        roadsideMarkers = None,
+        simplifiedMapGeometry = None,
     ):
         self.schemaVersion = schemaVersion  # type: int
         self.contentVersion = contentVersion  # type: Optional[str]
@@ -241,6 +514,13 @@ class RouteGraphBufferT(object):
         self.chunks = chunks  # type: Optional[List[Cannonball.Content.ChunkManifestData.ChunkManifestDataT]]
         self.provenance = provenance  # type: Optional[Cannonball.Content.SourceProvenanceData.SourceProvenanceDataT]
         self.spatialReference = spatialReference  # type: Optional[Cannonball.Content.SpatialReferenceData.SpatialReferenceDataT]
+        self.laneSections = laneSections  # type: Optional[List[Cannonball.Content.LaneSectionData.LaneSectionDataT]]
+        self.junctionConnectors = junctionConnectors  # type: Optional[List[Cannonball.Content.JunctionConnectorData.JunctionConnectorDataT]]
+        self.routeIdentities = routeIdentities  # type: Optional[List[Cannonball.Content.RouteIdentityData.RouteIdentityDataT]]
+        self.exits = exits  # type: Optional[List[Cannonball.Content.ExitData.ExitDataT]]
+        self.milepointAnchors = milepointAnchors  # type: Optional[List[Cannonball.Content.MilepointAnchorData.MilepointAnchorDataT]]
+        self.roadsideMarkers = roadsideMarkers  # type: Optional[List[Cannonball.Content.RoadsideMarkerData.RoadsideMarkerDataT]]
+        self.simplifiedMapGeometry = simplifiedMapGeometry  # type: Optional[List[Cannonball.Content.SimplifiedMapGeometryData.SimplifiedMapGeometryDataT]]
 
     @classmethod
     def InitFromBuf(cls, buf, pos):
@@ -293,6 +573,62 @@ class RouteGraphBufferT(object):
             self.provenance = Cannonball.Content.SourceProvenanceData.SourceProvenanceDataT.InitFromObj(routeGraphBuffer.Provenance())
         if routeGraphBuffer.SpatialReference() is not None:
             self.spatialReference = Cannonball.Content.SpatialReferenceData.SpatialReferenceDataT.InitFromObj(routeGraphBuffer.SpatialReference())
+        if not routeGraphBuffer.LaneSectionsIsNone():
+            self.laneSections = []
+            for i in range(routeGraphBuffer.LaneSectionsLength()):
+                if routeGraphBuffer.LaneSections(i) is None:
+                    self.laneSections.append(None)
+                else:
+                    laneSectionData_ = Cannonball.Content.LaneSectionData.LaneSectionDataT.InitFromObj(routeGraphBuffer.LaneSections(i))
+                    self.laneSections.append(laneSectionData_)
+        if not routeGraphBuffer.JunctionConnectorsIsNone():
+            self.junctionConnectors = []
+            for i in range(routeGraphBuffer.JunctionConnectorsLength()):
+                if routeGraphBuffer.JunctionConnectors(i) is None:
+                    self.junctionConnectors.append(None)
+                else:
+                    junctionConnectorData_ = Cannonball.Content.JunctionConnectorData.JunctionConnectorDataT.InitFromObj(routeGraphBuffer.JunctionConnectors(i))
+                    self.junctionConnectors.append(junctionConnectorData_)
+        if not routeGraphBuffer.RouteIdentitiesIsNone():
+            self.routeIdentities = []
+            for i in range(routeGraphBuffer.RouteIdentitiesLength()):
+                if routeGraphBuffer.RouteIdentities(i) is None:
+                    self.routeIdentities.append(None)
+                else:
+                    routeIdentityData_ = Cannonball.Content.RouteIdentityData.RouteIdentityDataT.InitFromObj(routeGraphBuffer.RouteIdentities(i))
+                    self.routeIdentities.append(routeIdentityData_)
+        if not routeGraphBuffer.ExitsIsNone():
+            self.exits = []
+            for i in range(routeGraphBuffer.ExitsLength()):
+                if routeGraphBuffer.Exits(i) is None:
+                    self.exits.append(None)
+                else:
+                    exitData_ = Cannonball.Content.ExitData.ExitDataT.InitFromObj(routeGraphBuffer.Exits(i))
+                    self.exits.append(exitData_)
+        if not routeGraphBuffer.MilepointAnchorsIsNone():
+            self.milepointAnchors = []
+            for i in range(routeGraphBuffer.MilepointAnchorsLength()):
+                if routeGraphBuffer.MilepointAnchors(i) is None:
+                    self.milepointAnchors.append(None)
+                else:
+                    milepointAnchorData_ = Cannonball.Content.MilepointAnchorData.MilepointAnchorDataT.InitFromObj(routeGraphBuffer.MilepointAnchors(i))
+                    self.milepointAnchors.append(milepointAnchorData_)
+        if not routeGraphBuffer.RoadsideMarkersIsNone():
+            self.roadsideMarkers = []
+            for i in range(routeGraphBuffer.RoadsideMarkersLength()):
+                if routeGraphBuffer.RoadsideMarkers(i) is None:
+                    self.roadsideMarkers.append(None)
+                else:
+                    roadsideMarkerData_ = Cannonball.Content.RoadsideMarkerData.RoadsideMarkerDataT.InitFromObj(routeGraphBuffer.RoadsideMarkers(i))
+                    self.roadsideMarkers.append(roadsideMarkerData_)
+        if not routeGraphBuffer.SimplifiedMapGeometryIsNone():
+            self.simplifiedMapGeometry = []
+            for i in range(routeGraphBuffer.SimplifiedMapGeometryLength()):
+                if routeGraphBuffer.SimplifiedMapGeometry(i) is None:
+                    self.simplifiedMapGeometry.append(None)
+                else:
+                    simplifiedMapGeometryData_ = Cannonball.Content.SimplifiedMapGeometryData.SimplifiedMapGeometryDataT.InitFromObj(routeGraphBuffer.SimplifiedMapGeometry(i))
+                    self.simplifiedMapGeometry.append(simplifiedMapGeometryData_)
 
     # RouteGraphBufferT
     def Pack(self, builder):
@@ -326,6 +662,62 @@ class RouteGraphBufferT(object):
             provenance = self.provenance.Pack(builder)
         if self.spatialReference is not None:
             spatialReference = self.spatialReference.Pack(builder)
+        if self.laneSections is not None:
+            laneSectionslist = []
+            for i in range(len(self.laneSections)):
+                laneSectionslist.append(self.laneSections[i].Pack(builder))
+            RouteGraphBufferStartLaneSectionsVector(builder, len(self.laneSections))
+            for i in reversed(range(len(self.laneSections))):
+                builder.PrependUOffsetTRelative(laneSectionslist[i])
+            laneSections = builder.EndVector()
+        if self.junctionConnectors is not None:
+            junctionConnectorslist = []
+            for i in range(len(self.junctionConnectors)):
+                junctionConnectorslist.append(self.junctionConnectors[i].Pack(builder))
+            RouteGraphBufferStartJunctionConnectorsVector(builder, len(self.junctionConnectors))
+            for i in reversed(range(len(self.junctionConnectors))):
+                builder.PrependUOffsetTRelative(junctionConnectorslist[i])
+            junctionConnectors = builder.EndVector()
+        if self.routeIdentities is not None:
+            routeIdentitieslist = []
+            for i in range(len(self.routeIdentities)):
+                routeIdentitieslist.append(self.routeIdentities[i].Pack(builder))
+            RouteGraphBufferStartRouteIdentitiesVector(builder, len(self.routeIdentities))
+            for i in reversed(range(len(self.routeIdentities))):
+                builder.PrependUOffsetTRelative(routeIdentitieslist[i])
+            routeIdentities = builder.EndVector()
+        if self.exits is not None:
+            exitslist = []
+            for i in range(len(self.exits)):
+                exitslist.append(self.exits[i].Pack(builder))
+            RouteGraphBufferStartExitsVector(builder, len(self.exits))
+            for i in reversed(range(len(self.exits))):
+                builder.PrependUOffsetTRelative(exitslist[i])
+            exits = builder.EndVector()
+        if self.milepointAnchors is not None:
+            milepointAnchorslist = []
+            for i in range(len(self.milepointAnchors)):
+                milepointAnchorslist.append(self.milepointAnchors[i].Pack(builder))
+            RouteGraphBufferStartMilepointAnchorsVector(builder, len(self.milepointAnchors))
+            for i in reversed(range(len(self.milepointAnchors))):
+                builder.PrependUOffsetTRelative(milepointAnchorslist[i])
+            milepointAnchors = builder.EndVector()
+        if self.roadsideMarkers is not None:
+            roadsideMarkerslist = []
+            for i in range(len(self.roadsideMarkers)):
+                roadsideMarkerslist.append(self.roadsideMarkers[i].Pack(builder))
+            RouteGraphBufferStartRoadsideMarkersVector(builder, len(self.roadsideMarkers))
+            for i in reversed(range(len(self.roadsideMarkers))):
+                builder.PrependUOffsetTRelative(roadsideMarkerslist[i])
+            roadsideMarkers = builder.EndVector()
+        if self.simplifiedMapGeometry is not None:
+            simplifiedMapGeometrylist = []
+            for i in range(len(self.simplifiedMapGeometry)):
+                simplifiedMapGeometrylist.append(self.simplifiedMapGeometry[i].Pack(builder))
+            RouteGraphBufferStartSimplifiedMapGeometryVector(builder, len(self.simplifiedMapGeometry))
+            for i in reversed(range(len(self.simplifiedMapGeometry))):
+                builder.PrependUOffsetTRelative(simplifiedMapGeometrylist[i])
+            simplifiedMapGeometry = builder.EndVector()
         RouteGraphBufferStart(builder)
         RouteGraphBufferAddSchemaVersion(builder, self.schemaVersion)
         if self.contentVersion is not None:
@@ -340,5 +732,19 @@ class RouteGraphBufferT(object):
             RouteGraphBufferAddProvenance(builder, provenance)
         if self.spatialReference is not None:
             RouteGraphBufferAddSpatialReference(builder, spatialReference)
+        if self.laneSections is not None:
+            RouteGraphBufferAddLaneSections(builder, laneSections)
+        if self.junctionConnectors is not None:
+            RouteGraphBufferAddJunctionConnectors(builder, junctionConnectors)
+        if self.routeIdentities is not None:
+            RouteGraphBufferAddRouteIdentities(builder, routeIdentities)
+        if self.exits is not None:
+            RouteGraphBufferAddExits(builder, exits)
+        if self.milepointAnchors is not None:
+            RouteGraphBufferAddMilepointAnchors(builder, milepointAnchors)
+        if self.roadsideMarkers is not None:
+            RouteGraphBufferAddRoadsideMarkers(builder, roadsideMarkers)
+        if self.simplifiedMapGeometry is not None:
+            RouteGraphBufferAddSimplifiedMapGeometry(builder, simplifiedMapGeometry)
         routeGraphBuffer = RouteGraphBufferEnd(builder)
         return routeGraphBuffer

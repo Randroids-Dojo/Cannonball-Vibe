@@ -53,7 +53,7 @@ def build(
         raise typer.BadParameter("elevation and elevation-metadata must be provided together")
     if elevation is None:
         raise typer.BadParameter(
-            "runtime schema 3 requires elevation, elevation-metadata, and acquisition-lock"
+            "runtime schema 4 requires elevation, elevation-metadata, and acquisition-lock"
         )
     if elevation is not None and acquisition_lock is None:
         raise typer.BadParameter("acquisition-lock is required when elevation is provided")
