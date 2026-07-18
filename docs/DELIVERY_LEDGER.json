@@ -706,7 +706,7 @@
       "milestone": "M2",
       "priority": "P1",
       "title": "Mile markers, exit signs, and route-context rendering",
-      "status": "open",
+      "status": "in_progress",
       "dependencies": [
         "P0-009",
         "P0-010"

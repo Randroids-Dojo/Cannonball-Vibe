@@ -57,6 +57,7 @@ public sealed partial class WorldStreamer : Node3D
     private readonly HashSet<string> _branchPrewarmSeen = new(StringComparer.Ordinal);
     private readonly HashSet<string> _branchPrewarmEvicted = new(StringComparer.Ordinal);
     private readonly HashSet<string> _junctionSeamsBuilt = new(StringComparer.Ordinal);
+    private readonly HashSet<string> _routeContextAutomationIds = new(StringComparer.Ordinal);
     private readonly List<double> _chunkBuildSamplesMilliseconds = [];
     private readonly List<double> _collisionBuildSamplesMilliseconds = [];
     private bool _preserveResumeStateThroughReady;
@@ -109,11 +110,21 @@ public sealed partial class WorldStreamer : Node3D
     public double MaximumJunctionGapMeters { get; private set; }
     public int JunctionSeamBuildCount => _junctionSeamsBuilt.Count;
     public IReadOnlyCollection<string> JunctionSeamIdsBuilt => _junctionSeamsBuilt;
+    public IReadOnlyCollection<string> RouteContextAutomationIds => _routeContextAutomationIds;
+    public int MileMarkerCount { get; private set; }
+    public int ExitSignCount { get; private set; }
+    public int HighwayTransferSignCount { get; private set; }
     public IReadOnlyCollection<string> ReviewReadyChunkIdsSeen => _reviewReadyChunksSeen;
     public IReadOnlyCollection<string> ReviewEdgeIdsVisited => _reviewEdgesVisited;
     public IReadOnlyList<double> ChunkBuildSamplesMilliseconds => _chunkBuildSamplesMilliseconds;
     public IReadOnlyList<double> CollisionBuildSamplesMilliseconds =>
         _collisionBuildSamplesMilliseconds;
+
+    public IReadOnlyList<RouteContextLabelDiagnostic> GetRouteContextLabelDiagnostics(
+        Camera3D camera) => _loaded.Values
+        .SelectMany(chunk => chunk.GetRouteContextLabelDiagnostics(camera))
+        .OrderBy(item => item.AutomationId, StringComparer.Ordinal)
+        .ToArray();
 
     public WorldStreamSnapshot CaptureStreamSnapshot() => new(
         _localOriginWorld.X,
@@ -623,6 +634,8 @@ public sealed partial class WorldStreamer : Node3D
         var chunk = RoadChunk.Create(
             content,
             _package.Graph.GetEdge(content.EdgeId),
+            _package.Graph,
+            _package.Semantics,
             _frame,
             _localOriginWorld);
         if (chunk.BuildMilliseconds > buildBudgetMilliseconds)
@@ -652,6 +665,13 @@ public sealed partial class WorldStreamer : Node3D
                 MaximumPavedWidthMeters,
                 chunk.MaximumPavedWidthMeters);
         }
+        foreach (var automationId in chunk.RouteContextAutomationIds)
+        {
+            _routeContextAutomationIds.Add(automationId);
+        }
+        MileMarkerCount += chunk.MileMarkerCount;
+        ExitSignCount += chunk.ExitSignCount;
+        HighwayTransferSignCount += chunk.HighwayTransferSignCount;
         if (chunk.HasReviewGeometry())
         {
             _reviewReadyChunksSeen.Add(content.Id);
