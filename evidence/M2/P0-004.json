@@ -2,10 +2,10 @@
   "schema_version": 1,
   "task_id": "P0-004",
   "milestone": "M2",
-  "status": "representative_candidate_ready_human_geography_gate_awaiting_review",
+  "status": "complete",
   "verified_at": "2026-07-16T07:43:27Z",
-  "updated_at": "2026-07-18T01:45:20Z",
-  "git_revision": "ae9e193e6141b769b17cc99b71a15ffd586b27ef",
+  "updated_at": "2026-07-18T03:15:03Z",
+  "git_revision": "d9ffe1e91ab17e44186c270fd080d0ecc6473bd2",
   "platform": {
     "local": "macOS",
     "remote": [
@@ -290,7 +290,7 @@
     },
     {
       "criterion": "A longer locked representative corridor capture passes the human geographic sanity review",
-      "status": "pending_human_review",
+      "status": "passed",
       "comparison": {
         "candidate_ready": true,
         "unique_route_miles": 15.372898,
@@ -302,7 +302,7 @@
         "maximum_absolute_grade": 0.07000000000001533,
         "chunk_failures": 0,
         "automated_prerequisites_passed": true,
-        "human_approval_recorded": false
+        "human_approval_recorded": true
       }
     }
   ],
@@ -601,8 +601,8 @@
     "required_for": "M2",
     "required_candidate": "longer locked representative corridor",
     "short_fixture_recapture_can_clear_gate": false,
-    "status": "awaiting_review",
-    "reviewed_at": null,
+    "status": "approved",
+    "reviewed_at": "2026-07-17",
     "review_reference": "docs/audits/2026-07-16-p0-004-route-sanity-review.md",
     "rejected_candidate_findings": [
       "Roadway disappears from most sampled frames",
@@ -610,12 +610,9 @@
       "Terrain and scenery are insufficient to judge route placement or seams",
       "Route is not geographically recognizable, so obvious map mistakes cannot be ruled out"
     ],
-    "current_outstanding_findings": [
-      "Project owner has not yet accepted or rejected the longer representative candidate",
-      "Human judgment of route shape, grade, seams, placement, and obvious geographic mistakes remains required"
-    ],
-    "approval_reference": null,
-    "task_completion_blocked": true,
+    "current_outstanding_findings": [],
+    "approval_reference": "docs/audits/2026-07-16-p0-004-route-sanity-review.md#final-project-owner-decision",
+    "task_completion_blocked": false,
     "question_document": "docs/QUESTIONS_FOR_RANDROID.md",
     "candidate": {
       "content_version": "route-v3-59423d9c69671f15",
@@ -623,7 +620,9 @@
       "overview": "docs/images/p0-004-representative-corridor-overview.svg",
       "contact_sheet": "/tmp/p0-004-representative-corridor-v2-contact-sheet.png",
       "review_record": "docs/audits/2026-07-16-p0-004-route-sanity-review.md#longer-representative-candidate",
-      "automated_prerequisites_passed": true
+      "automated_prerequisites_passed": true,
+      "human_approval_recorded": true,
+      "approval_scope": "current graybox representative geographic sanity gate"
     }
   },
   "representative_corridor_package": {
@@ -679,7 +678,7 @@
       "empty_space_regressions": 0,
       "visible_disconnected_seams": 0,
       "visible_vertical_spikes": 0,
-      "result": "automated_prerequisites_passed_human_review_pending"
+      "result": "passed_automated_and_human_review"
     },
     "artifacts": [
       {
@@ -745,6 +744,6 @@
       "shellcheck": "passed",
       "git_diff_check": "passed"
     },
-    "human_geographic_gate": "awaiting_review"
+    "human_geographic_gate": "approved"
   }
 }
