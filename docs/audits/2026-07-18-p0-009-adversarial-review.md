@@ -1,7 +1,7 @@
 # P0-009 adversarial review
 
 - Review date: 2026-07-18 UTC
-- Reviewed implementation: `ad84a5ca78477f9d47ec0ec1af35731d88364227`
+- Reviewed implementation: `a5acf8106e89920f73ed389d756beaa08b75e485`
 - Result: no unresolved actionable findings
 
 ## Scope
@@ -56,3 +56,5 @@ from `schemas/route_graph.fbs` before review.
 - Godot 4.7.1 official headless scenario: `CANNONBALL_SMOKE_OK` on schema 4.
 - Two clean fixture builds: every published file byte-identical, including the
   normalized GeoPackage, FlatBuffer root, metadata, and four CBCK chunks.
+- Linux and Windows M0, reproducible exports, and Linux/Windows clean-machine
+  export smokes passed on the recovery revision.

@@ -1,9 +1,9 @@
 {
   "task_id": "P0-009",
   "milestone": "M2",
-  "git_revision": "ad84a5ca78477f9d47ec0ec1af35731d88364227",
+  "git_revision": "a5acf8106e89920f73ed389d756beaa08b75e485",
   "platform": "Darwin arm64",
-  "recorded_at_utc": "2026-07-18T04:11:11Z",
+  "recorded_at_utc": "2026-07-18T04:24:17Z",
   "build_command": "uv run --project tools/map_pipeline cannonball-map build --source data/sources/fixtures/nhpn-boulder-us36.geojson --manifest data/sources/fixtures/nhpn-boulder-us36.manifest.json --elevation data/sources/fixtures/usgs-13-n40w106-boulder.tif --elevation-metadata data/sources/fixtures/usgs-13-n40w106-boulder.metadata.json --acquisition-lock data/sources/source-lock.json --chunk-meters 100 --output <run>",
   "runs": [
     ".tools/routes/p0-009/first",
@@ -32,6 +32,12 @@
   "failure_logs": [
     "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29630246765"
   ],
-  "recovery_result": "pending remote verification after schema-4 release-packager correction",
+  "recovery_result": {
+    "status": "passed",
+    "revision": "a5acf8106e89920f73ed389d756beaa08b75e485",
+    "workflow": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29630385013",
+    "linux_clean_machine_smoke": "passed",
+    "windows_clean_machine_smoke": "passed"
+  },
   "human_gate": null
 }

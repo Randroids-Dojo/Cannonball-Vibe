@@ -1,12 +1,12 @@
 {
   "task_id": "P0-009",
   "milestone": "M2",
-  "git_revision": "ad84a5ca78477f9d47ec0ec1af35731d88364227",
+  "git_revision": "a5acf8106e89920f73ed389d756beaa08b75e485",
   "platform": {
     "os": "Darwin 25.6.0",
     "architecture": "arm64"
   },
-  "recorded_at_utc": "2026-07-18T04:12:09Z",
+  "recorded_at_utc": "2026-07-18T04:24:17Z",
   "tool_versions": {
     "dotnet_sdk": "10.0.102",
     "uv": "0.9.24",
@@ -45,6 +45,10 @@
       "command": "./scripts/check.sh",
       "exit_status": 0,
       "report": "reports/m0/summary.json"
+    },
+    {
+      "command": "node scripts/release/package-tools.mjs copy-content .tools/routes/p0-009/first .tools/routes/p0-009/release-copy-schema4",
+      "exit_status": 0
     }
   ],
   "metrics": {
@@ -94,6 +98,14 @@
     "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29630246841/job/88042325339"
   ],
   "retry_count": 1,
-  "recovery_result": "pending remote verification after schema-4 release-packager correction",
+  "recovery_result": {
+    "status": "passed",
+    "revision": "a5acf8106e89920f73ed389d756beaa08b75e485",
+    "linux_m0": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29630385001/job/88042697226",
+    "windows_m0": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29630385001/job/88042697205",
+    "reproducible_exports": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29630385013/job/88042697220",
+    "linux_clean_machine_smoke": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29630385013/job/88042900773",
+    "windows_clean_machine_smoke": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29630385013/job/88042900784"
+  },
   "human_gate": null
 }
