@@ -30,7 +30,7 @@ public sealed record RunSave(
     LocalVehicleState LocalVehicle,
     IReadOnlyList<ReplayMarker> ReplayMarkers)
 {
-    public const int CurrentSchemaVersion = 1;
+    public const int CurrentSchemaVersion = 2;
 
     public static string ComputeContentChecksum(string contentVersion)
     {

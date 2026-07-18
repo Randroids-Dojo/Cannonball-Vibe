@@ -21,6 +21,23 @@ public sealed record EnforcementState(
     string PursuitState,
     double CooldownSeconds);
 
+public sealed record BranchStreamSnapshot(
+    string DecisionEdgeId,
+    IReadOnlyList<string> PrewarmedChunkIds,
+    IReadOnlyList<string> SelectedChunkIds)
+{
+    public static BranchStreamSnapshot Empty { get; } = new(string.Empty, [], []);
+}
+
+public sealed record RouteNavigationState(
+    string SelectedPlanId,
+    string ActiveConnectorId,
+    BranchStreamSnapshot BranchStream)
+{
+    public static RouteNavigationState Empty { get; } =
+        new(string.Empty, string.Empty, BranchStreamSnapshot.Empty);
+}
+
 public sealed record RunState(
     ulong Seed,
     RoutePosition Position,
@@ -29,7 +46,10 @@ public sealed record RunState(
     double Cash,
     VehicleCondition Vehicle,
     EnforcementState Enforcement,
-    AssistProfile AssistProfile);
+    AssistProfile AssistProfile)
+{
+    public RouteNavigationState Navigation { get; init; } = RouteNavigationState.Empty;
+}
 
 public sealed class RunDirector
 {

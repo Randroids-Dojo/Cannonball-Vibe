@@ -104,7 +104,16 @@ public static class FlatBufferRouteChunkContent
     }
 }
 
-public sealed class VerifiedFileChunkSource : IChunkSource
+public interface IRouteChunkContentSource : IChunkSource
+{
+    ValueTask<RouteChunkContent> LoadChunkAsync(
+        string chunkId,
+        CancellationToken cancellationToken = default);
+
+    RouteChunkContent LoadChunk(string chunkId);
+}
+
+public sealed class VerifiedFileChunkSource : IRouteChunkContentSource
 {
     private readonly RouteContentPackage _package;
     private readonly string _packageDirectory;
@@ -284,5 +293,80 @@ public sealed class VerifiedFileChunkSource : IChunkSource
             }
         }
         return fullPath;
+    }
+}
+
+public sealed class VerifiedMemoryChunkSource : IRouteChunkContentSource
+{
+    private readonly RouteContentPackage _package;
+    private readonly IReadOnlyDictionary<string, byte[]> _chunks;
+
+    public VerifiedMemoryChunkSource(
+        RouteContentPackage package,
+        IReadOnlyDictionary<string, byte[]> chunks)
+    {
+        ArgumentNullException.ThrowIfNull(package);
+        ArgumentNullException.ThrowIfNull(chunks);
+        _package = package;
+        _chunks = chunks.ToDictionary(
+            entry => entry.Key,
+            entry => entry.Value.ToArray(),
+            StringComparer.Ordinal);
+    }
+
+    public ValueTask<ChunkManifest> GetManifestAsync(
+        string chunkId,
+        CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        return ValueTask.FromResult(GetManifest(chunkId));
+    }
+
+    public ValueTask<ReadOnlyMemory<byte>> ReadChunkAsync(
+        string chunkId,
+        CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        var bytes = GetBytes(chunkId);
+        ValidateChunk(chunkId, bytes);
+        return ValueTask.FromResult<ReadOnlyMemory<byte>>(bytes.ToArray());
+    }
+
+    public ValueTask<RouteChunkContent> LoadChunkAsync(
+        string chunkId,
+        CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        return ValueTask.FromResult(ValidateChunk(chunkId, GetBytes(chunkId)));
+    }
+
+    public RouteChunkContent LoadChunk(string chunkId) =>
+        ValidateChunk(chunkId, GetBytes(chunkId));
+
+    private ChunkManifest GetManifest(string chunkId) =>
+        _package.Chunks.TryGetValue(chunkId, out var manifest)
+            ? manifest
+            : throw new KeyNotFoundException($"Unknown route chunk '{chunkId}'.");
+
+    private byte[] GetBytes(string chunkId) =>
+        _chunks.TryGetValue(chunkId, out var bytes)
+            ? bytes
+            : throw new KeyNotFoundException($"Route chunk '{chunkId}' has no memory payload.");
+
+    private RouteChunkContent ValidateChunk(string chunkId, byte[] bytes)
+    {
+        var manifest = GetManifest(chunkId);
+        if (manifest.ByteCount == 0 ||
+            manifest.ByteCount != (ulong)bytes.Length ||
+            bytes.Length >= FlatBufferRouteChunkContent.MaximumChunkBytes)
+        {
+            throw new InvalidDataException($"Route chunk '{chunkId}' has an invalid byte count.");
+        }
+        var digest = Convert.ToHexString(SHA256.HashData(bytes)).ToLowerInvariant();
+        if (!string.Equals(digest, manifest.ContentHash, StringComparison.Ordinal))
+        {
+            throw new InvalidDataException($"Route chunk '{chunkId}' failed SHA-256 verification.");
+        }
+        return FlatBufferRouteChunkContent.Load(bytes, manifest, _package.Graph.ContentVersion);
     }
 }

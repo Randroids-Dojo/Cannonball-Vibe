@@ -16,3 +16,10 @@ exercises variable lanes, connector traversal, probable-branch prewarming and
 eviction, and junction seams. Full alternative interchange routing remains the
 separate dependency-gated P0-011 task, so no user decision is required before
 continuing.
+
+P0-011 also requires no new product choice. Under Q-003's working default, its
+representative diamond and directional-transfer geometry is an explicitly
+authored, checksum-verified regression overlay with recursive source
+provenance. It validates the generator and runtime contracts without claiming
+that NHPN supplied observed ramp or lane geometry; Q-003 remains open for the
+later geographic correction-burden study.

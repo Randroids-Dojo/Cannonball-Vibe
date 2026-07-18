@@ -30,6 +30,12 @@ public sealed partial class JunctionSeam : Node3D
         var toTangent = frame.DirectionToWorld(
             toContent.Samples[0].ProjectedTangentX,
             toContent.Samples[0].ProjectedTangentY);
+        if (fromCenter.DistanceSquaredTo(toCenter) < 0.0025f)
+        {
+            const float bridgeHalfLengthMeters = 0.35f;
+            fromCenter -= fromTangent * bridgeHalfLengthMeters;
+            toCenter += toTangent * bridgeHalfLengthMeters;
+        }
         var fromLayout = LaneGeometryProfile.Evaluate(fromEdge, fromEdge.LengthMeters);
         var toLayout = LaneGeometryProfile.Evaluate(toEdge, 0);
         var seam = new JunctionSeam

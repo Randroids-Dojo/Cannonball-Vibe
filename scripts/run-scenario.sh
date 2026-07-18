@@ -53,6 +53,9 @@ while [[ $# -gt 0 ]]; do
       elif [[ "$2" == "topology" ]]; then
         scenario_mode="topology"
         scenario_args+=("--topology-profile")
+      elif [[ "$2" == "route-choices" ]]; then
+        scenario_mode="route-choices"
+        scenario_args+=("--route-choice-profile")
       else
         scenario_args+=("--profile=$2")
       fi
@@ -66,6 +69,9 @@ while [[ $# -gt 0 ]]; do
       elif [[ "$profile" == "topology" ]]; then
         scenario_mode="topology"
         scenario_args+=("--topology-profile")
+      elif [[ "$profile" == "route-choices" ]]; then
+        scenario_mode="route-choices"
+        scenario_args+=("--route-choice-profile")
       else
         scenario_args+=("$1")
       fi
@@ -108,6 +114,9 @@ done
 if [[ "$scenario_mode" == "streaming" && "$fixture_explicit" == "false" ]]; then
   fixture="representative-corridor"
 fi
+if [[ "$scenario_mode" == "route-choices" && "$fixture_explicit" == "false" ]]; then
+  fixture="representative-interchanges"
+fi
 
 case "$fixture" in
   official-corridor)
@@ -118,7 +127,7 @@ case "$fixture" in
     fixture_lock="$repo_root/data/sources/source-lock.json"
     fixture_chunk_meters=100
     ;;
-  representative-corridor|variable-lanes)
+  representative-corridor|variable-lanes|representative-interchanges)
     fixture_source="$repo_root/data/sources/fixtures/nhpn-boulder-westminster-us36.geojson"
     fixture_manifest="$repo_root/data/sources/fixtures/nhpn-boulder-westminster-us36.manifest.json"
     fixture_elevation="$repo_root/data/sources/fixtures/usgs-13-n40w106-boulder-westminster.tif"
@@ -127,7 +136,7 @@ case "$fixture" in
     fixture_chunk_meters=2000
     ;;
   *)
-    echo "Unknown fixture '$fixture'. Supported fixtures: official-corridor, representative-corridor, variable-lanes." >&2
+    echo "Unknown fixture '$fixture'. Supported fixtures: official-corridor, representative-corridor, variable-lanes, representative-interchanges." >&2
     exit 2
     ;;
 esac
