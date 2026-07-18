@@ -91,9 +91,9 @@ node tools/assets/validate_manifest.mjs \
 
 dotnet build "$project_stage/Cannonball.csproj" --nologo
 ./scripts/godot.sh --headless --path "$project_stage" \
-  --export-pack "Linux x86_64" "$work/cannonball-assets.pck"
+  --export-pack "Asset pipeline validation" "$work/cannonball-assets.pck"
 node tools/assets/validate_release_pack.mjs "$work/cannonball-assets.pck"
-node scripts/release/pck-inspect.mjs "$work/cannonball-assets.pck"
+node scripts/release/pck-inspect.mjs "$work/cannonball-assets.pck" --allow-pipeline-fixtures
 
 cp "$work/first/blender.json" reports/assets/graybox-road-module.blender.json
 cp "$work/godot.json" reports/assets/graybox-road-module.godot.json

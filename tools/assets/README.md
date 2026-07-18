@@ -15,7 +15,7 @@ The gate performs two independent Blender 5.1.2 exports, compares the GLB and
 renderer-backed contact-sheet bytes within the current platform, verifies the
 checked-in GLB, rejects three intentionally invalid source mutations, imports
 the wrapper with official Godot 4.7.1, resolves stable semantic nodes, checks
-budgets and recursive provenance, then exports and audits a release PCK. The
+budgets and recursive provenance, then exports and audits a validation-only PCK. The
 Godot stages run in an isolated project copy so verification does not rewrite
 source lockfiles or create editor UID sidecars in the worktree.
 
@@ -48,9 +48,13 @@ source and requires identical derived GLB bytes.
 3. Export through a versioned profile. Do not hand-edit the derived GLB.
 4. Put runtime behavior and automation IDs in a project-owned wrapper scene.
 5. Pin the Godot `.import` settings, validate the imported semantic inventory,
-   and prove the release PCK contains no Blender source or asset-test tooling.
+   and prove the validation PCK contains no Blender source or asset-test tooling.
 6. Produce a deterministic contact sheet and leave subjective quality and
    final rights approval to the declared human gate.
+
+Linux and Windows release presets exclude `assets/pipeline-fixtures/**`.
+Fixtures with pending rights review remain available to the dedicated asset
+validation preset but cannot enter a distributable build.
 
 Computer Use can supplement the result with a real-editor or packaged-build
 inspection. PlayGodot is intentionally not part of 3D asset export or
