@@ -55,6 +55,10 @@ Both manifests identify source revision
   documentation.
 
 No unresolved actionable finding remains from the local adversarial review.
-Protected remote export and clean-machine smoke results are recorded in
-`evidence/M1/P0-007.json` and will be refreshed after the completion pull
-request finishes.
+CodeRabbit reached its temporary review limit on completion PR #26, so this
+review served as the documented fallback. Every protected gate passed,
+including twice-built exports, Linux and Windows clean-machine package smokes,
+Linux and Windows 500-mile scenarios, M0 on both operating systems, and the
+PlayGodot spike on macOS, Linux, and Windows. PR #26 merged at
+`b45eadf401c169455900097c36e415e9703f7116`; exact job, artifact, digest, and
+runtime metrics are recorded in `evidence/M1/P0-007.json`.
