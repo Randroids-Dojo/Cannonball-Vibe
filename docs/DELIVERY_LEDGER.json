@@ -561,8 +561,12 @@
         "src/Cannonball.Core/Content/",
         "tests/Cannonball.Core.Tests/",
         "tools/map_pipeline/",
+        "data/routes/fixtures/semantics/",
+        ".tools/routes/p0-009/",
+        "reports/M2/P0-009/",
         "docs/decisions/ADR-0011-lane-topology-route-context-and-trip-map.md",
-        "evidence/M2/P0-009.json"
+        "evidence/M2/P0-009.json",
+        "evidence/M2/P0-009-reproducibility.json"
       ],
       "acceptance": [
         "A versioned schema models ordered non-overlapping distance-bounded lane sections within a stable route edge, including lane widths, lane roles and allowed maneuvers, shoulders, signed direction, and provenance or authored-override ancestry",
@@ -578,7 +582,8 @@
         "./scripts/check.sh"
       ],
       "evidence": [
-        "evidence/M2/P0-009.json"
+        "evidence/M2/P0-009.json",
+        "evidence/M2/P0-009-reproducibility.json"
       ],
       "human_gate": null,
       "notes": "ADR-0011 is authoritative. Checksum-locked representative fixtures may prove individual semantics, but no fixture result may be presented as continental completion."
@@ -740,8 +745,7 @@
       "status": "open",
       "dependencies": [
         "P0-005",
-        "P0-012",
-        "P1-004"
+        "P0-012"
       ],
       "owned_paths": [
         "src/Cannonball.Core/Routes/",
@@ -750,6 +754,7 @@
         "game/Automation/",
         "tests/Cannonball.Core.Tests/",
         "automation/playgodot/",
+        "scripts/verify-trip-map.sh",
         "scripts/capture-scenario.sh",
         "evidence/M3/P0-013.json"
       ],
@@ -758,13 +763,13 @@
         "It shows start, destination, current position, traveled path, planned path, route alternatives, selected service stops, upcoming exits and highway transfers, real distance completed, real distance remaining, and mode-aware estimates",
         "Trip progress follows authoritative graph traversal across edge transitions, detours, transfers, route concurrency, save-resume, and supported compression modes while remaining distinct from displayed mile-marker values",
         "Pan, zoom, recenter, route selection, and exit or service inspection remain bounded and responsive on the continental graph",
-        "Interactive controls expose unique stable automation IDs and deterministic semantic state for official-engine PlayGodot tests, with representative viewport screenshots and no release automation surface",
+        "Interactive controls expose unique stable automation IDs and deterministic semantic state; Core model and official-engine headless input scenarios are always required, while official-engine PlayGodot tests become required only if the ADR-0008 adoption gate approves PlayGodot",
         "Keyboard and controller focus, scalable text, color-independent route differentiation, and representative-player comprehension pass their declared accessibility and usability gates",
         "The map's pause or live-simulation behavior matches the resolved product decision and is communicated before the player opens it"
       ],
       "verification": [
         "DOTNET_ROLL_FORWARD=Major dotnet test Cannonball.sln --filter 'FullyQualifiedName~TripMap'",
-        "uv run --project automation/playgodot --frozen pytest automation/playgodot -k trip_map",
+        "./scripts/verify-trip-map.sh --automation auto",
         "./scripts/capture-scenario.sh /tmp/p0-013-trip-map.avi --trip-map-review",
         "./scripts/check.sh"
       ],
@@ -774,7 +779,8 @@
       "human_gate": {
         "name": "Trip-map comprehension and accessibility usability review",
         "required_for": "M3"
-      }
+      },
+      "notes": "P1-004 is a conditional prerequisite only when ADR-0008's measured adoption gate approves PlayGodot. Otherwise verify the mandatory Core model and official-engine headless scenarios plus recorded Computer Use visual evidence without making PlayGodot a delivery dependency."
     },
     {
       "id": "P1-003",

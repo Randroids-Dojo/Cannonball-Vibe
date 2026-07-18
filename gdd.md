@@ -298,7 +298,7 @@ The world is a graph, not a corridor pretending to be a continent. The player sh
 - Alternate routes trade distance against traffic, terrain, weather, enforcement, repair access, and contact availability.
 - A route choice must remain understandable after it is made; the map should show why an option is faster, safer, or more expensive.
 
-# Lane topology and route context__   LOCKED__
+# Lane topology and route context — **LOCKED**
 
 Highways are not fixed-width ribbons. Lane counts may change within a stable
 route edge, and junctions explicitly connect incoming lanes to through lanes,
@@ -313,7 +313,7 @@ transfer signs use semantic route, destination, lane-guidance, and service data;
 unknown values remain explicitly derived or authored rather than presented as
 false source precision.
 
-# Full-screen trip map__   LOCKED__
+# Full-screen trip map — **LOCKED**
 
 The player can open a full-screen map of the complete supported graph. It shows
 the start, destination, current position, traveled and planned paths, meaningful
