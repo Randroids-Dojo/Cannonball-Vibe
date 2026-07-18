@@ -21,6 +21,7 @@ public sealed partial class WorldStreamer : Node3D
     public const double ShortCorridorLoopResetLeadMeters = 25;
 
     private readonly Dictionary<string, RoadChunk> _loaded = new(StringComparer.Ordinal);
+    private readonly Dictionary<string, JunctionSeam> _junctionSeams = new(StringComparer.Ordinal);
     private readonly Dictionary<string, RouteChunkContent> _content = new(StringComparer.Ordinal);
     private readonly Dictionary<string, PendingRead> _pending = new(StringComparer.Ordinal);
     private readonly Queue<string> _loadQueue = [];
@@ -45,6 +46,10 @@ public sealed partial class WorldStreamer : Node3D
     private readonly HashSet<string> _reviewEdgesVisited = new(StringComparer.Ordinal);
     private readonly HashSet<string> _topologyObservedChunks = new(StringComparer.Ordinal);
     private readonly HashSet<string> _topologyCollisionChunks = new(StringComparer.Ordinal);
+    private readonly HashSet<JunctionMovement> _observedConnectorMovements = [];
+    private readonly HashSet<string> _desiredBranchPrewarm = new(StringComparer.Ordinal);
+    private readonly HashSet<string> _branchPrewarmSeen = new(StringComparer.Ordinal);
+    private readonly HashSet<string> _branchPrewarmEvicted = new(StringComparer.Ordinal);
 
     public double RouteDistanceMeters => _routeDistanceMeters;
     public double LocalOriginMeters { get; private set; }
@@ -64,6 +69,10 @@ public sealed partial class WorldStreamer : Node3D
     public int TopologyCollisionTransitionChunkCount => _topologyCollisionChunks.Count;
     public bool ObservedGoreGeometry { get; private set; }
     public double MaximumPavedWidthMeters { get; private set; }
+    public IReadOnlyCollection<JunctionMovement> ObservedConnectorMovements =>
+        _observedConnectorMovements;
+    public int BranchPrewarmCount => _branchPrewarmSeen.Count;
+    public int BranchPrewarmEvictionCount => _branchPrewarmEvicted.Count;
     public int MaximumVisualChunkCount { get; private set; }
     public int MaximumCollisionChunkCount { get; private set; }
     public int ObservedVisualOnlyChunkCount { get; private set; }
@@ -195,9 +204,18 @@ public sealed partial class WorldStreamer : Node3D
             return;
         }
 
+        var previousEdgeId = _currentEdgeId;
+        var previousLaneId = CurrentStableLaneId;
         UpdateRouteProjection();
         UpdateCurrentEdge();
-        UpdateCurrentLane();
+        if (!string.Equals(previousEdgeId, _currentEdgeId, StringComparison.Ordinal))
+        {
+            UpdateLaneAcrossConnector(previousEdgeId, previousLaneId);
+        }
+        else
+        {
+            UpdateCurrentLane();
+        }
         var crossedSeams = _routeDistanceMeters >= 300 ? 3
             : _routeDistanceMeters >= 200 ? 2
             : _routeDistanceMeters >= 100 ? 1
@@ -242,6 +260,10 @@ public sealed partial class WorldStreamer : Node3D
         foreach (var chunk in _loaded.Values)
         {
             chunk.ShiftForOriginRebase(horizontal);
+        }
+        foreach (var seam in _junctionSeams.Values)
+        {
+            seam.ShiftForOriginRebase(horizontal);
         }
     }
 
@@ -291,6 +313,9 @@ public sealed partial class WorldStreamer : Node3D
         _reviewTargetReady = false;
     }
 
+    public bool HasObservedConnectorMovement(JunctionMovement movement) =>
+        _observedConnectorMovements.Contains(movement);
+
     private double RouteLengthMeters => _routePlan.TotalLengthMeters;
 
     private void RefreshDesiredChunks()
@@ -305,9 +330,22 @@ public sealed partial class WorldStreamer : Node3D
         var first = Math.Max(0, _routeDistanceMeters - RetainBehindMeters);
         var last = Math.Min(RouteLengthMeters, _routeDistanceMeters + CurrentLookAheadMeters);
 
-        _desiredVisual = _manifests
+        var directVisual = _manifests
             .Where(span => span.EndMeters >= first && span.StartMeters <= last)
             .Select(span => span.Manifest.Id)
+            .ToHashSet(StringComparer.Ordinal);
+        _desiredBranchPrewarm.Clear();
+        foreach (var branchId in directVisual
+                     .Select(id => _package.Chunks[id])
+                     .SelectMany(manifest => manifest.ProbableBranchChunkIds))
+        {
+            if (!directVisual.Contains(branchId))
+            {
+                _desiredBranchPrewarm.Add(branchId);
+            }
+        }
+        _desiredVisual = directVisual
+            .Concat(_desiredBranchPrewarm)
             .ToHashSet(StringComparer.Ordinal);
         _desiredCollision = _manifests
             .Where(span =>
@@ -350,15 +388,21 @@ public sealed partial class WorldStreamer : Node3D
             }
             if (!_desiredVisual.Contains(id))
             {
+                if (_branchPrewarmSeen.Contains(id))
+                {
+                    _branchPrewarmEvicted.Add(id);
+                }
                 UpdateCollisionState(
                     chunk,
                     active: false,
                     buildBudgetMilliseconds: CollisionBuildBudgetMilliseconds);
                 _loaded.Remove(id);
                 _content.Remove(id);
+                RemoveJunctionSeamsForChunk(id);
                 chunk.QueueFree();
             }
         }
+        RefreshJunctionSeamCollisions();
         MaximumVisualChunkCount = Math.Max(MaximumVisualChunkCount, _loaded.Count);
         MaximumCollisionChunkCount = Math.Max(MaximumCollisionChunkCount, CollisionChunkCount);
         ObservedVisualOnlyChunkCount = Math.Max(ObservedVisualOnlyChunkCount, VisualOnlyChunkCount);
@@ -432,6 +476,10 @@ public sealed partial class WorldStreamer : Node3D
         }
         _content.Add(content.Id, content);
         _loaded.Add(content.Id, chunk);
+        if (_desiredBranchPrewarm.Contains(content.Id))
+        {
+            _branchPrewarmSeen.Add(content.Id);
+        }
         if (_topologyObservedChunks.Add(content.Id))
         {
             MinimumObservedLaneCount = Math.Min(
@@ -452,6 +500,63 @@ public sealed partial class WorldStreamer : Node3D
         }
         MaximumBuildMilliseconds = Math.Max(MaximumBuildMilliseconds, chunk.BuildMilliseconds);
         AddChild(chunk);
+        TryBuildJunctionSeams();
+    }
+
+    private void TryBuildJunctionSeams()
+    {
+        for (var index = 0; index < _routePlan.Edges.Count - 1; index++)
+        {
+            var fromPlan = _routePlan.Edges[index];
+            var toPlan = _routePlan.Edges[index + 1];
+            var key = $"{fromPlan.EdgeId}->{toPlan.EdgeId}";
+            if (_junctionSeams.ContainsKey(key))
+            {
+                continue;
+            }
+            var fromEdge = _package.Graph.GetEdge(fromPlan.EdgeId);
+            var toEdge = _package.Graph.GetEdge(toPlan.EdgeId);
+            var fromContent = _content.Values.SingleOrDefault(content =>
+                content.EdgeId == fromEdge.Id && content.EndMeters == fromEdge.LengthMeters);
+            var toContent = _content.Values.SingleOrDefault(content =>
+                content.EdgeId == toEdge.Id && content.StartMeters == 0);
+            if (fromContent is null || toContent is null)
+            {
+                continue;
+            }
+            var seam = JunctionSeam.Create(
+                fromContent,
+                fromEdge,
+                toContent,
+                toEdge,
+                _frame,
+                _localOriginWorld);
+            _junctionSeams.Add(key, seam);
+            AddChild(seam);
+        }
+        RefreshJunctionSeamCollisions();
+    }
+
+    private void RemoveJunctionSeamsForChunk(string chunkId)
+    {
+        foreach (var (key, seam) in _junctionSeams.Where(entry =>
+                     entry.Value.FromChunkId == chunkId ||
+                     entry.Value.ToChunkId == chunkId).ToArray())
+        {
+            _junctionSeams.Remove(key);
+            seam.SetCollisionActive(false);
+            seam.QueueFree();
+        }
+    }
+
+    private void RefreshJunctionSeamCollisions()
+    {
+        foreach (var seam in _junctionSeams.Values)
+        {
+            seam.SetCollisionActive(
+                _loaded.TryGetValue(seam.FromChunkId, out var from) && from.HasCollision &&
+                _loaded.TryGetValue(seam.ToChunkId, out var to) && to.HasCollision);
+        }
     }
 
     public void ValidateCurrentStreamingWindows()
@@ -574,8 +679,14 @@ public sealed partial class WorldStreamer : Node3D
     private void UpdateCurrentLane()
     {
         var edge = _package.Graph.GetEdge(_currentEdgeId);
-        var lane = edge.GetLaneSection(CurrentEdgeDistanceMeters)
-            .GetClosestLane(_lateralOffsetMeters);
+        var geometryLane = LaneGeometryProfile.Evaluate(edge, CurrentEdgeDistanceMeters).Lanes
+            .Where(candidate => candidate.WidthMeters > 0.5)
+            .MinBy(candidate => Math.Abs(candidate.CenterMeters - _lateralOffsetMeters))
+            ?? throw new InvalidDataException(
+                $"Route edge '{edge.Id}' has no active lane at " +
+                $"{CurrentEdgeDistanceMeters:F3} meters.");
+        var lane = edge.GetLaneSection(CurrentEdgeDistanceMeters).Lanes.Single(candidate =>
+            candidate.Id == geometryLane.Id);
         CurrentLaneIndex = lane.Index;
         CurrentStableLaneId = lane.Id;
     }
@@ -679,6 +790,33 @@ public sealed partial class WorldStreamer : Node3D
     private void UpdateCurrentEdge()
     {
         _currentEdgeId = _routePlan.GetEdgeAtDistance(_routeDistanceMeters).EdgeId;
+    }
+
+    private void UpdateLaneAcrossConnector(string previousEdgeId, string previousLaneId)
+    {
+        var connectors = _package.Semantics?.JunctionConnectors.Where(candidate =>
+            candidate.FromEdgeId == previousEdgeId &&
+            candidate.FromLaneId == previousLaneId &&
+            candidate.ToEdgeId == _currentEdgeId).ToArray() ?? [];
+        if (connectors.Length == 0)
+        {
+            UpdateCurrentLane();
+            return;
+        }
+        var edge = _package.Graph.GetEdge(_currentEdgeId);
+        var layout = LaneGeometryProfile.Evaluate(edge, CurrentEdgeDistanceMeters);
+        var connector = connectors.MinBy(candidate =>
+            Math.Abs(layout.Lanes.Single(lane => lane.Id == candidate.ToLaneId).CenterMeters -
+                _lateralOffsetMeters))!;
+        var lane = edge.GetLaneSection(CurrentEdgeDistanceMeters).Lanes.Single(candidate =>
+            candidate.Id == connector.ToLaneId);
+        CurrentLaneIndex = lane.Index;
+        CurrentStableLaneId = lane.Id;
+        _observedConnectorMovements.Add(connector.Movement);
+        GD.Print(
+            $"CANNONBALL_CONNECTOR_OK movement={connector.Movement} " +
+            $"from_edge={previousEdgeId} to_edge={_currentEdgeId} " +
+            $"from_lane={previousLaneId} to_lane={CurrentStableLaneId}");
     }
 
     private sealed record RouteManifestSpan(

@@ -35,7 +35,7 @@ done
 capture_fps="${CANNONBALL_CAPTURE_FPS:-60}"
 default_capture_frames=60
 if [[ " ${scenario_args[*]} " == *" --topology-review "* ]]; then
-  default_capture_frames=360
+  default_capture_frames=480
 fi
 capture_frames="${CANNONBALL_CAPTURE_FRAMES:-$default_capture_frames}"
 timeout_seconds="${CANNONBALL_SCENARIO_TIMEOUT_SECONDS:-120}"
