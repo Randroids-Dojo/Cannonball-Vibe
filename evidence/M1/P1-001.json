@@ -5,9 +5,13 @@
   "git_revision": "ab0397e4c875795fdeba447a024a72d628aedf43",
   "platform": {
     "local": "Darwin arm64",
-    "remote": "pending pull-request checks"
+    "remote": [
+      "ubuntu-latest",
+      "windows-latest",
+      "macos-latest"
+    ]
   },
-  "utc_time": "2026-07-18T05:13:54Z",
+  "utc_time": "2026-07-18T05:19:34Z",
   "tool_versions": {
     "godot": "4.7.1.stable.mono.official.a13da4feb",
     "dotnet_sdk": "10.0.102",
@@ -69,6 +73,56 @@
     {
       "command": "./scripts/generate-schemas.sh && git diff --exit-code HEAD -- scripts/generate-schemas.sh src/Cannonball.Core/Content/Generated && git diff --check",
       "exit_code": 0
+    },
+    {
+      "command": "GitHub Actions CI run 29631966195",
+      "exit_code": 0
+    },
+    {
+      "command": "GitHub Actions reproducible unsigned fixture exports run 29631966191",
+      "exit_code": 0
+    }
+  ],
+  "remote_checks": [
+    {
+      "name": "M0 (ubuntu-latest)",
+      "run_id": 29631966195,
+      "result": "passed"
+    },
+    {
+      "name": "M0 (windows-latest)",
+      "run_id": 29631966195,
+      "result": "passed"
+    },
+    {
+      "name": "PlayGodot spike (ubuntu-latest)",
+      "run_id": 29631966195,
+      "result": "passed"
+    },
+    {
+      "name": "PlayGodot spike (windows-latest)",
+      "run_id": 29631966195,
+      "result": "passed"
+    },
+    {
+      "name": "PlayGodot spike (macos-latest)",
+      "run_id": 29631966195,
+      "result": "passed"
+    },
+    {
+      "name": "Build reproducible fixture exports",
+      "run_id": 29631966191,
+      "result": "passed"
+    },
+    {
+      "name": "Clean-machine smoke (linux)",
+      "run_id": 29631966191,
+      "result": "passed"
+    },
+    {
+      "name": "Clean-machine smoke (windows)",
+      "run_id": 29631966191,
+      "result": "passed"
     }
   ],
   "metrics": {
@@ -163,6 +217,12 @@
       "updated lane identity when scenario checkpoints change edges",
       "validated initial visual work against its separately declared 50 ms budget"
     ]
+  },
+  "supplementary_review": {
+    "service": "CodeRabbit",
+    "status": "fallback invoked after pending review window",
+    "run_id": "d754e7d7-4bf3-4ed1-8830-5bf3c2f6ee74",
+    "fallback_basis": "all Linux and Windows M0 checks passed and the complete-diff adversarial review had no unresolved actionable findings"
   },
   "human_gate": null
 }
