@@ -3,8 +3,8 @@
   "task_id": "P0-007",
   "milestone": "M1",
   "status": "complete",
-  "verified_at": "2026-07-18T16:40:36Z",
-  "git_revision": "d03b23bb7632509cd1b5e0ccbd61ec955a619317",
+  "verified_at": "2026-07-18T16:55:16Z",
+  "git_revision": "606f8eeba201292dee9660425e21551ffcd638c1",
   "package_source_revision": {
     "release_pipeline_implementation": "e940bd5f47a40f22f6533b1ae73ccae37ba2edb7",
     "latest_verified_pull_request_head": "2afda21d06ef2637c0be15217e042c3bceeb2e10",
@@ -77,7 +77,11 @@
     },
     {
       "path": "Cannonball.csproj",
-      "sha256": "2dd44f2b4af44500ce5dfce3c3bfc4c86f952cabd6c36197e7af9795c3c80dbc"
+      "sha256": "b3ffbb34389046cb20c7179293c3a298f53d97040c70eb60b121a9d708dbdf04"
+    },
+    {
+      "path": "packages.lock.json",
+      "sha256": "0dcf1c83326696d081fec03aa12925d7e0b43dc1264e8669dfa739de2b3844e7"
     },
     {
       "path": "src/Cannonball.Core/Cannonball.Core.csproj",
@@ -85,7 +89,7 @@
     },
     {
       "path": "packages.linux-x64.lock.json",
-      "sha256": "02e108991f1b84cb3d83866d9837bf3b034c92672b2bfe2953433076c5a291e2"
+      "sha256": "da3f53604646ecc0676145bc546457452f4996d9f0863a5ba3ed6848ee1795a8"
     },
     {
       "path": "src/Cannonball.Core/packages.linux-x64.lock.json",
@@ -93,7 +97,7 @@
     },
     {
       "path": "packages.win-x64.lock.json",
-      "sha256": "083de18e9a9df7512abb41657a1555abea84fdcbd6a4b05a3e0b3bd6b794ba05"
+      "sha256": "d603bb9972f881658124268bfe68bd51594f6c65940c4b767c63b6f0a5f369e9"
     },
     {
       "path": "src/Cannonball.Core/packages.win-x64.lock.json",
@@ -233,11 +237,11 @@
     "note": "Linux and Windows exports are both produced twice on the same pinned Ubuntu builder. macOS cross-builder fixture bytes are recorded but are not claimed to match Ubuntu geospatial output."
   },
   "metrics": {
-    "local_csharp_tests_passed": 25,
-    "local_map_tests_passed": 42,
+    "local_csharp_tests_passed": 54,
+    "local_map_tests_passed": 66,
     "local_playgodot_unit_tests_passed": 12,
-    "remote_build_gate_csharp_tests_passed": 25,
-    "remote_build_gate_map_tests_passed": 42,
+    "remote_build_gate_csharp_tests_passed": 54,
+    "remote_build_gate_map_tests_passed": 66,
     "remote_build_gate_playgodot_unit_tests_passed": 12,
     "platforms_exported": 2,
     "native_clean_smokes_passed": 2,
@@ -259,7 +263,7 @@
       "exit_code": 0
     },
     {
-      "command": "SOURCE_REVISION=e940bd5f47a40f22f6533b1ae73ccae37ba2edb7 PYTHON_BIN=$(uv python find 3.13.11) GODOT_BIN=.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot ./scripts/release/build-unsigned.sh all /tmp/cannonball-p0-007-e940bd5",
+      "command": "PYTHON_BIN=$(uv python find 3.13.11) GODOT_BIN=.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot ./scripts/release/build-unsigned.sh all /tmp/cannonball-p0-007-closeout-606f8ee",
       "exit_code": 0
     },
     {
@@ -332,7 +336,9 @@
       "Rejected symlinked directories, broken symlinks, and uncontained manifest launchers",
       "Pinned Node and Python for standalone reproducibility",
       "Recorded committed RID lockfiles rather than overwritten staging paths",
-      "Required the complete repository gate before artifact construction"
+      "Required the complete repository gate before artifact construction",
+      "Declared Google.FlatBuffers directly in the shipping Godot project after a clean source archive exposed reliance on the referenced core project's transitive dependency",
+      "Regenerated root RID lockfiles with the exact Release configuration and Godot target platform so locked clean restores exclude editor-only packages"
     ],
     "coderabbit": {
       "initial_review_id": 4712920521,
@@ -374,23 +380,25 @@
     "local": [
       {
         "platform": "linux",
-        "path": "/tmp/cannonball-p0-007-e940bd5/linux/Cannonball-linux-x86_64-95d0905e1be01075ab778d5d2c748d5351ed3e3ed60973ea2a7d99b9b78675f3.zip",
-        "bytes": 153796844,
-        "sha256": "95d0905e1be01075ab778d5d2c748d5351ed3e3ed60973ea2a7d99b9b78675f3",
-        "content_set_sha256": "2a0cfc48b80d15af9de7caf0c236d95124457673f841be213f9001a0d96a7ba2",
-        "manifest_sha256": "bb5c2eec06ceb036de30e6ddbdd86fd4305bab4e4aaeea0113febf082812c857",
-        "sbom_sha256": "a3859d8df2fe23584bf3a421cc432f8158260c705c4070bfe0c7fb19105d4aaf",
-        "checksums_sha256": "e11cd63894e85cef44b208cd3e5c86bfc679de716e83bf2428a22fe25d2c7db1"
+        "source_revision": "606f8eeba201292dee9660425e21551ffcd638c1",
+        "path": "/tmp/cannonball-p0-007-closeout-606f8ee/linux/Cannonball-linux-x86_64-6e3a97a193ca264f95bddd1a320e85490d8d2d3c646781e8f1f88e268c7bc748.zip",
+        "bytes": 154212696,
+        "sha256": "6e3a97a193ca264f95bddd1a320e85490d8d2d3c646781e8f1f88e268c7bc748",
+        "content_set_sha256": "ed335e777a13ad00a222cae20908d803425cd64640d3934ded97a9e55ab3b00a",
+        "manifest_sha256": "cbbed85b2ca595b8eea979d96793856fc93fa73d23d84d8149d51b9378122191",
+        "sbom_sha256": "f4cd5863684cfe2c90fbff086abe7712f6eeb949e523210f9f1e8660249039de",
+        "checksums_sha256": "7aace5a3ffbb76c97bbc080eee55f77a14ead86da85f95166fd62e67d7c8fa11"
       },
       {
         "platform": "windows",
-        "path": "/tmp/cannonball-p0-007-e940bd5/windows/Cannonball-windows-x86_64-3a584bd638f63667c679592b4c4dfa2a310dd7ba7cbe9a27b86799ce1e759a98.zip",
-        "bytes": 189707376,
-        "sha256": "3a584bd638f63667c679592b4c4dfa2a310dd7ba7cbe9a27b86799ce1e759a98",
-        "content_set_sha256": "8bfa5109ebf730e3cd329b1ee4c32559726861903e2ca99ab73b101851c14e3b",
-        "manifest_sha256": "421e707122d3cca01a0d4a86b67bbc134ed5b790d56c52a155bee14aaa65918c",
-        "sbom_sha256": "ed9dcbf8e096cf6a0c32fdbf45dc965311073dedd491a74965667d9815df3649",
-        "checksums_sha256": "0e4c66a0be2b06c084aa424d37c4128044bf4d0860d1c2d843b3fff2a24ec709"
+        "source_revision": "606f8eeba201292dee9660425e21551ffcd638c1",
+        "path": "/tmp/cannonball-p0-007-closeout-606f8ee/windows/Cannonball-windows-x86_64-d64ab6dfce649a0882bb9afd5bc1aef3e0a1a4fa6f1b1ebd0956a10e218b81a7.zip",
+        "bytes": 190123228,
+        "sha256": "d64ab6dfce649a0882bb9afd5bc1aef3e0a1a4fa6f1b1ebd0956a10e218b81a7",
+        "content_set_sha256": "3ab4290dead43470766adde28a2719b8e3db861fee6a98972119c1f0f8296501",
+        "manifest_sha256": "6966157f62d506e7613272bc8afca7d79421c48fcc2a5cfdb12c8d415f026b9d",
+        "sbom_sha256": "0e1cf5a30ce435ca13fe715b9a0156fb0c62fe393c7d7bf8ec076515958bd97b",
+        "checksums_sha256": "ec789896aeb97f99cc7adb643fd20d5af66d2d56db518e4131907eb54decd46c"
       }
     ],
     "ci": [
