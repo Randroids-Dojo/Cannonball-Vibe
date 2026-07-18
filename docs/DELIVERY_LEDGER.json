@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated": "2026-07-16",
+  "updated": "2026-07-17",
   "project": "Cannonball-Vibe",
   "authority": {
     "architecture_decisions": "docs/decisions/",
@@ -543,6 +543,244 @@
         "required_for": "M4"
       },
       "notes": "ADR-0006 remains release-critical. ADR-0010 defers only the independent AWS/Vercel recovery replica, not primary immutable GitHub source publication."
+    },
+    {
+      "id": "P0-009",
+      "milestone": "M2",
+      "priority": "P0",
+      "title": "Versioned route semantics and lane-topology contract",
+      "status": "open",
+      "dependencies": [
+        "P0-002",
+        "P0-003",
+        "P0-004"
+      ],
+      "owned_paths": [
+        "schemas/",
+        "src/Cannonball.Core/Routes/",
+        "src/Cannonball.Core/Content/",
+        "tests/Cannonball.Core.Tests/",
+        "tools/map_pipeline/",
+        "data/routes/fixtures/semantics/",
+        ".tools/routes/p0-009/",
+        "reports/M2/P0-009/",
+        "docs/decisions/ADR-0011-lane-topology-route-context-and-trip-map.md",
+        "evidence/M2/P0-009.json",
+        "evidence/M2/P0-009-reproducibility.json"
+      ],
+      "acceptance": [
+        "A versioned schema models ordered non-overlapping distance-bounded lane sections within a stable route edge, including lane widths, lane roles and allowed maneuvers, shoulders, signed direction, and provenance or authored-override ancestry",
+        "Explicit lane-to-lane junction connectors declare continuation, merge, split, exit, entrance, and highway-transfer movements, and validation rejects gaps, orphan lanes, impossible crossings, and ambiguous successors",
+        "Route identity and concurrency, named or numbered exits, destinations, services, milepoint anchors, and roadside marker records survive the offline-to-runtime package boundary",
+        "Content-addressed simplified map geometry retains stable node and edge associations, deterministic levels of detail, and an enforced root and package size budget without loading runtime road meshes",
+        "Legacy saves and packages either migrate route position and lane deterministically or fail with an actionable compatibility result",
+        "A representative semantics fixture builds twice to byte-identical shipping FlatBuffers and equivalent normalized GeoPackage content"
+      ],
+      "verification": [
+        "uv run --project tools/map_pipeline pytest -k 'lane or junction or exit or marker or route_identity'",
+        "DOTNET_ROLL_FORWARD=Major dotnet test Cannonball.sln --filter 'FullyQualifiedName~Route'",
+        "./scripts/check.sh"
+      ],
+      "evidence": [
+        "evidence/M2/P0-009.json",
+        "evidence/M2/P0-009-reproducibility.json"
+      ],
+      "human_gate": null,
+      "notes": "ADR-0011 is authoritative. Checksum-locked representative fixtures may prove individual semantics, but no fixture result may be presented as continental completion."
+    },
+    {
+      "id": "P0-010",
+      "milestone": "M2",
+      "priority": "P0",
+      "title": "Variable-lane road and junction generation",
+      "status": "open",
+      "dependencies": [
+        "P0-004",
+        "P0-009",
+        "P1-001"
+      ],
+      "owned_paths": [
+        "game/World/",
+        "game/Automation/",
+        "src/Cannonball.Core/Routes/",
+        "tests/Cannonball.Core.Tests/",
+        "scripts/run-scenario.sh",
+        "scripts/capture-scenario.sh",
+        "evidence/M2/P0-010.json"
+      ],
+      "acceptance": [
+        "Road width, lane centers, markings, shoulders, barriers, gore areas, and collision follow lane-section changes without visible or physical discontinuities",
+        "Lane additions, lane drops, merges, splits, exit-only lanes, entrance ramps, and highway-transfer connectors remain drivable at the declared high-speed regression target",
+        "Lane and collision continuity holds across stream-chunk boundaries, branch prewarming, eviction, and local-origin rebases",
+        "Measured mesh and collision generation remains inside the separately declared visual and collision budgets",
+        "Deterministic captures make every transition form reviewable from driving and elevated diagnostic cameras"
+      ],
+      "verification": [
+        "./scripts/run-scenario.sh --fixture variable-lanes --profile topology",
+        "./scripts/capture-scenario.sh /tmp/p0-010-variable-lanes.avi --fixture variable-lanes --topology-review",
+        "./scripts/check.sh"
+      ],
+      "evidence": [
+        "evidence/M2/P0-010.json"
+      ],
+      "human_gate": null
+    },
+    {
+      "id": "P0-011",
+      "milestone": "M2",
+      "priority": "P0",
+      "title": "Interchange routing, transfers, and branch streaming",
+      "status": "open",
+      "dependencies": [
+        "P0-010"
+      ],
+      "owned_paths": [
+        "src/Cannonball.Core/Routes/",
+        "src/Cannonball.Core/Simulation/",
+        "game/World/",
+        "game/Automation/",
+        "tools/map_pipeline/",
+        "scripts/run-scenario.sh",
+        "evidence/M2/P0-011.json"
+      ],
+      "acceptance": [
+        "Graph queries expose legal through, exit, entrance, and highway-transfer choices with stable maneuver and destination metadata",
+        "Navigation choice prewarms every probable outgoing branch before the decision point and evicts unchosen branches without a frame stall, collision miss, or package-hash failure",
+        "The player and deterministic route walker can remain on the current highway, take an exit, and transfer between named highways through at least diamond and directional or cloverleaf fixtures",
+        "Overpass elevation, ramp directionality, parallel carriageways, and reconnecting ramps never create invalid shortcuts or self-intersections",
+        "Save and resume before, inside, and after an interchange reconstruct the same authoritative edge, lane connector, route plan, and branch stream state"
+      ],
+      "verification": [
+        "./scripts/run-scenario.sh --fixture representative-interchanges --profile route-choices",
+        "DOTNET_ROLL_FORWARD=Major dotnet test Cannonball.sln --filter 'FullyQualifiedName~RouteGraph'",
+        "./scripts/check.sh"
+      ],
+      "evidence": [
+        "evidence/M2/P0-011.json"
+      ],
+      "human_gate": null
+    },
+    {
+      "id": "P1-007",
+      "milestone": "M2",
+      "priority": "P1",
+      "title": "Mile markers, exit signs, and route-context rendering",
+      "status": "open",
+      "dependencies": [
+        "P0-009",
+        "P0-010"
+      ],
+      "owned_paths": [
+        "game/World/",
+        "game/UI/",
+        "src/Cannonball.Core/Routes/",
+        "tools/map_pipeline/",
+        "assets/route-context/",
+        "evidence/M2/P1-007.json"
+      ],
+      "acceptance": [
+        "Mile markers display the correct route identity, signed direction, and route-reference milepoint rather than cumulative trip progress",
+        "Direction-specific numbering, jurisdiction resets, route concurrency, discontinuities, and missing exact source data produce deterministic non-contradictory results with visible provenance in audit artifacts",
+        "Exit and transfer signs show stable exit numbers or suffixes, route shields, destinations, lane guidance, and service context from semantic package records",
+        "Marker and sign placement is deterministic, collision-free, readable at the declared approach speeds, and streamed without objectionable pop-in",
+        "Automated captures cover ordinary mile markers, a numbering reset, concurrent routes, an exit-only lane, and a highway transfer"
+      ],
+      "verification": [
+        "./scripts/run-scenario.sh --fixture route-context --profile signs",
+        "./scripts/capture-scenario.sh /tmp/p1-007-route-context.avi --fixture route-context --sign-review",
+        "./scripts/check.sh"
+      ],
+      "evidence": [
+        "evidence/M2/P1-007.json"
+      ],
+      "human_gate": {
+        "name": "High-speed route-context readability review",
+        "required_for": "M2"
+      }
+    },
+    {
+      "id": "P0-012",
+      "milestone": "M2",
+      "priority": "P0",
+      "title": "Representative lane and interchange validation corpus",
+      "status": "open",
+      "dependencies": [
+        "P0-011",
+        "P1-007"
+      ],
+      "owned_paths": [
+        "data/sources/fixtures/",
+        "data/routes/fixtures/",
+        "tools/map_pipeline/tests/",
+        "tests/Cannonball.Core.Tests/",
+        "game/Automation/",
+        "scripts/validate-route-topology.sh",
+        "docs/audits/",
+        "evidence/M2/P0-012.json"
+      ],
+      "acceptance": [
+        "Checksum-locked fixtures cover divided highway, lane addition and drop, merge and split, exit and entrance, overpass, parallel edge, route concurrency, milepoint reset, and at least two highway-transfer forms",
+        "Every supported path passes continuity, curvature, grade, sightline, self-intersection, lane-connection, route-completion, sign-consistency, and save-resume validation",
+        "The corpus records which semantics came from approved public-domain sources, deterministic derivation, or authored override and preserves recursive ancestry",
+        "A bot traverses every legal fixture path and rejects every intentionally invalid topology mutation",
+        "Human review confirms that elevated topology captures and driving captures are geographically plausible and make route decisions understandable"
+      ],
+      "verification": [
+        "./scripts/validate-route-topology.sh --all-fixtures --evidence evidence/M2/P0-012.json",
+        "./scripts/check.sh"
+      ],
+      "evidence": [
+        "evidence/M2/P0-012.json"
+      ],
+      "human_gate": {
+        "name": "Representative interchange and route-context geographic review",
+        "required_for": "M2"
+      }
+    },
+    {
+      "id": "P0-013",
+      "milestone": "M3",
+      "priority": "P0",
+      "title": "Full-screen trip map and authoritative progress",
+      "status": "open",
+      "dependencies": [
+        "P0-005",
+        "P0-012"
+      ],
+      "owned_paths": [
+        "src/Cannonball.Core/Routes/",
+        "src/Cannonball.Core/Simulation/",
+        "game/UI/TripMap/",
+        "game/Automation/",
+        "tests/Cannonball.Core.Tests/",
+        "automation/playgodot/",
+        "scripts/verify-trip-map.sh",
+        "scripts/capture-scenario.sh",
+        "evidence/M3/P0-013.json"
+      ],
+      "acceptance": [
+        "The full-screen map opens from keyboard and controller and renders from simplified immutable graph geometry without depending on loaded road chunks or scene transforms",
+        "It shows start, destination, current position, traveled path, planned path, route alternatives, selected service stops, upcoming exits and highway transfers, real distance completed, real distance remaining, and mode-aware estimates",
+        "Trip progress follows authoritative graph traversal across edge transitions, detours, transfers, route concurrency, save-resume, and supported compression modes while remaining distinct from displayed mile-marker values",
+        "Pan, zoom, recenter, route selection, and exit or service inspection remain bounded and responsive on the continental graph",
+        "Interactive controls expose unique stable automation IDs and deterministic semantic state; Core model and official-engine headless input scenarios are always required, while official-engine PlayGodot tests become required only if the ADR-0008 adoption gate approves PlayGodot",
+        "Keyboard and controller focus, scalable text, color-independent route differentiation, and representative-player comprehension pass their declared accessibility and usability gates",
+        "The map's pause or live-simulation behavior matches the resolved product decision and is communicated before the player opens it"
+      ],
+      "verification": [
+        "DOTNET_ROLL_FORWARD=Major dotnet test Cannonball.sln --filter 'FullyQualifiedName~TripMap'",
+        "./scripts/verify-trip-map.sh --automation auto",
+        "./scripts/capture-scenario.sh /tmp/p0-013-trip-map.avi --trip-map-review",
+        "./scripts/check.sh"
+      ],
+      "evidence": [
+        "evidence/M3/P0-013.json"
+      ],
+      "human_gate": {
+        "name": "Trip-map comprehension and accessibility usability review",
+        "required_for": "M3"
+      },
+      "notes": "P1-004 is a conditional prerequisite only when ADR-0008's measured adoption gate approves PlayGodot. Otherwise verify the mandatory Core model and official-engine headless scenarios plus recorded Computer Use visual evidence without making PlayGodot a delivery dependency."
     },
     {
       "id": "P1-003",
