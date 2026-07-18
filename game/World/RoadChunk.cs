@@ -53,9 +53,11 @@ public sealed partial class RoadChunk : Node3D
         RouteFrame frame,
         RouteWorldPoint localOriginWorld)
     {
-        var hasRenderableRouteContext = semantics is not null &&
+        var routeContextPlan = semantics is not null &&
             !semantics.IsLegacySynthesis &&
-            HasRenderableRouteContext(edge, semantics);
+            HasRenderableRouteContext(edge, semantics)
+                ? RouteContextPlanner.BuildForEdge(graph, semantics, edge.Id)
+                : null;
         var chunk = new RoadChunk();
         var started = Stopwatch.GetTimestamp();
         var anchor = frame.ToWorld(content.Samples[0]);
@@ -90,9 +92,9 @@ public sealed partial class RoadChunk : Node3D
         chunk.BuildGoreAreas(points, tangents, layouts);
         chunk.BuildBarriers(points, tangents, layouts);
         chunk.BuildScenery(points, tangents, layouts);
-        if (hasRenderableRouteContext)
+        if (routeContextPlan is { Placements.Count: > 0 })
         {
-            chunk.BuildRouteContext(content, edge, graph, semantics!, points, tangents, layouts);
+            chunk.BuildRouteContext(content, edge, routeContextPlan, points, tangents, layouts);
         }
         chunk.BuildMilliseconds = Stopwatch.GetElapsedTime(started).TotalMilliseconds;
         return chunk;
@@ -111,13 +113,11 @@ public sealed partial class RoadChunk : Node3D
     private void BuildRouteContext(
         RouteChunkContent content,
         RouteEdge edge,
-        IRouteGraph graph,
-        RouteSemanticContent semantics,
+        RouteContextPlan plan,
         IReadOnlyList<Vector3> points,
         IReadOnlyList<Vector3> tangents,
         IReadOnlyList<LaneGeometrySample> layouts)
     {
-        var plan = RouteContextPlanner.BuildForEdge(graph, semantics, edge.Id);
         var placements = plan.ForChunk(
             content.StartMeters,
             content.EndMeters,
