@@ -298,6 +298,35 @@ The world is a graph, not a corridor pretending to be a continent. The player sh
 - Alternate routes trade distance against traffic, terrain, weather, enforcement, repair access, and contact availability.
 - A route choice must remain understandable after it is made; the map should show why an option is faster, safer, or more expensive.
 
+# Lane topology and route context__   LOCKED__
+
+Highways are not fixed-width ribbons. Lane counts may change within a stable
+route edge, and junctions explicitly connect incoming lanes to through lanes,
+merges, splits, ramps, exits, entrances, and highway transfers. Variable road
+width, markings, shoulders, gore areas, barriers, collision, traffic guidance,
+and signs all derive from that shared semantic topology.
+
+Roadside mile markers represent the signed highway's local reference system,
+including direction, jurisdiction resets, discontinuities, and concurrent route
+identities when known. They are not cumulative trip-progress counters. Exit and
+transfer signs use semantic route, destination, lane-guidance, and service data;
+unknown values remain explicitly derived or authored rather than presented as
+false source precision.
+
+# Full-screen trip map__   LOCKED__
+
+The player can open a full-screen map of the complete supported graph. It shows
+the start, destination, current position, traveled and planned paths, meaningful
+alternatives, selected service stops, upcoming exits and transfers, and real
+distance completed and remaining. Mode-aware time or compression estimates may
+change, but route distance remains authoritative.
+
+The map is driven by simplified immutable graph geometry and run state, not by
+the currently streamed 3D scene. Trip progress follows the chosen graph path
+and remains distinct from roadside mile-marker values. Whether opening the map
+pauses the simulation is a mode and usability decision that must be resolved
+before M3 acceptance.
+
 __03  WORLD, DRIVING + ENFORCEMENT__
 
 *Real geography as a streamed road ribbon, forgiving controls at the input layer, and severe consequences that remain fair.*
@@ -1215,13 +1244,15 @@ Continuous traversal without precision or load failures
 
 __M2 — Continental graph__
 
-Full route graph, major alternatives, placeholder interchanges, batch validation
+Full route graph, major alternatives, variable lane topology, exits, mile
+markers, placeholder interchanges and highway transfers, batch validation
 
 Human and bot can complete the coast-to-coast graybox
 
 __M3 — Survival loop__
 
-Traffic, fuel, wear, damage, cash, stops, route choices, run report
+Traffic, fuel, wear, damage, cash, stops, route choices, full-screen trip map,
+run report
 
 Players deliberately trade time for margin and understand the consequences
 

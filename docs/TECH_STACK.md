@@ -83,6 +83,24 @@ NHPN is not lane geometry. Its nominal source scale and possible horizontal
 error require spline reconstruction, validation, and authored interchange
 overrides before a route becomes drivable content.
 
+[ADR-0011](decisions/ADR-0011-lane-topology-route-context-and-trip-map.md)
+defines the planned M2/M3 route semantics. Stable route edges contain
+ordered distance-bounded lane sections; junctions contain explicit lane-to-lane
+connectors for continuations, merges, splits, exits, entrances, and highway
+transfers. Versioned semantic records also carry route identities and
+concurrency, exit numbers and destinations, services, milepoint anchors, and
+roadside markers with source or authored-override provenance.
+
+Godot road generation will derive variable width, markings, shoulders, gore
+areas, barriers, collision, signs, and standardized interchange geometry from
+that contract. `Cannonball.Core` will expose a trip-map projection over
+content-addressed simplified immutable graph geometry and authoritative run
+state. Stable node and edge associations, deterministic levels of detail, and
+root/package size budgets keep the continental map independently streamable.
+The Godot full-screen map will show traveled and planned paths, progress,
+alternatives, stops, exits, and transfers without depending on streamed scene
+geometry. Roadside mile-marker values remain distinct from total trip progress.
+
 Generated continental packages belong in release/CI artifacts, not Git. Source
 art, audio, and binary models use Git LFS.
 
@@ -110,7 +128,7 @@ version and checksum.
 | P0 feel | 25-mile road, 200 mph handling target, three assist profiles, 30-minute human sessions |
 | P1 stream | 100–500 miles, no gaps/stalls/precision drift, bounded memory, save/resume |
 | P2 continent | Bot and human complete all supported coast-to-coast paths |
-| P3 decisions | Traffic, fuel, wear, stops, and route choices change player pace |
+| P3 decisions | Traffic, fuel, wear, stops, route choices, and the full-screen trip map change player pace while keeping progress understandable |
 | P4 pressure | Enforcement and three materially distinct builds complete runs |
 
 Current automation covers core contracts, source-policy enforcement,
