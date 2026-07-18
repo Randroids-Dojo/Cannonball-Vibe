@@ -105,6 +105,26 @@ public sealed class RouteContextPlannerTests
             RouteContextPlanner.MinimumSignSeparationMeters);
     }
 
+    [Fact]
+    public void ChunkOwnershipUsesExactHalfOpenBoundaries()
+    {
+        var plan = new RouteContextPlan(
+            [
+                Placement("before-start", 99.9999995),
+                Placement("at-start", 100),
+                Placement("before-end", 199.9999995),
+                Placement("at-end", 200),
+            ],
+            []);
+
+        Assert.Equal(
+            ["at-start", "before-end"],
+            plan.ForChunk(100, 200).Select(placement => placement.Id));
+        Assert.Equal(
+            ["at-start", "before-end", "at-end"],
+            plan.ForChunk(100, 200, includeEnd: true).Select(placement => placement.Id));
+    }
+
     private static (InMemoryRouteGraph Graph, RouteSemanticContent Semantics) CreateFixture()
     {
         var identities = new[]
@@ -231,6 +251,26 @@ public sealed class RouteContextPlannerTests
 
     private static RouteIdentity Identity(string id, string system, string number, string direction) =>
         new(id, system, number, system == "I" ? "interstate" : "us", direction, id, Provenance);
+
+    private static RouteContextPlacement Placement(string id, double distance) =>
+        new(
+            id,
+            RouteContextPlacementKind.MileMarker,
+            RouteContextMount.RightRoadside,
+            "edge",
+            distance,
+            "route",
+            "ROUTE",
+            "MILE 1",
+            "east",
+            "CO",
+            string.Empty,
+            [],
+            string.Empty,
+            [],
+            [],
+            Provenance,
+            true);
 
     private static MilepointAnchor Anchor(
         string id,

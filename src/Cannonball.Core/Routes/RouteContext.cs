@@ -57,11 +57,10 @@ public sealed record RouteContextPlan(
             throw new ArgumentOutOfRangeException(nameof(startMeters));
         }
 
-        const double boundaryToleranceMeters = 1e-6;
         return Placements.Where(placement =>
-                placement.DistanceMeters + boundaryToleranceMeters >= startMeters &&
-                (placement.DistanceMeters < endMeters - boundaryToleranceMeters ||
-                    includeEnd && placement.DistanceMeters <= endMeters + boundaryToleranceMeters))
+                placement.DistanceMeters >= startMeters &&
+                (placement.DistanceMeters < endMeters ||
+                    includeEnd && placement.DistanceMeters == endMeters))
             .ToArray();
     }
 }

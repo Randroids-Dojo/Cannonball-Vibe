@@ -709,15 +709,22 @@
       "status": "in_progress",
       "dependencies": [
         "P0-009",
-        "P0-010"
+        "P0-010",
+        "P0-011"
       ],
       "owned_paths": [
+        "docs/DELIVERY_LEDGER.json",
+        "docs/QUESTIONS_FOR_RANDROID.md",
+        "docs/audits/2026-07-18-p1-007-route-context-review.md",
+        "docs/images/p1-007-route-context-contact-sheet.png",
+        "evidence/M2/P1-007.json",
+        "game/Automation/RepresentativeInterchangeFixture.cs",
+        "game/Main.cs",
         "game/World/",
-        "game/UI/",
+        "scripts/capture-scenario.sh",
+        "scripts/run-scenario.sh",
         "src/Cannonball.Core/Routes/",
-        "tools/map_pipeline/",
-        "assets/route-context/",
-        "evidence/M2/P1-007.json"
+        "tests/Cannonball.Core.Tests/RouteContextPlannerTests.cs"
       ],
       "acceptance": [
         "Mile markers display the correct route identity, signed direction, and route-reference milepoint rather than cumulative trip progress",

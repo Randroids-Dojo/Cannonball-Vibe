@@ -22,6 +22,8 @@ public sealed partial class WorldStreamer : Node3D
     public const double ShortCorridorLoopResetLeadMeters = 25;
 
     private readonly Dictionary<string, RoadChunk> _loaded = new(StringComparer.Ordinal);
+    private readonly Dictionary<string, RouteContextPlan?> _routeContextPlans =
+        new(StringComparer.Ordinal);
     private readonly Dictionary<string, JunctionSeam> _junctionSeams = new(StringComparer.Ordinal);
     private readonly Dictionary<string, RouteChunkContent> _content = new(StringComparer.Ordinal);
     private readonly Dictionary<string, PendingRead> _pending = new(StringComparer.Ordinal);
@@ -57,7 +59,8 @@ public sealed partial class WorldStreamer : Node3D
     private readonly HashSet<string> _branchPrewarmSeen = new(StringComparer.Ordinal);
     private readonly HashSet<string> _branchPrewarmEvicted = new(StringComparer.Ordinal);
     private readonly HashSet<string> _junctionSeamsBuilt = new(StringComparer.Ordinal);
-    private readonly HashSet<string> _routeContextAutomationIds = new(StringComparer.Ordinal);
+    private readonly HashSet<string> _loadedRouteContextAutomationIds = new(StringComparer.Ordinal);
+    private readonly HashSet<string> _routeContextAutomationIdsSeen = new(StringComparer.Ordinal);
     private readonly List<double> _chunkBuildSamplesMilliseconds = [];
     private readonly List<double> _collisionBuildSamplesMilliseconds = [];
     private bool _preserveResumeStateThroughReady;
@@ -110,15 +113,30 @@ public sealed partial class WorldStreamer : Node3D
     public double MaximumJunctionGapMeters { get; private set; }
     public int JunctionSeamBuildCount => _junctionSeamsBuilt.Count;
     public IReadOnlyCollection<string> JunctionSeamIdsBuilt => _junctionSeamsBuilt;
-    public IReadOnlyCollection<string> RouteContextAutomationIds => _routeContextAutomationIds;
+    public IReadOnlyCollection<string> RouteContextAutomationIds =>
+        _loadedRouteContextAutomationIds;
+    public IReadOnlyCollection<string> RouteContextAutomationIdsSeen =>
+        _routeContextAutomationIdsSeen;
     public int MileMarkerCount { get; private set; }
     public int ExitSignCount { get; private set; }
     public int HighwayTransferSignCount { get; private set; }
+    public int MileMarkersSeen => _routeContextAutomationIdsSeen.Count(id =>
+        id.StartsWith("route-context.marker.", StringComparison.Ordinal));
+    public int ExitSignsSeen => _routeContextAutomationIdsSeen.Count(id =>
+        id.StartsWith("route-context.exit.", StringComparison.Ordinal));
+    public int HighwayTransferSignsSeen => _routeContextAutomationIdsSeen.Count(id =>
+        id.StartsWith("route-context.transfer.", StringComparison.Ordinal));
     public IReadOnlyCollection<string> ReviewReadyChunkIdsSeen => _reviewReadyChunksSeen;
     public IReadOnlyCollection<string> ReviewEdgeIdsVisited => _reviewEdgesVisited;
     public IReadOnlyList<double> ChunkBuildSamplesMilliseconds => _chunkBuildSamplesMilliseconds;
     public IReadOnlyList<double> CollisionBuildSamplesMilliseconds =>
         _collisionBuildSamplesMilliseconds;
+
+    public IReadOnlyList<RouteContextLabelDiagnostic> GetRouteContextLabelDiagnostics(
+        Camera3D camera) => _loaded.Values
+        .SelectMany(chunk => chunk.GetRouteContextLabelDiagnostics(camera))
+        .OrderBy(item => item.AutomationId, StringComparer.Ordinal)
+        .ToArray();
 
     public WorldStreamSnapshot CaptureStreamSnapshot() => new(
         _localOriginWorld.X,
@@ -213,6 +231,7 @@ public sealed partial class WorldStreamer : Node3D
             throw new InvalidOperationException("WorldStreamer must be configured before entering the scene tree.");
         }
         _package = package;
+        _routeContextPlans.Clear();
         _source = source;
         _routePlan = LinearRoutePlan.Build(
             package.Graph,
@@ -559,6 +578,13 @@ public sealed partial class WorldStreamer : Node3D
                     chunk,
                     active: false,
                     buildBudgetMilliseconds: CollisionBuildBudgetMilliseconds);
+                foreach (var automationId in chunk.RouteContextAutomationIds)
+                {
+                    _loadedRouteContextAutomationIds.Remove(automationId);
+                }
+                MileMarkerCount -= chunk.MileMarkerCount;
+                ExitSignCount -= chunk.ExitSignCount;
+                HighwayTransferSignCount -= chunk.HighwayTransferSignCount;
                 _loaded.Remove(id);
                 _content.Remove(id);
                 RemoveJunctionSeamsForChunk(id);
@@ -625,13 +651,9 @@ public sealed partial class WorldStreamer : Node3D
         {
             return;
         }
-        var chunk = RoadChunk.Create(
-            content,
-            _package.Graph.GetEdge(content.EdgeId),
-            _package.Graph,
-            _package.Semantics,
-            _frame,
-            _localOriginWorld);
+        var edge = _package.Graph.GetEdge(content.EdgeId);
+        var routeContextPlan = GetRouteContextPlan(edge);
+        var chunk = RoadChunk.Create(content, edge, routeContextPlan, _frame, _localOriginWorld);
         if (chunk.BuildMilliseconds > buildBudgetMilliseconds)
         {
             chunk.Free();
@@ -661,7 +683,8 @@ public sealed partial class WorldStreamer : Node3D
         }
         foreach (var automationId in chunk.RouteContextAutomationIds)
         {
-            _routeContextAutomationIds.Add(automationId);
+            _loadedRouteContextAutomationIds.Add(automationId);
+            _routeContextAutomationIdsSeen.Add(automationId);
         }
         MileMarkerCount += chunk.MileMarkerCount;
         ExitSignCount += chunk.ExitSignCount;
@@ -675,6 +698,32 @@ public sealed partial class WorldStreamer : Node3D
         AddChild(chunk);
         TryBuildJunctionSeams();
     }
+
+    private RouteContextPlan? GetRouteContextPlan(RouteEdge edge)
+    {
+        if (_routeContextPlans.TryGetValue(edge.Id, out var cached))
+        {
+            return cached;
+        }
+        var semantics = _package.Semantics;
+        var plan = semantics is not null &&
+            !semantics.IsLegacySynthesis &&
+            HasRenderableRouteContext(edge, semantics)
+                ? RouteContextPlanner.BuildForEdge(_package.Graph, semantics, edge.Id)
+                : null;
+        _routeContextPlans.Add(edge.Id, plan);
+        return plan;
+    }
+
+    private static bool HasRenderableRouteContext(
+        RouteEdge edge,
+        RouteSemanticContent semantics) =>
+        semantics.RoadsideMarkers.Any(marker =>
+            string.Equals(marker.Kind, "mile", StringComparison.OrdinalIgnoreCase) &&
+            string.Equals(marker.EdgeId, edge.Id, StringComparison.Ordinal)) ||
+        semantics.Exits.Any(routeExit =>
+            string.Equals(routeExit.JunctionNodeId, edge.ToNodeId, StringComparison.Ordinal) &&
+            edge.RouteIdentityIds.Contains(routeExit.RouteIdentityId, StringComparer.Ordinal));
 
     private void TryBuildJunctionSeams()
     {

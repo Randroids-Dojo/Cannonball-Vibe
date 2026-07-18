@@ -11,6 +11,7 @@ public sealed partial class RoadChunk : Node3D
     private StaticBody3D? _collisionBody;
     private ArrayMesh _collisionMesh = null!;
     private List<string>? _routeContextAutomationIds;
+    private List<Label3D>? _routeContextLabels;
 
     public string ChunkId { get; private set; } = string.Empty;
     public string EdgeId { get; private set; } = string.Empty;
@@ -48,16 +49,10 @@ public sealed partial class RoadChunk : Node3D
     public static RoadChunk Create(
         RouteChunkContent content,
         RouteEdge edge,
-        IRouteGraph graph,
-        RouteSemanticContent? semantics,
+        RouteContextPlan? routeContextPlan,
         RouteFrame frame,
         RouteWorldPoint localOriginWorld)
     {
-        var routeContextPlan = semantics is not null &&
-            !semantics.IsLegacySynthesis &&
-            HasRenderableRouteContext(edge, semantics)
-                ? RouteContextPlanner.BuildForEdge(graph, semantics, edge.Id)
-                : null;
         var chunk = new RoadChunk();
         var started = Stopwatch.GetTimestamp();
         var anchor = frame.ToWorld(content.Samples[0]);
@@ -100,15 +95,28 @@ public sealed partial class RoadChunk : Node3D
         return chunk;
     }
 
-    private static bool HasRenderableRouteContext(
-        RouteEdge edge,
-        RouteSemanticContent semantics) =>
-        semantics.RoadsideMarkers.Any(marker =>
-            string.Equals(marker.Kind, "mile", StringComparison.OrdinalIgnoreCase) &&
-            string.Equals(marker.EdgeId, edge.Id, StringComparison.Ordinal)) ||
-        semantics.Exits.Any(routeExit =>
-            string.Equals(routeExit.JunctionNodeId, edge.ToNodeId, StringComparison.Ordinal) &&
-            edge.RouteIdentityIds.Contains(routeExit.RouteIdentityId, StringComparer.Ordinal));
+    public IReadOnlyList<RouteContextLabelDiagnostic> GetRouteContextLabelDiagnostics(
+        Camera3D camera)
+    {
+        ArgumentNullException.ThrowIfNull(camera);
+        if (_routeContextLabels is null)
+        {
+            return [];
+        }
+        var cameraForward = -camera.GlobalBasis.Z;
+        return _routeContextLabels.Select(label =>
+        {
+            var cameraToLabel = label.GlobalPosition - camera.GlobalPosition;
+            var cameraDistance = cameraToLabel.Length();
+            return new RouteContextLabelDiagnostic(
+                label.GetParent().GetMeta("automation_id").AsString(),
+                label.Visible && label.IsVisibleInTree(),
+                camera.IsPositionInFrustum(label.GlobalPosition),
+                cameraDistance,
+                cameraToLabel.Dot(cameraForward),
+                cameraDistance <= label.VisibilityRangeEnd + 1e-3f);
+        }).ToArray();
+    }
 
     private void BuildRouteContext(
         RouteChunkContent content,
@@ -305,6 +313,7 @@ public sealed partial class RoadChunk : Node3D
             VisibilityRangeFadeMode = GeometryInstance3D.VisibilityRangeFadeModeEnum.Self,
         };
         label.SetMeta("automation_id", $"{root.GetMeta("automation_id")}.text");
+        (_routeContextLabels ??= []).Add(label);
         root.AddChild(label);
     }
 
@@ -825,3 +834,11 @@ public sealed partial class RoadChunk : Node3D
         AddChild(new MultiMeshInstance3D { Name = "TerrainScenery", Multimesh = treeMultiMesh });
     }
 }
+
+public sealed record RouteContextLabelDiagnostic(
+    string AutomationId,
+    bool VisibleInTree,
+    bool InCameraFrustum,
+    float CameraDistanceMeters,
+    float ForwardDistanceMeters,
+    bool WithinDeclaredRange);

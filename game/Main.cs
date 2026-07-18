@@ -95,7 +95,7 @@ public sealed partial class Main : Node3D
     private int _routeContextStableFrames;
     private int _routeContextReviewFrames;
     private Camera3D? _routeContextDiagnosticCamera;
-    private int _routeContextOmissionCount;
+    private IReadOnlyList<RouteContextOmission> _routeContextOmissions = [];
     private int _routeChoiceSaveResumeCount;
     private readonly HashSet<string> _routeChoiceConnectorsObserved = new(StringComparer.Ordinal);
     private readonly HashSet<string> _routeChoiceBranchPrewarms = new(StringComparer.Ordinal);
@@ -1887,14 +1887,14 @@ public sealed partial class Main : Node3D
         var transferPlan = _interchangeFixture.Plans[
             RepresentativeInterchangeFixture.TransferPlanId];
         var raw = new List<(double ReviewDistance, double PlacementDistance, RouteContextPlacement Placement)>();
-        _routeContextOmissionCount = 0;
+        var omissions = new List<RouteContextOmission>();
         foreach (var edgeId in transferPlan.Selection.EdgeIds)
         {
             var plan = RouteContextPlanner.BuildForEdge(
                 _interchangeFixture.Package.Graph,
                 _interchangeFixture.Package.Semantics,
                 edgeId);
-            _routeContextOmissionCount += plan.Omissions.Count;
+            omissions.AddRange(plan.Omissions);
             foreach (var placement in plan.Placements)
             {
                 var placementDistance = _streamer.GetRouteDistance(edgeId, placement.DistanceMeters);
@@ -1905,6 +1905,9 @@ public sealed partial class Main : Node3D
                     placement));
             }
         }
+        _routeContextOmissions = omissions
+            .OrderBy(omission => omission.Id, StringComparer.Ordinal)
+            .ToArray();
         _routeContextReviewPoints = raw
             .GroupBy(item => Math.Round(item.ReviewDistance, 3))
             .OrderBy(group => group.Key)
@@ -2007,6 +2010,38 @@ public sealed partial class Main : Node3D
 
     private void CompleteRouteContextReviewPoint(RouteContextReviewPoint point)
     {
+        if (_routeContextReview)
+        {
+            if (_routeContextDiagnosticCamera is null)
+            {
+                throw new InvalidOperationException("Route-context review camera is missing.");
+            }
+            var expectedIds = point.AutomationIds.ToHashSet(StringComparer.Ordinal);
+            var diagnostics = _streamer.GetRouteContextLabelDiagnostics(
+                    _routeContextDiagnosticCamera)
+                .Where(item => expectedIds.Contains(item.AutomationId))
+                .ToArray();
+            var failures = diagnostics.Where(item =>
+                    !item.VisibleInTree ||
+                    !item.InCameraFrustum ||
+                    item.ForwardDistanceMeters <= 0 ||
+                    !item.WithinDeclaredRange)
+                .ToArray();
+            if (diagnostics.Length != expectedIds.Count || failures.Length > 0)
+            {
+                throw new InvalidOperationException(
+                    $"Route-context labels failed the declared visibility envelope: " +
+                    $"expected={expectedIds.Count} observed={diagnostics.Length} " +
+                    $"failures={string.Join(',', failures.Select(item => item.AutomationId))}.");
+            }
+            foreach (var diagnostic in diagnostics)
+            {
+                GD.Print(
+                    $"CANNONBALL_ROUTE_CONTEXT_LABEL_OK id={diagnostic.AutomationId} " +
+                    $"distance_m={diagnostic.CameraDistanceMeters:0.0} " +
+                    $"forward_m={diagnostic.ForwardDistanceMeters:0.0}");
+            }
+        }
         GD.Print(
             $"CANNONBALL_ROUTE_CONTEXT_WAYPOINT_OK " +
             $"index={_routeContextReviewPointIndex + 1} " +
@@ -2042,9 +2077,9 @@ public sealed partial class Main : Node3D
         var expectedAutomationIds = _routeContextReviewPoints
             .SelectMany(point => point.AutomationIds)
             .ToHashSet(StringComparer.Ordinal);
-        if (_streamer.MileMarkerCount < 4 || _streamer.ExitSignCount < 1 ||
-            _streamer.HighwayTransferSignCount < 1 ||
-            expectedAutomationIds.Any(id => !_streamer.RouteContextAutomationIds.Contains(
+        if (_streamer.MileMarkersSeen < 4 || _streamer.ExitSignsSeen < 1 ||
+            _streamer.HighwayTransferSignsSeen < 1 ||
+            expectedAutomationIds.Any(id => !_streamer.RouteContextAutomationIdsSeen.Contains(
                 id,
                 StringComparer.Ordinal)))
         {
@@ -2068,19 +2103,28 @@ public sealed partial class Main : Node3D
             .Select(placement => placement.SecondaryText)
             .Distinct(StringComparer.Ordinal)
             .Count();
-        if (concurrentMarkers < 2 || resetValues < 3 || _routeContextOmissionCount == 0)
+        var missingMarkerOmission = _routeContextOmissions.SingleOrDefault(omission =>
+            omission.Id == "marker-us36-missing-anchor");
+        if (concurrentMarkers < 2 || resetValues < 3 ||
+            missingMarkerOmission is null ||
+            missingMarkerOmission.EdgeId != "between-interchanges" ||
+            missingMarkerOmission.RouteIdentityId != "route-us36" ||
+            missingMarkerOmission.Provenance?.AuthoredOverrideId !=
+                RepresentativeInterchangeFixture.AuthoredOverrideId ||
+            !missingMarkerOmission.Reason.Contains("no exact colocated", StringComparison.Ordinal))
         {
             throw new InvalidOperationException(
-                "Route-context fixture did not prove concurrency, numbering changes, and missing-data omission.");
+                "Route-context fixture did not prove concurrency, numbering changes, and the " +
+                "provenance-bearing missing-marker omission.");
         }
         GD.Print(
             $"CANNONBALL_ROUTE_CONTEXT_OK review_points={_routeContextReviewPoints.Count} " +
-            $"mile_markers={_streamer.MileMarkerCount} " +
-            $"exit_signs={_streamer.ExitSignCount} " +
-            $"transfer_signs={_streamer.HighwayTransferSignCount} " +
+            $"mile_markers={_streamer.MileMarkersSeen} " +
+            $"exit_signs={_streamer.ExitSignsSeen} " +
+            $"transfer_signs={_streamer.HighwayTransferSignsSeen} " +
             $"concurrent_markers={concurrentMarkers} " +
-            $"distinct_mile_values={resetValues} omissions={_routeContextOmissionCount} " +
-            $"automation_nodes={_streamer.RouteContextAutomationIds.Count} " +
+            $"distinct_mile_values={resetValues} omissions={_routeContextOmissions.Count} " +
+            $"automation_nodes={_streamer.RouteContextAutomationIdsSeen.Count} " +
             $"max_visual_build_ms={_streamer.MaximumBuildMilliseconds:0.000} " +
             $"chunk_failures={_streamer.ChunkFailureCount}");
     }

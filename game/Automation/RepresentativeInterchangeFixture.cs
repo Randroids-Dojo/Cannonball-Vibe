@@ -310,6 +310,7 @@ public static class RepresentativeInterchangeFixture
         new RoadsideMarker("marker-us36-42", "mile", "route-us36", "interchange-approach", 100, "42", provenance),
         new RoadsideMarker("marker-us287-250", "mile", "route-us287", "interchange-approach", 100, "250", provenance),
         new RoadsideMarker("marker-us36-43", "mile", "route-us36", "between-interchanges", 250, "43", provenance),
+        new RoadsideMarker("marker-us36-missing-anchor", "mile", "route-us36", "between-interchanges", 400, "44", provenance),
         new RoadsideMarker("marker-i25-214", "mile", "route-i25", "receiving-highway", 100, "214", provenance),
         new RoadsideMarker("marker-i25-215-north", "mile", "route-i25-opposing", "opposing-carriageway", 100, "215", provenance),
     ];
@@ -397,7 +398,12 @@ public static class RepresentativeInterchangeFixture
             spec.Lanes,
             new RouteShoulder(1.5f, "paved"),
             new RouteShoulder(2.5f, "paved"),
-            spec.RouteIdentityId is "route-i25-opposing" ? "north" : "east",
+            spec.RouteIdentityId switch
+            {
+                "route-i25" => "south",
+                "route-i25-opposing" => "north",
+                _ => "east",
+            },
             provenance);
         var edge = new RouteEdge(
             spec.Id,
