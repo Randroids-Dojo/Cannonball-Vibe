@@ -97,6 +97,10 @@ public sealed partial class Main : Node3D
             {
                 _smokeTargetFrames = 7_200;
             }
+            if (_topologyReview)
+            {
+                _smokeTargetFrames = 480;
+            }
 
             var absoluteRoutePath = Path.GetFullPath(routePath);
             _package = FlatBufferRouteContent.Load(absoluteRoutePath);
@@ -579,27 +583,27 @@ public sealed partial class Main : Node3D
             .Select(distance => _streamer.GetRouteDistance(_topologyOverlay.EdgeId, distance))
             .Distinct()
             .ToArray();
-        _topologyTraversalStartMeters = _streamer.GetRouteDistance(
-            _topologyOverlay.EdgeId,
-            Math.Max(0, _topologyOverlay.TransitionDistancesMeters[0] - 150));
-        _topologyTraversalEndMeters = _streamer.GetRouteDistance(
-            _topologyOverlay.EdgeId,
-            Math.Min(
-                _topologyOverlay.EdgeLengthMeters,
-                _topologyOverlay.TransitionDistancesMeters[^1] + 150));
+        _topologyTraversalStartMeters = Math.Max(
+            0,
+            _streamer.GetRouteDistance(_topologyOverlay.EdgeId, 0) - 150);
+        _topologyTraversalEndMeters = Math.Min(
+            _streamer.TotalRouteLengthMeters,
+            _streamer.GetRouteDistance(
+                _topologyOverlay.EdgeId,
+                _topologyOverlay.EdgeLengthMeters) + 150);
     }
 
     private void BeginTopologyReviewWaypoint()
     {
         if (_topologyOverlay is null ||
-            _topologyReviewWaypointIndex >= _topologyOverlay.TransitionDistancesMeters.Count)
+            _topologyReviewWaypointIndex >= _topologyOverlay.ReviewDistancesMeters.Count)
         {
             return;
         }
         _topologyReviewFrames = 0;
         _streamer.SetReviewDistance(_streamer.GetRouteDistance(
             _topologyOverlay.EdgeId,
-            _topologyOverlay.TransitionDistancesMeters[_topologyReviewWaypointIndex]));
+            _topologyOverlay.ReviewDistancesMeters[_topologyReviewWaypointIndex]));
         SetTopologyDiagnosticView(enabled: false);
     }
 
@@ -607,7 +611,7 @@ public sealed partial class Main : Node3D
     {
         if (_topologyOverlay is null || _topologyDiagnosticCamera is null ||
             !_streamer.ReviewTargetReady || !_streamer.IsStreamingSettled ||
-            _topologyReviewWaypointIndex >= _topologyOverlay.TransitionDistancesMeters.Count)
+            _topologyReviewWaypointIndex >= _topologyOverlay.ReviewDistancesMeters.Count)
         {
             return;
         }
@@ -628,7 +632,7 @@ public sealed partial class Main : Node3D
         GD.Print(
             $"CANNONBALL_TOPOLOGY_REVIEW_WAYPOINT_OK " +
             $"index={_topologyReviewWaypointIndex + 1} " +
-            $"of={_topologyOverlay.TransitionDistancesMeters.Count}");
+            $"of={_topologyOverlay.ReviewDistancesMeters.Count}");
         _topologyReviewWaypointIndex++;
         BeginTopologyReviewWaypoint();
     }
@@ -742,6 +746,21 @@ public sealed partial class Main : Node3D
             throw new InvalidOperationException(
                 "Topology traversal did not remain grounded through a high-speed rebased pass.");
         }
+        var missingConnectorMovements = _topologyOverlay.ExpectedTraversedConnectorMovements
+            .Where(movement => !_streamer.HasObservedConnectorMovement(movement))
+            .ToArray();
+        if (missingConnectorMovements.Length > 0)
+        {
+            throw new InvalidOperationException(
+                $"Topology traversal missed connector movements: " +
+                $"{string.Join(',', missingConnectorMovements)}.");
+        }
+        if (_streamer.BranchPrewarmCount == 0 ||
+            _streamer.BranchPrewarmEvictionCount == 0)
+        {
+            throw new InvalidOperationException(
+                "Topology traversal did not prewarm and evict its probable branch chunk.");
+        }
         GD.Print(
             $"CANNONBALL_TOPOLOGY_OK checkpoints={_topologyCheckpoints.Count} " +
             $"edge={_topologyOverlay.EdgeId} min_lanes={_streamer.MinimumObservedLaneCount} " +
@@ -751,6 +770,10 @@ public sealed partial class Main : Node3D
             $"gore=true max_paved_width_m={_streamer.MaximumPavedWidthMeters:0.000} " +
             $"peak_mph={_peakSpeedMetersPerSecond * 2.236936f:0.0} " +
             $"rebases={_streamer.RebaseCount} " +
+            $"connector_movements=" +
+            $"{string.Join(',', _topologyOverlay.ExpectedTraversedConnectorMovements)} " +
+            $"branch_prewarms={_streamer.BranchPrewarmCount} " +
+            $"branch_evictions={_streamer.BranchPrewarmEvictionCount} " +
             $"max_unsupported_frames={_vehicle.MaximumConsecutiveUnsupportedPhysicsFrames} " +
             $"max_visual_build_ms={_streamer.MaximumBuildMilliseconds:0.000} " +
             $"max_collision_build_ms={_streamer.MaximumCollisionBuildMilliseconds:0.000} " +

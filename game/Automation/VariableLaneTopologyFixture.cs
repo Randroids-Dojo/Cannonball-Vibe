@@ -8,6 +8,10 @@ public sealed record VariableLaneTopologyOverlay(
     string EdgeId,
     double EdgeLengthMeters,
     IReadOnlyList<double> TransitionDistancesMeters,
+    IReadOnlyList<double> ReviewDistancesMeters,
+    IReadOnlyList<JunctionMovement> ExpectedTraversedConnectorMovements,
+    string BranchDecisionChunkId,
+    string PrewarmedBranchChunkId,
     string OverrideId);
 
 public static class VariableLaneTopologyFixture
@@ -117,9 +121,44 @@ public static class VariableLaneTopologyFixture
                 retainedExit),
             Section("through-restored", boundaries[3], selected.LengthMeters, throughLeft, throughRight),
         };
+        var sourceSemantics = package.Semantics ?? RouteSemanticsCompatibility.CreateLegacyContent(edges);
+        var incoming = sourceSemantics.JunctionConnectors
+            .Where(connector => connector.ToEdgeId == selected.Id)
+            .ToArray();
+        var outgoing = sourceSemantics.JunctionConnectors
+            .Where(connector => connector.FromEdgeId == selected.Id)
+            .ToArray();
+        var entranceConnector = incoming.SingleOrDefault(connector =>
+                connector.ToLaneId == throughLeft.Id)
+            ?? throw new InvalidDataException(
+                $"Variable-lane topology edge '{selected.Id}' has no left-lane entrance connector.");
+        var transferConnector = outgoing.SingleOrDefault(connector =>
+                connector.FromLaneId == throughLeft.Id)
+            ?? throw new InvalidDataException(
+                $"Variable-lane topology edge '{selected.Id}' has no left-lane transfer connector.");
+        var previous = edges.Single(edge => edge.Id == entranceConnector.FromEdgeId);
+        var previousSections = previous.GetEffectiveLaneSections()
+            .Select((section, index) => index != previous.GetEffectiveLaneSections().Count - 1
+                ? section
+                : section with
+                {
+                    Lanes = section.Lanes.Select(lane => lane with
+                    {
+                        AllowedManeuvers = lane.AllowedManeuvers |
+                            (lane.Id == entranceConnector.FromLaneId
+                                ? LaneManeuver.Entrance
+                                : LaneManeuver.Merge),
+                        Provenance = provenance,
+                    }).ToArray(),
+                    Provenance = provenance,
+                })
+            .ToArray();
+        var overlayPreviousEdge = previous with { LaneSections = previousSections };
         var overlayEdge = selected with { LaneCount = 4, LaneSections = sections };
         var overlayEdges = edges
-            .Select(edge => edge.Id == selected.Id ? overlayEdge : edge)
+            .Select(edge => edge.Id == selected.Id
+                ? overlayEdge
+                : edge.Id == previous.Id ? overlayPreviousEdge : edge)
             .ToArray();
         var nodes = overlayEdges
             .SelectMany(edge => new[] { edge.FromNodeId, edge.ToNodeId })
@@ -133,20 +172,74 @@ public static class VariableLaneTopologyFixture
             })
             .ToArray();
         var graph = new InMemoryRouteGraph(package.Graph.ContentVersion, nodes, overlayEdges);
-        var sourceSemantics = package.Semantics ?? RouteSemanticsCompatibility.CreateLegacyContent(edges);
+        var plan = LinearRoutePlan.Build(graph, edgeIds);
+        var decisionChunk = package.Chunks.Values
+            .Where(chunk => chunk.EdgeId == previous.Id)
+            .OrderBy(chunk => chunk.EndMeters)
+            .Last();
+        var branchEdgeId = plan.Edges
+            .Select(edge => edge.EdgeId)
+            .Last(edgeId => edgeId != selected.Id && edgeId != previous.Id);
+        var prewarmedBranchChunk = package.Chunks.Values
+            .Where(chunk => chunk.EdgeId == branchEdgeId)
+            .OrderByDescending(chunk => chunk.StartMeters)
+            .First();
+        var chunks = package.Chunks.ToDictionary(
+            entry => entry.Key,
+            entry => entry.Key == decisionChunk.Id
+                ? entry.Value with
+                {
+                    ProbableBranchChunkIds = entry.Value.ProbableBranchChunkIds
+                        .Append(prewarmedBranchChunk.Id)
+                        .Distinct(StringComparer.Ordinal)
+                        .ToArray(),
+                }
+                : entry.Value,
+            StringComparer.Ordinal);
+        var connectors = sourceSemantics.JunctionConnectors.Select(connector =>
+        {
+            if (connector.ToEdgeId == selected.Id)
+            {
+                return connector with
+                {
+                    Movement = connector.Id == entranceConnector.Id
+                        ? JunctionMovement.Entrance
+                        : JunctionMovement.Merge,
+                    Provenance = provenance,
+                };
+            }
+            if (connector.FromEdgeId == selected.Id)
+            {
+                return connector with
+                {
+                    Movement = connector.Id == transferConnector.Id
+                        ? JunctionMovement.HighwayTransfer
+                        : JunctionMovement.Exit,
+                    Provenance = provenance,
+                };
+            }
+            return connector;
+        }).ToArray();
         var semantics = sourceSemantics with
         {
             LaneSections = sourceSemantics.LaneSections
-                .Where(section => section.EdgeId != selected.Id)
+                .Where(section => section.EdgeId != selected.Id &&
+                    section.EdgeId != previous.Id)
+                .Concat(previousSections)
                 .Concat(sections)
                 .ToArray(),
+            JunctionConnectors = connectors,
             IsLegacySynthesis = false,
         };
         return new VariableLaneTopologyOverlay(
-            package with { Graph = graph, Semantics = semantics },
+            package with { Graph = graph, Chunks = chunks, Semantics = semantics },
             selected.Id,
             selected.LengthMeters,
             boundaries,
+            new[] { 0.0 }.Concat(boundaries).Append(selected.LengthMeters).ToArray(),
+            [JunctionMovement.Entrance, JunctionMovement.HighwayTransfer],
+            decisionChunk.Id,
+            prewarmedBranchChunk.Id,
             AuthoredOverrideId);
     }
 }
