@@ -878,6 +878,7 @@
       ],
       "owned_paths": [
         "assets/roads/",
+        "assets/route-context/",
         "data/assets/roads/",
         "game/World/RoadVisuals/",
         "game/Automation/RoadVisualScenario.cs",
@@ -885,8 +886,9 @@
         "evidence/M5/P1-009.json"
       ],
       "acceptance": [
-        "A modular kit covers pavement states, shoulders, medians, barriers, guardrails, bridges, overpasses, gore treatments, lane markings, reflectors, signs, posts, and representative roadside furniture",
-        "Procedural generation remains authoritative and applies the kit continuously across variable lane counts, auxiliary and exit-only lanes, ramps, merges, splits, transfers, curvature, grade, stream boundaries, and local-origin rebases",
+      "A modular kit covers pavement states, shoulders, medians, barriers, guardrails, bridges, overpasses, gore treatments, lane markings, reflectors, signs, posts, and representative roadside furniture",
+      "A dedicated signage quality pass replaces placeholder shields and generic copy with jurisdiction-appropriate shield silhouettes, information hierarchy, type scale and weight, spacing, lane arrows, service icons, retroreflective day and night materials, and realistic placement while preserving stable semantic node IDs",
+      "Procedural generation remains authoritative and applies the kit continuously across variable lane counts, auxiliary and exit-only lanes, ramps, merges, splits, transfers, curvature, grade, stream boundaries, and local-origin rebases",
         "Materials, decals, markings, signs, and modular meshes preserve scale, orientation, UV density, semantic placement, and collision separation under every representative topology fixture",
         "LOD, instancing, shared-material, texture-residency, draw-call, and pop-in budgets pass both daylight and night high-speed approaches without reducing route-context readability",
         "Deterministic elevated and driving captures cover ordinary highway, lane addition and drop, entrance and exit, gore, bridge or overpass, and two highway-transfer forms",

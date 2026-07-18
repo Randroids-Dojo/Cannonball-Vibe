@@ -1,7 +1,7 @@
 # P1-007 route-context adversarial review
 
 - Review date: 2026-07-18 UTC
-- Reviewed implementation: `87446192575ec4fd64f53c7b9c959c6c773e4621`
+- Reviewed implementation: `f2823fe848292e15ced81fabc42665aa3f1de8d0`
 - Technical result: no unresolved actionable finding
 - Promotion result: implementation is ready; the M2 human readability gate remains open
 
@@ -29,9 +29,9 @@ observed ramp or sign truth.
    approach, use larger deterministic dimensions and typography, and remain
    readable in 1280-by-720 captures from 102 meters.
 4. Double-sided `Label3D` text could render from a sign's rear. Route-context
-   labels are now single-sided, shadowless, range-bounded, and manually culled
-   behind the active camera. Per-waypoint diagnostics prove passed labels are
-   hidden while the current label is visible.
+   labels are now single-sided, shadowless, and natively range-bounded. The
+   tracked capture verifies that each current label remains visible at its
+   review point without retaining per-frame diagnostic state on empty chunks.
 5. The first error path logged the same route-context exception every frame.
    Automation failures now terminate immediately with a single actionable
    error.
@@ -41,6 +41,10 @@ observed ramp or sign truth.
 7. Missing exact milepoint data could invite substituting cumulative trip
    progress. The planner instead emits a provenance-bearing omission and never
    invents a marker value.
+8. Remote cold-start runs initially charged route-context dispatch and per-frame
+   diagnostic state to an official corridor with no renderable route context.
+   Empty chunks now allocate no label or automation lists and skip the planner;
+   the visual timer continues to include all actual sign and marker generation.
 
 ## Residual boundaries
 

@@ -3,7 +3,7 @@
   "task_id": "P1-007",
   "milestone": "M2",
   "status": "technical_acceptance_complete_human_review_pending",
-  "git_revision": "87446192575ec4fd64f53c7b9c959c6c773e4621",
+  "git_revision": "f2823fe848292e15ced81fabc42665aa3f1de8d0",
   "platform": {
     "os": "Darwin 25.6.0",
     "architecture": "arm64"
@@ -123,7 +123,7 @@
     },
     {
       "criterion": "placement is deterministic, separated, readable in the declared preview envelope, and streamed without objectionable pop-in",
-      "observed": "guide signs maintain at least 60 meters separation, are rendered from 102 meters in the review camera against a 90-meter minimum preview, expose visibility diagnostics, remain under the 50-millisecond initial build budget, and report zero chunk failures",
+      "observed": "guide signs maintain at least 60 meters separation, are rendered from 102 meters in the review camera against a 90-meter minimum preview, remain under the 50-millisecond initial build budget, and report zero chunk failures",
       "passed": true
     },
     {

@@ -162,3 +162,5 @@ route shields, destinations, services, and lane guidance readable early enough
 for the current graybox milestone? Approval completes P1-007. Rejection should
 identify the specific frame and unreadable field so the next capture can target
 the defect. This gate does not ask for production sign or environment art.
+The requested signage realism and legibility quality pass is now an explicit
+P1-009 acceptance requirement rather than an implicit polish note.
