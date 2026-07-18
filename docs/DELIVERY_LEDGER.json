@@ -254,7 +254,7 @@
       "milestone": "M1",
       "priority": "P0",
       "title": "Deterministic long-route scenario runner",
-      "status": "open",
+      "status": "in_progress",
       "dependencies": [
         "P0-001",
         "P0-004",
@@ -262,8 +262,14 @@
       ],
       "owned_paths": [
         "game/Automation/",
+        "game/Main.cs",
+        "game/World/WorldStreamer.cs",
         "scripts/run-scenario.sh",
-        ".github/workflows/"
+        ".github/workflows/",
+        "tests/Cannonball.Core.Tests/",
+        "docs/QUESTIONS_2026-07-17_AUTONOMOUS_RUN.md",
+        "docs/audits/2026-07-18-p0-006-long-route-review.md",
+        "evidence/M1/P0-006.json"
       ],
       "acceptance": [
         "Scenario inputs include route package, seed, assist profile, target distance, save points, and expected completion",

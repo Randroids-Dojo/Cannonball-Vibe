@@ -163,8 +163,13 @@ transactional package publication, root/chunk budgets and hashes, malformed
 chunk rejection, deterministic seam samples, runtime serialization, and a
 short official-source Godot scene smoke. The 100-mile command repeats verified
 transport of the 0.226102-mile fixture and reports that limitation explicitly;
-representative long-route, local-origin, memory, and wheel validation remain
-human or M1 gates.
+P0-006 separately generates a checksum-bound authored automation corridor and
+sweeps 500 actual route miles through the Godot streamer on Linux and Windows.
+It reports route transitions, seams, rebases, local-coordinate bounds, frame
+and build percentiles, working-set growth, collision residency, chunk hashes,
+and exact resume comparisons for all three assist profiles. That synthetic
+distance gate is not a claim of observed geography or a substitute for the
+30-minute human handling sessions.
 
 ## Input and platform plan
 
@@ -176,8 +181,10 @@ itself is outside the MVP unless testing justifies it.
 CI runs the complete M0 gate on Linux and Windows: exact-tool doctor, core build
 and tests, geodata lint and tests, and the official-engine headless Godot smoke.
 Each runner uploads structured results and logs even after failure. A separate
-scheduled Windows workflow runs a high-speed packaged short-corridor soak. It
-does not replace the open 200 mph plus local-origin-rebase long-route gate.
+scheduled Windows workflow runs a high-speed packaged short-corridor soak. The
+required CI matrix also runs the deterministic distance-complete 500-mile
+scenario on Linux and Windows; high-speed feel remains covered by its separate
+physics and human handling gates.
 
 ## Agent automation
 

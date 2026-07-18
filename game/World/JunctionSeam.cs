@@ -12,6 +12,7 @@ public sealed partial class JunctionSeam : Node3D
     public string FromChunkId { get; private init; } = string.Empty;
     public string ToChunkId { get; private init; } = string.Empty;
     public bool HasCollision => _collisionBody is not null;
+    public double ConnectionGapMeters { get; private init; }
 
     public static JunctionSeam Create(
         RouteChunkContent fromContent,
@@ -30,7 +31,8 @@ public sealed partial class JunctionSeam : Node3D
         var toTangent = frame.DirectionToWorld(
             toContent.Samples[0].ProjectedTangentX,
             toContent.Samples[0].ProjectedTangentY);
-        if (fromCenter.DistanceSquaredTo(toCenter) < 0.0025f)
+        var connectionGapMeters = fromCenter.DistanceTo(toCenter);
+        if (connectionGapMeters < 0.05f)
         {
             const float bridgeHalfLengthMeters = 0.35f;
             fromCenter -= fromTangent * bridgeHalfLengthMeters;
@@ -44,6 +46,7 @@ public sealed partial class JunctionSeam : Node3D
             FromChunkId = fromContent.Id,
             ToChunkId = toContent.Id,
             Position = anchor.RelativeTo(localOriginWorld),
+            ConnectionGapMeters = connectionGapMeters,
         };
         seam._collisionMesh = BuildQuad(
             fromCenter,
