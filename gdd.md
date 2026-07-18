@@ -1264,7 +1264,9 @@ Distinct strategies complete regional challenge routes
 
 __M5 — Representative vertical slice__
 
-One polished 300–500 mile region with hero stops, night mood, audio, UI, characters
+One polished 300–500 mile region with an original rigged hero vehicle, modular
+highway art, regional terrain and backgrounds, hero stops, night mood, audio,
+UI, and characters
 
 The intended experience survives presentation polish and external playtesting
 
