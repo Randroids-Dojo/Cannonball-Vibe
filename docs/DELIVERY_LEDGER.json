@@ -567,7 +567,7 @@
       "milestone": "M2",
       "priority": "P0",
       "title": "Versioned route semantics and lane-topology contract",
-      "status": "in_progress",
+      "status": "complete",
       "dependencies": [
         "P0-002",
         "P0-003",
@@ -583,6 +583,7 @@
         ".tools/routes/p0-009/",
         "reports/M2/P0-009/",
         "docs/QUESTIONS_2026-07-17_AUTONOMOUS_RUN.md",
+        "docs/audits/2026-07-18-p0-009-adversarial-review.md",
         "docs/decisions/ADR-0011-lane-topology-route-context-and-trip-map.md",
         "evidence/M2/P0-009.json",
         "evidence/M2/P0-009-reproducibility.json"

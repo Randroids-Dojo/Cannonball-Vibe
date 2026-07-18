@@ -1,0 +1,96 @@
+{
+  "task_id": "P0-009",
+  "milestone": "M2",
+  "git_revision": "ad84a5ca78477f9d47ec0ec1af35731d88364227",
+  "platform": {
+    "os": "Darwin 25.6.0",
+    "architecture": "arm64"
+  },
+  "recorded_at_utc": "2026-07-18T04:12:09Z",
+  "tool_versions": {
+    "dotnet_sdk": "10.0.102",
+    "uv": "0.9.24",
+    "git_lfs": "3.7.1",
+    "godot": "4.7.1.stable.mono.official.a13da4feb",
+    "flatbuffers": "25.2.10"
+  },
+  "input_artifacts": {
+    "data/sources/fixtures/nhpn-boulder-us36.geojson": "f1021915997f7cb94a00db58feed86f8f9e13e1ac264fc0dd8ba1605d052ae9b",
+    "data/sources/fixtures/nhpn-boulder-us36.manifest.json": "54da0c7b64e476909f9e62008f09f94abc622631971b6549d030b67778fe429b",
+    "data/sources/fixtures/usgs-13-n40w106-boulder.tif": "16af3387633b982f3363f34c638f8ca72646b04ec18aa2dcab1189f0352af507",
+    "data/sources/fixtures/usgs-13-n40w106-boulder.metadata.json": "d626a7d24235884e089effcd38b4d173a26a5427cbec3ffedc063963e55e1cea",
+    "data/sources/source-lock.json": "a3f640c9f804909a9b171c1a169ce5704544fd5905bec73dcc8d7da64b67e2cd"
+  },
+  "deterministic_seed": null,
+  "scenario_arguments": [
+    "--fixture",
+    "official-corridor",
+    "--smoke-test"
+  ],
+  "commands": [
+    {
+      "command": "./scripts/generate-schemas.sh",
+      "exit_status": 0
+    },
+    {
+      "command": "uv run --project tools/map_pipeline pytest -k 'lane or junction or exit or marker or route_identity'",
+      "exit_status": 0
+    },
+    {
+      "command": "DOTNET_ROLL_FORWARD=Major dotnet test Cannonball.sln --filter 'FullyQualifiedName~Route'",
+      "exit_status": 0,
+      "passed": 26
+    },
+    {
+      "command": "./scripts/check.sh",
+      "exit_status": 0,
+      "report": "reports/m0/summary.json"
+    }
+  ],
+  "metrics": {
+    "schema_version": 4,
+    "content_version": "route-v4-e053d24a5b3ff054",
+    "dotnet_tests_passed": 31,
+    "map_pipeline_tests_passed": 60,
+    "playgodot_unit_tests_passed": 12,
+    "official_fixture_edges": 1,
+    "official_fixture_chunks": 4,
+    "lane_sections": 1,
+    "route_identities": 1,
+    "milepoint_anchors": 2,
+    "roadside_markers": 1,
+    "simplified_map_geometries": 3,
+    "simplified_map_payload_bytes": 663,
+    "root_bytes": 6840,
+    "root_budget_bytes": 64000000,
+    "simplified_map_budget_bytes": 16000000
+  },
+  "acceptance_comparisons": {
+    "versioned_lane_sections_and_provenance": "passed",
+    "all_six_connector_movements_and_malformed_topology_rejection": "passed",
+    "route_context_survives_python_to_csharp_boundary": "passed",
+    "content_addressed_map_geometry_and_budgets": "passed",
+    "legacy_package_and_save_lane_migration": "passed",
+    "two_build_reproducibility": "passed"
+  },
+  "output_artifacts": {
+    "shipping_root": {
+      "path": ".tools/routes/p0-009/first/route_graph-4dd7c82d673c673830430935f5ecc19576e66cb08ebf6a508c368f4ca60fea3d.cbrg",
+      "sha256": "069edd3443612f023cc09841aaf47cb59b0f3bc591ea65f6e506f2594502a17b"
+    },
+    "shipping_metadata": {
+      "path": ".tools/routes/p0-009/first/route_graph-4dd7c82d673c673830430935f5ecc19576e66cb08ebf6a508c368f4ca60fea3d.json",
+      "sha256": "b5d04c5ec2ea59657f8ae1e300ee9bfa7018d7fc6d918830b26d8110ba6be7e6"
+    },
+    "normalized_geopackage": {
+      "path": ".tools/routes/p0-009/first/audit/route-v4-e053d24a5b3ff054/6d03466e5fb3ff1dedee29c170cc25d6053c302495bd8be8ce10b712de223a08-normalized.gpkg",
+      "sha256": "6d03466e5fb3ff1dedee29c170cc25d6053c302495bd8be8ce10b712de223a08"
+    },
+    "m0_summary": "reports/m0/summary.json",
+    "adversarial_review": "docs/audits/2026-07-18-p0-009-adversarial-review.md"
+  },
+  "failure_logs": [],
+  "retry_count": 0,
+  "recovery_result": null,
+  "human_gate": null
+}

@@ -1,0 +1,35 @@
+{
+  "task_id": "P0-009",
+  "milestone": "M2",
+  "git_revision": "ad84a5ca78477f9d47ec0ec1af35731d88364227",
+  "platform": "Darwin arm64",
+  "recorded_at_utc": "2026-07-18T04:11:11Z",
+  "build_command": "uv run --project tools/map_pipeline cannonball-map build --source data/sources/fixtures/nhpn-boulder-us36.geojson --manifest data/sources/fixtures/nhpn-boulder-us36.manifest.json --elevation data/sources/fixtures/usgs-13-n40w106-boulder.tif --elevation-metadata data/sources/fixtures/usgs-13-n40w106-boulder.metadata.json --acquisition-lock data/sources/source-lock.json --chunk-meters 100 --output <run>",
+  "runs": [
+    ".tools/routes/p0-009/first",
+    ".tools/routes/p0-009/second"
+  ],
+  "comparison_command": "diff -rq .tools/routes/p0-009/first .tools/routes/p0-009/second",
+  "comparison_exit_status": 0,
+  "byte_identical": true,
+  "normalized_geopackage_equivalent": true,
+  "normalized_geopackage_byte_identical": true,
+  "content_version": "route-v4-e053d24a5b3ff054",
+  "artifacts": {
+    "flatbuffer_root": "069edd3443612f023cc09841aaf47cb59b0f3bc591ea65f6e506f2594502a17b",
+    "metadata_json": "b5d04c5ec2ea59657f8ae1e300ee9bfa7018d7fc6d918830b26d8110ba6be7e6",
+    "normalized_geopackage": "6d03466e5fb3ff1dedee29c170cc25d6053c302495bd8be8ce10b712de223a08",
+    "current_package_pointer": "f9ddee852da7dab3741ab5c91a52f2710c942bf4141803e8edd961d93fbba038",
+    "chunks": [
+      "41dbe7e8033b36afa58e9f30c841e746814be997e3e26c53fe63ef57f477765c",
+      "5e7615ba3bb3f40c628eb06c89e9867c82f4e3322c3697c638f54825e104f8c5",
+      "5b14277a985ec712eaa4fb68a2a8be8af431f9ba0e760c0714c1bdcca45329df",
+      "d6d39df0d54c6751f1672dd5d797a4e929aba8dfc9b8d7c08b55320c3faf9b8b"
+    ]
+  },
+  "artifact_count_per_run": 8,
+  "retry_count": 0,
+  "failure_logs": [],
+  "recovery_result": null,
+  "human_gate": null
+}
