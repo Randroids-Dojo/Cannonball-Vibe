@@ -6,6 +6,7 @@ namespace Cannonball.Game.Automation;
 public sealed record VariableLaneTopologyOverlay(
     RouteContentPackage Package,
     string EdgeId,
+    double EdgeLengthMeters,
     IReadOnlyList<double> TransitionDistancesMeters,
     string OverrideId);
 
@@ -22,12 +23,14 @@ public static class VariableLaneTopologyFixture
             .ToHashSet(StringComparer.Ordinal);
         var edges = edgeIds.Select(package.Graph.GetEdge).ToArray();
         var selected = edges
-            .Where(edge => edge.GetEffectiveLaneSections().First().Lanes.Count >= 2)
+            .Where(edge => edge.LengthMeters >= 1_000 &&
+                edge.GetEffectiveLaneSections().First().Lanes.Count >= 2)
             .OrderByDescending(edge => edge.LengthMeters)
             .ThenBy(edge => edge.Id, StringComparer.Ordinal)
             .FirstOrDefault()
             ?? throw new InvalidDataException(
-                "Variable-lane topology fixture needs an edge with at least two source lanes.");
+                "Variable-lane topology fixture needs an edge at least 1,000 meters long " +
+                "with at least two source lanes.");
 
         var sourceSection = selected.GetEffectiveLaneSections().First();
         var sourceLanes = sourceSection.Lanes.OrderBy(lane => lane.Index).Take(2).ToArray();
@@ -142,6 +145,7 @@ public static class VariableLaneTopologyFixture
         return new VariableLaneTopologyOverlay(
             package with { Graph = graph, Semantics = semantics },
             selected.Id,
+            selected.LengthMeters,
             boundaries,
             AuthoredOverrideId);
     }

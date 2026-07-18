@@ -574,7 +574,7 @@ public sealed partial class Main : Node3D
             {
                 Math.Max(0, distance - reviewOffsetMeters),
                 distance,
-                distance + reviewOffsetMeters,
+                Math.Min(_topologyOverlay.EdgeLengthMeters, distance + reviewOffsetMeters),
             })
             .Select(distance => _streamer.GetRouteDistance(_topologyOverlay.EdgeId, distance))
             .Distinct()
@@ -584,7 +584,9 @@ public sealed partial class Main : Node3D
             Math.Max(0, _topologyOverlay.TransitionDistancesMeters[0] - 150));
         _topologyTraversalEndMeters = _streamer.GetRouteDistance(
             _topologyOverlay.EdgeId,
-            _topologyOverlay.TransitionDistancesMeters[^1] + 150);
+            Math.Min(
+                _topologyOverlay.EdgeLengthMeters,
+                _topologyOverlay.TransitionDistancesMeters[^1] + 150));
     }
 
     private void BeginTopologyReviewWaypoint()
