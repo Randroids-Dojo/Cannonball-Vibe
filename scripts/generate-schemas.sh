@@ -16,3 +16,12 @@ flatc --python --gen-object-api -o tools/map_pipeline/src \
 while IFS= read -r generated_file; do
   perl -pi -e 's/FLATBUFFERS_[0-9_]+/FLATBUFFERS_25_2_10/g' "$generated_file"
 done < <(rg -l 'FLATBUFFERS_[0-9_]+' src/Cannonball.Core/Content/Generated)
+
+# The released C# verifier narrows absolute vtable positions to Int16. Route
+# roots legitimately exceed that range, so generated verification uses the
+# compatible in-repo verifier until the upstream runtime fixes the narrowing.
+while IFS= read -r generated_file; do
+  perl -pi -e \
+    's/Google\.FlatBuffers\.Verifier/Cannonball.Core.Content.FlatBufferVerifier/g' \
+    "$generated_file"
+done < <(rg -l 'Google\.FlatBuffers\.Verifier' src/Cannonball.Core/Content/Generated)

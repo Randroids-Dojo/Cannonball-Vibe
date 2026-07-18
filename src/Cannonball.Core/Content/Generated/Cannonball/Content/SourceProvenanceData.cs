@@ -129,7 +129,7 @@ public class SourceProvenanceDataT
 
 static public class SourceProvenanceDataVerify
 {
-  static public bool Verify(Google.FlatBuffers.Verifier verifier, uint tablePos)
+  static public bool Verify(Cannonball.Core.Content.FlatBufferVerifier verifier, uint tablePos)
   {
     return verifier.VerifyTableStart(tablePos)
       && verifier.VerifyString(tablePos, 4 /*SourceId*/, false)

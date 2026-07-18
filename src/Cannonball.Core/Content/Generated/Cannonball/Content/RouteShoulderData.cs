@@ -77,7 +77,7 @@ public class RouteShoulderDataT
 
 static public class RouteShoulderDataVerify
 {
-  static public bool Verify(Google.FlatBuffers.Verifier verifier, uint tablePos)
+  static public bool Verify(Cannonball.Core.Content.FlatBufferVerifier verifier, uint tablePos)
   {
     return verifier.VerifyTableStart(tablePos)
       && verifier.VerifyField(tablePos, 4 /*WidthMeters*/, 4 /*float*/, 4, false)

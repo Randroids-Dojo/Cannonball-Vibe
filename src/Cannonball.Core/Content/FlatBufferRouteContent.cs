@@ -67,6 +67,21 @@ public static class FlatBufferRouteContent
         {
             throw new InvalidDataException("Route content root exceeds the 64 MB budget.");
         }
+        try
+        {
+            return LoadCore(bytes);
+        }
+        catch (Exception error) when (error is IndexOutOfRangeException or
+            ArgumentOutOfRangeException or OverflowException)
+        {
+            throw new InvalidDataException(
+                "Route content contains an invalid FlatBuffer offset.",
+                error);
+        }
+    }
+
+    private static RouteContentPackage LoadCore(byte[] bytes)
+    {
         var buffer = new ByteBuffer(bytes);
         if (!RouteGraphBuffer.RouteGraphBufferBufferHasIdentifier(buffer) ||
             !RouteGraphBuffer.VerifyRouteGraphBuffer(buffer))

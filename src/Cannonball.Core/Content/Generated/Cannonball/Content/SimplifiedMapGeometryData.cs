@@ -109,7 +109,7 @@ public class SimplifiedMapGeometryDataT
 
 static public class SimplifiedMapGeometryDataVerify
 {
-  static public bool Verify(Google.FlatBuffers.Verifier verifier, uint tablePos)
+  static public bool Verify(Cannonball.Core.Content.FlatBufferVerifier verifier, uint tablePos)
   {
     return verifier.VerifyTableStart(tablePos)
       && verifier.VerifyString(tablePos, 4 /*EdgeId*/, false)
