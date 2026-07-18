@@ -19,6 +19,7 @@ public sealed partial class Main : Node3D
     private const int GeographicReviewFramesPerWaypoint = 90;
     private const int StreamingStableFramesPerCheckpoint = 5;
     private const float TopologyHighSpeedTargetMetersPerSecond = 60;
+    private const float RouteChoiceTraversalSpeedMetersPerSecond = 20;
     private static readonly double[] GeographicReviewFractions =
         [0.005, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 0.995];
     private static readonly double[] StreamingCheckpointFractions =
@@ -29,7 +30,7 @@ public sealed partial class Main : Node3D
     private JsonRunStateRepository _saves = null!;
     private JsonlTelemetrySink _telemetry = null!;
     private RouteContentPackage _package = null!;
-    private VerifiedFileChunkSource _chunkSource = null!;
+    private IRouteChunkContentSource _chunkSource = null!;
     private Task<TransportProbeResult>? _transportProbe;
     private bool _transportProbeReported;
     private bool _smokeTest;
@@ -40,6 +41,7 @@ public sealed partial class Main : Node3D
     private bool _streamingProfile;
     private bool _topologyProfile;
     private bool _topologyReview;
+    private bool _routeChoiceProfile;
     private bool _shutdownStarted;
     private int _smokeFrames;
     private double _telemetryElapsed;
@@ -66,6 +68,30 @@ public sealed partial class Main : Node3D
     private Camera3D? _topologyDiagnosticCamera;
     private int _topologyReviewWaypointIndex;
     private int _topologyReviewFrames;
+    private RepresentativeInterchangeFixtureData? _interchangeFixture;
+    private static readonly string[] RouteChoicePlanOrder =
+    [
+        RepresentativeInterchangeFixture.StayPlanId,
+        RepresentativeInterchangeFixture.ExitPlanId,
+        RepresentativeInterchangeFixture.TransferPlanId,
+    ];
+    private int _routeChoicePlanIndex;
+    private int _routeChoiceTransitionIndex;
+    private int _routeChoiceStableFrames;
+    private bool _routeChoiceTraversing;
+    private bool _routeChoiceFinishingPlan;
+    private bool _routeChoiceUnsupportedReported;
+    private bool _routeChoiceBeforeSaved;
+    private bool _routeChoiceInsideSaved;
+    private bool _routeChoiceProfileComplete;
+    private int _routeChoiceSaveResumeCount;
+    private readonly HashSet<string> _routeChoiceConnectorsObserved = new(StringComparer.Ordinal);
+    private readonly HashSet<string> _routeChoiceBranchPrewarms = new(StringComparer.Ordinal);
+    private readonly HashSet<string> _routeChoiceBranchEvictions = new(StringComparer.Ordinal);
+    private double _routeChoiceMaximumBuildMilliseconds;
+    private double _routeChoiceMaximumCollisionBuildMilliseconds;
+    private int _routeChoiceMaximumUnsupportedFrames;
+    private int _routeChoiceChunkFailures;
 
     public override void _Ready()
     {
@@ -82,8 +108,10 @@ public sealed partial class Main : Node3D
             _streamingProfile = arguments.Contains("--streaming-profile", StringComparer.Ordinal);
             _topologyProfile = arguments.Contains("--topology-profile", StringComparer.Ordinal);
             _topologyReview = arguments.Contains("--topology-review", StringComparer.Ordinal);
+            _routeChoiceProfile = arguments.Contains("--route-choice-profile", StringComparer.Ordinal);
             _smokeTest = _smokeTest || _stressTest || _shortCorridorSoak || _renderIntegrity ||
-                _geographicReview || _streamingProfile || _topologyProfile || _topologyReview;
+                _geographicReview || _streamingProfile || _topologyProfile || _topologyReview ||
+                _routeChoiceProfile;
             _smokeTargetFrames = _stressTest || _shortCorridorSoak ? 3_600 : 360;
             if (_renderIntegrity)
             {
@@ -97,39 +125,42 @@ public sealed partial class Main : Node3D
             {
                 _smokeTargetFrames = 7_200;
             }
+            if (_routeChoiceProfile)
+            {
+                _smokeTargetFrames = 14_400;
+            }
             if (_topologyReview)
             {
                 _smokeTargetFrames = 480;
             }
 
             var absoluteRoutePath = Path.GetFullPath(routePath);
-            _package = FlatBufferRouteContent.Load(absoluteRoutePath);
-            if (_topologyProfile || _topologyReview)
+            var sourcePackage = FlatBufferRouteContent.Load(absoluteRoutePath);
+            _package = sourcePackage;
+            if (_routeChoiceProfile)
+            {
+                _interchangeFixture = RepresentativeInterchangeFixture.Create(sourcePackage);
+                _package = _interchangeFixture.Package;
+                _chunkSource = _interchangeFixture.Source;
+            }
+            else if (_topologyProfile || _topologyReview)
             {
                 _topologyOverlay = VariableLaneTopologyFixture.Apply(_package);
                 _package = _topologyOverlay.Package;
             }
-            _chunkSource = new VerifiedFileChunkSource(
-                _package,
-                Path.GetDirectoryName(absoluteRoutePath)
-                    ?? throw new InvalidDataException("Route package has no parent directory."));
-            var initialManifest = WorldStreamer.FindInitialManifest(_package);
-            var initialChunk = _chunkSource.LoadChunk(initialManifest.Id);
+            if (!_routeChoiceProfile)
+            {
+                _chunkSource = new VerifiedFileChunkSource(
+                    _package,
+                    Path.GetDirectoryName(absoluteRoutePath)
+                        ?? throw new InvalidDataException("Route package has no parent directory."));
+            }
 
             ConfigureInputMap();
             BuildLighting();
-            _streamer = new WorldStreamer { Name = "WorldStreamer" };
-            _streamer.Configure(_package, _chunkSource, initialChunk);
-            _streamer.ShortCorridorLoopEnabled = _shortCorridorSoak;
-            AddChild(_streamer);
-            _vehicle = new CannonballVehicle
-            {
-                Transform = new Transform3D(
-                    Basis.LookingAt(_streamer.InitialRoadForward, Vector3.Up),
-                    _streamer.InitialRoadPoint + Vector3.Up * 0.78f),
-            };
-            AddChild(_vehicle);
-            _streamer.Track(_vehicle);
+            ConfigureRuntimeWorld(_interchangeFixture is null
+                ? null
+                : _interchangeFixture.Plans[RouteChoicePlanOrder[0]]);
             if (_topologyReview)
             {
                 _topologyDiagnosticCamera = new Camera3D
@@ -150,7 +181,7 @@ public sealed partial class Main : Node3D
                 ProjectSettings.GlobalizePath("user://telemetry/prototype.jsonl"));
 
             _vehicle.AutopilotEnabled = _smokeTest && !_renderIntegrity && !_streamingProfile &&
-                !_topologyProfile && !_topologyReview;
+                !_topologyProfile && !_topologyReview && !_routeChoiceProfile;
             if (_geographicReview)
             {
                 _vehicle.AutopilotEnabled = false;
@@ -171,6 +202,10 @@ public sealed partial class Main : Node3D
                 {
                     BeginTopologyReviewWaypoint();
                 }
+            }
+            if (_routeChoiceProfile)
+            {
+                BeginNextRouteChoiceTransition();
             }
             if (_renderIntegrity)
             {
@@ -251,6 +286,10 @@ public sealed partial class Main : Node3D
         {
             AdvanceTopologyReview();
         }
+        if (_routeChoiceProfile && !_routeChoiceProfileComplete)
+        {
+            AdvanceRouteChoiceProfile();
+        }
         _telemetryElapsed += delta;
         if (_telemetryElapsed >= 5)
         {
@@ -277,7 +316,8 @@ public sealed partial class Main : Node3D
         var renderTraversalComplete = _renderIntegrity &&
             _streamer.RouteDistanceMeters >= Math.Min(300, _streamer.TotalRouteLengthMeters - 35);
         if (_smokeFrames >= _smokeTargetFrames || renderTraversalComplete ||
-            _geographicReviewComplete || _streamingProfileComplete || _topologyProfileComplete)
+            _geographicReviewComplete || _streamingProfileComplete || _topologyProfileComplete ||
+            _routeChoiceProfileComplete)
         {
             _shutdownStarted = true;
             _ = PersistAsync(quitAfterSave: true);
@@ -290,6 +330,264 @@ public sealed partial class Main : Node3D
         {
             _telemetry.DisposeAsync().AsTask().GetAwaiter().GetResult();
         }
+    }
+
+    private void ConfigureRuntimeWorld(ValidatedRoutePlan? routePlan)
+    {
+        var routePlanEdgeIds = routePlan?.LinearPlan.EdgeIds;
+        var initialManifest = WorldStreamer.FindInitialManifest(_package, routePlanEdgeIds);
+        var initialChunk = _chunkSource.LoadChunk(initialManifest.Id);
+        _streamer = new WorldStreamer { Name = "WorldStreamer" };
+        _streamer.Configure(
+            _package,
+            _chunkSource,
+            initialChunk,
+            routePlanEdgeIds,
+            routePlan?.Selection.ConnectorIds);
+        _streamer.ShortCorridorLoopEnabled = _shortCorridorSoak;
+        AddChild(_streamer);
+        _vehicle = new CannonballVehicle
+        {
+            Transform = new Transform3D(
+                Basis.LookingAt(_streamer.InitialRoadForward, Vector3.Up),
+                _streamer.InitialRoadPoint + Vector3.Up * 0.78f),
+        };
+        AddChild(_vehicle);
+        _streamer.Track(_vehicle);
+    }
+
+    private void ReplaceRuntimeWorld(ValidatedRoutePlan plan)
+    {
+        _streamer.ProcessMode = ProcessModeEnum.Disabled;
+        _vehicle.ProcessMode = ProcessModeEnum.Disabled;
+        RemoveChild(_vehicle);
+        _vehicle.QueueFree();
+        RemoveChild(_streamer);
+        _streamer.QueueFree();
+        ConfigureRuntimeWorld(plan);
+        _vehicle.AutopilotEnabled = false;
+    }
+
+    private ValidatedRoutePlan ActiveRouteChoicePlan =>
+        _interchangeFixture?.Plans[RouteChoicePlanOrder[Math.Min(
+            _routeChoicePlanIndex,
+            RouteChoicePlanOrder.Length - 1)]]
+        ?? throw new InvalidOperationException("Representative interchange fixture is not configured.");
+
+    private void BeginNextRouteChoiceTransition()
+    {
+        var plan = ActiveRouteChoicePlan;
+        if (_routeChoiceTransitionIndex >= plan.Transitions.Count)
+        {
+            BeginRouteChoicePlanCompletion();
+            return;
+        }
+        var transition = plan.Transitions[_routeChoiceTransitionIndex];
+        var fromEdge = _package.Graph.GetEdge(transition.FromEdgeId);
+        var crossingDistance = _streamer.GetRouteDistance(fromEdge.Id, fromEdge.LengthMeters);
+        var approachLength = transition.ConnectorId is
+            "connector-exit-crossroad" or "connector-transfer-merge"
+            ? 15
+            : Math.Min(70, fromEdge.LengthMeters * 0.35);
+        var approachDistance = Math.Max(
+            _streamer.GetRouteDistance(fromEdge.Id, 0),
+            crossingDistance - approachLength);
+        _routeChoiceStableFrames = 0;
+        _routeChoiceTraversing = false;
+        _routeChoiceUnsupportedReported = false;
+        _vehicle.AutopilotEnabled = false;
+        _streamer.SetReviewPosition(approachDistance, transition.FromLaneId);
+    }
+
+    private void AdvanceRouteChoiceProfile()
+    {
+        if (_routeChoiceFinishingPlan)
+        {
+            if (!_streamer.ReviewTargetReady || !_streamer.IsStreamingSettled)
+            {
+                _routeChoiceStableFrames = 0;
+                return;
+            }
+            _routeChoiceStableFrames++;
+            if (_routeChoiceStableFrames >= StreamingStableFramesPerCheckpoint)
+            {
+                CompleteRouteChoicePlan();
+            }
+            return;
+        }
+        var plan = ActiveRouteChoicePlan;
+        var transition = plan.Transitions[_routeChoiceTransitionIndex];
+        if (!_routeChoiceTraversing)
+        {
+            if (!_streamer.ReviewTargetReady || !_streamer.IsStreamingSettled)
+            {
+                _routeChoiceStableFrames = 0;
+                return;
+            }
+            _routeChoiceStableFrames++;
+            if (_routeChoiceStableFrames < StreamingStableFramesPerCheckpoint)
+            {
+                return;
+            }
+            _streamer.ValidateCurrentStreamingWindows();
+            if (!_routeChoiceBeforeSaved)
+            {
+                VerifyRouteChoiceSaveResume("before");
+                _routeChoiceBeforeSaved = true;
+            }
+            _vehicle.ResetGroundingTelemetry();
+            _vehicle.AutopilotSpeedLimitMetersPerSecond = transition.ConnectorId is
+                "connector-exit-crossroad" or "connector-transfer-merge"
+                ? 8
+                : RouteChoiceTraversalSpeedMetersPerSecond;
+            _vehicle.AutopilotEnabled = true;
+            _streamer.BeginReviewTraversal();
+            _routeChoiceTraversing = true;
+            return;
+        }
+
+        if (!_routeChoiceUnsupportedReported &&
+            _vehicle.MaximumConsecutiveUnsupportedPhysicsFrames >
+                MaximumRenderIntegrityUnsupportedPhysicsFrames)
+        {
+            _routeChoiceUnsupportedReported = true;
+            GD.Print(
+                $"CANNONBALL_ROUTE_SUPPORT_DIAGNOSTIC plan={plan.Selection.Id} " +
+                $"connector={transition.ConnectorId} edge={_streamer.CurrentEdgeId} " +
+                $"edge_distance_m={_streamer.CurrentEdgeDistanceMeters:0.000} " +
+                $"lateral_m={_streamer.CurrentLateralOffsetMeters:0.000} " +
+                $"vehicle=({_vehicle.Position.X:0.000},{_vehicle.Position.Y:0.000}," +
+                $"{_vehicle.Position.Z:0.000}) target=({_vehicle.TargetRoadPoint.X:0.000}," +
+                $"{_vehicle.TargetRoadPoint.Y:0.000},{_vehicle.TargetRoadPoint.Z:0.000})");
+        }
+
+        if (!_streamer.ObservedConnectorIds.Contains(transition.ConnectorId, StringComparer.Ordinal))
+        {
+            return;
+        }
+        var targetEdge = _package.Graph.GetEdge(transition.ToEdgeId);
+        var targetDistance = _streamer.GetRouteDistance(transition.ToEdgeId, 0) +
+            Math.Min(5, targetEdge.LengthMeters * 0.05);
+        if (_streamer.RouteDistanceMeters < targetDistance)
+        {
+            return;
+        }
+        if (_vehicle.GroundedWheelCount == 0)
+        {
+            return;
+        }
+        _vehicle.AutopilotEnabled = false;
+        if (!_vehicle.HasBeenGrounded)
+        {
+            throw new InvalidOperationException(
+                $"Route-choice traversal crossed '{transition.ConnectorId}' without road contact.");
+        }
+        _routeChoiceMaximumUnsupportedFrames = Math.Max(
+            _routeChoiceMaximumUnsupportedFrames,
+            _vehicle.MaximumConsecutiveUnsupportedPhysicsFrames);
+        _routeChoiceConnectorsObserved.Add(transition.ConnectorId);
+        if (!_routeChoiceInsideSaved &&
+            (transition.Movement is JunctionMovement.Exit or JunctionMovement.HighwayTransfer ||
+                _routeChoiceTransitionIndex == 0))
+        {
+            VerifyRouteChoiceSaveResume("inside");
+            _routeChoiceInsideSaved = true;
+        }
+        GD.Print(
+            $"CANNONBALL_ROUTE_CHOICE_OK plan={plan.Selection.Id} " +
+            $"connector={transition.ConnectorId} movement={transition.Movement} " +
+            $"to_edge={transition.ToEdgeId} " +
+            $"max_unsupported_frames={_vehicle.MaximumConsecutiveUnsupportedPhysicsFrames}");
+        _routeChoiceTransitionIndex++;
+        BeginNextRouteChoiceTransition();
+    }
+
+    private void BeginRouteChoicePlanCompletion()
+    {
+        _vehicle.AutopilotEnabled = false;
+        _routeChoiceTraversing = false;
+        _routeChoiceFinishingPlan = true;
+        _routeChoiceStableFrames = 0;
+        _streamer.SetReviewDistance(Math.Max(0, _streamer.TotalRouteLengthMeters - 1));
+    }
+
+    private void CompleteRouteChoicePlan()
+    {
+        var plan = ActiveRouteChoicePlan;
+        VerifyRouteChoiceSaveResume("after");
+        AccumulateRouteChoiceRuntimeMetrics();
+        GD.Print(
+            $"CANNONBALL_ROUTE_PLAN_OK plan={plan.Selection.Id} " +
+            $"edges={plan.Selection.EdgeIds.Count} connectors={plan.Transitions.Count} " +
+            $"branch_prewarms={_streamer.BranchPrewarmCount} " +
+            $"branch_evictions={_streamer.BranchPrewarmEvictionCount}");
+        _routeChoicePlanIndex++;
+        _routeChoiceTransitionIndex = 0;
+        _routeChoiceBeforeSaved = false;
+        _routeChoiceInsideSaved = false;
+        _routeChoiceFinishingPlan = false;
+        if (_routeChoicePlanIndex >= RouteChoicePlanOrder.Length)
+        {
+            _routeChoiceProfileComplete = true;
+            _vehicle.AutopilotEnabled = false;
+            return;
+        }
+        ReplaceRuntimeWorld(ActiveRouteChoicePlan);
+        BeginNextRouteChoiceTransition();
+    }
+
+    private void AccumulateRouteChoiceRuntimeMetrics()
+    {
+        foreach (var chunkId in _streamer.PrewarmedBranchChunkIds)
+        {
+            _routeChoiceBranchPrewarms.Add(chunkId);
+        }
+        foreach (var chunkId in _streamer.EvictedBranchChunkIds)
+        {
+            _routeChoiceBranchEvictions.Add(chunkId);
+        }
+        _routeChoiceMaximumBuildMilliseconds = Math.Max(
+            _routeChoiceMaximumBuildMilliseconds,
+            _streamer.MaximumBuildMilliseconds);
+        _routeChoiceMaximumCollisionBuildMilliseconds = Math.Max(
+            _routeChoiceMaximumCollisionBuildMilliseconds,
+            _streamer.MaximumCollisionBuildMilliseconds);
+        _routeChoiceMaximumUnsupportedFrames = Math.Max(
+            _routeChoiceMaximumUnsupportedFrames,
+            _vehicle.MaximumConsecutiveUnsupportedPhysicsFrames);
+        _routeChoiceChunkFailures += _streamer.ChunkFailureCount;
+    }
+
+    private void VerifyRouteChoiceSaveResume(string phase)
+    {
+        var expected = CaptureSave();
+        var actual = Task.Run(async () =>
+        {
+            await _saves.SaveAsync(expected);
+            return await _saves.LoadAsync();
+        }).GetAwaiter().GetResult()
+            ?? throw new InvalidDataException("Route-choice save disappeared during round trip.");
+        if (actual.Run.Position != expected.Run.Position ||
+            !actual.Run.RoutePlan.SequenceEqual(expected.Run.RoutePlan, StringComparer.Ordinal) ||
+            actual.Run.Navigation.SelectedPlanId != expected.Run.Navigation.SelectedPlanId ||
+            actual.Run.Navigation.ActiveConnectorId != expected.Run.Navigation.ActiveConnectorId ||
+            actual.Run.Navigation.BranchStream.DecisionEdgeId !=
+                expected.Run.Navigation.BranchStream.DecisionEdgeId ||
+            !actual.Run.Navigation.BranchStream.PrewarmedChunkIds.SequenceEqual(
+                expected.Run.Navigation.BranchStream.PrewarmedChunkIds,
+                StringComparer.Ordinal) ||
+            !actual.Run.Navigation.BranchStream.SelectedChunkIds.SequenceEqual(
+                expected.Run.Navigation.BranchStream.SelectedChunkIds,
+                StringComparer.Ordinal))
+        {
+            throw new InvalidDataException(
+                $"Route-choice save/resume mismatch in phase '{phase}'.");
+        }
+        _routeChoiceSaveResumeCount++;
+        GD.Print(
+            $"CANNONBALL_ROUTE_RESUME_OK plan={expected.Run.Navigation.SelectedPlanId} " +
+            $"phase={phase} edge={expected.Run.Position.EdgeId} " +
+            $"connector={expected.Run.Navigation.ActiveConnectorId}");
     }
 
     private bool ReportTransportProbeWhenComplete()
@@ -385,6 +683,10 @@ public sealed partial class Main : Node3D
             {
                 ValidateTopologyProfile();
             }
+            if (quitAfterSave && _routeChoiceProfile)
+            {
+                ValidateRouteChoiceProfile();
+            }
             var save = CaptureSave();
             await _saves.SaveAsync(save);
             await RecordTelemetryAsync("run_suspended");
@@ -452,7 +754,10 @@ public sealed partial class Main : Node3D
             Cash: 25_000,
             Vehicle: new VehicleCondition(82, 1, 1, 1, 0),
             Enforcement: new EnforcementState(0, 0, "clear", 0),
-            AssistProfile: _vehicle.AssistProfile);
+            AssistProfile: _vehicle.AssistProfile)
+        {
+            Navigation = CaptureNavigationState(),
+        };
         var localVehicle = new LocalVehicleState(
             _vehicle.Position.X,
             _vehicle.Position.Y,
@@ -471,6 +776,29 @@ public sealed partial class Main : Node3D
             runState,
             localVehicle,
             [new ReplayMarker(runState.ElapsedSeconds, position, "suspend")]);
+    }
+
+    private RouteNavigationState CaptureNavigationState()
+    {
+        if (!_routeChoiceProfile || _interchangeFixture is null)
+        {
+            return RouteNavigationState.Empty;
+        }
+        var plan = ActiveRouteChoicePlan;
+        var selectedChunks = _package.Chunks.Values
+            .Where(manifest => plan.Selection.EdgeIds.Contains(
+                manifest.EdgeId,
+                StringComparer.Ordinal))
+            .Select(manifest => manifest.Id)
+            .OrderBy(id => id, StringComparer.Ordinal)
+            .ToArray();
+        return new RouteNavigationState(
+            plan.Selection.Id,
+            _streamer.ActiveConnectorId,
+            new BranchStreamSnapshot(
+                _streamer.CurrentEdgeId,
+                _streamer.DesiredBranchPrewarmChunkIds.OrderBy(id => id, StringComparer.Ordinal).ToArray(),
+                selectedChunks));
     }
 
     private async Task RecordTelemetryAsync(string name)
@@ -778,6 +1106,96 @@ public sealed partial class Main : Node3D
             $"max_visual_build_ms={_streamer.MaximumBuildMilliseconds:0.000} " +
             $"max_collision_build_ms={_streamer.MaximumCollisionBuildMilliseconds:0.000} " +
             $"override={_topologyOverlay.OverrideId} chunk_failures=0");
+    }
+
+    private void ValidateRouteChoiceProfile()
+    {
+        if (_interchangeFixture is null || !_routeChoiceProfileComplete ||
+            _routeChoicePlanIndex != RouteChoicePlanOrder.Length)
+        {
+            throw new InvalidOperationException(
+                "Route-choice profile did not complete every representative route plan.");
+        }
+        var expectedConnectors = _interchangeFixture.Plans.Values
+            .SelectMany(plan => plan.Transitions)
+            .Select(transition => transition.ConnectorId)
+            .ToHashSet(StringComparer.Ordinal);
+        if (!expectedConnectors.SetEquals(_routeChoiceConnectorsObserved))
+        {
+            throw new InvalidOperationException(
+                "Route-choice profile did not physically traverse every selected connector.");
+        }
+        var catalog = new RouteChoiceCatalog(
+            _interchangeFixture.Package.Graph,
+            _interchangeFixture.Package.Semantics!);
+        var choices = _interchangeFixture.DecisionEdgeIds
+            .SelectMany(edgeId => catalog.GetChoices(edgeId))
+            .ToArray();
+        if (!choices.Any(choice => choice.Movement == JunctionMovement.Continuation) ||
+            !choices.Any(choice => choice.Movement == JunctionMovement.Exit &&
+                choice.ExitNumber.Length > 0 && choice.Destinations.Count > 0) ||
+            !choices.Any(choice => choice.Movement == JunctionMovement.HighwayTransfer &&
+                choice.RouteIdentityIds.Count > 0 && choice.Destinations.Count > 0))
+        {
+            throw new InvalidOperationException(
+                "Route-choice queries did not expose stable maneuver and destination metadata.");
+        }
+        if (!_interchangeFixture.Package.Semantics!.JunctionConnectors.Any(connector =>
+                connector.Movement == JunctionMovement.Entrance))
+        {
+            throw new InvalidOperationException(
+                "Representative interchange fixture has no entrance connector.");
+        }
+        if (_routeChoiceBranchPrewarms.Count < 4 || _routeChoiceBranchEvictions.Count < 4)
+        {
+            throw new InvalidOperationException(
+                "Route-choice profile did not prewarm and evict every probable outgoing branch.");
+        }
+        if (_routeChoiceSaveResumeCount != RouteChoicePlanOrder.Length * 3)
+        {
+            throw new InvalidOperationException(
+                $"Route-choice profile completed {_routeChoiceSaveResumeCount} of " +
+                $"{RouteChoicePlanOrder.Length * 3} save/resume comparisons.");
+        }
+        if (_routeChoiceChunkFailures != 0 ||
+            _routeChoiceMaximumBuildMilliseconds > WorldStreamer.InitialChunkBuildBudgetMilliseconds ||
+            _routeChoiceMaximumCollisionBuildMilliseconds >
+                WorldStreamer.InitialCollisionBuildBudgetMilliseconds ||
+            _routeChoiceMaximumUnsupportedFrames >
+                MaximumRenderIntegrityUnsupportedPhysicsFrames)
+        {
+            throw new InvalidOperationException(
+                "Route-choice traversal failed a hash, build-budget, or collision-support gate: " +
+                $"chunk_failures={_routeChoiceChunkFailures}, " +
+                $"max_visual_build_ms={_routeChoiceMaximumBuildMilliseconds:0.000}, " +
+                $"max_collision_build_ms={_routeChoiceMaximumCollisionBuildMilliseconds:0.000}, " +
+                $"max_unsupported_frames={_routeChoiceMaximumUnsupportedFrames}.");
+        }
+        var geometry = _interchangeFixture.GeometryValidation;
+        if (geometry.GradeSeparatedCrossings < 1 ||
+            geometry.MinimumVerticalClearanceMeters < 5 ||
+            geometry.SelfIntersections != 0 ||
+            geometry.InvalidShortcuts != 0 ||
+            geometry.ParallelCarriagewayPairs < 1)
+        {
+            throw new InvalidOperationException(
+                "Representative interchange geometry failed its grade-separation or topology gates.");
+        }
+        GD.Print(
+            $"CANNONBALL_INTERCHANGES_OK plans={RouteChoicePlanOrder.Length} " +
+            $"connectors={_routeChoiceConnectorsObserved.Count} " +
+            $"choice_movements=Continuation,Exit,Entrance,HighwayTransfer " +
+            $"branch_prewarms={_routeChoiceBranchPrewarms.Count} " +
+            $"branch_evictions={_routeChoiceBranchEvictions.Count} " +
+            $"save_resumes={_routeChoiceSaveResumeCount} " +
+            $"grade_separated_crossings={geometry.GradeSeparatedCrossings} " +
+            $"minimum_clearance_m={geometry.MinimumVerticalClearanceMeters:0.000} " +
+            $"parallel_carriageways={geometry.ParallelCarriagewayPairs} " +
+            $"self_intersections=0 invalid_shortcuts=0 " +
+            $"max_unsupported_frames={_routeChoiceMaximumUnsupportedFrames} " +
+            $"max_visual_build_ms={_routeChoiceMaximumBuildMilliseconds:0.000} " +
+            $"max_collision_build_ms={_routeChoiceMaximumCollisionBuildMilliseconds:0.000} " +
+            $"override={_interchangeFixture.OverrideId} chunk_failures=0");
     }
 
     private void BeginNextGeographicReviewWaypoint()

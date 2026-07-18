@@ -660,17 +660,22 @@
       "milestone": "M2",
       "priority": "P0",
       "title": "Interchange routing, transfers, and branch streaming",
-      "status": "open",
+      "status": "in_progress",
       "dependencies": [
         "P0-010"
       ],
       "owned_paths": [
         "src/Cannonball.Core/Routes/",
+        "src/Cannonball.Core/Runs/",
+        "src/Cannonball.Core/Saves/",
         "src/Cannonball.Core/Simulation/",
+        "tests/Cannonball.Core.Tests/",
         "game/World/",
         "game/Automation/",
         "tools/map_pipeline/",
         "scripts/run-scenario.sh",
+        "docs/QUESTIONS_2026-07-17_AUTONOMOUS_RUN.md",
+        "docs/audits/2026-07-18-p0-011-interchange-routing-review.md",
         "evidence/M2/P0-011.json"
       ],
       "acceptance": [

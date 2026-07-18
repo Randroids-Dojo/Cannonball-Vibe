@@ -44,6 +44,40 @@ public sealed class RouteChunkContentTests
         }
     }
 
+    [Fact]
+    public async Task VerifiedMemorySourceEnforcesManifestHashBeforeLoading()
+    {
+        var chunkBytes = CreateChunkBytes();
+        var package = FlatBufferRouteContent.Load(CreateRootBytes(chunkBytes));
+        var source = new VerifiedMemoryChunkSource(
+            package,
+            new Dictionary<string, byte[]> { ["chunk-1"] = chunkBytes });
+
+        var chunk = await source.LoadChunkAsync("chunk-1");
+        chunkBytes[^1] ^= 0xff;
+        var stillValid = source.LoadChunk("chunk-1");
+
+        Assert.Equal("edge-1", chunk.EdgeId);
+        Assert.Equal(chunk.Id, stillValid.Id);
+        Assert.Equal(chunk.Samples.ToArray(), stillValid.Samples.ToArray());
+    }
+
+    [Fact]
+    public async Task VerifiedMemorySourceRejectsCorruptPayload()
+    {
+        var chunkBytes = CreateChunkBytes();
+        var package = FlatBufferRouteContent.Load(CreateRootBytes(chunkBytes));
+        chunkBytes[^1] ^= 0xff;
+        var source = new VerifiedMemoryChunkSource(
+            package,
+            new Dictionary<string, byte[]> { ["chunk-1"] = chunkBytes });
+
+        var error = await Assert.ThrowsAsync<InvalidDataException>(
+            () => source.LoadChunkAsync("chunk-1").AsTask());
+
+        Assert.Contains("SHA-256", error.Message);
+    }
+
     [Theory]
     [InlineData("uppercase-hash")]
     [InlineData("unsafe-path")]

@@ -16,6 +16,7 @@ public sealed class RunSaveMigrationPipeline
     public RunSaveMigrationPipeline(IEnumerable<IRunSaveMigrator>? migrators = null)
     {
         _migrators = (migrators ?? [])
+            .Append(new SchemaOneToTwoMigrator())
             .ToDictionary(migrator => migrator.FromVersion);
         if (_migrators.Values.Any(migrator => migrator.ToVersion <= migrator.FromVersion))
         {
@@ -56,4 +57,29 @@ public sealed class RunSaveMigrationPipeline
     private static int ReadVersion(JsonObject save) =>
         save["schemaVersion"]?.GetValue<int>()
         ?? throw new InvalidDataException("Save is missing schemaVersion.");
+
+    private sealed class SchemaOneToTwoMigrator : IRunSaveMigrator
+    {
+        public int FromVersion => 1;
+        public int ToVersion => 2;
+
+        public JsonObject Migrate(JsonObject save)
+        {
+            var run = save["run"] as JsonObject
+                ?? throw new InvalidDataException("Schema-1 save is missing run state.");
+            run["navigation"] = new JsonObject
+            {
+                ["selectedPlanId"] = string.Empty,
+                ["activeConnectorId"] = string.Empty,
+                ["branchStream"] = new JsonObject
+                {
+                    ["decisionEdgeId"] = string.Empty,
+                    ["prewarmedChunkIds"] = new JsonArray(),
+                    ["selectedChunkIds"] = new JsonArray(),
+                },
+            };
+            save["schemaVersion"] = ToVersion;
+            return save;
+        }
+    }
 }

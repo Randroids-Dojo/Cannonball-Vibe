@@ -103,3 +103,168 @@ public sealed class LinearRoutePlanTests
         "test",
         []);
 }
+
+public sealed class RouteChoiceCatalogTests
+{
+    [Fact]
+    public void ExposesStableManeuverRouteAndDestinationMetadata()
+    {
+        var fixture = CreateFixture();
+        var catalog = new RouteChoiceCatalog(fixture.Graph, fixture.Semantics);
+
+        var choices = catalog.GetChoices("approach");
+
+        Assert.Equal(2, choices.Count);
+        var exit = Assert.Single(choices, choice => choice.Movement == JunctionMovement.Exit);
+        Assert.Equal("connector-exit", exit.ConnectorId);
+        Assert.Equal("42A", exit.ExitNumber);
+        Assert.Equal(["Boulder Junction", "Nederland"], exit.Destinations);
+        Assert.Equal(["route-crossroad"], exit.RouteIdentityIds);
+    }
+
+    [Fact]
+    public void ValidatesExplicitLaneConnectorChainWithoutGuessingAtBranch()
+    {
+        var fixture = CreateFixture();
+        var catalog = new RouteChoiceCatalog(fixture.Graph, fixture.Semantics);
+        var selection = new RoutePlanSelection(
+            "take-exit",
+            ["approach", "exit-ramp"],
+            ["connector-exit"],
+            "approach-exit");
+
+        var plan = catalog.ValidatePlan(selection);
+
+        Assert.Equal(selection.EdgeIds, plan.LinearPlan.EdgeIds);
+        Assert.Equal("ramp-lane", plan.EndLaneId);
+        Assert.Equal(JunctionMovement.Exit, Assert.Single(plan.Transitions).Movement);
+    }
+
+    [Fact]
+    public void RejectsConnectorThatDoesNotContinueSelectedLane()
+    {
+        var fixture = CreateFixture();
+        var catalog = new RouteChoiceCatalog(fixture.Graph, fixture.Semantics);
+        var selection = new RoutePlanSelection(
+            "invalid",
+            ["approach", "through"],
+            ["connector-through"],
+            "approach-exit");
+
+        var error = Assert.Throws<InvalidDataException>(() => catalog.ValidatePlan(selection));
+
+        Assert.Contains("does not continue", error.Message);
+    }
+
+    private static (InMemoryRouteGraph Graph, RouteSemanticContent Semantics) CreateFixture()
+    {
+        var provenance = new RouteSemanticProvenance(
+            SemanticProvenanceKind.AuthoredOverride,
+            "fixture",
+            "fixture",
+            new string('a', 64),
+            "test",
+            "route-choice-test");
+        RouteLane Lane(string id, int index, LaneManeuver maneuvers) =>
+            new(id, index, 3.6f, LaneRole.General, maneuvers, provenance);
+        RouteEdge Edge(
+            string id,
+            string from,
+            string to,
+            IReadOnlyList<RouteLane> lanes,
+            params string[] identities) =>
+            new RouteEdge(id, from, to, 100, lanes.Count, 30, [], [], "test", "test", [])
+            {
+                LaneSections =
+                [
+                    new LaneSection(
+                        $"{id}-section",
+                        id,
+                        0,
+                        100,
+                        lanes,
+                        new RouteShoulder(1, "paved"),
+                        new RouteShoulder(1, "paved"),
+                        "east",
+                        provenance),
+                ],
+                RouteIdentityIds = identities,
+            };
+        var approach = Edge(
+            "approach",
+            "start",
+            "junction",
+            [
+                Lane("approach-through", 0, LaneManeuver.Continue),
+                Lane("approach-exit", 1, LaneManeuver.Exit),
+            ],
+            "route-main");
+        var through = Edge(
+            "through",
+            "junction",
+            "through-end",
+            [Lane("through-lane", 0, LaneManeuver.Continue)],
+            "route-main");
+        var ramp = Edge(
+            "exit-ramp",
+            "junction",
+            "ramp-end",
+            [Lane("ramp-lane", 0, LaneManeuver.Continue)],
+            "route-crossroad");
+        var graph = new InMemoryRouteGraph(
+            "route-choice-test",
+            [
+                new RouteNode("start", default, "route", [approach.Id]),
+                new RouteNode("junction", default, "interchange", [through.Id, ramp.Id]),
+                new RouteNode("through-end", default, "route", []),
+                new RouteNode("ramp-end", default, "route", []),
+            ],
+            [approach, through, ramp]);
+        var identities = new[]
+        {
+            new RouteIdentity("route-main", "US", "36", "us", "east", "", provenance),
+            new RouteIdentity("route-crossroad", "CO", "93", "state", "north", "", provenance),
+        };
+        var connectors = new[]
+        {
+            new JunctionConnector(
+                "connector-through",
+                "junction",
+                approach.Id,
+                "approach-through",
+                through.Id,
+                "through-lane",
+                JunctionMovement.Continuation,
+                provenance),
+            new JunctionConnector(
+                "connector-exit",
+                "junction",
+                approach.Id,
+                "approach-exit",
+                ramp.Id,
+                "ramp-lane",
+                JunctionMovement.Exit,
+                provenance),
+        };
+        var exit = new RouteExit(
+            "exit-42a",
+            "junction",
+            ramp.Id,
+            "route-main",
+            "42",
+            "A",
+            ["Boulder Junction", "Nederland"],
+            ["fuel"],
+            provenance);
+        var semantics = new RouteSemanticContent(
+            [.. approach.LaneSections, .. through.LaneSections, .. ramp.LaneSections],
+            connectors,
+            identities,
+            [exit],
+            [],
+            [],
+            [],
+            false);
+        return (graph, semantics);
+    }
+}

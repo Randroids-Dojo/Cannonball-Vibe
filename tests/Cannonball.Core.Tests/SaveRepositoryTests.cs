@@ -21,6 +21,7 @@ public sealed class SaveRepositoryTests : IDisposable
 
         Assert.NotNull(actual);
         Assert.Equal(expected.Run.Position, actual.Run.Position);
+        AssertNavigationEqual(expected.Run.Navigation, actual.Run.Navigation);
         Assert.Equal(expected.LocalVehicle, actual.LocalVehicle);
     }
 
@@ -56,12 +57,45 @@ public sealed class SaveRepositoryTests : IDisposable
         Assert.Equal(RunSave.CurrentSchemaVersion, migrated.SchemaVersion);
     }
 
+    [Fact]
+    public async Task SchemaOneSaveMigratesWithExplicitEmptyNavigationState()
+    {
+        var path = Path.Combine(_directory, "schema-one-run.json");
+        var writer = new JsonRunStateRepository(path, "graybox-v1");
+        await writer.SaveAsync(CreateSave());
+        var root = JsonNode.Parse(await File.ReadAllTextAsync(path))!.AsObject();
+        root["schemaVersion"] = 1;
+        root["run"]!.AsObject().Remove("navigation");
+        await File.WriteAllTextAsync(path, root.ToJsonString());
+
+        var migrated = await writer.LoadAsync();
+
+        Assert.NotNull(migrated);
+        Assert.Equal(RunSave.CurrentSchemaVersion, migrated.SchemaVersion);
+        AssertNavigationEqual(RouteNavigationState.Empty, migrated.Run.Navigation);
+    }
+
     public void Dispose()
     {
         if (Directory.Exists(_directory))
         {
             Directory.Delete(_directory, recursive: true);
         }
+    }
+
+    private static void AssertNavigationEqual(
+        RouteNavigationState expected,
+        RouteNavigationState actual)
+    {
+        Assert.Equal(expected.SelectedPlanId, actual.SelectedPlanId);
+        Assert.Equal(expected.ActiveConnectorId, actual.ActiveConnectorId);
+        Assert.Equal(expected.BranchStream.DecisionEdgeId, actual.BranchStream.DecisionEdgeId);
+        Assert.Equal(
+            expected.BranchStream.PrewarmedChunkIds.ToArray(),
+            actual.BranchStream.PrewarmedChunkIds.ToArray());
+        Assert.Equal(
+            expected.BranchStream.SelectedChunkIds.ToArray(),
+            actual.BranchStream.SelectedChunkIds.ToArray());
     }
 
     private static RunSave CreateSave()
@@ -78,7 +112,16 @@ public sealed class SaveRepositoryTests : IDisposable
             10_000,
             new VehicleCondition(70, 1, 1, 1, 0),
             new EnforcementState(0, 0, "clear", 0),
-            AssistProfile.Balanced);
+            AssistProfile.Balanced)
+        {
+            Navigation = new RouteNavigationState(
+                "transfer",
+                "connector-transfer",
+                new BranchStreamSnapshot(
+                    "decision-edge",
+                    ["chunk-through", "chunk-transfer"],
+                    ["chunk-transfer"])),
+        };
         return new RunSave(
             RunSave.CurrentSchemaVersion,
             "graybox-v1",
