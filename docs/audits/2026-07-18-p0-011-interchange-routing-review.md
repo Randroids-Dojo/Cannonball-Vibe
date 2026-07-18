@@ -2,8 +2,8 @@
 
 - Review date: 2026-07-18 UTC
 - Reviewed implementation: `e6dc4878b1397a8a39a8ff3824ebaf6724908298`
-- Result: no unresolved actionable finding; local acceptance and full repository
-  verification passed
+- Result: no unresolved actionable finding; local acceptance and all protected
+  remote gates passed
 
 ## Scope
 
@@ -82,6 +82,9 @@ observed NHPN truth.
   unit tests, Ruff, doctor, build, and official Godot 4.7.1 smoke.
 - `git diff --check`: passed.
 
-CodeRabbit is not required to establish the local result. If remote review is
-rate-limited or times out, this document is the repository adversarial-review
-fallback required by the delivery practice.
+- Protected PR gates passed on Linux, Windows, and macOS, including M0,
+  PlayGodot, reproducible exports, and both clean-machine smoke jobs. CodeRabbit
+  remained in `Review in progress` after the gates completed; this document was
+  used as the repository adversarial-review fallback required by the delivery
+  practice, and PR #21 merged at
+  `e1008093cd4a5bb195f94eeec7cfd0d58b90f72a`.

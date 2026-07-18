@@ -144,8 +144,17 @@
   "retry_count": 12,
   "recovery_result": {
     "status": "passed",
-    "revision": "e6dc4878b1397a8a39a8ff3824ebaf6724908298",
-    "coderabbit": "pending remote review; repository adversarial-review fallback passed locally"
+    "revision": "e1008093cd4a5bb195f94eeec7cfd0d58b90f72a",
+    "pull_request": "https://github.com/Randroids-Dojo/Cannonball-Vibe/pull/21",
+    "linux_m0": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29649929730/job/88094417732",
+    "windows_m0": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29649929730/job/88094417768",
+    "linux_playgodot": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29649929730/job/88094417761",
+    "windows_playgodot": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29649929730/job/88094417730",
+    "macos_playgodot": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29649929730/job/88094417755",
+    "reproducible_exports": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29649929729/job/88094417681",
+    "linux_clean_machine_smoke": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29649929729/job/88094697241",
+    "windows_clean_machine_smoke": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29649929729/job/88094697254",
+    "coderabbit": "timed out in Review in progress; repository adversarial-review fallback passed with no unresolved actionable finding"
   },
   "human_gate": null,
   "adversarial_review": "docs/audits/2026-07-18-p0-011-interchange-routing-review.md"
