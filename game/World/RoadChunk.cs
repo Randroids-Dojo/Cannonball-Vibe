@@ -126,13 +126,25 @@ public sealed partial class RoadChunk : Node3D
         chunk.BuildGoreAreas(points, tangents, layouts);
         chunk.BuildBarriers(points, tangents, layouts);
         chunk.BuildScenery(points, tangents, layouts);
-        if (semantics is not null && !semantics.IsLegacySynthesis)
+        if (semantics is not null &&
+            !semantics.IsLegacySynthesis &&
+            HasRenderableRouteContext(edge, semantics))
         {
             chunk.BuildRouteContext(content, edge, graph, semantics, points, tangents, layouts);
         }
         chunk.BuildMilliseconds = Stopwatch.GetElapsedTime(started).TotalMilliseconds;
         return chunk;
     }
+
+    private static bool HasRenderableRouteContext(
+        RouteEdge edge,
+        RouteSemanticContent semantics) =>
+        semantics.RoadsideMarkers.Any(marker =>
+            string.Equals(marker.Kind, "mile", StringComparison.OrdinalIgnoreCase) &&
+            string.Equals(marker.EdgeId, edge.Id, StringComparison.Ordinal)) ||
+        semantics.Exits.Any(routeExit =>
+            string.Equals(routeExit.JunctionNodeId, edge.ToNodeId, StringComparison.Ordinal) &&
+            edge.RouteIdentityIds.Contains(routeExit.RouteIdentityId, StringComparer.Ordinal));
 
     private void BuildRouteContext(
         RouteChunkContent content,
