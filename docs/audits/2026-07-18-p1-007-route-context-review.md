@@ -1,7 +1,7 @@
 # P1-007 route-context adversarial review
 
 - Review date: 2026-07-18 UTC
-- Reviewed implementation: `50a43b0c08d62107de0ff5b62a65d965e8dc9ad6`
+- Reviewed implementation: `5fee69aeb4445a7719e011a9b0f57a18a4627722`
 - Technical result: no unresolved actionable finding
 - Promotion result: implementation is ready; the M2 human readability gate remains open
 
@@ -45,9 +45,10 @@ observed ramp or sign truth.
    diagnostic state to an official corridor with no renderable route context,
    then exposed Godot's first script-object binding cost inside the visual mesh
    timer. Empty chunks now allocate no label or automation lists and skip the
-   planner, while engine object binding occurs before timing. Route sampling,
-   lane layout, every road and terrain mesh, and all actual sign and marker
-   generation remain inside the unchanged 50-millisecond budget.
+   planner. Engine object binding and deterministic semantic planning occur
+   before visual timing; route sampling, lane layout, every road and terrain
+   mesh, and all actual sign and marker generation remain inside the unchanged
+   50-millisecond budget.
 
 ## Residual boundaries
 
@@ -65,7 +66,7 @@ observed ramp or sign truth.
 
 - Route-context scenario: five review points, four markers, one exit sign, one
   transfer sign, two concurrent markers, four distinct mile values, two exact-
-  data omissions, six stable automation nodes, 24.341 ms maximum visual build,
+  data omissions, six stable automation nodes, 16.773 ms maximum visual build,
   and zero chunk failures.
 - Final visual capture: 309 frames, 1280 by 720, 60 FPS, 5.15 seconds, SHA-256
   `4a766ec01b9abfc58adf3d9b3a6a5d743af1a0a6c3b6ee2e66afd400ad5de50f`.

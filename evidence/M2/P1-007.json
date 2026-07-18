@@ -3,7 +3,7 @@
   "task_id": "P1-007",
   "milestone": "M2",
   "status": "technical_acceptance_complete_human_review_pending",
-  "git_revision": "50a43b0c08d62107de0ff5b62a65d965e8dc9ad6",
+  "git_revision": "5fee69aeb4445a7719e011a9b0f57a18a4627722",
   "platform": {
     "os": "Darwin 25.6.0",
     "architecture": "arm64"
@@ -92,7 +92,7 @@
     "distinct_mile_values": 4,
     "missing_exact_data_omissions": 2,
     "stable_automation_nodes": 6,
-    "maximum_visual_build_milliseconds": 24.341,
+    "maximum_visual_build_milliseconds": 16.773,
     "chunk_failures": 0,
     "csharp_tests_passed": 58,
     "route_context_tests_passed": 4,
