@@ -220,7 +220,7 @@
       "milestone": "M1",
       "priority": "P0",
       "title": "Exact save, resume, and recovery",
-      "status": "in_progress",
+      "status": "complete",
       "dependencies": [
         "P0-004"
       ],
