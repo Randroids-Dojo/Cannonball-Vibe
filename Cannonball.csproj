@@ -12,6 +12,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="game/**/*.cs" />
+    <PackageReference Include="Google.FlatBuffers" Version="25.2.10" />
     <ProjectReference Include="src/Cannonball.Core/Cannonball.Core.csproj" />
   </ItemGroup>
 </Project>
