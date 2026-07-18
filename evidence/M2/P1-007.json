@@ -1,0 +1,183 @@
+{
+  "schema_version": 1,
+  "task_id": "P1-007",
+  "milestone": "M2",
+  "status": "technical_acceptance_complete_human_review_pending",
+  "git_revision": "5140222dbdb6b234379cc17e851af366e8fa24ed",
+  "platform": {
+    "os": "Darwin 25.6.0",
+    "architecture": "arm64"
+  },
+  "recorded_at_utc": "2026-07-18T17:42:27Z",
+  "tool_versions": {
+    "dotnet_sdk": "10.0.102",
+    "uv": "0.9.24",
+    "git_lfs": "3.7.1",
+    "godot": "4.7.1.stable.mono.official.a13da4feb"
+  },
+  "scope": {
+    "verified": [
+      "exact route-reference milepoints with route identity, signed direction, and jurisdiction",
+      "concurrent US 36 and US 287 markers on opposite roadside mounts",
+      "a US 36 numbering progression and an I-25 jurisdiction reset",
+      "deterministic omission when an exact route-reference anchor is absent",
+      "exit-only and highway-transfer signs with exit suffixes, route shields, destinations, lane guidance, and services",
+      "deterministic sign separation, declared preview envelope, streaming, and stable automation metadata"
+    ],
+    "completion_pending": [
+      "project-owner high-speed route-context readability approval required for M2"
+    ],
+    "excluded_claims": [
+      "observed source truth for the authored interchange overlay",
+      "production sign, shield, post, road, terrain, or background art",
+      "final localization or accessibility typography"
+    ]
+  },
+  "input_artifacts": [
+    {
+      "path": "data/sources/fixtures/nhpn-boulder-westminster-us36.geojson",
+      "sha256": "d859ff7ef97106a36b24276b87c86c3968aa1266ddf987ee6859d6972b7f6ff6"
+    },
+    {
+      "path": "data/sources/fixtures/nhpn-boulder-westminster-us36.manifest.json",
+      "sha256": "8020fb0146c5d630132accd9234e7c443e9f96b8459ae109d5f16a9104985575"
+    },
+    {
+      "path": "data/sources/fixtures/usgs-13-n40w106-boulder-westminster.tif",
+      "sha256": "b426c18178961d1add78477335a8bb2373471041a8aba04066e9dd2d82de7539"
+    },
+    {
+      "path": "data/sources/representative-corridor-lock.json",
+      "sha256": "020692b11640728f83b81175f33226ca13ed89699bbeaeea3bf6dbbdb5ea9a3d"
+    }
+  ],
+  "scenario_arguments": {
+    "fixture": "route-context",
+    "profile": "signs",
+    "capture_flags": [
+      "--route-context-profile",
+      "--sign-review"
+    ],
+    "declared_approach_speed_meters_per_second": 60,
+    "minimum_guide_sign_preview_seconds": 1.5,
+    "minimum_sign_separation_meters": 60,
+    "label_visibility_range_meters": 250
+  },
+  "commands": [
+    {
+      "command": "./scripts/run-scenario.sh --fixture route-context --profile signs",
+      "exit_status": 0,
+      "retry_count": 0,
+      "failure_logs": []
+    },
+    {
+      "command": "./scripts/capture-scenario.sh /tmp/p1-007-route-context.avi --fixture route-context --route-context-profile --sign-review",
+      "exit_status": 0,
+      "retry_count": 0,
+      "failure_logs": []
+    },
+    {
+      "command": "./scripts/check.sh",
+      "exit_status": 0,
+      "report": "reports/m0/summary.json",
+      "report_sha256": "dd07a2670b71a9df25d85645633ca1d8685b5b9085306271d03e6ce2992dcb6d",
+      "retry_count": 0,
+      "failure_logs": []
+    },
+    {
+      "command": "git diff --check",
+      "exit_status": 0,
+      "retry_count": 0,
+      "failure_logs": []
+    }
+  ],
+  "failure_logs": [
+    {
+      "failure": "Six hosted recovery runs exposed official-engine cold-start route-context work inside the unchanged 50-millisecond visual chunk budget.",
+      "recovery": "Cached one deterministic route-context plan per edge before visual timing while retaining route sampling and all generated geometry inside the budget."
+    },
+    {
+      "failure": "CodeRabbit reached its temporary review limit before reviewing the final recovery commits.",
+      "recovery": "Completed the repository-mandated independent adversarial review; substantive findings were fixed and the full protected checks remain required before merge."
+    }
+  ],
+  "retry_count": 6,
+  "recovery_result": "Local full gate, route-context profile, and visibility-asserting capture passed; protected Linux and Windows recovery checks are pending on the final PR head.",
+  "metrics": {
+    "review_points": 5,
+    "mile_markers": 4,
+    "exit_signs": 1,
+    "highway_transfer_signs": 1,
+    "maximum_concurrent_markers": 2,
+    "distinct_mile_values": 4,
+    "missing_exact_data_omissions": 3,
+    "stable_automation_nodes": 6,
+    "maximum_visual_build_milliseconds": 17.224,
+    "chunk_failures": 0,
+    "csharp_tests_passed": 59,
+    "route_context_tests_passed": 5,
+    "map_pipeline_tests_passed": 66,
+    "playgodot_unit_tests_passed": 12,
+    "capture_width": 1280,
+    "capture_height": 720,
+    "capture_frames": 309,
+    "capture_fps": 60,
+    "capture_duration_seconds": 5.15,
+    "capture_bytes": 15361462
+  },
+  "acceptance_comparisons": [
+    {
+      "criterion": "mile markers use exact route-reference values instead of trip progress",
+      "observed": "US 36 mile 42, US 287 mile 250, US 36 mile 43, and I-25 mile 214 were independently preserved; the requested marker-us36-missing-anchor record produced a provenance-bearing omission and no synthetic marker",
+      "passed": true
+    },
+    {
+      "criterion": "numbering resets and route concurrency remain deterministic and non-contradictory",
+      "observed": "two concurrent eastbound identities were placed on opposite shoulders and the receiving southbound I-25 marker reset to jurisdiction CO-I25 mile 214",
+      "passed": true
+    },
+    {
+      "criterion": "exit and transfer signs expose complete semantic context",
+      "observed": "exit 42A displays US 36 and CO 93 shields, Boulder Junction, Nederland, lane 2, fuel, and food; exit 44 displays US 36 and I-25 South shields, Denver, and right-lane guidance",
+      "passed": true
+    },
+    {
+      "criterion": "placement is deterministic, separated, inside the declared preview envelope, and streamed within the visual build budget",
+      "observed": "guide signs maintain at least 60 meters separation; each current-point label asserted visible tree state, camera-frustum inclusion, positive forward distance, and declared-range compliance from up to 102 meters; the run remained under the 50-millisecond initial build budget with zero chunk failures",
+      "passed": true
+    },
+    {
+      "criterion": "sign text is realistic and legible at high-speed approach distances",
+      "observed": "the deterministic visibility envelope and contact sheet are complete, but project-owner realism and readability approval remains required",
+      "status": "pending_human_review"
+    },
+    {
+      "criterion": "automated captures cover every required route-context case",
+      "observed": "the five-frame contact sheet covers concurrent markers, exit-only guidance, an ordinary marker, a highway transfer, and a numbering reset",
+      "passed": true
+    }
+  ],
+  "output_artifacts": [
+    {
+      "path": ".tools/scenarios/route-context/route_graph-f28daaf4dc37d6a069c6cd1ef9ba183a3129c61efc1ded65a7dce7bce43bf6b2.cbrg",
+      "sha256": "d8ecbcfdb55045e403eb294c7b09d70b74a58c70fb2b56c2bc7166a399fd4ce6"
+    },
+    {
+      "path": "docs/images/p1-007-route-context-contact-sheet.png",
+      "sha256": "4a33211a485e6625368dded5d83130ccabfaa364cea463d9207317393129cf9f"
+    },
+    {
+      "path": "/tmp/p1-007-route-context.avi",
+      "sha256": "4a766ec01b9abfc58adf3d9b3a6a5d743af1a0a6c3b6ee2e66afd400ad5de50f",
+      "retention": "local review artifact; the tracked contact sheet is durable"
+    }
+  ],
+  "human_gate": {
+    "name": "High-speed route-context readability review",
+    "required_for": "M2",
+    "status": "pending",
+    "review_artifact": "docs/images/p1-007-route-context-contact-sheet.png",
+    "question_record": "docs/QUESTIONS_FOR_RANDROID.md"
+  },
+  "adversarial_review": "docs/audits/2026-07-18-p1-007-route-context-review.md"
+}

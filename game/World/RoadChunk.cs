@@ -7,20 +7,28 @@ namespace Cannonball.Game.World;
 
 public sealed partial class RoadChunk : Node3D
 {
+    private const float RouteContextLabelRangeMeters = 250;
     private StaticBody3D? _collisionBody;
     private ArrayMesh _collisionMesh = null!;
+    private List<string>? _routeContextAutomationIds;
+    private List<Label3D>? _routeContextLabels;
 
-    public string ChunkId { get; private init; } = string.Empty;
-    public string EdgeId { get; private init; } = string.Empty;
-    public double StartMeters { get; private init; }
-    public double EndMeters { get; private init; }
+    public string ChunkId { get; private set; } = string.Empty;
+    public string EdgeId { get; private set; } = string.Empty;
+    public double StartMeters { get; private set; }
+    public double EndMeters { get; private set; }
     public double BuildMilliseconds { get; private set; }
     public bool HasCollision => _collisionBody is not null;
-    public int MinimumLaneCount { get; private init; }
-    public int MaximumLaneCount { get; private init; }
-    public int TransitionCount { get; private init; }
-    public double MaximumPavedWidthMeters { get; private init; }
+    public int MinimumLaneCount { get; private set; }
+    public int MaximumLaneCount { get; private set; }
+    public int TransitionCount { get; private set; }
+    public double MaximumPavedWidthMeters { get; private set; }
     public bool HasGoreGeometry { get; private set; }
+    public int MileMarkerCount { get; private set; }
+    public int ExitSignCount { get; private set; }
+    public int HighwayTransferSignCount { get; private set; }
+    public IReadOnlyList<string> RouteContextAutomationIds =>
+        _routeContextAutomationIds ?? [];
 
     public bool HasReviewGeometry()
     {
@@ -41,9 +49,11 @@ public sealed partial class RoadChunk : Node3D
     public static RoadChunk Create(
         RouteChunkContent content,
         RouteEdge edge,
+        RouteContextPlan? routeContextPlan,
         RouteFrame frame,
         RouteWorldPoint localOriginWorld)
     {
+        var chunk = new RoadChunk();
         var started = Stopwatch.GetTimestamp();
         var anchor = frame.ToWorld(content.Samples[0]);
         var points = content.Samples
@@ -57,31 +67,290 @@ public sealed partial class RoadChunk : Node3D
         var layouts = content.Samples
             .Select(sample => LaneGeometryProfile.Evaluate(edge, sample.DistanceMeters))
             .ToArray();
-        var chunk = new RoadChunk
-        {
-            Name = $"RoadChunk-{content.Id}",
-            ChunkId = content.Id,
-            EdgeId = content.EdgeId,
-            StartMeters = content.StartMeters,
-            EndMeters = content.EndMeters,
-            Position = anchor.RelativeTo(localOriginWorld),
-            MinimumLaneCount = layouts.Min(layout =>
-                layout.Lanes.Count(lane => lane.WidthMeters > 0.05)),
-            MaximumLaneCount = layouts.Max(layout =>
-                layout.Lanes.Count(lane => lane.WidthMeters > 0.05)),
-            TransitionCount = edge.GetEffectiveLaneSections().Count(section =>
-                section.StartMeters > content.StartMeters &&
-                section.StartMeters <= content.EndMeters),
-            MaximumPavedWidthMeters = layouts.Max(layout => layout.PavedWidthMeters),
-        };
+        chunk.Name = $"RoadChunk-{content.Id}";
+        chunk.ChunkId = content.Id;
+        chunk.EdgeId = content.EdgeId;
+        chunk.StartMeters = content.StartMeters;
+        chunk.EndMeters = content.EndMeters;
+        chunk.Position = anchor.RelativeTo(localOriginWorld);
+        chunk.MinimumLaneCount = layouts.Min(layout =>
+            layout.Lanes.Count(lane => lane.WidthMeters > 0.05));
+        chunk.MaximumLaneCount = layouts.Max(layout =>
+            layout.Lanes.Count(lane => lane.WidthMeters > 0.05));
+        chunk.TransitionCount = edge.GetEffectiveLaneSections().Count(section =>
+            section.StartMeters > content.StartMeters &&
+            section.StartMeters <= content.EndMeters);
+        chunk.MaximumPavedWidthMeters = layouts.Max(layout => layout.PavedWidthMeters);
         chunk.BuildTerrain(points, tangents, content.Samples, layouts);
         chunk.BuildRoad(points, tangents, content.Samples, layouts);
         chunk.BuildLaneMarkings(points, tangents, content.Samples, layouts);
         chunk.BuildGoreAreas(points, tangents, layouts);
         chunk.BuildBarriers(points, tangents, layouts);
         chunk.BuildScenery(points, tangents, layouts);
+        if (routeContextPlan is { Placements.Count: > 0 })
+        {
+            chunk.BuildRouteContext(content, edge, routeContextPlan, points, tangents, layouts);
+        }
         chunk.BuildMilliseconds = Stopwatch.GetElapsedTime(started).TotalMilliseconds;
         return chunk;
+    }
+
+    public IReadOnlyList<RouteContextLabelDiagnostic> GetRouteContextLabelDiagnostics(
+        Camera3D camera)
+    {
+        ArgumentNullException.ThrowIfNull(camera);
+        if (_routeContextLabels is null)
+        {
+            return [];
+        }
+        var cameraForward = -camera.GlobalBasis.Z;
+        return _routeContextLabels.Select(label =>
+        {
+            var cameraToLabel = label.GlobalPosition - camera.GlobalPosition;
+            var cameraDistance = cameraToLabel.Length();
+            return new RouteContextLabelDiagnostic(
+                label.GetParent().GetMeta("automation_id").AsString(),
+                label.Visible && label.IsVisibleInTree(),
+                camera.IsPositionInFrustum(label.GlobalPosition),
+                cameraDistance,
+                cameraToLabel.Dot(cameraForward),
+                cameraDistance <= label.VisibilityRangeEnd + 1e-3f);
+        }).ToArray();
+    }
+
+    private void BuildRouteContext(
+        RouteChunkContent content,
+        RouteEdge edge,
+        RouteContextPlan plan,
+        IReadOnlyList<Vector3> points,
+        IReadOnlyList<Vector3> tangents,
+        IReadOnlyList<LaneGeometrySample> layouts)
+    {
+        var placements = plan.ForChunk(
+            content.StartMeters,
+            content.EndMeters,
+            includeEnd: Math.Abs(content.EndMeters - edge.LengthMeters) <= 1e-6);
+        foreach (var placement in placements)
+        {
+            var (point, tangent, layout) = SamplePlacement(
+                content,
+                placement.DistanceMeters,
+                points,
+                tangents,
+                layouts);
+            var right = tangent.Cross(Vector3.Up).Normalized();
+            var lateral = placement.Mount switch
+            {
+                RouteContextMount.LeftRoadside => (float)layout.PavedLeftMeters - 2.2f,
+                RouteContextMount.RightRoadside => (float)layout.PavedRightMeters + 2.2f,
+                RouteContextMount.Overhead => 0,
+                _ => throw new ArgumentOutOfRangeException(nameof(placement.Mount)),
+            };
+            var root = new Node3D
+            {
+                Name = $"RouteContext-{placement.Id}",
+                Position = point + right * lateral,
+                Basis = Basis.LookingAt(-tangent, Vector3.Up),
+            };
+            var automationId = placement.Kind switch
+            {
+                RouteContextPlacementKind.MileMarker => $"route-context.marker.{placement.Id}",
+                RouteContextPlacementKind.ExitSign => $"route-context.exit.{placement.Id}",
+                RouteContextPlacementKind.HighwayTransferSign =>
+                    $"route-context.transfer.{placement.Id}",
+                _ => throw new ArgumentOutOfRangeException(nameof(placement.Kind)),
+            };
+            root.SetMeta("automation_id", automationId);
+            root.SetMeta("edge_id", placement.EdgeId);
+            root.SetMeta("edge_distance_meters", placement.DistanceMeters);
+            root.SetMeta("route_identity_id", placement.RouteIdentityId);
+            root.SetMeta("signed_direction", placement.SignedDirection);
+            root.SetMeta("jurisdiction", placement.Jurisdiction);
+            root.SetMeta("exact_route_reference", placement.ExactRouteReference);
+            root.SetMeta("route_shields", string.Join(',', placement.RouteShields));
+            root.SetMeta("lane_guidance", placement.LaneGuidance);
+            root.SetMeta("lane_ids", string.Join(',', placement.LaneIds));
+            root.SetMeta("services", string.Join(',', placement.Services));
+            root.SetMeta("provenance_kind", placement.Provenance.Kind.ToString());
+            root.SetMeta("provenance_source_id", placement.Provenance.SourceId);
+            (_routeContextAutomationIds ??= []).Add(automationId);
+            AddChild(root);
+
+            if (placement.Kind == RouteContextPlacementKind.MileMarker)
+            {
+                BuildMileMarker(root, placement);
+                MileMarkerCount++;
+            }
+            else
+            {
+                BuildGuideSign(root, placement, layout);
+                if (placement.Kind == RouteContextPlacementKind.HighwayTransferSign)
+                {
+                    HighwayTransferSignCount++;
+                }
+                else
+                {
+                    ExitSignCount++;
+                }
+            }
+        }
+    }
+
+    private void BuildMileMarker(Node3D root, RouteContextPlacement placement)
+    {
+        var boardMaterial = UnshadedMaterial(new Color("f4f5ef"));
+        root.AddChild(new MeshInstance3D
+        {
+            Name = "MarkerBoard",
+            Position = new Vector3(0, 2.05f, 0),
+            Mesh = new BoxMesh { Size = new Vector3(1.8f, 2.5f, 0.12f) },
+            MaterialOverride = boardMaterial,
+        });
+        root.AddChild(new MeshInstance3D
+        {
+            Name = "MarkerPost",
+            Position = new Vector3(0, 0.8f, 0),
+            Mesh = new CylinderMesh
+            {
+                TopRadius = 0.06f,
+                BottomRadius = 0.06f,
+                Height = 1.6f,
+            },
+            MaterialOverride = UnshadedMaterial(new Color("8b8e87")),
+        });
+        var direction = placement.SignedDirection.ToUpperInvariant();
+        var routeText = placement.PrimaryText.EndsWith(
+                $" {direction}",
+                StringComparison.Ordinal)
+            ? placement.PrimaryText[..^(direction.Length + 1)]
+            : placement.PrimaryText;
+        AddRouteContextLabel(
+            root,
+            "MarkerText",
+            $"{routeText}\n{direction}\n{placement.SecondaryText}",
+            new Vector3(0, 2.05f, -0.08f),
+            36,
+            0.008f,
+            new Color("101820"));
+    }
+
+    private void BuildGuideSign(
+        Node3D root,
+        RouteContextPlacement placement,
+        LaneGeometrySample layout)
+    {
+        var boardWidth = Math.Clamp((float)layout.PavedWidthMeters + 8, 18, 24);
+        const float boardHeight = 9.2f;
+        const float boardY = 10.8f;
+        root.AddChild(new MeshInstance3D
+        {
+            Name = "GuideBoard",
+            Position = new Vector3(0, boardY, 0),
+            Mesh = new BoxMesh { Size = new Vector3(boardWidth, boardHeight, 0.18f) },
+            MaterialOverride = UnshadedMaterial(
+                placement.Kind == RouteContextPlacementKind.HighwayTransferSign
+                    ? new Color("174a91")
+                    : new Color("17613a")),
+        });
+        var postMaterial = UnshadedMaterial(new Color("a8adb0"));
+        foreach (var x in new[] { -boardWidth / 2 + 0.5f, boardWidth / 2 - 0.5f })
+        {
+            root.AddChild(new MeshInstance3D
+            {
+                Name = "GuidePost",
+                Position = new Vector3(x, boardY / 2, 0),
+                Mesh = new CylinderMesh
+                {
+                    TopRadius = 0.12f,
+                    BottomRadius = 0.16f,
+                    Height = boardY,
+                },
+                MaterialOverride = postMaterial,
+            });
+        }
+        var destinationText = placement.SecondaryText.Replace(" / ", "\n", StringComparison.Ordinal);
+        var serviceText = placement.Services.Count == 0
+            ? string.Empty
+            : $"\nSERVICES: {string.Join("  ", placement.Services).ToUpperInvariant()}";
+        var routeShieldText = string.Join(
+            "  |  ",
+            placement.RouteShields.Select(shield => $"[{shield}]"));
+        AddRouteContextLabel(
+            root,
+            "GuideText",
+            $"{placement.PrimaryText}\n{routeShieldText}\n{destinationText}" +
+            $"\n{placement.LaneGuidance}{serviceText}",
+            new Vector3(0, boardY, -0.11f),
+            56,
+            0.018f,
+            Colors.White);
+    }
+
+    private void AddRouteContextLabel(
+        Node3D root,
+        string name,
+        string text,
+        Vector3 position,
+        int fontSize,
+        float pixelSize,
+        Color color)
+    {
+        var label = new Label3D
+        {
+            Name = name,
+            Text = text,
+            Position = position,
+            FontSize = fontSize,
+            PixelSize = pixelSize,
+            Modulate = color,
+            OutlineSize = 4,
+            NoDepthTest = false,
+            DoubleSided = false,
+            CastShadow = GeometryInstance3D.ShadowCastingSetting.Off,
+            RotationDegrees = new Vector3(0, 180, 0),
+            VisibilityRangeEnd = RouteContextLabelRangeMeters,
+            VisibilityRangeEndMargin = 35,
+            VisibilityRangeFadeMode = GeometryInstance3D.VisibilityRangeFadeModeEnum.Self,
+        };
+        label.SetMeta("automation_id", $"{root.GetMeta("automation_id")}.text");
+        (_routeContextLabels ??= []).Add(label);
+        root.AddChild(label);
+    }
+
+    private static StandardMaterial3D UnshadedMaterial(Color color) => new()
+    {
+        AlbedoColor = color,
+        ShadingMode = BaseMaterial3D.ShadingModeEnum.Unshaded,
+    };
+
+    private static (
+        Vector3 Point,
+        Vector3 Tangent,
+        LaneGeometrySample Layout) SamplePlacement(
+        RouteChunkContent content,
+        double distanceMeters,
+        IReadOnlyList<Vector3> points,
+        IReadOnlyList<Vector3> tangents,
+        IReadOnlyList<LaneGeometrySample> layouts)
+    {
+        for (var index = 0; index < content.Samples.Count - 1; index++)
+        {
+            var first = content.Samples[index].DistanceMeters;
+            var second = content.Samples[index + 1].DistanceMeters;
+            if (distanceMeters < first || distanceMeters > second)
+            {
+                continue;
+            }
+            var factor = second <= first ? 0 : (distanceMeters - first) / (second - first);
+            return (
+                points[index].Lerp(points[index + 1], (float)factor),
+                tangents[index].Lerp(tangents[index + 1], (float)factor).Normalized(),
+                factor < 0.5 ? layouts[index] : layouts[index + 1]);
+        }
+
+        throw new InvalidDataException(
+            $"Route-context placement at {distanceMeters:F3} meters is outside chunk " +
+            $"'{content.Id}'.");
     }
 
     public double SetCollisionActive(bool active)
@@ -565,3 +834,11 @@ public sealed partial class RoadChunk : Node3D
         AddChild(new MultiMeshInstance3D { Name = "TerrainScenery", Multimesh = treeMultiMesh });
     }
 }
+
+public sealed record RouteContextLabelDiagnostic(
+    string AutomationId,
+    bool VisibleInTree,
+    bool InCameraFrustum,
+    float CameraDistanceMeters,
+    float ForwardDistanceMeters,
+    bool WithinDeclaredRange);

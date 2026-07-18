@@ -145,3 +145,22 @@ No answer is required to complete the route-semantics work or to build the
 asset-pipeline fixture. The choices become blocking before the corresponding
 production art is selected or promoted. Full evidence requirements live in
 [OPEN_QUESTIONS.md](OPEN_QUESTIONS.md).
+
+## High-speed route-context readability (P1-007) — ready for review
+
+The deterministic route-context implementation has completed its technical
+acceptance. The five-frame
+[contact sheet](images/p1-007-route-context-contact-sheet.png) covers concurrent
+US 36 and US 287 markers, exit 42A with route shields and services, an ordinary
+US 36 marker, the I-25 South transfer with right-lane guidance, and the I-25
+numbering reset. The local 60 FPS review movie is
+`/tmp/p1-007-route-context.avi` with SHA-256
+`4a766ec01b9abfc58adf3d9b3a6a5d743af1a0a6c3b6ee2e66afd400ad5de50f`.
+
+One human gate remains: are the marker identities, mile values, exit number,
+route shields, destinations, services, and lane guidance readable early enough
+for the current graybox milestone? Approval completes P1-007. Rejection should
+identify the specific frame and unreadable field so the next capture can target
+the defect. This gate does not ask for production sign or environment art.
+The requested signage realism and legibility quality pass is now an explicit
+P1-009 acceptance requirement rather than an implicit polish note.

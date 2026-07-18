@@ -44,6 +44,8 @@ public sealed partial class Main : Node3D
     private bool _topologyProfile;
     private bool _topologyReview;
     private bool _routeChoiceProfile;
+    private bool _routeContextProfile;
+    private bool _routeContextReview;
     private bool _longRouteProfile;
     private bool _shutdownStarted;
     private int _smokeFrames;
@@ -87,6 +89,13 @@ public sealed partial class Main : Node3D
     private bool _routeChoiceBeforeSaved;
     private bool _routeChoiceInsideSaved;
     private bool _routeChoiceProfileComplete;
+    private bool _routeContextProfileComplete;
+    private IReadOnlyList<RouteContextReviewPoint> _routeContextReviewPoints = [];
+    private int _routeContextReviewPointIndex;
+    private int _routeContextStableFrames;
+    private int _routeContextReviewFrames;
+    private Camera3D? _routeContextDiagnosticCamera;
+    private IReadOnlyList<RouteContextOmission> _routeContextOmissions = [];
     private int _routeChoiceSaveResumeCount;
     private readonly HashSet<string> _routeChoiceConnectorsObserved = new(StringComparer.Ordinal);
     private readonly HashSet<string> _routeChoiceBranchPrewarms = new(StringComparer.Ordinal);
@@ -191,9 +200,12 @@ public sealed partial class Main : Node3D
             _topologyProfile = arguments.Contains("--topology-profile", StringComparer.Ordinal);
             _topologyReview = arguments.Contains("--topology-review", StringComparer.Ordinal);
             _routeChoiceProfile = arguments.Contains("--route-choice-profile", StringComparer.Ordinal);
+            _routeContextProfile = arguments.Contains("--route-context-profile", StringComparer.Ordinal);
+            _routeContextReview = arguments.Contains("--sign-review", StringComparer.Ordinal);
             _smokeTest = _smokeTest || _stressTest || _shortCorridorSoak || _renderIntegrity ||
                 _geographicReview || _streamingProfile || _topologyProfile || _topologyReview ||
-                _routeChoiceProfile || _longRouteProfile || _resumeVerify;
+                _routeChoiceProfile || _routeContextProfile || _routeContextReview ||
+                _longRouteProfile || _resumeVerify;
             _smokeTargetFrames = _stressTest || _shortCorridorSoak ? 3_600 : 360;
             if (_renderIntegrity)
             {
@@ -203,7 +215,7 @@ public sealed partial class Main : Node3D
             {
                 _smokeTargetFrames = 7_200;
             }
-            if (_streamingProfile || _topologyProfile)
+            if (_streamingProfile || _topologyProfile || _routeContextProfile)
             {
                 _smokeTargetFrames = 7_200;
             }
@@ -219,6 +231,10 @@ public sealed partial class Main : Node3D
             {
                 _smokeTargetFrames = 480;
             }
+            if (_routeContextReview)
+            {
+                _smokeTargetFrames = 1_200;
+            }
 
             var absoluteRoutePath = Path.GetFullPath(routePath);
             var sourcePackage = FlatBufferRouteContent.Load(absoluteRoutePath);
@@ -233,7 +249,7 @@ public sealed partial class Main : Node3D
                 _package = _longRouteFixture.Package;
                 _chunkSource = _longRouteFixture.Source;
             }
-            else if (_routeChoiceProfile)
+            else if (_routeChoiceProfile || _routeContextProfile || _routeContextReview)
             {
                 _interchangeFixture = RepresentativeInterchangeFixture.Create(sourcePackage);
                 _package = _interchangeFixture.Package;
@@ -244,7 +260,8 @@ public sealed partial class Main : Node3D
                 _topologyOverlay = VariableLaneTopologyFixture.Apply(_package);
                 _package = _topologyOverlay.Package;
             }
-            if (!_routeChoiceProfile && !_longRouteProfile)
+            if (!_routeChoiceProfile && !_routeContextProfile && !_routeContextReview &&
+                !_longRouteProfile)
             {
                 _chunkSource = new VerifiedFileChunkSource(
                     _package,
@@ -277,7 +294,10 @@ public sealed partial class Main : Node3D
                         resumedSave.Run.Navigation.SelectedPlanId,
                         out var resumedPlan)
                     ? resumedPlan
-                    : _interchangeFixture.Plans[RouteChoicePlanOrder[0]];
+                    : _interchangeFixture.Plans[
+                        _routeContextProfile || _routeContextReview
+                            ? RepresentativeInterchangeFixture.TransferPlanId
+                            : RouteChoicePlanOrder[0]];
             ConfigureRuntimeWorld(initialRoutePlan, resumedSave);
             if (_resumeVerify)
             {
@@ -294,6 +314,16 @@ public sealed partial class Main : Node3D
                 };
                 AddChild(_topologyDiagnosticCamera);
             }
+            if (_routeContextReview)
+            {
+                _routeContextDiagnosticCamera = new Camera3D
+                {
+                    Name = "RouteContextDiagnosticCamera",
+                    Current = false,
+                    Fov = 42,
+                };
+                AddChild(_routeContextDiagnosticCamera);
+            }
             _hud = new PrototypeHud { Name = "PrototypeHud" };
             AddChild(_hud);
 
@@ -302,7 +332,7 @@ public sealed partial class Main : Node3D
 
             _vehicle.AutopilotEnabled = _smokeTest && !_renderIntegrity && !_streamingProfile &&
                 !_topologyProfile && !_topologyReview && !_routeChoiceProfile &&
-                !_longRouteProfile;
+                !_routeContextProfile && !_routeContextReview && !_longRouteProfile;
             if (resumedSave is not null)
             {
                 _vehicle.SetAssistProfile(resumedSave.Run.AssistProfile);
@@ -336,6 +366,11 @@ public sealed partial class Main : Node3D
             if (_routeChoiceProfile)
             {
                 BeginNextRouteChoiceTransition();
+            }
+            if (_routeContextProfile || _routeContextReview)
+            {
+                ConfigureRouteContextReviewPoints();
+                BeginNextRouteContextReviewPoint();
             }
             if (_longRouteProfile)
             {
@@ -428,6 +463,20 @@ public sealed partial class Main : Node3D
         {
             AdvanceRouteChoiceProfile();
         }
+        if ((_routeContextProfile || _routeContextReview) && !_routeContextProfileComplete)
+        {
+            try
+            {
+                AdvanceRouteContextProfile();
+            }
+            catch (Exception exception)
+            {
+                GD.PushError(exception.ToString());
+                _shutdownStarted = true;
+                GetTree().Quit(1);
+                return;
+            }
+        }
         if (_longRouteProfile && !_longRouteComplete)
         {
             try
@@ -473,7 +522,7 @@ public sealed partial class Main : Node3D
             _streamer.RouteDistanceMeters >= Math.Min(300, _streamer.TotalRouteLengthMeters - 35);
         if (_smokeFrames >= _smokeTargetFrames || renderTraversalComplete ||
             _geographicReviewComplete || _streamingProfileComplete || _topologyProfileComplete ||
-            _routeChoiceProfileComplete || _longRouteComplete)
+            _routeChoiceProfileComplete || _routeContextProfileComplete || _longRouteComplete)
         {
             _shutdownStarted = true;
             _ = PersistAsync(quitAfterSave: true);
@@ -1391,6 +1440,10 @@ public sealed partial class Main : Node3D
             {
                 ValidateRouteChoiceProfile();
             }
+            if (quitAfterSave && (_routeContextProfile || _routeContextReview))
+            {
+                ValidateRouteContextProfile();
+            }
             if (quitAfterSave && _longRouteProfile)
             {
                 ValidateLongRouteProfile();
@@ -1824,6 +1877,268 @@ public sealed partial class Main : Node3D
             $"max_collision_build_ms={_streamer.MaximumCollisionBuildMilliseconds:0.000} " +
             $"override={_topologyOverlay.OverrideId} chunk_failures=0");
     }
+
+    private void ConfigureRouteContextReviewPoints()
+    {
+        if (_interchangeFixture is null || _interchangeFixture.Package.Semantics is null)
+        {
+            throw new InvalidOperationException("Route-context fixture is not configured.");
+        }
+        var transferPlan = _interchangeFixture.Plans[
+            RepresentativeInterchangeFixture.TransferPlanId];
+        var raw = new List<(double ReviewDistance, double PlacementDistance, RouteContextPlacement Placement)>();
+        var omissions = new List<RouteContextOmission>();
+        foreach (var edgeId in transferPlan.Selection.EdgeIds)
+        {
+            var plan = RouteContextPlanner.BuildForEdge(
+                _interchangeFixture.Package.Graph,
+                _interchangeFixture.Package.Semantics,
+                edgeId);
+            omissions.AddRange(plan.Omissions);
+            foreach (var placement in plan.Placements)
+            {
+                var placementDistance = _streamer.GetRouteDistance(edgeId, placement.DistanceMeters);
+                var reviewOffset = placement.Kind == RouteContextPlacementKind.MileMarker ? 30 : 90;
+                raw.Add((
+                    Math.Max(_streamer.GetRouteDistance(edgeId, 0), placementDistance - reviewOffset),
+                    placementDistance,
+                    placement));
+            }
+        }
+        _routeContextOmissions = omissions
+            .OrderBy(omission => omission.Id, StringComparer.Ordinal)
+            .ToArray();
+        _routeContextReviewPoints = raw
+            .GroupBy(item => Math.Round(item.ReviewDistance, 3))
+            .OrderBy(group => group.Key)
+            .Select(group => new RouteContextReviewPoint(
+                group.First().ReviewDistance,
+                group.Max(item => item.PlacementDistance),
+                group.Select(item => item.Placement.Id)
+                    .OrderBy(id => id, StringComparer.Ordinal)
+                    .ToArray(),
+                group.Select(item => item.Placement.Kind).Distinct().Order().ToArray(),
+                group.Select(item => item.Placement.RouteIdentityId)
+                    .Distinct(StringComparer.Ordinal)
+                    .OrderBy(id => id, StringComparer.Ordinal)
+                    .ToArray(),
+                group.Select(item => RouteContextAutomationId(
+                        item.Placement.Id,
+                        item.Placement.Kind))
+                    .OrderBy(id => id, StringComparer.Ordinal)
+                    .ToArray()))
+            .ToArray();
+        if (_routeContextReviewPoints.Count == 0)
+        {
+            throw new InvalidDataException("Route-context fixture produced no review points.");
+        }
+    }
+
+    private void BeginNextRouteContextReviewPoint()
+    {
+        _routeContextStableFrames = 0;
+        _routeContextReviewFrames = 0;
+        if (_routeContextReviewPointIndex >= _routeContextReviewPoints.Count)
+        {
+            _routeContextProfileComplete = true;
+            SetRouteContextDiagnosticView(enabled: false);
+            return;
+        }
+        _streamer.SetReviewDistance(
+            _routeContextReviewPoints[_routeContextReviewPointIndex].ReviewDistanceMeters);
+        SetRouteContextDiagnosticView(enabled: false);
+    }
+
+    private void AdvanceRouteContextProfile()
+    {
+        if (!_streamer.ReviewTargetReady || !_streamer.IsStreamingSettled ||
+            _routeContextReviewPointIndex >= _routeContextReviewPoints.Count)
+        {
+            _routeContextStableFrames = 0;
+            return;
+        }
+        var point = _routeContextReviewPoints[_routeContextReviewPointIndex];
+        var missingAutomationIds = point.AutomationIds
+            .Where(id => !_streamer.RouteContextAutomationIds.Contains(id, StringComparer.Ordinal))
+            .ToArray();
+        if (missingAutomationIds.Length > 0)
+        {
+            throw new InvalidOperationException(
+                $"Route-context review point is missing nodes: " +
+                $"{string.Join(',', missingAutomationIds)}.");
+        }
+
+        _routeContextStableFrames++;
+        if (_routeContextReview)
+        {
+            AdvanceRouteContextCamera(point);
+            return;
+        }
+        if (_routeContextStableFrames < StreamingStableFramesPerCheckpoint)
+        {
+            return;
+        }
+        CompleteRouteContextReviewPoint(point);
+    }
+
+    private void AdvanceRouteContextCamera(RouteContextReviewPoint point)
+    {
+        if (_routeContextDiagnosticCamera is null)
+        {
+            throw new InvalidOperationException("Route-context review camera is missing.");
+        }
+        _routeContextReviewFrames++;
+        var forward = _vehicle.TargetRoadForward.Normalized();
+        var ahead = (float)Math.Clamp(
+            point.PlacementRouteDistanceMeters - point.ReviewDistanceMeters,
+            25,
+            140);
+        var focus = _vehicle.GlobalPosition + forward * ahead + Vector3.Up * 4.5f;
+        _routeContextDiagnosticCamera.GlobalPosition =
+            _vehicle.GlobalPosition - forward * 12 + Vector3.Up * 5.5f;
+        _routeContextDiagnosticCamera.LookAt(focus, Vector3.Up);
+        if (_routeContextReviewFrames == 10)
+        {
+            SetRouteContextDiagnosticView(enabled: true);
+        }
+        if (_routeContextReviewFrames < 60)
+        {
+            return;
+        }
+        CompleteRouteContextReviewPoint(point);
+    }
+
+    private void CompleteRouteContextReviewPoint(RouteContextReviewPoint point)
+    {
+        if (_routeContextReview)
+        {
+            if (_routeContextDiagnosticCamera is null)
+            {
+                throw new InvalidOperationException("Route-context review camera is missing.");
+            }
+            var expectedIds = point.AutomationIds.ToHashSet(StringComparer.Ordinal);
+            var diagnostics = _streamer.GetRouteContextLabelDiagnostics(
+                    _routeContextDiagnosticCamera)
+                .Where(item => expectedIds.Contains(item.AutomationId))
+                .ToArray();
+            var failures = diagnostics.Where(item =>
+                    !item.VisibleInTree ||
+                    !item.InCameraFrustum ||
+                    item.ForwardDistanceMeters <= 0 ||
+                    !item.WithinDeclaredRange)
+                .ToArray();
+            if (diagnostics.Length != expectedIds.Count || failures.Length > 0)
+            {
+                throw new InvalidOperationException(
+                    $"Route-context labels failed the declared visibility envelope: " +
+                    $"expected={expectedIds.Count} observed={diagnostics.Length} " +
+                    $"failures={string.Join(',', failures.Select(item => item.AutomationId))}.");
+            }
+            foreach (var diagnostic in diagnostics)
+            {
+                GD.Print(
+                    $"CANNONBALL_ROUTE_CONTEXT_LABEL_OK id={diagnostic.AutomationId} " +
+                    $"distance_m={diagnostic.CameraDistanceMeters:0.0} " +
+                    $"forward_m={diagnostic.ForwardDistanceMeters:0.0}");
+            }
+        }
+        GD.Print(
+            $"CANNONBALL_ROUTE_CONTEXT_WAYPOINT_OK " +
+            $"index={_routeContextReviewPointIndex + 1} " +
+            $"of={_routeContextReviewPoints.Count} " +
+            $"placements={string.Join(',', point.PlacementIds)} " +
+            $"identities={string.Join(',', point.RouteIdentityIds)}");
+        _routeContextReviewPointIndex++;
+        BeginNextRouteContextReviewPoint();
+    }
+
+    private void SetRouteContextDiagnosticView(bool enabled)
+    {
+        if (_routeContextDiagnosticCamera is not null)
+        {
+            _routeContextDiagnosticCamera.Current = enabled;
+        }
+        var chaseCamera = _vehicle.GetNodeOrNull<Camera3D>("ChaseCameraArm/ChaseCamera");
+        if (chaseCamera is not null)
+        {
+            chaseCamera.Current = !enabled;
+        }
+    }
+
+    private void ValidateRouteContextProfile()
+    {
+        if (_interchangeFixture?.Package.Semantics is null ||
+            !_routeContextProfileComplete ||
+            _routeContextReviewPointIndex != _routeContextReviewPoints.Count)
+        {
+            throw new InvalidOperationException(
+                "Route-context profile did not complete every review point.");
+        }
+        var expectedAutomationIds = _routeContextReviewPoints
+            .SelectMany(point => point.AutomationIds)
+            .ToHashSet(StringComparer.Ordinal);
+        if (_streamer.MileMarkersSeen < 4 || _streamer.ExitSignsSeen < 1 ||
+            _streamer.HighwayTransferSignsSeen < 1 ||
+            expectedAutomationIds.Any(id => !_streamer.RouteContextAutomationIdsSeen.Contains(
+                id,
+                StringComparer.Ordinal)))
+        {
+            throw new InvalidOperationException(
+                "Route-context renderer did not expose every required semantic node.");
+        }
+        var placements = _interchangeFixture.Plans[
+                RepresentativeInterchangeFixture.TransferPlanId]
+            .Selection.EdgeIds
+            .SelectMany(edgeId => RouteContextPlanner.BuildForEdge(
+                _interchangeFixture.Package.Graph,
+                _interchangeFixture.Package.Semantics,
+                edgeId).Placements)
+            .ToArray();
+        var concurrentMarkers = placements
+            .Where(placement => placement.Kind == RouteContextPlacementKind.MileMarker)
+            .GroupBy(placement => (placement.EdgeId, placement.DistanceMeters))
+            .Max(group => group.Count());
+        var resetValues = placements
+            .Where(placement => placement.Kind == RouteContextPlacementKind.MileMarker)
+            .Select(placement => placement.SecondaryText)
+            .Distinct(StringComparer.Ordinal)
+            .Count();
+        var missingMarkerOmission = _routeContextOmissions.SingleOrDefault(omission =>
+            omission.Id == "marker-us36-missing-anchor");
+        if (concurrentMarkers < 2 || resetValues < 3 ||
+            missingMarkerOmission is null ||
+            missingMarkerOmission.EdgeId != "between-interchanges" ||
+            missingMarkerOmission.RouteIdentityId != "route-us36" ||
+            missingMarkerOmission.Provenance?.AuthoredOverrideId !=
+                RepresentativeInterchangeFixture.AuthoredOverrideId ||
+            !missingMarkerOmission.Reason.Contains("no exact colocated", StringComparison.Ordinal))
+        {
+            throw new InvalidOperationException(
+                "Route-context fixture did not prove concurrency, numbering changes, and the " +
+                "provenance-bearing missing-marker omission.");
+        }
+        GD.Print(
+            $"CANNONBALL_ROUTE_CONTEXT_OK review_points={_routeContextReviewPoints.Count} " +
+            $"mile_markers={_streamer.MileMarkersSeen} " +
+            $"exit_signs={_streamer.ExitSignsSeen} " +
+            $"transfer_signs={_streamer.HighwayTransferSignsSeen} " +
+            $"concurrent_markers={concurrentMarkers} " +
+            $"distinct_mile_values={resetValues} omissions={_routeContextOmissions.Count} " +
+            $"automation_nodes={_streamer.RouteContextAutomationIdsSeen.Count} " +
+            $"max_visual_build_ms={_streamer.MaximumBuildMilliseconds:0.000} " +
+            $"chunk_failures={_streamer.ChunkFailureCount}");
+    }
+
+    private static string RouteContextAutomationId(
+        string placementId,
+        RouteContextPlacementKind kind) => kind switch
+    {
+        RouteContextPlacementKind.MileMarker => $"route-context.marker.{placementId}",
+        RouteContextPlacementKind.ExitSign => $"route-context.exit.{placementId}",
+        RouteContextPlacementKind.HighwayTransferSign =>
+            $"route-context.transfer.{placementId}",
+        _ => throw new ArgumentOutOfRangeException(nameof(kind)),
+    };
 
     private void ValidateRouteChoiceProfile()
     {
@@ -2312,4 +2627,12 @@ public sealed partial class Main : Node3D
         double UniqueRouteMiles,
         int Repetitions,
         int VerifiedChunkReads);
+
+    private sealed record RouteContextReviewPoint(
+        double ReviewDistanceMeters,
+        double PlacementRouteDistanceMeters,
+        IReadOnlyList<string> PlacementIds,
+        IReadOnlyList<RouteContextPlacementKind> Kinds,
+        IReadOnlyList<string> RouteIdentityIds,
+        IReadOnlyList<string> AutomationIds);
 }

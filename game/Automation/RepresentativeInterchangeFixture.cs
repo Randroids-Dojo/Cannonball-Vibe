@@ -166,13 +166,15 @@ public static class RepresentativeInterchangeFixture
         var connectors = BuildConnectors(provenance);
         var identities = BuildRouteIdentities(provenance);
         var exits = BuildExits(provenance);
+        var milepointAnchors = BuildMilepointAnchors(provenance);
+        var roadsideMarkers = BuildRoadsideMarkers(provenance);
         var semantics = new RouteSemanticContent(
             built.Select(item => item.Section).ToArray(),
             connectors,
             identities,
             exits,
-            [],
-            [],
+            milepointAnchors,
+            roadsideMarkers,
             [],
             false);
 
@@ -286,9 +288,31 @@ public static class RepresentativeInterchangeFixture
         RouteSemanticProvenance provenance) =>
     [
         new RouteIdentity("route-us36", "US", "36", "us", "east", "Boulder Turnpike", provenance),
+        new RouteIdentity("route-us287", "US", "287", "us", "east", "Federal Boulevard", provenance),
         new RouteIdentity("route-co93", "CO", "93", "state", "north", "Foothills Highway", provenance),
         new RouteIdentity("route-i25", "I", "25", "interstate", "south", "Valley Highway", provenance),
         new RouteIdentity("route-i25-opposing", "I", "25", "interstate", "north", "Valley Highway", provenance),
+    ];
+
+    private static IReadOnlyList<MilepointAnchor> BuildMilepointAnchors(
+        RouteSemanticProvenance provenance) =>
+    [
+        new MilepointAnchor("mile-us36-42", "route-us36", "interchange-approach", 100, 42, "CO-US36", "east", provenance),
+        new MilepointAnchor("mile-us287-250", "route-us287", "interchange-approach", 100, 250, "CO-US287", "east", provenance),
+        new MilepointAnchor("mile-us36-43", "route-us36", "between-interchanges", 250, 43, "CO-US36", "east", provenance),
+        new MilepointAnchor("mile-i25-214", "route-i25", "receiving-highway", 100, 214, "CO-I25", "south", provenance),
+        new MilepointAnchor("mile-i25-215-north", "route-i25-opposing", "opposing-carriageway", 100, 215, "CO-I25", "north", provenance),
+    ];
+
+    private static IReadOnlyList<RoadsideMarker> BuildRoadsideMarkers(
+        RouteSemanticProvenance provenance) =>
+    [
+        new RoadsideMarker("marker-us36-42", "mile", "route-us36", "interchange-approach", 100, "42", provenance),
+        new RoadsideMarker("marker-us287-250", "mile", "route-us287", "interchange-approach", 100, "250", provenance),
+        new RoadsideMarker("marker-us36-43", "mile", "route-us36", "between-interchanges", 250, "43", provenance),
+        new RoadsideMarker("marker-us36-missing-anchor", "mile", "route-us36", "between-interchanges", 400, "44", provenance),
+        new RoadsideMarker("marker-i25-214", "mile", "route-i25", "receiving-highway", 100, "214", provenance),
+        new RoadsideMarker("marker-i25-215-north", "mile", "route-i25-opposing", "opposing-carriageway", 100, "215", provenance),
     ];
 
     private static IReadOnlyList<RouteExit> BuildExits(RouteSemanticProvenance provenance) =>
@@ -374,7 +398,12 @@ public static class RepresentativeInterchangeFixture
             spec.Lanes,
             new RouteShoulder(1.5f, "paved"),
             new RouteShoulder(2.5f, "paved"),
-            spec.RouteIdentityId is "route-i25-opposing" ? "north" : "east",
+            spec.RouteIdentityId switch
+            {
+                "route-i25" => "south",
+                "route-i25-opposing" => "north",
+                _ => "east",
+            },
             provenance);
         var edge = new RouteEdge(
             spec.Id,
@@ -390,7 +419,9 @@ public static class RepresentativeInterchangeFixture
             [chunkId])
         {
             LaneSections = [section],
-            RouteIdentityIds = [spec.RouteIdentityId],
+            RouteIdentityIds = spec.Id == "interchange-approach"
+                ? [spec.RouteIdentityId, "route-us287"]
+                : [spec.RouteIdentityId],
         };
         return new BuiltEdge(edge, section, manifest, bytes, samples);
     }
