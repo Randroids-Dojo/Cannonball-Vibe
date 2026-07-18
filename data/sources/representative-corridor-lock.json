@@ -1,0 +1,256 @@
+{
+  "acquisitions": [
+    {
+      "artifacts": [
+        {
+          "acquired_at": "2026-07-18T01:27:49Z",
+          "byte_count": 44725,
+          "response": {
+            "content_type": "application/json; charset=utf-8",
+            "etag": "sd25015_563456648",
+            "last_modified": "2024-07-08T19:57:13Z",
+            "status": 200
+          },
+          "role": "official-corridor-response",
+          "sha256": "8c7be2d0b4ea0bc8997de85308d58ea46e7e13d4f3319b67821425b0ab6ff6d5",
+          "url": "https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/NTAD_National_Highway_Planning_Network/FeatureServer/0/query?objectIds=62346,62363,62366,62367,62369,62372,62373,62377,62385,63478,63495,63498,63540,63561,63593,63596,63597,63598,63600,63606,63607,63608,63609,63610,63625,63630,63632,63634,63635,63637,63639,63746,63750,63756,63767,63768,63769,63771,63775,63776,63777,63780,63782,63808,63809&outFields=%2A&returnGeometry=true&outSR=4326&returnZ=false&returnM=false&orderByFields=OBJECTID%20ASC&f=geojson"
+        },
+        {
+          "derivation": {
+            "indent": 2,
+            "kind": "canonical-json-v1",
+            "sort_keys": true
+          },
+          "derived_at": "2026-07-18T01:27:49Z",
+          "derived_from_sha256": [
+            "8c7be2d0b4ea0bc8997de85308d58ea46e7e13d4f3319b67821425b0ab6ff6d5"
+          ],
+          "path": "data/sources/fixtures/nhpn-boulder-westminster-us36.geojson",
+          "role": "official-corridor-geojson",
+          "sha256": "d859ff7ef97106a36b24276b87c86c3968aa1266ddf987ee6859d6972b7f6ff6",
+          "source_url": "https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/NTAD_National_Highway_Planning_Network/FeatureServer/0/query?objectIds=62346,62363,62366,62367,62369,62372,62373,62377,62385,63478,63495,63498,63540,63561,63593,63596,63597,63598,63600,63606,63607,63608,63609,63610,63625,63630,63632,63634,63635,63637,63639,63746,63750,63756,63767,63768,63769,63771,63775,63776,63777,63780,63782,63808,63809&outFields=%2A&returnGeometry=true&outSR=4326&returnZ=false&returnM=false&orderByFields=OBJECTID%20ASC&f=geojson"
+        },
+        {
+          "derivation": {
+            "content": {
+              "acquired_on": "2026-07-17",
+              "derived_from": [
+                "https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/NTAD_National_Highway_Planning_Network/FeatureServer/0"
+              ],
+              "license_evidence_url": "https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/NTAD_National_Highway_Planning_Network/FeatureServer/0",
+              "license_status": "public_domain",
+              "publisher": "U.S. Department of Transportation",
+              "sha256": "d859ff7ef97106a36b24276b87c86c3968aa1266ddf987ee6859d6972b7f6ff6",
+              "source_id": "usdot-national-highway-planning-network",
+              "source_url": "https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/NTAD_National_Highway_Planning_Network/FeatureServer/0/query?objectIds=62346,62363,62366,62367,62369,62372,62373,62377,62385,63478,63495,63498,63540,63561,63593,63596,63597,63598,63600,63606,63607,63608,63609,63610,63625,63630,63632,63634,63635,63637,63639,63746,63750,63756,63767,63768,63769,63771,63775,63776,63777,63780,63782,63808,63809&outFields=%2A&returnGeometry=true&outSR=4326&returnZ=false&returnM=false&orderByFields=OBJECTID%20ASC&f=geojson"
+            },
+            "kind": "static-canonical-json-v1"
+          },
+          "derived_at": "2026-07-18T01:27:49Z",
+          "derived_from_sha256": [
+            "d859ff7ef97106a36b24276b87c86c3968aa1266ddf987ee6859d6972b7f6ff6"
+          ],
+          "path": "data/sources/fixtures/nhpn-boulder-westminster-us36.manifest.json",
+          "role": "official-corridor-manifest",
+          "sha256": "8020fb0146c5d630132accd9234e7c443e9f96b8459ae109d5f16a9104985575",
+          "source_url": "https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/NTAD_National_Highway_Planning_Network/FeatureServer/0/query?objectIds=62346,62363,62366,62367,62369,62372,62373,62377,62385,63478,63495,63498,63540,63561,63593,63596,63597,63598,63600,63606,63607,63608,63609,63610,63625,63630,63632,63634,63635,63637,63639,63746,63750,63756,63767,63768,63769,63771,63775,63776,63777,63780,63782,63808,63809&outFields=%2A&returnGeometry=true&outSR=4326&returnZ=false&returnM=false&orderByFields=OBJECTID%20ASC&f=geojson"
+        }
+      ],
+      "kind": "arcgis-feature-layer",
+      "license_evidence_url": "https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/NTAD_National_Highway_Planning_Network/FeatureServer/0",
+      "license_status": "public_domain",
+      "publisher": "U.S. Department of Transportation",
+      "service": {
+        "crs": "EPSG:4326",
+        "data_last_edit_date": "2024-07-08",
+        "item_id": "4179a784a8d547ac869b14505c168430",
+        "layer_id": 0,
+        "max_record_count": 2000,
+        "object_id_field": "OBJECTID"
+      },
+      "snapshot": {
+        "expected_count": 45,
+        "object_ids": [
+          62346,
+          62363,
+          62366,
+          62367,
+          62369,
+          62372,
+          62373,
+          62377,
+          62385,
+          63478,
+          63495,
+          63498,
+          63540,
+          63561,
+          63593,
+          63596,
+          63597,
+          63598,
+          63600,
+          63606,
+          63607,
+          63608,
+          63609,
+          63610,
+          63625,
+          63630,
+          63632,
+          63634,
+          63635,
+          63637,
+          63639,
+          63746,
+          63750,
+          63756,
+          63767,
+          63768,
+          63769,
+          63771,
+          63775,
+          63776,
+          63777,
+          63780,
+          63782,
+          63808,
+          63809
+        ],
+        "object_ids_sha256": "fdfa1662e8fd26449cf43d5edd2fde316f0b4de3b3fde2774be8871266c65358",
+        "order_by": "OBJECTID ASC",
+        "page_size": 2000,
+        "selection_predicate": "OBJECTID IN (62346,62363,62366,62367,62369,62372,62373,62377,62385,63478,63495,63498,63540,63561,63593,63596,63597,63598,63600,63606,63607,63608,63609,63610,63625,63630,63632,63634,63635,63637,63639,63746,63750,63756,63767,63768,63769,63771,63775,63776,63777,63780,63782,63808,63809)"
+      },
+      "source_id": "usdot-national-highway-planning-network",
+      "source_url": "https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/NTAD_National_Highway_Planning_Network/FeatureServer/0/query?objectIds=62346&outFields=%2A&returnGeometry=true&outSR=4326&returnZ=false&returnM=false&orderByFields=OBJECTID%20ASC&f=geojson"
+    },
+    {
+      "artifacts": [
+        {
+          "acquired_at": "2026-07-16T05:42:00Z",
+          "byte_count": 410392672,
+          "response": {
+            "content_type": "image/tiff",
+            "etag": "e19b6c5883a088624d601072c85a502d-79",
+            "last_modified": "2022-12-03T20:37:16Z",
+            "status": 200
+          },
+          "role": "full-historical-geotiff",
+          "sha256": "2aed906edb0db1e56d6ee5d1f5e9acc596bb97d63d05449a97d66e4a29d14d5e",
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n40w106/USGS_13_n40w106_20220216.tif"
+        },
+        {
+          "acquired_at": "2026-07-16T05:42:00Z",
+          "byte_count": 13110,
+          "response": {
+            "content_type": "application/xml",
+            "etag": "3336-5fd83084875f5",
+            "last_modified": "2023-06-07T05:01:45Z",
+            "status": 200
+          },
+          "role": "fgdc-product-metadata",
+          "sha256": "ff83d11fc30120ea6bdeba772d0eacfb90a74311cd649e9449bd0b65e0829280",
+          "url": "https://thor-f5.er.usgs.gov/ngtoc/metadata/waf/elevation/1-3_arc-second/CO_DRCOG_2020_B20/USGS_13_n40w106_20220216.xml"
+        },
+        {
+          "derivation": {
+            "block_size": 256,
+            "column_offset": 7960,
+            "compression": "deflate",
+            "gdal_version": "3.12.1",
+            "height": 1628,
+            "kind": "raster-window-v1",
+            "predictor": 3,
+            "rasterio_version": "1.5.0",
+            "row_offset": 1,
+            "width": 2341
+          },
+          "derived_at": "2026-07-18T01:27:49Z",
+          "derived_from_sha256": [
+            "2aed906edb0db1e56d6ee5d1f5e9acc596bb97d63d05449a97d66e4a29d14d5e"
+          ],
+          "path": "data/sources/fixtures/usgs-13-n40w106-boulder-westminster.tif",
+          "role": "official-corridor-crop",
+          "sha256": "b426c18178961d1add78477335a8bb2373471041a8aba04066e9dd2d82de7539",
+          "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n40w106/USGS_13_n40w106_20220216.tif"
+        },
+        {
+          "derivation": {
+            "content": {
+              "artifact_sha256": "b426c18178961d1add78477335a8bb2373471041a8aba04066e9dd2d82de7539",
+              "elevation_units": "meters",
+              "horizontal_datum": "North American Datum of 1983",
+              "product_id": "620de4b0d34e6c7e83ba9fde",
+              "product_resolution": "1/3 arc-second",
+              "product_title": "USGS 1/3 Arc Second n40w106 20220216",
+              "raster_crs": "EPSG:4269",
+              "vertical_datum": "North American Vertical Datum of 1988"
+            },
+            "kind": "static-canonical-json-v1"
+          },
+          "derived_at": "2026-07-18T01:27:49Z",
+          "derived_from_sha256": [
+            "ff83d11fc30120ea6bdeba772d0eacfb90a74311cd649e9449bd0b65e0829280",
+            "b426c18178961d1add78477335a8bb2373471041a8aba04066e9dd2d82de7539"
+          ],
+          "path": "data/sources/fixtures/usgs-13-n40w106-boulder-westminster.metadata.json",
+          "role": "corridor-crop-metadata",
+          "sha256": "0ec7798324b918a55ea9e842ae1ee23370beb25c080b78ca17c0de14b07fda7f",
+          "source_url": "https://thor-f5.er.usgs.gov/ngtoc/metadata/waf/elevation/1-3_arc-second/CO_DRCOG_2020_B20/USGS_13_n40w106_20220216.xml"
+        }
+      ],
+      "discovery": {
+        "candidate_count": 2,
+        "dataset": "National Elevation Dataset (NED) 1/3 arc-second",
+        "endpoint": "https://tnmaccess.nationalmap.gov/api/v1/products",
+        "extent": "1 x 1 degree",
+        "format": "GeoTIFF",
+        "request": {
+          "bbox": "-105.2635,39.8497,-105.0467,40.0005",
+          "datasets": "National Elevation Dataset (NED) 1/3 arc-second",
+          "dateType": "Publication",
+          "end": "2022-02-16",
+          "max": 5,
+          "offset": 0,
+          "outputFormat": "JSON",
+          "prodExtents": "1 x 1 degree",
+          "prodFormats": "GeoTIFF",
+          "start": "2022-02-16"
+        },
+        "response_sha256": "ef432032f8ebebf581c531b649728c477d4dab8c615ec0064fad196d2798fb0b",
+        "selection_policy": "Select the lexically first sourceId whose raster bounds cover the locked NHPN feature bounds"
+      },
+      "kind": "tnm-3dep-product",
+      "license_evidence_url": "https://www.usgs.gov/information-policies-and-instructions/copyrights-and-credits",
+      "license_status": "public_domain",
+      "product": {
+        "elevation_units": "meters",
+        "horizontal_datum": "North American Datum of 1983",
+        "nodata": -999999.0,
+        "publication_date": "2022-02-16",
+        "raster_crs": "EPSG:4269",
+        "resolution": "1/3 arc-second",
+        "source_id": "620de4b0d34e6c7e83ba9fde",
+        "title": "USGS 1/3 Arc Second n40w106 20220216",
+        "vertical_datum": "North American Vertical Datum of 1988"
+      },
+      "publisher": "U.S. Geological Survey",
+      "source_id": "usgs-3dep",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n40w106/USGS_13_n40w106_20220216.tif"
+    }
+  ],
+  "catalog_sha256": "356a0fe4810a37bb5e5970bba3ae8295208908bc800e016c22e3b608bbb7c9eb",
+  "corridor": {
+    "bbox": [
+      -105.27,
+      39.99,
+      -105.25,
+      40.0005
+    ],
+    "crs": "EPSG:4326",
+    "id": "boulder-us36-official-fixture"
+  },
+  "created_at": "2026-07-18T01:27:49Z",
+  "schema_version": 1
+}

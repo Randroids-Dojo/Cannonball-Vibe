@@ -1,0 +1,12 @@
+{
+  "acquired_on": "2026-07-17",
+  "derived_from": [
+    "https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/NTAD_National_Highway_Planning_Network/FeatureServer/0"
+  ],
+  "license_evidence_url": "https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/NTAD_National_Highway_Planning_Network/FeatureServer/0",
+  "license_status": "public_domain",
+  "publisher": "U.S. Department of Transportation",
+  "sha256": "d859ff7ef97106a36b24276b87c86c3968aa1266ddf987ee6859d6972b7f6ff6",
+  "source_id": "usdot-national-highway-planning-network",
+  "source_url": "https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/NTAD_National_Highway_Planning_Network/FeatureServer/0/query?objectIds=62346,62363,62366,62367,62369,62372,62373,62377,62385,63478,63495,63498,63540,63561,63593,63596,63597,63598,63600,63606,63607,63608,63609,63610,63625,63630,63632,63634,63635,63637,63639,63746,63750,63756,63767,63768,63769,63771,63775,63776,63777,63780,63782,63808,63809&outFields=%2A&returnGeometry=true&outSR=4326&returnZ=false&returnM=false&orderByFields=OBJECTID%20ASC&f=geojson"
+}

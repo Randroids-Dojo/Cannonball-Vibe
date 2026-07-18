@@ -25,7 +25,8 @@ public sealed partial class WorldStreamer : Node3D
     private readonly HashSet<string> _failed = new(StringComparer.Ordinal);
     private RouteContentPackage _package = null!;
     private VerifiedFileChunkSource _source = null!;
-    private IReadOnlyList<ChunkManifest> _manifests = [];
+    private LinearRoutePlan _routePlan = null!;
+    private IReadOnlyList<RouteManifestSpan> _manifests = [];
     private RouteFrame _frame = null!;
     private CannonballVehicle? _vehicle;
     private RouteWorldPoint _localOriginWorld;
@@ -33,6 +34,10 @@ public sealed partial class WorldStreamer : Node3D
     private double _routeDistanceMeters;
     private double _lateralOffsetMeters;
     private RouteWorldPoint _initialRoadWorldPoint;
+    private double? _reviewTargetDistanceMeters;
+    private bool _reviewTargetReady;
+    private readonly HashSet<string> _reviewReadyChunksSeen = new(StringComparer.Ordinal);
+    private readonly HashSet<string> _reviewEdgesVisited = new(StringComparer.Ordinal);
 
     public double RouteDistanceMeters => _routeDistanceMeters;
     public double LocalOriginMeters { get; private set; }
@@ -44,14 +49,35 @@ public sealed partial class WorldStreamer : Node3D
     public int ChunkFailureCount { get; private set; }
     public double MaximumBuildMilliseconds { get; private set; }
     public string CurrentEdgeId => _currentEdgeId;
+    public double CurrentEdgeDistanceMeters =>
+        _routeDistanceMeters - _routePlan.GetEdge(_currentEdgeId).StartMeters;
     public double CurrentLateralOffsetMeters => _lateralOffsetMeters;
     public string ContentVersion => _package.Graph.ContentVersion;
     public double TotalRouteLengthMeters => RouteLengthMeters;
+    public IReadOnlyList<string> RoutePlan => _routePlan.EdgeIds;
     public Vector3 InitialRoadPoint { get; private set; }
     public Vector3 InitialRoadForward { get; private set; }
     public bool ShortCorridorLoopEnabled { get; set; }
     public int CompletedShortCorridorLoops { get; private set; }
     public int CrossedReviewDistanceThresholdCount { get; private set; }
+    public bool ReviewTargetReady => _reviewTargetReady;
+    public int ReviewReadyChunkCountSeen => _reviewReadyChunksSeen.Count;
+    public int ReviewEdgeCountVisited => _reviewEdgesVisited.Count;
+
+    public static ChunkManifest FindInitialManifest(RouteContentPackage package)
+    {
+        ArgumentNullException.ThrowIfNull(package);
+        var plan = LinearRoutePlan.Build(
+            package.Graph,
+            package.Chunks.Values.Select(manifest => manifest.EdgeId));
+        var firstEdgeId = plan.Edges[0].EdgeId;
+        return package.Chunks.Values
+            .Where(manifest => string.Equals(manifest.EdgeId, firstEdgeId, StringComparison.Ordinal))
+            .OrderBy(manifest => manifest.StartMeters)
+            .ThenBy(manifest => manifest.Id, StringComparer.Ordinal)
+            .FirstOrDefault()
+            ?? throw new InvalidDataException($"Route edge '{firstEdgeId}' has no chunk manifests.");
+    }
 
     public void Configure(
         RouteContentPackage package,
@@ -64,11 +90,26 @@ public sealed partial class WorldStreamer : Node3D
         }
         _package = package;
         _source = source;
+        _routePlan = LinearRoutePlan.Build(
+            package.Graph,
+            package.Chunks.Values.Select(manifest => manifest.EdgeId));
+        if (!string.Equals(initialChunk.EdgeId, _routePlan.Edges[0].EdgeId, StringComparison.Ordinal) ||
+            initialChunk.StartMeters != 0)
+        {
+            throw new InvalidDataException("The initial route chunk is not the first chunk in the corridor plan.");
+        }
         _currentEdgeId = initialChunk.EdgeId;
         _manifests = package.Chunks.Values
-            .Where(manifest => manifest.EdgeId == _currentEdgeId)
-            .OrderBy(manifest => manifest.StartMeters)
-            .ThenBy(manifest => manifest.Id, StringComparer.Ordinal)
+            .Select(manifest =>
+            {
+                var edge = _routePlan.GetEdge(manifest.EdgeId);
+                return new RouteManifestSpan(
+                    manifest,
+                    edge.StartMeters + manifest.StartMeters,
+                    edge.StartMeters + manifest.EndMeters);
+            })
+            .OrderBy(span => span.StartMeters)
+            .ThenBy(span => span.Manifest.Id, StringComparer.Ordinal)
             .ToArray();
         if (_manifests.Count == 0)
         {
@@ -105,7 +146,16 @@ public sealed partial class WorldStreamer : Node3D
             return;
         }
 
+        if (_reviewTargetDistanceMeters is { } reviewDistance)
+        {
+            _routeDistanceMeters = reviewDistance;
+            UpdateCurrentEdge();
+            TryPlaceVehicleForReview();
+            return;
+        }
+
         UpdateRouteProjection();
+        UpdateCurrentEdge();
         var crossedSeams = _routeDistanceMeters >= 300 ? 3
             : _routeDistanceMeters >= 200 ? 2
             : _routeDistanceMeters >= 100 ? 1
@@ -117,6 +167,7 @@ public sealed partial class WorldStreamer : Node3D
             _routeDistanceMeters >= Math.Max(0, RouteLengthMeters - ShortCorridorLoopResetLeadMeters))
         {
             _routeDistanceMeters = 0;
+            UpdateCurrentEdge();
             _lateralOffsetMeters = 0;
             var resetPoint = _initialRoadWorldPoint.RelativeTo(_localOriginWorld);
             _vehicle.RouteDistanceMeters = 0;
@@ -157,21 +208,32 @@ public sealed partial class WorldStreamer : Node3D
         vehicle.TargetRoadForward = InitialRoadForward;
     }
 
-    private double RouteLengthMeters => _manifests.Max(manifest => manifest.EndMeters);
+    public void SetReviewDistance(double distanceMeters)
+    {
+        _reviewTargetDistanceMeters = Math.Clamp(distanceMeters, 0, RouteLengthMeters);
+        _routeDistanceMeters = _reviewTargetDistanceMeters.Value;
+        _reviewTargetReady = false;
+        UpdateCurrentEdge();
+        RefreshDesiredChunks();
+    }
+
+    private double RouteLengthMeters => _routePlan.TotalLengthMeters;
 
     private void RefreshDesiredChunks()
     {
         var speed = _vehicle?.SpeedMetersPerSecond ?? 0;
-        CurrentLookAheadMeters = Math.Clamp(
-            speed * PrefetchHorizonSeconds,
-            ActivePhysicsAheadMeters,
-            VisualLookAheadMeters);
+        CurrentLookAheadMeters = _reviewTargetDistanceMeters.HasValue
+            ? VisualLookAheadMeters
+            : Math.Clamp(
+                speed * PrefetchHorizonSeconds,
+                ActivePhysicsAheadMeters,
+                VisualLookAheadMeters);
         var first = Math.Max(0, _routeDistanceMeters - RetainBehindMeters);
         var last = Math.Min(RouteLengthMeters, _routeDistanceMeters + CurrentLookAheadMeters);
 
         var desired = _manifests
-            .Where(manifest => manifest.EndMeters >= first && manifest.StartMeters <= last)
-            .Select(manifest => manifest.Id)
+            .Where(span => span.EndMeters >= first && span.StartMeters <= last)
+            .Select(span => span.Manifest.Id)
             .ToHashSet(StringComparer.Ordinal);
         foreach (var (id, pending) in _pending.ToArray())
         {
@@ -180,8 +242,9 @@ public sealed partial class WorldStreamer : Node3D
                 pending.Cancellation.Cancel();
             }
         }
-        foreach (var manifest in _manifests.Where(manifest => desired.Contains(manifest.Id)))
+        foreach (var span in _manifests.Where(span => desired.Contains(span.Manifest.Id)))
         {
+            var manifest = span.Manifest;
             if (!_loaded.ContainsKey(manifest.Id) &&
                 !_pending.ContainsKey(manifest.Id) &&
                 !_queued.Contains(manifest.Id) &&
@@ -195,7 +258,7 @@ public sealed partial class WorldStreamer : Node3D
 
         foreach (var (id, chunk) in _loaded.ToArray())
         {
-            var manifest = _package.Chunks[id];
+            var manifest = _manifests.First(span => span.Manifest.Id == id);
             chunk.SetCollisionActive(
                 manifest.EndMeters >= _routeDistanceMeters - 50 &&
                 manifest.StartMeters <= _routeDistanceMeters + ActivePhysicsAheadMeters);
@@ -272,6 +335,10 @@ public sealed partial class WorldStreamer : Node3D
         }
         _content.Add(content.Id, content);
         _loaded.Add(content.Id, chunk);
+        if (chunk.HasReviewGeometry())
+        {
+            _reviewReadyChunksSeen.Add(content.Id);
+        }
         MaximumBuildMilliseconds = Math.Max(MaximumBuildMilliseconds, chunk.BuildMilliseconds);
         AddChild(chunk);
     }
@@ -323,7 +390,8 @@ public sealed partial class WorldStreamer : Node3D
                     continue;
                 }
                 bestDistanceSquared = distanceSquared;
-                bestRouteDistance = chunk.Samples[index].DistanceMeters +
+                var edgeOffset = _routePlan.GetEdge(chunk.EdgeId).StartMeters;
+                bestRouteDistance = edgeOffset + chunk.Samples[index].DistanceMeters +
                     (chunk.Samples[index + 1].DistanceMeters - chunk.Samples[index].DistanceMeters) * factor;
                 var segmentLength = Math.Sqrt(lengthSquared);
                 var rightX = -segmentZ / segmentLength;
@@ -337,9 +405,30 @@ public sealed partial class WorldStreamer : Node3D
 
     private (RouteWorldPoint Point, Vector3 Forward) GetRoadPose(double distanceMeters)
     {
-        foreach (var chunk in _content.Values.OrderBy(value => value.StartMeters))
+        if (TryGetRoadPose(distanceMeters, out var pose))
         {
-            if (distanceMeters < chunk.StartMeters || distanceMeters > chunk.EndMeters)
+            return pose;
+        }
+
+        var fallback = _content.Values
+            .OrderBy(value => Math.Abs(
+                _routePlan.GetEdge(value.EdgeId).StartMeters + value.EndMeters - distanceMeters))
+            .First();
+        var last = fallback.Samples[^1];
+        var point = _frame.ToWorld(last);
+        return (point, _frame.DirectionToWorld(last.ProjectedTangentX, last.ProjectedTangentY));
+    }
+
+    private bool TryGetRoadPose(
+        double distanceMeters,
+        out (RouteWorldPoint Point, Vector3 Forward) pose)
+    {
+        foreach (var chunk in _content.Values.OrderBy(value =>
+                     _routePlan.GetEdge(value.EdgeId).StartMeters + value.StartMeters))
+        {
+            var edgeOffset = _routePlan.GetEdge(chunk.EdgeId).StartMeters;
+            var localDistance = distanceMeters - edgeOffset;
+            if (localDistance < chunk.StartMeters || localDistance > chunk.EndMeters)
             {
                 continue;
             }
@@ -347,30 +436,53 @@ public sealed partial class WorldStreamer : Node3D
             {
                 var firstSample = chunk.Samples[index];
                 var secondSample = chunk.Samples[index + 1];
-                if (distanceMeters < firstSample.DistanceMeters ||
-                    distanceMeters > secondSample.DistanceMeters)
+                if (localDistance < firstSample.DistanceMeters ||
+                    localDistance > secondSample.DistanceMeters)
                 {
                     continue;
                 }
                 var span = secondSample.DistanceMeters - firstSample.DistanceMeters;
-                var factor = span <= 0 ? 0 : (distanceMeters - firstSample.DistanceMeters) / span;
+                var factor = span <= 0 ? 0 : (localDistance - firstSample.DistanceMeters) / span;
                 var first = _frame.ToWorld(firstSample);
                 var second = _frame.ToWorld(secondSample);
                 var tangentX = firstSample.ProjectedTangentX +
                     (secondSample.ProjectedTangentX - firstSample.ProjectedTangentX) * factor;
                 var tangentY = firstSample.ProjectedTangentY +
                     (secondSample.ProjectedTangentY - firstSample.ProjectedTangentY) * factor;
-                return (first.Lerp(second, factor), _frame.DirectionToWorld(tangentX, tangentY));
+                pose = (first.Lerp(second, factor), _frame.DirectionToWorld(tangentX, tangentY));
+                return true;
             }
         }
 
-        var fallback = _content.Values
-            .OrderBy(value => Math.Abs(value.EndMeters - distanceMeters))
-            .First();
-        var last = fallback.Samples[^1];
-        var point = _frame.ToWorld(last);
-        return (point, _frame.DirectionToWorld(last.ProjectedTangentX, last.ProjectedTangentY));
+        pose = default;
+        return false;
     }
+
+    private void TryPlaceVehicleForReview()
+    {
+        if (_reviewTargetReady || _vehicle is null ||
+            !TryGetRoadPose(_routeDistanceMeters, out var pose))
+        {
+            return;
+        }
+        var localPoint = pose.Point.RelativeTo(_localOriginWorld);
+        _vehicle.PlaceForReview(localPoint, pose.Forward);
+        _vehicle.RouteDistanceMeters = _routeDistanceMeters;
+        _vehicle.TargetRoadPoint = localPoint;
+        _vehicle.TargetRoadForward = pose.Forward;
+        _reviewEdgesVisited.Add(_currentEdgeId);
+        _reviewTargetReady = true;
+    }
+
+    private void UpdateCurrentEdge()
+    {
+        _currentEdgeId = _routePlan.GetEdgeAtDistance(_routeDistanceMeters).EdgeId;
+    }
+
+    private sealed record RouteManifestSpan(
+        ChunkManifest Manifest,
+        double StartMeters,
+        double EndMeters);
 
     private sealed record PendingRead(
         Task<RouteChunkContent> Task,

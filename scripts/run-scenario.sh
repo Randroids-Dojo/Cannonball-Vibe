@@ -5,7 +5,7 @@ repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$repo_root"
 
 if [[ $# -eq 0 ]]; then
-  echo "Usage: $0 [--fixture official-corridor] [--distance-miles N] [--smoke-test] [scenario arguments]" >&2
+  echo "Usage: $0 [--fixture NAME] [--distance-miles N] [--smoke-test] [scenario arguments]" >&2
   exit 2
 fi
 
@@ -49,6 +49,11 @@ while [[ $# -gt 0 ]]; do
       scenario_args+=("$1")
       shift
       ;;
+    --geographic-review)
+      scenario_mode="geographic-review"
+      scenario_args+=("$1")
+      shift
+      ;;
     --stress-driver)
       scenario_mode="long-route-stress"
       scenario_args+=("$1")
@@ -68,10 +73,28 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-if [[ -n "$fixture" && "$fixture" != "official-corridor" ]]; then
-  echo "Unknown fixture '$fixture'. Supported fixtures: official-corridor." >&2
-  exit 2
-fi
+case "$fixture" in
+  official-corridor)
+    fixture_source="$repo_root/data/sources/fixtures/nhpn-boulder-us36.geojson"
+    fixture_manifest="$repo_root/data/sources/fixtures/nhpn-boulder-us36.manifest.json"
+    fixture_elevation="$repo_root/data/sources/fixtures/usgs-13-n40w106-boulder.tif"
+    fixture_elevation_metadata="$repo_root/data/sources/fixtures/usgs-13-n40w106-boulder.metadata.json"
+    fixture_lock="$repo_root/data/sources/source-lock.json"
+    fixture_chunk_meters=100
+    ;;
+  representative-corridor)
+    fixture_source="$repo_root/data/sources/fixtures/nhpn-boulder-westminster-us36.geojson"
+    fixture_manifest="$repo_root/data/sources/fixtures/nhpn-boulder-westminster-us36.manifest.json"
+    fixture_elevation="$repo_root/data/sources/fixtures/usgs-13-n40w106-boulder-westminster.tif"
+    fixture_elevation_metadata="$repo_root/data/sources/fixtures/usgs-13-n40w106-boulder-westminster.metadata.json"
+    fixture_lock="$repo_root/data/sources/representative-corridor-lock.json"
+    fixture_chunk_meters=2000
+    ;;
+  *)
+    echo "Unknown fixture '$fixture'. Supported fixtures: official-corridor, representative-corridor." >&2
+    exit 2
+    ;;
+esac
 if [[ -n "$distance_miles" ]] &&
   ! awk -v value="$distance_miles" 'BEGIN { exit !(value ~ /^([0-9]+([.][0-9]*)?|[.][0-9]+)$/ && value > 0) }'; then
   echo "--distance-miles must be a positive number." >&2
@@ -86,21 +109,21 @@ unique_route_miles=""
 route_repetitions=""
 verification_mode=""
 verified_chunk_reads=""
-if [[ "$fixture" == "official-corridor" ]]; then
-  package_directory="$repo_root/.tools/scenarios/official-corridor"
+if [[ -n "$fixture" ]]; then
+  package_directory="$repo_root/.tools/scenarios/$fixture"
   uv run --project "$repo_root/tools/map_pipeline" --frozen cannonball-map build \
-    --source "$repo_root/data/sources/fixtures/nhpn-boulder-us36.geojson" \
-    --manifest "$repo_root/data/sources/fixtures/nhpn-boulder-us36.manifest.json" \
+    --source "$fixture_source" \
+    --manifest "$fixture_manifest" \
     --catalog "$repo_root/data/sources/catalog.json" \
-    --elevation "$repo_root/data/sources/fixtures/usgs-13-n40w106-boulder.tif" \
-    --elevation-metadata "$repo_root/data/sources/fixtures/usgs-13-n40w106-boulder.metadata.json" \
-    --acquisition-lock "$repo_root/data/sources/source-lock.json" \
-    --chunk-meters 100 \
+    --elevation "$fixture_elevation" \
+    --elevation-metadata "$fixture_elevation_metadata" \
+    --acquisition-lock "$fixture_lock" \
+    --chunk-meters "$fixture_chunk_meters" \
     --output "$package_directory"
 
   package_pointer="$package_directory/current-package.json"
   if [[ ! -f "$package_pointer" ]]; then
-    echo "Official corridor build did not publish $package_pointer." >&2
+    echo "Fixture build did not publish $package_pointer." >&2
     exit 1
   fi
   pointer_paths="$(uv run --project "$repo_root/tools/map_pipeline" --frozen python - \
@@ -116,7 +139,7 @@ PY
   route_package="$package_directory/$root_relative_path"
   route_metadata="$package_directory/$metadata_relative_path"
   if [[ ! -f "$route_package" ]]; then
-    echo "Official corridor build did not publish $route_package." >&2
+    echo "Fixture build did not publish $route_package." >&2
     exit 1
   fi
 
@@ -141,8 +164,8 @@ PY
 )"
     IFS=$'\t' read -r unique_route_miles route_repetitions verification_mode verified_chunk_reads <<< "$probe_metadata"
     scenario_mode="$verification_mode"
-    printf 'CANNONBALL_ROUTE_PROBE fixture=official-corridor mode=%s unique_route_miles=%s requested_distance_miles=%s route_repetitions=%s verified_chunk_reads=%s\n' \
-      "$verification_mode" "$unique_route_miles" "$distance_miles" "$route_repetitions" "$verified_chunk_reads"
+    printf 'CANNONBALL_ROUTE_PROBE fixture=%s mode=%s unique_route_miles=%s requested_distance_miles=%s route_repetitions=%s verified_chunk_reads=%s\n' \
+      "$fixture" "$verification_mode" "$unique_route_miles" "$distance_miles" "$route_repetitions" "$verified_chunk_reads"
   fi
 fi
 

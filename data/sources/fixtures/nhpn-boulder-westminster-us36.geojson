@@ -1,0 +1,3580 @@
+{
+  "crs": {
+    "properties": {
+      "name": "EPSG:4326"
+    },
+    "type": "name"
+  },
+  "features": [
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            -105.258386000014,
+            40.0003080000142
+          ],
+          [
+            -105.258226999876,
+            40.0000630004072
+          ],
+          [
+            -105.258011999854,
+            39.9998990000389
+          ],
+          [
+            -105.257368999879,
+            39.9995069999482
+          ],
+          [
+            -105.256773000274,
+            39.9991240002724
+          ],
+          [
+            -105.256706999928,
+            39.9990899996038
+          ],
+          [
+            -105.255717000139,
+            39.9985780002746
+          ],
+          [
+            -105.255595999955,
+            39.9985079997444
+          ],
+          [
+            -105.255212000234,
+            39.9982850002526
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": 62346,
+      "properties": {
+        "BEGIN_POIN": 37.53,
+        "BEGMP": 21.6,
+        "CONN_DES": " ",
+        "CONN_ID": " ",
+        "CONN_MILES": 0,
+        "CTFIPS": 13,
+        "ENDMP": 23.055,
+        "END_POINT": 37.749,
+        "FACILITY_T": 2,
+        "FAC_ID": " ",
+        "FCLASS": 2,
+        "F_SYSTEM": 2,
+        "KM": 0.353,
+        "LGURB": 238,
+        "LNAME": "MOORHEAD AV",
+        "LRSKEY": "000000036B00013",
+        "LRSSEQ": 9,
+        "MILES": 0.219,
+        "NHS": 7,
+        "OBJECTID": 62346,
+        "ORIGID": 8002934,
+        "RECID": 8002934,
+        "RECTYPE": "L",
+        "ROUTE_ID": "036B",
+        "RUCODE": 3,
+        "SIGN1": "U36",
+        "SIGN2": " ",
+        "SIGN3": " ",
+        "SIGNN1": "36",
+        "SIGNN2": " ",
+        "SIGNN3": " ",
+        "SIGNQ1": " ",
+        "SIGNQ2": " ",
+        "SIGNQ3": " ",
+        "SIGNT1": "U",
+        "SIGNT2": " ",
+        "SIGNT3": " ",
+        "SMURB": 9298,
+        "SOURCE": "H",
+        "STATUS": 1,
+        "STFIPS": "08",
+        "STRAHNET": 0,
+        "Shape__Length": 0.003796649154126663,
+        "URBAN_CODE": 9298,
+        "VERSION": "2014.05",
+        "YEAR_RECOR": 2010
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            -105.165620000163,
+            39.9578360001314
+          ],
+          [
+            -105.163444999687,
+            39.9569200001579
+          ],
+          [
+            -105.16302600015,
+            39.956768000343
+          ],
+          [
+            -105.162525000428,
+            39.9565270000211
+          ],
+          [
+            -105.162312999645,
+            39.9564249998139
+          ],
+          [
+            -105.162082999831,
+            39.9563140000911
+          ],
+          [
+            -105.161758000132,
+            39.9561329998381
+          ],
+          [
+            -105.161633999809,
+            39.9560650002996
+          ],
+          [
+            -105.161192000111,
+            39.9558229999316
+          ],
+          [
+            -105.160715999744,
+            39.9555380002785
+          ],
+          [
+            -105.160393000137,
+            39.9553309997259
+          ],
+          [
+            -105.160206999653,
+            39.9552220000953
+          ],
+          [
+            -105.159640999632,
+            39.9548239997279
+          ],
+          [
+            -105.159128000257,
+            39.9544430001444
+          ],
+          [
+            -105.157034999965,
+            39.9528290003581
+          ],
+          [
+            -105.155275999788,
+            39.951481000248
+          ],
+          [
+            -105.154941999673,
+            39.9512230000415
+          ],
+          [
+            -105.154288000091,
+            39.9507190001818
+          ],
+          [
+            -105.153750999609,
+            39.9503039999297
+          ],
+          [
+            -105.15366500014,
+            39.9502370004373
+          ],
+          [
+            -105.152766000051,
+            39.9495520003246
+          ],
+          [
+            -105.151680000332,
+            39.948757999682
+          ],
+          [
+            -105.146989999889,
+            39.9457090002702
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": 62363,
+      "properties": {
+        "BEGIN_POIN": 43.348,
+        "BEGMP": 15.901,
+        "CONN_DES": " ",
+        "CONN_ID": " ",
+        "CONN_MILES": 0,
+        "CTFIPS": 13,
+        "ENDMP": 17.792,
+        "END_POINT": 44.621,
+        "FACILITY_T": 2,
+        "FAC_ID": " ",
+        "FCLASS": 2,
+        "F_SYSTEM": 2,
+        "KM": 2.082,
+        "LGURB": 458,
+        "LNAME": " ",
+        "LRSKEY": "000000036B00013",
+        "LRSSEQ": 3,
+        "MILES": 1.294,
+        "NHS": 7,
+        "OBJECTID": 62363,
+        "ORIGID": 8004386,
+        "RECID": 8004386,
+        "RECTYPE": "L",
+        "ROUTE_ID": "036B",
+        "RUCODE": 3,
+        "SIGN1": "U36",
+        "SIGN2": " ",
+        "SIGN3": " ",
+        "SIGNN1": "36",
+        "SIGNN2": " ",
+        "SIGNN3": " ",
+        "SIGNQ1": " ",
+        "SIGNQ2": " ",
+        "SIGNQ3": " ",
+        "SIGNT1": "U",
+        "SIGNT2": " ",
+        "SIGNT3": " ",
+        "SMURB": 46126,
+        "SOURCE": "H",
+        "STATUS": 1,
+        "STFIPS": "08",
+        "STRAHNET": 0,
+        "Shape__Length": 0.022318684392127332,
+        "URBAN_CODE": 46126,
+        "VERSION": "2014.05",
+        "YEAR_RECOR": 2010
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            -105.071067999788,
+            39.8860710001766
+          ],
+          [
+            -105.070029000438,
+            39.884667000182
+          ],
+          [
+            -105.070027000346,
+            39.8846640000436
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": 62366,
+      "properties": {
+        "BEGIN_POIN": 50.472,
+        "BEGMP": 50.304,
+        "CONN_DES": " ",
+        "CONN_ID": " ",
+        "CONN_MILES": 0,
+        "CTFIPS": 59,
+        "ENDMP": 51.051,
+        "END_POINT": 50.576,
+        "FACILITY_T": 2,
+        "FAC_ID": " ",
+        "FCLASS": 12,
+        "F_SYSTEM": 2,
+        "KM": 0.186,
+        "LGURB": 24,
+        "LNAME": "DENVER BOULDER TPKE",
+        "LRSKEY": "000000036B00059",
+        "LRSSEQ": 4,
+        "MILES": 0.116,
+        "NHS": 7,
+        "OBJECTID": 62366,
+        "ORIGID": 8004869,
+        "RECID": 8004869,
+        "RECTYPE": "L",
+        "ROUTE_ID": "036B",
+        "RUCODE": 3,
+        "SIGN1": "U36",
+        "SIGN2": " ",
+        "SIGN3": " ",
+        "SIGNN1": "36",
+        "SIGNN2": " ",
+        "SIGNN3": " ",
+        "SIGNQ1": " ",
+        "SIGNQ2": " ",
+        "SIGNQ3": " ",
+        "SIGNT1": "U",
+        "SIGNT2": " ",
+        "SIGNT3": " ",
+        "SMURB": 23527,
+        "SOURCE": "H",
+        "STATUS": 1,
+        "STFIPS": "08",
+        "STRAHNET": 0,
+        "Shape__Length": 0.0017502412361400173,
+        "URBAN_CODE": 23527,
+        "VERSION": "2014.05",
+        "YEAR_RECOR": 2010
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            -105.079101999757,
+            39.897907000108
+          ],
+          [
+            -105.078764000358,
+            39.8973430001794
+          ],
+          [
+            -105.076762999813,
+            39.8938669999621
+          ],
+          [
+            -105.07632999963,
+            39.893258999803
+          ],
+          [
+            -105.075615999978,
+            39.892274000245
+          ],
+          [
+            -105.075563000232,
+            39.8922009995765
+          ],
+          [
+            -105.075230000164,
+            39.8917349996706
+          ],
+          [
+            -105.075224999934,
+            39.8917290002932
+          ],
+          [
+            -105.074314000191,
+            39.8904960000904
+          ],
+          [
+            -105.074102000307,
+            39.8902090003451
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": 62367,
+      "properties": {
+        "BEGIN_POIN": 49.617,
+        "BEGMP": 51.051,
+        "CONN_DES": " ",
+        "CONN_ID": " ",
+        "CONN_MILES": 0,
+        "CTFIPS": 59,
+        "ENDMP": 52.703,
+        "END_POINT": 50.165,
+        "FACILITY_T": 2,
+        "FAC_ID": " ",
+        "FCLASS": 12,
+        "F_SYSTEM": 2,
+        "KM": 0.994,
+        "LGURB": 24,
+        "LNAME": "DENVER BOULDER TPKE",
+        "LRSKEY": "000000036B00059",
+        "LRSSEQ": 5,
+        "MILES": 0.618,
+        "NHS": 7,
+        "OBJECTID": 62367,
+        "ORIGID": 8004868,
+        "RECID": 8004868,
+        "RECTYPE": "L",
+        "ROUTE_ID": "036B",
+        "RUCODE": 3,
+        "SIGN1": "U36",
+        "SIGN2": " ",
+        "SIGN3": " ",
+        "SIGNN1": "36",
+        "SIGNN2": " ",
+        "SIGNN3": " ",
+        "SIGNQ1": " ",
+        "SIGNQ2": " ",
+        "SIGNQ3": " ",
+        "SIGNT1": "U",
+        "SIGNT2": " ",
+        "SIGNT3": " ",
+        "SMURB": 23527,
+        "SOURCE": "H",
+        "STATUS": 1,
+        "STFIPS": "08",
+        "STRAHNET": 0,
+        "Shape__Length": 0.009191942851507798,
+        "URBAN_CODE": 23527,
+        "VERSION": "2014.05",
+        "YEAR_RECOR": 2010
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            -105.071717000039,
+            39.8869789997811
+          ],
+          [
+            -105.07121300018,
+            39.8862660001758
+          ],
+          [
+            -105.071067999788,
+            39.8860710001766
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": 62369,
+      "properties": {
+        "BEGIN_POIN": 50.405,
+        "BEGMP": 50.304,
+        "CONN_DES": " ",
+        "CONN_ID": " ",
+        "CONN_MILES": 0,
+        "CTFIPS": 59,
+        "ENDMP": 51.051,
+        "END_POINT": 50.472,
+        "FACILITY_T": 2,
+        "FAC_ID": " ",
+        "FCLASS": 12,
+        "F_SYSTEM": 2,
+        "KM": 0.119,
+        "LGURB": 24,
+        "LNAME": "DENVER BOULDER TPKE",
+        "LRSKEY": "000000036B00059",
+        "LRSSEQ": 4,
+        "MILES": 0.074,
+        "NHS": 7,
+        "OBJECTID": 62369,
+        "ORIGID": 8004866,
+        "RECID": 8004866,
+        "RECTYPE": "L",
+        "ROUTE_ID": "036B",
+        "RUCODE": 3,
+        "SIGN1": "U36",
+        "SIGN2": " ",
+        "SIGN3": " ",
+        "SIGNN1": "36",
+        "SIGNN2": " ",
+        "SIGNN3": " ",
+        "SIGNQ1": " ",
+        "SIGNQ2": " ",
+        "SIGNQ3": " ",
+        "SIGNT1": "U",
+        "SIGNT2": " ",
+        "SIGNT3": " ",
+        "SMURB": 23527,
+        "SOURCE": "H",
+        "STATUS": 1,
+        "STFIPS": "08",
+        "STRAHNET": 0,
+        "Shape__Length": 0.0011161484958020513,
+        "URBAN_CODE": 23527,
+        "VERSION": "2014.05",
+        "YEAR_RECOR": 2010
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            -105.073757999732,
+            39.8897610003699
+          ],
+          [
+            -105.073199000034,
+            39.8890350001652
+          ],
+          [
+            -105.072822999782,
+            39.8885080001442
+          ],
+          [
+            -105.072796000335,
+            39.8884720002827
+          ],
+          [
+            -105.071743000339,
+            39.8870169997348
+          ],
+          [
+            -105.071717000039,
+            39.8869789997811
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": 62372,
+      "properties": {
+        "BEGIN_POIN": 50.199,
+        "BEGMP": 51.051,
+        "CONN_DES": " ",
+        "CONN_ID": " ",
+        "CONN_MILES": 0,
+        "CTFIPS": 59,
+        "ENDMP": 52.703,
+        "END_POINT": 50.405,
+        "FACILITY_T": 2,
+        "FAC_ID": " ",
+        "FCLASS": 12,
+        "F_SYSTEM": 2,
+        "KM": 0.367,
+        "LGURB": 24,
+        "LNAME": "DENVER BOULDER TPKE",
+        "LRSKEY": "000000036B00059",
+        "LRSSEQ": 5,
+        "MILES": 0.228,
+        "NHS": 7,
+        "OBJECTID": 62372,
+        "ORIGID": 8004863,
+        "RECID": 8004863,
+        "RECTYPE": "L",
+        "ROUTE_ID": "036B",
+        "RUCODE": 3,
+        "SIGN1": "U36",
+        "SIGN2": " ",
+        "SIGN3": " ",
+        "SIGNN1": "36",
+        "SIGNN2": " ",
+        "SIGNN3": " ",
+        "SIGNQ1": " ",
+        "SIGNQ2": " ",
+        "SIGNQ3": " ",
+        "SIGNT1": "U",
+        "SIGNT2": " ",
+        "SIGNT3": " ",
+        "SMURB": 23527,
+        "SOURCE": "H",
+        "STATUS": 1,
+        "STFIPS": "08",
+        "STRAHNET": 0,
+        "Shape__Length": 0.003450761043190439,
+        "URBAN_CODE": 23527,
+        "VERSION": "2014.05",
+        "YEAR_RECOR": 2010
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            -105.074102000307,
+            39.8902090003451
+          ],
+          [
+            -105.074088999708,
+            39.8901910004144
+          ],
+          [
+            -105.073757999732,
+            39.8897610003699
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": 62373,
+      "properties": {
+        "BEGIN_POIN": 50.165,
+        "BEGMP": 51.051,
+        "CONN_DES": " ",
+        "CONN_ID": " ",
+        "CONN_MILES": 0,
+        "CTFIPS": 59,
+        "ENDMP": 52.703,
+        "END_POINT": 50.199,
+        "FACILITY_T": 2,
+        "FAC_ID": " ",
+        "FCLASS": 12,
+        "F_SYSTEM": 2,
+        "KM": 0.06,
+        "LGURB": 24,
+        "LNAME": "DENVER BOULDER TPKE",
+        "LRSKEY": "000000036B00059",
+        "LRSSEQ": 5,
+        "MILES": 0.037,
+        "NHS": 7,
+        "OBJECTID": 62373,
+        "ORIGID": 8004862,
+        "RECID": 8004862,
+        "RECTYPE": "L",
+        "ROUTE_ID": "036B",
+        "RUCODE": 3,
+        "SIGN1": "U36",
+        "SIGN2": " ",
+        "SIGN3": " ",
+        "SIGNN1": "36",
+        "SIGNN2": " ",
+        "SIGNN3": " ",
+        "SIGNQ1": " ",
+        "SIGNQ2": " ",
+        "SIGNQ3": " ",
+        "SIGNT1": "U",
+        "SIGNT2": " ",
+        "SIGNT3": " ",
+        "SMURB": 23527,
+        "SOURCE": "H",
+        "STATUS": 1,
+        "STFIPS": "08",
+        "STRAHNET": 0,
+        "Shape__Length": 0.0005648465265707838,
+        "URBAN_CODE": 23527,
+        "VERSION": "2014.05",
+        "YEAR_RECOR": 2010
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            -105.070027000346,
+            39.8846640000436
+          ],
+          [
+            -105.069393999933,
+            39.8838100002314
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": 62377,
+      "properties": {
+        "BEGIN_POIN": 50.576,
+        "BEGMP": 50.304,
+        "CONN_DES": " ",
+        "CONN_ID": " ",
+        "CONN_MILES": 0,
+        "CTFIPS": 59,
+        "ENDMP": 51.051,
+        "END_POINT": 50.639,
+        "FACILITY_T": 2,
+        "FAC_ID": " ",
+        "FCLASS": 12,
+        "F_SYSTEM": 2,
+        "KM": 0.113,
+        "LGURB": 24,
+        "LNAME": "DENVER BOULDER TPKE",
+        "LRSKEY": "000000036B00059",
+        "LRSSEQ": 4,
+        "MILES": 0.07,
+        "NHS": 7,
+        "OBJECTID": 62377,
+        "ORIGID": 8004873,
+        "RECID": 8004873,
+        "RECTYPE": "L",
+        "ROUTE_ID": "036B",
+        "RUCODE": 3,
+        "SIGN1": "U36",
+        "SIGN2": " ",
+        "SIGN3": " ",
+        "SIGNN1": "36",
+        "SIGNN2": " ",
+        "SIGNN3": " ",
+        "SIGNQ1": " ",
+        "SIGNQ2": " ",
+        "SIGNQ3": " ",
+        "SIGNT1": "U",
+        "SIGNT2": " ",
+        "SIGNT3": " ",
+        "SMURB": 23527,
+        "SOURCE": "H",
+        "STATUS": 1,
+        "STFIPS": "08",
+        "STRAHNET": 0,
+        "Shape__Length": 0.0010630170279445489,
+        "URBAN_CODE": 23527,
+        "VERSION": "2014.05",
+        "YEAR_RECOR": 2010
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            -105.095325999695,
+            39.9169329997582
+          ],
+          [
+            -105.095286999695,
+            39.9169139997813
+          ],
+          [
+            -105.094460000229,
+            39.9165009996215
+          ],
+          [
+            -105.094370999722,
+            39.9164479998753
+          ],
+          [
+            -105.093900999631,
+            39.9161679995536
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": 62385,
+      "properties": {
+        "BEGIN_POIN": 48.105,
+        "BEGMP": 13.408,
+        "CONN_DES": " ",
+        "CONN_ID": " ",
+        "CONN_MILES": 0,
+        "CTFIPS": 13,
+        "ENDMP": 15.901,
+        "END_POINT": 48.202,
+        "FACILITY_T": 2,
+        "FAC_ID": " ",
+        "FCLASS": 2,
+        "F_SYSTEM": 2,
+        "KM": 0.146,
+        "LGURB": 24,
+        "LNAME": "DENVER BOULDER TPKE",
+        "LRSKEY": "000000036B00013",
+        "LRSSEQ": 2,
+        "MILES": 0.091,
+        "NHS": 7,
+        "OBJECTID": 62385,
+        "ORIGID": 8004819,
+        "RECID": 8004819,
+        "RECTYPE": "L",
+        "ROUTE_ID": "036B",
+        "RUCODE": 3,
+        "SIGN1": "U36",
+        "SIGN2": " ",
+        "SIGN3": " ",
+        "SIGNN1": "36",
+        "SIGNN2": " ",
+        "SIGNN3": " ",
+        "SIGNQ1": " ",
+        "SIGNQ2": " ",
+        "SIGNQ3": " ",
+        "SIGNT1": "U",
+        "SIGNT2": " ",
+        "SIGNT3": " ",
+        "SMURB": 23527,
+        "SOURCE": "H",
+        "STATUS": 1,
+        "STFIPS": "08",
+        "STRAHNET": 0,
+        "Shape__Length": 0.0016184416538360539,
+        "URBAN_CODE": 23527,
+        "VERSION": "2014.05",
+        "YEAR_RECOR": 2010
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            -105.121625000194,
+            39.9321639997688
+          ],
+          [
+            -105.121041000242,
+            39.9318729998391
+          ],
+          [
+            -105.120953999827,
+            39.9318250003236
+          ],
+          [
+            -105.120369999876,
+            39.931507000048
+          ],
+          [
+            -105.119659000363,
+            39.9310630002573
+          ],
+          [
+            -105.11927000041,
+            39.9307900002584
+          ],
+          [
+            -105.118572999744,
+            39.9302959999605
+          ],
+          [
+            -105.11854800039,
+            39.9302780000297
+          ],
+          [
+            -105.117913999931,
+            39.9298009996165
+          ],
+          [
+            -105.116792000351,
+            39.9289390003347
+          ],
+          [
+            -105.116409999822,
+            39.9286410000822
+          ],
+          [
+            -105.115632999963,
+            39.9280360000614
+          ],
+          [
+            -105.115268000218,
+            39.9277799999471
+          ],
+          [
+            -105.111650999794,
+            39.9249220003501
+          ],
+          [
+            -105.111024999704,
+            39.9244619998215
+          ],
+          [
+            -105.111015000142,
+            39.9244560004441
+          ],
+          [
+            -105.109492000056,
+            39.9235079998944
+          ],
+          [
+            -105.106990999835,
+            39.9222840001066
+          ],
+          [
+            -105.104816000258,
+            39.921297999603
+          ],
+          [
+            -105.104798000327,
+            39.9212900001335
+          ],
+          [
+            -105.100094000138,
+            39.9191219999803
+          ],
+          [
+            -105.100086999815,
+            39.919118999842
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": 63478,
+      "properties": {
+        "BEGIN_POIN": 46.282,
+        "BEGMP": 13.408,
+        "CONN_DES": " ",
+        "CONN_ID": " ",
+        "CONN_MILES": 0,
+        "CTFIPS": 13,
+        "ENDMP": 15.901,
+        "END_POINT": 47.792,
+        "FACILITY_T": 2,
+        "FAC_ID": " ",
+        "FCLASS": 2,
+        "F_SYSTEM": 2,
+        "KM": 2.333,
+        "LGURB": 24,
+        "LNAME": "DENVER BOULDER TPKE",
+        "LRSKEY": "000000036B00013",
+        "LRSSEQ": 2,
+        "MILES": 1.449,
+        "NHS": 7,
+        "OBJECTID": 63478,
+        "ORIGID": 8004584,
+        "RECID": 8004584,
+        "RECTYPE": "L",
+        "ROUTE_ID": "036B",
+        "RUCODE": 3,
+        "SIGN1": "U36",
+        "SIGN2": " ",
+        "SIGN3": " ",
+        "SIGNN1": "36",
+        "SIGNN2": " ",
+        "SIGNN3": " ",
+        "SIGNQ1": " ",
+        "SIGNQ2": " ",
+        "SIGNQ3": " ",
+        "SIGNT1": "U",
+        "SIGNT2": " ",
+        "SIGNT3": " ",
+        "SMURB": 23527,
+        "SOURCE": "H",
+        "STATUS": 1,
+        "STFIPS": "08",
+        "STRAHNET": 0,
+        "Shape__Length": 0.02531047502870251,
+        "URBAN_CODE": 23527,
+        "VERSION": "2014.05",
+        "YEAR_RECOR": 2010
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            -105.222001000246,
+            39.9807310001356
+          ],
+          [
+            -105.221256000064,
+            39.9803889996527
+          ],
+          [
+            -105.220562999583,
+            39.980067000092
+          ],
+          [
+            -105.22052200039,
+            39.9800480001152
+          ],
+          [
+            -105.21903900035,
+            39.979358999818
+          ],
+          [
+            -105.212832000097,
+            39.9764810001981
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": 63495,
+      "properties": {
+        "BEGIN_POIN": 39.916,
+        "BEGMP": 18.713,
+        "CONN_DES": " ",
+        "CONN_ID": " ",
+        "CONN_MILES": 0,
+        "CTFIPS": 13,
+        "ENDMP": 21.163,
+        "END_POINT": 40.499,
+        "FACILITY_T": 2,
+        "FAC_ID": " ",
+        "FCLASS": 2,
+        "F_SYSTEM": 2,
+        "KM": 0.892,
+        "LGURB": 458,
+        "LNAME": " ",
+        "LRSKEY": "000000036B00013",
+        "LRSSEQ": 6,
+        "MILES": 0.554,
+        "NHS": 7,
+        "OBJECTID": 63495,
+        "ORIGID": 8004603,
+        "RECID": 8004603,
+        "RECTYPE": "L",
+        "ROUTE_ID": "036B",
+        "RUCODE": 3,
+        "SIGN1": "U36",
+        "SIGN2": " ",
+        "SIGN3": " ",
+        "SIGNN1": "36",
+        "SIGNN2": " ",
+        "SIGNN3": " ",
+        "SIGNQ1": " ",
+        "SIGNQ2": " ",
+        "SIGNQ3": " ",
+        "SIGNT1": "U",
+        "SIGNT2": " ",
+        "SIGNT3": " ",
+        "SMURB": 46126,
+        "SOURCE": "H",
+        "STATUS": 1,
+        "STFIPS": "08",
+        "STRAHNET": 0,
+        "Shape__Length": 0.010106096966716542,
+        "URBAN_CODE": 9298,
+        "VERSION": "2014.05",
+        "YEAR_RECOR": 2010
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            -105.255212000234,
+            39.9982850002526
+          ],
+          [
+            -105.251649999648,
+            39.9962190003067
+          ],
+          [
+            -105.23705700028,
+            39.9877510001086
+          ],
+          [
+            -105.236888999728,
+            39.9876530000859
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": 63498,
+      "properties": {
+        "BEGIN_POIN": 37.749,
+        "BEGMP": 21.6,
+        "CONN_DES": " ",
+        "CONN_ID": " ",
+        "CONN_MILES": 0,
+        "CTFIPS": 13,
+        "ENDMP": 23.055,
+        "END_POINT": 38.97,
+        "FACILITY_T": 2,
+        "FAC_ID": " ",
+        "FCLASS": 2,
+        "F_SYSTEM": 2,
+        "KM": 1.935,
+        "LGURB": 238,
+        "LNAME": "MOORHEAD AV",
+        "LRSKEY": "000000036B00013",
+        "LRSSEQ": 9,
+        "MILES": 1.202,
+        "NHS": 7,
+        "OBJECTID": 63498,
+        "ORIGID": 8004600,
+        "RECID": 8004600,
+        "RECTYPE": "L",
+        "ROUTE_ID": "036B",
+        "RUCODE": 3,
+        "SIGN1": "U36",
+        "SIGN2": " ",
+        "SIGN3": " ",
+        "SIGNN1": "36",
+        "SIGNN2": " ",
+        "SIGNN3": " ",
+        "SIGNQ1": " ",
+        "SIGNQ2": " ",
+        "SIGNQ3": " ",
+        "SIGNT1": "U",
+        "SIGNT2": " ",
+        "SIGNT3": " ",
+        "SMURB": 9298,
+        "SOURCE": "H",
+        "STATUS": 1,
+        "STFIPS": "08",
+        "STRAHNET": 0,
+        "Shape__Length": 0.02118423470110705,
+        "URBAN_CODE": 9298,
+        "VERSION": "2014.05",
+        "YEAR_RECOR": 2010
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            -105.212832000097,
+            39.9764810001981
+          ],
+          [
+            -105.20709599998,
+            39.973837999724
+          ],
+          [
+            -105.202733000228,
+            39.9721989996842
+          ],
+          [
+            -105.198938999735,
+            39.9707739996205
+          ],
+          [
+            -105.19056899956,
+            39.96747799961
+          ],
+          [
+            -105.186083999577,
+            39.9657109999627
+          ],
+          [
+            -105.185874999831,
+            39.9656289997786
+          ],
+          [
+            -105.184366000391,
+            39.9650550002881
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": 63540,
+      "properties": {
+        "BEGIN_POIN": 40.499,
+        "BEGMP": 18.713,
+        "CONN_DES": " ",
+        "CONN_ID": " ",
+        "CONN_MILES": 0,
+        "CTFIPS": 13,
+        "ENDMP": 21.163,
+        "END_POINT": 42.202,
+        "FACILITY_T": 2,
+        "FAC_ID": " ",
+        "FCLASS": 2,
+        "F_SYSTEM": 3,
+        "KM": 2.658,
+        "LGURB": 458,
+        "LNAME": " ",
+        "LRSKEY": "000000036B00013",
+        "LRSSEQ": 6,
+        "MILES": 1.652,
+        "NHS": 7,
+        "OBJECTID": 63540,
+        "ORIGID": 8004397,
+        "RECID": 8004397,
+        "RECTYPE": "L",
+        "ROUTE_ID": "036B",
+        "RUCODE": 3,
+        "SIGN1": "U36",
+        "SIGN2": " ",
+        "SIGN3": " ",
+        "SIGNN1": "36",
+        "SIGNN2": " ",
+        "SIGNN3": " ",
+        "SIGNQ1": " ",
+        "SIGNQ2": " ",
+        "SIGNQ3": " ",
+        "SIGNT1": "U",
+        "SIGNT2": " ",
+        "SIGNT3": " ",
+        "SMURB": 46126,
+        "SOURCE": "H",
+        "STATUS": 1,
+        "STFIPS": "08",
+        "STRAHNET": 0,
+        "Shape__Length": 0.030684215111732364,
+        "URBAN_CODE": 99999,
+        "VERSION": "2014.05",
+        "YEAR_RECOR": 2010
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            -105.054831000151,
+            39.8597549997934
+          ],
+          [
+            -105.054391999691,
+            39.8588769997738
+          ],
+          [
+            -105.0539740002,
+            39.8580399998461
+          ],
+          [
+            -105.053385000018,
+            39.8569600004038
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": 63561,
+      "properties": {
+        "BEGIN_POIN": 52.323,
+        "BEGMP": 49.404,
+        "CONN_DES": " ",
+        "CONN_ID": " ",
+        "CONN_MILES": 0,
+        "CTFIPS": 59,
+        "ENDMP": 49.558,
+        "END_POINT": 52.511,
+        "FACILITY_T": 2,
+        "FAC_ID": " ",
+        "FCLASS": 12,
+        "F_SYSTEM": 2,
+        "KM": 0.35,
+        "LGURB": 24,
+        "LNAME": "DENVER BOULDER TPKE",
+        "LRSKEY": "000000036B00059",
+        "LRSSEQ": 1,
+        "MILES": 0.217,
+        "NHS": 7,
+        "OBJECTID": 63561,
+        "ORIGID": 800001246,
+        "RECID": 8000507,
+        "RECTYPE": "L",
+        "ROUTE_ID": "036B",
+        "RUCODE": 3,
+        "SIGN1": "U36",
+        "SIGN2": " ",
+        "SIGN3": " ",
+        "SIGNN1": "36",
+        "SIGNN2": " ",
+        "SIGNN3": " ",
+        "SIGNQ1": " ",
+        "SIGNQ2": " ",
+        "SIGNQ3": " ",
+        "SIGNT1": "U",
+        "SIGNT2": " ",
+        "SIGNT3": " ",
+        "SMURB": 23527,
+        "SOURCE": "H",
+        "STATUS": 1,
+        "STFIPS": "08",
+        "STRAHNET": 0,
+        "Shape__Length": 0.003147375445736179,
+        "URBAN_CODE": 23527,
+        "VERSION": "2014.05",
+        "YEAR_RECOR": 2010
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            -105.146989999889,
+            39.9457090002702
+          ],
+          [
+            -105.144271000406,
+            39.9438980003924
+          ],
+          [
+            -105.143883999647,
+            39.9436479996555
+          ],
+          [
+            -105.143235000295,
+            39.9432280000722
+          ],
+          [
+            -105.141424999564,
+            39.9420489996617
+          ],
+          [
+            -105.141131000395,
+            39.9418620000313
+          ],
+          [
+            -105.140115000307,
+            39.941211999734
+          ],
+          [
+            -105.137755000293,
+            39.9396939998782
+          ],
+          [
+            -105.137692000086,
+            39.9396580000167
+          ],
+          [
+            -105.136765999651,
+            39.9391320000418
+          ],
+          [
+            -105.136033000023,
+            39.9387599999741
+          ],
+          [
+            -105.135880000162,
+            39.9386900003433
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": 63593,
+      "properties": {
+        "BEGIN_POIN": 44.621,
+        "BEGMP": 15.901,
+        "CONN_DES": " ",
+        "CONN_ID": " ",
+        "CONN_MILES": 0,
+        "CTFIPS": 13,
+        "ENDMP": 17.792,
+        "END_POINT": 45.371,
+        "FACILITY_T": 2,
+        "FAC_ID": " ",
+        "FCLASS": 2,
+        "F_SYSTEM": 2,
+        "KM": 1.219,
+        "LGURB": 458,
+        "LNAME": " ",
+        "LRSKEY": "000000036B00013",
+        "LRSSEQ": 3,
+        "MILES": 0.758,
+        "NHS": 7,
+        "OBJECTID": 63593,
+        "ORIGID": 8004376,
+        "RECID": 8004376,
+        "RECTYPE": "L",
+        "ROUTE_ID": "036B",
+        "RUCODE": 3,
+        "SIGN1": "U36",
+        "SIGN2": " ",
+        "SIGN3": " ",
+        "SIGNN1": "36",
+        "SIGNN2": " ",
+        "SIGNN3": " ",
+        "SIGNQ1": " ",
+        "SIGNQ2": " ",
+        "SIGNQ3": " ",
+        "SIGNT1": "U",
+        "SIGNT2": " ",
+        "SIGNT3": " ",
+        "SMURB": 46126,
+        "SOURCE": "H",
+        "STATUS": 1,
+        "STFIPS": "08",
+        "STRAHNET": 0,
+        "Shape__Length": 0.013149193593512007,
+        "URBAN_CODE": 46126,
+        "VERSION": "2014.05",
+        "YEAR_RECOR": 2010
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            -105.179580000017,
+            39.9632360000414
+          ],
+          [
+            -105.179198000387,
+            39.96309099965
+          ],
+          [
+            -105.169167000057,
+            39.9591949998494
+          ],
+          [
+            -105.168889999874,
+            39.9590910004493
+          ],
+          [
+            -105.168712999805,
+            39.9590250001037
+          ],
+          [
+            -105.166663999744,
+            39.9582130004297
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": 63596,
+      "properties": {
+        "BEGIN_POIN": 42.494,
+        "BEGMP": 17.792,
+        "CONN_DES": " ",
+        "CONN_ID": " ",
+        "CONN_MILES": 0,
+        "CTFIPS": 13,
+        "ENDMP": 18.553,
+        "END_POINT": 43.285,
+        "FACILITY_T": 2,
+        "FAC_ID": " ",
+        "FCLASS": 2,
+        "F_SYSTEM": 2,
+        "KM": 1.196,
+        "LGURB": 458,
+        "LNAME": " ",
+        "LRSKEY": "000000036B00013",
+        "LRSSEQ": 4,
+        "MILES": 0.743,
+        "NHS": 7,
+        "OBJECTID": 63596,
+        "ORIGID": 8004375,
+        "RECID": 8004375,
+        "RECTYPE": "L",
+        "ROUTE_ID": "036B",
+        "RUCODE": 3,
+        "SIGN1": "U36",
+        "SIGN2": " ",
+        "SIGN3": " ",
+        "SIGNN1": "36",
+        "SIGNN2": " ",
+        "SIGNN3": " ",
+        "SIGNQ1": " ",
+        "SIGNQ2": " ",
+        "SIGNQ3": " ",
+        "SIGNT1": "U",
+        "SIGNT2": " ",
+        "SIGNT3": " ",
+        "SMURB": 46126,
+        "SOURCE": "H",
+        "STATUS": 1,
+        "STFIPS": "08",
+        "STRAHNET": 0,
+        "Shape__Length": 0.013858438567806167,
+        "URBAN_CODE": 46126,
+        "VERSION": "2014.05",
+        "YEAR_RECOR": 2010
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            -105.184366000391,
+            39.9650550002881
+          ],
+          [
+            -105.182515999614,
+            39.9643520002447
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": 63597,
+      "properties": {
+        "BEGIN_POIN": 42.202,
+        "BEGMP": 18.713,
+        "CONN_DES": " ",
+        "CONN_ID": " ",
+        "CONN_MILES": 0,
+        "CTFIPS": 13,
+        "ENDMP": 21.163,
+        "END_POINT": 42.315,
+        "FACILITY_T": 2,
+        "FAC_ID": " ",
+        "FCLASS": 2,
+        "F_SYSTEM": 2,
+        "KM": 0.17,
+        "LGURB": 458,
+        "LNAME": " ",
+        "LRSKEY": "000000036B00013",
+        "LRSSEQ": 6,
+        "MILES": 0.106,
+        "NHS": 7,
+        "OBJECTID": 63597,
+        "ORIGID": 8004374,
+        "RECID": 8004374,
+        "RECTYPE": "L",
+        "ROUTE_ID": "036B",
+        "RUCODE": 3,
+        "SIGN1": "U36",
+        "SIGN2": " ",
+        "SIGN3": " ",
+        "SIGNN1": "36",
+        "SIGNN2": " ",
+        "SIGNN3": " ",
+        "SIGNQ1": " ",
+        "SIGNQ2": " ",
+        "SIGNQ3": " ",
+        "SIGNT1": "U",
+        "SIGNT2": " ",
+        "SIGNT3": " ",
+        "SMURB": 46126,
+        "SOURCE": "H",
+        "STATUS": 1,
+        "STFIPS": "08",
+        "STRAHNET": 0,
+        "Shape__Length": 0.001979068451486691,
+        "URBAN_CODE": 46126,
+        "VERSION": "2014.05",
+        "YEAR_RECOR": 2010
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            -105.182515999614,
+            39.9643520002447
+          ],
+          [
+            -105.179580000017,
+            39.9632360000414
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": 63598,
+      "properties": {
+        "BEGIN_POIN": 42.315,
+        "BEGMP": 18.553,
+        "CONN_DES": " ",
+        "CONN_ID": " ",
+        "CONN_MILES": 0,
+        "CTFIPS": 13,
+        "ENDMP": 18.713,
+        "END_POINT": 42.494,
+        "FACILITY_T": 2,
+        "FAC_ID": " ",
+        "FCLASS": 2,
+        "F_SYSTEM": 2,
+        "KM": 0.27,
+        "LGURB": 458,
+        "LNAME": " ",
+        "LRSKEY": "000000036B00013",
+        "LRSSEQ": 5,
+        "MILES": 0.168,
+        "NHS": 7,
+        "OBJECTID": 63598,
+        "ORIGID": 800001219,
+        "RECID": 8000405,
+        "RECTYPE": "L",
+        "ROUTE_ID": "036B",
+        "RUCODE": 3,
+        "SIGN1": "U36",
+        "SIGN2": " ",
+        "SIGN3": " ",
+        "SIGNN1": "36",
+        "SIGNN2": " ",
+        "SIGNN3": " ",
+        "SIGNQ1": " ",
+        "SIGNQ2": " ",
+        "SIGNQ3": " ",
+        "SIGNT1": "U",
+        "SIGNT2": " ",
+        "SIGNT3": " ",
+        "SMURB": 46126,
+        "SOURCE": "H",
+        "STATUS": 1,
+        "STFIPS": "08",
+        "STRAHNET": 0,
+        "Shape__Length": 0.0031409473229629965,
+        "URBAN_CODE": 46126,
+        "VERSION": "2014.05",
+        "YEAR_RECOR": 2010
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            -105.166663999744,
+            39.9582130004297
+          ],
+          [
+            -105.166407999629,
+            39.9581120002687
+          ],
+          [
+            -105.165620000163,
+            39.9578360001314
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": 63600,
+      "properties": {
+        "BEGIN_POIN": 43.285,
+        "BEGMP": 17.792,
+        "CONN_DES": " ",
+        "CONN_ID": " ",
+        "CONN_MILES": 0,
+        "CTFIPS": 13,
+        "ENDMP": 18.553,
+        "END_POINT": 43.348,
+        "FACILITY_T": 2,
+        "FAC_ID": " ",
+        "FCLASS": 2,
+        "F_SYSTEM": 2,
+        "KM": 0.095,
+        "LGURB": 458,
+        "LNAME": " ",
+        "LRSKEY": "000000036B00013",
+        "LRSSEQ": 4,
+        "MILES": 0.059,
+        "NHS": 7,
+        "OBJECTID": 63600,
+        "ORIGID": 8004373,
+        "RECID": 8004373,
+        "RECTYPE": "L",
+        "ROUTE_ID": "036B",
+        "RUCODE": 3,
+        "SIGN1": "U36",
+        "SIGN2": " ",
+        "SIGN3": " ",
+        "SIGNN1": "36",
+        "SIGNN2": " ",
+        "SIGNN3": " ",
+        "SIGNQ1": " ",
+        "SIGNQ2": " ",
+        "SIGNQ3": " ",
+        "SIGNT1": "U",
+        "SIGNT2": " ",
+        "SIGNT3": " ",
+        "SMURB": 46126,
+        "SOURCE": "H",
+        "STATUS": 1,
+        "STFIPS": "08",
+        "STRAHNET": 0,
+        "Shape__Length": 0.0011101403918251367,
+        "URBAN_CODE": 46126,
+        "VERSION": "2014.05",
+        "YEAR_RECOR": 2010
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            -105.131054999788,
+            39.9365119997291
+          ],
+          [
+            -105.130500000275,
+            39.9362680001681
+          ],
+          [
+            -105.128782000189,
+            39.9354940004478
+          ],
+          [
+            -105.127292999872,
+            39.9348240001275
+          ],
+          [
+            -105.127284000356,
+            39.9348199999431
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": 63606,
+      "properties": {
+        "BEGIN_POIN": 45.673,
+        "BEGMP": 13.408,
+        "CONN_DES": " ",
+        "CONN_ID": " ",
+        "CONN_MILES": 0,
+        "CTFIPS": 13,
+        "ENDMP": 15.901,
+        "END_POINT": 45.909,
+        "FACILITY_T": 2,
+        "FAC_ID": " ",
+        "FCLASS": 2,
+        "F_SYSTEM": 2,
+        "KM": 0.363,
+        "LGURB": 24,
+        "LNAME": "DENVER BOULDER TPKE",
+        "LRSKEY": "000000036B00013",
+        "LRSSEQ": 2,
+        "MILES": 0.226,
+        "NHS": 7,
+        "OBJECTID": 63606,
+        "ORIGID": 8004464,
+        "RECID": 8004464,
+        "RECTYPE": "L",
+        "ROUTE_ID": "036B",
+        "RUCODE": 3,
+        "SIGN1": "U36",
+        "SIGN2": " ",
+        "SIGN3": " ",
+        "SIGNN1": "36",
+        "SIGNN2": " ",
+        "SIGNN3": " ",
+        "SIGNQ1": " ",
+        "SIGNQ2": " ",
+        "SIGNQ3": " ",
+        "SIGNT1": "U",
+        "SIGNT2": " ",
+        "SIGNT3": " ",
+        "SMURB": 23527,
+        "SOURCE": "H",
+        "STATUS": 1,
+        "STFIPS": "08",
+        "STRAHNET": 0,
+        "Shape__Length": 0.004133215385088733,
+        "URBAN_CODE": 46126,
+        "VERSION": "2014.05",
+        "YEAR_RECOR": 2010
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            -105.135880000162,
+            39.9386900003433
+          ],
+          [
+            -105.135615999679,
+            39.9385700002054
+          ],
+          [
+            -105.134111999569,
+            39.9378840000466
+          ],
+          [
+            -105.132533999644,
+            39.9371620000263
+          ],
+          [
+            -105.131920000108,
+            39.9368920001658
+          ],
+          [
+            -105.131328999833,
+            39.936631999867
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": 63607,
+      "properties": {
+        "BEGIN_POIN": 45.371,
+        "BEGMP": 13.408,
+        "CONN_DES": " ",
+        "CONN_ID": " ",
+        "CONN_MILES": 0,
+        "CTFIPS": 13,
+        "ENDMP": 15.901,
+        "END_POINT": 45.656,
+        "FACILITY_T": 2,
+        "FAC_ID": " ",
+        "FCLASS": 2,
+        "F_SYSTEM": 2,
+        "KM": 0.439,
+        "LGURB": 24,
+        "LNAME": "DENVER BOULDER TPKE",
+        "LRSKEY": "000000036B00013",
+        "LRSSEQ": 2,
+        "MILES": 0.273,
+        "NHS": 7,
+        "OBJECTID": 63607,
+        "ORIGID": 8004463,
+        "RECID": 8004463,
+        "RECTYPE": "L",
+        "ROUTE_ID": "036B",
+        "RUCODE": 3,
+        "SIGN1": "U36",
+        "SIGN2": " ",
+        "SIGN3": " ",
+        "SIGNN1": "36",
+        "SIGNN2": " ",
+        "SIGNN3": " ",
+        "SIGNQ1": " ",
+        "SIGNQ2": " ",
+        "SIGNQ3": " ",
+        "SIGNT1": "U",
+        "SIGNT2": " ",
+        "SIGNT3": " ",
+        "SMURB": 23527,
+        "SOURCE": "H",
+        "STATUS": 1,
+        "STFIPS": "08",
+        "STRAHNET": 0,
+        "Shape__Length": 0.00499479045952034,
+        "URBAN_CODE": 46126,
+        "VERSION": "2014.05",
+        "YEAR_RECOR": 2010
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            -105.131328999833,
+            39.936631999867
+          ],
+          [
+            -105.131054999788,
+            39.9365119997291
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": 63608,
+      "properties": {
+        "BEGIN_POIN": 45.656,
+        "BEGMP": 13.408,
+        "CONN_DES": " ",
+        "CONN_ID": " ",
+        "CONN_MILES": 0,
+        "CTFIPS": 13,
+        "ENDMP": 15.901,
+        "END_POINT": 45.673,
+        "FACILITY_T": 2,
+        "FAC_ID": " ",
+        "FCLASS": 2,
+        "F_SYSTEM": 2,
+        "KM": 0.026,
+        "LGURB": 24,
+        "LNAME": "DENVER BOULDER TPKE",
+        "LRSKEY": "000000036B00013",
+        "LRSSEQ": 2,
+        "MILES": 0.016,
+        "NHS": 7,
+        "OBJECTID": 63608,
+        "ORIGID": 8004462,
+        "RECID": 8004462,
+        "RECTYPE": "L",
+        "ROUTE_ID": "036B",
+        "RUCODE": 3,
+        "SIGN1": "U36",
+        "SIGN2": " ",
+        "SIGN3": " ",
+        "SIGNN1": "36",
+        "SIGNN2": " ",
+        "SIGNN3": " ",
+        "SIGNQ1": " ",
+        "SIGNQ2": " ",
+        "SIGNQ3": " ",
+        "SIGNT1": "U",
+        "SIGNT2": " ",
+        "SIGNT3": " ",
+        "SMURB": 23527,
+        "SOURCE": "H",
+        "STATUS": 1,
+        "STFIPS": "08",
+        "STRAHNET": 0,
+        "Shape__Length": 0.00029912548836373137,
+        "URBAN_CODE": 46126,
+        "VERSION": "2014.05",
+        "YEAR_RECOR": 2010
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            -105.126965000035,
+            39.9346769996439
+          ],
+          [
+            -105.125632999763,
+            39.9340830001304
+          ],
+          [
+            -105.124771999628,
+            39.9336990004086
+          ],
+          [
+            -105.122740000351,
+            39.9327020002971
+          ],
+          [
+            -105.122133000238,
+            39.9324090002752
+          ],
+          [
+            -105.121636999848,
+            39.9321689999994
+          ],
+          [
+            -105.121625000194,
+            39.9321639997688
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": 63609,
+      "properties": {
+        "BEGIN_POIN": 45.93,
+        "BEGMP": 13.408,
+        "CONN_DES": " ",
+        "CONN_ID": " ",
+        "CONN_MILES": 0,
+        "CTFIPS": 13,
+        "ENDMP": 15.901,
+        "END_POINT": 46.282,
+        "FACILITY_T": 2,
+        "FAC_ID": " ",
+        "FCLASS": 2,
+        "F_SYSTEM": 2,
+        "KM": 0.522,
+        "LGURB": 24,
+        "LNAME": "DENVER BOULDER TPKE",
+        "LRSKEY": "000000036B00013",
+        "LRSSEQ": 2,
+        "MILES": 0.324,
+        "NHS": 7,
+        "OBJECTID": 63609,
+        "ORIGID": 8004461,
+        "RECID": 8004461,
+        "RECTYPE": "L",
+        "ROUTE_ID": "036B",
+        "RUCODE": 3,
+        "SIGN1": "U36",
+        "SIGN2": " ",
+        "SIGN3": " ",
+        "SIGNN1": "36",
+        "SIGNN2": " ",
+        "SIGNN3": " ",
+        "SIGNQ1": " ",
+        "SIGNQ2": " ",
+        "SIGNQ3": " ",
+        "SIGNT1": "U",
+        "SIGNT2": " ",
+        "SIGNT3": " ",
+        "SMURB": 23527,
+        "SOURCE": "H",
+        "STATUS": 1,
+        "STFIPS": "08",
+        "STRAHNET": 0,
+        "Shape__Length": 0.005902635627550264,
+        "URBAN_CODE": 23527,
+        "VERSION": "2014.05",
+        "YEAR_RECOR": 2010
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            -105.127284000356,
+            39.9348199999431
+          ],
+          [
+            -105.126965000035,
+            39.9346769996439
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": 63610,
+      "properties": {
+        "BEGIN_POIN": 45.909,
+        "BEGMP": 13.408,
+        "CONN_DES": " ",
+        "CONN_ID": " ",
+        "CONN_MILES": 0,
+        "CTFIPS": 13,
+        "ENDMP": 15.901,
+        "END_POINT": 45.93,
+        "FACILITY_T": 2,
+        "FAC_ID": " ",
+        "FCLASS": 2,
+        "F_SYSTEM": 2,
+        "KM": 0.031,
+        "LGURB": 24,
+        "LNAME": "DENVER BOULDER TPKE",
+        "LRSKEY": "000000036B00013",
+        "LRSSEQ": 2,
+        "MILES": 0.019,
+        "NHS": 7,
+        "OBJECTID": 63610,
+        "ORIGID": 8004452,
+        "RECID": 8004452,
+        "RECTYPE": "L",
+        "ROUTE_ID": "036B",
+        "RUCODE": 3,
+        "SIGN1": "U36",
+        "SIGN2": " ",
+        "SIGN3": " ",
+        "SIGNN1": "36",
+        "SIGNN2": " ",
+        "SIGNN3": " ",
+        "SIGNQ1": " ",
+        "SIGNQ2": " ",
+        "SIGNQ3": " ",
+        "SIGNT1": "U",
+        "SIGNT2": " ",
+        "SIGNT3": " ",
+        "SMURB": 23527,
+        "SOURCE": "H",
+        "STATUS": 1,
+        "STFIPS": "08",
+        "STRAHNET": 0,
+        "Shape__Length": 0.0003495858846173421,
+        "URBAN_CODE": 23527,
+        "VERSION": "2014.05",
+        "YEAR_RECOR": 2010
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            -105.234550999829,
+            39.9865369998827
+          ],
+          [
+            -105.232993999973,
+            39.9858080004389
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": 63625,
+      "properties": {
+        "BEGIN_POIN": 39.119,
+        "BEGMP": 21.453,
+        "CONN_DES": " ",
+        "CONN_ID": " ",
+        "CONN_MILES": 0,
+        "CTFIPS": 13,
+        "ENDMP": 21.6,
+        "END_POINT": 39.218,
+        "FACILITY_T": 2,
+        "FAC_ID": " ",
+        "FCLASS": 2,
+        "F_SYSTEM": 2,
+        "KM": 0.152,
+        "LGURB": 238,
+        "LNAME": "MOORHEAD AV",
+        "LRSKEY": "000000036B00013",
+        "LRSSEQ": 8,
+        "MILES": 0.094,
+        "NHS": 7,
+        "OBJECTID": 63625,
+        "ORIGID": 8004479,
+        "RECID": 8004479,
+        "RECTYPE": "L",
+        "ROUTE_ID": "036B",
+        "RUCODE": 3,
+        "SIGN1": "U36",
+        "SIGN2": " ",
+        "SIGN3": " ",
+        "SIGNN1": "36",
+        "SIGNN2": " ",
+        "SIGNN3": " ",
+        "SIGNQ1": " ",
+        "SIGNQ2": " ",
+        "SIGNQ3": " ",
+        "SIGNT1": "U",
+        "SIGNT2": " ",
+        "SIGNT3": " ",
+        "SMURB": 9298,
+        "SOURCE": "H",
+        "STATUS": 1,
+        "STFIPS": "08",
+        "STRAHNET": 0,
+        "Shape__Length": 0.0017192116622317256,
+        "URBAN_CODE": 9298,
+        "VERSION": "2014.05",
+        "YEAR_RECOR": 2010
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            -105.236888999728,
+            39.9876530000859
+          ],
+          [
+            -105.236617999821,
+            39.9874960000404
+          ],
+          [
+            -105.236607000213,
+            39.9874909998098
+          ],
+          [
+            -105.236265999776,
+            39.9873179999258
+          ],
+          [
+            -105.236262999638,
+            39.9873169998797
+          ],
+          [
+            -105.235753000401,
+            39.9870849999728
+          ],
+          [
+            -105.235704999986,
+            39.9870629998576
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": 63630,
+      "properties": {
+        "BEGIN_POIN": 38.97,
+        "BEGMP": 21.6,
+        "CONN_DES": " ",
+        "CONN_ID": " ",
+        "CONN_MILES": 0,
+        "CTFIPS": 13,
+        "ENDMP": 23.055,
+        "END_POINT": 39.046,
+        "FACILITY_T": 2,
+        "FAC_ID": " ",
+        "FCLASS": 2,
+        "F_SYSTEM": 2,
+        "KM": 0.118,
+        "LGURB": 238,
+        "LNAME": "MOORHEAD AV",
+        "LRSKEY": "000000036B00013",
+        "LRSSEQ": 9,
+        "MILES": 0.073,
+        "NHS": 7,
+        "OBJECTID": 63630,
+        "ORIGID": 8004474,
+        "RECID": 8004474,
+        "RECTYPE": "L",
+        "ROUTE_ID": "036B",
+        "RUCODE": 3,
+        "SIGN1": "U36",
+        "SIGN2": " ",
+        "SIGN3": " ",
+        "SIGNN1": "36",
+        "SIGNN2": " ",
+        "SIGNN3": " ",
+        "SIGNQ1": " ",
+        "SIGNQ2": " ",
+        "SIGNQ3": " ",
+        "SIGNT1": "U",
+        "SIGNT2": " ",
+        "SIGNT3": " ",
+        "SMURB": 9298,
+        "SOURCE": "H",
+        "STATUS": 1,
+        "STFIPS": "08",
+        "STRAHNET": 0,
+        "Shape__Length": 0.001323903298855303,
+        "URBAN_CODE": 9298,
+        "VERSION": "2014.05",
+        "YEAR_RECOR": 2010
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            -105.235704999986,
+            39.9870629998576
+          ],
+          [
+            -105.234576000082,
+            39.9865490004361
+          ],
+          [
+            -105.234563000382,
+            39.9865420001133
+          ],
+          [
+            -105.23456100029,
+            39.9865410000672
+          ],
+          [
+            -105.234550999829,
+            39.9865369998827
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": 63632,
+      "properties": {
+        "BEGIN_POIN": 39.046,
+        "BEGMP": 21.6,
+        "CONN_DES": " ",
+        "CONN_ID": " ",
+        "CONN_MILES": 0,
+        "CTFIPS": 13,
+        "ENDMP": 23.055,
+        "END_POINT": 39.119,
+        "FACILITY_T": 2,
+        "FAC_ID": " ",
+        "FCLASS": 2,
+        "F_SYSTEM": 2,
+        "KM": 0.112,
+        "LGURB": 238,
+        "LNAME": "MOORHEAD AV",
+        "LRSKEY": "000000036B00013",
+        "LRSSEQ": 9,
+        "MILES": 0.069,
+        "NHS": 7,
+        "OBJECTID": 63632,
+        "ORIGID": 8004472,
+        "RECID": 8004472,
+        "RECTYPE": "L",
+        "ROUTE_ID": "036B",
+        "RUCODE": 3,
+        "SIGN1": "U36",
+        "SIGN2": " ",
+        "SIGN3": " ",
+        "SIGNN1": "36",
+        "SIGNN2": " ",
+        "SIGNN3": " ",
+        "SIGNQ1": " ",
+        "SIGNQ2": " ",
+        "SIGNQ3": " ",
+        "SIGNT1": "U",
+        "SIGNT2": " ",
+        "SIGNT3": " ",
+        "SMURB": 9298,
+        "SOURCE": "H",
+        "STATUS": 1,
+        "STFIPS": "08",
+        "STRAHNET": 0,
+        "Shape__Length": 0.0012682700719666134,
+        "URBAN_CODE": 9298,
+        "VERSION": "2014.05",
+        "YEAR_RECOR": 2010
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            -105.226808999835,
+            39.9829360001963
+          ],
+          [
+            -105.222001000246,
+            39.9807310001356
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": 63634,
+      "properties": {
+        "BEGIN_POIN": 39.611,
+        "BEGMP": 18.713,
+        "CONN_DES": " ",
+        "CONN_ID": " ",
+        "CONN_MILES": 0,
+        "CTFIPS": 13,
+        "ENDMP": 21.163,
+        "END_POINT": 39.916,
+        "FACILITY_T": 2,
+        "FAC_ID": " ",
+        "FCLASS": 2,
+        "F_SYSTEM": 2,
+        "KM": 0.466,
+        "LGURB": 458,
+        "LNAME": " ",
+        "LRSKEY": "000000036B00013",
+        "LRSSEQ": 6,
+        "MILES": 0.29,
+        "NHS": 7,
+        "OBJECTID": 63634,
+        "ORIGID": 8004470,
+        "RECID": 8004470,
+        "RECTYPE": "L",
+        "ROUTE_ID": "036B",
+        "RUCODE": 3,
+        "SIGN1": "U36",
+        "SIGN2": " ",
+        "SIGN3": " ",
+        "SIGNN1": "36",
+        "SIGNN2": " ",
+        "SIGNN3": " ",
+        "SIGNQ1": " ",
+        "SIGNQ2": " ",
+        "SIGNQ3": " ",
+        "SIGNT1": "U",
+        "SIGNT2": " ",
+        "SIGNT3": " ",
+        "SMURB": 46126,
+        "SOURCE": "H",
+        "STATUS": 1,
+        "STFIPS": "08",
+        "STRAHNET": 0,
+        "Shape__Length": 0.0052895070961664825,
+        "URBAN_CODE": 9298,
+        "VERSION": "2014.05",
+        "YEAR_RECOR": 2010
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            -105.231892999562,
+            39.9852899999336
+          ],
+          [
+            -105.231577000278,
+            39.9851430003492
+          ],
+          [
+            -105.227466999602,
+            39.9832369996878
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": 63635,
+      "properties": {
+        "BEGIN_POIN": 39.288,
+        "BEGMP": 21.163,
+        "CONN_DES": " ",
+        "CONN_ID": " ",
+        "CONN_MILES": 0,
+        "CTFIPS": 13,
+        "ENDMP": 21.453,
+        "END_POINT": 39.569,
+        "FACILITY_T": 2,
+        "FAC_ID": " ",
+        "FCLASS": 2,
+        "F_SYSTEM": 2,
+        "KM": 0.43,
+        "LGURB": 238,
+        "LNAME": "MOORHEAD AV",
+        "LRSKEY": "000000036B00013",
+        "LRSSEQ": 7,
+        "MILES": 0.267,
+        "NHS": 7,
+        "OBJECTID": 63635,
+        "ORIGID": 8004444,
+        "RECID": 8004444,
+        "RECTYPE": "L",
+        "ROUTE_ID": "036B",
+        "RUCODE": 3,
+        "SIGN1": "U36",
+        "SIGN2": " ",
+        "SIGN3": " ",
+        "SIGNN1": "36",
+        "SIGNN2": " ",
+        "SIGNN3": " ",
+        "SIGNQ1": " ",
+        "SIGNQ2": " ",
+        "SIGNQ3": " ",
+        "SIGNT1": "U",
+        "SIGNT2": " ",
+        "SIGNT3": " ",
+        "SMURB": 9298,
+        "SOURCE": "H",
+        "STATUS": 1,
+        "STFIPS": "08",
+        "STRAHNET": 0,
+        "Shape__Length": 0.004878963811893578,
+        "URBAN_CODE": 9298,
+        "VERSION": "2014.05",
+        "YEAR_RECOR": 2010
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            -105.227466999602,
+            39.9832369996878
+          ],
+          [
+            -105.22727799988,
+            39.9831510002185
+          ],
+          [
+            -105.226808999835,
+            39.9829360001963
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": 63637,
+      "properties": {
+        "BEGIN_POIN": 39.569,
+        "BEGMP": 21.163,
+        "CONN_DES": " ",
+        "CONN_ID": " ",
+        "CONN_MILES": 0,
+        "CTFIPS": 13,
+        "ENDMP": 21.453,
+        "END_POINT": 39.611,
+        "FACILITY_T": 2,
+        "FAC_ID": " ",
+        "FCLASS": 2,
+        "F_SYSTEM": 2,
+        "KM": 0.064,
+        "LGURB": 238,
+        "LNAME": "MOORHEAD AV",
+        "LRSKEY": "000000036B00013",
+        "LRSSEQ": 7,
+        "MILES": 0.04,
+        "NHS": 7,
+        "OBJECTID": 63637,
+        "ORIGID": 8004458,
+        "RECID": 8004458,
+        "RECTYPE": "L",
+        "ROUTE_ID": "036B",
+        "RUCODE": 3,
+        "SIGN1": "U36",
+        "SIGN2": " ",
+        "SIGN3": " ",
+        "SIGNN1": "36",
+        "SIGNN2": " ",
+        "SIGNN3": " ",
+        "SIGNQ1": " ",
+        "SIGNQ2": " ",
+        "SIGNQ3": " ",
+        "SIGNT1": "U",
+        "SIGNT2": " ",
+        "SIGNT3": " ",
+        "SMURB": 9298,
+        "SOURCE": "H",
+        "STATUS": 1,
+        "STFIPS": "08",
+        "STRAHNET": 0,
+        "Shape__Length": 0.0007235780772419092,
+        "URBAN_CODE": 9298,
+        "VERSION": "2014.05",
+        "YEAR_RECOR": 2010
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            -105.232993999973,
+            39.9858080004389
+          ],
+          [
+            -105.232336000206,
+            39.9854960004401
+          ],
+          [
+            -105.23232999993,
+            39.9854930003018
+          ],
+          [
+            -105.231892999562,
+            39.9852899999336
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": 63639,
+      "properties": {
+        "BEGIN_POIN": 39.218,
+        "BEGMP": 21.453,
+        "CONN_DES": " ",
+        "CONN_ID": " ",
+        "CONN_MILES": 0,
+        "CTFIPS": 13,
+        "ENDMP": 21.6,
+        "END_POINT": 39.288,
+        "FACILITY_T": 2,
+        "FAC_ID": " ",
+        "FCLASS": 2,
+        "F_SYSTEM": 2,
+        "KM": 0.108,
+        "LGURB": 238,
+        "LNAME": "MOORHEAD AV",
+        "LRSKEY": "000000036B00013",
+        "LRSSEQ": 8,
+        "MILES": 0.067,
+        "NHS": 7,
+        "OBJECTID": 63639,
+        "ORIGID": 8004433,
+        "RECID": 8004433,
+        "RECTYPE": "L",
+        "ROUTE_ID": "036B",
+        "RUCODE": 3,
+        "SIGN1": "U36",
+        "SIGN2": " ",
+        "SIGN3": " ",
+        "SIGNN1": "36",
+        "SIGNN2": " ",
+        "SIGNN3": " ",
+        "SIGNQ1": " ",
+        "SIGNQ2": " ",
+        "SIGNQ3": " ",
+        "SIGNT1": "U",
+        "SIGNT2": " ",
+        "SIGNT3": " ",
+        "SMURB": 9298,
+        "SOURCE": "H",
+        "STATUS": 1,
+        "STFIPS": "08",
+        "STRAHNET": 0,
+        "Shape__Length": 0.001216779807669517,
+        "URBAN_CODE": 9298,
+        "VERSION": "2014.05",
+        "YEAR_RECOR": 2010
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            -105.090578000175,
+            39.913760000024
+          ],
+          [
+            -105.090576000082,
+            39.9137579999318
+          ],
+          [
+            -105.090185000038,
+            39.9133989995642
+          ],
+          [
+            -105.089632999763,
+            39.9128310003504
+          ],
+          [
+            -105.088962000296,
+            39.9120690002842
+          ],
+          [
+            -105.088217000114,
+            39.9110760003572
+          ],
+          [
+            -105.0860130001,
+            39.9079290000234
+          ],
+          [
+            -105.083983000015,
+            39.9050280002421
+          ],
+          [
+            -105.083968000223,
+            39.9050040000346
+          ],
+          [
+            -105.083515000017,
+            39.9043009999912
+          ],
+          [
+            -105.083354999833,
+            39.9040839998767
+          ],
+          [
+            -105.082553999767,
+            39.9030000002498
+          ],
+          [
+            -105.081458999633,
+            39.9014590002327
+          ],
+          [
+            -105.080678999636,
+            39.9003430000295
+          ],
+          [
+            -105.080118999892,
+            39.8994999998252
+          ],
+          [
+            -105.079583000355,
+            39.8987080001741
+          ],
+          [
+            -105.079101999757,
+            39.897907000108
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": 63746,
+      "properties": {
+        "BEGIN_POIN": 48.448,
+        "BEGMP": 51.051,
+        "CONN_DES": " ",
+        "CONN_ID": " ",
+        "CONN_MILES": 0,
+        "CTFIPS": 59,
+        "ENDMP": 52.703,
+        "END_POINT": 49.617,
+        "FACILITY_T": 2,
+        "FAC_ID": " ",
+        "FCLASS": 12,
+        "F_SYSTEM": 2,
+        "KM": 2.088,
+        "LGURB": 24,
+        "LNAME": "DENVER BOULDER TPKE",
+        "LRSKEY": "000000036B00059",
+        "LRSSEQ": 5,
+        "MILES": 1.297,
+        "NHS": 7,
+        "OBJECTID": 63746,
+        "ORIGID": 8004811,
+        "RECID": 8004811,
+        "RECTYPE": "L",
+        "ROUTE_ID": "036B",
+        "RUCODE": 3,
+        "SIGN1": "U36",
+        "SIGN2": " ",
+        "SIGN3": " ",
+        "SIGNN1": "36",
+        "SIGNN2": " ",
+        "SIGNN3": " ",
+        "SIGNQ1": " ",
+        "SIGNQ2": " ",
+        "SIGNQ3": " ",
+        "SIGNT1": "U",
+        "SIGNT2": " ",
+        "SIGNT3": " ",
+        "SMURB": 23527,
+        "SOURCE": "H",
+        "STATUS": 1,
+        "STFIPS": "08",
+        "STRAHNET": 0,
+        "Shape__Length": 0.019601909481924595,
+        "URBAN_CODE": 23527,
+        "VERSION": "2014.05",
+        "YEAR_RECOR": 2010
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            -105.069393999933,
+            39.8838100002314
+          ],
+          [
+            -105.069391999841,
+            39.883807000093
+          ],
+          [
+            -105.068894000258,
+            39.8831339996344
+          ],
+          [
+            -105.066253999922,
+            39.8795679997634
+          ],
+          [
+            -105.066193999853,
+            39.8794859995793
+          ],
+          [
+            -105.061726999801,
+            39.8734170002944
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": 63750,
+      "properties": {
+        "BEGIN_POIN": 50.639,
+        "BEGMP": 50.304,
+        "CONN_DES": " ",
+        "CONN_ID": " ",
+        "CONN_MILES": 0,
+        "CTFIPS": 59,
+        "ENDMP": 51.051,
+        "END_POINT": 51.409,
+        "FACILITY_T": 2,
+        "FAC_ID": " ",
+        "FCLASS": 12,
+        "F_SYSTEM": 2,
+        "KM": 1.373,
+        "LGURB": 24,
+        "LNAME": "DENVER BOULDER TPKE",
+        "LRSKEY": "000000036B00059",
+        "LRSSEQ": 4,
+        "MILES": 0.853,
+        "NHS": 7,
+        "OBJECTID": 63750,
+        "ORIGID": 8004856,
+        "RECID": 8004856,
+        "RECTYPE": "L",
+        "ROUTE_ID": "036B",
+        "RUCODE": 3,
+        "SIGN1": "U36",
+        "SIGN2": " ",
+        "SIGN3": " ",
+        "SIGNN1": "36",
+        "SIGNN2": " ",
+        "SIGNN3": " ",
+        "SIGNQ1": " ",
+        "SIGNQ2": " ",
+        "SIGNQ3": " ",
+        "SIGNT1": "U",
+        "SIGNT2": " ",
+        "SIGNT3": " ",
+        "SMURB": 23527,
+        "SOURCE": "H",
+        "STATUS": 1,
+        "STFIPS": "08",
+        "STRAHNET": 0,
+        "Shape__Length": 0.012915020934889207,
+        "URBAN_CODE": 23527,
+        "VERSION": "2014.05",
+        "YEAR_RECOR": 2010
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            -105.056451000213,
+            39.8633330002178
+          ],
+          [
+            -105.056047999615,
+            39.8624790004056
+          ],
+          [
+            -105.055637000447,
+            39.8615600002938
+          ],
+          [
+            -105.054831000151,
+            39.8597549997934
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": 63756,
+      "properties": {
+        "BEGIN_POIN": 52.089,
+        "BEGMP": 49.558,
+        "CONN_DES": " ",
+        "CONN_ID": " ",
+        "CONN_MILES": 0,
+        "CTFIPS": 59,
+        "ENDMP": 49.778,
+        "END_POINT": 52.323,
+        "FACILITY_T": 2,
+        "FAC_ID": " ",
+        "FCLASS": 12,
+        "F_SYSTEM": 2,
+        "KM": 0.442,
+        "LGURB": 24,
+        "LNAME": "DENVER BOULDER TPKE",
+        "LRSKEY": "000000036B00059",
+        "LRSSEQ": 2,
+        "MILES": 0.274,
+        "NHS": 7,
+        "OBJECTID": 63756,
+        "ORIGID": 800001245,
+        "RECID": 8000506,
+        "RECTYPE": "L",
+        "ROUTE_ID": "036B",
+        "RUCODE": 3,
+        "SIGN1": "U36",
+        "SIGN2": " ",
+        "SIGN3": " ",
+        "SIGNN1": "36",
+        "SIGNN2": " ",
+        "SIGNN3": " ",
+        "SIGNQ1": " ",
+        "SIGNQ2": " ",
+        "SIGNQ3": " ",
+        "SIGNT1": "U",
+        "SIGNT2": " ",
+        "SIGNT3": " ",
+        "SMURB": 23527,
+        "SOURCE": "H",
+        "STATUS": 1,
+        "STFIPS": "08",
+        "STRAHNET": 0,
+        "Shape__Length": 0.003927811239161809,
+        "URBAN_CODE": 23527,
+        "VERSION": "2014.05",
+        "YEAR_RECOR": 2010
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            -105.061726999801,
+            39.8734170002944
+          ],
+          [
+            -105.061245000057,
+            39.8727629998127
+          ],
+          [
+            -105.060622000105,
+            39.8718809996085
+          ],
+          [
+            -105.060230000014,
+            39.8712589997031
+          ],
+          [
+            -105.059651000293,
+            39.8701709998918
+          ],
+          [
+            -105.058470999837,
+            39.8675870003398
+          ],
+          [
+            -105.058152000414,
+            39.8668889996277
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": 63767,
+      "properties": {
+        "BEGIN_POIN": 51.409,
+        "BEGMP": 49.778,
+        "CONN_DES": " ",
+        "CONN_ID": " ",
+        "CONN_MILES": 0,
+        "CTFIPS": 59,
+        "ENDMP": 50.304,
+        "END_POINT": 51.854,
+        "FACILITY_T": 2,
+        "FAC_ID": " ",
+        "FCLASS": 12,
+        "F_SYSTEM": 2,
+        "KM": 0.824,
+        "LGURB": 24,
+        "LNAME": "DENVER BOULDER TPKE",
+        "LRSKEY": "000000036B00059",
+        "LRSSEQ": 3,
+        "MILES": 0.512,
+        "NHS": 7,
+        "OBJECTID": 63767,
+        "ORIGID": 8004867,
+        "RECID": 8004867,
+        "RECTYPE": "L",
+        "ROUTE_ID": "036B",
+        "RUCODE": 3,
+        "SIGN1": "U36",
+        "SIGN2": " ",
+        "SIGN3": " ",
+        "SIGNN1": "36",
+        "SIGNN2": " ",
+        "SIGNN3": " ",
+        "SIGNQ1": " ",
+        "SIGNQ2": " ",
+        "SIGNQ3": " ",
+        "SIGNT1": "U",
+        "SIGNT2": " ",
+        "SIGNT3": " ",
+        "SMURB": 23527,
+        "SOURCE": "H",
+        "STATUS": 1,
+        "STFIPS": "08",
+        "STRAHNET": 0,
+        "Shape__Length": 0.007468078167289009,
+        "URBAN_CODE": 23527,
+        "VERSION": "2014.05",
+        "YEAR_RECOR": 2010
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            -105.058152000414,
+            39.8668889996277
+          ],
+          [
+            -105.057951000139,
+            39.8664669999521
+          ],
+          [
+            -105.057181999749,
+            39.8648479999353
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": 63768,
+      "properties": {
+        "BEGIN_POIN": 51.854,
+        "BEGMP": 49.778,
+        "CONN_DES": " ",
+        "CONN_ID": " ",
+        "CONN_MILES": 0,
+        "CTFIPS": 59,
+        "ENDMP": 50.304,
+        "END_POINT": 51.989,
+        "FACILITY_T": 2,
+        "FAC_ID": " ",
+        "FCLASS": 12,
+        "F_SYSTEM": 2,
+        "KM": 0.253,
+        "LGURB": 24,
+        "LNAME": "DENVER BOULDER TPKE",
+        "LRSKEY": "000000036B00059",
+        "LRSSEQ": 3,
+        "MILES": 0.157,
+        "NHS": 7,
+        "OBJECTID": 63768,
+        "ORIGID": 8004850,
+        "RECID": 8004850,
+        "RECTYPE": "L",
+        "ROUTE_ID": "036B",
+        "RUCODE": 3,
+        "SIGN1": "U36",
+        "SIGN2": " ",
+        "SIGN3": " ",
+        "SIGNN1": "36",
+        "SIGNN2": " ",
+        "SIGNN3": " ",
+        "SIGNQ1": " ",
+        "SIGNQ2": " ",
+        "SIGNQ3": " ",
+        "SIGNT1": "U",
+        "SIGNT2": " ",
+        "SIGNT3": " ",
+        "SMURB": 23527,
+        "SOURCE": "H",
+        "STATUS": 1,
+        "STFIPS": "08",
+        "STRAHNET": 0,
+        "Shape__Length": 0.0022597747685456286,
+        "URBAN_CODE": 23527,
+        "VERSION": "2014.05",
+        "YEAR_RECOR": 2010
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            -105.057181999749,
+            39.8648479999353
+          ],
+          [
+            -105.057177000418,
+            39.8648390004196
+          ],
+          [
+            -105.057140999657,
+            39.864764999705
+          ],
+          [
+            -105.056970999912,
+            39.8644149997525
+          ],
+          [
+            -105.056796999982,
+            39.8640550002381
+          ],
+          [
+            -105.05656099989,
+            39.8635660001708
+          ],
+          [
+            -105.056451000213,
+            39.8633330002178
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": 63769,
+      "properties": {
+        "BEGIN_POIN": 51.989,
+        "BEGMP": 49.778,
+        "CONN_DES": " ",
+        "CONN_ID": " ",
+        "CONN_MILES": 0,
+        "CTFIPS": 59,
+        "ENDMP": 50.304,
+        "END_POINT": 52.089,
+        "FACILITY_T": 2,
+        "FAC_ID": " ",
+        "FCLASS": 12,
+        "F_SYSTEM": 2,
+        "KM": 0.188,
+        "LGURB": 24,
+        "LNAME": "DENVER BOULDER TPKE",
+        "LRSKEY": "000000036B00059",
+        "LRSSEQ": 3,
+        "MILES": 0.117,
+        "NHS": 7,
+        "OBJECTID": 63769,
+        "ORIGID": 8004872,
+        "RECID": 8004872,
+        "RECTYPE": "L",
+        "ROUTE_ID": "036B",
+        "RUCODE": 3,
+        "SIGN1": "U36",
+        "SIGN2": " ",
+        "SIGN3": " ",
+        "SIGNN1": "36",
+        "SIGNN2": " ",
+        "SIGNN3": " ",
+        "SIGNQ1": " ",
+        "SIGNQ2": " ",
+        "SIGNQ3": " ",
+        "SIGNT1": "U",
+        "SIGNT2": " ",
+        "SIGNT3": " ",
+        "SMURB": 23527,
+        "SOURCE": "H",
+        "STATUS": 1,
+        "STFIPS": "08",
+        "STRAHNET": 0,
+        "Shape__Length": 0.0016821649801432995,
+        "URBAN_CODE": 23527,
+        "VERSION": "2014.05",
+        "YEAR_RECOR": 2010
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            -105.100086999815,
+            39.919118999842
+          ],
+          [
+            -105.098201000076,
+            39.9182060000069
+          ],
+          [
+            -105.096306999968,
+            39.9173979996181
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": 63771,
+      "properties": {
+        "BEGIN_POIN": 47.792,
+        "BEGMP": 13.408,
+        "CONN_DES": " ",
+        "CONN_ID": " ",
+        "CONN_MILES": 0,
+        "CTFIPS": 13,
+        "ENDMP": 15.901,
+        "END_POINT": 48.04,
+        "FACILITY_T": 2,
+        "FAC_ID": " ",
+        "FCLASS": 2,
+        "F_SYSTEM": 2,
+        "KM": 0.366,
+        "LGURB": 24,
+        "LNAME": "DENVER BOULDER TPKE",
+        "LRSKEY": "000000036B00013",
+        "LRSSEQ": 2,
+        "MILES": 0.227,
+        "NHS": 7,
+        "OBJECTID": 63771,
+        "ORIGID": 8004817,
+        "RECID": 8004817,
+        "RECTYPE": "L",
+        "ROUTE_ID": "036B",
+        "RUCODE": 3,
+        "SIGN1": "U36",
+        "SIGN2": " ",
+        "SIGN3": " ",
+        "SIGNN1": "36",
+        "SIGNN2": " ",
+        "SIGNN3": " ",
+        "SIGNQ1": " ",
+        "SIGNQ2": " ",
+        "SIGNQ3": " ",
+        "SIGNT1": "U",
+        "SIGNT2": " ",
+        "SIGNT3": " ",
+        "SMURB": 23527,
+        "SOURCE": "H",
+        "STATUS": 1,
+        "STFIPS": "08",
+        "STRAHNET": 0,
+        "Shape__Length": 0.004154517765014864,
+        "URBAN_CODE": 23527,
+        "VERSION": "2014.05",
+        "YEAR_RECOR": 2010
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            -105.096306999968,
+            39.9173979996181
+          ],
+          [
+            -105.095965000384,
+            39.9172520000798
+          ],
+          [
+            -105.095871999693,
+            39.917204999711
+          ],
+          [
+            -105.095325999695,
+            39.9169329997582
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": 63775,
+      "properties": {
+        "BEGIN_POIN": 48.04,
+        "BEGMP": 13.408,
+        "CONN_DES": " ",
+        "CONN_ID": " ",
+        "CONN_MILES": 0,
+        "CTFIPS": 13,
+        "ENDMP": 15.901,
+        "END_POINT": 48.105,
+        "FACILITY_T": 2,
+        "FAC_ID": " ",
+        "FCLASS": 2,
+        "F_SYSTEM": 2,
+        "KM": 0.096,
+        "LGURB": 24,
+        "LNAME": "DENVER BOULDER TPKE",
+        "LRSKEY": "000000036B00013",
+        "LRSSEQ": 2,
+        "MILES": 0.06,
+        "NHS": 7,
+        "OBJECTID": 63775,
+        "ORIGID": 8004813,
+        "RECID": 8004813,
+        "RECTYPE": "L",
+        "ROUTE_ID": "036B",
+        "RUCODE": 3,
+        "SIGN1": "U36",
+        "SIGN2": " ",
+        "SIGN3": " ",
+        "SIGNN1": "36",
+        "SIGNN2": " ",
+        "SIGNN3": " ",
+        "SIGNQ1": " ",
+        "SIGNQ2": " ",
+        "SIGNQ3": " ",
+        "SIGNT1": "U",
+        "SIGNT2": " ",
+        "SIGNT3": " ",
+        "SMURB": 23527,
+        "SOURCE": "H",
+        "STATUS": 1,
+        "STFIPS": "08",
+        "STRAHNET": 0,
+        "Shape__Length": 0.0010860621124991387,
+        "URBAN_CODE": 23527,
+        "VERSION": "2014.05",
+        "YEAR_RECOR": 2010
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            -105.091462999618,
+            39.914508000344
+          ],
+          [
+            -105.091385999664,
+            39.9144480002751
+          ],
+          [
+            -105.090967000127,
+            39.9140909999997
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": 63776,
+      "properties": {
+        "BEGIN_POIN": 48.379,
+        "BEGMP": 51.051,
+        "CONN_DES": " ",
+        "CONN_ID": " ",
+        "CONN_MILES": 0,
+        "CTFIPS": 59,
+        "ENDMP": 52.703,
+        "END_POINT": 48.418,
+        "FACILITY_T": 2,
+        "FAC_ID": " ",
+        "FCLASS": 12,
+        "F_SYSTEM": 2,
+        "KM": 0.063,
+        "LGURB": 24,
+        "LNAME": "DENVER BOULDER TPKE",
+        "LRSKEY": "000000036B00059",
+        "LRSSEQ": 5,
+        "MILES": 0.039,
+        "NHS": 7,
+        "OBJECTID": 63776,
+        "ORIGID": 8004812,
+        "RECID": 8004812,
+        "RECTYPE": "L",
+        "ROUTE_ID": "036B",
+        "RUCODE": 3,
+        "SIGN1": "U36",
+        "SIGN2": " ",
+        "SIGN3": " ",
+        "SIGNN1": "36",
+        "SIGNN2": " ",
+        "SIGNN3": " ",
+        "SIGNQ1": " ",
+        "SIGNQ2": " ",
+        "SIGNQ3": " ",
+        "SIGNT1": "U",
+        "SIGNT2": " ",
+        "SIGNT3": " ",
+        "SMURB": 23527,
+        "SOURCE": "H",
+        "STATUS": 1,
+        "STFIPS": "08",
+        "STRAHNET": 0,
+        "Shape__Length": 0.0006480798701231407,
+        "URBAN_CODE": 23527,
+        "VERSION": "2014.05",
+        "YEAR_RECOR": 2010
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            -105.093236000441,
+            39.9157890000624
+          ],
+          [
+            -105.092248999891,
+            39.915117999696
+          ],
+          [
+            -105.091466999802,
+            39.914510999583
+          ],
+          [
+            -105.091462999618,
+            39.914508000344
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": 63777,
+      "properties": {
+        "BEGIN_POIN": 48.248,
+        "BEGMP": 13.242,
+        "CONN_DES": " ",
+        "CONN_ID": " ",
+        "CONN_MILES": 0,
+        "CTFIPS": 13,
+        "ENDMP": 13.408,
+        "END_POINT": 48.379,
+        "FACILITY_T": 2,
+        "FAC_ID": " ",
+        "FCLASS": 2,
+        "F_SYSTEM": 2,
+        "KM": 0.208,
+        "LGURB": 24,
+        "LNAME": "DENVER BOULDER TPKE",
+        "LRSKEY": "000000036B00013",
+        "LRSSEQ": 1,
+        "MILES": 0.129,
+        "NHS": 7,
+        "OBJECTID": 63777,
+        "ORIGID": 8004832,
+        "RECID": 8004832,
+        "RECTYPE": "L",
+        "ROUTE_ID": "036B",
+        "RUCODE": 3,
+        "SIGN1": "U36",
+        "SIGN2": " ",
+        "SIGN3": " ",
+        "SIGNN1": "36",
+        "SIGNN2": " ",
+        "SIGNN3": " ",
+        "SIGNQ1": " ",
+        "SIGNQ2": " ",
+        "SIGNQ3": " ",
+        "SIGNT1": "U",
+        "SIGNT2": " ",
+        "SIGNT3": " ",
+        "SMURB": 23527,
+        "SOURCE": "H",
+        "STATUS": 1,
+        "STFIPS": "08",
+        "STRAHNET": 0,
+        "Shape__Length": 0.00218842283709315,
+        "URBAN_CODE": 23527,
+        "VERSION": "2014.05",
+        "YEAR_RECOR": 2010
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            -105.093900999631,
+            39.9161679995536
+          ],
+          [
+            -105.093236000441,
+            39.9157890000624
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": 63780,
+      "properties": {
+        "BEGIN_POIN": 48.202,
+        "BEGMP": 13.242,
+        "CONN_DES": " ",
+        "CONN_ID": " ",
+        "CONN_MILES": 0,
+        "CTFIPS": 13,
+        "ENDMP": 13.408,
+        "END_POINT": 48.248,
+        "FACILITY_T": 2,
+        "FAC_ID": " ",
+        "FCLASS": 2,
+        "F_SYSTEM": 2,
+        "KM": 0.07,
+        "LGURB": 24,
+        "LNAME": "DENVER BOULDER TPKE",
+        "LRSKEY": "000000036B00013",
+        "LRSSEQ": 1,
+        "MILES": 0.043,
+        "NHS": 7,
+        "OBJECTID": 63780,
+        "ORIGID": 8004840,
+        "RECID": 8004840,
+        "RECTYPE": "L",
+        "ROUTE_ID": "036B",
+        "RUCODE": 3,
+        "SIGN1": "U36",
+        "SIGN2": " ",
+        "SIGN3": " ",
+        "SIGNN1": "36",
+        "SIGNN2": " ",
+        "SIGNN3": " ",
+        "SIGNQ1": " ",
+        "SIGNQ2": " ",
+        "SIGNQ3": " ",
+        "SIGNT1": "U",
+        "SIGNT2": " ",
+        "SIGNT3": " ",
+        "SMURB": 23527,
+        "SOURCE": "H",
+        "STATUS": 1,
+        "STFIPS": "08",
+        "STRAHNET": 0,
+        "Shape__Length": 0.0007654178842288057,
+        "URBAN_CODE": 23527,
+        "VERSION": "2014.05",
+        "YEAR_RECOR": 2010
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            -105.090967000127,
+            39.9140909999997
+          ],
+          [
+            -105.090578000175,
+            39.913760000024
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": 63782,
+      "properties": {
+        "BEGIN_POIN": 48.418,
+        "BEGMP": 51.051,
+        "CONN_DES": " ",
+        "CONN_ID": " ",
+        "CONN_MILES": 0,
+        "CTFIPS": 59,
+        "ENDMP": 52.703,
+        "END_POINT": 48.448,
+        "FACILITY_T": 2,
+        "FAC_ID": " ",
+        "FCLASS": 12,
+        "F_SYSTEM": 2,
+        "KM": 0.05,
+        "LGURB": 24,
+        "LNAME": "DENVER BOULDER TPKE",
+        "LRSKEY": "000000036B00059",
+        "LRSSEQ": 5,
+        "MILES": 0.031,
+        "NHS": 7,
+        "OBJECTID": 63782,
+        "ORIGID": 8004838,
+        "RECID": 8004838,
+        "RECTYPE": "L",
+        "ROUTE_ID": "036B",
+        "RUCODE": 3,
+        "SIGN1": "U36",
+        "SIGN2": " ",
+        "SIGN3": " ",
+        "SIGNN1": "36",
+        "SIGNN2": " ",
+        "SIGNN3": " ",
+        "SIGNQ1": " ",
+        "SIGNQ2": " ",
+        "SIGNQ3": " ",
+        "SIGNT1": "U",
+        "SIGNT2": " ",
+        "SIGNT3": " ",
+        "SMURB": 23527,
+        "SOURCE": "H",
+        "STATUS": 1,
+        "STFIPS": "08",
+        "STRAHNET": 0,
+        "Shape__Length": 0.0005107660392325355,
+        "URBAN_CODE": 23527,
+        "VERSION": "2014.05",
+        "YEAR_RECOR": 2010
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            -105.052762000066,
+            39.8560059995773
+          ],
+          [
+            -105.052319000322,
+            39.8553459997182
+          ],
+          [
+            -105.051989000392,
+            39.8548959996507
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": 63808,
+      "properties": {
+        "BEGIN_POIN": 52.579,
+        "BEGMP": 52.703,
+        "CONN_DES": " ",
+        "CONN_ID": " ",
+        "CONN_MILES": 0,
+        "CTFIPS": 1,
+        "ENDMP": 54.79,
+        "END_POINT": 52.66,
+        "FACILITY_T": 2,
+        "FAC_ID": " ",
+        "FCLASS": 12,
+        "F_SYSTEM": 2,
+        "KM": 0.145,
+        "LGURB": 24,
+        "LNAME": "DENVER BOULDER TPKE",
+        "LRSKEY": "000000036B00001",
+        "LRSSEQ": 1,
+        "MILES": 0.09,
+        "NHS": 7,
+        "OBJECTID": 63808,
+        "ORIGID": 8004652,
+        "RECID": 8004652,
+        "RECTYPE": "L",
+        "ROUTE_ID": "036B",
+        "RUCODE": 3,
+        "SIGN1": "U36",
+        "SIGN2": " ",
+        "SIGN3": " ",
+        "SIGNN1": "36",
+        "SIGNN2": " ",
+        "SIGNN3": " ",
+        "SIGNQ1": " ",
+        "SIGNQ2": " ",
+        "SIGNQ3": " ",
+        "SIGNT1": "U",
+        "SIGNT2": " ",
+        "SIGNT3": " ",
+        "SMURB": 23527,
+        "SOURCE": "H",
+        "STATUS": 1,
+        "STFIPS": "08",
+        "STRAHNET": 0,
+        "Shape__Length": 0.0013529213110458906,
+        "URBAN_CODE": 23527,
+        "VERSION": "2014.05",
+        "YEAR_RECOR": 2010
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            -105.053385000018,
+            39.8569600004038
+          ],
+          [
+            -105.053357999672,
+            39.8569109999427
+          ],
+          [
+            -105.053262999788,
+            39.8567549999433
+          ],
+          [
+            -105.052762000066,
+            39.8560069996234
+          ],
+          [
+            -105.052762000066,
+            39.8560059995773
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": 63809,
+      "properties": {
+        "BEGIN_POIN": 52.511,
+        "BEGMP": 52.703,
+        "CONN_DES": " ",
+        "CONN_ID": " ",
+        "CONN_MILES": 0,
+        "CTFIPS": 1,
+        "ENDMP": 54.79,
+        "END_POINT": 52.579,
+        "FACILITY_T": 2,
+        "FAC_ID": " ",
+        "FCLASS": 12,
+        "F_SYSTEM": 2,
+        "KM": 0.123,
+        "LGURB": 24,
+        "LNAME": "DENVER BOULDER TPKE",
+        "LRSKEY": "000000036B00001",
+        "LRSSEQ": 1,
+        "MILES": 0.077,
+        "NHS": 7,
+        "OBJECTID": 63809,
+        "ORIGID": 8004651,
+        "RECID": 8004651,
+        "RECTYPE": "L",
+        "ROUTE_ID": "036B",
+        "RUCODE": 3,
+        "SIGN1": "U36",
+        "SIGN2": " ",
+        "SIGN3": " ",
+        "SIGNN1": "36",
+        "SIGNN2": " ",
+        "SIGNN3": " ",
+        "SIGNQ1": " ",
+        "SIGNQ2": " ",
+        "SIGNQ3": " ",
+        "SIGNT1": "U",
+        "SIGNT2": " ",
+        "SIGNT3": " ",
+        "SMURB": 23527,
+        "SOURCE": "H",
+        "STATUS": 1,
+        "STFIPS": "08",
+        "STRAHNET": 0,
+        "Shape__Length": 0.00113987752006134,
+        "URBAN_CODE": 23527,
+        "VERSION": "2014.05",
+        "YEAR_RECOR": 2010
+      },
+      "type": "Feature"
+    }
+  ],
+  "type": "FeatureCollection"
+}
