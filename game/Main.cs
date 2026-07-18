@@ -8,6 +8,8 @@ using Cannonball.Game.UI;
 using Cannonball.Game.Vehicle;
 using Cannonball.Game.World;
 using Godot;
+using System.Runtime.InteropServices;
+using System.Text.Json;
 
 namespace Cannonball.Game;
 
@@ -42,6 +44,7 @@ public sealed partial class Main : Node3D
     private bool _topologyProfile;
     private bool _topologyReview;
     private bool _routeChoiceProfile;
+    private bool _longRouteProfile;
     private bool _shutdownStarted;
     private int _smokeFrames;
     private double _telemetryElapsed;
@@ -100,6 +103,49 @@ public sealed partial class Main : Node3D
     private double _cash = 25_000;
     private VehicleCondition _vehicleCondition = new(82, 1, 1, 1, 0);
     private EnforcementState _enforcement = new(0, 0, "clear", 0);
+    private LongRouteScenarioFixtureData? _longRouteFixture;
+    private string _longRouteSourcePath = string.Empty;
+    private string _longRouteEvidencePath = string.Empty;
+    private string _longRouteRequestedPlatform = "current";
+    private double _longRouteTargetMiles;
+    private IReadOnlyList<double> _longRouteSavePointMiles = [];
+    private bool _longRouteExpectedCompletion;
+    private IReadOnlyList<double> _longRouteCheckpointsMeters = [];
+    private int _longRouteCheckpointIndex;
+    private int _longRouteStableFrames;
+    private int _longRouteProfileIndex;
+    private bool _longRouteComplete;
+    private readonly AssistProfile[] _longRouteAssistProfiles =
+        [AssistProfile.Accessible, AssistProfile.Balanced, AssistProfile.Raw];
+    private readonly HashSet<string> _longRouteVerifiedChunks = new(StringComparer.Ordinal);
+    private readonly HashSet<string> _longRouteVisitedEdges = new(StringComparer.Ordinal);
+    private readonly HashSet<string> _longRouteBuiltSeams = new(StringComparer.Ordinal);
+    private readonly List<double> _longRouteFrameMilliseconds = [];
+    private readonly List<double> _longRouteChunkBuildMilliseconds = [];
+    private readonly List<double> _longRouteCollisionBuildMilliseconds = [];
+    private readonly List<object> _longRouteProfileResults = [];
+    private readonly HashSet<double> _longRouteSavePointsVerifiedMeters = [];
+    private int _longRouteResumeComparisons;
+    private int _longRouteCollisionMisses;
+    private int _longRouteHashFailures;
+    private int _longRouteRebaseCount;
+    private int _longRouteSeamCount;
+    private double _longRouteMaximumJunctionGapMeters;
+    private double _longRouteMaximumLocalCoordinateMeters;
+    private long _longRouteStartingWorkingSetBytes;
+    private long _longRoutePeakWorkingSetBytes;
+    private int _longRouteProfileCheckpointCount;
+    private int _longRouteProfileResumeStart;
+    private int _longRouteProfileFrameStart;
+    private int _longRouteProfileChunkStart;
+    private int _longRouteProfileCollisionStart;
+    private int _longRouteProfileRebaseStart;
+    private bool _longRouteHandlingActive;
+    private bool _longRouteHandlingComplete;
+    private double _longRouteHandlingStartMeters;
+    private double _longRouteHandlingDistanceMeters;
+    private int _longRouteHandlingPhysicsFrames;
+    private int _longRouteHandlingUnsupportedFrames;
 
     public override void _Ready()
     {
@@ -108,6 +154,30 @@ public sealed partial class Main : Node3D
             var arguments = OS.GetCmdlineUserArgs();
             var routePath = RequiredArgument(arguments, "--route-package");
             var requestedProbeMiles = OptionalPositiveDouble(arguments, "--distance-miles");
+            _longRouteProfile = arguments.Contains("--long-route-profile", StringComparer.Ordinal);
+            if (_longRouteProfile)
+            {
+                _longRouteTargetMiles = requestedProbeMiles > 0
+                    ? requestedProbeMiles
+                    : throw new ArgumentException(
+                        "Long-route profile requires --distance-miles.");
+                _runSeed = OptionalUnsignedInteger(arguments, "--seed", 20_260_718);
+                _longRouteSavePointMiles = OptionalDoubleList(
+                    arguments,
+                    "--save-points",
+                    [100, 250, 400],
+                    _longRouteTargetMiles);
+                _longRouteExpectedCompletion = OptionalBoolean(
+                    arguments,
+                    "--expected-completion",
+                    true);
+                _longRouteEvidencePath = Path.GetFullPath(
+                    RequiredArgument(arguments, "--evidence"));
+                _longRouteRequestedPlatform = OptionalArgument(
+                    arguments,
+                    "--platform") ?? "current";
+                ValidateRequestedPlatform(_longRouteRequestedPlatform);
+            }
             _resumeVerify = arguments.Contains("--resume-verify", StringComparer.Ordinal);
             _resumeRequested = arguments.Contains("--resume", StringComparer.Ordinal) ||
                 _resumeVerify;
@@ -123,7 +193,7 @@ public sealed partial class Main : Node3D
             _routeChoiceProfile = arguments.Contains("--route-choice-profile", StringComparer.Ordinal);
             _smokeTest = _smokeTest || _stressTest || _shortCorridorSoak || _renderIntegrity ||
                 _geographicReview || _streamingProfile || _topologyProfile || _topologyReview ||
-                _routeChoiceProfile || _resumeVerify;
+                _routeChoiceProfile || _longRouteProfile || _resumeVerify;
             _smokeTargetFrames = _stressTest || _shortCorridorSoak ? 3_600 : 360;
             if (_renderIntegrity)
             {
@@ -141,6 +211,10 @@ public sealed partial class Main : Node3D
             {
                 _smokeTargetFrames = 14_400;
             }
+            if (_longRouteProfile)
+            {
+                _smokeTargetFrames = 250_000;
+            }
             if (_topologyReview)
             {
                 _smokeTargetFrames = 480;
@@ -149,7 +223,17 @@ public sealed partial class Main : Node3D
             var absoluteRoutePath = Path.GetFullPath(routePath);
             var sourcePackage = FlatBufferRouteContent.Load(absoluteRoutePath);
             _package = sourcePackage;
-            if (_routeChoiceProfile)
+            if (_longRouteProfile)
+            {
+                _longRouteSourcePath = absoluteRoutePath;
+                _longRouteFixture = LongRouteScenarioFixture.Create(
+                    sourcePackage,
+                    _longRouteTargetMiles,
+                    _runSeed);
+                _package = _longRouteFixture.Package;
+                _chunkSource = _longRouteFixture.Source;
+            }
+            else if (_routeChoiceProfile)
             {
                 _interchangeFixture = RepresentativeInterchangeFixture.Create(sourcePackage);
                 _package = _interchangeFixture.Package;
@@ -160,7 +244,7 @@ public sealed partial class Main : Node3D
                 _topologyOverlay = VariableLaneTopologyFixture.Apply(_package);
                 _package = _topologyOverlay.Package;
             }
-            if (!_routeChoiceProfile)
+            if (!_routeChoiceProfile && !_longRouteProfile)
             {
                 _chunkSource = new VerifiedFileChunkSource(
                     _package,
@@ -217,7 +301,8 @@ public sealed partial class Main : Node3D
                 ProjectSettings.GlobalizePath("user://telemetry/prototype.jsonl"));
 
             _vehicle.AutopilotEnabled = _smokeTest && !_renderIntegrity && !_streamingProfile &&
-                !_topologyProfile && !_topologyReview && !_routeChoiceProfile;
+                !_topologyProfile && !_topologyReview && !_routeChoiceProfile &&
+                !_longRouteProfile;
             if (resumedSave is not null)
             {
                 _vehicle.SetAssistProfile(resumedSave.Run.AssistProfile);
@@ -252,6 +337,10 @@ public sealed partial class Main : Node3D
             {
                 BeginNextRouteChoiceTransition();
             }
+            if (_longRouteProfile)
+            {
+                BeginLongRouteProfile();
+            }
             if (_renderIntegrity)
             {
                 _vehicle.AutopilotSpeedLimitMetersPerSecond = 12;
@@ -262,7 +351,7 @@ public sealed partial class Main : Node3D
             {
                 _vehicle.SetAssistProfile(assist);
             }
-            if (requestedProbeMiles > 0)
+            if (requestedProbeMiles > 0 && !_longRouteProfile)
             {
                 _transportProbe = RunTransportProbeAsync(requestedProbeMiles);
             }
@@ -339,6 +428,24 @@ public sealed partial class Main : Node3D
         {
             AdvanceRouteChoiceProfile();
         }
+        if (_longRouteProfile && !_longRouteComplete)
+        {
+            try
+            {
+                _longRouteFrameMilliseconds.Add(delta * 1_000);
+                _longRoutePeakWorkingSetBytes = Math.Max(
+                    _longRoutePeakWorkingSetBytes,
+                    System.Diagnostics.Process.GetCurrentProcess().WorkingSet64);
+                AdvanceLongRouteProfile();
+            }
+            catch (Exception exception)
+            {
+                GD.PushError(exception.ToString());
+                _shutdownStarted = true;
+                GetTree().Quit(1);
+                return;
+            }
+        }
         _telemetryElapsed += delta;
         if (_telemetryElapsed >= 5)
         {
@@ -366,7 +473,7 @@ public sealed partial class Main : Node3D
             _streamer.RouteDistanceMeters >= Math.Min(300, _streamer.TotalRouteLengthMeters - 35);
         if (_smokeFrames >= _smokeTargetFrames || renderTraversalComplete ||
             _geographicReviewComplete || _streamingProfileComplete || _topologyProfileComplete ||
-            _routeChoiceProfileComplete)
+            _routeChoiceProfileComplete || _longRouteComplete)
         {
             _shutdownStarted = true;
             _ = PersistAsync(quitAfterSave: true);
@@ -383,7 +490,11 @@ public sealed partial class Main : Node3D
 
     private void ConfigureRuntimeWorld(ValidatedRoutePlan? routePlan, RunSave? resumedSave = null)
     {
-        var routePlanEdgeIds = resumedSave?.Run.RoutePlan ?? routePlan?.LinearPlan.EdgeIds;
+        var routePlanEdgeIds = resumedSave?.Run.RoutePlan ??
+            routePlan?.LinearPlan.EdgeIds ??
+            _longRouteFixture?.EdgeIds;
+        var routePlanConnectorIds = routePlan?.Selection.ConnectorIds ??
+            _longRouteFixture?.ConnectorIds;
         var initialManifest = WorldStreamer.FindInitialManifest(_package, routePlanEdgeIds);
         var initialChunk = _chunkSource.LoadChunk(initialManifest.Id);
         IReadOnlyList<RouteChunkContent>? resumeChunks = null;
@@ -408,7 +519,7 @@ public sealed partial class Main : Node3D
             _chunkSource,
             initialChunk,
             routePlanEdgeIds,
-            routePlan?.Selection.ConnectorIds,
+            routePlanConnectorIds,
             resumedSave?.Run.Position,
             resumedSave?.Run.WorldStream,
             resumeChunks,
@@ -509,6 +620,33 @@ public sealed partial class Main : Node3D
                 (float)expected.LocalVehicle.AngularVelocityZ)) > 0.001f ||
             1 - rotationDot > 0.0001)
         {
+            GD.PrintErr(
+                $"CANNONBALL_RESUME_MISMATCH " +
+                $"edge={_streamer.CurrentEdgeId == position.EdgeId} " +
+                $"distance_delta={_streamer.CurrentEdgeDistanceMeters - position.DistanceMeters:0.000000} " +
+                $"lane_index={_streamer.CurrentLaneIndex == position.LaneIndex} " +
+                $"lane_id={_streamer.CurrentStableLaneId == position.StableLaneId} " +
+                $"route_plan={_streamer.RoutePlan.SequenceEqual(expected.Run.RoutePlan, StringComparer.Ordinal)} " +
+                $"connector={_streamer.ActiveConnectorId == expected.Run.Navigation.ActiveConnectorId} " +
+                $"stream={StreamEquivalent(actualStream, expected.Run.WorldStream)} " +
+                $"origin_delta=({actualStream.OriginWorldX - expected.Run.WorldStream.OriginWorldX:0.000000}," +
+                $"{actualStream.OriginWorldY - expected.Run.WorldStream.OriginWorldY:0.000000}," +
+                $"{actualStream.OriginWorldZ - expected.Run.WorldStream.OriginWorldZ:0.000000}) " +
+                $"local_origin_delta={actualStream.LocalOriginRouteMeters - expected.Run.WorldStream.LocalOriginRouteMeters:0.000000} " +
+                $"rebase_delta={actualStream.RebaseCount - expected.Run.WorldStream.RebaseCount} " +
+                $"loaded_actual={string.Join(',', actualStream.LoadedChunkIds)} " +
+                $"loaded_expected={string.Join(',', expected.Run.WorldStream.LoadedChunkIds)} " +
+                $"collision_actual={string.Join(',', actualStream.CollisionChunkIds)} " +
+                $"collision_expected={string.Join(',', expected.Run.WorldStream.CollisionChunkIds)} " +
+                $"seed={_runSeed == expected.Run.Seed} cash={_cash == expected.Run.Cash} " +
+                $"vehicle_condition={_vehicleCondition == expected.Run.Vehicle} " +
+                $"enforcement={_enforcement == expected.Run.Enforcement} " +
+                $"assist={_vehicle.AssistProfile == expected.Run.AssistProfile} " +
+                $"elapsed={_elapsedSecondsBase == expected.Run.ElapsedSeconds} " +
+                $"position_delta={_vehicle.Position.DistanceTo(new Vector3((float)expected.LocalVehicle.PositionX, (float)expected.LocalVehicle.PositionY, (float)expected.LocalVehicle.PositionZ)):0.000000} " +
+                $"velocity_delta={_vehicle.LinearVelocity.DistanceTo(new Vector3((float)expected.LocalVehicle.VelocityX, (float)expected.LocalVehicle.VelocityY, (float)expected.LocalVehicle.VelocityZ)):0.000000} " +
+                $"angular_delta={_vehicle.AngularVelocity.DistanceTo(new Vector3((float)expected.LocalVehicle.AngularVelocityX, (float)expected.LocalVehicle.AngularVelocityY, (float)expected.LocalVehicle.AngularVelocityZ)):0.000000} " +
+                $"rotation_delta={1 - rotationDot:0.000000}");
             throw new InvalidDataException(
                 "Resumed runtime does not match the authoritative suspended state.");
         }
@@ -753,6 +891,409 @@ public sealed partial class Main : Node3D
             $"connector={expected.Run.Navigation.ActiveConnectorId}");
     }
 
+    private void BeginLongRouteProfile()
+    {
+        var fixture = _longRouteFixture
+            ?? throw new InvalidOperationException("Long-route fixture is not configured.");
+        if (_longRouteCheckpointsMeters.Count == 0)
+        {
+            var plan = LinearRoutePlan.Build(_package.Graph, fixture.EdgeIds);
+            _longRouteCheckpointsMeters = _package.Chunks.Values
+                .Select(manifest =>
+                {
+                    var edge = plan.GetEdge(manifest.EdgeId);
+                    return edge.StartMeters + (manifest.StartMeters + manifest.EndMeters) / 2;
+                })
+                .Concat(_longRouteSavePointMiles.Select(miles =>
+                    miles * LongRouteScenarioFixture.MetersPerMile))
+                .Append(Math.Max(0, fixture.TargetDistanceMeters - 0.001))
+                .Select(distance => Math.Round(distance, 6, MidpointRounding.AwayFromZero))
+                .Distinct()
+                .OrderBy(distance => distance)
+                .ToArray();
+            _longRouteStartingWorkingSetBytes =
+                System.Diagnostics.Process.GetCurrentProcess().WorkingSet64;
+            _longRoutePeakWorkingSetBytes = _longRouteStartingWorkingSetBytes;
+        }
+        _longRouteCheckpointIndex = 0;
+        _longRouteStableFrames = 0;
+        _longRouteProfileCheckpointCount = 0;
+        _longRouteProfileResumeStart = _longRouteResumeComparisons;
+        _longRouteProfileFrameStart = _longRouteFrameMilliseconds.Count;
+        _longRouteProfileChunkStart = _longRouteChunkBuildMilliseconds.Count;
+        _longRouteProfileCollisionStart = _longRouteCollisionBuildMilliseconds.Count;
+        _longRouteProfileRebaseStart = _longRouteRebaseCount;
+        _longRouteHandlingActive = false;
+        _longRouteHandlingComplete = false;
+        _longRouteHandlingStartMeters = 0;
+        _longRouteHandlingDistanceMeters = 0;
+        _longRouteHandlingPhysicsFrames = 0;
+        _longRouteHandlingUnsupportedFrames = 0;
+        _vehicle.AutopilotEnabled = false;
+        _vehicle.SetAssistProfile(_longRouteAssistProfiles[_longRouteProfileIndex]);
+        _streamer.SetReviewDistance(_longRouteCheckpointsMeters[0]);
+        GD.Print(
+            $"CANNONBALL_LONG_ROUTE_PROFILE_START assist=" +
+            $"{_longRouteAssistProfiles[_longRouteProfileIndex]} " +
+            $"target_miles={_longRouteTargetMiles:0.###} " +
+            $"checkpoints={_longRouteCheckpointsMeters.Count}");
+    }
+
+    private void AdvanceLongRouteProfile()
+    {
+        if (_longRouteHandlingActive)
+        {
+            if (_vehicle.PostGroundingPhysicsFrames < 180)
+            {
+                return;
+            }
+            _longRouteHandlingActive = false;
+            _vehicle.AutopilotEnabled = false;
+            _longRouteHandlingDistanceMeters = Math.Max(
+                0,
+                _streamer.RouteDistanceMeters - _longRouteHandlingStartMeters);
+            _longRouteHandlingUnsupportedFrames =
+                _vehicle.MaximumConsecutiveUnsupportedPhysicsFrames;
+            _longRouteHandlingPhysicsFrames = _vehicle.PostGroundingPhysicsFrames;
+            if (!_vehicle.HasBeenGrounded ||
+                _longRouteHandlingDistanceMeters < 2 ||
+                _longRouteHandlingUnsupportedFrames >
+                    MaximumRenderIntegrityUnsupportedPhysicsFrames)
+            {
+                throw new InvalidOperationException(
+                    $"Long-route {_longRouteAssistProfiles[_longRouteProfileIndex]} handling " +
+                    $"segment failed: distance={_longRouteHandlingDistanceMeters:F3} m, " +
+                    $"grounded={_vehicle.HasBeenGrounded}, " +
+                    $"unsupported_frames={_longRouteHandlingUnsupportedFrames}.");
+            }
+            _longRouteHandlingComplete = true;
+            _streamer.SetReviewDistance(_longRouteCheckpointsMeters[0]);
+            _longRouteStableFrames = 0;
+            GD.Print(
+                $"CANNONBALL_LONG_ROUTE_HANDLING_OK assist=" +
+                $"{_longRouteAssistProfiles[_longRouteProfileIndex]} " +
+                $"distance_m={_longRouteHandlingDistanceMeters:0.000} " +
+                $"physics_frames={_longRouteHandlingPhysicsFrames} " +
+                $"max_unsupported_frames={_longRouteHandlingUnsupportedFrames}");
+            return;
+        }
+        if (!_streamer.ReviewTargetReady || !_streamer.IsStreamingSettled)
+        {
+            _longRouteStableFrames = 0;
+            return;
+        }
+        _longRouteStableFrames++;
+        if (_longRouteStableFrames < StreamingStableFramesPerCheckpoint)
+        {
+            return;
+        }
+
+        _streamer.ValidateCurrentStreamingWindows();
+        if (!_longRouteHandlingComplete)
+        {
+            _vehicle.ResetGroundingTelemetry();
+            _vehicle.AutopilotSpeedLimitMetersPerSecond = 30;
+            _longRouteHandlingStartMeters = _streamer.RouteDistanceMeters;
+            _streamer.BeginReviewTraversal();
+            _vehicle.AutopilotEnabled = true;
+            _longRouteHandlingActive = true;
+            return;
+        }
+        if (_streamer.DesiredCollisionChunkCount != _streamer.CollisionChunkCount)
+        {
+            _longRouteCollisionMisses++;
+            throw new InvalidOperationException(
+                "Long-route collision residency does not match the declared window.");
+        }
+        var checkpoint = _longRouteCheckpointsMeters[_longRouteCheckpointIndex];
+        _longRouteProfileCheckpointCount++;
+        var isSavePoint = _longRouteSavePointMiles.Any(miles =>
+            Math.Abs(checkpoint - miles * LongRouteScenarioFixture.MetersPerMile) <= 0.001);
+        if (isSavePoint)
+        {
+            VerifyLongRouteSaveResume(checkpoint);
+        }
+
+        _longRouteCheckpointIndex++;
+        _longRouteStableFrames = 0;
+        if (_longRouteCheckpointIndex < _longRouteCheckpointsMeters.Count)
+        {
+            _streamer.SetReviewDistance(
+                _longRouteCheckpointsMeters[_longRouteCheckpointIndex]);
+            return;
+        }
+
+        CompleteLongRouteAssistProfile();
+    }
+
+    private void VerifyLongRouteSaveResume(double checkpointMeters)
+    {
+        var expected = CaptureSave();
+        var actual = Task.Run(async () =>
+        {
+            await _saves.SaveAsync(expected);
+            return await _saves.LoadAsync();
+        }).GetAwaiter().GetResult()
+            ?? throw new InvalidDataException("Long-route save disappeared during round trip.");
+        if (!string.Equals(actual.ContentChecksum, expected.ContentChecksum, StringComparison.Ordinal) ||
+            actual.Run.Position != expected.Run.Position ||
+            !actual.Run.RoutePlan.SequenceEqual(expected.Run.RoutePlan, StringComparer.Ordinal) ||
+            !StreamEquivalent(actual.Run.WorldStream, expected.Run.WorldStream) ||
+            actual.Run.Vehicle != expected.Run.Vehicle ||
+            actual.Run.Enforcement != expected.Run.Enforcement ||
+            actual.LocalVehicle != expected.LocalVehicle)
+        {
+            throw new InvalidDataException(
+                $"Long-route save diverged at {checkpointMeters:F3} meters.");
+        }
+
+        CollectLongRouteStreamerMetrics(includeRebases: false);
+        RemoveRuntimeWorld();
+        _elapsedSecondsBase = actual.Run.ElapsedSeconds;
+        _sessionStartedTicks = Time.GetTicksMsec();
+        ConfigureRuntimeWorld(routePlan: null, actual);
+        ValidateResumedRuntime(actual);
+        _vehicle.AutopilotEnabled = false;
+        _vehicle.SetAssistProfile(_longRouteAssistProfiles[_longRouteProfileIndex]);
+        _streamer.SetReviewDistance(checkpointMeters);
+        _longRouteResumeComparisons++;
+        _longRouteSavePointsVerifiedMeters.Add(checkpointMeters);
+        GD.Print(
+            $"CANNONBALL_LONG_ROUTE_RESUME_OK assist=" +
+            $"{_longRouteAssistProfiles[_longRouteProfileIndex]} " +
+            $"distance_m={checkpointMeters:0.000}");
+    }
+
+    private void CompleteLongRouteAssistProfile()
+    {
+        CollectLongRouteStreamerMetrics(includeRebases: true);
+        var assist = _longRouteAssistProfiles[_longRouteProfileIndex];
+        var completedDistance = _streamer.RouteDistanceMeters;
+        _longRouteProfileResults.Add(new
+        {
+            assist_profile = assist.ToString(),
+            completed_distance_miles = completedDistance /
+                LongRouteScenarioFixture.MetersPerMile,
+            checkpoints = _longRouteProfileCheckpointCount,
+            resume_comparisons = _longRouteResumeComparisons - _longRouteProfileResumeStart,
+            rebases = _longRouteRebaseCount - _longRouteProfileRebaseStart,
+            frames = _longRouteFrameMilliseconds.Count - _longRouteProfileFrameStart,
+            chunk_builds = _longRouteChunkBuildMilliseconds.Count - _longRouteProfileChunkStart,
+            collision_builds = _longRouteCollisionBuildMilliseconds.Count -
+                _longRouteProfileCollisionStart,
+            handling_distance_meters = _longRouteHandlingDistanceMeters,
+            handling_physics_frames = _longRouteHandlingPhysicsFrames,
+            handling_maximum_unsupported_frames = _longRouteHandlingUnsupportedFrames,
+            expected_completion = _longRouteExpectedCompletion,
+            completed = completedDistance + 0.01 >=
+                (_longRouteFixture?.TargetDistanceMeters ?? double.PositiveInfinity),
+        });
+        GD.Print(
+            $"CANNONBALL_LONG_ROUTE_PROFILE_OK assist={assist} " +
+            $"distance_miles={completedDistance / LongRouteScenarioFixture.MetersPerMile:0.000} " +
+            $"checkpoints={_longRouteProfileCheckpointCount} " +
+            $"resume_comparisons={_longRouteResumeComparisons - _longRouteProfileResumeStart}");
+
+        _longRouteProfileIndex++;
+        if (_longRouteProfileIndex >= _longRouteAssistProfiles.Length)
+        {
+            _longRouteComplete = true;
+            return;
+        }
+
+        RemoveRuntimeWorld();
+        _elapsedSecondsBase = 0;
+        _sessionStartedTicks = Time.GetTicksMsec();
+        ConfigureRuntimeWorld(routePlan: null);
+        BeginLongRouteProfile();
+    }
+
+    private void CollectLongRouteStreamerMetrics(bool includeRebases)
+    {
+        foreach (var id in _streamer.ReviewReadyChunkIdsSeen)
+        {
+            _longRouteVerifiedChunks.Add(id);
+        }
+        foreach (var id in _streamer.ReviewEdgeIdsVisited)
+        {
+            _longRouteVisitedEdges.Add(id);
+        }
+        foreach (var id in _streamer.JunctionSeamIdsBuilt)
+        {
+            _longRouteBuiltSeams.Add(id);
+        }
+        _longRouteChunkBuildMilliseconds.AddRange(
+            _streamer.ChunkBuildSamplesMilliseconds);
+        _longRouteCollisionBuildMilliseconds.AddRange(
+            _streamer.CollisionBuildSamplesMilliseconds);
+        _longRouteHashFailures += _streamer.ChunkFailureCount;
+        _longRouteMaximumJunctionGapMeters = Math.Max(
+            _longRouteMaximumJunctionGapMeters,
+            _streamer.MaximumJunctionGapMeters);
+        _longRouteMaximumLocalCoordinateMeters = Math.Max(
+            _longRouteMaximumLocalCoordinateMeters,
+            _streamer.MaximumLocalCoordinateMeters);
+        if (includeRebases)
+        {
+            _longRouteRebaseCount += _streamer.RebaseCount;
+        }
+        _longRouteSeamCount = _longRouteBuiltSeams.Count;
+    }
+
+    private void RemoveRuntimeWorld()
+    {
+        _streamer.ProcessMode = ProcessModeEnum.Disabled;
+        _vehicle.ProcessMode = ProcessModeEnum.Disabled;
+        RemoveChild(_vehicle);
+        _vehicle.QueueFree();
+        RemoveChild(_streamer);
+        _streamer.QueueFree();
+    }
+
+    private void ValidateLongRouteProfile()
+    {
+        var fixture = _longRouteFixture
+            ?? throw new InvalidOperationException("Long-route fixture is not configured.");
+        var expectedResumeComparisons =
+            _longRouteSavePointMiles.Count * _longRouteAssistProfiles.Length;
+        var expectedSeams = fixture.EdgeIds.Count - 1;
+        if (!_longRouteComplete ||
+            _longRouteProfileResults.Count != _longRouteAssistProfiles.Length ||
+            _longRouteVerifiedChunks.Count != fixture.Package.Chunks.Count ||
+            _longRouteVisitedEdges.Count != fixture.EdgeIds.Count ||
+            _longRouteSeamCount != expectedSeams ||
+            fixture.MaximumGeometryGapMeters > 0.001 ||
+            _longRouteMaximumJunctionGapMeters > 0.001 ||
+            _longRouteCollisionMisses != 0 ||
+            _longRouteHashFailures != 0 ||
+            _longRouteResumeComparisons != expectedResumeComparisons ||
+            _longRouteSavePointsVerifiedMeters.Count != _longRouteSavePointMiles.Count ||
+            _longRouteRebaseCount < 1 ||
+            _longRouteMaximumLocalCoordinateMeters >= WorldStreamer.RebaseThresholdMeters)
+        {
+            throw new InvalidOperationException(
+                "Long-route acceptance metrics did not satisfy the deterministic scenario contract.");
+        }
+
+        var packageIdentity = RunSave.ComputePackageIdentity(_package);
+        var memoryGrowth = Math.Max(
+            0,
+            _longRoutePeakWorkingSetBytes - _longRouteStartingWorkingSetBytes);
+        var evidence = new
+        {
+            schema_version = 1,
+            task_id = "P0-006",
+            milestone = "M1",
+            status = "complete",
+            git_revision = OptionalEnvironment("GITHUB_SHA") ??
+                OptionalEnvironment("CANNONBALL_GIT_REVISION") ?? "working-tree",
+            recorded_at_utc = DateTimeOffset.UtcNow,
+            platform = new
+            {
+                requested = _longRouteRequestedPlatform,
+                os = RuntimeInformation.OSDescription,
+                architecture = RuntimeInformation.OSArchitecture.ToString().ToLowerInvariant(),
+            },
+            scenario_inputs = new
+            {
+                route_package = Path.GetRelativePath(
+                    Directory.GetCurrentDirectory(),
+                    _longRouteSourcePath).Replace('\\', '/'),
+                route_package_checksum = packageIdentity.PackageChecksum,
+                source_route_root_sha256 = fixture.SourceRootContentHash,
+                source_artifact_sha256 = fixture.Package.Metadata?.SourceArtifactSha256,
+                seed = _runSeed,
+                assist_profiles = _longRouteAssistProfiles.Select(value => value.ToString()).ToArray(),
+                target_distance_miles = _longRouteTargetMiles,
+                save_points_miles = _longRouteSavePointMiles,
+                expected_completion = _longRouteExpectedCompletion,
+                authored_override_id = fixture.OverrideId,
+            },
+            metrics = new
+            {
+                traversed_distance_miles = fixture.TargetDistanceMeters /
+                    LongRouteScenarioFixture.MetersPerMile,
+                route_edges = fixture.EdgeIds.Count,
+                route_transitions = _longRouteSeamCount,
+                expected_route_transitions = expectedSeams,
+                route_chunks = fixture.Package.Chunks.Count,
+                verified_route_chunks = _longRouteVerifiedChunks.Count,
+                missing_chunks = fixture.Package.Chunks.Count - _longRouteVerifiedChunks.Count,
+                hash_failures = _longRouteHashFailures,
+                geometry_gap_meters = fixture.MaximumGeometryGapMeters,
+                maximum_junction_gap_meters = _longRouteMaximumJunctionGapMeters,
+                road_gaps = 0,
+                collision_misses = _longRouteCollisionMisses,
+                rebases = _longRouteRebaseCount,
+                maximum_local_coordinate_meters = _longRouteMaximumLocalCoordinateMeters,
+                resume_comparisons = _longRouteResumeComparisons,
+                save_divergence = 0,
+                frame_time_ms = Percentiles(_longRouteFrameMilliseconds),
+                chunk_build_ms = Percentiles(_longRouteChunkBuildMilliseconds),
+                collision_build_ms = Percentiles(_longRouteCollisionBuildMilliseconds),
+                starting_working_set_bytes = _longRouteStartingWorkingSetBytes,
+                peak_working_set_bytes = _longRoutePeakWorkingSetBytes,
+                memory_growth_bytes = memoryGrowth,
+            },
+            assist_profile_results = _longRouteProfileResults,
+            acceptance = new
+            {
+                completed = true,
+                zero_missing_chunks = true,
+                zero_hash_failures = true,
+                zero_road_gaps = true,
+                zero_collision_misses = true,
+                zero_save_divergence = true,
+                all_assist_profiles = true,
+            },
+            human_gate = new
+            {
+                name = "30-minute keyboard and controller handling sessions",
+                required_for = "M0",
+                status = "not part of deterministic automation acceptance",
+            },
+        };
+        Directory.CreateDirectory(Path.GetDirectoryName(_longRouteEvidencePath)
+            ?? throw new InvalidDataException("Evidence path has no parent directory."));
+        File.WriteAllText(
+            _longRouteEvidencePath,
+            JsonSerializer.Serialize(evidence, new JsonSerializerOptions
+            {
+                WriteIndented = true,
+            }) + System.Environment.NewLine);
+        GD.Print(
+            $"CANNONBALL_LONG_ROUTE_OK distance_miles={_longRouteTargetMiles:0.000} " +
+            $"profiles={_longRouteAssistProfiles.Length} chunks={_longRouteVerifiedChunks.Count} " +
+            $"transitions={_longRouteSeamCount} rebases={_longRouteRebaseCount} " +
+            $"resume_comparisons={_longRouteResumeComparisons} collision_misses=0 " +
+            $"hash_failures=0 road_gaps=0 evidence={_longRouteEvidencePath}");
+    }
+
+    private static object Percentiles(IReadOnlyList<double> samples)
+    {
+        if (samples.Count == 0)
+        {
+            throw new InvalidOperationException("A required timing sample set is empty.");
+        }
+        var ordered = samples.OrderBy(value => value).ToArray();
+        double At(double percentile)
+        {
+            var position = (ordered.Length - 1) * percentile;
+            var lower = (int)Math.Floor(position);
+            var upper = (int)Math.Ceiling(position);
+            var fraction = position - lower;
+            return ordered[lower] + (ordered[upper] - ordered[lower]) * fraction;
+        }
+        return new
+        {
+            sample_count = ordered.Length,
+            p50 = At(0.50),
+            p95 = At(0.95),
+            p99 = At(0.99),
+            maximum = ordered[^1],
+        };
+    }
+
     private bool ReportTransportProbeWhenComplete()
     {
         if (_transportProbe is null || _transportProbeReported)
@@ -849,6 +1390,10 @@ public sealed partial class Main : Node3D
             if (quitAfterSave && _routeChoiceProfile)
             {
                 ValidateRouteChoiceProfile();
+            }
+            if (quitAfterSave && _longRouteProfile)
+            {
+                ValidateLongRouteProfile();
             }
             var save = CaptureSave();
             await _saves.SaveAsync(save);
@@ -1583,6 +2128,114 @@ public sealed partial class Main : Node3D
             throw new ArgumentException($"Game argument '{name}' must be a positive finite number.");
         }
         return value;
+    }
+
+    private static string? OptionalArgument(IReadOnlyList<string> arguments, string name)
+    {
+        var prefix = name + "=";
+        var inline = arguments.FirstOrDefault(value =>
+            value.StartsWith(prefix, StringComparison.Ordinal));
+        if (inline is not null)
+        {
+            return inline[prefix.Length..];
+        }
+        var index = ArgumentIndex(arguments, name);
+        return index >= 0 && index + 1 < arguments.Count ? arguments[index + 1] : null;
+    }
+
+    private static ulong OptionalUnsignedInteger(
+        IReadOnlyList<string> arguments,
+        string name,
+        ulong defaultValue)
+    {
+        var raw = OptionalArgument(arguments, name);
+        if (raw is null)
+        {
+            return defaultValue;
+        }
+        if (!ulong.TryParse(
+                raw,
+                System.Globalization.NumberStyles.None,
+                System.Globalization.CultureInfo.InvariantCulture,
+                out var value))
+        {
+            throw new ArgumentException($"Game argument '{name}' must be an unsigned integer.");
+        }
+        return value;
+    }
+
+    private static IReadOnlyList<double> OptionalDoubleList(
+        IReadOnlyList<string> arguments,
+        string name,
+        IReadOnlyList<double> defaultValue,
+        double exclusiveMaximum)
+    {
+        var raw = OptionalArgument(arguments, name);
+        if (raw is null)
+        {
+            return defaultValue.Where(value => value < exclusiveMaximum).ToArray();
+        }
+        var values = raw.Split(',', StringSplitOptions.RemoveEmptyEntries)
+            .Select(value =>
+            {
+                if (!double.TryParse(
+                        value,
+                        System.Globalization.NumberStyles.Float,
+                        System.Globalization.CultureInfo.InvariantCulture,
+                        out var parsed) ||
+                    !double.IsFinite(parsed) || parsed <= 0 || parsed >= exclusiveMaximum)
+                {
+                    throw new ArgumentException(
+                        $"Game argument '{name}' values must be positive and below " +
+                        $"{exclusiveMaximum:0.###}.");
+                }
+                return parsed;
+            })
+            .Distinct()
+            .OrderBy(value => value)
+            .ToArray();
+        if (values.Length == 0)
+        {
+            throw new ArgumentException($"Game argument '{name}' needs at least one value.");
+        }
+        return values;
+    }
+
+    private static bool OptionalBoolean(
+        IReadOnlyList<string> arguments,
+        string name,
+        bool defaultValue)
+    {
+        var raw = OptionalArgument(arguments, name);
+        if (raw is null)
+        {
+            return defaultValue;
+        }
+        if (!bool.TryParse(raw, out var value))
+        {
+            throw new ArgumentException($"Game argument '{name}' must be true or false.");
+        }
+        return value;
+    }
+
+    private static void ValidateRequestedPlatform(string requested)
+    {
+        var actual = OperatingSystem.IsWindows() ? "windows"
+            : OperatingSystem.IsLinux() ? "linux"
+            : OperatingSystem.IsMacOS() ? "macos"
+            : "unknown";
+        if (!string.Equals(requested, "current", StringComparison.OrdinalIgnoreCase) &&
+            !string.Equals(requested, actual, StringComparison.OrdinalIgnoreCase))
+        {
+            throw new PlatformNotSupportedException(
+                $"Scenario requested platform '{requested}', but the current platform is '{actual}'.");
+        }
+    }
+
+    private static string? OptionalEnvironment(string name)
+    {
+        var value = System.Environment.GetEnvironmentVariable(name);
+        return string.IsNullOrWhiteSpace(value) ? null : value;
     }
 
     private static int ArgumentIndex(IReadOnlyList<string> arguments, string value)

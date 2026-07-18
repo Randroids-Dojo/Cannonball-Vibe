@@ -56,6 +56,10 @@ public sealed partial class WorldStreamer : Node3D
     private readonly HashSet<string> _desiredBranchPrewarm = new(StringComparer.Ordinal);
     private readonly HashSet<string> _branchPrewarmSeen = new(StringComparer.Ordinal);
     private readonly HashSet<string> _branchPrewarmEvicted = new(StringComparer.Ordinal);
+    private readonly HashSet<string> _junctionSeamsBuilt = new(StringComparer.Ordinal);
+    private readonly List<double> _chunkBuildSamplesMilliseconds = [];
+    private readonly List<double> _collisionBuildSamplesMilliseconds = [];
+    private bool _preserveResumeStateThroughReady;
 
     public double RouteDistanceMeters => _routeDistanceMeters;
     public double LocalOriginMeters { get; private set; }
@@ -101,6 +105,15 @@ public sealed partial class WorldStreamer : Node3D
     public bool ShortCorridorLoopEnabled { get; set; }
     public int CompletedShortCorridorLoops { get; private set; }
     public int CrossedReviewDistanceThresholdCount { get; private set; }
+    public double MaximumLocalCoordinateMeters { get; private set; }
+    public double MaximumJunctionGapMeters { get; private set; }
+    public int JunctionSeamBuildCount => _junctionSeamsBuilt.Count;
+    public IReadOnlyCollection<string> JunctionSeamIdsBuilt => _junctionSeamsBuilt;
+    public IReadOnlyCollection<string> ReviewReadyChunkIdsSeen => _reviewReadyChunksSeen;
+    public IReadOnlyCollection<string> ReviewEdgeIdsVisited => _reviewEdgesVisited;
+    public IReadOnlyList<double> ChunkBuildSamplesMilliseconds => _chunkBuildSamplesMilliseconds;
+    public IReadOnlyList<double> CollisionBuildSamplesMilliseconds =>
+        _collisionBuildSamplesMilliseconds;
 
     public WorldStreamSnapshot CaptureStreamSnapshot() => new(
         _localOriginWorld.X,
@@ -208,6 +221,7 @@ public sealed partial class WorldStreamer : Node3D
         }
         if (resumePosition is { } position)
         {
+            _preserveResumeStateThroughReady = true;
             var edge = package.Graph.GetEdge(position.EdgeId);
             position.Validate(edge);
             if (!_routePlanEdgeIds.Contains(position.EdgeId))
@@ -302,12 +316,16 @@ public sealed partial class WorldStreamer : Node3D
         {
             throw new InvalidOperationException("WorldStreamer was not configured with a route package.");
         }
-        RefreshDesiredChunks();
+        if (!_preserveResumeStateThroughReady)
+        {
+            RefreshDesiredChunks();
+        }
     }
 
     public override void _Process(double delta)
     {
         _ = delta;
+        _preserveResumeStateThroughReady = false;
         CompletePendingLoads();
         RefreshDesiredChunks();
     }
@@ -376,19 +394,7 @@ public sealed partial class WorldStreamer : Node3D
             return;
         }
 
-        _localOriginWorld = _localOriginWorld.Add(horizontal);
-        LocalOriginMeters = _routeDistanceMeters;
-        RebaseCount++;
-        _vehicle.Position -= horizontal;
-        _vehicle.TargetRoadPoint -= horizontal;
-        foreach (var chunk in _loaded.Values)
-        {
-            chunk.ShiftForOriginRebase(horizontal);
-        }
-        foreach (var seam in _junctionSeams.Values)
-        {
-            seam.ShiftForOriginRebase(horizontal);
-        }
+        Rebase(horizontal);
     }
 
     public void Track(CannonballVehicle vehicle)
@@ -651,6 +657,7 @@ public sealed partial class WorldStreamer : Node3D
             _reviewReadyChunksSeen.Add(content.Id);
         }
         MaximumBuildMilliseconds = Math.Max(MaximumBuildMilliseconds, chunk.BuildMilliseconds);
+        _chunkBuildSamplesMilliseconds.Add(chunk.BuildMilliseconds);
         AddChild(chunk);
         TryBuildJunctionSeams();
     }
@@ -690,6 +697,10 @@ public sealed partial class WorldStreamer : Node3D
                 _frame,
                 _localOriginWorld);
             _junctionSeams.Add(key, seam);
+            _junctionSeamsBuilt.Add(key);
+            MaximumJunctionGapMeters = Math.Max(
+                MaximumJunctionGapMeters,
+                seam.ConnectionGapMeters);
             AddChild(seam);
         }
         RefreshJunctionSeamCollisions();
@@ -765,6 +776,7 @@ public sealed partial class WorldStreamer : Node3D
         MaximumCollisionBuildMilliseconds = Math.Max(
             MaximumCollisionBuildMilliseconds,
             elapsed);
+        _collisionBuildSamplesMilliseconds.Add(elapsed);
         if (elapsed > buildBudgetMilliseconds)
         {
             throw new InvalidOperationException(
@@ -942,12 +954,41 @@ public sealed partial class WorldStreamer : Node3D
         }
         var roadPoint = OffsetForActiveLane(pose.Point, pose.Forward, _routeDistanceMeters);
         var localPoint = roadPoint.RelativeTo(_localOriginWorld);
+        var horizontal = new Vector3(localPoint.X, 0, localPoint.Z);
+        if (horizontal.Length() >= RebaseThresholdMeters)
+        {
+            Rebase(horizontal);
+            localPoint = roadPoint.RelativeTo(_localOriginWorld);
+        }
+        MaximumLocalCoordinateMeters = Math.Max(
+            MaximumLocalCoordinateMeters,
+            Math.Sqrt(localPoint.X * localPoint.X + localPoint.Z * localPoint.Z));
         _vehicle.PlaceForReview(localPoint, pose.Forward);
         _vehicle.RouteDistanceMeters = _routeDistanceMeters;
         _vehicle.TargetRoadPoint = localPoint;
         _vehicle.TargetRoadForward = pose.Forward;
         _reviewEdgesVisited.Add(_currentEdgeId);
         _reviewTargetReady = true;
+    }
+
+    private void Rebase(Vector3 horizontal)
+    {
+        _localOriginWorld = _localOriginWorld.Add(horizontal);
+        LocalOriginMeters = _routeDistanceMeters;
+        RebaseCount++;
+        if (_vehicle is not null)
+        {
+            _vehicle.Position -= horizontal;
+            _vehicle.TargetRoadPoint -= horizontal;
+        }
+        foreach (var chunk in _loaded.Values)
+        {
+            chunk.ShiftForOriginRebase(horizontal);
+        }
+        foreach (var seam in _junctionSeams.Values)
+        {
+            seam.ShiftForOriginRebase(horizontal);
+        }
     }
 
     private RouteWorldPoint OffsetForActiveLane(

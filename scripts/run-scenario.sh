@@ -5,7 +5,7 @@ repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$repo_root"
 
 if [[ $# -eq 0 ]]; then
-  echo "Usage: $0 [--fixture NAME] [--distance-miles N] [--smoke-test] [scenario arguments]" >&2
+  echo "Usage: $0 [--fixture NAME] [--distance-miles N] [--platform current] [--evidence PATH] [--smoke-test] [scenario arguments]" >&2
   exit 2
 fi
 
@@ -14,6 +14,11 @@ fixture_explicit="false"
 distance_miles=""
 scenario_args=()
 scenario_mode="scenario"
+requested_platform="current"
+evidence_path=""
+scenario_seed="20260718"
+save_points="100,250,400"
+expected_completion="true"
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --fixture)
@@ -40,6 +45,66 @@ while [[ $# -gt 0 ]]; do
       ;;
     --distance-miles=*)
       distance_miles="${1#--distance-miles=}"
+      shift
+      ;;
+    --platform)
+      if [[ $# -lt 2 ]]; then
+        echo "--platform requires a value." >&2
+        exit 2
+      fi
+      requested_platform="$2"
+      shift 2
+      ;;
+    --platform=*)
+      requested_platform="${1#--platform=}"
+      shift
+      ;;
+    --evidence)
+      if [[ $# -lt 2 ]]; then
+        echo "--evidence requires a path." >&2
+        exit 2
+      fi
+      evidence_path="$2"
+      shift 2
+      ;;
+    --evidence=*)
+      evidence_path="${1#--evidence=}"
+      shift
+      ;;
+    --seed)
+      if [[ $# -lt 2 ]]; then
+        echo "--seed requires a value." >&2
+        exit 2
+      fi
+      scenario_seed="$2"
+      shift 2
+      ;;
+    --seed=*)
+      scenario_seed="${1#--seed=}"
+      shift
+      ;;
+    --save-points)
+      if [[ $# -lt 2 ]]; then
+        echo "--save-points requires a comma-separated value." >&2
+        exit 2
+      fi
+      save_points="$2"
+      shift 2
+      ;;
+    --save-points=*)
+      save_points="${1#--save-points=}"
+      shift
+      ;;
+    --expected-completion)
+      if [[ $# -lt 2 ]]; then
+        echo "--expected-completion requires true or false." >&2
+        exit 2
+      fi
+      expected_completion="$2"
+      shift 2
+      ;;
+    --expected-completion=*)
+      expected_completion="${1#--expected-completion=}"
       shift
       ;;
     --profile)
@@ -110,6 +175,29 @@ while [[ $# -gt 0 ]]; do
       ;;
   esac
 done
+
+if [[ -n "$evidence_path" ]]; then
+  if [[ -z "$distance_miles" ]]; then
+    echo "--evidence requires --distance-miles for the deterministic long-route profile." >&2
+    exit 2
+  fi
+  if [[ "$fixture_explicit" == "false" ]]; then
+    fixture="representative-corridor"
+  fi
+  case "$evidence_path" in
+    /*|[A-Za-z]:/*) ;;
+    *) evidence_path="$repo_root/$evidence_path" ;;
+  esac
+  scenario_mode="long-route"
+  scenario_args+=(
+    "--long-route-profile"
+    "--platform=$requested_platform"
+    "--evidence=$evidence_path"
+    "--seed=$scenario_seed"
+    "--save-points=$save_points"
+    "--expected-completion=$expected_completion"
+  )
+fi
 
 if [[ "$scenario_mode" == "streaming" && "$fixture_explicit" == "false" ]]; then
   fixture="representative-corridor"
@@ -188,7 +276,7 @@ PY
     exit 1
   fi
 
-  if [[ -n "$distance_miles" ]]; then
+  if [[ -n "$distance_miles" && -z "$evidence_path" ]]; then
     probe_metadata="$(uv run --project "$repo_root/tools/map_pipeline" --frozen python - \
       "$route_metadata" "$distance_miles" <<'PY'
 import json
@@ -219,6 +307,8 @@ timeout_marker="${TMPDIR:-/tmp}/cannonball-scenario-timeout-$$"
 rm -f "$timeout_marker"
 
 dotnet build "$repo_root/Cannonball.sln" --nologo
+export CANNONBALL_GIT_REVISION
+CANNONBALL_GIT_REVISION="$(git rev-parse HEAD)"
 
 godot_args=(
   --headless

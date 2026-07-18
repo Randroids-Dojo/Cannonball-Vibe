@@ -54,6 +54,7 @@ Run a Godot-only scenario through the same exact-version CLI front door:
 ./scripts/run-scenario.sh --smoke-test
 ./scripts/run-scenario.sh --short-corridor-soak
 ./scripts/run-scenario.sh --fixture official-corridor --distance-miles 100
+./scripts/run-scenario.sh --distance-miles 500 --platform current --evidence evidence/M1/P0-006.json
 ./scripts/run-scenario.sh --fixture official-corridor --resume-verify
 ./scripts/run-resume-fuzz.sh --cases 10000
 ```
@@ -69,6 +70,16 @@ stable lane, route plan, local origin, streamed chunk and collision sets,
 vehicle transform and motion, elapsed time, systems, and package identity before
 the scene advances. The seeded fuzz command performs exact repository
 save/load comparisons at the requested number of deterministic save points.
+
+Supplying `--evidence` selects the distance-complete long-route profile. It
+derives a checksum-bound, explicitly authored automation corridor from the
+locked representative source package and sweeps the requested distance in the
+real Godot streamer. The default 500-mile contract uses seed `20260718`, save
+points at 100, 250, and 400 miles, expected completion, and Accessible,
+Balanced, and Raw assist profiles. Override those inputs with `--seed`,
+`--save-points`, and `--expected-completion`. The generated corridor validates
+runtime distance, seams, precision, streaming, collision, and reconstruction;
+it is not presented as observed highway geography.
 
 Capture a fixed-FPS visual artifact on a machine with a real graphics renderer:
 

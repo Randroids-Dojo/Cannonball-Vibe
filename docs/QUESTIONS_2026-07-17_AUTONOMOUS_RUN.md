@@ -28,3 +28,10 @@ P0-005 requires no new product choice. Exact resume state, package identity,
 atomic replacement, one-generation backup recovery, previous-schema migration,
 and deterministic fuzz counts are technical integrity contracts already fixed
 by the readiness audit and delivery ledger.
+
+P0-006 requires no new product choice. The distance-complete automation route
+is an explicitly authored, checksum-bound fixture used only to validate the
+streamer, local-origin precision, collision windows, metrics, and resume
+contract. It does not assert invented geometry as observed geography. The
+ledger's 30-minute keyboard and controller sessions remain a separate human
+handling gate.
