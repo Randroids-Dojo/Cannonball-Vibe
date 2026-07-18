@@ -12,16 +12,16 @@ public sealed partial class RoadChunk : Node3D
     private ArrayMesh _collisionMesh = null!;
     private List<string>? _routeContextAutomationIds;
 
-    public string ChunkId { get; private init; } = string.Empty;
-    public string EdgeId { get; private init; } = string.Empty;
-    public double StartMeters { get; private init; }
-    public double EndMeters { get; private init; }
+    public string ChunkId { get; private set; } = string.Empty;
+    public string EdgeId { get; private set; } = string.Empty;
+    public double StartMeters { get; private set; }
+    public double EndMeters { get; private set; }
     public double BuildMilliseconds { get; private set; }
     public bool HasCollision => _collisionBody is not null;
-    public int MinimumLaneCount { get; private init; }
-    public int MaximumLaneCount { get; private init; }
-    public int TransitionCount { get; private init; }
-    public double MaximumPavedWidthMeters { get; private init; }
+    public int MinimumLaneCount { get; private set; }
+    public int MaximumLaneCount { get; private set; }
+    public int TransitionCount { get; private set; }
+    public double MaximumPavedWidthMeters { get; private set; }
     public bool HasGoreGeometry { get; private set; }
     public int MileMarkerCount { get; private set; }
     public int ExitSignCount { get; private set; }
@@ -56,6 +56,7 @@ public sealed partial class RoadChunk : Node3D
         var hasRenderableRouteContext = semantics is not null &&
             !semantics.IsLegacySynthesis &&
             HasRenderableRouteContext(edge, semantics);
+        var chunk = new RoadChunk();
         var started = Stopwatch.GetTimestamp();
         var anchor = frame.ToWorld(content.Samples[0]);
         var points = content.Samples
@@ -69,23 +70,20 @@ public sealed partial class RoadChunk : Node3D
         var layouts = content.Samples
             .Select(sample => LaneGeometryProfile.Evaluate(edge, sample.DistanceMeters))
             .ToArray();
-        var chunk = new RoadChunk
-        {
-            Name = $"RoadChunk-{content.Id}",
-            ChunkId = content.Id,
-            EdgeId = content.EdgeId,
-            StartMeters = content.StartMeters,
-            EndMeters = content.EndMeters,
-            Position = anchor.RelativeTo(localOriginWorld),
-            MinimumLaneCount = layouts.Min(layout =>
-                layout.Lanes.Count(lane => lane.WidthMeters > 0.05)),
-            MaximumLaneCount = layouts.Max(layout =>
-                layout.Lanes.Count(lane => lane.WidthMeters > 0.05)),
-            TransitionCount = edge.GetEffectiveLaneSections().Count(section =>
-                section.StartMeters > content.StartMeters &&
-                section.StartMeters <= content.EndMeters),
-            MaximumPavedWidthMeters = layouts.Max(layout => layout.PavedWidthMeters),
-        };
+        chunk.Name = $"RoadChunk-{content.Id}";
+        chunk.ChunkId = content.Id;
+        chunk.EdgeId = content.EdgeId;
+        chunk.StartMeters = content.StartMeters;
+        chunk.EndMeters = content.EndMeters;
+        chunk.Position = anchor.RelativeTo(localOriginWorld);
+        chunk.MinimumLaneCount = layouts.Min(layout =>
+            layout.Lanes.Count(lane => lane.WidthMeters > 0.05));
+        chunk.MaximumLaneCount = layouts.Max(layout =>
+            layout.Lanes.Count(lane => lane.WidthMeters > 0.05));
+        chunk.TransitionCount = edge.GetEffectiveLaneSections().Count(section =>
+            section.StartMeters > content.StartMeters &&
+            section.StartMeters <= content.EndMeters);
+        chunk.MaximumPavedWidthMeters = layouts.Max(layout => layout.PavedWidthMeters);
         chunk.BuildTerrain(points, tangents, content.Samples, layouts);
         chunk.BuildRoad(points, tangents, content.Samples, layouts);
         chunk.BuildLaneMarkings(points, tangents, content.Samples, layouts);
