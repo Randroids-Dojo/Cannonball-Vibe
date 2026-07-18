@@ -2,9 +2,9 @@
   "schema_version": 1,
   "task_id": "P0-004",
   "milestone": "M2",
-  "status": "short_render_integrity_repaired_human_geography_gate_rejected",
+  "status": "representative_candidate_ready_human_geography_gate_awaiting_review",
   "verified_at": "2026-07-16T07:43:27Z",
-  "updated_at": "2026-07-17T04:49:00Z",
+  "updated_at": "2026-07-18T01:45:20Z",
   "git_revision": "ae9e193e6141b769b17cc99b71a15ffd586b27ef",
   "platform": {
     "local": "macOS",
@@ -66,6 +66,30 @@
     {
       "path": "data/sources/fixtures/usgs-13-n40w106-boulder.metadata.json",
       "sha256": "d626a7d24235884e089effcd38b4d173a26a5427cbec3ffedc063963e55e1cea"
+    },
+    {
+      "path": "data/sources/representative-corridor-lock.json",
+      "sha256": "020692b11640728f83b81175f33226ca13ed89699bbeaeea3bf6dbbdb5ea9a3d"
+    },
+    {
+      "path": "data/sources/fixtures/nhpn-boulder-westminster-us36.geojson",
+      "sha256": "d859ff7ef97106a36b24276b87c86c3968aa1266ddf987ee6859d6972b7f6ff6"
+    },
+    {
+      "path": "data/sources/fixtures/nhpn-boulder-westminster-us36.manifest.json",
+      "sha256": "8020fb0146c5d630132accd9234e7c443e9f96b8459ae109d5f16a9104985575"
+    },
+    {
+      "path": "data/sources/fixtures/usgs-13-n40w106-boulder-westminster.tif",
+      "sha256": "b426c18178961d1add78477335a8bb2373471041a8aba04066e9dd2d82de7539"
+    },
+    {
+      "path": "data/sources/fixtures/usgs-13-n40w106-boulder-westminster.metadata.json",
+      "sha256": "0ec7798324b918a55ea9e842ae1ee23370beb25c080b78ca17c0de14b07fda7f"
+    },
+    {
+      "path": "docs/images/p0-004-representative-corridor-overview.svg",
+      "sha256": "57fbe801f063287b812878780027e2a8018bb2049961fbf1ebf9055ec50e2dbc"
     }
   ],
   "local_macos_package": {
@@ -263,6 +287,23 @@
         "samples_with_road_terrain_and_scenery_visible": 45,
         "chunk_failures": 0
       }
+    },
+    {
+      "criterion": "A longer locked representative corridor capture passes the human geographic sanity review",
+      "status": "pending_human_review",
+      "comparison": {
+        "candidate_ready": true,
+        "unique_route_miles": 15.372898,
+        "directed_edges": 45,
+        "chunks_rendered": 49,
+        "renderer_backed_waypoints": 9,
+        "adversarial_frame_samples": 36,
+        "samples_with_road_terrain_and_scenery_visible": 36,
+        "maximum_absolute_grade": 0.07000000000001533,
+        "chunk_failures": 0,
+        "automated_prerequisites_passed": true,
+        "human_approval_recorded": false
+      }
     }
   ],
   "commands": [
@@ -292,6 +333,26 @@
     },
     {
       "command": "git diff --check",
+      "exit_code": 0
+    },
+    {
+      "command": "./scripts/run-scenario.sh --fixture representative-corridor --distance-miles 15",
+      "exit_code": 0
+    },
+    {
+      "command": "./scripts/run-scenario.sh --fixture representative-corridor --geographic-review",
+      "exit_code": 0
+    },
+    {
+      "command": "CANNONBALL_CAPTURE_FPS=60 CANNONBALL_CAPTURE_FRAMES=1200 CANNONBALL_SCENARIO_TIMEOUT_SECONDS=180 ./scripts/capture-scenario.sh /tmp/p0-004-representative-corridor-v2.avi --fixture representative-corridor --geographic-review",
+      "exit_code": 0
+    },
+    {
+      "command": "node scripts/generate-route-review.mjs data/sources/fixtures/nhpn-boulder-westminster-us36.geojson .tools/scenarios/representative-corridor/route_graph-b779b9b9308b5a1285e94db99d4bfb8ca72b006538d9b4bd471e2bd51aea6af7.json docs/images/p0-004-representative-corridor-overview.svg",
+      "exit_code": 0
+    },
+    {
+      "command": "Build representative corridor twice in fresh directories and compare with diff -qr",
       "exit_code": 0
     }
   ],
@@ -540,8 +601,8 @@
     "required_for": "M2",
     "required_candidate": "longer locked representative corridor",
     "short_fixture_recapture_can_clear_gate": false,
-    "status": "rejected",
-    "reviewed_at": "2026-07-16",
+    "status": "awaiting_review",
+    "reviewed_at": null,
     "review_reference": "docs/audits/2026-07-16-p0-004-route-sanity-review.md",
     "rejected_candidate_findings": [
       "Roadway disappears from most sampled frames",
@@ -550,11 +611,140 @@
       "Route is not geographically recognizable, so obvious map mistakes cannot be ruled out"
     ],
     "current_outstanding_findings": [
-      "No longer locked representative multi-edge corridor has been captured",
-      "Geographic recognizability, placement, grade, terrain context, and obvious map mistakes remain unreviewed"
+      "Project owner has not yet accepted or rejected the longer representative candidate",
+      "Human judgment of route shape, grade, seams, placement, and obvious geographic mistakes remains required"
     ],
     "approval_reference": null,
     "task_completion_blocked": true,
-    "question_document": "docs/QUESTIONS_FOR_RANDROID.md"
+    "question_document": "docs/QUESTIONS_FOR_RANDROID.md",
+    "candidate": {
+      "content_version": "route-v3-59423d9c69671f15",
+      "unique_route_miles": 15.372898,
+      "overview": "docs/images/p0-004-representative-corridor-overview.svg",
+      "contact_sheet": "/tmp/p0-004-representative-corridor-v2-contact-sheet.png",
+      "review_record": "docs/audits/2026-07-16-p0-004-route-sanity-review.md#longer-representative-candidate",
+      "automated_prerequisites_passed": true
+    }
+  },
+  "representative_corridor_package": {
+    "fixture": "representative-corridor",
+    "source_route": "US 36, Boulder side to Westminster area",
+    "content_version": "route-v3-59423d9c69671f15",
+    "unique_route_meters": 24740.28166449044,
+    "unique_route_miles": 15.372898,
+    "directed_edges": 45,
+    "chunks": 49,
+    "largest_chunk_bytes": 4712,
+    "root": {
+      "path": ".tools/scenarios/representative-corridor/route_graph-b779b9b9308b5a1285e94db99d4bfb8ca72b006538d9b4bd471e2bd51aea6af7.cbrg",
+      "bytes": 32904,
+      "sha256": "bfcef9c84596808f750334ddcfda9fac721acc51989d5522dc68a2e648a288aa"
+    },
+    "metadata": {
+      "path": ".tools/scenarios/representative-corridor/route_graph-b779b9b9308b5a1285e94db99d4bfb8ca72b006538d9b4bd471e2bd51aea6af7.json",
+      "bytes": 382555,
+      "sha256": "4c4334566dcf9bfc8d8fcbe2a30d2f2376ab2f87ed1012fedf4bcee22d1459b1"
+    },
+    "elevation_profile": {
+      "minimum_meters": 1618.0531005859375,
+      "maximum_meters": 1731.0283203125,
+      "maximum_absolute_grade": 0.07000000000001533,
+      "grade_ceiling": 0.07,
+      "shared_edge_seams_equal": true
+    },
+    "source_lock_sha256": "020692b11640728f83b81175f33226ca13ed89699bbeaeea3bf6dbbdb5ea9a3d",
+    "source_geojson_sha256": "d859ff7ef97106a36b24276b87c86c3968aa1266ddf987ee6859d6972b7f6ff6",
+    "elevation_crop_sha256": "b426c18178961d1add78477335a8bb2373471041a8aba04066e9dd2d82de7539"
+  },
+  "representative_geographic_review_capture": {
+    "captured_at": "2026-07-18T01:38:00Z",
+    "godot": "4.7.1.stable.mono.official.a13da4feb",
+    "scenario": "--fixture representative-corridor --geographic-review",
+    "content_version": "route-v3-59423d9c69671f15",
+    "width": 1280,
+    "height": 720,
+    "fps": 60,
+    "frames": 811,
+    "duration_seconds": 13.5167,
+    "unique_route_miles": 15.372898,
+    "directed_edges": 45,
+    "visited_edges": 9,
+    "review_ready_chunks_seen": 49,
+    "renderer_backed_waypoints": 9,
+    "chunk_failures": 0,
+    "visual_review": {
+      "method": "36 evenly distributed renderer-backed frames inspected adversarially",
+      "samples": 36,
+      "samples_with_road_terrain_and_scenery_visible": 36,
+      "empty_space_regressions": 0,
+      "visible_disconnected_seams": 0,
+      "visible_vertical_spikes": 0,
+      "result": "automated_prerequisites_passed_human_review_pending"
+    },
+    "artifacts": [
+      {
+        "role": "original-mjpeg-capture",
+        "path": "/tmp/p0-004-representative-corridor-v2.avi",
+        "retention": "ephemeral_local_review_output_not_published",
+        "durable_url": null,
+        "bytes": 27412010,
+        "sha256": "288a3a365456ec7ec41dfaa9c75ed0e380f8606226c4ce534508e20b45413c6c"
+      },
+      {
+        "role": "h264-review-copy",
+        "path": "/tmp/p0-004-representative-corridor-v2.mp4",
+        "retention": "ephemeral_local_review_output_not_published",
+        "durable_url": null,
+        "bytes": 213908,
+        "sha256": "1000897881e1b228c696eec34f3f15d5c450bc0a6b26ede8c44323eda095e670"
+      },
+      {
+        "role": "nine-view-contact-sheet",
+        "path": "/tmp/p0-004-representative-corridor-v2-contact-sheet.png",
+        "retention": "ephemeral_local_review_output_not_published",
+        "durable_url": null,
+        "bytes": 333333,
+        "sha256": "8c3c5c7a8f9049a25fa5e705f941cb3ec75ceea7b5aa7f48145c008f7054a86d"
+      },
+      {
+        "role": "36-frame-adversarial-sheet",
+        "path": "/tmp/p0-004-representative-corridor-v2-adversarial-sheet.png",
+        "retention": "ephemeral_local_review_output_not_published",
+        "durable_url": null,
+        "bytes": 218714,
+        "sha256": "17b70822a1ccb59ad5e606ac86081576ebe2203e15d2280cb19842ba5868ee46"
+      },
+      {
+        "role": "capture-log",
+        "path": "/tmp/p0-004-representative-corridor-v2.log",
+        "retention": "ephemeral_local_review_output_not_published",
+        "durable_url": null,
+        "bytes": 2715,
+        "sha256": "25e393f860fc9defe1697827ce59af5354c435b0a8c9a07bf6d7d5ae174e8a38"
+      }
+    ],
+    "overview": {
+      "path": "docs/images/p0-004-representative-corridor-overview.svg",
+      "sha256": "57fbe801f063287b812878780027e2a8018bb2049961fbf1ebf9055ec50e2dbc"
+    },
+    "review_reference": "docs/audits/2026-07-16-p0-004-route-sanity-review.md#longer-representative-candidate"
+  },
+  "representative_validation": {
+    "local_macos": {
+      "check_script": "passed",
+      "csharp_tests_passed": 27,
+      "map_pipeline_tests_passed": 43,
+      "playgodot_unit_tests_passed": 12,
+      "official_fixture_godot_smoke": "passed",
+      "representative_transport_probe": "passed",
+      "representative_geographic_review": "passed",
+      "deterministic_build_diff_count": 0,
+      "source_lock_validation": "passed",
+      "locked_geojson_replay": "byte_identical",
+      "ruff": "passed",
+      "shellcheck": "passed",
+      "git_diff_check": "passed"
+    },
+    "human_geographic_gate": "awaiting_review"
   }
 }

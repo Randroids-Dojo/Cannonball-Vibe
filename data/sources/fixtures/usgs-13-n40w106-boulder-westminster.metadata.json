@@ -1,0 +1,10 @@
+{
+  "artifact_sha256": "b426c18178961d1add78477335a8bb2373471041a8aba04066e9dd2d82de7539",
+  "elevation_units": "meters",
+  "horizontal_datum": "North American Datum of 1983",
+  "product_id": "620de4b0d34e6c7e83ba9fde",
+  "product_resolution": "1/3 arc-second",
+  "product_title": "USGS 1/3 Arc Second n40w106 20220216",
+  "raster_crs": "EPSG:4269",
+  "vertical_datum": "North American Vertical Datum of 1988"
+}

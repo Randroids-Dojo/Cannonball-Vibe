@@ -26,7 +26,7 @@ once that representative-menu comparison satisfies the acceptance threshold.
 It remains debug-only, non-shipping, and non-blocking until the comparison is
 complete. See [ADR-0008](decisions/ADR-0008-required-playgodot-after-ui-value-gate.md).
 
-## Representative route map sanity review (P0-004) — rejected
+## Representative route map sanity review (P0-004) — new candidate awaiting review
 
 Human rejection recorded 2026-07-16. The deterministic 60-second capture loaded
 and verified all four chunks and passed its technical streaming smoke, but the
@@ -61,6 +61,19 @@ capture of a longer locked corridor that makes route shape, grade, seams,
 placement, and obvious geographic mistakes reviewable. The headless 100-mile
 transport command remains technical stress evidence and is not the visual
 approval mechanism.
+
+A new longer candidate is now ready. It uses 15.372898 unique miles of locked
+US 36 geometry, 45 connected edges, 49 chunks, nine distributed rendered
+viewpoints, and a checksum-locked 3DEP profile conditioned to a 7 percent maximum
+grade. Every chunk rendered successfully, the 36-frame adversarial pass found no
+empty-space or seam regression, and the source-derived route overview makes the
+candidate's shape and elevation profile inspectable. Review the
+[overview](images/p0-004-representative-corridor-overview.svg), contact sheet,
+and movie identified in the [review record](audits/2026-07-16-p0-004-route-sanity-review.md#longer-representative-candidate).
+
+The required live decision is either: approve the candidate and clear the P0-004
+human gate; reject it with specific route, grade, seam, placement, or geographic
+findings; or defer the decision while leaving P0-004 blocked.
 
 ## Source rights approval (Q-013) — answered
 

@@ -175,6 +175,13 @@
         "docs/TECH_STACK.md",
         "docs/QUESTIONS_FOR_RANDROID.md",
         "docs/audits/2026-07-16-p0-004-route-sanity-review.md",
+        "docs/images/p0-004-representative-corridor-overview.svg",
+        "data/sources/representative-corridor-lock.json",
+        "data/sources/fixtures/nhpn-boulder-westminster-us36.geojson",
+        "data/sources/fixtures/nhpn-boulder-westminster-us36.manifest.json",
+        "data/sources/fixtures/usgs-13-n40w106-boulder-westminster.tif",
+        "data/sources/fixtures/usgs-13-n40w106-boulder-westminster.metadata.json",
+        "scripts/generate-route-review.mjs",
         "evidence/M2/P0-004.json"
       ],
       "acceptance": [
@@ -189,7 +196,9 @@
       "verification": [
         "./scripts/check.sh",
         "./scripts/run-scenario.sh --fixture official-corridor --distance-miles 100",
-        "CANNONBALL_CAPTURE_FPS=60 CANNONBALL_CAPTURE_FRAMES=4800 ./scripts/capture-scenario.sh /tmp/p0-004-render-integrity.avi --render-integrity"
+        "CANNONBALL_CAPTURE_FPS=60 CANNONBALL_CAPTURE_FRAMES=4800 ./scripts/capture-scenario.sh /tmp/p0-004-render-integrity.avi --render-integrity",
+        "./scripts/run-scenario.sh --fixture representative-corridor --geographic-review",
+        "CANNONBALL_CAPTURE_FPS=60 CANNONBALL_CAPTURE_FRAMES=1200 ./scripts/capture-scenario.sh /tmp/p0-004-representative-corridor.avi --fixture representative-corridor --geographic-review"
       ],
       "evidence": [
         "evidence/M2/P0-004.json"
@@ -198,8 +207,8 @@
         "name": "Representative route map sanity review",
         "required_for": "M2",
         "required_candidate": "longer locked representative corridor",
-        "status": "rejected",
-        "reviewed_at": "2026-07-16",
+        "status": "awaiting_review",
+        "reviewed_at": null,
         "review_reference": "docs/audits/2026-07-16-p0-004-route-sanity-review.md",
         "task_completion_blocked": true
       }

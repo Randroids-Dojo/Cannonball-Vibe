@@ -84,6 +84,16 @@ public sealed partial class CannonballVehicle : RigidBody3D
         _resetRequested = true;
     }
 
+    public void PlaceForReview(Vector3 point, Vector3 forward)
+    {
+        Freeze = true;
+        Position = point + Vector3.Up * 0.78f;
+        Basis = Basis.LookingAt(forward, Vector3.Up);
+        LinearVelocity = Vector3.Zero;
+        AngularVelocity = Vector3.Zero;
+        _resetRequested = false;
+    }
+
     public void ResetGroundingTelemetry()
     {
         GroundedWheelCount = 0;

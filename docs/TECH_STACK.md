@@ -83,6 +83,14 @@ NHPN is not lane geometry. Its nominal source scale and possible horizontal
 error require spline reconstruction, validation, and authored interchange
 overrides before a route becomes drivable content.
 
+For multi-edge linear corridors, raw 3DEP samples are conditioned with a
+deterministic nine-sample median and a corridor-wide 7 percent grade projection.
+This removes localized surface-model and structure spikes while retaining the
+locked raster as provenance and keeping shared edge elevations identical.
+Branched graphs keep raw elevations only when every grade already satisfies the
+ceiling; otherwise the build fails until branch-aware vertical reconstruction is
+available.
+
 [ADR-0011](decisions/ADR-0011-lane-topology-route-context-and-trip-map.md)
 defines the planned M2/M3 route semantics. Stable route edges contain
 ordered distance-bounded lane sections; junctions contain explicit lane-to-lane

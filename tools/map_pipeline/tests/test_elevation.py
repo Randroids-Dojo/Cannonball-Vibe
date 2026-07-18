@@ -83,3 +83,47 @@ def test_sampler_fails_on_hash_drift() -> None:
             metadata,
             "EPSG:5070",
         )
+
+
+def test_representative_corridor_conditions_surface_spikes_and_shared_seams(
+    tmp_path: Path,
+) -> None:
+    source = Path("data/sources/fixtures/nhpn-boulder-westminster-us36.geojson")
+    manifest = Path("data/sources/fixtures/nhpn-boulder-westminster-us36.manifest.json")
+    raster = Path("data/sources/fixtures/usgs-13-n40w106-boulder-westminster.tif")
+    metadata = ElevationMetadata(
+        product_id="620de4b0d34e6c7e83ba9fde",
+        product_title="USGS 1/3 Arc Second n40w106 20220216",
+        product_resolution="1/3 arc-second",
+        raster_crs="EPSG:4269",
+        horizontal_datum="North American Datum of 1983",
+        vertical_datum="North American Vertical Datum of 1988",
+        elevation_units="meters",
+        artifact_sha256=hashlib.sha256(raster.read_bytes()).hexdigest(),
+    )
+    lock_digest = hashlib.sha256(
+        Path("data/sources/representative-corridor-lock.json").read_bytes()
+    ).hexdigest()
+    with ElevationSampler(raster, metadata, "EPSG:5070") as sampler:
+        package = build_route_graph(
+            source,
+            manifest,
+            tmp_path / "representative",
+            catalog_path=Path("data/sources/catalog.json"),
+            elevation_sampler=sampler,
+            acquisition_lock_sha256=lock_digest,
+        )
+
+    edges = package["edges"]
+    assert max(
+        abs(sample["grade"])
+        for edge in edges
+        for sample in edge["samples"]
+    ) <= 0.0700001
+    by_from = {edge["from_node_id"]: edge for edge in edges}
+    for edge in edges:
+        continuation = by_from.get(edge["to_node_id"])
+        if continuation is not None:
+            assert edge["samples"][-1]["elevation_meters"] == (
+                continuation["samples"][0]["elevation_meters"]
+            )

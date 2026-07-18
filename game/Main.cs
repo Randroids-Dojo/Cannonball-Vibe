@@ -15,6 +15,9 @@ public sealed partial class Main : Node3D
     private const int MaximumTransportProbeReads = 10_000;
     private const int MaximumRenderIntegrityUnsupportedPhysicsFrames = 30;
     private const double MinimumRenderIntegrityWellGroundedRatio = 0.90;
+    private const int GeographicReviewFramesPerWaypoint = 90;
+    private static readonly double[] GeographicReviewFractions =
+        [0.005, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 0.995];
     private WorldStreamer _streamer = null!;
     private CannonballVehicle _vehicle = null!;
     private PrototypeHud _hud = null!;
@@ -28,6 +31,7 @@ public sealed partial class Main : Node3D
     private bool _stressTest;
     private bool _shortCorridorSoak;
     private bool _renderIntegrity;
+    private bool _geographicReview;
     private bool _shutdownStarted;
     private int _smokeFrames;
     private double _telemetryElapsed;
@@ -36,6 +40,9 @@ public sealed partial class Main : Node3D
     private int _smokeTargetFrames = 360;
     private bool _renderTraversalStarted;
     private int _minimumLoadedChunksDuringRenderTraversal = int.MaxValue;
+    private int _geographicReviewWaypointIndex = -1;
+    private int _geographicReviewStableFrames;
+    private bool _geographicReviewComplete;
 
     public override void _Ready()
     {
@@ -48,11 +55,17 @@ public sealed partial class Main : Node3D
             _stressTest = arguments.Contains("--stress-driver", StringComparer.Ordinal);
             _shortCorridorSoak = arguments.Contains("--short-corridor-soak", StringComparer.Ordinal);
             _renderIntegrity = arguments.Contains("--render-integrity", StringComparer.Ordinal);
-            _smokeTest = _smokeTest || _stressTest || _shortCorridorSoak || _renderIntegrity;
+            _geographicReview = arguments.Contains("--geographic-review", StringComparer.Ordinal);
+            _smokeTest = _smokeTest || _stressTest || _shortCorridorSoak || _renderIntegrity ||
+                _geographicReview;
             _smokeTargetFrames = _stressTest || _shortCorridorSoak ? 3_600 : 360;
             if (_renderIntegrity)
             {
                 _smokeTargetFrames = 4_800;
+            }
+            if (_geographicReview)
+            {
+                _smokeTargetFrames = 7_200;
             }
 
             var absoluteRoutePath = Path.GetFullPath(routePath);
@@ -61,11 +74,7 @@ public sealed partial class Main : Node3D
                 _package,
                 Path.GetDirectoryName(absoluteRoutePath)
                     ?? throw new InvalidDataException("Route package has no parent directory."));
-            var initialManifest = _package.Chunks.Values
-                .OrderBy(manifest => manifest.EdgeId, StringComparer.Ordinal)
-                .ThenBy(manifest => manifest.StartMeters)
-                .FirstOrDefault()
-                ?? throw new InvalidDataException("Route package has no runtime chunks.");
+            var initialManifest = WorldStreamer.FindInitialManifest(_package);
             var initialChunk = _chunkSource.LoadChunk(initialManifest.Id);
 
             ConfigureInputMap();
@@ -92,6 +101,11 @@ public sealed partial class Main : Node3D
                 ProjectSettings.GlobalizePath("user://telemetry/prototype.jsonl"));
 
             _vehicle.AutopilotEnabled = _smokeTest && !_renderIntegrity;
+            if (_geographicReview)
+            {
+                _vehicle.AutopilotEnabled = false;
+                BeginNextGeographicReviewWaypoint();
+            }
             if (_renderIntegrity)
             {
                 _vehicle.AutopilotSpeedLimitMetersPerSecond = 12;
@@ -155,6 +169,10 @@ public sealed partial class Main : Node3D
                     _streamer.LoadedChunkCount);
             }
         }
+        if (_geographicReview && !_geographicReviewComplete)
+        {
+            AdvanceGeographicReview();
+        }
         _telemetryElapsed += delta;
         if (_telemetryElapsed >= 5)
         {
@@ -180,7 +198,7 @@ public sealed partial class Main : Node3D
         _smokeFrames++;
         var renderTraversalComplete = _renderIntegrity &&
             _streamer.RouteDistanceMeters >= Math.Min(300, _streamer.TotalRouteLengthMeters - 35);
-        if (_smokeFrames >= _smokeTargetFrames || renderTraversalComplete)
+        if (_smokeFrames >= _smokeTargetFrames || renderTraversalComplete || _geographicReviewComplete)
         {
             _shutdownStarted = true;
             _ = PersistAsync(quitAfterSave: true);
@@ -276,6 +294,10 @@ public sealed partial class Main : Node3D
             {
                 ValidateRenderIntegrity();
             }
+            if (quitAfterSave && _geographicReview)
+            {
+                ValidateGeographicReview();
+            }
             var save = CaptureSave();
             await _saves.SaveAsync(save);
             await RecordTelemetryAsync("run_suspended");
@@ -309,7 +331,7 @@ public sealed partial class Main : Node3D
 
     private RunSave CaptureSave()
     {
-        var routeDistance = _streamer.RouteDistanceMeters;
+        var routeDistance = _streamer.CurrentEdgeDistanceMeters;
         var edge = _package.Graph.GetEdge(_streamer.CurrentEdgeId);
         var position = new RoutePosition(
             edge.Id,
@@ -320,7 +342,7 @@ public sealed partial class Main : Node3D
         var runState = new RunState(
             Seed: 20_260_714,
             Position: position,
-            RoutePlan: [position.EdgeId],
+            RoutePlan: _streamer.RoutePlan,
             ElapsedSeconds: Time.GetTicksMsec() / 1000.0,
             Cash: 25_000,
             Vehicle: new VehicleCondition(82, 1, 1, 1, 0),
@@ -348,26 +370,59 @@ public sealed partial class Main : Node3D
 
     private async Task RecordTelemetryAsync(string name)
     {
-        var distance = _streamer.RouteDistanceMeters;
+        var globalDistance = _streamer.RouteDistanceMeters;
+        var edgeDistance = _streamer.CurrentEdgeDistanceMeters;
         var properties = new Dictionary<string, object?>
         {
             ["speedMetersPerSecond"] = _vehicle.SpeedMetersPerSecond,
             ["loadedChunks"] = _streamer.LoadedChunkCount,
             ["lookAheadMeters"] = _streamer.CurrentLookAheadMeters,
-            ["distanceDeltaMeters"] = distance - _previousDistance,
+            ["distanceDeltaMeters"] = globalDistance - _previousDistance,
+            ["globalRouteDistanceMeters"] = globalDistance,
             ["contentSource"] = "packaged",
             ["chunkFailures"] = _streamer.ChunkFailureCount,
             ["maximumChunkBuildMilliseconds"] = _streamer.MaximumBuildMilliseconds,
             ["shortCorridorLoops"] = _streamer.CompletedShortCorridorLoops,
         };
-        _previousDistance = distance;
+        _previousDistance = globalDistance;
         await _telemetry.WriteAsync(new TelemetryEvent(
             name,
             DateTimeOffset.UtcNow,
             20_260_714,
             _streamer.CurrentEdgeId,
-            distance,
+            edgeDistance,
             properties));
+    }
+
+    private void BeginNextGeographicReviewWaypoint()
+    {
+        _geographicReviewWaypointIndex++;
+        _geographicReviewStableFrames = 0;
+        if (_geographicReviewWaypointIndex >= GeographicReviewFractions.Length)
+        {
+            _geographicReviewComplete = true;
+            return;
+        }
+        var fraction = GeographicReviewFractions[_geographicReviewWaypointIndex];
+        _streamer.SetReviewDistance(_streamer.TotalRouteLengthMeters * fraction);
+    }
+
+    private void AdvanceGeographicReview()
+    {
+        if (!_streamer.ReviewTargetReady)
+        {
+            return;
+        }
+        _geographicReviewStableFrames++;
+        if (_geographicReviewStableFrames < GeographicReviewFramesPerWaypoint)
+        {
+            return;
+        }
+        GD.Print(
+            $"CANNONBALL_GEOGRAPHIC_WAYPOINT_OK index={_geographicReviewWaypointIndex + 1} " +
+            $"of={GeographicReviewFractions.Length} edge={_streamer.CurrentEdgeId} " +
+            $"distance_m={_streamer.RouteDistanceMeters:0.0}");
+        BeginNextGeographicReviewWaypoint();
     }
 
     private void ValidateStressRun()
@@ -478,6 +533,40 @@ public sealed partial class Main : Node3D
             $"review_chunks={_streamer.ReviewReadyChunkCount} " +
             $"well_grounded_ratio={wellGroundedRatio:0.0000} " +
             $"max_unsupported_frames={_vehicle.MaximumConsecutiveUnsupportedPhysicsFrames} " +
+            $"chunk_failures=0");
+    }
+
+    private void ValidateGeographicReview()
+    {
+        const double minimumRouteMiles = 10;
+        var routeMiles = _streamer.TotalRouteLengthMeters / 1_609.344;
+        if (!_geographicReviewComplete || _geographicReviewWaypointIndex < GeographicReviewFractions.Length)
+        {
+            throw new InvalidOperationException("Geographic review did not render every planned waypoint.");
+        }
+        if (routeMiles < minimumRouteMiles)
+        {
+            throw new InvalidOperationException(
+                $"Geographic review corridor is only {routeMiles:0.000} mi; required {minimumRouteMiles:0} mi.");
+        }
+        if (_streamer.RoutePlan.Count < 2)
+        {
+            throw new InvalidOperationException("Geographic review did not exercise a multi-edge route.");
+        }
+        if (_streamer.ReviewReadyChunkCountSeen != _streamer.ExpectedChunkCount)
+        {
+            throw new InvalidOperationException(
+                $"Geographic review rendered {_streamer.ReviewReadyChunkCountSeen} of " +
+                $"{_streamer.ExpectedChunkCount} route chunks.");
+        }
+        if (_streamer.ChunkFailureCount > 0)
+        {
+            throw new InvalidOperationException("Geographic review encountered a route chunk failure.");
+        }
+        GD.Print(
+            $"CANNONBALL_GEOGRAPHIC_REVIEW_OK route_miles={routeMiles:0.000000} " +
+            $"edges={_streamer.RoutePlan.Count} visited_edges={_streamer.ReviewEdgeCountVisited} " +
+            $"review_chunks={_streamer.ReviewReadyChunkCountSeen} waypoints={GeographicReviewFractions.Length} " +
             $"chunk_failures=0");
     }
 

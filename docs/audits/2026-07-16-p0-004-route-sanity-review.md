@@ -132,3 +132,79 @@ The initial chunk is constructed synchronously before the first rendered frame
 and has a 50 ms cold-start budget to absorb runtime/JIT initialization on hosted
 runners. Every later asynchronously streamed chunk retains the 40 ms build
 budget.
+
+## Longer representative candidate
+
+- Candidate prepared: `2026-07-17`
+- Human decision: awaiting project-owner review
+- Engine: Godot `4.7.1.stable.mono.official.a13da4feb`
+- Content version: `route-v3-59423d9c69671f15`
+
+The replacement candidate is a checksum-locked, continuous US 36 corridor from
+the Boulder side toward the Westminster area. It contains 45 directed NHPN
+edges, 49 independently verified runtime chunks, and 24,740.282 meters
+(15.372898 miles) of unique route. The committed 3DEP crop covers the entire
+corridor. Its source lock can be replayed without discovery from the exact NHPN
+query and historical USGS tile.
+
+The runtime now constructs a route-wide edge plan instead of selecting one edge
+by lexical ID. Streaming, projection, lookahead, local-origin coordinates,
+telemetry, and saves use global route distance while persisted positions retain
+edge-local distance. Ambiguous branches are rejected rather than silently
+choosing a path. The review scenario visits nine distributed corridor positions,
+and it does not pass until every one of the 49 chunks has produced road, terrain,
+and scenery geometry at least once.
+
+Raw 3DEP samples initially exposed localized 17–26 percent surface-model spikes
+near structures. The final package applies a deterministic nine-sample median
+and corridor-wide 7 percent grade projection. Shared edge endpoints remain
+identical; the original DEM, crop, recipe, and checksums remain the authoritative
+provenance. The final profile ranges from 1,618.053 to 1,731.028 meters and has a
+maximum absolute signed grade of 7.00 percent.
+
+The source-derived [route and elevation overview](../images/p0-004-representative-corridor-overview.svg)
+shows the locked route shape, all nine renderer-backed viewpoints, bounds, and
+conditioned profile. It is generated with:
+
+```bash
+node scripts/generate-route-review.mjs \
+  data/sources/fixtures/nhpn-boulder-westminster-us36.geojson \
+  .tools/scenarios/representative-corridor/route_graph-b779b9b9308b5a1285e94db99d4bfb8ca72b006538d9b4bd471e2bd51aea6af7.json \
+  docs/images/p0-004-representative-corridor-overview.svg
+```
+
+The renderer-backed capture completed 811 frames at 1280x720 and 60 FPS. Godot
+reported:
+
+```text
+CANNONBALL_GEOGRAPHIC_REVIEW_OK route_miles=15.372898 edges=45 visited_edges=9 review_chunks=49 waypoints=9 chunk_failures=0
+```
+
+```bash
+set -o pipefail
+CANNONBALL_CAPTURE_FPS=60 CANNONBALL_CAPTURE_FRAMES=1200 \
+  CANNONBALL_SCENARIO_TIMEOUT_SECONDS=180 \
+  ./scripts/capture-scenario.sh \
+  /tmp/p0-004-representative-corridor-v2.avi \
+  --fixture representative-corridor --geographic-review 2>&1 | \
+  tee /tmp/p0-004-representative-corridor-v2.log
+```
+
+| Artifact | Review path | Bytes | SHA-256 |
+| --- | --- | ---: | --- |
+| Original MJPEG capture | `/tmp/p0-004-representative-corridor-v2.avi` | 27,412,010 | `288a3a365456ec7ec41dfaa9c75ed0e380f8606226c4ce534508e20b45413c6c` |
+| H.264 review copy | `/tmp/p0-004-representative-corridor-v2.mp4` | 213,908 | `1000897881e1b228c696eec34f3f15d5c450bc0a6b26ede8c44323eda095e670` |
+| Nine-view contact sheet | `/tmp/p0-004-representative-corridor-v2-contact-sheet.png` | 333,333 | `8c3c5c7a8f9049a25fa5e705f941cb3ec75ceea7b5aa7f48145c008f7054a86d` |
+| 36-frame adversarial sheet | `/tmp/p0-004-representative-corridor-v2-adversarial-sheet.png` | 218,714 | `17b70822a1ccb59ad5e606ac86081576ebe2203e15d2280cb19842ba5868ee46` |
+| Capture log | `/tmp/p0-004-representative-corridor-v2.log` | 2,715 | `25e393f860fc9defe1697827ce59af5354c435b0a8c9a07bf6d7d5ae174e8a38` |
+
+Adversarial inspection sampled 36 frames spanning all nine viewpoints. Roadway,
+vehicle, shoulders, lane markings, posts, and scenery remained visible in every
+sample. No empty-space regression, missing seam, disconnected edge, or visible
+vertical spike was found. The graybox shoulders follow the conditioned route
+profile; they are not claimed as representative lateral terrain.
+
+This candidate satisfies the automated prerequisites for a new geographic
+review, but automation cannot approve the human gate. P0-004 remains in progress
+until the project owner accepts the route shape, grade, seams, placement, and
+absence of obvious geographic mistakes.

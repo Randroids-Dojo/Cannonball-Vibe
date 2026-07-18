@@ -63,6 +63,12 @@ sampled from 3DEP, and assigned signed grade. The schema-2 FlatBuffer preserves
 the route and elevation CRS, horizontal and vertical datums, product identity,
 artifact hashes, elevations, and grades for the portable C# runtime.
 
+Multi-edge linear corridors apply a deterministic nine-sample median and a
+route-wide 7 percent grade projection to reject localized 3DEP surface-model
+spikes without changing source provenance. Shared edge endpoints remain equal.
+Branched elevation graphs that already satisfy the ceiling remain raw; a branch
+that exceeds it fails closed until branch-aware conditioning is implemented.
+
 The pipeline fails closed on sources not in the catalog, catalog identity or URL
 drift, unknown licenses, OpenStreetMap ancestry, malformed
 dates, missing hashes, changed files, disconnected selected geometry, and exact

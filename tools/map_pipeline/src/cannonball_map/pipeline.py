@@ -4,7 +4,7 @@ import hashlib
 import json
 import math
 import sqlite3
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from pathlib import Path
 from typing import Any
 
@@ -18,6 +18,8 @@ from cannonball_map.models import PipelineChunk, PipelineEdge, RouteSample
 
 PROJECTED_CRS = "EPSG:5070"
 SOURCE_ID_COLUMNS = ("source_feature_id", "source_id", "id", "objectid")
+MAXIMUM_CONDITIONED_GRADE = 0.07
+ELEVATION_MEDIAN_WINDOW_SAMPLES = 9
 
 
 @dataclass(frozen=True)
@@ -76,6 +78,8 @@ def build_route_graph(
         raise ValueError("Source contains no line geometry.")
 
     records.sort(key=lambda record: record.edge.edge_id)
+    if elevation_sampler is not None and len(records) > 1:
+        records = _condition_linear_corridor_elevations(records)
     edges = [record.edge for record in records]
     _validate_topology(edges)
     _validate_endpoint_geometry(records)
@@ -365,6 +369,142 @@ def _grades(distances: list[float], elevations: list[float]) -> list[float]:
         run = distances[after] - distances[before]
         result.append(0.0 if run == 0 else (elevations[after] - elevations[before]) / run)
     return result
+
+
+def _condition_linear_corridor_elevations(
+    records: list[_EdgeRecord],
+) -> list[_EdgeRecord]:
+    """Remove local surface-model spikes on a single directed highway corridor.
+
+    NHPN centerlines can pass beside structures represented in the 3DEP surface
+    model. A corridor-wide median followed by a deterministic Lipschitz projection
+    preserves broad elevation change while preventing impossible road grades and
+    keeping shared edge endpoints identical. Branched graphs remain raw only when
+    they already satisfy the ceiling; otherwise they fail until their route-choice
+    elevation contract is defined.
+    """
+    ordered = _ordered_linear_records(records)
+    if ordered is None:
+        maximum_raw_grade = max(
+            abs(sample.grade)
+            for record in records
+            for sample in record.edge.samples
+        )
+        if maximum_raw_grade > MAXIMUM_CONDITIONED_GRADE:
+            raise ValueError(
+                "Branched elevation graph exceeds the grade ceiling and needs "
+                "branch-aware conditioning."
+            )
+        return records
+
+    global_distances: list[float] = []
+    raw_elevations: list[float] = []
+    sample_indices: dict[str, list[int]] = {}
+    offset = 0.0
+    for edge_index, record in enumerate(ordered):
+        indices: list[int] = []
+        for sample_index, sample in enumerate(record.edge.samples):
+            if edge_index > 0 and sample_index == 0:
+                indices.append(len(global_distances) - 1)
+                continue
+            indices.append(len(global_distances))
+            global_distances.append(offset + sample.distance_meters)
+            raw_elevations.append(sample.elevation_meters)
+        sample_indices[record.edge.edge_id] = indices
+        offset += record.edge.length_meters
+
+    radius = ELEVATION_MEDIAN_WINDOW_SAMPLES // 2
+    conditioned: list[float] = []
+    for index in range(len(raw_elevations)):
+        window = sorted(
+            raw_elevations[max(0, index - radius) : index + radius + 1]
+        )
+        conditioned.append(window[len(window) // 2])
+    _project_maximum_grade(global_distances, conditioned, MAXIMUM_CONDITIONED_GRADE)
+
+    rebuilt_by_id: dict[str, _EdgeRecord] = {}
+    for record in ordered:
+        indices = sample_indices[record.edge.edge_id]
+        elevations = [conditioned[index] for index in indices]
+        distances = [sample.distance_meters for sample in record.edge.samples]
+        grades = _grades(distances, elevations)
+        samples = tuple(
+            replace(sample, elevation_meters=elevations[index], grade=grades[index])
+            for index, sample in enumerate(record.edge.samples)
+        )
+        rebuilt_by_id[record.edge.edge_id] = replace(
+            record,
+            edge=replace(record.edge, samples=samples),
+        )
+    return [rebuilt_by_id[record.edge.edge_id] for record in records]
+
+
+def _ordered_linear_records(records: list[_EdgeRecord]) -> list[_EdgeRecord] | None:
+    by_from: dict[str, list[_EdgeRecord]] = {}
+    destination_nodes = {record.edge.to_node_id for record in records}
+    for record in records:
+        by_from.setdefault(record.edge.from_node_id, []).append(record)
+    starts = [
+        record for record in records if record.edge.from_node_id not in destination_nodes
+    ]
+    if len(starts) != 1:
+        return None
+    remaining = {record.edge.edge_id: record for record in records}
+    ordered: list[_EdgeRecord] = []
+    current = starts[0]
+    while True:
+        ordered.append(current)
+        remaining.pop(current.edge.edge_id)
+        if not remaining:
+            return ordered
+        next_records = [
+            record
+            for record in by_from.get(current.edge.to_node_id, [])
+            if record.edge.edge_id in remaining
+        ]
+        if len(next_records) != 1:
+            return None
+        current = next_records[0]
+
+
+def _project_maximum_grade(
+    distances: list[float],
+    elevations: list[float],
+    maximum_grade: float,
+) -> None:
+    if len(distances) != len(elevations) or len(distances) < 2:
+        raise ValueError("Grade conditioning needs aligned corridor samples.")
+    for _ in range(len(elevations) * 2):
+        changed = False
+        for index in range(1, len(elevations)):
+            limit = maximum_grade * (distances[index] - distances[index - 1])
+            bounded = min(
+                elevations[index - 1] + limit,
+                max(elevations[index - 1] - limit, elevations[index]),
+            )
+            if abs(bounded - elevations[index]) > 1e-12:
+                elevations[index] = bounded
+                changed = True
+        for index in range(len(elevations) - 2, -1, -1):
+            limit = maximum_grade * (distances[index + 1] - distances[index])
+            bounded = min(
+                elevations[index + 1] + limit,
+                max(elevations[index + 1] - limit, elevations[index]),
+            )
+            if abs(bounded - elevations[index]) > 1e-12:
+                elevations[index] = bounded
+                changed = True
+        if not changed:
+            break
+    else:
+        raise ValueError("Grade conditioning did not converge.")
+
+    if any(
+        abs(elevations[index] - elevations[index - 1])
+        > maximum_grade * (distances[index] - distances[index - 1]) + 1e-9
+        for index in range(1, len(elevations))
+    ):
+        raise ValueError("Grade conditioning exceeded its configured grade ceiling.")
 
 
 def _spatial_reference(sampler: ElevationSampler | None) -> dict[str, str] | None:
