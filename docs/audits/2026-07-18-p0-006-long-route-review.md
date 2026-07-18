@@ -79,3 +79,8 @@ the source dataset describes a 500-mile road.
   connectors, nine navigation save comparisons, and zero chunk failures.
 - `bash -n scripts/run-scenario.sh`, workflow YAML parsing, and
   `git diff --check`: passed.
+- Protected Linux and Windows 500-mile jobs passed, along with M0, PlayGodot,
+  reproducible exports, and both clean-machine package smokes. CodeRabbit
+  remained in `Review in progress` after every required job completed; this
+  review supplied the documented fallback, and PR #25 merged at
+  `d03b23bb7632509cd1b5e0ccbd61ec955a619317`.
