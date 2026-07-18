@@ -3,8 +3,8 @@
   "task_id": "P1-002",
   "milestone": "M5",
   "status": "technical_acceptance_complete_human_gate_pending",
-  "git_revision": "47fb7b508ffa36d71e1f39e403637c290636618c",
-  "recorded_at_utc": "2026-07-18T18:42:42Z",
+  "git_revision": "34793b8efe5612578803c3c01ad9d3f6b04141f6",
+  "recorded_at_utc": "2026-07-18T18:57:48Z",
   "platform": {
     "os": "Darwin 25.6.0",
     "architecture": "arm64"
@@ -75,7 +75,21 @@
       "retry_count": 0,
       "failure_logs": [],
       "report": "reports/m0/summary.json",
-      "report_sha256": "a0ecb79420bbeca94ba037fe2137984105801f49048777b1567dc4d11a5d043c"
+      "report_sha256": "67518e12bee833889dd527e547cca1f30747107227f7a2574c7315c736e16f19"
+    },
+    {
+      "command": "GODOT_BIN=.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot ./scripts/verify-playgodot.sh",
+      "exit_status": 0,
+      "retry_count": 0,
+      "failure_logs": []
+    },
+    {
+      "command": "./scripts/run-scenario.sh --fixture variable-lanes --profile topology",
+      "exit_status": 0,
+      "retry_count": 1,
+      "failure_logs": [
+        "The first run rejected legitimate one-decimal mile-marker display text before the runtime formatter was aligned with the map pipeline."
+      ]
     },
     {
       "command": "git diff --check",
@@ -104,7 +118,7 @@
     "release_pack_files": 9,
     "contact_sheet_width": 1152,
     "contact_sheet_height": 288,
-    "csharp_tests_passed": 59,
+    "csharp_tests_passed": 62,
     "map_pipeline_tests_passed": 66,
     "playgodot_unit_tests_passed": 12
   },
@@ -179,10 +193,22 @@
     {
       "failure": "The first external-texture mutation was not retained as a linked file and therefore did not exercise the portability rejection.",
       "recovery": "The mutation now links an actual absolute-path image into the pavement material, and the linter rejects it with a targeted error."
+    },
+    {
+      "failure": "The first Linux contact-sheet run aborted because Blender's headless renderer could not load libEGL.so.1.",
+      "recovery": "The asset workflow installs the minimal libegl1 runtime and retains renderer-backed evidence as a mandatory gate."
+    },
+    {
+      "failure": "Shared CI runners intermittently exceeded a hard 50 ms first-frame chunk threshold and aborted otherwise valid normal startup.",
+      "recovery": "Normal runtime records timing without treating scheduler or JIT variance as content corruption; explicit performance profiles retain the declared budget assertions."
+    },
+    {
+      "failure": "The variable-lane fixture emitted realistic one-decimal mile-marker text while the runtime required three-decimal anchor text.",
+      "recovery": "The runtime now shares the map pipeline's one-decimal sign formatting contract, focused tests cover rounding, and the 45-edge topology profile passes with zero chunk failures."
     }
   ],
-  "retry_count": 4,
-  "recovery_result": "Local deterministic asset gate and full repository gate pass; remote Linux asset validation is pending on the pull request.",
+  "retry_count": 7,
+  "recovery_result": "Local deterministic asset, full repository, PlayGodot boundary, and variable-lane topology gates pass; remote pull-request validation is pending.",
   "human_gate": {
     "name": "Asset pipeline rights-policy approval",
     "required_for": "M5",

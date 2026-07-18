@@ -1,7 +1,7 @@
 # P1-002 deterministic asset-pipeline adversarial review
 
 - Review date: 2026-07-18 UTC
-- Reviewed implementation: `47fb7b508ffa36d71e1f39e403637c290636618c`
+- Reviewed implementation: `34793b8efe5612578803c3c01ad9d3f6b04141f6`
 - Technical result: no unresolved actionable finding
 - Promotion result: technical pipeline is ready; the Q-023 human rights-policy gate remains open
 
@@ -52,6 +52,20 @@ graybox fixture as production road art or approve rights for future assets.
    platform and keeps the tracked contact sheet hash as a review artifact;
    cross-platform pixel hashes remain diagnostic while semantic and budget
    checks stay authoritative, as required by ADR-0012.
+10. The first Linux asset run aborted before rendering because Blender's
+    background renderer still loads EGL. The workflow now installs the minimal
+    `libegl1` runtime and keeps contact-sheet generation mandatory.
+11. Three shared-runner starts varied between 53 and 68 ms against a hard 50 ms
+    first-frame threshold, while the same functional gates and an unchanged
+    Ubuntu rerun passed. Valid chunks now remain loaded and expose timing
+    samples; explicit topology and streaming profiles still enforce their
+    declared budgets after collection. The PlayGodot boundary was tightened to
+    reject every nonzero normal-start exit instead of carrying a JIT exception.
+12. The variable-lane profile exposed a precision drift between the map
+    pipeline's one-decimal mile-marker copy and the runtime's three-decimal
+    formatter. Runtime marker text now uses the same realistic one-decimal sign
+    precision, materially false values still fail closed, and the 45-edge
+    topology traversal passes with zero chunk failures.
 
 ## Residual boundaries
 
@@ -75,8 +89,13 @@ graybox fixture as production road art or approve rights for future assets.
   contact sheets, three invalid-source rejections, five semantic nodes, three
   imported meshes, 36 total triangles, two materials, zero textures, and zero
   build-time dependencies in the nine-file release PCK.
-- Full repository gate: 59 C# tests, 66 map-pipeline tests, 12 PlayGodot unit
+- Full repository gate: 62 C# tests, 66 map-pipeline tests, 12 PlayGodot unit
   tests, Ruff, doctor, build, and official Godot 4.7.1 smoke passed.
+- PlayGodot boundary: normal startup exited zero with no listener, rendezvous,
+  or transcript, followed by 16 passing automation tests.
+- Variable-lane profile: 45 edges, 12 checkpoints, two-to-four lanes, four
+  transitions, entrance and highway-transfer traversal, and zero chunk
+  failures; maximum local visual build was 16.283 ms.
 - Toolchain: Blender 5.1.2 build `ec6e62d40fa9`, official Linux archive SHA-256
   `aaccb355f50183979b698bcce7467103a76261b5fa59f4972295842662a285fb`,
   and official Godot `4.7.1.stable.mono.official.a13da4feb`.
