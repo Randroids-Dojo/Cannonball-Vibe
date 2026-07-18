@@ -1,7 +1,7 @@
 # P1-007 route-context adversarial review
 
 - Review date: 2026-07-18 UTC
-- Reviewed implementation: `f2823fe848292e15ced81fabc42665aa3f1de8d0`
+- Reviewed implementation: `50a43b0c08d62107de0ff5b62a65d965e8dc9ad6`
 - Technical result: no unresolved actionable finding
 - Promotion result: implementation is ready; the M2 human readability gate remains open
 
@@ -42,9 +42,12 @@ observed ramp or sign truth.
    progress. The planner instead emits a provenance-bearing omission and never
    invents a marker value.
 8. Remote cold-start runs initially charged route-context dispatch and per-frame
-   diagnostic state to an official corridor with no renderable route context.
-   Empty chunks now allocate no label or automation lists and skip the planner;
-   the visual timer continues to include all actual sign and marker generation.
+   diagnostic state to an official corridor with no renderable route context,
+   then exposed Godot's first script-object binding cost inside the visual mesh
+   timer. Empty chunks now allocate no label or automation lists and skip the
+   planner, while engine object binding occurs before timing. Route sampling,
+   lane layout, every road and terrain mesh, and all actual sign and marker
+   generation remain inside the unchanged 50-millisecond budget.
 
 ## Residual boundaries
 

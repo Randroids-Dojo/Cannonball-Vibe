@@ -3,7 +3,7 @@
   "task_id": "P1-007",
   "milestone": "M2",
   "status": "technical_acceptance_complete_human_review_pending",
-  "git_revision": "f2823fe848292e15ced81fabc42665aa3f1de8d0",
+  "git_revision": "50a43b0c08d62107de0ff5b62a65d965e8dc9ad6",
   "platform": {
     "os": "Darwin 25.6.0",
     "architecture": "arm64"
