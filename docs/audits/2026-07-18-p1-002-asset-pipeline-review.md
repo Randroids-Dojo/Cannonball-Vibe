@@ -1,7 +1,7 @@
 # P1-002 deterministic asset-pipeline adversarial review
 
 - Review date: 2026-07-18 UTC
-- Reviewed implementation: `72d061627157d5d4ff29baf632bcd117e82b4043`
+- Reviewed implementation: `bcdbc41b1e87e606df08a954a4927de921f92fb7`
 - Technical result: no unresolved actionable finding
 - Promotion result: technical pipeline is ready; the Q-023 human rights-policy gate remains open
 
@@ -73,6 +73,17 @@ approve rights for future assets.
     Windows shipping presets now exclude all pipeline fixtures, the shipping
     PCK inspector rejects them, and a dedicated validation preset retains the
     imported GLB and wrapper checks without weakening the release boundary.
+14. A current-head review found that several earlier review-service findings
+    were still technically valid despite a passing bot badge. The gate now
+    fails Blender mutation-script exceptions, validates the manifest from its
+    loaded JSON Schema and rejects unsupported future schema keywords, records
+    and negatively tests texture-byte budgets, requires the actual imported
+    `.scn`, checks the full pinned Godot identity, and emits a complete run
+    evidence envelope. CI no longer persists checkout credentials and cancels
+    superseded asset runs. The pinned reference platform also compares the
+    rebuilt contact sheet to the tracked review artifact. Deterministic Blender
+    and Godot inventories intentionally omit volatile run metadata; that
+    metadata belongs in the generated run report and durable P1-002 evidence.
 
 ## Residual boundaries
 
@@ -93,8 +104,9 @@ approve rights for future assets.
 ## Verification reviewed
 
 - Asset gate: two byte-identical GLBs, two byte-identical current-platform
-  contact sheets, three invalid-source rejections, five semantic nodes, three
-  imported meshes, 36 total triangles, two materials, zero textures, and zero
+  contact sheets, three invalid-source rejections, one schema rejection, one
+  texture-byte-budget rejection, five semantic nodes, three imported meshes,
+  36 total triangles, two materials, zero textures and texture bytes, and zero
   build-time dependencies in the nine-file validation PCK.
 - Shipping boundary: the distributable PCK contains five files and no pipeline
   fixture; two clean Linux exports produced the identical archive SHA-256

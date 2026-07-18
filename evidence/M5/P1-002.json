@@ -3,8 +3,8 @@
   "task_id": "P1-002",
   "milestone": "M5",
   "status": "technical_acceptance_complete_human_gate_pending",
-  "git_revision": "72d061627157d5d4ff29baf632bcd117e82b4043",
-  "recorded_at_utc": "2026-07-18T19:11:16Z",
+  "git_revision": "bcdbc41b1e87e606df08a954a4927de921f92fb7",
+  "recorded_at_utc": "2026-07-18T19:23:16Z",
   "platform": {
     "os": "Darwin 25.6.0",
     "architecture": "arm64"
@@ -21,7 +21,7 @@
     "blender_linux_x64_url": "https://download.blender.org/release/Blender5.1/blender-5.1.2-linux-x64.tar.xz",
     "blender_linux_x64_sha256": "aaccb355f50183979b698bcce7467103a76261b5fa59f4972295842662a285fb",
     "toolchain_path": "tools/assets/toolchain.json",
-    "toolchain_sha256": "4521bd21eb2335c2619057fde3426c623f56787364a6a7fe49b8206fa5af3a90"
+    "toolchain_sha256": "eba021db0e459954a9ecf68d8225a45264c8cda92675a5f44bbcd5ecd90446bd"
   },
   "input_artifacts": [
     {
@@ -30,7 +30,7 @@
     },
     {
       "path": "data/assets/pipeline-fixtures/graybox-road-module.asset.json",
-      "sha256": "e5a6c706701f28070a13ca066f557bbb635d086fcf131572dbf5ee5b7a1bc511"
+      "sha256": "56d672f94ac76baa6f5c77599b9b6b3c8aa14a83f8306e3c8dca338f0225f4cb"
     },
     {
       "path": "data/assets/pipeline-fixtures/sources/graybox-road-module.blend",
@@ -67,8 +67,10 @@
     {
       "command": "./scripts/validate-assets.sh",
       "exit_status": 0,
-      "retry_count": 0,
-      "failure_logs": []
+      "retry_count": 1,
+      "failure_logs": [
+        "The first full-identity run reconstructed the official Godot version without its .NET flavor because it queried a legacy OS feature label."
+      ]
     },
     {
       "command": "./scripts/check.sh",
@@ -111,6 +113,8 @@
     "deterministic_glb_rebuilds": 2,
     "deterministic_contact_sheet_rebuilds": 2,
     "invalid_mutations_rejected": 3,
+    "invalid_manifests_rejected": 1,
+    "texture_byte_budget_violations_rejected": 1,
     "required_semantic_nodes": 5,
     "imported_mesh_nodes": 3,
     "triangle_total": 36,
@@ -122,6 +126,7 @@
     "materials": 2,
     "material_budget": 2,
     "textures": 0,
+    "texture_bytes": 0,
     "texture_budget": 0,
     "release_dependencies": 1,
     "validation_pack_files": 9,
@@ -189,7 +194,7 @@
     },
     {
       "path": "reports/assets/p1-002-validation.json",
-      "sha256": "9f2e77a29f190ca6b60cb5dcdac3731a5b7ef3e0484ca2bf2853d99878711e65",
+      "sha256": "ab58efc94aa9040456a9e91598d47fcded618ceed483265106cec7d18777d20d",
       "retention": "CI artifact; durable source inventories are stored under data/assets/pipeline-fixtures"
     }
   ],
@@ -221,9 +226,13 @@
     {
       "failure": "A clean double export was not byte-identical because fresh Godot glTF imports generated varying PackedScene node identifiers for a pending-review fixture.",
       "recovery": "A dedicated validation preset retains semantic import tests, shipping presets exclude every pipeline fixture, the shipping PCK inspector rejects fixture leakage, and two clean Linux release exports now match exactly."
+    },
+    {
+      "failure": "The first full-engine identity check looked for a legacy mono OS feature label and omitted the .NET flavor from the reconstructed version.",
+      "recovery": "The import validator now detects the CSharpScript engine class and matches the complete pinned 4.7.1 .NET identity exactly."
     }
   ],
-  "retry_count": 8,
+  "retry_count": 9,
   "recovery_result": "Local deterministic asset, full repository, PlayGodot boundary, variable-lane topology, and clean double-release export gates pass; remote pull-request validation is pending.",
   "human_gate": {
     "name": "Asset pipeline rights-policy approval",
