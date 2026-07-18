@@ -43,6 +43,8 @@ public sealed partial class WorldStreamer : Node3D
     private bool _reviewTargetReady;
     private readonly HashSet<string> _reviewReadyChunksSeen = new(StringComparer.Ordinal);
     private readonly HashSet<string> _reviewEdgesVisited = new(StringComparer.Ordinal);
+    private readonly HashSet<string> _topologyObservedChunks = new(StringComparer.Ordinal);
+    private readonly HashSet<string> _topologyCollisionChunks = new(StringComparer.Ordinal);
 
     public double RouteDistanceMeters => _routeDistanceMeters;
     public double LocalOriginMeters { get; private set; }
@@ -56,6 +58,12 @@ public sealed partial class WorldStreamer : Node3D
     public double MaximumCollisionBuildMilliseconds { get; private set; }
     public int CollisionBuildCount { get; private set; }
     public int CollisionRemovalCount { get; private set; }
+    public int MinimumObservedLaneCount { get; private set; } = int.MaxValue;
+    public int MaximumObservedLaneCount { get; private set; }
+    public int TopologyTransitionCount { get; private set; }
+    public int TopologyCollisionTransitionChunkCount => _topologyCollisionChunks.Count;
+    public bool ObservedGoreGeometry { get; private set; }
+    public double MaximumPavedWidthMeters { get; private set; }
     public int MaximumVisualChunkCount { get; private set; }
     public int MaximumCollisionChunkCount { get; private set; }
     public int ObservedVisualOnlyChunkCount { get; private set; }
@@ -213,9 +221,11 @@ public sealed partial class WorldStreamer : Node3D
             GD.Print($"CANNONBALL_SHORT_CORRIDOR_LOOP count={CompletedShortCorridorLoops}");
             return;
         }
-        var target = GetRoadPose(Math.Min(RouteLengthMeters, _routeDistanceMeters + 20));
+        var targetDistance = Math.Min(RouteLengthMeters, _routeDistanceMeters + 20);
+        var target = GetRoadPose(targetDistance);
+        var targetPoint = OffsetForActiveLane(target.Point, target.Forward, targetDistance);
         _vehicle.RouteDistanceMeters = _routeDistanceMeters;
-        _vehicle.TargetRoadPoint = target.Point.RelativeTo(_localOriginWorld);
+        _vehicle.TargetRoadPoint = targetPoint.RelativeTo(_localOriginWorld);
         _vehicle.TargetRoadForward = target.Forward;
 
         var horizontal = new Vector3(_vehicle.Position.X, 0, _vehicle.Position.Z);
@@ -251,6 +261,34 @@ public sealed partial class WorldStreamer : Node3D
         UpdateCurrentEdge();
         UpdateCurrentLane();
         RefreshDesiredChunks();
+    }
+
+    public double GetRouteDistance(string edgeId, double edgeDistanceMeters)
+    {
+        var edge = _routePlan.GetEdge(edgeId);
+        if (!double.IsFinite(edgeDistanceMeters) || edgeDistanceMeters < 0 ||
+            edgeDistanceMeters > edge.EndMeters - edge.StartMeters)
+        {
+            throw new ArgumentOutOfRangeException(nameof(edgeDistanceMeters));
+        }
+        return edge.StartMeters + edgeDistanceMeters;
+    }
+
+    public void BeginReviewTraversal()
+    {
+        if (_reviewTargetDistanceMeters is null || !_reviewTargetReady || _vehicle is null)
+        {
+            throw new InvalidOperationException(
+                "Review traversal requires a settled review target and tracked vehicle.");
+        }
+        var pose = GetRoadPose(_routeDistanceMeters);
+        var roadPoint = OffsetForActiveLane(pose.Point, pose.Forward, _routeDistanceMeters);
+        var localPoint = roadPoint.RelativeTo(_localOriginWorld);
+        _vehicle.TargetRoadPoint = localPoint;
+        _vehicle.TargetRoadForward = pose.Forward;
+        _vehicle.RequestResetToRoad(localPoint, pose.Forward);
+        _reviewTargetDistanceMeters = null;
+        _reviewTargetReady = false;
     }
 
     private double RouteLengthMeters => _routePlan.TotalLengthMeters;
@@ -380,7 +418,11 @@ public sealed partial class WorldStreamer : Node3D
         {
             return;
         }
-        var chunk = RoadChunk.Create(content, _frame, _localOriginWorld);
+        var chunk = RoadChunk.Create(
+            content,
+            _package.Graph.GetEdge(content.EdgeId),
+            _frame,
+            _localOriginWorld);
         if (chunk.BuildMilliseconds > buildBudgetMilliseconds)
         {
             chunk.Free();
@@ -390,6 +432,20 @@ public sealed partial class WorldStreamer : Node3D
         }
         _content.Add(content.Id, content);
         _loaded.Add(content.Id, chunk);
+        if (_topologyObservedChunks.Add(content.Id))
+        {
+            MinimumObservedLaneCount = Math.Min(
+                MinimumObservedLaneCount,
+                chunk.MinimumLaneCount);
+            MaximumObservedLaneCount = Math.Max(
+                MaximumObservedLaneCount,
+                chunk.MaximumLaneCount);
+            TopologyTransitionCount += chunk.TransitionCount;
+            ObservedGoreGeometry |= chunk.HasGoreGeometry;
+            MaximumPavedWidthMeters = Math.Max(
+                MaximumPavedWidthMeters,
+                chunk.MaximumPavedWidthMeters);
+        }
         if (chunk.HasReviewGeometry())
         {
             _reviewReadyChunksSeen.Add(content.Id);
@@ -439,6 +495,10 @@ public sealed partial class WorldStreamer : Node3D
             return true;
         }
         CollisionBuildCount++;
+        if (chunk.TransitionCount > 0)
+        {
+            _topologyCollisionChunks.Add(chunk.ChunkId);
+        }
         MaximumCollisionBuildMilliseconds = Math.Max(
             MaximumCollisionBuildMilliseconds,
             elapsed);
@@ -582,13 +642,38 @@ public sealed partial class WorldStreamer : Node3D
         {
             return;
         }
-        var localPoint = pose.Point.RelativeTo(_localOriginWorld);
+        var roadPoint = OffsetForActiveLane(pose.Point, pose.Forward, _routeDistanceMeters);
+        var localPoint = roadPoint.RelativeTo(_localOriginWorld);
         _vehicle.PlaceForReview(localPoint, pose.Forward);
         _vehicle.RouteDistanceMeters = _routeDistanceMeters;
         _vehicle.TargetRoadPoint = localPoint;
         _vehicle.TargetRoadForward = pose.Forward;
         _reviewEdgesVisited.Add(_currentEdgeId);
         _reviewTargetReady = true;
+    }
+
+    private RouteWorldPoint OffsetForActiveLane(
+        RouteWorldPoint point,
+        Vector3 forward,
+        double routeDistanceMeters)
+    {
+        var planEdge = _routePlan.GetEdgeAtDistance(routeDistanceMeters);
+        var edge = _package.Graph.GetEdge(planEdge.EdgeId);
+        var edgeDistance = Math.Clamp(
+            routeDistanceMeters - planEdge.StartMeters,
+            0,
+            edge.LengthMeters);
+        var layout = LaneGeometryProfile.Evaluate(edge, edgeDistance);
+        var lane = layout.Lanes.SingleOrDefault(candidate =>
+                string.Equals(candidate.Id, CurrentStableLaneId, StringComparison.Ordinal) &&
+                candidate.WidthMeters > 0.5)
+            ?? layout.Lanes
+                .Where(candidate => candidate.WidthMeters > 0.5)
+                .MinBy(candidate => Math.Abs(candidate.CenterMeters - _lateralOffsetMeters))
+            ?? throw new InvalidDataException(
+                $"Route edge '{edge.Id}' has no active lane at {edgeDistance:F3} meters.");
+        var right = forward.Cross(Vector3.Up).Normalized();
+        return point.Add(right * (float)lane.CenterMeters);
     }
 
     private void UpdateCurrentEdge()

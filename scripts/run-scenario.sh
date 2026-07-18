@@ -50,6 +50,9 @@ while [[ $# -gt 0 ]]; do
       if [[ "$2" == "streaming" ]]; then
         scenario_mode="streaming"
         scenario_args+=("--streaming-profile")
+      elif [[ "$2" == "topology" ]]; then
+        scenario_mode="topology"
+        scenario_args+=("--topology-profile")
       else
         scenario_args+=("--profile=$2")
       fi
@@ -60,6 +63,9 @@ while [[ $# -gt 0 ]]; do
       if [[ "$profile" == "streaming" ]]; then
         scenario_mode="streaming"
         scenario_args+=("--streaming-profile")
+      elif [[ "$profile" == "topology" ]]; then
+        scenario_mode="topology"
+        scenario_args+=("--topology-profile")
       else
         scenario_args+=("$1")
       fi
@@ -112,7 +118,7 @@ case "$fixture" in
     fixture_lock="$repo_root/data/sources/source-lock.json"
     fixture_chunk_meters=100
     ;;
-  representative-corridor)
+  representative-corridor|variable-lanes)
     fixture_source="$repo_root/data/sources/fixtures/nhpn-boulder-westminster-us36.geojson"
     fixture_manifest="$repo_root/data/sources/fixtures/nhpn-boulder-westminster-us36.manifest.json"
     fixture_elevation="$repo_root/data/sources/fixtures/usgs-13-n40w106-boulder-westminster.tif"
@@ -121,7 +127,7 @@ case "$fixture" in
     fixture_chunk_meters=2000
     ;;
   *)
-    echo "Unknown fixture '$fixture'. Supported fixtures: official-corridor, representative-corridor." >&2
+    echo "Unknown fixture '$fixture'. Supported fixtures: official-corridor, representative-corridor, variable-lanes." >&2
     exit 2
     ;;
 esac
