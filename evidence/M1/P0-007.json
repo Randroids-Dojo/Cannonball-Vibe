@@ -2,13 +2,15 @@
   "schema_version": 1,
   "task_id": "P0-007",
   "milestone": "M1",
-  "status": "fixture_verification_complete_dependency_pending",
-  "verified_at": "2026-07-16T11:02:00Z",
-  "git_revision": "e940bd5f47a40f22f6533b1ae73ccae37ba2edb7",
+  "status": "complete",
+  "verified_at": "2026-07-18T16:55:16Z",
+  "git_revision": "606f8eeba201292dee9660425e21551ffcd638c1",
   "package_source_revision": {
-    "local_branch_head": "e940bd5f47a40f22f6533b1ae73ccae37ba2edb7",
-    "pull_request_merge_revision": "bf695d534670abc5b72f1b32cb43335cfc6ccf61",
-    "note": "Pull-request artifacts are built from GitHub's tested synthetic merge revision; the branch implementation revision is recorded separately."
+    "release_pipeline_implementation": "e940bd5f47a40f22f6533b1ae73ccae37ba2edb7",
+    "latest_verified_pull_request_head": "2afda21d06ef2637c0be15217e042c3bceeb2e10",
+    "latest_package_source_revision": "81c75ce8bbe49ae54ab95357e73bbb2ba4b49eec",
+    "completion_main_revision": "d03b23bb7632509cd1b5e0ccbd61ec955a619317",
+    "note": "Pull-request artifacts are built from GitHub's tested synthetic merge revision; the protected main merge is recorded separately."
   },
   "platform": {
     "local": "macOS 26 arm64 cross-export builder",
@@ -30,13 +32,9 @@
   "scope": {
     "fixture": "official-corridor",
     "fixture_work_authorized": true,
-    "completion_blocked_by": [
-      "P0-006"
-    ],
+    "completion_blocked_by": [],
     "excluded_claims": [
-      "representative long-route packaging",
-      "500-mile traversal",
-      "M1 completion",
+      "representative long-route content inside the fixture-scoped package",
       "public release readiness"
     ]
   },
@@ -79,7 +77,11 @@
     },
     {
       "path": "Cannonball.csproj",
-      "sha256": "2dd44f2b4af44500ce5dfce3c3bfc4c86f952cabd6c36197e7af9795c3c80dbc"
+      "sha256": "b3ffbb34389046cb20c7179293c3a298f53d97040c70eb60b121a9d708dbdf04"
+    },
+    {
+      "path": "packages.lock.json",
+      "sha256": "0dcf1c83326696d081fec03aa12925d7e0b43dc1264e8669dfa739de2b3844e7"
     },
     {
       "path": "src/Cannonball.Core/Cannonball.Core.csproj",
@@ -87,7 +89,7 @@
     },
     {
       "path": "packages.linux-x64.lock.json",
-      "sha256": "02e108991f1b84cb3d83866d9837bf3b034c92672b2bfe2953433076c5a291e2"
+      "sha256": "da3f53604646ecc0676145bc546457452f4996d9f0863a5ba3ed6848ee1795a8"
     },
     {
       "path": "src/Cannonball.Core/packages.linux-x64.lock.json",
@@ -95,7 +97,7 @@
     },
     {
       "path": "packages.win-x64.lock.json",
-      "sha256": "083de18e9a9df7512abb41657a1555abea84fdcbd6a4b05a3e0b3bd6b794ba05"
+      "sha256": "d603bb9972f881658124268bfe68bd51594f6c65940c4b767c63b6f0a5f369e9"
     },
     {
       "path": "src/Cannonball.Core/packages.win-x64.lock.json",
@@ -235,19 +237,21 @@
     "note": "Linux and Windows exports are both produced twice on the same pinned Ubuntu builder. macOS cross-builder fixture bytes are recorded but are not claimed to match Ubuntu geospatial output."
   },
   "metrics": {
-    "local_csharp_tests_passed": 25,
-    "local_map_tests_passed": 42,
+    "local_csharp_tests_passed": 54,
+    "local_map_tests_passed": 66,
     "local_playgodot_unit_tests_passed": 12,
-    "remote_build_gate_csharp_tests_passed": 25,
-    "remote_build_gate_map_tests_passed": 42,
+    "remote_build_gate_csharp_tests_passed": 54,
+    "remote_build_gate_map_tests_passed": 66,
     "remote_build_gate_playgodot_unit_tests_passed": 12,
     "platforms_exported": 2,
     "native_clean_smokes_passed": 2,
     "native_clean_smokes_failed": 0,
     "runtime_chunks_loaded": 4,
     "unique_route_miles": 0.22610210923573093,
-    "linux_max_chunk_build_ms": 17.849,
-    "windows_max_chunk_build_ms": 19.81
+    "linux_max_chunk_build_ms": 24.285,
+    "windows_max_chunk_build_ms": 23.797,
+    "linux_max_collision_build_ms": 1.912,
+    "windows_max_collision_build_ms": 2.134
   },
   "commands": [
     {
@@ -259,7 +263,7 @@
       "exit_code": 0
     },
     {
-      "command": "SOURCE_REVISION=e940bd5f47a40f22f6533b1ae73ccae37ba2edb7 PYTHON_BIN=$(uv python find 3.13.11) GODOT_BIN=.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot ./scripts/release/build-unsigned.sh all /tmp/cannonball-p0-007-e940bd5",
+      "command": "PYTHON_BIN=$(uv python find 3.13.11) GODOT_BIN=.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot ./scripts/release/build-unsigned.sh all /tmp/cannonball-p0-007-closeout-606f8ee",
       "exit_code": 0
     },
     {
@@ -274,6 +278,17 @@
     },
     {
       "command": "GitHub Actions run 29492663160",
+      "exit_code": 0
+    },
+    {
+      "command": "GitHub Actions run 29652316058",
+      "exit_code": 0,
+      "reproducible_exports": "passed",
+      "linux_clean_machine_smoke": "passed",
+      "windows_clean_machine_smoke": "passed"
+    },
+    {
+      "command": "./scripts/release/verify-package.sh /tmp/cannonball-p0-007-verify-29652316058/Cannonball-linux-x86_64",
       "exit_code": 0
     }
   ],
@@ -321,7 +336,9 @@
       "Rejected symlinked directories, broken symlinks, and uncontained manifest launchers",
       "Pinned Node and Python for standalone reproducibility",
       "Recorded committed RID lockfiles rather than overwritten staging paths",
-      "Required the complete repository gate before artifact construction"
+      "Required the complete repository gate before artifact construction",
+      "Declared Google.FlatBuffers directly in the shipping Godot project after a clean source archive exposed reliance on the referenced core project's transitive dependency",
+      "Regenerated root RID lockfiles with the exact Release configuration and Godot target platform so locked clean restores exclude editor-only packages"
     ],
     "coderabbit": {
       "initial_review_id": 4712920521,
@@ -335,24 +352,25 @@
   },
   "remote_verification": {
     "implementation_pull_request": "https://github.com/Randroids-Dojo/Cannonball-Vibe/pull/9",
-    "run_id": 29492663160,
-    "run_url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29492663160",
-    "branch_head_sha": "e940bd5f47a40f22f6533b1ae73ccae37ba2edb7",
-    "package_source_revision": "bf695d534670abc5b72f1b32cb43335cfc6ccf61",
+    "completion_pull_request": "https://github.com/Randroids-Dojo/Cannonball-Vibe/pull/25",
+    "run_id": 29652316058,
+    "run_url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29652316058",
+    "branch_head_sha": "2afda21d06ef2637c0be15217e042c3bceeb2e10",
+    "package_source_revision": "81c75ce8bbe49ae54ab95357e73bbb2ba4b49eec",
     "conclusion": "success",
     "jobs": [
       {
-        "job_id": 87602259244,
+        "job_id": 88100622108,
         "name": "Build reproducible fixture exports",
         "conclusion": "success"
       },
       {
-        "job_id": 87602819419,
+        "job_id": 88100875249,
         "name": "Clean-machine smoke (linux)",
         "conclusion": "success"
       },
       {
-        "job_id": 87602819443,
+        "job_id": 88100875248,
         "name": "Clean-machine smoke (windows)",
         "conclusion": "success"
       }
@@ -362,70 +380,72 @@
     "local": [
       {
         "platform": "linux",
-        "path": "/tmp/cannonball-p0-007-e940bd5/linux/Cannonball-linux-x86_64-95d0905e1be01075ab778d5d2c748d5351ed3e3ed60973ea2a7d99b9b78675f3.zip",
-        "bytes": 153796844,
-        "sha256": "95d0905e1be01075ab778d5d2c748d5351ed3e3ed60973ea2a7d99b9b78675f3",
-        "content_set_sha256": "2a0cfc48b80d15af9de7caf0c236d95124457673f841be213f9001a0d96a7ba2",
-        "manifest_sha256": "bb5c2eec06ceb036de30e6ddbdd86fd4305bab4e4aaeea0113febf082812c857",
-        "sbom_sha256": "a3859d8df2fe23584bf3a421cc432f8158260c705c4070bfe0c7fb19105d4aaf",
-        "checksums_sha256": "e11cd63894e85cef44b208cd3e5c86bfc679de716e83bf2428a22fe25d2c7db1"
+        "source_revision": "606f8eeba201292dee9660425e21551ffcd638c1",
+        "path": "/tmp/cannonball-p0-007-closeout-606f8ee/linux/Cannonball-linux-x86_64-6e3a97a193ca264f95bddd1a320e85490d8d2d3c646781e8f1f88e268c7bc748.zip",
+        "bytes": 154212696,
+        "sha256": "6e3a97a193ca264f95bddd1a320e85490d8d2d3c646781e8f1f88e268c7bc748",
+        "content_set_sha256": "ed335e777a13ad00a222cae20908d803425cd64640d3934ded97a9e55ab3b00a",
+        "manifest_sha256": "cbbed85b2ca595b8eea979d96793856fc93fa73d23d84d8149d51b9378122191",
+        "sbom_sha256": "f4cd5863684cfe2c90fbff086abe7712f6eeb949e523210f9f1e8660249039de",
+        "checksums_sha256": "7aace5a3ffbb76c97bbc080eee55f77a14ead86da85f95166fd62e67d7c8fa11"
       },
       {
         "platform": "windows",
-        "path": "/tmp/cannonball-p0-007-e940bd5/windows/Cannonball-windows-x86_64-3a584bd638f63667c679592b4c4dfa2a310dd7ba7cbe9a27b86799ce1e759a98.zip",
-        "bytes": 189707376,
-        "sha256": "3a584bd638f63667c679592b4c4dfa2a310dd7ba7cbe9a27b86799ce1e759a98",
-        "content_set_sha256": "8bfa5109ebf730e3cd329b1ee4c32559726861903e2ca99ab73b101851c14e3b",
-        "manifest_sha256": "421e707122d3cca01a0d4a86b67bbc134ed5b790d56c52a155bee14aaa65918c",
-        "sbom_sha256": "ed9dcbf8e096cf6a0c32fdbf45dc965311073dedd491a74965667d9815df3649",
-        "checksums_sha256": "0e4c66a0be2b06c084aa424d37c4128044bf4d0860d1c2d843b3fff2a24ec709"
+        "source_revision": "606f8eeba201292dee9660425e21551ffcd638c1",
+        "path": "/tmp/cannonball-p0-007-closeout-606f8ee/windows/Cannonball-windows-x86_64-d64ab6dfce649a0882bb9afd5bc1aef3e0a1a4fa6f1b1ebd0956a10e218b81a7.zip",
+        "bytes": 190123228,
+        "sha256": "d64ab6dfce649a0882bb9afd5bc1aef3e0a1a4fa6f1b1ebd0956a10e218b81a7",
+        "content_set_sha256": "3ab4290dead43470766adde28a2719b8e3db861fee6a98972119c1f0f8296501",
+        "manifest_sha256": "6966157f62d506e7613272bc8afca7d79421c48fcc2a5cfdb12c8d415f026b9d",
+        "sbom_sha256": "0e1cf5a30ce435ca13fe715b9a0156fb0c62fe393c7d7bf8ec076515958bd97b",
+        "checksums_sha256": "ec789896aeb97f99cc7adb643fd20d5af66d2d56db518e4131907eb54decd46c"
       }
     ],
     "ci": [
       {
         "platform": "linux",
-        "artifact_id": 8373121161,
-        "artifact_name": "unsigned-linux-bf695d534670abc5b72f1b32cb43335cfc6ccf61-7051f629910b346f93f050c8488e2a0866de81a2de5cfd1fcd266ecd8b162521",
-        "artifact_api_digest": "sha256:aaf4897344610105bad38d4982f59c46e6f9e2ce010e8057f3e752a42e8feda6",
-        "artifact_api_bytes": 63744123,
-        "created_at": "2026-07-16T11:00:11Z",
-        "expires_at": "2026-07-30T11:00:06Z",
-        "archive_path": "Cannonball-linux-x86_64-7051f629910b346f93f050c8488e2a0866de81a2de5cfd1fcd266ecd8b162521.zip",
-        "archive_bytes": 153796829,
-        "archive_sha256": "7051f629910b346f93f050c8488e2a0866de81a2de5cfd1fcd266ecd8b162521",
-        "sidecar_sha256": "5e9829fda66b3b03f3d3f4e47e103b4d3870cd45d4f1b941ab28305062f8d4fd",
-        "content_set_sha256": "53049d08062c9d68c30ec1a563ebb40d5fae7d6ac0d7fc0551649321868b8608",
-        "manifest_sha256": "7e519fe4642d98969014e64dbd728ed6d33d31bfe50c5b6b7f6d99c740d83b42",
-        "sbom_sha256": "06a00a787a76712bcbcd008782acae84d9444e0cff59e1190797e5dbccc9f59e",
-        "checksums_sha256": "2cbcfa4fa989ecf0534ad257989cfb525393ce81a221781f261129710dd97313"
+        "artifact_id": 8431848187,
+        "artifact_name": "unsigned-linux-81c75ce8bbe49ae54ab95357e73bbb2ba4b49eec-05741b56ddb4ec3dbd646332faec3723e09930777d0b50d4169b78f6218ddef4",
+        "artifact_api_digest": "sha256:7ef2bed66d9576267d5cb8bd7373f6a241f1feef398c2b08a2fe98b3ab0cae30",
+        "artifact_api_bytes": 63878177,
+        "created_at": "2026-07-18T16:39:52Z",
+        "expires_at": "2026-08-01T16:39:46Z",
+        "archive_path": "Cannonball-linux-x86_64-05741b56ddb4ec3dbd646332faec3723e09930777d0b50d4169b78f6218ddef4.zip",
+        "archive_bytes": 154212638,
+        "archive_sha256": "05741b56ddb4ec3dbd646332faec3723e09930777d0b50d4169b78f6218ddef4",
+        "sidecar_sha256": "ea90fc96ff5193a6d496f78ed87eeb69c5c579bfcdbcf2cb29aac818d28b9d88",
+        "content_set_sha256": "f64465d43f47b85459413918f907246ad48848824ba3d173cd7a31a0adfa1b19",
+        "manifest_sha256": "436b0be5d64b2d65834a6e6545c3591d278747fad9f0a678a53693d8eddc5858",
+        "sbom_sha256": "8cff0d651292815ee8e90f4ff8080b098c3d09827e65b4bf4d346af7b314f45e",
+        "checksums_sha256": "67f832e46e19ccab858fa7427061ebf6001a0ef1f18c19ebfc2ebc320d8195b6"
       },
       {
         "platform": "windows",
-        "artifact_id": 8373123969,
-        "artifact_name": "unsigned-windows-bf695d534670abc5b72f1b32cb43335cfc6ccf61-76718ccf6af458f2b823053cb70e22c9523f5e978b84ab5738660bec2f3dae36",
-        "artifact_api_digest": "sha256:d02f0be2403601ea3ae1c3587c543ec533f8d4bf32419e0caeb98d4741743043",
-        "artifact_api_bytes": 74444968,
-        "created_at": "2026-07-16T11:00:18Z",
-        "expires_at": "2026-07-30T11:00:12Z",
-        "archive_path": "Cannonball-windows-x86_64-76718ccf6af458f2b823053cb70e22c9523f5e978b84ab5738660bec2f3dae36.zip",
-        "archive_bytes": 189707361,
-        "archive_sha256": "76718ccf6af458f2b823053cb70e22c9523f5e978b84ab5738660bec2f3dae36",
-        "sidecar_sha256": "2757d0d3dfe68262bb8498a1e2b265be9fbd473d5823d907799802594e0db1f6",
-        "content_set_sha256": "fcba64cf528e2fb2122d1e15c7e54547f819fb44f3296bdca78bc36187be161a",
-        "manifest_sha256": "9f7c84962def8b67096409007edb69fa9588c33ad4d879b1b7b03c8ae211348a",
-        "sbom_sha256": "4933fd507e3fa6fe8b6974b2d771695dbcef4018ed05bcce11fe1eb7e65bf597",
-        "checksums_sha256": "5d03ae753c51328fac66ce4e0a7f747d0e61a9858cfba03dd2d94b8dcd6c84df"
+        "artifact_id": 8431849124,
+        "artifact_name": "unsigned-windows-81c75ce8bbe49ae54ab95357e73bbb2ba4b49eec-03b61d78839a8eb026a73dbc9cf8f64f94fa90570ed49f0d5730e9716efd136a",
+        "artifact_api_digest": "sha256:25bebed057dc12b1531b9bded4d4bffb97f38bd78f23d02743570b13a61eff93",
+        "artifact_api_bytes": 74585196,
+        "created_at": "2026-07-18T16:39:58Z",
+        "expires_at": "2026-08-01T16:39:52Z",
+        "archive_path": "Cannonball-windows-x86_64-03b61d78839a8eb026a73dbc9cf8f64f94fa90570ed49f0d5730e9716efd136a.zip",
+        "archive_bytes": 190123170,
+        "archive_sha256": "03b61d78839a8eb026a73dbc9cf8f64f94fa90570ed49f0d5730e9716efd136a",
+        "sidecar_sha256": "3f0ee1e938822cfebb0020918d4ac80777c66f7874ee25152a4d5c9a9971390b",
+        "content_set_sha256": "b4c403891e39b9dfe8ec25b74036e4d8d2fe75119a5bcc63ee4b1631855fbb8a",
+        "manifest_sha256": "dd29d1aa5ff00af1d6e21689ae3a04227917f2abf7d10771eaa7135590546f7b",
+        "sbom_sha256": "50ee60e89c33f5f01d3e55ce5d883309ece6c113cbfc220881f91c0ba6da089c",
+        "checksums_sha256": "619f2590f0bdbf15f597643152beb520c83866aeff779451c0a8d1672b3f8393"
       }
     ],
     "remote_content": {
-      "content_version": "route-v3-a1b7a4b5d677bbc6",
-      "route_root_sha256": "accd1f431828ee1000c78e999ed8b4bdcae27f359e27e9a3785e7b0207391589",
-      "metadata_sha256": "9d94ed43d951ccd98ba6c773ad03d924fde2762994867fe1a7323b2849268445",
+      "content_version": "route-v4-2be692d1b2209384",
+      "route_root_sha256": "fe86b7f7151c132803943d6cc2777c8782d19bdc4260814f3f08555735b7f4d6",
+      "metadata_sha256": "d4a31bf0c7b7df51ae4ef67f00bd5bf418ae872d5f959cc0d039c8261f845643",
       "chunk_sha256": [
-        "5eff5425458c9fe899b64d042e2849945af1e63a449a3210d9affa5d5cb1806b",
-        "a55a01c21a821d360aad98af91cef1ee284776c03cf81c444a079bbaac885850",
-        "5a7dbbc2d5239658f86bd12bdb7ae5716f5d34d0b8b3bcdadfe7f94dde0ffcc8",
-        "362c5ffa5189ad89b68e655d95a98b61e85461d9363e6213ef418c11c5e3325b"
+        "f7c4533c9673f533c861044f7f13964f87b913e4932ed4103abc5dea0a991112",
+        "4104a097e6e39f61620d3acbf61a9c9c3d382c1cee0a62b60b6510b1f2715d25",
+        "a8f7afe7f4e8ffb49d45de441db481616fe213756bfaccca11c46674745d929f",
+        "6adcb549b980876022a29fd860480a890201c001e5de616ef55a04e2cb0fa6cd"
       ]
     }
   },

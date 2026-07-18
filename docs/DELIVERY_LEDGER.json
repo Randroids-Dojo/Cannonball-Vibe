@@ -293,7 +293,7 @@
       "milestone": "M1",
       "priority": "P0",
       "title": "Reproducible unsigned desktop exports",
-      "status": "in_progress",
+      "status": "complete",
       "dependencies": [
         "P0-001",
         "P0-006"
@@ -309,13 +309,8 @@
           "PlayGodot release-exclusion verification",
           "immutable internal CI artifacts and rollback rehearsal"
         ],
-        "completion_blocked_by": [
-          "P0-006"
-        ],
+        "completion_blocked_by": [],
         "excluded_claims": [
-          "representative long-route packaging",
-          "500-mile traversal",
-          "M1 completion",
           "public release readiness"
         ]
       },

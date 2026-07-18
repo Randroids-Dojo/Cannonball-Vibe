@@ -149,7 +149,20 @@
     }
   ],
   "recovery_result": {
-    "status": "local acceptance passed; protected Linux and Windows verification pending"
+    "status": "passed",
+    "revision": "d03b23bb7632509cd1b5e0ccbd61ec955a619317",
+    "pull_request": "https://github.com/Randroids-Dojo/Cannonball-Vibe/pull/25",
+    "linux_long_route": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29652316055/job/88100622097",
+    "windows_long_route": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29652316055/job/88100622077",
+    "linux_m0": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29652316055/job/88100622090",
+    "windows_m0": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29652316055/job/88100622084",
+    "linux_playgodot": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29652316055/job/88100622086",
+    "windows_playgodot": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29652316055/job/88100622092",
+    "macos_playgodot": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29652316055/job/88100622080",
+    "reproducible_exports": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29652316058/job/88100622108",
+    "linux_clean_machine_smoke": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29652316058/job/88100875249",
+    "windows_clean_machine_smoke": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29652316058/job/88100875248",
+    "coderabbit": "timed out in Review in progress; repository adversarial-review fallback passed with no unresolved actionable finding"
   },
   "adversarial_review": "docs/audits/2026-07-18-p0-006-long-route-review.md"
 }

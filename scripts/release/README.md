@@ -1,9 +1,11 @@
 # Unsigned fixture exports
 
 This pipeline makes reproducible, unsigned Linux and Windows x86_64 packages
-with Godot 4.7.1 Mono. Until P0-006 is complete, these packages contain only the
-short `official-corridor` fixture and are internal verification artifacts, not a
-representative route or a public release.
+with Godot 4.7.1 Mono. These packages intentionally contain only the short
+`official-corridor` fixture and remain internal verification artifacts, not a
+representative route or a public release. P0-006 validates the distance-complete
+500-mile runtime separately; it does not turn this fixture package into a
+release candidate.
 
 Run the same build twice and compare every packaged byte:
 

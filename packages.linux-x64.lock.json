@@ -15,7 +15,8 @@
         "contentHash": "OCTPz0MtENY0J1e9Sw4VB9qxS0DK9xpEQLAIMRzCtnVKiJvHZUAAnJ9mU4ewW5+88V4beewp3dl8OE813Qw73g=="
       },
       "Google.FlatBuffers": {
-        "type": "Transitive",
+        "type": "Direct",
+        "requested": "[25.2.10, )",
         "resolved": "25.2.10",
         "contentHash": "z3ykbSRsy6oqMzeZ84a+K8rnMJ/ysVikar8r2yUhHz0HSxIjBpj53mZvpu6LjLEm5fLLWQsCdelJwL1nu7lloA=="
       },
