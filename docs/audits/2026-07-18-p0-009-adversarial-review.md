@@ -1,7 +1,7 @@
 # P0-009 adversarial review
 
 - Review date: 2026-07-18 UTC
-- Reviewed implementation: `a5acf8106e89920f73ed389d756beaa08b75e485`
+- Reviewed implementation: `dd4d3d4ba5d43dfe1f71e7f562142766a67fe717`
 - Result: no unresolved actionable findings
 
 ## Scope
@@ -37,6 +37,25 @@ from `schemas/route_graph.fbs` before review.
 7. The reproducible release packager still asserted schema 3 after the shipping
    package moved to schema 4. Its package-boundary assertion now requires schema
    4, and the copy step is covered by the same content-integrity checks.
+8. Unequal boundary lane counts were truncated to the smaller side. Derivation
+   now emits complete, non-crossing one-to-many split and many-to-one merge
+   mappings, with matching Python and C# ambiguity rules and 2-to-3/3-to-2 tests.
+9. Milepoint and marker identity references were only checked globally. Both
+   readers now require the identity to belong to the referenced edge, with
+   mismatched-identity regression coverage.
+10. Semantic provenance accepted arbitrary well-formed source IDs and hashes.
+    Validation now binds every record to the package source artifact already
+    approved by the catalog and acquisition lock; the shipping source policy
+    continues to reject OpenStreetMap ancestry.
+11. The C# simplified-map budget used a partial hand estimate. It now measures
+    the actual FlatBuffer serialization of the map vector, including strings,
+    hashes, offsets, vectors, and alignment.
+12. The audit package carried schema-4 semantic references while declaring
+    schema 1 or 2, and several optional serializer fields used direct indexing.
+    Schema and payload are now atomic; optional fields use runtime-safe defaults.
+13. Reproducibility evidence omitted exact commands, inputs, pointer, and chunk
+    identities. The evidence now records tool/input hashes, both clean commands
+    and outputs, every published artifact path/hash, and byte-identical results.
 
 ## Residual boundaries
 
@@ -53,11 +72,11 @@ from `schemas/route_graph.fbs` before review.
 ## Verification reviewed
 
 - `./scripts/check.sh`: passed at the reviewed revision.
-- .NET: 31 tests passed, zero warnings.
-- Map pipeline: 60 tests passed; Ruff passed.
+- .NET: 35 tests passed, zero warnings.
+- Map pipeline: 66 tests passed; Ruff passed.
 - PlayGodot unit layer: 12 tests passed.
 - Godot 4.7.1 official headless scenario: `CANNONBALL_SMOKE_OK` on schema 4.
-- Two clean fixture builds: every published file byte-identical, including the
+- Two post-review clean fixture builds: every published file byte-identical, including the
   normalized GeoPackage, FlatBuffer root, metadata, and four CBCK chunks.
 - Linux and Windows M0, reproducible exports, and Linux/Windows clean-machine
   export smokes passed on the recovery revision.
