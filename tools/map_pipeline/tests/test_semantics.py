@@ -139,6 +139,30 @@ def _mainline_connectors(package: dict) -> list[dict]:
     ]
 
 
+def _lane_transition_package(from_count: int, to_count: int) -> dict:
+    package = {
+        "schema_version": 2,
+        "content_version": "route-v2-lane-transition",
+        "source": {
+            "source_id": "synthetic-public-domain-fixture",
+            "publisher": "Test Federal Agency",
+            "source_url": "https://example.gov/route",
+            "sha256": ARTIFACT_HASH,
+        },
+        "nodes": [
+            {"id": "west", "kind": "route", "outgoing_edge_ids": ["incoming"]},
+            {"id": "junction", "kind": "junction", "outgoing_edge_ids": ["outgoing"]},
+            {"id": "east", "kind": "route", "outgoing_edge_ids": []},
+        ],
+        "edges": [
+            _edge("incoming", "west", "junction", 0.0, from_count),
+            _edge("outgoing", "junction", "east", 100.0, to_count),
+        ],
+        "chunks": [],
+    }
+    return attach_derived_route_semantics(package)
+
+
 def test_representative_contract_locks_its_inputs() -> None:
     assert CONTRACT["schema_version"] == 4
     assert set(CONTRACT["connector_movements"]) == set(MOVEMENTS)
@@ -154,7 +178,7 @@ def test_semantics_survive_flatbuffer_boundary_with_map_lods(tmp_path: Path) -> 
 
     assert root.SchemaVersion() == 4
     assert root.LaneSectionsLength() == 3
-    assert root.JunctionConnectorsLength() == 3
+    assert root.JunctionConnectorsLength() == 4
     assert root.RouteIdentitiesLength() == 1
     assert root.ExitsLength() == 1
     assert root.MilepointAnchorsLength() == 6
@@ -168,13 +192,55 @@ def test_semantics_survive_flatbuffer_boundary_with_map_lods(tmp_path: Path) -> 
     } == {0, 1, 2}
 
 
+def test_optional_semantic_fields_serialize_with_runtime_safe_defaults(tmp_path: Path) -> None:
+    package = _junction_package()
+    package["semantics"]["route_identities"][0].pop("local_name")
+    package["semantics"]["exits"][0].pop("suffix")
+    package["semantics"]["exits"][0].pop("services")
+    package["semantics"]["milepoint_anchors"][0].pop("jurisdiction")
+    package["semantics"]["milepoint_anchors"][0].pop("signed_direction")
+    validate_route_semantics(package)
+
+    output = tmp_path / "route.cbrg"
+    write_flatbuffer(package, output, include_samples=False)
+    root = RouteGraphBuffer.GetRootAs(output.read_bytes())
+
+    assert root.RouteIdentities(0).LocalName() == b""
+    assert root.Exits(0).Suffix() == b""
+    assert root.Exits(0).ServicesLength() == 0
+    assert root.MilepointAnchors(0).Jurisdiction() == b"unknown"
+    assert root.MilepointAnchors(0).SignedDirection() == b"unspecified"
+
+
+@pytest.mark.parametrize(
+    ("from_count", "to_count", "expected_movement"),
+    [(2, 3, "split"), (3, 2, "merge")],
+)
+def test_lane_count_transitions_map_every_boundary_lane_without_crossing(
+    from_count: int,
+    to_count: int,
+    expected_movement: str,
+) -> None:
+    package = _lane_transition_package(from_count, to_count)
+    connectors = package["semantics"]["junction_connectors"]
+    sections = {section["edge_id"]: section for section in package["semantics"]["lane_sections"]}
+
+    assert {connector["movement"] for connector in connectors} == {expected_movement}
+    assert {connector["from_lane_id"] for connector in connectors} == {
+        lane["id"] for lane in sections["incoming"]["lanes"]
+    }
+    assert {connector["to_lane_id"] for connector in connectors} == {
+        lane["id"] for lane in sections["outgoing"]["lanes"]
+    }
+
+
 @pytest.mark.parametrize(
     "movement",
     CONTRACT["connector_movements"],
 )
 def test_all_declared_connector_movements_validate(movement: str) -> None:
     package = _junction_package()
-    for connector in package["semantics"]["junction_connectors"]:
+    for connector in _mainline_connectors(package):
         connector["movement"] = movement
         from_lane_id = connector["from_lane_id"]
         for section in package["semantics"]["lane_sections"]:
@@ -235,9 +301,17 @@ def test_malformed_semantics_fail_actionably(mutation: str, message: str) -> Non
             connectors[0]["to_lane_id"],
         )
     elif mutation == "ambiguous":
-        duplicate = deepcopy(package["semantics"]["junction_connectors"][0])
+        duplicate = deepcopy(_mainline_connectors(package)[0])
         duplicate["id"] = "duplicate-successor"
         duplicate["movement"] = "highway_transfer"
+        mainline_lanes = next(
+            section["lanes"]
+            for section in package["semantics"]["lane_sections"]
+            if section["edge_id"] == "mainline"
+        )
+        duplicate["to_lane_id"] = next(
+            lane["id"] for lane in mainline_lanes if lane["id"] != duplicate["to_lane_id"]
+        )
         from_lane_id = duplicate["from_lane_id"]
         for section in package["semantics"]["lane_sections"]:
             for lane in section["lanes"]:
@@ -267,6 +341,27 @@ def test_authored_override_requires_stable_ancestry() -> None:
     validate_route_semantics(package)
 
 
+@pytest.mark.parametrize("field", ["source_id", "artifact_sha256"])
+def test_semantic_provenance_must_match_locked_package_source(field: str) -> None:
+    package = _junction_package()
+    provenance = package["semantics"]["lane_sections"][0]["provenance"]
+    provenance[field] = "different-source" if field == "source_id" else "f" * 64
+
+    with pytest.raises(ValueError, match="outside the package's locked source ancestry"):
+        validate_route_semantics(package)
+
+
+def test_marker_identity_must_belong_to_its_edge() -> None:
+    package = _junction_package()
+    identity = deepcopy(package["semantics"]["route_identities"][0])
+    identity["id"] = "other-identity"
+    package["semantics"]["route_identities"].append(identity)
+    package["semantics"]["roadside_markers"][0]["route_identity_id"] = identity["id"]
+
+    with pytest.raises(ValueError, match="route identity does not belong to edge"):
+        validate_route_semantics(package)
+
+
 def test_geopackage_contains_equivalent_semantic_audit_tables(tmp_path: Path) -> None:
     output = tmp_path / "audit"
     package = build_route_graph(
@@ -275,17 +370,38 @@ def test_geopackage_contains_equivalent_semantic_audit_tables(tmp_path: Path) ->
         output,
         catalog_path=Path("data/sources/catalog.json"),
     )
-    table_keys = {
-        "route_lane_sections": "lane_sections",
-        "route_junction_connectors": "junction_connectors",
-        "route_identities": "route_identities",
-        "route_exits": "exits",
-        "route_milepoint_anchors": "milepoint_anchors",
-        "route_roadside_markers": "roadside_markers",
-        "route_simplified_map_geometry": "simplified_map_geometry",
+    table_queries = {
+        "lane_sections": (
+            'SELECT record_id, payload_json FROM "route_lane_sections" ORDER BY record_id'
+        ),
+        "junction_connectors": (
+            'SELECT record_id, payload_json FROM "route_junction_connectors" '
+            "ORDER BY record_id"
+        ),
+        "route_identities": (
+            'SELECT record_id, payload_json FROM "route_identities" ORDER BY record_id'
+        ),
+        "exits": 'SELECT record_id, payload_json FROM "route_exits" ORDER BY record_id',
+        "milepoint_anchors": (
+            'SELECT record_id, payload_json FROM "route_milepoint_anchors" ORDER BY record_id'
+        ),
+        "roadside_markers": (
+            'SELECT record_id, payload_json FROM "route_roadside_markers" ORDER BY record_id'
+        ),
+        "simplified_map_geometry": (
+            'SELECT record_id, payload_json FROM "route_simplified_map_geometry" '
+            "ORDER BY record_id"
+        ),
     }
 
     with sqlite3.connect(output / "normalized.gpkg") as connection:
-        for table, key in table_keys.items():
-            count = connection.execute(f"SELECT COUNT(*) FROM {table}").fetchone()[0]
-            assert count == len(package["semantics"][key])
+        for key, query in table_queries.items():
+            actual = connection.execute(query).fetchall()
+            expected = sorted(
+                (
+                    str(record.get("id") or f"{record['edge_id']}:lod-{record['lod']}"),
+                    json.dumps(record, separators=(",", ":"), sort_keys=True),
+                )
+                for record in package["semantics"][key]
+            )
+            assert actual == expected

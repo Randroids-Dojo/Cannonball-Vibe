@@ -146,7 +146,7 @@ def test_pipeline_builds_deterministic_connected_chunks(tmp_path: Path) -> None:
     payload = runtime_path.read_bytes()
     assert RouteGraphBuffer.RouteGraphBufferBufferHasIdentifier(payload, 0)
     root = RouteGraphBuffer.GetRootAs(payload)
-    assert root.SchemaVersion() == 1
+    assert root.SchemaVersion() == 4
     assert root.EdgesLength() == 2
 
 

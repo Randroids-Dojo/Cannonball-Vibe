@@ -159,7 +159,7 @@ def write_flatbuffer(
                 number=identity["number"],
                 shield=identity["shield"],
                 signedDirection=identity["signed_direction"],
-                localName=identity["local_name"],
+                localName=identity.get("local_name", ""),
                 provenance=_provenance(identity["provenance"]),
             )
             for identity in semantics.get("route_identities", [])
@@ -170,10 +170,10 @@ def write_flatbuffer(
                 junctionNodeId=exit_record["junction_node_id"],
                 rampEdgeId=exit_record["ramp_edge_id"],
                 routeIdentityId=exit_record["route_identity_id"],
-                number=exit_record["number"],
-                suffix=exit_record["suffix"],
-                destinations=exit_record["destinations"],
-                services=exit_record["services"],
+                number=exit_record.get("number", ""),
+                suffix=exit_record.get("suffix", ""),
+                destinations=exit_record.get("destinations", []),
+                services=exit_record.get("services", []),
                 provenance=_provenance(exit_record["provenance"]),
             )
             for exit_record in semantics.get("exits", [])
@@ -185,8 +185,8 @@ def write_flatbuffer(
                 edgeId=anchor["edge_id"],
                 distanceMeters=anchor["distance_meters"],
                 valueMiles=anchor["value_miles"],
-                jurisdiction=anchor["jurisdiction"],
-                signedDirection=anchor["signed_direction"],
+                jurisdiction=anchor.get("jurisdiction", "unknown"),
+                signedDirection=anchor.get("signed_direction", "unspecified"),
                 provenance=_provenance(anchor["provenance"]),
             )
             for anchor in semantics.get("milepoint_anchors", [])

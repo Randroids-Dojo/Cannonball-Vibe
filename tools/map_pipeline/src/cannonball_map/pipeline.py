@@ -105,7 +105,7 @@ def build_route_graph(
         acquisition_lock_sha256,
     )
     package = {
-        "schema_version": 2 if elevation_sampler else 1,
+        "schema_version": 4,
         "content_version": content_version,
         "source": {
             "source_id": manifest.source_id,
@@ -168,10 +168,7 @@ def _write_semantic_audit_tables(path: Path, semantics: dict[str, Any]) -> None:
             records = semantics[key]
             normalized = []
             for record in records:
-                record_id = str(
-                    record.get("id")
-                    or f"{record['edge_id']}:lod-{record['lod']}"
-                )
+                record_id = str(record.get("id") or f"{record['edge_id']}:lod-{record['lod']}")
                 payload = json.dumps(record, separators=(",", ":"), sort_keys=True)
                 normalized.append((record_id, payload))
             connection.executemany(
@@ -367,8 +364,7 @@ def _source_id_column(frame: gpd.GeoDataFrame) -> Any | None:
 def _source_feature_id(row: Any, column: Any | None) -> str:
     if column is None:
         raise ValueError(
-            "Source features require a stable source_feature_id, source_id, id, "
-            "or OBJECTID column."
+            "Source features require a stable source_feature_id, source_id, id, or OBJECTID column."
         )
     value = str(row[column]).strip()
     if not value or value.casefold() in {"<na>", "nan", "none"}:
@@ -383,9 +379,7 @@ def _semantic_hints(row: Any) -> dict[str, object]:
         "U": "US",
         "S": "CO",
     }.get(sign_type, "unknown")
-    route_number = _clean_source_value(row, "SIGNN1") or _clean_source_value(
-        row, "ROUTE_ID"
-    )
+    route_number = _clean_source_value(row, "SIGNN1") or _clean_source_value(row, "ROUTE_ID")
     return {
         "source_route_system": route_system,
         "source_route_number": route_number or "unknown",
@@ -470,9 +464,7 @@ def _condition_linear_corridor_elevations(
     ordered = _ordered_linear_records(records)
     if ordered is None:
         maximum_raw_grade = max(
-            abs(sample.grade)
-            for record in records
-            for sample in record.edge.samples
+            abs(sample.grade) for record in records for sample in record.edge.samples
         )
         if maximum_raw_grade > MAXIMUM_CONDITIONED_GRADE:
             raise ValueError(
@@ -500,9 +492,7 @@ def _condition_linear_corridor_elevations(
     radius = ELEVATION_MEDIAN_WINDOW_SAMPLES // 2
     conditioned: list[float] = []
     for index in range(len(raw_elevations)):
-        window = sorted(
-            raw_elevations[max(0, index - radius) : index + radius + 1]
-        )
+        window = sorted(raw_elevations[max(0, index - radius) : index + radius + 1])
         conditioned.append(window[len(window) // 2])
     _project_maximum_grade(global_distances, conditioned, MAXIMUM_CONDITIONED_GRADE)
 
@@ -528,9 +518,7 @@ def _ordered_linear_records(records: list[_EdgeRecord]) -> list[_EdgeRecord] | N
     destination_nodes = {record.edge.to_node_id for record in records}
     for record in records:
         by_from.setdefault(record.edge.from_node_id, []).append(record)
-    starts = [
-        record for record in records if record.edge.from_node_id not in destination_nodes
-    ]
+    starts = [record for record in records if record.edge.from_node_id not in destination_nodes]
     if len(starts) != 1:
         return None
     remaining = {record.edge.edge_id: record for record in records}

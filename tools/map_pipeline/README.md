@@ -30,7 +30,9 @@ uv run --project tools/map_pipeline cannonball-map validate-lock data/sources/so
 uv run --project tools/map_pipeline cannonball-map validate-source \
   --source route.gpkg --manifest route.manifest.json
 uv run --project tools/map_pipeline cannonball-map build \
-  --source route.gpkg --manifest route.manifest.json --output data/processed
+  --source route.gpkg --manifest route.manifest.json \
+  --elevation corridor.tif --elevation-metadata corridor.metadata.json \
+  --acquisition-lock data/sources/source-lock.json --output data/processed
 ```
 
 `source-lock.json` pins the NHPN service/layer, sorted OBJECTID snapshot and

@@ -1,5 +1,6 @@
 using Cannonball.Content;
 using Cannonball.Core.Routes;
+using Google.FlatBuffers;
 
 namespace Cannonball.Core.Content;
 
@@ -231,8 +232,11 @@ internal static class FlatBufferRouteSemantics
         IReadOnlyDictionary<string, RouteEdge> edges)
     {
         var result = new Dictionary<string, JunctionConnector>(StringComparer.Ordinal);
-        var successorKeys = new HashSet<(string FromEdge, string FromLane, string ToEdge)>();
-        var crossingGroups = new Dictionary<(string FromEdge, string ToEdge), List<(int From, int To)>>();
+        var connectorKeys =
+            new HashSet<(string FromEdge, string FromLane, string ToEdge, string ToLane)>();
+        var crossingGroups = new Dictionary<
+            (string FromEdge, string ToEdge),
+            List<(int From, int To, JunctionMovement Movement)>>();
         var incomingCoverage = new HashSet<(string Edge, string Lane)>();
         var outgoingCoverage = new HashSet<(string Edge, string Lane)>();
         foreach (var value in values ?? [])
@@ -267,10 +271,10 @@ internal static class FlatBufferRouteSemantics
                 throw new InvalidDataException(
                     $"Connector '{id}' movement is not allowed by lane '{fromLaneId}'.");
             }
-            if (!successorKeys.Add((fromEdgeId, fromLaneId, toEdgeId)))
+            if (!connectorKeys.Add((fromEdgeId, fromLaneId, toEdgeId, toLaneId)))
             {
                 throw new InvalidDataException(
-                    $"Connector '{id}' creates an ambiguous lane successor.");
+                    $"Connector '{id}' repeats a lane mapping.");
             }
             var pair = (fromEdgeId, toEdgeId);
             if (!crossingGroups.TryGetValue(pair, out var lanePairs))
@@ -278,7 +282,7 @@ internal static class FlatBufferRouteSemantics
                 lanePairs = [];
                 crossingGroups.Add(pair, lanePairs);
             }
-            lanePairs.Add((fromLane.Index, toLane.Index));
+            lanePairs.Add((fromLane.Index, toLane.Index, movement));
             incomingCoverage.Add((fromEdgeId, fromLaneId));
             outgoingCoverage.Add((toEdgeId, toLaneId));
             AddUnique(
@@ -303,6 +307,22 @@ internal static class FlatBufferRouteSemantics
             {
                 throw new InvalidDataException(
                     $"Connectors between '{pair.FromEdge}' and '{pair.ToEdge}' cross lanes.");
+            }
+            if (ordered.GroupBy(item => item.From).Any(group =>
+                    group.Select(item => item.To).Distinct().Count() > 1 &&
+                    group.Any(item => item.Movement != JunctionMovement.Split)))
+            {
+                throw new InvalidDataException(
+                    $"Connectors between '{pair.FromEdge}' and '{pair.ToEdge}' " +
+                    "create an ambiguous lane successor.");
+            }
+            if (ordered.GroupBy(item => item.To).Any(group =>
+                    group.Select(item => item.From).Distinct().Count() > 1 &&
+                    group.Any(item => item.Movement != JunctionMovement.Merge)))
+            {
+                throw new InvalidDataException(
+                    $"Connectors between '{pair.FromEdge}' and '{pair.ToEdge}' " +
+                    "create an ambiguous lane predecessor.");
             }
         }
 
@@ -393,6 +413,7 @@ internal static class FlatBufferRouteSemantics
             var edgeId = Required(value.EdgeId, $"milepoint anchor '{id}' edge");
             var identityId = Required(value.RouteIdentityId, $"milepoint anchor '{id}' route identity");
             if (!edges.TryGetValue(edgeId, out var edge) || !identities.ContainsKey(identityId) ||
+                !edge.RouteIdentityIds.Contains(identityId, StringComparer.Ordinal) ||
                 !double.IsFinite(value.DistanceMeters) || value.DistanceMeters < 0 ||
                 value.DistanceMeters > edge.LengthMeters || !double.IsFinite(value.ValueMiles))
             {
@@ -427,6 +448,7 @@ internal static class FlatBufferRouteSemantics
             var edgeId = Required(value.EdgeId, $"roadside marker '{id}' edge");
             var identityId = Required(value.RouteIdentityId, $"roadside marker '{id}' route identity");
             if (!edges.TryGetValue(edgeId, out var edge) || !identities.ContainsKey(identityId) ||
+                !edge.RouteIdentityIds.Contains(identityId, StringComparer.Ordinal) ||
                 !double.IsFinite(value.DistanceMeters) || value.DistanceMeters < 0 ||
                 value.DistanceMeters > edge.LengthMeters)
             {
@@ -453,7 +475,6 @@ internal static class FlatBufferRouteSemantics
         IReadOnlyDictionary<string, RouteEdge> edges)
     {
         var result = new Dictionary<(string EdgeId, int Lod), SimplifiedMapGeometry>();
-        long byteCount = 0;
         foreach (var value in values ?? [])
         {
             var edgeId = Required(value.EdgeId, "simplified map edge ID");
@@ -486,7 +507,6 @@ internal static class FlatBufferRouteSemantics
                 throw new InvalidDataException(
                     $"Simplified map geometry '{edgeId}' LOD {lod} hash is invalid.");
             }
-            byteCount += 4L + System.Text.Encoding.UTF8.GetByteCount(edgeId) + 8L + points.Length * 24L;
             if (!result.TryAdd((edgeId, lod), new SimplifiedMapGeometry(edgeId, lod, points, hash)))
             {
                 throw new InvalidDataException(
@@ -500,7 +520,8 @@ internal static class FlatBufferRouteSemantics
             throw new InvalidDataException(
                 "Simplified map geometry must contain LODs 0, 1, and 2 for every edge.");
         }
-        if (byteCount >= RouteSemanticsCompatibility.MaximumSimplifiedMapBytes)
+        if (SerializedMapGeometryByteCount(values) >=
+            RouteSemanticsCompatibility.MaximumSimplifiedMapBytes)
         {
             throw new InvalidDataException("Simplified map geometry exceeds the 16 MB package budget.");
         }
@@ -508,6 +529,19 @@ internal static class FlatBufferRouteSemantics
             .OrderBy(item => item.EdgeId, StringComparer.Ordinal)
             .ThenBy(item => item.Lod)
             .ToArray();
+    }
+
+    private static int SerializedMapGeometryByteCount(
+        IReadOnlyList<SimplifiedMapGeometryDataT>? values)
+    {
+        var measurement = new RouteGraphBufferT
+        {
+            SimplifiedMapGeometry = (values ?? []).ToList(),
+        };
+        var builder = new FlatBufferBuilder(1_024);
+        var root = RouteGraphBuffer.Pack(builder, measurement);
+        RouteGraphBuffer.FinishRouteGraphBufferBuffer(builder, root);
+        return builder.SizedByteArray().Length;
     }
 
     private static RouteSemanticProvenance ReadProvenance(

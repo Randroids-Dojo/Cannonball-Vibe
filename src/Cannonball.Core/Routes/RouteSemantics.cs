@@ -198,11 +198,44 @@ public static class RouteSemanticsCompatibility
             throw new ArgumentOutOfRangeException(nameof(distanceMeters));
         }
 
-        var sections = edge.GetEffectiveLaneSections();
-        return sections.Single(section =>
-            distanceMeters >= section.StartMeters &&
-            (distanceMeters < section.EndMeters ||
-             (distanceMeters == edge.LengthMeters && section.EndMeters == edge.LengthMeters)));
+        const double boundaryToleranceMeters = 1e-9;
+        var section = edge.GetEffectiveLaneSections()
+            .OrderBy(candidate => candidate.StartMeters)
+            .LastOrDefault(candidate =>
+                distanceMeters + boundaryToleranceMeters >= candidate.StartMeters);
+        if (section is null || distanceMeters > section.EndMeters + boundaryToleranceMeters)
+        {
+            throw new InvalidDataException(
+                $"Route distance {distanceMeters:F12} does not belong to a lane section " +
+                $"on edge '{edge.Id}'.");
+        }
+        return section;
+    }
+
+    public static RouteLane GetClosestLane(this LaneSection section, double lateralOffsetMeters)
+    {
+        if (!double.IsFinite(lateralOffsetMeters) || section.Lanes.Count == 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(lateralOffsetMeters));
+        }
+
+        var ordered = section.Lanes.OrderBy(lane => lane.Index).ToArray();
+        var roadWidth = ordered.Sum(lane => lane.WidthMeters);
+        var cursor = -roadWidth / 2.0;
+        var closest = ordered[0];
+        var closestDistance = double.PositiveInfinity;
+        foreach (var lane in ordered)
+        {
+            var center = cursor + lane.WidthMeters / 2.0;
+            cursor += lane.WidthMeters;
+            var distance = Math.Abs(lateralOffsetMeters - center);
+            if (distance < closestDistance)
+            {
+                closest = lane;
+                closestDistance = distance;
+            }
+        }
+        return closest;
     }
 
     public static string ComputeMapGeometryHash(

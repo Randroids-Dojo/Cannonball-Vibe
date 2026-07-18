@@ -16,19 +16,22 @@ from `schemas/route_graph.fbs` before review.
 
 1. Python and C# distance-boundary validation used different equality rules.
    Both readers now accept the same 1e-9 tolerance for lane-section and map
-   endpoints.
+   endpoints, and runtime lane lookup applies that tolerance with deterministic
+   next-section selection at boundaries.
 2. Connector successor uniqueness included the movement label, allowing the
-   same lane and target edge to be declared twice under contradictory movement
-   names. Successor identity is now lane-and-target based in both languages.
+   same lane pair to be declared twice under contradictory movement names.
+   Exact pairs are unique in both languages; one-to-many splits and many-to-one
+   merges are accepted only with the corresponding movement.
 3. Python could accept connectors to a non-terminal lane section even though
    the C# runtime rejected them. Python now resolves only the incoming edge's
    final section and outgoing edge's first section.
 4. Exit string collections and duplicate node IDs could fail later with generic
    serialization errors. They now fail in semantic validation with contextual
    messages.
-5. New suspend saves still captured only a legacy lane index. Game capture now
-   maps the active section to a stable lane ID before serialization; old saves
-   without that field retain deterministic index migration.
+5. New suspend saves still captured only a lane-count-derived legacy index.
+   World projection now resolves the active vehicle lane from lateral position;
+   save capture validates its index and stable ID against the active section.
+   Old saves without that field retain deterministic index migration.
 6. Connector movements were not checked against their source lane's allowed
    maneuver mask. Both validators now enforce the relationship.
 7. The reproducible release packager still asserted schema 3 after the shipping

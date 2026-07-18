@@ -46,6 +46,7 @@ def attach_derived_route_semantics(package: dict[str, Any]) -> dict[str, Any]:
     for edge in edges:
         edge_id = str(edge["edge_id"])
         source_record_id = str(edge["source_feature_id"])
+        lane_count = int(edge["lane_count"])
         source_provenance = _provenance(
             "source",
             source_id,
@@ -58,8 +59,8 @@ def attach_derived_route_semantics(package: dict[str, Any]) -> dict[str, Any]:
             source_record_id,
             artifact_hash,
             derivation=(
-                "Two general-purpose lanes and conservative shoulders are a deterministic "
-                "graybox default, not observed lane geometry."
+                f"{lane_count} general-purpose lanes and conservative shoulders are a "
+                "deterministic graybox default, not observed lane geometry."
             ),
         )
         route_system = str(edge.get("source_route_system", "unknown"))
@@ -84,7 +85,6 @@ def attach_derived_route_semantics(package: dict[str, Any]) -> dict[str, Any]:
         route_identity_ids_by_edge[edge_id] = [identity_id]
 
         section_id = _stable_id("lane-section", (edge_id, 0.0, edge["length_meters"]))
-        lane_count = int(edge["lane_count"])
         lanes = [
             {
                 "id": _stable_id("lane", (edge_id, section_id, lane_index)),
@@ -162,11 +162,21 @@ def attach_derived_route_semantics(package: dict[str, Any]) -> dict[str, Any]:
             for to_edge in node_outgoing:
                 from_section = sections_by_edge[str(from_edge["edge_id"])]
                 to_section = sections_by_edge[str(to_edge["edge_id"])]
-                movement = _derived_movement(len(node_incoming), len(node_outgoing))
+                from_lane_count = len(from_section["lanes"])
+                to_lane_count = len(to_section["lanes"])
+                movement = (
+                    "merge"
+                    if from_lane_count > to_lane_count
+                    else "split"
+                    if from_lane_count < to_lane_count
+                    else _derived_movement(len(node_incoming), len(node_outgoing))
+                )
                 maneuver = _movement_flag(movement)
-                for lane_index in range(min(len(from_section["lanes"]), len(to_section["lanes"]))):
-                    from_lane = from_section["lanes"][lane_index]
-                    to_lane = to_section["lanes"][lane_index]
+                for from_lane_index, to_lane_index in _complete_lane_mapping(
+                    from_lane_count, to_lane_count
+                ):
+                    from_lane = from_section["lanes"][from_lane_index]
+                    to_lane = to_section["lanes"][to_lane_index]
                     from_lane["allowed_maneuvers"] |= maneuver
                     provenance = _provenance(
                         "derived",
@@ -174,8 +184,9 @@ def attach_derived_route_semantics(package: dict[str, Any]) -> dict[str, Any]:
                         f"{from_edge['source_feature_id']}->{to_edge['source_feature_id']}",
                         artifact_hash,
                         derivation=(
-                            "Index-preserving connector derived from snapped directed topology; "
-                            "not observed lane connectivity."
+                            "Complete non-crossing connector mapping derived from snapped "
+                            "directed topology and boundary lane counts; not observed lane "
+                            "connectivity."
                         ),
                     )
                     connectors.append(
@@ -227,6 +238,20 @@ def validate_route_semantics(package: dict[str, Any]) -> None:
     semantics = package.get("semantics")
     if not isinstance(semantics, dict):
         raise ValueError("Route package is missing versioned semantics.")
+    source = package.get("source")
+    if not isinstance(source, dict):
+        raise ValueError("Route package is missing source provenance.")
+    source_id = _required_string(source, "source_id", "Route package source")
+    artifact_sha256 = _required_string(source, "sha256", "Route package source")
+    if len(artifact_sha256) != 64 or any(
+        character not in "0123456789abcdef" for character in artifact_sha256
+    ):
+        raise ValueError("Route package source has an invalid artifact hash.")
+    source_description = " ".join(
+        str(source.get(field, "")) for field in ("source_id", "publisher", "source_url")
+    ).casefold()
+    if "openstreetmap" in source_description or source_id.casefold() == "osm":
+        raise ValueError("OpenStreetMap-derived data is prohibited by the project source policy.")
     edges = {str(edge["edge_id"]): edge for edge in package["edges"]}
     nodes = {str(node["id"]): node for node in package["nodes"]}
     if len(edges) != len(package["edges"]) or len(nodes) != len(package["nodes"]):
@@ -244,7 +269,12 @@ def validate_route_semantics(package: dict[str, Any]) -> None:
         if start < 0 or end <= start or end > float(edges[edge_id]["length_meters"]):
             raise ValueError(f"Lane section '{section['id']}' has an invalid distance range.")
         _required_string(section, "signed_direction", f"Lane section '{section['id']}'")
-        _validate_provenance(section.get("provenance"), f"Lane section '{section['id']}'")
+        _validate_provenance(
+            section.get("provenance"),
+            f"Lane section '{section['id']}'",
+            source_id,
+            artifact_sha256,
+        )
         _validate_shoulder(section.get("left_shoulder"), f"Lane section '{section['id']}' left")
         _validate_shoulder(section.get("right_shoulder"), f"Lane section '{section['id']}' right")
         lanes = section.get("lanes")
@@ -267,7 +297,9 @@ def validate_route_semantics(package: dict[str, Any]) -> None:
             maneuvers = lane.get("allowed_maneuvers")
             if not isinstance(maneuvers, int) or maneuvers <= 0 or maneuvers & ~ALL_MANEUVERS:
                 raise ValueError(f"Lane '{lane_id}' has invalid allowed maneuvers.")
-            _validate_provenance(lane.get("provenance"), f"Lane '{lane_id}'")
+            _validate_provenance(
+                lane.get("provenance"), f"Lane '{lane_id}'", source_id, artifact_sha256
+            )
             lane_ids.add(lane_id)
             lane_indexes.add(lane_index)
         if lane_indexes != set(range(len(lanes))):
@@ -300,8 +332,8 @@ def validate_route_semantics(package: dict[str, Any]) -> None:
                 )
 
     connectors = _unique_by_id(semantics.get("junction_connectors", []), "connector")
-    connector_targets: set[tuple[str, str, str]] = set()
-    connectors_by_pair: dict[tuple[str, str], list[tuple[int, int]]] = defaultdict(list)
+    connector_targets: set[tuple[str, str, str, str]] = set()
+    connectors_by_pair: dict[tuple[str, str], list[tuple[int, int, str]]] = defaultdict(list)
     incoming_coverage: set[tuple[str, str]] = set()
     outgoing_coverage: set[tuple[str, str]] = set()
     for connector in connectors.values():
@@ -324,9 +356,7 @@ def validate_route_semantics(package: dict[str, Any]) -> None:
         final_from_section = max(
             sections_by_edge[from_edge_id], key=lambda item: item["end_meters"]
         )
-        first_to_section = min(
-            sections_by_edge[to_edge_id], key=lambda item: item["start_meters"]
-        )
+        first_to_section = min(sections_by_edge[to_edge_id], key=lambda item: item["start_meters"])
         from_lane = next(
             (lane for lane in final_from_section["lanes"] if lane["id"] == from_lane_id),
             None,
@@ -337,9 +367,9 @@ def validate_route_semantics(package: dict[str, Any]) -> None:
         )
         if from_lane is None or to_lane is None:
             raise ValueError(f"Connector '{connector_id}' references an orphan lane.")
-        target_key = (from_edge_id, from_lane_id, to_edge_id)
+        target_key = (from_edge_id, from_lane_id, to_edge_id, to_lane_id)
         if target_key in connector_targets:
-            raise ValueError(f"Connector '{connector_id}' creates an ambiguous lane successor.")
+            raise ValueError(f"Connector '{connector_id}' repeats a lane mapping.")
         movement_flag = _movement_flag(str(movement))
         if not int(from_lane["allowed_maneuvers"]) & movement_flag:
             raise ValueError(
@@ -347,15 +377,43 @@ def validate_route_semantics(package: dict[str, Any]) -> None:
             )
         connector_targets.add(target_key)
         connectors_by_pair[(from_edge_id, to_edge_id)].append(
-            (int(from_lane["index"]), int(to_lane["index"]))
+            (int(from_lane["index"]), int(to_lane["index"]), str(movement))
         )
         incoming_coverage.add((from_edge_id, from_lane_id))
         outgoing_coverage.add((to_edge_id, to_lane_id))
-        _validate_provenance(connector.get("provenance"), f"Connector '{connector_id}'")
+        _validate_provenance(
+            connector.get("provenance"),
+            f"Connector '{connector_id}'",
+            source_id,
+            artifact_sha256,
+        )
     for pair, lane_pairs in connectors_by_pair.items():
         ordered = sorted(lane_pairs)
         if any(after[1] < before[1] for before, after in zip(ordered, ordered[1:], strict=False)):
             raise ValueError(f"Connectors between '{pair[0]}' and '{pair[1]}' cross lanes.")
+        successors: dict[int, list[tuple[int, str]]] = defaultdict(list)
+        predecessors: dict[int, list[tuple[int, str]]] = defaultdict(list)
+        for from_index, to_index, connector_movement in lane_pairs:
+            successors[from_index].append((to_index, connector_movement))
+            predecessors[to_index].append((from_index, connector_movement))
+        if any(
+            len({target for target, _ in mappings}) > 1
+            and {item_movement for _, item_movement in mappings} != {"split"}
+            for mappings in successors.values()
+        ):
+            raise ValueError(
+                f"Connectors between '{pair[0]}' and '{pair[1]}' create an ambiguous "
+                "lane successor."
+            )
+        if any(
+            len({source_index for source_index, _ in mappings}) > 1
+            and {item_movement for _, item_movement in mappings} != {"merge"}
+            for mappings in predecessors.values()
+        ):
+            raise ValueError(
+                f"Connectors between '{pair[0]}' and '{pair[1]}' create an ambiguous "
+                "lane predecessor."
+            )
 
     incoming_edges_by_node: dict[str, list[str]] = defaultdict(list)
     outgoing_edges_by_node: dict[str, list[str]] = defaultdict(list)
@@ -381,9 +439,14 @@ def validate_route_semantics(package: dict[str, Any]) -> None:
     for identity in identities.values():
         for field in ("system", "number", "shield", "signed_direction"):
             _required_string(identity, field, f"Route identity '{identity['id']}'")
-        _validate_provenance(identity.get("provenance"), f"Route identity '{identity['id']}'")
+        _validate_provenance(
+            identity.get("provenance"),
+            f"Route identity '{identity['id']}'",
+            source_id,
+            artifact_sha256,
+        )
 
-    _validate_context_records(semantics, edges, nodes, identities)
+    _validate_context_records(semantics, edges, nodes, identities, source_id, artifact_sha256)
     map_bytes = 0
     map_keys: set[tuple[str, int]] = set()
     map_records = semantics.get("simplified_map_geometry", [])
@@ -410,9 +473,7 @@ def validate_route_semantics(package: dict[str, Any]) -> None:
                     f"Simplified map geometry '{edge_id}' LOD {lod} distances are not increasing."
                 )
             previous_distance = distance
-        starts_at_zero = math.isclose(
-            float(points[0]["edge_distance_meters"]), 0.0, abs_tol=1e-9
-        )
+        starts_at_zero = math.isclose(float(points[0]["edge_distance_meters"]), 0.0, abs_tol=1e-9)
         ends_at_edge_length = math.isclose(
             float(points[-1]["edge_distance_meters"]),
             float(edges[edge_id]["length_meters"]),
@@ -484,6 +545,8 @@ def _validate_context_records(
     edges: dict[str, dict[str, Any]],
     nodes: dict[str, dict[str, Any]],
     identities: dict[str, dict[str, Any]],
+    source_id: str,
+    artifact_sha256: str,
 ) -> None:
     for label, key in (
         ("exit", "exits"),
@@ -501,7 +564,12 @@ def _validate_context_records(
                 raise ValueError(
                     f"{label.title()} '{record['id']}' references unknown route identity."
                 )
-            _validate_provenance(record.get("provenance"), f"{label.title()} '{record['id']}'")
+            _validate_provenance(
+                record.get("provenance"),
+                f"{label.title()} '{record['id']}'",
+                source_id,
+                artifact_sha256,
+            )
             if label == "exit":
                 node_id = _required_string(record, "junction_node_id", f"Exit '{record['id']}'")
                 ramp_edge_id = _required_string(record, "ramp_edge_id", f"Exit '{record['id']}'")
@@ -523,6 +591,11 @@ def _validate_context_records(
                 edge_id = _required_string(record, "edge_id", f"{label.title()} '{record['id']}'")
                 if edge_id not in edges:
                     raise ValueError(f"{label.title()} '{record['id']}' references unknown edge.")
+                if identity_id not in edges[edge_id]["route_identity_ids"]:
+                    raise ValueError(
+                        f"{label.title()} '{record['id']}' route identity does not belong to "
+                        f"edge '{edge_id}'."
+                    )
                 distance = _finite(record, "distance_meters", f"{label.title()} '{record['id']}'")
                 if distance < 0 or distance > float(edges[edge_id]["length_meters"]):
                     raise ValueError(f"{label.title()} '{record['id']}' is outside its edge.")
@@ -547,17 +620,24 @@ def _unique_by_id(records: Any, label: str) -> dict[str, dict[str, Any]]:
     return result
 
 
-def _validate_provenance(value: Any, context: str) -> None:
+def _validate_provenance(
+    value: Any,
+    context: str,
+    expected_source_id: str,
+    expected_artifact_sha256: str,
+) -> None:
     if not isinstance(value, dict):
         raise ValueError(f"{context} is missing provenance.")
     kind = value.get("kind")
     if kind not in PROVENANCE_KINDS:
         raise ValueError(f"{context} has unknown provenance kind '{kind}'.")
-    _required_string(value, "source_id", f"{context} provenance")
+    source_id = _required_string(value, "source_id", f"{context} provenance")
     _required_string(value, "source_record_id", f"{context} provenance")
     digest = _required_string(value, "artifact_sha256", f"{context} provenance")
     if len(digest) != 64 or any(character not in "0123456789abcdef" for character in digest):
         raise ValueError(f"{context} has invalid provenance artifact hash.")
+    if source_id != expected_source_id or digest != expected_artifact_sha256:
+        raise ValueError(f"{context} provenance is outside the package's locked source ancestry.")
     if kind == "derived" and not value.get("derivation"):
         raise ValueError(f"{context} derived provenance is missing its recipe.")
     if kind == "authored_override" and not value.get("authored_override_id"):
@@ -606,6 +686,21 @@ def _derived_movement(incoming_count: int, outgoing_count: int) -> str:
     if incoming_count > 1:
         return "merge"
     return "continuation"
+
+
+def _complete_lane_mapping(from_count: int, to_count: int) -> list[tuple[int, int]]:
+    if from_count <= 0 or to_count <= 0:
+        raise ValueError("Lane connector boundaries must contain at least one lane.")
+    if from_count == to_count:
+        return [(index, index) for index in range(from_count)]
+    if from_count > to_count:
+        return [
+            (index, min(to_count - 1, index * to_count // from_count))
+            for index in range(from_count)
+        ]
+    return [
+        (min(from_count - 1, index * from_count // to_count), index) for index in range(to_count)
+    ]
 
 
 def _movement_flag(movement: str) -> int:

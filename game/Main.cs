@@ -334,13 +334,25 @@ public sealed partial class Main : Node3D
         var routeDistance = _streamer.CurrentEdgeDistanceMeters;
         var edge = _package.Graph.GetEdge(_streamer.CurrentEdgeId);
         var currentSection = edge.GetLaneSection(routeDistance);
+        var activeLane = currentSection.Lanes.SingleOrDefault(candidate =>
+            candidate.Index == _streamer.CurrentLaneIndex &&
+            string.Equals(candidate.Id, _streamer.CurrentStableLaneId, StringComparison.Ordinal));
+        if (activeLane is null)
+        {
+            throw new InvalidDataException(
+                $"Active lane '{_streamer.CurrentStableLaneId}' at index " +
+                $"{_streamer.CurrentLaneIndex} is not valid for section '{currentSection.Id}'.");
+        }
         var position = RoutePositionMigration.Migrate(
             new RoutePosition(
                 edge.Id,
                 routeDistance,
-                Math.Min(1, currentSection.Lanes.Count - 1),
+                activeLane.Index,
                 _streamer.CurrentLateralOffsetMeters,
-                0),
+                0)
+            {
+                StableLaneId = activeLane.Id,
+            },
             edge);
         var runState = new RunState(
             Seed: 20_260_714,

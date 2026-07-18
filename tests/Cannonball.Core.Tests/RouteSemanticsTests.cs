@@ -38,6 +38,87 @@ public sealed class RouteSemanticsTests
         Assert.Contains("map geometry 'edge' LOD 0 hash is invalid", error.Message);
     }
 
+    [Theory]
+    [InlineData("anchor")]
+    [InlineData("marker")]
+    public void RouteContextIdentityMustBelongToReferencedEdge(string recordKind)
+    {
+        var bytes = CreateSchemaFourBytes(root =>
+        {
+            root.RouteIdentities!.Add(new RouteIdentityDataT
+            {
+                Id = "other-identity",
+                System = "US",
+                Number = "6",
+                Shield = "us",
+                SignedDirection = "east",
+                LocalName = "",
+                Provenance = root.RouteIdentities[0].Provenance,
+            });
+            if (recordKind == "anchor")
+            {
+                root.MilepointAnchors![0].RouteIdentityId = "other-identity";
+            }
+            else
+            {
+                root.RoadsideMarkers![0].RouteIdentityId = "other-identity";
+            }
+        });
+
+        var error = Assert.Throws<InvalidDataException>(() => FlatBufferRouteContent.Load(bytes));
+
+        Assert.Contains("invalid route placement", error.Message);
+    }
+
+    [Fact]
+    public void ClosestLaneUsesLaneWidthsAndStableTieBreaking()
+    {
+        var section = new LaneSection(
+            "section",
+            "edge",
+            0,
+            100,
+            [Lane("left", 0, Provenance()), Lane("right", 1, Provenance())],
+            Shoulder(),
+            Shoulder(),
+            "east",
+            Provenance());
+
+        Assert.Equal("left", section.GetClosestLane(-1.8).Id);
+        Assert.Equal("right", section.GetClosestLane(1.8).Id);
+        Assert.Equal("left", section.GetClosestLane(0).Id);
+    }
+
+    [Fact]
+    public void LaneLookupUsesValidatedBoundaryToleranceDeterministically()
+    {
+        var provenance = Provenance();
+        var edge = EdgeWithSections(
+            new LaneSection(
+                "before",
+                "edge",
+                0,
+                50,
+                [Lane("before-lane", 0, provenance)],
+                Shoulder(),
+                Shoulder(),
+                "east",
+                provenance),
+            new LaneSection(
+                "after",
+                "edge",
+                50 + 5e-10,
+                100,
+                [Lane("after-lane", 0, provenance)],
+                Shoulder(),
+                Shoulder(),
+                "east",
+                provenance));
+
+        Assert.Equal("after", edge.GetLaneSection(50).Id);
+        Assert.Equal("after", edge.GetLaneSection(100).Id);
+    }
+
     [Fact]
     public void RoutePositionMigrationUsesStableLaneIdentityAcrossIndexChanges()
     {
