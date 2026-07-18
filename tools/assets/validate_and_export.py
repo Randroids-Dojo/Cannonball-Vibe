@@ -107,6 +107,18 @@ def lint(profile: dict) -> dict:
         raise ValueError("Collision triangle budget exceeded")
     if profile["format"] != "GLB" or profile["gltf_version"] != "2.0":
         raise ValueError("Only the pinned glTF 2.0 binary profile is supported")
+    expected_axes = ("-Y", "+Z", "-Z", "+Y")
+    actual_axes = (
+        profile["source_forward_axis"],
+        profile["source_up_axis"],
+        profile["target_forward_axis"],
+        profile["target_up_axis"],
+    )
+    if actual_axes != expected_axes:
+        raise ValueError(f"Axis contract drift: expected {expected_axes}, got {actual_axes}")
+    lod0_bounds = tuple(round(value, 3) for value in bpy.data.objects["Visual_LOD0"].dimensions)
+    if lod0_bounds != (7.2, 12.0, 0.24):
+        raise ValueError(f"LOD0 meter bounds drift: {lod0_bounds}")
     return {
         "required_nodes": sorted(REQUIRED_NODES),
         "nodes": sorted(names),
@@ -118,6 +130,9 @@ def lint(profile: dict) -> dict:
         "portable_paths": True,
         "identity_transforms": True,
         "metric_scale": 1.0,
+        "source_axes": {"forward": "-Y", "up": "+Z"},
+        "godot_axes": {"forward": "-Z", "up": "+Y"},
+        "bounds_meters": list(lod0_bounds),
     }
 
 

@@ -51,10 +51,16 @@ if (!manifest.license.spdx || typeof manifest.license.redistributable !== "boole
 if (!["approved", "pending-human-review", "restricted"].includes(manifest.license.status)) {
   throw new Error("Unknown redistribution status");
 }
-assertKeys(manifest.semantic_contract, ["required_nodes", "forward_axis", "up_axis", "unit_meters", "wrapper_scene", "automation_id"], "Semantic contract");
+assertKeys(manifest.semantic_contract, ["required_nodes", "forward_axis", "up_axis", "unit_meters", "bounds_meters", "wrapper_scene", "automation_id"], "Semantic contract");
 assertKeys(manifest.budgets, ["triangles_lod0_max", "triangles_total_max", "materials_max", "textures_max", "texture_bytes_max", "collision_triangles_max"], "Budgets");
 if (!manifest.semantic_contract.required_nodes.length || new Set(manifest.semantic_contract.required_nodes).size !== manifest.semantic_contract.required_nodes.length) {
   throw new Error("Semantic nodes must be nonempty and unique");
+}
+if (JSON.stringify(blender.bounds_meters) !== JSON.stringify(manifest.semantic_contract.bounds_meters) ||
+    blender.godot_axes.forward !== manifest.semantic_contract.forward_axis ||
+    blender.godot_axes.up !== manifest.semantic_contract.up_axis ||
+    blender.metric_scale !== manifest.semantic_contract.unit_meters) {
+  throw new Error("Scale, bounds, or axis contract drift");
 }
 for (const [name, value] of Object.entries(manifest.budgets)) {
   if (!Number.isInteger(value) || value < 0) throw new Error(`Invalid budget ${name}`);

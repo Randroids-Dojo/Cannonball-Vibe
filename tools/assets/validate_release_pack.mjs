@@ -10,15 +10,18 @@ const u32 = () => { const value = bytes.readUInt32LE(offset); offset += 4; retur
 const u64 = () => { const value = Number(bytes.readBigUInt64LE(offset)); offset += 8; return value; };
 if (u32() !== 0x43504447) throw new Error("Not a Godot PCK");
 const format = u32();
+if (![2, 3, 4].includes(format)) throw new Error(`Unsupported PCK format: ${format}`);
 offset += 12;
 const flags = u32();
 if ((flags & 1) !== 0) throw new Error("Encrypted PCK cannot be audited");
 u64();
 if (format >= 3) offset = u64(); else offset += 64;
 const count = u32();
+if (count > 1_000_000) throw new Error(`Implausible PCK file count: ${count}`);
 const paths = [];
 for (let index = 0; index < count; index++) {
   const length = u32();
+  if (length > bytes.length - offset) throw new Error("Truncated PCK path table");
   paths.push(bytes.subarray(offset, offset + length).toString("utf8").replace(/\0+$/, ""));
   offset += length;
   u64();

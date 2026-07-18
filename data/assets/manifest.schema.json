@@ -67,12 +67,18 @@
     "semantic_contract": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["required_nodes", "forward_axis", "up_axis", "unit_meters", "wrapper_scene", "automation_id"],
+      "required": ["required_nodes", "forward_axis", "up_axis", "unit_meters", "bounds_meters", "wrapper_scene", "automation_id"],
       "properties": {
         "required_nodes": { "type": "array", "minItems": 3, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
         "forward_axis": { "enum": ["-Z", "+Z", "-Y", "+Y"] },
         "up_axis": { "enum": ["+Y", "+Z"] },
         "unit_meters": { "const": 1 },
+        "bounds_meters": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": { "type": "number", "exclusiveMinimum": 0 }
+        },
         "wrapper_scene": { "type": "string", "pattern": "\\.tscn$" },
         "automation_id": { "type": "string", "minLength": 1 }
       }

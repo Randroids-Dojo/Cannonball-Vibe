@@ -26,9 +26,9 @@
       "tool": "Blender",
       "tool_version": "5.1.2+ec6e62d40fa9",
       "script": "tools/assets/validate_and_export.py",
-      "script_sha256": "c53059748c7757018f4ec2df6806287a0a54ff0bc312a9eed08be8d3e56051e6",
+      "script_sha256": "dee328feb79a4e2e9589c18c03d614304df31b21a0f0a905a47691833167990d",
       "profile": "tools/assets/profiles/gltf2-binary-v1.json",
-      "profile_sha256": "c0d89079a9d8503edaade759e652adb261b569e868d53c3af7e6c67246e5cfcb",
+      "profile_sha256": "f63c4edb51fa5456177f2f43a8d1b21d8a732b6980a136d6aa82a742e856e272",
       "inputs": [
         {
           "path": "data/assets/pipeline-fixtures/sources/graybox-road-module.blend",
@@ -77,7 +77,7 @@
     },
     {
       "path": "data/assets/pipeline-fixtures/graybox-road-module.blender.json",
-      "sha256": "25966f1458c70f1f4c32d48cbdfbb5cdcd01064b9c728f12a704301e40c7bfb9",
+      "sha256": "303719838386ba5f562515492a721cf815ab7d641c0c442973465a73b60f3b34",
       "kind": "blender-inventory"
     },
     {
@@ -97,6 +97,7 @@
     "forward_axis": "-Z",
     "up_axis": "+Y",
     "unit_meters": 1,
+    "bounds_meters": [7.2, 12.0, 0.24],
     "wrapper_scene": "assets/pipeline-fixtures/graybox-road-module/graybox-road-module.tscn",
     "automation_id": "asset.fixture.graybox-road-module"
   },
