@@ -92,6 +92,14 @@ public sealed partial class Main : Node3D
     private double _routeChoiceMaximumCollisionBuildMilliseconds;
     private int _routeChoiceMaximumUnsupportedFrames;
     private int _routeChoiceChunkFailures;
+    private bool _resumeRequested;
+    private bool _resumeVerify;
+    private double _elapsedSecondsBase;
+    private ulong _sessionStartedTicks;
+    private ulong _runSeed = 20_260_714;
+    private double _cash = 25_000;
+    private VehicleCondition _vehicleCondition = new(82, 1, 1, 1, 0);
+    private EnforcementState _enforcement = new(0, 0, "clear", 0);
 
     public override void _Ready()
     {
@@ -100,6 +108,10 @@ public sealed partial class Main : Node3D
             var arguments = OS.GetCmdlineUserArgs();
             var routePath = RequiredArgument(arguments, "--route-package");
             var requestedProbeMiles = OptionalPositiveDouble(arguments, "--distance-miles");
+            _resumeVerify = arguments.Contains("--resume-verify", StringComparer.Ordinal);
+            _resumeRequested = arguments.Contains("--resume", StringComparer.Ordinal) ||
+                _resumeVerify;
+            _sessionStartedTicks = Time.GetTicksMsec();
             _smokeTest = arguments.Contains("--smoke-test", StringComparer.Ordinal) || requestedProbeMiles > 0;
             _stressTest = arguments.Contains("--stress-driver", StringComparer.Ordinal);
             _shortCorridorSoak = arguments.Contains("--short-corridor-soak", StringComparer.Ordinal);
@@ -111,7 +123,7 @@ public sealed partial class Main : Node3D
             _routeChoiceProfile = arguments.Contains("--route-choice-profile", StringComparer.Ordinal);
             _smokeTest = _smokeTest || _stressTest || _shortCorridorSoak || _renderIntegrity ||
                 _geographicReview || _streamingProfile || _topologyProfile || _topologyReview ||
-                _routeChoiceProfile;
+                _routeChoiceProfile || _resumeVerify;
             _smokeTargetFrames = _stressTest || _shortCorridorSoak ? 3_600 : 360;
             if (_renderIntegrity)
             {
@@ -156,11 +168,38 @@ public sealed partial class Main : Node3D
                         ?? throw new InvalidDataException("Route package has no parent directory."));
             }
 
+            _saves = new JsonRunStateRepository(
+                ProjectSettings.GlobalizePath("user://runs/suspended-run.json"),
+                RunSave.ComputePackageIdentity(_package));
+            RunSave? resumedSave = null;
+            if (_resumeRequested)
+            {
+                resumedSave = Task.Run(async () => await _saves.LoadAsync())
+                    .GetAwaiter().GetResult()
+                    ?? throw new InvalidDataException("No suspended run is available to resume.");
+                _elapsedSecondsBase = resumedSave.Run.ElapsedSeconds;
+                _runSeed = resumedSave.Run.Seed;
+                _cash = resumedSave.Run.Cash;
+                _vehicleCondition = resumedSave.Run.Vehicle;
+                _enforcement = resumedSave.Run.Enforcement;
+            }
+
             ConfigureInputMap();
             BuildLighting();
-            ConfigureRuntimeWorld(_interchangeFixture is null
+            var initialRoutePlan = _interchangeFixture is null
                 ? null
-                : _interchangeFixture.Plans[RouteChoicePlanOrder[0]]);
+                : resumedSave is not null &&
+                    _interchangeFixture.Plans.TryGetValue(
+                        resumedSave.Run.Navigation.SelectedPlanId,
+                        out var resumedPlan)
+                    ? resumedPlan
+                    : _interchangeFixture.Plans[RouteChoicePlanOrder[0]];
+            ConfigureRuntimeWorld(initialRoutePlan, resumedSave);
+            if (_resumeVerify)
+            {
+                ValidateResumedRuntime(resumedSave
+                    ?? throw new InvalidOperationException("Resume verification requires a save."));
+            }
             if (_topologyReview)
             {
                 _topologyDiagnosticCamera = new Camera3D
@@ -174,14 +213,20 @@ public sealed partial class Main : Node3D
             _hud = new PrototypeHud { Name = "PrototypeHud" };
             AddChild(_hud);
 
-            _saves = new JsonRunStateRepository(
-                ProjectSettings.GlobalizePath("user://runs/suspended-run.json"),
-                _package.Graph.ContentVersion);
             _telemetry = new JsonlTelemetrySink(
                 ProjectSettings.GlobalizePath("user://telemetry/prototype.jsonl"));
 
             _vehicle.AutopilotEnabled = _smokeTest && !_renderIntegrity && !_streamingProfile &&
                 !_topologyProfile && !_topologyReview && !_routeChoiceProfile;
+            if (resumedSave is not null)
+            {
+                _vehicle.SetAssistProfile(resumedSave.Run.AssistProfile);
+                GD.Print(
+                    $"CANNONBALL_RESUME_OK edge={resumedSave.Run.Position.EdgeId} " +
+                    $"distance_m={resumedSave.Run.Position.DistanceMeters:0.000} " +
+                    $"rebases={resumedSave.Run.WorldStream.RebaseCount} " +
+                    $"backup_recovery={_saves.LastLoadRecovery?.UsedBackup ?? false}");
+            }
             if (_geographicReview)
             {
                 _vehicle.AutopilotEnabled = false;
@@ -226,6 +271,10 @@ public sealed partial class Main : Node3D
                 $"CANNONBALL_READY engine={Engine.GetVersionInfo()["string"]} " +
                 $"physics_hz={Engine.PhysicsTicksPerSecond} " +
                 $"content_source=packaged content_version={_package.Graph.ContentVersion}");
+            if (_resumeVerify)
+            {
+                GetTree().Quit();
+            }
         }
         catch (Exception exception)
         {
@@ -332,28 +381,76 @@ public sealed partial class Main : Node3D
         }
     }
 
-    private void ConfigureRuntimeWorld(ValidatedRoutePlan? routePlan)
+    private void ConfigureRuntimeWorld(ValidatedRoutePlan? routePlan, RunSave? resumedSave = null)
     {
-        var routePlanEdgeIds = routePlan?.LinearPlan.EdgeIds;
+        var routePlanEdgeIds = resumedSave?.Run.RoutePlan ?? routePlan?.LinearPlan.EdgeIds;
         var initialManifest = WorldStreamer.FindInitialManifest(_package, routePlanEdgeIds);
         var initialChunk = _chunkSource.LoadChunk(initialManifest.Id);
+        IReadOnlyList<RouteChunkContent>? resumeChunks = null;
+        if (resumedSave is not null)
+        {
+            var resumeManifest = WorldStreamer.FindManifest(
+                _package,
+                resumedSave.Run.Position.EdgeId,
+                resumedSave.Run.Position.DistanceMeters);
+            var savedChunkIds = resumedSave.Run.WorldStream.LoadedChunkIds;
+            var resumeChunkIds = (savedChunkIds.Count == 0
+                    ? [resumeManifest.Id]
+                    : savedChunkIds)
+                .Distinct(StringComparer.Ordinal)
+                .OrderBy(id => id, StringComparer.Ordinal)
+                .ToArray();
+            resumeChunks = resumeChunkIds.Select(_chunkSource.LoadChunk).ToArray();
+        }
         _streamer = new WorldStreamer { Name = "WorldStreamer" };
         _streamer.Configure(
             _package,
             _chunkSource,
             initialChunk,
             routePlanEdgeIds,
-            routePlan?.Selection.ConnectorIds);
+            routePlan?.Selection.ConnectorIds,
+            resumedSave?.Run.Position,
+            resumedSave?.Run.WorldStream,
+            resumeChunks,
+            resumedSave?.Run.Navigation);
         _streamer.ShortCorridorLoopEnabled = _shortCorridorSoak;
-        AddChild(_streamer);
+        var vehicleTransform = resumedSave is null
+            ? new Transform3D(
+                Basis.LookingAt(_streamer.InitialRoadForward, Vector3.Up),
+                _streamer.InitialRoadPoint + Vector3.Up * 0.78f)
+            : new Transform3D(
+                new Basis(new Quaternion(
+                    (float)resumedSave.LocalVehicle.RotationX,
+                    (float)resumedSave.LocalVehicle.RotationY,
+                    (float)resumedSave.LocalVehicle.RotationZ,
+                    (float)resumedSave.LocalVehicle.RotationW)),
+                new Vector3(
+                    (float)resumedSave.LocalVehicle.PositionX,
+                    (float)resumedSave.LocalVehicle.PositionY,
+                    (float)resumedSave.LocalVehicle.PositionZ));
         _vehicle = new CannonballVehicle
         {
-            Transform = new Transform3D(
-                Basis.LookingAt(_streamer.InitialRoadForward, Vector3.Up),
-                _streamer.InitialRoadPoint + Vector3.Up * 0.78f),
+            Transform = vehicleTransform,
+            LinearVelocity = resumedSave is null
+                ? Vector3.Zero
+                : new Vector3(
+                    (float)resumedSave.LocalVehicle.VelocityX,
+                    (float)resumedSave.LocalVehicle.VelocityY,
+                    (float)resumedSave.LocalVehicle.VelocityZ),
+            AngularVelocity = resumedSave is null
+                ? Vector3.Zero
+                : new Vector3(
+                    (float)resumedSave.LocalVehicle.AngularVelocityX,
+                    (float)resumedSave.LocalVehicle.AngularVelocityY,
+                    (float)resumedSave.LocalVehicle.AngularVelocityZ),
         };
-        AddChild(_vehicle);
+        if (resumedSave is not null)
+        {
+            _vehicle.SetAssistProfile(resumedSave.Run.AssistProfile);
+        }
         _streamer.Track(_vehicle);
+        AddChild(_streamer);
+        AddChild(_vehicle);
     }
 
     private void ReplaceRuntimeWorld(ValidatedRoutePlan plan)
@@ -367,6 +464,72 @@ public sealed partial class Main : Node3D
         ConfigureRuntimeWorld(plan);
         _vehicle.AutopilotEnabled = false;
     }
+
+    private void ValidateResumedRuntime(RunSave expected)
+    {
+        var position = expected.Run.Position;
+        var actualStream = _streamer.CaptureStreamSnapshot();
+        var actualRotation = _vehicle.Basis.GetRotationQuaternion();
+        var expectedRotation = new Quaternion(
+            (float)expected.LocalVehicle.RotationX,
+            (float)expected.LocalVehicle.RotationY,
+            (float)expected.LocalVehicle.RotationZ,
+            (float)expected.LocalVehicle.RotationW).Normalized();
+        var rotationDot = Math.Abs(actualRotation.Normalized().Dot(expectedRotation));
+        if (!string.Equals(_streamer.CurrentEdgeId, position.EdgeId, StringComparison.Ordinal) ||
+            Math.Abs(_streamer.CurrentEdgeDistanceMeters - position.DistanceMeters) > 0.001 ||
+            _streamer.CurrentLaneIndex != position.LaneIndex ||
+            !string.Equals(
+                _streamer.CurrentStableLaneId,
+                position.StableLaneId,
+                StringComparison.Ordinal) ||
+            !_streamer.RoutePlan.SequenceEqual(expected.Run.RoutePlan, StringComparer.Ordinal) ||
+            !string.Equals(
+                _streamer.ActiveConnectorId,
+                expected.Run.Navigation.ActiveConnectorId,
+                StringComparison.Ordinal) ||
+            !StreamEquivalent(actualStream, expected.Run.WorldStream) ||
+            _runSeed != expected.Run.Seed ||
+            _cash != expected.Run.Cash ||
+            _vehicleCondition != expected.Run.Vehicle ||
+            _enforcement != expected.Run.Enforcement ||
+            _vehicle.AssistProfile != expected.Run.AssistProfile ||
+            _elapsedSecondsBase != expected.Run.ElapsedSeconds ||
+            _vehicle.Position.DistanceTo(new Vector3(
+                (float)expected.LocalVehicle.PositionX,
+                (float)expected.LocalVehicle.PositionY,
+                (float)expected.LocalVehicle.PositionZ)) > 0.001f ||
+            _vehicle.LinearVelocity.DistanceTo(new Vector3(
+                (float)expected.LocalVehicle.VelocityX,
+                (float)expected.LocalVehicle.VelocityY,
+                (float)expected.LocalVehicle.VelocityZ)) > 0.001f ||
+            _vehicle.AngularVelocity.DistanceTo(new Vector3(
+                (float)expected.LocalVehicle.AngularVelocityX,
+                (float)expected.LocalVehicle.AngularVelocityY,
+                (float)expected.LocalVehicle.AngularVelocityZ)) > 0.001f ||
+            1 - rotationDot > 0.0001)
+        {
+            throw new InvalidDataException(
+                "Resumed runtime does not match the authoritative suspended state.");
+        }
+        GD.Print(
+            $"CANNONBALL_RESUME_EQUIVALENT_OK edge={position.EdgeId} " +
+            $"distance_m={position.DistanceMeters:0.000} lane={position.StableLaneId} " +
+            $"loaded_chunks={actualStream.LoadedChunkIds.Count} " +
+            $"collision_chunks={actualStream.CollisionChunkIds.Count} " +
+            $"rebases={actualStream.RebaseCount}");
+    }
+
+    private static bool StreamEquivalent(
+        WorldStreamSnapshot actual,
+        WorldStreamSnapshot expected) =>
+        Math.Abs(actual.OriginWorldX - expected.OriginWorldX) <= 0.001 &&
+        Math.Abs(actual.OriginWorldY - expected.OriginWorldY) <= 0.001 &&
+        Math.Abs(actual.OriginWorldZ - expected.OriginWorldZ) <= 0.001 &&
+        Math.Abs(actual.LocalOriginRouteMeters - expected.LocalOriginRouteMeters) <= 0.001 &&
+        actual.RebaseCount == expected.RebaseCount &&
+        actual.LoadedChunkIds.SequenceEqual(expected.LoadedChunkIds, StringComparer.Ordinal) &&
+        actual.CollisionChunkIds.SequenceEqual(expected.CollisionChunkIds, StringComparer.Ordinal);
 
     private ValidatedRoutePlan ActiveRouteChoicePlan =>
         _interchangeFixture?.Plans[RouteChoicePlanOrder[Math.Min(
@@ -747,17 +910,20 @@ public sealed partial class Main : Node3D
             },
             edge);
         var runState = new RunState(
-            Seed: 20_260_714,
+            Seed: _runSeed,
             Position: position,
             RoutePlan: _streamer.RoutePlan,
-            ElapsedSeconds: Time.GetTicksMsec() / 1000.0,
-            Cash: 25_000,
-            Vehicle: new VehicleCondition(82, 1, 1, 1, 0),
-            Enforcement: new EnforcementState(0, 0, "clear", 0),
+            ElapsedSeconds: _elapsedSecondsBase +
+                (Time.GetTicksMsec() - _sessionStartedTicks) / 1000.0,
+            Cash: _cash,
+            Vehicle: _vehicleCondition,
+            Enforcement: _enforcement,
             AssistProfile: _vehicle.AssistProfile)
         {
             Navigation = CaptureNavigationState(),
+            WorldStream = _streamer.CaptureStreamSnapshot(),
         };
+        var rotation = _vehicle.Basis.GetRotationQuaternion();
         var localVehicle = new LocalVehicleState(
             _vehicle.Position.X,
             _vehicle.Position.Y,
@@ -767,11 +933,17 @@ public sealed partial class Main : Node3D
             _vehicle.LinearVelocity.Z,
             _vehicle.AngularVelocity.X,
             _vehicle.AngularVelocity.Y,
-            _vehicle.AngularVelocity.Z);
+            _vehicle.AngularVelocity.Z)
+        {
+            RotationX = rotation.X,
+            RotationY = rotation.Y,
+            RotationZ = rotation.Z,
+            RotationW = rotation.W,
+        };
         return new RunSave(
             RunSave.CurrentSchemaVersion,
             _package.Graph.ContentVersion,
-            RunSave.ComputeContentChecksum(_package.Graph.ContentVersion),
+            RunSave.ComputePackageIdentity(_package).PackageChecksum,
             DateTimeOffset.UtcNow,
             runState,
             localVehicle,

@@ -38,6 +38,18 @@ public sealed record RouteNavigationState(
         new(string.Empty, string.Empty, BranchStreamSnapshot.Empty);
 }
 
+public sealed record WorldStreamSnapshot(
+    double OriginWorldX,
+    double OriginWorldY,
+    double OriginWorldZ,
+    double LocalOriginRouteMeters,
+    int RebaseCount,
+    IReadOnlyList<string> LoadedChunkIds,
+    IReadOnlyList<string> CollisionChunkIds)
+{
+    public static WorldStreamSnapshot Empty { get; } = new(0, 0, 0, 0, 0, [], []);
+}
+
 public sealed record RunState(
     ulong Seed,
     RoutePosition Position,
@@ -49,6 +61,8 @@ public sealed record RunState(
     AssistProfile AssistProfile)
 {
     public RouteNavigationState Navigation { get; init; } = RouteNavigationState.Empty;
+
+    public WorldStreamSnapshot WorldStream { get; init; } = WorldStreamSnapshot.Empty;
 }
 
 public sealed class RunDirector

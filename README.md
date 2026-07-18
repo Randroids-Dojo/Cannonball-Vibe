@@ -54,6 +54,8 @@ Run a Godot-only scenario through the same exact-version CLI front door:
 ./scripts/run-scenario.sh --smoke-test
 ./scripts/run-scenario.sh --short-corridor-soak
 ./scripts/run-scenario.sh --fixture official-corridor --distance-miles 100
+./scripts/run-scenario.sh --fixture official-corridor --resume-verify
+./scripts/run-resume-fuzz.sh --cases 10000
 ```
 
 The scenario command builds the locked route package and C# game assembly
@@ -62,6 +64,11 @@ command is explicitly a repeated transport verification of 0.226102 unique
 fixture miles, not a claim that the short fixture is a representative long run.
 Likewise, `--short-corridor-soak` is a high-speed packaged-fixture regression;
 the 200 mph plus local-origin-rebase stress gate still requires a longer route.
+`--resume-verify` loads the fixture's suspended run and checks route position,
+stable lane, route plan, local origin, streamed chunk and collision sets,
+vehicle transform and motion, elapsed time, systems, and package identity before
+the scene advances. The seeded fuzz command performs exact repository
+save/load comparisons at the requested number of deterministic save points.
 
 Capture a fixed-FPS visual artifact on a machine with a real graphics renderer:
 

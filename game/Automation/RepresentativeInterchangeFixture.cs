@@ -197,7 +197,10 @@ public static class RepresentativeInterchangeFixture
                 "chunk-directional-transfer-ramp",
             ],
         };
-        var package = new RouteContentPackage(graph, chunks, sourcePackage.Metadata, semantics);
+        var package = new RouteContentPackage(graph, chunks, sourcePackage.Metadata, semantics)
+        {
+            RootContentHash = sourcePackage.RootContentHash,
+        };
         var source = new VerifiedMemoryChunkSource(package, chunkBytes);
         var catalog = new RouteChoiceCatalog(graph, semantics);
         var plans = BuildPlanSelections().ToDictionary(
