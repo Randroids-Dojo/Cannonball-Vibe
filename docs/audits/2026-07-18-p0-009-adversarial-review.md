@@ -80,3 +80,4 @@ from `schemas/route_graph.fbs` before review.
   normalized GeoPackage, FlatBuffer root, metadata, and four CBCK chunks.
 - Linux and Windows M0, reproducible exports, and Linux/Windows clean-machine
   export smokes passed on the recovery revision.
+- CodeRabbit approved the review-fix revision with no remaining requested changes.

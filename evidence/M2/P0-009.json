@@ -120,6 +120,15 @@
     "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29630246841/job/88042325339"
   ],
   "retry_count": 2,
-  "recovery_result": "pending remote verification of the CodeRabbit review revision",
+  "recovery_result": {
+    "status": "passed",
+    "revision": "b164909ba9c92e58ad2586ef56178c786b8f597c",
+    "linux_m0": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29631043369/job/88044503137",
+    "windows_m0": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29631043369/job/88044503165",
+    "reproducible_exports": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29631043392/job/88044503235",
+    "linux_clean_machine_smoke": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29631043392/job/88044774619",
+    "windows_clean_machine_smoke": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29631043392/job/88044774620",
+    "coderabbit": "approved"
+  },
   "human_gate": null
 }

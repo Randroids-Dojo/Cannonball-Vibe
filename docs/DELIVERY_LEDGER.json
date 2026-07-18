@@ -567,7 +567,7 @@
       "milestone": "M2",
       "priority": "P0",
       "title": "Versioned route semantics and lane-topology contract",
-      "status": "in_progress",
+      "status": "complete",
       "dependencies": [
         "P0-002",
         "P0-003",
