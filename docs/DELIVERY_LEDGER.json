@@ -378,7 +378,10 @@
         "P0-004"
       ],
       "owned_paths": [
-        "game/World/"
+        "game/World/",
+        "game/Main.cs",
+        "scripts/run-scenario.sh",
+        "evidence/M1/P1-001.json"
       ],
       "acceptance": [
         "Only the declared near-player window carries collision",
