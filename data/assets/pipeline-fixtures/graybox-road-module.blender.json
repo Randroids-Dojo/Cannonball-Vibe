@@ -76,6 +76,7 @@
     "up": "+Z"
   },
   "textures": [],
+  "texture_bytes_total": 0,
   "triangle_total": 36,
   "triangles": {
     "CollisionProxy": 12,

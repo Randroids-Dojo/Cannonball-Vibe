@@ -32,6 +32,6 @@ for (let index = 0; index < count; index++) {
 const forbidden = paths.filter((value) => value.endsWith(".blend") || value.includes("tools/assets/") || value.includes("data/assets/"));
 if (forbidden.length) throw new Error(`Release pack contains build-only asset inputs: ${forbidden.join(", ")}`);
 const wrapperPresent = paths.some((value) => value.includes("graybox-road-module.tscn"));
-const importedAssetPresent = paths.some((value) => value.includes("graybox-road-module.glb") || value.includes("graybox-road-module.glb-"));
+const importedAssetPresent = paths.some((value) => /(^|\/)\.godot\/imported\/graybox-road-module\.glb-[0-9a-f]+\.scn$/i.test(value));
 if (!wrapperPresent || !importedAssetPresent) throw new Error("Release pack is missing the wrapper or imported GLB");
 console.log(`CANNONBALL_ASSET_RELEASE_OK files=${paths.length} wrapper=1 imported_glb=1 build_dependencies=0`);

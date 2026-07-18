@@ -78,7 +78,7 @@ def lint(profile: dict) -> dict:
         raise ValueError(f"External image paths are not allowed in the fixture: {external_images}")
 
     triangles = {}
-    materials = set()
+    materials = {}
     for item in asset.objects:
         assert_identity(item)
         if item.type != "MESH":
@@ -87,8 +87,27 @@ def lint(profile: dict) -> dict:
         mesh = evaluated.to_mesh()
         mesh.calc_loop_triangles()
         triangles[item.name] = len(mesh.loop_triangles)
-        materials.update(slot.material.name for slot in item.material_slots if slot.material)
+        for slot in item.material_slots:
+            if slot.material:
+                materials[slot.material.name] = slot.material
         evaluated.to_mesh_clear()
+    textures = {}
+    for material in materials.values():
+        if material.node_tree is None:
+            continue
+        for node in material.node_tree.nodes:
+            if node.type != "TEX_IMAGE" or node.image is None:
+                continue
+            image = node.image
+            packed_bytes = len(image.packed_file.data) if image.packed_file else 0
+            estimated_bytes = int(image.size[0]) * int(image.size[1]) * max(image.channels, 1)
+            textures[image.name] = {
+                "name": image.name,
+                "source": image.source,
+                "bytes": packed_bytes or estimated_bytes,
+            }
+    texture_inventory = [textures[name] for name in sorted(textures)]
+    texture_bytes_total = sum(texture["bytes"] for texture in texture_inventory)
     budgets = {
         "triangles_lod0_max": 24,
         "triangles_total_max": 72,
@@ -103,6 +122,10 @@ def lint(profile: dict) -> dict:
         raise ValueError("Total triangle budget exceeded")
     if len(materials) > budgets["materials_max"]:
         raise ValueError("Material budget exceeded")
+    if len(texture_inventory) > budgets["textures_max"]:
+        raise ValueError("Texture count budget exceeded")
+    if texture_bytes_total > budgets["texture_bytes_max"]:
+        raise ValueError("Texture byte budget exceeded")
     if triangles.get("CollisionProxy", 0) > budgets["collision_triangles_max"]:
         raise ValueError("Collision triangle budget exceeded")
     if profile["format"] != "GLB" or profile["gltf_version"] != "2.0":
@@ -125,7 +148,8 @@ def lint(profile: dict) -> dict:
         "triangles": dict(sorted(triangles.items())),
         "triangle_total": sum(triangles.values()),
         "materials": sorted(materials),
-        "textures": [],
+        "textures": texture_inventory,
+        "texture_bytes_total": texture_bytes_total,
         "budgets": budgets,
         "portable_paths": True,
         "identity_transforms": True,

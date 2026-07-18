@@ -26,7 +26,7 @@
       "tool": "Blender",
       "tool_version": "5.1.2+ec6e62d40fa9",
       "script": "tools/assets/validate_and_export.py",
-      "script_sha256": "dee328feb79a4e2e9589c18c03d614304df31b21a0f0a905a47691833167990d",
+      "script_sha256": "01cc29d0c80a690d59d8fec6dd544cdba1044096d6686b8c58e16e78a46fa0e5",
       "profile": "tools/assets/profiles/gltf2-binary-v1.json",
       "profile_sha256": "f63c4edb51fa5456177f2f43a8d1b21d8a732b6980a136d6aa82a742e856e272",
       "inputs": [
@@ -42,7 +42,7 @@
       "tool": "Godot",
       "tool_version": "4.7.1.stable.mono.official.a13da4feb",
       "script": "tools/assets/validate_import.gd",
-      "script_sha256": "dca0bb7d2ce61e72f508dcee0a9300eae0adc87335855cb4f6f4aaa1944b5edf",
+      "script_sha256": "648a5edeebde936b6240237b5e3b0fe73e8d34aa824f4f3cc3db701ee296e81a",
       "profile": "tools/assets/profiles/godot-4.7.1-v1.json",
       "profile_sha256": "22feccfc894d853a070bbcfd3ba04963165d72adfa918dbfdb657b2dbbfc5645",
       "inputs": [
@@ -77,12 +77,12 @@
     },
     {
       "path": "data/assets/pipeline-fixtures/graybox-road-module.blender.json",
-      "sha256": "303719838386ba5f562515492a721cf815ab7d641c0c442973465a73b60f3b34",
+      "sha256": "8a1ede7a8402e25b1dec33710603e86d137692b0b1a5d8286dee196eba98df55",
       "kind": "blender-inventory"
     },
     {
       "path": "data/assets/pipeline-fixtures/graybox-road-module.godot.json",
-      "sha256": "867381aba814afc967e2872d496cf1887810766febff656e771e742e67dce6b2",
+      "sha256": "85965ab03f50c10bc31a124599e26e312d20944c34b41794f5e2468a90ac6acb",
       "kind": "godot-inventory"
     }
   ],

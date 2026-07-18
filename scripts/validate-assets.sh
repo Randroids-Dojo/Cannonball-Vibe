@@ -11,6 +11,7 @@ if [[ -z "$blender_bin" || ! -x "$blender_bin" ]]; then
 fi
 expected_blender="$(node -p 'require("./tools/assets/toolchain.json").blender.version')"
 expected_blender_hash="$(node -p 'require("./tools/assets/toolchain.json").blender.build_hash')"
+contact_reference_platform="$(node -p 'require("./tools/assets/toolchain.json").blender.contact_sheet_reference_platform')"
 blender_version="$($blender_bin --version | awk 'NR==1 {print $2}')"
 blender_hash="$($blender_bin --version | awk '/build hash:/ {print $3}')"
 if [[ "$blender_version" != "$expected_blender" || "$blender_hash" != "$expected_blender_hash" ]]; then
@@ -53,10 +54,15 @@ cmp "$work/first/graybox-road-module.glb" "$work/second/graybox-road-module.glb"
 cmp "$work/first/graybox-road-module-contact-sheet.png" \
   "$work/second/graybox-road-module-contact-sheet.png"
 cmp "$work/first/graybox-road-module.glb" "$tracked_glb"
+current_platform="$(uname -s | tr '[:upper:]' '[:lower:]')-$(uname -m)"
+if [[ "$current_platform" == "$contact_reference_platform" ]]; then
+  cmp "$work/first/graybox-road-module-contact-sheet.png" "$tracked_contact"
+fi
 
 for mutation in unapplied-scale missing-semantic-node external-texture; do
   invalid="$work/invalid-$mutation.blend"
-  "$blender_bin" --background --factory-startup --python tools/assets/mutate_fixture.py -- \
+  "$blender_bin" --background --factory-startup --python-exit-code 1 \
+    --python tools/assets/mutate_fixture.py -- \
     --source "$source_asset" --output "$invalid" --mutation "$mutation" \
     >"reports/assets/rejected-$mutation.log" 2>&1
   if "$blender_bin" --background "$invalid" --python-exit-code 1 \
@@ -82,18 +88,54 @@ rsync -a --exclude .git --exclude .godot --exclude .tools --exclude reports \
   --output "$work/godot.json" \
   --profile "res://$godot_profile"
 
-node tools/assets/validate_manifest.mjs \
-  --schema data/assets/manifest.schema.json \
-  --manifest "$manifest" \
-  --blender-inventory "$work/first/blender.json" \
-  --godot-inventory "$work/godot.json" \
-  --output reports/assets/p1-002-validation.json
+invalid_manifest="$work/invalid-manifest.json"
+node -e '
+  const fs = require("node:fs");
+  const value = JSON.parse(fs.readFileSync(process.argv[1], "utf8"));
+  value.unexpected_field = true;
+  fs.writeFileSync(process.argv[2], `${JSON.stringify(value)}\n`);
+' "$manifest" "$invalid_manifest"
+if node tools/assets/validate_manifest.mjs \
+    --schema data/assets/manifest.schema.json \
+    --manifest "$invalid_manifest" \
+    --blender-inventory "$work/first/blender.json" \
+    --godot-inventory "$work/godot.json" \
+    --output "$work/invalid-report.json" \
+    >"reports/assets/rejected-invalid-manifest.log" 2>&1; then
+  echo "Schema-invalid manifest unexpectedly passed." >&2
+  exit 1
+fi
+
+over_budget_inventory="$work/over-budget-inventory.json"
+node -e '
+  const fs = require("node:fs");
+  const value = JSON.parse(fs.readFileSync(process.argv[1], "utf8"));
+  value.texture_bytes_total = 1;
+  fs.writeFileSync(process.argv[2], `${JSON.stringify(value)}\n`);
+' "$work/first/blender.json" "$over_budget_inventory"
+if node tools/assets/validate_manifest.mjs \
+    --schema data/assets/manifest.schema.json \
+    --manifest "$manifest" \
+    --blender-inventory "$over_budget_inventory" \
+    --godot-inventory "$work/godot.json" \
+    --output "$work/over-budget-report.json" \
+    >"reports/assets/rejected-texture-byte-budget.log" 2>&1; then
+  echo "Texture-byte budget violation unexpectedly passed." >&2
+  exit 1
+fi
 
 dotnet build "$project_stage/Cannonball.csproj" --nologo
 ./scripts/godot.sh --headless --path "$project_stage" \
   --export-pack "Asset pipeline validation" "$work/cannonball-assets.pck"
 node tools/assets/validate_release_pack.mjs "$work/cannonball-assets.pck"
 node scripts/release/pck-inspect.mjs "$work/cannonball-assets.pck" --allow-pipeline-fixtures
+
+node tools/assets/validate_manifest.mjs \
+  --schema data/assets/manifest.schema.json \
+  --manifest "$manifest" \
+  --blender-inventory "$work/first/blender.json" \
+  --godot-inventory "$work/godot.json" \
+  --output reports/assets/p1-002-validation.json
 
 cp "$work/first/blender.json" reports/assets/graybox-road-module.blender.json
 cp "$work/godot.json" reports/assets/graybox-road-module.godot.json

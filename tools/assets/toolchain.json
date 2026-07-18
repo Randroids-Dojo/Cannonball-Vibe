@@ -3,6 +3,7 @@
   "blender": {
     "version": "5.1.2",
     "build_hash": "ec6e62d40fa9",
+    "contact_sheet_reference_platform": "darwin-arm64",
     "linux_x64_url": "https://download.blender.org/release/Blender5.1/blender-5.1.2-linux-x64.tar.xz",
     "linux_x64_sha256": "aaccb355f50183979b698bcce7467103a76261b5fa59f4972295842662a285fb"
   },

@@ -469,7 +469,8 @@
         "docs/QUESTIONS_FOR_RANDROID.md",
         "docs/TECH_STACK.md",
         "docs/audits/",
-        "evidence/M5/P1-002.json"
+        "evidence/M5/P1-002.json",
+        "reports/assets/"
       ],
       "acceptance": [
         "The exact Blender build, export scripts, glTF profile, and Godot 4.7.1 import settings are pinned and invokable without an interactive editor",

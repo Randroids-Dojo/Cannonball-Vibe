@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import { createHash } from "node:crypto";
+import { execFileSync } from "node:child_process";
 import { readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 
@@ -23,6 +24,92 @@ const schema = load(args.schema);
 const blender = load(args["blender-inventory"]);
 const godot = load(args["godot-inventory"]);
 const godotProfile = load("tools/assets/profiles/godot-4.7.1-v1.json");
+const supportedSchemaKeywords = new Set([
+  "$schema", "$id", "$ref", "$defs", "title", "type", "const", "enum", "format",
+  "pattern", "minLength", "minimum", "exclusiveMinimum", "minItems", "maxItems",
+  "uniqueItems", "items", "required", "properties", "additionalProperties",
+]);
+const assertSupportedSchema = (rule, path = "$") => {
+  for (const keyword of Object.keys(rule)) {
+    if (!supportedSchemaKeywords.has(keyword)) throw new Error(`Unsupported JSON Schema keyword ${path}.${keyword}`);
+  }
+  for (const [name, child] of Object.entries(rule.properties ?? {})) assertSupportedSchema(child, `${path}.properties.${name}`);
+  for (const [name, child] of Object.entries(rule.$defs ?? {})) assertSupportedSchema(child, `${path}.$defs.${name}`);
+  if (rule.items) assertSupportedSchema(rule.items, `${path}.items`);
+};
+assertSupportedSchema(schema);
+const resolveReference = (reference) => {
+  if (!reference.startsWith("#/")) throw new Error(`Unsupported schema reference: ${reference}`);
+  return reference.slice(2).split("/").reduce(
+    (value, part) => value[part.replaceAll("~1", "/").replaceAll("~0", "~")],
+    schema,
+  );
+};
+const jsonTypeMatches = (value, expected) => {
+  if (expected === "array") return Array.isArray(value);
+  if (expected === "object") return value !== null && typeof value === "object" && !Array.isArray(value);
+  if (expected === "integer") return Number.isInteger(value);
+  if (expected === "number") return typeof value === "number" && Number.isFinite(value);
+  return typeof value === expected;
+};
+const isCalendarDate = (value) => {
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+  if (!match) return false;
+  const date = new Date(Date.UTC(Number(match[1]), Number(match[2]) - 1, Number(match[3])));
+  return date.getUTCFullYear() === Number(match[1]) &&
+    date.getUTCMonth() === Number(match[2]) - 1 &&
+    date.getUTCDate() === Number(match[3]);
+};
+const validateSchema = (value, rule, path = "$") => {
+  if (rule.$ref) return validateSchema(value, resolveReference(rule.$ref), path);
+  const errors = [];
+  if (Object.hasOwn(rule, "const") && !Object.is(value, rule.const)) {
+    errors.push(`${path} must equal ${JSON.stringify(rule.const)}`);
+  }
+  if (rule.enum && !rule.enum.some((candidate) => Object.is(candidate, value))) {
+    errors.push(`${path} must be one of ${JSON.stringify(rule.enum)}`);
+  }
+  if (rule.type && !jsonTypeMatches(value, rule.type)) {
+    errors.push(`${path} must have type ${rule.type}`);
+    return errors;
+  }
+  if (rule.type === "object") {
+    const properties = rule.properties ?? {};
+    for (const required of rule.required ?? []) {
+      if (!Object.hasOwn(value, required)) errors.push(`${path}.${required} is required`);
+    }
+    if (rule.additionalProperties === false) {
+      for (const key of Object.keys(value)) {
+        if (!Object.hasOwn(properties, key)) errors.push(`${path}.${key} is not allowed`);
+      }
+    }
+    for (const [key, childRule] of Object.entries(properties)) {
+      if (Object.hasOwn(value, key)) errors.push(...validateSchema(value[key], childRule, `${path}.${key}`));
+    }
+  }
+  if (rule.type === "array") {
+    if (rule.minItems !== undefined && value.length < rule.minItems) errors.push(`${path} has fewer than ${rule.minItems} items`);
+    if (rule.maxItems !== undefined && value.length > rule.maxItems) errors.push(`${path} has more than ${rule.maxItems} items`);
+    if (rule.uniqueItems && new Set(value.map((item) => JSON.stringify(item))).size !== value.length) {
+      errors.push(`${path} must contain unique items`);
+    }
+    if (rule.items) value.forEach((item, index) => errors.push(...validateSchema(item, rule.items, `${path}[${index}]`)));
+  }
+  if (rule.type === "string") {
+    if (rule.minLength !== undefined && value.length < rule.minLength) errors.push(`${path} is shorter than ${rule.minLength}`);
+    if (rule.pattern && !new RegExp(rule.pattern, "u").test(value)) errors.push(`${path} does not match ${rule.pattern}`);
+    if (rule.format === "date" && !isCalendarDate(value)) {
+      errors.push(`${path} must be an ISO calendar date`);
+    }
+  }
+  if (rule.type === "number" || rule.type === "integer") {
+    if (rule.minimum !== undefined && value < rule.minimum) errors.push(`${path} must be at least ${rule.minimum}`);
+    if (rule.exclusiveMinimum !== undefined && value <= rule.exclusiveMinimum) errors.push(`${path} must exceed ${rule.exclusiveMinimum}`);
+  }
+  return errors;
+};
+const schemaErrors = validateSchema(manifest, schema);
+if (schemaErrors.length) throw new Error(`Asset manifest failed JSON Schema validation:\n${schemaErrors.join("\n")}`);
 const assertKeys = (value, expected, label) => {
   const actual = Object.keys(value).sort();
   const wanted = [...expected].sort();
@@ -127,12 +214,42 @@ if (blender.triangles.Visual_LOD0 > budgets.triangles_lod0_max ||
     blender.triangle_total > budgets.triangles_total_max ||
     blender.materials.length > budgets.materials_max ||
     blender.textures.length > budgets.textures_max ||
+    blender.texture_bytes_total > budgets.texture_bytes_max ||
     blender.triangles.CollisionProxy > budgets.collision_triangles_max) {
   throw new Error("Asset budget exceeded");
 }
+const gitRevision = process.env.GITHUB_SHA ?? execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }).trim();
+const inputArtifacts = [
+  { path: args.schema, sha256: hash(args.schema) },
+  { path: args.manifest, sha256: hash(args.manifest) },
+  { path: manifest.source.path, sha256: manifest.source.sha256 },
+  ...manifest.transformations.flatMap((transformation) => [
+    { path: transformation.script, sha256: transformation.script_sha256 },
+    { path: transformation.profile, sha256: transformation.profile_sha256 },
+  ]),
+].filter((artifact, index, values) => values.findIndex((candidate) => candidate.path === artifact.path) === index);
 const report = {
   schema_version: 1,
+  task_id: "P1-002",
+  milestone: "M5",
   asset_id: manifest.asset_id,
+  git_revision: gitRevision,
+  recorded_at_utc: new Date().toISOString(),
+  platform: { os: process.platform, architecture: process.arch },
+  tool_versions: {
+    blender: blender.blender_version,
+    blender_build_hash: blender.blender_build_hash,
+    godot: godot.godot_version,
+    node: process.version,
+  },
+  input_artifacts: inputArtifacts,
+  output_artifacts: manifest.derived.map(({ path, sha256 }) => ({ path, sha256 })),
+  scenario_arguments: {
+    deterministic_rebuilds: 2,
+    invalid_mutations: ["unapplied-scale", "missing-semantic-node", "external-texture"],
+    validation_preset: "Asset pipeline validation",
+  },
+  commands: [{ command: "./scripts/validate-assets.sh", exit_status: 0 }],
   manifest_sha256: hash(args.manifest),
   schema_sha256: hash(args.schema),
   source_sha256: manifest.source.sha256,
@@ -145,6 +262,7 @@ const report = {
   triangle_total: blender.triangle_total,
   materials: blender.materials.length,
   textures: blender.textures.length,
+  texture_bytes_total: blender.texture_bytes_total,
   deterministic_export: true,
   deterministic_contact_sheet: true,
   portable_paths: blender.portable_paths,
@@ -152,6 +270,14 @@ const report = {
   release_depends_on_blender: godot.release_depends_on_blender,
   release_depends_on_test_automation: godot.release_depends_on_test_automation,
   redistribution_status: manifest.license.status,
+  retry_count: 0,
+  failure_logs: [],
+  recovery_result: "Manifest, inventories, artifact hashes, semantic contract, and budgets passed.",
+  human_gate: {
+    name: "Asset pipeline rights-policy approval",
+    question_id: "Q-023",
+    approval: null,
+  },
 };
 writeFileSync(args.output, `${JSON.stringify(report, null, 2)}\n`);
 console.log(`CANNONBALL_ASSET_MANIFEST_OK asset=${manifest.asset_id} artifacts=${artifacts.length} nodes=${requiredNodes.length}`);

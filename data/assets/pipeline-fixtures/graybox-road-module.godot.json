@@ -3,7 +3,7 @@
   "asset_id": "graybox-road-module",
   "automation_id": "asset.fixture.graybox-road-module",
   "glb_sha256": "000599e4da76566f809d59ff069c3155d3e70f5622c32d2e770769eabfb5488d",
-  "godot_version": "4.7.1-stable (official)",
+  "godot_version": "4.7.1.stable.mono.official.a13da4feb",
   "import_settings_sha256": "0aa1e4bfb3a1d8fd158af216c0ddc57953f329f601148143a1e4706970a220cc",
   "mesh_nodes": [
     "CollisionProxy",

@@ -21,15 +21,18 @@ source lockfiles or create editor UID sidecars in the worktree.
 
 The tracked contact sheet is a fixed review artifact. Renderer bytes may vary
 between approved operating systems or GPU backends, so cross-platform pixel
-hashes are diagnostic. Semantic nodes, budgets, manifests, GLB bytes, and
-release dependencies are authoritative.
+hashes are diagnostic. The reference platform is pinned in `toolchain.json`;
+on that platform, validation also compares the rebuild to the tracked artifact.
+Semantic nodes, budgets, manifests, GLB bytes, and release dependencies are
+authoritative.
 
 ## Fixture regeneration
 
 The project-original road-module fixture can be recreated for inspection:
 
 ```bash
-blender --background --factory-startup \
+BLENDER_BIN=/absolute/path/to/blender-5.1.2
+"$BLENDER_BIN" --background --factory-startup --python-exit-code 1 \
   --python tools/assets/create_fixture.py -- \
   --output /tmp/graybox-road-module.blend
 ```

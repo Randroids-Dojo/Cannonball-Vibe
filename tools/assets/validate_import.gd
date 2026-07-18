@@ -58,6 +58,25 @@ func _validate() -> void:
 		_fail("Usage: --wrapper res://path.tscn --output path.json --profile path.json")
 		return
 	var wrapper_path: String = args.wrapper
+	var profile_text := FileAccess.get_file_as_string(args.profile)
+	var profile: Variant = JSON.parse_string(profile_text)
+	if not profile is Dictionary or not profile.has("engine"):
+		_fail("Godot import profile is missing its engine identity")
+		return
+	var version := Engine.get_version_info()
+	var flavor := ".mono" if ClassDB.class_exists("CSharpScript") else ""
+	var engine_identity := "%d.%d.%d.%s%s.%s.%s" % [
+		version.major,
+		version.minor,
+		version.patch,
+		version.status,
+		flavor,
+		version.build,
+		str(version.hash).substr(0, 9),
+	]
+	if engine_identity != profile.engine:
+		_fail("Godot identity drift: expected %s, got %s" % [profile.engine, engine_identity])
+		return
 	var packed := load(wrapper_path) as PackedScene
 	if packed == null:
 		_fail("Could not load wrapper scene %s" % wrapper_path)
@@ -94,7 +113,7 @@ func _validate() -> void:
 	inventory["release_dependency_count"] = dependencies.size()
 	inventory["release_depends_on_blender"] = false
 	inventory["release_depends_on_test_automation"] = false
-	inventory["godot_version"] = Engine.get_version_info().string
+	inventory["godot_version"] = engine_identity
 	inventory["wrapper_sha256"] = FileAccess.get_sha256(wrapper_path)
 	inventory["glb_sha256"] = FileAccess.get_sha256(
 		"res://assets/pipeline-fixtures/graybox-road-module/graybox-road-module.glb"
