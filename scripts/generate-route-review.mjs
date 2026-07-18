@@ -29,9 +29,16 @@ const maxLongitude = Math.max(...coordinates.map(([longitude]) => longitude));
 const minLatitude = Math.min(...coordinates.map(([, latitude]) => latitude));
 const maxLatitude = Math.max(...coordinates.map(([, latitude]) => latitude));
 const map = { x: 70, y: 125, width: 880, height: 690 };
+const meanLatitudeRadians = (((minLatitude + maxLatitude) / 2) * Math.PI) / 180;
+const longitudeScale = Math.cos(meanLatitudeRadians);
+const projectedWidth = (maxLongitude - minLongitude) * longitudeScale;
+const projectedHeight = maxLatitude - minLatitude;
+const mapScale = Math.min(map.width / projectedWidth, map.height / projectedHeight);
+const horizontalPadding = (map.width - projectedWidth * mapScale) / 2;
+const verticalPadding = (map.height - projectedHeight * mapScale) / 2;
 const project = ([longitude, latitude]) => [
-  map.x + ((longitude - minLongitude) / (maxLongitude - minLongitude)) * map.width,
-  map.y + map.height - ((latitude - minLatitude) / (maxLatitude - minLatitude)) * map.height,
+  map.x + horizontalPadding + (longitude - minLongitude) * longitudeScale * mapScale,
+  map.y + map.height - verticalPadding - (latitude - minLatitude) * mapScale,
 ];
 const routePoints = coordinates.map(project);
 

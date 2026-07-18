@@ -89,7 +89,7 @@
     },
     {
       "path": "docs/images/p0-004-representative-corridor-overview.svg",
-      "sha256": "57fbe801f063287b812878780027e2a8018bb2049961fbf1ebf9055ec50e2dbc"
+      "sha256": "4411dcbca2f01d039b0782299c18b6f87f619a5f8f9b9ddd3f6a55dc229468eb"
     }
   ],
   "local_macos_package": {
@@ -725,7 +725,7 @@
     ],
     "overview": {
       "path": "docs/images/p0-004-representative-corridor-overview.svg",
-      "sha256": "57fbe801f063287b812878780027e2a8018bb2049961fbf1ebf9055ec50e2dbc"
+      "sha256": "4411dcbca2f01d039b0782299c18b6f87f619a5f8f9b9ddd3f6a55dc229468eb"
     },
     "review_reference": "docs/audits/2026-07-16-p0-004-route-sanity-review.md#longer-representative-candidate"
   },
