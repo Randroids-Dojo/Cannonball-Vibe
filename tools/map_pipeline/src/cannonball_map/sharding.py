@@ -16,6 +16,7 @@ import flatbuffers
 from Cannonball.Content.ChunkRouteSample import ChunkRouteSampleT
 from Cannonball.Content.RouteChunkBuffer import RouteChunkBufferT
 from cannonball_map.flatbuffer_writer import write_flatbuffer
+from cannonball_map.semantics import validate_route_semantics
 
 MAX_ROOT_BYTES = 64_000_000
 MAX_CHUNK_BYTES = 16_000_000
@@ -38,17 +39,19 @@ def write_sharded_package(
     audit_artifacts: dict[str, Path] | None = None,
 ) -> dict[str, Any]:
     sharded = deepcopy(package)
+    validate_route_semantics(sharded)
     semantic_chunks = _semantic_chunks(sharded)
     semantic_chunks.sort(key=_chunk_sort_key)
     sharded["chunks"].sort(key=_chunk_sort_key)
     version_payload = {
         "source_content_version": package["content_version"],
         "chunks": semantic_chunks,
+        "semantics": sharded["semantics"],
     }
     digest = hashlib.sha256(
         json.dumps(version_payload, separators=(",", ":"), sort_keys=True).encode()
     ).hexdigest()
-    content_version = f"route-v3-{digest[:16]}"
+    content_version = f"route-v4-{digest[:16]}"
     output_directory.parent.mkdir(parents=True, exist_ok=True)
     staging = Path(
         tempfile.mkdtemp(
@@ -70,7 +73,7 @@ def write_sharded_package(
             hashes[chunk["chunk_id"]] = hashlib.sha256(data).hexdigest()
             byte_counts[chunk["chunk_id"]] = len(data)
 
-        sharded["schema_version"] = 3
+        sharded["schema_version"] = 4
         sharded["content_version"] = content_version
         for chunk in sharded["chunks"]:
             chunk["content_hash"] = hashes[chunk["chunk_id"]]

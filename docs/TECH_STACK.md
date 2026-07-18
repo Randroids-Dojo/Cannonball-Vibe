@@ -47,15 +47,17 @@ authoritative route coordinates and the current local world.
 - Custom `RigidBody3D` vehicle with four suspension raycasts, spring/damper
   forces, tire lateral grip, speed-sensitive steering, yaw stabilization,
   downforce, drag, braking, CCD, keyboard, and controller input.
-- Schema-v3 FlatBuffer root plus independently hashed and sized `CBCK` route
-  chunks, with real projected centerline, elevation, curvature, and grade
-  samples. The procedural `RoadMath` corridor has been removed.
+- Schema-v4 FlatBuffer root plus independently hashed and sized `CBCK` route
+  chunks, with real projected centerline, elevation, curvature, grade, lane
+  topology, route context, and simplified trip-map geometry. The procedural
+  `RoadMath` corridor has been removed.
 - Manifest-driven asynchronous file verification with a 112-second horizon,
   2–10 km visual lookahead, 500 m retention behind, a separate 2 km collision
   window, measured main-thread mesh construction, and vector local-origin
   rebasing.
 - `MultiMesh` lane markings and roadside placeholders.
-- Route-position DTO: edge ID, distance, lane, lateral offset, heading offset.
+- Route-position DTO: edge ID, distance, stable lane ID with legacy index,
+  lateral offset, and heading offset.
 - Versioned System.Text.Json suspend saves with content checksum and atomic file
   replacement.
 - JSONL telemetry events for pace, streaming state, suspend, and smoke tests.
@@ -92,19 +94,33 @@ ceiling; otherwise the build fails until branch-aware vertical reconstruction is
 available.
 
 [ADR-0011](decisions/ADR-0011-lane-topology-route-context-and-trip-map.md)
-defines the planned M2/M3 route semantics. Stable route edges contain
-ordered distance-bounded lane sections; junctions contain explicit lane-to-lane
+defines the M2/M3 route semantics. Schema 4 implements ordered distance-bounded
+lane sections inside stable route edges and explicit lane-to-lane junction
 connectors for continuations, merges, splits, exits, entrances, and highway
-transfers. Versioned semantic records also carry route identities and
-concurrency, exit numbers and destinations, services, milepoint anchors, and
-roadside markers with source or authored-override provenance.
+transfers. It rejects incomplete section coverage, orphan lanes, crossing or
+ambiguous successors, and connector movements not allowed by their source lane.
+Versioned semantic records carry route identities and concurrency, exit numbers
+and destinations, services, milepoint anchors, roadside markers, and source,
+derived, or authored-override ancestry through the Python-to-C# package
+boundary. Schemas 1–3 synthesize deterministic legacy lane IDs; saves map by a
+stable lane ID when present and otherwise by the legacy lane index, failing with
+an actionable compatibility error when neither mapping is possible.
+
+The current NHPN pipeline deliberately emits conservative two-lane graybox
+sections, shoulders, and index-preserving connectors as `derived` records. They
+are not observed lane geometry. Source route hints and BEGMP/ENDMP values become
+route identities and milepoint records with source provenance; named exits and
+corrected lane topology require the checksum-locked source or deterministic
+authored-overlay process tracked by Q-017.
 
 Godot road generation will derive variable width, markings, shoulders, gore
 areas, barriers, collision, signs, and standardized interchange geometry from
 that contract. `Cannonball.Core` will expose a trip-map projection over
 content-addressed simplified immutable graph geometry and authoritative run
-state. Stable node and edge associations, deterministic levels of detail, and
-root/package size budgets keep the continental map independently streamable.
+state. Schema 4 carries LODs 0–2 per edge, validates the cross-language content
+hash, and enforces a 16 MB simplified-map payload budget in addition to the
+64 MB root budget. Stable node and edge associations keep the continental map
+independent of streamed road meshes.
 The Godot full-screen map will show traveled and planned paths, progress,
 alternatives, stops, exits, and transfers without depending on streamed scene
 geometry. Roadside mile-marker values remain distinct from total trip progress.

@@ -66,7 +66,10 @@ public sealed class SaveRepositoryTests : IDisposable
 
     private static RunSave CreateSave()
     {
-        var position = new RoutePosition("graybox-25mi", 12_345, 1, 0.1, 0.01);
+        var position = new RoutePosition("graybox-25mi", 12_345, 1, 0.1, 0.01)
+        {
+            StableLaneId = "legacy:graybox-25mi:lane:1",
+        };
         var run = new RunState(
             42,
             position,

@@ -61,6 +61,10 @@ public struct RouteEdgeData : IFlatbufferObject
   public int ChunkIdsLength { get { int o = __p.__offset(20); return o != 0 ? __p.__vector_len(o) : 0; } }
   public Cannonball.Content.RouteSample? Samples(int j) { int o = __p.__offset(22); return o != 0 ? (Cannonball.Content.RouteSample?)(new Cannonball.Content.RouteSample()).__assign(__p.__vector(o) + j * 24, __p.bb) : null; }
   public int SamplesLength { get { int o = __p.__offset(22); return o != 0 ? __p.__vector_len(o) : 0; } }
+  public string LaneSectionIds(int j) { int o = __p.__offset(24); return o != 0 ? __p.__string(__p.__vector(o) + j * 4) : null; }
+  public int LaneSectionIdsLength { get { int o = __p.__offset(24); return o != 0 ? __p.__vector_len(o) : 0; } }
+  public string RouteIdentityIds(int j) { int o = __p.__offset(26); return o != 0 ? __p.__string(__p.__vector(o) + j * 4) : null; }
+  public int RouteIdentityIdsLength { get { int o = __p.__offset(26); return o != 0 ? __p.__vector_len(o) : 0; } }
 
   public static Offset<Cannonball.Content.RouteEdgeData> CreateRouteEdgeData(FlatBufferBuilder builder,
       StringOffset idOffset = default(StringOffset),
@@ -72,9 +76,13 @@ public struct RouteEdgeData : IFlatbufferObject
       StringOffset region_idOffset = default(StringOffset),
       StringOffset generation_profileOffset = default(StringOffset),
       VectorOffset chunk_idsOffset = default(VectorOffset),
-      VectorOffset samplesOffset = default(VectorOffset)) {
-    builder.StartTable(10);
+      VectorOffset samplesOffset = default(VectorOffset),
+      VectorOffset lane_section_idsOffset = default(VectorOffset),
+      VectorOffset route_identity_idsOffset = default(VectorOffset)) {
+    builder.StartTable(12);
     RouteEdgeData.AddLengthMeters(builder, length_meters);
+    RouteEdgeData.AddRouteIdentityIds(builder, route_identity_idsOffset);
+    RouteEdgeData.AddLaneSectionIds(builder, lane_section_idsOffset);
     RouteEdgeData.AddSamples(builder, samplesOffset);
     RouteEdgeData.AddChunkIds(builder, chunk_idsOffset);
     RouteEdgeData.AddGenerationProfile(builder, generation_profileOffset);
@@ -87,7 +95,7 @@ public struct RouteEdgeData : IFlatbufferObject
     return RouteEdgeData.EndRouteEdgeData(builder);
   }
 
-  public static void StartRouteEdgeData(FlatBufferBuilder builder) { builder.StartTable(10); }
+  public static void StartRouteEdgeData(FlatBufferBuilder builder) { builder.StartTable(12); }
   public static void AddId(FlatBufferBuilder builder, StringOffset idOffset) { builder.AddOffset(0, idOffset.Value, 0); }
   public static void AddFromNodeId(FlatBufferBuilder builder, StringOffset fromNodeIdOffset) { builder.AddOffset(1, fromNodeIdOffset.Value, 0); }
   public static void AddToNodeId(FlatBufferBuilder builder, StringOffset toNodeIdOffset) { builder.AddOffset(2, toNodeIdOffset.Value, 0); }
@@ -104,6 +112,18 @@ public struct RouteEdgeData : IFlatbufferObject
   public static void StartChunkIdsVector(FlatBufferBuilder builder, int numElems) { builder.StartVector(4, numElems, 4); }
   public static void AddSamples(FlatBufferBuilder builder, VectorOffset samplesOffset) { builder.AddOffset(9, samplesOffset.Value, 0); }
   public static void StartSamplesVector(FlatBufferBuilder builder, int numElems) { builder.StartVector(24, numElems, 8); }
+  public static void AddLaneSectionIds(FlatBufferBuilder builder, VectorOffset laneSectionIdsOffset) { builder.AddOffset(10, laneSectionIdsOffset.Value, 0); }
+  public static VectorOffset CreateLaneSectionIdsVector(FlatBufferBuilder builder, StringOffset[] data) { builder.StartVector(4, data.Length, 4); for (int i = data.Length - 1; i >= 0; i--) builder.AddOffset(data[i].Value); return builder.EndVector(); }
+  public static VectorOffset CreateLaneSectionIdsVectorBlock(FlatBufferBuilder builder, StringOffset[] data) { builder.StartVector(4, data.Length, 4); builder.Add(data); return builder.EndVector(); }
+  public static VectorOffset CreateLaneSectionIdsVectorBlock(FlatBufferBuilder builder, ArraySegment<StringOffset> data) { builder.StartVector(4, data.Count, 4); builder.Add(data); return builder.EndVector(); }
+  public static VectorOffset CreateLaneSectionIdsVectorBlock(FlatBufferBuilder builder, IntPtr dataPtr, int sizeInBytes) { builder.StartVector(1, sizeInBytes, 1); builder.Add<StringOffset>(dataPtr, sizeInBytes); return builder.EndVector(); }
+  public static void StartLaneSectionIdsVector(FlatBufferBuilder builder, int numElems) { builder.StartVector(4, numElems, 4); }
+  public static void AddRouteIdentityIds(FlatBufferBuilder builder, VectorOffset routeIdentityIdsOffset) { builder.AddOffset(11, routeIdentityIdsOffset.Value, 0); }
+  public static VectorOffset CreateRouteIdentityIdsVector(FlatBufferBuilder builder, StringOffset[] data) { builder.StartVector(4, data.Length, 4); for (int i = data.Length - 1; i >= 0; i--) builder.AddOffset(data[i].Value); return builder.EndVector(); }
+  public static VectorOffset CreateRouteIdentityIdsVectorBlock(FlatBufferBuilder builder, StringOffset[] data) { builder.StartVector(4, data.Length, 4); builder.Add(data); return builder.EndVector(); }
+  public static VectorOffset CreateRouteIdentityIdsVectorBlock(FlatBufferBuilder builder, ArraySegment<StringOffset> data) { builder.StartVector(4, data.Count, 4); builder.Add(data); return builder.EndVector(); }
+  public static VectorOffset CreateRouteIdentityIdsVectorBlock(FlatBufferBuilder builder, IntPtr dataPtr, int sizeInBytes) { builder.StartVector(1, sizeInBytes, 1); builder.Add<StringOffset>(dataPtr, sizeInBytes); return builder.EndVector(); }
+  public static void StartRouteIdentityIdsVector(FlatBufferBuilder builder, int numElems) { builder.StartVector(4, numElems, 4); }
   public static Offset<Cannonball.Content.RouteEdgeData> EndRouteEdgeData(FlatBufferBuilder builder) {
     int o = builder.EndTable();
     builder.Required(o, 4);  // id
@@ -156,6 +176,10 @@ public struct RouteEdgeData : IFlatbufferObject
     for (var _j = 0; _j < this.ChunkIdsLength; ++_j) {_o.ChunkIds.Add(this.ChunkIds(_j));}
     _o.Samples = new List<Cannonball.Content.RouteSampleT>();
     for (var _j = 0; _j < this.SamplesLength; ++_j) {_o.Samples.Add(this.Samples(_j).HasValue ? this.Samples(_j).Value.UnPack() : null);}
+    _o.LaneSectionIds = new List<string>();
+    for (var _j = 0; _j < this.LaneSectionIdsLength; ++_j) {_o.LaneSectionIds.Add(this.LaneSectionIds(_j));}
+    _o.RouteIdentityIds = new List<string>();
+    for (var _j = 0; _j < this.RouteIdentityIdsLength; ++_j) {_o.RouteIdentityIds.Add(this.RouteIdentityIds(_j));}
   }
   public static Offset<Cannonball.Content.RouteEdgeData> Pack(FlatBufferBuilder builder, RouteEdgeDataT _o) {
     if (_o == null) return default(Offset<Cannonball.Content.RouteEdgeData>);
@@ -176,6 +200,18 @@ public struct RouteEdgeData : IFlatbufferObject
       for (var _j = _o.Samples.Count - 1; _j >= 0; --_j) { Cannonball.Content.RouteSample.Pack(builder, _o.Samples[_j]); }
       _samples = builder.EndVector();
     }
+    var _lane_section_ids = default(VectorOffset);
+    if (_o.LaneSectionIds != null) {
+      var __lane_section_ids = new StringOffset[_o.LaneSectionIds.Count];
+      for (var _j = 0; _j < __lane_section_ids.Length; ++_j) { __lane_section_ids[_j] = builder.CreateString(_o.LaneSectionIds[_j]); }
+      _lane_section_ids = CreateLaneSectionIdsVector(builder, __lane_section_ids);
+    }
+    var _route_identity_ids = default(VectorOffset);
+    if (_o.RouteIdentityIds != null) {
+      var __route_identity_ids = new StringOffset[_o.RouteIdentityIds.Count];
+      for (var _j = 0; _j < __route_identity_ids.Length; ++_j) { __route_identity_ids[_j] = builder.CreateString(_o.RouteIdentityIds[_j]); }
+      _route_identity_ids = CreateRouteIdentityIdsVector(builder, __route_identity_ids);
+    }
     return CreateRouteEdgeData(
       builder,
       _id,
@@ -187,7 +223,9 @@ public struct RouteEdgeData : IFlatbufferObject
       _region_id,
       _generation_profile,
       _chunk_ids,
-      _samples);
+      _samples,
+      _lane_section_ids,
+      _route_identity_ids);
   }
 }
 
@@ -203,6 +241,8 @@ public class RouteEdgeDataT
   public string GenerationProfile { get; set; }
   public List<string> ChunkIds { get; set; }
   public List<Cannonball.Content.RouteSampleT> Samples { get; set; }
+  public List<string> LaneSectionIds { get; set; }
+  public List<string> RouteIdentityIds { get; set; }
 
   public RouteEdgeDataT() {
     this.Id = null;
@@ -215,6 +255,8 @@ public class RouteEdgeDataT
     this.GenerationProfile = null;
     this.ChunkIds = null;
     this.Samples = null;
+    this.LaneSectionIds = null;
+    this.RouteIdentityIds = null;
   }
 }
 
@@ -234,6 +276,8 @@ static public class RouteEdgeDataVerify
       && verifier.VerifyString(tablePos, 18 /*GenerationProfile*/, false)
       && verifier.VerifyVectorOfStrings(tablePos, 20 /*ChunkIds*/, false)
       && verifier.VerifyVectorOfData(tablePos, 22 /*Samples*/, 24 /*Cannonball.Content.RouteSample*/, false)
+      && verifier.VerifyVectorOfStrings(tablePos, 24 /*LaneSectionIds*/, false)
+      && verifier.VerifyVectorOfStrings(tablePos, 26 /*RouteIdentityIds*/, false)
       && verifier.VerifyTableEnd(tablePos);
   }
 }

@@ -7,7 +7,8 @@ namespace Cannonball.Core.Content;
 public sealed record RouteContentPackage(
     IRouteGraph Graph,
     IReadOnlyDictionary<string, ChunkManifest> Chunks,
-    RouteContentMetadata? Metadata = null);
+    RouteContentMetadata? Metadata = null,
+    RouteSemanticContent? Semantics = null);
 
 public sealed record RouteContentMetadata(
     string SourceId,
@@ -74,7 +75,7 @@ public static class FlatBufferRouteContent
         }
 
         var root = RouteGraphBuffer.GetRootAsRouteGraphBuffer(buffer);
-        if (root.SchemaVersion is not (1 or 2 or 3))
+        if (root.SchemaVersion is not (1 or 2 or 3 or 4))
         {
             throw new InvalidDataException($"Unsupported route schema {root.SchemaVersion}.");
         }
@@ -112,7 +113,7 @@ public static class FlatBufferRouteContent
             }
             if (root.SchemaVersion >= 3 && data.SamplesLength != 0)
             {
-                throw new InvalidDataException("Route schema 3 must not inline edge samples.");
+                throw new InvalidDataException("Route schema 3 or newer must not inline edge samples.");
             }
             var curvature = new float[data.SamplesLength];
             var grade = new float[data.SamplesLength];
@@ -190,9 +191,10 @@ public static class FlatBufferRouteContent
         if (root.SchemaVersion >= 2)
         {
             var provenance = root.Provenance
-                ?? throw new InvalidDataException("Route schema 2 is missing source provenance.");
+                ?? throw new InvalidDataException("Route schema 2 or newer is missing source provenance.");
             var spatial = root.SpatialReference
-                ?? throw new InvalidDataException("Route schema 2 is missing spatial reference metadata.");
+                ?? throw new InvalidDataException(
+                    "Route schema 2 or newer is missing spatial reference metadata.");
             metadata = new RouteContentMetadata(
                 Required(provenance.SourceId, "source ID"),
                 Required(provenance.Publisher, "source publisher"),
@@ -208,6 +210,25 @@ public static class FlatBufferRouteContent
                 Required(spatial.ElevationProductTitle, "elevation product title"),
                 Required(spatial.ElevationProductResolution, "elevation product resolution"),
                 RequiredSha256(spatial.ElevationArtifactSha256, "elevation artifact hash"));
+        }
+
+        RouteSemanticContent semantics;
+        if (root.SchemaVersion >= 4)
+        {
+            var loaded = FlatBufferRouteSemantics.Load(root.UnPack(), nodes, edges);
+            edges = loaded.Edges;
+            semantics = loaded.Semantics;
+        }
+        else
+        {
+            for (var index = 0; index < edges.Length; index++)
+            {
+                edges[index] = edges[index] with
+                {
+                    LaneSections = [RouteSemanticsCompatibility.CreateLegacyLaneSection(edges[index])],
+                };
+            }
+            semantics = RouteSemanticsCompatibility.CreateLegacyContent(edges);
         }
 
         var graph = new InMemoryRouteGraph(
@@ -263,7 +284,7 @@ public static class FlatBufferRouteContent
             }
         }
 
-        return new RouteContentPackage(graph, chunks, metadata);
+        return new RouteContentPackage(graph, chunks, metadata, semantics);
     }
 
     private static string Required(string? value, string description) =>

@@ -333,12 +333,15 @@ public sealed partial class Main : Node3D
     {
         var routeDistance = _streamer.CurrentEdgeDistanceMeters;
         var edge = _package.Graph.GetEdge(_streamer.CurrentEdgeId);
-        var position = new RoutePosition(
-            edge.Id,
-            routeDistance,
-            Math.Min(1, edge.LaneCount - 1),
-            _streamer.CurrentLateralOffsetMeters,
-            0);
+        var currentSection = edge.GetLaneSection(routeDistance);
+        var position = RoutePositionMigration.Migrate(
+            new RoutePosition(
+                edge.Id,
+                routeDistance,
+                Math.Min(1, currentSection.Lanes.Count - 1),
+                _streamer.CurrentLateralOffsetMeters,
+                0),
+            edge);
         var runState = new RunState(
             Seed: 20_260_714,
             Position: position,

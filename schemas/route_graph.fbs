@@ -32,6 +32,110 @@ table RouteEdgeData {
   generation_profile:string;
   chunk_ids:[string];
   samples:[RouteSample];
+  lane_section_ids:[string];
+  route_identity_ids:[string];
+}
+
+table SemanticProvenanceData {
+  kind:string;
+  source_id:string;
+  source_record_id:string;
+  artifact_sha256:string;
+  derivation:string;
+  authored_override_id:string;
+}
+
+table RouteShoulderData {
+  width_meters:float;
+  kind:string;
+}
+
+table RouteLaneData {
+  id:string (key);
+  index:uint;
+  width_meters:float;
+  role:string;
+  allowed_maneuvers:uint;
+  provenance:SemanticProvenanceData;
+}
+
+table LaneSectionData {
+  id:string (key);
+  edge_id:string;
+  start_meters:double;
+  end_meters:double;
+  lanes:[RouteLaneData];
+  left_shoulder:RouteShoulderData;
+  right_shoulder:RouteShoulderData;
+  signed_direction:string;
+  provenance:SemanticProvenanceData;
+}
+
+table JunctionConnectorData {
+  id:string (key);
+  junction_node_id:string;
+  from_edge_id:string;
+  from_lane_id:string;
+  to_edge_id:string;
+  to_lane_id:string;
+  movement:string;
+  provenance:SemanticProvenanceData;
+}
+
+table RouteIdentityData {
+  id:string (key);
+  system:string;
+  number:string;
+  shield:string;
+  signed_direction:string;
+  local_name:string;
+  provenance:SemanticProvenanceData;
+}
+
+table ExitData {
+  id:string (key);
+  junction_node_id:string;
+  ramp_edge_id:string;
+  route_identity_id:string;
+  number:string;
+  suffix:string;
+  destinations:[string];
+  services:[string];
+  provenance:SemanticProvenanceData;
+}
+
+table MilepointAnchorData {
+  id:string (key);
+  route_identity_id:string;
+  edge_id:string;
+  distance_meters:double;
+  value_miles:double;
+  jurisdiction:string;
+  signed_direction:string;
+  provenance:SemanticProvenanceData;
+}
+
+table RoadsideMarkerData {
+  id:string (key);
+  kind:string;
+  route_identity_id:string;
+  edge_id:string;
+  distance_meters:double;
+  display_text:string;
+  provenance:SemanticProvenanceData;
+}
+
+struct SimplifiedMapPoint {
+  x_meters:double;
+  y_meters:double;
+  edge_distance_meters:double;
+}
+
+table SimplifiedMapGeometryData {
+  edge_id:string;
+  lod:uint;
+  points:[SimplifiedMapPoint];
+  content_hash:string;
 }
 
 table ChunkManifestData {
@@ -73,6 +177,13 @@ table RouteGraphBuffer {
   chunks:[ChunkManifestData];
   provenance:SourceProvenanceData;
   spatial_reference:SpatialReferenceData;
+  lane_sections:[LaneSectionData];
+  junction_connectors:[JunctionConnectorData];
+  route_identities:[RouteIdentityData];
+  exits:[ExitData];
+  milepoint_anchors:[MilepointAnchorData];
+  roadside_markers:[RoadsideMarkerData];
+  simplified_map_geometry:[SimplifiedMapGeometryData];
 }
 
 root_type RouteGraphBuffer;

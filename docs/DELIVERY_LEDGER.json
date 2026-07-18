@@ -162,6 +162,7 @@
         "schemas/",
         "src/Cannonball.Core/Routes/",
         "src/Cannonball.Core/Content/",
+        "game/Main.cs",
         "tests/Cannonball.Core.Tests/",
         "game/World/",
         "game/Main.cs",
@@ -566,7 +567,7 @@
       "milestone": "M2",
       "priority": "P0",
       "title": "Versioned route semantics and lane-topology contract",
-      "status": "open",
+      "status": "in_progress",
       "dependencies": [
         "P0-002",
         "P0-003",
@@ -581,6 +582,7 @@
         "data/routes/fixtures/semantics/",
         ".tools/routes/p0-009/",
         "reports/M2/P0-009/",
+        "docs/QUESTIONS_2026-07-17_AUTONOMOUS_RUN.md",
         "docs/decisions/ADR-0011-lane-topology-route-context-and-trip-map.md",
         "evidence/M2/P0-009.json",
         "evidence/M2/P0-009-reproducibility.json"
