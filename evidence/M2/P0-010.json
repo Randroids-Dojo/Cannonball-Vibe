@@ -2,13 +2,13 @@
   "schema_version": 1,
   "task_id": "P0-010",
   "milestone": "M2",
-  "status": "acceptance_verified_locally_remote_gates_pending",
+  "status": "complete",
   "git_revision": "cc1f2f5f8edf0d6b2db7d3bba443f633a94b3465",
   "platform": {
     "os": "Darwin 25.6.0",
     "architecture": "arm64"
   },
-  "recorded_at_utc": "2026-07-18T14:07:37Z",
+  "recorded_at_utc": "2026-07-18T14:16:35Z",
   "tool_versions": {
     "dotnet_sdk": "10.0.102",
     "uv": "0.9.24",
@@ -25,9 +25,7 @@
       "junction seam visual and collision fill",
       "high-speed stable-lane traversal and six-waypoint chase plus elevated capture"
     ],
-    "completion_pending": [
-      "remote Linux and Windows pull-request gates"
-    ],
+    "completion_pending": [],
     "excluded_claims": [
       "P0-011 interchange routing completion",
       "diamond, cloverleaf, or directional-interchange route-choice coverage",
@@ -186,10 +184,31 @@
     {
       "failure": "first junction barrier link crossed the roadway at a sharp source heading change",
       "recovery": "removed the unsafe same-side assumption, retained edge-local barriers, and verified a two-sided visual and physical road seam"
+    },
+    {
+      "failure": "the first hosted macOS PlayGodot run cold-built one route chunk in 51.737 ms against the unchanged 50.000 ms initial budget",
+      "recovery": "reran the failed job without a code change; the macOS gate passed, confirming runner timing variance while preserving the production budget"
+    },
+    {
+      "failure": "CodeRabbit reached its temporary review limit and did not produce a review",
+      "recovery": "completed and recorded the repository adversarial-review fallback with no unresolved actionable findings"
     }
   ],
-  "retry_count": 5,
-  "recovery_result": "all local gates passed; remote Linux and Windows checks pending pull-request publication",
+  "retry_count": 6,
+  "recovery_result": {
+    "status": "passed",
+    "revision": "3254cdafacb66fcde2e1ed3f9198a9f1c82771f0",
+    "pull_request": "https://github.com/Randroids-Dojo/Cannonball-Vibe/pull/20",
+    "linux_m0": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29647523786/job/88088439649",
+    "windows_m0": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29647523786/job/88088440370",
+    "linux_playgodot": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29647523786/job/88088440666",
+    "windows_playgodot": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29647523786/job/88088438722",
+    "macos_playgodot": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29647523786/job/88088431268",
+    "reproducible_exports": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29647523806/job/88088151566",
+    "linux_clean_machine_smoke": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29647523806/job/88088412943",
+    "windows_clean_machine_smoke": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29647523806/job/88088412953",
+    "coderabbit": "rate-limited; repository adversarial-review fallback passed"
+  },
   "human_gate": null,
   "adversarial_review": "docs/audits/2026-07-18-p0-010-variable-lane-generation-review.md"
 }

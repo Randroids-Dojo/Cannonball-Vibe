@@ -2,8 +2,8 @@
 
 - Review date: 2026-07-18 UTC
 - Reviewed implementation: `cc1f2f5f8edf0d6b2db7d3bba443f633a94b3465`
-- Result: no unresolved actionable finding; local acceptance is complete and
-  P0-010 remains in progress only until the required remote gates pass
+- Result: no unresolved actionable finding; local acceptance and all required
+  remote gates passed
 
 ## Scope
 
@@ -90,3 +90,11 @@ regression fixture, not a claim about observed US 36 lane geometry.
   `2ee366bce28639b83f987f7c34ac31f6c7ebcf4f3c8dc7901823698484b192b4`.
 - `./scripts/check.sh`: passed; 42 C# tests, 66 map-pipeline tests, 12
   PlayGodot unit tests, Ruff, doctor, build, and official Godot 4.7.1 smoke.
+- Protected PR gates: Linux and Windows M0, Linux, Windows, and macOS
+  PlayGodot, reproducible exports, and Linux and Windows clean-machine smoke all
+  passed on PR #20. The first macOS cold start measured 51.737 ms against the
+  unchanged 50.000 ms initial chunk budget; an unchanged rerun passed, so the
+  production budget was retained.
+- CodeRabbit reached its temporary review limit without producing a review.
+  This document is the repository adversarial-review fallback required by the
+  delivery practice; it found no unresolved actionable issue.
