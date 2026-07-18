@@ -1998,18 +1998,6 @@ public sealed partial class Main : Node3D
         {
             SetRouteContextDiagnosticView(enabled: true);
         }
-        if (_routeContextReviewFrames == 20)
-        {
-            foreach (var diagnostic in _streamer.GetRouteContextLabelDiagnostics(
-                         _routeContextDiagnosticCamera))
-            {
-                GD.Print(
-                    $"CANNONBALL_ROUTE_CONTEXT_LABEL id={diagnostic.AutomationId} " +
-                    $"visible={diagnostic.Visible} distance_m=" +
-                    $"{diagnostic.CameraDistanceMeters:0.0} forward_m=" +
-                    $"{diagnostic.ForwardDistanceMeters:0.0}");
-            }
-        }
         if (_routeContextReviewFrames < 60)
         {
             return;

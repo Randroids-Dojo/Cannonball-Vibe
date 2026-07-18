@@ -120,12 +120,6 @@ public sealed partial class WorldStreamer : Node3D
     public IReadOnlyList<double> CollisionBuildSamplesMilliseconds =>
         _collisionBuildSamplesMilliseconds;
 
-    public IReadOnlyList<RouteContextLabelDiagnostic> GetRouteContextLabelDiagnostics(
-        Camera3D camera) => _loaded.Values
-        .SelectMany(chunk => chunk.GetRouteContextLabelDiagnostics(camera))
-        .OrderBy(item => item.AutomationId, StringComparer.Ordinal)
-        .ToArray();
-
     public WorldStreamSnapshot CaptureStreamSnapshot() => new(
         _localOriginWorld.X,
         _localOriginWorld.Y,

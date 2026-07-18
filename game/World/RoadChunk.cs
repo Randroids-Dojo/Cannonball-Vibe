@@ -10,8 +10,7 @@ public sealed partial class RoadChunk : Node3D
     private const float RouteContextLabelRangeMeters = 250;
     private StaticBody3D? _collisionBody;
     private ArrayMesh _collisionMesh = null!;
-    private readonly List<string> _routeContextAutomationIds = [];
-    private readonly List<Label3D> _routeContextLabels = [];
+    private List<string>? _routeContextAutomationIds;
 
     public string ChunkId { get; private init; } = string.Empty;
     public string EdgeId { get; private init; } = string.Empty;
@@ -27,23 +26,8 @@ public sealed partial class RoadChunk : Node3D
     public int MileMarkerCount { get; private set; }
     public int ExitSignCount { get; private set; }
     public int HighwayTransferSignCount { get; private set; }
-    public IReadOnlyList<string> RouteContextAutomationIds => _routeContextAutomationIds;
-
-    public IReadOnlyList<RouteContextLabelDiagnostic> GetRouteContextLabelDiagnostics(
-        Camera3D camera)
-    {
-        ArgumentNullException.ThrowIfNull(camera);
-        var cameraForward = -camera.GlobalBasis.Z;
-        return _routeContextLabels.Select(label =>
-        {
-            var cameraToLabel = label.GlobalPosition - camera.GlobalPosition;
-            return new RouteContextLabelDiagnostic(
-                label.GetParent().GetMeta("automation_id").AsString(),
-                label.Visible,
-                cameraToLabel.Length(),
-                cameraToLabel.Dot(cameraForward));
-        }).ToArray();
-    }
+    public IReadOnlyList<string> RouteContextAutomationIds =>
+        _routeContextAutomationIds ?? [];
 
     public bool HasReviewGeometry()
     {
@@ -59,27 +43,6 @@ public sealed partial class RoadChunk : Node3D
             scenery.Multimesh.InstanceCount > 0 &&
             barriers is { Visible: true, Multimesh: not null } &&
             barriers.Multimesh.InstanceCount > 0;
-    }
-
-    public override void _Process(double delta)
-    {
-        if (_routeContextLabels.Count == 0)
-        {
-            return;
-        }
-        var camera = GetViewport().GetCamera3D();
-        var maximumDistanceSquared =
-            RouteContextLabelRangeMeters * RouteContextLabelRangeMeters;
-        var cameraForward = camera is null ? Vector3.Zero : -camera.GlobalBasis.Z;
-        foreach (var label in _routeContextLabels)
-        {
-            var cameraToLabel = camera is null
-                ? Vector3.Zero
-                : label.GlobalPosition - camera.GlobalPosition;
-            label.Visible = camera is not null &&
-                cameraToLabel.LengthSquared() <= maximumDistanceSquared &&
-                cameraToLabel.Dot(cameraForward) > 0;
-        }
     }
 
     public static RoadChunk Create(
@@ -204,7 +167,7 @@ public sealed partial class RoadChunk : Node3D
             root.SetMeta("services", string.Join(',', placement.Services));
             root.SetMeta("provenance_kind", placement.Provenance.Kind.ToString());
             root.SetMeta("provenance_source_id", placement.Provenance.SourceId);
-            _routeContextAutomationIds.Add(automationId);
+            (_routeContextAutomationIds ??= []).Add(automationId);
             AddChild(root);
 
             if (placement.Kind == RouteContextPlacementKind.MileMarker)
@@ -344,7 +307,6 @@ public sealed partial class RoadChunk : Node3D
             VisibilityRangeFadeMode = GeometryInstance3D.VisibilityRangeFadeModeEnum.Self,
         };
         label.SetMeta("automation_id", $"{root.GetMeta("automation_id")}.text");
-        _routeContextLabels.Add(label);
         root.AddChild(label);
     }
 
@@ -865,9 +827,3 @@ public sealed partial class RoadChunk : Node3D
         AddChild(new MultiMeshInstance3D { Name = "TerrainScenery", Multimesh = treeMultiMesh });
     }
 }
-
-public sealed record RouteContextLabelDiagnostic(
-    string AutomationId,
-    bool Visible,
-    float CameraDistanceMeters,
-    float ForwardDistanceMeters);
