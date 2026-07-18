@@ -1,0 +1,86 @@
+# P1-002 deterministic asset-pipeline adversarial review
+
+- Review date: 2026-07-18 UTC
+- Reviewed implementation: `47fb7b508ffa36d71e1f39e403637c290636618c`
+- Technical result: no unresolved actionable finding
+- Promotion result: technical pipeline is ready; the Q-023 human rights-policy gate remains open
+
+## Scope
+
+The review traced the project-original Blender source through source-creation
+ancestry, schema-1 manifest validation, two headless glTF exports, invalid-source
+rejection, the pinned Godot import, the project-owned wrapper, semantic and
+budget inventories, the release PCK, the contact sheet, Git LFS, documentation,
+and CI installation of the exact Blender distribution. It did not treat the
+graybox fixture as production road art or approve rights for future assets.
+
+## Findings resolved during review
+
+1. The first Blender script used an obsolete Eevee enum and assumed a default
+   preview World. The generator now uses the verified 5.1 API and creates every
+   render dependency explicitly.
+2. Placing `.blend` source beside the runtime GLB made Godot try to import a
+   build-time input and created editor sidecars and lockfile drift. Source art
+   now lives under a `.gdignore` data directory, and Godot import, C# publish,
+   and release-pack validation run in an isolated copy of the project.
+3. Default Godot import settings generated extra LODs and imported animations
+   despite explicitly authored LOD nodes and a static fixture. A tracked
+   `.glb.import` now disables both behaviors and is checked field-by-field
+   against the hash-locked Godot profile.
+4. The first manifest validator verified hashes but did not exercise the
+   checked-in schema. It now rejects unknown fields and validates manifest,
+   authorship, license, artifact, transformation, semantic, and budget shapes
+   against the schema identity before checking bytes.
+5. Generated inventories originally retained temporary absolute paths. Blender
+   inventory paths are now repository-relative or basename-only outside the
+   repository, and the durable source, Blender, and Godot inventories are
+   checksum-locked in the manifest.
+6. The first nonportable-texture mutation created an unused generated image and
+   did not survive reload as an external dependency. The mutation now links a
+   real absolute-path texture into the material graph, and the linter rejects
+   it alongside missing semantic nodes and unapplied transforms.
+7. Scale and axis assumptions were implicit in exporter behavior. The glTF
+   profile now declares Blender `-Y/+Z` to Godot `-Z/+Y`, the manifest records a
+   one-meter unit and exact fixture bounds, and validation compares all three.
+8. Merely loading the wrapper did not prove the release boundary. The gate now
+   exports a PCK and parses its file table to require the wrapper and imported
+   GLB while rejecting Blender source, data manifests, asset tools, test
+   automation, encrypted directories, unsupported formats, and malformed path
+   tables.
+9. Cross-platform renderer bytes can vary even with fixed inputs. The gate
+   requires exact repeatability for two renders on the current approved
+   platform and keeps the tracked contact sheet hash as a review artifact;
+   cross-platform pixel hashes remain diagnostic while semantic and budget
+   checks stay authoritative, as required by ADR-0012.
+
+## Residual boundaries
+
+- Q-023 must receive project-owner approval before P1-002 or M5 rights policy
+  can be marked complete. The fixture manifest therefore remains
+  `pending-human-review` even though it is project-original and declares CC0.
+- The fixture proves the pipeline with 36 graybox triangles, not the visual
+  quality, rig, textures, damage zones, or runtime budgets of P1-008 through
+  P1-010.
+- A newly saved `.blend` can contain Blender application metadata. The
+  checked-in `.blend` is the checksum-locked source of record; deterministic
+  promotion begins from that exact source and requires identical derived GLB
+  bytes.
+- Final art direction, asset rights, target hardware, and visual quality remain
+  human gates. Computer Use may supplement those reviews but is not an export
+  or promotion dependency.
+
+## Verification reviewed
+
+- Asset gate: two byte-identical GLBs, two byte-identical current-platform
+  contact sheets, three invalid-source rejections, five semantic nodes, three
+  imported meshes, 36 total triangles, two materials, zero textures, and zero
+  build-time dependencies in the nine-file release PCK.
+- Full repository gate: 59 C# tests, 66 map-pipeline tests, 12 PlayGodot unit
+  tests, Ruff, doctor, build, and official Godot 4.7.1 smoke passed.
+- Toolchain: Blender 5.1.2 build `ec6e62d40fa9`, official Linux archive SHA-256
+  `aaccb355f50183979b698bcce7467103a76261b5fa59f4972295842662a285fb`,
+  and official Godot `4.7.1.stable.mono.official.a13da4feb`.
+- `git diff --check`: passed.
+
+Review artifact:
+[graybox road-module contact sheet](../../data/assets/pipeline-fixtures/graybox-road-module-contact-sheet.png).
