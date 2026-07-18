@@ -90,6 +90,9 @@ public sealed partial class RoadChunk : Node3D
         RouteFrame frame,
         RouteWorldPoint localOriginWorld)
     {
+        var hasRenderableRouteContext = semantics is not null &&
+            !semantics.IsLegacySynthesis &&
+            HasRenderableRouteContext(edge, semantics);
         var started = Stopwatch.GetTimestamp();
         var anchor = frame.ToWorld(content.Samples[0]);
         var points = content.Samples
@@ -126,11 +129,9 @@ public sealed partial class RoadChunk : Node3D
         chunk.BuildGoreAreas(points, tangents, layouts);
         chunk.BuildBarriers(points, tangents, layouts);
         chunk.BuildScenery(points, tangents, layouts);
-        if (semantics is not null &&
-            !semantics.IsLegacySynthesis &&
-            HasRenderableRouteContext(edge, semantics))
+        if (hasRenderableRouteContext)
         {
-            chunk.BuildRouteContext(content, edge, graph, semantics, points, tangents, layouts);
+            chunk.BuildRouteContext(content, edge, graph, semantics!, points, tangents, layouts);
         }
         chunk.BuildMilliseconds = Stopwatch.GetElapsedTime(started).TotalMilliseconds;
         return chunk;
