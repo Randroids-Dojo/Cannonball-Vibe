@@ -69,3 +69,8 @@ condition, cash, seed, and enforcement state before the resumed scene advanced.
 - `./scripts/check.sh`: passed; 54 C# tests, 66 map-pipeline tests, 12 PlayGodot
   unit tests, Ruff, doctor, build, and official Godot 4.7.1 smoke.
 - `git diff --check`: passed.
+- Protected PR gates passed on Linux, Windows, and macOS, including M0,
+  PlayGodot, reproducible exports, and both clean-machine smoke jobs. CodeRabbit
+  reached its fair-usage review limit without findings; this adversarial review
+  supplied the documented fallback, and PR #23 merged at
+  `11b30d69409566943695883196a428b17d3d907e`.

@@ -118,7 +118,18 @@
   ],
   "retry_count": 0,
   "recovery_result": {
-    "status": "local acceptance passed; protected remote verification pending"
+    "status": "passed",
+    "revision": "11b30d69409566943695883196a428b17d3d907e",
+    "pull_request": "https://github.com/Randroids-Dojo/Cannonball-Vibe/pull/23",
+    "linux_m0": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29651139020/job/88097569203",
+    "windows_m0": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29651139020/job/88097569209",
+    "linux_playgodot": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29651139020/job/88097569186",
+    "windows_playgodot": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29651139020/job/88097569230",
+    "macos_playgodot": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29651139020/job/88097569207",
+    "reproducible_exports": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29651138999/job/88097569145",
+    "linux_clean_machine_smoke": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29651138999/job/88097859677",
+    "windows_clean_machine_smoke": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29651138999/job/88097859678",
+    "coderabbit": "fair-usage review limit reached; repository adversarial-review fallback passed with no unresolved actionable finding"
   },
   "human_gate": null,
   "adversarial_review": "docs/audits/2026-07-18-p0-005-save-resume-review.md"
