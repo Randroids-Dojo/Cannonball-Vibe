@@ -381,6 +381,9 @@
         "game/World/",
         "game/Main.cs",
         "scripts/run-scenario.sh",
+        "src/Cannonball.Core/Content/",
+        "tests/Cannonball.Core.Tests/",
+        "tools/map_pipeline/src/cannonball_map/flatbuffer_writer.py",
         "evidence/M1/P1-001.json"
       ],
       "acceptance": [
