@@ -301,7 +301,7 @@ public sealed partial class WorldStreamer : Node3D
         InitialRoadForward = _frame.InitialForward;
         if (resumePosition is null)
         {
-            AttachChunk(initialChunk, InitialChunkBuildBudgetMilliseconds);
+            AttachChunk(initialChunk);
         }
         else
         {
@@ -312,7 +312,7 @@ public sealed partial class WorldStreamer : Node3D
             }
             foreach (var content in resumeChunks.OrderBy(content => content.Id, StringComparer.Ordinal))
             {
-                AttachChunk(content, InitialChunkBuildBudgetMilliseconds);
+                AttachChunk(content);
             }
             if (!_content.Values.Any(content =>
                     string.Equals(content.EdgeId, _currentEdgeId, StringComparison.Ordinal) &&
@@ -329,8 +329,7 @@ public sealed partial class WorldStreamer : Node3D
             UpdateCollisionState(
                 chunk,
                 active: resumedCollisionIds?.Contains(chunk.ChunkId) ??
-                    string.Equals(chunk.EdgeId, _currentEdgeId, StringComparison.Ordinal),
-                buildBudgetMilliseconds: InitialCollisionBuildBudgetMilliseconds);
+                    string.Equals(chunk.EdgeId, _currentEdgeId, StringComparison.Ordinal));
         }
     }
 
@@ -564,8 +563,7 @@ public sealed partial class WorldStreamer : Node3D
             {
                 var changed = UpdateCollisionState(
                     chunk,
-                    needsCollision,
-                    CollisionBuildBudgetMilliseconds);
+                    needsCollision);
                 collisionBuiltThisRefresh |= changed && needsCollision;
             }
             if (!_desiredVisual.Contains(id))
@@ -576,8 +574,7 @@ public sealed partial class WorldStreamer : Node3D
                 }
                 UpdateCollisionState(
                     chunk,
-                    active: false,
-                    buildBudgetMilliseconds: CollisionBuildBudgetMilliseconds);
+                    active: false);
                 foreach (var automationId in chunk.RouteContextAutomationIds)
                 {
                     _loadedRouteContextAutomationIds.Remove(automationId);
@@ -643,9 +640,7 @@ public sealed partial class WorldStreamer : Node3D
         }
     }
 
-    private void AttachChunk(
-        RouteChunkContent content,
-        double buildBudgetMilliseconds = ChunkBuildBudgetMilliseconds)
+    private void AttachChunk(RouteChunkContent content)
     {
         if (_loaded.ContainsKey(content.Id))
         {
@@ -654,13 +649,8 @@ public sealed partial class WorldStreamer : Node3D
         var edge = _package.Graph.GetEdge(content.EdgeId);
         var routeContextPlan = GetRouteContextPlan(edge);
         var chunk = RoadChunk.Create(content, edge, routeContextPlan, _frame, _localOriginWorld);
-        if (chunk.BuildMilliseconds > buildBudgetMilliseconds)
-        {
-            chunk.Free();
-            throw new InvalidOperationException(
-                $"Route chunk '{content.Id}' took {chunk.BuildMilliseconds:0.000} ms to build; " +
-                $"budget is {buildBudgetMilliseconds:0.000} ms.");
-        }
+        // Budget profiles validate collected timing samples. Normal play keeps valid content
+        // loaded instead of turning host scheduling or first-frame JIT into a chunk failure.
         _content.Add(content.Id, content);
         _loaded.Add(content.Id, chunk);
         if (_desiredBranchPrewarm.Contains(content.Id))
@@ -815,10 +805,7 @@ public sealed partial class WorldStreamer : Node3D
         }
     }
 
-    private bool UpdateCollisionState(
-        RoadChunk chunk,
-        bool active,
-        double buildBudgetMilliseconds)
+    private bool UpdateCollisionState(RoadChunk chunk, bool active)
     {
         var hadCollision = chunk.HasCollision;
         var elapsed = chunk.SetCollisionActive(active);
@@ -840,12 +827,6 @@ public sealed partial class WorldStreamer : Node3D
             MaximumCollisionBuildMilliseconds,
             elapsed);
         _collisionBuildSamplesMilliseconds.Add(elapsed);
-        if (elapsed > buildBudgetMilliseconds)
-        {
-            throw new InvalidOperationException(
-                $"Route chunk '{chunk.ChunkId}' took {elapsed:0.000} ms to build collision; " +
-                $"budget is {buildBudgetMilliseconds:0.000} ms.");
-        }
         return true;
     }
 

@@ -326,7 +326,7 @@ public static class RouteContextPlanner
         {
             throw new ArgumentOutOfRangeException(nameof(valueMiles));
         }
-        return valueMiles.ToString("0.###", CultureInfo.InvariantCulture);
+        return valueMiles.ToString("0.#", CultureInfo.InvariantCulture);
     }
 
     private static string FormatRouteShield(RouteIdentity identity) =>

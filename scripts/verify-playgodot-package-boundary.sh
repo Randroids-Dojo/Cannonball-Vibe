@@ -68,22 +68,7 @@ if grep -Eq 'PLAYGODOT_READY|PLAYGODOT_START_FAILED' "$runtime_log" || [[ -e "$t
   exit 1
 fi
 
-# The macOS hosted VM can correctly trip the production 40 ms chunk-build budget
-# during first-frame JIT. Accept only that typed Main/WorldStreamer path as the
-# sole ERROR record; any additional error or fatal signature remains a failure.
-known_budget_exit=false
-if (( runtime_exit == 1 )); then
-  failure_signature_count="$(grep -Eic \
-    '^(ERROR:|SCRIPT ERROR:|FATAL:|PANIC:)|unhandled exception|uncaught exception|segmentation fault|core dumped|libc\+\+abi|BUG:|assertion failed|(^|[[:space:]])abort(ed)?([:[:space:]]|$)' \
-    "$runtime_log" || true)"
-  if [[ "$failure_signature_count" == "1" ]] && \
-    grep -Eq "^ERROR: System\.InvalidOperationException: Route chunk '[^']+' took [0-9]+\.[0-9]{3} ms to build; budget is 40\.000 ms\.$" "$runtime_log" && \
-    grep -Fq 'at Cannonball.Game.World.WorldStreamer.AttachChunk' "$runtime_log" && \
-    grep -Fq 'at Cannonball.Game.Main._Ready()' "$runtime_log"; then
-    known_budget_exit=true
-  fi
-fi
-if (( runtime_exit != 0 )) && [[ "$known_budget_exit" != "true" ]]; then
+if (( runtime_exit != 0 )); then
   echo "Normal project startup failed during the PlayGodot boundary check." >&2
   sed -n '1,160p' "$runtime_log" >&2
   exit 1
