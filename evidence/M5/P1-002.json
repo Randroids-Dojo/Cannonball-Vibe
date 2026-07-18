@@ -3,8 +3,8 @@
   "task_id": "P1-002",
   "milestone": "M5",
   "status": "technical_acceptance_complete_human_gate_pending",
-  "git_revision": "34793b8efe5612578803c3c01ad9d3f6b04141f6",
-  "recorded_at_utc": "2026-07-18T18:57:48Z",
+  "git_revision": "72d061627157d5d4ff29baf632bcd117e82b4043",
+  "recorded_at_utc": "2026-07-18T19:11:16Z",
   "platform": {
     "os": "Darwin 25.6.0",
     "architecture": "arm64"
@@ -60,7 +60,8 @@
       "missing-semantic-node",
       "external-texture"
     ],
-    "release_preset": "Linux x86_64"
+    "validation_preset": "Asset pipeline validation",
+    "shipping_release_preset": "Linux x86_64"
   },
   "commands": [
     {
@@ -96,6 +97,14 @@
       "exit_status": 0,
       "retry_count": 0,
       "failure_logs": []
+    },
+    {
+      "command": "SOURCE_REVISION=$(git rev-parse HEAD) ./scripts/release/build-unsigned.sh linux /tmp/cannonball-repro-fixed",
+      "exit_status": 0,
+      "retry_count": 1,
+      "failure_logs": [
+        "The first clean double export included a pending-review glTF fixture whose imported PackedScene node identifiers varied between fresh Godot import caches."
+      ]
     }
   ],
   "metrics": {
@@ -115,7 +124,10 @@
     "textures": 0,
     "texture_budget": 0,
     "release_dependencies": 1,
-    "release_pack_files": 9,
+    "validation_pack_files": 9,
+    "shipping_release_pack_files": 5,
+    "shipping_release_contains_pipeline_fixtures": false,
+    "reproducible_linux_archive_sha256": "ce942ccc41d19aa3224acb0b2db4961bb211c941535bc6e11a16d0e3191b6cc3",
     "contact_sheet_width": 1152,
     "contact_sheet_height": 288,
     "csharp_tests_passed": 62,
@@ -140,7 +152,7 @@
     },
     {
       "criterion": "official Godot import resolves a project-owned wrapper without build-time release dependencies",
-      "observed": "official Godot 4.7.1 resolved five required semantic nodes and the stable automation ID; the release PCK retained the wrapper and imported GLB while excluding Blender source, data manifests, asset tooling, and test automation",
+      "observed": "official Godot 4.7.1 resolved five required semantic nodes and the stable automation ID in a validation-only PCK; distributable presets exclude pending-review pipeline fixtures as well as Blender source, data manifests, asset tooling, and test automation",
       "passed": true
     },
     {
@@ -205,10 +217,14 @@
     {
       "failure": "The variable-lane fixture emitted realistic one-decimal mile-marker text while the runtime required three-decimal anchor text.",
       "recovery": "The runtime now shares the map pipeline's one-decimal sign formatting contract, focused tests cover rounding, and the 45-edge topology profile passes with zero chunk failures."
+    },
+    {
+      "failure": "A clean double export was not byte-identical because fresh Godot glTF imports generated varying PackedScene node identifiers for a pending-review fixture.",
+      "recovery": "A dedicated validation preset retains semantic import tests, shipping presets exclude every pipeline fixture, the shipping PCK inspector rejects fixture leakage, and two clean Linux release exports now match exactly."
     }
   ],
-  "retry_count": 7,
-  "recovery_result": "Local deterministic asset, full repository, PlayGodot boundary, and variable-lane topology gates pass; remote pull-request validation is pending.",
+  "retry_count": 8,
+  "recovery_result": "Local deterministic asset, full repository, PlayGodot boundary, variable-lane topology, and clean double-release export gates pass; remote pull-request validation is pending.",
   "human_gate": {
     "name": "Asset pipeline rights-policy approval",
     "required_for": "M5",

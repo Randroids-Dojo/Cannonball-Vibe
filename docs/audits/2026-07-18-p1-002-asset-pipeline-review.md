@@ -1,7 +1,7 @@
 # P1-002 deterministic asset-pipeline adversarial review
 
 - Review date: 2026-07-18 UTC
-- Reviewed implementation: `34793b8efe5612578803c3c01ad9d3f6b04141f6`
+- Reviewed implementation: `72d061627157d5d4ff29baf632bcd117e82b4043`
 - Technical result: no unresolved actionable finding
 - Promotion result: technical pipeline is ready; the Q-023 human rights-policy gate remains open
 
@@ -10,9 +10,10 @@
 The review traced the project-original Blender source through source-creation
 ancestry, schema-1 manifest validation, two headless glTF exports, invalid-source
 rejection, the pinned Godot import, the project-owned wrapper, semantic and
-budget inventories, the release PCK, the contact sheet, Git LFS, documentation,
-and CI installation of the exact Blender distribution. It did not treat the
-graybox fixture as production road art or approve rights for future assets.
+budget inventories, the validation and shipping PCK boundaries, the contact
+sheet, Git LFS, documentation, and CI installation of the exact Blender
+distribution. It did not treat the graybox fixture as production road art or
+approve rights for future assets.
 
 ## Findings resolved during review
 
@@ -66,6 +67,12 @@ graybox fixture as production road art or approve rights for future assets.
     formatter. Runtime marker text now uses the same realistic one-decimal sign
     precision, materially false values still fail closed, and the 45-edge
     topology traversal passes with zero chunk failures.
+13. A clean double export exposed nondeterministic node identifiers generated
+    while Godot imports a raw glTF scene. The fixture is still pending rights
+    review and therefore never belonged in a distributable build. Linux and
+    Windows shipping presets now exclude all pipeline fixtures, the shipping
+    PCK inspector rejects them, and a dedicated validation preset retains the
+    imported GLB and wrapper checks without weakening the release boundary.
 
 ## Residual boundaries
 
@@ -88,7 +95,10 @@ graybox fixture as production road art or approve rights for future assets.
 - Asset gate: two byte-identical GLBs, two byte-identical current-platform
   contact sheets, three invalid-source rejections, five semantic nodes, three
   imported meshes, 36 total triangles, two materials, zero textures, and zero
-  build-time dependencies in the nine-file release PCK.
+  build-time dependencies in the nine-file validation PCK.
+- Shipping boundary: the distributable PCK contains five files and no pipeline
+  fixture; two clean Linux exports produced the identical archive SHA-256
+  `ce942ccc41d19aa3224acb0b2db4961bb211c941535bc6e11a16d0e3191b6cc3`.
 - Full repository gate: 62 C# tests, 66 map-pipeline tests, 12 PlayGodot unit
   tests, Ruff, doctor, build, and official Godot 4.7.1 smoke passed.
 - PlayGodot boundary: normal startup exited zero with no listener, rendezvous,
