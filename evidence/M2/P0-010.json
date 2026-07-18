@@ -1,0 +1,181 @@
+{
+  "schema_version": 1,
+  "task_id": "P0-010",
+  "milestone": "M2",
+  "status": "variable_lane_mainline_generation_verified_branch_geometry_pending",
+  "git_revision": "128908b211b5cbf7ed3a55ed867b4e51470a8622",
+  "platform": {
+    "os": "Darwin 25.6.0",
+    "architecture": "arm64"
+  },
+  "recorded_at_utc": "2026-07-18T13:39:15Z",
+  "tool_versions": {
+    "dotnet_sdk": "10.0.102",
+    "uv": "0.9.24",
+    "git_lfs": "3.7.1",
+    "godot": "4.7.1.stable.mono.official.a13da4feb"
+  },
+  "scope": {
+    "verified": [
+      "two-to-four-lane width and stable-lane-center transitions",
+      "variable shoulders, dashed markings, guard barriers, gore indicators, and collision",
+      "entrance-only, auxiliary, exit-only, merge, split, and highway-transfer maneuver roles",
+      "stream-chunk transitions, eviction, collision activation, and local-origin rebasing",
+      "high-speed stable-lane traversal and deterministic chase plus elevated capture"
+    ],
+    "completion_pending": [
+      "physical ramp and highway-transfer branch connector geometry",
+      "probable-branch prewarming and unchosen-branch eviction",
+      "high-speed traversal of an actual branching interchange"
+    ],
+    "excluded_claims": [
+      "P0-010 completion",
+      "P0-011 interchange routing completion",
+      "observed real-world lane geometry"
+    ]
+  },
+  "input_artifacts": [
+    {
+      "path": "data/sources/fixtures/nhpn-boulder-westminster-us36.geojson",
+      "sha256": "d859ff7ef97106a36b24276b87c86c3968aa1266ddf987ee6859d6972b7f6ff6"
+    },
+    {
+      "path": "data/sources/fixtures/nhpn-boulder-westminster-us36.manifest.json",
+      "sha256": "8020fb0146c5d630132accd9234e7c443e9f96b8459ae109d5f16a9104985575"
+    },
+    {
+      "path": "data/sources/fixtures/usgs-13-n40w106-boulder-westminster.tif",
+      "sha256": "b426c18178961d1add78477335a8bb2373471041a8aba04066e9dd2d82de7539"
+    },
+    {
+      "path": "data/sources/fixtures/usgs-13-n40w106-boulder-westminster.metadata.json",
+      "sha256": "0ec7798324b918a55ea9e842ae1ee23370beb25c080b78ca17c0de14b07fda7f"
+    },
+    {
+      "path": "data/sources/representative-corridor-lock.json",
+      "sha256": "020692b11640728f83b81175f33226ca13ed89699bbeaeea3bf6dbbdb5ea9a3d"
+    }
+  ],
+  "deterministic_seed": null,
+  "scenario_arguments": [
+    "--fixture",
+    "variable-lanes",
+    "--profile",
+    "topology"
+  ],
+  "commands": [
+    {
+      "command": "DOTNET_ROLL_FORWARD=Major dotnet test Cannonball.sln --no-restore --nologo",
+      "exit_status": 0,
+      "passed": 42
+    },
+    {
+      "command": "./scripts/run-scenario.sh --fixture variable-lanes --profile topology",
+      "exit_status": 0
+    },
+    {
+      "command": "./scripts/capture-scenario.sh /tmp/p0-010-variable-lanes.avi --fixture variable-lanes --topology-review",
+      "exit_status": 0
+    },
+    {
+      "command": "./scripts/check.sh",
+      "exit_status": 0,
+      "report": "reports/m0/summary.json"
+    }
+  ],
+  "metrics": {
+    "content_version": "route-v4-3b0a3760a01f026e",
+    "source_edges": 45,
+    "authored_override_id": "p0-010-variable-lanes-v1",
+    "selected_edge": "edge-1ab4417a1ddc0095e03b",
+    "topology_checkpoints": 12,
+    "minimum_lanes": 2,
+    "maximum_lanes": 4,
+    "lane_section_transitions": 4,
+    "transition_collision_chunks": 2,
+    "gore_geometry_observed": true,
+    "maximum_paved_width_meters": 18.9,
+    "peak_speed_mph": 160.6,
+    "local_origin_rebases": 2,
+    "maximum_unsupported_physics_frames": 1,
+    "maximum_visual_build_milliseconds": 15.104,
+    "maximum_collision_build_milliseconds": 1.05,
+    "visual_build_budget_milliseconds": 50,
+    "collision_build_budget_milliseconds": 50,
+    "capture_frames": 360,
+    "capture_fps": 60,
+    "capture_duration_seconds": 6,
+    "capture_transition_waypoints": 4,
+    "capture_camera_modes": 2,
+    "dotnet_tests_passed": 42,
+    "map_pipeline_tests_passed": 66,
+    "playgodot_unit_tests_passed": 12
+  },
+  "acceptance_comparisons": [
+    {
+      "criterion": "road width, lane centers, markings, shoulders, barriers, gore, and collision follow lane sections",
+      "observed": "all generated surfaces follow the shared continuous lane profile and all four boundaries were captured from chase and elevated cameras",
+      "passed": true
+    },
+    {
+      "criterion": "additions, drops, merges, splits, exit-only lanes, entrance ramps, and highway-transfer connectors remain drivable at high speed",
+      "observed": "mainline additions, drops, maneuver roles, and a stable through-lane pass reached 160.6 mph; physical ramp and transfer branches remain pending",
+      "passed": false
+    },
+    {
+      "criterion": "continuity across chunks, branch prewarming, eviction, and rebases",
+      "observed": "chunk and collision windows settled at 12 checkpoints, chunks evicted cleanly, and the high-speed pass crossed two rebases; probable branch prewarming remains pending",
+      "passed": false
+    },
+    {
+      "criterion": "visual and collision generation remain within budgets",
+      "observed": "15.104 ms visual and 1.050 ms collision versus separate 50 ms initial budgets",
+      "passed": true
+    },
+    {
+      "criterion": "deterministic chase and elevated captures cover every transition form",
+      "observed": "the six-second capture visited all four authored lane-section boundaries in both camera modes",
+      "passed": true
+    }
+  ],
+  "output_artifacts": [
+    {
+      "path": ".tools/scenarios/variable-lanes/current-package.json",
+      "sha256": "13ae2ed2b0d4ec2d84b2329b71be08e539909ac4eb29ad82ae16d77c4a30f317"
+    },
+    {
+      "path": ".tools/scenarios/variable-lanes/route_graph-f28daaf4dc37d6a069c6cd1ef9ba183a3129c61efc1ded65a7dce7bce43bf6b2.cbrg",
+      "sha256": "d8ecbcfdb55045e403eb294c7b09d70b74a58c70fb2b56c2bc7166a399fd4ce6"
+    },
+    {
+      "path": ".tools/scenarios/variable-lanes/route_graph-f28daaf4dc37d6a069c6cd1ef9ba183a3129c61efc1ded65a7dce7bce43bf6b2.json",
+      "sha256": "da6e83b1c0a4cf813c6717e5aac5e80d42d3ef14eed667b50fc097ac5b2ba97e"
+    },
+    {
+      "path": "/tmp/p0-010-variable-lanes.avi",
+      "sha256": "0e13d53aca03e74e552c0f5eda2112af594671467617e9df0ef8ddc9959b1f17"
+    },
+    {
+      "path": "/tmp/p0-010-variable-lanes-contact-final.png",
+      "sha256": "bd55738fdbc366c58db333acfcc55ebad2d86336281871acc39cd0ca83a580cd"
+    },
+    {
+      "path": "reports/m0/summary.json",
+      "sha256": "44427a46941438433122ae69085c48685e3794320dc409a7bac8682193a87491"
+    }
+  ],
+  "failure_logs": [
+    {
+      "failure": "direct dotnet test invocation could not roll a net8 testhost onto the pinned .NET 10 runtime",
+      "recovery": "reran with the repository-prescribed DOTNET_ROLL_FORWARD=Major environment; 42 tests passed"
+    },
+    {
+      "failure": "first guard-barrier capture scaled instance transforms in world axes and produced cross-road beams",
+      "recovery": "scaled only the local longitudinal basis axis and confirmed corrected chase and elevated captures"
+    }
+  ],
+  "retry_count": 2,
+  "recovery_result": "all local gates passed; remote Linux and Windows checks pending pull-request publication",
+  "human_gate": null,
+  "adversarial_review": "docs/audits/2026-07-18-p0-010-variable-lane-generation-review.md"
+}
