@@ -1,0 +1,155 @@
+{
+  "schema_version": 1,
+  "task_id": "P0-006",
+  "milestone": "M1",
+  "status": "complete",
+  "git_revision": "3dadeb13cf99bf177da0d1db8a7d5b656d8f62fd",
+  "recorded_at_utc": "2026-07-18T16:34:47.315492+00:00",
+  "platform": {
+    "requested": "current",
+    "os": "macOS 26.6.0",
+    "architecture": "arm64"
+  },
+  "scenario_inputs": {
+    "route_package": ".tools/scenarios/representative-corridor/route_graph-f28daaf4dc37d6a069c6cd1ef9ba183a3129c61efc1ded65a7dce7bce43bf6b2.cbrg",
+    "route_package_checksum": "8095f8a18a1dea496c5ba645cd011d342d287486c51cff99f1caacb29ec2626c",
+    "source_route_root_sha256": "d8ecbcfdb55045e403eb294c7b09d70b74a58c70fb2b56c2bc7166a399fd4ce6",
+    "source_artifact_sha256": "d859ff7ef97106a36b24276b87c86c3968aa1266ddf987ee6859d6972b7f6ff6",
+    "seed": 20260718,
+    "assist_profiles": [
+      "Accessible",
+      "Balanced",
+      "Raw"
+    ],
+    "target_distance_miles": 500,
+    "save_points_miles": [
+      100,
+      250,
+      400
+    ],
+    "expected_completion": true,
+    "authored_override_id": "p0-006-deterministic-long-route-v1"
+  },
+  "metrics": {
+    "traversed_distance_miles": 500,
+    "route_edges": 65,
+    "route_transitions": 64,
+    "expected_route_transitions": 64,
+    "route_chunks": 455,
+    "verified_route_chunks": 455,
+    "missing_chunks": 0,
+    "hash_failures": 0,
+    "geometry_gap_meters": 1.1641532182693481E-10,
+    "maximum_junction_gap_meters": 1.1641887454061361E-10,
+    "road_gaps": 0,
+    "collision_misses": 0,
+    "rebases": 1362,
+    "maximum_local_coordinate_meters": 884.2784841326854,
+    "resume_comparisons": 9,
+    "save_divergence": 0,
+    "frame_time_ms": {
+      "sample_count": 8562,
+      "p50": 6.896,
+      "p95": 6.944444444444445,
+      "p99": 7.291666666666667,
+      "maximum": 141.66666666666666
+    },
+    "chunk_build_ms": {
+      "sample_count": 1443,
+      "p50": 0.9619,
+      "p95": 2.06621,
+      "p99": 3.0364959999999925,
+      "maximum": 12.4554
+    },
+    "collision_build_ms": {
+      "sample_count": 1389,
+      "p50": 0.1462,
+      "p95": 0.27981999999999996,
+      "p99": 0.4659839999999937,
+      "maximum": 1.7383
+    },
+    "starting_working_set_bytes": 200130560,
+    "peak_working_set_bytes": 283328512,
+    "memory_growth_bytes": 83197952
+  },
+  "assist_profile_results": [
+    {
+      "assist_profile": "Accessible",
+      "completed_distance_miles": 499.9999993786288,
+      "checkpoints": 458,
+      "resume_comparisons": 3,
+      "rebases": 454,
+      "frames": 2858,
+      "chunk_builds": 481,
+      "collision_builds": 463,
+      "handling_distance_meters": 38.06757110756155,
+      "handling_physics_frames": 180,
+      "handling_maximum_unsupported_frames": 0,
+      "expected_completion": true,
+      "completed": true
+    },
+    {
+      "assist_profile": "Balanced",
+      "completed_distance_miles": 499.9999993786288,
+      "checkpoints": 458,
+      "resume_comparisons": 3,
+      "rebases": 454,
+      "frames": 2840,
+      "chunk_builds": 481,
+      "collision_builds": 463,
+      "handling_distance_meters": 38.06757110781621,
+      "handling_physics_frames": 180,
+      "handling_maximum_unsupported_frames": 0,
+      "expected_completion": true,
+      "completed": true
+    },
+    {
+      "assist_profile": "Raw",
+      "completed_distance_miles": 499.9999993786288,
+      "checkpoints": 458,
+      "resume_comparisons": 3,
+      "rebases": 454,
+      "frames": 2864,
+      "chunk_builds": 481,
+      "collision_builds": 463,
+      "handling_distance_meters": 38.06763214183218,
+      "handling_physics_frames": 180,
+      "handling_maximum_unsupported_frames": 0,
+      "expected_completion": true,
+      "completed": true
+    }
+  ],
+  "acceptance": {
+    "completed": true,
+    "zero_missing_chunks": true,
+    "zero_hash_failures": true,
+    "zero_road_gaps": true,
+    "zero_collision_misses": true,
+    "zero_save_divergence": true,
+    "all_assist_profiles": true
+  },
+  "human_gate": {
+    "name": "30-minute keyboard and controller handling sessions",
+    "required_for": "M0",
+    "status": "not part of deterministic automation acceptance"
+  },
+  "commands": [
+    {
+      "command": "./scripts/run-scenario.sh --distance-miles 500 --platform current --evidence evidence/M1/P0-006.json",
+      "exit_status": 0
+    },
+    {
+      "command": "./scripts/check.sh",
+      "exit_status": 0,
+      "report": "reports/m0/summary.json"
+    },
+    {
+      "command": "./scripts/run-scenario.sh --fixture representative-interchanges --profile route-choices",
+      "exit_status": 0
+    }
+  ],
+  "recovery_result": {
+    "status": "local acceptance passed; protected Linux and Windows verification pending"
+  },
+  "adversarial_review": "docs/audits/2026-07-18-p0-006-long-route-review.md"
+}

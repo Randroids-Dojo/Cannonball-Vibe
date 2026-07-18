@@ -254,7 +254,7 @@
       "milestone": "M1",
       "priority": "P0",
       "title": "Deterministic long-route scenario runner",
-      "status": "in_progress",
+      "status": "complete",
       "dependencies": [
         "P0-001",
         "P0-004",
