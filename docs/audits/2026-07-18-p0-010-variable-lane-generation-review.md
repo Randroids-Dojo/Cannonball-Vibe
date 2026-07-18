@@ -1,7 +1,7 @@
 # P0-010 variable-lane generation adversarial review
 
 - Review date: 2026-07-18 UTC
-- Reviewed implementation: `128908b211b5cbf7ed3a55ed867b4e51470a8622`
+- Reviewed implementation: `5cada632adfef0e1f48c8836e7c473c3d9fd21c2`
 - Result: no unresolved actionable finding in the implemented mainline slice;
   P0-010 remains in progress because physical branch connector geometry and
   branch prewarming are not yet exercised
@@ -45,6 +45,9 @@ regression fixture, not a claim about observed US 36 lane geometry.
 7. A single chase frame could not establish the shape of every transition. The
    capture now visits all four boundaries and switches deterministically between
    chase and elevated diagnostic views at each waypoint.
+8. Fixed diagnostic offsets assumed the selected edge was always long enough.
+   The overlay now requires a 1,000-meter source edge and clamps all review and
+   traversal offsets to its declared length.
 
 ## Residual boundaries
 

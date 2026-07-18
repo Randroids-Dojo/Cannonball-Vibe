@@ -3,7 +3,7 @@
   "task_id": "P0-010",
   "milestone": "M2",
   "status": "variable_lane_mainline_generation_verified_branch_geometry_pending",
-  "git_revision": "128908b211b5cbf7ed3a55ed867b4e51470a8622",
+  "git_revision": "5cada632adfef0e1f48c8836e7c473c3d9fd21c2",
   "platform": {
     "os": "Darwin 25.6.0",
     "architecture": "arm64"
