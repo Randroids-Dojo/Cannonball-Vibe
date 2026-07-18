@@ -8,12 +8,14 @@ public sealed partial class RoadChunk : Node3D
 {
     private const float RoadHalfWidth = 7.2f;
     private StaticBody3D? _collisionBody;
+    private ArrayMesh _roadMesh = null!;
 
     public string ChunkId { get; private init; } = string.Empty;
     public string EdgeId { get; private init; } = string.Empty;
     public double StartMeters { get; private init; }
     public double EndMeters { get; private init; }
     public double BuildMilliseconds { get; private set; }
+    public bool HasCollision => _collisionBody is not null;
 
     public bool HasReviewGeometry()
     {
@@ -60,13 +62,33 @@ public sealed partial class RoadChunk : Node3D
         return chunk;
     }
 
-    public void SetCollisionActive(bool active)
+    public double SetCollisionActive(bool active)
     {
-        if (_collisionBody is not null)
+        if (active == HasCollision)
         {
-            _collisionBody.ProcessMode = active ? ProcessModeEnum.Inherit : ProcessModeEnum.Disabled;
-            _collisionBody.CollisionLayer = active ? 1u : 0u;
+            return 0;
         }
+        if (!active)
+        {
+            var body = _collisionBody!;
+            body.CollisionLayer = 0;
+            body.ProcessMode = ProcessModeEnum.Disabled;
+            RemoveChild(body);
+            body.Free();
+            _collisionBody = null;
+            return 0;
+        }
+
+        var started = Stopwatch.GetTimestamp();
+        _collisionBody = new StaticBody3D
+        {
+            Name = "RoadCollision",
+            CollisionLayer = 1,
+            CollisionMask = 2,
+        };
+        _collisionBody.AddChild(new CollisionShape3D { Shape = _roadMesh.CreateTrimeshShape() });
+        AddChild(_collisionBody);
+        return Stopwatch.GetElapsedTime(started).TotalMilliseconds;
     }
 
     public void ShiftForOriginRebase(Vector3 shift) => Position -= shift;
@@ -76,7 +98,7 @@ public sealed partial class RoadChunk : Node3D
         IReadOnlyList<Vector3> tangents,
         IReadOnlyList<RouteChunkSample> samples)
     {
-        var mesh = BuildRibbonMesh(points, tangents, samples, RoadHalfWidth, 0);
+        _roadMesh = BuildRibbonMesh(points, tangents, samples, RoadHalfWidth, 0);
         var material = new StandardMaterial3D
         {
             AlbedoColor = new Color("151820"),
@@ -85,18 +107,9 @@ public sealed partial class RoadChunk : Node3D
         AddChild(new MeshInstance3D
         {
             Name = "RoadSurface",
-            Mesh = mesh,
+            Mesh = _roadMesh,
             MaterialOverride = material,
         });
-
-        _collisionBody = new StaticBody3D
-        {
-            Name = "RoadCollision",
-            CollisionLayer = 1,
-            CollisionMask = 2,
-        };
-        _collisionBody.AddChild(new CollisionShape3D { Shape = mesh.CreateTrimeshShape() });
-        AddChild(_collisionBody);
     }
 
     private static ArrayMesh BuildRibbonMesh(

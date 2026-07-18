@@ -16,8 +16,11 @@ public sealed partial class Main : Node3D
     private const int MaximumRenderIntegrityUnsupportedPhysicsFrames = 30;
     private const double MinimumRenderIntegrityWellGroundedRatio = 0.90;
     private const int GeographicReviewFramesPerWaypoint = 90;
+    private const int StreamingStableFramesPerCheckpoint = 5;
     private static readonly double[] GeographicReviewFractions =
         [0.005, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 0.995];
+    private static readonly double[] StreamingCheckpointFractions =
+        [0.0, 0.2, 0.4, 0.6, 0.8, 0.995];
     private WorldStreamer _streamer = null!;
     private CannonballVehicle _vehicle = null!;
     private PrototypeHud _hud = null!;
@@ -32,6 +35,7 @@ public sealed partial class Main : Node3D
     private bool _shortCorridorSoak;
     private bool _renderIntegrity;
     private bool _geographicReview;
+    private bool _streamingProfile;
     private bool _shutdownStarted;
     private int _smokeFrames;
     private double _telemetryElapsed;
@@ -43,6 +47,9 @@ public sealed partial class Main : Node3D
     private int _geographicReviewWaypointIndex = -1;
     private int _geographicReviewStableFrames;
     private bool _geographicReviewComplete;
+    private int _streamingCheckpointIndex = -1;
+    private int _streamingStableFrames;
+    private bool _streamingProfileComplete;
 
     public override void _Ready()
     {
@@ -56,14 +63,19 @@ public sealed partial class Main : Node3D
             _shortCorridorSoak = arguments.Contains("--short-corridor-soak", StringComparer.Ordinal);
             _renderIntegrity = arguments.Contains("--render-integrity", StringComparer.Ordinal);
             _geographicReview = arguments.Contains("--geographic-review", StringComparer.Ordinal);
+            _streamingProfile = arguments.Contains("--streaming-profile", StringComparer.Ordinal);
             _smokeTest = _smokeTest || _stressTest || _shortCorridorSoak || _renderIntegrity ||
-                _geographicReview;
+                _geographicReview || _streamingProfile;
             _smokeTargetFrames = _stressTest || _shortCorridorSoak ? 3_600 : 360;
             if (_renderIntegrity)
             {
                 _smokeTargetFrames = 4_800;
             }
             if (_geographicReview)
+            {
+                _smokeTargetFrames = 7_200;
+            }
+            if (_streamingProfile)
             {
                 _smokeTargetFrames = 7_200;
             }
@@ -100,11 +112,15 @@ public sealed partial class Main : Node3D
             _telemetry = new JsonlTelemetrySink(
                 ProjectSettings.GlobalizePath("user://telemetry/prototype.jsonl"));
 
-            _vehicle.AutopilotEnabled = _smokeTest && !_renderIntegrity;
+            _vehicle.AutopilotEnabled = _smokeTest && !_renderIntegrity && !_streamingProfile;
             if (_geographicReview)
             {
                 _vehicle.AutopilotEnabled = false;
                 BeginNextGeographicReviewWaypoint();
+            }
+            if (_streamingProfile)
+            {
+                BeginNextStreamingCheckpoint();
             }
             if (_renderIntegrity)
             {
@@ -173,6 +189,10 @@ public sealed partial class Main : Node3D
         {
             AdvanceGeographicReview();
         }
+        if (_streamingProfile && !_streamingProfileComplete)
+        {
+            AdvanceStreamingProfile();
+        }
         _telemetryElapsed += delta;
         if (_telemetryElapsed >= 5)
         {
@@ -198,7 +218,8 @@ public sealed partial class Main : Node3D
         _smokeFrames++;
         var renderTraversalComplete = _renderIntegrity &&
             _streamer.RouteDistanceMeters >= Math.Min(300, _streamer.TotalRouteLengthMeters - 35);
-        if (_smokeFrames >= _smokeTargetFrames || renderTraversalComplete || _geographicReviewComplete)
+        if (_smokeFrames >= _smokeTargetFrames || renderTraversalComplete ||
+            _geographicReviewComplete || _streamingProfileComplete)
         {
             _shutdownStarted = true;
             _ = PersistAsync(quitAfterSave: true);
@@ -298,6 +319,10 @@ public sealed partial class Main : Node3D
             {
                 ValidateGeographicReview();
             }
+            if (quitAfterSave && _streamingProfile)
+            {
+                ValidateStreamingProfile();
+            }
             var save = CaptureSave();
             await _saves.SaveAsync(save);
             await RecordTelemetryAsync("run_suspended");
@@ -315,6 +340,9 @@ public sealed partial class Main : Node3D
                     $"peak_mph={_peakSpeedMetersPerSecond * 2.236936f:0.0} " +
                     $"rebases={_streamer.RebaseCount} " +
                     $"max_chunk_build_ms={_streamer.MaximumBuildMilliseconds:0.000} " +
+                    $"max_collision_build_ms={_streamer.MaximumCollisionBuildMilliseconds:0.000} " +
+                    $"visual_chunks={_streamer.LoadedChunkCount} " +
+                    $"collision_chunks={_streamer.CollisionChunkCount} " +
                     $"content_source=packaged");
                 GetTree().Quit();
             }
@@ -397,6 +425,10 @@ public sealed partial class Main : Node3D
             ["contentSource"] = "packaged",
             ["chunkFailures"] = _streamer.ChunkFailureCount,
             ["maximumChunkBuildMilliseconds"] = _streamer.MaximumBuildMilliseconds,
+            ["maximumCollisionBuildMilliseconds"] =
+                _streamer.MaximumCollisionBuildMilliseconds,
+            ["collisionChunks"] = _streamer.CollisionChunkCount,
+            ["visualOnlyChunks"] = _streamer.VisualOnlyChunkCount,
             ["shortCorridorLoops"] = _streamer.CompletedShortCorridorLoops,
         };
         _previousDistance = globalDistance;
@@ -407,6 +439,69 @@ public sealed partial class Main : Node3D
             _streamer.CurrentEdgeId,
             edgeDistance,
             properties));
+    }
+
+    private void AdvanceStreamingProfile()
+    {
+        if (!_streamer.IsStreamingSettled)
+        {
+            _streamingStableFrames = 0;
+            return;
+        }
+        _streamingStableFrames++;
+        if (_streamingStableFrames < StreamingStableFramesPerCheckpoint)
+        {
+            return;
+        }
+        _streamer.ValidateCurrentStreamingWindows();
+        BeginNextStreamingCheckpoint();
+    }
+
+    private void BeginNextStreamingCheckpoint()
+    {
+        _streamingCheckpointIndex++;
+        _streamingStableFrames = 0;
+        if (_streamingCheckpointIndex >= StreamingCheckpointFractions.Length)
+        {
+            _streamingProfileComplete = true;
+            return;
+        }
+        _streamer.SetReviewDistance(
+            _streamer.TotalRouteLengthMeters *
+            StreamingCheckpointFractions[_streamingCheckpointIndex]);
+    }
+
+    private void ValidateStreamingProfile()
+    {
+        if (!_streamingProfileComplete ||
+            _streamingCheckpointIndex != StreamingCheckpointFractions.Length)
+        {
+            throw new InvalidOperationException("Streaming profile did not visit every checkpoint.");
+        }
+        if (_streamer.ObservedVisualOnlyChunkCount == 0 ||
+            _streamer.MaximumVisualChunkCount <= _streamer.MaximumCollisionChunkCount)
+        {
+            throw new InvalidOperationException(
+                "Streaming profile did not separate the visual and collision windows.");
+        }
+        if (_streamer.MaximumBuildMilliseconds >
+                WorldStreamer.InitialChunkBuildBudgetMilliseconds ||
+            _streamer.MaximumCollisionBuildMilliseconds >
+                WorldStreamer.InitialCollisionBuildBudgetMilliseconds)
+        {
+            throw new InvalidOperationException("Streaming profile exceeded a declared build budget.");
+        }
+        GD.Print(
+            $"CANNONBALL_STREAMING_SEPARATION_OK checkpoints={StreamingCheckpointFractions.Length} " +
+            $"visual_horizon_m={WorldStreamer.VisualLookAheadMeters:0} " +
+            $"collision_horizon_m={WorldStreamer.ActivePhysicsAheadMeters:0} " +
+            $"max_visual_chunks={_streamer.MaximumVisualChunkCount} " +
+            $"max_collision_chunks={_streamer.MaximumCollisionChunkCount} " +
+            $"max_visual_only_chunks={_streamer.ObservedVisualOnlyChunkCount} " +
+            $"collision_builds={_streamer.CollisionBuildCount} " +
+            $"collision_removals={_streamer.CollisionRemovalCount} " +
+            $"max_visual_build_ms={_streamer.MaximumBuildMilliseconds:0.000} " +
+            $"max_collision_build_ms={_streamer.MaximumCollisionBuildMilliseconds:0.000}");
     }
 
     private void BeginNextGeographicReviewWaypoint()

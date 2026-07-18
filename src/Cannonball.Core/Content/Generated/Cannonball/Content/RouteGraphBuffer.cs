@@ -17,7 +17,7 @@ public struct RouteGraphBuffer : IFlatbufferObject
   public static RouteGraphBuffer GetRootAsRouteGraphBuffer(ByteBuffer _bb) { return GetRootAsRouteGraphBuffer(_bb, new RouteGraphBuffer()); }
   public static RouteGraphBuffer GetRootAsRouteGraphBuffer(ByteBuffer _bb, RouteGraphBuffer obj) { return (obj.__assign(_bb.GetInt(_bb.Position) + _bb.Position, _bb)); }
   public static bool RouteGraphBufferBufferHasIdentifier(ByteBuffer _bb) { return Table.__has_identifier(_bb, "CBRG"); }
-  public static bool VerifyRouteGraphBuffer(ByteBuffer _bb) {Google.FlatBuffers.Verifier verifier = new Google.FlatBuffers.Verifier(_bb); return verifier.VerifyBuffer("CBRG", false, RouteGraphBufferVerify.Verify); }
+  public static bool VerifyRouteGraphBuffer(ByteBuffer _bb) {Cannonball.Core.Content.FlatBufferVerifier verifier = new Cannonball.Core.Content.FlatBufferVerifier(_bb); return verifier.VerifyBuffer("CBRG", false, RouteGraphBufferVerify.Verify); }
   public void __init(int _i, ByteBuffer _bb) { __p = new Table(_i, _bb); }
   public RouteGraphBuffer __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
 
@@ -326,7 +326,7 @@ public class RouteGraphBufferT
 
 static public class RouteGraphBufferVerify
 {
-  static public bool Verify(Google.FlatBuffers.Verifier verifier, uint tablePos)
+  static public bool Verify(Cannonball.Core.Content.FlatBufferVerifier verifier, uint tablePos)
   {
     return verifier.VerifyTableStart(tablePos)
       && verifier.VerifyField(tablePos, 4 /*SchemaVersion*/, 4 /*uint*/, 4, false)

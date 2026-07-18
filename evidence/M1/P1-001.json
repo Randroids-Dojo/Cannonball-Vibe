@@ -1,0 +1,240 @@
+{
+  "schema_version": 1,
+  "task_id": "P1-001",
+  "milestone": "M1",
+  "git_revision": "63e37c11a6e4aac292f55254f66598347b07fa7f",
+  "platform": {
+    "local": "Darwin arm64",
+    "remote": [
+      "ubuntu-latest",
+      "windows-latest",
+      "macos-latest"
+    ]
+  },
+  "utc_time": "2026-07-18T05:32:48Z",
+  "tool_versions": {
+    "godot": "4.7.1.stable.mono.official.a13da4feb",
+    "dotnet_sdk": "10.0.102",
+    "uv": "0.9.24",
+    "git_lfs": "3.7.1",
+    "flatc": "25.12.19",
+    "google_flatbuffers_nuget": "25.2.10"
+  },
+  "deterministic_seed": 20260714,
+  "scenario_arguments": [
+    "--distance-miles",
+    "500",
+    "--profile",
+    "streaming"
+  ],
+  "scope_boundary": {
+    "runtime_profile": "six deterministic streaming-window checkpoints on the 15.372898-mile representative corridor",
+    "distance_probe": "500 miles of repeated verified package transport reads",
+    "long_route_runtime_traversal_claimed": false,
+    "long_route_runtime_evidence_owner": "P0-006",
+    "note": "P0-006 remains responsible for a true 500-mile traversal and its frame-time percentiles, memory growth, rebases, maximum local coordinate, seam checks, collision misses, hash failures, and resume equivalence"
+  },
+  "input_artifacts": [
+    {
+      "path": "data/sources/fixtures/nhpn-boulder-westminster-us36.geojson",
+      "sha256": "d859ff7ef97106a36b24276b87c86c3968aa1266ddf987ee6859d6972b7f6ff6"
+    },
+    {
+      "path": "data/sources/fixtures/nhpn-boulder-westminster-us36.manifest.json",
+      "sha256": "8020fb0146c5d630132accd9234e7c443e9f96b8459ae109d5f16a9104985575"
+    },
+    {
+      "path": "data/sources/fixtures/usgs-13-n40w106-boulder-westminster.tif",
+      "sha256": "b426c18178961d1add78477335a8bb2373471041a8aba04066e9dd2d82de7539"
+    },
+    {
+      "path": "data/sources/fixtures/usgs-13-n40w106-boulder-westminster.metadata.json",
+      "sha256": "0ec7798324b918a55ea9e842ae1ee23370beb25c080b78ca17c0de14b07fda7f"
+    },
+    {
+      "path": "data/sources/representative-corridor-lock.json",
+      "sha256": "020692b11640728f83b81175f33226ca13ed89699bbeaeea3bf6dbbdb5ea9a3d"
+    },
+    {
+      "path": ".tools/scenarios/representative-corridor/route_graph-f28daaf4dc37d6a069c6cd1ef9ba183a3129c61efc1ded65a7dce7bce43bf6b2.cbrg",
+      "sha256": "d8ecbcfdb55045e403eb294c7b09d70b74a58c70fb2b56c2bc7166a399fd4ce6"
+    },
+    {
+      "path": ".tools/scenarios/representative-corridor/route_graph-f28daaf4dc37d6a069c6cd1ef9ba183a3129c61efc1ded65a7dce7bce43bf6b2.json",
+      "sha256": "da6e83b1c0a4cf813c6717e5aac5e80d42d3ef14eed667b50fc097ac5b2ba97e"
+    }
+  ],
+  "commands": [
+    {
+      "command": "./scripts/doctor.sh",
+      "exit_code": 0
+    },
+    {
+      "command": "CANNONBALL_SCENARIO_RESULT_FILE=reports/p1-001-streaming.json CANNONBALL_GODOT_LOG_FILE=reports/p1-001-streaming.log ./scripts/run-scenario.sh --distance-miles 500 --profile streaming",
+      "exit_code": 0
+    },
+    {
+      "command": "./scripts/check.sh",
+      "exit_code": 0
+    },
+    {
+      "command": "./scripts/generate-schemas.sh && git diff --exit-code HEAD -- scripts/generate-schemas.sh src/Cannonball.Core/Content/Generated && git diff --check",
+      "exit_code": 0
+    },
+    {
+      "command": "GitHub Actions CI run 29632449573",
+      "exit_code": 0
+    },
+    {
+      "command": "GitHub Actions reproducible unsigned fixture exports run 29632449553",
+      "exit_code": 0
+    }
+  ],
+  "remote_checks": [
+    {
+      "name": "M0 (ubuntu-latest)",
+      "run_id": 29632449573,
+      "result": "passed"
+    },
+    {
+      "name": "M0 (windows-latest)",
+      "run_id": 29632449573,
+      "result": "passed"
+    },
+    {
+      "name": "PlayGodot spike (ubuntu-latest)",
+      "run_id": 29632449573,
+      "result": "passed"
+    },
+    {
+      "name": "PlayGodot spike (windows-latest)",
+      "run_id": 29632449573,
+      "result": "passed"
+    },
+    {
+      "name": "PlayGodot spike (macos-latest)",
+      "run_id": 29632449573,
+      "result": "passed"
+    },
+    {
+      "name": "Build reproducible fixture exports",
+      "run_id": 29632449553,
+      "result": "passed"
+    },
+    {
+      "name": "Clean-machine smoke (linux)",
+      "run_id": 29632449553,
+      "result": "passed"
+    },
+    {
+      "name": "Clean-machine smoke (windows)",
+      "run_id": 29632449553,
+      "result": "passed"
+    }
+  ],
+  "metrics": {
+    "streaming_checkpoints": 6,
+    "visual_horizon_meters": 10000,
+    "collision_ahead_meters": 2000,
+    "collision_behind_meters": 50,
+    "maximum_visual_chunks": 25,
+    "maximum_collision_chunks": 7,
+    "maximum_visual_only_chunks": 20,
+    "collision_builds": 21,
+    "collision_removals": 19,
+    "maximum_visual_build_milliseconds": 9.277,
+    "maximum_collision_build_milliseconds": 1.099,
+    "initial_visual_build_budget_milliseconds": 50,
+    "steady_visual_build_budget_milliseconds": 40,
+    "initial_collision_build_budget_milliseconds": 50,
+    "steady_collision_build_budget_milliseconds": 40,
+    "unique_route_miles": 15.372898,
+    "requested_transport_miles": 500,
+    "route_repetitions": 33,
+    "verified_chunk_reads": 1617,
+    "chunk_failures": 0,
+    "csharp_tests_passed": 39,
+    "map_pipeline_tests_passed": 66,
+    "playgodot_unit_tests_passed": 12
+  },
+  "acceptance_comparisons": [
+    {
+      "criterion": "Only the declared near-player window carries collision",
+      "result": "passed",
+      "comparison": "7 peak collision chunks < 25 peak visual chunks; all six settled checkpoints matched the exact 2000 m ahead and 50 m behind collision set"
+    },
+    {
+      "criterion": "Visual lookahead remains available through the declared time-to-arrival horizon",
+      "result": "passed",
+      "comparison": "all six settled checkpoints retained the declared 10000 m capped visual horizon or the remaining route distance"
+    },
+    {
+      "criterion": "Chunk work respects measured frame-time and build-latency budgets",
+      "result": "passed",
+      "comparison": "9.277 ms maximum visual build < 50 ms initial budget and 1.099 ms maximum collision build < 50 ms initial budget; steady builds enforce 40 ms limits"
+    }
+  ],
+  "output_artifacts": [
+    {
+      "path": "reports/p1-001-streaming.json",
+      "sha256": "7c275602bb5ac4632ffa1e038df92e3cf346fa3cf8234cc52598993432549ba3"
+    },
+    {
+      "path": "reports/p1-001-streaming.log",
+      "sha256": "f8f2792343c258a81aa391eb5f11be70392e028e889fab6b9963c0329e4e1a29"
+    },
+    {
+      "path": "reports/m0/summary.json",
+      "sha256": "15a2cc35fe969a6d8be8ac44a553e157216108645ce44126a57cc0d2dc460d96"
+    },
+    {
+      "path": "reports/m0/doctor.json",
+      "sha256": "33cb1935e7bc974bbc4cc89452ab1f85a6648768cd2301f08b7df88be56e1dca"
+    },
+    {
+      "path": "reports/m0/godot/scenario.json",
+      "sha256": "d1466b5038bc0d557a2d3455cafd28fa16f693ee3bd7a7a111280f02ae980d67"
+    }
+  ],
+  "failure_logs": [
+    {
+      "attempt": 1,
+      "status": "failed",
+      "diagnosis": "Google.FlatBuffers 25.2.10 narrowed an absolute vtable position to Int16 for the valid 246 KB schema-4 root",
+      "durable_record": "docs/audits/2026-07-17-flatbuffers-csharp-large-root-verifier.md",
+      "recovery": "generated verification now uses the bounded 32-bit-compatible verifier; valid and corrupt large-root regression tests pass"
+    },
+    {
+      "attempt": 2,
+      "status": "failed",
+      "diagnosis": "checkpoint teleport updated the edge but retained the prior edge's stable lane ID before save",
+      "durable_record": "git revision ab0397e4c875795fdeba447a024a72d628aedf43",
+      "recovery": "SetReviewDistance now updates edge and lane atomically; the exact scenario saves successfully"
+    }
+  ],
+  "retry_count": 2,
+  "recovery_result": "passed exact scenario and full local M0 gate on the committed implementation revision",
+  "adversarial_review": {
+    "status": "passed",
+    "reviewer": "first-party independent complete-diff review",
+    "actionable_findings_resolved": 5,
+    "unresolved_actionable_findings": 0,
+    "resolved_findings": [
+      "replaced an envelope-only large-root fallback with full generated structural verification",
+      "updated lane identity when scenario checkpoints change edges",
+      "validated initial visual work against its separately declared 50 ms budget",
+      "distinguished absent optional FlatBuffer fields from malformed vtable entries",
+      "proved the large-root regression fixture places a nested vtable beyond the Int16 boundary"
+    ]
+  },
+  "supplementary_review": {
+    "service": "CodeRabbit",
+    "status": "completed with findings addressed",
+    "run_id": "d754e7d7-4bf3-4ed1-8830-5bf3c2f6ee74",
+    "actionable_findings": 3,
+    "valid_findings_fixed": 2,
+    "scope_findings_clarified": 1,
+    "scope_clarification": "the command combines six streaming checkpoints with a repeated 500-mile transport-read probe; it does not claim the true 500-mile runtime traversal owned by P0-006"
+  },
+  "human_gate": null
+}

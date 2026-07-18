@@ -9,11 +9,14 @@ public sealed partial class WorldStreamer : Node3D
 {
     public const double VisualLookAheadMeters = 10_000;
     public const double ActivePhysicsAheadMeters = 2_000;
+    public const double ActivePhysicsBehindMeters = 50;
     public const double RetainBehindMeters = 500;
     public const double PrefetchHorizonSeconds = 112;
     public const float RebaseThresholdMeters = 1_000;
     public const double ChunkBuildBudgetMilliseconds = 40;
     public const double InitialChunkBuildBudgetMilliseconds = 50;
+    public const double CollisionBuildBudgetMilliseconds = 40;
+    public const double InitialCollisionBuildBudgetMilliseconds = 50;
     public const int MaximumConcurrentChunkReads = 2;
     public const double ShortCorridorLoopResetLeadMeters = 25;
 
@@ -23,6 +26,8 @@ public sealed partial class WorldStreamer : Node3D
     private readonly Queue<string> _loadQueue = [];
     private readonly HashSet<string> _queued = new(StringComparer.Ordinal);
     private readonly HashSet<string> _failed = new(StringComparer.Ordinal);
+    private HashSet<string> _desiredVisual = new(StringComparer.Ordinal);
+    private HashSet<string> _desiredCollision = new(StringComparer.Ordinal);
     private RouteContentPackage _package = null!;
     private VerifiedFileChunkSource _source = null!;
     private LinearRoutePlan _routePlan = null!;
@@ -48,6 +53,12 @@ public sealed partial class WorldStreamer : Node3D
     public int RebaseCount { get; private set; }
     public int ChunkFailureCount { get; private set; }
     public double MaximumBuildMilliseconds { get; private set; }
+    public double MaximumCollisionBuildMilliseconds { get; private set; }
+    public int CollisionBuildCount { get; private set; }
+    public int CollisionRemovalCount { get; private set; }
+    public int MaximumVisualChunkCount { get; private set; }
+    public int MaximumCollisionChunkCount { get; private set; }
+    public int ObservedVisualOnlyChunkCount { get; private set; }
     public string CurrentEdgeId => _currentEdgeId;
     public double CurrentEdgeDistanceMeters =>
         _routeDistanceMeters - _routePlan.GetEdge(_currentEdgeId).StartMeters;
@@ -65,6 +76,21 @@ public sealed partial class WorldStreamer : Node3D
     public bool ReviewTargetReady => _reviewTargetReady;
     public int ReviewReadyChunkCountSeen => _reviewReadyChunksSeen.Count;
     public int ReviewEdgeCountVisited => _reviewEdgesVisited.Count;
+    public int CollisionChunkCount => _loaded.Values.Count(chunk => chunk.HasCollision);
+    public int VisualOnlyChunkCount => _loaded.Count - CollisionChunkCount;
+    public int DesiredVisualChunkCount => _desiredVisual.Count;
+    public int DesiredCollisionChunkCount => _desiredCollision.Count;
+    public bool IsStreamingSettled =>
+        _desiredVisual.SetEquals(_loaded.Keys) &&
+        !_pending.Keys.Any(_desiredVisual.Contains) &&
+        _desiredCollision.SetEquals(_loaded
+            .Where(entry => entry.Value.HasCollision)
+            .Select(entry => entry.Key));
+    public double LoadedVisualAheadMeters => _loaded.Count == 0
+        ? 0
+        : Math.Max(0, _loaded.Keys
+            .Select(id => _manifests.First(span => span.Manifest.Id == id).EndMeters)
+            .Max() - _routeDistanceMeters);
 
     public static ChunkManifest FindInitialManifest(RouteContentPackage package)
     {
@@ -123,6 +149,10 @@ public sealed partial class WorldStreamer : Node3D
         InitialRoadPoint = _initialRoadWorldPoint.RelativeTo(_localOriginWorld);
         InitialRoadForward = _frame.InitialForward;
         AttachChunk(initialChunk, InitialChunkBuildBudgetMilliseconds);
+        UpdateCollisionState(
+            _loaded[initialChunk.Id],
+            active: true,
+            buildBudgetMilliseconds: InitialCollisionBuildBudgetMilliseconds);
     }
 
     public override void _Ready()
@@ -219,6 +249,7 @@ public sealed partial class WorldStreamer : Node3D
         _routeDistanceMeters = _reviewTargetDistanceMeters.Value;
         _reviewTargetReady = false;
         UpdateCurrentEdge();
+        UpdateCurrentLane();
         RefreshDesiredChunks();
     }
 
@@ -236,18 +267,24 @@ public sealed partial class WorldStreamer : Node3D
         var first = Math.Max(0, _routeDistanceMeters - RetainBehindMeters);
         var last = Math.Min(RouteLengthMeters, _routeDistanceMeters + CurrentLookAheadMeters);
 
-        var desired = _manifests
+        _desiredVisual = _manifests
             .Where(span => span.EndMeters >= first && span.StartMeters <= last)
+            .Select(span => span.Manifest.Id)
+            .ToHashSet(StringComparer.Ordinal);
+        _desiredCollision = _manifests
+            .Where(span =>
+                span.EndMeters >= _routeDistanceMeters - ActivePhysicsBehindMeters &&
+                span.StartMeters <= _routeDistanceMeters + ActivePhysicsAheadMeters)
             .Select(span => span.Manifest.Id)
             .ToHashSet(StringComparer.Ordinal);
         foreach (var (id, pending) in _pending.ToArray())
         {
-            if (!desired.Contains(id))
+            if (!_desiredVisual.Contains(id))
             {
                 pending.Cancellation.Cancel();
             }
         }
-        foreach (var span in _manifests.Where(span => desired.Contains(span.Manifest.Id)))
+        foreach (var span in _manifests.Where(span => _desiredVisual.Contains(span.Manifest.Id)))
         {
             var manifest = span.Manifest;
             if (!_loaded.ContainsKey(manifest.Id) &&
@@ -259,21 +296,34 @@ public sealed partial class WorldStreamer : Node3D
                 _loadQueue.Enqueue(manifest.Id);
             }
         }
-        StartPendingReads(desired);
+        StartPendingReads(_desiredVisual);
 
+        var collisionBuiltThisRefresh = false;
         foreach (var (id, chunk) in _loaded.ToArray())
         {
-            var manifest = _manifests.First(span => span.Manifest.Id == id);
-            chunk.SetCollisionActive(
-                manifest.EndMeters >= _routeDistanceMeters - 50 &&
-                manifest.StartMeters <= _routeDistanceMeters + ActivePhysicsAheadMeters);
-            if (manifest.EndMeters < first || manifest.StartMeters > last + ActivePhysicsAheadMeters)
+            var needsCollision = _desiredCollision.Contains(id);
+            if (!needsCollision || !collisionBuiltThisRefresh || chunk.HasCollision)
             {
+                var changed = UpdateCollisionState(
+                    chunk,
+                    needsCollision,
+                    CollisionBuildBudgetMilliseconds);
+                collisionBuiltThisRefresh |= changed && needsCollision;
+            }
+            if (!_desiredVisual.Contains(id))
+            {
+                UpdateCollisionState(
+                    chunk,
+                    active: false,
+                    buildBudgetMilliseconds: CollisionBuildBudgetMilliseconds);
                 _loaded.Remove(id);
                 _content.Remove(id);
                 chunk.QueueFree();
             }
         }
+        MaximumVisualChunkCount = Math.Max(MaximumVisualChunkCount, _loaded.Count);
+        MaximumCollisionChunkCount = Math.Max(MaximumCollisionChunkCount, CollisionChunkCount);
+        ObservedVisualOnlyChunkCount = Math.Max(ObservedVisualOnlyChunkCount, VisualOnlyChunkCount);
     }
 
     private void CompletePendingLoads()
@@ -346,6 +396,59 @@ public sealed partial class WorldStreamer : Node3D
         }
         MaximumBuildMilliseconds = Math.Max(MaximumBuildMilliseconds, chunk.BuildMilliseconds);
         AddChild(chunk);
+    }
+
+    public void ValidateCurrentStreamingWindows()
+    {
+        if (!IsStreamingSettled)
+        {
+            throw new InvalidOperationException("Streaming windows are not settled.");
+        }
+        var collisionIds = _loaded
+            .Where(entry => entry.Value.HasCollision)
+            .Select(entry => entry.Key)
+            .ToHashSet(StringComparer.Ordinal);
+        if (!collisionIds.SetEquals(_desiredCollision))
+        {
+            throw new InvalidOperationException(
+                "Loaded collision chunks do not match the declared near-player window.");
+        }
+        var expectedAhead = Math.Min(CurrentLookAheadMeters, RouteLengthMeters - _routeDistanceMeters);
+        if (LoadedVisualAheadMeters + 1e-6 < expectedAhead)
+        {
+            throw new InvalidOperationException(
+                $"Visual lookahead is {LoadedVisualAheadMeters:F3} m; expected " +
+                $"{expectedAhead:F3} m.");
+        }
+    }
+
+    private bool UpdateCollisionState(
+        RoadChunk chunk,
+        bool active,
+        double buildBudgetMilliseconds)
+    {
+        var hadCollision = chunk.HasCollision;
+        var elapsed = chunk.SetCollisionActive(active);
+        if (hadCollision == chunk.HasCollision)
+        {
+            return false;
+        }
+        if (!active)
+        {
+            CollisionRemovalCount++;
+            return true;
+        }
+        CollisionBuildCount++;
+        MaximumCollisionBuildMilliseconds = Math.Max(
+            MaximumCollisionBuildMilliseconds,
+            elapsed);
+        if (elapsed > buildBudgetMilliseconds)
+        {
+            throw new InvalidOperationException(
+                $"Route chunk '{chunk.ChunkId}' took {elapsed:0.000} ms to build collision; " +
+                $"budget is {buildBudgetMilliseconds:0.000} ms.");
+        }
+        return true;
     }
 
     private void RecordChunkFailure(string id, Exception? exception)

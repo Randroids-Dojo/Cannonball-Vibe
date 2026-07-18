@@ -10,6 +10,7 @@ if [[ $# -eq 0 ]]; then
 fi
 
 fixture="official-corridor"
+fixture_explicit="false"
 distance_miles=""
 scenario_args=()
 scenario_mode="scenario"
@@ -21,10 +22,12 @@ while [[ $# -gt 0 ]]; do
         exit 2
       fi
       fixture="$2"
+      fixture_explicit="true"
       shift 2
       ;;
     --fixture=*)
       fixture="${1#--fixture=}"
+      fixture_explicit="true"
       shift
       ;;
     --distance-miles)
@@ -37,6 +40,29 @@ while [[ $# -gt 0 ]]; do
       ;;
     --distance-miles=*)
       distance_miles="${1#--distance-miles=}"
+      shift
+      ;;
+    --profile)
+      if [[ $# -lt 2 ]]; then
+        echo "--profile requires a value." >&2
+        exit 2
+      fi
+      if [[ "$2" == "streaming" ]]; then
+        scenario_mode="streaming"
+        scenario_args+=("--streaming-profile")
+      else
+        scenario_args+=("--profile=$2")
+      fi
+      shift 2
+      ;;
+    --profile=*)
+      profile="${1#--profile=}"
+      if [[ "$profile" == "streaming" ]]; then
+        scenario_mode="streaming"
+        scenario_args+=("--streaming-profile")
+      else
+        scenario_args+=("$1")
+      fi
       shift
       ;;
     --short-corridor-soak)
@@ -72,6 +98,10 @@ while [[ $# -gt 0 ]]; do
       ;;
   esac
 done
+
+if [[ "$scenario_mode" == "streaming" && "$fixture_explicit" == "false" ]]; then
+  fixture="representative-corridor"
+fi
 
 case "$fixture" in
   official-corridor)

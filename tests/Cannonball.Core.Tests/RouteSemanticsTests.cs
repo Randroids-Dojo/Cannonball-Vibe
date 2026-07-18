@@ -1,3 +1,5 @@
+using System.Buffers.Binary;
+using System.Text;
 using Cannonball.Content;
 using Cannonball.Core.Content;
 using Cannonball.Core.Routes;
@@ -36,6 +38,65 @@ public sealed class RouteSemanticsTests
         var error = Assert.Throws<InvalidDataException>(() => FlatBufferRouteContent.Load(bytes));
 
         Assert.Contains("map geometry 'edge' LOD 0 hash is invalid", error.Message);
+    }
+
+    [Fact]
+    public void SchemaFourLoadsRootBeyondGeneratedVerifierInt16Limit()
+    {
+        var bytes = CreateSchemaFourBytes(root =>
+            root.RouteIdentities![0].LocalName = new string('x', 40_000));
+
+        var package = FlatBufferRouteContent.Load(bytes);
+
+        Assert.True(bytes.Length > short.MaxValue);
+        Assert.True(GetFirstVectorTableVtablePosition(bytes, 8) > short.MaxValue);
+        Assert.Equal(
+            40_000,
+            Assert.Single(package.Semantics!.RouteIdentities).LocalName.Length);
+    }
+
+    [Fact]
+    public void SchemaFourRejectsInvalidLargeRootOffset()
+    {
+        var bytes = CreateSchemaFourBytes(root =>
+            root.RouteIdentities![0].LocalName = new string('x', 40_000));
+        BinaryPrimitives.WriteUInt32LittleEndian(bytes, uint.MaxValue);
+
+        var error = Assert.Throws<InvalidDataException>(() => FlatBufferRouteContent.Load(bytes));
+
+        Assert.Contains("valid CBRG FlatBuffer", error.Message);
+    }
+
+    [Fact]
+    public void SchemaFourRejectsInvalidLargeNestedStringLength()
+    {
+        var largeName = new string('x', 40_000);
+        var bytes = CreateSchemaFourBytes(root =>
+            root.RouteIdentities![0].LocalName = largeName);
+        var stringPosition = bytes.AsSpan().IndexOf(Encoding.UTF8.GetBytes(largeName));
+        Assert.True(stringPosition >= sizeof(uint));
+        BinaryPrimitives.WriteUInt32LittleEndian(
+            bytes.AsSpan(stringPosition - sizeof(uint)),
+            uint.MaxValue);
+
+        var error = Assert.Throws<InvalidDataException>(() => FlatBufferRouteContent.Load(bytes));
+
+        Assert.Contains("valid CBRG FlatBuffer", error.Message);
+    }
+
+    [Fact]
+    public void SchemaFourRejectsMalformedOptionalFieldOffset()
+    {
+        var bytes = CreateSchemaFourBytes();
+        var rootTable = checked((int)BinaryPrimitives.ReadUInt32LittleEndian(bytes));
+        var rootVtable = rootTable - BinaryPrimitives.ReadInt32LittleEndian(bytes[rootTable..]);
+        BinaryPrimitives.WriteUInt16LittleEndian(
+            bytes.AsSpan(rootVtable + 6),
+            ushort.MaxValue);
+
+        var error = Assert.Throws<InvalidDataException>(() => FlatBufferRouteContent.Load(bytes));
+
+        Assert.Contains("valid CBRG FlatBuffer", error.Message);
     }
 
     [Theory]
@@ -345,6 +406,23 @@ public sealed class RouteSemanticsTests
         var offset = RouteGraphBuffer.Pack(builder, root);
         RouteGraphBuffer.FinishRouteGraphBufferBuffer(builder, offset);
         return builder.SizedByteArray();
+    }
+
+    private static long GetFirstVectorTableVtablePosition(
+        ReadOnlySpan<byte> bytes,
+        int rootFieldVtableOffset)
+    {
+        var rootTable = checked((int)BinaryPrimitives.ReadUInt32LittleEndian(bytes));
+        var rootVtable = rootTable - BinaryPrimitives.ReadInt32LittleEndian(bytes[rootTable..]);
+        var vectorFieldOffset = BinaryPrimitives.ReadUInt16LittleEndian(
+            bytes[(rootVtable + rootFieldVtableOffset)..]);
+        var vectorField = rootTable + vectorFieldOffset;
+        var vector = vectorField + checked((int)BinaryPrimitives.ReadUInt32LittleEndian(
+            bytes[vectorField..]));
+        var firstTableSlot = vector + sizeof(uint);
+        var firstTable = firstTableSlot + checked((int)BinaryPrimitives.ReadUInt32LittleEndian(
+            bytes[firstTableSlot..]));
+        return firstTable - BinaryPrimitives.ReadInt32LittleEndian(bytes[firstTable..]);
     }
 
     private static SemanticProvenanceDataT SemanticProvenance() => new()
