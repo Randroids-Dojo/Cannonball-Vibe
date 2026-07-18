@@ -117,3 +117,29 @@ reacquirable. P1-005 is conditional backlog and activates before the project
 retains unique, privately licensed, legally critical, expensive-to-reconstruct,
 or unreliable-to-reacquire source material. See
 [ADR-0010](decisions/ADR-0010-defer-independent-source-replica.md).
+
+## Future M5 visual choices (Q-020 through Q-022) — not blocking current work
+
+[ADR-0012](decisions/ADR-0012-agentic-visual-asset-pipeline.md) now separates
+the visual milestone into an agentic asset pipeline, one production-ready
+rigged hero vehicle, a modular highway kit, and a regional terrain and
+background system. Three human choices remain, but their working defaults let
+the prerequisite engineering continue:
+
+1. **Hero vehicle:** which original fictional grand tourer concept and creation
+   or commissioning path should become the first production car? The default is
+   an unbranded modern grand tourer built around the stable semantic rig; a
+   clearly licensed temporary model may validate the pipeline only.
+2. **Representative region:** which 300–500 mile region and visual language
+   should define the polished slice? The default is a Colorado mountain-to-
+   plains corridor extending the current proof geography.
+3. **Target hardware and budgets:** what minimum PC should ratify production
+   mesh, material, texture, memory, draw-call, LOD, and streaming budgets? The
+   default is to enforce static and memory budgets in CI, measure rendering on
+   declared available Windows hardware, and ratify a minimum PC before M5
+   promotion.
+
+No answer is required to complete the route-semantics work or to build the
+asset-pipeline fixture. The choices become blocking before the corresponding
+production art is selected or promoted. Full evidence requirements live in
+[OPEN_QUESTIONS.md](OPEN_QUESTIONS.md).

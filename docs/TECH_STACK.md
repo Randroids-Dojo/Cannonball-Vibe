@@ -181,7 +181,29 @@ auditability, and unique value beyond the existing tools.
 
 ## Asset and observability stack
 
-Blender exports glTF/GLB assets. Far scenery and future far traffic use
-`MultiMesh`; only near traffic receives physics bodies. Telemetry is append-only
-JSONL so playtests can be analyzed directly with DuckDB and Python without
-adding an online service dependency.
+[ADR-0012](decisions/ADR-0012-agentic-visual-asset-pipeline.md) defines the
+production visual pipeline. Pinned Blender command-line scripts lint original
+source art and export glTF 2.0 binary assets; official Godot 4.7.1 command-line
+imports then instantiate project-owned wrapper scenes and validate stable
+semantic nodes, scale, axes, transforms, LODs, collision proxies, materials,
+textures, and performance budgets. Machine-readable manifests recursively
+record hashes, authorship, licensing, transformations, and export profiles.
+Binary source art and models use Git LFS, while generated imports remain
+replaceable.
+
+The hero vehicle's visual rig follows the existing custom raycast simulation
+through stable chassis, wheel, suspension, camera, light, damage, and material
+anchors. It does not replace authoritative physics. Highway art is a modular
+kit consumed by semantic procedural road generation; it does not encode lane or
+navigation topology in monolithic meshes. Regional environments use
+deterministic near-road placement, streamed midground, and low-cost distant
+terrain or skyline tiers. Graybox implementations keep the same contracts so
+normal headless delivery does not require production art.
+
+Far scenery and future far traffic use `MultiMesh`; only near traffic receives
+physics bodies. Deterministic renderer contact sheets and driving captures
+supplement quantitative asset gates. Computer Use may inspect the real editor
+or packaged result as a black-box visual check, while PlayGodot remains scoped
+to semantic rendered-UI automation rather than 3D asset promotion. Telemetry is
+append-only JSONL so playtests can be analyzed directly with DuckDB and Python
+without adding an online service dependency.

@@ -440,15 +440,21 @@
         "P0-007"
       ],
       "owned_paths": [
-        "assets/",
+        "assets/pipeline-fixtures/",
         "tools/assets/",
-        "data/assets/"
+        "data/assets/manifest.schema.json",
+        "data/assets/pipeline-fixtures/",
+        "scripts/validate-assets.sh",
+        "docs/decisions/ADR-0012-agentic-visual-asset-pipeline.md",
+        "evidence/M5/P1-002.json"
       ],
       "acceptance": [
-        "Blender and export tooling are pinned",
-        "Headless exports enforce naming, scale, import profiles, LOD, collision, and budget rules",
-        "Every source asset and audio file has license and provenance metadata",
-        "Visual regression artifacts are produced for representative scenes"
+        "The exact Blender build, export scripts, glTF profile, and Godot 4.7.1 import settings are pinned and invokable without an interactive editor",
+        "Machine-readable manifests recursively record content hashes, authorship, license, acquisition or creation date, transformations, export profile, and redistribution status for every source and derived asset",
+        "Headless Blender lint and export enforce portable paths, semantic naming, scale, axes, transforms, import profiles, LOD, collision, materials, textures, and declared performance budgets",
+        "Official-engine headless import instantiates project-owned wrapper scenes, resolves required semantic nodes, and proves release exports do not depend on Blender or test-only automation",
+        "Deterministic renderer-backed contact sheets and representative scene captures are produced with structured inventory, budget, hash, and comparison evidence",
+        "Graybox fallbacks satisfy the same semantic contracts so code, tests, and source builds remain available when production art is absent"
       ],
       "verification": [
         "./scripts/validate-assets.sh"
@@ -457,9 +463,10 @@
         "evidence/M5/P1-002.json"
       ],
       "human_gate": {
-        "name": "Art direction and final rights approval",
+        "name": "Asset pipeline rights-policy approval",
         "required_for": "M5"
-      }
+      },
+      "notes": "ADR-0012 is authoritative. Computer Use is supplementary visual evidence and PlayGodot is not required for 3D asset export or promotion."
     },
     {
       "id": "P1-005",
@@ -792,6 +799,131 @@
       "notes": "P1-004 is a conditional prerequisite only when ADR-0008's measured adoption gate approves PlayGodot. Otherwise verify the mandatory Core model and official-engine headless scenarios plus recorded Computer Use visual evidence without making PlayGodot a delivery dependency."
     },
     {
+      "id": "P1-008",
+      "milestone": "M5",
+      "priority": "P1",
+      "title": "Production-ready rigged hero vehicle",
+      "status": "open",
+      "dependencies": [
+        "P1-002"
+      ],
+      "owned_paths": [
+        "assets/vehicles/",
+        "data/assets/vehicles/",
+        "game/Vehicle/Visuals/",
+        "game/Automation/VehicleVisualScenario.cs",
+        "scripts/verify-vehicle-asset.sh",
+        "evidence/M5/P1-008.json"
+      ],
+      "acceptance": [
+        "One original fictional grand tourer passes the ADR-0012 source, license, export, import, semantic-node, and budget contracts with declared LODs and collision proxy",
+        "Stable chassis, wheel, suspension, contact, camera, light, exhaust, driver, material, and damage anchors resolve through a project-owned wrapper scene after a clean re-export and reimport",
+        "The visual rig follows authoritative steering, wheel rotation, measured suspension travel, and chassis motion without changing the custom raycast physics or save state",
+        "Cockpit and chase cameras preserve visibility, speed readability, and mirror or body occlusion bounds across representative steering, grade, collision, and local-origin scenarios",
+        "Deterministic contact sheets and driving captures cover daylight, night, braking, steering lock, full suspension travel, LOD transitions, damage-zone highlighting, and graybox fallback equivalence",
+        "A clean source checkout can validate and export the vehicle without an interactive Blender or Godot editor session"
+      ],
+      "verification": [
+        "./scripts/verify-vehicle-asset.sh --vehicle hero-gt --all-lods",
+        "./scripts/run-scenario.sh --fixture representative-corridor --profile vehicle-visual",
+        "./scripts/capture-scenario.sh /tmp/p1-008-hero-vehicle.avi --fixture representative-corridor --vehicle-visual-review",
+        "./scripts/check.sh"
+      ],
+      "evidence": [
+        "evidence/M5/P1-008.json"
+      ],
+      "human_gate": {
+        "name": "Hero vehicle art direction and final rights approval",
+        "required_for": "M5"
+      },
+      "notes": "Vehicle concept and acquisition path remain Q-020. Temporary licensed art may prove the pipeline but cannot satisfy the final original-vehicle gate."
+    },
+    {
+      "id": "P1-009",
+      "milestone": "M5",
+      "priority": "P1",
+      "title": "Modular production highway visual kit",
+      "status": "open",
+      "dependencies": [
+        "P1-002",
+        "P0-010",
+        "P0-011",
+        "P1-007",
+        "P0-012"
+      ],
+      "owned_paths": [
+        "assets/roads/",
+        "data/assets/roads/",
+        "game/World/RoadVisuals/",
+        "game/Automation/RoadVisualScenario.cs",
+        "scripts/verify-road-assets.sh",
+        "evidence/M5/P1-009.json"
+      ],
+      "acceptance": [
+        "A modular kit covers pavement states, shoulders, medians, barriers, guardrails, bridges, overpasses, gore treatments, lane markings, reflectors, signs, posts, and representative roadside furniture",
+        "Procedural generation remains authoritative and applies the kit continuously across variable lane counts, auxiliary and exit-only lanes, ramps, merges, splits, transfers, curvature, grade, stream boundaries, and local-origin rebases",
+        "Materials, decals, markings, signs, and modular meshes preserve scale, orientation, UV density, semantic placement, and collision separation under every representative topology fixture",
+        "LOD, instancing, shared-material, texture-residency, draw-call, and pop-in budgets pass both daylight and night high-speed approaches without reducing route-context readability",
+        "Deterministic elevated and driving captures cover ordinary highway, lane addition and drop, entrance and exit, gore, bridge or overpass, and two highway-transfer forms",
+        "Graybox road assets remain selectable through the same generator contract for fast headless and diagnostic scenarios"
+      ],
+      "verification": [
+        "./scripts/verify-road-assets.sh --all-topology-fixtures",
+        "./scripts/run-scenario.sh --fixture representative-interchanges --profile road-visual",
+        "./scripts/capture-scenario.sh /tmp/p1-009-highway-kit.avi --fixture representative-interchanges --road-visual-review",
+        "./scripts/check.sh"
+      ],
+      "evidence": [
+        "evidence/M5/P1-009.json"
+      ],
+      "human_gate": {
+        "name": "Highway art readability, visual quality, and final rights approval",
+        "required_for": "M5"
+      }
+    },
+    {
+      "id": "P1-010",
+      "milestone": "M5",
+      "priority": "P1",
+      "title": "Regional terrain and background environment",
+      "status": "open",
+      "dependencies": [
+        "P1-001",
+        "P1-002",
+        "P0-012"
+      ],
+      "owned_paths": [
+        "assets/environments/",
+        "data/assets/environments/",
+        "game/World/Environment/",
+        "game/Automation/EnvironmentVisualScenario.cs",
+        "scripts/verify-environment-assets.sh",
+        "evidence/M5/P1-010.json"
+      ],
+      "acceptance": [
+        "The selected representative region composes deterministic near-road terrain and objects, streamed regional midground, and low-cost distant terrain or skyline from route region and stable seed",
+        "Terrain blending, cuts, fills, bridge approaches, vegetation, structures, skyline, weather, and lighting conceal chunk boundaries without altering authoritative route elevation or collision",
+        "Near collision, visual lookahead, midground retention, distant backgrounds, and degradation order have separate measured budgets and remain stable through maximum-speed travel and local-origin rebases",
+        "Instancing, shared materials, texture residency, occlusion, and LOD transitions remain within the ratified target-hardware budgets while preserving road and sign readability",
+        "Deterministic captures cover mountain, foothill, plains, urban-edge, dawn, day, night, weather, stream-boundary, and degraded-quality states with no exposed voids or persistent pop-in",
+        "A graybox environment profile remains available for fast validation and produces equivalent route, collision, streaming, and save semantics"
+      ],
+      "verification": [
+        "./scripts/verify-environment-assets.sh --region representative --all-quality-levels",
+        "./scripts/run-scenario.sh --fixture representative-corridor --profile environment-streaming",
+        "./scripts/capture-scenario.sh /tmp/p1-010-regional-environment.avi --fixture representative-corridor --environment-review",
+        "./scripts/check.sh"
+      ],
+      "evidence": [
+        "evidence/M5/P1-010.json"
+      ],
+      "human_gate": {
+        "name": "Representative-region art direction, readability, and final rights approval",
+        "required_for": "M5"
+      },
+      "notes": "Region selection remains Q-021 and exact production budgets remain Q-022. Fixture work may begin against the Colorado proof corridor without closing either question or treating hosted CI as a representative GPU benchmark."
+    },
+    {
       "id": "P1-003",
       "milestone": "M6",
       "priority": "P1",
@@ -801,6 +933,9 @@
         "P0-007",
         "P0-008",
         "P1-002",
+        "P1-008",
+        "P1-009",
+        "P1-010",
         "P1-006"
       ],
       "owned_paths": [
