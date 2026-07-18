@@ -381,9 +381,11 @@
         "game/World/",
         "game/Main.cs",
         "scripts/run-scenario.sh",
+        "scripts/generate-schemas.sh",
         "src/Cannonball.Core/Content/",
         "tests/Cannonball.Core.Tests/",
         "tools/map_pipeline/src/cannonball_map/flatbuffer_writer.py",
+        "docs/audits/2026-07-17-flatbuffers-csharp-large-root-verifier.md",
         "evidence/M1/P1-001.json"
       ],
       "acceptance": [
