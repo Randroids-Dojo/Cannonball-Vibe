@@ -25,9 +25,10 @@ generated schema callbacks. Its intentional behavioral difference is retaining
 32-bit absolute positions during vtable lookup.
 
 Small and large roots use the same structural verifier. Regression tests cover
-a valid schema-4 root larger than 32,767 bytes plus rejection of corrupt root
-and nested-string offsets in a large root. Runtime semantic validation remains
-unchanged and follows structural verification.
+a valid schema-4 root whose nested node vtable is located after byte 32,767,
+plus rejection of corrupt root, nested-string, and optional-field offsets.
+Runtime semantic validation remains unchanged and follows structural
+verification.
 
 ## Revisit condition
 

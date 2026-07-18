@@ -78,9 +78,10 @@ public sealed class FlatBufferVerifier
         ulong alignment,
         bool required)
     {
-        if (!TryGetFieldPosition(tablePosition, offsetId, out var fieldPosition))
+        var lookup = GetFieldPosition(tablePosition, offsetId, out var fieldPosition);
+        if (lookup != FieldLookup.Found)
         {
-            return !required;
+            return lookup == FieldLookup.Missing && !required;
         }
         return CheckAlignment(fieldPosition, alignment) &&
             CheckElement(fieldPosition, elementSize);
@@ -88,9 +89,10 @@ public sealed class FlatBufferVerifier
 
     public bool VerifyString(uint tablePosition, short offsetId, bool required)
     {
-        if (!TryGetFieldPosition(tablePosition, offsetId, out var fieldPosition))
+        var lookup = GetFieldPosition(tablePosition, offsetId, out var fieldPosition);
+        if (lookup != FieldLookup.Found)
         {
-            return !required;
+            return lookup == FieldLookup.Missing && !required;
         }
         return TryGetIndirectOffset(fieldPosition, out var stringPosition) &&
             CheckVectorOrString(stringPosition, sizeof(byte), checkTerminator: true);
@@ -102,9 +104,10 @@ public sealed class FlatBufferVerifier
         ulong elementSize,
         bool required)
     {
-        if (!TryGetFieldPosition(tablePosition, offsetId, out var fieldPosition))
+        var lookup = GetFieldPosition(tablePosition, offsetId, out var fieldPosition);
+        if (lookup != FieldLookup.Found)
         {
-            return !required;
+            return lookup == FieldLookup.Missing && !required;
         }
         return TryGetIndirectOffset(fieldPosition, out var vectorPosition) &&
             CheckVectorOrString(vectorPosition, elementSize, checkTerminator: false);
@@ -126,9 +129,10 @@ public sealed class FlatBufferVerifier
         FlatBufferVerifyTableAction verifyTable,
         bool required)
     {
-        if (!TryGetFieldPosition(tablePosition, offsetId, out var fieldPosition))
+        var lookup = GetFieldPosition(tablePosition, offsetId, out var fieldPosition);
+        if (lookup != FieldLookup.Found)
         {
-            return !required;
+            return lookup == FieldLookup.Missing && !required;
         }
         return TryGetIndirectOffset(fieldPosition, out var childPosition) &&
             verifyTable(this, childPosition);
@@ -140,9 +144,10 @@ public sealed class FlatBufferVerifier
         FlatBufferVerifyTableAction verifyObject,
         bool required)
     {
-        if (!TryGetFieldPosition(tablePosition, offsetId, out var fieldPosition))
+        var lookup = GetFieldPosition(tablePosition, offsetId, out var fieldPosition);
+        if (lookup != FieldLookup.Found)
         {
-            return !required;
+            return lookup == FieldLookup.Missing && !required;
         }
         if (!TryGetIndirectOffset(fieldPosition, out var vectorPosition) ||
             !TryGetVector(
@@ -210,31 +215,34 @@ public sealed class FlatBufferVerifier
         return true;
     }
 
-    private bool TryGetFieldPosition(
+    private FieldLookup GetFieldPosition(
         uint tablePosition,
         short offsetId,
         out uint fieldPosition)
     {
         fieldPosition = 0;
         if (offsetId < 2 * sizeof(ushort) ||
-            !TryGetTable(tablePosition, out var table) ||
-            offsetId + sizeof(ushort) > table.VtableBytes)
+            !TryGetTable(tablePosition, out var table))
         {
-            return false;
+            return FieldLookup.Invalid;
+        }
+        if (offsetId + sizeof(ushort) > table.VtableBytes)
+        {
+            return FieldLookup.Missing;
         }
         var fieldOffset = _buffer.GetUshort((int)table.VtablePosition + offsetId);
         if (fieldOffset == 0)
         {
-            return false;
+            return FieldLookup.Missing;
         }
         var absolute = (ulong)tablePosition + fieldOffset;
         if (fieldOffset >= table.TableBytes || absolute > uint.MaxValue ||
             !CheckElement(absolute, 1))
         {
-            return false;
+            return FieldLookup.Invalid;
         }
         fieldPosition = (uint)absolute;
-        return true;
+        return FieldLookup.Found;
     }
 
     private bool TryGetIndirectOffset(uint position, out uint target)
@@ -308,4 +316,11 @@ public sealed class FlatBufferVerifier
         uint VtablePosition,
         ushort VtableBytes,
         ushort TableBytes);
+
+    private enum FieldLookup
+    {
+        Missing,
+        Found,
+        Invalid,
+    }
 }
