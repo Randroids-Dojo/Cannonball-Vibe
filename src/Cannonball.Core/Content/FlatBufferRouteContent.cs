@@ -8,7 +8,10 @@ public sealed record RouteContentPackage(
     IRouteGraph Graph,
     IReadOnlyDictionary<string, ChunkManifest> Chunks,
     RouteContentMetadata? Metadata = null,
-    RouteSemanticContent? Semantics = null);
+    RouteSemanticContent? Semantics = null)
+{
+    public string RootContentHash { get; init; } = string.Empty;
+}
 
 public sealed record RouteContentMetadata(
     string SourceId,
@@ -299,7 +302,11 @@ public static class FlatBufferRouteContent
             }
         }
 
-        return new RouteContentPackage(graph, chunks, metadata, semantics);
+        return new RouteContentPackage(graph, chunks, metadata, semantics)
+        {
+            RootContentHash = Convert.ToHexString(
+                System.Security.Cryptography.SHA256.HashData(bytes)).ToLowerInvariant(),
+        };
     }
 
     private static string Required(string? value, string description) =>

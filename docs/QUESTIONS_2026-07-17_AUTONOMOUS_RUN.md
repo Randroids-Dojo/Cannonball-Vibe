@@ -23,3 +23,8 @@ authored, checksum-verified regression overlay with recursive source
 provenance. It validates the generator and runtime contracts without claiming
 that NHPN supplied observed ramp or lane geometry; Q-003 remains open for the
 later geographic correction-burden study.
+
+P0-005 requires no new product choice. Exact resume state, package identity,
+atomic replacement, one-generation backup recovery, previous-schema migration,
+and deterministic fuzz counts are technical integrity contracts already fixed
+by the readiness audit and delivery ledger.

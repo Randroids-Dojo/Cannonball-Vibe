@@ -13,10 +13,13 @@ public sealed class RunSaveMigrationPipeline
 {
     private readonly IReadOnlyDictionary<int, IRunSaveMigrator> _migrators;
 
-    public RunSaveMigrationPipeline(IEnumerable<IRunSaveMigrator>? migrators = null)
+    public RunSaveMigrationPipeline(
+        RoutePackageIdentity expectedPackage,
+        IEnumerable<IRunSaveMigrator>? migrators = null)
     {
         _migrators = (migrators ?? [])
             .Append(new SchemaOneToTwoMigrator())
+            .Append(new SchemaTwoToThreeMigrator(expectedPackage))
             .ToDictionary(migrator => migrator.FromVersion);
         if (_migrators.Values.Any(migrator => migrator.ToVersion <= migrator.FromVersion))
         {
@@ -78,6 +81,59 @@ public sealed class RunSaveMigrationPipeline
                     ["selectedChunkIds"] = new JsonArray(),
                 },
             };
+            save["schemaVersion"] = ToVersion;
+            return save;
+        }
+    }
+
+    private sealed class SchemaTwoToThreeMigrator(RoutePackageIdentity expectedPackage)
+        : IRunSaveMigrator
+    {
+        public int FromVersion => 2;
+        public int ToVersion => 3;
+
+        public JsonObject Migrate(JsonObject save)
+        {
+            var contentVersion = save["contentVersion"]?.GetValue<string>()
+                ?? throw new InvalidDataException("Schema-2 save is missing contentVersion.");
+            var checksum = save["contentChecksum"]?.GetValue<string>()
+                ?? throw new InvalidDataException("Schema-2 save is missing contentChecksum.");
+            if (!string.Equals(
+                    checksum,
+                    RunSave.ComputeContentChecksum(contentVersion),
+                    StringComparison.OrdinalIgnoreCase))
+            {
+                throw new InvalidDataException(
+                    "Schema-2 save has an invalid legacy content checksum.");
+            }
+            if (!string.Equals(
+                    contentVersion,
+                    expectedPackage.ContentVersion,
+                    StringComparison.Ordinal))
+            {
+                throw new InvalidDataException(
+                    $"Schema-2 save content version '{contentVersion}' does not match " +
+                    $"'{expectedPackage.ContentVersion}'.");
+            }
+            var run = save["run"] as JsonObject
+                ?? throw new InvalidDataException("Schema-2 save is missing run state.");
+            run["worldStream"] = new JsonObject
+            {
+                ["originWorldX"] = 0,
+                ["originWorldY"] = 0,
+                ["originWorldZ"] = 0,
+                ["localOriginRouteMeters"] = 0,
+                ["rebaseCount"] = 0,
+                ["loadedChunkIds"] = new JsonArray(),
+                ["collisionChunkIds"] = new JsonArray(),
+            };
+            var localVehicle = save["localVehicle"] as JsonObject
+                ?? throw new InvalidDataException("Schema-2 save is missing local vehicle state.");
+            localVehicle["rotationX"] = 0;
+            localVehicle["rotationY"] = 0;
+            localVehicle["rotationZ"] = 0;
+            localVehicle["rotationW"] = 1;
+            save["contentChecksum"] = expectedPackage.PackageChecksum;
             save["schemaVersion"] = ToVersion;
             return save;
         }

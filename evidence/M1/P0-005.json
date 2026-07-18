@@ -1,0 +1,125 @@
+{
+  "schema_version": 1,
+  "task_id": "P0-005",
+  "milestone": "M1",
+  "status": "complete",
+  "git_revision": "9574315e4eb004bbaf66944b5db8469636667354",
+  "platform": {
+    "os": "Darwin 25.6.0",
+    "architecture": "arm64"
+  },
+  "recorded_at_utc": "2026-07-18T15:59:44Z",
+  "tool_versions": {
+    "dotnet_sdk": "10.0.102",
+    "uv": "0.9.24",
+    "git_lfs": "3.7.1",
+    "godot": "4.7.1.stable.mono.official.a13da4feb"
+  },
+  "scope": {
+    "verified": [
+      "schema-3 exact route-package identity",
+      "authoritative route, navigation, origin, vehicle, elapsed, systems, and stream-state reconstruction",
+      "atomic primary replacement and last-known-good backup recovery",
+      "schema-1 and schema-2 migration",
+      "10,000 seeded exact save and load comparisons"
+    ],
+    "completion_pending": [],
+    "excluded_claims": [
+      "bit-identical post-resume rigid-body integration across CPU architectures",
+      "cloud or cross-device save synchronization"
+    ]
+  },
+  "input_artifacts": [
+    {
+      "path": "data/sources/fixtures/nhpn-boulder-westminster-us36.geojson",
+      "sha256": "d859ff7ef97106a36b24276b87c86c3968aa1266ddf987ee6859d6972b7f6ff6"
+    },
+    {
+      "path": "data/sources/fixtures/nhpn-boulder-westminster-us36.manifest.json",
+      "sha256": "8020fb0146c5d630132accd9234e7c443e9f96b8459ae109d5f16a9104985575"
+    },
+    {
+      "path": "data/sources/fixtures/usgs-13-n40w106-boulder-westminster.tif",
+      "sha256": "b426c18178961d1add78477335a8bb2373471041a8aba04066e9dd2d82de7539"
+    },
+    {
+      "path": "data/sources/representative-corridor-lock.json",
+      "sha256": "020692b11640728f83b81175f33226ca13ed89699bbeaeea3bf6dbbdb5ea9a3d"
+    }
+  ],
+  "commands": [
+    {
+      "command": "./scripts/check.sh",
+      "exit_status": 0,
+      "report": "reports/m0/summary.json"
+    },
+    {
+      "command": "./scripts/run-resume-fuzz.sh --cases 10000",
+      "exit_status": 0,
+      "passed": 10000,
+      "seed": 20260718
+    },
+    {
+      "command": "./scripts/run-scenario.sh --fixture official-corridor --resume-verify",
+      "exit_status": 0
+    }
+  ],
+  "metrics": {
+    "save_schema": 3,
+    "seeded_save_points": 10000,
+    "fuzz_seed": 20260718,
+    "dotnet_tests_passed": 54,
+    "map_pipeline_tests_passed": 66,
+    "playgodot_unit_tests_passed": 12,
+    "official_resume_distance_meters": 46.067,
+    "official_resume_visual_chunks": 4,
+    "official_resume_collision_chunks": 4,
+    "stress_resume_rebases": 1,
+    "stress_resume_visual_chunks": 18,
+    "stress_resume_collision_chunks": 8,
+    "route_choice_resume_visual_chunks": 1,
+    "route_choice_resume_collision_chunks": 1
+  },
+  "acceptance_comparisons": [
+    {
+      "criterion": "runtime load reconstructs authoritative run state",
+      "observed": "the Godot verifier compared route, navigation, origin, resident chunks, vehicle transform and motion, elapsed time, assist, cash, seed, condition, and enforcement before advancing",
+      "passed": true
+    },
+    {
+      "criterion": "checksum covers the actual route package",
+      "observed": "package identity includes root bytes, provenance artifacts, and every manifest chunk's ID, edge, path, byte count, and SHA-256",
+      "passed": true
+    },
+    {
+      "criterion": "thousands of seeded save points reload exactly",
+      "observed": "10,000 deterministic schema-3 repository round trips compared the full serialized authoritative state exactly",
+      "passed": true
+    },
+    {
+      "criterion": "interrupted, corrupt, and previous-version saves recover or fail actionably",
+      "observed": "tests cover orphan temporary files, corrupt primary recovery, verified backup preservation, dual-corruption errors, and schema-1/schema-2 migration",
+      "passed": true
+    }
+  ],
+  "output_artifacts": [
+    {
+      "path": ".tools/scenarios/official-corridor/current-package.json",
+      "sha256": "f65773d0639bfac1f990daae53e47a67fd58d373a876360c1c090e50b62c9e7c"
+    },
+    {
+      "path": ".tools/scenarios/official-corridor/route_graph-e9f3d3473edbc07eac0fdfa4689f0389e3d23e2dd15cb533352598f522efdabe.cbrg",
+      "sha256": "51571e68f9899d366ce4127386195fc718c324d42532a3a30c4bb6de55219871"
+    },
+    {
+      "path": "reports/m0/summary.json",
+      "sha256": "a82e6c82f6c2717a03cb642d45de3085e528d5f34c709692b62445bb8ac02955"
+    }
+  ],
+  "retry_count": 0,
+  "recovery_result": {
+    "status": "local acceptance passed; protected remote verification pending"
+  },
+  "human_gate": null,
+  "adversarial_review": "docs/audits/2026-07-18-p0-005-save-resume-review.md"
+}

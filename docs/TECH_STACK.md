@@ -58,8 +58,11 @@ authoritative route coordinates and the current local world.
 - `MultiMesh` lane markings and roadside placeholders.
 - Route-position DTO: edge ID, distance, stable lane ID with legacy index,
   lateral offset, and heading offset.
-- Versioned System.Text.Json suspend saves with content checksum and atomic file
-  replacement.
+- Schema-v3 System.Text.Json suspend saves with a checksum over the exact root
+  package plus every chunk hash, durable temporary-file replacement, previous
+  save backup recovery, and runtime reconstruction of route, lane, plan,
+  origin/rebase, stream windows, vehicle motion/orientation, elapsed time, and
+  run systems.
 - JSONL telemetry events for pace, streaming state, suspend, and smoke tests.
 - Headless autopilot smoke mode using a locked official NHPN/3DEP fixture. The
   integration fixture emits four 100 m chunks so the scenario exercises both

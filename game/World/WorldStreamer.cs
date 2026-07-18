@@ -1,5 +1,6 @@
 using Cannonball.Core.Content;
 using Cannonball.Core.Routes;
+using Cannonball.Core.Runs;
 using Cannonball.Game.Vehicle;
 using Godot;
 
@@ -100,6 +101,18 @@ public sealed partial class WorldStreamer : Node3D
     public bool ShortCorridorLoopEnabled { get; set; }
     public int CompletedShortCorridorLoops { get; private set; }
     public int CrossedReviewDistanceThresholdCount { get; private set; }
+
+    public WorldStreamSnapshot CaptureStreamSnapshot() => new(
+        _localOriginWorld.X,
+        _localOriginWorld.Y,
+        _localOriginWorld.Z,
+        LocalOriginMeters,
+        RebaseCount,
+        _loaded.Keys.OrderBy(id => id, StringComparer.Ordinal).ToArray(),
+        _loaded.Where(entry => entry.Value.HasCollision)
+            .Select(entry => entry.Key)
+            .OrderBy(id => id, StringComparer.Ordinal)
+            .ToArray());
     public bool ReviewTargetReady => _reviewTargetReady;
     public int ReviewReadyChunkCountSeen => _reviewReadyChunksSeen.Count;
     public int ReviewEdgeCountVisited => _reviewEdgesVisited.Count;
@@ -140,12 +153,42 @@ public sealed partial class WorldStreamer : Node3D
             ?? throw new InvalidDataException($"Route edge '{firstEdgeId}' has no chunk manifests.");
     }
 
+    public static ChunkManifest FindManifest(
+        RouteContentPackage package,
+        string edgeId,
+        double edgeDistanceMeters)
+    {
+        ArgumentNullException.ThrowIfNull(package);
+        ArgumentException.ThrowIfNullOrWhiteSpace(edgeId);
+        var edge = package.Graph.GetEdge(edgeId);
+        if (!double.IsFinite(edgeDistanceMeters) || edgeDistanceMeters < 0 ||
+            edgeDistanceMeters > edge.LengthMeters)
+        {
+            throw new ArgumentOutOfRangeException(nameof(edgeDistanceMeters));
+        }
+        return package.Chunks.Values
+            .Where(manifest =>
+                string.Equals(manifest.EdgeId, edgeId, StringComparison.Ordinal) &&
+                manifest.StartMeters <= edgeDistanceMeters &&
+                manifest.EndMeters >= edgeDistanceMeters)
+            .OrderBy(manifest => edgeDistanceMeters == manifest.EndMeters ? 1 : 0)
+            .ThenBy(manifest => manifest.StartMeters)
+            .ThenBy(manifest => manifest.Id, StringComparer.Ordinal)
+            .FirstOrDefault()
+            ?? throw new InvalidDataException(
+                $"Route edge '{edgeId}' has no chunk at {edgeDistanceMeters:F3} meters.");
+    }
+
     public void Configure(
         RouteContentPackage package,
         IRouteChunkContentSource source,
         RouteChunkContent initialChunk,
         IReadOnlyList<string>? routePlanEdgeIds = null,
-        IReadOnlyList<string>? routePlanConnectorIds = null)
+        IReadOnlyList<string>? routePlanConnectorIds = null,
+        RoutePosition? resumePosition = null,
+        WorldStreamSnapshot? resumeStream = null,
+        IReadOnlyList<RouteChunkContent>? resumeChunks = null,
+        RouteNavigationState? resumeNavigation = null)
     {
         if (IsInsideTree())
         {
@@ -163,8 +206,40 @@ public sealed partial class WorldStreamer : Node3D
         {
             throw new InvalidDataException("The initial route chunk is not the first chunk in the corridor plan.");
         }
-        _currentEdgeId = initialChunk.EdgeId;
-        UpdateCurrentLane();
+        if (resumePosition is { } position)
+        {
+            var edge = package.Graph.GetEdge(position.EdgeId);
+            position.Validate(edge);
+            if (!_routePlanEdgeIds.Contains(position.EdgeId))
+            {
+                throw new InvalidDataException(
+                    $"Resume edge '{position.EdgeId}' is outside the selected route plan.");
+            }
+            _currentEdgeId = position.EdgeId;
+            _routeDistanceMeters = _routePlan.GetEdge(position.EdgeId).StartMeters +
+                position.DistanceMeters;
+            _lateralOffsetMeters = position.LateralOffsetMeters;
+            CurrentLaneIndex = position.LaneIndex;
+            CurrentStableLaneId = position.StableLaneId
+                ?? edge.GetLaneSection(position.DistanceMeters).Lanes.Single(lane =>
+                    lane.Index == position.LaneIndex).Id;
+            if (resumeStream is { } stream)
+            {
+                _localOriginWorld = new RouteWorldPoint(
+                    stream.OriginWorldX,
+                    stream.OriginWorldY,
+                    stream.OriginWorldZ);
+                LocalOriginMeters = stream.LocalOriginRouteMeters;
+                RebaseCount = stream.RebaseCount;
+            }
+            UpdateCurrentLane();
+            ActiveConnectorId = resumeNavigation?.ActiveConnectorId ?? string.Empty;
+        }
+        else
+        {
+            _currentEdgeId = initialChunk.EdgeId;
+            UpdateCurrentLane();
+        }
         _manifests = package.Chunks.Values
             .Where(manifest => _routePlanEdgeIds.Contains(manifest.EdgeId))
             .Select(manifest =>
@@ -186,11 +261,39 @@ public sealed partial class WorldStreamer : Node3D
         _initialRoadWorldPoint = _frame.ToWorld(initialChunk.Samples[0]);
         InitialRoadPoint = _initialRoadWorldPoint.RelativeTo(_localOriginWorld);
         InitialRoadForward = _frame.InitialForward;
-        AttachChunk(initialChunk, InitialChunkBuildBudgetMilliseconds);
-        UpdateCollisionState(
-            _loaded[initialChunk.Id],
-            active: true,
-            buildBudgetMilliseconds: InitialCollisionBuildBudgetMilliseconds);
+        if (resumePosition is null)
+        {
+            AttachChunk(initialChunk, InitialChunkBuildBudgetMilliseconds);
+        }
+        else
+        {
+            if (resumeChunks is null || resumeChunks.Count == 0)
+            {
+                throw new InvalidDataException(
+                    "Resume state does not contain any loaded route chunks.");
+            }
+            foreach (var content in resumeChunks.OrderBy(content => content.Id, StringComparer.Ordinal))
+            {
+                AttachChunk(content, InitialChunkBuildBudgetMilliseconds);
+            }
+            if (!_content.Values.Any(content =>
+                    string.Equals(content.EdgeId, _currentEdgeId, StringComparison.Ordinal) &&
+                    CurrentEdgeDistanceMeters >= content.StartMeters &&
+                    CurrentEdgeDistanceMeters <= content.EndMeters))
+            {
+                throw new InvalidDataException(
+                    "Resume stream state does not contain the saved route position.");
+            }
+        }
+        var resumedCollisionIds = resumeStream?.CollisionChunkIds.ToHashSet(StringComparer.Ordinal);
+        foreach (var chunk in _loaded.Values)
+        {
+            UpdateCollisionState(
+                chunk,
+                active: resumedCollisionIds?.Contains(chunk.ChunkId) ??
+                    string.Equals(chunk.EdgeId, _currentEdgeId, StringComparison.Ordinal),
+                buildBudgetMilliseconds: InitialCollisionBuildBudgetMilliseconds);
+        }
     }
 
     public override void _Ready()
@@ -292,8 +395,12 @@ public sealed partial class WorldStreamer : Node3D
     {
         _vehicle = vehicle;
         vehicle.RouteDistanceMeters = _routeDistanceMeters;
-        vehicle.TargetRoadPoint = InitialRoadPoint;
-        vehicle.TargetRoadForward = InitialRoadForward;
+        var pose = GetRoadPose(_routeDistanceMeters);
+        vehicle.TargetRoadPoint = OffsetForActiveLane(
+            pose.Point,
+            pose.Forward,
+            _routeDistanceMeters).RelativeTo(_localOriginWorld);
+        vehicle.TargetRoadForward = pose.Forward;
     }
 
     public void SetReviewDistance(double distanceMeters)

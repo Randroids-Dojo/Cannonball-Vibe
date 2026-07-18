@@ -220,14 +220,19 @@
       "milestone": "M1",
       "priority": "P0",
       "title": "Exact save, resume, and recovery",
-      "status": "open",
+      "status": "complete",
       "dependencies": [
         "P0-004"
       ],
       "owned_paths": [
         "src/Cannonball.Core/Saves/",
         "game/Main.cs",
-        "tests/Cannonball.Core.Tests/"
+        "game/World/WorldStreamer.cs",
+        "scripts/run-resume-fuzz.sh",
+        "tests/Cannonball.Core.Tests/",
+        "docs/QUESTIONS_2026-07-17_AUTONOMOUS_RUN.md",
+        "docs/audits/2026-07-18-p0-005-save-resume-review.md",
+        "evidence/M1/P0-005.json"
       ],
       "acceptance": [
         "Runtime load reconstructs authoritative route, origin, vehicle, elapsed time, systems, and stream state",
