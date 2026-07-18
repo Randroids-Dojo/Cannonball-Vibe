@@ -28,8 +28,10 @@
     ]
   },
   "artifact_count_per_run": 8,
-  "retry_count": 0,
-  "failure_logs": [],
-  "recovery_result": null,
+  "retry_count": 1,
+  "failure_logs": [
+    "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29630246765"
+  ],
+  "recovery_result": "pending remote verification after schema-4 release-packager correction",
   "human_gate": null
 }

@@ -89,8 +89,11 @@
     "m0_summary": "reports/m0/summary.json",
     "adversarial_review": "docs/audits/2026-07-18-p0-009-adversarial-review.md"
   },
-  "failure_logs": [],
-  "retry_count": 0,
-  "recovery_result": null,
+  "failure_logs": [
+    "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29630246765",
+    "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29630246841/job/88042325339"
+  ],
+  "retry_count": 1,
+  "recovery_result": "pending remote verification after schema-4 release-packager correction",
   "human_gate": null
 }

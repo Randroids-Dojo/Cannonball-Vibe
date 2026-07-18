@@ -31,6 +31,9 @@ from `schemas/route_graph.fbs` before review.
    without that field retain deterministic index migration.
 6. Connector movements were not checked against their source lane's allowed
    maneuver mask. Both validators now enforce the relationship.
+7. The reproducible release packager still asserted schema 3 after the shipping
+   package moved to schema 4. Its package-boundary assertion now requires schema
+   4, and the copy step is covered by the same content-integrity checks.
 
 ## Residual boundaries
 
