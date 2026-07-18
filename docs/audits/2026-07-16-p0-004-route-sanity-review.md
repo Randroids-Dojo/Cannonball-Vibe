@@ -136,7 +136,7 @@ budget.
 ## Longer representative candidate
 
 - Candidate prepared: `2026-07-17`
-- Human decision: awaiting project-owner review
+- Human decision: accepted for the current graybox milestone on 2026-07-17
 - Engine: Godot `4.7.1.stable.mono.official.a13da4feb`
 - Content version: `route-v3-59423d9c69671f15`
 
@@ -204,7 +204,22 @@ sample. No empty-space regression, missing seam, disconnected edge, or visible
 vertical spike was found. The graybox shoulders follow the conditioned route
 profile; they are not claimed as representative lateral terrain.
 
-This candidate satisfies the automated prerequisites for a new geographic
-review, but automation cannot approve the human gate. P0-004 remains in progress
-until the project owner accepts the route shape, grade, seams, placement, and
-absence of obvious geographic mistakes.
+This candidate satisfied the automated prerequisites for a new geographic
+review. The project owner subsequently accepted the route shape, grade, seams,
+placement, and absence of obvious geographic mistakes for the current graybox
+milestone; the durable decision is recorded below.
+
+## Final project-owner decision
+
+- Reviewed: 2026-07-17
+- Decision: approved; P0-004 human gate cleared
+- Candidate: `route-v3-59423d9c69671f15`
+- Approval statement: "Looks good enough for now from what I can tell."
+
+The approval covers the representative graybox sanity gate: the US 36 route
+shape and conditioned elevation are plausible enough to continue engineering;
+the roadway stays continuous across the reviewed chunks; and the capture shows
+no obvious empty-space, suspended-vehicle, placement, seam, or vertical-spike
+failure. It does not approve final geographic precision, road materials,
+terrain, vegetation, backgrounds, vehicle art, or release quality. Those remain
+owned by later route-validation and M5 visual-production tasks.

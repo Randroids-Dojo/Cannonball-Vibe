@@ -153,7 +153,7 @@
       "milestone": "M2",
       "priority": "P0",
       "title": "Sharded route packaging and runtime streaming",
-      "status": "in_progress",
+      "status": "complete",
       "dependencies": [
         "P0-002",
         "P0-003"
@@ -207,10 +207,11 @@
         "name": "Representative route map sanity review",
         "required_for": "M2",
         "required_candidate": "longer locked representative corridor",
-        "status": "awaiting_review",
-        "reviewed_at": null,
+        "status": "approved",
+        "reviewed_at": "2026-07-17",
         "review_reference": "docs/audits/2026-07-16-p0-004-route-sanity-review.md",
-        "task_completion_blocked": true
+        "approval_reference": "docs/audits/2026-07-16-p0-004-route-sanity-review.md#final-project-owner-decision",
+        "task_completion_blocked": false
       }
     },
     {
