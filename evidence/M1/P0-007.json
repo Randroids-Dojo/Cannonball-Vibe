@@ -3,13 +3,13 @@
   "task_id": "P0-007",
   "milestone": "M1",
   "status": "complete",
-  "verified_at": "2026-07-18T16:55:16Z",
-  "git_revision": "606f8eeba201292dee9660425e21551ffcd638c1",
+  "verified_at": "2026-07-18T17:01:58Z",
+  "git_revision": "b45eadf401c169455900097c36e415e9703f7116",
   "package_source_revision": {
     "release_pipeline_implementation": "e940bd5f47a40f22f6533b1ae73ccae37ba2edb7",
-    "latest_verified_pull_request_head": "2afda21d06ef2637c0be15217e042c3bceeb2e10",
-    "latest_package_source_revision": "81c75ce8bbe49ae54ab95357e73bbb2ba4b49eec",
-    "completion_main_revision": "d03b23bb7632509cd1b5e0ccbd61ec955a619317",
+    "latest_verified_pull_request_head": "ce6b88dca4b9eb55c91e1da2cac86dd9685409a1",
+    "latest_package_source_revision": "0fa56d2a19b0202f17a213142a041c7abca383e4",
+    "completion_main_revision": "b45eadf401c169455900097c36e415e9703f7116",
     "note": "Pull-request artifacts are built from GitHub's tested synthetic merge revision; the protected main merge is recorded separately."
   },
   "platform": {
@@ -248,10 +248,10 @@
     "native_clean_smokes_failed": 0,
     "runtime_chunks_loaded": 4,
     "unique_route_miles": 0.22610210923573093,
-    "linux_max_chunk_build_ms": 24.285,
-    "windows_max_chunk_build_ms": 23.797,
-    "linux_max_collision_build_ms": 1.912,
-    "windows_max_collision_build_ms": 2.134
+    "linux_max_chunk_build_ms": 25.38,
+    "windows_max_chunk_build_ms": 24.235,
+    "linux_max_collision_build_ms": 1.723,
+    "windows_max_collision_build_ms": 2.196
   },
   "commands": [
     {
@@ -281,14 +281,14 @@
       "exit_code": 0
     },
     {
-      "command": "GitHub Actions run 29652316058",
+      "command": "GitHub Actions run 29652981963",
       "exit_code": 0,
       "reproducible_exports": "passed",
       "linux_clean_machine_smoke": "passed",
       "windows_clean_machine_smoke": "passed"
     },
     {
-      "command": "./scripts/release/verify-package.sh /tmp/cannonball-p0-007-verify-29652316058/Cannonball-linux-x86_64",
+      "command": "./scripts/release/verify-package.sh on downloaded PR #26 Linux package",
       "exit_code": 0
     }
   ],
@@ -341,36 +341,38 @@
       "Regenerated root RID lockfiles with the exact Release configuration and Godot target platform so locked clean restores exclude editor-only packages"
     ],
     "coderabbit": {
-      "initial_review_id": 4712920521,
-      "initial_state": "changes_requested",
-      "threads_resolved": 4,
-      "approval_review_id": 4712980338,
-      "current_head_state": "approved",
-      "check_state": "success"
+      "implementation_initial_review_id": 4712920521,
+      "implementation_initial_state": "changes_requested",
+      "implementation_threads_resolved": 4,
+      "implementation_approval_review_id": 4712980338,
+      "completion_pr_state": "temporary review limit reached",
+      "completion_pr_check_state": "success",
+      "fallback": "docs/audits/2026-07-18-p0-007-release-closeout-review.md"
     },
     "unresolved_actionable_findings": 0
   },
   "remote_verification": {
     "implementation_pull_request": "https://github.com/Randroids-Dojo/Cannonball-Vibe/pull/9",
-    "completion_pull_request": "https://github.com/Randroids-Dojo/Cannonball-Vibe/pull/25",
-    "run_id": 29652316058,
-    "run_url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29652316058",
-    "branch_head_sha": "2afda21d06ef2637c0be15217e042c3bceeb2e10",
-    "package_source_revision": "81c75ce8bbe49ae54ab95357e73bbb2ba4b49eec",
+    "completion_pull_request": "https://github.com/Randroids-Dojo/Cannonball-Vibe/pull/26",
+    "completion_main_revision": "b45eadf401c169455900097c36e415e9703f7116",
+    "run_id": 29652981963,
+    "run_url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29652981963",
+    "branch_head_sha": "ce6b88dca4b9eb55c91e1da2cac86dd9685409a1",
+    "package_source_revision": "0fa56d2a19b0202f17a213142a041c7abca383e4",
     "conclusion": "success",
     "jobs": [
       {
-        "job_id": 88100622108,
+        "job_id": 88102366336,
         "name": "Build reproducible fixture exports",
         "conclusion": "success"
       },
       {
-        "job_id": 88100875249,
+        "job_id": 88102660432,
         "name": "Clean-machine smoke (linux)",
         "conclusion": "success"
       },
       {
-        "job_id": 88100875248,
+        "job_id": 88102660414,
         "name": "Clean-machine smoke (windows)",
         "conclusion": "success"
       }
@@ -404,37 +406,37 @@
     "ci": [
       {
         "platform": "linux",
-        "artifact_id": 8431848187,
-        "artifact_name": "unsigned-linux-81c75ce8bbe49ae54ab95357e73bbb2ba4b49eec-05741b56ddb4ec3dbd646332faec3723e09930777d0b50d4169b78f6218ddef4",
-        "artifact_api_digest": "sha256:7ef2bed66d9576267d5cb8bd7373f6a241f1feef398c2b08a2fe98b3ab0cae30",
-        "artifact_api_bytes": 63878177,
-        "created_at": "2026-07-18T16:39:52Z",
-        "expires_at": "2026-08-01T16:39:46Z",
-        "archive_path": "Cannonball-linux-x86_64-05741b56ddb4ec3dbd646332faec3723e09930777d0b50d4169b78f6218ddef4.zip",
-        "archive_bytes": 154212638,
-        "archive_sha256": "05741b56ddb4ec3dbd646332faec3723e09930777d0b50d4169b78f6218ddef4",
-        "sidecar_sha256": "ea90fc96ff5193a6d496f78ed87eeb69c5c579bfcdbcf2cb29aac818d28b9d88",
-        "content_set_sha256": "f64465d43f47b85459413918f907246ad48848824ba3d173cd7a31a0adfa1b19",
-        "manifest_sha256": "436b0be5d64b2d65834a6e6545c3591d278747fad9f0a678a53693d8eddc5858",
-        "sbom_sha256": "8cff0d651292815ee8e90f4ff8080b098c3d09827e65b4bf4d346af7b314f45e",
-        "checksums_sha256": "67f832e46e19ccab858fa7427061ebf6001a0ef1f18c19ebfc2ebc320d8195b6"
+        "artifact_id": 8432043857,
+        "artifact_name": "unsigned-linux-0fa56d2a19b0202f17a213142a041c7abca383e4-83076b8c365007c46129fdc847cd75227b50e91c9493978e6b0a2a46da4d0a69",
+        "artifact_api_digest": "sha256:50ebd31ebb812e4b3ac3d7ecb63863bfd2c076e76bdc2448fdd43d34a2724c42",
+        "artifact_api_bytes": 63878174,
+        "created_at": "2026-07-18T17:00:47Z",
+        "expires_at": "2026-08-01T17:00:42Z",
+        "archive_path": "Cannonball-linux-x86_64-83076b8c365007c46129fdc847cd75227b50e91c9493978e6b0a2a46da4d0a69.zip",
+        "archive_bytes": 154212681,
+        "archive_sha256": "83076b8c365007c46129fdc847cd75227b50e91c9493978e6b0a2a46da4d0a69",
+        "sidecar_sha256": "e678b230013d8e5f0a3c9cb9b05a7a425d4322c92fbb5df75a5e01f4aec64807",
+        "content_set_sha256": "ceead7b482fb6e930746f49fb2ba8e78ff87477cca0346c295ca5ddc8289b254",
+        "manifest_sha256": "a93c657143c9ad62589a5cd2aab0791512ca5345d6d698a9db72188438955840",
+        "sbom_sha256": "c8824d97502e7cd9bf34824116474737e7470450049d29959bcc0917a712a1cf",
+        "checksums_sha256": "a03b853e2d40f8eaf79a17f4f82717ab39fc6c8c81dc0f7c5c3de8160b5940f1"
       },
       {
         "platform": "windows",
-        "artifact_id": 8431849124,
-        "artifact_name": "unsigned-windows-81c75ce8bbe49ae54ab95357e73bbb2ba4b49eec-03b61d78839a8eb026a73dbc9cf8f64f94fa90570ed49f0d5730e9716efd136a",
-        "artifact_api_digest": "sha256:25bebed057dc12b1531b9bded4d4bffb97f38bd78f23d02743570b13a61eff93",
-        "artifact_api_bytes": 74585196,
-        "created_at": "2026-07-18T16:39:58Z",
-        "expires_at": "2026-08-01T16:39:52Z",
-        "archive_path": "Cannonball-windows-x86_64-03b61d78839a8eb026a73dbc9cf8f64f94fa90570ed49f0d5730e9716efd136a.zip",
-        "archive_bytes": 190123170,
-        "archive_sha256": "03b61d78839a8eb026a73dbc9cf8f64f94fa90570ed49f0d5730e9716efd136a",
-        "sidecar_sha256": "3f0ee1e938822cfebb0020918d4ac80777c66f7874ee25152a4d5c9a9971390b",
-        "content_set_sha256": "b4c403891e39b9dfe8ec25b74036e4d8d2fe75119a5bcc63ee4b1631855fbb8a",
-        "manifest_sha256": "dd29d1aa5ff00af1d6e21689ae3a04227917f2abf7d10771eaa7135590546f7b",
-        "sbom_sha256": "50ee60e89c33f5f01d3e55ce5d883309ece6c113cbfc220881f91c0ba6da089c",
-        "checksums_sha256": "619f2590f0bdbf15f597643152beb520c83866aeff779451c0a8d1672b3f8393"
+        "artifact_id": 8432045046,
+        "artifact_name": "unsigned-windows-0fa56d2a19b0202f17a213142a041c7abca383e4-b154c7034fb598930115f7e71e24a727a5c01b4bd48480a5b829e066b098b963",
+        "artifact_api_digest": "sha256:cafa29961c4635eb346a63237e148e246bf0c7ef20d8488a290b31b083e60d4f",
+        "artifact_api_bytes": 74585213,
+        "created_at": "2026-07-18T17:00:54Z",
+        "expires_at": "2026-08-01T17:00:48Z",
+        "archive_path": "Cannonball-windows-x86_64-b154c7034fb598930115f7e71e24a727a5c01b4bd48480a5b829e066b098b963.zip",
+        "archive_bytes": 190123213,
+        "archive_sha256": "b154c7034fb598930115f7e71e24a727a5c01b4bd48480a5b829e066b098b963",
+        "sidecar_sha256": "59cb294e6da9ad0b8acca2e7956b701b369c042aab0ffd78052d9ff1eaea3fb6",
+        "content_set_sha256": "d9d7f7068015c7d54823bc555e40be30c19d3c44a3269ff1eaa6689875bdd65d",
+        "manifest_sha256": "a966f77d02a096429a96a54c08a2cebd6ffe6c63103e56a4271d69842e8a80f1",
+        "sbom_sha256": "bec1065b738dadc5feb836ae82a229aa4a6d96bf57096962e73217040ab27340",
+        "checksums_sha256": "d631be378ddae28b6cccf38bf888a53a37881619ea7ea570e1dac5ed22571fd1"
       }
     ],
     "remote_content": {
