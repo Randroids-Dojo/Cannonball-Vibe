@@ -621,7 +621,7 @@
       "milestone": "M2",
       "priority": "P0",
       "title": "Variable-lane road and junction generation",
-      "status": "open",
+      "status": "in_progress",
       "dependencies": [
         "P0-004",
         "P0-009",
@@ -634,6 +634,8 @@
         "tests/Cannonball.Core.Tests/",
         "scripts/run-scenario.sh",
         "scripts/capture-scenario.sh",
+        "docs/QUESTIONS_2026-07-17_AUTONOMOUS_RUN.md",
+        "docs/audits/2026-07-18-p0-010-variable-lane-generation-review.md",
         "evidence/M2/P0-010.json"
       ],
       "acceptance": [

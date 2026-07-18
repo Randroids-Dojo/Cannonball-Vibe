@@ -10,3 +10,9 @@ documented default permits it.
 P0-009 can proceed with deterministic derived two-lane semantics and explicit
 authored-overlay provenance while Q-017 remains open. No derived value will be
 presented as observed lane, exit, destination, or mile-marker truth.
+
+P0-010's remaining work is an engineering delivery gap rather than a product
+choice: physical ramp and highway-transfer connector geometry plus probable
+branch prewarming still need a deterministic fixture. The verified mainline
+variable-lane slice remains explicitly in progress, so no user decision is
+required before continuing it.

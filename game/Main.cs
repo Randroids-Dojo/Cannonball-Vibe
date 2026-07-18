@@ -3,6 +3,7 @@ using Cannonball.Core.Routes;
 using Cannonball.Core.Runs;
 using Cannonball.Core.Saves;
 using Cannonball.Core.Telemetry;
+using Cannonball.Game.Automation;
 using Cannonball.Game.UI;
 using Cannonball.Game.Vehicle;
 using Cannonball.Game.World;
@@ -17,6 +18,7 @@ public sealed partial class Main : Node3D
     private const double MinimumRenderIntegrityWellGroundedRatio = 0.90;
     private const int GeographicReviewFramesPerWaypoint = 90;
     private const int StreamingStableFramesPerCheckpoint = 5;
+    private const float TopologyHighSpeedTargetMetersPerSecond = 60;
     private static readonly double[] GeographicReviewFractions =
         [0.005, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 0.995];
     private static readonly double[] StreamingCheckpointFractions =
@@ -36,6 +38,8 @@ public sealed partial class Main : Node3D
     private bool _renderIntegrity;
     private bool _geographicReview;
     private bool _streamingProfile;
+    private bool _topologyProfile;
+    private bool _topologyReview;
     private bool _shutdownStarted;
     private int _smokeFrames;
     private double _telemetryElapsed;
@@ -50,6 +54,18 @@ public sealed partial class Main : Node3D
     private int _streamingCheckpointIndex = -1;
     private int _streamingStableFrames;
     private bool _streamingProfileComplete;
+    private VariableLaneTopologyOverlay? _topologyOverlay;
+    private IReadOnlyList<double> _topologyCheckpoints = [];
+    private int _topologyCheckpointIndex = -1;
+    private int _topologyStableFrames;
+    private bool _topologyProfileComplete;
+    private bool _topologyTraversalPreparing;
+    private bool _topologyTraversalStarted;
+    private double _topologyTraversalStartMeters;
+    private double _topologyTraversalEndMeters;
+    private Camera3D? _topologyDiagnosticCamera;
+    private int _topologyReviewWaypointIndex;
+    private int _topologyReviewFrames;
 
     public override void _Ready()
     {
@@ -64,8 +80,10 @@ public sealed partial class Main : Node3D
             _renderIntegrity = arguments.Contains("--render-integrity", StringComparer.Ordinal);
             _geographicReview = arguments.Contains("--geographic-review", StringComparer.Ordinal);
             _streamingProfile = arguments.Contains("--streaming-profile", StringComparer.Ordinal);
+            _topologyProfile = arguments.Contains("--topology-profile", StringComparer.Ordinal);
+            _topologyReview = arguments.Contains("--topology-review", StringComparer.Ordinal);
             _smokeTest = _smokeTest || _stressTest || _shortCorridorSoak || _renderIntegrity ||
-                _geographicReview || _streamingProfile;
+                _geographicReview || _streamingProfile || _topologyProfile || _topologyReview;
             _smokeTargetFrames = _stressTest || _shortCorridorSoak ? 3_600 : 360;
             if (_renderIntegrity)
             {
@@ -75,13 +93,18 @@ public sealed partial class Main : Node3D
             {
                 _smokeTargetFrames = 7_200;
             }
-            if (_streamingProfile)
+            if (_streamingProfile || _topologyProfile)
             {
                 _smokeTargetFrames = 7_200;
             }
 
             var absoluteRoutePath = Path.GetFullPath(routePath);
             _package = FlatBufferRouteContent.Load(absoluteRoutePath);
+            if (_topologyProfile || _topologyReview)
+            {
+                _topologyOverlay = VariableLaneTopologyFixture.Apply(_package);
+                _package = _topologyOverlay.Package;
+            }
             _chunkSource = new VerifiedFileChunkSource(
                 _package,
                 Path.GetDirectoryName(absoluteRoutePath)
@@ -103,6 +126,16 @@ public sealed partial class Main : Node3D
             };
             AddChild(_vehicle);
             _streamer.Track(_vehicle);
+            if (_topologyReview)
+            {
+                _topologyDiagnosticCamera = new Camera3D
+                {
+                    Name = "TopologyDiagnosticCamera",
+                    Current = false,
+                    Fov = 68,
+                };
+                AddChild(_topologyDiagnosticCamera);
+            }
             _hud = new PrototypeHud { Name = "PrototypeHud" };
             AddChild(_hud);
 
@@ -112,7 +145,8 @@ public sealed partial class Main : Node3D
             _telemetry = new JsonlTelemetrySink(
                 ProjectSettings.GlobalizePath("user://telemetry/prototype.jsonl"));
 
-            _vehicle.AutopilotEnabled = _smokeTest && !_renderIntegrity && !_streamingProfile;
+            _vehicle.AutopilotEnabled = _smokeTest && !_renderIntegrity && !_streamingProfile &&
+                !_topologyProfile && !_topologyReview;
             if (_geographicReview)
             {
                 _vehicle.AutopilotEnabled = false;
@@ -121,6 +155,18 @@ public sealed partial class Main : Node3D
             if (_streamingProfile)
             {
                 BeginNextStreamingCheckpoint();
+            }
+            if (_topologyOverlay is not null)
+            {
+                ConfigureTopologyCheckpoints();
+                if (_topologyProfile)
+                {
+                    BeginNextTopologyCheckpoint();
+                }
+                else if (_topologyReview)
+                {
+                    BeginTopologyReviewWaypoint();
+                }
             }
             if (_renderIntegrity)
             {
@@ -193,6 +239,14 @@ public sealed partial class Main : Node3D
         {
             AdvanceStreamingProfile();
         }
+        if (_topologyProfile && !_topologyProfileComplete)
+        {
+            AdvanceTopologyProfile();
+        }
+        if (_topologyReview)
+        {
+            AdvanceTopologyReview();
+        }
         _telemetryElapsed += delta;
         if (_telemetryElapsed >= 5)
         {
@@ -219,7 +273,7 @@ public sealed partial class Main : Node3D
         var renderTraversalComplete = _renderIntegrity &&
             _streamer.RouteDistanceMeters >= Math.Min(300, _streamer.TotalRouteLengthMeters - 35);
         if (_smokeFrames >= _smokeTargetFrames || renderTraversalComplete ||
-            _geographicReviewComplete || _streamingProfileComplete)
+            _geographicReviewComplete || _streamingProfileComplete || _topologyProfileComplete)
         {
             _shutdownStarted = true;
             _ = PersistAsync(quitAfterSave: true);
@@ -322,6 +376,10 @@ public sealed partial class Main : Node3D
             if (quitAfterSave && _streamingProfile)
             {
                 ValidateStreamingProfile();
+            }
+            if (quitAfterSave && _topologyProfile)
+            {
+                ValidateTopologyProfile();
             }
             var save = CaptureSave();
             await _saves.SaveAsync(save);
@@ -502,6 +560,201 @@ public sealed partial class Main : Node3D
             $"collision_removals={_streamer.CollisionRemovalCount} " +
             $"max_visual_build_ms={_streamer.MaximumBuildMilliseconds:0.000} " +
             $"max_collision_build_ms={_streamer.MaximumCollisionBuildMilliseconds:0.000}");
+    }
+
+    private void ConfigureTopologyCheckpoints()
+    {
+        if (_topologyOverlay is null)
+        {
+            throw new InvalidOperationException("Topology overlay was not configured.");
+        }
+        const double reviewOffsetMeters = 65;
+        _topologyCheckpoints = _topologyOverlay.TransitionDistancesMeters
+            .SelectMany(distance => new[]
+            {
+                Math.Max(0, distance - reviewOffsetMeters),
+                distance,
+                Math.Min(_topologyOverlay.EdgeLengthMeters, distance + reviewOffsetMeters),
+            })
+            .Select(distance => _streamer.GetRouteDistance(_topologyOverlay.EdgeId, distance))
+            .Distinct()
+            .ToArray();
+        _topologyTraversalStartMeters = _streamer.GetRouteDistance(
+            _topologyOverlay.EdgeId,
+            Math.Max(0, _topologyOverlay.TransitionDistancesMeters[0] - 150));
+        _topologyTraversalEndMeters = _streamer.GetRouteDistance(
+            _topologyOverlay.EdgeId,
+            Math.Min(
+                _topologyOverlay.EdgeLengthMeters,
+                _topologyOverlay.TransitionDistancesMeters[^1] + 150));
+    }
+
+    private void BeginTopologyReviewWaypoint()
+    {
+        if (_topologyOverlay is null ||
+            _topologyReviewWaypointIndex >= _topologyOverlay.TransitionDistancesMeters.Count)
+        {
+            return;
+        }
+        _topologyReviewFrames = 0;
+        _streamer.SetReviewDistance(_streamer.GetRouteDistance(
+            _topologyOverlay.EdgeId,
+            _topologyOverlay.TransitionDistancesMeters[_topologyReviewWaypointIndex]));
+        SetTopologyDiagnosticView(enabled: false);
+    }
+
+    private void AdvanceTopologyReview()
+    {
+        if (_topologyOverlay is null || _topologyDiagnosticCamera is null ||
+            !_streamer.ReviewTargetReady || !_streamer.IsStreamingSettled ||
+            _topologyReviewWaypointIndex >= _topologyOverlay.TransitionDistancesMeters.Count)
+        {
+            return;
+        }
+        _topologyReviewFrames++;
+        var forward = -_vehicle.GlobalBasis.Z.Normalized();
+        var focus = _vehicle.GlobalPosition + forward * 45;
+        _topologyDiagnosticCamera.GlobalPosition =
+            _vehicle.GlobalPosition - forward * 32 + Vector3.Up * 28;
+        _topologyDiagnosticCamera.LookAt(focus, Vector3.Up);
+        if (_topologyReviewFrames == 30)
+        {
+            SetTopologyDiagnosticView(enabled: true);
+        }
+        if (_topologyReviewFrames < 60)
+        {
+            return;
+        }
+        GD.Print(
+            $"CANNONBALL_TOPOLOGY_REVIEW_WAYPOINT_OK " +
+            $"index={_topologyReviewWaypointIndex + 1} " +
+            $"of={_topologyOverlay.TransitionDistancesMeters.Count}");
+        _topologyReviewWaypointIndex++;
+        BeginTopologyReviewWaypoint();
+    }
+
+    private void SetTopologyDiagnosticView(bool enabled)
+    {
+        if (_topologyDiagnosticCamera is null)
+        {
+            return;
+        }
+        _topologyDiagnosticCamera.Current = enabled;
+        var chaseCamera = _vehicle.GetNodeOrNull<Camera3D>("ChaseCameraArm/ChaseCamera");
+        if (chaseCamera is not null)
+        {
+            chaseCamera.Current = !enabled;
+        }
+    }
+
+    private void AdvanceTopologyProfile()
+    {
+        if (_topologyTraversalStarted)
+        {
+            if (_streamer.RouteDistanceMeters >= _topologyTraversalEndMeters)
+            {
+                _vehicle.AutopilotEnabled = false;
+                _topologyProfileComplete = true;
+            }
+            return;
+        }
+        if (!_streamer.IsStreamingSettled)
+        {
+            _topologyStableFrames = 0;
+            return;
+        }
+        _topologyStableFrames++;
+        if (_topologyStableFrames < StreamingStableFramesPerCheckpoint)
+        {
+            return;
+        }
+        _streamer.ValidateCurrentStreamingWindows();
+        if (_topologyTraversalPreparing)
+        {
+            if (!_streamer.ReviewTargetReady)
+            {
+                return;
+            }
+            _vehicle.ResetGroundingTelemetry();
+            _vehicle.AutopilotSpeedLimitMetersPerSecond = 75;
+            _vehicle.AutopilotEnabled = true;
+            _streamer.BeginReviewTraversal();
+            _topologyTraversalPreparing = false;
+            _topologyTraversalStarted = true;
+            return;
+        }
+        BeginNextTopologyCheckpoint();
+    }
+
+    private void BeginNextTopologyCheckpoint()
+    {
+        _topologyCheckpointIndex++;
+        _topologyStableFrames = 0;
+        if (_topologyCheckpointIndex >= _topologyCheckpoints.Count)
+        {
+            _topologyTraversalPreparing = true;
+            _streamer.SetReviewDistance(_topologyTraversalStartMeters);
+            return;
+        }
+        _streamer.SetReviewDistance(_topologyCheckpoints[_topologyCheckpointIndex]);
+    }
+
+    private void ValidateTopologyProfile()
+    {
+        if (_topologyOverlay is null || !_topologyProfileComplete ||
+            !_topologyTraversalStarted ||
+            _topologyCheckpointIndex != _topologyCheckpoints.Count)
+        {
+            throw new InvalidOperationException("Topology profile did not visit every checkpoint.");
+        }
+        if (_streamer.MinimumObservedLaneCount > 2 ||
+            _streamer.MaximumObservedLaneCount < 4 ||
+            _streamer.TopologyTransitionCount <
+                _topologyOverlay.TransitionDistancesMeters.Count)
+        {
+            throw new InvalidOperationException(
+                "Topology profile did not build the expected two-to-four-lane transitions.");
+        }
+        if (!_streamer.ObservedGoreGeometry ||
+            _streamer.TopologyCollisionTransitionChunkCount == 0)
+        {
+            throw new InvalidOperationException(
+                "Topology profile did not observe both gore and transition collision geometry.");
+        }
+        if (_streamer.MaximumPavedWidthMeters <= 15)
+        {
+            throw new InvalidOperationException(
+                "Topology profile did not expand the generated paved road width.");
+        }
+        if (_streamer.ChunkFailureCount > 0 ||
+            _streamer.MaximumBuildMilliseconds > WorldStreamer.InitialChunkBuildBudgetMilliseconds ||
+            _streamer.MaximumCollisionBuildMilliseconds >
+                WorldStreamer.InitialCollisionBuildBudgetMilliseconds)
+        {
+            throw new InvalidOperationException(
+                "Topology profile encountered a chunk failure or exceeded a build budget.");
+        }
+        if (_peakSpeedMetersPerSecond < TopologyHighSpeedTargetMetersPerSecond ||
+            _streamer.RebaseCount < 1 || !_vehicle.HasBeenGrounded ||
+            _vehicle.MaximumConsecutiveUnsupportedPhysicsFrames >
+                MaximumRenderIntegrityUnsupportedPhysicsFrames)
+        {
+            throw new InvalidOperationException(
+                "Topology traversal did not remain grounded through a high-speed rebased pass.");
+        }
+        GD.Print(
+            $"CANNONBALL_TOPOLOGY_OK checkpoints={_topologyCheckpoints.Count} " +
+            $"edge={_topologyOverlay.EdgeId} min_lanes={_streamer.MinimumObservedLaneCount} " +
+            $"max_lanes={_streamer.MaximumObservedLaneCount} " +
+            $"transitions={_streamer.TopologyTransitionCount} " +
+            $"transition_collision_chunks={_streamer.TopologyCollisionTransitionChunkCount} " +
+            $"gore=true max_paved_width_m={_streamer.MaximumPavedWidthMeters:0.000} " +
+            $"peak_mph={_peakSpeedMetersPerSecond * 2.236936f:0.0} " +
+            $"rebases={_streamer.RebaseCount} " +
+            $"max_unsupported_frames={_vehicle.MaximumConsecutiveUnsupportedPhysicsFrames} " +
+            $"max_visual_build_ms={_streamer.MaximumBuildMilliseconds:0.000} " +
+            $"max_collision_build_ms={_streamer.MaximumCollisionBuildMilliseconds:0.000} " +
+            $"override={_topologyOverlay.OverrideId} chunk_failures=0");
     }
 
     private void BeginNextGeographicReviewWaypoint()

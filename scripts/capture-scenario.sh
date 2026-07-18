@@ -33,7 +33,11 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 capture_fps="${CANNONBALL_CAPTURE_FPS:-60}"
-capture_frames="${CANNONBALL_CAPTURE_FRAMES:-60}"
+default_capture_frames=60
+if [[ " ${scenario_args[*]} " == *" --topology-review "* ]]; then
+  default_capture_frames=360
+fi
+capture_frames="${CANNONBALL_CAPTURE_FRAMES:-$default_capture_frames}"
 timeout_seconds="${CANNONBALL_SCENARIO_TIMEOUT_SECONDS:-120}"
 
 case "$fixture" in
@@ -45,7 +49,7 @@ case "$fixture" in
     fixture_lock="$repo_root/data/sources/source-lock.json"
     fixture_chunk_meters=100
     ;;
-  representative-corridor)
+  representative-corridor|variable-lanes)
     fixture_source="$repo_root/data/sources/fixtures/nhpn-boulder-westminster-us36.geojson"
     fixture_manifest="$repo_root/data/sources/fixtures/nhpn-boulder-westminster-us36.manifest.json"
     fixture_elevation="$repo_root/data/sources/fixtures/usgs-13-n40w106-boulder-westminster.tif"
@@ -54,7 +58,7 @@ case "$fixture" in
     fixture_chunk_meters=2000
     ;;
   *)
-    echo "Unknown fixture '$fixture'. Supported fixtures: official-corridor, representative-corridor." >&2
+    echo "Unknown fixture '$fixture'. Supported fixtures: official-corridor, representative-corridor, variable-lanes." >&2
     exit 2
     ;;
 esac
