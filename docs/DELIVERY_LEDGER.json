@@ -451,18 +451,26 @@
       "milestone": "M5",
       "priority": "P1",
       "title": "Deterministic asset and provenance pipeline",
-      "status": "open",
+      "status": "in_progress",
       "dependencies": [
         "P0-007"
       ],
       "owned_paths": [
+        ".github/workflows/assets.yml",
+        "README.md",
         "assets/pipeline-fixtures/",
         "tools/assets/",
         "data/assets/manifest.schema.json",
         "data/assets/pipeline-fixtures/",
         "scripts/validate-assets.sh",
         "docs/decisions/ADR-0012-agentic-visual-asset-pipeline.md",
-        "evidence/M5/P1-002.json"
+        "docs/DELIVERY_LEDGER.json",
+        "docs/OPEN_QUESTIONS.md",
+        "docs/QUESTIONS_FOR_RANDROID.md",
+        "docs/TECH_STACK.md",
+        "docs/audits/",
+        "evidence/M5/P1-002.json",
+        "reports/assets/"
       ],
       "acceptance": [
         "The exact Blender build, export scripts, glTF profile, and Godot 4.7.1 import settings are pinned and invokable without an interactive editor",

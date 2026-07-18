@@ -208,7 +208,7 @@ auditability, and unique value beyond the existing tools.
 ## Asset and observability stack
 
 [ADR-0012](decisions/ADR-0012-agentic-visual-asset-pipeline.md) defines the
-production visual pipeline. Pinned Blender command-line scripts lint original
+production visual pipeline. Pinned Blender 5.1.2 command-line scripts lint original
 source art and export glTF 2.0 binary assets; official Godot 4.7.1 command-line
 imports then instantiate project-owned wrapper scenes and validate stable
 semantic nodes, scale, axes, transforms, LODs, collision proxies, materials,

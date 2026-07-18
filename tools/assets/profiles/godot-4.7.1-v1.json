@@ -1,0 +1,18 @@
+{
+  "id": "cannonball-godot-4.7.1-scene-v1",
+  "engine": "4.7.1.stable.mono.official.a13da4feb",
+  "importer": "scene",
+  "importer_version": 1,
+  "root_type": "Node3D",
+  "root_name": "ImportedAsset",
+  "animation_fps": 30,
+  "animation_import": false,
+  "materials_extract": false,
+  "mesh_library_use_node_names": true,
+  "meshes_ensure_tangents": true,
+  "meshes_generate_lods": false,
+  "meshes_create_shadow_meshes": true,
+  "meshes_light_baking": 0,
+  "skins_use_named_skins": true,
+  "wrapper_policy": "project-owned-tscn"
+}

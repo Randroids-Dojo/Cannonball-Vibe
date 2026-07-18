@@ -4,6 +4,7 @@ import { readFileSync } from "node:fs";
 
 const path = process.argv[2];
 if (!path) throw new Error("usage: pck-inspect.mjs PACKAGE.pck");
+const allowPipelineFixtures = process.argv.includes("--allow-pipeline-fixtures");
 const bytes = readFileSync(path);
 let offset = 0;
 const u32 = () => { const value = bytes.readUInt32LE(offset); offset += 4; return value; };
@@ -39,4 +40,8 @@ const forbidden = paths.filter((item) => /(^|\/)addons\/playgodot(\/|$)|playgodo
 if (forbidden.length) throw new Error(`PCK contains forbidden PlayGodot resources: ${forbidden.join(", ")}`);
 const developmentFiles = paths.filter((item) => /(^|\/)(reports|tests|automation|tools|docs|evidence|src|bin|obj)(\/|$)|\.(cs|csproj|sln)$|packages[^/]*\.lock\.json$/i.test(item));
 if (developmentFiles.length) throw new Error(`PCK contains development-only files: ${developmentFiles.join(", ")}`);
+const pipelineFixtures = paths.filter((item) => /(^|\/)assets\/pipeline-fixtures(\/|$)/i.test(item));
+if (!allowPipelineFixtures && pipelineFixtures.length) {
+  throw new Error(`Release PCK contains validation-only asset fixtures: ${pipelineFixtures.join(", ")}`);
+}
 console.log(`CANNONBALL_PCK_OK files=${paths.length} playgodot_resources=0`);

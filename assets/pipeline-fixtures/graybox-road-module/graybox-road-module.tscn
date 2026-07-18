@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="PackedScene" path="res://assets/pipeline-fixtures/graybox-road-module/graybox-road-module.glb" id="1_asset"]
+
+[node name="GrayboxRoadModule" type="Node3D"]
+metadata/automation_id = "asset.fixture.graybox-road-module"
+metadata/asset_id = "graybox-road-module"
+
+[node name="ImportedAsset" parent="." instance=ExtResource("1_asset")]
+
+[node name="AutomationAnchor" type="Marker3D" parent="."]
+metadata/automation_id = "asset.fixture.graybox-road-module.anchor"

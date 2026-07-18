@@ -1,0 +1,86 @@
+{
+  "asset_id": "graybox-road-module",
+  "blender_build_hash": "ec6e62d40fa9",
+  "blender_version": "5.1.2",
+  "bounds_meters": [
+    7.2,
+    12.0,
+    0.24
+  ],
+  "budgets": {
+    "collision_triangles_max": 24,
+    "materials_max": 2,
+    "texture_bytes_max": 0,
+    "textures_max": 0,
+    "triangles_lod0_max": 24,
+    "triangles_total_max": 72
+  },
+  "contact_sheet": {
+    "height": 288,
+    "path": "data/assets/pipeline-fixtures/graybox-road-module-contact-sheet.png",
+    "sha256": "e1f0bbffd0e03be818da69fa518b75e9c34c879a86daf0f0c893622a0967df93",
+    "width": 1152
+  },
+  "glb": {
+    "external_uri_count": 0,
+    "generator": "Khronos glTF Blender I/O v5.1.20",
+    "material_count": 2,
+    "mesh_count": 3,
+    "node_names": [
+      "Anchor_Origin",
+      "AssetRoot",
+      "CollisionProxy",
+      "Visual_LOD0",
+      "Visual_LOD1"
+    ],
+    "path": "assets/pipeline-fixtures/graybox-road-module/graybox-road-module.glb",
+    "scene_count": 1,
+    "sha256": "000599e4da76566f809d59ff069c3155d3e70f5622c32d2e770769eabfb5488d"
+  },
+  "godot_axes": {
+    "forward": "-Z",
+    "up": "+Y"
+  },
+  "identity_transforms": true,
+  "materials": [
+    "Material_CollisionDebug",
+    "Material_Pavement"
+  ],
+  "metric_scale": 1.0,
+  "nodes": [
+    "Anchor_Origin",
+    "AssetRoot",
+    "CollisionProxy",
+    "Visual_LOD0",
+    "Visual_LOD1"
+  ],
+  "portable_paths": true,
+  "profile": {
+    "path": "tools/assets/profiles/gltf2-binary-v1.json",
+    "sha256": "f63c4edb51fa5456177f2f43a8d1b21d8a732b6980a136d6aa82a742e856e272"
+  },
+  "required_nodes": [
+    "Anchor_Origin",
+    "AssetRoot",
+    "CollisionProxy",
+    "Visual_LOD0",
+    "Visual_LOD1"
+  ],
+  "schema_version": 1,
+  "source": {
+    "path": "data/assets/pipeline-fixtures/sources/graybox-road-module.blend",
+    "sha256": "8f3034c33b91d8a47cb5b1f797ac41ea0ea7867471e966f6723316cc2bed1bd2"
+  },
+  "source_axes": {
+    "forward": "-Y",
+    "up": "+Z"
+  },
+  "textures": [],
+  "texture_bytes_total": 0,
+  "triangle_total": 36,
+  "triangles": {
+    "CollisionProxy": 12,
+    "Visual_LOD0": 12,
+    "Visual_LOD1": 12
+  }
+}

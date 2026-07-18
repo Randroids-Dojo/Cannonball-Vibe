@@ -1,0 +1,112 @@
+{
+  "schema_version": 1,
+  "asset_id": "graybox-road-module",
+  "asset_kind": "road-module",
+  "authorship": {
+    "creator": "Randroid's Dojo",
+    "creation_date": "2026-07-18",
+    "method": "Project-original deterministic Blender Python fixture",
+    "creation_script": "tools/assets/create_fixture.py",
+    "creation_script_sha256": "a0939ac2acf8b0c39eca860f0362d01016991d9399f2b577bf54284954ee7afb"
+  },
+  "license": {
+    "spdx": "CC0-1.0",
+    "redistributable": true,
+    "status": "pending-human-review",
+    "attribution": "Cannonball-Vibe project-original fixture; no third-party source art"
+  },
+  "source": {
+    "path": "data/assets/pipeline-fixtures/sources/graybox-road-module.blend",
+    "sha256": "8f3034c33b91d8a47cb5b1f797ac41ea0ea7867471e966f6723316cc2bed1bd2",
+    "kind": "blender-source"
+  },
+  "transformations": [
+    {
+      "id": "blender-export-v1",
+      "tool": "Blender",
+      "tool_version": "5.1.2+ec6e62d40fa9",
+      "script": "tools/assets/validate_and_export.py",
+      "script_sha256": "01cc29d0c80a690d59d8fec6dd544cdba1044096d6686b8c58e16e78a46fa0e5",
+      "profile": "tools/assets/profiles/gltf2-binary-v1.json",
+      "profile_sha256": "f63c4edb51fa5456177f2f43a8d1b21d8a732b6980a136d6aa82a742e856e272",
+      "inputs": [
+        {
+          "path": "data/assets/pipeline-fixtures/sources/graybox-road-module.blend",
+          "sha256": "8f3034c33b91d8a47cb5b1f797ac41ea0ea7867471e966f6723316cc2bed1bd2",
+          "kind": "blender-source"
+        }
+      ]
+    },
+    {
+      "id": "godot-wrapper-validation-v1",
+      "tool": "Godot",
+      "tool_version": "4.7.1.stable.mono.official.a13da4feb",
+      "script": "tools/assets/validate_import.gd",
+      "script_sha256": "648a5edeebde936b6240237b5e3b0fe73e8d34aa824f4f3cc3db701ee296e81a",
+      "profile": "tools/assets/profiles/godot-4.7.1-v1.json",
+      "profile_sha256": "22feccfc894d853a070bbcfd3ba04963165d72adfa918dbfdb657b2dbbfc5645",
+      "inputs": [
+        {
+          "path": "assets/pipeline-fixtures/graybox-road-module/graybox-road-module.glb",
+          "sha256": "000599e4da76566f809d59ff069c3155d3e70f5622c32d2e770769eabfb5488d",
+          "kind": "gltf-binary"
+        }
+      ]
+    }
+  ],
+  "derived": [
+    {
+      "path": "assets/pipeline-fixtures/graybox-road-module/graybox-road-module.glb",
+      "sha256": "000599e4da76566f809d59ff069c3155d3e70f5622c32d2e770769eabfb5488d",
+      "kind": "gltf-binary"
+    },
+    {
+      "path": "assets/pipeline-fixtures/graybox-road-module/graybox-road-module.tscn",
+      "sha256": "e9e5f402b06a25ae31d4dd01d669668a22db40ba8f311277dda7318d817ea177",
+      "kind": "godot-wrapper"
+    },
+    {
+      "path": "assets/pipeline-fixtures/graybox-road-module/graybox-road-module.glb.import",
+      "sha256": "0aa1e4bfb3a1d8fd158af216c0ddc57953f329f601148143a1e4706970a220cc",
+      "kind": "godot-import-settings"
+    },
+    {
+      "path": "data/assets/pipeline-fixtures/graybox-road-module-contact-sheet.png",
+      "sha256": "e1f0bbffd0e03be818da69fa518b75e9c34c879a86daf0f0c893622a0967df93",
+      "kind": "renderer-contact-sheet"
+    },
+    {
+      "path": "data/assets/pipeline-fixtures/graybox-road-module.blender.json",
+      "sha256": "8a1ede7a8402e25b1dec33710603e86d137692b0b1a5d8286dee196eba98df55",
+      "kind": "blender-inventory"
+    },
+    {
+      "path": "data/assets/pipeline-fixtures/graybox-road-module.godot.json",
+      "sha256": "85965ab03f50c10bc31a124599e26e312d20944c34b41794f5e2468a90ac6acb",
+      "kind": "godot-inventory"
+    }
+  ],
+  "semantic_contract": {
+    "required_nodes": [
+      "AssetRoot",
+      "Visual_LOD0",
+      "Visual_LOD1",
+      "CollisionProxy",
+      "Anchor_Origin"
+    ],
+    "forward_axis": "-Z",
+    "up_axis": "+Y",
+    "unit_meters": 1,
+    "bounds_meters": [7.2, 12.0, 0.24],
+    "wrapper_scene": "assets/pipeline-fixtures/graybox-road-module/graybox-road-module.tscn",
+    "automation_id": "asset.fixture.graybox-road-module"
+  },
+  "budgets": {
+    "triangles_lod0_max": 24,
+    "triangles_total_max": 72,
+    "materials_max": 2,
+    "textures_max": 0,
+    "texture_bytes_max": 0,
+    "collision_triangles_max": 24
+  }
+}

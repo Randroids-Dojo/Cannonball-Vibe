@@ -164,3 +164,20 @@ identify the specific frame and unreadable field so the next capture can target
 the defect. This gate does not ask for production sign or environment art.
 The requested signage realism and legibility quality pass is now an explicit
 P1-009 acceptance requirement rather than an implicit polish note.
+
+## Asset pipeline rights policy (Q-023) — ready for review
+
+P1-002 now proves the full technical path with a project-original CC0 graybox
+road module: checksum-locked Blender source, deterministic GLB rebuilds, pinned
+Godot import settings, a project-owned wrapper, semantic-node and budget checks,
+release-PCK exclusion of build inputs, and a renderer-backed contact sheet. The
+fixture's manifest remains `pending-human-review`, so the pipeline cannot be
+called complete or used as a blanket approval for future third-party art.
+
+Recommended policy: project-original, CC0, and clearly redistributable assets
+may be promoted only after their exact source, license text, creator or
+publisher, acquisition or creation date, required attribution, recursive
+transformations, and derived hashes are recorded and a human approves the
+rights record. Restricted assets never enter release exports; unresolved assets
+remain fixture-only or excluded. The decision needed is whether to approve this
+strict policy as the M5 promotion gate or choose a narrower source policy.

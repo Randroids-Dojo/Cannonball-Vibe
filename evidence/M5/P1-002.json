@@ -1,0 +1,245 @@
+{
+  "schema_version": 1,
+  "task_id": "P1-002",
+  "milestone": "M5",
+  "status": "technical_acceptance_complete_human_gate_pending",
+  "git_revision": "bcdbc41b1e87e606df08a954a4927de921f92fb7",
+  "recorded_at_utc": "2026-07-18T19:23:16Z",
+  "platform": {
+    "os": "Darwin 25.6.0",
+    "architecture": "arm64"
+  },
+  "tool_versions": {
+    "blender": "5.1.2",
+    "blender_build_hash": "ec6e62d40fa9",
+    "godot": "4.7.1.stable.mono.official.a13da4feb",
+    "dotnet_sdk": "10.0.102",
+    "node": "22.22.1",
+    "git_lfs": "3.7.1"
+  },
+  "pinned_distribution": {
+    "blender_linux_x64_url": "https://download.blender.org/release/Blender5.1/blender-5.1.2-linux-x64.tar.xz",
+    "blender_linux_x64_sha256": "aaccb355f50183979b698bcce7467103a76261b5fa59f4972295842662a285fb",
+    "toolchain_path": "tools/assets/toolchain.json",
+    "toolchain_sha256": "eba021db0e459954a9ecf68d8225a45264c8cda92675a5f44bbcd5ecd90446bd"
+  },
+  "input_artifacts": [
+    {
+      "path": "data/assets/manifest.schema.json",
+      "sha256": "04137d90937b91a588b15b232dc52de14fd95159102faa90f2083458dbbf76c0"
+    },
+    {
+      "path": "data/assets/pipeline-fixtures/graybox-road-module.asset.json",
+      "sha256": "56d672f94ac76baa6f5c77599b9b6b3c8aa14a83f8306e3c8dca338f0225f4cb"
+    },
+    {
+      "path": "data/assets/pipeline-fixtures/sources/graybox-road-module.blend",
+      "sha256": "8f3034c33b91d8a47cb5b1f797ac41ea0ea7867471e966f6723316cc2bed1bd2",
+      "bytes": 92546,
+      "git_lfs": true
+    },
+    {
+      "path": "tools/assets/profiles/gltf2-binary-v1.json",
+      "sha256": "f63c4edb51fa5456177f2f43a8d1b21d8a732b6980a136d6aa82a742e856e272"
+    },
+    {
+      "path": "tools/assets/profiles/godot-4.7.1-v1.json",
+      "sha256": "22feccfc894d853a070bbcfd3ba04963165d72adfa918dbfdb657b2dbbfc5645"
+    }
+  ],
+  "scenario_arguments": {
+    "asset_id": "graybox-road-module",
+    "deterministic_rebuilds": 2,
+    "source_forward_axis": "-Y",
+    "source_up_axis": "+Z",
+    "godot_forward_axis": "-Z",
+    "godot_up_axis": "+Y",
+    "unit_meters": 1,
+    "invalid_mutations": [
+      "unapplied-scale",
+      "missing-semantic-node",
+      "external-texture"
+    ],
+    "validation_preset": "Asset pipeline validation",
+    "shipping_release_preset": "Linux x86_64"
+  },
+  "commands": [
+    {
+      "command": "./scripts/validate-assets.sh",
+      "exit_status": 0,
+      "retry_count": 1,
+      "failure_logs": [
+        "The first full-identity run reconstructed the official Godot version without its .NET flavor because it queried a legacy OS feature label."
+      ]
+    },
+    {
+      "command": "./scripts/check.sh",
+      "exit_status": 0,
+      "retry_count": 0,
+      "failure_logs": [],
+      "report": "reports/m0/summary.json",
+      "report_sha256": "67518e12bee833889dd527e547cca1f30747107227f7a2574c7315c736e16f19"
+    },
+    {
+      "command": "GODOT_BIN=.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot ./scripts/verify-playgodot.sh",
+      "exit_status": 0,
+      "retry_count": 0,
+      "failure_logs": []
+    },
+    {
+      "command": "./scripts/run-scenario.sh --fixture variable-lanes --profile topology",
+      "exit_status": 0,
+      "retry_count": 1,
+      "failure_logs": [
+        "The first run rejected legitimate one-decimal mile-marker display text before the runtime formatter was aligned with the map pipeline."
+      ]
+    },
+    {
+      "command": "git diff --check",
+      "exit_status": 0,
+      "retry_count": 0,
+      "failure_logs": []
+    },
+    {
+      "command": "SOURCE_REVISION=$(git rev-parse HEAD) ./scripts/release/build-unsigned.sh linux /tmp/cannonball-repro-fixed",
+      "exit_status": 0,
+      "retry_count": 1,
+      "failure_logs": [
+        "The first clean double export included a pending-review glTF fixture whose imported PackedScene node identifiers varied between fresh Godot import caches."
+      ]
+    }
+  ],
+  "metrics": {
+    "deterministic_glb_rebuilds": 2,
+    "deterministic_contact_sheet_rebuilds": 2,
+    "invalid_mutations_rejected": 3,
+    "invalid_manifests_rejected": 1,
+    "texture_byte_budget_violations_rejected": 1,
+    "required_semantic_nodes": 5,
+    "imported_mesh_nodes": 3,
+    "triangle_total": 36,
+    "triangle_budget": 72,
+    "lod0_triangles": 12,
+    "lod0_triangle_budget": 24,
+    "collision_triangles": 12,
+    "collision_triangle_budget": 24,
+    "materials": 2,
+    "material_budget": 2,
+    "textures": 0,
+    "texture_bytes": 0,
+    "texture_budget": 0,
+    "release_dependencies": 1,
+    "validation_pack_files": 9,
+    "shipping_release_pack_files": 5,
+    "shipping_release_contains_pipeline_fixtures": false,
+    "reproducible_linux_archive_sha256": "ce942ccc41d19aa3224acb0b2db4961bb211c941535bc6e11a16d0e3191b6cc3",
+    "contact_sheet_width": 1152,
+    "contact_sheet_height": 288,
+    "csharp_tests_passed": 62,
+    "map_pipeline_tests_passed": 66,
+    "playgodot_unit_tests_passed": 12
+  },
+  "acceptance_comparisons": [
+    {
+      "criterion": "exact Blender, glTF, and Godot import toolchain is pinned and headless",
+      "observed": "Blender 5.1.2 build ec6e62d40fa9 and its official Linux archive checksum are pinned; glTF and Godot 4.7.1 profiles are hash-locked; no interactive editor action is required",
+      "passed": true
+    },
+    {
+      "criterion": "recursive machine-readable authorship, rights, transformation, and redistribution provenance",
+      "observed": "schema-1 manifest verifies creation script, source, transformation scripts, profiles, derived assets, wrapper, import settings, contact sheet, and inventories by SHA-256; redistribution remains explicitly pending human review",
+      "passed": true
+    },
+    {
+      "criterion": "source lint, export, scale, axes, transforms, LOD, collision, materials, textures, and budgets are enforced",
+      "observed": "two builds matched exactly; the gate rejected unapplied scale, a missing semantic node, and a linked absolute texture path; the 7.2 by 12 by 0.24 meter fixture stayed within every declared budget",
+      "passed": true
+    },
+    {
+      "criterion": "official Godot import resolves a project-owned wrapper without build-time release dependencies",
+      "observed": "official Godot 4.7.1 resolved five required semantic nodes and the stable automation ID in a validation-only PCK; distributable presets exclude pending-review pipeline fixtures as well as Blender source, data manifests, asset tooling, and test automation",
+      "passed": true
+    },
+    {
+      "criterion": "deterministic renderer-backed review artifact and structured inventories exist",
+      "observed": "three fixed camera views produced a 1152 by 288 contact sheet with exact within-platform repeatability; Blender, Godot, manifest, budget, and hash inventories are durable",
+      "passed": true
+    },
+    {
+      "criterion": "graybox fallback supports normal source builds without Blender",
+      "observed": "the checked-in GLB and wrapper satisfy the same semantic contract; the full repository gate and official Godot smoke passed without invoking Blender",
+      "passed": true
+    }
+  ],
+  "output_artifacts": [
+    {
+      "path": "assets/pipeline-fixtures/graybox-road-module/graybox-road-module.glb",
+      "sha256": "000599e4da76566f809d59ff069c3155d3e70f5622c32d2e770769eabfb5488d",
+      "bytes": 4508,
+      "git_lfs": true
+    },
+    {
+      "path": "assets/pipeline-fixtures/graybox-road-module/graybox-road-module.tscn",
+      "sha256": "e9e5f402b06a25ae31d4dd01d669668a22db40ba8f311277dda7318d817ea177"
+    },
+    {
+      "path": "assets/pipeline-fixtures/graybox-road-module/graybox-road-module.glb.import",
+      "sha256": "0aa1e4bfb3a1d8fd158af216c0ddc57953f329f601148143a1e4706970a220cc"
+    },
+    {
+      "path": "data/assets/pipeline-fixtures/graybox-road-module-contact-sheet.png",
+      "sha256": "e1f0bbffd0e03be818da69fa518b75e9c34c879a86daf0f0c893622a0967df93",
+      "bytes": 259366,
+      "git_lfs": true
+    },
+    {
+      "path": "reports/assets/p1-002-validation.json",
+      "sha256": "ab58efc94aa9040456a9e91598d47fcded618ceed483265106cec7d18777d20d",
+      "retention": "CI artifact; durable source inventories are stored under data/assets/pipeline-fixtures"
+    }
+  ],
+  "failure_logs": [
+    {
+      "failure": "The first fixture generator used a retired Eevee enum and assumed a default World in Blender 5.1.",
+      "recovery": "The exact Blender 5.1 API names and an explicit preview World are now authored by the generator."
+    },
+    {
+      "failure": "Keeping the .blend beside runtime assets made headless Godot attempt to import the build-time source and dirtied the worktree with editor sidecars.",
+      "recovery": "Build inputs moved under a .gdignore data directory and all Godot import and release-pack work now runs in an isolated project copy."
+    },
+    {
+      "failure": "The first external-texture mutation was not retained as a linked file and therefore did not exercise the portability rejection.",
+      "recovery": "The mutation now links an actual absolute-path image into the pavement material, and the linter rejects it with a targeted error."
+    },
+    {
+      "failure": "The first Linux contact-sheet run aborted because Blender's headless renderer could not load libEGL.so.1.",
+      "recovery": "The asset workflow installs the minimal libegl1 runtime and retains renderer-backed evidence as a mandatory gate."
+    },
+    {
+      "failure": "Shared CI runners intermittently exceeded a hard 50 ms first-frame chunk threshold and aborted otherwise valid normal startup.",
+      "recovery": "Normal runtime records timing without treating scheduler or JIT variance as content corruption; explicit performance profiles retain the declared budget assertions."
+    },
+    {
+      "failure": "The variable-lane fixture emitted realistic one-decimal mile-marker text while the runtime required three-decimal anchor text.",
+      "recovery": "The runtime now shares the map pipeline's one-decimal sign formatting contract, focused tests cover rounding, and the 45-edge topology profile passes with zero chunk failures."
+    },
+    {
+      "failure": "A clean double export was not byte-identical because fresh Godot glTF imports generated varying PackedScene node identifiers for a pending-review fixture.",
+      "recovery": "A dedicated validation preset retains semantic import tests, shipping presets exclude every pipeline fixture, the shipping PCK inspector rejects fixture leakage, and two clean Linux release exports now match exactly."
+    },
+    {
+      "failure": "The first full-engine identity check looked for a legacy mono OS feature label and omitted the .NET flavor from the reconstructed version.",
+      "recovery": "The import validator now detects the CSharpScript engine class and matches the complete pinned 4.7.1 .NET identity exactly."
+    }
+  ],
+  "retry_count": 9,
+  "recovery_result": "Local deterministic asset, full repository, PlayGodot boundary, variable-lane topology, and clean double-release export gates pass; remote pull-request validation is pending.",
+  "human_gate": {
+    "name": "Asset pipeline rights-policy approval",
+    "required_for": "M5",
+    "status": "pending",
+    "question_id": "Q-023",
+    "question_record": "docs/QUESTIONS_FOR_RANDROID.md"
+  },
+  "adversarial_review": "docs/audits/2026-07-18-p1-002-asset-pipeline-review.md"
+}

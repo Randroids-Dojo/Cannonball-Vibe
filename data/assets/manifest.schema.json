@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://randroid.dev/cannonball/asset-manifest.schema.json",
+  "title": "Cannonball deterministic asset manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "asset_id",
+    "asset_kind",
+    "authorship",
+    "license",
+    "source",
+    "transformations",
+    "derived",
+    "semantic_contract",
+    "budgets"
+  ],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "asset_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]+$" },
+    "asset_kind": { "enum": ["vehicle", "road-module", "environment", "prop", "fixture"] },
+    "authorship": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["creator", "creation_date", "method", "creation_script", "creation_script_sha256"],
+      "properties": {
+        "creator": { "type": "string", "minLength": 1 },
+        "creation_date": { "type": "string", "format": "date" },
+        "method": { "type": "string", "minLength": 1 },
+        "creation_script": { "type": "string", "minLength": 1 },
+        "creation_script_sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "license": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["spdx", "redistributable", "status", "attribution"],
+      "properties": {
+        "spdx": { "type": "string", "minLength": 1 },
+        "redistributable": { "type": "boolean" },
+        "status": { "enum": ["approved", "pending-human-review", "restricted"] },
+        "attribution": { "type": "string" }
+      }
+    },
+    "source": { "$ref": "#/$defs/artifact" },
+    "transformations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "tool", "tool_version", "script", "script_sha256", "profile", "profile_sha256", "inputs"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "tool": { "type": "string", "minLength": 1 },
+          "tool_version": { "type": "string", "minLength": 1 },
+          "script": { "type": "string", "minLength": 1 },
+          "script_sha256": { "$ref": "#/$defs/sha256" },
+          "profile": { "type": "string", "minLength": 1 },
+          "profile_sha256": { "$ref": "#/$defs/sha256" },
+          "inputs": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/artifact" } }
+        }
+      }
+    },
+    "derived": { "type": "array", "minItems": 2, "items": { "$ref": "#/$defs/artifact" } },
+    "semantic_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required_nodes", "forward_axis", "up_axis", "unit_meters", "bounds_meters", "wrapper_scene", "automation_id"],
+      "properties": {
+        "required_nodes": { "type": "array", "minItems": 3, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+        "forward_axis": { "enum": ["-Z", "+Z", "-Y", "+Y"] },
+        "up_axis": { "enum": ["+Y", "+Z"] },
+        "unit_meters": { "const": 1 },
+        "bounds_meters": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": { "type": "number", "exclusiveMinimum": 0 }
+        },
+        "wrapper_scene": { "type": "string", "pattern": "\\.tscn$" },
+        "automation_id": { "type": "string", "minLength": 1 }
+      }
+    },
+    "budgets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["triangles_lod0_max", "triangles_total_max", "materials_max", "textures_max", "texture_bytes_max", "collision_triangles_max"],
+      "properties": {
+        "triangles_lod0_max": { "type": "integer", "minimum": 1 },
+        "triangles_total_max": { "type": "integer", "minimum": 1 },
+        "materials_max": { "type": "integer", "minimum": 1 },
+        "textures_max": { "type": "integer", "minimum": 0 },
+        "texture_bytes_max": { "type": "integer", "minimum": 0 },
+        "collision_triangles_max": { "type": "integer", "minimum": 1 }
+      }
+    }
+  },
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "kind"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "sha256": { "$ref": "#/$defs/sha256" },
+        "kind": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

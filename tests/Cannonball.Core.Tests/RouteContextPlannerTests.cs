@@ -33,6 +33,15 @@ public sealed class RouteContextPlannerTests
         Assert.DoesNotContain("1.25", string.Join(' ', markers.Select(item => item.SecondaryText)));
     }
 
+    [Theory]
+    [InlineData(18.0, "18")]
+    [InlineData(18.713, "18.7")]
+    [InlineData(18.75, "18.8")]
+    public void MileMarkerDisplayUsesRoadSignPrecision(double valueMiles, string expected)
+    {
+        Assert.Equal(expected, RouteContextPlanner.FormatMilepoint(valueMiles));
+    }
+
     [Fact]
     public void JurisdictionResetRemainsIndependentFromPreviousEdgeAndTripProgress()
     {
