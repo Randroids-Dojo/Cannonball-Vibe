@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "blender": {
+    "version": "5.1.2",
+    "build_hash": "ec6e62d40fa9",
+    "linux_x64_url": "https://download.blender.org/release/Blender5.1/blender-5.1.2-linux-x64.tar.xz",
+    "linux_x64_sha256": "aaccb355f50183979b698bcce7467103a76261b5fa59f4972295842662a285fb"
+  },
+  "godot": {
+    "version": "4.7.1.stable.mono.official.a13da4feb",
+    "import_profile": "tools/assets/profiles/godot-4.7.1-v1.json"
+  },
+  "gltf_profile": "tools/assets/profiles/gltf2-binary-v1.json"
+}

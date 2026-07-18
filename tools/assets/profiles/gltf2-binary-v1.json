@@ -1,0 +1,15 @@
+{
+  "id": "cannonball-gltf2-binary-v1",
+  "format": "GLB",
+  "gltf_version": "2.0",
+  "selected_objects_only": true,
+  "y_up": true,
+  "apply_modifiers": true,
+  "export_custom_properties": true,
+  "export_animations": false,
+  "export_cameras": false,
+  "export_lights": false,
+  "export_materials": "EXPORT",
+  "image_format": "AUTO",
+  "copyright": "Cannonball-Vibe project-original fixture"
+}

@@ -48,6 +48,10 @@ and Windows CI. It writes JSON, TRX, JUnit XML, engine logs, and step logs under
 `GODOT_BIN=/path/to/godot ./scripts/check.sh` when the engine is installed
 elsewhere.
 
+Asset authors can run the separately pinned Blender 5.1.2 and Godot 4.7.1
+pipeline with `./scripts/validate-assets.sh`; normal graybox development does
+not require Blender. See [tools/assets/README.md](tools/assets/README.md).
+
 Run a Godot-only scenario through the same exact-version CLI front door:
 
 ```
@@ -94,6 +98,8 @@ Capture a fixed-FPS visual artifact on a machine with a real graphics renderer:
   without Godot dependencies.
 - `schemas/` — versioned runtime route-data contract.
 - `tools/map_pipeline/` — deterministic GeoPackage-to-FlatBuffer build.
+- `tools/assets/` — pinned Blender export, Godot import, provenance, budget, and release-pack gates.
+- `data/assets/` and `assets/pipeline-fixtures/` — checksum-locked build inputs and replaceable runtime wrappers.
 - `data/sources/catalog.json` — approved public-domain source catalog and policy.
 - `docs/TECH_STACK.md` — stack decisions, boundaries, and milestone gates.
 
