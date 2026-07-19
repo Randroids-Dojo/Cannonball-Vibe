@@ -127,6 +127,9 @@ while [[ $# -gt 0 ]]; do
       elif [[ "$2" == "vehicle-visual" ]]; then
         scenario_mode="vehicle-visual"
         scenario_args+=("--vehicle-visual-profile")
+      elif [[ "$2" == "road-visual" ]]; then
+        scenario_mode="road-visual"
+        scenario_args+=("--road-visual-profile")
       else
         scenario_args+=("--profile=$2")
       fi
@@ -149,6 +152,9 @@ while [[ $# -gt 0 ]]; do
       elif [[ "$profile" == "vehicle-visual" ]]; then
         scenario_mode="vehicle-visual"
         scenario_args+=("--vehicle-visual-profile")
+      elif [[ "$profile" == "road-visual" ]]; then
+        scenario_mode="road-visual"
+        scenario_args+=("--road-visual-profile")
       else
         scenario_args+=("$1")
       fi
@@ -222,6 +228,9 @@ if [[ "$scenario_mode" == "route-context" && "$fixture_explicit" == "false" ]]; 
 fi
 if [[ "$scenario_mode" == "vehicle-visual" && "$fixture_explicit" == "false" ]]; then
   fixture="representative-corridor"
+fi
+if [[ "$scenario_mode" == "road-visual" && "$fixture_explicit" == "false" ]]; then
+  fixture="representative-interchanges"
 fi
 
 case "$fixture" in
