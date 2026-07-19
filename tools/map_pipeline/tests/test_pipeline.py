@@ -151,6 +151,58 @@ def test_pipeline_builds_deterministic_connected_chunks(tmp_path: Path) -> None:
     assert root.EdgesLength() == 2
 
 
+def test_route_sample_curvature_is_heading_change_per_meter(tmp_path: Path) -> None:
+    source, manifest = _write_source(
+        tmp_path,
+        "curved-alignment",
+        [
+            (
+                "curved-mainline",
+                LineString(
+                    [
+                        (ANCHOR_X, ANCHOR_Y),
+                        (ANCHOR_X + 200.0, ANCHOR_Y),
+                        (ANCHOR_X + 400.0, ANCHOR_Y + 100.0),
+                        (ANCHOR_X + 600.0, ANCHOR_Y + 300.0),
+                    ]
+                ),
+            )
+        ],
+    )
+
+    package = build_route_graph(
+        source,
+        manifest,
+        tmp_path / "curved-alignment-output",
+        resample_meters=25.0,
+    )
+    samples = package["edges"][0]["samples"]
+    observed = []
+    for index, sample in enumerate(samples):
+        center = min(max(index, 1), len(samples) - 2)
+        before = samples[center - 1]
+        point = samples[center]
+        after = samples[center + 1]
+        incoming_x = point["projected_x_meters"] - before["projected_x_meters"]
+        incoming_y = point["projected_y_meters"] - before["projected_y_meters"]
+        outgoing_x = after["projected_x_meters"] - point["projected_x_meters"]
+        outgoing_y = after["projected_y_meters"] - point["projected_y_meters"]
+        heading_change = math.atan2(
+            incoming_x * outgoing_y - incoming_y * outgoing_x,
+            incoming_x * outgoing_x + incoming_y * outgoing_y,
+        )
+        average_segment_length = (
+            math.hypot(incoming_x, incoming_y) + math.hypot(outgoing_x, outgoing_y)
+        ) / 2
+        expected = heading_change / average_segment_length
+        assert sample["curvature"] == pytest.approx(expected, abs=1e-12)
+        observed.append(expected)
+
+    assert max(abs(value) for value in observed) > 1e-5
+    assert samples[0]["curvature"] == pytest.approx(samples[1]["curvature"])
+    assert samples[-1]["curvature"] == pytest.approx(samples[-2]["curvature"])
+
+
 def test_reversed_feature_order_preserves_semantic_edge_records(tmp_path: Path) -> None:
     records = [
         (

@@ -246,21 +246,13 @@ def _build_edge(
     edge_id = _stable_id("edge", canonical)
     distances = _sample_distances(line.length, resample_meters)
     points = [line.interpolate(distance) for distance in distances]
-    curvatures: list[float] = []
+    curvatures = _curvatures(points)
     elevations = [
         elevation_sampler.sample(point.x, point.y)
         if elevation_sampler is not None
         else (point.z if point.has_z else 0.0)
         for point in points
     ]
-    previous_heading: float | None = None
-    for index in range(len(points)):
-        before = points[max(0, index - 1)]
-        after = points[min(len(points) - 1, index + 1)]
-        heading = math.atan2(after.y - before.y, after.x - before.x)
-        curvature = 0.0 if previous_heading is None else _angle_delta(previous_heading, heading)
-        previous_heading = heading
-        curvatures.append(curvature)
     grades = _grades(distances, elevations)
     samples = [
         RouteSample(
@@ -382,7 +374,7 @@ def _snap_line_endpoints(line: LineString, tolerance: float) -> LineString:
 def _reconstruct_continuation_alignments(
     records: list[_SourceLineRecord],
 ) -> list[_SourceLineRecord]:
-    """Replace unbranched source angle points with a C2 transition alignment."""
+    """Replace angle points with a sampled, curvature-conditioned alignment."""
     corridor = _reconstruct_linear_corridor_alignment(records)
     if corridor is not None:
         return corridor
@@ -811,6 +803,27 @@ def _content_version(
 
 def _angle_delta(first: float, second: float) -> float:
     return (second - first + math.pi) % (2 * math.pi) - math.pi
+
+
+def _curvatures(points: list[Any]) -> list[float]:
+    if len(points) < 3:
+        return [0.0] * len(points)
+    result: list[float] = []
+    for index in range(len(points)):
+        center = min(max(index, 1), len(points) - 2)
+        before = points[center - 1]
+        point = points[center]
+        after = points[center + 1]
+        incoming_heading = math.atan2(point.y - before.y, point.x - before.x)
+        outgoing_heading = math.atan2(after.y - point.y, after.x - point.x)
+        average_segment_length = max(
+            1e-9,
+            (point.distance(before) + point.distance(after)) / 2,
+        )
+        result.append(
+            _angle_delta(incoming_heading, outgoing_heading) / average_segment_length
+        )
+    return result
 
 
 def _grades(distances: list[float], elevations: list[float]) -> list[float]:

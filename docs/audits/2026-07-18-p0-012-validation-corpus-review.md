@@ -96,6 +96,11 @@ directional transfer, and semi-directional transfer.
     disabled only for those placeholders, and the runtime review-geometry gate
     asserts that setting. Road lighting, collision, and real barrier shadows are
     unchanged.
+17. Adversarial review found that imported route samples stored signed heading
+    change in the schema's `curvature` field without dividing by sample length.
+    The importer now emits curvature in inverse meters using adjacent horizontal
+    segments, matching the independent acceptance calculation and the authored
+    interchange fixture. A regression test recomputes every curved test sample.
 
 ## Horizontal-alignment design basis
 
@@ -107,7 +112,9 @@ locations. FHWA also describes transition spirals as the means of avoiding an
 abrupt radius change. Cannonball's deterministic alignment conditioner is not
 a civil-engineering certification or a replacement for final surveyed assets;
 it is the procedural-game equivalent: one smooth corridor alignment is derived
-before source-record boundaries are reintroduced.
+before source-record boundaries are reintroduced. It does not claim to emit
+survey-grade parametric spirals; acceptance is based on sampled tangent and
+curvature limits.
 
 - <https://flh.fhwa.dot.gov/resources/design/pddm/Chapter_09.pdf>
 - <https://highways.fhwa.dot.gov/safety/speed-management/speed-concepts-informational-guide/chapter-4-engineering-and-technical>
