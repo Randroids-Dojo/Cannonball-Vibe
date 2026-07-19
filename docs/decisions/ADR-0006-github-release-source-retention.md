@@ -50,3 +50,18 @@ gh api -H 'X-GitHub-Api-Version: 2026-03-10' \
   repos/Randroids-Dojo/Cannonball-Vibe/immutable-releases
 # {"enabled":true,"enforced_by_owner":false}
 ```
+
+## Implementation contract
+
+`scripts/source-retention/publish-release.sh` is the only supported publication
+entrypoint. It prepares a draft first, independently downloads and reconstructs
+that draft, and requires an explicit durable approval reference before changing
+the draft to a published immutable release. The matching
+`verify-release.sh --tag TAG` path performs clean download, checksum,
+reconstruction, immutability, and release-attestation verification.
+
+Every locked acquisition and checked-in derivation is represented in the
+release manifest. Identical content is uploaded once and may have multiple lock
+references. `data/sources/retention-classification.json` records the ADR-0010
+classification for every retained source; an unclassified source or a triggered
+P1-005 condition blocks preparation and publication.

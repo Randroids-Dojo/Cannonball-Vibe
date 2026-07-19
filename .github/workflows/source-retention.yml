@@ -1,0 +1,99 @@
+name: Immutable source retention
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/source-retention.yml"
+      - "data/sources/**"
+      - "scripts/source-retention/**"
+      - "docs/decisions/ADR-0006-github-release-source-retention.md"
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/source-retention.yml"
+      - "data/sources/**"
+      - "scripts/source-retention/**"
+      - "docs/decisions/ADR-0006-github-release-source-retention.md"
+  workflow_dispatch:
+    inputs:
+      operation:
+        description: Validate locally, prepare a verified draft, or publish an approved draft
+        required: true
+        type: choice
+        default: validate
+        options:
+          - validate
+          - draft
+          - publish
+      approval_reference:
+        description: Required only for publish; durable owner-approval reference
+        required: false
+        type: string
+
+concurrency:
+  group: source-retention-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Classify and test source retention
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 22.22.1
+      - name: Validate recovery classification and deterministic splitting
+        shell: bash
+        run: ./scripts/source-retention/verify-release.sh --classify-replica-trigger --self-test
+
+  release:
+    name: ${{ inputs.operation == 'publish' && 'Publish approved immutable source release' || 'Prepare verified source-release draft' }}
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.operation != 'validate' }}
+    needs: validate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 22.22.1
+      - name: Reject missing publication approval
+        if: ${{ inputs.operation == 'publish' && inputs.approval_reference == '' }}
+        shell: bash
+        run: |
+          printf 'Publication requires a durable owner approval reference.\n' >&2
+          exit 1
+      - name: Prepare and independently verify draft
+        if: ${{ inputs.operation == 'draft' }}
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: ./scripts/source-retention/publish-release.sh --draft
+      - name: Publish approved immutable draft and verify attestations
+        if: ${{ inputs.operation == 'publish' }}
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          APPROVAL_REFERENCE: ${{ inputs.approval_reference }}
+        run: >-
+          ./scripts/source-retention/publish-release.sh --publish
+          --approval-reference "$APPROVAL_REFERENCE"
+      - name: Upload publication evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: source-retention-${{ inputs.operation }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .tools/source-retention/release/*.json
+          if-no-files-found: warn
+          retention-days: 30

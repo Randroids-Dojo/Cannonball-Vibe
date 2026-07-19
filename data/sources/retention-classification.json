@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "classified_at": "2026-07-19",
+  "decision": "ADR-0010",
+  "sources": [
+    {
+      "source_id": "usdot-national-highway-planning-network",
+      "unique": false,
+      "privately_licensed": false,
+      "legally_critical": false,
+      "expensive_to_reconstruct": false,
+      "reliably_reacquirable": true,
+      "rationale": "Public-domain USDOT data remains available from the locked FeatureServer URL; exact bytes, request metadata, and recursive derivations are checksum-locked."
+    },
+    {
+      "source_id": "usgs-3dep",
+      "unique": false,
+      "privately_licensed": false,
+      "legally_critical": false,
+      "expensive_to_reconstruct": false,
+      "reliably_reacquirable": true,
+      "rationale": "Public-domain USGS historical elevation and FGDC metadata remain available from locked authority URLs; exact bytes and derivations are checksum-locked."
+    }
+  ]
+}

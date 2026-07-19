@@ -561,16 +561,20 @@
       "milestone": "M4",
       "priority": "P1",
       "title": "Primary immutable GitHub source publication",
-      "status": "open",
+      "status": "in_progress",
       "dependencies": [
         "P0-003"
       ],
       "owned_paths": [
         ".github/workflows/source-retention.yml",
+        "data/sources/retention-classification.json",
+        "scripts/source-retention/release-tools.mjs",
         "scripts/source-retention/publish-release.sh",
         "scripts/source-retention/verify-release.sh",
         "docs/RELEASE.md",
         "docs/decisions/ADR-0006-github-release-source-retention.md",
+        "docs/audits/2026-07-19-p1-006-source-publication.md",
+        "docs/QUESTIONS_FOR_RANDROID_2026-07-19_SOURCE_PUBLICATION.md",
         "evidence/M4/P1-006.json"
       ],
       "acceptance": [
@@ -589,7 +593,9 @@
       ],
       "human_gate": {
         "name": "Authoritative source publication approval",
-        "required_for": "M4"
+        "required_for": "M4",
+        "status": "pending",
+        "approval_reference": "docs/QUESTIONS_FOR_RANDROID_2026-07-19_SOURCE_PUBLICATION.md#q-027--publish-the-authoritative-immutable-source-release"
       },
       "notes": "ADR-0006 remains release-critical. ADR-0010 defers only the independent AWS/Vercel recovery replica, not primary immutable GitHub source publication."
     },
