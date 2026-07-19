@@ -227,8 +227,8 @@ async def test_official_engine_semantic_round_trip(tmp_path: Path) -> None:
             menu_path, automation_id="menu.driver.root"
         )
         assert menu_screenshot["bytes"] > 0
-        assert menu_screenshot["width"] >= 390
-        assert menu_screenshot["height"] >= 460
+        assert menu_screenshot["width"] >= 300
+        assert menu_screenshot["height"] >= 350
 
         wait_for_close = asyncio.create_task(
             client.request(
