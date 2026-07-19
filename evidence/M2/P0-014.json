@@ -3,8 +3,8 @@
   "task_id": "P0-014",
   "milestone": "M2",
   "status": "verified",
-  "git_revision": "07a642f3d225df4e43c5493d58b020e92ae9efe2",
-  "recorded_at_utc": "2026-07-19T16:06:31Z",
+  "git_revision": "30eeba5d640bb8b62d4480dd5fd64dc231270268",
+  "recorded_at_utc": "2026-07-19T16:11:31Z",
   "platform": {
     "os": "macOS Darwin 25.6.0",
     "architecture": "arm64"
@@ -122,7 +122,7 @@
     },
     {
       "path": "reports/m0/summary.json",
-      "sha256": "0f5a5a37696e6f1a9a32c54f5ab42bd3352158fd9357f429004980cb36132d9c"
+      "sha256": "be375d814a653cc44bd7cd543f93434aabe8f708117247329d24525851315470"
     },
     {
       "path": "/tmp/p0-014-carriageway-markings.avi",
