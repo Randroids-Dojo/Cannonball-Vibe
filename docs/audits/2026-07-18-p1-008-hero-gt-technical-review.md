@@ -85,6 +85,13 @@ promotion gate now removes only `unique_id` attributes, compares the normalized
 scene from independent import caches, and ships that deterministic generated
 scene instead of the cache-specific binary import.
 
+The same engine-local IDs were reintroduced when the exporter converted the
+tracked text scenes back to binary scenes. The project now disables that
+optional conversion so release PCKs carry the reviewed, deterministic text
+resources directly. Godot still loads those native text resources at runtime;
+the tradeoff is a small increase in PCK size in exchange for reproducible and
+auditable scene bytes.
+
 ## Remaining human boundary
 
 P1-008 remains `in_progress`. Q-020 still requires the project owner to select

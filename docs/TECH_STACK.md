@@ -231,7 +231,9 @@ GT: checksum-locked Blender source, a deterministic GLB, a project-owned C# rig
 adapter, an official-importer scene normalized to remove only non-semantic node
 IDs, three declared LODs, explicit collision and damage anchors, chase and
 cockpit cameras, and a selectable graybox fallback. The GLB remains a build
-artifact; releases ship the checked deterministic generated scene. Its
+artifact; releases ship the checked deterministic generated scene. Release
+exports keep native text scenes instead of reserializing them to cache-specific
+binary scene IDs, preserving auditable and reproducible PCK bytes. Its
 technical baseline is documented in
 [the 2026-07-18 review](audits/2026-07-18-p1-008-hero-gt-technical-review.md);
 Q-020 still owns final art direction and exact rights approval.
