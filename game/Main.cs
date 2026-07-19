@@ -2,6 +2,7 @@ using Cannonball.Core.Content;
 using Cannonball.Core.Routes;
 using Cannonball.Core.Runs;
 using Cannonball.Core.Saves;
+using Cannonball.Core.Simulation;
 using Cannonball.Core.Telemetry;
 using Cannonball.Game.Automation;
 using Cannonball.Game.UI;
@@ -29,6 +30,7 @@ public sealed partial class Main : Node3D
     private WorldStreamer _streamer = null!;
     private CannonballVehicle _vehicle = null!;
     private PrototypeHud _hud = null!;
+    private TripMapHud _tripMap = null!;
     private JsonRunStateRepository _saves = null!;
     private JsonlTelemetrySink _telemetry = null!;
     private RouteContentPackage _package = null!;
@@ -50,6 +52,8 @@ public sealed partial class Main : Node3D
     private bool _vehicleVisualReview;
     private bool _roadVisualProfile;
     private bool _roadVisualReview;
+    private bool _tripMapReview;
+    private bool _tripMapToggleHeld;
     private bool _roadVisualProfileComplete;
     private bool _longRouteProfile;
     private bool _shutdownStarted;
@@ -115,6 +119,8 @@ public sealed partial class Main : Node3D
     private bool _resumeVerify;
     private double _elapsedSecondsBase;
     private ulong _sessionStartedTicks;
+    private ulong _tripMapPauseStartedTicks;
+    private double _tripMapPausedSeconds;
     private ulong _runSeed = 20_260_714;
     private double _cash = 25_000;
     private VehicleCondition _vehicleCondition = new(82, 1, 1, 1, 0);
@@ -167,6 +173,7 @@ public sealed partial class Main : Node3D
     {
         try
         {
+            ProcessMode = ProcessModeEnum.Always;
             var arguments = OS.GetCmdlineUserArgs();
             var routePath = RequiredArgument(arguments, "--route-package");
             var requestedProbeMiles = OptionalPositiveDouble(arguments, "--distance-miles");
@@ -213,11 +220,12 @@ public sealed partial class Main : Node3D
             _vehicleVisualReview = arguments.Contains("--vehicle-visual-review", StringComparer.Ordinal);
             _roadVisualProfile = arguments.Contains("--road-visual-profile", StringComparer.Ordinal);
             _roadVisualReview = arguments.Contains("--road-visual-review", StringComparer.Ordinal);
+            _tripMapReview = arguments.Contains("--trip-map-review", StringComparer.Ordinal);
             _smokeTest = _smokeTest || _stressTest || _shortCorridorSoak || _renderIntegrity ||
                 _geographicReview || _streamingProfile || _topologyProfile || _topologyReview ||
                 _routeChoiceProfile || _routeContextProfile || _routeContextReview ||
                 _vehicleVisualProfile || _vehicleVisualReview || _roadVisualProfile ||
-                _roadVisualReview || _longRouteProfile || _resumeVerify;
+                _roadVisualReview || _tripMapReview || _longRouteProfile || _resumeVerify;
             _smokeTargetFrames = _stressTest || _shortCorridorSoak ? 3_600 : 360;
             if (_renderIntegrity)
             {
@@ -255,6 +263,10 @@ public sealed partial class Main : Node3D
             {
                 _smokeTargetFrames = 1_200;
             }
+            if (_tripMapReview)
+            {
+                _smokeTargetFrames = 1_200;
+            }
 
             var absoluteRoutePath = Path.GetFullPath(routePath);
             var sourcePackage = FlatBufferRouteContent.Load(absoluteRoutePath);
@@ -270,7 +282,7 @@ public sealed partial class Main : Node3D
                 _chunkSource = _longRouteFixture.Source;
             }
             else if (_routeChoiceProfile || _routeContextProfile || _routeContextReview ||
-                _roadVisualProfile || _roadVisualReview)
+                _roadVisualProfile || _roadVisualReview || _tripMapReview)
             {
                 _interchangeFixture = RepresentativeInterchangeFixture.Create(sourcePackage);
                 _package = _interchangeFixture.Package;
@@ -282,7 +294,7 @@ public sealed partial class Main : Node3D
                 _package = _topologyOverlay.Package;
             }
             if (!_routeChoiceProfile && !_routeContextProfile && !_routeContextReview &&
-                !_roadVisualProfile && !_roadVisualReview && !_longRouteProfile)
+                !_roadVisualProfile && !_roadVisualReview && !_tripMapReview && !_longRouteProfile)
             {
                 _chunkSource = new VerifiedFileChunkSource(
                     _package,
@@ -317,7 +329,7 @@ public sealed partial class Main : Node3D
                     ? resumedPlan
                     : _interchangeFixture.Plans[
                         _routeContextProfile || _routeContextReview ||
-                            _roadVisualProfile || _roadVisualReview
+                            _roadVisualProfile || _roadVisualReview || _tripMapReview
                             ? RepresentativeInterchangeFixture.TransferPlanId
                             : RouteChoicePlanOrder[0]];
             ConfigureRuntimeWorld(initialRoutePlan, resumedSave);
@@ -348,6 +360,14 @@ public sealed partial class Main : Node3D
             }
             _hud = new PrototypeHud { Name = "PrototypeHud" };
             AddChild(_hud);
+            _hud.TripOverviewRequested += OpenTripMap;
+            _tripMap = new TripMapHud { Name = "TripMapHud" };
+            AddChild(_tripMap);
+            _tripMap.Closed += OnTripMapClosed;
+            if (_tripMapReview)
+            {
+                CallDeferred(MethodName.OpenTripMap);
+            }
 
             _telemetry = new JsonlTelemetrySink(
                 ProjectSettings.GlobalizePath("user://telemetry/prototype.jsonl"));
@@ -356,7 +376,7 @@ public sealed partial class Main : Node3D
                 !_topologyProfile && !_topologyReview && !_routeChoiceProfile &&
                 !_routeContextProfile && !_routeContextReview && !_vehicleVisualProfile &&
                 !_vehicleVisualReview && !_roadVisualProfile && !_roadVisualReview &&
-                !_longRouteProfile;
+                !_tripMapReview && !_longRouteProfile;
             if (resumedSave is not null)
             {
                 _vehicle.SetAssistProfile(resumedSave.Run.AssistProfile);
@@ -445,8 +465,31 @@ public sealed partial class Main : Node3D
 
     public override void _Process(double delta)
     {
-        if (_streamer is null || _vehicle is null || _hud is null)
+        if (_streamer is null || _vehicle is null || _hud is null || _tripMap is null)
         {
+            return;
+        }
+
+        var tripMapTogglePressed = Godot.Input.IsActionPressed("toggle_trip_map");
+        if (tripMapTogglePressed && !_tripMapToggleHeld)
+        {
+            if (_tripMap.IsOpen)
+            {
+                _tripMap.Close();
+            }
+            else
+            {
+                OpenTripMap();
+            }
+        }
+        _tripMapToggleHeld = tripMapTogglePressed;
+        if (_tripMap.IsOpen)
+        {
+            if (_tripMapReview && !_shutdownStarted && ++_smokeFrames >= _smokeTargetFrames)
+            {
+                _shutdownStarted = true;
+                GetTree().Quit();
+            }
             return;
         }
 
@@ -1600,8 +1643,7 @@ public sealed partial class Main : Node3D
             Seed: _runSeed,
             Position: position,
             RoutePlan: _streamer.RoutePlan,
-            ElapsedSeconds: _elapsedSecondsBase +
-                (Time.GetTicksMsec() - _sessionStartedTicks) / 1000.0,
+            ElapsedSeconds: CaptureElapsedSeconds(),
             Cash: _cash,
             Vehicle: _vehicleCondition,
             Enforcement: _enforcement,
@@ -2802,10 +2844,30 @@ public sealed partial class Main : Node3D
         AddKeyAction("reset_vehicle", Key.R);
         AddKeyAction("suspend_run", Key.F5);
         AddKeyAction("cycle_assist", Key.Tab);
+        AddKeyAction("toggle_trip_map", Key.M);
+        AddKeyAction("trip_map_pan_left", Key.Left);
+        AddKeyAction("trip_map_pan_right", Key.Right);
+        AddKeyAction("trip_map_pan_up", Key.Up);
+        AddKeyAction("trip_map_pan_down", Key.Down);
+        AddKeyAction("trip_map_zoom_in", Key.Equal);
+        AddKeyAction("trip_map_zoom_out", Key.Minus);
+        AddKeyAction("trip_map_recenter", Key.C);
+        AddKeyAction("trip_map_previous", Key.Pageup);
+        AddKeyAction("trip_map_next", Key.Pagedown);
         AddJoyAxisAction("accelerate", JoyAxis.TriggerRight, 1);
         AddJoyAxisAction("brake", JoyAxis.TriggerLeft, 1);
         AddJoyAxisAction("steer_left", JoyAxis.LeftX, -1);
         AddJoyAxisAction("steer_right", JoyAxis.LeftX, 1);
+        AddJoyButtonAction("toggle_trip_map", JoyButton.Back);
+        AddJoyButtonAction("trip_map_pan_left", JoyButton.DpadLeft);
+        AddJoyButtonAction("trip_map_pan_right", JoyButton.DpadRight);
+        AddJoyButtonAction("trip_map_pan_up", JoyButton.DpadUp);
+        AddJoyButtonAction("trip_map_pan_down", JoyButton.DpadDown);
+        AddJoyButtonAction("trip_map_zoom_in", JoyButton.RightShoulder);
+        AddJoyButtonAction("trip_map_zoom_out", JoyButton.LeftShoulder);
+        AddJoyButtonAction("trip_map_recenter", JoyButton.LeftStick);
+        AddJoyButtonAction("trip_map_previous", JoyButton.X);
+        AddJoyButtonAction("trip_map_next", JoyButton.A);
     }
 
     private static void AddKeyAction(StringName action, Key key)
@@ -2824,6 +2886,57 @@ public sealed partial class Main : Node3D
             InputMap.AddAction(action, 0.12f);
         }
         InputMap.ActionAddEvent(action, new InputEventJoypadMotion { Axis = axis, AxisValue = axisValue });
+    }
+
+    private static void AddJoyButtonAction(StringName action, JoyButton button)
+    {
+        if (!InputMap.HasAction(action))
+        {
+            InputMap.AddAction(action, 0.12f);
+        }
+        InputMap.ActionAddEvent(action, new InputEventJoypadButton { ButtonIndex = button });
+    }
+
+    private void OpenTripMap()
+    {
+        try
+        {
+            var state = TripMapProjector.Project(
+                _package,
+                _streamer.CurrentEdgeId,
+                _streamer.CurrentEdgeDistanceMeters,
+                _streamer.RoutePlan,
+                _vehicle.AssistProfile,
+                _vehicle.SpeedMetersPerSecond);
+            _tripMapPauseStartedTicks = Time.GetTicksMsec();
+            _tripMap.Open(state);
+        }
+        catch (Exception exception)
+        {
+            GD.PushError($"Trip map could not open: {exception.Message}");
+        }
+    }
+
+    private void OnTripMapClosed()
+    {
+        if (_tripMapPauseStartedTicks == 0)
+        {
+            return;
+        }
+        _tripMapPausedSeconds +=
+            (Time.GetTicksMsec() - _tripMapPauseStartedTicks) / 1000.0;
+        _tripMapPauseStartedTicks = 0;
+    }
+
+    private double CaptureElapsedSeconds()
+    {
+        var pausedSeconds = _tripMapPausedSeconds;
+        if (_tripMapPauseStartedTicks != 0)
+        {
+            pausedSeconds += (Time.GetTicksMsec() - _tripMapPauseStartedTicks) / 1000.0;
+        }
+        return _elapsedSecondsBase +
+            Math.Max(0, (Time.GetTicksMsec() - _sessionStartedTicks) / 1000.0 - pausedSeconds);
     }
 
     private sealed record TransportProbeResult(

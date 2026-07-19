@@ -5,6 +5,8 @@ namespace Cannonball.Game.UI;
 
 public sealed partial class PrototypeHud : CanvasLayer
 {
+    public event Action? TripOverviewRequested;
+
     private Label _speed = null!;
     private Label _distance = null!;
     private Label _streaming = null!;
@@ -28,7 +30,7 @@ public sealed partial class PrototypeHud : CanvasLayer
         _distance = CreateLabel("Distance", "hud.distance", new Vector2(44, 112), 18);
         _streaming = CreateLabel("Streaming", "hud.streaming", new Vector2(44, 140), 14);
         var help = CreateLabel("Help", "hud.help", new Vector2(24, 1030), 16);
-        help.Text = "W / RT accelerate   S / LT brake   A D / stick steer   R reset   TAB assist   ESC menu   F5 suspend";
+        help.Text = "W / RT accelerate   S / LT brake   A D / stick steer   M / SELECT trip map (pauses)   R reset   TAB assist   ESC menu   F5 suspend";
         CreateDriverMenu();
     }
 
@@ -104,9 +106,9 @@ public sealed partial class PrototypeHud : CanvasLayer
         CreateMenuButton(
             "TripOverview",
             "menu.driver.trip-overview",
-            "TRIP OVERVIEW",
+            "TRIP OVERVIEW (PAUSES)",
             382,
-            () => SetMenuStatus("Trip overview selected"));
+            OpenTripOverview);
 
         _menuStatus = CreateMenuLabel(
             "DriverMenuStatus",
@@ -191,6 +193,12 @@ public sealed partial class PrototypeHud : CanvasLayer
     {
         _menuStatus.Text = status;
         SetDriverMenuState(true, status);
+    }
+
+    private void OpenTripOverview()
+    {
+        SetDriverMenuOpen(false);
+        TripOverviewRequested?.Invoke();
     }
 
     private void SetDriverMenuState(bool open, string status)

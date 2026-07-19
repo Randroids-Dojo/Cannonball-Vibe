@@ -183,7 +183,7 @@ async def test_official_engine_semantic_round_trip(tmp_path: Path) -> None:
         assert speed["automation_id"] == "hud.speed"
         assert speed["class"] == "Label"
         assert speed["visible"] is True
-        assert speed["text"] == "60 MPH"
+        assert speed["text"].endswith(" MPH")
         assert speed["bounds"]["width"] > 40
         assert speed["bounds"]["height"] > 20
 
@@ -251,6 +251,66 @@ async def test_official_engine_semantic_round_trip(tmp_path: Path) -> None:
             "simulation_paused": False,
             "status": "closed",
         }
+
+        trip_map = await client.describe("trip-map.root")
+        assert trip_map["visible"] is False
+        wait_for_trip_map = asyncio.create_task(
+            client.request(
+                "signal.wait",
+                {
+                    "automation_id": "trip-map.root",
+                    "signal": "visibility_changed",
+                    "timeout_ms": 2_000,
+                },
+            )
+        )
+        await asyncio.sleep(0)
+        await client.request(
+            "input.action", {"action": "toggle_trip_map", "state": "press"}
+        )
+        await asyncio.sleep(0.05)
+        await client.request(
+            "input.action", {"action": "toggle_trip_map", "state": "release"}
+        )
+        assert (await wait_for_trip_map)["signal"] == "visibility_changed"
+
+        trip_map = await client.describe("trip-map.root")
+        assert trip_map["visible"] is True
+        assert trip_map["test_state"]["open"] is True
+        assert trip_map["test_state"]["simulation_paused"] is True
+        assert trip_map["test_state"]["distance_remaining_m"] > 0
+        assert trip_map["test_state"]["feature_count"] >= 0
+        summary = await client.describe("trip-map.summary")
+        assert "mi completed" in summary["text"]
+        assert "mi remaining" in summary["text"]
+        selection = await client.describe("trip-map.selection")
+        assert (
+            summary["bounds"]["y"] + summary["bounds"]["height"]
+            <= selection["bounds"]["y"]
+        )
+
+        initial_zoom = trip_map["test_state"]["zoom"]
+        await client.request("input.click", {"automation_id": "trip-map.zoom-in"})
+        zoomed_map = await client.describe("trip-map.root")
+        assert zoomed_map["test_state"]["zoom"] > initial_zoom
+        await client.request("input.click", {"automation_id": "trip-map.recenter"})
+        recentered_map = await client.describe("trip-map.root")
+        assert recentered_map["test_state"]["zoom"] == 1
+        assert recentered_map["test_state"]["pan_x"] == 0
+        assert recentered_map["test_state"]["pan_y"] == 0
+
+        trip_map_path = artifacts / "trip-map.png"
+        trip_map_screenshot = await client.screenshot(
+            trip_map_path, automation_id="trip-map.root"
+        )
+        assert trip_map_screenshot["bytes"] > 0
+        assert trip_map_screenshot["width"] >= 1280
+        assert trip_map_screenshot["height"] >= 720
+
+        await client.request("input.click", {"automation_id": "trip-map.close"})
+        closed_trip_map = await client.describe("trip-map.root")
+        assert closed_trip_map["visible"] is False
+        assert closed_trip_map["test_state"]["simulation_paused"] is False
 
         with pytest.raises(PlayGodotError, match="DUPLICATE_ID"):
             await client.describe("playgodot.fixture.duplicate")

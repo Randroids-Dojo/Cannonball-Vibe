@@ -217,6 +217,14 @@ public static class RepresentativeInterchangeFixture
         var exits = BuildExits(provenance);
         var milepointAnchors = BuildMilepointAnchors(provenance);
         var roadsideMarkers = BuildRoadsideMarkers(provenance);
+        var mapGeometry = built
+            .SelectMany(item => new[]
+            {
+                BuildMapGeometry(item, lod: 0, stride: 1),
+                BuildMapGeometry(item, lod: 1, stride: 4),
+                BuildMapGeometry(item, lod: 2, stride: int.MaxValue),
+            })
+            .ToArray();
         var semantics = new RouteSemanticContent(
             built.Select(item => item.Section).ToArray(),
             connectors,
@@ -224,7 +232,7 @@ public static class RepresentativeInterchangeFixture
             exits,
             milepointAnchors,
             roadsideMarkers,
-            [],
+            mapGeometry,
             false);
 
         var decisionChunks = new[]
@@ -580,6 +588,33 @@ public static class RepresentativeInterchangeFixture
         var root = RouteChunkBuffer.Pack(builder, data);
         RouteChunkBuffer.FinishRouteChunkBufferBuffer(builder, root);
         return builder.SizedByteArray();
+    }
+
+    private static SimplifiedMapGeometry BuildMapGeometry(
+        BuiltEdge built,
+        int lod,
+        int stride)
+    {
+        var selected = new List<RouteChunkSample> { built.Samples[0] };
+        if (stride != int.MaxValue)
+        {
+            for (var index = stride; index < built.Samples.Count - 1; index += stride)
+            {
+                selected.Add(built.Samples[index]);
+            }
+        }
+        selected.Add(built.Samples[^1]);
+        var points = selected
+            .Select(sample => new Cannonball.Core.Routes.SimplifiedMapPoint(
+                sample.ProjectedXMeters,
+                sample.ProjectedYMeters,
+                sample.DistanceMeters))
+            .ToArray();
+        return new SimplifiedMapGeometry(
+            built.Edge.Id,
+            lod,
+            points,
+            RouteSemanticsCompatibility.ComputeMapGeometryHash(built.Edge.Id, lod, points));
     }
 
     private static IReadOnlyList<RouteNode> BuildNodes(IReadOnlyList<RouteEdge> edges)
