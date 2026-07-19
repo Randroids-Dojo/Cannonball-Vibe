@@ -39,7 +39,8 @@ const wrapperPresent = paths.some((value) => value.endsWith(`/${assetId}.tscn`) 
 const escapedAssetId = assetId.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 const importedPattern = new RegExp(`(^|/)\\.godot/imported/${escapedAssetId}\\.glb-[0-9a-f]+\\.scn$`, "i");
 const visualAssetPresent = assetId === "hero-gt"
-  ? paths.some((value) => value.endsWith("/hero-gt.generated.tscn.remap") ||
+  ? paths.some((value) => value.endsWith("/hero-gt.generated.tscn") ||
+      value.endsWith("/hero-gt.generated.tscn.remap") ||
       /(^|\/)\.godot\/exported\/[0-9]+\/export-[0-9a-f]+-hero-gt\.generated\.scn$/i.test(value))
   : paths.some((value) => importedPattern.test(value));
 if (!wrapperPresent || !visualAssetPresent) throw new Error("Release pack is missing the wrapper or generated visual asset");

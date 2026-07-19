@@ -97,6 +97,11 @@ completed reproducibly, then returned the false Windows-target predicate as its
 process status. The platform dispatch now uses explicit conditionals so a
 successful single-platform build exits successfully.
 
+The asset-specific PCK audit accepts the deterministic generated `.tscn`
+directly as well as the engine's binary/remap forms. It continues to require
+both the project-owned wrapper and generated visual while rejecting Blender,
+data-manifest, and tooling inputs.
+
 ## Remaining human boundary
 
 P1-008 remains `in_progress`. Q-020 still requires the project owner to select
