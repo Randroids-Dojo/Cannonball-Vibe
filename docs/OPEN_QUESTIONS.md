@@ -5,8 +5,9 @@ architecture, validation, or release. Defaults permit progress; they are not
 final answers. Close a question by recording evidence and linking the resulting
 ADR, GDD decision, or delivery-ledger change.
 
-The current multiple-choice handoff for Q-020 through Q-022 is
-[QUESTIONS_FOR_RANDROID_2026-07-18_AUTONOMOUS.md](QUESTIONS_FOR_RANDROID_2026-07-18_AUTONOMOUS.md).
+The current multiple-choice handoffs are
+[Q-020 through Q-022](QUESTIONS_FOR_RANDROID_2026-07-18_AUTONOMOUS.md) and
+[Q-024](QUESTIONS_FOR_RANDROID_2026-07-18_HIGHWAY_KIT.md).
 
 | ID | Priority | Blocking milestone | Owner | Question | Working default | Evidence required |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -26,6 +27,7 @@ The current multiple-choice handoff for Q-020 through Q-022 is
 | Q-020 | P1 | M5 | Art + production | What original fictional grand tourer design and acquisition path should define the first production vehicle? | Build or commission one unbranded modern grand tourer around the P1-008 semantic rig; permit clearly licensed temporary assets only as pipeline fixtures. | Concept comparison, rig and budget fit, transformation effort, redistribution rights, and human art-direction approval. |
 | Q-021 | P1 | M5 | Art + product | Which 300–500 mile region and visual language should define the representative vertical slice? | Extend the Colorado Front Range proof corridor into a varied mountain-to-plains region while keeping region selection data-driven. | Route-system coverage, environmental variety, source and asset availability, performance captures, and human mood/readability review. |
 | Q-022 | P1 | M5 | Runtime + art | What target hardware and quantitative budgets should production vehicle, road, terrain, vegetation, materials, and textures meet? | Enforce provisional static and memory budgets in CI, collect renderer budgets on declared available Windows hardware, then ratify them against the selected representative region and minimum target PC. | CPU/GPU frame-time percentiles, memory high-water, streaming latency, draw calls, triangles, material/texture residency, and LOD quality comparisons. |
+| Q-024 | P1 | M5 | Art + product | Which production highway visual language should govern roads, signs, structures, and roadside assets? | Use contemporary Colorado freeway realism as a reference-informed technical baseline without claiming regulatory compliance. | Representative ordinary-road, lane-change, exit, gore, bridge/overpass, and transfer captures in daylight and night, plus human readability, art-direction, and rights approval. |
 
 ## Recently resolved
 

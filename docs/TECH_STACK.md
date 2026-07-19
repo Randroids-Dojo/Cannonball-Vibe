@@ -238,6 +238,19 @@ technical baseline is documented in
 [the 2026-07-18 review](audits/2026-07-18-p1-008-hero-gt-technical-review.md);
 Q-020 still owns final art direction and exact rights approval.
 
+P1-009 now exercises the same boundary for highway visuals. The procedural road
+generator consumes one shared `RoadVisualKit` with production and graybox
+profiles, semantic metadata, 18 shared materials, five shared meshes, and
+reusable instances for markings, reflectors, barriers, guardrails, posts, route
+shields, exit-only panels, and service panels. Its deterministic road-visual
+scenario traverses every route-context waypoint, while the aggregate verifier
+also runs the variable-lane/gore topology and all representative interchange
+route choices. The current standards research and explicit non-compliance
+boundary are recorded in
+[the modern highway visual baseline](research/2026-07-18-modern-highway-visual-standards.md).
+Q-024 owns the final visual language; Q-022 still owns renderer and target-PC
+budgets.
+
 Far scenery and future far traffic use `MultiMesh`; only near traffic receives
 physics bodies. Deterministic renderer contact sheets and driving captures
 supplement quantitative asset gates. Computer Use may inspect the real editor

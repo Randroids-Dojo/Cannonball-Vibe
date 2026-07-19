@@ -48,6 +48,9 @@ public sealed partial class Main : Node3D
     private bool _routeContextReview;
     private bool _vehicleVisualProfile;
     private bool _vehicleVisualReview;
+    private bool _roadVisualProfile;
+    private bool _roadVisualReview;
+    private bool _roadVisualProfileComplete;
     private bool _longRouteProfile;
     private bool _shutdownStarted;
     private int _smokeFrames;
@@ -207,10 +210,13 @@ public sealed partial class Main : Node3D
             _routeContextReview = arguments.Contains("--sign-review", StringComparer.Ordinal);
             _vehicleVisualProfile = arguments.Contains("--vehicle-visual-profile", StringComparer.Ordinal);
             _vehicleVisualReview = arguments.Contains("--vehicle-visual-review", StringComparer.Ordinal);
+            _roadVisualProfile = arguments.Contains("--road-visual-profile", StringComparer.Ordinal);
+            _roadVisualReview = arguments.Contains("--road-visual-review", StringComparer.Ordinal);
             _smokeTest = _smokeTest || _stressTest || _shortCorridorSoak || _renderIntegrity ||
                 _geographicReview || _streamingProfile || _topologyProfile || _topologyReview ||
                 _routeChoiceProfile || _routeContextProfile || _routeContextReview ||
-                _vehicleVisualProfile || _vehicleVisualReview || _longRouteProfile || _resumeVerify;
+                _vehicleVisualProfile || _vehicleVisualReview || _roadVisualProfile ||
+                _roadVisualReview || _longRouteProfile || _resumeVerify;
             _smokeTargetFrames = _stressTest || _shortCorridorSoak ? 3_600 : 360;
             if (_renderIntegrity)
             {
@@ -244,6 +250,10 @@ public sealed partial class Main : Node3D
             {
                 _smokeTargetFrames = 1_200;
             }
+            if (_roadVisualProfile || _roadVisualReview)
+            {
+                _smokeTargetFrames = 1_200;
+            }
 
             var absoluteRoutePath = Path.GetFullPath(routePath);
             var sourcePackage = FlatBufferRouteContent.Load(absoluteRoutePath);
@@ -258,7 +268,8 @@ public sealed partial class Main : Node3D
                 _package = _longRouteFixture.Package;
                 _chunkSource = _longRouteFixture.Source;
             }
-            else if (_routeChoiceProfile || _routeContextProfile || _routeContextReview)
+            else if (_routeChoiceProfile || _routeContextProfile || _routeContextReview ||
+                _roadVisualProfile || _roadVisualReview)
             {
                 _interchangeFixture = RepresentativeInterchangeFixture.Create(sourcePackage);
                 _package = _interchangeFixture.Package;
@@ -270,7 +281,7 @@ public sealed partial class Main : Node3D
                 _package = _topologyOverlay.Package;
             }
             if (!_routeChoiceProfile && !_routeContextProfile && !_routeContextReview &&
-                !_longRouteProfile)
+                !_roadVisualProfile && !_roadVisualReview && !_longRouteProfile)
             {
                 _chunkSource = new VerifiedFileChunkSource(
                     _package,
@@ -304,7 +315,8 @@ public sealed partial class Main : Node3D
                         out var resumedPlan)
                     ? resumedPlan
                     : _interchangeFixture.Plans[
-                        _routeContextProfile || _routeContextReview
+                        _routeContextProfile || _routeContextReview ||
+                            _roadVisualProfile || _roadVisualReview
                             ? RepresentativeInterchangeFixture.TransferPlanId
                             : RouteChoicePlanOrder[0]];
             ConfigureRuntimeWorld(initialRoutePlan, resumedSave);
@@ -323,7 +335,7 @@ public sealed partial class Main : Node3D
                 };
                 AddChild(_topologyDiagnosticCamera);
             }
-            if (_routeContextReview)
+            if (_routeContextReview || _roadVisualReview)
             {
                 _routeContextDiagnosticCamera = new Camera3D
                 {
@@ -342,7 +354,8 @@ public sealed partial class Main : Node3D
             _vehicle.AutopilotEnabled = _smokeTest && !_renderIntegrity && !_streamingProfile &&
                 !_topologyProfile && !_topologyReview && !_routeChoiceProfile &&
                 !_routeContextProfile && !_routeContextReview && !_vehicleVisualProfile &&
-                !_vehicleVisualReview && !_longRouteProfile;
+                !_vehicleVisualReview && !_roadVisualProfile && !_roadVisualReview &&
+                !_longRouteProfile;
             if (resumedSave is not null)
             {
                 _vehicle.SetAssistProfile(resumedSave.Run.AssistProfile);
@@ -377,7 +390,8 @@ public sealed partial class Main : Node3D
             {
                 BeginNextRouteChoiceTransition();
             }
-            if (_routeContextProfile || _routeContextReview)
+            if (_routeContextProfile || _routeContextReview || _roadVisualProfile ||
+                _roadVisualReview)
             {
                 ConfigureRouteContextReviewPoints();
                 BeginNextRouteContextReviewPoint();
@@ -484,7 +498,9 @@ public sealed partial class Main : Node3D
         {
             AdvanceRouteChoiceProfile();
         }
-        if ((_routeContextProfile || _routeContextReview) && !_routeContextProfileComplete)
+        if ((_routeContextProfile || _routeContextReview || _roadVisualProfile ||
+                _roadVisualReview) &&
+            !_routeContextProfileComplete)
         {
             try
             {
@@ -503,6 +519,20 @@ public sealed partial class Main : Node3D
             try
             {
                 _vehicleVisualScenario.Advance();
+            }
+            catch (Exception exception)
+            {
+                GD.PushError(exception.ToString());
+                _shutdownStarted = true;
+                GetTree().Quit(1);
+                return;
+            }
+        }
+        if ((_roadVisualProfile || _roadVisualReview) && !_roadVisualProfileComplete)
+        {
+            try
+            {
+                AdvanceRoadVisualProfile();
             }
             catch (Exception exception)
             {
@@ -557,8 +587,11 @@ public sealed partial class Main : Node3D
             _streamer.RouteDistanceMeters >= Math.Min(300, _streamer.TotalRouteLengthMeters - 35);
         if (_smokeFrames >= _smokeTargetFrames || renderTraversalComplete ||
             _geographicReviewComplete || _streamingProfileComplete || _topologyProfileComplete ||
-            _routeChoiceProfileComplete || _routeContextProfileComplete || _longRouteComplete ||
-            _vehicleVisualScenario is { Complete: true })
+            _routeChoiceProfileComplete ||
+            (_routeContextProfileComplete && !_roadVisualProfile && !_roadVisualReview) ||
+            _longRouteComplete ||
+            _vehicleVisualScenario is { Complete: true } ||
+            (_roadVisualProfileComplete && _routeContextProfileComplete))
         {
             _shutdownStarted = true;
             _ = PersistAsync(quitAfterSave: true);
@@ -1476,9 +1509,15 @@ public sealed partial class Main : Node3D
             {
                 ValidateRouteChoiceProfile();
             }
-            if (quitAfterSave && (_routeContextProfile || _routeContextReview))
+            if (quitAfterSave &&
+                (_routeContextProfile || _routeContextReview || _roadVisualProfile ||
+                    _roadVisualReview))
             {
                 ValidateRouteContextProfile();
+            }
+            if (quitAfterSave && (_roadVisualProfile || _roadVisualReview))
+            {
+                ValidateRoadVisualProfile();
             }
             if (quitAfterSave && _longRouteProfile)
             {
@@ -2005,7 +2044,7 @@ public sealed partial class Main : Node3D
         }
 
         _routeContextStableFrames++;
-        if (_routeContextReview)
+        if (_routeContextReview || _roadVisualReview)
         {
             AdvanceRouteContextCamera(point);
             return;
@@ -2046,7 +2085,7 @@ public sealed partial class Main : Node3D
 
     private void CompleteRouteContextReviewPoint(RouteContextReviewPoint point)
     {
-        if (_routeContextReview)
+        if (_routeContextReview || _roadVisualReview)
         {
             if (_routeContextDiagnosticCamera is null)
             {
@@ -2084,6 +2123,12 @@ public sealed partial class Main : Node3D
             $"of={_routeContextReviewPoints.Count} " +
             $"placements={string.Join(',', point.PlacementIds)} " +
             $"identities={string.Join(',', point.RouteIdentityIds)}");
+        if (_roadVisualProfile || _roadVisualReview)
+        {
+            GD.Print(
+                "CANNONBALL_ROAD_VISUAL_PROGRESS " +
+                JsonSerializer.Serialize(_streamer.CaptureRoadVisualSnapshot()));
+        }
         _routeContextReviewPointIndex++;
         BeginNextRouteContextReviewPoint();
     }
@@ -2163,6 +2208,63 @@ public sealed partial class Main : Node3D
             $"automation_nodes={_streamer.RouteContextAutomationIdsSeen.Count} " +
             $"max_visual_build_ms={_streamer.MaximumBuildMilliseconds:0.000} " +
             $"chunk_failures={_streamer.ChunkFailureCount}");
+    }
+
+    private void AdvanceRoadVisualProfile()
+    {
+        if (!_streamer.IsStreamingSettled)
+        {
+            return;
+        }
+        var snapshot = _streamer.CaptureRoadVisualSnapshot();
+        if (snapshot.RouteShieldCount < 2 || snapshot.ServiceIconCount < 2)
+        {
+            return;
+        }
+        ValidateRoadVisualSnapshot(snapshot);
+        _roadVisualProfileComplete = true;
+        GD.Print(
+            $"CANNONBALL_ROAD_VISUAL_OK profile={snapshot.ProfileId} " +
+            $"chunks={snapshot.ChunkCount} reflectors={snapshot.ReflectorCount} " +
+            $"barriers={snapshot.BarrierSegmentCount} " +
+            $"guardrails={snapshot.GuardrailSegmentCount} " +
+            $"shields={snapshot.RouteShieldCount} services={snapshot.ServiceIconCount} " +
+            $"gore_chunks={snapshot.GoreChunkCount} " +
+            $"shared_materials={snapshot.SharedMaterialCount} " +
+            $"shared_meshes={snapshot.SharedMeshCount} " +
+            $"retroreflective_materials={snapshot.RetroreflectiveMaterialCount}");
+    }
+
+    private void ValidateRoadVisualProfile()
+    {
+        if (!_roadVisualProfileComplete)
+        {
+            var incomplete = _streamer.CaptureRoadVisualSnapshot();
+            throw new InvalidOperationException(
+                "Road-visual profile did not resolve the production-kit contract: " +
+                JsonSerializer.Serialize(incomplete));
+        }
+        ValidateRoadVisualSnapshot(_streamer.CaptureRoadVisualSnapshot());
+    }
+
+    private static void ValidateRoadVisualSnapshot(RoadVisualSnapshot snapshot)
+    {
+        var expectedProfile = OS.GetCmdlineUserArgs().Contains(
+            "--graybox-road-assets",
+            StringComparer.Ordinal)
+            ? "graybox"
+            : "production";
+        if (snapshot.ProfileId != expectedProfile || snapshot.ChunkCount < 1 ||
+            !snapshot.AllContractsResolved || snapshot.ReflectorCount < 1 ||
+            snapshot.BarrierSegmentCount < 1 || snapshot.GuardrailSegmentCount < 1 ||
+            snapshot.RouteShieldCount < 2 || snapshot.ServiceIconCount < 2 ||
+            snapshot.SharedMaterialCount != 18 || snapshot.SharedMeshCount != 5 ||
+            snapshot.RetroreflectiveMaterialCount != 11)
+        {
+            throw new InvalidOperationException(
+                "Road-visual kit contract failed: " +
+                JsonSerializer.Serialize(snapshot));
+        }
     }
 
     private static string RouteContextAutomationId(

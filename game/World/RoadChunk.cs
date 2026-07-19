@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Cannonball.Core.Content;
 using Cannonball.Core.Routes;
+using Cannonball.Game.World.RoadVisuals;
 using Godot;
 
 namespace Cannonball.Game.World;
@@ -12,6 +13,7 @@ public sealed partial class RoadChunk : Node3D
     private ArrayMesh _collisionMesh = null!;
     private List<string>? _routeContextAutomationIds;
     private List<Label3D>? _routeContextLabels;
+    private RoadVisualKit _visualKit = null!;
 
     public string ChunkId { get; private set; } = string.Empty;
     public string EdgeId { get; private set; } = string.Empty;
@@ -27,8 +29,47 @@ public sealed partial class RoadChunk : Node3D
     public int MileMarkerCount { get; private set; }
     public int ExitSignCount { get; private set; }
     public int HighwayTransferSignCount { get; private set; }
+    public int RouteShieldCount { get; private set; }
+    public int ServiceIconCount { get; private set; }
+    public int ReflectorCount { get; private set; }
+    public int BarrierSegmentCount { get; private set; }
+    public int GuardrailSegmentCount { get; private set; }
+    public string RoadVisualProfileId => _visualKit.ProfileId;
     public IReadOnlyList<string> RouteContextAutomationIds =>
         _routeContextAutomationIds ?? [];
+
+    public RoadChunkVisualSnapshot CaptureRoadVisualSnapshot()
+    {
+        var requiredNodes = new[]
+        {
+            "TerrainShoulders", "PavedShoulders", "RoadSurface", "LaneMarkings",
+            "MedianReflectors", "LaneReflectors", "RoadBarriers", "Guardrails",
+            "GuardrailPosts", "RoadsidePosts", "TerrainScenery",
+        };
+        var resolved = requiredNodes
+            .Select(name => GetNodeOrNull<Node>(name))
+            .Where(node => node is not null)
+            .Cast<Node>()
+            .ToArray();
+        var semanticMetadataComplete = resolved.All(node =>
+            node.HasMeta("automation_id") &&
+            node.HasMeta("road_visual_kit") &&
+            node.GetMeta("road_visual_kit").AsString() == RoadVisualKit.Version);
+        return new RoadChunkVisualSnapshot(
+            ChunkId,
+            _visualKit.ProfileId,
+            resolved.Length == requiredNodes.Length && semanticMetadataComplete,
+            resolved.Length,
+            _visualKit.SharedMaterialCount,
+            _visualKit.SharedMeshCount,
+            _visualKit.RetroreflectiveMaterialCount,
+            ReflectorCount,
+            BarrierSegmentCount,
+            GuardrailSegmentCount,
+            RouteShieldCount,
+            ServiceIconCount,
+            HasGoreGeometry);
+    }
 
     public bool HasReviewGeometry()
     {
@@ -51,9 +92,12 @@ public sealed partial class RoadChunk : Node3D
         RouteEdge edge,
         RouteContextPlan? routeContextPlan,
         RouteFrame frame,
-        RouteWorldPoint localOriginWorld)
+        RouteWorldPoint localOriginWorld,
+        RoadVisualKit visualKit)
     {
+        ArgumentNullException.ThrowIfNull(visualKit);
         var chunk = new RoadChunk();
+        chunk._visualKit = visualKit;
         var started = Stopwatch.GetTimestamp();
         var anchor = frame.ToWorld(content.Samples[0]);
         var points = content.Samples
@@ -68,6 +112,8 @@ public sealed partial class RoadChunk : Node3D
             .Select(sample => LaneGeometryProfile.Evaluate(edge, sample.DistanceMeters))
             .ToArray();
         chunk.Name = $"RoadChunk-{content.Id}";
+        RoadVisualKit.MarkSemantic(chunk, $"road.visual.chunk.{content.Id}");
+        chunk.SetMeta("road_visual_profile", visualKit.ProfileId);
         chunk.ChunkId = content.Id;
         chunk.EdgeId = content.EdgeId;
         chunk.StartMeters = content.StartMeters;
@@ -84,6 +130,7 @@ public sealed partial class RoadChunk : Node3D
         chunk.BuildTerrain(points, tangents, content.Samples, layouts);
         chunk.BuildRoad(points, tangents, content.Samples, layouts);
         chunk.BuildLaneMarkings(points, tangents, content.Samples, layouts);
+        chunk.BuildReflectors(points, tangents, layouts);
         chunk.BuildGoreAreas(points, tangents, layouts);
         chunk.BuildBarriers(points, tangents, layouts);
         chunk.BuildScenery(points, tangents, layouts);
@@ -160,7 +207,7 @@ public sealed partial class RoadChunk : Node3D
                     $"route-context.transfer.{placement.Id}",
                 _ => throw new ArgumentOutOfRangeException(nameof(placement.Kind)),
             };
-            root.SetMeta("automation_id", automationId);
+            RoadVisualKit.MarkSemantic(root, automationId);
             root.SetMeta("edge_id", placement.EdgeId);
             root.SetMeta("edge_distance_meters", placement.DistanceMeters);
             root.SetMeta("route_identity_id", placement.RouteIdentityId);
@@ -198,26 +245,33 @@ public sealed partial class RoadChunk : Node3D
 
     private void BuildMileMarker(Node3D root, RouteContextPlacement placement)
     {
-        var boardMaterial = UnshadedMaterial(new Color("f4f5ef"));
-        root.AddChild(new MeshInstance3D
+        var board = new MeshInstance3D
         {
             Name = "MarkerBoard",
-            Position = new Vector3(0, 2.05f, 0),
-            Mesh = new BoxMesh { Size = new Vector3(1.8f, 2.5f, 0.12f) },
-            MaterialOverride = boardMaterial,
-        });
-        root.AddChild(new MeshInstance3D
+            Position = new Vector3(0, 1.65f, 0),
+            Mesh = new BoxMesh { Size = new Vector3(1.05f, 1.65f, 0.1f) },
+            MaterialOverride = _visualKit.SignWhite,
+        };
+        RoadVisualKit.MarkSemantic(
+            board,
+            $"{root.GetMeta("automation_id")}.board");
+        root.AddChild(board);
+        var post = new MeshInstance3D
         {
             Name = "MarkerPost",
-            Position = new Vector3(0, 0.8f, 0),
+            Position = new Vector3(0, 0.72f, 0),
             Mesh = new CylinderMesh
             {
-                TopRadius = 0.06f,
-                BottomRadius = 0.06f,
-                Height = 1.6f,
+                TopRadius = 0.045f,
+                BottomRadius = 0.045f,
+                Height = 1.44f,
             },
-            MaterialOverride = UnshadedMaterial(new Color("8b8e87")),
-        });
+            MaterialOverride = _visualKit.GalvanizedSteel,
+        };
+        RoadVisualKit.MarkSemantic(
+            post,
+            $"{root.GetMeta("automation_id")}.post");
+        root.AddChild(post);
         var direction = placement.SignedDirection.ToUpperInvariant();
         var routeText = placement.PrimaryText.EndsWith(
                 $" {direction}",
@@ -228,9 +282,9 @@ public sealed partial class RoadChunk : Node3D
             root,
             "MarkerText",
             $"{routeText}\n{direction}\n{placement.SecondaryText}",
-            new Vector3(0, 2.05f, -0.08f),
-            36,
-            0.008f,
+            new Vector3(0, 1.65f, -0.07f),
+            40,
+            0.0055f,
             new Color("101820"));
     }
 
@@ -242,22 +296,34 @@ public sealed partial class RoadChunk : Node3D
         var boardWidth = Math.Clamp((float)layout.PavedWidthMeters + 8, 18, 24);
         const float boardHeight = 9.2f;
         const float boardY = 10.8f;
-        root.AddChild(new MeshInstance3D
+        var rootId = root.GetMeta("automation_id").AsString();
+        var border = new MeshInstance3D
+        {
+            Name = "GuideBorder",
+            Position = new Vector3(0, boardY, 0),
+            Mesh = new BoxMesh { Size = new Vector3(boardWidth, boardHeight, 0.14f) },
+            MaterialOverride = _visualKit.SignWhite,
+        };
+        RoadVisualKit.MarkSemantic(border, $"{rootId}.border");
+        root.AddChild(border);
+        var board = new MeshInstance3D
         {
             Name = "GuideBoard",
-            Position = new Vector3(0, boardY, 0),
-            Mesh = new BoxMesh { Size = new Vector3(boardWidth, boardHeight, 0.18f) },
-            MaterialOverride = UnshadedMaterial(
-                placement.Kind == RouteContextPlacementKind.HighwayTransferSign
-                    ? new Color("174a91")
-                    : new Color("17613a")),
-        });
-        var postMaterial = UnshadedMaterial(new Color("a8adb0"));
-        foreach (var x in new[] { -boardWidth / 2 + 0.5f, boardWidth / 2 - 0.5f })
-        {
-            root.AddChild(new MeshInstance3D
+            Position = new Vector3(0, boardY, -0.03f),
+            Mesh = new BoxMesh
             {
-                Name = "GuidePost",
+                Size = new Vector3(boardWidth - 0.3f, boardHeight - 0.3f, 0.16f),
+            },
+            MaterialOverride = _visualKit.GuideGreen,
+        };
+        RoadVisualKit.MarkSemantic(board, $"{rootId}.board");
+        root.AddChild(board);
+        var postIndex = 0;
+        foreach (var x in new[] { -boardWidth / 2 + 0.7f, boardWidth / 2 - 0.7f })
+        {
+            var post = new MeshInstance3D
+            {
+                Name = postIndex == 0 ? "GuidePostLeft" : "GuidePostRight",
                 Position = new Vector3(x, boardY / 2, 0),
                 Mesh = new CylinderMesh
                 {
@@ -265,25 +331,254 @@ public sealed partial class RoadChunk : Node3D
                     BottomRadius = 0.16f,
                     Height = boardY,
                 },
-                MaterialOverride = postMaterial,
-            });
+                MaterialOverride = _visualKit.GalvanizedSteel,
+            };
+            RoadVisualKit.MarkSemantic(post, $"{rootId}.post.{postIndex}");
+            root.AddChild(post);
+            postIndex++;
         }
-        var destinationText = placement.SecondaryText.Replace(" / ", "\n", StringComparison.Ordinal);
-        var serviceText = placement.Services.Count == 0
-            ? string.Empty
-            : $"\nSERVICES: {string.Join("  ", placement.Services).ToUpperInvariant()}";
-        var routeShieldText = string.Join(
-            "  |  ",
-            placement.RouteShields.Select(shield => $"[{shield}]"));
+
+        AddSemanticLabel(
+            root,
+            "ExitNumber",
+            placement.PrimaryText.Replace(" // ", "   ", StringComparison.Ordinal),
+            new Vector3(0, boardY + 3.45f, -0.13f),
+            52,
+            0.014f,
+            Colors.White,
+            "exit-number",
+            trackDiagnostic: false);
+        var shieldSpacing = 4.4f;
+        var shieldStart = -(placement.RouteShields.Count - 1) * shieldSpacing / 2;
+        for (var index = 0; index < placement.RouteShields.Count; index++)
+        {
+            BuildRouteShield(
+                root,
+                placement.RouteShields[index],
+                index,
+                shieldStart + index * shieldSpacing,
+                boardY + 1.55f);
+        }
+
+        var destinationText = placement.SecondaryText.Replace(
+            " / ",
+            "\n",
+            StringComparison.Ordinal);
         AddRouteContextLabel(
             root,
             "GuideText",
-            $"{placement.PrimaryText}\n{routeShieldText}\n{destinationText}" +
-            $"\n{placement.LaneGuidance}{serviceText}",
-            new Vector3(0, boardY, -0.11f),
-            56,
-            0.018f,
+            destinationText,
+            new Vector3(0, boardY - 0.45f, -0.13f),
+            64,
+            0.016f,
             Colors.White);
+
+        var exitOnly = layout.Lanes.Any(lane =>
+            placement.LaneIds.Contains(lane.Id, StringComparer.Ordinal) &&
+            lane.Role == LaneRole.ExitOnly);
+        var laneText = placement.LaneGuidance +
+            (placement.LaneGuidance.StartsWith("RIGHT", StringComparison.Ordinal)
+                ? "   ↘"
+                : placement.LaneGuidance.StartsWith("LEFT", StringComparison.Ordinal)
+                    ? "   ↙"
+                    : "   ↓");
+        if (exitOnly)
+        {
+            var panel = new MeshInstance3D
+            {
+                Name = "ExitOnlyPanel",
+                Position = new Vector3(0, boardY - 3.45f, -0.13f),
+                Mesh = new BoxMesh
+                {
+                    Size = new Vector3(Math.Min(boardWidth - 0.8f, 10), 1.45f, 0.08f),
+                },
+                MaterialOverride = _visualKit.ExitOnlyYellow,
+            };
+            RoadVisualKit.MarkSemantic(panel, $"{rootId}.exit-only-panel");
+            root.AddChild(panel);
+            AddSemanticLabel(
+                root,
+                "LaneArrow",
+                $"EXIT ONLY   {laneText}",
+                new Vector3(0, boardY - 3.45f, -0.19f),
+                48,
+                0.012f,
+                new Color("111418"),
+                "lane-arrow",
+                trackDiagnostic: false);
+        }
+        else
+        {
+            AddSemanticLabel(
+                root,
+                "LaneArrow",
+                laneText,
+                new Vector3(0, boardY - 2.75f, -0.13f),
+                48,
+                0.012f,
+                Colors.White,
+                "lane-arrow",
+                trackDiagnostic: false);
+        }
+        BuildServiceIcons(root, placement.Services, boardWidth, boardY);
+    }
+
+    private void BuildRouteShield(
+        Node3D guideRoot,
+        string shieldText,
+        int index,
+        float x,
+        float y)
+    {
+        var normalized = shieldText.StartsWith("TO ", StringComparison.Ordinal)
+            ? shieldText[3..]
+            : shieldText;
+        var parts = normalized.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        var interstate = parts.Length > 0 &&
+            (string.Equals(parts[0], "I", StringComparison.Ordinal) ||
+                parts[0].StartsWith("I-", StringComparison.Ordinal));
+        var number = parts.Length == 0
+            ? normalized
+            : parts[0].StartsWith("I-", StringComparison.Ordinal)
+                ? parts[0][2..]
+                : parts.Length > 1
+                    ? parts[1]
+                    : parts[0];
+        var direction = parts.LastOrDefault(value => value is
+            "NORTH" or "SOUTH" or "EAST" or "WEST") ?? string.Empty;
+        var guideId = guideRoot.GetMeta("automation_id").AsString();
+        var shield = new Node3D
+        {
+            Name = $"RouteShield{index}",
+            Position = new Vector3(x, y, -0.14f),
+        };
+        RoadVisualKit.MarkSemantic(shield, $"{guideId}.shield.{index}");
+        guideRoot.AddChild(shield);
+        var backing = new MeshInstance3D
+        {
+            Name = "ShieldSilhouette",
+            Mesh = BuildShieldFaceMesh(interstate),
+            MaterialOverride = interstate
+                ? _visualKit.InterstateBlue
+                : _visualKit.SignWhite,
+        };
+        RoadVisualKit.MarkSemantic(backing, $"{guideId}.shield.{index}.silhouette");
+        shield.AddChild(backing);
+        if (interstate)
+        {
+            var header = new MeshInstance3D
+            {
+                Name = "InterstateHeader",
+                Position = new Vector3(0, 0.92f, -0.025f),
+                Mesh = new BoxMesh { Size = new Vector3(2.55f, 0.48f, 0.035f) },
+                MaterialOverride = _visualKit.InterstateRed,
+            };
+            RoadVisualKit.MarkSemantic(header, $"{guideId}.shield.{index}.header");
+            shield.AddChild(header);
+        }
+        AddSemanticLabel(
+            shield,
+            "ShieldSystem",
+            interstate ? "INTERSTATE" : "US",
+            new Vector3(0, 0.86f, -0.045f),
+            interstate ? 24 : 30,
+            0.007f,
+            interstate ? Colors.White : new Color("111418"),
+            "system",
+            trackDiagnostic: false);
+        AddSemanticLabel(
+            shield,
+            "ShieldNumber",
+            number,
+            new Vector3(0, -0.02f, -0.045f),
+            64,
+            0.013f,
+            interstate ? Colors.White : new Color("111418"),
+            "number",
+            trackDiagnostic: false);
+        if (!string.IsNullOrEmpty(direction))
+        {
+            AddSemanticLabel(
+                shield,
+                "ShieldDirection",
+                direction,
+                new Vector3(0, 1.72f, -0.045f),
+                34,
+                0.009f,
+                Colors.White,
+                "direction",
+                trackDiagnostic: false);
+        }
+        RouteShieldCount++;
+    }
+
+    private static ArrayMesh BuildShieldFaceMesh(bool interstate)
+    {
+        var points = interstate
+            ? new[]
+            {
+                new Vector3(-1.45f, 1.2f, 0), new Vector3(1.45f, 1.2f, 0),
+                new Vector3(1.28f, 0.45f, 0), new Vector3(0.92f, -0.85f, 0),
+                new Vector3(0, -1.38f, 0), new Vector3(-0.92f, -0.85f, 0),
+                new Vector3(-1.28f, 0.45f, 0),
+            }
+            : new[]
+            {
+                new Vector3(-1.35f, 1.28f, 0), new Vector3(1.35f, 1.28f, 0),
+                new Vector3(1.16f, 0.55f, 0), new Vector3(0.95f, -0.75f, 0),
+                new Vector3(0, -1.32f, 0), new Vector3(-0.95f, -0.75f, 0),
+                new Vector3(-1.16f, 0.55f, 0),
+            };
+        var surface = new SurfaceTool();
+        surface.Begin(Mesh.PrimitiveType.Triangles);
+        for (var index = 1; index < points.Length - 1; index++)
+        {
+            AddTriangle(
+                surface,
+                points[0],
+                points[index],
+                points[index + 1],
+                Vector2.Zero,
+                Vector2.Right,
+                Vector2.One);
+        }
+        surface.GenerateNormals();
+        return surface.Commit();
+    }
+
+    private void BuildServiceIcons(
+        Node3D root,
+        IReadOnlyList<string> services,
+        float boardWidth,
+        float boardY)
+    {
+        var shown = services.Take(4).ToArray();
+        var spacing = Math.Min(2.8f, (boardWidth - 1) / Math.Max(shown.Length, 1));
+        var start = -(shown.Length - 1) * spacing / 2;
+        var rootId = root.GetMeta("automation_id").AsString();
+        for (var index = 0; index < shown.Length; index++)
+        {
+            var panel = new MeshInstance3D
+            {
+                Name = $"ServicePanel{index}",
+                Position = new Vector3(start + index * spacing, boardY - 5.35f, -0.06f),
+                Mesh = new BoxMesh { Size = new Vector3(2.45f, 1.25f, 0.12f) },
+                MaterialOverride = _visualKit.ServiceBlue,
+            };
+            RoadVisualKit.MarkSemantic(panel, $"{rootId}.service.{index}.panel");
+            root.AddChild(panel);
+            AddSemanticLabel(
+                root,
+                $"ServiceIcon{index}",
+                shown[index].ToUpperInvariant(),
+                new Vector3(start + index * spacing, boardY - 5.35f, -0.14f),
+                32,
+                0.009f,
+                Colors.White,
+                $"service.{index}.text",
+                trackDiagnostic: false);
+            ServiceIconCount++;
+        }
     }
 
     private void AddRouteContextLabel(
@@ -294,6 +589,29 @@ public sealed partial class RoadChunk : Node3D
         int fontSize,
         float pixelSize,
         Color color)
+    {
+        AddSemanticLabel(
+            root,
+            name,
+            text,
+            position,
+            fontSize,
+            pixelSize,
+            color,
+            "text",
+            trackDiagnostic: true);
+    }
+
+    private void AddSemanticLabel(
+        Node3D root,
+        string name,
+        string text,
+        Vector3 position,
+        int fontSize,
+        float pixelSize,
+        Color color,
+        string automationSuffix,
+        bool trackDiagnostic)
     {
         var label = new Label3D
         {
@@ -312,16 +630,15 @@ public sealed partial class RoadChunk : Node3D
             VisibilityRangeEndMargin = 35,
             VisibilityRangeFadeMode = GeometryInstance3D.VisibilityRangeFadeModeEnum.Self,
         };
-        label.SetMeta("automation_id", $"{root.GetMeta("automation_id")}.text");
-        (_routeContextLabels ??= []).Add(label);
+        label.SetMeta(
+            "automation_id",
+            $"{root.GetMeta("automation_id")}.{automationSuffix}");
+        if (trackDiagnostic)
+        {
+            (_routeContextLabels ??= []).Add(label);
+        }
         root.AddChild(label);
     }
-
-    private static StandardMaterial3D UnshadedMaterial(Color color) => new()
-    {
-        AlbedoColor = color,
-        ShadingMode = BaseMaterial3D.ShadingModeEnum.Unshaded,
-    };
 
     private static (
         Vector3 Point,
@@ -401,17 +718,14 @@ public sealed partial class RoadChunk : Node3D
             layout => layout.PavedLeftMeters,
             layout => layout.PavedRightMeters,
             -0.035f);
-        var shoulderMaterial = new StandardMaterial3D
-        {
-            AlbedoColor = new Color("34363b"),
-            Roughness = 0.97f,
-        };
-        AddChild(new MeshInstance3D
+        var shoulders = new MeshInstance3D
         {
             Name = "PavedShoulders",
             Mesh = _collisionMesh,
-            MaterialOverride = shoulderMaterial,
-        });
+            MaterialOverride = _visualKit.Shoulder,
+        };
+        RoadVisualKit.MarkSemantic(shoulders, "road.visual.paved-shoulders");
+        AddChild(shoulders);
         var laneMesh = BuildRibbonMesh(
             points,
             tangents,
@@ -420,17 +734,14 @@ public sealed partial class RoadChunk : Node3D
             layout => layout.LaneLeftMeters,
             layout => layout.LaneRightMeters,
             0);
-        var material = new StandardMaterial3D
-        {
-            AlbedoColor = new Color("151820"),
-            Roughness = 0.94f,
-        };
-        AddChild(new MeshInstance3D
+        var surface = new MeshInstance3D
         {
             Name = "RoadSurface",
             Mesh = laneMesh,
-            MaterialOverride = material,
-        });
+            MaterialOverride = _visualKit.Pavement,
+        };
+        RoadVisualKit.MarkSemantic(surface, "road.visual.pavement");
+        AddChild(surface);
     }
 
     private static ArrayMesh BuildRibbonMesh(
@@ -471,12 +782,7 @@ public sealed partial class RoadChunk : Node3D
         IReadOnlyList<RouteChunkSample> samples,
         IReadOnlyList<LaneGeometrySample> layouts)
     {
-        var material = new StandardMaterial3D
-        {
-            AlbedoColor = new Color("344536"),
-            Roughness = 1.0f,
-        };
-        AddChild(new MeshInstance3D
+        var terrain = new MeshInstance3D
         {
             Name = "TerrainShoulders",
             Mesh = BuildRibbonMesh(
@@ -487,8 +793,10 @@ public sealed partial class RoadChunk : Node3D
                 layout => layout.PavedLeftMeters - 40,
                 layout => layout.PavedRightMeters + 40,
                 -0.18f),
-            MaterialOverride = material,
-        });
+            MaterialOverride = _visualKit.Terrain,
+        };
+        RoadVisualKit.MarkSemantic(terrain, "road.visual.terrain-shoulders");
+        AddChild(terrain);
     }
 
     private static void AddTriangle(
@@ -560,17 +868,14 @@ public sealed partial class RoadChunk : Node3D
                 0.10f);
         }
         var markings = surface.Commit();
-        var material = new StandardMaterial3D
-        {
-            AlbedoColor = new Color("d8d5bc"),
-            ShadingMode = BaseMaterial3D.ShadingModeEnum.Unshaded,
-        };
-        AddChild(new MeshInstance3D
+        var laneMarkings = new MeshInstance3D
         {
             Name = "LaneMarkings",
             Mesh = markings,
-            MaterialOverride = material,
-        });
+            MaterialOverride = _visualKit.MarkingWhite,
+        };
+        RoadVisualKit.MarkSemantic(laneMarkings, "road.visual.lane-markings");
+        AddChild(laneMarkings);
     }
 
     private static void AddDashedMarkingQuads(
@@ -631,6 +936,47 @@ public sealed partial class RoadChunk : Node3D
         return result;
     }
 
+    private void BuildReflectors(
+        IReadOnlyList<Vector3> points,
+        IReadOnlyList<Vector3> tangents,
+        IReadOnlyList<LaneGeometrySample> layouts)
+    {
+        var yellow = new List<Transform3D>();
+        var white = new List<Transform3D>();
+        for (var index = 0; index < points.Count; index++)
+        {
+            var tangent = tangents[index].Normalized();
+            var right = tangent.Cross(Vector3.Up).Normalized();
+            var basis = Basis.LookingAt(tangent, Vector3.Up);
+            var layout = layouts[index];
+            yellow.Add(new Transform3D(
+                basis,
+                points[index] + right * (float)layout.LaneLeftMeters + Vector3.Up * 0.045f));
+            white.Add(new Transform3D(
+                basis,
+                points[index] + right * (float)layout.LaneRightMeters + Vector3.Up * 0.045f));
+            foreach (var offset in GetMarkingOffsets(layout).Values)
+            {
+                white.Add(new Transform3D(
+                    basis,
+                    points[index] + right * (float)offset + Vector3.Up * 0.045f));
+            }
+        }
+        AddMultiMesh(
+            "MedianReflectors",
+            "road.visual.reflectors.median",
+            _visualKit.ReflectorMesh,
+            yellow,
+            _visualKit.ReflectorYellow);
+        AddMultiMesh(
+            "LaneReflectors",
+            "road.visual.reflectors.lane-and-shoulder",
+            _visualKit.ReflectorMesh,
+            white,
+            _visualKit.ReflectorWhite);
+        ReflectorCount = yellow.Count + white.Count;
+    }
+
     private static void AddMarkingQuad(
         SurfaceTool surface,
         Vector3 first,
@@ -667,6 +1013,37 @@ public sealed partial class RoadChunk : Node3D
             Vector2.One);
     }
 
+    private void AddMultiMesh(
+        string name,
+        string automationId,
+        Mesh mesh,
+        IReadOnlyList<Transform3D> transforms,
+        Material? materialOverride = null)
+    {
+        if (transforms.Count == 0)
+        {
+            return;
+        }
+        var multiMesh = new MultiMesh
+        {
+            TransformFormat = MultiMesh.TransformFormatEnum.Transform3D,
+            Mesh = mesh,
+            InstanceCount = transforms.Count,
+        };
+        for (var index = 0; index < transforms.Count; index++)
+        {
+            multiMesh.SetInstanceTransform(index, transforms[index]);
+        }
+        var instance = new MultiMeshInstance3D
+        {
+            Name = name,
+            Multimesh = multiMesh,
+            MaterialOverride = materialOverride,
+        };
+        RoadVisualKit.MarkSemantic(instance, automationId);
+        AddChild(instance);
+    }
+
     private void BuildGoreAreas(
         IReadOnlyList<Vector3> points,
         IReadOnlyList<Vector3> tangents,
@@ -690,11 +1067,10 @@ public sealed partial class RoadChunk : Node3D
         {
             return;
         }
-        var mesh = new BoxMesh { Size = new Vector3(0.18f, 0.025f, 2.5f) };
-        mesh.Material = new StandardMaterial3D
+        var mesh = new BoxMesh
         {
-            AlbedoColor = new Color("e0b14b"),
-            ShadingMode = BaseMaterial3D.ShadingModeEnum.Unshaded,
+            Size = new Vector3(0.18f, 0.025f, 2.5f),
+            Material = _visualKit.Gore,
         };
         var multiMesh = new MultiMesh
         {
@@ -706,7 +1082,9 @@ public sealed partial class RoadChunk : Node3D
         {
             multiMesh.SetInstanceTransform(index, transforms[index]);
         }
-        AddChild(new MultiMeshInstance3D { Name = "GoreAreas", Multimesh = multiMesh });
+        var gore = new MultiMeshInstance3D { Name = "GoreAreas", Multimesh = multiMesh };
+        RoadVisualKit.MarkSemantic(gore, "road.visual.gore-markings");
+        AddChild(gore);
         HasGoreGeometry = true;
     }
 
@@ -715,7 +1093,9 @@ public sealed partial class RoadChunk : Node3D
         IReadOnlyList<Vector3> tangents,
         IReadOnlyList<LaneGeometrySample> layouts)
     {
-        var transforms = new List<Transform3D>();
+        var barrierTransforms = new List<Transform3D>();
+        var guardrailTransforms = new List<Transform3D>();
+        var guardrailPostTransforms = new List<Transform3D>();
         for (var index = 0; index < points.Count - 1; index++)
         {
             var length = points[index].DistanceTo(points[index + 1]);
@@ -725,37 +1105,41 @@ public sealed partial class RoadChunk : Node3D
             }
             var tangent = (tangents[index] + tangents[index + 1]).Normalized();
             var right = tangent.Cross(Vector3.Up).Normalized();
-            var basis = Basis.LookingAt(tangent, Vector3.Up);
-            basis.Z *= length;
-            var midpoint = points[index].Lerp(points[index + 1], 0.5f) + Vector3.Up * 0.3f;
+            var segmentBasis = Basis.LookingAt(tangent, Vector3.Up);
+            var stretchedBasis = segmentBasis;
+            stretchedBasis.Z *= length;
+            var midpoint = points[index].Lerp(points[index + 1], 0.5f);
             var leftOffset = (layouts[index].PavedLeftMeters +
                 layouts[index + 1].PavedLeftMeters) / 2 - 0.45;
             var rightOffset = (layouts[index].PavedRightMeters +
                 layouts[index + 1].PavedRightMeters) / 2 + 0.45;
-            transforms.Add(new Transform3D(basis, midpoint + right * (float)leftOffset));
-            transforms.Add(new Transform3D(basis, midpoint + right * (float)rightOffset));
+            barrierTransforms.Add(new Transform3D(
+                stretchedBasis,
+                midpoint + right * (float)leftOffset + Vector3.Up * 0.41f));
+            guardrailTransforms.Add(new Transform3D(
+                stretchedBasis,
+                midpoint + right * (float)rightOffset + Vector3.Up * 0.72f));
+            guardrailPostTransforms.Add(new Transform3D(
+                segmentBasis,
+                points[index] + right * (float)rightOffset + Vector3.Up * 0.4f));
         }
-        var mesh = new BoxMesh
-        {
-            Size = new Vector3(0.18f, 0.6f, 1),
-            Material = new StandardMaterial3D
-            {
-                AlbedoColor = new Color("8b9099"),
-                Metallic = 0.7f,
-                Roughness = 0.45f,
-            },
-        };
-        var multiMesh = new MultiMesh
-        {
-            TransformFormat = MultiMesh.TransformFormatEnum.Transform3D,
-            Mesh = mesh,
-            InstanceCount = transforms.Count,
-        };
-        for (var index = 0; index < transforms.Count; index++)
-        {
-            multiMesh.SetInstanceTransform(index, transforms[index]);
-        }
-        AddChild(new MultiMeshInstance3D { Name = "RoadBarriers", Multimesh = multiMesh });
+        AddMultiMesh(
+            "RoadBarriers",
+            "road.visual.median-barriers",
+            _visualKit.MedianBarrierMesh,
+            barrierTransforms);
+        AddMultiMesh(
+            "Guardrails",
+            "road.visual.guardrails",
+            _visualKit.GuardrailMesh,
+            guardrailTransforms);
+        AddMultiMesh(
+            "GuardrailPosts",
+            "road.visual.guardrail-posts",
+            _visualKit.GuardrailPostMesh,
+            guardrailPostTransforms);
+        BarrierSegmentCount = barrierTransforms.Count;
+        GuardrailSegmentCount = guardrailTransforms.Count;
     }
 
     private void BuildScenery(
@@ -778,23 +1162,11 @@ public sealed partial class RoadChunk : Node3D
                     Vector3.Up * 0.55f));
         }
 
-        var postMesh = new CylinderMesh { TopRadius = 0.12f, BottomRadius = 0.16f, Height = 1.1f };
-        postMesh.Material = new StandardMaterial3D
-        {
-            AlbedoColor = new Color("d6d0ad"),
-            Roughness = 0.9f,
-        };
-        var multiMesh = new MultiMesh
-        {
-            TransformFormat = MultiMesh.TransformFormatEnum.Transform3D,
-            Mesh = postMesh,
-            InstanceCount = transforms.Count,
-        };
-        for (var index = 0; index < transforms.Count; index++)
-        {
-            multiMesh.SetInstanceTransform(index, transforms[index]);
-        }
-        AddChild(new MultiMeshInstance3D { Name = "RoadsidePosts", Multimesh = multiMesh });
+        AddMultiMesh(
+            "RoadsidePosts",
+            "road.visual.delineator-posts",
+            _visualKit.DelineatorMesh,
+            transforms);
 
         var treeTransforms = new List<Transform3D>();
         for (var index = 0; index < points.Count - 1; index += 2)
@@ -815,23 +1187,13 @@ public sealed partial class RoadChunk : Node3D
             TopRadius = 0,
             BottomRadius = 1.35f,
             Height = 4.5f,
-            Material = new StandardMaterial3D
-            {
-                AlbedoColor = new Color("557052"),
-                Roughness = 1.0f,
-            },
+            Material = _visualKit.Terrain,
         };
-        var treeMultiMesh = new MultiMesh
-        {
-            TransformFormat = MultiMesh.TransformFormatEnum.Transform3D,
-            Mesh = treeMesh,
-            InstanceCount = treeTransforms.Count,
-        };
-        for (var index = 0; index < treeTransforms.Count; index++)
-        {
-            treeMultiMesh.SetInstanceTransform(index, treeTransforms[index]);
-        }
-        AddChild(new MultiMeshInstance3D { Name = "TerrainScenery", Multimesh = treeMultiMesh });
+        AddMultiMesh(
+            "TerrainScenery",
+            "road.visual.placeholder-scenery",
+            treeMesh,
+            treeTransforms);
     }
 }
 
@@ -842,3 +1204,18 @@ public sealed record RouteContextLabelDiagnostic(
     float CameraDistanceMeters,
     float ForwardDistanceMeters,
     bool WithinDeclaredRange);
+
+public sealed record RoadChunkVisualSnapshot(
+    string ChunkId,
+    string ProfileId,
+    bool ContractResolved,
+    int SemanticNodeCount,
+    int SharedMaterialCount,
+    int SharedMeshCount,
+    int RetroreflectiveMaterialCount,
+    int ReflectorCount,
+    int BarrierSegmentCount,
+    int GuardrailSegmentCount,
+    int RouteShieldCount,
+    int ServiceIconCount,
+    bool HasGoreGeometry);

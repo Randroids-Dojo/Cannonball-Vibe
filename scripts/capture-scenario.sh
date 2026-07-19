@@ -43,6 +43,9 @@ fi
 if [[ " ${scenario_args[*]} " == *" --vehicle-visual-review "* ]]; then
   default_capture_frames=480
 fi
+if [[ " ${scenario_args[*]} " == *" --road-visual-review "* ]]; then
+  default_capture_frames=360
+fi
 capture_frames="${CANNONBALL_CAPTURE_FRAMES:-$default_capture_frames}"
 timeout_seconds="${CANNONBALL_SCENARIO_TIMEOUT_SECONDS:-120}"
 

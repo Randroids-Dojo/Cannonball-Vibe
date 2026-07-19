@@ -897,7 +897,7 @@
       "milestone": "M5",
       "priority": "P1",
       "title": "Modular production highway visual kit",
-      "status": "open",
+      "status": "in_progress",
       "dependencies": [
         "P1-002",
         "P0-010",
@@ -912,12 +912,15 @@
         "game/World/RoadVisuals/",
         "game/Automation/RoadVisualScenario.cs",
         "scripts/verify-road-assets.sh",
+        "docs/research/2026-07-18-modern-highway-visual-standards.md",
+        "docs/QUESTIONS_FOR_RANDROID_2026-07-18_HIGHWAY_KIT.md",
+        "docs/images/p1-009-highway-kit-review.png",
         "evidence/M5/P1-009.json"
       ],
       "acceptance": [
-      "A modular kit covers pavement states, shoulders, medians, barriers, guardrails, bridges, overpasses, gore treatments, lane markings, reflectors, signs, posts, and representative roadside furniture",
-      "A dedicated signage quality pass replaces placeholder shields and generic copy with jurisdiction-appropriate shield silhouettes, information hierarchy, type scale and weight, spacing, lane arrows, service icons, retroreflective day and night materials, and realistic placement while preserving stable semantic node IDs",
-      "Procedural generation remains authoritative and applies the kit continuously across variable lane counts, auxiliary and exit-only lanes, ramps, merges, splits, transfers, curvature, grade, stream boundaries, and local-origin rebases",
+        "A modular kit covers pavement states, shoulders, medians, barriers, guardrails, bridges, overpasses, gore treatments, lane markings, reflectors, signs, posts, and representative roadside furniture",
+        "A dedicated signage quality pass replaces placeholder shields and generic copy with jurisdiction-appropriate shield silhouettes, information hierarchy, type scale and weight, spacing, lane arrows, service icons, retroreflective day and night materials, and realistic placement while preserving stable semantic node IDs",
+        "Procedural generation remains authoritative and applies the kit continuously across variable lane counts, auxiliary and exit-only lanes, ramps, merges, splits, transfers, curvature, grade, stream boundaries, and local-origin rebases",
         "Materials, decals, markings, signs, and modular meshes preserve scale, orientation, UV density, semantic placement, and collision separation under every representative topology fixture",
         "LOD, instancing, shared-material, texture-residency, draw-call, and pop-in budgets pass both daylight and night high-speed approaches without reducing route-context readability",
         "Deterministic elevated and driving captures cover ordinary highway, lane addition and drop, entrance and exit, gore, bridge or overpass, and two highway-transfer forms",
@@ -935,7 +938,8 @@
       "human_gate": {
         "name": "Highway art readability, visual quality, and final rights approval",
         "required_for": "M5"
-      }
+      },
+      "notes": "The project-original procedural kit is the autonomous technical baseline: production and graybox profiles, shared materials and meshes, route-context signage, reflectors, barriers, guardrails, topology/gore regression, and renderer review pass. Bridges, overpasses, production terrain and furniture, exact sign typography and silhouettes, full renderer budgets, day/night coverage, rights records, and Q-024 art-direction approval remain open; the task must not be marked complete from fixture evidence alone."
     },
     {
       "id": "P1-010",

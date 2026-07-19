@@ -2,6 +2,7 @@ using Cannonball.Core.Content;
 using Cannonball.Core.Routes;
 using Cannonball.Core.Runs;
 using Cannonball.Game.Vehicle;
+using Cannonball.Game.World.RoadVisuals;
 using Godot;
 
 namespace Cannonball.Game.World;
@@ -41,6 +42,7 @@ public sealed partial class WorldStreamer : Node3D
             new Dictionary<(string FromEdgeId, string ToEdgeId), JunctionConnector>();
     private IReadOnlyList<RouteManifestSpan> _manifests = [];
     private RouteFrame _frame = null!;
+    private RoadVisualKit _roadVisualKit = null!;
     private CannonballVehicle? _vehicle;
     private RouteWorldPoint _localOriginWorld;
     private string _currentEdgeId = string.Empty;
@@ -61,8 +63,16 @@ public sealed partial class WorldStreamer : Node3D
     private readonly HashSet<string> _junctionSeamsBuilt = new(StringComparer.Ordinal);
     private readonly HashSet<string> _loadedRouteContextAutomationIds = new(StringComparer.Ordinal);
     private readonly HashSet<string> _routeContextAutomationIdsSeen = new(StringComparer.Ordinal);
+    private readonly HashSet<string> _roadVisualObservedChunks = new(StringComparer.Ordinal);
     private readonly List<double> _chunkBuildSamplesMilliseconds = [];
     private readonly List<double> _collisionBuildSamplesMilliseconds = [];
+    private bool _roadVisualContractsResolved = true;
+    private int _roadVisualReflectorsSeen;
+    private int _roadVisualBarrierSegmentsSeen;
+    private int _roadVisualGuardrailSegmentsSeen;
+    private int _roadVisualRouteShieldsSeen;
+    private int _roadVisualServiceIconsSeen;
+    private int _roadVisualGoreChunksSeen;
     private bool _preserveResumeStateThroughReady;
 
     public double RouteDistanceMeters => _routeDistanceMeters;
@@ -137,6 +147,23 @@ public sealed partial class WorldStreamer : Node3D
         .SelectMany(chunk => chunk.GetRouteContextLabelDiagnostics(camera))
         .OrderBy(item => item.AutomationId, StringComparer.Ordinal)
         .ToArray();
+
+    public RoadVisualSnapshot CaptureRoadVisualSnapshot()
+    {
+        return new RoadVisualSnapshot(
+            _roadVisualKit.ProfileId,
+            _roadVisualObservedChunks.Count,
+            _roadVisualObservedChunks.Count > 0 && _roadVisualContractsResolved,
+            _roadVisualReflectorsSeen,
+            _roadVisualBarrierSegmentsSeen,
+            _roadVisualGuardrailSegmentsSeen,
+            _roadVisualRouteShieldsSeen,
+            _roadVisualServiceIconsSeen,
+            _roadVisualGoreChunksSeen,
+            _roadVisualKit.SharedMaterialCount,
+            _roadVisualKit.SharedMeshCount,
+            _roadVisualKit.RetroreflectiveMaterialCount);
+    }
 
     public WorldStreamSnapshot CaptureStreamSnapshot() => new(
         _localOriginWorld.X,
@@ -231,6 +258,7 @@ public sealed partial class WorldStreamer : Node3D
             throw new InvalidOperationException("WorldStreamer must be configured before entering the scene tree.");
         }
         _package = package;
+        _roadVisualKit = RoadVisualKit.FromCommandLine();
         _routeContextPlans.Clear();
         _source = source;
         _routePlan = LinearRoutePlan.Build(
@@ -648,11 +676,28 @@ public sealed partial class WorldStreamer : Node3D
         }
         var edge = _package.Graph.GetEdge(content.EdgeId);
         var routeContextPlan = GetRouteContextPlan(edge);
-        var chunk = RoadChunk.Create(content, edge, routeContextPlan, _frame, _localOriginWorld);
+        var chunk = RoadChunk.Create(
+            content,
+            edge,
+            routeContextPlan,
+            _frame,
+            _localOriginWorld,
+            _roadVisualKit);
         // Budget profiles validate collected timing samples. Normal play keeps valid content
         // loaded instead of turning host scheduling or first-frame JIT into a chunk failure.
         _content.Add(content.Id, content);
         _loaded.Add(content.Id, chunk);
+        if (_roadVisualObservedChunks.Add(content.Id))
+        {
+            var roadVisual = chunk.CaptureRoadVisualSnapshot();
+            _roadVisualContractsResolved &= roadVisual.ContractResolved;
+            _roadVisualReflectorsSeen += roadVisual.ReflectorCount;
+            _roadVisualBarrierSegmentsSeen += roadVisual.BarrierSegmentCount;
+            _roadVisualGuardrailSegmentsSeen += roadVisual.GuardrailSegmentCount;
+            _roadVisualRouteShieldsSeen += roadVisual.RouteShieldCount;
+            _roadVisualServiceIconsSeen += roadVisual.ServiceIconCount;
+            _roadVisualGoreChunksSeen += roadVisual.HasGoreGeometry ? 1 : 0;
+        }
         if (_desiredBranchPrewarm.Contains(content.Id))
         {
             _branchPrewarmSeen.Add(content.Id);
@@ -1177,3 +1222,17 @@ public sealed partial class WorldStreamer : Node3D
         Task<RouteChunkContent> Task,
         CancellationTokenSource Cancellation);
 }
+
+public sealed record RoadVisualSnapshot(
+    string ProfileId,
+    int ChunkCount,
+    bool AllContractsResolved,
+    int ReflectorCount,
+    int BarrierSegmentCount,
+    int GuardrailSegmentCount,
+    int RouteShieldCount,
+    int ServiceIconCount,
+    int GoreChunkCount,
+    int SharedMaterialCount,
+    int SharedMeshCount,
+    int RetroreflectiveMaterialCount);
