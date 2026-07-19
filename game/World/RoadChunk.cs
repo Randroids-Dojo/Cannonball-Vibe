@@ -630,8 +630,8 @@ public sealed partial class RoadChunk : Node3D
             VisibilityRangeEndMargin = 35,
             VisibilityRangeFadeMode = GeometryInstance3D.VisibilityRangeFadeModeEnum.Self,
         };
-        label.SetMeta(
-            "automation_id",
+        RoadVisualKit.MarkSemantic(
+            label,
             $"{root.GetMeta("automation_id")}.{automationSuffix}");
         if (trackDiagnostic)
         {

@@ -11,6 +11,9 @@ public enum RoadVisualProfile
 public sealed class RoadVisualKit
 {
     public const string Version = "colorado-freeway-v1";
+    private readonly IReadOnlyList<Material> _sharedMaterials;
+    private readonly IReadOnlyList<Mesh> _sharedMeshes;
+    private readonly IReadOnlyList<Material> _retroreflectiveMaterials;
 
     private RoadVisualKit(RoadVisualProfile profile)
     {
@@ -62,6 +65,24 @@ public sealed class RoadVisualKit
             Height = 1.1f,
             Material = Delineator,
         };
+        _sharedMaterials =
+        [
+            Terrain, Shoulder, Pavement, MarkingWhite, MarkingYellow, Gore,
+            Concrete, GalvanizedSteel, Delineator, ReflectorWhite, ReflectorYellow,
+            GuideGreen, ServiceBlue, ExitOnlyYellow, SignWhite, SignBlack,
+            InterstateBlue, InterstateRed,
+        ];
+        _sharedMeshes =
+        [
+            MedianBarrierMesh, GuardrailMesh, GuardrailPostMesh, ReflectorMesh,
+            DelineatorMesh,
+        ];
+        _retroreflectiveMaterials =
+        [
+            MarkingWhite, MarkingYellow, Gore, ReflectorWhite, ReflectorYellow,
+            GuideGreen, ServiceBlue, ExitOnlyYellow, SignWhite, InterstateBlue,
+            InterstateRed,
+        ];
     }
 
     public RoadVisualProfile Profile { get; }
@@ -91,9 +112,9 @@ public sealed class RoadVisualKit
     public Mesh GuardrailPostMesh { get; }
     public Mesh ReflectorMesh { get; }
     public Mesh DelineatorMesh { get; }
-    public int SharedMaterialCount => 18;
-    public int SharedMeshCount => 5;
-    public int RetroreflectiveMaterialCount => 11;
+    public int SharedMaterialCount => _sharedMaterials.Count;
+    public int SharedMeshCount => _sharedMeshes.Count;
+    public int RetroreflectiveMaterialCount => _retroreflectiveMaterials.Count;
 
     public static RoadVisualKit FromCommandLine() => new(
         OS.GetCmdlineUserArgs().Contains("--graybox-road-assets", StringComparer.Ordinal)
