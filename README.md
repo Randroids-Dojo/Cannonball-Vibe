@@ -24,6 +24,23 @@ Requirements:
 - Git LFS 3.7.1
 - Bash and Perl (included with Git for Windows) for the guarded CLI scripts
 
+### Windows x64 setup
+
+Run the repository commands from Git Bash. On a new Windows workstation, install
+the pinned SDK, Python runner, and .NET-enabled Godot editor with WinGet:
+
+```powershell
+winget install --id Git.Git --exact
+winget install --id Microsoft.DotNet.SDK.10 --exact --version 10.0.102
+winget install --id astral-sh.uv --exact --version 0.9.24
+winget install --id GodotEngine.GodotEngine.Mono --exact --version 4.7.1
+```
+
+Close and reopen Git Bash after installation so it receives the updated PATH,
+then run `./scripts/doctor.sh`. The Godot front door also discovers WinGet's
+per-user .NET editor when a non-administrator install cannot create the `godot`
+command alias.
+
 The main scene requires a built route package. Use the scenario front door,
 which builds the locked official fixture before launching Godot:
 

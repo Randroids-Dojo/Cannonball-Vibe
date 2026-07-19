@@ -78,6 +78,38 @@
       "human_gate": null
     },
     {
+      "id": "P0-016",
+      "milestone": "M0",
+      "priority": "P0",
+      "title": "Windows workstation bootstrap and local Godot discovery",
+      "status": "complete",
+      "dependencies": [
+        "P0-001"
+      ],
+      "owned_paths": [
+        "scripts/godot.sh",
+        "README.md",
+        "tests/Cannonball.Core.Tests/RouteChunkContentTests.cs",
+        "docs/audits/2026-07-19-windows-workstation-readiness.md",
+        "evidence/M0/P0-016.json"
+      ],
+      "acceptance": [
+        "The pinned Git LFS, .NET SDK, uv, and Godot .NET versions are available from Git Bash on Windows",
+        "The Godot front door discovers a non-admin WinGet Godot .NET installation when no command alias exists",
+        "Windows setup and verification commands are documented without changing the selected toolchain",
+        "The complete M0 gate passes locally on Windows and writes structured reports"
+      ],
+      "verification": [
+        "./scripts/doctor.sh",
+        "./scripts/check.sh"
+      ],
+      "evidence": [
+        "evidence/M0/P0-016.json",
+        "docs/audits/2026-07-19-windows-workstation-readiness.md"
+      ],
+      "human_gate": null
+    },
+    {
       "id": "P0-002",
       "milestone": "M2",
       "priority": "P0",

@@ -1,0 +1,237 @@
+{
+  "schema_version": 1,
+  "task_id": "P0-016",
+  "milestone": "M0",
+  "status": "complete",
+  "verified_at": "2026-07-19T18:04:59Z",
+  "git_revision": "a12fc899b2b97ae275d108174cd3b17e361f3d8e",
+  "working_tree_revision_note": "At verification time, task outputs were uncommitted relative to git_revision; hashes below identify the verified bytes.",
+  "platform": {
+    "os": "Microsoft Windows NT 10.0.26200.0",
+    "shell_platform": "MINGW64_NT-10.0-26200",
+    "architecture": "x64",
+    "graphics_api": "Vulkan 1.4.329",
+    "graphics_device": "NVIDIA GeForce RTX 3080 Ti",
+    "renderer": "Forward+"
+  },
+  "tool_versions": {
+    "dotnet_sdk": "10.0.102",
+    "godot": "4.7.1.stable.mono.official.a13da4feb",
+    "git": "2.55.0.windows.3",
+    "git_lfs": "3.7.1",
+    "bash": "5.3.15(1)-release",
+    "perl": "5.42.2",
+    "uv": "0.9.24",
+    "python": "3.13.11"
+  },
+  "inputs": [
+    {
+      "path": "global.json",
+      "sha256": "b5cb6301b93270502bf2cf84d72ef76d92e31148179662fca781e732926b2bc4"
+    },
+    {
+      "path": "scripts/tool-versions.sh",
+      "sha256": "20871ee7d7ad980568603673e7e2d0dd080b07f4ad909900f1f19404e796943b"
+    },
+    {
+      "path": "data/sources/fixtures/nhpn-boulder-us36.geojson",
+      "sha256": "f1021915997f7cb94a00db58feed86f8f9e13e1ac264fc0dd8ba1605d052ae9b"
+    },
+    {
+      "path": "data/sources/fixtures/nhpn-boulder-us36.manifest.json",
+      "sha256": "54da0c7b64e476909f9e62008f09f94abc622631971b6549d030b67778fe429b"
+    },
+    {
+      "path": "data/sources/fixtures/usgs-13-n40w106-boulder.tif",
+      "sha256": "16af3387633b982f3363f34c638f8ca72646b04ec18aa2dcab1189f0352af507"
+    },
+    {
+      "path": "data/sources/fixtures/usgs-13-n40w106-boulder.metadata.json",
+      "sha256": "d626a7d24235884e089effcd38b4d173a26a5427cbec3ffedc063963e55e1cea"
+    }
+  ],
+  "scenario": {
+    "fixture": "official-corridor",
+    "seed": null,
+    "headless_arguments": [
+      "--fixture",
+      "official-corridor",
+      "--smoke-test"
+    ],
+    "rendered_arguments": [
+      "--path",
+      "C:/Dev/Cannonball-Vibe",
+      "--",
+      "--route-package=<generated official-corridor root>",
+      "--smoke-test"
+    ],
+    "content_version": "route-v5-3a6ea6a8f3eb03c9"
+  },
+  "commands": [
+    {
+      "command": "winget install --id Microsoft.DotNet.SDK.10 --exact --version 10.0.102",
+      "exit_code": 0
+    },
+    {
+      "command": "winget install --id astral-sh.uv --exact --version 0.9.24",
+      "exit_code": 0
+    },
+    {
+      "command": "winget install --id GodotEngine.GodotEngine.Mono --exact --version 4.7.1",
+      "exit_code": 0
+    },
+    {
+      "command": "./scripts/doctor.sh",
+      "exit_code": 0
+    },
+    {
+      "command": "./scripts/check.sh",
+      "exit_code": 1,
+      "result": "Initial completed gate exposed ERROR_PRIVILEGE_NOT_HELD in the symbolic-link fixture."
+    },
+    {
+      "command": "dotnet build Cannonball.sln --nologo && DOTNET_ROLL_FORWARD=Major dotnet test Cannonball.sln --no-build --nologo",
+      "exit_code": 0
+    },
+    {
+      "command": "./scripts/check.sh",
+      "exit_code": 0
+    },
+    {
+      "command": "Godot 4.7.1 .NET Forward+ rendered official-corridor smoke",
+      "exit_code": 0
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0
+    }
+  ],
+  "metrics": {
+    "doctor_failed_checks": 0,
+    "dotnet_build_warnings": 0,
+    "dotnet_build_errors": 0,
+    "xunit_passed": 72,
+    "xunit_failed": 0,
+    "map_pipeline_pytest_passed": 78,
+    "playgodot_unit_pytest_passed": 12,
+    "headless_smoke": {
+      "chunks": 4,
+      "distance_meters": 51.8,
+      "peak_mph": 78.9,
+      "rebases": 0,
+      "maximum_chunk_build_ms": 26.547,
+      "maximum_collision_build_ms": 2.007,
+      "save_written": true
+    },
+    "rendered_smoke": {
+      "chunks": 4,
+      "distance_meters": 72.1,
+      "peak_mph": 79.5,
+      "rebases": 0,
+      "maximum_chunk_build_ms": 31.170,
+      "maximum_collision_build_ms": 2.369,
+      "save_written": true
+    }
+  },
+  "acceptance": [
+    {
+      "criterion": "The pinned Git LFS, .NET SDK, uv, and Godot .NET versions are available from Git Bash on Windows",
+      "status": "passed",
+      "comparison": {
+        "expected_failed_checks": 0,
+        "actual_failed_checks": 0
+      }
+    },
+    {
+      "criterion": "The Godot front door discovers a non-admin WinGet Godot .NET installation when no command alias exists",
+      "status": "passed",
+      "comparison": {
+        "command_alias_available": false,
+        "discovered_version": "4.7.1.stable.mono.official.a13da4feb"
+      }
+    },
+    {
+      "criterion": "Windows setup and verification commands are documented without changing the selected toolchain",
+      "status": "passed",
+      "comparison": {
+        "documentation": "README.md#Windows-x64-setup",
+        "architecture_change": false
+      }
+    },
+    {
+      "criterion": "The complete M0 gate passes locally on Windows and writes structured reports",
+      "status": "passed",
+      "comparison": {
+        "expected_steps_passed": 7,
+        "actual_steps_passed": 7,
+        "final_exit_code": 0
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "path": "scripts/godot.sh",
+      "sha256": "f0c3779772967b1d0b104b414fd38cf822075e7e6c9d7839dd9f11fa7c03e345"
+    },
+    {
+      "path": "README.md",
+      "sha256": "fd38d5d1add65afcfd91492df1c649a21e20f0417c9c8eaf2b4b37be497a87ef"
+    },
+    {
+      "path": "tests/Cannonball.Core.Tests/RouteChunkContentTests.cs",
+      "sha256": "ebaae5802974107e599fafdd0835f7386f8b4118aff0c29aff4cf7aa20ba68f9"
+    },
+    {
+      "path": "docs/DELIVERY_LEDGER.json",
+      "sha256": "07e93c397370657dfcd88e421b3eb446285dcbb8b09cf020b1e89b5281d32139"
+    },
+    {
+      "path": "docs/audits/2026-07-19-windows-workstation-readiness.md",
+      "sha256": "d6f6bbcc176b000eb9fe764c68a82508b1de7cd51649019419c5f1630041f5dc"
+    },
+    {
+      "path": "reports/m0/summary.json",
+      "sha256": "90510e0d20c380803573202db756c41d915d9add9f85bfe0f1f17c5012de3844"
+    },
+    {
+      "path": "reports/m0/doctor.json",
+      "sha256": "33cb1935e7bc974bbc4cc89452ab1f85a6648768cd2301f08b7df88be56e1dca"
+    },
+    {
+      "path": "reports/m0/dotnet/core-tests.trx",
+      "sha256": "507f6b1c53afb94eb01b005feed53d3a36a160fb75dabdcf55f9456d030a6a1d"
+    },
+    {
+      "path": "reports/m0/python/junit.xml",
+      "sha256": "b57f04749a2caa65e610ff3773ccd347742bec0261ff6cfe9d18ff5b600896cf"
+    },
+    {
+      "path": "reports/m0/python/playgodot-unit.xml",
+      "sha256": "00a98fe0086fb43e00a8ff5f45eacbf4b41292b6d949a2852f52c021747095d5"
+    },
+    {
+      "path": "reports/m0/godot/scenario.json",
+      "sha256": "86937fdd43e64f22acd081f4aed63e11cb7647936f54f9ea4e31a1831dc808c0"
+    },
+    {
+      "path": "reports/m0/godot/godot.log",
+      "sha256": "3bd958944f1585213918496fad94fafa46f52647dd0819960eb3b7e35478d533"
+    },
+    {
+      "path": "reports/m0/godot/windows-rendered-smoke.log",
+      "sha256": "bd6b45607671f9739747a5ae392f35dddd7afaf773d975c28b74dacd97e059f0"
+    },
+    {
+      "path": ".tools/scenarios/official-corridor/current-package.json",
+      "sha256": "c1cd82c4233cf37a6030a014ddaa71d8ffa98a0c36d928c8fb3b416727a08ecc"
+    }
+  ],
+  "failure_handling": {
+    "failure_logs": [
+      "docs/audits/2026-07-19-windows-workstation-readiness.md#findings-and-corrections"
+    ],
+    "retry_count": 1,
+    "recovery_result": "The privilege-specific fixture handling was corrected; the targeted 72-test suite and the repeated complete M0 gate passed."
+  },
+  "human_gate": null
+}

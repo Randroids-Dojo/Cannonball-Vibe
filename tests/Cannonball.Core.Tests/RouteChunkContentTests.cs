@@ -269,6 +269,14 @@ public sealed class RouteChunkContentTests
             {
                 return;
             }
+            catch (IOException exception) when (
+                OperatingSystem.IsWindows()
+                && exception.HResult == unchecked((int)0x80070522))
+            {
+                // ERROR_PRIVILEGE_NOT_HELD: non-admin Windows sessions without
+                // Developer Mode cannot construct the symbolic-link fixture.
+                return;
+            }
 
             var error = await Assert.ThrowsAsync<InvalidDataException>(
                 () => fixture.Source.LoadChunkAsync("chunk-1").AsTask());
