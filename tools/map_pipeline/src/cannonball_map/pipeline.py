@@ -28,6 +28,7 @@ ALIGNMENT_TRANSITION_MIN_METERS = 10.0
 ALIGNMENT_MIN_DEFLECTION_DEGREES = 0.25
 ALIGNMENT_CURVE_SAMPLES = 33
 CORRIDOR_ALIGNMENT_SAMPLE_METERS = 10.0
+CORRIDOR_ALIGNMENT_GUIDE_TOLERANCE_METERS = 50.0
 CORRIDOR_ALIGNMENT_SIGMA_METERS = 50.0
 CORRIDOR_ALIGNMENT_RADIUS_METERS = 150.0
 CORRIDOR_ALIGNMENT_MAX_OFFSET_METERS = 35.0
@@ -540,6 +541,13 @@ def _reconstruct_linear_corridor_alignment(
     total_distance = boundary_distances[-1]
     if total_distance < CORRIDOR_ALIGNMENT_RADIUS_METERS * 2:
         return None
+    design_guide = raw_alignment.simplify(
+        CORRIDOR_ALIGNMENT_GUIDE_TOLERANCE_METERS,
+        preserve_topology=False,
+    )
+    if not isinstance(design_guide, LineString) or len(design_guide.coords) < 2:
+        raise ValueError("Corridor design guide collapsed during alignment simplification.")
+    design_distance_ratio = design_guide.length / total_distance
     sample_distances = sorted(
         {
             *_sample_distances(total_distance, CORRIDOR_ALIGNMENT_SAMPLE_METERS),
@@ -547,29 +555,33 @@ def _reconstruct_linear_corridor_alignment(
         }
     )
     start_tangent = _unit_direction(
-        raw_alignment.interpolate(0.0),
-        raw_alignment.interpolate(min(CORRIDOR_ALIGNMENT_SAMPLE_METERS, total_distance)),
+        design_guide.interpolate(0.0),
+        design_guide.interpolate(
+            min(CORRIDOR_ALIGNMENT_SAMPLE_METERS * design_distance_ratio, design_guide.length)
+        ),
     )
     end_tangent = _unit_direction(
-        raw_alignment.interpolate(max(0.0, total_distance - CORRIDOR_ALIGNMENT_SAMPLE_METERS)),
-        raw_alignment.interpolate(total_distance),
+        design_guide.interpolate(
+            max(0.0, design_guide.length - CORRIDOR_ALIGNMENT_SAMPLE_METERS * design_distance_ratio)
+        ),
+        design_guide.interpolate(design_guide.length),
     )
 
     def extended_point(distance: float) -> tuple[float, float]:
         if distance < 0.0:
-            start = raw_alignment.coords[0]
+            start = design_guide.coords[0]
             return (
                 start[0] + start_tangent[0] * distance,
                 start[1] + start_tangent[1] * distance,
             )
         if distance > total_distance:
-            end = raw_alignment.coords[-1]
+            end = design_guide.coords[-1]
             extension = distance - total_distance
             return (
                 end[0] + end_tangent[0] * extension,
                 end[1] + end_tangent[1] * extension,
             )
-        point = raw_alignment.interpolate(distance)
+        point = design_guide.interpolate(distance * design_distance_ratio)
         return point.x, point.y
 
     stencil_count = round(

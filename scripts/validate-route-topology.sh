@@ -124,7 +124,27 @@ function continuationGeometryMetrics() {
     if (!(magnitude > 1e-9)) throw new Error("Continuation endpoint segment is zero length.");
     return [x / magnitude, y / magnitude];
   };
+  const curvature = (before, point, after) => {
+    const incoming = direction(before, point);
+    const outgoing = direction(point, after);
+    const incomingLength = Math.hypot(
+      point.projected_x_meters - before.projected_x_meters,
+      point.projected_y_meters - before.projected_y_meters
+    );
+    const outgoingLength = Math.hypot(
+      after.projected_x_meters - point.projected_x_meters,
+      after.projected_y_meters - point.projected_y_meters
+    );
+    const dot = Math.max(-1, Math.min(1, incoming[0] * outgoing[0] + incoming[1] * outgoing[1]));
+    return Math.acos(dot) / ((incomingLength + outgoingLength) / 2);
+  };
   const deflections = [];
+  const curvatures = [];
+  for (const edge of edges.values()) {
+    for (let index = 1; index < edge.samples.length - 1; index++) {
+      curvatures.push(curvature(edge.samples[index - 1], edge.samples[index], edge.samples[index + 1]));
+    }
+  }
   for (const [key, movements] of movementsByPair) {
     if (movements.size !== 1 || !movements.has("continuation")) continue;
     const [fromEdgeId, toEdgeId] = key.split("->");
@@ -134,12 +154,17 @@ function continuationGeometryMetrics() {
     const outgoing = direction(toSamples[0], toSamples[1]);
     const dot = Math.max(-1, Math.min(1, incoming[0] * outgoing[0] + incoming[1] * outgoing[1]));
     deflections.push(Math.acos(dot) * 180 / Math.PI);
+    curvatures.push(curvature(fromSamples.at(-2), fromSamples.at(-1), toSamples[1]));
   }
   if (deflections.length === 0) throw new Error("Variable-lane package has no continuation pairs.");
+  const maximumCurvature = Math.max(...curvatures);
   return {
     pair_count: deflections.length,
     maximum_source_deflection_degrees: Number(Math.max(...deflections).toFixed(6)),
-    limit_degrees: topologyContract.maximum_continuation_deflection_degrees
+    deflection_limit_degrees: topologyContract.maximum_continuation_deflection_degrees,
+    maximum_alignment_curvature_per_meter: Number(maximumCurvature.toFixed(9)),
+    curvature_limit_per_meter: topologyContract.maximum_alignment_curvature_per_meter,
+    minimum_alignment_radius_meters: Number((1 / maximumCurvature).toFixed(3))
   };
 }
 
@@ -150,8 +175,12 @@ requireMetric(number(topology.max_lanes, "max_lanes") >= topologyContract.maximu
 requireMetric(number(topology.transitions, "transitions") >= topologyContract.minimum_transitions, "Lane-transition coverage failed.");
 requireMetric(topology.gore === String(topologyContract.gore), "Gore coverage failed.");
 requireMetric(
-  continuationGeometry.maximum_source_deflection_degrees <= continuationGeometry.limit_degrees,
-  `Continuation deflection ${continuationGeometry.maximum_source_deflection_degrees} exceeds ${continuationGeometry.limit_degrees} degrees.`
+  continuationGeometry.maximum_source_deflection_degrees <= continuationGeometry.deflection_limit_degrees,
+  `Continuation deflection ${continuationGeometry.maximum_source_deflection_degrees} exceeds ${continuationGeometry.deflection_limit_degrees} degrees.`
+);
+requireMetric(
+  continuationGeometry.maximum_alignment_curvature_per_meter <= continuationGeometry.curvature_limit_per_meter,
+  `Alignment curvature ${continuationGeometry.maximum_alignment_curvature_per_meter} exceeds ${continuationGeometry.curvature_limit_per_meter} per meter.`
 );
 requireMetric(topology.terrain_backdrop === String(topologyContract.terrain_backdrop), "Terrain backdrop coverage failed.");
 requireMetric(number(topology.terrain_seams, "terrain_seams") >= topologyContract.minimum_terrain_seams, "Junction terrain-seam coverage failed.");
@@ -236,7 +265,8 @@ const evidence = {
   acceptance_comparisons: [
     {criterion: "checksum-locked representative coverage", observed: `${corpus.legal_fixture_paths.length} legal fixtures and ${corpus.minimum_highway_transfer_forms} highway-transfer forms`, passed: true},
     {criterion: "continuity, curvature, grade, sightline, intersection, connection, completion, sign, and resume gates", observed: "all declared numeric and semantic scenario contracts passed", passed: true},
-    {criterion: "continuation endpoint geometry", observed: `${continuationGeometry.pair_count} pairs; maximum source deflection ${continuationGeometry.maximum_source_deflection_degrees} degrees against ${continuationGeometry.limit_degrees}-degree limit`, passed: true},
+    {criterion: "continuation endpoint geometry", observed: `${continuationGeometry.pair_count} pairs; maximum source deflection ${continuationGeometry.maximum_source_deflection_degrees} degrees against ${continuationGeometry.deflection_limit_degrees}-degree limit`, passed: true},
+    {criterion: "minimum horizontal-alignment radius", observed: `${continuationGeometry.minimum_alignment_radius_meters} meters from sampled curvature`, passed: true},
     {criterion: "recursive approved-source, derived, and authored ancestry", observed: `${corpus.artifacts.length} locked artifacts with explicit provenance kinds`, passed: true},
     {criterion: "bot traversal and invalid mutation rejection", observed: `${interchanges.plans} legal plans and ${readJson(corpus.invalid_mutation_catalog).mutations.length} invalid mutations`, passed: true},
     {criterion: "human geographic plausibility and route-choice comprehension", observed: "review candidate prepared separately; approval remains pending", passed: false}

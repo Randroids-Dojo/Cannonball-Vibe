@@ -436,6 +436,10 @@ def test_linear_corridor_reconstructs_alignment_across_short_source_feature(
         snap_tolerance_meters=1.0,
     )
     edges = {edge[SOURCE_ID_FIELD]: edge for edge in package["edges"]}
+    assert (
+        edges["short-slice"]["samples"][0]["projected_y_meters"]
+        > ANCHOR_Y + 10.0
+    )
 
     def endpoint_deflection(from_source: str, to_source: str) -> float:
         incoming = edges[from_source]["samples"]
@@ -456,8 +460,8 @@ def test_linear_corridor_reconstructs_alignment_across_short_source_feature(
         ) / (incoming_length * outgoing_length)
         return math.degrees(math.acos(max(-1.0, min(1.0, dot))))
 
-    assert endpoint_deflection("approach", "short-slice") < 2.0
-    assert endpoint_deflection("short-slice", "departure") < 2.0
+    assert endpoint_deflection("approach", "short-slice") < 1.0
+    assert endpoint_deflection("short-slice", "departure") < 1.0
 
 
 def test_vertical_endpoint_seam_fails_closed(tmp_path: Path) -> None:
