@@ -915,6 +915,7 @@
         "docs/research/2026-07-18-modern-highway-visual-standards.md",
         "docs/QUESTIONS_FOR_RANDROID_2026-07-18_HIGHWAY_KIT.md",
         "docs/images/p1-009-highway-kit-review.png",
+        "docs/audits/2026-07-18-p1-009-adversarial-review.md",
         "evidence/M5/P1-009.json"
       ],
       "acceptance": [
