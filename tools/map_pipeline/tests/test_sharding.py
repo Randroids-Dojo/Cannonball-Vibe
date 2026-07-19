@@ -53,7 +53,7 @@ def test_official_fixture_emits_deterministic_bounded_shards(tmp_path: Path) -> 
     assert first_root == second_root
     assert len(first_root) < MAX_ROOT_BYTES
     root = RouteGraphBuffer.GetRootAs(first_root)
-    assert root.SchemaVersion() == 4
+    assert root.SchemaVersion() == 5
     assert root.Edges(0).SamplesLength() == 0
     assert root.LaneSectionsLength() == len(package["semantics"]["lane_sections"])
     assert root.RouteIdentitiesLength() == len(package["semantics"]["route_identities"])
@@ -151,7 +151,7 @@ def test_runtime_build_requires_elevation_contract(tmp_path: Path) -> None:
     )
 
     assert result.exit_code == 2
-    assert "runtime schema 4 requires elevation" in result.output
+    assert "runtime schema 5 requires elevation" in result.output
 
 
 def test_two_clean_official_cli_builds_are_byte_deterministic(tmp_path: Path) -> None:

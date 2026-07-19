@@ -24,6 +24,60 @@ public sealed class RouteGraphTests
         Assert.Throws<ArgumentOutOfRangeException>(() => position.Validate(edge));
     }
 
+    [Fact]
+    public void DividedCarriagewaysRequireAReciprocalOpposingPair()
+    {
+        var eastbound = Edge("eastbound", "west-a", "east-a") with
+        {
+            RoadwayKind = RoadwayKind.DividedCarriageway,
+            CarriagewayGroupId = "i70-pair",
+            OpposingEdgeId = "westbound",
+        };
+        var westbound = Edge("westbound", "east-b", "west-b") with
+        {
+            RoadwayKind = RoadwayKind.DividedCarriageway,
+            CarriagewayGroupId = "i70-pair",
+            OpposingEdgeId = "eastbound",
+        };
+        var nodes = new[]
+        {
+            Node("west-a", eastbound.Id), Node("east-a"),
+            Node("east-b", westbound.Id), Node("west-b"),
+        };
+
+        var graph = new InMemoryRouteGraph("paired", nodes, [eastbound, westbound]);
+        var invalid = westbound with { OpposingEdgeId = "missing" };
+
+        Assert.Equal("westbound", graph.GetEdge("eastbound").OpposingEdgeId);
+        Assert.Equal("westbound", graph.GetOpposingEdge("eastbound")?.Id);
+        var error = Assert.Throws<ArgumentException>(() =>
+            new InMemoryRouteGraph("invalid", nodes, [eastbound, invalid]));
+        Assert.Contains("reciprocal pair", error.Message);
+    }
+
+    [Fact]
+    public void OneWayRampCannotMasqueradeAsAnOpposingCarriageway()
+    {
+        var ramp = Edge("ramp", "start", "end") with
+        {
+            RoadwayKind = RoadwayKind.OneWayRamp,
+            OpposingEdgeId = "other",
+        };
+
+        var error = Assert.Throws<ArgumentException>(() => new InMemoryRouteGraph(
+            "invalid",
+            [Node("start", ramp.Id), Node("end")],
+            [ramp]));
+
+        Assert.Contains("cannot declare carriageway pairing", error.Message);
+    }
+
+    private static RouteNode Node(string id, params string[] outgoing) =>
+        new(id, default, "route", outgoing);
+
+    private static RouteEdge Edge(string id, string from, string to) => new(
+        id, from, to, 100, 2, 30, [], [], "test", "graybox", []);
+
     private static InMemoryRouteGraph CreateGraph()
     {
         var source = new SourceCoordinate(-100, 40, 300);

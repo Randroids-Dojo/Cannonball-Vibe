@@ -48,11 +48,20 @@ def write_sharded_package(
         "source_content_version": package["content_version"],
         "chunks": semantic_chunks,
         "semantics": sharded["semantics"],
+        "carriageways": [
+            {
+                "edge_id": edge["edge_id"],
+                "roadway_kind": edge["roadway_kind"],
+                "carriageway_group_id": edge["carriageway_group_id"],
+                "opposing_edge_id": edge["opposing_edge_id"],
+            }
+            for edge in sorted(sharded["edges"], key=lambda item: item["edge_id"])
+        ],
     }
     digest = hashlib.sha256(
         json.dumps(version_payload, separators=(",", ":"), sort_keys=True).encode()
     ).hexdigest()
-    content_version = f"route-v4-{digest[:16]}"
+    content_version = f"route-v5-{digest[:16]}"
     output_directory.parent.mkdir(parents=True, exist_ok=True)
     staging = Path(
         tempfile.mkdtemp(
@@ -74,7 +83,7 @@ def write_sharded_package(
             hashes[chunk["chunk_id"]] = hashlib.sha256(data).hexdigest()
             byte_counts[chunk["chunk_id"]] = len(data)
 
-        sharded["schema_version"] = 4
+        sharded["schema_version"] = 5
         sharded["content_version"] = content_version
         for chunk in sharded["chunks"]:
             chunk["content_hash"] = hashes[chunk["chunk_id"]]

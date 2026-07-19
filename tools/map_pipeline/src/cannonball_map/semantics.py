@@ -27,6 +27,12 @@ ALL_MANEUVERS = (
 MOVEMENTS = {"continuation", "merge", "split", "exit", "entrance", "highway_transfer"}
 LANE_ROLES = {"general", "auxiliary", "exit_only", "entrance_only", "managed"}
 PROVENANCE_KINDS = {"source", "derived", "authored_override"}
+ROADWAY_KINDS = {
+    "unclassified",
+    "divided_carriageway",
+    "one_way_ramp",
+    "one_way_roadway",
+}
 
 
 def attach_derived_route_semantics(package: dict[str, Any]) -> dict[str, Any]:
@@ -43,6 +49,8 @@ def attach_derived_route_semantics(package: dict[str, Any]) -> dict[str, Any]:
     milepoint_anchors: list[dict[str, Any]] = []
     roadside_markers: list[dict[str, Any]] = []
     map_geometry: list[dict[str, Any]] = []
+
+    _attach_carriageway_semantics(edges)
 
     for edge in edges:
         edge_id = str(edge["edge_id"])
@@ -235,6 +243,42 @@ def attach_derived_route_semantics(package: dict[str, Any]) -> dict[str, Any]:
     return package
 
 
+def _attach_carriageway_semantics(edges: list[dict[str, Any]]) -> None:
+    source_edges: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for edge in edges:
+        source_edges[str(edge["source_feature_id"])].append(edge)
+
+    for edge in edges:
+        kind = str(edge.get("source_roadway_kind", "unclassified")).strip().casefold()
+        if kind not in ROADWAY_KINDS:
+            raise ValueError(
+                f"Edge '{edge['edge_id']}' has unknown roadway kind '{kind}'."
+            )
+        group_id = str(edge.get("source_carriageway_group_id", "")).strip()
+        opposing_source_id = str(edge.get("source_opposing_feature_id", "")).strip()
+        opposing_edge_id = ""
+        if kind == "divided_carriageway":
+            if not group_id or not opposing_source_id:
+                raise ValueError(
+                    f"Divided carriageway edge '{edge['edge_id']}' needs a carriageway "
+                    "group and opposing source feature."
+                )
+            candidates = source_edges.get(opposing_source_id, [])
+            if len(candidates) != 1:
+                raise ValueError(
+                    f"Divided carriageway edge '{edge['edge_id']}' opposing source feature "
+                    f"'{opposing_source_id}' is not unique."
+                )
+            opposing_edge_id = str(candidates[0]["edge_id"])
+        elif group_id or opposing_source_id:
+            raise ValueError(
+                f"Non-divided edge '{edge['edge_id']}' cannot declare carriageway pairing."
+            )
+        edge["roadway_kind"] = kind
+        edge["carriageway_group_id"] = group_id
+        edge["opposing_edge_id"] = opposing_edge_id
+
+
 def validate_route_semantics(package: dict[str, Any]) -> None:
     semantics = package.get("semantics")
     if not isinstance(semantics, dict):
@@ -257,6 +301,7 @@ def validate_route_semantics(package: dict[str, Any]) -> None:
     nodes = {str(node["id"]): node for node in package["nodes"]}
     if len(edges) != len(package["edges"]) or len(nodes) != len(package["nodes"]):
         raise ValueError("Route semantics cannot validate duplicate node or edge IDs.")
+    _validate_carriageway_semantics(edges)
 
     identities = _unique_by_id(semantics.get("route_identities", []), "route identity")
     sections = _unique_by_id(semantics.get("lane_sections", []), "lane section")
@@ -323,6 +368,10 @@ def validate_route_semantics(package: dict[str, Any]) -> None:
         expected_ids = [section["id"] for section in edge_sections]
         if edge.get("lane_section_ids") != expected_ids:
             raise ValueError(f"Edge '{edge_id}' lane-section references are not canonical.")
+        if len({str(section["signed_direction"]) for section in edge_sections}) != 1:
+            raise ValueError(
+                f"Edge '{edge_id}' changes signed direction between lane sections."
+            )
         route_ids = edge.get("route_identity_ids")
         if not isinstance(route_ids, list) or not route_ids:
             raise ValueError(f"Edge '{edge_id}' has no route identity.")
@@ -501,6 +550,58 @@ def validate_route_semantics(package: dict[str, Any]) -> None:
         raise ValueError("Simplified map geometry must contain LODs 0, 1, and 2 for every edge.")
     if map_bytes >= MAX_SIMPLIFIED_MAP_BYTES:
         raise ValueError("Simplified map geometry exceeds the 16 MB package budget.")
+
+
+def _validate_carriageway_semantics(edges: dict[str, dict[str, Any]]) -> None:
+    for edge_id, edge in edges.items():
+        kind = str(edge.get("roadway_kind", ""))
+        group_id = str(edge.get("carriageway_group_id", ""))
+        opposing_edge_id = str(edge.get("opposing_edge_id", ""))
+        if kind not in ROADWAY_KINDS:
+            raise ValueError(f"Edge '{edge_id}' has unknown roadway kind '{kind}'.")
+        if kind != "divided_carriageway":
+            if group_id or opposing_edge_id:
+                raise ValueError(
+                    f"Non-divided edge '{edge_id}' cannot declare carriageway pairing."
+                )
+            continue
+        opposing = edges.get(opposing_edge_id)
+        if (
+            not group_id
+            or opposing is None
+            or opposing_edge_id == edge_id
+            or opposing.get("roadway_kind") != "divided_carriageway"
+            or opposing.get("opposing_edge_id") != edge_id
+            or opposing.get("carriageway_group_id") != group_id
+        ):
+            raise ValueError(
+                f"Divided carriageway edge '{edge_id}' does not have a reciprocal pair."
+            )
+        if not _opposing_signed_directions(
+            str(edge.get("source_signed_direction", "")),
+            str(opposing.get("source_signed_direction", "")),
+        ):
+            raise ValueError(
+                f"Divided carriageway edge '{edge_id}' does not declare the opposite "
+                "signed direction from its pair."
+            )
+
+
+def _opposing_signed_directions(first: str, second: str) -> bool:
+    aliases = {
+        "eastbound": "east",
+        "westbound": "west",
+        "northbound": "north",
+        "southbound": "south",
+    }
+    first = aliases.get(first.strip().casefold(), first.strip().casefold())
+    second = aliases.get(second.strip().casefold(), second.strip().casefold())
+    return (first, second) in {
+        ("east", "west"),
+        ("west", "east"),
+        ("north", "south"),
+        ("south", "north"),
+    }
 
 
 def map_geometry_payload(edge_id: str, lod: int, points: list[dict[str, Any]]) -> bytes:

@@ -28,7 +28,7 @@ function copyContent(source, destination) {
   const pointer = readJson(pointerPath);
   const metadataPath = join(source, pointer.metadata_relative_path);
   const metadata = readJson(metadataPath);
-  if (pointer.schema_version !== 1 || metadata.schema_version !== 4) throw new Error("Unexpected fixture schema version.");
+  if (pointer.schema_version !== 1 || metadata.schema_version !== 5) throw new Error("Unexpected fixture schema version.");
   if (pointer.content_version !== metadata.content_version) throw new Error("Fixture pointer and metadata versions differ.");
   const seenChunks = new Set();
   for (const chunk of metadata.chunks) {

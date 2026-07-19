@@ -18,3 +18,4 @@ new ADR that supersedes the old one instead of rewriting history.
 | [ADR-0011](ADR-0011-lane-topology-route-context-and-trip-map.md) | Accepted | Distance-bounded lane topology, semantic route context, and an authoritative full-screen trip map |
 | [ADR-0012](ADR-0012-agentic-visual-asset-pipeline.md) | Accepted | Agentic 3D asset pipeline with replaceable vehicle, road, and environment contracts |
 | [ADR-0013](ADR-0013-highway-lane-transition-control-lines.md) | Accepted | Stable highway control lines and speed-designed lane transitions |
+| [ADR-0014](ADR-0014-directed-carriageways-and-road-markings.md) | Accepted | Reciprocal directed carriageways and correct yellow/white road-marking semantics |

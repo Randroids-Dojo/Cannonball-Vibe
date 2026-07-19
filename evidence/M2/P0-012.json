@@ -3,12 +3,12 @@
   "task_id": "P0-012",
   "milestone": "M2",
   "status": "verified_local_pending_human_review",
-  "git_revision": "3a540807eb0ea4d337604922af3e0c08bbdfbbe3",
+  "git_revision": "32e8c26f9b911b1eabc7a0a60ddcfa7c60517a94",
   "platform": {
     "os": "Darwin 25.6.0",
     "architecture": "arm64"
   },
-  "recorded_at_utc": "2026-07-19T07:18:44.957Z",
+  "recorded_at_utc": "2026-07-19T16:05:30.371Z",
   "tool_versions": {
     "dotnet_sdk": "10.0.102",
     "uv": "0.9.24",
@@ -17,7 +17,7 @@
   "deterministic_seed": 20260714,
   "corpus_lock": {
     "path": "data/routes/fixtures/validation/p0-012-corpus-lock.json",
-    "sha256": "69fa412e571e91826cc3b273b73e637bd0e8a96b4aa68fdc259a3dcb00169ea0",
+    "sha256": "d30a7ac602340e477ee9f4b5938cad1292188a3477fd9bcb35507998a9154ed8",
     "corpus_id": "p0-012-representative-topology-corpus-v1"
   },
   "input_artifacts": [
@@ -38,12 +38,12 @@
     },
     {
       "path": "data/routes/fixtures/validation/invalid-topology-mutations.json",
-      "sha256": "79d274d42e2af91c9b9a29d71b95627d8728bd5b7a896934c326be42602444ca",
+      "sha256": "c6ee71c95d927df4d97c58204ee417f46e900a59d81e06355642c4c04e71e04c",
       "provenance_kind": "deterministic_derivation"
     },
     {
       "path": "data/routes/fixtures/semantics/representative-contract.json",
-      "sha256": "0746393c595d8d6e918fbdfa9b71ed047c6e07eb7adb9c3db991a4eb0f5efaef",
+      "sha256": "c1e7bf3de3ba82503ff434a116fba71b8694f650a312256ff5d2165485cba5d1",
       "provenance_kind": "deterministic_derivation"
     },
     {
@@ -122,7 +122,7 @@
   ],
   "metrics": {
     "legal_fixture_count": 3,
-    "invalid_mutation_count": 9,
+    "invalid_mutation_count": 12,
     "topology": {
       "checkpoints": "12",
       "edge": "edge-3a11c16ebb9b3a945413",
@@ -144,8 +144,8 @@
       "terrain_seams": "13",
       "max_seam_gap_m": "0.000",
       "max_unsupported_frames": "1",
-      "max_visual_build_ms": "13.945",
-      "max_collision_build_ms": "1.184",
+      "max_visual_build_ms": "13.962",
+      "max_collision_build_ms": "1.050",
       "override": "p0-010-variable-lanes-v1",
       "chunk_failures": "0"
     },
@@ -175,21 +175,21 @@
       "self_intersections": "0",
       "invalid_shortcuts": "0",
       "max_unsupported_frames": "8",
-      "max_visual_build_ms": "15.951",
-      "max_collision_build_ms": "0.987",
+      "max_visual_build_ms": "16.313",
+      "max_collision_build_ms": "1.087",
       "override": "p0-011-representative-interchanges-v1",
       "chunk_failures": "0"
     },
     "route_context": {
       "review_points": "6",
-      "mile_markers": "4",
+      "mile_markers": "5",
       "exit_signs": "1",
       "transfer_signs": "2",
       "concurrent_markers": "2",
       "distinct_mile_values": "4",
       "omissions": "3",
-      "automation_nodes": "7",
-      "max_visual_build_ms": "16.066",
+      "automation_nodes": "8",
+      "max_visual_build_ms": "16.208",
       "chunk_failures": "0"
     }
   },
@@ -226,7 +226,7 @@
     },
     {
       "criterion": "bot traversal and invalid mutation rejection",
-      "observed": "4 legal plans and 9 invalid mutations",
+      "observed": "4 legal plans and 12 invalid mutations",
       "passed": true
     },
     {
@@ -238,27 +238,27 @@
   "output_artifacts": [
     {
       "path": "reports/M2/P0-012/core-route-tests.log",
-      "sha256": "2aa3cf1938a06f6f117baf74e44fe63e8fd6cecd646d8489e0ea6b8ce0880068"
+      "sha256": "beb43eeb14f0ceec2d60d9c45f4adce748843d68414628c6dd56f4b0c801db60"
     },
     {
       "path": "reports/M2/P0-012/corpus-tests.log",
-      "sha256": "5603b3bdbd979d86e8c62be43291039331c1f18d392c470cba56f4eba489b84d"
+      "sha256": "9352925e5e271773731e7ca3a390daf15479f6b144d2d059ca8d677d62821619"
     },
     {
       "path": "reports/M2/P0-012/m0.log",
-      "sha256": "3b19bc895d0a7448bdc88eb1a1aa64cb04e121da71623d4f5f2917a7a5857755"
+      "sha256": "22bf7f4d79813df07100a790ea28d7aef353a692d546e56cc0e6598cbbddf728"
     },
     {
       "path": "reports/M2/P0-012/representative-interchanges.log",
-      "sha256": "cdee1d97689e37eaa0e7ea8dd3732fb47af2b3b5f84aaee80dcb71de18b88645"
+      "sha256": "b08f5f54180ce522ded225343b73a9fbf773c2972413a64405662bd32087729e"
     },
     {
       "path": "reports/M2/P0-012/route-context.log",
-      "sha256": "8ea6bc4afc725fd83858074729f0fe48a5fa4f26857f60d9a157027c21e0037d"
+      "sha256": "2f9bed7a879b90b6d2f83496578da49af980c6747db480d5506828269e478f5c"
     },
     {
       "path": "reports/M2/P0-012/variable-lanes.log",
-      "sha256": "af113d137b0b78efe51aad11b4bbe64fa665cefbdacb3450009ef84c30ca414f"
+      "sha256": "6f96521eb35b92dcb36e38cbe7eee2b3f6d220b0d7d394324ae287421d1c4e6c"
     },
     {
       "path": "/tmp/p0-012-topology-review.avi",
@@ -278,7 +278,7 @@
     },
     {
       "path": "reports/m0/summary.json",
-      "sha256": "03e1280355cbee06257517f05ed8bb727151745a22e1bae641d259daa0a2883e"
+      "sha256": "62fae9463d1b402ebbf37150ba189af718edad1fa09da4f9a5ba8e96a9e50ff1"
     }
   ],
   "retry_count": 0,

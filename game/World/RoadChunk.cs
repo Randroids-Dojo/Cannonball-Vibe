@@ -43,6 +43,7 @@ public sealed partial class RoadChunk : Node3D
         var requiredNodes = new[]
         {
             "TerrainShoulders", "PavedShoulders", "RoadSurface", "LaneMarkings",
+            "MedianEdgeMarking",
             "MedianReflectors", "LaneReflectors", "RoadBarriers", "Guardrails",
             "GuardrailPosts", "RoadsidePosts", "TerrainScenery",
         };
@@ -63,10 +64,19 @@ public sealed partial class RoadChunk : Node3D
             automationIds.Length == resolved.Length &&
             automationIds.Distinct(StringComparer.Ordinal).Count() == resolved.Length &&
             automationIds.All(id => id.StartsWith(expectedPrefix, StringComparison.Ordinal));
+        var whiteMarkings = GetNodeOrNull<MeshInstance3D>("LaneMarkings");
+        var medianMarking = GetNodeOrNull<MeshInstance3D>("MedianEdgeMarking");
+        var markingSemanticsResolved =
+            ReferenceEquals(whiteMarkings?.MaterialOverride, _visualKit.MarkingWhite) &&
+            ReferenceEquals(medianMarking?.MaterialOverride, _visualKit.MarkingYellow) &&
+            _visualKit.Gore.AlbedoColor == _visualKit.MarkingWhite.AlbedoColor &&
+            _visualKit.MarkingYellow.AlbedoColor != _visualKit.MarkingWhite.AlbedoColor;
         return new RoadChunkVisualSnapshot(
             ChunkId,
             _visualKit.ProfileId,
-            resolved.Length == requiredNodes.Length && semanticMetadataComplete,
+            resolved.Length == requiredNodes.Length && semanticMetadataComplete &&
+                markingSemanticsResolved,
+            markingSemanticsResolved,
             resolved.Length,
             _visualKit.SharedMaterialCount,
             _visualKit.SharedMeshCount,
@@ -880,8 +890,10 @@ public sealed partial class RoadChunk : Node3D
         IReadOnlyList<RouteChunkSample> samples,
         IReadOnlyList<LaneGeometrySample> layouts)
     {
-        var surface = new SurfaceTool();
-        surface.Begin(Mesh.PrimitiveType.Triangles);
+        var whiteSurface = new SurfaceTool();
+        whiteSurface.Begin(Mesh.PrimitiveType.Triangles);
+        var yellowSurface = new SurfaceTool();
+        yellowSurface.Begin(Mesh.PrimitiveType.Triangles);
         for (var index = 0; index < points.Count - 1; index++)
         {
             var segment = points[index + 1] - points[index];
@@ -896,7 +908,7 @@ public sealed partial class RoadChunk : Node3D
                          StringComparer.Ordinal))
             {
                 AddDashedMarkingQuads(
-                    surface,
+                    whiteSurface,
                     points[index],
                     points[index + 1],
                     tangents[index],
@@ -907,16 +919,7 @@ public sealed partial class RoadChunk : Node3D
                     samples[index + 1].DistanceMeters);
             }
             AddMarkingQuad(
-                surface,
-                points[index],
-                points[index + 1],
-                tangents[index],
-                tangents[index + 1],
-                layouts[index].LaneLeftMeters,
-                layouts[index + 1].LaneLeftMeters,
-                0.10f);
-            AddMarkingQuad(
-                surface,
+                whiteSurface,
                 points[index],
                 points[index + 1],
                 tangents[index],
@@ -924,8 +927,17 @@ public sealed partial class RoadChunk : Node3D
                 layouts[index].LaneRightMeters,
                 layouts[index + 1].LaneRightMeters,
                 0.10f);
+            AddMarkingQuad(
+                yellowSurface,
+                points[index],
+                points[index + 1],
+                tangents[index],
+                tangents[index + 1],
+                layouts[index].LaneLeftMeters,
+                layouts[index + 1].LaneLeftMeters,
+                0.10f);
         }
-        var markings = surface.Commit();
+        var markings = whiteSurface.Commit();
         var laneMarkings = new MeshInstance3D
         {
             Name = "LaneMarkings",
@@ -934,6 +946,14 @@ public sealed partial class RoadChunk : Node3D
         };
         MarkRoadSemantic(laneMarkings, "lane-markings");
         AddChild(laneMarkings);
+        var medianEdgeMarking = new MeshInstance3D
+        {
+            Name = "MedianEdgeMarking",
+            Mesh = yellowSurface.Commit(),
+            MaterialOverride = _visualKit.MarkingYellow,
+        };
+        MarkRoadSemantic(medianEdgeMarking, "median-edge-marking");
+        AddChild(medianEdgeMarking);
     }
 
     private static void AddDashedMarkingQuads(
@@ -1263,6 +1283,7 @@ public sealed record RoadChunkVisualSnapshot(
     string ChunkId,
     string ProfileId,
     bool ContractResolved,
+    bool MarkingSemanticsResolved,
     int SemanticNodeCount,
     int SharedMaterialCount,
     int SharedMeshCount,

@@ -65,6 +65,27 @@ public struct RouteEdgeData : IFlatbufferObject
   public int LaneSectionIdsLength { get { int o = __p.__offset(24); return o != 0 ? __p.__vector_len(o) : 0; } }
   public string RouteIdentityIds(int j) { int o = __p.__offset(26); return o != 0 ? __p.__string(__p.__vector(o) + j * 4) : null; }
   public int RouteIdentityIdsLength { get { int o = __p.__offset(26); return o != 0 ? __p.__vector_len(o) : 0; } }
+  public string RoadwayKind { get { int o = __p.__offset(28); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
+#if ENABLE_SPAN_T
+  public Span<byte> GetRoadwayKindBytes() { return __p.__vector_as_span<byte>(28, 1); }
+#else
+  public ArraySegment<byte>? GetRoadwayKindBytes() { return __p.__vector_as_arraysegment(28); }
+#endif
+  public byte[] GetRoadwayKindArray() { return __p.__vector_as_array<byte>(28); }
+  public string CarriagewayGroupId { get { int o = __p.__offset(30); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
+#if ENABLE_SPAN_T
+  public Span<byte> GetCarriagewayGroupIdBytes() { return __p.__vector_as_span<byte>(30, 1); }
+#else
+  public ArraySegment<byte>? GetCarriagewayGroupIdBytes() { return __p.__vector_as_arraysegment(30); }
+#endif
+  public byte[] GetCarriagewayGroupIdArray() { return __p.__vector_as_array<byte>(30); }
+  public string OpposingEdgeId { get { int o = __p.__offset(32); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
+#if ENABLE_SPAN_T
+  public Span<byte> GetOpposingEdgeIdBytes() { return __p.__vector_as_span<byte>(32, 1); }
+#else
+  public ArraySegment<byte>? GetOpposingEdgeIdBytes() { return __p.__vector_as_arraysegment(32); }
+#endif
+  public byte[] GetOpposingEdgeIdArray() { return __p.__vector_as_array<byte>(32); }
 
   public static Offset<Cannonball.Content.RouteEdgeData> CreateRouteEdgeData(FlatBufferBuilder builder,
       StringOffset idOffset = default(StringOffset),
@@ -78,9 +99,15 @@ public struct RouteEdgeData : IFlatbufferObject
       VectorOffset chunk_idsOffset = default(VectorOffset),
       VectorOffset samplesOffset = default(VectorOffset),
       VectorOffset lane_section_idsOffset = default(VectorOffset),
-      VectorOffset route_identity_idsOffset = default(VectorOffset)) {
-    builder.StartTable(12);
+      VectorOffset route_identity_idsOffset = default(VectorOffset),
+      StringOffset roadway_kindOffset = default(StringOffset),
+      StringOffset carriageway_group_idOffset = default(StringOffset),
+      StringOffset opposing_edge_idOffset = default(StringOffset)) {
+    builder.StartTable(15);
     RouteEdgeData.AddLengthMeters(builder, length_meters);
+    RouteEdgeData.AddOpposingEdgeId(builder, opposing_edge_idOffset);
+    RouteEdgeData.AddCarriagewayGroupId(builder, carriageway_group_idOffset);
+    RouteEdgeData.AddRoadwayKind(builder, roadway_kindOffset);
     RouteEdgeData.AddRouteIdentityIds(builder, route_identity_idsOffset);
     RouteEdgeData.AddLaneSectionIds(builder, lane_section_idsOffset);
     RouteEdgeData.AddSamples(builder, samplesOffset);
@@ -95,7 +122,7 @@ public struct RouteEdgeData : IFlatbufferObject
     return RouteEdgeData.EndRouteEdgeData(builder);
   }
 
-  public static void StartRouteEdgeData(FlatBufferBuilder builder) { builder.StartTable(12); }
+  public static void StartRouteEdgeData(FlatBufferBuilder builder) { builder.StartTable(15); }
   public static void AddId(FlatBufferBuilder builder, StringOffset idOffset) { builder.AddOffset(0, idOffset.Value, 0); }
   public static void AddFromNodeId(FlatBufferBuilder builder, StringOffset fromNodeIdOffset) { builder.AddOffset(1, fromNodeIdOffset.Value, 0); }
   public static void AddToNodeId(FlatBufferBuilder builder, StringOffset toNodeIdOffset) { builder.AddOffset(2, toNodeIdOffset.Value, 0); }
@@ -124,6 +151,9 @@ public struct RouteEdgeData : IFlatbufferObject
   public static VectorOffset CreateRouteIdentityIdsVectorBlock(FlatBufferBuilder builder, ArraySegment<StringOffset> data) { builder.StartVector(4, data.Count, 4); builder.Add(data); return builder.EndVector(); }
   public static VectorOffset CreateRouteIdentityIdsVectorBlock(FlatBufferBuilder builder, IntPtr dataPtr, int sizeInBytes) { builder.StartVector(1, sizeInBytes, 1); builder.Add<StringOffset>(dataPtr, sizeInBytes); return builder.EndVector(); }
   public static void StartRouteIdentityIdsVector(FlatBufferBuilder builder, int numElems) { builder.StartVector(4, numElems, 4); }
+  public static void AddRoadwayKind(FlatBufferBuilder builder, StringOffset roadwayKindOffset) { builder.AddOffset(12, roadwayKindOffset.Value, 0); }
+  public static void AddCarriagewayGroupId(FlatBufferBuilder builder, StringOffset carriagewayGroupIdOffset) { builder.AddOffset(13, carriagewayGroupIdOffset.Value, 0); }
+  public static void AddOpposingEdgeId(FlatBufferBuilder builder, StringOffset opposingEdgeIdOffset) { builder.AddOffset(14, opposingEdgeIdOffset.Value, 0); }
   public static Offset<Cannonball.Content.RouteEdgeData> EndRouteEdgeData(FlatBufferBuilder builder) {
     int o = builder.EndTable();
     builder.Required(o, 4);  // id
@@ -180,6 +210,9 @@ public struct RouteEdgeData : IFlatbufferObject
     for (var _j = 0; _j < this.LaneSectionIdsLength; ++_j) {_o.LaneSectionIds.Add(this.LaneSectionIds(_j));}
     _o.RouteIdentityIds = new List<string>();
     for (var _j = 0; _j < this.RouteIdentityIdsLength; ++_j) {_o.RouteIdentityIds.Add(this.RouteIdentityIds(_j));}
+    _o.RoadwayKind = this.RoadwayKind;
+    _o.CarriagewayGroupId = this.CarriagewayGroupId;
+    _o.OpposingEdgeId = this.OpposingEdgeId;
   }
   public static Offset<Cannonball.Content.RouteEdgeData> Pack(FlatBufferBuilder builder, RouteEdgeDataT _o) {
     if (_o == null) return default(Offset<Cannonball.Content.RouteEdgeData>);
@@ -212,6 +245,9 @@ public struct RouteEdgeData : IFlatbufferObject
       for (var _j = 0; _j < __route_identity_ids.Length; ++_j) { __route_identity_ids[_j] = builder.CreateString(_o.RouteIdentityIds[_j]); }
       _route_identity_ids = CreateRouteIdentityIdsVector(builder, __route_identity_ids);
     }
+    var _roadway_kind = _o.RoadwayKind == null ? default(StringOffset) : builder.CreateString(_o.RoadwayKind);
+    var _carriageway_group_id = _o.CarriagewayGroupId == null ? default(StringOffset) : builder.CreateString(_o.CarriagewayGroupId);
+    var _opposing_edge_id = _o.OpposingEdgeId == null ? default(StringOffset) : builder.CreateString(_o.OpposingEdgeId);
     return CreateRouteEdgeData(
       builder,
       _id,
@@ -225,7 +261,10 @@ public struct RouteEdgeData : IFlatbufferObject
       _chunk_ids,
       _samples,
       _lane_section_ids,
-      _route_identity_ids);
+      _route_identity_ids,
+      _roadway_kind,
+      _carriageway_group_id,
+      _opposing_edge_id);
   }
 }
 
@@ -243,6 +282,9 @@ public class RouteEdgeDataT
   public List<Cannonball.Content.RouteSampleT> Samples { get; set; }
   public List<string> LaneSectionIds { get; set; }
   public List<string> RouteIdentityIds { get; set; }
+  public string RoadwayKind { get; set; }
+  public string CarriagewayGroupId { get; set; }
+  public string OpposingEdgeId { get; set; }
 
   public RouteEdgeDataT() {
     this.Id = null;
@@ -257,6 +299,9 @@ public class RouteEdgeDataT
     this.Samples = null;
     this.LaneSectionIds = null;
     this.RouteIdentityIds = null;
+    this.RoadwayKind = null;
+    this.CarriagewayGroupId = null;
+    this.OpposingEdgeId = null;
   }
 }
 
@@ -278,6 +323,9 @@ static public class RouteEdgeDataVerify
       && verifier.VerifyVectorOfData(tablePos, 22 /*Samples*/, 24 /*Cannonball.Content.RouteSample*/, false)
       && verifier.VerifyVectorOfStrings(tablePos, 24 /*LaneSectionIds*/, false)
       && verifier.VerifyVectorOfStrings(tablePos, 26 /*RouteIdentityIds*/, false)
+      && verifier.VerifyString(tablePos, 28 /*RoadwayKind*/, false)
+      && verifier.VerifyString(tablePos, 30 /*CarriagewayGroupId*/, false)
+      && verifier.VerifyString(tablePos, 32 /*OpposingEdgeId*/, false)
       && verifier.VerifyTableEnd(tablePos);
   }
 }

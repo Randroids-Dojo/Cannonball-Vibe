@@ -67,6 +67,7 @@ public sealed partial class WorldStreamer : Node3D
     private readonly HashSet<string> _loadedRouteContextAutomationIds = new(StringComparer.Ordinal);
     private readonly HashSet<string> _routeContextAutomationIdsSeen = new(StringComparer.Ordinal);
     private readonly HashSet<string> _roadVisualObservedChunks = new(StringComparer.Ordinal);
+    private readonly HashSet<string> _opposingCarriagewayChunksSeen = new(StringComparer.Ordinal);
     private readonly List<double> _chunkBuildSamplesMilliseconds = [];
     private readonly List<double> _collisionBuildSamplesMilliseconds = [];
     private bool _roadVisualContractsResolved = true;
@@ -117,6 +118,7 @@ public sealed partial class WorldStreamer : Node3D
     public string ContentVersion => _package.Graph.ContentVersion;
     public double TotalRouteLengthMeters => RouteLengthMeters;
     public IReadOnlyList<string> RoutePlan => _routePlan.EdgeIds;
+    public int OpposingCarriagewayChunksSeen => _opposingCarriagewayChunksSeen.Count;
     public Vector3 InitialRoadPoint { get; private set; }
     public Vector3 InitialRoadForward { get; private set; }
     public bool ShortCorridorLoopEnabled { get; set; }
@@ -567,6 +569,7 @@ public sealed partial class WorldStreamer : Node3D
             .Where(span => span.EndMeters >= first && span.StartMeters <= last)
             .Select(span => span.Manifest.Id)
             .ToHashSet(StringComparer.Ordinal);
+        var opposingVisual = GetOpposingVisualChunkIds(directVisual);
         _desiredBranchPrewarm.Clear();
         foreach (var branchId in directVisual
                      .Select(id => _package.Chunks[id])
@@ -579,6 +582,7 @@ public sealed partial class WorldStreamer : Node3D
         }
         _desiredVisual = directVisual
             .Concat(_desiredBranchPrewarm)
+            .Concat(opposingVisual)
             .ToHashSet(StringComparer.Ordinal);
         _desiredCollision = _manifests
             .Where(span =>
@@ -643,6 +647,36 @@ public sealed partial class WorldStreamer : Node3D
         MaximumVisualChunkCount = Math.Max(MaximumVisualChunkCount, _loaded.Count);
         MaximumCollisionChunkCount = Math.Max(MaximumCollisionChunkCount, CollisionChunkCount);
         ObservedVisualOnlyChunkCount = Math.Max(ObservedVisualOnlyChunkCount, VisualOnlyChunkCount);
+    }
+
+    private HashSet<string> GetOpposingVisualChunkIds(IEnumerable<string> directChunkIds)
+    {
+        var result = new HashSet<string>(StringComparer.Ordinal);
+        foreach (var chunkId in directChunkIds)
+        {
+            var manifest = _package.Chunks[chunkId];
+            var edge = _package.Graph.GetEdge(manifest.EdgeId);
+            var opposing = _package.Graph.GetOpposingEdge(edge.Id);
+            if (opposing is null)
+            {
+                continue;
+            }
+            var opposingStart = opposing.LengthMeters *
+                (1 - manifest.EndMeters / edge.LengthMeters);
+            var opposingEnd = opposing.LengthMeters *
+                (1 - manifest.StartMeters / edge.LengthMeters);
+            foreach (var candidate in _package.Chunks.Values.Where(candidate =>
+                         string.Equals(
+                             candidate.EdgeId,
+                             opposing.Id,
+                             StringComparison.Ordinal) &&
+                         candidate.EndMeters >= opposingStart &&
+                         candidate.StartMeters <= opposingEnd))
+            {
+                result.Add(candidate.Id);
+            }
+        }
+        return result;
     }
 
     private void CompletePendingLoads()
@@ -731,6 +765,11 @@ public sealed partial class WorldStreamer : Node3D
             _roadVisualRouteShieldsSeen += roadVisual.RouteShieldCount;
             _roadVisualServiceIconsSeen += roadVisual.ServiceIconCount;
             _roadVisualGoreChunksSeen += roadVisual.HasGoreGeometry ? 1 : 0;
+        }
+        if (!_routePlanEdgeIds.Contains(content.EdgeId) &&
+            edge.RoadwayKind == RoadwayKind.DividedCarriageway)
+        {
+            _opposingCarriagewayChunksSeen.Add(content.Id);
         }
         if (_desiredBranchPrewarm.Contains(content.Id))
         {

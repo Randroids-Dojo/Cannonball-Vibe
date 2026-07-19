@@ -48,6 +48,14 @@ public sealed record RouteNode(
     string Kind,
     IReadOnlyList<string> OutgoingEdgeIds);
 
+public enum RoadwayKind
+{
+    Unclassified,
+    DividedCarriageway,
+    OneWayRamp,
+    OneWayRoadway,
+}
+
 public sealed record RouteEdge(
     string Id,
     string FromNodeId,
@@ -70,6 +78,12 @@ public sealed record RouteEdge(
     public IReadOnlyList<LaneSection> LaneSections { get; init; } = [];
 
     public IReadOnlyList<string> RouteIdentityIds { get; init; } = [];
+
+    public RoadwayKind RoadwayKind { get; init; }
+
+    public string CarriagewayGroupId { get; init; } = string.Empty;
+
+    public string OpposingEdgeId { get; init; } = string.Empty;
 }
 
 public readonly record struct RouteBounds(

@@ -72,6 +72,9 @@ def write_flatbuffer(
             else [],
             laneSectionIds=edge.get("lane_section_ids", []),
             routeIdentityIds=edge.get("route_identity_ids", []),
+            roadwayKind=edge.get("roadway_kind", "unclassified"),
+            carriagewayGroupId=edge.get("carriageway_group_id", ""),
+            opposingEdgeId=edge.get("opposing_edge_id", ""),
         )
         for edge in package["edges"]
     ]

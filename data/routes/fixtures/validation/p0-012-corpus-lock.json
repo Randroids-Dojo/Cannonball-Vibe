@@ -20,12 +20,12 @@
     },
     {
       "path": "data/routes/fixtures/validation/invalid-topology-mutations.json",
-      "sha256": "79d274d42e2af91c9b9a29d71b95627d8728bd5b7a896934c326be42602444ca",
+      "sha256": "c6ee71c95d927df4d97c58204ee417f46e900a59d81e06355642c4c04e71e04c",
       "provenance_kind": "deterministic_derivation"
     },
     {
       "path": "data/routes/fixtures/semantics/representative-contract.json",
-      "sha256": "0746393c595d8d6e918fbdfa9b71ed047c6e07eb7adb9c3db991a4eb0f5efaef",
+      "sha256": "c1e7bf3de3ba82503ff434a116fba71b8694f650a312256ff5d2165485cba5d1",
       "provenance_kind": "deterministic_derivation"
     },
     {

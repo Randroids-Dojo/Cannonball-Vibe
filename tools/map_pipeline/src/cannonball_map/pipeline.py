@@ -132,7 +132,7 @@ def build_route_graph(
         acquisition_lock_sha256,
     )
     package = {
-        "schema_version": 4,
+        "schema_version": 5,
         "content_version": content_version,
         "source": {
             "source_id": manifest.source_id,
@@ -756,6 +756,9 @@ def _semantic_hints(row: Any) -> dict[str, object]:
         "source_begin_mile": _optional_source_number(row, "BEGMP"),
         "source_end_mile": _optional_source_number(row, "ENDMP"),
         "source_jurisdiction": _clean_source_value(row, "STFIPS") or "unknown",
+        "source_roadway_kind": _clean_source_value(row, "ROADWAY_KIND") or "unclassified",
+        "source_carriageway_group_id": _clean_source_value(row, "CARRIAGEWAY_ID"),
+        "source_opposing_feature_id": _clean_source_value(row, "OPPOSING_ID"),
     }
 
 

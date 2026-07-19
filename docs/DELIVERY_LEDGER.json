@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated": "2026-07-18",
+  "updated": "2026-07-19",
   "project": "Cannonball-Vibe",
   "authority": {
     "architecture_decisions": "docs/decisions/",
@@ -804,6 +804,103 @@
         "status": "pending",
         "question_reference": "docs/QUESTIONS_FOR_RANDROID_2026-07-18_SYSTEMATIC_BACKLOG.md#q-025--p0-012-geographic-plausibility-and-route-choice-review"
       }
+    },
+    {
+      "id": "P0-014",
+      "milestone": "M2",
+      "priority": "P0",
+      "title": "Directed carriageway and road-marking contract",
+      "status": "in_progress",
+      "dependencies": [
+        "P0-009",
+        "P0-010",
+        "P0-011"
+      ],
+      "owned_paths": [
+        "schemas/route_graph.fbs",
+        "src/Cannonball.Core/Content/",
+        "src/Cannonball.Core/Routes/",
+        "tests/Cannonball.Core.Tests/",
+        "tools/map_pipeline/",
+        "data/routes/fixtures/semantics/",
+        "data/routes/fixtures/validation/",
+        "game/World/RoadChunk.cs",
+        "game/World/RoadVisuals/",
+        "game/Automation/RepresentativeInterchangeFixture.cs",
+        "scripts/generate-schemas.sh",
+        "scripts/release/package-tools.mjs",
+        "docs/TECH_STACK.md",
+        "docs/OPEN_QUESTIONS.md",
+        "docs/QUESTIONS_FOR_RANDROID_2026-07-19_CARRIAGEWAYS_AND_TRAFFIC.md",
+        "docs/decisions/ADR-0014-directed-carriageways-and-road-markings.md",
+        "docs/audits/2026-07-19-p0-014-directed-carriageway-review.md",
+        "docs/images/p0-014-carriageway-markings-review.png",
+        "evidence/M2/P0-014.json"
+      ],
+      "acceptance": [
+        "Route schema 5 distinguishes divided carriageways, one-way ramps, true one-way roadways, and unclassified source records without placing opposing traffic in one lane ribbon",
+        "Every divided carriageway has one distinct reciprocal opposing edge in the same stable carriageway group, while non-divided edges cannot declare a pairing",
+        "The offline pipeline preserves explicit source or authored pairing, rejects missing or ambiguous relationships, content-addresses the contract, and does not infer a pair from proximity",
+        "Rendered directed roadways use a yellow left or median edge, white same-direction lane dividers, a white right edge, and white right-side gore or channelization markings",
+        "A representative paired-carriageway fixture and adversarial mutations validate serialization, runtime loading, directionality, marking semantics, and traffic-facing lookup",
+        "The schema, pipeline, official-engine headless scenario, deterministic renderer capture, and full repository checks pass"
+      ],
+      "verification": [
+        "uv run --project tools/map_pipeline --frozen pytest tools/map_pipeline/tests -q",
+        "DOTNET_ROLL_FORWARD=Major dotnet test Cannonball.sln --filter 'FullyQualifiedName~Route'",
+        "./scripts/run-scenario.sh --fixture representative-interchanges --profile road-visual",
+        "./scripts/capture-scenario.sh /tmp/p0-014-carriageway-markings.avi --fixture representative-interchanges --road-visual-review",
+        "./scripts/check.sh"
+      ],
+      "evidence": [
+        "evidence/M2/P0-014.json"
+      ],
+      "human_gate": null,
+      "notes": "ADR-0014 is authoritative. Q-026 selects whether undivided two-way roads enter the first playable corridor; the working default keeps them out without blocking the directed-carriageway contract. P1-009 retains final visual-quality approval."
+    },
+    {
+      "id": "P0-015",
+      "milestone": "M3",
+      "priority": "P0",
+      "title": "Layered deterministic highway traffic director",
+      "status": "open",
+      "dependencies": [
+        "P0-005",
+        "P0-006",
+        "P0-012",
+        "P0-014"
+      ],
+      "owned_paths": [
+        "src/Cannonball.Core/Simulation/Traffic/",
+        "game/Traffic/",
+        "game/Automation/TrafficScenario.cs",
+        "tests/Cannonball.Core.Tests/",
+        "scripts/verify-traffic.sh",
+        "scripts/capture-scenario.sh",
+        "evidence/M3/P0-015.json"
+      ],
+      "acceptance": [
+        "A deterministic macro flow and spawn schedule resolves into bounded near-player traffic before it becomes relevant and reconstructs identically after save/resume",
+        "Same-direction agents occupy only legal lanes on the active directed edge; opposing agents occupy only the validated reciprocal carriageway and never share the player's lane ribbon",
+        "Density, composition, speed distributions, lane intent, indicators, merges, exits, entrances, transfers, incidents, and gap acceptance remain readable at the declared high-speed target",
+        "Far traffic uses pooled or instanced representations and only near traffic receives physics, with measured update, memory, tunneling, and collision-substep budgets",
+        "Traffic survives streaming, branch prewarm/eviction, local-origin rebases, route changes, compression modes, and exact save/resume without teleporting into unsafe sightlines",
+        "Adversarial scenarios cover missing carriageway pairs, ramps, lane drops, interchanges, stopped vehicles, maximum closing speed, degraded quality, and deterministic replay"
+      ],
+      "verification": [
+        "DOTNET_ROLL_FORWARD=Major dotnet test Cannonball.sln --filter 'FullyQualifiedName~Traffic'",
+        "./scripts/verify-traffic.sh --all-fixtures",
+        "./scripts/capture-scenario.sh /tmp/p0-015-traffic.avi --fixture representative-interchanges --traffic-review",
+        "./scripts/check.sh"
+      ],
+      "evidence": [
+        "evidence/M3/P0-015.json"
+      ],
+      "human_gate": {
+        "name": "High-speed traffic readability, fairness, and density review",
+        "required_for": "M3"
+      },
+      "notes": "ADR-0014 governs directionality. Do not infer opposing flow from spatial proximity, and do not begin undivided two-way behavior unless Q-026 selects that scope and a superseding cross-section decision is recorded."
     },
     {
       "id": "P0-013",

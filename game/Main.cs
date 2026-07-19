@@ -2266,6 +2266,7 @@ public sealed partial class Main : Node3D
             $"guardrails={snapshot.GuardrailSegmentCount} " +
             $"shields={snapshot.RouteShieldCount} services={snapshot.ServiceIconCount} " +
             $"gore_chunks={snapshot.GoreChunkCount} " +
+            $"opposing_carriageway_chunks={_streamer.OpposingCarriagewayChunksSeen} " +
             $"shared_materials={snapshot.SharedMaterialCount} " +
             $"shared_meshes={snapshot.SharedMeshCount} " +
             $"retroreflective_materials={snapshot.RetroreflectiveMaterialCount} " +
@@ -2303,7 +2304,7 @@ public sealed partial class Main : Node3D
         }
     }
 
-    private static void ValidateRoadVisualSnapshot(RoadVisualSnapshot snapshot)
+    private void ValidateRoadVisualSnapshot(RoadVisualSnapshot snapshot)
     {
         var expectedProfile = OS.GetCmdlineUserArgs().Contains(
             "--graybox-road-assets",
@@ -2315,7 +2316,8 @@ public sealed partial class Main : Node3D
             snapshot.BarrierSegmentCount < 1 || snapshot.GuardrailSegmentCount < 1 ||
             snapshot.RouteShieldCount < 2 || snapshot.ServiceIconCount < 2 ||
             snapshot.SharedMaterialCount != 18 || snapshot.SharedMeshCount != 5 ||
-            snapshot.RetroreflectiveMaterialCount != 11)
+            snapshot.RetroreflectiveMaterialCount != 11 ||
+            (_interchangeFixture is not null && _streamer.OpposingCarriagewayChunksSeen < 1))
         {
             throw new InvalidOperationException(
                 "Road-visual kit contract failed: " +

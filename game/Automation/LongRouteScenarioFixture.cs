@@ -45,7 +45,7 @@ public static class LongRouteScenarioFixture
             : sourcePackage.Metadata?.SourceArtifactSha256
                 ?? throw new InvalidDataException("Long-route source package has no stable root hash.");
         var contentVersion =
-            $"route-v4-long-{targetDistanceMiles:0.###}mi-{seed:x16}-{sourceHash[..12]}";
+            $"route-v5-long-{targetDistanceMiles:0.###}mi-{seed:x16}-{sourceHash[..12]}";
         var provenance = new RouteSemanticProvenance(
             SemanticProvenanceKind.AuthoredOverride,
             sourcePackage.Metadata?.SourceId ?? "verified-corridor",

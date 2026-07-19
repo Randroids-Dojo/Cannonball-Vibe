@@ -168,8 +168,29 @@ class RouteEdgeData(object):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(26))
         return o == 0
 
+    # RouteEdgeData
+    def RoadwayKind(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(28))
+        if o != 0:
+            return self._tab.String(o + self._tab.Pos)
+        return None
+
+    # RouteEdgeData
+    def CarriagewayGroupId(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(30))
+        if o != 0:
+            return self._tab.String(o + self._tab.Pos)
+        return None
+
+    # RouteEdgeData
+    def OpposingEdgeId(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(32))
+        if o != 0:
+            return self._tab.String(o + self._tab.Pos)
+        return None
+
 def RouteEdgeDataStart(builder):
-    builder.StartObject(12)
+    builder.StartObject(15)
 
 def Start(builder):
     RouteEdgeDataStart(builder)
@@ -270,6 +291,24 @@ def RouteEdgeDataStartRouteIdentityIdsVector(builder, numElems):
 def StartRouteIdentityIdsVector(builder, numElems):
     return RouteEdgeDataStartRouteIdentityIdsVector(builder, numElems)
 
+def RouteEdgeDataAddRoadwayKind(builder, roadwayKind):
+    builder.PrependUOffsetTRelativeSlot(12, flatbuffers.number_types.UOffsetTFlags.py_type(roadwayKind), 0)
+
+def AddRoadwayKind(builder, roadwayKind):
+    RouteEdgeDataAddRoadwayKind(builder, roadwayKind)
+
+def RouteEdgeDataAddCarriagewayGroupId(builder, carriagewayGroupId):
+    builder.PrependUOffsetTRelativeSlot(13, flatbuffers.number_types.UOffsetTFlags.py_type(carriagewayGroupId), 0)
+
+def AddCarriagewayGroupId(builder, carriagewayGroupId):
+    RouteEdgeDataAddCarriagewayGroupId(builder, carriagewayGroupId)
+
+def RouteEdgeDataAddOpposingEdgeId(builder, opposingEdgeId):
+    builder.PrependUOffsetTRelativeSlot(14, flatbuffers.number_types.UOffsetTFlags.py_type(opposingEdgeId), 0)
+
+def AddOpposingEdgeId(builder, opposingEdgeId):
+    RouteEdgeDataAddOpposingEdgeId(builder, opposingEdgeId)
+
 def RouteEdgeDataEnd(builder):
     return builder.EndObject()
 
@@ -299,6 +338,9 @@ class RouteEdgeDataT(object):
         samples = None,
         laneSectionIds = None,
         routeIdentityIds = None,
+        roadwayKind = None,
+        carriagewayGroupId = None,
+        opposingEdgeId = None,
     ):
         self.id = id  # type: Optional[str]
         self.fromNodeId = fromNodeId  # type: Optional[str]
@@ -312,6 +354,9 @@ class RouteEdgeDataT(object):
         self.samples = samples  # type: Optional[List[Cannonball.Content.RouteSample.RouteSampleT]]
         self.laneSectionIds = laneSectionIds  # type: Optional[List[Optional[str]]]
         self.routeIdentityIds = routeIdentityIds  # type: Optional[List[Optional[str]]]
+        self.roadwayKind = roadwayKind  # type: Optional[str]
+        self.carriagewayGroupId = carriagewayGroupId  # type: Optional[str]
+        self.opposingEdgeId = opposingEdgeId  # type: Optional[str]
 
     @classmethod
     def InitFromBuf(cls, buf, pos):
@@ -362,6 +407,9 @@ class RouteEdgeDataT(object):
             self.routeIdentityIds = []
             for i in range(routeEdgeData.RouteIdentityIdsLength()):
                 self.routeIdentityIds.append(routeEdgeData.RouteIdentityIds(i))
+        self.roadwayKind = routeEdgeData.RoadwayKind()
+        self.carriagewayGroupId = routeEdgeData.CarriagewayGroupId()
+        self.opposingEdgeId = routeEdgeData.OpposingEdgeId()
 
     # RouteEdgeDataT
     def Pack(self, builder):
@@ -404,6 +452,12 @@ class RouteEdgeDataT(object):
             for i in reversed(range(len(self.routeIdentityIds))):
                 builder.PrependUOffsetTRelative(routeIdentityIdslist[i])
             routeIdentityIds = builder.EndVector()
+        if self.roadwayKind is not None:
+            roadwayKind = builder.CreateString(self.roadwayKind)
+        if self.carriagewayGroupId is not None:
+            carriagewayGroupId = builder.CreateString(self.carriagewayGroupId)
+        if self.opposingEdgeId is not None:
+            opposingEdgeId = builder.CreateString(self.opposingEdgeId)
         RouteEdgeDataStart(builder)
         if self.id is not None:
             RouteEdgeDataAddId(builder, id)
@@ -426,5 +480,11 @@ class RouteEdgeDataT(object):
             RouteEdgeDataAddLaneSectionIds(builder, laneSectionIds)
         if self.routeIdentityIds is not None:
             RouteEdgeDataAddRouteIdentityIds(builder, routeIdentityIds)
+        if self.roadwayKind is not None:
+            RouteEdgeDataAddRoadwayKind(builder, roadwayKind)
+        if self.carriagewayGroupId is not None:
+            RouteEdgeDataAddCarriagewayGroupId(builder, carriagewayGroupId)
+        if self.opposingEdgeId is not None:
+            RouteEdgeDataAddOpposingEdgeId(builder, opposingEdgeId)
         routeEdgeData = RouteEdgeDataEnd(builder)
         return routeEdgeData

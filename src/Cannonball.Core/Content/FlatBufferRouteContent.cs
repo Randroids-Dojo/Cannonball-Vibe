@@ -93,7 +93,7 @@ public static class FlatBufferRouteContent
         }
 
         var root = RouteGraphBuffer.GetRootAsRouteGraphBuffer(buffer);
-        if (root.SchemaVersion is not (1 or 2 or 3 or 4))
+        if (root.SchemaVersion is not (1 or 2 or 3 or 4 or 5))
         {
             throw new InvalidDataException($"Unsupported route schema {root.SchemaVersion}.");
         }
@@ -168,7 +168,15 @@ public static class FlatBufferRouteContent
                 SampleDistancesMeters = distance,
                 LateralSamples = lateral,
                 ElevationSamples = elevation,
+                RoadwayKind = ParseRoadwayKind(data.RoadwayKind, root.SchemaVersion, index),
+                CarriagewayGroupId = data.CarriagewayGroupId ?? string.Empty,
+                OpposingEdgeId = data.OpposingEdgeId ?? string.Empty,
             };
+        }
+
+        if (root.SchemaVersion >= 5)
+        {
+            ValidateCarriagewayReferences(edges);
         }
 
         var chunks = new Dictionary<string, ChunkManifest>(StringComparer.Ordinal);
@@ -307,6 +315,55 @@ public static class FlatBufferRouteContent
             RootContentHash = Convert.ToHexString(
                 System.Security.Cryptography.SHA256.HashData(bytes)).ToLowerInvariant(),
         };
+    }
+
+    private static RoadwayKind ParseRoadwayKind(string? value, uint schemaVersion, int edgeIndex)
+    {
+        if (schemaVersion < 5)
+        {
+            return RoadwayKind.Unclassified;
+        }
+        return value switch
+        {
+            "unclassified" => RoadwayKind.Unclassified,
+            "divided_carriageway" => RoadwayKind.DividedCarriageway,
+            "one_way_ramp" => RoadwayKind.OneWayRamp,
+            "one_way_roadway" => RoadwayKind.OneWayRoadway,
+            _ => throw new InvalidDataException(
+                $"Route edge {edgeIndex} has unknown roadway kind '{value}'."),
+        };
+    }
+
+    private static void ValidateCarriagewayReferences(IReadOnlyList<RouteEdge> edges)
+    {
+        var byId = edges.ToDictionary(edge => edge.Id, StringComparer.Ordinal);
+        foreach (var edge in edges)
+        {
+            if (edge.RoadwayKind != RoadwayKind.DividedCarriageway)
+            {
+                if (!string.IsNullOrWhiteSpace(edge.CarriagewayGroupId) ||
+                    !string.IsNullOrWhiteSpace(edge.OpposingEdgeId))
+                {
+                    throw new InvalidDataException(
+                        $"Non-divided edge '{edge.Id}' cannot declare carriageway pairing.");
+                }
+                continue;
+            }
+            if (string.IsNullOrWhiteSpace(edge.CarriagewayGroupId) ||
+                string.IsNullOrWhiteSpace(edge.OpposingEdgeId) ||
+                string.Equals(edge.Id, edge.OpposingEdgeId, StringComparison.Ordinal) ||
+                !byId.TryGetValue(edge.OpposingEdgeId, out var opposing) ||
+                opposing.RoadwayKind != RoadwayKind.DividedCarriageway ||
+                !string.Equals(opposing.OpposingEdgeId, edge.Id, StringComparison.Ordinal) ||
+                !string.Equals(
+                    opposing.CarriagewayGroupId,
+                    edge.CarriagewayGroupId,
+                    StringComparison.Ordinal))
+            {
+                throw new InvalidDataException(
+                    $"Divided carriageway edge '{edge.Id}' does not have a reciprocal pair.");
+            }
+        }
     }
 
     private static string Required(string? value, string description) =>

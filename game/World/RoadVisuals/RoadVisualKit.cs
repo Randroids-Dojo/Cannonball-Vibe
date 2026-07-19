@@ -25,7 +25,7 @@ public sealed class RoadVisualKit
         Pavement = Material(graybox ? "33363b" : "171a20", 0.94f);
         MarkingWhite = Retroreflective(graybox ? "e8e8e8" : "f5f1d8", 0.32f);
         MarkingYellow = Retroreflective(graybox ? "d7bf58" : "f2c230", 0.35f);
-        Gore = Retroreflective(graybox ? "d7bf58" : "f2c230", 0.4f);
+        Gore = Retroreflective(graybox ? "e8e8e8" : "f5f1d8", 0.4f);
         Concrete = Material(graybox ? "92969a" : "a7a9a3", 0.82f);
         GalvanizedSteel = Material(graybox ? "8b9099" : "aeb4b8", 0.42f, 0.72f);
         Delineator = Material(graybox ? "d6d0ad" : "e7e5dc", 0.78f);

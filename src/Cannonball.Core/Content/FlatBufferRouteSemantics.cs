@@ -45,7 +45,8 @@ internal static class FlatBufferRouteSemantics
             var edge = sourceEdges[index];
             if (!sectionsByEdge.TryGetValue(edge.Id, out var edgeSections) || edgeSections.Length == 0)
             {
-                throw new InvalidDataException($"Route schema 4 edge '{edge.Id}' has no lane sections.");
+                throw new InvalidDataException(
+                    $"Route schema 4 or newer edge '{edge.Id}' has no lane sections.");
             }
             ValidateSectionCoverage(edge, edgeSections);
             var maximumLaneCount = edgeSections.Max(section => section.Lanes.Count);
@@ -121,7 +122,7 @@ internal static class FlatBufferRouteSemantics
         }
         if (result.Count == 0)
         {
-            throw new InvalidDataException("Route schema 4 has no route identities.");
+            throw new InvalidDataException("Route schema 4 or newer has no route identities.");
         }
         return result;
     }

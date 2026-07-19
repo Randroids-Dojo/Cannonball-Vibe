@@ -59,7 +59,7 @@ public static class RepresentativeInterchangeFixture
         var sourceHash = sourcePackage.Metadata?.SourceArtifactSha256 ??
             Convert.ToHexString(SHA256.HashData(
                 Encoding.UTF8.GetBytes(sourcePackage.Graph.ContentVersion))).ToLowerInvariant();
-        var contentVersion = $"route-v4-interchanges-{StableSuffix(sourceHash)}";
+        var contentVersion = $"route-v5-interchanges-{StableSuffix(sourceHash)}";
         var provenance = new RouteSemanticProvenance(
             SemanticProvenanceKind.AuthoredOverride,
             sourcePackage.Metadata?.SourceId ?? "representative-corridor",
@@ -526,6 +526,24 @@ public static class RepresentativeInterchangeFixture
             RouteIdentityIds = spec.Id == "interchange-approach"
                 ? [spec.RouteIdentityId, "route-us287"]
                 : [spec.RouteIdentityId],
+            RoadwayKind = spec.Id switch
+            {
+                "receiving-highway" or "opposing-carriageway" =>
+                    RoadwayKind.DividedCarriageway,
+                "diamond-exit-ramp" or "diamond-entrance-ramp" or
+                    "directional-transfer-ramp" or "semi-directional-transfer-ramp" =>
+                    RoadwayKind.OneWayRamp,
+                _ => RoadwayKind.Unclassified,
+            },
+            CarriagewayGroupId = spec.Id is "receiving-highway" or "opposing-carriageway"
+                ? "i25-representative-pair"
+                : string.Empty,
+            OpposingEdgeId = spec.Id switch
+            {
+                "receiving-highway" => "opposing-carriageway",
+                "opposing-carriageway" => "receiving-highway",
+                _ => string.Empty,
+            },
         };
         return new BuiltEdge(edge, section, manifest, bytes, samples);
     }

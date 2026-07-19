@@ -8,6 +8,8 @@ public interface IRouteGraph
 
     RouteEdge GetEdge(string edgeId);
 
+    RouteEdge? GetOpposingEdge(string edgeId);
+
     IReadOnlyList<RouteEdge> GetOutgoingEdges(string nodeId);
 
     double GetRemainingDistance(RoutePosition position, IReadOnlyList<string> routePlan);
@@ -36,10 +38,84 @@ public sealed class InMemoryRouteGraph : IRouteGraph
             {
                 throw new ArgumentException($"Edge '{edge.Id}' references a missing node.", nameof(edges));
             }
+            ValidateCarriageway(edge);
         }
     }
 
     public string ContentVersion { get; }
+
+    private void ValidateCarriageway(RouteEdge edge)
+    {
+        var signedDirections = edge.LaneSections
+            .Select(section => NormalizeDirection(section.SignedDirection))
+            .Distinct(StringComparer.Ordinal)
+            .ToArray();
+        if (signedDirections.Length > 1)
+        {
+            throw new ArgumentException(
+                $"Route edge '{edge.Id}' changes signed direction between lane sections.",
+                "edges");
+        }
+        if (edge.RoadwayKind != RoadwayKind.DividedCarriageway)
+        {
+            if (!string.IsNullOrWhiteSpace(edge.CarriagewayGroupId) ||
+                !string.IsNullOrWhiteSpace(edge.OpposingEdgeId))
+            {
+                throw new ArgumentException(
+                    $"Non-divided edge '{edge.Id}' cannot declare carriageway pairing.",
+                    "edges");
+            }
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(edge.CarriagewayGroupId) ||
+            string.IsNullOrWhiteSpace(edge.OpposingEdgeId) ||
+            string.Equals(edge.Id, edge.OpposingEdgeId, StringComparison.Ordinal) ||
+            !_edges.TryGetValue(edge.OpposingEdgeId, out var opposing))
+        {
+            throw new ArgumentException(
+                $"Divided carriageway edge '{edge.Id}' needs a distinct, existing opposing edge.",
+                "edges");
+        }
+        if (opposing.RoadwayKind != RoadwayKind.DividedCarriageway ||
+            !string.Equals(opposing.OpposingEdgeId, edge.Id, StringComparison.Ordinal) ||
+            !string.Equals(
+                opposing.CarriagewayGroupId,
+                edge.CarriagewayGroupId,
+                StringComparison.Ordinal))
+        {
+            throw new ArgumentException(
+                $"Divided carriageway edge '{edge.Id}' does not have a reciprocal pair.",
+                "edges");
+        }
+        if (signedDirections.Length == 1 && opposing.LaneSections.Count > 0 &&
+            !AreOpposingDirections(
+                signedDirections[0],
+                opposing.LaneSections[0].SignedDirection))
+        {
+            throw new ArgumentException(
+                $"Divided carriageway edge '{edge.Id}' does not declare the opposite " +
+                "signed direction from its pair.",
+                "edges");
+        }
+    }
+
+    private static bool AreOpposingDirections(string first, string second)
+    {
+        return (NormalizeDirection(first), NormalizeDirection(second)) is
+            ("east", "west") or ("west", "east") or
+            ("north", "south") or ("south", "north");
+    }
+
+    private static string NormalizeDirection(string value) =>
+        value.Trim().ToLowerInvariant() switch
+        {
+            "eastbound" => "east",
+            "westbound" => "west",
+            "northbound" => "north",
+            "southbound" => "south",
+            _ => value.Trim().ToLowerInvariant(),
+        };
 
     public RouteNode GetNode(string nodeId) =>
         _nodes.TryGetValue(nodeId, out var node)
@@ -50,6 +126,14 @@ public sealed class InMemoryRouteGraph : IRouteGraph
         _edges.TryGetValue(edgeId, out var edge)
             ? edge
             : throw new KeyNotFoundException($"Unknown route edge '{edgeId}'.");
+
+    public RouteEdge? GetOpposingEdge(string edgeId)
+    {
+        var edge = GetEdge(edgeId);
+        return edge.RoadwayKind == RoadwayKind.DividedCarriageway
+            ? GetEdge(edge.OpposingEdgeId)
+            : null;
+    }
 
     public IReadOnlyList<RouteEdge> GetOutgoingEdges(string nodeId) =>
         GetNode(nodeId).OutgoingEdgeIds.Select(GetEdge).ToArray();

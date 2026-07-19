@@ -39,6 +39,21 @@
       "expected_failure": "missing its override ID"
     },
     {
+      "id": "missing-opposing-carriageway",
+      "test": "test_divided_carriageway_rejects_nonreciprocal_pair",
+      "expected_failure": "does not have a reciprocal pair"
+    },
+    {
+      "id": "nonreciprocal-opposing-carriageway",
+      "test": "DividedCarriagewaysRequireAReciprocalOpposingPair",
+      "expected_failure": "reciprocal pair"
+    },
+    {
+      "id": "same-direction-carriageway-pair",
+      "test": "test_divided_carriageway_rejects_same_signed_direction",
+      "expected_failure": "opposite signed direction"
+    },
+    {
       "id": "route-plan-lane-discontinuity",
       "test": "RejectsConnectorThatDoesNotContinueSelectedLane",
       "expected_failure": "does not continue"
