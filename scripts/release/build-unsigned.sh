@@ -116,5 +116,9 @@ build_target() {
   echo "CANNONBALL_REPRODUCIBLE_EXPORT_OK platform=$platform sha256=$first_sha archive=$archive"
 }
 
-[[ "$target" == all || "$target" == linux ]] && build_target linux
-[[ "$target" == all || "$target" == windows ]] && build_target windows
+if [[ "$target" == all || "$target" == linux ]]; then
+  build_target linux
+fi
+if [[ "$target" == all || "$target" == windows ]]; then
+  build_target windows
+fi

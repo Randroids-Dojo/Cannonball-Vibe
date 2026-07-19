@@ -92,6 +92,11 @@ resources directly. Godot still loads those native text resources at runtime;
 the tradeoff is a small increase in PCK size in exchange for reproducible and
 auditable scene bytes.
 
+That successful Linux-only gate also exposed a shell-status defect: the build
+completed reproducibly, then returned the false Windows-target predicate as its
+process status. The platform dispatch now uses explicit conditionals so a
+successful single-platform build exits successfully.
+
 ## Remaining human boundary
 
 P1-008 remains `in_progress`. Q-020 still requires the project owner to select
