@@ -1,0 +1,141 @@
+{
+  "schema_version": 1,
+  "task_id": "P1-006",
+  "milestone": "M4",
+  "status": "in_progress_awaiting_verified_draft_and_owner_publication_approval",
+  "git_revision": "a12fc899b2b97ae275d108174cd3b17e361f3d8e",
+  "platform": {
+    "os": "macOS",
+    "architecture": "arm64"
+  },
+  "utc_time": "2026-07-19T17:40:23Z",
+  "tool_versions": {
+    "node": "22.22.1",
+    "github_cli": "2.96.0",
+    "curl": "system"
+  },
+  "input_artifacts": [
+    {
+      "path": "data/sources/source-lock.json",
+      "sha256": "a3f640c9f804909a9b171c1a169ce5704544fd5905bec73dcc8d7da64b67e2cd"
+    },
+    {
+      "path": "data/sources/representative-corridor-lock.json",
+      "sha256": "020692b11640728f83b81175f33226ca13ed89699bbeaeea3bf6dbbdb5ea9a3d"
+    },
+    {
+      "path": "data/sources/retention-classification.json",
+      "sha256": "8cb652f417301a8319b7253d3495bd2078fbfdcad245712226e521ac4bac6548"
+    }
+  ],
+  "scenario": {
+    "deterministic_seed": null,
+    "arguments": [
+      "--part-size",
+      "1900000000"
+    ]
+  },
+  "metrics": {
+    "source_count": 2,
+    "lock_reference_count": 14,
+    "unique_retained_object_count": 12,
+    "total_retained_bytes": 417655374,
+    "release_asset_count": 17,
+    "deterministic_repeat_mismatches": 0,
+    "replica_activation_triggers": 0
+  },
+  "candidate": {
+    "package_id": "9a8a9aa07bc8e4f2cf311229e60aac4673fefdff34448c38a23bb4f6924289d8",
+    "release_tag": "source-lock-v1-9a8a9aa07bc8e4f2",
+    "local_manifest_sha256": "bd5a9f1952d49ff00f1178a07ec35b70d8f275729f66980afa814ba8f487348d",
+    "draft_url": null,
+    "published_at": null,
+    "is_immutable": false,
+    "attestations_verified": false
+  },
+  "commands": [
+    {
+      "command": "./scripts/source-retention/verify-release.sh --classify-replica-trigger --self-test",
+      "exit_status": 0
+    },
+    {
+      "command": "node scripts/source-retention/release-tools.mjs prepare --repo . --output .tools/source-retention/local-validation --cache .tools/source-retention/cache --part-size 1900000000 ...",
+      "exit_status": 0
+    },
+    {
+      "command": "./scripts/source-retention/verify-release.sh --assets .tools/source-retention/local-validation/assets",
+      "exit_status": 0
+    },
+    {
+      "command": "repeat preparation plus complete asset SHA-256 comparison",
+      "exit_status": 0
+    },
+    {
+      "command": "actionlint .github/workflows/*.yml; bash -n scripts/source-retention/*.sh; node --check scripts/source-retention/release-tools.mjs; git diff --check",
+      "exit_status": 0
+    },
+    {
+      "command": "GODOT_BIN=.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot ./scripts/check.sh",
+      "exit_status": 0
+    }
+  ],
+  "acceptance_comparisons": [
+    {
+      "criterion": "all authoritative lock artifacts mapped",
+      "observed": "14 lock references map to 12 deduplicated content-addressed objects with complete origin metadata",
+      "passed": true
+    },
+    {
+      "criterion": "deterministic oversized splitting and reconstruction",
+      "observed": "forced-boundary self-test produced five ordered parts and exact reconstruction; production ceiling is 1.9 GB",
+      "passed": true
+    },
+    {
+      "criterion": "complete draft independently downloaded and verified",
+      "observed": "local clean reconstruction passed; GitHub draft has not yet been created from merged main",
+      "passed": false
+    },
+    {
+      "criterion": "published tag, assets, checksums, provenance, and attestations are immutable",
+      "observed": "repository immutable-release setting is enabled; owner-gated publication is pending",
+      "passed": false
+    },
+    {
+      "criterion": "clean reconstruction without local or CI cache",
+      "observed": "local assets reconstructed into an empty directory; GitHub-only clean download remains pending the draft",
+      "passed": false
+    },
+    {
+      "criterion": "ADR-0010 classification blocks mandatory replica triggers",
+      "observed": "both sources explicitly classified; zero triggers; missing, extra, malformed, or triggered classifications fail preparation",
+      "passed": true
+    }
+  ],
+  "output_artifacts": [
+    {
+      "path": ".tools/source-retention/local-validation/assets/source-retention-manifest-v1.json",
+      "sha256": "bd5a9f1952d49ff00f1178a07ec35b70d8f275729f66980afa814ba8f487348d"
+    },
+    {
+      "path": "reports/m0/summary.json",
+      "sha256": "a32fea01e9cdf280bb6d67124c78b6bf84d7b04d208a1a273aeffd101d48bc94"
+    }
+  ],
+  "retry_count": 1,
+  "failure_history": [
+    {
+      "failure": "An optional Ruby YAML validation command used a keyword unsupported by the system Ruby version.",
+      "recovery": "Reran the syntax check with the compatible API and used installed actionlint as the workflow authority."
+    }
+  ],
+  "recovery_result": {
+    "status": "passed",
+    "summary": "All final local implementation and reconstruction checks passed."
+  },
+  "adversarial_review": "docs/audits/2026-07-19-p1-006-source-publication.md",
+  "human_gate": {
+    "name": "Authoritative source publication approval",
+    "status": "pending",
+    "approval_reference": "docs/QUESTIONS_FOR_RANDROID_2026-07-19_SOURCE_PUBLICATION.md#q-027--publish-the-authoritative-immutable-source-release"
+  }
+}

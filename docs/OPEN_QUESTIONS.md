@@ -10,6 +10,8 @@ The current multiple-choice handoffs are
 [Q-024](QUESTIONS_FOR_RANDROID_2026-07-18_HIGHWAY_KIT.md), plus the latest
 [systematic-backlog handoff](QUESTIONS_FOR_RANDROID_2026-07-18_SYSTEMATIC_BACKLOG.md),
 and [Q-026](QUESTIONS_FOR_RANDROID_2026-07-19_CARRIAGEWAYS_AND_TRAFFIC.md).
+The exact source-release publication handoff is
+[Q-027](QUESTIONS_FOR_RANDROID_2026-07-19_SOURCE_PUBLICATION.md).
 
 | ID | Priority | Blocking milestone | Owner | Question | Working default | Evidence required |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -32,6 +34,7 @@ and [Q-026](QUESTIONS_FOR_RANDROID_2026-07-19_CARRIAGEWAYS_AND_TRAFFIC.md).
 | Q-024 | P1 | M5 | Art + product | Which production highway visual language should govern roads, signs, structures, and roadside assets? | Use contemporary Colorado freeway realism as a reference-informed technical baseline without claiming regulatory compliance. | Representative ordinary-road, lane-change, exit, gore, bridge/overpass, and transfer captures in daylight and night, plus human readability, art-direction, and rights approval. |
 | Q-025 | P0 | M2 | Geodata + product | Does the P0-012 representative validation corpus look geographically plausible and make its route choices understandable enough to unlock M3 map work? | Keep the machine-verified corpus and its review candidate, but do not close the human gate without explicit approval. | Elevated lane-transition views, four-plan driving capture, route-context evidence, and owner approval or actionable corrections. |
 | Q-026 | P0 | M3 | Product + roads + traffic | Must the first playable corridor support undivided two-way highways as well as divided mainlines and one-way ramps? | Ship reciprocal divided mainlines plus unpaired ramps and true one-way roads first; design undivided two-way cross-sections later. | Representative corridor coverage, traffic/collision risk, route-choice value, marking complexity, and owner scope approval. |
+| Q-027 | P1 | M4 | Release | Should the independently verified P1-006 draft be published as the authoritative immutable source release? | Keep the exact verified draft unpublished until the owner approves its tag and manifest hash. | Draft URL, manifest SHA-256, clean reconstruction result, immutable-release setting, source-rights approval, and explicit owner publication approval. |
 
 ## Recently resolved
 
