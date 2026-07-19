@@ -561,7 +561,7 @@
       "milestone": "M4",
       "priority": "P1",
       "title": "Primary immutable GitHub source publication",
-      "status": "in_progress",
+      "status": "complete",
       "dependencies": [
         "P0-003"
       ],
@@ -594,10 +594,11 @@
       "human_gate": {
         "name": "Authoritative source publication approval",
         "required_for": "M4",
-        "status": "pending",
-        "approval_reference": "docs/QUESTIONS_FOR_RANDROID_2026-07-19_SOURCE_PUBLICATION.md#q-027--publish-the-authoritative-immutable-source-release"
+        "status": "approved",
+        "approval_reference": "docs/QUESTIONS_FOR_RANDROID_2026-07-19_SOURCE_PUBLICATION.md#q-027--publish-the-authoritative-immutable-source-release",
+        "reviewed_at": "2026-07-19"
       },
-      "notes": "ADR-0006 remains release-critical. ADR-0010 defers only the independent AWS/Vercel recovery replica, not primary immutable GitHub source publication."
+      "notes": "ADR-0006 remains release-critical. ADR-0010 defers only the independent AWS/Vercel recovery replica, not primary immutable GitHub source publication. Published immutable release source-lock-v1-9a8a9aa07bc8e4f2 on 2026-07-19."
     },
     {
       "id": "P0-009",
@@ -777,7 +778,7 @@
       "milestone": "M2",
       "priority": "P0",
       "title": "Representative lane and interchange validation corpus",
-      "status": "in_progress",
+      "status": "complete",
       "dependencies": [
         "P0-011",
         "P1-007"
@@ -813,8 +814,11 @@
       "human_gate": {
         "name": "Representative interchange and route-context geographic review",
         "required_for": "M2",
-        "status": "pending",
-        "question_reference": "docs/QUESTIONS_FOR_RANDROID_2026-07-18_SYSTEMATIC_BACKLOG.md#q-025--p0-012-geographic-plausibility-and-route-choice-review"
+        "status": "approved",
+        "question_reference": "docs/QUESTIONS_FOR_RANDROID_2026-07-18_SYSTEMATIC_BACKLOG.md#q-025--p0-012-geographic-plausibility-and-route-choice-review",
+        "reviewed_at": "2026-07-19",
+        "approval_reference": "docs/QUESTIONS_FOR_RANDROID_2026-07-18_SYSTEMATIC_BACKLOG.md#q-025--p0-012-geographic-plausibility-and-route-choice-review",
+        "task_completion_blocked": false
       }
     },
     {

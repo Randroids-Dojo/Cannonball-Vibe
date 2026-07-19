@@ -3,19 +3,20 @@
 ## Q-027 — Publish the authoritative immutable source release?
 
 P1-006 now has a complete GitHub draft independently downloaded and verified by
-both a clean hosted runner and a separate local machine. No irreversible action
-has been taken.
+both a clean hosted runner and a separate local machine. As approved, it has now
+been published as an immutable authoritative source release.
 
 Candidate package:
 
 - release tag: `source-lock-v1-9a8a9aa07bc8e4f2`
-- private collaborator draft:
-  <https://github.com/Randroids-Dojo/Cannonball-Vibe/releases/tag/untagged-0be3e542fa7aee6b50e3>
+- authoritative release:
+  <https://github.com/Randroids-Dojo/Cannonball-Vibe/releases/tag/source-lock-v1-9a8a9aa07bc8e4f2>
+  
 - content package ID:
   `9a8a9aa07bc8e4f2cf311229e60aac4673fefdff34448c38a23bb4f6924289d8`
-- final draft manifest SHA-256:
-  `735dc00797ea8998a7cd8a49d44c2ac3d4963045675bd95fd97e421783a2f84b`
-- draft target revision: `c40b7ec4ce99bfe6aa22e4489cacd1caa0f203e7`
+- authoritative release manifest SHA-256:
+  `ad3af30ced3e48fbb9c496827116ace9b238f2536f0459f947cabc424b5a180c`
+- target revision: `eeca9743f8a11bd89b54a77df318760b18cba783`
 - verified workflow:
   <https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29697892648>
 - unique retained objects: 12 from 14 lock references
@@ -23,6 +24,14 @@ Candidate package:
 - sources: public-domain USDOT NHPN and USGS 3DEP
 - ADR-0010 recovery-replica triggers: none
 - additional service cost: none under the current GitHub primary-store decision
+
+### Decision status
+
+- **Approved 2026-07-19 as Option A**
+- **Result:** Published as immutable release `source-lock-v1-9a8a9aa07bc8e4f2`,
+  public URL above, draft to immutable status complete.
+- **Verified properties:** `isDraft: false`, `isImmutable: true`, published at
+  `2026-07-19T18:18:29Z`.
 
 ### A. Publish this exact verified draft (recommended)
 
@@ -46,5 +55,4 @@ Candidate package:
 - **Cons:** discards verified preparation work and requires a superseding ADR
   plus a new candidate and reconstruction pass.
 
-**Autonomous default:** option B. Preparing and verifying the draft is within
-the agentic delivery contract; publishing it requires your explicit answer.
+**Autonomous default:** executed (Option A) after explicit approval.

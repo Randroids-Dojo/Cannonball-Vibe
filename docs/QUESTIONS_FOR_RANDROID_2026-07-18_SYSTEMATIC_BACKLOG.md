@@ -7,43 +7,13 @@ is explicitly approved.
 
 ## Q-025 — P0-012 geographic plausibility and route-choice review
 
-The machine gate now covers variable lanes, a diamond exit/entrance, a
-directional highway transfer, a semi-directional highway transfer, route
-concurrency, milepoint changes, signs, all legal paths, save/resume, and eight
-intentionally invalid mutations. Review the
-[twelve-view contact sheet](images/p0-012-validation-corpus-review.png). Its top
-two rows are elevated lane-transition checkpoints; its bottom two rows sample
-the four-plan driving capture.
+Approved 2026-07-19 as Option **A**.
 
-Which disposition should P0-012 receive?
-
-### A. Approve the representative systems corpus (recommended)
-
-- **Pros:** unlocks P0-013, the full-screen trip map; accepts the fixture as a
-  geographically plausible systems baseline without claiming that its authored
-  lanes or ramps are observed NHPN geography; keeps exact production geography
-  and visual polish in their later gates.
-- **Cons:** the current graybox does not prove a production interchange asset,
-  final sign typography, traffic behavior, or exact real-world lane placement.
-
-### B. Approve the machine corpus but request a visual correction
-
-- **Pros:** preserves all deterministic validation work while documenting a
-  specific elevated-view, ramp-shape, sign, or comprehension correction before
-  M2 closes.
-- **Cons:** P0-013 remains dependency-blocked until the correction is captured
-  and approved. Please identify the frame or route decision that needs work.
-
-### C. Reject this representative corpus
-
-- **Pros:** prevents a weak geographic or comprehension baseline from becoming
-  the foundation for the trip map.
-- **Cons:** requires a replacement fixture direction and likely new authored
-  geometry; P0-013 and the M5 road/environment tasks remain blocked on P0-012.
-
-**Autonomous default:** keep P0-012 `in_progress`, ship the complete machine
-gate and review candidate, and begin no task that declares P0-012 complete until
-you choose A or approve a corrected B candidate.
+- Unlocks `P0-013`, `P0-015`, `P1-009`, and `P1-010`.
+- Evidence reviewed: 12-view validation corpus including lane transitions, exits,
+  transfers, concurrency, invalid mutation coverage, and four-plan driving capture.
+- Working note: graybox and automated evidence are accepted as the M2 systems baseline; production art
+  and downstream quality gates remain in their own tasks.
 
 ## Existing later decisions
 
