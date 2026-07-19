@@ -1,0 +1,209 @@
+{
+  "schema_version": 1,
+  "task_id": "P1-008",
+  "milestone": "M5",
+  "status": "in_progress",
+  "git_revision": "428c9d97642f7c5ee7c72dd88fa6926b968a2ba8",
+  "recorded_at_utc": "2026-07-19T02:08:55Z",
+  "platform": {
+    "os": "Darwin 25.6.0",
+    "architecture": "arm64"
+  },
+  "tool_versions": {
+    "blender": "5.1.2",
+    "blender_build_hash": "ec6e62d40fa9",
+    "godot": "4.7.1.stable.mono.official.a13da4feb",
+    "dotnet_sdk": "10.0.102",
+    "node": "22.22.1",
+    "uv": "0.9.24",
+    "git_lfs": "3.7.1"
+  },
+  "scope": {
+    "verified": [
+      "project-original procedural Hero GT source, deterministic glTF export, official Godot import, and project-owned wrapper",
+      "37-node semantic contract including three LODs, collision proxy, wheels, suspension, contacts, cameras, lights, exhausts, materials, and damage zones",
+      "visual steering, wheel rotation, measured suspension travel, chase and cockpit cameras, LOD transitions, damage highlights, and graybox equivalence",
+      "two-fresh-stage byte-reproducible unsigned Linux release with build inputs excluded"
+    ],
+    "completion_pending": [
+      "Q-020 project-owner approval of the final art direction and exact Hero GT rights record"
+    ],
+    "excluded_claims": [
+      "final production silhouette, material richness, cockpit composition, or driving aesthetics",
+      "human approval of the provisional project-original CC0 rights declaration"
+    ]
+  },
+  "input_artifacts": [
+    {
+      "path": "data/assets/vehicles/sources/hero-gt.blend",
+      "sha256": "498896212ff330e25ac3ab5cfe66d6c1ad79191be9a44f34ce6b21fe66a318b5"
+    },
+    {
+      "path": "data/assets/vehicles/hero-gt.asset.json",
+      "sha256": "fa3848ef6f3d12d92c1e18335ce72651b4d2f4c3f6bd29b696ff3c0e8f55377a"
+    },
+    {
+      "path": "tools/assets/profiles/gltf2-binary-v1.json",
+      "sha256": "f63c4edb51fa5456177f2f43a8d1b21d8a732b6980a136d6aa82a742e856e272"
+    },
+    {
+      "path": "tools/assets/profiles/godot-4.7.1-v1.json",
+      "sha256": "22feccfc894d853a070bbcfd3ba04963165d72adfa918dbfdb657b2dbbfc5645"
+    }
+  ],
+  "commands": [
+    {
+      "command": "./scripts/verify-vehicle-asset.sh --vehicle hero-gt --all-lods",
+      "exit_status": 0,
+      "report": "reports/assets/p1-008-validation.json",
+      "report_sha256": "d3c5c42ffd09b9b828bd9f77c46d367aeb4a6f38c2f815195b53a9743b3380d5"
+    },
+    {
+      "command": "./scripts/run-scenario.sh --fixture representative-corridor --profile vehicle-visual",
+      "exit_status": 0,
+      "stages_passed": 8
+    },
+    {
+      "command": "./scripts/capture-scenario.sh /tmp/p1-008-hero-vehicle.avi --fixture representative-corridor --vehicle-visual-review",
+      "exit_status": 0,
+      "frames": 480,
+      "fps": 60
+    },
+    {
+      "command": "./scripts/check.sh",
+      "exit_status": 0,
+      "report": "reports/m0/summary.json",
+      "report_sha256": "0ffc9e334ce93fb7601f51908c86395c811382b56833192e3fc21b57e2f8929b"
+    },
+    {
+      "command": "./scripts/validate-assets.sh",
+      "exit_status": 0
+    },
+    {
+      "command": "GODOT_BIN=.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot PYTHON_BIN=tools/map_pipeline/.venv/bin/python SOURCE_REVISION=$(git rev-parse HEAD) ./scripts/release/build-unsigned.sh linux /tmp/cannonball-p1-008-release-428",
+      "exit_status": 0,
+      "archive_sha256": "e2e5ce6469b75caba5c46ff59d9dd011046ce7c44ca2691df4f91d719b68edad"
+    },
+    {
+      "command": "git diff --check",
+      "exit_status": 0
+    }
+  ],
+  "metrics": {
+    "required_semantic_nodes": 37,
+    "lods": 3,
+    "damage_zones": 5,
+    "triangle_total": 7664,
+    "triangle_budget": 30000,
+    "lod0_triangles": 7232,
+    "lod0_triangle_budget": 24000,
+    "collision_triangles": 108,
+    "collision_triangle_budget": 128,
+    "materials": 9,
+    "material_budget": 10,
+    "textures": 0,
+    "texture_bytes": 0,
+    "wheelbase_meters": 2.84,
+    "track_meters": 1.64,
+    "wheel_radius_meters": 0.34,
+    "suspension_travel_meters": 0.62,
+    "invalid_mutations_rejected": 3,
+    "deterministic_glb_rebuilds": 2,
+    "deterministic_contact_sheet_rebuilds": 2,
+    "release_pack_files": 6,
+    "csharp_tests_passed": 62,
+    "map_pipeline_tests_passed": 66,
+    "playgodot_unit_tests_passed": 12,
+    "capture_frames": 480,
+    "capture_fps": 60,
+    "capture_duration_seconds": 8
+  },
+  "acceptance_comparisons": [
+    {
+      "criterion": "the original fictional grand tourer passes source, rights-record, export, import, semantic-node, LOD, collision, and budget contracts",
+      "observed": "the deterministic project-original Hero GT passed two rebuilds, three corrupt mutations, clean official import, 37 semantic nodes, three LODs, a 108-triangle collision proxy, and every declared budget; final rights approval remains Q-020",
+      "passed": true
+    },
+    {
+      "criterion": "the visual rig follows authoritative simulation without owning physics or save state",
+      "observed": "the adapter consumes steering, longitudinal speed, and four measured suspension compressions from the existing rigid-body simulation; collision and save ownership are unchanged",
+      "passed": true
+    },
+    {
+      "criterion": "chase, cockpit, braking, steering, suspension, LOD, damage, and graybox states are deterministic and reviewable",
+      "observed": "all eight scenario stages passed; the cockpit stage asserts the declared cockpit camera is current, and the 480-frame renderer capture completed",
+      "passed": true
+    },
+    {
+      "criterion": "a clean source checkout validates and exports without interactive editor work",
+      "observed": "CLI-only Blender and Godot gates passed, the normalized generated scene matched independent import caches, and two fresh release stages produced the same unsigned Linux archive bytes",
+      "passed": true
+    }
+  ],
+  "output_artifacts": [
+    {
+      "path": "data/assets/vehicles/derived/hero-gt.glb",
+      "sha256": "d278c4a9956fa4bfac15c21bed615b81e3861d6ff38bfec0837291ae794501d0"
+    },
+    {
+      "path": "assets/vehicles/hero-gt/hero-gt.generated.tscn",
+      "sha256": "055956dc08e060bbdf8475b0b923cbd3f73ecd7253298adc1f8e3a46b4d0a6f9"
+    },
+    {
+      "path": "game/Vehicle/Visuals/HeroGt.tscn",
+      "sha256": "b755f98d5609de5982c0f2637b802b2b500f7655d03602c219789569995dd5df"
+    },
+    {
+      "path": "data/assets/vehicles/hero-gt-contact-sheet.png",
+      "sha256": "686f60e10fb1c63b691be6a0fa4dbcad4c4670aa75e21bb43256070b69214bbd"
+    },
+    {
+      "path": "docs/images/p1-008-hero-vehicle-review.png",
+      "sha256": "d14204c103999613a2951c2656470a53119132ea197a6a46f2caff2c31f892ea"
+    },
+    {
+      "path": "/tmp/p1-008-hero-vehicle.avi",
+      "sha256": "ea60fdb9cac898eb086c007abba99306b32b922061ae1f9c84ed7dcb2c18b463",
+      "retention": "local review artifact; the tracked review sheet is durable"
+    },
+    {
+      "path": "/tmp/cannonball-p1-008-release-428/linux/Cannonball-linux-x86_64-e2e5ce6469b75caba5c46ff59d9dd011046ce7c44ca2691df4f91d719b68edad.zip",
+      "sha256": "e2e5ce6469b75caba5c46ff59d9dd011046ce7c44ca2691df4f91d719b68edad",
+      "retention": "local unsigned release artifact; protected CI reproduces platform archives"
+    }
+  ],
+  "failure_logs": [
+    {
+      "failure": "A sequential release-pack comparison mixed import-cache state and could not support a reproducibility claim.",
+      "recovery": "The authoritative release gate now compares two entirely fresh source stages."
+    },
+    {
+      "failure": "Fresh official Godot imports assigned different non-semantic node unique IDs to otherwise identical scene content.",
+      "recovery": "The promotion gate converts the official import to text and strips only numeric node unique_id attributes before tracking the generated scene."
+    },
+    {
+      "failure": "Export-time text-to-binary conversion regenerated cache-specific scene IDs and changed the PCK.",
+      "recovery": "The project ships native deterministic text scenes; two fresh complete releases now match byte for byte."
+    },
+    {
+      "failure": "The Linux-only release completed successfully but returned the unused Windows predicate as exit status 1.",
+      "recovery": "Explicit platform conditionals now preserve a successful single-platform exit status."
+    },
+    {
+      "failure": "The night cockpit review approximated the view with the chase camera instead of exercising the semantic cockpit anchor.",
+      "recovery": "The stage now switches to the cockpit-anchor camera and asserts it is current."
+    }
+  ],
+  "retry_count": 5,
+  "recovery_result": "All autonomous technical, runtime, renderer, regression, asset-pipeline, and reproducible-release gates pass at the recorded revision; only the explicit human art-direction and rights approval remains open.",
+  "human_gate": {
+    "name": "Hero vehicle art direction and final rights approval",
+    "question_id": "Q-020",
+    "required_for": "M5",
+    "status": "open",
+    "approval": null,
+    "question_record": "docs/QUESTIONS_FOR_RANDROID_2026-07-18_AUTONOMOUS.md",
+    "review_artifact": "docs/images/p1-008-hero-vehicle-review.png"
+  },
+  "adversarial_review": "docs/audits/2026-07-18-p1-008-adversarial-review.md"
+}

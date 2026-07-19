@@ -57,7 +57,7 @@ with SHA-256
 `d14204c103999613a2951c2656470a53119132ea197a6a46f2caff2c31f892ea`.
 The local 480-frame 60 FPS review movie is
 `/tmp/p1-008-hero-vehicle.avi` with SHA-256
-`f8c650513f79e1a8e46a5187dc67c832159c45f2380a598729af2f4b434af046`.
+`ea60fdb9cac898eb086c007abba99306b32b922061ae1f9c84ed7dcb2c18b463`.
 
 The scenario covers daylight chase framing, night cockpit framing, braking
 pitch, steering lock, full suspension travel, all three LODs, damage-zone
@@ -101,6 +101,13 @@ The asset-specific PCK audit accepts the deterministic generated `.tscn`
 directly as well as the engine's binary/remap forms. It continues to require
 both the project-owned wrapper and generated visual while rejecting Blender,
 data-manifest, and tooling inputs.
+
+An adversarial runtime pass also found that the first night-cockpit stage moved
+the chase camera into the cabin instead of exercising the declared semantic
+anchor. The final stage switches to the anchor-owned cockpit camera and asserts
+that it, rather than the chase camera, is current. The complete findings and
+resolutions are recorded in
+[the P1-008 adversarial review](2026-07-18-p1-008-adversarial-review.md).
 
 ## Remaining human boundary
 
