@@ -3,7 +3,7 @@
   "task_id": "P1-009",
   "milestone": "M5",
   "status": "in_progress",
-  "git_revision": "035ad8877c14cd00dcb299ceea8a255b35c8f284",
+  "git_revision": "27f9d3e745ba551bb884b9db17fe6c43858f54bd",
   "recorded_at_utc": "2026-07-19T02:46:19Z",
   "platform": {
     "os": "macOS 26.6 (25G5052e)",
@@ -42,12 +42,24 @@
       "sha256": "5389665fc557d5597e77b991a1a131d008b53097e88a9917191e7ba5bc1b3ed6"
     },
     {
+      "path": "game/World/RoadChunk.cs",
+      "sha256": "bffc35d902811f74bafa3b3764ff865b5971528be45798a5d0e66f8a8d6f299a"
+    },
+    {
+      "path": "game/World/WorldStreamer.cs",
+      "sha256": "9382544ddb030535447c27d6340efa481921c88bde33514f3b35457095044728"
+    },
+    {
+      "path": "game/Main.cs",
+      "sha256": "fd6c2500d6a4c9cfe1e6537e254f4ac3bf8b45bfe5619495e61c1897347ac21a"
+    },
+    {
       "path": "docs/research/2026-07-18-modern-highway-visual-standards.md",
       "sha256": "313e16ef942197368cdb2251165f7ef4862906a6e9efc87093557280bac6aac6"
     },
     {
       "path": "scripts/verify-road-assets.sh",
-      "sha256": "fef1ab5095093863dfaf7d79b5c8208a13e4f9f4982c0bc217594bc7305131cd"
+      "sha256": "7f82429fc52f9527a9c250f14bbada7b85c7fb0d159322fadc3f25b884f3c352"
     }
   ],
   "commands": [
@@ -105,6 +117,10 @@
     "capture_frames": 309,
     "capture_fps": 60,
     "capture_duration_seconds": 5.15,
+    "maximum_road_visual_build_milliseconds": 16.503,
+    "maximum_road_collision_build_milliseconds": 1.061,
+    "initial_visual_build_budget_milliseconds": 50,
+    "initial_collision_build_budget_milliseconds": 50,
     "csharp_tests_passed": 62,
     "map_pipeline_tests_passed": 66,
     "playgodot_unit_tests_passed": 12

@@ -1,6 +1,6 @@
 # P1-009 highway-kit adversarial review
 
-- Reviewed revision: `035ad8877c14cd00dcb299ceea8a255b35c8f284`
+- Reviewed revision: `27f9d3e745ba551bb884b9db17fe6c43858f54bd`
 - Comparison base: `origin/main`
 - Scope: procedural road materials and meshes, route-context sign hierarchy,
   semantic nodes, stream-lifetime evidence, scenario/capture modes, production
@@ -40,6 +40,20 @@ tracked contact sheet was inspected at original resolution.
    every simultaneously loaded chunk. Each ID now includes its owning chunk ID,
    and the per-chunk contract rejects missing, duplicate, or incorrectly scoped
    IDs.
+6. The first road-specific validator checked semantic and resource counts but
+   left chunk failures and build latency to the generic smoke closeout. The
+   profile now fails before acceptance when visual or collision construction
+   exceeds the established initial-chunk budgets or any chunk fails.
+7. Evidence initially hashed the kit and verifier but not the runtime files
+   producing its metrics. The input list now covers `RoadChunk`, `WorldStreamer`,
+   and `Main`, and the delivery ledger declares every changed task-owned path.
+8. The aggregate verifier printed hardcoded summary totals after marker checks.
+   It now enumerates the complete two-fixture topology set, requires the final
+   topology/interchange completion markers, derives resource totals from the
+   production output, and proves graybox equality before reporting them.
+9. Gore construction duplicated the shared `MultiMesh` assembly path. It now
+   uses the same helper as reflectors, barriers, guardrails, posts, and scenery
+   while preserving the profile material and chunk-scoped semantic ID.
 
 ## Invariants confirmed
 
