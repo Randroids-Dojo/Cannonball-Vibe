@@ -64,6 +64,36 @@ work. The adoption result rests on unique semantic coverage, not timing alone.
 - P0-007 release closeout already proves Linux and Windows release PCKs contain
   zero PlayGodot resources and expose no listener, rendezvous, or startup path.
 - The CI matrix runs the live suite on macOS, Linux, and Windows.
+- Replacement CI run
+  [29695072840](https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29695072840)
+  passed the semantic suite on all three platforms plus Linux and Windows M0
+  and 500-mile jobs. Every companion asset, export, clean-machine, and review
+  check also passed.
+
+The first hosted closeout run found that the menu-crop assertion assumed one
+fixed logical-to-render scale. Local macOS rendered the 600-pixel logical menu
+to 400 pixels, while hosted macOS rendered it to 321 pixels. The assertion now
+keeps a meaningful nondegenerate lower bound without prescribing platform
+scale; the stable bounds, pixel integrity checks, content assertions, and
+cross-platform screenshots remain authoritative.
+
+## Adversarial review
+
+- Pausing cannot deadlock the test client: the HUD and PlayGodot server both use
+  always-processing mode, and the live test resumes through the focused button.
+- Closing the menu unpauses before hiding it and exports a closed, unpaused
+  semantic state, so the label cannot claim Resume while simulation remains
+  stopped.
+- Menu selection uses unique automation IDs; no display text, child index, raw
+  scene path, or coordinate is authoritative.
+- Screenshot assertions permit platform render scaling while still requiring a
+  substantial crop, valid PNG bytes, stable semantic bounds, and expected menu
+  content.
+- Normal startup and release boundaries are unchanged: there is no autoload,
+  startup requires the explicit debug flag and token, and P0-007 package
+  inspection remains the release authority.
+- The complete PR has no unresolved review thread, and CodeRabbit's latest check
+  completed successfully.
 
 No unresolved actionable finding remains in this comparison. The broader
 question of whether an MCP adapter adds independent value remains Q-012 and is
