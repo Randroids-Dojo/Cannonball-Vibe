@@ -2,7 +2,7 @@
 
 - Review date: 2026-07-19 UTC
 - Investigation started: 2026-07-18 UTC
-- Reviewed implementation: `d9059cb9a4b7975becdede6386cc84a74c491b42`
+- Reviewed implementation: `3a540807eb0ea4d337604922af3e0c08bbdfbbe3`
 - Result: machine acceptance passed; required geographic-plausibility and
   route-choice-comprehension human gate remains open as Q-025
 - Runtime: official Godot 4.7.1 .NET
@@ -101,6 +101,22 @@ directional transfer, and semi-directional transfer.
     The importer now emits curvature in inverse meters using adjacent horizontal
     segments, matching the independent acceptance calculation and the authored
     interchange fixture. A regression test recomputes every curved test sample.
+18. Repeated visual rejection exposed a separate cross-section defect after the
+    centerline correction. The four-to-three-lane fixture deleted an interior
+    auxiliary lane while preserving the outer exit lane. Generic common-lane
+    averaging shifted both through lanes 1.2 meters and forced the persistent
+    outer lane across the disappearing lane, creating overlap and the visible
+    joined-slab flare. The fixture now preserves the physical auxiliary lane as
+    the transfer lane and drops only the exterior lane. General through lanes
+    define the stable control line, and an interior add/drop with a persistent
+    outside lane is rejected without explicit lateral-transition semantics.
+19. The fixed 120-meter smoothstep taper was not a valid 70 mph reduction
+    design. Lane transitions now use the complete lateral offset and design
+    speed, require the full calculated distance, and interpolate a straight
+    constant-rate taper. The representative one-lane transitions measure at
+    least 251.999 meters with a maximum lateral slope below 0.02. Coarse route
+    meshes receive exact start, midpoint, and end samples. The normal broken
+    divider ends before a reduction while the solid edge line carries the taper.
 
 ## Horizontal-alignment design basis
 
@@ -132,7 +148,10 @@ curvature limits.
   carriageway pair, zero self-intersections, zero invalid shortcuts, and zero
   chunk failures.
 - Variable topology reached 2–4 lanes, four transitions, gore and transition
-  collision, six local-origin rebases, and `161.1 mph`.
+  collision, six local-origin rebases, and `161.1 mph`. Its minimum designed
+  taper is at least `250 m`, maximum taper slope is below `0.02`, maximum
+  through-lane drift is `0.000000 m`, and sampled lane intervals have no gap or
+  overlap.
 - The source-backed corridor contains 44 physical continuation pairs. Maximum
   sampled boundary deflection is `0.846 degrees` against the locked `1-degree`
   limit, down from the original `151.98-degree` reversal. The minimum sampled
@@ -152,7 +171,9 @@ the four-plan driving capture.
 
 | Artifact | SHA-256 |
 | --- | --- |
-| `/tmp/p0-012-topology-review.avi` | `a970770d77beba46ad6a52fb4f8b4cfacc916d314b71eb1246374bf091ca654c` |
+| `/tmp/p0-012-topology-review.avi` | `e02a19074d5425e7bd862fca819feda0243a5603d57ef4fac272c8e2a18a609f` |
+| `/tmp/p0-012-topology-review-control-line.avi` | `e02a19074d5425e7bd862fca819feda0243a5603d57ef4fac272c8e2a18a609f` |
+| `docs/images/p0-012-lane-transition-control-line-review.png` | `1f678f11284d425ac183de3fc17b85163b749c6afec76113695e675fce581c19` |
 | `/tmp/p0-012-route-choice-driving.avi` | `2c97d46678f237082509c240226634c221c92ac34a07a175d5fc7f053fdb930e` |
 | `docs/images/p0-012-validation-corpus-review.png` | `575f3006c63b0f49fc69e832cf2ba7c4a4e9f862e990d1abd45b317233d85004` |
 

@@ -3,12 +3,12 @@
   "task_id": "P0-012",
   "milestone": "M2",
   "status": "verified_local_pending_human_review",
-  "git_revision": "d9059cb9a4b7975becdede6386cc84a74c491b42",
+  "git_revision": "3a540807eb0ea4d337604922af3e0c08bbdfbbe3",
   "platform": {
     "os": "Darwin 25.6.0",
     "architecture": "arm64"
   },
-  "recorded_at_utc": "2026-07-19T06:35:40.860Z",
+  "recorded_at_utc": "2026-07-19T07:18:44.957Z",
   "tool_versions": {
     "dotnet_sdk": "10.0.102",
     "uv": "0.9.24",
@@ -17,13 +17,13 @@
   "deterministic_seed": 20260714,
   "corpus_lock": {
     "path": "data/routes/fixtures/validation/p0-012-corpus-lock.json",
-    "sha256": "58a3f12fcf1b7431300c118581c4e9fdd054824e63f7507b8313b109d68261b7",
+    "sha256": "69fa412e571e91826cc3b273b73e637bd0e8a96b4aa68fdc259a3dcb00169ea0",
     "corpus_id": "p0-012-representative-topology-corpus-v1"
   },
   "input_artifacts": [
     {
       "path": "data/routes/fixtures/validation/legal-variable-lanes.json",
-      "sha256": "423361da5141c61fbdcc06286363774533d9a65056800a725b9bf1293c4ea75e",
+      "sha256": "e97785e940bace133d9eb79280f53a2c7b0fefdf388354b2c74411fb81b348b0",
       "provenance_kind": "authored_override"
     },
     {
@@ -38,7 +38,7 @@
     },
     {
       "path": "data/routes/fixtures/validation/invalid-topology-mutations.json",
-      "sha256": "0fe597ce5a1c023835cc079b0cc056ccfdb4bba70ec505190b2f3e8ffcc0d510",
+      "sha256": "79d274d42e2af91c9b9a29d71b95627d8728bd5b7a896934c326be42602444ca",
       "provenance_kind": "deterministic_derivation"
     },
     {
@@ -122,13 +122,16 @@
   ],
   "metrics": {
     "legal_fixture_count": 3,
-    "invalid_mutation_count": 8,
+    "invalid_mutation_count": 9,
     "topology": {
       "checkpoints": "12",
       "edge": "edge-3a11c16ebb9b3a945413",
       "min_lanes": "2",
       "max_lanes": "4",
       "transitions": "4",
+      "minimum_taper_m": "252.000",
+      "maximum_taper_slope": "0.014286",
+      "maximum_through_lane_drift_m": "0.000000",
       "transition_collision_chunks": "2",
       "gore": "true",
       "max_paved_width_m": "18.900",
@@ -141,8 +144,8 @@
       "terrain_seams": "13",
       "max_seam_gap_m": "0.000",
       "max_unsupported_frames": "1",
-      "max_visual_build_ms": "12.605",
-      "max_collision_build_ms": "1.052",
+      "max_visual_build_ms": "13.945",
+      "max_collision_build_ms": "1.184",
       "override": "p0-010-variable-lanes-v1",
       "chunk_failures": "0"
     },
@@ -172,8 +175,8 @@
       "self_intersections": "0",
       "invalid_shortcuts": "0",
       "max_unsupported_frames": "8",
-      "max_visual_build_ms": "14.162",
-      "max_collision_build_ms": "0.999",
+      "max_visual_build_ms": "15.951",
+      "max_collision_build_ms": "0.987",
       "override": "p0-011-representative-interchanges-v1",
       "chunk_failures": "0"
     },
@@ -186,7 +189,7 @@
       "distinct_mile_values": "4",
       "omissions": "3",
       "automation_nodes": "7",
-      "max_visual_build_ms": "13.878",
+      "max_visual_build_ms": "16.066",
       "chunk_failures": "0"
     }
   },
@@ -223,7 +226,7 @@
     },
     {
       "criterion": "bot traversal and invalid mutation rejection",
-      "observed": "4 legal plans and 8 invalid mutations",
+      "observed": "4 legal plans and 9 invalid mutations",
       "passed": true
     },
     {
@@ -235,7 +238,7 @@
   "output_artifacts": [
     {
       "path": "reports/M2/P0-012/core-route-tests.log",
-      "sha256": "5af423680c9e4f13c37f05159d30ca7d42ef6444a082fd4d172df9e6d5236ec9"
+      "sha256": "2aa3cf1938a06f6f117baf74e44fe63e8fd6cecd646d8489e0ea6b8ce0880068"
     },
     {
       "path": "reports/M2/P0-012/corpus-tests.log",
@@ -243,23 +246,23 @@
     },
     {
       "path": "reports/M2/P0-012/m0.log",
-      "sha256": "57c3b4ae81412c619b37353a5d1a500a9c743b81d3fb6041d121df32a89d2932"
+      "sha256": "3b19bc895d0a7448bdc88eb1a1aa64cb04e121da71623d4f5f2917a7a5857755"
     },
     {
       "path": "reports/M2/P0-012/representative-interchanges.log",
-      "sha256": "6158714b36c7094c1676ba1da6776ddded53dcda6149a33d14285e4b75f32504"
+      "sha256": "cdee1d97689e37eaa0e7ea8dd3732fb47af2b3b5f84aaee80dcb71de18b88645"
     },
     {
       "path": "reports/M2/P0-012/route-context.log",
-      "sha256": "b837d6eb8924cd2124968b11a7921cf79faa4c9405a5bfc337a621a53b5e72dd"
+      "sha256": "8ea6bc4afc725fd83858074729f0fe48a5fa4f26857f60d9a157027c21e0037d"
     },
     {
       "path": "reports/M2/P0-012/variable-lanes.log",
-      "sha256": "fd0fd43c61599711f4468c7038e6b9fae67ce41d533b46d702d05935b113582e"
+      "sha256": "af113d137b0b78efe51aad11b4bbe64fa665cefbdacb3450009ef84c30ca414f"
     },
     {
       "path": "/tmp/p0-012-topology-review.avi",
-      "sha256": "a970770d77beba46ad6a52fb4f8b4cfacc916d314b71eb1246374bf091ca654c"
+      "sha256": "e02a19074d5425e7bd862fca819feda0243a5603d57ef4fac272c8e2a18a609f"
     },
     {
       "path": "/tmp/p0-012-route-choice-driving.avi",
@@ -270,8 +273,12 @@
       "sha256": "575f3006c63b0f49fc69e832cf2ba7c4a4e9f862e990d1abd45b317233d85004"
     },
     {
+      "path": "docs/images/p0-012-lane-transition-control-line-review.png",
+      "sha256": "1f678f11284d425ac183de3fc17b85163b749c6afec76113695e675fce581c19"
+    },
+    {
       "path": "reports/m0/summary.json",
-      "sha256": "b379885540fb3122f2848e355adff619e5b3e23c39158189a4f13d5ded9f1a68"
+      "sha256": "03e1280355cbee06257517f05ed8bb727151745a22e1bae641d259daa0a2883e"
     }
   ],
   "retry_count": 0,
