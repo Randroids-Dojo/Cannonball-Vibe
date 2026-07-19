@@ -56,6 +56,9 @@ uniqueness, test-fixture isolation, and 720p layout. It found and corrected:
 - wall-clock save accounting included time spent in the paused trip map;
 - the production CanvasLayer initially obscured a generic PlayGodot crop
   fixture after the harness began mounting Main.
+- the first remote macOS run rendered a valid 1024×576 crop and exposed a
+  local-only 1280×720 lower bound; the test now requires a substantial 16:9
+  crop without prescribing one platform scale.
 
 No unresolved machine-actionable finding remains. Continental-scale and
 compression-mode evidence should remain part of the subsequent P0-013

@@ -106,10 +106,11 @@
     "Initial representative fixture omitted simplified geometry; fixed by deriving deterministic LOD 0, 1, and 2 geometry from route samples.",
     "Initial PlayGodot harness mounted only the HUD; fixed by mounting production Main.tscn.",
     "Initial 720p capture overlapped summary and selection text; fixed and re-captured.",
-    "Adversarial review found wall-clock time counted map pauses; fixed with explicit pause accounting."
+    "Adversarial review found wall-clock time counted map pauses; fixed with explicit pause accounting.",
+    "The first remote macOS PlayGodot run produced a valid 1024 by 576 trip-map crop and rejected a local-only 1280 by 720 lower bound; fixed with a substantial platform-neutral 16:9 crop assertion."
   ],
-  "retry_count": 4,
-  "recovery_result": "All local feature and M0 gates pass after corrections.",
+  "retry_count": 5,
+  "recovery_result": "All local feature and M0 gates pass after corrections; replacement remote matrix pending.",
   "human_gate": {
     "name": "Trip-map comprehension and accessibility usability review",
     "approval_reference": null,

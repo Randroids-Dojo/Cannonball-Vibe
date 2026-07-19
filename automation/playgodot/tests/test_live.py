@@ -304,8 +304,11 @@ async def test_official_engine_semantic_round_trip(tmp_path: Path) -> None:
             trip_map_path, automation_id="trip-map.root"
         )
         assert trip_map_screenshot["bytes"] > 0
-        assert trip_map_screenshot["width"] >= 1280
-        assert trip_map_screenshot["height"] >= 720
+        assert trip_map_screenshot["width"] >= 960
+        assert trip_map_screenshot["height"] >= 540
+        assert trip_map_screenshot["width"] / trip_map_screenshot["height"] == pytest.approx(
+            16 / 9, rel=0.02
+        )
 
         await client.request("input.click", {"automation_id": "trip-map.close"})
         closed_trip_map = await client.describe("trip-map.root")
