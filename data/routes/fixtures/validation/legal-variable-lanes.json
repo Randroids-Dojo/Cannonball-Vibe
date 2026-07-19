@@ -20,7 +20,7 @@
     "maximum_lane_count": 4,
     "minimum_transitions": 4,
     "gore": true,
-    "maximum_continuation_deflection_degrees": 25.0,
+    "maximum_continuation_deflection_degrees": 2.0,
     "terrain_backdrop": true,
     "minimum_terrain_seams": 1,
     "minimum_rebases": 1,

@@ -5,7 +5,7 @@
   "artifacts": [
     {
       "path": "data/routes/fixtures/validation/legal-variable-lanes.json",
-      "sha256": "f32b45519ebbd031a2bbdaa5580e7ef7be44a1552ceee54d012436330476ccdf",
+      "sha256": "24fbf1964a48cf6c8f971c8755667b312a50c4a92e0a3e175b462d0e0af1b04d",
       "provenance_kind": "authored_override"
     },
     {

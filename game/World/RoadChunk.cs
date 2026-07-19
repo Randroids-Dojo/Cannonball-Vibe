@@ -91,6 +91,7 @@ public sealed partial class RoadChunk : Node3D
             terrain.Mesh.GetAabb().Size.LengthSquared() > 0 &&
             scenery is { Visible: true, Multimesh: not null } &&
             scenery.Multimesh.InstanceCount > 0 &&
+            scenery.CastShadow == GeometryInstance3D.ShadowCastingSetting.Off &&
             barriers is { Visible: true, Multimesh: not null } &&
             barriers.Multimesh.InstanceCount > 0;
     }
@@ -1027,7 +1028,9 @@ public sealed partial class RoadChunk : Node3D
         string automationSuffix,
         Mesh mesh,
         IReadOnlyList<Transform3D> transforms,
-        Material? materialOverride = null)
+        Material? materialOverride = null,
+        GeometryInstance3D.ShadowCastingSetting castShadow =
+            GeometryInstance3D.ShadowCastingSetting.On)
     {
         if (transforms.Count == 0)
         {
@@ -1048,6 +1051,7 @@ public sealed partial class RoadChunk : Node3D
             Name = name,
             Multimesh = multiMesh,
             MaterialOverride = materialOverride,
+            CastShadow = castShadow,
         };
         MarkRoadSemantic(instance, automationSuffix);
         AddChild(instance);
@@ -1189,7 +1193,8 @@ public sealed partial class RoadChunk : Node3D
             "TerrainScenery",
             "placeholder-scenery",
             treeMesh,
-            treeTransforms);
+            treeTransforms,
+            castShadow: GeometryInstance3D.ShadowCastingSetting.Off);
     }
 
     private void MarkRoadSemantic(Node node, string suffix) =>
