@@ -3,7 +3,7 @@
   "task_id": "P0-012",
   "milestone": "M2",
   "status": "verified_local_pending_human_review",
-  "git_revision": "7c55bacd2d758493133db548f2213895415ae377",
+  "git_revision": "6a5cab8c176691901d24ba0c00a76f2a622af443",
   "platform": {
     "os": "Darwin 25.6.0",
     "architecture": "arm64"

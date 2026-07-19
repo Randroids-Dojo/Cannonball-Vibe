@@ -1,6 +1,7 @@
 # P0-012 representative validation corpus adversarial review
 
 - Review date: 2026-07-18 UTC
+- Reviewed implementation: `6a5cab8c176691901d24ba0c00a76f2a622af443`
 - Result: machine acceptance passed; required geographic-plausibility and
   route-choice-comprehension human gate remains open as Q-025
 - Runtime: official Godot 4.7.1 .NET
