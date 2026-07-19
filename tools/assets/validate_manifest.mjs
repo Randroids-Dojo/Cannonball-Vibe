@@ -125,7 +125,9 @@ assertKeys(manifest, requiredTopLevel, "Manifest");
 if (schema.$id !== "https://randroid.dev/cannonball/asset-manifest.schema.json" || schema.properties.schema_version.const !== 1) {
   throw new Error("Unexpected asset-manifest schema identity");
 }
-if (manifest.schema_version !== 1 || manifest.asset_id !== "graybox-road-module") throw new Error("Unexpected manifest identity");
+if (manifest.schema_version !== 1 || manifest.asset_id !== blender.asset_id || manifest.asset_id !== godot.asset_id) {
+  throw new Error("Manifest and tool inventories do not share one asset identity");
+}
 assertKeys(manifest.authorship, ["creator", "creation_date", "method", "creation_script", "creation_script_sha256"], "Authorship");
 assertKeys(manifest.license, ["spdx", "redistributable", "status", "attribution"], "License");
 if (!/^\d{4}-\d{2}-\d{2}$/.test(manifest.authorship.creation_date) ||
@@ -210,12 +212,14 @@ if (godot.release_depends_on_blender || godot.release_depends_on_test_automation
   throw new Error("Release wrapper depends on build-time tooling");
 }
 const budgets = manifest.budgets;
-if (blender.triangles.Visual_LOD0 > budgets.triangles_lod0_max ||
+const lod0Triangles = blender.lod0_triangle_total ?? blender.triangles.Visual_LOD0;
+const collisionTriangles = blender.collision_triangle_total ?? blender.triangles.CollisionProxy;
+if (lod0Triangles > budgets.triangles_lod0_max ||
     blender.triangle_total > budgets.triangles_total_max ||
     blender.materials.length > budgets.materials_max ||
     blender.textures.length > budgets.textures_max ||
     blender.texture_bytes_total > budgets.texture_bytes_max ||
-    blender.triangles.CollisionProxy > budgets.collision_triangles_max) {
+    collisionTriangles > budgets.collision_triangles_max) {
   throw new Error("Asset budget exceeded");
 }
 const gitRevision = process.env.GITHUB_SHA ?? execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }).trim();
@@ -230,8 +234,8 @@ const inputArtifacts = [
 ].filter((artifact, index, values) => values.findIndex((candidate) => candidate.path === artifact.path) === index);
 const report = {
   schema_version: 1,
-  task_id: "P1-002",
-  milestone: "M5",
+  task_id: args["task-id"] ?? "P1-002",
+  milestone: args.milestone ?? "M5",
   asset_id: manifest.asset_id,
   git_revision: gitRevision,
   recorded_at_utc: new Date().toISOString(),
@@ -247,9 +251,9 @@ const report = {
   scenario_arguments: {
     deterministic_rebuilds: 2,
     invalid_mutations: ["unapplied-scale", "missing-semantic-node", "external-texture"],
-    validation_preset: "Asset pipeline validation",
+    validation_preset: args["validation-preset"] ?? "Asset pipeline validation",
   },
-  commands: [{ command: "./scripts/validate-assets.sh", exit_status: 0 }],
+  commands: [{ command: args.command ?? "./scripts/validate-assets.sh", exit_status: 0 }],
   manifest_sha256: hash(args.manifest),
   schema_sha256: hash(args.schema),
   source_sha256: manifest.source.sha256,
@@ -274,10 +278,10 @@ const report = {
   failure_logs: [],
   recovery_result: "Manifest, inventories, artifact hashes, semantic contract, and budgets passed.",
   human_gate: {
-    name: "Asset pipeline rights-policy approval",
-    question_id: "Q-023",
+    name: args["human-gate-name"] ?? "Asset pipeline rights-policy approval",
+    question_id: args["human-question"] ?? "Q-023",
     approval: manifest.license.status === "approved"
-      ? "docs/QUESTIONS_FOR_RANDROID.md#asset-pipeline-rights-policy-q-023--approved-2026-07-18"
+      ? args["human-approval"] ?? "docs/QUESTIONS_FOR_RANDROID.md#asset-pipeline-rights-policy-q-023--approved-2026-07-18"
       : null,
   },
 };

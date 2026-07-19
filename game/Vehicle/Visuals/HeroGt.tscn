@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://game/Vehicle/VehicleVisualRig.cs" id="1_script"]
+[ext_resource type="PackedScene" path="res://assets/vehicles/hero-gt/hero-gt.generated.tscn" id="2_asset"]
+
+[node name="HeroGtVisualRig" type="Node3D"]
+script = ExtResource("1_script")
+metadata/automation_id = "vehicle.hero-gt.visual-rig"
+metadata/asset_id = "hero-gt"
+
+[node name="ImportedAsset" parent="." instance=ExtResource("2_asset")]
+
+[node name="AutomationAnchor" type="Marker3D" parent="."]
+metadata/automation_id = "vehicle.hero-gt.visual-rig.anchor"

@@ -1,0 +1,174 @@
+{
+  "schema_version": 1,
+  "asset_id": "hero-gt",
+  "asset_kind": "vehicle",
+  "authorship": {
+    "creator": "Randroid's Dojo",
+    "creation_date": "2026-07-18",
+    "method": "Project-original deterministic procedural Blender model",
+    "creation_script": "tools/vehicles/create_hero_gt.py",
+    "creation_script_sha256": "55b5071e4cd1ec5ce823dca22b9c631a40656e5b4bf947fa35e423e6192c4d5c"
+  },
+  "license": {
+    "spdx": "CC0-1.0",
+    "redistributable": true,
+    "status": "pending-human-review",
+    "attribution": "Cannonball-Vibe project-original Hero GT; no third-party source art"
+  },
+  "source": {
+    "path": "data/assets/vehicles/sources/hero-gt.blend",
+    "sha256": "498896212ff330e25ac3ab5cfe66d6c1ad79191be9a44f34ce6b21fe66a318b5",
+    "kind": "blender-source"
+  },
+  "transformations": [
+    {
+      "id": "hero-gt-blender-export-v1",
+      "tool": "Blender",
+      "tool_version": "5.1.2+ec6e62d40fa9",
+      "script": "tools/vehicles/validate_and_export_hero_gt.py",
+      "script_sha256": "9605ffabb71885504f9236876ea507df841021c2170ea1c9bbb5546e0c80430b",
+      "profile": "tools/assets/profiles/gltf2-binary-v1.json",
+      "profile_sha256": "f63c4edb51fa5456177f2f43a8d1b21d8a732b6980a136d6aa82a742e856e272",
+      "inputs": [
+        {
+          "path": "data/assets/vehicles/sources/hero-gt.blend",
+          "sha256": "498896212ff330e25ac3ab5cfe66d6c1ad79191be9a44f34ce6b21fe66a318b5",
+          "kind": "blender-source"
+        }
+      ]
+    },
+    {
+      "id": "hero-gt-godot-normalization-v1",
+      "tool": "Godot",
+      "tool_version": "4.7.1.stable.mono.official.a13da4feb",
+      "script": "tools/vehicles/pack_imported_scene.gd",
+      "script_sha256": "3bf1aab9bc64f48b4cdc7176aaf132885b608ffbea94d2d2d93e2db2a42a5625",
+      "profile": "tools/assets/profiles/godot-4.7.1-v1.json",
+      "profile_sha256": "22feccfc894d853a070bbcfd3ba04963165d72adfa918dbfdb657b2dbbfc5645",
+      "inputs": [
+        {
+          "path": "data/assets/vehicles/derived/hero-gt.glb",
+          "sha256": "d278c4a9956fa4bfac15c21bed615b81e3861d6ff38bfec0837291ae794501d0",
+          "kind": "gltf-binary"
+        }
+      ]
+    },
+    {
+      "id": "hero-gt-godot-wrapper-validation-v1",
+      "tool": "Godot",
+      "tool_version": "4.7.1.stable.mono.official.a13da4feb",
+      "script": "tools/vehicles/validate_import.gd",
+      "script_sha256": "06ac418c5709f98228d410d2ffb21273408cd59167cbd6665f340706fd5c97a0",
+      "profile": "tools/assets/profiles/godot-4.7.1-v1.json",
+      "profile_sha256": "22feccfc894d853a070bbcfd3ba04963165d72adfa918dbfdb657b2dbbfc5645",
+      "inputs": [
+        {
+          "path": "assets/vehicles/hero-gt/hero-gt.generated.tscn",
+          "sha256": "055956dc08e060bbdf8475b0b923cbd3f73ecd7253298adc1f8e3a46b4d0a6f9",
+          "kind": "godot-generated-scene"
+        }
+      ]
+    }
+  ],
+  "derived": [
+    {
+      "path": "data/assets/vehicles/derived/hero-gt.glb",
+      "sha256": "d278c4a9956fa4bfac15c21bed615b81e3861d6ff38bfec0837291ae794501d0",
+      "kind": "gltf-binary"
+    },
+    {
+      "path": "assets/vehicles/hero-gt/hero-gt.generated.tscn",
+      "sha256": "055956dc08e060bbdf8475b0b923cbd3f73ecd7253298adc1f8e3a46b4d0a6f9",
+      "kind": "godot-generated-scene"
+    },
+    {
+      "path": "game/Vehicle/Visuals/HeroGt.tscn",
+      "sha256": "b755f98d5609de5982c0f2637b802b2b500f7655d03602c219789569995dd5df",
+      "kind": "godot-wrapper"
+    },
+    {
+      "path": "game/Vehicle/VehicleVisualRig.cs",
+      "sha256": "0ca4ccc6a267ff60fb84134044240209ad77624ed8adb616c45480fe45665176",
+      "kind": "runtime-adapter"
+    },
+    {
+      "path": "data/assets/vehicles/hero-gt.glb.import",
+      "sha256": "344f39c7ec0929fcc0f7fe3263a9d418d259f7e96499dfaad4342241cc5c1076",
+      "kind": "godot-import-settings"
+    },
+    {
+      "path": "data/assets/vehicles/hero-gt-contact-sheet.png",
+      "sha256": "686f60e10fb1c63b691be6a0fa4dbcad4c4670aa75e21bb43256070b69214bbd",
+      "kind": "renderer-contact-sheet"
+    },
+    {
+      "path": "data/assets/vehicles/hero-gt.blender.json",
+      "sha256": "8cc9290902697757ce46f499935535d26a1d0b0b67312a9c4b2493ec77c9a6ec",
+      "kind": "blender-inventory"
+    },
+    {
+      "path": "data/assets/vehicles/hero-gt.godot.json",
+      "sha256": "6a3b955935459c271de1c783cc95b2fcafccea5d3918d68db0619928cd7a1d75",
+      "kind": "godot-inventory"
+    }
+  ],
+  "semantic_contract": {
+    "required_nodes": [
+      "AssetRoot",
+      "Camera_ChaseTarget",
+      "Camera_Cockpit",
+      "Chassis",
+      "CollisionProxy",
+      "Contact_FL",
+      "Contact_FR",
+      "Contact_RL",
+      "Contact_RR",
+      "Damage_Front",
+      "Damage_Left",
+      "Damage_Rear",
+      "Damage_Right",
+      "Damage_Roof",
+      "Driver_Reference",
+      "Exhaust_L",
+      "Exhaust_R",
+      "Light_Head_FL",
+      "Light_Head_FR",
+      "Light_Tail_RL",
+      "Light_Tail_RR",
+      "MaterialGroup_Body",
+      "MaterialGroup_Glass",
+      "MaterialGroup_Interior",
+      "MaterialGroup_Lights",
+      "MaterialGroup_Wheels",
+      "Suspension_FL",
+      "Suspension_FR",
+      "Suspension_RL",
+      "Suspension_RR",
+      "Visual_LOD0",
+      "Visual_LOD1",
+      "Visual_LOD2",
+      "Wheel_FL",
+      "Wheel_FR",
+      "Wheel_RL",
+      "Wheel_RR"
+    ],
+    "forward_axis": "-Z",
+    "up_axis": "+Y",
+    "unit_meters": 1,
+    "bounds_meters": [
+      1.9,
+      4.48,
+      1.53
+    ],
+    "wrapper_scene": "game/Vehicle/Visuals/HeroGt.tscn",
+    "automation_id": "vehicle.hero-gt.visual-rig"
+  },
+  "budgets": {
+    "collision_triangles_max": 128,
+    "materials_max": 10,
+    "texture_bytes_max": 0,
+    "textures_max": 0,
+    "triangles_lod0_max": 24000,
+    "triangles_total_max": 30000
+  }
+}

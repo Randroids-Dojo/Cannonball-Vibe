@@ -15,6 +15,9 @@ window/stretch/mode="canvas_items"
 [dotnet]
 project/assembly_name="Cannonball"
 
+[editor]
+export/convert_text_resources_to_binary=false
+
 [physics]
 common/physics_ticks_per_second=120
 common/max_physics_steps_per_frame=16

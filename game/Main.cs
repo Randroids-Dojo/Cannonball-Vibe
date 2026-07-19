@@ -46,6 +46,8 @@ public sealed partial class Main : Node3D
     private bool _routeChoiceProfile;
     private bool _routeContextProfile;
     private bool _routeContextReview;
+    private bool _vehicleVisualProfile;
+    private bool _vehicleVisualReview;
     private bool _longRouteProfile;
     private bool _shutdownStarted;
     private int _smokeFrames;
@@ -104,6 +106,7 @@ public sealed partial class Main : Node3D
     private double _routeChoiceMaximumCollisionBuildMilliseconds;
     private int _routeChoiceMaximumUnsupportedFrames;
     private int _routeChoiceChunkFailures;
+    private VehicleVisualScenario? _vehicleVisualScenario;
     private bool _resumeRequested;
     private bool _resumeVerify;
     private double _elapsedSecondsBase;
@@ -202,10 +205,12 @@ public sealed partial class Main : Node3D
             _routeChoiceProfile = arguments.Contains("--route-choice-profile", StringComparer.Ordinal);
             _routeContextProfile = arguments.Contains("--route-context-profile", StringComparer.Ordinal);
             _routeContextReview = arguments.Contains("--sign-review", StringComparer.Ordinal);
+            _vehicleVisualProfile = arguments.Contains("--vehicle-visual-profile", StringComparer.Ordinal);
+            _vehicleVisualReview = arguments.Contains("--vehicle-visual-review", StringComparer.Ordinal);
             _smokeTest = _smokeTest || _stressTest || _shortCorridorSoak || _renderIntegrity ||
                 _geographicReview || _streamingProfile || _topologyProfile || _topologyReview ||
                 _routeChoiceProfile || _routeContextProfile || _routeContextReview ||
-                _longRouteProfile || _resumeVerify;
+                _vehicleVisualProfile || _vehicleVisualReview || _longRouteProfile || _resumeVerify;
             _smokeTargetFrames = _stressTest || _shortCorridorSoak ? 3_600 : 360;
             if (_renderIntegrity)
             {
@@ -232,6 +237,10 @@ public sealed partial class Main : Node3D
                 _smokeTargetFrames = 480;
             }
             if (_routeContextReview)
+            {
+                _smokeTargetFrames = 1_200;
+            }
+            if (_vehicleVisualProfile || _vehicleVisualReview)
             {
                 _smokeTargetFrames = 1_200;
             }
@@ -332,7 +341,8 @@ public sealed partial class Main : Node3D
 
             _vehicle.AutopilotEnabled = _smokeTest && !_renderIntegrity && !_streamingProfile &&
                 !_topologyProfile && !_topologyReview && !_routeChoiceProfile &&
-                !_routeContextProfile && !_routeContextReview && !_longRouteProfile;
+                !_routeContextProfile && !_routeContextReview && !_vehicleVisualProfile &&
+                !_vehicleVisualReview && !_longRouteProfile;
             if (resumedSave is not null)
             {
                 _vehicle.SetAssistProfile(resumedSave.Run.AssistProfile);
@@ -375,6 +385,17 @@ public sealed partial class Main : Node3D
             if (_longRouteProfile)
             {
                 BeginLongRouteProfile();
+            }
+            if (_vehicleVisualProfile || _vehicleVisualReview)
+            {
+                _vehicleVisualScenario = new VehicleVisualScenario(
+                    this,
+                    _vehicle,
+                    _streamer.InitialRoadPoint,
+                    _streamer.InitialRoadForward,
+                    GetNode<DirectionalLight3D>("MoonLight"),
+                    GetNode<WorldEnvironment>("NightEnvironment"),
+                    _vehicleVisualReview);
             }
             if (_renderIntegrity)
             {
@@ -477,6 +498,20 @@ public sealed partial class Main : Node3D
                 return;
             }
         }
+        if (_vehicleVisualScenario is { Complete: false })
+        {
+            try
+            {
+                _vehicleVisualScenario.Advance();
+            }
+            catch (Exception exception)
+            {
+                GD.PushError(exception.ToString());
+                _shutdownStarted = true;
+                GetTree().Quit(1);
+                return;
+            }
+        }
         if (_longRouteProfile && !_longRouteComplete)
         {
             try
@@ -522,7 +557,8 @@ public sealed partial class Main : Node3D
             _streamer.RouteDistanceMeters >= Math.Min(300, _streamer.TotalRouteLengthMeters - 35);
         if (_smokeFrames >= _smokeTargetFrames || renderTraversalComplete ||
             _geographicReviewComplete || _streamingProfileComplete || _topologyProfileComplete ||
-            _routeChoiceProfileComplete || _routeContextProfileComplete || _longRouteComplete)
+            _routeChoiceProfileComplete || _routeContextProfileComplete || _longRouteComplete ||
+            _vehicleVisualScenario is { Complete: true })
         {
             _shutdownStarted = true;
             _ = PersistAsync(quitAfterSave: true);
