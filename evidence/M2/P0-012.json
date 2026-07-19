@@ -3,12 +3,12 @@
   "task_id": "P0-012",
   "milestone": "M2",
   "status": "verified_local_pending_human_review",
-  "git_revision": "ca4e511623d6b059d29d4a34b6f9b6e887819738",
+  "git_revision": "d9059cb9a4b7975becdede6386cc84a74c491b42",
   "platform": {
     "os": "Darwin 25.6.0",
     "architecture": "arm64"
   },
-  "recorded_at_utc": "2026-07-19T06:13:58.567Z",
+  "recorded_at_utc": "2026-07-19T06:35:40.860Z",
   "tool_versions": {
     "dotnet_sdk": "10.0.102",
     "uv": "0.9.24",
@@ -115,7 +115,7 @@
     },
     {
       "id": "m0",
-      "command": "/Users/randroid/Documents/Dev/Cannonball-Vibe/scripts/check.sh",
+      "command": "env GODOT_BIN=/Users/randroid/Documents/Dev/Cannonball-Vibe/.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot /Users/randroid/Documents/Dev/Cannonball-Vibe/scripts/check.sh",
       "exit_status": 0,
       "log": "reports/M2/P0-012/m0.log"
     }
@@ -141,8 +141,8 @@
       "terrain_seams": "13",
       "max_seam_gap_m": "0.000",
       "max_unsupported_frames": "1",
-      "max_visual_build_ms": "12.491",
-      "max_collision_build_ms": "1.022",
+      "max_visual_build_ms": "12.605",
+      "max_collision_build_ms": "1.052",
       "override": "p0-010-variable-lanes-v1",
       "chunk_failures": "0"
     },
@@ -152,7 +152,9 @@
       "deflection_limit_degrees": 1,
       "maximum_alignment_curvature_per_meter": 0.002772272,
       "curvature_limit_per_meter": 0.003,
-      "minimum_alignment_radius_meters": 360.715
+      "minimum_alignment_radius_meters": 360.715,
+      "maximum_stored_curvature_error_per_meter": 1.08e-9,
+      "stored_curvature_error_limit_per_meter": 1e-8
     },
     "interchanges": {
       "plans": "4",
@@ -170,8 +172,8 @@
       "self_intersections": "0",
       "invalid_shortcuts": "0",
       "max_unsupported_frames": "8",
-      "max_visual_build_ms": "14.334",
-      "max_collision_build_ms": "1.067",
+      "max_visual_build_ms": "14.162",
+      "max_collision_build_ms": "0.999",
       "override": "p0-011-representative-interchanges-v1",
       "chunk_failures": "0"
     },
@@ -184,7 +186,7 @@
       "distinct_mile_values": "4",
       "omissions": "3",
       "automation_nodes": "7",
-      "max_visual_build_ms": "14.350",
+      "max_visual_build_ms": "13.878",
       "chunk_failures": "0"
     }
   },
@@ -210,6 +212,11 @@
       "passed": true
     },
     {
+      "criterion": "stored curvature dimensional consistency",
+      "observed": "1.08e-9 per-meter maximum error",
+      "passed": true
+    },
+    {
       "criterion": "recursive approved-source, derived, and authored ancestry",
       "observed": "8 locked artifacts with explicit provenance kinds",
       "passed": true
@@ -228,27 +235,27 @@
   "output_artifacts": [
     {
       "path": "reports/M2/P0-012/core-route-tests.log",
-      "sha256": "e5edf380117c97125f1a064b38c2b534f2af79242e6089fb02d27e2d7338bfd8"
+      "sha256": "5af423680c9e4f13c37f05159d30ca7d42ef6444a082fd4d172df9e6d5236ec9"
     },
     {
       "path": "reports/M2/P0-012/corpus-tests.log",
-      "sha256": "3a3ed778ecbb161232a9a064caf28fab082c2fe632ff7439eec160feb5317278"
+      "sha256": "5603b3bdbd979d86e8c62be43291039331c1f18d392c470cba56f4eba489b84d"
     },
     {
       "path": "reports/M2/P0-012/m0.log",
-      "sha256": "7c261ef044b1e6c35fdcc0c2f7791e9a9cfb882509ee5c3b0cafa324e4f39db7"
+      "sha256": "57c3b4ae81412c619b37353a5d1a500a9c743b81d3fb6041d121df32a89d2932"
     },
     {
       "path": "reports/M2/P0-012/representative-interchanges.log",
-      "sha256": "5649c5c120ced8d432fd27e6e3272861cc5d5f4d20b0994ff5698ffd5f796229"
+      "sha256": "6158714b36c7094c1676ba1da6776ddded53dcda6149a33d14285e4b75f32504"
     },
     {
       "path": "reports/M2/P0-012/route-context.log",
-      "sha256": "668c380b96c51d4f2d9fe0a4bf045e833b5ea008bcd2d3e8febea1371f74948b"
+      "sha256": "b837d6eb8924cd2124968b11a7921cf79faa4c9405a5bfc337a621a53b5e72dd"
     },
     {
       "path": "reports/M2/P0-012/variable-lanes.log",
-      "sha256": "f17455be726aca96c64e1504598156d02e68ef82a1e765398c0a3b509fc1d1f4"
+      "sha256": "fd0fd43c61599711f4468c7038e6b9fae67ce41d533b46d702d05935b113582e"
     },
     {
       "path": "/tmp/p0-012-topology-review.avi",
@@ -264,7 +271,7 @@
     },
     {
       "path": "reports/m0/summary.json",
-      "sha256": "8d9a12e7ace2b6934c0d894f0eed90ae4707161efd09c744a1e499a000709189"
+      "sha256": "b379885540fb3122f2848e355adff619e5b3e23c39158189a4f13d5ded9f1a68"
     }
   ],
   "retry_count": 0,

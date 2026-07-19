@@ -2,7 +2,7 @@
 
 - Review date: 2026-07-19 UTC
 - Investigation started: 2026-07-18 UTC
-- Reviewed implementation: `ca4e511623d6b059d29d4a34b6f9b6e887819738`
+- Reviewed implementation: `d9059cb9a4b7975becdede6386cc84a74c491b42`
 - Result: machine acceptance passed; required geographic-plausibility and
   route-choice-comprehension human gate remains open as Q-025
 - Runtime: official Godot 4.7.1 .NET
