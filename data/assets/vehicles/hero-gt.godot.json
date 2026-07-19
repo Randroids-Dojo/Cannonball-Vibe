@@ -3,6 +3,7 @@
   "asset_id": "hero-gt",
   "automation_id": "vehicle.hero-gt.visual-rig",
   "damage_zone_count": 5,
+  "generated_scene_sha256": "055956dc08e060bbdf8475b0b923cbd3f73ecd7253298adc1f8e3a46b4d0a6f9",
   "glb_sha256": "d278c4a9956fa4bfac15c21bed615b81e3861d6ff38bfec0837291ae794501d0",
   "godot_version": "4.7.1.stable.mono.official.a13da4feb",
   "import_settings_sha256": "344f39c7ec0929fcc0f7fe3263a9d418d259f7e96499dfaad4342241cc5c1076",
@@ -95,5 +96,5 @@
   "triangle_count": 7664,
   "wheelbase_meters": 2.83999991416931,
   "wrapper": "res://game/Vehicle/Visuals/HeroGt.tscn",
-  "wrapper_sha256": "809fc7999c9cb13fe85e1d2990aa9b136f1110dd74675ea91024647fe75cdf8c"
+  "wrapper_sha256": "b755f98d5609de5982c0f2637b802b2b500f7655d03602c219789569995dd5df"
 }

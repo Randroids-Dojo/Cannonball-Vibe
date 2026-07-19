@@ -101,7 +101,7 @@
       "Wheel_RL",
       "Wheel_RR"
     ],
-    "path": "assets/vehicles/hero-gt/hero-gt.glb",
+    "path": "data/assets/vehicles/derived/hero-gt.glb",
     "scene_count": 1,
     "sha256": "d278c4a9956fa4bfac15c21bed615b81e3861d6ff38bfec0837291ae794501d0"
   },

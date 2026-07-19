@@ -46,12 +46,13 @@ if [[ "$blender_version" != "$expected_blender" || "$blender_hash" != "$expected
 fi
 
 source_asset="data/assets/vehicles/sources/hero-gt.blend"
-tracked_glb="assets/vehicles/hero-gt/hero-gt.glb"
+tracked_glb="data/assets/vehicles/derived/hero-gt.glb"
+tracked_generated_scene="assets/vehicles/hero-gt/hero-gt.generated.tscn"
 tracked_contact="data/assets/vehicles/hero-gt-contact-sheet.png"
 tracked_blender_inventory="data/assets/vehicles/hero-gt.blender.json"
 tracked_godot_inventory="data/assets/vehicles/hero-gt.godot.json"
 wrapper="game/Vehicle/Visuals/HeroGt.tscn"
-import_settings="assets/vehicles/hero-gt/hero-gt.glb.import"
+import_settings="data/assets/vehicles/hero-gt.glb.import"
 manifest="data/assets/vehicles/hero-gt.asset.json"
 profile="tools/assets/profiles/gltf2-binary-v1.json"
 godot_profile="tools/assets/profiles/godot-4.7.1-v1.json"
@@ -113,6 +114,20 @@ for mutation in unapplied-scale missing-semantic-node external-texture; do
   fi
 done
 
+import_stage="$work/import-project"
+mkdir -p "$import_stage"
+rsync -a --exclude .git --exclude .godot --exclude .tools --exclude reports \
+  --exclude '**/bin' --exclude '**/obj' ./ "$import_stage/"
+mkdir -p "$import_stage/assets/vehicles/hero-gt"
+cp "$tracked_glb" "$import_stage/assets/vehicles/hero-gt/hero-gt.glb"
+cp "$import_settings" "$import_stage/assets/vehicles/hero-gt/hero-gt.glb.import"
+./scripts/godot.sh --headless --path "$import_stage" --import
+./scripts/godot.sh --headless --path "$import_stage" \
+  --script res://tools/vehicles/pack_imported_scene.gd -- \
+  res://assets/vehicles/hero-gt/hero-gt.glb \
+  res://assets/vehicles/hero-gt/hero-gt.rebuilt.tscn
+cmp "$import_stage/assets/vehicles/hero-gt/hero-gt.rebuilt.tscn" "$tracked_generated_scene"
+
 project_stage="$work/project"
 mkdir -p "$project_stage"
 rsync -a --exclude .git --exclude .godot --exclude .tools --exclude reports \
@@ -124,6 +139,7 @@ dotnet build "$project_stage/Cannonball.csproj" --nologo
   --script res://tools/vehicles/validate_import.gd -- \
   --wrapper "res://$wrapper" \
   --glb "res://$tracked_glb" \
+  --generated-scene "res://$tracked_generated_scene" \
   --import-settings "res://$import_settings" \
   --output "$work/godot.json" \
   --profile "res://$godot_profile"
@@ -131,7 +147,7 @@ node -e '
   const fs = require("node:fs");
   const fresh = JSON.parse(fs.readFileSync(process.argv[1], "utf8"));
   const tracked = JSON.parse(fs.readFileSync(process.argv[2], "utf8"));
-  for (const key of ["required_nodes", "all_required_nodes_resolved", "script_reference_present", "automation_id", "glb_sha256", "import_settings_sha256", "wheelbase_meters", "track_meters", "lod_count", "damage_zone_count"]) {
+  for (const key of ["required_nodes", "all_required_nodes_resolved", "script_reference_present", "automation_id", "glb_sha256", "generated_scene_sha256", "import_settings_sha256", "wheelbase_meters", "track_meters", "lod_count", "damage_zone_count"]) {
     if (JSON.stringify(fresh[key]) !== JSON.stringify(tracked[key])) throw new Error(`Godot inventory drift: ${key}`);
   }
 ' "$work/godot.json" "$tracked_godot_inventory"

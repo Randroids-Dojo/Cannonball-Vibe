@@ -12,7 +12,10 @@ The project-original procedural Hero GT replaces the runtime box visual without
 changing the authoritative `RigidBody3D`, four-raycast suspension, save state,
 or route state. Blender 5.1.2 generates the checksum-locked source; the pinned
 exporter produces a glTF 2.0 binary and renderer contact sheet; official Godot
-4.7.1 imports the model through a project-owned wrapper.
+4.7.1 imports the model and a project tool normalizes only the importer's
+non-semantic per-node unique IDs into a checked generated scene. The
+project-owned wrapper references that normalized scene, while the checksum-
+locked GLB remains an excluded build artifact.
 
 The semantic contract resolves 37 required nodes covering the chassis, three
 LODs, collision proxy, four wheel pivots, four suspension and contact anchors,
@@ -72,7 +75,15 @@ rejects both:
   behavior instead of assuming a GDScript validator can initialize the project
   assembly;
 - the release auditor recognizes Godot's exported `.tscn.remap` wrapper while
-  still requiring the imported GLB and excluding build inputs.
+  still requiring the generated visual scene and excluding build inputs.
+
+The first two-fresh-stage unsigned release build then found that Godot assigns
+different `unique_id` values to otherwise identical imported nodes. A complete
+text-scene comparison proved that every mesh, material, transform, property,
+and hierarchy entry matched and only those non-semantic IDs varied. The
+promotion gate now removes only `unique_id` attributes, compares the normalized
+scene from independent import caches, and ships that deterministic generated
+scene instead of the cache-specific binary import.
 
 ## Remaining human boundary
 

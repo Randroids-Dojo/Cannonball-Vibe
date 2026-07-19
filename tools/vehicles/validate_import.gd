@@ -58,7 +58,7 @@ func _fail(message: String) -> void:
 
 func _validate() -> void:
 	var args := _arguments()
-	for required in ["wrapper", "glb", "import-settings", "output", "profile"]:
+	for required in ["wrapper", "glb", "generated-scene", "import-settings", "output", "profile"]:
 		if not args.has(required):
 			_fail("Missing --%s" % required)
 			return
@@ -79,9 +79,9 @@ func _validate() -> void:
 	if packed == null:
 		_fail("Could not load wrapper %s" % args.wrapper)
 		return
-	var imported := load(args.glb) as PackedScene
+	var imported := load(args["generated-scene"]) as PackedScene
 	if imported == null:
-		_fail("Could not load imported GLB %s" % args.glb)
+		_fail("Could not load normalized vehicle scene %s" % args["generated-scene"])
 		return
 	var instance := imported.instantiate()
 	root.add_child(instance)
@@ -133,6 +133,7 @@ func _validate() -> void:
 	inventory.godot_version = identity
 	inventory.wrapper_sha256 = FileAccess.get_sha256(args.wrapper)
 	inventory.glb_sha256 = FileAccess.get_sha256(args.glb)
+	inventory.generated_scene_sha256 = FileAccess.get_sha256(args["generated-scene"])
 	inventory.import_settings_sha256 = FileAccess.get_sha256(args["import-settings"])
 	inventory.profile_sha256 = FileAccess.get_sha256(args.profile)
 	inventory.wheelbase_meters = wheelbase

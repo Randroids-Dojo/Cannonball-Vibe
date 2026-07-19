@@ -16,14 +16,16 @@ const godotInventoryPath = "data/assets/vehicles/hero-gt.godot.json";
 const blender = JSON.parse(readFileSync(blenderInventoryPath, "utf8"));
 const godot = JSON.parse(readFileSync(godotInventoryPath, "utf8"));
 const sourcePath = "data/assets/vehicles/sources/hero-gt.blend";
-const glbPath = "assets/vehicles/hero-gt/hero-gt.glb";
+const glbPath = "data/assets/vehicles/derived/hero-gt.glb";
+const generatedScenePath = "assets/vehicles/hero-gt/hero-gt.generated.tscn";
 const wrapperPath = "game/Vehicle/Visuals/HeroGt.tscn";
 const adapterPath = "game/Vehicle/VehicleVisualRig.cs";
-const importPath = "assets/vehicles/hero-gt/hero-gt.glb.import";
+const importPath = "data/assets/vehicles/hero-gt.glb.import";
 const contactSheetPath = "data/assets/vehicles/hero-gt-contact-sheet.png";
 const creationScript = "tools/vehicles/create_hero_gt.py";
 const exportScript = "tools/vehicles/validate_and_export_hero_gt.py";
 const importScript = "tools/vehicles/validate_import.gd";
+const normalizationScript = "tools/vehicles/pack_imported_scene.gd";
 const gltfProfile = "tools/assets/profiles/gltf2-binary-v1.json";
 const godotProfile = "tools/assets/profiles/godot-4.7.1-v1.json";
 
@@ -60,6 +62,16 @@ const manifest = {
       inputs: [artifact(sourcePath, "blender-source")],
     },
     {
+      id: "hero-gt-godot-normalization-v1",
+      tool: "Godot",
+      tool_version: "4.7.1.stable.mono.official.a13da4feb",
+      script: normalizationScript,
+      script_sha256: hash(normalizationScript),
+      profile: godotProfile,
+      profile_sha256: hash(godotProfile),
+      inputs: [artifact(glbPath, "gltf-binary")],
+    },
+    {
       id: "hero-gt-godot-wrapper-validation-v1",
       tool: "Godot",
       tool_version: "4.7.1.stable.mono.official.a13da4feb",
@@ -67,11 +79,12 @@ const manifest = {
       script_sha256: hash(importScript),
       profile: godotProfile,
       profile_sha256: hash(godotProfile),
-      inputs: [artifact(glbPath, "gltf-binary")],
+      inputs: [artifact(generatedScenePath, "godot-generated-scene")],
     },
   ],
   derived: [
     artifact(glbPath, "gltf-binary"),
+    artifact(generatedScenePath, "godot-generated-scene"),
     artifact(wrapperPath, "godot-wrapper"),
     artifact(adapterPath, "runtime-adapter"),
     artifact(importPath, "godot-import-settings"),
