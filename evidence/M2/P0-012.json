@@ -3,27 +3,27 @@
   "task_id": "P0-012",
   "milestone": "M2",
   "status": "verified_local_pending_human_review",
-  "git_revision": "6a5cab8c176691901d24ba0c00a76f2a622af443",
+  "git_revision": "68eafa17d4a1cf929e3fa3d93d8703407056909a",
   "platform": {
     "os": "Darwin 25.6.0",
     "architecture": "arm64"
   },
-  "recorded_at_utc": "2026-07-19T04:06:14.218Z",
+  "recorded_at_utc": "2026-07-19T06:04:18.550Z",
   "tool_versions": {
     "dotnet_sdk": "10.0.102",
-    "uv": "2026-01-09)",
+    "uv": "0.9.24",
     "godot": "4.7.1.stable.mono.official.a13da4feb"
   },
   "deterministic_seed": 20260714,
   "corpus_lock": {
     "path": "data/routes/fixtures/validation/p0-012-corpus-lock.json",
-    "sha256": "4d8e388a5ee33d03d42c0be942c5f54f82125a236962321273699a8c802b4afb",
+    "sha256": "0ea82d11c69510978be46fe8bdcaf6c4662c825fcdb0d7083facf951a8f479a4",
     "corpus_id": "p0-012-representative-topology-corpus-v1"
   },
   "input_artifacts": [
     {
       "path": "data/routes/fixtures/validation/legal-variable-lanes.json",
-      "sha256": "ac0bc5d7f473c81fcc8d82a12cef5c807301a8f588f7ac6beb81a6d7e28221dd",
+      "sha256": "24fbf1964a48cf6c8f971c8755667b312a50c4a92e0a3e175b462d0e0af1b04d",
       "provenance_kind": "authored_override"
     },
     {
@@ -85,7 +85,7 @@
   "commands": [
     {
       "id": "corpus-tests",
-      "command": "uv run --project tools/map_pipeline --frozen pytest tools/map_pipeline/tests/test_validation_corpus.py tools/map_pipeline/tests/test_semantics.py -q",
+      "command": "uv run --project tools/map_pipeline --frozen pytest tools/map_pipeline/tests/test_pipeline.py tools/map_pipeline/tests/test_validation_corpus.py tools/map_pipeline/tests/test_semantics.py tools/map_pipeline/tests/test_sharding.py -q",
       "exit_status": 0,
       "log": "reports/M2/P0-012/corpus-tests.log"
     },
@@ -115,9 +115,9 @@
     },
     {
       "id": "m0",
-      "command": "./scripts/check.sh",
+      "command": "/Users/randroid/Documents/Dev/Cannonball-Vibe/scripts/check.sh",
       "exit_status": 0,
-      "log": "reports/m0/summary.json"
+      "log": "reports/M2/P0-012/m0.log"
     }
   ],
   "metrics": {
@@ -125,7 +125,7 @@
     "invalid_mutation_count": 8,
     "topology": {
       "checkpoints": "12",
-      "edge": "edge-1ab4417a1ddc0095e03b",
+      "edge": "edge-d7d31cc9c15c243c6edd",
       "min_lanes": "2",
       "max_lanes": "4",
       "transitions": "4",
@@ -137,11 +137,19 @@
       "connector_movements": "Entrance,HighwayTransfer",
       "branch_prewarms": "1",
       "branch_evictions": "1",
+      "terrain_backdrop": "true",
+      "terrain_seams": "13",
+      "max_seam_gap_m": "0.000",
       "max_unsupported_frames": "1",
-      "max_visual_build_ms": "13.730",
-      "max_collision_build_ms": "1.014",
+      "max_visual_build_ms": "13.150",
+      "max_collision_build_ms": "1.096",
       "override": "p0-010-variable-lanes-v1",
       "chunk_failures": "0"
+    },
+    "continuation_geometry": {
+      "pair_count": 44,
+      "maximum_source_deflection_degrees": 1.323574,
+      "limit_degrees": 2
     },
     "interchanges": {
       "plans": "4",
@@ -153,14 +161,14 @@
       "grade_separated_crossings": "1",
       "minimum_clearance_m": "8.000",
       "parallel_carriageways": "1",
-      "max_abs_grade": "0.037555",
-      "max_abs_curvature_per_m": "0.065160",
+      "max_abs_grade": "0.037581",
+      "max_abs_curvature_per_m": "0.065185",
       "minimum_sightline_m": "99.929",
       "self_intersections": "0",
       "invalid_shortcuts": "0",
-      "max_unsupported_frames": "1",
-      "max_visual_build_ms": "16.267",
-      "max_collision_build_ms": "1.118",
+      "max_unsupported_frames": "8",
+      "max_visual_build_ms": "14.475",
+      "max_collision_build_ms": "1.170",
       "override": "p0-011-representative-interchanges-v1",
       "chunk_failures": "0"
     },
@@ -173,7 +181,7 @@
       "distinct_mile_values": "4",
       "omissions": "3",
       "automation_nodes": "7",
-      "max_visual_build_ms": "15.732",
+      "max_visual_build_ms": "14.827",
       "chunk_failures": "0"
     }
   },
@@ -186,6 +194,11 @@
     {
       "criterion": "continuity, curvature, grade, sightline, intersection, connection, completion, sign, and resume gates",
       "observed": "all declared numeric and semantic scenario contracts passed",
+      "passed": true
+    },
+    {
+      "criterion": "continuation endpoint geometry",
+      "observed": "44 pairs; maximum source deflection 1.323574 degrees against 2-degree limit",
       "passed": true
     },
     {
@@ -207,45 +220,50 @@
   "output_artifacts": [
     {
       "path": "reports/M2/P0-012/core-route-tests.log",
-      "sha256": "f8bbbf622f61c4154606f01e259f00b686d22fa9faf0410c8ac3d87c1bff0fb6"
+      "sha256": "e5edf380117c97125f1a064b38c2b534f2af79242e6089fb02d27e2d7338bfd8"
     },
     {
       "path": "reports/M2/P0-012/corpus-tests.log",
-      "sha256": "64576d99c4cef913eb9b9bd4e5a096807fe2289f77eb08a67c7de2e43fc6349d"
+      "sha256": "3a3ed778ecbb161232a9a064caf28fab082c2fe632ff7439eec160feb5317278"
+    },
+    {
+      "path": "reports/M2/P0-012/m0.log",
+      "sha256": "58e108db94deb4af79dd4d492759c2b4a734454abc6a4a38404523c41882ab43"
     },
     {
       "path": "reports/M2/P0-012/representative-interchanges.log",
-      "sha256": "f9bd6a823e85f0045e3a06a4da13eaa8d6239e6fb659bca77f04fbde497ec582"
+      "sha256": "f8fea5e25508fdd8a631fa2c0a7a8bcafb08309cb206f738b684cc9c2f648317"
     },
     {
       "path": "reports/M2/P0-012/route-context.log",
-      "sha256": "5add876c06de8485cb89b1422387a25f733e4e0af2fff387ddf9aee37778e17d"
+      "sha256": "a6f16102eac8def31628f36d7f769adc3db8bb00b04fc64c8077c3b45d4c7fc3"
     },
     {
       "path": "reports/M2/P0-012/variable-lanes.log",
-      "sha256": "60a11de613354a24de25aa0b9c962ca8b81c0d2212b567189bc7ada87d70ee1f"
+      "sha256": "79f81cc457a2d221f7cb2bf46b0fbb3e58d0e9abfed5ca52e1f8a2bae1aa4412"
     },
     {
       "path": "/tmp/p0-012-topology-review.avi",
-      "sha256": "74678c83c9100f09af5e77d22615ec6420652e6d61aeb8ddb323aa99f215871f"
+      "sha256": "8036e2055338ee3392fa2e91b7aad4d2b311770371d4002f481fc111c405a8a5"
     },
     {
       "path": "/tmp/p0-012-route-choice-driving.avi",
-      "sha256": "6e4f9a9ba41a8fa9a1a4695027a80ca19441ebf82ea741ad64d048cd69181134"
+      "sha256": "2b13650ddd1150ca31dce884dabad91c906db694e55b4f03429572e0a731ae42"
     },
     {
       "path": "docs/images/p0-012-validation-corpus-review.png",
-      "sha256": "49a3b417d9dad42f96ee7c3626490f315e21ef837325b459e7a239a5c764bcea"
+      "sha256": "45d47646f97433240dbf67f5cee917580a4324085a8991b572928b84537401b2"
     },
     {
       "path": "reports/m0/summary.json",
-      "sha256": "6308cd7acbf097289b53caaa3f1a970742faf3e8c0ba1e64ee265c60664f7ef6"
+      "sha256": "d8a9d6815ebe083095da195633eb2ba4c263a16b11b8e0c504ece5fb29c42012"
     }
   ],
-  "retry_count": 5,
+  "retry_count": 0,
+  "failure_history": [],
   "recovery_result": {
-    "status": "passed",
-    "summary": "Corrected double-sampled curves, conditioned the diamond entrance, aligned the semi-directional entry tangent and lane continuity, and fixed the route-context CLI profile spelling before the final aggregate pass."
+    "status": "not_needed",
+    "summary": "All recorded aggregate checks passed on their first execution."
   },
   "adversarial_review": "docs/audits/2026-07-18-p0-012-validation-corpus-review.md",
   "human_gate": {

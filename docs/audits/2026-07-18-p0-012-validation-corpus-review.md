@@ -1,7 +1,7 @@
 # P0-012 representative validation corpus adversarial review
 
 - Review date: 2026-07-19 UTC
-- Reviewed implementation: `6a5cab8c176691901d24ba0c00a76f2a622af443`
+- Reviewed implementation: `68eafa17d4a1cf929e3fa3d93d8703407056909a`
 - Result: machine acceptance passed; required geographic-plausibility and
   route-choice-comprehension human gate remains open as Q-025
 - Runtime: official Godot 4.7.1 .NET
@@ -75,6 +75,38 @@ directional transfer, and semi-directional transfer.
     comparison raised unsupported physics frames from the accepted single-digit
     result to 245, so that suggestion was rejected with runtime evidence and the
     established 70-meter, 20 m/s traversal was retained.
+15. Elevated review exposed an actual horizontal-alignment defect rather than a
+    renderer-only seam. Endpoint snapping moved a final near-duplicate NHPN
+    vertex past its predecessor and manufactured a 151.98-degree reversal at a
+    continuation boundary. Removing the near-duplicate reduced the worst source
+    boundary deflection to 22.237 degrees, but that still left source feature
+    cuts as visible angle points. The importer now reconstructs one conditioned
+    centerline across the full unbranched corridor before splitting it back into
+    semantic edges. This also absorbs a 28.284-meter source sliver that pairwise
+    smoothing could not handle correctly. All 44 continuation pairs now remain
+    below the locked 2-degree sampled-boundary limit; the measured maximum is
+    1.324 degrees, and runtime chunks share the exact alignment tangent.
+16. The large black bars visible beside otherwise connected road surfaces were
+    long shadows from cone-shaped placeholder scenery. Shadow casting is now
+    disabled only for those placeholders, and the runtime review-geometry gate
+    asserts that setting. Road lighting, collision, and real barrier shadows are
+    unchanged.
+
+## Horizontal-alignment design basis
+
+The correction follows Federal Highway Administration guidance rather than
+treating GIS linework as render-ready road design. FHWA describes road
+alignments as tangents connected by curves, requires tangency at curve and
+spiral connections, and explicitly says not to provide an angle point at those
+locations. FHWA also describes transition spirals as the means of avoiding an
+abrupt radius change. Cannonball's deterministic alignment conditioner is not
+a civil-engineering certification or a replacement for final surveyed assets;
+it is the procedural-game equivalent: one smooth corridor alignment is derived
+before source-record boundaries are reintroduced.
+
+- <https://flh.fhwa.dot.gov/resources/design/pddm/Chapter_09.pdf>
+- <https://highways.fhwa.dot.gov/safety/speed-management/speed-concepts-informational-guide/chapter-4-engineering-and-technical>
+- <https://www.fhwa.dot.gov/bridge/pubs/hif22034.pdf>
 
 ## Quantitative result
 
@@ -82,13 +114,16 @@ directional transfer, and semi-directional transfer.
   highway-transfer forms.
 - 8 invalid mutations rejected with actionable expected errors.
 - 12 save/resume comparisons across before, inside, and after plan state.
-- Maximum absolute grade `0.037581`; maximum absolute curvature `0.065160/m`;
+- Maximum absolute grade `0.037581`; maximum absolute curvature `0.065185/m`;
   minimum measured 120-meter-lookahead chord `99.929 m`.
 - One grade-separated crossing with `8.000 m` clearance, one parallel
   carriageway pair, zero self-intersections, zero invalid shortcuts, and zero
   chunk failures.
 - Variable topology reached 2–4 lanes, four transitions, gore and transition
   collision, six local-origin rebases, and `161.1 mph`.
+- The source-backed corridor contains 44 physical continuation pairs. Maximum
+  sampled boundary deflection is `1.324 degrees` against the locked `2-degree`
+  limit, down from the original `151.98-degree` reversal.
 - Route context produced four mile markers, one exit sign, two transfer signs,
   two concurrent markers, four distinct mile values, and seven stable
   automation nodes.
@@ -104,9 +139,9 @@ the four-plan driving capture.
 
 | Artifact | SHA-256 |
 | --- | --- |
-| `/tmp/p0-012-topology-review.avi` | `74678c83c9100f09af5e77d22615ec6420652e6d61aeb8ddb323aa99f215871f` |
-| `/tmp/p0-012-route-choice-driving.avi` | `6e4f9a9ba41a8fa9a1a4695027a80ca19441ebf82ea741ad64d048cd69181134` |
-| `docs/images/p0-012-validation-corpus-review.png` | `49a3b417d9dad42f96ee7c3626490f315e21ef837325b459e7a239a5c764bcea` |
+| `/tmp/p0-012-topology-review.avi` | `8036e2055338ee3392fa2e91b7aad4d2b311770371d4002f481fc111c405a8a5` |
+| `/tmp/p0-012-route-choice-driving.avi` | `2b13650ddd1150ca31dce884dabad91c906db694e55b4f03429572e0a731ae42` |
+| `docs/images/p0-012-validation-corpus-review.png` | `45d47646f97433240dbf67f5cee917580a4324085a8991b572928b84537401b2` |
 
 ## Remaining boundary
 
