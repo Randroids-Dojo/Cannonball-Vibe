@@ -1,5 +1,6 @@
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json;
 using Cannonball.Content;
 using Cannonball.Core.Content;
 using Cannonball.Core.Routes;
@@ -17,11 +18,22 @@ public sealed record InterchangeGeometryValidation(
     double MaximumAbsoluteCurvaturePerMeter,
     double MinimumSightlineMeters);
 
+public sealed record InterchangeGeometryLimits(
+    int MinimumGradeSeparatedCrossings,
+    double MinimumVerticalClearanceMeters,
+    int MinimumParallelCarriagewayPairs,
+    int MaximumSelfIntersections,
+    int MaximumInvalidShortcuts,
+    double MaximumAbsoluteGrade,
+    double MaximumAbsoluteCurvaturePerMeter,
+    double MinimumSightlineMeters);
+
 public sealed record RepresentativeInterchangeFixtureData(
     RouteContentPackage Package,
     VerifiedMemoryChunkSource Source,
     IReadOnlyDictionary<string, ValidatedRoutePlan> Plans,
     InterchangeGeometryValidation GeometryValidation,
+    InterchangeGeometryLimits GeometryLimits,
     IReadOnlyList<string> DecisionEdgeIds,
     string OverrideId);
 
@@ -32,10 +44,17 @@ public static class RepresentativeInterchangeFixture
     public const string ExitPlanId = "take-diamond-exit";
     public const string TransferPlanId = "take-directional-transfer";
     public const string SemiDirectionalTransferPlanId = "take-semi-directional-transfer";
+    private const string ValidationContractPath =
+        "res://data/routes/fixtures/validation/legal-interchanges.json";
+    private const double SightlineLookaheadMeters = 120;
+    private const double SightlineEyeHeightMeters = 1.08;
+    private const double SightlineTargetHeightMeters = 0.60;
+    private const double SightlineSurfaceClearanceMeters = 0.10;
 
     public static RepresentativeInterchangeFixtureData Create(RouteContentPackage sourcePackage)
     {
         ArgumentNullException.ThrowIfNull(sourcePackage);
+        var geometryLimits = LoadGeometryLimits();
         var sourceHash = sourcePackage.Metadata?.SourceArtifactSha256 ??
             Convert.ToHexString(SHA256.HashData(
                 Encoding.UTF8.GetBytes(sourcePackage.Graph.ContentVersion))).ToLowerInvariant();
@@ -155,15 +174,13 @@ public static class RepresentativeInterchangeFixture
                 "node-north-transfer-merge",
                 "route-i25-north",
                 Bezier(
-                    P(1_500, 0, 8),
-                    P(1_600, 0, 10),
-                    P(1_725, -390, 16),
-                    P(1_900, -400, 16),
+                    P(1_500, -3.6, 8),
+                    P(1_600, -3.6, 10),
+                    P(1_725, -393.6, 16),
+                    P(1_900, -403.6, 16),
                     17),
                 [
-                    Lane("semi-directional-transfer-lane-0", 0, LaneManeuver.HighwayTransfer, provenance, LaneRole.ExitOnly),
-                    Lane("semi-directional-transfer-lane-1", 1, LaneManeuver.HighwayTransfer, provenance, LaneRole.ExitOnly),
-                    Lane("semi-directional-transfer-lane-2", 2, LaneManeuver.HighwayTransfer, provenance, LaneRole.ExitOnly),
+                    Lane("semi-directional-transfer-lane-2", 0, LaneManeuver.HighwayTransfer, provenance, LaneRole.ExitOnly),
                 ]),
             new EdgeSpec(
                 "north-receiving-highway",
@@ -241,12 +258,13 @@ public static class RepresentativeInterchangeFixture
             plan => plan.Id,
             catalog.ValidatePlan,
             StringComparer.Ordinal);
-        var validation = ValidateGeometry(built, graph, connectors);
+        var validation = ValidateGeometry(built, graph, connectors, geometryLimits);
         return new RepresentativeInterchangeFixtureData(
             package,
             source,
             plans,
             validation,
+            geometryLimits,
             ["interchange-approach", "between-interchanges"],
             AuthoredOverrideId);
     }
@@ -427,8 +445,8 @@ public static class RepresentativeInterchangeFixture
                 Math.Pow(after.X - before.X, 2) + Math.Pow(after.Y - before.Y, 2));
             var tangentX = (after.X - before.X) / tangentLength;
             var tangentY = (after.Y - before.Y) / tangentLength;
-            var span = Math.Max(1e-6, after.DistanceTo(before));
-            var grade = (float)((after.Elevation - before.Elevation) / span);
+            var horizontalSpan = Math.Max(1e-6, tangentLength);
+            var grade = (float)((after.Elevation - before.Elevation) / horizontalSpan);
             var curvature = 0f;
             if (index > 0 && index < raw.Length - 1)
             {
@@ -481,6 +499,7 @@ public static class RepresentativeInterchangeFixture
             spec.RouteIdentityId switch
             {
                 "route-i25" => "south",
+                "route-i25-north" => "north",
                 "route-i25-opposing" => "north",
                 _ => "east",
             },
@@ -559,7 +578,8 @@ public static class RepresentativeInterchangeFixture
     private static InterchangeGeometryValidation ValidateGeometry(
         IReadOnlyList<BuiltEdge> built,
         IRouteGraph graph,
-        IReadOnlyList<JunctionConnector> connectors)
+        IReadOnlyList<JunctionConnector> connectors,
+        InterchangeGeometryLimits limits)
     {
         var selfIntersections = built.Sum(edge => CountSelfIntersections(edge.Samples));
         var gradeSeparatedCrossings = 0;
@@ -619,13 +639,21 @@ public static class RepresentativeInterchangeFixture
             .SelectMany(edge => edge.Samples)
             .Max(sample => Math.Abs(sample.Curvature));
         var sightlines = built
-            .SelectMany(edge => Sightlines(edge.Samples, 120))
+            .SelectMany(edge => Sightlines(edge.Samples, SightlineLookaheadMeters))
             .ToArray();
-        var minimumSightline = sightlines.Length == 0 ? 0 : sightlines.Min();
-        if (selfIntersections != 0 || invalidShortcuts != 0 || gradeSeparatedCrossings == 0 ||
-            parallelCarriagewayPairs == 0 ||
-            maximumAbsoluteGrade > 0.08 || maximumAbsoluteCurvature > 0.08 ||
-            minimumSightline < 60)
+        var expectedSightlines = built.Sum(edge =>
+            CountSightlineCandidates(edge.Samples, SightlineLookaheadMeters));
+        var minimumSightline = sightlines.Length == 0 || sightlines.Length != expectedSightlines
+            ? 0
+            : sightlines.Min();
+        if (selfIntersections > limits.MaximumSelfIntersections ||
+            invalidShortcuts > limits.MaximumInvalidShortcuts ||
+            gradeSeparatedCrossings < limits.MinimumGradeSeparatedCrossings ||
+            minimumClearance < limits.MinimumVerticalClearanceMeters ||
+            parallelCarriagewayPairs < limits.MinimumParallelCarriagewayPairs ||
+            maximumAbsoluteGrade > limits.MaximumAbsoluteGrade ||
+            maximumAbsoluteCurvature > limits.MaximumAbsoluteCurvaturePerMeter ||
+            minimumSightline < limits.MinimumSightlineMeters)
         {
             throw new InvalidDataException(
                 "Representative interchange geometry did not satisfy its topology gates: " +
@@ -698,12 +726,60 @@ public static class RepresentativeInterchangeFixture
             {
                 continue;
             }
+            var start = samples[startIndex];
+            var end = samples[endIndex];
+            var routeSpan = end.DistanceMeters - start.DistanceMeters;
+            var startEyeElevation = start.ElevationMeters + SightlineEyeHeightMeters;
+            var targetElevation = end.ElevationMeters + SightlineTargetHeightMeters;
+            var blocked = false;
+            for (var index = startIndex + 1; index < endIndex; index++)
+            {
+                var fraction = (samples[index].DistanceMeters - start.DistanceMeters) /
+                    routeSpan;
+                var rayElevation = Lerp(startEyeElevation, targetElevation, fraction);
+                if (samples[index].ElevationMeters + SightlineSurfaceClearanceMeters >=
+                    rayElevation)
+                {
+                    blocked = true;
+                    break;
+                }
+            }
+            if (blocked)
+            {
+                continue;
+            }
             var deltaX = samples[endIndex].ProjectedXMeters -
                 samples[startIndex].ProjectedXMeters;
             var deltaY = samples[endIndex].ProjectedYMeters -
                 samples[startIndex].ProjectedYMeters;
             yield return Math.Sqrt(deltaX * deltaX + deltaY * deltaY);
         }
+    }
+
+    private static int CountSightlineCandidates(
+        IReadOnlyList<RouteChunkSample> samples,
+        double lookaheadMeters) => samples.Count(sample =>
+            sample.DistanceMeters + lookaheadMeters <= samples[^1].DistanceMeters);
+
+    private static InterchangeGeometryLimits LoadGeometryLimits()
+    {
+        var json = Godot.FileAccess.GetFileAsString(ValidationContractPath);
+        if (string.IsNullOrWhiteSpace(json))
+        {
+            throw new InvalidDataException(
+                $"Missing representative interchange contract '{ValidationContractPath}'.");
+        }
+        using var document = JsonDocument.Parse(json);
+        var metrics = document.RootElement.GetProperty("required_metrics");
+        return new InterchangeGeometryLimits(
+            metrics.GetProperty("minimum_grade_separated_crossings").GetInt32(),
+            metrics.GetProperty("minimum_vertical_clearance_meters").GetDouble(),
+            metrics.GetProperty("minimum_parallel_carriageway_pairs").GetInt32(),
+            metrics.GetProperty("maximum_self_intersections").GetInt32(),
+            metrics.GetProperty("maximum_invalid_shortcuts").GetInt32(),
+            metrics.GetProperty("maximum_absolute_grade").GetDouble(),
+            metrics.GetProperty("maximum_absolute_curvature_per_meter").GetDouble(),
+            metrics.GetProperty("minimum_sightline_meters").GetDouble());
     }
 
     private static int CountSelfIntersections(IReadOnlyList<RouteChunkSample> samples)

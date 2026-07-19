@@ -780,6 +780,7 @@
         "scripts/validate-route-topology.sh",
         "docs/QUESTIONS_FOR_RANDROID_2026-07-18_SYSTEMATIC_BACKLOG.md",
         "docs/images/p0-012-validation-corpus-review.png",
+        "docs/OPEN_QUESTIONS.md",
         "docs/audits/",
         "evidence/M2/P0-012.json"
       ],
@@ -799,7 +800,9 @@
       ],
       "human_gate": {
         "name": "Representative interchange and route-context geographic review",
-        "required_for": "M2"
+        "required_for": "M2",
+        "status": "pending",
+        "question_reference": "docs/QUESTIONS_FOR_RANDROID_2026-07-18_SYSTEMATIC_BACKLOG.md#q-025--p0-012-geographic-plausibility-and-route-choice-review"
       }
     },
     {

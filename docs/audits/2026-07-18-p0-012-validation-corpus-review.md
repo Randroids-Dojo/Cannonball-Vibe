@@ -1,6 +1,6 @@
 # P0-012 representative validation corpus adversarial review
 
-- Review date: 2026-07-18 UTC
+- Review date: 2026-07-19 UTC
 - Reviewed implementation: `6a5cab8c176691901d24ba0c00a76f2a622af443`
 - Result: machine acceptance passed; required geographic-plausibility and
   route-choice-comprehension human gate remains open as Q-025
@@ -44,6 +44,37 @@ directional transfer, and semi-directional transfer.
    The checked-in lock now hashes every legal contract, invalid-mutation catalog,
    semantic contract, source fixture, source manifest, and recursive source
    lock. Tests recompute every byte hash and verify ancestry and coverage.
+6. CodeRabbit found that the northbound I-25 edge inherited the fixture's eastbound
+   fallback direction. The edge now resolves `route-i25-north` to `north` from the
+   same route identity used by its markers and milepoint.
+7. The semi-directional ramp declared three lanes while only its rightmost lane
+   had endpoint connectors. It is now a single connected lane, and its authored
+   centerline is offset to preserve exact alignment with the incoming and
+   receiving rightmost lanes. The full four-plan traversal remains supported.
+8. Grade used three-dimensional sample distance as its denominator. It now uses
+   horizontal run, so vertical change cannot dilute the declared grade gate.
+9. Sightline validation now traces the driver-eye-to-target elevation ray and
+   rejects any candidate whose intervening road surface breaches the clearance
+   envelope. Missing or blocked candidates force the aggregate sightline result
+   to zero instead of disappearing from the minimum.
+10. Runtime geometry gates now load their limits from the checksum-locked
+    `legal-interchanges.json` contract, removing a second hardcoded threshold
+    authority from `Main.cs` and the fixture validator.
+11. Evidence generation now runs and records the full M0 gate, requires every
+    declared review capture, records the actual uv version, and reports measured
+    zero-retry execution rather than replaying the development-session repair
+    narrative. The historical repairs remain here in the audit.
+12. Provenance verification now follows every repository-local JSON and GeoJSON
+    parent transitively and checks normalized structured records against the
+    prohibited ancestry denylist. Every invalid-mutation selector is also
+    resolved against its owning Python or C# test source.
+13. The ledger now owns the modified open-question register and records Q-025's
+    pending status and stable reference explicitly.
+14. CodeRabbit suggested giving the semi-directional merge the same 15-meter,
+    8 m/s transition as the diamond and directional merge. A direct scenario
+    comparison raised unsupported physics frames from the accepted single-digit
+    result to 245, so that suggestion was rejected with runtime evidence and the
+    established 70-meter, 20 m/s traversal was retained.
 
 ## Quantitative result
 
@@ -51,7 +82,7 @@ directional transfer, and semi-directional transfer.
   highway-transfer forms.
 - 8 invalid mutations rejected with actionable expected errors.
 - 12 save/resume comparisons across before, inside, and after plan state.
-- Maximum absolute grade `0.037555`; maximum absolute curvature `0.065160/m`;
+- Maximum absolute grade `0.037581`; maximum absolute curvature `0.065160/m`;
   minimum measured 120-meter-lookahead chord `99.929 m`.
 - One grade-separated crossing with `8.000 m` clearance, one parallel
   carriageway pair, zero self-intersections, zero invalid shortcuts, and zero
@@ -61,6 +92,9 @@ directional transfer, and semi-directional transfer.
 - Route context produced four mile markers, one exit sign, two transfer signs,
   two concurrent markers, four distinct mile values, and seven stable
   automation nodes.
+- The corrected single-lane semi-directional ramp completed with eight maximum
+  consecutive unsupported physics frames, below the declared 30-frame render
+  integrity boundary; the rejected tight-transition experiment produced 245.
 
 ## Visual candidate
 
@@ -86,4 +120,5 @@ traffic, vehicle art, and release rights remain separate tasks and gates.
 - `./scripts/validate-route-topology.sh --all-fixtures --evidence evidence/M2/P0-012.json`
 - `./scripts/capture-scenario.sh /tmp/p0-012-topology-review.avi --fixture variable-lanes --topology-review`
 - `CANNONBALL_CAPTURE_FRAMES=7200 ./scripts/capture-scenario.sh /tmp/p0-012-route-choice-driving.avi --fixture representative-interchanges --route-choice-profile`
+- `./scripts/check.sh`
 - `git diff --check`

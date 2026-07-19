@@ -2364,14 +2364,16 @@ public sealed partial class Main : Node3D
                 $"max_unsupported_frames={_routeChoiceMaximumUnsupportedFrames}.");
         }
         var geometry = _interchangeFixture.GeometryValidation;
-        if (geometry.GradeSeparatedCrossings < 1 ||
-            geometry.MinimumVerticalClearanceMeters < 5 ||
-            geometry.SelfIntersections != 0 ||
-            geometry.InvalidShortcuts != 0 ||
-            geometry.ParallelCarriagewayPairs < 1 ||
-            geometry.MaximumAbsoluteGrade > 0.08 ||
-            geometry.MaximumAbsoluteCurvaturePerMeter > 0.08 ||
-            geometry.MinimumSightlineMeters < 60)
+        var limits = _interchangeFixture.GeometryLimits;
+        if (geometry.GradeSeparatedCrossings < limits.MinimumGradeSeparatedCrossings ||
+            geometry.MinimumVerticalClearanceMeters < limits.MinimumVerticalClearanceMeters ||
+            geometry.SelfIntersections > limits.MaximumSelfIntersections ||
+            geometry.InvalidShortcuts > limits.MaximumInvalidShortcuts ||
+            geometry.ParallelCarriagewayPairs < limits.MinimumParallelCarriagewayPairs ||
+            geometry.MaximumAbsoluteGrade > limits.MaximumAbsoluteGrade ||
+            geometry.MaximumAbsoluteCurvaturePerMeter >
+                limits.MaximumAbsoluteCurvaturePerMeter ||
+            geometry.MinimumSightlineMeters < limits.MinimumSightlineMeters)
         {
             throw new InvalidOperationException(
                 "Representative interchange geometry failed its grade-separation or topology gates.");
