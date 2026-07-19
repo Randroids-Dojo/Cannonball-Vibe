@@ -2,6 +2,7 @@
 
 - Status: Accepted
 - Date: 2026-07-16
+- Activated: 2026-07-19
 - Extends: [ADR-0005](ADR-0005-official-engine-agentic-automation.md)
 
 ## Context
@@ -26,9 +27,12 @@ first representative interactive menu against CLI evidence plus Computer Use.
   owning UI surfaces.
 - PlayGodot remains debug/test-only, authenticated, loopback-only, capability
   constrained, transcript-producing, and absent from release exports.
-- Until the representative-menu value threshold is measured, the bridge remains
-  optional and non-blocking. This ADR resolves the adoption policy; it does not
-  claim the activation evidence already exists.
+- The representative driver-menu comparison passed the activation threshold on
+  2026-07-19. Computer Use could operate and capture the official Godot window,
+  but macOS exposed only window chrome and no in-game controls. PlayGodot
+  identified the menu, focused button, selected action, and normalized status by
+  stable ID, correlated open and close signals, and captured the menu node. It is
+  therefore required for interactive rendered-UI surfaces from this date.
 
 ## Consequences
 
@@ -38,3 +42,6 @@ first representative interactive menu against CLI evidence plus Computer Use.
   and cross-platform CI once the activation threshold passes.
 - Computer Use remains the black-box pixel, window, focus, and OS-input layer;
   deterministic CLI scenarios remain authoritative outside semantic UI.
+
+The measured comparison and artifacts are recorded in
+[the P1-004 closeout audit](../audits/2026-07-19-p1-004-menu-comparison.md).

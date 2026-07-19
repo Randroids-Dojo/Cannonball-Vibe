@@ -2,8 +2,8 @@
   "schema_version": 1,
   "task_id": "P1-004",
   "milestone": "M1",
-  "status": "implementation_spike_verified_locally_and_on_three_ci_platforms_release_gates_pending",
-  "git_revision": "e5b140e7c686e48ededd66b4d2cc647c301abdc7",
+  "status": "complete_adopted_for_interactive_rendered_ui",
+  "git_revision": "75d750df5c5ae143f547270d03324f5e1e8d0322",
   "platform": {
     "local": "macOS arm64",
     "remote": [
@@ -12,8 +12,8 @@
       "windows-latest"
     ]
   },
-  "utc_time": "2026-07-16T09:52:54Z",
-  "verified_at": "2026-07-16T09:52:54Z",
+  "utc_time": "2026-07-19T16:36:52Z",
+  "verified_at": "2026-07-19T16:36:52Z",
   "engine": "Godot 4.7.1.stable.mono.official.a13da4feb",
   "tool_versions": {
     "dotnet_sdk": "10.0.102",
@@ -63,7 +63,9 @@
     "autoload": false,
     "bounded_partial_write_queue": true,
     "bounded_selector_and_state_traversal": true,
-    "pending_signal_wait_limit": 8
+    "pending_signal_wait_limit": 8,
+    "required_scope": "interactive rendered UI only",
+    "release_exported": false
   },
   "metrics": {
     "local_suite_tests": 16,
@@ -74,6 +76,7 @@
     "observed_flake_rate": 0.0,
     "repeat_wall_seconds": 28.67,
     "mean_full_run_seconds": 9.56,
+    "latest_full_run_seconds": 10.55,
     "remote_platforms_required": 3,
     "remote_platforms_passed": 3,
     "pending_wait_capacity_before_disconnect": 8,
@@ -90,6 +93,24 @@
         "enabled",
         "focused",
         "bounds"
+      ]
+    },
+    "representative_menu_comparison": {
+      "automation_ids": 9,
+      "buttons": 3,
+      "playgodot_server_work_ms": 26,
+      "playgodot_open_signal_ms": 20,
+      "playgodot_node_crop_ms": 6,
+      "computer_use_open_and_state_ms": 1859,
+      "computer_use_close_and_state_ms": 1835,
+      "computer_use_accessibility_entries": 9,
+      "computer_use_ingame_semantic_nodes": 0,
+      "verified_states": [
+        "closed",
+        "open_and_simulation_paused",
+        "resume_focused",
+        "driving_options_selected",
+        "closed_and_simulation_resumed"
       ]
     }
   },
@@ -121,14 +142,14 @@
     {
       "criterion": "release package absence",
       "target": "inspect a real release export",
-      "observed": "blocked on P0-007 release-export pipeline",
-      "passed": false
+      "observed": "P0-007 Linux and Windows release PCK inspection found zero PlayGodot resources and hostile startup probes found no listener or rendezvous surface",
+      "passed": true
     },
     {
       "criterion": "diagnosis cost versus Computer Use",
       "target": "representative interactive-menu comparison",
-      "observed": "unique semantic coverage shown; timed representative comparison remains pending",
-      "passed": false
+      "observed": "Computer Use captured and operated the window but exposed no in-game semantic nodes; PlayGodot identified menu controls, focus, paused state, selection status, and signals by stable ID with 26 ms of recorded server work",
+      "passed": true
     }
   ],
   "verified_behaviors": [
@@ -153,7 +174,10 @@
     "versioned hello and ping wire golden replay",
     "structured process-start failures without tracebacks",
     "agent JSONL plan with deferred wait and allowlisted input",
-    "normal project startup has no listener, rendezvous, or transcript"
+    "normal project startup has no listener, rendezvous, or transcript",
+    "driver menu pauses and resumes simulation through keyboard and focused button input",
+    "driver menu focus, selection status, normalized paused state, and open or close signals resolve by stable automation ID",
+    "Computer Use opens and closes the official-engine window but exposes no in-game semantic accessibility nodes"
   ],
   "commands": [
     {
@@ -169,7 +193,11 @@
       "exit_code": 0
     },
     {
-      "command": "GitHub Actions CI run 29488612147",
+      "command": "Computer Use: inspect official Godot window, press Escape, inspect, press Return, inspect",
+      "exit_code": 0
+    },
+    {
+      "command": "GitHub Actions CI run 29695072840",
       "exit_code": 0
     }
   ],
@@ -201,12 +229,24 @@
     {
       "path": "/tmp/cannonball-playgodot-final/viewport.png",
       "sha256": "bda04a6402fc9c9ec46fb1f3e549e373f7fe47400998d1484080245f9812daad"
+    },
+    {
+      "path": "/tmp/cannonball-playgodot-closeout-1784478538/round-trip.jsonl",
+      "sha256": "5ffdf71a84eb8d96fc59e255bdd8f6250bb87de94fff9b81110bcd1edfbe0706"
+    },
+    {
+      "path": "docs/images/p1-004-playgodot-menu.png",
+      "sha256": "159098bdb9899a3445b65b25bbaf6ec0aa137d87058ea62ba8f374552508886e"
+    },
+    {
+      "path": "docs/images/p1-004-computer-use-menu.jpg",
+      "sha256": "165a21185e63aba36256676881b7249cf7a57264cde2392e53b085607079e90f"
     }
   ],
   "remote_ci": {
-    "run_id": 29488612147,
-    "revision": "e5b140e7c686e48ededd66b4d2cc647c301abdc7",
-    "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29488612147",
+    "run_id": 29695072840,
+    "revision": "75d750df5c5ae143f547270d03324f5e1e8d0322",
+    "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29695072840",
     "platforms": {
       "ubuntu-latest": "passed",
       "macos-latest": "passed",
@@ -214,23 +254,23 @@
     },
     "artifacts": [
       {
-        "path": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29488612147/artifacts/8371462278",
+        "path": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29695072840/artifacts/8444749216",
         "name": "playgodot-Linux-1",
-        "sha256": "412595653bfdc2824aacb9a7ae34f416e86db4805aee4a0c9fecd3e790e458cb"
+        "sha256": "49749d42682daf876989115e1818ca36dbce7105ceb485e5c669004c5293e553"
       },
       {
-        "path": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29488612147/artifacts/8371476857",
+        "path": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29695072840/artifacts/8444752201",
         "name": "playgodot-macOS-1",
-        "sha256": "0af08aa1082784ec704e5546895016ffb40271c779df0856a710c58e3bcda2cf"
+        "sha256": "b022336af1ea4b27f8918d56d50dad35dcbe9c52a39d726b521b99012d9566f6"
       },
       {
-        "path": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29488612147/artifacts/8371493420",
+        "path": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29695072840/artifacts/8444775343",
         "name": "playgodot-Windows-1",
-        "sha256": "cff27bcd5f610f94e86a8c6c8821cdd7693becc0d3bebaf2f4341507cb3c6363"
+        "sha256": "a9f6f30e49f92008275539c508ebf1ab018a44de7ba0499d529901470e3b7045"
       }
     ]
   },
-  "retry_count": 10,
+  "retry_count": 12,
   "failure_history": [
     {
       "failure": "The first three-platform run depended on rg, which is not installed on hosted runners by default.",
@@ -265,17 +305,20 @@
         "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29488070346/job/87587244456"
       ],
       "recovery": "Separated the listener assertion from the exact typed budget exit while keeping all other startup failures fatal."
+    },
+    {
+      "failure": "The representative-menu screenshot test assumed one fixed logical-to-render scale; local and hosted macOS produced valid 400-pixel and 321-pixel crops.",
+      "logs": [
+        "/tmp/cannonball-playgodot-menu-1784477973/driver-menu.png",
+        "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29694998955/job/88214117127"
+      ],
+      "recovery": "Kept a meaningful nondegenerate lower bound without assuming a platform scale; replacement run 29695072840 passed the semantic menu flow on Linux, macOS, and Windows."
     }
   ],
   "recovery_result": {
-    "run_id": 29488612147,
-    "result": "all five jobs passed; PlayGodot passed on Linux, macOS, and Windows and M0 passed on Linux and Windows"
+    "run_id": 29695072840,
+    "result": "all seven CI jobs passed; PlayGodot semantic UI passed on Linux, macOS, and Windows, M0 and the 500-mile scenario passed on Linux and Windows, and all companion PR workflows passed"
   },
   "human_gate": null,
-  "pending": [
-    "release-export content and startup inspection after P0-007",
-    "representative interactive-menu diagnosis comparison with Computer Use",
-    "expanded method and error golden corpus plus an extended 50-launch reliability sample",
-    "adoption decision for Q-011"
-  ]
+  "pending": []
 }

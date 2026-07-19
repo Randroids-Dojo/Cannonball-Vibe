@@ -1,7 +1,7 @@
 # PlayGodot modernization plan
 
 - Date: 2026-07-15
-- Status: implementing M1 spike
+- Status: adopted for interactive rendered UI
 - Decision owner: Automation
 - Related: [ADR-0005](../decisions/ADR-0005-official-engine-agentic-automation.md),
   [Q-011](../OPEN_QUESTIONS.md), and delivery task `P1-004`
@@ -178,14 +178,43 @@ underlying node or wait on its signal.
 
 The live suite now passes on GitHub-hosted macOS, Linux, and Windows, and P0-007
 has proved through real release-package inspection and hostile startup probes
-that PlayGodot does not ship or activate. On 2026-07-16, the project owner
-selected the conditional adoption policy: PlayGodot becomes required only after
-the remaining representative interactive-menu comparison proves lower diagnosis
-cost or unique defect coverage against Computer Use. Until that measurement
-exists, PlayGodot remains an optional, debug-only semantic layer and the
-deterministic CLI remains milestone authority. The conditional adoption policy
-is authoritative in
-[ADR-0008](../decisions/ADR-0008-required-playgodot-after-ui-value-gate.md).
+that PlayGodot does not ship or activate. The conditional policy selected on
+2026-07-16 was activated by the representative-menu comparison on 2026-07-19.
+PlayGodot is now required for interactive rendered-UI surfaces, remains a
+debug-only semantic layer, and does not replace deterministic CLI authority.
+[ADR-0008](../decisions/ADR-0008-required-playgodot-after-ui-value-gate.md)
+is authoritative.
+
+## Representative-menu comparison and adoption
+
+The first representative interactive surface is the production HUD's driver
+menu. It supports keyboard focus and three actions, and exposes stable IDs for
+the menu, title, status, hint, and each button. The official-engine live test
+opens it through injected Escape input, waits on `visibility_changed`, verifies
+the focused Resume button, selects Driving Options by stable ID, validates the
+normalized status, captures only the menu node, resumes, and verifies closure.
+
+The 2026-07-19 comparison demonstrated unique semantic coverage and materially
+lower diagnosis cost:
+
+- Computer Use opened and closed the real Godot 4.7.1 window and supplied useful
+  black-box screenshots. Its accessibility tree contained the window and menu
+  bar only; none of the rendered menu controls, their focus, or their state were
+  exposed. Opening the menu and returning a fresh window state took 1,859 ms;
+  closing and returning a fresh state took 1,835 ms.
+- PlayGodot exposed the menu, all three buttons, focus, text, visibility, bounds,
+  and normalized test state. Its transcript reports 26 ms of server work for the
+  complete open, semantic inspection, selection, scoped screenshot, and close
+  flow. The open signal accounted for 20 ms and the menu crop for 6 ms.
+- The timings are diagnostic observations rather than a synthetic throughput
+  benchmark: Computer Use includes OS capture and accessibility collection,
+  while PlayGodot reports in-process request duration. The adoption result does
+  not depend on that asymmetry because the black-box layer exposes no in-game
+  semantic nodes at all.
+
+ADR-0008's gate is therefore active. PlayGodot is required for interactive
+rendered-UI surfaces, remains debug-only and non-shipping, and does not replace
+Core tests, official-engine scenarios, deterministic capture, or Computer Use.
 
 ## Deliberately excluded legacy authority
 

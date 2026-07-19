@@ -15,16 +15,18 @@ tests, and a CLI. The local macOS suite completed three consecutive full
 on GitHub-hosted macOS, Linux, and Windows. P0-007 has also produced
 fixture-scoped Linux and Windows packages whose PCK inventory, shipping-binary
 scan, and hostile startup probe prove that PlayGodot does not ship or activate.
-The working default is to keep PlayGodot debug-only and optional until the one
-remaining product fact exists:
+The representative driver-menu comparison passed on 2026-07-19. Computer Use
+could operate and capture the official Godot window, but its accessibility tree
+exposed only window chrome and no in-game controls. PlayGodot addressed every
+menu control by stable ID, verified focus and normalized state, correlated open
+and close signals, selected an action, and produced a node-scoped screenshot.
 
-1. The first representative interactive menu shows lower diagnosis cost or a
-   unique defect compared with CLI evidence plus Computer Use.
-
-Decision recorded 2026-07-16: make PlayGodot required project infrastructure
-once that representative-menu comparison satisfies the acceptance threshold.
-It remains debug-only, non-shipping, and non-blocking until the comparison is
-complete. See [ADR-0008](decisions/ADR-0008-required-playgodot-after-ui-value-gate.md).
+Decision activated 2026-07-19: PlayGodot is required project infrastructure for
+interactive rendered-UI surfaces. It remains debug-only, non-shipping, and
+scoped to semantic UI; deterministic CLI scenarios and Computer Use retain their
+existing logic/runtime and black-box visual roles. See
+[ADR-0008](decisions/ADR-0008-required-playgodot-after-ui-value-gate.md) and the
+[comparison audit](audits/2026-07-19-p1-004-menu-comparison.md).
 
 ## Representative route map sanity review (P0-004) — approved
 
