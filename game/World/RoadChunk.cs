@@ -798,10 +798,11 @@ public sealed partial class RoadChunk : Node3D
                 tangents,
                 samples,
                 layouts,
-                layout => layout.PavedLeftMeters - 40,
-                layout => layout.PavedRightMeters + 40,
+                layout => layout.PavedLeftMeters - RoadVisualKit.TerrainMarginMeters,
+                layout => layout.PavedRightMeters + RoadVisualKit.TerrainMarginMeters,
                 -0.18f),
             MaterialOverride = _visualKit.Terrain,
+            CastShadow = GeometryInstance3D.ShadowCastingSetting.Off,
         };
         MarkRoadSemantic(terrain, "terrain-shoulders");
         AddChild(terrain);

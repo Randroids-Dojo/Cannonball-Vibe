@@ -15,7 +15,12 @@ from Cannonball.Content.RouteGraphBuffer import RouteGraphBuffer
 from cannonball_map.cli import app
 from cannonball_map.elevation import ElevationMetadata, ElevationSampler
 from cannonball_map.pipeline import build_route_graph
-from cannonball_map.sharding import MAX_CHUNK_BYTES, MAX_ROOT_BYTES, write_sharded_package
+from cannonball_map.sharding import (
+    MAX_CHUNK_BYTES,
+    MAX_ROOT_BYTES,
+    _continuation_endpoint_tangents,
+    write_sharded_package,
+)
 
 
 def _official_package(tmp_path: Path) -> dict[str, object]:
@@ -90,6 +95,45 @@ def test_official_fixture_emits_deterministic_bounded_shards(tmp_path: Path) -> 
         assert before_end.ElevationMeters() == after_start.ElevationMeters()
         assert before_end.ProjectedTangentX() == after_start.ProjectedTangentX()
         assert before_end.ProjectedTangentY() == after_start.ProjectedTangentY()
+
+
+def test_continuation_endpoints_share_the_angle_bisector_tangent() -> None:
+    edges = {
+        "incoming": {
+            "samples": [
+                {"distance_meters": 0.0, "projected_x_meters": 0.0, "projected_y_meters": 0.0},
+                {"distance_meters": 100.0, "projected_x_meters": 100.0, "projected_y_meters": 0.0},
+            ]
+        },
+        "outgoing": {
+            "samples": [
+                {"distance_meters": 0.0, "projected_x_meters": 100.0, "projected_y_meters": 0.0},
+                {"distance_meters": 100.0, "projected_x_meters": 200.0, "projected_y_meters": 20.0},
+            ]
+        },
+    }
+    semantics = {
+        "junction_connectors": [
+            {
+                "from_edge_id": "incoming",
+                "to_edge_id": "outgoing",
+                "movement": "continuation",
+            },
+            {
+                "from_edge_id": "incoming",
+                "to_edge_id": "outgoing",
+                "movement": "continuation",
+            },
+        ]
+    }
+
+    tangents = _continuation_endpoint_tangents(edges, semantics)
+
+    assert tangents[("incoming", "end")] == pytest.approx(
+        tangents[("outgoing", "start")]
+    )
+    assert tangents[("incoming", "end")][0] < 1.0
+    assert tangents[("incoming", "end")][1] > 0.0
 
 
 def test_runtime_build_requires_elevation_contract(tmp_path: Path) -> None:

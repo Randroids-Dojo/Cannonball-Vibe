@@ -8,6 +8,7 @@ from collections import defaultdict
 from typing import Any
 
 MAX_SIMPLIFIED_MAP_BYTES = 16_000_000
+MAX_CONTINUATION_DEFLECTION_DEGREES = 25.0
 
 MANEUVER_CONTINUE = 1 << 0
 MANEUVER_MERGE = 1 << 1
@@ -414,6 +415,14 @@ def validate_route_semantics(package: dict[str, Any]) -> None:
                 f"Connectors between '{pair[0]}' and '{pair[1]}' create an ambiguous "
                 "lane predecessor."
             )
+        if {movement for _, _, movement in lane_pairs} == {"continuation"}:
+            deflection = _continuation_deflection_degrees(edges[pair[0]], edges[pair[1]])
+            if deflection > MAX_CONTINUATION_DEFLECTION_DEGREES:
+                raise ValueError(
+                    f"Continuation from '{pair[0]}' to '{pair[1]}' has a "
+                    f"{deflection:.3f}-degree endpoint tangent discontinuity; maximum is "
+                    f"{MAX_CONTINUATION_DEFLECTION_DEGREES:.3f} degrees."
+                )
 
     incoming_edges_by_node: dict[str, list[str]] = defaultdict(list)
     outgoing_edges_by_node: dict[str, list[str]] = defaultdict(list)
@@ -678,6 +687,38 @@ def _provenance(
         "derivation": derivation,
         "authored_override_id": authored_override_id,
     }
+
+
+def _continuation_deflection_degrees(
+    from_edge: dict[str, Any],
+    to_edge: dict[str, Any],
+) -> float:
+    from_samples = from_edge.get("samples")
+    to_samples = to_edge.get("samples")
+    if (
+        not isinstance(from_samples, list)
+        or len(from_samples) < 2
+        or not isinstance(to_samples, list)
+        or len(to_samples) < 2
+    ):
+        raise ValueError("Continuation geometry requires at least two samples per edge.")
+
+    def direction(before: dict[str, Any], after: dict[str, Any]) -> tuple[float, float]:
+        delta_x = _finite(after, "projected_x_meters", "Continuation sample") - _finite(
+            before, "projected_x_meters", "Continuation sample"
+        )
+        delta_y = _finite(after, "projected_y_meters", "Continuation sample") - _finite(
+            before, "projected_y_meters", "Continuation sample"
+        )
+        magnitude = math.hypot(delta_x, delta_y)
+        if magnitude <= 1e-9:
+            raise ValueError("Continuation geometry has a zero-length endpoint segment.")
+        return delta_x / magnitude, delta_y / magnitude
+
+    incoming = direction(from_samples[-2], from_samples[-1])
+    outgoing = direction(to_samples[0], to_samples[1])
+    dot = max(-1.0, min(1.0, incoming[0] * outgoing[0] + incoming[1] * outgoing[1]))
+    return math.degrees(math.acos(dot))
 
 
 def _derived_movement(incoming_count: int, outgoing_count: int) -> str:

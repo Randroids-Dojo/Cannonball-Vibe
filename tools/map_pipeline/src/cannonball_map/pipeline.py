@@ -343,6 +343,10 @@ def _snap_line_endpoints(line: LineString, tolerance: float) -> LineString:
     coordinates = list(line.coords)
     start = _snap(coordinates[0], tolerance)
     end = _snap(coordinates[-1], tolerance)
+    while len(coordinates) > 2 and math.dist(coordinates[1][:2], start) <= tolerance:
+        del coordinates[1]
+    while len(coordinates) > 2 and math.dist(coordinates[-2][:2], end) <= tolerance:
+        del coordinates[-2]
     coordinates[0] = (*start, *coordinates[0][2:])
     coordinates[-1] = (*end, *coordinates[-1][2:])
     return LineString(coordinates)

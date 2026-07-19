@@ -50,6 +50,7 @@ public static class RepresentativeInterchangeFixture
     private const double SightlineEyeHeightMeters = 1.08;
     private const double SightlineTargetHeightMeters = 0.60;
     private const double SightlineSurfaceClearanceMeters = 0.10;
+    private const double RepresentativeLaneWidthMeters = 3.6;
 
     public static RepresentativeInterchangeFixtureData Create(RouteContentPackage sourcePackage)
     {
@@ -174,10 +175,10 @@ public static class RepresentativeInterchangeFixture
                 "node-north-transfer-merge",
                 "route-i25-north",
                 Bezier(
-                    P(1_500, -3.6, 8),
-                    P(1_600, -3.6, 10),
-                    P(1_725, -393.6, 16),
-                    P(1_900, -403.6, 16),
+                    P(1_500, -RepresentativeLaneWidthMeters, 8),
+                    P(1_600, -RepresentativeLaneWidthMeters, 10),
+                    P(1_725, -390 - RepresentativeLaneWidthMeters, 16),
+                    P(1_900, -400 - RepresentativeLaneWidthMeters, 16),
                     17),
                 [
                     Lane("semi-directional-transfer-lane-2", 0, LaneManeuver.HighwayTransfer, provenance, LaneRole.ExitOnly),
@@ -443,9 +444,9 @@ public static class RepresentativeInterchangeFixture
             var after = raw[Math.Min(raw.Length - 1, index + 1)];
             var tangentLength = Math.Sqrt(
                 Math.Pow(after.X - before.X, 2) + Math.Pow(after.Y - before.Y, 2));
-            var tangentX = (after.X - before.X) / tangentLength;
-            var tangentY = (after.Y - before.Y) / tangentLength;
             var horizontalSpan = Math.Max(1e-6, tangentLength);
+            var tangentX = (after.X - before.X) / horizontalSpan;
+            var tangentY = (after.Y - before.Y) / horizontalSpan;
             var grade = (float)((after.Elevation - before.Elevation) / horizontalSpan);
             var curvature = 0f;
             if (index > 0 && index < raw.Length - 1)
@@ -457,9 +458,13 @@ public static class RepresentativeInterchangeFixture
                 var headingChange = Math.Atan2(
                     incomingX * outgoingY - incomingY * outgoingX,
                     incomingX * outgoingX + incomingY * outgoingY);
+                var incomingLength = Math.Sqrt(
+                    incomingX * incomingX + incomingY * incomingY);
+                var outgoingLength = Math.Sqrt(
+                    outgoingX * outgoingX + outgoingY * outgoingY);
                 var averageSegmentLength = Math.Max(
                     1e-6,
-                    (point.DistanceTo(before) + after.DistanceTo(point)) / 2);
+                    (incomingLength + outgoingLength) / 2);
                 curvature = (float)(headingChange / averageSegmentLength);
             }
             return new RouteChunkSample(
@@ -581,6 +586,7 @@ public static class RepresentativeInterchangeFixture
         IReadOnlyList<JunctionConnector> connectors,
         InterchangeGeometryLimits limits)
     {
+        ValidateRampLaneConnections(built, connectors);
         var selfIntersections = built.Sum(edge => CountSelfIntersections(edge.Samples));
         var gradeSeparatedCrossings = 0;
         var minimumClearance = double.PositiveInfinity;
@@ -700,6 +706,29 @@ public static class RepresentativeInterchangeFixture
             }
         }
         return count;
+    }
+
+    private static void ValidateRampLaneConnections(
+        IReadOnlyList<BuiltEdge> built,
+        IReadOnlyList<JunctionConnector> connectors)
+    {
+        foreach (var edge in built.Where(candidate =>
+            candidate.Edge.Id.EndsWith("-ramp", StringComparison.Ordinal)))
+        {
+            foreach (var lane in edge.Section.Lanes)
+            {
+                var hasIncoming = connectors.Any(connector =>
+                    connector.ToEdgeId == edge.Edge.Id && connector.ToLaneId == lane.Id);
+                var hasOutgoing = connectors.Any(connector =>
+                    connector.FromEdgeId == edge.Edge.Id && connector.FromLaneId == lane.Id);
+                if (!hasIncoming || !hasOutgoing)
+                {
+                    throw new InvalidDataException(
+                        $"Ramp edge '{edge.Edge.Id}' lane '{lane.Id}' is disconnected: " +
+                        $"incoming={hasIncoming}, outgoing={hasOutgoing}.");
+                }
+            }
+        }
     }
 
     private static double HorizontalDistance(RouteChunkSample left, RouteChunkSample right)
@@ -857,7 +886,7 @@ public static class RepresentativeInterchangeFixture
         LaneManeuver maneuvers,
         RouteSemanticProvenance provenance,
         LaneRole role = LaneRole.General) =>
-        new(id, index, 3.6f, role, maneuvers, provenance);
+        new(id, index, (float)RepresentativeLaneWidthMeters, role, maneuvers, provenance);
 
     private static JunctionConnector Connector(
         string id,

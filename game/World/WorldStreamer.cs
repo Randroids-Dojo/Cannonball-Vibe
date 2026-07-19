@@ -43,6 +43,8 @@ public sealed partial class WorldStreamer : Node3D
     private IReadOnlyList<RouteManifestSpan> _manifests = [];
     private RouteFrame _frame = null!;
     private RoadVisualKit _roadVisualKit = null!;
+    private MeshInstance3D _terrainBackdrop = null!;
+    private double _terrainBackdropElevation = double.PositiveInfinity;
     private CannonballVehicle? _vehicle;
     private RouteWorldPoint _localOriginWorld;
     private string _currentEdgeId = string.Empty;
@@ -122,6 +124,12 @@ public sealed partial class WorldStreamer : Node3D
     public double MaximumLocalCoordinateMeters { get; private set; }
     public double MaximumJunctionGapMeters { get; private set; }
     public int JunctionSeamBuildCount => _junctionSeamsBuilt.Count;
+    public int JunctionTerrainSeamCount =>
+        _junctionSeams.Values.Count(seam => seam.HasTerrainSurface);
+    public bool JunctionTerrainSurfacesComplete =>
+        _junctionSeams.Count > 0 && _junctionSeams.Values.All(seam => seam.HasTerrainSurface);
+    public bool HasTerrainBackdrop =>
+        _terrainBackdrop is { Mesh: not null, Visible: true };
     public IReadOnlyCollection<string> JunctionSeamIdsBuilt => _junctionSeamsBuilt;
     public IReadOnlyCollection<string> RouteContextAutomationIds =>
         _loadedRouteContextAutomationIds;
@@ -324,6 +332,18 @@ public sealed partial class WorldStreamer : Node3D
             throw new InvalidDataException($"Route edge '{_currentEdgeId}' has no chunk manifests.");
         }
         _frame = new RouteFrame(initialChunk.Samples);
+        _terrainBackdrop = new MeshInstance3D
+        {
+            Name = "TerrainBackdrop",
+            Mesh = new PlaneMesh
+            {
+                Size = new Vector2(30_000, 30_000),
+            },
+            MaterialOverride = _roadVisualKit.Terrain,
+            CastShadow = GeometryInstance3D.ShadowCastingSetting.Off,
+        };
+        RoadVisualKit.MarkSemantic(_terrainBackdrop, "road.visual.terrain.backdrop");
+        AddChild(_terrainBackdrop);
         _initialRoadWorldPoint = _frame.ToWorld(initialChunk.Samples[0]);
         InitialRoadPoint = _initialRoadWorldPoint.RelativeTo(_localOriginWorld);
         InitialRoadForward = _frame.InitialForward;
@@ -687,6 +707,17 @@ public sealed partial class WorldStreamer : Node3D
         // loaded instead of turning host scheduling or first-frame JIT into a chunk failure.
         _content.Add(content.Id, content);
         _loaded.Add(content.Id, chunk);
+        var minimumLocalElevation = content.Samples
+            .Select(sample => _frame.ToWorld(sample).Y - _localOriginWorld.Y)
+            .Min();
+        if (minimumLocalElevation < _terrainBackdropElevation)
+        {
+            _terrainBackdropElevation = minimumLocalElevation;
+            _terrainBackdrop.Position = new Vector3(
+                0,
+                (float)(_terrainBackdropElevation - 5),
+                0);
+        }
         if (_roadVisualObservedChunks.Add(content.Id))
         {
             var roadVisual = chunk.CaptureRoadVisualSnapshot();
@@ -762,6 +793,21 @@ public sealed partial class WorldStreamer : Node3D
 
     private void TryBuildJunctionSeams()
     {
+        foreach (var edgeChunks in _content.Values
+                     .GroupBy(content => content.EdgeId, StringComparer.Ordinal))
+        {
+            var edge = _package.Graph.GetEdge(edgeChunks.Key);
+            var ordered = edgeChunks.OrderBy(content => content.StartMeters).ToArray();
+            for (var index = 0; index < ordered.Length - 1; index++)
+            {
+                if (Math.Abs(ordered[index].EndMeters - ordered[index + 1].StartMeters) > 0.001)
+                {
+                    continue;
+                }
+                TryBuildJunctionSeam(ordered[index], edge, ordered[index + 1], edge);
+            }
+        }
+
         var planPairs = Enumerable.Range(0, Math.Max(0, _routePlan.Edges.Count - 1))
             .Select(index => (
                 FromEdgeId: _routePlan.Edges[index].EdgeId,
@@ -772,11 +818,6 @@ public sealed partial class WorldStreamer : Node3D
                 ToEdgeId: connector.ToEdgeId)) ?? [];
         foreach (var pair in planPairs.Concat(connectorPairs).Distinct())
         {
-            var key = $"{pair.FromEdgeId}->{pair.ToEdgeId}";
-            if (_junctionSeams.ContainsKey(key))
-            {
-                continue;
-            }
             var fromEdge = _package.Graph.GetEdge(pair.FromEdgeId);
             var toEdge = _package.Graph.GetEdge(pair.ToEdgeId);
             var fromContent = _content.Values.SingleOrDefault(content =>
@@ -787,21 +828,36 @@ public sealed partial class WorldStreamer : Node3D
             {
                 continue;
             }
-            var seam = JunctionSeam.Create(
-                fromContent,
-                fromEdge,
-                toContent,
-                toEdge,
-                _frame,
-                _localOriginWorld);
-            _junctionSeams.Add(key, seam);
-            _junctionSeamsBuilt.Add(key);
-            MaximumJunctionGapMeters = Math.Max(
-                MaximumJunctionGapMeters,
-                seam.ConnectionGapMeters);
-            AddChild(seam);
+            TryBuildJunctionSeam(fromContent, fromEdge, toContent, toEdge);
         }
         RefreshJunctionSeamCollisions();
+    }
+
+    private void TryBuildJunctionSeam(
+        RouteChunkContent fromContent,
+        RouteEdge fromEdge,
+        RouteChunkContent toContent,
+        RouteEdge toEdge)
+    {
+        var key = $"{fromContent.Id}->{toContent.Id}";
+        if (_junctionSeams.ContainsKey(key))
+        {
+            return;
+        }
+        var seam = JunctionSeam.Create(
+            fromContent,
+            fromEdge,
+            toContent,
+            toEdge,
+            _frame,
+            _localOriginWorld,
+            _roadVisualKit);
+        _junctionSeams.Add(key, seam);
+        _junctionSeamsBuilt.Add(key);
+        MaximumJunctionGapMeters = Math.Max(
+            MaximumJunctionGapMeters,
+            seam.ConnectionGapMeters);
+        AddChild(seam);
     }
 
     private void RemoveJunctionSeamsForChunk(string chunkId)

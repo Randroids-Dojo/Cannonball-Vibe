@@ -42,8 +42,10 @@ cd "$repo_root"
 
 run_checked corpus-tests "$reports_dir/corpus-tests.log" \
   uv run --project tools/map_pipeline --frozen pytest \
+  tools/map_pipeline/tests/test_pipeline.py \
   tools/map_pipeline/tests/test_validation_corpus.py \
-  tools/map_pipeline/tests/test_semantics.py -q
+  tools/map_pipeline/tests/test_semantics.py \
+  tools/map_pipeline/tests/test_sharding.py -q
 
 run_checked core-route-tests "$reports_dir/core-route-tests.log" \
   env DOTNET_ROLL_FORWARD=Major dotnet test Cannonball.sln \
@@ -101,10 +103,58 @@ const topologyContract = readJson("data/routes/fixtures/validation/legal-variabl
 const interchangeContract = readJson("data/routes/fixtures/validation/legal-interchanges.json").required_metrics;
 const contextContract = readJson("data/routes/fixtures/validation/legal-route-context.json").required_metrics;
 
+function continuationGeometryMetrics() {
+  const packagePointer = readJson(".tools/scenarios/variable-lanes/current-package.json");
+  const routePackage = readJson(path.join(
+    ".tools/scenarios/variable-lanes",
+    packagePointer.metadata_relative_path
+  ));
+  const edges = new Map(routePackage.edges.map(edge => [edge.edge_id, edge]));
+  const movementsByPair = new Map();
+  for (const connector of routePackage.semantics.junction_connectors) {
+    const key = `${connector.from_edge_id}->${connector.to_edge_id}`;
+    if (!movementsByPair.has(key)) movementsByPair.set(key, new Set());
+    movementsByPair.get(key).add(connector.movement);
+  }
+
+  const direction = (before, after) => {
+    const x = after.projected_x_meters - before.projected_x_meters;
+    const y = after.projected_y_meters - before.projected_y_meters;
+    const magnitude = Math.hypot(x, y);
+    if (!(magnitude > 1e-9)) throw new Error("Continuation endpoint segment is zero length.");
+    return [x / magnitude, y / magnitude];
+  };
+  const deflections = [];
+  for (const [key, movements] of movementsByPair) {
+    if (movements.size !== 1 || !movements.has("continuation")) continue;
+    const [fromEdgeId, toEdgeId] = key.split("->");
+    const fromSamples = edges.get(fromEdgeId).samples;
+    const toSamples = edges.get(toEdgeId).samples;
+    const incoming = direction(fromSamples.at(-2), fromSamples.at(-1));
+    const outgoing = direction(toSamples[0], toSamples[1]);
+    const dot = Math.max(-1, Math.min(1, incoming[0] * outgoing[0] + incoming[1] * outgoing[1]));
+    deflections.push(Math.acos(dot) * 180 / Math.PI);
+  }
+  if (deflections.length === 0) throw new Error("Variable-lane package has no continuation pairs.");
+  return {
+    pair_count: deflections.length,
+    maximum_source_deflection_degrees: Number(Math.max(...deflections).toFixed(6)),
+    limit_degrees: topologyContract.maximum_continuation_deflection_degrees
+  };
+}
+
+const continuationGeometry = continuationGeometryMetrics();
+
 requireMetric(number(topology.min_lanes, "min_lanes") <= topologyContract.minimum_lane_count, "Minimum lane coverage failed.");
 requireMetric(number(topology.max_lanes, "max_lanes") >= topologyContract.maximum_lane_count, "Maximum lane coverage failed.");
 requireMetric(number(topology.transitions, "transitions") >= topologyContract.minimum_transitions, "Lane-transition coverage failed.");
 requireMetric(topology.gore === String(topologyContract.gore), "Gore coverage failed.");
+requireMetric(
+  continuationGeometry.maximum_source_deflection_degrees <= continuationGeometry.limit_degrees,
+  `Continuation deflection ${continuationGeometry.maximum_source_deflection_degrees} exceeds ${continuationGeometry.limit_degrees} degrees.`
+);
+requireMetric(topology.terrain_backdrop === String(topologyContract.terrain_backdrop), "Terrain backdrop coverage failed.");
+requireMetric(number(topology.terrain_seams, "terrain_seams") >= topologyContract.minimum_terrain_seams, "Junction terrain-seam coverage failed.");
 requireMetric(number(topology.rebases, "rebases") >= topologyContract.minimum_rebases, "Rebase coverage failed.");
 requireMetric(number(topology.chunk_failures, "topology chunk_failures") <= topologyContract.maximum_chunk_failures, "Topology chunk failure.");
 
@@ -179,12 +229,14 @@ const evidence = {
     legal_fixture_count: corpus.legal_fixture_paths.length,
     invalid_mutation_count: readJson(corpus.invalid_mutation_catalog).mutations.length,
     topology,
+    continuation_geometry: continuationGeometry,
     interchanges,
     route_context: routeContext
   },
   acceptance_comparisons: [
     {criterion: "checksum-locked representative coverage", observed: `${corpus.legal_fixture_paths.length} legal fixtures and ${corpus.minimum_highway_transfer_forms} highway-transfer forms`, passed: true},
     {criterion: "continuity, curvature, grade, sightline, intersection, connection, completion, sign, and resume gates", observed: "all declared numeric and semantic scenario contracts passed", passed: true},
+    {criterion: "continuation endpoint geometry", observed: `${continuationGeometry.pair_count} pairs; maximum source deflection ${continuationGeometry.maximum_source_deflection_degrees} degrees against ${continuationGeometry.limit_degrees}-degree limit`, passed: true},
     {criterion: "recursive approved-source, derived, and authored ancestry", observed: `${corpus.artifacts.length} locked artifacts with explicit provenance kinds`, passed: true},
     {criterion: "bot traversal and invalid mutation rejection", observed: `${interchanges.plans} legal plans and ${readJson(corpus.invalid_mutation_catalog).mutations.length} invalid mutations`, passed: true},
     {criterion: "human geographic plausibility and route-choice comprehension", observed: "review candidate prepared separately; approval remains pending", passed: false}

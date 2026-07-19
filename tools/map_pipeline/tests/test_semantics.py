@@ -234,6 +234,16 @@ def test_lane_count_transitions_map_every_boundary_lane_without_crossing(
     }
 
 
+def test_continuation_rejects_endpoint_tangent_discontinuity() -> None:
+    package = _lane_transition_package(2, 2)
+    outgoing = next(edge for edge in package["edges"] if edge["edge_id"] == "outgoing")
+    outgoing["samples"][-1]["projected_x_meters"] = 90.0
+    outgoing["samples"][-1]["projected_y_meters"] = 100.0
+
+    with pytest.raises(ValueError, match="endpoint tangent discontinuity"):
+        validate_route_semantics(package)
+
+
 @pytest.mark.parametrize(
     "movement",
     CONTRACT["connector_movements"],

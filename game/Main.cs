@@ -1883,7 +1883,15 @@ public sealed partial class Main : Node3D
             !_topologyTraversalStarted ||
             _topologyCheckpointIndex != _topologyCheckpoints.Count)
         {
-            throw new InvalidOperationException("Topology profile did not visit every checkpoint.");
+            throw new InvalidOperationException(
+                "Topology profile did not visit every checkpoint: " +
+                $"complete={_topologyProfileComplete} " +
+                $"started={_topologyTraversalStarted} " +
+                $"checkpoint={_topologyCheckpointIndex}/{_topologyCheckpoints.Count} " +
+                $"route_distance_m={_streamer.RouteDistanceMeters:F3} " +
+                $"target_distance_m={_topologyTraversalEndMeters:F3} " +
+                $"grounded={_vehicle.HasBeenGrounded} " +
+                $"unsupported_frames={_vehicle.MaximumConsecutiveUnsupportedPhysicsFrames}.");
         }
         if (_streamer.MinimumObservedLaneCount > 2 ||
             _streamer.MaximumObservedLaneCount < 4 ||
@@ -1935,6 +1943,13 @@ public sealed partial class Main : Node3D
             throw new InvalidOperationException(
                 "Topology traversal did not prewarm and evict its probable branch chunk.");
         }
+        if (!_streamer.HasTerrainBackdrop ||
+            !_streamer.JunctionTerrainSurfacesComplete ||
+            _streamer.JunctionTerrainSeamCount == 0)
+        {
+            throw new InvalidOperationException(
+                "Topology traversal found an incomplete terrain backdrop or seam surface.");
+        }
         GD.Print(
             $"CANNONBALL_TOPOLOGY_OK checkpoints={_topologyCheckpoints.Count} " +
             $"edge={_topologyOverlay.EdgeId} min_lanes={_streamer.MinimumObservedLaneCount} " +
@@ -1948,6 +1963,9 @@ public sealed partial class Main : Node3D
             $"{string.Join(',', _topologyOverlay.ExpectedTraversedConnectorMovements)} " +
             $"branch_prewarms={_streamer.BranchPrewarmCount} " +
             $"branch_evictions={_streamer.BranchPrewarmEvictionCount} " +
+            $"terrain_backdrop=true " +
+            $"terrain_seams={_streamer.JunctionTerrainSeamCount} " +
+            $"max_seam_gap_m={_streamer.MaximumJunctionGapMeters:0.000} " +
             $"max_unsupported_frames={_vehicle.MaximumConsecutiveUnsupportedPhysicsFrames} " +
             $"max_visual_build_ms={_streamer.MaximumBuildMilliseconds:0.000} " +
             $"max_collision_build_ms={_streamer.MaximumCollisionBuildMilliseconds:0.000} " +

@@ -348,6 +348,51 @@ def test_snapped_topology_emits_physically_continuous_geometry(tmp_path: Path) -
     )
 
 
+def test_endpoint_snap_collapses_near_duplicate_vertices_without_backtracking(
+    tmp_path: Path,
+) -> None:
+    records = [
+        (
+            "seam-west",
+            LineString(
+                [
+                    (ANCHOR_X, ANCHOR_Y),
+                    (ANCHOR_X + 95.0, ANCHOR_Y),
+                    (ANCHOR_X + 104.5, ANCHOR_Y),
+                    (ANCHOR_X + 104.6, ANCHOR_Y),
+                ]
+            ),
+        ),
+        (
+            "seam-east",
+            LineString(
+                [
+                    (ANCHOR_X + 104.0, ANCHOR_Y),
+                    (ANCHOR_X + 120.0, ANCHOR_Y),
+                    (ANCHOR_X + 200.0, ANCHOR_Y),
+                ]
+            ),
+        ),
+    ]
+    source, manifest = _write_source(tmp_path, "near-duplicate-seam", records)
+    output = tmp_path / "near-duplicate-seam-output"
+
+    package = build_route_graph(source, manifest, output, snap_tolerance_meters=10.0)
+    normalized = gpd.read_file(output / "normalized.gpkg", layer="route_edges")
+    west = normalized.loc[normalized[SOURCE_ID_FIELD] == "seam-west"].iloc[0].geometry
+    edges = {edge[SOURCE_ID_FIELD]: edge for edge in package["edges"]}
+    west_samples = edges["seam-west"]["samples"]
+
+    assert list(west.coords) == pytest.approx(
+        [(ANCHOR_X, ANCHOR_Y), (ANCHOR_X + 100.0, ANCHOR_Y)]
+    )
+    assert west_samples[-1]["projected_x_meters"] > west_samples[-2]["projected_x_meters"]
+    assert (
+        edges["seam-west"]["to_node_id"]
+        == edges["seam-east"]["from_node_id"]
+    )
+
+
 def test_vertical_endpoint_seam_fails_closed(tmp_path: Path) -> None:
     records = [
         (
