@@ -276,7 +276,9 @@ const report = {
   human_gate: {
     name: "Asset pipeline rights-policy approval",
     question_id: "Q-023",
-    approval: null,
+    approval: manifest.license.status === "approved"
+      ? "docs/QUESTIONS_FOR_RANDROID.md#asset-pipeline-rights-policy-q-023--approved-2026-07-18"
+      : null,
   },
 };
 writeFileSync(args.output, `${JSON.stringify(report, null, 2)}\n`);

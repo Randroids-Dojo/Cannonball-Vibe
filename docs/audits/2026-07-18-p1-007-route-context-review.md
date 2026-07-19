@@ -3,7 +3,7 @@
 - Review date: 2026-07-18 UTC
 - Reviewed implementation: `5140222dbdb6b234379cc17e851af366e8fa24ed`
 - Technical result: no unresolved actionable finding
-- Promotion result: implementation is ready; the M2 human readability gate remains open
+- Promotion result: approved by the project owner on 2026-07-18
 
 ## Scope
 
@@ -64,9 +64,6 @@ observed ramp or sign truth.
 
 ## Residual boundaries
 
-- The project owner must approve the tracked contact sheet for the M2
-  high-speed readability gate before P1-007 can move from `in_progress` to
-  `complete`.
 - The signs, shields, posts, roadway, terrain, and background remain graybox
   assets. Production asset fidelity belongs to the later visual milestone.
 - The authored fixture proves semantic and rendering contracts, not the future
@@ -87,3 +84,9 @@ observed ramp or sign truth.
 - `git diff --check`: passed.
 
 Review artifact: [route-context contact sheet](../images/p1-007-route-context-contact-sheet.png).
+
+## Final project-owner decision
+
+The project owner approved the tracked contact sheet for current-milestone
+high-speed route-context readability on 2026-07-18. Production signage realism,
+typography, materials, placement, and night legibility remain P1-009 scope.

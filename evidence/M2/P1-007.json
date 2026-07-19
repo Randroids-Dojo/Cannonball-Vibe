@@ -2,13 +2,13 @@
   "schema_version": 1,
   "task_id": "P1-007",
   "milestone": "M2",
-  "status": "technical_acceptance_complete_human_review_pending",
+  "status": "complete",
   "git_revision": "5140222dbdb6b234379cc17e851af366e8fa24ed",
   "platform": {
     "os": "Darwin 25.6.0",
     "architecture": "arm64"
   },
-  "recorded_at_utc": "2026-07-18T17:42:27Z",
+  "recorded_at_utc": "2026-07-19T00:28:18Z",
   "tool_versions": {
     "dotnet_sdk": "10.0.102",
     "uv": "0.9.24",
@@ -24,9 +24,7 @@
       "exit-only and highway-transfer signs with exit suffixes, route shields, destinations, lane guidance, and services",
       "deterministic sign separation, declared preview envelope, streaming, and stable automation metadata"
     ],
-    "completion_pending": [
-      "project-owner high-speed route-context readability approval required for M2"
-    ],
+    "completion_pending": [],
     "excluded_claims": [
       "observed source truth for the authored interchange overlay",
       "production sign, shield, post, road, terrain, or background art",
@@ -102,7 +100,7 @@
     }
   ],
   "retry_count": 6,
-  "recovery_result": "Local full gate, route-context profile, and visibility-asserting capture passed; protected Linux and Windows recovery checks are pending on the final PR head.",
+  "recovery_result": "Local full gate, route-context profile, and visibility-asserting capture passed; protected Linux and Windows checks passed; the project owner approved current-milestone high-speed readability on 2026-07-18.",
   "metrics": {
     "review_points": 5,
     "mile_markers": 4,
@@ -148,8 +146,8 @@
     },
     {
       "criterion": "sign text is realistic and legible at high-speed approach distances",
-      "observed": "the deterministic visibility envelope and contact sheet are complete, but project-owner realism and readability approval remains required",
-      "status": "pending_human_review"
+      "observed": "the deterministic visibility envelope and five-frame contact sheet are complete; the project owner approved current graybox readability on 2026-07-18 while retaining production signage realism and legibility as P1-009 scope",
+      "passed": true
     },
     {
       "criterion": "automated captures cover every required route-context case",
@@ -175,7 +173,10 @@
   "human_gate": {
     "name": "High-speed route-context readability review",
     "required_for": "M2",
-    "status": "pending",
+    "status": "approved",
+    "reviewed_at": "2026-07-18",
+    "approved_by": "project owner",
+    "approval_reference": "docs/QUESTIONS_FOR_RANDROID.md#high-speed-route-context-readability-p1-007--approved-2026-07-18",
     "review_artifact": "docs/images/p1-007-route-context-contact-sheet.png",
     "question_record": "docs/QUESTIONS_FOR_RANDROID.md"
   },

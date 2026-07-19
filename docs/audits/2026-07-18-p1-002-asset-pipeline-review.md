@@ -3,7 +3,7 @@
 - Review date: 2026-07-18 UTC
 - Reviewed implementation: `bcdbc41b1e87e606df08a954a4927de921f92fb7`
 - Technical result: no unresolved actionable finding
-- Promotion result: technical pipeline is ready; the Q-023 human rights-policy gate remains open
+- Promotion result: Q-023 policy and fixture rights record approved by the project owner on 2026-07-18
 
 ## Scope
 
@@ -68,8 +68,8 @@ approve rights for future assets.
     precision, materially false values still fail closed, and the 45-edge
     topology traversal passes with zero chunk failures.
 13. A clean double export exposed nondeterministic node identifiers generated
-    while Godot imports a raw glTF scene. The fixture is still pending rights
-    review and therefore never belonged in a distributable build. Linux and
+    while Godot imports a raw glTF scene. At the time, the fixture was pending
+    rights review and therefore did not belong in a distributable build. Linux and
     Windows shipping presets now exclude all pipeline fixtures, the shipping
     PCK inspector rejects them, and a dedicated validation preset retains the
     imported GLB and wrapper checks without weakening the release boundary.
@@ -87,9 +87,6 @@ approve rights for future assets.
 
 ## Residual boundaries
 
-- Q-023 must receive project-owner approval before P1-002 or M5 rights policy
-  can be marked complete. The fixture manifest therefore remains
-  `pending-human-review` even though it is project-original and declares CC0.
 - The fixture proves the pipeline with 36 graybox triangles, not the visual
   quality, rig, textures, damage zones, or runtime budgets of P1-008 through
   P1-010.
@@ -125,3 +122,10 @@ approve rights for future assets.
 
 Review artifact:
 [graybox road-module contact sheet](../../data/assets/pipeline-fixtures/graybox-road-module-contact-sheet.png).
+
+## Final project-owner decision
+
+The project owner approved the strict Q-023 rights policy and the exact
+project-original CC0 graybox fixture rights record on 2026-07-18. Future assets
+still require their own complete manifest and human rights review; this decision
+does not approve third-party art by category.

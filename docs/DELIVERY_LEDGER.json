@@ -451,7 +451,7 @@
       "milestone": "M5",
       "priority": "P1",
       "title": "Deterministic asset and provenance pipeline",
-      "status": "in_progress",
+      "status": "complete",
       "dependencies": [
         "P0-007"
       ],
@@ -488,7 +488,10 @@
       ],
       "human_gate": {
         "name": "Asset pipeline rights-policy approval",
-        "required_for": "M5"
+        "required_for": "M5",
+        "status": "approved",
+        "reviewed_at": "2026-07-18",
+        "approval_reference": "docs/QUESTIONS_FOR_RANDROID.md#asset-pipeline-rights-policy-q-023--approved-2026-07-18"
       },
       "notes": "ADR-0012 is authoritative. Computer Use is supplementary visual evidence and PlayGodot is not required for 3D asset export or promotion."
     },
@@ -714,7 +717,7 @@
       "milestone": "M2",
       "priority": "P1",
       "title": "Mile markers, exit signs, and route-context rendering",
-      "status": "in_progress",
+      "status": "complete",
       "dependencies": [
         "P0-009",
         "P0-010",
@@ -751,7 +754,10 @@
       ],
       "human_gate": {
         "name": "High-speed route-context readability review",
-        "required_for": "M2"
+        "required_for": "M2",
+        "status": "approved",
+        "reviewed_at": "2026-07-18",
+        "approval_reference": "docs/QUESTIONS_FOR_RANDROID.md#high-speed-route-context-readability-p1-007--approved-2026-07-18"
       }
     },
     {

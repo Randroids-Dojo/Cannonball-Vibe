@@ -2,9 +2,9 @@
   "schema_version": 1,
   "task_id": "P1-002",
   "milestone": "M5",
-  "status": "technical_acceptance_complete_human_gate_pending",
+  "status": "complete",
   "git_revision": "bcdbc41b1e87e606df08a954a4927de921f92fb7",
-  "recorded_at_utc": "2026-07-18T19:23:16Z",
+  "recorded_at_utc": "2026-07-19T00:28:18Z",
   "platform": {
     "os": "Darwin 25.6.0",
     "architecture": "arm64"
@@ -30,7 +30,7 @@
     },
     {
       "path": "data/assets/pipeline-fixtures/graybox-road-module.asset.json",
-      "sha256": "56d672f94ac76baa6f5c77599b9b6b3c8aa14a83f8306e3c8dca338f0225f4cb"
+      "sha256": "b452098abb1409450488e57b525237408447bf6ce12f39268a1715311a6a480e"
     },
     {
       "path": "data/assets/pipeline-fixtures/sources/graybox-road-module.blend",
@@ -147,7 +147,7 @@
     },
     {
       "criterion": "recursive machine-readable authorship, rights, transformation, and redistribution provenance",
-      "observed": "schema-1 manifest verifies creation script, source, transformation scripts, profiles, derived assets, wrapper, import settings, contact sheet, and inventories by SHA-256; redistribution remains explicitly pending human review",
+      "observed": "schema-1 manifest verifies creation script, source, transformation scripts, profiles, derived assets, wrapper, import settings, contact sheet, and inventories by SHA-256; the project owner approved the strict Q-023 policy and exact project-original CC0 fixture rights record on 2026-07-18",
       "passed": true
     },
     {
@@ -157,7 +157,7 @@
     },
     {
       "criterion": "official Godot import resolves a project-owned wrapper without build-time release dependencies",
-      "observed": "official Godot 4.7.1 resolved five required semantic nodes and the stable automation ID in a validation-only PCK; distributable presets exclude pending-review pipeline fixtures as well as Blender source, data manifests, asset tooling, and test automation",
+      "observed": "official Godot 4.7.1 resolved five required semantic nodes and the stable automation ID in a validation-only PCK; distributable presets exclude validation fixtures as well as Blender source, data manifests, asset tooling, and test automation",
       "passed": true
     },
     {
@@ -194,7 +194,7 @@
     },
     {
       "path": "reports/assets/p1-002-validation.json",
-      "sha256": "ab58efc94aa9040456a9e91598d47fcded618ceed483265106cec7d18777d20d",
+      "sha256": "c7b7e2211f1eb7fc56a82192816fe580ffc38eded5a95f8c064661d783b30bf1",
       "retention": "CI artifact; durable source inventories are stored under data/assets/pipeline-fixtures"
     }
   ],
@@ -233,11 +233,14 @@
     }
   ],
   "retry_count": 9,
-  "recovery_result": "Local deterministic asset, full repository, PlayGodot boundary, variable-lane topology, and clean double-release export gates pass; remote pull-request validation is pending.",
+  "recovery_result": "Local deterministic asset, full repository, PlayGodot boundary, variable-lane topology, and clean double-release export gates passed; protected pull-request and exact-main Linux, Windows, macOS, asset, and reproducible-export checks passed; the project owner approved Q-023.",
   "human_gate": {
     "name": "Asset pipeline rights-policy approval",
     "required_for": "M5",
-    "status": "pending",
+    "status": "approved",
+    "reviewed_at": "2026-07-18",
+    "approved_by": "project owner",
+    "approval_reference": "docs/QUESTIONS_FOR_RANDROID.md#asset-pipeline-rights-policy-q-023--approved-2026-07-18",
     "question_id": "Q-023",
     "question_record": "docs/QUESTIONS_FOR_RANDROID.md"
   },
