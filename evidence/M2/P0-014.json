@@ -1,0 +1,146 @@
+{
+  "schema_version": 1,
+  "task_id": "P0-014",
+  "milestone": "M2",
+  "status": "verified",
+  "git_revision": "30eeba5d640bb8b62d4480dd5fd64dc231270268",
+  "recorded_at_utc": "2026-07-19T16:11:31Z",
+  "platform": {
+    "os": "macOS Darwin 25.6.0",
+    "architecture": "arm64"
+  },
+  "tool_versions": {
+    "dotnet_sdk": "10.0.102",
+    "uv": "0.9.24",
+    "godot": "4.7.1.stable.mono.official.a13da4feb"
+  },
+  "architecture": {
+    "decision": "docs/decisions/ADR-0014-directed-carriageways-and-road-markings.md",
+    "route_schema_version": 5,
+    "roadway_kinds": [
+      "unclassified",
+      "divided_carriageway",
+      "one_way_ramp",
+      "one_way_roadway"
+    ],
+    "divided_pair_contract": "distinct reciprocal edges, one group ID, opposite signed directions",
+    "undivided_two_way_support": "not implemented; Q-026 working default defers it"
+  },
+  "commands": [
+    {
+      "command": "DOTNET_ROLL_FORWARD=Major dotnet test Cannonball.sln --no-restore",
+      "result": "passed",
+      "exit_status": 0,
+      "tests_passed": 72
+    },
+    {
+      "command": "uv run --project tools/map_pipeline --frozen pytest tools/map_pipeline/tests -q",
+      "result": "passed",
+      "exit_status": 0,
+      "tests_passed": 78
+    },
+    {
+      "command": "./scripts/run-scenario.sh --fixture representative-interchanges --profile road-visual",
+      "result": "CANNONBALL_ROAD_VISUAL_OK",
+      "exit_status": 0,
+      "visual_chunks": 9,
+      "opposing_carriageway_chunks": 1,
+      "collision_chunks_at_completion": 1,
+      "reflectors": 622,
+      "barrier_segments": 198,
+      "guardrail_segments": 198,
+      "chunk_failures": 0
+    },
+    {
+      "command": "./scripts/validate-route-topology.sh --all-fixtures --evidence evidence/M2/P0-012.json",
+      "result": "CANNONBALL_ROUTE_CORPUS_OK",
+      "exit_status": 0,
+      "legal_fixtures": 3,
+      "invalid_mutations": 12,
+      "legal_interchange_plans": 4,
+      "save_resumes": 12,
+      "parallel_carriageway_pairs": 1
+    },
+    {
+      "command": "GODOT_BIN=/absolute/pinned/Godot ./scripts/check.sh",
+      "result": "passed",
+      "exit_status": 0,
+      "dotnet_tests": 72,
+      "map_pipeline_tests": 78,
+      "playgodot_unit_tests": 12,
+      "official_engine_smoke": "CANNONBALL_SMOKE_OK"
+    }
+  ],
+  "acceptance_comparisons": [
+    {
+      "criterion": "single-direction edge and explicit roadway kinds",
+      "observed": "schema 5 fields survived Python serialization and C# loading with schema 1-4 compatibility",
+      "passed": true
+    },
+    {
+      "criterion": "reciprocal divided-carriageway integrity",
+      "observed": "missing, self, nonreciprocal, mismatched-group, ambiguous-source, and same-signed pairs fail actionably",
+      "passed": true
+    },
+    {
+      "criterion": "no proximity-based pairing",
+      "observed": "pipeline resolves only explicit stable source-feature references and rejects ambiguity",
+      "passed": true
+    },
+    {
+      "criterion": "correct longitudinal marking semantics",
+      "observed": "yellow median edge; white lane dividers, right edge, and right-side channelization; semantic material snapshot resolved",
+      "passed": true
+    },
+    {
+      "criterion": "bounded paired-road visual streaming",
+      "observed": "normalized reversed distance selects overlapping opposing chunks; fixture observed one opposing visual chunk and no opposing collision chunk",
+      "passed": true
+    },
+    {
+      "criterion": "cross-language, official-engine, capture, and repository gates",
+      "observed": "all declared commands passed with deterministic review evidence",
+      "passed": true
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "schemas/route_graph.fbs",
+      "sha256": "874b998fbec1aae70a8aaf4909b0533594a176429bcd641ce711712412da58ab"
+    },
+    {
+      "path": "data/routes/fixtures/validation/p0-012-corpus-lock.json",
+      "sha256": "d30a7ac602340e477ee9f4b5938cad1292188a3477fd9bcb35507998a9154ed8"
+    },
+    {
+      "path": "evidence/M2/P0-012.json",
+      "sha256": "12d1e94cadd50a77c8dc6f1de57c695edd8159339354977cb9fcdc2778978ead"
+    },
+    {
+      "path": "docs/images/p0-014-carriageway-markings-review.png",
+      "sha256": "e5abec48954fcfe22b8925979d421a40f738f9ec7d2a2a47b75224b4090e8a42"
+    },
+    {
+      "path": "reports/m0/summary.json",
+      "sha256": "be375d814a653cc44bd7cd543f93434aabe8f708117247329d24525851315470"
+    },
+    {
+      "path": "/tmp/p0-014-carriageway-markings.avi",
+      "sha256": "066d83ca6fc0c2312c25c73874b9eaa40970c328890f24e66c6b19a1d377a5e8"
+    },
+    {
+      "path": "/tmp/p0-014-paired-carriageway.avi",
+      "sha256": "9692561386341f7c262702ef5491d287e8d2dcf5c6251516170f0440d69d3418"
+    }
+  ],
+  "adversarial_review": "docs/audits/2026-07-19-p0-014-directed-carriageway-review.md",
+  "owner_questions": "docs/QUESTIONS_FOR_RANDROID_2026-07-19_CARRIAGEWAYS_AND_TRAFFIC.md",
+  "retry_count": 0,
+  "failure_history": [],
+  "recovery_result": {
+    "status": "not_needed",
+    "summary": "All final recorded commands passed without retry or recovery."
+  },
+  "human_gate": null,
+  "follow_up_task": "P0-015"
+}

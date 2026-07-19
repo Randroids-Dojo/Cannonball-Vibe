@@ -61,11 +61,11 @@ counts must reconcile.
 
 `build` requires `--elevation`, `--elevation-metadata`, and
 `--acquisition-lock`. Route samples are transformed into the locked raster CRS,
-sampled from 3DEP, and assigned signed grade. The shipping schema-4 FlatBuffer
+sampled from 3DEP, and assigned signed grade. The shipping schema-5 FlatBuffer
 preserves the route and elevation CRS, horizontal and vertical datums, product
 identity, artifact hashes, elevations, and grades for the portable C# runtime.
 
-Schema 4 also carries the route-semantic contract:
+Schema 5 also carries the route-semantic contract:
 
 - ordered distance-bounded lane sections, stable lane IDs, lane roles,
   maneuver masks, shoulders, signed direction, and provenance;
@@ -74,6 +74,14 @@ Schema 4 also carries the route-semantic contract:
 - route identities, exits, destinations, services, milepoint anchors, and
   roadside markers;
 - independently hashed simplified map geometry at LODs 0–2 for every edge.
+- explicit reciprocal divided-carriageway pairs and unpaired one-way roadway
+  kinds.
+
+Approved sources or authored overlays may provide `ROADWAY_KIND`,
+`CARRIAGEWAY_ID`, and `OPPOSING_ID`. `OPPOSING_ID` names the stable source
+feature on the reverse carriageway. A divided pair must resolve uniquely in the
+same package, share `CARRIAGEWAY_ID`, and declare opposite signed directions;
+the pipeline rejects incomplete metadata instead of pairing nearby geometry.
 
 Validation fails on section gaps or overlaps, invalid provenance, orphan lanes,
 crossing or ambiguous connectors, disallowed connector movements, invalid

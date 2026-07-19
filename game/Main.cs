@@ -84,6 +84,7 @@ public sealed partial class Main : Node3D
         RepresentativeInterchangeFixture.StayPlanId,
         RepresentativeInterchangeFixture.ExitPlanId,
         RepresentativeInterchangeFixture.TransferPlanId,
+        RepresentativeInterchangeFixture.SemiDirectionalTransferPlanId,
     ];
     private int _routeChoicePlanIndex;
     private int _routeChoiceTransitionIndex;
@@ -1236,7 +1237,7 @@ public sealed partial class Main : Node3D
         {
             _longRouteVisitedEdges.Add(id);
         }
-        foreach (var id in _streamer.JunctionSeamIdsBuilt)
+        foreach (var id in _streamer.JunctionTransitionSeamIdsBuilt)
         {
             _longRouteBuiltSeams.Add(id);
         }
@@ -1290,7 +1291,20 @@ public sealed partial class Main : Node3D
             _longRouteMaximumLocalCoordinateMeters >= WorldStreamer.RebaseThresholdMeters)
         {
             throw new InvalidOperationException(
-                "Long-route acceptance metrics did not satisfy the deterministic scenario contract.");
+                "Long-route acceptance metrics did not satisfy the deterministic scenario contract: " +
+                $"complete={_longRouteComplete} " +
+                $"profiles={_longRouteProfileResults.Count}/{_longRouteAssistProfiles.Length} " +
+                $"chunks={_longRouteVerifiedChunks.Count}/{fixture.Package.Chunks.Count} " +
+                $"edges={_longRouteVisitedEdges.Count}/{fixture.EdgeIds.Count} " +
+                $"transitions={_longRouteSeamCount}/{expectedSeams} " +
+                $"geometry_gap_m={fixture.MaximumGeometryGapMeters:F6} " +
+                $"junction_gap_m={_longRouteMaximumJunctionGapMeters:F6} " +
+                $"collision_misses={_longRouteCollisionMisses} " +
+                $"hash_failures={_longRouteHashFailures} " +
+                $"resume={_longRouteResumeComparisons}/{expectedResumeComparisons} " +
+                $"save_points={_longRouteSavePointsVerifiedMeters.Count}/{_longRouteSavePointMiles.Count} " +
+                $"rebases={_longRouteRebaseCount} " +
+                $"max_local_m={_longRouteMaximumLocalCoordinateMeters:F3}.");
         }
 
         var packageIdentity = RunSave.ComputePackageIdentity(_package);
@@ -1882,7 +1896,15 @@ public sealed partial class Main : Node3D
             !_topologyTraversalStarted ||
             _topologyCheckpointIndex != _topologyCheckpoints.Count)
         {
-            throw new InvalidOperationException("Topology profile did not visit every checkpoint.");
+            throw new InvalidOperationException(
+                "Topology profile did not visit every checkpoint: " +
+                $"complete={_topologyProfileComplete} " +
+                $"started={_topologyTraversalStarted} " +
+                $"checkpoint={_topologyCheckpointIndex}/{_topologyCheckpoints.Count} " +
+                $"route_distance_m={_streamer.RouteDistanceMeters:F3} " +
+                $"target_distance_m={_topologyTraversalEndMeters:F3} " +
+                $"grounded={_vehicle.HasBeenGrounded} " +
+                $"unsupported_frames={_vehicle.MaximumConsecutiveUnsupportedPhysicsFrames}.");
         }
         if (_streamer.MinimumObservedLaneCount > 2 ||
             _streamer.MaximumObservedLaneCount < 4 ||
@@ -1934,11 +1956,21 @@ public sealed partial class Main : Node3D
             throw new InvalidOperationException(
                 "Topology traversal did not prewarm and evict its probable branch chunk.");
         }
+        if (!_streamer.HasTerrainBackdrop ||
+            !_streamer.JunctionTerrainSurfacesComplete ||
+            _streamer.JunctionTerrainSeamCount == 0)
+        {
+            throw new InvalidOperationException(
+                "Topology traversal found an incomplete terrain backdrop or seam surface.");
+        }
         GD.Print(
             $"CANNONBALL_TOPOLOGY_OK checkpoints={_topologyCheckpoints.Count} " +
             $"edge={_topologyOverlay.EdgeId} min_lanes={_streamer.MinimumObservedLaneCount} " +
             $"max_lanes={_streamer.MaximumObservedLaneCount} " +
             $"transitions={_streamer.TopologyTransitionCount} " +
+            $"minimum_taper_m={_topologyOverlay.MinimumTransitionLengthMeters:0.000} " +
+            $"maximum_taper_slope={_topologyOverlay.MaximumTaperSlope:0.000000} " +
+            $"maximum_through_lane_drift_m={_topologyOverlay.MaximumThroughLaneDriftMeters:0.000000} " +
             $"transition_collision_chunks={_streamer.TopologyCollisionTransitionChunkCount} " +
             $"gore=true max_paved_width_m={_streamer.MaximumPavedWidthMeters:0.000} " +
             $"peak_mph={_peakSpeedMetersPerSecond * 2.236936f:0.0} " +
@@ -1947,6 +1979,9 @@ public sealed partial class Main : Node3D
             $"{string.Join(',', _topologyOverlay.ExpectedTraversedConnectorMovements)} " +
             $"branch_prewarms={_streamer.BranchPrewarmCount} " +
             $"branch_evictions={_streamer.BranchPrewarmEvictionCount} " +
+            $"terrain_backdrop=true " +
+            $"terrain_seams={_streamer.JunctionTerrainSeamCount} " +
+            $"max_seam_gap_m={_streamer.MaximumJunctionGapMeters:0.000} " +
             $"max_unsupported_frames={_vehicle.MaximumConsecutiveUnsupportedPhysicsFrames} " +
             $"max_visual_build_ms={_streamer.MaximumBuildMilliseconds:0.000} " +
             $"max_collision_build_ms={_streamer.MaximumCollisionBuildMilliseconds:0.000} " +
@@ -2231,6 +2266,7 @@ public sealed partial class Main : Node3D
             $"guardrails={snapshot.GuardrailSegmentCount} " +
             $"shields={snapshot.RouteShieldCount} services={snapshot.ServiceIconCount} " +
             $"gore_chunks={snapshot.GoreChunkCount} " +
+            $"opposing_carriageway_chunks={_streamer.OpposingCarriagewayChunksSeen} " +
             $"shared_materials={snapshot.SharedMaterialCount} " +
             $"shared_meshes={snapshot.SharedMeshCount} " +
             $"retroreflective_materials={snapshot.RetroreflectiveMaterialCount} " +
@@ -2268,7 +2304,7 @@ public sealed partial class Main : Node3D
         }
     }
 
-    private static void ValidateRoadVisualSnapshot(RoadVisualSnapshot snapshot)
+    private void ValidateRoadVisualSnapshot(RoadVisualSnapshot snapshot)
     {
         var expectedProfile = OS.GetCmdlineUserArgs().Contains(
             "--graybox-road-assets",
@@ -2280,7 +2316,8 @@ public sealed partial class Main : Node3D
             snapshot.BarrierSegmentCount < 1 || snapshot.GuardrailSegmentCount < 1 ||
             snapshot.RouteShieldCount < 2 || snapshot.ServiceIconCount < 2 ||
             snapshot.SharedMaterialCount != 18 || snapshot.SharedMeshCount != 5 ||
-            snapshot.RetroreflectiveMaterialCount != 11)
+            snapshot.RetroreflectiveMaterialCount != 11 ||
+            (_interchangeFixture is not null && _streamer.OpposingCarriagewayChunksSeen < 1))
         {
             throw new InvalidOperationException(
                 "Road-visual kit contract failed: " +
@@ -2363,11 +2400,16 @@ public sealed partial class Main : Node3D
                 $"max_unsupported_frames={_routeChoiceMaximumUnsupportedFrames}.");
         }
         var geometry = _interchangeFixture.GeometryValidation;
-        if (geometry.GradeSeparatedCrossings < 1 ||
-            geometry.MinimumVerticalClearanceMeters < 5 ||
-            geometry.SelfIntersections != 0 ||
-            geometry.InvalidShortcuts != 0 ||
-            geometry.ParallelCarriagewayPairs < 1)
+        var limits = _interchangeFixture.GeometryLimits;
+        if (geometry.GradeSeparatedCrossings < limits.MinimumGradeSeparatedCrossings ||
+            geometry.MinimumVerticalClearanceMeters < limits.MinimumVerticalClearanceMeters ||
+            geometry.SelfIntersections > limits.MaximumSelfIntersections ||
+            geometry.InvalidShortcuts > limits.MaximumInvalidShortcuts ||
+            geometry.ParallelCarriagewayPairs < limits.MinimumParallelCarriagewayPairs ||
+            geometry.MaximumAbsoluteGrade > limits.MaximumAbsoluteGrade ||
+            geometry.MaximumAbsoluteCurvaturePerMeter >
+                limits.MaximumAbsoluteCurvaturePerMeter ||
+            geometry.MinimumSightlineMeters < limits.MinimumSightlineMeters)
         {
             throw new InvalidOperationException(
                 "Representative interchange geometry failed its grade-separation or topology gates.");
@@ -2382,6 +2424,9 @@ public sealed partial class Main : Node3D
             $"grade_separated_crossings={geometry.GradeSeparatedCrossings} " +
             $"minimum_clearance_m={geometry.MinimumVerticalClearanceMeters:0.000} " +
             $"parallel_carriageways={geometry.ParallelCarriagewayPairs} " +
+            $"max_abs_grade={geometry.MaximumAbsoluteGrade:0.000000} " +
+            $"max_abs_curvature_per_m={geometry.MaximumAbsoluteCurvaturePerMeter:0.000000} " +
+            $"minimum_sightline_m={geometry.MinimumSightlineMeters:0.000} " +
             $"self_intersections=0 invalid_shortcuts=0 " +
             $"max_unsupported_frames={_routeChoiceMaximumUnsupportedFrames} " +
             $"max_visual_build_ms={_routeChoiceMaximumBuildMilliseconds:0.000} " +

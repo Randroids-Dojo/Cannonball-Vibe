@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "corpus_id": "p0-012-representative-topology-corpus-v1",
+  "truth_scope": "The NHPN and 3DEP parents are approved public-domain source records. Lane, interchange, sign, and marker semantics are deterministic authored regression overlays and are not represented as observed geography.",
+  "artifacts": [
+    {
+      "path": "data/routes/fixtures/validation/legal-variable-lanes.json",
+      "sha256": "e97785e940bace133d9eb79280f53a2c7b0fefdf388354b2c74411fb81b348b0",
+      "provenance_kind": "authored_override"
+    },
+    {
+      "path": "data/routes/fixtures/validation/legal-interchanges.json",
+      "sha256": "7aa6ee6f947160d86178c91ebf37369076013275740266225352d2105d46d201",
+      "provenance_kind": "authored_override"
+    },
+    {
+      "path": "data/routes/fixtures/validation/legal-route-context.json",
+      "sha256": "0e6e3fa46fbe2dd7a1efaddb1638f356b3c6ae661c24cb00d88b61aa18f08d93",
+      "provenance_kind": "authored_override"
+    },
+    {
+      "path": "data/routes/fixtures/validation/invalid-topology-mutations.json",
+      "sha256": "c6ee71c95d927df4d97c58204ee417f46e900a59d81e06355642c4c04e71e04c",
+      "provenance_kind": "deterministic_derivation"
+    },
+    {
+      "path": "data/routes/fixtures/semantics/representative-contract.json",
+      "sha256": "c1e7bf3de3ba82503ff434a116fba71b8694f650a312256ff5d2165485cba5d1",
+      "provenance_kind": "deterministic_derivation"
+    },
+    {
+      "path": "data/sources/fixtures/nhpn-boulder-westminster-us36.geojson",
+      "sha256": "d859ff7ef97106a36b24276b87c86c3968aa1266ddf987ee6859d6972b7f6ff6",
+      "provenance_kind": "approved_public_domain_source"
+    },
+    {
+      "path": "data/sources/fixtures/nhpn-boulder-westminster-us36.manifest.json",
+      "sha256": "8020fb0146c5d630132accd9234e7c443e9f96b8459ae109d5f16a9104985575",
+      "provenance_kind": "approved_public_domain_source_manifest"
+    },
+    {
+      "path": "data/sources/representative-corridor-lock.json",
+      "sha256": "020692b11640728f83b81175f33226ca13ed89699bbeaeea3bf6dbbdb5ea9a3d",
+      "provenance_kind": "recursive_source_lock"
+    }
+  ],
+  "coverage_required": [
+    "divided_highway",
+    "lane_addition",
+    "lane_drop",
+    "merge",
+    "split",
+    "exit",
+    "entrance",
+    "overpass",
+    "parallel_edge",
+    "route_concurrency",
+    "milepoint_reset",
+    "highway_transfer"
+  ],
+  "minimum_highway_transfer_forms": 2,
+  "legal_fixture_paths": [
+    "data/routes/fixtures/validation/legal-variable-lanes.json",
+    "data/routes/fixtures/validation/legal-interchanges.json",
+    "data/routes/fixtures/validation/legal-route-context.json"
+  ],
+  "invalid_mutation_catalog": "data/routes/fixtures/validation/invalid-topology-mutations.json"
+}

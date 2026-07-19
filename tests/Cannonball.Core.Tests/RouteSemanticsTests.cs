@@ -10,6 +10,36 @@ namespace Cannonball.Core.Tests;
 public sealed class RouteSemanticsTests
 {
     [Fact]
+    public void SchemaFiveLoadsExplicitRoadwayKind()
+    {
+        var package = FlatBufferRouteContent.Load(CreateSchemaFourBytes(root =>
+        {
+            root.SchemaVersion = 5;
+            root.ContentVersion = "route-v5-roadway-fixture";
+            root.Edges![0].RoadwayKind = "one_way_roadway";
+        }));
+
+        Assert.Equal(RoadwayKind.OneWayRoadway, package.Graph.GetEdge("edge").RoadwayKind);
+    }
+
+    [Fact]
+    public void SchemaFiveRejectsPairingOnANonDividedRoadway()
+    {
+        var bytes = CreateSchemaFourBytes(root =>
+        {
+            root.SchemaVersion = 5;
+            root.ContentVersion = "route-v5-invalid-pair";
+            root.Edges![0].RoadwayKind = "one_way_ramp";
+            root.Edges[0].CarriagewayGroupId = "invalid";
+            root.Edges[0].OpposingEdgeId = "edge";
+        });
+
+        var error = Assert.Throws<InvalidDataException>(() => FlatBufferRouteContent.Load(bytes));
+
+        Assert.Contains("cannot declare carriageway pairing", error.Message);
+    }
+
+    [Fact]
     public void SchemaFourLoadsRouteContextAndIndependentMapGeometry()
     {
         var package = FlatBufferRouteContent.Load(CreateSchemaFourBytes());

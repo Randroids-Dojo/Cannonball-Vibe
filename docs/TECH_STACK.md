@@ -97,7 +97,7 @@ ceiling; otherwise the build fails until branch-aware vertical reconstruction is
 available.
 
 [ADR-0011](decisions/ADR-0011-lane-topology-route-context-and-trip-map.md)
-defines the M2/M3 route semantics. Schema 4 implements ordered distance-bounded
+defines the M2/M3 route semantics. Schema 5 implements ordered distance-bounded
 lane sections inside stable route edges and explicit lane-to-lane junction
 connectors for continuations, merges, splits, exits, entrances, and highway
 transfers. It rejects incomplete section coverage, orphan lanes, crossing or
@@ -120,7 +120,7 @@ Godot road generation will derive variable width, markings, shoulders, gore
 areas, barriers, collision, signs, and standardized interchange geometry from
 that contract. `Cannonball.Core` will expose a trip-map projection over
 content-addressed simplified immutable graph geometry and authoritative run
-state. Schema 4 carries LODs 0–2 per edge, validates the cross-language content
+state. Schema 5 carries LODs 0–2 per edge, validates the cross-language content
 hash, and enforces a 16 MB simplified-map payload budget in addition to the
 64 MB root budget. Stable node and edge associations keep the continental map
 independent of streamed road meshes.
@@ -250,6 +250,16 @@ boundary are recorded in
 [the modern highway visual baseline](research/2026-07-18-modern-highway-visual-standards.md).
 Q-024 owns the final visual language; Q-022 still owns renderer and target-PC
 budgets.
+
+[ADR-0014](decisions/ADR-0014-directed-carriageways-and-road-markings.md)
+defines traffic direction at the route boundary. Route schema 5 keeps every edge
+single-directional and explicitly distinguishes reciprocal divided-highway
+carriageways from unpaired ramps, true one-way roads, and unclassified source
+records. Reciprocal pairs share a stable group ID and fail validation when
+missing or asymmetric. The renderer follows the same contract with a yellow
+left/median edge, white same-direction lane and right-edge markings, and white
+right-side channelization. Future opposing traffic uses the validated paired
+edge; it is never inferred from a nearby spline.
 
 Far scenery and future far traffic use `MultiMesh`; only near traffic receives
 physics bodies. Deterministic renderer contact sheets and driving captures

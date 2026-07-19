@@ -11,6 +11,7 @@ from typing import Any
 import geopandas as gpd
 import networkx as nx
 from shapely.geometry import LineString, MultiLineString
+from shapely.ops import substring
 
 from cannonball_map.elevation import ElevationSampler
 from cannonball_map.manifest import SourceManifest, validate_source
@@ -21,6 +22,23 @@ PROJECTED_CRS = "EPSG:5070"
 SOURCE_ID_COLUMNS = ("source_feature_id", "source_id", "id", "objectid")
 MAXIMUM_CONDITIONED_GRADE = 0.07
 ELEVATION_MEDIAN_WINDOW_SAMPLES = 9
+ALIGNMENT_TRANSITION_MAX_METERS = 150.0
+ALIGNMENT_TRANSITION_EDGE_FRACTION = 0.35
+ALIGNMENT_TRANSITION_MIN_METERS = 10.0
+ALIGNMENT_MIN_DEFLECTION_DEGREES = 0.25
+ALIGNMENT_CURVE_SAMPLES = 33
+CORRIDOR_ALIGNMENT_SAMPLE_METERS = 10.0
+CORRIDOR_ALIGNMENT_GUIDE_TOLERANCE_METERS = 50.0
+CORRIDOR_ALIGNMENT_SIGMA_METERS = 50.0
+CORRIDOR_ALIGNMENT_RADIUS_METERS = 150.0
+CORRIDOR_ALIGNMENT_MAX_OFFSET_METERS = 35.0
+
+
+@dataclass(frozen=True)
+class _SourceLineRecord:
+    source_feature_id: str
+    geometry: LineString
+    semantic_hints: dict[str, object]
 
 
 @dataclass(frozen=True)
@@ -58,7 +76,7 @@ def build_route_graph(
     frame = frame.to_crs(PROJECTED_CRS)
 
     source_id_column = _source_id_column(frame)
-    records: list[_EdgeRecord] = []
+    source_records: list[_SourceLineRecord] = []
     for _, row in frame.iterrows():
         geometry = row.geometry
         line_parts = _line_parts(geometry)
@@ -71,24 +89,33 @@ def build_route_graph(
             snapped_geometry = _snap_line_endpoints(line, snap_tolerance_meters)
             if snapped_geometry.length <= 0:
                 raise ValueError("Endpoint snapping collapsed a source line to zero length.")
-            edge = _build_edge(
-                snapped_geometry,
-                manifest.source_id,
-                source_feature_id,
-                resample_meters,
-                snap_tolerance_meters,
-                elevation_sampler,
-            )
-            records.append(
-                _EdgeRecord(
+            source_records.append(
+                _SourceLineRecord(
                     source_feature_id,
                     snapped_geometry,
-                    edge,
                     _semantic_hints(row),
                 )
             )
-    if not records:
+    if not source_records:
         raise ValueError("Source contains no line geometry.")
+
+    source_records = _reconstruct_continuation_alignments(source_records)
+    records = [
+        _EdgeRecord(
+            record.source_feature_id,
+            record.geometry,
+            _build_edge(
+                record.geometry,
+                manifest.source_id,
+                record.source_feature_id,
+                resample_meters,
+                snap_tolerance_meters,
+                elevation_sampler,
+            ),
+            record.semantic_hints,
+        )
+        for record in source_records
+    ]
 
     records.sort(key=lambda record: record.edge.edge_id)
     if elevation_sampler is not None and len(records) > 1:
@@ -105,7 +132,7 @@ def build_route_graph(
         acquisition_lock_sha256,
     )
     package = {
-        "schema_version": 4,
+        "schema_version": 5,
         "content_version": content_version,
         "source": {
             "source_id": manifest.source_id,
@@ -219,21 +246,13 @@ def _build_edge(
     edge_id = _stable_id("edge", canonical)
     distances = _sample_distances(line.length, resample_meters)
     points = [line.interpolate(distance) for distance in distances]
-    curvatures: list[float] = []
+    curvatures = _curvatures(points)
     elevations = [
         elevation_sampler.sample(point.x, point.y)
         if elevation_sampler is not None
         else (point.z if point.has_z else 0.0)
         for point in points
     ]
-    previous_heading: float | None = None
-    for index in range(len(points)):
-        before = points[max(0, index - 1)]
-        after = points[min(len(points) - 1, index + 1)]
-        heading = math.atan2(after.y - before.y, after.x - before.x)
-        curvature = 0.0 if previous_heading is None else _angle_delta(previous_heading, heading)
-        previous_heading = heading
-        curvatures.append(curvature)
     grades = _grades(distances, elevations)
     samples = [
         RouteSample(
@@ -343,9 +362,358 @@ def _snap_line_endpoints(line: LineString, tolerance: float) -> LineString:
     coordinates = list(line.coords)
     start = _snap(coordinates[0], tolerance)
     end = _snap(coordinates[-1], tolerance)
+    while len(coordinates) > 2 and math.dist(coordinates[1][:2], start) <= tolerance:
+        del coordinates[1]
+    while len(coordinates) > 2 and math.dist(coordinates[-2][:2], end) <= tolerance:
+        del coordinates[-2]
     coordinates[0] = (*start, *coordinates[0][2:])
     coordinates[-1] = (*end, *coordinates[-1][2:])
     return LineString(coordinates)
+
+
+def _reconstruct_continuation_alignments(
+    records: list[_SourceLineRecord],
+) -> list[_SourceLineRecord]:
+    """Replace angle points with a sampled, curvature-conditioned alignment."""
+    corridor = _reconstruct_linear_corridor_alignment(records)
+    if corridor is not None:
+        return corridor
+
+    incoming_by_node: dict[tuple[float, float], list[int]] = {}
+    outgoing_by_node: dict[tuple[float, float], list[int]] = {}
+    for index, record in enumerate(records):
+        start = tuple(record.geometry.coords[0][:2])
+        end = tuple(record.geometry.coords[-1][:2])
+        outgoing_by_node.setdefault(start, []).append(index)
+        incoming_by_node.setdefault(end, []).append(index)
+
+    start_replacements: dict[int, tuple[float, list[tuple[float, float]]]] = {}
+    end_replacements: dict[int, tuple[float, list[tuple[float, float]]]] = {}
+    for node in sorted(incoming_by_node.keys() & outgoing_by_node.keys()):
+        incoming_indices = incoming_by_node[node]
+        outgoing_indices = outgoing_by_node[node]
+        if len(incoming_indices) != 1 or len(outgoing_indices) != 1:
+            continue
+        incoming_index = incoming_indices[0]
+        outgoing_index = outgoing_indices[0]
+        if incoming_index == outgoing_index:
+            continue
+        incoming = records[incoming_index].geometry
+        outgoing = records[outgoing_index].geometry
+        transition_meters = min(
+            ALIGNMENT_TRANSITION_MAX_METERS,
+            incoming.length * ALIGNMENT_TRANSITION_EDGE_FRACTION,
+            outgoing.length * ALIGNMENT_TRANSITION_EDGE_FRACTION,
+        )
+        if transition_meters < ALIGNMENT_TRANSITION_MIN_METERS:
+            continue
+
+        incoming_cut_distance = incoming.length - transition_meters
+        outgoing_cut_distance = transition_meters
+        incoming_cut = incoming.interpolate(incoming_cut_distance)
+        outgoing_cut = outgoing.interpolate(outgoing_cut_distance)
+        tangent_sample_meters = min(5.0, transition_meters / 2)
+        incoming_before = incoming.interpolate(
+            max(0.0, incoming_cut_distance - tangent_sample_meters)
+        )
+        outgoing_after = outgoing.interpolate(
+            min(outgoing.length, outgoing_cut_distance + tangent_sample_meters)
+        )
+        incoming_tangent = _unit_direction(incoming_before, incoming_cut)
+        outgoing_tangent = _unit_direction(outgoing_cut, outgoing_after)
+        deflection = math.degrees(
+            math.acos(
+                max(
+                    -1.0,
+                    min(
+                        1.0,
+                        incoming_tangent[0] * outgoing_tangent[0]
+                        + incoming_tangent[1] * outgoing_tangent[1],
+                    ),
+                )
+            )
+        )
+        if deflection < ALIGNMENT_MIN_DEFLECTION_DEGREES:
+            continue
+
+        curve = _quintic_transition_curve(
+            (incoming_cut.x, incoming_cut.y),
+            incoming_tangent,
+            (outgoing_cut.x, outgoing_cut.y),
+            outgoing_tangent,
+        )
+        if not LineString(curve).is_simple:
+            raise ValueError(
+                f"Continuation at {node} cannot be reconstructed without a self-intersection."
+            )
+        midpoint = ALIGNMENT_CURVE_SAMPLES // 2
+        end_replacements[incoming_index] = (
+            incoming_cut_distance,
+            curve[: midpoint + 1],
+        )
+        start_replacements[outgoing_index] = (
+            outgoing_cut_distance,
+            curve[midpoint:],
+        )
+
+    rebuilt: list[_SourceLineRecord] = []
+    for index, record in enumerate(records):
+        if index not in start_replacements and index not in end_replacements:
+            rebuilt.append(record)
+            continue
+        line = record.geometry
+        start_distance, start_curve = start_replacements.get(
+            index,
+            (0.0, [tuple(line.coords[0][:2])]),
+        )
+        end_distance, end_curve = end_replacements.get(
+            index,
+            (line.length, [tuple(line.coords[-1][:2])]),
+        )
+        if start_distance >= end_distance:
+            raise ValueError(
+                f"Source feature '{record.source_feature_id}' is too short for its "
+                "continuation transitions."
+            )
+        middle = substring(line, start_distance, end_distance)
+        if not isinstance(middle, LineString):
+            raise ValueError("Continuation reconstruction produced no middle alignment.")
+        coordinates = list(start_curve)
+        _extend_distinct(coordinates, [tuple(point[:2]) for point in middle.coords])
+        _extend_distinct(coordinates, end_curve)
+        rebuilt.append(replace(record, geometry=LineString(coordinates)))
+    return rebuilt
+
+
+def _reconstruct_linear_corridor_alignment(
+    records: list[_SourceLineRecord],
+) -> list[_SourceLineRecord] | None:
+    ordered_indices = _ordered_linear_source_indices(records)
+    if ordered_indices is None or len(ordered_indices) < 2:
+        return None
+    if any(
+        len(coordinate) > 2
+        for record in records
+        for coordinate in record.geometry.coords
+    ):
+        return None
+
+    ordered = [records[index] for index in ordered_indices]
+    boundary_deflections = []
+    for incoming, outgoing in zip(ordered, ordered[1:], strict=False):
+        incoming_tangent = _unit_direction(
+            incoming.geometry.interpolate(max(0.0, incoming.geometry.length - 5.0)),
+            incoming.geometry.interpolate(incoming.geometry.length),
+        )
+        outgoing_tangent = _unit_direction(
+            outgoing.geometry.interpolate(0.0),
+            outgoing.geometry.interpolate(min(5.0, outgoing.geometry.length)),
+        )
+        dot = max(
+            -1.0,
+            min(
+                1.0,
+                incoming_tangent[0] * outgoing_tangent[0]
+                + incoming_tangent[1] * outgoing_tangent[1],
+            ),
+        )
+        boundary_deflections.append(math.degrees(math.acos(dot)))
+    if max(boundary_deflections, default=0.0) < ALIGNMENT_MIN_DEFLECTION_DEGREES:
+        return list(records)
+
+    coordinates: list[tuple[float, float]] = []
+    boundary_distances = [0.0]
+    for record in ordered:
+        _extend_distinct(
+            coordinates,
+            [tuple(coordinate[:2]) for coordinate in record.geometry.coords],
+        )
+        boundary_distances.append(boundary_distances[-1] + record.geometry.length)
+    raw_alignment = LineString(coordinates)
+    total_distance = boundary_distances[-1]
+    if total_distance < CORRIDOR_ALIGNMENT_RADIUS_METERS * 2:
+        return None
+    design_guide = raw_alignment.simplify(
+        CORRIDOR_ALIGNMENT_GUIDE_TOLERANCE_METERS,
+        preserve_topology=False,
+    )
+    if not isinstance(design_guide, LineString) or len(design_guide.coords) < 2:
+        raise ValueError("Corridor design guide collapsed during alignment simplification.")
+    design_distance_ratio = design_guide.length / total_distance
+    sample_distances = sorted(
+        {
+            *_sample_distances(total_distance, CORRIDOR_ALIGNMENT_SAMPLE_METERS),
+            *boundary_distances,
+        }
+    )
+    start_tangent = _unit_direction(
+        design_guide.interpolate(0.0),
+        design_guide.interpolate(
+            min(CORRIDOR_ALIGNMENT_SAMPLE_METERS * design_distance_ratio, design_guide.length)
+        ),
+    )
+    end_tangent = _unit_direction(
+        design_guide.interpolate(
+            max(0.0, design_guide.length - CORRIDOR_ALIGNMENT_SAMPLE_METERS * design_distance_ratio)
+        ),
+        design_guide.interpolate(design_guide.length),
+    )
+
+    def extended_point(distance: float) -> tuple[float, float]:
+        if distance < 0.0:
+            start = design_guide.coords[0]
+            return (
+                start[0] + start_tangent[0] * distance,
+                start[1] + start_tangent[1] * distance,
+            )
+        if distance > total_distance:
+            end = design_guide.coords[-1]
+            extension = distance - total_distance
+            return (
+                end[0] + end_tangent[0] * extension,
+                end[1] + end_tangent[1] * extension,
+            )
+        point = design_guide.interpolate(distance * design_distance_ratio)
+        return point.x, point.y
+
+    stencil_count = round(
+        CORRIDOR_ALIGNMENT_RADIUS_METERS / CORRIDOR_ALIGNMENT_SAMPLE_METERS
+    )
+    stencil = [
+        (
+            offset * CORRIDOR_ALIGNMENT_SAMPLE_METERS,
+            math.exp(
+                -0.5
+                * (
+                    offset
+                    * CORRIDOR_ALIGNMENT_SAMPLE_METERS
+                    / CORRIDOR_ALIGNMENT_SIGMA_METERS
+                )
+                ** 2
+            ),
+        )
+        for offset in range(-stencil_count, stencil_count + 1)
+    ]
+    weight_sum = sum(weight for _, weight in stencil)
+    smoothed_points: list[tuple[float, float]] = []
+    for distance in sample_distances:
+        raw_point = extended_point(distance)
+        smoothed = (
+            sum(extended_point(distance + offset)[0] * weight for offset, weight in stencil)
+            / weight_sum,
+            sum(extended_point(distance + offset)[1] * weight for offset, weight in stencil)
+            / weight_sum,
+        )
+        displacement = math.dist(raw_point, smoothed)
+        if displacement > CORRIDOR_ALIGNMENT_MAX_OFFSET_METERS:
+            ratio = CORRIDOR_ALIGNMENT_MAX_OFFSET_METERS / displacement
+            smoothed = (
+                raw_point[0] + (smoothed[0] - raw_point[0]) * ratio,
+                raw_point[1] + (smoothed[1] - raw_point[1]) * ratio,
+            )
+        if math.isclose(distance, 0.0) or math.isclose(distance, total_distance):
+            smoothed = raw_point
+        smoothed_points.append(smoothed)
+
+    smoothed_alignment = LineString(smoothed_points)
+    if not smoothed_alignment.is_simple:
+        raise ValueError("Corridor alignment reconstruction produced a self-intersection.")
+
+    rebuilt_by_index: dict[int, _SourceLineRecord] = {}
+    for order, record_index in enumerate(ordered_indices):
+        start_distance = boundary_distances[order]
+        end_distance = boundary_distances[order + 1]
+        edge_points = [
+            point
+            for distance, point in zip(sample_distances, smoothed_points, strict=True)
+            if start_distance <= distance <= end_distance
+        ]
+        if len(edge_points) < 2:
+            raise ValueError("Corridor reconstruction emitted an empty source edge.")
+        rebuilt_by_index[record_index] = replace(
+            records[record_index],
+            geometry=LineString(edge_points),
+        )
+    return [rebuilt_by_index[index] for index in range(len(records))]
+
+
+def _ordered_linear_source_indices(
+    records: list[_SourceLineRecord],
+) -> list[int] | None:
+    by_from: dict[tuple[float, float], list[int]] = {}
+    destinations = {tuple(record.geometry.coords[-1][:2]) for record in records}
+    for index, record in enumerate(records):
+        start = tuple(record.geometry.coords[0][:2])
+        by_from.setdefault(start, []).append(index)
+    starts = [
+        index
+        for index, record in enumerate(records)
+        if tuple(record.geometry.coords[0][:2]) not in destinations
+    ]
+    if len(starts) != 1:
+        return None
+    remaining = set(range(len(records)))
+    ordered: list[int] = []
+    current = starts[0]
+    while True:
+        ordered.append(current)
+        remaining.remove(current)
+        if not remaining:
+            return ordered
+        node = tuple(records[current].geometry.coords[-1][:2])
+        candidates = [index for index in by_from.get(node, []) if index in remaining]
+        if len(candidates) != 1:
+            return None
+        current = candidates[0]
+
+
+def _unit_direction(before: Any, after: Any) -> tuple[float, float]:
+    delta_x = after.x - before.x
+    delta_y = after.y - before.y
+    magnitude = math.hypot(delta_x, delta_y)
+    if magnitude <= 1e-9:
+        raise ValueError("Continuation alignment has a zero-length tangent sample.")
+    return delta_x / magnitude, delta_y / magnitude
+
+
+def _quintic_transition_curve(
+    start: tuple[float, float],
+    start_tangent: tuple[float, float],
+    end: tuple[float, float],
+    end_tangent: tuple[float, float],
+) -> list[tuple[float, float]]:
+    chord = math.dist(start, end)
+    if chord <= 1e-9:
+        raise ValueError("Continuation transition endpoints are coincident.")
+    start_velocity = start_tangent[0] * chord, start_tangent[1] * chord
+    end_velocity = end_tangent[0] * chord, end_tangent[1] * chord
+    result: list[tuple[float, float]] = []
+    for index in range(ALIGNMENT_CURVE_SAMPLES):
+        t = index / (ALIGNMENT_CURVE_SAMPLES - 1)
+        t2 = t * t
+        t3 = t2 * t
+        t4 = t3 * t
+        t5 = t4 * t
+        h00 = 1 - 10 * t3 + 15 * t4 - 6 * t5
+        h10 = t - 6 * t3 + 8 * t4 - 3 * t5
+        h01 = 10 * t3 - 15 * t4 + 6 * t5
+        h11 = -4 * t3 + 7 * t4 - 3 * t5
+        result.append(
+            (
+                h00 * start[0] + h10 * start_velocity[0] + h01 * end[0] + h11 * end_velocity[0],
+                h00 * start[1] + h10 * start_velocity[1] + h01 * end[1] + h11 * end_velocity[1],
+            )
+        )
+    return result
+
+
+def _extend_distinct(
+    destination: list[tuple[float, float]],
+    coordinates: list[tuple[float, float]],
+) -> None:
+    for coordinate in coordinates:
+        if not destination or math.dist(destination[-1], coordinate) > 1e-8:
+            destination.append(coordinate)
 
 
 def _line_parts(geometry: object) -> tuple[LineString, ...]:
@@ -388,6 +756,9 @@ def _semantic_hints(row: Any) -> dict[str, object]:
         "source_begin_mile": _optional_source_number(row, "BEGMP"),
         "source_end_mile": _optional_source_number(row, "ENDMP"),
         "source_jurisdiction": _clean_source_value(row, "STFIPS") or "unknown",
+        "source_roadway_kind": _clean_source_value(row, "ROADWAY_KIND") or "unclassified",
+        "source_carriageway_group_id": _clean_source_value(row, "CARRIAGEWAY_ID"),
+        "source_opposing_feature_id": _clean_source_value(row, "OPPOSING_ID"),
     }
 
 
@@ -435,6 +806,27 @@ def _content_version(
 
 def _angle_delta(first: float, second: float) -> float:
     return (second - first + math.pi) % (2 * math.pi) - math.pi
+
+
+def _curvatures(points: list[Any]) -> list[float]:
+    if len(points) < 3:
+        return [0.0] * len(points)
+    result: list[float] = []
+    for index in range(len(points)):
+        center = min(max(index, 1), len(points) - 2)
+        before = points[center - 1]
+        point = points[center]
+        after = points[center + 1]
+        incoming_heading = math.atan2(point.y - before.y, point.x - before.x)
+        outgoing_heading = math.atan2(after.y - point.y, after.x - point.x)
+        average_segment_length = max(
+            1e-9,
+            (point.distance(before) + point.distance(after)) / 2,
+        )
+        result.append(
+            _angle_delta(incoming_heading, outgoing_heading) / average_segment_length
+        )
+    return result
 
 
 def _grades(distances: list[float], elevations: list[float]) -> list[float]:

@@ -38,7 +38,7 @@ def test_official_fixture_preserves_elevation_grade_datums_and_provenance(
             acquisition_lock_sha256=lock_digest,
         )
 
-    assert package["schema_version"] == 4
+    assert package["schema_version"] == 5
     assert package["spatial_reference"]["route_crs"] == "EPSG:5070"
     assert package["spatial_reference"]["vertical_datum"] == (
         "North American Vertical Datum of 1988"
@@ -50,7 +50,7 @@ def test_official_fixture_preserves_elevation_grade_datums_and_provenance(
     output = tmp_path / "route_graph.cbrg"
     write_flatbuffer(package, output)
     root = RouteGraphBuffer.GetRootAs(output.read_bytes())
-    assert root.SchemaVersion() == 4
+    assert root.SchemaVersion() == 5
     assert root.SpatialReference().VerticalDatum().decode() == (
         "North American Vertical Datum of 1988"
     )

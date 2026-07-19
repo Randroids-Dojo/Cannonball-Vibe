@@ -79,8 +79,8 @@ def _edge(edge_id: str, start: str, end: str, x_offset: float, lane_count: int) 
 
 def _junction_package() -> dict:
     package = {
-        "schema_version": 4,
-        "content_version": "route-v4-semantic-fixture",
+        "schema_version": 5,
+        "content_version": "route-v5-semantic-fixture",
         "source": {
             "source_id": "synthetic-public-domain-fixture",
             "publisher": "Test Federal Agency",
@@ -164,8 +164,14 @@ def _lane_transition_package(from_count: int, to_count: int) -> dict:
 
 
 def test_representative_contract_locks_its_inputs() -> None:
-    assert CONTRACT["schema_version"] == 4
+    assert CONTRACT["schema_version"] == 5
     assert set(CONTRACT["connector_movements"]) == set(MOVEMENTS)
+    assert set(CONTRACT["roadway_kinds"]) == {
+        "unclassified",
+        "divided_carriageway",
+        "one_way_ramp",
+        "one_way_roadway",
+    }
     for relative_path, expected_hash in CONTRACT["locked_inputs"].items():
         assert hashlib.sha256(Path(relative_path).read_bytes()).hexdigest() == expected_hash
 
@@ -176,7 +182,7 @@ def test_semantics_survive_flatbuffer_boundary_with_map_lods(tmp_path: Path) -> 
     write_flatbuffer(package, output, include_samples=False)
     root = RouteGraphBuffer.GetRootAs(output.read_bytes())
 
-    assert root.SchemaVersion() == 4
+    assert root.SchemaVersion() == 5
     assert root.LaneSectionsLength() == 3
     assert root.JunctionConnectorsLength() == 4
     assert root.RouteIdentitiesLength() == 1
@@ -186,10 +192,96 @@ def test_semantics_survive_flatbuffer_boundary_with_map_lods(tmp_path: Path) -> 
     assert root.SimplifiedMapGeometryLength() == 9
     assert root.Exits(0).DestinationsLength() == 2
     assert root.Exits(0).ServicesLength() == 2
+    assert root.Edges(0).RoadwayKind() == b"unclassified"
     assert {
         root.SimplifiedMapGeometry(index).Lod()
         for index in range(root.SimplifiedMapGeometryLength())
     } == {0, 1, 2}
+
+
+def test_divided_carriageways_are_reciprocal_and_survive_flatbuffer(tmp_path: Path) -> None:
+    package = {
+        "schema_version": 5,
+        "content_version": "route-v5-paired-carriageways",
+        "source": {
+            "source_id": "synthetic-public-domain-fixture",
+            "publisher": "Test Federal Agency",
+            "source_url": "https://example.gov/route",
+            "sha256": ARTIFACT_HASH,
+        },
+        "nodes": [
+            {"id": "west-a", "kind": "route", "outgoing_edge_ids": ["eastbound"]},
+            {"id": "east-a", "kind": "route", "outgoing_edge_ids": []},
+            {"id": "east-b", "kind": "route", "outgoing_edge_ids": ["westbound"]},
+            {"id": "west-b", "kind": "route", "outgoing_edge_ids": []},
+        ],
+        "edges": [
+            _edge("eastbound", "west-a", "east-a", 0.0, 2),
+            _edge("westbound", "east-b", "west-b", 0.0, 2),
+        ],
+        "chunks": [],
+    }
+    package["edges"][0].update(
+        source_signed_direction="eastbound",
+        source_roadway_kind="divided_carriageway",
+        source_carriageway_group_id="i70-pair",
+        source_opposing_feature_id="westbound",
+    )
+    package["edges"][1].update(
+        source_signed_direction="westbound",
+        source_roadway_kind="divided_carriageway",
+        source_carriageway_group_id="i70-pair",
+        source_opposing_feature_id="eastbound",
+    )
+
+    attach_derived_route_semantics(package)
+    output = tmp_path / "paired.cbrg"
+    write_flatbuffer(package, output, include_samples=False)
+    root = RouteGraphBuffer.GetRootAs(output.read_bytes())
+    serialized = {
+        root.Edges(index).Id().decode(): root.Edges(index)
+        for index in range(root.EdgesLength())
+    }
+
+    assert serialized["eastbound"].OpposingEdgeId() == b"westbound"
+    assert serialized["westbound"].OpposingEdgeId() == b"eastbound"
+    assert serialized["eastbound"].CarriagewayGroupId() == b"i70-pair"
+
+
+def test_divided_carriageway_rejects_nonreciprocal_pair() -> None:
+    package = _junction_package()
+    first, second = package["edges"][:2]
+    first.update(
+        roadway_kind="divided_carriageway",
+        carriageway_group_id="pair",
+        opposing_edge_id=second["edge_id"],
+    )
+    second.update(
+        roadway_kind="divided_carriageway",
+        carriageway_group_id="pair",
+        opposing_edge_id="missing",
+    )
+
+    with pytest.raises(ValueError, match="does not have a reciprocal pair"):
+        validate_route_semantics(package)
+
+
+def test_divided_carriageway_rejects_same_signed_direction() -> None:
+    package = _junction_package()
+    first, second = package["edges"][:2]
+    first.update(
+        roadway_kind="divided_carriageway",
+        carriageway_group_id="pair",
+        opposing_edge_id=second["edge_id"],
+    )
+    second.update(
+        roadway_kind="divided_carriageway",
+        carriageway_group_id="pair",
+        opposing_edge_id=first["edge_id"],
+    )
+
+    with pytest.raises(ValueError, match="opposite signed direction"):
+        validate_route_semantics(package)
 
 
 def test_optional_semantic_fields_serialize_with_runtime_safe_defaults(tmp_path: Path) -> None:
@@ -232,6 +324,22 @@ def test_lane_count_transitions_map_every_boundary_lane_without_crossing(
     assert {connector["to_lane_id"] for connector in connectors} == {
         lane["id"] for lane in sections["outgoing"]["lanes"]
     }
+
+
+def test_continuation_rejects_endpoint_tangent_discontinuity() -> None:
+    package = _lane_transition_package(2, 2)
+    mixed_connector = package["semantics"]["junction_connectors"][0]
+    mixed_connector["movement"] = "merge"
+    for section in package["semantics"]["lane_sections"]:
+        for lane in section["lanes"]:
+            if lane["id"] == mixed_connector["from_lane_id"]:
+                lane["allowed_maneuvers"] |= MOVEMENTS["merge"]
+    outgoing = next(edge for edge in package["edges"] if edge["edge_id"] == "outgoing")
+    outgoing["samples"][-1]["projected_x_meters"] = 90.0
+    outgoing["samples"][-1]["projected_y_meters"] = 100.0
+
+    with pytest.raises(ValueError, match="endpoint tangent discontinuity"):
+        validate_route_semantics(package)
 
 
 @pytest.mark.parametrize(

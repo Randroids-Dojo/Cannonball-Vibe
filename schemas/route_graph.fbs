@@ -34,6 +34,9 @@ table RouteEdgeData {
   samples:[RouteSample];
   lane_section_ids:[string];
   route_identity_ids:[string];
+  roadway_kind:string;
+  carriageway_group_id:string;
+  opposing_edge_id:string;
 }
 
 table SemanticProvenanceData {

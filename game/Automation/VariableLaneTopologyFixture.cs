@@ -9,6 +9,9 @@ public sealed record VariableLaneTopologyOverlay(
     double EdgeLengthMeters,
     IReadOnlyList<double> TransitionDistancesMeters,
     IReadOnlyList<double> ReviewDistancesMeters,
+    double MinimumTransitionLengthMeters,
+    double MaximumTaperSlope,
+    double MaximumThroughLaneDriftMeters,
     IReadOnlyList<JunctionMovement> ExpectedTraversedConnectorMovements,
     string BranchDecisionChunkId,
     string PrewarmedBranchChunkId,
@@ -80,7 +83,12 @@ public static class VariableLaneTopologyFixture
             3,
             LaneRole.ExitOnly,
             LaneManeuver.Split | LaneManeuver.Exit | LaneManeuver.HighwayTransfer);
-        var retainedExit = exit with { Index = 2 };
+        var retainedTransfer = auxiliary with
+        {
+            Role = LaneRole.ExitOnly,
+            AllowedManeuvers = LaneManeuver.Split | LaneManeuver.Exit |
+                LaneManeuver.HighwayTransfer,
+        };
         var boundaries = Enumerable.Range(1, 4)
             .Select(index => selected.LengthMeters * index / 5.0)
             .ToArray();
@@ -118,7 +126,7 @@ public static class VariableLaneTopologyFixture
                 boundaries[3],
                 throughLeft,
                 throughRight,
-                retainedExit),
+                retainedTransfer),
             Section("through-restored", boundaries[3], selected.LengthMeters, throughLeft, throughRight),
         };
         var sourceSemantics = package.Semantics ?? RouteSemanticsCompatibility.CreateLegacyContent(edges);
@@ -155,6 +163,24 @@ public static class VariableLaneTopologyFixture
             .ToArray();
         var overlayPreviousEdge = previous with { LaneSections = previousSections };
         var overlayEdge = selected with { LaneCount = 4, LaneSections = sections };
+        var transitionProfiles = LaneGeometryProfile.GetTransitions(overlayEdge);
+        var minimumTransitionLength = transitionProfiles.Min(transition =>
+            transition.EndMeters - transition.StartMeters);
+        var maximumTaperSlope = transitionProfiles.Max(transition =>
+            transition.LateralOffsetMeters /
+            (transition.EndMeters - transition.StartMeters));
+        var baseline = LaneGeometryProfile.Evaluate(overlayEdge, 0);
+        var maximumThroughLaneDrift = sections
+            .Select(section => (section.StartMeters + section.EndMeters) / 2)
+            .Select(distance => LaneGeometryProfile.Evaluate(overlayEdge, distance))
+            .SelectMany(sample => new[]
+            {
+                Math.Abs(sample.Lanes.Single(lane => lane.Id == throughLeft.Id).CenterMeters -
+                    baseline.Lanes.Single(lane => lane.Id == throughLeft.Id).CenterMeters),
+                Math.Abs(sample.Lanes.Single(lane => lane.Id == throughRight.Id).CenterMeters -
+                    baseline.Lanes.Single(lane => lane.Id == throughRight.Id).CenterMeters),
+            })
+            .Max();
         var overlayEdges = edges
             .Select(edge => edge.Id == selected.Id
                 ? overlayEdge
@@ -237,6 +263,9 @@ public static class VariableLaneTopologyFixture
             selected.LengthMeters,
             boundaries,
             new[] { 0.0 }.Concat(boundaries).Append(selected.LengthMeters).ToArray(),
+            minimumTransitionLength,
+            maximumTaperSlope,
+            maximumThroughLaneDrift,
             [JunctionMovement.Entrance, JunctionMovement.HighwayTransfer],
             decisionChunk.Id,
             prewarmedBranchChunk.Id,

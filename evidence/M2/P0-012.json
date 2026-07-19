@@ -1,0 +1,296 @@
+{
+  "schema_version": 1,
+  "task_id": "P0-012",
+  "milestone": "M2",
+  "status": "verified_local_pending_human_review",
+  "git_revision": "32e8c26f9b911b1eabc7a0a60ddcfa7c60517a94",
+  "platform": {
+    "os": "Darwin 25.6.0",
+    "architecture": "arm64"
+  },
+  "recorded_at_utc": "2026-07-19T16:05:30.371Z",
+  "tool_versions": {
+    "dotnet_sdk": "10.0.102",
+    "uv": "0.9.24",
+    "godot": "4.7.1.stable.mono.official.a13da4feb"
+  },
+  "deterministic_seed": 20260714,
+  "corpus_lock": {
+    "path": "data/routes/fixtures/validation/p0-012-corpus-lock.json",
+    "sha256": "d30a7ac602340e477ee9f4b5938cad1292188a3477fd9bcb35507998a9154ed8",
+    "corpus_id": "p0-012-representative-topology-corpus-v1"
+  },
+  "input_artifacts": [
+    {
+      "path": "data/routes/fixtures/validation/legal-variable-lanes.json",
+      "sha256": "e97785e940bace133d9eb79280f53a2c7b0fefdf388354b2c74411fb81b348b0",
+      "provenance_kind": "authored_override"
+    },
+    {
+      "path": "data/routes/fixtures/validation/legal-interchanges.json",
+      "sha256": "7aa6ee6f947160d86178c91ebf37369076013275740266225352d2105d46d201",
+      "provenance_kind": "authored_override"
+    },
+    {
+      "path": "data/routes/fixtures/validation/legal-route-context.json",
+      "sha256": "0e6e3fa46fbe2dd7a1efaddb1638f356b3c6ae661c24cb00d88b61aa18f08d93",
+      "provenance_kind": "authored_override"
+    },
+    {
+      "path": "data/routes/fixtures/validation/invalid-topology-mutations.json",
+      "sha256": "c6ee71c95d927df4d97c58204ee417f46e900a59d81e06355642c4c04e71e04c",
+      "provenance_kind": "deterministic_derivation"
+    },
+    {
+      "path": "data/routes/fixtures/semantics/representative-contract.json",
+      "sha256": "c1e7bf3de3ba82503ff434a116fba71b8694f650a312256ff5d2165485cba5d1",
+      "provenance_kind": "deterministic_derivation"
+    },
+    {
+      "path": "data/sources/fixtures/nhpn-boulder-westminster-us36.geojson",
+      "sha256": "d859ff7ef97106a36b24276b87c86c3968aa1266ddf987ee6859d6972b7f6ff6",
+      "provenance_kind": "approved_public_domain_source"
+    },
+    {
+      "path": "data/sources/fixtures/nhpn-boulder-westminster-us36.manifest.json",
+      "sha256": "8020fb0146c5d630132accd9234e7c443e9f96b8459ae109d5f16a9104985575",
+      "provenance_kind": "approved_public_domain_source_manifest"
+    },
+    {
+      "path": "data/sources/representative-corridor-lock.json",
+      "sha256": "020692b11640728f83b81175f33226ca13ed89699bbeaeea3bf6dbbdb5ea9a3d",
+      "provenance_kind": "recursive_source_lock"
+    }
+  ],
+  "scenario_arguments": [
+    [
+      "--fixture",
+      "variable-lanes",
+      "--profile",
+      "topology"
+    ],
+    [
+      "--fixture",
+      "representative-interchanges",
+      "--profile",
+      "route-choices"
+    ],
+    [
+      "--fixture",
+      "route-context",
+      "--profile",
+      "signs"
+    ]
+  ],
+  "commands": [
+    {
+      "id": "corpus-tests",
+      "command": "uv run --project tools/map_pipeline --frozen pytest tools/map_pipeline/tests/test_pipeline.py tools/map_pipeline/tests/test_validation_corpus.py tools/map_pipeline/tests/test_semantics.py tools/map_pipeline/tests/test_sharding.py -q",
+      "exit_status": 0,
+      "log": "reports/M2/P0-012/corpus-tests.log"
+    },
+    {
+      "id": "core-route-tests",
+      "command": "env DOTNET_ROLL_FORWARD=Major dotnet test Cannonball.sln --filter FullyQualifiedName~RouteChoiceCatalog\\|FullyQualifiedName~RouteSemantics\\|FullyQualifiedName~LaneGeometryProfile",
+      "exit_status": 0,
+      "log": "reports/M2/P0-012/core-route-tests.log"
+    },
+    {
+      "id": "variable-lanes",
+      "command": "/Users/randroid/Documents/Dev/Cannonball-Vibe/scripts/run-scenario.sh --fixture variable-lanes --profile topology",
+      "exit_status": 0,
+      "log": "reports/M2/P0-012/variable-lanes.log"
+    },
+    {
+      "id": "representative-interchanges",
+      "command": "/Users/randroid/Documents/Dev/Cannonball-Vibe/scripts/run-scenario.sh --fixture representative-interchanges --profile route-choices",
+      "exit_status": 0,
+      "log": "reports/M2/P0-012/representative-interchanges.log"
+    },
+    {
+      "id": "route-context",
+      "command": "/Users/randroid/Documents/Dev/Cannonball-Vibe/scripts/run-scenario.sh --fixture route-context --profile signs",
+      "exit_status": 0,
+      "log": "reports/M2/P0-012/route-context.log"
+    },
+    {
+      "id": "m0",
+      "command": "env GODOT_BIN=/Users/randroid/Documents/Dev/Cannonball-Vibe/.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot /Users/randroid/Documents/Dev/Cannonball-Vibe/scripts/check.sh",
+      "exit_status": 0,
+      "log": "reports/M2/P0-012/m0.log"
+    }
+  ],
+  "metrics": {
+    "legal_fixture_count": 3,
+    "invalid_mutation_count": 12,
+    "topology": {
+      "checkpoints": "12",
+      "edge": "edge-3a11c16ebb9b3a945413",
+      "min_lanes": "2",
+      "max_lanes": "4",
+      "transitions": "4",
+      "minimum_taper_m": "252.000",
+      "maximum_taper_slope": "0.014286",
+      "maximum_through_lane_drift_m": "0.000000",
+      "transition_collision_chunks": "2",
+      "gore": "true",
+      "max_paved_width_m": "18.900",
+      "peak_mph": "161.1",
+      "rebases": "6",
+      "connector_movements": "Entrance,HighwayTransfer",
+      "branch_prewarms": "1",
+      "branch_evictions": "1",
+      "terrain_backdrop": "true",
+      "terrain_seams": "13",
+      "max_seam_gap_m": "0.000",
+      "max_unsupported_frames": "1",
+      "max_visual_build_ms": "13.962",
+      "max_collision_build_ms": "1.050",
+      "override": "p0-010-variable-lanes-v1",
+      "chunk_failures": "0"
+    },
+    "continuation_geometry": {
+      "pair_count": 44,
+      "maximum_source_deflection_degrees": 0.845471,
+      "deflection_limit_degrees": 1,
+      "maximum_alignment_curvature_per_meter": 0.002772272,
+      "curvature_limit_per_meter": 0.003,
+      "minimum_alignment_radius_meters": 360.715,
+      "maximum_stored_curvature_error_per_meter": 1.08e-9,
+      "stored_curvature_error_limit_per_meter": 1e-8
+    },
+    "interchanges": {
+      "plans": "4",
+      "connectors": "14",
+      "choice_movements": "Continuation,Exit,Entrance,HighwayTransfer",
+      "branch_prewarms": "5",
+      "branch_evictions": "5",
+      "save_resumes": "12",
+      "grade_separated_crossings": "1",
+      "minimum_clearance_m": "8.000",
+      "parallel_carriageways": "1",
+      "max_abs_grade": "0.037581",
+      "max_abs_curvature_per_m": "0.065185",
+      "minimum_sightline_m": "99.929",
+      "self_intersections": "0",
+      "invalid_shortcuts": "0",
+      "max_unsupported_frames": "8",
+      "max_visual_build_ms": "16.313",
+      "max_collision_build_ms": "1.087",
+      "override": "p0-011-representative-interchanges-v1",
+      "chunk_failures": "0"
+    },
+    "route_context": {
+      "review_points": "6",
+      "mile_markers": "5",
+      "exit_signs": "1",
+      "transfer_signs": "2",
+      "concurrent_markers": "2",
+      "distinct_mile_values": "4",
+      "omissions": "3",
+      "automation_nodes": "8",
+      "max_visual_build_ms": "16.208",
+      "chunk_failures": "0"
+    }
+  },
+  "acceptance_comparisons": [
+    {
+      "criterion": "checksum-locked representative coverage",
+      "observed": "3 legal fixtures and 2 highway-transfer forms",
+      "passed": true
+    },
+    {
+      "criterion": "continuity, curvature, grade, sightline, intersection, connection, completion, sign, and resume gates",
+      "observed": "all declared numeric and semantic scenario contracts passed",
+      "passed": true
+    },
+    {
+      "criterion": "continuation endpoint geometry",
+      "observed": "44 pairs; maximum source deflection 0.845471 degrees against 1-degree limit",
+      "passed": true
+    },
+    {
+      "criterion": "minimum horizontal-alignment radius",
+      "observed": "360.715 meters from sampled curvature",
+      "passed": true
+    },
+    {
+      "criterion": "stored curvature dimensional consistency",
+      "observed": "1.08e-9 per-meter maximum error",
+      "passed": true
+    },
+    {
+      "criterion": "recursive approved-source, derived, and authored ancestry",
+      "observed": "8 locked artifacts with explicit provenance kinds",
+      "passed": true
+    },
+    {
+      "criterion": "bot traversal and invalid mutation rejection",
+      "observed": "4 legal plans and 12 invalid mutations",
+      "passed": true
+    },
+    {
+      "criterion": "human geographic plausibility and route-choice comprehension",
+      "observed": "review candidate prepared separately; approval remains pending",
+      "passed": false
+    }
+  ],
+  "output_artifacts": [
+    {
+      "path": "reports/M2/P0-012/core-route-tests.log",
+      "sha256": "beb43eeb14f0ceec2d60d9c45f4adce748843d68414628c6dd56f4b0c801db60"
+    },
+    {
+      "path": "reports/M2/P0-012/corpus-tests.log",
+      "sha256": "9352925e5e271773731e7ca3a390daf15479f6b144d2d059ca8d677d62821619"
+    },
+    {
+      "path": "reports/M2/P0-012/m0.log",
+      "sha256": "22bf7f4d79813df07100a790ea28d7aef353a692d546e56cc0e6598cbbddf728"
+    },
+    {
+      "path": "reports/M2/P0-012/representative-interchanges.log",
+      "sha256": "b08f5f54180ce522ded225343b73a9fbf773c2972413a64405662bd32087729e"
+    },
+    {
+      "path": "reports/M2/P0-012/route-context.log",
+      "sha256": "2f9bed7a879b90b6d2f83496578da49af980c6747db480d5506828269e478f5c"
+    },
+    {
+      "path": "reports/M2/P0-012/variable-lanes.log",
+      "sha256": "6f96521eb35b92dcb36e38cbe7eee2b3f6d220b0d7d394324ae287421d1c4e6c"
+    },
+    {
+      "path": "/tmp/p0-012-topology-review.avi",
+      "sha256": "e02a19074d5425e7bd862fca819feda0243a5603d57ef4fac272c8e2a18a609f"
+    },
+    {
+      "path": "/tmp/p0-012-route-choice-driving.avi",
+      "sha256": "2c97d46678f237082509c240226634c221c92ac34a07a175d5fc7f053fdb930e"
+    },
+    {
+      "path": "docs/images/p0-012-validation-corpus-review.png",
+      "sha256": "575f3006c63b0f49fc69e832cf2ba7c4a4e9f862e990d1abd45b317233d85004"
+    },
+    {
+      "path": "docs/images/p0-012-lane-transition-control-line-review.png",
+      "sha256": "1f678f11284d425ac183de3fc17b85163b749c6afec76113695e675fce581c19"
+    },
+    {
+      "path": "reports/m0/summary.json",
+      "sha256": "62fae9463d1b402ebbf37150ba189af718edad1fa09da4f9a5ba8e96a9e50ff1"
+    }
+  ],
+  "retry_count": 0,
+  "failure_history": [],
+  "recovery_result": {
+    "status": "not_needed",
+    "summary": "All recorded aggregate checks passed on their first execution."
+  },
+  "adversarial_review": "docs/audits/2026-07-18-p0-012-validation-corpus-review.md",
+  "human_gate": {
+    "name": "Representative interchange and route-context geographic review",
+    "status": "pending",
+    "question_reference": "docs/QUESTIONS_FOR_RANDROID_2026-07-18_SYSTEMATIC_BACKLOG.md#q-025--p0-012-geographic-plausibility-and-route-choice-review"
+  }
+}

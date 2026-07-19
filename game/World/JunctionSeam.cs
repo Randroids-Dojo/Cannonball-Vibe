@@ -1,5 +1,6 @@
 using Cannonball.Core.Content;
 using Cannonball.Core.Routes;
+using Cannonball.Game.World.RoadVisuals;
 using Godot;
 
 namespace Cannonball.Game.World;
@@ -12,6 +13,9 @@ public sealed partial class JunctionSeam : Node3D
     public string FromChunkId { get; private init; } = string.Empty;
     public string ToChunkId { get; private init; } = string.Empty;
     public bool HasCollision => _collisionBody is not null;
+    public bool HasTerrainSurface =>
+        GetNodeOrNull<MeshInstance3D>("JunctionTerrainSurface") is
+            { Mesh: not null, Visible: true };
     public double ConnectionGapMeters { get; private init; }
 
     public static JunctionSeam Create(
@@ -20,8 +24,10 @@ public sealed partial class JunctionSeam : Node3D
         RouteChunkContent toContent,
         RouteEdge toEdge,
         RouteFrame frame,
-        RouteWorldPoint localOriginWorld)
+        RouteWorldPoint localOriginWorld,
+        RoadVisualKit visualKit)
     {
+        ArgumentNullException.ThrowIfNull(visualKit);
         var anchor = frame.ToWorld(fromContent.Samples[^1]);
         var fromCenter = anchor.RelativeTo(anchor);
         var toCenter = frame.ToWorld(toContent.Samples[0]).RelativeTo(anchor);
@@ -38,11 +44,12 @@ public sealed partial class JunctionSeam : Node3D
             fromCenter -= fromTangent * bridgeHalfLengthMeters;
             toCenter += toTangent * bridgeHalfLengthMeters;
         }
-        var fromLayout = LaneGeometryProfile.Evaluate(fromEdge, fromEdge.LengthMeters);
-        var toLayout = LaneGeometryProfile.Evaluate(toEdge, 0);
+        var fromLayout = LaneGeometryProfile.Evaluate(fromEdge, fromContent.EndMeters);
+        var toLayout = LaneGeometryProfile.Evaluate(toEdge, toContent.StartMeters);
+        var semanticId = $"{fromContent.Id}.{toContent.Id}";
         var seam = new JunctionSeam
         {
-            Name = $"JunctionSeam-{fromEdge.Id}-{toEdge.Id}",
+            Name = $"JunctionSeam-{semanticId}",
             FromChunkId = fromContent.Id,
             ToChunkId = toContent.Id,
             Position = anchor.RelativeTo(localOriginWorld),
@@ -58,18 +65,37 @@ public sealed partial class JunctionSeam : Node3D
             toLayout.PavedLeftMeters,
             toLayout.PavedRightMeters,
             -0.035f);
-        seam.AddChild(new MeshInstance3D
+        var terrain = new MeshInstance3D
+        {
+            Name = "JunctionTerrainSurface",
+            Mesh = BuildQuad(
+                fromCenter,
+                fromTangent,
+                fromLayout.PavedLeftMeters - RoadVisualKit.TerrainMarginMeters,
+                fromLayout.PavedRightMeters + RoadVisualKit.TerrainMarginMeters,
+                toCenter,
+                toTangent,
+                toLayout.PavedLeftMeters - RoadVisualKit.TerrainMarginMeters,
+                toLayout.PavedRightMeters + RoadVisualKit.TerrainMarginMeters,
+                -0.16f),
+            MaterialOverride = visualKit.Terrain,
+            CastShadow = GeometryInstance3D.ShadowCastingSetting.Off,
+        };
+        RoadVisualKit.MarkSemantic(
+            terrain,
+            $"road.visual.junction.{semanticId}.terrain");
+        seam.AddChild(terrain);
+        var paved = new MeshInstance3D
         {
             Name = "JunctionPavedSurface",
             Mesh = seam._collisionMesh,
-            MaterialOverride = new StandardMaterial3D
-            {
-                AlbedoColor = new Color("34363b"),
-                Roughness = 0.97f,
-                CullMode = BaseMaterial3D.CullModeEnum.Disabled,
-            },
-        });
-        seam.AddChild(new MeshInstance3D
+            MaterialOverride = visualKit.Shoulder,
+        };
+        RoadVisualKit.MarkSemantic(
+            paved,
+            $"road.visual.junction.{semanticId}.paved");
+        seam.AddChild(paved);
+        var road = new MeshInstance3D
         {
             Name = "JunctionRoadSurface",
             Mesh = BuildQuad(
@@ -82,13 +108,12 @@ public sealed partial class JunctionSeam : Node3D
                 toLayout.LaneLeftMeters,
                 toLayout.LaneRightMeters,
                 0.02f),
-            MaterialOverride = new StandardMaterial3D
-            {
-                AlbedoColor = new Color("151820"),
-                Roughness = 0.94f,
-                CullMode = BaseMaterial3D.CullModeEnum.Disabled,
-            },
-        });
+            MaterialOverride = visualKit.Pavement,
+        };
+        RoadVisualKit.MarkSemantic(
+            road,
+            $"road.visual.junction.{semanticId}.road");
+        seam.AddChild(road);
         return seam;
     }
 

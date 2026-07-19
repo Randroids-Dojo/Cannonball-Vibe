@@ -1,5 +1,6 @@
 import hashlib
 import json
+import math
 from pathlib import Path
 
 import geopandas as gpd
@@ -146,8 +147,60 @@ def test_pipeline_builds_deterministic_connected_chunks(tmp_path: Path) -> None:
     payload = runtime_path.read_bytes()
     assert RouteGraphBuffer.RouteGraphBufferBufferHasIdentifier(payload, 0)
     root = RouteGraphBuffer.GetRootAs(payload)
-    assert root.SchemaVersion() == 4
+    assert root.SchemaVersion() == 5
     assert root.EdgesLength() == 2
+
+
+def test_route_sample_curvature_is_heading_change_per_meter(tmp_path: Path) -> None:
+    source, manifest = _write_source(
+        tmp_path,
+        "curved-alignment",
+        [
+            (
+                "curved-mainline",
+                LineString(
+                    [
+                        (ANCHOR_X, ANCHOR_Y),
+                        (ANCHOR_X + 200.0, ANCHOR_Y),
+                        (ANCHOR_X + 400.0, ANCHOR_Y + 100.0),
+                        (ANCHOR_X + 600.0, ANCHOR_Y + 300.0),
+                    ]
+                ),
+            )
+        ],
+    )
+
+    package = build_route_graph(
+        source,
+        manifest,
+        tmp_path / "curved-alignment-output",
+        resample_meters=25.0,
+    )
+    samples = package["edges"][0]["samples"]
+    observed = []
+    for index, sample in enumerate(samples):
+        center = min(max(index, 1), len(samples) - 2)
+        before = samples[center - 1]
+        point = samples[center]
+        after = samples[center + 1]
+        incoming_x = point["projected_x_meters"] - before["projected_x_meters"]
+        incoming_y = point["projected_y_meters"] - before["projected_y_meters"]
+        outgoing_x = after["projected_x_meters"] - point["projected_x_meters"]
+        outgoing_y = after["projected_y_meters"] - point["projected_y_meters"]
+        heading_change = math.atan2(
+            incoming_x * outgoing_y - incoming_y * outgoing_x,
+            incoming_x * outgoing_x + incoming_y * outgoing_y,
+        )
+        average_segment_length = (
+            math.hypot(incoming_x, incoming_y) + math.hypot(outgoing_x, outgoing_y)
+        ) / 2
+        expected = heading_change / average_segment_length
+        assert sample["curvature"] == pytest.approx(expected, abs=1e-12)
+        observed.append(expected)
+
+    assert max(abs(value) for value in observed) > 1e-5
+    assert samples[0]["curvature"] == pytest.approx(samples[1]["curvature"])
+    assert samples[-1]["curvature"] == pytest.approx(samples[-2]["curvature"])
 
 
 def test_reversed_feature_order_preserves_semantic_edge_records(tmp_path: Path) -> None:
@@ -167,13 +220,12 @@ def test_reversed_feature_order_preserves_semantic_edge_records(tmp_path: Path) 
             LineString(
                 [
                     (ANCHOR_X + 100.0, ANCHOR_Y),
-                    (ANCHOR_X + 150.0, ANCHOR_Y - 30.0),
+                    (ANCHOR_X + 150.0, ANCHOR_Y - 20.0),
                     (ANCHOR_X + 200.0, ANCHOR_Y),
                 ]
             ),
         ),
     ]
-    expected = dict(records)
     forward_source, forward_manifest = _write_source(tmp_path, "forward", records)
     reverse_source, reverse_manifest = _write_source(
         tmp_path,
@@ -187,6 +239,10 @@ def test_reversed_feature_order_preserves_semantic_edge_records(tmp_path: Path) 
     build_route_graph(reverse_source, reverse_manifest, reverse_output)
     forward, forward_gpkg = _read_artifacts(forward_output)
     reverse, reverse_gpkg = _read_artifacts(reverse_output)
+    expected = {
+        row[SOURCE_ID_FIELD]: row.geometry
+        for _, row in forward_gpkg.iterrows()
+    }
 
     _assert_edge_source_geometry_pairing(forward, forward_gpkg, expected)
     _assert_edge_source_geometry_pairing(reverse, reverse_gpkg, expected)
@@ -346,6 +402,118 @@ def test_snapped_topology_emits_physically_continuous_geometry(tmp_path: Path) -
         (ANCHOR_X + 100.0, ANCHOR_Y),
         abs=1e-8,
     )
+
+
+def test_endpoint_snap_collapses_near_duplicate_vertices_without_backtracking(
+    tmp_path: Path,
+) -> None:
+    records = [
+        (
+            "seam-west",
+            LineString(
+                [
+                    (ANCHOR_X, ANCHOR_Y),
+                    (ANCHOR_X + 95.0, ANCHOR_Y),
+                    (ANCHOR_X + 104.5, ANCHOR_Y),
+                    (ANCHOR_X + 104.6, ANCHOR_Y),
+                ]
+            ),
+        ),
+        (
+            "seam-east",
+            LineString(
+                [
+                    (ANCHOR_X + 104.0, ANCHOR_Y),
+                    (ANCHOR_X + 120.0, ANCHOR_Y),
+                    (ANCHOR_X + 200.0, ANCHOR_Y),
+                ]
+            ),
+        ),
+    ]
+    source, manifest = _write_source(tmp_path, "near-duplicate-seam", records)
+    output = tmp_path / "near-duplicate-seam-output"
+
+    package = build_route_graph(source, manifest, output, snap_tolerance_meters=10.0)
+    normalized = gpd.read_file(output / "normalized.gpkg", layer="route_edges")
+    west = normalized.loc[normalized[SOURCE_ID_FIELD] == "seam-west"].iloc[0].geometry
+    edges = {edge[SOURCE_ID_FIELD]: edge for edge in package["edges"]}
+    west_samples = edges["seam-west"]["samples"]
+
+    assert list(west.coords) == pytest.approx(
+        [(ANCHOR_X, ANCHOR_Y), (ANCHOR_X + 100.0, ANCHOR_Y)]
+    )
+    assert west_samples[-1]["projected_x_meters"] > west_samples[-2]["projected_x_meters"]
+    assert (
+        edges["seam-west"]["to_node_id"]
+        == edges["seam-east"]["from_node_id"]
+    )
+
+
+def test_linear_corridor_reconstructs_alignment_across_short_source_feature(
+    tmp_path: Path,
+) -> None:
+    records = [
+        (
+            "approach",
+            LineString(
+                [(ANCHOR_X, ANCHOR_Y), (ANCHOR_X + 500.0, ANCHOR_Y)]
+            ),
+        ),
+        (
+            "short-slice",
+            LineString(
+                [
+                    (ANCHOR_X + 500.0, ANCHOR_Y),
+                    (ANCHOR_X + 520.0, ANCHOR_Y + 5.0),
+                ]
+            ),
+        ),
+        (
+            "departure",
+            LineString(
+                [
+                    (ANCHOR_X + 520.0, ANCHOR_Y + 5.0),
+                    (ANCHOR_X + 1_000.0, ANCHOR_Y + 50.0),
+                ]
+            ),
+        ),
+    ]
+    source, manifest = _write_source(tmp_path, "short-slice-alignment", records)
+
+    package = build_route_graph(
+        source,
+        manifest,
+        tmp_path / "short-slice-alignment-output",
+        resample_meters=10.0,
+        snap_tolerance_meters=1.0,
+    )
+    edges = {edge[SOURCE_ID_FIELD]: edge for edge in package["edges"]}
+    assert (
+        edges["short-slice"]["samples"][0]["projected_y_meters"]
+        > ANCHOR_Y + 10.0
+    )
+
+    def endpoint_deflection(from_source: str, to_source: str) -> float:
+        incoming = edges[from_source]["samples"]
+        outgoing = edges[to_source]["samples"]
+        incoming_delta = (
+            incoming[-1]["projected_x_meters"] - incoming[-2]["projected_x_meters"],
+            incoming[-1]["projected_y_meters"] - incoming[-2]["projected_y_meters"],
+        )
+        outgoing_delta = (
+            outgoing[1]["projected_x_meters"] - outgoing[0]["projected_x_meters"],
+            outgoing[1]["projected_y_meters"] - outgoing[0]["projected_y_meters"],
+        )
+        incoming_length = math.hypot(*incoming_delta)
+        outgoing_length = math.hypot(*outgoing_delta)
+        dot = (
+            incoming_delta[0] * outgoing_delta[0]
+            + incoming_delta[1] * outgoing_delta[1]
+        ) / (incoming_length * outgoing_length)
+        return math.degrees(math.acos(max(-1.0, min(1.0, dot))))
+
+    assert endpoint_deflection("approach", "short-slice") < 1.0
+    assert endpoint_deflection("short-slice", "departure") < 1.0
 
 
 def test_vertical_endpoint_seam_fails_closed(tmp_path: Path) -> None:

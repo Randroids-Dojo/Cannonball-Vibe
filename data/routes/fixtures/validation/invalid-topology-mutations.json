@@ -1,0 +1,67 @@
+{
+  "fixture_id": "p0-012-invalid-topology-mutations-v1",
+  "kind": "invalid_mutation_catalog",
+  "base_contract": "data/routes/fixtures/semantics/representative-contract.json",
+  "mutations": [
+    {
+      "id": "lane-section-gap-or-overlap",
+      "test": "test_malformed_semantics_fail_actionably[gap-gap or overlap]",
+      "expected_failure": "gap or overlap"
+    },
+    {
+      "id": "orphan-lane",
+      "test": "test_malformed_semantics_fail_actionably[orphan-orphaned]",
+      "expected_failure": "orphaned"
+    },
+    {
+      "id": "crossing-connector",
+      "test": "test_malformed_semantics_fail_actionably[crossing-cross lanes]",
+      "expected_failure": "cross lanes"
+    },
+    {
+      "id": "ambiguous-successor",
+      "test": "test_malformed_semantics_fail_actionably[ambiguous-ambiguous lane successor]",
+      "expected_failure": "ambiguous lane successor"
+    },
+    {
+      "id": "disallowed-movement",
+      "test": "test_malformed_semantics_fail_actionably[disallowed-not allowed by lane]",
+      "expected_failure": "not allowed by lane"
+    },
+    {
+      "id": "invalid-map-hash",
+      "test": "test_malformed_semantics_fail_actionably[map-hash-hash is invalid]",
+      "expected_failure": "hash is invalid"
+    },
+    {
+      "id": "missing-authored-override-id",
+      "test": "test_authored_override_requires_stable_ancestry",
+      "expected_failure": "missing its override ID"
+    },
+    {
+      "id": "missing-opposing-carriageway",
+      "test": "test_divided_carriageway_rejects_nonreciprocal_pair",
+      "expected_failure": "does not have a reciprocal pair"
+    },
+    {
+      "id": "nonreciprocal-opposing-carriageway",
+      "test": "DividedCarriagewaysRequireAReciprocalOpposingPair",
+      "expected_failure": "reciprocal pair"
+    },
+    {
+      "id": "same-direction-carriageway-pair",
+      "test": "test_divided_carriageway_rejects_same_signed_direction",
+      "expected_failure": "opposite signed direction"
+    },
+    {
+      "id": "route-plan-lane-discontinuity",
+      "test": "RejectsConnectorThatDoesNotContinueSelectedLane",
+      "expected_failure": "does not continue"
+    },
+    {
+      "id": "interior-lane-drop-with-persistent-outside-lane",
+      "test": "InteriorLaneDropWithPersistentOutsideLaneIsRejected",
+      "expected_failure": "interior lane"
+    }
+  ]
+}

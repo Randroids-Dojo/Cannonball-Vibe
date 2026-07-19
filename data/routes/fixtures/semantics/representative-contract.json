@@ -1,6 +1,6 @@
 {
   "fixture_id": "p0-009-representative-route-semantics-v1",
-  "schema_version": 4,
+  "schema_version": 5,
   "truth_scope": "Contract coverage only. Derived lanes and shoulders are graybox defaults, not observed geography.",
   "connector_movements": [
     "continuation",
@@ -17,6 +17,12 @@
     "entrance_only",
     "managed"
   ],
+  "roadway_kinds": [
+    "unclassified",
+    "divided_carriageway",
+    "one_way_ramp",
+    "one_way_roadway"
+  ],
   "required_map_lods": [0, 1, 2],
   "context_records": [
     "route_identity",
@@ -31,7 +37,10 @@
     "ambiguous_successor",
     "disallowed_movement",
     "invalid_map_hash",
-    "missing_authored_override_id"
+    "missing_authored_override_id",
+    "missing_opposing_carriageway",
+    "nonreciprocal_opposing_carriageway",
+    "same_direction_carriageway_pair"
   ],
   "locked_inputs": {
     "data/sources/fixtures/nhpn-boulder-us36.geojson": "f1021915997f7cb94a00db58feed86f8f9e13e1ac264fc0dd8ba1605d052ae9b",

@@ -7,6 +7,7 @@ import os
 import re
 import shutil
 import tempfile
+from collections import defaultdict
 from copy import deepcopy
 from pathlib import Path
 from typing import Any
@@ -47,11 +48,20 @@ def write_sharded_package(
         "source_content_version": package["content_version"],
         "chunks": semantic_chunks,
         "semantics": sharded["semantics"],
+        "carriageways": [
+            {
+                "edge_id": edge["edge_id"],
+                "roadway_kind": edge["roadway_kind"],
+                "carriageway_group_id": edge["carriageway_group_id"],
+                "opposing_edge_id": edge["opposing_edge_id"],
+            }
+            for edge in sorted(sharded["edges"], key=lambda item: item["edge_id"])
+        ],
     }
     digest = hashlib.sha256(
         json.dumps(version_payload, separators=(",", ":"), sort_keys=True).encode()
     ).hexdigest()
-    content_version = f"route-v4-{digest[:16]}"
+    content_version = f"route-v5-{digest[:16]}"
     output_directory.parent.mkdir(parents=True, exist_ok=True)
     staging = Path(
         tempfile.mkdtemp(
@@ -73,7 +83,7 @@ def write_sharded_package(
             hashes[chunk["chunk_id"]] = hashlib.sha256(data).hexdigest()
             byte_counts[chunk["chunk_id"]] = len(data)
 
-        sharded["schema_version"] = 4
+        sharded["schema_version"] = 5
         sharded["content_version"] = content_version
         for chunk in sharded["chunks"]:
             chunk["content_hash"] = hashes[chunk["chunk_id"]]
@@ -209,6 +219,10 @@ def _semantic_chunks(package: dict[str, Any]) -> list[dict[str, Any]]:
         edges[edge_id] = normalized_edge
     if len(edges) != len(package["edges"]):
         raise ValueError("Route package contains duplicate edge IDs.")
+    continuation_tangents = _continuation_endpoint_tangents(
+        edges,
+        package["semantics"],
+    )
     chunk_ids = [chunk["chunk_id"] for chunk in package["chunks"]]
     if len(chunk_ids) != len(set(chunk_ids)):
         raise ValueError("Route package contains duplicate chunk IDs.")
@@ -247,7 +261,14 @@ def _semantic_chunks(package: dict[str, Any]) -> list[dict[str, Any]]:
         ]
         runtime_samples = []
         for sample in chunk_samples:
-            tangent_x, tangent_y = _projected_tangent(samples, sample["distance_meters"])
+            distance = sample["distance_meters"]
+            tangent_x, tangent_y = (
+                continuation_tangents.get((edge["edge_id"], "start"))
+                if math.isclose(distance, samples[0]["distance_meters"], abs_tol=1e-9)
+                else continuation_tangents.get((edge["edge_id"], "end"))
+                if math.isclose(distance, samples[-1]["distance_meters"], abs_tol=1e-9)
+                else None
+            ) or _projected_tangent(samples, distance)
             runtime_samples.append(
                 {
                     **{field: float(sample[field]) for field in _SAMPLE_FIELDS},
@@ -352,6 +373,59 @@ def _projected_tangent(
     if magnitude <= 1e-9:
         raise ValueError(f"Route samples have no projected tangent at {distance} meters.")
     return delta_x / magnitude, delta_y / magnitude
+
+
+def _continuation_endpoint_tangents(
+    edges: dict[str, dict[str, Any]],
+    semantics: dict[str, Any],
+) -> dict[tuple[str, str], tuple[float, float]]:
+    movements_by_pair: dict[tuple[str, str], set[str]] = defaultdict(set)
+    for connector in semantics["junction_connectors"]:
+        pair = str(connector["from_edge_id"]), str(connector["to_edge_id"])
+        movements_by_pair[pair].add(str(connector.get("movement")))
+    pairs = {
+        pair for pair, movements in movements_by_pair.items() if "continuation" in movements
+    }
+    result: dict[tuple[str, str], tuple[float, float]] = {}
+    for from_edge_id, to_edge_id in sorted(pairs):
+        from_samples = edges[from_edge_id]["samples"]
+        to_samples = edges[to_edge_id]["samples"]
+        incoming = _projected_tangent(
+            from_samples,
+            from_samples[-1]["distance_meters"],
+        )
+        outgoing = _projected_tangent(
+            to_samples,
+            to_samples[0]["distance_meters"],
+        )
+        combined_x = incoming[0] + outgoing[0]
+        combined_y = incoming[1] + outgoing[1]
+        magnitude = math.hypot(combined_x, combined_y)
+        if magnitude <= 1e-9:
+            raise ValueError(
+                f"Continuation from '{from_edge_id}' to '{to_edge_id}' has opposing "
+                "endpoint tangents."
+            )
+        shared = combined_x / magnitude, combined_y / magnitude
+        _assign_continuation_tangent(result, (from_edge_id, "end"), shared)
+        _assign_continuation_tangent(result, (to_edge_id, "start"), shared)
+    return result
+
+
+def _assign_continuation_tangent(
+    tangents: dict[tuple[str, str], tuple[float, float]],
+    endpoint: tuple[str, str],
+    value: tuple[float, float],
+) -> None:
+    existing = tangents.setdefault(endpoint, value)
+    if not (
+        math.isclose(existing[0], value[0], abs_tol=1e-9)
+        and math.isclose(existing[1], value[1], abs_tol=1e-9)
+    ):
+        raise ValueError(
+            f"Route endpoint '{endpoint[0]}' {endpoint[1]} has conflicting continuation "
+            "tangents."
+        )
 
 
 def _interpolate_sample(samples: list[dict[str, Any]], distance: float) -> dict[str, Any]:
