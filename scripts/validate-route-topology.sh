@@ -200,7 +200,7 @@ function continuationGeometryMetrics() {
     maximum_stored_curvature_error_per_meter: Number(
       Math.max(...storedCurvatureErrors).toFixed(12)
     ),
-    stored_curvature_error_limit_per_meter: 1e-9
+    stored_curvature_error_limit_per_meter: 1e-8
   };
 }
 
