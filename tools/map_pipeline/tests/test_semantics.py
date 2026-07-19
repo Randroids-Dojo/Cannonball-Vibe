@@ -236,6 +236,12 @@ def test_lane_count_transitions_map_every_boundary_lane_without_crossing(
 
 def test_continuation_rejects_endpoint_tangent_discontinuity() -> None:
     package = _lane_transition_package(2, 2)
+    mixed_connector = package["semantics"]["junction_connectors"][0]
+    mixed_connector["movement"] = "merge"
+    for section in package["semantics"]["lane_sections"]:
+        for lane in section["lanes"]:
+            if lane["id"] == mixed_connector["from_lane_id"]:
+                lane["allowed_maneuvers"] |= MOVEMENTS["merge"]
     outgoing = next(edge for edge in package["edges"] if edge["edge_id"] == "outgoing")
     outgoing["samples"][-1]["projected_x_meters"] = 90.0
     outgoing["samples"][-1]["projected_y_meters"] = 100.0

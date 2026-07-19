@@ -63,6 +63,7 @@ public sealed partial class WorldStreamer : Node3D
     private readonly HashSet<string> _branchPrewarmSeen = new(StringComparer.Ordinal);
     private readonly HashSet<string> _branchPrewarmEvicted = new(StringComparer.Ordinal);
     private readonly HashSet<string> _junctionSeamsBuilt = new(StringComparer.Ordinal);
+    private readonly HashSet<string> _junctionTransitionSeamsBuilt = new(StringComparer.Ordinal);
     private readonly HashSet<string> _loadedRouteContextAutomationIds = new(StringComparer.Ordinal);
     private readonly HashSet<string> _routeContextAutomationIdsSeen = new(StringComparer.Ordinal);
     private readonly HashSet<string> _roadVisualObservedChunks = new(StringComparer.Ordinal);
@@ -131,6 +132,8 @@ public sealed partial class WorldStreamer : Node3D
     public bool HasTerrainBackdrop =>
         _terrainBackdrop is { Mesh: not null, Visible: true };
     public IReadOnlyCollection<string> JunctionSeamIdsBuilt => _junctionSeamsBuilt;
+    public IReadOnlyCollection<string> JunctionTransitionSeamIdsBuilt =>
+        _junctionTransitionSeamsBuilt;
     public IReadOnlyCollection<string> RouteContextAutomationIds =>
         _loadedRouteContextAutomationIds;
     public IReadOnlyCollection<string> RouteContextAutomationIdsSeen =>
@@ -854,6 +857,10 @@ public sealed partial class WorldStreamer : Node3D
             _roadVisualKit);
         _junctionSeams.Add(key, seam);
         _junctionSeamsBuilt.Add(key);
+        if (!string.Equals(fromEdge.Id, toEdge.Id, StringComparison.Ordinal))
+        {
+            _junctionTransitionSeamsBuilt.Add(key);
+        }
         MaximumJunctionGapMeters = Math.Max(
             MaximumJunctionGapMeters,
             seam.ConnectionGapMeters);

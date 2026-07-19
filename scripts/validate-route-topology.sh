@@ -40,6 +40,26 @@ run_checked() {
 
 cd "$repo_root"
 
+if [[ -z "${GODOT_BIN:-}" ]]; then
+  echo "GODOT_BIN must name the absolute path to the pinned Godot executable." >&2
+  exit 2
+fi
+case "$GODOT_BIN" in
+  /*|[A-Za-z]:/*) ;;
+  *)
+    echo "GODOT_BIN must be an absolute path: $GODOT_BIN" >&2
+    exit 2
+    ;;
+esac
+if [[ ! -x "$GODOT_BIN" ]]; then
+  echo "GODOT_BIN is not executable: $GODOT_BIN" >&2
+  exit 2
+fi
+if ! env GODOT_BIN="$GODOT_BIN" "$repo_root/scripts/godot.sh" --version >/dev/null; then
+  echo "GODOT_BIN did not pass the pinned Godot version check." >&2
+  exit 2
+fi
+
 run_checked corpus-tests "$reports_dir/corpus-tests.log" \
   uv run --project tools/map_pipeline --frozen pytest \
   tools/map_pipeline/tests/test_pipeline.py \
@@ -61,7 +81,7 @@ run_checked route-context "$reports_dir/route-context.log" \
   "$repo_root/scripts/run-scenario.sh" --fixture route-context --profile signs
 
 run_checked m0 "$reports_dir/m0.log" \
-  "$repo_root/scripts/check.sh"
+  env GODOT_BIN="$GODOT_BIN" "$repo_root/scripts/check.sh"
 
 node - "$repo_root" "$reports_dir" "$evidence_path" <<'NODE'
 const crypto = require("crypto");
@@ -146,7 +166,7 @@ function continuationGeometryMetrics() {
     }
   }
   for (const [key, movements] of movementsByPair) {
-    if (movements.size !== 1 || !movements.has("continuation")) continue;
+    if (!movements.has("continuation")) continue;
     const [fromEdgeId, toEdgeId] = key.split("->");
     const fromSamples = edges.get(fromEdgeId).samples;
     const toSamples = edges.get(toEdgeId).samples;
@@ -170,7 +190,7 @@ function continuationGeometryMetrics() {
 
 const continuationGeometry = continuationGeometryMetrics();
 
-requireMetric(number(topology.min_lanes, "min_lanes") <= topologyContract.minimum_lane_count, "Minimum lane coverage failed.");
+requireMetric(number(topology.min_lanes, "min_lanes") === topologyContract.minimum_lane_count, "Minimum lane coverage failed.");
 requireMetric(number(topology.max_lanes, "max_lanes") >= topologyContract.maximum_lane_count, "Maximum lane coverage failed.");
 requireMetric(number(topology.transitions, "transitions") >= topologyContract.minimum_transitions, "Lane-transition coverage failed.");
 requireMetric(topology.gore === String(topologyContract.gore), "Gore coverage failed.");

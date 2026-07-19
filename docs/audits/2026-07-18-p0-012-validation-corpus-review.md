@@ -1,6 +1,7 @@
 # P0-012 representative validation corpus adversarial review
 
 - Review date: 2026-07-19 UTC
+- Investigation started: 2026-07-18 UTC
 - Reviewed implementation: `ca4e511623d6b059d29d4a34b6f9b6e887819738`
 - Result: machine acceptance passed; required geographic-plausibility and
   route-choice-comprehension human gate remains open as Q-025
@@ -34,8 +35,9 @@ directional transfer, and semi-directional transfer.
 3. The first semi-directional transfer turned too sharply at the gore and left
    the vehicle unsupported. Its entry tangent now aligns with the incoming
    highway, and lane continuity is preserved through a three-lane transfer
-   fixture into its receiving highway. The final bot pass observed at most one
-   unsupported physics frame across all plans.
+   fixture into its receiving highway. The directional-transfer plan observed
+   at most one consecutive unsupported physics frame; the later full-plan pass
+   measured a maximum of eight on the semi-directional transfer.
 4. The aggregate verifier initially requested the undocumented profile name
    `route-context`; the established CLI contract names that profile `signs`.
    The corpus and verifier now use the public CLI spelling and reject a missing
@@ -156,8 +158,8 @@ traffic, vehicle art, and release rights remain separate tasks and gates.
 
 ## Verification reviewed
 
-- `./scripts/validate-route-topology.sh --all-fixtures --evidence evidence/M2/P0-012.json`
+- `GODOT_BIN=/Users/randroid/Documents/Dev/Cannonball-Vibe/.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot ./scripts/validate-route-topology.sh --all-fixtures --evidence evidence/M2/P0-012.json`
 - `./scripts/capture-scenario.sh /tmp/p0-012-topology-review.avi --fixture variable-lanes --topology-review`
 - `CANNONBALL_CAPTURE_FRAMES=7200 ./scripts/capture-scenario.sh /tmp/p0-012-route-choice-driving.avi --fixture representative-interchanges --route-choice-profile`
-- `./scripts/check.sh`
+- `GODOT_BIN=/Users/randroid/Documents/Dev/Cannonball-Vibe/.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot ./scripts/check.sh`
 - `git diff --check`

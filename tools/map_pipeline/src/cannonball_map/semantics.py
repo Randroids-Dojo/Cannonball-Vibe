@@ -415,7 +415,7 @@ def validate_route_semantics(package: dict[str, Any]) -> None:
                 f"Connectors between '{pair[0]}' and '{pair[1]}' create an ambiguous "
                 "lane predecessor."
             )
-        if {movement for _, _, movement in lane_pairs} == {"continuation"}:
+        if "continuation" in {movement for _, _, movement in lane_pairs}:
             deflection = _continuation_deflection_degrees(edges[pair[0]], edges[pair[1]])
             if deflection > MAX_CONTINUATION_DEFLECTION_DEGREES:
                 raise ValueError(

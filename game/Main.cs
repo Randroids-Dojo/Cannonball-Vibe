@@ -1237,7 +1237,7 @@ public sealed partial class Main : Node3D
         {
             _longRouteVisitedEdges.Add(id);
         }
-        foreach (var id in _streamer.JunctionSeamIdsBuilt)
+        foreach (var id in _streamer.JunctionTransitionSeamIdsBuilt)
         {
             _longRouteBuiltSeams.Add(id);
         }
@@ -1291,7 +1291,20 @@ public sealed partial class Main : Node3D
             _longRouteMaximumLocalCoordinateMeters >= WorldStreamer.RebaseThresholdMeters)
         {
             throw new InvalidOperationException(
-                "Long-route acceptance metrics did not satisfy the deterministic scenario contract.");
+                "Long-route acceptance metrics did not satisfy the deterministic scenario contract: " +
+                $"complete={_longRouteComplete} " +
+                $"profiles={_longRouteProfileResults.Count}/{_longRouteAssistProfiles.Length} " +
+                $"chunks={_longRouteVerifiedChunks.Count}/{fixture.Package.Chunks.Count} " +
+                $"edges={_longRouteVisitedEdges.Count}/{fixture.EdgeIds.Count} " +
+                $"transitions={_longRouteSeamCount}/{expectedSeams} " +
+                $"geometry_gap_m={fixture.MaximumGeometryGapMeters:F6} " +
+                $"junction_gap_m={_longRouteMaximumJunctionGapMeters:F6} " +
+                $"collision_misses={_longRouteCollisionMisses} " +
+                $"hash_failures={_longRouteHashFailures} " +
+                $"resume={_longRouteResumeComparisons}/{expectedResumeComparisons} " +
+                $"save_points={_longRouteSavePointsVerifiedMeters.Count}/{_longRouteSavePointMiles.Count} " +
+                $"rebases={_longRouteRebaseCount} " +
+                $"max_local_m={_longRouteMaximumLocalCoordinateMeters:F3}.");
         }
 
         var packageIdentity = RunSave.ComputePackageIdentity(_package);

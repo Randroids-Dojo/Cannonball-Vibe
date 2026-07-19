@@ -42,7 +42,7 @@
         "Godot headless smoke completes and writes a save"
       ],
       "verification": [
-        "./scripts/check.sh"
+        "GODOT_BIN=/absolute/path/to/Godot ./scripts/check.sh"
       ],
       "evidence": [
         "docs/audits/2026-07-14-agentic-readiness.md"
@@ -792,7 +792,7 @@
         "Human review confirms that elevated topology captures and driving captures are geographically plausible and make route decisions understandable"
       ],
       "verification": [
-        "./scripts/validate-route-topology.sh --all-fixtures --evidence evidence/M2/P0-012.json",
+        "GODOT_BIN=/absolute/path/to/Godot ./scripts/validate-route-topology.sh --all-fixtures --evidence evidence/M2/P0-012.json",
         "./scripts/check.sh"
       ],
       "evidence": [

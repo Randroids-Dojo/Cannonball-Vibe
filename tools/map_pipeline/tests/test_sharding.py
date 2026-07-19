@@ -117,7 +117,7 @@ def test_continuation_endpoints_share_the_angle_bisector_tangent() -> None:
             {
                 "from_edge_id": "incoming",
                 "to_edge_id": "outgoing",
-                "movement": "continuation",
+                "movement": "merge",
             },
             {
                 "from_edge_id": "incoming",

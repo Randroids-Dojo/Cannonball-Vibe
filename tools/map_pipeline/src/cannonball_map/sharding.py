@@ -375,7 +375,7 @@ def _continuation_endpoint_tangents(
         pair = str(connector["from_edge_id"]), str(connector["to_edge_id"])
         movements_by_pair[pair].add(str(connector.get("movement")))
     pairs = {
-        pair for pair, movements in movements_by_pair.items() if movements == {"continuation"}
+        pair for pair, movements in movements_by_pair.items() if "continuation" in movements
     }
     result: dict[tuple[str, str], tuple[float, float]] = {}
     for from_edge_id, to_edge_id in sorted(pairs):

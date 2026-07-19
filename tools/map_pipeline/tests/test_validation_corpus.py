@@ -31,7 +31,11 @@ def _locked_source_artifacts(source_lock: dict) -> dict[str, str]:
 
 def _structured_strings(value: object) -> list[str]:
     if isinstance(value, dict):
-        return [item for child in value.values() for item in _structured_strings(child)]
+        return [
+            item
+            for child in (*value.keys(), *value.values())
+            for item in _structured_strings(child)
+        ]
     if isinstance(value, list):
         return [item for child in value for item in _structured_strings(child)]
     return [value] if isinstance(value, str) else []
@@ -44,6 +48,10 @@ def _contains_prohibited_ancestry(value: object) -> bool:
         if "openstreetmap" in compact or PROHIBITED_ANCESTRY.intersection(words):
             return True
     return False
+
+
+def test_prohibited_ancestry_scan_includes_structured_keys() -> None:
+    assert _contains_prohibited_ancestry({"lineage": {"open_street_map": False}})
 
 
 def _provenance_documents(corpus: dict) -> dict[Path, dict]:
