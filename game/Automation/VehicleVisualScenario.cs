@@ -116,6 +116,8 @@ public sealed class VehicleVisualScenario
         _graybox.Visible = false;
         rig.SetDamageHighlight(false);
         rig.SetLod(0);
+        _cockpitCamera.ClearCurrent(enableNext: false);
+        _chaseCamera.MakeCurrent();
         _vehicle.Rotation = Vector3.Zero;
         _chaseArm.SpringLength = 5.4f;
         _chaseArm.Position = new Vector3(0, 1.15f, 1.25f);
@@ -128,9 +130,8 @@ public sealed class VehicleVisualScenario
                 break;
             case 1:
                 SetLighting(daylight: false);
-                _chaseArm.SpringLength = 0.05f;
-                _chaseArm.Position = new Vector3(0, 0.8f, -0.27f);
-                _chaseArm.RotationDegrees = Vector3.Zero;
+                _chaseCamera.ClearCurrent(enableNext: false);
+                _cockpitCamera.MakeCurrent();
                 rig.ApplyPhysicsState(0, 42, 1.0f / 60.0f, [0.16f, 0.16f, 0.16f, 0.16f]);
                 break;
             case 2:
@@ -169,6 +170,8 @@ public sealed class VehicleVisualScenario
         }
         switch (stage)
         {
+            case 1 when !_cockpitCamera.Current || _chaseCamera.Current:
+                throw new InvalidOperationException("Cockpit review did not use the declared cockpit camera anchor.");
             case 3 when Math.Abs(snapshot.SteeringRadians - 0.38f) > 0.001f:
                 throw new InvalidOperationException("Steering-lock visual did not reach the declared angle.");
             case 4 when snapshot.MaximumSuspensionTravelMeters < 0.619f:
