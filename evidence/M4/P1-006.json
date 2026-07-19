@@ -8,7 +8,7 @@
     "os": "macOS",
     "architecture": "arm64"
   },
-  "utc_time": "2026-07-19T17:40:23Z",
+  "utc_time": "2026-07-19T17:53:26Z",
   "tool_versions": {
     "node": "22.22.1",
     "github_cli": "2.96.0",
@@ -118,14 +118,18 @@
     },
     {
       "path": "reports/m0/summary.json",
-      "sha256": "a32fea01e9cdf280bb6d67124c78b6bf84d7b04d208a1a273aeffd101d48bc94"
+      "sha256": "0fb246ad3739cba8aef20c818d3558d434167f1f1644bad42b6395c82d33cba1"
     }
   ],
-  "retry_count": 1,
+  "retry_count": 2,
   "failure_history": [
     {
       "failure": "An optional Ruby YAML validation command used a keyword unsupported by the system Ruby version.",
       "recovery": "Reran the syntax check with the compatible API and used installed actionlint as the workflow authority."
+    },
+    {
+      "failure": "Post-merge hosted draft run 29697620919 failed safely because the GitHub Actions token received HTTP 403 from the immutable-release repository setting endpoint.",
+      "recovery": "Permit only the reversible hosted draft to defer that administrative read; keep publication fail-closed unless a privileged owner token confirms the setting."
     }
   ],
   "recovery_result": {

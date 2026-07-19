@@ -43,6 +43,14 @@ The command:
 5. downloads the complete draft into a new temporary directory, reconstructs
    every retained object, and verifies every checksum.
 
+GitHub's ephemeral Actions token cannot read the repository-admin endpoint for
+the immutable-release setting. The hosted workflow therefore permits that one
+check to be deferred for the reversible draft only; the setting remains
+recorded in ADR-0006 and is rechecked by a privileged token before publication.
+The publish workflow requires a `SOURCE_PUBLICATION_TOKEN` secret that can both
+read the setting and write Releases. Running publication locally with the
+owner's authenticated `gh` session is the simpler default.
+
 Draft creation is reversible and is not public release approval. Do not publish
 until the owner records approval of the exact draft tag and manifest hash.
 
