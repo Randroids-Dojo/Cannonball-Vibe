@@ -1078,21 +1078,8 @@ public sealed partial class RoadChunk : Node3D
         var mesh = new BoxMesh
         {
             Size = new Vector3(0.18f, 0.025f, 2.5f),
-            Material = _visualKit.Gore,
         };
-        var multiMesh = new MultiMesh
-        {
-            TransformFormat = MultiMesh.TransformFormatEnum.Transform3D,
-            Mesh = mesh,
-            InstanceCount = transforms.Count,
-        };
-        for (var index = 0; index < transforms.Count; index++)
-        {
-            multiMesh.SetInstanceTransform(index, transforms[index]);
-        }
-        var gore = new MultiMeshInstance3D { Name = "GoreAreas", Multimesh = multiMesh };
-        MarkRoadSemantic(gore, "gore-markings");
-        AddChild(gore);
+        AddMultiMesh("GoreAreas", "gore-markings", mesh, transforms, _visualKit.Gore);
         HasGoreGeometry = true;
     }
 

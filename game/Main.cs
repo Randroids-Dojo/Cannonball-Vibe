@@ -2222,6 +2222,7 @@ public sealed partial class Main : Node3D
             return;
         }
         ValidateRoadVisualSnapshot(snapshot);
+        ValidateRoadVisualBudgets();
         _roadVisualProfileComplete = true;
         GD.Print(
             $"CANNONBALL_ROAD_VISUAL_OK profile={snapshot.ProfileId} " +
@@ -2232,7 +2233,9 @@ public sealed partial class Main : Node3D
             $"gore_chunks={snapshot.GoreChunkCount} " +
             $"shared_materials={snapshot.SharedMaterialCount} " +
             $"shared_meshes={snapshot.SharedMeshCount} " +
-            $"retroreflective_materials={snapshot.RetroreflectiveMaterialCount}");
+            $"retroreflective_materials={snapshot.RetroreflectiveMaterialCount} " +
+            $"max_visual_build_ms={_streamer.MaximumBuildMilliseconds:0.000} " +
+            $"max_collision_build_ms={_streamer.MaximumCollisionBuildMilliseconds:0.000}");
     }
 
     private void ValidateRoadVisualProfile()
@@ -2244,7 +2247,25 @@ public sealed partial class Main : Node3D
                 "Road-visual profile did not resolve the production-kit contract: " +
                 JsonSerializer.Serialize(incomplete));
         }
+        ValidateRoadVisualBudgets();
         ValidateRoadVisualSnapshot(_streamer.CaptureRoadVisualSnapshot());
+    }
+
+    private void ValidateRoadVisualBudgets()
+    {
+        if (_streamer.ChunkFailureCount > 0 ||
+            _streamer.MaximumBuildMilliseconds >
+                WorldStreamer.InitialChunkBuildBudgetMilliseconds ||
+            _streamer.MaximumCollisionBuildMilliseconds >
+                WorldStreamer.InitialCollisionBuildBudgetMilliseconds)
+        {
+            throw new InvalidOperationException(
+                $"Road-visual profile exceeded a streaming contract: " +
+                $"chunk_failures={_streamer.ChunkFailureCount} " +
+                $"max_visual_build_ms={_streamer.MaximumBuildMilliseconds:0.000} " +
+                $"max_collision_build_ms=" +
+                $"{_streamer.MaximumCollisionBuildMilliseconds:0.000}.");
+        }
     }
 
     private static void ValidateRoadVisualSnapshot(RoadVisualSnapshot snapshot)

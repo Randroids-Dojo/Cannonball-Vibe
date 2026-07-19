@@ -21,26 +21,64 @@ run_and_require() {
     echo "$name did not emit required marker: $marker" >&2
     exit 1
   fi
+  last_log="$work/$name.log"
 }
 
+metric_value() {
+  local line="$1"
+  local key="$2"
+  local value
+  value="$(printf '%s\n' "$line" | rg -o "${key}=[0-9]+([.][0-9]+)?" |
+    cut -d= -f2 || true)"
+  if [[ -z "$value" ]]; then
+    echo "Missing metric '$key' in: $line" >&2
+    exit 1
+  fi
+  printf '%s\n' "$value"
+}
+
+visual_profiles=(production graybox)
 run_and_require production-road-visual \
   'CANNONBALL_ROAD_VISUAL_OK profile=production' \
   ./scripts/run-scenario.sh \
     --fixture representative-interchanges --profile road-visual
+production_log="$last_log"
+production_line="$(rg '^CANNONBALL_ROAD_VISUAL_OK ' "$production_log")"
 
 run_and_require graybox-road-visual \
   'CANNONBALL_ROAD_VISUAL_OK profile=graybox' \
   ./scripts/run-scenario.sh \
     --fixture representative-interchanges --profile road-visual \
     --graybox-road-assets
+graybox_log="$last_log"
+graybox_line="$(rg '^CANNONBALL_ROAD_VISUAL_OK ' "$graybox_log")"
 
-run_and_require variable-lane-topology \
-  'CANNONBALL_TOPOLOGY_OK' \
-  ./scripts/run-scenario.sh --fixture variable-lanes --profile topology
+shared_materials="$(metric_value "$production_line" shared_materials)"
+shared_meshes="$(metric_value "$production_line" shared_meshes)"
+retroreflective_materials="$(metric_value "$production_line" retroreflective_materials)"
+graybox_shared_materials="$(metric_value "$graybox_line" shared_materials)"
+graybox_shared_meshes="$(metric_value "$graybox_line" shared_meshes)"
+graybox_retroreflective_materials="$(
+  metric_value "$graybox_line" retroreflective_materials
+)"
+if [[ "$graybox_shared_materials" != "$shared_materials" ||
+      "$graybox_shared_meshes" != "$shared_meshes" ||
+      "$graybox_retroreflective_materials" != "$retroreflective_materials" ]]; then
+  echo "Production and graybox resource contracts differ." >&2
+  exit 1
+fi
 
-run_and_require representative-route-choices \
-  'CANNONBALL_ROUTE_CHOICE_OK' \
-  ./scripts/run-scenario.sh \
-    --fixture representative-interchanges --profile route-choices
+topology_fixtures=(variable-lanes representative-interchanges)
+topology_profiles=(topology route-choices)
+topology_markers=(CANNONBALL_TOPOLOGY_OK CANNONBALL_INTERCHANGES_OK)
+for index in "${!topology_fixtures[@]}"; do
+  fixture="${topology_fixtures[$index]}"
+  profile="${topology_profiles[$index]}"
+  marker="${topology_markers[$index]}"
+  run_and_require "$fixture-$profile" "$marker" \
+    ./scripts/run-scenario.sh --fixture "$fixture" --profile "$profile"
+done
 
-echo "CANNONBALL_ROAD_ASSETS_OK profiles=2 topology_fixtures=2 shared_materials=18 shared_meshes=5"
+printf 'CANNONBALL_ROAD_ASSETS_OK profiles=%s topology_fixtures=%s shared_materials=%s shared_meshes=%s retroreflective_materials=%s\n' \
+  "${#visual_profiles[@]}" "${#topology_fixtures[@]}" "$shared_materials" \
+  "$shared_meshes" "$retroreflective_materials"
