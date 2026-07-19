@@ -955,7 +955,7 @@
       "milestone": "M3",
       "priority": "P0",
       "title": "Full-screen trip map and authoritative progress",
-      "status": "open",
+      "status": "in_progress",
       "dependencies": [
         "P0-005",
         "P0-012"
@@ -993,7 +993,7 @@
         "name": "Trip-map comprehension and accessibility usability review",
         "required_for": "M3"
       },
-      "notes": "P1-004 completed and ADR-0008 activated on 2026-07-19. PlayGodot is required for the trip map's interactive rendered UI, while Core models and official-engine scenarios remain authoritative for route and simulation behavior and Computer Use remains the black-box visual layer."
+      "notes": "P1-004 completed and ADR-0008 activated on 2026-07-19. PlayGodot is required for the trip map's interactive rendered UI, while Core models and official-engine scenarios remain authoritative for route and simulation behavior and Computer Use remains the black-box visual layer. The first-pass authoritative projection, Godot overlay, official-engine scenario, rendered UI automation, and review capture were implemented at c98b78336f7e6d98576a9523952961bd1ed18d9d. Local feature and M0 gates pass; Q-028 human usability approval plus continental-scale and compression-mode closeout evidence remain before completion."
     },
     {
       "id": "P1-008",

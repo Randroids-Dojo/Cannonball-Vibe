@@ -1,0 +1,124 @@
+{
+  "schema_version": 1,
+  "task_id": "P0-013",
+  "milestone": "M3",
+  "status": "verified_local_human_gate_pending",
+  "git_revision": "c98b78336f7e6d98576a9523952961bd1ed18d9d",
+  "platform": "macOS arm64",
+  "utc_time": "2026-07-19T19:39:15Z",
+  "tool_versions": {
+    "dotnet_sdk": "10.0.102",
+    "uv": "0.9.24",
+    "godot": "4.7.1.stable.mono.official.a13da4feb"
+  },
+  "scenario": {
+    "name": "representative-interchanges-trip-map",
+    "deterministic_seed": null,
+    "arguments": [
+      "--trip-map-review",
+      "--fixture=representative-interchanges"
+    ]
+  },
+  "input_artifacts": [
+    {
+      "path": ".tools/scenarios/representative-interchanges/current-package.json",
+      "sha256": "a457770f25404a327dcca458f8a38aa84d4f680e45280da83b4c91c33e62a1cf"
+    },
+    {
+      "path": ".tools/scenarios/representative-interchanges/route_graph-be597d8f3f451091b3d7bc26a6403108cc10bbdd309095e0cbabb82e615d6ffd.cbrg",
+      "sha256": "04e1645ad99b5f23fe2a2a9513ca1ed1b62f4312d24823270b0fb78f7cb87d1c"
+    },
+    {
+      "path": ".tools/scenarios/representative-interchanges/route_graph-be597d8f3f451091b3d7bc26a6403108cc10bbdd309095e0cbabb82e615d6ffd.json",
+      "sha256": "ac1e213fdbc666fae88934a8cd3d31acc81ff9892396afd9ccb1c70c0674c91c"
+    }
+  ],
+  "commands": [
+    {
+      "command": "DOTNET_ROLL_FORWARD=Major dotnet test Cannonball.sln --filter 'FullyQualifiedName~TripMap'",
+      "exit_code": 0
+    },
+    {
+      "command": "GODOT_BIN=.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot ./scripts/verify-trip-map.sh --automation auto",
+      "exit_code": 0
+    },
+    {
+      "command": "GODOT_BIN=.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot ./scripts/capture-scenario.sh /tmp/p0-013-trip-map.avi --trip-map-review",
+      "exit_code": 0
+    },
+    {
+      "command": "GODOT_BIN=.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot ./scripts/check.sh",
+      "exit_code": 0
+    }
+  ],
+  "metrics": {
+    "trip_map_core_tests_passed": 3,
+    "playgodot_tests_passed": 16,
+    "m0_csharp_tests_passed": 75,
+    "m0_map_pipeline_tests_passed": 78,
+    "m0_playgodot_unit_tests_passed": 12,
+    "capture_frames": 360,
+    "capture_fps": 60,
+    "representative_alternatives": 4,
+    "map_lod_levels": 3
+  },
+  "acceptance_comparisons": [
+    {
+      "criterion": "immutable authoritative projection",
+      "target": "no chunk or scene-transform dependency",
+      "observed": "Core projects edge-plus-distance state exclusively from graph semantics and simplified map geometry",
+      "passed": true
+    },
+    {
+      "criterion": "interactive official-engine UI",
+      "target": "keyboard/controller actions, bounded pan/zoom/recenter, stable semantic IDs",
+      "observed": "official-engine scenario and PlayGodot live flow passed with pause, zoom, recenter, inspection, focus, and screenshot assertions",
+      "passed": true
+    },
+    {
+      "criterion": "solo pause behavior",
+      "target": "driving and authoritative run clock pause while map is open",
+      "observed": "scene tree pauses and elapsed save time subtracts every trip-map-open interval",
+      "passed": true
+    },
+    {
+      "criterion": "human comprehension and accessibility",
+      "target": "owner approval",
+      "observed": "review artifact prepared; Q-028 pending",
+      "passed": false
+    }
+  ],
+  "output_artifacts": [
+    {
+      "path": "docs/images/p0-013-trip-map.png",
+      "sha256": "ba6be730d63ef28d50192cee4c9f3ebc36a4de26e4639d4f3696940a0be8acee"
+    },
+    {
+      "path": "/tmp/p0-013-trip-map.avi",
+      "sha256": "a380895341a2d02cd3ccfad8338994e4cc4c39ef55174378778df6963eb47ba5"
+    },
+    {
+      "path": "reports/m0/summary.json",
+      "sha256": "bfddab38cfbe6249fa5a68276d29ef94c0a6a3e8387daba14a76f245dea88fe8"
+    }
+  ],
+  "failure_logs": [
+    "Initial representative fixture omitted simplified geometry; fixed by deriving deterministic LOD 0, 1, and 2 geometry from route samples.",
+    "Initial PlayGodot harness mounted only the HUD; fixed by mounting production Main.tscn.",
+    "Initial 720p capture overlapped summary and selection text; fixed and re-captured.",
+    "Adversarial review found wall-clock time counted map pauses; fixed with explicit pause accounting.",
+    "The first remote macOS PlayGodot run produced a valid 1024 by 576 trip-map crop and rejected a local-only 1280 by 720 lower bound; fixed with a substantial platform-neutral 16:9 crop assertion."
+  ],
+  "retry_count": 5,
+  "recovery_result": "All local feature and M0 gates pass after corrections; replacement remote matrix pending.",
+  "human_gate": {
+    "name": "Trip-map comprehension and accessibility usability review",
+    "approval_reference": null,
+    "status": "pending",
+    "question": "Q-028"
+  },
+  "pending": [
+    "Human Q-028 approval",
+    "Continental-scale and supported compression-mode closeout evidence"
+  ]
+}

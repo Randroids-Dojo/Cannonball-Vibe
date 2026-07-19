@@ -175,6 +175,11 @@ while [[ $# -gt 0 ]]; do
       scenario_args+=("$1")
       shift
       ;;
+    --trip-map-review)
+      scenario_mode="trip-map"
+      scenario_args+=("$1")
+      shift
+      ;;
     --stress-driver)
       scenario_mode="long-route-stress"
       scenario_args+=("$1")
@@ -230,6 +235,9 @@ if [[ "$scenario_mode" == "vehicle-visual" && "$fixture_explicit" == "false" ]];
   fixture="representative-corridor"
 fi
 if [[ "$scenario_mode" == "road-visual" && "$fixture_explicit" == "false" ]]; then
+  fixture="representative-interchanges"
+fi
+if [[ "$scenario_mode" == "trip-map" && "$fixture_explicit" == "false" ]]; then
   fixture="representative-interchanges"
 fi
 

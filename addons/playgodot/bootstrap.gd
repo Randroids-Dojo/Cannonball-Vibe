@@ -4,12 +4,20 @@ extends Node
 
 
 func _ready() -> void:
-	var speed := get_node("PrototypeHud/Speed") as Label
+	var hud := get_node("Main/PrototypeHud") as CanvasLayer
+	var speed := hud.get_node("Speed") as Label
 	if speed == null:
 		push_error("PlayGodot bootstrap could not find the production HUD speed label")
 		get_tree().quit(1)
 		return
-	speed.text = "60 MPH"
+	for fixture_name in [
+		"AutomationFixtureButton",
+		"DuplicateFixtureA",
+		"DuplicateFixtureB",
+		"ColorFixture",
+		"ActionStateFixture",
+	]:
+		get_node(fixture_name).reparent(hud)
 
 
 func _process(_delta: float) -> void:
