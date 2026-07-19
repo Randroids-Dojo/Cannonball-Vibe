@@ -1,6 +1,6 @@
 # P1-009 highway-kit adversarial review
 
-- Reviewed revision: `4e12f1b854503f7062861e5bdf642f251eb967e9`
+- Reviewed revision: `035ad8877c14cd00dcb299ceea8a255b35c8f284`
 - Comparison base: `origin/main`
 - Scope: procedural road materials and meshes, route-context sign hierarchy,
   semantic nodes, stream-lifetime evidence, scenario/capture modes, production
@@ -36,6 +36,10 @@ tracked contact sheet was inspected at original resolution.
    The streamer now records each unique chunk contract and its visual counts
    once, while ordinary loaded route-context APIs remain correctly scoped to
    current scene state.
+5. Road component automation IDs were stable category names but duplicated in
+   every simultaneously loaded chunk. Each ID now includes its owning chunk ID,
+   and the per-chunk contract rejects missing, duplicate, or incorrectly scoped
+   IDs.
 
 ## Invariants confirmed
 
