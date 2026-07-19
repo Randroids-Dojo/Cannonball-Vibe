@@ -1,7 +1,7 @@
 # P0-012 representative validation corpus adversarial review
 
 - Review date: 2026-07-19 UTC
-- Reviewed implementation: `68eafa17d4a1cf929e3fa3d93d8703407056909a`
+- Reviewed implementation: `ca4e511623d6b059d29d4a34b6f9b6e887819738`
 - Result: machine acceptance passed; required geographic-plausibility and
   route-choice-comprehension human gate remains open as Q-025
 - Runtime: official Godot 4.7.1 .NET
@@ -83,9 +83,12 @@ directional transfer, and semi-directional transfer.
     cuts as visible angle points. The importer now reconstructs one conditioned
     centerline across the full unbranched corridor before splitting it back into
     semantic edges. This also absorbs a 28.284-meter source sliver that pairwise
-    smoothing could not handle correctly. All 44 continuation pairs now remain
-    below the locked 2-degree sampled-boundary limit; the measured maximum is
-    1.324 degrees, and runtime chunks share the exact alignment tangent.
+    smoothing could not handle correctly. A 50-meter design-guide tolerance
+    removes short source doglegs before curve conditioning, matching the civil
+    design sequence of choosing the alignment before staking road sections. All
+    44 continuation pairs now remain below the locked 1-degree sampled-boundary
+    limit; the measured maximum is 0.846 degrees, and runtime chunks share the
+    exact alignment tangent. The tightest sampled curve radius is 360.715 meters.
 16. The large black bars visible beside otherwise connected road surfaces were
     long shadows from cone-shaped placeholder scenery. Shadow casting is now
     disabled only for those placeholders, and the runtime review-geometry gate
@@ -122,8 +125,9 @@ before source-record boundaries are reintroduced.
 - Variable topology reached 2–4 lanes, four transitions, gore and transition
   collision, six local-origin rebases, and `161.1 mph`.
 - The source-backed corridor contains 44 physical continuation pairs. Maximum
-  sampled boundary deflection is `1.324 degrees` against the locked `2-degree`
-  limit, down from the original `151.98-degree` reversal.
+  sampled boundary deflection is `0.846 degrees` against the locked `1-degree`
+  limit, down from the original `151.98-degree` reversal. The minimum sampled
+  alignment radius is `360.715 m`.
 - Route context produced four mile markers, one exit sign, two transfer signs,
   two concurrent markers, four distinct mile values, and seven stable
   automation nodes.
@@ -139,9 +143,9 @@ the four-plan driving capture.
 
 | Artifact | SHA-256 |
 | --- | --- |
-| `/tmp/p0-012-topology-review.avi` | `8036e2055338ee3392fa2e91b7aad4d2b311770371d4002f481fc111c405a8a5` |
-| `/tmp/p0-012-route-choice-driving.avi` | `2b13650ddd1150ca31dce884dabad91c906db694e55b4f03429572e0a731ae42` |
-| `docs/images/p0-012-validation-corpus-review.png` | `45d47646f97433240dbf67f5cee917580a4324085a8991b572928b84537401b2` |
+| `/tmp/p0-012-topology-review.avi` | `a970770d77beba46ad6a52fb4f8b4cfacc916d314b71eb1246374bf091ca654c` |
+| `/tmp/p0-012-route-choice-driving.avi` | `2c97d46678f237082509c240226634c221c92ac34a07a175d5fc7f053fdb930e` |
+| `docs/images/p0-012-validation-corpus-review.png` | `575f3006c63b0f49fc69e832cf2ba7c4a4e9f862e990d1abd45b317233d85004` |
 
 ## Remaining boundary
 

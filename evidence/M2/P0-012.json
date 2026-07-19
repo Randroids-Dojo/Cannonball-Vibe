@@ -3,12 +3,12 @@
   "task_id": "P0-012",
   "milestone": "M2",
   "status": "verified_local_pending_human_review",
-  "git_revision": "68eafa17d4a1cf929e3fa3d93d8703407056909a",
+  "git_revision": "ca4e511623d6b059d29d4a34b6f9b6e887819738",
   "platform": {
     "os": "Darwin 25.6.0",
     "architecture": "arm64"
   },
-  "recorded_at_utc": "2026-07-19T06:04:18.550Z",
+  "recorded_at_utc": "2026-07-19T06:13:58.567Z",
   "tool_versions": {
     "dotnet_sdk": "10.0.102",
     "uv": "0.9.24",
@@ -17,13 +17,13 @@
   "deterministic_seed": 20260714,
   "corpus_lock": {
     "path": "data/routes/fixtures/validation/p0-012-corpus-lock.json",
-    "sha256": "0ea82d11c69510978be46fe8bdcaf6c4662c825fcdb0d7083facf951a8f479a4",
+    "sha256": "58a3f12fcf1b7431300c118581c4e9fdd054824e63f7507b8313b109d68261b7",
     "corpus_id": "p0-012-representative-topology-corpus-v1"
   },
   "input_artifacts": [
     {
       "path": "data/routes/fixtures/validation/legal-variable-lanes.json",
-      "sha256": "24fbf1964a48cf6c8f971c8755667b312a50c4a92e0a3e175b462d0e0af1b04d",
+      "sha256": "423361da5141c61fbdcc06286363774533d9a65056800a725b9bf1293c4ea75e",
       "provenance_kind": "authored_override"
     },
     {
@@ -125,7 +125,7 @@
     "invalid_mutation_count": 8,
     "topology": {
       "checkpoints": "12",
-      "edge": "edge-d7d31cc9c15c243c6edd",
+      "edge": "edge-3a11c16ebb9b3a945413",
       "min_lanes": "2",
       "max_lanes": "4",
       "transitions": "4",
@@ -141,15 +141,18 @@
       "terrain_seams": "13",
       "max_seam_gap_m": "0.000",
       "max_unsupported_frames": "1",
-      "max_visual_build_ms": "13.150",
-      "max_collision_build_ms": "1.096",
+      "max_visual_build_ms": "12.491",
+      "max_collision_build_ms": "1.022",
       "override": "p0-010-variable-lanes-v1",
       "chunk_failures": "0"
     },
     "continuation_geometry": {
       "pair_count": 44,
-      "maximum_source_deflection_degrees": 1.323574,
-      "limit_degrees": 2
+      "maximum_source_deflection_degrees": 0.845471,
+      "deflection_limit_degrees": 1,
+      "maximum_alignment_curvature_per_meter": 0.002772272,
+      "curvature_limit_per_meter": 0.003,
+      "minimum_alignment_radius_meters": 360.715
     },
     "interchanges": {
       "plans": "4",
@@ -167,8 +170,8 @@
       "self_intersections": "0",
       "invalid_shortcuts": "0",
       "max_unsupported_frames": "8",
-      "max_visual_build_ms": "14.475",
-      "max_collision_build_ms": "1.170",
+      "max_visual_build_ms": "14.334",
+      "max_collision_build_ms": "1.067",
       "override": "p0-011-representative-interchanges-v1",
       "chunk_failures": "0"
     },
@@ -181,7 +184,7 @@
       "distinct_mile_values": "4",
       "omissions": "3",
       "automation_nodes": "7",
-      "max_visual_build_ms": "14.827",
+      "max_visual_build_ms": "14.350",
       "chunk_failures": "0"
     }
   },
@@ -198,7 +201,12 @@
     },
     {
       "criterion": "continuation endpoint geometry",
-      "observed": "44 pairs; maximum source deflection 1.323574 degrees against 2-degree limit",
+      "observed": "44 pairs; maximum source deflection 0.845471 degrees against 1-degree limit",
+      "passed": true
+    },
+    {
+      "criterion": "minimum horizontal-alignment radius",
+      "observed": "360.715 meters from sampled curvature",
       "passed": true
     },
     {
@@ -228,35 +236,35 @@
     },
     {
       "path": "reports/M2/P0-012/m0.log",
-      "sha256": "58e108db94deb4af79dd4d492759c2b4a734454abc6a4a38404523c41882ab43"
+      "sha256": "7c261ef044b1e6c35fdcc0c2f7791e9a9cfb882509ee5c3b0cafa324e4f39db7"
     },
     {
       "path": "reports/M2/P0-012/representative-interchanges.log",
-      "sha256": "f8fea5e25508fdd8a631fa2c0a7a8bcafb08309cb206f738b684cc9c2f648317"
+      "sha256": "5649c5c120ced8d432fd27e6e3272861cc5d5f4d20b0994ff5698ffd5f796229"
     },
     {
       "path": "reports/M2/P0-012/route-context.log",
-      "sha256": "a6f16102eac8def31628f36d7f769adc3db8bb00b04fc64c8077c3b45d4c7fc3"
+      "sha256": "668c380b96c51d4f2d9fe0a4bf045e833b5ea008bcd2d3e8febea1371f74948b"
     },
     {
       "path": "reports/M2/P0-012/variable-lanes.log",
-      "sha256": "79f81cc457a2d221f7cb2bf46b0fbb3e58d0e9abfed5ca52e1f8a2bae1aa4412"
+      "sha256": "f17455be726aca96c64e1504598156d02e68ef82a1e765398c0a3b509fc1d1f4"
     },
     {
       "path": "/tmp/p0-012-topology-review.avi",
-      "sha256": "8036e2055338ee3392fa2e91b7aad4d2b311770371d4002f481fc111c405a8a5"
+      "sha256": "a970770d77beba46ad6a52fb4f8b4cfacc916d314b71eb1246374bf091ca654c"
     },
     {
       "path": "/tmp/p0-012-route-choice-driving.avi",
-      "sha256": "2b13650ddd1150ca31dce884dabad91c906db694e55b4f03429572e0a731ae42"
+      "sha256": "2c97d46678f237082509c240226634c221c92ac34a07a175d5fc7f053fdb930e"
     },
     {
       "path": "docs/images/p0-012-validation-corpus-review.png",
-      "sha256": "45d47646f97433240dbf67f5cee917580a4324085a8991b572928b84537401b2"
+      "sha256": "575f3006c63b0f49fc69e832cf2ba7c4a4e9f862e990d1abd45b317233d85004"
     },
     {
       "path": "reports/m0/summary.json",
-      "sha256": "d8a9d6815ebe083095da195633eb2ba4c263a16b11b8e0c504ece5fb29c42012"
+      "sha256": "8d9a12e7ace2b6934c0d894f0eed90ae4707161efd09c744a1e499a000709189"
     }
   ],
   "retry_count": 0,
