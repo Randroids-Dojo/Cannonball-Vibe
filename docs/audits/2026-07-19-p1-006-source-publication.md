@@ -70,3 +70,16 @@ Corrections and controls include:
 No unresolved implementation finding remains. The remaining acceptance blocker
 is the intentional owner gate in
 [Q-027](../QUESTIONS_FOR_RANDROID_2026-07-19_SOURCE_PUBLICATION.md).
+
+## Hosted draft retry
+
+The first post-merge draft run failed safely before acquisition or upload:
+GitHub's ephemeral Actions token returned HTTP 403 from the repository-admin
+immutable-release setting endpoint even with `contents: write`. The local owner
+token can read the setting, while anonymous access returns HTTP 401.
+
+The focused correction allows only `--draft`, only inside GitHub Actions, and
+only with an explicit flag to defer that read. Publication still refuses when
+the setting cannot be confirmed. Hosted publication uses an optional privileged
+`SOURCE_PUBLICATION_TOKEN`; local publication with the authenticated owner CLI
+remains the default. This does not weaken the irreversible boundary.

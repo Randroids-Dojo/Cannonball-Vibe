@@ -8,6 +8,7 @@ approval_reference=""
 output_root="${CANNONBALL_SOURCE_RELEASE_DIR:-$repo_root/.tools/source-retention/release}"
 cache_root="${CANNONBALL_SOURCE_CACHE_DIR:-$repo_root/.tools/source-retention/cache}"
 part_size="${CANNONBALL_SOURCE_PART_SIZE:-1900000000}"
+allow_unverified_immutable_setting_for_draft=0
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -17,6 +18,10 @@ while [[ $# -gt 0 ]]; do
     --output) output_root="$2"; shift 2 ;;
     --cache) cache_root="$2"; shift 2 ;;
     --part-size) part_size="$2"; shift 2 ;;
+    --allow-unverified-immutable-setting-for-draft)
+      allow_unverified_immutable_setting_for_draft=1
+      shift
+      ;;
     *) printf 'Unknown argument: %s\n' "$1" >&2; exit 2 ;;
   esac
 done
@@ -28,9 +33,16 @@ if [[ "$mode" == publish && -z "$approval_reference" ]]; then
   exit 2
 fi
 
-immutable="$(gh api -H 'X-GitHub-Api-Version: 2026-03-10' "repos/$repo/immutable-releases" --jq .enabled)"
-if [[ "$immutable" != true ]]; then
-  printf 'Immutable releases are not enabled for %s.\n' "$repo" >&2
+immutable=""
+if immutable="$(gh api -H 'X-GitHub-Api-Version: 2026-03-10' "repos/$repo/immutable-releases" --jq .enabled 2>/dev/null)"; then
+  if [[ "$immutable" != true ]]; then
+    printf 'Immutable releases are not enabled for %s.\n' "$repo" >&2
+    exit 1
+  fi
+elif [[ "$mode" == draft && $allow_unverified_immutable_setting_for_draft -eq 1 && "${GITHUB_ACTIONS:-}" == true ]]; then
+  printf 'warning: Actions token cannot read the immutable-release setting; draft-only preparation may continue.\n' >&2
+else
+  printf 'Unable to verify the immutable-release setting for %s; refusing %s.\n' "$repo" "$mode" >&2
   exit 1
 fi
 

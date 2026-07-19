@@ -79,12 +79,14 @@ jobs:
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
-        run: ./scripts/source-retention/publish-release.sh --draft
+        run: >-
+          ./scripts/source-retention/publish-release.sh --draft
+          --allow-unverified-immutable-setting-for-draft
       - name: Publish approved immutable draft and verify attestations
         if: ${{ inputs.operation == 'publish' }}
         shell: bash
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.SOURCE_PUBLICATION_TOKEN }}
           APPROVAL_REFERENCE: ${{ inputs.approval_reference }}
         run: >-
           ./scripts/source-retention/publish-release.sh --publish
