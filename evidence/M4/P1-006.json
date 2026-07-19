@@ -2,13 +2,13 @@
   "schema_version": 1,
   "task_id": "P1-006",
   "milestone": "M4",
-  "status": "in_progress_awaiting_verified_draft_and_owner_publication_approval",
-  "git_revision": "a12fc899b2b97ae275d108174cd3b17e361f3d8e",
+  "status": "in_progress_awaiting_owner_publication_approval",
+  "git_revision": "c40b7ec4ce99bfe6aa22e4489cacd1caa0f203e7",
   "platform": {
     "os": "macOS",
     "architecture": "arm64"
   },
-  "utc_time": "2026-07-19T17:53:26Z",
+  "utc_time": "2026-07-19T18:01:28Z",
   "tool_versions": {
     "node": "22.22.1",
     "github_cli": "2.96.0",
@@ -48,7 +48,9 @@
     "package_id": "9a8a9aa07bc8e4f2cf311229e60aac4673fefdff34448c38a23bb4f6924289d8",
     "release_tag": "source-lock-v1-9a8a9aa07bc8e4f2",
     "local_manifest_sha256": "bd5a9f1952d49ff00f1178a07ec35b70d8f275729f66980afa814ba8f487348d",
-    "draft_url": null,
+    "draft_manifest_sha256": "735dc00797ea8998a7cd8a49d44c2ac3d4963045675bd95fd97e421783a2f84b",
+    "draft_url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/releases/tag/untagged-0be3e542fa7aee6b50e3",
+    "draft_target_revision": "c40b7ec4ce99bfe6aa22e4489cacd1caa0f203e7",
     "published_at": null,
     "is_immutable": false,
     "attestations_verified": false
@@ -77,6 +79,14 @@
     {
       "command": "GODOT_BIN=.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot ./scripts/check.sh",
       "exit_status": 0
+    },
+    {
+      "command": "GitHub Actions immutable source retention draft run 29697892648",
+      "exit_status": 0
+    },
+    {
+      "command": "./scripts/source-retention/verify-release.sh --tag source-lock-v1-9a8a9aa07bc8e4f2",
+      "exit_status": 0
     }
   ],
   "acceptance_comparisons": [
@@ -92,8 +102,8 @@
     },
     {
       "criterion": "complete draft independently downloaded and verified",
-      "observed": "local clean reconstruction passed; GitHub draft has not yet been created from merged main",
-      "passed": false
+      "observed": "hosted run 29697892648 downloaded the complete draft into a clean directory and reconstructed all 417,655,374 bytes; a separate macOS verification repeated the result",
+      "passed": true
     },
     {
       "criterion": "published tag, assets, checksums, provenance, and attestations are immutable",
@@ -102,8 +112,8 @@
     },
     {
       "criterion": "clean reconstruction without local or CI cache",
-      "observed": "local assets reconstructed into an empty directory; GitHub-only clean download remains pending the draft",
-      "passed": false
+      "observed": "the hosted verifier used only freshly downloaded GitHub draft assets and a separate local GitHub download also reconstructed every retained object",
+      "passed": true
     },
     {
       "criterion": "ADR-0010 classification blocks mandatory replica triggers",
@@ -119,6 +129,14 @@
     {
       "path": "reports/m0/summary.json",
       "sha256": "0fb246ad3739cba8aef20c818d3558d434167f1f1644bad42b6395c82d33cba1"
+    },
+    {
+      "path": "https://github.com/Randroids-Dojo/Cannonball-Vibe/releases/download/untagged-0be3e542fa7aee6b50e3/source-retention-manifest-v1.json",
+      "sha256": "735dc00797ea8998a7cd8a49d44c2ac3d4963045675bd95fd97e421783a2f84b"
+    },
+    {
+      "path": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29697892648/artifacts/8445564865",
+      "sha256": "40c96907cfdf4bde1f04925a85d63432af435c1825e058f6045814c0eb77aa09"
     }
   ],
   "retry_count": 2,

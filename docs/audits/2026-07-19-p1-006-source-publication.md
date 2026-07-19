@@ -2,8 +2,8 @@
 
 - Date: 2026-07-19
 - Task: P1-006
-- Status: implementation and local reconstruction verified; draft publication
-  and owner approval pending
+- Status: GitHub draft and two independent reconstructions verified; owner
+  publication approval pending
 
 ## Outcome
 
@@ -83,3 +83,19 @@ only with an explicit flag to defer that read. Publication still refuses when
 the setting cannot be confirmed. Hosted publication uses an optional privileged
 `SOURCE_PUBLICATION_TOKEN`; local publication with the authenticated owner CLI
 remains the default. This does not weaken the irreversible boundary.
+
+Run
+[29697892648](https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/29697892648)
+then prepared 17 draft assets against merged revision
+`c40b7ec4ce99bfe6aa22e4489cacd1caa0f203e7`. It independently downloaded the
+complete draft and reconstructed all 417,655,374 retained bytes. The final
+draft manifest SHA-256 is
+`735dc00797ea8998a7cd8a49d44c2ac3d4963045675bd95fd97e421783a2f84b`.
+
+A separate macOS invocation of `verify-release.sh --tag
+source-lock-v1-9a8a9aa07bc8e4f2` downloaded the draft again and produced the
+same package ID, object count, and reconstructed byte count. GitHub reports 17
+uploaded assets whose server-computed digests match the expected content
+digests. The draft remains unpublished and correctly reports `isDraft=true`,
+`isImmutable=false`; immutability and release attestations apply only after the
+owner-approved publish transition.
