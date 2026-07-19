@@ -52,7 +52,7 @@ jobs:
           retention-days: 14
 
   playgodot:
-    name: PlayGodot spike (${{ matrix.os }})
+    name: PlayGodot semantic UI (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
     timeout-minutes: 15
     strategy:
@@ -80,7 +80,7 @@ jobs:
           version: 4.7.1
           use-dotnet: true
           include-templates: false
-      - name: Verify optional PlayGodot spike
+      - name: Verify required PlayGodot semantic UI
         shell: bash
         run: |
           godot_bin="$(command -v godot)"

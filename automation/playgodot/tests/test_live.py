@@ -187,6 +187,71 @@ async def test_official_engine_semantic_round_trip(tmp_path: Path) -> None:
         assert speed["bounds"]["width"] > 40
         assert speed["bounds"]["height"] > 20
 
+        driver_menu = await client.describe("menu.driver.root")
+        assert driver_menu["visible"] is False
+        wait_for_menu = asyncio.create_task(
+            client.request(
+                "signal.wait",
+                {
+                    "automation_id": "menu.driver.root",
+                    "signal": "visibility_changed",
+                    "timeout_ms": 2_000,
+                },
+            )
+        )
+        await asyncio.sleep(0)
+        await client.request("input.key", {"key": "Escape", "state": "press"})
+        await client.request("input.key", {"key": "Escape", "state": "release"})
+        assert (await wait_for_menu)["signal"] == "visibility_changed"
+
+        driver_menu = await client.describe("menu.driver.root")
+        assert driver_menu["visible"] is True
+        assert driver_menu["test_state"] == {
+            "button_count": 3,
+            "open": True,
+            "simulation_paused": True,
+            "status": "Paused at current route position",
+        }
+        focused = await client.request("ui.focused")
+        assert focused["automation_id"] == "menu.driver.resume"
+        assert focused["text"] == "RESUME DRIVE"
+
+        await client.request("input.click", {"automation_id": "menu.driver.options"})
+        menu_status = await client.describe("menu.driver.status")
+        assert menu_status["text"] == "Driving options selected"
+        driver_menu = await client.describe("menu.driver.root")
+        assert driver_menu["test_state"]["status"] == "Driving options selected"
+
+        menu_path = artifacts / "driver-menu.png"
+        menu_screenshot = await client.screenshot(
+            menu_path, automation_id="menu.driver.root"
+        )
+        assert menu_screenshot["bytes"] > 0
+        assert menu_screenshot["width"] >= 390
+        assert menu_screenshot["height"] >= 460
+
+        wait_for_close = asyncio.create_task(
+            client.request(
+                "signal.wait",
+                {
+                    "automation_id": "menu.driver.root",
+                    "signal": "visibility_changed",
+                    "timeout_ms": 2_000,
+                },
+            )
+        )
+        await asyncio.sleep(0)
+        await client.request("input.click", {"automation_id": "menu.driver.resume"})
+        assert (await wait_for_close)["signal"] == "visibility_changed"
+        closed_menu = await client.describe("menu.driver.root")
+        assert closed_menu["visible"] is False
+        assert closed_menu["test_state"] == {
+            "button_count": 3,
+            "open": False,
+            "simulation_paused": False,
+            "status": "closed",
+        }
+
         with pytest.raises(PlayGodotError, match="DUPLICATE_ID"):
             await client.describe("playgodot.fixture.duplicate")
 

@@ -190,17 +190,19 @@ physics and human handling gates.
 
 The project uses the official Godot editor and a project-owned C# scenario
 runner. The custom Godot automation fork and legacy PlayGodot debugger transport
-are retired; the PlayGodot concept remains the selected modernization path when
-rendered UI needs a stable semantic scene-node API. Pure logic uses xUnit,
+are retired. The modern PlayGodot addon is required for interactive rendered UI
+that needs a stable semantic scene-node API. Pure logic uses xUnit,
 content tooling uses pytest, scene and physics behavior uses headless Godot
 scenarios, and deterministic frame capture supplies visual artifacts. Computer
 Use may exercise actual editor or packaged-game windows as a black-box visual
 layer, but deterministic CLI evidence remains authoritative.
 
-A modern PlayGodot implementation must be a debug-only addon on the official
+A modern PlayGodot implementation is a debug-only addon on the official
 engine, with loopback-only authenticated transport, a versioned protocol,
 stable automation IDs, allowlisted mutation, transcripts, and no release-export
-surface. MCP editor bridges or an MCP adapter over PlayGodot are optional
+surface. Its 2026-07-19 driver-menu comparison exposed focus and normalized
+state that the macOS accessibility tree did not expose, activating ADR-0008.
+MCP editor bridges or an MCP adapter over PlayGodot are optional
 experiments. They must not become required infrastructure without an ADR
 demonstrating exact-version support, security, transactional behavior,
 auditability, and unique value beyond the existing tools.

@@ -412,14 +412,20 @@
       "milestone": "M1",
       "priority": "P1",
       "title": "Modern PlayGodot semantic UI automation spike",
-      "status": "in_progress",
+      "status": "complete",
       "dependencies": [
         "P0-001"
       ],
       "owned_paths": [
         "addons/playgodot/",
         "automation/playgodot/",
+        "docs/OPEN_QUESTIONS.md",
         "docs/QUESTIONS_FOR_RANDROID.md",
+        "docs/TECH_STACK.md",
+        "docs/audits/2026-07-19-p1-004-menu-comparison.md",
+        "docs/decisions/ADR-0008-required-playgodot-after-ui-value-gate.md",
+        "docs/images/p1-004-computer-use-menu.jpg",
+        "docs/images/p1-004-playgodot-menu.png",
         "docs/research/2026-07-15-playgodot-modernization.md",
         "evidence/M1/P1-004.json",
         "game/UI/PrototypeHud.cs",
@@ -928,7 +934,7 @@
         "It shows start, destination, current position, traveled path, planned path, route alternatives, selected service stops, upcoming exits and highway transfers, real distance completed, real distance remaining, and mode-aware estimates",
         "Trip progress follows authoritative graph traversal across edge transitions, detours, transfers, route concurrency, save-resume, and supported compression modes while remaining distinct from displayed mile-marker values",
         "Pan, zoom, recenter, route selection, and exit or service inspection remain bounded and responsive on the continental graph",
-        "Interactive controls expose unique stable automation IDs and deterministic semantic state; Core model and official-engine headless input scenarios are always required, while official-engine PlayGodot tests become required only if the ADR-0008 adoption gate approves PlayGodot",
+        "Interactive controls expose unique stable automation IDs and deterministic semantic state; Core model, official-engine headless input scenarios, and official-engine PlayGodot tests are required",
         "Keyboard and controller focus, scalable text, color-independent route differentiation, and representative-player comprehension pass their declared accessibility and usability gates",
         "The map's pause or live-simulation behavior matches the resolved product decision and is communicated before the player opens it"
       ],
@@ -945,7 +951,7 @@
         "name": "Trip-map comprehension and accessibility usability review",
         "required_for": "M3"
       },
-      "notes": "P1-004 is a conditional prerequisite only when ADR-0008's measured adoption gate approves PlayGodot. Otherwise verify the mandatory Core model and official-engine headless scenarios plus recorded Computer Use visual evidence without making PlayGodot a delivery dependency."
+      "notes": "P1-004 completed and ADR-0008 activated on 2026-07-19. PlayGodot is required for the trip map's interactive rendered UI, while Core models and official-engine scenarios remain authoritative for route and simulation behavior and Computer Use remains the black-box visual layer."
     },
     {
       "id": "P1-008",
