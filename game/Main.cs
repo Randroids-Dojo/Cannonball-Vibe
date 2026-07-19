@@ -84,6 +84,7 @@ public sealed partial class Main : Node3D
         RepresentativeInterchangeFixture.StayPlanId,
         RepresentativeInterchangeFixture.ExitPlanId,
         RepresentativeInterchangeFixture.TransferPlanId,
+        RepresentativeInterchangeFixture.SemiDirectionalTransferPlanId,
     ];
     private int _routeChoicePlanIndex;
     private int _routeChoiceTransitionIndex;
@@ -2367,7 +2368,10 @@ public sealed partial class Main : Node3D
             geometry.MinimumVerticalClearanceMeters < 5 ||
             geometry.SelfIntersections != 0 ||
             geometry.InvalidShortcuts != 0 ||
-            geometry.ParallelCarriagewayPairs < 1)
+            geometry.ParallelCarriagewayPairs < 1 ||
+            geometry.MaximumAbsoluteGrade > 0.08 ||
+            geometry.MaximumAbsoluteCurvaturePerMeter > 0.08 ||
+            geometry.MinimumSightlineMeters < 60)
         {
             throw new InvalidOperationException(
                 "Representative interchange geometry failed its grade-separation or topology gates.");
@@ -2382,6 +2386,9 @@ public sealed partial class Main : Node3D
             $"grade_separated_crossings={geometry.GradeSeparatedCrossings} " +
             $"minimum_clearance_m={geometry.MinimumVerticalClearanceMeters:0.000} " +
             $"parallel_carriageways={geometry.ParallelCarriagewayPairs} " +
+            $"max_abs_grade={geometry.MaximumAbsoluteGrade:0.000000} " +
+            $"max_abs_curvature_per_m={geometry.MaximumAbsoluteCurvaturePerMeter:0.000000} " +
+            $"minimum_sightline_m={geometry.MinimumSightlineMeters:0.000} " +
             $"self_intersections=0 invalid_shortcuts=0 " +
             $"max_unsupported_frames={_routeChoiceMaximumUnsupportedFrames} " +
             $"max_visual_build_ms={_routeChoiceMaximumBuildMilliseconds:0.000} " +

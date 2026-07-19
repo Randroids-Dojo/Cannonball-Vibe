@@ -7,7 +7,8 @@ ADR, GDD decision, or delivery-ledger change.
 
 The current multiple-choice handoffs are
 [Q-020 through Q-022](QUESTIONS_FOR_RANDROID_2026-07-18_AUTONOMOUS.md) and
-[Q-024](QUESTIONS_FOR_RANDROID_2026-07-18_HIGHWAY_KIT.md).
+[Q-024](QUESTIONS_FOR_RANDROID_2026-07-18_HIGHWAY_KIT.md), plus the latest
+[systematic-backlog handoff](QUESTIONS_FOR_RANDROID_2026-07-18_SYSTEMATIC_BACKLOG.md).
 
 | ID | Priority | Blocking milestone | Owner | Question | Working default | Evidence required |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -28,6 +29,7 @@ The current multiple-choice handoffs are
 | Q-021 | P1 | M5 | Art + product | Which 300–500 mile region and visual language should define the representative vertical slice? | Extend the Colorado Front Range proof corridor into a varied mountain-to-plains region while keeping region selection data-driven. | Route-system coverage, environmental variety, source and asset availability, performance captures, and human mood/readability review. |
 | Q-022 | P1 | M5 | Runtime + art | What target hardware and quantitative budgets should production vehicle, road, terrain, vegetation, materials, and textures meet? | Enforce provisional static and memory budgets in CI, collect renderer budgets on declared available Windows hardware, then ratify them against the selected representative region and minimum target PC. | CPU/GPU frame-time percentiles, memory high-water, streaming latency, draw calls, triangles, material/texture residency, and LOD quality comparisons. |
 | Q-024 | P1 | M5 | Art + product | Which production highway visual language should govern roads, signs, structures, and roadside assets? | Use contemporary Colorado freeway realism as a reference-informed technical baseline without claiming regulatory compliance. | Representative ordinary-road, lane-change, exit, gore, bridge/overpass, and transfer captures in daylight and night, plus human readability, art-direction, and rights approval. |
+| Q-025 | P0 | M2 | Geodata + product | Does the P0-012 representative validation corpus look geographically plausible and make its route choices understandable enough to unlock M3 map work? | Keep the machine-verified corpus and its review candidate, but do not close the human gate without explicit approval. | Elevated lane-transition views, four-plan driving capture, route-context evidence, and owner approval or actionable corrections. |
 
 ## Recently resolved
 

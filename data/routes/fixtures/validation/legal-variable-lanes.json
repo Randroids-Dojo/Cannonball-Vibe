@@ -1,0 +1,33 @@
+{
+  "fixture_id": "p0-012-variable-lanes-v1",
+  "kind": "legal_runtime_fixture",
+  "scenario": {
+    "fixture": "variable-lanes",
+    "profile": "topology",
+    "success_marker": "CANNONBALL_TOPOLOGY_OK"
+  },
+  "coverage": [
+    "divided_highway",
+    "lane_addition",
+    "lane_drop",
+    "merge",
+    "split",
+    "exit",
+    "entrance"
+  ],
+  "required_metrics": {
+    "minimum_lane_count": 2,
+    "maximum_lane_count": 4,
+    "minimum_transitions": 4,
+    "gore": true,
+    "minimum_rebases": 1,
+    "maximum_chunk_failures": 0
+  },
+  "semantics_provenance": {
+    "kind": "authored_override",
+    "authored_override_id": "p0-010-variable-lanes-v1",
+    "derivation": "Deterministic lane-section and connector overlay used for systems validation; it does not claim observed lane geography.",
+    "parent_fixture": "data/sources/fixtures/nhpn-boulder-westminster-us36.geojson",
+    "parent_lock": "data/sources/representative-corridor-lock.json"
+  }
+}

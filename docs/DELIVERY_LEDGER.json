@@ -765,7 +765,7 @@
       "milestone": "M2",
       "priority": "P0",
       "title": "Representative lane and interchange validation corpus",
-      "status": "open",
+      "status": "in_progress",
       "dependencies": [
         "P0-011",
         "P1-007"
@@ -776,7 +776,10 @@
         "tools/map_pipeline/tests/",
         "tests/Cannonball.Core.Tests/",
         "game/Automation/",
+        "game/Main.cs",
         "scripts/validate-route-topology.sh",
+        "docs/QUESTIONS_FOR_RANDROID_2026-07-18_SYSTEMATIC_BACKLOG.md",
+        "docs/images/p0-012-validation-corpus-review.png",
         "docs/audits/",
         "evidence/M2/P0-012.json"
       ],

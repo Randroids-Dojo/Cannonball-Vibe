@@ -1,0 +1,29 @@
+{
+  "fixture_id": "p0-012-route-context-v1",
+  "kind": "legal_runtime_fixture",
+  "scenario": {
+    "fixture": "route-context",
+    "profile": "signs",
+    "success_marker": "CANNONBALL_ROUTE_CONTEXT_OK"
+  },
+  "coverage": [
+    "route_concurrency",
+    "milepoint_reset",
+    "exit_sign_consistency",
+    "highway_transfer_sign_consistency"
+  ],
+  "required_metrics": {
+    "minimum_concurrent_markers": 2,
+    "minimum_distinct_mile_values": 3,
+    "minimum_exit_signs": 1,
+    "minimum_transfer_signs": 1,
+    "maximum_chunk_failures": 0
+  },
+  "semantics_provenance": {
+    "kind": "authored_override",
+    "authored_override_id": "p0-011-representative-interchanges-v1",
+    "derivation": "Authored route identities, exits, destinations, services, and milepoint records with explicit source-package ancestry.",
+    "parent_fixture": "data/routes/fixtures/validation/legal-interchanges.json",
+    "parent_lock": "data/routes/fixtures/validation/p0-012-corpus-lock.json"
+  }
+}

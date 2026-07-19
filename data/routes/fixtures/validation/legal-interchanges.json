@@ -1,0 +1,48 @@
+{
+  "fixture_id": "p0-012-representative-interchanges-v1",
+  "kind": "legal_runtime_fixture",
+  "scenario": {
+    "fixture": "representative-interchanges",
+    "profile": "route-choices",
+    "success_marker": "CANNONBALL_INTERCHANGES_OK"
+  },
+  "legal_plans": [
+    "stay-current-highway",
+    "take-diamond-exit",
+    "take-directional-transfer",
+    "take-semi-directional-transfer"
+  ],
+  "highway_transfer_forms": [
+    "directional_flyover",
+    "semi_directional_ramp"
+  ],
+  "coverage": [
+    "divided_highway",
+    "exit",
+    "entrance",
+    "overpass",
+    "parallel_edge",
+    "highway_transfer"
+  ],
+  "required_metrics": {
+    "plans": 4,
+    "minimum_connectors": 14,
+    "minimum_grade_separated_crossings": 1,
+    "minimum_vertical_clearance_meters": 5.0,
+    "minimum_parallel_carriageway_pairs": 1,
+    "maximum_self_intersections": 0,
+    "maximum_invalid_shortcuts": 0,
+    "maximum_absolute_grade": 0.08,
+    "maximum_absolute_curvature_per_meter": 0.08,
+    "minimum_sightline_meters": 60.0,
+    "save_resumes_per_plan": 3,
+    "maximum_chunk_failures": 0
+  },
+  "semantics_provenance": {
+    "kind": "authored_override",
+    "authored_override_id": "p0-011-representative-interchanges-v1",
+    "derivation": "Deterministic diamond, directional, and semi-directional interchange overlay used for route validation; it does not claim observed interchange geometry.",
+    "parent_fixture": "data/sources/fixtures/nhpn-boulder-westminster-us36.geojson",
+    "parent_lock": "data/sources/representative-corridor-lock.json"
+  }
+}
