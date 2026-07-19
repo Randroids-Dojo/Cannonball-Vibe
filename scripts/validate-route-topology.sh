@@ -160,9 +160,21 @@ function continuationGeometryMetrics() {
   };
   const deflections = [];
   const curvatures = [];
+  const storedCurvatureErrors = [];
   for (const edge of edges.values()) {
-    for (let index = 1; index < edge.samples.length - 1; index++) {
-      curvatures.push(curvature(edge.samples[index - 1], edge.samples[index], edge.samples[index + 1]));
+    for (let index = 0; index < edge.samples.length; index++) {
+      if (edge.samples.length < 3) {
+        storedCurvatureErrors.push(Math.abs(number(edge.samples[index].curvature, "sample curvature")));
+        continue;
+      }
+      const center = Math.min(Math.max(index, 1), edge.samples.length - 2);
+      const measured = curvature(
+        edge.samples[center - 1], edge.samples[center], edge.samples[center + 1]
+      );
+      curvatures.push(measured);
+      storedCurvatureErrors.push(Math.abs(
+        Math.abs(number(edge.samples[index].curvature, "sample curvature")) - measured
+      ));
     }
   }
   for (const [key, movements] of movementsByPair) {
@@ -184,7 +196,11 @@ function continuationGeometryMetrics() {
     deflection_limit_degrees: topologyContract.maximum_continuation_deflection_degrees,
     maximum_alignment_curvature_per_meter: Number(maximumCurvature.toFixed(9)),
     curvature_limit_per_meter: topologyContract.maximum_alignment_curvature_per_meter,
-    minimum_alignment_radius_meters: Number((1 / maximumCurvature).toFixed(3))
+    minimum_alignment_radius_meters: Number((1 / maximumCurvature).toFixed(3)),
+    maximum_stored_curvature_error_per_meter: Number(
+      Math.max(...storedCurvatureErrors).toFixed(12)
+    ),
+    stored_curvature_error_limit_per_meter: 1e-9
   };
 }
 
@@ -201,6 +217,10 @@ requireMetric(
 requireMetric(
   continuationGeometry.maximum_alignment_curvature_per_meter <= continuationGeometry.curvature_limit_per_meter,
   `Alignment curvature ${continuationGeometry.maximum_alignment_curvature_per_meter} exceeds ${continuationGeometry.curvature_limit_per_meter} per meter.`
+);
+requireMetric(
+  continuationGeometry.maximum_stored_curvature_error_per_meter <= continuationGeometry.stored_curvature_error_limit_per_meter,
+  `Stored curvature error ${continuationGeometry.maximum_stored_curvature_error_per_meter} exceeds ${continuationGeometry.stored_curvature_error_limit_per_meter} per meter.`
 );
 requireMetric(topology.terrain_backdrop === String(topologyContract.terrain_backdrop), "Terrain backdrop coverage failed.");
 requireMetric(number(topology.terrain_seams, "terrain_seams") >= topologyContract.minimum_terrain_seams, "Junction terrain-seam coverage failed.");
@@ -287,6 +307,7 @@ const evidence = {
     {criterion: "continuity, curvature, grade, sightline, intersection, connection, completion, sign, and resume gates", observed: "all declared numeric and semantic scenario contracts passed", passed: true},
     {criterion: "continuation endpoint geometry", observed: `${continuationGeometry.pair_count} pairs; maximum source deflection ${continuationGeometry.maximum_source_deflection_degrees} degrees against ${continuationGeometry.deflection_limit_degrees}-degree limit`, passed: true},
     {criterion: "minimum horizontal-alignment radius", observed: `${continuationGeometry.minimum_alignment_radius_meters} meters from sampled curvature`, passed: true},
+    {criterion: "stored curvature dimensional consistency", observed: `${continuationGeometry.maximum_stored_curvature_error_per_meter} per-meter maximum error`, passed: true},
     {criterion: "recursive approved-source, derived, and authored ancestry", observed: `${corpus.artifacts.length} locked artifacts with explicit provenance kinds`, passed: true},
     {criterion: "bot traversal and invalid mutation rejection", observed: `${interchanges.plans} legal plans and ${readJson(corpus.invalid_mutation_catalog).mutations.length} invalid mutations`, passed: true},
     {criterion: "human geographic plausibility and route-choice comprehension", observed: "review candidate prepared separately; approval remains pending", passed: false}
