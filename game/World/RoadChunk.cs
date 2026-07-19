@@ -109,15 +109,16 @@ public sealed partial class RoadChunk : Node3D
         chunk._visualKit = visualKit;
         var started = Stopwatch.GetTimestamp();
         var anchor = frame.ToWorld(content.Samples[0]);
-        var points = content.Samples
+        var renderSamples = AddLaneTransitionSamples(content.Samples, edge);
+        var points = renderSamples
             .Select(sample => frame.ToWorld(sample).RelativeTo(anchor))
             .ToArray();
-        var tangents = content.Samples
+        var tangents = renderSamples
             .Select(sample => frame.DirectionToWorld(
                 sample.ProjectedTangentX,
                 sample.ProjectedTangentY))
             .ToArray();
-        var layouts = content.Samples
+        var layouts = renderSamples
             .Select(sample => LaneGeometryProfile.Evaluate(edge, sample.DistanceMeters))
             .ToArray();
         chunk.Name = $"RoadChunk-{content.Id}";
@@ -136,9 +137,9 @@ public sealed partial class RoadChunk : Node3D
             section.StartMeters > content.StartMeters &&
             section.StartMeters <= content.EndMeters);
         chunk.MaximumPavedWidthMeters = layouts.Max(layout => layout.PavedWidthMeters);
-        chunk.BuildTerrain(points, tangents, content.Samples, layouts);
-        chunk.BuildRoad(points, tangents, content.Samples, layouts);
-        chunk.BuildLaneMarkings(points, tangents, content.Samples, layouts);
+        chunk.BuildTerrain(points, tangents, renderSamples, layouts);
+        chunk.BuildRoad(points, tangents, renderSamples, layouts);
+        chunk.BuildLaneMarkings(points, tangents, renderSamples, layouts);
         chunk.BuildReflectors(points, tangents, layouts);
         chunk.BuildGoreAreas(points, tangents, layouts);
         chunk.BuildBarriers(points, tangents, layouts);
@@ -150,6 +151,53 @@ public sealed partial class RoadChunk : Node3D
         chunk.BuildMilliseconds = Stopwatch.GetElapsedTime(started).TotalMilliseconds;
         return chunk;
     }
+
+    private static IReadOnlyList<RouteChunkSample> AddLaneTransitionSamples(
+        IReadOnlyList<RouteChunkSample> samples,
+        RouteEdge edge)
+    {
+        var result = samples.ToList();
+        var minimum = samples[0].DistanceMeters;
+        var maximum = samples[^1].DistanceMeters;
+        var criticalDistances = LaneGeometryProfile.GetTransitions(edge)
+            .SelectMany(transition => new[]
+            {
+                transition.StartMeters,
+                transition.BoundaryMeters,
+                transition.EndMeters,
+            })
+            .Where(distance => distance > minimum + 1e-9 && distance < maximum - 1e-9)
+            .Where(distance => result.All(sample =>
+                Math.Abs(sample.DistanceMeters - distance) > 1e-9))
+            .Distinct()
+            .OrderBy(distance => distance)
+            .ToArray();
+        foreach (var distance in criticalDistances)
+        {
+            var afterIndex = result.FindIndex(sample => sample.DistanceMeters > distance);
+            var before = result[afterIndex - 1];
+            var after = result[afterIndex];
+            var factor = (distance - before.DistanceMeters) /
+                (after.DistanceMeters - before.DistanceMeters);
+            var tangentX = Lerp(before.ProjectedTangentX, after.ProjectedTangentX, factor);
+            var tangentY = Lerp(before.ProjectedTangentY, after.ProjectedTangentY, factor);
+            var tangentLength = Math.Sqrt(tangentX * tangentX + tangentY * tangentY);
+            result.Insert(afterIndex, new RouteChunkSample(
+                distance,
+                (float)Lerp(before.LateralMeters, after.LateralMeters, factor),
+                (float)Lerp(before.ElevationMeters, after.ElevationMeters, factor),
+                (float)Lerp(before.Curvature, after.Curvature, factor),
+                (float)Lerp(before.Grade, after.Grade, factor),
+                Lerp(before.ProjectedXMeters, after.ProjectedXMeters, factor),
+                Lerp(before.ProjectedYMeters, after.ProjectedYMeters, factor),
+                tangentX / tangentLength,
+                tangentY / tangentLength));
+        }
+        return result;
+    }
+
+    private static double Lerp(double from, double to, double factor) =>
+        from + (to - from) * factor;
 
     public IReadOnlyList<RouteContextLabelDiagnostic> GetRouteContextLabelDiagnostics(
         Camera3D camera)
@@ -931,8 +979,10 @@ public sealed partial class RoadChunk : Node3D
     private static Dictionary<string, double> GetMarkingOffsets(LaneGeometrySample layout)
     {
         var lanes = layout.Lanes
-            .Where(lane => lane.WidthMeters > 0.05)
+            .Where(lane => lane.WidthMeters > 0.05 && !lane.IsTransitioning)
             .OrderBy(lane => lane.CenterMeters)
+            .ThenBy(lane => lane.Index)
+            .ThenBy(lane => lane.Id, StringComparer.Ordinal)
             .ToArray();
         var result = new Dictionary<string, double>(StringComparer.Ordinal);
         for (var index = 0; index < lanes.Length - 1; index++)

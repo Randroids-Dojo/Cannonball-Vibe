@@ -42,6 +42,11 @@
       "id": "route-plan-lane-discontinuity",
       "test": "RejectsConnectorThatDoesNotContinueSelectedLane",
       "expected_failure": "does not continue"
+    },
+    {
+      "id": "interior-lane-drop-with-persistent-outside-lane",
+      "test": "InteriorLaneDropWithPersistentOutsideLaneIsRejected",
+      "expected_failure": "interior lane"
     }
   ]
 }

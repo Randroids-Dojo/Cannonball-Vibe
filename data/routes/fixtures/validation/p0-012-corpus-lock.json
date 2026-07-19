@@ -5,7 +5,7 @@
   "artifacts": [
     {
       "path": "data/routes/fixtures/validation/legal-variable-lanes.json",
-      "sha256": "423361da5141c61fbdcc06286363774533d9a65056800a725b9bf1293c4ea75e",
+      "sha256": "e97785e940bace133d9eb79280f53a2c7b0fefdf388354b2c74411fb81b348b0",
       "provenance_kind": "authored_override"
     },
     {
@@ -20,7 +20,7 @@
     },
     {
       "path": "data/routes/fixtures/validation/invalid-topology-mutations.json",
-      "sha256": "0fe597ce5a1c023835cc079b0cc056ccfdb4bba70ec505190b2f3e8ffcc0d510",
+      "sha256": "79d274d42e2af91c9b9a29d71b95627d8728bd5b7a896934c326be42602444ca",
       "provenance_kind": "deterministic_derivation"
     },
     {

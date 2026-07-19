@@ -1968,6 +1968,9 @@ public sealed partial class Main : Node3D
             $"edge={_topologyOverlay.EdgeId} min_lanes={_streamer.MinimumObservedLaneCount} " +
             $"max_lanes={_streamer.MaximumObservedLaneCount} " +
             $"transitions={_streamer.TopologyTransitionCount} " +
+            $"minimum_taper_m={_topologyOverlay.MinimumTransitionLengthMeters:0.000} " +
+            $"maximum_taper_slope={_topologyOverlay.MaximumTaperSlope:0.000000} " +
+            $"maximum_through_lane_drift_m={_topologyOverlay.MaximumThroughLaneDriftMeters:0.000000} " +
             $"transition_collision_chunks={_streamer.TopologyCollisionTransitionChunkCount} " +
             $"gore=true max_paved_width_m={_streamer.MaximumPavedWidthMeters:0.000} " +
             $"peak_mph={_peakSpeedMetersPerSecond * 2.236936f:0.0} " +

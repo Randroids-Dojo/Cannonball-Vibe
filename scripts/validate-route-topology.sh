@@ -209,6 +209,9 @@ const continuationGeometry = continuationGeometryMetrics();
 requireMetric(number(topology.min_lanes, "min_lanes") === topologyContract.minimum_lane_count, "Minimum lane coverage failed.");
 requireMetric(number(topology.max_lanes, "max_lanes") >= topologyContract.maximum_lane_count, "Maximum lane coverage failed.");
 requireMetric(number(topology.transitions, "transitions") >= topologyContract.minimum_transitions, "Lane-transition coverage failed.");
+requireMetric(number(topology.minimum_taper_m, "minimum_taper_m") >= topologyContract.minimum_taper_length_meters, "Lane-transition taper length failed.");
+requireMetric(number(topology.maximum_taper_slope, "maximum_taper_slope") <= topologyContract.maximum_taper_slope, "Lane-transition taper slope failed.");
+requireMetric(number(topology.maximum_through_lane_drift_m, "maximum_through_lane_drift_m") <= topologyContract.maximum_through_lane_drift_meters, "Through-lane control-line drift failed.");
 requireMetric(topology.gore === String(topologyContract.gore), "Gore coverage failed.");
 requireMetric(
   continuationGeometry.maximum_source_deflection_degrees <= continuationGeometry.deflection_limit_degrees,
@@ -254,7 +257,8 @@ const reportFiles = fs.readdirSync(reportsDir).filter(name => name.endsWith(".lo
 const reviewFiles = [
   "/tmp/p0-012-topology-review.avi",
   "/tmp/p0-012-route-choice-driving.avi",
-  path.join(repoRoot, "docs/images/p0-012-validation-corpus-review.png")
+  path.join(repoRoot, "docs/images/p0-012-validation-corpus-review.png"),
+  path.join(repoRoot, "docs/images/p0-012-lane-transition-control-line-review.png")
 ];
 for (const filePath of reviewFiles) {
   if (!fs.existsSync(filePath)) {
