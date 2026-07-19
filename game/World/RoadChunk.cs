@@ -51,10 +51,18 @@ public sealed partial class RoadChunk : Node3D
             .Where(node => node is not null)
             .Cast<Node>()
             .ToArray();
+        var automationIds = resolved
+            .Where(node => node.HasMeta("automation_id"))
+            .Select(node => node.GetMeta("automation_id").AsString())
+            .ToArray();
+        var expectedPrefix = $"road.visual.chunk.{ChunkId}.";
         var semanticMetadataComplete = resolved.All(node =>
             node.HasMeta("automation_id") &&
             node.HasMeta("road_visual_kit") &&
-            node.GetMeta("road_visual_kit").AsString() == RoadVisualKit.Version);
+            node.GetMeta("road_visual_kit").AsString() == RoadVisualKit.Version) &&
+            automationIds.Length == resolved.Length &&
+            automationIds.Distinct(StringComparer.Ordinal).Count() == resolved.Length &&
+            automationIds.All(id => id.StartsWith(expectedPrefix, StringComparison.Ordinal));
         return new RoadChunkVisualSnapshot(
             ChunkId,
             _visualKit.ProfileId,
@@ -724,7 +732,7 @@ public sealed partial class RoadChunk : Node3D
             Mesh = _collisionMesh,
             MaterialOverride = _visualKit.Shoulder,
         };
-        RoadVisualKit.MarkSemantic(shoulders, "road.visual.paved-shoulders");
+        MarkRoadSemantic(shoulders, "paved-shoulders");
         AddChild(shoulders);
         var laneMesh = BuildRibbonMesh(
             points,
@@ -740,7 +748,7 @@ public sealed partial class RoadChunk : Node3D
             Mesh = laneMesh,
             MaterialOverride = _visualKit.Pavement,
         };
-        RoadVisualKit.MarkSemantic(surface, "road.visual.pavement");
+        MarkRoadSemantic(surface, "pavement");
         AddChild(surface);
     }
 
@@ -795,7 +803,7 @@ public sealed partial class RoadChunk : Node3D
                 -0.18f),
             MaterialOverride = _visualKit.Terrain,
         };
-        RoadVisualKit.MarkSemantic(terrain, "road.visual.terrain-shoulders");
+        MarkRoadSemantic(terrain, "terrain-shoulders");
         AddChild(terrain);
     }
 
@@ -874,7 +882,7 @@ public sealed partial class RoadChunk : Node3D
             Mesh = markings,
             MaterialOverride = _visualKit.MarkingWhite,
         };
-        RoadVisualKit.MarkSemantic(laneMarkings, "road.visual.lane-markings");
+        MarkRoadSemantic(laneMarkings, "lane-markings");
         AddChild(laneMarkings);
     }
 
@@ -964,13 +972,13 @@ public sealed partial class RoadChunk : Node3D
         }
         AddMultiMesh(
             "MedianReflectors",
-            "road.visual.reflectors.median",
+            "reflectors.median",
             _visualKit.ReflectorMesh,
             yellow,
             _visualKit.ReflectorYellow);
         AddMultiMesh(
             "LaneReflectors",
-            "road.visual.reflectors.lane-and-shoulder",
+            "reflectors.lane-and-shoulder",
             _visualKit.ReflectorMesh,
             white,
             _visualKit.ReflectorWhite);
@@ -1015,7 +1023,7 @@ public sealed partial class RoadChunk : Node3D
 
     private void AddMultiMesh(
         string name,
-        string automationId,
+        string automationSuffix,
         Mesh mesh,
         IReadOnlyList<Transform3D> transforms,
         Material? materialOverride = null)
@@ -1040,7 +1048,7 @@ public sealed partial class RoadChunk : Node3D
             Multimesh = multiMesh,
             MaterialOverride = materialOverride,
         };
-        RoadVisualKit.MarkSemantic(instance, automationId);
+        MarkRoadSemantic(instance, automationSuffix);
         AddChild(instance);
     }
 
@@ -1083,7 +1091,7 @@ public sealed partial class RoadChunk : Node3D
             multiMesh.SetInstanceTransform(index, transforms[index]);
         }
         var gore = new MultiMeshInstance3D { Name = "GoreAreas", Multimesh = multiMesh };
-        RoadVisualKit.MarkSemantic(gore, "road.visual.gore-markings");
+        MarkRoadSemantic(gore, "gore-markings");
         AddChild(gore);
         HasGoreGeometry = true;
     }
@@ -1125,17 +1133,17 @@ public sealed partial class RoadChunk : Node3D
         }
         AddMultiMesh(
             "RoadBarriers",
-            "road.visual.median-barriers",
+            "median-barriers",
             _visualKit.MedianBarrierMesh,
             barrierTransforms);
         AddMultiMesh(
             "Guardrails",
-            "road.visual.guardrails",
+            "guardrails",
             _visualKit.GuardrailMesh,
             guardrailTransforms);
         AddMultiMesh(
             "GuardrailPosts",
-            "road.visual.guardrail-posts",
+            "guardrail-posts",
             _visualKit.GuardrailPostMesh,
             guardrailPostTransforms);
         BarrierSegmentCount = barrierTransforms.Count;
@@ -1164,7 +1172,7 @@ public sealed partial class RoadChunk : Node3D
 
         AddMultiMesh(
             "RoadsidePosts",
-            "road.visual.delineator-posts",
+            "delineator-posts",
             _visualKit.DelineatorMesh,
             transforms);
 
@@ -1191,10 +1199,13 @@ public sealed partial class RoadChunk : Node3D
         };
         AddMultiMesh(
             "TerrainScenery",
-            "road.visual.placeholder-scenery",
+            "placeholder-scenery",
             treeMesh,
             treeTransforms);
     }
+
+    private void MarkRoadSemantic(Node node, string suffix) =>
+        RoadVisualKit.MarkSemantic(node, $"road.visual.chunk.{ChunkId}.{suffix}");
 }
 
 public sealed record RouteContextLabelDiagnostic(
