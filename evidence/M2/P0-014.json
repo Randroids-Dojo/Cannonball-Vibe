@@ -30,16 +30,19 @@
     {
       "command": "DOTNET_ROLL_FORWARD=Major dotnet test Cannonball.sln --no-restore",
       "result": "passed",
+      "exit_status": 0,
       "tests_passed": 72
     },
     {
       "command": "uv run --project tools/map_pipeline --frozen pytest tools/map_pipeline/tests -q",
       "result": "passed",
+      "exit_status": 0,
       "tests_passed": 78
     },
     {
       "command": "./scripts/run-scenario.sh --fixture representative-interchanges --profile road-visual",
       "result": "CANNONBALL_ROAD_VISUAL_OK",
+      "exit_status": 0,
       "visual_chunks": 9,
       "opposing_carriageway_chunks": 1,
       "collision_chunks_at_completion": 1,
@@ -51,6 +54,7 @@
     {
       "command": "./scripts/validate-route-topology.sh --all-fixtures --evidence evidence/M2/P0-012.json",
       "result": "CANNONBALL_ROUTE_CORPUS_OK",
+      "exit_status": 0,
       "legal_fixtures": 3,
       "invalid_mutations": 12,
       "legal_interchange_plans": 4,
@@ -60,6 +64,7 @@
     {
       "command": "GODOT_BIN=/absolute/pinned/Godot ./scripts/check.sh",
       "result": "passed",
+      "exit_status": 0,
       "dotnet_tests": 72,
       "map_pipeline_tests": 78,
       "playgodot_unit_tests": 12,
@@ -130,6 +135,12 @@
   ],
   "adversarial_review": "docs/audits/2026-07-19-p0-014-directed-carriageway-review.md",
   "owner_questions": "docs/QUESTIONS_FOR_RANDROID_2026-07-19_CARRIAGEWAYS_AND_TRAFFIC.md",
+  "retry_count": 0,
+  "failure_history": [],
+  "recovery_result": {
+    "status": "not_needed",
+    "summary": "All final recorded commands passed without retry or recovery."
+  },
   "human_gate": null,
   "follow_up_task": "P0-015"
 }
