@@ -849,16 +849,24 @@
       "milestone": "M5",
       "priority": "P1",
       "title": "Production-ready rigged hero vehicle",
-      "status": "open",
+      "status": "in_progress",
       "dependencies": [
         "P1-002"
       ],
       "owned_paths": [
         "assets/vehicles/",
         "data/assets/vehicles/",
+        "tools/assets/validate_manifest.mjs",
+        "tools/assets/validate_release_pack.mjs",
+        "tools/vehicles/",
         "game/Vehicle/Visuals/",
+        "game/Vehicle/VehicleVisualRig.cs",
+        "game/Vehicle/CannonballVehicle.cs",
         "game/Automation/VehicleVisualScenario.cs",
+        "scripts/run-scenario.sh",
+        "scripts/capture-scenario.sh",
         "scripts/verify-vehicle-asset.sh",
+        "docs/QUESTIONS_FOR_RANDROID_2026-07-18_AUTONOMOUS.md",
         "evidence/M5/P1-008.json"
       ],
       "acceptance": [
@@ -882,7 +890,7 @@
         "name": "Hero vehicle art direction and final rights approval",
         "required_for": "M5"
       },
-      "notes": "Vehicle concept and acquisition path remain Q-020. Temporary licensed art may prove the pipeline but cannot satisfy the final original-vehicle gate."
+      "notes": "Vehicle concept and acquisition path remain Q-020. The project-original procedural Hero GT is the autonomous working baseline documented in docs/QUESTIONS_FOR_RANDROID_2026-07-18_AUTONOMOUS.md; it may satisfy technical gates but cannot close final art direction without human approval."
     },
     {
       "id": "P1-009",

@@ -26,9 +26,11 @@ public sealed partial class CannonballVehicle : RigidBody3D
     ];
 
     private readonly IDriveInput _driveInput = new GodotDriveInput();
+    private readonly float[] _wheelCompressionMeters = new float[4];
     private bool _resetRequested;
     private int _consecutiveUnsupportedPhysicsFrames;
     private bool _hasBeenGrounded;
+    private float _currentSteerAngleRadians;
 
     public bool AutopilotEnabled { get; set; }
     public AssistProfile AssistProfile { get; private set; } = AssistProfile.Balanced;
@@ -42,6 +44,9 @@ public sealed partial class CannonballVehicle : RigidBody3D
     public int PostGroundingPhysicsFrames { get; private set; }
     public int WellGroundedPhysicsFrames { get; private set; }
     public int MaximumConsecutiveUnsupportedPhysicsFrames { get; private set; }
+    public VehicleVisualRig? VisualRig { get; private set; }
+    public bool UsesGrayboxVisual { get; private set; }
+    public bool ForceGrayboxVisual { get; set; }
 
     public override void _Ready()
     {
@@ -62,7 +67,6 @@ public sealed partial class CannonballVehicle : RigidBody3D
 
     public override void _PhysicsProcess(double delta)
     {
-        _ = delta;
         var input = AutopilotEnabled ? ReadAutopilot() : _driveInput.Read();
         if (input.Reset || _resetRequested || Position.Y < -20)
         {
@@ -73,6 +77,12 @@ public sealed partial class CannonballVehicle : RigidBody3D
 
         ApplySuspensionAndTireForces(input);
         ApplyPowerAndStability(input);
+        var longitudinalSpeed = LinearVelocity.Dot(-GlobalTransform.Basis.Z.Normalized());
+        VisualRig?.ApplyPhysicsState(
+            _currentSteerAngleRadians,
+            longitudinalSpeed,
+            (float)delta,
+            _wheelCompressionMeters);
     }
 
     public void RequestReset() => _resetRequested = true;
@@ -116,6 +126,10 @@ public sealed partial class CannonballVehicle : RigidBody3D
 
     public void SetAssistProfile(AssistProfile profile) => AssistProfile = profile;
 
+    public void SetVisualLod(int lod) => VisualRig?.SetLod(lod);
+
+    public void SetDamageHighlight(bool visible) => VisualRig?.SetDamageHighlight(visible);
+
     private DriveInputState ReadAutopilot()
     {
         var heading = -GlobalTransform.Basis.Z.Normalized();
@@ -153,7 +167,9 @@ public sealed partial class CannonballVehicle : RigidBody3D
             _ => 1.0f,
         };
         var steerAngle = input.Steering * MaximumSteerAngleRadians * steerScale * steerResponse;
+        _currentSteerAngleRadians = steerAngle;
         var groundedWheels = 0;
+        Array.Clear(_wheelCompressionMeters);
 
         for (var index = 0; index < WheelPositions.Length; index++)
         {
@@ -174,6 +190,7 @@ public sealed partial class CannonballVehicle : RigidBody3D
             var normal = ((Vector3)hit["normal"]).Normalized();
             var distance = rayStart.DistanceTo(contact) - 0.15f - WheelRadius;
             var compression = Mathf.Clamp(SpringRestLength - distance, 0, SpringRestLength);
+            _wheelCompressionMeters[index] = compression;
             var offset = contact - GlobalPosition;
             var pointVelocity = LinearVelocity + AngularVelocity.Cross(offset);
             var suspensionVelocity = pointVelocity.Dot(normal);
@@ -267,6 +284,22 @@ public sealed partial class CannonballVehicle : RigidBody3D
     {
         var shape = new BoxShape3D { Size = new Vector3(1.86f, 0.64f, 4.45f) };
         AddChild(new CollisionShape3D { Name = "ChassisCollision", Shape = shape });
+        UsesGrayboxVisual = ForceGrayboxVisual ||
+            OS.GetCmdlineUserArgs().Contains("--graybox-vehicle", StringComparer.Ordinal);
+        if (!UsesGrayboxVisual)
+        {
+            var wrapper = ResourceLoader.Load<PackedScene>(
+                "res://game/Vehicle/Visuals/HeroGt.tscn");
+            if (wrapper is null)
+            {
+                throw new InvalidOperationException("Hero GT wrapper scene could not be loaded.");
+            }
+            VisualRig = wrapper.Instantiate<VehicleVisualRig>();
+            VisualRig.Position = new Vector3(0, -0.76f, 0);
+            AddChild(VisualRig);
+            return;
+        }
+
         var material = new StandardMaterial3D
         {
             AlbedoColor = new Color("b7172b"),
@@ -293,5 +326,16 @@ public sealed partial class CannonballVehicle : RigidBody3D
         };
         arm.AddChild(new Camera3D { Name = "ChaseCamera", Current = true, Fov = 76 });
         AddChild(arm);
+        if (VisualRig?.CockpitCameraAnchor is not null)
+        {
+            VisualRig.CockpitCameraAnchor.AddChild(new Camera3D
+            {
+                Name = "CockpitCamera",
+                Current = false,
+                Fov = 72,
+                Near = 0.08f,
+                Position = new Vector3(0, 0.28f, -0.42f),
+            });
+        }
     }
 }

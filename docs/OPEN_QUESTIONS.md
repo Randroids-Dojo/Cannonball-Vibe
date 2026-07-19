@@ -5,6 +5,9 @@ architecture, validation, or release. Defaults permit progress; they are not
 final answers. Close a question by recording evidence and linking the resulting
 ADR, GDD decision, or delivery-ledger change.
 
+The current multiple-choice handoff for Q-020 through Q-022 is
+[QUESTIONS_FOR_RANDROID_2026-07-18_AUTONOMOUS.md](QUESTIONS_FOR_RANDROID_2026-07-18_AUTONOMOUS.md).
+
 | ID | Priority | Blocking milestone | Owner | Question | Working default | Evidence required |
 | --- | --- | --- | --- | --- | --- | --- |
 | Q-001 | P0 | M3 | Product | Is 1:1 travel the main commercial mode or an endurance variant? | Build 1:1 first while preserving data and scoring for compression. | Long-run retention tests at 1:1, 3:1, and selective cruise compression. |

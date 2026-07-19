@@ -4,6 +4,8 @@ import { readFileSync } from "node:fs";
 
 const path = process.argv[2];
 if (!path) throw new Error("usage: validate_release_pack.mjs PACKAGE.pck");
+const assetArgument = process.argv.find((value) => value.startsWith("--asset="));
+const assetId = assetArgument?.slice("--asset=".length) ?? "graybox-road-module";
 const bytes = readFileSync(path);
 let offset = 0;
 const u32 = () => { const value = bytes.readUInt32LE(offset); offset += 4; return value; };
@@ -29,9 +31,13 @@ for (let index = 0; index < count; index++) {
   offset += 16;
   u32();
 }
-const forbidden = paths.filter((value) => value.endsWith(".blend") || value.includes("tools/assets/") || value.includes("data/assets/"));
+const forbidden = paths.filter((value) => value.endsWith(".blend") || value.includes("tools/") || value.includes("data/assets/"));
 if (forbidden.length) throw new Error(`Release pack contains build-only asset inputs: ${forbidden.join(", ")}`);
-const wrapperPresent = paths.some((value) => value.includes("graybox-road-module.tscn"));
-const importedAssetPresent = paths.some((value) => /(^|\/)\.godot\/imported\/graybox-road-module\.glb-[0-9a-f]+\.scn$/i.test(value));
+const wrapperPresent = paths.some((value) => value.endsWith(`/${assetId}.tscn`) ||
+  value.endsWith(`/${assetId}.tscn.remap`) ||
+  (assetId === "hero-gt" && (value.endsWith("/HeroGt.tscn") || value.endsWith("/HeroGt.tscn.remap"))));
+const escapedAssetId = assetId.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+const importedPattern = new RegExp(`(^|/)\\.godot/imported/${escapedAssetId}\\.glb-[0-9a-f]+\\.scn$`, "i");
+const importedAssetPresent = paths.some((value) => importedPattern.test(value));
 if (!wrapperPresent || !importedAssetPresent) throw new Error("Release pack is missing the wrapper or imported GLB");
-console.log(`CANNONBALL_ASSET_RELEASE_OK files=${paths.length} wrapper=1 imported_glb=1 build_dependencies=0`);
+console.log(`CANNONBALL_ASSET_RELEASE_OK asset=${assetId} files=${paths.length} wrapper=1 imported_glb=1 build_dependencies=0`);
