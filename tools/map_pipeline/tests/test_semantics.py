@@ -222,12 +222,13 @@ def test_divided_carriageways_are_reciprocal_and_survive_flatbuffer(tmp_path: Pa
         "chunks": [],
     }
     package["edges"][0].update(
+        source_signed_direction="eastbound",
         source_roadway_kind="divided_carriageway",
         source_carriageway_group_id="i70-pair",
         source_opposing_feature_id="westbound",
     )
     package["edges"][1].update(
-        source_signed_direction="west",
+        source_signed_direction="westbound",
         source_roadway_kind="divided_carriageway",
         source_carriageway_group_id="i70-pair",
         source_opposing_feature_id="eastbound",

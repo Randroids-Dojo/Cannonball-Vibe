@@ -368,7 +368,12 @@ def validate_route_semantics(package: dict[str, Any]) -> None:
         expected_ids = [section["id"] for section in edge_sections]
         if edge.get("lane_section_ids") != expected_ids:
             raise ValueError(f"Edge '{edge_id}' lane-section references are not canonical.")
-        if len({str(section["signed_direction"]) for section in edge_sections}) != 1:
+        if len(
+            {
+                _normalize_signed_direction(str(section["signed_direction"]))
+                for section in edge_sections
+            }
+        ) != 1:
             raise ValueError(
                 f"Edge '{edge_id}' changes signed direction between lane sections."
             )
@@ -588,20 +593,25 @@ def _validate_carriageway_semantics(edges: dict[str, dict[str, Any]]) -> None:
 
 
 def _opposing_signed_directions(first: str, second: str) -> bool:
-    aliases = {
-        "eastbound": "east",
-        "westbound": "west",
-        "northbound": "north",
-        "southbound": "south",
-    }
-    first = aliases.get(first.strip().casefold(), first.strip().casefold())
-    second = aliases.get(second.strip().casefold(), second.strip().casefold())
+    first = _normalize_signed_direction(first)
+    second = _normalize_signed_direction(second)
     return (first, second) in {
         ("east", "west"),
         ("west", "east"),
         ("north", "south"),
         ("south", "north"),
     }
+
+
+def _normalize_signed_direction(value: str) -> str:
+    aliases = {
+        "eastbound": "east",
+        "westbound": "west",
+        "northbound": "north",
+        "southbound": "south",
+    }
+    normalized = value.strip().casefold()
+    return aliases.get(normalized, normalized)
 
 
 def map_geometry_payload(edge_id: str, lod: int, points: list[dict[str, Any]]) -> bytes:
