@@ -110,6 +110,176 @@
       "human_gate": null
     },
     {
+      "id": "P0-017",
+      "milestone": "M0",
+      "priority": "P0",
+      "title": "Decoupled chase and cockpit camera system",
+      "status": "in_progress",
+      "dependencies": [
+        "P0-006",
+        "P1-004"
+      ],
+      "owned_paths": [
+        "game/Camera/",
+        "game/Vehicle/CannonballVehicle.cs",
+        "game/Main.cs",
+        "game/UI/PrototypeHud.cs",
+        "game/Automation/CameraHandlingScenario.cs",
+        "automation/playgodot/tests/test_live.py",
+        "automation/playgodot/tests/test_camera_handling.py",
+        "scripts/verify-camera-handling.sh",
+        "scripts/capture-scenario.sh",
+        "docs/audits/2026-07-19-p0-017-camera-foundation.md",
+        "evidence/M0/P0-017.json"
+      ],
+      "acceptance": [
+        "The chase camera follows vehicle position and damped heading without inheriting rigid-body pitch, roll, suspension shake, or instantaneous steering rotation",
+        "Tunable follow distance, height, look-ahead, yaw damping, recenter delay, and speed response preserve a stable horizon and readable road sightline from rest through the declared high-speed target",
+        "Camera collision avoidance prevents terrain, barrier, sign, vehicle-body, and streamed-geometry clipping without abrupt zoom oscillation",
+        "The cockpit camera remains vehicle-local while bounded stabilization, look controls, and transitions between cockpit and chase preserve steering continuity and speed readability",
+        "Reset, collision, grade changes, route transitions, local-origin rebases, save-resume, pause, and input-device changes cannot leave either camera detached, inverted, occluded, or pointed away from the drivable path",
+        "Deterministic official-engine scenarios, stable semantic automation state, and renderer captures make camera lag, horizon error, occlusion, clipping, and mode transitions reviewable"
+      ],
+      "verification": [
+        "./scripts/verify-camera-handling.sh --all-scenarios",
+        "./scripts/capture-scenario.sh /tmp/p0-017-camera-handling.avi --fixture representative-corridor --camera-handling-review",
+        "./scripts/check.sh"
+      ],
+      "evidence": [
+        "evidence/M0/P0-017.json"
+      ],
+      "human_gate": {
+        "name": "Cockpit and chase camera comfort and readability review",
+        "required_for": "M0",
+        "status": "pending"
+      },
+      "notes": "P0-017 owns camera behavior and the vehicle integration seam. P1-008 supplies stable visual camera anchors and must coordinate edits to CannonballVehicle.cs while either task is active. Production vehicle art is not required because the graybox vehicle must satisfy the same camera contract."
+    },
+    {
+      "id": "P0-018",
+      "milestone": "M0",
+      "priority": "P0",
+      "title": "Keyboard and controller input conditioning",
+      "status": "open",
+      "dependencies": [
+        "P0-017"
+      ],
+      "owned_paths": [
+        "game/Input/",
+        "game/Vehicle/DrivingInputController.cs",
+        "game/Vehicle/CannonballVehicle.cs",
+        "game/Automation/DrivingInputScenario.cs",
+        "automation/playgodot/tests/test_driving_input.py",
+        "scripts/verify-driving-input.sh",
+        "tests/Cannonball.Core.Tests/",
+        "evidence/M0/P0-018.json"
+      ],
+      "acceptance": [
+        "Keyboard steering ramps in, returns, and changes direction without full-lock snaps while controller steering uses a configurable deadzone, response curve, and rate limit",
+        "Throttle, service brake, reverse, and handbrake inputs remain distinct and support keyboard buttons plus independent controller axes without sticky or contradictory states",
+        "Speed-sensitive steering reduces excessive high-speed authority while preserving useful low-speed maneuvering and never rotates the camera directly",
+        "A stationary hold prevents uncommanded rollback or creep at the route start and on supported grades while releasing predictably for intentional throttle or reverse",
+        "Accessible, Balanced, and Raw profiles expose deterministic, bounded input-conditioning values and persist their selected profile through save-resume",
+        "Focus loss, pause, controller disconnect and reconnect, device switching, reset, and save-resume clear or reconstruct input state without unintended acceleration, braking, or steering",
+        "Official-engine automation reports raw and conditioned inputs, response timing, saturation, device source, and active profile through stable semantic state"
+      ],
+      "verification": [
+        "./scripts/verify-driving-input.sh --devices keyboard,controller --profiles all",
+        "DOTNET_ROLL_FORWARD=Major dotnet test Cannonball.sln --filter 'FullyQualifiedName~DrivingInput'",
+        "./scripts/check.sh"
+      ],
+      "evidence": [
+        "evidence/M0/P0-018.json"
+      ],
+      "human_gate": null,
+      "notes": "Physical steering wheels, pedals, and force feedback remain governed by Q-006 and are deliberately outside this keyboard-and-controller baseline."
+    },
+    {
+      "id": "P0-019",
+      "milestone": "M0",
+      "priority": "P0",
+      "title": "High-speed vehicle dynamics and assist tuning",
+      "status": "open",
+      "dependencies": [
+        "P0-010",
+        "P0-012",
+        "P0-018"
+      ],
+      "owned_paths": [
+        "src/Cannonball.Core/Simulation/Vehicle/",
+        "game/Vehicle/CannonballVehicle.cs",
+        "game/Vehicle/VehicleDynamicsProfile.cs",
+        "game/Automation/VehicleDynamicsScenario.cs",
+        "tests/Cannonball.Core.Tests/",
+        "scripts/verify-vehicle-dynamics.sh",
+        "scripts/capture-scenario.sh",
+        "evidence/M0/P0-019.json"
+      ],
+      "acceptance": [
+        "Raycast suspension, tire lateral and longitudinal grip, braking, drag, downforce, center of mass, yaw stabilization, and rollover resistance are tuned as one coherent model from rest through at least 200 mph",
+        "Accessible, Balanced, and Raw profiles are materially distinct, deterministic, documented, and bounded; assists preserve player intent instead of steering an invisible route-following car",
+        "Steering response, stopping distance, lateral acceleration, slip angle, yaw rate, chassis pitch and roll, suspension travel, wheel contact, and recovery time stay within declared bands at cruise, push, and redline speeds",
+        "Representative grades, curves, lane transitions, shoulders, gore areas, barriers, road departure and re-entry, spins, collisions, and reset recovery do not produce unexplained launches, tunneling, permanent oscillation, or unrecoverable control state",
+        "Vehicle state remains equivalent across frame-rate bands, stream transitions, local-origin rebases, save-resume, and deterministic replay within declared tolerances",
+        "The implementation remains a forgiving high-speed game model and does not expand into simulation-grade drivetrain, tire-carcass, thermal, or crash-reconstruction scope"
+      ],
+      "verification": [
+        "./scripts/verify-vehicle-dynamics.sh --profiles all --speed-bands all --fixtures all",
+        "DOTNET_ROLL_FORWARD=Major dotnet test Cannonball.sln --filter 'FullyQualifiedName~VehicleDynamics'",
+        "./scripts/capture-scenario.sh /tmp/p0-019-vehicle-dynamics.avi --fixture representative-interchanges --vehicle-dynamics-review",
+        "./scripts/check.sh"
+      ],
+      "evidence": [
+        "evidence/M0/P0-019.json"
+      ],
+      "human_gate": null,
+      "notes": "Quantitative bands must be recorded before tuning is declared complete so acceptance cannot be moved to match a preferred result."
+    },
+    {
+      "id": "P0-020",
+      "milestone": "M0",
+      "priority": "P0",
+      "title": "Handling validation corpus and sustained play sessions",
+      "status": "open",
+      "dependencies": [
+        "P0-012",
+        "P0-017",
+        "P0-018",
+        "P0-019"
+      ],
+      "owned_paths": [
+        "data/routes/fixtures/handling/",
+        "game/Automation/HandlingValidationScenario.cs",
+        "automation/playgodot/tests/test_handling_validation.py",
+        "scripts/validate-handling.sh",
+        "scripts/capture-scenario.sh",
+        "docs/audits/",
+        "evidence/M0/P0-020.json"
+      ],
+      "acceptance": [
+        "Checksum-locked scenarios cover launch and stop, sustained straight-line speed, sweepers, decreasing-radius curves, grades, lane changes, merges, exits, transfers, road departure and re-entry, barrier contact, spins, rollover risk, reset, and save-resume",
+        "Keyboard and controller traverse every scenario under Accessible, Balanced, and Raw profiles at cruise, push, and redline speed bands with deterministic seeds and declared metric tolerances",
+        "Machine-readable evidence records input latency and response, camera horizon and occlusion, speed and path error, slip, yaw, roll, stopping distance, wheel contact, collision misses, reset count, frame-time percentiles, and replay divergence",
+        "Renderer captures make the worst quantitative result and every safety-critical scenario visually reviewable from chase, cockpit, and diagnostic cameras",
+        "A human completes separate uninterrupted 30-minute keyboard and controller sessions and records comfort, camera readability, steering precision, braking confidence, recovery, assist usefulness, fatigue, and motion-sickness findings",
+        "No unresolved control-blocking, camera-discomfort, unexplained-instability, or route-readability finding remains when the M0 handling gate is approved"
+      ],
+      "verification": [
+        "./scripts/validate-handling.sh --devices keyboard,controller --profiles all --speed-bands all --evidence evidence/M0/P0-020.json",
+        "./scripts/capture-scenario.sh /tmp/p0-020-handling-validation.avi --fixture handling-corpus --handling-review",
+        "./scripts/check.sh"
+      ],
+      "evidence": [
+        "evidence/M0/P0-020.json"
+      ],
+      "human_gate": {
+        "name": "30-minute keyboard and controller handling sessions",
+        "required_for": "M0",
+        "status": "pending"
+      },
+      "notes": "This task owns closure evidence for the M0 handling gate first declared by P0-006. Agents may prepare deterministic evidence and review materials but cannot approve the human sessions."
+    },
+    {
       "id": "P0-002",
       "milestone": "M2",
       "priority": "P0",
@@ -317,8 +487,11 @@
       ],
       "human_gate": {
         "name": "30-minute keyboard and controller handling sessions",
-        "required_for": "M0"
-      }
+        "required_for": "M0",
+        "status": "pending",
+        "tracked_by": "P0-020"
+      },
+      "notes": "P0-006 supplies deterministic long-route infrastructure. P0-020 owns the dedicated handling corpus, sustained human sessions, and closure evidence for this M0 gate."
     },
     {
       "id": "P0-007",
@@ -916,7 +1089,8 @@
         "P0-005",
         "P0-006",
         "P0-012",
-        "P0-014"
+        "P0-014",
+        "P0-020"
       ],
       "owned_paths": [
         "src/Cannonball.Core/Simulation/Traffic/",
@@ -948,7 +1122,7 @@
         "name": "High-speed traffic readability, fairness, and density review",
         "required_for": "M3"
       },
-      "notes": "ADR-0014 governs directionality. Do not infer opposing flow from spatial proximity, and do not begin undivided two-way behavior unless Q-026 selects that scope and a superseding cross-section decision is recorded."
+      "notes": "ADR-0014 governs directionality. Do not infer opposing flow from spatial proximity, and do not begin undivided two-way behavior unless Q-026 selects that scope and a superseding cross-section decision is recorded. Traffic starts only after P0-020 proves the camera, input, and vehicle-dynamics baseline so traffic tuning does not mask or compensate for unresolved driving behavior."
     },
     {
       "id": "P0-013",
@@ -1041,7 +1215,7 @@
         "name": "Hero vehicle art direction and final rights approval",
         "required_for": "M5"
       },
-      "notes": "Vehicle concept and acquisition path remain Q-020. The project-original procedural Hero GT is the autonomous working baseline documented in docs/QUESTIONS_FOR_RANDROID_2026-07-18_AUTONOMOUS.md; it may satisfy technical gates but cannot close final art direction without human approval."
+      "notes": "Vehicle concept and acquisition path remain Q-020. The project-original procedural Hero GT is the autonomous working baseline documented in docs/QUESTIONS_FOR_RANDROID_2026-07-18_AUTONOMOUS.md; it may satisfy technical gates but cannot close final art direction without human approval. P0-017 owns camera behavior and P0-019 owns vehicle-dynamics behavior; P1-008 supplies stable visual anchors and presentation without changing those systems. Coordinate CannonballVehicle.cs edits while these tasks overlap."
     },
     {
       "id": "P1-009",
