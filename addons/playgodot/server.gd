@@ -47,6 +47,10 @@ var _auth_blocked_until_ms := 0
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	# The debug transport must service bounded requests before the game performs
+	# potentially expensive streaming or renderer work on the same main thread.
+	# This keeps the control plane responsive without relaxing protocol timeouts.
+	process_priority = -1_000_000
 	if not _should_start():
 		set_process(false)
 		return

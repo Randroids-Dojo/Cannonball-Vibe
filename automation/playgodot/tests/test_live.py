@@ -179,6 +179,13 @@ async def test_official_engine_semantic_round_trip(tmp_path: Path) -> None:
         assert capabilities["granted"] == ["read", "input", "screenshot"]
         assert capabilities["limits"]["tree_nodes"] == 512
 
+        streamer = await client.describe("world.streamer")
+        assert streamer["test_state"]["initial_route_distance_m"] == 0
+        assert streamer["test_state"]["initial_vehicle_lane_id"]
+        assert streamer["test_state"]["route_start_apron_m"] == 20
+        assert streamer["test_state"]["route_start_barrier"] is True
+        assert streamer["test_state"]["route_start_barrier_collision"] is True
+
         speed = await client.describe("hud.speed")
         assert speed["automation_id"] == "hud.speed"
         assert speed["class"] == "Label"

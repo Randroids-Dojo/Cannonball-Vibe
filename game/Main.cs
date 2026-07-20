@@ -426,7 +426,7 @@ public sealed partial class Main : Node3D
                 _vehicleVisualScenario = new VehicleVisualScenario(
                     this,
                     _vehicle,
-                    _streamer.InitialRoadPoint,
+                    _streamer.InitialVehiclePoint,
                     _streamer.InitialRoadForward,
                     GetNode<DirectionalLight3D>("MoonLight"),
                     GetNode<WorldEnvironment>("NightEnvironment"),
@@ -690,7 +690,7 @@ public sealed partial class Main : Node3D
         var vehicleTransform = resumedSave is null
             ? new Transform3D(
                 Basis.LookingAt(_streamer.InitialRoadForward, Vector3.Up),
-                _streamer.InitialRoadPoint + Vector3.Up * 0.78f)
+                _streamer.InitialVehiclePoint + Vector3.Up * 0.78f)
             : new Transform3D(
                 new Basis(new Quaternion(
                     (float)resumedSave.LocalVehicle.RotationX,

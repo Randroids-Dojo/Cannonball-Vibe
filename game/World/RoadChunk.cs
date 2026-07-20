@@ -8,11 +8,14 @@ namespace Cannonball.Game.World;
 
 public sealed partial class RoadChunk : Node3D
 {
+    public const double RouteStartApronMeters = 20;
+
     private const float RouteContextLabelRangeMeters = 250;
     private StaticBody3D? _collisionBody;
     private ArrayMesh _collisionMesh = null!;
     private List<string>? _routeContextAutomationIds;
     private List<Label3D>? _routeContextLabels;
+    private MeshInstance3D? _routeStartBarrier;
     private RoadVisualKit _visualKit = null!;
 
     public string ChunkId { get; private set; } = string.Empty;
@@ -20,7 +23,11 @@ public sealed partial class RoadChunk : Node3D
     public double StartMeters { get; private set; }
     public double EndMeters { get; private set; }
     public double BuildMilliseconds { get; private set; }
+    public double StartApronMeters { get; private set; }
     public bool HasCollision => _collisionBody is not null;
+    public bool HasRouteStartBarrier => _routeStartBarrier is { Mesh: not null, Visible: true };
+    public bool HasRouteStartBarrierCollision =>
+        _collisionBody?.GetNodeOrNull<CollisionShape3D>("RouteStartBarrierCollision") is not null;
     public int MinimumLaneCount { get; private set; }
     public int MaximumLaneCount { get; private set; }
     public int TransitionCount { get; private set; }
@@ -112,7 +119,8 @@ public sealed partial class RoadChunk : Node3D
         RouteContextPlan? routeContextPlan,
         RouteFrame frame,
         RouteWorldPoint localOriginWorld,
-        RoadVisualKit visualKit)
+        RoadVisualKit visualKit,
+        bool extendBehindRouteStart)
     {
         ArgumentNullException.ThrowIfNull(visualKit);
         var chunk = new RoadChunk();
@@ -120,6 +128,11 @@ public sealed partial class RoadChunk : Node3D
         var started = Stopwatch.GetTimestamp();
         var anchor = frame.ToWorld(content.Samples[0]);
         var renderSamples = AddLaneTransitionSamples(content.Samples, edge);
+        if (extendBehindRouteStart)
+        {
+            renderSamples = AddRouteStartApron(renderSamples);
+            chunk.StartApronMeters = RouteStartApronMeters;
+        }
         var points = renderSamples
             .Select(sample => frame.ToWorld(sample).RelativeTo(anchor))
             .ToArray();
@@ -129,7 +142,9 @@ public sealed partial class RoadChunk : Node3D
                 sample.ProjectedTangentY))
             .ToArray();
         var layouts = renderSamples
-            .Select(sample => LaneGeometryProfile.Evaluate(edge, sample.DistanceMeters))
+            .Select(sample => LaneGeometryProfile.Evaluate(
+                edge,
+                Math.Clamp(sample.DistanceMeters, 0, edge.LengthMeters)))
             .ToArray();
         chunk.Name = $"RoadChunk-{content.Id}";
         RoadVisualKit.MarkSemantic(chunk, $"road.visual.chunk.{content.Id}");
@@ -153,13 +168,41 @@ public sealed partial class RoadChunk : Node3D
         chunk.BuildReflectors(points, tangents, layouts);
         chunk.BuildGoreAreas(points, tangents, layouts);
         chunk.BuildBarriers(points, tangents, layouts);
+        if (extendBehindRouteStart)
+        {
+            chunk.BuildRouteStartBarrier(points[0], tangents[0], layouts[0]);
+        }
         chunk.BuildScenery(points, tangents, layouts);
         if (routeContextPlan is { Placements.Count: > 0 })
         {
-            chunk.BuildRouteContext(content, edge, routeContextPlan, points, tangents, layouts);
+            chunk.BuildRouteContext(
+                content,
+                edge,
+                routeContextPlan,
+                renderSamples,
+                points,
+                tangents,
+                layouts);
         }
         chunk.BuildMilliseconds = Stopwatch.GetElapsedTime(started).TotalMilliseconds;
         return chunk;
+    }
+
+    private static IReadOnlyList<RouteChunkSample> AddRouteStartApron(
+        IReadOnlyList<RouteChunkSample> samples)
+    {
+        var first = samples[0];
+        var apron = new RouteChunkSample(
+            first.DistanceMeters - RouteStartApronMeters,
+            first.LateralMeters,
+            first.ElevationMeters - first.Grade * (float)RouteStartApronMeters,
+            first.Curvature,
+            first.Grade,
+            first.ProjectedXMeters - first.ProjectedTangentX * RouteStartApronMeters,
+            first.ProjectedYMeters - first.ProjectedTangentY * RouteStartApronMeters,
+            first.ProjectedTangentX,
+            first.ProjectedTangentY);
+        return [apron, .. samples];
     }
 
     private static IReadOnlyList<RouteChunkSample> AddLaneTransitionSamples(
@@ -236,6 +279,7 @@ public sealed partial class RoadChunk : Node3D
         RouteChunkContent content,
         RouteEdge edge,
         RouteContextPlan plan,
+        IReadOnlyList<RouteChunkSample> renderSamples,
         IReadOnlyList<Vector3> points,
         IReadOnlyList<Vector3> tangents,
         IReadOnlyList<LaneGeometrySample> layouts)
@@ -247,8 +291,9 @@ public sealed partial class RoadChunk : Node3D
         foreach (var placement in placements)
         {
             var (point, tangent, layout) = SamplePlacement(
-                content,
+                content.Id,
                 placement.DistanceMeters,
+                renderSamples,
                 points,
                 tangents,
                 layouts);
@@ -711,16 +756,17 @@ public sealed partial class RoadChunk : Node3D
         Vector3 Point,
         Vector3 Tangent,
         LaneGeometrySample Layout) SamplePlacement(
-        RouteChunkContent content,
+        string chunkId,
         double distanceMeters,
+        IReadOnlyList<RouteChunkSample> samples,
         IReadOnlyList<Vector3> points,
         IReadOnlyList<Vector3> tangents,
         IReadOnlyList<LaneGeometrySample> layouts)
     {
-        for (var index = 0; index < content.Samples.Count - 1; index++)
+        for (var index = 0; index < samples.Count - 1; index++)
         {
-            var first = content.Samples[index].DistanceMeters;
-            var second = content.Samples[index + 1].DistanceMeters;
+            var first = samples[index].DistanceMeters;
+            var second = samples[index + 1].DistanceMeters;
             if (distanceMeters < first || distanceMeters > second)
             {
                 continue;
@@ -734,7 +780,7 @@ public sealed partial class RoadChunk : Node3D
 
         throw new InvalidDataException(
             $"Route-context placement at {distanceMeters:F3} meters is outside chunk " +
-            $"'{content.Id}'.");
+            $"'{chunkId}'.");
     }
 
     public double SetCollisionActive(bool active)
@@ -765,6 +811,15 @@ public sealed partial class RoadChunk : Node3D
         {
             Shape = _collisionMesh.CreateTrimeshShape(),
         });
+        if (_routeStartBarrier?.Mesh is BoxMesh barrierMesh)
+        {
+            _collisionBody.AddChild(new CollisionShape3D
+            {
+                Name = "RouteStartBarrierCollision",
+                Shape = new BoxShape3D { Size = barrierMesh.Size },
+                Transform = _routeStartBarrier.Transform,
+            });
+        }
         AddChild(_collisionBody);
         return Stopwatch.GetElapsedTime(started).TotalMilliseconds;
     }
@@ -1210,6 +1265,35 @@ public sealed partial class RoadChunk : Node3D
             guardrailPostTransforms);
         BarrierSegmentCount = barrierTransforms.Count;
         GuardrailSegmentCount = guardrailTransforms.Count;
+    }
+
+    private void BuildRouteStartBarrier(
+        Vector3 point,
+        Vector3 tangent,
+        LaneGeometrySample layout)
+    {
+        const float extraWidthMeters = 1.5f;
+        const float heightMeters = 1.05f;
+        const float depthMeters = 0.75f;
+        var left = (float)layout.PavedLeftMeters - extraWidthMeters / 2;
+        var right = (float)layout.PavedRightMeters + extraWidthMeters / 2;
+        var width = right - left;
+        var lateralCenter = (left + right) / 2;
+        var roadRight = tangent.Cross(Vector3.Up).Normalized();
+        _routeStartBarrier = new MeshInstance3D
+        {
+            Name = "RouteStartBarrier",
+            Mesh = new BoxMesh
+            {
+                Size = new Vector3(width, heightMeters, depthMeters),
+            },
+            MaterialOverride = _visualKit.Concrete,
+            Transform = new Transform3D(
+                Basis.LookingAt(tangent, Vector3.Up),
+                point + roadRight * lateralCenter + Vector3.Up * (heightMeters / 2)),
+        };
+        MarkRoadSemantic(_routeStartBarrier, "route-start-barrier");
+        AddChild(_routeStartBarrier);
     }
 
     private void BuildScenery(

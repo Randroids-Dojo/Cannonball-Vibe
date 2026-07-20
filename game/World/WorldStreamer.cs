@@ -121,6 +121,8 @@ public sealed partial class WorldStreamer : Node3D
     public int OpposingCarriagewayChunksSeen => _opposingCarriagewayChunksSeen.Count;
     public Vector3 InitialRoadPoint { get; private set; }
     public Vector3 InitialRoadForward { get; private set; }
+    public Vector3 InitialVehiclePoint { get; private set; }
+    public string InitialVehicleLaneId { get; private set; } = string.Empty;
     public bool ShortCorridorLoopEnabled { get; set; }
     public int CompletedShortCorridorLoops { get; private set; }
     public int CrossedReviewDistanceThresholdCount { get; private set; }
@@ -352,6 +354,17 @@ public sealed partial class WorldStreamer : Node3D
         _initialRoadWorldPoint = _frame.ToWorld(initialChunk.Samples[0]);
         InitialRoadPoint = _initialRoadWorldPoint.RelativeTo(_localOriginWorld);
         InitialRoadForward = _frame.InitialForward;
+        var initialEdge = _package.Graph.GetEdge(_routePlan.Edges[0].EdgeId);
+        var initialLane = LaneGeometryProfile.Evaluate(initialEdge, 0).Lanes
+            .Where(lane => lane.WidthMeters > 0.5)
+            .MinBy(lane => Math.Abs(lane.CenterMeters))
+            ?? throw new InvalidDataException(
+                $"Route edge '{initialEdge.Id}' has no active starting lane.");
+        InitialVehicleLaneId = initialLane.Id;
+        InitialVehiclePoint = _initialRoadWorldPoint
+            .Add(InitialRoadForward.Cross(Vector3.Up).Normalized() *
+                (float)initialLane.CenterMeters)
+            .RelativeTo(_localOriginWorld);
         if (resumePosition is null)
         {
             AttachChunk(initialChunk);
@@ -384,6 +397,27 @@ public sealed partial class WorldStreamer : Node3D
                 active: resumedCollisionIds?.Contains(chunk.ChunkId) ??
                     string.Equals(chunk.EdgeId, _currentEdgeId, StringComparison.Ordinal));
         }
+        var routeStartApronMeters = _loaded.TryGetValue(initialChunk.Id, out var routeStartChunk)
+            ? routeStartChunk.StartApronMeters
+            : RoadChunk.RouteStartApronMeters;
+        var routeStartBarrier = routeStartChunk?.HasRouteStartBarrier ?? false;
+        var routeStartBarrierCollision = routeStartChunk?.HasRouteStartBarrierCollision ?? false;
+        SetMeta("automation_id", "world.streamer");
+        SetMeta(
+            "automation_state",
+            new Godot.Collections.Dictionary
+            {
+                ["initial_route_distance_m"] = resumePosition is null ? 0 : _routeDistanceMeters,
+                ["initial_vehicle_lane_id"] = InitialVehicleLaneId,
+                ["initial_vehicle_lateral_m"] = initialLane.CenterMeters,
+                ["route_start_apron_m"] = routeStartApronMeters,
+                ["route_start_barrier"] = routeStartBarrier,
+                ["route_start_barrier_collision"] = routeStartBarrierCollision,
+            });
+        GD.Print(
+            $"CANNONBALL_ROUTE_START_OK apron_m={routeStartApronMeters:0.0} " +
+            $"barrier={routeStartBarrier && routeStartBarrierCollision} " +
+            $"lane={InitialVehicleLaneId} lateral_m={initialLane.CenterMeters:0.00}");
     }
 
     public override void _Ready()
@@ -739,7 +773,10 @@ public sealed partial class WorldStreamer : Node3D
             routeContextPlan,
             _frame,
             _localOriginWorld,
-            _roadVisualKit);
+            _roadVisualKit,
+            extendBehindRouteStart:
+                string.Equals(content.EdgeId, _routePlan.Edges[0].EdgeId, StringComparison.Ordinal) &&
+                Math.Abs(content.StartMeters) <= 1e-9);
         // Budget profiles validate collected timing samples. Normal play keeps valid content
         // loaded instead of turning host scheduling or first-frame JIT into a chunk failure.
         _content.Add(content.Id, content);
