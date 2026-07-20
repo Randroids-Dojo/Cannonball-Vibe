@@ -37,7 +37,7 @@ def _assert_attached_and_level(state: dict) -> None:
     assert state["top_level"] is True
     assert state["inherits_vehicle_rotation"] is False
     assert state["target_distance_m"] < 15
-    assert state["horizon_roll_degrees"] < 0.01
+    assert abs(state["horizon_roll_degrees"]) < 0.01
 
 
 @pytest.mark.skipif("GODOT_BIN" not in os.environ, reason="GODOT_BIN enables live 4.7.1 tests")

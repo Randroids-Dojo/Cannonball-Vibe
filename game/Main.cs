@@ -866,7 +866,8 @@ public sealed partial class Main : Node3D
         if (!snapshot.Active || !snapshot.TopLevel || !snapshot.TargetValid ||
             !double.IsFinite(snapshot.TargetDistanceMeters) ||
             snapshot.TargetDistanceMeters > 15 ||
-            snapshot.HorizonRollDegrees > 0.01)
+            !double.IsFinite(snapshot.HorizonRollDegrees) ||
+            Math.Abs(snapshot.HorizonRollDegrees) > 0.01)
         {
             throw new InvalidDataException(
                 $"Resumed chase camera is detached, inactive, or unstable: {snapshot}.");

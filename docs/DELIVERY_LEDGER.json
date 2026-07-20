@@ -156,7 +156,7 @@
         "required_for": "M0",
         "status": "pending"
       },
-      "notes": "P0-017 owns camera behavior and the vehicle integration seam. P1-008 supplies stable visual camera anchors and must coordinate edits to CannonballVehicle.cs while either task is active. Production vehicle art is not required because the graybox vehicle must satisfy the same camera contract."
+      "notes": "P0-017 owns camera behavior and the vehicle integration seam. P1-008 supplies stable visual camera anchors and must coordinate edits to CannonballVehicle.cs and game/Automation/VehicleVisualScenario.cs while either task is active; P0-017 may change only camera selection and camera-contract assertions in the shared visual scenario. Production vehicle art is not required because the graybox vehicle must satisfy the same camera contract."
     },
     {
       "id": "P0-018",
@@ -1237,7 +1237,7 @@
         "name": "Hero vehicle art direction and final rights approval",
         "required_for": "M5"
       },
-      "notes": "Vehicle concept and acquisition path remain Q-020. The project-original procedural Hero GT is the autonomous working baseline documented in docs/QUESTIONS_FOR_RANDROID_2026-07-18_AUTONOMOUS.md; it may satisfy technical gates but cannot close final art direction without human approval. P0-017 owns camera behavior and P0-019 owns vehicle-dynamics behavior; P1-008 supplies stable visual anchors and presentation without changing those systems. Coordinate CannonballVehicle.cs edits while these tasks overlap."
+      "notes": "Vehicle concept and acquisition path remain Q-020. The project-original procedural Hero GT is the autonomous working baseline documented in docs/QUESTIONS_FOR_RANDROID_2026-07-18_AUTONOMOUS.md; it may satisfy technical gates but cannot close final art direction without human approval. P0-017 owns camera behavior and P0-019 owns vehicle-dynamics behavior; P1-008 supplies stable visual anchors and presentation without changing those systems. Coordinate CannonballVehicle.cs and game/Automation/VehicleVisualScenario.cs edits while these tasks overlap; P0-017 may change camera selection and camera-contract assertions there, while P1-008 retains visual-stage and asset-presentation ownership."
     },
     {
       "id": "P1-009",
