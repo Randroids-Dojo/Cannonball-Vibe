@@ -46,12 +46,11 @@ public sealed class VehicleVisualScenario
         _review = review;
         _vehicle.PlaceForReview(roadPoint, roadForward);
         _vehicle.AutopilotEnabled = false;
-        _chaseArm = _vehicle.GetNode<SpringArm3D>("ChaseCameraArm");
+        _chaseArm = _vehicle.ChaseCameraRig.Arm;
         _chaseArm.SpringLength = 5.4f;
         _chaseArm.Position = new Vector3(0, 1.15f, 1.25f);
-        _chaseCamera = _chaseArm.GetNode<Camera3D>("ChaseCamera");
-        _cockpitCamera = _vehicle.VisualRig?.CockpitCameraAnchor.GetNode<Camera3D>("CockpitCamera") ??
-            throw new InvalidOperationException("Vehicle visual scenario requires the cockpit camera.");
+        _chaseCamera = _vehicle.ChaseCameraRig.Camera;
+        _cockpitCamera = _vehicle.CockpitCameraRig.Camera;
         _graybox = new CannonballVehicle
         {
             Name = "GrayboxEquivalenceVehicle",
@@ -62,8 +61,7 @@ public sealed class VehicleVisualScenario
         var right = roadForward.Cross(Vector3.Up).Normalized();
         _graybox.PlaceForReview(roadPoint + right * 3.2f, roadForward);
         _graybox.Visible = false;
-        _cockpitCamera.ClearCurrent(enableNext: false);
-        _chaseCamera.MakeCurrent();
+        _vehicle.SetCameraMode(cockpit: false);
         _chaseArm.SpringLength = 5.4f;
         _chaseArm.Position = new Vector3(0, 1.15f, 1.25f);
         _chaseArm.RotationDegrees = new Vector3(-8, 0, 0);
@@ -116,8 +114,7 @@ public sealed class VehicleVisualScenario
         _graybox.Visible = false;
         rig.SetDamageHighlight(false);
         rig.SetLod(0);
-        _cockpitCamera.ClearCurrent(enableNext: false);
-        _chaseCamera.MakeCurrent();
+        _vehicle.SetCameraMode(cockpit: false);
         _vehicle.Rotation = Vector3.Zero;
         _chaseArm.SpringLength = 5.4f;
         _chaseArm.Position = new Vector3(0, 1.15f, 1.25f);
@@ -130,8 +127,7 @@ public sealed class VehicleVisualScenario
                 break;
             case 1:
                 SetLighting(daylight: false);
-                _chaseCamera.ClearCurrent(enableNext: false);
-                _cockpitCamera.MakeCurrent();
+                _vehicle.SetCameraMode(cockpit: true);
                 rig.ApplyPhysicsState(0, 42, 1.0f / 60.0f, [0.16f, 0.16f, 0.16f, 0.16f]);
                 break;
             case 2:

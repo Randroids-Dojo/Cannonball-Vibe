@@ -50,6 +50,8 @@ public sealed partial class Main : Node3D
     private bool _routeContextReview;
     private bool _vehicleVisualProfile;
     private bool _vehicleVisualReview;
+    private bool _cameraHandlingProfile;
+    private bool _cameraHandlingReview;
     private bool _roadVisualProfile;
     private bool _roadVisualReview;
     private bool _tripMapReview;
@@ -115,6 +117,7 @@ public sealed partial class Main : Node3D
     private int _routeChoiceMaximumUnsupportedFrames;
     private int _routeChoiceChunkFailures;
     private VehicleVisualScenario? _vehicleVisualScenario;
+    private CameraHandlingScenario? _cameraHandlingScenario;
     private bool _resumeRequested;
     private bool _resumeVerify;
     private double _elapsedSecondsBase;
@@ -218,6 +221,8 @@ public sealed partial class Main : Node3D
             _routeContextReview = arguments.Contains("--sign-review", StringComparer.Ordinal);
             _vehicleVisualProfile = arguments.Contains("--vehicle-visual-profile", StringComparer.Ordinal);
             _vehicleVisualReview = arguments.Contains("--vehicle-visual-review", StringComparer.Ordinal);
+            _cameraHandlingProfile = arguments.Contains("--camera-handling-profile", StringComparer.Ordinal);
+            _cameraHandlingReview = arguments.Contains("--camera-handling-review", StringComparer.Ordinal);
             _roadVisualProfile = arguments.Contains("--road-visual-profile", StringComparer.Ordinal);
             _roadVisualReview = arguments.Contains("--road-visual-review", StringComparer.Ordinal);
             _tripMapReview = arguments.Contains("--trip-map-review", StringComparer.Ordinal);
@@ -225,7 +230,8 @@ public sealed partial class Main : Node3D
                 _geographicReview || _streamingProfile || _topologyProfile || _topologyReview ||
                 _routeChoiceProfile || _routeContextProfile || _routeContextReview ||
                 _vehicleVisualProfile || _vehicleVisualReview || _roadVisualProfile ||
-                _roadVisualReview || _tripMapReview || _longRouteProfile || _resumeVerify;
+                _roadVisualReview || _tripMapReview || _cameraHandlingProfile ||
+                _cameraHandlingReview || _longRouteProfile || _resumeVerify;
             _smokeTargetFrames = _stressTest || _shortCorridorSoak ? 3_600 : 360;
             if (_renderIntegrity)
             {
@@ -259,6 +265,10 @@ public sealed partial class Main : Node3D
             {
                 _smokeTargetFrames = 1_200;
             }
+            if (_cameraHandlingProfile || _cameraHandlingReview)
+            {
+                _smokeTargetFrames = 1_200;
+            }
             if (_roadVisualProfile || _roadVisualReview)
             {
                 _smokeTargetFrames = 1_200;
@@ -282,7 +292,8 @@ public sealed partial class Main : Node3D
                 _chunkSource = _longRouteFixture.Source;
             }
             else if (_routeChoiceProfile || _routeContextProfile || _routeContextReview ||
-                _roadVisualProfile || _roadVisualReview || _tripMapReview)
+                _roadVisualProfile || _roadVisualReview || _tripMapReview ||
+                _cameraHandlingProfile || _cameraHandlingReview)
             {
                 _interchangeFixture = RepresentativeInterchangeFixture.Create(sourcePackage);
                 _package = _interchangeFixture.Package;
@@ -294,7 +305,8 @@ public sealed partial class Main : Node3D
                 _package = _topologyOverlay.Package;
             }
             if (!_routeChoiceProfile && !_routeContextProfile && !_routeContextReview &&
-                !_roadVisualProfile && !_roadVisualReview && !_tripMapReview && !_longRouteProfile)
+                !_roadVisualProfile && !_roadVisualReview && !_tripMapReview &&
+                !_cameraHandlingProfile && !_cameraHandlingReview && !_longRouteProfile)
             {
                 _chunkSource = new VerifiedFileChunkSource(
                     _package,
@@ -329,7 +341,8 @@ public sealed partial class Main : Node3D
                     ? resumedPlan
                     : _interchangeFixture.Plans[
                         _routeContextProfile || _routeContextReview ||
-                            _roadVisualProfile || _roadVisualReview || _tripMapReview
+                            _roadVisualProfile || _roadVisualReview || _tripMapReview ||
+                            _cameraHandlingProfile || _cameraHandlingReview
                             ? RepresentativeInterchangeFixture.TransferPlanId
                             : RouteChoicePlanOrder[0]];
             ConfigureRuntimeWorld(initialRoutePlan, resumedSave);
@@ -376,7 +389,8 @@ public sealed partial class Main : Node3D
                 !_topologyProfile && !_topologyReview && !_routeChoiceProfile &&
                 !_routeContextProfile && !_routeContextReview && !_vehicleVisualProfile &&
                 !_vehicleVisualReview && !_roadVisualProfile && !_roadVisualReview &&
-                !_tripMapReview && !_longRouteProfile;
+                !_tripMapReview && !_cameraHandlingProfile && !_cameraHandlingReview &&
+                !_longRouteProfile;
             if (resumedSave is not null)
             {
                 _vehicle.SetAssistProfile(resumedSave.Run.AssistProfile);
@@ -431,6 +445,16 @@ public sealed partial class Main : Node3D
                     GetNode<DirectionalLight3D>("MoonLight"),
                     GetNode<WorldEnvironment>("NightEnvironment"),
                     _vehicleVisualReview);
+            }
+            if ((_cameraHandlingProfile || _cameraHandlingReview) && !_resumeVerify)
+            {
+                _cameraHandlingScenario = new CameraHandlingScenario(
+                    this,
+                    _vehicle,
+                    _streamer,
+                    _streamer.InitialVehiclePoint,
+                    _streamer.InitialRoadForward,
+                    _cameraHandlingReview);
             }
             if (_renderIntegrity)
             {
@@ -572,6 +596,20 @@ public sealed partial class Main : Node3D
                 return;
             }
         }
+        if (_cameraHandlingScenario is { Complete: false })
+        {
+            try
+            {
+                _cameraHandlingScenario.Advance();
+            }
+            catch (Exception exception)
+            {
+                GD.PushError(exception.ToString());
+                _shutdownStarted = true;
+                GetTree().Quit(1);
+                return;
+            }
+        }
         if ((_roadVisualProfile || _roadVisualReview) && !_roadVisualProfileComplete)
         {
             try
@@ -635,6 +673,7 @@ public sealed partial class Main : Node3D
             (_routeContextProfileComplete && !_roadVisualProfile && !_roadVisualReview) ||
             _longRouteComplete ||
             _vehicleVisualScenario is { Complete: true } ||
+            _cameraHandlingScenario is { Complete: true } ||
             (_roadVisualProfileComplete && _routeContextProfileComplete))
         {
             _shutdownStarted = true;
@@ -818,6 +857,26 @@ public sealed partial class Main : Node3D
             $"loaded_chunks={actualStream.LoadedChunkIds.Count} " +
             $"collision_chunks={actualStream.CollisionChunkIds.Count} " +
             $"rebases={actualStream.RebaseCount}");
+        ValidateResumedCamera();
+    }
+
+    private void ValidateResumedCamera()
+    {
+        var snapshot = _vehicle.ChaseCameraRig.CaptureSnapshot();
+        if (!snapshot.Active || !snapshot.TopLevel || !snapshot.TargetValid ||
+            !double.IsFinite(snapshot.TargetDistanceMeters) ||
+            snapshot.TargetDistanceMeters > 15 ||
+            !double.IsFinite(snapshot.HorizonRollDegrees) ||
+            Math.Abs(snapshot.HorizonRollDegrees) > 0.01)
+        {
+            throw new InvalidDataException(
+                $"Resumed chase camera is detached, inactive, or unstable: {snapshot}.");
+        }
+        GD.Print(
+            "CANNONBALL_CAMERA_RESUME_OK " +
+            $"mode={_vehicle.CurrentCameraMode} " +
+            $"target_distance_m={snapshot.TargetDistanceMeters:0.000} " +
+            $"horizon_error_deg={snapshot.HorizonRollDegrees:0.000000}");
     }
 
     private static bool StreamEquivalent(
@@ -1873,11 +1932,7 @@ public sealed partial class Main : Node3D
             return;
         }
         _topologyDiagnosticCamera.Current = enabled;
-        var chaseCamera = _vehicle.GetNodeOrNull<Camera3D>("ChaseCameraArm/ChaseCamera");
-        if (chaseCamera is not null)
-        {
-            chaseCamera.Current = !enabled;
-        }
+        _vehicle.ChaseCameraRig.SetActive(!enabled);
     }
 
     private void AdvanceTopologyProfile()
@@ -2216,11 +2271,7 @@ public sealed partial class Main : Node3D
         {
             _routeContextDiagnosticCamera.Current = enabled;
         }
-        var chaseCamera = _vehicle.GetNodeOrNull<Camera3D>("ChaseCameraArm/ChaseCamera");
-        if (chaseCamera is not null)
-        {
-            chaseCamera.Current = !enabled;
-        }
+        _vehicle.ChaseCameraRig.SetActive(!enabled);
     }
 
     private void ValidateRouteContextProfile()
@@ -2847,6 +2898,10 @@ public sealed partial class Main : Node3D
         AddKeyAction("suspend_run", Key.F5);
         AddKeyAction("cycle_assist", Key.Tab);
         AddKeyAction("toggle_camera", Key.V);
+        AddKeyAction("camera_look_left", Key.J);
+        AddKeyAction("camera_look_right", Key.L);
+        AddKeyAction("camera_look_up", Key.I);
+        AddKeyAction("camera_look_down", Key.K);
         AddKeyAction("toggle_trip_map", Key.M);
         AddKeyAction("trip_map_pan_left", Key.Left);
         AddKeyAction("trip_map_pan_right", Key.Right);
@@ -2865,6 +2920,10 @@ public sealed partial class Main : Node3D
         AddJoyButtonAction("handbrake_controller", JoyButton.X);
         AddJoyButtonAction("reset_vehicle_controller", JoyButton.Y);
         AddJoyButtonAction("toggle_camera", JoyButton.RightStick);
+        AddJoyAxisAction("camera_look_left", JoyAxis.RightX, -1);
+        AddJoyAxisAction("camera_look_right", JoyAxis.RightX, 1);
+        AddJoyAxisAction("camera_look_up", JoyAxis.RightY, -1);
+        AddJoyAxisAction("camera_look_down", JoyAxis.RightY, 1);
         AddJoyButtonAction("toggle_trip_map", JoyButton.Back);
         AddJoyButtonAction("trip_map_pan_left", JoyButton.DpadLeft);
         AddJoyButtonAction("trip_map_pan_right", JoyButton.DpadRight);

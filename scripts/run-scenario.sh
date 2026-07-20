@@ -130,6 +130,9 @@ while [[ $# -gt 0 ]]; do
       elif [[ "$2" == "road-visual" ]]; then
         scenario_mode="road-visual"
         scenario_args+=("--road-visual-profile")
+      elif [[ "$2" == "camera-handling" ]]; then
+        scenario_mode="camera-handling"
+        scenario_args+=("--camera-handling-profile")
       else
         scenario_args+=("--profile=$2")
       fi
@@ -155,6 +158,9 @@ while [[ $# -gt 0 ]]; do
       elif [[ "$profile" == "road-visual" ]]; then
         scenario_mode="road-visual"
         scenario_args+=("--road-visual-profile")
+      elif [[ "$profile" == "camera-handling" ]]; then
+        scenario_mode="camera-handling"
+        scenario_args+=("--camera-handling-profile")
       else
         scenario_args+=("$1")
       fi
@@ -177,6 +183,11 @@ while [[ $# -gt 0 ]]; do
       ;;
     --trip-map-review)
       scenario_mode="trip-map"
+      scenario_args+=("$1")
+      shift
+      ;;
+    --camera-handling-review)
+      scenario_mode="camera-handling"
       scenario_args+=("$1")
       shift
       ;;
@@ -239,6 +250,9 @@ if [[ "$scenario_mode" == "road-visual" && "$fixture_explicit" == "false" ]]; th
 fi
 if [[ "$scenario_mode" == "trip-map" && "$fixture_explicit" == "false" ]]; then
   fixture="representative-interchanges"
+fi
+if [[ "$scenario_mode" == "camera-handling" && "$fixture_explicit" == "false" ]]; then
+  fixture="representative-corridor"
 fi
 
 case "$fixture" in
