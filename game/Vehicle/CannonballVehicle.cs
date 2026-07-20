@@ -26,7 +26,6 @@ public sealed partial class CannonballVehicle : RigidBody3D
         new(0.82f, -0.18f, 1.42f),
     ];
 
-    private readonly IDriveInput _driveInput = new GodotDriveInput();
     private readonly float[] _wheelCompressionMeters = new float[4];
     private bool _resetRequested;
     private int _consecutiveUnsupportedPhysicsFrames;
@@ -49,6 +48,7 @@ public sealed partial class CannonballVehicle : RigidBody3D
     public int WellGroundedPhysicsFrames { get; private set; }
     public int MaximumConsecutiveUnsupportedPhysicsFrames { get; private set; }
     public VehicleVisualRig? VisualRig { get; private set; }
+    public DrivingInputController DrivingInputController { get; private set; } = null!;
     public ChaseCameraRig ChaseCameraRig { get; private set; } = null!;
     public bool UsesGrayboxVisual { get; private set; }
     public bool ForceGrayboxVisual { get; set; }
@@ -68,13 +68,19 @@ public sealed partial class CannonballVehicle : RigidBody3D
         CollisionLayer = 2;
         CollisionMask = 1;
         BuildChassis();
+        DrivingInputController = new DrivingInputController();
+        AddChild(DrivingInputController);
         BuildCamera();
     }
 
     public override void _PhysicsProcess(double delta)
     {
         UpdateCameraInput();
-        var input = AutopilotEnabled ? ReadAutopilot() : _driveInput.Read();
+        var heading = -GlobalTransform.Basis.Z.Normalized();
+        var forwardSpeed = LinearVelocity.Dot(heading);
+        var input = AutopilotEnabled
+            ? ReadAutopilot()
+            : DrivingInputController.Read(forwardSpeed, delta, AssistProfile);
         if (input.Reset || _resetRequested || Position.Y < -20)
         {
             ResetToRoad();
@@ -84,10 +90,9 @@ public sealed partial class CannonballVehicle : RigidBody3D
 
         ApplySuspensionAndTireForces(input);
         ApplyPowerAndStability(input);
-        var longitudinalSpeed = LinearVelocity.Dot(-GlobalTransform.Basis.Z.Normalized());
         VisualRig?.ApplyPhysicsState(
             _currentSteerAngleRadians,
-            longitudinalSpeed,
+            forwardSpeed,
             (float)delta,
             _wheelCompressionMeters);
     }
@@ -178,7 +183,7 @@ public sealed partial class CannonballVehicle : RigidBody3D
         var brake = speedLimited && speedError < 0
             ? Mathf.Clamp(-speedError / 5, 0, 0.35f)
             : 0;
-        return new DriveInputState(throttle, brake, steering, false);
+        return new DriveInputState(throttle, brake, 0, 0, steering, false, false);
     }
 
     private void ApplySuspensionAndTireForces(DriveInputState input)
@@ -187,7 +192,9 @@ public sealed partial class CannonballVehicle : RigidBody3D
         var chassisUp = GlobalTransform.Basis.Y.Normalized();
         var chassisForward = -GlobalTransform.Basis.Z.Normalized();
         var speed = SpeedMetersPerSecond;
-        var steerScale = Mathf.Lerp(1.0f, 0.24f, Mathf.Clamp(speed / 90.0f, 0, 1));
+        var steerScale = AutopilotEnabled
+            ? Mathf.Lerp(1.0f, 0.24f, Mathf.Clamp(speed / 90.0f, 0, 1))
+            : 1.0f;
         var steerResponse = AssistProfile switch
         {
             AssistProfile.Accessible => 0.85f,
@@ -197,6 +204,7 @@ public sealed partial class CannonballVehicle : RigidBody3D
         var steerAngle = input.Steering * MaximumSteerAngleRadians * steerScale * steerResponse;
         _currentSteerAngleRadians = steerAngle;
         var groundedWheels = 0;
+        var contactNormalSum = Vector3.Zero;
         Array.Clear(_wheelCompressionMeters);
 
         for (var index = 0; index < WheelPositions.Length; index++)
@@ -216,6 +224,7 @@ public sealed partial class CannonballVehicle : RigidBody3D
             groundedWheels++;
             var contact = (Vector3)hit["position"];
             var normal = ((Vector3)hit["normal"]).Normalized();
+            contactNormalSum += normal;
             var distance = rayStart.DistanceTo(contact) - 0.15f - WheelRadius;
             var compression = Mathf.Clamp(SpringRestLength - distance, 0, SpringRestLength);
             _wheelCompressionMeters[index] = compression;
@@ -265,11 +274,19 @@ public sealed partial class CannonballVehicle : RigidBody3D
         if (groundedWheels > 0)
         {
             var longitudinalSpeed = LinearVelocity.Dot(chassisForward);
-            var driveForce = chassisForward * input.Throttle * EngineForce;
-            var brakingDirection = Math.Abs(longitudinalSpeed) < 0.5f
+            var driveForce = chassisForward * (input.Throttle - input.Reverse) * EngineForce;
+            var brakingDirection = Math.Abs(longitudinalSpeed) < 0.05f
                 ? Vector3.Zero
                 : -chassisForward * Math.Sign(longitudinalSpeed);
-            ApplyCentralForce(driveForce + brakingDirection * input.Brake * BrakeForce);
+            var brakingForce = input.Brake * BrakeForce + input.Handbrake * BrakeForce * 0.8f;
+            ApplyCentralForce(driveForce + brakingDirection * brakingForce);
+            if (input.StationaryHold)
+            {
+                var roadNormal = contactNormalSum.Normalized();
+                var gravityForce = Vector3.Down * 9.80665f * Mass;
+                var gradeForce = gravityForce - roadNormal * gravityForce.Dot(roadNormal);
+                ApplyCentralForce(-gradeForce - LinearVelocity * Mass * 8.0f);
+            }
             ApplyCentralForce(-chassisUp * speed * speed * DownforceCoefficient);
         }
     }
@@ -295,7 +312,8 @@ public sealed partial class CannonballVehicle : RigidBody3D
 
         var speedRatio = Mathf.Clamp(speed / 90.0f, 0, 1);
         var yawAuthority = Mathf.Lerp(7_500.0f, 2_200.0f, speedRatio);
-        ApplyTorque(Vector3.Up * -input.Steering * yawAuthority);
+        var rollingAuthority = Mathf.Clamp(speed / 3.0f, 0, 1);
+        ApplyTorque(Vector3.Up * -input.Steering * yawAuthority * rollingAuthority);
     }
 
     private void ResetToRoad()
@@ -306,6 +324,8 @@ public sealed partial class CannonballVehicle : RigidBody3D
         LinearVelocity = Vector3.Zero;
         AngularVelocity = Vector3.Zero;
         Freeze = false;
+        DrivingInputController.ClearAndSuppress("reset");
+        ChaseCameraRig.SnapToTarget();
     }
 
     private void BuildChassis()

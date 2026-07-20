@@ -99,7 +99,7 @@ public sealed partial class ChaseCameraRig : Node3D
         UpdateAutomationState(targetForward, speed);
     }
 
-    private void SnapToTarget()
+    public void SnapToTarget()
     {
         _smoothedPosition = Target.GlobalPosition;
         _smoothedForward = HorizontalForward(Target.GlobalTransform.Basis);

@@ -160,11 +160,30 @@
       "milestone": "M0",
       "priority": "P0",
       "title": "Keyboard and controller input conditioning",
-      "status": "open",
+      "status": "in_progress",
       "dependencies": [
         "P0-017"
       ],
+      "scope": {
+        "fixture_work_allowed_before_dependencies_complete": true,
+        "fixture_id": "p0-017-verified-camera-foundation",
+        "allowed_work": [
+          "engine-independent input conditioning and profile tests",
+          "keyboard and controller action integration",
+          "stationary hold and input-state safety behavior",
+          "official-engine semantic automation and renderer captures"
+        ],
+        "completion_blocked_by": [
+          "P0-017 human camera comfort and readability gate"
+        ],
+        "excluded_claims": [
+          "P0-018 completion before P0-017 is complete",
+          "physical wheel, pedal, or force-feedback readiness"
+        ]
+      },
       "owned_paths": [
+        "src/Cannonball.Core/Simulation/Vehicle/DrivingInputConditioner.cs",
+        "game/Camera/ChaseCameraRig.cs",
         "game/Input/",
         "game/Vehicle/DrivingInputController.cs",
         "game/Vehicle/CannonballVehicle.cs",
@@ -192,7 +211,7 @@
         "evidence/M0/P0-018.json"
       ],
       "human_gate": null,
-      "notes": "Physical steering wheels, pedals, and force feedback remain governed by Q-006 and are deliberately outside this keyboard-and-controller baseline."
+      "notes": "Implementation may proceed against the merged and verified P0-017 camera foundation while its human comfort gate remains pending. P0-018 cannot be marked complete until P0-017 is complete. The single ChaseCameraRig.cs reset-snap edit is coordinated under P0-017's broader game/Camera/ ownership and does not transfer camera behavior ownership to P0-018. Physical steering wheels, pedals, and force feedback remain governed by Q-006 and are deliberately outside this keyboard-and-controller baseline."
     },
     {
       "id": "P0-019",

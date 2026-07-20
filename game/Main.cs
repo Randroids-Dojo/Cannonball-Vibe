@@ -2839,6 +2839,8 @@ public sealed partial class Main : Node3D
     {
         AddKeyAction("accelerate", Key.W);
         AddKeyAction("brake", Key.S);
+        AddKeyAction("reverse", Key.Q);
+        AddKeyAction("handbrake", Key.Space);
         AddKeyAction("steer_left", Key.A);
         AddKeyAction("steer_right", Key.D);
         AddKeyAction("reset_vehicle", Key.R);
@@ -2855,10 +2857,13 @@ public sealed partial class Main : Node3D
         AddKeyAction("trip_map_recenter", Key.C);
         AddKeyAction("trip_map_previous", Key.Pageup);
         AddKeyAction("trip_map_next", Key.Pagedown);
-        AddJoyAxisAction("accelerate", JoyAxis.TriggerRight, 1);
-        AddJoyAxisAction("brake", JoyAxis.TriggerLeft, 1);
-        AddJoyAxisAction("steer_left", JoyAxis.LeftX, -1);
-        AddJoyAxisAction("steer_right", JoyAxis.LeftX, 1);
+        AddJoyAxisAction("accelerate_controller", JoyAxis.TriggerRight, 1);
+        AddJoyAxisAction("brake_controller", JoyAxis.TriggerLeft, 1);
+        AddJoyAxisAction("steer_left_controller", JoyAxis.LeftX, -1);
+        AddJoyAxisAction("steer_right_controller", JoyAxis.LeftX, 1);
+        AddJoyButtonAction("reverse_controller", JoyButton.B);
+        AddJoyButtonAction("handbrake_controller", JoyButton.X);
+        AddJoyButtonAction("reset_vehicle_controller", JoyButton.Y);
         AddJoyButtonAction("toggle_camera", JoyButton.RightStick);
         AddJoyButtonAction("toggle_trip_map", JoyButton.Back);
         AddJoyButtonAction("trip_map_pan_left", JoyButton.DpadLeft);
@@ -2885,7 +2890,7 @@ public sealed partial class Main : Node3D
     {
         if (!InputMap.HasAction(action))
         {
-            InputMap.AddAction(action, 0.12f);
+            InputMap.AddAction(action, 0.0f);
         }
         InputMap.ActionAddEvent(action, new InputEventJoypadMotion { Axis = axis, AxisValue = axisValue });
     }

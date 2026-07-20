@@ -25,6 +25,7 @@ class PlayGodotProcess:
         capabilities: tuple[str, ...] = ("read",),
         godot_bin: Path | None = None,
         startup_timeout: float = 20.0,
+        request_timeout: float = 10.0,
         transcript: Path | None = None,
         log_path: Path | None = None,
     ) -> None:
@@ -33,6 +34,7 @@ class PlayGodotProcess:
         self.capabilities = capabilities
         self.godot_bin = godot_bin or self._godot_from_environment()
         self.startup_timeout = startup_timeout
+        self.request_timeout = request_timeout
         self.transcript = transcript
         self.log_path = log_path
         self.process: asyncio.subprocess.Process | None = None
@@ -95,7 +97,11 @@ class PlayGodotProcess:
                 raise ProtocolError("PlayGodot did not start on official Godot 4.7.1")
             self._drain_task = asyncio.create_task(self._drain_output())
             self.client = await PlayGodotClient.connect(
-                ready["address"], int(ready["port"]), token=token, capabilities=self.capabilities
+                ready["address"],
+                int(ready["port"]),
+                token=token,
+                capabilities=self.capabilities,
+                timeout=self.request_timeout,
             )
             return self.client
         except BaseException:
