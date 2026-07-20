@@ -32,8 +32,6 @@ public sealed partial class CannonballVehicle : RigidBody3D
     private bool _hasBeenGrounded;
     private float _currentSteerAngleRadians;
     private bool _cameraToggleHeld;
-    private Camera3D _cockpitCamera = null!;
-    private readonly Godot.Collections.Dictionary _cockpitCameraAutomationState = new();
 
     public bool AutopilotEnabled { get; set; }
     public AssistProfile AssistProfile { get; private set; } = AssistProfile.Balanced;
@@ -50,6 +48,7 @@ public sealed partial class CannonballVehicle : RigidBody3D
     public VehicleVisualRig? VisualRig { get; private set; }
     public DrivingInputController DrivingInputController { get; private set; } = null!;
     public ChaseCameraRig ChaseCameraRig { get; private set; } = null!;
+    public CockpitCameraRig CockpitCameraRig { get; private set; } = null!;
     public bool UsesGrayboxVisual { get; private set; }
     public bool ForceGrayboxVisual { get; set; }
     public string CurrentCameraMode => ChaseCameraRig.IsActive ? "chase" : "cockpit";
@@ -147,10 +146,7 @@ public sealed partial class CannonballVehicle : RigidBody3D
     public void SetCameraMode(bool cockpit)
     {
         ChaseCameraRig.SetActive(!cockpit);
-        _cockpitCamera.Current = cockpit;
-        _cockpitCameraAutomationState["active"] = cockpit;
-        _cockpitCameraAutomationState["mode"] = "cockpit";
-        _cockpitCameraAutomationState["vehicle_local"] = true;
+        CockpitCameraRig.SetActive(cockpit);
     }
 
     private void UpdateCameraInput()
@@ -379,17 +375,8 @@ public sealed partial class CannonballVehicle : RigidBody3D
             };
             AddChild(cockpitAnchor);
         }
-        _cockpitCamera = new Camera3D
-        {
-            Name = "CockpitCamera",
-            Current = false,
-            Fov = 72,
-            Near = 0.08f,
-            Position = new Vector3(0, 0.28f, -0.42f),
-        };
-        _cockpitCamera.SetMeta("automation_id", "camera.cockpit.view");
-        _cockpitCamera.SetMeta("automation_state", _cockpitCameraAutomationState);
-        cockpitAnchor.AddChild(_cockpitCamera);
+        CockpitCameraRig = new CockpitCameraRig();
+        cockpitAnchor.AddChild(CockpitCameraRig);
         SetCameraMode(cockpit: false);
     }
 }

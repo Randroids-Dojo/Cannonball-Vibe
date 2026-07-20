@@ -5,12 +5,16 @@ automated verification continue under the delivery-ledger fixture scopes.
 
 ## Q-029 — P0-017 camera comfort and readability approval
 
-The stabilized chase/cockpit camera foundation is merged and its automated horizon,
-heading-lag, mode-transition, and renderer checks pass. P0-017 still requires a human
+The stabilized chase/cockpit camera foundation and all automatable P0-017 scenarios
+now pass: grade/chassis isolation, collision compression and recovery, reset, route
+transition, local-origin rebase, save/resume, pause, input-device change, bounded
+cockpit look, mode transitions, and renderer inspection. P0-017 still requires a human
 comfort judgment before it—and therefore P0-018—can be marked complete.
 
 Please drive for at least five minutes in chase view and five minutes in cockpit view,
 including sustained steering, braking, a reset, and switching views with `V`.
+In cockpit view, also try IJKL or the controller right stick to confirm bounded look and
+automatic recentering feel natural.
 
 - **A — Approve both views (recommended if comfortable):** unblocks P0-017 closure
   after its remaining automated scenarios pass. Pro: preserves the current stable,

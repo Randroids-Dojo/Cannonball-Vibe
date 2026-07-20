@@ -30,7 +30,7 @@ public sealed partial class PrototypeHud : CanvasLayer
         _distance = CreateLabel("Distance", "hud.distance", new Vector2(44, 112), 18);
         _streaming = CreateLabel("Streaming", "hud.streaming", new Vector2(44, 140), 14);
         var help = CreateLabel("Help", "hud.help", new Vector2(24, 1030), 16);
-        help.Text = "W/RT go  S/LT brake  Q/B reverse  SPACE/X handbrake  A D/stick steer  V/R3 camera  M/SELECT map  R/Y reset  TAB assist  ESC menu";
+        help.Text = "W/RT go  S/LT brake  Q/B reverse  SPACE/X handbrake  A D/LS steer  V/R3 camera  IJKL/RS look  M/SELECT map  R/Y reset  TAB assist  ESC menu";
         CreateDriverMenu();
     }
 

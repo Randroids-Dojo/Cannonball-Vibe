@@ -125,9 +125,11 @@
         "game/Main.cs",
         "game/UI/PrototypeHud.cs",
         "game/Automation/CameraHandlingScenario.cs",
+        "game/Automation/VehicleVisualScenario.cs",
         "automation/playgodot/tests/test_live.py",
         "automation/playgodot/tests/test_camera_handling.py",
         "scripts/verify-camera-handling.sh",
+        "scripts/run-scenario.sh",
         "scripts/capture-scenario.sh",
         "docs/audits/2026-07-19-p0-017-camera-foundation.md",
         "evidence/M0/P0-017.json"

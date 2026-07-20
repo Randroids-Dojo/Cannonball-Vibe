@@ -197,11 +197,13 @@ async def test_official_engine_semantic_round_trip(tmp_path: Path) -> None:
         assert camera_state["active"] is True
 
         cockpit_camera = await client.describe("camera.cockpit.view")
-        assert cockpit_camera["test_state"] == {
-            "active": False,
-            "mode": "cockpit",
-            "vehicle_local": True,
-        }
+        cockpit_state = cockpit_camera["test_state"]
+        assert cockpit_state["active"] is False
+        assert cockpit_state["mode"] == "cockpit"
+        assert cockpit_state["vehicle_local"] is True
+        assert cockpit_state["maximum_stabilization_degrees"] == 6
+        assert cockpit_state["maximum_look_yaw_degrees"] == 72
+        assert cockpit_state["maximum_look_pitch_degrees"] == 24
         await client.request("input.action", {"action": "toggle_camera", "state": "press"})
         await asyncio.sleep(0.05)
         await client.request("input.action", {"action": "toggle_camera", "state": "release"})
