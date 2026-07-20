@@ -13,7 +13,7 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 
 
 def _route_package() -> Path:
-    package_root = REPO_ROOT / ".tools/scenarios/representative-corridor"
+    package_root = REPO_ROOT / ".tools/scenarios/official-corridor"
     pointer = json.loads((package_root / "current-package.json").read_text())
     return package_root / pointer["root_relative_path"]
 
