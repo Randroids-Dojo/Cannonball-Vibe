@@ -45,6 +45,11 @@ old placement let the hood obscure roughly half of the road view.
 - Adversarial review found three stale pre-refactor camera node paths in vehicle,
   topology, and route-context scenarios. Those consumers now use the public camera
   rigs, preventing false-negative captures and stale automation state.
+- Clean-runner validation found and removed two hidden test-order/scheduler
+  assumptions: the new camera test now consumes the official fixture guaranteed by
+  the standalone PlayGodot job, and the steering/camera-independence test polls the
+  semantic input state with a one-second bound instead of assuming every hosted
+  macOS runner processes injected input within exactly 50 ms.
 - A 1280x720, 362-frame official-engine renderer capture was visually inspected. Chase,
   collision-compressed, recovered, rebased ramp, cockpit, and chase-return frames had
   no detached geometry, starting-frame breakup, inversion, or zoom oscillation. The

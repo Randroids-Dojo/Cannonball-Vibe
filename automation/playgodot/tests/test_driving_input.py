@@ -57,8 +57,14 @@ async def test_keyboard_steering_is_progressive_and_camera_independent(tmp_path:
 
         await _action(client, "steer_right", "press")
         try:
-            await asyncio.sleep(0.05)
-            early = (await client.describe("vehicle.input.conditioner"))["test_state"]
+            deadline = asyncio.get_running_loop().time() + 1.0
+            while True:
+                early = (await client.describe("vehicle.input.conditioner"))["test_state"]
+                if early["device_source"] == "keyboard" and early["raw_steering"] == 1:
+                    break
+                if asyncio.get_running_loop().time() >= deadline:
+                    pytest.fail("Keyboard steering event did not reach the input conditioner")
+                await asyncio.sleep(0.02)
             assert early["device_source"] == "keyboard"
             assert early["active_profile"] == "balanced"
             assert early["keyboard_rise_per_second"] == pytest.approx(3.2)

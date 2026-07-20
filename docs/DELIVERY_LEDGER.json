@@ -128,6 +128,7 @@
         "game/Automation/VehicleVisualScenario.cs",
         "automation/playgodot/tests/test_live.py",
         "automation/playgodot/tests/test_camera_handling.py",
+        "automation/playgodot/tests/test_driving_input.py",
         "scripts/verify-camera-handling.sh",
         "scripts/run-scenario.sh",
         "scripts/capture-scenario.sh",
