@@ -24,6 +24,7 @@ public sealed class SaveRepositoryTests : IDisposable
 
         Assert.NotNull(actual);
         Assert.Equal(expected.Run.Position, actual.Run.Position);
+        Assert.Equal(expected.Run.AssistProfile, actual.Run.AssistProfile);
         AssertNavigationEqual(expected.Run.Navigation, actual.Run.Navigation);
         Assert.Equal(expected.LocalVehicle, actual.LocalVehicle);
     }

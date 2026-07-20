@@ -41,6 +41,8 @@ var _transcript_path := ""
 var _id_regex := RegEx.new()
 var _pressed_actions: Array[String] = []
 var _pressed_keys: Array[int] = []
+var _joy_axes: Dictionary = {}
+var _pressed_joy_buttons: Dictionary = {}
 var _auth_failures: Array[int] = []
 var _auth_blocked_until_ms := 0
 
@@ -259,6 +261,10 @@ func _dispatch(method: String, params: Dictionary, request_id: Variant) -> Dicti
 			return _require("input", func(): return _input_action(params))
 		"input.key":
 			return _require("input", func(): return _input_key(params))
+		"input.joypad_motion":
+			return _require("input", func(): return _input_joypad_motion(params))
+		"input.joypad_button":
+			return _require("input", func(): return _input_joypad_button(params))
 		"input.click":
 			return _require("input", func(): return _input_click(params))
 		"input.drag":
@@ -327,7 +333,8 @@ func _capability_document() -> Dictionary:
 			"session.ping", "session.capabilities", "session.close",
 			"scene.current", "scene.tree", "node.find", "node.describe",
 			"node.children", "ui.describe", "ui.focused", "signal.wait",
-			"input.action", "input.key", "input.click", "input.drag",
+			"input.action", "input.key", "input.joypad_motion",
+			"input.joypad_button", "input.click", "input.drag",
 			"screenshot.viewport", "screenshot.node",
 		],
 		"limits": {
@@ -619,6 +626,75 @@ func _input_key(params: Dictionary) -> Dictionary:
 	return {"result": {"key": key_name, "state": state}}
 
 
+func _input_joypad_motion(params: Dictionary) -> Dictionary:
+	var axis_name = params.get("axis")
+	var value = params.get("value")
+	var device = params.get("device", 0)
+	var axes := {
+		"left_x": JOY_AXIS_LEFT_X,
+		"left_y": JOY_AXIS_LEFT_Y,
+		"trigger_left": JOY_AXIS_TRIGGER_LEFT,
+		"trigger_right": JOY_AXIS_TRIGGER_RIGHT,
+	}
+	if (
+		not axis_name is String
+		or not axes.has(axis_name)
+		or not (value is int or value is float)
+		or value is bool
+		or not device is int
+		or device < 0
+		or device > 15
+		or not is_finite(float(value))
+		or absf(float(value)) > 1.0
+	):
+		return _error(-32602, "INVALID_PARAMS", "Invalid joypad motion")
+	var event := InputEventJoypadMotion.new()
+	event.device = device
+	event.axis = axes[axis_name]
+	event.axis_value = float(value)
+	Input.parse_input_event(event)
+	var key := "%d:%d" % [device, event.axis]
+	if absf(event.axis_value) > 0.0001:
+		_joy_axes[key] = {"device": device, "axis": event.axis}
+	else:
+		_joy_axes.erase(key)
+	return {"result": {"axis": axis_name, "value": event.axis_value, "device": device}}
+
+
+func _input_joypad_button(params: Dictionary) -> Dictionary:
+	var button_name = params.get("button")
+	var state = params.get("state")
+	var device = params.get("device", 0)
+	var buttons := {
+		"a": JOY_BUTTON_A,
+		"b": JOY_BUTTON_B,
+		"x": JOY_BUTTON_X,
+		"y": JOY_BUTTON_Y,
+		"left_stick": JOY_BUTTON_LEFT_STICK,
+		"right_stick": JOY_BUTTON_RIGHT_STICK,
+	}
+	if (
+		not button_name is String
+		or not buttons.has(button_name)
+		or state not in ["press", "release"]
+		or not device is int
+		or device < 0
+		or device > 15
+	):
+		return _error(-32602, "INVALID_PARAMS", "Invalid joypad button or state")
+	var event := InputEventJoypadButton.new()
+	event.device = device
+	event.button_index = buttons[button_name]
+	event.pressed = state == "press"
+	Input.parse_input_event(event)
+	var key := "%d:%d" % [device, event.button_index]
+	if event.pressed:
+		_pressed_joy_buttons[key] = {"device": device, "button": event.button_index}
+	else:
+		_pressed_joy_buttons.erase(key)
+	return {"result": {"button": button_name, "state": state, "device": device}}
+
+
 func _input_click(params: Dictionary) -> Dictionary:
 	var resolved := _resolve_target(params)
 	if resolved.has("error"):
@@ -820,6 +896,20 @@ func _clear_connection() -> void:
 		event.pressed = false
 		Input.parse_input_event(event)
 	_pressed_keys.clear()
+	for injected in _joy_axes.values():
+		var motion := InputEventJoypadMotion.new()
+		motion.device = injected["device"]
+		motion.axis = injected["axis"]
+		motion.axis_value = 0.0
+		Input.parse_input_event(motion)
+	_joy_axes.clear()
+	for injected in _pressed_joy_buttons.values():
+		var button := InputEventJoypadButton.new()
+		button.device = injected["device"]
+		button.button_index = injected["button"]
+		button.pressed = false
+		Input.parse_input_event(button)
+	_pressed_joy_buttons.clear()
 	_peer = null
 	_receive_buffer.clear()
 	_send_buffer.clear()
