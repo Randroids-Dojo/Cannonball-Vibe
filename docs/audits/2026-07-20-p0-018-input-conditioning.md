@@ -62,6 +62,11 @@ the conditioner derives its immutable tuning from that restored profile.
   player input uses the semantic conditioner.
 - Profile tuning records are cached immutable instances rather than physics-frame
   allocations.
+- Live assertions initially assumed a fixed number of physics frames would elapse in a
+  wall-clock sleep. Hosted macOS and Windows runners legitimately sampled different
+  points on the same ramp. The live gate now asserts bounded monotonic integration and
+  the exact semantic tuning values, while deterministic per-frame behavior remains in
+  the engine-independent suite.
 
 ## Remaining boundary
 

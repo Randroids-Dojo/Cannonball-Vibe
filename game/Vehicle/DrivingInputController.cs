@@ -159,8 +159,15 @@ public sealed partial class DrivingInputController : Node
         ConditionedDrivingInput conditioned,
         RawDrivingInput raw)
     {
+        var tuning = DrivingInputTuning.For(_activeProfile);
         _automationState["device_source"] = conditioned.Device.ToString().ToLowerInvariant();
         _automationState["active_profile"] = _activeProfile.ToString().ToLowerInvariant();
+        _automationState["keyboard_rise_per_second"] = tuning.KeyboardRisePerSecond;
+        _automationState["controller_deadzone"] = tuning.ControllerDeadzone;
+        _automationState["controller_exponent"] = tuning.ControllerExponent;
+        _automationState["controller_rate_per_second"] = tuning.ControllerRatePerSecond;
+        _automationState["high_speed_min_authority"] =
+            tuning.MinimumHighSpeedSteeringAuthority;
         _automationState["raw_throttle"] = raw.Throttle;
         _automationState["raw_service_brake"] = raw.ServiceBrake;
         _automationState["raw_reverse"] = raw.Reverse;

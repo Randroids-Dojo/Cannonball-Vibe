@@ -46,13 +46,14 @@ async def test_keyboard_steering_is_progressive_and_camera_independent(tmp_path:
             await asyncio.sleep(0.05)
             early = (await client.describe("vehicle.input.conditioner"))["test_state"]
             assert early["device_source"] == "keyboard"
+            assert early["active_profile"] == "balanced"
+            assert early["keyboard_rise_per_second"] == pytest.approx(3.2)
             assert early["raw_steering"] == 1
-            assert 0 < early["conditioned_steering"] < 0.35
-            assert early["steering_saturated"] is False
+            assert 0 < early["conditioned_steering"] <= 1
 
             await asyncio.sleep(0.15)
             later = (await client.describe("vehicle.input.conditioner"))["test_state"]
-            assert early["conditioned_steering"] < later["conditioned_steering"] < 1
+            assert early["conditioned_steering"] <= later["conditioned_steering"] <= 1
             camera = (await client.describe("camera.chase.rig"))["test_state"]
             assert camera["inherits_vehicle_rotation"] is False
             assert camera["horizon_roll_degrees"] < 0.01
@@ -120,6 +121,9 @@ async def test_controller_deadzone_curve_and_independent_axes(tmp_path: Path) ->
         await asyncio.sleep(0.05)
         deadzone = (await client.describe("vehicle.input.conditioner"))["test_state"]
         assert deadzone["device_source"] == "controller"
+        assert deadzone["controller_deadzone"] == pytest.approx(0.12)
+        assert deadzone["controller_exponent"] == pytest.approx(1.35)
+        assert deadzone["controller_rate_per_second"] == pytest.approx(4.5)
         assert deadzone["conditioned_steering"] == 0
 
         await client.request("input.joypad_motion", {"axis": "left_x", "value": 0.5})
