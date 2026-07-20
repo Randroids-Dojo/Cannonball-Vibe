@@ -317,9 +317,17 @@ async def test_official_engine_semantic_round_trip(tmp_path: Path) -> None:
         assert trip_map["test_state"]["simulation_paused"] is True
         assert trip_map["test_state"]["distance_remaining_m"] > 0
         assert trip_map["test_state"]["feature_count"] >= 0
+        assert trip_map["test_state"]["geometry_lod"] == 0
+        assert trip_map["test_state"]["projected_point_count"] > 0
+        assert trip_map["test_state"]["travel_mode_id"] == "real-time"
+        assert trip_map["test_state"]["travel_time_scale"] == 1
+        assert 0 < trip_map["test_state"]["draw_batch_count"] <= (
+            trip_map["test_state"]["alternative_count"] + 2
+        )
         summary = await client.describe("trip-map.summary")
         assert "mi completed" in summary["text"]
         assert "mi remaining" in summary["text"]
+        assert "1:1 endurance" in summary["text"]
         selection = await client.describe("trip-map.selection")
         assert (
             summary["bounds"]["y"] + summary["bounds"]["height"]

@@ -116,17 +116,23 @@ route identities and milepoint records with source provenance; named exits and
 corrected lane topology require the checksum-locked source or deterministic
 authored-overlay process tracked by Q-017.
 
-Godot road generation will derive variable width, markings, shoulders, gore
-areas, barriers, collision, signs, and standardized interchange geometry from
-that contract. `Cannonball.Core` will expose a trip-map projection over
-content-addressed simplified immutable graph geometry and authoritative run
-state. Schema 5 carries LODs 0–2 per edge, validates the cross-language content
-hash, and enforces a 16 MB simplified-map payload budget in addition to the
-64 MB root budget. Stable node and edge associations keep the continental map
-independent of streamed road meshes.
-The Godot full-screen map will show traveled and planned paths, progress,
+Godot road generation derives variable width, markings, shoulders, gore areas,
+barriers, collision, signs, and standardized interchange geometry from that
+contract. `Cannonball.Core` exposes a trip-map projection over content-addressed
+simplified immutable graph geometry and authoritative run state. Schema 5
+carries LODs 0–2 per edge, validates the cross-language content hash, and
+enforces a 16 MB simplified-map payload budget in addition to the 64 MB root
+budget. The projector indexes semantic lookups and chooses the most detailed
+common route LOD that fits a 20,000-point default draw budget; connected Godot
+paths are batched across edge boundaries. Stable node and edge associations
+keep the continental map independent of streamed road meshes.
+
+The Godot full-screen map shows traveled and planned paths, progress,
 alternatives, stops, exits, and transfers without depending on streamed scene
-geometry. Roadside mile-marker values remain distinct from total trip progress.
+geometry. Its data-driven 1:1, fixed-ratio, and selective-cruise estimate inputs
+change ETA only; edge-plus-distance position and real route distance remain
+authoritative. Roadside mile-marker values remain distinct from total trip
+progress. Q-001 still owns the commercial run-mode decision.
 
 Generated continental packages belong in release/CI artifacts, not Git. Source
 art, audio, and binary models use Git LFS.

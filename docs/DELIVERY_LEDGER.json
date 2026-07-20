@@ -1165,6 +1165,9 @@
         "automation/playgodot/",
         "scripts/verify-trip-map.sh",
         "scripts/capture-scenario.sh",
+        "docs/TECH_STACK.md",
+        "docs/QUESTIONS_FOR_RANDROID_2026-07-19_TRIP_MAP.md",
+        "docs/audits/2026-07-20-p0-013-scale-closeout.md",
         "evidence/M3/P0-013.json"
       ],
       "acceptance": [
@@ -1189,7 +1192,7 @@
         "name": "Trip-map comprehension and accessibility usability review",
         "required_for": "M3"
       },
-      "notes": "P1-004 completed and ADR-0008 activated on 2026-07-19. PlayGodot is required for the trip map's interactive rendered UI, while Core models and official-engine scenarios remain authoritative for route and simulation behavior and Computer Use remains the black-box visual layer. The first-pass authoritative projection, Godot overlay, official-engine scenario, rendered UI automation, and review capture were implemented at c98b78336f7e6d98576a9523952961bd1ed18d9d. Local feature and M0 gates pass; Q-028 human usability approval plus continental-scale and compression-mode closeout evidence remain before completion."
+      "notes": "P1-004 completed and ADR-0008 activated on 2026-07-19. PlayGodot is required for the trip map's interactive rendered UI, while Core models and official-engine scenarios remain authoritative for route and simulation behavior and Computer Use remains the black-box visual layer. The first-pass authoritative projection, Godot overlay, official-engine scenario, rendered UI automation, and review capture were implemented at c98b78336f7e6d98576a9523952961bd1ed18d9d. The subsequent machine closeout adds indexed semantic lookups, point-budgeted LOD selection, batched path rendering, a deterministic 3,000-mile scale scenario, and data-driven 1:1, fixed-ratio, and selective-cruise estimates that preserve authoritative route distance. Q-028 human usability approval remains required before completion; Q-001 still owns the commercial run-mode decision."
     },
     {
       "id": "P1-008",

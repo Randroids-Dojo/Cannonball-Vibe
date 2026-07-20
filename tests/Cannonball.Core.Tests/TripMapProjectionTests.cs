@@ -2,6 +2,7 @@ using Cannonball.Core.Content;
 using Cannonball.Core.Routes;
 using Cannonball.Core.Runs;
 using Cannonball.Core.Simulation;
+using System.Diagnostics;
 
 namespace Cannonball.Core.Tests;
 
@@ -77,6 +78,79 @@ public sealed class TripMapProjectionTests
         Assert.Contains("simplified immutable map geometry", error.Message);
     }
 
+    [Fact]
+    public void Compression_modes_change_only_estimates_and_preserve_authoritative_progress()
+    {
+        var package = CreatePackage();
+        var realTime = TripMapProjector.Project(
+            package,
+            "approach",
+            25,
+            ["approach", "through"],
+            AssistProfile.Balanced,
+            0,
+            TripMapProjectionOptions.Default);
+        var fixedCompression = TripMapProjector.Project(
+            package,
+            "approach",
+            25,
+            ["approach", "through"],
+            AssistProfile.Balanced,
+            0,
+            new TripMapProjectionOptions(null, 20_000, TripMapTravelMode.FixedRatio(3)));
+        var selectiveCruise = TripMapProjector.Project(
+            package,
+            "approach",
+            25,
+            ["approach", "through"],
+            AssistProfile.Balanced,
+            0,
+            new TripMapProjectionOptions(null, 20_000, TripMapTravelMode.SelectiveCruise(2.5)));
+
+        Assert.Equal(realTime.DistanceCompletedMeters, fixedCompression.DistanceCompletedMeters);
+        Assert.Equal(realTime.DistanceRemainingMeters, fixedCompression.DistanceRemainingMeters);
+        Assert.Equal(realTime.Current, fixedCompression.Current);
+        Assert.Equal(realTime.EstimatedRemainingSeconds / 3,
+            fixedCompression.EstimatedRemainingSeconds, 9);
+        Assert.Equal(realTime.EstimatedRemainingSeconds / 2.5,
+            selectiveCruise.EstimatedRemainingSeconds, 9);
+        Assert.Equal("fixed-3x", fixedCompression.TravelMode.Id);
+        Assert.Equal(TripMapCompressionKind.SelectiveCruise,
+            selectiveCruise.TravelMode.CompressionKind);
+    }
+
+    [Fact]
+    public void Continental_projection_selects_a_bounded_lod_and_avoids_global_rescans()
+    {
+        const int edgeCount = 3_000;
+        var package = CreateContinentalPackage(edgeCount);
+        var routePlan = Enumerable.Range(0, edgeCount)
+            .Select(index => $"edge-{index:D4}")
+            .ToArray();
+        var stopwatch = Stopwatch.StartNew();
+
+        var state = TripMapProjector.Project(
+            package,
+            routePlan[edgeCount / 2],
+            804.672,
+            routePlan,
+            AssistProfile.Balanced,
+            30,
+            new TripMapProjectionOptions(
+                null,
+                TripMapProjectionOptions.DefaultPointBudget,
+                TripMapTravelMode.SelectiveCruise(3)));
+
+        stopwatch.Stop();
+        Assert.Equal(1, state.GeometryLod);
+        Assert.InRange(state.ProjectedPointCount, 1, TripMapProjectionOptions.DefaultPointBudget);
+        Assert.InRange(state.DistanceCompletedMeters / 1609.344, 1500.49, 1500.51);
+        Assert.InRange(state.DistanceRemainingMeters / 1609.344, 1499.49, 1499.51);
+        Assert.Equal("selective-3x", state.TravelMode.Id);
+        Assert.True(stopwatch.Elapsed < TimeSpan.FromSeconds(2),
+            $"Continental projection took {stopwatch.Elapsed.TotalMilliseconds:0.0} ms.");
+    }
+
     private static RouteContentPackage CreatePackage()
     {
         var approach = Edge("approach", "start", "junction", ["route-main"]);
@@ -125,12 +199,11 @@ public sealed class TripMapProjectionTests
             ],
             [],
             [],
-            [
-                Geometry("approach", 0, 100, 0),
-                Geometry("through", 100, 200, 0),
-                Geometry("ramp", 100, 170, -50),
-                Geometry("transfer", 100, 170, 50),
-            ],
+            GeometryLods("approach", 0, 100, 0)
+                .Concat(GeometryLods("through", 100, 200, 0))
+                .Concat(GeometryLods("ramp", 100, 170, -50))
+                .Concat(GeometryLods("transfer", 100, 170, 50))
+                .ToArray(),
             false);
         return new RouteContentPackage(graph, new Dictionary<string, ChunkManifest>(), Semantics: semantics);
     }
@@ -145,17 +218,108 @@ public sealed class TripMapProjectionTests
             RouteIdentityIds = identities,
         };
 
-    private static SimplifiedMapGeometry Geometry(
+    private static IReadOnlyList<SimplifiedMapGeometry> GeometryLods(
         string edgeId,
         double startX,
         double endX,
         double endY) =>
-        new(
-            edgeId,
-            0,
-            [
-                new SimplifiedMapPoint(startX, 0, 0),
-                new SimplifiedMapPoint(endX, endY, 100),
-            ],
-            "fixture");
+        [
+            Geometry(edgeId, 0, startX, endX, 0, endY, 5, 100),
+            Geometry(edgeId, 1, startX, endX, 0, endY, 3, 100),
+            Geometry(edgeId, 2, startX, endX, 0, endY, 2, 100),
+        ];
+
+    private static SimplifiedMapGeometry Geometry(
+        string edgeId,
+        int lod,
+        double startX,
+        double endX,
+        double startY,
+        double endY,
+        int pointCount,
+        double lengthMeters)
+    {
+        var points = Enumerable.Range(0, pointCount)
+            .Select(index =>
+            {
+                var fraction = index / (double)(pointCount - 1);
+                return new SimplifiedMapPoint(
+                    startX + ((endX - startX) * fraction),
+                    startY + ((endY - startY) * fraction),
+                    lengthMeters * fraction);
+            })
+            .ToArray();
+        return new SimplifiedMapGeometry(edgeId, lod, points, "fixture");
+    }
+
+    private static RouteContentPackage CreateContinentalPackage(int edgeCount)
+    {
+        const double edgeLength = 1609.344;
+        var provenance = new RouteSemanticProvenance(
+            SemanticProvenanceKind.AuthoredOverride,
+            "fixture",
+            "continental-scale",
+            new string('b', 64),
+            "Deterministic scale fixture; not asserted as observed geography.",
+            "p0-013-scale-v1");
+        var identity = new RouteIdentity(
+            "route-scale", "TEST", "3000", "automation", "east", "", provenance);
+        var edges = new RouteEdge[edgeCount];
+        var connectors = new JunctionConnector[Math.Max(0, edgeCount - 1)];
+        var geometry = new List<SimplifiedMapGeometry>(edgeCount * 3);
+        for (var index = 0; index < edgeCount; index++)
+        {
+            var edgeId = $"edge-{index:D4}";
+            edges[index] = new RouteEdge(
+                edgeId,
+                $"node-{index:D4}",
+                $"node-{index + 1:D4}",
+                edgeLength,
+                2,
+                33.528,
+                [],
+                [],
+                "test",
+                "scale",
+                [])
+            {
+                RouteIdentityIds = [identity.Id],
+            };
+            var startX = index * edgeLength;
+            var startY = 40 * Math.Sin(index / 20.0);
+            var endY = 40 * Math.Sin((index + 1) / 20.0);
+            geometry.Add(Geometry(
+                edgeId, 0, startX, startX + edgeLength, startY, endY, 17, edgeLength));
+            geometry.Add(Geometry(
+                edgeId, 1, startX, startX + edgeLength, startY, endY, 5, edgeLength));
+            geometry.Add(Geometry(
+                edgeId, 2, startX, startX + edgeLength, startY, endY, 2, edgeLength));
+            if (index > 0)
+            {
+                var previousEdgeId = $"edge-{index - 1:D4}";
+                connectors[index - 1] = new JunctionConnector(
+                    $"connector-{index - 1:D4}",
+                    $"node-{index:D4}",
+                    previousEdgeId,
+                    $"{previousEdgeId}:lane:0",
+                    edgeId,
+                    $"{edgeId}:lane:0",
+                    JunctionMovement.Continuation,
+                    provenance);
+            }
+        }
+        var nodes = Enumerable.Range(0, edgeCount + 1)
+            .Select(index => new RouteNode(
+                $"node-{index:D4}",
+                default,
+                index is 0 || index == edgeCount ? "route-end" : "route",
+                index == edgeCount ? [] : [$"edge-{index:D4}"]))
+            .ToArray();
+        var semantics = new RouteSemanticContent(
+            [], connectors, [identity], [], [], [], geometry, false);
+        return new RouteContentPackage(
+            new InMemoryRouteGraph("trip-map-continental-scale", nodes, edges),
+            new Dictionary<string, ChunkManifest>(),
+            Semantics: semantics);
+    }
 }

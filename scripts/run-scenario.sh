@@ -133,6 +133,9 @@ while [[ $# -gt 0 ]]; do
       elif [[ "$2" == "camera-handling" ]]; then
         scenario_mode="camera-handling"
         scenario_args+=("--camera-handling-profile")
+      elif [[ "$2" == "trip-map-scale" ]]; then
+        scenario_mode="trip-map-scale"
+        scenario_args+=("--trip-map-scale-profile")
       else
         scenario_args+=("--profile=$2")
       fi
@@ -161,6 +164,9 @@ while [[ $# -gt 0 ]]; do
       elif [[ "$profile" == "camera-handling" ]]; then
         scenario_mode="camera-handling"
         scenario_args+=("--camera-handling-profile")
+      elif [[ "$profile" == "trip-map-scale" ]]; then
+        scenario_mode="trip-map-scale"
+        scenario_args+=("--trip-map-scale-profile")
       else
         scenario_args+=("$1")
       fi

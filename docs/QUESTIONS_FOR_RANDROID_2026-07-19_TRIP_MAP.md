@@ -1,8 +1,9 @@
 # Questions for Randroid: P0-013 trip map
 
 This handoff contains the only current owner-blocking decision for P0-013.
-Machine verification and the independent adversarial review are recorded in
-[the implementation audit](audits/2026-07-19-p0-013-trip-map-review.md).
+Machine verification and independent adversarial review are recorded in
+[the implementation audit](audits/2026-07-19-p0-013-trip-map-review.md) and
+[the continental-scale closeout](audits/2026-07-20-p0-013-scale-closeout.md).
 
 ## Q-028 — Trip-map comprehension and accessibility review
 
@@ -21,9 +22,10 @@ the controls without relying only on route color.
 ### A — Approve the first-pass map (recommended)
 
 Pros: clears the required human gate; preserves the tested interaction and
-lets the next pass focus on continental scale, compression modes, and richer
-cartography. Cons: accepts this deliberately utilitarian visual language for
-the milestone rather than requiring final art quality now.
+lets the next pass focus on richer cartography. Continental-scale LOD selection
+and data-driven compression estimates are now machine-verified. Cons: accepts
+this deliberately utilitarian visual language for the milestone rather than
+requiring final art quality now.
 
 ### B — Approve with named follow-ups
 
