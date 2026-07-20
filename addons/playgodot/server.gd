@@ -629,7 +629,7 @@ func _input_key(params: Dictionary) -> Dictionary:
 func _input_joypad_motion(params: Dictionary) -> Dictionary:
 	var axis_name = params.get("axis")
 	var value = params.get("value")
-	var device = params.get("device", 0)
+	var device := _joypad_device(params)
 	var axes := {
 		"left_x": JOY_AXIS_LEFT_X,
 		"left_y": JOY_AXIS_LEFT_Y,
@@ -641,9 +641,7 @@ func _input_joypad_motion(params: Dictionary) -> Dictionary:
 		or not axes.has(axis_name)
 		or not (value is int or value is float)
 		or value is bool
-		or not device is int
 		or device < 0
-		or device > 15
 		or not is_finite(float(value))
 		or absf(float(value)) > 1.0
 	):
@@ -664,7 +662,7 @@ func _input_joypad_motion(params: Dictionary) -> Dictionary:
 func _input_joypad_button(params: Dictionary) -> Dictionary:
 	var button_name = params.get("button")
 	var state = params.get("state")
-	var device = params.get("device", 0)
+	var device := _joypad_device(params)
 	var buttons := {
 		"a": JOY_BUTTON_A,
 		"b": JOY_BUTTON_B,
@@ -677,9 +675,7 @@ func _input_joypad_button(params: Dictionary) -> Dictionary:
 		not button_name is String
 		or not buttons.has(button_name)
 		or state not in ["press", "release"]
-		or not device is int
 		or device < 0
-		or device > 15
 	):
 		return _error(-32602, "INVALID_PARAMS", "Invalid joypad button or state")
 	var event := InputEventJoypadButton.new()
@@ -693,6 +689,16 @@ func _input_joypad_button(params: Dictionary) -> Dictionary:
 	else:
 		_pressed_joy_buttons.erase(key)
 	return {"result": {"button": button_name, "state": state, "device": device}}
+
+
+func _joypad_device(params: Dictionary) -> int:
+	var value = params.get("device", 0)
+	if not (value is int or value is float) or value is bool:
+		return -1
+	var numeric := float(value)
+	if not is_finite(numeric) or numeric != floorf(numeric) or numeric < 0.0 or numeric > 15.0:
+		return -1
+	return int(numeric)
 
 
 func _input_click(params: Dictionary) -> Dictionary:

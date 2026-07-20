@@ -14,6 +14,8 @@ The exact source-release publication handoff is
 [Q-027](QUESTIONS_FOR_RANDROID_2026-07-19_SOURCE_PUBLICATION.md).
 The current trip-map usability handoff is
 [Q-028](QUESTIONS_FOR_RANDROID_2026-07-19_TRIP_MAP.md).
+The current camera-comfort handoff is
+[Q-029](QUESTIONS_FOR_RANDROID_2026-07-20_HANDLING_GATES.md).
 
 | ID | Priority | Blocking milestone | Owner | Question | Working default | Evidence required |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -36,6 +38,7 @@ The current trip-map usability handoff is
 | Q-024 | P1 | M5 | Art + product | Which production highway visual language should govern roads, signs, structures, and roadside assets? | Use contemporary Colorado freeway realism as a reference-informed technical baseline without claiming regulatory compliance. | Representative ordinary-road, lane-change, exit, gore, bridge/overpass, and transfer captures in daylight and night, plus human readability, art-direction, and rights approval. |
 | Q-026 | P0 | M3 | Product + roads + traffic | Must the first playable corridor support undivided two-way highways as well as divided mainlines and one-way ramps? | Ship reciprocal divided mainlines plus unpaired ramps and true one-way roads first; design undivided two-way cross-sections later. | Representative corridor coverage, traffic/collision risk, route-choice value, marking complexity, and owner scope approval. |
 | Q-028 | P0 | M3 | Product + accessibility | Does the P0-013 first-pass trip map communicate route progress, alternatives, exits, transfers, services, and controls clearly without relying only on color? | Keep P0-013 in progress while the machine-verified build and capture await owner review. | Owner review of the representative capture and keyboard/controller interaction; see the Q-028 handoff. |
+| Q-029 | P0 | M0 | Product + accessibility | Are the stabilized chase and cockpit cameras comfortable and readable during sustained driving, braking, resets, and view changes? | Keep P0-017 and dependent P0-018 in progress until both views receive an explicit owner decision. | Five-minute owner review in each view using the Q-029 handoff. |
 
 ## Recently resolved
 

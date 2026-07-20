@@ -80,10 +80,29 @@ public sealed class DrivingInputConditionerTests
     }
 
     [Theory]
+    [InlineData(AssistProfile.Accessible, 3.0)]
+    [InlineData(AssistProfile.Balanced, 4.5)]
+    [InlineData(AssistProfile.Raw, 8.0)]
+    public void ControllerSteeringUsesDeclaredProfileRate(
+        AssistProfile profile,
+        double expectedRate)
+    {
+        var conditioner = new DrivingInputConditioner();
+
+        var result = conditioner.Step(
+            new RawDrivingInput(0, 0, 0, 0, 1, DrivingInputDevice.Controller),
+            0,
+            1.0 / 120,
+            profile);
+
+        Assert.Equal(expectedRate / 120, result.Steering, 6);
+    }
+
+    [Theory]
     [InlineData(AssistProfile.Accessible, 0.26)]
     [InlineData(AssistProfile.Balanced, 0.31)]
     [InlineData(AssistProfile.Raw, 0.40)]
-    public void HighSpeedSteeringUsesDeclaredProfileAuthority(
+    public void KeyboardHighSpeedSteeringUsesDeclaredProfileAuthority(
         AssistProfile profile,
         double expectedAuthority)
     {

@@ -191,6 +191,11 @@ public sealed class DrivingInputConditioner
         DrivingInputTuning tuning,
         DrivingInputDevice device)
     {
+        if (device == DrivingInputDevice.Controller)
+        {
+            return tuning.ControllerRatePerSecond;
+        }
+
         var rate = Math.Sign(target) != 0 &&
                 Math.Sign(_steering) != 0 &&
                 Math.Sign(target) != Math.Sign(_steering)
@@ -198,9 +203,7 @@ public sealed class DrivingInputConditioner
             : Math.Abs(target) > Math.Abs(_steering)
                 ? tuning.KeyboardRisePerSecond
                 : tuning.KeyboardReturnPerSecond;
-        return device == DrivingInputDevice.Controller
-            ? Math.Min(rate, tuning.ControllerRatePerSecond)
-            : rate;
+        return rate;
     }
 
     private static double ShapeControllerAxis(double value, double deadzone, double exponent)

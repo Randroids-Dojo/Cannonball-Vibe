@@ -71,6 +71,10 @@ the conditioner derives its immutable tuning from that restored profile.
   request timeout before servicing the first gameplay input. The live gate now uses a
   bounded 30-second request window and proves the semantic input controller is
   responsive before injecting input; the client default remains 10 seconds.
+- Review hardening made the controller rate authoritative, prevents sub-deadzone
+  analog noise from retaining device priority, scopes disconnect cleanup to the
+  active physical controller, accepts bounded whole-number JSON device IDs, and
+  makes the verification entry point honor narrower device/profile scopes.
 
 ## Remaining boundary
 

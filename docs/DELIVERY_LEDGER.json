@@ -211,7 +211,7 @@
         "evidence/M0/P0-018.json"
       ],
       "human_gate": null,
-      "notes": "Implementation may proceed against the merged and verified P0-017 camera foundation while its human comfort gate remains pending. P0-018 cannot be marked complete until P0-017 is complete. Physical steering wheels, pedals, and force feedback remain governed by Q-006 and are deliberately outside this keyboard-and-controller baseline."
+      "notes": "Implementation may proceed against the merged and verified P0-017 camera foundation while its human comfort gate remains pending. P0-018 cannot be marked complete until P0-017 is complete. The single ChaseCameraRig.cs reset-snap edit is coordinated under P0-017's broader game/Camera/ ownership and does not transfer camera behavior ownership to P0-018. Physical steering wheels, pedals, and force feedback remain governed by Q-006 and are deliberately outside this keyboard-and-controller baseline."
     },
     {
       "id": "P0-019",

@@ -10,6 +10,13 @@ import pytest
 from cannonball_playgodot import PlayGodotProcess
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
+REQUESTED_PROFILES = set(
+    filter(None, os.environ.get("CANNONBALL_DRIVING_PROFILES", "all").split(","))
+)
+pytestmark = pytest.mark.skipif(
+    "all" not in REQUESTED_PROFILES and "balanced" not in REQUESTED_PROFILES,
+    reason="Live driving scenarios currently exercise the Balanced profile",
+)
 
 
 def _route_package() -> Path:
@@ -124,18 +131,43 @@ async def test_controller_deadzone_curve_and_independent_axes(tmp_path: Path) ->
         log_path=artifacts / "driving-input-controller-godot.log",
     )
     async with process as client:
-        await client.request("input.joypad_motion", {"axis": "left_x", "value": 0.08})
+        motion = await client.request(
+            "input.joypad_motion", {"axis": "left_x", "value": 0.08, "device": 3}
+        )
+        assert motion["device"] == 3
         await asyncio.sleep(0.05)
         deadzone = (await client.describe("vehicle.input.conditioner"))["test_state"]
-        assert deadzone["device_source"] == "controller"
+        assert deadzone["device_source"] == "keyboard"
         assert deadzone["controller_deadzone"] == pytest.approx(0.12)
         assert deadzone["controller_exponent"] == pytest.approx(1.35)
         assert deadzone["controller_rate_per_second"] == pytest.approx(4.5)
         assert deadzone["conditioned_steering"] == 0
 
+        await _action(client, "accelerate", "press")
+        try:
+            await asyncio.sleep(0.05)
+            keyboard = (await client.describe("vehicle.input.conditioner"))["test_state"]
+            assert keyboard["device_source"] == "keyboard"
+            assert keyboard["conditioned_throttle"] > 0
+            assert keyboard["conditioned_steering"] == 0
+        finally:
+            await _action(client, "accelerate", "release")
+
+        await client.request(
+            "input.joypad_motion", {"axis": "left_x", "value": 0.5, "device": 3}
+        )
+        await asyncio.sleep(0.03)
+        tagged = (await client.describe("vehicle.input.conditioner"))["test_state"]
+        assert tagged["active_controller_device"] == 3
+        await client.request(
+            "input.joypad_motion", {"axis": "left_x", "value": 0, "device": 3}
+        )
+
         await client.request("input.joypad_motion", {"axis": "left_x", "value": 0.5})
         await asyncio.sleep(0.08)
         curved = (await client.describe("vehicle.input.conditioner"))["test_state"]
+        assert curved["device_source"] == "controller"
+        assert curved["active_controller_device"] == 0
         assert 0 < curved["conditioned_steering"] < 0.5
         assert 0 < curved["steering_target"] < 0.5
 
@@ -153,6 +185,19 @@ async def test_controller_deadzone_curve_and_independent_axes(tmp_path: Path) ->
         assert braking["raw_service_brake"] > 0.99
         assert braking["conditioned_service_brake"] > 0
         assert braking["conditioned_throttle"] == 0
+
+        button = await client.request(
+            "input.joypad_button", {"button": "x", "state": "press", "device": 3}
+        )
+        assert button["device"] == 3
+        await client.request(
+            "input.joypad_button", {"button": "x", "state": "release", "device": 3}
+        )
+        await client.request("input.joypad_button", {"button": "x", "state": "press"})
+        await asyncio.sleep(0.05)
+        handbrake = (await client.describe("vehicle.input.conditioner"))["test_state"]
+        assert handbrake["raw_handbrake"] == 1
+        await client.request("input.joypad_button", {"button": "x", "state": "release"})
 
         await client.request("input.joypad_motion", {"axis": "left_x", "value": 0})
         await client.request("input.joypad_motion", {"axis": "trigger_right", "value": 0})

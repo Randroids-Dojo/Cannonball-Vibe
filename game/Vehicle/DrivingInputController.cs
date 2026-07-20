@@ -12,6 +12,7 @@ public sealed partial class DrivingInputController : Node
     private readonly DrivingInputConditioner _conditioner = new();
     private readonly Godot.Collections.Dictionary _automationState = new();
     private DrivingInputDevice _lastDevice = DrivingInputDevice.Keyboard;
+    private long _activeControllerDevice = -1;
     private bool _suppressUntilNeutral;
     private bool _wasPaused;
     private string _suppressionReason = "none";
@@ -49,11 +50,15 @@ public sealed partial class DrivingInputController : Node
 
     public override void _Input(InputEvent @event)
     {
-        if (@event is InputEventJoypadButton or InputEventJoypadMotion)
+        if (@event is InputEventJoypadButton { Pressed: true } button)
         {
-            _lastDevice = DrivingInputDevice.Controller;
+            SelectController(button.Device);
         }
-        else if (@event is InputEventKey)
+        else if (@event is InputEventJoypadMotion motion && IsMeaningfulControllerMotion(motion))
+        {
+            SelectController(motion.Device);
+        }
+        else if (@event is InputEventKey { Pressed: true })
         {
             _lastDevice = DrivingInputDevice.Keyboard;
         }
@@ -131,7 +136,9 @@ public sealed partial class DrivingInputController : Node
             DrivingInputDevice.Controller,
             Godot.Input.IsActionJustPressed("reset_vehicle_controller"));
         var keyboardActivity = Activity(keyboard);
-        var controllerActivity = Activity(controller);
+        var controllerActivity = ControllerActivity(
+            controller,
+            DrivingInputTuning.For(_activeProfile).ControllerDeadzone);
         if (controllerActivity > ActiveInputEpsilon && keyboardActivity <= ActiveInputEpsilon)
         {
             _lastDevice = DrivingInputDevice.Controller;
@@ -146,11 +153,14 @@ public sealed partial class DrivingInputController : Node
             : keyboard;
     }
 
-    private void OnJoyConnectionChanged(long _device, bool connected)
+    private void OnJoyConnectionChanged(long device, bool connected)
     {
-        if (!connected && _lastDevice == DrivingInputDevice.Controller)
+        if (!connected &&
+            _lastDevice == DrivingInputDevice.Controller &&
+            device == _activeControllerDevice)
         {
             ReleaseControllerActions();
+            _activeControllerDevice = -1;
             ClearAndSuppress("controller_disconnect");
         }
     }
@@ -161,6 +171,7 @@ public sealed partial class DrivingInputController : Node
     {
         var tuning = DrivingInputTuning.For(_activeProfile);
         _automationState["device_source"] = conditioned.Device.ToString().ToLowerInvariant();
+        _automationState["active_controller_device"] = _activeControllerDevice;
         _automationState["active_profile"] = _activeProfile.ToString().ToLowerInvariant();
         _automationState["keyboard_rise_per_second"] = tuning.KeyboardRisePerSecond;
         _automationState["controller_deadzone"] = tuning.ControllerDeadzone;
@@ -189,10 +200,43 @@ public sealed partial class DrivingInputController : Node
     }
 
     private static float Activity(RawDrivingInput input) => (float)Math.Max(
-        Math.Abs(input.Steering),
+        input.Reset ? 1 : 0,
         Math.Max(
-            Math.Max(input.Throttle, input.ServiceBrake),
-            Math.Max(input.Reverse, input.Handbrake)));
+            Math.Abs(input.Steering),
+            Math.Max(
+                Math.Max(input.Throttle, input.ServiceBrake),
+                Math.Max(input.Reverse, input.Handbrake))));
+
+    private static float ControllerActivity(RawDrivingInput input, double deadzone) =>
+        (float)Math.Max(
+            input.Reset ? 1 : 0,
+            Math.Max(
+                DeadzoneActivity(input.Steering, deadzone),
+                Math.Max(
+                    Math.Max(
+                        DeadzoneActivity(input.Throttle, deadzone),
+                        DeadzoneActivity(input.ServiceBrake, deadzone)),
+                    Math.Max(input.Reverse, input.Handbrake))));
+
+    private static double DeadzoneActivity(double value, double deadzone) =>
+        Math.Abs(value) > deadzone ? Math.Abs(value) : 0;
+
+    private bool IsMeaningfulControllerMotion(InputEventJoypadMotion motion)
+    {
+        var deadzone = DrivingInputTuning.For(_activeProfile).ControllerDeadzone;
+        return motion.Axis switch
+        {
+            JoyAxis.LeftX => Math.Abs(motion.AxisValue) > deadzone,
+            JoyAxis.TriggerLeft or JoyAxis.TriggerRight => motion.AxisValue > deadzone,
+            _ => false,
+        };
+    }
+
+    private void SelectController(long device)
+    {
+        _lastDevice = DrivingInputDevice.Controller;
+        _activeControllerDevice = device;
+    }
 
     private static bool IsNeutral(RawDrivingInput input) => Activity(input) <= ActiveInputEpsilon;
 

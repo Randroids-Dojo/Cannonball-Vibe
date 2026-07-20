@@ -3,7 +3,7 @@
 This file contains only decisions that an agent cannot approve. Implementation and
 automated verification continue under the delivery-ledger fixture scopes.
 
-## H-001 — P0-017 camera comfort and readability approval
+## Q-029 — P0-017 camera comfort and readability approval
 
 The stabilized chase/cockpit camera foundation is merged and its automated horizon,
 heading-lag, mode-transition, and renderer checks pass. P0-017 still requires a human
@@ -22,7 +22,7 @@ including sustained steering, braking, a reset, and switching views with `V`.
   readability. Pro: prevents an uncomfortable baseline from hardening. Con: the M0
   handling chain remains open while the camera is retuned.
 
-Record the answer here as `H-001: A`, `H-001: B`, or `H-001: C — <finding>`.
+Record the answer here as `Q-029: A`, `Q-029: B`, or `Q-029: C — <finding>`.
 
 ## Future human gate (not ready for approval)
 
