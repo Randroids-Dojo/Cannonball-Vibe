@@ -165,10 +165,12 @@ public sealed partial class TripMapHud : CanvasLayer
         var completedMiles = _state.DistanceCompletedMeters / 1609.344;
         var remainingMiles = _state.DistanceRemainingMeters / 1609.344;
         var eta = TimeSpan.FromSeconds(_state.EstimatedRemainingSeconds);
+        var etaHours = (int)Math.Floor(eta.TotalHours);
         _summary.Text =
             $"{_state.StartLabel}\nTO  {_state.DestinationLabel}\n\n" +
             $"{completedMiles:0.0} mi completed\n{remainingMiles:0.0} mi remaining\n" +
-            $"ETA  {eta.Hours:0}:{eta.Minutes:00}\n{_state.AssistProfile} estimate";
+            $"ETA  {etaHours:0}:{eta.Minutes:00}\n" +
+            $"{_state.TravelMode.DisplayName} // {_state.AssistProfile} estimate";
 
         _selection.Text = _state.Alternatives.Count == 0
             ? "ROUTE ALTERNATIVES\nNo alternate route at upcoming junctions"
@@ -209,6 +211,12 @@ public sealed partial class TripMapHud : CanvasLayer
                 ["service_stop_count"] = _state?.SelectedServiceStops.Count ?? 0,
                 ["distance_completed_m"] = _state?.DistanceCompletedMeters ?? 0,
                 ["distance_remaining_m"] = _state?.DistanceRemainingMeters ?? 0,
+                ["estimated_remaining_s"] = _state?.EstimatedRemainingSeconds ?? 0,
+                ["geometry_lod"] = _state?.GeometryLod ?? 0,
+                ["projected_point_count"] = _state?.ProjectedPointCount ?? 0,
+                ["draw_batch_count"] = _canvas?.DrawBatchCount ?? 0,
+                ["travel_mode_id"] = _state?.TravelMode.Id ?? "real-time",
+                ["travel_time_scale"] = _state?.TravelMode.EffectiveTimeScale ?? 1,
             });
     }
 

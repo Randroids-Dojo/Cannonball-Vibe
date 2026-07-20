@@ -55,6 +55,7 @@ public sealed partial class Main : Node3D
     private bool _roadVisualProfile;
     private bool _roadVisualReview;
     private bool _tripMapReview;
+    private bool _tripMapScaleProfile;
     private bool _tripMapToggleHeld;
     private bool _roadVisualProfileComplete;
     private bool _longRouteProfile;
@@ -226,12 +227,15 @@ public sealed partial class Main : Node3D
             _roadVisualProfile = arguments.Contains("--road-visual-profile", StringComparer.Ordinal);
             _roadVisualReview = arguments.Contains("--road-visual-review", StringComparer.Ordinal);
             _tripMapReview = arguments.Contains("--trip-map-review", StringComparer.Ordinal);
+            _tripMapScaleProfile = arguments.Contains(
+                "--trip-map-scale-profile",
+                StringComparer.Ordinal);
             _smokeTest = _smokeTest || _stressTest || _shortCorridorSoak || _renderIntegrity ||
                 _geographicReview || _streamingProfile || _topologyProfile || _topologyReview ||
                 _routeChoiceProfile || _routeContextProfile || _routeContextReview ||
                 _vehicleVisualProfile || _vehicleVisualReview || _roadVisualProfile ||
                 _roadVisualReview || _tripMapReview || _cameraHandlingProfile ||
-                _cameraHandlingReview || _longRouteProfile || _resumeVerify;
+                _cameraHandlingReview || _tripMapScaleProfile || _longRouteProfile || _resumeVerify;
             _smokeTargetFrames = _stressTest || _shortCorridorSoak ? 3_600 : 360;
             if (_renderIntegrity)
             {
@@ -281,6 +285,22 @@ public sealed partial class Main : Node3D
             var absoluteRoutePath = Path.GetFullPath(routePath);
             var sourcePackage = FlatBufferRouteContent.Load(absoluteRoutePath);
             _package = sourcePackage;
+            if (_tripMapScaleProfile)
+            {
+                var result = TripMapScaleScenario.Run();
+                GD.Print(
+                    "CANNONBALL_TRIP_MAP_SCALE_OK " +
+                    $"edges={result.EdgeCount} " +
+                    $"distance_miles={result.RouteDistanceMiles:0.000} " +
+                    $"lod={result.GeometryLod} " +
+                    $"points={result.ProjectedPointCount} " +
+                    $"projection_ms={result.ProjectionMilliseconds:0.000} " +
+                    $"real_eta_s={result.RealTimeEstimateSeconds:0.000} " +
+                    $"fixed_eta_s={result.FixedCompressionEstimateSeconds:0.000} " +
+                    $"selective_eta_s={result.SelectiveCruiseEstimateSeconds:0.000}");
+                GetTree().Quit();
+                return;
+            }
             if (_longRouteProfile)
             {
                 _longRouteSourcePath = absoluteRoutePath;

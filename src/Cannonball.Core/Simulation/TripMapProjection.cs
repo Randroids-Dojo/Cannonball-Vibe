@@ -1,6 +1,7 @@
 using Cannonball.Core.Content;
 using Cannonball.Core.Routes;
 using Cannonball.Core.Runs;
+using System.Globalization;
 
 namespace Cannonball.Core.Simulation;
 
@@ -16,6 +17,58 @@ public enum TripMapFeatureKind
     Exit,
     HighwayTransfer,
     ServiceStop,
+}
+
+public enum TripMapCompressionKind
+{
+    RealTime,
+    FixedRatio,
+    SelectiveCruise,
+}
+
+public sealed record TripMapTravelMode(
+    string Id,
+    string DisplayName,
+    TripMapCompressionKind CompressionKind,
+    double EffectiveTimeScale)
+{
+    public static TripMapTravelMode RealTime { get; } = new(
+        "real-time", "1:1 endurance", TripMapCompressionKind.RealTime, 1);
+
+    public static TripMapTravelMode FixedRatio(double ratio)
+    {
+        var stableRatio = ratio.ToString("R", CultureInfo.InvariantCulture);
+        var displayRatio = ratio.ToString("0.###", CultureInfo.InvariantCulture);
+        return new(
+            $"fixed-{stableRatio}x",
+            $"{displayRatio}:1 fixed compression",
+            TripMapCompressionKind.FixedRatio,
+            ratio);
+    }
+
+    public static TripMapTravelMode SelectiveCruise(double effectiveTimeScale)
+    {
+        var stableScale = effectiveTimeScale.ToString("R", CultureInfo.InvariantCulture);
+        var displayScale = effectiveTimeScale.ToString("0.###", CultureInfo.InvariantCulture);
+        return new(
+            $"selective-{stableScale}x",
+            $"Selective cruise ({displayScale}x effective)",
+            TripMapCompressionKind.SelectiveCruise,
+            effectiveTimeScale);
+    }
+}
+
+public sealed record TripMapProjectionOptions(
+    int? GeometryLod,
+    int PointBudget,
+    TripMapTravelMode TravelMode)
+{
+    public const int DefaultPointBudget = 20_000;
+
+    public static TripMapProjectionOptions Default { get; } = new(
+        null,
+        DefaultPointBudget,
+        TripMapTravelMode.RealTime);
 }
 
 public readonly record struct TripMapPoint(double XMeters, double YMeters);
@@ -56,7 +109,10 @@ public sealed record TripMapProjectionState(
     double DistanceCompletedMeters,
     double DistanceRemainingMeters,
     double EstimatedRemainingSeconds,
-    AssistProfile AssistProfile);
+    AssistProfile AssistProfile,
+    int GeometryLod,
+    int ProjectedPointCount,
+    TripMapTravelMode TravelMode);
 
 public static class TripMapProjector
 {
@@ -68,11 +124,29 @@ public static class TripMapProjector
         double currentEdgeDistanceMeters,
         IReadOnlyList<string> routePlan,
         AssistProfile assistProfile,
-        double currentSpeedMetersPerSecond)
+        double currentSpeedMetersPerSecond) => Project(
+            package,
+            currentEdgeId,
+            currentEdgeDistanceMeters,
+            routePlan,
+            assistProfile,
+            currentSpeedMetersPerSecond,
+            TripMapProjectionOptions.Default);
+
+    public static TripMapProjectionState Project(
+        RouteContentPackage package,
+        string currentEdgeId,
+        double currentEdgeDistanceMeters,
+        IReadOnlyList<string> routePlan,
+        AssistProfile assistProfile,
+        double currentSpeedMetersPerSecond,
+        TripMapProjectionOptions options)
     {
         ArgumentNullException.ThrowIfNull(package);
         ArgumentException.ThrowIfNullOrWhiteSpace(currentEdgeId);
         ArgumentNullException.ThrowIfNull(routePlan);
+        ArgumentNullException.ThrowIfNull(options);
+        ValidateOptions(options);
         var semantics = package.Semantics ?? throw new InvalidDataException(
             "Trip map requires route semantic content.");
         if (semantics.SimplifiedMapGeometry.Count == 0)
@@ -89,16 +163,37 @@ public static class TripMapProjector
             throw new ArgumentOutOfRangeException(nameof(currentEdgeDistanceMeters));
         }
 
-        var geometry = semantics.SimplifiedMapGeometry
+        var geometryByEdge = semantics.SimplifiedMapGeometry
             .GroupBy(candidate => candidate.EdgeId, StringComparer.Ordinal)
             .ToDictionary(
                 group => group.Key,
-                group => group.OrderBy(candidate => candidate.Lod).First(),
+                group => (IReadOnlyDictionary<int, SimplifiedMapGeometry>)group.ToDictionary(
+                    candidate => candidate.Lod),
                 StringComparer.Ordinal);
+        var geometryLod = ResolveGeometryLod(linearPlan.EdgeIds, geometryByEdge, options);
+        var geometry = geometryByEdge.ToDictionary(
+            pair => pair.Key,
+            pair => GetGeometry(pair.Value, pair.Key, geometryLod),
+            StringComparer.Ordinal);
         foreach (var edgeId in linearPlan.EdgeIds)
         {
             ValidateGeometry(package.Graph.GetEdge(edgeId), GetGeometry(geometry, edgeId));
         }
+
+        var connectorsByEdge = semantics.JunctionConnectors
+            .GroupBy(candidate => candidate.FromEdgeId, StringComparer.Ordinal)
+            .ToDictionary(
+                group => group.Key,
+                group => (IReadOnlyList<JunctionConnector>)group
+                    .OrderBy(candidate => candidate.Id, StringComparer.Ordinal)
+                    .ToArray(),
+                StringComparer.Ordinal);
+        var exitsByJunctionAndRamp = semantics.Exits
+            .GroupBy(candidate => (candidate.JunctionNodeId, candidate.RampEdgeId))
+            .ToDictionary(group => group.Key, group => group.First());
+        var identitiesById = semantics.RouteIdentities.ToDictionary(
+            candidate => candidate.Id,
+            StringComparer.Ordinal);
 
         var completed = currentSpan.StartMeters + currentEdgeDistanceMeters;
         var remaining = Math.Max(0, linearPlan.TotalLengthMeters - completed);
@@ -125,8 +220,21 @@ public static class TripMapProjector
         var lastEdge = package.Graph.GetEdge(lastSpan.EdgeId);
         var lastGeometry = GetGeometry(geometry, lastSpan.EdgeId);
         var current = PointAt(GetGeometry(geometry, currentEdgeId), currentEdgeDistanceMeters);
-        var alternatives = BuildAlternatives(package, semantics, geometry, linearPlan, completed);
-        var features = BuildFeatures(package, semantics, geometry, linearPlan, completed);
+        var alternatives = BuildAlternatives(
+            package,
+            geometry,
+            linearPlan,
+            completed,
+            connectorsByEdge,
+            exitsByJunctionAndRamp);
+        var features = BuildFeatures(
+            package,
+            geometry,
+            linearPlan,
+            completed,
+            connectorsByEdge,
+            exitsByJunctionAndRamp,
+            identitiesById);
         var serviceStops = features
             .Where(feature => feature.Services.Count > 0)
             .Select(feature => feature with
@@ -144,10 +252,13 @@ public static class TripMapProjector
                 _ => 0.88,
             });
         var expectedSpeed = Math.Max(currentSpeedMetersPerSecond, cruisingSpeed);
+        var projectedPointCount = traveled.Sum(segment => segment.Points.Count) +
+            planned.Sum(segment => segment.Points.Count) +
+            alternatives.Sum(alternative => alternative.Segments.Sum(segment => segment.Points.Count));
 
         return new TripMapProjectionState(
-            RouteLabel(package.Graph.GetEdge(linearPlan.Edges[0].EdgeId), semantics, "START"),
-            RouteLabel(lastEdge, semantics, "DESTINATION"),
+            RouteLabel(package.Graph.GetEdge(linearPlan.Edges[0].EdgeId), identitiesById, "START"),
+            RouteLabel(lastEdge, identitiesById, "DESTINATION"),
             PointAt(firstGeometry, 0),
             PointAt(lastGeometry, lastEdge.LengthMeters),
             current,
@@ -158,16 +269,21 @@ public static class TripMapProjector
             serviceStops,
             completed,
             remaining,
-            expectedSpeed <= 0 ? 0 : remaining / expectedSpeed,
-            assistProfile);
+            expectedSpeed <= 0 ? 0 :
+                remaining / expectedSpeed / options.TravelMode.EffectiveTimeScale,
+            assistProfile,
+            geometryLod,
+            projectedPointCount,
+            options.TravelMode);
     }
 
     private static IReadOnlyList<TripMapAlternative> BuildAlternatives(
         RouteContentPackage package,
-        RouteSemanticContent semantics,
         IReadOnlyDictionary<string, SimplifiedMapGeometry> geometry,
         LinearRoutePlan plan,
-        double completed)
+        double completed,
+        IReadOnlyDictionary<string, IReadOnlyList<JunctionConnector>> connectorsByEdge,
+        IReadOnlyDictionary<(string JunctionNodeId, string RampEdgeId), RouteExit> exitsByJunctionAndRamp)
     {
         var result = new List<TripMapAlternative>();
         for (var index = 0; index < plan.Edges.Count; index++)
@@ -178,11 +294,11 @@ public static class TripMapProjector
                 continue;
             }
             var selectedNext = index + 1 < plan.Edges.Count ? plan.Edges[index + 1].EdgeId : null;
-            foreach (var connector in semantics.JunctionConnectors
-                .Where(candidate =>
-                    string.Equals(candidate.FromEdgeId, span.EdgeId, StringComparison.Ordinal) &&
-                    !string.Equals(candidate.ToEdgeId, selectedNext, StringComparison.Ordinal))
-                .OrderBy(candidate => candidate.Id, StringComparer.Ordinal))
+            foreach (var connector in GetConnectors(connectorsByEdge, span.EdgeId)
+                .Where(candidate => !string.Equals(
+                    candidate.ToEdgeId,
+                    selectedNext,
+                    StringComparison.Ordinal)))
             {
                 if (!geometry.TryGetValue(connector.ToEdgeId, out var targetGeometry))
                 {
@@ -199,7 +315,7 @@ public static class TripMapProjector
                     $"alternative.{connector.Id}",
                     connector.Id,
                     target.Id,
-                    AlternativeLabel(connector, semantics),
+                    AlternativeLabel(connector, exitsByJunctionAndRamp),
                     [segment]));
             }
         }
@@ -208,10 +324,12 @@ public static class TripMapProjector
 
     private static IReadOnlyList<TripMapFeature> BuildFeatures(
         RouteContentPackage package,
-        RouteSemanticContent semantics,
         IReadOnlyDictionary<string, SimplifiedMapGeometry> geometry,
         LinearRoutePlan plan,
-        double completed)
+        double completed,
+        IReadOnlyDictionary<string, IReadOnlyList<JunctionConnector>> connectorsByEdge,
+        IReadOnlyDictionary<(string JunctionNodeId, string RampEdgeId), RouteExit> exitsByJunctionAndRamp,
+        IReadOnlyDictionary<string, RouteIdentity> identitiesById)
     {
         var result = new List<TripMapFeature>();
         for (var index = 0; index < plan.Edges.Count; index++)
@@ -223,13 +341,11 @@ public static class TripMapProjector
             }
             var edge = package.Graph.GetEdge(span.EdgeId);
             var position = PointAt(GetGeometry(geometry, edge.Id), edge.LengthMeters);
-            foreach (var connector in semantics.JunctionConnectors
-                .Where(candidate => string.Equals(candidate.FromEdgeId, edge.Id, StringComparison.Ordinal))
-                .OrderBy(candidate => candidate.Id, StringComparer.Ordinal))
+            foreach (var connector in GetConnectors(connectorsByEdge, edge.Id))
             {
-                var exit = semantics.Exits.FirstOrDefault(candidate =>
-                    string.Equals(candidate.JunctionNodeId, connector.JunctionNodeId, StringComparison.Ordinal) &&
-                    string.Equals(candidate.RampEdgeId, connector.ToEdgeId, StringComparison.Ordinal));
+                exitsByJunctionAndRamp.TryGetValue(
+                    (connector.JunctionNodeId, connector.ToEdgeId),
+                    out var exit);
                 if (exit is not null)
                 {
                     var number = string.Concat(exit.Number, exit.Suffix);
@@ -248,7 +364,10 @@ public static class TripMapProjector
                         $"transfer.{connector.Id}",
                         TripMapFeatureKind.HighwayTransfer,
                         "Highway transfer",
-                        RouteLabel(package.Graph.GetEdge(connector.ToEdgeId), semantics, connector.ToEdgeId),
+                        RouteLabel(
+                            package.Graph.GetEdge(connector.ToEdgeId),
+                            identitiesById,
+                            connector.ToEdgeId),
                         span.EndMeters,
                         position,
                         []));
@@ -264,11 +383,13 @@ public static class TripMapProjector
             .ToArray();
     }
 
-    private static string AlternativeLabel(JunctionConnector connector, RouteSemanticContent semantics)
+    private static string AlternativeLabel(
+        JunctionConnector connector,
+        IReadOnlyDictionary<(string JunctionNodeId, string RampEdgeId), RouteExit> exitsByJunctionAndRamp)
     {
-        var exit = semantics.Exits.FirstOrDefault(candidate =>
-            string.Equals(candidate.JunctionNodeId, connector.JunctionNodeId, StringComparison.Ordinal) &&
-            string.Equals(candidate.RampEdgeId, connector.ToEdgeId, StringComparison.Ordinal));
+        exitsByJunctionAndRamp.TryGetValue(
+            (connector.JunctionNodeId, connector.ToEdgeId),
+            out var exit);
         if (exit is not null)
         {
             var number = string.Concat(exit.Number, exit.Suffix);
@@ -281,11 +402,13 @@ public static class TripMapProjector
             : connector.Movement.ToString();
     }
 
-    private static string RouteLabel(RouteEdge edge, RouteSemanticContent semantics, string fallback)
+    private static string RouteLabel(
+        RouteEdge edge,
+        IReadOnlyDictionary<string, RouteIdentity> identitiesById,
+        string fallback)
     {
         var identity = edge.RouteIdentityIds
-            .Select(id => semantics.RouteIdentities.FirstOrDefault(candidate =>
-                string.Equals(candidate.Id, id, StringComparison.Ordinal)))
+            .Select(id => identitiesById.GetValueOrDefault(id))
             .FirstOrDefault(candidate => candidate is not null);
         if (identity is null)
         {
@@ -303,6 +426,96 @@ public static class TripMapProjector
         geometry.TryGetValue(edgeId, out var value)
             ? value
             : throw new InvalidDataException($"Trip map has no simplified geometry for edge '{edgeId}'.");
+
+    private static SimplifiedMapGeometry GetGeometry(
+        IReadOnlyDictionary<int, SimplifiedMapGeometry> geometry,
+        string edgeId,
+        int lod) =>
+        geometry.TryGetValue(lod, out var value)
+            ? value
+            : throw new InvalidDataException(
+                $"Trip map has no simplified geometry for edge '{edgeId}' at LOD {lod}.");
+
+    private static IReadOnlyList<JunctionConnector> GetConnectors(
+        IReadOnlyDictionary<string, IReadOnlyList<JunctionConnector>> connectorsByEdge,
+        string edgeId) => connectorsByEdge.GetValueOrDefault(edgeId) ?? [];
+
+    private static int ResolveGeometryLod(
+        IReadOnlyList<string> routePlan,
+        IReadOnlyDictionary<string, IReadOnlyDictionary<int, SimplifiedMapGeometry>> geometryByEdge,
+        TripMapProjectionOptions options)
+    {
+        HashSet<int>? availableLods = null;
+        foreach (var edgeId in routePlan)
+        {
+            if (!geometryByEdge.TryGetValue(edgeId, out var values))
+            {
+                throw new InvalidDataException(
+                    $"Trip map has no simplified geometry for edge '{edgeId}'.");
+            }
+            if (availableLods is null)
+            {
+                availableLods = values.Keys.ToHashSet();
+            }
+            else
+            {
+                availableLods.IntersectWith(values.Keys);
+            }
+        }
+        if (availableLods is null || availableLods.Count == 0)
+        {
+            throw new InvalidDataException(
+                "Trip map route has no common simplified geometry LOD.");
+        }
+        if (options.GeometryLod is { } requestedLod)
+        {
+            if (!availableLods.Contains(requestedLod))
+            {
+                throw new InvalidDataException(
+                    $"Trip map route does not provide requested geometry LOD {requestedLod}.");
+            }
+            return requestedLod;
+        }
+
+        foreach (var lod in availableLods.OrderBy(value => value))
+        {
+            var pointCount = routePlan.Sum(edgeId => geometryByEdge[edgeId][lod].Points.Count);
+            if (pointCount <= options.PointBudget)
+            {
+                return lod;
+            }
+        }
+        return availableLods.Max();
+    }
+
+    private static void ValidateOptions(TripMapProjectionOptions options)
+    {
+        if (options.GeometryLod is < 0 || options.PointBudget < 2)
+        {
+            throw new ArgumentOutOfRangeException(nameof(options));
+        }
+        var mode = options.TravelMode;
+        if (string.IsNullOrWhiteSpace(mode.Id) || string.IsNullOrWhiteSpace(mode.DisplayName) ||
+            !Enum.IsDefined(mode.CompressionKind) ||
+            !double.IsFinite(mode.EffectiveTimeScale) || mode.EffectiveTimeScale < 1)
+        {
+            throw new ArgumentException("Trip map travel mode is invalid.", nameof(options));
+        }
+        if (mode.CompressionKind == TripMapCompressionKind.RealTime &&
+            Math.Abs(mode.EffectiveTimeScale - 1) > GeometryTolerance)
+        {
+            throw new ArgumentException(
+                "Real-time trip map estimates require a 1:1 time scale.",
+                nameof(options));
+        }
+        if (mode.CompressionKind != TripMapCompressionKind.RealTime &&
+            mode.EffectiveTimeScale <= 1)
+        {
+            throw new ArgumentException(
+                "Compressed trip map estimates require a time scale greater than 1.",
+                nameof(options));
+        }
+    }
 
     private static void ValidateGeometry(RouteEdge edge, SimplifiedMapGeometry geometry)
     {

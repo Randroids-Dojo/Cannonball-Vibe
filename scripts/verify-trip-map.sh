@@ -23,6 +23,9 @@ DOTNET_ROLL_FORWARD=Major dotnet test Cannonball.sln \
 CANNONBALL_SCENARIO_TIMEOUT_SECONDS=180 \
   ./scripts/run-scenario.sh --trip-map-review
 
+CANNONBALL_SCENARIO_TIMEOUT_SECONDS=180 \
+  ./scripts/run-scenario.sh --profile trip-map-scale
+
 if [[ "$automation_mode" == "auto" ]]; then
   ./scripts/verify-playgodot.sh
 fi

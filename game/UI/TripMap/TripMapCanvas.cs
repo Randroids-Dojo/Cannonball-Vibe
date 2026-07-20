@@ -12,9 +12,11 @@ public sealed partial class TripMapCanvas : Control
     private float _zoom = 1;
     private TripMapPoint _minimum;
     private TripMapPoint _maximum;
+    private int _drawBatchCount;
 
     public float Zoom => _zoom;
     public Vector2 Pan => _pan;
+    public int DrawBatchCount => _drawBatchCount;
 
     public override void _Ready()
     {
@@ -28,6 +30,7 @@ public sealed partial class TripMapCanvas : Control
         {
             return;
         }
+        _drawBatchCount = 0;
         DrawSegments(_state.Alternatives.SelectMany(alternative => alternative.Segments),
             new Color("6f7a8b"), 3);
         DrawSegments(_state.Planned, new Color("ecf1f8"), 8);
@@ -92,6 +95,17 @@ public sealed partial class TripMapCanvas : Control
 
     private void DrawSegments(IEnumerable<TripMapPathSegment> segments, Color color, float width)
     {
+        var batch = new List<Vector2>();
+        void Flush()
+        {
+            if (batch.Count >= 2)
+            {
+                DrawPolyline(batch.ToArray(), color, width, antialiased: true);
+                _drawBatchCount++;
+            }
+            batch.Clear();
+        }
+
         foreach (var segment in segments)
         {
             var points = new Vector2[segment.Points.Count];
@@ -99,11 +113,21 @@ public sealed partial class TripMapCanvas : Control
             {
                 points[index] = ToCanvas(segment.Points[index]);
             }
-            if (points.Length >= 2)
+            if (points.Length < 2)
             {
-                DrawPolyline(points, color, width, antialiased: true);
+                continue;
+            }
+            if (batch.Count > 0 && batch[^1].DistanceSquaredTo(points[0]) > 0.01f)
+            {
+                Flush();
+            }
+            var startIndex = batch.Count == 0 ? 0 : 1;
+            for (var index = startIndex; index < points.Length; index++)
+            {
+                batch.Add(points[index]);
             }
         }
+        Flush();
     }
 
     private void DrawMarker(TripMapPoint point, Color color, float radius)
