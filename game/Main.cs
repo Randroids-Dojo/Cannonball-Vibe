@@ -2844,6 +2844,7 @@ public sealed partial class Main : Node3D
         AddKeyAction("reset_vehicle", Key.R);
         AddKeyAction("suspend_run", Key.F5);
         AddKeyAction("cycle_assist", Key.Tab);
+        AddKeyAction("toggle_camera", Key.V);
         AddKeyAction("toggle_trip_map", Key.M);
         AddKeyAction("trip_map_pan_left", Key.Left);
         AddKeyAction("trip_map_pan_right", Key.Right);
@@ -2858,6 +2859,7 @@ public sealed partial class Main : Node3D
         AddJoyAxisAction("brake", JoyAxis.TriggerLeft, 1);
         AddJoyAxisAction("steer_left", JoyAxis.LeftX, -1);
         AddJoyAxisAction("steer_right", JoyAxis.LeftX, 1);
+        AddJoyButtonAction("toggle_camera", JoyButton.RightStick);
         AddJoyButtonAction("toggle_trip_map", JoyButton.Back);
         AddJoyButtonAction("trip_map_pan_left", JoyButton.DpadLeft);
         AddJoyButtonAction("trip_map_pan_right", JoyButton.DpadRight);

@@ -186,6 +186,34 @@ async def test_official_engine_semantic_round_trip(tmp_path: Path) -> None:
         assert streamer["test_state"]["route_start_barrier"] is True
         assert streamer["test_state"]["route_start_barrier_collision"] is True
 
+        chase_camera = await client.describe("camera.chase.rig")
+        camera_state = chase_camera["test_state"]
+        assert camera_state["mode"] == "chase"
+        assert camera_state["top_level"] is True
+        assert camera_state["inherits_vehicle_rotation"] is False
+        assert camera_state["collision_mask"] == 1
+        assert camera_state["horizon_roll_degrees"] < 0.01
+        assert camera_state["spring_length_m"] >= 7.5
+        assert camera_state["active"] is True
+
+        cockpit_camera = await client.describe("camera.cockpit.view")
+        assert cockpit_camera["test_state"] == {
+            "active": False,
+            "mode": "cockpit",
+            "vehicle_local": True,
+        }
+        await client.request("input.action", {"action": "toggle_camera", "state": "press"})
+        await asyncio.sleep(0.05)
+        await client.request("input.action", {"action": "toggle_camera", "state": "release"})
+        await asyncio.sleep(0.05)
+        assert (await client.describe("camera.chase.rig"))["test_state"]["active"] is False
+        assert (await client.describe("camera.cockpit.view"))["test_state"]["active"] is True
+        await client.request("input.action", {"action": "toggle_camera", "state": "press"})
+        await asyncio.sleep(0.05)
+        await client.request("input.action", {"action": "toggle_camera", "state": "release"})
+        await asyncio.sleep(0.05)
+        assert (await client.describe("camera.chase.rig"))["test_state"]["active"] is True
+
         speed = await client.describe("hud.speed")
         assert speed["automation_id"] == "hud.speed"
         assert speed["class"] == "Label"
@@ -389,6 +417,52 @@ async def test_official_engine_semantic_round_trip(tmp_path: Path) -> None:
     assert any(
         entry["method"] == "unknown" and entry["outcome"] == "method_not_found" for entry in entries
     )
+
+
+@pytest.mark.skipif("GODOT_BIN" not in os.environ, reason="GODOT_BIN enables live 4.7.1 tests")
+@pytest.mark.asyncio
+async def test_chase_camera_damps_vehicle_yaw_and_keeps_a_level_horizon(
+    tmp_path: Path,
+) -> None:
+    artifacts = _artifact_directory(tmp_path)
+    process = PlayGodotProcess(
+        REPO_ROOT,
+        _route_package(),
+        capabilities=("read", "input", "screenshot"),
+        transcript=artifacts / "camera-handling.jsonl",
+        log_path=artifacts / "camera-handling-godot.log",
+    )
+    async with process as client:
+        await client.request("input.action", {"action": "accelerate", "state": "press"})
+        try:
+            deadline = asyncio.get_running_loop().time() + 2.0
+            while True:
+                state = (await client.describe("camera.chase.rig"))["test_state"]
+                if state["speed_mps"] >= 8:
+                    break
+                if asyncio.get_running_loop().time() >= deadline:
+                    pytest.fail("Vehicle did not reach the camera steering probe speed")
+                await asyncio.sleep(0.05)
+
+            await client.request(
+                "input.action", {"action": "steer_right", "state": "press"}
+            )
+            await asyncio.sleep(0.25)
+            state = (await client.describe("camera.chase.rig"))["test_state"]
+            assert 1 < state["heading_lag_degrees"] < 45
+            assert state["horizon_roll_degrees"] < 0.01
+            assert state["inherits_vehicle_rotation"] is False
+            screenshot = await client.screenshot(artifacts / "camera-steering.png")
+            assert screenshot["bytes"] > 0
+            assert screenshot["width"] >= 1_200
+            assert screenshot["height"] >= 700
+        finally:
+            await client.request(
+                "input.action", {"action": "steer_right", "state": "release"}
+            )
+            await client.request(
+                "input.action", {"action": "accelerate", "state": "release"}
+            )
 
 
 @pytest.mark.skipif("GODOT_BIN" not in os.environ, reason="GODOT_BIN enables live 4.7.1 tests")

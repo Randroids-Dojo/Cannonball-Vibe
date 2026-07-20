@@ -1,5 +1,6 @@
-using Cannonball.Game.Input;
 using Cannonball.Core.Runs;
+using Cannonball.Game.Camera;
+using Cannonball.Game.Input;
 using Godot;
 
 namespace Cannonball.Game.Vehicle;
@@ -31,6 +32,9 @@ public sealed partial class CannonballVehicle : RigidBody3D
     private int _consecutiveUnsupportedPhysicsFrames;
     private bool _hasBeenGrounded;
     private float _currentSteerAngleRadians;
+    private bool _cameraToggleHeld;
+    private Camera3D _cockpitCamera = null!;
+    private readonly Godot.Collections.Dictionary _cockpitCameraAutomationState = new();
 
     public bool AutopilotEnabled { get; set; }
     public AssistProfile AssistProfile { get; private set; } = AssistProfile.Balanced;
@@ -45,8 +49,10 @@ public sealed partial class CannonballVehicle : RigidBody3D
     public int WellGroundedPhysicsFrames { get; private set; }
     public int MaximumConsecutiveUnsupportedPhysicsFrames { get; private set; }
     public VehicleVisualRig? VisualRig { get; private set; }
+    public ChaseCameraRig ChaseCameraRig { get; private set; } = null!;
     public bool UsesGrayboxVisual { get; private set; }
     public bool ForceGrayboxVisual { get; set; }
+    public string CurrentCameraMode => ChaseCameraRig.IsActive ? "chase" : "cockpit";
 
     public override void _Ready()
     {
@@ -67,6 +73,7 @@ public sealed partial class CannonballVehicle : RigidBody3D
 
     public override void _PhysicsProcess(double delta)
     {
+        UpdateCameraInput();
         var input = AutopilotEnabled ? ReadAutopilot() : _driveInput.Read();
         if (input.Reset || _resetRequested || Position.Y < -20)
         {
@@ -129,6 +136,27 @@ public sealed partial class CannonballVehicle : RigidBody3D
     public void SetVisualLod(int lod) => VisualRig?.SetLod(lod);
 
     public void SetDamageHighlight(bool visible) => VisualRig?.SetDamageHighlight(visible);
+
+    public void ToggleCameraMode() => SetCameraMode(CurrentCameraMode != "cockpit");
+
+    public void SetCameraMode(bool cockpit)
+    {
+        ChaseCameraRig.SetActive(!cockpit);
+        _cockpitCamera.Current = cockpit;
+        _cockpitCameraAutomationState["active"] = cockpit;
+        _cockpitCameraAutomationState["mode"] = "cockpit";
+        _cockpitCameraAutomationState["vehicle_local"] = true;
+    }
+
+    private void UpdateCameraInput()
+    {
+        var pressed = Godot.Input.IsActionPressed("toggle_camera");
+        if (pressed && !_cameraToggleHeld)
+        {
+            ToggleCameraMode();
+        }
+        _cameraToggleHeld = pressed;
+    }
 
     private DriveInputState ReadAutopilot()
     {
@@ -316,26 +344,32 @@ public sealed partial class CannonballVehicle : RigidBody3D
 
     private void BuildCamera()
     {
-        var arm = new SpringArm3D
+        ChaseCameraRig = new ChaseCameraRig
         {
-            Name = "ChaseCameraArm",
-            Position = new Vector3(0, 1.3f, 1.5f),
-            RotationDegrees = new Vector3(-8, 0, 0),
-            SpringLength = 7.5f,
-            CollisionMask = 1,
+            Target = this,
         };
-        arm.AddChild(new Camera3D { Name = "ChaseCamera", Current = true, Fov = 76 });
-        AddChild(arm);
-        if (VisualRig?.CockpitCameraAnchor is not null)
+        AddChild(ChaseCameraRig);
+        var cockpitAnchor = VisualRig?.CockpitCameraAnchor;
+        if (cockpitAnchor is null)
         {
-            VisualRig.CockpitCameraAnchor.AddChild(new Camera3D
+            cockpitAnchor = new Node3D
             {
-                Name = "CockpitCamera",
-                Current = false,
-                Fov = 72,
-                Near = 0.08f,
-                Position = new Vector3(0, 0.28f, -0.42f),
-            });
+                Name = "GrayboxCockpitCameraAnchor",
+                Position = new Vector3(0, 0.45f, -0.35f),
+            };
+            AddChild(cockpitAnchor);
         }
+        _cockpitCamera = new Camera3D
+        {
+            Name = "CockpitCamera",
+            Current = false,
+            Fov = 72,
+            Near = 0.08f,
+            Position = new Vector3(0, 0.28f, -0.42f),
+        };
+        _cockpitCamera.SetMeta("automation_id", "camera.cockpit.view");
+        _cockpitCamera.SetMeta("automation_state", _cockpitCameraAutomationState);
+        cockpitAnchor.AddChild(_cockpitCamera);
+        SetCameraMode(cockpit: false);
     }
 }
