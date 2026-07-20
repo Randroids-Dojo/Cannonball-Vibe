@@ -37,10 +37,17 @@ async def test_keyboard_steering_is_progressive_and_camera_independent(tmp_path:
         REPO_ROOT,
         _route_package(),
         capabilities=("read", "input", "screenshot"),
+        # Windows hosted runners using the ANGLE software renderer can take
+        # more than ten seconds to service the first post-socket request. Keep
+        # the timeout bounded while probing the responsive gameplay scene.
+        request_timeout=30.0,
         transcript=artifacts / "driving-input-keyboard.jsonl",
         log_path=artifacts / "driving-input-keyboard-godot.log",
     )
     async with process as client:
+        ready = await client.describe("vehicle.input.conditioner")
+        assert ready["test_state"]["active_profile"] == "balanced"
+
         await _action(client, "steer_right", "press")
         try:
             await asyncio.sleep(0.05)

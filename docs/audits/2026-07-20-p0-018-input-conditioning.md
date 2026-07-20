@@ -67,6 +67,10 @@ the conditioner derives its immutable tuning from that restored profile.
   points on the same ramp. The live gate now asserts bounded monotonic integration and
   the exact semantic tuning values, while deterministic per-frame behavior remains in
   the engine-independent suite.
+- The Windows ANGLE runner twice connected successfully but exceeded the default
+  request timeout before servicing the first gameplay input. The live gate now uses a
+  bounded 30-second request window and proves the semantic input controller is
+  responsive before injecting input; the client default remains 10 seconds.
 
 ## Remaining boundary
 
