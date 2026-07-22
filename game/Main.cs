@@ -54,6 +54,8 @@ public sealed partial class Main : Node3D
     private bool _cameraHandlingReview;
     private bool _roadVisualProfile;
     private bool _roadVisualReview;
+    private bool _environmentStreamingProfile;
+    private bool _environmentReview;
     private bool _tripMapReview;
     private bool _tripMapScaleProfile;
     private bool _tripMapToggleHeld;
@@ -119,6 +121,7 @@ public sealed partial class Main : Node3D
     private int _routeChoiceChunkFailures;
     private VehicleVisualScenario? _vehicleVisualScenario;
     private RoadVisualScenario? _roadVisualScenario;
+    private EnvironmentVisualScenario? _environmentVisualScenario;
     private CameraHandlingScenario? _cameraHandlingScenario;
     private bool _resumeRequested;
     private bool _resumeVerify;
@@ -227,6 +230,10 @@ public sealed partial class Main : Node3D
             _cameraHandlingReview = arguments.Contains("--camera-handling-review", StringComparer.Ordinal);
             _roadVisualProfile = arguments.Contains("--road-visual-profile", StringComparer.Ordinal);
             _roadVisualReview = arguments.Contains("--road-visual-review", StringComparer.Ordinal);
+            _environmentStreamingProfile = arguments.Contains(
+                "--environment-streaming-profile",
+                StringComparer.Ordinal);
+            _environmentReview = arguments.Contains("--environment-review", StringComparer.Ordinal);
             _tripMapReview = arguments.Contains("--trip-map-review", StringComparer.Ordinal);
             _tripMapScaleProfile = arguments.Contains(
                 "--trip-map-scale-profile",
@@ -235,7 +242,8 @@ public sealed partial class Main : Node3D
                 _geographicReview || _streamingProfile || _topologyProfile || _topologyReview ||
                 _routeChoiceProfile || _routeContextProfile || _routeContextReview ||
                 _vehicleVisualProfile || _vehicleVisualReview || _roadVisualProfile ||
-                _roadVisualReview || _tripMapReview || _cameraHandlingProfile ||
+                _roadVisualReview || _environmentStreamingProfile || _environmentReview ||
+                _tripMapReview || _cameraHandlingProfile ||
                 _cameraHandlingReview || _tripMapScaleProfile || _longRouteProfile || _resumeVerify;
             _smokeTargetFrames = _stressTest || _shortCorridorSoak ? 3_600 : 360;
             if (_renderIntegrity)
@@ -275,6 +283,10 @@ public sealed partial class Main : Node3D
                 _smokeTargetFrames = 1_200;
             }
             if (_roadVisualProfile || _roadVisualReview)
+            {
+                _smokeTargetFrames = 1_200;
+            }
+            if (_environmentStreamingProfile || _environmentReview)
             {
                 _smokeTargetFrames = 1_200;
             }
@@ -410,6 +422,7 @@ public sealed partial class Main : Node3D
                 !_topologyProfile && !_topologyReview && !_routeChoiceProfile &&
                 !_routeContextProfile && !_routeContextReview && !_vehicleVisualProfile &&
                 !_vehicleVisualReview && !_roadVisualProfile && !_roadVisualReview &&
+                !_environmentStreamingProfile && !_environmentReview &&
                 !_tripMapReview && !_cameraHandlingProfile && !_cameraHandlingReview &&
                 !_longRouteProfile;
             if (resumedSave is not null)
@@ -475,6 +488,14 @@ public sealed partial class Main : Node3D
                     GetNode<WorldEnvironment>("NightEnvironment"),
                     _routeContextDiagnosticCamera,
                     _roadVisualReview);
+            }
+            if (_environmentStreamingProfile || _environmentReview)
+            {
+                _environmentVisualScenario = new EnvironmentVisualScenario(
+                    _streamer,
+                    GetNode<DirectionalLight3D>("MoonLight"),
+                    GetNode<WorldEnvironment>("NightEnvironment"),
+                    _environmentReview);
             }
             if ((_cameraHandlingProfile || _cameraHandlingReview) && !_resumeVerify)
             {
@@ -654,6 +675,20 @@ public sealed partial class Main : Node3D
                 return;
             }
         }
+        if (_environmentVisualScenario is { Complete: false })
+        {
+            try
+            {
+                _environmentVisualScenario.Advance();
+            }
+            catch (Exception exception)
+            {
+                GD.PushError(exception.ToString());
+                _shutdownStarted = true;
+                GetTree().Quit(1);
+                return;
+            }
+        }
         if ((_roadVisualProfile || _roadVisualReview) && !_roadVisualProfileComplete)
         {
             try
@@ -718,6 +753,7 @@ public sealed partial class Main : Node3D
             _longRouteComplete ||
             _vehicleVisualScenario is { Complete: true } ||
             _cameraHandlingScenario is { Complete: true } ||
+            _environmentVisualScenario is { Complete: true } ||
             (_roadVisualProfileComplete && _routeContextProfileComplete))
         {
             _shutdownStarted = true;
@@ -1680,6 +1716,10 @@ public sealed partial class Main : Node3D
             {
                 ValidateRoadVisualProfile();
             }
+            if (quitAfterSave && (_environmentStreamingProfile || _environmentReview))
+            {
+                ValidateEnvironmentProfile();
+            }
             if (quitAfterSave && _longRouteProfile)
             {
                 ValidateLongRouteProfile();
@@ -2427,6 +2467,29 @@ public sealed partial class Main : Node3D
         }
         ValidateRoadVisualBudgets();
         ValidateRoadVisualSnapshot(_streamer.CaptureRoadVisualSnapshot());
+    }
+
+    private void ValidateEnvironmentProfile()
+    {
+        if (_environmentVisualScenario is not { Complete: true })
+        {
+            throw new InvalidOperationException(
+                "Environment-streaming profile did not complete every regional review stage.");
+        }
+        var snapshot = _streamer.CaptureEnvironmentSnapshot();
+        if (!snapshot.CollisionFree || snapshot.CollisionBudget != 0 ||
+            snapshot.ObservedChunkCount < 4 ||
+            snapshot.RegionsSeen.Count != Enum.GetValues<World.Environments.EnvironmentRegion>().Length ||
+            snapshot.SharedMaterialCount < 7 || snapshot.SharedMeshCount < 6 ||
+            snapshot.NearInstanceCount == 0 || snapshot.MidInstanceCount == 0 ||
+            snapshot.DistantInstanceCount == 0 ||
+            snapshot.NearVisibilityMeters >= snapshot.MidVisibilityMeters ||
+            snapshot.MidVisibilityMeters >= snapshot.DistantVisibilityMeters)
+        {
+            throw new InvalidOperationException(
+                "Environment-streaming contract drifted: " +
+                JsonSerializer.Serialize(snapshot));
+        }
     }
 
     private void ValidateRoadVisualBudgets()
