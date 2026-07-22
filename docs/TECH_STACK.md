@@ -248,13 +248,19 @@ Q-020 still owns final art direction and exact rights approval.
 
 P1-009 now exercises the same boundary for highway visuals. The procedural road
 generator consumes one shared `RoadVisualKit` with production and graybox
-profiles, semantic metadata, 18 shared materials, five shared meshes, and
+profiles, semantic metadata, 18 shared materials, nine shared meshes, and
 reusable instances for markings, reflectors, barriers, guardrails, posts, route
-shields, exit-only panels, and service panels. Its deterministic road-visual
-scenario traverses every route-context waypoint, while the aggregate verifier
-also runs the variable-lane/gore topology and all representative interchange
-route choices. The current standards research and explicit non-compliance
-boundary are recorded in
+shields, exit-only panels, service panels, bridge decks, girders, piers, and
+abutments. Grade-separated fixture crossings produce stable structure
+placements from upper/lower edge geometry instead of edge-name rendering
+special cases. The structure stays aligned through local-origin rebases and
+keeps its visual assembly separate from the authoritative road collision.
+Its deterministic road-visual scenario traverses every route-context waypoint,
+then revisits the generated bridge/overpass at its exact route distance for
+daylight and night renderer stages. The aggregate verifier also runs the
+variable-lane/gore topology and all representative interchange route choices.
+The current standards research and explicit non-compliance boundary are
+recorded in
 [the modern highway visual baseline](research/2026-07-18-modern-highway-visual-standards.md).
 Q-024 owns the final visual language; Q-022 still owns renderer and target-PC
 budgets.

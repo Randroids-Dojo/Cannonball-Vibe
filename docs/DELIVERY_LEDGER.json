@@ -1263,6 +1263,7 @@
         "game/Main.cs",
         "game/World/RoadChunk.cs",
         "game/World/WorldStreamer.cs",
+        "game/Automation/RepresentativeInterchangeFixture.cs",
         "game/Automation/RoadVisualScenario.cs",
         "scripts/run-scenario.sh",
         "scripts/capture-scenario.sh",
@@ -1272,7 +1273,9 @@
         "docs/research/2026-07-18-modern-highway-visual-standards.md",
         "docs/QUESTIONS_FOR_RANDROID_2026-07-18_HIGHWAY_KIT.md",
         "docs/images/p1-009-highway-kit-review.png",
+        "docs/images/p1-009-structures-lighting-review.png",
         "docs/audits/2026-07-18-p1-009-adversarial-review.md",
+        "docs/audits/2026-07-21-p1-009-structures-lighting-review.md",
         "evidence/M5/P1-009.json"
       ],
       "acceptance": [
@@ -1297,7 +1300,7 @@
         "name": "Highway art readability, visual quality, and final rights approval",
         "required_for": "M5"
       },
-      "notes": "The project-original procedural kit is the autonomous technical baseline: production and graybox profiles, shared materials and meshes, route-context signage, reflectors, barriers, guardrails, topology/gore regression, and renderer review pass. Bridges, overpasses, production terrain and furniture, exact sign typography and silhouettes, full renderer budgets, day/night coverage, rights records, and Q-024 art-direction approval remain open; the task must not be marked complete from fixture evidence alone."
+      "notes": "The project-original procedural kit is the autonomous technical baseline: production and graybox profiles, shared materials and meshes, route-context signage, reflectors, barriers, guardrails, topology/gore regression, a fixture-derived bridge deck and overpass opening, local-origin-safe structure placement, and deterministic daylight/night review stages. Production terrain and furniture, exact sign typography and silhouettes, full renderer budgets, rights records, and Q-024 art-direction approval remain open; the task must not be marked complete from fixture evidence alone."
     },
     {
       "id": "P1-010",

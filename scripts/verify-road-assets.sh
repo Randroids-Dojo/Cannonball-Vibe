@@ -56,15 +56,28 @@ graybox_line="$(rg '^CANNONBALL_ROAD_VISUAL_OK ' "$graybox_log")"
 shared_materials="$(metric_value "$production_line" shared_materials)"
 shared_meshes="$(metric_value "$production_line" shared_meshes)"
 retroreflective_materials="$(metric_value "$production_line" retroreflective_materials)"
+bridge_decks="$(metric_value "$production_line" bridge_decks)"
+overpass_openings="$(metric_value "$production_line" overpass_openings)"
+lighting_stages="$(metric_value "$production_line" lighting_stages)"
 graybox_shared_materials="$(metric_value "$graybox_line" shared_materials)"
 graybox_shared_meshes="$(metric_value "$graybox_line" shared_meshes)"
 graybox_retroreflective_materials="$(
   metric_value "$graybox_line" retroreflective_materials
 )"
+graybox_bridge_decks="$(metric_value "$graybox_line" bridge_decks)"
+graybox_overpass_openings="$(metric_value "$graybox_line" overpass_openings)"
+graybox_lighting_stages="$(metric_value "$graybox_line" lighting_stages)"
 if [[ "$graybox_shared_materials" != "$shared_materials" ||
       "$graybox_shared_meshes" != "$shared_meshes" ||
-      "$graybox_retroreflective_materials" != "$retroreflective_materials" ]]; then
+      "$graybox_retroreflective_materials" != "$retroreflective_materials" ||
+      "$graybox_bridge_decks" != "$bridge_decks" ||
+      "$graybox_overpass_openings" != "$overpass_openings" ||
+      "$graybox_lighting_stages" != "$lighting_stages" ]]; then
   echo "Production and graybox resource contracts differ." >&2
+  exit 1
+fi
+if (( bridge_decks < 1 || overpass_openings < 1 || lighting_stages != 2 )); then
+  echo "Road structure or day/night coverage is incomplete." >&2
   exit 1
 fi
 
@@ -79,6 +92,7 @@ for index in "${!topology_fixtures[@]}"; do
     ./scripts/run-scenario.sh --fixture "$fixture" --profile "$profile"
 done
 
-printf 'CANNONBALL_ROAD_ASSETS_OK profiles=%s topology_fixtures=%s shared_materials=%s shared_meshes=%s retroreflective_materials=%s\n' \
+printf 'CANNONBALL_ROAD_ASSETS_OK profiles=%s topology_fixtures=%s shared_materials=%s shared_meshes=%s retroreflective_materials=%s bridge_decks=%s overpass_openings=%s lighting_stages=%s\n' \
   "${#visual_profiles[@]}" "${#topology_fixtures[@]}" "$shared_materials" \
-  "$shared_meshes" "$retroreflective_materials"
+  "$shared_meshes" "$retroreflective_materials" "$bridge_decks" "$overpass_openings" \
+  "$lighting_stages"

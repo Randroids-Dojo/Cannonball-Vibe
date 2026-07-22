@@ -10,7 +10,7 @@ public enum RoadVisualProfile
 
 public sealed class RoadVisualKit
 {
-    public const string Version = "colorado-freeway-v1";
+    public const string Version = "colorado-freeway-v2";
     public const double TerrainMarginMeters = 120;
     private readonly IReadOnlyList<Material> _sharedMaterials;
     private readonly IReadOnlyList<Mesh> _sharedMeshes;
@@ -66,6 +66,26 @@ public sealed class RoadVisualKit
             Height = 1.1f,
             Material = Delineator,
         };
+        BridgeDeckMesh = new BoxMesh
+        {
+            Size = new Vector3(1, 0.32f, 1),
+            Material = Concrete,
+        };
+        BridgeGirderMesh = new BoxMesh
+        {
+            Size = new Vector3(0.34f, 0.62f, 1),
+            Material = GalvanizedSteel,
+        };
+        BridgePierMesh = new BoxMesh
+        {
+            Size = new Vector3(0.8f, 1, 0.8f),
+            Material = Concrete,
+        };
+        BridgeAbutmentMesh = new BoxMesh
+        {
+            Size = new Vector3(1, 1, 0.8f),
+            Material = Concrete,
+        };
         _sharedMaterials =
         [
             Terrain, Shoulder, Pavement, MarkingWhite, MarkingYellow, Gore,
@@ -76,7 +96,8 @@ public sealed class RoadVisualKit
         _sharedMeshes =
         [
             MedianBarrierMesh, GuardrailMesh, GuardrailPostMesh, ReflectorMesh,
-            DelineatorMesh,
+            DelineatorMesh, BridgeDeckMesh, BridgeGirderMesh, BridgePierMesh,
+            BridgeAbutmentMesh,
         ];
         _retroreflectiveMaterials =
         [
@@ -113,6 +134,10 @@ public sealed class RoadVisualKit
     public Mesh GuardrailPostMesh { get; }
     public Mesh ReflectorMesh { get; }
     public Mesh DelineatorMesh { get; }
+    public Mesh BridgeDeckMesh { get; }
+    public Mesh BridgeGirderMesh { get; }
+    public Mesh BridgePierMesh { get; }
+    public Mesh BridgeAbutmentMesh { get; }
     public int SharedMaterialCount => _sharedMaterials.Count;
     public int SharedMeshCount => _sharedMeshes.Count;
     public int RetroreflectiveMaterialCount => _retroreflectiveMaterials.Count;

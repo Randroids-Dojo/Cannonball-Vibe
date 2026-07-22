@@ -43,6 +43,7 @@ public sealed partial class WorldStreamer : Node3D
     private IReadOnlyList<RouteManifestSpan> _manifests = [];
     private RouteFrame _frame = null!;
     private RoadVisualKit _roadVisualKit = null!;
+    private RoadStructureSet _roadStructures = null!;
     private MeshInstance3D _terrainBackdrop = null!;
     private double _terrainBackdropElevation = double.PositiveInfinity;
     private CannonballVehicle? _vehicle;
@@ -163,8 +164,25 @@ public sealed partial class WorldStreamer : Node3D
         .OrderBy(item => item.AutomationId, StringComparer.Ordinal)
         .ToArray();
 
+    public bool ConfigureRoadStructureReviewCamera(Camera3D camera) =>
+        _roadStructures.ConfigureReviewCamera(camera);
+
+    public bool SetRoadStructureReviewTarget()
+    {
+        var placement = _roadStructures.ReviewPlacement;
+        if (placement is null || !_routePlanEdgeIds.Contains(placement.UpperEdgeId))
+        {
+            return false;
+        }
+        SetReviewDistance(GetRouteDistance(
+            placement.UpperEdgeId,
+            placement.UpperEdgeDistanceMeters));
+        return true;
+    }
+
     public RoadVisualSnapshot CaptureRoadVisualSnapshot()
     {
+        var structures = _roadStructures.CaptureSnapshot();
         return new RoadVisualSnapshot(
             _roadVisualKit.ProfileId,
             _roadVisualObservedChunks.Count,
@@ -177,7 +195,12 @@ public sealed partial class WorldStreamer : Node3D
             _roadVisualGoreChunksSeen,
             _roadVisualKit.SharedMaterialCount,
             _roadVisualKit.SharedMeshCount,
-            _roadVisualKit.RetroreflectiveMaterialCount);
+            _roadVisualKit.RetroreflectiveMaterialCount,
+            structures.BridgeDeckCount,
+            structures.OverpassOpeningCount,
+            structures.StructureCount,
+            structures.SemanticNodeCount,
+            structures.ContractResolved);
     }
 
     public WorldStreamSnapshot CaptureStreamSnapshot() => new(
@@ -266,7 +289,8 @@ public sealed partial class WorldStreamer : Node3D
         RoutePosition? resumePosition = null,
         WorldStreamSnapshot? resumeStream = null,
         IReadOnlyList<RouteChunkContent>? resumeChunks = null,
-        RouteNavigationState? resumeNavigation = null)
+        RouteNavigationState? resumeNavigation = null,
+        IReadOnlyList<RoadStructurePlacement>? roadStructures = null)
     {
         if (IsInsideTree())
         {
@@ -339,6 +363,12 @@ public sealed partial class WorldStreamer : Node3D
             throw new InvalidDataException($"Route edge '{_currentEdgeId}' has no chunk manifests.");
         }
         _frame = new RouteFrame(initialChunk.Samples);
+        _roadStructures = RoadStructureSet.Create(
+            roadStructures ?? [],
+            _roadVisualKit,
+            _frame,
+            _localOriginWorld);
+        AddChild(_roadStructures);
         _terrainBackdrop = new MeshInstance3D
         {
             Name = "TerrainBackdrop",
@@ -1217,6 +1247,7 @@ public sealed partial class WorldStreamer : Node3D
         {
             seam.ShiftForOriginRebase(horizontal);
         }
+        _roadStructures.ShiftForOriginRebase(horizontal);
     }
 
     private RouteWorldPoint OffsetForActiveLane(
@@ -1374,4 +1405,9 @@ public sealed record RoadVisualSnapshot(
     int GoreChunkCount,
     int SharedMaterialCount,
     int SharedMeshCount,
-    int RetroreflectiveMaterialCount);
+    int RetroreflectiveMaterialCount,
+    int BridgeDeckCount,
+    int OverpassOpeningCount,
+    int StructureCount,
+    int StructureSemanticNodeCount,
+    bool StructureContractResolved);
