@@ -1,0 +1,185 @@
+{
+  "schema_version": 1,
+  "task_id": "P1-010",
+  "milestone": "M5",
+  "status": "in_progress",
+  "git_revision": "2d410ef4a3e831c5d5aad9c23e20d5805d40a271",
+  "recorded_at_utc": "2026-07-22T22:16:43Z",
+  "platform": {
+    "os": "macOS 26.6",
+    "architecture": "arm64",
+    "renderer": "Godot Compatibility/OpenGL 4.1 Metal",
+    "device": "Apple M4 Max"
+  },
+  "tool_versions": {
+    "godot": "4.7.1.stable.mono.official.a13da4feb",
+    "dotnet_sdk": "10.0.102",
+    "node": "22.22.1",
+    "uv": "0.9.24",
+    "git_lfs": "3.7.1"
+  },
+  "scope": {
+    "verified": [
+      "deterministic mountain, foothill, plains, and urban-edge region selection from route position",
+      "collision-free near, midground, and distant environment layers streamed with direct route chunks",
+      "local-origin rebase and eviction behavior across five deterministic review stages",
+      "shared MultiMesh geometry and materials with high, balanced, low, and graybox degradation profiles",
+      "equivalent route, streaming, region, collision, and semantic behavior across all four quality profiles",
+      "renderer-backed dawn, day, overcast, night, and stream-boundary review capture",
+      "project-original rights record for the procedural technical baseline"
+    ],
+    "completion_pending": [
+      "Q-021 final representative-region art direction and readability approval",
+      "Q-022 declared minimum target Windows PC and quantitative renderer budgets",
+      "production terrain, vegetation, structure, skyline, weather, texture, and LOD assets",
+      "final rights records for any replacement production assets"
+    ],
+    "excluded_claims": [
+      "production-complete or photorealistic regional art",
+      "ratified GPU frame time, draw call, triangle, texture residency, occlusion, or memory budgets",
+      "hosted CI or Apple M4 Max as the declared minimum Windows game PC",
+      "environment collision, route elevation changes, or vehicle-physics changes"
+    ]
+  },
+  "input_artifacts": [
+    {
+      "path": "game/World/Environment/EnvironmentVisualKit.cs",
+      "sha256": "d0326663b0e3012cbfa81b1a5457888211b71fdf3d58d8f57fb1a7a201f319da"
+    },
+    {
+      "path": "game/World/Environment/RegionalEnvironmentChunk.cs",
+      "sha256": "83e8bbe9d8aee444777416c17b8272950b072edd60cf383c9c5bb45e065e3923"
+    },
+    {
+      "path": "game/World/WorldStreamer.cs",
+      "sha256": "98c09f9e1555caf7dd21f43aa710e378aa9f7dad73f03691b3d110b7d89f8c66"
+    },
+    {
+      "path": "game/Automation/EnvironmentVisualScenario.cs",
+      "sha256": "264cd0ae8f7444fd1691476d9a4fe01cfdc714f2f37a6e7bd47cf6146dd4c527"
+    },
+    {
+      "path": "game/Main.cs",
+      "sha256": "4a16e9d88cddc064095d1732949375f34f420c5e118b14ac0b7ae22977852a0d"
+    },
+    {
+      "path": "scripts/verify-environment-assets.sh",
+      "sha256": "6913d2ab9c81e665689e5d68d2b3f18bda514fa024f074900127d8e9a7bef3ba"
+    },
+    {
+      "path": "data/assets/environments/registry.json",
+      "sha256": "4b1b4f7cfc96d8284602343f72fb01dbe1de7661733a63df1b5a399382c14f3c"
+    }
+  ],
+  "commands": [
+    {
+      "command": "GODOT_BIN=/opt/homebrew/bin/godot ./scripts/verify-environment-assets.sh --region representative --all-quality-levels",
+      "exit_status": 0,
+      "profiles_passed": 4,
+      "semantic_equivalence": true
+    },
+    {
+      "command": "GODOT_BIN=/opt/homebrew/bin/godot ./scripts/run-scenario.sh --fixture representative-corridor --profile environment-streaming --environment-quality=balanced",
+      "exit_status": 0,
+      "stages": 5,
+      "regions": 4
+    },
+    {
+      "command": "GODOT_BIN=/opt/homebrew/bin/godot ./scripts/capture-scenario.sh /tmp/p1-010-regional-environment.avi --fixture representative-corridor --environment-review --environment-quality=balanced",
+      "exit_status": 0,
+      "frames": 533,
+      "fps": 60,
+      "resolution": "1280x720"
+    },
+    {
+      "command": "GODOT_BIN=/opt/homebrew/bin/godot ./scripts/check.sh",
+      "exit_status": 0,
+      "report": "reports/m0/summary.json",
+      "report_sha256": "3111f4d88a0a3967ad85fc9025c924ea04d5162efbe4bc44b33b752434290b41"
+    },
+    {
+      "command": "git diff --check",
+      "exit_status": 0
+    }
+  ],
+  "metrics": {
+    "quality_profiles": 4,
+    "review_stages": 5,
+    "regions": 4,
+    "observed_chunks": 49,
+    "loaded_near_instances_at_completion": 375,
+    "loaded_mid_instances_at_completion": 288,
+    "loaded_distant_instances_at_completion": 168,
+    "loaded_semantic_nodes_at_completion": 72,
+    "shared_materials": 7,
+    "shared_meshes": 6,
+    "environment_collision_budget": 0,
+    "local_origin_rebases": 5,
+    "maximum_environment_build_milliseconds": 2.942,
+    "maximum_total_visual_chunk_build_milliseconds": 14.805,
+    "maximum_road_collision_build_milliseconds": 1.340,
+    "near_visibility_meters": 1000,
+    "mid_visibility_meters": 4000,
+    "distant_visibility_meters": 12000,
+    "retain_behind_meters": 500,
+    "capture_frames": 533,
+    "capture_fps": 60,
+    "csharp_tests_passed": 93,
+    "map_pipeline_tests_passed": 78,
+    "playgodot_unit_tests_passed": 12
+  },
+  "acceptance_comparisons": [
+    {
+      "criterion": "regional scenery is deterministic and streamed from route region plus stable seed",
+      "observed": "all four quality runs visited the same 49 chunk identities, four region bands, five stages, and five rebases; placement seeds combine content version, chunk identity, region, and kit version",
+      "passed": true
+    },
+    {
+      "criterion": "environment presentation cannot alter authoritative road or collision",
+      "observed": "every recursively inspected environment subtree was collision-free, the environment collision budget remained zero, and the complete road/collision smoke suite passed",
+      "passed": true
+    },
+    {
+      "criterion": "quality degradation preserves route and streaming semantics",
+      "observed": "high, balanced, low, and graybox runs produced identical stage, region, observed-chunk, collision, and rebase markers while reducing only instance budgets",
+      "passed": true
+    },
+    {
+      "criterion": "representative states are renderer-reviewable without voids or persistent seams",
+      "observed": "the tracked six-frame contact sheet and original 533-frame capture cover dawn mountains, day foothills, overcast plains, urban-edge night, and a daylight stream-boundary return with no observed exposed void",
+      "passed": true
+    }
+  ],
+  "output_artifacts": [
+    {
+      "path": "docs/images/p1-010-regional-environment-review.png",
+      "sha256": "7cb5b2610cd04cc56d6e525d21c4bc6ef7855158e0448300ab095dd504d921c6"
+    },
+    {
+      "path": "/tmp/p1-010-regional-environment.avi",
+      "sha256": "501afadb3b8fea5b284fc52ecd7447f0ad64892d17ca3c8402215758a5f745d8",
+      "retention": "local review artifact; the tracked contact sheet is durable"
+    }
+  ],
+  "failure_logs": [
+    {
+      "failure": "The first 520-frame review movie ended after the fourth region before the explicit stream-boundary stage completed.",
+      "recovery": "The environment-review default was raised to 620 frames; the scenario now exits naturally at 533 frames after all five stages and emits the final environment success marker."
+    }
+  ],
+  "retry_count": 1,
+  "recovery_result": "All autonomous technical, semantic, quality-profile, local-origin, renderer-capture, and regression gates for the procedural baseline pass; production art, final rights, and target-Windows-PC performance approval remain explicitly open.",
+  "human_gate": {
+    "name": "Representative-region art direction, readability, and final rights approval",
+    "question_ids": [
+      "Q-021",
+      "Q-022"
+    ],
+    "required_for": "M5",
+    "status": "open",
+    "approval": null,
+    "question_record": "docs/QUESTIONS_FOR_RANDROID_2026-07-22_REGIONAL_ENVIRONMENT.md",
+    "review_artifact": "docs/images/p1-010-regional-environment-review.png"
+  },
+  "adversarial_review": "docs/audits/2026-07-22-p1-010-regional-environment.md"
+}
