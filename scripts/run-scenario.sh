@@ -136,6 +136,9 @@ while [[ $# -gt 0 ]]; do
       elif [[ "$2" == "trip-map-scale" ]]; then
         scenario_mode="trip-map-scale"
         scenario_args+=("--trip-map-scale-profile")
+      elif [[ "$2" == "environment-streaming" ]]; then
+        scenario_mode="environment-streaming"
+        scenario_args+=("--environment-streaming-profile")
       else
         scenario_args+=("--profile=$2")
       fi
@@ -167,6 +170,9 @@ while [[ $# -gt 0 ]]; do
       elif [[ "$profile" == "trip-map-scale" ]]; then
         scenario_mode="trip-map-scale"
         scenario_args+=("--trip-map-scale-profile")
+      elif [[ "$profile" == "environment-streaming" ]]; then
+        scenario_mode="environment-streaming"
+        scenario_args+=("--environment-streaming-profile")
       else
         scenario_args+=("$1")
       fi
@@ -194,6 +200,11 @@ while [[ $# -gt 0 ]]; do
       ;;
     --camera-handling-review)
       scenario_mode="camera-handling"
+      scenario_args+=("$1")
+      shift
+      ;;
+    --environment-review)
+      scenario_mode="environment-streaming"
       scenario_args+=("$1")
       shift
       ;;
@@ -258,6 +269,9 @@ if [[ "$scenario_mode" == "trip-map" && "$fixture_explicit" == "false" ]]; then
   fixture="representative-interchanges"
 fi
 if [[ "$scenario_mode" == "camera-handling" && "$fixture_explicit" == "false" ]]; then
+  fixture="representative-corridor"
+fi
+if [[ "$scenario_mode" == "environment-streaming" && "$fixture_explicit" == "false" ]]; then
   fixture="representative-corridor"
 fi
 

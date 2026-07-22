@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "kit_id": "colorado-proof-corridor-v1",
+  "region": "Colorado mountain-to-plains proof corridor",
+  "status": "procedural technical baseline",
+  "assets": [
+    {
+      "id": "procedural-regional-environment",
+      "source": "game/World/Environment/EnvironmentVisualKit.cs",
+      "creator": "Cannonball-Vibe project",
+      "license": "project-original",
+      "rights_status": "cleared for repository use",
+      "covers": [
+        "near-road vegetation and rocks",
+        "foothill and plains midground",
+        "mountain silhouettes",
+        "urban-edge massing",
+        "dawn, day, overcast, and night palettes"
+      ]
+    }
+  ],
+  "production_replacement_gate": "Q-021 art direction and final asset rights approval"
+}

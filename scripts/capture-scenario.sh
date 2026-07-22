@@ -58,6 +58,12 @@ if [[ " ${scenario_args[*]} " == *" --camera-handling-review "* ]]; then
     fixture="representative-corridor"
   fi
 fi
+if [[ " ${scenario_args[*]} " == *" --environment-review "* ]]; then
+  default_capture_frames=620
+  if [[ "$fixture" == "official-corridor" ]]; then
+    fixture="representative-corridor"
+  fi
+fi
 capture_frames="${CANNONBALL_CAPTURE_FRAMES:-$default_capture_frames}"
 timeout_seconds="${CANNONBALL_SCENARIO_TIMEOUT_SECONDS:-120}"
 

@@ -2,6 +2,7 @@ using Cannonball.Core.Content;
 using Cannonball.Core.Routes;
 using Cannonball.Core.Runs;
 using Cannonball.Game.Vehicle;
+using Cannonball.Game.World.Environments;
 using Cannonball.Game.World.RoadVisuals;
 using Godot;
 
@@ -21,12 +22,18 @@ public sealed partial class WorldStreamer : Node3D
     public const double InitialCollisionBuildBudgetMilliseconds = 50;
     public const int MaximumConcurrentChunkReads = 2;
     public const double ShortCorridorLoopResetLeadMeters = 25;
+    public const double EnvironmentNearVisibilityMeters = 1_000;
+    public const double EnvironmentMidVisibilityMeters = 4_000;
+    public const double EnvironmentDistantVisibilityMeters = 12_000;
+    public const int EnvironmentCollisionBudget = 0;
 
     private readonly Dictionary<string, RoadChunk> _loaded = new(StringComparer.Ordinal);
     private readonly Dictionary<string, RouteContextPlan?> _routeContextPlans =
         new(StringComparer.Ordinal);
     private readonly Dictionary<string, JunctionSeam> _junctionSeams = new(StringComparer.Ordinal);
     private readonly Dictionary<string, RouteChunkContent> _content = new(StringComparer.Ordinal);
+    private readonly Dictionary<string, RegionalEnvironmentChunk> _environmentChunks =
+        new(StringComparer.Ordinal);
     private readonly Dictionary<string, PendingRead> _pending = new(StringComparer.Ordinal);
     private readonly Queue<string> _loadQueue = [];
     private readonly HashSet<string> _queued = new(StringComparer.Ordinal);
@@ -43,6 +50,7 @@ public sealed partial class WorldStreamer : Node3D
     private IReadOnlyList<RouteManifestSpan> _manifests = [];
     private RouteFrame _frame = null!;
     private RoadVisualKit _roadVisualKit = null!;
+    private EnvironmentVisualKit _environmentVisualKit = null!;
     private RoadStructureSet _roadStructures = null!;
     private MeshInstance3D _terrainBackdrop = null!;
     private double _terrainBackdropElevation = double.PositiveInfinity;
@@ -69,6 +77,8 @@ public sealed partial class WorldStreamer : Node3D
     private readonly HashSet<string> _routeContextAutomationIdsSeen = new(StringComparer.Ordinal);
     private readonly HashSet<string> _roadVisualObservedChunks = new(StringComparer.Ordinal);
     private readonly HashSet<string> _opposingCarriagewayChunksSeen = new(StringComparer.Ordinal);
+    private readonly HashSet<string> _environmentObservedChunks = new(StringComparer.Ordinal);
+    private readonly HashSet<EnvironmentRegion> _environmentRegionsSeen = [];
     private readonly List<double> _chunkBuildSamplesMilliseconds = [];
     private readonly List<double> _collisionBuildSamplesMilliseconds = [];
     private bool _roadVisualContractsResolved = true;
@@ -120,6 +130,8 @@ public sealed partial class WorldStreamer : Node3D
     public double TotalRouteLengthMeters => RouteLengthMeters;
     public IReadOnlyList<string> RoutePlan => _routePlan.EdgeIds;
     public int OpposingCarriagewayChunksSeen => _opposingCarriagewayChunksSeen.Count;
+    public int LoadedEnvironmentChunkCount => _environmentChunks.Count;
+    public double MaximumEnvironmentBuildMilliseconds { get; private set; }
     public Vector3 InitialRoadPoint { get; private set; }
     public Vector3 InitialRoadForward { get; private set; }
     public Vector3 InitialVehiclePoint { get; private set; }
@@ -203,6 +215,46 @@ public sealed partial class WorldStreamer : Node3D
             structures.ContractResolved);
     }
 
+    public EnvironmentStreamSnapshot CaptureEnvironmentSnapshot()
+    {
+        var chunks = _environmentChunks.Values
+            .Select(chunk => chunk.CaptureSnapshot())
+            .OrderBy(chunk => chunk.ChunkId, StringComparer.Ordinal)
+            .ToArray();
+        return new EnvironmentStreamSnapshot(
+            _environmentVisualKit.ProfileId,
+            chunks,
+            _environmentObservedChunks.Count,
+            _environmentRegionsSeen.OrderBy(region => region).ToArray(),
+            chunks.Sum(chunk => chunk.NearInstanceCount),
+            chunks.Sum(chunk => chunk.MidInstanceCount),
+            chunks.Sum(chunk => chunk.DistantInstanceCount),
+            chunks.Sum(chunk => chunk.SemanticNodeCount),
+            _environmentVisualKit.SharedMaterialCount,
+            _environmentVisualKit.SharedMeshCount,
+            chunks.All(chunk => chunk.CollisionFree),
+            EnvironmentCollisionBudget,
+            MaximumEnvironmentBuildMilliseconds,
+            EnvironmentNearVisibilityMeters,
+            EnvironmentMidVisibilityMeters,
+            EnvironmentDistantVisibilityMeters,
+            RetainBehindMeters);
+    }
+
+    public EnvironmentRegion GetEnvironmentRegion(double routeDistanceMeters)
+    {
+        var normalized = RouteLengthMeters <= 0
+            ? 0
+            : Math.Clamp(routeDistanceMeters / RouteLengthMeters, 0, 0.999999);
+        return normalized switch
+        {
+            < 0.25 => EnvironmentRegion.Mountain,
+            < 0.50 => EnvironmentRegion.Foothill,
+            < 0.75 => EnvironmentRegion.Plains,
+            _ => EnvironmentRegion.UrbanEdge,
+        };
+    }
+
     public WorldStreamSnapshot CaptureStreamSnapshot() => new(
         _localOriginWorld.X,
         _localOriginWorld.Y,
@@ -227,6 +279,12 @@ public sealed partial class WorldStreamer : Node3D
         _desiredCollision.SetEquals(_loaded
             .Where(entry => entry.Value.HasCollision)
             .Select(entry => entry.Key));
+    public bool IsEnvironmentStreamingSettled =>
+        _loaded.Keys
+            .Where(id => _content.TryGetValue(id, out var content) &&
+                _routePlanEdgeIds.Contains(content.EdgeId))
+            .ToHashSet(StringComparer.Ordinal)
+            .SetEquals(_environmentChunks.Keys);
     public double LoadedVisualAheadMeters => _loaded.Count == 0
         ? 0
         : Math.Max(
@@ -298,6 +356,7 @@ public sealed partial class WorldStreamer : Node3D
         }
         _package = package;
         _roadVisualKit = RoadVisualKit.FromCommandLine();
+        _environmentVisualKit = EnvironmentVisualKit.FromCommandLine();
         _routeContextPlans.Clear();
         _source = source;
         _routePlan = LinearRoutePlan.Build(
@@ -702,6 +761,10 @@ public sealed partial class WorldStreamer : Node3D
                 ExitSignCount -= chunk.ExitSignCount;
                 HighwayTransferSignCount -= chunk.HighwayTransferSignCount;
                 _loaded.Remove(id);
+                if (_environmentChunks.Remove(id, out var environmentChunk))
+                {
+                    environmentChunk.QueueFree();
+                }
                 _content.Remove(id);
                 RemoveJunctionSeamsForChunk(id);
                 chunk.QueueFree();
@@ -811,6 +874,26 @@ public sealed partial class WorldStreamer : Node3D
         // loaded instead of turning host scheduling or first-frame JIT into a chunk failure.
         _content.Add(content.Id, content);
         _loaded.Add(content.Id, chunk);
+        if (_routePlanEdgeIds.Contains(content.EdgeId))
+        {
+            var manifest = _manifests.Single(span =>
+                string.Equals(span.Manifest.Id, content.Id, StringComparison.Ordinal));
+            var routeMidpoint = (manifest.StartMeters + manifest.EndMeters) * 0.5;
+            var environmentChunk = RegionalEnvironmentChunk.Create(
+                content,
+                _frame,
+                _localOriginWorld,
+                _environmentVisualKit,
+                GetEnvironmentRegion(routeMidpoint),
+                $"{_package.Graph.ContentVersion}|colorado-proof-corridor");
+            _environmentChunks.Add(content.Id, environmentChunk);
+            _environmentObservedChunks.Add(content.Id);
+            _environmentRegionsSeen.Add(environmentChunk.Region);
+            MaximumEnvironmentBuildMilliseconds = Math.Max(
+                MaximumEnvironmentBuildMilliseconds,
+                environmentChunk.BuildMilliseconds);
+            AddChild(environmentChunk);
+        }
         var minimumLocalElevation = content.Samples
             .Select(sample => _frame.ToWorld(sample).Y - _localOriginWorld.Y)
             .Min();
@@ -1247,6 +1330,10 @@ public sealed partial class WorldStreamer : Node3D
         {
             seam.ShiftForOriginRebase(horizontal);
         }
+        foreach (var environmentChunk in _environmentChunks.Values)
+        {
+            environmentChunk.ShiftForOriginRebase(horizontal);
+        }
         _roadStructures.ShiftForOriginRebase(horizontal);
     }
 
@@ -1411,3 +1498,22 @@ public sealed record RoadVisualSnapshot(
     int StructureCount,
     int StructureSemanticNodeCount,
     bool StructureContractResolved);
+
+public sealed record EnvironmentStreamSnapshot(
+    string ProfileId,
+    IReadOnlyList<EnvironmentChunkSnapshot> LoadedChunks,
+    int ObservedChunkCount,
+    IReadOnlyList<EnvironmentRegion> RegionsSeen,
+    int NearInstanceCount,
+    int MidInstanceCount,
+    int DistantInstanceCount,
+    int SemanticNodeCount,
+    int SharedMaterialCount,
+    int SharedMeshCount,
+    bool CollisionFree,
+    int CollisionBudget,
+    double MaximumBuildMilliseconds,
+    double NearVisibilityMeters,
+    double MidVisibilityMeters,
+    double DistantVisibilityMeters,
+    double RetainBehindMeters);
