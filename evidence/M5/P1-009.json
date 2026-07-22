@@ -3,8 +3,8 @@
   "task_id": "P1-009",
   "milestone": "M5",
   "status": "in_progress",
-  "git_revision": "27f9d3e745ba551bb884b9db17fe6c43858f54bd",
-  "recorded_at_utc": "2026-07-19T02:46:19Z",
+  "git_revision": "cc80e02a086328382663212ee489fff27bb67cf2",
+  "recorded_at_utc": "2026-07-22T04:09:25Z",
   "platform": {
     "os": "macOS 26.6 (25G5052e)",
     "architecture": "arm64"
@@ -20,15 +20,16 @@
     "verified": [
       "project-original procedural production and graybox road-visual profiles selected through one generator contract",
       "shared materials and meshes for pavement, shoulders, terrain, markings, reflectors, concrete barriers, guardrails, posts, delineators, guide signs, route shields, exit-only panels, and service panels",
-      "stable semantic metadata across seven observed representative-interchange chunks and every route-context waypoint",
+      "fixture-derived bridge deck and overpass opening assembled from shared decks, girders, piers, abutments, and deck barriers without duplicate collision",
+      "stable semantic metadata across nine observed representative-interchange chunks, eleven structure nodes, and every route-context waypoint",
       "variable-lane, entrance, exit, highway-transfer, branch-prewarm, local-origin, and gore topology regressions",
-      "renderer-backed 1280x720 route-context review capture"
+      "renderer-backed 1280x720 route-context, bridge, daylight, and night review capture"
     ],
     "completion_pending": [
       "Q-024 production highway visual-language approval",
       "Q-022 minimum target PC and quantitative renderer budgets",
-      "production bridges, overpasses, terrain, roadside furniture, weathering, decals, and regional asset rights records",
-      "exact sign typography and shield-shape quality pass plus representative daylight and night high-speed captures"
+      "production terrain, roadside furniture, weathering, decals, and regional asset rights records",
+      "exact sign typography and shield-shape quality pass plus quantitative daylight and night high-speed renderer budgets"
     ],
     "excluded_claims": [
       "MUTCD or CDOT traffic-control engineering compliance",
@@ -39,19 +40,31 @@
   "input_artifacts": [
     {
       "path": "game/World/RoadVisuals/RoadVisualKit.cs",
-      "sha256": "5389665fc557d5597e77b991a1a131d008b53097e88a9917191e7ba5bc1b3ed6"
+      "sha256": "d23fad223946973f4c62f1b63da35e02bd7d2dac6a1fdd2a3de9a0996d8a4cb4"
+    },
+    {
+      "path": "game/World/RoadVisuals/RoadStructureSet.cs",
+      "sha256": "72586cd6023e145a979a7441b2f08509cfcba7c0934b83952d4fdece9d679cc6"
     },
     {
       "path": "game/World/RoadChunk.cs",
-      "sha256": "bffc35d902811f74bafa3b3764ff865b5971528be45798a5d0e66f8a8d6f299a"
+      "sha256": "149cceef9009daeeac8dd01ce67e05513ae6908b07f45b4a838f89e9a6de5513"
     },
     {
       "path": "game/World/WorldStreamer.cs",
-      "sha256": "9382544ddb030535447c27d6340efa481921c88bde33514f3b35457095044728"
+      "sha256": "94edbdf7e8f45eecf9b3337079291d8d5a377db16cdc95b1a1c1c47d5b69f9b1"
+    },
+    {
+      "path": "game/Automation/RepresentativeInterchangeFixture.cs",
+      "sha256": "8f3bab558086caa77be26eae4094a9074bac74cffaf1115529dd04cd5cbe37d0"
+    },
+    {
+      "path": "game/Automation/RoadVisualScenario.cs",
+      "sha256": "cea8c25b4129bf8f93280b255fc5ef8c5e5a504a1db1950669bc49151a4dd964"
     },
     {
       "path": "game/Main.cs",
-      "sha256": "fd6c2500d6a4c9cfe1e6537e254f4ac3bf8b45bfe5619495e61c1897347ac21a"
+      "sha256": "c680421b5b67b710acbf923445d6e52eed53a8ed4ddf1deb2d08dc56578f7a1b"
     },
     {
       "path": "docs/research/2026-07-18-modern-highway-visual-standards.md",
@@ -59,7 +72,11 @@
     },
     {
       "path": "scripts/verify-road-assets.sh",
-      "sha256": "7f82429fc52f9527a9c250f14bbada7b85c7fb0d159322fadc3f25b884f3c352"
+      "sha256": "c331de4c69194e9fcbecdba54a4ae41cae6cb9dac1b3bac4dc6abfd258ceefa3"
+    },
+    {
+      "path": "scripts/capture-scenario.sh",
+      "sha256": "42a72a6628a3e94b8265687a2c0f14fe388bcb4fe7bc4e6a194db7b42fd168a6"
     }
   ],
   "commands": [
@@ -72,24 +89,30 @@
     {
       "command": "./scripts/run-scenario.sh --fixture representative-interchanges --profile road-visual",
       "exit_status": 0,
-      "route_context_waypoints": 5
+      "route_context_waypoints": 6,
+      "lighting_stages": 2,
+      "bridge_decks": 1,
+      "overpass_openings": 1
     },
     {
       "command": "./scripts/run-scenario.sh --fixture representative-interchanges --profile road-visual --graybox-road-assets",
       "exit_status": 0,
-      "route_context_waypoints": 5
+      "route_context_waypoints": 6,
+      "lighting_stages": 2,
+      "bridge_decks": 1,
+      "overpass_openings": 1
     },
     {
-      "command": "./scripts/capture-scenario.sh /tmp/p1-009-highway-kit.avi --fixture representative-interchanges --road-visual-review",
+      "command": "./scripts/capture-scenario.sh /tmp/p1-009-structures-lighting-v4.avi --fixture representative-interchanges --road-visual-review",
       "exit_status": 0,
-      "frames": 309,
+      "frames": 555,
       "fps": 60
     },
     {
       "command": "./scripts/check.sh",
       "exit_status": 0,
       "report": "reports/m0/summary.json",
-      "report_sha256": "183a9f949fc008ccc4b0ee4657e4cb23b44dec3c837c5092c5006b809ed4a0f2"
+      "report_sha256": "849378d5b5182d392048fe5a64acf07e1f78a123c3146ec9673c49bca943f7a1"
     },
     {
       "command": "git diff --check",
@@ -97,48 +120,52 @@
     }
   ],
   "metrics": {
-    "observed_chunks": 7,
+    "observed_chunks": 9,
     "shared_materials": 18,
-    "shared_meshes": 5,
+    "shared_meshes": 9,
     "retroreflective_materials": 11,
-    "reflectors": 546,
-    "barrier_segments": 175,
-    "guardrail_segments": 175,
-    "route_shields": 4,
+    "reflectors": 626,
+    "barrier_segments": 199,
+    "guardrail_segments": 199,
+    "route_shields": 6,
     "service_icons": 2,
-    "route_context_waypoints": 5,
-    "route_context_automation_nodes": 6,
+    "bridge_decks": 1,
+    "overpass_openings": 1,
+    "structure_semantic_nodes": 11,
+    "lighting_stages": 2,
+    "route_context_waypoints": 6,
+    "route_context_automation_nodes": 8,
     "topology_minimum_lanes": 2,
     "topology_maximum_lanes": 4,
     "topology_transitions": 4,
     "gore_geometry_observed": true,
-    "interchange_plans": 3,
-    "interchange_connectors": 12,
-    "capture_frames": 309,
+    "interchange_plans": 4,
+    "interchange_connectors": 14,
+    "capture_frames": 555,
     "capture_fps": 60,
-    "capture_duration_seconds": 5.15,
-    "maximum_road_visual_build_milliseconds": 16.503,
-    "maximum_road_collision_build_milliseconds": 1.061,
+    "capture_duration_seconds": 9.25,
+    "maximum_road_visual_build_milliseconds": 16.222,
+    "maximum_road_collision_build_milliseconds": 1.303,
     "initial_visual_build_budget_milliseconds": 50,
     "initial_collision_build_budget_milliseconds": 50,
-    "csharp_tests_passed": 62,
-    "map_pipeline_tests_passed": 66,
+    "csharp_tests_passed": 93,
+    "map_pipeline_tests_passed": 78,
     "playgodot_unit_tests_passed": 12
   },
   "acceptance_comparisons": [
     {
       "criterion": "production and graybox visuals preserve the same procedural and semantic contract",
-      "observed": "both profiles resolved the same seven chunks, six route-context roots, 18 materials, five meshes, 546 reflectors, 175 barrier segments, 175 guardrail segments, four shields, and two service panels",
+      "observed": "both profiles resolved the same nine chunks, eight route-context roots, one bridge deck and overpass opening, eleven structure nodes, 18 materials, nine meshes, 626 reflectors, 199 barrier segments, 199 guardrail segments, six shields, two service panels, and two lighting stages",
       "passed": true
     },
     {
       "criterion": "the technical kit survives representative lane and interchange topology",
-      "observed": "the aggregate gate passed two-to-four-lane transitions, gore geometry, entrance and highway-transfer movements, all three interchange plans, twelve connectors, branch prewarm and eviction, and local-origin rebases",
+      "observed": "the aggregate gate passed two-to-four-lane transitions, gore geometry, entrance and highway-transfer movements, all four interchange plans, fourteen connectors, branch prewarm and eviction, and local-origin rebases",
       "passed": true
     },
     {
       "criterion": "route-context signage is renderer-reviewable without losing stable automation identity",
-      "observed": "the five-waypoint 60 FPS capture validated each declared label visibility envelope and preserved a durable contact sheet",
+      "observed": "the six-waypoint 60 FPS capture validated each declared label visibility envelope, returned to the exact bridge route position after a rebase, and preserved daylight and night structure frames in a durable contact sheet",
       "passed": true
     }
   ],
@@ -148,8 +175,12 @@
       "sha256": "4059c5590b91f373941d3bced1a365a22d88ff83e2b58fe0958c82b262a859cd"
     },
     {
-      "path": "/tmp/p1-009-highway-kit.avi",
-      "sha256": "df2b132bf6ae87c65d0d07287c5077483da838341dffbaed3a7b252c9290ee6d",
+      "path": "docs/images/p1-009-structures-lighting-review.png",
+      "sha256": "cf77abeac843ac0e1948dde0a9011828fbc9027f7a6ec6e4a8b9c5bc47643702"
+    },
+    {
+      "path": "/tmp/p1-009-structures-lighting-v4.avi",
+      "sha256": "9579d9375d89a9c4099b745466d284fe83b057b9e4819c1f9806e1085235b7b7",
       "retention": "local review artifact; the tracked contact sheet is durable"
     }
   ],
@@ -157,10 +188,14 @@
     {
       "failure": "The first combined profile incorrectly required gore geometry to appear on the transfer-plan route-context traversal itself.",
       "recovery": "The road-visual contract now validates the shared kit and signage on the transfer plan, while the aggregate gate proves gore geometry on the dedicated variable-lane topology fixture."
+    },
+    {
+      "failure": "The first structure review framed the bridge after its road chunk had been unloaded and the world had rebased, making the valid structure look disconnected from the road.",
+      "recovery": "The review scenario now returns to the structure's exact upper-edge route distance, waits for streaming to settle, and then frames the rebased bridge in daylight and night."
     }
   ],
-  "retry_count": 1,
-  "recovery_result": "All autonomous technical, semantic, topology, renderer, and regression gates for the current procedural baseline pass; production art, performance, rights, and human readability approval remain explicitly open.",
+  "retry_count": 3,
+  "recovery_result": "All autonomous technical, semantic, topology, bridge/overpass, daylight/night renderer, and regression gates for the current procedural baseline pass; production art, quantitative performance, rights, and human readability approval remain explicitly open.",
   "human_gate": {
     "name": "Highway art readability, visual quality, and final rights approval",
     "question_id": "Q-024",
@@ -168,8 +203,8 @@
     "status": "open",
     "approval": null,
     "question_record": "docs/QUESTIONS_FOR_RANDROID_2026-07-18_HIGHWAY_KIT.md",
-    "review_artifact": "docs/images/p1-009-highway-kit-review.png"
+    "review_artifact": "docs/images/p1-009-structures-lighting-review.png"
   },
   "standards_research": "docs/research/2026-07-18-modern-highway-visual-standards.md",
-  "adversarial_review": "docs/audits/2026-07-18-p1-009-adversarial-review.md"
+  "adversarial_review": "docs/audits/2026-07-21-p1-009-structures-lighting-review.md"
 }
