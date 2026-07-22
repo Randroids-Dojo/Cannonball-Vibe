@@ -118,6 +118,7 @@ public sealed partial class Main : Node3D
     private int _routeChoiceMaximumUnsupportedFrames;
     private int _routeChoiceChunkFailures;
     private VehicleVisualScenario? _vehicleVisualScenario;
+    private RoadVisualScenario? _roadVisualScenario;
     private CameraHandlingScenario? _cameraHandlingScenario;
     private bool _resumeRequested;
     private bool _resumeVerify;
@@ -466,6 +467,15 @@ public sealed partial class Main : Node3D
                     GetNode<WorldEnvironment>("NightEnvironment"),
                     _vehicleVisualReview);
             }
+            if (_roadVisualProfile || _roadVisualReview)
+            {
+                _roadVisualScenario = new RoadVisualScenario(
+                    _streamer,
+                    GetNode<DirectionalLight3D>("MoonLight"),
+                    GetNode<WorldEnvironment>("NightEnvironment"),
+                    _routeContextDiagnosticCamera,
+                    _roadVisualReview);
+            }
             if ((_cameraHandlingProfile || _cameraHandlingReview) && !_resumeVerify)
             {
                 _cameraHandlingScenario = new CameraHandlingScenario(
@@ -630,6 +640,20 @@ public sealed partial class Main : Node3D
                 return;
             }
         }
+        if (_roadVisualScenario is { Complete: false } && _routeContextProfileComplete)
+        {
+            try
+            {
+                _roadVisualScenario.Advance();
+            }
+            catch (Exception exception)
+            {
+                GD.PushError(exception.ToString());
+                _shutdownStarted = true;
+                GetTree().Quit(1);
+                return;
+            }
+        }
         if ((_roadVisualProfile || _roadVisualReview) && !_roadVisualProfileComplete)
         {
             try
@@ -744,7 +768,8 @@ public sealed partial class Main : Node3D
             resumedSave?.Run.Position,
             resumedSave?.Run.WorldStream,
             resumeChunks,
-            resumedSave?.Run.Navigation);
+            resumedSave?.Run.Navigation,
+            _interchangeFixture?.RoadStructures);
         _streamer.ShortCorridorLoopEnabled = _shortCorridorSoak;
         var vehicleTransform = resumedSave is null
             ? new Transform3D(
@@ -2360,7 +2385,7 @@ public sealed partial class Main : Node3D
 
     private void AdvanceRoadVisualProfile()
     {
-        if (!_streamer.IsStreamingSettled)
+        if (!_streamer.IsStreamingSettled || _roadVisualScenario is not { Complete: true })
         {
             return;
         }
@@ -2383,6 +2408,10 @@ public sealed partial class Main : Node3D
             $"shared_materials={snapshot.SharedMaterialCount} " +
             $"shared_meshes={snapshot.SharedMeshCount} " +
             $"retroreflective_materials={snapshot.RetroreflectiveMaterialCount} " +
+            $"bridge_decks={snapshot.BridgeDeckCount} " +
+            $"overpass_openings={snapshot.OverpassOpeningCount} " +
+            $"structure_nodes={snapshot.StructureSemanticNodeCount} " +
+            $"lighting_stages={_roadVisualScenario.CompletedStageCount} " +
             $"max_visual_build_ms={_streamer.MaximumBuildMilliseconds:0.000} " +
             $"max_collision_build_ms={_streamer.MaximumCollisionBuildMilliseconds:0.000}");
     }
@@ -2428,8 +2457,11 @@ public sealed partial class Main : Node3D
             !snapshot.AllContractsResolved || snapshot.ReflectorCount < 1 ||
             snapshot.BarrierSegmentCount < 1 || snapshot.GuardrailSegmentCount < 1 ||
             snapshot.RouteShieldCount < 2 || snapshot.ServiceIconCount < 2 ||
-            snapshot.SharedMaterialCount != 18 || snapshot.SharedMeshCount != 5 ||
+            snapshot.SharedMaterialCount != 18 || snapshot.SharedMeshCount != 9 ||
             snapshot.RetroreflectiveMaterialCount != 11 ||
+            snapshot.BridgeDeckCount < 1 || snapshot.OverpassOpeningCount < 1 ||
+            snapshot.StructureCount < 1 || snapshot.StructureSemanticNodeCount < 1 ||
+            !snapshot.StructureContractResolved ||
             (_interchangeFixture is not null && _streamer.OpposingCarriagewayChunksSeen < 1))
         {
             throw new InvalidOperationException(

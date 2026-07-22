@@ -4,6 +4,7 @@ using System.Text.Json;
 using Cannonball.Content;
 using Cannonball.Core.Content;
 using Cannonball.Core.Routes;
+using Cannonball.Game.World.RoadVisuals;
 using Google.FlatBuffers;
 
 namespace Cannonball.Game.Automation;
@@ -34,6 +35,7 @@ public sealed record RepresentativeInterchangeFixtureData(
     IReadOnlyDictionary<string, ValidatedRoutePlan> Plans,
     InterchangeGeometryValidation GeometryValidation,
     InterchangeGeometryLimits GeometryLimits,
+    IReadOnlyList<RoadStructurePlacement> RoadStructures,
     IReadOnlyList<string> DecisionEdgeIds,
     string OverrideId);
 
@@ -267,13 +269,14 @@ public static class RepresentativeInterchangeFixture
             plan => plan.Id,
             catalog.ValidatePlan,
             StringComparer.Ordinal);
-        var validation = ValidateGeometry(built, graph, connectors, geometryLimits);
+        var geometryAnalysis = AnalyzeGeometry(built, graph, connectors, geometryLimits);
         return new RepresentativeInterchangeFixtureData(
             package,
             source,
             plans,
-            validation,
+            geometryAnalysis.Validation,
             geometryLimits,
+            geometryAnalysis.RoadStructures,
             ["interchange-approach", "between-interchanges"],
             AuthoredOverrideId);
     }
@@ -633,7 +636,7 @@ public static class RepresentativeInterchangeFixture
                 .ToArray())).ToArray();
     }
 
-    private static InterchangeGeometryValidation ValidateGeometry(
+    private static GeometryAnalysis AnalyzeGeometry(
         IReadOnlyList<BuiltEdge> built,
         IRouteGraph graph,
         IReadOnlyList<JunctionConnector> connectors,
@@ -643,6 +646,7 @@ public static class RepresentativeInterchangeFixture
         var selfIntersections = built.Sum(edge => CountSelfIntersections(edge.Samples));
         var gradeSeparatedCrossings = 0;
         var minimumClearance = double.PositiveInfinity;
+        var roadStructures = new List<RoadStructurePlacement>();
         for (var leftIndex = 0; leftIndex < built.Count; leftIndex++)
         {
             for (var rightIndex = leftIndex + 1; rightIndex < built.Count; rightIndex++)
@@ -678,6 +682,16 @@ public static class RepresentativeInterchangeFixture
                         }
                         gradeSeparatedCrossings++;
                         minimumClearance = Math.Min(minimumClearance, clearance);
+                        roadStructures.Add(BuildRoadStructurePlacement(
+                            left,
+                            right,
+                            leftSegment,
+                            rightSegment,
+                            leftFactor,
+                            rightFactor,
+                            leftElevation,
+                            rightElevation,
+                            clearance));
                     }
                 }
             }
@@ -726,15 +740,86 @@ public static class RepresentativeInterchangeFixture
                     $"{edge.Edge.Id}:g={edge.Samples.Max(sample => Math.Abs(sample.Grade)):F6}," +
                     $"c={edge.Samples.Max(sample => Math.Abs(sample.Curvature)):F6}"))}.");
         }
-        return new InterchangeGeometryValidation(
-            gradeSeparatedCrossings,
-            minimumClearance,
-            selfIntersections,
-            invalidShortcuts,
-            parallelCarriagewayPairs,
-            maximumAbsoluteGrade,
-            maximumAbsoluteCurvature,
-            minimumSightline);
+        return new GeometryAnalysis(
+            new InterchangeGeometryValidation(
+                gradeSeparatedCrossings,
+                minimumClearance,
+                selfIntersections,
+                invalidShortcuts,
+                parallelCarriagewayPairs,
+                maximumAbsoluteGrade,
+                maximumAbsoluteCurvature,
+                minimumSightline),
+            roadStructures
+                .DistinctBy(structure => structure.Id, StringComparer.Ordinal)
+                .OrderBy(structure => structure.Id, StringComparer.Ordinal)
+                .ToArray());
+    }
+
+    private static RoadStructurePlacement BuildRoadStructurePlacement(
+        BuiltEdge left,
+        BuiltEdge right,
+        Segment leftSegment,
+        Segment rightSegment,
+        double leftFactor,
+        double rightFactor,
+        double leftElevation,
+        double rightElevation,
+        double clearance)
+    {
+        var leftIsUpper = leftElevation > rightElevation;
+        var upper = leftIsUpper ? left : right;
+        var lower = leftIsUpper ? right : left;
+        var upperSegment = leftIsUpper ? leftSegment : rightSegment;
+        var lowerSegment = leftIsUpper ? rightSegment : leftSegment;
+        var upperFactor = leftIsUpper ? leftFactor : rightFactor;
+        var lowerFactor = leftIsUpper ? rightFactor : leftFactor;
+        var upperDistance = Lerp(
+            upperSegment.Start.DistanceMeters,
+            upperSegment.End.DistanceMeters,
+            upperFactor);
+        var lowerDistance = Lerp(
+            lowerSegment.Start.DistanceMeters,
+            lowerSegment.End.DistanceMeters,
+            lowerFactor);
+        var upperLayout = LaneGeometryProfile.Evaluate(upper.Edge, upperDistance);
+        var lowerLayout = LaneGeometryProfile.Evaluate(lower.Edge, lowerDistance);
+        var upperWidth = upperLayout.PavedRightMeters - upperLayout.PavedLeftMeters;
+        var lowerWidth = lowerLayout.PavedRightMeters - lowerLayout.PavedLeftMeters;
+        var projectedX = Lerp(
+            upperSegment.Start.ProjectedXMeters,
+            upperSegment.End.ProjectedXMeters,
+            upperFactor);
+        var projectedY = Lerp(
+            upperSegment.Start.ProjectedYMeters,
+            upperSegment.End.ProjectedYMeters,
+            upperFactor);
+        var tangentX = Lerp(
+            upperSegment.Start.ProjectedTangentX,
+            upperSegment.End.ProjectedTangentX,
+            upperFactor);
+        var tangentY = Lerp(
+            upperSegment.Start.ProjectedTangentY,
+            upperSegment.End.ProjectedTangentY,
+            upperFactor);
+        var tangentLength = Math.Max(1e-9, Math.Sqrt(tangentX * tangentX + tangentY * tangentY));
+        var kind = upper.Edge.RoadwayKind == RoadwayKind.OneWayRamp
+            ? RoadStructureKind.Overpass
+            : RoadStructureKind.Bridge;
+        return new RoadStructurePlacement(
+            $"{kind.ToString().ToLowerInvariant()}-{upper.Edge.Id}-over-{lower.Edge.Id}",
+            kind,
+            upper.Edge.Id,
+            lower.Edge.Id,
+            projectedX,
+            projectedY,
+            Math.Max(leftElevation, rightElevation),
+            tangentX / tangentLength,
+            tangentY / tangentLength,
+            upperDistance,
+            Math.Clamp(lowerWidth + 14, 26, 54),
+            upperWidth + 1.2,
+            clearance);
     }
 
     private static int CountParallelCarriagewayPairs(IReadOnlyList<BuiltEdge> built)
@@ -1006,6 +1091,10 @@ public static class RepresentativeInterchangeFixture
         ChunkManifest Manifest,
         byte[] Bytes,
         IReadOnlyList<RouteChunkSample> Samples);
+
+    private sealed record GeometryAnalysis(
+        InterchangeGeometryValidation Validation,
+        IReadOnlyList<RoadStructurePlacement> RoadStructures);
 
     private readonly record struct Point(double X, double Y, double Elevation)
     {

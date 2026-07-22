@@ -44,7 +44,7 @@ if [[ " ${scenario_args[*]} " == *" --vehicle-visual-review "* ]]; then
   default_capture_frames=480
 fi
 if [[ " ${scenario_args[*]} " == *" --road-visual-review "* ]]; then
-  default_capture_frames=360
+  default_capture_frames=600
 fi
 if [[ " ${scenario_args[*]} " == *" --trip-map-review "* ]]; then
   default_capture_frames=360
