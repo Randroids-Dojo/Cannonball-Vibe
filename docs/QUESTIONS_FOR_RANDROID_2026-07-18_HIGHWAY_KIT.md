@@ -9,6 +9,12 @@ Review artifact:
 
 ## Q-024 — production highway visual language
 
+**Resolved 2026-07-23 — Option A, generalized across the trip.** Production
+roads pursue contemporary, state-specific American highway realism along the
+actual route. Colorado remains the first researched technical baseline rather
+than a nationwide skin. See
+[ADR-0016](decisions/ADR-0016-state-specific-highway-visual-language.md).
+
 Which visual language should guide the production road, signage, and regional
 asset pass?
 
@@ -38,7 +44,6 @@ asset pass?
   require a broader product, vehicle, UI, prop, and environment rethink; period
   accuracy and rights research add scope.
 
-**Autonomous default:** continue with A as a reference-informed technical
-baseline. Do not call P1-009 production-complete until you approve the art
-direction, sign readability, representative day/night captures, and exact asset
-rights records.
+The visual-language decision is closed. Do not call P1-009
+production-complete until sign readability, representative state/corridor
+day/night captures, renderer budgets, and exact asset-rights records pass.
