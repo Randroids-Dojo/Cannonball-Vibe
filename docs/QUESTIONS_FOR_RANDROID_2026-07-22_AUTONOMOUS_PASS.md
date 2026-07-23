@@ -30,6 +30,12 @@ Review instructions remain in
 
 ## 2. Q-021 — Continue the Colorado mountain-to-plains environment direction?
 
+**Answered 2026-07-23 — A, clarified as route-specific realism.** Colorado is
+the representative technical slice only. Production scenery must capture every
+traversed state and use multiple subregion profiles where the real environment
+changes. See
+[ADR-0015](decisions/ADR-0015-route-specific-state-and-subregion-environments.md).
+
 ### A. Continue this direction (recommended)
 
 - **Pros:** the new terrain-quality capture now proves continuous mountain,
@@ -51,6 +57,11 @@ Review artifact:
 [terrain-quality contact sheet](images/p1-010-terrain-quality-review.png).
 
 ## 3. Q-022 — Which Windows PC should ratify production renderer budgets?
+
+**Answered 2026-07-23 — A.** The declared reference PC uses Windows 11 Pro, an
+AMD Ryzen 9 5900X, ASUS TUF RTX 3080 Ti 12 GB, and 64 GB DDR4-3600. Hardware
+selection is complete; measured budget ratification remains open. See the
+[reference-hardware record](audits/2026-07-23-reference-windows-hardware.md).
 
 ### A. Declare an available intended gaming PC (recommended)
 
