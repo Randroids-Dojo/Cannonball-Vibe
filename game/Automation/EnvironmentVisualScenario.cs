@@ -99,6 +99,10 @@ public sealed class EnvironmentVisualScenario
             $"mid_instances={snapshot.MidInstanceCount} " +
             $"distant_instances={snapshot.DistantInstanceCount} " +
             $"semantic_nodes={snapshot.SemanticNodeCount} " +
+            $"terrain_ribbons={snapshot.TerrainRibbonCount} " +
+            $"terrain_vertices={snapshot.TerrainVertexCount} " +
+            $"terrain_triangles={snapshot.TerrainTriangleCount} " +
+            $"max_terrain_seam_m={snapshot.MaximumTerrainSeamMeters:0.0000} " +
             $"shared_materials={snapshot.SharedMaterialCount} " +
             $"shared_meshes={snapshot.SharedMeshCount} " +
             $"collision_free={snapshot.CollisionFree} " +
@@ -114,7 +118,11 @@ public sealed class EnvironmentVisualScenario
             snapshot.LoadedChunks.Count == 0 ||
             snapshot.NearInstanceCount == 0 || snapshot.MidInstanceCount == 0 ||
             snapshot.DistantInstanceCount == 0 || snapshot.SemanticNodeCount == 0 ||
-            snapshot.SharedMaterialCount < 7 || snapshot.SharedMeshCount < 6 ||
+            snapshot.TerrainRibbonCount != snapshot.LoadedChunks.Count ||
+            snapshot.TerrainVertexCount == 0 || snapshot.TerrainTriangleCount == 0 ||
+            !double.IsFinite(snapshot.MaximumTerrainSeamMeters) ||
+            snapshot.MaximumTerrainSeamMeters > 0.05 ||
+            snapshot.SharedMaterialCount < 8 || snapshot.SharedMeshCount < 6 ||
             snapshot.LoadedChunks.All(chunk => chunk.Region != stage.Region))
         {
             throw new InvalidOperationException(
@@ -122,6 +130,9 @@ public sealed class EnvironmentVisualScenario
                 $"loaded={snapshot.LoadedChunks.Count}, region={stage.Region}, " +
                 $"near={snapshot.NearInstanceCount}, mid={snapshot.MidInstanceCount}, " +
                 $"distant={snapshot.DistantInstanceCount}, semantic={snapshot.SemanticNodeCount}, " +
+                $"terrain_ribbons={snapshot.TerrainRibbonCount}, " +
+                $"terrain_triangles={snapshot.TerrainTriangleCount}, " +
+                $"max_terrain_seam_m={snapshot.MaximumTerrainSeamMeters:0.0000}, " +
                 $"collision_free={snapshot.CollisionFree}.");
         }
         var expected = LightingValues(stage.Lighting);

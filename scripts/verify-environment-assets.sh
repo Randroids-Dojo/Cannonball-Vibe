@@ -37,6 +37,7 @@ tmp_dir="$(mktemp -d)"
 trap 'rm -rf "$tmp_dir"' EXIT
 profiles=(high balanced low graybox)
 baseline_semantics=""
+previous_terrain_triangles=""
 for profile in "${profiles[@]}"; do
   log="$tmp_dir/$profile.log"
   args=(--fixture representative-corridor --profile environment-streaming)
@@ -51,7 +52,21 @@ for profile in "${profiles[@]}"; do
   echo "$marker" | grep -q "profile=$profile"
   echo "$marker" | grep -q 'stages=5 regions=4'
   echo "$marker" | grep -q 'collision_free=True'
-  semantics="$(echo "$marker" | tr ' ' '\n' | grep -E '^(stages|regions|observed_chunks|collision_free|rebases)=' | tr '\n' ' ')"
+  echo "$marker" | grep -q 'collision_budget=0'
+  echo "$marker" | grep -q 'max_terrain_seam_m=0.0000'
+  terrain_triangles="$(echo "$marker" | tr ' ' '\n' | sed -n 's/^terrain_triangles=//p')"
+  if [[ ! "$terrain_triangles" =~ ^[0-9]+$ || "$terrain_triangles" -le 0 ]]; then
+    echo "Invalid terrain triangle count for $profile: '$terrain_triangles'." >&2
+    exit 1
+  fi
+  if [[ -n "$previous_terrain_triangles" &&
+        "$terrain_triangles" -ge "$previous_terrain_triangles" ]]; then
+    echo "Terrain quality degradation is not strictly ordered for $profile." >&2
+    echo "previous=$previous_terrain_triangles current=$terrain_triangles" >&2
+    exit 1
+  fi
+  previous_terrain_triangles="$terrain_triangles"
+  semantics="$(echo "$marker" | tr ' ' '\n' | grep -E '^(stages|regions|observed_chunks|terrain_ribbons|max_terrain_seam_m|collision_free|collision_budget|rebases)=' | tr '\n' ' ')"
   if [[ -z "$baseline_semantics" ]]; then
     baseline_semantics="$semantics"
   elif [[ "$semantics" != "$baseline_semantics" ]]; then
@@ -60,7 +75,7 @@ for profile in "${profiles[@]}"; do
     echo "observed: $semantics" >&2
     exit 1
   fi
-  echo "CANNONBALL_ENVIRONMENT_PROFILE_OK profile=$profile $semantics"
+  echo "CANNONBALL_ENVIRONMENT_PROFILE_OK profile=$profile terrain_triangles=$terrain_triangles $semantics"
 done
 
-echo "CANNONBALL_ENVIRONMENT_ASSET_GATE_OK region=$region profiles=${#profiles[@]} semantics_equivalent=true"
+echo "CANNONBALL_ENVIRONMENT_ASSET_GATE_OK region=$region profiles=${#profiles[@]} semantics_equivalent=true terrain_degradation_ordered=true"

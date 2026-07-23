@@ -230,6 +230,10 @@ public sealed partial class WorldStreamer : Node3D
             chunks.Sum(chunk => chunk.MidInstanceCount),
             chunks.Sum(chunk => chunk.DistantInstanceCount),
             chunks.Sum(chunk => chunk.SemanticNodeCount),
+            chunks.Count(chunk => chunk.TerrainTriangleCount > 0),
+            chunks.Sum(chunk => chunk.TerrainVertexCount),
+            chunks.Sum(chunk => chunk.TerrainTriangleCount),
+            CalculateMaximumTerrainSeamMeters(),
             _environmentVisualKit.SharedMaterialCount,
             _environmentVisualKit.SharedMeshCount,
             chunks.All(chunk => chunk.CollisionFree),
@@ -885,7 +889,9 @@ public sealed partial class WorldStreamer : Node3D
                 _localOriginWorld,
                 _environmentVisualKit,
                 GetEnvironmentRegion(routeMidpoint),
-                $"{_package.Graph.ContentVersion}|colorado-proof-corridor");
+                $"{_package.Graph.ContentVersion}|colorado-proof-corridor",
+                manifest.StartMeters,
+                RouteLengthMeters);
             _environmentChunks.Add(content.Id, environmentChunk);
             _environmentObservedChunks.Add(content.Id);
             _environmentRegionsSeen.Add(environmentChunk.Region);
@@ -971,6 +977,39 @@ public sealed partial class WorldStreamer : Node3D
                 : null;
         _routeContextPlans.Add(edge.Id, plan);
         return plan;
+    }
+
+    private double CalculateMaximumTerrainSeamMeters()
+    {
+        var maximum = 0.0;
+        var loaded = _manifests
+            .Where(span => _environmentChunks.ContainsKey(span.Manifest.Id))
+            .OrderBy(span => span.StartMeters)
+            .ToArray();
+        for (var index = 0; index < loaded.Length - 1; index++)
+        {
+            var first = loaded[index];
+            var second = loaded[index + 1];
+            if (!string.Equals(
+                    first.Manifest.EdgeId,
+                    second.Manifest.EdgeId,
+                    StringComparison.Ordinal) ||
+                Math.Abs(first.EndMeters - second.StartMeters) > 0.001)
+            {
+                continue;
+            }
+            var firstEdge = _environmentChunks[first.Manifest.Id].GetTerrainEndOuterEdge();
+            var secondEdge = _environmentChunks[second.Manifest.Id].GetTerrainStartOuterEdge();
+            if (firstEdge.Count != secondEdge.Count)
+            {
+                return double.PositiveInfinity;
+            }
+            for (var side = 0; side < firstEdge.Count; side++)
+            {
+                maximum = Math.Max(maximum, firstEdge[side].DistanceTo(secondEdge[side]));
+            }
+        }
+        return maximum;
     }
 
     private static bool HasRenderableRouteContext(
@@ -1508,6 +1547,10 @@ public sealed record EnvironmentStreamSnapshot(
     int MidInstanceCount,
     int DistantInstanceCount,
     int SemanticNodeCount,
+    int TerrainRibbonCount,
+    int TerrainVertexCount,
+    int TerrainTriangleCount,
+    double MaximumTerrainSeamMeters,
     int SharedMaterialCount,
     int SharedMeshCount,
     bool CollisionFree,

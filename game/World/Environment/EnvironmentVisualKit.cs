@@ -20,7 +20,7 @@ public enum EnvironmentRegion
 
 public sealed class EnvironmentVisualKit
 {
-    public const string Version = "colorado-proof-corridor-v1";
+    public const string Version = "colorado-proof-corridor-v2";
 
     private EnvironmentVisualKit(EnvironmentQuality quality)
     {
@@ -33,6 +33,13 @@ public sealed class EnvironmentVisualKit
         Snow = Material(graybox ? "d2d5d8" : "d9e2e8", 0.9f);
         Building = Material(graybox ? "777d84" : "6a7581", 0.84f);
         Window = Material(graybox ? "92a1aa" : "9dc4d4", 0.35f, emission: !graybox);
+        TerrainBlend = new StandardMaterial3D
+        {
+            AlbedoColor = new Color("b8bdb8"),
+            Roughness = 1.0f,
+            VertexColorUseAsAlbedo = true,
+            CullMode = BaseMaterial3D.CullModeEnum.Disabled,
+        };
 
         PineMesh = new CylinderMesh
         {
@@ -79,12 +86,13 @@ public sealed class EnvironmentVisualKit
             Material = Window,
         };
 
-        (NearInstanceBudget, MidInstanceBudget, DistantInstanceBudget) = quality switch
+        (NearInstanceBudget, MidInstanceBudget, DistantInstanceBudget, TerrainSampleStride) =
+            quality switch
         {
-            EnvironmentQuality.High => (48, 18, 10),
-            EnvironmentQuality.Balanced => (30, 12, 7),
-            EnvironmentQuality.Low => (16, 7, 4),
-            EnvironmentQuality.Graybox => (6, 4, 3),
+            EnvironmentQuality.High => (48, 18, 10, 1),
+            EnvironmentQuality.Balanced => (30, 12, 7, 2),
+            EnvironmentQuality.Low => (16, 7, 4, 4),
+            EnvironmentQuality.Graybox => (6, 4, 3, 8),
             _ => throw new ArgumentOutOfRangeException(nameof(quality)),
         };
     }
@@ -94,6 +102,7 @@ public sealed class EnvironmentVisualKit
     public int NearInstanceBudget { get; }
     public int MidInstanceBudget { get; }
     public int DistantInstanceBudget { get; }
+    public int TerrainSampleStride { get; }
     public StandardMaterial3D Pine { get; }
     public StandardMaterial3D Rock { get; }
     public StandardMaterial3D Foothill { get; }
@@ -101,13 +110,14 @@ public sealed class EnvironmentVisualKit
     public StandardMaterial3D Snow { get; }
     public StandardMaterial3D Building { get; }
     public StandardMaterial3D Window { get; }
+    public StandardMaterial3D TerrainBlend { get; }
     public Mesh PineMesh { get; }
     public Mesh RockMesh { get; }
     public Mesh FoothillMesh { get; }
     public Mesh MountainMesh { get; }
     public Mesh BuildingMesh { get; }
     public Mesh WindowMesh { get; }
-    public int SharedMaterialCount => 7;
+    public int SharedMaterialCount => 8;
     public int SharedMeshCount => 6;
 
     public static EnvironmentVisualKit FromCommandLine()

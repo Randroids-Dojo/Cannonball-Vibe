@@ -1324,8 +1324,11 @@
         "scripts/run-scenario.sh",
         "scripts/capture-scenario.sh",
         "docs/QUESTIONS_FOR_RANDROID_2026-07-22_REGIONAL_ENVIRONMENT.md",
+        "docs/QUESTIONS_FOR_RANDROID_2026-07-22_AUTONOMOUS_PASS.md",
         "docs/audits/2026-07-22-p1-010-regional-environment.md",
+        "docs/audits/2026-07-22-p1-010-terrain-quality.md",
         "docs/images/p1-010-regional-environment-review.png",
+        "docs/images/p1-010-terrain-quality-review.png",
         "evidence/M5/P1-010.json"
       ],
       "acceptance": [
@@ -1349,7 +1352,7 @@
         "name": "Representative-region art direction, readability, and final rights approval",
         "required_for": "M5"
       },
-      "notes": "Region selection remains Q-021 and exact production budgets remain Q-022. Fixture work proceeds against the allowed Colorado mountain-to-plains proof corridor with provisional quality budgets, without closing either question or treating hosted CI as a representative GPU benchmark. Runtime integration owns only collision-free environment siblings, environment scenario flags, and scenario-script routing; authoritative road elevation, road collision, and vehicle physics remain outside this task."
+      "notes": "Region selection remains Q-021 and exact production budgets remain Q-022. Fixture work proceeds against the allowed Colorado mountain-to-plains proof corridor with provisional quality budgets, without closing either question or treating hosted CI as a representative GPU benchmark. Runtime integration owns only collision-free environment siblings, environment scenario flags, scenario-script routing, continuous terrain ribbons outside the authoritative road margin, and measured environment geometry budgets; authoritative road elevation, road collision, and vehicle physics remain outside this task."
     },
     {
       "id": "P1-003",

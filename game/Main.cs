@@ -2480,9 +2480,12 @@ public sealed partial class Main : Node3D
         if (!snapshot.CollisionFree || snapshot.CollisionBudget != 0 ||
             snapshot.ObservedChunkCount < 4 ||
             snapshot.RegionsSeen.Count != Enum.GetValues<World.Environments.EnvironmentRegion>().Length ||
-            snapshot.SharedMaterialCount < 7 || snapshot.SharedMeshCount < 6 ||
+            snapshot.SharedMaterialCount < 8 || snapshot.SharedMeshCount < 6 ||
             snapshot.NearInstanceCount == 0 || snapshot.MidInstanceCount == 0 ||
-            snapshot.DistantInstanceCount == 0 ||
+            snapshot.DistantInstanceCount == 0 || snapshot.TerrainRibbonCount == 0 ||
+            snapshot.TerrainVertexCount == 0 || snapshot.TerrainTriangleCount == 0 ||
+            !double.IsFinite(snapshot.MaximumTerrainSeamMeters) ||
+            snapshot.MaximumTerrainSeamMeters > 0.05 ||
             snapshot.NearVisibilityMeters >= snapshot.MidVisibilityMeters ||
             snapshot.MidVisibilityMeters >= snapshot.DistantVisibilityMeters)
         {
