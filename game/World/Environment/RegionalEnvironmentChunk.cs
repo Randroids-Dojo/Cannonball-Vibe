@@ -19,7 +19,14 @@ public sealed partial class RegionalEnvironmentChunk : Node3D
     public int MidInstanceCount { get; private set; }
     public int DistantInstanceCount { get; private set; }
     public int SemanticNodeCount { get; private set; }
+    public int TerrainVertexCount { get; private set; }
+    public int TerrainTriangleCount { get; private set; }
     public double BuildMilliseconds { get; private set; }
+    private IReadOnlyList<Vector3> _terrainStartOuterEdge = [];
+    private IReadOnlyList<Vector3> _terrainEndOuterEdge = [];
+    private double _routeStartMeters;
+    private double _routeEndMeters;
+    private double _routeLengthMeters;
 
     public static RegionalEnvironmentChunk Create(
         RouteChunkContent content,
@@ -27,7 +34,9 @@ public sealed partial class RegionalEnvironmentChunk : Node3D
         RouteWorldPoint localOriginWorld,
         EnvironmentVisualKit kit,
         EnvironmentRegion region,
-        string stableSeed)
+        string stableSeed,
+        double routeStartMeters,
+        double routeLengthMeters)
     {
         ArgumentNullException.ThrowIfNull(content);
         ArgumentNullException.ThrowIfNull(frame);
@@ -47,6 +56,9 @@ public sealed partial class RegionalEnvironmentChunk : Node3D
             ChunkId = content.Id,
             Region = region,
             Position = anchor.RelativeTo(localOriginWorld),
+            _routeStartMeters = routeStartMeters,
+            _routeEndMeters = routeStartMeters + content.EndMeters - content.StartMeters,
+            _routeLengthMeters = routeLengthMeters,
         };
         EnvironmentVisualKit.MarkSemantic(
             chunk,
@@ -57,6 +69,13 @@ public sealed partial class RegionalEnvironmentChunk : Node3D
         var samplePoints = content.Samples
             .Select(sample => frame.ToWorld(sample).RelativeTo(anchor))
             .ToArray();
+        chunk.BuildTerrain(
+            content,
+            frame,
+            anchor,
+            kit,
+            routeStartMeters,
+            routeLengthMeters);
         chunk.BuildNearLayer(kit, samplePoints, ref random);
         chunk.BuildMidLayer(kit, samplePoints, ref random);
         chunk.BuildDistantLayer(kit, samplePoints, ref random);
@@ -73,8 +92,51 @@ public sealed partial class RegionalEnvironmentChunk : Node3D
         MidInstanceCount,
         DistantInstanceCount,
         SemanticNodeCount,
+        TerrainVertexCount,
+        TerrainTriangleCount,
         BuildMilliseconds,
         !ContainsCollisionObject(this));
+
+    public IReadOnlyList<Vector3> GetTerrainStartOuterEdge() =>
+        _terrainStartOuterEdge.Select(point => Position + point).ToArray();
+
+    public IReadOnlyList<Vector3> GetTerrainEndOuterEdge() =>
+        _terrainEndOuterEdge.Select(point => Position + point).ToArray();
+
+    private void BuildTerrain(
+        RouteChunkContent content,
+        RouteFrame frame,
+        RouteWorldPoint anchor,
+        EnvironmentVisualKit kit,
+        double routeStartMeters,
+        double routeLengthMeters)
+    {
+        var result = RegionalTerrainRibbon.Build(
+            content,
+            frame,
+            anchor,
+            kit,
+            routeStartMeters,
+            routeLengthMeters);
+        var terrain = new MeshInstance3D
+        {
+            Name = "RegionalTerrainRibbon",
+            Mesh = result.Mesh,
+            VisibilityRangeEnd = RegionalTerrainRibbon.VisibilityMeters,
+            VisibilityRangeFadeMode = GeometryInstance3D.VisibilityRangeFadeModeEnum.Self,
+            CastShadow = GeometryInstance3D.ShadowCastingSetting.Off,
+        };
+        EnvironmentVisualKit.MarkSemantic(
+            terrain,
+            $"environment.chunk.{ChunkId}.terrain",
+            "terrain");
+        AddChild(terrain);
+        TerrainVertexCount = result.VertexCount;
+        TerrainTriangleCount = result.TriangleCount;
+        _terrainStartOuterEdge = result.StartOuterEdge;
+        _terrainEndOuterEdge = result.EndOuterEdge;
+        SemanticNodeCount++;
+    }
 
     private static bool ContainsCollisionObject(Node node)
     {
@@ -183,6 +245,14 @@ public sealed partial class RegionalEnvironmentChunk : Node3D
                 ? footprint
                 : footprint * Mathf.Lerp(0.55f, 1.35f, random.NextFloat());
             var position = point + right * lateral;
+            var routeDistance = Mathf.Lerp(
+                (float)_routeStartMeters,
+                (float)_routeEndMeters,
+                progress);
+            position.Y += RegionalTerrainRibbon.SurfaceHeight(
+                routeDistance,
+                _routeLengthMeters,
+                lateral);
             position.Y -= layer == "Near" ? 0 : heightScale * 0.18f;
             var basis = Basis.FromEuler(new Vector3(0, random.NextFloat() * Mathf.Tau, 0))
                 .Scaled(new Vector3(footprint, heightScale, footprint));
@@ -235,5 +305,7 @@ public sealed record EnvironmentChunkSnapshot(
     int MidInstanceCount,
     int DistantInstanceCount,
     int SemanticNodeCount,
+    int TerrainVertexCount,
+    int TerrainTriangleCount,
     double BuildMilliseconds,
     bool CollisionFree);
