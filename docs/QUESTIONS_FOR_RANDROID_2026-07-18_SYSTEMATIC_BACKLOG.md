@@ -22,6 +22,9 @@ than being duplicated here:
 
 - Q-019: whether the full-screen trip map pauses solo driving. Working default:
   pause local simulation and the run clock in solo modes.
+
+  **Resolved 2026-07-23 — Option A.** Opening the full-screen map pauses solo
+  driving and excludes the paused interval from the authoritative run clock.
 - Q-020: final Hero GT art direction and acquisition path.
 - Q-021: representative M5 region. Working default: Colorado mountain to plains.
 - Q-022: minimum target PC and production renderer budgets.

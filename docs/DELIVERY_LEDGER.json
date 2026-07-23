@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated": "2026-07-19",
+  "updated": "2026-07-23",
   "project": "Cannonball-Vibe",
   "authority": {
     "architecture_decisions": "docs/decisions/",
@@ -1099,7 +1099,7 @@
         "evidence/M2/P0-014.json"
       ],
       "human_gate": null,
-      "notes": "ADR-0014 is authoritative. Q-026 selects whether undivided two-way roads enter the first playable corridor; the working default keeps them out without blocking the directed-carriageway contract. P1-009 retains final visual-quality approval."
+      "notes": "ADR-0014 is authoritative. Q-026 was resolved by the owner on 2026-07-23 as Option A: the first complete corridor proves divided mainlines and one-way ramps; explicit undivided two-way cross-sections follow later under P1-011. P1-009 retains final visual-quality approval."
     },
     {
       "id": "P0-015",
@@ -1144,7 +1144,7 @@
         "name": "High-speed traffic readability, fairness, and density review",
         "required_for": "M3"
       },
-      "notes": "ADR-0014 governs directionality. Do not infer opposing flow from spatial proximity, and do not begin undivided two-way behavior unless Q-026 selects that scope and a superseding cross-section decision is recorded. Traffic starts only after P0-020 proves the camera, input, and vehicle-dynamics baseline so traffic tuning does not mask or compensate for unresolved driving behavior."
+      "notes": "ADR-0014 governs directionality. Q-026 was resolved by the owner on 2026-07-23 as Option A: this task proves divided-carriageway and one-way-road traffic first; undivided two-way behavior is deferred to dependent P1-011 and must not be inferred from spatial proximity. Traffic starts only after P0-020 proves the camera, input, and vehicle-dynamics baseline so traffic tuning does not mask or compensate for unresolved driving behavior."
     },
     {
       "id": "P0-013",
@@ -1192,7 +1192,7 @@
         "name": "Trip-map comprehension and accessibility usability review",
         "required_for": "M3"
       },
-      "notes": "P1-004 completed and ADR-0008 activated on 2026-07-19. PlayGodot is required for the trip map's interactive rendered UI, while Core models and official-engine scenarios remain authoritative for route and simulation behavior and Computer Use remains the black-box visual layer. The first-pass authoritative projection, Godot overlay, official-engine scenario, rendered UI automation, and review capture were implemented at c98b78336f7e6d98576a9523952961bd1ed18d9d. The subsequent machine closeout adds indexed semantic lookups, point-budgeted LOD selection, batched path rendering, a deterministic 3,000-mile scale scenario, and data-driven 1:1, fixed-ratio, and selective-cruise estimates that preserve authoritative route distance. Q-028 human usability approval remains required before completion; Q-001 still owns the commercial run-mode decision."
+      "notes": "Q-019 was resolved by the owner on 2026-07-23 as Option A: opening the full-screen map in solo play pauses driving and excludes the paused interval from the authoritative run clock. P1-004 completed and ADR-0008 activated on 2026-07-19. PlayGodot is required for the trip map's interactive rendered UI, while Core models and official-engine scenarios remain authoritative for route and simulation behavior and Computer Use remains the black-box visual layer. The first-pass authoritative projection, Godot overlay, official-engine scenario, rendered UI automation, and review capture were implemented at c98b78336f7e6d98576a9523952961bd1ed18d9d. The subsequent machine closeout adds indexed semantic lookups, point-budgeted LOD selection, batched path rendering, a deterministic 3,000-mile scale scenario, and data-driven 1:1, fixed-ratio, and selective-cruise estimates that preserve authoritative route distance. Q-028 human usability approval remains required before completion; Q-001 still owns the commercial run-mode decision."
     },
     {
       "id": "P1-008",
@@ -1356,6 +1356,56 @@
         "required_for": "M5"
       },
       "notes": "Q-021 was resolved by the owner on 2026-07-23: production scenery pursues grounded realism for every traversed state with route-specific subregion profiles where the real environment changes; Colorado remains the representative technical slice rather than the coast-to-coast art template. Q-022 Option A selected a Ryzen 9 5900X / RTX 3080 Ti 12 GB / 64 GB Windows 11 PC as the first reference measurement machine, but exact production budgets remain open until representative captures are ratified. Runtime integration owns only collision-free environment siblings, environment scenario flags, scenario-script routing, continuous terrain ribbons outside the authoritative road margin, and measured environment geometry budgets; authoritative road elevation, road collision, and vehicle physics remain outside this task."
+    },
+    {
+      "id": "P1-011",
+      "milestone": "M5",
+      "priority": "P1",
+      "title": "Undivided two-way highway cross-sections and opposing traffic",
+      "status": "open",
+      "dependencies": [
+        "P0-014",
+        "P0-015",
+        "P0-020"
+      ],
+      "owned_paths": [
+        "schemas/route_graph.fbs",
+        "src/Cannonball.Core/Content/",
+        "src/Cannonball.Core/Routes/",
+        "tools/map_pipeline/",
+        "data/routes/fixtures/two-way/",
+        "game/World/RoadVisuals/",
+        "game/Traffic/",
+        "game/Automation/",
+        "tests/Cannonball.Core.Tests/",
+        "scripts/",
+        "docs/decisions/",
+        "docs/audits/",
+        "evidence/M5/P1-011.json"
+      ],
+      "acceptance": [
+        "A superseding route and cross-section contract represents opposing travel directions, centerlines, shoulders, passing restrictions, turn pockets, and junction connectivity without placing opposing agents in one directed lane collection",
+        "Approved source or authored semantics determine lane direction, passing zones, centerline markings, speed context, and intersection control; runtime proximity never invents opposing flow",
+        "Traffic, collision, recovery, routing, save-resume, and trip-map behavior remain deterministic across head-on approach, following, passing, intersection, road-departure, and route-transition scenarios",
+        "Procedural generation and the production highway kit cover representative rural US and state highways, transitions to divided facilities, bridges, services, and jurisdiction-specific markings",
+        "Machine-readable safety metrics and deterministic renderer captures validate sight distance, closing speed, lane containment, collision tunneling, spawn separation, signage, and day/night readability",
+        "The existing divided-carriageway, one-way-ramp, and graybox paths preserve their behavior and validation coverage"
+      ],
+      "verification": [
+        "uv run --project tools/map_pipeline --frozen pytest tools/map_pipeline/tests -q",
+        "DOTNET_ROLL_FORWARD=Major dotnet test Cannonball.sln --filter 'FullyQualifiedName~TwoWay'",
+        "./scripts/run-scenario.sh --fixture representative-two-way-highways --profile traffic",
+        "./scripts/capture-scenario.sh /tmp/p1-011-two-way-highways.avi --fixture representative-two-way-highways --traffic-review",
+        "./scripts/check.sh"
+      ],
+      "evidence": [
+        "evidence/M5/P1-011.json"
+      ],
+      "human_gate": {
+        "name": "Undivided-highway safety, readability, and route-authenticity review",
+        "required_for": "M5"
+      },
+      "notes": "Q-026 was resolved by the owner on 2026-07-23 as Option A. This task is intentionally dependency-blocked until the divided-carriageway traffic and M0 handling foundations complete. It requires a new explicit bidirectional cross-section decision and must not retrofit opposing traffic into ADR-0014 directed lane collections."
     },
     {
       "id": "P1-003",
