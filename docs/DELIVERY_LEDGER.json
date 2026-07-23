@@ -1240,7 +1240,7 @@
         "name": "Hero vehicle art direction and final rights approval",
         "required_for": "M5"
       },
-      "notes": "Vehicle concept and acquisition path remain Q-020. The project-original procedural Hero GT is the autonomous working baseline documented in docs/QUESTIONS_FOR_RANDROID_2026-07-18_AUTONOMOUS.md; it may satisfy technical gates but cannot close final art direction without human approval. P0-017 owns camera behavior and P0-019 owns vehicle-dynamics behavior; P1-008 supplies stable visual anchors and presentation without changing those systems. Coordinate CannonballVehicle.cs and game/Automation/VehicleVisualScenario.cs edits while these tasks overlap; P0-017 may change camera selection and camera-contract assertions there, while P1-008 retains visual-stage and asset-presentation ownership."
+      "notes": "Q-020 was resolved by the owner on 2026-07-23 as Option A: develop the project-original Hero GT and existing semantic rig into the production vehicle. The acquisition and ownership direction is closed, but the procedural baseline cannot close final art direction until production modeling, materials, interior, animation, damage presentation, renderer budgets, rights evidence, and human visual approval pass. P0-017 owns camera behavior and P0-019 owns vehicle-dynamics behavior; P1-008 supplies stable visual anchors and presentation without changing those systems. Coordinate CannonballVehicle.cs and game/Automation/VehicleVisualScenario.cs edits while these tasks overlap; P0-017 may change camera selection and camera-contract assertions there, while P1-008 retains visual-stage and asset-presentation ownership."
     },
     {
       "id": "P1-009",
@@ -1272,6 +1272,7 @@
         "docs/TECH_STACK.md",
         "docs/research/2026-07-18-modern-highway-visual-standards.md",
         "docs/QUESTIONS_FOR_RANDROID_2026-07-18_HIGHWAY_KIT.md",
+        "docs/decisions/ADR-0016-state-specific-highway-visual-language.md",
         "docs/images/p1-009-highway-kit-review.png",
         "docs/images/p1-009-structures-lighting-review.png",
         "docs/audits/2026-07-18-p1-009-adversarial-review.md",
@@ -1300,7 +1301,7 @@
         "name": "Highway art readability, visual quality, and final rights approval",
         "required_for": "M5"
       },
-      "notes": "The project-original procedural kit is the autonomous technical baseline: production and graybox profiles, shared materials and meshes, route-context signage, reflectors, barriers, guardrails, topology/gore regression, a fixture-derived bridge deck and overpass opening, local-origin-safe structure placement, and deterministic daylight/night review stages. Production terrain and furniture, exact sign typography and silhouettes, full renderer budgets, rights records, and Q-024 art-direction approval remain open; the task must not be marked complete from fixture evidence alone."
+      "notes": "Q-024 was resolved by the owner on 2026-07-23 as Option A: production roads, signs, markings, barriers, structures, and roadside assets pursue contemporary, state-specific American highway realism along the actual route, with Colorado retained only as the first researched technical baseline. The project-original procedural kit remains the autonomous foundation: production and graybox profiles, shared materials and meshes, route-context signage, reflectors, barriers, guardrails, topology/gore regression, a fixture-derived bridge deck and overpass opening, local-origin-safe structure placement, and deterministic daylight/night review stages. Production terrain and furniture, exact jurisdiction-specific sign typography and silhouettes, full renderer budgets, rights records, and representative readability captures remain open; the task must not be marked complete from fixture evidence alone."
     },
     {
       "id": "P1-010",
