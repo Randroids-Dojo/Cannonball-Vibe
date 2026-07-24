@@ -3,6 +3,10 @@
 This file contains only decisions that an agent cannot approve. Implementation and
 automated verification continue under the delivery-ledger fixture scopes.
 
+Owner scheduling decision, 2026-07-23: defer the camera-comfort review until
+the selected visual-quality milestone. This does not approve either view or
+close Q-029.
+
 ## Q-029 — P0-017 camera comfort and readability approval
 
 The stabilized chase/cockpit camera foundation and all automatable P0-017 scenarios

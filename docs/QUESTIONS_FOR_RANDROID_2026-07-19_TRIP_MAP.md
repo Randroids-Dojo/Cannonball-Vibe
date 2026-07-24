@@ -5,6 +5,9 @@ Machine verification and independent adversarial review are recorded in
 [the implementation audit](audits/2026-07-19-p0-013-trip-map-review.md) and
 [the continental-scale closeout](audits/2026-07-20-p0-013-scale-closeout.md).
 
+Owner scheduling decision, 2026-07-23: defer this review until the selected
+visual-quality milestone. This does not approve the map or close Q-028.
+
 ## Q-028 — Trip-map comprehension and accessibility review
 
 Please review [the representative trip-map capture](images/p0-013-trip-map.png)

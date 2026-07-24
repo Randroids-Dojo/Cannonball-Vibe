@@ -52,3 +52,17 @@ remains open only until representative production scenes record and ratify
 these thresholds plus derived subsystem and content-class allocations,
 CPU/GPU attribution, streaming latency, draw calls, triangles, material and
 texture residency, and LOD quality on this machine.
+
+## Evidence acquisition
+
+The owner selected a live, agent-operated remote session on the declared
+Windows PC instead of a user-run evidence bundle or manual profiler screenshots.
+The session must still use reproducible scripts and preserve complete
+machine-readable outputs; remote control changes who operates the capture, not
+the evidence standard.
+
+The owner must initiate and authorize the session. Do not create standing remote
+access, store remote-control credentials in the repository, collect unrelated
+machine data, or treat remote availability as permission to publish, install
+unrelated software, or change account/security settings. The exact remote
+mechanism and session timing remain owner-coordinated.
