@@ -214,7 +214,7 @@
         "evidence/M0/P0-018.json"
       ],
       "human_gate": null,
-      "notes": "Implementation may proceed against the merged and verified P0-017 camera foundation while its human comfort gate remains pending. P0-018 cannot be marked complete until P0-017 is complete. The single ChaseCameraRig.cs reset-snap edit is coordinated under P0-017's broader game/Camera/ ownership and does not transfer camera behavior ownership to P0-018. Physical steering wheels, pedals, and force feedback remain governed by Q-006 and are deliberately outside this keyboard-and-controller baseline."
+      "notes": "Implementation may proceed against the merged and verified P0-017 camera foundation while its human comfort gate remains pending. P0-018 cannot be marked complete until P0-017 is complete. The single ChaseCameraRig.cs reset-snap edit is coordinated under P0-017's broader game/Camera/ ownership and does not transfer camera behavior ownership to P0-018. Q-006 was resolved by the owner on 2026-07-23: the available Logitech G923 Xbox/PC wheel and three-pedal set is the first Windows physical baseline under P1-012. Wheel, pedal, and force-feedback readiness remain outside this keyboard-and-controller task."
     },
     {
       "id": "P0-019",
@@ -553,7 +553,8 @@
         "packages.lock.json",
         "packages.*.lock.json",
         "src/Cannonball.Core/packages.lock.json",
-        "src/Cannonball.Core/packages.*.lock.json"
+        "src/Cannonball.Core/packages.*.lock.json",
+        "docs/decisions/ADR-0020-required-platforms-and-macos-validation.md"
       ],
       "acceptance": [
         "CI installs exact Godot 4.7.1 export templates",
@@ -569,7 +570,8 @@
       "evidence": [
         "evidence/M1/P0-007.json"
       ],
-      "human_gate": null
+      "human_gate": null,
+      "notes": "Q-009 was resolved by the owner on 2026-07-23 as Option A. Linux and Windows remain required build, clean-machine, and unsigned-export platforms. macOS remains an engineering-validation platform where suitable runners and local machines are available, but public macOS packaging, signing, notarization, minimum hardware, and support are outside the current release commitment under ADR-0020."
     },
     {
       "id": "P0-008",
@@ -1416,6 +1418,52 @@
         "required_for": "M5"
       },
       "notes": "Q-026 was resolved by the owner on 2026-07-23 as Option A. This task is intentionally dependency-blocked until the divided-carriageway traffic and M0 handling foundations complete. It requires a new explicit bidirectional cross-section decision and must not retrofit opposing traffic into ADR-0014 directed lane collections."
+    },
+    {
+      "id": "P1-012",
+      "milestone": "M1",
+      "priority": "P1",
+      "title": "Logitech G923 wheel and pedal calibration baseline",
+      "status": "open",
+      "dependencies": [
+        "P0-018",
+        "P0-019"
+      ],
+      "owned_paths": [
+        "src/Cannonball.Core/Simulation/Vehicle/",
+        "game/Input/",
+        "game/UI/",
+        "game/Automation/",
+        "automation/playgodot/",
+        "tests/Cannonball.Core.Tests/",
+        "scripts/",
+        "docs/audits/2026-07-23-g923-wheel-baseline.md",
+        "evidence/M1/P1-012.json"
+      ],
+      "acceptance": [
+        "Windows discovers the Logitech G923 Xbox/PC wheel and matching three-pedal set by stable reported identity without confusing it with a standard controller",
+        "An in-game calibration flow records wheel center and lock range, steering inversion, accelerator, brake, clutch, pedal inversion and usable ranges, button and paddle mappings, deadzones, response curves, and a reset-to-safe-default path",
+        "Wheel and pedal input passes through the same bounded authoritative driving-input contract as keyboard and controller without changing camera behavior or vehicle physics",
+        "Connect, disconnect, reconnect, focus loss, pause, device switching, reset, and save-resume cannot leave sticky throttle, brake, clutch, steering, handbrake, or menu input",
+        "Official-engine automation and machine-readable evidence expose raw and calibrated axes, saturation, latency, active device, mappings, and fallback behavior without requiring force-feedback hardware in CI",
+        "A physical Windows handling session covers steering precision, braking confidence, clutch and paddle behavior, menu navigation, fatigue, oscillation, and recovery across representative speed and road scenarios",
+        "Basic wheel and pedal support can complete without force feedback or TRUEFORCE; any later feedback implementation requires explicit bounded-force, failure-safe, and comfort validation"
+      ],
+      "verification": [
+        "DOTNET_ROLL_FORWARD=Major dotnet test Cannonball.sln --filter 'FullyQualifiedName~WheelInput'",
+        "./scripts/verify-wheel-input.sh --device logitech-g923-xbox-pc --profiles all",
+        "./scripts/capture-scenario.sh /tmp/p1-012-g923-wheel.avi --fixture handling-corpus --wheel-review",
+        "./scripts/check.sh"
+      ],
+      "evidence": [
+        "evidence/M1/P1-012.json"
+      ],
+      "human_gate": {
+        "name": "Physical Logitech G923 calibration and handling session",
+        "required_for": "M1",
+        "status": "pending"
+      },
+      "notes": "Q-006 was resolved by the owner on 2026-07-23 as Option A using the already-owned Logitech G923 Xbox/PC wheel and three-pedal set purchased in November 2025. The declared Ryzen 9 5900X / RTX 3080 Ti Windows 11 PC is the primary physical host. Force feedback and TRUEFORCE remain optional until basic input, calibration, safety, and human handling gates pass."
     },
     {
       "id": "P1-003",
