@@ -199,6 +199,8 @@
         "automation/playgodot/tests/test_driving_input.py",
         "scripts/verify-driving-input.sh",
         "tests/Cannonball.Core.Tests/",
+        "docs/audits/2026-07-20-p0-018-input-conditioning.md",
+        "docs/images/p0-018-driving-input-review.png",
         "evidence/M0/P0-018.json"
       ],
       "acceptance": [

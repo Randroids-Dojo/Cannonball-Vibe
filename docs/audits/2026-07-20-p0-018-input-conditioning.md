@@ -82,3 +82,23 @@ P0-018 is intentionally `in_progress`. Its ledger scope permits implementation a
 the verified P0-017 foundation but prohibits a completion claim until the P0-017 human
 camera-comfort gate is approved. Physical wheels, pedals, and force feedback remain out
 of this baseline.
+
+## 2026-07-23 Windows closeout addendum
+
+The full keyboard-and-controller verification entry point was rerun on the pinned
+Windows toolchain while a separate Godot editor process remained open. All 16
+engine-independent `DrivingInput` tests, the normal-start package boundary, Ruff, and
+all four selected official-engine PlayGodot scenarios passed. The live scenarios
+covered keyboard steering and reversal, controller axes, pause clearing, stationary
+hold, distinct reverse and handbrake channels, semantic input state, and renderer
+inspection.
+
+The retained [renderer capture](../images/p0-018-driving-input-review.png) shows the
+Balanced profile in a released neutral state, with the chase camera still independent
+of the input controller. Per-process runtime and telemetry isolation supplied by the
+verified P0-017 automation foundation allowed this gate to coexist with the open editor
+without reusing its telemetry stream.
+
+This is a machine-verification closeout only. P0-018 may advance to `verified_local`,
+but it cannot become `complete` until P0-017 is complete following the Q-029 human
+camera-comfort and readability decision.
