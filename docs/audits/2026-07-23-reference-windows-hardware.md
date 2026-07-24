@@ -1,7 +1,7 @@
 # Reference Windows performance hardware
 
 Date declared: 2026-07-23
-Decision: Q-022 Option A — measure on an available Windows gaming PC
+Decision: Q-022 Option A plus performance follow-up Options A and A
 
 ## Declared machine
 
@@ -22,8 +22,25 @@ This is the first declared reference machine for representative Windows
 renderer captures and production-budget measurement. It is not yet the minimum
 supported PC and its specifications are not themselves a performance result.
 
+The selected production reference target is 2560×1440 at the High quality
+preset with a stable 60 FPS. The 60 FPS target establishes a 16.67 ms frame-time
+envelope after warm-up; average FPS alone is not sufficient evidence.
+
+Budgets are layered across:
+
+1. whole-scene CPU/GPU frame time, frame pacing, memory, and streaming outcomes;
+2. vehicle, road, traffic, environment, effects, lighting, and UI subsystems;
+3. content-class geometry, draw calls, materials, textures, instancing, LOD,
+   and visible pop-in.
+
+Fixture measurements may establish provisional regression limits. Production
+limits require representative content and an owner-ratified capture on this
+machine; see
+[ADR-0023](../decisions/ADR-0023-reference-performance-target-and-layered-budgets.md).
+
 The existing Windows workstation audit already proves that the repository,
 Godot 4.7.1 .NET, Forward+, and Vulkan run on an RTX 3080 Ti system. Q-022
-remains open until representative production scenes record and ratify CPU/GPU
-frame-time percentiles, memory high-water marks, streaming latency, draw calls,
-triangles, material and texture residency, and LOD quality on this machine.
+remains open only until representative production scenes record and ratify
+numeric CPU/GPU frame-time percentiles, frame-pacing and stutter tolerances,
+memory high-water marks, streaming latency, draw calls, triangles, material and
+texture residency, and LOD quality on this machine.

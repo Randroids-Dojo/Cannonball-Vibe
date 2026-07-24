@@ -1513,6 +1513,16 @@ MCP adapter or custom Godot fork is required.
 
 LOCKED — owner decision 2026-07-23; see docs/decisions/ADR-0022-host-neutral-agent-automation-without-required-mcp.md
 
+__D-016__
+
+The first production performance reference is 2560×1440 High at a stable 60
+FPS on the declared Ryzen 9 5900X / RTX 3080 Ti Windows PC. Budgets are layered
+across whole scenes, subsystems, streaming and memory, and content classes;
+fixture limits are provisional until representative production captures
+ratify numeric tolerances.
+
+LOCKED — owner decision 2026-07-23; see docs/decisions/ADR-0023-reference-performance-target-and-layered-budgets.md
+
 # Top project risks and mitigations
 
 __Risk__
