@@ -399,6 +399,7 @@
         "README.md",
         "docs/TECH_STACK.md",
         "docs/QUESTIONS_FOR_RANDROID.md",
+        "docs/decisions/ADR-0019-route-package-budgets-and-audit-reproducibility.md",
         "docs/audits/2026-07-16-p0-004-route-sanity-review.md",
         "docs/images/p0-004-representative-corridor-overview.svg",
         "data/sources/representative-corridor-lock.json",
@@ -437,7 +438,8 @@
         "review_reference": "docs/audits/2026-07-16-p0-004-route-sanity-review.md",
         "approval_reference": "docs/audits/2026-07-16-p0-004-route-sanity-review.md#final-project-owner-decision",
         "task_completion_blocked": false
-      }
+      },
+      "notes": "Q-004 was resolved by the owner on 2026-07-23 as Option A. The validated root-index ceiling remains 64 MB and every independently hashed shipping chunk remains below 16 MB. Future tightening requires cached and cold 500-mile plus coast-to-coast telemetry demonstrating a measurable startup, memory, streaming, recovery, or update benefit under ADR-0019."
     },
     {
       "id": "P0-005",
@@ -849,6 +851,7 @@
         "reports/M2/P0-009/",
         "docs/QUESTIONS_2026-07-17_AUTONOMOUS_RUN.md",
         "docs/decisions/ADR-0018-gated-generated-road-reconstruction.md",
+        "docs/decisions/ADR-0019-route-package-budgets-and-audit-reproducibility.md",
         "docs/audits/2026-07-18-p0-009-adversarial-review.md",
         "docs/decisions/ADR-0011-lane-topology-route-context-and-trip-map.md",
         "docs/decisions/ADR-0017-authoritative-route-context-and-concurrency.md",
@@ -873,7 +876,7 @@
         "evidence/M2/P0-009-reproducibility.json"
       ],
       "human_gate": null,
-      "notes": "ADR-0011, ADR-0017, and ADR-0018 are authoritative. Q-002 and Q-003 were resolved by the owner on 2026-07-23 as Option A: NHPN remains a national route-family backbone rather than playable lane geometry, and generated reconstruction ships only after strict geometry and driving gates pass, with provenanced authored overlays for exceptions. Q-017 and Q-018 were resolved as Option A: route context uses checksum-locked authoritative public records first and deterministic authored overlays with recursive provenance for documented gaps; every signed concurrent identity remains authoritative, the locally primary designation renders roadside, and all identities remain available in map and inspection surfaces. Checksum-locked representative fixtures may prove individual semantics, but no fixture result may be presented as continental completion."
+      "notes": "ADR-0011, ADR-0017, ADR-0018, and ADR-0019 are authoritative. Q-002 and Q-003 were resolved by the owner on 2026-07-23 as Option A: NHPN remains a national route-family backbone rather than playable lane geometry, and generated reconstruction ships only after strict geometry and driving gates pass, with provenanced authored overlays for exceptions. Q-008 was resolved as Option A: shipping FlatBuffers remain byte-reproducible while non-shipping GeoPackage audit artifacts require semantic reproducibility across feature IDs, geometry, CRS, attributes, provenance, and content version. Q-017 and Q-018 were resolved as Option A: route context uses checksum-locked authoritative public records first and deterministic authored overlays with recursive provenance for documented gaps; every signed concurrent identity remains authoritative, the locally primary designation renders roadside, and all identities remain available in map and inspection surfaces. Checksum-locked representative fixtures may prove individual semantics, but no fixture result may be presented as continental completion."
     },
     {
       "id": "P0-010",
