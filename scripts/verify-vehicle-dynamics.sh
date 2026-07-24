@@ -5,6 +5,9 @@ repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 profiles="all"
 speed_bands="all"
 fixtures="all"
+report_directory="${CANNONBALL_VEHICLE_DYNAMICS_REPORT_DIR:-$repo_root/reports/p0-019}"
+scenario_timeout_seconds="${CANNONBALL_SCENARIO_TIMEOUT_SECONDS:-300}"
+mkdir -p "$report_directory"
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -39,15 +42,6 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-if [[ "$speed_bands" != "all" && "$speed_bands" != "redline" ]]; then
-  echo "The current incline regression supports --speed-bands all or redline." >&2
-  exit 2
-fi
-if [[ "$fixtures" != "all" && "$fixtures" != "incline" ]]; then
-  echo "The current vehicle-dynamics gate supports --fixtures all or incline." >&2
-  exit 2
-fi
-
 case "$profiles" in
   all) selected_profile="all" ;;
   accessible) selected_profile="Accessible" ;;
@@ -60,9 +54,44 @@ case "$profiles" in
 esac
 
 DOTNET_ROLL_FORWARD=Major dotnet test "$repo_root/Cannonball.sln" \
-  --filter 'FullyQualifiedName~VehicleDynamics' --nologo
+  --filter 'FullyQualifiedName~VehicleDynamics' --nologo |
+  tee "$report_directory/core-tests.log"
 
-"$repo_root/scripts/run-scenario.sh" \
+matrix_log="$report_directory/matrix.log"
+CANNONBALL_SCENARIO_TIMEOUT_SECONDS="$scenario_timeout_seconds" \
+  CANNONBALL_GODOT_LOG_FILE="$matrix_log" "$repo_root/scripts/run-scenario.sh" \
   --fixture official-corridor \
   --profile vehicle-dynamics \
-  "--assist=$selected_profile"
+  "--assist=$selected_profile" \
+  "--dynamics-speed-bands=$speed_bands" \
+  "--dynamics-fixtures=$fixtures"
+
+if [[ "$profiles" == "all" && "$speed_bands" == "all" && "$fixtures" == "all" ]]; then
+  expected_hash=""
+  for fixed_fps in 30 60 144; do
+    frame_rate_log="$report_directory/fps-$fixed_fps.log"
+    CANNONBALL_SCENARIO_TIMEOUT_SECONDS="$scenario_timeout_seconds" \
+      CANNONBALL_GODOT_LOG_FILE="$frame_rate_log" \
+      "$repo_root/scripts/run-scenario.sh" \
+      --fixture official-corridor \
+      --profile vehicle-dynamics \
+      --assist=Accessible \
+      --dynamics-speed-bands=push \
+      --dynamics-fixtures=lane-change \
+      "--engine-fixed-fps=$fixed_fps"
+    marker="$(grep 'CANNONBALL_VEHICLE_DYNAMICS_SUITE_OK' "$frame_rate_log" | tail -n 1)"
+    result_hash="$(sed -n 's/.*result_hash=\([0-9a-f]\{64\}\).*/\1/p' <<< "$marker")"
+    if [[ -z "$result_hash" ]]; then
+      echo "Fixed-FPS run $fixed_fps did not emit a dynamics result hash." >&2
+      exit 1
+    fi
+    if [[ -z "$expected_hash" ]]; then
+      expected_hash="$result_hash"
+    elif [[ "$result_hash" != "$expected_hash" ]]; then
+      echo "Fixed-FPS result hash diverged at $fixed_fps FPS." >&2
+      exit 1
+    fi
+  done
+  printf 'CANNONBALL_VEHICLE_DYNAMICS_FRAME_RATE_OK fps=30,60,144 result_hash=%s\n' \
+    "$expected_hash"
+fi

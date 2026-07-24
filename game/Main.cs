@@ -294,7 +294,7 @@ public sealed partial class Main : Node3D
             }
             if (_vehicleDynamicsProfile || _vehicleDynamicsReview)
             {
-                _smokeTargetFrames = 3_000;
+                _smokeTargetFrames = 50_000;
             }
             if (_roadVisualProfile || _roadVisualReview)
             {
@@ -429,8 +429,11 @@ public sealed partial class Main : Node3D
                 CallDeferred(MethodName.OpenTripMap);
             }
 
+            var telemetryPath = OptionalArgument(arguments, "--telemetry-path");
             _telemetry = new JsonlTelemetrySink(
-                ProjectSettings.GlobalizePath("user://telemetry/prototype.jsonl"));
+                telemetryPath is null
+                    ? ProjectSettings.GlobalizePath("user://telemetry/prototype.jsonl")
+                    : Path.GetFullPath(telemetryPath));
 
             _vehicle.AutopilotEnabled = _smokeTest && !_renderIntegrity && !_streamingProfile &&
                 !_topologyProfile && !_topologyReview && !_routeChoiceProfile &&
@@ -528,7 +531,9 @@ public sealed partial class Main : Node3D
                     _vehicle,
                     _streamer,
                     _vehicleDynamicsReview,
-                    VehicleDynamicsAssistProfiles(arguments));
+                    VehicleDynamicsAssistProfiles(arguments),
+                    VehicleDynamicsSpeedBands(arguments),
+                    VehicleDynamicsFixtures(arguments));
             }
             if (_renderIntegrity)
             {
@@ -684,20 +689,6 @@ public sealed partial class Main : Node3D
                 return;
             }
         }
-        if (_vehicleDynamicsScenario is { Complete: false })
-        {
-            try
-            {
-                _vehicleDynamicsScenario.Advance();
-            }
-            catch (Exception exception)
-            {
-                GD.PushError(exception.ToString());
-                _shutdownStarted = true;
-                GetTree().Quit(1);
-                return;
-            }
-        }
         if (_roadVisualScenario is { Complete: false } && _routeContextProfileComplete)
         {
             try
@@ -796,6 +787,25 @@ public sealed partial class Main : Node3D
         {
             _shutdownStarted = true;
             _ = PersistAsync(quitAfterSave: true);
+        }
+    }
+
+    public override void _PhysicsProcess(double delta)
+    {
+        _ = delta;
+        if (_vehicleDynamicsScenario is not { Complete: false } || _shutdownStarted)
+        {
+            return;
+        }
+        try
+        {
+            _vehicleDynamicsScenario.AdvancePhysics();
+        }
+        catch (Exception exception)
+        {
+            GD.PushError(exception.ToString());
+            _shutdownStarted = true;
+            GetTree().Quit(1);
         }
     }
 
@@ -2925,6 +2935,61 @@ public sealed partial class Main : Node3D
                 $"Game argument '--assist' must be Accessible, Balanced, Raw, or all; found '{raw}'.");
         }
         return [profile];
+    }
+
+    private static IReadOnlyList<VehicleDynamicsSpeedBand> VehicleDynamicsSpeedBands(
+        IReadOnlyList<string> arguments)
+    {
+        var raw = OptionalArgument(arguments, "--dynamics-speed-bands") ?? "all";
+        if (string.Equals(raw, "all", StringComparison.OrdinalIgnoreCase))
+        {
+            return VehicleDynamicsProfile.SpeedBands;
+        }
+        var result = raw.Split(',', StringSplitOptions.RemoveEmptyEntries |
+                StringSplitOptions.TrimEntries)
+            .Select(VehicleDynamicsProfile.GetSpeedBand)
+            .DistinctBy(band => band.Id, StringComparer.OrdinalIgnoreCase)
+            .ToArray();
+        if (result.Length == 0)
+        {
+            throw new ArgumentException(
+                "Game argument '--dynamics-speed-bands' must be cruise, push, redline, " +
+                "a comma-separated selection, or all.");
+        }
+        return result;
+    }
+
+    private static IReadOnlyList<VehicleDynamicsFixture> VehicleDynamicsFixtures(
+        IReadOnlyList<string> arguments)
+    {
+        var raw = OptionalArgument(arguments, "--dynamics-fixtures") ?? "all";
+        if (string.Equals(raw, "all", StringComparison.OrdinalIgnoreCase))
+        {
+            return VehicleDynamicsProfile.Fixtures;
+        }
+        var result = raw.Split(',', StringSplitOptions.RemoveEmptyEntries |
+                StringSplitOptions.TrimEntries)
+            .Select(value => value.Replace("-", string.Empty, StringComparison.Ordinal))
+            .Select(value =>
+            {
+                if (!Enum.TryParse<VehicleDynamicsFixture>(
+                        value,
+                        ignoreCase: true,
+                        out var fixture))
+                {
+                    throw new ArgumentException(
+                        $"Unknown vehicle dynamics fixture '{value}'.");
+                }
+                return fixture;
+            })
+            .Distinct()
+            .ToArray();
+        if (result.Length == 0)
+        {
+            throw new ArgumentException(
+                "Game argument '--dynamics-fixtures' must name at least one fixture.");
+        }
+        return result;
     }
 
     private static ulong OptionalUnsignedInteger(

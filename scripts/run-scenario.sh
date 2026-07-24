@@ -19,6 +19,7 @@ evidence_path=""
 scenario_seed="20260718"
 save_points="100,250,400"
 expected_completion="true"
+engine_fixed_fps=""
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --fixture)
@@ -105,6 +106,18 @@ while [[ $# -gt 0 ]]; do
       ;;
     --expected-completion=*)
       expected_completion="${1#--expected-completion=}"
+      shift
+      ;;
+    --engine-fixed-fps)
+      if [[ $# -lt 2 ]]; then
+        echo "--engine-fixed-fps requires a positive integer." >&2
+        exit 2
+      fi
+      engine_fixed_fps="$2"
+      shift 2
+      ;;
+    --engine-fixed-fps=*)
+      engine_fixed_fps="${1#--engine-fixed-fps=}"
       shift
       ;;
     --profile)
@@ -237,6 +250,11 @@ while [[ $# -gt 0 ]]; do
       ;;
   esac
 done
+
+if [[ -n "$engine_fixed_fps" && ! "$engine_fixed_fps" =~ ^[1-9][0-9]*$ ]]; then
+  echo "--engine-fixed-fps requires a positive integer." >&2
+  exit 2
+fi
 
 if [[ -n "$evidence_path" ]]; then
   if [[ -z "$distance_miles" ]]; then
@@ -395,6 +413,11 @@ godot_args=(
   --rendering-method gl_compatibility
   --path "$repo_root"
 )
+scenario_telemetry_path="$repo_root/.tools/scenarios/telemetry/scenario-$$.jsonl"
+scenario_args+=("--telemetry-path=$scenario_telemetry_path")
+if [[ -n "$engine_fixed_fps" ]]; then
+  godot_args+=(--fixed-fps "$engine_fixed_fps")
+fi
 
 if [[ -n "${CANNONBALL_GODOT_LOG_FILE:-}" ]]; then
   mkdir -p "$(dirname "$CANNONBALL_GODOT_LOG_FILE")"

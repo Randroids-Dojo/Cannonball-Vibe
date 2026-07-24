@@ -69,6 +69,8 @@ if [[ " ${scenario_args[*]} " == *" --environment-review "* ]]; then
 fi
 capture_frames="${CANNONBALL_CAPTURE_FRAMES:-$default_capture_frames}"
 timeout_seconds="${CANNONBALL_SCENARIO_TIMEOUT_SECONDS:-120}"
+scenario_telemetry_path="$repo_root/.tools/scenarios/telemetry/capture-$$.jsonl"
+scenario_args+=("--telemetry-path=$scenario_telemetry_path")
 
 case "$fixture" in
   official-corridor)

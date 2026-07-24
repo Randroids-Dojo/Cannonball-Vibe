@@ -69,6 +69,48 @@ public static class VehicleDynamicsForces
         return Math.Min(requested, maximum);
     }
 
+    public static double SlipAngleDegrees(
+        double forwardSpeedMetersPerSecond,
+        double lateralSpeedMetersPerSecond)
+    {
+        RequireFinite(forwardSpeedMetersPerSecond, nameof(forwardSpeedMetersPerSecond));
+        RequireFinite(lateralSpeedMetersPerSecond, nameof(lateralSpeedMetersPerSecond));
+        if (Math.Abs(forwardSpeedMetersPerSecond) < 0.01 &&
+            Math.Abs(lateralSpeedMetersPerSecond) < 0.01)
+        {
+            return 0;
+        }
+        return Math.Abs(Math.Atan2(
+            lateralSpeedMetersPerSecond,
+            Math.Abs(forwardSpeedMetersPerSecond))) * 180 / Math.PI;
+    }
+
+    public static double LateralTireForceNewtons(
+        double lateralSpeedMetersPerSecond,
+        double gripNewtonsPerMeterPerSecond,
+        double responseScale,
+        double vehicleMassKilograms,
+        double maximumLateralAccelerationMetersPerSecondSquared,
+        int wheelCount)
+    {
+        RequireFinite(lateralSpeedMetersPerSecond, nameof(lateralSpeedMetersPerSecond));
+        RequireFiniteNonNegative(
+            gripNewtonsPerMeterPerSecond,
+            nameof(gripNewtonsPerMeterPerSecond));
+        RequireFiniteNonNegative(responseScale, nameof(responseScale));
+        RequireFinitePositive(vehicleMassKilograms, nameof(vehicleMassKilograms));
+        RequireFinitePositive(
+            maximumLateralAccelerationMetersPerSecondSquared,
+            nameof(maximumLateralAccelerationMetersPerSecondSquared));
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(wheelCount);
+
+        var requested = -lateralSpeedMetersPerSecond *
+            gripNewtonsPerMeterPerSecond * responseScale;
+        var maximum = vehicleMassKilograms *
+            maximumLateralAccelerationMetersPerSecondSquared / wheelCount;
+        return Math.Clamp(requested, -maximum, maximum);
+    }
+
     private static void RequireFinite(double value, string parameterName)
     {
         if (!double.IsFinite(value))
