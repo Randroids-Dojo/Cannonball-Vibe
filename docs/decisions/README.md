@@ -25,3 +25,5 @@ new ADR that supersedes the old one instead of rewriting history.
 | [ADR-0018](ADR-0018-gated-generated-road-reconstruction.md) | Accepted | Gated generated road reconstruction with authored exceptions |
 | [ADR-0019](ADR-0019-route-package-budgets-and-audit-reproducibility.md) | Accepted | Route-package size ceilings and semantic GeoPackage reproducibility |
 | [ADR-0020](ADR-0020-required-platforms-and-macos-validation.md) | Accepted | Required Linux/Windows delivery with non-committed macOS validation |
+| [ADR-0021](ADR-0021-phased-commercial-release-channels.md) | Accepted | Steam commercial authority with itch.io early distribution and GitHub technical releases |
+| [ADR-0022](ADR-0022-host-neutral-agent-automation-without-required-mcp.md) | Accepted | Host-neutral CLI, PlayGodot, and Computer Use automation without required MCP |
