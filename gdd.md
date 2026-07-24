@@ -88,9 +88,14 @@ __Commercial shape__
 
 Premium game with seeded replayability; no live-service dependency
 
-# The major unresolved question__   OPEN__
+# Defining run-length direction__   LOCKED__
 
-Is uninterrupted 1:1 traversal compelling for hours, or is the fantasy strongest when the geography is real but the travel time is compressed? The prototype must answer this with player behavior, not intuition. The architecture should support both without rebuilding the map pipeline.
+The 1:1 coast-to-coast Endurance Run is Cannonball's defining primary
+experience. Shorter Standard and Challenge modes remain available for
+accessibility, experimentation, and repeatable play, using the same real route
+distance and content rather than replacing the signature mode. Playtesting
+should refine the shorter-mode compression rules without demoting 1:1 travel
+to a hidden variant.
 
 # Contents
 
@@ -259,7 +264,7 @@ The in-game journey may be extremely long; the real-world play session should no
 - Resume panel: route position, elapsed time, target-time range, fuel range, mechanical margin, local awareness, and the next meaningful decision.
 - No fatigue or penalty tied to the player taking a real-world break.
 
-# Run length modes__   OPEN__
+# Run length modes__   LOCKED DIRECTION__
 
 __Mode__
 
@@ -288,6 +293,10 @@ Repeatable testing and mastery
 __IMPLEMENTATION REQUIREMENT__
 
 The map, scoring, and event systems should be expressed in real route distance so mode-specific time or distance compression can change without duplicating content.
+
+The Endurance Run is the defining primary mode. Standard and Challenge modes
+must broaden accessibility without changing authoritative route distance or
+requiring separately authored world content.
 
 # Route topology__   LOCKED__
 
@@ -1038,7 +1047,9 @@ Players can identify the largest current risk and explain why they lost time
 
 __Choice density__
 
-A meaningful speed, route, stop, or risk decision occurs often enough to prevent passive cruising without becoming constant noise
+A meaningful speed, route, stop, or risk decision occurs every few minutes on
+average, with deliberate quiet stretches that preserve authentic highway
+rhythm and prevent constant noise
 
 __Build diversity__
 
@@ -1320,7 +1331,7 @@ Do unlocks create curiosity without making early cars obsolete?
 
 First-run-capable starter set plus horizontal blueprints and contacts
 
-# Prioritized open questions
+# Prioritized product decisions and remaining questions
 
 __Priority__
 
@@ -1330,9 +1341,9 @@ __Recommended default until tested__
 
 __P0__
 
-Is 1:1 travel the main mode or an endurance variant?
+Is 1:1 travel the main mode or an endurance variant? — **RESOLVED**
 
-Build for 1:1 first; design data and scoring so compression can be added without reauthoring
+1:1 Endurance is the defining primary experience; shorter modes remain available without reauthoring world content
 
 __P0__
 
@@ -1342,7 +1353,7 @@ Forgiving input curve, honest stopping distance, no random instability
 
 __P0__
 
-How dense must decisions be?
+How dense must decisions be? — **RESOLVED**
 
 A meaningful strategic or tactical change every few minutes, with quiet periods for contrast
 
@@ -1440,9 +1451,11 @@ SUPERSEDED BY D-011
 
 __D-009__
 
-1:1 Endurance is the signature experiment; the commercial default run length remains unresolved.
+1:1 Endurance is the defining primary coast-to-coast experience. Shorter
+Standard and Challenge modes remain available using the same authoritative
+route distance and content.
 
-OPEN
+LOCKED — owner decision 2026-07-23
 
 __D-010__
 
@@ -1461,6 +1474,14 @@ __D-012__
 Godot 4.7.1 .NET is the prototype engine; agent automation uses the official engine CLI and may add a modern PlayGodot runtime addon for stable rendered-UI scene-node access, never a custom engine fork.
 
 LOCKED FOR PROTOTYPE — see docs/decisions/ADR-0004-godot-4-7-1.md and ADR-0005-official-engine-agentic-automation.md
+
+__D-013__
+
+A meaningful speed, route, stop, or risk decision should occur every few
+minutes on average, with deliberate quiet highway stretches for contrast,
+scenery, planning, music, and recovery from sustained attention.
+
+LOCKED — owner decision 2026-07-23
 
 # Top project risks and mitigations
 
