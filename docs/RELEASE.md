@@ -1,5 +1,31 @@
 # Release operations
 
+## Commercial game channel policy
+
+[ADR-0021](decisions/ADR-0021-phased-commercial-release-channels.md) assigns
+distinct responsibilities to the project's distribution channels:
+
+- Steam is the authoritative commercial customer channel for the premium PC
+  release.
+- itch.io may carry explicitly labeled demos, early builds, or early-access
+  builds.
+- GitHub Releases remains the technical channel for source-retention packages,
+  checksums, provenance, SBOMs, and suitable engineering artifacts.
+
+The current [Steam Direct fee](https://partner.steamgames.com/doc/gettingstarted/appfee)
+is USD 100 per submitted product and is recoupable after USD 1,000 in adjusted
+gross revenue. itch.io currently documents
+[no upfront creator fee](https://itch.io/docs/creators/faq.amp), a configurable
+revenue share, and
+[free, paid, pay-what-you-want, and early-access modes](https://itch.io/docs/creators/pricing).
+GitHub documents its current
+[release-asset behavior and limits](https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases).
+Reverify every service's current terms before submission.
+
+This policy does not authorize a fee payment, storefront creation, acceptance
+of commercial terms, credential use, build upload, or publication. P1-003
+retains explicit human gates for those actions.
+
 ## Authoritative locked-source publication
 
 P1-006 retains every artifact referenced by

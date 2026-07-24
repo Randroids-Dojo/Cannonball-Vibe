@@ -86,7 +86,9 @@ __Signature mode__
 
 __Commercial shape__
 
-Premium game with seeded replayability; no live-service dependency
+Premium Steam game with seeded replayability and no live-service dependency;
+itch.io may carry labeled demos or early builds, while GitHub Releases remains
+the technical artifact and provenance channel
 
 # Defining run-length direction__   LOCKED__
 
@@ -1492,6 +1494,24 @@ minutes on average, with deliberate quiet highway stretches for contrast,
 scenery, planning, music, and recovery from sustained attention.
 
 LOCKED — owner decision 2026-07-23
+
+__D-014__
+
+Steam is the authoritative commercial customer channel. itch.io may host
+explicitly labeled demos or early builds, and GitHub Releases remains the
+technical artifact and provenance channel. Storefront creation, fees,
+credentials, uploads, and publication remain human-gated.
+
+LOCKED — owner decision 2026-07-23; see docs/decisions/ADR-0021-phased-commercial-release-channels.md
+
+__D-015__
+
+Agent delivery remains host-neutral: deterministic command-line and filesystem
+evidence is authoritative, modern PlayGodot supplies stable semantic
+rendered-UI access, and Computer Use supplies optional black-box coverage. No
+MCP adapter or custom Godot fork is required.
+
+LOCKED — owner decision 2026-07-23; see docs/decisions/ADR-0022-host-neutral-agent-automation-without-required-mcp.md
 
 # Top project risks and mitigations
 

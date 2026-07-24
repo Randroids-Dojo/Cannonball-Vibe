@@ -655,6 +655,7 @@
         "docs/TECH_STACK.md",
         "docs/audits/2026-07-19-p1-004-menu-comparison.md",
         "docs/decisions/ADR-0008-required-playgodot-after-ui-value-gate.md",
+        "docs/decisions/ADR-0022-host-neutral-agent-automation-without-required-mcp.md",
         "docs/images/p1-004-computer-use-menu.jpg",
         "docs/images/p1-004-playgodot-menu.png",
         "docs/research/2026-07-15-playgodot-modernization.md",
@@ -681,7 +682,8 @@
       "evidence": [
         "evidence/M1/P1-004.json"
       ],
-      "human_gate": null
+      "human_gate": null,
+      "notes": "Q-012 was resolved by the owner on 2026-07-23 as Option A: deterministic command-line and filesystem evidence remains authoritative, modern debug-only PlayGodot supplies stable semantic rendered-UI access on the official engine, and Computer Use supplies optional black-box coverage. No MCP adapter, MCP editor bridge, custom Godot fork, or custom editor build is required. A future MCP experiment must remain optional and prove exact-version compatibility, narrow security, transactional or fail-closed mutation, durable auditability, and measurable unique value."
     },
     {
       "id": "P1-002",
@@ -1483,7 +1485,8 @@
       "owned_paths": [
         ".github/workflows/release.yml",
         "scripts/release/",
-        "docs/RELEASE.md"
+        "docs/RELEASE.md",
+        "docs/decisions/ADR-0021-phased-commercial-release-channels.md"
       ],
       "acceptance": [
         "Signed or notarized packages pass clean-machine installation and launch",
@@ -1502,7 +1505,7 @@
         "name": "Signing credentials, store submission, and public release approval",
         "required_for": "public_release"
       },
-      "notes": "Blocked until a release channel is decided and credentials are provisioned by a human."
+      "notes": "Q-007 was resolved by the owner on 2026-07-23 as Option A: Steam is the authoritative commercial customer channel, itch.io may carry explicitly labeled demos or early builds, and GitHub Releases remains the technical artifact and provenance channel. The task remains blocked by incomplete dependencies and by human approval for signing credentials, commercial terms, the Steam Direct fee or any other spending, store submission, build upload, and public release. No spending, storefront creation, credential use, upload, or publication is authorized by the channel decision."
     }
   ]
 }
