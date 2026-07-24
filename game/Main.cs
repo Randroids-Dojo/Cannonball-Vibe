@@ -2490,7 +2490,12 @@ public sealed partial class Main : Node3D
             $"chunks={snapshot.ChunkCount} reflectors={snapshot.ReflectorCount} " +
             $"barriers={snapshot.BarrierSegmentCount} " +
             $"guardrails={snapshot.GuardrailSegmentCount} " +
-            $"shields={snapshot.RouteShieldCount} services={snapshot.ServiceIconCount} " +
+            $"guide_signs={snapshot.GuideSignCount} " +
+            $"shields={snapshot.RouteShieldCount} " +
+            $"standard_shields={snapshot.StandardRouteShieldCount} " +
+            $"geometric_lane_arrows={snapshot.GeometricLaneArrowCount} " +
+            $"typography_fallbacks={snapshot.TypographyFallbackCount} " +
+            $"services={snapshot.ServiceIconCount} " +
             $"gore_chunks={snapshot.GoreChunkCount} " +
             $"opposing_carriageway_chunks={_streamer.OpposingCarriagewayChunksSeen} " +
             $"shared_materials={snapshot.SharedMaterialCount} " +
@@ -2570,7 +2575,12 @@ public sealed partial class Main : Node3D
         if (snapshot.ProfileId != expectedProfile || snapshot.ChunkCount < 1 ||
             !snapshot.AllContractsResolved || snapshot.ReflectorCount < 1 ||
             snapshot.BarrierSegmentCount < 1 || snapshot.GuardrailSegmentCount < 1 ||
-            snapshot.RouteShieldCount < 2 || snapshot.ServiceIconCount < 2 ||
+            !snapshot.SignageContractResolved || snapshot.GuideSignCount < 1 ||
+            snapshot.RouteShieldCount < 2 ||
+            snapshot.StandardRouteShieldCount != snapshot.RouteShieldCount ||
+            snapshot.GeometricLaneArrowCount != snapshot.GuideSignCount ||
+            snapshot.TypographyFallbackCount != snapshot.GuideSignCount ||
+            snapshot.ServiceIconCount < 2 ||
             snapshot.SharedMaterialCount != 18 || snapshot.SharedMeshCount != 9 ||
             snapshot.RetroreflectiveMaterialCount != 11 ||
             snapshot.BridgeDeckCount < 1 || snapshot.OverpassOpeningCount < 1 ||

@@ -89,14 +89,21 @@ public sealed class RoadVisualScenario
         var snapshot = _streamer.CaptureRoadVisualSnapshot();
         if (!snapshot.StructureContractResolved || snapshot.StructureCount < 1 ||
             snapshot.BridgeDeckCount < 1 || snapshot.OverpassOpeningCount < 1 ||
-            snapshot.RetroreflectiveMaterialCount < 1)
+            snapshot.RetroreflectiveMaterialCount < 1 ||
+            !snapshot.SignageContractResolved || snapshot.GuideSignCount < 1 ||
+            snapshot.StandardRouteShieldCount != snapshot.RouteShieldCount ||
+            snapshot.GeometricLaneArrowCount != snapshot.GuideSignCount)
         {
             throw new InvalidOperationException(
                 "Road visual lighting stage did not resolve structures and reflective materials: " +
                 $"structures={snapshot.StructureCount}, bridge_decks={snapshot.BridgeDeckCount}, " +
                 $"overpass_openings={snapshot.OverpassOpeningCount}, " +
                 $"contract={snapshot.StructureContractResolved}, " +
-                $"retroreflective={snapshot.RetroreflectiveMaterialCount}.");
+                $"retroreflective={snapshot.RetroreflectiveMaterialCount}, " +
+                $"signage_contract={snapshot.SignageContractResolved}, " +
+                $"guide_signs={snapshot.GuideSignCount}, " +
+                $"standard_shields={snapshot.StandardRouteShieldCount}, " +
+                $"geometric_lane_arrows={snapshot.GeometricLaneArrowCount}.");
         }
         var expectedBackground = daylight ? new Color("78a7d8") : new Color("060912");
         var expectedEnergy = daylight ? 1.8f : 1.3f;
