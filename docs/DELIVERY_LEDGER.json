@@ -1341,6 +1341,7 @@
         "docs/QUESTIONS_FOR_RANDROID_2026-07-22_REGIONAL_ENVIRONMENT.md",
         "docs/QUESTIONS_FOR_RANDROID_2026-07-22_AUTONOMOUS_PASS.md",
         "docs/decisions/ADR-0015-route-specific-state-and-subregion-environments.md",
+        "docs/decisions/ADR-0023-reference-performance-target-and-layered-budgets.md",
         "docs/audits/2026-07-23-reference-windows-hardware.md",
         "docs/audits/2026-07-22-p1-010-regional-environment.md",
         "docs/audits/2026-07-22-p1-010-terrain-quality.md",
@@ -1369,7 +1370,7 @@
         "name": "Representative-region art direction, readability, and final rights approval",
         "required_for": "M5"
       },
-      "notes": "Q-021 was resolved by the owner on 2026-07-23: production scenery pursues grounded realism for every traversed state with route-specific subregion profiles where the real environment changes; Colorado remains the representative technical slice rather than the coast-to-coast art template. Q-022 Option A selected a Ryzen 9 5900X / RTX 3080 Ti 12 GB / 64 GB Windows 11 PC as the first reference measurement machine, but exact production budgets remain open until representative captures are ratified. Runtime integration owns only collision-free environment siblings, environment scenario flags, scenario-script routing, continuous terrain ribbons outside the authoritative road margin, and measured environment geometry budgets; authoritative road elevation, road collision, and vehicle physics remain outside this task."
+      "notes": "Q-021 was resolved by the owner on 2026-07-23: production scenery pursues grounded realism for every traversed state with route-specific subregion profiles where the real environment changes; Colorado remains the representative technical slice rather than the coast-to-coast art template. Q-022 selected a Ryzen 9 5900X / RTX 3080 Ti 12 GB / 64 GB Windows 11 PC, then selected 2560x1440 High at a stable 60 FPS and layered measurement-driven budgets as the first production reference. Fixture thresholds are provisional; exact scene, subsystem, streaming, memory, and content-class limits remain open until representative production captures are ratified. Runtime integration owns only collision-free environment siblings, environment scenario flags, scenario-script routing, continuous terrain ribbons outside the authoritative road margin, and measured environment geometry budgets; authoritative road elevation, road collision, and vehicle physics remain outside this task."
     },
     {
       "id": "P1-011",

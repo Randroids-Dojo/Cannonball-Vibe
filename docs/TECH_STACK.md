@@ -237,6 +237,15 @@ record hashes, authorship, licensing, transformations, and export profiles.
 Binary source art and models use Git LFS, while generated imports remain
 replaceable.
 
+[ADR-0023](decisions/ADR-0023-reference-performance-target-and-layered-budgets.md)
+sets the first production reference target at 2560×1440 High and a stable 60
+FPS on the declared Ryzen 9 5900X, RTX 3080 Ti 12 GB, and 64 GB Windows 11 PC.
+Budgets are layered across whole-scene outcomes, subsystem allocations, and
+content-class geometry, draw-call, material, texture-residency, instancing, LOD,
+and pop-in limits. Fixture thresholds remain provisional; production limits
+require representative content and owner-ratified Windows captures. The
+reference PC is not yet the minimum supported specification.
+
 The hero vehicle's visual rig follows the existing custom raycast simulation
 through stable chassis, wheel, suspension, camera, light, damage, and material
 anchors. It does not replace authoritative physics. Highway art is a modular
