@@ -184,8 +184,10 @@ Gamepad actions use separate trigger axes; steering and triggers apply the selec
 profile's 0.16, 0.12, or 0.08 deadzone before conditioning. The complete mapping
 and Steam Controller setup boundary are documented in
 [CONTROLLER_CONTROLS.md](CONTROLLER_CONTROLS.md). M1 must add an in-game calibration screen
-and validate one common force-feedback-capable wheel on Windows; force feedback
-itself is outside the MVP unless testing justifies it.
+and validate the owner-selected Logitech G923 Xbox/PC wheel and three-pedal set
+as the first physical Windows calibration and handling baseline under P1-012.
+Force feedback and TRUEFORCE remain optional until basic steering, pedals,
+buttons, paddles, calibration, and safe disconnect/reconnect behavior pass.
 
 CI runs the complete M0 gate on Linux and Windows: exact-tool doctor, core build
 and tests, geodata lint and tests, and the official-engine headless Godot smoke.
@@ -194,6 +196,11 @@ scheduled Windows workflow runs a high-speed packaged short-corridor soak. The
 required CI matrix also runs the deterministic distance-complete 500-mile
 scenario on Linux and Windows; high-speed feel remains covered by its separate
 physics and human handling gates.
+
+macOS remains an available engineering-validation platform, including selected
+Godot renderer and semantic-UI coverage, but is not yet a committed public
+distribution target. Linux and Windows remain required delivery platforms; see
+[ADR-0020](decisions/ADR-0020-required-platforms-and-macos-validation.md).
 
 ## Agent automation
 
