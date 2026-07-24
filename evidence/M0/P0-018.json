@@ -1,0 +1,280 @@
+{
+  "schema_version": 1,
+  "task_id": "P0-018",
+  "milestone": "M0",
+  "status": "verified_local_dependency_pending",
+  "recorded_at_utc": "2026-07-24T06:46:36.5769815Z",
+  "git_revision": "376dd432a408593118ff9fcf622a848fbde80bcb",
+  "platform": {
+    "os": "Microsoft Windows 10.0.26200",
+    "shell_platform": "MINGW64_NT-10.0-26200",
+    "architecture": "x64",
+    "physics_engine": "Godot Jolt",
+    "physics_hz": 120
+  },
+  "tool_versions": {
+    "dotnet_sdk": "10.0.102",
+    "godot": "4.7.1.stable.mono.official.a13da4feb",
+    "git": "2.55.0.windows.3",
+    "git_lfs": "3.7.1",
+    "uv": "0.9.24"
+  },
+  "determinism": {
+    "seed": null,
+    "fixture": "official-corridor",
+    "content_version": "route-v5-3a6ea6a8f3eb03c9",
+    "route_package_sha256": "339702dafd7af5ea58a9ba0601f29c54fd13a956615715e1dd0047e10bbe150d",
+    "devices": [
+      "keyboard",
+      "controller"
+    ],
+    "profiles": [
+      "Accessible",
+      "Balanced",
+      "Raw"
+    ],
+    "live_profile": "Balanced",
+    "scenario_arguments": [
+      "--devices",
+      "keyboard,controller",
+      "--profiles",
+      "all"
+    ]
+  },
+  "profile_bands": {
+    "Accessible": {
+      "keyboard_rise_per_second": 2.4,
+      "controller_deadzone": 0.16,
+      "controller_curve_exponent": 1.6,
+      "redline_steering_authority": 0.26
+    },
+    "Balanced": {
+      "keyboard_rise_per_second": 3.2,
+      "controller_deadzone": 0.12,
+      "controller_curve_exponent": 1.35,
+      "redline_steering_authority": 0.31
+    },
+    "Raw": {
+      "keyboard_rise_per_second": 5.5,
+      "controller_deadzone": 0.08,
+      "controller_curve_exponent": 1.0,
+      "redline_steering_authority": 0.4
+    }
+  },
+  "input_artifacts": [
+    {
+      "path": "global.json",
+      "sha256": "b5cb6301b93270502bf2cf84d72ef76d92e31148179662fca781e732926b2bc4"
+    },
+    {
+      "path": "scripts/tool-versions.sh",
+      "sha256": "20871ee7d7ad980568603673e7e2d0dd080b07f4ad909900f1f19404e796943b"
+    },
+    {
+      "path": ".tools/scenarios/official-corridor/current-package.json",
+      "sha256": "c1cd82c4233cf37a6030a014ddaa71d8ffa98a0c36d928c8fb3b416727a08ecc"
+    },
+    {
+      "path": ".tools/scenarios/official-corridor/route_graph-046227f4ef84e3c48e0435ab9bf6ec9fcb8c394cc1f241e6739c1edeae1b1b93.cbrg",
+      "sha256": "339702dafd7af5ea58a9ba0601f29c54fd13a956615715e1dd0047e10bbe150d"
+    },
+    {
+      "path": "src/Cannonball.Core/Simulation/Vehicle/DrivingInputConditioner.cs",
+      "sha256": "007da1273944a8c198bce81e7e6b5ea5da977b5bf1b85937358cbea2ed9943e0"
+    },
+    {
+      "path": "src/Cannonball.Core/Runs/RunState.cs",
+      "sha256": "cfbef9a5763f8e43d573ae203a274e19cd6668b3a9593e779e3be32e89b50ba0"
+    },
+    {
+      "path": "game/Input/DriveInput.cs",
+      "sha256": "a6bf1274b2f11f9cad9f1f39638bbbe1058349638a51f58f887389d5c82353a5"
+    },
+    {
+      "path": "game/Vehicle/DrivingInputController.cs",
+      "sha256": "465d9c42494e41a528c84a543e3d70d833348ddfaf62258600fc53c6fa4725d2"
+    },
+    {
+      "path": "game/Vehicle/CannonballVehicle.cs",
+      "sha256": "33df1c5ed251f71cc618aacdf33337475f6d5af4c1534127d10ef51f009c6c2c"
+    },
+    {
+      "path": "game/Camera/ChaseCameraRig.cs",
+      "sha256": "74dcd368266ca8b377c08084339aac88ac5e54131d34e56ab3c62c197f2bcd5e"
+    },
+    {
+      "path": "game/Main.cs",
+      "sha256": "1c1a5b462f9bfeb57742108b47e3fce73fd1ad98320edc44c080f85074b7a90b"
+    },
+    {
+      "path": "addons/playgodot/server.gd",
+      "sha256": "3cf2adec6cf42f5d19aabae610955f1f287519f82ba16e8cae6b455598e4083e"
+    },
+    {
+      "path": "automation/playgodot/src/cannonball_playgodot/launcher.py",
+      "sha256": "40c882b5920cd8aeabccc78c722e8481705bd1c6d0ae4d56c1103f18179319da"
+    },
+    {
+      "path": "automation/playgodot/tests/test_driving_input.py",
+      "sha256": "b62903c696bd2ff99f64fbe2940f86040ee1f3e52f032f3bc109f80b80855946"
+    },
+    {
+      "path": "tests/Cannonball.Core.Tests/DrivingInputConditionerTests.cs",
+      "sha256": "342a1533175cc2398a4a99f5840f9d63195387a444c05cef119b25fafc42612b"
+    },
+    {
+      "path": "scripts/verify-driving-input.sh",
+      "sha256": "39ef12b70d3792fadce6710d60b144c7c3a255670892174aa8729d950726bcce"
+    }
+  ],
+  "commands": [
+    {
+      "command": "PLAYGODOT_ARTIFACT_DIR=reports/p0-018-closeout ./scripts/verify-driving-input.sh --devices keyboard,controller --profiles all",
+      "exit_status": 0,
+      "focused_core_tests_passed": 16,
+      "normal_start_boundary": "passed",
+      "ruff": "passed",
+      "focused_live_tests_passed": 4
+    },
+    {
+      "command": "DOTNET_ROLL_FORWARD=Major dotnet test Cannonball.sln --filter 'FullyQualifiedName~DrivingInput'",
+      "exit_status": 0,
+      "passed": 16,
+      "executed_by": "verify-driving-input.sh"
+    },
+    {
+      "command": "PATH=<isolated uv 0.9.24 cache>:$PATH GODOT_BIN=<official 4.7.1 console> ./scripts/check.sh",
+      "exit_status": 0,
+      "report": "reports/m0/summary.json",
+      "report_sha256": "1f7992c67182d3ea606f3a92267c3ca329836e3381e83ecf7e5e5d88952d3ba9"
+    },
+    {
+      "command": "git diff --check",
+      "exit_status": 0
+    }
+  ],
+  "metrics": {
+    "focused_core_tests_passed": 16,
+    "focused_live_tests_passed": 4,
+    "focused_live_tests_deselected": 19,
+    "renderer_capture_width_pixels": 1280,
+    "renderer_capture_height_pixels": 720,
+    "renderer_capture_bytes": 143675,
+    "m0": {
+      "dotnet_build_warnings": 0,
+      "dotnet_build_errors": 0,
+      "xunit_passed": 108,
+      "map_pipeline_pytest_passed": 78,
+      "playgodot_unit_pytest_passed": 13,
+      "ruff_passed": true,
+      "godot_smoke_passed": true
+    }
+  },
+  "acceptance_comparisons": [
+    {
+      "criterion": "progressive keyboard steering and configurable controller conditioning",
+      "observed": "16 deterministic cases passed across Accessible, Balanced, and Raw; four live tests confirmed the Balanced 3.2/s keyboard ramp, 0.12 controller deadzone, 1.35 curve, and 4.5/s controller steering rate",
+      "passed": true
+    },
+    {
+      "criterion": "distinct throttle, service brake, reverse, and handbrake channels",
+      "observed": "deterministic contradiction and same-frame cancellation tests passed; live keyboard and controller probes independently exercised reverse, handbrake, throttle, and brake with braking clearing propulsion",
+      "passed": true
+    },
+    {
+      "criterion": "speed-sensitive steering preserves low-speed intent and never rotates the camera directly",
+      "observed": "all three declared redline authority bands passed deterministic coverage; the live chase rig reported no inherited vehicle rotation and less than 0.01 degree horizon roll during steering",
+      "passed": true
+    },
+    {
+      "criterion": "stationary hold prevents uncommanded route-start rollback and releases for intent",
+      "observed": "deterministic throttle/reverse release cases passed; the official-engine route-start scenario held forward speed below 0.05 m/s with neutral propulsion",
+      "passed": true
+    },
+    {
+      "criterion": "profiles are deterministic, bounded, and persist through save-resume",
+      "observed": "all three immutable tuning bands passed; the versioned RunState AssistProfile round trip is covered by the complete 108-test M0 suite and the current runtime restores it before input sampling",
+      "passed": true
+    },
+    {
+      "criterion": "lifecycle transitions cannot leave unintended input",
+      "observed": "live pause/resume cleared held throttle until neutral; controller source ownership and reconnect guards were exercised by device-specific injection; reset, focus-loss, and disconnect handlers all route through the same reviewed clear-and-suppress boundary, with reset/save-resume integration inherited from the verified P0-017 foundation",
+      "passed": true
+    },
+    {
+      "criterion": "stable official-engine semantic input state and renderer evidence",
+      "observed": "four authenticated live scenarios reported raw and conditioned channels, timing values, device source, active profile, suppression state, and stationary hold; the 1280x720 renderer capture was retained",
+      "passed": true
+    },
+    {
+      "criterion": "required first-party M0 gate passes on the evidence revision",
+      "observed": "doctor, zero-warning build, 108 C# tests, Ruff, 78 map tests, 13 PlayGodot unit tests, and official Godot smoke all passed at 376dd432a408593118ff9fcf622a848fbde80bcb",
+      "passed": true
+    }
+  ],
+  "output_artifacts": [
+    {
+      "path": "docs/images/p0-018-driving-input-review.png",
+      "sha256": "328ab53f643da0e520429ec2d8600c3e80f6f25bb1a0f0d030e2bf97e6771321"
+    },
+    {
+      "path": "docs/audits/2026-07-20-p0-018-input-conditioning.md",
+      "sha256": "7b818a33a316d0ae82f9a9bdbf3c57bd495fa3592578cb99f69c36dfcac5ad5e"
+    },
+    {
+      "path": "reports/p0-018-closeout/driving-input-keyboard.jsonl",
+      "sha256": "70baa74be2c2bbac591bab4bd76cd807c8aa9392a9874d9e4b23e084db35b4cf",
+      "generated": true,
+      "tracked": false
+    },
+    {
+      "path": "reports/p0-018-closeout/driving-input-controller.jsonl",
+      "sha256": "7b3daff9e9b18dc7305fb908c153e97795aae8bf696027c645f46b2118dfae85",
+      "generated": true,
+      "tracked": false
+    },
+    {
+      "path": "reports/p0-018-closeout/driving-input-pause.jsonl",
+      "sha256": "3b1f7547d1263c0e5c859f0977ba53f25e66b263c12d0db4638368b7c366e524",
+      "generated": true,
+      "tracked": false
+    },
+    {
+      "path": "reports/p0-018-closeout/driving-input-hold.jsonl",
+      "sha256": "4edfedd95429ec82c4b2dff359fb5fdde1eee2fcb9fb109a6df65ed5078d4a68",
+      "generated": true,
+      "tracked": false
+    },
+    {
+      "path": "reports/m0/summary.json",
+      "sha256": "1f7992c67182d3ea606f3a92267c3ca329836e3381e83ecf7e5e5d88952d3ba9",
+      "generated": true,
+      "tracked": false
+    }
+  ],
+  "failure_logs": [
+    {
+      "failure": "The ledger-required P0-018 evidence artifact and retained renderer review image were absent even though the implementation audit and earlier checks existed.",
+      "recovery": "The focused conditioner and official-engine gates were rerun with a retained artifact directory, the renderer image was inspected and tracked, and this evidence record was created."
+    },
+    {
+      "failure": "The first full M0 invocation was terminated by the outer command executor's short timeout before it could finish.",
+      "recovery": "The unchanged evidence revision was rerun with the normal bounded window and every M0 stage passed."
+    }
+  ],
+  "retry_count": 1,
+  "recovery_result": "Every autonomous P0-018 keyboard, controller, profile, stationary-hold, semantic-state, renderer, and complete M0 check passes at the recorded revision. The task remains incomplete only because its required P0-017 dependency remains verified_local behind Q-029.",
+  "dependency_blockers": [
+    "P0-017 is verified_local but not complete",
+    "P0-017 Q-029 human camera comfort and readability gate remains pending"
+  ],
+  "human_gate": null,
+  "upstream_human_gate": {
+    "task_id": "P0-017",
+    "question_id": "Q-029",
+    "status": "pending",
+    "approval": null,
+    "question_record": "docs/QUESTIONS_FOR_RANDROID_2026-07-20_HANDLING_GATES.md"
+  },
+  "adversarial_review": "docs/audits/2026-07-20-p0-018-input-conditioning.md"
+}

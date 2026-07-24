@@ -168,7 +168,7 @@
       "milestone": "M0",
       "priority": "P0",
       "title": "Keyboard and controller input conditioning",
-      "status": "in_progress",
+      "status": "verified_local",
       "dependencies": [
         "P0-017"
       ],
@@ -221,7 +221,7 @@
         "evidence/M0/P0-018.json"
       ],
       "human_gate": null,
-      "notes": "Implementation may proceed against the merged and verified P0-017 camera foundation while its human comfort gate remains pending. P0-018 cannot be marked complete until P0-017 is complete. The single ChaseCameraRig.cs reset-snap edit is coordinated under P0-017's broader game/Camera/ ownership and does not transfer camera behavior ownership to P0-018. Physical steering wheels, pedals, and force feedback remain governed by Q-006 and are deliberately outside this keyboard-and-controller baseline."
+      "notes": "Windows machine verification and evidence are complete at 376dd432a408593118ff9fcf622a848fbde80bcb. P0-018 cannot be marked complete until P0-017 is complete following the Q-029 human camera-comfort decision. The single ChaseCameraRig.cs reset-snap edit is coordinated under P0-017's broader game/Camera/ ownership and does not transfer camera behavior ownership to P0-018. Physical steering wheels, pedals, and force feedback remain governed by Q-006 and are deliberately outside this keyboard-and-controller baseline."
     },
     {
       "id": "P0-019",
@@ -266,7 +266,7 @@
         "evidence/M0/P0-019.json"
       ],
       "human_gate": null,
-      "notes": "Quantitative bands must be recorded before tuning is declared complete so acceptance cannot be moved to match a preferred result. On 2026-07-23 the owner reported a reproducible high-speed incline launch followed by a hard-landing throttle rollover. Narrow implementation and regression work may proceed against the merged, machine-verified P0-018 input foundation while its P0-017 human camera gate remains pending; this allowance does not complete P0-018, P0-019, or the later P0-020 sustained handling gate. On 2026-07-23 ownership expanded narrowly to game/Main.cs and scripts/run-scenario.sh for P0-019 scenario selection, fixed-FPS execution, and isolated telemetry plumbing; this does not transfer unrelated runtime or scenario-runner ownership. The complete local dynamics corpus, fixed-FPS comparison, 500-mile regression, representative topology runs, capture, and M0 gate passed on 2026-07-23. P0-019 is verified locally but cannot become complete while dependency P0-018 remains in progress behind the P0-017 Q-029 human camera gate."
+      "notes": "Quantitative bands must be recorded before tuning is declared complete so acceptance cannot be moved to match a preferred result. On 2026-07-23 the owner reported a reproducible high-speed incline launch followed by a hard-landing throttle rollover. Narrow implementation and regression work may proceed against the merged, machine-verified P0-018 input foundation while its P0-017 human camera gate remains pending; this allowance does not complete P0-018, P0-019, or the later P0-020 sustained handling gate. On 2026-07-23 ownership expanded narrowly to game/Main.cs and scripts/run-scenario.sh for P0-019 scenario selection, fixed-FPS execution, and isolated telemetry plumbing; this does not transfer unrelated runtime or scenario-runner ownership. The complete local dynamics corpus, fixed-FPS comparison, 500-mile regression, representative topology runs, capture, and M0 gate passed on 2026-07-23. P0-019 is verified locally but cannot become complete while dependency P0-018 remains verified locally and incomplete behind the P0-017 Q-029 human camera gate."
     },
     {
       "id": "P0-020",
