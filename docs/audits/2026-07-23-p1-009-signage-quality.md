@@ -2,7 +2,7 @@
 
 Date: 2026-07-23
 
-- Reviewed implementation revision: pending technical-slice commit
+- Reviewed implementation revision: `d11f66a6f87da548237f3f95aa0e98ac9e495566`
 - Comparison base: `dbff578` (`P0-019` evidence anchor)
 - Scope: procedural sign geometry, information hierarchy, arrow orientation,
   semantic metadata, standards provenance, production/graybox equivalence,
@@ -72,9 +72,17 @@ and shield. No external font was imported.
   geometric arrows, two service icons, and two lighting stages.
 - `./scripts/capture-scenario.sh ... --fixture representative-interchanges --sign-review`:
   passed a 280-frame, 60 FPS renderer review.
-- `./scripts/verify-road-assets.sh --all-topology-fixtures`: the first aggregate
-  run exposed the ambiguous `shields` parser after all four scenarios passed;
-  the parser was fixed and the complete gate is rerun for final evidence.
+- `./scripts/verify-road-assets.sh --all-topology-fixtures`: passed two visual
+  profiles and two topology fixtures after the first aggregate run exposed the
+  ambiguous `shields` parser. The final marker reported three guide signs, six
+  standards-based shields, three geometric arrows, and three declared
+  typography fallbacks.
+- `PATH=<isolated uv 0.9.24 cache>:$PATH GODOT_BIN=<official 4.7.1 console>
+  ./scripts/check.sh`: passed doctor, build, 108 C# tests, Ruff, 78 map-pipeline
+  tests, 12 PlayGodot tests, and official Godot smoke. The first attempt
+  correctly failed doctor when the host exposed uv 0.11.29; the rerun used an
+  isolated cached copy of the repository-pinned 0.9.24 without changing the
+  repository or machine-wide installation.
 
 Review artifact:
 [signage-quality contact sheet](../images/p1-009-signage-quality-review.png).
