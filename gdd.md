@@ -322,6 +322,11 @@ transfer signs use semantic route, destination, lane-guidance, and service data;
 unknown values remain explicitly derived or authored rather than presented as
 false source precision.
 
+Every signed concurrent route identity remains in authoritative data. Roadside
+markers show the locally primary designation for high-speed readability, while
+the full-screen map and inspection surfaces expose all concurrent identities,
+directions, discontinuities, and jurisdiction resets.
+
 # Full-screen trip map — **LOCKED**
 
 The player can open a full-screen map of the complete supported graph. It shows

@@ -5,11 +5,21 @@ repository authority, deterministic evidence, or the working defaults in
 [OPEN_QUESTIONS.md](OPEN_QUESTIONS.md). Work continues autonomously wherever a
 documented default permits it.
 
-## No new blocking questions yet
+## Q-017 and Q-018 resolved 2026-07-23
+
+The owner selected Option A for both route-truth questions. Production route
+context uses checksum-locked authoritative public records first and
+deterministic authored overlays with recursive provenance where necessary.
+Every signed concurrent identity remains authoritative; roadside presentation
+shows the locally primary designation while the full-screen map and inspection
+surfaces expose all concurrent identities. See
+[ADR-0017](decisions/ADR-0017-authoritative-route-context-and-concurrency.md).
+
+## No additional blocking questions from this run
 
 P0-009 can proceed with deterministic derived two-lane semantics and explicit
-authored-overlay provenance while Q-017 remains open. No derived value will be
-presented as observed lane, exit, destination, or mile-marker truth.
+authored-overlay provenance under ADR-0017. No derived value will be presented
+as observed lane, exit, destination, or mile-marker truth.
 
 P0-010 required no product choice. Its deterministic authored fixture now
 exercises variable lanes, connector traversal, probable-branch prewarming and

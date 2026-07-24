@@ -850,6 +850,7 @@
         "docs/QUESTIONS_2026-07-17_AUTONOMOUS_RUN.md",
         "docs/audits/2026-07-18-p0-009-adversarial-review.md",
         "docs/decisions/ADR-0011-lane-topology-route-context-and-trip-map.md",
+        "docs/decisions/ADR-0017-authoritative-route-context-and-concurrency.md",
         "evidence/M2/P0-009.json",
         "evidence/M2/P0-009-reproducibility.json"
       ],
@@ -871,7 +872,7 @@
         "evidence/M2/P0-009-reproducibility.json"
       ],
       "human_gate": null,
-      "notes": "ADR-0011 is authoritative. Checksum-locked representative fixtures may prove individual semantics, but no fixture result may be presented as continental completion."
+      "notes": "ADR-0011 and ADR-0017 are authoritative. Q-017 and Q-018 were resolved by the owner on 2026-07-23 as Option A: route context uses checksum-locked authoritative public records first and deterministic authored overlays with recursive provenance for documented gaps; every signed concurrent identity remains authoritative, the locally primary designation renders roadside, and all identities remain available in map and inspection surfaces. Checksum-locked representative fixtures may prove individual semantics, but no fixture result may be presented as continental completion."
     },
     {
       "id": "P0-010",
@@ -1273,6 +1274,7 @@
         "docs/research/2026-07-18-modern-highway-visual-standards.md",
         "docs/QUESTIONS_FOR_RANDROID_2026-07-18_HIGHWAY_KIT.md",
         "docs/decisions/ADR-0016-state-specific-highway-visual-language.md",
+        "docs/decisions/ADR-0017-authoritative-route-context-and-concurrency.md",
         "docs/images/p1-009-highway-kit-review.png",
         "docs/images/p1-009-structures-lighting-review.png",
         "docs/audits/2026-07-18-p1-009-adversarial-review.md",
@@ -1301,7 +1303,7 @@
         "name": "Highway art readability, visual quality, and final rights approval",
         "required_for": "M5"
       },
-      "notes": "Q-024 was resolved by the owner on 2026-07-23 as Option A: production roads, signs, markings, barriers, structures, and roadside assets pursue contemporary, state-specific American highway realism along the actual route, with Colorado retained only as the first researched technical baseline. The project-original procedural kit remains the autonomous foundation: production and graybox profiles, shared materials and meshes, route-context signage, reflectors, barriers, guardrails, topology/gore regression, a fixture-derived bridge deck and overpass opening, local-origin-safe structure placement, and deterministic daylight/night review stages. Production terrain and furniture, exact jurisdiction-specific sign typography and silhouettes, full renderer budgets, rights records, and representative readability captures remain open; the task must not be marked complete from fixture evidence alone."
+      "notes": "Q-024 was resolved by the owner on 2026-07-23 as Option A: production roads, signs, markings, barriers, structures, and roadside assets pursue contemporary, state-specific American highway realism along the actual route, with Colorado retained only as the first researched technical baseline. Q-017 and Q-018 require authoritative public route-context sources with deterministic provenanced overlays for gaps, locally primary roadside designations, and complete concurrency in map and inspection surfaces. The project-original procedural kit remains the autonomous foundation: production and graybox profiles, shared materials and meshes, route-context signage, reflectors, barriers, guardrails, topology/gore regression, a fixture-derived bridge deck and overpass opening, local-origin-safe structure placement, and deterministic daylight/night review stages. Production terrain and furniture, exact jurisdiction-specific sign typography and silhouettes, full renderer budgets, rights records, and representative readability captures remain open; the task must not be marked complete from fixture evidence alone."
     },
     {
       "id": "P1-010",
