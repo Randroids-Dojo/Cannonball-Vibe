@@ -1518,8 +1518,10 @@ __D-016__
 The first production performance reference is 2560×1440 High at a stable 60
 FPS on the declared Ryzen 9 5900X / RTX 3080 Ti Windows PC. Budgets are layered
 across whole scenes, subsystems, streaming and memory, and content classes;
-fixture limits are provisional until representative production captures
-ratify numeric tolerances.
+provisional gates require p95 ≤16.67 ms, p99 ≤20 ms, no steady-driving stall
+above 50 ms after warm-up, GPU memory ≤9.5 GB, process working set ≤16 GB, and
+no sustained growth over 30 minutes. Representative production captures must
+still ratify those limits and their derived allocations.
 
 LOCKED — owner decision 2026-07-23; see docs/decisions/ADR-0023-reference-performance-target-and-layered-budgets.md
 

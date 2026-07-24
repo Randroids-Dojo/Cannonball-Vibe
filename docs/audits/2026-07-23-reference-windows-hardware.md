@@ -24,7 +24,15 @@ supported PC and its specifications are not themselves a performance result.
 
 The selected production reference target is 2560×1440 at the High quality
 preset with a stable 60 FPS. The 60 FPS target establishes a 16.67 ms frame-time
-envelope after warm-up; average FPS alone is not sufficient evidence.
+envelope after warm-up; average FPS alone is not sufficient evidence. The
+provisional production-stable gate requires:
+
+- p95 presented-frame time at or below 16.67 ms;
+- p99 presented-frame time at or below 20 ms;
+- no steady-driving stall above 50 ms after warm-up;
+- no more than 9.5 GB of GPU memory at the High preset;
+- no more than 16 GB of process working set; and
+- no sustained positive memory growth during a 30-minute steady-state run.
 
 Budgets are layered across:
 
@@ -41,6 +49,6 @@ machine; see
 The existing Windows workstation audit already proves that the repository,
 Godot 4.7.1 .NET, Forward+, and Vulkan run on an RTX 3080 Ti system. Q-022
 remains open only until representative production scenes record and ratify
-numeric CPU/GPU frame-time percentiles, frame-pacing and stutter tolerances,
-memory high-water marks, streaming latency, draw calls, triangles, material and
+these thresholds plus derived subsystem and content-class allocations,
+CPU/GPU attribution, streaming latency, draw calls, triangles, material and
 texture residency, and LOD quality on this machine.

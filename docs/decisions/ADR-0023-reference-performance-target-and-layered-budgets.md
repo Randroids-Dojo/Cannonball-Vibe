@@ -2,7 +2,7 @@
 
 - Status: Accepted
 - Date: 2026-07-23
-- Owner decision: Q-022 performance follow-up, Options A and A
+- Owner decisions: Q-022 target/method and threshold follow-ups, Options A and A
 
 ## Context
 
@@ -21,10 +21,13 @@ terrain do not have the same visual or gameplay value.
 - The first production reference target is 2560×1440 at the High quality preset
   with a stable 60 frames per second on the declared Ryzen 9 5900X, RTX 3080 Ti
   12 GB, and 64 GB Windows 11 PC.
-- The 60 FPS target establishes a 16.67 ms frame-time envelope after scenario
-  warm-up. Final percentile, stutter, memory, and streaming tolerances remain
-  subject to representative measurement and owner ratification; average FPS
-  alone cannot pass the gate.
+- After scenario warm-up, the provisional production-stable frame-pacing gate
+  requires presented-frame time at or below 16.67 ms at p95, at or below 20 ms
+  at p99, and no steady-driving stall above 50 ms. Average FPS alone cannot pass
+  the gate.
+- At the High preset, provisional memory ceilings are 9.5 GB of GPU memory and
+  16 GB of process working set, with no sustained positive growth during a
+  30-minute steady-state run.
 - Use layered budgets:
   1. whole-scene outcomes for CPU and GPU frame time, frame pacing, working-set
      and GPU-memory high-water, streaming latency, and sustained growth;
@@ -53,9 +56,10 @@ terrain do not have the same visual or gameplay value.
   instead of appearing only as a late aggregate frame-rate failure.
 - P1-008, P1-009, and P1-010 retain their own visual-quality gates while sharing
   one performance authority.
-- Q-022 remains open only for measured numeric tolerances and owner
-  ratification. Its hardware, resolution, preset, frame-rate target, and
-  budgeting method are resolved.
+- Q-022 remains open only for representative Windows measurement, derived
+  subsystem/content-class allocations, and owner ratification. Its hardware,
+  resolution, preset, frame-rate target, frame-pacing thresholds, memory
+  ceilings, and budgeting method are resolved.
 
 ## Rejected alternatives
 
@@ -68,3 +72,11 @@ terrain do not have the same visual or gameplay value.
   late and provide weak autonomous diagnosis.
 - **Universal per-asset caps:** are simple but allocate detail without regard to
   gameplay importance, screen size, repetition, or residency.
+- **Near-hard 60 FPS lock:** produces more consistent motion but consumes too
+  much world, traffic, and effects headroom for the first production baseline.
+- **Average-only 60 FPS:** is easy to report but hides visible frame-pacing and
+  streaming failures.
+- **11 GB GPU / 24 GB working-set ceilings:** permit denser content but leave
+  little GPU headroom and weaken scalability.
+- **No provisional memory limits:** avoids premature constraints but prevents
+  early automated detection of residency and growth regressions.
