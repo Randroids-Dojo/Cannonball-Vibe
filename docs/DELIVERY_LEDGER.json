@@ -114,7 +114,7 @@
       "milestone": "M0",
       "priority": "P0",
       "title": "Decoupled chase and cockpit camera system",
-      "status": "in_progress",
+      "status": "verified_local",
       "dependencies": [
         "P0-006",
         "P1-004"
@@ -161,7 +161,7 @@
         "required_for": "M0",
         "status": "pending"
       },
-      "notes": "P0-017 owns camera behavior and the vehicle integration seam. P1-008 supplies stable visual camera anchors and must coordinate edits to CannonballVehicle.cs and game/Automation/VehicleVisualScenario.cs while either task is active; P0-017 may change only camera selection and camera-contract assertions in the shared visual scenario. Production vehicle art is not required because the graybox vehicle must satisfy the same camera contract. On 2026-07-23 ownership expanded narrowly to scripts/verify-playgodot-package-boundary.sh plus the PlayGodot client and launcher so the required camera gate can resolve the generated package pointer on Windows through the already-required Python environment instead of assuming jq, isolate both normal-start and live-test telemetry from an open editor, and tolerate peer-reset cleanup after a close attempt; PlayGodot protocol and security behavior remain unchanged."
+      "notes": "P0-017 owns camera behavior and the vehicle integration seam. P1-008 supplies stable visual camera anchors and must coordinate edits to CannonballVehicle.cs and game/Automation/VehicleVisualScenario.cs while either task is active; P0-017 may change only camera selection and camera-contract assertions in the shared visual scenario. Production vehicle art is not required because the graybox vehicle must satisfy the same camera contract. On 2026-07-23 ownership expanded narrowly to scripts/verify-playgodot-package-boundary.sh plus the PlayGodot client and launcher so the required camera gate can resolve the generated package pointer on Windows through the already-required Python environment instead of assuming jq, isolate both normal-start and live-test telemetry from an open editor, and tolerate peer-reset cleanup after a close attempt; PlayGodot protocol and security behavior remain unchanged. The complete Windows camera gate, all 23 PlayGodot tests, 362-frame renderer review, and full M0 gate passed at f2cc981168d099e4207b539803ffba207d802d1e. P0-017 is verified locally but remains incomplete until Q-029 receives explicit human chase and cockpit comfort/readability approval."
     },
     {
       "id": "P0-018",
