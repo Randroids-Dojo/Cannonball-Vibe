@@ -104,6 +104,18 @@ async def test_connect_normalizes_capabilities_read_first_without_duplicates() -
 
 
 @pytest.mark.asyncio
+async def test_session_close_finishes_without_waiting_for_peer_eof() -> None:
+    def responses(request):
+        result = _hello() if request["method"] == "session.hello" else {"closed": True}
+        return {"jsonrpc": "2.0", "id": request["id"], "result": result}
+
+    server, port = await _serve_once(responses)
+    async with server:
+        client = await PlayGodotClient.connect("127.0.0.1", port, token="x" * 32)
+        await client.close()
+
+
+@pytest.mark.asyncio
 async def test_client_rejects_non_loopback_endpoint() -> None:
     with pytest.raises(ValueError, match="loopback"):
         await PlayGodotClient.connect("0.0.0.0", 1, token="x" * 32)

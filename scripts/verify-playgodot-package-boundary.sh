@@ -43,7 +43,19 @@ if ! uv run --project "$repo_root/tools/map_pipeline" --frozen cannonball-map bu
   exit 1
 fi
 
-route_package="$package_directory/$(jq -r .root_relative_path "$package_directory/current-package.json")"
+route_package_relative="$(
+  uv run --project "$repo_root/automation/playgodot" --frozen python - \
+    "$package_directory/current-package.json" <<'PY'
+import json
+import pathlib
+import sys
+
+pointer_path = pathlib.Path(sys.argv[1])
+pointer = json.loads(pointer_path.read_text(encoding="utf-8"))
+print(pointer["root_relative_path"])
+PY
+)"
+route_package="$package_directory/$route_package_relative"
 if [[ ! -f "$route_package" ]]; then
   echo "PlayGodot boundary fixture did not publish its route package." >&2
   exit 1
@@ -58,7 +70,9 @@ PLAYGODOT_TOKEN="$playgodot_token" \
   PLAYGODOT_TRANSCRIPT="$transcript" \
   "$GODOT_BIN" --headless --rendering-method gl_compatibility \
   --path "$repo_root" --quit-after 30 -- \
-  "--route-package=$route_package" --playgodot >>"$runtime_log" 2>&1
+  "--route-package=$route_package" \
+  "--telemetry-path=$temp_dir/normal-start-telemetry.jsonl" \
+  --playgodot >>"$runtime_log" 2>&1
 runtime_exit=$?
 set -e
 

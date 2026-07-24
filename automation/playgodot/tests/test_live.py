@@ -61,6 +61,7 @@ async def _raw_server(tmp_path: Path) -> AsyncIterator[tuple[str, int, str, Path
         "--",
         "--playgodot",
         f"--route-package={_route_package()}",
+        f"--telemetry-path={tmp_path / 'telemetry.jsonl'}",
     ]
     if platform.system() == "Linux" and os.environ.get("PLAYGODOT_XVFB") == "1":
         command = ["xvfb-run", "-a", *command]

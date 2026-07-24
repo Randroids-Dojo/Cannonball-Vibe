@@ -263,7 +263,13 @@ class PlayGodotClient:
             ):
                 await self.request("session.close")
         self._reader_task.cancel()
-        with contextlib.suppress(asyncio.CancelledError):
+        with contextlib.suppress(
+            asyncio.CancelledError,
+            ConnectionError,
+            OSError,
+            PlayGodotError,
+            ProtocolError,
+        ):
             await self._reader_task
         if not self._writer.is_closing():
             self._writer.close()
@@ -272,8 +278,7 @@ class PlayGodotClient:
             if not future.done():
                 future.set_exception(close_error)
         self._pending.clear()
-        with contextlib.suppress(ConnectionError, OSError):
-            await self._writer.wait_closed()
+        self._writer.transport.abort()
 
     async def __aenter__(self) -> PlayGodotClient:
         return self
