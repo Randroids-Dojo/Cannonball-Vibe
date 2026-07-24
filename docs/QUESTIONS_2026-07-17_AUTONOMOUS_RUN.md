@@ -15,6 +15,15 @@ shows the locally primary designation while the full-screen map and inspection
 surfaces expose all concurrent identities. See
 [ADR-0017](decisions/ADR-0017-authoritative-route-context-and-concurrency.md).
 
+## Q-002 and Q-003 resolved 2026-07-23
+
+The owner selected Option A for both road-reconstruction questions. NHPN
+remains a national route-family backbone rather than playable geometry.
+Deterministic generated corrections must pass strict geometry, collision,
+sightline, lane-topology, and driving gates; rejected or exceptional locations
+use recursively provenanced authored overlays. See
+[ADR-0018](decisions/ADR-0018-gated-generated-road-reconstruction.md).
+
 ## No additional blocking questions from this run
 
 P0-009 can proceed with deterministic derived two-lane semantics and explicit
@@ -27,12 +36,13 @@ eviction, and junction seams. Full alternative interchange routing remains the
 separate dependency-gated P0-011 task, so no user decision is required before
 continuing.
 
-P0-011 also requires no new product choice. Under Q-003's working default, its
+P0-011 also requires no new product choice. Under the resolved Q-003 policy, its
 representative diamond and directional-transfer geometry is an explicitly
 authored, checksum-verified regression overlay with recursive source
 provenance. It validates the generator and runtime contracts without claiming
-that NHPN supplied observed ramp or lane geometry; Q-003 remains open for the
-later geographic correction-burden study.
+that NHPN supplied observed ramp or lane geometry. Corridor correction burden
+remains measured production evidence rather than an unresolved architecture
+choice.
 
 P0-005 requires no new product choice. Exact resume state, package identity,
 atomic replacement, one-generation backup recovery, previous-schema migration,

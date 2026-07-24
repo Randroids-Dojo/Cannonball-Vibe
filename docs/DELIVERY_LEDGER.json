@@ -848,6 +848,7 @@
         ".tools/routes/p0-009/",
         "reports/M2/P0-009/",
         "docs/QUESTIONS_2026-07-17_AUTONOMOUS_RUN.md",
+        "docs/decisions/ADR-0018-gated-generated-road-reconstruction.md",
         "docs/audits/2026-07-18-p0-009-adversarial-review.md",
         "docs/decisions/ADR-0011-lane-topology-route-context-and-trip-map.md",
         "docs/decisions/ADR-0017-authoritative-route-context-and-concurrency.md",
@@ -872,7 +873,7 @@
         "evidence/M2/P0-009-reproducibility.json"
       ],
       "human_gate": null,
-      "notes": "ADR-0011 and ADR-0017 are authoritative. Q-017 and Q-018 were resolved by the owner on 2026-07-23 as Option A: route context uses checksum-locked authoritative public records first and deterministic authored overlays with recursive provenance for documented gaps; every signed concurrent identity remains authoritative, the locally primary designation renders roadside, and all identities remain available in map and inspection surfaces. Checksum-locked representative fixtures may prove individual semantics, but no fixture result may be presented as continental completion."
+      "notes": "ADR-0011, ADR-0017, and ADR-0018 are authoritative. Q-002 and Q-003 were resolved by the owner on 2026-07-23 as Option A: NHPN remains a national route-family backbone rather than playable lane geometry, and generated reconstruction ships only after strict geometry and driving gates pass, with provenanced authored overlays for exceptions. Q-017 and Q-018 were resolved as Option A: route context uses checksum-locked authoritative public records first and deterministic authored overlays with recursive provenance for documented gaps; every signed concurrent identity remains authoritative, the locally primary designation renders roadside, and all identities remain available in map and inspection surfaces. Checksum-locked representative fixtures may prove individual semantics, but no fixture result may be presented as continental completion."
     },
     {
       "id": "P0-010",
@@ -893,6 +894,7 @@
         "scripts/run-scenario.sh",
         "scripts/capture-scenario.sh",
         "docs/QUESTIONS_2026-07-17_AUTONOMOUS_RUN.md",
+        "docs/decisions/ADR-0018-gated-generated-road-reconstruction.md",
         "docs/audits/2026-07-18-p0-010-variable-lane-generation-review.md",
         "evidence/M2/P0-010.json"
       ],
@@ -911,7 +913,8 @@
       "evidence": [
         "evidence/M2/P0-010.json"
       ],
-      "human_gate": null
+      "human_gate": null,
+      "notes": "Q-003 was resolved by the owner on 2026-07-23 as Option A. Generated variable-lane and junction geometry is acceptable only when strict authoritative continuity, endpoint pose, curvature, grade, sightline, self-intersection, collision, lane-topology, and drivability gates pass. Failed candidates require deterministic provenanced authored overlays; visual-only patches cannot conceal an authoritative road or collision failure."
     },
     {
       "id": "P0-011",
@@ -933,6 +936,7 @@
         "tools/map_pipeline/",
         "scripts/run-scenario.sh",
         "docs/QUESTIONS_2026-07-17_AUTONOMOUS_RUN.md",
+        "docs/decisions/ADR-0018-gated-generated-road-reconstruction.md",
         "docs/audits/2026-07-18-p0-011-interchange-routing-review.md",
         "evidence/M2/P0-011.json"
       ],
@@ -951,7 +955,8 @@
       "evidence": [
         "evidence/M2/P0-011.json"
       ],
-      "human_gate": null
+      "human_gate": null,
+      "notes": "Q-003 was resolved by the owner on 2026-07-23 as Option A. Generated interchange corrections must pass strict endpoint-pose, continuity, curvature, grade, clearance, sightline, self-intersection, collision, lane-connection, branch-streaming, and drivability gates. Authored fixtures and exceptions preserve recursive provenance and never claim NHPN supplied observed ramp or lane geometry."
     },
     {
       "id": "P1-007",
