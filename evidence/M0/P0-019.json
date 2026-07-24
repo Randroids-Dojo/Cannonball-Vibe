@@ -3,9 +3,8 @@
   "task_id": "P0-019",
   "milestone": "M0",
   "status": "verified_local_dependency_blocked",
-  "recorded_at_utc": "2026-07-24T05:47:28.0049025Z",
-  "git_revision": "710a7f1ad08320036fe2ca71a2f2f4e6bfbc5e36",
-  "working_tree_revision_note": "Task outputs were uncommitted relative to git_revision at verification time; the output hashes below identify the verified bytes.",
+  "recorded_at_utc": "2026-07-24T05:54:21.8411047Z",
+  "git_revision": "d343ab3778f2408c029cb0581e160c54ff018a80",
   "platform": {
     "os": "Microsoft Windows 10.0.26200",
     "shell_platform": "MINGW64_NT-10.0-26200",
@@ -270,11 +269,11 @@
     },
     {
       "path": "reports/m0/summary.json",
-      "sha256": "877f8bfef662fa15cab6b501ce32366ded4e93508c4640e1028929e5a8b260d4"
+      "sha256": "19b57ef604586b9c7288e89ce76c33d652f965ef2a73585ce6ec25818c0c62cd"
     },
     {
       "path": ".tools/evidence/p0-019-long-route-final.json",
-      "sha256": "826dd5644a89ed5c2a8e1be06fd3c91b8c76abb6845c441168ed45bde154d24b"
+      "sha256": "182df8316d0f6896f26556dedeb03498fd0fc3f2b6826f3dc7d5a999a21ad952"
     },
     {
       "path": "/tmp/p0-019-vehicle-dynamics.avi",
