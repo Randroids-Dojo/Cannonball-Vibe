@@ -22,3 +22,4 @@ new ADR that supersedes the old one instead of rewriting history.
 | [ADR-0015](ADR-0015-route-specific-state-and-subregion-environments.md) | Accepted | Realistic route-specific state and subregion environment profiles |
 | [ADR-0016](ADR-0016-state-specific-highway-visual-language.md) | Accepted | Contemporary state-specific American highway realism |
 | [ADR-0017](ADR-0017-authoritative-route-context-and-concurrency.md) | Accepted | Authoritative route-context sources and readable concurrency presentation |
+| [ADR-0018](ADR-0018-gated-generated-road-reconstruction.md) | Accepted | Gated generated road reconstruction with authored exceptions |

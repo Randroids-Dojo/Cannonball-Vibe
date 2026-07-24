@@ -306,6 +306,11 @@ The world is a graph, not a corridor pretending to be a continent. The player sh
 - Nodes represent interchanges, meaningful exits, service hubs, region boundaries, and event attachment points.
 - Alternate routes trade distance against traffic, terrain, weather, enforcement, repair access, and contact availability.
 - A route choice must remain understandable after it is made; the map should show why an option is faster, safer, or more expensive.
+- Coarse national topology identifies route families but never becomes
+  authoritative playable road geometry. Deterministically generated road and
+  interchange corrections ship only after strict geometry, collision,
+  sightline, topology, and driving gates pass; authored overlays handle the
+  rejected exceptions with complete provenance.
 
 # Lane topology and route context — **LOCKED**
 
