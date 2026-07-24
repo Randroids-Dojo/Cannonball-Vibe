@@ -13,6 +13,9 @@ markers, and a persistent legend. Results and verification are recorded in
 That feedback is actionable direction, not an implicit approval; Q-028 remains
 open for review of the updated presentation.
 
+Owner scheduling decision, 2026-07-23: defer this review until the selected
+visual-quality milestone. This does not approve the map or close Q-028.
+
 ## Q-028 — Trip-map comprehension and accessibility review
 
 Please review [the representative trip-map capture](images/p0-013-trip-map.png)
