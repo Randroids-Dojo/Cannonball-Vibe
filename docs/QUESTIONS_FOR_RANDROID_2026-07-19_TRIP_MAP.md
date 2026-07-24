@@ -5,6 +5,14 @@ Machine verification and independent adversarial review are recorded in
 [the implementation audit](audits/2026-07-19-p0-013-trip-map-review.md) and
 [the continental-scale closeout](audits/2026-07-20-p0-013-scale-closeout.md).
 
+On 2026-07-23 the owner found the overview functionally fine but visually
+basic and requested a polish pass. The follow-up adds stronger hierarchy,
+progress treatment, map framing, layered route strokes, shape-distinct
+markers, and a persistent legend. Results and verification are recorded in
+[the owner follow-up audit](audits/2026-07-23-owner-handling-and-trip-map-followup.md).
+That feedback is actionable direction, not an implicit approval; Q-028 remains
+open for review of the updated presentation.
+
 ## Q-028 — Trip-map comprehension and accessibility review
 
 Please review [the representative trip-map capture](images/p0-013-trip-map.png)

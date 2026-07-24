@@ -12,6 +12,8 @@ public sealed partial class TripMapHud : CanvasLayer
     private Label _summary = null!;
     private Label _inspection = null!;
     private Label _selection = null!;
+    private Label _progressCaption = null!;
+    private ProgressBar _progress = null!;
     private Button _close = null!;
     private TripMapProjectionState? _state;
     private int _alternativeIndex;
@@ -35,40 +37,90 @@ public sealed partial class TripMapHud : CanvasLayer
         _root.SetMeta("automation_id", "trip-map.root");
         AddChild(_root);
 
-        var title = Label("Title", "trip-map.title", "TRIP OVERVIEW", 32);
-        title.Position = new Vector2(42, 30);
-        title.Size = new Vector2(600, 46);
+        var eyebrow = Label(
+            "Eyebrow",
+            "trip-map.eyebrow",
+            "CANNONBALL NAVIGATION  /  ACTIVE ROUTE",
+            15);
+        eyebrow.Position = new Vector2(44, 24);
+        eyebrow.Size = new Vector2(650, 24);
+        eyebrow.AddThemeColorOverride("font_color", new Color("61d7b8"));
+
+        var title = Label("Title", "trip-map.title", "TRIP OVERVIEW", 34);
+        title.Position = new Vector2(42, 49);
+        title.Size = new Vector2(600, 52);
         var pauseNotice = Label(
             "PauseNotice",
             "trip-map.pause-notice",
-            "Opening Trip Overview pauses driving and the run clock.",
-            17);
-        pauseNotice.Position = new Vector2(44, 77);
-        pauseNotice.Size = new Vector2(800, 32);
+            "PLAN MODE  •  DRIVING AND RUN CLOCK PAUSED",
+            16);
+        pauseNotice.Position = new Vector2(968, 55);
+        pauseNotice.Size = new Vector2(458, 32);
+        pauseNotice.HorizontalAlignment = HorizontalAlignment.Right;
+        pauseNotice.AddThemeColorOverride("font_color", new Color("a9b7c7"));
 
         _canvas = new TripMapCanvas
         {
             Name = "MapCanvas",
-            Position = new Vector2(36, 122),
-            Size = new Vector2(1390, 890),
+            Position = new Vector2(36, 112),
+            Size = new Vector2(1390, 900),
         };
         _canvas.SetMeta("automation_id", "trip-map.canvas");
         _root.AddChild(_canvas);
 
-        var sidePanel = new ColorRect
+        var sidePanel = new Panel
         {
             Name = "InformationPanel",
             Position = new Vector2(1450, 28),
             Size = new Vector2(438, 984),
-            Color = new Color("17202c"),
         };
+        sidePanel.AddThemeStyleboxOverride("panel", PanelStyle());
         sidePanel.SetMeta("automation_id", "trip-map.information");
         _root.AddChild(sidePanel);
 
-        _summary = PanelLabel(sidePanel, "Summary", "trip-map.summary", 22, 28, 280);
-        _selection = PanelLabel(sidePanel, "Selection", "trip-map.selection", 18, 330, 150);
-        _inspection = PanelLabel(sidePanel, "Inspection", "trip-map.inspection", 18, 500, 200);
+        var routeStatus = PanelLabel(
+            sidePanel,
+            "RouteStatus",
+            "trip-map.route-status",
+            14,
+            24,
+            24);
+        routeStatus.Text = "ROUTE STATUS  /  ON PLAN";
+        routeStatus.AddThemeColorOverride("font_color", new Color("61d7b8"));
+        _summary = PanelLabel(sidePanel, "Summary", "trip-map.summary", 18, 58, 190);
+        _progress = new ProgressBar
+        {
+            Name = "TripProgress",
+            Position = new Vector2(28, 300),
+            Size = new Vector2(382, 12),
+            MinValue = 0,
+            MaxValue = 100,
+            ShowPercentage = false,
+        };
+        _progress.SetMeta("automation_id", "trip-map.progress");
+        _progress.AddThemeStyleboxOverride("background", BarStyle(new Color("29384a")));
+        _progress.AddThemeStyleboxOverride("fill", BarStyle(new Color("25d0a5")));
+        sidePanel.AddChild(_progress);
+        _progressCaption = PanelLabel(
+            sidePanel,
+            "ProgressCaption",
+            "trip-map.progress-caption",
+            14,
+            320,
+            24);
+        _progressCaption.AddThemeColorOverride("font_color", new Color("a9b7c7"));
+        _selection = PanelLabel(sidePanel, "Selection", "trip-map.selection", 18, 360, 140);
+        _inspection = PanelLabel(sidePanel, "Inspection", "trip-map.inspection", 18, 520, 140);
 
+        var controls = PanelLabel(
+            sidePanel,
+            "ControlHint",
+            "trip-map.control-hint",
+            14,
+            684,
+            32);
+        controls.Text = "PAN  WASD / STICK   •   ZOOM  + / −";
+        controls.AddThemeColorOverride("font_color", new Color("91a2b5"));
         AddButton(sidePanel, "PreviousItem", "trip-map.previous", "PREVIOUS", 724,
             () => ChangeInspection(-1));
         AddButton(sidePanel, "NextItem", "trip-map.next", "NEXT", 784,
@@ -81,6 +133,7 @@ public sealed partial class TripMapHud : CanvasLayer
             () => { _canvas.ZoomBy(1.25f); UpdateAutomationState(); }, 82, 314);
         _close = AddButton(sidePanel, "Close", "trip-map.close", "RETURN TO DRIVE", 916,
             Close);
+        BuildLegend();
         UpdateAutomationState();
     }
 
@@ -166,6 +219,13 @@ public sealed partial class TripMapHud : CanvasLayer
         var remainingMiles = _state.DistanceRemainingMeters / 1609.344;
         var eta = TimeSpan.FromSeconds(_state.EstimatedRemainingSeconds);
         var etaHours = (int)Math.Floor(eta.TotalHours);
+        var totalMeters = _state.DistanceCompletedMeters + _state.DistanceRemainingMeters;
+        var progressPercent = totalMeters <= 0
+            ? 100
+            : Math.Clamp(_state.DistanceCompletedMeters / totalMeters * 100, 0, 100);
+        _progress.Value = progressPercent;
+        _progressCaption.Text =
+            $"{progressPercent:0.0}% COMPLETE  •  {remainingMiles:0.0} MI TO DESTINATION";
         _summary.Text =
             $"{_state.StartLabel}\nTO  {_state.DestinationLabel}\n\n" +
             $"{completedMiles:0.0} mi completed\n{remainingMiles:0.0} mi remaining\n" +
@@ -212,6 +272,8 @@ public sealed partial class TripMapHud : CanvasLayer
                 ["distance_completed_m"] = _state?.DistanceCompletedMeters ?? 0,
                 ["distance_remaining_m"] = _state?.DistanceRemainingMeters ?? 0,
                 ["estimated_remaining_s"] = _state?.EstimatedRemainingSeconds ?? 0,
+                ["progress_percent"] = _progress?.Value ?? 0,
+                ["legend_item_count"] = 6,
                 ["geometry_lod"] = _state?.GeometryLod ?? 0,
                 ["projected_point_count"] = _state?.ProjectedPointCount ?? 0,
                 ["draw_batch_count"] = _canvas?.DrawBatchCount ?? 0,
@@ -274,6 +336,68 @@ public sealed partial class TripMapHud : CanvasLayer
         parent.AddChild(button);
         return button;
     }
+
+    private void BuildLegend()
+    {
+        var legend = new Panel
+        {
+            Name = "Legend",
+            Position = new Vector2(56, 926),
+            Size = new Vector2(870, 62),
+            MouseFilter = Control.MouseFilterEnum.Ignore,
+        };
+        legend.SetMeta("automation_id", "trip-map.legend");
+        legend.AddThemeStyleboxOverride(
+            "panel",
+            BarStyle(new Color(0.05f, 0.09f, 0.14f, 0.92f)));
+        _root.AddChild(legend);
+        var labels = new[]
+        {
+            ("■  TRAVELED", new Color("25d0a5")),
+            ("━  PLANNED", new Color("eaf1f8")),
+            ("─  ALTERNATIVE", new Color("8b9aad")),
+            ("●  EXIT", new Color("f6bd55")),
+            ("◆  TRANSFER", new Color("f6bd55")),
+            ("■  SERVICE", new Color("f6bd55")),
+        };
+        for (var index = 0; index < labels.Length; index++)
+        {
+            var label = new Label
+            {
+                Name = $"LegendItem{index + 1}",
+                Text = labels[index].Item1,
+                Position = new Vector2(22 + index * 139, 18),
+                Size = new Vector2(132, 28),
+            };
+            label.AddThemeFontSizeOverride("font_size", 13);
+            label.AddThemeColorOverride("font_color", labels[index].Item2);
+            legend.AddChild(label);
+        }
+    }
+
+    private static StyleBoxFlat PanelStyle()
+    {
+        var style = BarStyle(new Color("172331"));
+        style.BorderWidthLeft = 2;
+        style.BorderWidthTop = 2;
+        style.BorderWidthRight = 2;
+        style.BorderWidthBottom = 2;
+        style.BorderColor = new Color("34485e");
+        style.CornerRadiusTopLeft = 8;
+        style.CornerRadiusTopRight = 8;
+        style.CornerRadiusBottomLeft = 8;
+        style.CornerRadiusBottomRight = 8;
+        return style;
+    }
+
+    private static StyleBoxFlat BarStyle(Color color) => new()
+    {
+        BgColor = color,
+        CornerRadiusTopLeft = 4,
+        CornerRadiusTopRight = 4,
+        CornerRadiusBottomLeft = 4,
+        CornerRadiusBottomRight = 4,
+    };
 
     private static int PositiveModulo(int value, int modulus) => ((value % modulus) + modulus) % modulus;
 }

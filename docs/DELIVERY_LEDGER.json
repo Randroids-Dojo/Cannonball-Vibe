@@ -221,7 +221,7 @@
       "milestone": "M0",
       "priority": "P0",
       "title": "High-speed vehicle dynamics and assist tuning",
-      "status": "open",
+      "status": "in_progress",
       "dependencies": [
         "P0-010",
         "P0-012",
@@ -255,7 +255,7 @@
         "evidence/M0/P0-019.json"
       ],
       "human_gate": null,
-      "notes": "Quantitative bands must be recorded before tuning is declared complete so acceptance cannot be moved to match a preferred result."
+      "notes": "Quantitative bands must be recorded before tuning is declared complete so acceptance cannot be moved to match a preferred result. On 2026-07-23 the owner reported a reproducible high-speed incline launch followed by a hard-landing throttle rollover. Narrow implementation and regression work may proceed against the merged, machine-verified P0-018 input foundation while its P0-017 human camera gate remains pending; this allowance does not complete P0-018, P0-019, or the later P0-020 sustained handling gate."
     },
     {
       "id": "P0-020",
@@ -1192,7 +1192,7 @@
         "name": "Trip-map comprehension and accessibility usability review",
         "required_for": "M3"
       },
-      "notes": "P1-004 completed and ADR-0008 activated on 2026-07-19. PlayGodot is required for the trip map's interactive rendered UI, while Core models and official-engine scenarios remain authoritative for route and simulation behavior and Computer Use remains the black-box visual layer. The first-pass authoritative projection, Godot overlay, official-engine scenario, rendered UI automation, and review capture were implemented at c98b78336f7e6d98576a9523952961bd1ed18d9d. The subsequent machine closeout adds indexed semantic lookups, point-budgeted LOD selection, batched path rendering, a deterministic 3,000-mile scale scenario, and data-driven 1:1, fixed-ratio, and selective-cruise estimates that preserve authoritative route distance. Q-028 human usability approval remains required before completion; Q-001 still owns the commercial run-mode decision."
+      "notes": "P1-004 completed and ADR-0008 activated on 2026-07-19. PlayGodot is required for the trip map's interactive rendered UI, while Core models and official-engine scenarios remain authoritative for route and simulation behavior and Computer Use remains the black-box visual layer. The first-pass authoritative projection, Godot overlay, official-engine scenario, rendered UI automation, and review capture were implemented at c98b78336f7e6d98576a9523952961bd1ed18d9d. The subsequent machine closeout adds indexed semantic lookups, point-budgeted LOD selection, batched path rendering, a deterministic 3,000-mile scale scenario, and data-driven 1:1, fixed-ratio, and selective-cruise estimates that preserve authoritative route distance. On 2026-07-23 the owner found the overview functionally fine but visually basic and requested a polish pass; this is actionable presentation feedback, not closure of Q-028. Q-028 human usability approval remains required before completion; Q-001 still owns the commercial run-mode decision."
     },
     {
       "id": "P1-008",

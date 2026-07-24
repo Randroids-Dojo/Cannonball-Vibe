@@ -58,6 +58,9 @@ if [[ " ${scenario_args[*]} " == *" --camera-handling-review "* ]]; then
     fixture="representative-corridor"
   fi
 fi
+if [[ " ${scenario_args[*]} " == *" --vehicle-dynamics-review "* ]]; then
+  default_capture_frames=360
+fi
 if [[ " ${scenario_args[*]} " == *" --environment-review "* ]]; then
   default_capture_frames=620
   if [[ "$fixture" == "official-corridor" ]]; then

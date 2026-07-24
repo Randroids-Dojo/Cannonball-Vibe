@@ -52,6 +52,8 @@ public sealed partial class Main : Node3D
     private bool _vehicleVisualReview;
     private bool _cameraHandlingProfile;
     private bool _cameraHandlingReview;
+    private bool _vehicleDynamicsProfile;
+    private bool _vehicleDynamicsReview;
     private bool _roadVisualProfile;
     private bool _roadVisualReview;
     private bool _environmentStreamingProfile;
@@ -123,6 +125,7 @@ public sealed partial class Main : Node3D
     private RoadVisualScenario? _roadVisualScenario;
     private EnvironmentVisualScenario? _environmentVisualScenario;
     private CameraHandlingScenario? _cameraHandlingScenario;
+    private VehicleDynamicsScenario? _vehicleDynamicsScenario;
     private bool _resumeRequested;
     private bool _resumeVerify;
     private double _elapsedSecondsBase;
@@ -228,6 +231,12 @@ public sealed partial class Main : Node3D
             _vehicleVisualReview = arguments.Contains("--vehicle-visual-review", StringComparer.Ordinal);
             _cameraHandlingProfile = arguments.Contains("--camera-handling-profile", StringComparer.Ordinal);
             _cameraHandlingReview = arguments.Contains("--camera-handling-review", StringComparer.Ordinal);
+            _vehicleDynamicsProfile = arguments.Contains(
+                "--vehicle-dynamics-profile",
+                StringComparer.Ordinal);
+            _vehicleDynamicsReview = arguments.Contains(
+                "--vehicle-dynamics-review",
+                StringComparer.Ordinal);
             _roadVisualProfile = arguments.Contains("--road-visual-profile", StringComparer.Ordinal);
             _roadVisualReview = arguments.Contains("--road-visual-review", StringComparer.Ordinal);
             _environmentStreamingProfile = arguments.Contains(
@@ -244,7 +253,8 @@ public sealed partial class Main : Node3D
                 _vehicleVisualProfile || _vehicleVisualReview || _roadVisualProfile ||
                 _roadVisualReview || _environmentStreamingProfile || _environmentReview ||
                 _tripMapReview || _cameraHandlingProfile ||
-                _cameraHandlingReview || _tripMapScaleProfile || _longRouteProfile || _resumeVerify;
+                _cameraHandlingReview || _vehicleDynamicsProfile || _vehicleDynamicsReview ||
+                _tripMapScaleProfile || _longRouteProfile || _resumeVerify;
             _smokeTargetFrames = _stressTest || _shortCorridorSoak ? 3_600 : 360;
             if (_renderIntegrity)
             {
@@ -281,6 +291,10 @@ public sealed partial class Main : Node3D
             if (_cameraHandlingProfile || _cameraHandlingReview)
             {
                 _smokeTargetFrames = 1_200;
+            }
+            if (_vehicleDynamicsProfile || _vehicleDynamicsReview)
+            {
+                _smokeTargetFrames = 3_000;
             }
             if (_roadVisualProfile || _roadVisualReview)
             {
@@ -424,7 +438,7 @@ public sealed partial class Main : Node3D
                 !_vehicleVisualReview && !_roadVisualProfile && !_roadVisualReview &&
                 !_environmentStreamingProfile && !_environmentReview &&
                 !_tripMapReview && !_cameraHandlingProfile && !_cameraHandlingReview &&
-                !_longRouteProfile;
+                !_vehicleDynamicsProfile && !_vehicleDynamicsReview && !_longRouteProfile;
             if (resumedSave is not null)
             {
                 _vehicle.SetAssistProfile(resumedSave.Run.AssistProfile);
@@ -506,6 +520,15 @@ public sealed partial class Main : Node3D
                     _streamer.InitialVehiclePoint,
                     _streamer.InitialRoadForward,
                     _cameraHandlingReview);
+            }
+            if ((_vehicleDynamicsProfile || _vehicleDynamicsReview) && !_resumeVerify)
+            {
+                _vehicleDynamicsScenario = new VehicleDynamicsScenario(
+                    this,
+                    _vehicle,
+                    _streamer,
+                    _vehicleDynamicsReview,
+                    VehicleDynamicsAssistProfiles(arguments));
             }
             if (_renderIntegrity)
             {
@@ -661,6 +684,20 @@ public sealed partial class Main : Node3D
                 return;
             }
         }
+        if (_vehicleDynamicsScenario is { Complete: false })
+        {
+            try
+            {
+                _vehicleDynamicsScenario.Advance();
+            }
+            catch (Exception exception)
+            {
+                GD.PushError(exception.ToString());
+                _shutdownStarted = true;
+                GetTree().Quit(1);
+                return;
+            }
+        }
         if (_roadVisualScenario is { Complete: false } && _routeContextProfileComplete)
         {
             try
@@ -753,6 +790,7 @@ public sealed partial class Main : Node3D
             _longRouteComplete ||
             _vehicleVisualScenario is { Complete: true } ||
             _cameraHandlingScenario is { Complete: true } ||
+            _vehicleDynamicsScenario is { Complete: true } ||
             _environmentVisualScenario is { Complete: true } ||
             (_roadVisualProfileComplete && _routeContextProfileComplete))
         {
@@ -2871,6 +2909,22 @@ public sealed partial class Main : Node3D
         }
         var index = ArgumentIndex(arguments, name);
         return index >= 0 && index + 1 < arguments.Count ? arguments[index + 1] : null;
+    }
+
+    private static IReadOnlyList<AssistProfile> VehicleDynamicsAssistProfiles(
+        IReadOnlyList<string> arguments)
+    {
+        var raw = OptionalArgument(arguments, "--assist") ?? nameof(AssistProfile.Balanced);
+        if (string.Equals(raw, "all", StringComparison.OrdinalIgnoreCase))
+        {
+            return [AssistProfile.Accessible, AssistProfile.Balanced, AssistProfile.Raw];
+        }
+        if (!Enum.TryParse<AssistProfile>(raw, ignoreCase: true, out var profile))
+        {
+            throw new ArgumentException(
+                $"Game argument '--assist' must be Accessible, Balanced, Raw, or all; found '{raw}'.");
+        }
+        return [profile];
     }
 
     private static ulong OptionalUnsignedInteger(

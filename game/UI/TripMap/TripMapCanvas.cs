@@ -26,25 +26,28 @@ public sealed partial class TripMapCanvas : Control
 
     public override void _Draw()
     {
+        DrawMapBackground();
         if (_state is null)
         {
             return;
         }
         _drawBatchCount = 0;
         DrawSegments(_state.Alternatives.SelectMany(alternative => alternative.Segments),
-            new Color("6f7a8b"), 3);
-        DrawSegments(_state.Planned, new Color("ecf1f8"), 8);
-        DrawSegments(_state.Traveled, new Color("31c4a1"), 12);
+            new Color("091019"), 7, countBatch: false);
+        DrawSegments(_state.Alternatives.SelectMany(alternative => alternative.Segments),
+            new Color("8b9aad"), 3);
+        DrawSegments(_state.Planned, new Color("091019"), 14, countBatch: false);
+        DrawSegments(_state.Planned, new Color("eaf1f8"), 8);
+        DrawSegments(_state.Traveled, new Color("091019"), 18, countBatch: false);
+        DrawSegments(_state.Traveled, new Color("25d0a5"), 11);
 
         foreach (var feature in _state.UpcomingFeatures)
         {
-            var center = ToCanvas(feature.Position);
-            DrawCircle(center, 9, new Color("f0b94c"));
-            DrawCircle(center, 4, new Color("17202c"));
+            DrawFeatureMarker(feature);
         }
-        DrawMarker(_state.Start, new Color("f4f7fb"), 10);
-        DrawMarker(_state.Destination, new Color("ef5f68"), 12);
-        DrawMarker(_state.Current, new Color("52a8ff"), 15);
+        DrawSquareMarker(_state.Start, new Color("f4f7fb"), 10);
+        DrawDiamondMarker(_state.Destination, new Color("ff6674"), 13);
+        DrawMarker(_state.Current, new Color("4cb5ff"), 15);
         DrawLine(
             ToCanvas(_state.Current) + new Vector2(0, -22),
             ToCanvas(_state.Current) + new Vector2(0, 22),
@@ -93,7 +96,31 @@ public sealed partial class TripMapCanvas : Control
         QueueRedraw();
     }
 
-    private void DrawSegments(IEnumerable<TripMapPathSegment> segments, Color color, float width)
+    private void DrawMapBackground()
+    {
+        DrawRect(new Rect2(Vector2.Zero, Size), new Color("101a27"));
+        const float gridStep = 80;
+        var minor = new Color(0.20f, 0.29f, 0.39f, 0.22f);
+        for (var x = gridStep; x < Size.X; x += gridStep)
+        {
+            DrawLine(new Vector2(x, 0), new Vector2(x, Size.Y), minor, 1);
+        }
+        for (var y = gridStep; y < Size.Y; y += gridStep)
+        {
+            DrawLine(new Vector2(0, y), new Vector2(Size.X, y), minor, 1);
+        }
+        DrawRect(
+            new Rect2(new Vector2(1, 1), Size - new Vector2(2, 2)),
+            new Color("34485e"),
+            filled: false,
+            width: 2);
+    }
+
+    private void DrawSegments(
+        IEnumerable<TripMapPathSegment> segments,
+        Color color,
+        float width,
+        bool countBatch = true)
     {
         var batch = new List<Vector2>();
         void Flush()
@@ -101,7 +128,10 @@ public sealed partial class TripMapCanvas : Control
             if (batch.Count >= 2)
             {
                 DrawPolyline(batch.ToArray(), color, width, antialiased: true);
-                _drawBatchCount++;
+                if (countBatch)
+                {
+                    _drawBatchCount++;
+                }
             }
             batch.Clear();
         }
@@ -135,7 +165,64 @@ public sealed partial class TripMapCanvas : Control
         var center = ToCanvas(point);
         DrawCircle(center, radius + 3, new Color("121a25"));
         DrawCircle(center, radius, color);
+        DrawCircle(center, radius * 0.38f, Colors.White);
     }
+
+    private void DrawSquareMarker(TripMapPoint point, Color color, float radius)
+    {
+        var center = ToCanvas(point);
+        var shadow = new Rect2(
+            center - Vector2.One * (radius + 3),
+            Vector2.One * (radius + 3) * 2);
+        var marker = new Rect2(center - Vector2.One * radius, Vector2.One * radius * 2);
+        DrawRect(shadow, new Color("091019"));
+        DrawRect(marker, color);
+        DrawRect(marker.Grow(-4), new Color("101a27"));
+    }
+
+    private void DrawDiamondMarker(TripMapPoint point, Color color, float radius)
+    {
+        var center = ToCanvas(point);
+        DrawColoredPolygon(Diamond(center, radius + 4), new Color("091019"));
+        DrawColoredPolygon(Diamond(center, radius), color);
+        DrawColoredPolygon(Diamond(center, radius * 0.42f), new Color("101a27"));
+    }
+
+    private void DrawFeatureMarker(TripMapFeature feature)
+    {
+        var center = ToCanvas(feature.Position);
+        var accent = new Color("f6bd55");
+        switch (feature.Kind)
+        {
+            case TripMapFeatureKind.HighwayTransfer:
+                DrawColoredPolygon(Diamond(center, 12), new Color("091019"));
+                DrawColoredPolygon(Diamond(center, 9), accent);
+                DrawColoredPolygon(Diamond(center, 4), new Color("101a27"));
+                break;
+            case TripMapFeatureKind.ServiceStop:
+                DrawRect(
+                    new Rect2(center - Vector2.One * 10, Vector2.One * 20),
+                    new Color("091019"));
+                DrawRect(
+                    new Rect2(center - Vector2.One * 7, Vector2.One * 14),
+                    accent);
+                DrawCircle(center, 3, new Color("101a27"));
+                break;
+            default:
+                DrawCircle(center, 11, new Color("091019"));
+                DrawCircle(center, 8, accent);
+                DrawCircle(center, 3, new Color("101a27"));
+                break;
+        }
+    }
+
+    private static Vector2[] Diamond(Vector2 center, float radius) =>
+    [
+        center + Vector2.Up * radius,
+        center + Vector2.Right * radius,
+        center + Vector2.Down * radius,
+        center + Vector2.Left * radius,
+    ];
 
     private Vector2 ToCanvas(TripMapPoint point)
     {
