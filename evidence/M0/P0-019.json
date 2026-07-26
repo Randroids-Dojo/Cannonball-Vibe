@@ -4,8 +4,8 @@
   "milestone": "M0",
   "status": "verified_local_dependency_blocked_owner_review_pending",
   "recorded_at_utc": "2026-07-26T04:17:07.3444089Z",
-  "git_revision": "4bfc2d498a64d251289ca3b1bb248affa6879236",
-  "source_state": "path-limited working tree changes identified by output hashes below",
+  "git_revision": "42d3bc649b43c6d4d9128d718761cf1e5cea9e92",
+  "source_state": "committed implementation revision anchored by this follow-up evidence commit",
   "platform": {
     "os": "Microsoft Windows 10.0.26200",
     "shell_platform": "MINGW64_NT-10.0-26200",
