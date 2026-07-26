@@ -269,9 +269,9 @@ public sealed class DrivingInputConditionerTests
     }
 
     [Theory]
-    [InlineData(AssistProfile.Accessible, 0.26)]
-    [InlineData(AssistProfile.Balanced, 0.31)]
-    [InlineData(AssistProfile.Raw, 0.40)]
+    [InlineData(AssistProfile.Accessible, 0.09)]
+    [InlineData(AssistProfile.Balanced, 0.11)]
+    [InlineData(AssistProfile.Raw, 0.15)]
     public void KeyboardHighSpeedSteeringUsesDeclaredProfileAuthority(
         AssistProfile profile,
         double expectedAuthority)
@@ -286,6 +286,114 @@ public sealed class DrivingInputConditionerTests
 
         Assert.Equal(expectedAuthority, result.SteeringAuthority, 6);
         Assert.Equal(expectedAuthority, result.SteeringTarget, 6);
+    }
+
+    [Theory]
+    [InlineData(AssistProfile.Accessible, 0.26)]
+    [InlineData(AssistProfile.Balanced, 0.31)]
+    [InlineData(AssistProfile.Raw, 0.40)]
+    public void ControllerHighSpeedAuthorityRemainsOnControllerTuning(
+        AssistProfile profile,
+        double expectedAuthority)
+    {
+        var conditioner = new DrivingInputConditioner();
+
+        var result = conditioner.Step(
+            new RawDrivingInput(0, 0, 0, 0, 1, DrivingInputDevice.Controller),
+            100,
+            1,
+            profile);
+
+        Assert.Equal(expectedAuthority, result.SteeringAuthority, 6);
+        Assert.Equal(expectedAuthority, result.SteeringTarget, 6);
+    }
+
+    [Theory]
+    [InlineData(AssistProfile.Accessible)]
+    [InlineData(AssistProfile.Balanced)]
+    [InlineData(AssistProfile.Raw)]
+    public void KeyboardThrottleReleaseCutsDriveWithinThreePhysicsFrames(
+        AssistProfile profile)
+    {
+        var conditioner = new DrivingInputConditioner();
+        for (var frame = 0; frame < 120; frame++)
+        {
+            conditioner.Step(
+                new RawDrivingInput(1, 0, 0, 0, 0, DrivingInputDevice.Keyboard),
+                31,
+                1.0 / 120,
+                profile);
+        }
+
+        ConditionedDrivingInput released = default;
+        for (var frame = 0; frame < 3; frame++)
+        {
+            released = conditioner.Step(
+                new RawDrivingInput(0, 0, 0, 0, 0, DrivingInputDevice.Keyboard),
+                31,
+                1.0 / 120,
+                profile);
+        }
+
+        Assert.Equal(0, released.Throttle);
+        Assert.Equal(0, released.ServiceBrake);
+    }
+
+    [Theory]
+    [InlineData(AssistProfile.Accessible)]
+    [InlineData(AssistProfile.Balanced)]
+    [InlineData(AssistProfile.Raw)]
+    public void ControllerThrottleReleaseKeepsExistingProfileRate(AssistProfile profile)
+    {
+        var conditioner = new DrivingInputConditioner();
+        var pressed = conditioner.Step(
+            new RawDrivingInput(1, 0, 0, 0, 0, DrivingInputDevice.Controller),
+            31,
+            1,
+            profile);
+
+        var released = conditioner.Step(
+            new RawDrivingInput(0, 0, 0, 0, 0, DrivingInputDevice.Controller),
+            31,
+            1.0 / 120,
+            profile);
+
+        var expectedDrop = DrivingInputTuning.For(profile).ThrottleRatePerSecond / 120;
+        Assert.Equal(pressed.Throttle - expectedDrop, released.Throttle, 6);
+    }
+
+    [Theory]
+    [InlineData(AssistProfile.Accessible)]
+    [InlineData(AssistProfile.Balanced)]
+    [InlineData(AssistProfile.Raw)]
+    public void AlternatingKeyboardSteeringRecentersWithoutResidualInput(
+        AssistProfile profile)
+    {
+        var conditioner = new DrivingInputConditioner();
+        for (var pulse = 0; pulse < 6; pulse++)
+        {
+            var steering = pulse % 2 == 0 ? 1 : -1;
+            for (var frame = 0; frame < 30; frame++)
+            {
+                conditioner.Step(
+                    new RawDrivingInput(0, 0, 0, 0, steering, DrivingInputDevice.Keyboard),
+                    60,
+                    1.0 / 120,
+                    profile);
+            }
+            Assert.Equal(Math.Sign(steering), Math.Sign(conditioner.Current.Steering));
+        }
+        for (var frame = 0; frame < 30; frame++)
+        {
+            conditioner.Step(
+                new RawDrivingInput(0, 0, 0, 0, 0, DrivingInputDevice.Keyboard),
+                60,
+                1.0 / 120,
+                profile);
+        }
+
+        Assert.Equal(0, conditioner.Current.Steering);
+        Assert.Equal(0, conditioner.Current.SteeringTarget);
     }
 
     [Fact]

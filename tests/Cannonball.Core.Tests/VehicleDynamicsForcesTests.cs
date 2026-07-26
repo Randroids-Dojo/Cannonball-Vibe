@@ -84,22 +84,79 @@ public sealed class VehicleDynamicsForcesTests
     }
 
     [Theory]
-    [InlineData(0.25, -2_437.5)]
-    [InlineData(-0.25, 2_437.5)]
-    [InlineData(5, -5_075)]
-    [InlineData(-5, 5_075)]
-    public void LateralTireForcePreservesDirectionAndCapsAcceleration(
+    [InlineData(0.25, -458.3227242075)]
+    [InlineData(-0.25, 458.3227242075)]
+    [InlineData(5, -4_025)]
+    [InlineData(-5, 4_025)]
+    public void LateralTireForceUsesSlipAngleAndLoadSensitiveLimit(
         double lateralSpeed,
         double expectedForce)
     {
         var actual = VehicleDynamicsForces.LateralTireForceNewtons(
             lateralSpeed,
-            gripNewtonsPerMeterPerSecond: 7_800,
-            responseScale: 1.25,
+            longitudinalSpeedMetersPerSecond: 30,
+            corneringStiffnessNewtonsPerRadian: 55_000,
+            responseScale: 1,
+            normalLoadNewtons: 3_500,
+            frictionCoefficient: 1.15,
             vehicleMassKilograms: 1_450,
             maximumLateralAccelerationMetersPerSecondSquared: 14,
             wheelCount: 4);
 
         Assert.Equal(expectedForce, actual, precision: 8);
+    }
+
+    [Fact]
+    public void UnloadedTireCannotGenerateLateralForce()
+    {
+        var actual = VehicleDynamicsForces.LateralTireForceNewtons(
+            lateralSpeedMetersPerSecond: 4,
+            longitudinalSpeedMetersPerSecond: 30,
+            corneringStiffnessNewtonsPerRadian: 55_000,
+            responseScale: 1,
+            normalLoadNewtons: 0,
+            frictionCoefficient: 1.15,
+            vehicleMassKilograms: 1_450,
+            maximumLateralAccelerationMetersPerSecondSquared: 14,
+            wheelCount: 4);
+
+        Assert.Equal(0, actual);
+    }
+
+    [Theory]
+    [InlineData(0, 0)]
+    [InlineData(0.5, 434.317855)]
+    [InlineData(1, 868.63571)]
+    public void CoastResistanceCombinesRollingAndLiftOffEngineBraking(
+        double contactRatio,
+        double expectedForce)
+    {
+        var actual = VehicleDynamicsForces.CoastResistanceForceNewtons(
+            speedMetersPerSecond: 31,
+            vehicleMassKilograms: 1_450,
+            gravityMetersPerSecondSquared: 9.80665,
+            rollingResistanceCoefficient: 0.012,
+            engineBrakingBaseNewtons: 450,
+            engineBrakingNewtonsPerMeterPerSecond: 8,
+            propulsionInput: 0,
+            contactRatio: contactRatio);
+
+        Assert.Equal(expectedForce, actual, precision: 8);
+    }
+
+    [Fact]
+    public void PropulsionRemovesEngineBrakingButKeepsRollingResistance()
+    {
+        var actual = VehicleDynamicsForces.CoastResistanceForceNewtons(
+            speedMetersPerSecond: 31,
+            vehicleMassKilograms: 1_450,
+            gravityMetersPerSecondSquared: 9.80665,
+            rollingResistanceCoefficient: 0.012,
+            engineBrakingBaseNewtons: 450,
+            engineBrakingNewtonsPerMeterPerSecond: 8,
+            propulsionInput: 1,
+            contactRatio: 1);
+
+        Assert.Equal(170.63571, actual, precision: 8);
     }
 }
