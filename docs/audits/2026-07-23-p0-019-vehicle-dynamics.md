@@ -1,8 +1,8 @@
 # P0-019 vehicle dynamics local verification
 
-Date: 2026-07-23  
-Task: P0-019  
-Milestone: M0  
+Date: 2026-07-23
+Task: P0-019
+Milestone: M0
 Result: verified locally; completion remains dependency-blocked
 
 ## Scope and authority
@@ -166,4 +166,3 @@ external gates, not P0-019 implementation defects:
 - Q-029 must close P0-017 before P0-018 and P0-019 can become complete.
 - P0-020 separately owns the 30-minute keyboard and controller handling
   sessions and cannot be replaced by this automated corpus.
-
