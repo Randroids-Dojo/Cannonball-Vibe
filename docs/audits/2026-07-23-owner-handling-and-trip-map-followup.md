@@ -17,6 +17,11 @@ This feedback starts narrow P0-019 dynamics work and a P0-013 presentation
 follow-up. It does not close P0-019's broader handling corpus or P0-013's
 comprehension and accessibility gate.
 
+The owner also reported a separate low-priority defect: returning from Trip
+Overview can launch the car skyward. This remains unverified and intentionally
+deferred under P0-013; the incline correction and machine gates do not claim to
+fix it.
+
 ## Vehicle investigation and correction
 
 A deterministic official-engine course now drives each assist profile at
@@ -88,6 +93,7 @@ The report path is local verification output rather than a shipping asset.
   departure, replay, frame-rate, rebase, and save-resume corpus is not claimed
   by this narrow incline regression.
 - P0-013 remains `in_progress`: the owner should review the polished overview
-  before Q-028 is resolved.
+  before Q-028 is resolved, and the reported skyward launch after returning
+  from Trip Overview remains an unverified low-priority defect.
 - P0-020's sustained 30-minute keyboard and controller sessions remain a human
   gate and are not replaced by this deterministic scenario.
