@@ -476,8 +476,6 @@ async def test_chase_camera_damps_vehicle_yaw_and_keeps_a_level_horizon(
                 state = (await client.describe("camera.chase.rig"))["test_state"]
                 heading_lag = state["heading_lag_degrees"]
                 max_heading_lag = max(max_heading_lag, heading_lag)
-                if 1 < heading_lag < 45:
-                    break
                 if heading_lag >= 45:
                     pytest.fail(f"Chase camera heading lag exceeded 45 degrees: {heading_lag}")
                 if asyncio.get_running_loop().time() >= deadline:
@@ -485,6 +483,8 @@ async def test_chase_camera_damps_vehicle_yaw_and_keeps_a_level_horizon(
                         "Chase camera did not exhibit measurable heading damping; "
                         f"maximum observed lag was {max_heading_lag} degrees"
                     )
+                if 1 < heading_lag < 45:
+                    break
                 await asyncio.sleep(0.02)
 
             assert 1 < state["heading_lag_degrees"] < 45
