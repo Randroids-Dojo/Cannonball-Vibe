@@ -67,6 +67,47 @@ public sealed record RouteContextPlan(
 
 public static class RouteContextPlanner
 {
+    private static readonly HashSet<string> NonDisplayValues = new(
+        [
+            "unknown",
+            "unspecified",
+            "none",
+            "null",
+            "n/a",
+            "na",
+            "not applicable",
+            "not available",
+            "not provided",
+            "missing",
+            "tbd",
+            "<na>",
+            "-",
+            "--",
+            "?",
+        ],
+        StringComparer.OrdinalIgnoreCase);
+
+    private static readonly IReadOnlyDictionary<string, string> DisplayDirections =
+        new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["n"] = "north",
+            ["nb"] = "north",
+            ["north"] = "north",
+            ["northbound"] = "north",
+            ["s"] = "south",
+            ["sb"] = "south",
+            ["south"] = "south",
+            ["southbound"] = "south",
+            ["e"] = "east",
+            ["eb"] = "east",
+            ["east"] = "east",
+            ["eastbound"] = "east",
+            ["w"] = "west",
+            ["wb"] = "west",
+            ["west"] = "west",
+            ["westbound"] = "west",
+        };
+
     public const double MinimumSignSeparationMeters = 60;
     public const double MarkerAnchorToleranceMeters = 0.01;
     public const double DeclaredApproachSpeedMetersPerSecond = 60;
@@ -168,20 +209,51 @@ public static class RouteContextPlanner
                 continue;
             }
             var anchor = matchingAnchors[0];
+            var routeShield = FormatRouteShield(identity);
+            var identityDirection = NormalizeSignedDirection(identity.SignedDirection);
+            var anchorDirection = NormalizeSignedDirection(anchor.SignedDirection);
+            if (routeShield is null || identityDirection is null || anchorDirection is null)
+            {
+                omissions.Add(new RouteContextOmission(
+                    marker.Id,
+                    edge.Id,
+                    marker.RouteIdentityId,
+                    "Marker omitted because its route number or signed direction is not qualified for player-facing display.",
+                    marker.Provenance));
+                continue;
+            }
+            if (!string.Equals(identityDirection, anchorDirection, StringComparison.Ordinal))
+            {
+                throw new InvalidDataException(
+                    $"Roadside marker '{marker.Id}' has contradictory route and anchor directions.");
+            }
+            if (!double.IsFinite(anchor.ValueMiles) || anchor.ValueMiles < 0)
+            {
+                omissions.Add(new RouteContextOmission(
+                    marker.Id,
+                    edge.Id,
+                    marker.RouteIdentityId,
+                    "Marker omitted because its route-reference milepoint is not a plausible roadside value.",
+                    marker.Provenance));
+                continue;
+            }
             var expectedText = FormatMilepoint(anchor.ValueMiles);
-            if (!string.Equals(marker.DisplayText.Trim(), expectedText, StringComparison.Ordinal))
+            var markerText = CleanDisplayValue(marker.DisplayText, 16);
+            if (markerText.Length == 0)
+            {
+                omissions.Add(new RouteContextOmission(
+                    marker.Id,
+                    edge.Id,
+                    marker.RouteIdentityId,
+                    "Marker omitted because its display value is missing or uses an internal placeholder.",
+                    marker.Provenance));
+                continue;
+            }
+            if (!string.Equals(markerText, expectedText, StringComparison.Ordinal))
             {
                 throw new InvalidDataException(
                     $"Roadside marker '{marker.Id}' displays '{marker.DisplayText}' but its " +
                     $"exact anchor requires '{expectedText}'.");
-            }
-            if (!string.Equals(
-                    identity.SignedDirection,
-                    anchor.SignedDirection,
-                    StringComparison.OrdinalIgnoreCase))
-            {
-                throw new InvalidDataException(
-                    $"Roadside marker '{marker.Id}' has contradictory route and anchor directions.");
             }
 
             var positionKey = checked((long)Math.Round(marker.DistanceMeters * 100));
@@ -196,12 +268,12 @@ public static class RouteContextPlanner
                 edge.Id,
                 marker.DistanceMeters,
                 identity.Id,
-                $"{identity.System} {identity.Number} {anchor.SignedDirection}".ToUpperInvariant(),
+                routeShield,
                 $"MILE {expectedText}",
-                anchor.SignedDirection,
-                anchor.Jurisdiction,
+                anchorDirection,
+                CleanDisplayValue(anchor.Jurisdiction, 24),
                 string.Empty,
-                [FormatRouteShield(identity)],
+                [routeShield],
                 string.Empty,
                 [],
                 [],
@@ -270,9 +342,39 @@ public static class RouteContextPlanner
                     routeExit.Provenance));
                 continue;
             }
-            signDistances.Add(distance);
-            var exitNumber = $"{routeExit.Number}{routeExit.Suffix}";
-            var destinationText = string.Join(" / ", routeExit.Destinations);
+            var number = CleanNumber(routeExit.Number, 8);
+            var suffix = CleanSuffix(routeExit.Suffix);
+            var exitNumber = number.Length == 0 ? string.Empty : $"{number}{suffix}";
+            var destinations = CleanDisplayValues(routeExit.Destinations, 64);
+            var services = CleanDisplayValues(routeExit.Services, 24);
+            var destinationText = string.Join(" / ", destinations);
+            var currentRouteShield = FormatRouteShield(currentIdentity);
+            var targetRouteShields = rampEdge.RouteIdentityIds
+                .Where(identityId => !string.Equals(
+                    identityId,
+                    currentIdentity.Id,
+                    StringComparison.Ordinal))
+                .Select(identityId => identities.TryGetValue(identityId, out var identity)
+                    ? FormatRouteShield(identity) is { } shield
+                        ? $"TO {shield}"
+                        : string.Empty
+                    : throw new InvalidDataException(
+                        $"Exit '{routeExit.Id}' ramp references unknown route identity " +
+                        $"'{identityId}'."))
+                .Where(shield => shield.Length > 0)
+                .Distinct(StringComparer.Ordinal)
+                .ToArray();
+            if (exitNumber.Length == 0 && destinations.Length == 0 &&
+                targetRouteShields.Length == 0 && services.Length == 0)
+            {
+                omissions.Add(new RouteContextOmission(
+                    routeExit.Id,
+                    edge.Id,
+                    routeExit.RouteIdentityId,
+                    "Guide sign omitted because no validated exit number, destination, target route, or service content is available.",
+                    routeExit.Provenance));
+                continue;
+            }
             var primary = isTransfer
                 ? string.IsNullOrWhiteSpace(exitNumber)
                     ? "TO"
@@ -280,23 +382,17 @@ public static class RouteContextPlanner
                 : string.IsNullOrWhiteSpace(exitNumber)
                     ? "EXIT"
                     : $"EXIT {exitNumber}";
-            var routeShields = new[] { FormatRouteShield(currentIdentity) }
-                .Concat(rampEdge.RouteIdentityIds
-                    .Where(identityId => !string.Equals(
-                        identityId,
-                        currentIdentity.Id,
-                        StringComparison.Ordinal))
-                    .Select(identityId => identities.TryGetValue(identityId, out var identity)
-                        ? $"TO {FormatRouteShield(identity)}"
-                        : throw new InvalidDataException(
-                            $"Exit '{routeExit.Id}' ramp references unknown route identity " +
-                            $"'{identityId}'.")))
+            var routeShields = (currentRouteShield is null
+                    ? Array.Empty<string>()
+                    : [currentRouteShield])
+                .Concat(targetRouteShields)
                 .Distinct(StringComparer.Ordinal)
                 .ToArray();
             var laneIds = connectors
                 .Select(connector => connector.FromLaneId)
                 .Distinct(StringComparer.Ordinal)
                 .ToArray();
+            signDistances.Add(distance);
             placements.Add(new RouteContextPlacement(
                 $"sign:{routeExit.Id}",
                 isTransfer
@@ -308,13 +404,13 @@ public static class RouteContextPlanner
                 currentIdentity.Id,
                 primary.ToUpperInvariant(),
                 destinationText.ToUpperInvariant(),
-                currentIdentity.SignedDirection,
+                NormalizeSignedDirection(currentIdentity.SignedDirection) ?? string.Empty,
                 string.Empty,
                 exitNumber,
                 routeShields,
                 FormatLaneGuidance(edge, laneIds),
                 laneIds,
-                routeExit.Services,
+                services,
                 routeExit.Provenance,
                 true));
         }
@@ -329,8 +425,77 @@ public static class RouteContextPlanner
         return valueMiles.ToString("0.#", CultureInfo.InvariantCulture);
     }
 
-    private static string FormatRouteShield(RouteIdentity identity) =>
-        $"{identity.System} {identity.Number} {identity.SignedDirection}".ToUpperInvariant();
+    private static string? FormatRouteShield(RouteIdentity identity)
+    {
+        var system = CleanRouteSystem(identity.System);
+        var number = CleanNumber(identity.Number, 8);
+        if (system.Length == 0 || number.Length == 0)
+        {
+            return null;
+        }
+        var direction = NormalizeSignedDirection(identity.SignedDirection);
+        return direction is null
+            ? $"{system} {number}"
+            : $"{system} {number} {direction.ToUpperInvariant()}";
+    }
+
+    private static string CleanRouteSystem(string value)
+    {
+        var cleaned = CleanDisplayValue(value, 12).ToUpperInvariant();
+        cleaned = cleaned switch
+        {
+            "INTERSTATE" => "I",
+            "U.S" or "U.S." => "US",
+            _ => cleaned,
+        };
+        return cleaned.Length is >= 1 and <= 3 && cleaned.All(char.IsLetter)
+            ? cleaned
+            : string.Empty;
+    }
+
+    private static string CleanNumber(string value, int maximumLength)
+    {
+        var cleaned = CleanDisplayValue(value, maximumLength).ToUpperInvariant();
+        return cleaned.Any(char.IsDigit) && cleaned.All(character =>
+                char.IsLetterOrDigit(character) || character == '-')
+            ? cleaned
+            : string.Empty;
+    }
+
+    private static string CleanSuffix(string value)
+    {
+        var cleaned = CleanDisplayValue(value, 3).ToUpperInvariant();
+        return cleaned.All(char.IsLetter) ? cleaned : string.Empty;
+    }
+
+    private static string[] CleanDisplayValues(IEnumerable<string> values, int maximumLength) =>
+        values
+            .Select(value => CleanDisplayValue(value, maximumLength))
+            .Where(value => value.Length > 0)
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToArray();
+
+    private static string CleanDisplayValue(string value, int maximumLength)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return string.Empty;
+        }
+        var cleaned = value.Trim();
+        return cleaned.Length <= maximumLength &&
+            !NonDisplayValues.Contains(cleaned) &&
+            !cleaned.Any(char.IsControl)
+                ? cleaned
+                : string.Empty;
+    }
+
+    private static string? NormalizeSignedDirection(string value)
+    {
+        var cleaned = CleanDisplayValue(value, 16);
+        return DisplayDirections.TryGetValue(cleaned, out var direction)
+            ? direction
+            : null;
+    }
 
     private static string FormatLaneGuidance(RouteEdge edge, IReadOnlyCollection<string> laneIds)
     {
