@@ -80,3 +80,11 @@ terrain do not have the same visual or gameplay value.
   little GPU headroom and weaken scalability.
 - **No provisional memory limits:** avoids premature constraints but prevents
   early automated detection of residency and growth regressions.
+
+## Operating addendum — 2026-07-26
+
+The owner selected a persistent pinned Windows toolchain and reusable caches
+with a fresh clean Git worktree for each reference capture. Evidence records the
+exact commit, tool versions, clean status, and input hashes. This avoids repeated
+tool installation without allowing a long-lived dirty gameplay worktree or
+stale generated outputs to contaminate measurements.

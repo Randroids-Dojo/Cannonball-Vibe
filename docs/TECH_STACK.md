@@ -252,6 +252,9 @@ content-class geometry, draw-call, material, texture-residency, instancing, LOD,
 and pop-in limits. Fixture thresholds remain provisional; production limits
 require representative content and owner-ratified Windows captures. The
 reference PC is not yet the minimum supported specification.
+The Windows toolchain and reusable caches persist, but every reference capture
+runs from a newly created clean Git worktree at the exact reviewed commit and
+records tool versions, worktree cleanliness, and input hashes before measuring.
 
 The hero vehicle's visual rig follows the existing custom raycast simulation
 through stable chassis, wheel, suspension, camera, light, damage, and material

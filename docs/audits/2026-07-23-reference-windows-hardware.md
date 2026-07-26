@@ -61,6 +61,14 @@ user-run evidence bundle, or manual profiler screenshots. The owner starts the
 local Codex session, and the agent operates the reproducible capture scripts on
 the native RTX 3080 Ti renderer and preserves complete machine-readable outputs.
 
+The pinned Godot, .NET, Python/uv, Blender, Git LFS, and reusable download/import
+caches persist between sessions. Each reference capture starts from a newly
+created clean Git worktree at the exact reviewed commit; capture outputs stay
+outside that worktree or under ignored evidence/report paths. The capture must
+record the commit, tool versions, worktree cleanliness, and input hashes before
+measuring. Reuse neither a dirty gameplay worktree nor stale generated outputs
+as performance evidence.
+
 Do not create standing remote access, store account or remote-control
 credentials in the repository, collect unrelated machine data, or treat the
 local session as permission to publish, install unrelated software, or change

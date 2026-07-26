@@ -6,6 +6,11 @@ Controller configured to emit WASD is a keyboard-emulation profile: left-stick u
 will therefore look like the W key. Select Steam Input's Gamepad template so the
 game receives independent trigger and stick axes.
 
+The owner approved the conflict-free controller baseline on 2026-07-26: R3
+switches camera mode, Y recovers at the current route point, and holding LB
+shows the rear view. Remapping remains a future accessibility feature rather
+than a prerequisite for this baseline.
+
 ## Driving
 
 | Action | Keyboard | Controller |
