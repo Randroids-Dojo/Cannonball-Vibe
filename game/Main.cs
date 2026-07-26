@@ -5,6 +5,7 @@ using Cannonball.Core.Saves;
 using Cannonball.Core.Simulation;
 using Cannonball.Core.Telemetry;
 using Cannonball.Game.Automation;
+using Cannonball.Game.Input;
 using Cannonball.Game.UI;
 using Cannonball.Game.Vehicle;
 using Cannonball.Game.World;
@@ -52,6 +53,8 @@ public sealed partial class Main : Node3D
     private bool _vehicleVisualReview;
     private bool _cameraHandlingProfile;
     private bool _cameraHandlingReview;
+    private bool _vehicleDynamicsProfile;
+    private bool _vehicleDynamicsReview;
     private bool _roadVisualProfile;
     private bool _roadVisualReview;
     private bool _environmentStreamingProfile;
@@ -123,6 +126,7 @@ public sealed partial class Main : Node3D
     private RoadVisualScenario? _roadVisualScenario;
     private EnvironmentVisualScenario? _environmentVisualScenario;
     private CameraHandlingScenario? _cameraHandlingScenario;
+    private VehicleDynamicsScenario? _vehicleDynamicsScenario;
     private bool _resumeRequested;
     private bool _resumeVerify;
     private double _elapsedSecondsBase;
@@ -133,6 +137,18 @@ public sealed partial class Main : Node3D
     private double _cash = 25_000;
     private VehicleCondition _vehicleCondition = new(82, 1, 1, 1, 0);
     private EnforcementState _enforcement = new(0, 0, "clear", 0);
+    private InitialRunState? _initialRunState;
+    private ValidatedRoutePlan? _initialRoutePlan;
+    private Transform3D _initialVehicleTransform;
+    private bool _initialAutopilotEnabled;
+    private bool _restartRunRequested;
+    private int _restartCount;
+    private double _lastRestartRouteDistanceMeters;
+    private float _lastRestartPositionErrorMeters;
+    private float _lastRestartRotationDot = 1;
+    private float _lastRestartLinearSpeedMetersPerSecond;
+    private float _lastRestartAngularSpeedRadiansPerSecond;
+    private readonly Godot.Collections.Dictionary _runAutomationState = new();
     private LongRouteScenarioFixtureData? _longRouteFixture;
     private string _longRouteSourcePath = string.Empty;
     private string _longRouteEvidencePath = string.Empty;
@@ -182,6 +198,8 @@ public sealed partial class Main : Node3D
         try
         {
             ProcessMode = ProcessModeEnum.Always;
+            SetMeta("automation_id", "run.session");
+            SetMeta("automation_state", _runAutomationState);
             var arguments = OS.GetCmdlineUserArgs();
             var routePath = RequiredArgument(arguments, "--route-package");
             var requestedProbeMiles = OptionalPositiveDouble(arguments, "--distance-miles");
@@ -228,6 +246,12 @@ public sealed partial class Main : Node3D
             _vehicleVisualReview = arguments.Contains("--vehicle-visual-review", StringComparer.Ordinal);
             _cameraHandlingProfile = arguments.Contains("--camera-handling-profile", StringComparer.Ordinal);
             _cameraHandlingReview = arguments.Contains("--camera-handling-review", StringComparer.Ordinal);
+            _vehicleDynamicsProfile = arguments.Contains(
+                "--vehicle-dynamics-profile",
+                StringComparer.Ordinal);
+            _vehicleDynamicsReview = arguments.Contains(
+                "--vehicle-dynamics-review",
+                StringComparer.Ordinal);
             _roadVisualProfile = arguments.Contains("--road-visual-profile", StringComparer.Ordinal);
             _roadVisualReview = arguments.Contains("--road-visual-review", StringComparer.Ordinal);
             _environmentStreamingProfile = arguments.Contains(
@@ -244,7 +268,8 @@ public sealed partial class Main : Node3D
                 _vehicleVisualProfile || _vehicleVisualReview || _roadVisualProfile ||
                 _roadVisualReview || _environmentStreamingProfile || _environmentReview ||
                 _tripMapReview || _cameraHandlingProfile ||
-                _cameraHandlingReview || _tripMapScaleProfile || _longRouteProfile || _resumeVerify;
+                _cameraHandlingReview || _vehicleDynamicsProfile || _vehicleDynamicsReview ||
+                _tripMapScaleProfile || _longRouteProfile || _resumeVerify;
             _smokeTargetFrames = _stressTest || _shortCorridorSoak ? 3_600 : 360;
             if (_renderIntegrity)
             {
@@ -281,6 +306,10 @@ public sealed partial class Main : Node3D
             if (_cameraHandlingProfile || _cameraHandlingReview)
             {
                 _smokeTargetFrames = 1_200;
+            }
+            if (_vehicleDynamicsProfile || _vehicleDynamicsReview)
+            {
+                _smokeTargetFrames = 50_000;
             }
             if (_roadVisualProfile || _roadVisualReview)
             {
@@ -363,7 +392,7 @@ public sealed partial class Main : Node3D
                 _enforcement = resumedSave.Run.Enforcement;
             }
 
-            ConfigureInputMap();
+            GameInputMap.Configure();
             BuildLighting();
             var initialRoutePlan = _interchangeFixture is null
                 ? null
@@ -378,6 +407,7 @@ public sealed partial class Main : Node3D
                             _cameraHandlingProfile || _cameraHandlingReview
                             ? RepresentativeInterchangeFixture.TransferPlanId
                             : RouteChoicePlanOrder[0]];
+            _initialRoutePlan = initialRoutePlan;
             ConfigureRuntimeWorld(initialRoutePlan, resumedSave);
             if (_resumeVerify)
             {
@@ -407,6 +437,7 @@ public sealed partial class Main : Node3D
             _hud = new PrototypeHud { Name = "PrototypeHud" };
             AddChild(_hud);
             _hud.TripOverviewRequested += OpenTripMap;
+            _hud.RestartRunRequested += RequestRestartRun;
             _tripMap = new TripMapHud { Name = "TripMapHud" };
             AddChild(_tripMap);
             _tripMap.Closed += OnTripMapClosed;
@@ -415,8 +446,11 @@ public sealed partial class Main : Node3D
                 CallDeferred(MethodName.OpenTripMap);
             }
 
+            var telemetryPath = OptionalArgument(arguments, "--telemetry-path");
             _telemetry = new JsonlTelemetrySink(
-                ProjectSettings.GlobalizePath("user://telemetry/prototype.jsonl"));
+                telemetryPath is null
+                    ? ProjectSettings.GlobalizePath("user://telemetry/prototype.jsonl")
+                    : Path.GetFullPath(telemetryPath));
 
             _vehicle.AutopilotEnabled = _smokeTest && !_renderIntegrity && !_streamingProfile &&
                 !_topologyProfile && !_topologyReview && !_routeChoiceProfile &&
@@ -424,7 +458,7 @@ public sealed partial class Main : Node3D
                 !_vehicleVisualReview && !_roadVisualProfile && !_roadVisualReview &&
                 !_environmentStreamingProfile && !_environmentReview &&
                 !_tripMapReview && !_cameraHandlingProfile && !_cameraHandlingReview &&
-                !_longRouteProfile;
+                !_vehicleDynamicsProfile && !_vehicleDynamicsReview && !_longRouteProfile;
             if (resumedSave is not null)
             {
                 _vehicle.SetAssistProfile(resumedSave.Run.AssistProfile);
@@ -507,6 +541,17 @@ public sealed partial class Main : Node3D
                     _streamer.InitialRoadForward,
                     _cameraHandlingReview);
             }
+            if ((_vehicleDynamicsProfile || _vehicleDynamicsReview) && !_resumeVerify)
+            {
+                _vehicleDynamicsScenario = new VehicleDynamicsScenario(
+                    this,
+                    _vehicle,
+                    _streamer,
+                    _vehicleDynamicsReview,
+                    VehicleDynamicsAssistProfiles(arguments),
+                    VehicleDynamicsSpeedBands(arguments),
+                    VehicleDynamicsFixtures(arguments));
+            }
             if (_renderIntegrity)
             {
                 _vehicle.AutopilotSpeedLimitMetersPerSecond = 12;
@@ -517,6 +562,12 @@ public sealed partial class Main : Node3D
             {
                 _vehicle.SetAssistProfile(assist);
             }
+            _initialRunState = InitialRunState.Create(_runSeed, _vehicle.AssistProfile);
+            _initialVehicleTransform = new Transform3D(
+                Basis.LookingAt(_streamer.InitialRoadForward, Vector3.Up),
+                _streamer.InitialVehiclePoint + Vector3.Up * 0.78f);
+            _initialAutopilotEnabled = _vehicle.AutopilotEnabled;
+            UpdateRunAutomationState();
             if (requestedProbeMiles > 0 && !_longRouteProfile)
             {
                 _transportProbe = RunTransportProbeAsync(requestedProbeMiles);
@@ -544,6 +595,12 @@ public sealed partial class Main : Node3D
         {
             return;
         }
+
+        if (_restartRunRequested)
+        {
+            RestartRun();
+        }
+        UpdateRunAutomationState();
 
         var tripMapTogglePressed = Godot.Input.IsActionPressed("toggle_trip_map");
         if (tripMapTogglePressed && !_tripMapToggleHeld)
@@ -753,11 +810,31 @@ public sealed partial class Main : Node3D
             _longRouteComplete ||
             _vehicleVisualScenario is { Complete: true } ||
             _cameraHandlingScenario is { Complete: true } ||
+            _vehicleDynamicsScenario is { Complete: true } ||
             _environmentVisualScenario is { Complete: true } ||
             (_roadVisualProfileComplete && _routeContextProfileComplete))
         {
             _shutdownStarted = true;
             _ = PersistAsync(quitAfterSave: true);
+        }
+    }
+
+    public override void _PhysicsProcess(double delta)
+    {
+        _ = delta;
+        if (_vehicleDynamicsScenario is not { Complete: false } || _shutdownStarted)
+        {
+            return;
+        }
+        try
+        {
+            _vehicleDynamicsScenario.AdvancePhysics();
+        }
+        catch (Exception exception)
+        {
+            GD.PushError(exception.ToString());
+            _shutdownStarted = true;
+            GetTree().Quit(1);
         }
     }
 
@@ -2442,7 +2519,12 @@ public sealed partial class Main : Node3D
             $"chunks={snapshot.ChunkCount} reflectors={snapshot.ReflectorCount} " +
             $"barriers={snapshot.BarrierSegmentCount} " +
             $"guardrails={snapshot.GuardrailSegmentCount} " +
-            $"shields={snapshot.RouteShieldCount} services={snapshot.ServiceIconCount} " +
+            $"guide_signs={snapshot.GuideSignCount} " +
+            $"shields={snapshot.RouteShieldCount} " +
+            $"standard_shields={snapshot.StandardRouteShieldCount} " +
+            $"geometric_lane_arrows={snapshot.GeometricLaneArrowCount} " +
+            $"typography_fallbacks={snapshot.TypographyFallbackCount} " +
+            $"services={snapshot.ServiceIconCount} " +
             $"gore_chunks={snapshot.GoreChunkCount} " +
             $"opposing_carriageway_chunks={_streamer.OpposingCarriagewayChunksSeen} " +
             $"shared_materials={snapshot.SharedMaterialCount} " +
@@ -2522,7 +2604,12 @@ public sealed partial class Main : Node3D
         if (snapshot.ProfileId != expectedProfile || snapshot.ChunkCount < 1 ||
             !snapshot.AllContractsResolved || snapshot.ReflectorCount < 1 ||
             snapshot.BarrierSegmentCount < 1 || snapshot.GuardrailSegmentCount < 1 ||
-            snapshot.RouteShieldCount < 2 || snapshot.ServiceIconCount < 2 ||
+            !snapshot.SignageContractResolved || snapshot.GuideSignCount < 1 ||
+            snapshot.RouteShieldCount < 2 ||
+            snapshot.StandardRouteShieldCount != snapshot.RouteShieldCount ||
+            snapshot.GeometricLaneArrowCount != snapshot.GuideSignCount ||
+            snapshot.TypographyFallbackCount != snapshot.GuideSignCount ||
+            snapshot.ServiceIconCount < 2 ||
             snapshot.SharedMaterialCount != 18 || snapshot.SharedMeshCount != 9 ||
             snapshot.RetroreflectiveMaterialCount != 11 ||
             snapshot.BridgeDeckCount < 1 || snapshot.OverpassOpeningCount < 1 ||
@@ -2873,6 +2960,77 @@ public sealed partial class Main : Node3D
         return index >= 0 && index + 1 < arguments.Count ? arguments[index + 1] : null;
     }
 
+    private static IReadOnlyList<AssistProfile> VehicleDynamicsAssistProfiles(
+        IReadOnlyList<string> arguments)
+    {
+        var raw = OptionalArgument(arguments, "--assist") ?? nameof(AssistProfile.Balanced);
+        if (string.Equals(raw, "all", StringComparison.OrdinalIgnoreCase))
+        {
+            return [AssistProfile.Accessible, AssistProfile.Balanced, AssistProfile.Raw];
+        }
+        if (!Enum.TryParse<AssistProfile>(raw, ignoreCase: true, out var profile))
+        {
+            throw new ArgumentException(
+                $"Game argument '--assist' must be Accessible, Balanced, Raw, or all; found '{raw}'.");
+        }
+        return [profile];
+    }
+
+    private static IReadOnlyList<VehicleDynamicsSpeedBand> VehicleDynamicsSpeedBands(
+        IReadOnlyList<string> arguments)
+    {
+        var raw = OptionalArgument(arguments, "--dynamics-speed-bands") ?? "all";
+        if (string.Equals(raw, "all", StringComparison.OrdinalIgnoreCase))
+        {
+            return VehicleDynamicsProfile.SpeedBands;
+        }
+        var result = raw.Split(',', StringSplitOptions.RemoveEmptyEntries |
+                StringSplitOptions.TrimEntries)
+            .Select(VehicleDynamicsProfile.GetSpeedBand)
+            .DistinctBy(band => band.Id, StringComparer.OrdinalIgnoreCase)
+            .ToArray();
+        if (result.Length == 0)
+        {
+            throw new ArgumentException(
+                "Game argument '--dynamics-speed-bands' must be cruise, push, redline, " +
+                "a comma-separated selection, or all.");
+        }
+        return result;
+    }
+
+    private static IReadOnlyList<VehicleDynamicsFixture> VehicleDynamicsFixtures(
+        IReadOnlyList<string> arguments)
+    {
+        var raw = OptionalArgument(arguments, "--dynamics-fixtures") ?? "all";
+        if (string.Equals(raw, "all", StringComparison.OrdinalIgnoreCase))
+        {
+            return VehicleDynamicsProfile.Fixtures;
+        }
+        var result = raw.Split(',', StringSplitOptions.RemoveEmptyEntries |
+                StringSplitOptions.TrimEntries)
+            .Select(value => value.Replace("-", string.Empty, StringComparison.Ordinal))
+            .Select(value =>
+            {
+                if (!Enum.TryParse<VehicleDynamicsFixture>(
+                        value,
+                        ignoreCase: true,
+                        out var fixture))
+                {
+                    throw new ArgumentException(
+                        $"Unknown vehicle dynamics fixture '{value}'.");
+                }
+                return fixture;
+            })
+            .Distinct()
+            .ToArray();
+        if (result.Length == 0)
+        {
+            throw new ArgumentException(
+                "Game argument '--dynamics-fixtures' must name at least one fixture.");
+        }
+        return result;
+    }
+
     private static ulong OptionalUnsignedInteger(
         IReadOnlyList<string> arguments,
         string name,
@@ -3004,81 +3162,84 @@ public sealed partial class Main : Node3D
         });
     }
 
-    private static void ConfigureInputMap()
+    private void RequestRestartRun() => _restartRunRequested = true;
+
+    private void RestartRun()
     {
-        AddKeyAction("accelerate", Key.W);
-        AddKeyAction("brake", Key.S);
-        AddKeyAction("reverse", Key.Q);
-        AddKeyAction("handbrake", Key.Space);
-        AddKeyAction("steer_left", Key.A);
-        AddKeyAction("steer_right", Key.D);
-        AddKeyAction("reset_vehicle", Key.R);
-        AddKeyAction("suspend_run", Key.F5);
-        AddKeyAction("cycle_assist", Key.Tab);
-        AddKeyAction("toggle_camera", Key.V);
-        AddKeyAction("camera_look_left", Key.J);
-        AddKeyAction("camera_look_right", Key.L);
-        AddKeyAction("camera_look_up", Key.I);
-        AddKeyAction("camera_look_down", Key.K);
-        AddKeyAction("toggle_trip_map", Key.M);
-        AddKeyAction("trip_map_pan_left", Key.Left);
-        AddKeyAction("trip_map_pan_right", Key.Right);
-        AddKeyAction("trip_map_pan_up", Key.Up);
-        AddKeyAction("trip_map_pan_down", Key.Down);
-        AddKeyAction("trip_map_zoom_in", Key.Equal);
-        AddKeyAction("trip_map_zoom_out", Key.Minus);
-        AddKeyAction("trip_map_recenter", Key.C);
-        AddKeyAction("trip_map_previous", Key.Pageup);
-        AddKeyAction("trip_map_next", Key.Pagedown);
-        AddJoyAxisAction("accelerate_controller", JoyAxis.TriggerRight, 1);
-        AddJoyAxisAction("brake_controller", JoyAxis.TriggerLeft, 1);
-        AddJoyAxisAction("steer_left_controller", JoyAxis.LeftX, -1);
-        AddJoyAxisAction("steer_right_controller", JoyAxis.LeftX, 1);
-        AddJoyButtonAction("reverse_controller", JoyButton.B);
-        AddJoyButtonAction("handbrake_controller", JoyButton.X);
-        AddJoyButtonAction("reset_vehicle_controller", JoyButton.Y);
-        AddJoyButtonAction("toggle_camera", JoyButton.RightStick);
-        AddJoyAxisAction("camera_look_left", JoyAxis.RightX, -1);
-        AddJoyAxisAction("camera_look_right", JoyAxis.RightX, 1);
-        AddJoyAxisAction("camera_look_up", JoyAxis.RightY, -1);
-        AddJoyAxisAction("camera_look_down", JoyAxis.RightY, 1);
-        AddJoyButtonAction("toggle_trip_map", JoyButton.Back);
-        AddJoyButtonAction("trip_map_pan_left", JoyButton.DpadLeft);
-        AddJoyButtonAction("trip_map_pan_right", JoyButton.DpadRight);
-        AddJoyButtonAction("trip_map_pan_up", JoyButton.DpadUp);
-        AddJoyButtonAction("trip_map_pan_down", JoyButton.DpadDown);
-        AddJoyButtonAction("trip_map_zoom_in", JoyButton.RightShoulder);
-        AddJoyButtonAction("trip_map_zoom_out", JoyButton.LeftShoulder);
-        AddJoyButtonAction("trip_map_recenter", JoyButton.LeftStick);
-        AddJoyButtonAction("trip_map_previous", JoyButton.X);
-        AddJoyButtonAction("trip_map_next", JoyButton.A);
+        _restartRunRequested = false;
+        var initial = _initialRunState
+            ?? throw new InvalidOperationException("Initial run state is not configured.");
+
+        RemoveRuntimeWorld();
+        _runSeed = initial.Seed;
+        _cash = initial.Cash;
+        _vehicleCondition = initial.Vehicle;
+        _enforcement = initial.Enforcement;
+        _elapsedSecondsBase = 0;
+        _sessionStartedTicks = Time.GetTicksMsec();
+        _tripMapPauseStartedTicks = 0;
+        _tripMapPausedSeconds = 0;
+        _previousDistance = 0;
+        _peakSpeedMetersPerSecond = 0;
+
+        ConfigureRuntimeWorld(_initialRoutePlan);
+        _vehicle.SetAssistProfile(initial.AssistProfile);
+        _vehicle.AutopilotEnabled = _initialAutopilotEnabled;
+        _vehicle.DrivingInputController.ClearAndSuppress("restart_run");
+        _lastRestartRouteDistanceMeters = _streamer.RouteDistanceMeters;
+        _lastRestartPositionErrorMeters =
+            _vehicle.Transform.Origin.DistanceTo(_initialVehicleTransform.Origin);
+        _lastRestartRotationDot = Math.Abs(
+            _vehicle.Transform.Basis.GetRotationQuaternion().Normalized().Dot(
+                _initialVehicleTransform.Basis.GetRotationQuaternion().Normalized()));
+        _lastRestartLinearSpeedMetersPerSecond = _vehicle.LinearVelocity.Length();
+        _lastRestartAngularSpeedRadiansPerSecond = _vehicle.AngularVelocity.Length();
+        _restartCount++;
+        UpdateRunAutomationState();
+        GD.Print(
+            $"CANNONBALL_RUN_RESTARTED count={_restartCount} seed={_runSeed} " +
+            $"route_distance_m={_streamer.RouteDistanceMeters:0.000}");
     }
 
-    private static void AddKeyAction(StringName action, Key key)
+    private void UpdateRunAutomationState()
     {
-        if (!InputMap.HasAction(action))
+        if (_vehicle is null || _streamer is null)
         {
-            InputMap.AddAction(action, 0.12f);
+            return;
         }
-        InputMap.ActionAddEvent(action, new InputEventKey { PhysicalKeycode = key });
-    }
-
-    private static void AddJoyAxisAction(StringName action, JoyAxis axis, float axisValue)
-    {
-        if (!InputMap.HasAction(action))
-        {
-            InputMap.AddAction(action, 0.0f);
-        }
-        InputMap.ActionAddEvent(action, new InputEventJoypadMotion { Axis = axis, AxisValue = axisValue });
-    }
-
-    private static void AddJoyButtonAction(StringName action, JoyButton button)
-    {
-        if (!InputMap.HasAction(action))
-        {
-            InputMap.AddAction(action, 0.12f);
-        }
-        InputMap.ActionAddEvent(action, new InputEventJoypadButton { ButtonIndex = button });
+        var initialRotation = _initialVehicleTransform.Basis.GetRotationQuaternion().Normalized();
+        var currentRotation = _vehicle.Transform.Basis.GetRotationQuaternion().Normalized();
+        _runAutomationState["restart_count"] = _restartCount;
+        _runAutomationState["seed"] = _runSeed;
+        _runAutomationState["cash"] = _cash;
+        _runAutomationState["elapsed_seconds"] = CaptureElapsedSeconds();
+        _runAutomationState["route_distance_m"] = _streamer.RouteDistanceMeters;
+        _runAutomationState["edge_distance_m"] = _streamer.CurrentEdgeDistanceMeters;
+        _runAutomationState["vehicle_position_x"] = _vehicle.Position.X;
+        _runAutomationState["vehicle_position_y"] = _vehicle.Position.Y;
+        _runAutomationState["vehicle_position_z"] = _vehicle.Position.Z;
+        _runAutomationState["start_position_x"] = _initialVehicleTransform.Origin.X;
+        _runAutomationState["start_position_y"] = _initialVehicleTransform.Origin.Y;
+        _runAutomationState["start_position_z"] = _initialVehicleTransform.Origin.Z;
+        _runAutomationState["start_horizontal_error_m"] = new Vector2(
+            _vehicle.Position.X - _initialVehicleTransform.Origin.X,
+            _vehicle.Position.Z - _initialVehicleTransform.Origin.Z).Length();
+        _runAutomationState["start_rotation_dot"] =
+            Math.Abs(currentRotation.Dot(initialRotation));
+        _runAutomationState["linear_speed_mps"] = _vehicle.LinearVelocity.Length();
+        _runAutomationState["angular_speed_radps"] = _vehicle.AngularVelocity.Length();
+        _runAutomationState["camera_mode"] = _vehicle.CurrentCameraMode;
+        _runAutomationState["assist_profile"] =
+            _vehicle.AssistProfile.ToString().ToLowerInvariant();
+        _runAutomationState["last_restart_route_distance_m"] =
+            _lastRestartRouteDistanceMeters;
+        _runAutomationState["last_restart_position_error_m"] =
+            _lastRestartPositionErrorMeters;
+        _runAutomationState["last_restart_rotation_dot"] = _lastRestartRotationDot;
+        _runAutomationState["last_restart_linear_speed_mps"] =
+            _lastRestartLinearSpeedMetersPerSecond;
+        _runAutomationState["last_restart_angular_speed_radps"] =
+            _lastRestartAngularSpeedRadiansPerSecond;
     }
 
     private void OpenTripMap()

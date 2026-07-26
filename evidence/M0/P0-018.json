@@ -1,0 +1,416 @@
+{
+  "schema_version": 1,
+  "task_id": "P0-018",
+  "milestone": "M0",
+  "status": "verified_local_dependency_pending",
+  "recorded_at_utc": "2026-07-26T05:27:27.5672545Z",
+  "git_revision": "9279342cc492da547061a237b8b77aab25306060",
+  "verification_scope": "committed_implementation_revision",
+  "working_tree_changes": false,
+  "platform": {
+    "os": "Microsoft Windows 10.0.26200",
+    "shell_platform": "MINGW64_NT-10.0-26200",
+    "architecture": "x64",
+    "physics_engine": "Godot Jolt",
+    "physics_hz": 120
+  },
+  "tool_versions": {
+    "dotnet_sdk": "10.0.102",
+    "godot": "4.7.1.stable.mono.official.a13da4feb",
+    "git_lfs": "3.7.1",
+    "uv": "0.9.24"
+  },
+  "determinism": {
+    "seed": 20260714,
+    "fixture": "official-corridor",
+    "content_version": "route-v5-3a6ea6a8f3eb03c9",
+    "route_package_sha256": "339702dafd7af5ea58a9ba0601f29c54fd13a956615715e1dd0047e10bbe150d",
+    "devices": [
+      "keyboard",
+      "controller"
+    ],
+    "profiles": [
+      "Accessible",
+      "Balanced",
+      "Raw"
+    ],
+    "live_profile": "Balanced",
+    "scenario_arguments": [
+      "--devices",
+      "keyboard,controller",
+      "--profiles",
+      "all"
+    ]
+  },
+  "controller_mapping": {
+    "accelerate": "right trigger",
+    "service_brake": "left trigger above 0.35 m/s forward speed",
+    "steer": "left stick X",
+    "reverse": "continue holding left trigger at or below 0.35 m/s; B is secondary",
+    "handbrake": "X",
+    "recover_in_place": "Y",
+    "restart_run": "Start, select Restart Run, then confirm with A",
+    "camera_toggle": "right stick click",
+    "look_behind_hold": "left bumper",
+    "trip_map": "View/Back",
+    "pause_menu": "Menu/Start",
+    "confirm": "A",
+    "back": "B",
+    "menu_navigation": "D-pad or left stick",
+    "steam_input_template": "Gamepad",
+    "brake_to_reverse_enter_speed_mps": 0.35,
+    "brake_to_reverse_exit_speed_mps": 0.75
+  },
+  "profile_bands": {
+    "Accessible": {
+      "controller_deadzone": 0.16,
+      "controller_curve_exponent": 1.6
+    },
+    "Balanced": {
+      "controller_deadzone": 0.12,
+      "controller_curve_exponent": 1.35
+    },
+    "Raw": {
+      "controller_deadzone": 0.08,
+      "controller_curve_exponent": 1.0
+    }
+  },
+  "input_artifacts": [
+    {
+      "path": "global.json",
+      "sha256": "b5cb6301b93270502bf2cf84d72ef76d92e31148179662fca781e732926b2bc4"
+    },
+    {
+      "path": "scripts/tool-versions.sh",
+      "sha256": "20871ee7d7ad980568603673e7e2d0dd080b07f4ad909900f1f19404e796943b"
+    },
+    {
+      "path": ".tools/scenarios/official-corridor/current-package.json",
+      "sha256": "c1cd82c4233cf37a6030a014ddaa71d8ffa98a0c36d928c8fb3b416727a08ecc"
+    },
+    {
+      "path": ".tools/scenarios/official-corridor/route_graph-046227f4ef84e3c48e0435ab9bf6ec9fcb8c394cc1f241e6739c1edeae1b1b93.cbrg",
+      "sha256": "339702dafd7af5ea58a9ba0601f29c54fd13a956615715e1dd0047e10bbe150d"
+    },
+    {
+      "path": "src/Cannonball.Core/Simulation/Vehicle/DrivingInputConditioner.cs",
+      "sha256": "4d4b4cd0b2ed7334478b1e52f1b86463222a375b4974ebb0c19dfdf3bf1f51fd"
+    },
+    {
+      "path": "src/Cannonball.Core/Runs/RunState.cs",
+      "sha256": "579d01a8b4ab375e4e9ef7c87c196d214a33c588722baa84b92667c21abacff3"
+    },
+    {
+      "path": "game/Input/GameInputMap.cs",
+      "sha256": "ae2faef79941f91e3cb4130e94902962b5b8a204d7b252457374b2fcec19b8f6"
+    },
+    {
+      "path": "game/Vehicle/DrivingInputController.cs",
+      "sha256": "82f6eada670bde0058a0a7bfbc4abc27ebb7e9454229060fe94a8668e85994b3"
+    },
+    {
+      "path": "game/Vehicle/CannonballVehicle.cs",
+      "sha256": "4d22a5fcca889945a0ac6ab4649839e7267b3392ba6d3cfe4fa445a959348717"
+    },
+    {
+      "path": "game/Vehicle/VehicleVisualRig.cs",
+      "sha256": "2ac477083c825c7b783b22bba467c8d8f640d69bc048978abf5f7eaa5a7b5f86"
+    },
+    {
+      "path": "game/World/RoadChunk.cs",
+      "sha256": "9ba4195eb0d3200d03fad458b108dde7194eedcf1f02bd6609b7c57e7c55ba45"
+    },
+    {
+      "path": "game/World/JunctionSeam.cs",
+      "sha256": "305e5f85c5bea53d5ba1ed832727f6e3ed01dc9b062fad4bb95ce34c31c4811f"
+    },
+    {
+      "path": "game/World/Environment/RegionalTerrainRibbon.cs",
+      "sha256": "224ba70614c98cd1fc3603f19e4541b05d0098ddf7631779bc691645d9a0bdf5"
+    },
+    {
+      "path": "game/Camera/ChaseCameraRig.cs",
+      "sha256": "c5ab620ad3d05bd614c4ef1e97910fdc001340358e191fc8c6e6cfe1a36b1949"
+    },
+    {
+      "path": "game/Camera/CockpitCameraRig.cs",
+      "sha256": "6ec339fa8660096e7609c8eafeebfd71c55e37c26f89d54a19acf9cc2d41f4ad"
+    },
+    {
+      "path": "game/Main.cs",
+      "sha256": "a79d911d156221b9717dbd42a3fd6ac6c438d2fb49dca913288d785848ea6cc7"
+    },
+    {
+      "path": "game/UI/PrototypeHud.cs",
+      "sha256": "113a33eeb33807213fd2ef7d5f6006167c32957385752f8ecd98c495ab7ba54a"
+    },
+    {
+      "path": "project.godot",
+      "sha256": "c5d098c8dcecb3dccfc89e4e4e4f560f7f36e32ecccb746758ebd9881d85e2bd"
+    },
+    {
+      "path": "addons/playgodot/server.gd",
+      "sha256": "8654bb4dbfd7739883974825c40ac2e139134e4de97ea52e8a48a2b07526abed"
+    },
+    {
+      "path": "automation/playgodot/tests/test_driving_input.py",
+      "sha256": "978cadebeac71e07ecef0b1fb096324f4d16ccb4adce345bc8e6a18e82c69b2b"
+    },
+    {
+      "path": "automation/playgodot/tests/test_camera_handling.py",
+      "sha256": "9d3bcc0e8e9a9ba427197ff4736ba04fff3ddd7472e2316abbba416ac9f62a4c"
+    },
+    {
+      "path": "tests/Cannonball.Core.Tests/DrivingInputConditionerTests.cs",
+      "sha256": "d8e327cb147e0849c4e0c5c95689164be24f27dd5d7c4567e5c795fd3107f3c5"
+    },
+    {
+      "path": "tests/Cannonball.Core.Tests/InitialRunStateTests.cs",
+      "sha256": "d733716249872a23a4142c181dc6cb8fe6b854388580ecb0f5d8a17b52e9f861"
+    }
+  ],
+  "commands": [
+    {
+      "command": "DOTNET_ROLL_FORWARD=Major dotnet test tests/Cannonball.Core.Tests/Cannonball.Core.Tests.csproj --filter 'FullyQualifiedName~DrivingInputConditionerTests'",
+      "exit_status": 0,
+      "passed": 25
+    },
+    {
+      "command": "PLAYGODOT_ARTIFACT_DIR=reports/p0-018-controller-camera/lt-brake-reverse ./scripts/verify-driving-input.sh --devices controller --profiles all",
+      "exit_status": 0,
+      "focused_core_tests_passed": 13,
+      "focused_live_tests_passed": 3,
+      "focused_live_tests_deselected": 22,
+      "normal_start_boundary": "passed",
+      "ruff": "passed"
+    },
+    {
+      "command": "PLAYGODOT_ARTIFACT_DIR=reports/p0-018-controller-camera/lt-brake-reverse-all ./scripts/verify-driving-input.sh --devices keyboard,controller --profiles all",
+      "exit_status": 0,
+      "focused_core_tests_passed": 25,
+      "focused_live_tests_passed": 6,
+      "focused_live_tests_deselected": 19,
+      "normal_start_boundary": "passed",
+      "ruff": "passed"
+    },
+    {
+      "command": "PLAYGODOT_ARTIFACT_DIR=reports/p0-018-controller-camera/camera ./scripts/verify-camera-handling.sh --all-scenarios",
+      "exit_status": 0,
+      "deterministic_camera_stages_passed": 6,
+      "resume_equivalence": "passed",
+      "normal_start_boundary": "passed",
+      "focused_live_tests_passed": 2,
+      "focused_live_tests_deselected": 23,
+      "ruff": "passed"
+    },
+    {
+      "command": "PATH=<cached pinned uv 0.9.24>:$PATH GODOT_BIN=<official Godot 4.7.1 Mono> ./scripts/check.sh",
+      "exit_status": 0,
+      "report": "reports/m0/summary.json",
+      "report_sha256": "6ba996cd11bf7166c0ccf11d34bfa0405da7d04c5c52f10a2368268413b95b4e"
+    },
+    {
+      "command": "git diff --check",
+      "exit_status": 0
+    }
+  ],
+  "metrics": {
+    "focused_core_tests_passed": 25,
+    "driving_gate_core_tests_passed": 25,
+    "driving_gate_live_tests_passed": 6,
+    "camera_gate_live_tests_passed": 2,
+    "renderer_capture_width_pixels": 1280,
+    "renderer_capture_height_pixels": 720,
+    "renderer_capture_bytes": 77813,
+    "cockpit_exterior_meshes_excluded": 3,
+    "cockpit_near_clip_meters": 0.05,
+    "m0": {
+      "dotnet_build_warnings": 0,
+      "dotnet_build_errors": 0,
+      "xunit_passed": 118,
+      "map_pipeline_pytest_passed": 78,
+      "playgodot_unit_pytest_passed": 13,
+      "ruff_passed": true,
+      "godot_smoke_passed": true
+    }
+  },
+  "acceptance_comparisons": [
+    {
+      "criterion": "conventional independent controller driving controls",
+      "observed": "With Steam Input's Gamepad template, RT accelerates, LT brakes forward and becomes reverse only after a held near-zero handoff, and left-stick X steers. Left-stick Y is unbound from propulsion. Every generated joypad event targets any connected device rather than device 0.",
+      "passed": true
+    },
+    {
+      "criterion": "analog trigger polarity and per-profile deadzones",
+      "observed": "Twenty-five focused Core cases cover unipolar trigger clamping, wrong-polarity rejection, deadzone rescaling, independent full-scale RT/LT, brake-to-reverse handoff, hysteresis, release, B fallback, and deterministic behavior across Accessible, Balanced, and Raw.",
+      "passed": true
+    },
+    {
+      "criterion": "held LT brakes forward then enters reverse smoothly without a direction flip or zero-speed jitter",
+      "observed": "LT cannot command reverse above 0.35 m/s. At or below 0.35 m/s its service-brake channel ramps down while reverse ramps up; a latched 0.75 m/s exit threshold prevents chatter around zero. The official-engine probe starts above 4 m/s, observes braking, holds LT through zero into negative speed without B, then verifies B separately as a secondary binding.",
+      "passed": true
+    },
+    {
+      "criterion": "controller-first actions and menu navigation",
+      "observed": "Official-engine tests exercise R3 camera toggle, LB rear view, Y recover, Start pause, D-pad navigation, A confirmation, B cancellation, controller focus loss, disconnect, and nonzero-device reconnect.",
+      "passed": true
+    },
+    {
+      "criterion": "recover in place remains distinct from restart run",
+      "observed": "Y recovers at the current route point without changing route progress. Restart Run is selected through the Start menu and requires a second A confirmation before rebuilding the initial route, transform, motion, timers, camera, economy, condition, enforcement, and deterministic seed.",
+      "passed": true
+    },
+    {
+      "criterion": "restart returns to the true run start",
+      "observed": "The live restart test first advances route progress, then confirms exact initial route distance, initial transform and orientation, zero transition motion, chase camera, initial cash and seed; restart_count increments while recover_count does not.",
+      "passed": true
+    },
+    {
+      "criterion": "hold-to-look-behind works in chase and cockpit without changing camera mode or stored look",
+      "observed": "LB and keyboard B smoothly blend to a rearward yaw while held and promptly return on release. Tests cover chase, cockpit, reversing, right/left free look, and switching views while rear look remains held.",
+      "passed": true
+    },
+    {
+      "criterion": "cockpit view has a believable unobstructed windshield sightline",
+      "observed": "The cockpit camera now uses the authored driver-eye anchor directly with a 0.05 m near clip. Cabin, roof-spine, and solid graybox interior meshes use a cockpit-excluded layer while remaining visible to chase. The retained 1280x720 render shows clear road sightline and one hood edge without the duplicate roof/interior layer. The body/interior remains an accepted graybox placeholder for this tranche; production cockpit art is not claimed.",
+      "passed": true
+    },
+    {
+      "criterion": "save-resume and deterministic automation remain intact",
+      "observed": "The camera gate's resume-equivalence scenario passed, the driving and camera semantic tests passed, and the complete M0 suite passed 118 C# tests, 78 map tests, 13 PlayGodot unit tests, Ruff, and official-engine smoke.",
+      "passed": true
+    },
+    {
+      "criterion": "required first-party M0 gate passes for the verified source state",
+      "observed": "Doctor confirmed pinned tools; the zero-warning build, all automated suites, and official Godot smoke passed against the exact LT refinement source state committed as 9279342cc492da547061a237b8b77aab25306060.",
+      "passed": true
+    }
+  ],
+  "output_artifacts": [
+    {
+      "path": "docs/images/p0-018-cockpit-controller-review.png",
+      "sha256": "534cb36288ddce890cc5b29ee8c09787e12b276554850558ec9577f083e2ecf7"
+    },
+    {
+      "path": "docs/CONTROLLER_CONTROLS.md",
+      "sha256": "e04f06e3d135c7bfd59fdbb391e5365dae20a56082d50c1020db2620d13bf235"
+    },
+    {
+      "path": "docs/audits/2026-07-20-p0-018-input-conditioning.md",
+      "sha256": "c414ae024f8a53affe950242a6b4f34848f0b6a803638ab92d8913b256fe170e"
+    },
+    {
+      "path": "reports/p0-018-controller-camera/driving/driving-input-controller-lifecycle.jsonl",
+      "sha256": "41a4bb3dfd40448665f8d4916f917295ed9968af82a42f459cdee0a46b54049b",
+      "generated": true,
+      "tracked": false
+    },
+    {
+      "path": "reports/p0-018-controller-camera/driving/driving-input-controller-restart.jsonl",
+      "sha256": "f6ba2aa9cfd276690a8b73d813dc6e3188d61811db3961962bad731277139bfc",
+      "generated": true,
+      "tracked": false
+    },
+    {
+      "path": "reports/p0-018-controller-camera/driving/driving-input-controller.jsonl",
+      "sha256": "922982dbe78c16567f9084ddb1f20e633dcbd3477d8d8503800a0ce311826764",
+      "generated": true,
+      "tracked": false
+    },
+    {
+      "path": "reports/p0-018-controller-camera/driving/driving-input-keyboard.jsonl",
+      "sha256": "803d0e86866fe94e46dde3738dc61abf4ffa93cd586a28973f719141c6e5b80f",
+      "generated": true,
+      "tracked": false
+    },
+    {
+      "path": "reports/p0-018-controller-camera/driving/input-steering.png",
+      "sha256": "ac71e9ffa47481190a5411e2009257ae3fb2fe3c02c4b692ac96b233972b5d78",
+      "generated": true,
+      "tracked": false
+    },
+    {
+      "path": "reports/p0-018-controller-camera/lt-brake-reverse-all/driving-input-controller.jsonl",
+      "sha256": "4341dac992b8a84b1017b7515e610db3c0e17494de3702942c5bfc83b1ee5aa7",
+      "generated": true,
+      "tracked": false
+    },
+    {
+      "path": "reports/p0-018-controller-camera/camera/camera-handling.jsonl",
+      "sha256": "ab3e83d7714cbe80daa94ab650315f8327530f1ccb7c5622f6b60b17a03ddd61",
+      "generated": true,
+      "tracked": false
+    },
+    {
+      "path": "reports/p0-018-controller-camera/camera/cockpit-forward.png",
+      "sha256": "47a0388aafdda7ce7f791c3a1227092d422a82d55835bbf645e75e0e2bfefa82",
+      "generated": true,
+      "tracked": false
+    },
+    {
+      "path": "reports/m0/summary.json",
+      "sha256": "6ba996cd11bf7166c0ccf11d34bfa0405da7d04c5c52f10a2368268413b95b4e",
+      "generated": true,
+      "tracked": false
+    }
+  ],
+  "failure_logs": [
+    {
+      "failure": "A focused Core command was first run with --no-build after editing the tests and executed stale binaries.",
+      "recovery": "The project was rebuilt and all 23 focused Core cases passed."
+    },
+    {
+      "failure": "The WSL shell could not discover the installed Windows tools, and the system uv was 0.11.29 rather than the pinned 0.9.24.",
+      "recovery": "Verification moved to Git Bash with the cached pinned uv 0.9.24 prepended; doctor then passed every tool check."
+    },
+    {
+      "failure": "The first full controller run exposed programmatic joypad bindings restricted to device 0.",
+      "recovery": "Every generated joypad event now uses device -1, and live tests passed with a nonzero controller ID plus disconnect/reconnect."
+    },
+    {
+      "failure": "Initial restart assertions sampled the freshly reconstructed rigid body after its first physics settling frame.",
+      "recovery": "Restart records both transition-exact motion and current physics state; tests prove exact zero transition motion without hiding subsequent deterministic settling."
+    },
+    {
+      "failure": "The first cockpit capture after excluding cabin and roof still exposed the solid graybox interior as a duplicate exterior layer.",
+      "recovery": "The cockpit-only mask also excludes the solid interior placeholder while chase retains all three meshes; the rebuilt render and semantic test passed."
+    },
+    {
+      "failure": "Three final handoff runs reached CANNONBALL_SMOKE_OK but then crashed during Godot managed finalization after native teardown, with leaked SurfaceTool and PackedScene wrappers in the log.",
+      "recovery": "The input-map temporary wrappers, existing mesh-builder wrappers, and Hero GT scene wrapper now use explicit deterministic disposal. The focused controller gate and a fresh complete M0 gate then passed, including clean Godot process shutdown."
+    },
+    {
+      "failure": "The first LT live probe applied braking before it had established forward speed above the 0.35 m/s handoff threshold.",
+      "recovery": "The probe now waits for measured forward speed above 4 m/s before applying LT, making the forward-braking phase explicit."
+    },
+    {
+      "failure": "The second LT probe expected service brake to become zero on the first negative-speed sample.",
+      "recovery": "The assertion now verifies the intended overlap: service brake decays while reverse rises, then reaches zero after the smooth handoff."
+    },
+    {
+      "failure": "The first all-device retry pressed Start after a fixed delay while recover input suppression was still waiting for controller neutral.",
+      "recovery": "The existing menu test now waits on the semantic input_suppressed state with a bounded timeout; the complete six-scenario gate passed."
+    }
+  ],
+  "retry_count": 11,
+  "recovery_result": "All bounded controller, LT brake-to-reverse, restart, rear-view, cockpit-sightline, save-resume, focused, and complete M0 automation is green. P0-018 remains verified_local rather than complete solely because dependency P0-017 still awaits the Q-029 owner camera-comfort decision.",
+  "dependency_blockers": [
+    "P0-017 is verified_local but not complete",
+    "P0-017 Q-029 human camera comfort and readability gate remains pending"
+  ],
+  "human_gate": null,
+  "upstream_human_gate": {
+    "task_id": "P0-017",
+    "question_id": "Q-029",
+    "status": "pending",
+    "approval": null,
+    "question_record": "docs/QUESTIONS_FOR_RANDROID_2026-07-20_HANDLING_GATES.md"
+  },
+  "non_blocking_owner_question": {
+    "question_id": "Q-030",
+    "status": "open_non_blocking",
+    "working_default": "R3 camera toggle, Y recover, and hold-LB rear view",
+    "scope_boundary": "Do not extend controller polish for M0 unless a severe usability defect remains."
+  },
+  "adversarial_review": "docs/audits/2026-07-20-p0-018-input-conditioning.md"
+}

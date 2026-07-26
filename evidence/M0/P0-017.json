@@ -1,0 +1,254 @@
+{
+  "schema_version": 1,
+  "task_id": "P0-017",
+  "milestone": "M0",
+  "status": "verified_local_human_gate_pending",
+  "git_revision": "f2cc981168d099e4207b539803ffba207d802d1e",
+  "recorded_at_utc": "2026-07-24T06:39:25Z",
+  "platform": {
+    "os": "Microsoft Windows NT 10.0.26200.0",
+    "shell": "MINGW64_NT-10.0-26200 through PowerShell",
+    "architecture": "AMD64",
+    "renderer": "OpenGL 3.3 Compatibility",
+    "gpu": "NVIDIA GeForce RTX 3080 Ti"
+  },
+  "tool_versions": {
+    "godot": "4.7.1.stable.mono.official.a13da4feb",
+    "dotnet_sdk": "10.0.102",
+    "uv": "0.9.24 (0fda1525e 2026-01-09), isolated cached executable",
+    "git_lfs": "3.7.1",
+    "capture_python": "3.13.11",
+    "capture_pyav": "18.0.0",
+    "capture_pillow": "12.3.0"
+  },
+  "scope": {
+    "verified": [
+      "world-space chase rig follows damped horizontal heading without inheriting rigid-body pitch, roll, suspension shake, or instantaneous steering rotation",
+      "grade and chassis isolation, collision compression and recovery, vehicle reset, route transition, local-origin rebase, cockpit transition, chase return, and save/resume reconstruction",
+      "bounded cockpit stabilization, look input, recentering, mutually exclusive active cameras, stable semantic IDs, and renderer-reviewable sightlines",
+      "Windows-safe PlayGodot package-boundary and live-test execution while the owner's Godot editor remains open",
+      "normal-start server isolation, token/capability/transcript boundary, all 23 PlayGodot tests, and full first-party M0 verification"
+    ],
+    "completion_pending": [
+      "Q-029 five-minute owner comfort and readability review in chase view",
+      "Q-029 five-minute owner comfort and readability review in cockpit view"
+    ],
+    "excluded_claims": [
+      "human comfort, motion-sickness, or sustained readability approval",
+      "P0-018 input-conditioning completion",
+      "P0-020 uninterrupted 30-minute keyboard or controller handling sessions"
+    ]
+  },
+  "determinism": {
+    "scenario_seed": 20260718,
+    "capture_runtime_default_seed": 20260714,
+    "fixture": "representative-corridor",
+    "route_package_graph_sha256": "e094efd76f0b98e84dde85d87fa42de3e7aad0a4accaad2462c4a842e133005a",
+    "content_version": "route-v5-interchanges-65c082ab36fda2fe",
+    "capture_arguments": [
+      "--fixture",
+      "representative-corridor",
+      "--camera-handling-review"
+    ],
+    "capture_fps": 60,
+    "capture_frames": 362
+  },
+  "input_artifacts": [
+    {
+      "path": "game/Camera/ChaseCameraRig.cs",
+      "sha256": "74dcd368266ca8b377c08084339aac88ac5e54131d34e56ab3c62c197f2bcd5e"
+    },
+    {
+      "path": "game/Camera/CockpitCameraRig.cs",
+      "sha256": "d320498d94b6cda71d737aa2fb81be719ef9d9aef557081c7be2d73860413979"
+    },
+    {
+      "path": "game/Vehicle/CannonballVehicle.cs",
+      "sha256": "33df1c5ed251f71cc618aacdf33337475f6d5af4c1534127d10ef51f009c6c2c"
+    },
+    {
+      "path": "game/Automation/CameraHandlingScenario.cs",
+      "sha256": "ffe24de314590cae86412826bc6fdb484f5cbf2d71097341ce5c461ebd9f478e"
+    },
+    {
+      "path": "game/Main.cs",
+      "sha256": "1c1a5b462f9bfeb57742108b47e3fce73fd1ad98320edc44c080f85074b7a90b"
+    },
+    {
+      "path": "scripts/verify-camera-handling.sh",
+      "sha256": "90e6d50b0811f97fe176b4aac37d8b6d01789a21e857dac2f7e375949aca57fa"
+    },
+    {
+      "path": "scripts/verify-playgodot.sh",
+      "sha256": "3e329fa2f130a3533e41b2aec90fbcc02511eadea45aae00c1c48b215033692b"
+    },
+    {
+      "path": "scripts/verify-playgodot-package-boundary.sh",
+      "sha256": "48af93aee5b504d4ef17b00aec7e7d30a0d1972fcf515e18964a58b5d51ce7f2"
+    },
+    {
+      "path": "automation/playgodot/src/cannonball_playgodot/client.py",
+      "sha256": "faeadbe556715c283767e44dc2fa123570d3f4a20e3126eea0bba09905487caa"
+    },
+    {
+      "path": "automation/playgodot/src/cannonball_playgodot/launcher.py",
+      "sha256": "40c882b5920cd8aeabccc78c722e8481705bd1c6d0ae4d56c1103f18179319da"
+    },
+    {
+      "path": "automation/playgodot/tests/test_client.py",
+      "sha256": "2cd0e49660603f22806b5a17c1936ede82b1fe14ac47b263cdaa02c3758a4a75"
+    },
+    {
+      "path": "automation/playgodot/tests/test_live.py",
+      "sha256": "6a541e77f35ac54168c1af4477e121518b3d2dab1225753d65ad95faab0ba8ad"
+    },
+    {
+      "path": "automation/playgodot/tests/test_camera_handling.py",
+      "sha256": "c6faa4318be5eae21d9837586bd7e5778242bd15a6a5b4797215a74f02ec8c7d"
+    },
+    {
+      "path": "data/sources/fixtures/nhpn-boulder-westminster-us36.geojson",
+      "sha256": "d859ff7ef97106a36b24276b87c86c3968aa1266ddf987ee6859d6972b7f6ff6"
+    },
+    {
+      "path": "data/sources/representative-corridor-lock.json",
+      "sha256": "020692b11640728f83b81175f33226ca13ed89699bbeaeea3bf6dbbdb5ea9a3d"
+    }
+  ],
+  "commands": [
+    {
+      "command": "./scripts/verify-camera-handling.sh --all-scenarios",
+      "exit_status": 0,
+      "official_engine_stages": 6,
+      "save_resume_checks": 1,
+      "focused_live_tests": 2
+    },
+    {
+      "command": "./scripts/verify-playgodot.sh",
+      "exit_status": 0,
+      "live_and_unit_tests": 23,
+      "normal_start_boundary": "passed",
+      "ruff": "passed"
+    },
+    {
+      "command": "./scripts/capture-scenario.sh /tmp/p0-017-camera-handling.avi --fixture representative-corridor --camera-handling-review",
+      "exit_status": 0,
+      "frames": 362,
+      "fps": 60
+    },
+    {
+      "command": "PATH=<isolated uv 0.9.24 cache>:$PATH GODOT_BIN=<official 4.7.1 console> ./scripts/check.sh",
+      "exit_status": 0,
+      "report": "reports/m0/summary.json",
+      "report_sha256": "2ca4de6cb544968efd011396ff70bd62997a5809096060e375d3e4a1248b83ec"
+    },
+    {
+      "command": "git diff --check",
+      "exit_status": 0
+    }
+  ],
+  "metrics": {
+    "camera_handling_stages": 6,
+    "maximum_horizon_error_degrees": 0.0,
+    "collision_compression_meters": 4.502,
+    "collision_oscillation_meters": 0.0,
+    "rebases": 1,
+    "transition_edge": "directional-transfer-ramp",
+    "final_camera_mode": "chase",
+    "resume_target_distance_meters": 1.985,
+    "capture_frames": 362,
+    "capture_fps": 60,
+    "capture_duration_seconds": 6.033333,
+    "focused_live_camera_tests_passed": 2,
+    "complete_playgodot_tests_passed": 23,
+    "csharp_tests_passed": 108,
+    "map_pipeline_tests_passed": 78,
+    "playgodot_unit_tests_passed": 13
+  },
+  "acceptance_comparisons": [
+    {
+      "criterion": "chase camera remains decoupled and level through declared probes",
+      "observed": "six official-engine stages completed with 0.000000 degree horizon error, 4.502 m collision compression, 0.000 m oscillation, one route transition/rebase, reset recovery, and final chase mode",
+      "passed": true
+    },
+    {
+      "criterion": "save/resume reconstructs a valid camera state",
+      "observed": "resume restored directional-transfer-ramp at 419.769 m with one rebase, 1.985 m target distance, and 0.000000 degree horizon error",
+      "passed": true
+    },
+    {
+      "criterion": "cockpit and chase views remain renderer-reviewable",
+      "observed": "362-frame capture showed grade isolation, collision compression/recovery, rebased route framing, cockpit road sightline with shallow hood strip, and chase return without detachment or inversion",
+      "passed": true
+    },
+    {
+      "criterion": "official-engine semantic automation remains safe and portable on Windows",
+      "observed": "normal-start boundary, Ruff, all 23 PlayGodot tests, isolated concurrent telemetry, hostile authentication, cooldown, capability, transcript, and peer-close cleanup checks passed while an editor remained open",
+      "passed": true
+    },
+    {
+      "criterion": "required first-party M0 gate passes on the evidence revision",
+      "observed": "doctor, build, 108 C# tests, Ruff, 78 map tests, 13 PlayGodot unit tests, and official Godot smoke all passed at f2cc981168d099e4207b539803ffba207d802d1e",
+      "passed": true
+    },
+    {
+      "criterion": "human camera comfort and readability",
+      "observed": "Q-029 remains unanswered; automation and visual inspection cannot approve comfort or motion sickness",
+      "passed": false
+    }
+  ],
+  "output_artifacts": [
+    {
+      "path": "docs/images/p0-017-camera-handling-review.png",
+      "sha256": "1c74f9f3953d6cae8859a5e61d0937ae89a348131dd947225584bc88cafbb6a0"
+    },
+    {
+      "path": "reports/m0/summary.json",
+      "sha256": "2ca4de6cb544968efd011396ff70bd62997a5809096060e375d3e4a1248b83ec",
+      "generated": true,
+      "tracked": false
+    }
+  ],
+  "transient_artifacts": [
+    {
+      "path": "/tmp/p0-017-camera-handling.avi",
+      "bytes": 20411444,
+      "sha256": "1d0f29f0795d089c16dfdf463639a437cafca40e53308f35c58831264b74ffd5",
+      "retention": "deleted after extracting and visually inspecting the tracked contact sheet"
+    }
+  ],
+  "failure_logs": [
+    {
+      "failure": "The ledger-required P0-017 evidence file was absent despite the existing macOS audit.",
+      "recovery": "The complete focused, renderer, PlayGodot, and M0 gates were rerun on Windows and this evidence artifact was created."
+    },
+    {
+      "failure": "The normal-start package-boundary check assumed jq on Windows.",
+      "recovery": "The generated package pointer is now read through the already-required pinned Python environment."
+    },
+    {
+      "failure": "The boundary probe reused the editor's default telemetry file.",
+      "recovery": "The probe now passes a unique telemetry path inside its temporary directory."
+    },
+    {
+      "failure": "Live PlayGodot subprocesses announced readiness and then exited because they also reused the editor's telemetry file, surfacing socket-reset cleanup failures.",
+      "recovery": "Every launcher process now owns and removes an isolated temporary runtime directory and telemetry stream; raw hostile-server fixtures use their per-test temporary paths."
+    },
+    {
+      "failure": "A Windows Proactor peer reset could surface while closing a client whose server had already exited.",
+      "recovery": "Shutdown still attempts session.close and resolves pending requests, then aborts the local transport instead of awaiting peer EOF; dedicated client coverage and all 23 PlayGodot tests pass."
+    }
+  ],
+  "retry_count": 5,
+  "recovery_result": "Every autonomous P0-017 camera, save/resume, semantic automation, security-boundary, renderer-capture, Windows concurrency, and M0 gate passes at the recorded revision. The task remains incomplete solely because the required Q-029 human comfort/readability approval is open.",
+  "human_gate": {
+    "name": "Cockpit and chase camera comfort and readability review",
+    "question_id": "Q-029",
+    "required_for": "M0",
+    "status": "pending",
+    "approval": null,
+    "question_record": "docs/QUESTIONS_FOR_RANDROID_2026-07-20_HANDLING_GATES.md",
+    "review_artifact": "docs/images/p0-017-camera-handling-review.png"
+  },
+  "adversarial_review": "docs/audits/2026-07-19-p0-017-camera-foundation.md"
+}

@@ -265,6 +265,10 @@ func _dispatch(method: String, params: Dictionary, request_id: Variant) -> Dicti
 			return _require("input", func(): return _input_joypad_motion(params))
 		"input.joypad_button":
 			return _require("input", func(): return _input_joypad_button(params))
+		"input.joy_connection":
+			return _require("input", func(): return _input_joy_connection(params))
+		"input.application_focus":
+			return _require("input", func(): return _input_application_focus(params))
 		"input.click":
 			return _require("input", func(): return _input_click(params))
 		"input.drag":
@@ -334,7 +338,8 @@ func _capability_document() -> Dictionary:
 			"scene.current", "scene.tree", "node.find", "node.describe",
 			"node.children", "ui.describe", "ui.focused", "signal.wait",
 			"input.action", "input.key", "input.joypad_motion",
-			"input.joypad_button", "input.click", "input.drag",
+			"input.joypad_button", "input.joy_connection",
+			"input.application_focus", "input.click", "input.drag",
 			"screenshot.viewport", "screenshot.node",
 		],
 		"limits": {
@@ -617,6 +622,7 @@ func _input_key(params: Dictionary) -> Dictionary:
 		return _error(-32602, "INVALID_PARAMS", "Unknown key")
 	var event := InputEventKey.new()
 	event.keycode = keycode
+	event.physical_keycode = keycode
 	event.pressed = state == "press"
 	Input.parse_input_event(event)
 	if event.pressed and not _pressed_keys.has(keycode):
@@ -633,6 +639,8 @@ func _input_joypad_motion(params: Dictionary) -> Dictionary:
 	var axes := {
 		"left_x": JOY_AXIS_LEFT_X,
 		"left_y": JOY_AXIS_LEFT_Y,
+		"right_x": JOY_AXIS_RIGHT_X,
+		"right_y": JOY_AXIS_RIGHT_Y,
 		"trigger_left": JOY_AXIS_TRIGGER_LEFT,
 		"trigger_right": JOY_AXIS_TRIGGER_RIGHT,
 	}
@@ -670,6 +678,14 @@ func _input_joypad_button(params: Dictionary) -> Dictionary:
 		"y": JOY_BUTTON_Y,
 		"left_stick": JOY_BUTTON_LEFT_STICK,
 		"right_stick": JOY_BUTTON_RIGHT_STICK,
+		"left_shoulder": JOY_BUTTON_LEFT_SHOULDER,
+		"right_shoulder": JOY_BUTTON_RIGHT_SHOULDER,
+		"back": JOY_BUTTON_BACK,
+		"start": JOY_BUTTON_START,
+		"dpad_up": JOY_BUTTON_DPAD_UP,
+		"dpad_down": JOY_BUTTON_DPAD_DOWN,
+		"dpad_left": JOY_BUTTON_DPAD_LEFT,
+		"dpad_right": JOY_BUTTON_DPAD_RIGHT,
 	}
 	if (
 		not button_name is String
@@ -689,6 +705,46 @@ func _input_joypad_button(params: Dictionary) -> Dictionary:
 	else:
 		_pressed_joy_buttons.erase(key)
 	return {"result": {"button": button_name, "state": state, "device": device}}
+
+
+func _input_joy_connection(params: Dictionary) -> Dictionary:
+	var device := _joypad_device(params)
+	var connected = params.get("connected")
+	if device < 0 or not connected is bool:
+		return _error(-32602, "INVALID_PARAMS", "Invalid joypad connection state")
+	if not connected:
+		for key in _joy_axes.keys():
+			var tracked_axis: Dictionary = _joy_axes[key]
+			if tracked_axis["device"] != device:
+				continue
+			var motion := InputEventJoypadMotion.new()
+			motion.device = device
+			motion.axis = tracked_axis["axis"]
+			motion.axis_value = 0.0
+			Input.parse_input_event(motion)
+			_joy_axes.erase(key)
+		for key in _pressed_joy_buttons.keys():
+			var tracked_button: Dictionary = _pressed_joy_buttons[key]
+			if tracked_button["device"] != device:
+				continue
+			var button := InputEventJoypadButton.new()
+			button.device = device
+			button.button_index = tracked_button["button"]
+			button.pressed = false
+			Input.parse_input_event(button)
+			_pressed_joy_buttons.erase(key)
+	Input.emit_signal("joy_connection_changed", device, connected)
+	return {"result": {"device": device, "connected": connected}}
+
+
+func _input_application_focus(params: Dictionary) -> Dictionary:
+	var state = params.get("state")
+	if state not in ["in", "out"]:
+		return _error(-32602, "INVALID_PARAMS", "Invalid application focus state")
+	get_tree().root.propagate_notification(
+		NOTIFICATION_APPLICATION_FOCUS_IN if state == "in" else NOTIFICATION_APPLICATION_FOCUS_OUT
+	)
+	return {"result": {"state": state}}
 
 
 func _joypad_device(params: Dictionary) -> int:

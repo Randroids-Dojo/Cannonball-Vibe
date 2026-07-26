@@ -73,3 +73,45 @@ not self-approve it.
 
 - Record Q-029 after a sustained five-minute chase and five-minute cockpit comfort and
   readability review, then produce the final evidence JSON and mark P0-017 complete.
+
+## 2026-07-23 Windows closeout addendum
+
+The complete camera gate was rerun on Windows 11 x64 while the owner's Godot
+editor remained open. Camera behavior passed unchanged, but the required
+PlayGodot portion exposed three shared-harness portability and concurrency
+defects:
+
+- the normal-start package-boundary check assumed `jq`, which is absent from
+  this Windows Git Bash environment despite Python/uv already being required;
+- the boundary probe and live launcher reused the default telemetry file, so a
+  second official-engine process could collide with the open editor;
+- peer-reset cleanup after a server-side close could surface a Windows Proactor
+  socket exception after the test assertions had succeeded.
+
+The boundary check now resolves the generated package pointer through the
+already-pinned Python environment and passes a temporary telemetry path. Every
+`PlayGodotProcess` creates and removes an isolated runtime directory containing
+its own telemetry stream, and the hostile raw-server fixtures use their
+per-test temporary directories. Client shutdown still attempts the bounded
+`session.close` protocol request, then aborts the local transport after pending
+requests are resolved instead of awaiting a Windows peer-reset. No protocol,
+capability, listener, token, transcript, or release-boundary rule changed.
+
+Fresh verification:
+
+- `./scripts/verify-camera-handling.sh --all-scenarios`: passed six official
+  camera stages, save/resume reconstruction, the normal-start boundary, Ruff,
+  and both focused live camera tests.
+- `./scripts/verify-playgodot.sh`: passed the normal-start security boundary,
+  Ruff, and all 23 PlayGodot tests, including hostile-input and cooldown
+  coverage.
+- `./scripts/capture-scenario.sh ... --fixture representative-corridor
+  --camera-handling-review`: produced 362 frames at 60 FPS. Chase isolation,
+  collision compression, recovery, rebased-route framing, cockpit sightline,
+  and chase return were visually inspected.
+
+Review artifact:
+[Windows camera-handling contact sheet](../images/p0-017-camera-handling-review.png).
+
+This addendum closes the missing Windows machine-evidence slice only. It does
+not approve Q-029 or replace the required sustained human comfort review.

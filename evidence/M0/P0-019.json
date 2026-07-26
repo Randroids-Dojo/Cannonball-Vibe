@@ -1,0 +1,299 @@
+{
+  "schema_version": 1,
+  "task_id": "P0-019",
+  "milestone": "M0",
+  "status": "verified_local_dependency_blocked",
+  "recorded_at_utc": "2026-07-24T05:54:21.8411047Z",
+  "git_revision": "d343ab3778f2408c029cb0581e160c54ff018a80",
+  "platform": {
+    "os": "Microsoft Windows 10.0.26200",
+    "shell_platform": "MINGW64_NT-10.0-26200",
+    "architecture": "x64",
+    "physics_engine": "Godot Jolt",
+    "physics_hz": 120
+  },
+  "tool_versions": {
+    "dotnet_sdk": "10.0.102",
+    "godot": "4.7.1.stable.mono.official.a13da4feb",
+    "git": "2.55.0.windows.3",
+    "git_lfs": "3.7.1",
+    "uv": "0.9.24"
+  },
+  "inputs": [
+    {
+      "path": "global.json",
+      "sha256": "b5cb6301b93270502bf2cf84d72ef76d92e31148179662fca781e732926b2bc4"
+    },
+    {
+      "path": "scripts/tool-versions.sh",
+      "sha256": "20871ee7d7ad980568603673e7e2d0dd080b07f4ad909900f1f19404e796943b"
+    },
+    {
+      "path": "data/sources/fixtures/nhpn-boulder-us36.geojson",
+      "sha256": "f1021915997f7cb94a00db58feed86f8f9e13e1ac264fc0dd8ba1605d052ae9b"
+    },
+    {
+      "path": "data/sources/fixtures/nhpn-boulder-us36.manifest.json",
+      "sha256": "54da0c7b64e476909f9e62008f09f94abc622631971b6549d030b67778fe429b"
+    },
+    {
+      "path": "data/sources/fixtures/usgs-13-n40w106-boulder.tif",
+      "sha256": "16af3387633b982f3363f34c638f8ca72646b04ec18aa2dcab1189f0352af507"
+    },
+    {
+      "path": "data/sources/fixtures/usgs-13-n40w106-boulder.metadata.json",
+      "sha256": "d626a7d24235884e089effcd38b4d173a26a5427cbec3ffedc063963e55e1cea"
+    }
+  ],
+  "scenario": {
+    "deterministic_seed": null,
+    "fixture": "official-corridor",
+    "profiles": [
+      "Accessible",
+      "Balanced",
+      "Raw"
+    ],
+    "speed_bands_meters_per_second": {
+      "cruise": 31.0,
+      "push": 60.0,
+      "redline": 89.408
+    },
+    "fixtures": [
+      "straight",
+      "braking",
+      "lanechange",
+      "departure",
+      "barrier",
+      "incline",
+      "recovery",
+      "reset"
+    ],
+    "aggregate_runs": 67,
+    "scenario_arguments": [
+      "--fixture",
+      "official-corridor",
+      "--profile",
+      "vehicle-dynamics",
+      "--assist=all",
+      "--dynamics-speed-bands=all",
+      "--dynamics-fixtures=all"
+    ],
+    "long_route_seed": 20260718,
+    "long_route_arguments": [
+      "--distance-miles",
+      "500",
+      "--platform",
+      "current",
+      "--evidence",
+      ".tools/evidence/p0-019-long-route-final.json"
+    ]
+  },
+  "commands": [
+    {
+      "command": "./scripts/verify-vehicle-dynamics.sh --profiles all --speed-bands all --fixtures all",
+      "exit_code": 0
+    },
+    {
+      "command": "DOTNET_ROLL_FORWARD=Major dotnet test Cannonball.sln --filter 'FullyQualifiedName~VehicleDynamics'",
+      "exit_code": 0,
+      "passed": 15
+    },
+    {
+      "command": "./scripts/run-scenario.sh --distance-miles 500 --platform current --evidence .tools/evidence/p0-019-long-route-final.json",
+      "exit_code": 0
+    },
+    {
+      "command": "./scripts/validate-route-topology.sh --all-fixtures --evidence .tools/evidence/p0-019-topology-final.json",
+      "exit_code": 1,
+      "result": "All live topology scenarios and the nested M0 gate passed; the legacy P0-012 packager then rejected missing archived /tmp review movies under Windows Node path resolution."
+    },
+    {
+      "command": "./scripts/capture-scenario.sh /tmp/p0-019-vehicle-dynamics.avi --fixture representative-interchanges --vehicle-dynamics-review",
+      "exit_code": 0
+    },
+    {
+      "command": "./scripts/check.sh",
+      "exit_code": 0
+    },
+    {
+      "command": "bash -n scripts/run-scenario.sh scripts/capture-scenario.sh scripts/verify-vehicle-dynamics.sh",
+      "exit_code": 0
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0
+    }
+  ],
+  "metrics": {
+    "result_hash": "049bc1dcdd1bcedf209d7f8316bf42a73163b089bf81eeeb38940ad160c4c941",
+    "fixed_fps_result_hash": "5beb0f143aa599896c86765a4256329033cf3de4a47a498348cf361cdbee47e5",
+    "fixed_fps_values": [
+      30,
+      60,
+      144
+    ],
+    "maximum_straight_speed_loss_meters_per_second": 12.769,
+    "maximum_braking_distance_meters": 119.314,
+    "maximum_braking_seconds": 2.875,
+    "maximum_handling_roll_degrees": 6.138,
+    "maximum_handling_yaw_rate_radians_per_second": 0.798,
+    "maximum_handling_slip_degrees": 12.652,
+    "maximum_handling_lateral_acceleration_meters_per_second_squared": 16.358,
+    "maximum_incline_unsupported_frames": 101,
+    "maximum_incline_tilt_degrees": 5.767,
+    "maximum_incline_angular_speed_radians_per_second": 3.016,
+    "maximum_suspension_travel_meters": 0.617,
+    "maximum_suspension_bottom_out_frames": 31,
+    "maximum_departure_final_lateral_error_meters": 3.442,
+    "maximum_departure_recovery_frames": 1035,
+    "maximum_disturbed_recovery_frames": 452,
+    "long_route": {
+      "distance_miles": 500,
+      "profiles": 3,
+      "route_chunks": 455,
+      "route_transitions": 64,
+      "rebases": 1362,
+      "resume_comparisons": 9,
+      "missing_chunks": 0,
+      "hash_failures": 0,
+      "road_gaps": 0,
+      "collision_misses": 0,
+      "save_divergence": 0
+    },
+    "m0": {
+      "dotnet_build_warnings": 0,
+      "dotnet_build_errors": 0,
+      "xunit_passed": 108,
+      "map_pipeline_pytest_passed": 78,
+      "playgodot_unit_pytest_passed": 12,
+      "ruff_passed": true,
+      "godot_smoke_passed": true
+    }
+  },
+  "acceptance": [
+    {
+      "criterion": "coherent high-speed force model through at least 200 mph",
+      "status": "passed",
+      "comparison": "67 runs completed through 89.408 m/s with declared braking, support, tilt, angular-speed, suspension, and recovery limits enforced"
+    },
+    {
+      "criterion": "materially distinct deterministic assist profiles that preserve intent",
+      "status": "passed",
+      "comparison": "three bounded profile tunings completed; no route-following steering was added; Balanced/push replay matched within 0.01 units"
+    },
+    {
+      "criterion": "declared handling bands at cruise, push, and redline",
+      "status": "passed",
+      "comparison": "worst handling roll 6.138 degrees, yaw 0.798 rad/s, slip 12.652 degrees, lateral acceleration 16.358 m/s2; all band-specific limits passed"
+    },
+    {
+      "criterion": "grades, lane transitions, departure and re-entry, barriers, spins, collisions, and reset recover safely",
+      "status": "passed",
+      "comparison": "all eight fixtures passed across the declared matrix; representative route topology also passed live at up to 161.1 mph"
+    },
+    {
+      "criterion": "frame rate, streaming, rebasing, save-resume, and replay equivalence",
+      "status": "passed",
+      "comparison": "30/60/144 FPS hashes matched; 500-mile run recorded 1,362 rebases and nine equivalent resumes with zero route or save failures"
+    },
+    {
+      "criterion": "remain a forgiving game model",
+      "status": "passed",
+      "comparison": "no simulation-grade drivetrain, tire-carcass, thermal, or crash-reconstruction system was introduced"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "src/Cannonball.Core/Simulation/Vehicle/VehicleDynamicsForces.cs",
+      "sha256": "867d80892d10a8489ef342feaea0a6d6941ba4adb2886167b2bf57ab258663b5"
+    },
+    {
+      "path": "tests/Cannonball.Core.Tests/VehicleDynamicsForcesTests.cs",
+      "sha256": "e8fe0c8633620184bf6ca668ec6a68022fb47c9dd1d9b136c84ca4793e742927"
+    },
+    {
+      "path": "game/Vehicle/CannonballVehicle.cs",
+      "sha256": "33df1c5ed251f71cc618aacdf33337475f6d5af4c1534127d10ef51f009c6c2c"
+    },
+    {
+      "path": "game/Vehicle/VehicleDynamicsProfile.cs",
+      "sha256": "45bf73a0b3ab446996d74014a97532b79af2b73b047deb8a76893db629fa2a2e"
+    },
+    {
+      "path": "game/Automation/VehicleDynamicsScenario.cs",
+      "sha256": "3cbf21d9bb795cf6bd5d5ae129f6f2b2c8464a262e60ea0b11f7b15bc8caf24b"
+    },
+    {
+      "path": "game/Main.cs",
+      "sha256": "9aa7334b6a0c36017571d5f2577f11b323658261596b9542faf338204f63919a"
+    },
+    {
+      "path": "scripts/verify-vehicle-dynamics.sh",
+      "sha256": "e1b67892f7ffa0d9ae30ee16befc745c3a0f5cf8e3ac79efede6637d71124dc4"
+    },
+    {
+      "path": "scripts/run-scenario.sh",
+      "sha256": "ac4825ec1c694bd83e10f84cd157dd6a3398d1212f35b20782b79cfd66a7a4d2"
+    },
+    {
+      "path": "scripts/capture-scenario.sh",
+      "sha256": "1cf3708ba55e10c8bc642a482710f6cef5514097bdf1401c6e215d4e3767d2c5"
+    },
+    {
+      "path": "docs/DELIVERY_LEDGER.json",
+      "sha256": "aa6d9ead44e8efa992c483cce2dcfed808bfc23f931c79dae44552663402a2ae"
+    },
+    {
+      "path": "docs/audits/2026-07-23-p0-019-vehicle-dynamics.md",
+      "sha256": "5980d745f0ec2e1942bb63f3490dae88ace17475439463f1f64df3a4a5471fd3"
+    },
+    {
+      "path": "docs/QUESTIONS_FOR_RANDROID_2026-07-23_AUTONOMOUS_CLOSEOUT.md",
+      "sha256": "82defb6235756ea66aec7989d607ed551e9bdf9042ce601f3620c15610a9b624"
+    },
+    {
+      "path": "reports/p0-019/matrix.log",
+      "sha256": "68e7d64e36a569a1487d886d2f1fa32a1f6f4c22dcbcf2d36830e1cd138964f8"
+    },
+    {
+      "path": "reports/p0-019/fps-30.log",
+      "sha256": "ae46b42ac2a5938999e865077868fc8595c75f32ab74ee9370fe24342c7c1608"
+    },
+    {
+      "path": "reports/p0-019/fps-60.log",
+      "sha256": "3b2a223862acf067f9a4ac802d4af250211f30598e4dabc9c804dbc2118d21d1"
+    },
+    {
+      "path": "reports/p0-019/fps-144.log",
+      "sha256": "51723d8caeea69c9743d2e9d4db085a3318db32842c4b8e50a5b4878bf96a20b"
+    },
+    {
+      "path": "reports/m0/summary.json",
+      "sha256": "19b57ef604586b9c7288e89ce76c33d652f965ef2a73585ce6ec25818c0c62cd"
+    },
+    {
+      "path": ".tools/evidence/p0-019-long-route-final.json",
+      "sha256": "182df8316d0f6896f26556dedeb03498fd0fc3f2b6826f3dc7d5a999a21ad952"
+    },
+    {
+      "path": "/tmp/p0-019-vehicle-dynamics.avi",
+      "sha256": "e63acc4e9dc586fd4624fad31a2a4c00ca4fa700f97b0d538ed929ac4d50d3b4",
+      "bytes": 12957102
+    }
+  ],
+  "failure_handling": {
+    "retry_count": 10,
+    "failure_logs": [
+      "reports/p0-019-targeted/matrix.log",
+      "reports/p0-019-incline-characterization/matrix.log",
+      "docs/audits/2026-07-23-p0-019-vehicle-dynamics.md#adversarial-review"
+    ],
+    "recovery_result": "The watchdog was expanded for the full corpus; missing fixture and hash coverage was added; suspension instrumentation exposed the landing envelope; rejected spring/load variants were reverted; the final fixed-band aggregate and M0 gate passed."
+  },
+  "adversarial_review": "docs/audits/2026-07-23-p0-019-vehicle-dynamics.md#adversarial-review",
+  "dependency_blockers": [
+    "P0-018 remains in progress",
+    "P0-017 Q-029 human camera comfort and readability gate remains pending"
+  ],
+  "human_gate": null
+}

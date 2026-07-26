@@ -26,6 +26,10 @@ and final art direction behind a human quality gate.
   [signing and pavement-marking resources][cdot-signing]. These are the next
   authority for a corridor-specific typography, layout, support, and placement
   pass.
+- FHWA's [2024 Standard Highway Signs release status][fhwa-shs] identifies
+  Release 5 as the current source for M1-1 Interstate and M1-4 U.S. Route
+  assembly details. The procedural shield meshes use those sheets as
+  proportion references without embedding or redistributing the source artwork.
 
 ## Decisions applied to the technical kit
 
@@ -35,10 +39,13 @@ and final art direction behind a human quality gate.
    lane status only in body copy.
 3. Fuel and food information uses separate blue service panels. A highway
    transfer does not use the service-blue treatment.
-4. US and Interstate route references use different procedural silhouettes;
-   Interstate shields also carry the red header cue.
+4. US and Interstate route references use separate procedural M1-4 and M1-1
+   silhouettes; Interstate shields carry a white border, blue lower field, red
+   header, and divider.
 5. Lane arrows, exit number, route shields, destinations, and service panels
-   are separate semantic nodes under the stable sign root.
+   are separate semantic nodes under the stable sign root. Lane arrows are
+   geometry rather than font glyphs and use upward diagonals for left/right
+   exits.
 6. Pavement markings, signs, and raised markers use reusable emissive materials
    as the current game approximation of retroreflection.
 7. The same procedural generator can swap between `production` and `graybox`
@@ -51,8 +58,10 @@ and final art direction behind a human quality gate.
   for a licensed, validated highway-sign type system.
 - The boards are scaled for current gameplay review distances, not certified
   field installation dimensions.
-- Shield silhouettes are project-original approximations and still need exact
-  shape, spacing, numeral, and legal/brand review.
+- Shield silhouettes now follow the official M1-1 and M1-4 proportion sheets,
+  but remain project-original procedural meshes rather than certified sign
+  drawings. Exact typography, numeral spacing, installation dimensions, and
+  legal/brand review remain open.
 - Supports, breakaway hardware, bridges, overpasses, retaining walls, drainage,
   vegetation, terrain materials, weathering, decals, and regional roadside
   furniture remain production work.
@@ -68,3 +77,4 @@ not be described as MUTCD- or CDOT-compliant traffic-control engineering.
 [mutcd-2e]: https://mutcd.fhwa.dot.gov/pdfs/11th_Edition/Chapter2e.pdf
 [cdot-sign-manual]: https://www.codot.gov/safety/traffic-safety/assets/documents/Sign%20Design%20Manual.pdf
 [cdot-signing]: https://www.codot.gov/safety/traffic-safety/design/signing-and-markings
+[fhwa-shs]: https://mutcd.fhwa.dot.gov/kno-shs_2024-release-status/

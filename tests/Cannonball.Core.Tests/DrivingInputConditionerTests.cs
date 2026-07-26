@@ -80,6 +80,176 @@ public sealed class DrivingInputConditionerTests
     }
 
     [Theory]
+    [InlineData(AssistProfile.Accessible, 0.16)]
+    [InlineData(AssistProfile.Balanced, 0.12)]
+    [InlineData(AssistProfile.Raw, 0.08)]
+    public void ControllerTriggersRejectWrongPolarityAndProfileDeadzone(
+        AssistProfile profile,
+        double deadzone)
+    {
+        var conditioner = new DrivingInputConditioner();
+
+        var wrongPolarity = conditioner.Step(
+            new RawDrivingInput(-1, -1, 0, 0, 0, DrivingInputDevice.Controller),
+            0,
+            1,
+            profile);
+        var atDeadzone = conditioner.Step(
+            new RawDrivingInput(deadzone, deadzone, 0, 0, 0, DrivingInputDevice.Controller),
+            0,
+            1,
+            profile);
+
+        Assert.Equal(0, wrongPolarity.Throttle);
+        Assert.Equal(0, wrongPolarity.ServiceBrake);
+        Assert.Equal(0, atDeadzone.Throttle);
+        Assert.Equal(0, atDeadzone.ServiceBrake);
+    }
+
+    [Theory]
+    [InlineData(AssistProfile.Accessible)]
+    [InlineData(AssistProfile.Balanced)]
+    [InlineData(AssistProfile.Raw)]
+    public void ControllerTriggersPreserveIndependentFullScaleAxes(AssistProfile profile)
+    {
+        var accelerator = new DrivingInputConditioner();
+        var braking = new DrivingInputConditioner();
+
+        ConditionedDrivingInput throttle = default;
+        ConditionedDrivingInput brake = default;
+        for (var frame = 0; frame < 4; frame++)
+        {
+            throttle = accelerator.Step(
+                new RawDrivingInput(1, 0, 0, 0, 0, DrivingInputDevice.Controller),
+                10,
+                0.1,
+                profile);
+            brake = braking.Step(
+                new RawDrivingInput(0, 1, 0, 0, 0, DrivingInputDevice.Controller),
+                10,
+                0.1,
+                profile);
+        }
+
+        Assert.Equal(1, throttle.Throttle);
+        Assert.Equal(0, throttle.ServiceBrake);
+        Assert.Equal(0, brake.Throttle);
+        Assert.Equal(1, brake.ServiceBrake);
+    }
+
+    [Fact]
+    public void LeftTriggerBrakesForwardThenTransitionsSmoothlyIntoReverseNearZero()
+    {
+        var conditioner = new DrivingInputConditioner();
+        var leftTrigger = new RawDrivingInput(
+            0,
+            1,
+            0,
+            0,
+            0,
+            DrivingInputDevice.Controller);
+
+        var forwardBraking = conditioner.Step(
+            leftTrigger,
+            12,
+            0.1,
+            AssistProfile.Balanced);
+        var aboveThreshold = conditioner.Step(
+            leftTrigger,
+            DrivingInputConditioner.BrakeToReverseEnterSpeedMetersPerSecond + 0.01,
+            0.1,
+            AssistProfile.Balanced);
+        var handoff = conditioner.Step(
+            leftTrigger,
+            DrivingInputConditioner.BrakeToReverseEnterSpeedMetersPerSecond,
+            0.1,
+            AssistProfile.Balanced);
+        var reversing = conditioner.Step(
+            leftTrigger,
+            -0.1,
+            0.1,
+            AssistProfile.Balanced);
+
+        Assert.Equal(0, forwardBraking.Reverse);
+        Assert.True(forwardBraking.ServiceBrake > 0);
+        Assert.False(forwardBraking.BrakeTriggerReverseEngaged);
+        Assert.Equal(0, aboveThreshold.Reverse);
+        Assert.True(aboveThreshold.ServiceBrake > 0);
+        Assert.False(aboveThreshold.BrakeTriggerReverseEngaged);
+        Assert.InRange(handoff.ServiceBrake, 0, aboveThreshold.ServiceBrake);
+        Assert.InRange(handoff.Reverse, 0.01, 0.99);
+        Assert.True(handoff.BrakeTriggerReverseEngaged);
+        Assert.Equal(0, reversing.ServiceBrake);
+        Assert.True(reversing.Reverse > handoff.Reverse);
+        Assert.True(reversing.BrakeTriggerReverseEngaged);
+    }
+
+    [Fact]
+    public void LeftTriggerReverseHysteresisDoesNotChatterAroundZero()
+    {
+        var conditioner = new DrivingInputConditioner();
+        var leftTrigger = new RawDrivingInput(
+            0,
+            1,
+            0,
+            0,
+            0,
+            DrivingInputDevice.Controller);
+        var speeds = new[] { 0.3, 0.42, -0.08, 0.55, 0.2, -0.2, 0.7 };
+
+        foreach (var speed in speeds)
+        {
+            var result = conditioner.Step(
+                leftTrigger,
+                speed,
+                0.1,
+                AssistProfile.Balanced);
+            Assert.True(result.BrakeTriggerReverseEngaged);
+            Assert.Equal(0, result.ServiceBrake);
+            Assert.True(result.Reverse > 0);
+        }
+
+        var safetyReturnToBrake = conditioner.Step(
+            leftTrigger,
+            DrivingInputConditioner.BrakeToReverseExitSpeedMetersPerSecond + 0.01,
+            0.1,
+            AssistProfile.Balanced);
+        Assert.False(safetyReturnToBrake.BrakeTriggerReverseEngaged);
+        Assert.Equal(0, safetyReturnToBrake.Reverse);
+        Assert.True(safetyReturnToBrake.ServiceBrake > 0);
+    }
+
+    [Fact]
+    public void ReleasingLeftTriggerRampsReverseOutAndSecondaryReverseRemainsAvailable()
+    {
+        var conditioner = new DrivingInputConditioner();
+        var leftTriggerReverse = conditioner.Step(
+            new RawDrivingInput(0, 1, 0, 0, 0, DrivingInputDevice.Controller),
+            0,
+            0.1,
+            AssistProfile.Balanced);
+        var released = conditioner.Step(
+            new RawDrivingInput(0, 0, 0, 0, 0, DrivingInputDevice.Controller),
+            -0.1,
+            1.0 / 120,
+            AssistProfile.Balanced);
+
+        conditioner.Reset();
+        var secondaryReverse = conditioner.Step(
+            new RawDrivingInput(0, 0, 1, 0, 0, DrivingInputDevice.Controller),
+            0,
+            0.1,
+            AssistProfile.Balanced);
+
+        Assert.True(leftTriggerReverse.Reverse > 0);
+        Assert.True(leftTriggerReverse.BrakeTriggerReverseEngaged);
+        Assert.InRange(released.Reverse, 0, leftTriggerReverse.Reverse);
+        Assert.False(released.BrakeTriggerReverseEngaged);
+        Assert.True(secondaryReverse.Reverse > 0);
+        Assert.False(secondaryReverse.BrakeTriggerReverseEngaged);
+    }
+
+    [Theory]
     [InlineData(AssistProfile.Accessible, 3.0)]
     [InlineData(AssistProfile.Balanced, 4.5)]
     [InlineData(AssistProfile.Raw, 8.0)]

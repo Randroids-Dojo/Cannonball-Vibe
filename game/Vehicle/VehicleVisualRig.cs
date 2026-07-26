@@ -4,6 +4,8 @@ namespace Cannonball.Game.Vehicle;
 
 public sealed partial class VehicleVisualRig : Node3D
 {
+    public const uint CockpitExteriorRenderLayer = 1u << 19;
+
     public static readonly string[] RequiredSemanticNodes =
     [
         "AssetRoot", "Chassis", "Visual_LOD0", "Visual_LOD1", "Visual_LOD2",
@@ -22,6 +24,7 @@ public sealed partial class VehicleVisualRig : Node3D
     private readonly Node3D[] _suspensionAnchors = new Node3D[4];
     private readonly Vector3[] _suspensionRestPositions = new Vector3[4];
     private readonly List<MeshInstance3D> _damageIndicators = [];
+    private readonly Godot.Collections.Dictionary _automationState = new();
     private Node3D _lod0 = null!;
     private Node3D _lod1 = null!;
     private Node3D _lod2 = null!;
@@ -47,6 +50,7 @@ public sealed partial class VehicleVisualRig : Node3D
         ResolvedSemanticNodeCount = resolved.Count;
         ContractResolved = true;
         SetMeta("vehicle_visual_rig_ready", true);
+        SetMeta("automation_state", _automationState);
         _lod0 = (Node3D)resolved["Visual_LOD0"];
         _lod1 = (Node3D)resolved["Visual_LOD1"];
         _lod2 = (Node3D)resolved["Visual_LOD2"];
@@ -62,6 +66,8 @@ public sealed partial class VehicleVisualRig : Node3D
         BuildDamageIndicators(resolved);
         SetLod(0);
         SetDamageHighlight(false);
+        _automationState["cockpit_excluded_mesh_count"] = 0;
+        _automationState["cockpit_exterior_layer"] = (long)CockpitExteriorRenderLayer;
     }
 
     public void ApplyPhysicsState(
@@ -117,6 +123,27 @@ public sealed partial class VehicleVisualRig : Node3D
         {
             indicator.Visible = visible;
         }
+    }
+
+    public void ConfigureCockpitCamera(Camera3D camera)
+    {
+        ArgumentNullException.ThrowIfNull(camera);
+        var excludedNames = new[] { "LOD0_Cabin", "LOD0_RoofSpine", "LOD0_Interior" };
+        var excludedCount = 0;
+        foreach (var name in excludedNames)
+        {
+            if (FindDescendant(this, name) is not GeometryInstance3D geometry)
+            {
+                throw new InvalidOperationException(
+                    $"Hero GT cockpit exclusion mesh '{name}' is missing.");
+            }
+            geometry.Layers = CockpitExteriorRenderLayer;
+            excludedCount++;
+        }
+        camera.CullMask &= ~CockpitExteriorRenderLayer;
+        _automationState["cockpit_excluded_mesh_count"] = excludedCount;
+        _automationState["cockpit_camera_cull_mask"] = (long)camera.CullMask;
+        _automationState["chase_exterior_geometry_visible"] = true;
     }
 
     public VehicleVisualSnapshot CaptureSnapshot() => new(

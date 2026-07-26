@@ -179,8 +179,11 @@ distance gate is not a claim of observed geography or a substitute for the
 
 ## Input and platform plan
 
-Keyboard and standard controller paths are active. Input actions use a 0.12
-deadzone and separate trigger axes. M1 must add an in-game calibration screen
+Keyboard and standard controller paths are active. Xbox-style and Steam Input
+Gamepad actions use separate trigger axes; steering and triggers apply the selected
+profile's 0.16, 0.12, or 0.08 deadzone before conditioning. The complete mapping
+and Steam Controller setup boundary are documented in
+[CONTROLLER_CONTROLS.md](CONTROLLER_CONTROLS.md). M1 must add an in-game calibration screen
 and validate one common force-feedback-capable wheel on Windows; force feedback
 itself is outside the MVP unless testing justifies it.
 

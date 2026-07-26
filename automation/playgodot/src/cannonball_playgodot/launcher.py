@@ -8,6 +8,7 @@ import platform
 import secrets
 import shutil
 import signal
+import tempfile
 from collections import deque
 from pathlib import Path
 
@@ -41,6 +42,7 @@ class PlayGodotProcess:
         self.client: PlayGodotClient | None = None
         self.output: deque[str] = deque(maxlen=1_000)
         self._drain_task: asyncio.Task[None] | None = None
+        self._runtime_directory: Path | None = None
 
     @staticmethod
     def _godot_from_environment() -> Path:
@@ -67,6 +69,9 @@ class PlayGodotProcess:
         if self.transcript is not None:
             self.transcript.parent.mkdir(parents=True, exist_ok=True)
             environment["PLAYGODOT_TRANSCRIPT"] = str(self.transcript.resolve())
+        self._runtime_directory = Path(
+            tempfile.mkdtemp(prefix="cannonball-playgodot-")
+        ).resolve()
         command = [
             str(self.godot_bin),
             "--audio-driver",
@@ -79,17 +84,18 @@ class PlayGodotProcess:
             "--",
             "--playgodot",
             f"--route-package={self.route_package}",
+            f"--telemetry-path={self._runtime_directory / 'telemetry.jsonl'}",
         ]
         if platform.system() == "Linux" and os.environ.get("PLAYGODOT_XVFB") == "1":
             command = ["xvfb-run", "-a", *command]
-        self.process = await asyncio.create_subprocess_exec(
-            *command,
-            stdout=asyncio.subprocess.PIPE,
-            stderr=asyncio.subprocess.STDOUT,
-            env=environment,
-            start_new_session=os.name == "posix",
-        )
         try:
+            self.process = await asyncio.create_subprocess_exec(
+                *command,
+                stdout=asyncio.subprocess.PIPE,
+                stderr=asyncio.subprocess.STDOUT,
+                env=environment,
+                start_new_session=os.name == "posix",
+            )
             ready = await asyncio.wait_for(self._read_ready(), self.startup_timeout)
             if ready.get("address") != "127.0.0.1" or ready.get("protocol") != "1.0":
                 raise ProtocolError("PlayGodot advertised an unsafe or incompatible endpoint")
@@ -155,6 +161,9 @@ class PlayGodotProcess:
         except asyncio.CancelledError as error:
             cancellation = error
             await cleanup
+        if self._runtime_directory is not None:
+            shutil.rmtree(self._runtime_directory, ignore_errors=True)
+            self._runtime_directory = None
         if cancellation is not None:
             raise cancellation
 
