@@ -188,7 +188,7 @@ def test_semantics_survive_flatbuffer_boundary_with_map_lods(tmp_path: Path) -> 
     assert root.RouteIdentitiesLength() == 1
     assert root.ExitsLength() == 1
     assert root.MilepointAnchorsLength() == 6
-    assert root.RoadsideMarkersLength() == 3
+    assert root.RoadsideMarkersLength() == 0
     assert root.SimplifiedMapGeometryLength() == 9
     assert root.Exits(0).DestinationsLength() == 2
     assert root.Exits(0).ServicesLength() == 2
@@ -464,10 +464,38 @@ def test_marker_identity_must_belong_to_its_edge() -> None:
     identity = deepcopy(package["semantics"]["route_identities"][0])
     identity["id"] = "other-identity"
     package["semantics"]["route_identities"].append(identity)
-    package["semantics"]["roadside_markers"][0]["route_identity_id"] = identity["id"]
+    anchor = package["semantics"]["milepoint_anchors"][0]
+    package["semantics"]["roadside_markers"].append(
+        {
+            "id": "observed-marker",
+            "kind": "mile",
+            "route_identity_id": identity["id"],
+            "edge_id": anchor["edge_id"],
+            "distance_meters": anchor["distance_meters"],
+            "display_text": str(anchor["value_miles"]),
+            "provenance": anchor["provenance"],
+        }
+    )
 
     with pytest.raises(ValueError, match="route identity does not belong to edge"):
         validate_route_semantics(package)
+
+
+def test_us36_nhpn_milepoint_21_6_does_not_invent_a_roadside_sign(
+    tmp_path: Path,
+) -> None:
+    package = build_route_graph(
+        Path("data/sources/fixtures/nhpn-boulder-us36.geojson"),
+        Path("data/sources/fixtures/nhpn-boulder-us36.manifest.json"),
+        tmp_path / "us36-audit",
+        catalog_path=Path("data/sources/catalog.json"),
+    )
+
+    assert any(
+        anchor["value_miles"] == 21.6
+        for anchor in package["semantics"]["milepoint_anchors"]
+    )
+    assert package["semantics"]["roadside_markers"] == []
 
 
 def test_geopackage_contains_equivalent_semantic_audit_tables(tmp_path: Path) -> None:

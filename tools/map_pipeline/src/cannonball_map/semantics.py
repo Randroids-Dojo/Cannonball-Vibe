@@ -140,18 +140,9 @@ def attach_derived_route_semantics(package: dict[str, Any]) -> dict[str, Any]:
                     "provenance": source_provenance,
                 }
             )
-            if suffix == "start":
-                roadside_markers.append(
-                    {
-                        "id": _stable_id("roadside-marker", (anchor_id, "mile")),
-                        "kind": "mile",
-                        "route_identity_id": identity_id,
-                        "edge_id": edge_id,
-                        "distance_meters": position,
-                        "display_text": _format_mile(value),
-                        "provenance": source_provenance,
-                    }
-                )
+            # NHPN BEGMP/ENDMP values establish route-reference anchors, not
+            # observations of physical roadside signs. Keep them available for
+            # audit and topology work, but do not invent a player-facing marker.
 
         map_geometry.extend(_map_lods(edge))
 
@@ -877,10 +868,6 @@ def _section_sort_key(section: dict[str, Any]) -> tuple[str, float, float, str]:
 
 def _shield(system: str) -> str:
     return {"US": "us", "I": "interstate", "CO": "state"}.get(system, "generic")
-
-
-def _format_mile(value: float) -> str:
-    return str(int(value)) if float(value).is_integer() else f"{value:.1f}".rstrip("0").rstrip(".")
 
 
 def _optional_finite(value: Any) -> float | None:
