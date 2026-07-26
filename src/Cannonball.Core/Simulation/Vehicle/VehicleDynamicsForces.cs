@@ -87,28 +87,78 @@ public static class VehicleDynamicsForces
 
     public static double LateralTireForceNewtons(
         double lateralSpeedMetersPerSecond,
-        double gripNewtonsPerMeterPerSecond,
+        double longitudinalSpeedMetersPerSecond,
+        double corneringStiffnessNewtonsPerRadian,
         double responseScale,
+        double normalLoadNewtons,
+        double frictionCoefficient,
         double vehicleMassKilograms,
         double maximumLateralAccelerationMetersPerSecondSquared,
         int wheelCount)
     {
         RequireFinite(lateralSpeedMetersPerSecond, nameof(lateralSpeedMetersPerSecond));
+        RequireFinite(longitudinalSpeedMetersPerSecond,
+            nameof(longitudinalSpeedMetersPerSecond));
         RequireFiniteNonNegative(
-            gripNewtonsPerMeterPerSecond,
-            nameof(gripNewtonsPerMeterPerSecond));
+            corneringStiffnessNewtonsPerRadian,
+            nameof(corneringStiffnessNewtonsPerRadian));
         RequireFiniteNonNegative(responseScale, nameof(responseScale));
+        RequireFiniteNonNegative(normalLoadNewtons, nameof(normalLoadNewtons));
+        RequireFiniteNonNegative(frictionCoefficient, nameof(frictionCoefficient));
         RequireFinitePositive(vehicleMassKilograms, nameof(vehicleMassKilograms));
         RequireFinitePositive(
             maximumLateralAccelerationMetersPerSecondSquared,
             nameof(maximumLateralAccelerationMetersPerSecondSquared));
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(wheelCount);
 
-        var requested = -lateralSpeedMetersPerSecond *
-            gripNewtonsPerMeterPerSecond * responseScale;
-        var maximum = vehicleMassKilograms *
+        var referenceLongitudinalSpeed = Math.Max(Math.Abs(longitudinalSpeedMetersPerSecond), 0.5);
+        var slipAngleRadians = Math.Atan2(
+            lateralSpeedMetersPerSecond,
+            referenceLongitudinalSpeed);
+        var requested = -slipAngleRadians *
+            corneringStiffnessNewtonsPerRadian * responseScale;
+        var chassisMaximum = vehicleMassKilograms *
             maximumLateralAccelerationMetersPerSecondSquared / wheelCount;
+        var loadMaximum = normalLoadNewtons * frictionCoefficient;
+        var maximum = Math.Min(chassisMaximum, loadMaximum);
         return Math.Clamp(requested, -maximum, maximum);
+    }
+
+    public static double CoastResistanceForceNewtons(
+        double speedMetersPerSecond,
+        double vehicleMassKilograms,
+        double gravityMetersPerSecondSquared,
+        double rollingResistanceCoefficient,
+        double engineBrakingBaseNewtons,
+        double engineBrakingNewtonsPerMeterPerSecond,
+        double propulsionInput,
+        double contactRatio)
+    {
+        RequireFiniteNonNegative(speedMetersPerSecond, nameof(speedMetersPerSecond));
+        RequireFinitePositive(vehicleMassKilograms, nameof(vehicleMassKilograms));
+        RequireFinitePositive(gravityMetersPerSecondSquared,
+            nameof(gravityMetersPerSecondSquared));
+        RequireFiniteNonNegative(rollingResistanceCoefficient,
+            nameof(rollingResistanceCoefficient));
+        RequireFiniteNonNegative(engineBrakingBaseNewtons,
+            nameof(engineBrakingBaseNewtons));
+        RequireFiniteNonNegative(engineBrakingNewtonsPerMeterPerSecond,
+            nameof(engineBrakingNewtonsPerMeterPerSecond));
+        RequireFiniteNonNegative(propulsionInput, nameof(propulsionInput));
+        RequireFiniteNonNegative(contactRatio, nameof(contactRatio));
+
+        if (speedMetersPerSecond < 0.05 || contactRatio <= 0)
+        {
+            return 0;
+        }
+
+        var boundedContact = Math.Clamp(contactRatio, 0, 1);
+        var rolling = vehicleMassKilograms * gravityMetersPerSecondSquared *
+            rollingResistanceCoefficient;
+        var engineBraking = (engineBrakingBaseNewtons +
+                speedMetersPerSecond * engineBrakingNewtonsPerMeterPerSecond) *
+            (1 - Math.Clamp(propulsionInput, 0, 1));
+        return (rolling + engineBraking) * boundedContact;
     }
 
     private static void RequireFinite(double value, string parameterName)

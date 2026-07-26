@@ -18,6 +18,11 @@ public sealed class VehicleDynamicsScenario
     private const int MaximumBrakingFrames = 1_200;
     private const int MaximumInclineFrames = 720;
     private const int MaximumRecoveryFrames = 480;
+    private const int SlowTurnSteeringFrames = 90;
+    private const int ModerateTurnHalfFrames = 36;
+    private const int SwerveHalfCycleFrames = 30;
+    private const int SwerveHalfCycles = 6;
+    private const float SlowTurnEntrySpeedMetersPerSecond = 12;
     private const float FlatCourseCenterX = -250;
     private const float FlatCourseHalfWidth = 120;
     private const float DepartureCourseCenterX = -550;
@@ -43,6 +48,7 @@ public sealed class VehicleDynamicsScenario
     private readonly IReadOnlyList<RunDefinition> _runs;
     private readonly Godot.Collections.Dictionary _automationState = new();
     private readonly List<VehicleDynamicsRunResult> _results = [];
+    private readonly DrivingInputConditioner _keyboardConditioner = new();
     private int _runIndex;
     private int _frames;
     private int _stableRecoveryFrames;
@@ -62,6 +68,15 @@ public sealed class VehicleDynamicsScenario
     private int _departureStableFrames;
     private Vector3 _startPosition;
     private Vector3 _previousVelocity;
+    private float _conditionedThrottle;
+    private float _maximumSpeedAfterThrottleRelease;
+    private float _currentRollDegrees;
+    private float _currentSlipAngleDegrees;
+    private float _currentHeadingErrorDegrees;
+    private float _maximumBrakeInput;
+    private int _throttleReleaseFrames = -1;
+    private int _maneuverRecoveryFrame = -1;
+    private int _maneuverStableFrames;
 
     public VehicleDynamicsScenario(
         Node parent,
@@ -142,7 +157,11 @@ public sealed class VehicleDynamicsScenario
             $"lateral_accel_mps2={result.MaximumLateralAccelerationMetersPerSecondSquared:0.000} " +
             $"suspension_travel_m={result.SuspensionTravelMeters:0.000} " +
             $"bottom_out_frames={result.MaximumSuspensionBottomOutFrames} " +
-            $"recovery_frames={result.RecoveryFrames}");
+            $"recovery_frames={result.RecoveryFrames} " +
+            $"throttle_release_frames={result.ThrottleReleaseFrames} " +
+            $"post_release_speed_gain_mps={result.MaximumPostReleaseSpeedGainMetersPerSecond:0.000} " +
+            $"final_heading_error_deg={result.FinalHeadingErrorDegrees:0.000} " +
+            $"maximum_brake_input={result.MaximumBrakeInput:0.000}");
 
         if (_runIndex + 1 < _runs.Count)
         {
@@ -174,7 +193,8 @@ public sealed class VehicleDynamicsScenario
         _vehicle.AutomationInputOverride = NeutralInput;
         var basis = Basis.Identity;
         var position = new Vector3(FlatCourseCenterX, 0.78f, 400);
-        var linearVelocity = Vector3.Forward * run.SpeedBand.SpeedMetersPerSecond;
+        var entrySpeed = EntrySpeedMetersPerSecond(run);
+        var linearVelocity = Vector3.Forward * entrySpeed;
         var angularVelocity = Vector3.Zero;
         switch (run.Fixture)
         {
@@ -225,12 +245,26 @@ public sealed class VehicleDynamicsScenario
         _vehicle.ChaseCameraRig.SnapToTarget();
         _startPosition = position;
         _previousVelocity = linearVelocity;
+        _maximumSpeedAfterThrottleRelease = entrySpeed;
+        _keyboardConditioner.Reset();
+        if (run.Fixture == VehicleDynamicsFixture.CoastDown)
+        {
+            for (var frame = 0; frame < PhysicsTicksPerSecond; frame++)
+            {
+                _keyboardConditioner.Step(
+                    new RawDrivingInput(1, 0, 0, 0, 0, DrivingInputDevice.Keyboard),
+                    entrySpeed,
+                    1.0 / PhysicsTicksPerSecond,
+                    run.Profile);
+            }
+            _conditionedThrottle = (float)_keyboardConditioner.Current.Throttle;
+        }
     }
 
     private void UpdateScriptedInput(int runFrame)
     {
         var run = CurrentRun;
-        _vehicle.AutomationInputOverride = run.Fixture switch
+        var input = run.Fixture switch
         {
             VehicleDynamicsFixture.Braking => new DriveInputState(
                 0, 1, 0, 0, 0, false, false),
@@ -240,8 +274,51 @@ public sealed class VehicleDynamicsScenario
                 0, 0, 0, 0, DepartureSteering(run.SpeedBand), false, false),
             VehicleDynamicsFixture.Incline => new DriveInputState(
                 0.35f, 0, 0, 0, 0, false, false),
+            VehicleDynamicsFixture.SlowTurn or
+            VehicleDynamicsFixture.ModerateTurn or
+            VehicleDynamicsFixture.CoastDown or
+            VehicleDynamicsFixture.AlternatingSwerve =>
+                ConditionKeyboardInput(run, runFrame),
             _ => NeutralInput,
         };
+        _vehicle.AutomationInputOverride = input;
+        _maximumBrakeInput = Math.Max(_maximumBrakeInput, Math.Max(input.Brake, input.Handbrake));
+    }
+
+    private DriveInputState ConditionKeyboardInput(RunDefinition run, int runFrame)
+    {
+        var rawSteering = run.Fixture switch
+        {
+            VehicleDynamicsFixture.SlowTurn => runFrame < SlowTurnSteeringFrames ? 1 : 0,
+            VehicleDynamicsFixture.ModerateTurn => runFrame < ModerateTurnHalfFrames
+                ? 1
+                : runFrame < ModerateTurnHalfFrames * 2 ? -1 : 0,
+            VehicleDynamicsFixture.AlternatingSwerve =>
+                runFrame < SwerveHalfCycleFrames * SwerveHalfCycles
+                    ? (runFrame / SwerveHalfCycleFrames) % 2 == 0 ? 1 : -1
+                    : 0,
+            _ => 0,
+        };
+        var conditioned = _keyboardConditioner.Step(
+            new RawDrivingInput(
+                0,
+                0,
+                0,
+                0,
+                rawSteering,
+                DrivingInputDevice.Keyboard),
+            _vehicle.LinearVelocity.Dot(-_vehicle.GlobalBasis.Z.Normalized()),
+            1.0 / PhysicsTicksPerSecond,
+            run.Profile);
+        _conditionedThrottle = (float)conditioned.Throttle;
+        return new DriveInputState(
+            (float)conditioned.Throttle,
+            (float)conditioned.ServiceBrake,
+            (float)conditioned.Reverse,
+            (float)conditioned.Handbrake,
+            (float)conditioned.Steering,
+            conditioned.StationaryHold,
+            conditioned.Reset);
     }
 
     private void ObserveRun(int runFrame)
@@ -254,6 +331,13 @@ public sealed class VehicleDynamicsScenario
         var tilt = Mathf.RadToDeg(Mathf.Acos(Mathf.Clamp(up.Dot(Vector3.Up), -1, 1)));
         var forwardSpeed = velocity.Dot(heading);
         var lateralSpeed = velocity.Dot(right);
+        var headingError = Mathf.RadToDeg(Mathf.Acos(Mathf.Clamp(
+            heading.Dot(Vector3.Forward),
+            -1,
+            1)));
+        var slipAngle = (float)VehicleDynamicsForces.SlipAngleDegrees(
+            forwardSpeed,
+            lateralSpeed);
         var lateralAcceleration = runFrame == 0
             ? 0
             : Math.Abs(((velocity - _previousVelocity) * PhysicsTicksPerSecond).Dot(right));
@@ -265,6 +349,7 @@ public sealed class VehicleDynamicsScenario
         _maximumRollDegrees = Math.Max(
             _maximumRollDegrees,
             Math.Abs(Mathf.RadToDeg(euler.Z)));
+        _currentRollDegrees = Math.Abs(Mathf.RadToDeg(euler.Z));
         _maximumAngularSpeed = Math.Max(
             _maximumAngularSpeed,
             _vehicle.AngularVelocity.Length());
@@ -273,7 +358,9 @@ public sealed class VehicleDynamicsScenario
             Math.Abs(_vehicle.AngularVelocity.Y));
         _maximumSlipAngle = Math.Max(
             _maximumSlipAngle,
-            (float)VehicleDynamicsForces.SlipAngleDegrees(forwardSpeed, lateralSpeed));
+            slipAngle);
+        _currentSlipAngleDegrees = slipAngle;
+        _currentHeadingErrorDegrees = headingError;
         _maximumLateralAcceleration = Math.Max(
             _maximumLateralAcceleration,
             lateralAcceleration);
@@ -306,6 +393,39 @@ public sealed class VehicleDynamicsScenario
             else
             {
                 _departureStableFrames = 0;
+            }
+        }
+
+        if (CurrentRun.Fixture == VehicleDynamicsFixture.CoastDown)
+        {
+            _maximumSpeedAfterThrottleRelease = Math.Max(
+                _maximumSpeedAfterThrottleRelease,
+                _vehicle.SpeedMetersPerSecond);
+            if (_conditionedThrottle <= 0.0001f && _throttleReleaseFrames < 0)
+            {
+                _throttleReleaseFrames = runFrame + 1;
+            }
+        }
+
+        var maneuverEndFrame = ManeuverEndFrame(CurrentRun.Fixture);
+        if (maneuverEndFrame >= 0 && runFrame >= maneuverEndFrame)
+        {
+            var feelBands = VehicleDynamicsProfile.VehicleFeelBands;
+            var requiresHeadingRecovery = CurrentRun.Fixture ==
+                VehicleDynamicsFixture.AlternatingSwerve;
+            var stable = Math.Abs(_vehicle.AngularVelocity.Y) <=
+                    feelBands.MaximumRecoveredYawRateRadiansPerSecond &&
+                _currentRollDegrees <= feelBands.MaximumRecoveredRollDegrees &&
+                _currentSlipAngleDegrees <= feelBands.MaximumRecoveredSlipAngleDegrees &&
+                _vehicle.GroundedWheelCount >= 3 &&
+                (!requiresHeadingRecovery ||
+                    _currentHeadingErrorDegrees <=
+                        feelBands.MaximumCorrectedHeadingErrorDegrees);
+            _maneuverStableFrames = stable ? _maneuverStableFrames + 1 : 0;
+            if (_maneuverStableFrames >= StableRecoveryFrames &&
+                _maneuverRecoveryFrame < 0)
+            {
+                _maneuverRecoveryFrame = runFrame - StableRecoveryFrames + 1;
             }
         }
 
@@ -365,6 +485,14 @@ public sealed class VehicleDynamicsScenario
                 _vehicle.SpeedMetersPerSecond <= 0.1f &&
                 _vehicle.AngularVelocity.Length() <= 0.1f) ||
             runFrame >= MaximumRecoveryFrames,
+        VehicleDynamicsFixture.CoastDown =>
+            runFrame >= (int)Math.Ceiling(
+                VehicleDynamicsProfile.VehicleFeelBands.CoastDownDurationSeconds *
+                PhysicsTicksPerSecond),
+        VehicleDynamicsFixture.SlowTurn or
+        VehicleDynamicsFixture.ModerateTurn or
+        VehicleDynamicsFixture.AlternatingSwerve =>
+            _maneuverRecoveryFrame >= 0 || runFrame >= ManeuverDeadlineFrame(CurrentRun.Fixture),
         _ => throw new ArgumentOutOfRangeException(),
     };
 
@@ -373,7 +501,8 @@ public sealed class VehicleDynamicsScenario
         var run = CurrentRun;
         var durationSeconds = (double)runFrame / PhysicsTicksPerSecond;
         var distanceMeters = _startPosition.DistanceTo(_vehicle.GlobalPosition);
-        var speedLoss = run.SpeedBand.SpeedMetersPerSecond -
+        var entrySpeed = EntrySpeedMetersPerSecond(run);
+        var speedLoss = entrySpeed -
             _vehicle.SpeedMetersPerSecond;
         switch (run.Fixture)
         {
@@ -505,6 +634,64 @@ public sealed class VehicleDynamicsScenario
                 Require(_vehicle.AngularVelocity.Length() <= 0.1f,
                     $"reset retained {_vehicle.AngularVelocity.Length():0.000} rad/s rotation");
                 break;
+            case VehicleDynamicsFixture.CoastDown:
+                var feelBands = VehicleDynamicsProfile.VehicleFeelBands;
+                Require(_throttleReleaseFrames >= 0 &&
+                        _throttleReleaseFrames <=
+                            feelBands.MaximumKeyboardThrottleReleaseFrames,
+                    $"keyboard throttle release took {_throttleReleaseFrames} frames; " +
+                    $"maximum is {feelBands.MaximumKeyboardThrottleReleaseFrames}");
+                Require(speedLoss >= feelBands.MinimumCruiseCoastSpeedLossMetersPerSecond,
+                    $"cruise coast-down lost only {speedLoss:0.000} m/s");
+                Require(speedLoss <= feelBands.MaximumCruiseCoastSpeedLossMetersPerSecond,
+                    $"cruise coast-down lost {speedLoss:0.000} m/s");
+                var postReleaseGain = _maximumSpeedAfterThrottleRelease - entrySpeed;
+                Require(postReleaseGain <=
+                        feelBands.MaximumPostReleaseSpeedGainMetersPerSecond,
+                    $"lift-off retained {postReleaseGain:0.000} m/s positive speed gain");
+                Require(_maximumBrakeInput <= 0,
+                    "coast-down fixture used brake or handbrake input");
+                break;
+            case VehicleDynamicsFixture.SlowTurn:
+                ValidateManeuverRecovery(
+                    feelBands: VehicleDynamicsProfile.VehicleFeelBands,
+                    maximumRecoverySeconds:
+                        VehicleDynamicsProfile.VehicleFeelBands.MaximumSlowTurnRecoverySeconds,
+                    requireCorrectedHeading: false);
+                Require(_maximumPathError >= 0.5f,
+                    "slow-turn keyboard input produced no measurable turn");
+                break;
+            case VehicleDynamicsFixture.ModerateTurn:
+                ValidateHandlingBand(run.SpeedBand);
+                ValidateManeuverRecovery(
+                    feelBands: VehicleDynamicsProfile.VehicleFeelBands,
+                    maximumRecoverySeconds:
+                        VehicleDynamicsProfile.VehicleFeelBands.MaximumModerateTurnRecoverySeconds,
+                    requireCorrectedHeading: false);
+                Require(_maximumYawRate >= 0.05f,
+                    "moderate-turn keyboard input produced no measurable yaw response");
+                break;
+            case VehicleDynamicsFixture.AlternatingSwerve:
+                var swerveBands = VehicleDynamicsProfile.VehicleFeelBands;
+                ValidateHandlingBand(run.SpeedBand);
+                ValidateManeuverRecovery(
+                    swerveBands,
+                    swerveBands.MaximumSwerveRecoverySeconds,
+                    requireCorrectedHeading: true);
+                Require(_maximumRollDegrees <= swerveBands.MaximumSwerveRollDegrees,
+                    $"alternating swerve roll {_maximumRollDegrees:0.000} deg exceeds " +
+                    $"{swerveBands.MaximumSwerveRollDegrees:0.000} deg");
+                Require(_maximumYawRate <=
+                        swerveBands.MaximumSwerveYawRateRadiansPerSecond,
+                    $"alternating swerve yaw {_maximumYawRate:0.000} rad/s exceeds " +
+                    $"{swerveBands.MaximumSwerveYawRateRadiansPerSecond:0.000} rad/s");
+                Require(_vehicle.SpeedMetersPerSecond / entrySpeed >=
+                        swerveBands.MinimumSwerveFinalSpeedRatio,
+                    $"alternating swerve recovered only after speed fell to " +
+                    $"{_vehicle.SpeedMetersPerSecond / entrySpeed:0.000} of entry speed");
+                Require(_maximumBrakeInput <= 0,
+                    "alternating swerve used brake or handbrake input");
+                break;
         }
 
         RequireFiniteMetrics();
@@ -528,7 +715,7 @@ public sealed class VehicleDynamicsScenario
             run.SpeedBand.Id,
             run.Fixture,
             run.ReplayIndex,
-            run.SpeedBand.SpeedMetersPerSecond,
+            entrySpeed,
             durationSeconds,
             distanceMeters,
             speedLoss,
@@ -544,10 +731,11 @@ public sealed class VehicleDynamicsScenario
             _vehicle.MaximumConsecutiveSuspensionBottomOutFrames,
             _minimumGroundedWheels,
             _vehicle.MaximumConsecutiveUnsupportedPhysicsFrames,
-            run.Fixture is VehicleDynamicsFixture.Recovery or
-                VehicleDynamicsFixture.Departure
-                ? runFrame
-                : UnsupportedRecoveryFrames(),
+            RecoveryFrames(runFrame),
+            _throttleReleaseFrames,
+            _maximumSpeedAfterThrottleRelease - entrySpeed,
+            _currentHeadingErrorDegrees,
+            _maximumBrakeInput,
             _vehicle.GlobalPosition,
             _vehicle.LinearVelocity,
             _vehicle.AngularVelocity);
@@ -575,6 +763,42 @@ public sealed class VehicleDynamicsScenario
                 band.MaximumLateralAccelerationMetersPerSecondSquared,
             $"lateral acceleration {_maximumLateralAcceleration:0.000} m/s2 exceeds " +
             $"{band.MaximumLateralAccelerationMetersPerSecondSquared:0.000} m/s2");
+    }
+
+    private void ValidateManeuverRecovery(
+        VehicleFeelAcceptanceBands feelBands,
+        float maximumRecoverySeconds,
+        bool requireCorrectedHeading)
+    {
+        var recoveryFrames = ManeuverRecoveryFrames();
+        var maximumRecoveryFrames = (int)Math.Ceiling(
+            maximumRecoverySeconds * PhysicsTicksPerSecond);
+        Require(_maneuverRecoveryFrame >= 0,
+            $"{CurrentRun.Fixture} did not reach a stable brake-free recovery: " +
+            $"yaw_rad_s={Math.Abs(_vehicle.AngularVelocity.Y):0.000} " +
+            $"roll_deg={_currentRollDegrees:0.000} " +
+            $"slip_deg={_currentSlipAngleDegrees:0.000} " +
+            $"heading_error_deg={_currentHeadingErrorDegrees:0.000} " +
+            $"grounded={_vehicle.GroundedWheelCount}");
+        Require(recoveryFrames <= maximumRecoveryFrames,
+            $"{CurrentRun.Fixture} recovery took {recoveryFrames} frames; " +
+            $"maximum is {maximumRecoveryFrames}");
+        Require(Math.Abs(_vehicle.AngularVelocity.Y) <=
+                feelBands.MaximumRecoveredYawRateRadiansPerSecond,
+            $"recovered yaw rate {_vehicle.AngularVelocity.Y:0.000} rad/s remains high");
+        Require(_currentRollDegrees <= feelBands.MaximumRecoveredRollDegrees,
+            $"recovered roll {_currentRollDegrees:0.000} deg remains high");
+        Require(_currentSlipAngleDegrees <= feelBands.MaximumRecoveredSlipAngleDegrees,
+            $"recovered slip {_currentSlipAngleDegrees:0.000} deg remains high");
+        if (requireCorrectedHeading)
+        {
+            Require(_currentHeadingErrorDegrees <=
+                    feelBands.MaximumCorrectedHeadingErrorDegrees,
+                $"corrected heading error {_currentHeadingErrorDegrees:0.000} deg exceeds " +
+                $"{feelBands.MaximumCorrectedHeadingErrorDegrees:0.000} deg");
+        }
+        Require(_maximumBrakeInput <= 0,
+            $"{CurrentRun.Fixture} used brake or handbrake input");
     }
 
     private void ValidateReplay(VehicleDynamicsRunResult result)
@@ -644,10 +868,10 @@ public sealed class VehicleDynamicsScenario
         _automationState["maximum_suspension_bottom_out_frames"] =
             _vehicle.MaximumConsecutiveSuspensionBottomOutFrames;
         _automationState["recovery_frames"] =
-            CurrentRun.Fixture is VehicleDynamicsFixture.Recovery or
-                VehicleDynamicsFixture.Departure
-                ? Math.Max(0, _frames - SettleFrames)
-                : UnsupportedRecoveryFrames();
+            RecoveryFrames(Math.Max(0, _frames - SettleFrames));
+        _automationState["throttle_release_frames"] = _throttleReleaseFrames;
+        _automationState["conditioned_throttle"] = _conditionedThrottle;
+        _automationState["heading_error_degrees"] = _currentHeadingErrorDegrees;
         _automationState["result_hash"] = ResultHash;
     }
 
@@ -826,6 +1050,10 @@ public sealed class VehicleDynamicsScenario
             {
                 foreach (var fixture in fixtures)
                 {
+                    if (!FixtureUsesSpeedBand(fixture, speedBand))
+                    {
+                        continue;
+                    }
                     if (fixture == VehicleDynamicsFixture.Reset &&
                         speedBand != speedBands[0])
                     {
@@ -834,6 +1062,11 @@ public sealed class VehicleDynamicsScenario
                     result.Add(new RunDefinition(profile, speedBand, fixture, 0));
                 }
             }
+        }
+        if (result.Count == 0)
+        {
+            throw new ArgumentException(
+                "The requested vehicle dynamics fixtures do not apply to the selected speed bands.");
         }
         var replay = result.FirstOrDefault(run =>
             run.Profile == AssistProfile.Balanced &&
@@ -863,6 +1096,48 @@ public sealed class VehicleDynamicsScenario
             return speedBand.SteeringInput;
         }
         return 0;
+    }
+
+    private static bool FixtureUsesSpeedBand(
+        VehicleDynamicsFixture fixture,
+        VehicleDynamicsSpeedBand speedBand) => fixture switch
+    {
+        VehicleDynamicsFixture.SlowTurn or
+        VehicleDynamicsFixture.ModerateTurn or
+        VehicleDynamicsFixture.CoastDown =>
+            string.Equals(speedBand.Id, "cruise", StringComparison.Ordinal),
+        VehicleDynamicsFixture.AlternatingSwerve =>
+            string.Equals(speedBand.Id, "push", StringComparison.Ordinal),
+        _ => true,
+    };
+
+    private static float EntrySpeedMetersPerSecond(RunDefinition run) =>
+        run.Fixture == VehicleDynamicsFixture.SlowTurn
+            ? SlowTurnEntrySpeedMetersPerSecond
+            : run.SpeedBand.SpeedMetersPerSecond;
+
+    private static int ManeuverEndFrame(VehicleDynamicsFixture fixture) => fixture switch
+    {
+        VehicleDynamicsFixture.SlowTurn => SlowTurnSteeringFrames,
+        VehicleDynamicsFixture.ModerateTurn => ModerateTurnHalfFrames * 2,
+        VehicleDynamicsFixture.AlternatingSwerve => SwerveHalfCycleFrames * SwerveHalfCycles,
+        _ => -1,
+    };
+
+    private static int ManeuverDeadlineFrame(VehicleDynamicsFixture fixture)
+    {
+        var recoverySeconds = fixture switch
+        {
+            VehicleDynamicsFixture.SlowTurn =>
+                VehicleDynamicsProfile.VehicleFeelBands.MaximumSlowTurnRecoverySeconds,
+            VehicleDynamicsFixture.ModerateTurn =>
+                VehicleDynamicsProfile.VehicleFeelBands.MaximumModerateTurnRecoverySeconds,
+            VehicleDynamicsFixture.AlternatingSwerve =>
+                VehicleDynamicsProfile.VehicleFeelBands.MaximumSwerveRecoverySeconds,
+            _ => 0,
+        };
+        return ManeuverEndFrame(fixture) +
+            (int)Math.Ceiling(recoverySeconds * PhysicsTicksPerSecond);
     }
 
     private float DepartureSteering(VehicleDynamicsSpeedBand speedBand)
@@ -926,6 +1201,12 @@ public sealed class VehicleDynamicsScenario
             result.MinimumGroundedWheels.ToString(CultureInfo.InvariantCulture),
             result.MaximumUnsupportedFrames.ToString(CultureInfo.InvariantCulture),
             result.RecoveryFrames.ToString(CultureInfo.InvariantCulture),
+            result.ThrottleReleaseFrames.ToString(CultureInfo.InvariantCulture),
+            result.MaximumPostReleaseSpeedGainMetersPerSecond.ToString(
+                "0.000",
+                CultureInfo.InvariantCulture),
+            result.FinalHeadingErrorDegrees.ToString("0.000", CultureInfo.InvariantCulture),
+            result.MaximumBrakeInput.ToString("0.000", CultureInfo.InvariantCulture),
             string.Join(
                 ",",
                 result.FinalPosition.X.ToString("0.000", CultureInfo.InvariantCulture),
@@ -957,6 +1238,20 @@ public sealed class VehicleDynamicsScenario
                 ? int.MaxValue
                 : _firstRecoveredFrame - _firstUnsupportedFrame;
 
+    private int ManeuverRecoveryFrames() =>
+        _maneuverRecoveryFrame < 0
+            ? int.MaxValue
+            : _maneuverRecoveryFrame - ManeuverEndFrame(CurrentRun.Fixture);
+
+    private int RecoveryFrames(int runFrame) => CurrentRun.Fixture switch
+    {
+        VehicleDynamicsFixture.Recovery or VehicleDynamicsFixture.Departure => runFrame,
+        VehicleDynamicsFixture.SlowTurn or
+        VehicleDynamicsFixture.ModerateTurn or
+        VehicleDynamicsFixture.AlternatingSwerve => ManeuverRecoveryFrames(),
+        _ => UnsupportedRecoveryFrames(),
+    };
+
     private RunDefinition CurrentRun => _runs[_runIndex];
 
     private void ResetForNextRun()
@@ -980,6 +1275,16 @@ public sealed class VehicleDynamicsScenario
         _barrierContactObserved = false;
         _departureEdgeCrossed = false;
         _departureStableFrames = 0;
+        _keyboardConditioner.Reset();
+        _conditionedThrottle = 0;
+        _maximumSpeedAfterThrottleRelease = 0;
+        _currentRollDegrees = 0;
+        _currentSlipAngleDegrees = 0;
+        _currentHeadingErrorDegrees = 0;
+        _maximumBrakeInput = 0;
+        _throttleReleaseFrames = -1;
+        _maneuverRecoveryFrame = -1;
+        _maneuverStableFrames = 0;
         UpdateAutomationState();
     }
 
@@ -1012,6 +1317,10 @@ public sealed record VehicleDynamicsRunResult(
     int MinimumGroundedWheels,
     int MaximumUnsupportedFrames,
     int RecoveryFrames,
+    int ThrottleReleaseFrames,
+    float MaximumPostReleaseSpeedGainMetersPerSecond,
+    float FinalHeadingErrorDegrees,
+    float MaximumBrakeInput,
     Vector3 FinalPosition,
     Vector3 FinalVelocity,
     Vector3 FinalAngularVelocity);
