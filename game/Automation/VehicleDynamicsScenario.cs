@@ -493,7 +493,8 @@ public sealed class VehicleDynamicsScenario
         VehicleDynamicsFixture.ModerateTurn or
         VehicleDynamicsFixture.AlternatingSwerve =>
             _maneuverRecoveryFrame >= 0 || runFrame >= ManeuverDeadlineFrame(CurrentRun.Fixture),
-        _ => throw new ArgumentOutOfRangeException(),
+        _ => throw new InvalidOperationException(
+            $"Unknown vehicle dynamics fixture '{CurrentRun.Fixture}'."),
     };
 
     private VehicleDynamicsRunResult ValidateAndCapture(int runFrame)

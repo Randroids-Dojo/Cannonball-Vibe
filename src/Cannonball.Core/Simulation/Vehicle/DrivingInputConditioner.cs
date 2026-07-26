@@ -315,7 +315,7 @@ public sealed class DrivingInputConditioner
                 _brakeTriggerReverseEngaged = false;
             }
         }
-        else if (forwardSpeedMetersPerSecond <= BrakeToReverseEnterSpeedMetersPerSecond)
+        else if (Math.Abs(forwardSpeedMetersPerSecond) <= BrakeToReverseEnterSpeedMetersPerSecond)
         {
             _brakeTriggerReverseEngaged = true;
         }

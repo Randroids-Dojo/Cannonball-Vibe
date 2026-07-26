@@ -112,7 +112,7 @@ async def test_session_close_finishes_without_waiting_for_peer_eof() -> None:
     server, port = await _serve_once(responses)
     async with server:
         client = await PlayGodotClient.connect("127.0.0.1", port, token="x" * 32)
-        await client.close()
+        await asyncio.wait_for(client.close(), timeout=1.0)
 
 
 @pytest.mark.asyncio

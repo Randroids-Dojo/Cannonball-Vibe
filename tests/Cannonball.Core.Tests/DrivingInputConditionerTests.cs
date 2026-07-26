@@ -220,6 +220,38 @@ public sealed class DrivingInputConditionerTests
     }
 
     [Fact]
+    public void LeftTriggerBrakesWhenAlreadyRollingBackwardInsteadOfEngagingReverse()
+    {
+        var conditioner = new DrivingInputConditioner();
+        var result = conditioner.Step(
+            new RawDrivingInput(0, 1, 0, 0, 0, DrivingInputDevice.Controller),
+            -5,
+            0.1,
+            AssistProfile.Balanced);
+
+        Assert.False(result.BrakeTriggerReverseEngaged);
+        Assert.Equal(0, result.Reverse);
+        Assert.True(result.ServiceBrake > 0);
+
+        var nearZero = conditioner.Step(
+            new RawDrivingInput(0, 1, 0, 0, 0, DrivingInputDevice.Controller),
+            -DrivingInputConditioner.BrakeToReverseEnterSpeedMetersPerSecond,
+            0.1,
+            AssistProfile.Balanced);
+        var reversing = conditioner.Step(
+            new RawDrivingInput(0, 1, 0, 0, 0, DrivingInputDevice.Controller),
+            -5,
+            0.1,
+            AssistProfile.Balanced);
+
+        Assert.True(nearZero.BrakeTriggerReverseEngaged);
+        Assert.True(nearZero.Reverse > 0);
+        Assert.True(reversing.BrakeTriggerReverseEngaged);
+        Assert.Equal(0, reversing.ServiceBrake);
+        Assert.True(reversing.Reverse > nearZero.Reverse);
+    }
+
+    [Fact]
     public void ReleasingLeftTriggerRampsReverseOutAndSecondaryReverseRemainsAvailable()
     {
         var conditioner = new DrivingInputConditioner();

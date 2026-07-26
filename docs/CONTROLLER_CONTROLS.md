@@ -63,7 +63,7 @@ controller menus.
 
 - The primary driving contract is conventional and physically separated: RT go,
   LT brake, left stick steer.
-- Y is a quick recover action; the destructive full restart is protected inside
+- Y is a quick recovery action; the destructive full restart is protected inside
   the paused menu.
 - R3 changes camera mode while LB is a temporary rear view, preventing mode and
   glance actions from being confused.

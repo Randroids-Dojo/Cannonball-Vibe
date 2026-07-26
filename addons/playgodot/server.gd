@@ -43,6 +43,7 @@ var _pressed_actions: Array[String] = []
 var _pressed_keys: Array[int] = []
 var _joy_axes: Dictionary = {}
 var _pressed_joy_buttons: Dictionary = {}
+var _application_focus_out := false
 var _auth_failures: Array[int] = []
 var _auth_blocked_until_ms := 0
 
@@ -744,6 +745,7 @@ func _input_application_focus(params: Dictionary) -> Dictionary:
 	get_tree().root.propagate_notification(
 		NOTIFICATION_APPLICATION_FOCUS_IN if state == "in" else NOTIFICATION_APPLICATION_FOCUS_OUT
 	)
+	_application_focus_out = state == "out"
 	return {"result": {"state": state}}
 
 
@@ -955,6 +957,7 @@ func _clear_connection() -> void:
 	for keycode in _pressed_keys:
 		var event := InputEventKey.new()
 		event.keycode = keycode
+		event.physical_keycode = keycode
 		event.pressed = false
 		Input.parse_input_event(event)
 	_pressed_keys.clear()
@@ -972,6 +975,9 @@ func _clear_connection() -> void:
 		button.pressed = false
 		Input.parse_input_event(button)
 	_pressed_joy_buttons.clear()
+	if _application_focus_out:
+		get_tree().root.propagate_notification(NOTIFICATION_APPLICATION_FOCUS_IN)
+		_application_focus_out = false
 	_peer = null
 	_receive_buffer.clear()
 	_send_buffer.clear()

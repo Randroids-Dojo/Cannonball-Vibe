@@ -92,7 +92,8 @@ async def test_camera_handling_survives_pause_device_reset_and_mode_transitions(
         assert visual["chase_exterior_geometry_visible"] is True
         exterior_layer = visual["cockpit_exterior_layer"]
         assert cockpit["cull_mask"] & exterior_layer == 0
-        assert chase["cull_mask"] & exterior_layer == exterior_layer
+        configured_chase = (await client.describe("camera.chase.rig"))["test_state"]
+        assert configured_chase["cull_mask"] & exterior_layer == exterior_layer
         cockpit_capture = await client.screenshot(artifacts / "cockpit-forward.png")
         assert cockpit_capture["bytes"] > 0
         assert cockpit_capture["width"] >= 960
