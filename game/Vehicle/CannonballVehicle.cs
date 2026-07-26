@@ -1,4 +1,5 @@
 using Cannonball.Core.Runs;
+using Cannonball.Core.Simulation.Vehicle;
 using Cannonball.Game.Camera;
 using Cannonball.Game.Input;
 using Godot;
@@ -7,17 +8,6 @@ namespace Cannonball.Game.Vehicle;
 
 public sealed partial class CannonballVehicle : RigidBody3D
 {
-    private const float SpringRestLength = 0.62f;
-    private const float WheelRadius = 0.34f;
-    private const float SpringStrength = 42_000.0f;
-    private const float SpringDamping = 5_500.0f;
-    private const float EngineForce = 25_000.0f;
-    private const float BrakeForce = 36_000.0f;
-    private const float LateralGrip = 7_800.0f;
-    private const float AerodynamicDrag = 0.42f;
-    private const float DownforceCoefficient = 9.0f;
-    private const float MaximumSteerAngleRadians = 0.38f;
-
     private static readonly Vector3[] WheelPositions =
     [
         new(-0.82f, -0.18f, -1.42f),
@@ -29,11 +19,15 @@ public sealed partial class CannonballVehicle : RigidBody3D
     private readonly float[] _wheelCompressionMeters = new float[4];
     private bool _resetRequested;
     private int _consecutiveUnsupportedPhysicsFrames;
+    private int _consecutiveSuspensionBottomOutFrames;
     private bool _hasBeenGrounded;
     private float _currentSteerAngleRadians;
     private bool _cameraToggleHeld;
+    private Vector3 _supportNormal = Vector3.Up;
+    private float _supportRatio;
 
     public bool AutopilotEnabled { get; set; }
+    public DriveInputState? AutomationInputOverride { get; set; }
     public AssistProfile AssistProfile { get; private set; } = AssistProfile.Balanced;
     public double RouteDistanceMeters { get; set; }
     public Vector3 TargetRoadPoint { get; set; }
@@ -45,6 +39,10 @@ public sealed partial class CannonballVehicle : RigidBody3D
     public int PostGroundingPhysicsFrames { get; private set; }
     public int WellGroundedPhysicsFrames { get; private set; }
     public int MaximumConsecutiveUnsupportedPhysicsFrames { get; private set; }
+    public float MinimumObservedSuspensionCompressionMeters { get; private set; } =
+        VehicleDynamicsProfile.SpringRestLengthMeters;
+    public float MaximumObservedSuspensionCompressionMeters { get; private set; }
+    public int MaximumConsecutiveSuspensionBottomOutFrames { get; private set; }
     public VehicleVisualRig? VisualRig { get; private set; }
     public DrivingInputController DrivingInputController { get; private set; } = null!;
     public ChaseCameraRig ChaseCameraRig { get; private set; } = null!;
@@ -56,12 +54,16 @@ public sealed partial class CannonballVehicle : RigidBody3D
     public override void _Ready()
     {
         Name = "CannonballVehicle";
-        Mass = 1_450;
+        Mass = VehicleDynamicsProfile.VehicleMassKilograms;
         GravityScale = 1;
-        LinearDamp = 0.03f;
-        AngularDamp = 0.7f;
+        LinearDampMode = DampMode.Replace;
+        LinearDamp = 0;
+        AngularDampMode = DampMode.Replace;
+        AngularDamp = 0;
         CanSleep = false;
         ContinuousCd = true;
+        CenterOfMassMode = CenterOfMassModeEnum.Custom;
+        CenterOfMass = new Vector3(0, VehicleDynamicsProfile.CenterOfMassOffsetMeters, 0);
         ContactMonitor = true;
         MaxContactsReported = 12;
         CollisionLayer = 2;
@@ -77,9 +79,9 @@ public sealed partial class CannonballVehicle : RigidBody3D
         UpdateCameraInput();
         var heading = -GlobalTransform.Basis.Z.Normalized();
         var forwardSpeed = LinearVelocity.Dot(heading);
-        var input = AutopilotEnabled
+        var input = AutomationInputOverride ?? (AutopilotEnabled
             ? ReadAutopilot()
-            : DrivingInputController.Read(forwardSpeed, delta, AssistProfile);
+            : DrivingInputController.Read(forwardSpeed, delta, AssistProfile));
         if (input.Reset || _resetRequested || Position.Y < -20)
         {
             ResetToRoad();
@@ -121,7 +123,12 @@ public sealed partial class CannonballVehicle : RigidBody3D
         PostGroundingPhysicsFrames = 0;
         WellGroundedPhysicsFrames = 0;
         MaximumConsecutiveUnsupportedPhysicsFrames = 0;
+        MinimumObservedSuspensionCompressionMeters =
+            VehicleDynamicsProfile.SpringRestLengthMeters;
+        MaximumObservedSuspensionCompressionMeters = 0;
         _consecutiveUnsupportedPhysicsFrames = 0;
+        _consecutiveSuspensionBottomOutFrames = 0;
+        MaximumConsecutiveSuspensionBottomOutFrames = 0;
         _hasBeenGrounded = false;
     }
 
@@ -194,22 +201,30 @@ public sealed partial class CannonballVehicle : RigidBody3D
         var steerResponse = AssistProfile switch
         {
             AssistProfile.Accessible => 0.85f,
-            AssistProfile.Raw => 1.1f,
+            AssistProfile.Raw => 0.85f,
             _ => 1.0f,
         };
-        var steerAngle = input.Steering * MaximumSteerAngleRadians * steerScale * steerResponse;
+        var steerAngle = input.Steering *
+            VehicleDynamicsProfile.MaximumSteerAngleRadians * steerScale * steerResponse;
         _currentSteerAngleRadians = steerAngle;
         var groundedWheels = 0;
         var contactNormalSum = Vector3.Zero;
+        var contactPositionSum = Vector3.Zero;
+        var suspensionBottomedOut = false;
+        var tuning = VehicleDynamicsProfile.For(AssistProfile);
         Array.Clear(_wheelCompressionMeters);
 
         for (var index = 0; index < WheelPositions.Length; index++)
         {
             var wheelOrigin = GlobalTransform * WheelPositions[index];
             var rayStart = wheelOrigin + chassisUp * 0.15f;
-            var rayLength = SpringRestLength + WheelRadius + 0.15f;
+            var rayLength = VehicleDynamicsProfile.SpringRestLengthMeters +
+                VehicleDynamicsProfile.WheelRadiusMeters + 0.15f;
             var rayEnd = rayStart - chassisUp * rayLength;
-            var query = PhysicsRayQueryParameters3D.Create(rayStart, rayEnd, collisionMask: 1);
+            using var query = PhysicsRayQueryParameters3D.Create(
+                rayStart,
+                rayEnd,
+                collisionMask: 1);
             query.Exclude = [GetRid()];
             var hit = space.IntersectRay(query);
             if (hit.Count == 0)
@@ -221,31 +236,70 @@ public sealed partial class CannonballVehicle : RigidBody3D
             var contact = (Vector3)hit["position"];
             var normal = ((Vector3)hit["normal"]).Normalized();
             contactNormalSum += normal;
-            var distance = rayStart.DistanceTo(contact) - 0.15f - WheelRadius;
-            var compression = Mathf.Clamp(SpringRestLength - distance, 0, SpringRestLength);
+            contactPositionSum += contact;
+            var distance = rayStart.DistanceTo(contact) - 0.15f -
+                VehicleDynamicsProfile.WheelRadiusMeters;
+            var compression = Mathf.Clamp(
+                VehicleDynamicsProfile.SpringRestLengthMeters - distance,
+                0,
+                VehicleDynamicsProfile.SpringRestLengthMeters);
             _wheelCompressionMeters[index] = compression;
+            MinimumObservedSuspensionCompressionMeters = Math.Min(
+                MinimumObservedSuspensionCompressionMeters,
+                compression);
+            MaximumObservedSuspensionCompressionMeters = Math.Max(
+                MaximumObservedSuspensionCompressionMeters,
+                compression);
+            suspensionBottomedOut |=
+                compression >= VehicleDynamicsProfile.SuspensionBottomOutThresholdMeters;
             var offset = contact - GlobalPosition;
             var pointVelocity = LinearVelocity + AngularVelocity.Cross(offset);
             var suspensionVelocity = pointVelocity.Dot(normal);
-            var suspensionForce = Math.Max(0, compression * SpringStrength - suspensionVelocity * SpringDamping);
-            ApplyForce(normal * suspensionForce, offset);
+            var suspensionForce = VehicleDynamicsForces.SuspensionForceNewtons(
+                compression,
+                VehicleDynamicsProfile.SpringStrengthNewtonsPerMeter,
+                suspensionVelocity,
+                VehicleDynamicsProfile.SpringDampingNewtonsPerMeterPerSecond,
+                Mass,
+                VehicleDynamicsProfile.GravityMetersPerSecondSquared,
+                VehicleDynamicsProfile.MaximumSuspensionLoadG,
+                WheelPositions.Length);
+            ApplyForce(normal * (float)suspensionForce, offset);
 
             var wheelForward = index < 2
                 ? chassisForward.Rotated(normal, -steerAngle).Normalized()
                 : chassisForward;
             var wheelRight = wheelForward.Cross(normal).Normalized();
             var lateralSpeed = pointVelocity.Dot(wheelRight);
+            var longitudinalSpeed = pointVelocity.Dot(wheelForward);
             var gripScale = Mathf.Lerp(1.0f, 0.68f, Mathf.Clamp(speed / 100.0f, 0, 1));
-            var assistGrip = AssistProfile switch
-            {
-                AssistProfile.Accessible => 1.25f,
-                AssistProfile.Raw => 0.82f,
-                _ => 1.0f,
-            };
-            ApplyForce(-wheelRight * lateralSpeed * LateralGrip * gripScale * assistGrip, offset);
+            var lateralForce = VehicleDynamicsForces.LateralTireForceNewtons(
+                lateralSpeed,
+                longitudinalSpeed,
+                VehicleDynamicsProfile.TireCorneringStiffnessNewtonsPerRadian,
+                gripScale * tuning.LateralResponseScale,
+                suspensionForce,
+                VehicleDynamicsProfile.TireFrictionCoefficient,
+                Mass,
+                VehicleDynamicsProfile.MaximumLateralAccelerationMetersPerSecondSquared,
+                WheelPositions.Length);
+            ApplyForce(
+                wheelRight * (float)lateralForce,
+                offset);
         }
 
         GroundedWheelCount = groundedWheels;
+        _consecutiveSuspensionBottomOutFrames = suspensionBottomedOut
+            ? _consecutiveSuspensionBottomOutFrames + 1
+            : 0;
+        MaximumConsecutiveSuspensionBottomOutFrames = Math.Max(
+            MaximumConsecutiveSuspensionBottomOutFrames,
+            _consecutiveSuspensionBottomOutFrames);
+        _supportRatio = (float)groundedWheels / WheelPositions.Length;
+        if (groundedWheels > 0)
+        {
+            _supportNormal = contactNormalSum.Normalized();
+        }
         if (groundedWheels > 0)
         {
             _hasBeenGrounded = true;
@@ -269,21 +323,63 @@ public sealed partial class CannonballVehicle : RigidBody3D
 
         if (groundedWheels > 0)
         {
-            var longitudinalSpeed = LinearVelocity.Dot(chassisForward);
-            var driveForce = chassisForward * (input.Throttle - input.Reverse) * EngineForce;
+            var roadNormal = _supportNormal;
+            var roadForward = chassisForward.Slide(roadNormal).Normalized();
+            if (roadForward.IsZeroApprox())
+            {
+                roadForward = chassisForward;
+            }
+            var contactAuthority = (float)VehicleDynamicsForces.ContactDriveAuthority(
+                groundedWheels,
+                WheelPositions.Length,
+                tuning.ContactDriveResponseExponent);
+            var longitudinalSpeed = LinearVelocity.Dot(roadForward);
+            var roadRight = roadForward.Cross(roadNormal).Normalized();
+            var lateralSpeed = LinearVelocity.Dot(roadRight);
+            var driveForce = roadForward * (input.Throttle - input.Reverse) *
+                VehicleDynamicsProfile.EngineForceNewtons * contactAuthority;
             var brakingDirection = Math.Abs(longitudinalSpeed) < 0.05f
                 ? Vector3.Zero
-                : -chassisForward * Math.Sign(longitudinalSpeed);
-            var brakingForce = input.Brake * BrakeForce + input.Handbrake * BrakeForce * 0.8f;
-            ApplyCentralForce(driveForce + brakingDirection * brakingForce);
+                : -roadForward * Math.Sign(longitudinalSpeed);
+            var brakingForce = (input.Brake * VehicleDynamicsProfile.BrakeForceNewtons +
+                input.Handbrake * VehicleDynamicsProfile.BrakeForceNewtons * 0.8f) *
+                contactAuthority;
+            var propulsionInput = Math.Max(input.Throttle, input.Reverse);
+            var coastResistance = VehicleDynamicsForces.CoastResistanceForceNewtons(
+                Math.Abs(longitudinalSpeed),
+                Mass,
+                VehicleDynamicsProfile.GravityMetersPerSecondSquared,
+                VehicleDynamicsProfile.RollingResistanceCoefficient,
+                VehicleDynamicsProfile.EngineBrakingBaseNewtons,
+                VehicleDynamicsProfile.EngineBrakingNewtonsPerMeterPerSecond,
+                propulsionInput,
+                _supportRatio);
+            var resistanceForce = brakingDirection * (float)coastResistance;
+            var contactCenterOffset = contactPositionSum / groundedWheels - GlobalPosition;
+            ApplyForce(
+                driveForce + brakingDirection * brakingForce + resistanceForce,
+                contactCenterOffset);
+            var slipAngleRadians = Mathf.Atan2(
+                lateralSpeed,
+                Math.Max(Math.Abs(longitudinalSpeed), 0.5f));
+            ApplyTorque(
+                -roadNormal * slipAngleRadians *
+                VehicleDynamicsProfile.SlipYawStabilityTorqueNewtonMetersPerRadian *
+                tuning.SlipYawStabilityScale * _supportRatio);
             if (input.StationaryHold)
             {
-                var roadNormal = contactNormalSum.Normalized();
-                var gravityForce = Vector3.Down * 9.80665f * Mass;
+                var gravityForce = Vector3.Down *
+                    VehicleDynamicsProfile.GravityMetersPerSecondSquared * Mass;
                 var gradeForce = gravityForce - roadNormal * gravityForce.Dot(roadNormal);
                 ApplyCentralForce(-gradeForce - LinearVelocity * Mass * 8.0f);
             }
-            ApplyCentralForce(-chassisUp * speed * speed * DownforceCoefficient);
+            var groundedDownforce = VehicleDynamicsForces.AerodynamicLoadNewtons(
+                speed,
+                VehicleDynamicsProfile.GroundedDownforceCoefficient,
+                Mass,
+                VehicleDynamicsProfile.GravityMetersPerSecondSquared,
+                VehicleDynamicsProfile.MaximumGroundedDownforceG);
+            ApplyCentralForce(-roadNormal * (float)groundedDownforce);
         }
     }
 
@@ -293,23 +389,39 @@ public sealed partial class CannonballVehicle : RigidBody3D
         var speed = velocity.Length();
         if (speed > 0.01f)
         {
-            ApplyCentralForce(-velocity.Normalized() * speed * speed * AerodynamicDrag);
+            ApplyCentralForce(
+                -velocity.Normalized() * speed * speed *
+                VehicleDynamicsProfile.AerodynamicDragCoefficient);
         }
 
         var up = GlobalTransform.Basis.Y.Normalized();
-        var correctionAxis = up.Cross(Vector3.Up);
-        var stability = AssistProfile switch
-        {
-            AssistProfile.Accessible => 1.3f,
-            AssistProfile.Raw => 0.35f,
-            _ => 1.0f,
-        };
-        ApplyTorque(correctionAxis * 9_000.0f * stability - AngularVelocity * 850.0f * stability);
+        var targetUp = _supportRatio > 0 ? _supportNormal : Vector3.Up;
+        var correctionAxis = up.Cross(targetUp);
+        var tuning = VehicleDynamicsProfile.For(AssistProfile);
+        var yawAngularVelocity = targetUp * AngularVelocity.Dot(targetUp);
+        var tiltAngularVelocity = AngularVelocity - yawAngularVelocity;
+        ApplyTorque(
+            correctionAxis * VehicleDynamicsProfile.UprightTorqueNewtonMeters *
+                tuning.UprightTorqueScale -
+            tiltAngularVelocity * VehicleDynamicsProfile.TiltDampingNewtonMeterSeconds *
+                tuning.TiltDampingScale -
+            yawAngularVelocity * VehicleDynamicsProfile.YawDampingNewtonMeterSeconds *
+                tuning.YawDampingScale);
 
-        var speedRatio = Mathf.Clamp(speed / 90.0f, 0, 1);
-        var yawAuthority = Mathf.Lerp(7_500.0f, 2_200.0f, speedRatio);
-        var rollingAuthority = Mathf.Clamp(speed / 3.0f, 0, 1);
-        ApplyTorque(Vector3.Up * -input.Steering * yawAuthority * rollingAuthority);
+        if (_supportRatio <= 0)
+        {
+            var airborneDownforce = VehicleDynamicsForces.AerodynamicLoadNewtons(
+                speed,
+                VehicleDynamicsProfile.AirborneDownforceCoefficient,
+                Mass,
+                VehicleDynamicsProfile.GravityMetersPerSecondSquared,
+                VehicleDynamicsProfile.MaximumAirborneDownforceG,
+                tuning.AirborneDownforceScale);
+            ApplyCentralForce(Vector3.Down * (float)airborneDownforce);
+        }
+
+        // Steering yaw comes from the front contact patches. A separate steering
+        // torque would rotate the chassis around its center even without support.
     }
 
     private void ResetToRoad()
@@ -332,7 +444,7 @@ public sealed partial class CannonballVehicle : RigidBody3D
             OS.GetCmdlineUserArgs().Contains("--graybox-vehicle", StringComparer.Ordinal);
         if (!UsesGrayboxVisual)
         {
-            var wrapper = ResourceLoader.Load<PackedScene>(
+            using var wrapper = ResourceLoader.Load<PackedScene>(
                 "res://game/Vehicle/Visuals/HeroGt.tscn");
             if (wrapper is null)
             {
@@ -377,6 +489,10 @@ public sealed partial class CannonballVehicle : RigidBody3D
         }
         CockpitCameraRig = new CockpitCameraRig();
         cockpitAnchor.AddChild(CockpitCameraRig);
+        if (VisualRig is not null)
+        {
+            VisualRig.ConfigureCockpitCamera(CockpitCameraRig.Camera);
+        }
         SetCameraMode(cockpit: false);
     }
 }

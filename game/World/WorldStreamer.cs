@@ -82,10 +82,15 @@ public sealed partial class WorldStreamer : Node3D
     private readonly List<double> _chunkBuildSamplesMilliseconds = [];
     private readonly List<double> _collisionBuildSamplesMilliseconds = [];
     private bool _roadVisualContractsResolved = true;
+    private bool _roadVisualSignageContractsResolved = true;
     private int _roadVisualReflectorsSeen;
     private int _roadVisualBarrierSegmentsSeen;
     private int _roadVisualGuardrailSegmentsSeen;
+    private int _roadVisualGuideSignsSeen;
     private int _roadVisualRouteShieldsSeen;
+    private int _roadVisualStandardRouteShieldsSeen;
+    private int _roadVisualGeometricLaneArrowsSeen;
+    private int _roadVisualTypographyFallbacksSeen;
     private int _roadVisualServiceIconsSeen;
     private int _roadVisualGoreChunksSeen;
     private bool _preserveResumeStateThroughReady;
@@ -202,7 +207,12 @@ public sealed partial class WorldStreamer : Node3D
             _roadVisualReflectorsSeen,
             _roadVisualBarrierSegmentsSeen,
             _roadVisualGuardrailSegmentsSeen,
+            _roadVisualSignageContractsResolved,
+            _roadVisualGuideSignsSeen,
             _roadVisualRouteShieldsSeen,
+            _roadVisualStandardRouteShieldsSeen,
+            _roadVisualGeometricLaneArrowsSeen,
+            _roadVisualTypographyFallbacksSeen,
             _roadVisualServiceIconsSeen,
             _roadVisualGoreChunksSeen,
             _roadVisualKit.SharedMaterialCount,
@@ -915,10 +925,15 @@ public sealed partial class WorldStreamer : Node3D
         {
             var roadVisual = chunk.CaptureRoadVisualSnapshot();
             _roadVisualContractsResolved &= roadVisual.ContractResolved;
+            _roadVisualSignageContractsResolved &= roadVisual.SignageContractResolved;
             _roadVisualReflectorsSeen += roadVisual.ReflectorCount;
             _roadVisualBarrierSegmentsSeen += roadVisual.BarrierSegmentCount;
             _roadVisualGuardrailSegmentsSeen += roadVisual.GuardrailSegmentCount;
+            _roadVisualGuideSignsSeen += roadVisual.GuideSignCount;
             _roadVisualRouteShieldsSeen += roadVisual.RouteShieldCount;
+            _roadVisualStandardRouteShieldsSeen += roadVisual.StandardRouteShieldCount;
+            _roadVisualGeometricLaneArrowsSeen += roadVisual.GeometricLaneArrowCount;
+            _roadVisualTypographyFallbacksSeen += roadVisual.TypographyFallbackCount;
             _roadVisualServiceIconsSeen += roadVisual.ServiceIconCount;
             _roadVisualGoreChunksSeen += roadVisual.HasGoreGeometry ? 1 : 0;
         }
@@ -1526,7 +1541,12 @@ public sealed record RoadVisualSnapshot(
     int ReflectorCount,
     int BarrierSegmentCount,
     int GuardrailSegmentCount,
+    bool SignageContractResolved,
+    int GuideSignCount,
     int RouteShieldCount,
+    int StandardRouteShieldCount,
+    int GeometricLaneArrowCount,
+    int TypographyFallbackCount,
     int ServiceIconCount,
     int GoreChunkCount,
     int SharedMaterialCount,

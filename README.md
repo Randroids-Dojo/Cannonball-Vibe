@@ -49,7 +49,11 @@ which builds the locked official fixture before launching Godot:
 ```
 
 Controls: W/right trigger accelerates, S/left trigger brakes, A/D or the left
-stick steers, R resets the vehicle, and F5 writes a suspend save.
+stick steers, R/Y recovers the vehicle in place, and B/left bumper holds the
+rear view. Escape/Menu opens the driver menu, where Restart Run requires a
+second confirmation and returns to the starting line. See
+[docs/CONTROLLER_CONTROLS.md](docs/CONTROLLER_CONTROLS.md) for the complete
+keyboard and controller layout.
 
 ## Verify everything
 

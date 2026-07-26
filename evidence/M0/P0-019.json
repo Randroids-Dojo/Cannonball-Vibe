@@ -1,0 +1,362 @@
+{
+  "schema_version": 1,
+  "task_id": "P0-019",
+  "milestone": "M0",
+  "status": "verified_local_dependency_blocked_owner_review_pending",
+  "recorded_at_utc": "2026-07-26T04:17:07.3444089Z",
+  "git_revision": "42d3bc649b43c6d4d9128d718761cf1e5cea9e92",
+  "source_state": "committed implementation revision anchored by this follow-up evidence commit",
+  "platform": {
+    "os": "Microsoft Windows 10.0.26200",
+    "shell_platform": "MINGW64_NT-10.0-26200",
+    "architecture": "x64",
+    "physics_engine": "Godot Jolt",
+    "physics_hz": 120
+  },
+  "tool_versions": {
+    "dotnet_sdk": "10.0.102",
+    "godot": "4.7.1.stable.mono.official.a13da4feb",
+    "git": "2.55.0.windows.3",
+    "git_lfs": "3.7.1",
+    "uv": "0.9.24"
+  },
+  "inputs": [
+    {
+      "path": "global.json",
+      "sha256": "b5cb6301b93270502bf2cf84d72ef76d92e31148179662fca781e732926b2bc4"
+    },
+    {
+      "path": "scripts/tool-versions.sh",
+      "sha256": "20871ee7d7ad980568603673e7e2d0dd080b07f4ad909900f1f19404e796943b"
+    },
+    {
+      "path": "data/sources/fixtures/nhpn-boulder-us36.geojson",
+      "sha256": "f1021915997f7cb94a00db58feed86f8f9e13e1ac264fc0dd8ba1605d052ae9b"
+    },
+    {
+      "path": "data/sources/fixtures/nhpn-boulder-us36.manifest.json",
+      "sha256": "54da0c7b64e476909f9e62008f09f94abc622631971b6549d030b67778fe429b"
+    },
+    {
+      "path": "data/sources/fixtures/usgs-13-n40w106-boulder.tif",
+      "sha256": "16af3387633b982f3363f34c638f8ca72646b04ec18aa2dcab1189f0352af507"
+    },
+    {
+      "path": "data/sources/fixtures/usgs-13-n40w106-boulder.metadata.json",
+      "sha256": "d626a7d24235884e089effcd38b4d173a26a5427cbec3ffedc063963e55e1cea"
+    }
+  ],
+  "scenario": {
+    "deterministic_seed": null,
+    "fixture": "official-corridor",
+    "profiles": [
+      "Accessible",
+      "Balanced",
+      "Raw"
+    ],
+    "speed_bands_meters_per_second": {
+      "slow_turn": 12.0,
+      "cruise": 31.0,
+      "push": 60.0,
+      "redline": 89.408
+    },
+    "fixtures": [
+      "straight",
+      "braking",
+      "lanechange",
+      "departure",
+      "barrier",
+      "incline",
+      "recovery",
+      "reset",
+      "slowturn",
+      "moderateturn",
+      "coastdown",
+      "alternatingswerve"
+    ],
+    "aggregate_runs": 79,
+    "scenario_arguments": [
+      "--fixture",
+      "official-corridor",
+      "--profile",
+      "vehicle-dynamics",
+      "--assist=all",
+      "--dynamics-speed-bands=all",
+      "--dynamics-fixtures=all"
+    ],
+    "long_route_seed": 20260718,
+    "long_route_arguments": [
+      "--distance-miles",
+      "500",
+      "--platform",
+      "current",
+      "--evidence",
+      ".tools/evidence/p0-019-owner-feel-long-route.json"
+    ]
+  },
+  "commands": [
+    {
+      "command": "./scripts/verify-vehicle-dynamics.sh --profiles all --speed-bands all --fixtures all",
+      "exit_code": 0,
+      "result": "79 official-engine runs passed; 30/60/144 fixed-FPS hashes matched"
+    },
+    {
+      "command": "DOTNET_ROLL_FORWARD=Major dotnet test Cannonball.sln --filter 'FullyQualifiedName~DrivingInputConditionerTests'",
+      "exit_code": 0,
+      "passed": 28
+    },
+    {
+      "command": "./scripts/run-scenario.sh --distance-miles 500 --platform current --evidence .tools/evidence/p0-019-owner-feel-long-route.json",
+      "exit_code": 0
+    },
+    {
+      "command": "./scripts/check.sh",
+      "exit_code": 0
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0
+    }
+  ],
+  "diagnosis": {
+    "pre_fix_balanced_neutral_cruise_speed_loss_meters_per_second_over_one_second": 4.009,
+    "lift_off_hypothesis": "Physical deceleration was excessive rather than insufficient. The actual release defect was profile-dependent keyboard throttle decay followed by implicit rigid-body damping.",
+    "pre_fix_keyboard_throttle_release_seconds": {
+      "Accessible": 0.286,
+      "Balanced": 0.2,
+      "Raw": 0.125
+    },
+    "root_causes": [
+      "direct steering yaw torque duplicated front tire yaw and rotated the chassis around its center",
+      "lateral force ignored slip angle and measured normal load",
+      "long suspension, center-of-mass height, strong upright stiffness, and weak tilt damping produced high-centered delayed lean",
+      "digital steering reversal could spend an opposite pulse only canceling the previous command",
+      "implicit body damping obscured aerodynamic, rolling, and engine coast forces"
+    ]
+  },
+  "metrics": {
+    "result_hash": "7c317143d5d15359a7472379aa4d6988d9222cd5722e68262e878146f9f61159",
+    "fixed_fps_result_hash": "8e01eb2bae85df84860c551ae1479e95dafe72073a290b356ddf2a86b9f76e8b",
+    "fixed_fps_values": [
+      30,
+      60,
+      144
+    ],
+    "maximum_straight_speed_loss_meters_per_second": 3.147,
+    "maximum_braking_distance_meters": 149.214,
+    "maximum_braking_seconds": 3.392,
+    "maximum_handling_roll_degrees": 4.178,
+    "maximum_handling_yaw_rate_radians_per_second": 0.735,
+    "maximum_handling_slip_degrees": 8.263,
+    "maximum_handling_lateral_acceleration_meters_per_second_squared": 14.272,
+    "maximum_incline_unsupported_frames": 104,
+    "maximum_incline_tilt_degrees": 5.43,
+    "maximum_incline_angular_speed_radians_per_second": 3.019,
+    "maximum_suspension_travel_meters": 0.538,
+    "maximum_suspension_bottom_out_frames": 35,
+    "maximum_departure_final_lateral_error_meters": 3.345,
+    "maximum_departure_recovery_frames": 784,
+    "maximum_disturbed_recovery_frames": 183,
+    "coast_down": {
+      "entry_speed_meters_per_second": 31.0,
+      "duration_seconds": 5.0,
+      "speed_loss_meters_per_second": 4.016,
+      "declared_speed_loss_band_meters_per_second": [
+        2.0,
+        6.0
+      ],
+      "keyboard_throttle_release_frames": 3,
+      "maximum_allowed_release_frames": 3,
+      "maximum_post_release_speed_gain_meters_per_second": 0.134,
+      "maximum_allowed_post_release_gain_meters_per_second": 0.25,
+      "maximum_brake_input": 0.0
+    },
+    "alternating_swerve": {
+      "entry_speed_meters_per_second": 60.0,
+      "half_cycle_frames": 30,
+      "half_cycles": 6,
+      "maximum_allowed_recovery_frames": 360,
+      "maximum_allowed_final_heading_error_degrees": 8.0,
+      "minimum_allowed_final_speed_ratio": 0.7,
+      "profiles": [
+        {
+          "profile": "Accessible",
+          "recovery_frames": 0,
+          "final_heading_error_degrees": 1.018,
+          "peak_roll_degrees": 0.436,
+          "peak_yaw_rate_radians_per_second": 0.12,
+          "peak_slip_degrees": 0.857,
+          "final_speed_ratio": 0.951,
+          "maximum_brake_input": 0.0
+        },
+        {
+          "profile": "Balanced",
+          "recovery_frames": 11,
+          "final_heading_error_degrees": 2.492,
+          "peak_roll_degrees": 1.038,
+          "peak_yaw_rate_radians_per_second": 0.233,
+          "peak_slip_degrees": 1.821,
+          "final_speed_ratio": 0.947,
+          "maximum_brake_input": 0.0
+        },
+        {
+          "profile": "Raw",
+          "recovery_frames": 29,
+          "final_heading_error_degrees": 2.833,
+          "peak_roll_degrees": 1.769,
+          "peak_yaw_rate_radians_per_second": 0.385,
+          "peak_slip_degrees": 3.324,
+          "final_speed_ratio": 0.94,
+          "maximum_brake_input": 0.0
+        }
+      ]
+    },
+    "turn_recovery_frames": {
+      "slow_turn": {
+        "Accessible": 33,
+        "Balanced": 30,
+        "Raw": 24
+      },
+      "moderate_turn": {
+        "Accessible": 0,
+        "Balanced": 20,
+        "Raw": 37
+      }
+    },
+    "long_route": {
+      "distance_miles": 500,
+      "profiles": 3,
+      "route_chunks": 455,
+      "route_transitions": 64,
+      "rebases": 1362,
+      "resume_comparisons": 9,
+      "missing_chunks": 0,
+      "hash_failures": 0,
+      "road_gaps": 0,
+      "collision_misses": 0,
+      "save_divergence": 0
+    },
+    "m0": {
+      "dotnet_build_warnings": 0,
+      "dotnet_build_errors": 0,
+      "xunit_passed": 125,
+      "map_pipeline_pytest_passed": 78,
+      "playgodot_unit_pytest_passed": 13,
+      "ruff_passed": true,
+      "godot_smoke_passed": true
+    }
+  },
+  "acceptance": [
+    {
+      "criterion": "natural lift-off coast-down rather than hidden damping or brake masking",
+      "status": "passed",
+      "comparison": "all profiles released keyboard throttle in 3 frames, lost 4.016 m/s over 5 seconds against the declared 2-6 m/s band, gained at most 0.134 m/s after release, and used zero brake"
+    },
+    {
+      "criterion": "bounded alternating-swerve recovery without brake input",
+      "status": "passed",
+      "comparison": "Accessible, Balanced, and Raw recovered in 0, 11, and 29 frames; all stayed above 0.94 final speed ratio and within 2.833 degrees of the initial heading"
+    },
+    {
+      "criterion": "car-like yaw and lateral force from supported tire contact",
+      "status": "passed",
+      "comparison": "direct chassis steering torque was removed; unloaded tire force is zero; all slow-turn, moderate-turn, lane-change, departure, recovery, and incline bands passed"
+    },
+    {
+      "criterion": "materially distinct profiles with a controllable common baseline",
+      "status": "passed",
+      "comparison": "Accessible has the greatest stabilization, Balanced is intermediate, and Raw has the least; swerve roll, yaw, slip, and recovery measurements remain distinct and ordered by demand"
+    },
+    {
+      "criterion": "preserve concurrent controller tuning",
+      "status": "passed",
+      "comparison": "controller high-speed authority and controller throttle-release tuning remain on their existing profile values and are covered by focused regressions"
+    },
+    {
+      "criterion": "frame rate, streaming, rebasing, save-resume, and deterministic replay equivalence",
+      "status": "passed",
+      "comparison": "30/60/144 FPS hashes matched; the refreshed 500-mile run recorded 1,362 rebases and nine equivalent resumes with zero route or save failures"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "src/Cannonball.Core/Simulation/Vehicle/DrivingInputConditioner.cs",
+      "sha256": "4a92f5731538a5cac2ebc52ab5438a4819337d1649ffa623c6dfcd349762b82c"
+    },
+    {
+      "path": "src/Cannonball.Core/Simulation/Vehicle/VehicleDynamicsForces.cs",
+      "sha256": "d4d1f0919861cb941b6707afbb8dce6b9d2909e56757ca9455f008eca3da56aa"
+    },
+    {
+      "path": "tests/Cannonball.Core.Tests/DrivingInputConditionerTests.cs",
+      "sha256": "ada05cf920ce16d5efbcf4a74301cf9b547c14761c20d6df61d73dbb7fe56e8b"
+    },
+    {
+      "path": "tests/Cannonball.Core.Tests/VehicleDynamicsForcesTests.cs",
+      "sha256": "1ba830c079925a9f575ce6b5799e55322bbd48b7e7eb8a50a2c0a75812df42d6"
+    },
+    {
+      "path": "game/Vehicle/CannonballVehicle.cs",
+      "sha256": "71cc0ae58c186e3118e8d99fb45f7497a818d607c1c8e9835e821f1e463ed68e"
+    },
+    {
+      "path": "game/Vehicle/VehicleDynamicsProfile.cs",
+      "sha256": "1a6b95e680756d81eb76c8526f04a19054605db057ea45adf9398fc24c996f07"
+    },
+    {
+      "path": "game/Automation/VehicleDynamicsScenario.cs",
+      "sha256": "9bdca9968eec8071a4d0a76c357eb4c432d3a91e1194627e3064f626dda78034"
+    },
+    {
+      "path": "docs/DELIVERY_LEDGER.json",
+      "sha256": "1722e09be2eaf5c3deb97dea4afcb82027624ee7a63a6889472bd0ce77b1a13b"
+    },
+    {
+      "path": "docs/audits/2026-07-25-p0-019-owner-feel-followup.md",
+      "sha256": "eae81fe69c2d87dbafb627ad17e92f142c30bf8e51217c62acc6f2441381324c"
+    },
+    {
+      "path": "reports/p0-019/matrix.log",
+      "sha256": "25046e7ca30e7837fe95a2a18ac877c2140fbda9e9a332d751ce73dddb7df0fe"
+    },
+    {
+      "path": "reports/p0-019/core-tests.log",
+      "sha256": "8d119cc9220cf2d0f3a18d0a78386ab3e33a7d57e4665fbc7c708abec0d2501c"
+    },
+    {
+      "path": "reports/p0-019/fps-30.log",
+      "sha256": "d5e259214d4b29dea1bc35b362c4a8af1c60369976381a230c3b0f1a380930a2"
+    },
+    {
+      "path": "reports/p0-019/fps-60.log",
+      "sha256": "aa7772a4d6fd36b9c0ae6fce920761b3e78dbebbf096d6ebc87feb5c9000d49d"
+    },
+    {
+      "path": "reports/p0-019/fps-144.log",
+      "sha256": "403767593896b39c5a36fa01956b9b6c9b8976442f717234925f607c04469cd5"
+    },
+    {
+      "path": "reports/m0/summary.json",
+      "sha256": "000db937c96f947de4093a49f55060edf7fb2ed247cc7dddd5d9c73b7084d9a8"
+    },
+    {
+      "path": ".tools/evidence/p0-019-owner-feel-long-route.json",
+      "sha256": "dab2ff42f3b5145a1c228123d081c4a18be572bea9c1fd3b9edb25a45b963b46"
+    }
+  ],
+  "failure_handling": {
+    "retry_count": 0,
+    "failure_logs": [],
+    "recovery_result": "The recorded final verification command set passed without retry. Development characterization and rejected tuning variants are documented in the append-only audit."
+  },
+  "adversarial_review": "docs/audits/2026-07-25-p0-019-owner-feel-followup.md#diagnosis",
+  "dependency_blockers": [
+    "P0-018 remains verified locally and incomplete",
+    "P0-017 Q-029 human camera comfort and readability gate remains pending"
+  ],
+  "human_gate": {
+    "name": "post-fix owner vehicle-feel review and P0-020 sustained keyboard and controller sessions",
+    "status": "pending",
+    "approval_reference": null
+  }
+}

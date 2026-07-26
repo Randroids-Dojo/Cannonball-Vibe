@@ -32,7 +32,8 @@ public readonly record struct ConditionedDrivingInput(
     double SteeringTarget,
     double SteeringAuthority,
     double SteeringResponseSeconds,
-    bool SteeringSaturated);
+    bool SteeringSaturated,
+    bool BrakeTriggerReverseEngaged);
 
 public sealed record DrivingInputTuning(
     double KeyboardRisePerSecond,
@@ -46,23 +47,30 @@ public sealed record DrivingInputTuning(
     double MinimumHighSpeedSteeringAuthority,
     double ThrottleRatePerSecond,
     double BrakeRatePerSecond,
-    double StationaryHoldSpeedMetersPerSecond)
+    double StationaryHoldSpeedMetersPerSecond,
+    double KeyboardHighSpeedStartMetersPerSecond,
+    double KeyboardHighSpeedFullMetersPerSecond,
+    double KeyboardMinimumHighSpeedSteeringAuthority,
+    double KeyboardThrottleReleasePerSecond)
 {
     private static readonly DrivingInputTuning Accessible = new(
-        2.4, 4.0, 3.2,
+        2.4, 4.0, 8.0,
         0.16, 1.60, 3.0,
         24, 90, 0.26,
-        3.5, 6.0, 0.45);
+        3.5, 6.0, 0.45,
+        8, 32, 0.09, 40);
     private static readonly DrivingInputTuning Balanced = new(
-        3.2, 4.8, 4.0,
+        3.2, 4.8, 8.0,
         0.12, 1.35, 4.5,
         28, 90, 0.31,
-        5.0, 8.0, 0.35);
+        5.0, 8.0, 0.35,
+        10, 35, 0.11, 40);
     private static readonly DrivingInputTuning Raw = new(
-        5.5, 7.0, 6.5,
+        5.5, 7.0, 10.0,
         0.08, 1.00, 8.0,
         32, 90, 0.40,
-        8.0, 10.0, 0.25);
+        8.0, 10.0, 0.25,
+        14, 38, 0.15, 40);
 
     public static DrivingInputTuning For(AssistProfile profile) => profile switch
     {
@@ -76,12 +84,16 @@ public sealed class DrivingInputConditioner
 {
     private const double NeutralEpsilon = 0.0001;
 
+    public const double BrakeToReverseEnterSpeedMetersPerSecond = 0.35;
+    public const double BrakeToReverseExitSpeedMetersPerSecond = 0.75;
+
     private double _steering;
     private double _throttle;
     private double _serviceBrake;
     private double _reverse;
     private double _handbrake;
     private double _steeringResponseSeconds;
+    private bool _brakeTriggerReverseEngaged;
 
     public ConditionedDrivingInput Current { get; private set; }
 
@@ -114,21 +126,49 @@ public sealed class DrivingInputConditioner
         var shapedSteering = raw.Device == DrivingInputDevice.Controller
             ? ShapeControllerAxis(rawSteering, tuning.ControllerDeadzone, tuning.ControllerExponent)
             : rawSteering;
+        var keyboard = raw.Device == DrivingInputDevice.Keyboard;
         var speedRatio = SmoothStep(
-            tuning.HighSpeedStartMetersPerSecond,
-            tuning.HighSpeedFullMetersPerSecond,
+            keyboard
+                ? tuning.KeyboardHighSpeedStartMetersPerSecond
+                : tuning.HighSpeedStartMetersPerSecond,
+            keyboard
+                ? tuning.KeyboardHighSpeedFullMetersPerSecond
+                : tuning.HighSpeedFullMetersPerSecond,
             Math.Abs(forwardSpeedMetersPerSecond));
-        var steeringAuthority = Lerp(1, tuning.MinimumHighSpeedSteeringAuthority, speedRatio);
+        var steeringAuthority = Lerp(
+            1,
+            keyboard
+                ? tuning.KeyboardMinimumHighSpeedSteeringAuthority
+                : tuning.MinimumHighSpeedSteeringAuthority,
+            speedRatio);
         var steeringTarget = shapedSteering * steeringAuthority;
         var steeringRate = SteeringRate(steeringTarget, tuning, raw.Device);
+        if (keyboard)
+        {
+            // Keep a digital key's time-to-lock and time-to-center stable as its
+            // speed-sensitive physical steering range shrinks.
+            steeringRate *= steeringAuthority;
+        }
         _steering = MoveTowards(_steering, steeringTarget, steeringRate * delta);
         _steeringResponseSeconds = Math.Abs(_steering - steeringTarget) > 0.005
             ? _steeringResponseSeconds + delta
             : 0;
 
-        var throttleTarget = ClampUnit(raw.Throttle);
-        var reverseTarget = ClampUnit(raw.Reverse);
-        var serviceBrakeTarget = ClampUnit(raw.ServiceBrake);
+        var throttleTarget = raw.Device == DrivingInputDevice.Controller
+            ? ShapeControllerTrigger(raw.Throttle, tuning.ControllerDeadzone)
+            : ClampUnit(raw.Throttle);
+        var directReverseTarget = ClampUnit(raw.Reverse);
+        var brakeTriggerTarget = raw.Device == DrivingInputDevice.Controller
+            ? ShapeControllerTrigger(raw.ServiceBrake, tuning.ControllerDeadzone)
+            : ClampUnit(raw.ServiceBrake);
+        var brakeTriggerReverseEngaged = UpdateBrakeTriggerReverseState(
+            raw.Device,
+            brakeTriggerTarget,
+            forwardSpeedMetersPerSecond);
+        var reverseTarget = Math.Max(
+            directReverseTarget,
+            brakeTriggerReverseEngaged ? brakeTriggerTarget : 0);
+        var serviceBrakeTarget = brakeTriggerReverseEngaged ? 0 : brakeTriggerTarget;
         var handbrakeTarget = ClampUnit(raw.Handbrake);
         ResolveContradictoryPropulsion(
             ref throttleTarget,
@@ -143,8 +183,14 @@ public sealed class DrivingInputConditioner
         }
         else
         {
-            _throttle = MoveTowards(_throttle, throttleTarget, tuning.ThrottleRatePerSecond * delta);
-            _reverse = MoveTowards(_reverse, reverseTarget, tuning.ThrottleRatePerSecond * delta);
+            var throttleRate = keyboard && throttleTarget < _throttle
+                ? tuning.KeyboardThrottleReleasePerSecond
+                : tuning.ThrottleRatePerSecond;
+            var reverseRate = keyboard && reverseTarget < _reverse
+                ? tuning.KeyboardThrottleReleasePerSecond
+                : tuning.ThrottleRatePerSecond;
+            _throttle = MoveTowards(_throttle, throttleTarget, throttleRate * delta);
+            _reverse = MoveTowards(_reverse, reverseTarget, reverseRate * delta);
         }
         _serviceBrake = MoveTowards(
             _serviceBrake,
@@ -171,7 +217,8 @@ public sealed class DrivingInputConditioner
             steeringAuthority,
             _steeringResponseSeconds,
             Math.Abs(shapedSteering) >= 0.999 &&
-                Math.Abs(_steering - steeringTarget) <= 0.005);
+                Math.Abs(_steering - steeringTarget) <= 0.005,
+            _brakeTriggerReverseEngaged);
         return Current;
     }
 
@@ -183,6 +230,7 @@ public sealed class DrivingInputConditioner
         _reverse = 0;
         _handbrake = 0;
         _steeringResponseSeconds = 0;
+        _brakeTriggerReverseEngaged = false;
         Current = default;
     }
 
@@ -247,10 +295,42 @@ public sealed class DrivingInputConditioner
     private static ConditionedDrivingInput Empty(AssistProfile profile) => new(
         0, 0, 0, 0, 0,
         true, false, DrivingInputDevice.None, profile,
-        0, 0, 1, 0, false);
+        0, 0, 1, 0, false, false);
+
+    private bool UpdateBrakeTriggerReverseState(
+        DrivingInputDevice device,
+        double brakeTrigger,
+        double forwardSpeedMetersPerSecond)
+    {
+        if (device != DrivingInputDevice.Controller || brakeTrigger <= NeutralEpsilon)
+        {
+            _brakeTriggerReverseEngaged = false;
+            return false;
+        }
+
+        if (_brakeTriggerReverseEngaged)
+        {
+            if (forwardSpeedMetersPerSecond > BrakeToReverseExitSpeedMetersPerSecond)
+            {
+                _brakeTriggerReverseEngaged = false;
+            }
+        }
+        else if (Math.Abs(forwardSpeedMetersPerSecond) <= BrakeToReverseEnterSpeedMetersPerSecond)
+        {
+            _brakeTriggerReverseEngaged = true;
+        }
+
+        return _brakeTriggerReverseEngaged;
+    }
 
     private static double ClampUnit(double value) =>
         double.IsFinite(value) ? Math.Clamp(value, 0, 1) : 0;
+
+    private static double ShapeControllerTrigger(double value, double deadzone)
+    {
+        var clamped = ClampUnit(value);
+        return clamped <= deadzone ? 0 : (clamped - deadzone) / (1 - deadzone);
+    }
 
     private static double ClampSigned(double value) =>
         double.IsFinite(value) ? Math.Clamp(value, -1, 1) : 0;

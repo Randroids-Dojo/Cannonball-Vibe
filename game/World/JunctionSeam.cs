@@ -165,7 +165,7 @@ public sealed partial class JunctionSeam : Node3D
         var fromRightPoint = fromCenter + fromDirection * (float)fromRight + vertical;
         var toLeftPoint = toCenter + toDirection * (float)toLeft + vertical;
         var toRightPoint = toCenter + toDirection * (float)toRight + vertical;
-        var surface = new SurfaceTool();
+        using var surface = new SurfaceTool();
         surface.Begin(Mesh.PrimitiveType.Triangles);
         surface.AddVertex(fromLeftPoint);
         surface.AddVertex(toRightPoint);

@@ -88,6 +88,120 @@ public sealed class RouteContextPlannerTests
     }
 
     [Fact]
+    public void ObservedUs36UnknownDirectionAndRawMileMetadataAreOmitted()
+    {
+        const string observedBugText = "US 36 unspecified mile 21.6";
+        var fixture = CreateFixture();
+        var semantics = fixture.Semantics with
+        {
+            RouteIdentities = fixture.Semantics.RouteIdentities.Select(identity =>
+                identity.Id == "us36"
+                    ? identity with { SignedDirection = "unspecified" }
+                    : identity).ToArray(),
+            MilepointAnchors = fixture.Semantics.MilepointAnchors.Select(anchor =>
+                anchor.RouteIdentityId == "us36"
+                    ? anchor with { ValueMiles = 21.6, SignedDirection = "unspecified" }
+                    : anchor).ToArray(),
+            RoadsideMarkers = fixture.Semantics.RoadsideMarkers.Select(marker =>
+                marker.RouteIdentityId == "us36"
+                    ? marker with { DisplayText = "21.6" }
+                    : marker).ToArray(),
+        };
+        var observedIdentity = Assert.Single(semantics.RouteIdentities, identity =>
+            identity.Id == "us36");
+        var observedAnchor = Assert.Single(semantics.MilepointAnchors, anchor =>
+            anchor.RouteIdentityId == "us36");
+        Assert.Equal(
+            observedBugText,
+            $"{observedIdentity.System} {observedIdentity.Number} " +
+            $"{observedIdentity.SignedDirection} mile " +
+            RouteContextPlanner.FormatMilepoint(observedAnchor.ValueMiles));
+
+        var plan = RouteContextPlanner.BuildForEdge(fixture.Graph, semantics, "approach");
+
+        Assert.DoesNotContain(plan.Placements, placement =>
+            placement.Kind == RouteContextPlacementKind.MileMarker &&
+            placement.RouteIdentityId == "us36");
+        Assert.Contains(plan.Omissions, omission =>
+            omission.Id == "marker-us36-42" &&
+            omission.Reason.Contains("not qualified", StringComparison.Ordinal));
+        var visibleContent = string.Join(' ', plan.Placements.SelectMany(placement =>
+            new[] { placement.PrimaryText, placement.SecondaryText }
+                .Concat(placement.RouteShields)));
+        Assert.DoesNotContain("unspecified", visibleContent, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("21.6", visibleContent, StringComparison.Ordinal);
+        Assert.DoesNotContain(observedBugText, visibleContent, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
+    public void GuideSignsFilterUnknownOptionalFieldsAndKeepValidatedFallbacks()
+    {
+        var fixture = CreateFixture();
+        var semantics = fixture.Semantics with
+        {
+            RouteIdentities = fixture.Semantics.RouteIdentities.Select(identity =>
+                identity.Id is "us36" or "co93"
+                    ? identity with { SignedDirection = "unspecified" }
+                    : identity).ToArray(),
+            Exits = fixture.Semantics.Exits.Select(routeExit =>
+                routeExit.Id == "exit-42a"
+                    ? routeExit with
+                    {
+                        Number = "unknown",
+                        Suffix = "n/a",
+                        Destinations = ["unknown", "Boulder", "unspecified"],
+                        Services = ["unknown", "food", "n/a"],
+                    }
+                    : routeExit).ToArray(),
+        };
+
+        var plan = RouteContextPlanner.BuildForEdge(fixture.Graph, semantics, "approach");
+
+        var exit = Assert.Single(plan.Placements, placement =>
+            placement.Kind == RouteContextPlacementKind.ExitSign);
+        Assert.Equal("EXIT", exit.PrimaryText);
+        Assert.Equal("BOULDER", exit.SecondaryText);
+        Assert.Equal(["US 36", "TO CO 93"], exit.RouteShields);
+        Assert.Equal(["food"], exit.Services);
+        Assert.Equal(string.Empty, exit.SignedDirection);
+        Assert.DoesNotContain("unknown", string.Join(' ', exit.RouteShields),
+            StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("unspecified", string.Join(' ', exit.RouteShields),
+            StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
+    public void GuideSignWithoutValidatedPlayerContentIsOmitted()
+    {
+        var fixture = CreateFixture();
+        var semantics = fixture.Semantics with
+        {
+            RouteIdentities = fixture.Semantics.RouteIdentities.Select(identity =>
+                identity.Id == "co93"
+                    ? identity with { System = "unknown", Number = "unknown" }
+                    : identity).ToArray(),
+            Exits = fixture.Semantics.Exits.Select(routeExit =>
+                routeExit.Id == "exit-42a"
+                    ? routeExit with
+                    {
+                        Number = "unknown",
+                        Suffix = "n/a",
+                        Destinations = ["unspecified"],
+                        Services = ["unknown"],
+                    }
+                    : routeExit).ToArray(),
+        };
+
+        var plan = RouteContextPlanner.BuildForEdge(fixture.Graph, semantics, "approach");
+
+        Assert.DoesNotContain(plan.Placements, placement =>
+            placement.Kind == RouteContextPlacementKind.ExitSign);
+        Assert.Contains(plan.Omissions, omission =>
+            omission.Id == "exit-42a" &&
+            omission.Reason.Contains("no validated", StringComparison.Ordinal));
+    }
+
+    [Fact]
     public void ExitAndTransferSignsCarryLaneDestinationsServicesAndSeparation()
     {
         var fixture = CreateFixture();

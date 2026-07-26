@@ -61,6 +61,7 @@ async def _raw_server(tmp_path: Path) -> AsyncIterator[tuple[str, int, str, Path
         "--",
         "--playgodot",
         f"--route-package={_route_package()}",
+        f"--telemetry-path={tmp_path / 'telemetry.jsonl'}",
     ]
     if platform.system() == "Linux" and os.environ.get("PLAYGODOT_XVFB") == "1":
         command = ["xvfb-run", "-a", *command]
@@ -244,8 +245,9 @@ async def test_official_engine_semantic_round_trip(tmp_path: Path) -> None:
         driver_menu = await client.describe("menu.driver.root")
         assert driver_menu["visible"] is True
         assert driver_menu["test_state"] == {
-            "button_count": 3,
+            "button_count": 4,
             "open": True,
+            "restart_confirmation_armed": False,
             "simulation_paused": True,
             "status": "Paused at current route position",
         }
@@ -283,8 +285,9 @@ async def test_official_engine_semantic_round_trip(tmp_path: Path) -> None:
         closed_menu = await client.describe("menu.driver.root")
         assert closed_menu["visible"] is False
         assert closed_menu["test_state"] == {
-            "button_count": 3,
+            "button_count": 4,
             "open": False,
+            "restart_confirmation_armed": False,
             "simulation_paused": False,
             "status": "closed",
         }
@@ -321,6 +324,8 @@ async def test_official_engine_semantic_round_trip(tmp_path: Path) -> None:
         assert trip_map["test_state"]["projected_point_count"] > 0
         assert trip_map["test_state"]["travel_mode_id"] == "real-time"
         assert trip_map["test_state"]["travel_time_scale"] == 1
+        assert 0 <= trip_map["test_state"]["progress_percent"] <= 100
+        assert trip_map["test_state"]["legend_item_count"] == 6
         assert 0 < trip_map["test_state"]["draw_batch_count"] <= (
             trip_map["test_state"]["alternative_count"] + 2
         )
@@ -328,6 +333,14 @@ async def test_official_engine_semantic_round_trip(tmp_path: Path) -> None:
         assert "mi completed" in summary["text"]
         assert "mi remaining" in summary["text"]
         assert "1:1 endurance" in summary["text"]
+        progress = await client.describe("trip-map.progress")
+        assert progress["visible"] is True
+        assert (
+            summary["bounds"]["y"] + summary["bounds"]["height"]
+            <= progress["bounds"]["y"]
+        )
+        legend = await client.describe("trip-map.legend")
+        assert legend["visible"] is True
         selection = await client.describe("trip-map.selection")
         assert (
             summary["bounds"]["y"] + summary["bounds"]["height"]

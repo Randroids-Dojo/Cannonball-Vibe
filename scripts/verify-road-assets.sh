@@ -28,10 +28,11 @@ metric_value() {
   local line="$1"
   local key="$2"
   local value
-  value="$(printf '%s\n' "$line" | rg -o "${key}=[0-9]+([.][0-9]+)?" |
+  value="$(printf '%s\n' "$line" |
+    rg -o "(^|[[:space:]])${key}=[0-9]+([.][0-9]+)?" |
     cut -d= -f2 || true)"
-  if [[ -z "$value" ]]; then
-    echo "Missing metric '$key' in: $line" >&2
+  if [[ -z "$value" || "$value" == *$'\n'* ]]; then
+    echo "Missing or ambiguous metric '$key' in: $line" >&2
     exit 1
   fi
   printf '%s\n' "$value"
@@ -59,6 +60,11 @@ retroreflective_materials="$(metric_value "$production_line" retroreflective_mat
 bridge_decks="$(metric_value "$production_line" bridge_decks)"
 overpass_openings="$(metric_value "$production_line" overpass_openings)"
 lighting_stages="$(metric_value "$production_line" lighting_stages)"
+guide_signs="$(metric_value "$production_line" guide_signs)"
+shields="$(metric_value "$production_line" shields)"
+standard_shields="$(metric_value "$production_line" standard_shields)"
+geometric_lane_arrows="$(metric_value "$production_line" geometric_lane_arrows)"
+typography_fallbacks="$(metric_value "$production_line" typography_fallbacks)"
 graybox_shared_materials="$(metric_value "$graybox_line" shared_materials)"
 graybox_shared_meshes="$(metric_value "$graybox_line" shared_meshes)"
 graybox_retroreflective_materials="$(
@@ -67,16 +73,34 @@ graybox_retroreflective_materials="$(
 graybox_bridge_decks="$(metric_value "$graybox_line" bridge_decks)"
 graybox_overpass_openings="$(metric_value "$graybox_line" overpass_openings)"
 graybox_lighting_stages="$(metric_value "$graybox_line" lighting_stages)"
+graybox_guide_signs="$(metric_value "$graybox_line" guide_signs)"
+graybox_shields="$(metric_value "$graybox_line" shields)"
+graybox_standard_shields="$(metric_value "$graybox_line" standard_shields)"
+graybox_geometric_lane_arrows="$(
+  metric_value "$graybox_line" geometric_lane_arrows
+)"
+graybox_typography_fallbacks="$(
+  metric_value "$graybox_line" typography_fallbacks
+)"
 if [[ "$graybox_shared_materials" != "$shared_materials" ||
       "$graybox_shared_meshes" != "$shared_meshes" ||
       "$graybox_retroreflective_materials" != "$retroreflective_materials" ||
       "$graybox_bridge_decks" != "$bridge_decks" ||
       "$graybox_overpass_openings" != "$overpass_openings" ||
-      "$graybox_lighting_stages" != "$lighting_stages" ]]; then
+      "$graybox_lighting_stages" != "$lighting_stages" ||
+      "$graybox_guide_signs" != "$guide_signs" ||
+      "$graybox_shields" != "$shields" ||
+      "$graybox_standard_shields" != "$standard_shields" ||
+      "$graybox_geometric_lane_arrows" != "$geometric_lane_arrows" ||
+      "$graybox_typography_fallbacks" != "$typography_fallbacks" ]]; then
   echo "Production and graybox resource contracts differ." >&2
   exit 1
 fi
-if (( bridge_decks < 1 || overpass_openings < 1 || lighting_stages != 2 )); then
+if (( bridge_decks < 1 || overpass_openings < 1 || lighting_stages != 2 ||
+      guide_signs < 1 || shields < 2 ||
+      standard_shields != shields ||
+      geometric_lane_arrows != guide_signs ||
+      typography_fallbacks != guide_signs )); then
   echo "Road structure or day/night coverage is incomplete." >&2
   exit 1
 fi
@@ -92,7 +116,8 @@ for index in "${!topology_fixtures[@]}"; do
     ./scripts/run-scenario.sh --fixture "$fixture" --profile "$profile"
 done
 
-printf 'CANNONBALL_ROAD_ASSETS_OK profiles=%s topology_fixtures=%s shared_materials=%s shared_meshes=%s retroreflective_materials=%s bridge_decks=%s overpass_openings=%s lighting_stages=%s\n' \
+printf 'CANNONBALL_ROAD_ASSETS_OK profiles=%s topology_fixtures=%s shared_materials=%s shared_meshes=%s retroreflective_materials=%s bridge_decks=%s overpass_openings=%s lighting_stages=%s guide_signs=%s shields=%s standard_shields=%s geometric_lane_arrows=%s typography_fallbacks=%s\n' \
   "${#visual_profiles[@]}" "${#topology_fixtures[@]}" "$shared_materials" \
   "$shared_meshes" "$retroreflective_materials" "$bridge_decks" "$overpass_openings" \
-  "$lighting_stages"
+  "$lighting_stages" "$guide_signs" "$shields" "$standard_shields" \
+  "$geometric_lane_arrows" "$typography_fallbacks"

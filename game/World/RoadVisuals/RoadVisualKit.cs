@@ -10,7 +10,7 @@ public enum RoadVisualProfile
 
 public sealed class RoadVisualKit
 {
-    public const string Version = "colorado-freeway-v2";
+    public const string Version = "colorado-freeway-v3";
     public const double TerrainMarginMeters = 120;
     private readonly IReadOnlyList<Material> _sharedMaterials;
     private readonly IReadOnlyList<Mesh> _sharedMeshes;
