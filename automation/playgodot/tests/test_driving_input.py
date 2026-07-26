@@ -266,6 +266,8 @@ async def test_controller_deadzone_curve_and_independent_axes(tmp_path: Path) ->
                 sample["brake_trigger_reverse_engaged"]
                 and sample["conditioned_reverse"] > 0
                 and sample["forward_speed_mps"] < -0.05
+                and sample["conditioned_service_brake"]
+                < braking["conditioned_service_brake"]
             ):
                 reverse_handoff = sample
                 break
