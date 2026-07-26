@@ -89,9 +89,9 @@ The report path is local verification output rather than a shipping asset.
 
 ## Remaining gates
 
-- P0-019 remains `in_progress`: the complete speed-band, stopping, curve,
-  departure, replay, frame-rate, rebase, and save-resume corpus is not claimed
-  by this narrow incline regression.
+- P0-019 is `verified_local`, not complete: the complete speed-band, stopping,
+  curve, departure, replay, frame-rate, rebase, and save-resume corpus is not
+  claimed by this narrow incline regression, and owner approval remains open.
 - P0-013 remains `in_progress`: the owner should review the polished overview
   before Q-028 is resolved, and the reported skyward launch after returning
   from Trip Overview remains an unverified low-priority defect.
