@@ -92,12 +92,27 @@ async def test_keyboard_steering_is_progressive_and_camera_independent(tmp_path:
             assert screenshot["bytes"] > 0
             assert screenshot["width"] >= 960
             assert screenshot["height"] >= 540
+            release_steering = (
+                await client.describe("vehicle.input.conditioner")
+            )["test_state"]["conditioned_steering"]
+            assert 0 < release_steering <= 1
         finally:
             await _action(client, "steer_right", "release")
 
-        await asyncio.sleep(0.05)
-        returning = (await client.describe("vehicle.input.conditioner"))["test_state"]
-        assert 0 <= returning["conditioned_steering"] < later["conditioned_steering"]
+        deadline = asyncio.get_running_loop().time() + 1.0
+        while True:
+            returning = (await client.describe("vehicle.input.conditioner"))["test_state"]
+            if asyncio.get_running_loop().time() >= deadline:
+                pytest.fail(
+                    "Keyboard steering did not decay after release; "
+                    f"release value was {release_steering} and current value is "
+                    f"{returning['conditioned_steering']}"
+                )
+            if 0 <= returning["conditioned_steering"] < release_steering:
+                break
+            await asyncio.sleep(0.02)
+
+        assert 0 <= returning["conditioned_steering"] < release_steering
 
         await _action(client, "steer_left", "press")
         try:
@@ -251,6 +266,8 @@ async def test_controller_deadzone_curve_and_independent_axes(tmp_path: Path) ->
                 sample["brake_trigger_reverse_engaged"]
                 and sample["conditioned_reverse"] > 0
                 and sample["forward_speed_mps"] < -0.05
+                and sample["conditioned_service_brake"]
+                < braking["conditioned_service_brake"]
             ):
                 reverse_handoff = sample
                 break

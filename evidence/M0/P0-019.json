@@ -2,7 +2,7 @@
   "schema_version": 1,
   "task_id": "P0-019",
   "milestone": "M0",
-  "status": "verified_local_dependency_blocked_owner_review_pending",
+  "status": "verified_local",
   "recorded_at_utc": "2026-07-26T04:17:07.3444089Z",
   "git_revision": "42d3bc649b43c6d4d9128d718761cf1e5cea9e92",
   "source_state": "committed implementation revision anchored by this follow-up evidence commit",
@@ -355,8 +355,16 @@
     "P0-017 Q-029 human camera comfort and readability gate remains pending"
   ],
   "human_gate": {
-    "name": "post-fix owner vehicle-feel review and P0-020 sustained keyboard and controller sessions",
+    "name": "post-fix owner vehicle-feel review",
+    "status": "approved",
+    "approved_at_utc": "2026-07-26T20:05:56.9147634Z",
+    "approval_reference": "Owner statement in Codex task on 2026-07-26: I approve 18 and 19.",
+    "audit": "docs/audits/2026-07-26-p0-018-p0-019-owner-approvals.md"
+  },
+  "remaining_human_gate": {
+    "task_id": "P0-020",
+    "name": "30-minute keyboard and controller handling sessions",
     "status": "pending",
-    "approval_reference": null
+    "scope_boundary": "P0-019 owner approval does not replace P0-020 sustained sessions."
   }
 }

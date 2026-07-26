@@ -217,6 +217,7 @@
         "docs/OPEN_QUESTIONS.md",
         "docs/TECH_STACK.md",
         "docs/audits/2026-07-20-p0-018-input-conditioning.md",
+        "docs/audits/2026-07-26-p0-018-p0-019-owner-approvals.md",
         "docs/images/p0-018-driving-input-review.png",
         "docs/images/p0-018-cockpit-controller-review.png",
         "evidence/M0/P0-018.json"
@@ -241,9 +242,21 @@
         "./scripts/check.sh"
       ],
       "evidence": [
-        "evidence/M0/P0-018.json"
+        "evidence/M0/P0-018.json",
+        "docs/audits/2026-07-26-p0-018-p0-019-owner-approvals.md"
       ],
       "human_gate": null,
+      "owner_approval": {
+        "status": "approved",
+        "approved_at_utc": "2026-07-26T20:05:56.9147634Z",
+        "approval_reference": "Owner statement in Codex task on 2026-07-26: I approve 18 and 19.",
+        "scope": "P0-018 delivered controller, restart/recover, look-behind, and bounded cockpit sightline/culling tranche",
+        "does_not_resolve": [
+          "P0-017 Q-029 camera-comfort and readability approval",
+          "production cockpit art quality",
+          "physical wheel, pedal, or force-feedback readiness"
+        ]
+      },
       "notes": "The bounded Steam Controller owner-test correction is verified locally at 9279342cc492da547061a237b8b77aab25306060: conventional RT/LT/left-stick driving, controller camera/recover/pause/menu actions, controller-first menu navigation, trigger deadzones, nonzero-device reconnect/focus safety, a distinct confirmed Restart Run path that reconstructs the deterministic run start instead of recovering at the current route point, held rear view in both camera modes, and a cockpit driver-eye/render-layer sightline correction that preserves chase visibility. A final schema refinement on top of 24aac5e makes held LT brake while moving forward and transition into reverse at or below 0.35 m/s, with a 0.75 m/s exit threshold preventing chatter; B remains a secondary reverse binding. The focused Core suite, keyboard/controller gate, camera gate, and complete M0 gate provide the exact current counts in evidence/M0/P0-018.json. Scope expanded narrowly to the Core initial-run and input-conditioning values, runtime input-map/restart call site, existing menu surfaces and regression test, both camera rigs, the vehicle visual rig and focused camera test, project focus policy, control documentation, and debug-only PlayGodot joypad/focus/connection injection needed to prove the physical mappings; no broader runtime, UI, asset-generation, or automation-protocol ownership transfers. During final verification, three post-smoke native finalizer crashes exposed undisposed existing Godot SurfaceTool and PackedScene wrappers; ownership expanded only to the three mesh construction files needed for explicit wrapper disposal, with no geometry or content behavior changes. This pass stops after the supplied defects and required gates so downstream art, continental-map, and broader game work can proceed. The current cockpit is an accepted graybox placeholder for this tranche: the sightline and culling defect is fixed, but production cockpit art is deferred and not claimed. P0-018 remains verified_local rather than complete until P0-017 is complete following the Q-029 human camera-comfort decision. Q-030 records R3 camera, Y recover, and LB rear view as the safe working default for a later non-blocking hardware retest. Physical wheels, pedals, and force feedback remain governed by Q-006 and are deliberately outside this keyboard-and-controller baseline."
     },
     {
@@ -269,6 +282,7 @@
         "scripts/run-scenario.sh",
         "docs/audits/2026-07-23-p0-019-vehicle-dynamics.md",
         "docs/audits/2026-07-25-p0-019-owner-feel-followup.md",
+        "docs/audits/2026-07-26-p0-018-p0-019-owner-approvals.md",
         "docs/QUESTIONS_FOR_RANDROID_2026-07-23_AUTONOMOUS_CLOSEOUT.md",
         "evidence/M0/P0-019.json"
       ],
@@ -287,10 +301,22 @@
         "./scripts/check.sh"
       ],
       "evidence": [
-        "evidence/M0/P0-019.json"
+        "evidence/M0/P0-019.json",
+        "docs/audits/2026-07-26-p0-018-p0-019-owner-approvals.md"
       ],
       "human_gate": null,
-      "notes": "Quantitative bands must be recorded before tuning is declared complete so acceptance cannot be moved to match a preferred result. On 2026-07-23 the owner reported a reproducible high-speed incline launch followed by a hard-landing throttle rollover. Narrow implementation and regression work may proceed against the merged, machine-verified P0-018 input foundation while its P0-017 human camera gate remains pending; this allowance does not complete P0-018, P0-019, or the later P0-020 sustained handling gate. On 2026-07-23 ownership expanded narrowly to game/Main.cs and scripts/run-scenario.sh for P0-019 scenario selection, fixed-FPS execution, and isolated telemetry plumbing; this does not transfer unrelated runtime or scenario-runner ownership. The complete local dynamics corpus, fixed-FPS comparison, 500-mile regression, representative topology runs, capture, and M0 gate passed on 2026-07-23. On 2026-07-25 the owner limited further tuning to the reported wheelbarrow/boat pivot, high-speed correction, profile ordering, lift-off, and brake-free swerve-recovery defects. The follow-up machine corpus verifies those defects against slow-turn, moderate-turn, coast-down, and alternating-swerve fixtures while preserving controller conditioning and distinct Accessible, Balanced, and Raw envelopes. This is the good-enough P0-019 machine baseline for downstream work; it is not post-fix owner approval and does not replace P0-020's sustained human sessions. P0-019 remains verified locally and cannot become complete while dependency P0-018 remains verified locally and incomplete behind the P0-017 Q-029 human camera gate."
+      "owner_approval": {
+        "status": "approved",
+        "approved_at_utc": "2026-07-26T20:05:56.9147634Z",
+        "approval_reference": "Owner statement in Codex task on 2026-07-26: I approve 18 and 19.",
+        "scope": "P0-019 post-fix vehicle-feel baseline",
+        "does_not_resolve": [
+          "P0-018 dependency completion",
+          "P0-017 Q-029 camera-comfort and readability approval",
+          "P0-020 sustained keyboard and controller sessions"
+        ]
+      },
+      "notes": "Quantitative bands must be recorded before tuning is declared complete so acceptance cannot be moved to match a preferred result. On 2026-07-23 the owner reported a reproducible high-speed incline launch followed by a hard-landing throttle rollover. Narrow implementation and regression work may proceed against the merged, machine-verified P0-018 input foundation while its P0-017 human camera gate remains pending; this allowance does not complete P0-018, P0-019, or the later P0-020 sustained handling gate. On 2026-07-23 ownership expanded narrowly to game/Main.cs and scripts/run-scenario.sh for P0-019 scenario selection, fixed-FPS execution, and isolated telemetry plumbing; this does not transfer unrelated runtime or scenario-runner ownership. The complete local dynamics corpus, fixed-FPS comparison, 500-mile regression, representative topology runs, capture, and M0 gate passed on 2026-07-23. On 2026-07-25 the owner limited further tuning to the reported wheelbarrow/boat pivot, high-speed correction, profile ordering, lift-off, and brake-free swerve-recovery defects. The follow-up machine corpus verifies those defects against slow-turn, moderate-turn, coast-down, and alternating-swerve fixtures while preserving controller conditioning and distinct Accessible, Balanced, and Raw envelopes. This is the good-enough P0-019 machine baseline for downstream work. On 2026-07-26 the owner explicitly approved this P0-019 baseline; the approval does not replace P0-020's sustained human sessions. P0-019 remains verified locally and cannot become complete while dependency P0-018 remains verified locally and incomplete behind the P0-017 Q-029 human camera gate."
     },
     {
       "id": "P0-020",

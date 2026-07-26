@@ -399,6 +399,18 @@
     "P0-017 Q-029 human camera comfort and readability gate remains pending"
   ],
   "human_gate": null,
+  "owner_approval": {
+    "status": "approved",
+    "approved_at_utc": "2026-07-26T20:05:56.9147634Z",
+    "approval_reference": "Owner statement in Codex task on 2026-07-26: I approve 18 and 19.",
+    "scope": "P0-018 controller conditioning, mappings, recover/restart separation, look-behind, and bounded cockpit sightline/culling correction",
+    "does_not_resolve": [
+      "P0-017 Q-029 camera-comfort and readability approval",
+      "production cockpit art quality",
+      "physical wheel, pedal, or force-feedback readiness"
+    ],
+    "audit": "docs/audits/2026-07-26-p0-018-p0-019-owner-approvals.md"
+  },
   "upstream_human_gate": {
     "task_id": "P0-017",
     "question_id": "Q-029",
