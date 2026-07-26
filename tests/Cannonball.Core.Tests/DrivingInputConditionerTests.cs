@@ -80,6 +80,64 @@ public sealed class DrivingInputConditionerTests
     }
 
     [Theory]
+    [InlineData(AssistProfile.Accessible, 0.16)]
+    [InlineData(AssistProfile.Balanced, 0.12)]
+    [InlineData(AssistProfile.Raw, 0.08)]
+    public void ControllerTriggersRejectWrongPolarityAndProfileDeadzone(
+        AssistProfile profile,
+        double deadzone)
+    {
+        var conditioner = new DrivingInputConditioner();
+
+        var wrongPolarity = conditioner.Step(
+            new RawDrivingInput(-1, -1, 0, 0, 0, DrivingInputDevice.Controller),
+            0,
+            1,
+            profile);
+        var atDeadzone = conditioner.Step(
+            new RawDrivingInput(deadzone, deadzone, 0, 0, 0, DrivingInputDevice.Controller),
+            0,
+            1,
+            profile);
+
+        Assert.Equal(0, wrongPolarity.Throttle);
+        Assert.Equal(0, wrongPolarity.ServiceBrake);
+        Assert.Equal(0, atDeadzone.Throttle);
+        Assert.Equal(0, atDeadzone.ServiceBrake);
+    }
+
+    [Theory]
+    [InlineData(AssistProfile.Accessible)]
+    [InlineData(AssistProfile.Balanced)]
+    [InlineData(AssistProfile.Raw)]
+    public void ControllerTriggersPreserveIndependentFullScaleAxes(AssistProfile profile)
+    {
+        var accelerator = new DrivingInputConditioner();
+        var braking = new DrivingInputConditioner();
+
+        ConditionedDrivingInput throttle = default;
+        ConditionedDrivingInput brake = default;
+        for (var frame = 0; frame < 4; frame++)
+        {
+            throttle = accelerator.Step(
+                new RawDrivingInput(1, 0, 0, 0, 0, DrivingInputDevice.Controller),
+                10,
+                0.1,
+                profile);
+            brake = braking.Step(
+                new RawDrivingInput(0, 1, 0, 0, 0, DrivingInputDevice.Controller),
+                10,
+                0.1,
+                profile);
+        }
+
+        Assert.Equal(1, throttle.Throttle);
+        Assert.Equal(0, throttle.ServiceBrake);
+        Assert.Equal(0, brake.Throttle);
+        Assert.Equal(1, brake.ServiceBrake);
+    }
+
+    [Theory]
     [InlineData(AssistProfile.Accessible, 3.0)]
     [InlineData(AssistProfile.Balanced, 4.5)]
     [InlineData(AssistProfile.Raw, 8.0)]

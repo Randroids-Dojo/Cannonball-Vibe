@@ -126,9 +126,13 @@ public sealed class DrivingInputConditioner
             ? _steeringResponseSeconds + delta
             : 0;
 
-        var throttleTarget = ClampUnit(raw.Throttle);
+        var throttleTarget = raw.Device == DrivingInputDevice.Controller
+            ? ShapeControllerTrigger(raw.Throttle, tuning.ControllerDeadzone)
+            : ClampUnit(raw.Throttle);
         var reverseTarget = ClampUnit(raw.Reverse);
-        var serviceBrakeTarget = ClampUnit(raw.ServiceBrake);
+        var serviceBrakeTarget = raw.Device == DrivingInputDevice.Controller
+            ? ShapeControllerTrigger(raw.ServiceBrake, tuning.ControllerDeadzone)
+            : ClampUnit(raw.ServiceBrake);
         var handbrakeTarget = ClampUnit(raw.Handbrake);
         ResolveContradictoryPropulsion(
             ref throttleTarget,
@@ -251,6 +255,12 @@ public sealed class DrivingInputConditioner
 
     private static double ClampUnit(double value) =>
         double.IsFinite(value) ? Math.Clamp(value, 0, 1) : 0;
+
+    private static double ShapeControllerTrigger(double value, double deadzone)
+    {
+        var clamped = ClampUnit(value);
+        return clamped <= deadzone ? 0 : (clamped - deadzone) / (1 - deadzone);
+    }
 
     private static double ClampSigned(double value) =>
         double.IsFinite(value) ? Math.Clamp(value, -1, 1) : 0;

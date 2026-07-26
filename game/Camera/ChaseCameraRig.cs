@@ -8,6 +8,7 @@ public sealed partial class ChaseCameraRig : Node3D
     private const float HighSpeedMetersPerSecond = 90.0f;
     private const float TeleportSnapDistanceMeters = 20.0f;
     private const float ArmForwardOffsetMeters = 1.5f;
+    private const float RearViewTransitionSharpness = 14.0f;
 
     private readonly Godot.Collections.Dictionary _automationState = new();
     private SpringArm3D _arm = null!;
@@ -16,6 +17,7 @@ public sealed partial class ChaseCameraRig : Node3D
     private Vector3 _smoothedForward = Vector3.Forward;
     private bool _initialized;
     private double _headingChangeElapsed;
+    private float _rearViewBlend;
 
     public Node3D Target { get; set; } = null!;
     public bool IsActive => _camera.Current;
@@ -114,6 +116,19 @@ public sealed partial class ChaseCameraRig : Node3D
             .Rotated(Vector3.Up, headingDelta * headingBlend)
             .Normalized();
         ApplyWorldTransform();
+        var rearViewHeld = Godot.Input.IsActionPressed("look_behind");
+        _rearViewBlend = Mathf.Lerp(
+            _rearViewBlend,
+            rearViewHeld ? 1.0f : 0.0f,
+            DecayBlend(RearViewTransitionSharpness, delta));
+        if (!rearViewHeld && _rearViewBlend < 0.001f)
+        {
+            _rearViewBlend = 0;
+        }
+        _arm.Rotation = new Vector3(
+            Mathf.DegToRad(LookPitchDegrees()),
+            Mathf.Pi * _rearViewBlend,
+            0);
 
         var speed = Target is RigidBody3D body ? body.LinearVelocity.Length() : 0.0f;
         var speedRatio = Mathf.Clamp(speed / HighSpeedMetersPerSecond, 0, 1);
@@ -134,6 +149,7 @@ public sealed partial class ChaseCameraRig : Node3D
         _smoothedPosition = Target.GlobalPosition;
         _smoothedForward = HorizontalForward(Target.GlobalTransform.Basis);
         _headingChangeElapsed = 0;
+        _rearViewBlend = 0;
         _initialized = true;
         ApplyWorldTransform();
         UpdateAutomationState(Target is RigidBody3D body
@@ -194,6 +210,10 @@ public sealed partial class ChaseCameraRig : Node3D
         _automationState["speed_response_sharpness"] = SpeedResponseSharpness;
         _automationState["speed_mps"] = speedMetersPerSecond;
         _automationState["collision_mask"] = (long)_arm.CollisionMask;
+        _automationState["cull_mask"] = (long)_camera.CullMask;
+        _automationState["rear_view_held"] = Godot.Input.IsActionPressed("look_behind");
+        _automationState["rear_view_blend"] = _rearViewBlend;
+        _automationState["rear_view_yaw_degrees"] = 180.0f * _rearViewBlend;
     }
 
     private static Vector3 HorizontalForward(Basis basis)

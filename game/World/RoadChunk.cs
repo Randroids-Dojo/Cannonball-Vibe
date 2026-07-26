@@ -766,7 +766,7 @@ public sealed partial class RoadChunk : Node3D
                 "A planar sign face requires at least three points.",
                 nameof(points));
         }
-        var surface = new SurfaceTool();
+        using var surface = new SurfaceTool();
         surface.Begin(Mesh.PrimitiveType.Triangles);
         for (var index = 1; index < points.Count - 1; index++)
         {
@@ -1000,7 +1000,7 @@ public sealed partial class RoadChunk : Node3D
         Func<LaneGeometrySample, double> rightOffset,
         float verticalOffset)
     {
-        var surface = new SurfaceTool();
+        using var surface = new SurfaceTool();
         surface.Begin(Mesh.PrimitiveType.Triangles);
         for (var index = 0; index < points.Count - 1; index++)
         {
@@ -1070,9 +1070,9 @@ public sealed partial class RoadChunk : Node3D
         IReadOnlyList<RouteChunkSample> samples,
         IReadOnlyList<LaneGeometrySample> layouts)
     {
-        var whiteSurface = new SurfaceTool();
+        using var whiteSurface = new SurfaceTool();
         whiteSurface.Begin(Mesh.PrimitiveType.Triangles);
-        var yellowSurface = new SurfaceTool();
+        using var yellowSurface = new SurfaceTool();
         yellowSurface.Begin(Mesh.PrimitiveType.Triangles);
         for (var index = 0; index < points.Count - 1; index++)
         {

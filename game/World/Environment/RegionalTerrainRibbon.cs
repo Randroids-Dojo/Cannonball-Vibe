@@ -44,7 +44,7 @@ public static class RegionalTerrainRibbon
             .Select(sample => routeStartMeters + sample.DistanceMeters - content.StartMeters)
             .ToArray();
 
-        var surface = new SurfaceTool();
+        using var surface = new SurfaceTool();
         surface.Begin(Mesh.PrimitiveType.Triangles);
         surface.SetMaterial(kit.TerrainBlend);
         var vertexCount = 0;

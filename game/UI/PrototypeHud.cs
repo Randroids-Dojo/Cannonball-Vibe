@@ -1,17 +1,21 @@
 using Godot;
 using Cannonball.Core.Runs;
+using Cannonball.Game.Input;
 
 namespace Cannonball.Game.UI;
 
 public sealed partial class PrototypeHud : CanvasLayer
 {
     public event Action? TripOverviewRequested;
+    public event Action? RestartRunRequested;
 
     private Label _speed = null!;
     private Label _distance = null!;
     private Label _streaming = null!;
     private ColorRect _driverMenu = null!;
     private Label _menuStatus = null!;
+    private Button _restartRun = null!;
+    private bool _restartConfirmationArmed;
 
     public override void _Ready()
     {
@@ -30,19 +34,42 @@ public sealed partial class PrototypeHud : CanvasLayer
         _distance = CreateLabel("Distance", "hud.distance", new Vector2(44, 112), 18);
         _streaming = CreateLabel("Streaming", "hud.streaming", new Vector2(44, 140), 14);
         var help = CreateLabel("Help", "hud.help", new Vector2(24, 1030), 16);
-        help.Text = "W/RT go  S/LT brake  Q/B reverse  SPACE/X handbrake  A D/LS steer  V/R3 camera  IJKL/RS look  M/SELECT map  R/Y reset  TAB assist  ESC menu";
+        help.Text = "W/RT go  S/LT brake  A D/LS steer  Q/B reverse  SPACE/X handbrake  B/LB rear  V/R3 camera  M/VIEW map  R/Y recover  ESC/MENU pause";
         CreateDriverMenu();
     }
 
-    public override void _UnhandledKeyInput(InputEvent @event)
+    public override void _UnhandledInput(InputEvent @event)
     {
-        if (@event is not InputEventKey { Pressed: true, Echo: false, Keycode: Key.Escape })
+        if (@event is InputEventKey { Echo: true })
         {
             return;
         }
-
-        SetDriverMenuOpen(!_driverMenu.Visible);
-        GetViewport().SetInputAsHandled();
+        if (@event.IsActionPressed(GameInputMap.PauseMenu, allowEcho: false, exactMatch: true))
+        {
+            if (_driverMenu.Visible)
+            {
+                SetDriverMenuOpen(false);
+            }
+            else if (!GetTree().Paused)
+            {
+                SetDriverMenuOpen(true);
+            }
+            GetViewport().SetInputAsHandled();
+            return;
+        }
+        if (_driverMenu.Visible &&
+            @event.IsActionPressed("ui_cancel", allowEcho: false, exactMatch: true))
+        {
+            if (_restartConfirmationArmed)
+            {
+                CancelRestartConfirmation();
+            }
+            else
+            {
+                SetDriverMenuOpen(false);
+            }
+            GetViewport().SetInputAsHandled();
+        }
     }
 
     public void UpdateTelemetry(
@@ -102,28 +129,42 @@ public sealed partial class PrototypeHud : CanvasLayer
             "menu.driver.options",
             "DRIVING OPTIONS",
             290,
-            () => SetMenuStatus("Driving options selected"));
+            () =>
+            {
+                CancelRestartConfirmation();
+                SetMenuStatus("Driving options selected");
+            });
         CreateMenuButton(
             "TripOverview",
             "menu.driver.trip-overview",
             "TRIP OVERVIEW (PAUSES)",
             382,
-            OpenTripOverview);
+            () =>
+            {
+                CancelRestartConfirmation();
+                OpenTripOverview();
+            });
+        _restartRun = CreateMenuButton(
+            "RestartRun",
+            "menu.driver.restart-run",
+            "RESTART RUN",
+            474,
+            ArmOrConfirmRestartRun);
 
         _menuStatus = CreateMenuLabel(
             "DriverMenuStatus",
             "menu.driver.status",
             "Paused at current route position",
             18,
-            514);
+            566);
         _menuStatus.HorizontalAlignment = HorizontalAlignment.Center;
 
         var hint = CreateMenuLabel(
             "DriverMenuHint",
             "menu.driver.hint",
-            "ESC closes  //  arrows move  //  ENTER selects",
+            "ESC/B closes  //  arrows/D-pad move  //  ENTER/A selects",
             16,
-            626);
+            646);
         hint.HorizontalAlignment = HorizontalAlignment.Center;
         SetDriverMenuState(false, "closed");
     }
@@ -172,6 +213,7 @@ public sealed partial class PrototypeHud : CanvasLayer
 
     private void SetDriverMenuOpen(bool open)
     {
+        CancelRestartConfirmation();
         if (!open)
         {
             GetTree().Paused = false;
@@ -201,7 +243,35 @@ public sealed partial class PrototypeHud : CanvasLayer
         TripOverviewRequested?.Invoke();
     }
 
+    private void ArmOrConfirmRestartRun()
+    {
+        if (!_restartConfirmationArmed)
+        {
+            _restartConfirmationArmed = true;
+            _restartRun.Text = "CONFIRM RESTART RUN";
+            SetMenuStatus("Press again to discard current run progress");
+            return;
+        }
+
+        SetDriverMenuOpen(false);
+        RestartRunRequested?.Invoke();
+    }
+
+    private void CancelRestartConfirmation()
+    {
+        _restartConfirmationArmed = false;
+        if (_restartRun is not null)
+        {
+            _restartRun.Text = "RESTART RUN";
+        }
+    }
+
     private void SetDriverMenuState(bool open, string status)
+    {
+        UpdateDriverMenuState(open, status);
+    }
+
+    private void UpdateDriverMenuState(bool open, string status)
     {
         _driverMenu.SetMeta(
             "automation_state",
@@ -209,8 +279,9 @@ public sealed partial class PrototypeHud : CanvasLayer
             {
                 ["open"] = open,
                 ["status"] = status,
-                ["button_count"] = 3,
+                ["button_count"] = 4,
                 ["simulation_paused"] = open,
+                ["restart_confirmation_armed"] = _restartConfirmationArmed,
             });
     }
 }

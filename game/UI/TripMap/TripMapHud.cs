@@ -156,9 +156,10 @@ public sealed partial class TripMapHud : CanvasLayer
         UpdateAutomationState();
     }
 
-    public override void _UnhandledKeyInput(InputEvent @event)
+    public override void _UnhandledInput(InputEvent @event)
     {
-        if (!IsOpen || @event is not InputEventKey { Pressed: true, Echo: false, Keycode: Key.Escape })
+        if (!IsOpen || @event is InputEventKey { Echo: true } ||
+            !@event.IsActionPressed("ui_cancel", allowEcho: false, exactMatch: true))
         {
             return;
         }

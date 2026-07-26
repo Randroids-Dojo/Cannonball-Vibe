@@ -5,6 +5,7 @@ using Cannonball.Core.Saves;
 using Cannonball.Core.Simulation;
 using Cannonball.Core.Telemetry;
 using Cannonball.Game.Automation;
+using Cannonball.Game.Input;
 using Cannonball.Game.UI;
 using Cannonball.Game.Vehicle;
 using Cannonball.Game.World;
@@ -136,6 +137,18 @@ public sealed partial class Main : Node3D
     private double _cash = 25_000;
     private VehicleCondition _vehicleCondition = new(82, 1, 1, 1, 0);
     private EnforcementState _enforcement = new(0, 0, "clear", 0);
+    private InitialRunState? _initialRunState;
+    private ValidatedRoutePlan? _initialRoutePlan;
+    private Transform3D _initialVehicleTransform;
+    private bool _initialAutopilotEnabled;
+    private bool _restartRunRequested;
+    private int _restartCount;
+    private double _lastRestartRouteDistanceMeters;
+    private float _lastRestartPositionErrorMeters;
+    private float _lastRestartRotationDot = 1;
+    private float _lastRestartLinearSpeedMetersPerSecond;
+    private float _lastRestartAngularSpeedRadiansPerSecond;
+    private readonly Godot.Collections.Dictionary _runAutomationState = new();
     private LongRouteScenarioFixtureData? _longRouteFixture;
     private string _longRouteSourcePath = string.Empty;
     private string _longRouteEvidencePath = string.Empty;
@@ -185,6 +198,8 @@ public sealed partial class Main : Node3D
         try
         {
             ProcessMode = ProcessModeEnum.Always;
+            SetMeta("automation_id", "run.session");
+            SetMeta("automation_state", _runAutomationState);
             var arguments = OS.GetCmdlineUserArgs();
             var routePath = RequiredArgument(arguments, "--route-package");
             var requestedProbeMiles = OptionalPositiveDouble(arguments, "--distance-miles");
@@ -377,7 +392,7 @@ public sealed partial class Main : Node3D
                 _enforcement = resumedSave.Run.Enforcement;
             }
 
-            ConfigureInputMap();
+            GameInputMap.Configure();
             BuildLighting();
             var initialRoutePlan = _interchangeFixture is null
                 ? null
@@ -392,6 +407,7 @@ public sealed partial class Main : Node3D
                             _cameraHandlingProfile || _cameraHandlingReview
                             ? RepresentativeInterchangeFixture.TransferPlanId
                             : RouteChoicePlanOrder[0]];
+            _initialRoutePlan = initialRoutePlan;
             ConfigureRuntimeWorld(initialRoutePlan, resumedSave);
             if (_resumeVerify)
             {
@@ -421,6 +437,7 @@ public sealed partial class Main : Node3D
             _hud = new PrototypeHud { Name = "PrototypeHud" };
             AddChild(_hud);
             _hud.TripOverviewRequested += OpenTripMap;
+            _hud.RestartRunRequested += RequestRestartRun;
             _tripMap = new TripMapHud { Name = "TripMapHud" };
             AddChild(_tripMap);
             _tripMap.Closed += OnTripMapClosed;
@@ -545,6 +562,12 @@ public sealed partial class Main : Node3D
             {
                 _vehicle.SetAssistProfile(assist);
             }
+            _initialRunState = InitialRunState.Create(_runSeed, _vehicle.AssistProfile);
+            _initialVehicleTransform = new Transform3D(
+                Basis.LookingAt(_streamer.InitialRoadForward, Vector3.Up),
+                _streamer.InitialVehiclePoint + Vector3.Up * 0.78f);
+            _initialAutopilotEnabled = _vehicle.AutopilotEnabled;
+            UpdateRunAutomationState();
             if (requestedProbeMiles > 0 && !_longRouteProfile)
             {
                 _transportProbe = RunTransportProbeAsync(requestedProbeMiles);
@@ -572,6 +595,12 @@ public sealed partial class Main : Node3D
         {
             return;
         }
+
+        if (_restartRunRequested)
+        {
+            RestartRun();
+        }
+        UpdateRunAutomationState();
 
         var tripMapTogglePressed = Godot.Input.IsActionPressed("toggle_trip_map");
         if (tripMapTogglePressed && !_tripMapToggleHeld)
@@ -3133,81 +3162,84 @@ public sealed partial class Main : Node3D
         });
     }
 
-    private static void ConfigureInputMap()
+    private void RequestRestartRun() => _restartRunRequested = true;
+
+    private void RestartRun()
     {
-        AddKeyAction("accelerate", Key.W);
-        AddKeyAction("brake", Key.S);
-        AddKeyAction("reverse", Key.Q);
-        AddKeyAction("handbrake", Key.Space);
-        AddKeyAction("steer_left", Key.A);
-        AddKeyAction("steer_right", Key.D);
-        AddKeyAction("reset_vehicle", Key.R);
-        AddKeyAction("suspend_run", Key.F5);
-        AddKeyAction("cycle_assist", Key.Tab);
-        AddKeyAction("toggle_camera", Key.V);
-        AddKeyAction("camera_look_left", Key.J);
-        AddKeyAction("camera_look_right", Key.L);
-        AddKeyAction("camera_look_up", Key.I);
-        AddKeyAction("camera_look_down", Key.K);
-        AddKeyAction("toggle_trip_map", Key.M);
-        AddKeyAction("trip_map_pan_left", Key.Left);
-        AddKeyAction("trip_map_pan_right", Key.Right);
-        AddKeyAction("trip_map_pan_up", Key.Up);
-        AddKeyAction("trip_map_pan_down", Key.Down);
-        AddKeyAction("trip_map_zoom_in", Key.Equal);
-        AddKeyAction("trip_map_zoom_out", Key.Minus);
-        AddKeyAction("trip_map_recenter", Key.C);
-        AddKeyAction("trip_map_previous", Key.Pageup);
-        AddKeyAction("trip_map_next", Key.Pagedown);
-        AddJoyAxisAction("accelerate_controller", JoyAxis.TriggerRight, 1);
-        AddJoyAxisAction("brake_controller", JoyAxis.TriggerLeft, 1);
-        AddJoyAxisAction("steer_left_controller", JoyAxis.LeftX, -1);
-        AddJoyAxisAction("steer_right_controller", JoyAxis.LeftX, 1);
-        AddJoyButtonAction("reverse_controller", JoyButton.B);
-        AddJoyButtonAction("handbrake_controller", JoyButton.X);
-        AddJoyButtonAction("reset_vehicle_controller", JoyButton.Y);
-        AddJoyButtonAction("toggle_camera", JoyButton.RightStick);
-        AddJoyAxisAction("camera_look_left", JoyAxis.RightX, -1);
-        AddJoyAxisAction("camera_look_right", JoyAxis.RightX, 1);
-        AddJoyAxisAction("camera_look_up", JoyAxis.RightY, -1);
-        AddJoyAxisAction("camera_look_down", JoyAxis.RightY, 1);
-        AddJoyButtonAction("toggle_trip_map", JoyButton.Back);
-        AddJoyButtonAction("trip_map_pan_left", JoyButton.DpadLeft);
-        AddJoyButtonAction("trip_map_pan_right", JoyButton.DpadRight);
-        AddJoyButtonAction("trip_map_pan_up", JoyButton.DpadUp);
-        AddJoyButtonAction("trip_map_pan_down", JoyButton.DpadDown);
-        AddJoyButtonAction("trip_map_zoom_in", JoyButton.RightShoulder);
-        AddJoyButtonAction("trip_map_zoom_out", JoyButton.LeftShoulder);
-        AddJoyButtonAction("trip_map_recenter", JoyButton.LeftStick);
-        AddJoyButtonAction("trip_map_previous", JoyButton.X);
-        AddJoyButtonAction("trip_map_next", JoyButton.A);
+        _restartRunRequested = false;
+        var initial = _initialRunState
+            ?? throw new InvalidOperationException("Initial run state is not configured.");
+
+        RemoveRuntimeWorld();
+        _runSeed = initial.Seed;
+        _cash = initial.Cash;
+        _vehicleCondition = initial.Vehicle;
+        _enforcement = initial.Enforcement;
+        _elapsedSecondsBase = 0;
+        _sessionStartedTicks = Time.GetTicksMsec();
+        _tripMapPauseStartedTicks = 0;
+        _tripMapPausedSeconds = 0;
+        _previousDistance = 0;
+        _peakSpeedMetersPerSecond = 0;
+
+        ConfigureRuntimeWorld(_initialRoutePlan);
+        _vehicle.SetAssistProfile(initial.AssistProfile);
+        _vehicle.AutopilotEnabled = _initialAutopilotEnabled;
+        _vehicle.DrivingInputController.ClearAndSuppress("restart_run");
+        _lastRestartRouteDistanceMeters = _streamer.RouteDistanceMeters;
+        _lastRestartPositionErrorMeters =
+            _vehicle.Transform.Origin.DistanceTo(_initialVehicleTransform.Origin);
+        _lastRestartRotationDot = Math.Abs(
+            _vehicle.Transform.Basis.GetRotationQuaternion().Normalized().Dot(
+                _initialVehicleTransform.Basis.GetRotationQuaternion().Normalized()));
+        _lastRestartLinearSpeedMetersPerSecond = _vehicle.LinearVelocity.Length();
+        _lastRestartAngularSpeedRadiansPerSecond = _vehicle.AngularVelocity.Length();
+        _restartCount++;
+        UpdateRunAutomationState();
+        GD.Print(
+            $"CANNONBALL_RUN_RESTARTED count={_restartCount} seed={_runSeed} " +
+            $"route_distance_m={_streamer.RouteDistanceMeters:0.000}");
     }
 
-    private static void AddKeyAction(StringName action, Key key)
+    private void UpdateRunAutomationState()
     {
-        if (!InputMap.HasAction(action))
+        if (_vehicle is null || _streamer is null)
         {
-            InputMap.AddAction(action, 0.12f);
+            return;
         }
-        InputMap.ActionAddEvent(action, new InputEventKey { PhysicalKeycode = key });
-    }
-
-    private static void AddJoyAxisAction(StringName action, JoyAxis axis, float axisValue)
-    {
-        if (!InputMap.HasAction(action))
-        {
-            InputMap.AddAction(action, 0.0f);
-        }
-        InputMap.ActionAddEvent(action, new InputEventJoypadMotion { Axis = axis, AxisValue = axisValue });
-    }
-
-    private static void AddJoyButtonAction(StringName action, JoyButton button)
-    {
-        if (!InputMap.HasAction(action))
-        {
-            InputMap.AddAction(action, 0.12f);
-        }
-        InputMap.ActionAddEvent(action, new InputEventJoypadButton { ButtonIndex = button });
+        var initialRotation = _initialVehicleTransform.Basis.GetRotationQuaternion().Normalized();
+        var currentRotation = _vehicle.Transform.Basis.GetRotationQuaternion().Normalized();
+        _runAutomationState["restart_count"] = _restartCount;
+        _runAutomationState["seed"] = _runSeed;
+        _runAutomationState["cash"] = _cash;
+        _runAutomationState["elapsed_seconds"] = CaptureElapsedSeconds();
+        _runAutomationState["route_distance_m"] = _streamer.RouteDistanceMeters;
+        _runAutomationState["edge_distance_m"] = _streamer.CurrentEdgeDistanceMeters;
+        _runAutomationState["vehicle_position_x"] = _vehicle.Position.X;
+        _runAutomationState["vehicle_position_y"] = _vehicle.Position.Y;
+        _runAutomationState["vehicle_position_z"] = _vehicle.Position.Z;
+        _runAutomationState["start_position_x"] = _initialVehicleTransform.Origin.X;
+        _runAutomationState["start_position_y"] = _initialVehicleTransform.Origin.Y;
+        _runAutomationState["start_position_z"] = _initialVehicleTransform.Origin.Z;
+        _runAutomationState["start_horizontal_error_m"] = new Vector2(
+            _vehicle.Position.X - _initialVehicleTransform.Origin.X,
+            _vehicle.Position.Z - _initialVehicleTransform.Origin.Z).Length();
+        _runAutomationState["start_rotation_dot"] =
+            Math.Abs(currentRotation.Dot(initialRotation));
+        _runAutomationState["linear_speed_mps"] = _vehicle.LinearVelocity.Length();
+        _runAutomationState["angular_speed_radps"] = _vehicle.AngularVelocity.Length();
+        _runAutomationState["camera_mode"] = _vehicle.CurrentCameraMode;
+        _runAutomationState["assist_profile"] =
+            _vehicle.AssistProfile.ToString().ToLowerInvariant();
+        _runAutomationState["last_restart_route_distance_m"] =
+            _lastRestartRouteDistanceMeters;
+        _runAutomationState["last_restart_position_error_m"] =
+            _lastRestartPositionErrorMeters;
+        _runAutomationState["last_restart_rotation_dot"] = _lastRestartRotationDot;
+        _runAutomationState["last_restart_linear_speed_mps"] =
+            _lastRestartLinearSpeedMetersPerSecond;
+        _runAutomationState["last_restart_angular_speed_radps"] =
+            _lastRestartAngularSpeedRadiansPerSecond;
     }
 
     private void OpenTripMap()

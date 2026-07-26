@@ -421,7 +421,7 @@ public sealed partial class CannonballVehicle : RigidBody3D
             OS.GetCmdlineUserArgs().Contains("--graybox-vehicle", StringComparer.Ordinal);
         if (!UsesGrayboxVisual)
         {
-            var wrapper = ResourceLoader.Load<PackedScene>(
+            using var wrapper = ResourceLoader.Load<PackedScene>(
                 "res://game/Vehicle/Visuals/HeroGt.tscn");
             if (wrapper is null)
             {
@@ -466,6 +466,10 @@ public sealed partial class CannonballVehicle : RigidBody3D
         }
         CockpitCameraRig = new CockpitCameraRig();
         cockpitAnchor.AddChild(CockpitCameraRig);
+        if (VisualRig is not null)
+        {
+            VisualRig.ConfigureCockpitCamera(CockpitCameraRig.Camera);
+        }
         SetCameraMode(cockpit: false);
     }
 }

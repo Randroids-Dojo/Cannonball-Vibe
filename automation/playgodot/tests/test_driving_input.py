@@ -36,6 +36,17 @@ async def _action(client, action: str, state: str) -> None:
     await client.request("input.action", {"action": action, "state": state})
 
 
+async def _joy_button(client, button: str, device: int = 0) -> None:
+    await client.request(
+        "input.joypad_button", {"button": button, "state": "press", "device": device}
+    )
+    await asyncio.sleep(0.03)
+    await client.request(
+        "input.joypad_button", {"button": button, "state": "release", "device": device}
+    )
+    await asyncio.sleep(0.08)
+
+
 @pytest.mark.skipif("GODOT_BIN" not in os.environ, reason="GODOT_BIN enables live 4.7.1 tests")
 @pytest.mark.asyncio
 async def test_keyboard_steering_is_progressive_and_camera_independent(tmp_path: Path) -> None:
@@ -137,6 +148,20 @@ async def test_controller_deadzone_curve_and_independent_axes(tmp_path: Path) ->
         log_path=artifacts / "driving-input-controller-godot.log",
     )
     async with process as client:
+        await client.request(
+            "input.joypad_motion", {"axis": "left_y", "value": -1, "device": 3}
+        )
+        await asyncio.sleep(0.05)
+        forward_stick = (await client.describe("vehicle.input.conditioner"))["test_state"]
+        assert forward_stick["device_source"] == "keyboard"
+        assert forward_stick["raw_throttle"] == 0
+        assert forward_stick["raw_service_brake"] == 0
+        assert forward_stick["conditioned_throttle"] == 0
+        assert forward_stick["conditioned_steering"] == 0
+        await client.request(
+            "input.joypad_motion", {"axis": "left_y", "value": 0, "device": 3}
+        )
+
         motion = await client.request(
             "input.joypad_motion", {"axis": "left_x", "value": 0.08, "device": 3}
         )
@@ -167,6 +192,22 @@ async def test_controller_deadzone_curve_and_independent_axes(tmp_path: Path) ->
         assert tagged["active_controller_device"] == 3
         await client.request(
             "input.joypad_motion", {"axis": "left_x", "value": 0, "device": 3}
+        )
+
+        await client.request(
+            "input.joypad_motion", {"axis": "trigger_right", "value": -1, "device": 3}
+        )
+        await asyncio.sleep(0.05)
+        wrong_polarity = (await client.describe("vehicle.input.conditioner"))["test_state"]
+        assert wrong_polarity["conditioned_throttle"] == 0
+        await client.request(
+            "input.joypad_motion", {"axis": "trigger_right", "value": 0.08, "device": 3}
+        )
+        await asyncio.sleep(0.05)
+        trigger_deadzone = (await client.describe("vehicle.input.conditioner"))["test_state"]
+        assert trigger_deadzone["conditioned_throttle"] == 0
+        await client.request(
+            "input.joypad_motion", {"axis": "trigger_right", "value": 0, "device": 3}
         )
 
         await client.request("input.joypad_motion", {"axis": "left_x", "value": 0.5})
@@ -208,6 +249,158 @@ async def test_controller_deadzone_curve_and_independent_axes(tmp_path: Path) ->
         await client.request("input.joypad_motion", {"axis": "left_x", "value": 0})
         await client.request("input.joypad_motion", {"axis": "trigger_right", "value": 0})
         await client.request("input.joypad_motion", {"axis": "trigger_left", "value": 0})
+
+
+@pytest.mark.skipif("GODOT_BIN" not in os.environ, reason="GODOT_BIN enables live 4.7.1 tests")
+@pytest.mark.asyncio
+async def test_controller_focus_loss_disconnect_and_reconnect_clear_state(
+    tmp_path: Path,
+) -> None:
+    artifacts = _artifacts(tmp_path)
+    process = PlayGodotProcess(
+        REPO_ROOT,
+        _route_package(),
+        capabilities=("read", "input"),
+        transcript=artifacts / "driving-input-controller-lifecycle.jsonl",
+        log_path=artifacts / "driving-input-controller-lifecycle-godot.log",
+    )
+    async with process as client:
+        await client.request("input.joy_connection", {"device": 3, "connected": True})
+        await client.request(
+            "input.joypad_motion", {"axis": "trigger_right", "value": 1, "device": 3}
+        )
+        await asyncio.sleep(0.08)
+        active = (await client.describe("vehicle.input.conditioner"))["test_state"]
+        assert active["active_controller_device"] == 3
+        assert active["conditioned_throttle"] > 0
+
+        await client.request("input.application_focus", {"state": "out"})
+        await asyncio.sleep(0.05)
+        unfocused = (await client.describe("vehicle.input.conditioner"))["test_state"]
+        assert unfocused["conditioned_throttle"] == 0
+        assert unfocused["input_suppressed"] is True
+        assert unfocused["suppression_reason"] == "focus_loss"
+
+        await client.request(
+            "input.joypad_motion", {"axis": "trigger_right", "value": 0, "device": 3}
+        )
+        await client.request("input.application_focus", {"state": "in"})
+        await asyncio.sleep(0.08)
+        refocused = (await client.describe("vehicle.input.conditioner"))["test_state"]
+        assert refocused["conditioned_throttle"] == 0
+        assert refocused["input_suppressed"] is False
+
+        await client.request(
+            "input.joypad_motion", {"axis": "trigger_right", "value": 1, "device": 3}
+        )
+        await asyncio.sleep(0.08)
+        await client.request("input.joy_connection", {"device": 3, "connected": False})
+        await asyncio.sleep(0.05)
+        disconnected = (await client.describe("vehicle.input.conditioner"))["test_state"]
+        assert disconnected["active_controller_device"] == -1
+        assert disconnected["conditioned_throttle"] == 0
+
+        await client.request("input.joy_connection", {"device": 3, "connected": True})
+        await client.request(
+            "input.joypad_motion", {"axis": "left_x", "value": 0.5, "device": 3}
+        )
+        await asyncio.sleep(0.08)
+        reconnected = (await client.describe("vehicle.input.conditioner"))["test_state"]
+        assert reconnected["active_controller_device"] == 3
+        assert reconnected["input_suppressed"] is False
+        assert reconnected["conditioned_throttle"] == 0
+        assert reconnected["conditioned_steering"] > 0
+        await client.request(
+            "input.joypad_motion", {"axis": "left_x", "value": 0, "device": 3}
+        )
+
+
+@pytest.mark.skipif("GODOT_BIN" not in os.environ, reason="GODOT_BIN enables live 4.7.1 tests")
+@pytest.mark.asyncio
+async def test_controller_camera_recover_menu_and_confirmed_restart_are_distinct(
+    tmp_path: Path,
+) -> None:
+    artifacts = _artifacts(tmp_path)
+    process = PlayGodotProcess(
+        REPO_ROOT,
+        _route_package(),
+        capabilities=("read", "input"),
+        request_timeout=30.0,
+        transcript=artifacts / "driving-input-controller-restart.jsonl",
+        log_path=artifacts / "driving-input-controller-restart-godot.log",
+    )
+    async with process as client:
+        await _joy_button(client, "right_stick", device=2)
+        assert (await client.describe("camera.cockpit.view"))["test_state"]["active"] is True
+        await client.request(
+            "input.joypad_button", {"button": "left_shoulder", "state": "press", "device": 2}
+        )
+        await asyncio.sleep(0.25)
+        physical_rear = (await client.describe("camera.cockpit.view"))["test_state"]
+        assert physical_rear["rear_view_held"] is True
+        assert abs(physical_rear["displayed_yaw_degrees"]) > 170
+        await client.request(
+            "input.joypad_button", {"button": "left_shoulder", "state": "release", "device": 2}
+        )
+        await asyncio.sleep(0.25)
+
+        await client.request(
+            "input.joypad_motion", {"axis": "trigger_right", "value": 1, "device": 2}
+        )
+        await asyncio.sleep(1.0)
+        await client.request(
+            "input.joypad_motion", {"axis": "trigger_right", "value": 0, "device": 2}
+        )
+        await asyncio.sleep(0.15)
+        progressed = (await client.describe("run.session"))["test_state"]
+        assert progressed["route_distance_m"] > 0.5
+        assert progressed["restart_count"] == 0
+
+        await _joy_button(client, "y", device=2)
+        recovered = (await client.describe("run.session"))["test_state"]
+        assert recovered["restart_count"] == 0
+        assert recovered["route_distance_m"] > 0.5
+        assert recovered["camera_mode"] == "cockpit"
+
+        await _joy_button(client, "start", device=2)
+        menu = (await client.describe("menu.driver.root"))["test_state"]
+        assert menu["open"] is True
+        assert menu["button_count"] == 4
+        assert menu["restart_confirmation_armed"] is False
+        assert (await client.request("ui.focused"))["automation_id"] == "menu.driver.resume"
+
+        for _ in range(3):
+            await _joy_button(client, "dpad_down", device=2)
+        assert (await client.request("ui.focused"))["automation_id"] == "menu.driver.restart-run"
+
+        await _joy_button(client, "a", device=2)
+        armed = (await client.describe("menu.driver.root"))["test_state"]
+        assert armed["open"] is True
+        assert armed["restart_confirmation_armed"] is True
+        await _joy_button(client, "a", device=2)
+
+        deadline = asyncio.get_running_loop().time() + 2.0
+        while True:
+            restarted = (await client.describe("run.session"))["test_state"]
+            if restarted["restart_count"] == 1:
+                break
+            if asyncio.get_running_loop().time() >= deadline:
+                pytest.fail("Confirmed controller restart did not rebuild the run")
+            await asyncio.sleep(0.02)
+
+        assert restarted["route_distance_m"] == pytest.approx(0, abs=0.001)
+        assert restarted["edge_distance_m"] == pytest.approx(0, abs=0.001)
+        assert restarted["start_horizontal_error_m"] < 0.01
+        assert restarted["start_rotation_dot"] == pytest.approx(1, abs=0.0001)
+        assert restarted["last_restart_route_distance_m"] == 0
+        assert restarted["last_restart_position_error_m"] == 0
+        assert restarted["last_restart_rotation_dot"] == pytest.approx(1, abs=0.0001)
+        assert restarted["last_restart_linear_speed_mps"] == 0
+        assert restarted["last_restart_angular_speed_radps"] == 0
+        assert restarted["elapsed_seconds"] < 1
+        assert restarted["camera_mode"] == "chase"
+        assert restarted["seed"] == progressed["seed"]
+        assert restarted["cash"] == 25_000
 
 
 @pytest.mark.skipif("GODOT_BIN" not in os.environ, reason="GODOT_BIN enables live 4.7.1 tests")

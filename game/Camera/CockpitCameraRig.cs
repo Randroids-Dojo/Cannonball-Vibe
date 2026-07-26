@@ -4,10 +4,13 @@ namespace Cannonball.Game.Camera;
 
 public sealed partial class CockpitCameraRig : Node3D
 {
+    private const float RearViewTransitionSpeedDegreesPerSecond = 900;
+
     private readonly Godot.Collections.Dictionary _automationState = new();
     private float _lookYawRadians;
     private float _lookPitchRadians;
     private Camera3D _camera = null!;
+    private float _rearViewBlend;
 
     public Camera3D Camera => _camera;
     public bool IsActive => _camera.Current;
@@ -35,8 +38,8 @@ public sealed partial class CockpitCameraRig : Node3D
             Name = "CockpitCamera",
             Current = false,
             Fov = 72,
-            Near = 0.08f,
-            Position = new Vector3(0, 0.70f, -0.42f),
+            Near = 0.05f,
+            Position = Vector3.Zero,
         };
         AddChild(_camera);
         SetMeta("automation_id", "camera.cockpit.view");
@@ -46,33 +49,34 @@ public sealed partial class CockpitCameraRig : Node3D
 
     public override void _Process(double delta)
     {
+        var rearViewHeld = Godot.Input.IsActionPressed("look_behind");
         var yawInput = Godot.Input.GetActionStrength("camera_look_right") -
             Godot.Input.GetActionStrength("camera_look_left");
         var pitchInput = Godot.Input.GetActionStrength("camera_look_down") -
             Godot.Input.GetActionStrength("camera_look_up");
         var step = Mathf.DegToRad(LookSpeedDegreesPerSecond) * (float)Math.Max(0, delta);
-        if (Math.Abs(yawInput) > 0.001f)
+        if (!rearViewHeld && _rearViewBlend <= 0.001f && Math.Abs(yawInput) > 0.001f)
         {
             _lookYawRadians = Mathf.Clamp(
                 _lookYawRadians + yawInput * step,
                 -Mathf.DegToRad(MaximumLookYawDegrees),
                 Mathf.DegToRad(MaximumLookYawDegrees));
         }
-        else
+        else if (!rearViewHeld && _rearViewBlend <= 0.001f)
         {
             _lookYawRadians = Mathf.MoveToward(
                 _lookYawRadians,
                 0,
                 Mathf.DegToRad(RecenterSpeedDegreesPerSecond) * (float)Math.Max(0, delta));
         }
-        if (Math.Abs(pitchInput) > 0.001f)
+        if (!rearViewHeld && _rearViewBlend <= 0.001f && Math.Abs(pitchInput) > 0.001f)
         {
             _lookPitchRadians = Mathf.Clamp(
                 _lookPitchRadians + pitchInput * step,
                 -Mathf.DegToRad(MaximumLookPitchDegrees),
                 Mathf.DegToRad(MaximumLookPitchDegrees));
         }
-        else
+        else if (!rearViewHeld && _rearViewBlend <= 0.001f)
         {
             _lookPitchRadians = Mathf.MoveToward(
                 _lookPitchRadians,
@@ -91,11 +95,17 @@ public sealed partial class CockpitCameraRig : Node3D
             Mathf.Wrap(parentEuler.Z, -Mathf.Pi, Mathf.Pi),
             -maximumCorrection,
             maximumCorrection);
+        _rearViewBlend = Mathf.MoveToward(
+            _rearViewBlend,
+            rearViewHeld ? 1.0f : 0.0f,
+            Mathf.DegToRad(RearViewTransitionSpeedDegreesPerSecond) *
+                (float)Math.Max(0, delta) / Mathf.Pi);
+        var displayedYaw = Mathf.LerpAngle(_lookYawRadians, Mathf.Pi, _rearViewBlend);
         Rotation = new Vector3(
             _lookPitchRadians + pitchCorrection,
-            _lookYawRadians,
+            displayedYaw,
             rollCorrection);
-        UpdateAutomationState(pitchCorrection, rollCorrection);
+        UpdateAutomationState(pitchCorrection, rollCorrection, displayedYaw, rearViewHeld);
     }
 
     public void SetActive(bool active)
@@ -119,7 +129,11 @@ public sealed partial class CockpitCameraRig : Node3D
             RotationDegrees.Z);
     }
 
-    private void UpdateAutomationState(float pitchCorrection, float rollCorrection)
+    private void UpdateAutomationState(
+        float pitchCorrection,
+        float rollCorrection,
+        float displayedYaw = 0,
+        bool rearViewHeld = false)
     {
         var snapshot = CaptureSnapshot();
         _automationState["active"] = snapshot.Active;
@@ -133,6 +147,14 @@ public sealed partial class CockpitCameraRig : Node3D
         _automationState["maximum_stabilization_degrees"] = MaximumStabilizationDegrees;
         _automationState["maximum_look_yaw_degrees"] = MaximumLookYawDegrees;
         _automationState["maximum_look_pitch_degrees"] = MaximumLookPitchDegrees;
+        _automationState["camera_offset_x"] = _camera.Position.X;
+        _automationState["camera_offset_y"] = _camera.Position.Y;
+        _automationState["camera_offset_z"] = _camera.Position.Z;
+        _automationState["near_clip_m"] = _camera.Near;
+        _automationState["cull_mask"] = (long)_camera.CullMask;
+        _automationState["rear_view_held"] = rearViewHeld;
+        _automationState["rear_view_blend"] = _rearViewBlend;
+        _automationState["displayed_yaw_degrees"] = Mathf.RadToDeg(displayedYaw);
     }
 }
 

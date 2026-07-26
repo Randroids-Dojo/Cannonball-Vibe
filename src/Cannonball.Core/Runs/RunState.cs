@@ -21,6 +21,23 @@ public sealed record EnforcementState(
     string PursuitState,
     double CooldownSeconds);
 
+public sealed record InitialRunState(
+    ulong Seed,
+    double Cash,
+    VehicleCondition Vehicle,
+    EnforcementState Enforcement,
+    AssistProfile AssistProfile)
+{
+    public static InitialRunState Create(
+        ulong seed,
+        AssistProfile assistProfile = AssistProfile.Balanced) => new(
+            seed,
+            25_000,
+            new VehicleCondition(82, 1, 1, 1, 0),
+            new EnforcementState(0, 0, "clear", 0),
+            assistProfile);
+}
+
 public sealed record BranchStreamSnapshot(
     string DecisionEdgeId,
     IReadOnlyList<string> PrewarmedChunkIds,

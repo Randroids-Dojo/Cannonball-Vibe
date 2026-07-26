@@ -122,6 +122,7 @@
       "owned_paths": [
         "game/Camera/",
         "game/Vehicle/CannonballVehicle.cs",
+        "game/Vehicle/VehicleVisualRig.cs",
         "game/Main.cs",
         "game/UI/PrototypeHud.cs",
         "game/Automation/CameraHandlingScenario.cs",
@@ -191,16 +192,33 @@
       },
       "owned_paths": [
         "src/Cannonball.Core/Simulation/Vehicle/DrivingInputConditioner.cs",
+        "src/Cannonball.Core/Runs/RunState.cs",
         "game/Camera/ChaseCameraRig.cs",
+        "game/Camera/CockpitCameraRig.cs",
         "game/Input/",
+        "game/Main.cs",
+        "game/UI/PrototypeHud.cs",
+        "game/UI/TripMap/TripMapHud.cs",
         "game/Vehicle/DrivingInputController.cs",
         "game/Vehicle/CannonballVehicle.cs",
+        "game/World/RoadChunk.cs",
+        "game/World/JunctionSeam.cs",
+        "game/World/Environment/RegionalTerrainRibbon.cs",
         "game/Automation/DrivingInputScenario.cs",
+        "addons/playgodot/server.gd",
         "automation/playgodot/tests/test_driving_input.py",
+        "automation/playgodot/tests/test_camera_handling.py",
+        "automation/playgodot/tests/test_live.py",
         "scripts/verify-driving-input.sh",
         "tests/Cannonball.Core.Tests/",
+        "project.godot",
+        "README.md",
+        "docs/CONTROLLER_CONTROLS.md",
+        "docs/OPEN_QUESTIONS.md",
+        "docs/TECH_STACK.md",
         "docs/audits/2026-07-20-p0-018-input-conditioning.md",
         "docs/images/p0-018-driving-input-review.png",
+        "docs/images/p0-018-cockpit-controller-review.png",
         "evidence/M0/P0-018.json"
       ],
       "acceptance": [
@@ -210,10 +228,15 @@
         "A stationary hold prevents uncommanded rollback or creep at the route start and on supported grades while releasing predictably for intentional throttle or reverse",
         "Accessible, Balanced, and Raw profiles expose deterministic, bounded input-conditioning values and persist their selected profile through save-resume",
         "Focus loss, pause, controller disconnect and reconnect, device switching, reset, and save-resume clear or reconstruct input state without unintended acceleration, braking, or steering",
-        "Official-engine automation reports raw and conditioned inputs, response timing, saturation, device source, and active profile through stable semantic state"
+        "Official-engine automation reports raw and conditioned inputs, response timing, saturation, device source, and active profile through stable semantic state",
+        "Controller driving uses independent right-trigger acceleration, left-trigger service braking, and left-stick-X steering without coupling left-stick-Y to acceleration",
+        "Recover in place and confirmed Restart Run remain distinct, and Restart Run reconstructs the exact deterministic initial route, vehicle, timer, camera, and run state",
+        "A held keyboard or controller rear-view action works in chase and cockpit, including while reversing, and returns without changing camera mode or accumulated free look",
+        "Cockpit forward view uses the authored driver-eye anchor and excludes only cockpit-obstructing exterior placeholder layers while chase retains the complete vehicle"
       ],
       "verification": [
         "./scripts/verify-driving-input.sh --devices keyboard,controller --profiles all",
+        "./scripts/verify-camera-handling.sh --all-scenarios",
         "DOTNET_ROLL_FORWARD=Major dotnet test Cannonball.sln --filter 'FullyQualifiedName~DrivingInput'",
         "./scripts/check.sh"
       ],
@@ -221,7 +244,7 @@
         "evidence/M0/P0-018.json"
       ],
       "human_gate": null,
-      "notes": "Windows machine verification and evidence are complete at 376dd432a408593118ff9fcf622a848fbde80bcb. P0-018 cannot be marked complete until P0-017 is complete following the Q-029 human camera-comfort decision. The single ChaseCameraRig.cs reset-snap edit is coordinated under P0-017's broader game/Camera/ ownership and does not transfer camera behavior ownership to P0-018. Physical steering wheels, pedals, and force feedback remain governed by Q-006 and are deliberately outside this keyboard-and-controller baseline."
+      "notes": "The bounded Steam Controller owner-test correction is verified locally in the working tree based on 4bfc2d498a64d251289ca3b1bb248affa6879236: conventional RT/LT/left-stick driving, controller camera/recover/pause/menu actions, controller-first menu navigation, trigger deadzones, nonzero-device reconnect/focus safety, a distinct confirmed Restart Run path that reconstructs the deterministic run start instead of recovering at the current route point, held rear view in both camera modes, and a cockpit driver-eye/render-layer sightline correction that preserves chase visibility. The focused Core suite passed 23 tests, the keyboard/controller gate passed 22 Core plus 6 official-engine live tests, the camera gate passed its six deterministic stages plus resume equivalence and 2 live tests, and the complete M0 gate passed 115 C# tests, Ruff, 78 map tests, 13 PlayGodot unit tests, and official Godot smoke. Scope expanded narrowly to the Core initial-run value, runtime input-map/restart call site, existing menu surfaces and regression test, both camera rigs, the vehicle visual rig and focused camera test, project focus policy, control documentation, and debug-only PlayGodot joypad/focus/connection injection needed to prove the physical mappings; no broader runtime, UI, asset-generation, or automation-protocol ownership transfers. During final verification, three post-smoke native finalizer crashes exposed undisposed existing Godot SurfaceTool and PackedScene wrappers; ownership expanded only to the three mesh construction files needed for explicit wrapper disposal, with no geometry or content behavior changes. This pass stops after the supplied defects and required gates so downstream art, continental-map, and broader game work can proceed. P0-018 remains verified_local rather than complete until P0-017 is complete following the Q-029 human camera-comfort decision. Q-030 records R3 camera, Y recover, and LB rear view as the safe working default for a later non-blocking hardware retest. Physical wheels, pedals, and force feedback remain governed by Q-006 and are deliberately outside this keyboard-and-controller baseline."
     },
     {
       "id": "P0-019",

@@ -78,10 +78,10 @@ the conditioner derives its immutable tuning from that restored profile.
 
 ## Remaining boundary
 
-P0-018 is intentionally `in_progress`. Its ledger scope permits implementation against
-the verified P0-017 foundation but prohibits a completion claim until the P0-017 human
-camera-comfort gate is approved. Physical wheels, pedals, and force feedback remain out
-of this baseline.
+At the time of the initial audit, P0-018 was intentionally `in_progress`. Its ledger
+scope permits implementation against the verified P0-017 foundation but prohibits a
+completion claim until the P0-017 human camera-comfort gate is approved. Physical
+wheels, pedals, and force feedback remain out of this baseline.
 
 ## 2026-07-23 Windows closeout addendum
 
@@ -102,3 +102,72 @@ without reusing its telemetry stream.
 This is a machine-verification closeout only. P0-018 may advance to `verified_local`,
 but it cannot become `complete` until P0-017 is complete following the Q-029 human
 camera-comfort and readability decision.
+
+## 2026-07-25 bounded Steam Controller correction
+
+Live owner testing found that the intended Xbox-style labels were not sufficient:
+runtime-created joypad events were bound to device 0, so a Steam/XInput controller
+enumerated under another Godot device ID could select controller state without driving
+the mapped actions. Every controller binding now accepts any connected device. RT and
+LT remain independent positive-polarity axes, profile deadzones apply to both triggers,
+left-stick Y is unused while driving, and the project ignores joypad input while its
+window is unfocused.
+
+The bounded controller layout is RT accelerate, LT service brake, left-stick X steer,
+B reverse, X handbrake, Y recover in place, R3 camera mode, hold LB rear view, View map,
+and Menu pause. Driver-menu navigation uses D-pad/left stick, A confirm, and B back.
+Steam Controllers must use Steam Input's Gamepad template; a WASD-emulation template is
+indistinguishable from keyboard input and will intentionally make stick-up look like W.
+Q-030 records the non-blocking subjective mapping retest rather than extending M0 polish.
+
+Recover and Restart Run are now separate. Recover preserves route progress, the run
+clock, and camera mode. Restart Run is a twice-confirmed driver-menu action that rebuilds
+the initial world and restores route distance zero, the original pose, zero transition
+motion, deterministic seed, starting economy/condition/enforcement, assist profile,
+timer origin, and chase camera. It does not write or delete the suspend save. Semantic
+evidence records both the transition-exact state and the subsequently settling rigid
+body, avoiding a false requirement that suspension settling remain numerically frozen.
+
+Both camera modes now support predictable hold-to-look-behind on B/LB. Reverse never
+forces a camera change. The rear-view blend preserves free-look state and camera mode,
+survives a chase/cockpit switch while held, and returns promptly on release. The cockpit
+sightline defect was a double offset from adding a runtime eye displacement beneath an
+already-authored `Camera_Cockpit` anchor. The runtime now uses the anchor directly with a
+0.05 m near plane. The placeholder exterior cabin, roof spine, and solid interior block
+use a cockpit-excluded render layer; the chase camera still renders them.
+
+The retained [cockpit review capture](../images/p0-018-cockpit-controller-review.png)
+is 1280x720 and shows an unobstructed road/windshield sightline with one shallow hood
+strip and no stacked roof/interior layer. Semantic assertions independently prove three
+cockpit-only excluded meshes, a zero local eye offset, and a chase cull mask that still
+includes the exterior layer. Left, right, rear, reverse-plus-rear, release, and camera
+switch behavior passed from the corrected anchor.
+
+Final Windows verification on the pinned toolchain passed:
+
+- `./scripts/verify-driving-input.sh --devices keyboard,controller --profiles all`:
+  22 focused Core cases and six official-engine live scenarios passed.
+- `./scripts/verify-camera-handling.sh --all-scenarios`: six deterministic camera
+  stages, exact save/resume reconstruction, the normal-start boundary, and both live
+  camera tests passed.
+- `./scripts/check.sh`: doctor, zero-warning build, 115 C# tests, Ruff, 78 map tests,
+  13 PlayGodot unit tests, and the official Godot smoke passed.
+
+The first doctor attempt used WSL Bash and could not see the Windows toolchain; the Git
+for Windows retry found every pinned tool except the workstation's upgraded uv. The
+final runs prepended the already-cached pinned uv 0.9.24 executable, after which doctor
+and every gate passed. Two expected test-development retries tightened device-agnostic
+bindings and distinguished transition-exact restart motion from normal suspension
+settling. During final handoff verification, three runs reached
+`CANNONBALL_SMOKE_OK` and then crashed in Godot's managed finalizer after native engine
+teardown. The logs identified existing undisposed `SurfaceTool` builders and the Hero
+GT `PackedScene` wrapper. The construction sites now use deterministic `using`
+ownership; no mesh, content, or camera behavior changed. A fresh complete gate then
+passed cleanly, including process shutdown. No severe controller or camera blocker
+remains in machine evidence. P0-018 is again `verified_local`, not `complete`: Q-029
+remains an upstream human comfort gate.
+
+The final adversarial diff review also found that a resumed session's diagnostic start
+transform had been sampled from the resumed vehicle even though Restart Run rebuilt the
+authored route start. The reference now always derives from `InitialRoadForward` and
+`InitialVehiclePoint`; the final M0 and save/resume camera gates passed after that fix.
