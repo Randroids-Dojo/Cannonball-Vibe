@@ -3,9 +3,10 @@
 This file contains only decisions that an agent cannot approve. Implementation and
 automated verification continue under the delivery-ledger fixture scopes.
 
-Owner scheduling decision, 2026-07-23: defer the camera-comfort review until
-the selected visual-quality milestone. This does not approve either view or
-close Q-029.
+Owner scheduling decisions: defer the camera-comfort review until one build
+integrates the representative Hero GT, production highway kit, and one regional
+environment slice, then review before final polish. This does not approve
+either view or close Q-029.
 
 ## Q-029 — P0-017 camera comfort and readability approval
 

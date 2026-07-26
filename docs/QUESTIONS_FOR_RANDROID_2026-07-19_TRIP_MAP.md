@@ -13,8 +13,10 @@ markers, and a persistent legend. Results and verification are recorded in
 That feedback is actionable direction, not an implicit approval; Q-028 remains
 open for review of the updated presentation.
 
-Owner scheduling decision, 2026-07-23: defer this review until the selected
-visual-quality milestone. This does not approve the map or close Q-028.
+Owner scheduling decisions: defer this review until a representative integrated
+visual slice, then review before final polish. The trigger is one build that
+combines the representative Hero GT, production highway kit, and one regional
+environment slice. This does not approve the map or close Q-028.
 
 ## Q-028 — Trip-map comprehension and accessibility review
 

@@ -55,14 +55,13 @@ texture residency, and LOD quality on this machine.
 
 ## Evidence acquisition
 
-The owner selected a live, agent-operated remote session on the declared
-Windows PC instead of a user-run evidence bundle or manual profiler screenshots.
-The session must still use reproducible scripts and preserve complete
-machine-readable outputs; remote control changes who operates the capture, not
-the evidence standard.
+On 2026-07-26 the owner selected Codex running directly on the declared Windows
+PC instead of Microsoft Remote Desktop, game-streaming remote control, a
+user-run evidence bundle, or manual profiler screenshots. The owner starts the
+local Codex session, and the agent operates the reproducible capture scripts on
+the native RTX 3080 Ti renderer and preserves complete machine-readable outputs.
 
-The owner must initiate and authorize the session. Do not create standing remote
-access, store remote-control credentials in the repository, collect unrelated
-machine data, or treat remote availability as permission to publish, install
-unrelated software, or change account/security settings. The exact remote
-mechanism and session timing remain owner-coordinated.
+Do not create standing remote access, store account or remote-control
+credentials in the repository, collect unrelated machine data, or treat the
+local session as permission to publish, install unrelated software, or change
+account/security settings. Session timing remains owner-coordinated.
