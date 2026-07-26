@@ -4,9 +4,9 @@
   "milestone": "M0",
   "status": "verified_local_dependency_pending",
   "recorded_at_utc": "2026-07-26T05:27:27.5672545Z",
-  "git_revision": "24aac5e615d3d13e65324391509c96d4c3a7e0b0",
-  "verification_scope": "working_tree",
-  "working_tree_changes": true,
+  "git_revision": "9279342cc492da547061a237b8b77aab25306060",
+  "verification_scope": "committed_implementation_revision",
+  "working_tree_changes": false,
   "platform": {
     "os": "Microsoft Windows 10.0.26200",
     "shell_platform": "MINGW64_NT-10.0-26200",
@@ -281,8 +281,8 @@
       "passed": true
     },
     {
-      "criterion": "required first-party M0 gate passes for the verified working tree",
-      "observed": "Doctor confirmed pinned tools; the zero-warning build, all automated suites, and official Godot smoke passed against the LT refinement working tree based on 24aac5e615d3d13e65324391509c96d4c3a7e0b0.",
+      "criterion": "required first-party M0 gate passes for the verified source state",
+      "observed": "Doctor confirmed pinned tools; the zero-warning build, all automated suites, and official Godot smoke passed against the exact LT refinement source state committed as 9279342cc492da547061a237b8b77aab25306060.",
       "passed": true
     }
   ],
