@@ -177,6 +177,12 @@ public sealed partial class DrivingInputController : Node
         _automationState["controller_deadzone"] = tuning.ControllerDeadzone;
         _automationState["controller_exponent"] = tuning.ControllerExponent;
         _automationState["controller_rate_per_second"] = tuning.ControllerRatePerSecond;
+        _automationState["brake_to_reverse_enter_speed_mps"] =
+            DrivingInputConditioner.BrakeToReverseEnterSpeedMetersPerSecond;
+        _automationState["brake_to_reverse_exit_speed_mps"] =
+            DrivingInputConditioner.BrakeToReverseExitSpeedMetersPerSecond;
+        _automationState["brake_trigger_reverse_engaged"] =
+            conditioned.BrakeTriggerReverseEngaged;
         _automationState["high_speed_min_authority"] =
             tuning.MinimumHighSpeedSteeringAuthority;
         _automationState["raw_throttle"] = raw.Throttle;

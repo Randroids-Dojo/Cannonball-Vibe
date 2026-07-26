@@ -171,3 +171,30 @@ The final adversarial diff review also found that a resumed session's diagnostic
 transform had been sampled from the resumed vehicle even though Restart Run rebuilt the
 authored route start. The reference now always derives from `InitialRoadForward` and
 `InitialVehiclePoint`; the final M0 and save/resume camera gates passed after that fix.
+
+## 2026-07-25 final LT brake-to-reverse schema
+
+The last owner-requested controller refinement makes LT a continuous brake-to-reverse
+axis. While forward speed is above 0.35 m/s, shaped LT input is service braking and
+cannot command reverse. If LT remains held at or below 0.35 m/s, service brake ramps
+down while reverse ramps up through the existing profile rates. Once engaged, reverse
+stays latched through small signed-speed noise; an independent 0.75 m/s forward exit
+threshold returns LT to braking if the vehicle is pushed forward. Releasing LT clears
+the latch and ramps reverse out. B remains a secondary direct-reverse binding and is
+not required for normal controller driving.
+
+The semantic state publishes both thresholds and the latch. Focused Core tests cover
+the forward-braking phase, exact handoff, overlapping ramp, negative-speed reverse,
+near-zero hysteresis, release, and B fallback. The official-engine Steam/XInput probe
+uses the actual trigger axis: it first establishes speed above 4 m/s, observes braking,
+continues holding LT through zero into negative speed without B, observes brake decay
+and reverse rise, then verifies the B fallback separately. The first two live-test
+attempts sampled inside the handoff band and then expected the decaying brake to be
+instantly zero; the corrected test uses measured speed and asserts the intended smooth
+overlap rather than an abrupt channel flip.
+
+The mapping remains RT accelerate, LT brake-to-reverse, left-stick X steer, R3 camera,
+hold LB look-behind, Y recover, View map, and Menu pause with A/B menu confirmation and
+back. The existing cockpit culling and rear-view evidence remains valid. Its vehicle
+body and interior are accepted as a graybox placeholder for this bounded tranche only;
+the clear sightline is verified, while production cockpit art remains deferred.

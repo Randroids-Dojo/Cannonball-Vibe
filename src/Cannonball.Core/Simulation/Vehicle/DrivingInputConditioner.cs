@@ -32,7 +32,8 @@ public readonly record struct ConditionedDrivingInput(
     double SteeringTarget,
     double SteeringAuthority,
     double SteeringResponseSeconds,
-    bool SteeringSaturated);
+    bool SteeringSaturated,
+    bool BrakeTriggerReverseEngaged);
 
 public sealed record DrivingInputTuning(
     double KeyboardRisePerSecond,
@@ -76,12 +77,16 @@ public sealed class DrivingInputConditioner
 {
     private const double NeutralEpsilon = 0.0001;
 
+    public const double BrakeToReverseEnterSpeedMetersPerSecond = 0.35;
+    public const double BrakeToReverseExitSpeedMetersPerSecond = 0.75;
+
     private double _steering;
     private double _throttle;
     private double _serviceBrake;
     private double _reverse;
     private double _handbrake;
     private double _steeringResponseSeconds;
+    private bool _brakeTriggerReverseEngaged;
 
     public ConditionedDrivingInput Current { get; private set; }
 
@@ -129,10 +134,18 @@ public sealed class DrivingInputConditioner
         var throttleTarget = raw.Device == DrivingInputDevice.Controller
             ? ShapeControllerTrigger(raw.Throttle, tuning.ControllerDeadzone)
             : ClampUnit(raw.Throttle);
-        var reverseTarget = ClampUnit(raw.Reverse);
-        var serviceBrakeTarget = raw.Device == DrivingInputDevice.Controller
+        var directReverseTarget = ClampUnit(raw.Reverse);
+        var brakeTriggerTarget = raw.Device == DrivingInputDevice.Controller
             ? ShapeControllerTrigger(raw.ServiceBrake, tuning.ControllerDeadzone)
             : ClampUnit(raw.ServiceBrake);
+        var brakeTriggerReverseEngaged = UpdateBrakeTriggerReverseState(
+            raw.Device,
+            brakeTriggerTarget,
+            forwardSpeedMetersPerSecond);
+        var reverseTarget = Math.Max(
+            directReverseTarget,
+            brakeTriggerReverseEngaged ? brakeTriggerTarget : 0);
+        var serviceBrakeTarget = brakeTriggerReverseEngaged ? 0 : brakeTriggerTarget;
         var handbrakeTarget = ClampUnit(raw.Handbrake);
         ResolveContradictoryPropulsion(
             ref throttleTarget,
@@ -175,7 +188,8 @@ public sealed class DrivingInputConditioner
             steeringAuthority,
             _steeringResponseSeconds,
             Math.Abs(shapedSteering) >= 0.999 &&
-                Math.Abs(_steering - steeringTarget) <= 0.005);
+                Math.Abs(_steering - steeringTarget) <= 0.005,
+            _brakeTriggerReverseEngaged);
         return Current;
     }
 
@@ -187,6 +201,7 @@ public sealed class DrivingInputConditioner
         _reverse = 0;
         _handbrake = 0;
         _steeringResponseSeconds = 0;
+        _brakeTriggerReverseEngaged = false;
         Current = default;
     }
 
@@ -251,7 +266,33 @@ public sealed class DrivingInputConditioner
     private static ConditionedDrivingInput Empty(AssistProfile profile) => new(
         0, 0, 0, 0, 0,
         true, false, DrivingInputDevice.None, profile,
-        0, 0, 1, 0, false);
+        0, 0, 1, 0, false, false);
+
+    private bool UpdateBrakeTriggerReverseState(
+        DrivingInputDevice device,
+        double brakeTrigger,
+        double forwardSpeedMetersPerSecond)
+    {
+        if (device != DrivingInputDevice.Controller || brakeTrigger <= NeutralEpsilon)
+        {
+            _brakeTriggerReverseEngaged = false;
+            return false;
+        }
+
+        if (_brakeTriggerReverseEngaged)
+        {
+            if (forwardSpeedMetersPerSecond > BrakeToReverseExitSpeedMetersPerSecond)
+            {
+                _brakeTriggerReverseEngaged = false;
+            }
+        }
+        else if (forwardSpeedMetersPerSecond <= BrakeToReverseEnterSpeedMetersPerSecond)
+        {
+            _brakeTriggerReverseEngaged = true;
+        }
+
+        return _brakeTriggerReverseEngaged;
+    }
 
     private static double ClampUnit(double value) =>
         double.IsFinite(value) ? Math.Clamp(value, 0, 1) : 0;

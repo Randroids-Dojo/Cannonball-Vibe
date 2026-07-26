@@ -219,8 +219,14 @@ async def test_controller_deadzone_curve_and_independent_axes(tmp_path: Path) ->
         assert 0 < curved["steering_target"] < 0.5
 
         await client.request("input.joypad_motion", {"axis": "trigger_right", "value": 1})
-        await asyncio.sleep(0.08)
-        throttle = (await client.describe("vehicle.input.conditioner"))["test_state"]
+        throttle = None
+        for _ in range(80):
+            await asyncio.sleep(0.025)
+            sample = (await client.describe("vehicle.input.conditioner"))["test_state"]
+            if sample["forward_speed_mps"] > 4:
+                throttle = sample
+                break
+        assert throttle is not None
         assert throttle["raw_throttle"] > 0.99
         assert throttle["conditioned_throttle"] > 0
         assert throttle["raw_service_brake"] == 0
@@ -232,6 +238,44 @@ async def test_controller_deadzone_curve_and_independent_axes(tmp_path: Path) ->
         assert braking["raw_service_brake"] > 0.99
         assert braking["conditioned_service_brake"] > 0
         assert braking["conditioned_throttle"] == 0
+        assert braking["brake_trigger_reverse_engaged"] is False
+        assert braking["brake_to_reverse_enter_speed_mps"] == pytest.approx(0.35)
+        assert braking["brake_to_reverse_exit_speed_mps"] == pytest.approx(0.75)
+
+        await client.request("input.joypad_motion", {"axis": "trigger_right", "value": 0})
+        reverse_handoff = None
+        for _ in range(80):
+            await asyncio.sleep(0.025)
+            sample = (await client.describe("vehicle.input.conditioner"))["test_state"]
+            if (
+                sample["brake_trigger_reverse_engaged"]
+                and sample["conditioned_reverse"] > 0
+                and sample["forward_speed_mps"] < -0.05
+            ):
+                reverse_handoff = sample
+                break
+        assert reverse_handoff is not None
+        assert reverse_handoff["raw_service_brake"] > 0.99
+        assert reverse_handoff["raw_reverse"] == 0
+        assert 0 <= reverse_handoff["conditioned_service_brake"] < braking[
+            "conditioned_service_brake"
+        ]
+        assert reverse_handoff["conditioned_throttle"] == 0
+
+        await asyncio.sleep(0.1)
+        settled_reverse = (await client.describe("vehicle.input.conditioner"))["test_state"]
+        assert settled_reverse["brake_trigger_reverse_engaged"] is True
+        assert settled_reverse["conditioned_service_brake"] == 0
+        assert settled_reverse["conditioned_reverse"] >= reverse_handoff["conditioned_reverse"]
+
+        await client.request("input.joypad_motion", {"axis": "trigger_left", "value": 0})
+        await client.request("input.joypad_button", {"button": "b", "state": "press"})
+        await asyncio.sleep(0.08)
+        secondary_reverse = (await client.describe("vehicle.input.conditioner"))["test_state"]
+        assert secondary_reverse["raw_reverse"] == 1
+        assert secondary_reverse["conditioned_reverse"] > 0
+        assert secondary_reverse["brake_trigger_reverse_engaged"] is False
+        await client.request("input.joypad_button", {"button": "b", "state": "release"})
 
         button = await client.request(
             "input.joypad_button", {"button": "x", "state": "press", "device": 3}
@@ -247,7 +291,6 @@ async def test_controller_deadzone_curve_and_independent_axes(tmp_path: Path) ->
         await client.request("input.joypad_button", {"button": "x", "state": "release"})
 
         await client.request("input.joypad_motion", {"axis": "left_x", "value": 0})
-        await client.request("input.joypad_motion", {"axis": "trigger_right", "value": 0})
         await client.request("input.joypad_motion", {"axis": "trigger_left", "value": 0})
 
 
@@ -361,6 +404,15 @@ async def test_controller_camera_recover_menu_and_confirmed_restart_are_distinct
         assert recovered["restart_count"] == 0
         assert recovered["route_distance_m"] > 0.5
         assert recovered["camera_mode"] == "cockpit"
+
+        neutral_deadline = asyncio.get_running_loop().time() + 1.0
+        while True:
+            input_state = (await client.describe("vehicle.input.conditioner"))["test_state"]
+            if input_state["input_suppressed"] is False:
+                break
+            if asyncio.get_running_loop().time() >= neutral_deadline:
+                pytest.fail("Recover input suppression did not clear after controller neutral")
+            await asyncio.sleep(0.02)
 
         await _joy_button(client, "start", device=2)
         menu = (await client.describe("menu.driver.root"))["test_state"]
