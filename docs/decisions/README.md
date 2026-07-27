@@ -19,3 +19,12 @@ new ADR that supersedes the old one instead of rewriting history.
 | [ADR-0012](ADR-0012-agentic-visual-asset-pipeline.md) | Accepted | Agentic 3D asset pipeline with replaceable vehicle, road, and environment contracts |
 | [ADR-0013](ADR-0013-highway-lane-transition-control-lines.md) | Accepted | Stable highway control lines and speed-designed lane transitions |
 | [ADR-0014](ADR-0014-directed-carriageways-and-road-markings.md) | Accepted | Reciprocal directed carriageways and correct yellow/white road-marking semantics |
+| [ADR-0015](ADR-0015-route-specific-state-and-subregion-environments.md) | Accepted | Realistic route-specific state and subregion environment profiles |
+| [ADR-0016](ADR-0016-state-specific-highway-visual-language.md) | Accepted | Contemporary state-specific American highway realism |
+| [ADR-0017](ADR-0017-authoritative-route-context-and-concurrency.md) | Accepted | Authoritative route-context sources and readable concurrency presentation |
+| [ADR-0018](ADR-0018-gated-generated-road-reconstruction.md) | Accepted | Gated generated road reconstruction with authored exceptions |
+| [ADR-0019](ADR-0019-route-package-budgets-and-audit-reproducibility.md) | Accepted | Route-package size ceilings and semantic GeoPackage reproducibility |
+| [ADR-0020](ADR-0020-required-platforms-and-macos-validation.md) | Accepted | Required Linux/Windows delivery with non-committed macOS validation |
+| [ADR-0021](ADR-0021-phased-commercial-release-channels.md) | Accepted | Steam commercial authority with itch.io early distribution and GitHub technical releases |
+| [ADR-0022](ADR-0022-host-neutral-agent-automation-without-required-mcp.md) | Accepted | Host-neutral CLI, PlayGodot, and Computer Use automation without required MCP |
+| [ADR-0023](ADR-0023-reference-performance-target-and-layered-budgets.md) | Accepted | 1440p High at 60 FPS on the reference PC with layered, measured budgets |

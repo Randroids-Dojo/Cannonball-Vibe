@@ -10,6 +10,13 @@ Review artifact:
 
 ## 1. Is the Colorado mountain-to-plains direction right for the representative slice? (Q-021)
 
+**Resolved 2026-07-23 — Option A, with a coast-to-coast realism
+clarification.** Colorado remains the representative technical slice. The
+production trip must capture every traversed state through route-specific
+state and subregion profiles; Colorado does not define the appearance of other
+states. See
+[ADR-0015](decisions/ADR-0015-route-specific-state-and-subregion-environments.md).
+
 ### A. Continue this direction (recommended)
 
 - **Pros:** builds on verified route data; mountain, foothill, plains, and
@@ -31,6 +38,12 @@ Review artifact:
 
 ## 2. How should we ratify production performance budgets? (Q-022)
 
+**Partially resolved 2026-07-23 — Option A.** The available reference machine
+is a Windows 11 PC with an AMD Ryzen 9 5900X, ASUS TUF RTX 3080 Ti 12 GB, and
+64 GB DDR4-3600. The machine selection is complete; Q-022 remains open until
+representative renderer budgets are captured and ratified. See the
+[reference-hardware record](audits/2026-07-23-reference-windows-hardware.md).
+
 ### A. Measure on an available Windows game PC, then ratify (recommended)
 
 - **Pros:** produces honest GPU, frame-time, memory, draw-call, and LOD limits
@@ -49,6 +62,6 @@ Review artifact:
 - **Cons:** hosted runners are not representative game GPUs, so they cannot
   settle visual-performance quality.
 
-No answer is needed for engineering to continue. Option A remains the working
-default for both questions, but P1-010 will remain `in_progress` until the final
-art direction, readability, rights, and target-hardware evidence are approved.
+P1-010 remains `in_progress` until the approved realistic direction has
+production-quality assets, readability and rights approval, and measured
+target-hardware evidence.

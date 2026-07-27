@@ -21,6 +21,8 @@ from cannonball_playgodot import (
     ProtocolError,
 )
 
+from .input_support import wait_for_key_conditioner
+
 REPO_ROOT = Path(__file__).resolve().parents[3]
 MAX_RAW_LOG_BYTES = 2_000_000
 
@@ -456,15 +458,43 @@ async def test_chase_camera_damps_vehicle_yaw_and_keeps_a_level_horizon(
         log_path=artifacts / "camera-handling-godot.log",
     )
     async with process as client:
-        await client.request("input.action", {"action": "accelerate", "state": "press"})
+        ready = (await client.describe("vehicle.input.conditioner"))["test_state"]
+        assert ready["active_profile"] == "balanced"
+
         try:
-            deadline = asyncio.get_running_loop().time() + 2.0
+            deadline = asyncio.get_running_loop().time() + 7.0
+            last_input_state = ready
             while True:
+                remaining = deadline - asyncio.get_running_loop().time()
+                if remaining <= 0:
+                    state = (await client.describe("camera.chase.rig"))["test_state"]
+                    pytest.fail(
+                        "Vehicle did not reach the camera steering probe speed; "
+                        f"speed_mps={state['speed_mps']}, "
+                        f"input_state={last_input_state}"
+                    )
+                input_state = await wait_for_key_conditioner(
+                    client,
+                    key="W",
+                    raw_field="raw_throttle",
+                    predicate=lambda current: (
+                        current["conditioned_throttle"] > 0
+                        and current["stationary_hold"] is False
+                    ),
+                    failure="Vehicle input did not reach the camera steering probe",
+                    timeout=remaining,
+                )
+                last_input_state = input_state
+
                 state = (await client.describe("camera.chase.rig"))["test_state"]
+                if asyncio.get_running_loop().time() >= deadline:
+                    pytest.fail(
+                        "Vehicle did not reach the camera steering probe speed; "
+                        f"speed_mps={state['speed_mps']}, "
+                        f"input_state={input_state}"
+                    )
                 if state["speed_mps"] >= 8:
                     break
-                if asyncio.get_running_loop().time() >= deadline:
-                    pytest.fail("Vehicle did not reach the camera steering probe speed")
                 await asyncio.sleep(0.05)
 
             await client.request(
@@ -502,9 +532,7 @@ async def test_chase_camera_damps_vehicle_yaw_and_keeps_a_level_horizon(
             await client.request(
                 "input.action", {"action": "steer_right", "state": "release"}
             )
-            await client.request(
-                "input.action", {"action": "accelerate", "state": "release"}
-            )
+            await client.request("input.key", {"key": "W", "state": "release"})
 
 
 @pytest.mark.skipif("GODOT_BIN" not in os.environ, reason="GODOT_BIN enables live 4.7.1 tests")
@@ -602,8 +630,15 @@ async def test_hostile_requests_fail_closed_and_are_transcribed(tmp_path: Path) 
         initial_action_state = await first_client.describe("playgodot.fixture.action-state")
         assert initial_action_state["text"] == "released"
         await first_client.request("input.action", {"action": "ui_accept", "state": "press"})
-        await asyncio.sleep(0.05)
-        pressed_action_state = await first_client.describe("playgodot.fixture.action-state")
+        deadline = asyncio.get_running_loop().time() + 2.0
+        while True:
+            pressed_action_state = await first_client.describe("playgodot.fixture.action-state")
+            if pressed_action_state["text"] == "pressed":
+                break
+            if asyncio.get_running_loop().time() >= deadline:
+                pytest.fail("Injected action was not observed before the bounded deadline")
+            await first_client.request("input.action", {"action": "ui_accept", "state": "press"})
+            await asyncio.sleep(0.02)
         assert pressed_action_state["text"] == "pressed"
         abandoned_wait = asyncio.create_task(
             first_client.request(

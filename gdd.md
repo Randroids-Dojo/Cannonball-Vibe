@@ -86,11 +86,18 @@ __Signature mode__
 
 __Commercial shape__
 
-Premium game with seeded replayability; no live-service dependency
+Premium Steam game with seeded replayability and no live-service dependency;
+itch.io may carry labeled demos or early builds, while GitHub Releases remains
+the technical artifact and provenance channel
 
-# The major unresolved question__   OPEN__
+# Defining run-length direction: **LOCKED**
 
-Is uninterrupted 1:1 traversal compelling for hours, or is the fantasy strongest when the geography is real but the travel time is compressed? The prototype must answer this with player behavior, not intuition. The architecture should support both without rebuilding the map pipeline.
+The 1:1 coast-to-coast Endurance Run is Cannonball's defining primary
+experience. Shorter Standard and Challenge modes remain available for
+accessibility, experimentation, and repeatable play, using the same real route
+distance and content rather than replacing the signature mode. Playtesting
+should refine the shorter-mode compression rules without demoting 1:1 travel
+to a hidden variant.
 
 # Contents
 
@@ -259,7 +266,7 @@ The in-game journey may be extremely long; the real-world play session should no
 - Resume panel: route position, elapsed time, target-time range, fuel range, mechanical margin, local awareness, and the next meaningful decision.
 - No fatigue or penalty tied to the player taking a real-world break.
 
-# Run length modes__   OPEN__
+# Run length modes: **LOCKED DIRECTION**
 
 __Mode__
 
@@ -289,6 +296,10 @@ __IMPLEMENTATION REQUIREMENT__
 
 The map, scoring, and event systems should be expressed in real route distance so mode-specific time or distance compression can change without duplicating content.
 
+The Endurance Run is the defining primary mode. Standard and Challenge modes
+must broaden accessibility without changing authoritative route distance or
+requiring separately authored world content.
+
 # Route topology__   LOCKED__
 
 The world is a graph, not a corridor pretending to be a continent. The player should face meaningful interchanges and route families with different risk profiles, even when the initial content budget supports only a few viable coast-to-coast paths.
@@ -297,6 +308,11 @@ The world is a graph, not a corridor pretending to be a continent. The player sh
 - Nodes represent interchanges, meaningful exits, service hubs, region boundaries, and event attachment points.
 - Alternate routes trade distance against traffic, terrain, weather, enforcement, repair access, and contact availability.
 - A route choice must remain understandable after it is made; the map should show why an option is faster, safer, or more expensive.
+- Coarse national topology identifies route families but never becomes
+  authoritative playable road geometry. Deterministically generated road and
+  interchange corrections ship only after strict geometry, collision,
+  sightline, topology, and driving gates pass; authored overlays handle the
+  rejected exceptions with complete provenance.
 
 # Lane topology and route context — **LOCKED**
 
@@ -312,6 +328,11 @@ identities when known. They are not cumulative trip-progress counters. Exit and
 transfer signs use semantic route, destination, lane-guidance, and service data;
 unknown values remain explicitly derived or authored rather than presented as
 false source precision.
+
+Every signed concurrent route identity remains in authoritative data. Roadside
+markers show the locally primary designation for high-speed readability, while
+the full-screen map and inspection surfaces expose all concurrent identities,
+directions, discontinuities, and jurisdiction resets.
 
 # Full-screen trip map — **LOCKED**
 
@@ -1038,7 +1059,9 @@ Players can identify the largest current risk and explain why they lost time
 
 __Choice density__
 
-A meaningful speed, route, stop, or risk decision occurs often enough to prevent passive cruising without becoming constant noise
+A meaningful speed, route, stop, or risk decision occurs every few minutes on
+average, with deliberate quiet stretches that preserve authentic highway
+rhythm and prevent constant noise
 
 __Build diversity__
 
@@ -1320,7 +1343,7 @@ Do unlocks create curiosity without making early cars obsolete?
 
 First-run-capable starter set plus horizontal blueprints and contacts
 
-# Prioritized open questions
+# Prioritized product decisions and remaining questions
 
 __Priority__
 
@@ -1330,9 +1353,9 @@ __Recommended default until tested__
 
 __P0__
 
-Is 1:1 travel the main mode or an endurance variant?
+Is 1:1 travel the main mode or an endurance variant? — **RESOLVED**
 
-Build for 1:1 first; design data and scoring so compression can be added without reauthoring
+1:1 Endurance is the defining primary experience; shorter modes remain available without reauthoring world content
 
 __P0__
 
@@ -1342,7 +1365,7 @@ Forgiving input curve, honest stopping distance, no random instability
 
 __P0__
 
-How dense must decisions be?
+How dense must decisions be? — **RESOLVED**
 
 A meaningful strategic or tactical change every few minutes, with quiet periods for contrast
 
@@ -1440,9 +1463,11 @@ SUPERSEDED BY D-011
 
 __D-009__
 
-1:1 Endurance is the signature experiment; the commercial default run length remains unresolved.
+1:1 Endurance is the defining primary coast-to-coast experience. Shorter
+Standard and Challenge modes remain available using the same authoritative
+route distance and content.
 
-OPEN
+LOCKED — owner decision 2026-07-23
 
 __D-010__
 
@@ -1461,6 +1486,44 @@ __D-012__
 Godot 4.7.1 .NET is the prototype engine; agent automation uses the official engine CLI and may add a modern PlayGodot runtime addon for stable rendered-UI scene-node access, never a custom engine fork.
 
 LOCKED FOR PROTOTYPE — see docs/decisions/ADR-0004-godot-4-7-1.md and ADR-0005-official-engine-agentic-automation.md
+
+__D-013__
+
+A meaningful speed, route, stop, or risk decision should occur every few
+minutes on average, with deliberate quiet highway stretches for contrast,
+scenery, planning, music, and recovery from sustained attention.
+
+LOCKED — owner decision 2026-07-23
+
+__D-014__
+
+Steam is the authoritative commercial customer channel. itch.io may host
+explicitly labeled demos or early builds, and GitHub Releases remains the
+technical artifact and provenance channel. Storefront creation, fees,
+credentials, uploads, and publication remain human-gated.
+
+LOCKED — owner decision 2026-07-23; see docs/decisions/ADR-0021-phased-commercial-release-channels.md
+
+__D-015__
+
+Agent delivery remains host-neutral: deterministic command-line and filesystem
+evidence is authoritative, modern PlayGodot supplies stable semantic
+rendered-UI access, and Computer Use supplies optional black-box coverage. No
+MCP adapter or custom Godot fork is required.
+
+LOCKED — owner decision 2026-07-23; see docs/decisions/ADR-0022-host-neutral-agent-automation-without-required-mcp.md
+
+__D-016__
+
+The first production performance reference is 2560×1440 High at a stable 60
+FPS on the declared Ryzen 9 5900X / RTX 3080 Ti Windows PC. Budgets are layered
+across whole scenes, subsystems, streaming and memory, and content classes;
+provisional gates require p95 ≤16.67 ms, p99 ≤20 ms, no steady-driving stall
+above 50 ms after warm-up, GPU memory ≤9.5 GB, process working set ≤16 GB, and
+no sustained growth over 30 minutes. Representative production captures must
+still ratify those limits and their derived allocations.
+
+LOCKED — owner decision 2026-07-23; see docs/decisions/ADR-0023-reference-performance-target-and-layered-budgets.md
 
 # Top project risks and mitigations
 

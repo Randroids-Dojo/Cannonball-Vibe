@@ -114,7 +114,8 @@ sections, shoulders, and index-preserving connectors as `derived` records. They
 are not observed lane geometry. Source route hints and BEGMP/ENDMP values become
 route identities and milepoint records with source provenance; named exits and
 corrected lane topology require the checksum-locked source or deterministic
-authored-overlay process tracked by Q-017.
+authored-overlay process governed by
+[ADR-0017](decisions/ADR-0017-authoritative-route-context-and-concurrency.md).
 
 Godot road generation derives variable width, markings, shoulders, gore areas,
 barriers, collision, signs, and standardized interchange geometry from that
@@ -132,7 +133,9 @@ alternatives, stops, exits, and transfers without depending on streamed scene
 geometry. Its data-driven 1:1, fixed-ratio, and selective-cruise estimate inputs
 change ETA only; edge-plus-distance position and real route distance remain
 authoritative. Roadside mile-marker values remain distinct from total trip
-progress. Q-001 still owns the commercial run-mode decision.
+progress. GDD decision D-009 defines 1:1 Endurance as the signature mode while
+retaining shorter Standard and Challenge modes. D-013 separately defines its
+decision cadence and quiet-highway stretches.
 
 Generated continental packages belong in release/CI artifacts, not Git. Source
 art, audio, and binary models use Git LFS.
@@ -184,8 +187,10 @@ Gamepad actions use separate trigger axes; steering and triggers apply the selec
 profile's 0.16, 0.12, or 0.08 deadzone before conditioning. The complete mapping
 and Steam Controller setup boundary are documented in
 [CONTROLLER_CONTROLS.md](CONTROLLER_CONTROLS.md). M1 must add an in-game calibration screen
-and validate one common force-feedback-capable wheel on Windows; force feedback
-itself is outside the MVP unless testing justifies it.
+and validate the owner-selected Logitech G923 Xbox/PC wheel and three-pedal set
+as the first physical Windows calibration and handling baseline under P1-012.
+Force feedback and TRUEFORCE remain optional until basic steering, pedals,
+buttons, paddles, calibration, and safe disconnect/reconnect behavior pass.
 
 CI runs the complete M0 gate on Linux and Windows: exact-tool doctor, core build
 and tests, geodata lint and tests, and the official-engine headless Godot smoke.
@@ -194,6 +199,11 @@ scheduled Windows workflow runs a high-speed packaged short-corridor soak. The
 required CI matrix also runs the deterministic distance-complete 500-mile
 scenario on Linux and Windows; high-speed feel remains covered by its separate
 physics and human handling gates.
+
+macOS remains an available engineering-validation platform, including selected
+Godot renderer and semantic-UI coverage, but is not yet a committed public
+distribution target. Linux and Windows remain required delivery platforms; see
+[ADR-0020](decisions/ADR-0020-required-platforms-and-macos-validation.md).
 
 ## Agent automation
 
@@ -211,10 +221,13 @@ engine, with loopback-only authenticated transport, a versioned protocol,
 stable automation IDs, allowlisted mutation, transcripts, and no release-export
 surface. Its 2026-07-19 driver-menu comparison exposed focus and normalized
 state that the macOS accessibility tree did not expose, activating ADR-0008.
-MCP editor bridges or an MCP adapter over PlayGodot are optional
-experiments. They must not become required infrastructure without an ADR
-demonstrating exact-version support, security, transactional behavior,
-auditability, and unique value beyond the existing tools.
+[ADR-0022](decisions/ADR-0022-host-neutral-agent-automation-without-required-mcp.md)
+resolves the automation boundary: no MCP editor bridge or MCP adapter over
+PlayGodot is required. A future MCP experiment may remain an optional
+host-specific adapter only if it preserves the command-line authority and
+demonstrates exact-version support, a narrow security profile, fail-closed or
+transactional mutation, durable auditability, and measurable unique value
+beyond the existing tools.
 
 ## Asset and observability stack
 
@@ -227,6 +240,22 @@ textures, and performance budgets. Machine-readable manifests recursively
 record hashes, authorship, licensing, transformations, and export profiles.
 Binary source art and models use Git LFS, while generated imports remain
 replaceable.
+
+[ADR-0023](decisions/ADR-0023-reference-performance-target-and-layered-budgets.md)
+sets the first production reference target at 2560×1440 High and a stable 60
+FPS on the declared Ryzen 9 5900X, RTX 3080 Ti 12 GB, and 64 GB Windows 11 PC.
+After warm-up, provisional gates require p95 presented-frame time at or below
+16.67 ms, p99 at or below 20 ms, no steady-driving stall above 50 ms, no more
+than 9.5 GB of GPU memory, no more than 16 GB of process working set, and no
+sustained positive memory growth over a 30-minute steady-state run.
+Budgets are layered across whole-scene outcomes, subsystem allocations, and
+content-class geometry, draw-call, material, texture-residency, instancing, LOD,
+and pop-in limits. Fixture thresholds remain provisional; production limits
+require representative content and owner-ratified Windows captures. The
+reference PC is not yet the minimum supported specification.
+The Windows toolchain and reusable caches persist, but every reference capture
+runs from a newly created clean Git worktree at the exact reviewed commit and
+records tool versions, worktree cleanliness, and input hashes before measuring.
 
 The hero vehicle's visual rig follows the existing custom raycast simulation
 through stable chassis, wheel, suspension, camera, light, damage, and material
@@ -247,7 +276,9 @@ exports keep native text scenes instead of reserializing them to cache-specific
 binary scene IDs, preserving auditable and reproducible PCK bytes. Its
 technical baseline is documented in
 [the 2026-07-18 review](audits/2026-07-18-p1-008-hero-gt-technical-review.md);
-Q-020 still owns final art direction and exact rights approval.
+the owner selected the project-original Hero GT direction, while final
+silhouette, readability, renderer budgets, and exact rights evidence remain
+P1-008 acceptance gates.
 
 P1-009 now exercises the same boundary for highway visuals. The procedural road
 generator consumes one shared `RoadVisualKit` with production and graybox
@@ -265,8 +296,9 @@ variable-lane/gore topology and all representative interchange route choices.
 The current standards research and explicit non-compliance boundary are
 recorded in
 [the modern highway visual baseline](research/2026-07-18-modern-highway-visual-standards.md).
-Q-024 owns the final visual language; Q-022 still owns renderer and target-PC
-budgets.
+[ADR-0016](decisions/ADR-0016-state-specific-highway-visual-language.md)
+defines the state-specific contemporary visual language; Q-022 still owns
+renderer and target-PC budgets.
 
 [ADR-0014](decisions/ADR-0014-directed-carriageways-and-road-markings.md)
 defines traffic direction at the route boundary. Route schema 5 keeps every edge

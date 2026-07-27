@@ -6,6 +6,12 @@ remains in [OPEN_QUESTIONS.md](OPEN_QUESTIONS.md).
 
 ## Q-020 — first hero grand tourer
 
+**Resolved 2026-07-23 — Option A.** Develop the project-original Hero GT and
+existing semantic rig into the production vehicle. This resolves acquisition
+and ownership direction; P1-008 still requires a production modeling,
+materials, interior, animation, damage, performance, rights, and human visual
+approval pass.
+
 Which art direction and acquisition path should replace or promote the
 project-original procedural **Hero GT** baseline created for P1-008?
 

@@ -3,6 +3,11 @@
 This file contains only decisions that an agent cannot approve. Implementation and
 automated verification continue under the delivery-ledger fixture scopes.
 
+Owner scheduling decisions: defer the camera-comfort review until one build
+integrates the representative Hero GT, production highway kit, and one regional
+environment slice, then review before final polish. This does not approve
+either view or close Q-029.
+
 ## Q-029 — P0-017 camera comfort and readability approval
 
 The stabilized chase/cockpit camera foundation and all automatable P0-017 scenarios
@@ -11,8 +16,10 @@ transition, local-origin rebase, save/resume, pause, input-device change, bounde
 cockpit look, mode transitions, and renderer inspection. P0-017 still requires a human
 comfort judgment before it—and therefore P0-018—can be marked complete.
 
-Please drive for at least five minutes in chase view and five minutes in cockpit view,
-including sustained steering, braking, a reset, and switching views with `V`.
+Do not perform this review until the integrated visual-slice trigger above is
+satisfied. Once that build exists, drive for at least five minutes in chase view
+and five minutes in cockpit view, including sustained steering, braking, a
+reset, and switching views with `V`.
 In cockpit view, also try IJKL or the controller right stick to confirm bounded look and
 automatic recentering feel natural.
 

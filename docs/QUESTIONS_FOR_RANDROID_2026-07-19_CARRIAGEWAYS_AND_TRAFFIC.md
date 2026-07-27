@@ -7,6 +7,12 @@ scope choice; it does not block the safe schema and marking correction.
 
 ## Q-026 — Launch support for undivided two-way highways
 
+**Resolved 2026-07-23 — Option A.** The first complete corridor proves divided
+mainlines, one-way ramps, handling, and directed traffic. Undivided two-way
+highways remain planned as P1-011, with an explicit bidirectional cross-section,
+centerline, traffic, collision, and junction contract rather than an inference
+inside the current one-direction lane model.
+
 Which roadway families should the first playable long-distance corridor support?
 
 ### A. Divided mainlines plus one-way ramps first (recommended)
@@ -33,6 +39,6 @@ Which roadway families should the first playable long-distance corridor support?
 - **Cons:** removes exits, services, highway transfers, detours, and most route
   strategy—the systems already established by P0-009 through P0-012.
 
-**Autonomous default:** option A. Keep divided mainlines as reciprocal directed
-carriageways, keep ramps/true one-way roadways unpaired, and treat undivided
-two-way support as a later explicitly designed task rather than an inference.
+The phased scope is approved. Keep divided mainlines as reciprocal directed
+carriageways, keep ramps and true one-way roadways unpaired, and begin P1-011
+only after its handling and traffic dependencies complete.
