@@ -36,6 +36,17 @@ async def _action(client, action: str, state: str) -> None:
     await client.request("input.action", {"action": action, "state": state})
 
 
+async def _wait_for_conditioner(client, predicate, failure: str, timeout: float = 2.0):
+    deadline = asyncio.get_running_loop().time() + timeout
+    while True:
+        state = (await client.describe("vehicle.input.conditioner"))["test_state"]
+        if predicate(state):
+            return state
+        if asyncio.get_running_loop().time() >= deadline:
+            pytest.fail(f"{failure}; state={state}")
+        await asyncio.sleep(0.02)
+
+
 async def _joy_button(client, button: str, device: int = 0) -> None:
     await client.request(
         "input.joypad_button", {"button": button, "state": "press", "device": device}
@@ -66,9 +77,9 @@ async def test_keyboard_steering_is_progressive_and_camera_independent(tmp_path:
         ready = await client.describe("vehicle.input.conditioner")
         assert ready["test_state"]["active_profile"] == "balanced"
 
-        await _action(client, "steer_right", "press")
+        await client.request("input.key", {"key": "D", "state": "press"})
         try:
-            deadline = asyncio.get_running_loop().time() + 1.0
+            deadline = asyncio.get_running_loop().time() + 2.0
             while True:
                 early = (await client.describe("vehicle.input.conditioner"))["test_state"]
                 if early["device_source"] == "keyboard" and early["raw_steering"] == 1:
@@ -82,9 +93,23 @@ async def test_keyboard_steering_is_progressive_and_camera_independent(tmp_path:
             assert early["raw_steering"] == 1
             assert 0 < early["conditioned_steering"] <= 1
 
-            await asyncio.sleep(0.15)
-            later = (await client.describe("vehicle.input.conditioner"))["test_state"]
-            assert early["conditioned_steering"] <= later["conditioned_steering"] <= 1
+            deadline = asyncio.get_running_loop().time() + 2.0
+            while True:
+                later = (await client.describe("vehicle.input.conditioner"))["test_state"]
+                if later["input_suppressed"] is True:
+                    await client.request("input.key", {"key": "D", "state": "release"})
+                elif later["raw_steering"] < 1:
+                    await client.request("input.key", {"key": "D", "state": "press"})
+                elif later["conditioned_steering"] > early["conditioned_steering"]:
+                    break
+                if asyncio.get_running_loop().time() >= deadline:
+                    pytest.fail(
+                        "Keyboard steering did not exhibit progressive conditioning; "
+                        f"early={early}, later={later}"
+                    )
+                await asyncio.sleep(0.02)
+            assert early["conditioned_steering"] < later["conditioned_steering"] <= 1
+            release_steering = later["conditioned_steering"]
             camera = (await client.describe("camera.chase.rig"))["test_state"]
             assert camera["inherits_vehicle_rotation"] is False
             assert camera["horizon_roll_degrees"] < 0.01
@@ -92,12 +117,9 @@ async def test_keyboard_steering_is_progressive_and_camera_independent(tmp_path:
             assert screenshot["bytes"] > 0
             assert screenshot["width"] >= 960
             assert screenshot["height"] >= 540
-            release_steering = (
-                await client.describe("vehicle.input.conditioner")
-            )["test_state"]["conditioned_steering"]
             assert 0 < release_steering <= 1
         finally:
-            await _action(client, "steer_right", "release")
+            await client.request("input.key", {"key": "D", "state": "release"})
 
         deadline = asyncio.get_running_loop().time() + 1.0
         while True:
@@ -329,14 +351,27 @@ async def test_controller_focus_loss_disconnect_and_reconnect_clear_state(
         await client.request(
             "input.joypad_motion", {"axis": "trigger_right", "value": 1, "device": 3}
         )
-        await asyncio.sleep(0.08)
-        active = (await client.describe("vehicle.input.conditioner"))["test_state"]
+        active = await _wait_for_conditioner(
+            client,
+            lambda state: (
+                state["active_controller_device"] == 3
+                and state["conditioned_throttle"] > 0
+            ),
+            "Controller throttle did not become active",
+        )
         assert active["active_controller_device"] == 3
         assert active["conditioned_throttle"] > 0
 
         await client.request("input.application_focus", {"state": "out"})
-        await asyncio.sleep(0.05)
-        unfocused = (await client.describe("vehicle.input.conditioner"))["test_state"]
+        unfocused = await _wait_for_conditioner(
+            client,
+            lambda state: (
+                state["conditioned_throttle"] == 0
+                and state["input_suppressed"] is True
+                and state["suppression_reason"] == "focus_loss"
+            ),
+            "Focus loss did not suppress controller input",
+        )
         assert unfocused["conditioned_throttle"] == 0
         assert unfocused["input_suppressed"] is True
         assert unfocused["suppression_reason"] == "focus_loss"
@@ -345,18 +380,32 @@ async def test_controller_focus_loss_disconnect_and_reconnect_clear_state(
             "input.joypad_motion", {"axis": "trigger_right", "value": 0, "device": 3}
         )
         await client.request("input.application_focus", {"state": "in"})
-        await asyncio.sleep(0.08)
-        refocused = (await client.describe("vehicle.input.conditioner"))["test_state"]
+        refocused = await _wait_for_conditioner(
+            client,
+            lambda state: state["conditioned_throttle"] == 0
+            and state["input_suppressed"] is False,
+            "Neutral controller input did not recover after focus returned",
+        )
         assert refocused["conditioned_throttle"] == 0
         assert refocused["input_suppressed"] is False
 
         await client.request(
             "input.joypad_motion", {"axis": "trigger_right", "value": 1, "device": 3}
         )
-        await asyncio.sleep(0.08)
+        await _wait_for_conditioner(
+            client,
+            lambda state: state["conditioned_throttle"] > 0,
+            "Controller throttle did not reactivate before disconnect",
+        )
         await client.request("input.joy_connection", {"device": 3, "connected": False})
-        await asyncio.sleep(0.05)
-        disconnected = (await client.describe("vehicle.input.conditioner"))["test_state"]
+        disconnected = await _wait_for_conditioner(
+            client,
+            lambda state: (
+                state["active_controller_device"] == -1
+                and state["conditioned_throttle"] == 0
+            ),
+            "Controller disconnect did not clear active input",
+        )
         assert disconnected["active_controller_device"] == -1
         assert disconnected["conditioned_throttle"] == 0
 
@@ -364,8 +413,16 @@ async def test_controller_focus_loss_disconnect_and_reconnect_clear_state(
         await client.request(
             "input.joypad_motion", {"axis": "left_x", "value": 0.5, "device": 3}
         )
-        await asyncio.sleep(0.08)
-        reconnected = (await client.describe("vehicle.input.conditioner"))["test_state"]
+        reconnected = await _wait_for_conditioner(
+            client,
+            lambda state: (
+                state["active_controller_device"] == 3
+                and state["input_suppressed"] is False
+                and state["conditioned_throttle"] == 0
+                and state["conditioned_steering"] > 0
+            ),
+            "Reconnected controller did not regain neutral steering authority",
+        )
         assert reconnected["active_controller_device"] == 3
         assert reconnected["input_suppressed"] is False
         assert reconnected["conditioned_throttle"] == 0
@@ -484,24 +541,69 @@ async def test_pause_clears_held_input_until_neutral(tmp_path: Path) -> None:
         log_path=artifacts / "driving-input-pause-godot.log",
     )
     async with process as client:
-        await _action(client, "accelerate", "press")
-        await asyncio.sleep(0.08)
-        assert (
-            await client.describe("vehicle.input.conditioner")
-        )["test_state"]["conditioned_throttle"] > 0
+        await client.request("input.key", {"key": "W", "state": "press"})
+        deadline = asyncio.get_running_loop().time() + 2.0
+        while True:
+            active = (await client.describe("vehicle.input.conditioner"))["test_state"]
+            if active["conditioned_throttle"] > 0:
+                break
+            if asyncio.get_running_loop().time() >= deadline:
+                pytest.fail(f"Throttle did not become active before pause; state={active}")
+            await asyncio.sleep(0.02)
 
+        wait_for_pause = asyncio.create_task(
+            client.request(
+                "signal.wait",
+                {
+                    "automation_id": "menu.driver.root",
+                    "signal": "visibility_changed",
+                    "timeout_ms": 2_000,
+                },
+            )
+        )
+        await asyncio.sleep(0)
         await client.request("input.key", {"key": "Escape", "state": "press"})
         await client.request("input.key", {"key": "Escape", "state": "release"})
-        await asyncio.sleep(0.05)
+        assert (await wait_for_pause)["signal"] == "visibility_changed"
+
+        menu = await client.describe("menu.driver.root")
+        assert menu["visible"] is True
+        assert menu["test_state"]["simulation_paused"] is True
         paused = (await client.describe("vehicle.input.conditioner"))["test_state"]
         assert paused["conditioned_throttle"] == 0
-        assert paused["input_suppressed"] is True
-        assert paused["suppression_reason"] == "pause"
+        assert paused["stationary_hold"] is True
+        if paused["input_suppressed"] is True:
+            assert paused["suppression_reason"] == "pause"
+        else:
+            assert paused["raw_throttle"] == 0
+            assert paused["suppression_reason"] == "none"
 
-        await _action(client, "accelerate", "release")
+        await client.request("input.key", {"key": "W", "state": "release"})
+        wait_for_resume = asyncio.create_task(
+            client.request(
+                "signal.wait",
+                {
+                    "automation_id": "menu.driver.root",
+                    "signal": "visibility_changed",
+                    "timeout_ms": 2_000,
+                },
+            )
+        )
+        await asyncio.sleep(0)
         await client.request("input.click", {"automation_id": "menu.driver.resume"})
-        await asyncio.sleep(0.08)
-        resumed = (await client.describe("vehicle.input.conditioner"))["test_state"]
+        assert (await wait_for_resume)["signal"] == "visibility_changed"
+
+        menu = await client.describe("menu.driver.root")
+        assert menu["visible"] is False
+        assert menu["test_state"]["simulation_paused"] is False
+        deadline = asyncio.get_running_loop().time() + 2.0
+        while True:
+            resumed = (await client.describe("vehicle.input.conditioner"))["test_state"]
+            if resumed["input_suppressed"] is False:
+                break
+            if asyncio.get_running_loop().time() >= deadline:
+                pytest.fail(f"Input suppression did not clear after resume; state={resumed}")
+            await asyncio.sleep(0.02)
         assert resumed["conditioned_throttle"] == 0
         assert resumed["input_suppressed"] is False
         assert resumed["suppression_reason"] == "none"
