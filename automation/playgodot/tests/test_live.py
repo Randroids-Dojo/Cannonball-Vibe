@@ -463,8 +463,16 @@ async def test_chase_camera_damps_vehicle_yaw_and_keeps_a_level_horizon(
 
         try:
             deadline = asyncio.get_running_loop().time() + 7.0
+            last_input_state = ready
             while True:
                 remaining = deadline - asyncio.get_running_loop().time()
+                if remaining <= 0:
+                    state = (await client.describe("camera.chase.rig"))["test_state"]
+                    pytest.fail(
+                        "Vehicle did not reach the camera steering probe speed; "
+                        f"speed_mps={state['speed_mps']}, "
+                        f"input_state={last_input_state}"
+                    )
                 input_state = await wait_for_key_conditioner(
                     client,
                     key="W",
@@ -474,18 +482,19 @@ async def test_chase_camera_damps_vehicle_yaw_and_keeps_a_level_horizon(
                         and current["stationary_hold"] is False
                     ),
                     failure="Vehicle input did not reach the camera steering probe",
-                    timeout=max(remaining, 0),
+                    timeout=remaining,
                 )
+                last_input_state = input_state
 
                 state = (await client.describe("camera.chase.rig"))["test_state"]
-                if state["speed_mps"] >= 8:
-                    break
                 if asyncio.get_running_loop().time() >= deadline:
                     pytest.fail(
                         "Vehicle did not reach the camera steering probe speed; "
                         f"speed_mps={state['speed_mps']}, "
                         f"input_state={input_state}"
                     )
+                if state["speed_mps"] >= 8:
+                    break
                 await asyncio.sleep(0.05)
 
             await client.request(
