@@ -1,7 +1,8 @@
 # Reference Windows performance hardware
 
 Date declared: 2026-07-23
-Decision: Q-022 Option A plus performance follow-up Options A and A
+Decision: Q-022 reference-PC Option A plus the target, layered-budget, and
+provisional-threshold choices recorded in ADR-0023
 
 ## Declared machine
 

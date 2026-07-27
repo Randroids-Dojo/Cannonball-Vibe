@@ -16,6 +16,8 @@ public sealed partial class DrivingInputController : Node
     private bool _suppressUntilNeutral;
     private bool _wasPaused;
     private string _suppressionReason = "none";
+    private long _suppressionSequence;
+    private string _lastSuppressionReason = "none";
     private float _forwardSpeedMetersPerSecond;
     private AssistProfile _activeProfile = AssistProfile.Balanced;
 
@@ -114,6 +116,8 @@ public sealed partial class DrivingInputController : Node
         _conditioner.Reset();
         _suppressUntilNeutral = true;
         _suppressionReason = reason;
+        _suppressionSequence += 1;
+        _lastSuppressionReason = reason;
         UpdateAutomationState(Current, new RawDrivingInput());
     }
 
@@ -203,6 +207,8 @@ public sealed partial class DrivingInputController : Node
         _automationState["forward_speed_mps"] = _forwardSpeedMetersPerSecond;
         _automationState["input_suppressed"] = _suppressUntilNeutral;
         _automationState["suppression_reason"] = _suppressionReason;
+        _automationState["suppression_sequence"] = _suppressionSequence;
+        _automationState["last_suppression_reason"] = _lastSuppressionReason;
     }
 
     private static float Activity(RawDrivingInput input) => (float)Math.Max(

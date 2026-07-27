@@ -16,8 +16,10 @@ transition, local-origin rebase, save/resume, pause, input-device change, bounde
 cockpit look, mode transitions, and renderer inspection. P0-017 still requires a human
 comfort judgment before it—and therefore P0-018—can be marked complete.
 
-Please drive for at least five minutes in chase view and five minutes in cockpit view,
-including sustained steering, braking, a reset, and switching views with `V`.
+Do not perform this review until the integrated visual-slice trigger above is
+satisfied. Once that build exists, drive for at least five minutes in chase view
+and five minutes in cockpit view, including sustained steering, braking, a
+reset, and switching views with `V`.
 In cockpit view, also try IJKL or the controller right stick to confirm bounded look and
 automatic recentering feel natural.
 

@@ -20,8 +20,9 @@ environment slice. This does not approve the map or close Q-028.
 
 ## Q-028 — Trip-map comprehension and accessibility review
 
-Please review [the representative trip-map capture](images/p0-013-trip-map.png)
-and, when convenient, run:
+Do not perform this review until the integrated visual-slice trigger above is
+satisfied. Once that build exists, review its trip-map capture and run its
+equivalent of:
 
 ```bash
 GODOT_BIN=.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot \

@@ -21,6 +21,8 @@ from cannonball_playgodot import (
     ProtocolError,
 )
 
+from .input_support import wait_for_key_conditioner
+
 REPO_ROOT = Path(__file__).resolve().parents[3]
 MAX_RAW_LOG_BYTES = 2_000_000
 
@@ -459,31 +461,30 @@ async def test_chase_camera_damps_vehicle_yaw_and_keeps_a_level_horizon(
         ready = (await client.describe("vehicle.input.conditioner"))["test_state"]
         assert ready["active_profile"] == "balanced"
 
-        await client.request("input.key", {"key": "W", "state": "press"})
         try:
             deadline = asyncio.get_running_loop().time() + 7.0
-            input_observed = False
             while True:
-                input_state = (await client.describe("vehicle.input.conditioner"))["test_state"]
-                if input_state["input_suppressed"] is True:
-                    await client.request("input.key", {"key": "W", "state": "release"})
-                elif input_state["raw_throttle"] < 1:
-                    await client.request("input.key", {"key": "W", "state": "press"})
-                elif (
-                    input_state["raw_throttle"] == 1
-                    and input_state["conditioned_throttle"] > 0
-                    and input_state["stationary_hold"] is False
-                ):
-                    input_observed = True
+                remaining = deadline - asyncio.get_running_loop().time()
+                input_state = await wait_for_key_conditioner(
+                    client,
+                    key="W",
+                    raw_field="raw_throttle",
+                    predicate=lambda current: (
+                        current["conditioned_throttle"] > 0
+                        and current["stationary_hold"] is False
+                    ),
+                    failure="Vehicle input did not reach the camera steering probe",
+                    timeout=max(remaining, 0),
+                )
 
                 state = (await client.describe("camera.chase.rig"))["test_state"]
-                if input_observed and state["speed_mps"] >= 8:
+                if state["speed_mps"] >= 8:
                     break
                 if asyncio.get_running_loop().time() >= deadline:
                     pytest.fail(
                         "Vehicle did not reach the camera steering probe speed; "
                         f"speed_mps={state['speed_mps']}, "
-                        f"input_observed={input_observed}, input_state={input_state}"
+                        f"input_state={input_state}"
                     )
                 await asyncio.sleep(0.05)
 

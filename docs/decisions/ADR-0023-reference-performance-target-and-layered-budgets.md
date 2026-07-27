@@ -2,7 +2,8 @@
 
 - Status: Accepted
 - Date: 2026-07-23
-- Owner decisions: Q-022 target/method and threshold follow-ups, Options A and A
+- Owner decisions: Q-022 target Option A, budget-method Option A,
+  frame-pacing Option A, and memory Option A
 
 ## Context
 

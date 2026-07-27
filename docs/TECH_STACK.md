@@ -133,8 +133,9 @@ alternatives, stops, exits, and transfers without depending on streamed scene
 geometry. Its data-driven 1:1, fixed-ratio, and selective-cruise estimate inputs
 change ETA only; edge-plus-distance position and real route distance remain
 authoritative. Roadside mile-marker values remain distinct from total trip
-progress. GDD decisions D-009 and D-013 define 1:1 Endurance as the signature
-mode while retaining shorter Standard and Challenge modes.
+progress. GDD decision D-009 defines 1:1 Endurance as the signature mode while
+retaining shorter Standard and Challenge modes. D-013 separately defines its
+decision cadence and quiet-highway stretches.
 
 Generated continental packages belong in release/CI artifacts, not Git. Source
 art, audio, and binary models use Git LFS.

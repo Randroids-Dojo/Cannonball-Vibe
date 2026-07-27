@@ -90,7 +90,7 @@ Premium Steam game with seeded replayability and no live-service dependency;
 itch.io may carry labeled demos or early builds, while GitHub Releases remains
 the technical artifact and provenance channel
 
-# Defining run-length direction__   LOCKED__
+# Defining run-length direction: **LOCKED**
 
 The 1:1 coast-to-coast Endurance Run is Cannonball's defining primary
 experience. Shorter Standard and Challenge modes remain available for
@@ -266,7 +266,7 @@ The in-game journey may be extremely long; the real-world play session should no
 - Resume panel: route position, elapsed time, target-time range, fuel range, mechanical margin, local awareness, and the next meaningful decision.
 - No fatigue or penalty tied to the player taking a real-world break.
 
-# Run length modes__   LOCKED DIRECTION__
+# Run length modes: **LOCKED DIRECTION**
 
 __Mode__
 

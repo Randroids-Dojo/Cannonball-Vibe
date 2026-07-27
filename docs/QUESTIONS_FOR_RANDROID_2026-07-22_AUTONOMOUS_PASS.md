@@ -81,6 +81,6 @@ selection is complete; measured budget ratification remains open. See the
   force.
 - **Cons:** P1-009 and P1-010 cannot close their production performance gates.
 
-The recommended working defaults remain A for the regional direction and A
-once an intended Windows test machine is available. No cloud service or paid
-infrastructure is needed for these choices.
+The regional direction remains Option A. The declared Windows reference machine
+is available; only representative budget capture and owner ratification remain
+open. No cloud service or paid infrastructure is needed for these choices.
