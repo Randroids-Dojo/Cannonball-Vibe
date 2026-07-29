@@ -117,8 +117,56 @@
     "status": "pending",
     "question": "Q-028"
   },
+  "latest_regression": {
+    "name": "Trip Overview moving resume stability",
+    "git_revision": "11544fb8193c5e12d94707bb4676aabc1dc1a047",
+    "recorded_at_utc": "2026-07-29T04:45:02Z",
+    "platform": "Windows 11 x64",
+    "tool_versions": {
+      "dotnet_sdk": "10.0.102",
+      "uv": "0.9.24",
+      "git_lfs": "3.7.1",
+      "godot": "4.7.1.stable.mono.official.a13da4feb"
+    },
+    "scenario": {
+      "minimum_speed_mps": 12,
+      "throttle_held_during_pause": true,
+      "pause_duration_seconds": 0.25,
+      "resume_observation_seconds": 1.0,
+      "maximum_position_drift_while_paused_meters": 0.001,
+      "maximum_vertical_rise_after_resume_meters": 2.0,
+      "maximum_upward_velocity_mps": 5.0,
+      "maximum_angular_speed_radps": 5.0
+    },
+    "commands": [
+      {
+        "command": "uv run --project automation/playgodot --frozen pytest -q automation/playgodot/tests/test_live.py -k trip_map_resume_preserves_vehicle_vertical_stability",
+        "exit_code": 0
+      },
+      {
+        "command": "./scripts/verify-trip-map.sh --automation auto",
+        "exit_code": 0,
+        "trip_map_core_tests_passed": 5,
+        "playgodot_tests_passed": 26
+      },
+      {
+        "command": "./scripts/check.sh",
+        "exit_code": 0,
+        "report": "reports/m0/summary.json",
+        "report_sha256": "98e2f7846f86696435c5a6e0f727e4888aefdd0768ea6fb7f303c7f93f26694d"
+      }
+    ],
+    "m0_metrics": {
+      "csharp_tests_passed": 139,
+      "map_pipeline_tests_passed": 79,
+      "playgodot_unit_tests_passed": 13,
+      "godot_smoke_passed": true,
+      "build_warnings": 0
+    },
+    "result": "The reported launch did not reproduce on current integrated dynamics; pause state was invariant and post-resume motion stayed inside every predeclared bound.",
+    "audit": "docs/audits/2026-07-28-p0-013-trip-overview-resume-stability.md"
+  },
   "pending": [
-    "Human Q-028 approval",
-    "Continental-scale and supported compression-mode closeout evidence"
+    "Human Q-028 approval after the integrated visual-slice trigger"
   ]
 }
