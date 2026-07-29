@@ -27,13 +27,16 @@
       "milestone": "M0",
       "priority": "baseline",
       "title": "Local technical slice",
-      "status": "verified_local",
+      "status": "complete",
       "dependencies": [],
       "owned_paths": [
         "game/",
         "src/Cannonball.Core/",
         "tools/map_pipeline/",
-        "tests/"
+        "tests/",
+        "docs/DELIVERY_LEDGER.json",
+        "docs/audits/2026-07-28-base-001-remote-closeout.md",
+        "evidence/M0/BASE-001.json"
       ],
       "acceptance": [
         "C# solution builds without warnings or errors",
@@ -45,10 +48,12 @@
         "GODOT_BIN=/absolute/path/to/Godot ./scripts/check.sh"
       ],
       "evidence": [
-        "docs/audits/2026-07-14-agentic-readiness.md"
+        "docs/audits/2026-07-14-agentic-readiness.md",
+        "docs/audits/2026-07-28-base-001-remote-closeout.md",
+        "evidence/M0/BASE-001.json"
       ],
       "human_gate": null,
-      "notes": "Not complete until the same code has run in required remote CI."
+      "notes": "Completed on 2026-07-28 after merged main revision a1642c3874731b19e1b15bce3b7f93525e8f25d8 passed the required Ubuntu and Windows M0 jobs in GitHub Actions run 30423454399. The original 8-test criterion remains a historical minimum; the corresponding local gate passed 139 C# tests, 79 map-pipeline tests, 13 PlayGodot unit tests, and the save-writing Godot smoke."
     },
     {
       "id": "P0-001",
