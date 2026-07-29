@@ -36,6 +36,8 @@ not yet satisfied.
 
 ## Current autonomous boundary
 
+- BASE-001 is now `complete` after the merged main revision passed required
+  Ubuntu and Windows remote M0.
 - P0-013 remains `in_progress` only at its human comprehension/accessibility
   boundary after the machine resume-stability follow-up.
 - P0-017 remains `verified_local` pending Q-029.

@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "task_id": "BASE-001",
+  "milestone": "M0",
+  "status": "complete",
+  "git_revision": "a1642c3874731b19e1b15bce3b7f93525e8f25d8",
+  "recorded_at_utc": "2026-07-29T05:00:22Z",
+  "platforms": [
+    "ubuntu-latest",
+    "windows-latest"
+  ],
+  "tool_versions": {
+    "dotnet_sdk": "10.0.102",
+    "uv": "0.9.24",
+    "git_lfs": "3.7.1",
+    "godot": "4.7.1.stable.mono.official.a13da4feb"
+  },
+  "commands": [
+    {
+      "command": "./scripts/check.sh",
+      "platform": "ubuntu-latest",
+      "exit_code": 0,
+      "run_id": 30423454399,
+      "job_id": 90484750367
+    },
+    {
+      "command": "./scripts/check.sh",
+      "platform": "windows-latest",
+      "exit_code": 0,
+      "run_id": 30423454399,
+      "job_id": 90484750316
+    }
+  ],
+  "local_corresponding_metrics": {
+    "build_warnings": 0,
+    "csharp_tests_passed": 139,
+    "map_pipeline_tests_passed": 79,
+    "playgodot_unit_tests_passed": 13,
+    "godot_save_smoke_passed": true
+  },
+  "acceptance_comparisons": [
+    {
+      "criterion": "C# solution builds without warnings or errors",
+      "observed": "zero-warning local build and successful Ubuntu/Windows remote M0 jobs",
+      "passed": true
+    },
+    {
+      "criterion": "8 xUnit tests pass",
+      "observed": "current local gate passed 139 C# tests and both remote M0 jobs passed",
+      "passed": true
+    },
+    {
+      "criterion": "Python pytest suite passes",
+      "observed": "current local gate passed 79 map-pipeline and 13 PlayGodot unit tests; both remote M0 jobs passed",
+      "passed": true
+    },
+    {
+      "criterion": "Godot headless smoke completes and writes a save",
+      "observed": "local gate emitted CANNONBALL_SAVE_OK and CANNONBALL_SMOKE_OK; both remote M0 jobs passed and uploaded evidence",
+      "passed": true
+    }
+  ],
+  "remote_run": {
+    "workflow": "CI",
+    "run_id": 30423454399,
+    "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/30423454399",
+    "conclusion": "success",
+    "completed_at_utc": "2026-07-29T05:00:22Z"
+  },
+  "human_gate": null,
+  "failure_logs": [],
+  "retry_count": 0,
+  "recovery_result": "The historical remote-CI blocker is cleared on merged main revision a1642c3."
+}
