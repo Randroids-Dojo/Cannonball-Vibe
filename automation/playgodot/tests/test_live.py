@@ -465,7 +465,7 @@ async def test_trip_map_resume_preserves_vehicle_vertical_stability(tmp_path: Pa
                 pytest.fail(f"Vehicle did not settle before Trip Overview probe: {before}")
             await asyncio.sleep(0.02)
 
-        await wait_for_key_conditioner(
+        last_input_state = await wait_for_key_conditioner(
             client,
             key="W",
             raw_field="raw_throttle",
@@ -478,8 +478,21 @@ async def test_trip_map_resume_preserves_vehicle_vertical_stability(tmp_path: Pa
                 before = (await client.describe("run.session"))["test_state"]
                 if before["linear_speed_mps"] >= 12 and before["grounded_wheel_count"] >= 3:
                     break
-                if asyncio.get_running_loop().time() >= deadline:
-                    pytest.fail(f"Vehicle did not reach the Trip Overview probe speed: {before}")
+
+                remaining = deadline - asyncio.get_running_loop().time()
+                if remaining <= 0:
+                    pytest.fail(
+                        "Vehicle did not reach the Trip Overview probe speed; "
+                        f"session_state={before}, input_state={last_input_state}"
+                    )
+                last_input_state = await wait_for_key_conditioner(
+                    client,
+                    key="W",
+                    raw_field="raw_throttle",
+                    predicate=lambda current: current["conditioned_throttle"] > 0,
+                    failure="Vehicle input did not stay active for the Trip Overview probe",
+                    timeout=remaining,
+                )
                 await asyncio.sleep(0.02)
 
             await client.request(
