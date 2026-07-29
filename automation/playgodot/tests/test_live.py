@@ -446,6 +446,89 @@ async def test_official_engine_semantic_round_trip(tmp_path: Path) -> None:
 
 @pytest.mark.skipif("GODOT_BIN" not in os.environ, reason="GODOT_BIN enables live 4.7.1 tests")
 @pytest.mark.asyncio
+async def test_trip_map_resume_preserves_vehicle_vertical_stability(tmp_path: Path) -> None:
+    artifacts = _artifact_directory(tmp_path)
+    process = PlayGodotProcess(
+        REPO_ROOT,
+        _route_package(),
+        capabilities=("read", "input"),
+        transcript=artifacts / "trip-map-resume.jsonl",
+        log_path=artifacts / "trip-map-resume-godot.log",
+    )
+    async with process as client:
+        deadline = asyncio.get_running_loop().time() + 8.0
+        while True:
+            before = (await client.describe("run.session"))["test_state"]
+            if before["grounded_wheel_count"] >= 3:
+                break
+            if asyncio.get_running_loop().time() >= deadline:
+                pytest.fail(f"Vehicle did not settle before Trip Overview probe: {before}")
+            await asyncio.sleep(0.02)
+
+        await wait_for_key_conditioner(
+            client,
+            key="W",
+            raw_field="raw_throttle",
+            predicate=lambda current: current["conditioned_throttle"] > 0,
+            failure="Vehicle input did not start the Trip Overview resume probe",
+        )
+        try:
+            deadline = asyncio.get_running_loop().time() + 8.0
+            while True:
+                before = (await client.describe("run.session"))["test_state"]
+                if before["linear_speed_mps"] >= 12 and before["grounded_wheel_count"] >= 3:
+                    break
+                if asyncio.get_running_loop().time() >= deadline:
+                    pytest.fail(f"Vehicle did not reach the Trip Overview probe speed: {before}")
+                await asyncio.sleep(0.02)
+
+            await client.request(
+                "input.action", {"action": "toggle_trip_map", "state": "press"}
+            )
+            await asyncio.sleep(0.05)
+            await client.request(
+                "input.action", {"action": "toggle_trip_map", "state": "release"}
+            )
+            trip_map = await client.describe("trip-map.root")
+            assert trip_map["visible"] is True
+            assert trip_map["test_state"]["simulation_paused"] is True
+            paused_start = (await client.describe("run.session"))["test_state"]
+
+            await asyncio.sleep(0.25)
+            paused = (await client.describe("run.session"))["test_state"]
+            for field in (
+                "vehicle_position_x",
+                "vehicle_position_y",
+                "vehicle_position_z",
+                "vehicle_linear_velocity_x",
+                "vehicle_linear_velocity_y",
+                "vehicle_linear_velocity_z",
+            ):
+                assert paused[field] == pytest.approx(paused_start[field], abs=0.001)
+
+            await client.request("input.click", {"automation_id": "trip-map.close"})
+            samples = []
+            deadline = asyncio.get_running_loop().time() + 1.0
+            while asyncio.get_running_loop().time() < deadline:
+                samples.append((await client.describe("run.session"))["test_state"])
+                await asyncio.sleep(0.02)
+
+            maximum_vertical_rise = max(
+                sample["vehicle_position_y"] - paused["vehicle_position_y"]
+                for sample in samples
+            )
+            maximum_upward_velocity = max(
+                sample["vehicle_linear_velocity_y"] for sample in samples
+            )
+            assert maximum_vertical_rise <= 2.0
+            assert maximum_upward_velocity <= 5.0
+            assert max(sample["angular_speed_radps"] for sample in samples) <= 5.0
+        finally:
+            await client.request("input.key", {"key": "W", "state": "release"})
+
+
+@pytest.mark.skipif("GODOT_BIN" not in os.environ, reason="GODOT_BIN enables live 4.7.1 tests")
+@pytest.mark.asyncio
 async def test_chase_camera_damps_vehicle_yaw_and_keeps_a_level_horizon(
     tmp_path: Path,
 ) -> None:

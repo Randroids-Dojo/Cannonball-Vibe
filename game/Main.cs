@@ -3218,6 +3218,10 @@ public sealed partial class Main : Node3D
         _runAutomationState["vehicle_position_x"] = _vehicle.Position.X;
         _runAutomationState["vehicle_position_y"] = _vehicle.Position.Y;
         _runAutomationState["vehicle_position_z"] = _vehicle.Position.Z;
+        _runAutomationState["vehicle_linear_velocity_x"] = _vehicle.LinearVelocity.X;
+        _runAutomationState["vehicle_linear_velocity_y"] = _vehicle.LinearVelocity.Y;
+        _runAutomationState["vehicle_linear_velocity_z"] = _vehicle.LinearVelocity.Z;
+        _runAutomationState["grounded_wheel_count"] = _vehicle.GroundedWheelCount;
         _runAutomationState["start_position_x"] = _initialVehicleTransform.Origin.X;
         _runAutomationState["start_position_y"] = _initialVehicleTransform.Origin.Y;
         _runAutomationState["start_position_z"] = _initialVehicleTransform.Origin.Z;
