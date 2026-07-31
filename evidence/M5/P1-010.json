@@ -166,6 +166,10 @@
     }
   ],
   "integrated_visual_slice_followup": {
+    "schema_version": 1,
+    "task_id": "P1-010",
+    "milestone": "M5",
+    "status": "in_progress",
     "recorded_at_utc": "2026-07-31T05:24:24Z",
     "code_revision": "0b9c4c13cc86f048784670bc1941ba67bfb54e33",
     "platform": {
@@ -174,6 +178,12 @@
       "device": "NVIDIA GeForce RTX 3080 Ti",
       "capture_resolution": "1280x720",
       "capture_fps": 60
+    },
+    "tool_versions": {
+      "godot": "4.7.1.stable.mono.official.a13da4feb",
+      "dotnet_sdk": "10.0.102",
+      "uv": "0.9.24",
+      "git_lfs": "3.7.1"
     },
     "input_artifacts": [
       {
@@ -198,7 +208,7 @@
       },
       {
         "path": "scripts/verify-integrated-visual-slice.sh",
-        "sha256": "d7432adc52ade88ea8c5446d787d44c4e78126d785a2fb19cfa7c60101e4fafe"
+        "sha256": "d4fc297364a48b1f7ca08ee6adb3f408faa2734f9eb7ad384948d9a0e75b002f"
       },
       {
         "path": ".github/workflows/ci.yml",
@@ -233,20 +243,61 @@
         "playgodot_unit_tests_passed": 13
       }
     ],
-    "output_artifact": {
-      "path": "C:/Users/randr/AppData/Local/Temp/p1-010-integrated-visual-slice.avi",
-      "bytes": 26145924,
-      "sha256": "cd40d3ef71ba951e6115246222913b9279a27127f512e9f1d9cfc6929ed0527b",
-      "retention": "local technical review artifact; not committed"
+    "metrics": {
+      "focused_stable_frames": 3,
+      "review_capture_frames": 480,
+      "review_stable_frames": 120,
+      "vehicle_semantic_nodes": 37,
+      "road_shared_materials": 18,
+      "road_shared_meshes": 9,
+      "road_retroreflective_materials": 11,
+      "review_road_chunks": 17,
+      "review_environment_regions": 2,
+      "review_environment_chunks": 17,
+      "review_terrain_ribbons": 17,
+      "review_route_distance_meters": 384.186,
+      "review_vehicle_speed_meters_per_second": 91.039,
+      "csharp_tests_passed": 139,
+      "map_pipeline_tests_passed": 79,
+      "playgodot_unit_tests_passed": 13
     },
+    "output_artifacts": [
+      {
+        "path": "p1-010-integrated-visual-slice.avi",
+        "bytes": 26145924,
+        "sha256": "cd40d3ef71ba951e6115246222913b9279a27127f512e9f1d9cfc6929ed0527b",
+        "retention": "local technical review artifact; not committed"
+      }
+    ],
     "visual_inspection_performed": false,
     "remote_ci": "configured for Ubuntu and Windows M0; publish-time result recorded separately",
+    "retry_count": 2,
+    "failure_logs": [
+      {
+        "failure": "The first Ubuntu CI run completed the runtime profile but the focused shell gate assumed ripgrep was installed.",
+        "recovery": "Marker extraction uses portable grep and preserves explicit missing-marker and read-error diagnostics."
+      },
+      {
+        "failure": "Independent review found that prerequisite loss did not reset the consecutive-frame counter and that earlier travel did not prove current movement.",
+        "recovery": "Every counted frame now requires settled streaming and at least 1 m/s current vehicle speed; any prerequisite loss resets the counter."
+      }
+    ],
     "excluded_claims": [
       "production-complete vehicle, road, or environment art",
       "human trip-map usability or camera-comfort approval",
       "final asset-rights approval",
       "Q-022 High 2560x1440 performance approval"
     ],
+    "human_gate": {
+      "name": "Representative-region art direction, readability, final rights, and target-Windows budget approval",
+      "question_ids": [
+        "Q-021",
+        "Q-022"
+      ],
+      "required_for": "M5",
+      "status": "open",
+      "approval": null
+    },
     "audit": "docs/audits/2026-07-30-p1-010-integrated-visual-slice.md",
     "question_record": "docs/QUESTIONS_FOR_RANDROID_2026-07-30_AUTONOMOUS_PASS.md"
   },

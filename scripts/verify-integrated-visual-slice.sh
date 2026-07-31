@@ -12,10 +12,19 @@ trap 'rm -rf "$work"' EXIT
   --profile integrated-visual-slice |
   tee "$work/integrated-visual-slice.log"
 
-marker="$(
+if marker="$(
   grep '^CANNONBALL_INTEGRATED_VISUAL_SLICE_OK ' \
     "$work/integrated-visual-slice.log"
-)"
+)"; then
+  :
+else
+  grep_status=$?
+  if [[ $grep_status -ne 1 ]]; then
+    echo "Could not read the integrated visual slice log." >&2
+    exit "$grep_status"
+  fi
+  marker=""
+fi
 if [[ -z "$marker" || "$marker" == *$'\n'* ]]; then
   echo "Integrated visual slice emitted a missing or ambiguous completion marker." >&2
   exit 1
@@ -24,7 +33,7 @@ for required in \
   'vehicle=hero-gt' \
   'road=production' \
   'environment=balanced'; do
-  if [[ "$marker" != *"$required"* ]]; then
+  if [[ " $marker " != *" $required "* ]]; then
     echo "Integrated visual slice marker is missing '$required': $marker" >&2
     exit 1
   fi
