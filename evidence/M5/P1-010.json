@@ -236,8 +236,9 @@
       {
         "command": "./scripts/check.sh",
         "exit_status": 0,
+        "verified_revision": "448cc855fc1528cb3292db2abf7f70255bc9fcf2",
         "report": "reports/m0/summary.json",
-        "report_sha256": "5b07c8c3614d82efc97876f906d8891f3f9abaf8f5a6ca9c8b830f025f0711a8",
+        "report_sha256": "512ae3fd41a99b6a4e178c35861864410c5e09d459a7727dff874c275b47f899",
         "csharp_tests_passed": 139,
         "map_pipeline_tests_passed": 79,
         "playgodot_unit_tests_passed": 13
@@ -270,8 +271,50 @@
       }
     ],
     "visual_inspection_performed": false,
-    "remote_ci": "configured for Ubuntu and Windows M0; publish-time result recorded separately",
-    "retry_count": 2,
+    "remote_ci": {
+      "status": "passed",
+      "head_revision": "bb6ec4d41a7a103865875a943c8f9e2a85d7a1e4",
+      "pull_request": 51,
+      "runs": [
+        {
+          "workflow": "CI",
+          "run_id": 30606970763,
+          "passed": [
+            "M0 ubuntu-latest",
+            "M0 windows-latest",
+            "PlayGodot ubuntu-latest",
+            "PlayGodot windows-latest",
+            "PlayGodot macos-latest",
+            "Deterministic 500-mile ubuntu-latest",
+            "Deterministic 500-mile windows-latest"
+          ]
+        },
+        {
+          "workflow": "Deterministic assets",
+          "run_id": 30606970754,
+          "passed": [
+            "Blender and Godot asset pipeline"
+          ]
+        },
+        {
+          "workflow": "Reproducible unsigned fixture exports",
+          "run_id": 30606970708,
+          "passed": [
+            "Build reproducible fixture exports",
+            "Clean-machine smoke linux",
+            "Clean-machine smoke windows"
+          ]
+        }
+      ],
+      "review": {
+        "provider": "CodeRabbit",
+        "prior_corrected_diff_status": "approved",
+        "final_status": "success_rate_limited",
+        "actionable_findings_addressed": 6,
+        "fallback": "independent adversarial diff review with Ubuntu and Windows M0 green"
+      }
+    },
+    "retry_count": 3,
     "failure_logs": [
       {
         "failure": "The first Ubuntu CI run completed the runtime profile but the focused shell gate assumed ripgrep was installed.",
@@ -280,6 +323,10 @@
       {
         "failure": "Independent review found that prerequisite loss did not reset the consecutive-frame counter and that earlier travel did not prove current movement.",
         "recovery": "Every counted frame now requires settled streaming and at least 1 m/s current vehicle speed; any prerequisite loss resets the counter."
+      },
+      {
+        "failure": "Follow-up review found non-exact marker token matching, an unreachable missing-marker diagnostic under set -e, a host-specific retained-artifact path, and an underspecified nested evidence record.",
+        "recovery": "The gate distinguishes no-match from read errors and matches complete tokens; evidence now sanitizes the path and includes run-specific metadata, versions, metrics, outputs, failures, remote checks, and the open human gate."
       }
     ],
     "excluded_claims": [

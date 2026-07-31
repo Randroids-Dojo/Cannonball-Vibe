@@ -82,6 +82,28 @@ execution and contract coexistence only. Its Compatibility renderer,
 1280x720 resolution, and short duration also do not satisfy Q-022's High
 2560x1440 reference-performance protocol.
 
+## Remote verification and adversarial review
+
+PR #51 at head `bb6ec4d41a7a103865875a943c8f9e2a85d7a1e4` passed:
+
+- Ubuntu and Windows M0, including the focused integrated-slice gate;
+- Ubuntu, Windows, and macOS PlayGodot semantic UI;
+- Ubuntu and Windows deterministic 500-mile runs;
+- the Blender/Godot deterministic asset pipeline;
+- reproducible fixture exports; and
+- Linux and Windows clean-machine smoke.
+
+The first independent CodeRabbit review found two consecutive-frame and
+current-motion defects. A second pass found four shell-parser, evidence-schema,
+and host-path issues. All six were reproduced against the code, corrected, and
+covered by focused reruns. CodeRabbit approved the corrected runtime diff; its
+final documentation-only pass was rate limited. Following the repository
+fallback, the final diff was independently checked for prerequisite reset,
+current movement, missing/ambiguous markers, exact token matching,
+host-identifier leakage, evidence completeness, runtime shutdown, and
+unsupported completion claims. No unresolved actionable finding remained, and
+both required remote M0 platforms were green.
+
 ## Remaining boundary
 
 The owner's prior choice to wait before Q-028 and Q-029 remains in force.
