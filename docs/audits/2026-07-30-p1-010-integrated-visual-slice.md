@@ -2,7 +2,7 @@
 
 - Date: 2026-07-30
 - Task: P1-010
-- Code revision: `0b9c4c13cc86f048784670bc1941ba67bfb54e33`
+- Code revision: `8301b99d951276eb85a98d8691164e01e5c94a88`
 - Platform: Windows 11 x64
 - Engine: Godot `4.7.1.stable.mono.official.a13da4feb`
 - Renderer capture: Compatibility/OpenGL 3.3, NVIDIA GeForce RTX 3080 Ti
@@ -44,7 +44,7 @@ ambiguous completion marker fails the shell gate.
 `./scripts/verify-integrated-visual-slice.sh` passed at the code revision with:
 
 ```text
-CANNONBALL_INTEGRATED_VISUAL_SLICE_OK vehicle=hero-gt vehicle_semantic_nodes=37 road=production road_chunks=11 road_materials=18 road_meshes=9 environment=balanced environment_regions=1 environment_chunks=11 terrain_ribbons=11 route_distance_m=60.834 vehicle_speed_mps=43.904 stable_frames=3
+CANNONBALL_INTEGRATED_VISUAL_SLICE_OK vehicle=hero-gt vehicle_semantic_nodes=37 road=production road_chunks=11 road_materials=18 road_meshes=9 environment=balanced environment_regions=1 environment_chunks=11 terrain_ribbons=11 route_distance_m=60.468 vehicle_speed_mps=43.766 stable_frames=3
 ```
 
 The complete local M0 gate also passed:
