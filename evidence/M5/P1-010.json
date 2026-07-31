@@ -28,7 +28,8 @@
       "strict terrain geometry degradation across high, balanced, low, and graybox profiles",
       "equivalent route, streaming, region, collision, and semantic behavior across all four quality profiles",
       "renderer-backed dawn, day, overcast, night, and stream-boundary review capture",
-      "project-original rights record for the procedural technical baseline"
+      "project-original rights record for the procedural technical baseline",
+      "same-frame official-engine coexistence of the current Hero GT, production road-kit, and balanced regional-environment contracts while moving"
     ],
     "completion_pending": [
       "Q-021 final representative-region art direction and readability approval",
@@ -40,7 +41,8 @@
       "production-complete or photorealistic regional art",
       "ratified GPU frame time, draw call, texture residency, occlusion, or memory budgets",
       "hosted CI or Apple M4 Max as the declared minimum Windows game PC",
-      "terrain collision, route elevation changes, or vehicle-physics changes"
+      "terrain collision, route elevation changes, or vehicle-physics changes",
+      "human visual-quality inspection or production-readiness approval from the integrated renderer capture"
     ]
   },
   "input_artifacts": [
@@ -163,7 +165,198 @@
       "retention": "local review artifact; the tracked contact sheet is durable"
     }
   ],
+  "integrated_visual_slice_followup": {
+    "schema_version": 1,
+    "task_id": "P1-010",
+    "milestone": "M5",
+    "status": "in_progress",
+    "recorded_at_utc": "2026-07-31T05:29:26Z",
+    "code_revision": "8301b99d951276eb85a98d8691164e01e5c94a88",
+    "platform": {
+      "os": "Windows 11 x64",
+      "renderer": "Godot Compatibility/OpenGL 3.3",
+      "device": "NVIDIA GeForce RTX 3080 Ti",
+      "capture_resolution": "1280x720",
+      "capture_fps": 60
+    },
+    "tool_versions": {
+      "godot": "4.7.1.stable.mono.official.a13da4feb",
+      "dotnet_sdk": "10.0.102",
+      "uv": "0.9.24",
+      "git_lfs": "3.7.1"
+    },
+    "input_artifacts": [
+      {
+        "path": "game/Main.cs",
+        "sha256": "249c639cb3e9905c6b9383b10b0720e6b83628dcbdce41d0d5ee02af41c4b63e"
+      },
+      {
+        "path": "game/Automation/IntegratedVisualSliceScenario.cs",
+        "sha256": "310170acfa3973f81c1efdf923413d74833a9cdf2c0085bb8c3b475f019ba248"
+      },
+      {
+        "path": "scripts/run-scenario.sh",
+        "sha256": "472b600df8d78bc87006903a9e4300f37e9ab574e325a4088755cc3d716546e0"
+      },
+      {
+        "path": "scripts/capture-scenario.sh",
+        "sha256": "e090c3ceb43e6c2bee6ee21b5e07ef8031abf5605904c2cf5ad503d869e1e57b"
+      },
+      {
+        "path": "scripts/check.sh",
+        "sha256": "ef72adeb13244ca82ea5566c43ebfadab18f3f52a5f91d3c6e308b8d0ab55912"
+      },
+      {
+        "path": "scripts/verify-integrated-visual-slice.sh",
+        "sha256": "d4fc297364a48b1f7ca08ee6adb3f408faa2734f9eb7ad384948d9a0e75b002f"
+      },
+      {
+        "path": ".github/workflows/ci.yml",
+        "sha256": "23f995291a18dd7c361306d9b76cfdeb2b835f9ccf3b537488d7771b11e7dac5"
+      }
+    ],
+    "commands": [
+      {
+        "command": "./scripts/verify-integrated-visual-slice.sh",
+        "exit_status": 0,
+        "marker": "CANNONBALL_INTEGRATED_VISUAL_SLICE_OK vehicle=hero-gt vehicle_semantic_nodes=37 road=production road_chunks=11 road_materials=18 road_meshes=9 environment=balanced environment_regions=1 environment_chunks=11 terrain_ribbons=11 route_distance_m=60.468 vehicle_speed_mps=43.766 stable_frames=3"
+      },
+      {
+        "command": "./scripts/capture-scenario.sh /tmp/p1-010-integrated-visual-slice.avi --fixture representative-corridor --integrated-visual-slice-review",
+        "exit_status": 0,
+        "frames": 480,
+        "stable_frames": 120,
+        "route_distance_meters": 384.186,
+        "vehicle_speed_meters_per_second": 91.039,
+        "road_chunks": 17,
+        "environment_regions": 2,
+        "environment_chunks": 17,
+        "terrain_ribbons": 17
+      },
+      {
+        "command": "./scripts/check.sh",
+        "exit_status": 0,
+        "verified_revision": "448cc855fc1528cb3292db2abf7f70255bc9fcf2",
+        "report": "reports/m0/summary.json",
+        "report_sha256": "512ae3fd41a99b6a4e178c35861864410c5e09d459a7727dff874c275b47f899",
+        "csharp_tests_passed": 139,
+        "map_pipeline_tests_passed": 79,
+        "playgodot_unit_tests_passed": 13
+      }
+    ],
+    "metrics": {
+      "focused_stable_frames": 3,
+      "review_capture_frames": 480,
+      "review_stable_frames": 120,
+      "vehicle_semantic_nodes": 37,
+      "road_shared_materials": 18,
+      "road_shared_meshes": 9,
+      "road_retroreflective_materials": 11,
+      "review_road_chunks": 17,
+      "review_environment_regions": 2,
+      "review_environment_chunks": 17,
+      "review_terrain_ribbons": 17,
+      "review_route_distance_meters": 384.186,
+      "review_vehicle_speed_meters_per_second": 91.039,
+      "csharp_tests_passed": 139,
+      "map_pipeline_tests_passed": 79,
+      "playgodot_unit_tests_passed": 13
+    },
+    "output_artifacts": [
+      {
+        "path": "p1-010-integrated-visual-slice.avi",
+        "bytes": 26145924,
+        "sha256": "cd40d3ef71ba951e6115246222913b9279a27127f512e9f1d9cfc6929ed0527b",
+        "retention": "local technical review artifact; not committed"
+      }
+    ],
+    "visual_inspection_performed": false,
+    "remote_ci": {
+      "status": "passed",
+      "head_revision": "bb6ec4d41a7a103865875a943c8f9e2a85d7a1e4",
+      "pull_request": 51,
+      "runs": [
+        {
+          "workflow": "CI",
+          "run_id": 30606970763,
+          "passed": [
+            "M0 ubuntu-latest",
+            "M0 windows-latest",
+            "PlayGodot ubuntu-latest",
+            "PlayGodot windows-latest",
+            "PlayGodot macos-latest",
+            "Deterministic 500-mile ubuntu-latest",
+            "Deterministic 500-mile windows-latest"
+          ]
+        },
+        {
+          "workflow": "Deterministic assets",
+          "run_id": 30606970754,
+          "passed": [
+            "Blender and Godot asset pipeline"
+          ]
+        },
+        {
+          "workflow": "Reproducible unsigned fixture exports",
+          "run_id": 30606970708,
+          "passed": [
+            "Build reproducible fixture exports",
+            "Clean-machine smoke linux",
+            "Clean-machine smoke windows"
+          ]
+        }
+      ],
+      "review": {
+        "provider": "CodeRabbit",
+        "prior_corrected_diff_status": "approved",
+        "final_status": "success_rate_limited",
+        "actionable_findings_addressed": 6,
+        "fallback": "independent adversarial diff review with Ubuntu and Windows M0 green"
+      }
+    },
+    "retry_count": 3,
+    "failure_logs": [
+      {
+        "failure": "The first Ubuntu CI run completed the runtime profile but the focused shell gate assumed ripgrep was installed.",
+        "recovery": "Marker extraction uses portable grep and preserves explicit missing-marker and read-error diagnostics."
+      },
+      {
+        "failure": "Independent review found that prerequisite loss did not reset the consecutive-frame counter and that earlier travel did not prove current movement.",
+        "recovery": "Every counted frame now requires settled streaming and at least 1 m/s current vehicle speed; any prerequisite loss resets the counter."
+      },
+      {
+        "failure": "Follow-up review found non-exact marker token matching, an unreachable missing-marker diagnostic under set -e, a host-specific retained-artifact path, and an underspecified nested evidence record.",
+        "recovery": "The gate distinguishes no-match from read errors and matches complete tokens; evidence now sanitizes the path and includes run-specific metadata, versions, metrics, outputs, failures, remote checks, and the open human gate."
+      }
+    ],
+    "excluded_claims": [
+      "production-complete vehicle, road, or environment art",
+      "human trip-map usability or camera-comfort approval",
+      "final asset-rights approval",
+      "Q-022 High 2560x1440 performance approval"
+    ],
+    "human_gate": {
+      "name": "Representative-region art direction, readability, final rights, and target-Windows budget approval",
+      "question_ids": [
+        "Q-021",
+        "Q-022"
+      ],
+      "required_for": "M5",
+      "status": "open",
+      "approval": null
+    },
+    "audit": "docs/audits/2026-07-30-p1-010-integrated-visual-slice.md",
+    "question_record": "docs/QUESTIONS_FOR_RANDROID_2026-07-30_AUTONOMOUS_PASS.md"
+  },
   "failure_logs": [
+    {
+      "failure": "Independent PR review found that intermittent settled frames could accumulate and that the review could finish after the vehicle stopped beyond 60 meters.",
+      "recovery": "Every counted frame now requires all streaming prerequisites plus at least 1 m/s current vehicle speed, and any prerequisite loss resets the consecutive-frame count."
+    },
+    {
+      "failure": "The first Ubuntu CI run completed the integrated runtime profile but the focused shell gate assumed ripgrep was installed on the hosted runner.",
+      "recovery": "Marker extraction now uses portable grep; the same missing, ambiguous, and required-contract checks remain in force."
+    },
     {
       "failure": "The initial ribbon pass placed environment instances at road elevation while the surrounding terrain rose and fell.",
       "recovery": "Object placement now samples the shared route-distance terrain-height function used by the ribbon."

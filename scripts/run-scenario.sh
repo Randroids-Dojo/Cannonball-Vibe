@@ -155,6 +155,9 @@ while [[ $# -gt 0 ]]; do
       elif [[ "$2" == "environment-streaming" ]]; then
         scenario_mode="environment-streaming"
         scenario_args+=("--environment-streaming-profile")
+      elif [[ "$2" == "integrated-visual-slice" ]]; then
+        scenario_mode="integrated-visual-slice"
+        scenario_args+=("--integrated-visual-slice-profile")
       else
         scenario_args+=("--profile=$2")
       fi
@@ -192,6 +195,9 @@ while [[ $# -gt 0 ]]; do
       elif [[ "$profile" == "environment-streaming" ]]; then
         scenario_mode="environment-streaming"
         scenario_args+=("--environment-streaming-profile")
+      elif [[ "$profile" == "integrated-visual-slice" ]]; then
+        scenario_mode="integrated-visual-slice"
+        scenario_args+=("--integrated-visual-slice-profile")
       else
         scenario_args+=("$1")
       fi
@@ -229,6 +235,11 @@ while [[ $# -gt 0 ]]; do
       ;;
     --environment-review)
       scenario_mode="environment-streaming"
+      scenario_args+=("$1")
+      shift
+      ;;
+    --integrated-visual-slice-review)
+      scenario_mode="integrated-visual-slice"
       scenario_args+=("$1")
       shift
       ;;
@@ -301,6 +312,9 @@ if [[ "$scenario_mode" == "camera-handling" && "$fixture_explicit" == "false" ]]
   fixture="representative-corridor"
 fi
 if [[ "$scenario_mode" == "environment-streaming" && "$fixture_explicit" == "false" ]]; then
+  fixture="representative-corridor"
+fi
+if [[ "$scenario_mode" == "integrated-visual-slice" && "$fixture_explicit" == "false" ]]; then
   fixture="representative-corridor"
 fi
 
