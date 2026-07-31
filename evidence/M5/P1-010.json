@@ -166,8 +166,8 @@
     }
   ],
   "integrated_visual_slice_followup": {
-    "recorded_at_utc": "2026-07-31T05:16:04Z",
-    "code_revision": "d2c78e2c285006edcb373eb399bf40fb4a811888",
+    "recorded_at_utc": "2026-07-31T05:24:24Z",
+    "code_revision": "0b9c4c13cc86f048784670bc1941ba67bfb54e33",
     "platform": {
       "os": "Windows 11 x64",
       "renderer": "Godot Compatibility/OpenGL 3.3",
@@ -182,7 +182,7 @@
       },
       {
         "path": "game/Automation/IntegratedVisualSliceScenario.cs",
-        "sha256": "f6d21d3293675e21d60e18cb2be47e5c24165ea00103ee576fce7626412bba73"
+        "sha256": "310170acfa3973f81c1efdf923413d74833a9cdf2c0085bb8c3b475f019ba248"
       },
       {
         "path": "scripts/run-scenario.sh",
@@ -209,18 +209,19 @@
       {
         "command": "./scripts/verify-integrated-visual-slice.sh",
         "exit_status": 0,
-        "marker": "CANNONBALL_INTEGRATED_VISUAL_SLICE_OK vehicle=hero-gt vehicle_semantic_nodes=37 road=production road_chunks=11 road_materials=18 road_meshes=9 environment=balanced environment_regions=1 environment_chunks=11 terrain_ribbons=11 route_distance_m=60.834 stable_frames=3"
+        "marker": "CANNONBALL_INTEGRATED_VISUAL_SLICE_OK vehicle=hero-gt vehicle_semantic_nodes=37 road=production road_chunks=11 road_materials=18 road_meshes=9 environment=balanced environment_regions=1 environment_chunks=11 terrain_ribbons=11 route_distance_m=60.834 vehicle_speed_mps=43.904 stable_frames=3"
       },
       {
         "command": "./scripts/capture-scenario.sh /tmp/p1-010-integrated-visual-slice.avi --fixture representative-corridor --integrated-visual-slice-review",
         "exit_status": 0,
         "frames": 480,
         "stable_frames": 120,
-        "route_distance_meters": 184.461,
-        "road_chunks": 15,
+        "route_distance_meters": 384.186,
+        "vehicle_speed_meters_per_second": 91.039,
+        "road_chunks": 17,
         "environment_regions": 2,
-        "environment_chunks": 15,
-        "terrain_ribbons": 15
+        "environment_chunks": 17,
+        "terrain_ribbons": 17
       },
       {
         "command": "./scripts/check.sh",
@@ -234,8 +235,8 @@
     ],
     "output_artifact": {
       "path": "C:/Users/randr/AppData/Local/Temp/p1-010-integrated-visual-slice.avi",
-      "bytes": 17683570,
-      "sha256": "8e6f8c6867a9483be4e9ef905f19c2bdeebd66359c22c7393f6b3ab62bef0e31",
+      "bytes": 26145924,
+      "sha256": "cd40d3ef71ba951e6115246222913b9279a27127f512e9f1d9cfc6929ed0527b",
       "retention": "local technical review artifact; not committed"
     },
     "visual_inspection_performed": false,
@@ -250,6 +251,10 @@
     "question_record": "docs/QUESTIONS_FOR_RANDROID_2026-07-30_AUTONOMOUS_PASS.md"
   },
   "failure_logs": [
+    {
+      "failure": "Independent PR review found that intermittent settled frames could accumulate and that the review could finish after the vehicle stopped beyond 60 meters.",
+      "recovery": "Every counted frame now requires all streaming prerequisites plus at least 1 m/s current vehicle speed, and any prerequisite loss resets the consecutive-frame count."
+    },
     {
       "failure": "The first Ubuntu CI run completed the integrated runtime profile but the focused shell gate assumed ripgrep was installed on the hosted runner.",
       "recovery": "Marker extraction now uses portable grep; the same missing, ambiguous, and required-contract checks remain in force."
