@@ -198,7 +198,7 @@
       },
       {
         "path": "scripts/verify-integrated-visual-slice.sh",
-        "sha256": "522ab1c4a16e2b952fab33ec90c59158ad9687240ba6595907069648240dcb27"
+        "sha256": "d7432adc52ade88ea8c5446d787d44c4e78126d785a2fb19cfa7c60101e4fafe"
       },
       {
         "path": ".github/workflows/ci.yml",
@@ -250,6 +250,10 @@
     "question_record": "docs/QUESTIONS_FOR_RANDROID_2026-07-30_AUTONOMOUS_PASS.md"
   },
   "failure_logs": [
+    {
+      "failure": "The first Ubuntu CI run completed the integrated runtime profile but the focused shell gate assumed ripgrep was installed on the hosted runner.",
+      "recovery": "Marker extraction now uses portable grep; the same missing, ambiguous, and required-contract checks remain in force."
+    },
     {
       "failure": "The initial ribbon pass placed environment instances at road elevation while the surrounding terrain rose and fell.",
       "recovery": "Object placement now samples the shared route-distance terrain-height function used by the ribbon."

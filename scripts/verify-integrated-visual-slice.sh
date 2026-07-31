@@ -13,7 +13,7 @@ trap 'rm -rf "$work"' EXIT
   tee "$work/integrated-visual-slice.log"
 
 marker="$(
-  rg '^CANNONBALL_INTEGRATED_VISUAL_SLICE_OK ' \
+  grep '^CANNONBALL_INTEGRATED_VISUAL_SLICE_OK ' \
     "$work/integrated-visual-slice.log"
 )"
 if [[ -z "$marker" || "$marker" == *$'\n'* ]]; then
