@@ -59,6 +59,8 @@ public sealed partial class Main : Node3D
     private bool _roadVisualReview;
     private bool _environmentStreamingProfile;
     private bool _environmentReview;
+    private bool _integratedVisualSliceProfile;
+    private bool _integratedVisualSliceReview;
     private bool _tripMapReview;
     private bool _tripMapScaleProfile;
     private bool _tripMapToggleHeld;
@@ -125,6 +127,7 @@ public sealed partial class Main : Node3D
     private VehicleVisualScenario? _vehicleVisualScenario;
     private RoadVisualScenario? _roadVisualScenario;
     private EnvironmentVisualScenario? _environmentVisualScenario;
+    private IntegratedVisualSliceScenario? _integratedVisualSliceScenario;
     private CameraHandlingScenario? _cameraHandlingScenario;
     private VehicleDynamicsScenario? _vehicleDynamicsScenario;
     private bool _resumeRequested;
@@ -258,6 +261,12 @@ public sealed partial class Main : Node3D
                 "--environment-streaming-profile",
                 StringComparer.Ordinal);
             _environmentReview = arguments.Contains("--environment-review", StringComparer.Ordinal);
+            _integratedVisualSliceReview = arguments.Contains(
+                "--integrated-visual-slice-review",
+                StringComparer.Ordinal);
+            _integratedVisualSliceProfile = _integratedVisualSliceReview || arguments.Contains(
+                "--integrated-visual-slice-profile",
+                StringComparer.Ordinal);
             _tripMapReview = arguments.Contains("--trip-map-review", StringComparer.Ordinal);
             _tripMapScaleProfile = arguments.Contains(
                 "--trip-map-scale-profile",
@@ -267,6 +276,7 @@ public sealed partial class Main : Node3D
                 _routeChoiceProfile || _routeContextProfile || _routeContextReview ||
                 _vehicleVisualProfile || _vehicleVisualReview || _roadVisualProfile ||
                 _roadVisualReview || _environmentStreamingProfile || _environmentReview ||
+                _integratedVisualSliceProfile ||
                 _tripMapReview || _cameraHandlingProfile ||
                 _cameraHandlingReview || _vehicleDynamicsProfile || _vehicleDynamicsReview ||
                 _tripMapScaleProfile || _longRouteProfile || _resumeVerify;
@@ -316,6 +326,10 @@ public sealed partial class Main : Node3D
                 _smokeTargetFrames = 1_200;
             }
             if (_environmentStreamingProfile || _environmentReview)
+            {
+                _smokeTargetFrames = 1_200;
+            }
+            if (_integratedVisualSliceProfile)
             {
                 _smokeTargetFrames = 1_200;
             }
@@ -530,6 +544,13 @@ public sealed partial class Main : Node3D
                     GetNode<DirectionalLight3D>("MoonLight"),
                     GetNode<WorldEnvironment>("NightEnvironment"),
                     _environmentReview);
+            }
+            if (_integratedVisualSliceProfile)
+            {
+                _integratedVisualSliceScenario = new IntegratedVisualSliceScenario(
+                    _vehicle,
+                    _streamer,
+                    _integratedVisualSliceReview);
             }
             if ((_cameraHandlingProfile || _cameraHandlingReview) && !_resumeVerify)
             {
@@ -746,6 +767,20 @@ public sealed partial class Main : Node3D
                 return;
             }
         }
+        if (_integratedVisualSliceScenario is { Complete: false })
+        {
+            try
+            {
+                _integratedVisualSliceScenario.Advance();
+            }
+            catch (Exception exception)
+            {
+                GD.PushError(exception.ToString());
+                _shutdownStarted = true;
+                GetTree().Quit(1);
+                return;
+            }
+        }
         if ((_roadVisualProfile || _roadVisualReview) && !_roadVisualProfileComplete)
         {
             try
@@ -812,6 +847,7 @@ public sealed partial class Main : Node3D
             _cameraHandlingScenario is { Complete: true } ||
             _vehicleDynamicsScenario is { Complete: true } ||
             _environmentVisualScenario is { Complete: true } ||
+            _integratedVisualSliceScenario is { Complete: true } ||
             (_roadVisualProfileComplete && _routeContextProfileComplete))
         {
             _shutdownStarted = true;
@@ -1796,6 +1832,10 @@ public sealed partial class Main : Node3D
             if (quitAfterSave && (_environmentStreamingProfile || _environmentReview))
             {
                 ValidateEnvironmentProfile();
+            }
+            if (quitAfterSave && _integratedVisualSliceProfile)
+            {
+                _integratedVisualSliceScenario?.ValidateComplete();
             }
             if (quitAfterSave && _longRouteProfile)
             {

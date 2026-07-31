@@ -40,6 +40,9 @@ jobs:
       - name: Verify complete M0 gate
         shell: bash
         run: ./scripts/check.sh
+      - name: Verify integrated visual slice
+        shell: bash
+        run: ./scripts/verify-integrated-visual-slice.sh
       - name: Upload M0 evidence
         if: ${{ always() }}
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
