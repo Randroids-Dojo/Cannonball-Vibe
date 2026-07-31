@@ -7,6 +7,7 @@ namespace Cannonball.Game.Automation;
 public sealed class IntegratedVisualSliceScenario
 {
     private const double MinimumMovingReviewDistanceMeters = 60;
+    private const float MinimumMovingReviewSpeedMetersPerSecond = 1;
     private const int ReviewStableFrames = 120;
     private readonly CannonballVehicle _vehicle;
     private readonly WorldStreamer _streamer;
@@ -27,11 +28,17 @@ public sealed class IntegratedVisualSliceScenario
 
     public void Advance()
     {
-        if (Complete ||
-            _streamer.RouteDistanceMeters < MinimumMovingReviewDistanceMeters ||
+        if (Complete)
+        {
+            return;
+        }
+
+        if (_streamer.RouteDistanceMeters < MinimumMovingReviewDistanceMeters ||
+            _vehicle.SpeedMetersPerSecond < MinimumMovingReviewSpeedMetersPerSecond ||
             !_streamer.IsStreamingSettled ||
             !_streamer.IsEnvironmentStreamingSettled)
         {
+            _stableFrames = 0;
             return;
         }
 
@@ -59,6 +66,7 @@ public sealed class IntegratedVisualSliceScenario
             $"environment_chunks={environment.ObservedChunkCount} " +
             $"terrain_ribbons={environment.TerrainRibbonCount} " +
             $"route_distance_m={_streamer.RouteDistanceMeters:0.000} " +
+            $"vehicle_speed_mps={_vehicle.SpeedMetersPerSecond:0.000} " +
             $"stable_frames={_stableFrames}");
     }
 

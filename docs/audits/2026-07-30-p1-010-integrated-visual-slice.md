@@ -21,8 +21,9 @@ reference-performance approval.
 
 ## Same-frame contract
 
-After at least 60 meters of route travel and settled road and environment
-streaming, the scenario requires three consecutive frames with:
+After at least 60 meters of route travel, at least 1 m/s of current vehicle
+speed, and settled road and environment streaming, the scenario requires three
+consecutive frames with:
 
 - the non-graybox Hero GT wrapper, all 37 semantic nodes, and five damage
   zones;
@@ -35,14 +36,15 @@ streaming, the scenario requires three consecutive frames with:
   bands.
 
 The renderer-review mode holds the same contract for 120 consecutive frames.
-Any missing or ambiguous completion marker fails the shell gate.
+Any prerequisite loss resets the consecutive-frame count. Any missing or
+ambiguous completion marker fails the shell gate.
 
 ## Verification
 
 `./scripts/verify-integrated-visual-slice.sh` passed at the code revision with:
 
 ```text
-CANNONBALL_INTEGRATED_VISUAL_SLICE_OK vehicle=hero-gt vehicle_semantic_nodes=37 road=production road_chunks=11 road_materials=18 road_meshes=9 environment=balanced environment_regions=1 environment_chunks=11 terrain_ribbons=11 route_distance_m=60.834 stable_frames=3
+CANNONBALL_INTEGRATED_VISUAL_SLICE_OK vehicle=hero-gt vehicle_semantic_nodes=37 road=production road_chunks=11 road_materials=18 road_meshes=9 environment=balanced environment_regions=1 environment_chunks=11 terrain_ribbons=11 route_distance_m=60.834 vehicle_speed_mps=43.904 stable_frames=3
 ```
 
 The complete local M0 gate also passed:
@@ -68,10 +70,11 @@ The committed review command was:
 ```
 
 The official renderer recorded 480 frames at 1280x720 and 60 FPS. The
-120-frame completion marker reported 15 road chunks, two observed environment
-regions, 15 environment chunks, 15 terrain ribbons, and 184.461 meters of
-route travel. The local AVI is 17,683,570 bytes with SHA-256
-`8e6f8c6867a9483be4e9ef905f19c2bdeebd66359c22c7393f6b3ab62bef0e31`.
+120-consecutive-frame completion marker reported 17 road chunks, two observed
+environment regions, 17 environment chunks, 17 terrain ribbons, 384.186 meters
+of route travel, and 91.039 m/s current vehicle speed. The local AVI is
+26,145,924 bytes with SHA-256
+`cd40d3ef71ba951e6115246222913b9279a27127f512e9f1d9cfc6929ed0527b`.
 
 The AVI is retained locally rather than committed. No frame-by-frame human
 visual inspection was performed in this pass, so this capture proves renderer
