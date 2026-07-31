@@ -1,0 +1,88 @@
+# P1-010 integrated visual-slice gate
+
+- Date: 2026-07-30
+- Task: P1-010
+- Code revision: `d2c78e2c285006edcb373eb399bf40fb4a811888`
+- Platform: Windows 11 x64
+- Engine: Godot `4.7.1.stable.mono.official.a13da4feb`
+- Renderer capture: Compatibility/OpenGL 3.3, NVIDIA GeForce RTX 3080 Ti
+
+## Outcome
+
+The representative corridor now has one deterministic official-engine profile
+that proves the existing Hero GT wrapper, production road-kit contract, and
+balanced regional environment are resolved together while the vehicle is
+moving. The gate runs in both Ubuntu and Windows M0 CI.
+
+P1-010 remains `in_progress`. The three resolved identifiers describe the
+current project-owned technical baselines; they do not mean that P1-008,
+P1-009, or P1-010 has passed production-art, rights, human-readability, or
+reference-performance approval.
+
+## Same-frame contract
+
+After at least 60 meters of route travel and settled road and environment
+streaming, the scenario requires three consecutive frames with:
+
+- the non-graybox Hero GT wrapper, all 37 semantic nodes, and five damage
+  zones;
+- the production road profile, resolved chunks, reflectors, barriers,
+  guardrails, 18 shared materials, nine shared meshes, and 11
+  retroreflective materials; and
+- the balanced regional environment with loaded and observed chunks,
+  near/mid/distant instances, one terrain ribbon per loaded chunk, nonzero
+  terrain geometry, zero environment collision budget, and ordered visibility
+  bands.
+
+The renderer-review mode holds the same contract for 120 consecutive frames.
+Any missing or ambiguous completion marker fails the shell gate.
+
+## Verification
+
+`./scripts/verify-integrated-visual-slice.sh` passed at the code revision with:
+
+```text
+CANNONBALL_INTEGRATED_VISUAL_SLICE_OK vehicle=hero-gt vehicle_semantic_nodes=37 road=production road_chunks=11 road_materials=18 road_meshes=9 environment=balanced environment_regions=1 environment_chunks=11 terrain_ribbons=11 route_distance_m=60.834 stable_frames=3
+```
+
+The complete local M0 gate also passed:
+
+- pinned doctor: .NET SDK `10.0.102`, uv `0.9.24`, Git LFS `3.7.1`, Perl,
+  and official Godot `4.7.1`;
+- zero-warning solution build and 139 C# tests;
+- Ruff and 79 map-pipeline tests;
+- 13 PlayGodot unit tests; and
+- official Godot smoke.
+
+The Windows App Control policy rejected the map-pipeline `pytest` console
+launcher during the first aggregate run. Invoking the same pinned module as
+`python -m pytest` passed all 79 tests. Both Python suites now use that
+cross-platform module invocation; no test, threshold, or dependency changed.
+
+## Retained renderer capture
+
+The committed review command was:
+
+```text
+./scripts/capture-scenario.sh /tmp/p1-010-integrated-visual-slice.avi --fixture representative-corridor --integrated-visual-slice-review
+```
+
+The official renderer recorded 480 frames at 1280x720 and 60 FPS. The
+120-frame completion marker reported 15 road chunks, two observed environment
+regions, 15 environment chunks, 15 terrain ribbons, and 184.461 meters of
+route travel. The local AVI is 17,683,570 bytes with SHA-256
+`8e6f8c6867a9483be4e9ef905f19c2bdeebd66359c22c7393f6b3ab62bef0e31`.
+
+The AVI is retained locally rather than committed. No frame-by-frame human
+visual inspection was performed in this pass, so this capture proves renderer
+execution and contract coexistence only. Its Compatibility renderer,
+1280x720 resolution, and short duration also do not satisfy Q-022's High
+2560x1440 reference-performance protocol.
+
+## Remaining boundary
+
+The owner's prior choice to wait before Q-028 and Q-029 remains in force.
+Current technical profile names are not substitutes for finished production
+assets. Trip-map usability, camera comfort, final art direction, rights, and
+reference-performance approval remain open and are summarized in
+[the autonomous-pass handoff](../QUESTIONS_FOR_RANDROID_2026-07-30_AUTONOMOUS_PASS.md).

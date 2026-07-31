@@ -28,7 +28,8 @@
       "strict terrain geometry degradation across high, balanced, low, and graybox profiles",
       "equivalent route, streaming, region, collision, and semantic behavior across all four quality profiles",
       "renderer-backed dawn, day, overcast, night, and stream-boundary review capture",
-      "project-original rights record for the procedural technical baseline"
+      "project-original rights record for the procedural technical baseline",
+      "same-frame official-engine coexistence of the current Hero GT, production road-kit, and balanced regional-environment contracts while moving"
     ],
     "completion_pending": [
       "Q-021 final representative-region art direction and readability approval",
@@ -40,7 +41,8 @@
       "production-complete or photorealistic regional art",
       "ratified GPU frame time, draw call, texture residency, occlusion, or memory budgets",
       "hosted CI or Apple M4 Max as the declared minimum Windows game PC",
-      "terrain collision, route elevation changes, or vehicle-physics changes"
+      "terrain collision, route elevation changes, or vehicle-physics changes",
+      "human visual-quality inspection or production-readiness approval from the integrated renderer capture"
     ]
   },
   "input_artifacts": [
@@ -163,6 +165,90 @@
       "retention": "local review artifact; the tracked contact sheet is durable"
     }
   ],
+  "integrated_visual_slice_followup": {
+    "recorded_at_utc": "2026-07-31T05:16:04Z",
+    "code_revision": "d2c78e2c285006edcb373eb399bf40fb4a811888",
+    "platform": {
+      "os": "Windows 11 x64",
+      "renderer": "Godot Compatibility/OpenGL 3.3",
+      "device": "NVIDIA GeForce RTX 3080 Ti",
+      "capture_resolution": "1280x720",
+      "capture_fps": 60
+    },
+    "input_artifacts": [
+      {
+        "path": "game/Main.cs",
+        "sha256": "249c639cb3e9905c6b9383b10b0720e6b83628dcbdce41d0d5ee02af41c4b63e"
+      },
+      {
+        "path": "game/Automation/IntegratedVisualSliceScenario.cs",
+        "sha256": "f6d21d3293675e21d60e18cb2be47e5c24165ea00103ee576fce7626412bba73"
+      },
+      {
+        "path": "scripts/run-scenario.sh",
+        "sha256": "472b600df8d78bc87006903a9e4300f37e9ab574e325a4088755cc3d716546e0"
+      },
+      {
+        "path": "scripts/capture-scenario.sh",
+        "sha256": "e090c3ceb43e6c2bee6ee21b5e07ef8031abf5605904c2cf5ad503d869e1e57b"
+      },
+      {
+        "path": "scripts/check.sh",
+        "sha256": "ef72adeb13244ca82ea5566c43ebfadab18f3f52a5f91d3c6e308b8d0ab55912"
+      },
+      {
+        "path": "scripts/verify-integrated-visual-slice.sh",
+        "sha256": "522ab1c4a16e2b952fab33ec90c59158ad9687240ba6595907069648240dcb27"
+      },
+      {
+        "path": ".github/workflows/ci.yml",
+        "sha256": "23f995291a18dd7c361306d9b76cfdeb2b835f9ccf3b537488d7771b11e7dac5"
+      }
+    ],
+    "commands": [
+      {
+        "command": "./scripts/verify-integrated-visual-slice.sh",
+        "exit_status": 0,
+        "marker": "CANNONBALL_INTEGRATED_VISUAL_SLICE_OK vehicle=hero-gt vehicle_semantic_nodes=37 road=production road_chunks=11 road_materials=18 road_meshes=9 environment=balanced environment_regions=1 environment_chunks=11 terrain_ribbons=11 route_distance_m=60.834 stable_frames=3"
+      },
+      {
+        "command": "./scripts/capture-scenario.sh /tmp/p1-010-integrated-visual-slice.avi --fixture representative-corridor --integrated-visual-slice-review",
+        "exit_status": 0,
+        "frames": 480,
+        "stable_frames": 120,
+        "route_distance_meters": 184.461,
+        "road_chunks": 15,
+        "environment_regions": 2,
+        "environment_chunks": 15,
+        "terrain_ribbons": 15
+      },
+      {
+        "command": "./scripts/check.sh",
+        "exit_status": 0,
+        "report": "reports/m0/summary.json",
+        "report_sha256": "5b07c8c3614d82efc97876f906d8891f3f9abaf8f5a6ca9c8b830f025f0711a8",
+        "csharp_tests_passed": 139,
+        "map_pipeline_tests_passed": 79,
+        "playgodot_unit_tests_passed": 13
+      }
+    ],
+    "output_artifact": {
+      "path": "C:/Users/randr/AppData/Local/Temp/p1-010-integrated-visual-slice.avi",
+      "bytes": 17683570,
+      "sha256": "8e6f8c6867a9483be4e9ef905f19c2bdeebd66359c22c7393f6b3ab62bef0e31",
+      "retention": "local technical review artifact; not committed"
+    },
+    "visual_inspection_performed": false,
+    "remote_ci": "configured for Ubuntu and Windows M0; publish-time result recorded separately",
+    "excluded_claims": [
+      "production-complete vehicle, road, or environment art",
+      "human trip-map usability or camera-comfort approval",
+      "final asset-rights approval",
+      "Q-022 High 2560x1440 performance approval"
+    ],
+    "audit": "docs/audits/2026-07-30-p1-010-integrated-visual-slice.md",
+    "question_record": "docs/QUESTIONS_FOR_RANDROID_2026-07-30_AUTONOMOUS_PASS.md"
+  },
   "failure_logs": [
     {
       "failure": "The initial ribbon pass placed environment instances at road elevation while the surrounding terrain rose and fell.",
