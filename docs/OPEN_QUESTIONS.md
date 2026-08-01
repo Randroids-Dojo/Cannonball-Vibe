@@ -25,7 +25,7 @@ The current camera-comfort handoff is
 
 | Decision | Resolution |
 | --- | --- |
-| Q-031 continental route selection | The owner directed route research and selection on 2026-07-31. ADR-0024 locks a westbound Central Rockies canonical path, Northern Plains and Southern I-40 major alternatives, historical reference addresses, and adjacent public-road endpoint portals. Exact acquired geometry, authoritative distance, rights review, and complete-drive evidence remain P0-021 work. |
+| Q-031 continental route selection | The owner directed route research and selection on 2026-07-31. [ADR-0024](decisions/ADR-0024-canonical-continental-route-graph.md) locks a westbound Central Rockies canonical path, Northern Plains and Southern I-40 major alternatives, historical reference addresses, and adjacent public-road endpoint portals. Exact acquired geometry, authoritative distance, rights review, and complete-drive evidence remain P0-021 work. |
 | Prototype engine | Godot 4.7.1 .NET; see [ADR-0004](decisions/ADR-0004-godot-4-7-1.md). |
 | Runtime route format | FlatBuffer index and independently hashable chunks; see [ADR-0002](decisions/ADR-0002-public-domain-geodata-contract.md). |
 | Fully agentic acceptance | Machine gates may be autonomous; subjective, physical, legal, credential, and release gates require humans; see [ADR-0003](decisions/ADR-0003-agentic-delivery-contract.md). |

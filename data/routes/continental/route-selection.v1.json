@@ -487,9 +487,9 @@
     {
       "id": "udot-cove-fort-reference",
       "publisher": "Utah Department of Transportation",
-      "url": "https://www.udot.utah.gov/connect/wp-content/uploads/sites/50/2019/11/Map14ft6inUpdated.pdf",
+      "url": "https://connect.udot.utah.gov/2020/12/18/building-information-highways-to-connect-rural-communities-to-vital-digital-resources/",
       "accessed_on": "2026-07-31",
-      "use": "I-70/I-15 Cove Fort transfer reference"
+      "use": "I-70 corridor context at Cove Fort; FHWA remains the route-terminus authority"
     },
     {
       "id": "tdot-i40-i81-corridor",
@@ -508,14 +508,14 @@
     {
       "id": "census-geocoder-atlantic",
       "publisher": "U.S. Census Bureau",
-      "url": "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?address=142%20E%2031st%20St%2C%20New%20York%2C%20NY%2010016&benchmark=Public_AR_Current&format=json",
+      "url": "https://geocoding.geo.census.gov/geocoder/",
       "accessed_on": "2026-07-31",
       "use": "Atlantic reference-address match only"
     },
     {
       "id": "census-geocoder-pacific",
       "publisher": "U.S. Census Bureau",
-      "url": "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?address=260%20Portofino%20Way%2C%20Redondo%20Beach%2C%20CA%2090277&benchmark=Public_AR_Current&format=json",
+      "url": "https://geocoding.geo.census.gov/geocoder/",
       "accessed_on": "2026-07-31",
       "use": "Pacific reference-address match only"
     },

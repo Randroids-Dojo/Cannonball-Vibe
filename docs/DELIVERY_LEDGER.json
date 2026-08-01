@@ -1200,14 +1200,15 @@
       "owned_paths": [
         "data/routes/continental/",
         "data/sources/continental-route-lock.json",
-        "tools/map_pipeline/",
-        "schemas/route_graph.fbs",
-        "src/Cannonball.Core/Routes/",
-        "src/Cannonball.Core/Content/",
-        "game/World/",
-        "game/Automation/",
-        "scripts/validate-route-topology.sh",
-        "scripts/run-scenario.sh",
+        "tools/map_pipeline/src/cannonball_map/continental.py",
+        "tools/map_pipeline/tests/test_continental_route_selection.py",
+        "tools/map_pipeline/tests/test_continental_pipeline.py",
+        "src/Cannonball.Core/Routes/Continental/",
+        "src/Cannonball.Core/Content/Continental/",
+        "game/World/Continental/",
+        "game/Automation/ContinentalRouteScenario.cs",
+        "scripts/validate-continental-route.sh",
+        "scripts/run-continental-scenario.sh",
         "docs/decisions/ADR-0024-canonical-continental-route-graph.md",
         "docs/audits/2026-07-31-continental-route-selection.md",
         "docs/audits/p0-021/",
@@ -1224,15 +1225,14 @@
       ],
       "verification": [
         "uv run --project tools/map_pipeline --frozen pytest tools/map_pipeline/tests/test_continental_route_selection.py -q",
-        "uv run --project tools/map_pipeline --frozen cannonball-map validate-lock data/sources/continental-route-lock.json",
-        "./scripts/validate-route-topology.sh --fixture continental --all-paths --evidence evidence/M2/P0-021.json",
-        "./scripts/run-scenario.sh --fixture continental --all-paths --coast-to-coast",
         "./scripts/check.sh"
       ],
-      "evidence": [
+      "inputs": [
         "data/routes/continental/route-selection.v1.json",
         "data/sources/continental-route-lock.json",
-        "docs/audits/2026-07-31-continental-route-selection.md",
+        "docs/audits/2026-07-31-continental-route-selection.md"
+      ],
+      "evidence": [
         "evidence/M2/P0-021.json"
       ],
       "human_gate": {
@@ -1240,7 +1240,7 @@
         "required_for": "M2",
         "status": "pending"
       },
-      "notes": "Q-031 and ADR-0024 lock the Central Rockies canonical path, Northern Plains alternative, Southern I-40 alternative, historical reference addresses, and public-road endpoint policy. Route policy is complete; exact NHPN edges, 3DEP tiles, authoritative distance, route semantics, reconstruction exceptions, packages, bot traversal, and human completion remain open production work. The first graph is westbound only."
+      "notes": "Q-031 and ADR-0024 lock the Central Rockies canonical path, Northern Plains alternative, Southern I-40 alternative, historical reference addresses, and public-road endpoint policy. Route policy is complete; exact NHPN edges, 3DEP tiles, authoritative distance, route semantics, reconstruction exceptions, packages, bot traversal, and human completion remain open production work. P0-021 must add runnable scripts/validate-continental-route.sh and scripts/run-continental-scenario.sh gates; source-lock validation becomes runnable after the continental lock exists. The first graph is westbound only."
     },
     {
       "id": "P0-015",

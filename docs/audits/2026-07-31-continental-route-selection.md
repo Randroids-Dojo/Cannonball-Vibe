@@ -28,8 +28,9 @@ Portofino Way in Redondo Beach.
   Pennsylvania, and I-81 from Tennessee through Pennsylvania and New York.
   These records support the selected route-family continuity but are not a
   touring guide or lane-level geometry source.
-- Nebraska DOT mapping identifies the I-80/I-76 branch at Big Springs. Utah DOT
-  material identifies the I-70/I-15 Cove Fort interchange. Tennessee DOT's
+- Nebraska DOT mapping identifies the I-80/I-76 branch at Big Springs. FHWA
+  identifies I-70's western terminus at Cove Fort, and current Utah DOT material
+  independently identifies the I-70 corridor from Cove Fort. Tennessee DOT's
   I-40/I-81 corridor study covers both complete Tennessee corridors. Caltrans
   mapping covers the I-40, I-15, I-10, I-405, and CA 107 finish approach.
 - The U.S. Census geocoder matched both reference addresses. The resulting
@@ -75,7 +76,7 @@ release artifacts and must not be committed.
 - [NJDOT straight-line diagrams](https://www.nj.gov/transportation/refdata/sldiag/)
 - [NJDOT Route 3/Route 495 transfer study](https://www.nj.gov/transportation/uploads/comm/pubmeet/details/Handbook_20210803_074328_2021-08-01PICHandoutRt3-495.pdf)
 - [Nebraska DOT right-of-way index map](https://dot.nebraska.gov/media/jvgp1f2k/row-plan-index-map.pdf)
-- [Utah DOT clearance and Interstate reference map](https://www.udot.utah.gov/connect/wp-content/uploads/sites/50/2019/11/Map14ft6inUpdated.pdf)
+- [Utah DOT I-70 corridor context at Cove Fort](https://connect.udot.utah.gov/2020/12/18/building-information-highways-to-connect-rural-communities-to-vital-digital-resources/)
 - [Tennessee DOT I-40/I-81 corridor study](https://www.tn.gov/tdot/government/g/planning-studies/i-40-81-multimodal-corridor-study.html)
 - [Caltrans statewide district route map](https://dot.ca.gov/-/media/dot-media/programs/traffic-operations/documents/trucks/busmap-d1-d12-v3-a11y.pdf)
 - [U.S. Census geocoder](https://geocoding.geo.census.gov/geocoder/)

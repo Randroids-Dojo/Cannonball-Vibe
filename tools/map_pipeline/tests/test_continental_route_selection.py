@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from datetime import date
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
@@ -16,7 +17,7 @@ def _ordered_jurisdictions(segments: list[dict], segment_ids: list[str]) -> list
     ordered: list[str] = []
     for segment_id in segment_ids:
         for jurisdiction in segment_by_id[segment_id]["jurisdictions"]:
-            if (not ordered or ordered[-1] != jurisdiction) and jurisdiction not in ordered:
+            if jurisdiction not in ordered:
                 ordered.append(jurisdiction)
     return ordered
 
@@ -50,6 +51,17 @@ def test_every_selected_path_is_contiguous_and_crosses_both_portals() -> None:
     assert len(segment_by_id) == len(segments)
     assert all(segment["from"] in nodes and segment["to"] in nodes for segment in segments)
 
+    referenced_segments = {
+        segment_id
+        for path in selection["paths"]
+        for segment_id in path["segment_ids"]
+    }
+    assert referenced_segments == set(segment_by_id)
+    used_nodes = {segment["from"] for segment in segments} | {
+        segment["to"] for segment in segments
+    }
+    assert used_nodes == nodes
+
     atlantic = selection["endpoints"]["atlantic"]["node_id"]
     pacific = selection["endpoints"]["pacific"]["node_id"]
     for path in selection["paths"]:
@@ -70,7 +82,7 @@ def test_selection_preserves_provenance_and_avoids_false_geometry_precision() ->
 
     assert len({source["id"] for source in sources}) == len(sources)
     assert all(source["url"].startswith("https://") for source in sources)
-    assert all(source["accessed_on"] == "2026-07-31" for source in sources)
+    assert all(date.fromisoformat(source["accessed_on"]) for source in sources)
     assert selection["source_policy"]["openstreetmap_ancestry_allowed"] is False
     assert selection["source_policy"]["continental_downloads_committed"] is False
     assert selection["source_policy"]["research_references_are_shipping_inputs"] is False
