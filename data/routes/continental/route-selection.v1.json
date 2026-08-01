@@ -1,0 +1,537 @@
+{
+  "schema_version": 1,
+  "route_graph_id": "cannonball-continental-westbound-v1",
+  "decision": "ADR-0024",
+  "status": "selected_not_acquired",
+  "direction": "westbound",
+  "distance": {
+    "meters": null,
+    "status": "derive_from_checksum_locked_nhpn_and_authored_connectors",
+    "policy": "Do not publish a route distance until every selected NHPN edge and authored endpoint connector is locked."
+  },
+  "endpoints": {
+    "atlantic": {
+      "node_id": "nyc-east-31st-public-road-portal",
+      "label": "East 31st Street start portal",
+      "reference_address": "142 E 31st St, New York, NY 10016",
+      "coordinate": {
+        "crs": "EPSG:4326",
+        "longitude": -73.980896463321,
+        "latitude": 40.744340584366,
+        "precision": "census_address_match_not_lane_geometry"
+      },
+      "geocoder": {
+        "publisher": "U.S. Census Bureau",
+        "benchmark": "Public_AR_Current",
+        "matched_address": "142 E 31ST ST, NEW YORK, NY, 10016",
+        "tiger_line_id": "59654418"
+      },
+      "playable_policy": "Use a project-authored public-road portal adjacent to the historical reference address; do not require or imply access to private property."
+    },
+    "pacific": {
+      "node_id": "redondo-portofino-way-public-road-portal",
+      "label": "Portofino Way finish portal",
+      "reference_address": "260 Portofino Way, Redondo Beach, CA 90277",
+      "coordinate": {
+        "crs": "EPSG:4326",
+        "longitude": -118.396327415478,
+        "latitude": 33.844577173017,
+        "precision": "census_address_match_not_lane_geometry"
+      },
+      "geocoder": {
+        "publisher": "U.S. Census Bureau",
+        "benchmark": "Public_AR_Current",
+        "matched_address": "260 PORTOFINO WAY, REDONDO BEACH, CA, 90277",
+        "tiger_line_id": "641474156"
+      },
+      "playable_policy": "Use a project-authored public-road portal on Portofino Way; do not require or imply access to private hotel or marina property."
+    }
+  },
+  "nodes": [
+    {
+      "id": "nyc-east-31st-public-road-portal",
+      "kind": "endpoint"
+    },
+    {
+      "id": "nj-us46-i80",
+      "kind": "highway_transfer",
+      "label": "US 46 / I-80 transfer in northern New Jersey"
+    },
+    {
+      "id": "ne-big-springs-i80-i76",
+      "kind": "major_route_choice",
+      "label": "I-80 / I-76 near Big Springs, Nebraska"
+    },
+    {
+      "id": "co-denver-i76-i70",
+      "kind": "highway_transfer",
+      "label": "I-76 / I-70 in the Denver metropolitan area"
+    },
+    {
+      "id": "ut-salt-lake-i80-i15",
+      "kind": "highway_transfer",
+      "label": "I-80 / I-15 in Salt Lake City, Utah"
+    },
+    {
+      "id": "ut-cove-fort-i70-i15",
+      "kind": "alternative_merge",
+      "label": "I-70 / I-15 at Cove Fort, Utah"
+    },
+    {
+      "id": "nj-holland-tunnel-west-i78",
+      "kind": "highway_transfer",
+      "label": "Holland Tunnel west portal / I-78 in Jersey City"
+    },
+    {
+      "id": "pa-i78-i81",
+      "kind": "highway_transfer",
+      "label": "I-78 / I-81 in Lebanon County, Pennsylvania"
+    },
+    {
+      "id": "tn-i81-i40",
+      "kind": "highway_transfer",
+      "label": "I-81 / I-40 in Jefferson County, Tennessee"
+    },
+    {
+      "id": "ca-barstow-i40-i15",
+      "kind": "alternative_merge",
+      "label": "I-40 / I-15 at Barstow, California"
+    },
+    {
+      "id": "ca-ontario-i15-i10",
+      "kind": "highway_transfer",
+      "label": "I-15 / I-10 at Ontario, California"
+    },
+    {
+      "id": "ca-west-la-i10-i405",
+      "kind": "highway_transfer",
+      "label": "I-10 / I-405 in West Los Angeles, California"
+    },
+    {
+      "id": "ca-redondo-i405-ca107",
+      "kind": "service_bubble_transfer",
+      "label": "I-405 / CA 107 Redondo Beach access"
+    },
+    {
+      "id": "redondo-portofino-way-public-road-portal",
+      "kind": "endpoint"
+    }
+  ],
+  "segments": [
+    {
+      "id": "nyc-start-to-i80",
+      "from": "nyc-east-31st-public-road-portal",
+      "to": "nj-us46-i80",
+      "facility_sequence": [
+        "project-authored Manhattan connector",
+        "Lincoln Tunnel",
+        "NJ 495",
+        "NJ 3",
+        "US 46"
+      ],
+      "jurisdictions": [
+        "NY",
+        "NJ"
+      ],
+      "geometry_status": "authored_connector_pending_source_lock_and_validation"
+    },
+    {
+      "id": "i80-new-jersey-to-big-springs",
+      "from": "nj-us46-i80",
+      "to": "ne-big-springs-i80-i76",
+      "facility_sequence": [
+        "I-80"
+      ],
+      "jurisdictions": [
+        "NJ",
+        "PA",
+        "OH",
+        "IN",
+        "IL",
+        "IA",
+        "NE"
+      ],
+      "geometry_status": "nhpn_selection_pending"
+    },
+    {
+      "id": "i76-big-springs-to-denver",
+      "from": "ne-big-springs-i80-i76",
+      "to": "co-denver-i76-i70",
+      "facility_sequence": [
+        "I-76"
+      ],
+      "jurisdictions": [
+        "NE",
+        "CO"
+      ],
+      "geometry_status": "nhpn_selection_pending"
+    },
+    {
+      "id": "i70-denver-to-cove-fort",
+      "from": "co-denver-i76-i70",
+      "to": "ut-cove-fort-i70-i15",
+      "facility_sequence": [
+        "I-70"
+      ],
+      "jurisdictions": [
+        "CO",
+        "UT"
+      ],
+      "geometry_status": "nhpn_selection_pending"
+    },
+    {
+      "id": "i80-big-springs-to-salt-lake",
+      "from": "ne-big-springs-i80-i76",
+      "to": "ut-salt-lake-i80-i15",
+      "facility_sequence": [
+        "I-80"
+      ],
+      "jurisdictions": [
+        "NE",
+        "WY",
+        "UT"
+      ],
+      "geometry_status": "nhpn_selection_pending"
+    },
+    {
+      "id": "i15-salt-lake-to-cove-fort",
+      "from": "ut-salt-lake-i80-i15",
+      "to": "ut-cove-fort-i70-i15",
+      "facility_sequence": [
+        "I-15"
+      ],
+      "jurisdictions": [
+        "UT"
+      ],
+      "geometry_status": "nhpn_selection_pending"
+    },
+    {
+      "id": "nyc-start-to-i78",
+      "from": "nyc-east-31st-public-road-portal",
+      "to": "nj-holland-tunnel-west-i78",
+      "facility_sequence": [
+        "project-authored Manhattan connector",
+        "Holland Tunnel"
+      ],
+      "jurisdictions": [
+        "NY",
+        "NJ"
+      ],
+      "geometry_status": "authored_connector_pending_source_lock_and_validation"
+    },
+    {
+      "id": "i78-holland-tunnel-to-i81",
+      "from": "nj-holland-tunnel-west-i78",
+      "to": "pa-i78-i81",
+      "facility_sequence": [
+        "I-78"
+      ],
+      "jurisdictions": [
+        "NJ",
+        "PA"
+      ],
+      "geometry_status": "nhpn_selection_pending"
+    },
+    {
+      "id": "i81-i78-to-i40",
+      "from": "pa-i78-i81",
+      "to": "tn-i81-i40",
+      "facility_sequence": [
+        "I-81"
+      ],
+      "jurisdictions": [
+        "PA",
+        "MD",
+        "WV",
+        "VA",
+        "TN"
+      ],
+      "geometry_status": "nhpn_selection_pending"
+    },
+    {
+      "id": "i40-i81-to-barstow",
+      "from": "tn-i81-i40",
+      "to": "ca-barstow-i40-i15",
+      "facility_sequence": [
+        "I-40"
+      ],
+      "jurisdictions": [
+        "TN",
+        "AR",
+        "OK",
+        "TX",
+        "NM",
+        "AZ",
+        "CA"
+      ],
+      "geometry_status": "nhpn_selection_pending"
+    },
+    {
+      "id": "i15-cove-fort-to-barstow",
+      "from": "ut-cove-fort-i70-i15",
+      "to": "ca-barstow-i40-i15",
+      "facility_sequence": [
+        "I-15"
+      ],
+      "jurisdictions": [
+        "UT",
+        "AZ",
+        "NV",
+        "CA"
+      ],
+      "geometry_status": "nhpn_selection_pending"
+    },
+    {
+      "id": "i15-barstow-to-ontario",
+      "from": "ca-barstow-i40-i15",
+      "to": "ca-ontario-i15-i10",
+      "facility_sequence": [
+        "I-15"
+      ],
+      "jurisdictions": [
+        "CA"
+      ],
+      "geometry_status": "nhpn_selection_pending"
+    },
+    {
+      "id": "i10-ontario-to-i405",
+      "from": "ca-ontario-i15-i10",
+      "to": "ca-west-la-i10-i405",
+      "facility_sequence": [
+        "I-10"
+      ],
+      "jurisdictions": [
+        "CA"
+      ],
+      "geometry_status": "nhpn_selection_pending"
+    },
+    {
+      "id": "i405-west-la-to-ca107",
+      "from": "ca-west-la-i10-i405",
+      "to": "ca-redondo-i405-ca107",
+      "facility_sequence": [
+        "I-405"
+      ],
+      "jurisdictions": [
+        "CA"
+      ],
+      "geometry_status": "nhpn_selection_pending"
+    },
+    {
+      "id": "redondo-access-to-finish",
+      "from": "ca-redondo-i405-ca107",
+      "to": "redondo-portofino-way-public-road-portal",
+      "facility_sequence": [
+        "CA 107 / Hawthorne Boulevard",
+        "Torrance Boulevard",
+        "Catalina Avenue",
+        "Beryl Street",
+        "Harbor Drive",
+        "Portofino Way"
+      ],
+      "jurisdictions": [
+        "CA"
+      ],
+      "geometry_status": "authored_connector_pending_source_lock_and_validation"
+    }
+  ],
+  "paths": [
+    {
+      "id": "central-rockies",
+      "role": "canonical",
+      "label": "Central Rockies canonical path",
+      "segment_ids": [
+        "nyc-start-to-i80",
+        "i80-new-jersey-to-big-springs",
+        "i76-big-springs-to-denver",
+        "i70-denver-to-cove-fort",
+        "i15-cove-fort-to-barstow",
+        "i15-barstow-to-ontario",
+        "i10-ontario-to-i405",
+        "i405-west-la-to-ca107",
+        "redondo-access-to-finish"
+      ],
+      "jurisdictions": [
+        "NY",
+        "NJ",
+        "PA",
+        "OH",
+        "IN",
+        "IL",
+        "IA",
+        "NE",
+        "CO",
+        "UT",
+        "AZ",
+        "NV",
+        "CA"
+      ],
+      "design_identity": "The default high-contrast route: eastern toll-road pressure, Great Plains endurance, Colorado mountain risk, Utah desert exposure, Las Vegas, and the Los Angeles finish."
+    },
+    {
+      "id": "northern-plains",
+      "role": "major_alternative",
+      "label": "Northern Plains alternative",
+      "segment_ids": [
+        "nyc-start-to-i80",
+        "i80-new-jersey-to-big-springs",
+        "i80-big-springs-to-salt-lake",
+        "i15-salt-lake-to-cove-fort",
+        "i15-cove-fort-to-barstow",
+        "i15-barstow-to-ontario",
+        "i10-ontario-to-i405",
+        "i405-west-la-to-ca107",
+        "redondo-access-to-finish"
+      ],
+      "jurisdictions": [
+        "NY",
+        "NJ",
+        "PA",
+        "OH",
+        "IN",
+        "IL",
+        "IA",
+        "NE",
+        "WY",
+        "UT",
+        "AZ",
+        "NV",
+        "CA"
+      ],
+      "design_identity": "Stay on I-80 through exposed Wyoming and enter the Wasatch Front from the north, trading Colorado's I-70 pass sequence for a different high-wind, winter, and service-density profile."
+    },
+    {
+      "id": "southern-i40",
+      "role": "major_alternative",
+      "label": "Southern I-40 alternative",
+      "segment_ids": [
+        "nyc-start-to-i78",
+        "i78-holland-tunnel-to-i81",
+        "i81-i78-to-i40",
+        "i40-i81-to-barstow",
+        "i15-barstow-to-ontario",
+        "i10-ontario-to-i405",
+        "i405-west-la-to-ca107",
+        "redondo-access-to-finish"
+      ],
+      "jurisdictions": [
+        "NY",
+        "NJ",
+        "PA",
+        "MD",
+        "WV",
+        "VA",
+        "TN",
+        "AR",
+        "OK",
+        "TX",
+        "NM",
+        "AZ",
+        "CA"
+      ],
+      "design_identity": "A genuinely different Appalachia-to-Southwest path with longer humid, storm, heat, and high-desert exposure before merging at Barstow."
+    }
+  ],
+  "source_policy": {
+    "route_family_authority": "usdot-national-highway-planning-network",
+    "elevation_authority": "usgs-3dep",
+    "nhpn_role": "coarse_topology_only",
+    "lane_geometry_authority": "generated_and_authored_under_ADR-0018",
+    "openstreetmap_ancestry_allowed": false,
+    "continental_downloads_committed": false,
+    "research_references_are_shipping_inputs": false
+  },
+  "research_sources": [
+    {
+      "id": "fhwa-interstate-route-log-2026",
+      "publisher": "Federal Highway Administration",
+      "url": "https://www.fhwa.dot.gov/planning/national_highway_system/interstate_highway_system/routefinder/table01.cfm",
+      "accessed_on": "2026-07-31",
+      "use": "Interstate route existence, states served, official mileage context, and principal-city continuity"
+    },
+    {
+      "id": "usdot-nhpn-service",
+      "publisher": "U.S. Department of Transportation",
+      "url": "https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/NTAD_National_Highway_Planning_Network/FeatureServer/0",
+      "accessed_on": "2026-07-31",
+      "use": "Future checksum-locked route-family edge selection; not lane geometry"
+    },
+    {
+      "id": "panynj-crossings",
+      "publisher": "Port Authority of New York and New Jersey",
+      "url": "https://www.panynj.gov/bridges-tunnels/en/index.html",
+      "accessed_on": "2026-07-31",
+      "use": "Lincoln and Holland Tunnel crossing authority"
+    },
+    {
+      "id": "njdot-straight-line-diagrams",
+      "publisher": "New Jersey Department of Transportation",
+      "url": "https://www.nj.gov/transportation/refdata/sldiag/",
+      "accessed_on": "2026-07-31",
+      "use": "New Jersey numbered-route and transfer research"
+    },
+    {
+      "id": "njdot-route3-route495-transfer",
+      "publisher": "New Jersey Department of Transportation",
+      "url": "https://www.nj.gov/transportation/uploads/comm/pubmeet/details/Handbook_20210803_074328_2021-08-01PICHandoutRt3-495.pdf",
+      "accessed_on": "2026-07-31",
+      "use": "Route 495 westbound to Route 3 westbound transfer confirmation"
+    },
+    {
+      "id": "ndot-i80-i76-index",
+      "publisher": "Nebraska Department of Transportation",
+      "url": "https://dot.nebraska.gov/media/jvgp1f2k/row-plan-index-map.pdf",
+      "accessed_on": "2026-07-31",
+      "use": "I-80/I-76 branch near Big Springs"
+    },
+    {
+      "id": "udot-cove-fort-reference",
+      "publisher": "Utah Department of Transportation",
+      "url": "https://connect.udot.utah.gov/2020/12/18/building-information-highways-to-connect-rural-communities-to-vital-digital-resources/",
+      "accessed_on": "2026-07-31",
+      "use": "I-70 corridor context at Cove Fort; FHWA remains the route-terminus authority"
+    },
+    {
+      "id": "tdot-i40-i81-corridor",
+      "publisher": "Tennessee Department of Transportation",
+      "url": "https://www.tn.gov/tdot/government/g/planning-studies/i-40-81-multimodal-corridor-study.html",
+      "accessed_on": "2026-07-31",
+      "use": "I-81/I-40 corridor continuity"
+    },
+    {
+      "id": "caltrans-district-route-map",
+      "publisher": "California Department of Transportation",
+      "url": "https://dot.ca.gov/-/media/dot-media/programs/traffic-operations/documents/trucks/busmap-d1-d12-v3-a11y.pdf",
+      "accessed_on": "2026-07-31",
+      "use": "Southern California I-40, I-15, I-10, I-405, and CA 107 route context"
+    },
+    {
+      "id": "census-geocoder-atlantic",
+      "publisher": "U.S. Census Bureau",
+      "url": "https://geocoding.geo.census.gov/geocoder/",
+      "accessed_on": "2026-07-31",
+      "use": "Atlantic reference-address match only"
+    },
+    {
+      "id": "census-geocoder-pacific",
+      "publisher": "U.S. Census Bureau",
+      "url": "https://geocoding.geo.census.gov/geocoder/",
+      "accessed_on": "2026-07-31",
+      "use": "Pacific reference-address match only"
+    },
+    {
+      "id": "portofino-contact",
+      "publisher": "The Portofino Hotel & Marina",
+      "url": "https://www.hotelportofino.com/contact/",
+      "accessed_on": "2026-07-31",
+      "use": "Finish reference-address confirmation only; not route geometry or rights approval"
+    },
+    {
+      "id": "cannonball-dino-history",
+      "publisher": "The Cannonball Dino restoration project",
+      "url": "https://www.cannonballdino.com/explore-the-story",
+      "accessed_on": "2026-07-31",
+      "use": "Historical East 31st Street context only; not geodata, geometry, or rights authority"
+    }
+  ]
+}

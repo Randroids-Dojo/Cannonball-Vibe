@@ -1525,6 +1525,17 @@ still ratify those limits and their derived allocations.
 
 LOCKED — owner decision 2026-07-23; see docs/decisions/ADR-0023-reference-performance-target-and-layered-budgets.md
 
+__D-017__
+
+The first continental graph runs westbound from a public-road portal adjacent
+to the East 31st Street historical reference in Manhattan to a public-road
+portal on Portofino Way in Redondo Beach. The Central Rockies path via I-80,
+I-76, I-70, and I-15 is canonical. The two major alternatives are the Northern
+Plains path via I-80 and I-15 and the Southern I-40 path via I-78, I-81, I-40,
+and I-15. Exact distance is derived only from checksum-locked route geometry.
+
+LOCKED — owner decision 2026-07-31; see docs/decisions/ADR-0024-canonical-continental-route-graph.md
+
 # Top project risks and mitigations
 
 __Risk__

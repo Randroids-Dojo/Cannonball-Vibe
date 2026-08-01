@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated": "2026-07-28",
+  "updated": "2026-07-31",
   "project": "Cannonball-Vibe",
   "authority": {
     "architecture_decisions": "docs/decisions/",
@@ -1180,6 +1180,67 @@
       ],
       "human_gate": null,
       "notes": "ADR-0014 is authoritative. Q-026 was resolved by the owner on 2026-07-23 as Option A: the first complete corridor proves divided mainlines and one-way ramps; explicit undivided two-way cross-sections follow later under P1-011. P1-009 retains final visual-quality approval."
+    },
+    {
+      "id": "P0-021",
+      "milestone": "M2",
+      "priority": "P0",
+      "title": "Continental route acquisition, reconstruction, and traversal",
+      "status": "in_progress",
+      "dependencies": [
+        "P0-003",
+        "P0-004",
+        "P0-009",
+        "P0-010",
+        "P0-011",
+        "P0-012",
+        "P0-014",
+        "P1-007"
+      ],
+      "owned_paths": [
+        "data/routes/continental/",
+        "data/sources/continental-route-lock.json",
+        "tools/map_pipeline/src/cannonball_map/continental.py",
+        "tools/map_pipeline/tests/test_continental_route_selection.py",
+        "tools/map_pipeline/tests/test_continental_pipeline.py",
+        "src/Cannonball.Core/Routes/Continental/",
+        "src/Cannonball.Core/Content/Continental/",
+        "game/World/Continental/",
+        "game/Automation/ContinentalRouteScenario.cs",
+        "scripts/validate-continental-route.sh",
+        "scripts/run-continental-scenario.sh",
+        "docs/decisions/ADR-0024-canonical-continental-route-graph.md",
+        "docs/audits/2026-07-31-continental-route-selection.md",
+        "docs/audits/p0-021/",
+        "evidence/M2/P0-021.json"
+      ],
+      "acceptance": [
+        "ADR-0024 and the versioned route-selection artifact lock one westbound canonical path and two contiguous major alternatives between public-road endpoint portals without claiming lane geometry or an estimated authoritative distance",
+        "Every selected NHPN object ID and required 3DEP product is checksum-locked with acquisition metadata and recursive provenance, while continental downloads and generated packages remain uncommitted cached or release artifacts",
+        "Deterministic reconstruction produces directed carriageways, transfers, ramps, lane topology, elevation, collision, and endpoint connectors for every supported path and rejects every failed geometry gate with machine-readable diagnostics",
+        "Authoritative or explicitly authored route context covers concurrency, signed directions, jurisdiction changes, exits, destinations, milepoint anchors, services, toll context, and major route choices without inventing false source precision",
+        "Two independent builds produce byte-identical shipping FlatBuffers and semantically equivalent audit GeoPackages while preserving the root-index and chunk ceilings from ADR-0019",
+        "A route walker and high-speed bot traverse every legal coast-to-coast path on Linux and Windows with no gaps, collision misses, unbounded memory growth, hash failures, invalid branch streaming, or save-resume divergence",
+        "Human review completes the canonical coast-to-coast graybox and confirms geographic plausibility, route-choice comprehension, endpoint presentation, and correction quality before M2 completion"
+      ],
+      "verification": [
+        "uv run --project tools/map_pipeline --frozen pytest tools/map_pipeline/tests/test_continental_route_selection.py -q",
+        "./scripts/check.sh"
+      ],
+      "inputs": [
+        "data/routes/continental/route-selection.v1.json",
+        "data/sources/continental-route-lock.json",
+        "docs/audits/2026-07-31-continental-route-selection.md"
+      ],
+      "evidence": [
+        "evidence/M2/P0-021.json"
+      ],
+      "human_gate": {
+        "name": "Continental geographic plausibility, route-choice, and complete-drive review",
+        "required_for": "M2",
+        "status": "pending"
+      },
+      "notes": "Q-031 and ADR-0024 lock the Central Rockies canonical path, Northern Plains alternative, Southern I-40 alternative, historical reference addresses, and public-road endpoint policy. Route policy is complete; exact NHPN edges, 3DEP tiles, authoritative distance, route semantics, reconstruction exceptions, packages, bot traversal, and human completion remain open production work. P0-021 must add runnable scripts/validate-continental-route.sh and scripts/run-continental-scenario.sh gates; source-lock validation becomes runnable after the continental lock exists. The first graph is westbound only."
     },
     {
       "id": "P0-015",
