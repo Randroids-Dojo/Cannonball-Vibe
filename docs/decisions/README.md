@@ -28,3 +28,4 @@ new ADR that supersedes the old one instead of rewriting history.
 | [ADR-0021](ADR-0021-phased-commercial-release-channels.md) | Accepted | Steam commercial authority with itch.io early distribution and GitHub technical releases |
 | [ADR-0022](ADR-0022-host-neutral-agent-automation-without-required-mcp.md) | Accepted | Host-neutral CLI, PlayGodot, and Computer Use automation without required MCP |
 | [ADR-0023](ADR-0023-reference-performance-target-and-layered-budgets.md) | Accepted | 1440p High at 60 FPS on the reference PC with layered, measured budgets |
+| [ADR-0024](ADR-0024-canonical-continental-route-graph.md) | Accepted | Central Rockies canonical path with Northern Plains and Southern I-40 alternatives |
