@@ -48,11 +48,55 @@ async def _settle(
     """
     loop = asyncio.get_running_loop()
     deadline = loop.time() + timeout
-    state = (await client.describe(node))["test_state"]
-    while not predicate(state) and loop.time() < deadline:
-        await asyncio.sleep(interval)
-        state = (await client.describe(node))["test_state"]
+    state: dict = {}
+
+    remaining = deadline - loop.time()
+    if remaining <= 0:
+        return state
+    try:
+        state = (await asyncio.wait_for(client.describe(node), remaining))["test_state"]
+    except TimeoutError:
+        return state
+
+    while not predicate(state):
+        remaining = deadline - loop.time()
+        if remaining <= 0:
+            return state
+        try:
+            await asyncio.wait_for(asyncio.sleep(interval), remaining)
+        except TimeoutError:
+            return state
+
+        remaining = deadline - loop.time()
+        if remaining <= 0:
+            return state
+        try:
+            state = (await asyncio.wait_for(client.describe(node), remaining))["test_state"]
+        except TimeoutError:
+            return state
     return state
+
+
+@pytest.mark.asyncio
+async def test_settle_bounds_a_delayed_initial_description() -> None:
+    class DelayedClient:
+        async def describe(self, _node: str) -> dict:
+            await asyncio.sleep(0.2)
+            return {"test_state": {"ready": False}}
+
+    loop = asyncio.get_running_loop()
+    started = loop.time()
+    state = await _settle(
+        DelayedClient(),
+        "camera.chase.rig",
+        lambda candidate: candidate.get("ready", False),
+        timeout=0.05,
+        interval=0.01,
+    )
+    elapsed = loop.time() - started
+
+    assert state == {}
+    assert elapsed < 0.15
 
 
 def _assert_attached_and_level(state: dict) -> None:
