@@ -1,6 +1,7 @@
 {
   "schema_version": 1,
-  "task_id": "Q-022",
+  "task_id": "P1-013",
+  "question_id": "Q-022",
   "related_task_ids": [
     "P1-008",
     "P1-009",
@@ -8,8 +9,8 @@
     "P0-015"
   ],
   "milestone": "M5",
-  "status": "evidence_recorded_question_open",
-  "headline": "Clean Release capture at 5a42ecef4af6. 1 evaluated provisional threshold result(s) failed. Worst-case p95 headroom was 8.8x and p99 headroom was 6.9x; peak GPU memory used 2.0% of its limit and peak working set used 5.0%. Q-022 remains open for owner ratification and missing traffic/weather coverage.",
+  "status": "baseline_below_target_question_open",
+  "headline": "Clean reproducible Release baseline at 5a42ecef4af6, below the declared High content target because target scenarios used the balanced environment profile. One evaluated provisional threshold failed: streaming recorded one 52.404 ms steady-driving stall. Worst-case p95 headroom was 8.8x and p99 headroom was 6.9x; peak GPU memory used 2.0% of its limit and peak working set used 5.0%. Q-022 remains open for a High-profile recapture, owner ratification, and missing traffic/weather coverage.",
   "git_revision": "5a42ecef4af6f90fe616fceae1e69309471d200e",
   "workspace": {
     "policy": "Q-022 capture-workspace Option A (ADR-0023 operating addendum)",
@@ -78,6 +79,27 @@
     "build_configuration": "Release",
     "managed_assembly_location": ".godot/mono/temp/bin/Debug (Godot editor runtime convention); the assembly is compiled with --configuration Release and reports build_configuration=Release"
   },
+  "target_alignment": {
+    "declared_target": "2560x1440 High at a stable 60 FPS on the declared reference PC",
+    "resolution_matches": true,
+    "release_build_matches": true,
+    "declared_high_content_profile_measured": false,
+    "baseline_classification": "below target",
+    "effective_target_scenario_profile": "balanced",
+    "effective_balanced_profile_settings": {
+      "near_instances_per_chunk": 30,
+      "mid_instances_per_chunk": 12,
+      "distant_instances_per_chunk": 7,
+      "terrain_stride": 2
+    },
+    "required_high_profile_settings": {
+      "near_instances_per_chunk": 48,
+      "mid_instances_per_chunk": 18,
+      "distant_instances_per_chunk": 10,
+      "terrain_stride": 1
+    },
+    "renderer_preset_note": "The repository does not yet define a separate High renderer preset; environment_quality controls content density. P1-013 requires a High content-profile recapture and retains the renderer-preset gap explicitly."
+  },
   "tool_versions": {
     "godot": "4.7.1.stable.mono.official.a13da4feb",
     "dotnet_sdk": "10.0.102",
@@ -88,7 +110,18 @@
   "scenario_arguments": {
     "fixture": "representative-corridor",
     "seed": "engine default run seed 20260714 (this capture does not vary the seed)",
-    "deterministic_inputs": "route package is rebuilt from checksum-locked fixture sources before each run"
+    "deterministic_inputs": "route package is rebuilt from checksum-locked fixture sources before each run; a post-capture two-build comparison matched every consumed shipping byte"
+  },
+  "route_package_reproducibility": {
+    "evidence_path": "evidence/M5/Q-022-representative-route-reproducibility.json",
+    "verified_at_utc": "2026-08-04T08:55:52.887676+00:00",
+    "measured_revision": "5a42ecef4af6f90fe616fceae1e69309471d200e",
+    "content_version": "route-v5-2497809086481e15",
+    "same_platform_rebuilds": 2,
+    "same_platform_shipping_byte_diff_count": 0,
+    "consumed_package_shipping_byte_diff_count": 0,
+    "shipping_file_count": 52,
+    "comparison_scope": "current-package pointer, root, metadata, and every chunk; non-shipping GeoPackage audit output excluded"
   },
   "input_artifacts": [
     {
@@ -1587,6 +1620,11 @@
   },
   "output_artifacts": [
     {
+      "path": "evidence/M5/Q-022-representative-route-reproducibility.json",
+      "sha256": "de3cc87411b2be5666ed24185aae53723a23c3d56dbf0929edfc1bd51b29a2a0",
+      "retention": "committed two-build manifest for the exact representative-corridor package consumed by the measured revision"
+    },
+    {
       "path": "reports/q022/reference-performance-daylight.json",
       "sha256": "eaf28827203b6900e48befabf74e7e4f301ae628d8a21d58fb6cb1f414723994",
       "retention": "ignored local report; summarized in committed evidence"
@@ -1776,10 +1814,25 @@
     "approval_reference": null
   },
   "post_capture_code_changes": {
-    "change": "Removed two parameters from the private Acceptance() helper that were passed and immediately discarded.",
     "affects_measurements": false,
-    "why_inert": "Both parameters were unused inside the method body; the values they carried are still reported through the summary's own frame_time_ms and memory fields.",
-    "verification": "Rebuilt and re-ran a short capture on the committed revision; the summary key set is identical to the matrix captures."
+    "measured_revision_remains_authoritative": "5a42ecef4af6f90fe616fceae1e69309471d200e",
+    "changes": [
+      {
+        "change": "Removed two parameters from the private Acceptance() helper that were passed and immediately discarded.",
+        "why_inert": "Both parameters were unused inside the method body; the values they carried are still reported through the summary's own frame_time_ms and memory fields.",
+        "verification": "Rebuilt and re-ran a short capture; the summary key set is identical to the matrix captures."
+      },
+      {
+        "change": "Bound PlayGodot camera-settle test polling to its declared deadline and added a delayed-response regression.",
+        "why_inert": "The helper is test-only and does not run in the reference-performance scenario.",
+        "verification": "Focused Ruff/pytest and the complete repository gate passed."
+      },
+      {
+        "change": "Extended the capture front door to compare two representative route-package builds and emit their shipping-byte manifest before future runs.",
+        "why_inert": "A post-capture check at the measured revision proved both rebuilds and the package consumed by the matrix are identical across all 52 shipping files.",
+        "verification": "evidence/M5/Q-022-representative-route-reproducibility.json records zero rebuild and consumed-package differences."
+      }
+    ]
   },
   "headroom": {
     "worst_p95_ms": 1.8925,

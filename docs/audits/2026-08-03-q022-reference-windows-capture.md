@@ -10,11 +10,18 @@ Handoff: [Q-022 ratification handoff](../QUESTIONS_FOR_RANDROID_2026-08-03_Q022_
 
 ## Outcome
 
-The first conforming reference-Windows matrix is recorded from a fresh, clean,
-detached worktree at committed revision
+The first clean, reproducible reference-Windows **baseline** matrix is recorded
+from a fresh, detached worktree at committed revision
 `5a42ecef4af6f90fe616fceae1e69309471d200e`. Every scenario used a Release
 build, the native NVIDIA GeForce RTX 3080 Ti Vulkan renderer, a 2560×1440
 window, Forward+, V-Sync off, and an uncapped frame rate. Warm-up was discarded.
+
+This matrix is **below the declared High content target**. Its target scenarios
+used the `balanced` environment profile (30/12/7 near/mid/distant instances per
+chunk and terrain stride 2), while `high` uses 48/18/10 and terrain stride 1.
+The repository also lacks a separate High renderer preset. The measurements are
+valid for the recorded baseline, but they do not establish the ADR-0023 High
+target and must not be called a conforming target capture.
 
 One evaluated provisional threshold failed: the five-minute streaming scenario
 contained one 52.404 ms steady-driving frame against the zero-stalls-over-50-ms
@@ -46,6 +53,11 @@ are not covered.
   delta.
 - The machine-readable evidence records SHA-256 hashes for harness inputs and
   every captured report.
+- A post-capture check at the measured revision rebuilt the
+  `representative-corridor` package twice. The pointer, root, metadata, and all
+  chunks produced 52 identical shipping files, with zero differences between
+  rebuilds or against the package consumed by the matrix. See
+  `evidence/M5/Q-022-representative-route-reproducibility.json`.
 
 The solution-wide local gate passed at the measured revision: toolchain doctor,
 build, 139 .NET tests, Ruff, continental-route validation, 100 map-pipeline
@@ -132,7 +144,7 @@ so this capture makes no claim about those outcomes beyond the recorded fields.
 Peak texture residency was 110 MiB; peak buffer residency was 48–52 MiB. The
 harness records LOD inventory but does not detect visible pop-in.
 
-## Acceptance against ADR-0023 provisional limits
+## Baseline acceptance against ADR-0023 provisional limits
 
 | Scenario | p95 ≤16.67 ms | p99 ≤20 ms | no steady stall >50 ms | GPU ≤9.5 GB | WS ≤16 GB | 30-minute growth |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -147,6 +159,9 @@ Worst-case p95 headroom is 8.8× and p99 headroom is 6.9×. Peak GPU memory used
 2.0% of its limit, and peak working set used 5.0%. These metric-specific ratios
 are intentionally separate. The zero-stall threshold is binary and has no
 headroom ratio; it failed once in streaming.
+
+These verdicts apply only to the recorded balanced-profile baseline. Passing a
+numeric threshold here does not satisfy the declared High target.
 
 The proposed sustained-growth operationalization is a slope above 1 MiB/min
 with R² at least 0.5 over a 30-minute window. ADR-0023 does not yet ratify those
@@ -177,15 +192,16 @@ proposals for owner ratification, not accepted production budgets.
 
 ## Evidence boundaries and next work
 
-This capture does not establish traffic cost (P0-015 is open), weather cost (no
-weather implementation exists), per-subsystem GPU cost, V-Sync-on presentation
-pacing, visible pop-in, a repository-defined High renderer preset, multi-run
-statistical confidence, production-content readiness, asset rights approval, or
-any human readability/comfort gate. It does not close P1-008, P1-009, P1-010,
-Q-028, or Q-029.
+This capture does not establish High-profile content performance, traffic cost
+(P0-015 is open), weather cost (no weather implementation exists), per-subsystem
+GPU cost, V-Sync-on presentation pacing, visible pop-in, a repository-defined
+High renderer preset, multi-run statistical confidence, production-content
+readiness, asset rights approval, or any human readability/comfort gate. It does
+not close P1-008, P1-009, P1-010, P1-013, Q-028, or Q-029.
 
-The next technical slice is to add repeat/multi-run stall characterization and
-per-subsystem isolation, then recapture with traffic and weather when those
-systems exist. The owner handoff asks whether to treat the single streaming
-stall as a blocker or a repeatability trigger and whether to ratify the proposed
-budgets and measurement method.
+P1-013 owns the next technical slice: recapture target scenarios with the High
+content profile, then add repeat/multi-run stall characterization and
+per-subsystem isolation and recapture with traffic and weather when those
+systems exist. The owner handoff asks how to treat the single streaming stall
+and whether any budget proposal should be ratified before the missing target
+coverage exists.

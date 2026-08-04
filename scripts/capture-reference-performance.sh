@@ -132,6 +132,78 @@ uv run --project "$repo_root/tools/map_pipeline" --frozen cannonball-map build \
   --chunk-meters "$fixture_chunk_meters" \
   --output "$package_directory"
 
+repro_directory="$(mktemp -d "${TMPDIR:-/tmp}/cannonball-q022-route-repro.XXXXXX")"
+trap 'rm -rf -- "$repro_directory"' EXIT
+uv run --project "$repo_root/tools/map_pipeline" --frozen cannonball-map build \
+  --source "$fixture_source" \
+  --manifest "$fixture_manifest" \
+  --catalog "$repo_root/data/sources/catalog.json" \
+  --elevation "$fixture_elevation" \
+  --elevation-metadata "$fixture_elevation_metadata" \
+  --acquisition-lock "$fixture_lock" \
+  --chunk-meters "$fixture_chunk_meters" \
+  --output "$repro_directory"
+
+route_repro_path="$output_dir/route-package-reproducibility-$fixture.json"
+uv run --project "$repo_root/tools/map_pipeline" --frozen python - \
+  "$package_directory" "$repro_directory" "$route_repro_path" <<'PY'
+import hashlib
+import json
+import sys
+from pathlib import Path
+
+
+def shipping_files(root: Path) -> dict[str, dict[str, object]]:
+    pointer_path = root / "current-package.json"
+    pointer = json.loads(pointer_path.read_text(encoding="utf-8"))
+    metadata_path = root / pointer["metadata_relative_path"]
+    metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
+    paths = [pointer_path, root / pointer["root_relative_path"], metadata_path]
+    paths.extend(root / chunk["relative_path"] for chunk in metadata["chunks"])
+    result = {}
+    for path in paths:
+        data = path.read_bytes()
+        relative = path.relative_to(root).as_posix()
+        result[relative] = {
+            "path": relative,
+            "bytes": len(data),
+            "sha256": hashlib.sha256(data).hexdigest(),
+        }
+    return result
+
+
+first_root, second_root, output_path = map(Path, sys.argv[1:])
+first = shipping_files(first_root)
+second = shipping_files(second_root)
+differences = sorted(
+    path for path in set(first) | set(second) if first.get(path) != second.get(path)
+)
+if differences:
+    raise SystemExit(f"Representative route package is not reproducible: {differences}")
+
+pointer = json.loads((first_root / "current-package.json").read_text(encoding="utf-8"))
+result = {
+    "schema_version": 1,
+    "fixture": "representative-corridor",
+    "content_version": pointer["content_version"],
+    "root_relative_path": pointer["root_relative_path"],
+    "metadata_relative_path": pointer["metadata_relative_path"],
+    "same_platform_rebuilds": 2,
+    "same_platform_shipping_byte_diff_count": 0,
+    "comparison_scope": (
+        "current-package pointer, root, metadata, and every chunk; "
+        "non-shipping GeoPackage audit output excluded"
+    ),
+    "shipping_artifacts": list(first.values()),
+}
+output_path.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
+print(
+    "CANNONBALL_REFERENCE_ROUTE_REPRODUCIBLE "
+    f"fixture=representative-corridor files={len(first)} differences=0 "
+    f"manifest={output_path}"
+)
+PY
+
 package_pointer="$package_directory/current-package.json"
 if [[ ! -f "$package_pointer" ]]; then
   echo "Fixture build did not publish $package_pointer." >&2
@@ -229,7 +301,7 @@ for required in "scenario=$scenario" "resolution=$resolution" "headless=false"; 
     exit 1
   fi
 done
-for artifact in "$summary_path" "$samples_path"; do
+for artifact in "$summary_path" "$samples_path" "$route_repro_path"; do
   if [[ ! -s "$artifact" ]]; then
     echo "Reference performance capture did not write $artifact." >&2
     exit 1
