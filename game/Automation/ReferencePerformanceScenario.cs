@@ -286,14 +286,14 @@ public sealed class ReferencePerformanceScenario
             }
             else
             {
-            _stalls.Add(new StallEvent(
-                _measuredSeconds,
-                frameMilliseconds,
-                cpuMilliseconds,
-                gpuMilliseconds,
-                _streamer.RouteDistanceMeters,
-                _vehicle.SpeedMetersPerSecond,
-                false));
+                _stalls.Add(new StallEvent(
+                    _measuredSeconds,
+                    frameMilliseconds,
+                    cpuMilliseconds,
+                    gpuMilliseconds,
+                    _streamer.RouteDistanceMeters,
+                    _vehicle.SpeedMetersPerSecond,
+                    false));
             }
         }
 
