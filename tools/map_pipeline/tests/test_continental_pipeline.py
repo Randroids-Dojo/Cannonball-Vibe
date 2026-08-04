@@ -7,6 +7,7 @@ from pathlib import Path
 import pytest
 from pyproj import Transformer
 from shapely.geometry import LineString
+from shapely.ops import transform
 from typer.testing import CliRunner
 
 from cannonball_map.cli import app
@@ -258,6 +259,22 @@ def test_continental_transfer_lock_rejects_page_hash_drift(tmp_path: Path) -> No
         )
 
 
+def test_continental_transfer_lock_rejects_next_stage_drift(tmp_path: Path) -> None:
+    payload = json.loads(TRANSFER_LOCK_PATH.read_text(encoding="utf-8"))
+    payload["next_stage"]["id"] = "unexpected"
+    invalid_path = tmp_path / "invalid-transfer.json"
+    invalid_path.write_text(json.dumps(payload), encoding="utf-8")
+
+    with pytest.raises(ValueError, match="next stage drifted"):
+        validate_continental_transfer_lock(
+            invalid_path,
+            TRANSFER_POLICY_PATH,
+            SELECTION_PATH,
+            LOCK_PATH,
+            CATALOG_PATH,
+        )
+
+
 def test_transfer_derivation_is_deterministic_for_crossing_candidates() -> None:
     spec = {
         "id": "fixture-transfer",
@@ -289,9 +306,16 @@ def test_transfer_derivation_is_deterministic_for_crossing_candidates() -> None:
     }
     forward = Transformer.from_crs("EPSG:4326", "EPSG:5070", always_xy=True)
     inverse = Transformer.from_crs("EPSG:5070", "EPSG:4326", always_xy=True)
+    metric_candidates = {
+        segment_id: tuple(
+            (candidate, transform(forward.transform, candidate.geometry))
+            for candidate in segment_candidates
+        )
+        for segment_id, segment_candidates in candidates.items()
+    }
 
-    first = _derive_transfer_node(spec, candidates.__getitem__, forward, inverse)
-    second = _derive_transfer_node(spec, candidates.__getitem__, forward, inverse)
+    first = _derive_transfer_node(spec, metric_candidates.__getitem__, forward, inverse)
+    second = _derive_transfer_node(spec, metric_candidates.__getitem__, forward, inverse)
 
     assert first == second
     assert first["coordinate"]["longitude"] == pytest.approx(-100.0)
@@ -308,6 +332,7 @@ def test_validate_continental_transfers_cli_reports_clean_failure(tmp_path: Path
     result = CliRunner().invoke(
         app,
         ["validate-continental-transfers", str(invalid_path)],
+        catch_exceptions=False,
     )
 
     assert result.exit_code == 1

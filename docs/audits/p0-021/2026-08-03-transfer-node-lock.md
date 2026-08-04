@@ -48,6 +48,12 @@ On a clean checkout without the cache:
 The repository-wide `scripts/check.sh` gate now runs the same cache-independent
 candidate-lock and transfer-lock validation.
 
+Independent cache-backed rebuild:
+
+- `transfer_nodes_sha256`: `040bad7118c9a523899d94ba919678f345316e92be833082d37d266706491e2d`
+- comparison with committed transfer lock: matched
+- derivation and validation command exit statuses: `0`, `0`
+
 ## Boundary
 
 These coordinates are coarse-topology anchors, not lane centerlines, ramps, or

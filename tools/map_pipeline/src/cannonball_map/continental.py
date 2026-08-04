@@ -25,6 +25,14 @@ from cannonball_map.manifest import SHA256_PATTERN, compute_sha256
 
 NHPN_SOURCE_ID = "usdot-national-highway-planning-network"
 NHPN_QUERY_SUFFIX = "/query"
+TRANSFER_NEXT_STAGE = {
+    "id": "exact-westbound-path-solve",
+    "requires": [
+        "snap route-family candidates to locked transfer anchors",
+        "reject disconnected or ambiguous facility graphs",
+        "select and checksum exact westbound NHPN object IDs",
+    ],
+}
 INTERSTATE_PATTERN = re.compile(r"I-(\d{1,3})")
 STATE_FIPS = {
     "AL": "01",
@@ -366,7 +374,12 @@ def derive_continental_transfer_lock(
     cache_root = (
         cache_directory / route_lock["nhpn"]["service"]["canonical_metadata_sha256"]
     )
+    forward = Transformer.from_crs("EPSG:4326", "EPSG:5070", always_xy=True)
+    inverse = Transformer.from_crs("EPSG:5070", "EPSG:4326", always_xy=True)
     line_cache: dict[str, tuple[LockedCandidateLine, ...]] = {}
+    metric_line_cache: dict[
+        str, tuple[tuple[LockedCandidateLine, LineString], ...]
+    ] = {}
 
     def lines_for(segment_id: str) -> tuple[LockedCandidateLine, ...]:
         if segment_id not in line_cache:
@@ -375,10 +388,18 @@ def derive_continental_transfer_lock(
             )
         return line_cache[segment_id]
 
-    forward = Transformer.from_crs("EPSG:4326", "EPSG:5070", always_xy=True)
-    inverse = Transformer.from_crs("EPSG:5070", "EPSG:4326", always_xy=True)
+    def metric_lines_for(
+        segment_id: str,
+    ) -> tuple[tuple[LockedCandidateLine, LineString], ...]:
+        if segment_id not in metric_line_cache:
+            metric_line_cache[segment_id] = tuple(
+                (candidate, transform(forward.transform, candidate.geometry))
+                for candidate in lines_for(segment_id)
+            )
+        return metric_line_cache[segment_id]
+
     nodes = [
-        _derive_transfer_node(spec, lines_for, forward, inverse) for spec in specs
+        _derive_transfer_node(spec, metric_lines_for, forward, inverse) for spec in specs
     ]
     timestamp = derived_at or datetime.now(UTC).replace(microsecond=0).isoformat().replace(
         "+00:00", "Z"
@@ -402,14 +423,7 @@ def derive_continental_transfer_lock(
         },
         "transfer_nodes": nodes,
         "transfer_nodes_sha256": canonical_sha256(nodes),
-        "next_stage": {
-            "id": "exact-westbound-path-solve",
-            "requires": [
-                "snap route-family candidates to locked transfer anchors",
-                "reject disconnected or ambiguous facility graphs",
-                "select and checksum exact westbound NHPN object IDs",
-            ],
-        },
+        "next_stage": TRANSFER_NEXT_STAGE,
     }
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
@@ -487,6 +501,8 @@ def validate_continental_transfer_lock(
         snapshot_evidence[snapshot["segment_id"]] = evidence_by_id
     for node, spec in zip(nodes, specs, strict=True):
         _validate_transfer_node(node, spec, snapshot_evidence)
+    if payload.get("next_stage") != TRANSFER_NEXT_STAGE:
+        raise ValueError("Continental transfer lock next stage drifted.")
     if payload.get("transfer_nodes_sha256") != canonical_sha256(nodes):
         raise ValueError("Continental transfer node hash drifted.")
     return payload
@@ -611,7 +627,9 @@ def _load_locked_candidate_lines(
 
 def _derive_transfer_node(
     spec: dict[str, Any],
-    lines_for: Callable[[str], tuple[LockedCandidateLine, ...]],
+    metric_lines_for: Callable[
+        [str], tuple[tuple[LockedCandidateLine, LineString], ...]
+    ],
     forward: Transformer,
     inverse: Transformer,
 ) -> dict[str, Any]:
@@ -619,11 +637,11 @@ def _derive_transfer_node(
     metric_hint = transform(forward.transform, hint)
     segment_lines: list[list[tuple[LockedCandidateLine, LineString]]] = []
     for segment_id in spec["evidence_segment_ids"]:
-        nearby = []
-        for candidate in lines_for(segment_id):
-            metric_geometry = transform(forward.transform, candidate.geometry)
-            if metric_geometry.distance(metric_hint) <= spec["search_radius_m"]:
-                nearby.append((candidate, metric_geometry))
+        nearby = [
+            (candidate, metric_geometry)
+            for candidate, metric_geometry in metric_lines_for(segment_id)
+            if metric_geometry.distance(metric_hint) <= spec["search_radius_m"]
+        ]
         if not nearby:
             raise ValueError(
                 f"No NHPN candidates are within the search radius for '{spec['id']}'."

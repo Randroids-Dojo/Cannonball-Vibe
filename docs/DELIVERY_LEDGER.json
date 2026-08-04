@@ -1237,7 +1237,8 @@
         "data/routes/continental/transfer-node-lock.v1.json",
         "data/sources/continental-route-lock.json",
         "docs/audits/2026-07-31-continental-route-selection.md",
-        "docs/audits/p0-021/2026-08-03-nhpn-candidate-lock.md"
+        "docs/audits/p0-021/2026-08-03-nhpn-candidate-lock.md",
+        "docs/audits/p0-021/2026-08-03-transfer-node-lock.md"
       ],
       "evidence": [
         "evidence/M2/P0-021.json"
