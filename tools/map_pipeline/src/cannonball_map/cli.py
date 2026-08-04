@@ -9,6 +9,12 @@ import typer
 
 from cannonball_map.acquisition import UrllibArcGisTransport, acquire_nhpn
 from cannonball_map.catalog import load_catalog, url_matches_prefix
+from cannonball_map.continental import (
+    acquire_continental_nhpn_candidates,
+    derive_continental_transfer_lock,
+    validate_continental_route_lock,
+    validate_continental_transfer_lock,
+)
 from cannonball_map.elevation import ElevationMetadata, ElevationSampler
 from cannonball_map.lockfile import materialize_locked_role, validate_lock
 from cannonball_map.manifest import SourceManifest, validate_source
@@ -186,6 +192,153 @@ def acquire_nhpn_command(
     typer.echo(
         f"acquired: {output} ({result.expected_count} features, "
         f"retries={result.retries}, resumed={result.resumed_pages})"
+    )
+
+
+@app.command("acquire-continental-nhpn")
+def acquire_continental_nhpn_command(
+    selection: Path = typer.Option(
+        Path("data/routes/continental/route-selection.v1.json"),
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+    ),
+    output: Path = typer.Option(
+        Path("data/sources/continental-route-lock.json"),
+        file_okay=True,
+        dir_okay=False,
+    ),
+    cache: Path = typer.Option(
+        Path(".tools/continental/nhpn"),
+        file_okay=False,
+        dir_okay=True,
+    ),
+    catalog: Path = typer.Option(DEFAULT_CATALOG, exists=True, file_okay=True, dir_okay=False),
+    page_size: int = typer.Option(2_000, min=1, max=2_000),
+) -> None:
+    """Lock NHPN route-family candidate snapshots for every continental segment."""
+    payload = acquire_continental_nhpn_candidates(
+        selection,
+        catalog,
+        output,
+        cache,
+        page_size=page_size,
+    )
+    total = payload["nhpn"]["candidate_union"]["expected_count"]
+    typer.echo(f"continental-nhpn-locked: {output} ({total} unique candidates)")
+
+
+@app.command("validate-continental-lock")
+def validate_continental_lock_command(
+    lock: Path = typer.Argument(..., exists=True, file_okay=True, dir_okay=False),
+    selection: Path = typer.Option(
+        Path("data/routes/continental/route-selection.v1.json"),
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+    ),
+    catalog: Path = typer.Option(DEFAULT_CATALOG, exists=True, file_okay=True, dir_okay=False),
+    require_complete: bool = typer.Option(False),
+) -> None:
+    """Validate the continental candidate lock and optionally require final completion."""
+    try:
+        payload = validate_continental_route_lock(
+            lock,
+            catalog,
+            selection,
+            require_complete=require_complete,
+        )
+    except ValueError as error:
+        typer.echo(f"continental-lock-invalid: {error}", err=True)
+        raise typer.Exit(code=1) from None
+    typer.echo(f"continental-lock-ok: {lock} ({payload['status']})")
+
+
+@app.command("derive-continental-transfers")
+def derive_continental_transfers_command(
+    policy: Path = typer.Argument(..., exists=True, file_okay=True, dir_okay=False),
+    lock: Path = typer.Option(
+        Path("data/sources/continental-route-lock.json"),
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+    ),
+    selection: Path = typer.Option(
+        Path("data/routes/continental/route-selection.v1.json"),
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+    ),
+    catalog: Path = typer.Option(DEFAULT_CATALOG, exists=True, file_okay=True, dir_okay=False),
+    cache: Path = typer.Option(
+        Path(".tools/continental/nhpn"),
+        exists=True,
+        file_okay=False,
+        dir_okay=True,
+    ),
+    output: Path = typer.Option(
+        Path("data/routes/continental/transfer-node-lock.v1.json"),
+        file_okay=True,
+        dir_okay=False,
+    ),
+) -> None:
+    """Derive exact transfer anchors from the locked NHPN response cache."""
+    try:
+        payload = derive_continental_transfer_lock(
+            policy,
+            selection,
+            lock,
+            catalog,
+            cache,
+            output,
+        )
+    except ValueError as error:
+        typer.echo(f"continental-transfers-invalid: {error}", err=True)
+        raise typer.Exit(code=1) from None
+    typer.echo(
+        f"continental-transfers-derived: {output} "
+        f"({len(payload['transfer_nodes'])} nodes)"
+    )
+
+
+@app.command("validate-continental-transfers")
+def validate_continental_transfers_command(
+    transfer_lock: Path = typer.Argument(..., exists=True, file_okay=True, dir_okay=False),
+    policy: Path = typer.Option(
+        Path("data/routes/continental/transfer-node-policy.v1.json"),
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+    ),
+    lock: Path = typer.Option(
+        Path("data/sources/continental-route-lock.json"),
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+    ),
+    selection: Path = typer.Option(
+        Path("data/routes/continental/route-selection.v1.json"),
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+    ),
+    catalog: Path = typer.Option(DEFAULT_CATALOG, exists=True, file_okay=True, dir_okay=False),
+) -> None:
+    """Validate the transfer-node lock without requiring downloaded responses."""
+    try:
+        payload = validate_continental_transfer_lock(
+            transfer_lock,
+            policy,
+            selection,
+            lock,
+            catalog,
+        )
+    except ValueError as error:
+        typer.echo(f"continental-transfers-invalid: {error}", err=True)
+        raise typer.Exit(code=1) from None
+    typer.echo(
+        f"continental-transfers-ok: {transfer_lock} "
+        f"({len(payload['transfer_nodes'])} nodes)"
     )
 
 
