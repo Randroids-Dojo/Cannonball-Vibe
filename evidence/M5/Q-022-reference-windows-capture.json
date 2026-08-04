@@ -1823,9 +1823,9 @@
         "verification": "Rebuilt and re-ran a short capture; the summary key set is identical to the matrix captures."
       },
       {
-        "change": "Bound PlayGodot camera-settle test polling to its declared deadline and added a delayed-response regression.",
-        "why_inert": "The helper is test-only and does not run in the reference-performance scenario.",
-        "verification": "Focused Ruff/pytest and the complete repository gate passed."
+        "change": "Bound PlayGodot camera-settle polling and physical rear-view convergence polling instead of relying on fixed waits; added a delayed-response regression.",
+        "why_inert": "These paths are test-only and do not run in the reference-performance scenario.",
+        "verification": "Focused live tests, Ruff/pytest, and the complete repository gate passed."
       },
       {
         "change": "Extended the capture front door to compare two representative route-package builds and emit their shipping-byte manifest before future runs.",
