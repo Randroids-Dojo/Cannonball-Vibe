@@ -1225,15 +1225,20 @@
       ],
       "verification": [
         "uv run --project tools/map_pipeline --frozen cannonball-map validate-continental-lock data/sources/continental-route-lock.json",
+        "uv run --project tools/map_pipeline --frozen cannonball-map validate-continental-transfers data/routes/continental/transfer-node-lock.v1.json",
+        "./scripts/validate-continental-route.sh",
         "uv run --project tools/map_pipeline --frozen pytest tools/map_pipeline/tests/test_continental_route_selection.py -q",
         "uv run --project tools/map_pipeline --frozen pytest tools/map_pipeline/tests/test_continental_pipeline.py -q",
         "./scripts/check.sh"
       ],
       "inputs": [
         "data/routes/continental/route-selection.v1.json",
+        "data/routes/continental/transfer-node-policy.v1.json",
+        "data/routes/continental/transfer-node-lock.v1.json",
         "data/sources/continental-route-lock.json",
         "docs/audits/2026-07-31-continental-route-selection.md",
-        "docs/audits/p0-021/2026-08-03-nhpn-candidate-lock.md"
+        "docs/audits/p0-021/2026-08-03-nhpn-candidate-lock.md",
+        "docs/audits/p0-021/2026-08-03-transfer-node-lock.md"
       ],
       "evidence": [
         "evidence/M2/P0-021.json"
@@ -1243,7 +1248,7 @@
         "required_for": "M2",
         "status": "pending"
       },
-      "notes": "Q-031 and ADR-0024 lock the Central Rockies canonical path, Northern Plains alternative, Southern I-40 alternative, historical reference addresses, and public-road endpoint policy. On 2026-08-03 the first acquisition stage checksum-locked 15,525 unique NHPN route-family candidates across all 12 NHPN-backed policy segments, including all three signed-route slots and stable per-page canonical response hashes; the 54.43 MB raw response cache remains ignored. The lock is explicitly nhpn_candidates_locked_3dep_pending and complete-lock validation rejects it: exact connected westbound NHPN edges, transfer-node coordinates, authored connector bounds, and dependent 3DEP products remain open before authoritative distance or geometry can be derived. Route semantics, reconstruction exceptions, packages, bot traversal, and human completion also remain open. P0-021 must still add runnable scripts/validate-continental-route.sh and scripts/run-continental-scenario.sh gates. The first graph is westbound only."
+      "notes": "Q-031 and ADR-0024 lock the Central Rockies canonical path, Northern Plains alternative, Southern I-40 alternative, historical reference addresses, and public-road endpoint policy. On 2026-08-03 the first acquisition stage checksum-locked 15,525 unique NHPN route-family candidates across all 12 NHPN-backed policy segments, including all three signed-route slots and stable per-page canonical response hashes; the 54.43 MB raw response cache remains ignored. The second slice locked all 12 non-endpoint transfer anchors against exact NHPN OBJECTIDs and page-response hashes, with paired facilities reconciling within 24.401 meters, and added a cache-independent scripts/validate-continental-route.sh gate. Exact connected westbound NHPN edges, authored connector bounds, and dependent 3DEP products remain open before authoritative distance or geometry can be derived. Route semantics, reconstruction exceptions, packages, bot traversal, and human completion also remain open. P0-021 must still add scripts/run-continental-scenario.sh. The first graph is westbound only."
     },
     {
       "id": "P0-015",

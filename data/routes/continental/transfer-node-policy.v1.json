@@ -1,0 +1,121 @@
+{
+  "coordinate_crs": "EPSG:4326",
+  "decision": "ADR-0024",
+  "nodes": [
+    {
+      "evidence_segment_ids": ["i80-new-jersey-to-big-springs"],
+      "id": "nj-us46-i80",
+      "max_facility_separation_m": 50,
+      "method": "snap_to_segment",
+      "research_source_ids": ["njdot-straight-line-diagrams", "usdot-nhpn-service"],
+      "search_hint": {"latitude": 40.8655, "longitude": -74.4296},
+      "search_radius_m": 5000
+    },
+    {
+      "evidence_segment_ids": [
+        "i80-new-jersey-to-big-springs",
+        "i76-big-springs-to-denver"
+      ],
+      "id": "ne-big-springs-i80-i76",
+      "max_facility_separation_m": 50,
+      "method": "midpoint_between_segments",
+      "research_source_ids": ["ndot-i80-i76-index", "usdot-nhpn-service"],
+      "search_hint": {"latitude": 41.0265, "longitude": -102.1553},
+      "search_radius_m": 5000
+    },
+    {
+      "evidence_segment_ids": ["i76-big-springs-to-denver", "i70-denver-to-cove-fort"],
+      "id": "co-denver-i76-i70",
+      "max_facility_separation_m": 50,
+      "method": "midpoint_between_segments",
+      "research_source_ids": ["fhwa-interstate-route-log-2026", "usdot-nhpn-service"],
+      "search_hint": {"latitude": 39.7865, "longitude": -105.0785},
+      "search_radius_m": 5000
+    },
+    {
+      "evidence_segment_ids": [
+        "i80-big-springs-to-salt-lake",
+        "i15-salt-lake-to-cove-fort"
+      ],
+      "id": "ut-salt-lake-i80-i15",
+      "max_facility_separation_m": 50,
+      "method": "midpoint_between_segments",
+      "research_source_ids": ["fhwa-interstate-route-log-2026", "usdot-nhpn-service"],
+      "search_hint": {"latitude": 40.7394, "longitude": -111.9042},
+      "search_radius_m": 5000
+    },
+    {
+      "evidence_segment_ids": ["i70-denver-to-cove-fort", "i15-cove-fort-to-barstow"],
+      "id": "ut-cove-fort-i70-i15",
+      "max_facility_separation_m": 50,
+      "method": "midpoint_between_segments",
+      "research_source_ids": ["udot-cove-fort-reference", "usdot-nhpn-service"],
+      "search_hint": {"latitude": 38.5773, "longitude": -112.6032},
+      "search_radius_m": 5000
+    },
+    {
+      "evidence_segment_ids": ["i78-holland-tunnel-to-i81"],
+      "id": "nj-holland-tunnel-west-i78",
+      "max_facility_separation_m": 50,
+      "method": "snap_to_segment",
+      "research_source_ids": ["panynj-crossings", "usdot-nhpn-service"],
+      "search_hint": {"latitude": 40.7293, "longitude": -74.0352},
+      "search_radius_m": 5000
+    },
+    {
+      "evidence_segment_ids": ["i78-holland-tunnel-to-i81", "i81-i78-to-i40"],
+      "id": "pa-i78-i81",
+      "max_facility_separation_m": 50,
+      "method": "midpoint_between_segments",
+      "research_source_ids": ["fhwa-interstate-route-log-2026", "usdot-nhpn-service"],
+      "search_hint": {"latitude": 40.4243, "longitude": -76.5262},
+      "search_radius_m": 5000
+    },
+    {
+      "evidence_segment_ids": ["i81-i78-to-i40", "i40-i81-to-barstow"],
+      "id": "tn-i81-i40",
+      "max_facility_separation_m": 50,
+      "method": "midpoint_between_segments",
+      "research_source_ids": ["tdot-i40-i81-corridor", "usdot-nhpn-service"],
+      "search_hint": {"latitude": 36.0672, "longitude": -83.3882},
+      "search_radius_m": 5000
+    },
+    {
+      "evidence_segment_ids": ["i40-i81-to-barstow", "i15-barstow-to-ontario"],
+      "id": "ca-barstow-i40-i15",
+      "max_facility_separation_m": 50,
+      "method": "midpoint_between_segments",
+      "research_source_ids": ["caltrans-district-route-map", "usdot-nhpn-service"],
+      "search_hint": {"latitude": 34.8861, "longitude": -117.0085},
+      "search_radius_m": 5000
+    },
+    {
+      "evidence_segment_ids": ["i15-barstow-to-ontario", "i10-ontario-to-i405"],
+      "id": "ca-ontario-i15-i10",
+      "max_facility_separation_m": 50,
+      "method": "midpoint_between_segments",
+      "research_source_ids": ["caltrans-district-route-map", "usdot-nhpn-service"],
+      "search_hint": {"latitude": 34.0674, "longitude": -117.5447},
+      "search_radius_m": 5000
+    },
+    {
+      "evidence_segment_ids": ["i10-ontario-to-i405", "i405-west-la-to-ca107"],
+      "id": "ca-west-la-i10-i405",
+      "max_facility_separation_m": 50,
+      "method": "midpoint_between_segments",
+      "research_source_ids": ["caltrans-district-route-map", "usdot-nhpn-service"],
+      "search_hint": {"latitude": 34.0313, "longitude": -118.4335},
+      "search_radius_m": 5000
+    },
+    {
+      "evidence_segment_ids": ["i405-west-la-to-ca107"],
+      "id": "ca-redondo-i405-ca107",
+      "max_facility_separation_m": 50,
+      "method": "snap_to_segment",
+      "research_source_ids": ["caltrans-district-route-map", "usdot-nhpn-service"],
+      "search_hint": {"latitude": 33.8806, "longitude": -118.3476},
+      "search_radius_m": 5000
+    }
+  ],
+  "schema_version": 1
+}

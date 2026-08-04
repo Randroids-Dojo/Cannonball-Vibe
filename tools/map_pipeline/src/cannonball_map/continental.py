@@ -3,10 +3,15 @@ from __future__ import annotations
 import json
 import re
 import urllib.request
+from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
+
+from pyproj import Transformer
+from shapely.geometry import LineString, Point
+from shapely.ops import nearest_points, transform
 
 from cannonball_map.acquisition import (
     ArcGisTransport,
@@ -20,6 +25,14 @@ from cannonball_map.manifest import SHA256_PATTERN, compute_sha256
 
 NHPN_SOURCE_ID = "usdot-national-highway-planning-network"
 NHPN_QUERY_SUFFIX = "/query"
+TRANSFER_NEXT_STAGE = {
+    "id": "exact-westbound-path-solve",
+    "requires": [
+        "snap route-family candidates to locked transfer anchors",
+        "reject disconnected or ambiguous facility graphs",
+        "select and checksum exact westbound NHPN object IDs",
+    ],
+}
 INTERSTATE_PATTERN = re.compile(r"I-(\d{1,3})")
 STATE_FIPS = {
     "AL": "01",
@@ -84,6 +97,14 @@ class NhpnCandidateSelector:
     jurisdictions: tuple[str, ...]
     state_fips: tuple[str, ...]
     predicate: str
+
+
+@dataclass(frozen=True)
+class LockedCandidateLine:
+    segment_id: str
+    object_id: int
+    page_response_sha256: str
+    geometry: LineString
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -325,6 +346,404 @@ def validate_continental_route_lock(
     ):
         raise ValueError("Partial continental route lock must identify the pending 3DEP stage.")
     return payload
+
+
+def derive_continental_transfer_lock(
+    policy_path: Path,
+    selection_path: Path,
+    route_lock_path: Path,
+    catalog_path: Path,
+    cache_directory: Path,
+    output_path: Path,
+    *,
+    derived_at: str | None = None,
+) -> dict[str, Any]:
+    """Derive reproducible transfer anchors from checksum-locked NHPN responses."""
+    selection = load_json(selection_path)
+    route_lock = validate_continental_route_lock(
+        route_lock_path,
+        catalog_path,
+        selection_path,
+    )
+    policy = load_json(policy_path)
+    specs = _validate_transfer_policy(policy, selection)
+    snapshot_by_id = {
+        snapshot["segment_id"]: snapshot
+        for snapshot in route_lock["nhpn"]["segment_snapshots"]
+    }
+    cache_root = (
+        cache_directory / route_lock["nhpn"]["service"]["canonical_metadata_sha256"]
+    )
+    forward = Transformer.from_crs("EPSG:4326", "EPSG:5070", always_xy=True)
+    inverse = Transformer.from_crs("EPSG:5070", "EPSG:4326", always_xy=True)
+    line_cache: dict[str, tuple[LockedCandidateLine, ...]] = {}
+    metric_line_cache: dict[
+        str, tuple[tuple[LockedCandidateLine, LineString], ...]
+    ] = {}
+
+    def lines_for(segment_id: str) -> tuple[LockedCandidateLine, ...]:
+        if segment_id not in line_cache:
+            line_cache[segment_id] = _load_locked_candidate_lines(
+                snapshot_by_id[segment_id], cache_root / segment_id
+            )
+        return line_cache[segment_id]
+
+    def metric_lines_for(
+        segment_id: str,
+    ) -> tuple[tuple[LockedCandidateLine, LineString], ...]:
+        if segment_id not in metric_line_cache:
+            metric_line_cache[segment_id] = tuple(
+                (candidate, transform(forward.transform, candidate.geometry))
+                for candidate in lines_for(segment_id)
+            )
+        return metric_line_cache[segment_id]
+
+    nodes = [
+        _derive_transfer_node(spec, metric_lines_for, forward, inverse) for spec in specs
+    ]
+    timestamp = derived_at or datetime.now(UTC).replace(microsecond=0).isoformat().replace(
+        "+00:00", "Z"
+    )
+    payload = {
+        "schema_version": 1,
+        "status": "transfer_nodes_locked_exact_path_pending",
+        "decision": selection["decision"],
+        "derived_at": timestamp,
+        "coordinate_crs": "EPSG:4326",
+        "metric_crs": "EPSG:5070",
+        "route_selection_sha256": compute_sha256(selection_path),
+        "candidate_lock_sha256": compute_sha256(route_lock_path),
+        "transfer_policy_sha256": compute_sha256(policy_path),
+        "source_policy": {
+            "candidate_source": NHPN_SOURCE_ID,
+            "nhpn_role": "coarse_topology_only",
+            "openstreetmap_ancestry_allowed": False,
+            "lane_geometry_claimed": False,
+            "continental_downloads_committed": False,
+        },
+        "transfer_nodes": nodes,
+        "transfer_nodes_sha256": canonical_sha256(nodes),
+        "next_stage": TRANSFER_NEXT_STAGE,
+    }
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    return payload
+
+
+def validate_continental_transfer_lock(
+    transfer_lock_path: Path,
+    policy_path: Path,
+    selection_path: Path,
+    route_lock_path: Path,
+    catalog_path: Path,
+) -> dict[str, Any]:
+    """Validate a transfer lock without requiring the ignored NHPN response cache."""
+    payload = load_json(transfer_lock_path)
+    if payload.get("schema_version") != 1:
+        raise ValueError("Unsupported continental transfer lock schema.")
+    if payload.get("status") != "transfer_nodes_locked_exact_path_pending":
+        raise ValueError("Continental transfer lock has an unsupported status.")
+    selection = load_json(selection_path)
+    route_lock = validate_continental_route_lock(
+        route_lock_path,
+        catalog_path,
+        selection_path,
+    )
+    policy = load_json(policy_path)
+    specs = _validate_transfer_policy(policy, selection)
+    expected_hashes = {
+        "route_selection_sha256": compute_sha256(selection_path),
+        "candidate_lock_sha256": compute_sha256(route_lock_path),
+        "transfer_policy_sha256": compute_sha256(policy_path),
+    }
+    if any(payload.get(key) != value for key, value in expected_hashes.items()):
+        raise ValueError("Continental transfer lock input hash drifted.")
+    if payload.get("decision") != selection.get("decision"):
+        raise ValueError("Continental transfer lock decision drifted.")
+    raw_derived_at = payload.get("derived_at")
+    if not isinstance(raw_derived_at, str):
+        raise ValueError("Continental transfer derivation time is invalid.")
+    try:
+        derived_at = datetime.fromisoformat(raw_derived_at.replace("Z", "+00:00"))
+    except ValueError as error:
+        raise ValueError("Continental transfer derivation time is invalid.") from error
+    if derived_at.tzinfo is None:
+        raise ValueError("Continental transfer derivation time has no timezone.")
+    if payload.get("coordinate_crs") != "EPSG:4326" or payload.get(
+        "metric_crs"
+    ) != "EPSG:5070":
+        raise ValueError("Continental transfer lock CRS contract drifted.")
+    expected_policy = {
+        "candidate_source": NHPN_SOURCE_ID,
+        "nhpn_role": "coarse_topology_only",
+        "openstreetmap_ancestry_allowed": False,
+        "lane_geometry_claimed": False,
+        "continental_downloads_committed": False,
+    }
+    if payload.get("source_policy") != expected_policy:
+        raise ValueError("Continental transfer lock source policy is incomplete.")
+    nodes = payload.get("transfer_nodes", [])
+    if not isinstance(nodes, list) or any(not isinstance(node, dict) for node in nodes):
+        raise ValueError("Continental transfer lock nodes are invalid.")
+    if len(nodes) != len(specs) or [node.get("id") for node in nodes] != [
+        spec["id"] for spec in specs
+    ]:
+        raise ValueError("Continental transfer lock node order or coverage drifted.")
+    snapshot_evidence: dict[str, dict[int, str]] = {}
+    for snapshot in route_lock["nhpn"]["segment_snapshots"]:
+        evidence_by_id: dict[int, str] = {}
+        for page in snapshot["pages"]:
+            offset = page["object_id_offset"]
+            for object_id in snapshot["object_ids"][
+                offset : offset + page["feature_count"]
+            ]:
+                evidence_by_id[object_id] = page["canonical_response_sha256"]
+        snapshot_evidence[snapshot["segment_id"]] = evidence_by_id
+    for node, spec in zip(nodes, specs, strict=True):
+        _validate_transfer_node(node, spec, snapshot_evidence)
+    if payload.get("next_stage") != TRANSFER_NEXT_STAGE:
+        raise ValueError("Continental transfer lock next stage drifted.")
+    if payload.get("transfer_nodes_sha256") != canonical_sha256(nodes):
+        raise ValueError("Continental transfer node hash drifted.")
+    return payload
+
+
+def _validate_transfer_policy(
+    policy: dict[str, Any], selection: dict[str, Any]
+) -> tuple[dict[str, Any], ...]:
+    if policy.get("schema_version") != 1 or policy.get("decision") != selection.get(
+        "decision"
+    ):
+        raise ValueError("Continental transfer policy schema or decision drifted.")
+    if policy.get("coordinate_crs") != "EPSG:4326":
+        raise ValueError("Continental transfer policy must use EPSG:4326 search hints.")
+    specs = policy.get("nodes", [])
+    expected_nodes = [
+        node["id"] for node in selection.get("nodes", []) if node.get("kind") != "endpoint"
+    ]
+    if [spec.get("id") for spec in specs] != expected_nodes:
+        raise ValueError("Continental transfer policy node order or coverage drifted.")
+    segment_by_id = {segment["id"]: segment for segment in selection.get("segments", [])}
+    known_sources = {source["id"] for source in selection.get("research_sources", [])}
+    for spec in specs:
+        method = spec.get("method")
+        segment_ids = spec.get("evidence_segment_ids", [])
+        expected_count = 1 if method == "snap_to_segment" else 2
+        if method not in {"snap_to_segment", "midpoint_between_segments"} or len(
+            segment_ids
+        ) != expected_count:
+            raise ValueError(f"Transfer policy method is invalid for '{spec.get('id')}'.")
+        if len(set(segment_ids)) != len(segment_ids):
+            raise ValueError(f"Transfer policy repeats evidence for '{spec['id']}'.")
+        for segment_id in segment_ids:
+            segment = segment_by_id.get(segment_id)
+            if segment is None or spec["id"] not in {segment.get("from"), segment.get("to")}:
+                raise ValueError(
+                    f"Transfer policy segment '{segment_id}' is not incident to '{spec['id']}'."
+                )
+            if segment.get("geometry_status") != "nhpn_selection_pending":
+                raise ValueError(
+                    f"Transfer policy segment '{segment_id}' is not NHPN-backed."
+                )
+        hint = spec.get("search_hint", {})
+        longitude = hint.get("longitude")
+        latitude = hint.get("latitude")
+        if not isinstance(longitude, (int, float)) or not isinstance(latitude, (int, float)):
+            raise ValueError(f"Transfer policy search hint is invalid for '{spec['id']}'.")
+        if not (-125 <= longitude <= -66 and 24 <= latitude <= 50):
+            raise ValueError(f"Transfer policy search hint is outside CONUS for '{spec['id']}'.")
+        search_radius = spec.get("search_radius_m")
+        if not isinstance(search_radius, int) or isinstance(search_radius, bool):
+            raise ValueError(f"Transfer policy search radius is invalid for '{spec['id']}'.")
+        if search_radius < 100:
+            raise ValueError(f"Transfer policy search radius is invalid for '{spec['id']}'.")
+        max_separation = spec.get("max_facility_separation_m")
+        if not isinstance(max_separation, int) or isinstance(max_separation, bool):
+            raise ValueError(
+                f"Transfer policy facility separation is invalid for '{spec['id']}'."
+            )
+        if max_separation < 1:
+            raise ValueError(
+                f"Transfer policy facility separation is invalid for '{spec['id']}'."
+            )
+        sources = spec.get("research_source_ids", [])
+        if (
+            not sources
+            or any(not isinstance(source, str) for source in sources)
+            or not set(sources).issubset(known_sources)
+        ):
+            raise ValueError(f"Transfer policy sources are missing for '{spec['id']}'.")
+    return tuple(specs)
+
+
+def _load_locked_candidate_lines(
+    snapshot: dict[str, Any], checkpoint_directory: Path
+) -> tuple[LockedCandidateLine, ...]:
+    object_ids = snapshot["object_ids"]
+    lines: list[LockedCandidateLine] = []
+    seen: set[int] = set()
+    for page in snapshot["pages"]:
+        checkpoint = checkpoint_directory / f"page-{page['index']:06d}.json"
+        if not checkpoint.is_file():
+            raise ValueError(f"Locked NHPN checkpoint is missing: {checkpoint}")
+        record = load_json(checkpoint)
+        response = record.get("response")
+        response_hash = canonical_sha256(response)
+        if (
+            not isinstance(response, dict)
+            or record.get("response_sha256") != response_hash
+            or page.get("canonical_response_sha256") != response_hash
+        ):
+            raise ValueError(f"Locked NHPN checkpoint hash drifted: {checkpoint}")
+        offset = page["object_id_offset"]
+        expected_ids = object_ids[offset : offset + page["feature_count"]]
+        features = response.get("features", [])
+        returned_ids = [int(feature["attributes"]["OBJECTID"]) for feature in features]
+        if returned_ids != expected_ids:
+            raise ValueError(f"Locked NHPN checkpoint IDs drifted: {checkpoint}")
+        for feature in features:
+            object_id = int(feature["attributes"]["OBJECTID"])
+            if object_id in seen:
+                raise ValueError(f"Locked NHPN checkpoint repeats OBJECTID {object_id}.")
+            seen.add(object_id)
+            paths = feature.get("geometry", {}).get("paths", [])
+            if not paths:
+                raise ValueError(f"NHPN OBJECTID {object_id} has no geometry.")
+            for coordinates in paths:
+                if len(coordinates) < 2:
+                    raise ValueError(f"NHPN OBJECTID {object_id} has a degenerate path.")
+                lines.append(
+                    LockedCandidateLine(
+                        snapshot["segment_id"],
+                        object_id,
+                        response_hash,
+                        LineString(coordinates),
+                    )
+                )
+    if seen != set(object_ids):
+        raise ValueError(f"Locked NHPN cache does not reconcile for '{snapshot['segment_id']}'.")
+    return tuple(lines)
+
+
+def _derive_transfer_node(
+    spec: dict[str, Any],
+    metric_lines_for: Callable[
+        [str], tuple[tuple[LockedCandidateLine, LineString], ...]
+    ],
+    forward: Transformer,
+    inverse: Transformer,
+) -> dict[str, Any]:
+    hint = Point(spec["search_hint"]["longitude"], spec["search_hint"]["latitude"])
+    metric_hint = transform(forward.transform, hint)
+    segment_lines: list[list[tuple[LockedCandidateLine, LineString]]] = []
+    for segment_id in spec["evidence_segment_ids"]:
+        nearby = [
+            (candidate, metric_geometry)
+            for candidate, metric_geometry in metric_lines_for(segment_id)
+            if metric_geometry.distance(metric_hint) <= spec["search_radius_m"]
+        ]
+        if not nearby:
+            raise ValueError(
+                f"No NHPN candidates are within the search radius for '{spec['id']}'."
+            )
+        segment_lines.append(nearby)
+
+    if spec["method"] == "snap_to_segment":
+        candidate, geometry = min(
+            segment_lines[0],
+            key=lambda item: (item[1].distance(metric_hint), item[0].object_id),
+        )
+        metric_coordinate = nearest_points(metric_hint, geometry)[1]
+        separation_m = 0.0
+        evidence = [candidate]
+    else:
+        choices = []
+        for left, left_geometry in segment_lines[0]:
+            for right, right_geometry in segment_lines[1]:
+                left_point, right_point = nearest_points(left_geometry, right_geometry)
+                separation = left_point.distance(right_point)
+                if separation > spec["max_facility_separation_m"]:
+                    continue
+                midpoint = LineString([left_point, right_point]).interpolate(0.5, normalized=True)
+                choices.append(
+                    (
+                        midpoint.distance(metric_hint),
+                        separation,
+                        left.object_id,
+                        right.object_id,
+                        midpoint,
+                        left,
+                        right,
+                    )
+                )
+        if not choices:
+            raise ValueError(
+                f"No NHPN facility pair meets the separation gate for '{spec['id']}'."
+            )
+        choice = min(choices, key=lambda item: item[:4])
+        _, separation_m, _, _, metric_coordinate, left, right = choice
+        evidence = [left, right]
+
+    longitude, latitude = inverse.transform(metric_coordinate.x, metric_coordinate.y)
+    hint_distance_m = metric_coordinate.distance(metric_hint)
+    if hint_distance_m > spec["search_radius_m"]:
+        raise ValueError(f"Derived transfer escaped its search radius for '{spec['id']}'.")
+    return {
+        "id": spec["id"],
+        "method": spec["method"],
+        "coordinate": {
+            "longitude": round(longitude, 12),
+            "latitude": round(latitude, 12),
+        },
+        "hint_distance_m": round(hint_distance_m, 3),
+        "facility_separation_m": round(separation_m, 3),
+        "evidence": [
+            {
+                "segment_id": candidate.segment_id,
+                "object_id": candidate.object_id,
+                "page_response_sha256": candidate.page_response_sha256,
+            }
+            for candidate in evidence
+        ],
+        "research_source_ids": spec["research_source_ids"],
+    }
+
+
+def _validate_transfer_node(
+    node: dict[str, Any],
+    spec: dict[str, Any],
+    snapshot_evidence: dict[str, dict[int, str]],
+) -> None:
+    if node.get("method") != spec["method"]:
+        raise ValueError(f"Transfer derivation method drifted for '{spec['id']}'.")
+    coordinate = node.get("coordinate", {})
+    longitude = coordinate.get("longitude")
+    latitude = coordinate.get("latitude")
+    if not isinstance(longitude, (int, float)) or not isinstance(latitude, (int, float)):
+        raise ValueError(f"Transfer coordinate is invalid for '{spec['id']}'.")
+    if not (-125 <= longitude <= -66 and 24 <= latitude <= 50):
+        raise ValueError(f"Transfer coordinate is outside CONUS for '{spec['id']}'.")
+    hint_distance = node.get("hint_distance_m")
+    separation = node.get("facility_separation_m")
+    if not isinstance(hint_distance, (int, float)) or not 0 <= hint_distance <= spec[
+        "search_radius_m"
+    ]:
+        raise ValueError(f"Transfer hint distance is invalid for '{spec['id']}'.")
+    if not isinstance(separation, (int, float)) or not 0 <= separation <= spec[
+        "max_facility_separation_m"
+    ]:
+        raise ValueError(f"Transfer facility separation is invalid for '{spec['id']}'.")
+    evidence = node.get("evidence", [])
+    if [item.get("segment_id") for item in evidence] != spec["evidence_segment_ids"]:
+        raise ValueError(f"Transfer evidence coverage drifted for '{spec['id']}'.")
+    for item in evidence:
+        expected_hash = snapshot_evidence[item["segment_id"]].get(item.get("object_id"))
+        if expected_hash is None:
+            raise ValueError(f"Transfer OBJECTID drifted for '{spec['id']}'.")
+        if item.get("page_response_sha256") != expected_hash:
+            raise ValueError(f"Transfer response hash drifted for '{spec['id']}'.")
+    if node.get("research_source_ids") != spec["research_source_ids"]:
+        raise ValueError(f"Transfer research sources drifted for '{spec['id']}'.")
 
 
 def _snapshot_record(

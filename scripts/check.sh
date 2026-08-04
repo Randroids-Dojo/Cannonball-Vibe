@@ -38,11 +38,7 @@ run_step "dotnet-test" env DOTNET_ROLL_FORWARD=Major \
   --results-directory "$report_root/dotnet"
 run_step "ruff" uv run --project tools/map_pipeline --frozen \
   ruff check tools/map_pipeline
-run_step "continental-lock" uv run --project tools/map_pipeline --frozen \
-  cannonball-map validate-continental-lock \
-  data/sources/continental-route-lock.json \
-  --selection data/routes/continental/route-selection.v1.json \
-  --catalog data/sources/catalog.json
+run_step "continental-route" "$repo_root/scripts/validate-continental-route.sh"
 run_step "pytest-map-pipeline" uv run --project tools/map_pipeline --frozen \
   python -m pytest tools/map_pipeline/tests --junitxml "$report_root/python/junit.xml"
 run_step "pytest-playgodot-unit" uv run --project automation/playgodot --frozen \

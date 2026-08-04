@@ -1,0 +1,326 @@
+{
+  "candidate_lock_sha256": "f5ad2786e031a8640a242aae73ee8665a548dfda15368a9b940bd360b73aef72",
+  "coordinate_crs": "EPSG:4326",
+  "decision": "ADR-0024",
+  "derived_at": "2026-08-04T03:51:27Z",
+  "metric_crs": "EPSG:5070",
+  "next_stage": {
+    "id": "exact-westbound-path-solve",
+    "requires": [
+      "snap route-family candidates to locked transfer anchors",
+      "reject disconnected or ambiguous facility graphs",
+      "select and checksum exact westbound NHPN object IDs"
+    ]
+  },
+  "route_selection_sha256": "00ac4df354a8644997a2a073ee07c736ff3f3bc2d2565c8cd9cb51b957d2ff2f",
+  "schema_version": 1,
+  "source_policy": {
+    "candidate_source": "usdot-national-highway-planning-network",
+    "continental_downloads_committed": false,
+    "lane_geometry_claimed": false,
+    "nhpn_role": "coarse_topology_only",
+    "openstreetmap_ancestry_allowed": false
+  },
+  "status": "transfer_nodes_locked_exact_path_pending",
+  "transfer_nodes": [
+    {
+      "coordinate": {
+        "latitude": 40.865474227172,
+        "longitude": -74.429603688176
+      },
+      "evidence": [
+        {
+          "object_id": 431704,
+          "page_response_sha256": "684abb6b84bfd52960a2debe3a6c344f2330cb3c3dcf781ac5f0b947fe7aa220",
+          "segment_id": "i80-new-jersey-to-big-springs"
+        }
+      ],
+      "facility_separation_m": 0.0,
+      "hint_distance_m": 2.903,
+      "id": "nj-us46-i80",
+      "method": "snap_to_segment",
+      "research_source_ids": [
+        "njdot-straight-line-diagrams",
+        "usdot-nhpn-service"
+      ]
+    },
+    {
+      "coordinate": {
+        "latitude": 41.026497999783,
+        "longitude": -102.155269000064
+      },
+      "evidence": [
+        {
+          "object_id": 70924,
+          "page_response_sha256": "684abb6b84bfd52960a2debe3a6c344f2330cb3c3dcf781ac5f0b947fe7aa220",
+          "segment_id": "i80-new-jersey-to-big-springs"
+        },
+        {
+          "object_id": 70912,
+          "page_response_sha256": "cf6667d4a23e8077f2e14b355dd7eb21ebb23be3197bfd2de3725af1a258e914",
+          "segment_id": "i76-big-springs-to-denver"
+        }
+      ],
+      "facility_separation_m": 0.0,
+      "hint_distance_m": 2.595,
+      "id": "ne-big-springs-i80-i76",
+      "method": "midpoint_between_segments",
+      "research_source_ids": [
+        "ndot-i80-i76-index",
+        "usdot-nhpn-service"
+      ]
+    },
+    {
+      "coordinate": {
+        "latitude": 39.786473000029,
+        "longitude": -105.07847000029
+      },
+      "evidence": [
+        {
+          "object_id": 61480,
+          "page_response_sha256": "cf6667d4a23e8077f2e14b355dd7eb21ebb23be3197bfd2de3725af1a258e914",
+          "segment_id": "i76-big-springs-to-denver"
+        },
+        {
+          "object_id": 61282,
+          "page_response_sha256": "7ee20dc01017a89315c9ea6f351d92088a028d510c4dcbed28fe8297f5857b52",
+          "segment_id": "i70-denver-to-cove-fort"
+        }
+      ],
+      "facility_separation_m": 0.0,
+      "hint_distance_m": 3.954,
+      "id": "co-denver-i76-i70",
+      "method": "midpoint_between_segments",
+      "research_source_ids": [
+        "fhwa-interstate-route-log-2026",
+        "usdot-nhpn-service"
+      ]
+    },
+    {
+      "coordinate": {
+        "latitude": 40.739352999641,
+        "longitude": -111.904211000138
+      },
+      "evidence": [
+        {
+          "object_id": 43520,
+          "page_response_sha256": "daef8f950a552540eef4007ec5cb438169e8a9fa8880cfbc763ceeb81bb972bb",
+          "segment_id": "i80-big-springs-to-salt-lake"
+        },
+        {
+          "object_id": 43523,
+          "page_response_sha256": "88d1f89572b1e7df5e8b72eb03fef6d7814ae7328b8fa98a3c69025f75df38f1",
+          "segment_id": "i15-salt-lake-to-cove-fort"
+        }
+      ],
+      "facility_separation_m": 0.0,
+      "hint_distance_m": 5.344,
+      "id": "ut-salt-lake-i80-i15",
+      "method": "midpoint_between_segments",
+      "research_source_ids": [
+        "fhwa-interstate-route-log-2026",
+        "usdot-nhpn-service"
+      ]
+    },
+    {
+      "coordinate": {
+        "latitude": 38.57732999988,
+        "longitude": -112.603168000103
+      },
+      "evidence": [
+        {
+          "object_id": 42071,
+          "page_response_sha256": "7ee20dc01017a89315c9ea6f351d92088a028d510c4dcbed28fe8297f5857b52",
+          "segment_id": "i70-denver-to-cove-fort"
+        },
+        {
+          "object_id": 42069,
+          "page_response_sha256": "52b1bf1eea2858085d73bd07ea6bd1a6253d8a481d7145e54ff75833773bec35",
+          "segment_id": "i15-cove-fort-to-barstow"
+        }
+      ],
+      "facility_separation_m": 0.0,
+      "hint_distance_m": 4.351,
+      "id": "ut-cove-fort-i70-i15",
+      "method": "midpoint_between_segments",
+      "research_source_ids": [
+        "udot-cove-fort-reference",
+        "usdot-nhpn-service"
+      ]
+    },
+    {
+      "coordinate": {
+        "latitude": 40.72927608447,
+        "longitude": -74.035214779672
+      },
+      "evidence": [
+        {
+          "object_id": 433412,
+          "page_response_sha256": "925d7b3b9230aedd9073b2c60cad8778be05b339deca709a82a3546bfee7f4ef",
+          "segment_id": "i78-holland-tunnel-to-i81"
+        }
+      ],
+      "facility_separation_m": 0.0,
+      "hint_distance_m": 2.951,
+      "id": "nj-holland-tunnel-west-i78",
+      "method": "snap_to_segment",
+      "research_source_ids": [
+        "panynj-crossings",
+        "usdot-nhpn-service"
+      ]
+    },
+    {
+      "coordinate": {
+        "latitude": 40.424263999584,
+        "longitude": -76.526237000237
+      },
+      "evidence": [
+        {
+          "object_id": 403426,
+          "page_response_sha256": "925d7b3b9230aedd9073b2c60cad8778be05b339deca709a82a3546bfee7f4ef",
+          "segment_id": "i78-holland-tunnel-to-i81"
+        },
+        {
+          "object_id": 402994,
+          "page_response_sha256": "863572545cf3a43f6a0b359dc084951c4569ae9dab77f9f33992acfb9b93f6ef",
+          "segment_id": "i81-i78-to-i40"
+        }
+      ],
+      "facility_separation_m": 0.0,
+      "hint_distance_m": 5.094,
+      "id": "pa-i78-i81",
+      "method": "midpoint_between_segments",
+      "research_source_ids": [
+        "fhwa-interstate-route-log-2026",
+        "usdot-nhpn-service"
+      ]
+    },
+    {
+      "coordinate": {
+        "latitude": 36.067164000119,
+        "longitude": -83.388205999807
+      },
+      "evidence": [
+        {
+          "object_id": 315017,
+          "page_response_sha256": "863572545cf3a43f6a0b359dc084951c4569ae9dab77f9f33992acfb9b93f6ef",
+          "segment_id": "i81-i78-to-i40"
+        },
+        {
+          "object_id": 315016,
+          "page_response_sha256": "325ac2eef91a4189b93792572449e5e04a484787f4c7b5355417cdd2dfe79b82",
+          "segment_id": "i40-i81-to-barstow"
+        }
+      ],
+      "facility_separation_m": 0.0,
+      "hint_distance_m": 4.067,
+      "id": "tn-i81-i40",
+      "method": "midpoint_between_segments",
+      "research_source_ids": [
+        "tdot-i40-i81-corridor",
+        "usdot-nhpn-service"
+      ]
+    },
+    {
+      "coordinate": {
+        "latitude": 34.886133000438,
+        "longitude": -117.008455000398
+      },
+      "evidence": [
+        {
+          "object_id": 566045,
+          "page_response_sha256": "325ac2eef91a4189b93792572449e5e04a484787f4c7b5355417cdd2dfe79b82",
+          "segment_id": "i40-i81-to-barstow"
+        },
+        {
+          "object_id": 566048,
+          "page_response_sha256": "690eeca0b7af5412c39779555e51e9819f8f78269a8fc89eaf523237bd2f4da7",
+          "segment_id": "i15-barstow-to-ontario"
+        }
+      ],
+      "facility_separation_m": 0.0,
+      "hint_distance_m": 5.502,
+      "id": "ca-barstow-i40-i15",
+      "method": "midpoint_between_segments",
+      "research_source_ids": [
+        "caltrans-district-route-map",
+        "usdot-nhpn-service"
+      ]
+    },
+    {
+      "coordinate": {
+        "latitude": 34.067427491325,
+        "longitude": -117.544715260529
+      },
+      "evidence": [
+        {
+          "object_id": 551139,
+          "page_response_sha256": "690eeca0b7af5412c39779555e51e9819f8f78269a8fc89eaf523237bd2f4da7",
+          "segment_id": "i15-barstow-to-ontario"
+        },
+        {
+          "object_id": 551130,
+          "page_response_sha256": "b3fd0d15d504252d1f0321dab5ce142aa9874ef5ca47d642dca912823882b004",
+          "segment_id": "i10-ontario-to-i405"
+        }
+      ],
+      "facility_separation_m": 15.986,
+      "hint_distance_m": 3.376,
+      "id": "ca-ontario-i15-i10",
+      "method": "midpoint_between_segments",
+      "research_source_ids": [
+        "caltrans-district-route-map",
+        "usdot-nhpn-service"
+      ]
+    },
+    {
+      "coordinate": {
+        "latitude": 34.031305617833,
+        "longitude": -118.433501049851
+      },
+      "evidence": [
+        {
+          "object_id": 543799,
+          "page_response_sha256": "b3fd0d15d504252d1f0321dab5ce142aa9874ef5ca47d642dca912823882b004",
+          "segment_id": "i10-ontario-to-i405"
+        },
+        {
+          "object_id": 543800,
+          "page_response_sha256": "c98df4214aa6b75991d8eab9d37797205c7ada6f97163dd635fc8dad12ae214b",
+          "segment_id": "i405-west-la-to-ca107"
+        }
+      ],
+      "facility_separation_m": 24.401,
+      "hint_distance_m": 0.635,
+      "id": "ca-west-la-i10-i405",
+      "method": "midpoint_between_segments",
+      "research_source_ids": [
+        "caltrans-district-route-map",
+        "usdot-nhpn-service"
+      ]
+    },
+    {
+      "coordinate": {
+        "latitude": 33.880598170673,
+        "longitude": -118.347603260316
+      },
+      "evidence": [
+        {
+          "object_id": 544925,
+          "page_response_sha256": "c98df4214aa6b75991d8eab9d37797205c7ada6f97163dd635fc8dad12ae214b",
+          "segment_id": "i405-west-la-to-ca107"
+        }
+      ],
+      "facility_separation_m": 0.0,
+      "hint_distance_m": 0.363,
+      "id": "ca-redondo-i405-ca107",
+      "method": "snap_to_segment",
+      "research_source_ids": [
+        "caltrans-district-route-map",
+        "usdot-nhpn-service"
+      ]
+    }
+  ],
+  "transfer_nodes_sha256": "040bad7118c9a523899d94ba919678f345316e92be833082d37d266706491e2d",
+  "transfer_policy_sha256": "e47d70dda591fa912aa1fa7c9c7dc089d9247aed61797ba772c4687d2680cdb7"
+}
