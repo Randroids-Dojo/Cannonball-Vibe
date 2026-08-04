@@ -18,12 +18,17 @@ other human gate.
 
 ## What the capture establishes
 
-Five of the six ratified provisional thresholds passed by a very wide margin.
-**One failed:** the 30-minute steady-state run shows sustained positive
-working-set growth of 1.87 MiB/min (R² = 0.79, +57.7 MiB over the run). GPU
-memory was perfectly flat, so the growth is entirely CPU-side, and only ~6 MiB
-of it is managed heap — the rest is native. That failure is reported, not tuned
-away.
+Frame-pacing percentiles and both memory ceilings passed with large margins:
+p95 9.0×, p99 6.9×, GPU memory 51×, working set 20×. **One threshold failed:**
+three frames exceeded the 50 ms steady-driving stall limit — 50.80 ms in the
+high-speed scenario and 50.20/50.50 ms in the 30-minute run. Render CPU and GPU
+were both under 0.6 ms during each, so the cost sits outside rendering. That
+failure is reported, not tuned away.
+
+Both *tail* criteria are boundary cases. The failing stalls exceed the limit by
+0.4–1.6%, and an earlier execution of the same matrix recorded zero stalls but
+failed sustained growth instead. Neither tail verdict should be treated as
+settled from one run.
 
 The passing margin is itself the point of this handoff: the current
 representative slice uses only a small fraction of the 16.67 ms envelope, so a
@@ -37,27 +42,32 @@ these numbers can be trusted:
   volumetric system, so the ADR-0023 weather scenario is recorded as
   **not captured** rather than approximated with overcast lighting.
 
-Two measured behaviours sit close to thresholds even where they pass. Synchronous
-chunk and environment construction produces isolated spikes up to 48 ms against a
-50 ms limit. Separately, 81% of measured seconds contain at least one frame above
-16.67 ms, with a median per-second worst frame of 29.97 ms; these correlate 1:1
-with Gen0 garbage collections (1,475 collections, 0.82/s) driven by the game
-allocating 14.4 KB per rendered frame.
+Two mechanisms explain the tail. Synchronous chunk construction peaked at
+41.9 ms and environment construction at 40.5 ms, which is the right magnitude for
+the three frames that breached 50 ms. Separately, 79% of measured seconds contain
+at least one frame above 16.67 ms, with a median per-second worst frame of
+30.29 ms; these track Gen0 garbage collections almost one to one (1,437
+collections, 0.80/s over the 30-minute run) driven by roughly 14.4 KB of
+allocation per rendered frame.
 
 ## Q-022a: ratify the derived subsystem and content-class allocations
 
-The audit proposes provisional layer-2 subsystem allocations and layer-3
-content-class budgets derived from this capture. Only two subsystem costs were
-isolated by measurement (regional environment, via the balanced-versus-low
-comparison, and lighting, via the daylight-versus-night comparison). Vehicle,
-road, traffic, effects, and UI are proposed from reserve, not measured
-separately.
+The audit proposes provisional layer-3 content-class budgets that are anchored to
+measured values, and provisional layer-2 subsystem allocations that are **not**.
+
+Two subsystem isolations were attempted — regional environment via the
+balanced-versus-low comparison, and lighting via daylight-versus-night — and
+**neither produced a reliable isolated cost**. Both deltas fell within
+run-to-run noise, so no layer-2 number in the audit is measurement-derived.
+Every layer-2 allocation, including environment and lighting, is a proposed
+reserve-based spending limit ordered by the ADR-0023 priority rule.
 
 - **A. Ratify the derived allocations as provisional regression limits
   (working default).** Adopt the proposed subsystem and content-class numbers so
   automated checks can detect regressions now, on the explicit understanding
-  that they are traceable to a traffic-free, weather-free capture and will be
-  re-derived once P0-015 traffic exists.
+  that the layer-2 figures are reserve-based rather than measured, that all of
+  them are traceable to a traffic-free, weather-free, Debug-build capture, and
+  that they will be re-derived once P0-015 traffic exists.
 - **B. Ratify with named adjustments.** Tell me which allocations to change and
   to what values, and I will re-record the derived table and the regression
   thresholds against your numbers.
@@ -66,24 +76,6 @@ separately.
   traffic, and optionally a weather implementation — and I will defer the
   derived budgets until a capture that includes them.
 
-## Q-022d: how should the sustained-growth failure be treated?
-
-ADR-0023 requires "no sustained positive growth" over 30 minutes but does not
-quantify it. I applied a **proposed, unratified** operationalisation — a trend
-counts as sustained only when it exceeds 1 MiB/min *and* explains at least half
-the variance (R² ≥ 0.5) — so ordinary allocator noise cannot fail a run. Against
-that rule the 30-minute capture fails at 1.87 MiB/min with R² = 0.79.
-
-- **A. Accept the operationalisation and treat this as a real failure (working
-  default).** Record Q-022 as having one failing threshold, and open a task to
-  find the native-side growth before any budget ratification.
-- **B. Accept the operationalisation but change the constants.** Name the
-  slope and R² you want and I will re-evaluate the existing capture data against
-  them without re-running.
-- **C. Reject the operationalisation.** Specify how "sustained positive growth"
-  should be judged — for example absolute growth over the window, or a
-  requirement that the trend continue across a longer run — and I will re-derive.
-
 ## Q-022b: how should per-subsystem attribution be obtained?
 
 Whole-scene attribution is measured (CPU versus GPU, and the non-render
@@ -91,8 +83,10 @@ remainder). Per-subsystem attribution is not: the capture cannot currently say
 what fraction of GPU time belongs to the road kit versus the hero vehicle.
 
 - **A. Add isolation runs to the harness (working default).** Extend the capture
-  script with per-subsystem toggles so each subsystem's cost is measured by
-  difference, the same way the environment cost was isolated here.
+  script with per-subsystem toggles. Measuring by difference is what this capture
+  attempted for environment and lighting; it failed because whole-scene GPU cost
+  is currently so far below the envelope that the deltas vanish into noise, so
+  isolation runs need denser content or a longer averaging window to be useful.
 - **B. Adopt GPU-profiler capture instead.** Introduce an external profiler pass
   (for example RenderDoc or Nsight) as a separate, non-deterministic evidence
   class for per-draw attribution.
@@ -114,6 +108,27 @@ not how a player will run the game.
   uncapped and at a 60 Hz cap, and both distributions are recorded.
 - **C. Switch to capped-only captures.** Measure only at the presentation target,
   accepting that headroom becomes invisible.
+
+## Q-022d: how should the sustained-growth criterion be defined?
+
+ADR-0023 requires "no sustained positive growth" over 30 minutes but does not
+quantify it. I applied a **proposed, unratified** operationalisation — a trend
+counts as sustained only when it exceeds 1 MiB/min *and* explains at least half
+the variance (R² ≥ 0.5) — so ordinary allocator noise cannot fail a run. Against
+that rule the 30-minute capture passes at 0.93 MiB/min with R² = 0.45 — just
+under both halves. An earlier execution of the same matrix failed it at
+1.87 MiB/min with R² = 0.79, so the constants decide the verdict.
+
+- **A. Accept the operationalisation as written (working default).** Keep the
+  1 MiB/min and R² 0.5 rule, record that this capture passes it marginally, and
+  require a repeat 30-minute run before any budget ratification because the
+  verdict has already inverted once.
+- **B. Accept the operationalisation but change the constants.** Name the
+  slope and R² you want and I will re-evaluate the existing capture data against
+  them without re-running.
+- **C. Reject the operationalisation.** Specify how "sustained positive growth"
+  should be judged — for example absolute growth over the window, or a
+  requirement that the trend continue across a longer run — and I will re-derive.
 
 ## Autonomous posture
 

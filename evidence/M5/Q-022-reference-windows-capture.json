@@ -9,23 +9,20 @@
   ],
   "milestone": "M5",
   "status": "evidence_recorded_question_open",
-  "headline": "Five of six ADR-0023 provisional thresholds pass with 9-11x headroom. The sustained-memory-growth threshold FAILS on the 30-minute run at 1.87 MiB/min (R^2 0.79, +57.7 MiB, entirely CPU-side).",
-  "git_revision": "7561114427f0348f6cd8f761d1c006f7d1e77e45",
+  "headline": "Frame-pacing percentiles and both memory ceilings pass with large margins (p95 9.0x, p99 6.9x, GPU memory 51x, working set 20x). The no-stall-above-50ms threshold FAILS in the high-speed and 30-minute scenarios. Both tail criteria are marginal: the three failing stalls measure 50.80, 50.20 and 50.50 ms against a 50 ms limit, and sustained growth passes at 0.93 MiB/min with R^2 0.45 against a proposed 1 MiB/min and R^2 0.5 rule. An earlier execution of the same matrix inverted both verdicts, so neither should be read as a stable result.",
+  "git_revision": "33e6dde69b1b2ac03c7c2a03ef781ace110a1924",
+  "git_revision_note": "the revision the capture executable was built from",
   "workspace": {
     "policy": "Q-022 capture-workspace Option A (ADR-0023 operating addendum)",
-    "worktree_path_outside_gameplay_checkout": true,
-    "created_fresh_at_commit": "7561114427f0348f6cd8f761d1c006f7d1e77e45",
+    "conforming": true,
+    "worktree_path": "C:/Dev/cbv-q022-verify (outside any gameplay checkout)",
+    "created_fresh_at_commit": "33e6dde69b1b2ac03c7c2a03ef781ace110a1924",
     "clean_when_created": true,
-    "clean_when_measuring": false,
-    "clean_when_measuring_explanation": "The capture harness did not exist at the pinned commit, so it had to be added before anything could be measured. The worktree was created fresh and verified clean via an empty `git status --porcelain`, and the only modifications present at capture time are the harness files listed in modified_paths_at_capture plus the documentation deliverables. No stale generated output and no long-lived gameplay worktree contributed to any measurement; every route package was rebuilt from checksum-locked fixture sources at the start of each run.",
-    "modified_paths_at_capture": [
-      "game/Automation/ReferencePerformanceScenario.cs (new, the harness)",
-      "game/Main.cs (wires --reference-performance-profile)",
-      "scripts/capture-reference-performance.sh (new, the front door)"
-    ],
-    "git_status_porcelain_at_evidence_generation": " M docs/DELIVERY_LEDGER.json\n M docs/OPEN_QUESTIONS.md\n M game/Main.cs\n?? docs/QUESTIONS_FOR_RANDROID_2026-08-03_Q022_REFERENCE_CAPTURE.md\n?? docs/audits/2026-08-03-q022-reference-windows-capture.md\n?? evidence/M5/Q-022-reference-windows-capture.json\n?? game/Automation/ReferencePerformanceScenario.cs\n?? scripts/capture-reference-performance.sh\n"
+    "clean_when_measuring": true,
+    "verification": "The worktree was created fresh at the committed revision that contains the capture harness, and `git status --porcelain` was empty immediately before measuring. A checkout of that revision reproduces the measured executable. Every route package was rebuilt from checksum-locked fixture sources at the start of each run, so no stale generated output contributed to any measurement.",
+    "supersedes": "An earlier execution measured from a worktree that necessarily carried the uncommitted harness, and was reported as non-conforming. Those artifacts were discarded and are not the evidence recorded here."
   },
-  "recorded_at_utc": "2026-08-04T05:24:55Z",
+  "recorded_at_utc": "2026-08-04T06:42:02Z",
   "platform": {
     "os": "Microsoft Windows 11 Pro 10.0.26200",
     "architecture": "x64",
@@ -119,7 +116,7 @@
     },
     {
       "path": "game/Automation/ReferencePerformanceScenario.cs",
-      "sha256": "a8cee2d66d591b63e0f6275ab91d8ed804c283e40d03b0be281d3ff6ba006f81"
+      "sha256": "94965606c52d924ef82abd2039c85b572afbb0e667b35087acc065d267369bc3"
     },
     {
       "path": "game/Automation/IntegratedVisualSliceScenario.cs",
@@ -127,11 +124,11 @@
     },
     {
       "path": "game/Main.cs",
-      "sha256": "baaa2fd518116e529a697d4e9cb2b5e7da276ac7ecdafa808e87fee81e64a960"
+      "sha256": "7076959d12147cf203131024ecaea3928d233947b0403a7115b86671cb721b62"
     },
     {
       "path": "scripts/capture-reference-performance.sh",
-      "sha256": "1392095e4c1af40953d48e222971b4144dbd54fddf1181d16b67f4459df2203b"
+      "sha256": "0100affaac2b0c77e1757c18f059fdeb9a8f5eb886fae97a2f0d17b13113e976"
     },
     {
       "path": "project.godot",
@@ -142,42 +139,42 @@
     {
       "command": "./scripts/capture-reference-performance.sh --scenario daylight --lighting daylight --speed-mps 40 --warmup-seconds 20 --measure-seconds 120 --environment-quality balanced",
       "exit_status": 0,
-      "frames": 123515,
+      "frames": 113430,
       "resolution": "2560x1440",
       "completion_marker": "CANNONBALL_REFERENCE_PERFORMANCE_OK"
     },
     {
       "command": "./scripts/capture-reference-performance.sh --scenario night --lighting night --speed-mps 40 --warmup-seconds 20 --measure-seconds 120 --environment-quality balanced",
       "exit_status": 0,
-      "frames": 112912,
+      "frames": 111014,
       "resolution": "2560x1440",
       "completion_marker": "CANNONBALL_REFERENCE_PERFORMANCE_OK"
     },
     {
       "command": "./scripts/capture-reference-performance.sh --scenario high-speed --lighting daylight --speed-mps 91 --warmup-seconds 20 --measure-seconds 120 --environment-quality balanced",
       "exit_status": 0,
-      "frames": 112182,
+      "frames": 110750,
       "resolution": "2560x1440",
       "completion_marker": "CANNONBALL_REFERENCE_PERFORMANCE_OK"
     },
     {
       "command": "./scripts/capture-reference-performance.sh --scenario streaming --lighting daylight --speed-mps 91 --warmup-seconds 20 --measure-seconds 300 --environment-quality balanced",
       "exit_status": 0,
-      "frames": 278933,
+      "frames": 275652,
       "resolution": "2560x1440",
       "completion_marker": "CANNONBALL_REFERENCE_PERFORMANCE_OK"
     },
     {
       "command": "./scripts/capture-reference-performance.sh --scenario degraded-quality --lighting daylight --speed-mps 40 --warmup-seconds 20 --measure-seconds 120 --environment-quality low",
       "exit_status": 0,
-      "frames": 113400,
+      "frames": 110327,
       "resolution": "2560x1440",
       "completion_marker": "CANNONBALL_REFERENCE_PERFORMANCE_OK"
     },
     {
       "command": "./scripts/capture-reference-performance.sh --scenario steady-state-30m --lighting daylight --speed-mps 40 --warmup-seconds 30 --measure-seconds 1800 --environment-quality balanced",
       "exit_status": 0,
-      "frames": 1700671,
+      "frames": 1653461,
       "resolution": "2560x1440",
       "completion_marker": "CANNONBALL_REFERENCE_PERFORMANCE_OK"
     }
@@ -192,7 +189,7 @@
         "actual_window_size": "2560x1440",
         "content_scale_size_2d": "1920x1080",
         "three_d_render_size": "2560x1440",
-        "three_d_render_size_basis": "canvas_items stretch scales 2D only; 3D renders at window resolution. Corroborated by mean GPU time scaling 0.245 -> 0.411 -> 0.792 ms across 1280x720, 2560x1440, and 3840x2160 windows.",
+        "three_d_render_size_basis": "canvas_items stretch scales 2D only; 3D renders at window resolution. The corroborating resolution-scaling measurements are recorded in the dated audit, not here, because they belong to one experiment rather than to every capture.",
         "rendering_method": "forward_plus",
         "headless": false,
         "vsync_enabled": false,
@@ -211,53 +208,53 @@
       },
       "warmup": {
         "requested_seconds": 20,
-        "observed_seconds": 20.00077726389332,
+        "observed_seconds": 20.000022705631462,
         "discarded": true
       },
       "measurement": {
-        "measured_seconds": 120.000412,
-        "frames": 123515,
-        "mean_fps": 1029.2881327774107
+        "measured_seconds": 120.000125,
+        "frames": 113430,
+        "mean_fps": 945.249015365609
       },
       "frame_time_ms": {
-        "sample_count": 123515,
-        "p50": 0.8225,
-        "p95": 1.4875,
-        "p99": 1.8375000000000001,
-        "minimum": 0.577,
-        "maximum": 47.989,
-        "mean": 0.9715452536129109,
+        "sample_count": 113430,
+        "p50": 0.8825000000000001,
+        "p95": 1.7175,
+        "p99": 2.9025,
+        "minimum": 0.582,
+        "maximum": 44.247,
+        "mean": 1.0579222868729337,
         "bucket_resolution_ms": 0.005,
         "above_histogram_range_count": 0
       },
       "render_cpu_ms": {
-        "sample_count": 123515,
-        "p50": 0.2675,
-        "p95": 0.4325,
-        "p99": 0.4875,
+        "sample_count": 113430,
+        "p50": 0.2725,
+        "p95": 0.4525,
+        "p99": 0.5375,
         "minimum": 0.2070000022649765,
-        "maximum": 0.8090000152587891,
-        "mean": 0.288880338265829,
+        "maximum": 1.6150000095367432,
+        "mean": 0.2987235474228376,
         "bucket_resolution_ms": 0.005,
         "above_histogram_range_count": 0
       },
       "render_gpu_ms": {
-        "sample_count": 123515,
-        "p50": 0.3925,
-        "p95": 0.41250000000000003,
-        "p99": 0.4175,
-        "minimum": 0.3610000014305115,
-        "maximum": 0.4309999942779541,
-        "mean": 0.39279016315109433,
+        "sample_count": 113430,
+        "p50": 0.3875,
+        "p95": 0.40750000000000003,
+        "p99": 0.41250000000000003,
+        "minimum": 0.3580000102519989,
+        "maximum": 0.4869999885559082,
+        "mean": 0.39082381223955454,
         "bucket_resolution_ms": 0.005,
         "above_histogram_range_count": 0
       },
       "attribution": {
-        "mean_frame_ms": 0.9715452536129109,
-        "mean_render_cpu_ms": 0.288880338265829,
-        "mean_render_gpu_ms": 0.39279016315109433,
-        "mean_non_render_ms": 0.5787550904618166,
-        "gpu_bound_frame_ratio": 0.8937133141723678,
+        "mean_frame_ms": 1.0579222868729337,
+        "mean_render_cpu_ms": 0.2987235474228376,
+        "mean_render_gpu_ms": 0.39082381223955454,
+        "mean_non_render_ms": 0.6670984746333791,
+        "gpu_bound_frame_ratio": 0.863563431191043,
         "bound_by": "gpu"
       },
       "stalls": {
@@ -270,39 +267,41 @@
       },
       "stall_events": [],
       "memory": {
-        "starting_working_set_bytes": 741052416,
-        "peak_working_set_bytes": 764334080,
+        "starting_working_set_bytes": 796459008,
+        "peak_working_set_bytes": 817176576,
         "peak_video_memory_bytes": 185166512,
         "peak_texture_memory_bytes": 114917376,
         "peak_buffer_memory_bytes": 50254260,
         "sample_count": 240,
         "working_set_trend": {
           "sample_count": 240,
-          "slope_bytes_per_minute": 10354866.150764016,
-          "r_squared": 0.8809321634800679,
-          "first_bytes": 740483072,
-          "last_bytes": 763215872
+          "slope_bytes_per_minute": 7639181.2250875225,
+          "r_squared": 0.8838438476536787,
+          "first_bytes": 796561408,
+          "last_bytes": 817156096
         },
         "video_memory_trend": {
           "sample_count": 240,
-          "slope_bytes_per_minute": 145237.3578855321,
-          "r_squared": 0.46828880872969236,
+          "slope_bytes_per_minute": 205027.2170075021,
+          "r_squared": 0.5500521858712846,
           "first_bytes": 184379456,
-          "last_bytes": 184520560
+          "last_bytes": 184449888
         },
         "managed_heap_trend": {
           "sample_count": 240,
-          "slope_bytes_per_minute": 938071.3360439546,
-          "r_squared": 0.011732132030706888,
-          "first_bytes": 31650632,
-          "last_bytes": 20293240
+          "slope_bytes_per_minute": 1350974.4091943516,
+          "r_squared": 0.02418989098220381,
+          "first_bytes": 24455288,
+          "last_bytes": 30344600
         }
       },
       "streaming": {
-        "route_distance_traversed_m": 4800.737448284613,
-        "maximum_chunk_build_ms": 34.0113,
-        "maximum_collision_build_ms": 2.8364,
-        "maximum_environment_build_ms": 39.0677,
+        "cumulative_distance_travelled_m": 4800.40506518584,
+        "final_route_position_m": 5660.21915209987,
+        "starting_route_position_m": 859.8140869140307,
+        "maximum_chunk_build_ms": 41.9066,
+        "maximum_collision_build_ms": 3.2525,
+        "maximum_environment_build_ms": 39.3462,
         "loaded_chunks": 7,
         "maximum_visual_chunks": 11,
         "maximum_collision_chunks": 9,
@@ -314,9 +313,9 @@
       },
       "content_class": {
         "peak_draw_calls": 429,
-        "mean_draw_calls": 323.3401854025827,
+        "mean_draw_calls": 321.8379264744776,
         "peak_primitives": 1330366,
-        "mean_primitives": 921222.999198478,
+        "mean_primitives": 923799.2734197302,
         "peak_render_objects": 615,
         "road": {
           "profile": "production",
@@ -353,12 +352,12 @@
       },
       "acceptance": {
         "p95_frame_ms": {
-          "measured": 1.4875,
+          "measured": 1.7175,
           "limit": 16.67,
           "passed": true
         },
         "p99_frame_ms": {
-          "measured": 1.8375000000000001,
+          "measured": 2.9025,
           "limit": 20,
           "passed": true
         },
@@ -373,13 +372,13 @@
           "passed": true
         },
         "working_set_bytes": {
-          "measured": 764334080,
+          "measured": 817176576,
           "limit": 16000000000,
           "passed": true
         },
         "sustained_memory_growth": {
-          "working_set_slope_bytes_per_minute": 10354866.150764016,
-          "working_set_r_squared": 0.8809321634800679,
+          "working_set_slope_bytes_per_minute": 7639181.2250875225,
+          "working_set_r_squared": 0.8838438476536787,
           "evaluated": false,
           "criterion": "slope > 1 MiB/min AND R^2 >= 0.5 over the measured window",
           "criterion_status": "proposed operationalisation awaiting Q-022 ratification",
@@ -397,7 +396,7 @@
         "actual_window_size": "2560x1440",
         "content_scale_size_2d": "1920x1080",
         "three_d_render_size": "2560x1440",
-        "three_d_render_size_basis": "canvas_items stretch scales 2D only; 3D renders at window resolution. Corroborated by mean GPU time scaling 0.245 -> 0.411 -> 0.792 ms across 1280x720, 2560x1440, and 3840x2160 windows.",
+        "three_d_render_size_basis": "canvas_items stretch scales 2D only; 3D renders at window resolution. The corroborating resolution-scaling measurements are recorded in the dated audit, not here, because they belong to one experiment rather than to every capture.",
         "rendering_method": "forward_plus",
         "headless": false,
         "vsync_enabled": false,
@@ -416,53 +415,53 @@
       },
       "warmup": {
         "requested_seconds": 20,
-        "observed_seconds": 20.000150000002858,
+        "observed_seconds": 20.00012666666936,
         "discarded": true
       },
       "measurement": {
-        "measured_seconds": 120.002056,
-        "frames": 112912,
-        "mean_fps": 940.9172122850962
+        "measured_seconds": 120.000094,
+        "frames": 111014,
+        "mean_fps": 925.115941992512
       },
       "frame_time_ms": {
-        "sample_count": 112912,
-        "p50": 0.8725,
-        "p95": 1.6725,
-        "p99": 2.7825,
-        "minimum": 0.587,
-        "maximum": 41.366,
-        "mean": 1.062792758962729,
+        "sample_count": 111014,
+        "p50": 0.8775000000000001,
+        "p95": 1.8325,
+        "p99": 2.7525,
+        "minimum": 0.585,
+        "maximum": 46.414,
+        "mean": 1.080945592447784,
         "bucket_resolution_ms": 0.005,
         "above_histogram_range_count": 0
       },
       "render_cpu_ms": {
-        "sample_count": 112912,
+        "sample_count": 111014,
         "p50": 0.2775,
-        "p95": 0.4175,
-        "p99": 0.47750000000000004,
-        "minimum": 0.21299999952316284,
-        "maximum": 0.8690000176429749,
-        "mean": 0.29278116574793617,
+        "p95": 0.4525,
+        "p99": 0.5325,
+        "minimum": 0.20999999344348907,
+        "maximum": 1.9739999771118164,
+        "mean": 0.3021497017096352,
         "bucket_resolution_ms": 0.005,
         "above_histogram_range_count": 0
       },
       "render_gpu_ms": {
-        "sample_count": 112912,
-        "p50": 0.3875,
-        "p95": 0.4175,
-        "p99": 0.7575000000000001,
-        "minimum": 0.3610000014305115,
-        "maximum": 1.1410000324249268,
-        "mean": 0.39876161134975086,
+        "sample_count": 111014,
+        "p50": 0.3775,
+        "p95": 0.4025,
+        "p99": 0.41250000000000003,
+        "minimum": 0.35499998927116394,
+        "maximum": 1.11899995803833,
+        "mean": 0.3835228170100168,
         "bucket_resolution_ms": 0.005,
         "above_histogram_range_count": 0
       },
       "attribution": {
-        "mean_frame_ms": 1.062792758962729,
-        "mean_render_cpu_ms": 0.29278116574793617,
-        "mean_render_gpu_ms": 0.39876161134975086,
-        "mean_non_render_ms": 0.6640311476129782,
-        "gpu_bound_frame_ratio": 0.9194948278305228,
+        "mean_frame_ms": 1.080945592447784,
+        "mean_render_cpu_ms": 0.3021497017096352,
+        "mean_render_gpu_ms": 0.3835228170100168,
+        "mean_non_render_ms": 0.6974227754377672,
+        "gpu_bound_frame_ratio": 0.8461455311942638,
         "bound_by": "gpu"
       },
       "stalls": {
@@ -475,39 +474,41 @@
       },
       "stall_events": [],
       "memory": {
-        "starting_working_set_bytes": 739176448,
-        "peak_working_set_bytes": 762134528,
-        "peak_video_memory_bytes": 178875056,
+        "starting_working_set_bytes": 744509440,
+        "peak_working_set_bytes": 773836800,
+        "peak_video_memory_bytes": 184868432,
         "peak_texture_memory_bytes": 114917376,
-        "peak_buffer_memory_bytes": 50254260,
+        "peak_buffer_memory_bytes": 49956228,
         "sample_count": 240,
         "working_set_trend": {
           "sample_count": 240,
-          "slope_bytes_per_minute": 9597296.201912649,
-          "r_squared": 0.9397772059575215,
-          "first_bytes": 739266560,
-          "last_bytes": 762130432
+          "slope_bytes_per_minute": 13600581.886813838,
+          "r_squared": 0.9700511765471767,
+          "first_bytes": 744607744,
+          "last_bytes": 773828608
         },
         "video_memory_trend": {
           "sample_count": 240,
-          "slope_bytes_per_minute": 197154.57465394898,
-          "r_squared": 0.5101181815179443,
-          "first_bytes": 178088000,
-          "last_bytes": 178158432
+          "slope_bytes_per_minute": 205483.79771247716,
+          "r_squared": 0.5837091061813183,
+          "first_bytes": 184379456,
+          "last_bytes": 184449888
         },
         "managed_heap_trend": {
           "sample_count": 240,
-          "slope_bytes_per_minute": 457812.56044268096,
-          "r_squared": 0.0028543542780623543,
-          "first_bytes": 21105776,
-          "last_bytes": 22791336
+          "slope_bytes_per_minute": 930296.2453302261,
+          "r_squared": 0.011703682821677663,
+          "first_bytes": 22108880,
+          "last_bytes": 32309152
         }
       },
       "streaming": {
-        "route_distance_traversed_m": 4800.736456979385,
-        "maximum_chunk_build_ms": 35.0669,
-        "maximum_collision_build_ms": 2.8926,
-        "maximum_environment_build_ms": 40.525,
+        "cumulative_distance_travelled_m": 4800.737448284613,
+        "final_route_position_m": 5660.551535198643,
+        "starting_route_position_m": 859.8140869140307,
+        "maximum_chunk_build_ms": 37.2803,
+        "maximum_collision_build_ms": 2.8062,
+        "maximum_environment_build_ms": 40.476,
         "loaded_chunks": 7,
         "maximum_visual_chunks": 11,
         "maximum_collision_chunks": 9,
@@ -519,9 +520,9 @@
       },
       "content_class": {
         "peak_draw_calls": 430,
-        "mean_draw_calls": 333.7697498937225,
+        "mean_draw_calls": 333.4289008593511,
         "peak_primitives": 1332602,
-        "mean_primitives": 935794.3934568514,
+        "mean_primitives": 936196.6304430072,
         "peak_render_objects": 616,
         "road": {
           "profile": "production",
@@ -558,12 +559,12 @@
       },
       "acceptance": {
         "p95_frame_ms": {
-          "measured": 1.6725,
+          "measured": 1.8325,
           "limit": 16.67,
           "passed": true
         },
         "p99_frame_ms": {
-          "measured": 2.7825,
+          "measured": 2.7525,
           "limit": 20,
           "passed": true
         },
@@ -573,18 +574,18 @@
           "passed": true
         },
         "gpu_memory_bytes": {
-          "measured": 178875056,
+          "measured": 184868432,
           "limit": 9500000000,
           "passed": true
         },
         "working_set_bytes": {
-          "measured": 762134528,
+          "measured": 773836800,
           "limit": 16000000000,
           "passed": true
         },
         "sustained_memory_growth": {
-          "working_set_slope_bytes_per_minute": 9597296.201912649,
-          "working_set_r_squared": 0.9397772059575215,
+          "working_set_slope_bytes_per_minute": 13600581.886813838,
+          "working_set_r_squared": 0.9700511765471767,
           "evaluated": false,
           "criterion": "slope > 1 MiB/min AND R^2 >= 0.5 over the measured window",
           "criterion_status": "proposed operationalisation awaiting Q-022 ratification",
@@ -602,7 +603,7 @@
         "actual_window_size": "2560x1440",
         "content_scale_size_2d": "1920x1080",
         "three_d_render_size": "2560x1440",
-        "three_d_render_size_basis": "canvas_items stretch scales 2D only; 3D renders at window resolution. Corroborated by mean GPU time scaling 0.245 -> 0.411 -> 0.792 ms across 1280x720, 2560x1440, and 3840x2160 windows.",
+        "three_d_render_size_basis": "canvas_items stretch scales 2D only; 3D renders at window resolution. The corroborating resolution-scaling measurements are recorded in the dated audit, not here, because they belong to one experiment rather than to every capture.",
         "rendering_method": "forward_plus",
         "headless": false,
         "vsync_enabled": false,
@@ -621,98 +622,110 @@
       },
       "warmup": {
         "requested_seconds": 20,
-        "observed_seconds": 20.00085269312413,
+        "observed_seconds": 20.011008523812926,
         "discarded": true
       },
       "measurement": {
-        "measured_seconds": 120.002595,
-        "frames": 112182,
-        "mean_fps": 934.8297843059144
+        "measured_seconds": 120.000437,
+        "frames": 110750,
+        "mean_fps": 922.9133057240449
       },
       "frame_time_ms": {
-        "sample_count": 112182,
-        "p50": 0.8725,
-        "p95": 1.8325,
-        "p99": 2.9675000000000002,
-        "minimum": 0.562,
-        "maximum": 42.01,
-        "mean": 1.0697134567042754,
+        "sample_count": 110750,
+        "p50": 0.8825000000000001,
+        "p95": 1.8475000000000001,
+        "p99": 2.7475,
+        "minimum": 0.572,
+        "maximum": 50.798,
+        "mean": 1.0835253905191797,
         "bucket_resolution_ms": 0.005,
         "above_histogram_range_count": 0
       },
       "render_cpu_ms": {
-        "sample_count": 112182,
-        "p50": 0.2725,
-        "p95": 0.4425,
+        "sample_count": 110750,
+        "p50": 0.28250000000000003,
+        "p95": 0.4325,
         "p99": 0.5025000000000001,
-        "minimum": 0.19099999964237213,
-        "maximum": 1.5180000066757202,
-        "mean": 0.2972944855778467,
+        "minimum": 0.19200000166893005,
+        "maximum": 0.9760000109672546,
+        "mean": 0.30157719176079295,
         "bucket_resolution_ms": 0.005,
         "above_histogram_range_count": 0
       },
       "render_gpu_ms": {
-        "sample_count": 112182,
+        "sample_count": 110750,
         "p50": 0.3825,
-        "p95": 0.4175,
-        "p99": 0.7375,
-        "minimum": 0.33399999141693115,
-        "maximum": 1.440000057220459,
-        "mean": 0.3930958088105035,
+        "p95": 0.41250000000000003,
+        "p99": 0.6825,
+        "minimum": 0.33000001311302185,
+        "maximum": 1.3200000524520874,
+        "mean": 0.38970998662212364,
         "bucket_resolution_ms": 0.005,
         "above_histogram_range_count": 0
       },
       "attribution": {
-        "mean_frame_ms": 1.0697134567042754,
-        "mean_render_cpu_ms": 0.2972944855778467,
-        "mean_render_gpu_ms": 0.3930958088105035,
-        "mean_non_render_ms": 0.676617647893772,
-        "gpu_bound_frame_ratio": 0.8724661710434829,
+        "mean_frame_ms": 1.0835253905191797,
+        "mean_render_cpu_ms": 0.30157719176079295,
+        "mean_render_gpu_ms": 0.38970998662212364,
+        "mean_non_render_ms": 0.6938154038970561,
+        "gpu_bound_frame_ratio": 0.8802528216704288,
         "bound_by": "gpu"
       },
       "stalls": {
         "threshold_ms": 50,
-        "total_count": 0,
-        "steady_driving_count": 0,
+        "total_count": 1,
+        "steady_driving_count": 1,
         "loop_wrap_attributed_count": 0,
         "loop_wrap_count": 0,
         "dropped_beyond_record_cap": 0
       },
-      "stall_events": [],
+      "stall_events": [
+        {
+          "t_s": 29.340472,
+          "frame_ms": 50.798,
+          "render_cpu_ms": 0.2980000078678131,
+          "render_gpu_ms": 0.39100000262260437,
+          "route_distance_m": 4486.8007855335145,
+          "speed_mps": 91.0108871459961,
+          "attributed_to_loop_wrap": false
+        }
+      ],
       "memory": {
-        "starting_working_set_bytes": 738095104,
-        "peak_working_set_bytes": 772009984,
-        "peak_video_memory_bytes": 186860960,
+        "starting_working_set_bytes": 741855232,
+        "peak_working_set_bytes": 777773056,
+        "peak_video_memory_bytes": 186547072,
         "peak_texture_memory_bytes": 114917376,
-        "peak_buffer_memory_bytes": 51947068,
+        "peak_buffer_memory_bytes": 51633580,
         "sample_count": 240,
         "working_set_trend": {
           "sample_count": 240,
-          "slope_bytes_per_minute": 19931053.723605562,
-          "r_squared": 0.8109439626428825,
-          "first_bytes": 738181120,
-          "last_bytes": 771932160
+          "slope_bytes_per_minute": 14014674.906109916,
+          "r_squared": 0.8542140221552463,
+          "first_bytes": 741969920,
+          "last_bytes": 767426560
         },
         "video_memory_trend": {
           "sample_count": 240,
-          "slope_bytes_per_minute": 527244.3066501368,
-          "r_squared": 0.561916525941512,
+          "slope_bytes_per_minute": 471934.18225332076,
+          "r_squared": 0.5034167988698212,
           "first_bytes": 184971152,
-          "last_bytes": 185790288
+          "last_bytes": 185654352
         },
         "managed_heap_trend": {
           "sample_count": 240,
-          "slope_bytes_per_minute": -76164.55067896427,
-          "r_squared": 7.771070999895713e-05,
-          "first_bytes": 26553360,
-          "last_bytes": 17842280
+          "slope_bytes_per_minute": 336829.3606571078,
+          "r_squared": 0.0014785020577586794,
+          "first_bytes": 15541368,
+          "last_bytes": 24664448
         }
       },
       "streaming": {
-        "route_distance_traversed_m": 10684.84259650282,
-        "maximum_chunk_build_ms": 36.7729,
-        "maximum_collision_build_ms": 2.8593,
-        "maximum_environment_build_ms": 41.4889,
+        "cumulative_distance_travelled_m": 10686.295169632243,
+        "final_route_position_m": 12499.296268265078,
+        "starting_route_position_m": 1813.001098632834,
+        "maximum_chunk_build_ms": 35.2813,
+        "maximum_collision_build_ms": 3.1525,
+        "maximum_environment_build_ms": 40.519,
         "loaded_chunks": 25,
         "maximum_visual_chunks": 26,
         "maximum_collision_chunks": 9,
@@ -724,9 +737,9 @@
       },
       "content_class": {
         "peak_draw_calls": 430,
-        "mean_draw_calls": 323.354424060901,
+        "mean_draw_calls": 323.3459864559819,
         "peak_primitives": 1332602,
-        "mean_primitives": 926710.8963291794,
+        "mean_primitives": 927585.2492099323,
         "peak_render_objects": 617,
         "road": {
           "profile": "production",
@@ -763,33 +776,33 @@
       },
       "acceptance": {
         "p95_frame_ms": {
-          "measured": 1.8325,
+          "measured": 1.8475000000000001,
           "limit": 16.67,
           "passed": true
         },
         "p99_frame_ms": {
-          "measured": 2.9675000000000002,
+          "measured": 2.7475,
           "limit": 20,
           "passed": true
         },
         "steady_driving_stalls_over_50ms": {
-          "measured": 0,
+          "measured": 1,
           "limit": 0,
-          "passed": true
+          "passed": false
         },
         "gpu_memory_bytes": {
-          "measured": 186860960,
+          "measured": 186547072,
           "limit": 9500000000,
           "passed": true
         },
         "working_set_bytes": {
-          "measured": 772009984,
+          "measured": 777773056,
           "limit": 16000000000,
           "passed": true
         },
         "sustained_memory_growth": {
-          "working_set_slope_bytes_per_minute": 19931053.723605562,
-          "working_set_r_squared": 0.8109439626428825,
+          "working_set_slope_bytes_per_minute": 14014674.906109916,
+          "working_set_r_squared": 0.8542140221552463,
           "evaluated": false,
           "criterion": "slope > 1 MiB/min AND R^2 >= 0.5 over the measured window",
           "criterion_status": "proposed operationalisation awaiting Q-022 ratification",
@@ -807,7 +820,7 @@
         "actual_window_size": "2560x1440",
         "content_scale_size_2d": "1920x1080",
         "three_d_render_size": "2560x1440",
-        "three_d_render_size_basis": "canvas_items stretch scales 2D only; 3D renders at window resolution. Corroborated by mean GPU time scaling 0.245 -> 0.411 -> 0.792 ms across 1280x720, 2560x1440, and 3840x2160 windows.",
+        "three_d_render_size_basis": "canvas_items stretch scales 2D only; 3D renders at window resolution. The corroborating resolution-scaling measurements are recorded in the dated audit, not here, because they belong to one experiment rather than to every capture.",
         "rendering_method": "forward_plus",
         "headless": false,
         "vsync_enabled": false,
@@ -826,53 +839,53 @@
       },
       "warmup": {
         "requested_seconds": 20,
-        "observed_seconds": 20.000914820109088,
+        "observed_seconds": 20.000075333337353,
         "discarded": true
       },
       "measurement": {
-        "measured_seconds": 300.000677,
-        "frames": 278933,
-        "mean_fps": 929.7745684753905
+        "measured_seconds": 300.000217,
+        "frames": 275652,
+        "mean_fps": 918.8393353728807
       },
       "frame_time_ms": {
-        "sample_count": 278933,
-        "p50": 0.8875000000000001,
-        "p95": 1.7575,
-        "p99": 2.8675,
-        "minimum": 0.536,
-        "maximum": 44.42,
-        "mean": 1.0755295250114165,
+        "sample_count": 275652,
+        "p50": 0.8925000000000001,
+        "p95": 1.7975,
+        "p99": 2.8425000000000002,
+        "minimum": 0.524,
+        "maximum": 45.699,
+        "mean": 1.0883295495770218,
         "bucket_resolution_ms": 0.005,
         "above_histogram_range_count": 0
       },
       "render_cpu_ms": {
-        "sample_count": 278933,
+        "sample_count": 275652,
         "p50": 0.2925,
-        "p95": 0.47250000000000003,
-        "p99": 0.5525,
-        "minimum": 0.17800000309944153,
-        "maximum": 0.9900000095367432,
-        "mean": 0.31305558679007117,
+        "p95": 0.4825,
+        "p99": 0.5725,
+        "minimum": 0.17499999701976776,
+        "maximum": 1.1619999408721924,
+        "mean": 0.31613170947567804,
         "bucket_resolution_ms": 0.005,
         "above_histogram_range_count": 0
       },
       "render_gpu_ms": {
-        "sample_count": 278933,
-        "p50": 0.3825,
-        "p95": 0.47750000000000004,
-        "p99": 0.8075,
-        "minimum": 0.12099999934434891,
-        "maximum": 1.5110000371932983,
-        "mean": 0.3974706975685566,
+        "sample_count": 275652,
+        "p50": 0.3775,
+        "p95": 0.4175,
+        "p99": 0.7475,
+        "minimum": 0.12399999797344208,
+        "maximum": 1.5019999742507935,
+        "mean": 0.3856064677816343,
         "bucket_resolution_ms": 0.005,
         "above_histogram_range_count": 0
       },
       "attribution": {
-        "mean_frame_ms": 1.0755295250114165,
-        "mean_render_cpu_ms": 0.31305558679007117,
-        "mean_render_gpu_ms": 0.3974706975685566,
-        "mean_non_render_ms": 0.67805882744286,
-        "gpu_bound_frame_ratio": 0.8505841904686788,
+        "mean_frame_ms": 1.0883295495770218,
+        "mean_render_cpu_ms": 0.31613170947567804,
+        "mean_render_gpu_ms": 0.3856064677816343,
+        "mean_non_render_ms": 0.7027230817953874,
+        "gpu_bound_frame_ratio": 0.8238322232379958,
         "bound_by": "gpu"
       },
       "stalls": {
@@ -885,39 +898,41 @@
       },
       "stall_events": [],
       "memory": {
-        "starting_working_set_bytes": 736886784,
-        "peak_working_set_bytes": 775192576,
-        "peak_video_memory_bytes": 183325792,
+        "starting_working_set_bytes": 727568384,
+        "peak_working_set_bytes": 758558720,
+        "peak_video_memory_bytes": 183523312,
         "peak_texture_memory_bytes": 114917376,
-        "peak_buffer_memory_bytes": 54700900,
+        "peak_buffer_memory_bytes": 54898396,
         "sample_count": 599,
         "working_set_trend": {
           "sample_count": 599,
-          "slope_bytes_per_minute": 4881757.2107737595,
-          "r_squared": 0.7526131072799617,
-          "first_bytes": 736968704,
-          "last_bytes": 772018176
+          "slope_bytes_per_minute": 6317013.713776592,
+          "r_squared": 0.966123905947538,
+          "first_bytes": 727687168,
+          "last_bytes": 758558720
         },
         "video_memory_trend": {
           "sample_count": 599,
-          "slope_bytes_per_minute": 537511.5212984497,
-          "r_squared": 0.3235765802781342,
+          "slope_bytes_per_minute": 474685.85109042685,
+          "r_squared": 0.2397491917941561,
           "first_bytes": 178679696,
-          "last_bytes": 181173712
+          "last_bytes": 181036864
         },
         "managed_heap_trend": {
           "sample_count": 599,
-          "slope_bytes_per_minute": 610612.1098618463,
-          "r_squared": 0.02948735001872016,
-          "first_bytes": 17089904,
-          "last_bytes": 31842184
+          "slope_bytes_per_minute": 550976.0085802062,
+          "r_squared": 0.02450903018640982,
+          "first_bytes": 23734128,
+          "last_bytes": 21769208
         }
       },
       "streaming": {
-        "route_distance_traversed_m": 760.3507556398406,
-        "maximum_chunk_build_ms": 34.63,
-        "maximum_collision_build_ms": 3.6903,
-        "maximum_environment_build_ms": 48.7963,
+        "cumulative_distance_travelled_m": 25424.565667996696,
+        "final_route_position_m": 2572.6094624680786,
+        "starting_route_position_m": 1813.001098632834,
+        "maximum_chunk_build_ms": 40.17,
+        "maximum_collision_build_ms": 3.6848,
+        "maximum_environment_build_ms": 39.6709,
         "loaded_chunks": 9,
         "maximum_visual_chunks": 26,
         "maximum_collision_chunks": 10,
@@ -929,9 +944,9 @@
       },
       "content_class": {
         "peak_draw_calls": 530,
-        "mean_draw_calls": 350.1110481728587,
+        "mean_draw_calls": 350.12587973241625,
         "peak_primitives": 1332602,
-        "mean_primitives": 851034.1001172324,
+        "mean_primitives": 852606.442434664,
         "peak_render_objects": 719,
         "road": {
           "profile": "production",
@@ -968,12 +983,12 @@
       },
       "acceptance": {
         "p95_frame_ms": {
-          "measured": 1.7575,
+          "measured": 1.7975,
           "limit": 16.67,
           "passed": true
         },
         "p99_frame_ms": {
-          "measured": 2.8675,
+          "measured": 2.8425000000000002,
           "limit": 20,
           "passed": true
         },
@@ -983,18 +998,18 @@
           "passed": true
         },
         "gpu_memory_bytes": {
-          "measured": 183325792,
+          "measured": 183523312,
           "limit": 9500000000,
           "passed": true
         },
         "working_set_bytes": {
-          "measured": 775192576,
+          "measured": 758558720,
           "limit": 16000000000,
           "passed": true
         },
         "sustained_memory_growth": {
-          "working_set_slope_bytes_per_minute": 4881757.2107737595,
-          "working_set_r_squared": 0.7526131072799617,
+          "working_set_slope_bytes_per_minute": 6317013.713776592,
+          "working_set_r_squared": 0.966123905947538,
           "evaluated": false,
           "criterion": "slope > 1 MiB/min AND R^2 >= 0.5 over the measured window",
           "criterion_status": "proposed operationalisation awaiting Q-022 ratification",
@@ -1012,7 +1027,7 @@
         "actual_window_size": "2560x1440",
         "content_scale_size_2d": "1920x1080",
         "three_d_render_size": "2560x1440",
-        "three_d_render_size_basis": "canvas_items stretch scales 2D only; 3D renders at window resolution. Corroborated by mean GPU time scaling 0.245 -> 0.411 -> 0.792 ms across 1280x720, 2560x1440, and 3840x2160 windows.",
+        "three_d_render_size_basis": "canvas_items stretch scales 2D only; 3D renders at window resolution. The corroborating resolution-scaling measurements are recorded in the dated audit, not here, because they belong to one experiment rather than to every capture.",
         "rendering_method": "forward_plus",
         "headless": false,
         "vsync_enabled": false,
@@ -1031,53 +1046,53 @@
       },
       "warmup": {
         "requested_seconds": 20,
-        "observed_seconds": 20.000258264553707,
+        "observed_seconds": 20.000708595962237,
         "discarded": true
       },
       "measurement": {
-        "measured_seconds": 120.000991,
-        "frames": 113400,
-        "mean_fps": 944.9921959394485
+        "measured_seconds": 120.000709,
+        "frames": 110327,
+        "mean_fps": 919.3862346263304
       },
       "frame_time_ms": {
-        "sample_count": 113400,
-        "p50": 0.8525,
-        "p95": 1.8125,
-        "p99": 2.8975,
-        "minimum": 0.574,
-        "maximum": 47.608,
-        "mean": 1.058209797178128,
+        "sample_count": 110327,
+        "p50": 0.8975,
+        "p95": 1.7275,
+        "p99": 2.7475,
+        "minimum": 0.583,
+        "maximum": 42.398,
+        "mean": 1.0876821539604906,
         "bucket_resolution_ms": 0.005,
         "above_histogram_range_count": 0
       },
       "render_cpu_ms": {
-        "sample_count": 113400,
+        "sample_count": 110327,
         "p50": 0.2725,
-        "p95": 0.4375,
-        "p99": 0.4925,
-        "minimum": 0.20499999821186066,
-        "maximum": 0.9700000286102295,
-        "mean": 0.2894645501205425,
+        "p95": 0.4475,
+        "p99": 0.5175,
+        "minimum": 0.2070000022649765,
+        "maximum": 1.1030000448226929,
+        "mean": 0.2968713278268367,
         "bucket_resolution_ms": 0.005,
         "above_histogram_range_count": 0
       },
       "render_gpu_ms": {
-        "sample_count": 113400,
+        "sample_count": 110327,
         "p50": 0.3875,
         "p95": 0.41250000000000003,
-        "p99": 0.7175,
+        "p99": 0.6825,
         "minimum": 0.35199999809265137,
-        "maximum": 1.406999945640564,
-        "mean": 0.3952859614970823,
+        "maximum": 1.2170000076293945,
+        "mean": 0.39390053234935185,
         "bucket_resolution_ms": 0.005,
         "above_histogram_range_count": 0
       },
       "attribution": {
-        "mean_frame_ms": 1.058209797178128,
-        "mean_render_cpu_ms": 0.2894645501205425,
-        "mean_render_gpu_ms": 0.3952859614970823,
-        "mean_non_render_ms": 0.6629238356810456,
-        "gpu_bound_frame_ratio": 0.8948236331569664,
+        "mean_frame_ms": 1.0876821539604906,
+        "mean_render_cpu_ms": 0.2968713278268367,
+        "mean_render_gpu_ms": 0.39390053234935185,
+        "mean_non_render_ms": 0.6937816216111388,
+        "gpu_bound_frame_ratio": 0.8747178841081512,
         "bound_by": "gpu"
       },
       "stalls": {
@@ -1090,39 +1105,41 @@
       },
       "stall_events": [],
       "memory": {
-        "starting_working_set_bytes": 730730496,
-        "peak_working_set_bytes": 737497088,
-        "peak_video_memory_bytes": 184764464,
+        "starting_working_set_bytes": 732852224,
+        "peak_working_set_bytes": 765419520,
+        "peak_video_memory_bytes": 184781456,
         "peak_texture_memory_bytes": 114917376,
-        "peak_buffer_memory_bytes": 49852260,
+        "peak_buffer_memory_bytes": 49869252,
         "sample_count": 240,
         "working_set_trend": {
           "sample_count": 240,
-          "slope_bytes_per_minute": 2422199.0725328424,
-          "r_squared": 0.9428617444291668,
-          "first_bytes": 730779648,
-          "last_bytes": 737464320
+          "slope_bytes_per_minute": 15188217.09338137,
+          "r_squared": 0.8523230200292352,
+          "first_bytes": 732954624,
+          "last_bytes": 765419520
         },
         "video_memory_trend": {
           "sample_count": 240,
-          "slope_bytes_per_minute": 170117.94642471932,
-          "r_squared": 0.5472920939330352,
+          "slope_bytes_per_minute": 210551.27143543898,
+          "r_squared": 0.6473806734276997,
           "first_bytes": 184316384,
           "last_bytes": 184392576
         },
         "managed_heap_trend": {
           "sample_count": 240,
-          "slope_bytes_per_minute": 990434.027623574,
-          "r_squared": 0.01321242916029397,
-          "first_bytes": 26002128,
-          "last_bytes": 34746616
+          "slope_bytes_per_minute": 314291.9013099077,
+          "r_squared": 0.0013517489546897021,
+          "first_bytes": 27096520,
+          "last_bytes": 27818920
         }
       },
       "streaming": {
-        "route_distance_traversed_m": 4800.40506518584,
-        "maximum_chunk_build_ms": 34.5655,
-        "maximum_collision_build_ms": 3.0011,
-        "maximum_environment_build_ms": 39.7384,
+        "cumulative_distance_travelled_m": 4801.069769967667,
+        "final_route_position_m": 5660.883856881697,
+        "starting_route_position_m": 859.8140869140307,
+        "maximum_chunk_build_ms": 34.1804,
+        "maximum_collision_build_ms": 3.1478,
+        "maximum_environment_build_ms": 40.4461,
         "loaded_chunks": 7,
         "maximum_visual_chunks": 11,
         "maximum_collision_chunks": 9,
@@ -1134,9 +1151,9 @@
       },
       "content_class": {
         "peak_draw_calls": 428,
-        "mean_draw_calls": 321.58234567901235,
+        "mean_draw_calls": 321.2216048655361,
         "peak_primitives": 1308438,
-        "mean_primitives": 901602.0948500882,
+        "mean_primitives": 901077.8094573404,
         "peak_render_objects": 614,
         "road": {
           "profile": "production",
@@ -1173,12 +1190,12 @@
       },
       "acceptance": {
         "p95_frame_ms": {
-          "measured": 1.8125,
+          "measured": 1.7275,
           "limit": 16.67,
           "passed": true
         },
         "p99_frame_ms": {
-          "measured": 2.8975,
+          "measured": 2.7475,
           "limit": 20,
           "passed": true
         },
@@ -1188,18 +1205,18 @@
           "passed": true
         },
         "gpu_memory_bytes": {
-          "measured": 184764464,
+          "measured": 184781456,
           "limit": 9500000000,
           "passed": true
         },
         "working_set_bytes": {
-          "measured": 737497088,
+          "measured": 765419520,
           "limit": 16000000000,
           "passed": true
         },
         "sustained_memory_growth": {
-          "working_set_slope_bytes_per_minute": 2422199.0725328424,
-          "working_set_r_squared": 0.9428617444291668,
+          "working_set_slope_bytes_per_minute": 15188217.09338137,
+          "working_set_r_squared": 0.8523230200292352,
           "evaluated": false,
           "criterion": "slope > 1 MiB/min AND R^2 >= 0.5 over the measured window",
           "criterion_status": "proposed operationalisation awaiting Q-022 ratification",
@@ -1217,7 +1234,7 @@
         "actual_window_size": "2560x1440",
         "content_scale_size_2d": "1920x1080",
         "three_d_render_size": "2560x1440",
-        "three_d_render_size_basis": "canvas_items stretch scales 2D only; 3D renders at window resolution. Corroborated by mean GPU time scaling 0.245 -> 0.411 -> 0.792 ms across 1280x720, 2560x1440, and 3840x2160 windows.",
+        "three_d_render_size_basis": "canvas_items stretch scales 2D only; 3D renders at window resolution. The corroborating resolution-scaling measurements are recorded in the dated audit, not here, because they belong to one experiment rather than to every capture.",
         "rendering_method": "forward_plus",
         "headless": false,
         "vsync_enabled": false,
@@ -1236,108 +1253,119 @@
       },
       "warmup": {
         "requested_seconds": 30,
-        "observed_seconds": 30.000383597878873,
+        "observed_seconds": 30.000357964885417,
         "discarded": true
       },
       "measurement": {
-        "measured_seconds": 1800.000326,
-        "frames": 1700671,
-        "mean_fps": 944.8170511053562
+        "measured_seconds": 1800.000264,
+        "frames": 1653461,
+        "mean_fps": 918.5893097180124
       },
       "frame_time_ms": {
-        "sample_count": 1700671,
-        "p50": 0.8625,
-        "p95": 1.7475,
-        "p99": 2.7625,
-        "minimum": 0.521,
-        "maximum": 62.924,
-        "mean": 1.0584059621173447,
+        "sample_count": 1653461,
+        "p50": 0.8975,
+        "p95": 1.7825,
+        "p99": 2.7925,
+        "minimum": 0.531,
+        "maximum": 50.502,
+        "mean": 1.0886257758725728,
         "bucket_resolution_ms": 0.005,
         "above_histogram_range_count": 0
       },
       "render_cpu_ms": {
-        "sample_count": 1700671,
-        "p50": 0.28750000000000003,
-        "p95": 0.47250000000000003,
-        "p99": 0.5575,
+        "sample_count": 1653461,
+        "p50": 0.2925,
+        "p95": 0.4875,
+        "p99": 0.5725,
         "minimum": 0.17599999904632568,
-        "maximum": 3.322000026702881,
-        "mean": 0.31215838270255936,
+        "maximum": 3.1429998874664307,
+        "mean": 0.31872007920331924,
         "bucket_resolution_ms": 0.005,
         "above_histogram_range_count": 0
       },
       "render_gpu_ms": {
-        "sample_count": 1700671,
+        "sample_count": 1653461,
         "p50": 0.3825,
         "p95": 0.41250000000000003,
-        "p99": 0.6725,
-        "minimum": 0.12200000137090683,
-        "maximum": 1.5160000324249268,
-        "mean": 0.3849897230111401,
+        "p99": 0.6825,
+        "minimum": 0.12300000339746475,
+        "maximum": 1.6579999923706055,
+        "mean": 0.3858385969159079,
         "bucket_resolution_ms": 0.005,
         "above_histogram_range_count": 0
       },
       "attribution": {
-        "mean_frame_ms": 1.0584059621173447,
-        "mean_render_cpu_ms": 0.31215838270255936,
-        "mean_render_gpu_ms": 0.3849897230111401,
-        "mean_non_render_ms": 0.6734162391062046,
-        "gpu_bound_frame_ratio": 0.839177595196249,
+        "mean_frame_ms": 1.0886257758725728,
+        "mean_render_cpu_ms": 0.31872007920331924,
+        "mean_render_gpu_ms": 0.3858385969159079,
+        "mean_non_render_ms": 0.7027871789566649,
+        "gpu_bound_frame_ratio": 0.8220647478229,
         "bound_by": "gpu"
       },
       "stalls": {
         "threshold_ms": 50,
-        "total_count": 1,
-        "steady_driving_count": 0,
-        "loop_wrap_attributed_count": 1,
+        "total_count": 2,
+        "steady_driving_count": 2,
+        "loop_wrap_attributed_count": 0,
         "loop_wrap_count": 2,
         "dropped_beyond_record_cap": 0
       },
       "stall_events": [
         {
-          "t_s": 1202.133535,
-          "frame_ms": 62.924,
-          "render_cpu_ms": 0.38999998569488525,
-          "render_gpu_ms": 0.3140000104904175,
-          "route_distance_m": 0,
-          "speed_mps": 0.16333363950252533,
-          "attributed_to_loop_wrap": true
+          "t_s": 686.078734,
+          "frame_ms": 50.198,
+          "render_cpu_ms": 0.38600000739097595,
+          "render_gpu_ms": 0.3869999945163727,
+          "route_distance_m": 4006.1139826320405,
+          "speed_mps": 39.995113372802734,
+          "attributed_to_loop_wrap": false
+        },
+        {
+          "t_s": 1537.632949,
+          "frame_ms": 50.502,
+          "render_cpu_ms": 0.5419999957084656,
+          "render_gpu_ms": 0.3919999897480011,
+          "route_distance_m": 13368.717276086352,
+          "speed_mps": 39.99587631225586,
+          "attributed_to_loop_wrap": false
         }
       ],
       "memory": {
-        "starting_working_set_bytes": 735133696,
-        "peak_working_set_bytes": 810381312,
-        "peak_video_memory_bytes": 185506384,
+        "starting_working_set_bytes": 744816640,
+        "peak_working_set_bytes": 800153600,
+        "peak_video_memory_bytes": 185340864,
         "peak_texture_memory_bytes": 114917376,
-        "peak_buffer_memory_bytes": 50593684,
-        "sample_count": 3594,
+        "peak_buffer_memory_bytes": 50428636,
+        "sample_count": 3593,
         "working_set_trend": {
-          "sample_count": 3594,
-          "slope_bytes_per_minute": 1956965.753600698,
-          "r_squared": 0.7903798650027074,
-          "first_bytes": 734494720,
-          "last_bytes": 795021312
+          "sample_count": 3593,
+          "slope_bytes_per_minute": 972628.714614019,
+          "r_squared": 0.45271815781055247,
+          "first_bytes": 744853504,
+          "last_bytes": 783499264
         },
         "video_memory_trend": {
-          "sample_count": 3594,
-          "slope_bytes_per_minute": 3722.3596219415754,
-          "r_squared": 0.020474604225510618,
+          "sample_count": 3593,
+          "slope_bytes_per_minute": 3461.8559831850453,
+          "r_squared": 0.017776327929136193,
           "first_bytes": 184379456,
-          "last_bytes": 184364688
+          "last_bytes": 184116560
         },
         "managed_heap_trend": {
-          "sample_count": 3594,
-          "slope_bytes_per_minute": 9008.844234127415,
-          "r_squared": 0.0002459646341660404,
-          "first_bytes": 29715488,
-          "last_bytes": 36084264
+          "sample_count": 3593,
+          "slope_bytes_per_minute": 12830.385734936062,
+          "r_squared": 0.0004992361408654444,
+          "first_bytes": 20829904,
+          "last_bytes": 30672160
         }
       },
       "streaming": {
-        "route_distance_traversed_m": 22597.167075735913,
-        "maximum_chunk_build_ms": 34.8533,
-        "maximum_collision_build_ms": 3.1803,
-        "maximum_environment_build_ms": 40.4091,
+        "cumulative_distance_travelled_m": 71931.09720032712,
+        "final_route_position_m": 23860.968389127564,
+        "starting_route_position_m": 1259.7857971191027,
+        "maximum_chunk_build_ms": 35.6282,
+        "maximum_collision_build_ms": 3.0986,
+        "maximum_environment_build_ms": 40.2134,
         "loaded_chunks": 6,
         "maximum_visual_chunks": 17,
         "maximum_collision_chunks": 10,
@@ -1349,9 +1377,9 @@
       },
       "content_class": {
         "peak_draw_calls": 525,
-        "mean_draw_calls": 348.83561488377234,
+        "mean_draw_calls": 348.73947314148927,
         "peak_primitives": 1330366,
-        "mean_primitives": 856503.3802493251,
+        "mean_primitives": 856330.6783153639,
         "peak_render_objects": 713,
         "road": {
           "profile": "production",
@@ -1388,37 +1416,37 @@
       },
       "acceptance": {
         "p95_frame_ms": {
-          "measured": 1.7475,
+          "measured": 1.7825,
           "limit": 16.67,
           "passed": true
         },
         "p99_frame_ms": {
-          "measured": 2.7625,
+          "measured": 2.7925,
           "limit": 20,
           "passed": true
         },
         "steady_driving_stalls_over_50ms": {
-          "measured": 0,
+          "measured": 2,
           "limit": 0,
-          "passed": true
+          "passed": false
         },
         "gpu_memory_bytes": {
-          "measured": 185506384,
+          "measured": 185340864,
           "limit": 9500000000,
           "passed": true
         },
         "working_set_bytes": {
-          "measured": 810381312,
+          "measured": 800153600,
           "limit": 16000000000,
           "passed": true
         },
         "sustained_memory_growth": {
-          "working_set_slope_bytes_per_minute": 1956965.753600698,
-          "working_set_r_squared": 0.7903798650027074,
+          "working_set_slope_bytes_per_minute": 972628.714614019,
+          "working_set_r_squared": 0.45271815781055247,
           "evaluated": true,
           "criterion": "slope > 1 MiB/min AND R^2 >= 0.5 over the measured window",
           "criterion_status": "proposed operationalisation awaiting Q-022 ratification",
-          "passed": false,
+          "passed": true,
           "note": "Evaluated against the 30-minute steady-state threshold."
         }
       }
@@ -1434,90 +1462,98 @@
   "output_artifacts": [
     {
       "path": "reports/q022/reference-performance-daylight.json",
-      "sha256": "5e87cca1f5777ea67a97b92516d9c278f26626eb89d8ad8f49923d622b51d12d",
+      "sha256": "e97c685e354071402ce29e293a3d09f7c3202d74ab4b4901c55b50bbc3c2f695",
       "retention": "ignored report path; summaries are reproduced in the dated audit"
     },
     {
       "path": "reports/q022/reference-performance-daylight.jsonl",
-      "sha256": "5d05922e38f929bdea18497656d3e1868b9d4a45f0385690eb685676752e6bb8",
+      "sha256": "78de3f97eac0eb905f323b41267992f71e13595686a003d347347747b33f32a8",
       "retention": "ignored report path; summaries are reproduced in the dated audit"
     },
     {
       "path": "reports/q022/reference-performance-night.json",
-      "sha256": "1aaa18eb4ebc767593c69fe6400a494d83e5cfa9a2b5758375a76b127de24dfe",
+      "sha256": "d04a009e54a2572bef56fcfabca5ef91d58e54a29ec85e04b349739667c3e7ac",
       "retention": "ignored report path; summaries are reproduced in the dated audit"
     },
     {
       "path": "reports/q022/reference-performance-night.jsonl",
-      "sha256": "0008a592dba5b8ca6c1674b608fe5142ae191924ef067ff5d8bb69932f604d63",
+      "sha256": "d68b09b6fb54caf3ec62b674e4be30e17b610e451b92065ca73bacc326c28d89",
       "retention": "ignored report path; summaries are reproduced in the dated audit"
     },
     {
       "path": "reports/q022/reference-performance-high-speed.json",
-      "sha256": "7ddcfc66fce615e959ef9bc12ff72101fcf88cef81ac89897c7d8e1eb5dcd077",
+      "sha256": "337f3007efa25699d81f301470f52e063208823cf4bae62cb7bfd04821ce4a58",
       "retention": "ignored report path; summaries are reproduced in the dated audit"
     },
     {
       "path": "reports/q022/reference-performance-high-speed.jsonl",
-      "sha256": "d308d60ff2bb4e4fd02560096b46dedaf190a0d5fad3c56d703c2a3bc912afd4",
+      "sha256": "8e40f610d4aa608f5727e3d6fe333852f2ecf50b97f662973ca445ec9a74bece",
       "retention": "ignored report path; summaries are reproduced in the dated audit"
     },
     {
       "path": "reports/q022/reference-performance-streaming.json",
-      "sha256": "2af9e3a71c4072efba75d4776c6eee6ed0a8ad80c963c86378c150e488b0d83a",
+      "sha256": "23560f0b11a1f75635c55ea0b1441c0e6dc38a7232e223b4716e8db7beac8cf2",
       "retention": "ignored report path; summaries are reproduced in the dated audit"
     },
     {
       "path": "reports/q022/reference-performance-streaming.jsonl",
-      "sha256": "63de07399141102a2b1dc1d36987dc4d3c00da77cbe0ea9544934478e096e701",
+      "sha256": "ca4113bd7732c27bb89ef8bd4d8f244f20b311ccb0ef3b5c0fe566ef45ecbd4a",
       "retention": "ignored report path; summaries are reproduced in the dated audit"
     },
     {
       "path": "reports/q022/reference-performance-degraded-quality.json",
-      "sha256": "c506d60e16bac30268fcf84891273b5b4e50cd9397916fb1c4bd41399aa7e4da",
+      "sha256": "a817003390130054441b4ea85fa10c0a544065bad55b0da0a4cc2e04e0de7992",
       "retention": "ignored report path; summaries are reproduced in the dated audit"
     },
     {
       "path": "reports/q022/reference-performance-degraded-quality.jsonl",
-      "sha256": "6705049681af3e1adda8e45899fdbd2df89f844c3484614ef98384ac180c08de",
+      "sha256": "a7d3ccddd083d26b527ac34ebea67df8ef7aa13c6d30a23ecfcc6dec7d2fe50a",
       "retention": "ignored report path; summaries are reproduced in the dated audit"
     },
     {
       "path": "reports/q022/reference-performance-steady-state-30m.json",
-      "sha256": "62b296f081e4473eea5ce9d24c77982ff2b6eeb866f9bc3dafe3fa223c4a484f",
+      "sha256": "f43928f0f5dd410be3befcef84f7275f93e198db102a960139820dd05ee37158",
       "retention": "ignored report path; summaries are reproduced in the dated audit"
     },
     {
       "path": "reports/q022/reference-performance-steady-state-30m.jsonl",
-      "sha256": "c9066514bd4bcc886156dac3aea7e06acfc215a116597858a00172166a759b0c",
+      "sha256": "8a9946dca851260680810b4954f9e106f66fcefd19bb8131b2de6b50087b4a4d",
       "retention": "ignored report path; summaries are reproduced in the dated audit"
     }
   ],
   "threshold_failures": [
     {
-      "scenario": "steady-state-30m",
-      "threshold": "no sustained positive growth over a 30-minute steady-state run",
-      "measured": "working set +57.7 MiB; slope 1.87 MiB/min; R^2 0.79",
-      "criterion_applied": "slope > 1 MiB/min AND R^2 >= 0.5",
-      "criterion_status": "proposed operationalisation awaiting Q-022 ratification",
-      "attribution": "CPU-side and largely native: GPU memory flat at 175.8 MiB across the run and managed heap grew only 6.1 of the 57.7 MiB. Harness share of process allocation was 0.10 percent, so this is game and engine code.",
+      "scenario": "high-speed and steady-state-30m",
+      "threshold": "no steady-driving stall above 50 ms after warm-up",
+      "measured": "three stalls at 50.80 ms (high-speed, t=29.3 s, 91 m/s), 50.20 ms and 50.50 ms (30-minute run, t=686.1 s and t=1537.6 s, 40 m/s)",
+      "attribution": "Render CPU and GPU were both under 0.6 ms during every one of these frames, so essentially the whole stall is outside rendering. Maximum synchronous chunk build reached 41.9 ms and maximum environment build 40.5 ms in the same matrix, which is the right magnitude to explain them.",
+      "marginality": "All three exceed the limit by between 0.4 and 1.6 percent, and an earlier execution of the same matrix recorded zero steady-driving stalls. This threshold is a boundary case, not a stable failure.",
       "action_taken": "reported; nothing was tuned, thinned, or relaxed to produce a pass"
     }
   ],
   "marginal_passes": [
     {
-      "threshold": "no steady-driving stall above 50 ms after warm-up",
-      "observed": "passed in all six scenarios, but worst frames reached 42-48 ms against the 50 ms limit, synchronous environment construction peaked at 48.8 ms, and 81 percent of measured seconds contain a frame above the 16.67 ms envelope (median per-second worst frame 29.97 ms). Earlier executions on the defective harness recorded 1-5 steady stalls in the same scenarios, so the outcome varies between runs. Read this pass as marginal."
+      "threshold": "no sustained positive growth over a 30-minute steady-state run",
+      "observed": "passed at 0.93 MiB/min with R^2 0.45, against a proposed rule of slope > 1 MiB/min AND R^2 >= 0.5. Both figures sit just under their bound, and an earlier execution of the same matrix failed this threshold at 1.87 MiB/min with R^2 0.79. The pass is a boundary case."
+    },
+    {
+      "threshold": "frame-time percentiles",
+      "observed": "p95 and p99 pass with 9.0x and 6.9x headroom, but 81 percent of measured seconds still contain at least one frame above the 16.67 ms envelope. The distribution is bimodal: a sub-millisecond median with a recurring ~30 ms Gen0 GC spike roughly once per second."
     }
   ],
   "garbage_collection_finding": {
-    "game_allocated_bytes_per_frame": 14363,
-    "gen0_collections_30m": 1475,
-    "gen0_per_second": 0.82,
-    "seconds_containing_spike_over_16_67ms": 1464,
-    "seconds_sampled": 1798,
+    "game_allocated_bytes_per_frame_30m": 14391,
+    "gen0_collections_30m": 1437,
+    "gen0_per_second_30m": 0.8,
+    "gen2_collections_30m": 14,
     "harness_share_of_allocation": 0.001,
-    "conclusion": "1,475 Gen0 collections against 1,464 seconds containing a >16.67 ms spike is a near 1:1 correspondence; the recurring ~30 ms spike is Gen0 GC driven by 14.4 KB of game allocation per rendered frame."
+    "conclusion": "Gen0 collections track the recurring sub-threshold frame spike almost one to one across the 30-minute run. The spike is Gen0 GC driven by roughly 14.4 KB of allocation per rendered frame; the harness accounts for 0.10 percent of it.",
+    "upper_bound_caveat": "Any profile that sets _smokeTest also runs Main.UpdateRunAutomationState every frame, marshalling about 35 values into a Godot Dictionary. That automation bookkeeping is counted in game_allocated_bytes, so the per-frame figure is an upper bound on real gameplay allocation."
+  },
+  "build_configuration": {
+    "configuration": "Debug",
+    "why": "Godot loads the assembly built for the running editor configuration, so a windowed capture driven through the editor binary measures a Debug build.",
+    "impact": "Unoptimised IL and different JIT behaviour than a shipping export. Frame times, GPU attribution, and especially per-frame allocation are all affected. Budgets derived here should be re-derived against an exported Release build."
   },
   "failures": {
     "capture_failures": 0,
@@ -1531,11 +1567,5 @@
     "status": "open",
     "handoff": "docs/QUESTIONS_FOR_RANDROID_2026-08-03_Q022_REFERENCE_CAPTURE.md",
     "approval_reference": null
-  },
-  "post_capture_code_changes": {
-    "change": "Removed two parameters from the private Acceptance() helper that were passed and immediately discarded.",
-    "affects_measurements": false,
-    "why_inert": "Both parameters were unused inside the method body; the values they carried are still reported through the summary's own frame_time_ms and memory fields.",
-    "verification": "Rebuilt and re-ran a short capture on the committed revision; the summary key set is identical to the matrix captures."
   }
 }
