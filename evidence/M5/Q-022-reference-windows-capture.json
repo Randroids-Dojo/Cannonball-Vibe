@@ -1,0 +1,1541 @@
+{
+  "schema_version": 1,
+  "task_id": "Q-022",
+  "related_task_ids": [
+    "P1-008",
+    "P1-009",
+    "P1-010",
+    "P0-015"
+  ],
+  "milestone": "M5",
+  "status": "evidence_recorded_question_open",
+  "headline": "Five of six ADR-0023 provisional thresholds pass with 9-11x headroom. The sustained-memory-growth threshold FAILS on the 30-minute run at 1.87 MiB/min (R^2 0.79, +57.7 MiB, entirely CPU-side).",
+  "git_revision": "7561114427f0348f6cd8f761d1c006f7d1e77e45",
+  "workspace": {
+    "policy": "Q-022 capture-workspace Option A (ADR-0023 operating addendum)",
+    "worktree_path_outside_gameplay_checkout": true,
+    "created_fresh_at_commit": "7561114427f0348f6cd8f761d1c006f7d1e77e45",
+    "clean_when_created": true,
+    "clean_when_measuring": false,
+    "clean_when_measuring_explanation": "The capture harness did not exist at the pinned commit, so it had to be added before anything could be measured. The worktree was created fresh and verified clean via an empty `git status --porcelain`, and the only modifications present at capture time are the harness files listed in modified_paths_at_capture plus the documentation deliverables. No stale generated output and no long-lived gameplay worktree contributed to any measurement; every route package was rebuilt from checksum-locked fixture sources at the start of each run.",
+    "modified_paths_at_capture": [
+      "game/Automation/ReferencePerformanceScenario.cs (new, the harness)",
+      "game/Main.cs (wires --reference-performance-profile)",
+      "scripts/capture-reference-performance.sh (new, the front door)"
+    ],
+    "git_status_porcelain_at_evidence_generation": " M docs/DELIVERY_LEDGER.json\n M docs/OPEN_QUESTIONS.md\n M game/Main.cs\n?? docs/QUESTIONS_FOR_RANDROID_2026-08-03_Q022_REFERENCE_CAPTURE.md\n?? docs/audits/2026-08-03-q022-reference-windows-capture.md\n?? evidence/M5/Q-022-reference-windows-capture.json\n?? game/Automation/ReferencePerformanceScenario.cs\n?? scripts/capture-reference-performance.sh\n"
+  },
+  "recorded_at_utc": "2026-08-04T05:24:55Z",
+  "platform": {
+    "os": "Microsoft Windows 11 Pro 10.0.26200",
+    "architecture": "x64",
+    "cpu": "AMD Ryzen 9 5900X 12-Core (12C/24T)",
+    "gpu": "NVIDIA GeForce RTX 3080 Ti 12 GB",
+    "gpu_driver": "610.88",
+    "gpu_vbios": "94.02.71.80.79",
+    "system_memory_gb": 63.9,
+    "renderer": "Forward+ (Vulkan 1.4.341)",
+    "display": "5120x1440 desktop at 119 Hz; capture window 2560x1440",
+    "matches_declared_reference_hardware": true,
+    "reference_hardware_audit": "docs/audits/2026-07-23-reference-windows-hardware.md"
+  },
+  "harness_corrections": [
+    {
+      "defect": "presented-frame time read from the smoothed engine delta",
+      "impact": "Godot smooths _Process(delta) against the 120 Hz physics step; p50/p95/p99 quantised to exactly 1/1080, 1/840 and 1/600 s and p95 was understated by about 23 percent (1.19 ms reported vs 1.54 ms actual).",
+      "fix": "measure from the Time.GetTicksUsec monotonic clock; both series recorded"
+    },
+    {
+      "defect": "unbounded per-frame sample lists made the harness distort the measurement",
+      "impact": "About 1.7M List<double> entries per series over 30 minutes (~55.6 MB), repeatedly reallocated onto the Large Object Heap; roughly 34 percent of the reported working-set growth and inflated stall counts belonged to the harness.",
+      "fix": "fixed-width histograms and pre-sized buffers with zero steady-state allocation; measured harness share of process allocation is 0.10 percent"
+    },
+    {
+      "defect": "measurement clock started before warm-up snapshot work",
+      "impact": "charged setup cost to the first measured frame as a spurious stall",
+      "fix": "clock starts after all warm-up completion work"
+    }
+  ],
+  "measurement_method": {
+    "resolution": "2560x1440",
+    "rendering_method": "forward_plus",
+    "headless": false,
+    "vsync": "disabled",
+    "engine_max_fps": 0,
+    "vsync_note": "V-Sync disabled and Engine.MaxFps unbounded are a measurement-method choice, not ratified policy, so presented-frame time can exceed the 119 Hz refresh interval and reveal headroom.",
+    "monitor_refresh_hz": 119.999,
+    "driver_state": {
+      "hags_hwschmode_registry": "not set (OS default)",
+      "game_mode_auto": "not set",
+      "game_dvr_enabled_registry": 1,
+      "game_dvr_app_capture": "not set",
+      "nvidia_shadowplay_overlay": "not set",
+      "driver_frame_limiter": "none configured; an uncapped smoke run presented 977 FPS, which no frame limiter would permit"
+    },
+    "warmup_discarded": true,
+    "three_d_render_size": "2560x1440",
+    "content_scale_size_2d": "1920x1080 (canvas_items stretch, 2D only)",
+    "three_d_resolution_basis": "GetVisibleRect reports the 2D content-scale reference, not the 3D render size. A same-binary scaling experiment confirms 3D follows the window: mean render GPU 0.2445 ms at 1280x720, 0.4106 ms at 2560x1440, 0.7916 ms at 3840x2160.",
+    "frame_time_source": "Time.GetTicksUsec monotonic clock",
+    "content": "integrated visual slice: production Hero GT, production highway kit, balanced regional environment on the representative-corridor fixture",
+    "corridor_loop_note": "The representative corridor is 24.665 km. Runs longer than one traversal enable the existing short-corridor loop, which teleports the vehicle to the route start. Loop wraps are timestamped and their frames are attributed separately from steady-driving stalls rather than discarded silently."
+  },
+  "tool_versions": {
+    "godot": "4.7.1.stable.mono.official.a13da4feb",
+    "dotnet_sdk": "10.0.102",
+    "uv": "0.9.24",
+    "git_lfs": "3.7.1",
+    "doctor_status": "passed"
+  },
+  "scenario_arguments": {
+    "fixture": "representative-corridor",
+    "seed": "engine default run seed 20260714 (this capture does not vary the seed)",
+    "deterministic_inputs": "route package is rebuilt from checksum-locked fixture sources before each run"
+  },
+  "input_artifacts": [
+    {
+      "path": "data/sources/fixtures/nhpn-boulder-westminster-us36.geojson",
+      "sha256": "d859ff7ef97106a36b24276b87c86c3968aa1266ddf987ee6859d6972b7f6ff6"
+    },
+    {
+      "path": "data/sources/fixtures/nhpn-boulder-westminster-us36.manifest.json",
+      "sha256": "8020fb0146c5d630132accd9234e7c443e9f96b8459ae109d5f16a9104985575"
+    },
+    {
+      "path": "data/sources/fixtures/usgs-13-n40w106-boulder-westminster.tif",
+      "sha256": "b426c18178961d1add78477335a8bb2373471041a8aba04066e9dd2d82de7539"
+    },
+    {
+      "path": "data/sources/fixtures/usgs-13-n40w106-boulder-westminster.metadata.json",
+      "sha256": "0ec7798324b918a55ea9e842ae1ee23370beb25c080b78ca17c0de14b07fda7f"
+    },
+    {
+      "path": "data/sources/representative-corridor-lock.json",
+      "sha256": "020692b11640728f83b81175f33226ca13ed89699bbeaeea3bf6dbbdb5ea9a3d"
+    },
+    {
+      "path": "data/sources/catalog.json",
+      "sha256": "356a0fe4810a37bb5e5970bba3ae8295208908bc800e016c22e3b608bbb7c9eb"
+    },
+    {
+      "path": "game/Automation/ReferencePerformanceScenario.cs",
+      "sha256": "a8cee2d66d591b63e0f6275ab91d8ed804c283e40d03b0be281d3ff6ba006f81"
+    },
+    {
+      "path": "game/Automation/IntegratedVisualSliceScenario.cs",
+      "sha256": "310170acfa3973f81c1efdf923413d74833a9cdf2c0085bb8c3b475f019ba248"
+    },
+    {
+      "path": "game/Main.cs",
+      "sha256": "baaa2fd518116e529a697d4e9cb2b5e7da276ac7ecdafa808e87fee81e64a960"
+    },
+    {
+      "path": "scripts/capture-reference-performance.sh",
+      "sha256": "1392095e4c1af40953d48e222971b4144dbd54fddf1181d16b67f4459df2203b"
+    },
+    {
+      "path": "project.godot",
+      "sha256": "c5d098c8dcecb3dccfc89e4e4e4f560f7f36e32ecccb746758ebd9881d85e2bd"
+    }
+  ],
+  "commands": [
+    {
+      "command": "./scripts/capture-reference-performance.sh --scenario daylight --lighting daylight --speed-mps 40 --warmup-seconds 20 --measure-seconds 120 --environment-quality balanced",
+      "exit_status": 0,
+      "frames": 123515,
+      "resolution": "2560x1440",
+      "completion_marker": "CANNONBALL_REFERENCE_PERFORMANCE_OK"
+    },
+    {
+      "command": "./scripts/capture-reference-performance.sh --scenario night --lighting night --speed-mps 40 --warmup-seconds 20 --measure-seconds 120 --environment-quality balanced",
+      "exit_status": 0,
+      "frames": 112912,
+      "resolution": "2560x1440",
+      "completion_marker": "CANNONBALL_REFERENCE_PERFORMANCE_OK"
+    },
+    {
+      "command": "./scripts/capture-reference-performance.sh --scenario high-speed --lighting daylight --speed-mps 91 --warmup-seconds 20 --measure-seconds 120 --environment-quality balanced",
+      "exit_status": 0,
+      "frames": 112182,
+      "resolution": "2560x1440",
+      "completion_marker": "CANNONBALL_REFERENCE_PERFORMANCE_OK"
+    },
+    {
+      "command": "./scripts/capture-reference-performance.sh --scenario streaming --lighting daylight --speed-mps 91 --warmup-seconds 20 --measure-seconds 300 --environment-quality balanced",
+      "exit_status": 0,
+      "frames": 278933,
+      "resolution": "2560x1440",
+      "completion_marker": "CANNONBALL_REFERENCE_PERFORMANCE_OK"
+    },
+    {
+      "command": "./scripts/capture-reference-performance.sh --scenario degraded-quality --lighting daylight --speed-mps 40 --warmup-seconds 20 --measure-seconds 120 --environment-quality low",
+      "exit_status": 0,
+      "frames": 113400,
+      "resolution": "2560x1440",
+      "completion_marker": "CANNONBALL_REFERENCE_PERFORMANCE_OK"
+    },
+    {
+      "command": "./scripts/capture-reference-performance.sh --scenario steady-state-30m --lighting daylight --speed-mps 40 --warmup-seconds 30 --measure-seconds 1800 --environment-quality balanced",
+      "exit_status": 0,
+      "frames": 1700671,
+      "resolution": "2560x1440",
+      "completion_marker": "CANNONBALL_REFERENCE_PERFORMANCE_OK"
+    }
+  ],
+  "scenarios": {
+    "daylight": {
+      "captured": true,
+      "description": "ADR-0023 daylight scenario",
+      "configuration": {
+        "width_pixels": 2560,
+        "height_pixels": 1440,
+        "actual_window_size": "2560x1440",
+        "content_scale_size_2d": "1920x1080",
+        "three_d_render_size": "2560x1440",
+        "three_d_render_size_basis": "canvas_items stretch scales 2D only; 3D renders at window resolution. Corroborated by mean GPU time scaling 0.245 -> 0.411 -> 0.792 ms across 1280x720, 2560x1440, and 3840x2160 windows.",
+        "rendering_method": "forward_plus",
+        "headless": false,
+        "vsync_enabled": false,
+        "engine_max_fps": 0,
+        "frame_time_source": "Time.GetTicksUsec monotonic clock (not the smoothed engine delta)",
+        "physics_jitter_fix": 0.5,
+        "physics_ticks_per_second": 120,
+        "lighting": "daylight",
+        "environment_quality": "balanced",
+        "road_profile": "production",
+        "target_speed_mps": 40,
+        "corridor_loop_enabled": true,
+        "video_adapter": "NVIDIA GeForce RTX 3080 Ti",
+        "video_adapter_api_version": "1.4.341",
+        "screen_refresh_hz": 119.999
+      },
+      "warmup": {
+        "requested_seconds": 20,
+        "observed_seconds": 20.00077726389332,
+        "discarded": true
+      },
+      "measurement": {
+        "measured_seconds": 120.000412,
+        "frames": 123515,
+        "mean_fps": 1029.2881327774107
+      },
+      "frame_time_ms": {
+        "sample_count": 123515,
+        "p50": 0.8225,
+        "p95": 1.4875,
+        "p99": 1.8375000000000001,
+        "minimum": 0.577,
+        "maximum": 47.989,
+        "mean": 0.9715452536129109,
+        "bucket_resolution_ms": 0.005,
+        "above_histogram_range_count": 0
+      },
+      "render_cpu_ms": {
+        "sample_count": 123515,
+        "p50": 0.2675,
+        "p95": 0.4325,
+        "p99": 0.4875,
+        "minimum": 0.2070000022649765,
+        "maximum": 0.8090000152587891,
+        "mean": 0.288880338265829,
+        "bucket_resolution_ms": 0.005,
+        "above_histogram_range_count": 0
+      },
+      "render_gpu_ms": {
+        "sample_count": 123515,
+        "p50": 0.3925,
+        "p95": 0.41250000000000003,
+        "p99": 0.4175,
+        "minimum": 0.3610000014305115,
+        "maximum": 0.4309999942779541,
+        "mean": 0.39279016315109433,
+        "bucket_resolution_ms": 0.005,
+        "above_histogram_range_count": 0
+      },
+      "attribution": {
+        "mean_frame_ms": 0.9715452536129109,
+        "mean_render_cpu_ms": 0.288880338265829,
+        "mean_render_gpu_ms": 0.39279016315109433,
+        "mean_non_render_ms": 0.5787550904618166,
+        "gpu_bound_frame_ratio": 0.8937133141723678,
+        "bound_by": "gpu"
+      },
+      "stalls": {
+        "threshold_ms": 50,
+        "total_count": 0,
+        "steady_driving_count": 0,
+        "loop_wrap_attributed_count": 0,
+        "loop_wrap_count": 0,
+        "dropped_beyond_record_cap": 0
+      },
+      "stall_events": [],
+      "memory": {
+        "starting_working_set_bytes": 741052416,
+        "peak_working_set_bytes": 764334080,
+        "peak_video_memory_bytes": 185166512,
+        "peak_texture_memory_bytes": 114917376,
+        "peak_buffer_memory_bytes": 50254260,
+        "sample_count": 240,
+        "working_set_trend": {
+          "sample_count": 240,
+          "slope_bytes_per_minute": 10354866.150764016,
+          "r_squared": 0.8809321634800679,
+          "first_bytes": 740483072,
+          "last_bytes": 763215872
+        },
+        "video_memory_trend": {
+          "sample_count": 240,
+          "slope_bytes_per_minute": 145237.3578855321,
+          "r_squared": 0.46828880872969236,
+          "first_bytes": 184379456,
+          "last_bytes": 184520560
+        },
+        "managed_heap_trend": {
+          "sample_count": 240,
+          "slope_bytes_per_minute": 938071.3360439546,
+          "r_squared": 0.011732132030706888,
+          "first_bytes": 31650632,
+          "last_bytes": 20293240
+        }
+      },
+      "streaming": {
+        "route_distance_traversed_m": 4800.737448284613,
+        "maximum_chunk_build_ms": 34.0113,
+        "maximum_collision_build_ms": 2.8364,
+        "maximum_environment_build_ms": 39.0677,
+        "loaded_chunks": 7,
+        "maximum_visual_chunks": 11,
+        "maximum_collision_chunks": 9,
+        "chunk_failures": 0,
+        "rebases": 5,
+        "corridor_loops": 0,
+        "collision_builds": 14,
+        "collision_removals": 10
+      },
+      "content_class": {
+        "peak_draw_calls": 429,
+        "mean_draw_calls": 323.3401854025827,
+        "peak_primitives": 1330366,
+        "mean_primitives": 921222.999198478,
+        "peak_render_objects": 615,
+        "road": {
+          "profile": "production",
+          "chunks": 11,
+          "shared_materials": 18,
+          "shared_meshes": 9,
+          "retroreflective_materials": 11,
+          "guide_signs": 0,
+          "route_shields": 0,
+          "reflectors": 855,
+          "barrier_segments": 274,
+          "guardrail_segments": 274,
+          "structures": 0
+        },
+        "environment": {
+          "profile": "balanced",
+          "loaded_chunks": 11,
+          "near_instances": 330,
+          "mid_instances": 132,
+          "distant_instances": 77,
+          "terrain_ribbons": 11,
+          "terrain_triangles": 1120,
+          "shared_materials": 8,
+          "shared_meshes": 6,
+          "near_visibility_m": 1000,
+          "mid_visibility_m": 4000,
+          "distant_visibility_m": 12000
+        },
+        "vehicle": {
+          "semantic_nodes": 37,
+          "damage_zones": 5,
+          "contract_resolved": true
+        }
+      },
+      "acceptance": {
+        "p95_frame_ms": {
+          "measured": 1.4875,
+          "limit": 16.67,
+          "passed": true
+        },
+        "p99_frame_ms": {
+          "measured": 1.8375000000000001,
+          "limit": 20,
+          "passed": true
+        },
+        "steady_driving_stalls_over_50ms": {
+          "measured": 0,
+          "limit": 0,
+          "passed": true
+        },
+        "gpu_memory_bytes": {
+          "measured": 185166512,
+          "limit": 9500000000,
+          "passed": true
+        },
+        "working_set_bytes": {
+          "measured": 764334080,
+          "limit": 16000000000,
+          "passed": true
+        },
+        "sustained_memory_growth": {
+          "working_set_slope_bytes_per_minute": 10354866.150764016,
+          "working_set_r_squared": 0.8809321634800679,
+          "evaluated": false,
+          "criterion": "slope > 1 MiB/min AND R^2 >= 0.5 over the measured window",
+          "criterion_status": "proposed operationalisation awaiting Q-022 ratification",
+          "passed": true,
+          "note": "Run shorter than 30 minutes; slope is reported but the ADR-0023 sustained-growth threshold is not evaluated by this run."
+        }
+      }
+    },
+    "night": {
+      "captured": true,
+      "description": "ADR-0023 night scenario",
+      "configuration": {
+        "width_pixels": 2560,
+        "height_pixels": 1440,
+        "actual_window_size": "2560x1440",
+        "content_scale_size_2d": "1920x1080",
+        "three_d_render_size": "2560x1440",
+        "three_d_render_size_basis": "canvas_items stretch scales 2D only; 3D renders at window resolution. Corroborated by mean GPU time scaling 0.245 -> 0.411 -> 0.792 ms across 1280x720, 2560x1440, and 3840x2160 windows.",
+        "rendering_method": "forward_plus",
+        "headless": false,
+        "vsync_enabled": false,
+        "engine_max_fps": 0,
+        "frame_time_source": "Time.GetTicksUsec monotonic clock (not the smoothed engine delta)",
+        "physics_jitter_fix": 0.5,
+        "physics_ticks_per_second": 120,
+        "lighting": "night",
+        "environment_quality": "balanced",
+        "road_profile": "production",
+        "target_speed_mps": 40,
+        "corridor_loop_enabled": true,
+        "video_adapter": "NVIDIA GeForce RTX 3080 Ti",
+        "video_adapter_api_version": "1.4.341",
+        "screen_refresh_hz": 119.999
+      },
+      "warmup": {
+        "requested_seconds": 20,
+        "observed_seconds": 20.000150000002858,
+        "discarded": true
+      },
+      "measurement": {
+        "measured_seconds": 120.002056,
+        "frames": 112912,
+        "mean_fps": 940.9172122850962
+      },
+      "frame_time_ms": {
+        "sample_count": 112912,
+        "p50": 0.8725,
+        "p95": 1.6725,
+        "p99": 2.7825,
+        "minimum": 0.587,
+        "maximum": 41.366,
+        "mean": 1.062792758962729,
+        "bucket_resolution_ms": 0.005,
+        "above_histogram_range_count": 0
+      },
+      "render_cpu_ms": {
+        "sample_count": 112912,
+        "p50": 0.2775,
+        "p95": 0.4175,
+        "p99": 0.47750000000000004,
+        "minimum": 0.21299999952316284,
+        "maximum": 0.8690000176429749,
+        "mean": 0.29278116574793617,
+        "bucket_resolution_ms": 0.005,
+        "above_histogram_range_count": 0
+      },
+      "render_gpu_ms": {
+        "sample_count": 112912,
+        "p50": 0.3875,
+        "p95": 0.4175,
+        "p99": 0.7575000000000001,
+        "minimum": 0.3610000014305115,
+        "maximum": 1.1410000324249268,
+        "mean": 0.39876161134975086,
+        "bucket_resolution_ms": 0.005,
+        "above_histogram_range_count": 0
+      },
+      "attribution": {
+        "mean_frame_ms": 1.062792758962729,
+        "mean_render_cpu_ms": 0.29278116574793617,
+        "mean_render_gpu_ms": 0.39876161134975086,
+        "mean_non_render_ms": 0.6640311476129782,
+        "gpu_bound_frame_ratio": 0.9194948278305228,
+        "bound_by": "gpu"
+      },
+      "stalls": {
+        "threshold_ms": 50,
+        "total_count": 0,
+        "steady_driving_count": 0,
+        "loop_wrap_attributed_count": 0,
+        "loop_wrap_count": 0,
+        "dropped_beyond_record_cap": 0
+      },
+      "stall_events": [],
+      "memory": {
+        "starting_working_set_bytes": 739176448,
+        "peak_working_set_bytes": 762134528,
+        "peak_video_memory_bytes": 178875056,
+        "peak_texture_memory_bytes": 114917376,
+        "peak_buffer_memory_bytes": 50254260,
+        "sample_count": 240,
+        "working_set_trend": {
+          "sample_count": 240,
+          "slope_bytes_per_minute": 9597296.201912649,
+          "r_squared": 0.9397772059575215,
+          "first_bytes": 739266560,
+          "last_bytes": 762130432
+        },
+        "video_memory_trend": {
+          "sample_count": 240,
+          "slope_bytes_per_minute": 197154.57465394898,
+          "r_squared": 0.5101181815179443,
+          "first_bytes": 178088000,
+          "last_bytes": 178158432
+        },
+        "managed_heap_trend": {
+          "sample_count": 240,
+          "slope_bytes_per_minute": 457812.56044268096,
+          "r_squared": 0.0028543542780623543,
+          "first_bytes": 21105776,
+          "last_bytes": 22791336
+        }
+      },
+      "streaming": {
+        "route_distance_traversed_m": 4800.736456979385,
+        "maximum_chunk_build_ms": 35.0669,
+        "maximum_collision_build_ms": 2.8926,
+        "maximum_environment_build_ms": 40.525,
+        "loaded_chunks": 7,
+        "maximum_visual_chunks": 11,
+        "maximum_collision_chunks": 9,
+        "chunk_failures": 0,
+        "rebases": 5,
+        "corridor_loops": 0,
+        "collision_builds": 14,
+        "collision_removals": 10
+      },
+      "content_class": {
+        "peak_draw_calls": 430,
+        "mean_draw_calls": 333.7697498937225,
+        "peak_primitives": 1332602,
+        "mean_primitives": 935794.3934568514,
+        "peak_render_objects": 616,
+        "road": {
+          "profile": "production",
+          "chunks": 11,
+          "shared_materials": 18,
+          "shared_meshes": 9,
+          "retroreflective_materials": 11,
+          "guide_signs": 0,
+          "route_shields": 0,
+          "reflectors": 855,
+          "barrier_segments": 274,
+          "guardrail_segments": 274,
+          "structures": 0
+        },
+        "environment": {
+          "profile": "balanced",
+          "loaded_chunks": 11,
+          "near_instances": 330,
+          "mid_instances": 132,
+          "distant_instances": 77,
+          "terrain_ribbons": 11,
+          "terrain_triangles": 1120,
+          "shared_materials": 8,
+          "shared_meshes": 6,
+          "near_visibility_m": 1000,
+          "mid_visibility_m": 4000,
+          "distant_visibility_m": 12000
+        },
+        "vehicle": {
+          "semantic_nodes": 37,
+          "damage_zones": 5,
+          "contract_resolved": true
+        }
+      },
+      "acceptance": {
+        "p95_frame_ms": {
+          "measured": 1.6725,
+          "limit": 16.67,
+          "passed": true
+        },
+        "p99_frame_ms": {
+          "measured": 2.7825,
+          "limit": 20,
+          "passed": true
+        },
+        "steady_driving_stalls_over_50ms": {
+          "measured": 0,
+          "limit": 0,
+          "passed": true
+        },
+        "gpu_memory_bytes": {
+          "measured": 178875056,
+          "limit": 9500000000,
+          "passed": true
+        },
+        "working_set_bytes": {
+          "measured": 762134528,
+          "limit": 16000000000,
+          "passed": true
+        },
+        "sustained_memory_growth": {
+          "working_set_slope_bytes_per_minute": 9597296.201912649,
+          "working_set_r_squared": 0.9397772059575215,
+          "evaluated": false,
+          "criterion": "slope > 1 MiB/min AND R^2 >= 0.5 over the measured window",
+          "criterion_status": "proposed operationalisation awaiting Q-022 ratification",
+          "passed": true,
+          "note": "Run shorter than 30 minutes; slope is reported but the ADR-0023 sustained-growth threshold is not evaluated by this run."
+        }
+      }
+    },
+    "high-speed": {
+      "captured": true,
+      "description": "ADR-0023 high-speed scenario",
+      "configuration": {
+        "width_pixels": 2560,
+        "height_pixels": 1440,
+        "actual_window_size": "2560x1440",
+        "content_scale_size_2d": "1920x1080",
+        "three_d_render_size": "2560x1440",
+        "three_d_render_size_basis": "canvas_items stretch scales 2D only; 3D renders at window resolution. Corroborated by mean GPU time scaling 0.245 -> 0.411 -> 0.792 ms across 1280x720, 2560x1440, and 3840x2160 windows.",
+        "rendering_method": "forward_plus",
+        "headless": false,
+        "vsync_enabled": false,
+        "engine_max_fps": 0,
+        "frame_time_source": "Time.GetTicksUsec monotonic clock (not the smoothed engine delta)",
+        "physics_jitter_fix": 0.5,
+        "physics_ticks_per_second": 120,
+        "lighting": "daylight",
+        "environment_quality": "balanced",
+        "road_profile": "production",
+        "target_speed_mps": 91,
+        "corridor_loop_enabled": true,
+        "video_adapter": "NVIDIA GeForce RTX 3080 Ti",
+        "video_adapter_api_version": "1.4.341",
+        "screen_refresh_hz": 119.999
+      },
+      "warmup": {
+        "requested_seconds": 20,
+        "observed_seconds": 20.00085269312413,
+        "discarded": true
+      },
+      "measurement": {
+        "measured_seconds": 120.002595,
+        "frames": 112182,
+        "mean_fps": 934.8297843059144
+      },
+      "frame_time_ms": {
+        "sample_count": 112182,
+        "p50": 0.8725,
+        "p95": 1.8325,
+        "p99": 2.9675000000000002,
+        "minimum": 0.562,
+        "maximum": 42.01,
+        "mean": 1.0697134567042754,
+        "bucket_resolution_ms": 0.005,
+        "above_histogram_range_count": 0
+      },
+      "render_cpu_ms": {
+        "sample_count": 112182,
+        "p50": 0.2725,
+        "p95": 0.4425,
+        "p99": 0.5025000000000001,
+        "minimum": 0.19099999964237213,
+        "maximum": 1.5180000066757202,
+        "mean": 0.2972944855778467,
+        "bucket_resolution_ms": 0.005,
+        "above_histogram_range_count": 0
+      },
+      "render_gpu_ms": {
+        "sample_count": 112182,
+        "p50": 0.3825,
+        "p95": 0.4175,
+        "p99": 0.7375,
+        "minimum": 0.33399999141693115,
+        "maximum": 1.440000057220459,
+        "mean": 0.3930958088105035,
+        "bucket_resolution_ms": 0.005,
+        "above_histogram_range_count": 0
+      },
+      "attribution": {
+        "mean_frame_ms": 1.0697134567042754,
+        "mean_render_cpu_ms": 0.2972944855778467,
+        "mean_render_gpu_ms": 0.3930958088105035,
+        "mean_non_render_ms": 0.676617647893772,
+        "gpu_bound_frame_ratio": 0.8724661710434829,
+        "bound_by": "gpu"
+      },
+      "stalls": {
+        "threshold_ms": 50,
+        "total_count": 0,
+        "steady_driving_count": 0,
+        "loop_wrap_attributed_count": 0,
+        "loop_wrap_count": 0,
+        "dropped_beyond_record_cap": 0
+      },
+      "stall_events": [],
+      "memory": {
+        "starting_working_set_bytes": 738095104,
+        "peak_working_set_bytes": 772009984,
+        "peak_video_memory_bytes": 186860960,
+        "peak_texture_memory_bytes": 114917376,
+        "peak_buffer_memory_bytes": 51947068,
+        "sample_count": 240,
+        "working_set_trend": {
+          "sample_count": 240,
+          "slope_bytes_per_minute": 19931053.723605562,
+          "r_squared": 0.8109439626428825,
+          "first_bytes": 738181120,
+          "last_bytes": 771932160
+        },
+        "video_memory_trend": {
+          "sample_count": 240,
+          "slope_bytes_per_minute": 527244.3066501368,
+          "r_squared": 0.561916525941512,
+          "first_bytes": 184971152,
+          "last_bytes": 185790288
+        },
+        "managed_heap_trend": {
+          "sample_count": 240,
+          "slope_bytes_per_minute": -76164.55067896427,
+          "r_squared": 7.771070999895713e-05,
+          "first_bytes": 26553360,
+          "last_bytes": 17842280
+        }
+      },
+      "streaming": {
+        "route_distance_traversed_m": 10684.84259650282,
+        "maximum_chunk_build_ms": 36.7729,
+        "maximum_collision_build_ms": 2.8593,
+        "maximum_environment_build_ms": 41.4889,
+        "loaded_chunks": 25,
+        "maximum_visual_chunks": 26,
+        "maximum_collision_chunks": 9,
+        "chunk_failures": 0,
+        "rebases": 11,
+        "corridor_loops": 0,
+        "collision_builds": 25,
+        "collision_removals": 18
+      },
+      "content_class": {
+        "peak_draw_calls": 430,
+        "mean_draw_calls": 323.354424060901,
+        "peak_primitives": 1332602,
+        "mean_primitives": 926710.8963291794,
+        "peak_render_objects": 617,
+        "road": {
+          "profile": "production",
+          "chunks": 19,
+          "shared_materials": 18,
+          "shared_meshes": 9,
+          "retroreflective_materials": 11,
+          "guide_signs": 0,
+          "route_shields": 0,
+          "reflectors": 1590,
+          "barrier_segments": 511,
+          "guardrail_segments": 511,
+          "structures": 0
+        },
+        "environment": {
+          "profile": "balanced",
+          "loaded_chunks": 18,
+          "near_instances": 540,
+          "mid_instances": 216,
+          "distant_instances": 126,
+          "terrain_ribbons": 18,
+          "terrain_triangles": 2016,
+          "shared_materials": 8,
+          "shared_meshes": 6,
+          "near_visibility_m": 1000,
+          "mid_visibility_m": 4000,
+          "distant_visibility_m": 12000
+        },
+        "vehicle": {
+          "semantic_nodes": 37,
+          "damage_zones": 5,
+          "contract_resolved": true
+        }
+      },
+      "acceptance": {
+        "p95_frame_ms": {
+          "measured": 1.8325,
+          "limit": 16.67,
+          "passed": true
+        },
+        "p99_frame_ms": {
+          "measured": 2.9675000000000002,
+          "limit": 20,
+          "passed": true
+        },
+        "steady_driving_stalls_over_50ms": {
+          "measured": 0,
+          "limit": 0,
+          "passed": true
+        },
+        "gpu_memory_bytes": {
+          "measured": 186860960,
+          "limit": 9500000000,
+          "passed": true
+        },
+        "working_set_bytes": {
+          "measured": 772009984,
+          "limit": 16000000000,
+          "passed": true
+        },
+        "sustained_memory_growth": {
+          "working_set_slope_bytes_per_minute": 19931053.723605562,
+          "working_set_r_squared": 0.8109439626428825,
+          "evaluated": false,
+          "criterion": "slope > 1 MiB/min AND R^2 >= 0.5 over the measured window",
+          "criterion_status": "proposed operationalisation awaiting Q-022 ratification",
+          "passed": true,
+          "note": "Run shorter than 30 minutes; slope is reported but the ADR-0023 sustained-growth threshold is not evaluated by this run."
+        }
+      }
+    },
+    "streaming": {
+      "captured": true,
+      "description": "ADR-0023 streaming scenario",
+      "configuration": {
+        "width_pixels": 2560,
+        "height_pixels": 1440,
+        "actual_window_size": "2560x1440",
+        "content_scale_size_2d": "1920x1080",
+        "three_d_render_size": "2560x1440",
+        "three_d_render_size_basis": "canvas_items stretch scales 2D only; 3D renders at window resolution. Corroborated by mean GPU time scaling 0.245 -> 0.411 -> 0.792 ms across 1280x720, 2560x1440, and 3840x2160 windows.",
+        "rendering_method": "forward_plus",
+        "headless": false,
+        "vsync_enabled": false,
+        "engine_max_fps": 0,
+        "frame_time_source": "Time.GetTicksUsec monotonic clock (not the smoothed engine delta)",
+        "physics_jitter_fix": 0.5,
+        "physics_ticks_per_second": 120,
+        "lighting": "daylight",
+        "environment_quality": "balanced",
+        "road_profile": "production",
+        "target_speed_mps": 91,
+        "corridor_loop_enabled": true,
+        "video_adapter": "NVIDIA GeForce RTX 3080 Ti",
+        "video_adapter_api_version": "1.4.341",
+        "screen_refresh_hz": 119.999
+      },
+      "warmup": {
+        "requested_seconds": 20,
+        "observed_seconds": 20.000914820109088,
+        "discarded": true
+      },
+      "measurement": {
+        "measured_seconds": 300.000677,
+        "frames": 278933,
+        "mean_fps": 929.7745684753905
+      },
+      "frame_time_ms": {
+        "sample_count": 278933,
+        "p50": 0.8875000000000001,
+        "p95": 1.7575,
+        "p99": 2.8675,
+        "minimum": 0.536,
+        "maximum": 44.42,
+        "mean": 1.0755295250114165,
+        "bucket_resolution_ms": 0.005,
+        "above_histogram_range_count": 0
+      },
+      "render_cpu_ms": {
+        "sample_count": 278933,
+        "p50": 0.2925,
+        "p95": 0.47250000000000003,
+        "p99": 0.5525,
+        "minimum": 0.17800000309944153,
+        "maximum": 0.9900000095367432,
+        "mean": 0.31305558679007117,
+        "bucket_resolution_ms": 0.005,
+        "above_histogram_range_count": 0
+      },
+      "render_gpu_ms": {
+        "sample_count": 278933,
+        "p50": 0.3825,
+        "p95": 0.47750000000000004,
+        "p99": 0.8075,
+        "minimum": 0.12099999934434891,
+        "maximum": 1.5110000371932983,
+        "mean": 0.3974706975685566,
+        "bucket_resolution_ms": 0.005,
+        "above_histogram_range_count": 0
+      },
+      "attribution": {
+        "mean_frame_ms": 1.0755295250114165,
+        "mean_render_cpu_ms": 0.31305558679007117,
+        "mean_render_gpu_ms": 0.3974706975685566,
+        "mean_non_render_ms": 0.67805882744286,
+        "gpu_bound_frame_ratio": 0.8505841904686788,
+        "bound_by": "gpu"
+      },
+      "stalls": {
+        "threshold_ms": 50,
+        "total_count": 0,
+        "steady_driving_count": 0,
+        "loop_wrap_attributed_count": 0,
+        "loop_wrap_count": 1,
+        "dropped_beyond_record_cap": 0
+      },
+      "stall_events": [],
+      "memory": {
+        "starting_working_set_bytes": 736886784,
+        "peak_working_set_bytes": 775192576,
+        "peak_video_memory_bytes": 183325792,
+        "peak_texture_memory_bytes": 114917376,
+        "peak_buffer_memory_bytes": 54700900,
+        "sample_count": 599,
+        "working_set_trend": {
+          "sample_count": 599,
+          "slope_bytes_per_minute": 4881757.2107737595,
+          "r_squared": 0.7526131072799617,
+          "first_bytes": 736968704,
+          "last_bytes": 772018176
+        },
+        "video_memory_trend": {
+          "sample_count": 599,
+          "slope_bytes_per_minute": 537511.5212984497,
+          "r_squared": 0.3235765802781342,
+          "first_bytes": 178679696,
+          "last_bytes": 181173712
+        },
+        "managed_heap_trend": {
+          "sample_count": 599,
+          "slope_bytes_per_minute": 610612.1098618463,
+          "r_squared": 0.02948735001872016,
+          "first_bytes": 17089904,
+          "last_bytes": 31842184
+        }
+      },
+      "streaming": {
+        "route_distance_traversed_m": 760.3507556398406,
+        "maximum_chunk_build_ms": 34.63,
+        "maximum_collision_build_ms": 3.6903,
+        "maximum_environment_build_ms": 48.7963,
+        "loaded_chunks": 9,
+        "maximum_visual_chunks": 26,
+        "maximum_collision_chunks": 10,
+        "chunk_failures": 0,
+        "rebases": 26,
+        "corridor_loops": 1,
+        "collision_builds": 59,
+        "collision_removals": 52
+      },
+      "content_class": {
+        "peak_draw_calls": 530,
+        "mean_draw_calls": 350.1110481728587,
+        "peak_primitives": 1332602,
+        "mean_primitives": 851034.1001172324,
+        "peak_render_objects": 719,
+        "road": {
+          "profile": "production",
+          "chunks": 19,
+          "shared_materials": 18,
+          "shared_meshes": 9,
+          "retroreflective_materials": 11,
+          "guide_signs": 0,
+          "route_shields": 0,
+          "reflectors": 1590,
+          "barrier_segments": 511,
+          "guardrail_segments": 511,
+          "structures": 0
+        },
+        "environment": {
+          "profile": "balanced",
+          "loaded_chunks": 18,
+          "near_instances": 540,
+          "mid_instances": 216,
+          "distant_instances": 126,
+          "terrain_ribbons": 18,
+          "terrain_triangles": 2016,
+          "shared_materials": 8,
+          "shared_meshes": 6,
+          "near_visibility_m": 1000,
+          "mid_visibility_m": 4000,
+          "distant_visibility_m": 12000
+        },
+        "vehicle": {
+          "semantic_nodes": 37,
+          "damage_zones": 5,
+          "contract_resolved": true
+        }
+      },
+      "acceptance": {
+        "p95_frame_ms": {
+          "measured": 1.7575,
+          "limit": 16.67,
+          "passed": true
+        },
+        "p99_frame_ms": {
+          "measured": 2.8675,
+          "limit": 20,
+          "passed": true
+        },
+        "steady_driving_stalls_over_50ms": {
+          "measured": 0,
+          "limit": 0,
+          "passed": true
+        },
+        "gpu_memory_bytes": {
+          "measured": 183325792,
+          "limit": 9500000000,
+          "passed": true
+        },
+        "working_set_bytes": {
+          "measured": 775192576,
+          "limit": 16000000000,
+          "passed": true
+        },
+        "sustained_memory_growth": {
+          "working_set_slope_bytes_per_minute": 4881757.2107737595,
+          "working_set_r_squared": 0.7526131072799617,
+          "evaluated": false,
+          "criterion": "slope > 1 MiB/min AND R^2 >= 0.5 over the measured window",
+          "criterion_status": "proposed operationalisation awaiting Q-022 ratification",
+          "passed": true,
+          "note": "Run shorter than 30 minutes; slope is reported but the ADR-0023 sustained-growth threshold is not evaluated by this run."
+        }
+      }
+    },
+    "degraded-quality": {
+      "captured": true,
+      "description": "ADR-0023 degraded-quality scenario",
+      "configuration": {
+        "width_pixels": 2560,
+        "height_pixels": 1440,
+        "actual_window_size": "2560x1440",
+        "content_scale_size_2d": "1920x1080",
+        "three_d_render_size": "2560x1440",
+        "three_d_render_size_basis": "canvas_items stretch scales 2D only; 3D renders at window resolution. Corroborated by mean GPU time scaling 0.245 -> 0.411 -> 0.792 ms across 1280x720, 2560x1440, and 3840x2160 windows.",
+        "rendering_method": "forward_plus",
+        "headless": false,
+        "vsync_enabled": false,
+        "engine_max_fps": 0,
+        "frame_time_source": "Time.GetTicksUsec monotonic clock (not the smoothed engine delta)",
+        "physics_jitter_fix": 0.5,
+        "physics_ticks_per_second": 120,
+        "lighting": "daylight",
+        "environment_quality": "low",
+        "road_profile": "production",
+        "target_speed_mps": 40,
+        "corridor_loop_enabled": true,
+        "video_adapter": "NVIDIA GeForce RTX 3080 Ti",
+        "video_adapter_api_version": "1.4.341",
+        "screen_refresh_hz": 119.999
+      },
+      "warmup": {
+        "requested_seconds": 20,
+        "observed_seconds": 20.000258264553707,
+        "discarded": true
+      },
+      "measurement": {
+        "measured_seconds": 120.000991,
+        "frames": 113400,
+        "mean_fps": 944.9921959394485
+      },
+      "frame_time_ms": {
+        "sample_count": 113400,
+        "p50": 0.8525,
+        "p95": 1.8125,
+        "p99": 2.8975,
+        "minimum": 0.574,
+        "maximum": 47.608,
+        "mean": 1.058209797178128,
+        "bucket_resolution_ms": 0.005,
+        "above_histogram_range_count": 0
+      },
+      "render_cpu_ms": {
+        "sample_count": 113400,
+        "p50": 0.2725,
+        "p95": 0.4375,
+        "p99": 0.4925,
+        "minimum": 0.20499999821186066,
+        "maximum": 0.9700000286102295,
+        "mean": 0.2894645501205425,
+        "bucket_resolution_ms": 0.005,
+        "above_histogram_range_count": 0
+      },
+      "render_gpu_ms": {
+        "sample_count": 113400,
+        "p50": 0.3875,
+        "p95": 0.41250000000000003,
+        "p99": 0.7175,
+        "minimum": 0.35199999809265137,
+        "maximum": 1.406999945640564,
+        "mean": 0.3952859614970823,
+        "bucket_resolution_ms": 0.005,
+        "above_histogram_range_count": 0
+      },
+      "attribution": {
+        "mean_frame_ms": 1.058209797178128,
+        "mean_render_cpu_ms": 0.2894645501205425,
+        "mean_render_gpu_ms": 0.3952859614970823,
+        "mean_non_render_ms": 0.6629238356810456,
+        "gpu_bound_frame_ratio": 0.8948236331569664,
+        "bound_by": "gpu"
+      },
+      "stalls": {
+        "threshold_ms": 50,
+        "total_count": 0,
+        "steady_driving_count": 0,
+        "loop_wrap_attributed_count": 0,
+        "loop_wrap_count": 0,
+        "dropped_beyond_record_cap": 0
+      },
+      "stall_events": [],
+      "memory": {
+        "starting_working_set_bytes": 730730496,
+        "peak_working_set_bytes": 737497088,
+        "peak_video_memory_bytes": 184764464,
+        "peak_texture_memory_bytes": 114917376,
+        "peak_buffer_memory_bytes": 49852260,
+        "sample_count": 240,
+        "working_set_trend": {
+          "sample_count": 240,
+          "slope_bytes_per_minute": 2422199.0725328424,
+          "r_squared": 0.9428617444291668,
+          "first_bytes": 730779648,
+          "last_bytes": 737464320
+        },
+        "video_memory_trend": {
+          "sample_count": 240,
+          "slope_bytes_per_minute": 170117.94642471932,
+          "r_squared": 0.5472920939330352,
+          "first_bytes": 184316384,
+          "last_bytes": 184392576
+        },
+        "managed_heap_trend": {
+          "sample_count": 240,
+          "slope_bytes_per_minute": 990434.027623574,
+          "r_squared": 0.01321242916029397,
+          "first_bytes": 26002128,
+          "last_bytes": 34746616
+        }
+      },
+      "streaming": {
+        "route_distance_traversed_m": 4800.40506518584,
+        "maximum_chunk_build_ms": 34.5655,
+        "maximum_collision_build_ms": 3.0011,
+        "maximum_environment_build_ms": 39.7384,
+        "loaded_chunks": 7,
+        "maximum_visual_chunks": 11,
+        "maximum_collision_chunks": 9,
+        "chunk_failures": 0,
+        "rebases": 5,
+        "corridor_loops": 0,
+        "collision_builds": 14,
+        "collision_removals": 10
+      },
+      "content_class": {
+        "peak_draw_calls": 428,
+        "mean_draw_calls": 321.58234567901235,
+        "peak_primitives": 1308438,
+        "mean_primitives": 901602.0948500882,
+        "peak_render_objects": 614,
+        "road": {
+          "profile": "production",
+          "chunks": 11,
+          "shared_materials": 18,
+          "shared_meshes": 9,
+          "retroreflective_materials": 11,
+          "guide_signs": 0,
+          "route_shields": 0,
+          "reflectors": 855,
+          "barrier_segments": 274,
+          "guardrail_segments": 274,
+          "structures": 0
+        },
+        "environment": {
+          "profile": "low",
+          "loaded_chunks": 11,
+          "near_instances": 176,
+          "mid_instances": 77,
+          "distant_instances": 44,
+          "terrain_ribbons": 11,
+          "terrain_triangles": 584,
+          "shared_materials": 8,
+          "shared_meshes": 6,
+          "near_visibility_m": 1000,
+          "mid_visibility_m": 4000,
+          "distant_visibility_m": 12000
+        },
+        "vehicle": {
+          "semantic_nodes": 37,
+          "damage_zones": 5,
+          "contract_resolved": true
+        }
+      },
+      "acceptance": {
+        "p95_frame_ms": {
+          "measured": 1.8125,
+          "limit": 16.67,
+          "passed": true
+        },
+        "p99_frame_ms": {
+          "measured": 2.8975,
+          "limit": 20,
+          "passed": true
+        },
+        "steady_driving_stalls_over_50ms": {
+          "measured": 0,
+          "limit": 0,
+          "passed": true
+        },
+        "gpu_memory_bytes": {
+          "measured": 184764464,
+          "limit": 9500000000,
+          "passed": true
+        },
+        "working_set_bytes": {
+          "measured": 737497088,
+          "limit": 16000000000,
+          "passed": true
+        },
+        "sustained_memory_growth": {
+          "working_set_slope_bytes_per_minute": 2422199.0725328424,
+          "working_set_r_squared": 0.9428617444291668,
+          "evaluated": false,
+          "criterion": "slope > 1 MiB/min AND R^2 >= 0.5 over the measured window",
+          "criterion_status": "proposed operationalisation awaiting Q-022 ratification",
+          "passed": true,
+          "note": "Run shorter than 30 minutes; slope is reported but the ADR-0023 sustained-growth threshold is not evaluated by this run."
+        }
+      }
+    },
+    "steady-state-30m": {
+      "captured": true,
+      "description": "30-minute steady-state memory-growth run",
+      "configuration": {
+        "width_pixels": 2560,
+        "height_pixels": 1440,
+        "actual_window_size": "2560x1440",
+        "content_scale_size_2d": "1920x1080",
+        "three_d_render_size": "2560x1440",
+        "three_d_render_size_basis": "canvas_items stretch scales 2D only; 3D renders at window resolution. Corroborated by mean GPU time scaling 0.245 -> 0.411 -> 0.792 ms across 1280x720, 2560x1440, and 3840x2160 windows.",
+        "rendering_method": "forward_plus",
+        "headless": false,
+        "vsync_enabled": false,
+        "engine_max_fps": 0,
+        "frame_time_source": "Time.GetTicksUsec monotonic clock (not the smoothed engine delta)",
+        "physics_jitter_fix": 0.5,
+        "physics_ticks_per_second": 120,
+        "lighting": "daylight",
+        "environment_quality": "balanced",
+        "road_profile": "production",
+        "target_speed_mps": 40,
+        "corridor_loop_enabled": true,
+        "video_adapter": "NVIDIA GeForce RTX 3080 Ti",
+        "video_adapter_api_version": "1.4.341",
+        "screen_refresh_hz": 119.999
+      },
+      "warmup": {
+        "requested_seconds": 30,
+        "observed_seconds": 30.000383597878873,
+        "discarded": true
+      },
+      "measurement": {
+        "measured_seconds": 1800.000326,
+        "frames": 1700671,
+        "mean_fps": 944.8170511053562
+      },
+      "frame_time_ms": {
+        "sample_count": 1700671,
+        "p50": 0.8625,
+        "p95": 1.7475,
+        "p99": 2.7625,
+        "minimum": 0.521,
+        "maximum": 62.924,
+        "mean": 1.0584059621173447,
+        "bucket_resolution_ms": 0.005,
+        "above_histogram_range_count": 0
+      },
+      "render_cpu_ms": {
+        "sample_count": 1700671,
+        "p50": 0.28750000000000003,
+        "p95": 0.47250000000000003,
+        "p99": 0.5575,
+        "minimum": 0.17599999904632568,
+        "maximum": 3.322000026702881,
+        "mean": 0.31215838270255936,
+        "bucket_resolution_ms": 0.005,
+        "above_histogram_range_count": 0
+      },
+      "render_gpu_ms": {
+        "sample_count": 1700671,
+        "p50": 0.3825,
+        "p95": 0.41250000000000003,
+        "p99": 0.6725,
+        "minimum": 0.12200000137090683,
+        "maximum": 1.5160000324249268,
+        "mean": 0.3849897230111401,
+        "bucket_resolution_ms": 0.005,
+        "above_histogram_range_count": 0
+      },
+      "attribution": {
+        "mean_frame_ms": 1.0584059621173447,
+        "mean_render_cpu_ms": 0.31215838270255936,
+        "mean_render_gpu_ms": 0.3849897230111401,
+        "mean_non_render_ms": 0.6734162391062046,
+        "gpu_bound_frame_ratio": 0.839177595196249,
+        "bound_by": "gpu"
+      },
+      "stalls": {
+        "threshold_ms": 50,
+        "total_count": 1,
+        "steady_driving_count": 0,
+        "loop_wrap_attributed_count": 1,
+        "loop_wrap_count": 2,
+        "dropped_beyond_record_cap": 0
+      },
+      "stall_events": [
+        {
+          "t_s": 1202.133535,
+          "frame_ms": 62.924,
+          "render_cpu_ms": 0.38999998569488525,
+          "render_gpu_ms": 0.3140000104904175,
+          "route_distance_m": 0,
+          "speed_mps": 0.16333363950252533,
+          "attributed_to_loop_wrap": true
+        }
+      ],
+      "memory": {
+        "starting_working_set_bytes": 735133696,
+        "peak_working_set_bytes": 810381312,
+        "peak_video_memory_bytes": 185506384,
+        "peak_texture_memory_bytes": 114917376,
+        "peak_buffer_memory_bytes": 50593684,
+        "sample_count": 3594,
+        "working_set_trend": {
+          "sample_count": 3594,
+          "slope_bytes_per_minute": 1956965.753600698,
+          "r_squared": 0.7903798650027074,
+          "first_bytes": 734494720,
+          "last_bytes": 795021312
+        },
+        "video_memory_trend": {
+          "sample_count": 3594,
+          "slope_bytes_per_minute": 3722.3596219415754,
+          "r_squared": 0.020474604225510618,
+          "first_bytes": 184379456,
+          "last_bytes": 184364688
+        },
+        "managed_heap_trend": {
+          "sample_count": 3594,
+          "slope_bytes_per_minute": 9008.844234127415,
+          "r_squared": 0.0002459646341660404,
+          "first_bytes": 29715488,
+          "last_bytes": 36084264
+        }
+      },
+      "streaming": {
+        "route_distance_traversed_m": 22597.167075735913,
+        "maximum_chunk_build_ms": 34.8533,
+        "maximum_collision_build_ms": 3.1803,
+        "maximum_environment_build_ms": 40.4091,
+        "loaded_chunks": 6,
+        "maximum_visual_chunks": 17,
+        "maximum_collision_chunks": 10,
+        "chunk_failures": 0,
+        "rebases": 72,
+        "corridor_loops": 2,
+        "collision_builds": 147,
+        "collision_removals": 143
+      },
+      "content_class": {
+        "peak_draw_calls": 525,
+        "mean_draw_calls": 348.83561488377234,
+        "peak_primitives": 1330366,
+        "mean_primitives": 856503.3802493251,
+        "peak_render_objects": 713,
+        "road": {
+          "profile": "production",
+          "chunks": 11,
+          "shared_materials": 18,
+          "shared_meshes": 9,
+          "retroreflective_materials": 11,
+          "guide_signs": 0,
+          "route_shields": 0,
+          "reflectors": 855,
+          "barrier_segments": 274,
+          "guardrail_segments": 274,
+          "structures": 0
+        },
+        "environment": {
+          "profile": "balanced",
+          "loaded_chunks": 10,
+          "near_instances": 300,
+          "mid_instances": 120,
+          "distant_instances": 70,
+          "terrain_ribbons": 10,
+          "terrain_triangles": 1056,
+          "shared_materials": 8,
+          "shared_meshes": 6,
+          "near_visibility_m": 1000,
+          "mid_visibility_m": 4000,
+          "distant_visibility_m": 12000
+        },
+        "vehicle": {
+          "semantic_nodes": 37,
+          "damage_zones": 5,
+          "contract_resolved": true
+        }
+      },
+      "acceptance": {
+        "p95_frame_ms": {
+          "measured": 1.7475,
+          "limit": 16.67,
+          "passed": true
+        },
+        "p99_frame_ms": {
+          "measured": 2.7625,
+          "limit": 20,
+          "passed": true
+        },
+        "steady_driving_stalls_over_50ms": {
+          "measured": 0,
+          "limit": 0,
+          "passed": true
+        },
+        "gpu_memory_bytes": {
+          "measured": 185506384,
+          "limit": 9500000000,
+          "passed": true
+        },
+        "working_set_bytes": {
+          "measured": 810381312,
+          "limit": 16000000000,
+          "passed": true
+        },
+        "sustained_memory_growth": {
+          "working_set_slope_bytes_per_minute": 1956965.753600698,
+          "working_set_r_squared": 0.7903798650027074,
+          "evaluated": true,
+          "criterion": "slope > 1 MiB/min AND R^2 >= 0.5 over the measured window",
+          "criterion_status": "proposed operationalisation awaiting Q-022 ratification",
+          "passed": false,
+          "note": "Evaluated against the 30-minute steady-state threshold."
+        }
+      }
+    }
+  },
+  "scenarios_not_captured": {
+    "weather": {
+      "captured": false,
+      "reason": "The build has no weather system. Grepping game/ for precipitation, wet-road, fog, or volumetric implementations returns nothing; the only related state is the EnvironmentVisualScenario 'Overcast' directional-light and ambient tint, which changes lighting colour only and is not weather. Simulating or substituting overcast lighting for a weather capture would misreport the scenario, so it is recorded as not captured.",
+      "unblocks": "a weather implementation task; none exists in the ledger today"
+    }
+  },
+  "output_artifacts": [
+    {
+      "path": "reports/q022/reference-performance-daylight.json",
+      "sha256": "5e87cca1f5777ea67a97b92516d9c278f26626eb89d8ad8f49923d622b51d12d",
+      "retention": "ignored report path; summaries are reproduced in the dated audit"
+    },
+    {
+      "path": "reports/q022/reference-performance-daylight.jsonl",
+      "sha256": "5d05922e38f929bdea18497656d3e1868b9d4a45f0385690eb685676752e6bb8",
+      "retention": "ignored report path; summaries are reproduced in the dated audit"
+    },
+    {
+      "path": "reports/q022/reference-performance-night.json",
+      "sha256": "1aaa18eb4ebc767593c69fe6400a494d83e5cfa9a2b5758375a76b127de24dfe",
+      "retention": "ignored report path; summaries are reproduced in the dated audit"
+    },
+    {
+      "path": "reports/q022/reference-performance-night.jsonl",
+      "sha256": "0008a592dba5b8ca6c1674b608fe5142ae191924ef067ff5d8bb69932f604d63",
+      "retention": "ignored report path; summaries are reproduced in the dated audit"
+    },
+    {
+      "path": "reports/q022/reference-performance-high-speed.json",
+      "sha256": "7ddcfc66fce615e959ef9bc12ff72101fcf88cef81ac89897c7d8e1eb5dcd077",
+      "retention": "ignored report path; summaries are reproduced in the dated audit"
+    },
+    {
+      "path": "reports/q022/reference-performance-high-speed.jsonl",
+      "sha256": "d308d60ff2bb4e4fd02560096b46dedaf190a0d5fad3c56d703c2a3bc912afd4",
+      "retention": "ignored report path; summaries are reproduced in the dated audit"
+    },
+    {
+      "path": "reports/q022/reference-performance-streaming.json",
+      "sha256": "2af9e3a71c4072efba75d4776c6eee6ed0a8ad80c963c86378c150e488b0d83a",
+      "retention": "ignored report path; summaries are reproduced in the dated audit"
+    },
+    {
+      "path": "reports/q022/reference-performance-streaming.jsonl",
+      "sha256": "63de07399141102a2b1dc1d36987dc4d3c00da77cbe0ea9544934478e096e701",
+      "retention": "ignored report path; summaries are reproduced in the dated audit"
+    },
+    {
+      "path": "reports/q022/reference-performance-degraded-quality.json",
+      "sha256": "c506d60e16bac30268fcf84891273b5b4e50cd9397916fb1c4bd41399aa7e4da",
+      "retention": "ignored report path; summaries are reproduced in the dated audit"
+    },
+    {
+      "path": "reports/q022/reference-performance-degraded-quality.jsonl",
+      "sha256": "6705049681af3e1adda8e45899fdbd2df89f844c3484614ef98384ac180c08de",
+      "retention": "ignored report path; summaries are reproduced in the dated audit"
+    },
+    {
+      "path": "reports/q022/reference-performance-steady-state-30m.json",
+      "sha256": "62b296f081e4473eea5ce9d24c77982ff2b6eeb866f9bc3dafe3fa223c4a484f",
+      "retention": "ignored report path; summaries are reproduced in the dated audit"
+    },
+    {
+      "path": "reports/q022/reference-performance-steady-state-30m.jsonl",
+      "sha256": "c9066514bd4bcc886156dac3aea7e06acfc215a116597858a00172166a759b0c",
+      "retention": "ignored report path; summaries are reproduced in the dated audit"
+    }
+  ],
+  "threshold_failures": [
+    {
+      "scenario": "steady-state-30m",
+      "threshold": "no sustained positive growth over a 30-minute steady-state run",
+      "measured": "working set +57.7 MiB; slope 1.87 MiB/min; R^2 0.79",
+      "criterion_applied": "slope > 1 MiB/min AND R^2 >= 0.5",
+      "criterion_status": "proposed operationalisation awaiting Q-022 ratification",
+      "attribution": "CPU-side and largely native: GPU memory flat at 175.8 MiB across the run and managed heap grew only 6.1 of the 57.7 MiB. Harness share of process allocation was 0.10 percent, so this is game and engine code.",
+      "action_taken": "reported; nothing was tuned, thinned, or relaxed to produce a pass"
+    }
+  ],
+  "marginal_passes": [
+    {
+      "threshold": "no steady-driving stall above 50 ms after warm-up",
+      "observed": "passed in all six scenarios, but worst frames reached 42-48 ms against the 50 ms limit, synchronous environment construction peaked at 48.8 ms, and 81 percent of measured seconds contain a frame above the 16.67 ms envelope (median per-second worst frame 29.97 ms). Earlier executions on the defective harness recorded 1-5 steady stalls in the same scenarios, so the outcome varies between runs. Read this pass as marginal."
+    }
+  ],
+  "garbage_collection_finding": {
+    "game_allocated_bytes_per_frame": 14363,
+    "gen0_collections_30m": 1475,
+    "gen0_per_second": 0.82,
+    "seconds_containing_spike_over_16_67ms": 1464,
+    "seconds_sampled": 1798,
+    "harness_share_of_allocation": 0.001,
+    "conclusion": "1,475 Gen0 collections against 1,464 seconds containing a >16.67 ms spike is a near 1:1 correspondence; the recurring ~30 ms spike is Gen0 GC driven by 14.4 KB of game allocation per rendered frame."
+  },
+  "failures": {
+    "capture_failures": 0,
+    "retries": 0,
+    "recovery": null,
+    "note": "All six captures in the final matrix completed on the first attempt. Two earlier full matrix executions were discarded after harness defects were found; see harness_corrections."
+  },
+  "human_gate": {
+    "name": "Q-022 owner ratification of derived subsystem and content-class budgets",
+    "required_for": "M5",
+    "status": "open",
+    "handoff": "docs/QUESTIONS_FOR_RANDROID_2026-08-03_Q022_REFERENCE_CAPTURE.md",
+    "approval_reference": null
+  },
+  "post_capture_code_changes": {
+    "change": "Removed two parameters from the private Acceptance() helper that were passed and immediately discarded.",
+    "affects_measurements": false,
+    "why_inert": "Both parameters were unused inside the method body; the values they carried are still reported through the summary's own frame_time_ms and memory fields.",
+    "verification": "Rebuilt and re-ran a short capture on the committed revision; the summary key set is identical to the matrix captures."
+  }
+}
