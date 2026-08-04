@@ -145,10 +145,17 @@ uv run --project "$repo_root/tools/map_pipeline" --frozen cannonball-map build \
   --output "$repro_directory"
 
 route_repro_path="$output_dir/route-package-reproducibility-$fixture.json"
+route_repro_revision="$(git rev-parse HEAD)"
+route_repro_verified_at_utc="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+route_repro_uv_version="$(uv --version)"
+route_build_command="uv run --project tools/map_pipeline --frozen cannonball-map build --source data/sources/fixtures/nhpn-boulder-westminster-us36.geojson --manifest data/sources/fixtures/nhpn-boulder-westminster-us36.manifest.json --catalog data/sources/catalog.json --elevation data/sources/fixtures/usgs-13-n40w106-boulder-westminster.tif --elevation-metadata data/sources/fixtures/usgs-13-n40w106-boulder-westminster.metadata.json --acquisition-lock data/sources/representative-corridor-lock.json --chunk-meters $fixture_chunk_meters --output"
 uv run --project "$repo_root/tools/map_pipeline" --frozen python - \
-  "$package_directory" "$repro_directory" "$route_repro_path" <<'PY'
+  "$package_directory" "$repro_directory" "$route_repro_path" \
+  "$repo_root" "$route_repro_revision" "$route_repro_verified_at_utc" \
+  "$route_repro_uv_version" "$route_build_command" <<'PY'
 import hashlib
 import json
+import platform
 import sys
 from pathlib import Path
 
@@ -172,7 +179,8 @@ def shipping_files(root: Path) -> dict[str, dict[str, object]]:
     return result
 
 
-first_root, second_root, output_path = map(Path, sys.argv[1:])
+first_root, second_root, output_path, repo_root = map(Path, sys.argv[1:5])
+git_revision, verified_at_utc, uv_version, build_command = sys.argv[5:9]
 first = shipping_files(first_root)
 second = shipping_files(second_root)
 differences = sorted(
@@ -182,9 +190,48 @@ if differences:
     raise SystemExit(f"Representative route package is not reproducible: {differences}")
 
 pointer = json.loads((first_root / "current-package.json").read_text(encoding="utf-8"))
+input_paths = [
+    Path("data/sources/fixtures/nhpn-boulder-westminster-us36.geojson"),
+    Path("data/sources/fixtures/nhpn-boulder-westminster-us36.manifest.json"),
+    Path("data/sources/fixtures/usgs-13-n40w106-boulder-westminster.tif"),
+    Path("data/sources/fixtures/usgs-13-n40w106-boulder-westminster.metadata.json"),
+    Path("data/sources/representative-corridor-lock.json"),
+    Path("data/sources/catalog.json"),
+]
+input_artifacts = []
+for relative in input_paths:
+    data = (repo_root / relative).read_bytes()
+    input_artifacts.append(
+        {
+            "path": relative.as_posix(),
+            "bytes": len(data),
+            "sha256": hashlib.sha256(data).hexdigest(),
+        }
+    )
+
 result = {
     "schema_version": 1,
+    "task_id": "P1-013",
+    "question_id": "Q-022",
+    "milestone": "M5",
+    "status": "passed",
     "fixture": "representative-corridor",
+    "git_revision": git_revision,
+    "verified_at_utc": verified_at_utc,
+    "platform": {
+        "os": platform.platform(),
+        "architecture": platform.machine(),
+    },
+    "tool_versions": {
+        "uv": uv_version.removeprefix("uv "),
+        "python": platform.python_version(),
+        "map_pipeline": "locked project environment",
+    },
+    "commands": [
+        {"command": f"{build_command} <first>", "exit_status": 0},
+        {"command": f"{build_command} <second>", "exit_status": 0},
+    ],
+    "input_artifacts": input_artifacts,
     "content_version": pointer["content_version"],
     "root_relative_path": pointer["root_relative_path"],
     "metadata_relative_path": pointer["metadata_relative_path"],
@@ -194,7 +241,17 @@ result = {
         "current-package pointer, root, metadata, and every chunk; "
         "non-shipping GeoPackage audit output excluded"
     ),
-    "shipping_artifacts": list(first.values()),
+    "output_artifacts": list(first.values()),
+    "metrics": {
+        "same_platform_rebuilds": 2,
+        "same_platform_shipping_byte_diff_count": 0,
+    },
+    "failures": {
+        "build_failures": 0,
+        "comparison_failures": 0,
+        "retries": 0,
+    },
+    "human_gate": None,
 }
 output_path.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
 print(

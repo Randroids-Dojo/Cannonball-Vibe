@@ -1549,8 +1549,10 @@
       "generated_outputs": [
         "reports/q022/reference-performance-*.json",
         "reports/q022/reference-performance-*.jsonl",
+        "reports/q022/reference-performance-*.log",
         "reports/q022/route-package-reproducibility-representative-corridor.json",
-        "reports/q022/telemetry-*.jsonl"
+        "reports/q022/telemetry-*.jsonl",
+        "reports/q022/driver-*.log"
       ],
       "acceptance": [
         "A fresh clean worktree at an exact committed revision runs Release builds natively on the declared Windows reference PC at 2560x1440 with warm-up discarded and records the effective renderer and content-quality settings",
