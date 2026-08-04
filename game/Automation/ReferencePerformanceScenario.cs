@@ -82,6 +82,8 @@ public sealed class ReferencePerformanceScenario
 
     private int _startingRebaseCount;
     private double _startingRouteDistanceMeters;
+    private double _previousRouteDistanceMeters;
+    private double _cumulativeDistanceMeters;
     private RoadVisualSnapshot? _roadSnapshot;
     private EnvironmentStreamSnapshot? _environmentSnapshot;
     private VehicleVisualSnapshot? _vehicleSnapshot;
@@ -209,6 +211,7 @@ public sealed class ReferencePerformanceScenario
         _startingAllocatedBytes = GC.GetTotalAllocatedBytes(precise: false);
         _startingRebaseCount = _streamer.RebaseCount;
         _startingRouteDistanceMeters = _streamer.RouteDistanceMeters;
+        _previousRouteDistanceMeters = _streamer.RouteDistanceMeters;
         _lastObservedLoopCount = _streamer.CompletedShortCorridorLoops;
         CaptureContentSnapshots();
         GD.Print(
@@ -227,9 +230,18 @@ public sealed class ReferencePerformanceScenario
     {
         if (_streamer.CompletedShortCorridorLoops == _lastObservedLoopCount)
         {
+            _cumulativeDistanceMeters +=
+                Math.Max(0, _streamer.RouteDistanceMeters - _previousRouteDistanceMeters);
+            _previousRouteDistanceMeters = _streamer.RouteDistanceMeters;
             return;
         }
 
+        // A corridor wrap teleports the vehicle back to route distance zero. Differencing
+        // route position across that discontinuity would subtract a whole lap, so credit the
+        // remainder of the lap and restart the delta from the new position.
+        _cumulativeDistanceMeters +=
+            Math.Max(0, _streamer.TotalRouteLengthMeters - _previousRouteDistanceMeters);
+        _previousRouteDistanceMeters = _streamer.RouteDistanceMeters;
         _lastObservedLoopCount = _streamer.CompletedShortCorridorLoops;
         _loopWrapSeconds.Add(_measuredSeconds);
     }
@@ -282,8 +294,7 @@ public sealed class ReferencePerformanceScenario
                 cpuMilliseconds,
                 gpuMilliseconds,
                 _streamer.RouteDistanceMeters,
-                _vehicle.SpeedMetersPerSecond,
-                NearLoopWrap(_measuredSeconds)));
+                _vehicle.SpeedMetersPerSecond));
             }
         }
 
@@ -361,6 +372,12 @@ public sealed class ReferencePerformanceScenario
         _vehicleSnapshot = _vehicle.VisualRig?.CaptureSnapshot();
     }
 
+    /// <summary>
+    /// Decides loop-wrap attribution once the whole run is known. Evaluating this while
+    /// stalls are recorded would only ever see wraps that had already happened, so a stall in
+    /// the window immediately *before* a wrap — the chunk-rebuild spike most likely to be
+    /// caused by one — could never match and would be miscounted as steady driving.
+    /// </summary>
     private bool NearLoopWrap(double seconds) =>
         _loopWrapSeconds.Exists(wrap => Math.Abs(seconds - wrap) <= LoopWrapAttributionSeconds);
 
@@ -432,8 +449,8 @@ public sealed class ReferencePerformanceScenario
                 frames = aggregate.FrameCount,
                 median_frame_ms = aggregate.MedianMilliseconds,
                 max_frame_ms = aggregate.MaximumMilliseconds,
-                draw_calls = aggregate.DrawCalls,
-                primitives = aggregate.Primitives,
+                draw_calls_last_frame = aggregate.DrawCalls,
+                primitives_last_frame = aggregate.Primitives,
                 route_distance_m = aggregate.RouteDistanceMeters,
                 speed_mps = aggregate.SpeedMetersPerSecond,
                 loaded_chunks = aggregate.LoadedChunkCount,
@@ -467,7 +484,7 @@ public sealed class ReferencePerformanceScenario
                 render_gpu_ms = stall.GpuMilliseconds,
                 route_distance_m = stall.RouteDistanceMeters,
                 speed_mps = stall.SpeedMetersPerSecond,
-                attributed_to_loop_wrap = stall.NearLoopWrap,
+                attributed_to_loop_wrap = NearLoopWrap(stall.Seconds),
             }, options));
         }
         foreach (var wrap in _loopWrapSeconds)
@@ -482,7 +499,7 @@ public sealed class ReferencePerformanceScenario
 
     private void WriteSummary()
     {
-        var steadyStalls = _stalls.FindAll(stall => !stall.NearLoopWrap);
+        var steadyStalls = _stalls.FindAll(stall => !NearLoopWrap(stall.Seconds));
         var workingSetGrowth = MemoryTrend(sample => sample.WorkingSetBytes);
         var videoMemoryGrowth = MemoryTrend(sample => sample.VideoMemoryBytes);
         var frame = _frameMilliseconds.Describe();
@@ -529,7 +546,7 @@ public sealed class ReferencePerformanceScenario
                     render_gpu_ms = stall.GpuMilliseconds,
                     route_distance_m = stall.RouteDistanceMeters,
                     speed_mps = stall.SpeedMetersPerSecond,
-                    attributed_to_loop_wrap = stall.NearLoopWrap,
+                    attributed_to_loop_wrap = NearLoopWrap(stall.Seconds),
                 }),
             },
             memory = new
@@ -546,32 +563,12 @@ public sealed class ReferencePerformanceScenario
             },
             // Managed-allocation accounting exists so a reader can tell whether a stall or a
             // working-set trend belongs to the game or to the measurement harness.
-            garbage_collection = new
-            {
-                gen0_collections = _memorySamples.Count > 0
-                    ? _memorySamples[^1].Gen0Collections : 0,
-                gen1_collections = _memorySamples.Count > 0
-                    ? _memorySamples[^1].Gen1Collections : 0,
-                gen2_collections = _memorySamples.Count > 0
-                    ? _memorySamples[^1].Gen2Collections : 0,
-                allocated_bytes_during_measurement = TotalAllocatedBytes(),
-                harness_allocated_bytes = _harnessAllocatedBytes,
-                game_allocated_bytes = Math.Max(0, TotalAllocatedBytes() - _harnessAllocatedBytes),
-                harness_share_of_allocation = TotalAllocatedBytes() > 0
-                    ? (double)_harnessAllocatedBytes / TotalAllocatedBytes()
-                    : 0,
-                game_allocated_bytes_per_frame = _frameMilliseconds.Count > 0
-                    ? (double)Math.Max(0, TotalAllocatedBytes() - _harnessAllocatedBytes) /
-                        _frameMilliseconds.Count
-                    : 0,
-                gen0_collections_per_second = _measuredSeconds > 0 && _memorySamples.Count > 0
-                    ? _memorySamples[^1].Gen0Collections / _measuredSeconds
-                    : 0,
-            },
+            garbage_collection = GarbageCollection(),
             streaming = new
             {
-                route_distance_traversed_m =
-                    _streamer.RouteDistanceMeters - _startingRouteDistanceMeters,
+                cumulative_distance_travelled_m = _cumulativeDistanceMeters,
+                final_route_position_m = _streamer.RouteDistanceMeters,
+                starting_route_position_m = _startingRouteDistanceMeters,
                 maximum_chunk_build_ms = _streamer.MaximumBuildMilliseconds,
                 maximum_collision_build_ms = _streamer.MaximumCollisionBuildMilliseconds,
                 maximum_environment_build_ms = _streamer.MaximumEnvironmentBuildMilliseconds,
@@ -609,9 +606,9 @@ public sealed class ReferencePerformanceScenario
             ? "headless"
             : $"{DisplayServer.WindowGetSize().X}x{DisplayServer.WindowGetSize().Y}",
         three_d_render_size_basis =
-            "canvas_items stretch scales 2D only; 3D renders at window resolution. " +
-            "Corroborated by mean GPU time scaling 0.245 -> 0.411 -> 0.792 ms across " +
-            "1280x720, 2560x1440, and 3840x2160 windows.",
+            "canvas_items stretch scales 2D only; 3D renders at window resolution. The " +
+            "corroborating resolution-scaling measurements are recorded in the dated audit, " +
+            "not here, because they belong to one experiment rather than to every capture.",
         rendering_method = _options.Headless
             ? "headless"
             : (string)ProjectSettings.GetSetting("rendering/renderer/rendering_method"),
@@ -655,8 +652,37 @@ public sealed class ReferencePerformanceScenario
         };
     }
 
-    private long TotalAllocatedBytes() =>
-        GC.GetTotalAllocatedBytes(precise: false) - _startingAllocatedBytes;
+    /// <summary>
+    /// Reads the allocation counter exactly once so every derived figure reconciles. Calling
+    /// GC.GetTotalAllocatedBytes per field would let serialization work between the reads
+    /// change the denominator, and the shares would not add up.
+    /// </summary>
+    private object GarbageCollection()
+    {
+        var total = GC.GetTotalAllocatedBytes(precise: false) - _startingAllocatedBytes;
+        var game = Math.Max(0, total - _harnessAllocatedBytes);
+        return new
+        {
+            gen0_collections = _memorySamples.Count > 0 ? _memorySamples[^1].Gen0Collections : 0,
+            gen1_collections = _memorySamples.Count > 0 ? _memorySamples[^1].Gen1Collections : 0,
+            gen2_collections = _memorySamples.Count > 0 ? _memorySamples[^1].Gen2Collections : 0,
+            allocated_bytes_during_measurement = total,
+            harness_allocated_bytes = _harnessAllocatedBytes,
+            game_allocated_bytes = game,
+            harness_share_of_allocation = total > 0 ? (double)_harnessAllocatedBytes / total : 0,
+            game_allocated_bytes_per_frame = _frameMilliseconds.Count > 0
+                ? (double)game / _frameMilliseconds.Count
+                : 0,
+            gen0_collections_per_second = _measuredSeconds > 0 && _memorySamples.Count > 0
+                ? _memorySamples[^1].Gen0Collections / _measuredSeconds
+                : 0,
+            // Any profile that sets _smokeTest also runs Main.UpdateRunAutomationState every
+            // frame, which marshals ~35 values into a Godot Dictionary. That automation
+            // bookkeeping is not gameplay work but is counted in game_allocated_bytes, so the
+            // per-frame figure is an upper bound on real game allocation.
+            game_allocation_includes_automation_bookkeeping = true,
+        };
+    }
 
     private object ContentClass() => new
     {
@@ -854,7 +880,7 @@ public sealed class ReferencePerformanceScenario
 
     public string CompletionMarker()
     {
-        var steadyStalls = _stalls.FindAll(stall => !stall.NearLoopWrap).Count;
+        var steadyStalls = _stalls.FindAll(stall => !NearLoopWrap(stall.Seconds)).Count;
         return "CANNONBALL_REFERENCE_PERFORMANCE_OK " +
             $"scenario={_options.ScenarioId} " +
             $"resolution={_options.WidthPixels}x{_options.HeightPixels} " +
@@ -967,8 +993,7 @@ public sealed class ReferencePerformanceScenario
         double CpuMilliseconds,
         double GpuMilliseconds,
         double RouteDistanceMeters,
-        double SpeedMetersPerSecond,
-        bool NearLoopWrap);
+        double SpeedMetersPerSecond);
 
     private sealed record MemorySample(
         double Seconds,

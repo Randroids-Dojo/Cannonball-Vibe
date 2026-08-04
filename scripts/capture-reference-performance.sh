@@ -73,6 +73,10 @@ if [[ -z "$scenario" ]]; then
   usage
   exit 2
 fi
+if [[ ! "$scenario" =~ ^[A-Za-z0-9][A-Za-z0-9._-]*$ ]]; then
+  echo "--scenario must match [A-Za-z0-9][A-Za-z0-9._-]*; it names artifact files and is matched as a space-delimited marker token." >&2
+  exit 2
+fi
 if [[ ! "$resolution" =~ ^[1-9][0-9]*x[1-9][0-9]*$ ]]; then
   echo "--resolution must be WIDTHxHEIGHT." >&2
   exit 2
@@ -91,6 +95,10 @@ for numeric in "$speed_mps" "$warmup_seconds" "$measure_seconds"; do
     exit 2
   fi
 done
+if ! awk -v value="$measure_seconds" 'BEGIN { exit !(value + 0 >= 1) }'; then
+  echo "--measure-seconds must be at least 1; a zero-length window completes on the first frame after warm-up and would pass the gate on a single frame." >&2
+  exit 2
+fi
 
 case "$fixture" in
   representative-corridor)
@@ -143,6 +151,10 @@ if [[ ! -f "$route_package" ]]; then
   exit 1
 fi
 
+# Godot loads the assembly it builds for the running editor configuration, so this capture
+# measures a Debug build. That is recorded in the audit as an explicit evidence boundary
+# rather than silently presented as shipping-representative performance.
+build_configuration="Debug"
 dotnet build "$repo_root/Cannonball.sln" --nologo
 export CANNONBALL_GIT_REVISION
 CANNONBALL_GIT_REVISION="$(git rev-parse HEAD)"
@@ -178,10 +190,14 @@ printf 'CANNONBALL_REFERENCE_CAPTURE_START scenario=%s resolution=%s lighting=%s
   "$warmup_seconds" "$measure_seconds" "$timeout_seconds"
 
 set +e
-"$repo_root/scripts/godot.sh" "${godot_args[@]}" 2>&1 | tee "$log_path"
+timeout --signal=TERM --kill-after=30 "$timeout_seconds"   "$repo_root/scripts/godot.sh" "${godot_args[@]}" 2>&1 | tee "$log_path"
 capture_exit="${PIPESTATUS[0]}"
 set -e
 
+if [[ $capture_exit -eq 124 || $capture_exit -eq 137 ]]; then
+  echo "Reference performance capture exceeded ${timeout_seconds}s and was terminated." >&2
+  exit "$capture_exit"
+fi
 if [[ $capture_exit -ne 0 ]]; then
   echo "Reference performance capture exited with status $capture_exit." >&2
   exit "$capture_exit"
@@ -213,5 +229,25 @@ for artifact in "$summary_path" "$samples_path"; do
     exit 1
   fi
 done
+
+# Capture completion and threshold acceptance are different outcomes. A capture that records
+# a failing threshold is still a successful capture, so report the per-threshold verdict here
+# rather than letting a green completion marker hide a breached gate.
+uv run --project "$repo_root/tools/map_pipeline" --frozen python - "$summary_path" <<'VERDICT_PY'
+import json
+import sys
+
+summary = json.loads(open(sys.argv[1], encoding="utf-8").read())
+failed = []
+for name, node in summary["acceptance"].items():
+    passed = node.get("passed")
+    if passed is None:
+        continue
+    if not passed:
+        failed.append(name)
+    print(f"CANNONBALL_REFERENCE_THRESHOLD {name}=" + ("PASS" if passed else "FAIL"))
+print("CANNONBALL_REFERENCE_ACCEPTANCE " + (
+    "all_thresholds_passed" if not failed else "failed=" + ",".join(sorted(failed))))
+VERDICT_PY
 
 printf 'CANNONBALL_REFERENCE_PERFORMANCE_GATE_OK %s\n' "$marker"

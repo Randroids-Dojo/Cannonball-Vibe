@@ -3075,7 +3075,7 @@ public sealed partial class Main : Node3D
             height,
             DisplayServer.GetName() == "headless",
             OptionalBoolean(arguments, "--reference-vsync", false),
-            (int)OptionalDoubleValue(arguments, "--reference-max-fps", 0),
+            OptionalBoundedInteger(arguments, "--reference-max-fps", 0, 0, 10_000),
             lighting,
             OptionalDoubleValue(arguments, "--reference-speed-mps", 40),
             OptionalDoubleValue(arguments, "--reference-warmup-seconds", 20),
@@ -3083,6 +3083,37 @@ public sealed partial class Main : Node3D
             OptionalBoolean(arguments, "--reference-loop-corridor", true),
             summaryPath,
             samplesPath);
+    }
+
+    /// <summary>
+    /// Parses an integer option and rejects out-of-range values at parse time. Casting an
+    /// unbounded double to int is unchecked, so a value above int.MaxValue would wrap and
+    /// could hand Engine.MaxFps a negative ceiling that silently changes the measurement.
+    /// </summary>
+    private static int OptionalBoundedInteger(
+        IReadOnlyList<string> arguments,
+        string name,
+        int defaultValue,
+        int minimum,
+        int maximum)
+    {
+        var raw = OptionalArgument(arguments, name);
+        if (raw is null)
+        {
+            return defaultValue;
+        }
+        if (!int.TryParse(
+                raw,
+                System.Globalization.NumberStyles.Integer,
+                System.Globalization.CultureInfo.InvariantCulture,
+                out var value) ||
+            value < minimum || value > maximum)
+        {
+            throw new ArgumentException(
+                $"Game argument '{name}' must be an integer between {minimum} and {maximum}; " +
+                $"found '{raw}'.");
+        }
+        return value;
     }
 
     private static double OptionalDoubleValue(
