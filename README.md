@@ -9,8 +9,10 @@ verified sharded route runtime with local-origin rebasing, versioned saves,
 JSONL telemetry, and a public-domain-only geodata pipeline. The checked-in
 official NHPN/3DEP fixture is intentionally short. ADR-0024 selects the
 continental route graph, and the first P0-021 acquisition stage now locks the
-NHPN route-family candidate snapshots. Exact connected edges, 3DEP products,
-reconstruction, and complete-drive qualification remain P0-021 work.
+NHPN route-family candidate snapshots. The second stage locks all 12 transfer
+anchors to exact candidate IDs and response hashes. Exact connected edges,
+3DEP products, reconstruction, and complete-drive qualification remain P0-021
+work.
 
 This is a prototype foundation, not the complete MVP described in
 [gdd.md](gdd.md). Traffic, enforcement, stops, builds, and the continental
@@ -22,7 +24,10 @@ in Manhattan and Redondo Beach. See the [route decision](docs/decisions/ADR-0024
 and [machine-readable selection](data/routes/continental/route-selection.v1.json).
 The [continental source lock](data/sources/continental-route-lock.json) is
 deliberately partial and fails complete-lock validation until the exact
-westbound path and dependent 3DEP products are locked.
+westbound path and dependent 3DEP products are locked. The versioned
+[transfer policy](data/routes/continental/transfer-node-policy.v1.json) and
+[transfer lock](data/routes/continental/transfer-node-lock.v1.json) bound the
+next connected-path solve without claiming lane geometry.
 
 ## Run the prototype
 

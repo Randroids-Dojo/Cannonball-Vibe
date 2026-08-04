@@ -5,19 +5,26 @@ import json
 from pathlib import Path
 
 import pytest
+from pyproj import Transformer
+from shapely.geometry import LineString
 from typer.testing import CliRunner
 
 from cannonball_map.cli import app
 from cannonball_map.continental import (
+    LockedCandidateLine,
+    _derive_transfer_node,
     acquire_continental_nhpn_candidates,
     build_nhpn_candidate_selectors,
     validate_continental_route_lock,
+    validate_continental_transfer_lock,
 )
 from cannonball_map.lockfile import canonical_sha256
 
 SELECTION_PATH = Path("data/routes/continental/route-selection.v1.json")
 CATALOG_PATH = Path("data/sources/catalog.json")
 LOCK_PATH = Path("data/sources/continental-route-lock.json")
+TRANSFER_POLICY_PATH = Path("data/routes/continental/transfer-node-policy.v1.json")
+TRANSFER_LOCK_PATH = Path("data/routes/continental/transfer-node-lock.v1.json")
 
 
 def _selection() -> dict:
@@ -198,5 +205,112 @@ def test_validate_continental_lock_cli_reports_clean_failure(tmp_path: Path) -> 
 
     assert result.exit_code == 1
     assert "continental-lock-invalid:" in result.output
+    assert "unsupported status" in result.output
+    assert "Traceback" not in result.output
+
+
+def test_repository_continental_transfer_lock_validates() -> None:
+    payload = validate_continental_transfer_lock(
+        TRANSFER_LOCK_PATH,
+        TRANSFER_POLICY_PATH,
+        SELECTION_PATH,
+        LOCK_PATH,
+        CATALOG_PATH,
+    )
+
+    assert payload["status"] == "transfer_nodes_locked_exact_path_pending"
+    assert len(payload["transfer_nodes"]) == 12
+    assert max(node["facility_separation_m"] for node in payload["transfer_nodes"]) < 25
+    assert payload["next_stage"]["id"] == "exact-westbound-path-solve"
+
+
+def test_continental_transfer_lock_rejects_evidence_drift(tmp_path: Path) -> None:
+    payload = json.loads(TRANSFER_LOCK_PATH.read_text(encoding="utf-8"))
+    payload["transfer_nodes"][0]["evidence"][0]["object_id"] = -1
+    payload["transfer_nodes_sha256"] = canonical_sha256(payload["transfer_nodes"])
+    invalid_path = tmp_path / "invalid-transfer.json"
+    invalid_path.write_text(json.dumps(payload), encoding="utf-8")
+
+    with pytest.raises(ValueError, match="OBJECTID drifted"):
+        validate_continental_transfer_lock(
+            invalid_path,
+            TRANSFER_POLICY_PATH,
+            SELECTION_PATH,
+            LOCK_PATH,
+            CATALOG_PATH,
+        )
+
+
+def test_continental_transfer_lock_rejects_page_hash_drift(tmp_path: Path) -> None:
+    payload = json.loads(TRANSFER_LOCK_PATH.read_text(encoding="utf-8"))
+    payload["transfer_nodes"][0]["evidence"][0]["page_response_sha256"] = "0" * 64
+    payload["transfer_nodes_sha256"] = canonical_sha256(payload["transfer_nodes"])
+    invalid_path = tmp_path / "invalid-transfer.json"
+    invalid_path.write_text(json.dumps(payload), encoding="utf-8")
+
+    with pytest.raises(ValueError, match="response hash drifted"):
+        validate_continental_transfer_lock(
+            invalid_path,
+            TRANSFER_POLICY_PATH,
+            SELECTION_PATH,
+            LOCK_PATH,
+            CATALOG_PATH,
+        )
+
+
+def test_transfer_derivation_is_deterministic_for_crossing_candidates() -> None:
+    spec = {
+        "id": "fixture-transfer",
+        "method": "midpoint_between_segments",
+        "evidence_segment_ids": ["west-east", "north-south"],
+        "search_hint": {"longitude": -100.0, "latitude": 40.0},
+        "search_radius_m": 5_000,
+        "max_facility_separation_m": 100,
+        "research_source_ids": ["fixture-source"],
+    }
+    response_hash = "1" * 64
+    candidates = {
+        "west-east": (
+            LockedCandidateLine(
+                "west-east",
+                20,
+                response_hash,
+                LineString([(-100.01, 40.0), (-99.99, 40.0)]),
+            ),
+        ),
+        "north-south": (
+            LockedCandidateLine(
+                "north-south",
+                10,
+                response_hash,
+                LineString([(-100.0, 39.99), (-100.0, 40.01)]),
+            ),
+        ),
+    }
+    forward = Transformer.from_crs("EPSG:4326", "EPSG:5070", always_xy=True)
+    inverse = Transformer.from_crs("EPSG:5070", "EPSG:4326", always_xy=True)
+
+    first = _derive_transfer_node(spec, candidates.__getitem__, forward, inverse)
+    second = _derive_transfer_node(spec, candidates.__getitem__, forward, inverse)
+
+    assert first == second
+    assert first["coordinate"]["longitude"] == pytest.approx(-100.0)
+    assert first["coordinate"]["latitude"] == pytest.approx(40.0)
+    assert first["facility_separation_m"] == pytest.approx(0.0)
+
+
+def test_validate_continental_transfers_cli_reports_clean_failure(tmp_path: Path) -> None:
+    payload = json.loads(TRANSFER_LOCK_PATH.read_text(encoding="utf-8"))
+    payload["status"] = "invalid"
+    invalid_path = tmp_path / "invalid-transfer.json"
+    invalid_path.write_text(json.dumps(payload), encoding="utf-8")
+
+    result = CliRunner().invoke(
+        app,
+        ["validate-continental-transfers", str(invalid_path)],
+    )
+
+    assert result.exit_code == 1
+    assert "continental-transfers-invalid:" in result.output
     assert "unsupported status" in result.output
     assert "Traceback" not in result.output
