@@ -156,9 +156,14 @@ build_configuration="Release"
 # The editor runtime resolves the managed project from its conventional Debug output
 # directory. Compile Release IL into that runtime location so the measured assembly is
 # optimized without requiring an exported game package solely for the benchmark harness.
+# Restore the full solution against its committed lock files first. A configuration-specific
+# Release restore omits GodotSharpEditor and rewrites the Debug-oriented root lock file, which
+# would make the exact-commit capture worktree dirty before measurement begins.
+dotnet restore "$repo_root/Cannonball.sln" --locked-mode --nologo
 dotnet build "$repo_root/Cannonball.csproj" \
   --configuration "$build_configuration" \
   --output "$repo_root/.godot/mono/temp/bin/Debug" \
+  --no-restore \
   --nologo
 export CANNONBALL_GIT_REVISION
 CANNONBALL_GIT_REVISION="$(git rev-parse HEAD)"
