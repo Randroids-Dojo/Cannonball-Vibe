@@ -250,7 +250,9 @@ harness contributes 0.10% of that allocation, so this is game and engine code.
 | degraded-quality | 4,800 | 34.566 | 3.001 | 39.738 | 5 | 0 | 0 |
 | steady-state-30m | 22,597 | 34.853 | 3.180 | 40.409 | 72 | 2 | 0 |
 
-Zero chunk failures and zero seam or collision anomalies across every scenario.
+Every scenario reported zero chunk failures and recorded collision build and
+removal counts. The harness did not emit structured seam-check or collision-miss
+counters, so this capture makes no independent claim about those outcomes.
 Synchronous environment construction peaked at **48.796 ms against the 50 ms
 stall limit** — the closest approach to a frame-pacing threshold in the whole
 capture, and the second identified risk after GC.
