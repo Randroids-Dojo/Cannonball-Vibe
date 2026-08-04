@@ -1224,13 +1224,16 @@
         "Human review completes the canonical coast-to-coast graybox and confirms geographic plausibility, route-choice comprehension, endpoint presentation, and correction quality before M2 completion"
       ],
       "verification": [
+        "uv run --project tools/map_pipeline --frozen cannonball-map validate-continental-lock data/sources/continental-route-lock.json",
         "uv run --project tools/map_pipeline --frozen pytest tools/map_pipeline/tests/test_continental_route_selection.py -q",
+        "uv run --project tools/map_pipeline --frozen pytest tools/map_pipeline/tests/test_continental_pipeline.py -q",
         "./scripts/check.sh"
       ],
       "inputs": [
         "data/routes/continental/route-selection.v1.json",
         "data/sources/continental-route-lock.json",
-        "docs/audits/2026-07-31-continental-route-selection.md"
+        "docs/audits/2026-07-31-continental-route-selection.md",
+        "docs/audits/p0-021/2026-08-03-nhpn-candidate-lock.md"
       ],
       "evidence": [
         "evidence/M2/P0-021.json"
@@ -1240,7 +1243,7 @@
         "required_for": "M2",
         "status": "pending"
       },
-      "notes": "Q-031 and ADR-0024 lock the Central Rockies canonical path, Northern Plains alternative, Southern I-40 alternative, historical reference addresses, and public-road endpoint policy. Route policy is complete; exact NHPN edges, 3DEP tiles, authoritative distance, route semantics, reconstruction exceptions, packages, bot traversal, and human completion remain open production work. P0-021 must add runnable scripts/validate-continental-route.sh and scripts/run-continental-scenario.sh gates; source-lock validation becomes runnable after the continental lock exists. The first graph is westbound only."
+      "notes": "Q-031 and ADR-0024 lock the Central Rockies canonical path, Northern Plains alternative, Southern I-40 alternative, historical reference addresses, and public-road endpoint policy. On 2026-08-03 the first acquisition stage checksum-locked 15,525 unique NHPN route-family candidates across all 12 NHPN-backed policy segments, including all three signed-route slots and stable per-page canonical response hashes; the 54.43 MB raw response cache remains ignored. The lock is explicitly nhpn_candidates_locked_3dep_pending and complete-lock validation rejects it: exact connected westbound NHPN edges, transfer-node coordinates, authored connector bounds, and dependent 3DEP products remain open before authoritative distance or geometry can be derived. Route semantics, reconstruction exceptions, packages, bot traversal, and human completion also remain open. P0-021 must still add runnable scripts/validate-continental-route.sh and scripts/run-continental-scenario.sh gates. The first graph is westbound only."
     },
     {
       "id": "P0-015",

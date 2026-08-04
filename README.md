@@ -7,9 +7,10 @@ The repository now contains the M0/P0 technical slice: a Godot 4.7.1 .NET game,
 an engine-independent C# rules layer, a custom raycast-suspension vehicle, a
 verified sharded route runtime with local-origin rebasing, versioned saves,
 JSONL telemetry, and a public-domain-only geodata pipeline. The checked-in
-official NHPN/3DEP fixture is intentionally short. ADR-0024 now selects the
-continental route graph, while acquisition, reconstruction, and complete-drive
-qualification remain the P0-021 milestone.
+official NHPN/3DEP fixture is intentionally short. ADR-0024 selects the
+continental route graph, and the first P0-021 acquisition stage now locks the
+NHPN route-family candidate snapshots. Exact connected edges, 3DEP products,
+reconstruction, and complete-drive qualification remain P0-021 work.
 
 This is a prototype foundation, not the complete MVP described in
 [gdd.md](gdd.md). Traffic, enforcement, stops, builds, and the continental
@@ -19,6 +20,9 @@ The selected westbound graph uses a Central Rockies canonical path, a Northern
 Plains alternative, and a Southern I-40 alternative between public-road portals
 in Manhattan and Redondo Beach. See the [route decision](docs/decisions/ADR-0024-canonical-continental-route-graph.md)
 and [machine-readable selection](data/routes/continental/route-selection.v1.json).
+The [continental source lock](data/sources/continental-route-lock.json) is
+deliberately partial and fails complete-lock validation until the exact
+westbound path and dependent 3DEP products are locked.
 
 ## Run the prototype
 

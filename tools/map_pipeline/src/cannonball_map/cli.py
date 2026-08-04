@@ -9,6 +9,10 @@ import typer
 
 from cannonball_map.acquisition import UrllibArcGisTransport, acquire_nhpn
 from cannonball_map.catalog import load_catalog, url_matches_prefix
+from cannonball_map.continental import (
+    acquire_continental_nhpn_candidates,
+    validate_continental_route_lock,
+)
 from cannonball_map.elevation import ElevationMetadata, ElevationSampler
 from cannonball_map.lockfile import materialize_locked_role, validate_lock
 from cannonball_map.manifest import SourceManifest, validate_source
@@ -187,6 +191,61 @@ def acquire_nhpn_command(
         f"acquired: {output} ({result.expected_count} features, "
         f"retries={result.retries}, resumed={result.resumed_pages})"
     )
+
+
+@app.command("acquire-continental-nhpn")
+def acquire_continental_nhpn_command(
+    selection: Path = typer.Option(
+        Path("data/routes/continental/route-selection.v1.json"),
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+    ),
+    output: Path = typer.Option(
+        Path("data/sources/continental-route-lock.json"),
+        file_okay=True,
+        dir_okay=False,
+    ),
+    cache: Path = typer.Option(
+        Path(".tools/continental/nhpn"),
+        file_okay=False,
+        dir_okay=True,
+    ),
+    catalog: Path = typer.Option(DEFAULT_CATALOG, exists=True, file_okay=True, dir_okay=False),
+    page_size: int = typer.Option(2_000, min=1, max=2_000),
+) -> None:
+    """Lock NHPN route-family candidate snapshots for every continental segment."""
+    payload = acquire_continental_nhpn_candidates(
+        selection,
+        catalog,
+        output,
+        cache,
+        page_size=page_size,
+    )
+    total = payload["nhpn"]["candidate_union"]["expected_count"]
+    typer.echo(f"continental-nhpn-locked: {output} ({total} unique candidates)")
+
+
+@app.command("validate-continental-lock")
+def validate_continental_lock_command(
+    lock: Path = typer.Argument(..., exists=True, file_okay=True, dir_okay=False),
+    selection: Path = typer.Option(
+        Path("data/routes/continental/route-selection.v1.json"),
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+    ),
+    catalog: Path = typer.Option(DEFAULT_CATALOG, exists=True, file_okay=True, dir_okay=False),
+    require_complete: bool = typer.Option(False),
+) -> None:
+    """Validate the continental candidate lock and optionally require final completion."""
+    payload = validate_continental_route_lock(
+        lock,
+        catalog,
+        selection,
+        require_complete=require_complete,
+    )
+    typer.echo(f"continental-lock-ok: {lock} ({payload['status']})")
 
 
 @app.command("materialize-lock")
