@@ -61,6 +61,7 @@ public sealed partial class Main : Node3D
     private bool _environmentReview;
     private bool _integratedVisualSliceProfile;
     private bool _integratedVisualSliceReview;
+    private bool _referencePerformanceProfile;
     private bool _tripMapReview;
     private bool _tripMapScaleProfile;
     private bool _tripMapToggleHeld;
@@ -128,6 +129,7 @@ public sealed partial class Main : Node3D
     private RoadVisualScenario? _roadVisualScenario;
     private EnvironmentVisualScenario? _environmentVisualScenario;
     private IntegratedVisualSliceScenario? _integratedVisualSliceScenario;
+    private ReferencePerformanceScenario? _referencePerformanceScenario;
     private CameraHandlingScenario? _cameraHandlingScenario;
     private VehicleDynamicsScenario? _vehicleDynamicsScenario;
     private bool _resumeRequested;
@@ -267,6 +269,9 @@ public sealed partial class Main : Node3D
             _integratedVisualSliceProfile = _integratedVisualSliceReview || arguments.Contains(
                 "--integrated-visual-slice-profile",
                 StringComparer.Ordinal);
+            _referencePerformanceProfile = arguments.Contains(
+                "--reference-performance-profile",
+                StringComparer.Ordinal);
             _tripMapReview = arguments.Contains("--trip-map-review", StringComparer.Ordinal);
             _tripMapScaleProfile = arguments.Contains(
                 "--trip-map-scale-profile",
@@ -276,7 +281,7 @@ public sealed partial class Main : Node3D
                 _routeChoiceProfile || _routeContextProfile || _routeContextReview ||
                 _vehicleVisualProfile || _vehicleVisualReview || _roadVisualProfile ||
                 _roadVisualReview || _environmentStreamingProfile || _environmentReview ||
-                _integratedVisualSliceProfile ||
+                _integratedVisualSliceProfile || _referencePerformanceProfile ||
                 _tripMapReview || _cameraHandlingProfile ||
                 _cameraHandlingReview || _vehicleDynamicsProfile || _vehicleDynamicsReview ||
                 _tripMapScaleProfile || _longRouteProfile || _resumeVerify;
@@ -332,6 +337,13 @@ public sealed partial class Main : Node3D
             if (_integratedVisualSliceProfile)
             {
                 _smokeTargetFrames = 1_200;
+            }
+            if (_referencePerformanceProfile)
+            {
+                // The capture ends on measured wall-clock duration, not frame count. This is a
+                // backstop only: a 30-minute run with V-Sync disabled can present well over a
+                // million frames, and a low cap would silently truncate the capture.
+                _smokeTargetFrames = 5_000_000;
             }
             if (_tripMapReview)
             {
@@ -552,6 +564,16 @@ public sealed partial class Main : Node3D
                     _streamer,
                     _integratedVisualSliceReview);
             }
+            if (_referencePerformanceProfile)
+            {
+                _referencePerformanceScenario = new ReferencePerformanceScenario(
+                    _vehicle,
+                    _streamer,
+                    GetNode<DirectionalLight3D>("MoonLight"),
+                    GetNode<WorldEnvironment>("NightEnvironment"),
+                    ParseReferencePerformanceOptions(arguments));
+                _referencePerformanceScenario.Configure(GetViewport());
+            }
             if ((_cameraHandlingProfile || _cameraHandlingReview) && !_resumeVerify)
             {
                 _cameraHandlingScenario = new CameraHandlingScenario(
@@ -621,7 +643,10 @@ public sealed partial class Main : Node3D
         {
             RestartRun();
         }
-        UpdateRunAutomationState();
+        if (_referencePerformanceScenario is not { Measuring: true })
+        {
+            UpdateRunAutomationState();
+        }
 
         var tripMapTogglePressed = Godot.Input.IsActionPressed("toggle_trip_map");
         if (tripMapTogglePressed && !_tripMapToggleHeld)
@@ -781,6 +806,20 @@ public sealed partial class Main : Node3D
                 return;
             }
         }
+        if (_referencePerformanceScenario is { Complete: false })
+        {
+            try
+            {
+                _referencePerformanceScenario.Advance(delta);
+            }
+            catch (Exception exception)
+            {
+                GD.PushError(exception.ToString());
+                _shutdownStarted = true;
+                GetTree().Quit(1);
+                return;
+            }
+        }
         if ((_roadVisualProfile || _roadVisualReview) && !_roadVisualProfileComplete)
         {
             try
@@ -848,6 +887,7 @@ public sealed partial class Main : Node3D
             _vehicleDynamicsScenario is { Complete: true } ||
             _environmentVisualScenario is { Complete: true } ||
             _integratedVisualSliceScenario is { Complete: true } ||
+            _referencePerformanceScenario is { Complete: true } ||
             (_roadVisualProfileComplete && _routeContextProfileComplete))
         {
             _shutdownStarted = true;
@@ -1836,6 +1876,14 @@ public sealed partial class Main : Node3D
             if (quitAfterSave && _integratedVisualSliceProfile)
             {
                 _integratedVisualSliceScenario?.ValidateComplete();
+            }
+            if (quitAfterSave && _referencePerformanceProfile)
+            {
+                var reference = _referencePerformanceScenario
+                    ?? throw new InvalidOperationException(
+                        "Reference performance profile has no scenario.");
+                reference.WriteArtifacts();
+                GD.Print(reference.CompletionMarker());
             }
             if (quitAfterSave && _longRouteProfile)
             {
@@ -2998,6 +3046,84 @@ public sealed partial class Main : Node3D
         }
         var index = ArgumentIndex(arguments, name);
         return index >= 0 && index + 1 < arguments.Count ? arguments[index + 1] : null;
+    }
+
+    private static ReferencePerformanceOptions ParseReferencePerformanceOptions(
+        IReadOnlyList<string> arguments)
+    {
+        var scenarioId = OptionalArgument(arguments, "--reference-scenario") ?? "daylight";
+        var lightingRaw = OptionalArgument(arguments, "--reference-lighting") ?? "daylight";
+        if (!Enum.TryParse<LightingMode>(lightingRaw, ignoreCase: true, out var lighting))
+        {
+            throw new ArgumentException(
+                $"Game argument '--reference-lighting' must be daylight or night; " +
+                $"found '{lightingRaw}'.");
+        }
+        var resolution = OptionalArgument(arguments, "--reference-resolution") ?? "2560x1440";
+        var parts = resolution.Split('x', StringSplitOptions.TrimEntries);
+        if (parts.Length != 2 ||
+            !int.TryParse(parts[0], out var width) || width <= 0 ||
+            !int.TryParse(parts[1], out var height) || height <= 0)
+        {
+            throw new ArgumentException(
+                $"Game argument '--reference-resolution' must be WIDTHxHEIGHT; found '{resolution}'.");
+        }
+        var summaryPath = Path.GetFullPath(
+            RequiredArgument(arguments, "--reference-summary"));
+        var samplesPath = Path.GetFullPath(
+            RequiredArgument(arguments, "--reference-samples"));
+        return new ReferencePerformanceOptions(
+            scenarioId,
+            width,
+            height,
+            DisplayServer.GetName() == "headless",
+            OptionalBoolean(arguments, "--reference-vsync", false),
+            OptionalNonNegativeIntValue(arguments, "--reference-max-fps", 0),
+            lighting,
+            OptionalDoubleValue(arguments, "--reference-speed-mps", 40),
+            OptionalDoubleValue(arguments, "--reference-warmup-seconds", 20),
+            OptionalDoubleValue(arguments, "--reference-measure-seconds", 120),
+            OptionalBoolean(arguments, "--reference-loop-corridor", true),
+            summaryPath,
+            samplesPath);
+    }
+
+    private static double OptionalDoubleValue(
+        IReadOnlyList<string> arguments,
+        string name,
+        double defaultValue)
+    {
+        var raw = OptionalArgument(arguments, name);
+        if (raw is null)
+        {
+            return defaultValue;
+        }
+        if (!double.TryParse(
+                raw,
+                System.Globalization.NumberStyles.Float,
+                System.Globalization.CultureInfo.InvariantCulture,
+                out var value) ||
+            !double.IsFinite(value) || value < 0)
+        {
+            throw new ArgumentException(
+                $"Game argument '{name}' must be a finite non-negative number; found '{raw}'.");
+        }
+        return value;
+    }
+
+    private static int OptionalNonNegativeIntValue(
+        IReadOnlyList<string> arguments,
+        string name,
+        int defaultValue)
+    {
+        var value = OptionalDoubleValue(arguments, name, defaultValue);
+        if (value > int.MaxValue || value != Math.Truncate(value))
+        {
+            throw new ArgumentException(
+                $"Game argument '{name}' must be a non-negative integer no greater than " +
+                $"{int.MaxValue}; found '{value}'.");
+        }
+        return (int)value;
     }
 
     private static IReadOnlyList<AssistProfile> VehicleDynamicsAssistProfiles(

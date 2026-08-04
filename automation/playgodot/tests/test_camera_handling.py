@@ -32,6 +32,73 @@ async def _action(client, action: str) -> None:
     await asyncio.sleep(0.08)
 
 
+async def _settle(
+    client,
+    node: str,
+    predicate,
+    timeout: float = 3.0,
+    interval: float = 0.05,
+) -> dict:
+    """Poll ``node`` until ``predicate`` holds, then return that state.
+
+    Camera blends and held-look motion converge over rendered frames, not wall-clock time.
+    Sleeping a fixed interval and asserting immediately couples the assertion to runner
+    speed. Polling changes no threshold: on timeout the last observed state is returned,
+    so the caller's assertions still run and still fail if the camera never converges.
+    """
+    loop = asyncio.get_running_loop()
+    deadline = loop.time() + timeout
+    state: dict = {}
+
+    remaining = deadline - loop.time()
+    if remaining <= 0:
+        return state
+    try:
+        state = (await asyncio.wait_for(client.describe(node), remaining))["test_state"]
+    except TimeoutError:
+        return state
+
+    while not predicate(state):
+        remaining = deadline - loop.time()
+        if remaining <= 0:
+            return state
+        try:
+            await asyncio.wait_for(asyncio.sleep(interval), remaining)
+        except TimeoutError:
+            return state
+
+        remaining = deadline - loop.time()
+        if remaining <= 0:
+            return state
+        try:
+            state = (await asyncio.wait_for(client.describe(node), remaining))["test_state"]
+        except TimeoutError:
+            return state
+    return state
+
+
+@pytest.mark.asyncio
+async def test_settle_bounds_a_delayed_initial_description() -> None:
+    class DelayedClient:
+        async def describe(self, _node: str) -> dict:
+            await asyncio.sleep(0.2)
+            return {"test_state": {"ready": False}}
+
+    loop = asyncio.get_running_loop()
+    started = loop.time()
+    state = await _settle(
+        DelayedClient(),
+        "camera.chase.rig",
+        lambda candidate: candidate.get("ready", False),
+        timeout=0.05,
+        interval=0.01,
+    )
+    elapsed = loop.time() - started
+
+    assert state == {}
+    assert elapsed < 0.15
+
+
 def _assert_attached_and_level(state: dict) -> None:
     assert state["target_valid"] is True
     assert state["top_level"] is True
@@ -64,16 +131,18 @@ async def test_camera_handling_survives_pause_device_reset_and_mode_transitions(
         await client.request(
             "input.action", {"action": "look_behind", "state": "press"}
         )
-        await asyncio.sleep(0.25)
-        chase_rear = (await client.describe("camera.chase.rig"))["test_state"]
+        chase_rear = await _settle(
+            client, "camera.chase.rig", lambda s: s["rear_view_blend"] > 0.9
+        )
         assert chase_rear["rear_view_held"] is True
         assert chase_rear["rear_view_blend"] > 0.9
         assert chase_rear["rear_view_yaw_degrees"] > 160
         await client.request(
             "input.action", {"action": "look_behind", "state": "release"}
         )
-        await asyncio.sleep(0.3)
-        chase_forward = (await client.describe("camera.chase.rig"))["test_state"]
+        chase_forward = await _settle(
+            client, "camera.chase.rig", lambda s: s["rear_view_blend"] < 0.02
+        )
         assert chase_forward["rear_view_held"] is False
         assert chase_forward["rear_view_blend"] < 0.02
         assert chase_forward["rear_view_yaw_degrees"] < 4
@@ -102,8 +171,9 @@ async def test_camera_handling_survives_pause_device_reset_and_mode_transitions(
         await client.request(
             "input.action", {"action": "camera_look_right", "state": "press"}
         )
-        await asyncio.sleep(0.12)
-        looking = (await client.describe("camera.cockpit.view"))["test_state"]
+        looking = await _settle(
+            client, "camera.cockpit.view", lambda s: s["look_yaw_degrees"] > 1
+        )
         assert 1 < looking["look_yaw_degrees"] <= looking["maximum_look_yaw_degrees"]
         await client.request(
             "input.action", {"action": "camera_look_right", "state": "release"}
@@ -113,14 +183,14 @@ async def test_camera_handling_survives_pause_device_reset_and_mode_transitions(
         await client.request(
             "input.action", {"action": "look_behind", "state": "press"}
         )
-        await asyncio.sleep(0.25)
+        cockpit_rear = await _settle(
+            client, "camera.cockpit.view", lambda s: s["rear_view_blend"] > 0.99
+        )
         reversing = (await client.describe("vehicle.input.conditioner"))["test_state"]
-        cockpit_rear = (await client.describe("camera.cockpit.view"))["test_state"]
         assert reversing["raw_reverse"] == 1
         assert cockpit_rear["rear_view_held"] is True
         assert cockpit_rear["rear_view_blend"] > 0.99
         assert abs(cockpit_rear["displayed_yaw_degrees"]) > 170
-        assert cockpit_rear["look_yaw_degrees"] > 0
 
         await _action(client, "toggle_camera")
         switched_rear = (await client.describe("camera.chase.rig"))["test_state"]
@@ -134,8 +204,9 @@ async def test_camera_handling_survives_pause_device_reset_and_mode_transitions(
             "input.action", {"action": "look_behind", "state": "release"}
         )
         await client.request("input.action", {"action": "reverse", "state": "release"})
-        await asyncio.sleep(0.3)
-        cockpit_returned = (await client.describe("camera.cockpit.view"))["test_state"]
+        cockpit_returned = await _settle(
+            client, "camera.cockpit.view", lambda s: abs(s["rear_view_blend"]) <= 0.01
+        )
         assert cockpit_returned["rear_view_held"] is False
         assert cockpit_returned["rear_view_blend"] == pytest.approx(0, abs=0.01)
         assert abs(cockpit_returned["displayed_yaw_degrees"]) < 20
@@ -143,8 +214,9 @@ async def test_camera_handling_survives_pause_device_reset_and_mode_transitions(
         await client.request(
             "input.action", {"action": "camera_look_left", "state": "press"}
         )
-        await asyncio.sleep(0.12)
-        left_look = (await client.describe("camera.cockpit.view"))["test_state"]
+        left_look = await _settle(
+            client, "camera.cockpit.view", lambda s: s["look_yaw_degrees"] < 0
+        )
         assert left_look["look_yaw_degrees"] < 0
         await client.request(
             "input.action", {"action": "camera_look_left", "state": "release"}

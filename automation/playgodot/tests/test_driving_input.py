@@ -424,8 +424,31 @@ async def test_controller_camera_recover_menu_and_confirmed_restart_are_distinct
         await client.request(
             "input.joypad_button", {"button": "left_shoulder", "state": "press", "device": 2}
         )
-        await asyncio.sleep(0.25)
-        physical_rear = (await client.describe("camera.cockpit.view"))["test_state"]
+        rear_deadline = asyncio.get_running_loop().time() + 3.0
+        physical_rear: dict = {}
+        while True:
+            remaining = rear_deadline - asyncio.get_running_loop().time()
+            if remaining <= 0:
+                pytest.fail(f"Physical rear view did not settle; last state={physical_rear}")
+            try:
+                physical_rear = (
+                    await asyncio.wait_for(
+                        client.describe("camera.cockpit.view"), timeout=remaining
+                    )
+                )["test_state"]
+            except TimeoutError:
+                pytest.fail(f"Physical rear-view query timed out; last state={physical_rear}")
+            if physical_rear["rear_view_held"] and abs(
+                physical_rear["displayed_yaw_degrees"]
+            ) > 170:
+                break
+            remaining = rear_deadline - asyncio.get_running_loop().time()
+            if remaining <= 0:
+                pytest.fail(f"Physical rear view did not settle; last state={physical_rear}")
+            try:
+                await asyncio.wait_for(asyncio.sleep(0.05), timeout=remaining)
+            except TimeoutError:
+                pytest.fail(f"Physical rear view did not settle; last state={physical_rear}")
         assert physical_rear["rear_view_held"] is True
         assert abs(physical_rear["displayed_yaw_degrees"]) > 170
         await client.request(
