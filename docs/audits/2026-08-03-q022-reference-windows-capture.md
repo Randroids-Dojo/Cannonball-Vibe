@@ -11,9 +11,12 @@ declared reference PC. It moves Q-022 from "thresholds ratified, unmeasured" to
 
 ## Result in one line
 
-Five of the six ADR-0023 provisional thresholds pass with 9–11× headroom. The
-sustained-memory-growth threshold **fails** on the 30-minute run at 1.87 MiB/min
-(R² = 0.79, +57.7 MiB, entirely CPU-side).
+The original non-conforming capture reported p95 headroom of approximately
+9.1× and p99 headroom of approximately 6.7×; peak GPU memory used about 1.9% of
+its limit and peak working set about 4.7%. Its sustained-memory-growth threshold
+**failed** on the 30-minute run at 1.87 MiB/min (R² = 0.79, +57.7 MiB,
+entirely CPU-side). These figures must be replaced by the clean committed-revision
+recapture described below before this document is conforming evidence.
 
 ## Hardware
 
@@ -38,16 +41,15 @@ worktree** created for this work, not a long-lived gameplay worktree.
 - Branch: `agent/q022-reference-windows-capture-20260803`
 - `git status --porcelain` when the worktree was created: empty
 
-The worktree was **not** byte-clean at the moment of measurement, and claiming
-otherwise would be false. No reference-performance harness existed at the pinned
-commit, so it had to be added before anything could be measured. The only
-modifications present during capture were the harness itself
+The worktree was **not** byte-clean at the moment of measurement. No
+reference-performance harness existed at the pinned commit, so it was added
+before measurement. The modifications present during capture included the harness
 (`game/Automation/ReferencePerformanceScenario.cs`, the `Main.cs` wiring, and
 `scripts/capture-reference-performance.sh`) plus the documentation deliverables.
-What the ADR-0023 addendum guards against — a long-lived dirty gameplay worktree
-or stale generated output contaminating a measurement — did not occur: the
-worktree is outside any gameplay checkout, and every route package was rebuilt
-from checksum-locked fixture sources at the start of every run.
+That violates the explicit clean-at-measurement requirement, so the original
+capture is **non-conforming** and cannot support Q-022 ratification. The corrected
+harness must first be committed, then measured from a fresh clean worktree at
+that exact revision. The original results remain only as diagnostic history.
 - `scripts/doctor.sh`: all five pins passed — Godot `4.7.1.stable.mono.official.a13da4feb`,
   .NET SDK `10.0.102`, uv `0.9.24`, Git LFS `3.7.1`, perl available
 
@@ -296,8 +298,10 @@ are not evidence, but they show the criterion sits close enough to the boundary
 that its outcome varies between runs. **The no-stall pass should be read as
 marginal, not comfortable.**
 
-The percentile and memory-ceiling passes are genuinely comfortable: 9–11×
-frame-time headroom and roughly 1.9% of the GPU-memory ceiling.
+The original percentile and memory-ceiling passes were comfortable: approximately
+9.1× p95 headroom, 6.7× p99 headroom, about 1.9% of the GPU-memory ceiling, and
+about 4.7% of the working-set ceiling. Those ratios are stated separately because
+they are not one shared headroom figure.
 
 ## Derived budget proposals — all provisional
 
@@ -328,9 +332,9 @@ and not traceable to a measured per-subsystem cost.
 | --- | --- | --- |
 | Road and route context | 3.0 ms | ADR-0023 top priority; largest current content class |
 | Traffic | 3.0 ms | **unmeasured** — P0-015 open, no implementation |
-| Regional environment | 2.5 ms | measured cost currently negligible; reserve for production density |
+| Regional environment | 2.5 ms | **reserve limit**; isolation delta was below noise |
 | Hero vehicle | 1.5 ms | single high-detail actor |
-| Lighting and shadows | 2.0 ms | measured cost currently negligible |
+| Lighting and shadows | 2.0 ms | **reserve limit**; isolation delta was below noise |
 | Effects | 1.0 ms | **unmeasured** — no implementation |
 | UI and HUD | 0.7 ms | |
 | Unallocated reserve | 3.0 ms | protects the p95 gate against the marginal stall behaviour above |

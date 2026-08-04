@@ -46,12 +46,12 @@ allocating 14.4 KB per rendered frame.
 
 ## Q-022a: ratify the derived subsystem and content-class allocations
 
-The audit proposes provisional layer-2 subsystem allocations and layer-3
-content-class budgets derived from this capture. Only two subsystem costs were
-isolated by measurement (regional environment, via the balanced-versus-low
-comparison, and lighting, via the daylight-versus-night comparison). Vehicle,
-road, traffic, effects, and UI are proposed from reserve, not measured
-separately.
+The audit proposes provisional layer-2 subsystem reserve limits and layer-3
+content-class budgets derived from this capture. Regional environment and
+lighting isolation were both attempted, but neither produced a reliable
+subsystem cost: the balanced-versus-low and daylight-versus-night deltas were
+within run-to-run noise. Every layer-2 number is therefore a reserve limit, not
+a measured allocation.
 
 - **A. Ratify the derived allocations as provisional regression limits
   (working default).** Adopt the proposed subsystem and content-class numbers so

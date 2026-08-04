@@ -14,6 +14,11 @@ namespace Cannonball.Game.Automation;
 /// </summary>
 public sealed class ReferencePerformanceScenario
 {
+#if DEBUG
+    private const string BuildConfiguration = "Debug";
+#else
+    private const string BuildConfiguration = "Release";
+#endif
     public const double StallThresholdMilliseconds = 50;
     private const int MaximumRecordedStalls = 20_000;
     private const int MaximumFramesPerAggregateRow = 65_536;
@@ -46,6 +51,8 @@ public sealed class ReferencePerformanceScenario
     private readonly List<AggregateRow> _aggregateRows = new(4_096);
     private readonly double[] _pendingWindow = new double[MaximumFramesPerAggregateRow];
     private int _pendingWindowCount;
+    private long _pendingWindowMaxDrawCalls;
+    private long _pendingWindowMaxPrimitives;
     private int _droppedStallCount;
 
     private Rid _viewport;
@@ -82,6 +89,7 @@ public sealed class ReferencePerformanceScenario
 
     private int _startingRebaseCount;
     private double _startingRouteDistanceMeters;
+    private int _startingLoopCount;
     private RoadVisualSnapshot? _roadSnapshot;
     private EnvironmentStreamSnapshot? _environmentSnapshot;
     private VehicleVisualSnapshot? _vehicleSnapshot;
@@ -104,6 +112,7 @@ public sealed class ReferencePerformanceScenario
     }
 
     public bool Complete { get; private set; }
+    public bool Measuring => _warmupComplete && !Complete;
 
     /// <summary>
     /// Applies the measurement configuration that must be in force before the first sample:
@@ -209,6 +218,7 @@ public sealed class ReferencePerformanceScenario
         _startingAllocatedBytes = GC.GetTotalAllocatedBytes(precise: false);
         _startingRebaseCount = _streamer.RebaseCount;
         _startingRouteDistanceMeters = _streamer.RouteDistanceMeters;
+        _startingLoopCount = _streamer.CompletedShortCorridorLoops;
         _lastObservedLoopCount = _streamer.CompletedShortCorridorLoops;
         CaptureContentSnapshots();
         GD.Print(
@@ -283,13 +293,15 @@ public sealed class ReferencePerformanceScenario
                 gpuMilliseconds,
                 _streamer.RouteDistanceMeters,
                 _vehicle.SpeedMetersPerSecond,
-                NearLoopWrap(_measuredSeconds)));
+                false));
             }
         }
 
+        _pendingWindowMaxDrawCalls = Math.Max(_pendingWindowMaxDrawCalls, drawCalls);
+        _pendingWindowMaxPrimitives = Math.Max(_pendingWindowMaxPrimitives, primitives);
         var frameSeconds = frameMilliseconds / 1_000d;
         SampleMemory(frameSeconds);
-        SampleAggregate(frameSeconds, drawCalls, primitives);
+        SampleAggregate(frameSeconds);
         _harnessAllocatedBytes += GC.GetTotalAllocatedBytes(precise: false) - allocatedBefore;
     }
 
@@ -329,7 +341,7 @@ public sealed class ReferencePerformanceScenario
             GC.CollectionCount(2) - _startingGen2Collections));
     }
 
-    private void SampleAggregate(double delta, long drawCalls, long primitives)
+    private void SampleAggregate(double delta)
     {
         _aggregateAccumulator += delta;
         if (_aggregateAccumulator < AggregateRowIntervalSeconds || _pendingWindowCount == 0)
@@ -345,13 +357,15 @@ public sealed class ReferencePerformanceScenario
             _pendingWindowCount,
             window[_pendingWindowCount / 2],
             window[^1],
-            drawCalls,
-            primitives,
+            _pendingWindowMaxDrawCalls,
+            _pendingWindowMaxPrimitives,
             _streamer.RouteDistanceMeters,
             _vehicle.SpeedMetersPerSecond,
             _streamer.LoadedChunkCount,
             _streamer.RebaseCount));
         _pendingWindowCount = 0;
+        _pendingWindowMaxDrawCalls = 0;
+        _pendingWindowMaxPrimitives = 0;
     }
 
     private void CaptureContentSnapshots()
@@ -405,6 +419,11 @@ public sealed class ReferencePerformanceScenario
     public void WriteArtifacts()
     {
         ValidateComplete();
+        for (var index = 0; index < _stalls.Count; index++)
+        {
+            var stall = _stalls[index];
+            _stalls[index] = stall with { NearLoopWrap = NearLoopWrap(stall.Seconds) };
+        }
         WriteSamples();
         WriteSummary();
     }
@@ -432,8 +451,8 @@ public sealed class ReferencePerformanceScenario
                 frames = aggregate.FrameCount,
                 median_frame_ms = aggregate.MedianMilliseconds,
                 max_frame_ms = aggregate.MaximumMilliseconds,
-                draw_calls = aggregate.DrawCalls,
-                primitives = aggregate.Primitives,
+                max_draw_calls = aggregate.MaxDrawCalls,
+                max_primitives = aggregate.MaxPrimitives,
                 route_distance_m = aggregate.RouteDistanceMeters,
                 speed_mps = aggregate.SpeedMetersPerSecond,
                 loaded_chunks = aggregate.LoadedChunkCount,
@@ -486,6 +505,8 @@ public sealed class ReferencePerformanceScenario
         var workingSetGrowth = MemoryTrend(sample => sample.WorkingSetBytes);
         var videoMemoryGrowth = MemoryTrend(sample => sample.VideoMemoryBytes);
         var frame = _frameMilliseconds.Describe();
+        var totalAllocatedBytes = TotalAllocatedBytes();
+        var gameAllocatedBytes = Math.Max(0, totalAllocatedBytes - _harnessAllocatedBytes);
         var summary = new
         {
             schema_version = 1,
@@ -554,15 +575,14 @@ public sealed class ReferencePerformanceScenario
                     ? _memorySamples[^1].Gen1Collections : 0,
                 gen2_collections = _memorySamples.Count > 0
                     ? _memorySamples[^1].Gen2Collections : 0,
-                allocated_bytes_during_measurement = TotalAllocatedBytes(),
+                allocated_bytes_during_measurement = totalAllocatedBytes,
                 harness_allocated_bytes = _harnessAllocatedBytes,
-                game_allocated_bytes = Math.Max(0, TotalAllocatedBytes() - _harnessAllocatedBytes),
-                harness_share_of_allocation = TotalAllocatedBytes() > 0
-                    ? (double)_harnessAllocatedBytes / TotalAllocatedBytes()
+                game_allocated_bytes = gameAllocatedBytes,
+                harness_share_of_allocation = totalAllocatedBytes > 0
+                    ? (double)_harnessAllocatedBytes / totalAllocatedBytes
                     : 0,
                 game_allocated_bytes_per_frame = _frameMilliseconds.Count > 0
-                    ? (double)Math.Max(0, TotalAllocatedBytes() - _harnessAllocatedBytes) /
-                        _frameMilliseconds.Count
+                    ? (double)gameAllocatedBytes / _frameMilliseconds.Count
                     : 0,
                 gen0_collections_per_second = _measuredSeconds > 0 && _memorySamples.Count > 0
                     ? _memorySamples[^1].Gen0Collections / _measuredSeconds
@@ -570,8 +590,8 @@ public sealed class ReferencePerformanceScenario
             },
             streaming = new
             {
-                route_distance_traversed_m =
-                    _streamer.RouteDistanceMeters - _startingRouteDistanceMeters,
+                cumulative_route_distance_m = CumulativeRouteDistanceMeters(),
+                final_route_position_m = _streamer.RouteDistanceMeters,
                 maximum_chunk_build_ms = _streamer.MaximumBuildMilliseconds,
                 maximum_collision_build_ms = _streamer.MaximumCollisionBuildMilliseconds,
                 maximum_environment_build_ms = _streamer.MaximumEnvironmentBuildMilliseconds,
@@ -609,12 +629,11 @@ public sealed class ReferencePerformanceScenario
             ? "headless"
             : $"{DisplayServer.WindowGetSize().X}x{DisplayServer.WindowGetSize().Y}",
         three_d_render_size_basis =
-            "canvas_items stretch scales 2D only; 3D renders at window resolution. " +
-            "Corroborated by mean GPU time scaling 0.245 -> 0.411 -> 0.792 ms across " +
-            "1280x720, 2560x1440, and 3840x2160 windows.",
+            "canvas_items stretch scales 2D only; 3D renders at window resolution.",
         rendering_method = _options.Headless
             ? "headless"
             : (string)ProjectSettings.GetSetting("rendering/renderer/rendering_method"),
+        build_configuration = BuildConfiguration,
         headless = _options.Headless,
         vsync_enabled = _options.VsyncEnabled,
         engine_max_fps = Engine.MaxFps,
@@ -657,6 +676,16 @@ public sealed class ReferencePerformanceScenario
 
     private long TotalAllocatedBytes() =>
         GC.GetTotalAllocatedBytes(precise: false) - _startingAllocatedBytes;
+
+    private double CumulativeRouteDistanceMeters()
+    {
+        var completedLoops = _streamer.CompletedShortCorridorLoops - _startingLoopCount;
+        var loopTraversalMeters = Math.Max(
+            0,
+            _streamer.TotalRouteLengthMeters - WorldStreamer.ShortCorridorLoopResetLeadMeters);
+        return (completedLoops * loopTraversalMeters) +
+            _streamer.RouteDistanceMeters - _startingRouteDistanceMeters;
+    }
 
     private object ContentClass() => new
     {
@@ -986,8 +1015,8 @@ public sealed class ReferencePerformanceScenario
         int FrameCount,
         double MedianMilliseconds,
         double MaximumMilliseconds,
-        long DrawCalls,
-        long Primitives,
+        long MaxDrawCalls,
+        long MaxPrimitives,
         double RouteDistanceMeters,
         double SpeedMetersPerSecond,
         int LoadedChunkCount,

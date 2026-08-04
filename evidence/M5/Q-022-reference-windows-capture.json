@@ -8,8 +8,8 @@
     "P0-015"
   ],
   "milestone": "M5",
-  "status": "evidence_recorded_question_open",
-  "headline": "Five of six ADR-0023 provisional thresholds pass with 9-11x headroom. The sustained-memory-growth threshold FAILS on the 30-minute run at 1.87 MiB/min (R^2 0.79, +57.7 MiB, entirely CPU-side).",
+  "status": "non_conforming_pending_clean_recapture",
+  "headline": "This diagnostic capture is non-conforming because measurement occurred with an uncommitted harness. Its p95 headroom was about 9.1x and p99 headroom about 6.7x; GPU-memory and working-set ratios are reported separately. A clean committed-revision recapture is required.",
   "git_revision": "7561114427f0348f6cd8f761d1c006f7d1e77e45",
   "workspace": {
     "policy": "Q-022 capture-workspace Option A (ADR-0023 operating addendum)",
@@ -17,7 +17,7 @@
     "created_fresh_at_commit": "7561114427f0348f6cd8f761d1c006f7d1e77e45",
     "clean_when_created": true,
     "clean_when_measuring": false,
-    "clean_when_measuring_explanation": "The capture harness did not exist at the pinned commit, so it had to be added before anything could be measured. The worktree was created fresh and verified clean via an empty `git status --porcelain`, and the only modifications present at capture time are the harness files listed in modified_paths_at_capture plus the documentation deliverables. No stale generated output and no long-lived gameplay worktree contributed to any measurement; every route package was rebuilt from checksum-locked fixture sources at the start of each run.",
+    "clean_when_measuring_explanation": "The capture harness did not exist at the pinned commit and was uncommitted during measurement. This violates the clean committed-revision requirement, so all recorded results are diagnostic only pending a clean recapture.",
     "modified_paths_at_capture": [
       "game/Automation/ReferencePerformanceScenario.cs (new, the harness)",
       "game/Main.cs (wires --reference-performance-profile)",

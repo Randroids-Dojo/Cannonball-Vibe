@@ -643,7 +643,10 @@ public sealed partial class Main : Node3D
         {
             RestartRun();
         }
-        UpdateRunAutomationState();
+        if (_referencePerformanceScenario is not { Measuring: true })
+        {
+            UpdateRunAutomationState();
+        }
 
         var tripMapTogglePressed = Godot.Input.IsActionPressed("toggle_trip_map");
         if (tripMapTogglePressed && !_tripMapToggleHeld)
@@ -3075,7 +3078,7 @@ public sealed partial class Main : Node3D
             height,
             DisplayServer.GetName() == "headless",
             OptionalBoolean(arguments, "--reference-vsync", false),
-            (int)OptionalDoubleValue(arguments, "--reference-max-fps", 0),
+            OptionalNonNegativeIntValue(arguments, "--reference-max-fps", 0),
             lighting,
             OptionalDoubleValue(arguments, "--reference-speed-mps", 40),
             OptionalDoubleValue(arguments, "--reference-warmup-seconds", 20),
@@ -3106,6 +3109,21 @@ public sealed partial class Main : Node3D
                 $"Game argument '{name}' must be a finite non-negative number; found '{raw}'.");
         }
         return value;
+    }
+
+    private static int OptionalNonNegativeIntValue(
+        IReadOnlyList<string> arguments,
+        string name,
+        int defaultValue)
+    {
+        var value = OptionalDoubleValue(arguments, name, defaultValue);
+        if (value > int.MaxValue || value != Math.Truncate(value))
+        {
+            throw new ArgumentException(
+                $"Game argument '{name}' must be a non-negative integer no greater than " +
+                $"{int.MaxValue}; found '{value}'.");
+        }
+        return (int)value;
     }
 
     private static IReadOnlyList<AssistProfile> VehicleDynamicsAssistProfiles(

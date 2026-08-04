@@ -73,6 +73,10 @@ if [[ -z "$scenario" ]]; then
   usage
   exit 2
 fi
+if [[ ! "$scenario" =~ ^[A-Za-z0-9][A-Za-z0-9._-]*$ ]]; then
+  echo "--scenario must be a separator-free name using letters, numbers, '.', '_', or '-'." >&2
+  exit 2
+fi
 if [[ ! "$resolution" =~ ^[1-9][0-9]*x[1-9][0-9]*$ ]]; then
   echo "--resolution must be WIDTHxHEIGHT." >&2
   exit 2
@@ -85,12 +89,17 @@ case "$environment_quality" in
   high|balanced|low|graybox) ;;
   *) echo "--environment-quality must be high, balanced, low, or graybox." >&2; exit 2 ;;
 esac
-for numeric in "$speed_mps" "$warmup_seconds" "$measure_seconds"; do
+for numeric in "$speed_mps" "$warmup_seconds"; do
   if ! awk -v value="$numeric" 'BEGIN { exit !(value ~ /^([0-9]+([.][0-9]*)?|[.][0-9]+)$/) }'; then
     echo "Numeric options must be non-negative numbers; found '$numeric'." >&2
     exit 2
   fi
 done
+if ! awk -v value="$measure_seconds" \
+  'BEGIN { exit !(value ~ /^([0-9]+([.][0-9]*)?|[.][0-9]+)$/ && value > 0) }'; then
+  echo "--measure-seconds must be a number greater than zero; found '$measure_seconds'." >&2
+  exit 2
+fi
 
 case "$fixture" in
   representative-corridor)
@@ -143,7 +152,14 @@ if [[ ! -f "$route_package" ]]; then
   exit 1
 fi
 
-dotnet build "$repo_root/Cannonball.sln" --nologo
+build_configuration="Release"
+# The editor runtime resolves the managed project from its conventional Debug output
+# directory. Compile Release IL into that runtime location so the measured assembly is
+# optimized without requiring an exported game package solely for the benchmark harness.
+dotnet build "$repo_root/Cannonball.csproj" \
+  --configuration "$build_configuration" \
+  --output "$repo_root/.godot/mono/temp/bin/Debug" \
+  --nologo
 export CANNONBALL_GIT_REVISION
 CANNONBALL_GIT_REVISION="$(git rev-parse HEAD)"
 
@@ -173,12 +189,13 @@ godot_args=(
   "--telemetry-path=$output_dir/telemetry-$scenario.jsonl"
 )
 
-printf 'CANNONBALL_REFERENCE_CAPTURE_START scenario=%s resolution=%s lighting=%s quality=%s vsync=%s warmup_s=%s measure_s=%s timeout_s=%s\n' \
-  "$scenario" "$resolution" "$lighting" "$environment_quality" "$vsync" \
+printf 'CANNONBALL_REFERENCE_CAPTURE_START scenario=%s configuration=%s resolution=%s lighting=%s quality=%s vsync=%s warmup_s=%s measure_s=%s timeout_s=%s\n' \
+  "$scenario" "$build_configuration" "$resolution" "$lighting" "$environment_quality" "$vsync" \
   "$warmup_seconds" "$measure_seconds" "$timeout_seconds"
 
 set +e
-"$repo_root/scripts/godot.sh" "${godot_args[@]}" 2>&1 | tee "$log_path"
+timeout --foreground "${timeout_seconds}s" \
+  "$repo_root/scripts/godot.sh" "${godot_args[@]}" 2>&1 | tee "$log_path"
 capture_exit="${PIPESTATUS[0]}"
 set -e
 
@@ -213,5 +230,19 @@ for artifact in "$summary_path" "$samples_path"; do
     exit 1
   fi
 done
+
+uv run --project "$repo_root/tools/map_pipeline" --frozen python - \
+  "$summary_path" <<'PY'
+import json
+import sys
+
+acceptance = json.loads(open(sys.argv[1], encoding="utf-8").read())["acceptance"]
+for name, result in acceptance.items():
+    evaluated = result.get("evaluated", True)
+    verdict = "PASS" if result["passed"] else "FAIL"
+    if not evaluated:
+        verdict = "NOT_EVALUATED"
+    print(f"CANNONBALL_REFERENCE_THRESHOLD {name}={verdict}")
+PY
 
 printf 'CANNONBALL_REFERENCE_PERFORMANCE_GATE_OK %s\n' "$marker"
