@@ -328,7 +328,7 @@ therefore proposed as *spending limits* ordered by the ADR-0023 priority rule
 comprehension before distant scenery and cosmetic effects) — not as predictions,
 and not traceable to a measured per-subsystem cost.
 
-| Layer-2 subsystem | Proposed GPU allocation of 16.67 ms | Basis |
+| Layer-2 subsystem | Proposed GPU reserve limit of 16.67 ms | Basis |
 | --- | --- | --- |
 | Road and route context | 3.0 ms | ADR-0023 top priority; largest current content class |
 | Traffic | 3.0 ms | **unmeasured** — P0-015 open, no implementation |

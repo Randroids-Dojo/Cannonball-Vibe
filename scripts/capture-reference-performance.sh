@@ -194,7 +194,7 @@ printf 'CANNONBALL_REFERENCE_CAPTURE_START scenario=%s configuration=%s resoluti
   "$warmup_seconds" "$measure_seconds" "$timeout_seconds"
 
 set +e
-timeout --foreground "${timeout_seconds}s" \
+timeout --foreground --signal=TERM --kill-after=30 "${timeout_seconds}s" \
   "$repo_root/scripts/godot.sh" "${godot_args[@]}" 2>&1 | tee "$log_path"
 capture_exit="${PIPESTATUS[0]}"
 set -e

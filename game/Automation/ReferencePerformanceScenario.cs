@@ -592,6 +592,7 @@ public sealed class ReferencePerformanceScenario
             {
                 cumulative_route_distance_m = CumulativeRouteDistanceMeters(),
                 final_route_position_m = _streamer.RouteDistanceMeters,
+                starting_route_position_m = _startingRouteDistanceMeters,
                 maximum_chunk_build_ms = _streamer.MaximumBuildMilliseconds,
                 maximum_collision_build_ms = _streamer.MaximumCollisionBuildMilliseconds,
                 maximum_environment_build_ms = _streamer.MaximumEnvironmentBuildMilliseconds,
