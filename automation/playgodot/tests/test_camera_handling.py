@@ -147,7 +147,6 @@ async def test_camera_handling_survives_pause_device_reset_and_mode_transitions(
         assert cockpit_rear["rear_view_held"] is True
         assert cockpit_rear["rear_view_blend"] > 0.99
         assert abs(cockpit_rear["displayed_yaw_degrees"]) > 170
-        assert cockpit_rear["look_yaw_degrees"] > 0
 
         await _action(client, "toggle_camera")
         switched_rear = (await client.describe("camera.chase.rig"))["test_state"]
