@@ -151,6 +151,12 @@ def acquire_continental_nhpn_candidates(
         with urllib.request.urlopen(service_url + "?f=pjson", timeout=120) as response:
             service_metadata = json.loads(response.read())
     _validate_live_service_metadata(service_metadata)
+    max_record_count = int(service_metadata["maxRecordCount"])
+    if page_size > max_record_count:
+        raise ValueError(
+            f"NHPN page size {page_size} exceeds the live service limit "
+            f"of {max_record_count}."
+        )
     service_metadata_sha256 = canonical_sha256(service_metadata)
     snapshot_cache_directory = cache_directory / service_metadata_sha256
     if transport is None:
@@ -298,7 +304,9 @@ def validate_continental_route_lock(
         selector.segment_id: selector for selector in build_nhpn_candidate_selectors(selection)
     }
     snapshots = nhpn.get("segment_snapshots", [])
-    if {snapshot.get("segment_id") for snapshot in snapshots} != set(expected_selectors):
+    if len(snapshots) != len(expected_selectors) or {
+        snapshot.get("segment_id") for snapshot in snapshots
+    } != set(expected_selectors):
         raise ValueError("Continental route lock does not cover every NHPN segment exactly once.")
     union: set[int] = set()
     for snapshot in snapshots:
@@ -421,8 +429,17 @@ def _validate_live_service_metadata(metadata: dict[str, Any]) -> None:
         raise ValueError("NHPN service identity or object ID field changed.")
     if metadata.get("serviceItemId") != "4179a784a8d547ac869b14505c168430":
         raise ValueError("NHPN service item changed.")
-    if int(metadata.get("maxRecordCount", 0)) < 1:
+    try:
+        max_record_count = int(metadata.get("maxRecordCount", 0))
+    except (TypeError, ValueError) as error:
+        raise ValueError("NHPN service has no usable record limit.") from error
+    if max_record_count < 1:
         raise ValueError("NHPN service has no usable record limit.")
+    editing_info = metadata.get("editingInfo")
+    if not isinstance(editing_info, dict) or not isinstance(
+        editing_info.get("dataLastEditDate"), int
+    ):
+        raise ValueError("NHPN service no longer reports a data last edit date.")
     copyright_text = str(metadata.get("copyrightText", "")).lower()
     if "unrestricted public use" not in copyright_text:
         raise ValueError("NHPN service no longer declares unrestricted public use.")

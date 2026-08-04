@@ -239,12 +239,16 @@ def validate_continental_lock_command(
     require_complete: bool = typer.Option(False),
 ) -> None:
     """Validate the continental candidate lock and optionally require final completion."""
-    payload = validate_continental_route_lock(
-        lock,
-        catalog,
-        selection,
-        require_complete=require_complete,
-    )
+    try:
+        payload = validate_continental_route_lock(
+            lock,
+            catalog,
+            selection,
+            require_complete=require_complete,
+        )
+    except ValueError as error:
+        typer.echo(f"continental-lock-invalid: {error}", err=True)
+        raise typer.Exit(code=1) from None
     typer.echo(f"continental-lock-ok: {lock} ({payload['status']})")
 
 
