@@ -17,6 +17,7 @@ Usage: capture-reference-performance.sh --scenario NAME [options]
 
   --scenario NAME            Capture identifier recorded in the artifacts (required).
   --lighting daylight|night  Scenario lighting state (default: daylight).
+  --camera chase|cockpit     Camera the run drives from (default: chase).
   --resolution WxH           Capture resolution (default: 2560x1440).
   --speed-mps N              Autopilot cruise target (default: 40).
   --warmup-seconds N         Warm-up discarded before measuring (default: 20).
@@ -31,6 +32,7 @@ USAGE
 
 scenario=""
 lighting="daylight"
+camera="chase"
 resolution="2560x1440"
 speed_mps="40"
 warmup_seconds="20"
@@ -47,6 +49,8 @@ while [[ $# -gt 0 ]]; do
     --scenario=*) scenario="${1#--scenario=}"; shift ;;
     --lighting) lighting="${2:?--lighting requires a value}"; shift 2 ;;
     --lighting=*) lighting="${1#--lighting=}"; shift ;;
+    --camera) camera="${2:?--camera requires a value}"; shift 2 ;;
+    --camera=*) camera="${1#--camera=}"; shift ;;
     --resolution) resolution="${2:?--resolution requires a value}"; shift 2 ;;
     --resolution=*) resolution="${1#--resolution=}"; shift ;;
     --speed-mps) speed_mps="${2:?--speed-mps requires a value}"; shift 2 ;;
@@ -84,6 +88,10 @@ fi
 case "$lighting" in
   daylight|night) ;;
   *) echo "--lighting must be daylight or night." >&2; exit 2 ;;
+esac
+case "$camera" in
+  chase|cockpit) ;;
+  *) echo "--camera must be chase or cockpit." >&2; exit 2 ;;
 esac
 case "$environment_quality" in
   high|balanced|low|graybox) ;;
@@ -311,6 +319,7 @@ godot_args=(
   --reference-performance-profile
   "--reference-scenario=$scenario"
   "--reference-lighting=$lighting"
+  "--reference-camera=$camera"
   "--reference-resolution=$resolution"
   "--reference-speed-mps=$speed_mps"
   "--reference-warmup-seconds=$warmup_seconds"
@@ -323,9 +332,9 @@ godot_args=(
   "--telemetry-path=$output_dir/telemetry-$scenario.jsonl"
 )
 
-printf 'CANNONBALL_REFERENCE_CAPTURE_START scenario=%s configuration=%s resolution=%s lighting=%s quality=%s vsync=%s warmup_s=%s measure_s=%s timeout_s=%s\n' \
-  "$scenario" "$build_configuration" "$resolution" "$lighting" "$environment_quality" "$vsync" \
-  "$warmup_seconds" "$measure_seconds" "$timeout_seconds"
+printf 'CANNONBALL_REFERENCE_CAPTURE_START scenario=%s configuration=%s resolution=%s lighting=%s camera=%s quality=%s vsync=%s warmup_s=%s measure_s=%s timeout_s=%s\n' \
+  "$scenario" "$build_configuration" "$resolution" "$lighting" "$camera" "$environment_quality" \
+  "$vsync" "$warmup_seconds" "$measure_seconds" "$timeout_seconds"
 
 set +e
 timeout --foreground --signal=TERM --kill-after=30 "${timeout_seconds}s" \

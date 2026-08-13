@@ -2,7 +2,7 @@
   "schema_version": 1,
   "task_id": "P0-019",
   "milestone": "M0",
-  "status": "verified_local",
+  "status": "complete",
   "recorded_at_utc": "2026-07-26T04:17:07.3444089Z",
   "git_revision": "42d3bc649b43c6d4d9128d718761cf1e5cea9e92",
   "source_state": "committed implementation revision anchored by this follow-up evidence commit",
@@ -366,5 +366,6 @@
     "name": "30-minute keyboard and controller handling sessions",
     "status": "pending",
     "scope_boundary": "P0-019 owner approval does not replace P0-020 sustained sessions."
-  }
+  },
+  "dependency_note": "P0-018 completed on 2026-08-13 once P0-017's Q-029 gate closed. The P0-019 owner feel approval recorded on 2026-07-26 is unchanged."
 }

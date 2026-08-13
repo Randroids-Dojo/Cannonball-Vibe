@@ -119,7 +119,7 @@
       "milestone": "M0",
       "priority": "P0",
       "title": "Decoupled chase and cockpit camera system",
-      "status": "verified_local",
+      "status": "complete",
       "dependencies": [
         "P0-006",
         "P1-004"
@@ -145,7 +145,8 @@
         "docs/QUESTIONS_FOR_RANDROID_2026-07-20_HANDLING_GATES.md",
         "docs/audits/2026-07-19-p0-017-camera-foundation.md",
         "docs/images/p0-017-camera-handling-review.png",
-        "evidence/M0/P0-017.json"
+        "evidence/M0/P0-017.json",
+        "docs/audits/2026-08-13-q028-q029-owner-approvals.md"
       ],
       "acceptance": [
         "The chase camera follows vehicle position and damped heading without inheriting rigid-body pitch, roll, suspension shake, or instantaneous steering rotation",
@@ -161,21 +162,23 @@
         "./scripts/check.sh"
       ],
       "evidence": [
-        "evidence/M0/P0-017.json"
+        "evidence/M0/P0-017.json",
+        "docs/audits/2026-08-13-q028-q029-owner-approvals.md"
       ],
       "human_gate": {
         "name": "Cockpit and chase camera comfort and readability review",
         "required_for": "M0",
-        "status": "pending"
+        "status": "approved",
+        "approval_reference": "Owner approved on 2026-08-13 after reviewing renderer captures of the integrated visual slice, with a standing reservation to request later polish as new work. See docs/audits/2026-08-13-q028-q029-owner-approvals.md."
       },
-      "notes": "P0-017 owns camera behavior and the vehicle integration seam. P1-008 supplies stable visual camera anchors and must coordinate edits to CannonballVehicle.cs and game/Automation/VehicleVisualScenario.cs while either task is active; P0-017 may change only camera selection and camera-contract assertions in the shared visual scenario. Production vehicle art is not required for automated camera-contract validation because the graybox vehicle must satisfy the same contract. On 2026-07-23 ownership expanded narrowly to scripts/verify-playgodot-package-boundary.sh plus the PlayGodot client and launcher so the required camera gate can resolve the generated package pointer on Windows through the already-required Python environment instead of assuming jq, isolate both normal-start and live-test telemetry from an open editor, and tolerate peer-reset cleanup after a close attempt; PlayGodot protocol and security behavior remain unchanged. The complete Windows camera gate, all 23 PlayGodot tests, 362-frame renderer review, and full M0 gate passed at f2cc981168d099e4207b539803ffba207d802d1e. The owner deferred Q-029 comfort/readability review until one build integrates the representative Hero GT, production highway kit, and one regional environment slice, before final polish; this schedules but does not approve either view or close the human gate. P0-017 remains verified locally but incomplete until Q-029 receives explicit human chase and cockpit comfort/readability approval."
+      "notes": "P0-017 owns camera behavior and the vehicle integration seam. P1-008 supplies stable visual camera anchors and must coordinate edits to CannonballVehicle.cs and game/Automation/VehicleVisualScenario.cs while either task is active; P0-017 may change only camera selection and camera-contract assertions in the shared visual scenario. Production vehicle art is not required for automated camera-contract validation because the graybox vehicle must satisfy the same contract. On 2026-07-23 ownership expanded narrowly to scripts/verify-playgodot-package-boundary.sh plus the PlayGodot client and launcher so the required camera gate can resolve the generated package pointer on Windows through the already-required Python environment instead of assuming jq, isolate both normal-start and live-test telemetry from an open editor, and tolerate peer-reset cleanup after a close attempt; PlayGodot protocol and security behavior remain unchanged. The complete Windows camera gate, all 23 PlayGodot tests, 362-frame renderer review, and full M0 gate passed at f2cc981168d099e4207b539803ffba207d802d1e. The owner deferred Q-029 comfort/readability review until one build integrates the representative Hero GT, production highway kit, and one regional environment slice, before final polish; this schedules but does not approve either view or close the human gate. P0-017 remains verified locally but incomplete until Q-029 receives explicit human chase and cockpit comfort/readability approval. Owner approved on 2026-08-13 after reviewing renderer captures of the integrated visual slice, with a standing reservation to request later polish as new work. See docs/audits/2026-08-13-q028-q029-owner-approvals.md. On 2026-08-13 a --reference-camera=chase|cockpit option was added to the P1-013-owned reference-performance harness so a daylight cockpit capture is reachable from the command line for any future camera review; camera behaviour itself is unchanged."
     },
     {
       "id": "P0-018",
       "milestone": "M0",
       "priority": "P0",
       "title": "Keyboard and controller input conditioning",
-      "status": "verified_local",
+      "status": "complete",
       "dependencies": [
         "P0-017"
       ],
@@ -226,7 +229,8 @@
         "docs/audits/2026-07-26-p0-018-p0-019-owner-approvals.md",
         "docs/images/p0-018-driving-input-review.png",
         "docs/images/p0-018-cockpit-controller-review.png",
-        "evidence/M0/P0-018.json"
+        "evidence/M0/P0-018.json",
+        "docs/audits/2026-08-13-q028-q029-owner-approvals.md"
       ],
       "acceptance": [
         "Keyboard steering ramps in, returns, and changes direction without full-lock snaps while controller steering uses a configurable deadzone, response curve, and rate limit",
@@ -249,7 +253,8 @@
       ],
       "evidence": [
         "evidence/M0/P0-018.json",
-        "docs/audits/2026-07-26-p0-018-p0-019-owner-approvals.md"
+        "docs/audits/2026-07-26-p0-018-p0-019-owner-approvals.md",
+        "docs/audits/2026-08-13-q028-q029-owner-approvals.md"
       ],
       "human_gate": null,
       "owner_approval": {
@@ -263,14 +268,14 @@
           "physical wheel, pedal, or force-feedback readiness"
         ]
       },
-      "notes": "The bounded Steam Controller owner-test correction is verified locally at 9279342cc492da547061a237b8b77aab25306060: conventional RT/LT/left-stick driving, controller camera/recover/pause/menu actions, controller-first menu navigation, trigger deadzones, nonzero-device reconnect/focus safety, a distinct confirmed Restart Run path that reconstructs the deterministic run start instead of recovering at the current route point, held rear view in both camera modes, and a cockpit driver-eye/render-layer sightline correction that preserves chase visibility. A final schema refinement on top of 24aac5e makes held LT brake while moving forward and transition into reverse at or below 0.35 m/s, with a 0.75 m/s exit threshold preventing chatter; B remains a secondary reverse binding. The focused Core suite, keyboard/controller gate, camera gate, and complete M0 gate provide the exact current counts in evidence/M0/P0-018.json. Scope expanded narrowly to the Core initial-run and input-conditioning values, runtime input-map/restart call site, existing menu surfaces and regression test, both camera rigs, the vehicle visual rig and focused camera test, project focus policy, control documentation, and debug-only PlayGodot joypad/focus/connection injection needed to prove the physical mappings; no broader runtime, UI, asset-generation, or automation-protocol ownership transfers. During final verification, three post-smoke native finalizer crashes exposed undisposed existing Godot SurfaceTool and PackedScene wrappers; ownership expanded only to the three mesh construction files needed for explicit wrapper disposal, with no geometry or content behavior changes. This pass stops after the supplied defects and required gates so downstream art, continental-map, and broader game work can proceed. The current cockpit is an accepted graybox placeholder for this tranche: the sightline and culling defect is fixed, but production cockpit art is deferred and not claimed. P0-018 remains verified_local rather than complete until P0-017 is complete following the Q-029 human camera-comfort decision. The owner resolved Q-030 on 2026-07-26 by approving R3 camera toggle, Y recover, and hold-LB rear view as the conflict-free controller baseline; future remapping is accessibility scope rather than a blocker. Q-006 was resolved by the owner on 2026-07-23: the available Logitech G923 Xbox/PC wheel and three-pedal set is the first Windows physical baseline under P1-012. Physical wheels, pedals, and force feedback remain deliberately outside this keyboard-and-controller baseline."
+      "notes": "The bounded Steam Controller owner-test correction is verified locally at 9279342cc492da547061a237b8b77aab25306060: conventional RT/LT/left-stick driving, controller camera/recover/pause/menu actions, controller-first menu navigation, trigger deadzones, nonzero-device reconnect/focus safety, a distinct confirmed Restart Run path that reconstructs the deterministic run start instead of recovering at the current route point, held rear view in both camera modes, and a cockpit driver-eye/render-layer sightline correction that preserves chase visibility. A final schema refinement on top of 24aac5e makes held LT brake while moving forward and transition into reverse at or below 0.35 m/s, with a 0.75 m/s exit threshold preventing chatter; B remains a secondary reverse binding. The focused Core suite, keyboard/controller gate, camera gate, and complete M0 gate provide the exact current counts in evidence/M0/P0-018.json. Scope expanded narrowly to the Core initial-run and input-conditioning values, runtime input-map/restart call site, existing menu surfaces and regression test, both camera rigs, the vehicle visual rig and focused camera test, project focus policy, control documentation, and debug-only PlayGodot joypad/focus/connection injection needed to prove the physical mappings; no broader runtime, UI, asset-generation, or automation-protocol ownership transfers. During final verification, three post-smoke native finalizer crashes exposed undisposed existing Godot SurfaceTool and PackedScene wrappers; ownership expanded only to the three mesh construction files needed for explicit wrapper disposal, with no geometry or content behavior changes. This pass stops after the supplied defects and required gates so downstream art, continental-map, and broader game work can proceed. The current cockpit is an accepted graybox placeholder for this tranche: the sightline and culling defect is fixed, but production cockpit art is deferred and not claimed. P0-018 remains verified_local rather than complete until P0-017 is complete following the Q-029 human camera-comfort decision. The owner resolved Q-030 on 2026-07-26 by approving R3 camera toggle, Y recover, and hold-LB rear view as the conflict-free controller baseline; future remapping is accessibility scope rather than a blocker. Q-006 was resolved by the owner on 2026-07-23: the available Logitech G923 Xbox/PC wheel and three-pedal set is the first Windows physical baseline under P1-012. Physical wheels, pedals, and force feedback remain deliberately outside this keyboard-and-controller baseline. Owner approved on 2026-08-13 after reviewing renderer captures of the integrated visual slice, with a standing reservation to request later polish as new work. See docs/audits/2026-08-13-q028-q029-owner-approvals.md."
     },
     {
       "id": "P0-019",
       "milestone": "M0",
       "priority": "P0",
       "title": "High-speed vehicle dynamics and assist tuning",
-      "status": "verified_local",
+      "status": "complete",
       "dependencies": [
         "P0-010",
         "P0-012",
@@ -290,7 +295,8 @@
         "docs/audits/2026-07-25-p0-019-owner-feel-followup.md",
         "docs/audits/2026-07-26-p0-018-p0-019-owner-approvals.md",
         "docs/QUESTIONS_FOR_RANDROID_2026-07-23_AUTONOMOUS_CLOSEOUT.md",
-        "evidence/M0/P0-019.json"
+        "evidence/M0/P0-019.json",
+        "docs/audits/2026-08-13-q028-q029-owner-approvals.md"
       ],
       "acceptance": [
         "Raycast suspension, tire lateral and longitudinal grip, braking, drag, downforce, center of mass, yaw stabilization, and rollover resistance are tuned as one coherent model from rest through at least 200 mph",
@@ -308,7 +314,8 @@
       ],
       "evidence": [
         "evidence/M0/P0-019.json",
-        "docs/audits/2026-07-26-p0-018-p0-019-owner-approvals.md"
+        "docs/audits/2026-07-26-p0-018-p0-019-owner-approvals.md",
+        "docs/audits/2026-08-13-q028-q029-owner-approvals.md"
       ],
       "human_gate": null,
       "owner_approval": {
@@ -322,7 +329,7 @@
           "P0-020 sustained keyboard and controller sessions"
         ]
       },
-      "notes": "Quantitative bands must be recorded before tuning is declared complete so acceptance cannot be moved to match a preferred result. On 2026-07-23 the owner reported a reproducible high-speed incline launch followed by a hard-landing throttle rollover. Narrow implementation and regression work may proceed against the merged, machine-verified P0-018 input foundation while its P0-017 human camera gate remains pending; this allowance does not complete P0-018, P0-019, or the later P0-020 sustained handling gate. On 2026-07-23 ownership expanded narrowly to game/Main.cs and scripts/run-scenario.sh for P0-019 scenario selection, fixed-FPS execution, and isolated telemetry plumbing; this does not transfer unrelated runtime or scenario-runner ownership. The complete local dynamics corpus, fixed-FPS comparison, 500-mile regression, representative topology runs, capture, and M0 gate passed on 2026-07-23. On 2026-07-25 the owner limited further tuning to the reported wheelbarrow/boat pivot, high-speed correction, profile ordering, lift-off, and brake-free swerve-recovery defects. The follow-up machine corpus verifies those defects against slow-turn, moderate-turn, coast-down, and alternating-swerve fixtures while preserving controller conditioning and distinct Accessible, Balanced, and Raw envelopes. This is the good-enough P0-019 machine baseline for downstream work. On 2026-07-26 the owner explicitly approved this P0-019 baseline; the approval does not replace P0-020's sustained human sessions. P0-019 remains verified locally and cannot become complete while dependency P0-018 remains verified locally and incomplete behind the P0-017 Q-029 human camera gate."
+      "notes": "Quantitative bands must be recorded before tuning is declared complete so acceptance cannot be moved to match a preferred result. On 2026-07-23 the owner reported a reproducible high-speed incline launch followed by a hard-landing throttle rollover. Narrow implementation and regression work may proceed against the merged, machine-verified P0-018 input foundation while its P0-017 human camera gate remains pending; this allowance does not complete P0-018, P0-019, or the later P0-020 sustained handling gate. On 2026-07-23 ownership expanded narrowly to game/Main.cs and scripts/run-scenario.sh for P0-019 scenario selection, fixed-FPS execution, and isolated telemetry plumbing; this does not transfer unrelated runtime or scenario-runner ownership. The complete local dynamics corpus, fixed-FPS comparison, 500-mile regression, representative topology runs, capture, and M0 gate passed on 2026-07-23. On 2026-07-25 the owner limited further tuning to the reported wheelbarrow/boat pivot, high-speed correction, profile ordering, lift-off, and brake-free swerve-recovery defects. The follow-up machine corpus verifies those defects against slow-turn, moderate-turn, coast-down, and alternating-swerve fixtures while preserving controller conditioning and distinct Accessible, Balanced, and Raw envelopes. This is the good-enough P0-019 machine baseline for downstream work. On 2026-07-26 the owner explicitly approved this P0-019 baseline; the approval does not replace P0-020's sustained human sessions. P0-019 remains verified locally and cannot become complete while dependency P0-018 remains verified locally and incomplete behind the P0-017 Q-029 human camera gate. Owner approved on 2026-08-13 after reviewing renderer captures of the integrated visual slice, with a standing reservation to request later polish as new work. See docs/audits/2026-08-13-q028-q029-owner-approvals.md."
     },
     {
       "id": "P0-020",
@@ -1248,7 +1255,8 @@
         "required_for": "M2",
         "status": "pending"
       },
-      "notes": "Q-031 and ADR-0024 lock the Central Rockies canonical path, Northern Plains alternative, Southern I-40 alternative, historical reference addresses, and public-road endpoint policy. On 2026-08-03 the first acquisition stage checksum-locked 15,525 unique NHPN route-family candidates across all 12 NHPN-backed policy segments, including all three signed-route slots and stable per-page canonical response hashes; the 54.43 MB raw response cache remains ignored. The second slice locked all 12 non-endpoint transfer anchors against exact NHPN OBJECTIDs and page-response hashes, with paired facilities reconciling within 24.401 meters, and added a cache-independent scripts/validate-continental-route.sh gate. Exact connected westbound NHPN edges, authored connector bounds, and dependent 3DEP products remain open before authoritative distance or geometry can be derived. Route semantics, reconstruction exceptions, packages, bot traversal, and human completion also remain open. P0-021 must still add scripts/run-continental-scenario.sh. The first graph is westbound only."
+      "notes": "Q-031 and ADR-0024 lock the Central Rockies canonical path, Northern Plains alternative, Southern I-40 alternative, historical reference addresses, and public-road endpoint policy. On 2026-08-03 the first acquisition stage checksum-locked 15,525 unique NHPN route-family candidates across all 12 NHPN-backed policy segments, including all three signed-route slots and stable per-page canonical response hashes; the 54.43 MB raw response cache remains ignored. The second slice locked all 12 non-endpoint transfer anchors against exact NHPN OBJECTIDs and page-response hashes, with paired facilities reconciling within 24.401 meters, and added a cache-independent scripts/validate-continental-route.sh gate. Exact connected westbound NHPN edges, authored connector bounds, and dependent 3DEP products remain open before authoritative distance or geometry can be derived. Route semantics, reconstruction exceptions, packages, bot traversal, and human completion also remain open. P0-021 must still add scripts/run-continental-scenario.sh. The first graph is westbound only. On 2026-08-13 the owner set P0-021 as the next highest priority. The immediate gaps are the missing runtime layer (src/Cannonball.Core/Routes/Continental/, src/Cannonball.Core/Content/Continental/, game/World/Continental/, game/Automation/ContinentalRouteScenario.cs, scripts/run-continental-scenario.sh) and the connected westbound NHPN edge and 3DEP acquisition those depend on; none of them exist yet.",
+      "priority_note": "Owner directed on 2026-08-13 that P0-021 is the next highest priority after the Q-022 High-profile capture work closes."
     },
     {
       "id": "P0-015",
@@ -1300,7 +1308,7 @@
       "milestone": "M3",
       "priority": "P0",
       "title": "Full-screen trip map and authoritative progress",
-      "status": "in_progress",
+      "status": "complete",
       "dependencies": [
         "P0-005",
         "P0-012"
@@ -1319,7 +1327,8 @@
         "docs/QUESTIONS_FOR_RANDROID_2026-07-28_AUTONOMOUS_PASS.md",
         "docs/audits/2026-07-20-p0-013-scale-closeout.md",
         "docs/audits/2026-07-28-p0-013-trip-overview-resume-stability.md",
-        "evidence/M3/P0-013.json"
+        "evidence/M3/P0-013.json",
+        "docs/audits/2026-08-13-q028-q029-owner-approvals.md"
       ],
       "acceptance": [
         "The full-screen map opens from keyboard and controller and renders from simplified immutable graph geometry without depending on loaded road chunks or scene transforms",
@@ -1337,14 +1346,16 @@
         "./scripts/check.sh"
       ],
       "evidence": [
-        "evidence/M3/P0-013.json"
+        "evidence/M3/P0-013.json",
+        "docs/audits/2026-08-13-q028-q029-owner-approvals.md"
       ],
       "human_gate": {
         "name": "Trip-map comprehension and accessibility usability review",
         "required_for": "M3",
-        "status": "pending"
+        "status": "approved",
+        "approval_reference": "Owner approved on 2026-08-13 after reviewing renderer captures of the integrated visual slice, with a standing reservation to request later polish as new work. See docs/audits/2026-08-13-q028-q029-owner-approvals.md."
       },
-      "notes": "Q-019 was resolved by the owner on 2026-07-23 as Option A: opening the full-screen map in solo play pauses driving and excludes the paused interval from the authoritative run clock. Q-001 was resolved as Option A: 1:1 Endurance is the defining primary experience, while shorter Standard and Challenge modes remain available from the same authoritative route-distance content. P1-004 completed and ADR-0008 activated on 2026-07-19. PlayGodot is required for the trip map's interactive rendered UI, while Core models and official-engine scenarios remain authoritative for route and simulation behavior and Computer Use remains the black-box visual layer. The first-pass authoritative projection, Godot overlay, official-engine scenario, rendered UI automation, and review capture were implemented at c98b78336f7e6d98576a9523952961bd1ed18d9d. The subsequent machine closeout adds indexed semantic lookups, point-budgeted LOD selection, batched path rendering, a deterministic 3,000-mile scale scenario, and data-driven 1:1, fixed-ratio, and selective-cruise estimates that preserve authoritative route distance. On 2026-07-23 the owner found the overview functionally fine but visually basic and requested a polish pass; this is actionable presentation feedback, not closure of Q-028. The separately reported skyward launch after returning from Trip Overview does not reproduce on the current integrated dynamics; revision 11544fb8193c5e12d94707bb4676aabc1dc1a047 adds a moving full-throttle official-engine regression for pause invariance and bounded resume motion. The owner deferred Q-028 review until one build integrates the representative Hero GT, production highway kit, and one regional environment slice, before final polish. Q-028 human usability approval remains required before completion."
+      "notes": "Q-019 was resolved by the owner on 2026-07-23 as Option A: opening the full-screen map in solo play pauses driving and excludes the paused interval from the authoritative run clock. Q-001 was resolved as Option A: 1:1 Endurance is the defining primary experience, while shorter Standard and Challenge modes remain available from the same authoritative route-distance content. P1-004 completed and ADR-0008 activated on 2026-07-19. PlayGodot is required for the trip map's interactive rendered UI, while Core models and official-engine scenarios remain authoritative for route and simulation behavior and Computer Use remains the black-box visual layer. The first-pass authoritative projection, Godot overlay, official-engine scenario, rendered UI automation, and review capture were implemented at c98b78336f7e6d98576a9523952961bd1ed18d9d. The subsequent machine closeout adds indexed semantic lookups, point-budgeted LOD selection, batched path rendering, a deterministic 3,000-mile scale scenario, and data-driven 1:1, fixed-ratio, and selective-cruise estimates that preserve authoritative route distance. On 2026-07-23 the owner found the overview functionally fine but visually basic and requested a polish pass; this is actionable presentation feedback, not closure of Q-028. The separately reported skyward launch after returning from Trip Overview does not reproduce on the current integrated dynamics; revision 11544fb8193c5e12d94707bb4676aabc1dc1a047 adds a moving full-throttle official-engine regression for pause invariance and bounded resume motion. The owner deferred Q-028 review until one build integrates the representative Hero GT, production highway kit, and one regional environment slice, before final polish. Q-028 human usability approval remains required before completion. Owner approved on 2026-08-13 after reviewing renderer captures of the integrated visual slice, with a standing reservation to request later polish as new work. See docs/audits/2026-08-13-q028-q029-owner-approvals.md."
     },
     {
       "id": "P1-008",
@@ -1547,7 +1558,8 @@
         "docs/audits/2026-08-13-q022-high-profile-capture.md",
         "evidence/M5/Q-022-reference-windows-capture.json",
         "evidence/M5/Q-022-high-profile-windows-capture.json",
-        "evidence/M5/Q-022-representative-route-reproducibility.json"
+        "evidence/M5/Q-022-representative-route-reproducibility.json",
+        "docs/audits/2026-08-13-q022-stall-attribution-instrumentation.md"
       ],
       "generated_outputs": [
         "reports/q022/reference-performance-*.json",
@@ -1583,14 +1595,15 @@
         "evidence/M5/Q-022-representative-route-reproducibility.json",
         "docs/audits/2026-08-03-q022-reference-windows-capture.md",
         "evidence/M5/Q-022-high-profile-windows-capture.json",
-        "docs/audits/2026-08-13-q022-high-profile-capture.md"
+        "docs/audits/2026-08-13-q022-high-profile-capture.md",
+        "docs/audits/2026-08-13-q022-stall-attribution-instrumentation.md"
       ],
       "human_gate": {
         "name": "Q-022 owner ratification of the target evidence method and layered budgets",
         "required_for": "M5",
         "status": "pending"
       },
-      "notes": "The clean Release baseline at revision 5a42ecef4af6f90fe616fceae1e69309471d200e is reproducible but used the balanced environment profile. On 2026-08-13 the required High content-profile recapture completed at revision de42c82fdd6519895b9164c6d8a11a4f08bd7015 from a fresh clean worktree: nine sequential scenarios at 2560x1440 Release Forward+ on the native RTX 3080 Ti. Eight used the high environment profile (48/18/10 instances per chunk, terrain stride 1); degraded-quality deliberately retained the low profile as the degraded comparison point. This closes the High content-profile gap only; the repository still defines no High renderer preset. Frame-time percentiles, GPU memory, and working set pass with 8.6x p95 and 6.7x p99 headroom. The 30-minute run passes the proposed sustained-growth operationalization at 0.56 MiB/min with R-squared 0.16, but Q-022d has not ratified that slope and R-squared rule, so it is not a pass against an owner-ratified criterion. The ratified zero-stall limit fails in four scenarios across 12 steady-driving events; three streaming runs with identical arguments produced 4, 0 and 0 events, so the failure is intermittent and no rate is claimed. Every event reports render CPU plus GPU near 1 ms and the streaming counters do not separate stalling from clean runs, so the cause remains unattributed and Q-022c still owns how attribution is obtained. Raising balanced to high did not measurably raise percentile frame time, so neither capture can price environment density and the proposed layer-2 allocations remain underivable from measurement. A V-Sync-on presentation check now exists and passed, but it locked to the 120 Hz reference display rather than the 60 FPS target presentation. One streaming stall classification is flagged for review because its surrounding state matches post-loop-wrap re-acquisition; excluding it changes no verdict. P1-013 remains in progress: traffic and weather coverage, per-subsystem attribution, a repository-defined High renderer preset, and owner ratification are still open."
+      "notes": "The clean Release baseline at revision 5a42ecef4af6f90fe616fceae1e69309471d200e is reproducible but used the balanced environment profile. On 2026-08-13 the required High content-profile recapture completed at revision de42c82fdd6519895b9164c6d8a11a4f08bd7015 from a fresh clean worktree: nine sequential scenarios at 2560x1440 Release Forward+ on the native RTX 3080 Ti. Eight used the high environment profile (48/18/10 instances per chunk, terrain stride 1); degraded-quality deliberately retained the low profile as the degraded comparison point. This closes the High content-profile gap only; the repository still defines no High renderer preset. Frame-time percentiles, GPU memory, and working set pass with 8.6x p95 and 6.7x p99 headroom. The 30-minute run passes the proposed sustained-growth operationalization at 0.56 MiB/min with R-squared 0.16, but Q-022d has not ratified that slope and R-squared rule, so it is not a pass against an owner-ratified criterion. The ratified zero-stall limit fails in four scenarios across 12 steady-driving events; three streaming runs with identical arguments produced 4, 0 and 0 events, so the failure is intermittent and no rate is claimed. Every event reports render CPU plus GPU near 1 ms and the streaming counters do not separate stalling from clean runs, so the cause remains unattributed and Q-022c still owns how attribution is obtained. Raising balanced to high did not measurably raise percentile frame time, so neither capture can price environment density and the proposed layer-2 allocations remain underivable from measurement. A V-Sync-on presentation check now exists and passed, but it locked to the 120 Hz reference display rather than the 60 FPS target presentation. One streaming stall classification is flagged for review because its surrounding state matches post-loop-wrap re-acquisition; excluding it changes no verdict. P1-013 remains in progress: traffic and weather coverage, per-subsystem attribution, a repository-defined High renderer preset, and owner ratification are still open. The owner answered Q-022a on 2026-08-13 by choosing instrumentation over further repetition. The harness now attaches per-frame GC generation counts, streamer build/removal/rebase/failure/chunk-count deltas, and engine process timings to every recorded stall, with run-level coincidence totals. Its first observed stall coincided with a Gen0 and Gen1 collection and no streaming work; that is one sample and records coincidence, not cause."
     },
     {
       "id": "P1-011",

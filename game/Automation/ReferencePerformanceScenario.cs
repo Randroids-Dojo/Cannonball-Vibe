@@ -80,6 +80,11 @@ public sealed class ReferencePerformanceScenario
     private int _startingGen1Collections;
     private int _startingGen2Collections;
     private long _startingAllocatedBytes;
+    private WorkCounters _previousCounters;
+    private bool _countersPrimed;
+    private int _stallsWithNoAttributableWork;
+    private int _stallsWithCollection;
+    private int _stallsWithStreamingWork;
     private long _peakDrawCalls;
     private long _peakPrimitives;
     private long _peakRenderObjects;
@@ -140,6 +145,7 @@ public sealed class ReferencePerformanceScenario
         Engine.MaxFps = _options.MaxFps;
         _viewportNode = viewport;
         ApplyLighting(_options.Lighting);
+        _vehicle.SetCameraMode(cockpit: _options.Camera == CameraView.Cockpit);
         _vehicle.AutopilotEnabled = true;
         _vehicle.AutopilotSpeedLimitMetersPerSecond = (float)_options.TargetSpeedMetersPerSecond;
         _streamer.ShortCorridorLoopEnabled = _options.LoopCorridor;
@@ -278,8 +284,25 @@ public sealed class ReferencePerformanceScenario
         _primitiveSum += primitives;
         _contentSampleCount++;
 
+        var work = SampleWork();
+
         if (frameMilliseconds > StallThresholdMilliseconds)
         {
+            if (work.Gen0Collections > 0 || work.Gen1Collections > 0 || work.Gen2Collections > 0)
+            {
+                _stallsWithCollection++;
+            }
+            if (work.CollisionBuilds > 0 || work.CollisionRemovals > 0 || work.Rebases > 0 ||
+                work.ChunkBuildPeakAdvanced || work.CollisionBuildPeakAdvanced ||
+                work.EnvironmentBuildPeakAdvanced)
+            {
+                _stallsWithStreamingWork++;
+            }
+            if (!work.HasAttributableWork)
+            {
+                _stallsWithNoAttributableWork++;
+            }
+
             if (_stalls.Count >= MaximumRecordedStalls)
             {
                 _droppedStallCount++;
@@ -293,7 +316,8 @@ public sealed class ReferencePerformanceScenario
                     gpuMilliseconds,
                     _streamer.RouteDistanceMeters,
                     _vehicle.SpeedMetersPerSecond,
-                    false));
+                    false,
+                    work));
             }
         }
 
@@ -303,6 +327,78 @@ public sealed class ReferencePerformanceScenario
         SampleMemory(frameSeconds);
         SampleAggregate(frameSeconds);
         _harnessAllocatedBytes += GC.GetTotalAllocatedBytes(precise: false) - allocatedBefore;
+    }
+
+    private static object WorkRecord(FrameWork work) => new
+    {
+        gen0_collections = work.Gen0Collections,
+        gen1_collections = work.Gen1Collections,
+        gen2_collections = work.Gen2Collections,
+        collision_builds = work.CollisionBuilds,
+        collision_removals = work.CollisionRemovals,
+        rebases = work.Rebases,
+        chunk_failures = work.ChunkFailures,
+        loaded_chunk_delta = work.LoadedChunks,
+        loaded_environment_chunk_delta = work.LoadedEnvironmentChunks,
+        chunk_build_peak_advanced = work.ChunkBuildPeakAdvanced,
+        collision_build_peak_advanced = work.CollisionBuildPeakAdvanced,
+        environment_build_peak_advanced = work.EnvironmentBuildPeakAdvanced,
+        physics_process_ms = work.PhysicsProcessMilliseconds,
+        process_ms = work.ProcessMilliseconds,
+        has_attributable_work = work.HasAttributableWork,
+    };
+
+    /// <summary>
+    /// Reads the cumulative work counters and returns their change since the previous
+    /// frame. The first measured frame primes the baseline and reports no work, because
+    /// a delta against zero would charge the whole warm-up to it.
+    /// </summary>
+    private FrameWork SampleWork()
+    {
+        var current = new WorkCounters(
+            GC.CollectionCount(0),
+            GC.CollectionCount(1),
+            GC.CollectionCount(2),
+            _streamer.CollisionBuildCount,
+            _streamer.CollisionRemovalCount,
+            _streamer.RebaseCount,
+            _streamer.ChunkFailureCount,
+            _streamer.LoadedChunkCount,
+            _streamer.LoadedEnvironmentChunkCount,
+            _streamer.MaximumBuildMilliseconds,
+            _streamer.MaximumCollisionBuildMilliseconds,
+            _streamer.MaximumEnvironmentBuildMilliseconds);
+
+        if (!_countersPrimed)
+        {
+            _previousCounters = current;
+            _countersPrimed = true;
+            return default;
+        }
+
+        var previous = _previousCounters;
+        _previousCounters = current;
+
+        // A rising maximum means this frame produced the most expensive build seen so
+        // far. It cannot show that a build merely occurred, only that a new worst case
+        // landed here, which is the case a stall investigation cares about.
+        return new FrameWork(
+            current.Gen0Collections - previous.Gen0Collections,
+            current.Gen1Collections - previous.Gen1Collections,
+            current.Gen2Collections - previous.Gen2Collections,
+            current.CollisionBuilds - previous.CollisionBuilds,
+            current.CollisionRemovals - previous.CollisionRemovals,
+            current.Rebases - previous.Rebases,
+            current.ChunkFailures - previous.ChunkFailures,
+            current.LoadedChunks - previous.LoadedChunks,
+            current.LoadedEnvironmentChunks - previous.LoadedEnvironmentChunks,
+            current.MaximumChunkBuildMilliseconds > previous.MaximumChunkBuildMilliseconds,
+            current.MaximumCollisionBuildMilliseconds >
+                previous.MaximumCollisionBuildMilliseconds,
+            current.MaximumEnvironmentBuildMilliseconds >
+                previous.MaximumEnvironmentBuildMilliseconds,
+            Performance.GetMonitor(Performance.Monitor.TimePhysicsProcess) * 1_000,
+            Performance.GetMonitor(Performance.Monitor.TimeProcess) * 1_000);
     }
 
     /// <summary>
@@ -487,6 +583,7 @@ public sealed class ReferencePerformanceScenario
                 route_distance_m = stall.RouteDistanceMeters,
                 speed_mps = stall.SpeedMetersPerSecond,
                 attributed_to_loop_wrap = stall.NearLoopWrap,
+                work = WorkRecord(stall.Work),
             }, options));
         }
         foreach (var wrap in _loopWrapSeconds)
@@ -551,7 +648,18 @@ public sealed class ReferencePerformanceScenario
                     route_distance_m = stall.RouteDistanceMeters,
                     speed_mps = stall.SpeedMetersPerSecond,
                     attributed_to_loop_wrap = stall.NearLoopWrap,
+                    work = WorkRecord(stall.Work),
                 }),
+                attribution = new
+                {
+                    with_a_garbage_collection = _stallsWithCollection,
+                    with_streaming_work = _stallsWithStreamingWork,
+                    with_no_attributable_work = _stallsWithNoAttributableWork,
+                    counters = "GC generation counts and WorldStreamer cumulative counters, "
+                        + "differenced frame to frame",
+                    boundary = "These counters show what work coincided with a stall. They "
+                        + "do not time that work, so a coincidence is not a cause.",
+                },
             },
             memory = new
             {
@@ -643,6 +751,7 @@ public sealed class ReferencePerformanceScenario
             ProjectSettings.GetSetting("physics/common/physics_jitter_fix").AsDouble(),
         physics_ticks_per_second = Engine.PhysicsTicksPerSecond,
         lighting = _options.Lighting.ToString().ToLowerInvariant(),
+        camera = _options.Camera.ToString().ToLowerInvariant(),
         environment_quality = _environmentSnapshot?.ProfileId ?? "unmeasured",
         road_profile = _roadSnapshot?.ProfileId ?? "unmeasured",
         target_speed_mps = _options.TargetSpeedMetersPerSecond,
@@ -998,7 +1107,75 @@ public sealed class ReferencePerformanceScenario
         double GpuMilliseconds,
         double RouteDistanceMeters,
         double SpeedMetersPerSecond,
-        bool NearLoopWrap);
+        bool NearLoopWrap,
+        FrameWork Work);
+
+    /// <summary>
+    /// Work the process performed during a single frame, expressed as deltas of
+    /// cumulative counters the streamer and runtime already maintain.
+    ///
+    /// The balanced and High captures both recorded steady-driving stalls whose
+    /// render CPU and GPU components were near 1 ms, so the cost was outside the
+    /// measured render path and nothing in the harness could localise it. These
+    /// deltas answer the first attribution question a stall raises: did the
+    /// process collect garbage, build or drop a chunk, rebase the origin, or
+    /// spend the frame somewhere the render timers never see?
+    ///
+    /// This is a struct of value fields sampled from counters that already exist.
+    /// Nothing here allocates, so the harness self-accounting stays honest.
+    /// </summary>
+    private readonly record struct FrameWork(
+        int Gen0Collections,
+        int Gen1Collections,
+        int Gen2Collections,
+        int CollisionBuilds,
+        int CollisionRemovals,
+        int Rebases,
+        int ChunkFailures,
+        int LoadedChunks,
+        int LoadedEnvironmentChunks,
+        bool ChunkBuildPeakAdvanced,
+        bool CollisionBuildPeakAdvanced,
+        bool EnvironmentBuildPeakAdvanced,
+        double PhysicsProcessMilliseconds,
+        double ProcessMilliseconds)
+    {
+        /// <summary>
+        /// True when the frame did any work this record can name. A stall with
+        /// <c>false</c> here is one none of these counters explains.
+        /// </summary>
+        public bool HasAttributableWork =>
+            Gen0Collections > 0 ||
+            Gen1Collections > 0 ||
+            Gen2Collections > 0 ||
+            CollisionBuilds > 0 ||
+            CollisionRemovals > 0 ||
+            Rebases > 0 ||
+            ChunkFailures > 0 ||
+            LoadedChunks != 0 ||
+            LoadedEnvironmentChunks != 0 ||
+            ChunkBuildPeakAdvanced ||
+            CollisionBuildPeakAdvanced ||
+            EnvironmentBuildPeakAdvanced;
+    }
+
+    /// <summary>
+    /// Absolute counter values, differenced frame to frame to produce a
+    /// <see cref="FrameWork"/>.
+    /// </summary>
+    private readonly record struct WorkCounters(
+        int Gen0Collections,
+        int Gen1Collections,
+        int Gen2Collections,
+        int CollisionBuilds,
+        int CollisionRemovals,
+        int Rebases,
+        int ChunkFailures,
+        int LoadedChunks,
+        int LoadedEnvironmentChunks,
+        double MaximumChunkBuildMilliseconds,
+        double MaximumCollisionBuildMilliseconds,
+        double MaximumEnvironmentBuildMilliseconds);
 
     private sealed record MemorySample(
         double Seconds,
@@ -1051,4 +1228,17 @@ public sealed record ReferencePerformanceOptions(
     double MeasureSeconds,
     bool LoopCorridor,
     string SummaryPath,
-    string SamplesPath);
+    string SamplesPath,
+    CameraView Camera = CameraView.Chase);
+
+/// <summary>
+/// Which camera the reference run drives from. Cockpit exists so a daylight
+/// cockpit capture is reachable from the command line; the camera-handling
+/// contract scenario is the only other path that reaches cockpit view and it
+/// takes no lighting argument.
+/// </summary>
+public enum CameraView
+{
+    Chase,
+    Cockpit,
+}

@@ -2,7 +2,7 @@
   "schema_version": 1,
   "task_id": "P0-018",
   "milestone": "M0",
-  "status": "verified_local_dependency_pending",
+  "status": "complete",
   "recorded_at_utc": "2026-07-26T05:27:27.5672545Z",
   "git_revision": "9279342cc492da547061a237b8b77aab25306060",
   "verification_scope": "committed_implementation_revision",
@@ -424,5 +424,6 @@
     "working_default": "R3 camera toggle, Y recover, and hold-LB rear view",
     "scope_boundary": "Do not extend controller polish for M0 unless a severe usability defect remains."
   },
-  "adversarial_review": "docs/audits/2026-07-20-p0-018-input-conditioning.md"
+  "adversarial_review": "docs/audits/2026-07-20-p0-018-input-conditioning.md",
+  "dependency_note": "P0-017 completed on 2026-08-13 when the owner approved Q-029; this task's only remaining blocker was that dependency. See docs/audits/2026-08-13-q028-q029-owner-approvals.md"
 }

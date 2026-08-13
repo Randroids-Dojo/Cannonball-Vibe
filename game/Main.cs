@@ -3059,6 +3059,13 @@ public sealed partial class Main : Node3D
                 $"Game argument '--reference-lighting' must be daylight or night; " +
                 $"found '{lightingRaw}'.");
         }
+        var cameraRaw = OptionalArgument(arguments, "--reference-camera") ?? "chase";
+        if (!Enum.TryParse<CameraView>(cameraRaw, ignoreCase: true, out var camera))
+        {
+            throw new ArgumentException(
+                $"Game argument '--reference-camera' must be chase or cockpit; " +
+                $"found '{cameraRaw}'.");
+        }
         var resolution = OptionalArgument(arguments, "--reference-resolution") ?? "2560x1440";
         var parts = resolution.Split('x', StringSplitOptions.TrimEntries);
         if (parts.Length != 2 ||
@@ -3085,7 +3092,8 @@ public sealed partial class Main : Node3D
             OptionalDoubleValue(arguments, "--reference-measure-seconds", 120),
             OptionalBoolean(arguments, "--reference-loop-corridor", true),
             summaryPath,
-            samplesPath);
+            samplesPath,
+            camera);
     }
 
     private static double OptionalDoubleValue(
