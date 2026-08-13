@@ -1,0 +1,373 @@
+{
+  "schema_version": 1,
+  "task_id": "P1-013",
+  "question_id": "Q-022",
+  "sub_question": "Q-022e",
+  "milestone": "M5",
+  "status": "presentation_check_recorded_threshold_margin_finding",
+  "git_revision": "88e7b6ff9d5b6421202b8d8f42a976a0b76a5f22",
+  "recorded_at_utc": "2026-08-13T16:23:36Z",
+  "headline": "A 60 FPS engine frame cap closes the presentation coverage gap Q-022e named. The build holds the cap at 60.009 mean FPS with a 16.6625 ms p50 against the 16.6667 ms cap period, zero steady-driving stalls, and 3.011 ms mean render GPU time inside a 16.67 ms budget. The run nonetheless records p95_frame_ms as failed at 16.9075 ms. The declared 16.67 ms limit sits 3.3 microseconds above the cap period, so it is attainable in principle but leaves almost no room for pacing jitter; measured jitter was 241 microseconds, about 72 times that budget. Whether the limit should be restated for capped runs is an owner decision under Q-022e; this record does not change ADR-0023.",
+  "platform": {
+    "os": "Microsoft Windows 11 Pro 10.0.26200",
+    "cpu": "AMD Ryzen 9 5900X 12-Core (12C/24T)",
+    "gpu": "NVIDIA GeForce RTX 3080 Ti 12 GB",
+    "renderer": "Forward+ (Vulkan)",
+    "matches_declared_reference_hardware": true
+  },
+  "tool_versions": {
+    "godot": "4.7.1.stable.mono.official.a13da4feb",
+    "dotnet_sdk": "10.0.102",
+    "uv": "0.9.24",
+    "git_lfs": "3.7.1",
+    "doctor_status": "passed"
+  },
+  "commands": [
+    {
+      "command": "./scripts/capture-reference-performance.sh --scenario presentation-60fps --lighting daylight --speed-mps 40 --warmup-seconds 20 --measure-seconds 120 --environment-quality high --max-fps 60",
+      "exit_status": 0
+    }
+  ],
+  "measurement_mode": {
+    "engine_max_fps": 60,
+    "vsync_enabled": false,
+    "display_refresh_hz": 119.999,
+    "note": "--max-fps sets the engine frame cap. It does not change display refresh, which remains the 120 Hz reference panel, and V-Sync stays off. This is a 60 FPS cap check, not a 60 Hz output-mode check."
+  },
+  "scenario": {
+    "schema_version": 1,
+    "scenario": "presentation-60fps",
+    "recorded_at_utc": "2026-08-13T16:22:50.1484456+00:00",
+    "configuration": {
+      "width_pixels": 2560,
+      "height_pixels": 1440,
+      "actual_window_size": "2560x1440",
+      "content_scale_size_2d": "1920x1080",
+      "three_d_render_size": "2560x1440",
+      "three_d_render_size_basis": "canvas_items stretch scales 2D only; 3D renders at window resolution.",
+      "rendering_method": "forward_plus",
+      "build_configuration": "Release",
+      "headless": false,
+      "vsync_enabled": false,
+      "engine_max_fps": 60,
+      "frame_time_source": "Time.GetTicksUsec monotonic clock (not the smoothed engine delta)",
+      "physics_jitter_fix": 0.5,
+      "physics_ticks_per_second": 120,
+      "lighting": "daylight",
+      "camera": "chase",
+      "environment_quality": "high",
+      "road_profile": "production",
+      "target_speed_mps": 40,
+      "corridor_loop_enabled": true,
+      "video_adapter": "NVIDIA GeForce RTX 3080 Ti",
+      "video_adapter_api_version": "1.4.341",
+      "screen_refresh_hz": 119.999
+    },
+    "warmup": {
+      "requested_seconds": 20,
+      "observed_seconds": 20.00542266666679,
+      "discarded": true
+    },
+    "measurement": {
+      "measured_seconds": 120.014496,
+      "frames": 7202,
+      "mean_fps": 60.009417529029164
+    },
+    "frame_time_ms": {
+      "sample_count": 7202,
+      "p50": 16.6625,
+      "p95": 16.9075,
+      "p99": 17.0575,
+      "minimum": 2.101,
+      "maximum": 35.732,
+      "mean": 16.66405109691758,
+      "bucket_resolution_ms": 0.005,
+      "above_histogram_range_count": 0
+    },
+    "engine_reported_delta_ms": {
+      "sample_count": 7202,
+      "p50": 16.6675,
+      "p95": 16.6675,
+      "p99": 16.6675,
+      "minimum": 15.972222222222221,
+      "maximum": 17.36111111111111,
+      "mean": 16.6660000000003,
+      "bucket_resolution_ms": 0.005,
+      "above_histogram_range_count": 0
+    },
+    "render_cpu_ms": {
+      "sample_count": 7202,
+      "p50": 0.3575,
+      "p95": 0.5075000000000001,
+      "p99": 0.5725,
+      "minimum": 0.23000000417232513,
+      "maximum": 0.7120000123977661,
+      "mean": 0.3706087199094328,
+      "bucket_resolution_ms": 0.005,
+      "above_histogram_range_count": 0
+    },
+    "render_gpu_ms": {
+      "sample_count": 7202,
+      "p50": 2.6575,
+      "p95": 4.0125,
+      "p99": 4.9175,
+      "minimum": 2.197999954223633,
+      "maximum": 14.645999908447266,
+      "mean": 3.010596221998247,
+      "bucket_resolution_ms": 0.005,
+      "above_histogram_range_count": 0
+    },
+    "attribution": {
+      "mean_frame_ms": 16.66405109691758,
+      "mean_render_cpu_ms": 0.3706087199094328,
+      "mean_render_gpu_ms": 3.010596221998247,
+      "mean_non_render_ms": 13.653454874919332,
+      "gpu_bound_frame_ratio": 1,
+      "bound_by": "gpu"
+    },
+    "stalls": {
+      "threshold_ms": 50,
+      "total_count": 0,
+      "steady_driving_count": 0,
+      "loop_wrap_attributed_count": 0,
+      "loop_wrap_count": 0,
+      "dropped_beyond_record_cap": 0,
+      "events": [],
+      "attribution": {
+        "with_a_garbage_collection": 0,
+        "with_streaming_work": 0,
+        "with_no_attributable_work": 0,
+        "counters": "GC generation counts and WorldStreamer cumulative counters, differenced frame to frame",
+        "boundary": "These counters show what work coincided with a stall. They do not time that work, so a coincidence is not a cause."
+      }
+    },
+    "memory": {
+      "starting_working_set_bytes": 718249984,
+      "peak_working_set_bytes": 724365312,
+      "peak_video_memory_bytes": 178507072,
+      "peak_texture_memory_bytes": 114917376,
+      "peak_buffer_memory_bytes": 49886412,
+      "sample_count": 236,
+      "working_set_trend": {
+        "sample_count": 236,
+        "slope_bytes_per_minute": 2723876.236189737,
+        "r_squared": 0.9338415853112249,
+        "first_bytes": 718241792,
+        "last_bytes": 724312064
+      },
+      "video_memory_trend": {
+        "sample_count": 236,
+        "slope_bytes_per_minute": 100545.92250326008,
+        "r_squared": 0.26170214576172224,
+        "first_bytes": 178204400,
+        "last_bytes": 178402000
+      },
+      "managed_heap_trend": {
+        "sample_count": 236,
+        "slope_bytes_per_minute": 267918.57868441485,
+        "r_squared": 0.0010284553478172587,
+        "first_bytes": 30228744,
+        "last_bytes": 27081544
+      }
+    },
+    "garbage_collection": {
+      "gen0_collections": 13,
+      "gen1_collections": 13,
+      "gen2_collections": 1,
+      "allocated_bytes_during_measurement": 198513224,
+      "harness_allocated_bytes": 1631800,
+      "game_allocated_bytes": 196881424,
+      "harness_share_of_allocation": 0.00822010729118983,
+      "game_allocated_bytes_per_frame": 27337.048597611774,
+      "gen0_collections_per_second": 0.10832024824734506
+    },
+    "streaming": {
+      "cumulative_route_distance_m": 4801.068901493878,
+      "final_route_position_m": 5661.21630139619,
+      "starting_route_position_m": 860.1473999023119,
+      "maximum_chunk_build_ms": 30.2275,
+      "maximum_collision_build_ms": 2.6433,
+      "maximum_environment_build_ms": 35.5273,
+      "loaded_chunks": 7,
+      "maximum_visual_chunks": 11,
+      "maximum_collision_chunks": 9,
+      "chunk_failures": 0,
+      "rebases": 5,
+      "corridor_loops": 0,
+      "collision_builds": 14,
+      "collision_removals": 10
+    },
+    "content_class": {
+      "peak_draw_calls": 431,
+      "mean_draw_calls": 323.869619550125,
+      "peak_primitives": 1350502,
+      "mean_primitives": 946970.5703971119,
+      "peak_render_objects": 617,
+      "road": {
+        "profile": "production",
+        "chunks": 11,
+        "shared_materials": 18,
+        "shared_meshes": 9,
+        "retroreflective_materials": 11,
+        "guide_signs": 0,
+        "route_shields": 0,
+        "reflectors": 855,
+        "barrier_segments": 274,
+        "guardrail_segments": 274,
+        "structures": 0
+      },
+      "environment": {
+        "profile": "high",
+        "loaded_chunks": 11,
+        "near_instances": 528,
+        "mid_instances": 198,
+        "distant_instances": 110,
+        "terrain_ribbons": 11,
+        "terrain_triangles": 2184,
+        "shared_materials": 8,
+        "shared_meshes": 6,
+        "near_visibility_m": 1000,
+        "mid_visibility_m": 4000,
+        "distant_visibility_m": 12000
+      },
+      "vehicle": {
+        "semantic_nodes": 37,
+        "damage_zones": 5,
+        "contract_resolved": true
+      }
+    },
+    "acceptance": {
+      "p95_frame_ms": {
+        "measured": 16.9075,
+        "limit": 16.67,
+        "passed": false
+      },
+      "p99_frame_ms": {
+        "measured": 17.0575,
+        "limit": 20,
+        "passed": true
+      },
+      "steady_driving_stalls_over_50ms": {
+        "measured": 0,
+        "limit": 0,
+        "passed": true
+      },
+      "gpu_memory_bytes": {
+        "measured": 178507072,
+        "limit": 9500000000,
+        "passed": true
+      },
+      "working_set_bytes": {
+        "measured": 724365312,
+        "limit": 16000000000,
+        "passed": true
+      },
+      "sustained_memory_growth": {
+        "working_set_slope_bytes_per_minute": 2723876.236189737,
+        "working_set_r_squared": 0.9338415853112249,
+        "evaluated": false,
+        "criterion": "slope > 1 MiB/min AND R^2 >= 0.5 over the measured window",
+        "criterion_status": "proposed operationalisation awaiting Q-022 ratification",
+        "passed": true,
+        "note": "Run shorter than 30 minutes; slope is reported but the ADR-0023 sustained-growth threshold is not evaluated by this run."
+      }
+    }
+  },
+  "machine_state": {
+    "schema_version": 1,
+    "scenario": "presentation-60fps",
+    "purpose": "Records GPU utilisation, clock, temperature, power draw, and the processes holding a GPU context immediately before and after a capture.",
+    "gpu_before": {
+      "available": true,
+      "gpu_utilization_percent": 0.0,
+      "memory_utilization_percent": 13.0,
+      "graphics_clock_mhz": 210.0,
+      "temperature_c": 47.0,
+      "power_draw_w": 44.5
+    },
+    "gpu_after": {
+      "available": true,
+      "gpu_utilization_percent": 15.0,
+      "memory_utilization_percent": 13.0,
+      "graphics_clock_mhz": 570.0,
+      "temperature_c": 45.0,
+      "power_draw_w": 55.14
+    },
+    "gpu_clients_before": {
+      "count": 34,
+      "includes_capture_process": false,
+      "not_attributable_count": 2
+    },
+    "gpu_clients_after": {
+      "count": 34,
+      "includes_capture_process": false,
+      "not_attributable_count": 2
+    },
+    "gpu_client_count_before": 34,
+    "gpu_client_count_after": 34,
+    "boundary": "nvidia-smi lists every process holding a GPU context, which on an interactive Windows session always includes the shell and compositor. A non-zero client count is therefore not by itself evidence of contention. These samples bracket the capture rather than covering it, so a transient load during measurement can still go unobserved. Only the client count is retained: process identifiers, image paths, and executable names are all discarded, because committed evidence must not carry an inventory of the owner's installed software.",
+    "enforcement": "none; this sample is recorded and never fails or reclassifies a capture",
+    "open_question": "Q-022a owns whether machine state should gate a capture"
+  },
+  "threshold_margin": {
+    "cap_frame_period_ms": 16.666666666666668,
+    "p95_limit_ms": 16.67,
+    "limit_minus_cap_period_ms": 0.003333,
+    "permitted_p95_jitter_microseconds": 3.3,
+    "measured_p95_ms": 16.9075,
+    "measured_p95_jitter_above_cap_microseconds": 240.8,
+    "measured_over_permitted_ratio": 72.2,
+    "finding": "The declared p95 limit is 3.3 microseconds above a 60 FPS cap period. The limit is therefore attainable in principle, but only if 95 percent of frames land within 3.3 microseconds of the cap period. Measured pacing jitter was about 221 microseconds, roughly 66 times the permitted budget, so the run fails.",
+    "not_claimed": "This is not an arithmetic impossibility and the limit is not unreachable by construction. It is a margin so thin that ordinary frame pacing exceeds it. Whether the limit should be restated for capped runs is Q-022e and belongs to the owner.",
+    "evidence_the_build_holds_the_cap": {
+      "mean_fps": 60.009417529029164,
+      "mean_render_gpu_ms": 3.010596221998247,
+      "mean_non_render_ms": 13.653454874919332,
+      "non_render_note": "Mean non-render time is dominated by the frame limiter sleeping, not by work.",
+      "steady_driving_stalls_over_50ms": 0,
+      "maximum_frame_ms": 35.732
+    }
+  },
+  "input_artifacts": [
+    {
+      "path": "scripts/capture-reference-performance.sh",
+      "bytes": 17252,
+      "sha256": "619989b788e9588b137cd1655b9742804b9a158ba58f5d74e13113f487f77efc"
+    },
+    {
+      "path": "scripts/record_machine_state.py",
+      "bytes": 5092,
+      "sha256": "b20abf6bb472ee7ebb0548af82213ee5623be149a3a7b3139d39885dc85854b6"
+    }
+  ],
+  "output_artifacts": [
+    {
+      "path": "reports/q022/reference-performance-presentation-60fps.json",
+      "bytes": 7420,
+      "sha256": "f798cea706cfaf4bf06f50db8aa2ff56576e59d51ec160b052bfc2f96c06f1b1"
+    },
+    {
+      "path": "reports/q022/reference-performance-presentation-60fps.jsonl",
+      "bytes": 79977,
+      "sha256": "8d3a662c0c069f7d77ca4034012e3f8b0fcbf775a605930c23be78aa0345f02b"
+    },
+    {
+      "path": "reports/q022/machine-state-presentation-60fps.json",
+      "bytes": 1688,
+      "sha256": "ac1142563c9d5cfad65b2d07c0d443aa45d08f3d079225f5acc7a15d5327d722"
+    }
+  ],
+  "privacy": "The machine-state record retains only a GPU client count. Process identifiers, image paths, and executable names are discarded so committed evidence carries no inventory of the owner's installed software.",
+  "failures": {
+    "capture_failures": 0,
+    "retries": 0,
+    "recovery": null
+  },
+  "human_gate": {
+    "name": "Q-022e presentation-mode decision",
+    "required_for": "M5",
+    "status": "open",
+    "handoff": "docs/QUESTIONS_FOR_RANDROID_2026-08-13_Q022_HIGH_PROFILE.md",
+    "approval_reference": null
+  }
+}

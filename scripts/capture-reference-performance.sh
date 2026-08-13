@@ -24,6 +24,7 @@ Usage: capture-reference-performance.sh --scenario NAME [options]
   --measure-seconds N        Steady-state measurement duration (default: 120).
   --environment-quality Q    high|balanced|low|graybox (default: balanced).
   --vsync                    Enable V-Sync (default: disabled).
+  --max-fps N                Cap presented frames (default: 0, uncapped).
   --fixture NAME             Route fixture (default: representative-corridor).
   --output-dir DIR           Artifact directory (default: reports/q022).
   --no-loop                  Disable short-corridor looping.
@@ -39,6 +40,7 @@ warmup_seconds="20"
 measure_seconds="120"
 environment_quality="balanced"
 vsync="false"
+max_fps="0"
 fixture="representative-corridor"
 output_dir="$repo_root/reports/q022"
 loop_corridor="true"
@@ -62,6 +64,8 @@ while [[ $# -gt 0 ]]; do
     --environment-quality) environment_quality="${2:?--environment-quality requires a value}"; shift 2 ;;
     --environment-quality=*) environment_quality="${1#--environment-quality=}"; shift ;;
     --vsync) vsync="true"; shift ;;
+    --max-fps) max_fps="${2:?--max-fps requires a value}"; shift 2 ;;
+    --max-fps=*) max_fps="${1#--max-fps=}"; shift ;;
     --fixture) fixture="${2:?--fixture requires a value}"; shift 2 ;;
     --fixture=*) fixture="${1#--fixture=}"; shift ;;
     --output-dir) output_dir="${2:?--output-dir requires a value}"; shift 2 ;;
@@ -93,6 +97,10 @@ case "$camera" in
   chase|cockpit) ;;
   *) echo "--camera must be chase or cockpit." >&2; exit 2 ;;
 esac
+if [[ ! "$max_fps" =~ ^[0-9]+$ ]]; then
+  echo "--max-fps must be a non-negative integer; found '$max_fps'." >&2
+  exit 2
+fi
 case "$environment_quality" in
   high|balanced|low|graybox) ;;
   *) echo "--environment-quality must be high, balanced, low, or graybox." >&2; exit 2 ;;
@@ -325,6 +333,7 @@ godot_args=(
   "--reference-warmup-seconds=$warmup_seconds"
   "--reference-measure-seconds=$measure_seconds"
   "--reference-vsync=$vsync"
+  "--reference-max-fps=$max_fps"
   "--reference-loop-corridor=$loop_corridor"
   "--reference-summary=$summary_path"
   "--reference-samples=$samples_path"
@@ -332,15 +341,38 @@ godot_args=(
   "--telemetry-path=$output_dir/telemetry-$scenario.jsonl"
 )
 
-printf 'CANNONBALL_REFERENCE_CAPTURE_START scenario=%s configuration=%s resolution=%s lighting=%s camera=%s quality=%s vsync=%s warmup_s=%s measure_s=%s timeout_s=%s\n' \
+printf 'CANNONBALL_REFERENCE_CAPTURE_START scenario=%s configuration=%s resolution=%s lighting=%s camera=%s quality=%s vsync=%s max_fps=%s warmup_s=%s measure_s=%s timeout_s=%s\n' \
   "$scenario" "$build_configuration" "$resolution" "$lighting" "$camera" "$environment_quality" \
-  "$vsync" "$warmup_seconds" "$measure_seconds" "$timeout_seconds"
+  "$vsync" "$max_fps" "$warmup_seconds" "$measure_seconds" "$timeout_seconds"
+
+machine_state_path="$output_dir/machine-state-$scenario.json"
+sample_gpu() {
+  # Never fail a capture over a diagnostic sample.
+  nvidia-smi \
+    --query-gpu=utilization.gpu,utilization.memory,clocks.current.graphics,temperature.gpu,power.draw \
+    --format=csv,noheader,nounits 2>/dev/null || echo "unavailable"
+}
+sample_clients() {
+  nvidia-smi --query-compute-apps=pid,process_name --format=csv,noheader 2>/dev/null || true
+}
+gpu_before="$(sample_gpu)"
+clients_before="$(sample_clients)"
 
 set +e
 timeout --foreground --signal=TERM --kill-after=30 "${timeout_seconds}s" \
   "$repo_root/scripts/godot.sh" "${godot_args[@]}" 2>&1 | tee "$log_path"
 capture_exit="${PIPESTATUS[0]}"
 set -e
+
+gpu_after="$(sample_gpu)"
+clients_after="$(sample_clients)"
+uv run --project "$repo_root/tools/map_pipeline" --frozen python \
+  "$repo_root/scripts/record_machine_state.py" \
+  "$machine_state_path" "$scenario" "$gpu_before" "$gpu_after" \
+  "$clients_before" "$clients_after"
+machine_state_sha256="$(sha256sum "$machine_state_path" | cut -d' ' -f1)"
+printf 'CANNONBALL_REFERENCE_MACHINE_STATE_SHA256 scenario=%s sha256=%s bytes=%s path=%s
+'   "$scenario" "$machine_state_sha256"   "$(wc -c < "$machine_state_path" | tr -d ' ')" "$machine_state_path"
 
 if [[ $capture_exit -ne 0 ]]; then
   echo "Reference performance capture exited with status $capture_exit." >&2
@@ -367,7 +399,8 @@ for required in "scenario=$scenario" "resolution=$resolution" "headless=false"; 
     exit 1
   fi
 done
-for artifact in "$summary_path" "$samples_path" "$route_repro_path"; do
+for artifact in "$summary_path" "$samples_path" "$route_repro_path" \
+  "$machine_state_path"; do
   if [[ ! -s "$artifact" ]]; then
     echo "Reference performance capture did not write $artifact." >&2
     exit 1
