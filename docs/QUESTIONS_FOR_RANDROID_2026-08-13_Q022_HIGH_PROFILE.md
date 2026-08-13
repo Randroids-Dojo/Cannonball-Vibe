@@ -122,25 +122,28 @@ layer-2 numbers derived from it would be derived from noise.
 - **C. Ratify both layers as provisional.** Pro: fastest. Con: turns a
   noise-level comparison into policy.
 
-## Q-022e update: the 60 FPS check now exists, and it fails by construction
+## Q-022e update: the 60 FPS cap check now exists, and it fails on a 3.3 µs margin
 
-The forced-60 Hz check recommended below has been run; `--max-fps` is now a
-capture-script option. See the
+The check recommended below has been run; `--max-fps` is now a capture-script
+option. See the
 [presentation check audit](audits/2026-08-13-q022-presentation-60fps-check.md).
+Note this is a 60 FPS **engine frame cap**, not a 60 Hz output mode — display
+refresh stays at the 120 Hz reference panel.
 
-The build holds the cap essentially exactly: 60.012 mean FPS, 16.6625 ms p50
-against a 16.6667 ms cap period, zero stalls, 2.675 ms mean render GPU time
+The build holds the cap essentially exactly: 60.009 mean FPS, 16.6625 ms p50
+against a 16.6667 ms cap period, zero stalls, about 2.7 ms mean render GPU time
 inside a 16.67 ms budget.
 
-The same run records `p95_frame_ms` as **failed** at 16.9025 ms. A 60 FPS cap
-has a 16.6667 ms period, which is already above the declared 16.67 ms limit, so
-p95 cannot fall below it. **The limit is unreachable under a cap no matter how
-well the build performs.**
+The same run records `p95_frame_ms` as **failed** at 16.9075 ms. The declared
+16.67 ms limit sits 3.3 microseconds *above* a 60 FPS cap period, so it is
+attainable in principle — but only if 95% of frames land within 3.3 µs of the
+cap. Measured pacing jitter was about 241 µs, roughly 72 times that budget.
 
-So choosing option A below also requires deciding what "pass" means for a capped
-run, because the current acceptance set marks a clean 60 FPS hold as a failure.
-That is a restatement of the limit for capped runs, which is yours to make; this
-capture does not change ADR-0023.
+So the limit is not unreachable by construction; it is a margin ordinary frame
+pacing exceeds. Choosing option A below therefore also requires deciding what
+"pass" means for a capped run, because the current acceptance set marks a clean
+60 FPS hold as a failure. That restatement is yours; this capture does not change
+ADR-0023.
 
 ## Q-022e (original): is the presentation check sufficient?
 
@@ -148,9 +151,11 @@ One V-Sync-on run exists: 119.95 FPS, p95 10.078 ms, zero stalls. But the
 reference display runs at 120 Hz, so this is a 120 Hz check, not the declared
 60 FPS target presentation.
 
-- **A. Add a forced-60 Hz presentation check (recommended working default).**
-  Cap to 60 FPS explicitly rather than relying on the display refresh. Pro:
-  actually measures the declared target presentation. Con: one more capture mode.
+- **A. Add a 60 FPS cap presentation check (recommended working default).**
+  Cap the engine to 60 FPS explicitly rather than relying on the display refresh.
+  Pro: measures the declared target frame rate. Con: one more capture mode, and a
+  frame cap is still not a 60 Hz output mode, which would need a display mode
+  change.
 - **B. Accept the 120 Hz check as the presentation evidence.** Pro: no more
   capture time. Con: does not measure the stated target.
 - **C. Drop the presentation check.** Pro: simplest. Con: reintroduces the gap

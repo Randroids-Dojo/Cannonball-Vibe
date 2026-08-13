@@ -40,15 +40,41 @@ def parse_gpu(raw: str) -> dict[str, object]:
     return sample
 
 
-def parse_clients(raw: str) -> list[dict[str, str]]:
-    clients = []
+CAPTURE_PROCESS_HINTS = ("godot", "cannonball")
+
+
+def summarise_clients(raw: str) -> dict[str, object]:
+    """Reduce the GPU client list to a count, keeping no identifying detail.
+
+    nvidia-smi reports absolute image paths. Those carry the user profile
+    directory, and even reduced to a basename they amount to an inventory of the
+    owner's installed software — browsers, chat clients, games. Capture evidence
+    is committed to a public repository, so nothing identifying is retained.
+
+    The contention question only needs how many clients held a GPU context and
+    whether the capture itself was one of them. Process identifiers and names add
+    nothing to that and cannot be un-published once committed.
+    """
+    total = 0
+    includes_capture_process = False
+    unavailable = 0
     for line in raw.splitlines():
         line = line.strip()
         if not line:
             continue
-        pid, _, process = line.partition(",")
-        clients.append({"pid": pid.strip(), "process": process.strip()})
-    return clients
+        total += 1
+        _, _, process = line.partition(",")
+        process = process.strip().lower()
+        if process.startswith("[") and process.endswith("]"):
+            unavailable += 1
+            continue
+        if any(hint in process for hint in CAPTURE_PROCESS_HINTS):
+            includes_capture_process = True
+    return {
+        "count": total,
+        "includes_capture_process": includes_capture_process,
+        "not_attributable_count": unavailable,
+    }
 
 
 def main() -> None:
@@ -57,8 +83,10 @@ def main() -> None:
     clients_before, clients_after = sys.argv[5], sys.argv[6]
 
     before, after = parse_gpu(gpu_before), parse_gpu(gpu_after)
-    listed_before = parse_clients(clients_before)
-    listed_after = parse_clients(clients_after)
+    listed_before = summarise_clients(clients_before)
+    listed_after = summarise_clients(clients_after)
+    count_before = listed_before["count"]
+    count_after = listed_after["count"]
 
     document = {
         "schema_version": 1,
@@ -72,14 +100,17 @@ def main() -> None:
         "gpu_after": after,
         "gpu_clients_before": listed_before,
         "gpu_clients_after": listed_after,
-        "gpu_client_count_before": len(listed_before),
-        "gpu_client_count_after": len(listed_after),
+        "gpu_client_count_before": count_before,
+        "gpu_client_count_after": count_after,
         "boundary": (
             "nvidia-smi lists every process holding a GPU context, which on an "
             "interactive Windows session always includes the shell and compositor. "
             "A non-zero client count is therefore not by itself evidence of "
             "contention. These samples bracket the capture rather than covering it, "
-            "so a transient load during measurement can still go unobserved."
+            "so a transient load during measurement can still go unobserved. Only the "
+            "client count is retained: process identifiers, image paths, and executable "
+            "names are all discarded, because committed evidence must not carry an "
+            "inventory of the owner's installed software."
         ),
         "enforcement": (
             "none; this sample is recorded and never fails or reclassifies a capture"
@@ -93,7 +124,7 @@ def main() -> None:
         f"scenario={scenario} "
         f"gpu_util_before={before.get('gpu_utilization_percent', 'na')} "
         f"gpu_util_after={after.get('gpu_utilization_percent', 'na')} "
-        f"clients_before={len(listed_before)} clients_after={len(listed_after)} "
+        f"clients_before={count_before} clients_after={count_after} "
         f"manifest={output}"
     )
 

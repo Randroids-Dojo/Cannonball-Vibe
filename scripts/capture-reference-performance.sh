@@ -370,6 +370,9 @@ uv run --project "$repo_root/tools/map_pipeline" --frozen python \
   "$repo_root/scripts/record_machine_state.py" \
   "$machine_state_path" "$scenario" "$gpu_before" "$gpu_after" \
   "$clients_before" "$clients_after"
+machine_state_sha256="$(sha256sum "$machine_state_path" | cut -d' ' -f1)"
+printf 'CANNONBALL_REFERENCE_MACHINE_STATE_SHA256 scenario=%s sha256=%s bytes=%s path=%s
+'   "$scenario" "$machine_state_sha256"   "$(wc -c < "$machine_state_path" | tr -d ' ')" "$machine_state_path"
 
 if [[ $capture_exit -ne 0 ]]; then
   echo "Reference performance capture exited with status $capture_exit." >&2
