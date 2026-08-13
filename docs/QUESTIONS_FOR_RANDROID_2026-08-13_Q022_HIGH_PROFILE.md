@@ -38,6 +38,51 @@ percentages divide raw byte counts by the decimal ADR-0023 limits of
 9,500,000,000 and 16,000,000,000 bytes, so the rounded MiB values in the audit
 tables will not reproduce them exactly.
 
+## Q-022a update: the stalls did not reproduce at all
+
+Since you chose instrumentation, the full nine-scenario matrix was re-run with it
+active. It recorded **zero** steady-driving stalls, against twelve eleven hours
+earlier on the same machine, same content, identical arguments. The 30-minute run
+went from five stalls and a 57.2 ms worst frame to none and 40.8 ms. See the
+[repeat capture audit](audits/2026-08-13-q022-high-profile-repeat-capture.md).
+
+The instrumentation therefore gathered no attribution data — there was nothing to
+attribute. That is not a wasted change: it stays in the harness and will resolve
+the next stall that occurs. But it means the question in front of you has moved.
+
+Be careful what this does and does not show. Non-reproduction is consistent with
+a machine-state, contention, or measurement-method cause, but it excludes none of
+them and it does not rule out an intermittent content, code, or driver cause —
+that kind of cause is exactly the kind that need not appear in any given matrix.
+The instrumentation itself is not excluded either, since its timing cost was
+never separately measured.
+
+One repeat run, `streaming-repeat-2`, recorded mean render GPU time about ten
+times its sibling runs at identical arguments, with frame rate down by a similar
+factor. The harness cannot say why — another GPU client, thermal or power state,
+and driver behaviour are all candidates. What it shows is that a capture's GPU
+timing can change by an order of magnitude on a metric the workspace policy does
+not observe.
+
+So the options below are superseded by a prior question:
+
+- **A2. Gate idle state before measuring (recommended working default).** Add an
+  idle-state precondition to the capture front door — verify no other GPU client,
+  record contention indicators per run, and fail or flag a contended capture
+  rather than publishing it. Then re-run and judge the zero-stall limit on
+  captures that are known clean. Pro: makes every future capture comparable and
+  directly addresses the demonstrated defect. Con: some captures will be refused.
+- **B2. Require N consecutive clean matrices.** Keep the binary limit but define
+  it over repeated runs rather than one. Pro: keeps a strict gate while
+  acknowledging variance. Con: multiplies capture cost with no idle guarantee.
+- **C2. Treat the first capture's stalls as environmental and move on.** Pro:
+  fastest. Con: assumes the conclusion. The pair of captures is consistent with an
+  environmental cause but excludes no other, and no cause was found.
+
+The original Q-022a options remain below for reference. The zero-stall threshold
+is not declared passed by the clean run; one clean matrix does not retire a
+failure recorded under the same method.
+
 ## Q-022a (revised): how should the intermittent stall be treated now?
 
 The previous answer was "repeat the runs before deciding." That has been done and
