@@ -33,8 +33,10 @@ and worst-case p99 was 3.002 ms against 20 ms (6.7×). Peak GPU memory used 1.97
 of its limit and peak working set used 5.12% of its limit. Those percentages are
 computed from raw byte counts against the decimal limits ADR-0023 states,
 9,500,000,000 and 16,000,000,000 bytes; the rounded MiB values in the tables
-below cannot reproduce them exactly. The 30-minute sustained-growth check passed
-at 0.56 MiB/min with R² 0.16.
+below cannot reproduce them exactly. The 30-minute run measured 0.56 MiB/min
+with R² 0.16, which passes the *proposed* sustained-growth rule. ADR-0023 has not
+ratified that rule's constants and Q-022d still owns them, so this is not a pass
+against an owner-ratified criterion.
 
 **The ratified zero-stall limit fails, and fails more widely than at balanced.**
 Twelve steady-driving frames exceeded 50 ms across four scenarios: daylight (2),
@@ -101,7 +103,9 @@ as is `presentation-vsync`, whose frame time is dominated by vblank wait.
 
 Only the 30-minute run is evaluated for sustained growth. The positive slopes in
 the shorter runs are warm-up-shaped fill, not evidence of a leak; the 30-minute
-window is what the rule is written against and it passed.
+window is what the rule is written against. It passes the proposed rule — slope
+above 1 MiB/min with R² at least 0.5 fails — but those constants remain
+unratified under Q-022d, so the verdict is provisional.
 
 Mean non-render time remains the largest frame component in every uncapped
 scenario, as it was at balanced.
@@ -169,14 +173,14 @@ four of the eight uncapped runs were also clean.
 
 ## Acceptance against ADR-0023 provisional limits
 
-| Scenario | p95 ≤16.67 ms | p99 ≤20 ms | no steady stall >50 ms | GPU ≤9.5 GB | WS ≤16 GB | 30-minute growth |
+| Scenario | p95 ≤16.67 ms | p99 ≤20 ms | no steady stall >50 ms | GPU ≤9.5 GB | WS ≤16 GB | 30-minute growth (proposed rule) |
 | --- | --- | --- | --- | --- | --- | --- |
 | daylight | PASS | PASS | **FAIL** | PASS | PASS | not evaluated |
 | night | PASS | PASS | PASS | PASS | PASS | not evaluated |
 | high-speed | PASS | PASS | **FAIL** | PASS | PASS | not evaluated |
 | streaming | PASS | PASS | **FAIL** | PASS | PASS | not evaluated |
 | degraded-quality | PASS | PASS | PASS | PASS | PASS | not evaluated |
-| steady-state-30m | PASS | PASS | **FAIL** | PASS | PASS | PASS |
+| steady-state-30m | PASS | PASS | **FAIL** | PASS | PASS | PASS (proposed rule; Q-022d unratified) |
 | streaming-repeat-2 | PASS | PASS | PASS | PASS | PASS | not evaluated |
 | streaming-repeat-3 | PASS | PASS | PASS | PASS | PASS | not evaluated |
 | presentation-vsync | PASS | PASS | PASS | PASS | PASS | not evaluated |

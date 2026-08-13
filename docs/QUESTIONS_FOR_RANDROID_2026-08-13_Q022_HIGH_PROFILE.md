@@ -31,7 +31,9 @@ than run-to-run variance at this content scale.
 
 Everything else passes with large margins: worst p95 1.943 ms against 16.67 ms,
 worst p99 3.002 ms against 20 ms, peak GPU memory at 1.97% of its limit, peak
-working set at 5.12%, and 30-minute growth at 0.56 MiB/min with R² 0.16. Those two
+working set at 5.12%. The 30-minute run measured 0.56 MiB/min with R² 0.16,
+which passes the proposed sustained-growth rule only; Q-022d below still owns
+whether those constants are ratified. The two memory
 percentages divide raw byte counts by the decimal ADR-0023 limits of
 9,500,000,000 and 16,000,000,000 bytes, so the rounded MiB values in the audit
 tables will not reproduce them exactly.
@@ -95,8 +97,10 @@ reference display runs at 120 Hz, so this is a 120 Hz check, not the declared
   blocking question rather than a follow-up, because Q-022a option A depends on
   it.
 - **Q-022d** — whether to ratify the sustained-growth rule (slope >1 MiB/min with
-  R² ≥0.5). The High 30-minute run passes it at 0.56 MiB/min, R² 0.16, which is a
-  second clean data point for those constants.
+  R² ≥0.5). The High 30-minute run passes that *proposed* rule at 0.56 MiB/min,
+  R² 0.16, a second clean data point for the constants. Until you ratify them,
+  every "30-minute growth passed" statement in this capture means "passed the
+  proposed rule", not "met a ratified requirement".
 
 Until these are answered, the zero-stall threshold remains failed at the declared
 target profile, the proposed budgets remain unratified, Q-022 and P1-013 stay
