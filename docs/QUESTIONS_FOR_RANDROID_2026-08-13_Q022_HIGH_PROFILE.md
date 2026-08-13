@@ -122,7 +122,27 @@ layer-2 numbers derived from it would be derived from noise.
 - **C. Ratify both layers as provisional.** Pro: fastest. Con: turns a
   noise-level comparison into policy.
 
-## Q-022e (revised): is the presentation check sufficient?
+## Q-022e update: the 60 FPS check now exists, and it fails by construction
+
+The forced-60 Hz check recommended below has been run; `--max-fps` is now a
+capture-script option. See the
+[presentation check audit](audits/2026-08-13-q022-presentation-60fps-check.md).
+
+The build holds the cap essentially exactly: 60.012 mean FPS, 16.6625 ms p50
+against a 16.6667 ms cap period, zero stalls, 2.675 ms mean render GPU time
+inside a 16.67 ms budget.
+
+The same run records `p95_frame_ms` as **failed** at 16.9025 ms. A 60 FPS cap
+has a 16.6667 ms period, which is already above the declared 16.67 ms limit, so
+p95 cannot fall below it. **The limit is unreachable under a cap no matter how
+well the build performs.**
+
+So choosing option A below also requires deciding what "pass" means for a capped
+run, because the current acceptance set marks a clean 60 FPS hold as a failure.
+That is a restatement of the limit for capped runs, which is yours to make; this
+capture does not change ADR-0023.
+
+## Q-022e (original): is the presentation check sufficient?
 
 One V-Sync-on run exists: 119.95 FPS, p95 10.078 ms, zero stalls. But the
 reference display runs at 120 Hz, so this is a 120 Hz check, not the declared

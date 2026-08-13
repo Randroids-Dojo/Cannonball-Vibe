@@ -1,0 +1,613 @@
+{
+  "schema_version": 1,
+  "task_id": "P1-013",
+  "question_id": "Q-022",
+  "sub_question": "Q-022e",
+  "milestone": "M5",
+  "status": "presentation_check_recorded_threshold_applicability_finding",
+  "git_revision": "db503021ff091df933fb43d76c31371e29c7a462",
+  "recorded_at_utc": "2026-08-13T16:09:17Z",
+  "headline": "A 60 FPS presentation check closes the coverage gap Q-022e named. The build holds the cap essentially exactly at 60.012 mean FPS with a 16.6625 ms p50 against the 16.6667 ms cap period, zero steady-driving stalls, and 2.675 ms mean render GPU time inside a 16.67 ms budget. The run nonetheless records p95_frame_ms as FAILED at 16.9025 ms against the 16.67 ms limit. That is a threshold-applicability result, not a performance result: a run capped at 60 FPS has a frame period of 16.6667 ms, so its p95 cannot fall below the 16.67 ms limit and the threshold is unreachable by construction under a cap. Whether the limit should be restated for capped presentation runs is an owner decision under Q-022e; this record does not change it.",
+  "platform": {
+    "os": "Microsoft Windows 11 Pro 10.0.26200",
+    "cpu": "AMD Ryzen 9 5900X 12-Core (12C/24T)",
+    "gpu": "NVIDIA GeForce RTX 3080 Ti 12 GB",
+    "renderer": "Forward+ (Vulkan)",
+    "matches_declared_reference_hardware": true
+  },
+  "tool_versions": {
+    "godot": "4.7.1.stable.mono.official.a13da4feb",
+    "dotnet_sdk": "10.0.102",
+    "uv": "0.9.24",
+    "git_lfs": "3.7.1",
+    "doctor_status": "passed"
+  },
+  "commands": [
+    {
+      "command": "./scripts/capture-reference-performance.sh --scenario presentation-60fps --lighting daylight --speed-mps 40 --warmup-seconds 20 --measure-seconds 120 --environment-quality high --max-fps 60",
+      "exit_status": 0
+    }
+  ],
+  "scenario": {
+    "schema_version": 1,
+    "scenario": "presentation-60fps",
+    "recorded_at_utc": "2026-08-13T16:08:25.4125618+00:00",
+    "configuration": {
+      "width_pixels": 2560,
+      "height_pixels": 1440,
+      "actual_window_size": "2560x1440",
+      "content_scale_size_2d": "1920x1080",
+      "three_d_render_size": "2560x1440",
+      "three_d_render_size_basis": "canvas_items stretch scales 2D only; 3D renders at window resolution.",
+      "rendering_method": "forward_plus",
+      "build_configuration": "Release",
+      "headless": false,
+      "vsync_enabled": false,
+      "engine_max_fps": 60,
+      "frame_time_source": "Time.GetTicksUsec monotonic clock (not the smoothed engine delta)",
+      "physics_jitter_fix": 0.5,
+      "physics_ticks_per_second": 120,
+      "lighting": "daylight",
+      "camera": "chase",
+      "environment_quality": "high",
+      "road_profile": "production",
+      "target_speed_mps": 40,
+      "corridor_loop_enabled": true,
+      "video_adapter": "NVIDIA GeForce RTX 3080 Ti",
+      "video_adapter_api_version": "1.4.341",
+      "screen_refresh_hz": 119.999
+    },
+    "warmup": {
+      "requested_seconds": 20,
+      "observed_seconds": 20.005907666666904,
+      "discarded": true
+    },
+    "measurement": {
+      "measured_seconds": 120.010083,
+      "frames": 7202,
+      "mean_fps": 60.01162418994411
+    },
+    "frame_time_ms": {
+      "sample_count": 7202,
+      "p50": 16.6625,
+      "p95": 16.9025,
+      "p99": 17.0375,
+      "minimum": 1.641,
+      "maximum": 38.359,
+      "mean": 16.663438350458232,
+      "bucket_resolution_ms": 0.005,
+      "above_histogram_range_count": 0
+    },
+    "engine_reported_delta_ms": {
+      "sample_count": 7202,
+      "p50": 16.6675,
+      "p95": 16.6675,
+      "p99": 16.6675,
+      "minimum": 15.972222222222221,
+      "maximum": 19.901333333333334,
+      "mean": 16.665999953716774,
+      "bucket_resolution_ms": 0.005,
+      "above_histogram_range_count": 0
+    },
+    "render_cpu_ms": {
+      "sample_count": 7202,
+      "p50": 0.3425,
+      "p95": 0.4925,
+      "p99": 0.5475,
+      "minimum": 0.2280000001192093,
+      "maximum": 0.7620000243186951,
+      "mean": 0.3574296029569605,
+      "bucket_resolution_ms": 0.005,
+      "above_histogram_range_count": 0
+    },
+    "render_gpu_ms": {
+      "sample_count": 7202,
+      "p50": 2.4525,
+      "p95": 4.1025,
+      "p99": 6.6675,
+      "minimum": 2.0920000076293945,
+      "maximum": 15.267999649047852,
+      "mean": 2.6747053592809538,
+      "bucket_resolution_ms": 0.005,
+      "above_histogram_range_count": 0
+    },
+    "attribution": {
+      "mean_frame_ms": 16.663438350458232,
+      "mean_render_cpu_ms": 0.3574296029569605,
+      "mean_render_gpu_ms": 2.6747053592809538,
+      "mean_non_render_ms": 13.98873299117728,
+      "gpu_bound_frame_ratio": 1,
+      "bound_by": "gpu"
+    },
+    "stalls": {
+      "threshold_ms": 50,
+      "total_count": 0,
+      "steady_driving_count": 0,
+      "loop_wrap_attributed_count": 0,
+      "loop_wrap_count": 0,
+      "dropped_beyond_record_cap": 0,
+      "events": [],
+      "attribution": {
+        "with_a_garbage_collection": 0,
+        "with_streaming_work": 0,
+        "with_no_attributable_work": 0,
+        "counters": "GC generation counts and WorldStreamer cumulative counters, differenced frame to frame",
+        "boundary": "These counters show what work coincided with a stall. They do not time that work, so a coincidence is not a cause."
+      }
+    },
+    "memory": {
+      "starting_working_set_bytes": 718532608,
+      "peak_working_set_bytes": 728780800,
+      "peak_video_memory_bytes": 178507072,
+      "peak_texture_memory_bytes": 114917376,
+      "peak_buffer_memory_bytes": 49886412,
+      "sample_count": 235,
+      "working_set_trend": {
+        "sample_count": 235,
+        "slope_bytes_per_minute": 4706743.3039905215,
+        "r_squared": 0.7656625534728195,
+        "first_bytes": 718323712,
+        "last_bytes": 728768512
+      },
+      "video_memory_trend": {
+        "sample_count": 235,
+        "slope_bytes_per_minute": 113245.48793471446,
+        "r_squared": 0.30835205897329865,
+        "first_bytes": 178204400,
+        "last_bytes": 178353904
+      },
+      "managed_heap_trend": {
+        "sample_count": 235,
+        "slope_bytes_per_minute": 99156.0288926738,
+        "r_squared": 0.00013988728152158902,
+        "first_bytes": 30229656,
+        "last_bytes": 26547224
+      }
+    },
+    "garbage_collection": {
+      "gen0_collections": 13,
+      "gen1_collections": 13,
+      "gen2_collections": 1,
+      "allocated_bytes_during_measurement": 198522520,
+      "harness_allocated_bytes": 1664344,
+      "game_allocated_bytes": 196858176,
+      "harness_share_of_allocation": 0.008383653401135548,
+      "game_allocated_bytes_per_frame": 27333.82060538739,
+      "gen0_collections_per_second": 0.10832423138979082
+    },
+    "streaming": {
+      "cumulative_route_distance_m": 4801.068901493878,
+      "final_route_position_m": 5661.21630139619,
+      "starting_route_position_m": 860.1473999023119,
+      "maximum_chunk_build_ms": 30.6092,
+      "maximum_collision_build_ms": 2.9568,
+      "maximum_environment_build_ms": 36.2597,
+      "loaded_chunks": 7,
+      "maximum_visual_chunks": 11,
+      "maximum_collision_chunks": 9,
+      "chunk_failures": 0,
+      "rebases": 5,
+      "corridor_loops": 0,
+      "collision_builds": 14,
+      "collision_removals": 10
+    },
+    "content_class": {
+      "peak_draw_calls": 430,
+      "mean_draw_calls": 323.88031102471535,
+      "peak_primitives": 1350946,
+      "mean_primitives": 946956.4459872257,
+      "peak_render_objects": 616,
+      "road": {
+        "profile": "production",
+        "chunks": 11,
+        "shared_materials": 18,
+        "shared_meshes": 9,
+        "retroreflective_materials": 11,
+        "guide_signs": 0,
+        "route_shields": 0,
+        "reflectors": 855,
+        "barrier_segments": 274,
+        "guardrail_segments": 274,
+        "structures": 0
+      },
+      "environment": {
+        "profile": "high",
+        "loaded_chunks": 11,
+        "near_instances": 528,
+        "mid_instances": 198,
+        "distant_instances": 110,
+        "terrain_ribbons": 11,
+        "terrain_triangles": 2184,
+        "shared_materials": 8,
+        "shared_meshes": 6,
+        "near_visibility_m": 1000,
+        "mid_visibility_m": 4000,
+        "distant_visibility_m": 12000
+      },
+      "vehicle": {
+        "semantic_nodes": 37,
+        "damage_zones": 5,
+        "contract_resolved": true
+      }
+    },
+    "acceptance": {
+      "p95_frame_ms": {
+        "measured": 16.9025,
+        "limit": 16.67,
+        "passed": false
+      },
+      "p99_frame_ms": {
+        "measured": 17.0375,
+        "limit": 20,
+        "passed": true
+      },
+      "steady_driving_stalls_over_50ms": {
+        "measured": 0,
+        "limit": 0,
+        "passed": true
+      },
+      "gpu_memory_bytes": {
+        "measured": 178507072,
+        "limit": 9500000000,
+        "passed": true
+      },
+      "working_set_bytes": {
+        "measured": 728780800,
+        "limit": 16000000000,
+        "passed": true
+      },
+      "sustained_memory_growth": {
+        "working_set_slope_bytes_per_minute": 4706743.3039905215,
+        "working_set_r_squared": 0.7656625534728195,
+        "evaluated": false,
+        "criterion": "slope > 1 MiB/min AND R^2 >= 0.5 over the measured window",
+        "criterion_status": "proposed operationalisation awaiting Q-022 ratification",
+        "passed": true,
+        "note": "Run shorter than 30 minutes; slope is reported but the ADR-0023 sustained-growth threshold is not evaluated by this run."
+      }
+    }
+  },
+  "machine_state": {
+    "schema_version": 1,
+    "scenario": "presentation-60fps",
+    "purpose": "Records GPU utilisation, clock, temperature, power draw, and the processes holding a GPU context immediately before and after a capture.",
+    "gpu_before": {
+      "available": true,
+      "gpu_utilization_percent": 3.0,
+      "memory_utilization_percent": 14.0,
+      "graphics_clock_mhz": 210.0,
+      "temperature_c": 48.0,
+      "power_draw_w": 44.5
+    },
+    "gpu_after": {
+      "available": true,
+      "gpu_utilization_percent": 14.0,
+      "memory_utilization_percent": 19.0,
+      "graphics_clock_mhz": 420.0,
+      "temperature_c": 45.0,
+      "power_draw_w": 53.69
+    },
+    "gpu_clients_before": [
+      {
+        "pid": "1564",
+        "process": "[Insufficient Permissions]"
+      },
+      {
+        "pid": "10468",
+        "process": "C:\\Windows\\System32\\ShellHost.exe"
+      },
+      {
+        "pid": "14696",
+        "process": "C:\\Windows\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\CrossDeviceResume.exe"
+      },
+      {
+        "pid": "10436",
+        "process": "C:\\Windows\\explorer.exe"
+      },
+      {
+        "pid": "18404",
+        "process": "C:\\Windows\\SystemApps\\Microsoft.Windows.StartMenuExperienceHost_cw5n1h2txyewy\\StartMenuExperienceHost.exe"
+      },
+      {
+        "pid": "18396",
+        "process": "C:\\Windows\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\SearchHost.exe"
+      },
+      {
+        "pid": "22332",
+        "process": "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\151.0.4129.78\\msedgewebview2.exe"
+      },
+      {
+        "pid": "23400",
+        "process": "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\CEF\\NVIDIA Overlay.exe"
+      },
+      {
+        "pid": "21988",
+        "process": "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\CEF\\NVIDIA Overlay.exe"
+      },
+      {
+        "pid": "22664",
+        "process": "C:\\Program Files\\WindowsApps\\Microsoft.YourPhone_1.26062.145.0_x64__8wekyb3d8bbwe\\PhoneExperienceHost.exe"
+      },
+      {
+        "pid": "15468",
+        "process": "C:\\Windows\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\TextInputHost.exe"
+      },
+      {
+        "pid": "12920",
+        "process": "C:\\Program Files\\WindowsApps\\Microsoft.WindowsTerminal_1.24.11911.0_x64__8wekyb3d8bbwe\\WindowsTerminal.exe"
+      },
+      {
+        "pid": "26112",
+        "process": "C:\\Program Files\\Steam\\bin\\cef\\cef.win64\\steamwebhelper.exe"
+      },
+      {
+        "pid": "27128",
+        "process": "C:\\Program Files\\WindowsApps\\Claude_1.28929.0.0_x64__pzs8sxrjxfjjc\\app\\claude.exe"
+      },
+      {
+        "pid": "29908",
+        "process": "C:\\Program Files\\WindowsApps\\Claude_1.28929.0.0_x64__pzs8sxrjxfjjc\\app\\claude.exe"
+      },
+      {
+        "pid": "28716",
+        "process": "C:\\Users\\randr\\AppData\\Roaming\\uv\\python\\cpython-3.13.11-windows-x86_64-none\\python.exe"
+      },
+      {
+        "pid": "29164",
+        "process": "C:\\Users\\randr\\AppData\\Roaming\\uv\\python\\cpython-3.13.11-windows-x86_64-none\\python.exe"
+      },
+      {
+        "pid": "32968",
+        "process": "C:\\Users\\randr\\AppData\\Local\\Programs\\input\\input.exe"
+      },
+      {
+        "pid": "2140",
+        "process": "C:\\Program Files (x86)\\Battle.net\\Battle.net.exe"
+      },
+      {
+        "pid": "23440",
+        "process": "C:\\Program Files\\NordVPN\\NordVPN.exe"
+      },
+      {
+        "pid": "20288",
+        "process": "C:\\Program Files\\LGHUB\\system_tray\\lghub_system_tray.exe"
+      },
+      {
+        "pid": "33448",
+        "process": "C:\\Program Files\\WindowsApps\\OpenAI.ChatGPT-Desktop_1.2026.190.0_x64__2p2nqsd0c76g0\\app\\ChatGPT Classic.exe"
+      },
+      {
+        "pid": "37672",
+        "process": "C:\\Program Files\\WindowsApps\\Microsoft.GamingApp_2608.1001.17.0_x64__8wekyb3d8bbwe\\XboxPcTray.exe"
+      },
+      {
+        "pid": "37368",
+        "process": "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\151.0.4129.78\\msedgewebview2.exe"
+      },
+      {
+        "pid": "37016",
+        "process": "C:\\Windows\\System32\\ApplicationFrameHost.exe"
+      },
+      {
+        "pid": "13700",
+        "process": "C:\\Program Files\\WindowsApps\\Microsoft.GamingApp_2608.1001.17.0_x64__8wekyb3d8bbwe\\XboxPcApp.exe"
+      },
+      {
+        "pid": "36360",
+        "process": "[Insufficient Permissions]"
+      },
+      {
+        "pid": "25348",
+        "process": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.803.10989.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe"
+      },
+      {
+        "pid": "10492",
+        "process": "C:\\Windows\\ImmersiveControlPanel\\SystemSettings.exe"
+      },
+      {
+        "pid": "25016",
+        "process": "C:\\Program Files\\WindowsApps\\Microsoft.MicrosoftOfficeHub_19.2608.39011.0_x64__8wekyb3d8bbwe\\M365Copilot.exe"
+      },
+      {
+        "pid": "8364",
+        "process": "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\151.0.4129.78\\msedgewebview2.exe"
+      },
+      {
+        "pid": "24268",
+        "process": "C:\\Windows\\SystemApps\\ShellExperienceHost_cw5n1h2txyewy\\ShellExperienceHost.exe"
+      },
+      {
+        "pid": "38720",
+        "process": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe"
+      },
+      {
+        "pid": "31876",
+        "process": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe"
+      }
+    ],
+    "gpu_clients_after": [
+      {
+        "pid": "1564",
+        "process": "[Insufficient Permissions]"
+      },
+      {
+        "pid": "10468",
+        "process": "C:\\Windows\\System32\\ShellHost.exe"
+      },
+      {
+        "pid": "14696",
+        "process": "C:\\Windows\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\CrossDeviceResume.exe"
+      },
+      {
+        "pid": "10436",
+        "process": "C:\\Windows\\explorer.exe"
+      },
+      {
+        "pid": "18404",
+        "process": "C:\\Windows\\SystemApps\\Microsoft.Windows.StartMenuExperienceHost_cw5n1h2txyewy\\StartMenuExperienceHost.exe"
+      },
+      {
+        "pid": "18396",
+        "process": "C:\\Windows\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\SearchHost.exe"
+      },
+      {
+        "pid": "22332",
+        "process": "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\151.0.4129.78\\msedgewebview2.exe"
+      },
+      {
+        "pid": "23400",
+        "process": "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\CEF\\NVIDIA Overlay.exe"
+      },
+      {
+        "pid": "21988",
+        "process": "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\CEF\\NVIDIA Overlay.exe"
+      },
+      {
+        "pid": "22664",
+        "process": "C:\\Program Files\\WindowsApps\\Microsoft.YourPhone_1.26062.145.0_x64__8wekyb3d8bbwe\\PhoneExperienceHost.exe"
+      },
+      {
+        "pid": "15468",
+        "process": "C:\\Windows\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\TextInputHost.exe"
+      },
+      {
+        "pid": "12920",
+        "process": "C:\\Program Files\\WindowsApps\\Microsoft.WindowsTerminal_1.24.11911.0_x64__8wekyb3d8bbwe\\WindowsTerminal.exe"
+      },
+      {
+        "pid": "26112",
+        "process": "C:\\Program Files\\Steam\\bin\\cef\\cef.win64\\steamwebhelper.exe"
+      },
+      {
+        "pid": "27128",
+        "process": "C:\\Program Files\\WindowsApps\\Claude_1.28929.0.0_x64__pzs8sxrjxfjjc\\app\\claude.exe"
+      },
+      {
+        "pid": "29908",
+        "process": "C:\\Program Files\\WindowsApps\\Claude_1.28929.0.0_x64__pzs8sxrjxfjjc\\app\\claude.exe"
+      },
+      {
+        "pid": "28716",
+        "process": "C:\\Users\\randr\\AppData\\Roaming\\uv\\python\\cpython-3.13.11-windows-x86_64-none\\python.exe"
+      },
+      {
+        "pid": "29164",
+        "process": "C:\\Users\\randr\\AppData\\Roaming\\uv\\python\\cpython-3.13.11-windows-x86_64-none\\python.exe"
+      },
+      {
+        "pid": "32968",
+        "process": "C:\\Users\\randr\\AppData\\Local\\Programs\\input\\input.exe"
+      },
+      {
+        "pid": "2140",
+        "process": "C:\\Program Files (x86)\\Battle.net\\Battle.net.exe"
+      },
+      {
+        "pid": "23440",
+        "process": "C:\\Program Files\\NordVPN\\NordVPN.exe"
+      },
+      {
+        "pid": "20288",
+        "process": "C:\\Program Files\\LGHUB\\system_tray\\lghub_system_tray.exe"
+      },
+      {
+        "pid": "33448",
+        "process": "C:\\Program Files\\WindowsApps\\OpenAI.ChatGPT-Desktop_1.2026.190.0_x64__2p2nqsd0c76g0\\app\\ChatGPT Classic.exe"
+      },
+      {
+        "pid": "37672",
+        "process": "C:\\Program Files\\WindowsApps\\Microsoft.GamingApp_2608.1001.17.0_x64__8wekyb3d8bbwe\\XboxPcTray.exe"
+      },
+      {
+        "pid": "37368",
+        "process": "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\151.0.4129.78\\msedgewebview2.exe"
+      },
+      {
+        "pid": "37016",
+        "process": "C:\\Windows\\System32\\ApplicationFrameHost.exe"
+      },
+      {
+        "pid": "13700",
+        "process": "C:\\Program Files\\WindowsApps\\Microsoft.GamingApp_2608.1001.17.0_x64__8wekyb3d8bbwe\\XboxPcApp.exe"
+      },
+      {
+        "pid": "36360",
+        "process": "[Insufficient Permissions]"
+      },
+      {
+        "pid": "25348",
+        "process": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.803.10989.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe"
+      },
+      {
+        "pid": "10492",
+        "process": "C:\\Windows\\ImmersiveControlPanel\\SystemSettings.exe"
+      },
+      {
+        "pid": "25016",
+        "process": "C:\\Program Files\\WindowsApps\\Microsoft.MicrosoftOfficeHub_19.2608.39011.0_x64__8wekyb3d8bbwe\\M365Copilot.exe"
+      },
+      {
+        "pid": "8364",
+        "process": "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\151.0.4129.78\\msedgewebview2.exe"
+      },
+      {
+        "pid": "24268",
+        "process": "C:\\Windows\\SystemApps\\ShellExperienceHost_cw5n1h2txyewy\\ShellExperienceHost.exe"
+      },
+      {
+        "pid": "38720",
+        "process": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe"
+      },
+      {
+        "pid": "31876",
+        "process": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe"
+      }
+    ],
+    "gpu_client_count_before": 34,
+    "gpu_client_count_after": 34,
+    "boundary": "nvidia-smi lists every process holding a GPU context, which on an interactive Windows session always includes the shell and compositor. A non-zero client count is therefore not by itself evidence of contention. These samples bracket the capture rather than covering it, so a transient load during measurement can still go unobserved.",
+    "enforcement": "none; this sample is recorded and never fails or reclassifies a capture",
+    "open_question": "Q-022a owns whether machine state should gate a capture"
+  },
+  "threshold_applicability": {
+    "cap_frame_period_ms": 16.666666666666668,
+    "p50_measured_ms": 16.6625,
+    "p95_measured_ms": 16.9025,
+    "p95_limit_ms": 16.67,
+    "p95_exceedance_ms": 0.2325,
+    "finding": "The declared p95 limit of 16.67 ms is 0.0033 ms below the 16.6667 ms period of a 60 FPS cap. Half of a capped run is already at that period, so p95 is at or above the limit before any jitter is considered. The limit is therefore unreachable under a 60 FPS cap regardless of how well the build performs.",
+    "not_claimed": "This does not show the limit is wrong. It shows the limit was derived for uncapped measurement and cannot be applied unchanged to a capped presentation run. Restating it is Q-022e and belongs to the owner.",
+    "evidence_the_build_holds_the_cap": {
+      "mean_fps": 60.01162418994411,
+      "mean_render_gpu_ms": 2.6747053592809538,
+      "mean_non_render_ms": 13.98873299117728,
+      "non_render_note": "Mean non-render time is dominated by the frame limiter sleeping, not by work.",
+      "steady_driving_stalls_over_50ms": 0,
+      "maximum_frame_ms": 38.359
+    }
+  },
+  "input_artifacts": [
+    {
+      "path": "scripts/capture-reference-performance.sh",
+      "bytes": 16978,
+      "sha256": "becae170dcddc6a7a9d429aded9fb405d417e6d428cc339977a6f039d8e64b8d"
+    },
+    {
+      "path": "scripts/record_machine_state.py",
+      "bytes": 3709,
+      "sha256": "5d4d4b36572501d4320de6cf825609577b7407f85cf21603dced770cfaf5746e"
+    }
+  ],
+  "failures": {
+    "capture_failures": 0,
+    "retries": 0,
+    "recovery": null
+  },
+  "human_gate": {
+    "name": "Q-022e presentation-mode decision",
+    "required_for": "M5",
+    "status": "open",
+    "handoff": "docs/QUESTIONS_FOR_RANDROID_2026-08-13_Q022_HIGH_PROFILE.md",
+    "approval_reference": null
+  }
+}
