@@ -50,11 +50,19 @@ The instrumentation therefore gathered no attribution data — there was nothing
 attribute. That is not a wasted change: it stays in the harness and will resolve
 the next stall that occurs. But it means the question in front of you has moved.
 
-One repeat run, `streaming-repeat-2`, independently showed mean render GPU time
-about ten times its sibling runs at identical arguments, with frame rate down by
-a similar factor. Something outside the game was using the GPU. The capture
-workspace policy requires a clean worktree; it does not require or verify an idle
-machine.
+Be careful what this does and does not show. Non-reproduction is consistent with
+a machine-state, contention, or measurement-method cause, but it excludes none of
+them and it does not rule out an intermittent content, code, or driver cause —
+that kind of cause is exactly the kind that need not appear in any given matrix.
+The instrumentation itself is not excluded either, since its timing cost was
+never separately measured.
+
+One repeat run, `streaming-repeat-2`, recorded mean render GPU time about ten
+times its sibling runs at identical arguments, with frame rate down by a similar
+factor. The harness cannot say why — another GPU client, thermal or power state,
+and driver behaviour are all candidates. What it shows is that a capture's GPU
+timing can change by an order of magnitude on a metric the workspace policy does
+not observe.
 
 So the options below are superseded by a prior question:
 
@@ -68,8 +76,8 @@ So the options below are superseded by a prior question:
   it over repeated runs rather than one. Pro: keeps a strict gate while
   acknowledging variance. Con: multiplies capture cost with no idle guarantee.
 - **C2. Treat the first capture's stalls as environmental and move on.** Pro:
-  fastest. Con: assumes the conclusion; the pair of captures suggests it but
-  does not prove it, and no cause was found.
+  fastest. Con: assumes the conclusion. The pair of captures is consistent with an
+  environmental cause but excludes no other, and no cause was found.
 
 The original Q-022a options remain below for reference. The zero-stall threshold
 is not declared passed by the clean run; one clean matrix does not retire a

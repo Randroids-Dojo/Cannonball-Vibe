@@ -25,8 +25,11 @@ and more consequential answer: **there were no stalls to attribute.**
 Identical between the two runs: scenario arguments, environment profile and
 content, route-package inputs and their hashes, machine, GPU, driver, and pinned
 toolchain. Different: the wall-clock hour, and the repeat build carries the
-attribution instrumentation — which a before-and-after comparison showed to be
-allocation-neutral (harness allocation 4,049,950 → 4,001,430 bytes).
+attribution instrumentation. A before-and-after comparison showed that change to
+be allocation-neutral (harness allocation 4,049,950 → 4,001,430 bytes), but
+allocation neutrality is not timing neutrality: the added per-frame counter reads
+and two `Performance.GetMonitor` calls were never separately timed, so the
+instrumentation itself is not excluded as a variable.
 
 ## Per-scenario comparison
 
@@ -48,18 +51,24 @@ The 30-minute run is the strongest single comparison: 1,949,836 frames with a
 40.783 ms maximum, against 1,826,339 frames with a 57.175 ms maximum and five
 stalls. Its sustained-growth slope was 0.16 MiB/min at R² 0.03.
 
-## What this supports
+## What this supports, and what it does not
 
-A content or code cause would reproduce. This did not. Twelve events became zero
-with nothing changed that the build controls, which points away from the game and
-toward machine state outside the measured process.
+Twelve events became zero with nothing changed that the build controls. That is
+consistent with a machine-state, contention, or measurement-method cause.
 
-That is a hypothesis this capture supports, not a conclusion it proves. The first
-capture's twelve events were real measurements taken under the same declared
-method, and they are not withdrawn. What the pair establishes is that a single
+It does not establish one. The tempting inference — that a content or code cause
+would have reproduced — is wrong, because an *intermittent* content, code, or
+driver cause is precisely the kind that need not appear in any given matrix. A
+rare allocation pattern, a rare timing race, or a driver-side event would all
+behave exactly like this. Neither is the instrumentation excluded, since its
+timing cost was never measured.
+
+So no hypothesis is favoured here and none is eliminated. The first capture's
+twelve events were real measurements taken under the same declared method and are
+not withdrawn. What the pair establishes is narrower and still useful: a single
 matrix run cannot decide the zero-stall gate in either direction.
 
-## Direct evidence that the machine is not guaranteed idle
+## A run whose GPU timing changed by an order of magnitude
 
 `streaming-repeat-2` in the repeat matrix shifted its entire distribution without
 producing any stall:
@@ -71,8 +80,13 @@ producing any stall:
 | p50 ms | 0.818 | **6.902** | 0.802 |
 
 Mean render GPU time was roughly ten times its sibling runs at identical
-arguments while frame rate fell by a similar factor. Something outside the
-measured process was using the GPU for that run.
+arguments while frame rate fell by a similar factor.
+
+The harness cannot say why. Contention from another GPU client is one candidate;
+thermal or power state, a driver-side event, and display or compositor behaviour
+are others, and nothing recorded distinguishes them. What the run does show is
+that a capture's GPU timing can change by an order of magnitude between otherwise
+identical runs, without the build changing.
 
 This run is reported, not discarded. Excluding it would improve every summary
 number in the repeat record and would hide the measurement-method problem it
@@ -90,8 +104,10 @@ gate measurable on this reference machine at all". The revised handoff puts that
 to the owner.
 
 **For the capture method.** Q-022's workspace policy already requires a fresh
-clean worktree per capture. It does not require, or verify, that the machine is
-otherwise idle. `streaming-repeat-2` shows that gap is real and not theoretical.
+clean worktree per capture. It does not require, or verify, anything about the
+machine's state while measuring. `streaming-repeat-2` shows that captures can
+differ by an order of magnitude on a metric the policy does not observe, whatever
+the underlying reason.
 
 **For the budgets.** Nothing here changes the earlier finding that balanced and
 High differ by less than run-to-run variance. This capture strengthens it: the
@@ -100,8 +116,9 @@ between profiles.
 
 ## What is still not established
 
-No cause for the first capture's twelve stalls. No rate for them. No idle-state
-verification in the capture front door. Traffic, weather, per-subsystem
+No cause for the first capture's twelve stalls, and no exclusion of any
+candidate cause. No rate for them. No machine-state verification in the capture
+front door, and no timing measurement of the instrumentation's own cost. Traffic, weather, per-subsystem
 attribution, a High renderer preset, and a 60 FPS presentation check all remain
 absent, exactly as before.
 

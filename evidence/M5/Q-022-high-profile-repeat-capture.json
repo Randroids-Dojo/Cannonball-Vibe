@@ -14,7 +14,7 @@
   "repeat_of": "evidence/M5/Q-022-high-profile-windows-capture.json",
   "repeat_scope": "Second independent sample of the same nine High-profile scenarios at identical arguments, run with stall attribution instrumentation. This does not supersede the first capture; both are samples of the same configuration and the difference between them is the finding.",
   "recorded_at_utc": "2026-08-13T15:45:30Z",
-  "headline": "Second sample of the nine High-profile scenarios at identical arguments, with stall attribution instrumentation active. Zero steady-driving stalls were recorded, against twelve in the first capture eleven hours earlier on the same machine at the same content. Every evaluated threshold passes, including the zero-stall limit that failed in four scenarios before. The instrumentation therefore captured no attribution data: there was nothing to attribute. The finding is that the failure is not reproducible, which points away from content or code and toward machine state outside the game. One run, streaming-repeat-2, independently shows external GPU contention.",
+  "headline": "Second sample of the nine High-profile scenarios at identical arguments, with stall attribution instrumentation active. Zero steady-driving stalls were recorded, against twelve eleven hours earlier on the same machine at the same content. Every evaluated threshold passes, including the zero-stall limit that failed in four scenarios before. The instrumentation captured no attribution data because there was nothing to attribute. The finding is that the failure is not reproducible; that is consistent with a machine-state, contention, or measurement-method cause but excludes no candidate, including an intermittent content, code, driver, or instrumentation cause, which need not appear in any given matrix. One run, streaming-repeat-2, recorded mean render GPU time about ten times its siblings without any stall.",
   "platform": {
     "os": "Microsoft Windows 11 Pro 10.0.26200",
     "architecture": "x64",
@@ -2835,14 +2835,15 @@
     ],
     "differed": [
       "wall-clock time of day",
-      "the repeat build carries the stall attribution instrumentation, which a before/after comparison showed to be allocation-neutral"
+      "the repeat build carries the stall attribution instrumentation; a before/after comparison showed it allocation-neutral, but its timing cost was never separately measured, so it is not excluded as a variable"
     ],
     "first_capture_steady_stalls": 12,
     "repeat_steady_stalls": 0,
-    "interpretation": "Twelve steady-driving stalls became zero with no change to content, arguments, or inputs. A content or code cause would have to reproduce; this did not. The remaining candidate is machine state outside the measured process. That is a hypothesis the capture supports, not a conclusion it proves: the first capture's events were real measurements and are not withdrawn.",
-    "consequence_for_the_threshold": "The zero-stall limit is a binary gate on a rare event that this evidence shows is sensitive to conditions outside the build. Whether it should be gated that way is Q-022a."
+    "interpretation": "Twelve steady-driving stalls became zero with no change to content, arguments, or inputs. This is consistent with a machine-state, contention, or measurement-method cause. It does not establish one, and it excludes none: an intermittent content, code, or driver cause is precisely the kind that need not appear in any given matrix, so non-reproduction is not evidence against it. The first capture's events were real measurements and are not withdrawn.",
+    "consequence_for_the_threshold": "The zero-stall limit is a binary gate on a rare event that this evidence shows is sensitive to conditions outside the build. Whether it should be gated that way is Q-022a.",
+    "excluded_causes": "none"
   },
-  "external_load_anomaly": {
+  "external_timing_anomaly": {
     "scenario": "streaming-repeat-2",
     "observation": "This run's whole distribution shifted, without producing any stall.",
     "mean_render_gpu_ms": 3.753468802484438,
@@ -2855,7 +2856,7 @@
       1026.7155920376804,
       1115.9228237285772
     ],
-    "reading": "Mean render GPU time was roughly ten times its sibling runs at identical arguments while frame rate fell by a similar factor. Something outside the measured process was using the GPU. This is direct evidence that the reference machine is not guaranteed idle during a capture, and it is why the headroom figures in this record are dominated by that one run.",
+    "reading": "Mean render GPU time was roughly ten times its sibling runs at identical arguments while frame rate fell by a similar factor. The harness cannot say why: contention from another GPU client, thermal or power state, a driver-side event, and compositor behaviour are all candidates and nothing recorded distinguishes them. What it shows is that a capture's GPU timing can change by an order of magnitude between otherwise identical runs without the build changing, on a metric the workspace policy does not observe.",
     "handling": "Reported, not discarded. Excluding it would improve every summary number and hide the measurement-method problem it demonstrates."
   }
 }
