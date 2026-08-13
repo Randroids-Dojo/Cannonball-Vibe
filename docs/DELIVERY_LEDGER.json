@@ -11,7 +11,39 @@
   "readiness": {
     "stack": "conditional_go",
     "autonomous_internal_delivery": "blocked_on_p0",
-    "autonomous_public_release": "human_approval_required"
+    "autonomous_public_release": "human_approval_required",
+    "dependency_ready_unstarted": [
+      "P0-020",
+      "P1-005",
+      "P1-012"
+    ],
+    "dependency_ready_in_progress": [
+      "P0-021",
+      "P1-008",
+      "P1-009",
+      "P1-010"
+    ],
+    "blocked_by_an_unstarted_task": {
+      "P0-015": [
+        "P0-020"
+      ],
+      "P1-011": [
+        "P0-015",
+        "P0-020"
+      ],
+      "P1-013": [
+        "P1-008",
+        "P1-009",
+        "P1-010",
+        "P0-015"
+      ],
+      "P1-003": [
+        "P1-008",
+        "P1-009",
+        "P1-010"
+      ]
+    },
+    "sequencing_note": "The owner set P0-021 as the next priority on 2026-08-13. P0-020 became dependency-ready the same day and is the only thing blocking P0-015, which in turn blocks P1-011 and P1-013. The two are independent, so the order is a scheduling choice rather than a constraint."
   },
   "status_values": [
     "open",
@@ -373,7 +405,7 @@
         "required_for": "M0",
         "status": "pending"
       },
-      "notes": "This task owns closure evidence for the M0 handling gate first declared by P0-006. Agents may prepare deterministic evidence and review materials but cannot approve the human sessions."
+      "notes": "This task owns closure evidence for the M0 handling gate first declared by P0-006. Agents may prepare deterministic evidence and review materials but cannot approve the human sessions. Dependency state changed on 2026-08-13: P0-012, P0-017, P0-018 and P0-019 are all complete, so P0-020 is no longer blocked and is the gate standing in front of P0-015 and P1-011. Nothing of it is built yet - the handling fixture corpus, HandlingValidationScenario, validate-handling.sh, the PlayGodot test, and the evidence file are all absent. Note that acceptance requires declared metric tolerances for slip, yaw, roll, stopping distance and path error; those bands are a product decision and must be recorded before the corpus is built, so that acceptance cannot later be moved to match a preferred result, exactly as P0-019 required."
     },
     {
       "id": "P0-002",
