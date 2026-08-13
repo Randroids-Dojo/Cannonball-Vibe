@@ -30,8 +30,11 @@ counterparts, and peak GPU memory was unchanged. The two profiles differ by less
 than run-to-run variance at this content scale.
 
 Everything else passes with large margins: worst p95 1.943 ms against 16.67 ms,
-worst p99 3.002 ms against 20 ms, GPU memory at 2.0% of its limit, working set at
-5.1%, and 30-minute growth at 0.56 MiB/min with R² 0.16.
+worst p99 3.002 ms against 20 ms, GPU memory at 1.97% of its limit, working set
+at 5.12%, and 30-minute growth at 0.56 MiB/min with R² 0.16. Those two
+percentages divide raw byte counts by the decimal ADR-0023 limits of
+9,500,000,000 and 16,000,000,000 bytes, so the rounded MiB values in the audit
+tables will not reproduce them exactly.
 
 ## Q-022a (revised): how should the intermittent stall be treated now?
 
