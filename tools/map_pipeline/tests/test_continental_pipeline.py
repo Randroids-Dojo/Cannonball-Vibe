@@ -365,10 +365,17 @@ def _validate(path: Path):
     )
 
 
-def _metric_line(object_id: int, coordinates: list[tuple[float, float]], lrs: str = "L1"):
+def _metric_line(
+    object_id: int,
+    coordinates: list[tuple[float, float]],
+    lrs: str = "L1",
+    part_index: int = 0,
+):
     """Build a locked line already expressed in the metric CRS the solver uses."""
     line = LineString(coordinates)
-    candidate = LockedCandidateLine("seg", object_id, "0" * 64, line, lrs, 0.0, 1.0)
+    candidate = LockedCandidateLine(
+        "seg", object_id, "0" * 64, line, lrs, 0.0, 1.0, part_index
+    )
     return candidate, line
 
 
@@ -524,3 +531,22 @@ def test_audit_finding_is_derived_from_the_recorded_segments() -> None:
     finding = payload["audit_finding"]
     assert f"{round(min(fractions) * 100)} to {round(max(fractions) * 100)} percent" in finding
     assert f"{len(payload['segments']) - connected} of {len(payload['segments'])}" in finding
+
+
+def test_a_multi_part_feature_keeps_both_of_its_parts() -> None:
+    # One OBJECTID contributing two geometry parts must yield two graph edges. Keying
+    # the graph on the object id alone would silently drop the first part and could
+    # break an otherwise connected chain.
+    metric_lines = (
+        _metric_line(7, [(0.0, 0.0), (100.0, 0.0)], part_index=0),
+        _metric_line(7, [(100.0, 0.0), (200.0, 0.0)], part_index=1),
+    )
+    result = _solve_segment_edge_path(
+        {"id": "seg"}, metric_lines, (0.0, 0.0), (200.0, 0.0),
+        ENDPOINT_SNAP_TOLERANCE_METERS,
+    )
+    assert result["graph_edge_count"] == 2
+    assert result["connected"] is True
+    assert result["edge_count"] == 2
+    assert [edge["part_index"] for edge in result["edges"]] == [0, 1]
+    assert result["length_meters"] == pytest.approx(200.0)

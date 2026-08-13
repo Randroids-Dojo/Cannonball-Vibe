@@ -110,6 +110,7 @@ class LockedCandidateLine:
     lrs_key: str = ""
     begin_milepost: float = 0.0
     end_milepost: float = 0.0
+    part_index: int = 0
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -614,7 +615,7 @@ def _load_locked_candidate_lines(
             paths = feature.get("geometry", {}).get("paths", [])
             if not paths:
                 raise ValueError(f"NHPN OBJECTID {object_id} has no geometry.")
-            for coordinates in paths:
+            for part_index, coordinates in enumerate(paths):
                 if len(coordinates) < 2:
                     raise ValueError(f"NHPN OBJECTID {object_id} has a degenerate path.")
                 attributes = feature["attributes"]
@@ -627,6 +628,7 @@ def _load_locked_candidate_lines(
                         str(attributes.get("LRSKEY", "")),
                         float(attributes.get("BEGMP") or 0.0),
                         float(attributes.get("ENDMP") or 0.0),
+                        part_index,
                     )
                 )
     if seen != set(object_ids):
@@ -914,6 +916,7 @@ ANCHOR_SNAP_LIMIT_METERS = 25.0
 @dataclass(frozen=True)
 class SolvedEdge:
     object_id: int
+    part_index: int
     page_response_sha256: str
     length_meters: float
     reversed_for_travel: bool
@@ -976,7 +979,9 @@ def _solve_segment_edge_path(
 
     # Insert in object-id order so the graph, and therefore any tie between
     # equal-length routes, is identical on every run.
-    ordered = sorted(metric_lines, key=lambda pair: (pair[0].object_id, pair[1].wkt))
+    ordered = sorted(
+        metric_lines, key=lambda pair: (pair[0].object_id, pair[0].part_index)
+    )
     for candidate, line in ordered:
         coordinates = list(line.coords)
         start, end = coordinates[0], coordinates[-1]
@@ -994,9 +999,10 @@ def _solve_segment_edge_path(
         graph.add_edge(
             start_key,
             end_key,
-            key=candidate.object_id,
+            key=(candidate.object_id, candidate.part_index),
             weight=line.length,
             object_id=candidate.object_id,
+            part_index=candidate.part_index,
             page_response_sha256=candidate.page_response_sha256,
             start_key=start_key,
         )
@@ -1101,6 +1107,7 @@ def _solve_segment_edge_path(
         edges.append(
             SolvedEdge(
                 object_id=int(data["object_id"]),
+                part_index=int(data["part_index"]),
                 page_response_sha256=str(data["page_response_sha256"]),
                 length_meters=float(data["weight"]),
                 reversed_for_travel=data["start_key"] != previous,
@@ -1119,6 +1126,7 @@ def _solve_segment_edge_path(
         edges=[
             {
                 "object_id": edge.object_id,
+                "part_index": edge.part_index,
                 "page_response_sha256": edge.page_response_sha256,
                 "length_meters": round(edge.length_meters, 3),
                 "reversed_for_travel": edge.reversed_for_travel,
@@ -1368,8 +1376,11 @@ def validate_continental_edge_path_lock(
         object_ids = entry.get("object_ids") or []
         if len(object_ids) != entry.get("edge_count") or not object_ids:
             raise ValueError(f"Segment '{entry['segment_id']}' edge count disagrees.")
-        if len(set(object_ids)) != len(object_ids):
-            raise ValueError(f"Segment '{entry['segment_id']}' repeats an edge.")
+        parts = [
+            (edge["object_id"], edge.get("part_index", 0)) for edge in entry.get("edges", [])
+        ]
+        if len(set(parts)) != len(parts):
+            raise ValueError(f"Segment '{entry['segment_id']}' repeats an edge part.")
         edge_records = entry.get("edges")
         if not isinstance(edge_records, list) or len(edge_records) != len(object_ids):
             raise ValueError(f"Segment '{entry['segment_id']}' edge records disagree.")
