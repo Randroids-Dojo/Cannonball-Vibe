@@ -2,7 +2,7 @@
   "schema_version": 1,
   "task_id": "P0-017",
   "milestone": "M0",
-  "status": "verified_local_human_gate_pending",
+  "status": "complete",
   "git_revision": "f2cc981168d099e4207b539803ffba207d802d1e",
   "recorded_at_utc": "2026-07-24T06:39:25Z",
   "platform": {
@@ -245,10 +245,13 @@
     "name": "Cockpit and chase camera comfort and readability review",
     "question_id": "Q-029",
     "required_for": "M0",
-    "status": "pending",
-    "approval": null,
+    "status": "approved",
+    "approval": "Owner statement on 2026-08-13: \"The views are fine for today, but I reserve the right to tweak more later. Map looks good.\" Recorded choice: gate closes as approved; later polish is new work rather than a reopened gate.",
     "question_record": "docs/QUESTIONS_FOR_RANDROID_2026-07-20_HANDLING_GATES.md",
-    "review_artifact": "docs/images/p0-017-camera-handling-review.png"
+    "review_artifact": "docs/images/p0-017-camera-handling-review.png",
+    "approved_at_utc": "2026-08-13",
+    "approval_reference": "Owner statement on 2026-08-13: \"The views are fine for today, but I reserve the right to tweak more later. Map looks good.\" Recorded choice: gate closes as approved; later polish is new work rather than a reopened gate.",
+    "audit": "docs/audits/2026-08-13-q028-q029-owner-approvals.md"
   },
   "adversarial_review": "docs/audits/2026-07-19-p0-017-camera-foundation.md"
 }

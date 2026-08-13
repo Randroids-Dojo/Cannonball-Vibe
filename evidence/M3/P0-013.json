@@ -2,7 +2,7 @@
   "schema_version": 1,
   "task_id": "P0-013",
   "milestone": "M3",
-  "status": "verified_local_human_gate_pending",
+  "status": "complete",
   "git_revision": "c98b78336f7e6d98576a9523952961bd1ed18d9d",
   "platform": "macOS arm64",
   "utc_time": "2026-07-19T19:39:15Z",
@@ -113,9 +113,11 @@
   "recovery_result": "All local feature and M0 gates pass after corrections; replacement remote matrix pending.",
   "human_gate": {
     "name": "Trip-map comprehension and accessibility usability review",
-    "approval_reference": null,
-    "status": "pending",
-    "question": "Q-028"
+    "approval_reference": "Owner statement on 2026-08-13: \"The views are fine for today, but I reserve the right to tweak more later. Map looks good.\" Recorded choice: gate closes as approved; later polish is new work rather than a reopened gate.",
+    "status": "approved",
+    "question": "Q-028",
+    "approved_at_utc": "2026-08-13",
+    "audit": "docs/audits/2026-08-13-q028-q029-owner-approvals.md"
   },
   "latest_regression": {
     "name": "Trip Overview moving resume stability",
