@@ -894,6 +894,22 @@ EDGE_PATH_NEXT_STAGE = {
 # is auditable rather than assumed.
 ENDPOINT_SNAP_TOLERANCE_METERS = 1.0
 
+# The widest snapping tolerance any lock may declare. Without a ceiling the
+# validator would only ever compare a lock against its own declared value, so a
+# lock derived with a metre-wide-plus tolerance would validate itself and the
+# ADR-0018 prohibition on inventing connectivity would be unenforceable.
+MAXIMUM_ENDPOINT_SNAP_TOLERANCE_METERS = 1.0
+
+# How far a locked transfer anchor may sit from the nearest candidate endpoint
+# before the segment is treated as unanchored.
+#
+# Grounded in the transfer lock's own recorded numbers: its anchors were derived
+# with hint distances of roughly 2.6 to 4.0 m against sub-metre NHPN endpoints.
+# 25 m is generous against that authoring precision while still excluding the
+# anchors that sit hundreds of metres away because they were derived against a
+# different carriageway.
+ANCHOR_SNAP_LIMIT_METERS = 25.0
+
 
 @dataclass(frozen=True)
 class SolvedEdge:
@@ -946,6 +962,7 @@ def _solve_segment_edge_path(
     from_point: tuple[float, float],
     to_point: tuple[float, float],
     tolerance: float,
+    anchor_limit: float = ANCHOR_SNAP_LIMIT_METERS,
 ) -> dict[str, Any]:
     """Snap endpoints, audit connectivity, and solve one segment's edge path.
 
@@ -988,7 +1005,14 @@ def _solve_segment_edge_path(
     # extent, one per carriageway. Counting them is what tells a reader whether the
     # component structure below is the source's shape or a data defect.
     extents: dict[tuple[str, float, float], int] = {}
+    unreferenced_lines = 0
     for candidate, _ in metric_lines:
+        if not candidate.lrs_key:
+            # Without a linear reference there is no extent to share, so counting
+            # these together would collapse every unreferenced line into one
+            # identity and report them all as paired.
+            unreferenced_lines += 1
+            continue
         identity = (candidate.lrs_key, candidate.begin_milepost, candidate.end_milepost)
         extents[identity] = extents.get(identity, 0) + 1
     paired_lines = sum(count for count in extents.values() if count >= 2)
@@ -997,6 +1021,7 @@ def _solve_segment_edge_path(
         "segment_id": segment["id"],
         "candidate_line_count": len(metric_lines),
         "paired_carriageway_line_count": paired_lines,
+        "linearly_unreferenced_line_count": unreferenced_lines,
         "paired_carriageway_fraction": (
             round(paired_lines / len(metric_lines), 4) if metric_lines else 0.0
         ),
@@ -1030,6 +1055,19 @@ def _solve_segment_edge_path(
     to_key, to_distance = nearest_node(to_point)
     diagnostics["from_transfer_node_snap_distance_m"] = round(from_distance, 3)
     diagnostics["to_transfer_node_snap_distance_m"] = round(to_distance, 3)
+    diagnostics["anchor_snap_limit_m"] = anchor_limit
+
+    # A path between the nearest graph nodes is only a path between the locked
+    # anchors if those anchors are actually on this graph. An anchor hundreds of
+    # metres away belongs to a different carriageway set, and reporting the walk
+    # as connectivity between transfer nodes would overstate what was found.
+    if max(from_distance, to_distance) > anchor_limit:
+        diagnostics.update(
+            connected=False,
+            direction_validated=False,
+            failure="a locked transfer anchor is farther than the anchor snap limit",
+        )
+        return diagnostics
 
     if from_key == to_key:
         diagnostics.update(
@@ -1091,6 +1129,31 @@ def _solve_segment_edge_path(
     return diagnostics
 
 
+def _audit_finding(results: list[dict[str, Any]]) -> str:
+    """Describe the audit using the numbers the audit actually produced.
+
+    The prose is generated rather than written so it cannot drift from the
+    segments beside it if the locked inputs or the pairing metric change.
+    """
+    if not results:
+        return "No NHPN-backed segments were audited."
+    fractions = [entry["paired_carriageway_fraction"] for entry in results]
+    connected = sum(1 for entry in results if entry.get("connected"))
+    return (
+        "NHPN represents these Interstates as paired directional carriageways: "
+        f"{round(min(fractions) * 100)} to {round(max(fractions) * 100)} percent of "
+        "each segment's locked lines share a linear-reference extent with an "
+        "opposing-carriageway twin. The candidate graph therefore splits into "
+        "per-carriageway components that meet only where the source authors a shared "
+        f"endpoint, which is why {len(results) - connected} of {len(results)} segments "
+        "have no undirected path between their locked transfer nodes. Where a path was "
+        "found it is a shortest undirected traversal that may cross between "
+        "carriageways, so it is recorded as connectivity evidence and is not a "
+        "westbound selection. Selecting a direction needs a carriageway rule derived "
+        "from the linear-reference direction, which this stage does not assert."
+    )
+
+
 def derive_continental_edge_path_lock(
     selection_path: Path,
     route_lock_path: Path,
@@ -1109,6 +1172,12 @@ def derive_continental_edge_path_lock(
     and the ignored response cache whose page hashes both locks already pin. No
     network access and no new source acquisition.
     """
+    if tolerance_meters <= 0 or tolerance_meters > MAXIMUM_ENDPOINT_SNAP_TOLERANCE_METERS:
+        raise ValueError(
+            "Endpoint snap tolerance must be within 0 to "
+            f"{MAXIMUM_ENDPOINT_SNAP_TOLERANCE_METERS} m; a wider tolerance would "
+            "invent connectivity the source does not assert."
+        )
     selection = load_json(selection_path)
     route_lock = validate_continental_route_lock(route_lock_path, catalog_path, selection_path)
     transfer_lock = validate_continental_transfer_lock(
@@ -1170,6 +1239,7 @@ def derive_continental_edge_path_lock(
         "candidate_lock_sha256": compute_sha256(route_lock_path),
         "transfer_lock_sha256": compute_sha256(transfer_lock_path),
         "endpoint_snap_tolerance_m": tolerance_meters,
+        "anchor_snap_limit_m": ANCHOR_SNAP_LIMIT_METERS,
         "source_policy": {
             "candidate_source": NHPN_SOURCE_ID,
             "nhpn_role": "coarse_topology_only",
@@ -1182,19 +1252,7 @@ def derive_continental_edge_path_lock(
         "connected_segment_count": len(connected),
         "unconnected_segment_count": len(unconnected),
         "westbound_selection_validated": False,
-        "audit_finding": (
-            "NHPN represents these Interstates as paired directional carriageways: "
-            "77 to 97 percent of each segment's locked lines share a linear-reference "
-            "extent with an opposing-carriageway twin. The candidate graph therefore "
-            "splits into per-carriageway components that meet only where the source "
-            "authors a shared endpoint, which is why several segments have no "
-            "undirected path between their locked transfer nodes. Where a path was "
-            "found it is a shortest undirected traversal and may cross between "
-            "carriageways, so it is recorded as connectivity evidence and is not a "
-            "westbound selection. Selecting a direction needs a carriageway rule "
-            "derived from the linear-reference direction, which this stage does not "
-            "assert."
-        ),
+        "audit_finding": _audit_finding(results),
         "segments": results,
         "segments_sha256": canonical_sha256(results),
         "next_stage": EDGE_PATH_NEXT_STAGE,
@@ -1218,6 +1276,22 @@ def validate_continental_edge_path_lock(
     payload = load_json(edge_path_lock_path)
     if payload.get("schema_version") != 1:
         raise ValueError("Continental edge-path lock schema_version must be 1.")
+    if payload.get("westbound_selection_validated") is not False:
+        raise ValueError(
+            "Edge-path lock claims a validated westbound selection, which this stage "
+            "cannot establish."
+        )
+    tolerance = payload.get("endpoint_snap_tolerance_m")
+    if not isinstance(tolerance, int | float) or isinstance(tolerance, bool):
+        raise ValueError("Edge-path lock declares no numeric snap tolerance.")
+    if tolerance <= 0 or tolerance > MAXIMUM_ENDPOINT_SNAP_TOLERANCE_METERS:
+        raise ValueError(
+            "Edge-path lock declares a snap tolerance outside the permitted range of "
+            f"0 to {MAXIMUM_ENDPOINT_SNAP_TOLERANCE_METERS} m."
+        )
+    anchor_limit = payload.get("anchor_snap_limit_m")
+    if anchor_limit != ANCHOR_SNAP_LIMIT_METERS:
+        raise ValueError("Edge-path lock declares a non-standard anchor snap limit.")
     selection = load_json(selection_path)
     route_lock = validate_continental_route_lock(route_lock_path, catalog_path, selection_path)
     transfer_lock = validate_continental_transfer_lock(
@@ -1249,7 +1323,12 @@ def validate_continental_edge_path_lock(
         raise ValueError("Edge-path lock does not cover exactly the locked segments.")
 
     for entry in segments:
-        segment = selection_by_id[entry["segment_id"]]
+        segment = selection_by_id.get(entry["segment_id"])
+        if segment is None:
+            raise ValueError(
+                f"Edge-path lock records segment '{entry['segment_id']}', which the "
+                "route selection does not define."
+            )
         for endpoint in ("from", "to"):
             if segment[endpoint] not in transfer_ids:
                 raise ValueError(
@@ -1266,16 +1345,35 @@ def validate_continental_edge_path_lock(
                     f"Segment '{entry['segment_id']}' is unconnected without a recorded failure."
                 )
             continue
-        if entry["maximum_endpoint_snap_distance_m"] > payload["endpoint_snap_tolerance_m"]:
+        snapped = entry.get("maximum_endpoint_snap_distance_m")
+        if not isinstance(snapped, int | float) or isinstance(snapped, bool):
+            raise ValueError(
+                f"Segment '{entry['segment_id']}' records no snap distance."
+            )
+        if snapped > tolerance:
             raise ValueError(
                 f"Segment '{entry['segment_id']}' snapped beyond the declared tolerance."
             )
+        for side in ("from", "to"):
+            distance = entry.get(f"{side}_transfer_node_snap_distance_m")
+            if not isinstance(distance, int | float) or isinstance(distance, bool):
+                raise ValueError(
+                    f"Segment '{entry['segment_id']}' records no {side} anchor distance."
+                )
+            if distance > ANCHOR_SNAP_LIMIT_METERS:
+                raise ValueError(
+                    f"Segment '{entry['segment_id']}' reports connectivity while its "
+                    f"{side} anchor exceeds the anchor snap limit."
+                )
         object_ids = entry.get("object_ids") or []
         if len(object_ids) != entry.get("edge_count") or not object_ids:
             raise ValueError(f"Segment '{entry['segment_id']}' edge count disagrees.")
         if len(set(object_ids)) != len(object_ids):
             raise ValueError(f"Segment '{entry['segment_id']}' repeats an edge.")
-        for edge in entry["edges"]:
+        edge_records = entry.get("edges")
+        if not isinstance(edge_records, list) or len(edge_records) != len(object_ids):
+            raise ValueError(f"Segment '{entry['segment_id']}' edge records disagree.")
+        for edge in edge_records:
             if edge["page_response_sha256"] not in page_hashes:
                 raise ValueError(
                     f"Segment '{entry['segment_id']}' cites an unlocked page response."

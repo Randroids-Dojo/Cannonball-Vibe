@@ -395,26 +395,37 @@ def derive_continental_edge_paths_command(
     selection: Path = typer.Option(
         Path("data/routes/continental/route-selection.v1.json"),
         help="Locked route selection.",
+        exists=True, file_okay=True, dir_okay=False,
     ),
     route_lock: Path = typer.Option(
         Path("data/sources/continental-route-lock.json"),
         help="Locked NHPN candidate acquisition.",
+        exists=True, file_okay=True, dir_okay=False,
     ),
     transfer_lock: Path = typer.Option(
         Path("data/routes/continental/transfer-node-lock.v1.json"),
         help="Locked transfer nodes.",
+        exists=True, file_okay=True, dir_okay=False,
     ),
     policy: Path = typer.Option(
         Path("data/routes/continental/transfer-node-policy.v1.json"),
         help="Transfer node policy.",
+        exists=True, file_okay=True, dir_okay=False,
     ),
-    catalog: Path = typer.Option(Path("data/sources/catalog.json"), help="Source catalog."),
+    catalog: Path = typer.Option(
+        Path("data/sources/catalog.json"),
+        help="Source catalog.",
+        exists=True, file_okay=True, dir_okay=False,
+    ),
     cache: Path = typer.Option(
-        Path(".tools/continental/nhpn"), help="Locked NHPN response cache."
+        Path(".tools/continental/nhpn"),
+        help="Locked NHPN response cache.",
+        exists=True, file_okay=False, dir_okay=True,
     ),
     output: Path = typer.Option(
         Path("data/routes/continental/edge-path-lock.v1.json"),
         help="Edge-path lock to write.",
+        file_okay=True, dir_okay=False,
     ),
 ) -> None:
     """Audit NHPN endpoint connectivity from checksum-locked responses."""
@@ -437,24 +448,33 @@ def validate_continental_edge_paths_command(
     edge_path_lock: Path = typer.Argument(
         Path("data/routes/continental/edge-path-lock.v1.json"),
         help="Edge-path lock to validate.",
+        exists=True, file_okay=True, dir_okay=False,
     ),
     transfer_lock: Path = typer.Option(
         Path("data/routes/continental/transfer-node-lock.v1.json"),
         help="Locked transfer nodes.",
+        exists=True, file_okay=True, dir_okay=False,
     ),
     policy: Path = typer.Option(
         Path("data/routes/continental/transfer-node-policy.v1.json"),
         help="Transfer node policy.",
+        exists=True, file_okay=True, dir_okay=False,
     ),
     selection: Path = typer.Option(
         Path("data/routes/continental/route-selection.v1.json"),
         help="Locked route selection.",
+        exists=True, file_okay=True, dir_okay=False,
     ),
     route_lock: Path = typer.Option(
         Path("data/sources/continental-route-lock.json"),
         help="Locked NHPN candidate acquisition.",
+        exists=True, file_okay=True, dir_okay=False,
     ),
-    catalog: Path = typer.Option(Path("data/sources/catalog.json"), help="Source catalog."),
+    catalog: Path = typer.Option(
+        Path("data/sources/catalog.json"),
+        help="Source catalog.",
+        exists=True, file_okay=True, dir_okay=False,
+    ),
 ) -> None:
     """Validate the edge-path lock without the ignored NHPN response cache."""
     try:

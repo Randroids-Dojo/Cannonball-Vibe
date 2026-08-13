@@ -36,11 +36,31 @@ which ADR-0018 forbids. The artifact records the largest snap distance actually
 used per segment so the margin is auditable rather than assumed; the observed
 maximum across all segments is 0.94 m.
 
+The tolerance is an enforced invariant rather than a self-declared field.
+Derivation refuses a wider value and validation rejects a lock that declares one,
+so a lock widened to manufacture connectivity cannot validate itself.
+
+A locked transfer anchor must also sit within 25 m of some candidate endpoint or
+its segment fails as unanchored. That bound is grounded in the transfer lock's own
+numbers: those anchors were derived with hint distances of roughly 2.6 to 4.0 m
+against sub-metre NHPN endpoints, so 25 m is generous against the source's
+authoring precision while still excluding anchors that sit hundreds of metres away
+because they were derived against a different carriageway. One connected segment,
+`i405-west-la-to-ca107`, has an anchor at 23.2 m and therefore sits close to that
+bound; it is reported rather than smoothed over.
+
 ## Finding: NHPN carries these Interstates as paired directional carriageways
 
 Between **77% and 97%** of each segment's locked lines share a linear-reference
 extent — the same `LRSKEY` with the same begin and end mileposts — with an
-opposing-carriageway twin.
+opposing-carriageway twin. Lines carrying no linear reference are counted
+separately and never treated as paired, since they would otherwise collapse into
+a single shared identity; in this locked data every line carries one, so that
+count is zero throughout.
+
+The artifact's prose summary of this finding is generated from the same segment
+records rather than written alongside them, so the two cannot drift apart if the
+locked inputs or the metric change.
 
 | Segment | Lines | Paired | Paired % | Components |
 | --- | ---: | ---: | ---: | ---: |

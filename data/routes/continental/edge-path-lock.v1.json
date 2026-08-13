@@ -1,10 +1,11 @@
 {
-  "audit_finding": "NHPN represents these Interstates as paired directional carriageways: 77 to 97 percent of each segment's locked lines share a linear-reference extent with an opposing-carriageway twin. The candidate graph therefore splits into per-carriageway components that meet only where the source authors a shared endpoint, which is why several segments have no undirected path between their locked transfer nodes. Where a path was found it is a shortest undirected traversal and may cross between carriageways, so it is recorded as connectivity evidence and is not a westbound selection. Selecting a direction needs a carriageway rule derived from the linear-reference direction, which this stage does not assert.",
+  "anchor_snap_limit_m": 25.0,
+  "audit_finding": "NHPN represents these Interstates as paired directional carriageways: 77 to 97 percent of each segment's locked lines share a linear-reference extent with an opposing-carriageway twin. The candidate graph therefore splits into per-carriageway components that meet only where the source authors a shared endpoint, which is why 6 of 12 segments have no undirected path between their locked transfer nodes. Where a path was found it is a shortest undirected traversal that may cross between carriageways, so it is recorded as connectivity evidence and is not a westbound selection. Selecting a direction needs a carriageway rule derived from the linear-reference direction, which this stage does not assert.",
   "candidate_lock_sha256": "f5ad2786e031a8640a242aae73ee8665a548dfda15368a9b940bd360b73aef72",
   "connected_segment_count": 6,
   "coordinate_crs": "EPSG:4326",
   "decision": "ADR-0024",
-  "derived_at": "2026-08-13T22:37:25Z",
+  "derived_at": "2026-08-13T22:50:30Z",
   "endpoint_snap_tolerance_m": 1.0,
   "metric_crs": "EPSG:5070",
   "next_stage": {
@@ -20,24 +21,25 @@
   "segment_count": 12,
   "segments": [
     {
+      "anchor_snap_limit_m": 25.0,
       "candidate_line_count": 2105,
       "connected": false,
       "connected_component_count": 3,
       "direction_validated": false,
       "endpoint_snap_tolerance_m": 1.0,
-      "failure": "no connected path between the locked transfer nodes",
-      "from_component_node_count": 1453,
+      "failure": "a locked transfer anchor is farther than the anchor snap limit",
       "from_transfer_node_snap_distance_m": 253.027,
       "graph_edge_count": 2101,
       "graph_node_count": 2103,
+      "linearly_unreferenced_line_count": 0,
       "maximum_endpoint_snap_distance_m": 0.428624,
       "paired_carriageway_fraction": 0.7948,
       "paired_carriageway_line_count": 1673,
       "segment_id": "i80-new-jersey-to-big-springs",
-      "to_component_node_count": 206,
       "to_transfer_node_snap_distance_m": 0.0
     },
     {
+      "anchor_snap_limit_m": 25.0,
       "candidate_line_count": 265,
       "connected": true,
       "connected_component_count": 1,
@@ -1635,6 +1637,7 @@
       "graph_node_count": 265,
       "length_meters": 299259.27,
       "length_miles": 185.951,
+      "linearly_unreferenced_line_count": 0,
       "maximum_endpoint_snap_distance_m": 0.0,
       "object_ids": [
         70912,
@@ -1909,6 +1912,7 @@
       "to_transfer_node_snap_distance_m": 0.0
     },
     {
+      "anchor_snap_limit_m": 25.0,
       "candidate_line_count": 703,
       "connected": false,
       "connected_component_count": 3,
@@ -1919,6 +1923,7 @@
       "from_transfer_node_snap_distance_m": 0.0,
       "graph_edge_count": 702,
       "graph_node_count": 705,
+      "linearly_unreferenced_line_count": 0,
       "maximum_endpoint_snap_distance_m": 0.604652,
       "paired_carriageway_fraction": 0.9004,
       "paired_carriageway_line_count": 633,
@@ -1927,6 +1932,7 @@
       "to_transfer_node_snap_distance_m": 0.0
     },
     {
+      "anchor_snap_limit_m": 25.0,
       "candidate_line_count": 793,
       "connected": true,
       "connected_component_count": 2,
@@ -4964,6 +4970,7 @@
       "graph_node_count": 795,
       "length_meters": 930447.931,
       "length_miles": 578.154,
+      "linearly_unreferenced_line_count": 0,
       "maximum_endpoint_snap_distance_m": 0.0,
       "object_ids": [
         70925,
@@ -5478,6 +5485,7 @@
       "to_transfer_node_snap_distance_m": 0.0
     },
     {
+      "anchor_snap_limit_m": 25.0,
       "candidate_line_count": 586,
       "connected": false,
       "connected_component_count": 3,
@@ -5488,6 +5496,7 @@
       "from_transfer_node_snap_distance_m": 0.0,
       "graph_edge_count": 586,
       "graph_node_count": 589,
+      "linearly_unreferenced_line_count": 0,
       "maximum_endpoint_snap_distance_m": 0.0,
       "paired_carriageway_fraction": 0.8584,
       "paired_carriageway_line_count": 503,
@@ -5496,24 +5505,25 @@
       "to_transfer_node_snap_distance_m": 0.0
     },
     {
+      "anchor_snap_limit_m": 25.0,
       "candidate_line_count": 275,
       "connected": false,
       "connected_component_count": 2,
       "direction_validated": false,
       "endpoint_snap_tolerance_m": 1.0,
-      "failure": "no connected path between the locked transfer nodes",
-      "from_component_node_count": 167,
+      "failure": "a locked transfer anchor is farther than the anchor snap limit",
       "from_transfer_node_snap_distance_m": 381.157,
       "graph_edge_count": 275,
       "graph_node_count": 277,
+      "linearly_unreferenced_line_count": 0,
       "maximum_endpoint_snap_distance_m": 0.0,
       "paired_carriageway_fraction": 0.7782,
       "paired_carriageway_line_count": 214,
       "segment_id": "i78-holland-tunnel-to-i81",
-      "to_component_node_count": 110,
       "to_transfer_node_snap_distance_m": 0.0
     },
     {
+      "anchor_snap_limit_m": 25.0,
       "candidate_line_count": 966,
       "connected": true,
       "connected_component_count": 2,
@@ -10105,6 +10115,7 @@
       "graph_node_count": 967,
       "length_meters": 845898.683,
       "length_miles": 525.617,
+      "linearly_unreferenced_line_count": 0,
       "maximum_endpoint_snap_distance_m": 0.850441,
       "object_ids": [
         402994,
@@ -10878,6 +10889,7 @@
       "to_transfer_node_snap_distance_m": 0.0
     },
     {
+      "anchor_snap_limit_m": 25.0,
       "candidate_line_count": 6656,
       "connected": false,
       "connected_component_count": 5,
@@ -10888,6 +10900,7 @@
       "from_transfer_node_snap_distance_m": 0.0,
       "graph_edge_count": 6650,
       "graph_node_count": 6655,
+      "linearly_unreferenced_line_count": 0,
       "maximum_endpoint_snap_distance_m": 0.934318,
       "paired_carriageway_fraction": 0.9566,
       "paired_carriageway_line_count": 6367,
@@ -10896,6 +10909,7 @@
       "to_transfer_node_snap_distance_m": 0.0
     },
     {
+      "anchor_snap_limit_m": 25.0,
       "candidate_line_count": 1949,
       "connected": true,
       "connected_component_count": 3,
@@ -14611,6 +14625,7 @@
       "graph_node_count": 1938,
       "length_meters": 641163.238,
       "length_miles": 398.4,
+      "linearly_unreferenced_line_count": 0,
       "maximum_endpoint_snap_distance_m": 0.93544,
       "object_ids": [
         42069,
@@ -15238,6 +15253,7 @@
       "to_transfer_node_snap_distance_m": 0.0
     },
     {
+      "anchor_snap_limit_m": 25.0,
       "candidate_line_count": 1187,
       "connected": true,
       "connected_component_count": 1,
@@ -17147,6 +17163,7 @@
       "graph_node_count": 1174,
       "length_meters": 117306.271,
       "length_miles": 72.891,
+      "linearly_unreferenced_line_count": 0,
       "maximum_endpoint_snap_distance_m": 0.93544,
       "object_ids": [
         566048,
@@ -17473,6 +17490,7 @@
       "to_transfer_node_snap_distance_m": 7.993
     },
     {
+      "anchor_snap_limit_m": 25.0,
       "candidate_line_count": 1289,
       "connected": false,
       "connected_component_count": 2,
@@ -17483,6 +17501,7 @@
       "from_transfer_node_snap_distance_m": 7.994,
       "graph_edge_count": 1265,
       "graph_node_count": 1266,
+      "linearly_unreferenced_line_count": 0,
       "maximum_endpoint_snap_distance_m": 0.916557,
       "paired_carriageway_fraction": 0.9387,
       "paired_carriageway_line_count": 1210,
@@ -17491,6 +17510,7 @@
       "to_transfer_node_snap_distance_m": 12.525
     },
     {
+      "anchor_snap_limit_m": 25.0,
       "candidate_line_count": 771,
       "connected": true,
       "connected_component_count": 1,
@@ -18446,6 +18466,7 @@
       "graph_node_count": 768,
       "length_meters": 19936.134,
       "length_miles": 12.388,
+      "linearly_unreferenced_line_count": 0,
       "maximum_endpoint_snap_distance_m": 0.782471,
       "object_ids": [
         543805,
@@ -18613,7 +18634,7 @@
       "to_transfer_node_snap_distance_m": 23.248
     }
   ],
-  "segments_sha256": "7d8a7b48f7988088654804c96d48454e73751745c4cc6b8699d92395ae4e1d80",
+  "segments_sha256": "f15ad2133c11c375c0836766836564ce0fcac5fb069719f0eaae059f7c35e2ea",
   "source_policy": {
     "authoritative_distance_claimed": false,
     "candidate_source": "usdot-national-highway-planning-network",
