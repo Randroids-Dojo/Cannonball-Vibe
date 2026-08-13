@@ -12,10 +12,13 @@ from typer.testing import CliRunner
 
 from cannonball_map.cli import app
 from cannonball_map.continental import (
+    ENDPOINT_SNAP_TOLERANCE_METERS,
     LockedCandidateLine,
     _derive_transfer_node,
+    _solve_segment_edge_path,
     acquire_continental_nhpn_candidates,
     build_nhpn_candidate_selectors,
+    validate_continental_edge_path_lock,
     validate_continental_route_lock,
     validate_continental_transfer_lock,
 )
@@ -339,3 +342,96 @@ def test_validate_continental_transfers_cli_reports_clean_failure(tmp_path: Path
     assert "continental-transfers-invalid:" in result.output
     assert "unsupported status" in result.output
     assert "Traceback" not in result.output
+
+
+EDGE_PATH_LOCK_PATH = Path("data/routes/continental/edge-path-lock.v1.json")
+
+
+def _metric_line(object_id: int, coordinates: list[tuple[float, float]], lrs: str = "L1"):
+    """Build a locked line already expressed in the metric CRS the solver uses."""
+    line = LineString(coordinates)
+    candidate = LockedCandidateLine("seg", object_id, "0" * 64, line, lrs, 0.0, 1.0)
+    return candidate, line
+
+
+def test_connectivity_audit_links_a_shared_endpoint_chain() -> None:
+    metric_lines = (
+        _metric_line(2, [(0.0, 0.0), (100.0, 0.0)]),
+        _metric_line(1, [(100.0, 0.0), (200.0, 0.0)]),
+    )
+    result = _solve_segment_edge_path(
+        {"id": "seg"}, metric_lines, (0.0, 0.0), (200.0, 0.0),
+        ENDPOINT_SNAP_TOLERANCE_METERS,
+    )
+    assert result["connected"] is True
+    assert result["object_ids"] == [2, 1]
+    assert result["length_meters"] == pytest.approx(200.0)
+    # The audit must never imply it established a travel direction.
+    assert result["direction_validated"] is False
+
+
+def test_connectivity_audit_reports_a_gap_instead_of_bridging_it() -> None:
+    # A 40 m gap is far wider than the snapping tolerance, so the two chains are
+    # separate components and the audit must say so rather than join them.
+    metric_lines = (
+        _metric_line(1, [(0.0, 0.0), (100.0, 0.0)]),
+        _metric_line(2, [(140.0, 0.0), (240.0, 0.0)]),
+    )
+    result = _solve_segment_edge_path(
+        {"id": "seg"}, metric_lines, (0.0, 0.0), (240.0, 0.0),
+        ENDPOINT_SNAP_TOLERANCE_METERS,
+    )
+    assert result["connected"] is False
+    assert result["connected_component_count"] == 2
+    assert "no connected path" in result["failure"]
+
+
+def test_connectivity_audit_counts_paired_carriageways() -> None:
+    # Two records sharing one linear-reference extent are a divided-highway pair.
+    metric_lines = (
+        _metric_line(1, [(0.0, 0.0), (100.0, 0.0)], "L1"),
+        _metric_line(2, [(0.0, 8.0), (100.0, 8.0)], "L1"),
+        _metric_line(3, [(0.0, 40.0), (100.0, 40.0)], "L2"),
+    )
+    result = _solve_segment_edge_path(
+        {"id": "seg"}, metric_lines, (0.0, 0.0), (100.0, 0.0),
+        ENDPOINT_SNAP_TOLERANCE_METERS,
+    )
+    assert result["paired_carriageway_line_count"] == 2
+    # The recorded fraction is rounded to four places.
+    assert result["paired_carriageway_fraction"] == pytest.approx(2 / 3, abs=5e-5)
+
+
+def test_edge_path_lock_validates_against_its_locked_inputs() -> None:
+    payload = validate_continental_edge_path_lock(
+        EDGE_PATH_LOCK_PATH, TRANSFER_LOCK_PATH, TRANSFER_POLICY_PATH,
+        SELECTION_PATH, LOCK_PATH, CATALOG_PATH,
+    )
+    assert payload["westbound_selection_validated"] is False
+    assert payload["segment_count"] == len(payload["segments"])
+
+
+def test_edge_path_lock_rejects_a_claimed_direction(tmp_path: Path) -> None:
+    payload = json.loads(EDGE_PATH_LOCK_PATH.read_text(encoding="utf-8"))
+    connected = next(entry for entry in payload["segments"] if entry.get("connected"))
+    connected["direction_validated"] = True
+    payload["segments_sha256"] = canonical_sha256(payload["segments"])
+    tampered = tmp_path / "edge-path-lock.json"
+    tampered.write_text(json.dumps(payload), encoding="utf-8")
+    with pytest.raises(ValueError, match="claims a validated direction"):
+        validate_continental_edge_path_lock(
+            tampered, TRANSFER_LOCK_PATH, TRANSFER_POLICY_PATH,
+            SELECTION_PATH, LOCK_PATH, CATALOG_PATH,
+        )
+
+
+def test_edge_path_lock_rejects_a_drifted_segment_digest(tmp_path: Path) -> None:
+    payload = json.loads(EDGE_PATH_LOCK_PATH.read_text(encoding="utf-8"))
+    payload["segments"][0]["candidate_line_count"] += 1
+    tampered = tmp_path / "edge-path-lock.json"
+    tampered.write_text(json.dumps(payload), encoding="utf-8")
+    with pytest.raises(ValueError, match="segment digest drifted"):
+        validate_continental_edge_path_lock(
+            tampered, TRANSFER_LOCK_PATH, TRANSFER_POLICY_PATH,
+            SELECTION_PATH, LOCK_PATH, CATALOG_PATH,
+        )
