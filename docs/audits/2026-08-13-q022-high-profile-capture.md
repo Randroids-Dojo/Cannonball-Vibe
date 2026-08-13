@@ -13,20 +13,28 @@ rewritten.
 
 ## Outcome
 
-This capture closes the High content-profile gap that the balanced baseline left
-open. Nine scenarios were measured sequentially from a fresh detached worktree at
+This capture closes the High **content**-profile gap that the balanced baseline
+left open. It does not close the separate High *renderer*-preset gap, which the
+repository still does not define; see "Evidence boundaries" below.
+
+Nine scenarios were measured sequentially from a fresh detached worktree at
 committed revision `de42c82fdd6519895b9164c6d8a11a4f08bd7015`, clean before and
-after, using Release builds, the native RTX 3080 Ti Vulkan renderer, Forward+, a
-2560×1440 window, and the `high` environment profile (48/18/10 near/mid/distant
-instances per chunk, terrain stride 1). Warm-up was discarded.
+after, using Release builds, the native RTX 3080 Ti Vulkan renderer, Forward+,
+and a 2560×1440 window. Eight scenarios used the `high` environment profile
+(48/18/10 near/mid/distant instances per chunk, terrain stride 1). The ninth,
+`degraded-quality`, deliberately used the `low` profile because it is the
+degraded comparison point rather than a target scenario. Warm-up was discarded.
 
 Two results matter, and they point in opposite directions.
 
-**Frame-time and memory pass with very large margins.** Worst-case p95 across the
+**Frame-time and memory pass with large margins.** Worst-case p95 across the
 uncapped High scenarios was 1.943 ms against the 16.67 ms limit (8.6× headroom)
 and worst-case p99 was 3.002 ms against 20 ms (6.7×). Peak GPU memory used 1.97%
-of its 9.5 GB limit and peak working set used 5.12% of its 16 GB limit. The
-30-minute sustained-growth check passed at 0.56 MiB/min with R² 0.16.
+of its limit and peak working set used 5.12% of its limit. Those percentages are
+computed from raw byte counts against the decimal limits ADR-0023 states,
+9,500,000,000 and 16,000,000,000 bytes; the rounded MiB values in the tables
+below cannot reproduce them exactly. The 30-minute sustained-growth check passed
+at 0.56 MiB/min with R² 0.16.
 
 **The ratified zero-stall limit fails, and fails more widely than at balanced.**
 Twelve steady-driving frames exceeded 50 ms across four scenarios: daylight (2),
