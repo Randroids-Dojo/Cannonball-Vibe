@@ -1,11 +1,11 @@
 {
   "anchor_snap_limit_m": 25.0,
-  "audit_finding": "NHPN represents these Interstates as paired directional carriageways: 77 to 97 percent of each segment's locked lines share a linear-reference extent with an opposing-carriageway twin. The candidate graph therefore splits into per-carriageway components that meet only where the source authors a shared endpoint, which is why 6 of 12 segments have no undirected path between their locked transfer nodes. Where a path was found it is a shortest undirected traversal that may cross between carriageways, so it is recorded as connectivity evidence and is not a westbound selection. Selecting a direction needs a carriageway rule derived from the linear-reference direction, which this stage does not assert.",
+  "audit_finding": "Each locked segment is a near-linear chain rather than a network: 97 to 100 percent of endpoints join exactly two records. The graph splits where consecutive records do not share an endpoint within the snapping tolerance, which is why 6 of 12 segments have no undirected path between their locked transfer nodes. The smallest separations between chain ends are [1.011, 1.011, 1.011, 1.011, 5.819, 5.819] m, so those breaks are endpoint discontinuities of metres to hundreds of metres rather than missing corridor; the large separations are the corridor termini, not defects. Where a path was found it is a shortest undirected traversal and is not a westbound selection, which this stage does not assert.",
   "candidate_lock_sha256": "f5ad2786e031a8640a242aae73ee8665a548dfda15368a9b940bd360b73aef72",
   "connected_segment_count": 6,
   "coordinate_crs": "EPSG:4326",
   "decision": "ADR-0024",
-  "derived_at": "2026-08-13T23:58:36Z",
+  "derived_at": "2026-08-14T00:45:30Z",
   "endpoint_snap_tolerance_m": 1.0,
   "metric_crs": "EPSG:5070",
   "next_stage": {
@@ -23,24 +23,43 @@
     {
       "anchor_snap_limit_m": 25.0,
       "candidate_line_count": 2105,
+      "chain_end_count": 7,
+      "chain_end_separations_m": [
+        1.011,
+        1.011,
+        9.19,
+        9.19,
+        220141.926,
+        662376.318,
+        1141803.753
+      ],
+      "chain_interior_fraction": 0.9952,
       "connected": false,
       "connected_component_count": 3,
       "direction_validated": false,
+      "endpoint_degree_histogram": {
+        "1": 7,
+        "2": 2093,
+        "3+": 3
+      },
       "endpoint_snap_tolerance_m": 1.0,
       "failure": "a locked transfer anchor is farther than the anchor snap limit",
       "from_transfer_node_snap_distance_m": 253.027,
       "graph_edge_count": 2101,
       "graph_node_count": 2103,
-      "linearly_unreferenced_line_count": 0,
       "maximum_endpoint_snap_distance_m": 0.428624,
-      "paired_carriageway_fraction": 0.7948,
-      "paired_carriageway_line_count": 1673,
       "segment_id": "i80-new-jersey-to-big-springs",
       "to_transfer_node_snap_distance_m": 0.0
     },
     {
       "anchor_snap_limit_m": 25.0,
       "candidate_line_count": 265,
+      "chain_end_count": 2,
+      "chain_end_separations_m": [
+        282464.557,
+        282464.557
+      ],
+      "chain_interior_fraction": 0.9849,
       "connected": true,
       "connected_component_count": 1,
       "direction_validated": false,
@@ -1895,13 +1914,17 @@
           "reversed_for_travel": true
         }
       ],
+      "endpoint_degree_histogram": {
+        "1": 2,
+        "2": 261,
+        "3+": 2
+      },
       "endpoint_snap_tolerance_m": 1.0,
       "from_transfer_node_snap_distance_m": 0.0,
       "graph_edge_count": 265,
       "graph_node_count": 265,
       "length_meters": 299259.27,
       "length_miles": 185.951,
-      "linearly_unreferenced_line_count": 0,
       "maximum_endpoint_snap_distance_m": 0.0,
       "object_ids": [
         70912,
@@ -2169,8 +2192,6 @@
         61280,
         61480
       ],
-      "paired_carriageway_fraction": 0.9019,
-      "paired_carriageway_line_count": 239,
       "reversed_edge_count": 264,
       "segment_id": "i76-big-springs-to-denver",
       "to_transfer_node_snap_distance_m": 0.0
@@ -2178,19 +2199,32 @@
     {
       "anchor_snap_limit_m": 25.0,
       "candidate_line_count": 703,
+      "chain_end_count": 7,
+      "chain_end_separations_m": [
+        5.819,
+        5.819,
+        320.0,
+        320.0,
+        108128.229,
+        108128.229,
+        247656.323
+      ],
+      "chain_interior_fraction": 0.9887,
       "connected": false,
       "connected_component_count": 3,
       "direction_validated": false,
+      "endpoint_degree_histogram": {
+        "1": 7,
+        "2": 697,
+        "3+": 1
+      },
       "endpoint_snap_tolerance_m": 1.0,
       "failure": "no connected path between the locked transfer nodes",
       "from_component_node_count": 324,
       "from_transfer_node_snap_distance_m": 0.0,
       "graph_edge_count": 702,
       "graph_node_count": 705,
-      "linearly_unreferenced_line_count": 0,
       "maximum_endpoint_snap_distance_m": 0.604652,
-      "paired_carriageway_fraction": 0.9004,
-      "paired_carriageway_line_count": 633,
       "segment_id": "i70-denver-to-cove-fort",
       "to_component_node_count": 231,
       "to_transfer_node_snap_distance_m": 0.0
@@ -2198,6 +2232,14 @@
     {
       "anchor_snap_limit_m": 25.0,
       "candidate_line_count": 793,
+      "chain_end_count": 4,
+      "chain_end_separations_m": [
+        1.011,
+        1.011,
+        15066.003,
+        1497242.577
+      ],
+      "chain_interior_fraction": 0.995,
       "connected": true,
       "connected_component_count": 2,
       "direction_validated": false,
@@ -5732,13 +5774,16 @@
           "reversed_for_travel": false
         }
       ],
+      "endpoint_degree_histogram": {
+        "1": 4,
+        "2": 791
+      },
       "endpoint_snap_tolerance_m": 1.0,
       "from_transfer_node_snap_distance_m": 0.0,
       "graph_edge_count": 793,
       "graph_node_count": 795,
       "length_meters": 930447.931,
       "length_miles": 578.154,
-      "linearly_unreferenced_line_count": 0,
       "maximum_endpoint_snap_distance_m": 0.0,
       "object_ids": [
         70925,
@@ -6246,8 +6291,6 @@
         43521,
         43520
       ],
-      "paired_carriageway_fraction": 0.7692,
-      "paired_carriageway_line_count": 610,
       "reversed_edge_count": 497,
       "segment_id": "i80-big-springs-to-salt-lake",
       "to_transfer_node_snap_distance_m": 0.0
@@ -6255,19 +6298,32 @@
     {
       "anchor_snap_limit_m": 25.0,
       "candidate_line_count": 586,
+      "chain_end_count": 7,
+      "chain_end_separations_m": [
+        88.176,
+        88.176,
+        423.271,
+        423.271,
+        32561.673,
+        32561.673,
+        369840.452
+      ],
+      "chain_interior_fraction": 0.9864,
       "connected": false,
       "connected_component_count": 3,
       "direction_validated": false,
+      "endpoint_degree_histogram": {
+        "1": 7,
+        "2": 581,
+        "3+": 1
+      },
       "endpoint_snap_tolerance_m": 1.0,
       "failure": "no connected path between the locked transfer nodes",
       "from_component_node_count": 332,
       "from_transfer_node_snap_distance_m": 0.0,
       "graph_edge_count": 586,
       "graph_node_count": 589,
-      "linearly_unreferenced_line_count": 0,
       "maximum_endpoint_snap_distance_m": 0.0,
-      "paired_carriageway_fraction": 0.8584,
-      "paired_carriageway_line_count": 503,
       "segment_id": "i15-salt-lake-to-cove-fort",
       "to_component_node_count": 255,
       "to_transfer_node_snap_distance_m": 0.0
@@ -6275,24 +6331,44 @@
     {
       "anchor_snap_limit_m": 25.0,
       "candidate_line_count": 275,
+      "chain_end_count": 6,
+      "chain_end_separations_m": [
+        2459.656,
+        2459.656,
+        3021.991,
+        3021.991,
+        25321.075,
+        113604.935
+      ],
+      "chain_interior_fraction": 0.9711,
       "connected": false,
       "connected_component_count": 2,
       "direction_validated": false,
+      "endpoint_degree_histogram": {
+        "1": 6,
+        "2": 269,
+        "3+": 2
+      },
       "endpoint_snap_tolerance_m": 1.0,
       "failure": "a locked transfer anchor is farther than the anchor snap limit",
       "from_transfer_node_snap_distance_m": 381.157,
       "graph_edge_count": 275,
       "graph_node_count": 277,
-      "linearly_unreferenced_line_count": 0,
       "maximum_endpoint_snap_distance_m": 0.0,
-      "paired_carriageway_fraction": 0.7782,
-      "paired_carriageway_line_count": 214,
       "segment_id": "i78-holland-tunnel-to-i81",
       "to_transfer_node_snap_distance_m": 0.0
     },
     {
       "anchor_snap_limit_m": 25.0,
       "candidate_line_count": 966,
+      "chain_end_count": 4,
+      "chain_end_separations_m": [
+        562.292,
+        562.292,
+        151683.061,
+        800790.195
+      ],
+      "chain_interior_fraction": 0.9959,
       "connected": true,
       "connected_component_count": 2,
       "direction_validated": false,
@@ -11640,13 +11716,16 @@
           "reversed_for_travel": true
         }
       ],
+      "endpoint_degree_histogram": {
+        "1": 4,
+        "2": 963
+      },
       "endpoint_snap_tolerance_m": 1.0,
       "from_transfer_node_snap_distance_m": 0.0,
       "graph_edge_count": 965,
       "graph_node_count": 967,
       "length_meters": 845898.683,
       "length_miles": 525.617,
-      "linearly_unreferenced_line_count": 0,
       "maximum_endpoint_snap_distance_m": 0.850441,
       "object_ids": [
         402994,
@@ -12413,8 +12492,6 @@
         314745,
         315017
       ],
-      "paired_carriageway_fraction": 0.8012,
-      "paired_carriageway_line_count": 774,
       "reversed_edge_count": 763,
       "segment_id": "i81-i78-to-i40",
       "to_transfer_node_snap_distance_m": 0.0
@@ -12422,19 +12499,36 @@
     {
       "anchor_snap_limit_m": 25.0,
       "candidate_line_count": 6656,
+      "chain_end_count": 11,
+      "chain_end_separations_m": [
+        14.069,
+        14.069,
+        228.362,
+        228.362,
+        1854.0,
+        1854.0,
+        9193.902,
+        9193.902,
+        77764.114,
+        77764.114,
+        230379.725
+      ],
+      "chain_interior_fraction": 0.9982,
       "connected": false,
       "connected_component_count": 5,
       "direction_validated": false,
+      "endpoint_degree_histogram": {
+        "1": 11,
+        "2": 6643,
+        "3+": 1
+      },
       "endpoint_snap_tolerance_m": 1.0,
       "failure": "no connected path between the locked transfer nodes",
       "from_component_node_count": 589,
       "from_transfer_node_snap_distance_m": 0.0,
       "graph_edge_count": 6650,
       "graph_node_count": 6655,
-      "linearly_unreferenced_line_count": 0,
       "maximum_endpoint_snap_distance_m": 0.934318,
-      "paired_carriageway_fraction": 0.9566,
-      "paired_carriageway_line_count": 6367,
       "segment_id": "i40-i81-to-barstow",
       "to_component_node_count": 486,
       "to_transfer_node_snap_distance_m": 0.0
@@ -12442,6 +12536,18 @@
     {
       "anchor_snap_limit_m": 25.0,
       "candidate_line_count": 1949,
+      "chain_end_count": 8,
+      "chain_end_separations_m": [
+        88.176,
+        88.176,
+        423.271,
+        423.271,
+        32561.673,
+        32561.673,
+        235674.215,
+        235674.215
+      ],
+      "chain_interior_fraction": 0.9948,
       "connected": true,
       "connected_component_count": 3,
       "direction_validated": false,
@@ -16767,13 +16873,17 @@
           "reversed_for_travel": false
         }
       ],
+      "endpoint_degree_histogram": {
+        "1": 8,
+        "2": 1928,
+        "3+": 2
+      },
       "endpoint_snap_tolerance_m": 1.0,
       "from_transfer_node_snap_distance_m": 0.0,
       "graph_edge_count": 1935,
       "graph_node_count": 1938,
       "length_meters": 641163.238,
       "length_miles": 398.4,
-      "linearly_unreferenced_line_count": 0,
       "maximum_endpoint_snap_distance_m": 0.93544,
       "object_ids": [
         42069,
@@ -17394,8 +17504,6 @@
         566052,
         566048
       ],
-      "paired_carriageway_fraction": 0.9369,
-      "paired_carriageway_line_count": 1826,
       "reversed_edge_count": 613,
       "segment_id": "i15-cove-fort-to-barstow",
       "to_transfer_node_snap_distance_m": 0.0
@@ -17403,6 +17511,13 @@
     {
       "anchor_snap_limit_m": 25.0,
       "candidate_line_count": 1187,
+      "chain_end_count": 3,
+      "chain_end_separations_m": [
+        166743.284,
+        166743.284,
+        235674.215
+      ],
+      "chain_interior_fraction": 0.9966,
       "connected": true,
       "connected_component_count": 1,
       "direction_validated": false,
@@ -19621,13 +19736,17 @@
           "reversed_for_travel": true
         }
       ],
+      "endpoint_degree_histogram": {
+        "1": 3,
+        "2": 1170,
+        "3+": 1
+      },
       "endpoint_snap_tolerance_m": 1.0,
       "from_transfer_node_snap_distance_m": 0.0,
       "graph_edge_count": 1173,
       "graph_node_count": 1174,
       "length_meters": 117306.271,
       "length_miles": 72.891,
-      "linearly_unreferenced_line_count": 0,
       "maximum_endpoint_snap_distance_m": 0.93544,
       "object_ids": [
         566048,
@@ -19947,8 +20066,6 @@
         551138,
         551139
       ],
-      "paired_carriageway_fraction": 0.9747,
-      "paired_carriageway_line_count": 1157,
       "reversed_edge_count": 292,
       "segment_id": "i15-barstow-to-ontario",
       "to_transfer_node_snap_distance_m": 7.993
@@ -19956,19 +20073,30 @@
     {
       "anchor_snap_limit_m": 25.0,
       "candidate_line_count": 1289,
+      "chain_end_count": 5,
+      "chain_end_separations_m": [
+        661.136,
+        661.136,
+        2491.563,
+        23925.341,
+        342075.88
+      ],
+      "chain_interior_fraction": 0.9937,
       "connected": false,
       "connected_component_count": 2,
       "direction_validated": false,
+      "endpoint_degree_histogram": {
+        "1": 5,
+        "2": 1258,
+        "3+": 3
+      },
       "endpoint_snap_tolerance_m": 1.0,
       "failure": "no connected path between the locked transfer nodes",
       "from_component_node_count": 1099,
       "from_transfer_node_snap_distance_m": 7.994,
       "graph_edge_count": 1265,
       "graph_node_count": 1266,
-      "linearly_unreferenced_line_count": 0,
       "maximum_endpoint_snap_distance_m": 0.916557,
-      "paired_carriageway_fraction": 0.9387,
-      "paired_carriageway_line_count": 1210,
       "segment_id": "i10-ontario-to-i405",
       "to_component_node_count": 167,
       "to_transfer_node_snap_distance_m": 12.525
@@ -19976,6 +20104,13 @@
     {
       "anchor_snap_limit_m": 25.0,
       "candidate_line_count": 771,
+      "chain_end_count": 3,
+      "chain_end_separations_m": [
+        35303.812,
+        35303.812,
+        68172.929
+      ],
+      "chain_interior_fraction": 0.9948,
       "connected": true,
       "connected_component_count": 1,
       "direction_validated": false,
@@ -21081,13 +21216,17 @@
           "reversed_for_travel": false
         }
       ],
+      "endpoint_degree_histogram": {
+        "1": 3,
+        "2": 764,
+        "3+": 1
+      },
       "endpoint_snap_tolerance_m": 1.0,
       "from_transfer_node_snap_distance_m": 12.2,
       "graph_edge_count": 767,
       "graph_node_count": 768,
       "length_meters": 19936.134,
       "length_miles": 12.388,
-      "linearly_unreferenced_line_count": 0,
       "maximum_endpoint_snap_distance_m": 0.782471,
       "object_ids": [
         543805,
@@ -21248,14 +21387,12 @@
         544827,
         544924
       ],
-      "paired_carriageway_fraction": 0.9546,
-      "paired_carriageway_line_count": 736,
       "reversed_edge_count": 131,
       "segment_id": "i405-west-la-to-ca107",
       "to_transfer_node_snap_distance_m": 23.248
     }
   ],
-  "segments_sha256": "a7fcb5e93922318294e6dee3feb1e72cd5d78314e560454747150bb19f0e820a",
+  "segments_sha256": "bc0607a0dbe5667651569972072a8e7bbfcf5eaacd232d32d051f494cd54c7d5",
   "source_policy": {
     "authoritative_distance_claimed": false,
     "candidate_source": "usdot-national-highway-planning-network",

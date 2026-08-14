@@ -1,5 +1,14 @@
 # P0-021 NHPN endpoint snapping and connectivity audit
 
+> **Corrected 2026-08-14.** The central finding below — that NHPN carries these
+> Interstates as paired directional carriageways — is **withdrawn**. It was an
+> artefact of grouping records by `(LRSKEY, BEGMP, ENDMP)`, which identifies an
+> LRS section rather than a per-record extent, so consecutive pieces of one
+> section were counted as opposing twins. See the
+> [correction](2026-08-14-nhpn-connectivity-audit-correction.md). The connectivity
+> results, the refusal to claim a westbound selection, and the absence of an
+> authoritative distance are unaffected. This record is retained as history.
+
 Date: 2026-08-13
 
 Task: P0-021; stage `exact-westbound-path-solve`
