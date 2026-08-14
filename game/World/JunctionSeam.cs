@@ -138,10 +138,12 @@ public sealed partial class JunctionSeam : Node3D
             CollisionLayer = 1,
             CollisionMask = 2,
         };
-        _collisionBody.AddChild(new CollisionShape3D
+        // The shape is owned by the CollisionShape3D once assigned; releasing the
+        // local wrapper keeps no stray reference alive past engine shutdown.
+        using (var trimesh = _collisionMesh.CreateTrimeshShape())
         {
-            Shape = _collisionMesh.CreateTrimeshShape(),
-        });
+            _collisionBody.AddChild(new CollisionShape3D { Shape = trimesh });
+        }
         AddChild(_collisionBody);
     }
 
@@ -175,6 +177,25 @@ public sealed partial class JunctionSeam : Node3D
         surface.AddVertex(toRightPoint);
         surface.GenerateNormals();
         return surface.Commit();
+    }
+
+
+    // Godot resources are RefCounted, and a C# wrapper holds one of those
+    // references until it is disposed or finalised. A chunk that is QueueFree'd
+    // frees its node immediately, but any resource wrapper still held in a field
+    // survives to finalisation, which can run after the engine has torn down.
+    // That is what produces "Leaked unsafe reference to object" at shutdown and,
+    // intermittently, a segmentation fault in the Linux smoke.
+    //
+    // Predelete fires only on actual destruction, unlike _ExitTree which also
+    // fires on reparenting, so releasing here cannot strand a live node.
+    public override void _Notification(int what)
+    {
+        if (what == NotificationPredelete)
+        {
+            _collisionMesh?.Dispose();
+            _collisionMesh = null!;
+        }
     }
 
 }
