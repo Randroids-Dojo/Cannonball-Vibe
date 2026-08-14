@@ -11,7 +11,9 @@ from cannonball_map.acquisition import UrllibArcGisTransport, acquire_nhpn
 from cannonball_map.catalog import load_catalog, url_matches_prefix
 from cannonball_map.continental import (
     acquire_continental_nhpn_candidates,
+    derive_continental_edge_path_lock,
     derive_continental_transfer_lock,
+    validate_continental_edge_path_lock,
     validate_continental_route_lock,
     validate_continental_transfer_lock,
 )
@@ -386,3 +388,103 @@ def telemetry_summary(
 
 if __name__ == "__main__":
     app()
+
+
+@app.command("derive-continental-edge-paths")
+def derive_continental_edge_paths_command(
+    selection: Path = typer.Option(
+        Path("data/routes/continental/route-selection.v1.json"),
+        help="Locked route selection.",
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    route_lock: Path = typer.Option(
+        Path("data/sources/continental-route-lock.json"),
+        help="Locked NHPN candidate acquisition.",
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    transfer_lock: Path = typer.Option(
+        Path("data/routes/continental/transfer-node-lock.v1.json"),
+        help="Locked transfer nodes.",
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    policy: Path = typer.Option(
+        Path("data/routes/continental/transfer-node-policy.v1.json"),
+        help="Transfer node policy.",
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    catalog: Path = typer.Option(
+        Path("data/sources/catalog.json"),
+        help="Source catalog.",
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    cache: Path = typer.Option(
+        Path(".tools/continental/nhpn"),
+        help="Locked NHPN response cache.",
+        exists=True, file_okay=False, dir_okay=True,
+    ),
+    output: Path = typer.Option(
+        Path("data/routes/continental/edge-path-lock.v1.json"),
+        help="Edge-path lock to write.",
+        file_okay=True, dir_okay=False,
+    ),
+) -> None:
+    """Audit NHPN endpoint connectivity from checksum-locked responses."""
+    try:
+        payload = derive_continental_edge_path_lock(
+            selection, route_lock, transfer_lock, policy, catalog, cache, output
+        )
+    except ValueError as error:
+        typer.echo(f"continental-edge-paths-failed: {error}", err=True)
+        raise typer.Exit(code=1) from error
+    typer.echo(
+        f"continental-edge-paths: {output} "
+        f"({payload['connected_segment_count']}/{payload['segment_count']} connected, "
+        f"{payload['status']})"
+    )
+
+
+@app.command("validate-continental-edge-paths")
+def validate_continental_edge_paths_command(
+    edge_path_lock: Path = typer.Argument(
+        Path("data/routes/continental/edge-path-lock.v1.json"),
+        help="Edge-path lock to validate.",
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    transfer_lock: Path = typer.Option(
+        Path("data/routes/continental/transfer-node-lock.v1.json"),
+        help="Locked transfer nodes.",
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    policy: Path = typer.Option(
+        Path("data/routes/continental/transfer-node-policy.v1.json"),
+        help="Transfer node policy.",
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    selection: Path = typer.Option(
+        Path("data/routes/continental/route-selection.v1.json"),
+        help="Locked route selection.",
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    route_lock: Path = typer.Option(
+        Path("data/sources/continental-route-lock.json"),
+        help="Locked NHPN candidate acquisition.",
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    catalog: Path = typer.Option(
+        Path("data/sources/catalog.json"),
+        help="Source catalog.",
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+) -> None:
+    """Validate the edge-path lock without the ignored NHPN response cache."""
+    try:
+        payload = validate_continental_edge_path_lock(
+            edge_path_lock, transfer_lock, policy, selection, route_lock, catalog
+        )
+    except ValueError as error:
+        typer.echo(f"continental-edge-paths-invalid: {error}", err=True)
+        raise typer.Exit(code=1) from error
+    typer.echo(
+        f"continental-edge-paths-ok: {edge_path_lock} "
+        f"({payload['connected_segment_count']}/{payload['segment_count']} connected)"
+    )
