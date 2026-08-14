@@ -64,6 +64,7 @@ def build_route_graph(
     resample_meters: float = 25.0,
     chunk_meters: float = 2_000.0,
     snap_tolerance_meters: float = 10.0,
+    grade_smoothing_meters: float = 0.0,
     catalog_path: Path | None = None,
     elevation_sampler: ElevationSampler | None = None,
     acquisition_lock_sha256: str = "",
@@ -119,7 +120,7 @@ def build_route_graph(
 
     records.sort(key=lambda record: record.edge.edge_id)
     if elevation_sampler is not None and len(records) > 1:
-        records = _condition_linear_corridor_elevations(records)
+        records = _condition_linear_corridor_elevations(records, grade_smoothing_meters)
     edges = [record.edge for record in records]
     _validate_topology(edges)
     _validate_endpoint_geometry(records)
@@ -843,6 +844,7 @@ def _grades(distances: list[float], elevations: list[float]) -> list[float]:
 
 def _condition_linear_corridor_elevations(
     records: list[_EdgeRecord],
+    grade_smoothing_meters: float = 0.0,
 ) -> list[_EdgeRecord]:
     """Remove local surface-model spikes on a single directed highway corridor.
 
@@ -886,6 +888,9 @@ def _condition_linear_corridor_elevations(
     for index in range(len(raw_elevations)):
         window = sorted(raw_elevations[max(0, index - radius) : index + radius + 1])
         conditioned.append(window[len(window) // 2])
+    conditioned = _smooth_corridor_elevations(
+        global_distances, conditioned, grade_smoothing_meters
+    )
     _project_maximum_grade(global_distances, conditioned, MAXIMUM_CONDITIONED_GRADE)
 
     rebuilt_by_id: dict[str, _EdgeRecord] = {}
@@ -903,6 +908,52 @@ def _condition_linear_corridor_elevations(
             edge=replace(record.edge, samples=samples),
         )
     return [rebuilt_by_id[record.edge.edge_id] for record in records]
+
+
+def _smooth_corridor_elevations(
+    distances: list[float],
+    elevations: list[float],
+    window_meters: float,
+) -> list[float]:
+    """Average the corridor profile over a distance window, endpoints pinned.
+
+    A real highway is graded: cut and fill remove the terrain micro-relief that a
+    centreline sampled straight off a surface model still carries. Following that
+    relief is what makes the car bob while driving, measured on the representative
+    corridor as ride-height oscillation whose frequency scales with speed at a
+    fixed spatial wavelength.
+
+    This is a prototype so the tradeoff can be measured rather than argued: how
+    much bob a given window removes, against how far the road then departs from
+    surveyed ground. It is off unless a window is asked for, and it deliberately
+    does not decide what window is authentic, which is a route-geometry question
+    ADR-0017 and ADR-0024 speak to.
+
+    The first and last samples are pinned so a smoothed corridor still meets its
+    neighbours, and the profile is shared across edges here, so interior joins
+    stay identical by construction.
+    """
+    if window_meters <= 0 or len(distances) < 3:
+        return list(elevations)
+    radius = window_meters / 2
+    smoothed: list[float] = []
+    for index, distance in enumerate(distances):
+        if index == 0 or index == len(distances) - 1:
+            smoothed.append(elevations[index])
+            continue
+        total = 0.0
+        weight = 0.0
+        for other, other_distance in enumerate(distances):
+            separation = abs(other_distance - distance)
+            if separation > radius:
+                continue
+            # Triangular weighting: nearer samples dominate, and the window has no
+            # discontinuity at its edge.
+            contribution = 1.0 - separation / radius
+            total += elevations[other] * contribution
+            weight += contribution
+        smoothed.append(total / weight if weight > 0 else elevations[index])
+    return smoothed
 
 
 def _ordered_linear_records(records: list[_EdgeRecord]) -> list[_EdgeRecord] | None:

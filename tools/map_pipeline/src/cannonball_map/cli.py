@@ -45,6 +45,14 @@ def build(
     manifest: Path = typer.Option(..., exists=True, file_okay=True, dir_okay=False),
     output: Path = typer.Option(Path("data/processed")),
     resample_meters: float = 25.0,
+    grade_smoothing_meters: float = typer.Option(
+        0.0,
+        "--grade-smoothing-meters",
+        help=(
+            "Prototype: average the corridor elevation profile over this distance "
+            "window. 0 disables it and is the shipped behaviour."
+        ),
+    ),
     chunk_meters: float = 2_000.0,
     snap_tolerance_meters: float = 10.0,
     catalog: Path = typer.Option(DEFAULT_CATALOG, exists=True, file_okay=True, dir_okay=False),
@@ -116,6 +124,7 @@ def build(
                     manifest,
                     audit_output,
                     resample_meters=resample_meters,
+                    grade_smoothing_meters=grade_smoothing_meters,
                     chunk_meters=chunk_meters,
                     snap_tolerance_meters=snap_tolerance_meters,
                     catalog_path=catalog,
@@ -128,6 +137,7 @@ def build(
                 manifest,
                 audit_output,
                 resample_meters=resample_meters,
+                grade_smoothing_meters=grade_smoothing_meters,
                 chunk_meters=chunk_meters,
                 snap_tolerance_meters=snap_tolerance_meters,
                 catalog_path=catalog,
