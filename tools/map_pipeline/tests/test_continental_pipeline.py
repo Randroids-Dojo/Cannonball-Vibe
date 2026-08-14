@@ -550,3 +550,48 @@ def test_a_multi_part_feature_keeps_both_of_its_parts() -> None:
     assert result["edge_count"] == 2
     assert [edge["part_index"] for edge in result["edges"]] == [0, 1]
     assert result["length_meters"] == pytest.approx(200.0)
+
+
+def test_lock_rejects_a_non_finite_snap_distance(tmp_path: Path) -> None:
+    # NaN is not JSON, and every comparison against it is false, so a NaN distance
+    # would slide past the tolerance and anchor gates. The digest is recomputed so
+    # the test proves the numeric guard rather than the checksum.
+    payload = json.loads(EDGE_PATH_LOCK_PATH.read_text(encoding="utf-8"))
+    connected = next(entry for entry in payload["segments"] if entry["connected"])
+    connected["maximum_endpoint_snap_distance_m"] = float("nan")
+    payload["segments_sha256"] = canonical_sha256(payload["segments"])
+    target = tmp_path / "edge-path-lock.json"
+    target.write_text(json.dumps(payload), encoding="utf-8")
+
+    with pytest.raises(ValueError, match="non-finite literal"):
+        _validate(target)
+
+
+def test_lock_rejects_a_non_finite_anchor_distance(tmp_path: Path) -> None:
+    payload = json.loads(EDGE_PATH_LOCK_PATH.read_text(encoding="utf-8"))
+    connected = next(entry for entry in payload["segments"] if entry["connected"])
+    connected["from_transfer_node_snap_distance_m"] = float("inf")
+    payload["segments_sha256"] = canonical_sha256(payload["segments"])
+    target = tmp_path / "edge-path-lock.json"
+    target.write_text(json.dumps(payload), encoding="utf-8")
+
+    with pytest.raises(ValueError, match="non-finite literal"):
+        _validate(target)
+
+
+def test_non_finite_guard_also_holds_past_the_parse_boundary() -> None:
+    # The parse boundary is the first defence; the range checks must refuse a
+    # non-finite value on their own too, so neither alone is load-bearing.
+    from cannonball_map import continental
+
+    payload = json.loads(EDGE_PATH_LOCK_PATH.read_text(encoding="utf-8"))
+    payload["endpoint_snap_tolerance_m"] = float("nan")
+    original = continental.load_json
+    continental.load_json = lambda path: (
+        payload if str(path) == str(EDGE_PATH_LOCK_PATH) else original(path)
+    )
+    try:
+        with pytest.raises(ValueError, match="finite numeric snap tolerance"):
+            _validate(EDGE_PATH_LOCK_PATH)
+    finally:
+        continental.load_json = original

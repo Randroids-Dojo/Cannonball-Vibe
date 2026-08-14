@@ -113,8 +113,16 @@ class LockedCandidateLine:
     part_index: int = 0
 
 
+def _reject_non_finite(literal: str) -> float:
+    raise ValueError(
+        f"Locked JSON contains the non-finite literal '{literal}'. NaN and Infinity "
+        "are not JSON, and a non-finite value silently passes every range check "
+        "because comparisons against it are false."
+    )
+
+
 def load_json(path: Path) -> dict[str, Any]:
-    return json.loads(path.read_text(encoding="utf-8"))
+    return json.loads(path.read_text(encoding="utf-8"), parse_constant=_reject_non_finite)
 
 
 def build_nhpn_candidate_selectors(selection: dict[str, Any]) -> tuple[NhpnCandidateSelector, ...]:
@@ -1290,8 +1298,12 @@ def validate_continental_edge_path_lock(
             "cannot establish."
         )
     tolerance = payload.get("endpoint_snap_tolerance_m")
-    if not isinstance(tolerance, int | float) or isinstance(tolerance, bool):
-        raise ValueError("Edge-path lock declares no numeric snap tolerance.")
+    if (
+        not isinstance(tolerance, int | float)
+        or isinstance(tolerance, bool)
+        or not math.isfinite(tolerance)
+    ):
+        raise ValueError("Edge-path lock declares no finite numeric snap tolerance.")
     if tolerance <= 0 or tolerance > MAXIMUM_ENDPOINT_SNAP_TOLERANCE_METERS:
         raise ValueError(
             "Edge-path lock declares a snap tolerance outside the permitted range of "
@@ -1354,9 +1366,13 @@ def validate_continental_edge_path_lock(
                 )
             continue
         snapped = entry.get("maximum_endpoint_snap_distance_m")
-        if not isinstance(snapped, int | float) or isinstance(snapped, bool):
+        if (
+            not isinstance(snapped, int | float)
+            or isinstance(snapped, bool)
+            or not math.isfinite(snapped)
+        ):
             raise ValueError(
-                f"Segment '{entry['segment_id']}' records no snap distance."
+                f"Segment '{entry['segment_id']}' records no finite snap distance."
             )
         if snapped > tolerance:
             raise ValueError(
@@ -1364,9 +1380,14 @@ def validate_continental_edge_path_lock(
             )
         for side in ("from", "to"):
             distance = entry.get(f"{side}_transfer_node_snap_distance_m")
-            if not isinstance(distance, int | float) or isinstance(distance, bool):
+            if (
+                not isinstance(distance, int | float)
+                or isinstance(distance, bool)
+                or not math.isfinite(distance)
+            ):
                 raise ValueError(
-                    f"Segment '{entry['segment_id']}' records no {side} anchor distance."
+                    f"Segment '{entry['segment_id']}' records no finite "
+                    f"{side} anchor distance."
                 )
             if distance > ANCHOR_SNAP_LIMIT_METERS:
                 raise ValueError(
