@@ -370,11 +370,14 @@ def _metric_line(
     coordinates: list[tuple[float, float]],
     lrs: str = "L1",
     part_index: int = 0,
+    section: tuple[float, float] = (0.0, 100.0),
+    record: tuple[float, float] = (0.0, 1.0),
 ):
     """Build a locked line already expressed in the metric CRS the solver uses."""
     line = LineString(coordinates)
     candidate = LockedCandidateLine(
-        "seg", object_id, "0" * 64, line, lrs, 0.0, 1.0, part_index
+        "seg", object_id, "0" * 64, line, lrs,
+        section[0], section[1], record[0], record[1], part_index,
     )
     return candidate, line
 
@@ -599,3 +602,36 @@ def test_audit_finding_is_derived_from_the_recorded_segments() -> None:
     assert f"{len(payload['segments']) - connected} of {len(payload['segments'])}" in finding
     # The superseded claim must not survive anywhere in the artifact.
     assert "paired directional carriageways" not in json.dumps(payload)
+
+
+def test_contiguity_uses_the_record_extent_not_the_section_extent() -> None:
+    """The section extent is shared by every record in a section.
+
+    Judging adjacency by BEGMP and ENDMP counts consecutive pieces of one section
+    as adjacent to each other regardless of where they actually sit, which is the
+    error that produced the withdrawn paired-carriageway finding. Adjacency must
+    come from BEGIN_POIN and END_POINT.
+    """
+    # Two broken chains. Both records sit in the same section, so their section
+    # extents match, but their record extents are far apart: not adjacent.
+    metric_lines = (
+        _metric_line(1, [(0.0, 0.0), (100.0, 0.0)], section=(0.0, 300.0), record=(0.0, 1.0)),
+        _metric_line(2, [(500.0, 0.0), (600.0, 0.0)], section=(0.0, 300.0), record=(280.0, 281.0)),
+    )
+    result = _solve_segment_edge_path(
+        {"id": "seg"}, metric_lines, (0.0, 0.0), (600.0, 0.0),
+        ENDPOINT_SNAP_TOLERANCE_METERS,
+    )
+    assert result["connected"] is False
+    assert result["milepost_contiguous_chain_end_pairs"] == 0
+
+    # Same geometry, but now the record extents do meet: genuinely adjacent.
+    adjacent = (
+        _metric_line(1, [(0.0, 0.0), (100.0, 0.0)], section=(0.0, 300.0), record=(0.0, 1.0)),
+        _metric_line(2, [(500.0, 0.0), (600.0, 0.0)], section=(0.0, 300.0), record=(1.0, 2.0)),
+    )
+    result = _solve_segment_edge_path(
+        {"id": "seg"}, adjacent, (0.0, 0.0), (600.0, 0.0),
+        ENDPOINT_SNAP_TOLERANCE_METERS,
+    )
+    assert result["milepost_contiguous_chain_end_pairs"] == 1

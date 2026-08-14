@@ -1,11 +1,11 @@
 {
   "anchor_snap_limit_m": 25.0,
-  "audit_finding": "Each locked segment is a near-linear chain rather than a network: 97 to 100 percent of endpoints join exactly two records. The graph splits where consecutive records do not share an endpoint within the snapping tolerance, which is why 6 of 12 segments have no undirected path between their locked transfer nodes. The smallest separations between chain ends are [1.011, 1.011, 1.011, 1.011, 5.819, 5.819] m, so those breaks are endpoint discontinuities of metres to hundreds of metres rather than missing corridor; the large separations are the corridor termini, not defects. Where a path was found it is a shortest undirected traversal and is not a westbound selection, which this stage does not assert.",
+  "audit_finding": "Each locked segment is a near-linear chain rather than a network: 97 to 100 percent of endpoints join exactly two records. It is nonetheless broken: there are 67 chain ends across the twelve segments, and 6 of 12 segments have no undirected path between their locked transfer nodes. Only 3 chain-end pairs are adjacent in linear referencing, meaning almost none of the breaks are two records that merely missed each other; the candidate set does not contain the records that would join them. Spatial proximity between chain ends is not evidence of adjacency, because unrelated parts of a route pass close together. Where a path was found it is a shortest undirected traversal and is not a westbound selection, which this stage does not assert.",
   "candidate_lock_sha256": "f5ad2786e031a8640a242aae73ee8665a548dfda15368a9b940bd360b73aef72",
   "connected_segment_count": 6,
   "coordinate_crs": "EPSG:4326",
   "decision": "ADR-0024",
-  "derived_at": "2026-08-14T00:45:30Z",
+  "derived_at": "2026-08-14T00:57:33Z",
   "endpoint_snap_tolerance_m": 1.0,
   "metric_crs": "EPSG:5070",
   "next_stage": {
@@ -48,6 +48,7 @@
       "graph_edge_count": 2101,
       "graph_node_count": 2103,
       "maximum_endpoint_snap_distance_m": 0.428624,
+      "milepost_contiguous_chain_end_pairs": 2,
       "segment_id": "i80-new-jersey-to-big-springs",
       "to_transfer_node_snap_distance_m": 0.0
     },
@@ -1926,6 +1927,7 @@
       "length_meters": 299259.27,
       "length_miles": 185.951,
       "maximum_endpoint_snap_distance_m": 0.0,
+      "milepost_contiguous_chain_end_pairs": 0,
       "object_ids": [
         70912,
         70916,
@@ -2225,6 +2227,7 @@
       "graph_edge_count": 702,
       "graph_node_count": 705,
       "maximum_endpoint_snap_distance_m": 0.604652,
+      "milepost_contiguous_chain_end_pairs": 0,
       "segment_id": "i70-denver-to-cove-fort",
       "to_component_node_count": 231,
       "to_transfer_node_snap_distance_m": 0.0
@@ -5785,6 +5788,7 @@
       "length_meters": 930447.931,
       "length_miles": 578.154,
       "maximum_endpoint_snap_distance_m": 0.0,
+      "milepost_contiguous_chain_end_pairs": 1,
       "object_ids": [
         70925,
         70917,
@@ -6324,6 +6328,7 @@
       "graph_edge_count": 586,
       "graph_node_count": 589,
       "maximum_endpoint_snap_distance_m": 0.0,
+      "milepost_contiguous_chain_end_pairs": 0,
       "segment_id": "i15-salt-lake-to-cove-fort",
       "to_component_node_count": 255,
       "to_transfer_node_snap_distance_m": 0.0
@@ -6355,6 +6360,7 @@
       "graph_edge_count": 275,
       "graph_node_count": 277,
       "maximum_endpoint_snap_distance_m": 0.0,
+      "milepost_contiguous_chain_end_pairs": 0,
       "segment_id": "i78-holland-tunnel-to-i81",
       "to_transfer_node_snap_distance_m": 0.0
     },
@@ -11727,6 +11733,7 @@
       "length_meters": 845898.683,
       "length_miles": 525.617,
       "maximum_endpoint_snap_distance_m": 0.850441,
+      "milepost_contiguous_chain_end_pairs": 0,
       "object_ids": [
         402994,
         403427,
@@ -12529,6 +12536,7 @@
       "graph_edge_count": 6650,
       "graph_node_count": 6655,
       "maximum_endpoint_snap_distance_m": 0.934318,
+      "milepost_contiguous_chain_end_pairs": 0,
       "segment_id": "i40-i81-to-barstow",
       "to_component_node_count": 486,
       "to_transfer_node_snap_distance_m": 0.0
@@ -16885,6 +16893,7 @@
       "length_meters": 641163.238,
       "length_miles": 398.4,
       "maximum_endpoint_snap_distance_m": 0.93544,
+      "milepost_contiguous_chain_end_pairs": 0,
       "object_ids": [
         42069,
         42066,
@@ -19748,6 +19757,7 @@
       "length_meters": 117306.271,
       "length_miles": 72.891,
       "maximum_endpoint_snap_distance_m": 0.93544,
+      "milepost_contiguous_chain_end_pairs": 0,
       "object_ids": [
         566048,
         566052,
@@ -20097,6 +20107,7 @@
       "graph_edge_count": 1265,
       "graph_node_count": 1266,
       "maximum_endpoint_snap_distance_m": 0.916557,
+      "milepost_contiguous_chain_end_pairs": 0,
       "segment_id": "i10-ontario-to-i405",
       "to_component_node_count": 167,
       "to_transfer_node_snap_distance_m": 12.525
@@ -21228,6 +21239,7 @@
       "length_meters": 19936.134,
       "length_miles": 12.388,
       "maximum_endpoint_snap_distance_m": 0.782471,
+      "milepost_contiguous_chain_end_pairs": 0,
       "object_ids": [
         543805,
         544638,
@@ -21392,7 +21404,7 @@
       "to_transfer_node_snap_distance_m": 23.248
     }
   ],
-  "segments_sha256": "bc0607a0dbe5667651569972072a8e7bbfcf5eaacd232d32d051f494cd54c7d5",
+  "segments_sha256": "192d0f0978d0a25f20ec138287c458901adb63b9978a805c9b2e9d546078d085",
   "source_policy": {
     "authoritative_distance_claimed": false,
     "candidate_source": "usdot-national-highway-planning-network",

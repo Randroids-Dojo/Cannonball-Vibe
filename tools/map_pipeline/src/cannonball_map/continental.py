@@ -108,8 +108,13 @@ class LockedCandidateLine:
     page_response_sha256: str
     geometry: LineString
     lrs_key: str = ""
-    begin_milepost: float = 0.0
-    end_milepost: float = 0.0
+    # BEGMP and ENDMP: the extent of the LRS section this record belongs to, shared
+    # by every consecutive record in that section.
+    section_begin_milepost: float = 0.0
+    section_end_milepost: float = 0.0
+    # BEGIN_POIN and END_POINT: this record's own extent along the section.
+    record_begin_milepost: float = 0.0
+    record_end_milepost: float = 0.0
     part_index: int = 0
 
 
@@ -636,6 +641,8 @@ def _load_locked_candidate_lines(
                         str(attributes.get("LRSKEY", "")),
                         float(attributes.get("BEGMP") or 0.0),
                         float(attributes.get("ENDMP") or 0.0),
+                        float(attributes.get("BEGIN_POIN") or 0.0),
+                        float(attributes.get("END_POINT") or 0.0),
                         part_index,
                     )
                 )
@@ -984,6 +991,7 @@ def _solve_segment_edge_path(
     graph = nx.MultiGraph()
     nodes: dict[tuple[int, int], tuple[float, float]] = {}
     edge_endpoints: list[tuple[tuple[int, int], tuple[int, int]]] = []
+    end_line: dict[tuple[int, int], list[LockedCandidateLine]] = {}
     max_snap_distance = 0.0
 
     # Insert in object-id order so the graph, and therefore any tie between
@@ -1016,6 +1024,8 @@ def _solve_segment_edge_path(
             start_key=start_key,
         )
         edge_endpoints.append((start_key, end_key))
+        end_line.setdefault(start_key, []).append(candidate)
+        end_line.setdefault(end_key, []).append(candidate)
 
     # What shape is this candidate set? An endpoint joining exactly two records is
     # chain interior; one joining a single record is a chain end. A near-linear
@@ -1031,6 +1041,27 @@ def _solve_segment_edge_path(
         degree_counts[bucket] = degree_counts.get(bucket, 0) + 1
     degree_histogram = dict(sorted(degree_counts.items()))
     end_nodes = sorted(key for key, degree in endpoint_degree.items() if degree == 1)
+    # Count distinct record pairs, not endpoint pairs. A record with both ends
+    # dangling would otherwise be counted once per endpoint combination.
+    contiguous_record_pairs: set[tuple[int, int]] = set()
+    for first_index, first in enumerate(end_nodes):
+        for second in end_nodes[first_index + 1 :]:
+            for left in end_line[first]:
+                for right in end_line[second]:
+                    if left.object_id == right.object_id:
+                        continue
+                    if left.lrs_key != right.lrs_key or not left.lrs_key:
+                        continue
+                    if (
+                        abs(left.record_end_milepost - right.record_begin_milepost)
+                        < 1e-6
+                        or abs(right.record_end_milepost - left.record_begin_milepost)
+                        < 1e-6
+                    ):
+                        contiguous_record_pairs.add(
+                            tuple(sorted((left.object_id, right.object_id)))
+                        )
+    contiguous_pairs = len(contiguous_record_pairs)
     separations = []
     for index, key in enumerate(end_nodes):
         others = [
@@ -1052,6 +1083,7 @@ def _solve_segment_edge_path(
             else 0.0
         ),
         "chain_end_separations_m": sorted(separations),
+        "milepost_contiguous_chain_end_pairs": contiguous_pairs,
         "graph_node_count": graph.number_of_nodes(),
         "graph_edge_count": graph.number_of_edges(),
         "connected_component_count": (
@@ -1168,24 +1200,22 @@ def _audit_finding(results: list[dict[str, Any]]) -> str:
         return "No NHPN-backed segments were audited."
     interior = [entry["chain_interior_fraction"] for entry in results]
     connected = sum(1 for entry in results if entry.get("connected"))
-    small_gaps = sorted(
-        gap
-        for entry in results
-        for gap in entry["chain_end_separations_m"]
-        if gap <= 1000
-    )
+    contiguous = sum(entry["milepost_contiguous_chain_end_pairs"] for entry in results)
+    chain_ends = sum(entry["chain_end_count"] for entry in results)
     return (
         "Each locked segment is a near-linear chain rather than a network: "
         f"{round(min(interior) * 100)} to {round(max(interior) * 100)} percent of "
-        "endpoints join exactly two records. The graph splits where consecutive "
-        "records do not share an endpoint within the snapping tolerance, which is "
-        f"why {len(results) - connected} of {len(results)} segments have no undirected "
-        "path between their locked transfer nodes. The smallest separations between "
-        f"chain ends are {small_gaps[:6]} m, so those breaks are endpoint "
-        "discontinuities of metres to hundreds of metres rather than missing corridor; "
-        "the large separations are the corridor termini, not defects. Where a path was "
-        "found it is a shortest undirected traversal and is not a westbound selection, "
-        "which this stage does not assert."
+        "endpoints join exactly two records. It is nonetheless broken: there are "
+        f"{chain_ends} chain ends across the twelve segments, and "
+        f"{len(results) - connected} of {len(results)} segments have no undirected "
+        "path between their locked transfer nodes. Only "
+        f"{contiguous} chain-end pairs are adjacent in linear referencing, meaning "
+        "almost none of the breaks are two records that merely missed each other; the "
+        "candidate set does not contain the records that would join them. Spatial "
+        "proximity between chain ends is not evidence of adjacency, because unrelated "
+        "parts of a route pass close together. Where a path was found it is a shortest "
+        "undirected traversal and is not a westbound selection, which this stage does "
+        "not assert."
     )
 
 
