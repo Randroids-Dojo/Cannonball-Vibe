@@ -135,18 +135,34 @@ async def test_keyboard_steering_is_progressive_and_camera_independent(tmp_path:
             # ramps in rather than snapping to full lock, so wait for the first
             # sample that has moved off centre and assert it is short of the
             # lock, which holds at any runner speed.
-            deadline = asyncio.get_running_loop().time() + 1.0
+            loop = asyncio.get_running_loop()
+            deadline = loop.time() + 1.0
+            changing: dict[str, object] | None = None
             while True:
+                # The one second bound has to hold even if a single describe
+                # stalls: the client's own request timeout is 30 s, so without
+                # bounding the await this loop could run far past its deadline.
+                remaining = deadline - loop.time()
+                if remaining <= 0:
+                    pytest.fail(
+                        "Keyboard steering did not condition toward full left "
+                        f"within 1 s; last conditioner state was {changing}"
+                    )
                 changing = (
-                    await client.describe("vehicle.input.conditioner")
+                    await asyncio.wait_for(
+                        client.describe("vehicle.input.conditioner"),
+                        timeout=remaining,
+                    )
                 )["test_state"]
+                # Check the deadline before accepting the sample, so a reading
+                # that arrives late cannot satisfy the wait.
+                if loop.time() >= deadline:
+                    pytest.fail(
+                        "Keyboard steering conditioned toward full left only "
+                        f"after the 1 s bound; conditioner state was {changing}"
+                    )
                 if changing["conditioned_steering"] < 0:
                     break
-                if asyncio.get_running_loop().time() >= deadline:
-                    pytest.fail(
-                        "Keyboard steering did not condition toward full left; "
-                        f"current value is {changing['conditioned_steering']}"
-                    )
                 await asyncio.sleep(0.02)
 
             assert -1 < changing["conditioned_steering"] < 0
