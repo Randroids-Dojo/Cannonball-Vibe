@@ -221,7 +221,9 @@ public sealed partial class RegionalEnvironmentChunk : Node3D
         float visibilityRange,
         ref StableRandom random)
     {
-        var multimesh = new MultiMesh
+        // Disposed once the instance owns it, so no wrapper survives to
+        // finalisation after the engine has torn down.
+        using var multimesh = new MultiMesh
         {
             TransformFormat = MultiMesh.TransformFormatEnum.Transform3D,
             Mesh = mesh,
