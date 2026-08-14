@@ -411,21 +411,6 @@ def test_connectivity_audit_reports_a_gap_instead_of_bridging_it() -> None:
     assert "no connected path" in result["failure"]
 
 
-def test_connectivity_audit_counts_paired_carriageways() -> None:
-    # Two records sharing one linear-reference extent are a divided-highway pair.
-    metric_lines = (
-        _metric_line(1, [(0.0, 0.0), (100.0, 0.0)], "L1"),
-        _metric_line(2, [(0.0, 8.0), (100.0, 8.0)], "L1"),
-        _metric_line(3, [(0.0, 40.0), (100.0, 40.0)], "L2"),
-    )
-    result = _solve_segment_edge_path(
-        {"id": "seg"}, metric_lines, (0.0, 0.0), (100.0, 0.0),
-        ENDPOINT_SNAP_TOLERANCE_METERS,
-    )
-    assert result["paired_carriageway_line_count"] == 2
-    # The recorded fraction is rounded to four places.
-    assert result["paired_carriageway_fraction"] == pytest.approx(2 / 3, abs=5e-5)
-
 
 def test_edge_path_lock_validates_against_its_locked_inputs() -> None:
     payload = validate_continental_edge_path_lock(
@@ -508,29 +493,6 @@ def test_a_distant_anchor_is_not_reported_as_connectivity() -> None:
     assert "anchor snap limit" in result["failure"]
 
 
-def test_lines_without_a_linear_reference_are_not_counted_as_paired() -> None:
-    # Three lines with no LRSKEY share the empty identity; counting them together
-    # would report them all as carriageway pairs.
-    metric_lines = tuple(
-        _metric_line(index, [(0.0, index * 40.0), (100.0, index * 40.0)], "")
-        for index in range(1, 4)
-    )
-    result = _solve_segment_edge_path(
-        {"id": "seg"}, metric_lines, (0.0, 40.0), (100.0, 40.0),
-        ENDPOINT_SNAP_TOLERANCE_METERS,
-    )
-    assert result["paired_carriageway_line_count"] == 0
-    assert result["paired_carriageway_fraction"] == 0.0
-    assert result["linearly_unreferenced_line_count"] == 3
-
-
-def test_audit_finding_is_derived_from_the_recorded_segments() -> None:
-    payload = json.loads(EDGE_PATH_LOCK_PATH.read_text(encoding="utf-8"))
-    fractions = [entry["paired_carriageway_fraction"] for entry in payload["segments"]]
-    connected = sum(1 for entry in payload["segments"] if entry["connected"])
-    finding = payload["audit_finding"]
-    assert f"{round(min(fractions) * 100)} to {round(max(fractions) * 100)} percent" in finding
-    assert f"{len(payload['segments']) - connected} of {len(payload['segments'])}" in finding
 
 
 def test_a_multi_part_feature_keeps_both_of_its_parts() -> None:
@@ -595,3 +557,45 @@ def test_non_finite_guard_also_holds_past_the_parse_boundary() -> None:
             _validate(EDGE_PATH_LOCK_PATH)
     finally:
         continental.load_json = original
+
+
+def test_a_simple_chain_is_reported_as_chain_interior() -> None:
+    # Three records end to end: two interior joins, two chain ends.
+    metric_lines = tuple(
+        _metric_line(index, [(index * 100.0, 0.0), ((index + 1) * 100.0, 0.0)])
+        for index in range(3)
+    )
+    result = _solve_segment_edge_path(
+        {"id": "seg"}, metric_lines, (0.0, 0.0), (300.0, 0.0),
+        ENDPOINT_SNAP_TOLERANCE_METERS,
+    )
+    assert result["endpoint_degree_histogram"] == {"1": 2, "2": 2}
+    assert result["chain_end_count"] == 2
+    assert result["chain_interior_fraction"] == pytest.approx(0.5, abs=5e-5)
+
+
+def test_a_discontinuity_is_reported_as_a_chain_end_separation() -> None:
+    # Two chains split by a 40 m break: four chain ends, and the smallest
+    # separation between them is the break itself.
+    metric_lines = (
+        _metric_line(1, [(0.0, 0.0), (100.0, 0.0)]),
+        _metric_line(2, [(140.0, 0.0), (240.0, 0.0)]),
+    )
+    result = _solve_segment_edge_path(
+        {"id": "seg"}, metric_lines, (0.0, 0.0), (240.0, 0.0),
+        ENDPOINT_SNAP_TOLERANCE_METERS,
+    )
+    assert result["connected"] is False
+    assert result["chain_end_count"] == 4
+    assert min(result["chain_end_separations_m"]) == pytest.approx(40.0, abs=1e-3)
+
+
+def test_audit_finding_is_derived_from_the_recorded_segments() -> None:
+    payload = json.loads(EDGE_PATH_LOCK_PATH.read_text(encoding="utf-8"))
+    interior = [entry["chain_interior_fraction"] for entry in payload["segments"]]
+    connected = sum(1 for entry in payload["segments"] if entry["connected"])
+    finding = payload["audit_finding"]
+    assert f"{round(min(interior) * 100)} to {round(max(interior) * 100)} percent" in finding
+    assert f"{len(payload['segments']) - connected} of {len(payload['segments'])}" in finding
+    # The superseded claim must not survive anywhere in the artifact.
+    assert "paired directional carriageways" not in json.dumps(payload)

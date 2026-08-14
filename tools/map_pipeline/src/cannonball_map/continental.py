@@ -983,6 +983,7 @@ def _solve_segment_edge_path(
     """
     graph = nx.MultiGraph()
     nodes: dict[tuple[int, int], tuple[float, float]] = {}
+    edge_endpoints: list[tuple[tuple[int, int], tuple[int, int]]] = []
     max_snap_distance = 0.0
 
     # Insert in object-id order so the graph, and therefore any tie between
@@ -1014,31 +1015,43 @@ def _solve_segment_edge_path(
             page_response_sha256=candidate.page_response_sha256,
             start_key=start_key,
         )
+        edge_endpoints.append((start_key, end_key))
 
-    # A divided highway appears in NHPN as two records sharing one linear-reference
-    # extent, one per carriageway. Counting them is what tells a reader whether the
-    # component structure below is the source's shape or a data defect.
-    extents: dict[tuple[str, float, float], int] = {}
-    unreferenced_lines = 0
-    for candidate, _ in metric_lines:
-        if not candidate.lrs_key:
-            # Without a linear reference there is no extent to share, so counting
-            # these together would collapse every unreferenced line into one
-            # identity and report them all as paired.
-            unreferenced_lines += 1
-            continue
-        identity = (candidate.lrs_key, candidate.begin_milepost, candidate.end_milepost)
-        extents[identity] = extents.get(identity, 0) + 1
-    paired_lines = sum(count for count in extents.values() if count >= 2)
+    # What shape is this candidate set? An endpoint joining exactly two records is
+    # chain interior; one joining a single record is a chain end. A near-linear
+    # corridor is dominated by degree 2, and its components separate at chain ends,
+    # so the distances between those ends are what explain a connectivity failure.
+    endpoint_degree: dict[tuple[int, int], int] = {}
+    for start_key, end_key in edge_endpoints:
+        endpoint_degree[start_key] = endpoint_degree.get(start_key, 0) + 1
+        endpoint_degree[end_key] = endpoint_degree.get(end_key, 0) + 1
+    degree_counts: dict[str, int] = {}
+    for degree in endpoint_degree.values():
+        bucket = str(degree) if degree < 3 else "3+"
+        degree_counts[bucket] = degree_counts.get(bucket, 0) + 1
+    degree_histogram = dict(sorted(degree_counts.items()))
+    end_nodes = sorted(key for key, degree in endpoint_degree.items() if degree == 1)
+    separations = []
+    for index, key in enumerate(end_nodes):
+        others = [
+            math.dist(nodes[key], nodes[other])
+            for position, other in enumerate(end_nodes)
+            if position != index
+        ]
+        if others:
+            separations.append(round(min(others), 3))
 
     diagnostics: dict[str, Any] = {
         "segment_id": segment["id"],
         "candidate_line_count": len(metric_lines),
-        "paired_carriageway_line_count": paired_lines,
-        "linearly_unreferenced_line_count": unreferenced_lines,
-        "paired_carriageway_fraction": (
-            round(paired_lines / len(metric_lines), 4) if metric_lines else 0.0
+        "endpoint_degree_histogram": degree_histogram,
+        "chain_end_count": len(end_nodes),
+        "chain_interior_fraction": (
+            round(degree_histogram.get("2", 0) / len(endpoint_degree), 4)
+            if endpoint_degree
+            else 0.0
         ),
+        "chain_end_separations_m": sorted(separations),
         "graph_node_count": graph.number_of_nodes(),
         "graph_edge_count": graph.number_of_edges(),
         "connected_component_count": (
@@ -1149,24 +1162,30 @@ def _audit_finding(results: list[dict[str, Any]]) -> str:
     """Describe the audit using the numbers the audit actually produced.
 
     The prose is generated rather than written so it cannot drift from the
-    segments beside it if the locked inputs or the pairing metric change.
+    segments beside it if the locked inputs or the metrics change.
     """
     if not results:
         return "No NHPN-backed segments were audited."
-    fractions = [entry["paired_carriageway_fraction"] for entry in results]
+    interior = [entry["chain_interior_fraction"] for entry in results]
     connected = sum(1 for entry in results if entry.get("connected"))
+    small_gaps = sorted(
+        gap
+        for entry in results
+        for gap in entry["chain_end_separations_m"]
+        if gap <= 1000
+    )
     return (
-        "NHPN represents these Interstates as paired directional carriageways: "
-        f"{round(min(fractions) * 100)} to {round(max(fractions) * 100)} percent of "
-        "each segment's locked lines share a linear-reference extent with an "
-        "opposing-carriageway twin. The candidate graph therefore splits into "
-        "per-carriageway components that meet only where the source authors a shared "
-        f"endpoint, which is why {len(results) - connected} of {len(results)} segments "
-        "have no undirected path between their locked transfer nodes. Where a path was "
-        "found it is a shortest undirected traversal that may cross between "
-        "carriageways, so it is recorded as connectivity evidence and is not a "
-        "westbound selection. Selecting a direction needs a carriageway rule derived "
-        "from the linear-reference direction, which this stage does not assert."
+        "Each locked segment is a near-linear chain rather than a network: "
+        f"{round(min(interior) * 100)} to {round(max(interior) * 100)} percent of "
+        "endpoints join exactly two records. The graph splits where consecutive "
+        "records do not share an endpoint within the snapping tolerance, which is "
+        f"why {len(results) - connected} of {len(results)} segments have no undirected "
+        "path between their locked transfer nodes. The smallest separations between "
+        f"chain ends are {small_gaps[:6]} m, so those breaks are endpoint "
+        "discontinuities of metres to hundreds of metres rather than missing corridor; "
+        "the large separations are the corridor termini, not defects. Where a path was "
+        "found it is a shortest undirected traversal and is not a westbound selection, "
+        "which this stage does not assert."
     )
 
 
