@@ -1,5 +1,12 @@
 # P0-021 connectivity audit: correction to the carriageway finding
 
+> **Partially corrected later the same day.** The structural conclusion below —
+> near-linear chains rather than paired carriageways — stands. Its explanation of
+> *why* the chains break does not: it inferred adjacency from the distance between
+> nearby chain ends, and proximity is not adjacency. Only 3 of 67 chain ends are
+> milepost-adjacent, so the candidate set is missing corridor rather than
+> misaligned. See [break contiguity](2026-08-14-break-contiguity.md).
+
 Date: 2026-08-14
 
 Task: P0-021; stage `exact-westbound-path-solve`
