@@ -124,9 +124,32 @@ async def test_keyboard_steering_is_progressive_and_camera_independent(tmp_path:
 
         await _action(client, "steer_left", "press")
         try:
-            await asyncio.sleep(0.05)
-            changing = (await client.describe("vehicle.input.conditioner"))["test_state"]
-            assert changing["conditioned_steering"] > -0.5
+            # Observe the ramp while it is still between centre and full left.
+            #
+            # This previously slept a fixed 50 ms and asserted the value had not
+            # passed -0.5, which encodes an assumption about how far the ramp
+            # travels in that window. A loaded Windows runner services the
+            # request later, so more physics steps elapse and the ramp goes
+            # further: the gate failed at -0.587 against the -0.5 bound while the
+            # build was correct. The contract P0-018 states is that steering
+            # ramps in rather than snapping to full lock, so wait for the first
+            # sample that has moved off centre and assert it is short of the
+            # lock, which holds at any runner speed.
+            deadline = asyncio.get_running_loop().time() + 1.0
+            while True:
+                changing = (
+                    await client.describe("vehicle.input.conditioner")
+                )["test_state"]
+                if changing["conditioned_steering"] < 0:
+                    break
+                if asyncio.get_running_loop().time() >= deadline:
+                    pytest.fail(
+                        "Keyboard steering did not condition toward full left; "
+                        f"current value is {changing['conditioned_steering']}"
+                    )
+                await asyncio.sleep(0.02)
+
+            assert -1 < changing["conditioned_steering"] < 0
             assert changing["steering_target"] == -1
         finally:
             await _action(client, "steer_left", "release")
