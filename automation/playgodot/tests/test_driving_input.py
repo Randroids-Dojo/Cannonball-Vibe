@@ -148,12 +148,19 @@ async def test_keyboard_steering_is_progressive_and_camera_independent(tmp_path:
                         "Keyboard steering did not condition toward full left "
                         f"within 1 s; last conditioner state was {changing}"
                     )
-                changing = (
-                    await asyncio.wait_for(
-                        client.describe("vehicle.input.conditioner"),
-                        timeout=remaining,
+                try:
+                    changing = (
+                        await asyncio.wait_for(
+                            client.describe("vehicle.input.conditioner"),
+                            timeout=remaining,
+                        )
+                    )["test_state"]
+                except TimeoutError:
+                    pytest.fail(
+                        "Reading the input conditioner exceeded the remaining "
+                        "1 s bound while waiting for keyboard steering to "
+                        f"condition toward full left; last state was {changing}"
                     )
-                )["test_state"]
                 # Check the deadline before accepting the sample, so a reading
                 # that arrives late cannot satisfy the wait.
                 if loop.time() >= deadline:
