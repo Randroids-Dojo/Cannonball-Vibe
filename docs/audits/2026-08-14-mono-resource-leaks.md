@@ -13,7 +13,7 @@ Linux segfault is not demonstrated — see the limit below.
 `scripts/check.sh` on Linux CI intermittently ends in a segmentation fault after
 the smoke passes:
 
-```
+```text
 CANNONBALL_SMOKE_OK chunks=4 distance_m=57.6 ...
 ERROR: Leaked unsafe reference to object: ():<Environment#-9223372008954264056>
    at: finalize (modules/mono/csharp_script.cpp:179)
