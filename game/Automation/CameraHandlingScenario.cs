@@ -285,9 +285,12 @@ public sealed class CameraHandlingScenario
             CollisionLayer = 1,
             CollisionMask = 0,
         };
+        // The collision shape takes its own reference; releasing this wrapper keeps
+        // it from surviving to finalisation after the engine has torn down.
+        using var probeShape = new BoxShape3D { Size = new Vector3(8, 8, 0.5f) };
         wall.AddChild(new CollisionShape3D
         {
-            Shape = new BoxShape3D { Size = new Vector3(8, 8, 0.5f) },
+            Shape = probeShape,
         });
         _parent.AddChild(wall);
         wall.GlobalTransform = new Transform3D(

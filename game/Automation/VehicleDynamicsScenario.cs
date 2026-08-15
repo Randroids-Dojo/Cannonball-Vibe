@@ -950,7 +950,9 @@ public sealed class VehicleDynamicsScenario
 
         using var surface = new SurfaceTool();
         surface.Begin(Mesh.PrimitiveType.Triangles);
-        var material = new StandardMaterial3D
+        // Every wrapper below is released once the node or surface has taken its
+        // own reference, so none survives to finalisation after engine shutdown.
+        using var material = new StandardMaterial3D
         {
             AlbedoColor = color,
             Roughness = 0.92f,
@@ -963,7 +965,7 @@ public sealed class VehicleDynamicsScenario
             surface.AddVertex(vertex);
         }
         surface.GenerateNormals();
-        var mesh = surface.Commit();
+        using var mesh = surface.Commit();
         parent.AddChild(new MeshInstance3D
         {
             Name = $"{name}Mesh",
@@ -975,7 +977,8 @@ public sealed class VehicleDynamicsScenario
             CollisionLayer = 1,
             CollisionMask = 2,
         };
-        body.AddChild(new CollisionShape3D { Shape = mesh.CreateTrimeshShape() });
+        using var trimesh = mesh.CreateTrimeshShape();
+        body.AddChild(new CollisionShape3D { Shape = trimesh });
         parent.AddChild(body);
     }
 
@@ -985,14 +988,15 @@ public sealed class VehicleDynamicsScenario
         float centerX,
         float halfWidth)
     {
-        var mesh = new BoxMesh
+        using var overlayMaterial = new StandardMaterial3D
+        {
+            AlbedoColor = new Color("1d2730"),
+            Roughness = 0.95f,
+        };
+        using var mesh = new BoxMesh
         {
             Size = new Vector3(halfWidth * 2, 0.01f, 1_000),
-            Material = new StandardMaterial3D
-            {
-                AlbedoColor = new Color("1d2730"),
-                Roughness = 0.95f,
-            },
+            Material = overlayMaterial,
         };
         parent.AddChild(new MeshInstance3D
         {
@@ -1005,14 +1009,15 @@ public sealed class VehicleDynamicsScenario
     private static void BuildBarrier(Node parent)
     {
         var size = new Vector3(0.6f, 1.5f, 1_000);
-        var mesh = new BoxMesh
+        using var barrierMaterial = new StandardMaterial3D
+        {
+            AlbedoColor = new Color("8f4b3f"),
+            Roughness = 0.85f,
+        };
+        using var mesh = new BoxMesh
         {
             Size = size,
-            Material = new StandardMaterial3D
-            {
-                AlbedoColor = new Color("8f4b3f"),
-                Roughness = 0.85f,
-            },
+            Material = barrierMaterial,
         };
         parent.AddChild(new MeshInstance3D
         {
@@ -1027,9 +1032,10 @@ public sealed class VehicleDynamicsScenario
             CollisionMask = 2,
             Position = new Vector3(BarrierX, size.Y / 2, 0),
         };
+        using var barrierShape = new BoxShape3D { Size = size };
         body.AddChild(new CollisionShape3D
         {
-            Shape = new BoxShape3D { Size = size },
+            Shape = barrierShape,
         });
         parent.AddChild(body);
     }

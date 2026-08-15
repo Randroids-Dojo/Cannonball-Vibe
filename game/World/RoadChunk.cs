@@ -1119,7 +1119,7 @@ public sealed partial class RoadChunk : Node3D
                 layouts[index + 1].LaneLeftMeters,
                 0.10f);
         }
-        var markings = whiteSurface.Commit();
+        var markings = Owned(whiteSurface.Commit());
         var laneMarkings = new MeshInstance3D
         {
             Name = "LaneMarkings",
@@ -1131,7 +1131,7 @@ public sealed partial class RoadChunk : Node3D
         var medianEdgeMarking = new MeshInstance3D
         {
             Name = "MedianEdgeMarking",
-            Mesh = yellowSurface.Commit(),
+            Mesh = Owned(yellowSurface.Commit()),
             MaterialOverride = _visualKit.MarkingYellow,
         };
         MarkRoadSemantic(medianEdgeMarking, "median-edge-marking");
@@ -1334,7 +1334,7 @@ public sealed partial class RoadChunk : Node3D
         {
             return;
         }
-        var mesh = new BoxMesh
+        using var mesh = new BoxMesh
         {
             Size = new Vector3(0.18f, 0.025f, 2.5f),
         };

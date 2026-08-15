@@ -438,7 +438,7 @@ public sealed partial class CannonballVehicle : RigidBody3D
 
     private void BuildChassis()
     {
-        var shape = new BoxShape3D { Size = new Vector3(1.86f, 0.64f, 4.45f) };
+        using var shape = new BoxShape3D { Size = new Vector3(1.86f, 0.64f, 4.45f) };
         AddChild(new CollisionShape3D { Name = "ChassisCollision", Shape = shape });
         UsesGrayboxVisual = ForceGrayboxVisual ||
             OS.GetCmdlineUserArgs().Contains("--graybox-vehicle", StringComparer.Ordinal);
