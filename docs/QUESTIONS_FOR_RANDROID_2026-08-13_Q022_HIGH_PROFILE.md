@@ -2,6 +2,28 @@
 
 Date: 2026-08-13
 
+**Answered on 2026-08-14. Q-022a, Q-022b, Q-022d and Q-022e are closed.** The
+decisions are recorded in
+[ADR-0023](decisions/ADR-0023-reference-performance-target-and-layered-budgets.md)'s
+2026-08-14 addendum, which is the authority, and the evidence and implementation
+in [the ratification audit](audits/2026-08-14-q022-ratification.md).
+
+- **Q-022a — option A2.** Gate machine state and re-measure. The capture front
+  door now refuses a contended capture. The zero-stall threshold is *not*
+  declared passed; it stays failed until a matrix passing the precondition
+  records no stall.
+- **Q-022b — option A.** Layer 2 stays unmeasured reserves. Layer-3
+  content-class caps are unaffected.
+- **Q-022d — ratified.** Slope above 1 MiB/min AND R² at or above 0.5.
+- **Q-022e — capped runs judged on cap adherence.** The p95 limit is not
+  applicable to a frame-capped run.
+
+**Q-022c is still open** and is now the only Q-022 question outstanding.
+
+The original text follows unchanged.
+
+---
+
 This supersedes the decision set in the
 [2026-08-03 ratification handoff](QUESTIONS_FOR_RANDROID_2026-08-03_Q022_REFERENCE_CAPTURE.md)
 for Q-022a, Q-022b, and Q-022e. Q-022c and Q-022d from that document are

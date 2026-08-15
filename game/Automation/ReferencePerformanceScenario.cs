@@ -850,14 +850,61 @@ public sealed class ReferencePerformanceScenario
         var slopeBytesPerMinute = Slope(seconds, workingSet) * 60;
         var rSquared = RSquared(seconds, workingSet);
         var evaluatedForGrowth = _options.MeasureSeconds >= 1_800;
+        // ADR-0023 (2026-08-14 addendum): a frame-capped run is judged on whether it
+        // holds the cap, not against the uncapped p95 limit. The 16.67 ms limit sits
+        // 3.3 microseconds above a 60 FPS cap period of 16.6667 ms, so passing it
+        // would need 95% of frames within 3.3 us of the cap against roughly 241 us of
+        // ordinary pacing jitter. Applying it to a capped run marks a build that is
+        // holding the cap exactly as failing.
+        var capped = _options.MaxFps > 0;
+        var capPeriodMilliseconds = capped ? 1_000.0 / _options.MaxFps : 0.0;
+        var meanFps = _frameMilliseconds.Count > 0 && _frameMilliseconds.Mean > 0
+            ? 1_000.0 / _frameMilliseconds.Mean
+            : 0.0;
+        var p50 = _frameMilliseconds.Quantile(0.50);
         return new
         {
-            p95_frame_ms = new
-            {
-                measured = p95,
-                limit = 16.67,
-                passed = p95 <= 16.67,
-            },
+            // No `passed` key at all on a capped run. Emitting one, even a true one,
+            // would let a consumer that does not check `applicable` report a capped
+            // run as having passed a limit that was never evaluated.
+            p95_frame_ms = capped
+                ? (object)new
+                {
+                    measured = p95,
+                    limit = 16.67,
+                    applicable = false,
+                    note = "Not applicable to a frame-capped run; see cap_adherence.",
+                }
+                : new
+                {
+                    measured = p95,
+                    limit = 16.67,
+                    applicable = true,
+                    passed = p95 <= 16.67,
+                    note = "Uncapped run judged against the ADR-0023 p95 limit.",
+                },
+            cap_adherence = capped
+                ? (object)new
+                {
+                    engine_max_fps = _options.MaxFps,
+                    cap_period_ms = capPeriodMilliseconds,
+                    mean_fps = meanFps,
+                    p50_frame_ms = p50,
+                    mean_fps_tolerance = 0.1,
+                    p50_frame_ms_tolerance = 0.1,
+                    criterion =
+                        "mean FPS within 0.1 of the cap AND p50 within 0.1 ms of the " +
+                        "cap period AND no steady-driving stall over 50 ms",
+                    criterion_status = "ratified 2026-08-14 (ADR-0023 Q-022e)",
+                    passed = Math.Abs(meanFps - _options.MaxFps) <= 0.1 &&
+                        Math.Abs(p50 - capPeriodMilliseconds) <= 0.1 &&
+                        steadyStalls.Count == 0,
+                }
+                : new
+                {
+                    applicable = false,
+                    note = "Uncapped run; judged on the percentile limits above.",
+                },
             p99_frame_ms = new
             {
                 measured = p99,
@@ -887,12 +934,14 @@ public sealed class ReferencePerformanceScenario
                 working_set_slope_bytes_per_minute = slopeBytesPerMinute,
                 working_set_r_squared = rSquared,
                 evaluated = evaluatedForGrowth,
-                // ADR-0023 requires "no sustained positive growth" without quantifying it.
-                // This operationalisation is proposed, not ratified: a trend counts as
-                // sustained only when it both rises faster than 1 MB/min and explains at
-                // least half the variance, so ordinary allocator noise does not fail a run.
+                // ADR-0023 requires "no sustained positive growth"; the 2026-08-14
+                // addendum quantifies it. A trend counts as sustained only when it both
+                // rises faster than 1 MiB/min and explains at least half the variance.
+                // The R^2 term is load-bearing: without it the rule fires on ordinary
+                // allocate-and-collect sawtooth, where a run ending where it started can
+                // still show a positive fitted slope.
                 criterion = "slope > 1 MiB/min AND R^2 >= 0.5 over the measured window",
-                criterion_status = "proposed operationalisation awaiting Q-022 ratification",
+                criterion_status = "ratified 2026-08-14 (ADR-0023 Q-022d)",
                 passed = !evaluatedForGrowth ||
                     !(slopeBytesPerMinute > 1_048_576d && rSquared >= 0.5),
                 note = evaluatedForGrowth
