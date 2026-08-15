@@ -5,7 +5,15 @@ Date: 2026-08-14
 Task: P0-021; follows
 [the ride-height oscillation root cause](2026-08-14-ride-height-oscillation.md)
 
-Status: prototype, disabled by default. No route-geometry policy is decided here.
+Status: superseded on 2026-08-14 by
+[the ratified 100 m window](2026-08-14-grade-smoothing-window.md). The owner
+selected 100 m and it now ships by default.
+
+**The two departure columns below are wrong as labelled.** They measure departure
+from the already-conditioned profile, not from surveyed ground; the successor
+audit measures against the 3DEP raster and reports 1.95 cm of marginal mean
+departure rather than 3.8 cm. Everything else here — ride height, roughness,
+package hashes, the false negative — stands and is preserved.
 
 ## Why
 
@@ -38,6 +46,8 @@ Ride height is chassis minus tyre contact, captured per physics frame over 30 s
 at 40 m/s on the representative corridor. Departure is how far the graded profile
 moves from the surveyed elevation at the same points.
 
+The two departure columns are superseded; see the note at the top of this file.
+
 | Window | Ride peak-to-peak | Ride std | Road roughness | Bob reduction | Mean departure | Max departure |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | off | 0.0711 m | 5.26 mm | 41.7 mm | — | 0 | 0 |
@@ -63,10 +73,9 @@ input actually changed before trusting an output is cheap; the same check caught
 an identical no-op earlier the same day when a test worktree pulled an
 uncommitted file.
 
-## What is not decided
+## What was not decided here, and has since been decided
 
-Whether to grade at all, and at what window. The prototype ships disabled, and
-the shipped package is unchanged. Choosing a window is an owner decision that
-also has to answer whether a graded profile may alter the authoritative route
-distance, and whether it remains consistent with ADR-0017's prohibition on
-inferring precision the source does not have.
+Whether to grade at all, and at what window. That was an owner decision, taken on
+2026-08-14: 100 m, on by default. The distance question this section raised is
+answered in the successor audit — route distance is planimetric, so no window can
+alter it, and a test now enforces that.

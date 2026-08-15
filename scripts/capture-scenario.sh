@@ -2,6 +2,7 @@
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source "$repo_root/scripts/tool-versions.sh"
 
 if [[ $# -lt 2 ]]; then
   echo "Usage: $0 OUTPUT.avi --fixture NAME --geographic-review [scenario arguments]" >&2
