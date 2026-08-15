@@ -231,6 +231,7 @@ public sealed partial class WorldStreamer : Node3D
             .Select(chunk => chunk.CaptureSnapshot())
             .OrderBy(chunk => chunk.ChunkId, StringComparer.Ordinal)
             .ToArray();
+        var seam = CalculateTerrainSeam();
         return new EnvironmentStreamSnapshot(
             _environmentVisualKit.ProfileId,
             chunks,
@@ -243,7 +244,9 @@ public sealed partial class WorldStreamer : Node3D
             chunks.Count(chunk => chunk.TerrainTriangleCount > 0),
             chunks.Sum(chunk => chunk.TerrainVertexCount),
             chunks.Sum(chunk => chunk.TerrainTriangleCount),
-            CalculateMaximumTerrainSeamMeters(),
+            seam.Meters,
+            seam.Ratio,
+            seam.MagnitudeMeters,
             _environmentVisualKit.SharedMaterialCount,
             _environmentVisualKit.SharedMeshCount,
             chunks.All(chunk => chunk.CollisionFree),
@@ -994,9 +997,60 @@ public sealed partial class WorldStreamer : Node3D
         return plan;
     }
 
-    private double CalculateMaximumTerrainSeamMeters()
+    /// <summary>
+    /// Float32 roundings that separate one chunk's boundary vertex from the
+    /// mathematically identical vertex its neighbour computes.
+    /// </summary>
+    /// <remarks>
+    /// Adjacent chunks derive the same boundary vertex twice, through their own
+    /// anchors, and every step below rounds to the nearest representable float32:
+    /// <list type="number">
+    /// <item>RouteWorldPoint.RelativeTo casts the double world point into the
+    /// chunk-local frame.</item>
+    /// <item>RegionalTerrainRibbon.BuildRow scales the right vector by the lane
+    /// offset.</item>
+    /// <item>BuildRow adds that offset to the local route point.</item>
+    /// <item>BuildRow adds the surface height along Up.</item>
+    /// <item>GetTerrain*OuterEdge adds the chunk Position back on.</item>
+    /// </list>
+    /// This is counted from the code path rather than fitted to an observation:
+    /// changing the construction changes the count, and the gate should be updated
+    /// with it.
+    /// </remarks>
+    private const int TerrainSeamRoundingSteps = 5;
+
+    /// <summary>
+    /// How far a terrain seam may open before it stops being explicable as float32
+    /// rounding and starts being a discontinuity someone authored.
+    /// </summary>
+    /// <remarks>
+    /// Each of the roundings above contributes at most half a unit in the last
+    /// place, and both chunks pay all of them independently, so the two vertices
+    /// can differ by up to TerrainSeamRoundingSteps units per component, or
+    /// sqrt(3) times that as a Euclidean distance.
+    ///
+    /// The ceiling is derived from the representation rather than picked, so it
+    /// tightens to nanometres near the origin on its own and widens far out by
+    /// exactly what float32 requires. Asserting an exact zero seam instead is
+    /// unreachable in principle beyond roughly two kilometres from the origin. See
+    /// docs/audits/2026-08-14-terrain-seam-gate.md.
+    /// </remarks>
+    private static double TerrainSeamCeilingMeters(Vector3 first, Vector3 second)
     {
-        var maximum = 0.0;
+        var magnitude = MathF.Max(
+            MathF.Max(MathF.Abs(first.X), MathF.Abs(second.X)),
+            MathF.Max(
+                MathF.Max(MathF.Abs(first.Y), MathF.Abs(second.Y)),
+                MathF.Max(MathF.Abs(first.Z), MathF.Abs(second.Z))));
+        var spacing = MathF.BitIncrement(magnitude) - magnitude;
+        return TerrainSeamRoundingSteps * Math.Sqrt(3.0) * spacing;
+    }
+
+    private (double Meters, double Ratio, double MagnitudeMeters) CalculateTerrainSeam()
+    {
+        var maximumMeters = 0.0;
+        var maximumRatio = 0.0;
+        var ratioMagnitude = 0.0;
         var loaded = _manifests
             .Where(span => _environmentChunks.ContainsKey(span.Manifest.Id))
             .OrderBy(span => span.StartMeters)
@@ -1017,14 +1071,31 @@ public sealed partial class WorldStreamer : Node3D
             var secondEdge = _environmentChunks[second.Manifest.Id].GetTerrainStartOuterEdge();
             if (firstEdge.Count != secondEdge.Count)
             {
-                return double.PositiveInfinity;
+                return (double.PositiveInfinity, double.PositiveInfinity, 0.0);
             }
             for (var side = 0; side < firstEdge.Count; side++)
             {
-                maximum = Math.Max(maximum, firstEdge[side].DistanceTo(secondEdge[side]));
+                var seam = firstEdge[side].DistanceTo(secondEdge[side]);
+                maximumMeters = Math.Max(maximumMeters, seam);
+                var ceiling = TerrainSeamCeilingMeters(firstEdge[side], secondEdge[side]);
+                // A zero ceiling means both vertices are exactly zero, where any
+                // separation at all is a real discontinuity rather than rounding.
+                var ratio = ceiling > 0.0
+                    ? seam / ceiling
+                    : seam > 0.0 ? double.PositiveInfinity : 0.0;
+                if (ratio > maximumRatio)
+                {
+                    maximumRatio = ratio;
+                    // The magnitude the worst ratio was measured at, so the marker
+                    // shows whether a seam tracks distance from the origin, which
+                    // is what separates rounding from real geometry.
+                    ratioMagnitude = Math.Max(
+                        firstEdge[side].Length(),
+                        secondEdge[side].Length());
+                }
             }
         }
-        return maximum;
+        return (maximumMeters, maximumRatio, ratioMagnitude);
     }
 
     private static bool HasRenderableRouteContext(
@@ -1571,6 +1642,8 @@ public sealed record EnvironmentStreamSnapshot(
     int TerrainVertexCount,
     int TerrainTriangleCount,
     double MaximumTerrainSeamMeters,
+    double MaximumTerrainSeamFloat32Ratio,
+    double MaximumTerrainSeamMagnitudeMeters,
     int SharedMaterialCount,
     int SharedMeshCount,
     bool CollisionFree,

@@ -2655,7 +2655,8 @@ public sealed partial class Main : Node3D
             snapshot.DistantInstanceCount == 0 || snapshot.TerrainRibbonCount == 0 ||
             snapshot.TerrainVertexCount == 0 || snapshot.TerrainTriangleCount == 0 ||
             !double.IsFinite(snapshot.MaximumTerrainSeamMeters) ||
-            snapshot.MaximumTerrainSeamMeters > 0.05 ||
+            !double.IsFinite(snapshot.MaximumTerrainSeamFloat32Ratio) ||
+            snapshot.MaximumTerrainSeamFloat32Ratio > 1.0 ||
             snapshot.NearVisibilityMeters >= snapshot.MidVisibilityMeters ||
             snapshot.MidVisibilityMeters >= snapshot.DistantVisibilityMeters)
         {

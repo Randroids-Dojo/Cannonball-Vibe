@@ -53,7 +53,19 @@ for profile in "${profiles[@]}"; do
   echo "$marker" | grep -q 'stages=5 regions=4'
   echo "$marker" | grep -q 'collision_free=True'
   echo "$marker" | grep -q 'collision_budget=0'
-  echo "$marker" | grep -q 'max_terrain_seam_m=0.0000'
+  # The seam must sit inside what float32 can represent at those vertices, which
+  # the scenario computes per vertex pair and publishes as a ratio. Asserting an
+  # exact 0.0000 metres instead is unreachable beyond about two kilometres from
+  # the origin: see docs/audits/2026-08-14-terrain-seam-gate.md.
+  seam_ratio="$(echo "$marker" | tr ' ' '\n' | sed -n 's/^max_terrain_seam_float32_ratio=//p')"
+  if [[ -z "$seam_ratio" ]]; then
+    echo "Missing max_terrain_seam_float32_ratio for $profile." >&2
+    exit 1
+  fi
+  if ! awk -v ratio="$seam_ratio" 'BEGIN { exit !(ratio <= 1.0) }'; then
+    echo "Terrain seam exceeds float32 representable spacing for $profile: ratio=$seam_ratio" >&2
+    exit 1
+  fi
   terrain_triangles="$(echo "$marker" | tr ' ' '\n' | sed -n 's/^terrain_triangles=//p')"
   if [[ ! "$terrain_triangles" =~ ^[0-9]+$ || "$terrain_triangles" -le 0 ]]; then
     echo "Invalid terrain triangle count for $profile: '$terrain_triangles'." >&2
