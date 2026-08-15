@@ -9,6 +9,8 @@ namespace Cannonball.Game.World.Environments;
 
 public sealed partial class RegionalEnvironmentChunk : Node3D
 {
+    private ArrayMesh? _ownedTerrainMesh;
+
     private RegionalEnvironmentChunk()
     {
     }
@@ -118,6 +120,10 @@ public sealed partial class RegionalEnvironmentChunk : Node3D
             kit,
             routeStartMeters,
             routeLengthMeters);
+        // Build hands over a freshly committed mesh; the instance takes its own
+        // reference on assignment, so this wrapper is released with the chunk
+        // rather than surviving to finalisation after engine shutdown.
+        _ownedTerrainMesh = result.Mesh;
         var terrain = new MeshInstance3D
         {
             Name = "RegionalTerrainRibbon",
@@ -296,6 +302,21 @@ public sealed partial class RegionalEnvironmentChunk : Node3D
             _state ^= _state >> 27;
             var value = _state * 0x2545f4914f6cdd1dUL;
             return (value >> 40) / 16777216.0f;
+        }
+    }
+
+    // The terrain ribbon mesh is built per chunk and handed over by
+    // RegionalTerrainRibbon.Build. Its C# wrapper is RefCounted, so left
+    // undisposed it survives to finalisation after the engine has torn down.
+    //
+    // Predelete fires only on actual destruction, unlike _ExitTree which also
+    // fires on reparenting, so releasing here cannot strand a live chunk.
+    public override void _Notification(int what)
+    {
+        if (what == NotificationPredelete)
+        {
+            _ownedTerrainMesh?.Dispose();
+            _ownedTerrainMesh = null;
         }
     }
 }

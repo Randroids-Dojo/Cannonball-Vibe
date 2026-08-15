@@ -456,16 +456,21 @@ public sealed partial class CannonballVehicle : RigidBody3D
             return;
         }
 
-        var material = new StandardMaterial3D
+        // The mesh instance takes its own reference on assignment, so releasing
+        // these wrappers here leaves the geometry intact. Left undisposed they
+        // survive to finalisation after engine shutdown, which is what produces
+        // "Leaked unsafe reference to object" in the Linux smoke.
+        using var material = new StandardMaterial3D
         {
             AlbedoColor = new Color("b7172b"),
             Metallic = 0.7f,
             Roughness = 0.24f,
         };
+        using var chassisMesh = new BoxMesh { Size = shape.Size };
         AddChild(new MeshInstance3D
         {
             Name = "ChassisMesh",
-            Mesh = new BoxMesh { Size = shape.Size },
+            Mesh = chassisMesh,
             MaterialOverride = material,
         });
     }

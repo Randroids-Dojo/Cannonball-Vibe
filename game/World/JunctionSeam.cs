@@ -68,7 +68,7 @@ public sealed partial class JunctionSeam : Node3D
         var terrain = new MeshInstance3D
         {
             Name = "JunctionTerrainSurface",
-            Mesh = BuildQuad(
+            Mesh = seam.Owned(BuildQuad(
                 fromCenter,
                 fromTangent,
                 fromLayout.PavedLeftMeters - RoadVisualKit.TerrainMarginMeters,
@@ -77,7 +77,7 @@ public sealed partial class JunctionSeam : Node3D
                 toTangent,
                 toLayout.PavedLeftMeters - RoadVisualKit.TerrainMarginMeters,
                 toLayout.PavedRightMeters + RoadVisualKit.TerrainMarginMeters,
-                -0.16f),
+                -0.16f)),
             MaterialOverride = visualKit.Terrain,
             CastShadow = GeometryInstance3D.ShadowCastingSetting.Off,
         };
@@ -98,7 +98,7 @@ public sealed partial class JunctionSeam : Node3D
         var road = new MeshInstance3D
         {
             Name = "JunctionRoadSurface",
-            Mesh = BuildQuad(
+            Mesh = seam.Owned(BuildQuad(
                 fromCenter,
                 fromTangent,
                 fromLayout.LaneLeftMeters,
@@ -107,7 +107,7 @@ public sealed partial class JunctionSeam : Node3D
                 toTangent,
                 toLayout.LaneLeftMeters,
                 toLayout.LaneRightMeters,
-                0.02f),
+                0.02f)),
             MaterialOverride = visualKit.Pavement,
         };
         RoadVisualKit.MarkSemantic(
@@ -195,7 +195,35 @@ public sealed partial class JunctionSeam : Node3D
         {
             _collisionMesh?.Dispose();
             _collisionMesh = null!;
+            ReleaseOwnedResources();
         }
     }
 
+
+    // Godot resources are RefCounted and their C# wrappers hold one of those
+    // references. A wrapper built inline in a node initializer is dropped as soon
+    // as the initializer completes, so nothing disposes it and it survives to
+    // finalisation, which can run after the engine has torn down. That is what
+    // produces "Leaked unsafe reference to object" at shutdown and, intermittently,
+    // a segmentation fault in the Linux smoke.
+    //
+    // Wrapping a construction in Owned() records it so the wrapper is released with
+    // this node. The node it was assigned to holds its own reference, so releasing
+    // ours never affects anything rendering.
+    private readonly List<Resource> _ownedResources = [];
+
+    private T Owned<T>(T resource) where T : Resource
+    {
+        _ownedResources.Add(resource);
+        return resource;
+    }
+
+    private void ReleaseOwnedResources()
+    {
+        foreach (var resource in _ownedResources)
+        {
+            resource.Dispose();
+        }
+        _ownedResources.Clear();
+    }
 }

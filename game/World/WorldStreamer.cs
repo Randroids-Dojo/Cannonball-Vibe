@@ -997,6 +997,25 @@ public sealed partial class WorldStreamer : Node3D
         return plan;
     }
 
+    // The visual kits are plain C# objects holding Godot resources, so nothing
+    // frees them when the tree tears down and their wrappers survive to
+    // finalisation after the engine has gone. Chunks already release their own
+    // meshes this way; the kits are owned here.
+    //
+    // Predelete fires only on actual destruction, unlike _ExitTree which also
+    // fires on reparenting, so releasing here cannot strand a live streamer.
+    public override void _Notification(int what)
+    {
+        if (what != NotificationPredelete)
+        {
+            return;
+        }
+        _roadVisualKit?.Dispose();
+        _environmentVisualKit?.Dispose();
+        _roadVisualKit = null!;
+        _environmentVisualKit = null!;
+    }
+
     /// <summary>
     /// Float32 roundings that separate one chunk's boundary vertex from the
     /// mathematically identical vertex its neighbour computes.
