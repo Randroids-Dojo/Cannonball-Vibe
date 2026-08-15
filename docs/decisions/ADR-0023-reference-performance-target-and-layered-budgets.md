@@ -3,7 +3,8 @@
 - Status: Accepted
 - Date: 2026-07-23
 - Owner decisions: Q-022 target Option A, budget-method Option A,
-  frame-pacing Option A, and memory Option A
+  frame-pacing Option A, and memory Option A; Q-022a, Q-022b, Q-022d and Q-022e
+  on 2026-08-14, recorded in the addendum below
 
 ## Context
 
@@ -25,10 +26,12 @@ terrain do not have the same visual or gameplay value.
 - After scenario warm-up, the provisional production-stable frame-pacing gate
   requires presented-frame time at or below 16.67 ms at p95, at or below 20 ms
   at p99, and no steady-driving stall above 50 ms. Average FPS alone cannot pass
-  the gate.
+  the gate. This applies to uncapped runs; a frame-capped run is judged on cap
+  adherence instead, per the 2026-08-14 addendum.
 - At the High preset, provisional memory ceilings are 9.5 GB of GPU memory and
   16 GB of process working set, with no sustained positive growth during a
-  30-minute steady-state run.
+  30-minute steady-state run. "Sustained" is defined by the ratified constants
+  in the 2026-08-14 addendum.
 - Use layered budgets:
   1. whole-scene outcomes for CPU and GPU frame time, frame pacing, working-set
      and GPU-memory high-water, streaming latency, and sustained growth;
@@ -89,3 +92,80 @@ with a fresh clean Git worktree for each reference capture. Evidence records the
 exact commit, tool versions, clean status, and input hashes. This avoids repeated
 tool installation without allowing a long-lived dirty gameplay worktree or
 stale generated outputs to contaminate measurements.
+
+## Ratification addendum — 2026-08-14
+
+The owner answered Q-022a, Q-022b, Q-022d and Q-022e after the High content-profile
+capture and its repeat. Evidence:
+[capture](../audits/2026-08-13-q022-high-profile-capture.md),
+[repeat](../audits/2026-08-13-q022-high-profile-repeat-capture.md),
+[presentation check](../audits/2026-08-13-q022-presentation-60fps-check.md),
+[decision record](../audits/2026-08-14-q022-ratification.md).
+
+### Q-022a — the zero-stall limit is measured only on captures known to be idle
+
+A capture is now refused unless the machine is idle at its start: no other GPU
+client, and contention indicators recorded per run. The zero-stall limit is
+judged on captures that pass that precondition, and a contended capture is
+refused rather than published.
+
+This is not a relaxation of the limit. It fixes the method that produced twelve
+steady-driving stalls in one matrix and zero in a repeat eleven hours later on
+the same machine, same content and identical arguments, with one run recording
+about ten times its siblings' GPU time at identical arguments. **The zero-stall
+threshold remains failed** until a matrix that passes the idle precondition
+records no stall; nothing here declares it passed.
+
+### Q-022b — layer 2 is reserves, not measurements
+
+The 3.0/3.0/2.5/1.5/2.0/1.0/0.7 ms subsystem values are labelled **unmeasured
+reserves**. They are budget intent, not derived from measurement, and no
+automation may cite them as a measured allocation or gate on them.
+
+The reason is evidential: going from 330/132/77 instances and terrain stride 2 to
+528/198/110 and stride 1 did not raise p95 or p99, and four of five target
+scenarios came in lower than their balanced counterparts. The two profiles differ
+by less than run-to-run variance at this content scale, so a per-subsystem
+millisecond split derived from that comparison would be derived from noise.
+
+Layer 3 content-class caps are unaffected by this and remain gateable, because
+draw calls, primitives, materials, meshes and residency are counted directly
+rather than inferred.
+
+Layer 2 becomes ratifiable when per-subsystem attribution exists (Q-022c), not
+when more whole-scene captures accumulate.
+
+### Q-022d — the sustained-growth rule is ratified
+
+Sustained memory growth fails when the fitted slope over a 30-minute steady-state
+run exceeds **1 MiB/min with R² at or above 0.5**. Both constants are now part of
+this ADR rather than proposed.
+
+The R² term is load-bearing: without it the rule fires on ordinary
+allocate-and-collect sawtooth, where a run that ends where it started can still
+show a positive fitted slope. Two clean data points exist; the High 30-minute run
+measured 0.56 MiB/min at R² 0.16.
+
+Statements of the form "30-minute growth passed" now mean a ratified requirement
+was met. Before this date they meant only that a proposed rule was met, and
+audits written before it are qualified accordingly.
+
+### Q-022e — a frame-capped run is judged on cap adherence
+
+The 16.67 ms p95 limit above applies to uncapped runs. A run with an engine frame
+cap is judged instead on whether it holds the cap: mean frame rate within 0.1 FPS
+of the cap, p50 frame time within 0.1 ms of the cap period, and no stall above
+50 ms.
+
+The p95 limit is not applicable to a capped run, and this is arithmetic rather
+than preference. A 60 FPS cap has a 16.6667 ms period, and the declared limit of
+16.67 ms sits 3.3 microseconds above it. Passing would require 95% of frames to
+land within 3.3 µs of the cap; measured pacing jitter is about 241 µs, roughly 72
+times that budget. The limit is attainable in principle and unattainable in
+practice, so applying it to a capped run marks a correct build as failing — the
+measured run held 60.009 mean FPS with a 16.6625 ms p50, zero stalls, and about
+2.7 ms mean render GPU time inside a 16.67 ms budget.
+
+An engine frame cap is still not a 60 Hz output mode. The reference panel runs at
+120 Hz; a true output-mode check would need a display mode change and is not
+covered here.

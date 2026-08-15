@@ -29,6 +29,7 @@ Usage: capture-reference-performance.sh --scenario NAME [options]
   --fixture NAME             Route fixture (default: representative-corridor).
   --output-dir DIR           Artifact directory (default: reports/q022).
   --no-loop                  Disable short-corridor looping.
+  --allow-contended          Publish even if the machine was not idle.
 USAGE
 }
 
@@ -45,6 +46,7 @@ max_fps="0"
 fixture="representative-corridor"
 output_dir="$repo_root/reports/q022"
 loop_corridor="true"
+allow_contended="false"
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -52,6 +54,7 @@ while [[ $# -gt 0 ]]; do
     --scenario=*) scenario="${1#--scenario=}"; shift ;;
     --lighting) lighting="${2:?--lighting requires a value}"; shift 2 ;;
     --lighting=*) lighting="${1#--lighting=}"; shift ;;
+    --allow-contended) allow_contended="true"; shift ;;
     --camera) camera="${2:?--camera requires a value}"; shift 2 ;;
     --camera=*) camera="${1#--camera=}"; shift ;;
     --resolution) resolution="${2:?--resolution requires a value}"; shift 2 ;;
@@ -356,8 +359,52 @@ sample_gpu() {
 sample_clients() {
   nvidia-smi --query-compute-apps=pid,process_name --format=csv,noheader 2>/dev/null || true
 }
+# A matrix runs scenarios back to back, and the GPU has not returned to idle the
+# instant the previous capture exits. Without this wait the precondition would
+# measure recency rather than idleness and refuse most of a matrix. Waiting cannot
+# mask real contention: a machine that is genuinely busy never settles, and the
+# wait is bounded so it fails rather than hanging.
+settle_seconds="${CANNONBALL_GPU_SETTLE_SECONDS:-60}"
+settle_deadline=$((SECONDS + settle_seconds))
+while true; do
+  gpu_utilization="$(nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits 2>/dev/null || echo unknown)"
+  if [[ ! "$gpu_utilization" =~ ^[0-9]+$ ]] || (( gpu_utilization <= 10 )); then
+    break
+  fi
+  if (( SECONDS >= settle_deadline )); then
+    printf 'CANNONBALL_REFERENCE_GPU_NOT_SETTLED scenario=%s utilization=%s waited_s=%s\n' \
+      "$scenario" "$gpu_utilization" "$settle_seconds"
+    break
+  fi
+  sleep 2
+done
+
 gpu_before="$(sample_gpu)"
 clients_before="$(sample_clients)"
+
+# Bracketing samples missed the 2026-08-13 run whose GPU time was ten times its
+# siblings, because whatever caused it was gone by the time the run ended. Sample
+# throughout instead, so a client that arrives mid-measurement is recorded.
+during_samples_path="$output_dir/machine-state-during-$scenario.csv"
+: >"$during_samples_path"
+sample_during() {
+  local started elapsed
+  started="$SECONDS"
+  while true; do
+    elapsed=$((SECONDS - started))
+    printf '%s,%s,%s\n' \
+      "$elapsed" \
+      "$(nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits 2>/dev/null || echo 0)" \
+      "$(sample_clients | grep -c . || true)" \
+      >>"$during_samples_path"
+    sleep 2
+  done
+}
+sample_during &
+during_sampler_pid="$!"
+# The sampler outlives a failed capture otherwise, and an orphaned nvidia-smi loop
+# is itself a contending GPU client for whatever runs next.
+trap 'kill "$during_sampler_pid" 2>/dev/null || true' EXIT
 
 set +e
 timeout --foreground --signal=TERM --kill-after=30 "${timeout_seconds}s" \
@@ -365,12 +412,35 @@ timeout --foreground --signal=TERM --kill-after=30 "${timeout_seconds}s" \
 capture_exit="${PIPESTATUS[0]}"
 set -e
 
+kill "$during_sampler_pid" 2>/dev/null || true
+wait "$during_sampler_pid" 2>/dev/null || true
+trap - EXIT
+
 gpu_after="$(sample_gpu)"
 clients_after="$(sample_clients)"
+set +e
 uv run --project "$repo_root/tools/map_pipeline" --frozen python \
   "$repo_root/scripts/record_machine_state.py" \
   "$machine_state_path" "$scenario" "$gpu_before" "$gpu_after" \
-  "$clients_before" "$clients_after"
+  "$clients_before" "$clients_after" "$during_samples_path"
+machine_state_exit="$?"
+set -e
+# Exit 3 means the capture did not start idle or saw a new GPU client arrive.
+# ADR-0023's Q-022a addendum makes that a refusal rather than a footnote: a
+# contended capture is not comparable with the others and must not be published.
+if [[ "$machine_state_exit" -eq 3 ]]; then
+  if [[ "$allow_contended" == "true" ]]; then
+    printf 'CANNONBALL_REFERENCE_CONTENDED_ACCEPTED scenario=%s reason=--allow-contended\n' \
+      "$scenario"
+  else
+    echo "Refusing to publish a contended capture. Close other GPU clients and re-run," >&2
+    echo "or pass --allow-contended to record it as contended evidence." >&2
+    exit 3
+  fi
+elif [[ "$machine_state_exit" -ne 0 ]]; then
+  echo "Machine-state record failed with status $machine_state_exit." >&2
+  exit "$machine_state_exit"
+fi
 machine_state_sha256="$(sha256sum "$machine_state_path" | cut -d' ' -f1)"
 printf 'CANNONBALL_REFERENCE_MACHINE_STATE_SHA256 scenario=%s sha256=%s bytes=%s path=%s
 '   "$scenario" "$machine_state_sha256"   "$(wc -c < "$machine_state_path" | tr -d ' ')" "$machine_state_path"
@@ -415,6 +485,12 @@ import sys
 
 acceptance = json.loads(open(sys.argv[1], encoding="utf-8").read())["acceptance"]
 for name, result in acceptance.items():
+    # An entry carries no verdict when it does not apply to this run: cap_adherence
+    # on an uncapped run, and the p95 limit on a capped one. Reporting those as
+    # PASS would claim a check ran that did not.
+    if result.get("applicable") is False or "passed" not in result:
+        print(f"CANNONBALL_REFERENCE_THRESHOLD {name}=NOT_APPLICABLE")
+        continue
     evaluated = result.get("evaluated", True)
     verdict = "PASS" if result["passed"] else "FAIL"
     if not evaluated:
