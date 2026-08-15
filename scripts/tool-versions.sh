@@ -25,7 +25,12 @@ readonly CANNONBALL_UV_VERSION="0.9.24"
 # Prepending is safe when the shim is absent, and callers that deliberately set
 # CANNONBALL_SKIP_UV_PIN keep their own uv.
 if [[ -z "${CANNONBALL_SKIP_UV_PIN:-}" ]]; then
-  _cannonball_uv_pin_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.tools/uv-pinned" 2>/dev/null && pwd)"
+  # The shim lives under the ignored .tools/, so it is absent on CI and on a
+  # fresh clone. The assignment must not be allowed to fail: a failing command
+  # substitution takes its exit status, which under set -e kills the sourcing
+  # script before it runs anything.
+  _cannonball_uv_pin_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.tools/uv-pinned" 2>/dev/null && pwd)" \
+    || _cannonball_uv_pin_dir=""
   if [[ -n "$_cannonball_uv_pin_dir" && -x "$_cannonball_uv_pin_dir/uv" ]]; then
     case ":$PATH:" in
       *":$_cannonball_uv_pin_dir:"*) ;;
