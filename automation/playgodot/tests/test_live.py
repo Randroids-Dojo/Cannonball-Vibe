@@ -558,17 +558,40 @@ async def test_chase_camera_damps_vehicle_yaw_and_keeps_a_level_horizon(
         assert ready["active_profile"] == "balanced"
 
         try:
+            # Two separate budgets, because they bound different things. Getting
+            # the throttle held through focus transitions is input latency, which
+            # a loaded runner can stretch; accelerating to the probe speed once it
+            # is held is vehicle behaviour. Sharing one budget let the first
+            # consume the second, and this test failed on Windows CI having held
+            # full throttle for about 0.12 s of its 7 s. Timing the acceleration
+            # from when throttle actually engages keeps the assertion about the
+            # vehicle rather than about the runner.
+            input_state = await wait_for_key_conditioner(
+                client,
+                key="W",
+                raw_field="raw_throttle",
+                predicate=lambda current: (
+                    current["conditioned_throttle"] > 0
+                    and current["stationary_hold"] is False
+                ),
+                failure="Vehicle input did not reach the camera steering probe",
+                timeout=8.0,
+            )
+
             deadline = asyncio.get_running_loop().time() + 7.0
-            last_input_state = ready
             while True:
                 remaining = deadline - asyncio.get_running_loop().time()
+                state = (await client.describe("camera.chase.rig"))["test_state"]
                 if remaining <= 0:
-                    state = (await client.describe("camera.chase.rig"))["test_state"]
                     pytest.fail(
                         "Vehicle did not reach the camera steering probe speed; "
                         f"speed_mps={state['speed_mps']}, "
-                        f"input_state={last_input_state}"
+                        f"input_state={input_state}"
                     )
+                if state["speed_mps"] >= 8:
+                    break
+                # Keep holding the key: focus transitions can drop it, and the
+                # conditioner falls back to zero throttle if the raw input stops.
                 input_state = await wait_for_key_conditioner(
                     client,
                     key="W",
@@ -577,20 +600,9 @@ async def test_chase_camera_damps_vehicle_yaw_and_keeps_a_level_horizon(
                         current["conditioned_throttle"] > 0
                         and current["stationary_hold"] is False
                     ),
-                    failure="Vehicle input did not reach the camera steering probe",
-                    timeout=remaining,
+                    failure="Vehicle input did not hold through the camera steering probe",
+                    timeout=max(0.1, remaining),
                 )
-                last_input_state = input_state
-
-                state = (await client.describe("camera.chase.rig"))["test_state"]
-                if asyncio.get_running_loop().time() >= deadline:
-                    pytest.fail(
-                        "Vehicle did not reach the camera steering probe speed; "
-                        f"speed_mps={state['speed_mps']}, "
-                        f"input_state={input_state}"
-                    )
-                if state["speed_mps"] >= 8:
-                    break
                 await asyncio.sleep(0.05)
 
             await client.request(
