@@ -20,7 +20,7 @@ from cannonball_map.continental import (
 from cannonball_map.elevation import ElevationMetadata, ElevationSampler
 from cannonball_map.lockfile import materialize_locked_role, validate_lock
 from cannonball_map.manifest import SourceManifest, validate_source
-from cannonball_map.pipeline import build_route_graph
+from cannonball_map.pipeline import GRADE_SMOOTHING_METERS, build_route_graph
 from cannonball_map.sharding import write_sharded_package
 from cannonball_map.telemetry import summarize_telemetry
 
@@ -46,11 +46,12 @@ def build(
     output: Path = typer.Option(Path("data/processed")),
     resample_meters: float = 25.0,
     grade_smoothing_meters: float = typer.Option(
-        0.0,
+        GRADE_SMOOTHING_METERS,
         "--grade-smoothing-meters",
         help=(
-            "Prototype: average the corridor elevation profile over this distance "
-            "window. 0 disables it and is the shipped behaviour."
+            "Vertical-curve grading window over the corridor elevation profile. "
+            "The default is the ratified shipped window; 0 disables grading and "
+            "reproduces the ungraded profile."
         ),
     ),
     chunk_meters: float = 2_000.0,

@@ -2,6 +2,7 @@
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source "$repo_root/scripts/tool-versions.sh"
 cd "$repo_root"
 
 uv run --project tools/map_pipeline --frozen \

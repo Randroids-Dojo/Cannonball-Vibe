@@ -2,6 +2,7 @@
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source "$repo_root/scripts/tool-versions.sh"
 usage="Usage: $0 --all-fixtures --evidence <path>"
 
 if [[ $# -ne 3 || "$1" != "--all-fixtures" || "$2" != "--evidence" ]]; then

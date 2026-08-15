@@ -22,6 +22,11 @@ PROJECTED_CRS = "EPSG:5070"
 SOURCE_ID_COLUMNS = ("source_feature_id", "source_id", "id", "objectid")
 MAXIMUM_CONDITIONED_GRADE = 0.07
 ELEVATION_MEDIAN_WINDOW_SAMPLES = 9
+# Vertical-curve grading window, ratified by the owner on 2026-08-14 after the
+# tradeoff was measured on the representative corridor: 100 m removes 64% of the
+# ride-height oscillation for 3.8 cm mean departure from surveyed ground, against
+# 78% for 7.5 cm at 200 m. See docs/audits/2026-08-14-grade-smoothing-window.md.
+GRADE_SMOOTHING_METERS = 100.0
 ALIGNMENT_TRANSITION_MAX_METERS = 150.0
 ALIGNMENT_TRANSITION_EDGE_FRACTION = 0.35
 ALIGNMENT_TRANSITION_MIN_METERS = 10.0
@@ -64,7 +69,7 @@ def build_route_graph(
     resample_meters: float = 25.0,
     chunk_meters: float = 2_000.0,
     snap_tolerance_meters: float = 10.0,
-    grade_smoothing_meters: float = 0.0,
+    grade_smoothing_meters: float = GRADE_SMOOTHING_METERS,
     catalog_path: Path | None = None,
     elevation_sampler: ElevationSampler | None = None,
     acquisition_lock_sha256: str = "",
@@ -844,7 +849,7 @@ def _grades(distances: list[float], elevations: list[float]) -> list[float]:
 
 def _condition_linear_corridor_elevations(
     records: list[_EdgeRecord],
-    grade_smoothing_meters: float = 0.0,
+    grade_smoothing_meters: float = GRADE_SMOOTHING_METERS,
 ) -> list[_EdgeRecord]:
     """Remove local surface-model spikes on a single directed highway corridor.
 
@@ -923,11 +928,15 @@ def _smooth_corridor_elevations(
     corridor as ride-height oscillation whose frequency scales with speed at a
     fixed spatial wavelength.
 
-    This is a prototype so the tradeoff can be measured rather than argued: how
-    much bob a given window removes, against how far the road then departs from
-    surveyed ground. It is off unless a window is asked for, and it deliberately
-    does not decide what window is authentic, which is a route-geometry question
-    ADR-0017 and ADR-0024 speak to.
+    The window is a route-geometry decision under ADR-0017 and ADR-0024, not a
+    tuning constant: it trades ride quality against fidelity to surveyed ground.
+    The owner ratified 100 m on 2026-08-14 from measured alternatives, and
+    GRADE_SMOOTHING_METERS carries that value. Passing 0 disables grading and
+    reproduces the ungraded profile.
+
+    Grading moves elevation only. Authoritative route distance is planimetric
+    (PipelineEdge.length_meters is the projected line length), so no window can
+    change it, which settles the distance question ADR-0017 raised.
 
     The first and last samples are pinned so a smoothed corridor still meets its
     neighbours, and the profile is shared across edges here, so interior joins

@@ -8,6 +8,7 @@ import pytest
 from shapely.geometry import LineString, MultiLineString
 
 from Cannonball.Content.RouteGraphBuffer import RouteGraphBuffer
+from cannonball_map.elevation import ElevationMetadata
 from cannonball_map.flatbuffer_writer import write_flatbuffer
 from cannonball_map.pipeline import PROJECTED_CRS, build_route_graph
 
@@ -580,3 +581,156 @@ def test_exact_duplicate_edge_ids_fail_closed(tmp_path: Path) -> None:
 
     with pytest.raises(ValueError, match="Duplicate route edge ID"):
         build_route_graph(source, manifest, tmp_path / "duplicate-output")
+
+
+class _RippleElevationSampler:
+    """Terrain carrying a short-wavelength ripple on a broad slope.
+
+    The ripple stands in for bare-earth micro-relief, which is what the shipped
+    grading window exists to remove. The slope is there so a test cannot pass by
+    flattening everything.
+    """
+
+    def __init__(self, wavelength_meters: float, amplitude_meters: float) -> None:
+        self._wavelength = wavelength_meters
+        self._amplitude = amplitude_meters
+        self.metadata = ElevationMetadata(
+            product_id="synthetic-ripple",
+            product_title="Synthetic ripple fixture",
+            product_resolution="1/3 arc-second",
+            raster_crs="EPSG:5070",
+            horizontal_datum="NAD83",
+            vertical_datum="NAVD88",
+            elevation_units="meters",
+            artifact_sha256="0" * 64,
+        )
+
+    def sample(self, x: float, y: float) -> float:
+        along = x - ANCHOR_X
+        slope = 1_500.0 + along * 0.01
+        return slope + self._amplitude * math.sin(
+            2.0 * math.pi * along / self._wavelength
+        )
+
+
+def _corridor_profile(package: dict[str, object]) -> list[float]:
+    ordered = sorted(package["edges"], key=lambda edge: edge["samples"][0]["projected_x_meters"])
+    profile: list[float] = []
+    for index, edge in enumerate(ordered):
+        samples = edge["samples"] if index == 0 else edge["samples"][1:]
+        profile.extend(sample["elevation_meters"] for sample in samples)
+    return profile
+
+
+def _roughness(profile: list[float]) -> float:
+    """RMS of the second difference: how much the profile bends sample to sample."""
+    bends = [
+        profile[index - 1] - 2.0 * profile[index] + profile[index + 1]
+        for index in range(1, len(profile) - 1)
+    ]
+    return math.sqrt(sum(bend * bend for bend in bends) / len(bends))
+
+
+def _graded_corridor_sources(tmp_path: Path) -> tuple[Path, Path]:
+    records = [
+        (
+            "west",
+            LineString([(ANCHOR_X, ANCHOR_Y), (ANCHOR_X + 1_000.0, ANCHOR_Y)]),
+        ),
+        (
+            "east",
+            LineString(
+                [(ANCHOR_X + 1_000.0, ANCHOR_Y), (ANCHOR_X + 2_000.0, ANCHOR_Y)]
+            ),
+        ),
+    ]
+    return _write_source(tmp_path, "graded-corridor", records)
+
+
+def test_shipped_grading_window_reduces_corridor_roughness(tmp_path: Path) -> None:
+    source, manifest = _graded_corridor_sources(tmp_path)
+    sampler = _RippleElevationSampler(wavelength_meters=50.0, amplitude_meters=0.12)
+
+    graded = build_route_graph(
+        source,
+        manifest,
+        tmp_path / "graded-output",
+        resample_meters=10.0,
+        elevation_sampler=sampler,
+    )
+    ungraded = build_route_graph(
+        source,
+        manifest,
+        tmp_path / "ungraded-output",
+        resample_meters=10.0,
+        grade_smoothing_meters=0.0,
+        elevation_sampler=sampler,
+    )
+
+    graded_roughness = _roughness(_corridor_profile(graded))
+    ungraded_roughness = _roughness(_corridor_profile(ungraded))
+    assert graded_roughness < ungraded_roughness / 2.0
+
+
+def test_grading_window_does_not_change_route_distance(tmp_path: Path) -> None:
+    """ADR-0017: authoritative distance is planimetric, so grading cannot move it."""
+    source, manifest = _graded_corridor_sources(tmp_path)
+    sampler = _RippleElevationSampler(wavelength_meters=50.0, amplitude_meters=0.12)
+
+    graded = build_route_graph(
+        source,
+        manifest,
+        tmp_path / "distance-graded-output",
+        resample_meters=10.0,
+        elevation_sampler=sampler,
+    )
+    ungraded = build_route_graph(
+        source,
+        manifest,
+        tmp_path / "distance-ungraded-output",
+        resample_meters=10.0,
+        grade_smoothing_meters=0.0,
+        elevation_sampler=sampler,
+    )
+
+    graded_lengths = {edge["edge_id"]: edge["length_meters"] for edge in graded["edges"]}
+    ungraded_lengths = {
+        edge["edge_id"]: edge["length_meters"] for edge in ungraded["edges"]
+    }
+    assert graded_lengths == ungraded_lengths
+    for edge in graded["edges"]:
+        matching = next(
+            other for other in ungraded["edges"] if other["edge_id"] == edge["edge_id"]
+        )
+        assert [sample["distance_meters"] for sample in edge["samples"]] == [
+            sample["distance_meters"] for sample in matching["samples"]
+        ]
+
+
+def test_grading_window_pins_corridor_endpoints(tmp_path: Path) -> None:
+    """Pinned endpoints are what keeps a graded corridor meeting its neighbours."""
+    source, manifest = _graded_corridor_sources(tmp_path)
+    sampler = _RippleElevationSampler(wavelength_meters=50.0, amplitude_meters=0.12)
+
+    graded = _corridor_profile(
+        build_route_graph(
+            source,
+            manifest,
+            tmp_path / "endpoint-graded-output",
+            resample_meters=10.0,
+            elevation_sampler=sampler,
+        )
+    )
+    ungraded = _corridor_profile(
+        build_route_graph(
+            source,
+            manifest,
+            tmp_path / "endpoint-ungraded-output",
+            resample_meters=10.0,
+            grade_smoothing_meters=0.0,
+            elevation_sampler=sampler,
+        )
+    )
+
+    assert graded[0] == pytest.approx(ungraded[0], abs=1e-9)
+    assert graded[-1] == pytest.approx(ungraded[-1], abs=1e-9)

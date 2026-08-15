@@ -2,6 +2,7 @@
 set -uo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source "$repo_root/scripts/tool-versions.sh"
 cd "$repo_root" || exit 1
 
 report_root="${CANNONBALL_REPORT_DIR:-$repo_root/reports/m0}"
