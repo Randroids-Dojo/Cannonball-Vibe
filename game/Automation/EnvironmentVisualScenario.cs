@@ -103,6 +103,8 @@ public sealed class EnvironmentVisualScenario
             $"terrain_vertices={snapshot.TerrainVertexCount} " +
             $"terrain_triangles={snapshot.TerrainTriangleCount} " +
             $"max_terrain_seam_m={snapshot.MaximumTerrainSeamMeters:0.0000} " +
+            $"max_terrain_seam_float32_ratio={snapshot.MaximumTerrainSeamFloat32Ratio:0.000} " +
+            $"seam_magnitude_m={snapshot.MaximumTerrainSeamMagnitudeMeters:0.0} " +
             $"shared_materials={snapshot.SharedMaterialCount} " +
             $"shared_meshes={snapshot.SharedMeshCount} " +
             $"collision_free={snapshot.CollisionFree} " +
@@ -121,7 +123,8 @@ public sealed class EnvironmentVisualScenario
             snapshot.TerrainRibbonCount != snapshot.LoadedChunks.Count ||
             snapshot.TerrainVertexCount == 0 || snapshot.TerrainTriangleCount == 0 ||
             !double.IsFinite(snapshot.MaximumTerrainSeamMeters) ||
-            snapshot.MaximumTerrainSeamMeters > 0.05 ||
+            !double.IsFinite(snapshot.MaximumTerrainSeamFloat32Ratio) ||
+            snapshot.MaximumTerrainSeamFloat32Ratio > 1.0 ||
             snapshot.SharedMaterialCount < 8 || snapshot.SharedMeshCount < 6 ||
             snapshot.LoadedChunks.All(chunk => chunk.Region != stage.Region))
         {
@@ -133,6 +136,8 @@ public sealed class EnvironmentVisualScenario
                 $"terrain_ribbons={snapshot.TerrainRibbonCount}, " +
                 $"terrain_triangles={snapshot.TerrainTriangleCount}, " +
                 $"max_terrain_seam_m={snapshot.MaximumTerrainSeamMeters:0.0000}, " +
+                $"max_terrain_seam_float32_ratio={snapshot.MaximumTerrainSeamFloat32Ratio:0.000}, " +
+                $"seam_magnitude_m={snapshot.MaximumTerrainSeamMagnitudeMeters:0.0}, " +
                 $"collision_free={snapshot.CollisionFree}.");
         }
         var expected = LightingValues(stage.Lighting);

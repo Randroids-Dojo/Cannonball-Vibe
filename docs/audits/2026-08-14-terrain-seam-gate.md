@@ -5,6 +5,15 @@ Date: 2026-08-14
 Task: P1-010 (in progress). Reported, not fixed: the seam specification is that
 task's to set.
 
+Status: superseded on 2026-08-14 by
+[the float32-spacing gate](2026-08-14-terrain-seam-float32-gate.md). The owner
+set the specification and the gate now asserts against float32 spacing.
+
+The analysis below stands and its central claim is now demonstrated rather than
+inferred: every seam pair is an exact integer multiple of the float32 spacing at
+its own magnitude. One detail is corrected — the seam is up to five units in the
+last place, not one, because both chunks pay five roundings independently.
+
 ## Symptom
 
 `scripts/verify-environment-assets.sh` fails on `main`. It is listed in P1-010's
