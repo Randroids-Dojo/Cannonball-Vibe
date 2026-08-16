@@ -65,8 +65,13 @@ the numbers the decision was made on.
 - **The absolute fidelity of the road is much lower than either audit implied.**
   A 7.36 m worst-case departure predates this change and is owned by the spike
   median and the grade ceiling. It is recorded here because it is now measured,
-  not because grading caused it. Nothing in this session evaluated whether a 7 m
-  clamp at a cliff is the right conditioning; that remains open.
+  not because grading caused it.
+
+  **Resolved on 2026-08-16.** That departure is the spike median removing
+  structures the surface model captured: every large departure sits on a raw
+  feature carrying 12 to 26 percent grades, which no highway is built to. The
+  grade projection contributes nothing to the maximum. See
+  [the decomposition](2026-08-16-survey-departure-decomposition.md).
 
 The prototype audit's ride-height, roughness and package-hash figures are
 unaffected — only its two departure columns are superseded.
@@ -90,9 +95,11 @@ neighbours).
 
 ## What this does not decide
 
-- Whether the existing spike median and 7% grade ceiling are the right
-  conditioning. They dominate the departure from surveyed ground and were not
-  examined here.
+- Whether the 9-sample median window is the right width. The
+  [2026-08-16 decomposition](2026-08-16-survey-departure-decomposition.md) shows
+  what it currently removes is not road, which answers the open question about
+  the 7 m departure, but it does not establish that 9 is the right window. The 7%
+  grade ceiling is no longer in question: it contributes nothing to the maximum.
 - The continental case. This is measured on one 24,665 m corridor; a 100 m window
   over mountain grades has not been observed.
 - Whether grading interacts badly with the grade projection at specific cliffs.
