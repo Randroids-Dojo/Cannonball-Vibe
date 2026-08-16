@@ -734,3 +734,107 @@ def test_grading_window_pins_corridor_endpoints(tmp_path: Path) -> None:
 
     assert graded[0] == pytest.approx(ungraded[0], abs=1e-9)
     assert graded[-1] == pytest.approx(ungraded[-1], abs=1e-9)
+
+
+def test_conditioning_removes_undrivable_spikes_and_leaves_drivable_terrain() -> None:
+    """The corridor median exists to reject what the road cannot physically follow.
+
+    On the representative corridor the largest departures from surveyed ground
+    reach 7.36 m, which looks alarming until the raw profile is read: every one
+    sits on a feature whose raw grade is 9 to 26 percent. No highway is built to
+    those grades, so the raw profile there is not the road - it is a structure the
+    surface model captured, and conditioning removing it is intended behaviour.
+
+    Two properties are pinned separately, because a median filter behaves
+    differently on flat and sloped ground: a spike is rejected, and terrain the
+    road can follow is left exactly alone.
+    """
+    from cannonball_map.pipeline import (
+        ELEVATION_MEDIAN_WINDOW_SAMPLES,
+        MAXIMUM_CONDITIONED_GRADE,
+        _project_maximum_grade,
+    )
+
+    spacing = 25.0
+    radius = ELEVATION_MEDIAN_WINDOW_SAMPLES // 2
+    distances = [index * spacing for index in range(41)]
+
+    def condition(values: list[float]) -> list[float]:
+        result = [
+            sorted(values[max(0, index - radius) : index + radius + 1])[
+                len(values[max(0, index - radius) : index + radius + 1]) // 2
+            ]
+            for index in range(len(values))
+        ]
+        _project_maximum_grade(distances, result, MAXIMUM_CONDITIONED_GRADE)
+        return result
+
+    # A 9 m spike over four stations, which is a 36% grade and undrivable.
+    flat = [1_600.0] * len(distances)
+    spiked = list(flat)
+    for index in range(18, 22):
+        spiked[index] += 9.0
+    raw_grades = [
+        abs((spiked[index] - spiked[index - 1]) / spacing) for index in range(1, len(spiked))
+    ]
+    assert max(raw_grades) > MAXIMUM_CONDITIONED_GRADE
+
+    assert max(
+        abs(a - b) for a, b in zip(condition(spiked), flat, strict=True)
+    ) == pytest.approx(0, abs=1e-9)
+
+    # A 4% slope is within what a highway carries, and survives untouched away
+    # from the corridor ends. At the ends the median window is truncated, so on a
+    # grade its centre of mass is not the station it is centred on and the profile
+    # shifts by up to radius x spacing x grade - 2 m here. That is a property of
+    # the filter, not of the terrain, and it is why the first and last stations of
+    # the representative corridor show departures without any spike present.
+    drivable = [1_600.0 + 0.04 * distance for distance in distances]
+    conditioned = condition(drivable)
+    interior = slice(radius, len(distances) - radius)
+    assert max(
+        abs(a - b) for a, b in zip(conditioned[interior], drivable[interior], strict=True)
+    ) == pytest.approx(0, abs=1e-9)
+    assert (
+        max(abs(a - b) for a, b in zip(conditioned, drivable, strict=True))
+        <= radius * spacing * 0.04 + 1e-9
+    )
+
+
+def test_median_shifts_near_a_spike_on_a_slope() -> None:
+    """A median filter is not neutral where a spike sits on a grade.
+
+    Found while decomposing the representative corridor's departure from survey.
+    The window around a spike loses its outliers to one side, so the median moves
+    toward the far end of the window - by up to radius x spacing x grade. It is
+    bounded and small next to the spike it removes, but it is not zero, and a
+    reader comparing conditioned elevation against survey should expect it.
+    """
+    from cannonball_map.pipeline import (
+        ELEVATION_MEDIAN_WINDOW_SAMPLES,
+        MAXIMUM_CONDITIONED_GRADE,
+        _project_maximum_grade,
+    )
+
+    spacing = 25.0
+    radius = ELEVATION_MEDIAN_WINDOW_SAMPLES // 2
+    grade = 0.04
+    distances = [index * spacing for index in range(41)]
+    drivable = [1_600.0 + grade * distance for distance in distances]
+    spiked = list(drivable)
+    for index in range(18, 22):
+        spiked[index] += 9.0
+
+    conditioned = [
+        sorted(spiked[max(0, index - radius) : index + radius + 1])[
+            len(spiked[max(0, index - radius) : index + radius + 1]) // 2
+        ]
+        for index in range(len(spiked))
+    ]
+    _project_maximum_grade(distances, conditioned, MAXIMUM_CONDITIONED_GRADE)
+
+    residual = max(abs(a - b) for a, b in zip(conditioned, drivable, strict=True))
+    bound = radius * spacing * grade
+    # The 9 m spike is gone, and what remains is inside the filter's own bound.
+    assert residual < 9.0 / 2
+    assert residual <= bound + 1e-9
