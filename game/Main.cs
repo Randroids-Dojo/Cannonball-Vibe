@@ -3323,18 +3323,25 @@ public sealed partial class Main : Node3D
             LightEnergy = 1.3f,
             ShadowEnabled = true,
         });
-        AddChild(new WorldEnvironment
+        // The node takes its own reference on assignment, so releasing this wrapper
+        // immediately leaves the environment intact. Left undisposed the wrapper
+        // survives to finalisation after engine shutdown, which is one of the
+        // "Leaked unsafe reference to object" errors in the Linux smoke.
+        using (var nightEnvironment = new Godot.Environment
         {
-            Name = "NightEnvironment",
-            Environment = new Godot.Environment
+            BackgroundMode = Godot.Environment.BGMode.Color,
+            BackgroundColor = new Color("060912"),
+            AmbientLightSource = Godot.Environment.AmbientSource.Color,
+            AmbientLightColor = new Color("425072"),
+            AmbientLightEnergy = 0.45f,
+        })
+        {
+            AddChild(new WorldEnvironment
             {
-                BackgroundMode = Godot.Environment.BGMode.Color,
-                BackgroundColor = new Color("060912"),
-                AmbientLightSource = Godot.Environment.AmbientSource.Color,
-                AmbientLightColor = new Color("425072"),
-                AmbientLightEnergy = 0.45f,
-            },
-        });
+                Name = "NightEnvironment",
+                Environment = nightEnvironment,
+            });
+        }
     }
 
     private void RequestRestartRun() => _restartRunRequested = true;

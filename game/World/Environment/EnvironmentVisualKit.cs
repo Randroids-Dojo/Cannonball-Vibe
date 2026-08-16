@@ -1,3 +1,4 @@
+using System;
 using Godot;
 
 namespace Cannonball.Game.World.Environments;
@@ -18,7 +19,7 @@ public enum EnvironmentRegion
     UrbanEdge,
 }
 
-public sealed class EnvironmentVisualKit
+public sealed class EnvironmentVisualKit : IDisposable
 {
     public const string Version = "colorado-proof-corridor-v2";
 
@@ -160,5 +161,36 @@ public sealed class EnvironmentVisualKit
             Emission = value,
             EmissionEnergyMultiplier = emission ? 0.22f : 0,
         };
+    }
+
+    /// <summary>Releases every Godot resource this kit holds.</summary>
+    /// <remarks>
+    /// A Godot resource is RefCounted, and its C# wrapper holds one of those
+    /// references until it is disposed or finalised. These kits are plain C#
+    /// objects rather than nodes, so nothing frees them when the tree tears down:
+    /// their wrappers survive to finalisation, which can run after the engine has
+    /// gone. That produces "Leaked unsafe reference to object" at shutdown and,
+    /// intermittently, a segmentation fault in the Linux smoke.
+    ///
+    /// Discovering the properties by reflection rather than listing them keeps
+    /// this correct when a resource is added to the kit. It runs once, at
+    /// shutdown, so the cost does not matter.
+    ///
+    /// Disposing only releases this wrapper's reference. A node still using one of
+    /// these materials holds its own, so the underlying resource outlives the call
+    /// and nothing rendering is affected.
+    /// </remarks>
+    public void Dispose()
+    {
+        foreach (var property in GetType().GetProperties(
+                     System.Reflection.BindingFlags.Public |
+                     System.Reflection.BindingFlags.Instance))
+        {
+            if (!typeof(Resource).IsAssignableFrom(property.PropertyType))
+            {
+                continue;
+            }
+            (property.GetValue(this) as Resource)?.Dispose();
+        }
     }
 }

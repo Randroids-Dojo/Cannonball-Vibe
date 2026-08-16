@@ -419,7 +419,7 @@ public sealed partial class RoadChunk : Node3D
         {
             Name = "MarkerBoard",
             Position = new Vector3(0, 1.65f, 0),
-            Mesh = new BoxMesh { Size = new Vector3(1.05f, 1.65f, 0.1f) },
+            Mesh = Owned(new BoxMesh { Size = new Vector3(1.05f, 1.65f, 0.1f) }),
             MaterialOverride = _visualKit.SignWhite,
         };
         RoadVisualKit.MarkSemantic(
@@ -430,12 +430,12 @@ public sealed partial class RoadChunk : Node3D
         {
             Name = "MarkerPost",
             Position = new Vector3(0, 0.72f, 0),
-            Mesh = new CylinderMesh
+            Mesh = Owned(new CylinderMesh
             {
                 TopRadius = 0.045f,
                 BottomRadius = 0.045f,
                 Height = 1.44f,
-            },
+            }),
             MaterialOverride = _visualKit.GalvanizedSteel,
         };
         RoadVisualKit.MarkSemantic(
@@ -475,10 +475,10 @@ public sealed partial class RoadChunk : Node3D
         {
             Name = "GuideBorder",
             Position = new Vector3(0, boardY, 0),
-            Mesh = BuildPlanarFaceMesh(HighwaySignGeometry.RoundedRectangle(
+            Mesh = Owned(BuildPlanarFaceMesh(HighwaySignGeometry.RoundedRectangle(
                 boardWidth,
                 boardHeight,
-                Math.Min(boardWidth, boardHeight) / 16)),
+                Math.Min(boardWidth, boardHeight) / 16))),
             MaterialOverride = _visualKit.SignWhite,
         };
         RoadVisualKit.MarkSemantic(border, $"{rootId}.border");
@@ -487,10 +487,10 @@ public sealed partial class RoadChunk : Node3D
         {
             Name = "GuideBoard",
             Position = new Vector3(0, boardY, -0.03f),
-            Mesh = BuildPlanarFaceMesh(HighwaySignGeometry.RoundedRectangle(
+            Mesh = Owned(BuildPlanarFaceMesh(HighwaySignGeometry.RoundedRectangle(
                 boardWidth - 0.3f,
                 boardHeight - 0.3f,
-                Math.Min(boardWidth, boardHeight) / 16 - 0.15f)),
+                Math.Min(boardWidth, boardHeight) / 16 - 0.15f))),
             MaterialOverride = _visualKit.GuideGreen,
         };
         RoadVisualKit.MarkSemantic(board, $"{rootId}.board");
@@ -502,12 +502,12 @@ public sealed partial class RoadChunk : Node3D
             {
                 Name = postIndex == 0 ? "GuidePostLeft" : "GuidePostRight",
                 Position = new Vector3(x, boardY / 2, 0),
-                Mesh = new CylinderMesh
+                Mesh = Owned(new CylinderMesh
                 {
                     TopRadius = 0.12f,
                     BottomRadius = 0.16f,
                     Height = boardY,
-                },
+                }),
                 MaterialOverride = _visualKit.GalvanizedSteel,
             };
             RoadVisualKit.MarkSemantic(post, $"{rootId}.post.{postIndex}");
@@ -573,10 +573,10 @@ public sealed partial class RoadChunk : Node3D
             {
                 Name = "ExitOnlyPanel",
                 Position = new Vector3(0, boardY - 3.45f, -0.13f),
-                Mesh = new BoxMesh
+                Mesh = Owned(new BoxMesh
                 {
                     Size = new Vector3(Math.Min(boardWidth - 0.8f, 10), 1.45f, 0.08f),
-                },
+                }),
                 MaterialOverride = _visualKit.ExitOnlyYellow,
             };
             RoadVisualKit.MarkSemantic(panel, $"{rootId}.exit-only-panel");
@@ -615,7 +615,7 @@ public sealed partial class RoadChunk : Node3D
                 exitOnly ? -0.20f : -0.14f),
             RotationDegrees = new Vector3(0, 180, 0),
             Scale = new Vector3(0.72f, 0.72f, 1),
-            Mesh = BuildPlanarFaceMesh(HighwaySignGeometry.LaneArrow(arrowDirection)),
+            Mesh = Owned(BuildPlanarFaceMesh(HighwaySignGeometry.LaneArrow(arrowDirection))),
             MaterialOverride = exitOnly ? _visualKit.SignBlack : _visualKit.SignWhite,
         };
         RoadVisualKit.MarkSemantic(arrow, $"{rootId}.lane-arrow");
@@ -678,9 +678,9 @@ public sealed partial class RoadChunk : Node3D
         var backing = new MeshInstance3D
         {
             Name = "ShieldSilhouette",
-            Mesh = BuildPlanarFaceMesh(interstate
+            Mesh = Owned(BuildPlanarFaceMesh(interstate
                 ? HighwaySignGeometry.InterstateShield()
-                : HighwaySignGeometry.UnitedStatesRouteShield()),
+                : HighwaySignGeometry.UnitedStatesRouteShield())),
             MaterialOverride = _visualKit.SignWhite,
         };
         RoadVisualKit.MarkSemantic(backing, $"{guideId}.shield.{index}.silhouette");
@@ -692,7 +692,7 @@ public sealed partial class RoadChunk : Node3D
                 Name = "InterstateFace",
                 Position = new Vector3(0, 0, -0.025f),
                 Scale = new Vector3(0.91f, 0.91f, 1),
-                Mesh = BuildPlanarFaceMesh(HighwaySignGeometry.InterstateShield()),
+                Mesh = Owned(BuildPlanarFaceMesh(HighwaySignGeometry.InterstateShield())),
                 MaterialOverride = _visualKit.InterstateBlue,
             };
             RoadVisualKit.MarkSemantic(face, $"{guideId}.shield.{index}.face");
@@ -702,7 +702,7 @@ public sealed partial class RoadChunk : Node3D
                 Name = "InterstateHeader",
                 Position = new Vector3(0, 0, -0.04f),
                 Scale = new Vector3(0.91f, 0.91f, 1),
-                Mesh = BuildPlanarFaceMesh(HighwaySignGeometry.InterstateHeader()),
+                Mesh = Owned(BuildPlanarFaceMesh(HighwaySignGeometry.InterstateHeader())),
                 MaterialOverride = _visualKit.InterstateRed,
             };
             RoadVisualKit.MarkSemantic(header, $"{guideId}.shield.{index}.header");
@@ -711,11 +711,11 @@ public sealed partial class RoadChunk : Node3D
             {
                 Name = "InterstateDivider",
                 Position = new Vector3(0, 0.40f, -0.05f),
-                Mesh = BuildPlanarFaceMesh(HighwaySignGeometry.RoundedRectangle(
+                Mesh = Owned(BuildPlanarFaceMesh(HighwaySignGeometry.RoundedRectangle(
                     2.30f,
                     0.10f,
                     0.03f,
-                    2)),
+                    2))),
                 MaterialOverride = _visualKit.SignWhite,
             };
             RoadVisualKit.MarkSemantic(divider, $"{guideId}.shield.{index}.divider");
@@ -799,7 +799,7 @@ public sealed partial class RoadChunk : Node3D
             {
                 Name = $"ServicePanel{index}",
                 Position = new Vector3(start + index * spacing, boardY - 5.35f, -0.06f),
-                Mesh = new BoxMesh { Size = new Vector3(2.45f, 1.25f, 0.12f) },
+                Mesh = Owned(new BoxMesh { Size = new Vector3(2.45f, 1.25f, 0.12f) }),
                 MaterialOverride = _visualKit.ServiceBlue,
             };
             RoadVisualKit.MarkSemantic(panel, $"{rootId}.service.{index}.panel");
@@ -943,7 +943,7 @@ public sealed partial class RoadChunk : Node3D
             _collisionBody.AddChild(new CollisionShape3D
             {
                 Name = "RouteStartBarrierCollision",
-                Shape = new BoxShape3D { Size = barrierMesh.Size },
+                Shape = Owned(new BoxShape3D { Size = barrierMesh.Size }),
                 Transform = _routeStartBarrier.Transform,
             });
         }
@@ -975,7 +975,7 @@ public sealed partial class RoadChunk : Node3D
         };
         MarkRoadSemantic(shoulders, "paved-shoulders");
         AddChild(shoulders);
-        var laneMesh = BuildRibbonMesh(
+        using var laneMesh = BuildRibbonMesh(
             points,
             tangents,
             samples,
@@ -1034,14 +1034,14 @@ public sealed partial class RoadChunk : Node3D
         var terrain = new MeshInstance3D
         {
             Name = "TerrainShoulders",
-            Mesh = BuildRibbonMesh(
+            Mesh = Owned(BuildRibbonMesh(
                 points,
                 tangents,
                 samples,
                 layouts,
                 layout => layout.PavedLeftMeters - RoadVisualKit.TerrainMarginMeters,
                 layout => layout.PavedRightMeters + RoadVisualKit.TerrainMarginMeters,
-                -0.18f),
+                -0.18f)),
             MaterialOverride = _visualKit.Terrain,
             CastShadow = GeometryInstance3D.ShadowCastingSetting.Off,
         };
@@ -1119,7 +1119,7 @@ public sealed partial class RoadChunk : Node3D
                 layouts[index + 1].LaneLeftMeters,
                 0.10f);
         }
-        var markings = whiteSurface.Commit();
+        var markings = Owned(whiteSurface.Commit());
         var laneMarkings = new MeshInstance3D
         {
             Name = "LaneMarkings",
@@ -1131,7 +1131,7 @@ public sealed partial class RoadChunk : Node3D
         var medianEdgeMarking = new MeshInstance3D
         {
             Name = "MedianEdgeMarking",
-            Mesh = yellowSurface.Commit(),
+            Mesh = Owned(yellowSurface.Commit()),
             MaterialOverride = _visualKit.MarkingYellow,
         };
         MarkRoadSemantic(medianEdgeMarking, "median-edge-marking");
@@ -1334,7 +1334,7 @@ public sealed partial class RoadChunk : Node3D
         {
             return;
         }
-        var mesh = new BoxMesh
+        using var mesh = new BoxMesh
         {
             Size = new Vector3(0.18f, 0.025f, 2.5f),
         };
@@ -1412,10 +1412,10 @@ public sealed partial class RoadChunk : Node3D
         _routeStartBarrier = new MeshInstance3D
         {
             Name = "RouteStartBarrier",
-            Mesh = new BoxMesh
+            Mesh = Owned(new BoxMesh
             {
                 Size = new Vector3(width, heightMeters, depthMeters),
-            },
+            }),
             MaterialOverride = _visualKit.Concrete,
             Transform = new Transform3D(
                 Basis.LookingAt(tangent, Vector3.Up),
@@ -1465,7 +1465,7 @@ public sealed partial class RoadChunk : Node3D
                 Basis.Identity,
                 points[index] + right * distance + Vector3.Up * 2.25f));
         }
-        var treeMesh = new CylinderMesh
+        using var treeMesh = new CylinderMesh
         {
             TopRadius = 0,
             BottomRadius = 1.35f,
@@ -1498,9 +1498,37 @@ public sealed partial class RoadChunk : Node3D
         {
             _collisionMesh?.Dispose();
             _collisionMesh = null!;
+            ReleaseOwnedResources();
         }
     }
 
+
+    // Godot resources are RefCounted and their C# wrappers hold one of those
+    // references. A wrapper built inline in a node initializer is dropped as soon
+    // as the initializer completes, so nothing disposes it and it survives to
+    // finalisation, which can run after the engine has torn down. That is what
+    // produces "Leaked unsafe reference to object" at shutdown and, intermittently,
+    // a segmentation fault in the Linux smoke.
+    //
+    // Wrapping a construction in Owned() records it so the wrapper is released with
+    // this node. The node it was assigned to holds its own reference, so releasing
+    // ours never affects anything rendering.
+    private readonly List<Resource> _ownedResources = [];
+
+    private T Owned<T>(T resource) where T : Resource
+    {
+        _ownedResources.Add(resource);
+        return resource;
+    }
+
+    private void ReleaseOwnedResources()
+    {
+        foreach (var resource in _ownedResources)
+        {
+            resource.Dispose();
+        }
+        _ownedResources.Clear();
+    }
 }
 
 public sealed record RouteContextLabelDiagnostic(

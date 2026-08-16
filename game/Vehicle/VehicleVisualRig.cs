@@ -159,7 +159,9 @@ public sealed partial class VehicleVisualRig : Node3D
 
     private void BuildDamageIndicators(IReadOnlyDictionary<string, Node> resolved)
     {
-        var material = new StandardMaterial3D
+        // Released once every indicator has taken its own reference; see the note
+        // in CannonballVehicle.
+        using var material = new StandardMaterial3D
         {
             AlbedoColor = new Color(1.0f, 0.08f, 0.035f, 0.72f),
             EmissionEnabled = true,
@@ -171,10 +173,11 @@ public sealed partial class VehicleVisualRig : Node3D
         foreach (var name in new[] { "Damage_Front", "Damage_Rear", "Damage_Left", "Damage_Right", "Damage_Roof" })
         {
             var anchor = (Node3D)resolved[name];
+            using var indicatorMesh = new SphereMesh { Radius = 0.12f, Height = 0.24f };
             var indicator = new MeshInstance3D
             {
                 Name = $"{name}_Indicator",
-                Mesh = new SphereMesh { Radius = 0.12f, Height = 0.24f },
+                Mesh = indicatorMesh,
                 MaterialOverride = material,
             };
             anchor.AddChild(indicator);

@@ -74,7 +74,10 @@ public sealed partial class TripMapHud : CanvasLayer
             Position = new Vector2(1450, 28),
             Size = new Vector2(438, 984),
         };
-        sidePanel.AddThemeStyleboxOverride("panel", PanelStyle());
+        using (var panelStyle = PanelStyle())
+        {
+            sidePanel.AddThemeStyleboxOverride("panel", panelStyle);
+        }
         sidePanel.SetMeta("automation_id", "trip-map.information");
         _root.AddChild(sidePanel);
 
@@ -98,8 +101,16 @@ public sealed partial class TripMapHud : CanvasLayer
             ShowPercentage = false,
         };
         _progress.SetMeta("automation_id", "trip-map.progress");
-        _progress.AddThemeStyleboxOverride("background", BarStyle(new Color("29384a")));
-        _progress.AddThemeStyleboxOverride("fill", BarStyle(new Color("25d0a5")));
+        // The control takes its own reference on override; releasing these wrappers
+        // keeps them from surviving to finalisation after engine shutdown.
+        using (var background = BarStyle(new Color("29384a")))
+        {
+            _progress.AddThemeStyleboxOverride("background", background);
+        }
+        using (var fill = BarStyle(new Color("25d0a5")))
+        {
+            _progress.AddThemeStyleboxOverride("fill", fill);
+        }
         sidePanel.AddChild(_progress);
         _progressCaption = PanelLabel(
             sidePanel,
@@ -348,9 +359,10 @@ public sealed partial class TripMapHud : CanvasLayer
             MouseFilter = Control.MouseFilterEnum.Ignore,
         };
         legend.SetMeta("automation_id", "trip-map.legend");
-        legend.AddThemeStyleboxOverride(
-            "panel",
-            BarStyle(new Color(0.05f, 0.09f, 0.14f, 0.92f)));
+        using (var legendStyle = BarStyle(new Color(0.05f, 0.09f, 0.14f, 0.92f)))
+        {
+            legend.AddThemeStyleboxOverride("panel", legendStyle);
+        }
         _root.AddChild(legend);
         var labels = new[]
         {
