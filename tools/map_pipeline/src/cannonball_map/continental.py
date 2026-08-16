@@ -4,7 +4,7 @@ import json
 import math
 import re
 import urllib.request
-from collections.abc import Callable
+from collections.abc import Callable, Sequence
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
@@ -1217,6 +1217,121 @@ def _audit_finding(results: list[dict[str, Any]]) -> str:
         "undirected traversal and is not a westbound selection, which this stage does "
         "not assert."
     )
+
+
+# NHPN publishes record mileposts to three decimals, so 0.001 mi - 1.61 m - is the
+# finest distance the source can express. Two records that abut exactly can still
+# be recorded a quantum apart, and exact-equality adjacency will always reject
+# them.
+MILEPOST_QUANTUM_MILES = 0.001
+METRES_PER_MILE = 1609.344
+
+
+def audit_continental_milepost_gaps(
+    selection_path: Path,
+    route_lock_path: Path,
+    catalog_path: Path,
+    cache_directory: Path,
+) -> dict[str, Any]:
+    """Characterise the milepost gaps inside the locked candidate set.
+
+    The 2026-08-14 contiguity finding tested one record's END_POINT against
+    another's BEGIN_POIN on the same LRSKEY and reported that 3 of 67 chain ends
+    were contiguous, concluding the candidate set lacked joining records. That
+    test is exact, and this audit asks what the gaps it rejects actually measure.
+
+    Gaps are computed as a union of intervals rather than by differencing sorted
+    neighbours, because the candidate set contains exact duplicates and
+    overlapping records; differencing neighbours reports those as breaks.
+
+    Scope, stated because it is easy to overread: this characterises adjacency
+    *within* an LRS key. Mileposts are key-local, so it says nothing about
+    continuity where a route crosses from one key to another, which is a
+    geometric question. It performs no bridging and changes no lock.
+    """
+    selection = load_json(selection_path)
+    route_lock = validate_continental_route_lock(route_lock_path, catalog_path, selection_path)
+    snapshot_by_id = {
+        snapshot["segment_id"]: snapshot
+        for snapshot in route_lock["nhpn"]["segment_snapshots"]
+    }
+    cache_root = cache_directory / route_lock["nhpn"]["service"]["canonical_metadata_sha256"]
+
+    segments: list[dict[str, Any]] = []
+    all_gaps: list[dict[str, Any]] = []
+    for segment in selection["segments"]:
+        if segment["id"] not in snapshot_by_id:
+            continue
+        lines = _load_locked_candidate_lines(
+            snapshot_by_id[segment["id"]], cache_root / segment["id"]
+        )
+        by_key: dict[str, list[LockedCandidateLine]] = {}
+        for line in lines:
+            by_key.setdefault(line.lrs_key, []).append(line)
+        contiguous_keys = 0
+        for key, group in sorted(by_key.items()):
+            spans = _merge_milepost_spans(group)
+            if len(spans) == 1:
+                contiguous_keys += 1
+            for first, second in zip(spans, spans[1:], strict=False):
+                gap = second[0] - first[1]
+                all_gaps.append(
+                    {
+                        "segment_id": segment["id"],
+                        "lrs_key": key,
+                        "from_milepost": first[1],
+                        "to_milepost": second[0],
+                        "gap_miles": gap,
+                        "gap_meters": gap * METRES_PER_MILE,
+                        "within_source_quantum": gap <= MILEPOST_QUANTUM_MILES * 1.1,
+                    }
+                )
+        segments.append(
+            {
+                "segment_id": segment["id"],
+                "record_count": len(lines),
+                "lrs_key_count": len(by_key),
+                "contiguous_key_count": contiguous_keys,
+            }
+        )
+
+    quantum = [gap for gap in all_gaps if gap["within_source_quantum"]]
+    substantial = [gap for gap in all_gaps if gap["gap_miles"] > 1.0]
+    return {
+        "schema_version": 1,
+        "status": "characterisation only; no bridging performed and no lock changed",
+        "scope": (
+            "adjacency within an LRS key; mileposts are key-local, so this says "
+            "nothing about continuity where a route crosses between keys"
+        ),
+        "source_milepost_quantum_miles": MILEPOST_QUANTUM_MILES,
+        "source_milepost_quantum_meters": MILEPOST_QUANTUM_MILES * METRES_PER_MILE,
+        "segments": segments,
+        "gap_count": len(all_gaps),
+        "gaps_within_source_quantum": len(quantum),
+        "gaps_over_one_mile": len(substantial),
+        "gaps": sorted(all_gaps, key=lambda gap: -gap["gap_miles"]),
+    }
+
+
+def _merge_milepost_spans(
+    lines: Sequence[LockedCandidateLine],
+) -> list[tuple[float, float]]:
+    """Union of record milepost extents, direction-insensitive."""
+    ordered = sorted(
+        (
+            min(line.record_begin_milepost, line.record_end_milepost),
+            max(line.record_begin_milepost, line.record_end_milepost),
+        )
+        for line in lines
+    )
+    merged: list[list[float]] = []
+    for begin, end in ordered:
+        if merged and begin <= merged[-1][1]:
+            merged[-1][1] = max(merged[-1][1], end)
+        else:
+            merged.append([begin, end])
+    return [(begin, end) for begin, end in merged]
 
 
 def derive_continental_edge_path_lock(

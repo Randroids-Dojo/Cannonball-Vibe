@@ -10,6 +10,7 @@ from shapely.geometry import LineString
 from shapely.ops import transform
 from typer.testing import CliRunner
 
+from cannonball_map import continental
 from cannonball_map.cli import app
 from cannonball_map.continental import (
     ANCHOR_SNAP_LIMIT_METERS,
@@ -635,3 +636,62 @@ def test_contiguity_uses_the_record_extent_not_the_section_extent() -> None:
         ENDPOINT_SNAP_TOLERANCE_METERS,
     )
     assert result["milepost_contiguous_chain_end_pairs"] == 1
+
+
+def _milepost_line(begin: float, end: float) -> LockedCandidateLine:
+    return LockedCandidateLine(
+        "segment",
+        1,
+        "0" * 64,
+        LineString([(-100.0, 40.0), (-99.99, 40.0)]),
+        "KEY",
+        0.0,
+        0.0,
+        begin,
+        end,
+        0,
+    )
+
+
+def test_milepost_spans_merge_duplicate_and_overlapping_records() -> None:
+    """Differencing sorted neighbours reports duplicates and overlaps as breaks.
+
+    The locked candidate set contains both, so contiguity has to be measured as a
+    union of intervals rather than by comparing adjacent records.
+    """
+    spans = continental._merge_milepost_spans(
+        [
+            _milepost_line(0.0, 10.0),
+            _milepost_line(0.0, 10.0),
+            _milepost_line(5.0, 15.0),
+            _milepost_line(12.0, 20.0),
+        ]
+    )
+
+    assert spans == [(0.0, 20.0)]
+
+
+def test_milepost_spans_are_direction_insensitive() -> None:
+    """A record recorded against the direction of travel is not a gap."""
+    assert continental._merge_milepost_spans(
+        [_milepost_line(10.0, 0.0), _milepost_line(20.0, 10.0)]
+    ) == [(0.0, 20.0)]
+
+
+def test_milepost_spans_keep_a_real_gap() -> None:
+    spans = continental._merge_milepost_spans(
+        [_milepost_line(0.0, 10.0), _milepost_line(30.0, 40.0)]
+    )
+
+    assert spans == [(0.0, 10.0), (30.0, 40.0)]
+
+
+def test_source_milepost_quantum_is_the_published_precision() -> None:
+    """NHPN publishes record mileposts to three decimals.
+
+    Exact-equality adjacency rejects records a single quantum apart, which is
+    1.61 m and not a gap in the road.
+    """
+    assert continental.MILEPOST_QUANTUM_MILES == 0.001
+    quantum_meters = continental.MILEPOST_QUANTUM_MILES * continental.METRES_PER_MILE
+    assert round(quantum_meters, 2) == 1.61

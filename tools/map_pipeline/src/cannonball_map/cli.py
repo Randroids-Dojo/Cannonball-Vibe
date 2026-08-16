@@ -11,6 +11,7 @@ from cannonball_map.acquisition import UrllibArcGisTransport, acquire_nhpn
 from cannonball_map.catalog import load_catalog, url_matches_prefix
 from cannonball_map.continental import (
     acquire_continental_nhpn_candidates,
+    audit_continental_milepost_gaps,
     derive_continental_edge_path_lock,
     derive_continental_transfer_lock,
     validate_continental_edge_path_lock,
@@ -498,4 +499,40 @@ def validate_continental_edge_paths_command(
     typer.echo(
         f"continental-edge-paths-ok: {edge_path_lock} "
         f"({payload['connected_segment_count']}/{payload['segment_count']} connected)"
+    )
+
+
+@app.command("audit-continental-milepost-gaps")
+def audit_continental_milepost_gaps_command(
+    selection: Path = typer.Option(
+        Path("data/routes/continental/route-selection.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    route_lock: Path = typer.Option(
+        Path("data/sources/continental-route-lock.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    catalog: Path = typer.Option(DEFAULT_CATALOG, exists=True, file_okay=True, dir_okay=False),
+    cache: Path = typer.Option(
+        Path(".tools/continental/nhpn"),
+        exists=True, file_okay=False, dir_okay=True,
+    ),
+    output: Path | None = typer.Option(None, file_okay=True, dir_okay=False),
+) -> None:
+    """Characterise milepost gaps in the locked candidate set. Changes no lock."""
+    try:
+        payload = audit_continental_milepost_gaps(selection, route_lock, catalog, cache)
+    except ValueError as error:
+        typer.echo(f"continental-milepost-gaps-failed: {error}", err=True)
+        raise typer.Exit(code=1) from error
+    if output is not None:
+        output.parent.mkdir(parents=True, exist_ok=True)
+        output.write_text(
+            json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+        )
+    typer.echo(
+        f"continental-milepost-gaps: {payload['gap_count']} gaps, "
+        f"{payload['gaps_within_source_quantum']} within the "
+        f"{payload['source_milepost_quantum_meters']:.2f} m source quantum, "
+        f"{payload['gaps_over_one_mile']} over a mile"
     )
