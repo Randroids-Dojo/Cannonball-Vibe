@@ -84,8 +84,11 @@ and unchanged streaming semantics.
 
 ## The limit of the verification
 
-`check.sh` passes and the environment gate passes, which establishes that nothing
-broke. It does **not** establish that the intermittent segfault is gone.
+`check.sh`, the environment gate, the trip-map gate and the vehicle-dynamics gate
+pass, which establishes that the scenarios those checks cover still behave as
+before. It does not establish that nothing anywhere broke — no gate exercises
+every path a released wrapper is on — and it does **not** establish that the
+intermittent segfault is gone.
 
 The event rate is low: main's most recent Linux M0 run recorded zero leaks and
 passed, and the branch build after this change also recorded zero. A single green
