@@ -1,4 +1,4 @@
-# The 7.36 m survey departure is the median doing its job
+# The 7.36 m survey departure is the median rejecting non-road profile
 
 Date: 2026-08-16
 
@@ -7,7 +7,10 @@ Task: P0-021. Closes the question raised by
 measured the departure and explicitly did not examine whether the conditioning
 causing it was correct.
 
-Status: resolved. No conditioning change is proposed.
+Status: partially resolved. The stage responsible is identified and the removed
+profile is shown not to be road surface. What the removed features *are*, and
+whether the substituted elevation is correct, are left open — see the limits
+below. No conditioning change is proposed.
 
 ## The concern
 
@@ -74,11 +77,31 @@ profile carrying 26 percent is not the road surface under any interpretation of
 which road is on top at a crossing — an overpass the highway climbs would have
 highway-legal approach grades, not 17 percent ramps.
 
-So these features are structures the surface model captured beside or above the
-centreline, exactly the case
-`_condition_linear_corridor_elevations` names in its docstring. The median
-rejecting them is the intended behaviour, and the 7.36 m figure is evidence that
-it is working rather than evidence of over-conditioning.
+That is as far as this evidence reaches, and it is worth being precise about
+where it stops.
+
+**Established:** the median causes the whole maximum departure, and the raw
+profile at those stations is not the road surface.
+
+**Not established:** what those features are. The conditioning docstring names
+structures beside or above the centreline, and that is one explanation, but grade
+alone does not distinguish it from a laterally offset centreline sampling a cut
+bank or embankment, from vegetation in a surface model, or from a raster
+artefact. All of those are equally "not the road", and this audit cannot tell
+them apart.
+
+**Also not established:** that the elevation the median substitutes is the
+correct road elevation. It takes the surrounding ground, which is right if the
+centreline is well placed and the feature is a local intrusion, and wrong if the
+centreline is offset from the carriageway over that stretch.
+
+Settling either would need a source this audit does not consult — a structure
+inventory such as the National Bridge Inventory, or a bare-earth model compared
+against the surface model used here. Both are acquisitions under ADR-0018 and
+neither is made.
+
+What the 7.36 m figure therefore shows is that the median is removing something
+that cannot be road, not that its replacement is correct.
 
 ## Two filter behaviours found while measuring, now pinned by tests
 
@@ -102,6 +125,9 @@ departure at station 100.0 m, near the start.
   plausibly the same two filter behaviours plus genuine micro-relief rejection,
   but that was not measured.
 - **Whether a 9-sample window is the right width** is untouched. A wider window
-  rejects wider structures and shifts more on slopes; a narrower one does the
+  rejects wider features and shifts more on slopes; a narrower one does the
   reverse. Nothing here says 9 is optimal, only that what it currently removes is
-  not road.
+  not road surface.
+- **What the removed features are**, and whether the substituted elevation is the
+  correct road elevation. Both need a structure inventory or a bare-earth model,
+  which are acquisitions under ADR-0018.

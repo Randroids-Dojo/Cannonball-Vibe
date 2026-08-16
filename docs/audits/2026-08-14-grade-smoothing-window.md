@@ -67,10 +67,12 @@ the numbers the decision was made on.
   median and the grade ceiling. It is recorded here because it is now measured,
   not because grading caused it.
 
-  **Resolved on 2026-08-16.** That departure is the spike median removing
-  structures the surface model captured: every large departure sits on a raw
-  feature carrying 12 to 26 percent grades, which no highway is built to. The
-  grade projection contributes nothing to the maximum. See
+  **Partly resolved on 2026-08-16.** The whole maximum is the spike median; the
+  grade projection contributes nothing to it. Every large departure sits on a raw
+  feature carrying 12 to 26 percent grades, which no highway is built to, so what
+  the median removes is not road surface. What those features *are*, and whether
+  the elevation the median substitutes is correct, remain open and need a
+  structure inventory or a bare-earth model. See
   [the decomposition](2026-08-16-survey-departure-decomposition.md).
 
 The prototype audit's ride-height, roughness and package-hash figures are
