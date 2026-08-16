@@ -81,6 +81,9 @@ public sealed class ReferencePerformanceScenario
     private int _startingGen2Collections;
     private long _startingAllocatedBytes;
     private WorkCounters _previousCounters;
+    private SubsystemMilliseconds _subsystemSum;
+    private SubsystemMilliseconds _subsystemPeak;
+    private int _subsystemSampleCount;
     private bool _countersPrimed;
     private int _stallsWithNoAttributableWork;
     private int _stallsWithCollection;
@@ -143,6 +146,9 @@ public sealed class ReferencePerformanceScenario
         // unbounded or presented-frame time cannot exceed the refresh interval and headroom
         // stays invisible.
         Engine.MaxFps = _options.MaxFps;
+        // Per-subsystem attribution costs a timestamp pair per instrumented
+        // region, so it stays off outside a reference capture.
+        Cannonball.Core.Performance.SubsystemProfiler.Enabled = true;
         _viewportNode = viewport;
         ApplyLighting(_options.Lighting);
         _vehicle.SetCameraMode(cockpit: _options.Camera == CameraView.Cockpit);
@@ -285,6 +291,7 @@ public sealed class ReferencePerformanceScenario
         _contentSampleCount++;
 
         var work = SampleWork();
+        AccumulateSubsystems(work.Subsystems);
 
         if (frameMilliseconds > StallThresholdMilliseconds)
         {
@@ -346,6 +353,17 @@ public sealed class ReferencePerformanceScenario
         physics_process_ms = work.PhysicsProcessMilliseconds,
         process_ms = work.ProcessMilliseconds,
         has_attributable_work = work.HasAttributableWork,
+        subsystem_ms = new
+        {
+            road = work.Subsystems.Road,
+            route_context = work.Subsystems.RouteContext,
+            environment = work.Subsystems.Environment,
+            vehicle = work.Subsystems.Vehicle,
+            ui = work.Subsystems.Ui,
+            total = work.Subsystems.Total,
+            basis = "exclusive CPU time; nested regions suspend their parent",
+            status = "measurement only; ADR-0023 layer 2 remains unratified reserves",
+        },
     };
 
     /// <summary>
@@ -373,11 +391,22 @@ public sealed class ReferencePerformanceScenario
         {
             _previousCounters = current;
             _countersPrimed = true;
+            // Discard what accumulated before measurement began, so the first
+            // measured frame is not charged the whole warm-up.
+            Cannonball.Core.Performance.SubsystemProfiler.Drain();
             return default;
         }
 
         var previous = _previousCounters;
         _previousCounters = current;
+        var drained = Cannonball.Core.Performance.SubsystemProfiler.Drain();
+        var subsystems = new SubsystemMilliseconds(
+            drained.Road,
+            drained.RouteContext,
+            drained.Environment,
+            drained.Vehicle,
+            drained.Ui,
+            drained.Total);
 
         // A rising maximum means this frame produced the most expensive build seen so
         // far. It cannot show that a build merely occurred, only that a new worst case
@@ -398,7 +427,8 @@ public sealed class ReferencePerformanceScenario
             current.MaximumEnvironmentBuildMilliseconds >
                 previous.MaximumEnvironmentBuildMilliseconds,
             Performance.GetMonitor(Performance.Monitor.TimePhysicsProcess) * 1_000,
-            Performance.GetMonitor(Performance.Monitor.TimeProcess) * 1_000);
+            Performance.GetMonitor(Performance.Monitor.TimeProcess) * 1_000,
+            subsystems);
     }
 
     /// <summary>
@@ -781,6 +811,69 @@ public sealed class ReferencePerformanceScenario
                 ? (double)_gpuBoundFrames / _frameMilliseconds.Count
                 : 0,
             bound_by = gpuMean > cpuMean ? "gpu" : "cpu",
+            subsystem_cpu_ms = SubsystemAttribution(),
+        };
+    }
+
+    private void AccumulateSubsystems(SubsystemMilliseconds sample)
+    {
+        _subsystemSum = new SubsystemMilliseconds(
+            _subsystemSum.Road + sample.Road,
+            _subsystemSum.RouteContext + sample.RouteContext,
+            _subsystemSum.Environment + sample.Environment,
+            _subsystemSum.Vehicle + sample.Vehicle,
+            _subsystemSum.Ui + sample.Ui,
+            _subsystemSum.Total + sample.Total);
+        _subsystemPeak = new SubsystemMilliseconds(
+            Math.Max(_subsystemPeak.Road, sample.Road),
+            Math.Max(_subsystemPeak.RouteContext, sample.RouteContext),
+            Math.Max(_subsystemPeak.Environment, sample.Environment),
+            Math.Max(_subsystemPeak.Vehicle, sample.Vehicle),
+            Math.Max(_subsystemPeak.Ui, sample.Ui),
+            Math.Max(_subsystemPeak.Total, sample.Total));
+        _subsystemSampleCount++;
+    }
+
+    /// <summary>
+    /// Mean and worst-frame exclusive CPU time per ADR-0023 layer-2 subsystem.
+    /// </summary>
+    /// <remarks>
+    /// Reported as measurement, not as a budget verdict. Q-022b keeps layer 2 as
+    /// unmeasured reserves, and nothing here ratifies them; that is a decision for
+    /// the owner once enough of these captures exist to say what the split is.
+    ///
+    /// The subsystems named here are those that exist. Traffic, effects and
+    /// lighting hold layer-2 reserves with no implementation behind them, so they
+    /// are absent rather than reported as zero.
+    /// </remarks>
+    private object SubsystemAttribution()
+    {
+        var samples = Math.Max(1, _subsystemSampleCount);
+        return new
+        {
+            sample_count = _subsystemSampleCount,
+            basis = "exclusive CPU time; a nested region suspends its parent",
+            status = "measurement only; ADR-0023 layer 2 remains unratified reserves",
+            covers = "road, route context, environment, vehicle, UI",
+            excludes = "GPU time, and any cost outside the process",
+            mean = new
+            {
+                road = _subsystemSum.Road / samples,
+                route_context = _subsystemSum.RouteContext / samples,
+                environment = _subsystemSum.Environment / samples,
+                vehicle = _subsystemSum.Vehicle / samples,
+                ui = _subsystemSum.Ui / samples,
+                total = _subsystemSum.Total / samples,
+            },
+            worst_frame = new
+            {
+                road = _subsystemPeak.Road,
+                route_context = _subsystemPeak.RouteContext,
+                environment = _subsystemPeak.Environment,
+                vehicle = _subsystemPeak.Vehicle,
+                ui = _subsystemPeak.Ui,
+                total = _subsystemPeak.Total,
+            },
         };
     }
 
@@ -1187,7 +1280,8 @@ public sealed class ReferencePerformanceScenario
         bool CollisionBuildPeakAdvanced,
         bool EnvironmentBuildPeakAdvanced,
         double PhysicsProcessMilliseconds,
-        double ProcessMilliseconds)
+        double ProcessMilliseconds,
+        SubsystemMilliseconds Subsystems)
     {
         /// <summary>
         /// True when the frame did any work this record can name. A stall with
@@ -1207,6 +1301,22 @@ public sealed class ReferencePerformanceScenario
             CollisionBuildPeakAdvanced ||
             EnvironmentBuildPeakAdvanced;
     }
+
+    /// <summary>
+    /// Exclusive CPU milliseconds per ADR-0023 layer-2 subsystem for one frame.
+    /// </summary>
+    /// <remarks>
+    /// Layer 2 remains unmeasured reserves under the Q-022b answer. These values
+    /// are what would let it be ratified as measurements; until that happens they
+    /// are evidence, not budget.
+    /// </remarks>
+    private readonly record struct SubsystemMilliseconds(
+        double Road,
+        double RouteContext,
+        double Environment,
+        double Vehicle,
+        double Ui,
+        double Total);
 
     /// <summary>
     /// Absolute counter values, differenced frame to frame to produce a

@@ -541,6 +541,11 @@ public sealed partial class WorldStreamer : Node3D
     public override void _Process(double delta)
     {
         _ = delta;
+        // Chunk completion and streaming decisions are the road subsystem's
+        // per-frame cost; environment chunks charge themselves separately as they
+        // build, so this region is not their parent.
+        using var region = Cannonball.Core.Performance.SubsystemProfiler.Measure(
+            Cannonball.Core.Performance.SubsystemProfiler.Subsystem.Road);
         _preserveResumeStateThroughReady = false;
         CompletePendingLoads();
         RefreshDesiredChunks();
@@ -553,6 +558,11 @@ public sealed partial class WorldStreamer : Node3D
         {
             return;
         }
+
+        // Projecting the vehicle onto the route and resolving edge, lane and
+        // route context is what ADR-0023 calls road and route context work.
+        using var region = Cannonball.Core.Performance.SubsystemProfiler.Measure(
+            Cannonball.Core.Performance.SubsystemProfiler.Subsystem.RouteContext);
 
         if (_reviewTargetDistanceMeters is { } reviewDistance)
         {

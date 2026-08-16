@@ -154,6 +154,10 @@ public sealed partial class TripMapHud : CanvasLayer
         {
             return;
         }
+        // Charged only while the map is open, which is the honest reading: a
+        // closed HUD costs nothing and should not be budgeted as if it did.
+        using var region = Cannonball.Core.Performance.SubsystemProfiler.Measure(
+            Cannonball.Core.Performance.SubsystemProfiler.Subsystem.Ui);
         const float panStep = 14;
         if (Godot.Input.IsActionPressed("trip_map_pan_left")) _canvas.PanBy(Vector2.Left * panStep);
         if (Godot.Input.IsActionPressed("trip_map_pan_right")) _canvas.PanBy(Vector2.Right * panStep);

@@ -18,7 +18,14 @@ in [the ratification audit](audits/2026-08-14-q022-ratification.md).
 - **Q-022e — capped runs judged on cap adherence.** The p95 limit is not
   applicable to a frame-capped run.
 
-**Q-022c is still open** and is now the only Q-022 question outstanding.
+- **Q-022c — in-engine per-subsystem timers**, answered 2026-08-16. Road, route
+  context, environment, vehicle and UI are timed at their own boundaries in
+  exclusive time. See [the attribution audit](audits/2026-08-16-q022c-subsystem-attribution.md).
+
+**Q-022 is closed.** All five questions are answered. The measurement confirmed
+Q-022b's answer rather than overturning it: the instrumented subsystems account
+for about 3% of frame time, so a ratified layer-2 split would partition 3% of the
+frame.
 
 The original text follows unchanged.
 
