@@ -169,3 +169,35 @@ measured run held 60.009 mean FPS with a 16.6625 ms p50, zero stalls, and about
 An engine frame cap is still not a 60 Hz output mode. The reference panel runs at
 120 Hz; a true output-mode check would need a display mode change and is not
 covered here.
+
+## Q-022c addendum — 2026-08-16
+
+The owner chose in-engine per-subsystem timers over an external profiler, Godot's
+built-in profiler, and deferring. `Cannonball.Core.Performance.SubsystemProfiler`
+times road, route context, environment, vehicle and UI at their own boundaries,
+in exclusive time, and reference captures report mean and worst-frame CPU per
+subsystem. Evidence:
+[the attribution audit](../audits/2026-08-16-q022c-subsystem-attribution.md).
+
+Q-022 is closed. All five questions are answered.
+
+**Layer 2 stays unmeasured reserves, and the measurement is the reason.** Across
+90 s on the representative corridor the five instrumented subsystems used 0.069 ms
+of CPU per frame against a 2.09 ms mean frame — about 3%. A ratified
+per-subsystem millisecond split would be a partition of 3% of the frame, which is
+not what the layer-2 reserves are for. Q-022b's answer therefore stands on
+measurement rather than on absence of measurement.
+
+Two limits are recorded so later work does not rediscover them:
+
+- **An in-process timer cannot separate a slow subsystem from a descheduled
+  process.** One frame in the proof run charged about 25 ms each to road, route
+  context and vehicle — one suspension, attributed to whichever region was open.
+  Worst-frame subsystem figures must be read with that in mind. Means are
+  unaffected.
+- **GPU time is not attributed.** The reference workload is GPU-bound, 86% of
+  frames in the proof run, and nothing here splits that.
+
+Traffic, effects and lighting keep layer-2 reserves and are deliberately not
+instrumented, because timing a system that does not exist reports a confident
+zero.

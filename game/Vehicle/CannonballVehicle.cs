@@ -76,6 +76,10 @@ public sealed partial class CannonballVehicle : RigidBody3D
 
     public override void _PhysicsProcess(double delta)
     {
+        // Input conditioning, suspension and drivetrain: the hero vehicle's
+        // per-tick cost, which ADR-0023 layer 2 budgets separately from the road.
+        using var region = Cannonball.Core.Performance.SubsystemProfiler.Measure(
+            Cannonball.Core.Performance.SubsystemProfiler.Subsystem.Vehicle);
         UpdateCameraInput();
         var heading = -GlobalTransform.Basis.Z.Normalized();
         var forwardSpeed = LinearVelocity.Dot(heading);

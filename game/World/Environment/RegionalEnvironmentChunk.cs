@@ -43,6 +43,13 @@ public sealed partial class RegionalEnvironmentChunk : Node3D
         ArgumentNullException.ThrowIfNull(content);
         ArgumentNullException.ThrowIfNull(frame);
         ArgumentNullException.ThrowIfNull(kit);
+        // Regional environment build cost, charged on the frame that builds it.
+        // This nests inside the streamer's road region, since WorldStreamer._Process
+        // reaches here through CompletePendingLoads and AttachChunk. Regions measure
+        // exclusive time, so the road region is suspended for the duration and the
+        // milliseconds are not counted twice.
+        using var region_ = Cannonball.Core.Performance.SubsystemProfiler.Measure(
+            Cannonball.Core.Performance.SubsystemProfiler.Subsystem.Environment);
         ArgumentException.ThrowIfNullOrWhiteSpace(stableSeed);
         if (content.Samples.Count < 2)
         {
