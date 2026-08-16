@@ -121,3 +121,48 @@ def test_client_summary_keeps_no_identifying_detail(raw: str) -> None:
 def test_idle_ceiling_is_a_declared_constant() -> None:
     """It gates admissibility, so a silent change to it should be visible in review."""
     assert record_machine_state.IDLE_UTILIZATION_CEILING_PERCENT == 10.0
+
+
+def test_raised_ceiling_admits_a_busier_machine_and_says_so(tmp_path: Path) -> None:
+    """Raising the ceiling is allowed, but the capture must declare it.
+
+    A reference machine in use cannot reach the 10% default. The owner may still
+    want a measurement, so the ceiling is overridable - but a capture taken above
+    the default was not taken on an idle machine, and its own evidence has to say
+    so or it will later be read as one that was.
+    """
+    during = _during([(0, 78, 3)], tmp_path)
+    busy_desktop = "20, 18, 1800, 45, 60"
+
+    assert _assess(busy_desktop, DESKTOP_CLIENTS, during)["contended"] is True
+
+    before = record_machine_state.parse_gpu(busy_desktop)
+    listed = record_machine_state.summarise_clients(DESKTOP_CLIENTS)
+    drained = record_machine_state.summarise_during(
+        record_machine_state.parse_during_samples(during), int(listed["count"])
+    )
+    relaxed = record_machine_state.assess(before, listed, drained, ceiling=25.0)
+
+    assert relaxed["contended"] is False
+    assert relaxed["idle_ceiling_percent"] == 25.0
+    assert relaxed["idle_ceiling_is_default"] is False
+    assert "not taken on an idle machine" in relaxed["idle_ceiling_note"]
+
+
+def test_default_ceiling_is_marked_as_the_default(tmp_path: Path) -> None:
+    during = _during([(0, 78, 3)], tmp_path)
+    assessment = _assess(IDLE_GPU, DESKTOP_CLIENTS, during)
+
+    assert assessment["idle_ceiling_percent"] == 10.0
+    assert assessment["idle_ceiling_is_default"] is True
+
+
+def test_ceiling_override_is_read_from_the_environment(monkeypatch) -> None:
+    monkeypatch.setenv("CANNONBALL_IDLE_GPU_CEILING_PERCENT", "30")
+    assert record_machine_state.idle_ceiling_percent() == 30.0
+    monkeypatch.setenv("CANNONBALL_IDLE_GPU_CEILING_PERCENT", "not-a-number")
+    with pytest.raises(ValueError, match="not a number"):
+        record_machine_state.idle_ceiling_percent()
+    monkeypatch.setenv("CANNONBALL_IDLE_GPU_CEILING_PERCENT", "150")
+    with pytest.raises(ValueError, match="percentage"):
+        record_machine_state.idle_ceiling_percent()

@@ -15,6 +15,7 @@ threshold; the zero-stall limit is unchanged and still failed.
 from __future__ import annotations
 
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -27,9 +28,33 @@ GPU_FIELDS = [
 ]
 
 # Declared, not derived. An idle desktop still runs a compositor, so the bar is
-# "nothing is doing sustained GPU work", not "the GPU is at zero". Raising this
-# would admit more contended captures; it is deliberately not tunable per run.
+# "nothing is doing sustained GPU work", not "the GPU is at zero".
 IDLE_UTILIZATION_CEILING_PERCENT = 10.0
+
+
+def idle_ceiling_percent() -> float:
+    """The ceiling this run was judged against.
+
+    Overridable, because a reference machine in use cannot reach the default and
+    the owner may still want a measurement. The override is recorded in the
+    emitted document rather than applied silently: a capture taken at a raised
+    ceiling was not taken on an idle machine, and must not later be mistaken for
+    one that was.
+    """
+    raw = os.environ.get("CANNONBALL_IDLE_GPU_CEILING_PERCENT")
+    if not raw:
+        return IDLE_UTILIZATION_CEILING_PERCENT
+    try:
+        value = float(raw)
+    except ValueError:
+        raise ValueError(
+            f"CANNONBALL_IDLE_GPU_CEILING_PERCENT is not a number: {raw!r}"
+        ) from None
+    if not 0 <= value <= 100:
+        raise ValueError(
+            f"CANNONBALL_IDLE_GPU_CEILING_PERCENT must be a percentage: {value}"
+        )
+    return value
 
 
 def parse_gpu(raw: str) -> dict[str, object]:
@@ -144,8 +169,10 @@ def assess(
     before: dict[str, object],
     clients_before: dict[str, object],
     during: dict[str, object],
+    ceiling: float | None = None,
 ) -> dict[str, object]:
     """Decide whether this capture started idle and stayed uncontended."""
+    ceiling = idle_ceiling_percent() if ceiling is None else ceiling
     reasons: list[str] = []
     if not before.get("available"):
         reasons.append(
@@ -159,13 +186,10 @@ def assess(
         # whether another process was doing sustained GPU work. It is still
         # recorded, just not gated on.
         utilisation = before.get("gpu_utilization_percent")
-        if (
-            isinstance(utilisation, (int, float))
-            and utilisation > IDLE_UTILIZATION_CEILING_PERCENT
-        ):
+        if isinstance(utilisation, (int, float)) and utilisation > ceiling:
             reasons.append(
                 f"GPU utilisation was {utilisation:.0f}% before the capture, above the "
-                f"{IDLE_UTILIZATION_CEILING_PERCENT:.0f}% idle ceiling"
+                f"{ceiling:.0f}% idle ceiling"
             )
     if clients_before.get("includes_capture_process"):
         reasons.append("a capture process already held a GPU context before this run")
@@ -175,12 +199,22 @@ def assess(
             f"{during.get('samples_over_expected')} of "
             f"{during.get('sample_count')} samples"
         )
+    relaxed = ceiling > IDLE_UTILIZATION_CEILING_PERCENT
     return {
         "idle_precondition": "ratified 2026-08-14 (ADR-0023 Q-022a)",
+        "idle_ceiling_percent": ceiling,
+        "idle_ceiling_is_default": not relaxed,
+        "idle_ceiling_note": (
+            f"Raised from the {IDLE_UTILIZATION_CEILING_PERCENT:.0f}% default. This "
+            "capture was not taken on an idle machine and cannot stand as evidence "
+            "that a limit passes under the idle precondition."
+            if relaxed
+            else "Default ceiling."
+        ),
         "criterion": (
-            f"GPU utilisation at or below {IDLE_UTILIZATION_CEILING_PERCENT:.0f}% "
-            "before the capture, no capture process already holding a GPU context, "
-            "and no new GPU client appearing while the run is measured"
+            f"GPU utilisation at or below {ceiling:.0f}% before the capture, no "
+            "capture process already holding a GPU context, and no new GPU client "
+            "appearing while the run is measured"
         ),
         "contended": bool(reasons),
         "reasons": reasons,
