@@ -552,7 +552,7 @@ public sealed partial class WorldStreamer : Node3D
         using var region = Cannonball.Core.Performance.SubsystemProfiler.Measure(
             Cannonball.Core.Performance.SubsystemProfiler.Subsystem.Road);
         _preserveResumeStateThroughReady = false;
-        CompletePendingLoads();
+        var completedALoad = CompletePendingLoads();
         // RefreshDesiredChunks allocates a HashSet and several LINQ enumerators, and
         // it ran on every rendered frame - over 800 a second in a reference capture.
         // At 50 m/s the car advances 6 cm per frame against 2 km chunks, so the answer
@@ -563,8 +563,17 @@ public sealed partial class WorldStreamer : Node3D
         // Refreshing per metre of travel keeps roughly 50 refreshes a second at
         // motorway speed, far more often than a 2 km chunk boundary can arrive, while
         // removing the per-frame allocation.
+        //
+        // Travel alone is not a sufficient trigger. RefreshDesiredChunks is what
+        // *starts* loads, so gating it purely on movement deadlocks a vehicle that
+        // cannot move until its chunks arrive: no movement, no refresh, no loads, no
+        // movement. That hung the 500-mile traversal outright. Refreshing whenever a
+        // load completes keeps the queue draining while stationary, and costs nothing
+        // during steady cruise where completions are rare.
         var travelled = Math.Abs(_routeDistanceMeters - _lastDesiredRefreshDistanceMeters);
-        if (!_desiredRefreshPrimed || travelled >= DesiredRefreshIntervalMeters)
+        if (!_desiredRefreshPrimed ||
+            completedALoad ||
+            travelled >= DesiredRefreshIntervalMeters)
         {
             _desiredRefreshPrimed = true;
             _lastDesiredRefreshDistanceMeters = _routeDistanceMeters;
@@ -854,12 +863,13 @@ public sealed partial class WorldStreamer : Node3D
         return result;
     }
 
-    private void CompletePendingLoads()
+    /// <summary>Completes one finished chunk read, if any. True when one completed.</summary>
+    private bool CompletePendingLoads()
     {
         var completed = _pending.FirstOrDefault(entry => entry.Value.Task.IsCompleted);
         if (completed.Key is null)
         {
-            return;
+            return false;
         }
         var (id, pending) = completed;
         _pending.Remove(id);
@@ -867,12 +877,12 @@ public sealed partial class WorldStreamer : Node3D
         var task = pending.Task;
         if (task.IsCanceled)
         {
-            return;
+            return true;
         }
         if (!task.IsCompletedSuccessfully)
         {
             RecordChunkFailure(id, task.Exception?.GetBaseException());
-            return;
+            return true;
         }
         try
         {
@@ -882,6 +892,7 @@ public sealed partial class WorldStreamer : Node3D
         {
             RecordChunkFailure(id, exception);
         }
+        return true;
     }
 
     private void StartPendingReads(IReadOnlySet<string> desired)
