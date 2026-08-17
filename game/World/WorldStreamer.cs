@@ -1475,6 +1475,13 @@ public sealed partial class WorldStreamer : Node3D
         {
             _vehicle.Position -= horizontal;
             _vehicle.TargetRoadPoint -= horizontal;
+            // A rebase is a teleport, not motion: interpolation would otherwise blend
+            // the vehicle across the shift over the next rendered frame.
+            _vehicle.ResetPhysicsInterpolation();
+            // The chase rig is TopLevel and smooths in world space, so it has to move
+            // with the rebase too. Left behind it exceeds its teleport-snap threshold
+            // and snaps, which is a visible single-frame jump.
+            _vehicle.ChaseCameraRig?.ShiftForOriginRebase(horizontal);
         }
         foreach (var chunk in _loaded.Values)
         {

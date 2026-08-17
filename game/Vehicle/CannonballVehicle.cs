@@ -436,6 +436,9 @@ public sealed partial class CannonballVehicle : RigidBody3D
         LinearVelocity = Vector3.Zero;
         AngularVelocity = Vector3.Zero;
         Freeze = false;
+        // A reset is a teleport; without this the car is interpolated from where it
+        // fell to where it reappears.
+        ResetPhysicsInterpolation();
         DrivingInputController.ClearAndSuppress("reset");
         ChaseCameraRig.SnapToTarget();
     }
