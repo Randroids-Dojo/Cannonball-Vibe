@@ -16,6 +16,9 @@ public sealed partial class WorldStreamer : Node3D
     public const double RetainBehindMeters = 500;
     public const double PrefetchHorizonSeconds = 112;
     public const float RebaseThresholdMeters = 1_000;
+
+    /// <summary>How far the vehicle must travel before the desired chunk set is recomputed.</summary>
+    private const double DesiredRefreshIntervalMeters = 1.0;
     public const double ChunkBuildBudgetMilliseconds = 40;
     public const double InitialChunkBuildBudgetMilliseconds = 50;
     public const double CollisionBuildBudgetMilliseconds = 40;
@@ -59,6 +62,8 @@ public sealed partial class WorldStreamer : Node3D
     private string _currentEdgeId = string.Empty;
     private double _routeDistanceMeters;
     private double _lateralOffsetMeters;
+    private double _lastDesiredRefreshDistanceMeters;
+    private bool _desiredRefreshPrimed;
     private RouteWorldPoint _initialRoadWorldPoint;
     private double? _reviewTargetDistanceMeters;
     private bool _reviewTargetReady;
@@ -548,7 +553,23 @@ public sealed partial class WorldStreamer : Node3D
             Cannonball.Core.Performance.SubsystemProfiler.Subsystem.Road);
         _preserveResumeStateThroughReady = false;
         CompletePendingLoads();
-        RefreshDesiredChunks();
+        // RefreshDesiredChunks allocates a HashSet and several LINQ enumerators, and
+        // it ran on every rendered frame - over 800 a second in a reference capture.
+        // At 50 m/s the car advances 6 cm per frame against 2 km chunks, so the answer
+        // was identical thousands of times in a row. That churn was the dominant
+        // source of the 11.7 KB per frame that filled gen0 every two seconds and cost
+        // a 30-40 ms collection pause each time.
+        //
+        // Refreshing per metre of travel keeps roughly 50 refreshes a second at
+        // motorway speed, far more often than a 2 km chunk boundary can arrive, while
+        // removing the per-frame allocation.
+        var travelled = Math.Abs(_routeDistanceMeters - _lastDesiredRefreshDistanceMeters);
+        if (!_desiredRefreshPrimed || travelled >= DesiredRefreshIntervalMeters)
+        {
+            _desiredRefreshPrimed = true;
+            _lastDesiredRefreshDistanceMeters = _routeDistanceMeters;
+            RefreshDesiredChunks();
+        }
     }
 
     public override void _PhysicsProcess(double delta)
@@ -1475,12 +1496,10 @@ public sealed partial class WorldStreamer : Node3D
         {
             _vehicle.Position -= horizontal;
             _vehicle.TargetRoadPoint -= horizontal;
-            // A rebase is a teleport, not motion: interpolation would otherwise blend
-            // the vehicle across the shift over the next rendered frame.
-            _vehicle.ResetPhysicsInterpolation();
             // The chase rig is TopLevel and smooths in world space, so it has to move
             // with the rebase too. Left behind it exceeds its teleport-snap threshold
             // and snaps, which is a visible single-frame jump.
+            _vehicle.ResetPhysicsInterpolation();
             _vehicle.ChaseCameraRig?.ShiftForOriginRebase(horizontal);
         }
         foreach (var chunk in _loaded.Values)

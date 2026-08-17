@@ -16,6 +16,12 @@ public sealed partial class CannonballVehicle : RigidBody3D
         new(0.82f, -0.18f, 1.42f),
     ];
 
+    /// <summary>Persistent suspension rays, one per wheel.</summary>
+    /// <remarks>
+    /// Created once and reused, so the per-tick contact query allocates nothing.
+    /// </remarks>
+    private readonly RayCast3D[] _suspensionRays = new RayCast3D[4];
+
     private readonly float[] _wheelCompressionMeters = new float[4];
     private bool _resetRequested;
     private int _consecutiveUnsupportedPhysicsFrames;
@@ -35,6 +41,27 @@ public sealed partial class CannonballVehicle : RigidBody3D
     public float SpeedMetersPerSecond => LinearVelocity.Length();
     public float AutopilotSpeedLimitMetersPerSecond { get; set; } = 91;
     public int GroundedWheelCount { get; private set; }
+
+    /// <summary>Chassis height above the mean tyre contact point, or NaN airborne.</summary>
+    public double RideHeightMeters { get; private set; } = double.NaN;
+
+    /// <summary>
+    /// Signed distance from the vehicle to the route centreline it is tracking.
+    /// </summary>
+    /// <remarks>
+    /// WorldStreamer.CurrentLateralOffsetMeters is the lane's own centre offset,
+    /// which stays constant while the car sits in a lane and says nothing about
+    /// whether it is still on the road.
+    /// </remarks>
+    public double CrossTrackErrorMeters { get; private set; }
+
+    /// <summary>Times the vehicle has been teleported back onto the route.</summary>
+    /// <remarks>
+    /// A reset is not neutral for a measurement: the car stops, is repositioned and
+    /// its velocity zeroed, so a run containing one is not the steady drive its
+    /// other metrics describe.
+    /// </remarks>
+    public int ResetToRoadCount { get; private set; }
     public bool HasBeenGrounded => _hasBeenGrounded;
     public int PostGroundingPhysicsFrames { get; private set; }
     public int WellGroundedPhysicsFrames { get; private set; }
@@ -176,6 +203,7 @@ public sealed partial class CannonballVehicle : RigidBody3D
         var desiredHeading = TargetRoadForward.Normalized();
         var vehicleRight = heading.Cross(Vector3.Up).Normalized();
         var lateralError = (TargetRoadPoint - GlobalPosition).Dot(vehicleRight);
+        CrossTrackErrorMeters = lateralError;
         var headingError = -heading.Cross(desiredHeading).Y;
         var steering = Mathf.Clamp(
             lateralError * 0.025f + headingError * 1.8f - AngularVelocity.Y * 0.18f,
@@ -225,20 +253,24 @@ public sealed partial class CannonballVehicle : RigidBody3D
             var rayLength = VehicleDynamicsProfile.SpringRestLengthMeters +
                 VehicleDynamicsProfile.WheelRadiusMeters + 0.15f;
             var rayEnd = rayStart - chassisUp * rayLength;
-            using var query = PhysicsRayQueryParameters3D.Create(
-                rayStart,
-                rayEnd,
-                collisionMask: 1);
-            query.Exclude = [GetRid()];
-            var hit = space.IntersectRay(query);
-            if (hit.Count == 0)
+            // A persistent RayCast3D holds its state natively and allocates nothing
+            // per query. space.IntersectRay allocated a Godot Dictionary for the
+            // result and a query object for the request, four times per physics tick
+            // - 480 finalizable objects a second. Godot wrappers carry finalizers, so
+            // they cannot die in gen0; they are promoted by construction, which is
+            // why every collection here was a gen1 collection with a visible pause.
+            var ray = _suspensionRays[index];
+            ray.GlobalPosition = rayStart;
+            ray.TargetPosition = new Vector3(0, -rayLength, 0);
+            ray.ForceRaycastUpdate();
+            if (!ray.IsColliding())
             {
                 continue;
             }
+            var contact = ray.GetCollisionPoint();
+            var normal = ray.GetCollisionNormal().Normalized();
 
             groundedWheels++;
-            var contact = (Vector3)hit["position"];
-            var normal = ((Vector3)hit["normal"]).Normalized();
             contactNormalSum += normal;
             contactPositionSum += contact;
             var distance = rayStart.DistanceTo(contact) - 0.15f -
@@ -293,6 +325,12 @@ public sealed partial class CannonballVehicle : RigidBody3D
         }
 
         GroundedWheelCount = groundedWheels;
+        // Chassis height above the mean tyre contact point: the quantity the
+        // ride-height work measures, recorded here so a capture can sample it per
+        // physics frame instead of reconstructing it.
+        RideHeightMeters = groundedWheels > 0
+            ? GlobalPosition.Y - (contactPositionSum.Y / groundedWheels)
+            : double.NaN;
         _consecutiveSuspensionBottomOutFrames = suspensionBottomedOut
             ? _consecutiveSuspensionBottomOutFrames + 1
             : 0;
@@ -430,6 +468,7 @@ public sealed partial class CannonballVehicle : RigidBody3D
 
     private void ResetToRoad()
     {
+        ResetToRoadCount++;
         Freeze = true;
         Position = TargetRoadPoint + Vector3.Up * 0.78f;
         Basis = Basis.LookingAt(TargetRoadForward, Vector3.Up);
@@ -445,6 +484,18 @@ public sealed partial class CannonballVehicle : RigidBody3D
 
     private void BuildChassis()
     {
+        for (var rayIndex = 0; rayIndex < _suspensionRays.Length; rayIndex++)
+        {
+            var ray = new RayCast3D
+            {
+                Name = $"SuspensionRay{rayIndex}",
+                Enabled = false,
+                CollisionMask = 1,
+                ExcludeParent = true,
+            };
+            _suspensionRays[rayIndex] = ray;
+            AddChild(ray);
+        }
         using var shape = new BoxShape3D { Size = new Vector3(1.86f, 0.64f, 4.45f) };
         AddChild(new CollisionShape3D { Name = "ChassisCollision", Shape = shape });
         UsesGrayboxVisual = ForceGrayboxVisual ||

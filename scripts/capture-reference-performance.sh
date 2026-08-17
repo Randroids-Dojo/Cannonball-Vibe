@@ -29,6 +29,8 @@ Usage: capture-reference-performance.sh --scenario NAME [options]
   --fixture NAME             Route fixture (default: representative-corridor).
   --output-dir DIR           Artifact directory (default: reports/q022).
   --no-loop                  Disable short-corridor looping.
+  --resample-meters N        Route sample spacing (default: pipeline default).
+  --graybox-vehicle          Drive the box stand-in instead of the Hero GT rig.
   --allow-contended          Publish even if the machine was not idle.
 USAGE
 }
@@ -47,6 +49,10 @@ fixture="representative-corridor"
 output_dir="$repo_root/reports/q022"
 loop_corridor="true"
 allow_contended="false"
+# Station spacing the route mesh is built from. The default matches the shipped
+# package; varying it is how the speed sweep separates mesh faceting from terrain.
+resample_meters=""
+graybox_vehicle="false"
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -55,6 +61,9 @@ while [[ $# -gt 0 ]]; do
     --lighting) lighting="${2:?--lighting requires a value}"; shift 2 ;;
     --lighting=*) lighting="${1#--lighting=}"; shift ;;
     --allow-contended) allow_contended="true"; shift ;;
+    --graybox-vehicle) graybox_vehicle="true"; shift ;;
+    --resample-meters) resample_meters="${2:?--resample-meters requires a value}"; shift 2 ;;
+    --resample-meters=*) resample_meters="${1#--resample-meters=}"; shift ;;
     --camera) camera="${2:?--camera requires a value}"; shift 2 ;;
     --camera=*) camera="${1#--camera=}"; shift ;;
     --resolution) resolution="${2:?--resolution requires a value}"; shift 2 ;;
@@ -150,6 +159,7 @@ uv run --project "$repo_root/tools/map_pipeline" --frozen cannonball-map build \
   --elevation-metadata "$fixture_elevation_metadata" \
   --acquisition-lock "$fixture_lock" \
   --chunk-meters "$fixture_chunk_meters" \
+  ${resample_meters:+--resample-meters "$resample_meters"} \
   --output "$package_directory"
 
 repro_directory="$(mktemp -d "${TMPDIR:-/tmp}/cannonball-q022-route-repro.XXXXXX")"
@@ -162,6 +172,7 @@ uv run --project "$repo_root/tools/map_pipeline" --frozen cannonball-map build \
   --elevation-metadata "$fixture_elevation_metadata" \
   --acquisition-lock "$fixture_lock" \
   --chunk-meters "$fixture_chunk_meters" \
+  ${resample_meters:+--resample-meters "$resample_meters"} \
   --output "$repro_directory"
 
 route_repro_path="$output_dir/route-package-reproducibility-$fixture.json"
@@ -344,6 +355,12 @@ godot_args=(
   "--environment-quality=$environment_quality"
   "--telemetry-path=$output_dir/telemetry-$scenario.jsonl"
 )
+# The visual rig moves wheel and suspension anchors by per-wheel compression, so
+# perceived bumpiness can exceed measured chassis motion. The box stand-in shares
+# the same collision shape and suspension, isolating rig motion from chassis motion.
+if [[ "$graybox_vehicle" == "true" ]]; then
+  godot_args+=("--graybox-vehicle")
+fi
 
 printf 'CANNONBALL_REFERENCE_CAPTURE_START scenario=%s configuration=%s resolution=%s lighting=%s camera=%s quality=%s vsync=%s max_fps=%s warmup_s=%s measure_s=%s timeout_s=%s\n' \
   "$scenario" "$build_configuration" "$resolution" "$lighting" "$camera" "$environment_quality" \

@@ -39,6 +39,8 @@ run_step "dotnet-test" env DOTNET_ROLL_FORWARD=Major \
   --results-directory "$report_root/dotnet"
 run_step "ruff" uv run --project tools/map_pipeline --frozen \
   ruff check tools/map_pipeline
+run_step "frame-allocations" uv run --project tools/map_pipeline --frozen \
+  python "$repo_root/scripts/check_frame_allocations.py" "$repo_root/game"
 run_step "continental-route" "$repo_root/scripts/validate-continental-route.sh"
 run_step "pytest-map-pipeline" uv run --project tools/map_pipeline --frozen \
   python -m pytest tools/map_pipeline/tests --junitxml "$report_root/python/junit.xml"

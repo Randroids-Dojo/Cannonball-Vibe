@@ -51,15 +51,23 @@ public static class SubsystemProfiler
         Environment,
         Vehicle,
         Ui,
+        Camera,
+        Orchestration,
+        Input,
     }
 
-    private const int SubsystemCount = 5;
+    private const int SubsystemCount = 8;
 
     // Deeper than any instrumented nesting; overflow drops the region rather than
     // throwing, because a profiler must never be the reason a capture fails.
     private const int MaximumDepth = 16;
 
     private static readonly double[] FrameTicks = new double[SubsystemCount];
+    // Allocation is attributed the same way as time, because a managed pause is
+    // caused by whoever produced the garbage, not by whoever happened to be running
+    // when the collector ran.
+    private static readonly long[] FrameBytes = new long[SubsystemCount];
+    private static readonly long[] StackAllocatedAt = new long[MaximumDepth];
     private static readonly Subsystem[] StackSubsystem = new Subsystem[MaximumDepth];
     private static readonly long[] StackResumedAt = new long[MaximumDepth];
     private static readonly double MillisecondsPerTick = 1_000.0 / Stopwatch.Frequency;
@@ -92,18 +100,34 @@ public static class SubsystemProfiler
         // happens to close in. Without this, draining inside a long region
         // reports zero for it and then attributes the whole span to the next read.
         var now = Stopwatch.GetTimestamp();
+        var allocated = GC.GetAllocatedBytesForCurrentThread();
         if (_depth > 0)
         {
             FrameTicks[(int)StackSubsystem[_depth - 1]] += now - StackResumedAt[_depth - 1];
+            FrameBytes[(int)StackSubsystem[_depth - 1]] +=
+                allocated - StackAllocatedAt[_depth - 1];
             StackResumedAt[_depth - 1] = now;
+            StackAllocatedAt[_depth - 1] = allocated;
         }
         var sample = new Sample(
             FrameTicks[(int)Subsystem.Road] * MillisecondsPerTick,
             FrameTicks[(int)Subsystem.RouteContext] * MillisecondsPerTick,
             FrameTicks[(int)Subsystem.Environment] * MillisecondsPerTick,
             FrameTicks[(int)Subsystem.Vehicle] * MillisecondsPerTick,
-            FrameTicks[(int)Subsystem.Ui] * MillisecondsPerTick);
+            FrameTicks[(int)Subsystem.Ui] * MillisecondsPerTick,
+            FrameTicks[(int)Subsystem.Camera] * MillisecondsPerTick,
+            FrameTicks[(int)Subsystem.Orchestration] * MillisecondsPerTick,
+            FrameTicks[(int)Subsystem.Input] * MillisecondsPerTick,
+            FrameBytes[(int)Subsystem.Road],
+            FrameBytes[(int)Subsystem.RouteContext],
+            FrameBytes[(int)Subsystem.Environment],
+            FrameBytes[(int)Subsystem.Vehicle],
+            FrameBytes[(int)Subsystem.Ui],
+            FrameBytes[(int)Subsystem.Camera],
+            FrameBytes[(int)Subsystem.Orchestration],
+            FrameBytes[(int)Subsystem.Input]);
         Array.Clear(FrameTicks);
+        Array.Clear(FrameBytes);
         return sample;
     }
 
@@ -113,9 +137,24 @@ public static class SubsystemProfiler
         double RouteContext,
         double Environment,
         double Vehicle,
-        double Ui)
+        double Ui,
+        double Camera = 0,
+        double Orchestration = 0,
+        double InputHandling = 0,
+        long RoadBytes = 0,
+        long RouteContextBytes = 0,
+        long EnvironmentBytes = 0,
+        long VehicleBytes = 0,
+        long UiBytes = 0,
+        long CameraBytes = 0,
+        long OrchestrationBytes = 0,
+        long InputBytes = 0)
     {
         public double Total => Road + RouteContext + Environment + Vehicle + Ui;
+
+        public long TotalBytes =>
+            RoadBytes + RouteContextBytes + EnvironmentBytes + VehicleBytes + UiBytes
+            + CameraBytes + OrchestrationBytes + InputBytes;
     }
 
     /// <summary>Times a region, charging it exclusively to one subsystem.</summary>
@@ -126,14 +165,18 @@ public static class SubsystemProfiler
             return default;
         }
         var now = Stopwatch.GetTimestamp();
+        var allocated = GC.GetAllocatedBytesForCurrentThread();
         if (_depth > 0)
         {
             // Suspend the parent: it is charged up to here, and resumes when this
             // region closes.
             FrameTicks[(int)StackSubsystem[_depth - 1]] += now - StackResumedAt[_depth - 1];
+            FrameBytes[(int)StackSubsystem[_depth - 1]] +=
+                allocated - StackAllocatedAt[_depth - 1];
         }
         StackSubsystem[_depth] = subsystem;
         StackResumedAt[_depth] = now;
+        StackAllocatedAt[_depth] = allocated;
         _depth++;
         return new Region(true);
     }
@@ -153,11 +196,14 @@ public static class SubsystemProfiler
                 return;
             }
             var now = Stopwatch.GetTimestamp();
+            var allocated = GC.GetAllocatedBytesForCurrentThread();
             _depth--;
             FrameTicks[(int)StackSubsystem[_depth]] += now - StackResumedAt[_depth];
+            FrameBytes[(int)StackSubsystem[_depth]] += allocated - StackAllocatedAt[_depth];
             if (_depth > 0)
             {
                 StackResumedAt[_depth - 1] = now;
+                StackAllocatedAt[_depth - 1] = allocated;
             }
         }
     }

@@ -135,6 +135,11 @@ public sealed partial class CockpitCameraRig : Node3D
         float displayedYaw = 0,
         bool rearViewHeld = false)
     {
+        // Only PlayGodot reads this; rebuilding it per frame is pure allocation.
+        if (!Cannonball.Game.Automation.AutomationInspection.Enabled)
+        {
+            return;
+        }
         var snapshot = CaptureSnapshot();
         _automationState["active"] = snapshot.Active;
         _automationState["mode"] = "cockpit";
