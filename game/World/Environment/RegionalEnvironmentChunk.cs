@@ -92,7 +92,14 @@ public sealed partial class RegionalEnvironmentChunk : Node3D
         return chunk;
     }
 
-    public void ShiftForOriginRebase(Vector3 horizontal) => Position -= horizontal;
+    public void ShiftForOriginRebase(Vector3 horizontal)
+    {
+        // Interpolation would otherwise smear this node across the shift, because
+        // it blends from the pre-shift transform to the post-shift one over the next
+        // rendered frame. A rebase is a teleport, not motion.
+        Position -= horizontal;
+        ResetPhysicsInterpolation();
+    }
 
     public EnvironmentChunkSnapshot CaptureSnapshot() => new(
         ChunkId,

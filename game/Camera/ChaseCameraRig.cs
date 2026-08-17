@@ -144,6 +144,28 @@ public sealed partial class ChaseCameraRig : Node3D
         UpdateAutomationState(speed);
     }
 
+    /// <summary>
+    /// Moves the rig with an origin rebase so no discontinuity is introduced.
+    /// </summary>
+    /// <remarks>
+    /// WorldStreamer shifts the vehicle, chunks, seams, environment and structures
+    /// when the origin rebases, which happens every RebaseThresholdMeters - 1 km, so
+    /// about every 20 seconds at 50 m/s. This rig is TopLevel and keeps a
+    /// world-space smoothed position, so without the same shift it is left a
+    /// kilometre from its target, exceeds TeleportSnapDistanceMeters and snaps. That
+    /// snap is a single-frame discontinuity, and it is what the owner reported as the
+    /// car jumping backwards roughly every twenty seconds.
+    ///
+    /// Shifting instead of snapping keeps the smoothing state continuous, so the
+    /// camera does not move relative to the world at all.
+    /// </remarks>
+    public void ShiftForOriginRebase(Vector3 shift)
+    {
+        Position -= shift;
+        _smoothedPosition -= shift;
+        ResetPhysicsInterpolation();
+    }
+
     public void SnapToTarget()
     {
         _smoothedPosition = Target.GlobalPosition;

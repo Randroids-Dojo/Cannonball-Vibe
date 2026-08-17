@@ -22,6 +22,13 @@ export/convert_text_resources_to_binary=false
 joypads/ignore_joypad_on_unfocused_application=true
 
 [physics]
+; The car's transform only changes on a physics tick. Rendering runs far faster -
+; over 1000 fps in reference captures - so without interpolation the car is held
+; for several frames and then jumps, while the chase rig smooths every rendered
+; frame. The car steps, the camera glides, and the relative motion reads as
+; constant high-frequency bumping that no suspension, tyre or road change affects.
+; Confirmed by capping render to the physics rate, which removed it.
+common/physics_interpolation=true
 common/physics_ticks_per_second=120
 common/max_physics_steps_per_frame=16
 3d/physics_engine="Jolt Physics"
