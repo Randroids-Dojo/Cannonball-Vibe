@@ -25,7 +25,8 @@ terrain do not have the same visual or gameplay value.
   12 GB, and 64 GB Windows 11 PC.
 - After scenario warm-up, the provisional production-stable frame-pacing gate
   requires presented-frame time at or below 16.67 ms at p95, at or below 20 ms
-  at p99, and no steady-driving stall above 50 ms. Average FPS alone cannot pass
+  at p99, and no steady-driving stall above 20 ms (lowered from 50 ms on
+  2026-08-16; see the addendum below). Average FPS alone cannot pass
   the gate. This applies to uncapped runs; a frame-capped run is judged on cap
   adherence instead, per the 2026-08-14 addendum.
 - At the High preset, provisional memory ceilings are 9.5 GB of GPU memory and
@@ -201,3 +202,58 @@ Two limits are recorded so later work does not rediscover them:
 Traffic, effects and lighting keep layer-2 reserves and are deliberately not
 instrumented, because timing a system that does not exist reports a confident
 zero.
+
+
+## Stall threshold addendum — 2026-08-16
+
+The steady-driving stall threshold is **20 ms**, lowered from 50 ms by the owner.
+
+The 50 ms line was set before anything measured what a player actually notices.
+On 2026-08-16 the owner marked visible hitches with a keypress while a capture
+recorded the preceding frames. All 53 marks in 90 seconds landed on frames between
+8 and 46 ms, and 52 of 53 contained a frame over 20 ms. The gate reported **zero
+stalls** for that run.
+
+Against a median frame near 1 ms, a 20 ms frame is a twentyfold spike. A threshold
+that reports a clean pass for a run the owner marked 53 times is not measuring the
+property it exists to protect. Smaller bumps were perceived down to about 8 ms, so
+20 ms is not the perception floor either - it is a defensible line that catches
+what was reported, and it can be lowered again with evidence.
+
+Diagnosis and acceptance are now separate. `CANNONBALL_STALL_THRESHOLD_MS` lowers
+the threshold at which a frame is *recorded* with its work attribution, which
+changes what can be investigated without moving what counts as a pass.
+
+Runs recorded before this date were judged at 50 ms and do not become failures
+retroactively; they were measured against the threshold in force at the time and
+say so in their own evidence.
+
+## Garbage collection addendum — 2026-08-16
+
+`scripts/godot.sh` sets `DOTNET_GCgen0size` to 8 MB for every run it launches.
+
+The game's per-frame garbage is dominated by Godot wrappers, which carry
+finalizers and so cannot die in gen0; they are promoted by construction, which is
+why every collection observed was a gen1 collection. Pause length therefore tracks
+how much must be promoted, and the nursery size sets how much that is.
+
+Measured on the representative corridor at 50 m/s over 60 s:
+
+| Nursery | gen0 collections | Worst frame |
+| --- | ---: | ---: |
+| dynamic default | 9 | 39.7 ms |
+| **8 MB** | 17 | **24.5 ms** |
+| 64 MB | 2 | 116.5 ms |
+
+More frequent, smaller pauses win: a 116 ms freeze is far more visible than
+several short ones, which the owner reported independently before seeing the
+numbers.
+
+It has to be an environment variable. Godot hosts the runtime itself, so
+`System.GC.Gen0Size` in a runtimeconfig template is never read - verified by
+measurement rather than assumed, because adding the variable on top of the
+template still changed gen0 counts.
+
+**An exported build never runs `scripts/godot.sh` and therefore does not get this
+setting**, so a player would see the default behaviour these captures no longer
+measure. Tracked as **P1-014** in the delivery ledger.

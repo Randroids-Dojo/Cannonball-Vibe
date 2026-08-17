@@ -173,6 +173,11 @@ public sealed partial class DrivingInputController : Node
         ConditionedDrivingInput conditioned,
         RawDrivingInput raw)
     {
+        // Only PlayGodot reads this; rebuilding it per frame is pure allocation.
+        if (!Cannonball.Game.Automation.AutomationInspection.Enabled)
+        {
+            return;
+        }
         var tuning = DrivingInputTuning.For(_activeProfile);
         _automationState["device_source"] = conditioned.Device.ToString().ToLowerInvariant();
         _automationState["active_controller_device"] = _activeControllerDevice;

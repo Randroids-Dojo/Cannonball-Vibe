@@ -1831,6 +1831,40 @@
         "required_for": "public_release"
       },
       "notes": "Q-007 was resolved by the owner on 2026-07-23 as Option A: Steam is the authoritative commercial customer channel, itch.io may carry explicitly labeled demos or early builds, and GitHub Releases remains the technical artifact and provenance channel. The task remains blocked by incomplete dependencies and by human approval for signing credentials, commercial terms, the Steam Direct fee or any other spending, store submission, build upload, and public release. No spending, storefront creation, credential use, upload, or publication is authorized by the channel decision."
+    },
+    {
+      "id": "P1-014",
+      "milestone": "M5",
+      "priority": "P1",
+      "title": "Exported builds apply the GC nursery setting at launch",
+      "status": "open",
+      "dependencies": [
+        "P0-007"
+      ],
+      "scope": "Make an exported desktop build start with the same .NET nursery size that scripts/godot.sh sets for repo-driven runs, so a player gets the frame pacing the reference captures measure.",
+      "owned_paths": [
+        "export_presets.cfg",
+        "scripts/release/",
+        ".github/workflows/unsigned-exports.yml",
+        "docs/decisions/ADR-0023-reference-performance-target-and-layered-budgets.md",
+        "evidence/M5/P1-014.json"
+      ],
+      "acceptance": [
+        "An exported build launched the way a player launches it runs with the ratified nursery size, demonstrated by a measurement from the exported build rather than from the editor or a script",
+        "The mechanism does not depend on scripts/godot.sh, which an exported build never runs",
+        "The chosen mechanism is recorded with why it works, given that System.GC.Gen0Size in a runtimeconfig template was measured to have no effect because Godot hosts the runtime itself",
+        "Every supported desktop target is covered, or the uncovered targets are named",
+        "A run of the exported build records gen0 collection count and worst frame time so the setting can be shown to be active rather than assumed"
+      ],
+      "verification": [
+        "./scripts/release/build-unsigned.sh",
+        "./scripts/check.sh"
+      ],
+      "evidence": [
+        "evidence/M5/P1-014.json",
+        "docs/audits/2026-08-16-frame-stutter-root-cause.md"
+      ],
+      "notes": "Opened on 2026-08-16 from the frame-stutter root cause. Godot wrappers carry finalizers and cannot die in gen0, so every collection promotes and pause length tracks nursery size. Measured at 50 m/s over 60 s on the representative corridor, the dynamic default gave 9 collections with a 39.7 ms worst frame, 8 MB gave 17 collections with a 24.5 ms worst frame, and 64 MB gave 2 collections with a 116.5 ms worst frame, so more frequent smaller pauses win. scripts/godot.sh now exports DOTNET_GCgen0size=800000 hex, which covers check.sh, every scenario, every capture and every verify script. An exported build does not run that script and therefore does not get the setting, so a player would see the default behaviour the captures no longer measure. A runtimeconfig.template.json carrying System.GC.Gen0Size was tried first and removed: it merged into the generated Cannonball.runtimeconfig.json correctly and had no effect, confirmed because adding the environment variable on top still changed gen0 counts. Godot hosts the runtime itself, so the application's configProperties never reach GC initialisation. Leaving an inert setting in the tree would have looked authoritative while doing nothing. Candidate mechanisms not yet evaluated: a launcher shim or .bat/.sh wrapper that sets the variable before starting the binary, an export-time hook, or a Godot-side runtime setting if one exists that is honoured."
     }
   ]
 }

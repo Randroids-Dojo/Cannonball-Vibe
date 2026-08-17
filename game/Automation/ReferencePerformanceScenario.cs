@@ -19,7 +19,39 @@ public sealed class ReferencePerformanceScenario
 #else
     private const string BuildConfiguration = "Release";
 #endif
-    public const double StallThresholdMilliseconds = 50;
+    /// <summary>
+    /// Frame time above which a frame is recorded as a stall with its work record.
+    /// </summary>
+    /// <remarks>
+    /// ADR-0023 sets the acceptance threshold at 50 ms. That is the pass/fail line,
+    /// but it is the wrong line for *diagnosis*: on 2026-08-16 the owner marked 53
+    /// visible hitches in 90 seconds and every one landed between 20 and 46 ms, so
+    /// the gate reported zero stalls for a run that was visibly stuttering roughly
+    /// every 1.7 seconds. Against a 1.05 ms median frame, a 30 ms frame is a 30x
+    /// spike and plainly perceptible.
+    ///
+    /// CANNONBALL_STALL_THRESHOLD_MS lowers the recording threshold so those frames
+    /// carry their work record. It does not change acceptance, which is still
+    /// judged at 50 ms.
+    /// </remarks>
+    public static readonly double StallThresholdMilliseconds =
+        double.TryParse(
+            System.Environment.GetEnvironmentVariable("CANNONBALL_STALL_THRESHOLD_MS"),
+            System.Globalization.CultureInfo.InvariantCulture,
+            out var configuredThreshold) && configuredThreshold > 0
+            ? configuredThreshold
+            : StallAcceptanceThresholdMilliseconds;
+
+    /// <summary>Frame time above which a steady-driving frame fails acceptance.</summary>
+    /// <remarks>
+    /// Lowered from 50 ms to 20 ms by the owner on 2026-08-16. The 50 ms line was
+    /// set before anything measured what a player notices. When the owner marked
+    /// visible hitches, all 53 in 90 seconds fell between 8 and 46 ms, so the gate
+    /// reported zero stalls for a run that was visibly stuttering about twice a
+    /// second. Against a median frame near 1 ms, a 20 ms frame is a twentyfold
+    /// spike.
+    /// </remarks>
+    public const double StallAcceptanceThresholdMilliseconds = 20;
     private const int MaximumRecordedStalls = 20_000;
     private const int MaximumFramesPerAggregateRow = 65_536;
     private const double MemorySampleIntervalSeconds = 0.5;
@@ -81,6 +113,33 @@ public sealed class ReferencePerformanceScenario
     private int _startingGen2Collections;
     private long _startingAllocatedBytes;
     private WorkCounters _previousCounters;
+    // Road-holding, because a capture that reports "steady driving" while the car
+    // leaves the carriageway and is teleported back is not measuring steady
+    // driving. Nothing recorded this until the owner reported watching it happen.
+    // Ride height per physics frame, for the speed sweep that separates suspension
+    // resonance from road geometry. Peak-to-peak is the quantity the bounce is
+    // felt as; std is reported because a single outlier moves p2p and not std.
+    private double _rideHeightMinimum = double.MaxValue;
+    private double _rideHeightMaximum = double.MinValue;
+    private double _rideHeightSum;
+    private double _rideHeightSumSquares;
+    private int _rideHeightSamples;
+    // Operator marks. A person notices a hitch and presses a key roughly a quarter
+    // of a second later, so marking the current frame would record the recovery and
+    // miss the event. Every measured frame goes into a ring buffer and a mark dumps
+    // the window that preceded it.
+    private const double MarkLookbackSeconds = 1.5;
+    private const int MarkRingCapacity = 8192;
+    private readonly FrameTrace[] _markRing = new FrameTrace[MarkRingCapacity];
+    private int _markRingCount;
+    private int _markRingNext;
+    private bool _markKeyWasDown;
+    private readonly List<object> _operatorMarks = [];
+
+    private double _maximumAbsoluteLateralOffsetMeters;
+    private double _lateralOffsetSum;
+    private int _lateralOffsetSamples;
+    private int _startingResetCount = -1;
     private SubsystemMilliseconds _subsystemSum;
     private SubsystemMilliseconds _subsystemPeak;
     private int _subsystemSampleCount;
@@ -292,6 +351,9 @@ public sealed class ReferencePerformanceScenario
 
         var work = SampleWork();
         AccumulateSubsystems(work.Subsystems);
+        SampleRoadHolding();
+        RecordFrameTrace(frameMilliseconds);
+        PollOperatorMark();
 
         if (frameMilliseconds > StallThresholdMilliseconds)
         {
@@ -400,6 +462,14 @@ public sealed class ReferencePerformanceScenario
         var previous = _previousCounters;
         _previousCounters = current;
         var drained = Cannonball.Core.Performance.SubsystemProfiler.Drain();
+        _roadBytes += drained.RoadBytes;
+        _routeContextBytes += drained.RouteContextBytes;
+        _environmentBytes += drained.EnvironmentBytes;
+        _vehicleBytes += drained.VehicleBytes;
+        _uiBytes += drained.UiBytes;
+        _cameraBytes += drained.CameraBytes;
+        _orchestrationBytes += drained.OrchestrationBytes;
+        _inputBytes += drained.InputBytes;
         var subsystems = new SubsystemMilliseconds(
             drained.Road,
             drained.RouteContext,
@@ -812,6 +882,210 @@ public sealed class ReferencePerformanceScenario
                 : 0,
             bound_by = gpuMean > cpuMean ? "gpu" : "cpu",
             subsystem_cpu_ms = SubsystemAttribution(),
+            subsystem_allocation = SubsystemAllocation(),
+            road_holding = RoadHolding(),
+            ride_height = RideHeight(),
+            operator_marks = _operatorMarks,
+        };
+    }
+
+    private void RecordFrameTrace(double frameMilliseconds)
+    {
+        _markRing[_markRingNext] = new FrameTrace(
+            _measuredSeconds,
+            frameMilliseconds,
+            _vehicle.RideHeightMeters,
+            _streamer.RouteDistanceMeters,
+            _vehicle.SpeedMetersPerSecond,
+            _streamer.RebaseCount,
+            _vehicle.ResetToRoadCount);
+        _markRingNext = (_markRingNext + 1) % MarkRingCapacity;
+        _markRingCount = Math.Min(_markRingCount + 1, MarkRingCapacity);
+    }
+
+    /// <summary>
+    /// Records the window before an operator keypress, so a felt hitch can be
+    /// correlated against what the run was doing when it happened.
+    /// </summary>
+    /// <remarks>
+    /// Polled rather than driven by an input action, because the capture registers
+    /// no action for it and adding one would change the input map the driving tests
+    /// assert against. F8 is used because every letter key near the driving controls
+    /// is taken - M, the obvious choice, toggles the trip map.
+    /// </remarks>
+    private void PollOperatorMark()
+    {
+        var down = Godot.Input.IsPhysicalKeyPressed(Key.F8);
+        if (!down || _markKeyWasDown)
+        {
+            _markKeyWasDown = down;
+            return;
+        }
+        _markKeyWasDown = true;
+
+        var window = new List<object>();
+        var worstFrame = 0.0;
+        var rebasesInWindow = 0;
+        var firstRebase = -1;
+        for (var offset = 0; offset < _markRingCount; offset++)
+        {
+            var index = (_markRingNext - _markRingCount + offset + MarkRingCapacity)
+                % MarkRingCapacity;
+            var trace = _markRing[index];
+            if (_measuredSeconds - trace.Seconds > MarkLookbackSeconds)
+            {
+                continue;
+            }
+            if (firstRebase < 0)
+            {
+                firstRebase = trace.RebaseCount;
+            }
+            rebasesInWindow = trace.RebaseCount - firstRebase;
+            worstFrame = Math.Max(worstFrame, trace.FrameMilliseconds);
+            window.Add(new
+            {
+                t_s = trace.Seconds,
+                frame_ms = trace.FrameMilliseconds,
+                // Null rather than NaN: ride height is undefined on an airborne
+                // frame, and System.Text.Json refuses non-finite numbers outright.
+                ride_height_m = double.IsFinite(trace.RideHeightMeters)
+                    ? trace.RideHeightMeters
+                    : (double?)null,
+                route_distance_m = trace.RouteDistanceMeters,
+                speed_mps = trace.SpeedMetersPerSecond,
+                rebases = trace.RebaseCount,
+                resets = trace.ResetCount,
+            });
+        }
+
+        _operatorMarks.Add(new
+        {
+            marked_at_s = _measuredSeconds,
+            lookback_s = MarkLookbackSeconds,
+            frames_in_window = window.Count,
+            worst_frame_ms_in_window = worstFrame,
+            rebases_in_window = rebasesInWindow,
+            note =
+                "the operator presses after noticing, so the cause is earlier in this " +
+                "window than the mark time",
+            window,
+        });
+        GD.Print(
+            $"CANNONBALL_OPERATOR_MARK index={_operatorMarks.Count} t_s={_measuredSeconds:0.000} " +
+            $"worst_frame_ms={worstFrame:0.000} rebases_in_window={rebasesInWindow} " +
+            $"frames={window.Count}");
+    }
+
+    private void SampleRoadHolding()
+    {
+        if (_startingResetCount < 0)
+        {
+            _startingResetCount = _vehicle.ResetToRoadCount;
+        }
+        var rideHeight = _vehicle.RideHeightMeters;
+        if (double.IsFinite(rideHeight))
+        {
+            _rideHeightMinimum = Math.Min(_rideHeightMinimum, rideHeight);
+            _rideHeightMaximum = Math.Max(_rideHeightMaximum, rideHeight);
+            _rideHeightSum += rideHeight;
+            _rideHeightSumSquares += rideHeight * rideHeight;
+            _rideHeightSamples++;
+        }
+        var lateral = Math.Abs(_vehicle.CrossTrackErrorMeters);
+        _maximumAbsoluteLateralOffsetMeters = Math.Max(
+            _maximumAbsoluteLateralOffsetMeters, lateral);
+        _lateralOffsetSum += lateral;
+        _lateralOffsetSamples++;
+    }
+
+    /// <summary>
+    /// Whether the vehicle actually stayed on the route while being measured.
+    /// </summary>
+    /// <remarks>
+    /// Reported, not gated. What counts as leaving the carriageway depends on the
+    /// paved width at each station, which this does not read, so a threshold here
+    /// would be invented. A reset count above zero is unambiguous, though: the car
+    /// fell through the world and was teleported back, and the run is not a steady
+    /// drive.
+    /// </remarks>
+    /// <summary>Ride-height oscillation over the measured window.</summary>
+    /// <remarks>
+    /// Airborne frames are excluded rather than counted as zero, because a wheel
+    /// off the ground has no ride height and averaging one in would understate the
+    /// oscillation that put it there.
+    /// </remarks>
+    private object RideHeight()
+    {
+        if (_rideHeightSamples == 0)
+        {
+            return new { sample_count = 0, note = "no grounded frame was measured" };
+        }
+        var mean = _rideHeightSum / _rideHeightSamples;
+        var variance = Math.Max(0, _rideHeightSumSquares / _rideHeightSamples - mean * mean);
+        return new
+        {
+            sample_count = _rideHeightSamples,
+            mean_m = mean,
+            minimum_m = double.IsFinite(_rideHeightMinimum) ? _rideHeightMinimum : (double?)null,
+            maximum_m = double.IsFinite(_rideHeightMaximum) ? _rideHeightMaximum : (double?)null,
+            peak_to_peak_m = double.IsFinite(_rideHeightMaximum - _rideHeightMinimum)
+                ? _rideHeightMaximum - _rideHeightMinimum
+                : (double?)null,
+            standard_deviation_m = Math.Sqrt(variance),
+            basis = "chassis height above the mean tyre contact point, per physics frame",
+        };
+    }
+
+    private object RoadHolding() => new
+    {
+        reset_to_road_count = Math.Max(0, _vehicle.ResetToRoadCount - Math.Max(0, _startingResetCount)),
+        maximum_absolute_lateral_offset_m = _maximumAbsoluteLateralOffsetMeters,
+        mean_absolute_lateral_offset_m = _lateralOffsetSamples > 0
+            ? _lateralOffsetSum / _lateralOffsetSamples
+            : 0,
+        sample_count = _lateralOffsetSamples,
+        basis =
+            "cross-track error, the distance from the vehicle to the route centreline " +
+            "it is tracking, sampled per measured frame; a reset is a teleport back " +
+            "onto the route after falling through the world",
+        status =
+            "reported, not gated; a run with a non-zero reset count is not the steady " +
+            "drive its other metrics describe",
+    };
+
+    private long _roadBytes;
+    private long _routeContextBytes;
+    private long _environmentBytes;
+    private long _vehicleBytes;
+    private long _uiBytes;
+    private long _cameraBytes;
+    private long _orchestrationBytes;
+    private long _inputBytes;
+
+    /// <summary>Allocation attributed to each subsystem over the measured window.</summary>
+    /// <remarks>
+    /// A managed pause is caused by whoever produced the garbage, not by whoever was
+    /// running when the collector fired, so allocation is attributed at the same
+    /// region boundaries as time. Anything not covered by a region shows up as the
+    /// gap between these totals and the run's own allocation counter.
+    /// </remarks>
+    private object SubsystemAllocation()
+    {
+        var frames = Math.Max(1, _subsystemSampleCount);
+        var covered = _roadBytes + _routeContextBytes + _environmentBytes
+            + _vehicleBytes + _uiBytes + _cameraBytes + _orchestrationBytes + _inputBytes;
+        return new
+        {
+            road_bytes_per_frame = (double)_roadBytes / frames,
+            route_context_bytes_per_frame = (double)_routeContextBytes / frames,
+            environment_bytes_per_frame = (double)_environmentBytes / frames,
+            vehicle_bytes_per_frame = (double)_vehicleBytes / frames,
+            ui_bytes_per_frame = (double)_uiBytes / frames,
+            camera_bytes_per_frame = (double)_cameraBytes / frames,
+            orchestration_bytes_per_frame = (double)_orchestrationBytes / frames,
+            input_bytes_per_frame = (double)_inputBytes / frames,
+            attributed_bytes_per_frame = (double)covered / frames,
+            note = "anything above this per frame is allocated outside an instrumented region",
         };
     }
 
@@ -1004,11 +1278,18 @@ public sealed class ReferencePerformanceScenario
                 limit = 20.0,
                 passed = p99 <= 20.0,
             },
-            steady_driving_stalls_over_50ms = new
+            steady_driving_stalls_over_threshold = new
             {
-                measured = steadyStalls.Count,
+                // Counted at the ADR-0023 acceptance threshold, not at the recording
+                // threshold. Lowering recording for diagnosis must not silently
+                // tighten the gate.
+                measured = steadyStalls.Count(stall =>
+                    stall.FrameMilliseconds > StallAcceptanceThresholdMilliseconds),
                 limit = 0,
-                passed = steadyStalls.Count == 0,
+                passed = !steadyStalls.Any(stall =>
+                    stall.FrameMilliseconds > StallAcceptanceThresholdMilliseconds),
+                acceptance_threshold_ms = StallAcceptanceThresholdMilliseconds,
+                recording_threshold_ms = StallThresholdMilliseconds,
             },
             gpu_memory_bytes = new
             {
@@ -1310,6 +1591,16 @@ public sealed class ReferencePerformanceScenario
     /// are what would let it be ratified as measurements; until that happens they
     /// are evidence, not budget.
     /// </remarks>
+    /// <summary>One measured frame, kept only long enough to serve an operator mark.</summary>
+    private readonly record struct FrameTrace(
+        double Seconds,
+        double FrameMilliseconds,
+        double RideHeightMeters,
+        double RouteDistanceMeters,
+        double SpeedMetersPerSecond,
+        int RebaseCount,
+        int ResetCount);
+
     private readonly record struct SubsystemMilliseconds(
         double Road,
         double RouteContext,

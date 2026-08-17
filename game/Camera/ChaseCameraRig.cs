@@ -94,6 +94,8 @@ public sealed partial class ChaseCameraRig : Node3D
         {
             return;
         }
+        using var cameraRegion = Cannonball.Core.Performance.SubsystemProfiler.Measure(
+            Cannonball.Core.Performance.SubsystemProfiler.Subsystem.Camera);
 
         var targetPosition = Target.GlobalPosition;
         var targetForward = HorizontalForward(Target.GlobalTransform.Basis);
@@ -149,15 +151,15 @@ public sealed partial class ChaseCameraRig : Node3D
     /// </summary>
     /// <remarks>
     /// WorldStreamer shifts the vehicle, chunks, seams, environment and structures
-    /// when the origin rebases, which happens every RebaseThresholdMeters - 1 km, so
-    /// about every 20 seconds at 50 m/s. This rig is TopLevel and keeps a
+    /// when the origin rebases, which happens every RebaseThresholdMeters - 1 km,
+    /// so about every 20 seconds at 50 m/s. This rig is TopLevel and keeps a
     /// world-space smoothed position, so without the same shift it is left a
-    /// kilometre from its target, exceeds TeleportSnapDistanceMeters and snaps. That
-    /// snap is a single-frame discontinuity, and it is what the owner reported as the
-    /// car jumping backwards roughly every twenty seconds.
+    /// kilometre away from its target, exceeds TeleportSnapDistanceMeters and
+    /// snaps. The snap is a single-frame discontinuity that reads as the car
+    /// jumping.
     ///
-    /// Shifting instead of snapping keeps the smoothing state continuous, so the
-    /// camera does not move relative to the world at all.
+    /// Shifting instead of snapping keeps the smoothing state continuous across a
+    /// rebase, so the camera does not move relative to the world at all.
     /// </remarks>
     public void ShiftForOriginRebase(Vector3 shift)
     {
@@ -211,6 +213,12 @@ public sealed partial class ChaseCameraRig : Node3D
 
     private void UpdateAutomationState(float speedMetersPerSecond)
     {
+        // Only PlayGodot reads this, and rebuilding it every rendered frame was the
+        // single largest source of managed garbage in the game.
+        if (!Automation.AutomationInspection.Enabled)
+        {
+            return;
+        }
         var snapshot = CaptureSnapshot();
         _automationState["mode"] = "chase";
         _automationState["active"] = snapshot.Active;

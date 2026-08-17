@@ -632,12 +632,19 @@ public sealed partial class Main : Node3D
         }
     }
 
+    /// <summary>How often the HUD text is rebuilt, in seconds.</summary>
+    private const double HudUpdateIntervalSeconds = 0.05;
+
+    private double _hudUpdateElapsed;
+
     public override void _Process(double delta)
     {
         if (_streamer is null || _vehicle is null || _hud is null || _tripMap is null)
         {
             return;
         }
+        using var frameRegion = Cannonball.Core.Performance.SubsystemProfiler.Measure(
+            Cannonball.Core.Performance.SubsystemProfiler.Subsystem.Orchestration);
 
         if (_restartRunRequested)
         {
@@ -676,12 +683,22 @@ public sealed partial class Main : Node3D
             return;
         }
 
-        _hud.UpdateTelemetry(
-            _vehicle.SpeedMetersPerSecond,
-            _streamer.RouteDistanceMeters,
-            _streamer.LoadedChunkCount,
-            _streamer.LocalOriginMeters,
-            _vehicle.AssistProfile);
+        // The HUD rebuilt four interpolated strings on every rendered frame - over
+        // 800 a second - and a speed readout only has to change as fast as a person
+        // can read it. String churn at frame rate was a measurable share of the
+        // allocation that filled gen0 every two seconds.
+        _hudUpdateElapsed += delta;
+        if (_hudUpdateElapsed >= HudUpdateIntervalSeconds)
+        {
+            _hudUpdateElapsed = 0;
+            _hud.UpdateTelemetry(
+                _vehicle.SpeedMetersPerSecond,
+                _streamer.RouteDistanceMeters,
+                _streamer.LoadedChunkCount,
+                _streamer.LocalOriginMeters,
+                _vehicle.AssistProfile);
+        }
+
         _peakSpeedMetersPerSecond = Math.Max(_peakSpeedMetersPerSecond, _vehicle.SpeedMetersPerSecond);
         if (_renderIntegrity)
         {
@@ -3386,6 +3403,13 @@ public sealed partial class Main : Node3D
     private void UpdateRunAutomationState()
     {
         if (_vehicle is null || _streamer is null)
+        {
+            return;
+        }
+        // Same shape as the camera and input rigs: only PlayGodot reads this, and
+        // every entry boxes a Variant and marshals a string key. Rebuilding it on
+        // every rendered frame was pure garbage in normal play.
+        if (!Automation.AutomationInspection.Enabled)
         {
             return;
         }

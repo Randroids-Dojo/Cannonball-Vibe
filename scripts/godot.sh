@@ -4,6 +4,25 @@ set -euo pipefail
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source "$repo_root/scripts/tool-versions.sh"
 
+# Nursery size for the .NET GC, in hex bytes: 0x800000 is 8 MB.
+#
+# The game's per-frame garbage is dominated by Godot wrappers, which carry
+# finalizers and so cannot die in gen0 - they are promoted by construction, which
+# is why every collection is a gen1 collection. Pause length therefore tracks how
+# much has to be promoted, and the nursery size sets how much that is.
+#
+# Measured on the representative corridor at 50 m/s over 60 s: the dynamic default
+# gave 9 collections with a 39.7 ms worst frame, 8 MB gave 17 collections with a
+# 24.5 ms worst frame, and 64 MB gave 2 collections with a 116.5 ms worst frame.
+# More frequent, smaller pauses win because a 116 ms freeze is far more visible
+# than several short ones. See docs/audits/2026-08-16-frame-stutter-root-cause.md.
+#
+# This has to be an environment variable. Godot hosts the runtime itself, so the
+# System.GC.Gen0Size property in a runtimeconfig template is never read - verified
+# by measurement, not assumed. An exported build needs the same variable set by
+# whatever launches it.
+export DOTNET_GCgen0size="${DOTNET_GCgen0size:-800000}"
+
 if [[ -n "${GODOT_BIN:-}" ]]; then
   godot_bin="$GODOT_BIN"
 elif [[ -x "$repo_root/.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot" ]]; then

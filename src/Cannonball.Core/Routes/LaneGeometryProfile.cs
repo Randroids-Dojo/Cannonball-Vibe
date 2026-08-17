@@ -46,8 +46,7 @@ public static class LaneGeometryProfile
         {
             throw new ArgumentOutOfRangeException(nameof(distanceMeters));
         }
-        var layouts = BuildAlignedLayouts(edge);
-        var transitions = BuildTransitions(edge, layouts);
+        var (layouts, transitions) = GetGeometry(edge);
         for (var index = 1; index < layouts.Count; index++)
         {
             var transition = transitions[index - 1];
@@ -86,6 +85,44 @@ public static class LaneGeometryProfile
         ArgumentNullException.ThrowIfNull(edge);
         var layouts = BuildAlignedLayouts(edge);
         return BuildTransitions(edge, layouts);
+    }
+
+    /// <summary>
+    /// Aligned layouts and transitions for an edge, built once and reused.
+    /// </summary>
+    /// <remarks>
+    /// Both depend only on the edge, which is immutable content; the distance
+    /// argument merely selects within them. Evaluate rebuilt them on every call,
+    /// and it is called from the physics tick, so a corridor drive was
+    /// reconstructing the whole lane structure 120 times a second. That was the
+    /// largest remaining source of per-frame allocation after the 2026-08-16
+    /// stutter work.
+    ///
+    /// Keyed on the edge instance through a weak table, so a package swap does not
+    /// leak: entries disappear with the edges they describe, and edges from a new
+    /// package are different objects rather than stale hits. The table is
+    /// thread-safe, which matters because chunk building runs on task threads while
+    /// the physics tick evaluates on the main thread.
+    /// </remarks>
+    private static readonly System.Runtime.CompilerServices.ConditionalWeakTable<
+        RouteEdge,
+        EdgeGeometry> GeometryCache = new();
+
+    private sealed record EdgeGeometry(
+        IReadOnlyList<SectionLayout> Layouts,
+        IReadOnlyList<LaneGeometryTransition> Transitions);
+
+    private static (IReadOnlyList<SectionLayout> Layouts,
+        IReadOnlyList<LaneGeometryTransition> Transitions) GetGeometry(RouteEdge edge)
+    {
+        var geometry = GeometryCache.GetValue(
+            edge,
+            key =>
+            {
+                var layouts = BuildAlignedLayouts(key);
+                return new EdgeGeometry(layouts, BuildTransitions(key, layouts));
+            });
+        return (geometry.Layouts, geometry.Transitions);
     }
 
     private static IReadOnlyList<LaneGeometryTransition> BuildTransitions(
