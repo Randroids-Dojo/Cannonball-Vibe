@@ -42,7 +42,9 @@ public static class SubsystemProfiler
     /// <remarks>
     /// Traffic, effects and lighting have layer-2 reserves but no implementation,
     /// so timing them would report a confident zero for a system that does not
-    /// exist. They are added when they are built.
+    /// exist. They are added when they are built. Camera and Orchestration are not
+    /// layer-2 names; they exist for allocation attribution, added when the
+    /// 2026-08-16 stutter work found them among the largest per-frame allocators.
     /// </remarks>
     public enum Subsystem
     {
@@ -53,10 +55,9 @@ public static class SubsystemProfiler
         Ui,
         Camera,
         Orchestration,
-        Input,
     }
 
-    private const int SubsystemCount = 8;
+    private const int SubsystemCount = 7;
 
     // Deeper than any instrumented nesting; overflow drops the region rather than
     // throwing, because a profiler must never be the reason a capture fails.
@@ -115,46 +116,43 @@ public static class SubsystemProfiler
             FrameTicks[(int)Subsystem.Environment] * MillisecondsPerTick,
             FrameTicks[(int)Subsystem.Vehicle] * MillisecondsPerTick,
             FrameTicks[(int)Subsystem.Ui] * MillisecondsPerTick,
-            FrameTicks[(int)Subsystem.Camera] * MillisecondsPerTick,
-            FrameTicks[(int)Subsystem.Orchestration] * MillisecondsPerTick,
-            FrameTicks[(int)Subsystem.Input] * MillisecondsPerTick,
             FrameBytes[(int)Subsystem.Road],
             FrameBytes[(int)Subsystem.RouteContext],
             FrameBytes[(int)Subsystem.Environment],
             FrameBytes[(int)Subsystem.Vehicle],
             FrameBytes[(int)Subsystem.Ui],
             FrameBytes[(int)Subsystem.Camera],
-            FrameBytes[(int)Subsystem.Orchestration],
-            FrameBytes[(int)Subsystem.Input]);
+            FrameBytes[(int)Subsystem.Orchestration]);
         Array.Clear(FrameTicks);
         Array.Clear(FrameBytes);
         return sample;
     }
 
-    /// <summary>One interval's exclusive milliseconds, by subsystem.</summary>
+    /// <summary>
+    /// One interval's exclusive milliseconds and allocated bytes, by subsystem.
+    /// </summary>
+    /// <remarks>
+    /// Milliseconds cover the five ADR-0023 layer-2 subsystems, which is the
+    /// boundary the CPU attribution is ratified in terms of. Bytes cover every
+    /// instrumented region, because allocation attribution exists to explain
+    /// collection pauses and the camera and orchestration regions were among the
+    /// largest allocators the 2026-08-16 stutter work found.
+    /// </remarks>
     public readonly record struct Sample(
         double Road,
         double RouteContext,
         double Environment,
         double Vehicle,
         double Ui,
-        double Camera = 0,
-        double Orchestration = 0,
-        double InputHandling = 0,
-        long RoadBytes = 0,
-        long RouteContextBytes = 0,
-        long EnvironmentBytes = 0,
-        long VehicleBytes = 0,
-        long UiBytes = 0,
-        long CameraBytes = 0,
-        long OrchestrationBytes = 0,
-        long InputBytes = 0)
+        long RoadBytes,
+        long RouteContextBytes,
+        long EnvironmentBytes,
+        long VehicleBytes,
+        long UiBytes,
+        long CameraBytes,
+        long OrchestrationBytes)
     {
         public double Total => Road + RouteContext + Environment + Vehicle + Ui;
-
-        public long TotalBytes =>
-            RoadBytes + RouteContextBytes + EnvironmentBytes + VehicleBytes + UiBytes
-            + CameraBytes + OrchestrationBytes + InputBytes;
     }
 
     /// <summary>Times a region, charging it exclusively to one subsystem.</summary>

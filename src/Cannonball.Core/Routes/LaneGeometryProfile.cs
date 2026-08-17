@@ -62,15 +62,24 @@ public static class LaneGeometryProfile
             return Interpolate(layouts[index - 1], layouts[index], distanceMeters, factor);
         }
 
-        var layout = layouts.Last(candidate =>
-            distanceMeters + 1e-9 >= candidate.Section.StartMeters);
-        return ToSample(layout, distanceMeters);
+        // A reverse loop rather than Enumerable.Last with a predicate: this runs
+        // from the physics tick, and the lambda captured distanceMeters, costing a
+        // closure allocation per call.
+        for (var index = layouts.Count - 1; index >= 0; index--)
+        {
+            if (distanceMeters + 1e-9 >= layouts[index].Section.StartMeters)
+            {
+                return ToSample(layouts[index], distanceMeters);
+            }
+        }
+        throw new InvalidOperationException(
+            $"No lane section on edge '{edge.Id}' covers {distanceMeters:F3} meters.");
     }
 
     public static double GetRecommendedTransitionLengthMeters(RouteEdge edge)
     {
         ArgumentNullException.ThrowIfNull(edge);
-        var layouts = BuildAlignedLayouts(edge);
+        var (layouts, _) = GetGeometry(edge);
         return Enumerable.Range(1, layouts.Count - 1)
             .Select(index => GetRecommendedTransitionLengthMeters(
                 edge,
@@ -83,8 +92,7 @@ public static class LaneGeometryProfile
     public static IReadOnlyList<LaneGeometryTransition> GetTransitions(RouteEdge edge)
     {
         ArgumentNullException.ThrowIfNull(edge);
-        var layouts = BuildAlignedLayouts(edge);
-        return BuildTransitions(edge, layouts);
+        return GetGeometry(edge).Transitions;
     }
 
     /// <summary>

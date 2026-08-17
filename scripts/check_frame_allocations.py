@@ -65,7 +65,7 @@ SUPPRESSION = re.compile(r"//\s*frame-alloc-ok:\s*\S")
 
 
 def per_frame_bodies(text: str) -> list[tuple[str, int, list[str]]]:
-    """Yield (method, first line number, body lines) for each per-frame method."""
+    """Return (method, first line number, body lines) for each per-frame method."""
     lines = text.split("\n")
     found: list[tuple[str, int, list[str]]] = []
     for index, line in enumerate(lines):
@@ -98,7 +98,7 @@ def scan(root: Path) -> list[str]:
                 if SUPPRESSION.search(line):
                     continue
                 stripped = line.strip()
-                if stripped.startswith("//") or stripped.startswith("///"):
+                if stripped.startswith("//"):
                     continue
                 for pattern, cost in FORBIDDEN:
                     if pattern in line:

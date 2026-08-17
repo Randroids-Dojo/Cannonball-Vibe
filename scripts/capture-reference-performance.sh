@@ -382,10 +382,14 @@ sample_clients() {
 # mask real contention: a machine that is genuinely busy never settles, and the
 # wait is bounded so it fails rather than hanging.
 settle_seconds="${CANNONBALL_GPU_SETTLE_SECONDS:-60}"
-# The same ceiling record_machine_state.py judges against, so the wait and the
-# verdict cannot disagree. Raising it is the owner's call and is recorded in the
-# machine-state document rather than applied silently.
-idle_ceiling="${CANNONBALL_IDLE_GPU_CEILING_PERCENT:-10}"
+# The ceiling comes from record_machine_state.py itself - default, override, and
+# validation included - so the settle wait and the recorded verdict cannot
+# disagree, and a malformed CANNONBALL_IDLE_GPU_CEILING_PERCENT fails here rather
+# than after the capture has already run. Raising it is the owner's call and is
+# recorded in the machine-state document rather than applied silently.
+idle_ceiling="$(uv run --project "$repo_root/tools/map_pipeline" --frozen python -c \
+  "import sys; sys.path.insert(0, sys.argv[1]); import record_machine_state; print(record_machine_state.idle_ceiling_percent())" \
+  "$repo_root/scripts")"
 settle_deadline=$((SECONDS + settle_seconds))
 while true; do
   gpu_utilization="$(nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits 2>/dev/null || echo unknown)"

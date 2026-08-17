@@ -56,15 +56,6 @@ public sealed partial class RoadStructureSet : Node3D
         return set;
     }
 
-    public void ShiftForOriginRebase(Vector3 shift)
-    {
-        // Interpolation would otherwise smear this node across the shift, because
-        // it blends from the pre-shift transform to the post-shift one over the next
-        // rendered frame. A rebase is a teleport, not motion.
-        Position -= shift;
-        ResetPhysicsInterpolation();
-    }
-
     public RoadStructurePlacement? ReviewPlacement => _placements
         .OrderBy(item => item.Id, StringComparer.Ordinal)
         .FirstOrDefault();

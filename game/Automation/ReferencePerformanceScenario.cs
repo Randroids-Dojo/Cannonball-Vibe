@@ -139,10 +139,18 @@ public sealed class ReferencePerformanceScenario
     private double _maximumAbsoluteLateralOffsetMeters;
     private double _lateralOffsetSum;
     private int _lateralOffsetSamples;
-    private int _startingResetCount = -1;
+    private int _startingResetCount;
     private SubsystemMilliseconds _subsystemSum;
     private SubsystemMilliseconds _subsystemPeak;
     private int _subsystemSampleCount;
+    // Allocation attributed per subsystem, accumulated from each frame's drain.
+    private long _roadBytes;
+    private long _routeContextBytes;
+    private long _environmentBytes;
+    private long _vehicleBytes;
+    private long _uiBytes;
+    private long _cameraBytes;
+    private long _orchestrationBytes;
     private bool _countersPrimed;
     private int _stallsWithNoAttributableWork;
     private int _stallsWithCollection;
@@ -289,6 +297,7 @@ public sealed class ReferencePerformanceScenario
         _startingAllocatedBytes = GC.GetTotalAllocatedBytes(precise: false);
         _startingRebaseCount = _streamer.RebaseCount;
         _startingRouteDistanceMeters = _streamer.RouteDistanceMeters;
+        _startingResetCount = _vehicle.ResetToRoadCount;
         _startingLoopCount = _streamer.CompletedShortCorridorLoops;
         _lastObservedLoopCount = _streamer.CompletedShortCorridorLoops;
         CaptureContentSnapshots();
@@ -469,7 +478,6 @@ public sealed class ReferencePerformanceScenario
         _uiBytes += drained.UiBytes;
         _cameraBytes += drained.CameraBytes;
         _orchestrationBytes += drained.OrchestrationBytes;
-        _inputBytes += drained.InputBytes;
         var subsystems = new SubsystemMilliseconds(
             drained.Road,
             drained.RouteContext,
@@ -978,10 +986,6 @@ public sealed class ReferencePerformanceScenario
 
     private void SampleRoadHolding()
     {
-        if (_startingResetCount < 0)
-        {
-            _startingResetCount = _vehicle.ResetToRoadCount;
-        }
         var rideHeight = _vehicle.RideHeightMeters;
         if (double.IsFinite(rideHeight))
         {
@@ -998,16 +1002,6 @@ public sealed class ReferencePerformanceScenario
         _lateralOffsetSamples++;
     }
 
-    /// <summary>
-    /// Whether the vehicle actually stayed on the route while being measured.
-    /// </summary>
-    /// <remarks>
-    /// Reported, not gated. What counts as leaving the carriageway depends on the
-    /// paved width at each station, which this does not read, so a threshold here
-    /// would be invented. A reset count above zero is unambiguous, though: the car
-    /// fell through the world and was teleported back, and the run is not a steady
-    /// drive.
-    /// </remarks>
     /// <summary>Ride-height oscillation over the measured window.</summary>
     /// <remarks>
     /// Airborne frames are excluded rather than counted as zero, because a wheel
@@ -1036,9 +1030,19 @@ public sealed class ReferencePerformanceScenario
         };
     }
 
+    /// <summary>
+    /// Whether the vehicle actually stayed on the route while being measured.
+    /// </summary>
+    /// <remarks>
+    /// Reported, not gated. What counts as leaving the carriageway depends on the
+    /// paved width at each station, which this does not read, so a threshold here
+    /// would be invented. A reset count above zero is unambiguous, though: the car
+    /// fell through the world and was teleported back, and the run is not a steady
+    /// drive.
+    /// </remarks>
     private object RoadHolding() => new
     {
-        reset_to_road_count = Math.Max(0, _vehicle.ResetToRoadCount - Math.Max(0, _startingResetCount)),
+        reset_to_road_count = _vehicle.ResetToRoadCount - _startingResetCount,
         maximum_absolute_lateral_offset_m = _maximumAbsoluteLateralOffsetMeters,
         mean_absolute_lateral_offset_m = _lateralOffsetSamples > 0
             ? _lateralOffsetSum / _lateralOffsetSamples
@@ -1053,15 +1057,6 @@ public sealed class ReferencePerformanceScenario
             "drive its other metrics describe",
     };
 
-    private long _roadBytes;
-    private long _routeContextBytes;
-    private long _environmentBytes;
-    private long _vehicleBytes;
-    private long _uiBytes;
-    private long _cameraBytes;
-    private long _orchestrationBytes;
-    private long _inputBytes;
-
     /// <summary>Allocation attributed to each subsystem over the measured window.</summary>
     /// <remarks>
     /// A managed pause is caused by whoever produced the garbage, not by whoever was
@@ -1073,7 +1068,7 @@ public sealed class ReferencePerformanceScenario
     {
         var frames = Math.Max(1, _subsystemSampleCount);
         var covered = _roadBytes + _routeContextBytes + _environmentBytes
-            + _vehicleBytes + _uiBytes + _cameraBytes + _orchestrationBytes + _inputBytes;
+            + _vehicleBytes + _uiBytes + _cameraBytes + _orchestrationBytes;
         return new
         {
             road_bytes_per_frame = (double)_roadBytes / frames,
@@ -1083,7 +1078,6 @@ public sealed class ReferencePerformanceScenario
             ui_bytes_per_frame = (double)_uiBytes / frames,
             camera_bytes_per_frame = (double)_cameraBytes / frames,
             orchestration_bytes_per_frame = (double)_orchestrationBytes / frames,
-            input_bytes_per_frame = (double)_inputBytes / frames,
             attributed_bytes_per_frame = (double)covered / frames,
             note = "anything above this per frame is allocated outside an instrumented region",
         };
@@ -1210,6 +1204,12 @@ public sealed class ReferencePerformanceScenario
 
     private object Acceptance(List<StallEvent> steadyStalls)
     {
+        // Counted once, at the ADR-0023 acceptance threshold, and used by every
+        // gate below. Stalls are *recorded* at StallThresholdMilliseconds, which
+        // CANNONBALL_STALL_THRESHOLD_MS can lower for diagnosis; judging any gate
+        // on the raw recorded count would let a diagnosis knob move acceptance.
+        var stallsOverAcceptance = steadyStalls.Count(stall =>
+            stall.FrameMilliseconds > StallAcceptanceThresholdMilliseconds);
         var p95 = _frameMilliseconds.Quantile(0.95);
         var p99 = _frameMilliseconds.Quantile(0.99);
         var seconds = _memorySamples.ConvertAll(sample => sample.Seconds);
@@ -1261,11 +1261,13 @@ public sealed class ReferencePerformanceScenario
                     p50_frame_ms_tolerance = 0.1,
                     criterion =
                         "mean FPS within 0.1 of the cap AND p50 within 0.1 ms of the " +
-                        "cap period AND no steady-driving stall over 50 ms",
-                    criterion_status = "ratified 2026-08-14 (ADR-0023 Q-022e)",
+                        "cap period AND no steady-driving stall over " +
+                        $"{StallAcceptanceThresholdMilliseconds:0} ms",
+                    criterion_status = "ratified 2026-08-14 (ADR-0023 Q-022e); " +
+                        "stall threshold lowered 2026-08-16",
                     passed = Math.Abs(meanFps - _options.MaxFps) <= 0.1 &&
                         Math.Abs(p50 - capPeriodMilliseconds) <= 0.1 &&
-                        steadyStalls.Count == 0,
+                        stallsOverAcceptance == 0,
                 }
                 : new
                 {
@@ -1280,14 +1282,9 @@ public sealed class ReferencePerformanceScenario
             },
             steady_driving_stalls_over_threshold = new
             {
-                // Counted at the ADR-0023 acceptance threshold, not at the recording
-                // threshold. Lowering recording for diagnosis must not silently
-                // tighten the gate.
-                measured = steadyStalls.Count(stall =>
-                    stall.FrameMilliseconds > StallAcceptanceThresholdMilliseconds),
+                measured = stallsOverAcceptance,
                 limit = 0,
-                passed = !steadyStalls.Any(stall =>
-                    stall.FrameMilliseconds > StallAcceptanceThresholdMilliseconds),
+                passed = stallsOverAcceptance == 0,
                 acceptance_threshold_ms = StallAcceptanceThresholdMilliseconds,
                 recording_threshold_ms = StallThresholdMilliseconds,
             },
@@ -1416,7 +1413,11 @@ public sealed class ReferencePerformanceScenario
 
     public string CompletionMarker()
     {
-        var steadyStalls = _stalls.FindAll(stall => !stall.NearLoopWrap).Count;
+        // Counted at the acceptance threshold, matching the summary's gate, so a
+        // lowered recording threshold cannot inflate the marker.
+        var steadyStalls = _stalls.Count(stall =>
+            !stall.NearLoopWrap &&
+            stall.FrameMilliseconds > StallAcceptanceThresholdMilliseconds);
         return "CANNONBALL_REFERENCE_PERFORMANCE_OK " +
             $"scenario={_options.ScenarioId} " +
             $"resolution={_options.WidthPixels}x{_options.HeightPixels} " +
@@ -1430,7 +1431,7 @@ public sealed class ReferencePerformanceScenario
             $"p95_ms={_frameMilliseconds.Quantile(0.95):0.000} " +
             $"p99_ms={_frameMilliseconds.Quantile(0.99):0.000} " +
             $"max_ms={_frameMilliseconds.Maximum:0.000} " +
-            $"steady_stalls_over_50ms={steadyStalls} " +
+            $"steady_stalls_over_{StallAcceptanceThresholdMilliseconds:0}ms={steadyStalls} " +
             $"peak_gpu_mem_bytes={(long)_peakVideoMemoryBytes} " +
             $"peak_working_set_bytes={_peakWorkingSetBytes} " +
             $"peak_draw_calls={_peakDrawCalls} " +
@@ -1583,14 +1584,6 @@ public sealed class ReferencePerformanceScenario
             EnvironmentBuildPeakAdvanced;
     }
 
-    /// <summary>
-    /// Exclusive CPU milliseconds per ADR-0023 layer-2 subsystem for one frame.
-    /// </summary>
-    /// <remarks>
-    /// Layer 2 remains unmeasured reserves under the Q-022b answer. These values
-    /// are what would let it be ratified as measurements; until that happens they
-    /// are evidence, not budget.
-    /// </remarks>
     /// <summary>One measured frame, kept only long enough to serve an operator mark.</summary>
     private readonly record struct FrameTrace(
         double Seconds,
@@ -1601,6 +1594,14 @@ public sealed class ReferencePerformanceScenario
         int RebaseCount,
         int ResetCount);
 
+    /// <summary>
+    /// Exclusive CPU milliseconds per ADR-0023 layer-2 subsystem for one frame.
+    /// </summary>
+    /// <remarks>
+    /// Layer 2 remains unmeasured reserves under the Q-022b answer. These values
+    /// are what would let it be ratified as measurements; until that happens they
+    /// are evidence, not budget.
+    /// </remarks>
     private readonly record struct SubsystemMilliseconds(
         double Road,
         double RouteContext,

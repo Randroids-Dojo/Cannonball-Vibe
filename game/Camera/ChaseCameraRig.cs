@@ -176,6 +176,9 @@ public sealed partial class ChaseCameraRig : Node3D
         _rearViewBlend = 0;
         _initialized = true;
         ApplyWorldTransform();
+        // A snap is a teleport; without this the rig is interpolated from where it
+        // was to where it snapped, the same smear every other teleport path resets.
+        ResetPhysicsInterpolation();
         UpdateAutomationState(Target is RigidBody3D body
             ? body.LinearVelocity.Length()
             : 0.0f);

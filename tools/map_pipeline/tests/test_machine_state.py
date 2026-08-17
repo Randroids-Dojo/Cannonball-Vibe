@@ -33,14 +33,19 @@ def _during(rows: list[tuple[float, float, float]], tmp_path: Path) -> str:
     return str(path)
 
 
-def _assess(gpu_before: str, clients_before: str, during_path: str | None) -> dict:
+def _assess(
+    gpu_before: str,
+    clients_before: str,
+    during_path: str | None,
+    ceiling: float | None = None,
+) -> dict:
     before = record_machine_state.parse_gpu(gpu_before)
     listed = record_machine_state.summarise_clients(clients_before)
     during = record_machine_state.summarise_during(
         record_machine_state.parse_during_samples(during_path),
         int(listed["count"]),
     )
-    return record_machine_state.assess(before, listed, during)
+    return record_machine_state.assess(before, listed, during, ceiling=ceiling)
 
 
 def test_idle_capture_is_admissible(tmp_path: Path) -> None:
@@ -136,12 +141,7 @@ def test_raised_ceiling_admits_a_busier_machine_and_says_so(tmp_path: Path) -> N
 
     assert _assess(busy_desktop, DESKTOP_CLIENTS, during)["contended"] is True
 
-    before = record_machine_state.parse_gpu(busy_desktop)
-    listed = record_machine_state.summarise_clients(DESKTOP_CLIENTS)
-    drained = record_machine_state.summarise_during(
-        record_machine_state.parse_during_samples(during), int(listed["count"])
-    )
-    relaxed = record_machine_state.assess(before, listed, drained, ceiling=25.0)
+    relaxed = _assess(busy_desktop, DESKTOP_CLIENTS, during, ceiling=25.0)
 
     assert relaxed["contended"] is False
     assert relaxed["idle_ceiling_percent"] == 25.0

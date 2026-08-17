@@ -62,8 +62,9 @@ public sealed partial class WorldStreamer : Node3D
     private string _currentEdgeId = string.Empty;
     private double _routeDistanceMeters;
     private double _lateralOffsetMeters;
-    private double _lastDesiredRefreshDistanceMeters;
-    private bool _desiredRefreshPrimed;
+    // Negative infinity so the first frame's travel distance always triggers a
+    // refresh, without a separate primed flag.
+    private double _lastDesiredRefreshDistanceMeters = double.NegativeInfinity;
     private RouteWorldPoint _initialRoadWorldPoint;
     private double? _reviewTargetDistanceMeters;
     private bool _reviewTargetReady;
@@ -571,11 +572,8 @@ public sealed partial class WorldStreamer : Node3D
         // load completes keeps the queue draining while stationary, and costs nothing
         // during steady cruise where completions are rare.
         var travelled = Math.Abs(_routeDistanceMeters - _lastDesiredRefreshDistanceMeters);
-        if (!_desiredRefreshPrimed ||
-            completedALoad ||
-            travelled >= DesiredRefreshIntervalMeters)
+        if (completedALoad || travelled >= DesiredRefreshIntervalMeters)
         {
-            _desiredRefreshPrimed = true;
             _lastDesiredRefreshDistanceMeters = _routeDistanceMeters;
             RefreshDesiredChunks();
         }
@@ -866,12 +864,23 @@ public sealed partial class WorldStreamer : Node3D
     /// <summary>Completes one finished chunk read, if any. True when one completed.</summary>
     private bool CompletePendingLoads()
     {
-        var completed = _pending.FirstOrDefault(entry => entry.Value.Task.IsCompleted);
-        if (completed.Key is null)
+        // Searched with a plain loop: this runs on every rendered frame, and the
+        // LINQ form allocated a delegate and boxed the dictionary's enumerator.
+        string? id = null;
+        PendingRead? pending = null;
+        foreach (var entry in _pending)
+        {
+            if (entry.Value.Task.IsCompleted)
+            {
+                id = entry.Key;
+                pending = entry.Value;
+                break;
+            }
+        }
+        if (id is null || pending is null)
         {
             return false;
         }
-        var (id, pending) = completed;
         _pending.Remove(id);
         pending.Cancellation.Dispose();
         var task = pending.Task;
@@ -1505,12 +1514,11 @@ public sealed partial class WorldStreamer : Node3D
         RebaseCount++;
         if (_vehicle is not null)
         {
-            _vehicle.Position -= horizontal;
+            _vehicle.ShiftForOriginRebase(horizontal);
             _vehicle.TargetRoadPoint -= horizontal;
             // The chase rig is TopLevel and smooths in world space, so it has to move
             // with the rebase too. Left behind it exceeds its teleport-snap threshold
             // and snaps, which is a visible single-frame jump.
-            _vehicle.ResetPhysicsInterpolation();
             _vehicle.ChaseCameraRig?.ShiftForOriginRebase(horizontal);
         }
         foreach (var chunk in _loaded.Values)

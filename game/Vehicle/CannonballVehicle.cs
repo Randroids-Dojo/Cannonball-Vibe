@@ -223,7 +223,6 @@ public sealed partial class CannonballVehicle : RigidBody3D
 
     private void ApplySuspensionAndTireForces(DriveInputState input)
     {
-        var space = GetWorld3D().DirectSpaceState;
         var chassisUp = GlobalTransform.Basis.Y.Normalized();
         var chassisForward = -GlobalTransform.Basis.Z.Normalized();
         var speed = SpeedMetersPerSecond;
@@ -250,18 +249,18 @@ public sealed partial class CannonballVehicle : RigidBody3D
         {
             var wheelOrigin = GlobalTransform * WheelPositions[index];
             var rayStart = wheelOrigin + chassisUp * 0.15f;
-            var rayLength = VehicleDynamicsProfile.SpringRestLengthMeters +
-                VehicleDynamicsProfile.WheelRadiusMeters + 0.15f;
-            var rayEnd = rayStart - chassisUp * rayLength;
             // A persistent RayCast3D holds its state natively and allocates nothing
-            // per query. space.IntersectRay allocated a Godot Dictionary for the
-            // result and a query object for the request, four times per physics tick
-            // - 480 finalizable objects a second. Godot wrappers carry finalizers, so
-            // they cannot die in gen0; they are promoted by construction, which is
-            // why every collection here was a gen1 collection with a visible pause.
+            // per query. PhysicsDirectSpaceState3D.IntersectRay allocated a Godot
+            // Dictionary for the result and a query object for the request, four
+            // times per physics tick - 480 finalizable objects a second. Godot
+            // wrappers carry finalizers, so they cannot die in gen0; they are
+            // promoted by construction, which is why every collection here was a
+            // gen1 collection with a visible pause.
+            //
+            // The ray rides the chassis, so its transform is set once in
+            // BuildChassis; rayStart is the same point in world space, kept for
+            // the spring geometry below.
             var ray = _suspensionRays[index];
-            ray.GlobalPosition = rayStart;
-            ray.TargetPosition = new Vector3(0, -rayLength, 0);
             ray.ForceRaycastUpdate();
             if (!ray.IsColliding())
             {
@@ -492,6 +491,16 @@ public sealed partial class CannonballVehicle : RigidBody3D
                 Enabled = false,
                 CollisionMask = 1,
                 ExcludeParent = true,
+                // Set once: the ray rides the chassis, so its start (wheel anchor
+                // plus 0.15 m up) and downward reach are constants in the chassis
+                // frame. Re-marshalling them every physics tick was eight native
+                // property sets per tick for values that never change.
+                Position = WheelPositions[rayIndex] + new Vector3(0, 0.15f, 0),
+                TargetPosition = new Vector3(
+                    0,
+                    -(VehicleDynamicsProfile.SpringRestLengthMeters +
+                        VehicleDynamicsProfile.WheelRadiusMeters + 0.15f),
+                    0),
             };
             _suspensionRays[rayIndex] = ray;
             AddChild(ray);

@@ -147,15 +147,6 @@ public sealed partial class JunctionSeam : Node3D
         AddChild(_collisionBody);
     }
 
-    public void ShiftForOriginRebase(Vector3 shift)
-    {
-        // Interpolation would otherwise smear this node across the shift, because
-        // it blends from the pre-shift transform to the post-shift one over the next
-        // rendered frame. A rebase is a teleport, not motion.
-        Position -= shift;
-        ResetPhysicsInterpolation();
-    }
-
     private static ArrayMesh BuildQuad(
         Vector3 fromCenter,
         Vector3 fromTangent,
