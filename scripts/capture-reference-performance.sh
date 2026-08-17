@@ -365,10 +365,14 @@ sample_clients() {
 # mask real contention: a machine that is genuinely busy never settles, and the
 # wait is bounded so it fails rather than hanging.
 settle_seconds="${CANNONBALL_GPU_SETTLE_SECONDS:-60}"
+# The same ceiling record_machine_state.py judges against, so the wait and the
+# verdict cannot disagree. Raising it is the owner's call and is recorded in the
+# machine-state document rather than applied silently.
+idle_ceiling="${CANNONBALL_IDLE_GPU_CEILING_PERCENT:-10}"
 settle_deadline=$((SECONDS + settle_seconds))
 while true; do
   gpu_utilization="$(nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits 2>/dev/null || echo unknown)"
-  if [[ ! "$gpu_utilization" =~ ^[0-9]+$ ]] || (( gpu_utilization <= 10 )); then
+  if [[ ! "$gpu_utilization" =~ ^[0-9]+$ ]] ||      awk -v value="$gpu_utilization" -v ceiling="$idle_ceiling"        'BEGIN { exit !(value <= ceiling) }'; then
     break
   fi
   if (( SECONDS >= settle_deadline )); then
