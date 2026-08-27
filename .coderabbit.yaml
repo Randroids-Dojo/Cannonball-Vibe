@@ -1,0 +1,5 @@
+# CodeRabbit is retired under ADR-0025: no review may gate a merge. This
+# config stops automatic reviews while the app remains installed.
+reviews:
+  auto_review:
+    enabled: false

@@ -72,9 +72,12 @@ review happens before merge; CodeRabbit is retired.
 
 All other suites — PlayGodot, the deterministic long-route suite, assets,
 unsigned exports, source retention, and the Windows soak — are post-merge
-tripwires. The `Mainline health` workflow watches their mainline runs and
-maintains a single open issue labeled `red-main` while any watched workflow
-is failing.
+tripwires. The `Mainline health` workflow watches the CI, assets, unsigned
+exports, and Windows soak workflows on main (PlayGodot and the long-route
+suite are CI jobs, so their failures fail the watched CI run) and maintains
+a single open issue labeled `red-main` while any watched workflow is
+failing. Source retention is not health-watched (ADR-0025); its failures
+surface on the PRs that touch its paths.
 
 Fix-forward law: never revert, never force-push, and never bypass-merge to
 land work. A red main is repaired with new commits through the same PR flow;
@@ -104,8 +107,9 @@ smoke. It always writes structured results and logs under `reports/m0/`.
 
 `scripts/check.sh` remains the local pre-push front door. Remotely, only the
 Linux and Windows M0 checks gate merges; the remaining suites run as
-post-merge tripwires watched by `mainline-health.yml`, and their mainline
-failure creates immediate repair duty. They remain required for task
+post-merge tripwires (all except source retention watched by
+`mainline-health.yml` per ADR-0025), and their mainline failure creates
+immediate repair duty. They remain required for task
 completion evidence on their declared platforms (ADR-0008 as narrowed by
 ADR-0025), just not for merge.
 
