@@ -1,0 +1,145 @@
+{
+  "schema_version": 1,
+  "task_id": "P0-008",
+  "milestone": "M0",
+  "status": "complete",
+  "verified_at": "2026-08-27T20:32:49Z",
+  "git_revision": "aaabbecae3c36df9d41d6b63541b908e2844c192",
+  "platform": "github.com/Randroids-Dojo/Cannonball-Vibe",
+  "supersedes": null,
+  "supplements": "evidence/M0/P0-008.json",
+  "decision": "docs/decisions/ADR-0025-continuous-mainline-integration.md",
+  "tool_versions": {
+    "gh": "2.96.0"
+  },
+  "acceptance": [
+    {
+      "criterion": "Main requires the declared CI checks",
+      "status": "passed",
+      "comparison": {
+        "expected": [
+          "M0 (ubuntu-latest)",
+          "M0 (windows-latest)"
+        ],
+        "actual": [
+          "M0 (ubuntu-latest)",
+          "M0 (windows-latest)"
+        ],
+        "note": "Declared checks are defined by ADR-0025: the M0 Linux/Windows pair only. CodeRabbit and the PlayGodot contexts were removed from the required set; all other suites are post-merge tripwires."
+      }
+    },
+    {
+      "criterion": "Pull requests auto-merge on green with no pre-merge review",
+      "status": "passed",
+      "comparison": {
+        "expected": "a PR armed with gh pr merge --auto --squash lands unattended once both M0 checks pass, with zero approvals",
+        "actual": "PR #79 (head e616796dfa3cd241cb72f819ef55d75b07dac5b2) merged automatically at 2026-08-27T20:31:27Z as squash commit aaabbecae3c36df9d41d6b63541b908e2844c192 after CI run 33043553696 concluded success; auto-merge had been armed at 2026-08-27T03:53:43Z"
+      }
+    }
+  ],
+  "remote_governance": {
+    "ruleset_id": 19023294,
+    "ruleset_name": "auto-review",
+    "ruleset_url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/rules/19023294",
+    "target": "branch",
+    "ref_condition": "~DEFAULT_BRANCH",
+    "enforcement": "active",
+    "updated_at": "2026-08-26T22:49:23.076-05:00",
+    "prior_snapshot_sha256": "094bac794d34cae248f9baee0b344348fb63ea74cbfb11ee1d2c184e0b30c1fc",
+    "canonical_snapshot_sha256": "b045a67df85eb59397dc689a26548866284bff411250468667da2107b711f73b",
+    "rules": [
+      "deletion",
+      "non_fast_forward",
+      "pull_request",
+      "required_status_checks"
+    ],
+    "pull_request_parameters": {
+      "required_approving_review_count": 0,
+      "require_extra_approval_for_unattributed_changes": false,
+      "allowed_merge_methods": [
+        "squash"
+      ]
+    },
+    "required_status_checks": [
+      {
+        "context": "M0 (ubuntu-latest)",
+        "integration_id": 15368
+      },
+      {
+        "context": "M0 (windows-latest)",
+        "integration_id": 15368
+      }
+    ],
+    "removed_from_prior": [
+      "code_quality rule (severity warnings)",
+      "required check CodeRabbit (integration 347564)",
+      "required check PlayGodot semantic UI (ubuntu-latest)",
+      "required check PlayGodot semantic UI (macos-latest)",
+      "required check PlayGodot semantic UI (windows-latest)"
+    ],
+    "repository_settings": {
+      "allow_auto_merge": true,
+      "delete_branch_on_merge": true,
+      "allow_squash_merge": true,
+      "allow_merge_commit": true,
+      "allow_rebase_merge": true
+    }
+  },
+  "remote_verification": {
+    "pull_request": 79,
+    "pull_request_url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/pull/79",
+    "head_sha": "e616796dfa3cd241cb72f819ef55d75b07dac5b2",
+    "merge_sha": "aaabbecae3c36df9d41d6b63541b908e2844c192",
+    "merged_at": "2026-08-27T20:31:27Z",
+    "auto_merge_enabled_at": "2026-08-27T03:53:43Z",
+    "merge_method": "SQUASH",
+    "run_id": 33043553696,
+    "run_url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/33043553696",
+    "conclusion": "success",
+    "jobs": [
+      {
+        "job_id": 98422307713,
+        "name": "M0 (ubuntu-latest)",
+        "conclusion": "success"
+      },
+      {
+        "job_id": 98422307548,
+        "name": "M0 (windows-latest)",
+        "conclusion": "success"
+      }
+    ],
+    "notes": "A non-required check (PlayGodot semantic UI ubuntu-latest, run 33040961580) failed on an earlier head without blocking the merge path, demonstrating that only the declared checks gate. Two stale CodeRabbit changes-requested reviews from before .coderabbit.yaml landed were dismissed by the owner; automatic reviews are disabled going forward and the app is scheduled for uninstall."
+  },
+  "commands": [
+    {
+      "command": "gh api repos/Randroids-Dojo/Cannonball-Vibe/rulesets/19023294 (pre-change snapshot)",
+      "exit_code": 0
+    },
+    {
+      "command": "gh api -X PUT repos/Randroids-Dojo/Cannonball-Vibe/rulesets/19023294 --input ruleset-new.json",
+      "exit_code": 0
+    },
+    {
+      "command": "gh api -X PATCH repos/Randroids-Dojo/Cannonball-Vibe -F allow_auto_merge=true -F delete_branch_on_merge=true",
+      "exit_code": 0
+    },
+    {
+      "command": "gh api repos/Randroids-Dojo/Cannonball-Vibe/rulesets/19023294 (post-change snapshot)",
+      "exit_code": 0
+    },
+    {
+      "command": "gh pr merge 79 --auto --squash",
+      "exit_code": 0
+    }
+  ],
+  "failure_handling": {
+    "failure_logs": [],
+    "retry_count": 0,
+    "recovery_result": "not_applicable"
+  },
+  "human_gate": {
+    "name": "Repository governance approval",
+    "status": "approved",
+    "approval_reference": "Owner approved the continuous-mainline plan and ADR-0025 in the 2026-08-26 planning session, explicitly approved the ruleset and repository setting changes before execution, and personally dismissed the stale pre-policy reviews on PR #79."
+  }
+}
