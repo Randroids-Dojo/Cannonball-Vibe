@@ -48,27 +48,48 @@ gate and a superseding ADR.
 
 ## Before starting a task
 
-1. Select an open task from `docs/DELIVERY_LEDGER.json`.
-2. Confirm that every dependency is `complete` or that the task explicitly
+1. Check mainline health: `gh issue list --label red-main --state open`. If
+   main is red, the repair is this session's task; new work waits.
+2. Select an open task from `docs/DELIVERY_LEDGER.json`.
+3. Confirm that every dependency is `complete` or that the task explicitly
    allows work against a fixture.
-3. Declare the files and generated outputs the task owns. Avoid parallel work
+4. Declare the files and generated outputs the task owns. Avoid parallel work
    that writes the same schema, generated code, lockfile, or content package.
-4. Read the linked ADR, audit finding, open question, and acceptance criteria.
-5. Record any necessary scope change in the ledger or a new decision record
+5. Read the linked ADR, audit finding, open question, and acceptance criteria.
+6. Record any necessary scope change in the ledger or a new decision record
    before implementation.
 
 Use separate branches or worktrees for concurrent tasks. Preserve unrelated
 changes in a dirty worktree.
 
-### Review-service fallback
+### Mainline integration
 
-CodeRabbit is supplementary to the required first-party verification. If its
-check times out or remains unavailable after the normal review window, perform
-and record an independent adversarial review of the complete diff. Merge only
-when the Linux and Windows M0 checks pass and that review has no unresolved
-actionable findings. An administrator bypass may clear only the timed-out
-CodeRabbit gate under this policy; never use it to bypass failed M0 checks or
-substantive review findings.
+Integration is PR-only and merges exclusively through auto-merge (ADR-0025).
+Open the pull request, run `gh pr merge <number> --auto --squash`, and move
+on to the next task; do not wait for the merge. The only merge gates are the
+`M0 (ubuntu-latest)` and `M0 (windows-latest)` checks. No human or service
+review happens before merge; CodeRabbit is retired.
+
+All other suites — PlayGodot, the deterministic long-route suite, assets,
+unsigned exports, source retention, and the Windows soak — are post-merge
+tripwires. The `Mainline health` workflow watches the CI, assets, unsigned
+exports, and Windows soak workflows on main (PlayGodot and the long-route
+suite are CI jobs, so their failures fail the watched CI run) and maintains
+a single open issue labeled `red-main` while any watched workflow is
+failing. Source retention is not health-watched (ADR-0025); its failures
+surface on the PRs that touch its paths.
+
+Fix-forward law: never revert, never force-push, and never bypass-merge to
+land work. A red main is repaired with new commits through the same PR flow;
+administrator bypass is reserved for governance operations. When the failure
+was the daily Windows soak, re-dispatch it after the fix
+(`gh workflow run windows-stress.yml`) so the signal clears without waiting
+for the next cron run.
+
+Post-merge adversarial review: periodically review every mainline commit
+since the cursor recorded in `docs/audits/mainline-review-log.md`. File
+actionable findings as new ledger tasks or `docs/OPEN_QUESTIONS.md` entries —
+never as merge blocks — and append a log entry recording the reviewed range.
 
 ## Required verification
 
@@ -83,6 +104,14 @@ Run `scripts/doctor.sh` first when diagnosing a machine. It enforces the pinned
 C# build and xUnit suite, Python lint and pytest suite, and a Godot headless
 smoke. It always writes structured results and logs under `reports/m0/`.
 `scripts/godot.sh` fails when the editor is absent, unofficial, or stale.
+
+`scripts/check.sh` remains the local pre-push front door. Remotely, only the
+Linux and Windows M0 checks gate merges; the remaining suites run as
+post-merge tripwires (all except source retention watched by
+`mainline-health.yml` per ADR-0025), and their mainline failure creates
+immediate repair duty. They remain required for task
+completion evidence on their declared platforms (ADR-0008 as narrowed by
+ADR-0025), just not for merge.
 
 Use the smallest relevant checks during development, then run the full required
 gate before handoff:

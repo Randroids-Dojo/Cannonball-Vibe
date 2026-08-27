@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated": "2026-08-13",
+  "updated": "2026-08-26",
   "project": "Cannonball-Vibe",
   "authority": {
     "architecture_decisions": "docs/decisions/",
@@ -709,12 +709,14 @@
         "gh api repos/{owner}/{repo}/rules/branches/main"
       ],
       "evidence": [
-        "evidence/M0/P0-008.json"
+        "evidence/M0/P0-008.json",
+        "evidence/M0/P0-008-continuous-mainline.json"
       ],
       "human_gate": {
         "name": "Repository governance approval",
         "required_for": "protected_main"
-      }
+      },
+      "notes": "Re-verified 2026-08-26 under ADR-0025: required checks narrowed to the M0 Linux/Windows pair, CodeRabbit retired, auto-merge enabled; see evidence/M0/P0-008-continuous-mainline.json."
     },
     {
       "id": "P1-001",
