@@ -1334,6 +1334,352 @@ def _merge_milepost_spans(
     return [(begin, end) for begin, end in merged]
 
 
+# LRSKEY is a 15-character alphanumeric identifier (underscore included). The
+# probe interpolates it into an ArcGIS where clause and a cache directory name,
+# so anything outside this alphabet is rejected rather than escaped.
+LRS_KEY_PATTERN = re.compile(r"^[A-Za-z0-9_]{1,15}$")
+
+# A record whose extent merely abuts a gap boundary can be recorded one milepost
+# quantum inside it, and internal cracks of the same size are the same
+# phenomenon as the 32 quantum-sized gaps the milepost audit counted. The same
+# 1.1 factor the audit applies to gap classification is applied to uncovered
+# spans here.
+GAP_COVERAGE_TOLERANCE_MILES = MILEPOST_QUANTUM_MILES * 1.1
+
+
+@dataclass(frozen=True)
+class ProbedGapRecord:
+    """One NHPN record returned by a whole-key probe, reduced to what the
+    exclusion analysis needs."""
+
+    object_id: int
+    state_fips: str
+    sign_identities: tuple[tuple[str, str], ...]
+    low_milepost: float
+    high_milepost: float
+
+
+def _probe_sign_identities(attributes: dict[str, Any]) -> tuple[tuple[str, str], ...]:
+    """The record's signed-route identities across all three NHPN sign slots.
+
+    NHPN pads empty slots with spaces rather than nulls, so values are stripped
+    and a slot counts only when both its type and number survive stripping.
+    """
+    identities: list[tuple[str, str]] = []
+    for slot in range(1, 4):
+        sign_type = str(attributes.get(f"SIGNT{slot}") or "").strip()
+        sign_number = str(attributes.get(f"SIGNN{slot}") or "").strip()
+        if sign_type and sign_number:
+            identities.append((sign_type, sign_number))
+    return tuple(identities)
+
+
+def _uncovered_spans(
+    from_milepost: float,
+    to_milepost: float,
+    extents: Sequence[tuple[float, float]],
+) -> list[tuple[float, float]]:
+    """The parts of [from, to] no extent covers, as a sorted list of spans."""
+    merged: list[list[float]] = []
+    for low, high in sorted(extents):
+        clipped_low = max(low, from_milepost)
+        clipped_high = min(high, to_milepost)
+        if clipped_low >= clipped_high:
+            continue
+        if merged and clipped_low <= merged[-1][1]:
+            merged[-1][1] = max(merged[-1][1], clipped_high)
+        else:
+            merged.append([clipped_low, clipped_high])
+    uncovered: list[tuple[float, float]] = []
+    cursor = from_milepost
+    for low, high in merged:
+        if low > cursor:
+            uncovered.append((cursor, low))
+        cursor = high
+    if cursor < to_milepost:
+        uncovered.append((cursor, to_milepost))
+    return uncovered
+
+
+def _classify_gap(
+    gap: dict[str, Any],
+    key_records: Sequence[ProbedGapRecord],
+    selector: NhpnCandidateSelector,
+    locked_object_ids: frozenset[int],
+) -> dict[str, Any]:
+    """What fills one locked gap, and why the acquisition predicate missed it.
+
+    Overlap is strict: a record that only touches a gap boundary does not fill
+    its interior. Every overlapping record is either already in the candidate
+    lock, excluded by the sign filter, excluded by the state filter, excluded by
+    both, or an anomaly that matches the predicate yet was not acquired.
+    """
+    from_milepost = gap["from_milepost"]
+    to_milepost = gap["to_milepost"]
+    overlapping = [
+        record
+        for record in key_records
+        if record.low_milepost < to_milepost and record.high_milepost > from_milepost
+    ]
+    required_sign = ("I", selector.route_number)
+    declared_fips = set(selector.state_fips)
+    in_lock = 0
+    excluded_by_sign = 0
+    excluded_by_state = 0
+    excluded_by_both = 0
+    anomalies: list[int] = []
+    signed_routes: set[str] = set()
+    states: set[str] = set()
+    for record in overlapping:
+        states.add(record.state_fips)
+        signed_routes.update(
+            f"{sign_type}-{sign_number}"
+            for sign_type, sign_number in record.sign_identities
+        )
+        if record.object_id in locked_object_ids:
+            in_lock += 1
+            continue
+        sign_matches = required_sign in record.sign_identities
+        state_matches = record.state_fips in declared_fips
+        if sign_matches and state_matches:
+            anomalies.append(record.object_id)
+        elif sign_matches:
+            excluded_by_state += 1
+        elif state_matches:
+            excluded_by_sign += 1
+        else:
+            excluded_by_both += 1
+    uncovered = _uncovered_spans(
+        from_milepost,
+        to_milepost,
+        [(record.low_milepost, record.high_milepost) for record in overlapping],
+    )
+    uncovered_miles = sum(high - low for low, high in uncovered)
+    largest_uncovered = max((high - low for low, high in uncovered), default=0.0)
+    if not overlapping:
+        classification = "no_records"
+    elif largest_uncovered <= GAP_COVERAGE_TOLERANCE_MILES:
+        classification = "fully_covered"
+    else:
+        classification = "partially_covered"
+    return {
+        "segment_id": gap["segment_id"],
+        "lrs_key": gap["lrs_key"],
+        "from_milepost": from_milepost,
+        "to_milepost": to_milepost,
+        "gap_miles": gap["gap_miles"],
+        "overlapping_record_count": len(overlapping),
+        "records_in_candidate_lock": in_lock,
+        "records_matching_predicate_unacquired": sorted(anomalies),
+        "records_excluded_by_sign_filter": excluded_by_sign,
+        "records_excluded_by_state_filter": excluded_by_state,
+        "records_excluded_by_both_filters": excluded_by_both,
+        "signed_routes_found": sorted(signed_routes),
+        "state_fips_found": sorted(states),
+        "covered_miles": gap["gap_miles"] - uncovered_miles,
+        "uncovered_miles": uncovered_miles,
+        "largest_uncovered_miles": largest_uncovered,
+        "classification": classification,
+    }
+
+
+def _gap_probe_finding(gaps: list[dict[str, Any]]) -> str:
+    """Describe the probe using the numbers it actually produced.
+
+    Generated rather than written so it cannot drift from the gap results
+    beside it.
+    """
+    if not gaps:
+        return "No locked gaps exceeded the probe threshold."
+    fully = sum(1 for gap in gaps if gap["classification"] == "fully_covered")
+    partial = sum(1 for gap in gaps if gap["classification"] == "partially_covered")
+    empty = sum(1 for gap in gaps if gap["classification"] == "no_records")
+    anomalies = sum(len(gap["records_matching_predicate_unacquired"]) for gap in gaps)
+    sign_only = sum(gap["records_excluded_by_sign_filter"] for gap in gaps)
+    state_only = sum(gap["records_excluded_by_state_filter"] for gap in gaps)
+    both = sum(gap["records_excluded_by_both_filters"] for gap in gaps)
+    return (
+        f"Of {len(gaps)} locked milepost gaps over the probe threshold, "
+        f"{fully} are fully covered by NHPN records on the same LRS key, "
+        f"{partial} are partially covered, and {empty} contain no NHPN "
+        f"records on their LRS key at all. Among the unacquired overlapping "
+        f"records, {sign_only} carry a different signed route within the declared "
+        f"states, {state_only} carry the declared route outside the declared "
+        f"states, and {both} match neither. {anomalies} records match the "
+        "original predicate while absent from the lock. A gap with no records is "
+        "not thereby a hole in the road: mileposts are key-local, and the same "
+        "corridor may be carried by another LRS key. This is a characterisation "
+        "of the acquisition predicate, not a route selection, and no lock is "
+        "changed."
+    )
+
+
+def probe_continental_milepost_gaps(
+    selection_path: Path,
+    route_lock_path: Path,
+    catalog_path: Path,
+    cache_directory: Path,
+    probe_cache_directory: Path,
+    *,
+    transport: ArcGisTransport | None = None,
+    service_metadata: dict[str, Any] | None = None,
+    acquired_at: str | None = None,
+    page_size: int = 2_000,
+    minimum_gap_miles: float = 1.0,
+) -> dict[str, Any]:
+    """Probe what NHPN carries inside the locked candidate set's large gaps.
+
+    The 2026-08-16 milepost-gap characterisation left its 45 over-a-mile gaps
+    unexplained and named the test that would explain them: query NHPN for the
+    gap's milepost range without the sign filter. This performs that diagnostic
+    acquisition. Each gap's whole LRS key is fetched unfiltered, with the same
+    paging, checkpoint, and hash discipline as the candidate acquisition, and
+    every record overlapping a gap is classified by which predicate clause
+    excluded it.
+
+    This is a characterisation, not a route selection: it changes no lock,
+    claims no westbound direction and no authoritative distance, and its
+    responses stay in the ignored cache. It refuses to run when the live
+    service has drifted from the locked snapshot, because the probe would then
+    characterise a different dataset than the one the gaps were measured in.
+    """
+    audit = audit_continental_milepost_gaps(
+        selection_path, route_lock_path, catalog_path, cache_directory
+    )
+    route_lock = validate_continental_route_lock(route_lock_path, catalog_path, selection_path)
+    selection = load_json(selection_path)
+    selectors = {
+        selector.segment_id: selector
+        for selector in build_nhpn_candidate_selectors(selection)
+    }
+    locked_object_ids = frozenset(
+        object_id
+        for snapshot in route_lock["nhpn"]["segment_snapshots"]
+        for object_id in snapshot["object_ids"]
+    )
+    source = load_catalog(catalog_path)[NHPN_SOURCE_ID]
+    service_url = source.raw["service_url"]
+    query_url = service_url + NHPN_QUERY_SUFFIX
+    if service_metadata is None:
+        with urllib.request.urlopen(service_url + "?f=pjson", timeout=120) as response:
+            service_metadata = json.loads(response.read())
+    _validate_live_service_metadata(service_metadata)
+    service_metadata_sha256 = canonical_sha256(service_metadata)
+    locked_metadata_sha256 = route_lock["nhpn"]["service"]["canonical_metadata_sha256"]
+    if service_metadata_sha256 != locked_metadata_sha256:
+        raise ValueError(
+            "Live NHPN service metadata has drifted from the candidate lock; a probe "
+            "against it would characterise a different dataset than the one the "
+            "locked gaps were measured in."
+        )
+    if transport is None:
+        transport = UrllibArcGisTransport(timeout_seconds=120)
+    timestamp = acquired_at or datetime.now(UTC).replace(microsecond=0).isoformat().replace(
+        "+00:00", "Z"
+    )
+
+    gaps = [gap for gap in audit["gaps"] if gap["gap_miles"] > minimum_gap_miles]
+    probe_root = probe_cache_directory / service_metadata_sha256
+    key_records: dict[str, tuple[ProbedGapRecord, ...]] = {}
+    key_probes: list[dict[str, Any]] = []
+    for lrs_key in sorted({gap["lrs_key"] for gap in gaps}):
+        if not LRS_KEY_PATTERN.fullmatch(lrs_key):
+            raise ValueError(f"Locked gap names an invalid LRS key '{lrs_key}'.")
+        predicate = f"LRSKEY='{lrs_key}'"
+        result = acquire_nhpn(
+            transport,
+            query_url,
+            {"where": predicate},
+            probe_root / lrs_key,
+            page_size=page_size,
+        )
+        records: list[ProbedGapRecord] = []
+        unplaced = 0
+        for feature in result.features:
+            attributes = feature["attributes"]
+            begin = attributes.get("BEGIN_POIN")
+            end = attributes.get("END_POINT")
+            if begin is None or end is None:
+                unplaced += 1
+                continue
+            records.append(
+                ProbedGapRecord(
+                    int(attributes["OBJECTID"]),
+                    str(attributes.get("STFIPS") or "").strip(),
+                    _probe_sign_identities(attributes),
+                    min(float(begin), float(end)),
+                    max(float(begin), float(end)),
+                )
+            )
+        key_records[lrs_key] = tuple(records)
+        object_ids = list(result.object_ids)
+        key_probes.append(
+            {
+                "lrs_key": lrs_key,
+                "predicate": predicate,
+                "expected_count": result.expected_count,
+                "object_ids_sha256": canonical_sha256(object_ids),
+                "features_sha256": canonical_sha256(list(result.features)),
+                "records_without_mileposts": unplaced,
+                "retries": result.retries,
+                "resumed_pages": result.resumed_pages,
+            }
+        )
+
+    gap_results = [
+        _classify_gap(
+            gap,
+            key_records[gap["lrs_key"]],
+            selectors[gap["segment_id"]],
+            locked_object_ids,
+        )
+        for gap in gaps
+    ]
+    gap_results.sort(key=lambda gap: (-gap["gap_miles"], gap["segment_id"], gap["lrs_key"]))
+    return {
+        "schema_version": 1,
+        "status": (
+            "diagnostic acquisition; characterises the locked gaps' contents and "
+            "the acquisition predicate; no lock changed"
+        ),
+        "acquired_at": timestamp,
+        "query_url": query_url,
+        "minimum_gap_miles": minimum_gap_miles,
+        "source_milepost_quantum_miles": MILEPOST_QUANTUM_MILES,
+        "coverage_tolerance_miles": GAP_COVERAGE_TOLERANCE_MILES,
+        "service": {
+            "canonical_metadata_sha256": service_metadata_sha256,
+            "data_last_edit_epoch_ms": service_metadata["editingInfo"]["dataLastEditDate"],
+            "matches_candidate_lock": True,
+        },
+        "route_selection_sha256": compute_sha256(selection_path),
+        "candidate_lock_sha256": compute_sha256(route_lock_path),
+        "source_policy": {
+            "candidate_source": NHPN_SOURCE_ID,
+            "nhpn_role": "coarse_topology_only",
+            "openstreetmap_ancestry_allowed": False,
+            "probe_is_selected_route_geometry": False,
+            "continental_downloads_committed": False,
+        },
+        "key_probes": key_probes,
+        "gap_count": len(gap_results),
+        "gaps_no_records": sum(
+            1 for gap in gap_results if gap["classification"] == "no_records"
+        ),
+        "gaps_fully_covered": sum(
+            1 for gap in gap_results if gap["classification"] == "fully_covered"
+        ),
+        "gaps_partially_covered": sum(
+            1 for gap in gap_results if gap["classification"] == "partially_covered"
+        ),
+        "predicate_anomaly_count": sum(
+            len(gap["records_matching_predicate_unacquired"]) for gap in gap_results
+        ),
+        "finding": _gap_probe_finding(gap_results),
+        "gaps": gap_results,
+    }
+
+
 def derive_continental_edge_path_lock(
     selection_path: Path,
     route_lock_path: Path,

@@ -695,3 +695,292 @@ def test_source_milepost_quantum_is_the_published_precision() -> None:
     assert continental.MILEPOST_QUANTUM_MILES == 0.001
     quantum_meters = continental.MILEPOST_QUANTUM_MILES * continental.METRES_PER_MILE
     assert round(quantum_meters, 2) == 1.61
+
+
+def _probed_record(
+    object_id: int,
+    low: float,
+    high: float,
+    *,
+    state_fips: str = "34",
+    signs: tuple[tuple[str, str], ...] = (("U", "30"),),
+) -> continental.ProbedGapRecord:
+    return continental.ProbedGapRecord(object_id, state_fips, signs, low, high)
+
+
+def _gap(segment_id: str = "i80-new-jersey-to-big-springs") -> dict:
+    return {
+        "segment_id": segment_id,
+        "lrs_key": "KEY000000000001",
+        "from_milepost": 10.0,
+        "to_milepost": 20.0,
+        "gap_miles": 10.0,
+    }
+
+
+def _eastern_i80_selector() -> continental.NhpnCandidateSelector:
+    return next(
+        selector
+        for selector in build_nhpn_candidate_selectors(_selection())
+        if selector.segment_id == "i80-new-jersey-to-big-springs"
+    )
+
+
+def test_uncovered_spans_clip_merge_and_ignore_outside_extents() -> None:
+    spans = continental._uncovered_spans(
+        10.0,
+        20.0,
+        [(0.0, 12.0), (11.0, 13.0), (30.0, 40.0), (15.0, 18.0)],
+    )
+
+    assert spans == [(13.0, 15.0), (18.0, 20.0)]
+
+
+def test_probe_sign_identities_strip_nhpn_space_padding() -> None:
+    """NHPN pads empty sign slots with spaces rather than nulls."""
+    identities = continental._probe_sign_identities(
+        {
+            "SIGNT1": "I",
+            "SIGNN1": "80",
+            "SIGNT2": " ",
+            "SIGNN2": " ",
+            "SIGNT3": None,
+            "SIGNN3": None,
+        }
+    )
+
+    assert identities == (("I", "80"),)
+
+
+def test_classify_gap_with_no_records_reports_no_records() -> None:
+    result = continental._classify_gap(_gap(), [], _eastern_i80_selector(), frozenset())
+
+    assert result["classification"] == "no_records"
+    assert result["overlapping_record_count"] == 0
+    assert result["uncovered_miles"] == pytest.approx(10.0)
+
+
+def test_classify_gap_counts_each_exclusion_reason_once() -> None:
+    """Every unacquired overlapping record is attributed to the predicate clause
+    that excluded it, and a record that merely touches a boundary is not
+    overlapping."""
+    records = [
+        _probed_record(1, 0.0, 10.0),  # abuts the gap; not overlapping
+        _probed_record(2, 10.0, 14.0, state_fips="34", signs=(("U", "30"),)),
+        _probed_record(3, 14.0, 17.0, state_fips="08", signs=(("I", "80"),)),
+        _probed_record(4, 17.0, 20.0, state_fips="08", signs=(("U", "30"),)),
+    ]
+
+    result = continental._classify_gap(
+        _gap(), records, _eastern_i80_selector(), frozenset()
+    )
+
+    assert result["overlapping_record_count"] == 3
+    assert result["records_excluded_by_sign_filter"] == 1
+    assert result["records_excluded_by_state_filter"] == 1
+    assert result["records_excluded_by_both_filters"] == 1
+    assert result["records_matching_predicate_unacquired"] == []
+    assert result["classification"] == "fully_covered"
+    assert result["signed_routes_found"] == ["I-80", "U-30"]
+    assert result["state_fips_found"] == ["08", "34"]
+
+
+def test_classify_gap_flags_a_predicate_match_absent_from_the_lock() -> None:
+    """A record that matches the acquisition predicate yet was not acquired is an
+    anomaly, not an exclusion."""
+    records = [_probed_record(7, 10.0, 20.0, state_fips="34", signs=(("I", "80"),))]
+
+    result = continental._classify_gap(
+        _gap(), records, _eastern_i80_selector(), frozenset()
+    )
+
+    assert result["records_matching_predicate_unacquired"] == [7]
+    assert result["records_excluded_by_sign_filter"] == 0
+
+
+def test_classify_gap_does_not_report_a_locked_record_as_excluded() -> None:
+    """A record already in the candidate lock was not excluded by anything, even
+    when it fails the probing segment's predicate. Shared LRS keys make this
+    real: a record locked for one segment can overlap another segment's gap."""
+    records = [_probed_record(9, 10.0, 20.0, state_fips="08", signs=(("I", "15"),))]
+
+    result = continental._classify_gap(
+        _gap(), records, _eastern_i80_selector(), frozenset({9})
+    )
+
+    assert result["records_in_candidate_lock"] == 1
+    assert result["records_excluded_by_both_filters"] == 0
+    assert result["classification"] == "fully_covered"
+
+
+def test_classify_gap_tolerates_a_quantum_shortfall_but_not_a_real_one() -> None:
+    """A record recorded one milepost quantum inside a gap boundary is the same
+    phenomenon as the 32 quantum-sized gaps the audit counted."""
+    quantum = continental.MILEPOST_QUANTUM_MILES
+    selector = _eastern_i80_selector()
+
+    covered = continental._classify_gap(
+        _gap(), [_probed_record(2, 10.0 + quantum, 20.0)], selector, frozenset()
+    )
+    partial = continental._classify_gap(
+        _gap(), [_probed_record(2, 14.0, 20.0)], selector, frozenset()
+    )
+
+    assert covered["classification"] == "fully_covered"
+    assert partial["classification"] == "partially_covered"
+    assert partial["largest_uncovered_miles"] == pytest.approx(4.0)
+
+
+_PROBE_KEY = "KEY000000000001"
+
+
+def _candidate_feature(object_id: int, begin: float, end: float) -> dict:
+    return {
+        "attributes": {
+            "OBJECTID": object_id,
+            "LRSKEY": _PROBE_KEY,
+            "BEGMP": 0.0,
+            "ENDMP": 30.0,
+            "BEGIN_POIN": begin,
+            "END_POINT": end,
+            "STFIPS": "34",
+            "SIGNT1": "I",
+            "SIGNN1": "80",
+            "SIGNT2": " ",
+            "SIGNN2": " ",
+            "SIGNT3": " ",
+            "SIGNN3": " ",
+        },
+        "geometry": {"paths": [[[-100.0 - begin, 40.0], [-100.0 - end, 40.0]]]},
+    }
+
+
+class _GappedCandidateTransport:
+    """Two records per segment with a ten-mile milepost gap between them."""
+
+    def post(self, _url: str, form: dict[str, str]) -> dict:
+        if form.get("returnCountOnly") == "true":
+            return {"count": 2}
+        if form.get("returnIdsOnly") == "true":
+            return {"objectIdFieldName": "OBJECTID", "objectIds": [1, 2]}
+        return {
+            "features": [
+                _candidate_feature(1, 0.0, 10.0),
+                _candidate_feature(2, 20.0, 30.0),
+            ]
+        }
+
+
+class _WholeKeyProbeTransport:
+    """The whole-key view: both locked records plus the filler between them,
+    which carries a different signed route."""
+
+    def __init__(self) -> None:
+        self.predicates: list[str] = []
+
+    def post(self, _url: str, form: dict[str, str]) -> dict:
+        if "where" in form:
+            self.predicates.append(form["where"])
+        if form.get("returnCountOnly") == "true":
+            return {"count": 3}
+        if form.get("returnIdsOnly") == "true":
+            return {"objectIdFieldName": "OBJECTID", "objectIds": [1, 2, 3]}
+        filler = _candidate_feature(3, 10.0, 20.0)
+        filler["attributes"]["SIGNT1"] = "U"
+        filler["attributes"]["SIGNN1"] = "30"
+        return {
+            "features": [
+                _candidate_feature(1, 0.0, 10.0),
+                _candidate_feature(2, 20.0, 30.0),
+                filler,
+            ]
+        }
+
+
+def test_gap_probe_classifies_the_filler_and_records_provenance(tmp_path: Path) -> None:
+    metadata = _service_metadata()
+    cache = tmp_path / "cache"
+    lock = tmp_path / "lock.json"
+    acquire_continental_nhpn_candidates(
+        SELECTION_PATH,
+        CATALOG_PATH,
+        lock,
+        cache,
+        transport=_GappedCandidateTransport(),
+        service_metadata=metadata,
+        acquired_at="2026-08-27T00:00:00Z",
+    )
+    probe_transport = _WholeKeyProbeTransport()
+
+    payload = continental.probe_continental_milepost_gaps(
+        SELECTION_PATH,
+        lock,
+        CATALOG_PATH,
+        cache,
+        tmp_path / "probe-cache",
+        transport=probe_transport,
+        service_metadata=metadata,
+        acquired_at="2026-08-27T00:00:00Z",
+    )
+
+    # Every segment shares the same key and the same gap, so one whole-key
+    # acquisition serves all twelve gap classifications.
+    assert payload["gap_count"] == 12
+    assert len(payload["key_probes"]) == 1
+    probe = payload["key_probes"][0]
+    assert probe["predicate"] == f"LRSKEY='{_PROBE_KEY}'"
+    assert probe["expected_count"] == 3
+    assert set(probe_transport.predicates) == {f"LRSKEY='{_PROBE_KEY}'"}
+    assert payload["gaps_fully_covered"] == 12
+    assert payload["gaps_no_records"] == 0
+    assert payload["predicate_anomaly_count"] == 0
+    assert payload["service"]["matches_candidate_lock"] is True
+    assert payload["source_policy"]["continental_downloads_committed"] is False
+    eastern = next(
+        gap
+        for gap in payload["gaps"]
+        if gap["segment_id"] == "i80-new-jersey-to-big-springs"
+    )
+    # The filler carries U-30 in New Jersey: inside the declared states, outside
+    # the sign filter.
+    assert eastern["records_excluded_by_sign_filter"] == 1
+    assert eastern["signed_routes_found"] == ["U-30"]
+    i15 = next(
+        gap
+        for gap in payload["gaps"]
+        if gap["segment_id"] == "i15-salt-lake-to-cove-fort"
+    )
+    # The same filler seen from a segment that declares neither the route nor
+    # New Jersey fails both filters.
+    assert i15["records_excluded_by_both_filters"] == 1
+    assert "characterisation" in payload["finding"]
+
+
+def test_gap_probe_refuses_a_drifted_live_service(tmp_path: Path) -> None:
+    """A probe against a drifted service would characterise a different dataset
+    than the one the locked gaps were measured in."""
+    metadata = _service_metadata()
+    cache = tmp_path / "cache"
+    lock = tmp_path / "lock.json"
+    acquire_continental_nhpn_candidates(
+        SELECTION_PATH,
+        CATALOG_PATH,
+        lock,
+        cache,
+        transport=_GappedCandidateTransport(),
+        service_metadata=metadata,
+        acquired_at="2026-08-27T00:00:00Z",
+    )
+    drifted = {**metadata, "editingInfo": {"dataLastEditDate": 2}}
+
+    with pytest.raises(ValueError, match="drifted"):
+        continental.probe_continental_milepost_gaps(
+            SELECTION_PATH,
+            lock,
+            CATALOG_PATH,
+            cache,
+            tmp_path / "probe-cache",
+            transport=_WholeKeyProbeTransport(),
+            service_metadata=drifted,
+            acquired_at="2026-08-27T00:00:00Z",
+        )
