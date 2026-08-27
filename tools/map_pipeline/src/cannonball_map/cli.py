@@ -14,6 +14,7 @@ from cannonball_map.continental import (
     audit_continental_milepost_gaps,
     derive_continental_edge_path_lock,
     derive_continental_transfer_lock,
+    probe_continental_milepost_gaps,
     validate_continental_edge_path_lock,
     validate_continental_route_lock,
     validate_continental_transfer_lock,
@@ -535,4 +536,57 @@ def audit_continental_milepost_gaps_command(
         f"{payload['gaps_within_source_quantum']} within the "
         f"{payload['source_milepost_quantum_meters']:.2f} m source quantum, "
         f"{payload['gaps_over_one_mile']} over a mile"
+    )
+
+
+@app.command("probe-continental-milepost-gaps")
+def probe_continental_milepost_gaps_command(
+    selection: Path = typer.Option(
+        Path("data/routes/continental/route-selection.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    route_lock: Path = typer.Option(
+        Path("data/sources/continental-route-lock.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    catalog: Path = typer.Option(DEFAULT_CATALOG, exists=True, file_okay=True, dir_okay=False),
+    cache: Path = typer.Option(
+        Path(".tools/continental/nhpn"),
+        help="Locked NHPN response cache.",
+        exists=True, file_okay=False, dir_okay=True,
+    ),
+    probe_cache: Path = typer.Option(
+        Path(".tools/continental/nhpn-gap-probe"),
+        help="Ignored cache for the probe's own whole-key responses.",
+        file_okay=False, dir_okay=True,
+    ),
+    minimum_gap_miles: float = typer.Option(1.0, min=0.0),
+    page_size: int = typer.Option(2_000, min=1, max=2_000),
+    output: Path | None = typer.Option(None, file_okay=True, dir_okay=False),
+) -> None:
+    """Probe what NHPN carries inside the locked gaps. Diagnostic; changes no lock."""
+    try:
+        payload = probe_continental_milepost_gaps(
+            selection,
+            route_lock,
+            catalog,
+            cache,
+            probe_cache,
+            page_size=page_size,
+            minimum_gap_miles=minimum_gap_miles,
+        )
+    except ValueError as error:
+        typer.echo(f"continental-gap-probe-failed: {error}", err=True)
+        raise typer.Exit(code=1) from error
+    if output is not None:
+        output.parent.mkdir(parents=True, exist_ok=True)
+        output.write_text(
+            json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+        )
+    typer.echo(
+        f"continental-gap-probe: {payload['gap_count']} gaps probed, "
+        f"{payload['gaps_fully_covered']} fully covered by records on their key, "
+        f"{payload['gaps_partially_covered']} partially covered, "
+        f"{payload['gaps_no_records']} without records on their key, "
+        f"{payload['predicate_anomaly_count']} predicate anomalies"
     )
