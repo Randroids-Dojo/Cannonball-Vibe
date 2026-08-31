@@ -316,13 +316,18 @@ census, relaxed grade-separation clearance, drifted summary, drifted
 input hash, drifted model, unclaimed source policy).
 
 `GODOT_BIN` resolved to the official 4.7.1.stable.mono editor;
-`./scripts/check.sh` passed every step on commit `56ebf70`: doctor,
-warning-free dotnet build, 145 xUnit tests, Ruff, frame-allocation
-scan, the fifteen-stage continental validation, 271 map-pipeline tests,
-13 PlayGodot unit tests, and the official-Godot save-writing smoke
-(80.7 mph peak, save at 56.1 m, 11.113 ms max chunk build, 2.290 ms max
-collision build). Gate summary SHA-256
-`764163518d17601e42abbbb65a132c320d19db1d009a0cfae7dcf30b236ededc`.
+`./scripts/check.sh` passed every step on commit `396d008` (the
+cross-platform determinism fix; the first full run passed identically
+on the superseded derivation at `56ebf70`): doctor, warning-free dotnet
+build, 145 xUnit tests, Ruff, frame-allocation scan, the fifteen-stage
+continental validation, 271 map-pipeline tests, 13 PlayGodot unit
+tests, and the official-Godot save-writing smoke (80.7 mph peak, save
+at 56.1 m, 10.389 ms max chunk build, 1.166 ms max collision build).
+Gate summary SHA-256
+`371bf033650fc5e051e275e1391d742e888c433cfed9a4e0a41a9d89c2af4da5`.
+The macOS gate alone had also been green on the derivation both M0
+platforms rejected; the required Linux/Windows pair remains the
+authority for the reproducibility claim (ADR-0020).
 
 ## What P0-021 still needs
 
