@@ -1,19 +1,23 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import math
 import re
+import time
+import urllib.error
+import urllib.parse
 import urllib.request
 from collections.abc import Callable, Sequence
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any
+from typing import Any, Protocol
 
 import networkx as nx
 from pyproj import Transformer
-from shapely.geometry import LineString, Point
-from shapely.ops import nearest_points, transform
+from shapely.geometry import LineString, MultiLineString, Point, box
+from shapely.ops import linemerge, nearest_points, substring, transform
 
 from cannonball_map.acquisition import (
     ArcGisTransport,
@@ -6759,4 +6763,2611 @@ def validate_continental_reconstruction_overlays(
     }
     if corridor != expected_corridor or not str(corridor.get("note", "")).strip():
         raise ValueError("Reconstruction overlay corridor summary does not reconcile.")
+    return payload
+
+
+# --- ADR-0026 NHPN-NHS conflation model ------------------------------------------
+#
+# The fill lock records what NHS asserts across the named NHPN voids; nothing in
+# it is conflated. This stage builds the deterministic correspondence between the
+# two datasets over exactly the locked fill spans: seam correspondence at each
+# span end (NHS state-LRS measures against the NHPN record and milepost space the
+# chain ends carry), and geometric agreement bounds along the span. ADR-0026
+# requires the model to be reusable when HPMS is adopted later: HPMS extracts the
+# same ARNOLD substrate, so every correspondence here is keyed on the ARNOLD LRS
+# identity (STFIPS, ROUTEID, measure) and nothing is keyed on NHS-only fields.
+# Nothing here selects a direction, claims an authoritative distance, or bridges
+# anything the locks do not already bridge.
+
+NHS_CONFLATION_LOCK_STATUS = "nhpn_nhs_conflation_locked_reconstruction_pending"
+NHS_CONFLATION_NEXT_STAGE = {
+    "id": "westbound-selection-and-reconstruction",
+    "requires": [
+        "westbound directed edge selection over the closed topology",
+        "reconstruction geometry through the full ADR-0018 gate battery",
+    ],
+}
+
+# Seam agreement bound between a pinned NHPN break-end coordinate and the NHS
+# centerline it corresponds to. Grounded exactly like the probe lens: the seam
+# coordinate is an NHPN record endpoint and the catalog documents NHPN
+# horizontal error up to approximately 80 m, so a tighter bound would refuse a
+# correspondence wherever the two datasets merely disagree within their stated
+# error. A seam is a recorded correspondence, not a snap or a join.
+CONFLATION_SEAM_OFFSET_BOUND_METERS = NHS_PROXIMITY_LENS_METERS
+
+# Along-span sampling interval. 50 m resolves the shortest locked fill span
+# (the 320 m Rifle void) into multiple interior stations while keeping the
+# longest (the 27.3 km i15 span) to a few hundred deterministic stations.
+CONFLATION_STATION_SPACING_METERS = 50.0
+
+# How far a participating record's planimetric geometry length may disagree
+# with the source's own length assertion for that record (the MILES field), as
+# a fraction of MILES. The 2026-08-31 characterisation proved the state-LRS
+# measure axis (BEGINPOINT/ENDPOINT) is calibrated, not metric: per-record
+# measure extents diverge from planimetric length by up to 43% (and 14.6% over
+# the whole i78 span) while the source's MILES field agrees with its geometry
+# within about 1% on every locked fill record. The length bound therefore
+# belongs between geometry and MILES - it trips when the conflated geometry is
+# not the geometry the source measured - and the measure axis is recorded as a
+# parametrisation only, never as a length.
+CONFLATION_GEOMETRY_MILES_AGREEMENT_RATIO = 0.02
+
+# Geometric coincidence tolerance for measure-adjacency evidence: two NHS
+# records of one state route whose measures abut are digitized end-on, so
+# their shared boundary vertex is expected to coincide to authoring noise.
+# This tolerance orients record geometry against the measure axis; it never
+# bridges a gap and it is far inside the 80 m cross-dataset lens.
+CONFLATION_ADJACENCY_GAP_METERS = 5.0
+
+# Measure margin for the orientation-evidence acquisition around each locked
+# fill span. The margin exists only so that every span-carrying record has a
+# measure-adjacent neighbour on record (a single-record span has no intra-span
+# adjacency); margin records supply orientation evidence and are not fill
+# geometry, not candidates, and not additions to any lock.
+CONFLATION_MEASURE_MARGIN_MILES = 0.25
+
+CONFLATION_SOURCE_POLICY = {
+    "supplementary_source": NHS_SOURCE_ID,
+    "nhs_role": "supplementary_centerlines_only",
+    "nhpn_remains_route_authority": True,
+    "openstreetmap_ancestry_allowed": False,
+    "lane_geometry_claimed": False,
+    "authoritative_distance_claimed": False,
+    "continental_downloads_committed": False,
+    "conflation_performed": True,
+    "margin_records_are_orientation_evidence_only": True,
+}
+
+
+def _load_locked_nhs_site_features(
+    site: dict[str, Any], checkpoint_directory: Path
+) -> dict[int, dict[str, Any]]:
+    """Load one fill site's locked NHS features from its response cache.
+
+    Applies the same drift discipline as the NHPN loader: every checkpoint must
+    reproduce the page hash the fill lock pinned, and the returned features must
+    reconcile exactly with the locked OBJECTID snapshot.
+    """
+    object_ids = site["object_ids"]
+    features: dict[int, dict[str, Any]] = {}
+    for page in site["pages"]:
+        checkpoint = checkpoint_directory / f"page-{page['index']:06d}.json"
+        if not checkpoint.is_file():
+            raise ValueError(f"Locked NHS checkpoint is missing: {checkpoint}")
+        record = load_json(checkpoint)
+        response = record.get("response")
+        response_hash = canonical_sha256(response)
+        if (
+            not isinstance(response, dict)
+            or record.get("response_sha256") != response_hash
+            or page.get("canonical_response_sha256") != response_hash
+        ):
+            raise ValueError(f"Locked NHS checkpoint hash drifted: {checkpoint}")
+        offset = page["object_id_offset"]
+        expected_ids = object_ids[offset : offset + page["feature_count"]]
+        page_features = response.get("features", [])
+        returned_ids = [int(feature["attributes"]["OBJECTID"]) for feature in page_features]
+        if returned_ids != expected_ids:
+            raise ValueError(f"Locked NHS checkpoint IDs drifted: {checkpoint}")
+        for feature in page_features:
+            features[int(feature["attributes"]["OBJECTID"])] = feature
+    if sorted(features) != sorted(object_ids):
+        raise ValueError(
+            f"Locked NHS cache does not reconcile for '{site['site_id']}'."
+        )
+    return features
+
+
+def _conflation_margin_predicate(
+    state_fips: str,
+    route_id: str,
+    measure_low: float,
+    measure_high: float,
+    margin_miles: float = CONFLATION_MEASURE_MARGIN_MILES,
+) -> str:
+    """The exact attribute predicate of one orientation-evidence acquisition."""
+    escaped = route_id.replace("'", "''")
+    low = measure_low - margin_miles
+    high = measure_high + margin_miles
+    return (
+        f"STFIPS = '{state_fips}' AND ROUTEID = '{escaped}' "
+        f"AND ENDPOINT > {low:.6f} AND BEGINPOINT < {high:.6f}"
+    )
+
+
+def _merged_feature_line(feature: dict[str, Any]) -> LineString:
+    """One NHS record's geometry as a single continuous line, or a refusal."""
+    parts = [
+        LineString(coordinates)
+        for coordinates in feature.get("geometry", {}).get("paths", [])
+        if len(coordinates) >= 2
+    ]
+    if not parts:
+        raise ValueError(
+            f"NHS record {feature['attributes'].get('OBJECTID')} has no geometry."
+        )
+    if len(parts) == 1:
+        return parts[0]
+    merged = linemerge(MultiLineString(parts))
+    if not isinstance(merged, LineString):
+        raise ValueError(
+            f"NHS record {feature['attributes'].get('OBJECTID')} does not merge "
+            "into one continuous line; its measures cannot be interpolated."
+        )
+    return merged
+
+
+def _measure_adjacency_votes(
+    target: dict[str, Any],
+    neighbours: Sequence[dict[str, Any]],
+    gap_tolerance_m: float,
+    *,
+    measure_quantum: float = 1e-6,
+) -> tuple[str | None, list[dict[str, Any]]]:
+    """Orient one record's geometry against its measure axis by adjacency.
+
+    A record whose measures abut a neighbour's is digitized end-on with it, so
+    the geometric end that coincides with that neighbour is the shared measure
+    boundary. Each matched boundary is one vote for ``forward`` (geometry
+    coordinate order runs from BEGINPOINT to ENDPOINT) or ``reversed``.
+    Conflicting votes are a refusal, not a preference: they would mean the
+    source's own geometry contradicts its measure space at this site.
+    """
+    target_coords = list(target["line"].coords)
+    target_start, target_end = target_coords[0], target_coords[-1]
+    votes: set[str] = set()
+    evidence: list[dict[str, Any]] = []
+    for neighbour in sorted(neighbours, key=lambda entry: entry["object_id"]):
+        if neighbour["object_id"] == target["object_id"]:
+            continue
+        boundaries: list[tuple[str, float]] = []
+        if abs(target["end"] - neighbour["begin"]) <= measure_quantum:
+            boundaries.append(("high", target["end"]))
+        if abs(neighbour["end"] - target["begin"]) <= measure_quantum:
+            boundaries.append(("low", target["begin"]))
+        if not boundaries:
+            continue
+        neighbour_coords = list(neighbour["line"].coords)
+        neighbour_ends = (neighbour_coords[0], neighbour_coords[-1])
+        start_gap = min(math.dist(target_start, end) for end in neighbour_ends)
+        end_gap = min(math.dist(target_end, end) for end in neighbour_ends)
+        for boundary_kind, boundary_measure in boundaries:
+            record: dict[str, Any] = {
+                "neighbour_object_id": neighbour["object_id"],
+                "boundary": boundary_kind,
+                "boundary_measure": round(boundary_measure, 6),
+                "start_gap_m": round(start_gap, 3),
+                "end_gap_m": round(end_gap, 3),
+            }
+            if min(start_gap, end_gap) > gap_tolerance_m:
+                record["unmatched"] = True
+                evidence.append(record)
+                continue
+            # The boundary end is the strictly closer one. A record can be as
+            # short as one source measure quantum (about 1.6 m), so both of its
+            # ends may sit inside the coincidence tolerance of a neighbour; the
+            # shared boundary vertex is still the exact one, so the vote is
+            # ambiguous only when the two gaps are indistinguishable.
+            if abs(start_gap - end_gap) <= 1e-3:
+                record["ambiguous"] = True
+                evidence.append(record)
+                continue
+            boundary_at_end = end_gap < start_gap
+            if boundary_kind == "high":
+                vote = "forward" if boundary_at_end else "reversed"
+            else:
+                vote = "forward" if not boundary_at_end else "reversed"
+            record.update(
+                vote=vote,
+                endpoint_gap_m=round(end_gap if boundary_at_end else start_gap, 3),
+            )
+            votes.add(vote)
+            evidence.append(record)
+    if len(votes) > 1:
+        raise ValueError(
+            json.dumps(
+                {
+                    "refusal": "conflicting measure-orientation evidence",
+                    "object_id": target["object_id"],
+                    "evidence": evidence,
+                },
+                sort_keys=True,
+            )
+        )
+    return (votes.pop() if votes else None), evidence
+
+
+def _measure_at_distance(record: dict[str, Any], distance_along_m: float) -> float:
+    """The state-LRS measure at a distance along one oriented record geometry."""
+    length = float(record["line"].length)
+    extent = record["end"] - record["begin"]
+    fraction = 0.0 if length <= 0 else min(max(distance_along_m / length, 0.0), 1.0)
+    if record["orientation"] == "forward":
+        return record["begin"] + extent * fraction
+    return record["end"] - extent * fraction
+
+
+def _assemble_conflation_span(
+    records: Sequence[dict[str, Any]],
+    measure_low: float,
+    measure_high: float,
+) -> dict[str, Any]:
+    """The NHS span geometry between two seam measures, in measure order.
+
+    Records are clipped to the seam interval through their own linear
+    measure-to-distance map, oriented ascending, and concatenated. Overlapping
+    records (the source publishes duplicates) are resolved deterministically:
+    the cursor only moves forward, and the first record in (begin, end,
+    object_id) order supplies each measure range.
+    """
+    pieces: list[dict[str, Any]] = []
+    coordinates: list[tuple[float, float]] = []
+    cursor = measure_low
+    max_joint_gap = 0.0
+    for record in sorted(
+        records, key=lambda entry: (entry["begin"], entry["end"], entry["object_id"])
+    ):
+        if record["end"] <= cursor + 1e-9 or record["begin"] >= measure_high - 1e-9:
+            continue
+        piece_low = max(record["begin"], cursor)
+        piece_high = min(record["end"], measure_high)
+        if piece_high - piece_low <= 1e-9:
+            continue
+        length = float(record["line"].length)
+        extent = record["end"] - record["begin"]
+        if record["orientation"] == "forward":
+            start = (piece_low - record["begin"]) / extent * length
+            stop = (piece_high - record["begin"]) / extent * length
+            geometry = substring(record["line"], start, stop)
+            piece_coords = list(geometry.coords)
+        else:
+            start = (record["end"] - piece_high) / extent * length
+            stop = (record["end"] - piece_low) / extent * length
+            geometry = substring(record["line"], start, stop)
+            piece_coords = list(geometry.coords)[::-1]
+        if coordinates:
+            joint_gap = math.dist(coordinates[-1], piece_coords[0])
+            max_joint_gap = max(max_joint_gap, joint_gap)
+            if joint_gap <= 1e-9:
+                piece_coords = piece_coords[1:]
+        coordinates.extend(piece_coords)
+        pieces.append(
+            {
+                "object_id": record["object_id"],
+                "measure_range": [round(piece_low, 6), round(piece_high, 6)],
+                "length_m": round(float(geometry.length), 3),
+            }
+        )
+        cursor = piece_high
+    if cursor < measure_high - 1e-9 or len(coordinates) < 2:
+        raise ValueError(
+            json.dumps(
+                {
+                    "refusal": "NHS records do not cover the seam measure interval",
+                    "covered_to": round(cursor, 6),
+                    "measure_high": round(measure_high, 6),
+                },
+                sort_keys=True,
+            )
+        )
+    return {
+        "line": LineString(coordinates),
+        "pieces": pieces,
+        "max_joint_gap_m": round(max_joint_gap, 3),
+    }
+
+
+def _span_nhpn_agreement(
+    span_line: LineString,
+    metric_lines: Sequence[tuple[LockedCandidateLine, LineString]],
+    spacing_m: float,
+    lens_m: float,
+) -> dict[str, Any]:
+    """Where along the span the locked NHPN candidate set agrees, and where it is void.
+
+    Stations beyond the lens are the NHPN void the fill exists for; they are
+    characterised as contiguous runs, never absorbed. Stations within the lens
+    measure the two datasets' lateral agreement over shared pavement.
+    """
+    length = float(span_line.length)
+    stations = [index * spacing_m for index in range(int(length // spacing_m) + 1)]
+    if not stations or length - stations[-1] > 1e-6:
+        stations.append(length)
+    minx, miny, maxx, maxy = span_line.bounds
+    window = (minx - 2 * lens_m, miny - 2 * lens_m, maxx + 2 * lens_m, maxy + 2 * lens_m)
+    nearby = [
+        geometry
+        for _, geometry in metric_lines
+        if geometry.bounds[0] <= window[2]
+        and geometry.bounds[2] >= window[0]
+        and geometry.bounds[1] <= window[3]
+        and geometry.bounds[3] >= window[1]
+    ]
+    offsets: list[tuple[float, float]] = []
+    for station in stations:
+        point = span_line.interpolate(station)
+        distance = min(
+            (geometry.distance(point) for geometry in nearby), default=float("inf")
+        )
+        offsets.append((station, distance))
+    within = [(station, value) for station, value in offsets if value <= lens_m]
+    beyond = [(station, value) for station, value in offsets if value > lens_m]
+    void_runs: list[dict[str, Any]] = []
+    run_start: float | None = None
+    previous_station = 0.0
+    for station, value in offsets:
+        if value > lens_m:
+            if run_start is None:
+                run_start = station
+            previous_station = station
+        elif run_start is not None:
+            void_runs.append(
+                {
+                    "start_m": round(run_start, 3),
+                    "end_m": round(previous_station, 3),
+                }
+            )
+            run_start = None
+    if run_start is not None:
+        void_runs.append(
+            {"start_m": round(run_start, 3), "end_m": round(previous_station, 3)}
+        )
+    return {
+        "station_spacing_m": spacing_m,
+        "station_count": len(offsets),
+        "stations_within_nhpn_lens": len(within),
+        "stations_beyond_nhpn_lens": len(beyond),
+        "nhpn_void_runs": void_runs,
+        "nhpn_agreement": {
+            "max_offset_m": round(max((value for _, value in within), default=0.0), 3),
+            "mean_offset_m": round(
+                sum(value for _, value in within) / len(within) if within else 0.0, 3
+            ),
+        },
+    }
+
+
+def _nhpn_seam_correspondence(
+    seam_metric: tuple[float, float],
+    metric_lines: Sequence[tuple[LockedCandidateLine, LineString]],
+    tolerance_m: float,
+) -> dict[str, Any]:
+    """The NHPN record whose chain end carries a seam, with its milepost space.
+
+    The seam coordinate is a pinned break end, so it must coincide with at
+    least one locked record endpoint within the unchanged endpoint tolerance.
+    The record's milepost at the seam end is resolved by the same
+    measure-adjacency evidence the NHS side uses, against the record's own LRS
+    key; when the key carries no adjacent record the interval is recorded and
+    the seam milepost stays null rather than guessed.
+    """
+    matches: list[dict[str, Any]] = []
+    for candidate, geometry in metric_lines:
+        coordinates = list(geometry.coords)
+        for end_name, coordinate in (("start", coordinates[0]), ("end", coordinates[-1])):
+            distance = math.dist(seam_metric, coordinate)
+            if distance <= tolerance_m:
+                matches.append(
+                    {
+                        "object_id": candidate.object_id,
+                        "part_index": candidate.part_index,
+                        "lrs_key": candidate.lrs_key,
+                        "geometry_end": end_name,
+                        "endpoint_distance_m": round(distance, 3),
+                        "record_milepost_interval": [
+                            candidate.record_begin_milepost,
+                            candidate.record_end_milepost,
+                        ],
+                        "page_response_sha256": candidate.page_response_sha256,
+                    }
+                )
+    if not matches:
+        raise ValueError(
+            json.dumps(
+                {
+                    "refusal": "seam does not land on a locked NHPN record endpoint",
+                    "tolerance_m": tolerance_m,
+                },
+                sort_keys=True,
+            )
+        )
+    matches.sort(
+        key=lambda entry: (
+            entry["endpoint_distance_m"],
+            entry["object_id"],
+            entry["part_index"],
+        )
+    )
+    primary = matches[0]
+    target_line = next(
+        geometry
+        for candidate, geometry in metric_lines
+        if candidate.object_id == primary["object_id"]
+        and candidate.part_index == primary["part_index"]
+    )
+    target_candidate = next(
+        candidate
+        for candidate, _ in metric_lines
+        if candidate.object_id == primary["object_id"]
+        and candidate.part_index == primary["part_index"]
+    )
+    neighbours = [
+        {
+            "object_id": candidate.object_id,
+            "begin": candidate.record_begin_milepost,
+            "end": candidate.record_end_milepost,
+            "line": geometry,
+        }
+        for candidate, geometry in metric_lines
+        if candidate.lrs_key == target_candidate.lrs_key
+        and candidate.lrs_key
+        and candidate.object_id != target_candidate.object_id
+    ]
+    orientation, evidence = _measure_adjacency_votes(
+        {
+            "object_id": target_candidate.object_id,
+            "begin": target_candidate.record_begin_milepost,
+            "end": target_candidate.record_end_milepost,
+            "line": target_line,
+        },
+        neighbours,
+        tolerance_m,
+        measure_quantum=MILEPOST_QUANTUM_MILES / 2,
+    )
+    milepost_at_seam: float | None = None
+    if orientation is not None:
+        at_geometry_end = primary["geometry_end"] == "end"
+        forward = orientation == "forward"
+        milepost_at_seam = (
+            target_candidate.record_end_milepost
+            if at_geometry_end == forward
+            else target_candidate.record_begin_milepost
+        )
+    return {
+        "matches": matches,
+        "correspondence": {
+            **primary,
+            "orientation": orientation,
+            "orientation_evidence": evidence,
+            "milepost_at_seam": milepost_at_seam,
+        },
+    }
+
+
+def derive_continental_nhs_conflation(
+    fill_lock_path: Path,
+    selection_path: Path,
+    route_lock_path: Path,
+    transfer_lock_path: Path,
+    policy_path: Path,
+    edge_path_lock_path: Path,
+    catalog_path: Path,
+    cache_directory: Path,
+    fill_cache_directory: Path,
+    conflation_cache_directory: Path,
+    output_path: Path,
+    *,
+    transport: ArcGisTransport | None = None,
+    service_metadata: dict[str, Any] | None = None,
+    acquired_at: str | None = None,
+    page_size: int = 2_000,
+) -> dict[str, Any]:
+    """Derive the NHPN-NHS conflation lock over the five locked fill spans.
+
+    Consumes the checksum-locked inputs and their response caches. The only
+    network access is the orientation-evidence margin acquisition around each
+    span, made with the full NHPN acquisition discipline against the exact NHS
+    service the fill lock names: a live service whose metadata hash has drifted
+    from the fill lock's is refused outright, because its measures would not be
+    the ones the fill lock records. Every bound failure is a machine-readable
+    refusal, never an absorbed offset.
+    """
+    catalog = load_catalog(catalog_path)
+    if NHS_SOURCE_ID not in catalog:
+        raise ValueError("NHS is not in the approved source catalog.")
+    source = catalog[NHS_SOURCE_ID]
+    service_url, query_url = _require_nhs_query_url(source)
+    fill_lock = validate_continental_nhs_fill_lock(
+        fill_lock_path,
+        selection_path,
+        route_lock_path,
+        transfer_lock_path,
+        policy_path,
+        edge_path_lock_path,
+        catalog_path,
+    )
+    if service_metadata is None:
+        with urllib.request.urlopen(service_url + "?f=pjson", timeout=120) as response:
+            service_metadata = json.loads(response.read())
+    _validate_nhs_service_metadata(service_metadata)
+    service_metadata_sha256 = canonical_sha256(service_metadata)
+    if service_metadata_sha256 != fill_lock["nhs"]["service"]["canonical_metadata_sha256"]:
+        raise ValueError(
+            "Live NHS service metadata has drifted from the fill lock; a "
+            "conflation against it would correspond measures the fill lock does "
+            "not record."
+        )
+    max_record_count = int(service_metadata["maxRecordCount"])
+    if page_size > max_record_count:
+        raise ValueError(
+            f"NHS page size {page_size} exceeds the live service limit of "
+            f"{max_record_count}."
+        )
+    selection = load_json(selection_path)
+    route_lock = validate_continental_route_lock(
+        route_lock_path, catalog_path, selection_path
+    )
+    if transport is None:
+        transport = UrllibArcGisTransport(timeout_seconds=120)
+    timestamp = acquired_at or datetime.now(UTC).replace(microsecond=0).isoformat().replace(
+        "+00:00", "Z"
+    )
+    forward = Transformer.from_crs("EPSG:4326", "EPSG:5070", always_xy=True)
+    cache_root = cache_directory / route_lock["nhpn"]["service"][
+        "canonical_metadata_sha256"
+    ]
+    fill_root = fill_cache_directory / service_metadata_sha256
+    conflation_root = conflation_cache_directory / service_metadata_sha256
+    tolerance = float(fill_lock["endpoint_snap_tolerance_m"])
+
+    sites: list[dict[str, Any]] = []
+    for site in sorted(fill_lock["sites"], key=lambda entry: entry["site_id"]):
+        site_id = site["site_id"]
+        groups = site["fill_route_groups"]
+        if len(groups) != 1:
+            raise ValueError(
+                json.dumps(
+                    {
+                        "refusal": "conflation expects exactly one qualifying route "
+                        "group per fill site",
+                        "site_id": site_id,
+                        "group_count": len(groups),
+                    },
+                    sort_keys=True,
+                )
+            )
+        group = groups[0]
+        locked_features = _load_locked_nhs_site_features(site, fill_root / site_id)
+        segment_lines = _segment_locked_lines(route_lock, site["segment_id"], cache_root)
+        metric_lines = tuple(
+            (candidate, transform(forward.transform, candidate.geometry))
+            for candidate in segment_lines
+        )
+
+        measure_low = min(span[0] for span in group["measure_spans"])
+        measure_high = max(span[1] for span in group["measure_spans"])
+        predicate = _conflation_margin_predicate(
+            group["state_fips"], group["route_id"], measure_low, measure_high
+        )
+        # The hosted NHS service intermittently answers a valid attribute query
+        # with HTTP 400 and succeeds on the identical retry (observed three
+        # times on 2026-08-31, each request verified valid out of band). A 400
+        # is not in the shared transport's retryable set because it normally
+        # means a bad predicate, so the bounded retry lives here: the predicate
+        # is machine-built from locked inputs, and a genuine parameter error
+        # still fails after the last attempt.
+        margin: NhpnAcquisitionResult | None = None
+        for attempt in range(3):
+            try:
+                margin = acquire_nhpn(
+                    transport,
+                    query_url,
+                    {"where": predicate},
+                    conflation_root / site_id,
+                    page_size=page_size,
+                )
+                break
+            except ValueError as error:
+                if "'code': 400" not in str(error) or attempt == 2:
+                    raise
+        assert margin is not None
+        margin_features = {
+            int(feature["attributes"]["OBJECTID"]): feature
+            for feature in margin.features
+        }
+        group_ids = sorted(record["object_id"] for record in group["records"])
+        missing = [
+            object_id for object_id in group_ids if object_id not in margin_features
+        ]
+        if missing:
+            raise ValueError(
+                json.dumps(
+                    {
+                        "refusal": "margin acquisition no longer returns the locked "
+                        "fill records",
+                        "site_id": site_id,
+                        "missing_object_ids": missing,
+                    },
+                    sort_keys=True,
+                )
+            )
+        drifted = [
+            object_id
+            for object_id in group_ids
+            if canonical_sha256(margin_features[object_id])
+            != canonical_sha256(locked_features[object_id])
+        ]
+        if drifted:
+            raise ValueError(
+                json.dumps(
+                    {
+                        "refusal": "live NHS features drifted from the locked fill "
+                        "cache",
+                        "site_id": site_id,
+                        "drifted_object_ids": drifted,
+                    },
+                    sort_keys=True,
+                )
+            )
+
+        records: dict[int, dict[str, Any]] = {}
+        for object_id in sorted(margin_features):
+            attributes = margin_features[object_id]["attributes"]
+            begin = float(attributes.get("BEGINPOINT") or 0.0)
+            end = float(attributes.get("ENDPOINT") or 0.0)
+            if end < begin:
+                raise ValueError(
+                    json.dumps(
+                        {
+                            "refusal": "NHS record measures run backwards",
+                            "site_id": site_id,
+                            "object_id": object_id,
+                        },
+                        sort_keys=True,
+                    )
+                )
+            records[object_id] = {
+                "object_id": object_id,
+                "begin": begin,
+                "end": end,
+                "line": transform(
+                    forward.transform, _merged_feature_line(margin_features[object_id])
+                ),
+            }
+
+        orientation_entries: list[dict[str, Any]] = []
+        for object_id in group_ids:
+            record = records[object_id]
+            orientation, evidence = _measure_adjacency_votes(
+                record,
+                [records[key] for key in sorted(records)],
+                CONFLATION_ADJACENCY_GAP_METERS,
+            )
+            if orientation is None:
+                raise ValueError(
+                    json.dumps(
+                        {
+                            "refusal": "no measure-orientation evidence for a span "
+                            "record",
+                            "site_id": site_id,
+                            "object_id": object_id,
+                        },
+                        sort_keys=True,
+                    )
+                )
+            record["orientation"] = orientation
+            orientation_entries.append(
+                {
+                    "object_id": object_id,
+                    "orientation": orientation,
+                    "evidence": evidence,
+                }
+            )
+
+        seams: list[dict[str, Any]] = []
+        seam_measures: list[float] = []
+        for side, corner in (("from", "from_coordinate"), ("to", "to_coordinate")):
+            seam_metric = forward.transform(
+                site[corner]["longitude"], site[corner]["latitude"]
+            )
+            seam_point = Point(seam_metric)
+            offset, seam_record = min(
+                (
+                    (records[object_id]["line"].distance(seam_point), records[object_id])
+                    for object_id in group_ids
+                ),
+                key=lambda entry: (round(entry[0], 9), entry[1]["object_id"]),
+            )
+            if offset > CONFLATION_SEAM_OFFSET_BOUND_METERS:
+                raise ValueError(
+                    json.dumps(
+                        {
+                            "refusal": "seam offset exceeds the conflation bound",
+                            "site_id": site_id,
+                            "side": side,
+                            "measured_offset_m": round(offset, 3),
+                            "bound_m": CONFLATION_SEAM_OFFSET_BOUND_METERS,
+                        },
+                        sort_keys=True,
+                    )
+                )
+            distance_along = float(seam_record["line"].project(seam_point))
+            measure = _measure_at_distance(seam_record, distance_along)
+            seam_measures.append(measure)
+            nhpn = _nhpn_seam_correspondence(seam_metric, metric_lines, tolerance)
+            seams.append(
+                {
+                    "side": side,
+                    "coordinate": site[corner],
+                    "nhs": {
+                        "object_id": seam_record["object_id"],
+                        "seam_offset_m": round(offset, 3),
+                        "measure_at_seam": round(measure, 6),
+                        "measure_interval": [
+                            round(seam_record["begin"], 6),
+                            round(seam_record["end"], 6),
+                        ],
+                        "orientation": seam_record["orientation"],
+                    },
+                    "nhpn": nhpn,
+                    "within_bound": True,
+                }
+            )
+
+        span_low, span_high = sorted(seam_measures)
+        span = _assemble_conflation_span(
+            [records[object_id] for object_id in group_ids], span_low, span_high
+        )
+        if span["max_joint_gap_m"] > CONFLATION_ADJACENCY_GAP_METERS:
+            raise ValueError(
+                json.dumps(
+                    {
+                        "refusal": "span pieces do not join within the adjacency "
+                        "tolerance",
+                        "site_id": site_id,
+                        "max_joint_gap_m": span["max_joint_gap_m"],
+                        "bound_m": CONFLATION_ADJACENCY_GAP_METERS,
+                    },
+                    sort_keys=True,
+                )
+            )
+        span_line = span["line"]
+        # Rounded before the ratio so the offline validator reproduces it.
+        geometry_length = round(float(span_line.length), 3)
+        measure_length = round((span_high - span_low) * METRES_PER_MILE, 3)
+        distortion = (
+            abs(geometry_length - measure_length) / measure_length
+            if measure_length > 0
+            else float("inf")
+        )
+        miles_by_id = {
+            record["object_id"]: float(record["miles"]) for record in group["records"]
+        }
+        records_checked: list[dict[str, Any]] = []
+        for object_id in sorted({piece["object_id"] for piece in span["pieces"]}):
+            # Computed from the recorded (rounded) length so the offline
+            # validator reproduces the ratio exactly.
+            record_geometry_m = round(float(records[object_id]["line"].length), 3)
+            record_miles_m = miles_by_id[object_id] * METRES_PER_MILE
+            record_ratio = (
+                abs(record_geometry_m - record_miles_m) / record_miles_m
+                if record_miles_m > 0
+                else float("inf")
+            )
+            if record_ratio > CONFLATION_GEOMETRY_MILES_AGREEMENT_RATIO:
+                raise ValueError(
+                    json.dumps(
+                        {
+                            "refusal": "record geometry disagrees with the source's "
+                            "own MILES length",
+                            "site_id": site_id,
+                            "object_id": object_id,
+                            "measured_ratio": round(record_ratio, 6),
+                            "bound": CONFLATION_GEOMETRY_MILES_AGREEMENT_RATIO,
+                        },
+                        sort_keys=True,
+                    )
+                )
+            records_checked.append(
+                {
+                    "object_id": object_id,
+                    "miles": miles_by_id[object_id],
+                    "geometry_length_m": record_geometry_m,
+                    "geometry_miles_ratio": round(record_ratio, 6),
+                }
+            )
+        agreement = _span_nhpn_agreement(
+            span_line,
+            metric_lines,
+            CONFLATION_STATION_SPACING_METERS,
+            NHS_PROXIMITY_LENS_METERS,
+        )
+        sites.append(
+            {
+                "site_id": site_id,
+                "segment_id": site["segment_id"],
+                "facility": site["facility"],
+                "group": {
+                    "state_fips": group["state_fips"],
+                    "route_id": group["route_id"],
+                    "signed_routes": group["signed_routes"],
+                },
+                "margin_acquisition": {
+                    "predicate": predicate,
+                    "acquired_at": timestamp,
+                    "page_size": page_size,
+                    "expected_count": margin.expected_count,
+                    "object_ids": list(margin.object_ids),
+                    "object_ids_sha256": canonical_sha256(list(margin.object_ids)),
+                    "features_sha256": canonical_sha256(list(margin.features)),
+                    "pages": _page_records(margin, conflation_root / site_id, page_size),
+                    "retries": margin.retries,
+                    "resumed_pages": margin.resumed_pages,
+                    "locked_records_reproduced": True,
+                },
+                "orientation": orientation_entries,
+                "seams": seams,
+                "span": {
+                    "measure_low": round(span_low, 6),
+                    "measure_high": round(span_high, 6),
+                    "measure_delta_miles": round(span_high - span_low, 6),
+                    "measure_length_m": round(measure_length, 3),
+                    "geometry_length_m": round(geometry_length, 3),
+                    "measure_axis_distortion_ratio": round(distortion, 6),
+                    "records_checked": records_checked,
+                    "max_record_geometry_miles_ratio": round(
+                        max(
+                            record["geometry_miles_ratio"] for record in records_checked
+                        ),
+                        6,
+                    ),
+                    "max_piece_joint_gap_m": span["max_joint_gap_m"],
+                    "pieces": span["pieces"],
+                    "geometry_sha256": canonical_sha256(
+                        [
+                            [round(x, 3), round(y, 3)]
+                            for x, y in span_line.coords
+                        ]
+                    ),
+                    **agreement,
+                },
+            }
+        )
+
+    seam_offsets = [
+        seam["nhs"]["seam_offset_m"] for entry in sites for seam in entry["seams"]
+    ]
+    payload = {
+        "schema_version": 1,
+        "status": NHS_CONFLATION_LOCK_STATUS,
+        "decision": "ADR-0026",
+        "route_decision": selection["decision"],
+        "acquired_at": timestamp,
+        "coordinate_crs": "EPSG:4326",
+        "metric_crs": "EPSG:5070",
+        "catalog_sha256": compute_sha256(catalog_path),
+        "route_selection_sha256": compute_sha256(selection_path),
+        "candidate_lock_sha256": compute_sha256(route_lock_path),
+        "transfer_lock_sha256": compute_sha256(transfer_lock_path),
+        "edge_path_lock_sha256": compute_sha256(edge_path_lock_path),
+        "nhs_fill_lock_sha256": compute_sha256(fill_lock_path),
+        "nhs": fill_lock["nhs"],
+        "ancestry": fill_lock["ancestry"],
+        "source_policy": dict(CONFLATION_SOURCE_POLICY),
+        "model": {
+            "seam_offset_bound_m": CONFLATION_SEAM_OFFSET_BOUND_METERS,
+            "station_spacing_m": CONFLATION_STATION_SPACING_METERS,
+            "geometry_miles_agreement_bound": CONFLATION_GEOMETRY_MILES_AGREEMENT_RATIO,
+            "adjacency_gap_m": CONFLATION_ADJACENCY_GAP_METERS,
+            "measure_margin_miles": CONFLATION_MEASURE_MARGIN_MILES,
+            "nhpn_proximity_lens_m": NHS_PROXIMITY_LENS_METERS,
+            "measure_space": "state-LRS route measures (STFIPS, ROUTEID, measure)",
+            "measure_axis_note": (
+                "The state-LRS measure axis is calibrated, not metric: per-record "
+                "measure extents diverge from planimetric length by up to 43% on "
+                "the locked fill records while the source's own MILES field "
+                "agrees with its geometry within about 1%. Measures parametrise "
+                "the span and key the correspondence; they are never a length, "
+                "and the length bound is between geometry and MILES."
+            ),
+            "hpms_reuse": {
+                "decision": "ADR-0026",
+                "keyed_on": ["state_fips", "route_id", "measure"],
+                "note": (
+                    "HPMS extracts the same ARNOLD substrate, so every seam "
+                    "correspondence and span parametrisation here is keyed on the "
+                    "ARNOLD LRS identity and reusable unchanged if HPMS is adopted."
+                ),
+            },
+        },
+        "endpoint_snap_tolerance_m": tolerance,
+        "westbound_selection_validated": False,
+        "site_count": len(sites),
+        "sites": sites,
+        "sites_sha256": canonical_sha256(sites),
+        "summary": {
+            "seam_count": len(seam_offsets),
+            "seams_within_bound": len(seam_offsets),
+            "max_seam_offset_m": max(seam_offsets) if seam_offsets else 0.0,
+            "max_record_geometry_miles_ratio": max(
+                entry["span"]["max_record_geometry_miles_ratio"] for entry in sites
+            ),
+            "max_measure_axis_distortion_ratio": max(
+                entry["span"]["measure_axis_distortion_ratio"] for entry in sites
+            ),
+            "total_span_meters": round(
+                sum(entry["span"]["geometry_length_m"] for entry in sites), 3
+            ),
+            "sites_with_nhpn_void": sum(
+                1 for entry in sites if entry["span"]["nhpn_void_runs"]
+            ),
+        },
+        "next_stage": NHS_CONFLATION_NEXT_STAGE,
+    }
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(
+        json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
+    return payload
+
+
+def validate_continental_nhs_conflation(
+    conflation_path: Path,
+    fill_lock_path: Path,
+    selection_path: Path,
+    route_lock_path: Path,
+    transfer_lock_path: Path,
+    policy_path: Path,
+    edge_path_lock_path: Path,
+    catalog_path: Path,
+) -> dict[str, Any]:
+    """Validate the conflation lock without the ignored response caches."""
+    payload = load_json(conflation_path)
+    if payload.get("schema_version") != 1:
+        raise ValueError("Unsupported NHS conflation lock schema.")
+    if payload.get("status") != NHS_CONFLATION_LOCK_STATUS:
+        raise ValueError("NHS conflation lock has an unsupported status.")
+    if payload.get("decision") != "ADR-0026":
+        raise ValueError("NHS conflation lock does not cite ADR-0026.")
+    if payload.get("westbound_selection_validated") is not False:
+        raise ValueError(
+            "NHS conflation lock claims a validated westbound selection, which "
+            "this stage cannot establish."
+        )
+    fill_lock = validate_continental_nhs_fill_lock(
+        fill_lock_path,
+        selection_path,
+        route_lock_path,
+        transfer_lock_path,
+        policy_path,
+        edge_path_lock_path,
+        catalog_path,
+    )
+    selection = load_json(selection_path)
+    if payload.get("route_decision") != selection.get("decision"):
+        raise ValueError("NHS conflation lock decision does not match the selection.")
+    expected_hashes = {
+        "catalog_sha256": compute_sha256(catalog_path),
+        "route_selection_sha256": compute_sha256(selection_path),
+        "candidate_lock_sha256": compute_sha256(route_lock_path),
+        "transfer_lock_sha256": compute_sha256(transfer_lock_path),
+        "edge_path_lock_sha256": compute_sha256(edge_path_lock_path),
+        "nhs_fill_lock_sha256": compute_sha256(fill_lock_path),
+    }
+    if any(payload.get(key) != value for key, value in expected_hashes.items()):
+        raise ValueError("NHS conflation lock input hash drifted.")
+    if payload.get("nhs") != fill_lock["nhs"]:
+        raise ValueError("NHS conflation lock service identity drifted from the fill lock.")
+    if payload.get("ancestry") != fill_lock["ancestry"]:
+        raise ValueError("NHS conflation lock does not carry the ADR-0026 dual ancestry.")
+    if payload.get("source_policy") != CONFLATION_SOURCE_POLICY:
+        raise ValueError("NHS conflation lock source policy is incomplete.")
+    if payload.get("endpoint_snap_tolerance_m") != fill_lock["endpoint_snap_tolerance_m"]:
+        raise ValueError("NHS conflation lock declares a drifted endpoint tolerance.")
+    model = payload.get("model", {})
+    expected_model_constants = {
+        "seam_offset_bound_m": CONFLATION_SEAM_OFFSET_BOUND_METERS,
+        "station_spacing_m": CONFLATION_STATION_SPACING_METERS,
+        "geometry_miles_agreement_bound": CONFLATION_GEOMETRY_MILES_AGREEMENT_RATIO,
+        "adjacency_gap_m": CONFLATION_ADJACENCY_GAP_METERS,
+        "measure_margin_miles": CONFLATION_MEASURE_MARGIN_MILES,
+        "nhpn_proximity_lens_m": NHS_PROXIMITY_LENS_METERS,
+    }
+    if any(model.get(key) != value for key, value in expected_model_constants.items()):
+        raise ValueError("NHS conflation model constants drifted.")
+    if not str(model.get("measure_axis_note", "")).strip():
+        raise ValueError(
+            "NHS conflation model does not record the calibrated measure-axis "
+            "characterisation."
+        )
+    hpms = model.get("hpms_reuse", {})
+    if hpms.get("decision") != "ADR-0026" or hpms.get("keyed_on") != [
+        "state_fips",
+        "route_id",
+        "measure",
+    ]:
+        raise ValueError("NHS conflation lock does not record the ADR-0026 HPMS reuse key.")
+
+    fill_sites_by_id = {site["site_id"]: site for site in fill_lock["sites"]}
+    max_record_count = int(fill_lock["nhs"]["service"]["max_record_count"])
+    nhpn_page_hashes = _locked_page_hashes_by_object_id(
+        validate_continental_route_lock(route_lock_path, catalog_path, selection_path)
+    )
+    sites = payload.get("sites")
+    if not isinstance(sites, list) or {entry.get("site_id") for entry in sites} != set(
+        fill_sites_by_id
+    ):
+        raise ValueError(
+            "NHS conflation lock does not cover exactly the locked fill sites."
+        )
+    if payload.get("site_count") != len(sites):
+        raise ValueError("NHS conflation lock site count does not reconcile.")
+    if canonical_sha256(sites) != payload.get("sites_sha256"):
+        raise ValueError("NHS conflation lock site digest drifted.")
+
+    seam_offsets: list[float] = []
+    ratios: list[float] = []
+    distortions: list[float] = []
+    span_total = 0.0
+    void_sites = 0
+    for entry in sites:
+        site_id = entry["site_id"]
+        fill_site = fill_sites_by_id[site_id]
+        group = fill_site["fill_route_groups"][0]
+        if entry.get("segment_id") != fill_site["segment_id"] or entry.get(
+            "facility"
+        ) != fill_site["facility"]:
+            raise ValueError(f"Conflation site '{site_id}' identity drifted.")
+        recorded_group = entry.get("group", {})
+        if (
+            recorded_group.get("state_fips") != group["state_fips"]
+            or recorded_group.get("route_id") != group["route_id"]
+            or recorded_group.get("signed_routes") != group["signed_routes"]
+        ):
+            raise ValueError(f"Conflation site '{site_id}' route group drifted.")
+        group_ids = {record["object_id"] for record in group["records"]}
+        margin = entry.get("margin_acquisition", {})
+        measure_low = min(span[0] for span in group["measure_spans"])
+        measure_high = max(span[1] for span in group["measure_spans"])
+        expected_predicate = _conflation_margin_predicate(
+            group["state_fips"], group["route_id"], measure_low, measure_high
+        )
+        if margin.get("predicate") != expected_predicate:
+            raise ValueError(f"Conflation site '{site_id}' margin predicate drifted.")
+        if margin.get("locked_records_reproduced") is not True:
+            raise ValueError(
+                f"Conflation site '{site_id}' does not assert locked-record "
+                "reproduction."
+            )
+        _validate_acquisition_record(
+            margin, f"conflation margin '{site_id}'", max_record_count
+        )
+        margin_ids = set(margin["object_ids"])
+        if not group_ids <= margin_ids:
+            raise ValueError(
+                f"Conflation site '{site_id}' margin does not cover the locked "
+                "fill records."
+            )
+        orientation_by_id: dict[int, str] = {}
+        for record in entry.get("orientation", []):
+            object_id = record.get("object_id")
+            orientation = record.get("orientation")
+            if object_id not in group_ids or orientation not in {"forward", "reversed"}:
+                raise ValueError(
+                    f"Conflation site '{site_id}' orientation entry is invalid."
+                )
+            votes = [
+                item
+                for item in record.get("evidence", [])
+                if item.get("vote") in {"forward", "reversed"}
+            ]
+            if not votes or any(
+                item.get("endpoint_gap_m", float("inf")) > CONFLATION_ADJACENCY_GAP_METERS
+                or item.get("vote") != orientation
+                for item in votes
+            ):
+                raise ValueError(
+                    f"Conflation site '{site_id}' orientation evidence does not "
+                    "support its claim."
+                )
+            orientation_by_id[object_id] = orientation
+        seams = entry.get("seams", [])
+        if [seam.get("side") for seam in seams] != ["from", "to"]:
+            raise ValueError(f"Conflation site '{site_id}' does not record both seams.")
+        seam_measures: list[float] = []
+        for seam, corner in zip(seams, ("from_coordinate", "to_coordinate"), strict=True):
+            if seam.get("coordinate") != fill_site[corner]:
+                raise ValueError(
+                    f"Conflation site '{site_id}' seam coordinate drifted from the "
+                    "fill lock."
+                )
+            nhs = seam.get("nhs", {})
+            offset = nhs.get("seam_offset_m")
+            if (
+                not isinstance(offset, int | float)
+                or isinstance(offset, bool)
+                or not math.isfinite(offset)
+                or offset < 0
+                or offset > CONFLATION_SEAM_OFFSET_BOUND_METERS
+                or seam.get("within_bound") is not True
+            ):
+                raise ValueError(
+                    f"Conflation site '{site_id}' seam offset violates the bound."
+                )
+            if nhs.get("object_id") not in group_ids:
+                raise ValueError(
+                    f"Conflation site '{site_id}' seam cites an unlocked NHS record."
+                )
+            if orientation_by_id.get(nhs.get("object_id")) != nhs.get("orientation"):
+                raise ValueError(
+                    f"Conflation site '{site_id}' seam orientation is unsupported."
+                )
+            measure = nhs.get("measure_at_seam")
+            if (
+                not isinstance(measure, int | float)
+                or isinstance(measure, bool)
+                or not math.isfinite(measure)
+                or not (
+                    measure_low - MILEPOST_QUANTUM_MILES
+                    <= measure
+                    <= measure_high + MILEPOST_QUANTUM_MILES
+                )
+            ):
+                raise ValueError(
+                    f"Conflation site '{site_id}' seam measure is outside the "
+                    "locked span."
+                )
+            seam_measures.append(float(measure))
+            seam_offsets.append(float(offset))
+            nhpn = seam.get("nhpn", {})
+            matches = nhpn.get("matches")
+            correspondence = nhpn.get("correspondence", {})
+            if not isinstance(matches, list) or not matches:
+                raise ValueError(
+                    f"Conflation site '{site_id}' seam has no NHPN endpoint match."
+                )
+            for match in matches:
+                expected_hash = nhpn_page_hashes.get(match.get("object_id"))
+                if expected_hash is None or match.get(
+                    "page_response_sha256"
+                ) not in expected_hash:
+                    raise ValueError(
+                        f"Conflation site '{site_id}' cites an unlocked NHPN record."
+                    )
+                distance = match.get("endpoint_distance_m")
+                if (
+                    not isinstance(distance, int | float)
+                    or isinstance(distance, bool)
+                    or not 0
+                    <= distance
+                    <= fill_lock["endpoint_snap_tolerance_m"]
+                ):
+                    raise ValueError(
+                        f"Conflation site '{site_id}' NHPN endpoint match exceeds "
+                        "the endpoint tolerance."
+                    )
+            if correspondence.get("object_id") != matches[0].get("object_id"):
+                raise ValueError(
+                    f"Conflation site '{site_id}' NHPN correspondence is not the "
+                    "nearest endpoint match."
+                )
+            milepost = correspondence.get("milepost_at_seam")
+            if milepost is not None:
+                interval = sorted(correspondence.get("record_milepost_interval", []))
+                if len(interval) != 2 or not (
+                    interval[0] <= milepost <= interval[1]
+                ):
+                    raise ValueError(
+                        f"Conflation site '{site_id}' seam milepost is outside its "
+                        "record interval."
+                    )
+                if correspondence.get("orientation") not in {"forward", "reversed"}:
+                    raise ValueError(
+                        f"Conflation site '{site_id}' claims a seam milepost "
+                        "without orientation evidence."
+                    )
+        span = entry.get("span", {})
+        expected_low, expected_high = sorted(seam_measures)
+        if (
+            span.get("measure_low") != round(expected_low, 6)
+            or span.get("measure_high") != round(expected_high, 6)
+        ):
+            raise ValueError(
+                f"Conflation site '{site_id}' span does not run seam to seam."
+            )
+        miles_by_id = {
+            record["object_id"]: record["miles"] for record in group["records"]
+        }
+        records_checked = span.get("records_checked")
+        if not isinstance(records_checked, list) or not records_checked:
+            raise ValueError(
+                f"Conflation site '{site_id}' span records no geometry-MILES "
+                "checks."
+            )
+        checked_ids = set()
+        for check in records_checked:
+            object_id = check.get("object_id")
+            if object_id not in group_ids or check.get("miles") != miles_by_id.get(
+                object_id
+            ):
+                raise ValueError(
+                    f"Conflation site '{site_id}' geometry-MILES check cites an "
+                    "unlocked record."
+                )
+            miles_m = float(check["miles"]) * METRES_PER_MILE
+            geometry_m = check.get("geometry_length_m")
+            check_ratio = check.get("geometry_miles_ratio")
+            if (
+                not isinstance(geometry_m, int | float)
+                or isinstance(geometry_m, bool)
+                or not math.isfinite(geometry_m)
+                or geometry_m <= 0
+                or not isinstance(check_ratio, int | float)
+                or isinstance(check_ratio, bool)
+                or round(abs(geometry_m - miles_m) / miles_m, 6) != check_ratio
+                or check_ratio > CONFLATION_GEOMETRY_MILES_AGREEMENT_RATIO
+            ):
+                raise ValueError(
+                    f"Conflation site '{site_id}' violates the geometry-MILES "
+                    "agreement bound."
+                )
+            checked_ids.add(object_id)
+        if span.get("max_record_geometry_miles_ratio") != max(
+            check["geometry_miles_ratio"] for check in records_checked
+        ):
+            raise ValueError(
+                f"Conflation site '{site_id}' geometry-MILES maximum does not "
+                "reconcile."
+            )
+        distortion = span.get("measure_axis_distortion_ratio")
+        measure_length = span.get("measure_length_m")
+        geometry_length = span.get("geometry_length_m")
+        if (
+            not isinstance(distortion, int | float)
+            or isinstance(distortion, bool)
+            or not math.isfinite(distortion)
+            or not isinstance(measure_length, int | float)
+            or not isinstance(geometry_length, int | float)
+            or measure_length <= 0
+            or round(abs(geometry_length - measure_length) / measure_length, 6)
+            != distortion
+        ):
+            raise ValueError(
+                f"Conflation site '{site_id}' measure-axis characterisation does "
+                "not reconcile."
+            )
+        joint_gap = span.get("max_piece_joint_gap_m")
+        if (
+            not isinstance(joint_gap, int | float)
+            or isinstance(joint_gap, bool)
+            or not 0 <= joint_gap <= CONFLATION_ADJACENCY_GAP_METERS
+        ):
+            raise ValueError(
+                f"Conflation site '{site_id}' span pieces violate the adjacency "
+                "bound."
+            )
+        pieces = span.get("pieces")
+        if not isinstance(pieces, list) or not pieces:
+            raise ValueError(f"Conflation site '{site_id}' span has no pieces.")
+        cursor = span["measure_low"]
+        for piece in pieces:
+            if piece.get("object_id") not in group_ids:
+                raise ValueError(
+                    f"Conflation site '{site_id}' span cites an unlocked record."
+                )
+            piece_range = piece.get("measure_range", [])
+            if (
+                len(piece_range) != 2
+                or piece_range[0] < cursor - 1e-6
+                or piece_range[1] <= piece_range[0]
+            ):
+                raise ValueError(
+                    f"Conflation site '{site_id}' span pieces are not contiguous "
+                    "ascending."
+                )
+            if orientation_by_id.get(piece["object_id"]) is None:
+                raise ValueError(
+                    f"Conflation site '{site_id}' span piece has no orientation."
+                )
+            cursor = piece_range[1]
+        if abs(cursor - span["measure_high"]) > 1e-5:
+            raise ValueError(
+                f"Conflation site '{site_id}' span pieces do not reach the far seam."
+            )
+        if {piece["object_id"] for piece in pieces} != checked_ids:
+            raise ValueError(
+                f"Conflation site '{site_id}' geometry-MILES checks do not cover "
+                "exactly the span records."
+            )
+        if not SHA256_PATTERN.fullmatch(str(span.get("geometry_sha256", ""))):
+            raise ValueError(f"Conflation site '{site_id}' span digest is invalid.")
+        if span.get("station_count") != span.get("stations_within_nhpn_lens", 0) + span.get(
+            "stations_beyond_nhpn_lens", 0
+        ):
+            raise ValueError(
+                f"Conflation site '{site_id}' station counts do not reconcile."
+            )
+        ratios.append(float(span["max_record_geometry_miles_ratio"]))
+        distortions.append(float(distortion))
+        span_total += float(span.get("geometry_length_m", 0.0))
+        if span.get("nhpn_void_runs"):
+            void_sites += 1
+    summary = payload.get("summary", {})
+    expected_summary = {
+        "seam_count": len(seam_offsets),
+        "seams_within_bound": len(seam_offsets),
+        "max_seam_offset_m": max(seam_offsets) if seam_offsets else 0.0,
+        "max_record_geometry_miles_ratio": max(ratios) if ratios else 0.0,
+        "max_measure_axis_distortion_ratio": max(distortions) if distortions else 0.0,
+        "total_span_meters": round(span_total, 3),
+        "sites_with_nhpn_void": void_sites,
+    }
+    if summary != expected_summary:
+        raise ValueError("NHS conflation lock summary does not reconcile.")
+    if payload.get("next_stage") != NHS_CONFLATION_NEXT_STAGE:
+        raise ValueError("NHS conflation lock next stage drifted.")
+    return payload
+
+
+def _locked_page_hashes_by_object_id(
+    route_lock: dict[str, Any],
+) -> dict[int, set[str]]:
+    """Every locked OBJECTID's admissible page-response hashes, base and supplements."""
+    hashes: dict[int, set[str]] = {}
+    nhpn = route_lock["nhpn"]
+    for record in (*nhpn["segment_snapshots"], *nhpn.get("supplementary_acquisitions", [])):
+        object_ids = record["object_ids"]
+        for page in record["pages"]:
+            offset = page["object_id_offset"]
+            page_hash = page["canonical_response_sha256"]
+            for object_id in object_ids[offset : offset + page["feature_count"]]:
+                hashes.setdefault(object_id, set()).add(page_hash)
+    return hashes
+
+
+# --- ADR-0007 3DEP product lock over the closed corridor --------------------------
+#
+# The geodata law is exact: 3DEP supplies elevation only after product,
+# resolution, date, horizontal datum, and vertical datum are locked. This stage
+# locks the catalog's declared 1/3 arc-second baseline product per ADR-0007 for
+# every 1x1 degree cell the closed corridor traverses: exact dated product URLs
+# from the catalog's discovery API, publication dates, and per-tile FGDC datum
+# evidence fetched from inside the catalog's allowed prefixes, with a
+# deterministic sample of full tiles verified end to end (checksum plus raster
+# inspection). The lock is the deliverable; the corridor-wide raster download is
+# a later acquisition against these exact URLs and checksummed expectations.
+
+DEM_SOURCE_ID = "usgs-3dep"
+DEM_PRODUCT_LOCK_STATUS = "3dep_products_locked_elevation_acquisition_pending"
+DEM_PRODUCT_NEXT_STAGE = {
+    "id": "westbound-selection-and-reconstruction",
+    "requires": [
+        "westbound directed edge selection over the closed topology",
+        "corridor elevation acquisition against the locked product URLs",
+    ],
+}
+
+# Discovery inset: the bbox sent per cell is the cell shrunk by this margin so
+# that only products staged for that cell intersect it (tile bounding boxes
+# overhang their nominal cell by roughly 0.002 degrees, far inside the inset).
+DEM_CELL_INSET_DEGREES = 0.1
+
+# A locked product must cover its whole nominal cell within this margin.
+DEM_COVER_EPSILON_DEGREES = 0.01
+
+DEM_EXPECTED_RESOLUTION = "1/3 arc-second"
+DEM_EXPECTED_RASTER_EPSG = 4269
+DEM_EXPECTED_HORIZONTAL_DATUM = "North American Datum of 1983"
+DEM_EXPECTED_VERTICAL_DATUM = "North American Vertical Datum of 1988"
+DEM_EXPECTED_ELEVATION_UNITS = "meters"
+DEM_EXPECTED_NODATA = -999999.0
+DEM_PIXEL_DEGREES = 1.0 / 10_800.0
+# The staged products encode the cell size with about nine significant digits
+# (observed 9.25925927753796e-05 against the exact 1/10800), so the agreement
+# tolerance is one part per million - far tighter than the 3x gap to the next
+# product family, far looser than the source's own encoding noise.
+DEM_PIXEL_RELATIVE_TOLERANCE = 1e-6
+DEM_DISCOVERY_MAX = 100
+DEM_SAMPLE_POLICY = (
+    "deterministic sample: the first, middle, and last cell of the sorted "
+    "corridor cell list, downloaded in full, checksummed, and raster-inspected"
+)
+DEM_CELL_ID_PATTERN = re.compile(r"^n(\d{2})w(\d{3})$")
+DEM_SELECTION_POLICY = (
+    "among discovered GeoTIFF products of the catalog dataset whose bounding "
+    "box covers the cell and whose download URL is inside the catalog "
+    "allowlist, select the latest publication date; ties resolve to the "
+    "lexically first sourceId"
+)
+
+DEM_PRODUCT_SOURCE_POLICY = {
+    "elevation_source": DEM_SOURCE_ID,
+    "baseline_decision": "ADR-0007",
+    "one_meter_upgrade": "remains gated per ADR-0007 and is not locked here",
+    "opportunistic_lookup_allowed": False,
+    "silent_resolution_fallback_allowed": False,
+    "continental_downloads_committed": False,
+    "authoritative_distance_claimed": False,
+}
+
+
+@dataclass(frozen=True)
+class DemFetchResult:
+    status: int
+    content_type: str
+    etag: str
+    last_modified: str
+    sha256: str
+    byte_count: int
+    body: bytes | None
+
+
+class DemTransport(Protocol):
+    def fetch(self, url: str, destination: Path | None = None) -> DemFetchResult: ...
+
+
+class UrllibDemTransport:
+    """HTTPS GET transport for the 3DEP discovery API, metadata, and tiles.
+
+    The TNM discovery API intermittently answers 5xx; transient statuses and
+    network failures are retried with bounded backoff, mirroring the ArcGIS
+    transport's retryable set. A non-transient status raises immediately.
+    """
+
+    RETRYABLE_STATUSES = frozenset({408, 429, 500, 502, 503, 504})
+
+    def __init__(self, timeout_seconds: float = 300.0, attempts: int = 5) -> None:
+        self.timeout_seconds = timeout_seconds
+        self.attempts = attempts
+
+    def fetch(self, url: str, destination: Path | None = None) -> DemFetchResult:
+        for attempt in range(self.attempts):
+            try:
+                return self._fetch_once(url, destination)
+            except urllib.error.HTTPError as error:
+                if error.code not in self.RETRYABLE_STATUSES:
+                    raise ValueError(
+                        f"3DEP request failed with status {error.code}: {url}"
+                    ) from error
+                if attempt + 1 == self.attempts:
+                    raise ValueError(
+                        f"3DEP request kept failing with status {error.code} after "
+                        f"{self.attempts} attempts: {url}"
+                    ) from error
+                time.sleep(min(0.5 * (2**attempt), 8.0))
+            except OSError as error:
+                if attempt + 1 == self.attempts:
+                    raise ValueError(
+                        f"3DEP request kept failing after {self.attempts} "
+                        f"attempts: {url}"
+                    ) from error
+                time.sleep(min(0.5 * (2**attempt), 8.0))
+        raise AssertionError("retry loop did not return")
+
+    def _fetch_once(self, url: str, destination: Path | None) -> DemFetchResult:
+        request = urllib.request.Request(url, method="GET")
+        with urllib.request.urlopen(request, timeout=self.timeout_seconds) as response:
+            headers = response.headers
+            hasher = hashlib.sha256()
+            byte_count = 0
+            body: bytes | None
+            if destination is None:
+                body = response.read()
+                hasher.update(body)
+                byte_count = len(body)
+            else:
+                body = None
+                destination.parent.mkdir(parents=True, exist_ok=True)
+                temporary = destination.with_suffix(destination.suffix + ".tmp")
+                with temporary.open("wb") as sink:
+                    while True:
+                        chunk = response.read(1 << 20)
+                        if not chunk:
+                            break
+                        hasher.update(chunk)
+                        byte_count += len(chunk)
+                        sink.write(chunk)
+                temporary.replace(destination)
+            return DemFetchResult(
+                status=response.status,
+                content_type=headers.get("Content-Type", ""),
+                etag=headers.get("ETag", ""),
+                last_modified=headers.get("Last-Modified", ""),
+                sha256=hasher.hexdigest(),
+                byte_count=byte_count,
+                body=body,
+            )
+
+
+def _dem_cell_id(cell: tuple[int, int]) -> str:
+    """The USGS staged-product cell name for one 1x1 degree CONUS cell."""
+    west, south = cell
+    if not (-125 <= west <= -66 and 24 <= south <= 49):
+        raise ValueError(f"Corridor cell is outside CONUS: {cell}")
+    return f"n{south + 1:02d}w{-west:03d}"
+
+
+def _dem_cell_bounds(cell_id: str) -> tuple[int, int, int, int]:
+    match = DEM_CELL_ID_PATTERN.fullmatch(cell_id)
+    if match is None:
+        raise ValueError(f"Invalid 3DEP cell id: {cell_id}")
+    north = int(match.group(1))
+    west = -int(match.group(2))
+    return west, north - 1, west + 1, north
+
+
+def _cells_intersecting_line(line: LineString, cells: set[tuple[int, int]]) -> None:
+    minx, miny, maxx, maxy = line.bounds
+    for west in range(math.floor(minx), math.floor(maxx) + 1):
+        for south in range(math.floor(miny), math.floor(maxy) + 1):
+            if (west, south) in cells:
+                continue
+            if box(west, south, west + 1, south + 1).intersects(line):
+                cells.add((west, south))
+
+
+def _chained_segment_path_edges(
+    segment: dict[str, Any],
+    metric_lines: tuple[tuple[LockedCandidateLine, LineString], ...],
+    from_point: tuple[float, float],
+    to_point: tuple[float, float],
+    tolerance: float,
+    anchor_limit: float,
+    fill_sites: Sequence[dict[str, Any]],
+    overlay_sites: Sequence[dict[str, Any]],
+    forward: Transformer,
+) -> dict[str, Any]:
+    """The NHPN edges one chained segment's mixed-ancestry chain traverses.
+
+    Rebuilds the same snapped graph, fill and overlay bridges, and anchor
+    resolution the chain-connectivity model uses, and returns the traversed
+    NHPN (object_id, part_index) pairs plus the chord totals so the caller can
+    prove the walk reproduces the locked chain exactly.
+    """
+    graph, nodes, _, _ = _build_snapped_endpoint_graph(metric_lines, tolerance)
+
+    def nearest_node(point: tuple[float, float]) -> tuple[tuple[int, int], float]:
+        best_key, best_distance = None, float("inf")
+        for key in sorted(nodes):
+            distance = math.dist(point, nodes[key])
+            if distance < best_distance:
+                best_key, best_distance = key, distance
+        assert best_key is not None
+        return best_key, best_distance
+
+    def bridge(site: dict[str, Any], data_key: str) -> None:
+        ends = []
+        for corner in ("from_coordinate", "to_coordinate"):
+            point = forward.transform(
+                site[corner]["longitude"], site[corner]["latitude"]
+            )
+            node, distance = nearest_node(point)
+            if distance > tolerance:
+                raise ValueError(
+                    f"Bridge '{site['site_id']}' {corner} does not land on a locked "
+                    f"chain end within the {tolerance:g} m tolerance."
+                )
+            ends.append(node)
+        graph.add_edge(
+            ends[0],
+            ends[1],
+            key=(data_key, site["site_id"]),
+            weight=float(site["separation_m"]),
+            **{f"{data_key}_site_id": site["site_id"]},
+        )
+
+    for site in sorted(fill_sites, key=lambda entry: entry["site_id"]):
+        bridge(site, "fill")
+    for site in sorted(overlay_sites, key=lambda entry: entry["site_id"]):
+        bridge(site, "overlay")
+
+    from_key, from_distance, _ = _resolve_anchor_node(
+        graph, nodes, metric_lines, from_point, "from", tolerance, anchor_limit
+    )
+    to_key, to_distance, _ = _resolve_anchor_node(
+        graph, nodes, metric_lines, to_point, "to", tolerance, anchor_limit
+    )
+    if max(from_distance, to_distance) > anchor_limit or from_key == to_key:
+        raise ValueError(
+            f"Chained segment '{segment['id']}' anchors did not resolve onto the "
+            "bridged graph."
+        )
+    if not nx.has_path(graph, from_key, to_key):
+        raise ValueError(
+            f"Chained segment '{segment['id']}' has no path on the bridged graph."
+        )
+    node_path = nx.shortest_path(graph, from_key, to_key, weight="weight")
+    nhpn_edges: list[tuple[int, int]] = []
+    nhpn_meters = 0.0
+    fill_meters = 0.0
+    overlay_meters = 0.0
+    fill_ids: list[str] = []
+    overlay_ids: list[str] = []
+    for previous, current in zip(node_path, node_path[1:], strict=False):
+        parallel = graph.get_edge_data(previous, current)
+        chosen_key = min(
+            parallel,
+            key=lambda edge_key: (parallel[edge_key]["weight"], str(edge_key)),
+        )
+        data = parallel[chosen_key]
+        if "fill_site_id" in data:
+            fill_meters += data["weight"]
+            fill_ids.append(data["fill_site_id"])
+        elif "overlay_site_id" in data:
+            overlay_meters += data["weight"]
+            overlay_ids.append(data["overlay_site_id"])
+        else:
+            nhpn_meters += data["weight"]
+            nhpn_edges.append((int(data["object_id"]), int(data["part_index"])))
+    return {
+        "nhpn_edges": nhpn_edges,
+        "nhpn_path_meters": round(nhpn_meters, 3),
+        "fill_chord_meters": round(fill_meters, 3),
+        "overlay_chord_meters": round(overlay_meters, 3),
+        "chain_length_meters": round(nhpn_meters + fill_meters + overlay_meters, 3),
+        "fill_site_ids_on_chain": sorted(fill_ids),
+        "overlay_site_ids_on_chain": sorted(overlay_ids),
+    }
+
+
+def _dem_discovery_request(
+    dataset: str, product_format: str, extent: str, cell: tuple[int, int]
+) -> dict[str, Any]:
+    west, south = cell
+    bbox = (
+        f"{west + DEM_CELL_INSET_DEGREES},{south + DEM_CELL_INSET_DEGREES},"
+        f"{west + 1 - DEM_CELL_INSET_DEGREES},{south + 1 - DEM_CELL_INSET_DEGREES}"
+    )
+    return {
+        "datasets": dataset,
+        "prodFormats": product_format,
+        "prodExtents": extent,
+        "bbox": bbox,
+        "outputFormat": "JSON",
+        "max": DEM_DISCOVERY_MAX,
+        "offset": 0,
+    }
+
+
+def _select_dem_product(
+    items: Sequence[dict[str, Any]],
+    cell: tuple[int, int],
+    extent: str,
+    allowed_prefixes: Sequence[str],
+) -> tuple[dict[str, Any], list[dict[str, Any]]]:
+    """The deterministic product selection for one cell, with its candidates."""
+    west, south = cell
+    candidates: list[dict[str, Any]] = []
+    for item in items:
+        if item.get("format") != "GeoTIFF" or item.get("extent") != extent:
+            continue
+        bounding_box = item.get("boundingBox") or {}
+        try:
+            covers = (
+                float(bounding_box["minX"]) <= west + DEM_COVER_EPSILON_DEGREES
+                and float(bounding_box["maxX"]) >= west + 1 - DEM_COVER_EPSILON_DEGREES
+                and float(bounding_box["minY"]) <= south + DEM_COVER_EPSILON_DEGREES
+                and float(bounding_box["maxY"]) >= south + 1 - DEM_COVER_EPSILON_DEGREES
+            )
+        except (KeyError, TypeError, ValueError):
+            continue
+        if not covers:
+            continue
+        download_url = str(item.get("downloadURL") or "")
+        if not any(
+            url_matches_prefix(download_url, prefix) for prefix in allowed_prefixes
+        ):
+            continue
+        publication_date = str(item.get("publicationDate") or "")
+        if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", publication_date):
+            continue
+        candidates.append(
+            {
+                "source_id": str(item.get("sourceId") or ""),
+                "title": str(item.get("title") or ""),
+                "publication_date": publication_date,
+                "download_url": download_url,
+                "size_bytes": int(item.get("sizeInBytes") or 0),
+                "bounding_box": [
+                    round(float(bounding_box["minX"]), 8),
+                    round(float(bounding_box["minY"]), 8),
+                    round(float(bounding_box["maxX"]), 8),
+                    round(float(bounding_box["maxY"]), 8),
+                ],
+            }
+        )
+    if not candidates:
+        raise ValueError(
+            json.dumps(
+                {
+                    "refusal": "discovery returned no covering catalog product",
+                    "cell_id": _dem_cell_id(cell),
+                },
+                sort_keys=True,
+            )
+        )
+    latest = max(candidate["publication_date"] for candidate in candidates)
+    selected = min(
+        (candidate for candidate in candidates if candidate["publication_date"] == latest),
+        key=lambda candidate: candidate["source_id"],
+    )
+    summary = sorted(
+        (
+            {
+                "source_id": candidate["source_id"],
+                "publication_date": candidate["publication_date"],
+            }
+            for candidate in candidates
+        ),
+        key=lambda candidate: (candidate["publication_date"], candidate["source_id"]),
+    )
+    return selected, summary
+
+
+def _parse_dem_fgdc_metadata(body_text: str) -> dict[str, Any]:
+    """The datum and resolution assertions of one tile's FGDC metadata."""
+
+    def field(tag: str) -> str:
+        match = re.search(rf"<{tag}>([^<]*)</{tag}>", body_text)
+        return match.group(1).strip() if match else ""
+
+    horizontal = field("horizdn")
+    vertical = field("altdatum")
+    units = field("altunits")
+    if not horizontal or not vertical or not units:
+        raise ValueError("FGDC metadata does not state the product datums.")
+    resolutions = {}
+    for tag, key in (
+        ("latres", "latitude_resolution_deg"),
+        ("longres", "longitude_resolution_deg"),
+    ):
+        raw = field(tag)
+        if raw:
+            value = abs(float(raw))
+            if abs(value - DEM_PIXEL_DEGREES) / DEM_PIXEL_DEGREES > DEM_PIXEL_RELATIVE_TOLERANCE:
+                raise ValueError(
+                    f"FGDC {tag} {value!r} is not the 1/3 arc-second cell size."
+                )
+            resolutions[key] = value
+    return {
+        "horizontal_datum": horizontal,
+        "vertical_datum": vertical,
+        "elevation_units": units,
+        "metadata_publication_date": field("pubdate"),
+        **resolutions,
+    }
+
+
+def _inspect_dem_raster(path: Path, cell_id: str) -> dict[str, Any]:
+    """Raster-level verification of one downloaded sample tile."""
+    import rasterio
+
+    west, south, east, north = _dem_cell_bounds(cell_id)
+    with rasterio.open(path) as raster:
+        epsg = raster.crs.to_epsg() if raster.crs else None
+        if epsg != DEM_EXPECTED_RASTER_EPSG:
+            raise ValueError(
+                f"Sample tile '{cell_id}' CRS is EPSG:{epsg}, not the locked "
+                f"EPSG:{DEM_EXPECTED_RASTER_EPSG}."
+            )
+        pixel_x = abs(raster.transform.a)
+        pixel_y = abs(raster.transform.e)
+        for pixel in (pixel_x, pixel_y):
+            if abs(pixel - DEM_PIXEL_DEGREES) / DEM_PIXEL_DEGREES > DEM_PIXEL_RELATIVE_TOLERANCE:
+                raise ValueError(
+                    f"Sample tile '{cell_id}' pixel size {pixel!r} is not 1/3 "
+                    "arc-second."
+                )
+        if raster.count != 1 or raster.dtypes[0] != "float32":
+            raise ValueError(f"Sample tile '{cell_id}' is not a single float32 band.")
+        if raster.nodata != DEM_EXPECTED_NODATA:
+            raise ValueError(
+                f"Sample tile '{cell_id}' nodata {raster.nodata!r} is not the "
+                "locked value."
+            )
+        bounds = raster.bounds
+        if not (
+            bounds.left <= west + 1e-6
+            and bounds.bottom <= south + 1e-6
+            and bounds.right >= east - 1e-6
+            and bounds.top >= north - 1e-6
+        ):
+            raise ValueError(f"Sample tile '{cell_id}' does not cover its cell.")
+        return {
+            "crs": f"EPSG:{epsg}",
+            "pixel_degrees": [round(pixel_x, 12), round(pixel_y, 12)],
+            "band_count": raster.count,
+            "dtype": raster.dtypes[0],
+            "nodata": raster.nodata,
+            "width": raster.width,
+            "height": raster.height,
+            "bounds": [
+                round(bounds.left, 7),
+                round(bounds.bottom, 7),
+                round(bounds.right, 7),
+                round(bounds.top, 7),
+            ],
+        }
+
+
+def _corridor_dem_cells(
+    selection: dict[str, Any],
+    route_lock: dict[str, Any],
+    transfer_lock: dict[str, Any],
+    edge_lock: dict[str, Any],
+    fill_lock: dict[str, Any],
+    overlay_lock: dict[str, Any],
+    cache_root: Path,
+    fill_root: Path,
+    forward: Transformer,
+) -> tuple[list[str], list[dict[str, Any]]]:
+    """Every 1x1 degree cell the closed corridor's chained geometry traverses.
+
+    The corridor is exactly what the locks chain: the solved NHPN edge paths of
+    the connected segments (re-proved against the cache before use), the
+    recomputed mixed-ancestry chains of the unconnected segments (proved equal
+    to the locked chain-connectivity entries), the locked NHS fill span
+    geometry, and the authored overlay chords.
+    """
+    transfer_by_id = {node["id"]: node for node in transfer_lock["transfer_nodes"]}
+    edge_by_id = {entry["segment_id"]: entry for entry in edge_lock["segments"]}
+    chain_by_id = {
+        entry["segment_id"]: entry
+        for entry in overlay_lock["chain_connectivity"]["segments"]
+    }
+    fills_by_segment: dict[str, list[dict[str, Any]]] = {}
+    for site in fill_lock["sites"]:
+        fills_by_segment.setdefault(site["segment_id"], []).append(site)
+    overlays_by_segment: dict[str, list[dict[str, Any]]] = {}
+    for overlay in overlay_lock["overlays"]:
+        overlays_by_segment.setdefault(overlay["segment_id"], []).append(
+            {
+                "site_id": overlay["site_id"],
+                "from_coordinate": overlay["boundary"]["from_coordinate"],
+                "to_coordinate": overlay["boundary"]["to_coordinate"],
+                "separation_m": overlay["boundary"]["length_m"],
+            }
+        )
+    tolerance = float(edge_lock["endpoint_snap_tolerance_m"])
+    anchor_limit = float(edge_lock["anchor_snap_limit_m"])
+
+    cells: set[tuple[int, int]] = set()
+    coverage: list[dict[str, Any]] = []
+    for segment in selection["segments"]:
+        segment_id = segment["id"]
+        entry = edge_by_id.get(segment_id)
+        if entry is None:
+            continue
+        lines = _segment_locked_lines(route_lock, segment_id, cache_root)
+        line_by_key = {
+            (candidate.object_id, candidate.part_index): candidate.geometry
+            for candidate in lines
+        }
+        metric_lines = tuple(
+            (candidate, transform(forward.transform, candidate.geometry))
+            for candidate in lines
+        )
+        from_point = forward.transform(
+            transfer_by_id[segment["from"]]["coordinate"]["longitude"],
+            transfer_by_id[segment["from"]]["coordinate"]["latitude"],
+        )
+        to_point = forward.transform(
+            transfer_by_id[segment["to"]]["coordinate"]["longitude"],
+            transfer_by_id[segment["to"]]["coordinate"]["latitude"],
+        )
+        if entry.get("connected"):
+            reproduced = _solve_segment_edge_path(
+                segment, metric_lines, from_point, to_point, tolerance
+            )
+            if canonical_sha256(reproduced) != canonical_sha256(entry):
+                raise ValueError(
+                    f"Locked cache no longer reproduces the solved edge path for "
+                    f"'{segment_id}'."
+                )
+            path_edges = [
+                (edge["object_id"], edge["part_index"]) for edge in entry["edges"]
+            ]
+            cross_check = {
+                "segment_id": segment_id,
+                "kind": "solved_edge_path",
+                "recorded_length_m": entry["length_meters"],
+                "recomputed_length_m": reproduced["length_meters"],
+            }
+        else:
+            walk = _chained_segment_path_edges(
+                segment,
+                metric_lines,
+                from_point,
+                to_point,
+                tolerance,
+                anchor_limit,
+                fills_by_segment.get(segment_id, []),
+                overlays_by_segment.get(segment_id, []),
+                forward,
+            )
+            recorded = chain_by_id[segment_id]
+            for key in (
+                "chain_length_meters",
+                "nhpn_path_meters",
+                "fill_chord_meters",
+                "overlay_chord_meters",
+                "fill_site_ids_on_chain",
+                "overlay_site_ids_on_chain",
+            ):
+                if walk[key] != recorded.get(key, 0.0 if key.endswith("meters") else []):
+                    raise ValueError(
+                        f"Recomputed chain for '{segment_id}' does not reproduce the "
+                        f"locked chain connectivity ({key})."
+                    )
+            path_edges = walk["nhpn_edges"]
+            cross_check = {
+                "segment_id": segment_id,
+                "kind": "mixed_ancestry_chain",
+                "recorded_length_m": recorded["chain_length_meters"],
+                "recomputed_length_m": walk["chain_length_meters"],
+            }
+        segment_cells: set[tuple[int, int]] = set()
+        for key in path_edges:
+            _cells_intersecting_line(line_by_key[key], segment_cells)
+        cells.update(segment_cells)
+        cross_check["cell_count"] = len(segment_cells)
+        coverage.append(cross_check)
+
+    fill_cells: set[tuple[int, int]] = set()
+    for site in sorted(fill_lock["sites"], key=lambda entry: entry["site_id"]):
+        features = _load_locked_nhs_site_features(site, fill_root / site["site_id"])
+        for group in site["fill_route_groups"]:
+            for record in group["records"]:
+                _cells_intersecting_line(
+                    _merged_feature_line(features[record["object_id"]]), fill_cells
+                )
+    cells.update(fill_cells)
+    coverage.append({"kind": "nhs_fill_spans", "cell_count": len(fill_cells)})
+    overlay_cells: set[tuple[int, int]] = set()
+    for overlay in overlay_lock["overlays"]:
+        _cells_intersecting_line(
+            LineString(overlay["geometry"]["coordinates"]), overlay_cells
+        )
+    cells.update(overlay_cells)
+    coverage.append({"kind": "authored_overlay_chords", "cell_count": len(overlay_cells)})
+    return sorted(_dem_cell_id(cell) for cell in cells), coverage
+
+
+def _dem_checkpoint_reuse(
+    checkpoint: Path, request_sha256: str
+) -> dict[str, Any] | None:
+    if not checkpoint.is_file():
+        return None
+    record = json.loads(checkpoint.read_text(encoding="utf-8"))
+    if record.get("request_sha256") != request_sha256:
+        return None
+    return record
+
+
+def _write_dem_checkpoint(checkpoint: Path, record: dict[str, Any]) -> None:
+    checkpoint.parent.mkdir(parents=True, exist_ok=True)
+    temporary = checkpoint.with_suffix(".tmp")
+    temporary.write_text(
+        json.dumps(record, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
+    temporary.replace(checkpoint)
+
+
+def lock_continental_3dep_products(
+    selection_path: Path,
+    route_lock_path: Path,
+    transfer_lock_path: Path,
+    policy_path: Path,
+    edge_path_lock_path: Path,
+    fill_lock_path: Path,
+    overlay_lock_path: Path,
+    catalog_path: Path,
+    cache_directory: Path,
+    fill_cache_directory: Path,
+    dem_cache_directory: Path,
+    output_path: Path,
+    *,
+    transport: DemTransport | None = None,
+    acquired_at: str | None = None,
+) -> dict[str, Any]:
+    """Lock the exact 3DEP product set over the closed continental corridor.
+
+    Per cell: one discovery request inside the catalog's discovery endpoint, a
+    deterministic latest-publication selection among covering catalog products,
+    and the tile's own FGDC metadata (fetched from inside the catalog's allowed
+    prefixes) as the datum evidence. A deterministic three-tile sample is
+    downloaded in full, checksummed, and raster-inspected. All responses stay in
+    the ignored cache; the lock records URLs, dates, datums, and checksums.
+    """
+    catalog = load_catalog(catalog_path)
+    if DEM_SOURCE_ID not in catalog:
+        raise ValueError("3DEP is not in the approved source catalog.")
+    source = catalog[DEM_SOURCE_ID]
+    discovery_endpoint = str(source.raw.get("discovery_url", ""))
+    if not discovery_endpoint.startswith("https://"):
+        raise ValueError("The catalog names no 3DEP discovery endpoint.")
+    catalog_products = source.raw.get("products", [])
+    family = next(
+        (
+            product
+            for product in catalog_products
+            if product.get("resolution") == DEM_EXPECTED_RESOLUTION
+        ),
+        None,
+    )
+    if family is None:
+        raise ValueError(
+            "The catalog declares no 1/3 arc-second 3DEP product; ADR-0007 locks "
+            "that baseline."
+        )
+    selection = load_json(selection_path)
+    route_lock = validate_continental_route_lock(
+        route_lock_path, catalog_path, selection_path
+    )
+    transfer_lock = validate_continental_transfer_lock(
+        transfer_lock_path, policy_path, selection_path, route_lock_path, catalog_path
+    )
+    edge_lock = validate_continental_edge_path_lock(
+        edge_path_lock_path,
+        transfer_lock_path,
+        policy_path,
+        selection_path,
+        route_lock_path,
+        catalog_path,
+    )
+    fill_lock = validate_continental_nhs_fill_lock(
+        fill_lock_path,
+        selection_path,
+        route_lock_path,
+        transfer_lock_path,
+        policy_path,
+        edge_path_lock_path,
+        catalog_path,
+    )
+    overlay_lock = load_json(overlay_lock_path)
+    if overlay_lock.get("edge_path_lock_sha256") != compute_sha256(
+        edge_path_lock_path
+    ) or overlay_lock.get("nhs_fill_lock_sha256") != compute_sha256(fill_lock_path):
+        raise ValueError(
+            "Reconstruction overlay lock does not pin the same edge-path and "
+            "fill locks."
+        )
+    if transport is None:
+        transport = UrllibDemTransport()
+    timestamp = acquired_at or datetime.now(UTC).replace(microsecond=0).isoformat().replace(
+        "+00:00", "Z"
+    )
+    forward = Transformer.from_crs("EPSG:4326", "EPSG:5070", always_xy=True)
+    cache_root = cache_directory / route_lock["nhpn"]["service"][
+        "canonical_metadata_sha256"
+    ]
+    fill_root = fill_cache_directory / fill_lock["nhs"]["service"][
+        "canonical_metadata_sha256"
+    ]
+    cells, coverage = _corridor_dem_cells(
+        selection,
+        route_lock,
+        transfer_lock,
+        edge_lock,
+        fill_lock,
+        overlay_lock,
+        cache_root,
+        fill_root,
+        forward,
+    )
+
+    discovery_root = dem_cache_directory / "discovery"
+    metadata_root = dem_cache_directory / "metadata"
+    tiles_root = dem_cache_directory / "tiles"
+    products: list[dict[str, Any]] = []
+    resumed_discoveries = 0
+    resumed_metadata = 0
+    for cell_id in cells:
+        west, south, _, _ = _dem_cell_bounds(cell_id)
+        request = _dem_discovery_request(
+            family["dataset"], family["format"], family["extent"], (west, south)
+        )
+        request_sha256 = canonical_sha256(
+            {"endpoint": discovery_endpoint, "request": request}
+        )
+        checkpoint = discovery_root / f"{cell_id}.json"
+        record = _dem_checkpoint_reuse(checkpoint, request_sha256)
+        if record is None:
+            url = discovery_endpoint + "?" + urllib.parse.urlencode(request)
+            fetched = transport.fetch(url)
+            if fetched.status != 200 or fetched.body is None:
+                raise ValueError(
+                    f"3DEP discovery failed for cell '{cell_id}' with status "
+                    f"{fetched.status}."
+                )
+            response = json.loads(fetched.body)
+            record = {
+                "request_sha256": request_sha256,
+                "response_sha256": canonical_sha256(response),
+                "response": response,
+            }
+            _write_dem_checkpoint(checkpoint, record)
+        else:
+            resumed_discoveries += 1
+        response = record["response"]
+        total = int(response.get("total", 0))
+        items = response.get("items", [])
+        if total > DEM_DISCOVERY_MAX or total != len(items):
+            raise ValueError(
+                f"3DEP discovery for cell '{cell_id}' returned an unpaged total of "
+                f"{total}; the lock expects one complete page."
+            )
+        selected, candidates = _select_dem_product(
+            items, (west, south), family["extent"], source.allowed_url_prefixes
+        )
+        if not selected["download_url"].endswith(".tif"):
+            raise ValueError(
+                f"3DEP product for cell '{cell_id}' is not a staged GeoTIFF URL."
+            )
+        metadata_url = selected["download_url"][:-4] + ".xml"
+        if not any(
+            url_matches_prefix(metadata_url, prefix)
+            for prefix in source.allowed_url_prefixes
+        ):
+            raise ValueError(
+                f"3DEP metadata URL for cell '{cell_id}' is outside the catalog "
+                "allowlist."
+            )
+        metadata_checkpoint = metadata_root / f"{cell_id}.json"
+        metadata_record = _dem_checkpoint_reuse(
+            metadata_checkpoint, canonical_sha256({"url": metadata_url})
+        )
+        if metadata_record is None:
+            fetched = transport.fetch(metadata_url)
+            if fetched.status != 200 or fetched.body is None:
+                raise ValueError(
+                    f"3DEP metadata fetch failed for cell '{cell_id}' with status "
+                    f"{fetched.status}."
+                )
+            metadata_record = {
+                "request_sha256": canonical_sha256({"url": metadata_url}),
+                "url": metadata_url,
+                "sha256": fetched.sha256,
+                "byte_count": fetched.byte_count,
+                "response": {
+                    "status": fetched.status,
+                    "content_type": fetched.content_type,
+                    "etag": fetched.etag,
+                    "last_modified": fetched.last_modified,
+                },
+                "body_text": fetched.body.decode("utf-8", errors="replace"),
+            }
+            _write_dem_checkpoint(metadata_checkpoint, metadata_record)
+        else:
+            resumed_metadata += 1
+        parsed = _parse_dem_fgdc_metadata(metadata_record["body_text"])
+        if (
+            parsed["horizontal_datum"] != DEM_EXPECTED_HORIZONTAL_DATUM
+            or parsed["vertical_datum"] != DEM_EXPECTED_VERTICAL_DATUM
+            or parsed["elevation_units"] != DEM_EXPECTED_ELEVATION_UNITS
+        ):
+            raise ValueError(
+                json.dumps(
+                    {
+                        "refusal": "3DEP tile metadata does not state the locked "
+                        "datums",
+                        "cell_id": cell_id,
+                        "measured": parsed,
+                    },
+                    sort_keys=True,
+                )
+            )
+        products.append(
+            {
+                "cell_id": cell_id,
+                "product": selected,
+                "discovery": {
+                    "request": request,
+                    "request_sha256": request_sha256,
+                    "response_sha256": record["response_sha256"],
+                    "candidate_count": len(candidates),
+                    "candidates": candidates,
+                },
+                "metadata": {
+                    "url": metadata_url,
+                    "sha256": metadata_record["sha256"],
+                    "byte_count": metadata_record["byte_count"],
+                    **parsed,
+                },
+            }
+        )
+
+    product_by_cell = {product["cell_id"]: product for product in products}
+    sample_indices = sorted({0, len(cells) // 2, len(cells) - 1})
+    samples: list[dict[str, Any]] = []
+    resumed_tiles = 0
+    for index in sample_indices:
+        cell_id = cells[index]
+        product = product_by_cell[cell_id]["product"]
+        filename = product["download_url"].rsplit("/", 1)[-1]
+        destination = tiles_root / filename
+        tile_checkpoint = tiles_root / f"{filename}.json"
+        tile_request_sha256 = canonical_sha256({"url": product["download_url"]})
+        record = _dem_checkpoint_reuse(tile_checkpoint, tile_request_sha256)
+        if (
+            record is not None
+            and destination.is_file()
+            and compute_sha256(destination) == record["sha256"]
+        ):
+            resumed_tiles += 1
+        else:
+            fetched = transport.fetch(product["download_url"], destination)
+            if fetched.status != 200:
+                raise ValueError(
+                    f"3DEP tile download failed for cell '{cell_id}' with status "
+                    f"{fetched.status}."
+                )
+            record = {
+                "request_sha256": tile_request_sha256,
+                "url": product["download_url"],
+                "sha256": fetched.sha256,
+                "byte_count": fetched.byte_count,
+                "response": {
+                    "status": fetched.status,
+                    "content_type": fetched.content_type,
+                    "etag": fetched.etag,
+                    "last_modified": fetched.last_modified,
+                },
+            }
+            _write_dem_checkpoint(tile_checkpoint, record)
+        if record["byte_count"] != product["size_bytes"]:
+            raise ValueError(
+                f"3DEP tile for cell '{cell_id}' downloaded {record['byte_count']} "
+                f"bytes where discovery declared {product['size_bytes']}."
+            )
+        samples.append(
+            {
+                "cell_id": cell_id,
+                "url": product["download_url"],
+                "sha256": record["sha256"],
+                "byte_count": record["byte_count"],
+                "response": record["response"],
+                "acquired_at": timestamp,
+                "raster": _inspect_dem_raster(destination, cell_id),
+            }
+        )
+
+    payload = {
+        "schema_version": 1,
+        "status": DEM_PRODUCT_LOCK_STATUS,
+        "decision": "ADR-0007",
+        "route_decision": selection["decision"],
+        "acquired_at": timestamp,
+        "coordinate_crs": "EPSG:4326",
+        "catalog_sha256": compute_sha256(catalog_path),
+        "route_selection_sha256": compute_sha256(selection_path),
+        "candidate_lock_sha256": compute_sha256(route_lock_path),
+        "transfer_lock_sha256": compute_sha256(transfer_lock_path),
+        "edge_path_lock_sha256": compute_sha256(edge_path_lock_path),
+        "nhs_fill_lock_sha256": compute_sha256(fill_lock_path),
+        "reconstruction_overlay_lock_sha256": compute_sha256(overlay_lock_path),
+        "source": {
+            "source_id": DEM_SOURCE_ID,
+            "publisher": source.publisher,
+            "license_status": source.license_status,
+            "license_evidence_url": source.license_evidence_url,
+            "discovery_endpoint": discovery_endpoint,
+        },
+        "product_family": {
+            "dataset": family["dataset"],
+            "format": family["format"],
+            "extent": family["extent"],
+            "resolution": DEM_EXPECTED_RESOLUTION,
+            "raster_crs": f"EPSG:{DEM_EXPECTED_RASTER_EPSG}",
+            "horizontal_datum": DEM_EXPECTED_HORIZONTAL_DATUM,
+            "vertical_datum": DEM_EXPECTED_VERTICAL_DATUM,
+            "elevation_units": DEM_EXPECTED_ELEVATION_UNITS,
+        },
+        "selection_policy": DEM_SELECTION_POLICY,
+        "source_policy": dict(DEM_PRODUCT_SOURCE_POLICY),
+        "corridor": {
+            "cell_count": len(cells),
+            "cells": cells,
+            "cells_sha256": canonical_sha256(cells),
+            "coverage": coverage,
+            "note": (
+                "Cells are every 1x1 degree cell intersected by the closed "
+                "corridor's chained geometry: the solved NHPN edge paths, the "
+                "recomputed mixed-ancestry chains (proved equal to the locked "
+                "chain connectivity), the locked NHS fill spans, and the "
+                "authored overlay chords."
+            ),
+        },
+        "discovery_resumed_cells": resumed_discoveries,
+        "metadata_resumed_cells": resumed_metadata,
+        "product_count": len(products),
+        "products": products,
+        "products_sha256": canonical_sha256(products),
+        "sample_verification": {
+            "policy": DEM_SAMPLE_POLICY,
+            "sample_count": len(samples),
+            "resumed_tiles": resumed_tiles,
+            "samples": samples,
+        },
+        "westbound_selection_validated": False,
+        "next_stage": DEM_PRODUCT_NEXT_STAGE,
+    }
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(
+        json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
+    return payload
+
+
+def validate_continental_3dep_products(
+    dem_lock_path: Path,
+    selection_path: Path,
+    route_lock_path: Path,
+    transfer_lock_path: Path,
+    policy_path: Path,
+    edge_path_lock_path: Path,
+    fill_lock_path: Path,
+    overlay_lock_path: Path,
+    catalog_path: Path,
+) -> dict[str, Any]:
+    """Validate the 3DEP product lock without caches, downloads, or discovery."""
+    payload = load_json(dem_lock_path)
+    if payload.get("schema_version") != 1:
+        raise ValueError("Unsupported 3DEP product lock schema.")
+    if payload.get("status") != DEM_PRODUCT_LOCK_STATUS:
+        raise ValueError("3DEP product lock has an unsupported status.")
+    if payload.get("decision") != "ADR-0007":
+        raise ValueError("3DEP product lock does not cite ADR-0007.")
+    if payload.get("westbound_selection_validated") is not False:
+        raise ValueError(
+            "3DEP product lock claims a validated westbound selection, which "
+            "this stage cannot establish."
+        )
+    selection = load_json(selection_path)
+    if payload.get("route_decision") != selection.get("decision"):
+        raise ValueError("3DEP product lock decision does not match the selection.")
+    validate_continental_nhs_fill_lock(
+        fill_lock_path,
+        selection_path,
+        route_lock_path,
+        transfer_lock_path,
+        policy_path,
+        edge_path_lock_path,
+        catalog_path,
+    )
+    expected_hashes = {
+        "catalog_sha256": compute_sha256(catalog_path),
+        "route_selection_sha256": compute_sha256(selection_path),
+        "candidate_lock_sha256": compute_sha256(route_lock_path),
+        "transfer_lock_sha256": compute_sha256(transfer_lock_path),
+        "edge_path_lock_sha256": compute_sha256(edge_path_lock_path),
+        "nhs_fill_lock_sha256": compute_sha256(fill_lock_path),
+        "reconstruction_overlay_lock_sha256": compute_sha256(overlay_lock_path),
+    }
+    if any(payload.get(key) != value for key, value in expected_hashes.items()):
+        raise ValueError("3DEP product lock input hash drifted.")
+    catalog = load_catalog(catalog_path)
+    recorded_source = payload.get("source", {})
+    if recorded_source.get("source_id") != DEM_SOURCE_ID or DEM_SOURCE_ID not in catalog:
+        raise ValueError("3DEP product lock does not cite the catalog 3DEP source.")
+    source = catalog[DEM_SOURCE_ID]
+    if (
+        recorded_source.get("publisher") != source.publisher
+        or recorded_source.get("license_status") != source.license_status
+        or recorded_source.get("license_evidence_url") != source.license_evidence_url
+    ):
+        raise ValueError("3DEP product lock source identity drifted from the catalog.")
+    if recorded_source.get("discovery_endpoint") != source.raw.get("discovery_url"):
+        raise ValueError(
+            "3DEP product lock discovery endpoint drifted from the catalog."
+        )
+    family = payload.get("product_family", {})
+    matches_catalog = any(
+        product.get("dataset") == family.get("dataset")
+        and product.get("format") == family.get("format")
+        and product.get("extent") == family.get("extent")
+        and product.get("resolution") == family.get("resolution")
+        for product in source.raw.get("products", [])
+    )
+    if not matches_catalog:
+        raise ValueError("3DEP product family does not match an explicit catalog product.")
+    expected_family_facts = {
+        "resolution": DEM_EXPECTED_RESOLUTION,
+        "raster_crs": f"EPSG:{DEM_EXPECTED_RASTER_EPSG}",
+        "horizontal_datum": DEM_EXPECTED_HORIZONTAL_DATUM,
+        "vertical_datum": DEM_EXPECTED_VERTICAL_DATUM,
+        "elevation_units": DEM_EXPECTED_ELEVATION_UNITS,
+    }
+    if any(family.get(key) != value for key, value in expected_family_facts.items()):
+        raise ValueError("3DEP product lock family facts drifted.")
+    if payload.get("selection_policy") != DEM_SELECTION_POLICY:
+        raise ValueError("3DEP product lock selection policy drifted.")
+    if payload.get("source_policy") != DEM_PRODUCT_SOURCE_POLICY:
+        raise ValueError("3DEP product lock source policy is incomplete.")
+
+    corridor = payload.get("corridor", {})
+    cells = corridor.get("cells")
+    if (
+        not isinstance(cells, list)
+        or not cells
+        or cells != sorted(set(cells))
+        or corridor.get("cell_count") != len(cells)
+        or canonical_sha256(cells) != corridor.get("cells_sha256")
+    ):
+        raise ValueError("3DEP product lock corridor cells do not reconcile.")
+    products = payload.get("products")
+    if not isinstance(products, list) or [
+        product.get("cell_id") for product in products
+    ] != cells:
+        raise ValueError(
+            "3DEP product lock does not lock exactly one product per corridor cell."
+        )
+    if payload.get("product_count") != len(products) or canonical_sha256(
+        products
+    ) != payload.get("products_sha256"):
+        raise ValueError("3DEP product lock product digest drifted.")
+    for entry in products:
+        cell_id = entry["cell_id"]
+        west, south, east, north = _dem_cell_bounds(cell_id)
+        product = entry.get("product", {})
+        download_url = str(product.get("download_url", ""))
+        if not any(
+            url_matches_prefix(download_url, prefix)
+            for prefix in source.allowed_url_prefixes
+        ):
+            raise ValueError(
+                f"3DEP product for cell '{cell_id}' is outside the catalog allowlist."
+            )
+        if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", str(product.get("publication_date", ""))):
+            raise ValueError(
+                f"3DEP product for cell '{cell_id}' has no publication date."
+            )
+        for field in ("source_id", "title"):
+            if not str(product.get(field, "")).strip():
+                raise ValueError(
+                    f"3DEP product for cell '{cell_id}' is missing '{field}'."
+                )
+        if int(product.get("size_bytes", 0)) <= 0:
+            raise ValueError(f"3DEP product for cell '{cell_id}' has no size.")
+        bounding_box = product.get("bounding_box", [])
+        if len(bounding_box) != 4 or not (
+            bounding_box[0] <= west + DEM_COVER_EPSILON_DEGREES
+            and bounding_box[1] <= south + DEM_COVER_EPSILON_DEGREES
+            and bounding_box[2] >= east - DEM_COVER_EPSILON_DEGREES
+            and bounding_box[3] >= north - DEM_COVER_EPSILON_DEGREES
+        ):
+            raise ValueError(
+                f"3DEP product for cell '{cell_id}' does not cover its cell."
+            )
+        discovery = entry.get("discovery", {})
+        expected_request = _dem_discovery_request(
+            family["dataset"], family["format"], family["extent"], (west, south)
+        )
+        if discovery.get("request") != expected_request:
+            raise ValueError(
+                f"3DEP discovery request for cell '{cell_id}' drifted."
+            )
+        if int(discovery.get("candidate_count", 0)) < 1 or not SHA256_PATTERN.fullmatch(
+            str(discovery.get("response_sha256", ""))
+        ):
+            raise ValueError(
+                f"3DEP discovery contract for cell '{cell_id}' is incomplete."
+            )
+        candidates = discovery.get("candidates", [])
+        if len(candidates) != discovery.get("candidate_count") or not any(
+            candidate.get("source_id") == product.get("source_id")
+            and candidate.get("publication_date") == product.get("publication_date")
+            for candidate in candidates
+        ):
+            raise ValueError(
+                f"3DEP selection for cell '{cell_id}' is not among its candidates."
+            )
+        latest = max(candidate["publication_date"] for candidate in candidates)
+        tied = sorted(
+            candidate["source_id"]
+            for candidate in candidates
+            if candidate["publication_date"] == latest
+        )
+        if product.get("publication_date") != latest or product.get("source_id") != tied[0]:
+            raise ValueError(
+                f"3DEP selection for cell '{cell_id}' violates the selection policy."
+            )
+        metadata = entry.get("metadata", {})
+        if metadata.get("url") != download_url[:-4] + ".xml" or not any(
+            url_matches_prefix(str(metadata.get("url", "")), prefix)
+            for prefix in source.allowed_url_prefixes
+        ):
+            raise ValueError(
+                f"3DEP metadata URL for cell '{cell_id}' is outside the allowlist."
+            )
+        if not SHA256_PATTERN.fullmatch(str(metadata.get("sha256", ""))) or int(
+            metadata.get("byte_count", 0)
+        ) <= 0:
+            raise ValueError(
+                f"3DEP metadata evidence for cell '{cell_id}' is incomplete."
+            )
+        if (
+            metadata.get("horizontal_datum") != DEM_EXPECTED_HORIZONTAL_DATUM
+            or metadata.get("vertical_datum") != DEM_EXPECTED_VERTICAL_DATUM
+            or metadata.get("elevation_units") != DEM_EXPECTED_ELEVATION_UNITS
+        ):
+            raise ValueError(
+                f"3DEP metadata for cell '{cell_id}' does not state the locked "
+                "datums."
+            )
+
+    sample_block = payload.get("sample_verification", {})
+    if sample_block.get("policy") != DEM_SAMPLE_POLICY:
+        raise ValueError("3DEP sample policy drifted.")
+    samples = sample_block.get("samples", [])
+    expected_cells = [cells[index] for index in sorted({0, len(cells) // 2, len(cells) - 1})]
+    if [sample.get("cell_id") for sample in samples] != expected_cells or sample_block.get(
+        "sample_count"
+    ) != len(samples):
+        raise ValueError("3DEP sample selection is not the deterministic sample.")
+    product_by_cell = {product["cell_id"]: product for product in products}
+    for sample in samples:
+        product = product_by_cell[sample["cell_id"]]["product"]
+        if sample.get("url") != product["download_url"]:
+            raise ValueError(
+                f"3DEP sample for cell '{sample['cell_id']}' is not the locked URL."
+            )
+        if not SHA256_PATTERN.fullmatch(str(sample.get("sha256", ""))):
+            raise ValueError(
+                f"3DEP sample for cell '{sample['cell_id']}' has an invalid checksum."
+            )
+        if sample.get("byte_count") != product["size_bytes"]:
+            raise ValueError(
+                f"3DEP sample for cell '{sample['cell_id']}' byte count does not "
+                "match discovery."
+            )
+        response = sample.get("response", {})
+        if response.get("status") != 200 or not response.get("content_type"):
+            raise ValueError(
+                f"3DEP sample for cell '{sample['cell_id']}' has incomplete "
+                "response metadata."
+            )
+        raster = sample.get("raster", {})
+        west, south, east, north = _dem_cell_bounds(sample["cell_id"])
+        pixels = raster.get("pixel_degrees", [])
+        if (
+            raster.get("crs") != f"EPSG:{DEM_EXPECTED_RASTER_EPSG}"
+            or raster.get("band_count") != 1
+            or raster.get("dtype") != "float32"
+            or raster.get("nodata") != DEM_EXPECTED_NODATA
+            or len(pixels) != 2
+            or any(
+                abs(pixel - DEM_PIXEL_DEGREES) / DEM_PIXEL_DEGREES
+                > DEM_PIXEL_RELATIVE_TOLERANCE
+                for pixel in pixels
+            )
+        ):
+            raise ValueError(
+                f"3DEP sample raster for cell '{sample['cell_id']}' does not match "
+                "the locked product facts."
+            )
+        bounds = raster.get("bounds", [])
+        if len(bounds) != 4 or not (
+            bounds[0] <= west + 1e-6
+            and bounds[1] <= south + 1e-6
+            and bounds[2] >= east - 1e-6
+            and bounds[3] >= north - 1e-6
+        ):
+            raise ValueError(
+                f"3DEP sample raster for cell '{sample['cell_id']}' does not cover "
+                "its cell."
+            )
+    if payload.get("next_stage") != DEM_PRODUCT_NEXT_STAGE:
+        raise ValueError("3DEP product lock next stage drifted.")
     return payload
