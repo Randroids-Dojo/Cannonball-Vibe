@@ -1177,6 +1177,9 @@ class SolvedEdge:
     page_response_sha256: str
     length_meters: float
     reversed_for_travel: bool
+    # Set when the edge is one sub-edge of a record split at an on-edge transfer
+    # anchor: the traversed metre range along the record part's geometry.
+    part_range_m: tuple[float, float] | None = None
 
 
 def _snap_key(x: float, y: float, tolerance: float) -> tuple[int, int]:
@@ -1269,6 +1272,158 @@ def _build_snapped_endpoint_graph(
         incident.setdefault(start_key, []).append((candidate, line, "start"))
         incident.setdefault(end_key, []).append((candidate, line, "end"))
     return graph, nodes, incident, max_snap_distance
+
+
+def _split_edge_at_anchor(
+    graph: nx.MultiGraph,
+    nodes: dict[tuple[int, int], tuple[float, float]],
+    metric_lines: tuple[tuple[LockedCandidateLine, LineString], ...],
+    anchor_point: tuple[float, float],
+    tolerance: float,
+    anchor_limit: float = ANCHOR_SNAP_LIMIT_METERS,
+) -> dict[str, Any] | None:
+    """Split one locked record's edge at a transfer anchor that lies on its interior.
+
+    The Q-034c/d resolution (2026-08-31): both remaining anchor mismatches are
+    locked ADR-0024 anchors sitting mid-record on the corridor's own locked
+    pavement, with no record endpoint inside the anchor snap limit, so neither
+    endpoint snapping nor any acquisition can put them on the graph. The graph
+    models nodes as record endpoints only; the shipping route model is edge ID
+    plus distance-along-edge, so an on-edge anchor is exactly representable by
+    splitting the edge at the anchor's projection. This is a fallback used only
+    when no endpoint node lies within the anchor snap limit: the solve for every
+    endpoint-anchored segment is untouched by construction, the transfer lock
+    stays byte-identical, and both tolerances keep their locked values (the
+    perpendicular anchor-to-record offset must itself sit inside the unchanged
+    anchor snap limit).
+
+    Mutates the graph and node table, replacing the split record's edge with its
+    two sub-edges joined at a new node on the anchor's projection, and returns
+    the machine-readable split record; returns None when no locked record passes
+    within the anchor snap limit or the projection would duplicate an endpoint.
+    """
+    anchor = Point(anchor_point)
+    best: tuple[float, LockedCandidateLine, LineString] | None = None
+    for candidate, line in sorted(
+        metric_lines, key=lambda pair: (pair[0].object_id, pair[0].part_index)
+    ):
+        offset = line.distance(anchor)
+        if offset > anchor_limit:
+            continue
+        if best is None or offset < best[0]:
+            best = (offset, candidate, line)
+    if best is None:
+        return None
+    offset, candidate, line = best
+    distance_along = float(line.project(anchor))
+    if distance_along <= tolerance or distance_along >= line.length - tolerance:
+        # The anchor projects onto (or within snapping noise of) a record
+        # endpoint; the endpoint search already judged that case and found it
+        # beyond the anchor limit, so a split would only duplicate a node.
+        return None
+    edge_key = (candidate.object_id, candidate.part_index)
+    located = next(
+        (
+            (first, second)
+            for first, second, key in graph.edges(keys=True)
+            if key == edge_key
+        ),
+        None,
+    )
+    if located is None:
+        # A closed loop never entered the graph, so there is no edge to split.
+        return None
+    data = graph.get_edge_data(*located, key=edge_key)
+    start_key = data["start_key"]
+    end_key = located[1] if located[0] == start_key else located[0]
+    split_point = line.interpolate(distance_along)
+    split_coordinate = (float(split_point.x), float(split_point.y))
+    existed_before = set(nodes)
+    split_key = _resolve_endpoint_node(split_coordinate, nodes, tolerance)
+    if split_key in existed_before:
+        # An existing node sits within snapping tolerance of the projection;
+        # reuse it rather than authoring a near-duplicate graph node.
+        return {
+            "side": None,
+            "object_id": candidate.object_id,
+            "part_index": candidate.part_index,
+            "page_response_sha256": candidate.page_response_sha256,
+            "anchor_offset_m": round(offset, 3),
+            "split_distance_along_part_m": round(distance_along, 3),
+            "part_length_m": round(float(line.length), 3),
+            "reused_existing_node": True,
+            "node_key": split_key,
+        }
+    graph.remove_edge(*located, key=edge_key)
+    graph.add_edge(
+        start_key,
+        split_key,
+        key=(candidate.object_id, candidate.part_index, 0),
+        weight=distance_along,
+        object_id=candidate.object_id,
+        part_index=candidate.part_index,
+        page_response_sha256=candidate.page_response_sha256,
+        start_key=start_key,
+        part_range_m=(0.0, distance_along),
+    )
+    graph.add_edge(
+        split_key,
+        end_key,
+        key=(candidate.object_id, candidate.part_index, 1),
+        weight=float(line.length) - distance_along,
+        object_id=candidate.object_id,
+        part_index=candidate.part_index,
+        page_response_sha256=candidate.page_response_sha256,
+        start_key=split_key,
+        part_range_m=(distance_along, float(line.length)),
+    )
+    return {
+        "side": None,
+        "object_id": candidate.object_id,
+        "part_index": candidate.part_index,
+        "page_response_sha256": candidate.page_response_sha256,
+        "anchor_offset_m": round(offset, 3),
+        "split_distance_along_part_m": round(distance_along, 3),
+        "part_length_m": round(float(line.length), 3),
+        "reused_existing_node": False,
+        "node_key": split_key,
+    }
+
+
+def _resolve_anchor_node(
+    graph: nx.MultiGraph,
+    nodes: dict[tuple[int, int], tuple[float, float]],
+    metric_lines: tuple[tuple[LockedCandidateLine, LineString], ...],
+    anchor_point: tuple[float, float],
+    side: str,
+    tolerance: float,
+    anchor_limit: float = ANCHOR_SNAP_LIMIT_METERS,
+) -> tuple[tuple[int, int] | None, float, dict[str, Any] | None]:
+    """Resolve one transfer anchor onto the snapped graph.
+
+    Endpoint-node acquisition takes precedence; the edge split is strictly a
+    fallback for an anchor beyond the snap limit of every endpoint node.
+    Returns the node key (None when unresolvable), the anchor's distance to
+    that node, and the split record when the fallback authored one.
+    """
+    best_key: tuple[int, int] | None = None
+    best_distance = float("inf")
+    for key in sorted(nodes):
+        distance = math.dist(anchor_point, nodes[key])
+        if distance < best_distance:
+            best_key, best_distance = key, distance
+    if best_key is not None and best_distance <= anchor_limit:
+        return best_key, best_distance, None
+    split = _split_edge_at_anchor(
+        graph, nodes, metric_lines, anchor_point, tolerance, anchor_limit
+    )
+    if split is None:
+        return best_key, best_distance, None
+    split["side"] = side
+    node_key = split.pop("node_key")
+    distance = math.dist(anchor_point, nodes[node_key])
+    split["anchor_to_node_distance_m"] = round(distance, 3)
+    return node_key, distance, split
 
 
 def _solve_segment_edge_path(
@@ -1364,20 +1519,26 @@ def _solve_segment_edge_path(
         )
         return diagnostics
 
-    def nearest_node(point: tuple[float, float]) -> tuple[tuple[int, int], float]:
-        best_key, best_distance = None, float("inf")
-        for key in sorted(nodes):
-            distance = math.dist(point, nodes[key])
-            if distance < best_distance:
-                best_key, best_distance = key, distance
-        assert best_key is not None
-        return best_key, best_distance
-
-    from_key, from_distance = nearest_node(from_point)
-    to_key, to_distance = nearest_node(to_point)
+    splits: list[dict[str, Any]] = []
+    from_key, from_distance, from_split = _resolve_anchor_node(
+        graph, nodes, metric_lines, from_point, "from", tolerance, anchor_limit
+    )
+    if from_split is not None:
+        splits.append(from_split)
+    to_key, to_distance, to_split = _resolve_anchor_node(
+        graph, nodes, metric_lines, to_point, "to", tolerance, anchor_limit
+    )
+    if to_split is not None:
+        splits.append(to_split)
     diagnostics["from_transfer_node_snap_distance_m"] = round(from_distance, 3)
     diagnostics["to_transfer_node_snap_distance_m"] = round(to_distance, 3)
     diagnostics["anchor_snap_limit_m"] = anchor_limit
+    if splits:
+        # The split sub-edges replaced their records' edges, so the counts the
+        # solve actually ran against are the post-split ones.
+        diagnostics["anchor_edge_splits"] = splits
+        diagnostics["graph_node_count"] = graph.number_of_nodes()
+        diagnostics["graph_edge_count"] = graph.number_of_edges()
 
     # A path between the nearest graph nodes is only a path between the locked
     # anchors if those anchors are actually on this graph. An anchor hundreds of
@@ -1420,6 +1581,7 @@ def _solve_segment_edge_path(
             key=lambda edge_key: (parallel[edge_key]["weight"], edge_key),
         )
         data = parallel[chosen_key]
+        part_range = data.get("part_range_m")
         edges.append(
             SolvedEdge(
                 object_id=int(data["object_id"]),
@@ -1427,6 +1589,11 @@ def _solve_segment_edge_path(
                 page_response_sha256=str(data["page_response_sha256"]),
                 length_meters=float(data["weight"]),
                 reversed_for_travel=data["start_key"] != previous,
+                part_range_m=(
+                    None
+                    if part_range is None
+                    else (float(part_range[0]), float(part_range[1]))
+                ),
             )
         )
 
@@ -1446,6 +1613,16 @@ def _solve_segment_edge_path(
                 "page_response_sha256": edge.page_response_sha256,
                 "length_meters": round(edge.length_meters, 3),
                 "reversed_for_travel": edge.reversed_for_travel,
+                **(
+                    {}
+                    if edge.part_range_m is None
+                    else {
+                        "part_range_m": [
+                            round(edge.part_range_m[0], 3),
+                            round(edge.part_range_m[1], 3),
+                        ]
+                    }
+                ),
             }
             for edge in edges
         ],
@@ -4202,7 +4379,6 @@ NHS_FILL_NEXT_STAGE = {
     "id": "nhpn-nhs-conflation-and-reconstruction",
     "requires": [
         "NHPN-to-NHS conflation model over the locked fill spans",
-        "ADR-0018 reconstruction gates for the bounded exception overlays",
         "3DEP product lock over the chained corridor",
     ],
 }
@@ -4274,6 +4450,7 @@ def _chain_connectivity_with_fills(
     disposition_sites: Sequence[dict[str, Any]],
     cache_root: Path,
     forward: Transformer,
+    overlay_sites: Sequence[dict[str, Any]] = (),
 ) -> list[dict[str, Any]]:
     """Whether each unconnected segment chains end-to-end once fills bridge it.
 
@@ -4281,10 +4458,13 @@ def _chain_connectivity_with_fills(
     adds one bridge edge per locked NHS fill between the exact break-end
     coordinates the disposition pinned (each must land on an existing graph node
     within the unchanged endpoint tolerance), and tests anchor-to-anchor
-    connectivity under the unchanged anchor snap limit. A chained segment is a
+    connectivity under the unchanged anchor snap limit, resolving an on-edge
+    anchor through the same Q-034c/d edge-split fallback the edge-path solve
+    uses. When authored ADR-0018 overlay sites are supplied, each bridges its
+    pinned exception boundary the same way a fill does. A chained segment is a
     mixed-ancestry chain, not an NHPN path and not a westbound selection; fill
-    spans contribute their chord length only, so no authoritative distance is
-    claimed.
+    and overlay spans contribute their chord length only, so no authoritative
+    distance is claimed.
     """
     tolerance = float(edge_lock["endpoint_snap_tolerance_m"])
     anchor_limit = float(edge_lock["anchor_snap_limit_m"])
@@ -4293,9 +4473,28 @@ def _chain_connectivity_with_fills(
     fills_by_segment: dict[str, list[dict[str, Any]]] = {}
     for site in fill_sites:
         fills_by_segment.setdefault(site["segment_id"], []).append(site)
+    overlays_by_segment: dict[str, list[dict[str, Any]]] = {}
+    overlay_site_ids = set()
+    for overlay in overlay_sites:
+        overlays_by_segment.setdefault(overlay["segment_id"], []).append(overlay)
+        overlay_site_ids.add(overlay["site_id"])
     blockers_by_segment: dict[str, list[dict[str, Any]]] = {}
     for site in disposition_sites:
-        if site.get("disposition") in {"nhs_fill", "nhpn_scoped_acquisition"}:
+        # A disposition the lock revision has implemented no longer blocks the
+        # chain: scoped acquisitions are in the candidate lock, fills are the
+        # bridges themselves, an anchor edge split is applied by the anchor
+        # resolution below, and a bounded exception stops blocking once its
+        # authored overlay is among the supplied bridges.
+        if site.get("disposition") in {
+            "nhs_fill",
+            "nhpn_scoped_acquisition",
+            "anchor_edge_split",
+        }:
+            continue
+        if (
+            site.get("disposition") == "bounded_reconstruction_exception"
+            and site.get("site_id") in overlay_site_ids
+        ):
             continue
         blocker = {
             "site_id": site["site_id"],
@@ -4331,10 +4530,15 @@ def _chain_connectivity_with_fills(
             assert best_key is not None
             return best_key, best_distance
 
-        bridge_keys: set[tuple[tuple[int, int], tuple[int, int]]] = set()
-        for site in sorted(
-            fills_by_segment.get(segment_id, []), key=lambda site: site["site_id"]
-        ):
+        def bridge(
+            site: dict[str, Any],
+            kind: str,
+            data_key: str,
+            graph: nx.MultiGraph = graph,
+            nearest_node: Callable[
+                [tuple[float, float]], tuple[tuple[int, int], float]
+            ] = nearest_node,
+        ) -> None:
             ends = []
             for corner in ("from_coordinate", "to_coordinate"):
                 point = forward.transform(
@@ -4343,7 +4547,7 @@ def _chain_connectivity_with_fills(
                 node, distance = nearest_node(point)
                 if distance > tolerance:
                     raise ValueError(
-                        f"NHS fill '{site['site_id']}' {corner} does not land on a "
+                        f"{kind} '{site['site_id']}' {corner} does not land on a "
                         f"locked chain end within the {tolerance:g} m tolerance "
                         f"(nearest node is {distance:.3f} m away)."
                     )
@@ -4351,11 +4555,19 @@ def _chain_connectivity_with_fills(
             graph.add_edge(
                 ends[0],
                 ends[1],
-                key=("nhs-fill", site["site_id"]),
+                key=(data_key, site["site_id"]),
                 weight=float(site["separation_m"]),
-                fill_site_id=site["site_id"],
+                **{f"{data_key}_site_id": site["site_id"]},
             )
-            bridge_keys.add((ends[0], ends[1]))
+
+        for site in sorted(
+            fills_by_segment.get(segment_id, []), key=lambda site: site["site_id"]
+        ):
+            bridge(site, "NHS fill", "fill")
+        for site in sorted(
+            overlays_by_segment.get(segment_id, []), key=lambda site: site["site_id"]
+        ):
+            bridge(site, "Authored overlay", "overlay")
 
         blockers = [dict(blocker) for blocker in blockers_by_segment.get(segment_id, [])]
         from_point = (
@@ -4366,8 +4578,19 @@ def _chain_connectivity_with_fills(
             transfer_by_id[segment["to"]]["coordinate"]["longitude"],
             transfer_by_id[segment["to"]]["coordinate"]["latitude"],
         )
-        from_key, from_distance = nearest_node(forward.transform(*from_point))
-        to_key, to_distance = nearest_node(forward.transform(*to_point))
+        splits: list[dict[str, Any]] = []
+        from_key, from_distance, from_split = _resolve_anchor_node(
+            graph, nodes, metric_lines, forward.transform(*from_point), "from",
+            tolerance, anchor_limit,
+        )
+        if from_split is not None:
+            splits.append(from_split)
+        to_key, to_distance, to_split = _resolve_anchor_node(
+            graph, nodes, metric_lines, forward.transform(*to_point), "to",
+            tolerance, anchor_limit,
+        )
+        if to_split is not None:
+            splits.append(to_split)
         for side, distance in (("from", from_distance), ("to", to_distance)):
             if distance > anchor_limit:
                 blockers.append(
@@ -4385,16 +4608,21 @@ def _chain_connectivity_with_fills(
         result: dict[str, Any] = {
             "segment_id": segment_id,
             "fill_bridge_count": len(fills_by_segment.get(segment_id, [])),
+            "overlay_bridge_count": len(overlays_by_segment.get(segment_id, [])),
             "from_anchor_snap_distance_m": round(from_distance, 3),
             "to_anchor_snap_distance_m": round(to_distance, 3),
             "chain_connected_with_fills": connected,
             "remaining_blockers": blockers,
         }
+        if splits:
+            result["anchor_edge_splits"] = splits
         if connected:
             node_path = nx.shortest_path(graph, from_key, to_key, weight="weight")
             nhpn_meters = 0.0
             fill_meters = 0.0
+            overlay_meters = 0.0
             fill_site_ids: list[str] = []
+            overlay_ids: list[str] = []
             for previous, current in zip(node_path, node_path[1:], strict=False):
                 parallel = graph.get_edge_data(previous, current)
                 chosen_key = min(
@@ -4405,13 +4633,20 @@ def _chain_connectivity_with_fills(
                 if "fill_site_id" in data:
                     fill_meters += data["weight"]
                     fill_site_ids.append(data["fill_site_id"])
+                elif "overlay_site_id" in data:
+                    overlay_meters += data["weight"]
+                    overlay_ids.append(data["overlay_site_id"])
                 else:
                     nhpn_meters += data["weight"]
             result.update(
                 nhpn_path_meters=round(nhpn_meters, 3),
                 fill_chord_meters=round(fill_meters, 3),
-                chain_length_meters=round(nhpn_meters + fill_meters, 3),
+                overlay_chord_meters=round(overlay_meters, 3),
+                chain_length_meters=round(
+                    nhpn_meters + fill_meters + overlay_meters, 3
+                ),
                 fill_site_ids_on_chain=sorted(fill_site_ids),
+                overlay_site_ids_on_chain=sorted(overlay_ids),
             )
         results.append(result)
     return results
@@ -4900,10 +5135,16 @@ def validate_continental_nhs_fill_lock(
 
 DISPOSITION_STATUS = "dispositions_recorded_lock_revision_pending"
 DISPOSITION_STATUS_IMPLEMENTED = "lock_revision_implemented_sub_items_pending"
+# Every sub-item is resolved and implemented: scoped acquisitions are candidate
+# lock supplements, fills are locked, the on-edge anchors are resolved by the
+# recorded edge splits, and the bounded exceptions are authored through the
+# ADR-0018 reconstruction gates. No ambiguous site may remain.
+DISPOSITION_STATUS_CLOSED = "lock_revision_implemented_topology_closed"
 DISPOSITION_CLASSES = (
     "nhpn_scoped_acquisition",
     "nhs_fill",
     "bounded_reconstruction_exception",
+    "anchor_edge_split",
     "ambiguous",
 )
 CENSUS_END_CLASSES = (
@@ -4947,6 +5188,7 @@ def _validate_disposition_site(
     implemented: bool = False,
     supplements_by_site: dict[str, list[int]] | None = None,
     fill_site_ids: frozenset[str] = frozenset(),
+    edge_splits_by_segment: dict[str, list[dict[str, Any]]] | None = None,
 ) -> None:
     site_id = _require_nonempty_string(
         site.get("site_id"), "Disposition site has no site ID."
@@ -5058,6 +5300,46 @@ def _validate_disposition_site(
                 f"{MAXIMUM_EXCEPTION_LENGTH_METERS:g} m bounded-exception ceiling; a "
                 "wider gap is a corridor void, not an authoring discontinuity."
             )
+    elif disposition == "anchor_edge_split":
+        if site.get("kind") != "anchor_gap":
+            raise ValueError(
+                f"Disposition site '{site_id}' records an anchor edge split for a "
+                "site that is not an anchor gap."
+            )
+        _require_nonempty_string(
+            site.get("mechanism_review"),
+            f"Disposition site '{site_id}' records no mechanism review.",
+        )
+        _require_nonempty_string(
+            site.get("resolution"),
+            f"Disposition site '{site_id}' records no resolution.",
+        )
+        subitem = site.get("resolved_q034_subitem", "")
+        if not isinstance(subitem, str) or not Q034_SUBITEM_PATTERN.fullmatch(subitem):
+            raise ValueError(
+                f"Disposition site '{site_id}' resolves no named Q-034 sub-item."
+            )
+        split = site.get("anchor_split")
+        if (
+            not isinstance(split, dict)
+            or split.get("side") not in {"from", "to"}
+            or not isinstance(split.get("object_id"), int)
+            or isinstance(split.get("object_id"), bool)
+        ):
+            raise ValueError(
+                f"Disposition site '{site_id}' names no anchor split side and record."
+            )
+        if implemented:
+            recorded = (edge_splits_by_segment or {}).get(site.get("segment_id"), [])
+            if not any(
+                entry.get("side") == split["side"]
+                and entry.get("object_id") == split["object_id"]
+                for entry in recorded
+            ):
+                raise ValueError(
+                    f"Disposition site '{site_id}' is not implemented by a matching "
+                    "anchor edge split in the edge-path lock."
+                )
     else:  # ambiguous
         subitem = site.get("q034_subitem", "")
         if not isinstance(subitem, str) or not Q034_SUBITEM_PATTERN.fullmatch(subitem):
@@ -5079,6 +5361,7 @@ def validate_continental_break_dispositions(
     edge_path_lock_path: Path,
     catalog_path: Path,
     nhs_fill_lock_path: Path | None = None,
+    overlay_lock_path: Path | None = None,
 ) -> dict[str, Any]:
     """Validate the Q-034 per-site disposition record against the locked inputs.
 
@@ -5087,14 +5370,25 @@ def validate_continental_break_dispositions(
     implemented status the lock revision has landed: every scoped acquisition
     must be implemented by a matching candidate-lock supplement, every NHS fill
     by a validated NHS fill lock site, and the record pins the fill lock's hash.
+    In the closed status every sub-item is resolved: additionally no ambiguous
+    site remains, every anchor gap is implemented by a recorded edge split, and
+    every bounded exception is authored in the reconstruction overlay lock,
+    which must pin this record's hash. The overlay lock is read raw here - its
+    own validator is a separate stage - so the two records pin each other
+    without recursion.
     """
     payload = load_json(disposition_path)
     if payload.get("schema_version") != 1:
         raise ValueError("Unsupported break-disposition schema.")
     status = payload.get("status")
-    if status not in {DISPOSITION_STATUS, DISPOSITION_STATUS_IMPLEMENTED}:
+    if status not in {
+        DISPOSITION_STATUS,
+        DISPOSITION_STATUS_IMPLEMENTED,
+        DISPOSITION_STATUS_CLOSED,
+    }:
         raise ValueError("Break-disposition record has an unsupported status.")
-    implemented = status == DISPOSITION_STATUS_IMPLEMENTED
+    implemented = status in {DISPOSITION_STATUS_IMPLEMENTED, DISPOSITION_STATUS_CLOSED}
+    closed = status == DISPOSITION_STATUS_CLOSED
     selection = load_json(selection_path)
     if payload.get("decision") != selection.get("decision"):
         raise ValueError("Break-disposition decision does not match the route selection.")
@@ -5196,6 +5490,10 @@ def validate_continental_break_dispositions(
         if payload.get("nhs_fill_lock_sha256") != compute_sha256(nhs_fill_lock_path):
             raise ValueError("Break-disposition NHS fill lock hash drifted.")
         fill_site_ids = frozenset(site["site_id"] for site in fill_lock["sites"])
+    edge_splits_by_segment: dict[str, list[dict[str, Any]]] = {
+        entry["segment_id"]: entry.get("anchor_edge_splits", [])
+        for entry in edge_lock["segments"]
+    }
     sites = payload.get("sites")
     if not isinstance(sites, list) or not sites:
         raise ValueError("Break-disposition record contains no sites.")
@@ -5220,6 +5518,7 @@ def validate_continental_break_dispositions(
             implemented=implemented,
             supplements_by_site=supplements_by_site,
             fill_site_ids=fill_site_ids,
+            edge_splits_by_segment=edge_splits_by_segment,
         )
     if implemented:
         scoped_site_ids = {
@@ -5238,6 +5537,37 @@ def validate_continental_break_dispositions(
         if fill_site_ids != nhs_fill_disposition_ids:
             raise ValueError(
                 "NHS fill lock sites do not cover exactly the nhs_fill dispositions."
+            )
+    if closed:
+        if any(site["disposition"] == "ambiguous" for site in sites):
+            raise ValueError(
+                "A closed break-disposition record may not carry an ambiguous site."
+            )
+        if overlay_lock_path is None:
+            raise ValueError(
+                "A closed break-disposition record requires the reconstruction "
+                "overlay lock."
+            )
+        overlay_lock = load_json(overlay_lock_path)
+        if overlay_lock.get("break_disposition_sha256") != compute_sha256(
+            disposition_path
+        ):
+            raise ValueError(
+                "The reconstruction overlay lock does not pin this "
+                "break-disposition record."
+            )
+        overlay_site_ids = {
+            overlay.get("site_id") for overlay in overlay_lock.get("overlays", [])
+        }
+        exception_site_ids = {
+            site["site_id"]
+            for site in sites
+            if site["disposition"] == "bounded_reconstruction_exception"
+        }
+        if overlay_site_ids != exception_site_ids:
+            raise ValueError(
+                "Reconstruction overlays do not cover exactly the bounded "
+                "exception sites."
             )
     covered = {site["segment_id"] for site in sites}
     if implemented:
@@ -5481,6 +5811,66 @@ def validate_continental_edge_path_lock(
                 f"Segment '{entry['segment_id']}' claims a validated direction that this "
                 "stage cannot establish."
             )
+        splits = entry.get("anchor_edge_splits", [])
+        if not isinstance(splits, list):
+            raise ValueError(
+                f"Segment '{entry['segment_id']}' anchor edge splits are invalid."
+            )
+        split_parts: set[tuple[int, int]] = set()
+        split_sides: set[str] = set()
+        for split in splits:
+            if not isinstance(split, dict) or split.get("side") not in {"from", "to"}:
+                raise ValueError(
+                    f"Segment '{entry['segment_id']}' records an anchor split "
+                    "without a valid side."
+                )
+            side = split["side"]
+            if side in split_sides:
+                raise ValueError(
+                    f"Segment '{entry['segment_id']}' repeats an anchor split side."
+                )
+            split_sides.add(side)
+            if split.get("page_response_sha256") not in page_hashes:
+                raise ValueError(
+                    f"Segment '{entry['segment_id']}' anchor split cites an "
+                    "unlocked page response."
+                )
+            for field, ceiling in (
+                ("anchor_offset_m", ANCHOR_SNAP_LIMIT_METERS),
+                ("anchor_to_node_distance_m", ANCHOR_SNAP_LIMIT_METERS),
+                ("split_distance_along_part_m", None),
+                ("part_length_m", None),
+            ):
+                value = split.get(field)
+                if (
+                    not isinstance(value, int | float)
+                    or isinstance(value, bool)
+                    or not math.isfinite(value)
+                    or value < 0
+                ):
+                    raise ValueError(
+                        f"Segment '{entry['segment_id']}' anchor split records no "
+                        f"finite {field}."
+                    )
+                if ceiling is not None and value > ceiling:
+                    raise ValueError(
+                        f"Segment '{entry['segment_id']}' anchor split exceeds the "
+                        "anchor snap limit."
+                    )
+            if not (
+                0.0 < split["split_distance_along_part_m"] < split["part_length_m"]
+            ):
+                raise ValueError(
+                    f"Segment '{entry['segment_id']}' anchor split is not interior "
+                    "to its record part."
+                )
+            recorded = entry.get(f"{side}_transfer_node_snap_distance_m")
+            if recorded != split["anchor_to_node_distance_m"]:
+                raise ValueError(
+                    f"Segment '{entry['segment_id']}' {side} anchor distance does "
+                    "not match its recorded split."
+                )
+            split_parts.add((int(split["object_id"]), int(split.get("part_index", 0))))
         if not entry.get("connected"):
             if not entry.get("failure"):
                 raise ValueError(
@@ -5532,4 +5922,841 @@ def validate_continental_edge_path_lock(
                 raise ValueError(
                     f"Segment '{entry['segment_id']}' cites an unlocked page response."
                 )
+    return payload
+
+
+# --- ADR-0018 reconstruction gates: authored micro-gap overlays -----------------
+#
+# The ADR-0018 authored-exception contract: deterministic authored overlays for
+# rejected or exceptional locations, preserving recursive provenance, stable
+# identifiers, validation, and content-addressed output, accepted only when
+# every applicable gate passes and rejected with machine-readable diagnostics
+# otherwise. This stage authors the Q-034 bounded_reconstruction_exception
+# sites - source authoring micro-gaps whose adjacency the source itself asserts
+# in linear referencing - as bounded chord overlays between the exact break-end
+# coordinates the disposition record pinned. It closes topology only: the gates
+# that need generated road geometry or locked elevation are recorded as
+# explicitly deferred to the reconstruction-geometry stage, never silently
+# skipped or waived.
+
+RECONSTRUCTION_OVERLAY_STATUS = "micro_gap_overlays_authored_conflation_pending"
+RECONSTRUCTION_OVERLAY_NEXT_STAGE = {
+    "id": "nhpn-nhs-conflation-and-3dep-lock",
+    "requires": [
+        "NHPN-to-NHS geometry conflation over the locked fill spans",
+        "3DEP product, resolution, and datum lock over the chained corridor",
+        "westbound directed edge selection over the closed topology",
+    ],
+}
+RECONSTRUCTION_OVERLAY_SOURCE_POLICY = {
+    "authored_overlay": True,
+    "source_asserts_adjacency": True,
+    "openstreetmap_ancestry_allowed": False,
+    "lane_geometry_claimed": False,
+    "authoritative_distance_claimed": False,
+    "continental_downloads_committed": False,
+    "tolerance_changed": False,
+}
+# The ADR-0018 gates a topological chord cannot exercise: they need generated
+# lane and surface geometry or locked 3DEP elevation, neither of which exists at
+# this stage. Deferred explicitly so nothing is waived in silence.
+RECONSTRUCTION_OVERLAY_DEFERRED_GATES = (
+    "curvature",
+    "curvature_rate",
+    "grade",
+    "vertical_curvature",
+    "sightline",
+    "clearance",
+    "collision",
+    "lane_connection",
+    "drivability",
+)
+RECONSTRUCTION_OVERLAY_DEFERRED_REASON = (
+    "These gates measure generated road geometry and elevation. The overlay "
+    "authored here is a bounded topological closure of a source authoring "
+    "micro-gap, not drivable surface geometry; the deferred gates run when the "
+    "reconstruction-geometry stage generates the actual road over the closed "
+    "topology with locked 3DEP elevation."
+)
+RECONSTRUCTION_OVERLAY_HEADING_REASON = (
+    "At micro-gap scale a chord's own bearing measures authoring noise, and an "
+    "authoring gap may sit exactly on an interchange corner of the route's own "
+    "LRS - the Quad Cities gap does, with 77.2 degrees between its adjoining "
+    "end tangents at the I-80/I-74 corner - so heading is not adjudicated "
+    "against a straight-through assumption here. Heading and curvature are "
+    "properties of the generated road, judged by the reconstruction-geometry "
+    "stage's gates; the measured end-tangent deviation is recorded as that "
+    "stage's authoring constraint for this connection."
+)
+# The recomputed chord may differ from the pinned length only by coordinate
+# rounding noise: the disposition pins coordinates to ~1e-7 degrees, which is
+# centimetres, so anything beyond 5 mm means the boundary drifted.
+OVERLAY_LENGTH_AGREEMENT_METERS = 0.005
+
+
+def _overlay_gate(measured: Any, threshold: Any, passed: bool) -> dict[str, Any]:
+    return {"measured": measured, "threshold": threshold, "passed": passed}
+
+
+def _author_overlay_for_site(
+    site: dict[str, Any],
+    metric_lines: tuple[tuple[LockedCandidateLine, LineString], ...],
+    tolerance: float,
+    forward: Transformer,
+    evidence: list[dict[str, Any]],
+) -> dict[str, Any]:
+    """Author one bounded micro-gap overlay through the applicable ADR-0018 gates.
+
+    Raises with machine-readable diagnostics when any applicable gate fails;
+    ADR-0018 forbids accepting a candidate past a failed gate.
+    """
+    site_id = site["site_id"]
+    exception = site["exception"]
+    boundary = exception["boundary"]
+    _, nodes, incident, _ = _build_snapped_endpoint_graph(metric_lines, tolerance)
+
+    ends: dict[str, dict[str, Any]] = {}
+    for end_name in ("from", "to"):
+        coordinate = boundary[f"{end_name}_coordinate"]
+        point = forward.transform(coordinate["longitude"], coordinate["latitude"])
+        best_key, best_distance = None, float("inf")
+        for key in sorted(nodes):
+            distance = math.dist(point, nodes[key])
+            if distance < best_distance:
+                best_key, best_distance = key, distance
+        if best_key is None or best_distance > tolerance:
+            raise ValueError(
+                json.dumps(
+                    {
+                        "gate": "endpoint_position",
+                        "overlay_site": site_id,
+                        "end": end_name,
+                        "measured_m": round(best_distance, 3),
+                        "threshold_m": tolerance,
+                        "finding": (
+                            "The pinned boundary coordinate does not land on a "
+                            "locked chain-end node within the endpoint tolerance."
+                        ),
+                    },
+                    sort_keys=True,
+                )
+            )
+        ends[end_name] = {
+            "metric_point": point,
+            "node_key": best_key,
+            "node_distance_m": best_distance,
+            "incident": incident.get(best_key, []),
+        }
+
+    # The source-adjacency gate: the exception class exists for gaps whose
+    # adjacency the source itself asserts in linear referencing, so the two
+    # boundary nodes must present record ends that are milepost-contiguous on a
+    # shared LRS key. Anything else is a corridor void, not an authoring gap.
+    adjacency_pair: tuple[Any, Any] | None = None
+    for left, left_line, left_end in ends["from"]["incident"]:
+        for right, right_line, right_end in ends["to"]["incident"]:
+            if left.object_id == right.object_id:
+                continue
+            if _records_milepost_contiguous(left, right):
+                adjacency_pair = (
+                    (left, left_line, left_end),
+                    (right, right_line, right_end),
+                )
+                break
+        if adjacency_pair is not None:
+            break
+    if adjacency_pair is None:
+        raise ValueError(
+            json.dumps(
+                {
+                    "gate": "source_adjacency",
+                    "overlay_site": site_id,
+                    "finding": (
+                        "No record ends at the boundary nodes are "
+                        "milepost-contiguous on a shared LRS key; the source does "
+                        "not assert adjacency across this gap."
+                    ),
+                },
+                sort_keys=True,
+            )
+        )
+
+    # Heading across the gap is measured, not adjudicated: an authoring gap may
+    # sit exactly on an interchange corner of the route's own LRS, so the
+    # adjoining end tangents (the census's jitter-absorbing 25 m chords) are
+    # recorded as the reconstruction-geometry stage's authoring constraint. A
+    # record too degenerate to carry a bearing still refuses authoring - the
+    # constraint must be measurable.
+    bearings: list[float] = []
+    for candidate, line, end_name in adjacency_pair:
+        at_distance = 0.0 if end_name == "start" else float(line.length)
+        bearing = _chord_bearing(line, at_distance)
+        if bearing is None:
+            raise ValueError(
+                json.dumps(
+                    {
+                        "gate": "heading_continuity",
+                        "overlay_site": site_id,
+                        "object_id": candidate.object_id,
+                        "finding": "An adjoining record is too degenerate to carry a bearing.",
+                    },
+                    sort_keys=True,
+                )
+            )
+        bearings.append(bearing)
+    heading_deviation = _acute_angle_degrees(bearings[0], bearings[1])
+
+    chord_length = math.dist(ends["from"]["metric_point"], ends["to"]["metric_point"])
+    pinned_length = float(boundary["length_m"])
+    if chord_length > MAXIMUM_EXCEPTION_LENGTH_METERS or abs(
+        chord_length - pinned_length
+    ) > OVERLAY_LENGTH_AGREEMENT_METERS:
+        raise ValueError(
+            json.dumps(
+                {
+                    "gate": "length_bound",
+                    "overlay_site": site_id,
+                    "measured_m": round(chord_length, 3),
+                    "pinned_m": pinned_length,
+                    "ceiling_m": MAXIMUM_EXCEPTION_LENGTH_METERS,
+                    "finding": (
+                        "The recomputed chord disagrees with the pinned exception "
+                        "boundary or exceeds the bounded-exception ceiling."
+                    ),
+                },
+                sort_keys=True,
+            )
+        )
+    if chord_length <= 0.0:
+        raise ValueError(
+            json.dumps(
+                {
+                    "gate": "self_intersection",
+                    "overlay_site": site_id,
+                    "finding": "The boundary coordinates coincide; there is no gap to close.",
+                },
+                sort_keys=True,
+            )
+        )
+
+    coordinates = [
+        [
+            boundary["from_coordinate"]["longitude"],
+            boundary["from_coordinate"]["latitude"],
+        ],
+        [
+            boundary["to_coordinate"]["longitude"],
+            boundary["to_coordinate"]["latitude"],
+        ],
+    ]
+    adjoining_records = []
+    for end_name in ("from", "to"):
+        for candidate, line, record_end in sorted(
+            ends[end_name]["incident"],
+            key=lambda entry: (entry[0].object_id, entry[0].part_index),
+        ):
+            endpoint = (
+                line.coords[0] if record_end == "start" else line.coords[-1]
+            )
+            adjoining_records.append(
+                {
+                    "end": end_name,
+                    "object_id": candidate.object_id,
+                    "part_index": candidate.part_index,
+                    "joined_at": record_end,
+                    "lrs_key": candidate.lrs_key,
+                    "record_begin_milepost": candidate.record_begin_milepost,
+                    "record_end_milepost": candidate.record_end_milepost,
+                    "page_response_sha256": candidate.page_response_sha256,
+                    "endpoint_distance_m": round(
+                        math.dist(ends[end_name]["metric_point"], endpoint), 3
+                    ),
+                }
+            )
+    left = adjacency_pair[0][0]
+    right = adjacency_pair[1][0]
+    return {
+        "overlay_id": f"{site_id}--authored-overlay",
+        "site_id": site_id,
+        "segment_id": site["segment_id"],
+        "kind": exception["kind"],
+        "rationale": exception["rationale"],
+        "boundary": boundary,
+        "geometry": {
+            "type": "chord",
+            "coordinate_crs": "EPSG:4326",
+            "coordinates": coordinates,
+            "length_m": round(chord_length, 3),
+            "geometry_sha256": canonical_sha256(coordinates),
+        },
+        "gates": {
+            "endpoint_position": _overlay_gate(
+                {
+                    "from_node_distance_m": round(ends["from"]["node_distance_m"], 3),
+                    "to_node_distance_m": round(ends["to"]["node_distance_m"], 3),
+                },
+                {"maximum_m": tolerance},
+                True,
+            ),
+            "length_bound": _overlay_gate(
+                {"chord_length_m": round(chord_length, 3), "pinned_m": pinned_length},
+                {
+                    "ceiling_m": MAXIMUM_EXCEPTION_LENGTH_METERS,
+                    "pinned_agreement_m": OVERLAY_LENGTH_AGREEMENT_METERS,
+                },
+                True,
+            ),
+            "source_adjacency": _overlay_gate(
+                {
+                    "lrs_key": left.lrs_key,
+                    "object_ids": sorted((left.object_id, right.object_id)),
+                    "mileposts": [
+                        [left.record_begin_milepost, left.record_end_milepost],
+                        [right.record_begin_milepost, right.record_end_milepost],
+                    ],
+                },
+                {"rule": "END_POINT equals BEGIN_POIN on a shared LRSKEY"},
+                True,
+            ),
+            "heading_continuity": {
+                "measured": {
+                    "end_tangent_deviation_degrees": round(heading_deviation, 1),
+                    "end_tangent_chord_m": BREAK_TANGENT_CHORD_METERS,
+                },
+                "deferred_to": "reconstruction-geometry-stage",
+                "reason": RECONSTRUCTION_OVERLAY_HEADING_REASON,
+            },
+            "self_intersection": _overlay_gate(
+                {"vertex_count": 2, "distinct_endpoints": True},
+                {"rule": "a two-vertex chord with distinct endpoints cannot self-intersect"},
+                True,
+            ),
+            "deferred": {
+                "gates": list(RECONSTRUCTION_OVERLAY_DEFERRED_GATES),
+                "deferred_to": "reconstruction-geometry-stage",
+                "reason": RECONSTRUCTION_OVERLAY_DEFERRED_REASON,
+            },
+        },
+        "adjoining_records": adjoining_records,
+        "evidence": evidence,
+    }
+
+
+def author_continental_reconstruction_overlays(
+    disposition_path: Path,
+    selection_path: Path,
+    route_lock_path: Path,
+    transfer_lock_path: Path,
+    policy_path: Path,
+    edge_path_lock_path: Path,
+    nhs_fill_lock_path: Path,
+    catalog_path: Path,
+    cache_directory: Path,
+    output_path: Path,
+    *,
+    authored_at: str | None = None,
+) -> dict[str, Any]:
+    """Author the Q-034 bounded-exception overlays through the ADR-0018 gates.
+
+    Consumes only checksum-locked inputs and the locked response cache; no
+    network access and no new source acquisition. Writes the overlay lock only
+    when every applicable gate passes at every exception site, and records the
+    chain connectivity of the closed topology: NHPN backbone plus locked NHS
+    fill chords plus these authored overlay chords, with the Q-034c/d on-edge
+    anchors resolved by the edge-split fallback.
+    """
+    selection = load_json(selection_path)
+    route_lock = validate_continental_route_lock(
+        route_lock_path, catalog_path, selection_path
+    )
+    transfer_lock = validate_continental_transfer_lock(
+        transfer_lock_path, policy_path, selection_path, route_lock_path, catalog_path
+    )
+    edge_lock = validate_continental_edge_path_lock(
+        edge_path_lock_path,
+        transfer_lock_path,
+        policy_path,
+        selection_path,
+        route_lock_path,
+        catalog_path,
+    )
+    fill_lock = validate_continental_nhs_fill_lock(
+        nhs_fill_lock_path,
+        selection_path,
+        route_lock_path,
+        transfer_lock_path,
+        policy_path,
+        edge_path_lock_path,
+        catalog_path,
+    )
+    disposition = load_json(disposition_path)
+    if disposition.get("schema_version") != 1 or disposition.get("open_question") != "Q-034":
+        raise ValueError("Overlay authoring requires the Q-034 disposition record.")
+    exception_sites = [
+        site
+        for site in disposition.get("sites", [])
+        if site.get("disposition") == "bounded_reconstruction_exception"
+    ]
+    if not exception_sites:
+        raise ValueError("The disposition record names no bounded exceptions to author.")
+
+    tolerance = float(edge_lock["endpoint_snap_tolerance_m"])
+    forward = Transformer.from_crs("EPSG:4326", "EPSG:5070", always_xy=True)
+    cache_root = cache_directory / route_lock["nhpn"]["service"][
+        "canonical_metadata_sha256"
+    ]
+    evidence = [dict(item) for item in disposition.get("evidence", [])]
+    evidence.append({"path": str(disposition_path)})
+
+    overlays: list[dict[str, Any]] = []
+    for site in sorted(exception_sites, key=lambda entry: str(entry.get("site_id", ""))):
+        lines = _segment_locked_lines(route_lock, site["segment_id"], cache_root)
+        metric_lines = tuple(
+            (candidate, transform(forward.transform, candidate.geometry))
+            for candidate in lines
+        )
+        overlays.append(
+            _author_overlay_for_site(site, metric_lines, tolerance, forward, evidence)
+        )
+
+    overlay_bridges = [
+        {
+            "site_id": overlay["site_id"],
+            "segment_id": overlay["segment_id"],
+            "from_coordinate": overlay["boundary"]["from_coordinate"],
+            "to_coordinate": overlay["boundary"]["to_coordinate"],
+            "separation_m": overlay["geometry"]["length_m"],
+        }
+        for overlay in overlays
+    ]
+    chain = _chain_connectivity_with_fills(
+        route_lock,
+        selection,
+        transfer_lock,
+        edge_lock,
+        fill_lock["sites"],
+        disposition.get("sites", []),
+        cache_root,
+        forward,
+        overlay_sites=overlay_bridges,
+    )
+    connected_entries = [
+        entry for entry in edge_lock["segments"] if entry.get("connected")
+    ]
+    chained_entries = [
+        entry for entry in chain if entry["chain_connected_with_fills"]
+    ]
+    corridor_meters = sum(
+        float(entry["length_meters"]) for entry in connected_entries
+    ) + sum(float(entry["chain_length_meters"]) for entry in chained_entries)
+    timestamp = authored_at or datetime.now(UTC).replace(microsecond=0).isoformat().replace(
+        "+00:00", "Z"
+    )
+    payload = {
+        "schema_version": 1,
+        "status": RECONSTRUCTION_OVERLAY_STATUS,
+        "decision": "ADR-0018",
+        "route_decision": selection["decision"],
+        "open_question": "Q-034",
+        "authored_at": timestamp,
+        "coordinate_crs": "EPSG:4326",
+        "metric_crs": "EPSG:5070",
+        "catalog_sha256": compute_sha256(catalog_path),
+        "route_selection_sha256": compute_sha256(selection_path),
+        "candidate_lock_sha256": compute_sha256(route_lock_path),
+        "transfer_lock_sha256": compute_sha256(transfer_lock_path),
+        "edge_path_lock_sha256": compute_sha256(edge_path_lock_path),
+        "nhs_fill_lock_sha256": compute_sha256(nhs_fill_lock_path),
+        "break_disposition_sha256": compute_sha256(disposition_path),
+        "endpoint_snap_tolerance_m": edge_lock["endpoint_snap_tolerance_m"],
+        "anchor_snap_limit_m": edge_lock["anchor_snap_limit_m"],
+        "maximum_exception_length_m": MAXIMUM_EXCEPTION_LENGTH_METERS,
+        "source_policy": dict(RECONSTRUCTION_OVERLAY_SOURCE_POLICY),
+        "westbound_selection_validated": False,
+        "overlay_count": len(overlays),
+        "overlays": overlays,
+        "overlays_sha256": canonical_sha256(overlays),
+        "chain_connectivity": {
+            "note": (
+                "Anchor-to-anchor connectivity of each unconnected segment over "
+                "the closed topology: NHPN backbone, locked NHS fill chords, "
+                "authored ADR-0018 overlay chords, and the Q-034c/d on-edge "
+                "anchors resolved by the edge-split fallback. A chained segment "
+                "is a mixed-ancestry chain, not an NHPN path, not a westbound "
+                "selection, and not an authoritative distance."
+            ),
+            "chained_segment_count": len(chained_entries),
+            "unchained_segment_count": len(chain) - len(chained_entries),
+            "segments": chain,
+        },
+        "chain_connectivity_sha256": canonical_sha256(chain),
+        "corridor": {
+            "segment_count": len(edge_lock["segments"]),
+            "nhpn_connected_segment_count": len(connected_entries),
+            "chained_segment_count": len(chained_entries),
+            "segments_chaining_anchor_to_anchor": (
+                len(connected_entries) + len(chained_entries)
+            ),
+            "continuously_chained_corridor_miles": round(
+                corridor_meters / METRES_PER_MILE, 1
+            ),
+            "note": (
+                "Chain lengths are shortest undirected mixed-ancestry chains; "
+                "fill and overlay spans contribute chord length only. Not an "
+                "authoritative distance and not a westbound selection."
+            ),
+        },
+        "next_stage": RECONSTRUCTION_OVERLAY_NEXT_STAGE,
+    }
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(
+        json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
+    return payload
+
+
+def validate_continental_reconstruction_overlays(
+    overlay_lock_path: Path,
+    disposition_path: Path,
+    selection_path: Path,
+    route_lock_path: Path,
+    transfer_lock_path: Path,
+    policy_path: Path,
+    edge_path_lock_path: Path,
+    nhs_fill_lock_path: Path,
+    catalog_path: Path,
+) -> dict[str, Any]:
+    """Validate the authored overlay lock without the ignored response cache.
+
+    Everything recomputable without the cache is recomputed: the pins, the
+    boundary equality against the disposition record, the chord geometry and its
+    length, the gate records against their own thresholds, the digests, and the
+    chain-connectivity reconciliation. The disposition record is read raw here -
+    its own validator cross-checks this artifact, so each side pins the other
+    without recursion.
+    """
+    payload = load_json(overlay_lock_path)
+    if payload.get("schema_version") != 1:
+        raise ValueError("Unsupported reconstruction overlay lock schema.")
+    if payload.get("status") != RECONSTRUCTION_OVERLAY_STATUS:
+        raise ValueError("Reconstruction overlay lock has an unsupported status.")
+    if payload.get("decision") != "ADR-0018":
+        raise ValueError("Reconstruction overlay lock does not cite ADR-0018.")
+    if payload.get("open_question") != "Q-034":
+        raise ValueError("Reconstruction overlay lock does not cite Q-034.")
+    if payload.get("westbound_selection_validated") is not False:
+        raise ValueError(
+            "Reconstruction overlay lock claims a validated westbound selection, "
+            "which this stage cannot establish."
+        )
+    selection = load_json(selection_path)
+    if payload.get("route_decision") != selection.get("decision"):
+        raise ValueError(
+            "Reconstruction overlay lock route decision does not match the "
+            "route selection."
+        )
+    route_lock = validate_continental_route_lock(
+        route_lock_path, catalog_path, selection_path
+    )
+    edge_lock = validate_continental_edge_path_lock(
+        edge_path_lock_path,
+        transfer_lock_path,
+        policy_path,
+        selection_path,
+        route_lock_path,
+        catalog_path,
+    )
+    validate_continental_nhs_fill_lock(
+        nhs_fill_lock_path,
+        selection_path,
+        route_lock_path,
+        transfer_lock_path,
+        policy_path,
+        edge_path_lock_path,
+        catalog_path,
+    )
+    expected_hashes = {
+        "catalog_sha256": compute_sha256(catalog_path),
+        "route_selection_sha256": compute_sha256(selection_path),
+        "candidate_lock_sha256": compute_sha256(route_lock_path),
+        "transfer_lock_sha256": compute_sha256(transfer_lock_path),
+        "edge_path_lock_sha256": compute_sha256(edge_path_lock_path),
+        "nhs_fill_lock_sha256": compute_sha256(nhs_fill_lock_path),
+        "break_disposition_sha256": compute_sha256(disposition_path),
+    }
+    if any(payload.get(key) != value for key, value in expected_hashes.items()):
+        raise ValueError("Reconstruction overlay lock input hash drifted.")
+    if payload.get("source_policy") != RECONSTRUCTION_OVERLAY_SOURCE_POLICY:
+        raise ValueError("Reconstruction overlay lock source policy is incomplete.")
+    if payload.get("endpoint_snap_tolerance_m") != edge_lock["endpoint_snap_tolerance_m"]:
+        raise ValueError(
+            "Reconstruction overlay lock declares a drifted endpoint snap tolerance."
+        )
+    if payload.get("anchor_snap_limit_m") != edge_lock["anchor_snap_limit_m"]:
+        raise ValueError(
+            "Reconstruction overlay lock declares a drifted anchor snap limit."
+        )
+    if payload.get("maximum_exception_length_m") != MAXIMUM_EXCEPTION_LENGTH_METERS:
+        raise ValueError(
+            "Reconstruction overlay lock declares a non-standard exception ceiling."
+        )
+    if payload.get("next_stage") != RECONSTRUCTION_OVERLAY_NEXT_STAGE:
+        raise ValueError("Reconstruction overlay lock next stage drifted.")
+
+    disposition = load_json(disposition_path)
+    exception_by_site = {
+        site["site_id"]: site
+        for site in disposition.get("sites", [])
+        if site.get("disposition") == "bounded_reconstruction_exception"
+    }
+    overlays = payload.get("overlays")
+    if not isinstance(overlays, list) or not overlays:
+        raise ValueError("Reconstruction overlay lock records no overlays.")
+    if payload.get("overlay_count") != len(overlays):
+        raise ValueError("Reconstruction overlay lock overlay count does not reconcile.")
+    if canonical_sha256(overlays) != payload.get("overlays_sha256"):
+        raise ValueError("Reconstruction overlay lock overlay digest drifted.")
+    if {overlay.get("site_id") for overlay in overlays} != set(exception_by_site):
+        raise ValueError(
+            "Reconstruction overlays do not cover exactly the disposition's "
+            "bounded exceptions."
+        )
+    tolerance = float(payload["endpoint_snap_tolerance_m"])
+    page_hashes = {
+        page["canonical_response_sha256"]
+        for record in (
+            *route_lock["nhpn"]["segment_snapshots"],
+            *route_lock["nhpn"].get("supplementary_acquisitions", []),
+        )
+        for page in record["pages"]
+    }
+    forward = Transformer.from_crs("EPSG:4326", "EPSG:5070", always_xy=True)
+    for overlay in overlays:
+        site_id = overlay["site_id"]
+        site = exception_by_site[site_id]
+        exception = site["exception"]
+        if overlay.get("overlay_id") != f"{site_id}--authored-overlay":
+            raise ValueError(f"Overlay for '{site_id}' has an unstable identifier.")
+        if overlay.get("segment_id") != site["segment_id"]:
+            raise ValueError(f"Overlay for '{site_id}' names the wrong segment.")
+        if overlay.get("boundary") != exception["boundary"]:
+            raise ValueError(
+                f"Overlay for '{site_id}' does not match the pinned exception boundary."
+            )
+        if overlay.get("kind") != exception["kind"] or overlay.get(
+            "rationale"
+        ) != exception["rationale"]:
+            raise ValueError(
+                f"Overlay for '{site_id}' drifted from the recorded exception."
+            )
+        geometry = overlay.get("geometry", {})
+        boundary = exception["boundary"]
+        expected_coordinates = [
+            [
+                boundary["from_coordinate"]["longitude"],
+                boundary["from_coordinate"]["latitude"],
+            ],
+            [
+                boundary["to_coordinate"]["longitude"],
+                boundary["to_coordinate"]["latitude"],
+            ],
+        ]
+        if (
+            geometry.get("type") != "chord"
+            or geometry.get("coordinate_crs") != "EPSG:4326"
+            or geometry.get("coordinates") != expected_coordinates
+            or geometry.get("geometry_sha256") != canonical_sha256(expected_coordinates)
+        ):
+            raise ValueError(f"Overlay for '{site_id}' geometry drifted.")
+        length = geometry.get("length_m")
+        if (
+            not isinstance(length, int | float)
+            or isinstance(length, bool)
+            or not math.isfinite(length)
+            or length <= 0
+            or length > MAXIMUM_EXCEPTION_LENGTH_METERS
+        ):
+            raise ValueError(
+                f"Overlay for '{site_id}' length violates the bounded-exception "
+                "ceiling."
+            )
+        chord = math.dist(
+            forward.transform(
+                boundary["from_coordinate"]["longitude"],
+                boundary["from_coordinate"]["latitude"],
+            ),
+            forward.transform(
+                boundary["to_coordinate"]["longitude"],
+                boundary["to_coordinate"]["latitude"],
+            ),
+        )
+        if round(chord, 3) != length or abs(
+            chord - float(boundary["length_m"])
+        ) > OVERLAY_LENGTH_AGREEMENT_METERS:
+            raise ValueError(
+                f"Overlay for '{site_id}' length does not reproduce from its "
+                "pinned coordinates."
+            )
+        gates = overlay.get("gates")
+        if not isinstance(gates, dict):
+            raise ValueError(f"Overlay for '{site_id}' records no gates.")
+        for gate_name in (
+            "endpoint_position",
+            "length_bound",
+            "source_adjacency",
+            "self_intersection",
+        ):
+            gate = gates.get(gate_name)
+            if not isinstance(gate, dict) or gate.get("passed") is not True:
+                raise ValueError(
+                    f"Overlay for '{site_id}' gate '{gate_name}' did not pass."
+                )
+        position = gates["endpoint_position"]["measured"]
+        for field in ("from_node_distance_m", "to_node_distance_m"):
+            value = position.get(field)
+            if (
+                not isinstance(value, int | float)
+                or isinstance(value, bool)
+                or not math.isfinite(value)
+                or value > tolerance
+            ):
+                raise ValueError(
+                    f"Overlay for '{site_id}' endpoint distance exceeds the "
+                    "endpoint tolerance."
+                )
+        heading = gates.get("heading_continuity")
+        if not isinstance(heading, dict) or heading.get(
+            "deferred_to"
+        ) != "reconstruction-geometry-stage" or not str(
+            heading.get("reason", "")
+        ).strip():
+            raise ValueError(
+                f"Overlay for '{site_id}' does not defer heading to the "
+                "geometry stage explicitly."
+            )
+        deviation = (heading.get("measured") or {}).get(
+            "end_tangent_deviation_degrees"
+        )
+        if (
+            not isinstance(deviation, int | float)
+            or isinstance(deviation, bool)
+            or not math.isfinite(deviation)
+        ):
+            raise ValueError(
+                f"Overlay for '{site_id}' records no measured end-tangent "
+                "deviation for the geometry stage."
+            )
+        deferred = gates.get("deferred", {})
+        if deferred.get("gates") != list(RECONSTRUCTION_OVERLAY_DEFERRED_GATES) or not str(
+            deferred.get("reason", "")
+        ).strip():
+            raise ValueError(
+                f"Overlay for '{site_id}' does not record the deferred gates "
+                "explicitly."
+            )
+        adjoining = overlay.get("adjoining_records")
+        if not isinstance(adjoining, list) or not adjoining:
+            raise ValueError(f"Overlay for '{site_id}' records no adjoining records.")
+        if {record.get("end") for record in adjoining} != {"from", "to"}:
+            raise ValueError(
+                f"Overlay for '{site_id}' does not record both adjoining ends."
+            )
+        for record in adjoining:
+            if record.get("page_response_sha256") not in page_hashes:
+                raise ValueError(
+                    f"Overlay for '{site_id}' cites an unlocked page response."
+                )
+            distance = record.get("endpoint_distance_m")
+            if (
+                not isinstance(distance, int | float)
+                or isinstance(distance, bool)
+                or not math.isfinite(distance)
+                or distance > tolerance
+            ):
+                raise ValueError(
+                    f"Overlay for '{site_id}' adjoining record is not at the "
+                    "boundary."
+                )
+        evidence = overlay.get("evidence")
+        if not isinstance(evidence, list) or not evidence:
+            raise ValueError(f"Overlay for '{site_id}' cites no evidence.")
+        for item in evidence:
+            if not isinstance(item, dict):
+                raise ValueError(f"Overlay for '{site_id}' evidence entry is invalid.")
+            if "path" in item:
+                if not Path(str(item["path"])).is_file():
+                    raise ValueError(
+                        f"Overlay for '{site_id}' evidence path is missing: "
+                        f"{item['path']}"
+                    )
+            elif not (
+                isinstance(item.get("artifact"), str)
+                and SHA256_PATTERN.fullmatch(str(item.get("sha256", "")))
+            ):
+                raise ValueError(f"Overlay for '{site_id}' evidence entry is invalid.")
+
+    unconnected_ids = {
+        entry["segment_id"] for entry in edge_lock["segments"] if not entry.get("connected")
+    }
+    chain = payload.get("chain_connectivity", {})
+    chain_segments = chain.get("segments")
+    if not isinstance(chain_segments, list) or {
+        entry.get("segment_id") for entry in chain_segments
+    } != unconnected_ids:
+        raise ValueError(
+            "Reconstruction overlay chain connectivity does not cover exactly "
+            "the unconnected segments."
+        )
+    if canonical_sha256(chain_segments) != payload.get("chain_connectivity_sha256"):
+        raise ValueError("Reconstruction overlay chain connectivity digest drifted.")
+    overlay_site_ids = {overlay["site_id"] for overlay in overlays}
+    chained = 0
+    cited_overlays: set[str] = set()
+    for entry in chain_segments:
+        connected = entry.get("chain_connected_with_fills")
+        if not isinstance(connected, bool):
+            raise ValueError("Reconstruction overlay chain claim is invalid.")
+        if connected:
+            chained += 1
+            for site_id in entry.get("overlay_site_ids_on_chain", []):
+                if site_id not in overlay_site_ids:
+                    raise ValueError(
+                        f"Chained segment '{entry.get('segment_id')}' cites an "
+                        "unauthored overlay."
+                    )
+                cited_overlays.add(site_id)
+        elif not entry.get("remaining_blockers"):
+            raise ValueError(
+                f"Unchained segment '{entry.get('segment_id')}' records no "
+                "remaining blockers."
+            )
+    if chain.get("chained_segment_count") != chained or chain.get(
+        "unchained_segment_count"
+    ) != len(chain_segments) - chained:
+        raise ValueError(
+            "Reconstruction overlay chain connectivity counts do not reconcile."
+        )
+    corridor = payload.get("corridor", {})
+    connected_entries = [
+        entry for entry in edge_lock["segments"] if entry.get("connected")
+    ]
+    corridor_meters = sum(
+        float(entry["length_meters"]) for entry in connected_entries
+    ) + sum(
+        float(entry["chain_length_meters"])
+        for entry in chain_segments
+        if entry["chain_connected_with_fills"]
+    )
+    expected_corridor = {
+        "segment_count": len(edge_lock["segments"]),
+        "nhpn_connected_segment_count": len(connected_entries),
+        "chained_segment_count": chained,
+        "segments_chaining_anchor_to_anchor": len(connected_entries) + chained,
+        "continuously_chained_corridor_miles": round(
+            corridor_meters / METRES_PER_MILE, 1
+        ),
+        "note": corridor.get("note"),
+    }
+    if corridor != expected_corridor or not str(corridor.get("note", "")).strip():
+        raise ValueError("Reconstruction overlay corridor summary does not reconcile.")
     return payload

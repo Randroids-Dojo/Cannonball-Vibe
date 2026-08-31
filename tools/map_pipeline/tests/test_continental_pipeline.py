@@ -497,6 +497,143 @@ def test_a_distant_anchor_is_not_reported_as_connectivity() -> None:
     assert "anchor snap limit" in result["failure"]
 
 
+def test_an_on_edge_anchor_is_resolved_by_splitting_the_edge() -> None:
+    # The Q-034c/d shape: the anchor sits on a locked record's interior, far
+    # beyond the anchor snap limit of every record endpoint, so the solve must
+    # split that record's edge at the anchor's projection rather than fail or
+    # move the anchor. The unchanged 25 m limit still governs: the anchor's
+    # perpendicular offset to the record (10 m here) is the recorded distance.
+    metric_lines = (
+        _metric_line(1, [(0.0, 0.0), (1000.0, 0.0)]),
+        _metric_line(2, [(1000.0, 0.0), (1200.0, 0.0)]),
+    )
+    result = _solve_segment_edge_path(
+        {"id": "seg"}, metric_lines, (300.0, 10.0), (1200.0, 0.0),
+        ENDPOINT_SNAP_TOLERANCE_METERS,
+    )
+    assert result["connected"] is True
+    splits = result["anchor_edge_splits"]
+    assert [
+        (split["side"], split["object_id"], split["anchor_offset_m"])
+        for split in splits
+    ] == [("from", 1, 10.0)]
+    assert splits[0]["split_distance_along_part_m"] == pytest.approx(300.0)
+    assert result["from_transfer_node_snap_distance_m"] == pytest.approx(10.0)
+    # The path traverses only the sub-edge from the split point onward, and the
+    # lock records exactly which metre range of the record's part it covers.
+    assert result["length_meters"] == pytest.approx(900.0)
+    first = result["edges"][0]
+    assert first["object_id"] == 1
+    assert first["part_range_m"] == [300.0, 1000.0]
+    assert first["reversed_for_travel"] is False
+    assert "part_range_m" not in result["edges"][1]
+
+
+def test_a_split_sub_edge_travelled_backwards_is_recorded_reversed() -> None:
+    # Leaving the split toward the record's geometric start is travel against
+    # its authored direction, exactly like a whole reversed edge.
+    metric_lines = (
+        _metric_line(1, [(0.0, 0.0), (1000.0, 0.0)]),
+        _metric_line(2, [(0.0, 0.0), (-200.0, 0.0)]),
+    )
+    result = _solve_segment_edge_path(
+        {"id": "seg"}, metric_lines, (400.0, 5.0), (-200.0, 0.0),
+        ENDPOINT_SNAP_TOLERANCE_METERS,
+    )
+    assert result["connected"] is True
+    first = result["edges"][0]
+    assert first["part_range_m"] == [0.0, 400.0]
+    assert first["reversed_for_travel"] is True
+    assert result["length_meters"] == pytest.approx(600.0)
+
+
+def test_endpoint_snapping_takes_precedence_over_an_edge_split() -> None:
+    # An anchor within the snap limit of a record endpoint resolves onto that
+    # endpoint node exactly as before the fallback existed: the ten
+    # endpoint-anchored segments' solves must be untouched by construction.
+    metric_lines = (
+        _metric_line(1, [(0.0, 0.0), (100.0, 0.0)]),
+        _metric_line(2, [(100.0, 0.0), (200.0, 0.0)]),
+    )
+    result = _solve_segment_edge_path(
+        {"id": "seg"}, metric_lines, (3.0, 4.0), (200.0, 0.0),
+        ENDPOINT_SNAP_TOLERANCE_METERS,
+    )
+    assert result["connected"] is True
+    assert "anchor_edge_splits" not in result
+    assert result["from_transfer_node_snap_distance_m"] == pytest.approx(5.0)
+    assert all("part_range_m" not in edge for edge in result["edges"])
+
+
+def test_repository_edge_path_lock_records_the_q034_anchor_splits() -> None:
+    payload = json.loads(EDGE_PATH_LOCK_PATH.read_text(encoding="utf-8"))
+    splits = {
+        entry["segment_id"]: [
+            (split["side"], split["object_id"]) for split in entry["anchor_edge_splits"]
+        ]
+        for entry in payload["segments"]
+        if entry.get("anchor_edge_splits")
+    }
+    assert splits == {
+        "i78-holland-tunnel-to-i81": [("from", 433412)],
+        "i80-new-jersey-to-big-springs": [("from", 431704)],
+    }
+    for entry in payload["segments"]:
+        for split in entry.get("anchor_edge_splits", []):
+            assert split["anchor_offset_m"] <= ANCHOR_SNAP_LIMIT_METERS
+            assert (
+                entry[f"{split['side']}_transfer_node_snap_distance_m"]
+                == split["anchor_to_node_distance_m"]
+            )
+
+
+def _tamper_split(tmp_path: Path, mutate) -> Path:
+    payload = json.loads(EDGE_PATH_LOCK_PATH.read_text(encoding="utf-8"))
+    entry = next(
+        entry for entry in payload["segments"] if entry.get("anchor_edge_splits")
+    )
+    mutate(entry)
+    payload["segments_sha256"] = canonical_sha256(payload["segments"])
+    target = tmp_path / "edge-path-lock.json"
+    target.write_text(json.dumps(payload), encoding="utf-8")
+    return target
+
+
+def test_edge_path_lock_rejects_split_tampering(tmp_path: Path) -> None:
+    def widen(entry: dict) -> None:
+        entry["anchor_edge_splits"][0]["anchor_offset_m"] = (
+            ANCHOR_SNAP_LIMIT_METERS * 2
+        )
+
+    with pytest.raises(ValueError, match="exceeds the\\s+anchor snap limit"):
+        _validate(_tamper_split(tmp_path, widen))
+
+    def sideless(entry: dict) -> None:
+        entry["anchor_edge_splits"][0]["side"] = "sideways"
+
+    with pytest.raises(ValueError, match="without a valid side"):
+        _validate(_tamper_split(tmp_path, sideless))
+
+    def unlocked_page(entry: dict) -> None:
+        entry["anchor_edge_splits"][0]["page_response_sha256"] = "0" * 64
+
+    with pytest.raises(ValueError, match="unlocked page response"):
+        _validate(_tamper_split(tmp_path, unlocked_page))
+
+    def drifted_distance(entry: dict) -> None:
+        entry["anchor_edge_splits"][0]["anchor_to_node_distance_m"] = 1.5
+
+    with pytest.raises(ValueError, match="does\\s+not match its recorded split"):
+        _validate(_tamper_split(tmp_path, drifted_distance))
+
+    def exterior(entry: dict) -> None:
+        split = entry["anchor_edge_splits"][0]
+        split["split_distance_along_part_m"] = split["part_length_m"] + 1.0
+
+    with pytest.raises(ValueError, match="not interior\\s+to its record part"):
+        _validate(_tamper_split(tmp_path, exterior))
+
+
 
 
 def test_a_multi_part_feature_keeps_both_of_its_parts() -> None:
@@ -1855,6 +1992,9 @@ def test_nhs_probe_finding_is_derived_from_the_probed_sites() -> None:
 
 DISPOSITION_PATH = Path("data/routes/continental/break-disposition.v1.json")
 NHS_FILL_LOCK_PATH = Path("data/routes/continental/nhs-fill-lock.v1.json")
+OVERLAY_LOCK_PATH = Path(
+    "data/routes/continental/reconstruction-overlay-lock.v1.json"
+)
 
 
 class _WhereEchoTransport:
@@ -2162,7 +2302,11 @@ def _write_disposition(tmp_path: Path, payload: dict) -> Path:
     return target
 
 
-def _validate_disposition(path: Path, nhs_fill_lock: Path | None = None) -> dict:
+def _validate_disposition(
+    path: Path,
+    nhs_fill_lock: Path | None = None,
+    overlay_lock: Path | None = None,
+) -> dict:
     return continental.validate_continental_break_dispositions(
         path,
         SELECTION_PATH,
@@ -2172,6 +2316,7 @@ def _validate_disposition(path: Path, nhs_fill_lock: Path | None = None) -> dict
         EDGE_PATH_LOCK_PATH,
         CATALOG_PATH,
         nhs_fill_lock_path=nhs_fill_lock,
+        overlay_lock_path=overlay_lock,
     )
 
 
@@ -2268,18 +2413,65 @@ def test_break_disposition_requires_a_subitem_for_ambiguity(tmp_path: Path) -> N
 
 
 def test_repository_break_disposition_record_validates() -> None:
-    payload = _validate_disposition(DISPOSITION_PATH, NHS_FILL_LOCK_PATH)
+    payload = _validate_disposition(
+        DISPOSITION_PATH, NHS_FILL_LOCK_PATH, OVERLAY_LOCK_PATH
+    )
     assert payload["site_count"] == 14
     assert payload["open_question"] == "Q-034"
-    assert payload["status"] == "lock_revision_implemented_sub_items_pending"
+    assert payload["status"] == "lock_revision_implemented_topology_closed"
     assert payload["source_policy"]["locks_modified"] is True
-    assert payload["disposition_counts"]["nhpn_scoped_acquisition"] == 5
-    assert payload["disposition_counts"]["ambiguous"] == 2
+    assert payload["disposition_counts"] == {
+        "anchor_edge_split": 2,
+        "bounded_reconstruction_exception": 2,
+        "nhpn_scoped_acquisition": 5,
+        "nhs_fill": 5,
+    }
+    assert "ambiguous" not in payload["disposition_counts"]
 
 
 def test_implemented_disposition_requires_the_fill_lock() -> None:
     with pytest.raises(ValueError, match="requires the NHS fill lock"):
         _validate_disposition(DISPOSITION_PATH)
+
+
+def test_closed_disposition_requires_the_overlay_lock() -> None:
+    with pytest.raises(ValueError, match="requires the reconstruction overlay lock"):
+        _validate_disposition(DISPOSITION_PATH, NHS_FILL_LOCK_PATH)
+
+
+def test_closed_disposition_rejects_a_remaining_ambiguous_site(tmp_path: Path) -> None:
+    payload = json.loads(DISPOSITION_PATH.read_text(encoding="utf-8"))
+    site = next(
+        site for site in payload["sites"] if site["disposition"] == "anchor_edge_split"
+    )
+    site["disposition"] = "ambiguous"
+    site["q034_subitem"] = site.pop("resolved_q034_subitem")
+    site["blocking_question"] = "reopened for the validator test"
+    payload["disposition_counts"] = {
+        "ambiguous": 1,
+        "anchor_edge_split": 1,
+        "bounded_reconstruction_exception": 2,
+        "nhpn_scoped_acquisition": 5,
+        "nhs_fill": 5,
+    }
+    target = tmp_path / "disposition.json"
+    target.write_text(json.dumps(payload), encoding="utf-8")
+    with pytest.raises(ValueError, match="may not carry an ambiguous site"):
+        _validate_disposition(target, NHS_FILL_LOCK_PATH, OVERLAY_LOCK_PATH)
+
+
+def test_closed_disposition_rejects_an_unimplemented_anchor_split(
+    tmp_path: Path,
+) -> None:
+    payload = json.loads(DISPOSITION_PATH.read_text(encoding="utf-8"))
+    site = next(
+        site for site in payload["sites"] if site["disposition"] == "anchor_edge_split"
+    )
+    site["anchor_split"]["object_id"] = 999_999_999
+    target = tmp_path / "disposition.json"
+    target.write_text(json.dumps(payload), encoding="utf-8")
+    with pytest.raises(ValueError, match="matching\\s+anchor edge split"):
+        _validate_disposition(target, NHS_FILL_LOCK_PATH, OVERLAY_LOCK_PATH)
 
 
 def test_repository_nhs_fill_lock_validates() -> None:
@@ -2296,18 +2488,31 @@ def test_repository_nhs_fill_lock_validates() -> None:
     assert payload["westbound_selection_validated"] is False
     assert payload["ancestry"]["nhs_centerlines"]["decision"] == "ADR-0026"
     chain = payload["chain_connectivity"]
-    assert chain["chained_segment_count"] == 2
+    # i78 chains at the fill stage: the Delaware River fill plus the Q-034c
+    # anchor edge split. i80 still waits on its two authored overlays, which
+    # bridge in the reconstruction overlay lock, not here.
+    assert chain["chained_segment_count"] == 3
     blocked = {
         entry["segment_id"]: entry["remaining_blockers"]
         for entry in chain["segments"]
         if not entry["chain_connected_with_fills"]
     }
-    assert set(blocked) == {
-        "i78-holland-tunnel-to-i81",
-        "i80-new-jersey-to-big-springs",
-    }
+    assert set(blocked) == {"i80-new-jersey-to-big-springs"}
     for blockers in blocked.values():
         assert blockers
+        assert {blocker["disposition"] for blocker in blockers} == {
+            "bounded_reconstruction_exception"
+        }
+    i78 = next(
+        entry
+        for entry in chain["segments"]
+        if entry["segment_id"] == "i78-holland-tunnel-to-i81"
+    )
+    assert i78["chain_connected_with_fills"] is True
+    assert [
+        (split["side"], split["object_id"])
+        for split in i78["anchor_edge_splits"]
+    ] == [("from", 433412)]
 
 
 def test_repository_candidate_lock_carries_the_q034_supplements() -> None:
@@ -2327,3 +2532,217 @@ def test_repository_candidate_lock_carries_the_q034_supplements() -> None:
         "i70-denver-to-cove-fort--component-01-02": [59709],
     }
     assert payload["nhpn"]["candidate_union"]["expected_count"] == 15_553
+
+
+# --- ADR-0018 reconstruction gates: authored micro-gap overlays -----------------
+
+
+def _overlay_exception_site(
+    from_xy: tuple[float, float],
+    to_xy: tuple[float, float],
+    length: float,
+    site_id: str = "seg--component-00-01",
+) -> dict:
+    return {
+        "site_id": site_id,
+        "segment_id": "seg",
+        "kind": "component_gap",
+        "disposition": "bounded_reconstruction_exception",
+        "exception": {
+            "kind": "authoring_micro_gap",
+            "rationale": "fabricated authoring micro-gap",
+            "boundary": {
+                "from_coordinate": {"longitude": from_xy[0], "latitude": from_xy[1]},
+                "to_coordinate": {"longitude": to_xy[0], "latitude": to_xy[1]},
+                "length_m": length,
+            },
+        },
+    }
+
+
+def _author_overlay(site: dict, metric_lines) -> dict:
+    return continental._author_overlay_for_site(
+        site,
+        tuple(metric_lines),
+        ENDPOINT_SNAP_TOLERANCE_METERS,
+        _metric_identity(),
+        [{"path": "docs/audits/p0-021/2026-08-31-per-site-disposition.md"}],
+    )
+
+
+def test_overlay_authoring_passes_every_applicable_gate() -> None:
+    # Two records milepost-contiguous on one key, authored 5 m apart: the
+    # Omaha shape. The overlay must bind to both chain ends exactly, prove the
+    # source's asserted adjacency, and record the heading constraint for the
+    # geometry stage rather than adjudicating it at chord scale.
+    metric_lines = [
+        _metric_line(1, [(0.0, 0.0), (100.0, 0.0)], record=(0.0, 1.0)),
+        _metric_line(2, [(105.0, 0.0), (205.0, 0.0)], record=(1.0, 2.0)),
+    ]
+    overlay = _author_overlay(
+        _overlay_exception_site((100.0, 0.0), (105.0, 0.0), 5.0), metric_lines
+    )
+    assert overlay["overlay_id"] == "seg--component-00-01--authored-overlay"
+    gates = overlay["gates"]
+    for name in ("endpoint_position", "length_bound", "source_adjacency", "self_intersection"):
+        assert gates[name]["passed"] is True
+    assert gates["source_adjacency"]["measured"]["object_ids"] == [1, 2]
+    heading = gates["heading_continuity"]
+    assert heading["deferred_to"] == "reconstruction-geometry-stage"
+    assert heading["measured"]["end_tangent_deviation_degrees"] == pytest.approx(0.0)
+    assert gates["deferred"]["gates"] == list(
+        continental.RECONSTRUCTION_OVERLAY_DEFERRED_GATES
+    )
+    assert overlay["geometry"]["length_m"] == pytest.approx(5.0)
+    assert {record["end"] for record in overlay["adjoining_records"]} == {"from", "to"}
+
+
+def test_overlay_authoring_rejects_a_boundary_off_the_chain_ends() -> None:
+    metric_lines = [
+        _metric_line(1, [(0.0, 0.0), (100.0, 0.0)], record=(0.0, 1.0)),
+        _metric_line(2, [(105.0, 0.0), (205.0, 0.0)], record=(1.0, 2.0)),
+    ]
+    with pytest.raises(ValueError, match="endpoint_position"):
+        _author_overlay(
+            _overlay_exception_site((97.0, 0.0), (105.0, 0.0), 8.0), metric_lines
+        )
+
+
+def test_overlay_authoring_rejects_a_gap_the_source_does_not_assert() -> None:
+    # Records on the same key but not milepost-contiguous: a real void wearing
+    # a micro-gap's size. ADR-0018 forbids authoring over it.
+    metric_lines = [
+        _metric_line(1, [(0.0, 0.0), (100.0, 0.0)], record=(0.0, 1.0)),
+        _metric_line(2, [(105.0, 0.0), (205.0, 0.0)], record=(1.5, 2.0)),
+    ]
+    with pytest.raises(ValueError, match="source_adjacency"):
+        _author_overlay(
+            _overlay_exception_site((100.0, 0.0), (105.0, 0.0), 5.0), metric_lines
+        )
+
+
+def test_overlay_authoring_enforces_the_exception_ceiling() -> None:
+    metric_lines = [
+        _metric_line(1, [(0.0, 0.0), (100.0, 0.0)], record=(0.0, 1.0)),
+        _metric_line(2, [(140.0, 0.0), (240.0, 0.0)], record=(1.0, 2.0)),
+    ]
+    with pytest.raises(ValueError, match="length_bound"):
+        _author_overlay(
+            _overlay_exception_site((100.0, 0.0), (140.0, 0.0), 40.0), metric_lines
+        )
+
+
+def test_overlay_authoring_rejects_a_drifted_pinned_length() -> None:
+    metric_lines = [
+        _metric_line(1, [(0.0, 0.0), (100.0, 0.0)], record=(0.0, 1.0)),
+        _metric_line(2, [(105.0, 0.0), (205.0, 0.0)], record=(1.0, 2.0)),
+    ]
+    with pytest.raises(ValueError, match="length_bound"):
+        _author_overlay(
+            _overlay_exception_site((100.0, 0.0), (105.0, 0.0), 5.5), metric_lines
+        )
+
+
+def _validate_overlay_lock(path: Path) -> dict:
+    return continental.validate_continental_reconstruction_overlays(
+        path,
+        DISPOSITION_PATH,
+        SELECTION_PATH,
+        LOCK_PATH,
+        TRANSFER_LOCK_PATH,
+        TRANSFER_POLICY_PATH,
+        EDGE_PATH_LOCK_PATH,
+        NHS_FILL_LOCK_PATH,
+        CATALOG_PATH,
+    )
+
+
+def _tampered_overlay_lock(tmp_path: Path, mutate) -> Path:
+    payload = json.loads(OVERLAY_LOCK_PATH.read_text(encoding="utf-8"))
+    mutate(payload)
+    payload["overlay_count"] = len(payload["overlays"])
+    payload["overlays_sha256"] = canonical_sha256(payload["overlays"])
+    payload["chain_connectivity_sha256"] = canonical_sha256(
+        payload["chain_connectivity"]["segments"]
+    )
+    target = tmp_path / "reconstruction-overlay-lock.json"
+    target.write_text(json.dumps(payload), encoding="utf-8")
+    return target
+
+
+def test_repository_reconstruction_overlay_lock_validates() -> None:
+    payload = _validate_overlay_lock(OVERLAY_LOCK_PATH)
+    assert payload["decision"] == "ADR-0018"
+    assert payload["overlay_count"] == 2
+    corridor = payload["corridor"]
+    assert corridor["segments_chaining_anchor_to_anchor"] == 12
+    assert corridor["segment_count"] == 12
+    deviations = {
+        overlay["site_id"]: overlay["gates"]["heading_continuity"]["measured"][
+            "end_tangent_deviation_degrees"
+        ]
+        for overlay in payload["overlays"]
+    }
+    # Omaha continues straight through its 1.011 m gap; the Quad Cities gap
+    # sits on the I-80/I-74 interchange corner of I-80's own LRS, and the
+    # measured corner is the geometry stage's authoring constraint.
+    assert deviations == {
+        "i80-new-jersey-to-big-springs--component-00-01": 0.0,
+        "i80-new-jersey-to-big-springs--component-01-02": 77.2,
+    }
+    i80 = next(
+        entry
+        for entry in payload["chain_connectivity"]["segments"]
+        if entry["segment_id"] == "i80-new-jersey-to-big-springs"
+    )
+    assert i80["chain_connected_with_fills"] is True
+    assert i80["overlay_site_ids_on_chain"] == [
+        "i80-new-jersey-to-big-springs--component-00-01",
+        "i80-new-jersey-to-big-springs--component-01-02",
+    ]
+
+
+def test_overlay_lock_rejects_semantic_tampering(tmp_path: Path) -> None:
+    def direction(payload: dict) -> None:
+        payload["westbound_selection_validated"] = True
+
+    with pytest.raises(ValueError, match="westbound selection"):
+        _validate_overlay_lock(_tampered_overlay_lock(tmp_path, direction))
+
+    def boundary(payload: dict) -> None:
+        payload["overlays"][0]["boundary"]["length_m"] = 2.0
+
+    with pytest.raises(ValueError, match="pinned exception boundary"):
+        _validate_overlay_lock(_tampered_overlay_lock(tmp_path, boundary))
+
+    def failed_gate(payload: dict) -> None:
+        payload["overlays"][0]["gates"]["source_adjacency"]["passed"] = False
+
+    with pytest.raises(ValueError, match="did not pass"):
+        _validate_overlay_lock(_tampered_overlay_lock(tmp_path, failed_gate))
+
+    def missing_heading(payload: dict) -> None:
+        payload["overlays"][0]["gates"]["heading_continuity"]["measured"] = {}
+
+    with pytest.raises(ValueError, match="measured end-tangent"):
+        _validate_overlay_lock(_tampered_overlay_lock(tmp_path, missing_heading))
+
+    def partial_coverage(payload: dict) -> None:
+        payload["overlays"] = payload["overlays"][:1]
+
+    with pytest.raises(ValueError, match="cover exactly"):
+        _validate_overlay_lock(_tampered_overlay_lock(tmp_path, partial_coverage))
+
+    def unauthored_citation(payload: dict) -> None:
+        for entry in payload["chain_connectivity"]["segments"]:
+            if entry.get("overlay_site_ids_on_chain"):
+                entry["overlay_site_ids_on_chain"].append("seg--component-99-99")
+
+    with pytest.raises(ValueError, match="unauthored overlay"):
+        _validate_overlay_lock(_tampered_overlay_lock(tmp_path, unauthored_citation))
+
+    def corridor_drift(payload: dict) -> None:
+        payload["corridor"]["continuously_chained_corridor_miles"] += 100.0
+
+    with pytest.raises(ValueError, match="corridor summary"):
+        _validate_overlay_lock(_tampered_overlay_lock(tmp_path, corridor_drift))
