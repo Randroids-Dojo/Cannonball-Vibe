@@ -1,5 +1,5 @@
 {
-  "acquired_at": "2026-08-31T07:06:45Z",
+  "acquired_at": "2026-08-31T07:48:10Z",
   "ancestry": {
     "nhpn_backbone": {
       "candidate_lock_sha256": "cbdaaa3710e2b2e9409628f32fb1ef16228ec2256c5b8f1428d3363618e73900",
@@ -16,7 +16,7 @@
   "candidate_lock_sha256": "cbdaaa3710e2b2e9409628f32fb1ef16228ec2256c5b8f1428d3363618e73900",
   "catalog_sha256": "4d3a4c115875fc7e72f12e6a9d32a31d4b103a1b73bdbc731f47864989b8447f",
   "chain_connectivity": {
-    "chained_segment_count": 2,
+    "chained_segment_count": 3,
     "note": "Anchor-to-anchor connectivity of each unconnected segment once every locked NHS fill bridges its pinned break ends. A chained segment is a mixed-ancestry chain (NHPN backbone plus NHS fill chords), not an NHPN path, not a westbound selection, and not an authoritative distance.",
     "segments": [
       {
@@ -29,6 +29,9 @@
         ],
         "from_anchor_snap_distance_m": 0.0,
         "nhpn_path_meters": 3364630.933,
+        "overlay_bridge_count": 0,
+        "overlay_chord_meters": 0.0,
+        "overlay_site_ids_on_chain": [],
         "remaining_blockers": [],
         "segment_id": "i40-i81-to-barstow",
         "to_anchor_snap_distance_m": 0.0
@@ -43,39 +46,62 @@
         ],
         "from_anchor_snap_distance_m": 0.0,
         "nhpn_path_meters": 804256.944,
+        "overlay_bridge_count": 0,
+        "overlay_chord_meters": 0.0,
+        "overlay_site_ids_on_chain": [],
         "remaining_blockers": [],
         "segment_id": "i70-denver-to-cove-fort",
         "to_anchor_snap_distance_m": 0.0
       },
       {
-        "chain_connected_with_fills": false,
-        "fill_bridge_count": 1,
-        "from_anchor_snap_distance_m": 381.157,
-        "remaining_blockers": [
+        "anchor_edge_splits": [
           {
-            "disposition": "ambiguous",
-            "q034_subitem": "Q-034c",
-            "site_id": "i78-holland-tunnel-to-i81--anchor-from"
-          },
-          {
-            "distance_m": 381.157,
-            "kind": "anchor_beyond_snap_limit",
-            "side": "from"
+            "anchor_offset_m": 0.0,
+            "anchor_to_node_distance_m": 0.0,
+            "object_id": 433412,
+            "page_response_sha256": "925d7b3b9230aedd9073b2c60cad8778be05b339deca709a82a3546bfee7f4ef",
+            "part_index": 0,
+            "part_length_m": 1576.081,
+            "reused_existing_node": false,
+            "side": "from",
+            "split_distance_along_part_m": 390.116
           }
         ],
+        "chain_connected_with_fills": true,
+        "chain_length_meters": 231084.599,
+        "fill_bridge_count": 1,
+        "fill_chord_meters": 3021.991,
+        "fill_site_ids_on_chain": [
+          "i78-holland-tunnel-to-i81--component-00-01"
+        ],
+        "from_anchor_snap_distance_m": 0.0,
+        "nhpn_path_meters": 228062.608,
+        "overlay_bridge_count": 0,
+        "overlay_chord_meters": 0.0,
+        "overlay_site_ids_on_chain": [],
+        "remaining_blockers": [],
         "segment_id": "i78-holland-tunnel-to-i81",
         "to_anchor_snap_distance_m": 0.0
       },
       {
+        "anchor_edge_splits": [
+          {
+            "anchor_offset_m": 0.0,
+            "anchor_to_node_distance_m": 0.0,
+            "object_id": 431704,
+            "page_response_sha256": "684abb6b84bfd52960a2debe3a6c344f2330cb3c3dcf781ac5f0b947fe7aa220",
+            "part_index": 0,
+            "part_length_m": 742.918,
+            "reused_existing_node": false,
+            "side": "from",
+            "split_distance_along_part_m": 253.029
+          }
+        ],
         "chain_connected_with_fills": false,
         "fill_bridge_count": 0,
-        "from_anchor_snap_distance_m": 253.027,
+        "from_anchor_snap_distance_m": 0.0,
+        "overlay_bridge_count": 0,
         "remaining_blockers": [
-          {
-            "disposition": "ambiguous",
-            "q034_subitem": "Q-034d",
-            "site_id": "i80-new-jersey-to-big-springs--anchor-from"
-          },
           {
             "disposition": "bounded_reconstruction_exception",
             "site_id": "i80-new-jersey-to-big-springs--component-00-01"
@@ -83,30 +109,24 @@
           {
             "disposition": "bounded_reconstruction_exception",
             "site_id": "i80-new-jersey-to-big-springs--component-01-02"
-          },
-          {
-            "distance_m": 253.027,
-            "kind": "anchor_beyond_snap_limit",
-            "side": "from"
           }
         ],
         "segment_id": "i80-new-jersey-to-big-springs",
         "to_anchor_snap_distance_m": 0.0
       }
     ],
-    "unchained_segment_count": 2
+    "unchained_segment_count": 1
   },
-  "chain_connectivity_sha256": "ef1146e6be4e669b5552f6bb487c04cc0d171197721380f2dbf2fed56c33738c",
+  "chain_connectivity_sha256": "234eb49b9284bd473e29e042a6d961622f58e983f28fc8088457da9a534c65f3",
   "coordinate_crs": "EPSG:4326",
   "decision": "ADR-0024",
-  "edge_path_lock_sha256": "846da2e3727a84c823fbb5f6dedb189fbdb57a951a7f999eb068ef426c448521",
+  "edge_path_lock_sha256": "fcf0da1dcff80eb74364b1496e2033c351b14c25cbbf7f857e8af8a42295fc5e",
   "endpoint_snap_tolerance_m": 1.0,
   "metric_crs": "EPSG:5070",
   "next_stage": {
     "id": "nhpn-nhs-conflation-and-reconstruction",
     "requires": [
       "NHPN-to-NHS conflation model over the locked fill spans",
-      "ADR-0018 reconstruction gates for the bounded exception overlays",
       "3DEP product lock over the chained corridor"
     ]
   },
@@ -134,7 +154,7 @@
   "site_count": 5,
   "sites": [
     {
-      "acquired_at": "2026-08-31T07:06:45Z",
+      "acquired_at": "2026-08-31T07:48:10Z",
       "envelope_4326": [
         -111.8187398,
         39.9761599,
@@ -917,7 +937,7 @@
       }
     },
     {
-      "acquired_at": "2026-08-31T07:06:45Z",
+      "acquired_at": "2026-08-31T07:48:10Z",
       "envelope_4326": [
         -106.6534298,
         35.1008375,
@@ -1089,7 +1109,7 @@
       }
     },
     {
-      "acquired_at": "2026-08-31T07:06:45Z",
+      "acquired_at": "2026-08-31T07:48:10Z",
       "envelope_4326": [
         -106.6330072,
         35.0510808,
@@ -1454,7 +1474,7 @@
       }
     },
     {
-      "acquired_at": "2026-08-31T07:06:45Z",
+      "acquired_at": "2026-08-31T07:48:10Z",
       "envelope_4326": [
         -107.8788586,
         39.5078416,
@@ -1524,7 +1544,7 @@
       }
     },
     {
-      "acquired_at": "2026-08-31T07:06:45Z",
+      "acquired_at": "2026-08-31T07:48:10Z",
       "envelope_4326": [
         -75.2174021,
         40.6620437,
@@ -1625,7 +1645,7 @@
       }
     }
   ],
-  "sites_sha256": "1d8eba69a62768681af54990115b98fe6b5d1721e2fb5e7e27e1049ce8a1760a",
+  "sites_sha256": "551c93126f9291ff49755ff9544ad9eb12ba6a97206131176236513d0a35270e",
   "source_policy": {
     "authoritative_distance_claimed": false,
     "conflation_performed": false,

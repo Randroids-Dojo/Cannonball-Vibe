@@ -5,7 +5,7 @@
   "connected_segment_count": 8,
   "coordinate_crs": "EPSG:4326",
   "decision": "ADR-0024",
-  "derived_at": "2026-08-31T07:04:50Z",
+  "derived_at": "2026-08-31T07:47:07Z",
   "endpoint_snap_tolerance_m": 1.0,
   "metric_crs": "EPSG:5070",
   "next_stage": {
@@ -21,6 +21,19 @@
   "segment_count": 12,
   "segments": [
     {
+      "anchor_edge_splits": [
+        {
+          "anchor_offset_m": 0.0,
+          "anchor_to_node_distance_m": 0.0,
+          "object_id": 431704,
+          "page_response_sha256": "684abb6b84bfd52960a2debe3a6c344f2330cb3c3dcf781ac5f0b947fe7aa220",
+          "part_index": 0,
+          "part_length_m": 742.918,
+          "reused_existing_node": false,
+          "side": "from",
+          "split_distance_along_part_m": 253.029
+        }
+      ],
       "anchor_snap_limit_m": 25.0,
       "candidate_line_count": 2105,
       "chain_end_count": 7,
@@ -43,13 +56,15 @@
         "3+": 3
       },
       "endpoint_snap_tolerance_m": 1.0,
-      "failure": "a locked transfer anchor is farther than the anchor snap limit",
-      "from_transfer_node_snap_distance_m": 253.027,
-      "graph_edge_count": 2101,
-      "graph_node_count": 2103,
+      "failure": "no connected path between the locked transfer nodes",
+      "from_component_node_count": 1454,
+      "from_transfer_node_snap_distance_m": 0.0,
+      "graph_edge_count": 2102,
+      "graph_node_count": 2104,
       "maximum_endpoint_snap_distance_m": 0.428624,
       "milepost_contiguous_chain_end_pairs": 2,
       "segment_id": "i80-new-jersey-to-big-springs",
+      "to_component_node_count": 206,
       "to_transfer_node_snap_distance_m": 0.0
     },
     {
@@ -8304,6 +8319,19 @@
       "to_transfer_node_snap_distance_m": 0.0
     },
     {
+      "anchor_edge_splits": [
+        {
+          "anchor_offset_m": 0.0,
+          "anchor_to_node_distance_m": 0.0,
+          "object_id": 433412,
+          "page_response_sha256": "925d7b3b9230aedd9073b2c60cad8778be05b339deca709a82a3546bfee7f4ef",
+          "part_index": 0,
+          "part_length_m": 1576.081,
+          "reused_existing_node": false,
+          "side": "from",
+          "split_distance_along_part_m": 390.116
+        }
+      ],
       "anchor_snap_limit_m": 25.0,
       "candidate_line_count": 275,
       "chain_end_count": 6,
@@ -8325,13 +8353,15 @@
         "3+": 2
       },
       "endpoint_snap_tolerance_m": 1.0,
-      "failure": "a locked transfer anchor is farther than the anchor snap limit",
-      "from_transfer_node_snap_distance_m": 381.157,
-      "graph_edge_count": 275,
-      "graph_node_count": 277,
+      "failure": "no connected path between the locked transfer nodes",
+      "from_component_node_count": 168,
+      "from_transfer_node_snap_distance_m": 0.0,
+      "graph_edge_count": 276,
+      "graph_node_count": 278,
       "maximum_endpoint_snap_distance_m": 0.0,
       "milepost_contiguous_chain_end_pairs": 0,
       "segment_id": "i78-holland-tunnel-to-i81",
+      "to_component_node_count": 110,
       "to_transfer_node_snap_distance_m": 0.0
     },
     {
@@ -27053,7 +27083,7 @@
       "to_transfer_node_snap_distance_m": 23.248
     }
   ],
-  "segments_sha256": "a58ed7d39b414a30ec9a5f9946cd079ba903b62d0c5f864bb687fb5584b0a325",
+  "segments_sha256": "c63b0d8511e017228942455a32f400d8885c28be16ec5af5d12e1d10a7d789ef",
   "source_policy": {
     "authoritative_distance_claimed": false,
     "candidate_source": "usdot-national-highway-planning-network",

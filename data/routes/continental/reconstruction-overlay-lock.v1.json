@@ -1,0 +1,501 @@
+{
+  "anchor_snap_limit_m": 25.0,
+  "authored_at": "2026-08-31T07:52:40Z",
+  "break_disposition_sha256": "48c9a40e33bf6a306c06232dc3c191c53e7a9ed73d17b412d7cf73e7eb137405",
+  "candidate_lock_sha256": "cbdaaa3710e2b2e9409628f32fb1ef16228ec2256c5b8f1428d3363618e73900",
+  "catalog_sha256": "4d3a4c115875fc7e72f12e6a9d32a31d4b103a1b73bdbc731f47864989b8447f",
+  "chain_connectivity": {
+    "chained_segment_count": 4,
+    "note": "Anchor-to-anchor connectivity of each unconnected segment over the closed topology: NHPN backbone, locked NHS fill chords, authored ADR-0018 overlay chords, and the Q-034c/d on-edge anchors resolved by the edge-split fallback. A chained segment is a mixed-ancestry chain, not an NHPN path, not a westbound selection, and not an authoritative distance.",
+    "segments": [
+      {
+        "chain_connected_with_fills": true,
+        "chain_length_meters": 3366484.933,
+        "fill_bridge_count": 2,
+        "fill_chord_meters": 1854.0,
+        "fill_site_ids_on_chain": [
+          "i40-i81-to-barstow--component-01-02"
+        ],
+        "from_anchor_snap_distance_m": 0.0,
+        "nhpn_path_meters": 3364630.933,
+        "overlay_bridge_count": 0,
+        "overlay_chord_meters": 0.0,
+        "overlay_site_ids_on_chain": [],
+        "remaining_blockers": [],
+        "segment_id": "i40-i81-to-barstow",
+        "to_anchor_snap_distance_m": 0.0
+      },
+      {
+        "chain_connected_with_fills": true,
+        "chain_length_meters": 804576.944,
+        "fill_bridge_count": 1,
+        "fill_chord_meters": 320.0,
+        "fill_site_ids_on_chain": [
+          "i70-denver-to-cove-fort--component-00-01"
+        ],
+        "from_anchor_snap_distance_m": 0.0,
+        "nhpn_path_meters": 804256.944,
+        "overlay_bridge_count": 0,
+        "overlay_chord_meters": 0.0,
+        "overlay_site_ids_on_chain": [],
+        "remaining_blockers": [],
+        "segment_id": "i70-denver-to-cove-fort",
+        "to_anchor_snap_distance_m": 0.0
+      },
+      {
+        "anchor_edge_splits": [
+          {
+            "anchor_offset_m": 0.0,
+            "anchor_to_node_distance_m": 0.0,
+            "object_id": 433412,
+            "page_response_sha256": "925d7b3b9230aedd9073b2c60cad8778be05b339deca709a82a3546bfee7f4ef",
+            "part_index": 0,
+            "part_length_m": 1576.081,
+            "reused_existing_node": false,
+            "side": "from",
+            "split_distance_along_part_m": 390.116
+          }
+        ],
+        "chain_connected_with_fills": true,
+        "chain_length_meters": 231084.599,
+        "fill_bridge_count": 1,
+        "fill_chord_meters": 3021.991,
+        "fill_site_ids_on_chain": [
+          "i78-holland-tunnel-to-i81--component-00-01"
+        ],
+        "from_anchor_snap_distance_m": 0.0,
+        "nhpn_path_meters": 228062.608,
+        "overlay_bridge_count": 0,
+        "overlay_chord_meters": 0.0,
+        "overlay_site_ids_on_chain": [],
+        "remaining_blockers": [],
+        "segment_id": "i78-holland-tunnel-to-i81",
+        "to_anchor_snap_distance_m": 0.0
+      },
+      {
+        "anchor_edge_splits": [
+          {
+            "anchor_offset_m": 0.0,
+            "anchor_to_node_distance_m": 0.0,
+            "object_id": 431704,
+            "page_response_sha256": "684abb6b84bfd52960a2debe3a6c344f2330cb3c3dcf781ac5f0b947fe7aa220",
+            "part_index": 0,
+            "part_length_m": 742.918,
+            "reused_existing_node": false,
+            "side": "from",
+            "split_distance_along_part_m": 253.029
+          }
+        ],
+        "chain_connected_with_fills": true,
+        "chain_length_meters": 2504070.528,
+        "fill_bridge_count": 0,
+        "fill_chord_meters": 0.0,
+        "fill_site_ids_on_chain": [],
+        "from_anchor_snap_distance_m": 0.0,
+        "nhpn_path_meters": 2504060.327,
+        "overlay_bridge_count": 2,
+        "overlay_chord_meters": 10.201,
+        "overlay_site_ids_on_chain": [
+          "i80-new-jersey-to-big-springs--component-00-01",
+          "i80-new-jersey-to-big-springs--component-01-02"
+        ],
+        "remaining_blockers": [],
+        "segment_id": "i80-new-jersey-to-big-springs",
+        "to_anchor_snap_distance_m": 0.0
+      }
+    ],
+    "unchained_segment_count": 0
+  },
+  "chain_connectivity_sha256": "221baacbb5d747d5f3b161e88707bb41997b4cd182f303c1894204548c6d8e5e",
+  "coordinate_crs": "EPSG:4326",
+  "corridor": {
+    "chained_segment_count": 4,
+    "continuously_chained_corridor_miles": 6294.1,
+    "nhpn_connected_segment_count": 8,
+    "note": "Chain lengths are shortest undirected mixed-ancestry chains; fill and overlay spans contribute chord length only. Not an authoritative distance and not a westbound selection.",
+    "segment_count": 12,
+    "segments_chaining_anchor_to_anchor": 12
+  },
+  "decision": "ADR-0018",
+  "edge_path_lock_sha256": "fcf0da1dcff80eb74364b1496e2033c351b14c25cbbf7f857e8af8a42295fc5e",
+  "endpoint_snap_tolerance_m": 1.0,
+  "maximum_exception_length_m": 30.0,
+  "metric_crs": "EPSG:5070",
+  "next_stage": {
+    "id": "nhpn-nhs-conflation-and-3dep-lock",
+    "requires": [
+      "NHPN-to-NHS geometry conflation over the locked fill spans",
+      "3DEP product, resolution, and datum lock over the chained corridor",
+      "westbound directed edge selection over the closed topology"
+    ]
+  },
+  "nhs_fill_lock_sha256": "2d05552540107464344aa579e833333a17539de3f1ab7ac8595d5b3ad98c2852",
+  "open_question": "Q-034",
+  "overlay_count": 2,
+  "overlays": [
+    {
+      "adjoining_records": [
+        {
+          "end": "from",
+          "endpoint_distance_m": 0.0,
+          "joined_at": "start",
+          "lrs_key": "000000008000055",
+          "object_id": 189376,
+          "page_response_sha256": "684abb6b84bfd52960a2debe3a6c344f2330cb3c3dcf781ac5f0b947fe7aa220",
+          "part_index": 0,
+          "record_begin_milepost": 444.787,
+          "record_end_milepost": 445.032
+        },
+        {
+          "end": "to",
+          "endpoint_distance_m": 0.0,
+          "joined_at": "start",
+          "lrs_key": "000000008000055",
+          "object_id": 189077,
+          "page_response_sha256": "684abb6b84bfd52960a2debe3a6c344f2330cb3c3dcf781ac5f0b947fe7aa220",
+          "part_index": 0,
+          "record_begin_milepost": 445.032,
+          "record_end_milepost": 445.369
+        }
+      ],
+      "boundary": {
+        "from_coordinate": {
+          "latitude": 41.216201000276,
+          "longitude": -96.09089100022
+        },
+        "length_m": 1.011,
+        "to_coordinate": {
+          "latitude": 41.216209999792,
+          "longitude": -96.090892000266
+        }
+      },
+      "evidence": [
+        {
+          "path": "docs/audits/p0-021/2026-08-30-geometric-break-probe.md"
+        },
+        {
+          "path": "docs/audits/p0-021/2026-08-30-spatial-break-probe.md"
+        },
+        {
+          "path": "docs/audits/p0-021/2026-08-27-large-gap-probe.md"
+        },
+        {
+          "path": "docs/audits/p0-021/2026-08-31-per-site-disposition.md"
+        },
+        {
+          "artifact": ".tools/continental/interior-sweep.json",
+          "sha256": "849c5db967f0b8503aab6d034419d38f1cd4d3f7b324d681cb2a5698f9fc7f69"
+        },
+        {
+          "artifact": ".tools/continental/nhs-break-probe.json",
+          "sha256": "db2c70de279bc551512d8cffb7ceb39739a697ae6de5bb263b7e224fd9d695ef"
+        },
+        {
+          "path": "docs/audits/p0-021/2026-08-31-lock-revision.md"
+        },
+        {
+          "path": "data/routes/continental/nhs-fill-lock.v1.json"
+        },
+        {
+          "path": "docs/audits/p0-021/2026-08-31-topology-closure.md"
+        },
+        {
+          "path": "data/routes/continental/reconstruction-overlay-lock.v1.json"
+        },
+        {
+          "path": "data/routes/continental/break-disposition.v1.json"
+        }
+      ],
+      "gates": {
+        "deferred": {
+          "deferred_to": "reconstruction-geometry-stage",
+          "gates": [
+            "curvature",
+            "curvature_rate",
+            "grade",
+            "vertical_curvature",
+            "sightline",
+            "clearance",
+            "collision",
+            "lane_connection",
+            "drivability"
+          ],
+          "reason": "These gates measure generated road geometry and elevation. The overlay authored here is a bounded topological closure of a source authoring micro-gap, not drivable surface geometry; the deferred gates run when the reconstruction-geometry stage generates the actual road over the closed topology with locked 3DEP elevation."
+        },
+        "endpoint_position": {
+          "measured": {
+            "from_node_distance_m": 0.0,
+            "to_node_distance_m": 0.0
+          },
+          "passed": true,
+          "threshold": {
+            "maximum_m": 1.0
+          }
+        },
+        "heading_continuity": {
+          "deferred_to": "reconstruction-geometry-stage",
+          "measured": {
+            "end_tangent_chord_m": 25.0,
+            "end_tangent_deviation_degrees": 0.0
+          },
+          "reason": "At micro-gap scale a chord's own bearing measures authoring noise, and an authoring gap may sit exactly on an interchange corner of the route's own LRS - the Quad Cities gap does, with 77.2 degrees between its adjoining end tangents at the I-80/I-74 corner - so heading is not adjudicated against a straight-through assumption here. Heading and curvature are properties of the generated road, judged by the reconstruction-geometry stage's gates; the measured end-tangent deviation is recorded as that stage's authoring constraint for this connection."
+        },
+        "length_bound": {
+          "measured": {
+            "chord_length_m": 1.011,
+            "pinned_m": 1.011
+          },
+          "passed": true,
+          "threshold": {
+            "ceiling_m": 30.0,
+            "pinned_agreement_m": 0.005
+          }
+        },
+        "self_intersection": {
+          "measured": {
+            "distinct_endpoints": true,
+            "vertex_count": 2
+          },
+          "passed": true,
+          "threshold": {
+            "rule": "a two-vertex chord with distinct endpoints cannot self-intersect"
+          }
+        },
+        "source_adjacency": {
+          "measured": {
+            "lrs_key": "000000008000055",
+            "mileposts": [
+              [
+                444.787,
+                445.032
+              ],
+              [
+                445.032,
+                445.369
+              ]
+            ],
+            "object_ids": [
+              189077,
+              189376
+            ]
+          },
+          "passed": true,
+          "threshold": {
+            "rule": "END_POINT equals BEGIN_POIN on a shared LRSKEY"
+          }
+        }
+      },
+      "geometry": {
+        "coordinate_crs": "EPSG:4326",
+        "coordinates": [
+          [
+            -96.09089100022,
+            41.216201000276
+          ],
+          [
+            -96.090892000266,
+            41.216209999792
+          ]
+        ],
+        "geometry_sha256": "7e8588a3bf042c6fddeaf73d84cb9bbb69d038f0d390b4ed1f7ae5ff107815bc",
+        "length_m": 1.011,
+        "type": "chord"
+      },
+      "kind": "authoring_micro_gap",
+      "overlay_id": "i80-new-jersey-to-big-springs--component-00-01--authored-overlay",
+      "rationale": "The source asserts adjacency in linear referencing (one record's END_POINT equals the other's BEGIN_POIN on the same key) while authoring no joining geometry; no acquisition can close it. A deterministic ADR-0018 authored overlay bounded to this 1.011 m span closes it without widening the 1 m snap tolerance, which stays unchanged.",
+      "segment_id": "i80-new-jersey-to-big-springs",
+      "site_id": "i80-new-jersey-to-big-springs--component-00-01"
+    },
+    {
+      "adjoining_records": [
+        {
+          "end": "from",
+          "endpoint_distance_m": 0.0,
+          "joined_at": "start",
+          "lrs_key": "0000I0800000073",
+          "object_id": 229624,
+          "page_response_sha256": "684abb6b84bfd52960a2debe3a6c344f2330cb3c3dcf781ac5f0b947fe7aa220",
+          "part_index": 0,
+          "record_begin_milepost": 0.984,
+          "record_end_milepost": 1.061
+        },
+        {
+          "end": "to",
+          "endpoint_distance_m": 0.0,
+          "joined_at": "end",
+          "lrs_key": "0000I0800000073",
+          "object_id": 229620,
+          "page_response_sha256": "684abb6b84bfd52960a2debe3a6c344f2330cb3c3dcf781ac5f0b947fe7aa220",
+          "part_index": 0,
+          "record_begin_milepost": 0.904,
+          "record_end_milepost": 0.984
+        }
+      ],
+      "boundary": {
+        "from_coordinate": {
+          "latitude": 41.440105999692,
+          "longitude": -90.3299479999
+        },
+        "length_m": 9.19,
+        "to_coordinate": {
+          "latitude": 41.440180000407,
+          "longitude": -90.329900000385
+        }
+      },
+      "evidence": [
+        {
+          "path": "docs/audits/p0-021/2026-08-30-geometric-break-probe.md"
+        },
+        {
+          "path": "docs/audits/p0-021/2026-08-30-spatial-break-probe.md"
+        },
+        {
+          "path": "docs/audits/p0-021/2026-08-27-large-gap-probe.md"
+        },
+        {
+          "path": "docs/audits/p0-021/2026-08-31-per-site-disposition.md"
+        },
+        {
+          "artifact": ".tools/continental/interior-sweep.json",
+          "sha256": "849c5db967f0b8503aab6d034419d38f1cd4d3f7b324d681cb2a5698f9fc7f69"
+        },
+        {
+          "artifact": ".tools/continental/nhs-break-probe.json",
+          "sha256": "db2c70de279bc551512d8cffb7ceb39739a697ae6de5bb263b7e224fd9d695ef"
+        },
+        {
+          "path": "docs/audits/p0-021/2026-08-31-lock-revision.md"
+        },
+        {
+          "path": "data/routes/continental/nhs-fill-lock.v1.json"
+        },
+        {
+          "path": "docs/audits/p0-021/2026-08-31-topology-closure.md"
+        },
+        {
+          "path": "data/routes/continental/reconstruction-overlay-lock.v1.json"
+        },
+        {
+          "path": "data/routes/continental/break-disposition.v1.json"
+        }
+      ],
+      "gates": {
+        "deferred": {
+          "deferred_to": "reconstruction-geometry-stage",
+          "gates": [
+            "curvature",
+            "curvature_rate",
+            "grade",
+            "vertical_curvature",
+            "sightline",
+            "clearance",
+            "collision",
+            "lane_connection",
+            "drivability"
+          ],
+          "reason": "These gates measure generated road geometry and elevation. The overlay authored here is a bounded topological closure of a source authoring micro-gap, not drivable surface geometry; the deferred gates run when the reconstruction-geometry stage generates the actual road over the closed topology with locked 3DEP elevation."
+        },
+        "endpoint_position": {
+          "measured": {
+            "from_node_distance_m": 0.0,
+            "to_node_distance_m": 0.0
+          },
+          "passed": true,
+          "threshold": {
+            "maximum_m": 1.0
+          }
+        },
+        "heading_continuity": {
+          "deferred_to": "reconstruction-geometry-stage",
+          "measured": {
+            "end_tangent_chord_m": 25.0,
+            "end_tangent_deviation_degrees": 77.2
+          },
+          "reason": "At micro-gap scale a chord's own bearing measures authoring noise, and an authoring gap may sit exactly on an interchange corner of the route's own LRS - the Quad Cities gap does, with 77.2 degrees between its adjoining end tangents at the I-80/I-74 corner - so heading is not adjudicated against a straight-through assumption here. Heading and curvature are properties of the generated road, judged by the reconstruction-geometry stage's gates; the measured end-tangent deviation is recorded as that stage's authoring constraint for this connection."
+        },
+        "length_bound": {
+          "measured": {
+            "chord_length_m": 9.19,
+            "pinned_m": 9.19
+          },
+          "passed": true,
+          "threshold": {
+            "ceiling_m": 30.0,
+            "pinned_agreement_m": 0.005
+          }
+        },
+        "self_intersection": {
+          "measured": {
+            "distinct_endpoints": true,
+            "vertex_count": 2
+          },
+          "passed": true,
+          "threshold": {
+            "rule": "a two-vertex chord with distinct endpoints cannot self-intersect"
+          }
+        },
+        "source_adjacency": {
+          "measured": {
+            "lrs_key": "0000I0800000073",
+            "mileposts": [
+              [
+                0.984,
+                1.061
+              ],
+              [
+                0.904,
+                0.984
+              ]
+            ],
+            "object_ids": [
+              229620,
+              229624
+            ]
+          },
+          "passed": true,
+          "threshold": {
+            "rule": "END_POINT equals BEGIN_POIN on a shared LRSKEY"
+          }
+        }
+      },
+      "geometry": {
+        "coordinate_crs": "EPSG:4326",
+        "coordinates": [
+          [
+            -90.3299479999,
+            41.440105999692
+          ],
+          [
+            -90.329900000385,
+            41.440180000407
+          ]
+        ],
+        "geometry_sha256": "97145192015cfaba171d8cba8626b1be62f67265b37a1296b471a017aa1ee204",
+        "length_m": 9.19,
+        "type": "chord"
+      },
+      "kind": "authoring_micro_gap",
+      "overlay_id": "i80-new-jersey-to-big-springs--component-01-02--authored-overlay",
+      "rationale": "Acquiring the joining I-74/I-280 records cannot close the break - they carry the same 9.190 m discontinuity, which is why the unfiltered local graph finds no path. The source asserts milepost adjacency across the gap; a deterministic ADR-0018 authored overlay bounded to this 9.190 m span is the only closure. The 1 m snap tolerance stays unchanged.",
+      "segment_id": "i80-new-jersey-to-big-springs",
+      "site_id": "i80-new-jersey-to-big-springs--component-01-02"
+    }
+  ],
+  "overlays_sha256": "9ebe04edc9a6866843ff705c7177ad29062fa1e0c2cae2f0f545d2ddaf2a665b",
+  "route_decision": "ADR-0024",
+  "route_selection_sha256": "00ac4df354a8644997a2a073ee07c736ff3f3bc2d2565c8cd9cb51b957d2ff2f",
+  "schema_version": 1,
+  "source_policy": {
+    "authored_overlay": true,
+    "authoritative_distance_claimed": false,
+    "continental_downloads_committed": false,
+    "lane_geometry_claimed": false,
+    "openstreetmap_ancestry_allowed": false,
+    "source_asserts_adjacency": true,
+    "tolerance_changed": false
+  },
+  "status": "micro_gap_overlays_authored_conflation_pending",
+  "transfer_lock_sha256": "b267282a1d48014783c90a60c46cda85cea61741911d23649bf318404aea2b3b",
+  "westbound_selection_validated": false
+}
