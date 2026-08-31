@@ -15,8 +15,11 @@ from cannonball_map.continental import (
     derive_continental_edge_path_lock,
     derive_continental_transfer_lock,
     probe_continental_break_ends,
+    probe_continental_gap_interiors,
     probe_continental_geometric_breaks,
     probe_continental_milepost_gaps,
+    probe_continental_nhs_breaks,
+    validate_continental_break_dispositions,
     validate_continental_edge_path_lock,
     validate_continental_route_lock,
     validate_continental_transfer_lock,
@@ -732,4 +735,206 @@ def probe_continental_break_ends_command(
         f"{payload['break_end_count']} break ends probed, "
         f"{asserted} with an asserted endpoint join, "
         f"{voids} with nothing beyond the locked records"
+    )
+
+
+@app.command("probe-continental-gap-interiors")
+def probe_continental_gap_interiors_command(
+    selection: Path = typer.Option(
+        Path("data/routes/continental/route-selection.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    route_lock: Path = typer.Option(
+        Path("data/sources/continental-route-lock.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    transfer_lock: Path = typer.Option(
+        Path("data/routes/continental/transfer-node-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    policy: Path = typer.Option(
+        Path("data/routes/continental/transfer-node-policy.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    edge_path_lock: Path = typer.Option(
+        Path("data/routes/continental/edge-path-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    catalog: Path = typer.Option(DEFAULT_CATALOG, exists=True, file_okay=True, dir_okay=False),
+    cache: Path = typer.Option(
+        Path(".tools/continental/nhpn"),
+        help="Locked NHPN response cache.",
+        exists=True, file_okay=False, dir_okay=True,
+    ),
+    probe_cache: Path = typer.Option(
+        Path(".tools/continental/nhpn-interior-sweep"),
+        help="Ignored cache for the sweep's windowed spatial responses.",
+        file_okay=False, dir_okay=True,
+    ),
+    page_size: int = typer.Option(2_000, min=1, max=2_000),
+    output: Path | None = typer.Option(None, file_okay=True, dir_okay=False),
+) -> None:
+    """Sweep the break-pair interiors wider than the census windows. Changes no lock.
+
+    Closes the census's named evidence hole: the pair interiors wider than two
+    500 m windows, tiled with the same unfiltered envelope machinery and
+    classified against each pair's end-to-end chord.
+    """
+    try:
+        payload = probe_continental_gap_interiors(
+            selection,
+            route_lock,
+            transfer_lock,
+            policy,
+            edge_path_lock,
+            catalog,
+            cache,
+            probe_cache,
+            page_size=page_size,
+        )
+    except ValueError as error:
+        typer.echo(f"continental-interior-sweep-failed: {error}", err=True)
+        raise typer.Exit(code=1) from error
+    if output is not None:
+        output.parent.mkdir(parents=True, exist_ok=True)
+        output.write_text(
+            json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+        )
+    swept = [gap for segment in payload["segments"] for gap in segment["swept_gaps"]]
+    on_axis = sum(1 for gap in swept if gap["classification"] == "mainline_candidate_on_axis")
+    voids = sum(1 for gap in swept if gap["classification"] == "interior_void_beyond_lock")
+    typer.echo(
+        f"continental-interior-sweep: {payload['swept_gap_count']} gap interiors swept "
+        f"({payload['swept_meters_total'] / 1000.0:.1f} km), "
+        f"{on_axis} with an on-axis aligned feature, "
+        f"{voids} with nothing beyond the locked records"
+    )
+
+
+@app.command("probe-continental-nhs-breaks")
+def probe_continental_nhs_breaks_command(
+    selection: Path = typer.Option(
+        Path("data/routes/continental/route-selection.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    route_lock: Path = typer.Option(
+        Path("data/sources/continental-route-lock.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    transfer_lock: Path = typer.Option(
+        Path("data/routes/continental/transfer-node-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    policy: Path = typer.Option(
+        Path("data/routes/continental/transfer-node-policy.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    edge_path_lock: Path = typer.Option(
+        Path("data/routes/continental/edge-path-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    catalog: Path = typer.Option(DEFAULT_CATALOG, exists=True, file_okay=True, dir_okay=False),
+    cache: Path = typer.Option(
+        Path(".tools/continental/nhpn"),
+        help="Locked NHPN response cache.",
+        exists=True, file_okay=False, dir_okay=True,
+    ),
+    probe_cache: Path = typer.Option(
+        Path(".tools/continental/nhs-break-probe"),
+        help="Ignored cache for the NHS probe's spatial responses.",
+        file_okay=False, dir_okay=True,
+    ),
+    expected_metadata_sha256: str | None = typer.Option(
+        None,
+        help="Refuse the probe when the live NHS metadata hash differs from this.",
+    ),
+    page_size: int = typer.Option(2_000, min=1, max=2_000),
+    output: Path | None = typer.Option(None, file_okay=True, dir_okay=False),
+) -> None:
+    """Probe the ADR-0026 NHS source at the break sites and swept interiors.
+
+    Records what NHS asserts - route identity, measures, geometric continuity -
+    at every bounded break site and inside every swept gap interior, with the
+    same paging, checkpoint, and hash discipline as the NHPN acquisition.
+    Changes no lock and selects nothing.
+    """
+    try:
+        payload = probe_continental_nhs_breaks(
+            selection,
+            route_lock,
+            transfer_lock,
+            policy,
+            edge_path_lock,
+            catalog,
+            cache,
+            probe_cache,
+            expected_metadata_sha256=expected_metadata_sha256,
+            page_size=page_size,
+        )
+    except ValueError as error:
+        typer.echo(f"continental-nhs-probe-failed: {error}", err=True)
+        raise typer.Exit(code=1) from error
+    if output is not None:
+        output.parent.mkdir(parents=True, exist_ok=True)
+        output.write_text(
+            json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+        )
+    typer.echo(
+        f"continental-nhs-probe: {payload['site_count']} sites and "
+        f"{payload['interior_gap_count']} gap interiors probed, "
+        f"{payload['sites_with_nhs_between_ends']} sites with NHS geometry "
+        "within the lens of both ends"
+    )
+
+
+@app.command("validate-continental-break-dispositions")
+def validate_continental_break_dispositions_command(
+    disposition: Path = typer.Argument(
+        Path("data/routes/continental/break-disposition.v1.json"),
+        help="Q-034 per-site disposition record to validate.",
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    selection: Path = typer.Option(
+        Path("data/routes/continental/route-selection.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    route_lock: Path = typer.Option(
+        Path("data/sources/continental-route-lock.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    transfer_lock: Path = typer.Option(
+        Path("data/routes/continental/transfer-node-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    policy: Path = typer.Option(
+        Path("data/routes/continental/transfer-node-policy.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    edge_path_lock: Path = typer.Option(
+        Path("data/routes/continental/edge-path-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    catalog: Path = typer.Option(DEFAULT_CATALOG, exists=True, file_okay=True, dir_okay=False),
+) -> None:
+    """Validate the Q-034 break-disposition record without the response cache."""
+    try:
+        payload = validate_continental_break_dispositions(
+            disposition,
+            selection,
+            route_lock,
+            transfer_lock,
+            policy,
+            edge_path_lock,
+            catalog,
+        )
+    except ValueError as error:
+        typer.echo(f"continental-break-dispositions-invalid: {error}", err=True)
+        raise typer.Exit(code=1) from error
+    counts = ", ".join(
+        f"{name}={count}"
+        for name, count in sorted(payload["disposition_counts"].items())
+    )
+    typer.echo(
+        f"continental-break-dispositions-ok: {disposition} "
+        f"({payload['site_count']} sites: {counts})"
     )

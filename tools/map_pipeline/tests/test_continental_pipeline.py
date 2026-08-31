@@ -1442,3 +1442,594 @@ def test_break_end_census_finding_is_derived_from_the_probed_ends() -> None:
     assert "1 break ends have an unlocked" in finding
     assert "reporting lenses, not" in finding
     assert continental._break_probe_finding([]) == "No unconnected segments were probed."
+
+
+# --- Interior sweep of the break pairs wider than the census windows -----------
+
+
+def test_interior_window_centers_tile_the_chord_with_overlap() -> None:
+    centers = continental._interior_window_centers((0.0, 0.0), (1854.0, 0.0), 500.0)
+
+    # ceil(1854 / 500) = 4 windows, spaced 463.5 m: each 1000 m window overlaps
+    # its neighbours and the joint span covers the whole chord with margin.
+    assert len(centers) == 4
+    assert centers[0][0] == pytest.approx(231.75)
+    assert centers[-1][0] == pytest.approx(1854.0 - 231.75)
+    spacing = centers[1][0] - centers[0][0]
+    assert spacing <= 500.0
+    assert centers[0][0] - 500.0 < 0.0
+    assert centers[-1][0] + 500.0 > 1854.0
+
+
+def test_interior_feature_tiers_step_from_on_axis_to_elsewhere() -> None:
+    chord = LineString([(2000.0, 0.0), (3500.0, 0.0)])
+
+    def tier(coordinates: list[tuple[float, float]]) -> str:
+        metrics = continental._interior_feature_metrics(
+            chord, 0.0, [LineString(coordinates)]
+        )
+        return continental._interior_feature_tier(metrics)
+
+    assert tier([(2100.0, 5.0), (3400.0, 5.0)]) == "aligned_on_axis"
+    assert tier([(2750.0, -200.0), (2750.0, 200.0)]) == "crossing_on_axis"
+    assert tier([(2100.0, 400.0), (3400.0, 400.0)]) == "aligned_off_axis"
+    assert tier([(2750.0, 300.0), (3050.0, 600.0)]) == "elsewhere_in_window"
+    empty = continental._interior_feature_metrics(chord, 0.0, [])
+    assert continental._interior_feature_tier(empty) == "no_geometry"
+
+
+def _sweep_segment(
+    transport,
+    tmp_path: Path,
+    lines,
+    to_anchor: tuple[float, float] = (3500.0, 0.0),
+) -> dict:
+    identity = _metric_identity()
+    return continental._sweep_segment_gap_interiors(
+        "seg",
+        "no connected path between the locked transfer nodes",
+        lines,
+        (0.0, 0.0),
+        to_anchor,
+        ENDPOINT_SNAP_TOLERANCE_METERS,
+        transport=transport,
+        query_url="https://example.test/query",
+        probe_root=tmp_path / "interior-sweep",
+        page_size=2_000,
+        locked_segments_by_object_id={1: ("seg",), 2: ("seg",), 3: ("seg",)},
+        forward=identity,
+        inverse=identity,
+        buffer_meters=500.0,
+        minimum_separation_meters=1_000.0,
+        maximum_separation_meters=5_000.0,
+    )
+
+
+def _wide_gap_lines():
+    """Two chains along y=0 split by a 1.5 km break between x=1000 and x=2500."""
+    return (
+        _metric_line(1, [(0.0, 0.0), (1000.0, 0.0)], lrs="K1"),
+        _metric_line(2, [(2500.0, 0.0), (3500.0, 0.0)], lrs="K1"),
+    )
+
+
+def test_interior_sweep_classifies_a_wide_gap_interior(tmp_path: Path) -> None:
+    features = [
+        # The segment's own locked chain end: counted, not detailed.
+        _break_probe_feature(1, [[0.0, 0.0], [1000.0, 0.0]], sign_type="I"),
+        # An unsigned aligned road on the chord through the gap interior.
+        _break_probe_feature(30, [[1000.0, 2.0], [2500.0, 2.0]]),
+        # A crossing road through the interior.
+        _break_probe_feature(31, [[1750.0, -300.0], [1750.0, 300.0]]),
+        # An aligned parallel facility away from the chord.
+        _break_probe_feature(32, [[1200.0, 300.0], [2400.0, 300.0]]),
+    ]
+    transport = _BreakWindowTransport(features)
+    result = _sweep_segment(transport, tmp_path, _wide_gap_lines())
+
+    assert result["pairs_beyond_sweep_limit"] == []
+    assert result["pairs_covered_by_break_end_windows"] == []
+    assert len(result["swept_gaps"]) == 1
+    gap = result["swept_gaps"][0]
+    assert gap["separation_m"] == pytest.approx(1500.0)
+    assert gap["window_count"] == 3
+    assert gap["classification"] == "mainline_candidate_on_axis"
+    assert gap["on_axis_object_ids"] == [30]
+    assert gap["own_locked_feature_count"] == 1
+    by_id = {feature["object_id"]: feature for feature in gap["features"]}
+    assert by_id[30]["classification"] == "aligned_on_axis"
+    assert by_id[31]["classification"] == "crossing_on_axis"
+    assert by_id[32]["classification"] == "aligned_off_axis"
+    # Break-end identities come from the same shared selection the census uses.
+    assert gap["end_ids"] == ["end-0000001-00-end", "end-0000002-00-start"]
+
+
+def test_interior_sweep_reports_an_interior_void(tmp_path: Path) -> None:
+    transport = _BreakWindowTransport(
+        [_break_probe_feature(1, [[0.0, 0.0], [1000.0, 0.0]], sign_type="I")]
+    )
+    result = _sweep_segment(transport, tmp_path, _wide_gap_lines())
+
+    gap = result["swept_gaps"][0]
+    assert gap["classification"] == "interior_void_beyond_lock"
+    assert gap["features"] == []
+
+
+def test_interior_sweep_records_a_fragment_pairing_beyond_the_limit(
+    tmp_path: Path,
+) -> None:
+    """A 6.6 km pairing measures fragment isolation, not a candidate mainline
+    break: it is recorded as beyond the sweep limit and never probed."""
+    lines = (
+        _metric_line(1, [(0.0, 0.0), (1000.0, 0.0)], lrs="K1"),
+        _metric_line(2, [(7600.0, 0.0), (8600.0, 0.0)], lrs="K1"),
+    )
+    result = _sweep_segment(
+        _ExplodingTransport(), tmp_path, lines, to_anchor=(8600.0, 0.0)
+    )
+
+    assert result["swept_gaps"] == []
+    assert [pair["separation_m"] for pair in result["pairs_beyond_sweep_limit"]] == [6600.0]
+
+
+def test_interior_sweep_does_not_probe_a_pair_the_census_windows_cover(
+    tmp_path: Path,
+) -> None:
+    """A 40 m pair is fully covered by the census's 500 m end windows: the
+    sweep records it and must not touch the network."""
+    identity = _metric_identity()
+    lines = (
+        _metric_line(1, [(0.0, 0.0), (1000.0, 0.0)], lrs="K1"),
+        _metric_line(2, [(1040.0, 0.0), (2000.0, 0.0)], lrs="K1"),
+    )
+    result = continental._sweep_segment_gap_interiors(
+        "seg",
+        "no connected path between the locked transfer nodes",
+        lines,
+        (0.0, 0.0),
+        (2000.0, 0.0),
+        ENDPOINT_SNAP_TOLERANCE_METERS,
+        transport=_ExplodingTransport(),
+        query_url="https://example.test/query",
+        probe_root=tmp_path / "interior-sweep",
+        page_size=2_000,
+        locked_segments_by_object_id={1: ("seg",), 2: ("seg",)},
+        forward=identity,
+        inverse=identity,
+        buffer_meters=500.0,
+        minimum_separation_meters=1_000.0,
+        maximum_separation_meters=5_000.0,
+    )
+
+    assert result["swept_gaps"] == []
+    assert [
+        pair["separation_m"] for pair in result["pairs_covered_by_break_end_windows"]
+    ] == [40.0]
+
+
+def test_interior_sweep_resumes_window_responses_from_checkpoints(
+    tmp_path: Path,
+) -> None:
+    transport = _BreakWindowTransport(
+        [_break_probe_feature(30, [[1000.0, 0.0], [2500.0, 0.0]])]
+    )
+    first = _sweep_segment(transport, tmp_path, _wide_gap_lines())
+    second = _sweep_segment(transport, tmp_path, _wide_gap_lines())
+
+    assert all(
+        window["resumed_pages"] == 0
+        for gap in first["swept_gaps"]
+        for window in gap["windows"]
+    )
+    assert all(
+        window["resumed_pages"] == 1
+        for gap in second["swept_gaps"]
+        for window in gap["windows"]
+    )
+
+
+def test_interior_sweep_refuses_a_drifted_live_service(tmp_path: Path) -> None:
+    drifted = {**_service_metadata(), "editingInfo": {"dataLastEditDate": 2}}
+    with pytest.raises(ValueError, match="drifted"):
+        continental.probe_continental_gap_interiors(
+            SELECTION_PATH,
+            LOCK_PATH,
+            TRANSFER_LOCK_PATH,
+            TRANSFER_POLICY_PATH,
+            EDGE_PATH_LOCK_PATH,
+            CATALOG_PATH,
+            tmp_path / "cache",
+            tmp_path / "probe-cache",
+            transport=_ExplodingTransport(),
+            service_metadata=drifted,
+            acquired_at="2026-08-31T00:00:00Z",
+        )
+
+
+def test_interior_sweep_finding_is_derived_from_the_swept_gaps() -> None:
+    segments = [
+        {
+            "swept_gaps": [
+                {"classification": "mainline_candidate_on_axis", "separation_m": 2500.0},
+                {"classification": "interior_void_beyond_lock", "separation_m": 3000.0},
+            ]
+        }
+    ]
+    finding = continental._interior_sweep_finding(segments)
+    assert "2 break-pair interiors" in finding
+    assert "5.5 km" in finding
+    assert "reporting lenses" in finding
+    assert continental._interior_sweep_finding([]) == "No unconnected segments were swept."
+
+
+# --- NHS probes at the break sites and swept gap interiors (ADR-0026) ----------
+
+
+def _nhs_service_metadata() -> dict:
+    return {
+        "id": 0,
+        "serviceItemId": "dce9f09392eb474c8ad8e6a78416279b",
+        "objectIdField": "OBJECTID",
+        "maxRecordCount": 2_000,
+        "editingInfo": {"dataLastEditDate": 1},
+        "copyrightText": (
+            "This NTAD dataset is a work of the United States government and is "
+            "available for unrestricted public use."
+        ),
+    }
+
+
+def test_nhs_metadata_validation_pins_identity_and_public_domain_text() -> None:
+    continental._validate_nhs_service_metadata(_nhs_service_metadata())
+
+    with pytest.raises(ValueError, match="service item changed"):
+        continental._validate_nhs_service_metadata(
+            {**_nhs_service_metadata(), "serviceItemId": "something-else"}
+        )
+    with pytest.raises(ValueError, match="public-domain"):
+        continental._validate_nhs_service_metadata(
+            {**_nhs_service_metadata(), "copyrightText": "All rights reserved."}
+        )
+    with pytest.raises(ValueError, match="object ID field"):
+        continental._validate_nhs_service_metadata(
+            {**_nhs_service_metadata(), "objectIdField": "FID"}
+        )
+
+
+def test_nhs_query_url_must_be_inside_the_catalog_allowlist() -> None:
+    from cannonball_map.catalog import CatalogSource
+
+    def source(prefixes: tuple[str, ...]) -> CatalogSource:
+        return CatalogSource(
+            source_id="usdot-ntad-national-highway-system",
+            publisher="USDOT",
+            license_status="public_domain",
+            license_evidence_url="https://example.test/evidence",
+            allowed_url_prefixes=prefixes,
+            raw={"service_url": "https://services.test/NHS/FeatureServer/0"},
+        )
+
+    _, query_url = continental._require_nhs_query_url(
+        source(("https://services.test/NHS/FeatureServer/0",))
+    )
+    assert query_url == "https://services.test/NHS/FeatureServer/0/query"
+
+    with pytest.raises(ValueError, match="outside the catalog allowlist"):
+        continental._require_nhs_query_url(
+            source(("https://elsewhere.test/NHS/FeatureServer/0",))
+        )
+
+
+def _nhs_feature(
+    object_id: int,
+    coordinates: list[list[float]],
+    *,
+    route_id: str = "R1",
+    state_fips: str = "35",
+    sign_type: str = "I",
+    sign_number: str = "40",
+    begin: float | None = 0.0,
+    end: float | None = 1.0,
+) -> dict:
+    return {
+        "attributes": {
+            "OBJECTID": object_id,
+            "STFIPS": state_fips,
+            "ROUTEID": route_id,
+            "SIGNT1": sign_type,
+            "SIGNN1": sign_number,
+            "LNAME": "TEST ROAD",
+            "NHS": 1,
+            "STATUS": 1,
+            "FACILITYT": "2",
+            "BEGINPOINT": begin,
+            "ENDPOINT": end,
+            "MILES": 1.0,
+            "YEAR": 2025,
+            "VERSION": "2025.08.08",
+            "UPDATE_DAT": "2025-08-08",
+        },
+        "geometry": {"paths": [coordinates]},
+    }
+
+
+def test_classify_nhs_site_reports_spanning_features_and_route_chains() -> None:
+    identity = _metric_identity()
+    features = [
+        # One record passing within the lens of both ends: spans the site.
+        _nhs_feature(1, [[-50.0, 10.0], [1050.0, 10.0]], begin=10.0, end=10.7),
+        # A crossing route near neither end.
+        _nhs_feature(2, [[500.0, -200.0], [500.0, 200.0]], route_id="R2", sign_type="U"),
+        # A two-record chain on one route: one end each, contiguous measures.
+        _nhs_feature(3, [[-40.0, 5.0], [400.0, 5.0]], route_id="R3", begin=0.0, end=0.3),
+        _nhs_feature(4, [[400.0, 5.0], [1040.0, 5.0]], route_id="R3", begin=0.3, end=0.6),
+    ]
+
+    result = continental._classify_nhs_site((0.0, 0.0), (1000.0, 0.0), features, identity)
+
+    assert result["feature_count"] == 4
+    assert result["features_spanning_between_ends"] == [1]
+    assert result["nhs_carries_between_ends"] is True
+    groups = {
+        (group["state_fips"], group["route_id"]): group for group in result["route_groups"]
+    }
+    assert groups[("35", "R1")]["geometry_near_both_ends"] is True
+    assert groups[("35", "R2")]["geometry_near_both_ends"] is False
+    chain = groups[("35", "R3")]
+    assert chain["feature_count"] == 2
+    assert chain["geometry_near_both_ends"] is True
+    assert chain["measure_spans"] == [[0.0, 0.6]]
+    assert chain["largest_measure_gap_miles"] == pytest.approx(0.0)
+    by_id = {feature["object_id"]: feature for feature in result["features"]}
+    assert by_id[1]["spans_between_ends"] is True
+    assert by_id[2]["spans_between_ends"] is False
+    assert by_id[1]["alignment_degrees"] == pytest.approx(0.0)
+    assert by_id[2]["alignment_degrees"] == pytest.approx(90.0)
+
+
+def test_classify_nhs_site_reports_an_nhs_void() -> None:
+    identity = _metric_identity()
+    result = continental._classify_nhs_site((0.0, 0.0), (1000.0, 0.0), [], identity)
+
+    assert result["feature_count"] == 0
+    assert result["nhs_carries_between_ends"] is False
+    assert result["route_groups"] == []
+
+
+def test_nhs_probe_refuses_an_expected_metadata_drift(tmp_path: Path) -> None:
+    """When the disposition evidence names an expected NHS snapshot, a drifted
+    live service must be refused before any cache or network probing."""
+    with pytest.raises(ValueError, match="drifted from the expected snapshot"):
+        continental.probe_continental_nhs_breaks(
+            SELECTION_PATH,
+            LOCK_PATH,
+            TRANSFER_LOCK_PATH,
+            TRANSFER_POLICY_PATH,
+            EDGE_PATH_LOCK_PATH,
+            CATALOG_PATH,
+            tmp_path / "cache",
+            tmp_path / "probe-cache",
+            transport=_ExplodingTransport(),
+            service_metadata=_nhs_service_metadata(),
+            expected_metadata_sha256="0" * 64,
+            acquired_at="2026-08-31T00:00:00Z",
+        )
+
+
+def test_nhs_probe_refuses_a_service_without_public_domain_status(
+    tmp_path: Path,
+) -> None:
+    with pytest.raises(ValueError, match="public-domain"):
+        continental.probe_continental_nhs_breaks(
+            SELECTION_PATH,
+            LOCK_PATH,
+            TRANSFER_LOCK_PATH,
+            TRANSFER_POLICY_PATH,
+            EDGE_PATH_LOCK_PATH,
+            CATALOG_PATH,
+            tmp_path / "cache",
+            tmp_path / "probe-cache",
+            transport=_ExplodingTransport(),
+            service_metadata={
+                **_nhs_service_metadata(),
+                "copyrightText": "All rights reserved.",
+            },
+            acquired_at="2026-08-31T00:00:00Z",
+        )
+
+
+def test_nhs_probe_finding_is_derived_from_the_probed_sites() -> None:
+    sites = [
+        {"nhs": {"nhs_carries_between_ends": True, "feature_count": 3}},
+        {"nhs": {"nhs_carries_between_ends": False, "feature_count": 0}},
+    ]
+    interiors = [{"nhs": {"nhs_carries_between_ends": True, "feature_count": 5}}]
+    finding = continental._nhs_probe_finding(sites, interiors)
+    assert "2 bounded break sites" in finding
+    assert "1 sites and 1 interiors" in finding
+    assert "not a snap, join, or selection" in finding
+
+
+# --- Q-034 per-site disposition record ------------------------------------------
+
+
+DISPOSITION_PATH = Path("data/routes/continental/break-disposition.v1.json")
+
+
+def _disposition_payload() -> dict:
+    from cannonball_map.manifest import compute_sha256
+
+    edge = json.loads(EDGE_PATH_LOCK_PATH.read_text(encoding="utf-8"))
+    unconnected = sorted(
+        entry["segment_id"] for entry in edge["segments"] if not entry["connected"]
+    )
+    sites = []
+    for index, segment_id in enumerate(unconnected):
+        sites.append(
+            {
+                "site_id": f"{segment_id}--component-00-01",
+                "segment_id": segment_id,
+                "kind": "component_gap",
+                "separation_m": 100.0,
+                "evidence_summary": "fabricated for the validator test",
+                "disposition": "ambiguous",
+                "q034_subitem": f"Q-034{chr(ord('a') + index)}",
+                "blocking_question": "fabricated blocking question",
+            }
+        )
+    return {
+        "schema_version": 1,
+        "status": "dispositions_recorded_lock_revision_pending",
+        "decision": _selection()["decision"],
+        "authored_at": "2026-08-31T00:00:00Z",
+        "open_question": "Q-034",
+        "authority": {
+            "decision_records": ["ADR-0018", "ADR-0024", "ADR-0026"],
+            "owner_directive": "2026-08-30 owner adoption of supplementary sources",
+        },
+        "route_selection_sha256": compute_sha256(SELECTION_PATH),
+        "candidate_lock_sha256": compute_sha256(LOCK_PATH),
+        "transfer_lock_sha256": compute_sha256(TRANSFER_LOCK_PATH),
+        "edge_path_lock_sha256": compute_sha256(EDGE_PATH_LOCK_PATH),
+        "source_policy": {
+            "bridging_performed": False,
+            "locks_modified": False,
+            "openstreetmap_ancestry_allowed": False,
+            "tolerance_changed": False,
+        },
+        "evidence": [
+            {"path": "docs/audits/p0-021/2026-08-30-geometric-break-probe.md"},
+            {"artifact": ".tools/continental/nhs-break-probe.json", "sha256": "0" * 64},
+        ],
+        "site_count": len(sites),
+        "disposition_counts": {"ambiguous": len(sites)},
+        "sites": sites,
+        "census_ends": [
+            {
+                "end_id": "end-0000001-00-end",
+                "segment_id": unconnected[0],
+                "classification": "beyond_corridor_continuation",
+                "note": "fabricated for the validator test",
+            }
+        ],
+        "implementation": {
+            "implemented_this_slice": ["evidence acquisition and this record"],
+            "deferred_to_lock_revision": ["scoped acquisition into the candidate lock"],
+        },
+    }
+
+
+def _write_disposition(tmp_path: Path, payload: dict) -> Path:
+    target = tmp_path / "break-disposition.json"
+    target.write_text(json.dumps(payload), encoding="utf-8")
+    return target
+
+
+def _validate_disposition(path: Path) -> dict:
+    return continental.validate_continental_break_dispositions(
+        path,
+        SELECTION_PATH,
+        LOCK_PATH,
+        TRANSFER_LOCK_PATH,
+        TRANSFER_POLICY_PATH,
+        EDGE_PATH_LOCK_PATH,
+        CATALOG_PATH,
+    )
+
+
+def test_break_disposition_record_validates_and_rejects_drift(tmp_path: Path) -> None:
+    payload = _disposition_payload()
+    assert _validate_disposition(_write_disposition(tmp_path, payload))["site_count"] == 6
+
+    with pytest.raises(ValueError, match="unsupported status"):
+        _validate_disposition(
+            _write_disposition(tmp_path, {**payload, "status": "complete"})
+        )
+    with pytest.raises(ValueError, match="input hash drifted"):
+        _validate_disposition(
+            _write_disposition(tmp_path, {**payload, "candidate_lock_sha256": "0" * 64})
+        )
+    with pytest.raises(ValueError, match="does not cite ADR-0018"):
+        _validate_disposition(
+            _write_disposition(
+                tmp_path,
+                {**payload, "authority": {**payload["authority"], "decision_records": []}},
+            )
+        )
+
+
+def test_break_disposition_bounds_a_reconstruction_exception(tmp_path: Path) -> None:
+    payload = _disposition_payload()
+    boundary = {
+        "from_coordinate": {"longitude": -96.0, "latitude": 41.2},
+        "to_coordinate": {"longitude": -96.0, "latitude": 41.2},
+        "length_m": 1.011,
+    }
+    payload["sites"][0] = {
+        **payload["sites"][0],
+        "disposition": "bounded_reconstruction_exception",
+        "exception": {
+            "kind": "authoring_micro_gap",
+            "rationale": "milepost-contiguous records a source quantum apart",
+            "boundary": boundary,
+        },
+    }
+    payload["disposition_counts"] = {
+        "ambiguous": len(payload["sites"]) - 1,
+        "bounded_reconstruction_exception": 1,
+    }
+    assert _validate_disposition(_write_disposition(tmp_path, payload))
+
+    overwide = copy.deepcopy(payload)
+    overwide["sites"][0]["exception"]["boundary"]["length_m"] = 320.0
+    with pytest.raises(ValueError, match="bounded-exception ceiling"):
+        _validate_disposition(_write_disposition(tmp_path, overwide))
+
+
+def test_break_disposition_rejects_acquiring_already_locked_records(
+    tmp_path: Path,
+) -> None:
+    lock = json.loads(LOCK_PATH.read_text(encoding="utf-8"))
+    locked_id = lock["nhpn"]["segment_snapshots"][0]["object_ids"][0]
+    payload = _disposition_payload()
+    site = {
+        **payload["sites"][0],
+        "disposition": "nhpn_scoped_acquisition",
+        "joining_object_ids": [999_999_999],
+        "direction_review": "westbound continuation on the same carriageway",
+        "corridor_fit": "unsigned concurrency of the declared route",
+    }
+    payload["sites"][0] = site
+    payload["disposition_counts"] = {
+        "ambiguous": len(payload["sites"]) - 1,
+        "nhpn_scoped_acquisition": 1,
+    }
+    assert _validate_disposition(_write_disposition(tmp_path, payload))
+
+    relocked = copy.deepcopy(payload)
+    relocked["sites"][0]["joining_object_ids"] = [locked_id]
+    with pytest.raises(ValueError, match="already-locked"):
+        _validate_disposition(_write_disposition(tmp_path, relocked))
+
+
+def test_break_disposition_requires_full_segment_coverage(tmp_path: Path) -> None:
+    payload = _disposition_payload()
+    payload["sites"] = payload["sites"][1:]
+    payload["site_count"] = len(payload["sites"])
+    payload["disposition_counts"] = {"ambiguous": len(payload["sites"])}
+    with pytest.raises(ValueError, match="exactly the unconnected segments"):
+        _validate_disposition(_write_disposition(tmp_path, payload))
+
+
+def test_break_disposition_requires_a_subitem_for_ambiguity(tmp_path: Path) -> None:
+    payload = _disposition_payload()
+    payload["sites"][0] = {**payload["sites"][0], "q034_subitem": "Q-034"}
+    with pytest.raises(ValueError, match="without a Q-034 sub-item"):
+        _validate_disposition(_write_disposition(tmp_path, payload))
+
+
+def test_repository_break_disposition_record_validates() -> None:
+    payload = _validate_disposition(DISPOSITION_PATH)
+    assert payload["site_count"] == 14
+    assert payload["open_question"] == "Q-034"
+    assert payload["source_policy"]["locks_modified"] is False
