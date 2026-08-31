@@ -11,6 +11,8 @@ from cannonball_map.acquisition import UrllibArcGisTransport, acquire_nhpn
 from cannonball_map.catalog import load_catalog, url_matches_prefix
 from cannonball_map.continental import (
     acquire_continental_nhpn_candidates,
+    acquire_continental_nhpn_supplements,
+    acquire_continental_nhs_fill_lock,
     audit_continental_milepost_gaps,
     derive_continental_edge_path_lock,
     derive_continental_transfer_lock,
@@ -21,6 +23,7 @@ from cannonball_map.continental import (
     probe_continental_nhs_breaks,
     validate_continental_break_dispositions,
     validate_continental_edge_path_lock,
+    validate_continental_nhs_fill_lock,
     validate_continental_route_lock,
     validate_continental_transfer_lock,
 )
@@ -887,6 +890,190 @@ def probe_continental_nhs_breaks_command(
     )
 
 
+@app.command("acquire-continental-nhpn-supplements")
+def acquire_continental_nhpn_supplements_command(
+    disposition: Path = typer.Option(
+        Path("data/routes/continental/break-disposition.v1.json"),
+        help="Q-034 disposition record naming the scoped acquisitions.",
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    selection: Path = typer.Option(
+        Path("data/routes/continental/route-selection.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    catalog: Path = typer.Option(DEFAULT_CATALOG, exists=True, file_okay=True, dir_okay=False),
+    lock: Path = typer.Option(
+        Path("data/sources/continental-route-lock.json"),
+        help="Candidate lock to extend.",
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    cache: Path = typer.Option(
+        Path(".tools/continental/nhpn"),
+        help="Locked NHPN response cache.",
+        exists=True, file_okay=False, dir_okay=True,
+    ),
+    output: Path = typer.Option(
+        Path("data/sources/continental-route-lock.json"),
+        help="Revised candidate lock to write.",
+        file_okay=True, dir_okay=False,
+    ),
+    page_size: int = typer.Option(2_000, min=1, max=2_000),
+) -> None:
+    """Extend the candidate lock with the Q-034 scoped NHPN acquisitions.
+
+    A supplementary-acquisition extension: the locked segment snapshots are
+    never re-acquired or rewritten, and the live service must still match the
+    locked metadata hash exactly.
+    """
+    try:
+        payload = acquire_continental_nhpn_supplements(
+            disposition,
+            selection,
+            catalog,
+            lock,
+            cache,
+            output,
+            page_size=page_size,
+        )
+    except ValueError as error:
+        typer.echo(f"continental-nhpn-supplements-failed: {error}", err=True)
+        raise typer.Exit(code=1) from error
+    supplements = payload["nhpn"]["supplementary_acquisitions"]
+    total = payload["nhpn"]["candidate_union"]["expected_count"]
+    typer.echo(
+        f"continental-nhpn-supplements: {output} ({len(supplements)} sites, "
+        f"{sum(len(entry['object_ids']) for entry in supplements)} records, "
+        f"{total} unique candidates)"
+    )
+
+
+@app.command("acquire-continental-nhs-fills")
+def acquire_continental_nhs_fills_command(
+    disposition: Path = typer.Option(
+        Path("data/routes/continental/break-disposition.v1.json"),
+        help="Q-034 disposition record naming the NHS fill sites.",
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    selection: Path = typer.Option(
+        Path("data/routes/continental/route-selection.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    route_lock: Path = typer.Option(
+        Path("data/sources/continental-route-lock.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    transfer_lock: Path = typer.Option(
+        Path("data/routes/continental/transfer-node-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    policy: Path = typer.Option(
+        Path("data/routes/continental/transfer-node-policy.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    edge_path_lock: Path = typer.Option(
+        Path("data/routes/continental/edge-path-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    catalog: Path = typer.Option(DEFAULT_CATALOG, exists=True, file_okay=True, dir_okay=False),
+    cache: Path = typer.Option(
+        Path(".tools/continental/nhpn"),
+        help="Locked NHPN response cache.",
+        exists=True, file_okay=False, dir_okay=True,
+    ),
+    fill_cache: Path = typer.Option(
+        Path(".tools/continental/nhs-fills"),
+        help="Ignored cache for the NHS fill responses.",
+        file_okay=False, dir_okay=True,
+    ),
+    output: Path = typer.Option(
+        Path("data/routes/continental/nhs-fill-lock.v1.json"),
+        help="NHS fill lock to write.",
+        file_okay=True, dir_okay=False,
+    ),
+    expected_metadata_sha256: str | None = typer.Option(
+        None,
+        help="Refuse the acquisition when the live NHS metadata hash differs.",
+    ),
+    page_size: int = typer.Option(2_000, min=1, max=2_000),
+) -> None:
+    """Acquire and lock the ADR-0026 NHS records for the nhs_fill dispositions."""
+    try:
+        payload = acquire_continental_nhs_fill_lock(
+            disposition,
+            selection,
+            route_lock,
+            transfer_lock,
+            policy,
+            edge_path_lock,
+            catalog,
+            cache,
+            fill_cache,
+            output,
+            expected_metadata_sha256=expected_metadata_sha256,
+            page_size=page_size,
+        )
+    except ValueError as error:
+        typer.echo(f"continental-nhs-fills-failed: {error}", err=True)
+        raise typer.Exit(code=1) from error
+    chain = payload["chain_connectivity"]
+    typer.echo(
+        f"continental-nhs-fills: {output} ({payload['site_count']} fill sites, "
+        f"{chain['chained_segment_count']} of "
+        f"{chain['chained_segment_count'] + chain['unchained_segment_count']} "
+        "unconnected segments chain with fills)"
+    )
+
+
+@app.command("validate-continental-nhs-fills")
+def validate_continental_nhs_fills_command(
+    fill_lock: Path = typer.Argument(
+        Path("data/routes/continental/nhs-fill-lock.v1.json"),
+        help="NHS fill lock to validate.",
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    selection: Path = typer.Option(
+        Path("data/routes/continental/route-selection.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    route_lock: Path = typer.Option(
+        Path("data/sources/continental-route-lock.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    transfer_lock: Path = typer.Option(
+        Path("data/routes/continental/transfer-node-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    policy: Path = typer.Option(
+        Path("data/routes/continental/transfer-node-policy.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    edge_path_lock: Path = typer.Option(
+        Path("data/routes/continental/edge-path-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    catalog: Path = typer.Option(DEFAULT_CATALOG, exists=True, file_okay=True, dir_okay=False),
+) -> None:
+    """Validate the NHS fill lock without the ignored response caches."""
+    try:
+        payload = validate_continental_nhs_fill_lock(
+            fill_lock,
+            selection,
+            route_lock,
+            transfer_lock,
+            policy,
+            edge_path_lock,
+            catalog,
+        )
+    except ValueError as error:
+        typer.echo(f"continental-nhs-fills-invalid: {error}", err=True)
+        raise typer.Exit(code=1) from error
+    chain = payload["chain_connectivity"]
+    typer.echo(
+        f"continental-nhs-fills-ok: {fill_lock} ({payload['site_count']} fill sites, "
+        f"{chain['chained_segment_count']} chained segments)"
+    )
+
+
 @app.command("validate-continental-break-dispositions")
 def validate_continental_break_dispositions_command(
     disposition: Path = typer.Argument(
@@ -914,6 +1101,12 @@ def validate_continental_break_dispositions_command(
         Path("data/routes/continental/edge-path-lock.v1.json"),
         exists=True, file_okay=True, dir_okay=False,
     ),
+    nhs_fill_lock: Path | None = typer.Option(
+        None,
+        "--nhs-fill-lock",
+        help="NHS fill lock; required once the disposition status is implemented.",
+        exists=True, file_okay=True, dir_okay=False,
+    ),
     catalog: Path = typer.Option(DEFAULT_CATALOG, exists=True, file_okay=True, dir_okay=False),
 ) -> None:
     """Validate the Q-034 break-disposition record without the response cache."""
@@ -926,6 +1119,7 @@ def validate_continental_break_dispositions_command(
             policy,
             edge_path_lock,
             catalog,
+            nhs_fill_lock_path=nhs_fill_lock,
         )
     except ValueError as error:
         typer.echo(f"continental-break-dispositions-invalid: {error}", err=True)

@@ -8,7 +8,7 @@
     ],
     "owner_directive": "2026-08-30: after reviewing the corridor-gap evidence the owner directed adoption of the best public-domain sources ('use the best sources needed'); ADR-0026 records the adoption of NTAD NHS as supplementary centerlines and NAIP as break evidence."
   },
-  "candidate_lock_sha256": "5c35de08e6dafebf6e3d7c2045833f15483092e7522fea1f5ee78beee13079f0",
+  "candidate_lock_sha256": "cbdaaa3710e2b2e9409628f32fb1ef16228ec2256c5b8f1428d3363618e73900",
   "census_ends": [
     {
       "classification": "covered_by_site_disposition",
@@ -199,12 +199,12 @@
   ],
   "decision": "ADR-0024",
   "disposition_counts": {
-    "ambiguous": 4,
+    "ambiguous": 2,
     "bounded_reconstruction_exception": 2,
-    "nhpn_scoped_acquisition": 3,
+    "nhpn_scoped_acquisition": 5,
     "nhs_fill": 5
   },
-  "edge_path_lock_sha256": "a0d4e7914faa9e1c0b0b16b8972b17963c829d9ea0a059de9e854c66ab5e8be0",
+  "edge_path_lock_sha256": "846da2e3727a84c823fbb5f6dedb189fbdb57a951a7f999eb068ef426c448521",
   "evidence": [
     {
       "path": "docs/audits/p0-021/2026-08-30-geometric-break-probe.md"
@@ -225,21 +225,30 @@
     {
       "artifact": ".tools/continental/nhs-break-probe.json",
       "sha256": "db2c70de279bc551512d8cffb7ceb39739a697ae6de5bb263b7e224fd9d695ef"
+    },
+    {
+      "path": "docs/audits/p0-021/2026-08-31-lock-revision.md"
+    },
+    {
+      "path": "data/routes/continental/nhs-fill-lock.v1.json"
     }
   ],
   "implementation": {
     "deferred_to_lock_revision": [
-      "scoped NHPN acquisition of OBJECTIDs 43839, 43841, 218838, and 59709 into the candidate lock, which requires a supplementary-acquisition extension of the lock schema and cascades through the transfer and edge-path locks in one coherent slice",
-      "NHS centerline acquisition locks for the five nhs_fill sites and the NHPN-to-NHS conflation model ADR-0026 names",
-      "authoring the two bounded micro-gap overlays through the ADR-0018 generation gates once the reconstruction stage exists",
-      "the Q-034a-d sub-item decisions (downtown Los Angeles mainline review, the Topock tee mechanism, and both transfer-anchor re-derivations)"
+      "Q-034c/Q-034d anchor mechanism (anchor re-derivation or edge-split-at-anchor solve; approach-record acquisition ruled out by the 2026-08-31 measure review)",
+      "the two bounded ADR-0018 micro-gap overlays (Omaha 1.011 m, Quad Cities 9.190 m), authored through the reconstruction gates when that stage exists",
+      "NHPN-to-NHS geometry conflation over the locked fill spans",
+      "3DEP product lock and the westbound directed edge selection"
     ],
     "implemented_this_slice": [
-      "the bounded interior sweep of the four over-wide gap interiors (probe-continental-gap-interiors) and its checksummed evidence",
-      "the ADR-0026 NHS acquisition capability and scoped NHS probes at all 14 sites and 4 interiors (probe-continental-nhs-breaks)",
-      "this per-site disposition record and its validator (validate-continental-break-dispositions), wired into scripts/validate-continental-route.sh"
+      "supplementary NHPN acquisitions for all five scoped sites (28 records: 43839+43841 Payson, 218838 Memphis, 59709 Denver, 38597 Topock, and the 23-record downtown Los Angeles S-10/US-101 concurrency set)",
+      "Q-034a resolved by the prescribed directed whole-key milepost review and folded in as a scoped acquisition",
+      "Q-034b resolved by sliver geometry review (38597 spans the gap exactly) and folded in as a scoped acquisition",
+      "NHS acquisition locks for the five nhs_fill sites in data/routes/continental/nhs-fill-lock.v1.json with ADR-0026 dual ancestry",
+      "transfer and edge-path locks re-derived against the revised candidate set (anchors unchanged; 8 of 12 segments NHPN-connected, 10 of 12 chained with fills)"
     ]
   },
+  "nhs_fill_lock_sha256": "c552ae0aef9621b0905faf84480cee44538947158e3ff6f513e71c25929015d5",
   "nhs_service": {
     "canonical_metadata_sha256": "a29f96df0512d0748d0c243cf15867d432439f6df5927d9b9d682e167410c027",
     "data_last_edit_epoch_ms": 1778183346545,
@@ -251,15 +260,42 @@
   "site_count": 14,
   "sites": [
     {
-      "blocking_question": "Which exact NHPN records constitute the westbound I-10 mainline through downtown Los Angeles - the S-10-signed continuation on key 000000001001037, not the shortest undirected S-10/U-101 path - and does the ADR-0024 I-10-to-I-405 transfer follow that mainline? Requires a directed whole-key milepost review before any scoped acquisition; the second 3,116.6 m downtown pairing shares this review.",
-      "disposition": "ambiguous",
+      "corridor_fit": "The officially signed I-10 routing through downtown Los Angeles: the San Bernardino Freeway S-10 section plus the I-10/US-101 concurrency between the San Bernardino terminus and the Santa Monica Freeway origin - the same unsigned-concurrency class as the Memphis (218838) and Denver (59709) dispositions.",
+      "direction_review": "Milepost-directed at both boundaries: US-101 mp 0.0 begins at the Santa Monica Freeway break end and increases toward the San Bernardino junction; S-10 mp 16.24-17.012 continues into the locked component-0 records at 17.012. Every internal join is an exact shared coordinate (0.0 m). Acquisition adds route-family candidates only - the westbound directed edge selection remains the later solve, which may reject any of them.",
+      "disposition": "nhpn_scoped_acquisition",
       "evidence_summary": "Geometric probe: a 22-record undirected S-10/U-101 path exists. Census: exact 0.0 m same-key joins; the eastern end continues as S-10 on the segment's own LRS key 000000001001037. Interior sweep: both downtown interiors carry I-5/US-101/S-60 records on the straight chord while the S-10 records cross it at 77-82 degrees (the mainline curves away from the chord). NHS: CA route SHS_010._P signed I-10/S-10 with continuous measures 15.824-17.572 across the site.",
       "from_coordinate": {
         "latitude": 34.033727000001,
         "longitude": -118.220917999866
       },
+      "joining_object_ids": [
+        545360,
+        545363,
+        545364,
+        545365,
+        545366,
+        545370,
+        546470,
+        546510,
+        546519,
+        546522,
+        546524,
+        546525,
+        546526,
+        546556,
+        546557,
+        546558,
+        546559,
+        546568,
+        546569,
+        546571,
+        546572,
+        546573,
+        546574
+      ],
       "kind": "component_gap",
-      "q034_subitem": "Q-034a",
+      "resolution": "2026-08-31 directed whole-key milepost review of S-10 key 000000001001037 (417 records, unfiltered) plus the unfiltered exact-join walk across the void: the S-10 San Bernardino chain is milepost-contiguous 16.24-17.012 and joins the locked component-0 start (546553, mp 17.012) at 0.0 m, but the key's milepost space jumps one source quantum (16.239 to 16.24) across 2,112.6 m of pavement the key does not carry. That stretch is the signed I-10/US-101 downtown concurrency: US-101 key 000000010101037 begins (mp 0.0, record 546519) exactly at the locked Santa Monica Freeway chain end (546512, mp 16.239) with a 0.0 m join, runs milepost-contiguous 0.0-1.28 with exact joins throughout, and its junction records 546569/546559 meet the S-10 chain start (546568, mp 16.24) at 0.0 m. The 23-record set (9 S-10 + 14 US-101) is the unique exact-join freeway chain between the locked ends; the alternates through the interchange are I-5/S-60/local-street records that do not carry the signed I-10 routing. Candidates only; the westbound directed edge selection remains the later solve.",
+      "resolved_q034_subitem": "Q-034a",
       "segment_id": "i10-ontario-to-i405",
       "separation_m": 2491.563,
       "site_id": "i10-ontario-to-i405--component-00-01",
@@ -312,15 +348,20 @@
       }
     },
     {
-      "blocking_question": "The tee geometry cannot establish corridor fit for the crossing route's records: closing the 14.069 m either acquires 14 m slivers of AZ-95 pavement, or uses NHS centerlines, or is authored as a bounded exception (it sits under the 30 m ceiling). Which mechanism applies is a policy choice the evidence does not force; NAIP adjudication may settle the physical geometry first.",
-      "disposition": "ambiguous",
+      "corridor_fit": "The corridor's own through pavement at the Topock S-95 tee, authored as the first quantum of the crossing route's LRS - the junction-pavement class already ratified for Denver (59709).",
+      "direction_review": "A single 14.1 m junction-pavement record whose endpoints are exactly the two locked chain ends; mp 0-0.015 is the S-95 LRS terminus at I-40. Candidate only; the westbound directed edge selection remains the later solve.",
+      "disposition": "nhpn_scoped_acquisition",
       "evidence_summary": "Census: S-95 records 38597 and 38596 join both ends exactly but meet the corridor at ~88 degrees - a tee with the crossing route at Topock, not a continuation. NHS: AZ route 'I 040' (I-40) continuous 0.23-3.222 across the 14.069 m site.",
       "from_coordinate": {
         "latitude": 34.718109999677,
         "longitude": -114.478224999884
       },
+      "joining_object_ids": [
+        38597
+      ],
       "kind": "component_gap",
-      "q034_subitem": "Q-034b",
+      "resolution": "2026-08-31 sliver acquisition and geometric review: OBJECTID 38597 (S-95 key MOHAVEVAHW08015, mp 0-0.015, 14.1 m) runs exactly from one locked I-40 chain end (38590, I-40 mp 115.481) to the other (38595, I-40/S-95 mp 0.23) with 0.0 m endpoint offsets at both ends and 0.0 m line offsets - the record's whole extent IS the 14.069 m gap pavement at the S-95 terminus. Its neighbour 38596 (mp 0.015-0.046) tees away north on S-95 and is not corridor pavement, which is what the census's ~88-degree grading measured. Of the three listed mechanisms, sliver acquisition of 38597 alone is exact and minimal: NHS fill would substitute a supplementary source where NHPN itself asserts the joining pavement, and a bounded exception would author what the source already carries.",
+      "resolved_q034_subitem": "Q-034b",
       "segment_id": "i40-i81-to-barstow",
       "separation_m": 14.069,
       "site_id": "i40-i81-to-barstow--component-00-01",
@@ -435,7 +476,7 @@
       }
     },
     {
-      "blocking_question": "Whether to re-derive the from-anchor under the transfer policy (lock-affecting) or scope-acquire the NHPN approach records the census names; an anchor decision changes the transfer lock and is out of scope for a probe-evidence disposition.",
+      "blocking_question": "The anchor sits mid-record on the corridor's own locked pavement (433412), so no acquisition can bring a graph node within the 25 m anchor limit. Choose between re-deriving the anchor onto a candidate endpoint (moves a locked ADR-0024 transfer coordinate 381.157 m) and an edge-split-at-anchor solve semantics; either changes a lock or the solver contract and needs its own reviewed slice.",
       "disposition": "ambiguous",
       "evidence_summary": "The locked from-anchor sits 381.157 m from any candidate endpoint - a transfer-anchor mismatch, not a road break; the geometric probe found the anchor outside the local source graph (4 features, no path). Census: the segment's Jersey City approach ends join US-22 (427523) and an NJ-139-key record (434168). NHS: NJ I-78 (00000078__) continuous 66.339-67.16 through the anchor window.",
       "from_coordinate": {
@@ -443,6 +484,7 @@
         "longitude": -74.035214779672
       },
       "kind": "anchor_gap",
+      "mechanism_review": "2026-08-31 measure review: the anchor lies exactly on locked record 433412 (Holland Tunnel, 1,576 m) at line offset 0.0 m, 381.157 m from that record's nearest endpoint. No record in the unfiltered 500 m envelope - locked or unlocked - has an endpoint within the 25 m anchor snap limit (nearest unlocked endpoint: 433415 at 381.2 m), so approach-record acquisition cannot resolve this site. The remaining mechanisms are transfer-lock-affecting: re-derive the anchor onto a candidate endpoint, or teach the edge-path solve to split an edge at an on-edge anchor.",
       "q034_subitem": "Q-034c",
       "segment_id": "i78-holland-tunnel-to-i81",
       "separation_m": 381.157,
@@ -474,7 +516,7 @@
       }
     },
     {
-      "blocking_question": "Same class as Q-034c: re-derive the anchor under the transfer policy or scope-acquire the approach records; either changes a lock and needs its own reviewed slice.",
+      "blocking_question": "Same class as Q-034c: the anchor is mid-record on locked I-80 pavement (431704); re-derivation or edge-split-at-anchor are the only mechanisms, both lock- or solver-affecting, needing their own reviewed slice.",
       "disposition": "ambiguous",
       "evidence_summary": "The locked from-anchor sits 253.027 m from any candidate endpoint - the second transfer-anchor mismatch; the geometric probe found the anchor outside the local source graph (5 features, no path). NHS: NJ I-80 (00000080__) continuous 42.57-43.27 through the anchor window.",
       "from_coordinate": {
@@ -482,6 +524,7 @@
         "longitude": -74.429603688176
       },
       "kind": "anchor_gap",
+      "mechanism_review": "2026-08-31 measure review: the anchor lies exactly on locked record 431704 (I-80, 742.9 m) at line offset 0.0 m, 253.027 m from that record's nearest endpoint. No record in the unfiltered 500 m envelope has an endpoint within the 25 m anchor snap limit (nearest unlocked endpoint: U-202 431715 at 266.6 m), so approach-record acquisition cannot resolve this site either; the mechanism choice is the same as Q-034c.",
       "q034_subitem": "Q-034d",
       "segment_id": "i80-new-jersey-to-big-springs",
       "separation_m": 253.027,
@@ -556,10 +599,10 @@
   ],
   "source_policy": {
     "bridging_performed": false,
-    "locks_modified": false,
+    "locks_modified": true,
     "openstreetmap_ancestry_allowed": false,
     "tolerance_changed": false
   },
-  "status": "dispositions_recorded_lock_revision_pending",
-  "transfer_lock_sha256": "37cf05ee41a19e23a3ef647d4bdea3a64df5dba2dce123a65851517d91a8fdd4"
+  "status": "lock_revision_implemented_sub_items_pending",
+  "transfer_lock_sha256": "b267282a1d48014783c90a60c46cda85cea61741911d23649bf318404aea2b3b"
 }

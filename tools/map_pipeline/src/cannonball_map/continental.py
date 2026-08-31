@@ -291,6 +291,140 @@ def acquire_continental_nhpn_candidates(
     return payload
 
 
+SUPPLEMENTARY_CACHE_DIRECTORY = "supplementary"
+
+
+def acquire_continental_nhpn_supplements(
+    disposition_path: Path,
+    selection_path: Path,
+    catalog_path: Path,
+    lock_path: Path,
+    cache_directory: Path,
+    output_path: Path,
+    *,
+    transport: ArcGisTransport | None = None,
+    service_metadata: dict[str, Any] | None = None,
+    acquired_at: str | None = None,
+    page_size: int = 2_000,
+) -> dict[str, Any]:
+    """Extend the candidate lock with the Q-034 scoped NHPN acquisitions.
+
+    Implements the disposition record's ``nhpn_scoped_acquisition`` sites as a
+    supplementary-acquisition extension: the locked segment snapshots are never
+    re-acquired or rewritten, each scoped site's named OBJECTIDs are acquired
+    with the exact paging/checkpoint/page-hash discipline of the base
+    acquisition, and the candidate union is re-reconciled over base plus
+    supplements. Refuses a live service whose metadata differs from the locked
+    snapshot, so a supplement can never come from a different dataset edition
+    than the history it extends, and refuses any OBJECTID the lock already
+    carries.
+    """
+    payload = validate_continental_route_lock(lock_path, catalog_path, selection_path)
+    disposition = load_json(disposition_path)
+    if disposition.get("schema_version") != 1 or disposition.get("open_question") != "Q-034":
+        raise ValueError("Supplementary acquisition requires the Q-034 disposition record.")
+    scoped_sites = [
+        site
+        for site in disposition.get("sites", [])
+        if site.get("disposition") == "nhpn_scoped_acquisition"
+    ]
+    if not scoped_sites:
+        raise ValueError("The disposition record names no scoped NHPN acquisitions.")
+    nhpn = payload["nhpn"]
+    query_url = nhpn["query_url"]
+    if service_metadata is None:
+        with urllib.request.urlopen(nhpn["service_url"] + "?f=pjson", timeout=120) as response:
+            service_metadata = json.loads(response.read())
+    _validate_live_service_metadata(service_metadata)
+    service_metadata_sha256 = canonical_sha256(service_metadata)
+    if service_metadata_sha256 != nhpn["service"]["canonical_metadata_sha256"]:
+        raise ValueError(
+            "Live NHPN service metadata has drifted from the candidate lock; a "
+            "supplementary acquisition would extend the lock with records from a "
+            "different dataset edition than its locked history."
+        )
+    base_ids = {
+        object_id
+        for snapshot in nhpn["segment_snapshots"]
+        for object_id in snapshot["object_ids"]
+    }
+    segment_ids = {snapshot["segment_id"] for snapshot in nhpn["segment_snapshots"]}
+    if transport is None:
+        transport = UrllibArcGisTransport(timeout_seconds=120)
+    timestamp = acquired_at or datetime.now(UTC).replace(microsecond=0).isoformat().replace(
+        "+00:00", "Z"
+    )
+    cache_root = (
+        cache_directory
+        / nhpn["service"]["canonical_metadata_sha256"]
+        / SUPPLEMENTARY_CACHE_DIRECTORY
+    )
+    supplements: list[dict[str, Any]] = []
+    acquired_ids: set[int] = set()
+    for site in sorted(scoped_sites, key=lambda entry: str(entry.get("site_id", ""))):
+        site_id = str(site.get("site_id", ""))
+        segment_id = site.get("segment_id")
+        if segment_id not in segment_ids or not site_id.startswith(f"{segment_id}--"):
+            raise ValueError(
+                f"Scoped acquisition site '{site_id}' is not scoped to a locked segment."
+            )
+        object_ids = site.get("joining_object_ids")
+        if (
+            not isinstance(object_ids, list)
+            or not object_ids
+            or object_ids != sorted(set(object_ids))
+        ):
+            raise ValueError(f"Scoped acquisition site '{site_id}' names no OBJECTIDs.")
+        already_locked = sorted(set(object_ids) & (base_ids | acquired_ids))
+        if already_locked:
+            raise ValueError(
+                f"Scoped acquisition site '{site_id}' names already-locked "
+                f"OBJECTIDs {already_locked}."
+            )
+        predicate = "OBJECTID IN (" + ",".join(str(value) for value in object_ids) + ")"
+        result = acquire_nhpn(
+            transport,
+            query_url,
+            {"where": predicate},
+            cache_root / site_id,
+            page_size=page_size,
+        )
+        if list(result.object_ids) != object_ids:
+            raise ValueError(
+                f"Scoped acquisition site '{site_id}' did not return exactly the "
+                f"named OBJECTIDs: expected {object_ids}, got {list(result.object_ids)}."
+            )
+        acquired_ids.update(object_ids)
+        supplements.append(
+            {
+                "site_id": site_id,
+                "segment_id": segment_id,
+                "open_question": "Q-034",
+                "disposition": "nhpn_scoped_acquisition",
+                "predicate": predicate,
+                "acquired_at": timestamp,
+                "page_size": page_size,
+                "expected_count": result.expected_count,
+                "object_ids": object_ids,
+                "object_ids_sha256": canonical_sha256(object_ids),
+                "features_sha256": canonical_sha256(result.features),
+                "pages": _page_records(result, cache_root / site_id, page_size),
+                "retries": result.retries,
+                "resumed_pages": result.resumed_pages,
+            }
+        )
+    union = sorted(base_ids | acquired_ids)
+    payload["revised_at"] = timestamp
+    payload["nhpn"]["supplementary_acquisitions"] = supplements
+    payload["nhpn"]["candidate_union"] = {
+        "expected_count": len(union),
+        "object_ids_sha256": canonical_sha256(union),
+    }
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    return payload
+
+
 def validate_continental_route_lock(
     lock_path: Path,
     catalog_path: Path,
@@ -358,6 +492,51 @@ def validate_continental_route_lock(
         selector = expected_selectors[snapshot["segment_id"]]
         _validate_snapshot(snapshot, selector, max_record_count)
         union.update(snapshot["object_ids"])
+    supplements = nhpn.get("supplementary_acquisitions", [])
+    if not isinstance(supplements, list) or any(
+        not isinstance(supplement, dict) for supplement in supplements
+    ):
+        raise ValueError("Continental route lock supplementary acquisitions are invalid.")
+    supplement_site_ids: set[str] = set()
+    supplement_ids: set[int] = set()
+    for supplement in supplements:
+        site_id = str(supplement.get("site_id", ""))
+        segment_id = supplement.get("segment_id")
+        if not site_id or segment_id not in expected_selectors or not site_id.startswith(
+            f"{segment_id}--"
+        ):
+            raise ValueError(
+                f"Continental route lock supplement '{site_id}' is not scoped to a "
+                "locked segment."
+            )
+        if site_id in supplement_site_ids:
+            raise ValueError(f"Continental route lock repeats supplement '{site_id}'.")
+        supplement_site_ids.add(site_id)
+        if (
+            supplement.get("open_question") != "Q-034"
+            or supplement.get("disposition") != "nhpn_scoped_acquisition"
+        ):
+            raise ValueError(
+                f"Continental route lock supplement '{site_id}' records no "
+                "disposition ancestry."
+            )
+        _validate_acquisition_record(supplement, f"supplement '{site_id}'", max_record_count)
+        object_ids = supplement["object_ids"]
+        expected_predicate = (
+            "OBJECTID IN (" + ",".join(str(value) for value in object_ids) + ")"
+        )
+        if supplement.get("predicate") != expected_predicate:
+            raise ValueError(
+                f"Continental route lock supplement '{site_id}' predicate drifted."
+            )
+        already_locked = sorted(set(object_ids) & (union | supplement_ids))
+        if already_locked:
+            raise ValueError(
+                f"Continental route lock supplement '{site_id}' repeats locked "
+                f"OBJECTIDs {already_locked}."
+            )
+        supplement_ids.update(object_ids)
+    union.update(supplement_ids)
     candidate_union = nhpn.get("candidate_union", {})
     object_ids = sorted(union)
     if candidate_union.get("expected_count") != len(object_ids):
@@ -391,10 +570,6 @@ def derive_continental_transfer_lock(
     )
     policy = load_json(policy_path)
     specs = _validate_transfer_policy(policy, selection)
-    snapshot_by_id = {
-        snapshot["segment_id"]: snapshot
-        for snapshot in route_lock["nhpn"]["segment_snapshots"]
-    }
     cache_root = (
         cache_directory / route_lock["nhpn"]["service"]["canonical_metadata_sha256"]
     )
@@ -407,8 +582,8 @@ def derive_continental_transfer_lock(
 
     def lines_for(segment_id: str) -> tuple[LockedCandidateLine, ...]:
         if segment_id not in line_cache:
-            line_cache[segment_id] = _load_locked_candidate_lines(
-                snapshot_by_id[segment_id], cache_root / segment_id
+            line_cache[segment_id] = _segment_locked_lines(
+                route_lock, segment_id, cache_root
             )
         return line_cache[segment_id]
 
@@ -514,15 +689,17 @@ def validate_continental_transfer_lock(
     ]:
         raise ValueError("Continental transfer lock node order or coverage drifted.")
     snapshot_evidence: dict[str, dict[int, str]] = {}
-    for snapshot in route_lock["nhpn"]["segment_snapshots"]:
-        evidence_by_id: dict[int, str] = {}
+    for snapshot in (
+        *route_lock["nhpn"]["segment_snapshots"],
+        *route_lock["nhpn"].get("supplementary_acquisitions", []),
+    ):
+        evidence_by_id = snapshot_evidence.setdefault(snapshot["segment_id"], {})
         for page in snapshot["pages"]:
             offset = page["object_id_offset"]
             for object_id in snapshot["object_ids"][
                 offset : offset + page["feature_count"]
             ]:
                 evidence_by_id[object_id] = page["canonical_response_sha256"]
-        snapshot_evidence[snapshot["segment_id"]] = evidence_by_id
     for node, spec in zip(nodes, specs, strict=True):
         _validate_transfer_node(node, spec, snapshot_evidence)
     if payload.get("next_stage") != TRANSFER_NEXT_STAGE:
@@ -656,6 +833,43 @@ def _load_locked_candidate_lines(
     return tuple(lines)
 
 
+def _segment_locked_lines(
+    route_lock: dict[str, Any], segment_id: str, cache_root: Path
+) -> tuple[LockedCandidateLine, ...]:
+    """Load one segment's complete locked candidate lines from the response cache.
+
+    The revised lock's candidate set for a segment is its base snapshot plus
+    every Q-034 supplementary acquisition scoped to it. Every derivation and
+    probe consumes candidates through this helper so none of them can disagree
+    about what the lock contains.
+    """
+    nhpn = route_lock["nhpn"]
+    snapshot = next(
+        entry for entry in nhpn["segment_snapshots"] if entry["segment_id"] == segment_id
+    )
+    lines = list(_load_locked_candidate_lines(snapshot, cache_root / segment_id))
+    for supplement in nhpn.get("supplementary_acquisitions", []):
+        if supplement["segment_id"] != segment_id:
+            continue
+        lines.extend(
+            _load_locked_candidate_lines(
+                supplement,
+                cache_root / SUPPLEMENTARY_CACHE_DIRECTORY / supplement["site_id"],
+            )
+        )
+    return tuple(lines)
+
+
+def _locked_object_id_union(route_lock: dict[str, Any]) -> frozenset[int]:
+    """Every OBJECTID the revised lock carries: base snapshots plus supplements."""
+    nhpn = route_lock["nhpn"]
+    return frozenset(
+        object_id
+        for record in (*nhpn["segment_snapshots"], *nhpn.get("supplementary_acquisitions", []))
+        for object_id in record["object_ids"]
+    )
+
+
 def _derive_transfer_node(
     spec: dict[str, Any],
     metric_lines_for: Callable[
@@ -777,13 +991,9 @@ def _validate_transfer_node(
         raise ValueError(f"Transfer research sources drifted for '{spec['id']}'.")
 
 
-def _snapshot_record(
-    selector: NhpnCandidateSelector,
-    result: NhpnAcquisitionResult,
-    checkpoint_directory: Path,
-    acquired_at: str,
-    page_size: int,
-) -> dict[str, Any]:
+def _page_records(
+    result: NhpnAcquisitionResult, checkpoint_directory: Path, page_size: int
+) -> list[dict[str, Any]]:
     pages = []
     for page_index, start in enumerate(range(0, len(result.object_ids), page_size)):
         page_ids = list(result.object_ids[start : start + page_size])
@@ -798,6 +1008,17 @@ def _snapshot_record(
                 "canonical_response_sha256": record["response_sha256"],
             }
         )
+    return pages
+
+
+def _snapshot_record(
+    selector: NhpnCandidateSelector,
+    result: NhpnAcquisitionResult,
+    checkpoint_directory: Path,
+    acquired_at: str,
+    page_size: int,
+) -> dict[str, Any]:
+    pages = _page_records(result, checkpoint_directory, page_size)
     object_ids = list(result.object_ids)
     return {
         "segment_id": selector.segment_id,
@@ -817,6 +1038,61 @@ def _snapshot_record(
     }
 
 
+def _validate_acquisition_record(
+    record: dict[str, Any],
+    label: str,
+    max_record_count: int,
+) -> None:
+    """Validate the shared acquisition discipline of one paged snapshot record.
+
+    Used by the base segment snapshots, the Q-034 supplementary acquisitions,
+    and the NHS fill acquisitions, so no acquisition can land in a lock with a
+    weaker paging, hashing, or timestamp contract than the original NHPN one.
+    """
+    object_ids = record.get("object_ids", [])
+    if not object_ids or object_ids != sorted(set(object_ids)):
+        raise ValueError(f"Acquired IDs are empty, duplicated, or unsorted for {label}.")
+    if any(not isinstance(value, int) or isinstance(value, bool) for value in object_ids):
+        raise ValueError(f"Acquired IDs are not integers for {label}.")
+    if record.get("expected_count") != len(object_ids):
+        raise ValueError(f"Acquired count does not reconcile for {label}.")
+    if record.get("object_ids_sha256") != canonical_sha256(object_ids):
+        raise ValueError(f"Acquired object ID hash drifted for {label}.")
+    try:
+        acquired_at = datetime.fromisoformat(record.get("acquired_at", "").replace("Z", "+00:00"))
+    except ValueError as error:
+        message = f"Acquisition time is invalid for {label}."
+        raise ValueError(message) from error
+    if acquired_at.tzinfo is None:
+        raise ValueError(f"Acquisition time has no timezone for {label}.")
+    if not SHA256_PATTERN.fullmatch(record.get("features_sha256", "")):
+        raise ValueError(f"Acquired feature hash is invalid for {label}.")
+    page_size = int(record.get("page_size", 0))
+    if page_size < 1 or page_size > max_record_count:
+        raise ValueError(f"Acquired page size is invalid for {label}.")
+    pages = record.get("pages", [])
+    if not pages:
+        raise ValueError(f"Acquired pages are missing for {label}.")
+    flattened: list[int] = []
+    for index, page in enumerate(pages):
+        offset = page.get("object_id_offset")
+        count = page.get("feature_count")
+        if not isinstance(offset, int) or not isinstance(count, int):
+            raise ValueError(f"Acquired page metadata is invalid for {label}.")
+        page_ids = object_ids[offset : offset + count]
+        if page.get("index") != index or page.get("feature_count") != len(page_ids):
+            raise ValueError(f"Acquired page metadata is invalid for {label}.")
+        if not page_ids or len(page_ids) > page_size:
+            raise ValueError(f"Acquired page size is invalid for {label}.")
+        if page.get("object_ids_sha256") != canonical_sha256(page_ids):
+            raise ValueError(f"Acquired page ID hash drifted for {label}.")
+        if not SHA256_PATTERN.fullmatch(page.get("canonical_response_sha256", "")):
+            raise ValueError(f"Acquired page response hash is invalid for {label}.")
+        flattened.extend(page_ids)
+    if flattened != object_ids:
+        raise ValueError(f"Acquired pages do not reconcile for {label}.")
+
+
 def _validate_snapshot(
     snapshot: dict[str, Any],
     selector: NhpnCandidateSelector,
@@ -830,48 +1106,9 @@ def _validate_snapshot(
     }
     if any(snapshot.get(key) != value for key, value in expected_identity.items()):
         raise ValueError(f"NHPN selector drifted for segment '{selector.segment_id}'.")
-    object_ids = snapshot.get("object_ids", [])
-    if not object_ids or object_ids != sorted(set(object_ids)):
-        raise ValueError(
-            f"NHPN IDs are empty, duplicated, or unsorted for '{selector.segment_id}'."
-        )
-    if snapshot.get("expected_count") != len(object_ids):
-        raise ValueError(f"NHPN count does not reconcile for '{selector.segment_id}'.")
-    if snapshot.get("object_ids_sha256") != canonical_sha256(object_ids):
-        raise ValueError(f"NHPN object ID hash drifted for '{selector.segment_id}'.")
-    try:
-        acquired_at = datetime.fromisoformat(snapshot.get("acquired_at", "").replace("Z", "+00:00"))
-    except ValueError as error:
-        message = f"NHPN acquisition time is invalid for '{selector.segment_id}'."
-        raise ValueError(message) from error
-    if acquired_at.tzinfo is None:
-        raise ValueError(f"NHPN acquisition time has no timezone for '{selector.segment_id}'.")
-    if not SHA256_PATTERN.fullmatch(snapshot.get("features_sha256", "")):
-        raise ValueError(f"NHPN feature hash is invalid for '{selector.segment_id}'.")
-    page_size = int(snapshot.get("page_size", 0))
-    if page_size < 1 or page_size > max_record_count:
-        raise ValueError(f"NHPN page size is invalid for '{selector.segment_id}'.")
-    pages = snapshot.get("pages", [])
-    if not pages:
-        raise ValueError(f"NHPN pages are missing for '{selector.segment_id}'.")
-    flattened: list[int] = []
-    for index, page in enumerate(pages):
-        offset = page.get("object_id_offset")
-        count = page.get("feature_count")
-        if not isinstance(offset, int) or not isinstance(count, int):
-            raise ValueError(f"NHPN page metadata is invalid for '{selector.segment_id}'.")
-        page_ids = object_ids[offset : offset + count]
-        if page.get("index") != index or page.get("feature_count") != len(page_ids):
-            raise ValueError(f"NHPN page metadata is invalid for '{selector.segment_id}'.")
-        if not page_ids or len(page_ids) > page_size:
-            raise ValueError(f"NHPN page size is invalid for '{selector.segment_id}'.")
-        if page.get("object_ids_sha256") != canonical_sha256(page_ids):
-            raise ValueError(f"NHPN page ID hash drifted for '{selector.segment_id}'.")
-        if not SHA256_PATTERN.fullmatch(page.get("canonical_response_sha256", "")):
-            raise ValueError(f"NHPN page response hash is invalid for '{selector.segment_id}'.")
-        flattened.extend(page_ids)
-    if flattened != object_ids:
-        raise ValueError(f"NHPN pages do not reconcile for '{selector.segment_id}'.")
+    _validate_acquisition_record(
+        snapshot, f"segment '{selector.segment_id}'", max_record_count
+    )
 
 
 def _validate_live_service_metadata(metadata: dict[str, Any]) -> None:
@@ -1288,9 +1525,7 @@ def audit_continental_milepost_gaps(
     for segment in selection["segments"]:
         if segment["id"] not in snapshot_by_id:
             continue
-        lines = _load_locked_candidate_lines(
-            snapshot_by_id[segment["id"]], cache_root / segment["id"]
-        )
+        lines = _segment_locked_lines(route_lock, segment["id"], cache_root)
         by_key: dict[str, list[LockedCandidateLine]] = {}
         for line in lines:
             by_key.setdefault(line.lrs_key, []).append(line)
@@ -1586,11 +1821,7 @@ def probe_continental_milepost_gaps(
         selector.segment_id: selector
         for selector in build_nhpn_candidate_selectors(selection)
     }
-    locked_object_ids = frozenset(
-        object_id
-        for snapshot in route_lock["nhpn"]["segment_snapshots"]
-        for object_id in snapshot["object_ids"]
-    )
+    locked_object_ids = _locked_object_id_union(route_lock)
     source = load_catalog(catalog_path)[NHPN_SOURCE_ID]
     service_url = source.raw["service_url"]
     query_url = service_url + NHPN_QUERY_SUFFIX
@@ -2052,11 +2283,7 @@ def probe_continental_geometric_breaks(
     }
     transfer_by_id = {node["id"]: node for node in transfer_lock["transfer_nodes"]}
     edge_by_id = {entry["segment_id"]: entry for entry in edge_lock["segments"]}
-    all_locked_object_ids = frozenset(
-        object_id
-        for snapshot in route_lock["nhpn"]["segment_snapshots"]
-        for object_id in snapshot["object_ids"]
-    )
+    all_locked_object_ids = _locked_object_id_union(route_lock)
     cache_root = cache_directory / route_lock["nhpn"]["service"][
         "canonical_metadata_sha256"
     ]
@@ -2069,8 +2296,7 @@ def probe_continental_geometric_breaks(
         edge_entry = edge_by_id.get(segment_id)
         if edge_entry is None or edge_entry.get("connected"):
             continue
-        snapshot = snapshot_by_id[segment_id]
-        lines = _load_locked_candidate_lines(snapshot, cache_root / segment_id)
+        lines = _segment_locked_lines(route_lock, segment_id, cache_root)
         metric_lines = tuple(
             (candidate, transform(forward.transform, candidate.geometry))
             for candidate in lines
@@ -2833,10 +3059,6 @@ def probe_continental_break_ends(
         "+00:00", "Z"
     )
 
-    snapshot_by_id = {
-        snapshot["segment_id"]: snapshot
-        for snapshot in route_lock["nhpn"]["segment_snapshots"]
-    }
     locked_segments: dict[int, set[str]] = {}
     for snapshot in route_lock["nhpn"]["segment_snapshots"]:
         for object_id in snapshot["object_ids"]:
@@ -2865,9 +3087,7 @@ def probe_continental_break_ends(
     segments: list[dict[str, Any]] = []
     for entry in unconnected:
         segment = segment_by_id[entry["segment_id"]]
-        lines = _load_locked_candidate_lines(
-            snapshot_by_id[entry["segment_id"]], cache_root / entry["segment_id"]
-        )
+        lines = _segment_locked_lines(route_lock, entry["segment_id"], cache_root)
         metric_lines = tuple(
             (candidate, transform(forward.transform, candidate.geometry))
             for candidate in lines
@@ -3122,10 +3342,6 @@ def probe_continental_gap_interiors(
         "+00:00", "Z"
     )
 
-    snapshot_by_id = {
-        snapshot["segment_id"]: snapshot
-        for snapshot in route_lock["nhpn"]["segment_snapshots"]
-    }
     locked_segments: dict[int, set[str]] = {}
     for snapshot in route_lock["nhpn"]["segment_snapshots"]:
         for object_id in snapshot["object_ids"]:
@@ -3150,9 +3366,7 @@ def probe_continental_gap_interiors(
     segments: list[dict[str, Any]] = []
     for entry in unconnected:
         segment = segment_by_id[entry["segment_id"]]
-        lines = _load_locked_candidate_lines(
-            snapshot_by_id[entry["segment_id"]], cache_root / entry["segment_id"]
-        )
+        lines = _segment_locked_lines(route_lock, entry["segment_id"], cache_root)
         metric_lines = tuple(
             (candidate, transform(forward.transform, candidate.geometry))
             for candidate in lines
@@ -3739,10 +3953,6 @@ def probe_continental_nhs_breaks(
         "+00:00", "Z"
     )
 
-    snapshot_by_id = {
-        snapshot["segment_id"]: snapshot
-        for snapshot in route_lock["nhpn"]["segment_snapshots"]
-    }
     transfer_by_id = {node["id"]: node for node in transfer_lock["transfer_nodes"]}
     edge_by_id = {entry["segment_id"]: entry for entry in edge_lock["segments"]}
     cache_root = cache_directory / route_lock["nhpn"]["service"][
@@ -3760,8 +3970,7 @@ def probe_continental_nhs_breaks(
         edge_entry = edge_by_id.get(segment_id)
         if edge_entry is None or edge_entry.get("connected"):
             continue
-        snapshot = snapshot_by_id[segment_id]
-        lines = _load_locked_candidate_lines(snapshot, cache_root / segment_id)
+        lines = _segment_locked_lines(route_lock, segment_id, cache_root)
         metric_lines = tuple(
             (candidate, transform(forward.transform, candidate.geometry))
             for candidate in lines
@@ -3978,6 +4187,709 @@ def probe_continental_nhs_breaks(
     }
 
 
+# --- ADR-0026 NHS fill acquisition lock -----------------------------------------
+#
+# The disposition record's nhs_fill sites name corridor voids that NHPN cannot
+# carry and NHS demonstrably does. The fill lock acquires those NHS records
+# under the catalog entry with the exact NHPN acquisition discipline and pins
+# them beside the NHPN chain: NHPN stays the route-family authority and the
+# topology backbone; NHS supplies centerlines across the named voids only.
+# Geometry conflation is later pipeline work (ADR-0026); nothing here selects a
+# direction or claims an authoritative distance.
+
+NHS_FILL_LOCK_STATUS = "nhs_fills_locked_conflation_pending"
+NHS_FILL_NEXT_STAGE = {
+    "id": "nhpn-nhs-conflation-and-reconstruction",
+    "requires": [
+        "NHPN-to-NHS conflation model over the locked fill spans",
+        "ADR-0018 reconstruction gates for the bounded exception overlays",
+        "3DEP product lock over the chained corridor",
+    ],
+}
+NHS_FILL_SOURCE_POLICY = {
+    "supplementary_source": NHS_SOURCE_ID,
+    "nhs_role": "supplementary_centerlines_only",
+    "nhpn_remains_route_authority": True,
+    "openstreetmap_ancestry_allowed": False,
+    "lane_geometry_claimed": False,
+    "authoritative_distance_claimed": False,
+    "continental_downloads_committed": False,
+    "conflation_performed": False,
+}
+
+
+def _fill_route_groups(
+    classification: dict[str, Any], facility: str
+) -> list[dict[str, Any]]:
+    """The NHS route groups that actually carry the declared facility across a site.
+
+    A qualifying group has geometry within the lens of both ends, a zero
+    state-LRS measure gap, and the segment's declared facility among its signed
+    routes. The member records keep the fields ADR-0026 requires a lock to
+    record (YEAR, VERSION, UPDATE_DAT) plus their measures.
+    """
+    groups: list[dict[str, Any]] = []
+    for group in classification["route_groups"]:
+        if not group["geometry_near_both_ends"]:
+            continue
+        if group["largest_measure_gap_miles"] != 0.0:
+            continue
+        if facility not in group["signed_routes"]:
+            continue
+        members = [
+            {
+                "object_id": feature["object_id"],
+                "signed_route": feature["signed_route"],
+                "begin_point": feature["begin_point"],
+                "end_point": feature["end_point"],
+                "miles": feature["miles"],
+                "year": feature["year"],
+                "version": feature["version"],
+                "update_date": feature["update_date"],
+            }
+            for feature in classification["features"]
+            if feature["state_fips"] == group["state_fips"]
+            and feature["route_id"] == group["route_id"]
+        ]
+        groups.append(
+            {
+                "state_fips": group["state_fips"],
+                "route_id": group["route_id"],
+                "signed_routes": group["signed_routes"],
+                "feature_count": group["feature_count"],
+                "measure_spans": group["measure_spans"],
+                "largest_measure_gap_miles": group["largest_measure_gap_miles"],
+                "records": members,
+            }
+        )
+    return groups
+
+
+def _chain_connectivity_with_fills(
+    route_lock: dict[str, Any],
+    selection: dict[str, Any],
+    transfer_lock: dict[str, Any],
+    edge_lock: dict[str, Any],
+    fill_sites: Sequence[dict[str, Any]],
+    disposition_sites: Sequence[dict[str, Any]],
+    cache_root: Path,
+    forward: Transformer,
+) -> list[dict[str, Any]]:
+    """Whether each unconnected segment chains end-to-end once fills bridge it.
+
+    Rebuilds each segment's snapped NHPN graph from the revised candidate lock,
+    adds one bridge edge per locked NHS fill between the exact break-end
+    coordinates the disposition pinned (each must land on an existing graph node
+    within the unchanged endpoint tolerance), and tests anchor-to-anchor
+    connectivity under the unchanged anchor snap limit. A chained segment is a
+    mixed-ancestry chain, not an NHPN path and not a westbound selection; fill
+    spans contribute their chord length only, so no authoritative distance is
+    claimed.
+    """
+    tolerance = float(edge_lock["endpoint_snap_tolerance_m"])
+    anchor_limit = float(edge_lock["anchor_snap_limit_m"])
+    transfer_by_id = {node["id"]: node for node in transfer_lock["transfer_nodes"]}
+    segment_by_id = {segment["id"]: segment for segment in selection["segments"]}
+    fills_by_segment: dict[str, list[dict[str, Any]]] = {}
+    for site in fill_sites:
+        fills_by_segment.setdefault(site["segment_id"], []).append(site)
+    blockers_by_segment: dict[str, list[dict[str, Any]]] = {}
+    for site in disposition_sites:
+        if site.get("disposition") in {"nhs_fill", "nhpn_scoped_acquisition"}:
+            continue
+        blocker = {
+            "site_id": site["site_id"],
+            "disposition": site["disposition"],
+        }
+        if site.get("q034_subitem"):
+            blocker["q034_subitem"] = site["q034_subitem"]
+        blockers_by_segment.setdefault(site["segment_id"], []).append(blocker)
+
+    results: list[dict[str, Any]] = []
+    for entry in sorted(
+        (entry for entry in edge_lock["segments"] if not entry.get("connected")),
+        key=lambda entry: entry["segment_id"],
+    ):
+        segment_id = entry["segment_id"]
+        segment = segment_by_id[segment_id]
+        lines = _segment_locked_lines(route_lock, segment_id, cache_root)
+        metric_lines = tuple(
+            (candidate, transform(forward.transform, candidate.geometry))
+            for candidate in lines
+        )
+        graph, nodes, _, _ = _build_snapped_endpoint_graph(metric_lines, tolerance)
+
+        def nearest_node(
+            point: tuple[float, float],
+            nodes: dict[tuple[int, int], tuple[float, float]] = nodes,
+        ) -> tuple[tuple[int, int], float]:
+            best_key, best_distance = None, float("inf")
+            for key in sorted(nodes):
+                distance = math.dist(point, nodes[key])
+                if distance < best_distance:
+                    best_key, best_distance = key, distance
+            assert best_key is not None
+            return best_key, best_distance
+
+        bridge_keys: set[tuple[tuple[int, int], tuple[int, int]]] = set()
+        for site in sorted(
+            fills_by_segment.get(segment_id, []), key=lambda site: site["site_id"]
+        ):
+            ends = []
+            for corner in ("from_coordinate", "to_coordinate"):
+                point = forward.transform(
+                    site[corner]["longitude"], site[corner]["latitude"]
+                )
+                node, distance = nearest_node(point)
+                if distance > tolerance:
+                    raise ValueError(
+                        f"NHS fill '{site['site_id']}' {corner} does not land on a "
+                        f"locked chain end within the {tolerance:g} m tolerance "
+                        f"(nearest node is {distance:.3f} m away)."
+                    )
+                ends.append(node)
+            graph.add_edge(
+                ends[0],
+                ends[1],
+                key=("nhs-fill", site["site_id"]),
+                weight=float(site["separation_m"]),
+                fill_site_id=site["site_id"],
+            )
+            bridge_keys.add((ends[0], ends[1]))
+
+        blockers = [dict(blocker) for blocker in blockers_by_segment.get(segment_id, [])]
+        from_point = (
+            transfer_by_id[segment["from"]]["coordinate"]["longitude"],
+            transfer_by_id[segment["from"]]["coordinate"]["latitude"],
+        )
+        to_point = (
+            transfer_by_id[segment["to"]]["coordinate"]["longitude"],
+            transfer_by_id[segment["to"]]["coordinate"]["latitude"],
+        )
+        from_key, from_distance = nearest_node(forward.transform(*from_point))
+        to_key, to_distance = nearest_node(forward.transform(*to_point))
+        for side, distance in (("from", from_distance), ("to", to_distance)):
+            if distance > anchor_limit:
+                blockers.append(
+                    {
+                        "kind": "anchor_beyond_snap_limit",
+                        "side": side,
+                        "distance_m": round(distance, 3),
+                    }
+                )
+        connected = (
+            max(from_distance, to_distance) <= anchor_limit
+            and from_key != to_key
+            and nx.has_path(graph, from_key, to_key)
+        )
+        result: dict[str, Any] = {
+            "segment_id": segment_id,
+            "fill_bridge_count": len(fills_by_segment.get(segment_id, [])),
+            "from_anchor_snap_distance_m": round(from_distance, 3),
+            "to_anchor_snap_distance_m": round(to_distance, 3),
+            "chain_connected_with_fills": connected,
+            "remaining_blockers": blockers,
+        }
+        if connected:
+            node_path = nx.shortest_path(graph, from_key, to_key, weight="weight")
+            nhpn_meters = 0.0
+            fill_meters = 0.0
+            fill_site_ids: list[str] = []
+            for previous, current in zip(node_path, node_path[1:], strict=False):
+                parallel = graph.get_edge_data(previous, current)
+                chosen_key = min(
+                    parallel,
+                    key=lambda edge_key: (parallel[edge_key]["weight"], str(edge_key)),
+                )
+                data = parallel[chosen_key]
+                if "fill_site_id" in data:
+                    fill_meters += data["weight"]
+                    fill_site_ids.append(data["fill_site_id"])
+                else:
+                    nhpn_meters += data["weight"]
+            result.update(
+                nhpn_path_meters=round(nhpn_meters, 3),
+                fill_chord_meters=round(fill_meters, 3),
+                chain_length_meters=round(nhpn_meters + fill_meters, 3),
+                fill_site_ids_on_chain=sorted(fill_site_ids),
+            )
+        results.append(result)
+    return results
+
+
+def acquire_continental_nhs_fill_lock(
+    disposition_path: Path,
+    selection_path: Path,
+    route_lock_path: Path,
+    transfer_lock_path: Path,
+    policy_path: Path,
+    edge_path_lock_path: Path,
+    catalog_path: Path,
+    cache_directory: Path,
+    fill_cache_directory: Path,
+    output_path: Path,
+    *,
+    transport: ArcGisTransport | None = None,
+    service_metadata: dict[str, Any] | None = None,
+    expected_metadata_sha256: str | None = None,
+    acquired_at: str | None = None,
+    page_size: int = 2_000,
+    padding_meters: float = GEOMETRIC_PROBE_PADDING_METERS,
+) -> dict[str, Any]:
+    """Acquire and lock the NHS records for every nhs_fill disposition site.
+
+    Follows the exact catalog and acquisition discipline of the NHPN lock:
+    catalog URL-allowlist enforcement, service identity and public-domain
+    validation, optional expected-metadata drift refusal, paging, checkpoints,
+    page hashes, and SHA-256 at ingest. Records the NHPN/NHS dual ancestry
+    ADR-0026 requires and each record's YEAR, VERSION, and UPDATE_DAT fields.
+    Responses stay in the ignored cache; no geometry is conflated, no direction
+    is selected, and no authoritative distance is claimed.
+    """
+    catalog = load_catalog(catalog_path)
+    if NHS_SOURCE_ID not in catalog:
+        raise ValueError("NHS is not in the approved source catalog.")
+    source = catalog[NHS_SOURCE_ID]
+    service_url, query_url = _require_nhs_query_url(source)
+    if service_metadata is None:
+        with urllib.request.urlopen(service_url + "?f=pjson", timeout=120) as response:
+            service_metadata = json.loads(response.read())
+    _validate_nhs_service_metadata(service_metadata)
+    service_metadata_sha256 = canonical_sha256(service_metadata)
+    if (
+        expected_metadata_sha256 is not None
+        and service_metadata_sha256 != expected_metadata_sha256
+    ):
+        raise ValueError(
+            "Live NHS service metadata has drifted from the expected snapshot; an "
+            "acquisition against it would lock a different dataset than the one "
+            "the disposition evidence names."
+        )
+    max_record_count = int(service_metadata["maxRecordCount"])
+    if page_size > max_record_count:
+        raise ValueError(
+            f"NHS page size {page_size} exceeds the live service limit of "
+            f"{max_record_count}."
+        )
+
+    selection = load_json(selection_path)
+    route_lock = validate_continental_route_lock(
+        route_lock_path, catalog_path, selection_path
+    )
+    transfer_lock = validate_continental_transfer_lock(
+        transfer_lock_path, policy_path, selection_path, route_lock_path, catalog_path
+    )
+    edge_lock = validate_continental_edge_path_lock(
+        edge_path_lock_path,
+        transfer_lock_path,
+        policy_path,
+        selection_path,
+        route_lock_path,
+        catalog_path,
+    )
+    disposition = load_json(disposition_path)
+    if disposition.get("schema_version") != 1 or disposition.get("open_question") != "Q-034":
+        raise ValueError("NHS fill acquisition requires the Q-034 disposition record.")
+    disposition_sites = disposition.get("sites", [])
+    fill_dispositions = [
+        site for site in disposition_sites if site.get("disposition") == "nhs_fill"
+    ]
+    if not fill_dispositions:
+        raise ValueError("The disposition record names no NHS fill sites.")
+    # A fill may name a segment the revised candidate lock has since connected
+    # (a scoped acquisition can close a segment whose fragment span still has a
+    # recorded fill): the fill then records what NHS asserts across the span,
+    # while chain connectivity below covers only the still-unconnected segments.
+    locked_segment_ids = {entry["segment_id"] for entry in edge_lock["segments"]}
+    segment_by_id = {segment["id"]: segment for segment in selection["segments"]}
+
+    if transport is None:
+        transport = UrllibArcGisTransport(timeout_seconds=120)
+    timestamp = acquired_at or datetime.now(UTC).replace(microsecond=0).isoformat().replace(
+        "+00:00", "Z"
+    )
+    forward = Transformer.from_crs("EPSG:4326", "EPSG:5070", always_xy=True)
+    inverse = Transformer.from_crs("EPSG:5070", "EPSG:4326", always_xy=True)
+    fill_root = fill_cache_directory / service_metadata_sha256
+    cache_root = cache_directory / route_lock["nhpn"]["service"][
+        "canonical_metadata_sha256"
+    ]
+
+    sites: list[dict[str, Any]] = []
+    for site in sorted(fill_dispositions, key=lambda entry: str(entry.get("site_id", ""))):
+        site_id = str(site.get("site_id", ""))
+        segment_id = site.get("segment_id")
+        if segment_id not in locked_segment_ids or not site_id.startswith(f"{segment_id}--"):
+            raise ValueError(
+                f"NHS fill site '{site_id}' is not scoped to a locked segment."
+            )
+        facility = segment_by_id[segment_id]["facility_sequence"][0]
+        from_metric = forward.transform(
+            site["from_coordinate"]["longitude"], site["from_coordinate"]["latitude"]
+        )
+        to_metric = forward.transform(
+            site["to_coordinate"]["longitude"], site["to_coordinate"]["latitude"]
+        )
+        envelope = _spatial_probe_envelope(from_metric, to_metric, inverse, padding_meters)
+        result = acquire_nhpn(
+            transport,
+            query_url,
+            {
+                "where": "1=1",
+                "geometry": ",".join(f"{coordinate:.12f}" for coordinate in envelope),
+                "geometryType": "esriGeometryEnvelope",
+                "inSR": "4326",
+                "spatialRel": "esriSpatialRelIntersects",
+            },
+            fill_root / site_id,
+            page_size=page_size,
+        )
+        classification = _classify_nhs_site(
+            from_metric, to_metric, result.features, forward
+        )
+        fill_groups = _fill_route_groups(classification, facility)
+        if not classification["nhs_carries_between_ends"] or not fill_groups:
+            raise ValueError(
+                f"NHS fill site '{site_id}' has no continuous {facility} NHS route "
+                "between its ends; the disposition evidence no longer holds."
+            )
+        sites.append(
+            {
+                "site_id": site_id,
+                "segment_id": segment_id,
+                "facility": facility,
+                "from_coordinate": site["from_coordinate"],
+                "to_coordinate": site["to_coordinate"],
+                "separation_m": site["separation_m"],
+                "envelope_4326": [round(value, 7) for value in envelope],
+                "acquired_at": timestamp,
+                "page_size": page_size,
+                "expected_count": result.expected_count,
+                "object_ids": list(result.object_ids),
+                "object_ids_sha256": canonical_sha256(list(result.object_ids)),
+                "features_sha256": canonical_sha256(list(result.features)),
+                "pages": _page_records(result, fill_root / site_id, page_size),
+                "retries": result.retries,
+                "resumed_pages": result.resumed_pages,
+                "proximity_lens_m": classification["proximity_lens_m"],
+                "nhs_carries_between_ends": True,
+                "fill_route_groups": fill_groups,
+            }
+        )
+
+    chain = _chain_connectivity_with_fills(
+        route_lock,
+        selection,
+        transfer_lock,
+        edge_lock,
+        sites,
+        disposition_sites,
+        cache_root,
+        forward,
+    )
+    payload = {
+        "schema_version": 1,
+        "status": NHS_FILL_LOCK_STATUS,
+        "decision": selection["decision"],
+        "open_question": "Q-034",
+        "acquired_at": timestamp,
+        "coordinate_crs": "EPSG:4326",
+        "metric_crs": "EPSG:5070",
+        "catalog_sha256": compute_sha256(catalog_path),
+        "route_selection_sha256": compute_sha256(selection_path),
+        "candidate_lock_sha256": compute_sha256(route_lock_path),
+        "transfer_lock_sha256": compute_sha256(transfer_lock_path),
+        "edge_path_lock_sha256": compute_sha256(edge_path_lock_path),
+        "nhs": {
+            "source_id": NHS_SOURCE_ID,
+            "publisher": source.publisher,
+            "license_status": source.license_status,
+            "license_evidence_url": source.license_evidence_url,
+            "service_url": service_url,
+            "query_url": query_url,
+            "service": {
+                "item_id": service_metadata["serviceItemId"],
+                "layer_id": service_metadata["id"],
+                "object_id_field": service_metadata["objectIdField"],
+                "max_record_count": service_metadata["maxRecordCount"],
+                "data_last_edit_epoch_ms": service_metadata["editingInfo"][
+                    "dataLastEditDate"
+                ],
+                "canonical_metadata_sha256": service_metadata_sha256,
+            },
+        },
+        "ancestry": {
+            "nhpn_backbone": {
+                "source_id": NHPN_SOURCE_ID,
+                "role": (
+                    "route-family and topology backbone; authority for which "
+                    "facilities are on the route"
+                ),
+                "candidate_lock_sha256": compute_sha256(route_lock_path),
+            },
+            "nhs_centerlines": {
+                "source_id": NHS_SOURCE_ID,
+                "role": (
+                    "supplementary corridor centerlines and state-LRS milepoints "
+                    "across the named NHPN voids only"
+                ),
+                "decision": "ADR-0026",
+            },
+        },
+        "source_policy": dict(NHS_FILL_SOURCE_POLICY),
+        "proximity_lens_m": NHS_PROXIMITY_LENS_METERS,
+        "probe_padding_meters": padding_meters,
+        "endpoint_snap_tolerance_m": edge_lock["endpoint_snap_tolerance_m"],
+        "anchor_snap_limit_m": edge_lock["anchor_snap_limit_m"],
+        "westbound_selection_validated": False,
+        "site_count": len(sites),
+        "sites": sites,
+        "sites_sha256": canonical_sha256(sites),
+        "chain_connectivity": {
+            "note": (
+                "Anchor-to-anchor connectivity of each unconnected segment once "
+                "every locked NHS fill bridges its pinned break ends. A chained "
+                "segment is a mixed-ancestry chain (NHPN backbone plus NHS fill "
+                "chords), not an NHPN path, not a westbound selection, and not an "
+                "authoritative distance."
+            ),
+            "chained_segment_count": sum(
+                1 for entry in chain if entry["chain_connected_with_fills"]
+            ),
+            "unchained_segment_count": sum(
+                1 for entry in chain if not entry["chain_connected_with_fills"]
+            ),
+            "segments": chain,
+        },
+        "chain_connectivity_sha256": canonical_sha256(chain),
+        "next_stage": NHS_FILL_NEXT_STAGE,
+    }
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    return payload
+
+
+def validate_continental_nhs_fill_lock(
+    fill_lock_path: Path,
+    selection_path: Path,
+    route_lock_path: Path,
+    transfer_lock_path: Path,
+    policy_path: Path,
+    edge_path_lock_path: Path,
+    catalog_path: Path,
+) -> dict[str, Any]:
+    """Validate the NHS fill lock without requiring the ignored response caches."""
+    payload = load_json(fill_lock_path)
+    if payload.get("schema_version") != 1:
+        raise ValueError("Unsupported NHS fill lock schema.")
+    if payload.get("status") != NHS_FILL_LOCK_STATUS:
+        raise ValueError("NHS fill lock has an unsupported status.")
+    if payload.get("open_question") != "Q-034":
+        raise ValueError("NHS fill lock does not cite Q-034.")
+    if payload.get("westbound_selection_validated") is not False:
+        raise ValueError(
+            "NHS fill lock claims a validated westbound selection, which this "
+            "stage cannot establish."
+        )
+    selection = load_json(selection_path)
+    if payload.get("decision") != selection.get("decision"):
+        raise ValueError("NHS fill lock decision does not match the route selection.")
+    validate_continental_route_lock(route_lock_path, catalog_path, selection_path)
+    validate_continental_transfer_lock(
+        transfer_lock_path, policy_path, selection_path, route_lock_path, catalog_path
+    )
+    edge_lock = validate_continental_edge_path_lock(
+        edge_path_lock_path,
+        transfer_lock_path,
+        policy_path,
+        selection_path,
+        route_lock_path,
+        catalog_path,
+    )
+    expected_hashes = {
+        "catalog_sha256": compute_sha256(catalog_path),
+        "route_selection_sha256": compute_sha256(selection_path),
+        "candidate_lock_sha256": compute_sha256(route_lock_path),
+        "transfer_lock_sha256": compute_sha256(transfer_lock_path),
+        "edge_path_lock_sha256": compute_sha256(edge_path_lock_path),
+    }
+    if any(payload.get(key) != value for key, value in expected_hashes.items()):
+        raise ValueError("NHS fill lock input hash drifted.")
+    catalog = load_catalog(catalog_path)
+    nhs = payload.get("nhs", {})
+    source = require_catalog_source(
+        catalog,
+        source_id=nhs.get("source_id", ""),
+        publisher=nhs.get("publisher", ""),
+        license_status=nhs.get("license_status", ""),
+        source_url=nhs.get("service_url", ""),
+        license_evidence_url=nhs.get("license_evidence_url", ""),
+    )
+    expected_service_url, expected_query_url = _require_nhs_query_url(source)
+    if (
+        nhs.get("service_url") != expected_service_url
+        or nhs.get("query_url") != expected_query_url
+    ):
+        raise ValueError("NHS fill lock query URL drifted from the catalog allowlist.")
+    service = nhs.get("service", {})
+    if (
+        service.get("item_id") != NHS_SERVICE_ITEM_ID
+        or service.get("layer_id") != 0
+        or service.get("object_id_field") != "OBJECTID"
+    ):
+        raise ValueError("NHS fill lock service identity drifted.")
+    max_record_count = int(service.get("max_record_count", 0))
+    if (
+        max_record_count < 1
+        or not isinstance(service.get("data_last_edit_epoch_ms"), int)
+        or not SHA256_PATTERN.fullmatch(service.get("canonical_metadata_sha256", ""))
+    ):
+        raise ValueError("NHS fill lock service metadata is incomplete.")
+    ancestry = payload.get("ancestry", {})
+    backbone = ancestry.get("nhpn_backbone", {})
+    centerlines = ancestry.get("nhs_centerlines", {})
+    if (
+        backbone.get("source_id") != NHPN_SOURCE_ID
+        or backbone.get("candidate_lock_sha256") != compute_sha256(route_lock_path)
+        or centerlines.get("source_id") != NHS_SOURCE_ID
+        or centerlines.get("decision") != "ADR-0026"
+    ):
+        raise ValueError("NHS fill lock does not record the ADR-0026 dual ancestry.")
+    if payload.get("source_policy") != NHS_FILL_SOURCE_POLICY:
+        raise ValueError("NHS fill lock source policy is incomplete.")
+    if payload.get("endpoint_snap_tolerance_m") != edge_lock["endpoint_snap_tolerance_m"]:
+        raise ValueError("NHS fill lock declares a drifted endpoint snap tolerance.")
+    if payload.get("anchor_snap_limit_m") != edge_lock["anchor_snap_limit_m"]:
+        raise ValueError("NHS fill lock declares a drifted anchor snap limit.")
+
+    unconnected_ids = {
+        entry["segment_id"] for entry in edge_lock["segments"] if not entry.get("connected")
+    }
+    locked_segment_ids = {entry["segment_id"] for entry in edge_lock["segments"]}
+    segment_by_id = {segment["id"]: segment for segment in selection["segments"]}
+    sites = payload.get("sites")
+    if not isinstance(sites, list) or not sites:
+        raise ValueError("NHS fill lock records no sites.")
+    if payload.get("site_count") != len(sites):
+        raise ValueError("NHS fill lock site count does not reconcile.")
+    if canonical_sha256(sites) != payload.get("sites_sha256"):
+        raise ValueError("NHS fill lock site digest drifted.")
+    site_ids: set[str] = set()
+    for site in sites:
+        site_id = _require_nonempty_string(
+            site.get("site_id"), "NHS fill site has no site ID."
+        )
+        if site_id in site_ids:
+            raise ValueError(f"NHS fill lock repeats site '{site_id}'.")
+        site_ids.add(site_id)
+        segment_id = site.get("segment_id")
+        if segment_id not in locked_segment_ids or not site_id.startswith(f"{segment_id}--"):
+            raise ValueError(
+                f"NHS fill site '{site_id}' is not scoped to a locked segment."
+            )
+        facility = site.get("facility")
+        if facility != segment_by_id[segment_id]["facility_sequence"][0]:
+            raise ValueError(f"NHS fill site '{site_id}' facility drifted.")
+        for corner in ("from_coordinate", "to_coordinate"):
+            _require_conus_coordinate(
+                site.get(corner), f"NHS fill site '{site_id}' coordinate is invalid."
+            )
+        separation = site.get("separation_m")
+        if (
+            not isinstance(separation, int | float)
+            or isinstance(separation, bool)
+            or not math.isfinite(separation)
+            or separation <= 0
+        ):
+            raise ValueError(f"NHS fill site '{site_id}' has an invalid separation.")
+        _validate_acquisition_record(site, f"NHS fill '{site_id}'", max_record_count)
+        if site.get("nhs_carries_between_ends") is not True:
+            raise ValueError(
+                f"NHS fill site '{site_id}' does not assert NHS carries between ends."
+            )
+        groups = site.get("fill_route_groups")
+        if not isinstance(groups, list) or not groups:
+            raise ValueError(f"NHS fill site '{site_id}' records no fill route group.")
+        acquired_ids = set(site["object_ids"])
+        for group in groups:
+            _require_nonempty_string(
+                group.get("state_fips"),
+                f"NHS fill site '{site_id}' group has no state FIPS.",
+            )
+            _require_nonempty_string(
+                group.get("route_id"),
+                f"NHS fill site '{site_id}' group has no route ID.",
+            )
+            signed_routes = group.get("signed_routes")
+            if not isinstance(signed_routes, list) or facility not in signed_routes:
+                raise ValueError(
+                    f"NHS fill site '{site_id}' group is not signed {facility}."
+                )
+            if group.get("largest_measure_gap_miles") != 0.0:
+                raise ValueError(
+                    f"NHS fill site '{site_id}' group has a state-LRS measure gap."
+                )
+            spans = group.get("measure_spans")
+            if not isinstance(spans, list) or not spans or any(
+                not isinstance(span, list)
+                or len(span) != 2
+                or any(
+                    not isinstance(value, int | float)
+                    or isinstance(value, bool)
+                    or not math.isfinite(value)
+                    for value in span
+                )
+                for span in spans
+            ):
+                raise ValueError(
+                    f"NHS fill site '{site_id}' group measure spans are invalid."
+                )
+            records = group.get("records")
+            if not isinstance(records, list) or not records:
+                raise ValueError(f"NHS fill site '{site_id}' group has no records.")
+            for record in records:
+                if record.get("object_id") not in acquired_ids:
+                    raise ValueError(
+                        f"NHS fill site '{site_id}' group cites an unacquired record."
+                    )
+    chain = payload.get("chain_connectivity", {})
+    chain_segments = chain.get("segments")
+    if not isinstance(chain_segments, list) or {
+        entry.get("segment_id") for entry in chain_segments
+    } != unconnected_ids:
+        raise ValueError(
+            "NHS fill lock chain connectivity does not cover exactly the "
+            "unconnected segments."
+        )
+    if canonical_sha256(chain_segments) != payload.get("chain_connectivity_sha256"):
+        raise ValueError("NHS fill lock chain connectivity digest drifted.")
+    chained = 0
+    for entry in chain_segments:
+        connected = entry.get("chain_connected_with_fills")
+        if not isinstance(connected, bool):
+            raise ValueError("NHS fill lock chain connectivity claim is invalid.")
+        if connected:
+            chained += 1
+            cited = entry.get("fill_site_ids_on_chain", [])
+            if any(site_id not in site_ids for site_id in cited):
+                raise ValueError(
+                    f"Chained segment '{entry.get('segment_id')}' cites an unlocked "
+                    "fill site."
+                )
+        elif not entry.get("remaining_blockers"):
+            raise ValueError(
+                f"Unchained segment '{entry.get('segment_id')}' records no "
+                "remaining blockers."
+            )
+    if chain.get("chained_segment_count") != chained or chain.get(
+        "unchained_segment_count"
+    ) != len(chain_segments) - chained:
+        raise ValueError("NHS fill lock chain connectivity counts do not reconcile.")
+    if payload.get("next_stage") != NHS_FILL_NEXT_STAGE:
+        raise ValueError("NHS fill lock next stage drifted.")
+    return payload
+
+
 # --- Q-034 per-site disposition record -----------------------------------------
 #
 # The disposition artifact is authored, not derived: it records the ADR-0018
@@ -3987,6 +4899,7 @@ def probe_continental_nhs_breaks(
 # dated audit and Q-034 carry that.
 
 DISPOSITION_STATUS = "dispositions_recorded_lock_revision_pending"
+DISPOSITION_STATUS_IMPLEMENTED = "lock_revision_implemented_sub_items_pending"
 DISPOSITION_CLASSES = (
     "nhpn_scoped_acquisition",
     "nhs_fill",
@@ -4027,13 +4940,19 @@ def _require_conus_coordinate(value: Any, message: str) -> None:
 
 
 def _validate_disposition_site(
-    site: dict[str, Any], unconnected_ids: set[str], locked_object_ids: frozenset[int]
+    site: dict[str, Any],
+    site_segment_ids: set[str],
+    locked_object_ids: frozenset[int],
+    *,
+    implemented: bool = False,
+    supplements_by_site: dict[str, list[int]] | None = None,
+    fill_site_ids: frozenset[str] = frozenset(),
 ) -> None:
     site_id = _require_nonempty_string(
         site.get("site_id"), "Disposition site has no site ID."
     )
     segment_id = site.get("segment_id")
-    if segment_id not in unconnected_ids:
+    if segment_id not in site_segment_ids:
         raise ValueError(f"Disposition site '{site_id}' names a connected segment.")
     if not site_id.startswith(f"{segment_id}--"):
         raise ValueError(f"Disposition site '{site_id}' is not scoped to its segment.")
@@ -4065,12 +4984,20 @@ def _validate_disposition_site(
             raise ValueError(
                 f"Disposition site '{site_id}' names no sorted unique joining OBJECTIDs."
             )
-        already_locked = sorted(set(object_ids) & locked_object_ids)
-        if already_locked:
-            raise ValueError(
-                f"Disposition site '{site_id}' proposes acquiring already-locked "
-                f"OBJECTIDs {already_locked}."
-            )
+        if implemented:
+            implemented_ids = (supplements_by_site or {}).get(site_id)
+            if implemented_ids != object_ids:
+                raise ValueError(
+                    f"Disposition site '{site_id}' is not implemented by a matching "
+                    "supplementary acquisition in the candidate lock."
+                )
+        else:
+            already_locked = sorted(set(object_ids) & locked_object_ids)
+            if already_locked:
+                raise ValueError(
+                    f"Disposition site '{site_id}' proposes acquiring already-locked "
+                    f"OBJECTIDs {already_locked}."
+                )
         _require_nonempty_string(
             site.get("direction_review"),
             f"Disposition site '{site_id}' records no direction review.",
@@ -4090,6 +5017,10 @@ def _validate_disposition_site(
         if not SHA256_PATTERN.fullmatch(str(evidence.get("probe_artifact_sha256", ""))):
             raise ValueError(
                 f"Disposition site '{site_id}' records no NHS probe artifact hash."
+            )
+        if implemented and site_id not in fill_site_ids:
+            raise ValueError(
+                f"Disposition site '{site_id}' is not implemented by the NHS fill lock."
             )
     elif disposition == "bounded_reconstruction_exception":
         exception = site.get("exception")
@@ -4147,13 +5078,23 @@ def validate_continental_break_dispositions(
     policy_path: Path,
     edge_path_lock_path: Path,
     catalog_path: Path,
+    nhs_fill_lock_path: Path | None = None,
 ) -> dict[str, Any]:
-    """Validate the Q-034 per-site disposition record against the locked inputs."""
+    """Validate the Q-034 per-site disposition record against the locked inputs.
+
+    In the recorded status the record is a pending decision: no lock may carry
+    supplements yet and scoped acquisitions must name unlocked records. In the
+    implemented status the lock revision has landed: every scoped acquisition
+    must be implemented by a matching candidate-lock supplement, every NHS fill
+    by a validated NHS fill lock site, and the record pins the fill lock's hash.
+    """
     payload = load_json(disposition_path)
     if payload.get("schema_version") != 1:
         raise ValueError("Unsupported break-disposition schema.")
-    if payload.get("status") != DISPOSITION_STATUS:
+    status = payload.get("status")
+    if status not in {DISPOSITION_STATUS, DISPOSITION_STATUS_IMPLEMENTED}:
         raise ValueError("Break-disposition record has an unsupported status.")
+    implemented = status == DISPOSITION_STATUS_IMPLEMENTED
     selection = load_json(selection_path)
     if payload.get("decision") != selection.get("decision"):
         raise ValueError("Break-disposition decision does not match the route selection.")
@@ -4204,7 +5145,7 @@ def validate_continental_break_dispositions(
     policy = payload.get("source_policy", {})
     if policy != {
         "bridging_performed": False,
-        "locks_modified": False,
+        "locks_modified": implemented,
         "openstreetmap_ancestry_allowed": False,
         "tolerance_changed": False,
     }:
@@ -4229,20 +5170,82 @@ def validate_continental_break_dispositions(
     unconnected_ids = {
         entry["segment_id"] for entry in edge_lock["segments"] if not entry.get("connected")
     }
-    locked_object_ids = frozenset(
-        object_id
-        for snapshot in route_lock["nhpn"]["segment_snapshots"]
-        for object_id in snapshot["object_ids"]
-    )
+    # A recorded (pending) disposition must not propose acquiring anything the
+    # lock already carries, base snapshots and prior supplements alike; an
+    # implemented one instead proves its scoped sites are the supplements.
+    locked_object_ids = _locked_object_id_union(route_lock)
+    supplements = route_lock["nhpn"].get("supplementary_acquisitions", [])
+    supplements_by_site = {
+        supplement["site_id"]: supplement["object_ids"] for supplement in supplements
+    }
+    fill_site_ids: frozenset[str] = frozenset()
+    if implemented:
+        if nhs_fill_lock_path is None:
+            raise ValueError(
+                "An implemented break-disposition record requires the NHS fill lock."
+            )
+        fill_lock = validate_continental_nhs_fill_lock(
+            nhs_fill_lock_path,
+            selection_path,
+            route_lock_path,
+            transfer_lock_path,
+            policy_path,
+            edge_path_lock_path,
+            catalog_path,
+        )
+        if payload.get("nhs_fill_lock_sha256") != compute_sha256(nhs_fill_lock_path):
+            raise ValueError("Break-disposition NHS fill lock hash drifted.")
+        fill_site_ids = frozenset(site["site_id"] for site in fill_lock["sites"])
     sites = payload.get("sites")
     if not isinstance(sites, list) or not sites:
         raise ValueError("Break-disposition record contains no sites.")
     site_ids = [site.get("site_id") for site in sites]
     if len(set(site_ids)) != len(site_ids):
         raise ValueError("Break-disposition record repeats a site.")
+    # In the recorded status a site may only name a still-unconnected segment.
+    # Once the revision is implemented, a scoped acquisition can have connected
+    # its segment (downtown Los Angeles did exactly that), so an implemented
+    # record's sites may name any locked segment while every segment that is
+    # still unconnected must keep its sites.
+    site_segment_ids = (
+        {entry["segment_id"] for entry in edge_lock["segments"]}
+        if implemented
+        else unconnected_ids
+    )
     for site in sites:
-        _validate_disposition_site(site, unconnected_ids, locked_object_ids)
-    if {site["segment_id"] for site in sites} != unconnected_ids:
+        _validate_disposition_site(
+            site,
+            site_segment_ids,
+            locked_object_ids,
+            implemented=implemented,
+            supplements_by_site=supplements_by_site,
+            fill_site_ids=fill_site_ids,
+        )
+    if implemented:
+        scoped_site_ids = {
+            site["site_id"]
+            for site in sites
+            if site["disposition"] == "nhpn_scoped_acquisition"
+        }
+        if set(supplements_by_site) != scoped_site_ids:
+            raise ValueError(
+                "Candidate-lock supplements do not cover exactly the scoped "
+                "acquisition sites."
+            )
+        nhs_fill_disposition_ids = {
+            site["site_id"] for site in sites if site["disposition"] == "nhs_fill"
+        }
+        if fill_site_ids != nhs_fill_disposition_ids:
+            raise ValueError(
+                "NHS fill lock sites do not cover exactly the nhs_fill dispositions."
+            )
+    covered = {site["segment_id"] for site in sites}
+    if implemented:
+        if not unconnected_ids <= covered:
+            raise ValueError(
+                "Break-disposition sites do not cover every unconnected segment."
+            )
+    elif covered != unconnected_ids:
         raise ValueError(
             "Break-disposition sites do not cover exactly the unconnected segments."
         )
@@ -4264,7 +5267,7 @@ def validate_continental_break_dispositions(
         end_id = str(end.get("end_id", ""))
         if not BREAK_END_ID_PATTERN.fullmatch(end_id):
             raise ValueError(f"Break-disposition census end '{end_id}' has an invalid ID.")
-        if end.get("segment_id") not in unconnected_ids:
+        if end.get("segment_id") not in site_segment_ids:
             raise ValueError(
                 f"Break-disposition census end '{end_id}' names a connected segment."
             )
@@ -4335,9 +5338,7 @@ def derive_continental_edge_path_lock(
                     f"Segment '{segment['id']}' references unlocked transfer node "
                     f"'{segment[endpoint]}'."
                 )
-        lines = _load_locked_candidate_lines(
-            snapshot_by_id[segment["id"]], cache_root / segment["id"]
-        )
+        lines = _segment_locked_lines(route_lock, segment["id"], cache_root)
         metric_lines = tuple(
             (candidate, transform(forward.transform, candidate.geometry))
             for candidate in lines
@@ -4454,8 +5455,11 @@ def validate_continental_edge_path_lock(
     selection_by_id = {segment["id"]: segment for segment in selection["segments"]}
     page_hashes = {
         page["canonical_response_sha256"]
-        for snapshot in route_lock["nhpn"]["segment_snapshots"]
-        for page in snapshot["pages"]
+        for record in (
+            *route_lock["nhpn"]["segment_snapshots"],
+            *route_lock["nhpn"].get("supplementary_acquisitions", []),
+        )
+        for page in record["pages"]
     }
     if {entry["segment_id"] for entry in segments} != snapshot_ids:
         raise ValueError("Edge-path lock does not cover exactly the locked segments.")

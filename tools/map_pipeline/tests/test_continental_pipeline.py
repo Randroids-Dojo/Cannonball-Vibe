@@ -1854,6 +1854,243 @@ def test_nhs_probe_finding_is_derived_from_the_probed_sites() -> None:
 
 
 DISPOSITION_PATH = Path("data/routes/continental/break-disposition.v1.json")
+NHS_FILL_LOCK_PATH = Path("data/routes/continental/nhs-fill-lock.v1.json")
+
+
+class _WhereEchoTransport:
+    """Serves OBJECTIDs parsed from an ``OBJECTID IN (...)`` predicate."""
+
+    def post(self, _url: str, form: dict[str, str]) -> dict:
+        if "objectIds" in form:
+            ids = sorted(int(value) for value in form["objectIds"].split(","))
+        else:
+            where = form.get("where", "")
+            ids = sorted(
+                int(value)
+                for value in where[where.index("(") + 1 : where.index(")")].split(",")
+            )
+        if form.get("returnCountOnly") == "true":
+            return {"count": len(ids)}
+        if form.get("returnIdsOnly") == "true":
+            return {"objectIdFieldName": "OBJECTID", "objectIds": ids}
+        return {
+            "features": [
+                {
+                    "attributes": {"OBJECTID": object_id},
+                    "geometry": {"paths": [[[0.0, 0.0], [0.001, 0.001]]]},
+                }
+                for object_id in ids
+            ]
+        }
+
+
+def _fabricated_supplement_inputs(tmp_path: Path) -> tuple[Path, Path, dict]:
+    metadata = _service_metadata()
+    cache = tmp_path / "cache"
+    lock = tmp_path / "lock.json"
+    acquire_continental_nhpn_candidates(
+        SELECTION_PATH,
+        CATALOG_PATH,
+        lock,
+        cache,
+        transport=_OneFeatureTransport(),
+        service_metadata=metadata,
+        acquired_at="2026-08-04T01:58:01Z",
+    )
+    disposition = {
+        "schema_version": 1,
+        "open_question": "Q-034",
+        "sites": [
+            {
+                "site_id": "i80-new-jersey-to-big-springs--component-00-01",
+                "segment_id": "i80-new-jersey-to-big-springs",
+                "disposition": "nhpn_scoped_acquisition",
+                "joining_object_ids": [7],
+            }
+        ],
+    }
+    disposition_path = tmp_path / "disposition.json"
+    disposition_path.write_text(json.dumps(disposition), encoding="utf-8")
+    return lock, disposition_path, metadata
+
+
+def test_supplement_acquisition_extends_the_lock_without_rewriting_history(
+    tmp_path: Path,
+) -> None:
+    lock, disposition_path, metadata = _fabricated_supplement_inputs(tmp_path)
+    original = json.loads(lock.read_text(encoding="utf-8"))
+    payload = continental.acquire_continental_nhpn_supplements(
+        disposition_path,
+        SELECTION_PATH,
+        CATALOG_PATH,
+        lock,
+        tmp_path / "cache",
+        lock,
+        transport=_WhereEchoTransport(),
+        service_metadata=metadata,
+        acquired_at="2026-08-31T00:00:00Z",
+    )
+    assert payload["nhpn"]["segment_snapshots"] == original["nhpn"]["segment_snapshots"]
+    supplements = payload["nhpn"]["supplementary_acquisitions"]
+    assert [entry["object_ids"] for entry in supplements] == [[7]]
+    assert supplements[0]["predicate"] == "OBJECTID IN (7)"
+    assert payload["nhpn"]["candidate_union"]["expected_count"] == 2
+    metadata_hash = canonical_sha256(metadata)
+    checkpoint = (
+        tmp_path
+        / "cache"
+        / metadata_hash
+        / "supplementary"
+        / "i80-new-jersey-to-big-springs--component-00-01"
+        / "page-000000.json"
+    )
+    assert checkpoint.is_file()
+    validate_continental_route_lock(lock, CATALOG_PATH, SELECTION_PATH)
+
+
+def test_supplement_acquisition_refuses_drift_and_relocking(tmp_path: Path) -> None:
+    lock, disposition_path, metadata = _fabricated_supplement_inputs(tmp_path)
+    drifted = {**metadata, "editingInfo": {"dataLastEditDate": 2}}
+    with pytest.raises(ValueError, match="drifted from the candidate lock"):
+        continental.acquire_continental_nhpn_supplements(
+            disposition_path,
+            SELECTION_PATH,
+            CATALOG_PATH,
+            lock,
+            tmp_path / "cache",
+            tmp_path / "out.json",
+            transport=_WhereEchoTransport(),
+            service_metadata=drifted,
+        )
+    relocking = {
+        "schema_version": 1,
+        "open_question": "Q-034",
+        "sites": [
+            {
+                "site_id": "i80-new-jersey-to-big-springs--component-00-01",
+                "segment_id": "i80-new-jersey-to-big-springs",
+                "disposition": "nhpn_scoped_acquisition",
+                "joining_object_ids": [1],
+            }
+        ],
+    }
+    disposition_path.write_text(json.dumps(relocking), encoding="utf-8")
+    with pytest.raises(ValueError, match="already-locked"):
+        continental.acquire_continental_nhpn_supplements(
+            disposition_path,
+            SELECTION_PATH,
+            CATALOG_PATH,
+            lock,
+            tmp_path / "cache",
+            tmp_path / "out.json",
+            transport=_WhereEchoTransport(),
+            service_metadata=metadata,
+        )
+
+
+def test_route_lock_validator_rejects_supplement_tampering(tmp_path: Path) -> None:
+    lock, disposition_path, metadata = _fabricated_supplement_inputs(tmp_path)
+    continental.acquire_continental_nhpn_supplements(
+        disposition_path,
+        SELECTION_PATH,
+        CATALOG_PATH,
+        lock,
+        tmp_path / "cache",
+        lock,
+        transport=_WhereEchoTransport(),
+        service_metadata=metadata,
+        acquired_at="2026-08-31T00:00:00Z",
+    )
+    payload = json.loads(lock.read_text(encoding="utf-8"))
+
+    tampered = copy.deepcopy(payload)
+    tampered["nhpn"]["supplementary_acquisitions"][0]["predicate"] = "OBJECTID IN (8)"
+    lock.write_text(json.dumps(tampered), encoding="utf-8")
+    with pytest.raises(ValueError, match="predicate drifted"):
+        validate_continental_route_lock(lock, CATALOG_PATH, SELECTION_PATH)
+
+    tampered = copy.deepcopy(payload)
+    tampered["nhpn"]["supplementary_acquisitions"][0]["disposition"] = "nhs_fill"
+    lock.write_text(json.dumps(tampered), encoding="utf-8")
+    with pytest.raises(ValueError, match="disposition ancestry"):
+        validate_continental_route_lock(lock, CATALOG_PATH, SELECTION_PATH)
+
+    tampered = copy.deepcopy(payload)
+    supplement = copy.deepcopy(tampered["nhpn"]["supplementary_acquisitions"][0])
+    supplement["site_id"] = "i80-new-jersey-to-big-springs--component-00-02"
+    tampered["nhpn"]["supplementary_acquisitions"].append(supplement)
+    lock.write_text(json.dumps(tampered), encoding="utf-8")
+    with pytest.raises(ValueError, match="repeats locked OBJECTIDs"):
+        validate_continental_route_lock(lock, CATALOG_PATH, SELECTION_PATH)
+
+
+def _tampered_fill_lock(tmp_path: Path, mutate) -> Path:
+    payload = json.loads(NHS_FILL_LOCK_PATH.read_text(encoding="utf-8"))
+    mutate(payload)
+    payload["sites_sha256"] = canonical_sha256(payload["sites"])
+    payload["chain_connectivity_sha256"] = canonical_sha256(
+        payload["chain_connectivity"]["segments"]
+    )
+    target = tmp_path / "nhs-fill-lock.json"
+    target.write_text(json.dumps(payload), encoding="utf-8")
+    return target
+
+
+def _validate_fill_lock(path: Path) -> dict:
+    return continental.validate_continental_nhs_fill_lock(
+        path,
+        SELECTION_PATH,
+        LOCK_PATH,
+        TRANSFER_LOCK_PATH,
+        TRANSFER_POLICY_PATH,
+        EDGE_PATH_LOCK_PATH,
+        CATALOG_PATH,
+    )
+
+
+def test_nhs_fill_lock_rejects_semantic_tampering(tmp_path: Path) -> None:
+    def gap(payload: dict) -> None:
+        payload["sites"][0]["fill_route_groups"][0]["largest_measure_gap_miles"] = 0.5
+
+    with pytest.raises(ValueError, match="measure gap"):
+        _validate_fill_lock(_tampered_fill_lock(tmp_path, gap))
+
+    def ancestry(payload: dict) -> None:
+        payload["ancestry"]["nhs_centerlines"]["decision"] = "ADR-0001"
+
+    with pytest.raises(ValueError, match="dual ancestry"):
+        _validate_fill_lock(_tampered_fill_lock(tmp_path, ancestry))
+
+    def blockers(payload: dict) -> None:
+        for entry in payload["chain_connectivity"]["segments"]:
+            if not entry["chain_connected_with_fills"]:
+                entry["remaining_blockers"] = []
+                break
+
+    with pytest.raises(ValueError, match="no.*remaining blockers|remaining blockers"):
+        _validate_fill_lock(_tampered_fill_lock(tmp_path, blockers))
+
+    def direction(payload: dict) -> None:
+        payload["westbound_selection_validated"] = True
+
+    with pytest.raises(ValueError, match="westbound selection"):
+        _validate_fill_lock(_tampered_fill_lock(tmp_path, direction))
+
+
+def test_implemented_disposition_rejects_unimplemented_scoped_sites(
+    tmp_path: Path,
+) -> None:
+    payload = json.loads(DISPOSITION_PATH.read_text(encoding="utf-8"))
+    for site in payload["sites"]:
+        if site["disposition"] == "nhpn_scoped_acquisition":
+            site["joining_object_ids"] = sorted(
+                {*site["joining_object_ids"], 999_999_999}
+            )
+            break
+    target = tmp_path / "disposition.json"
+    target.write_text(json.dumps(payload), encoding="utf-8")
+    with pytest.raises(ValueError, match="not implemented by a matching"):
+        _validate_disposition(target, NHS_FILL_LOCK_PATH)
 
 
 def _disposition_payload() -> dict:
@@ -1925,7 +2162,7 @@ def _write_disposition(tmp_path: Path, payload: dict) -> Path:
     return target
 
 
-def _validate_disposition(path: Path) -> dict:
+def _validate_disposition(path: Path, nhs_fill_lock: Path | None = None) -> dict:
     return continental.validate_continental_break_dispositions(
         path,
         SELECTION_PATH,
@@ -1934,12 +2171,14 @@ def _validate_disposition(path: Path) -> dict:
         TRANSFER_POLICY_PATH,
         EDGE_PATH_LOCK_PATH,
         CATALOG_PATH,
+        nhs_fill_lock_path=nhs_fill_lock,
     )
 
 
 def test_break_disposition_record_validates_and_rejects_drift(tmp_path: Path) -> None:
     payload = _disposition_payload()
-    assert _validate_disposition(_write_disposition(tmp_path, payload))["site_count"] == 6
+    validated = _validate_disposition(_write_disposition(tmp_path, payload))
+    assert validated["site_count"] == len(payload["sites"])
 
     with pytest.raises(ValueError, match="unsupported status"):
         _validate_disposition(
@@ -2029,7 +2268,62 @@ def test_break_disposition_requires_a_subitem_for_ambiguity(tmp_path: Path) -> N
 
 
 def test_repository_break_disposition_record_validates() -> None:
-    payload = _validate_disposition(DISPOSITION_PATH)
+    payload = _validate_disposition(DISPOSITION_PATH, NHS_FILL_LOCK_PATH)
     assert payload["site_count"] == 14
     assert payload["open_question"] == "Q-034"
-    assert payload["source_policy"]["locks_modified"] is False
+    assert payload["status"] == "lock_revision_implemented_sub_items_pending"
+    assert payload["source_policy"]["locks_modified"] is True
+    assert payload["disposition_counts"]["nhpn_scoped_acquisition"] == 5
+    assert payload["disposition_counts"]["ambiguous"] == 2
+
+
+def test_implemented_disposition_requires_the_fill_lock() -> None:
+    with pytest.raises(ValueError, match="requires the NHS fill lock"):
+        _validate_disposition(DISPOSITION_PATH)
+
+
+def test_repository_nhs_fill_lock_validates() -> None:
+    payload = continental.validate_continental_nhs_fill_lock(
+        NHS_FILL_LOCK_PATH,
+        SELECTION_PATH,
+        LOCK_PATH,
+        TRANSFER_LOCK_PATH,
+        TRANSFER_POLICY_PATH,
+        EDGE_PATH_LOCK_PATH,
+        CATALOG_PATH,
+    )
+    assert payload["site_count"] == 5
+    assert payload["westbound_selection_validated"] is False
+    assert payload["ancestry"]["nhs_centerlines"]["decision"] == "ADR-0026"
+    chain = payload["chain_connectivity"]
+    assert chain["chained_segment_count"] == 2
+    blocked = {
+        entry["segment_id"]: entry["remaining_blockers"]
+        for entry in chain["segments"]
+        if not entry["chain_connected_with_fills"]
+    }
+    assert set(blocked) == {
+        "i78-holland-tunnel-to-i81",
+        "i80-new-jersey-to-big-springs",
+    }
+    for blockers in blocked.values():
+        assert blockers
+
+
+def test_repository_candidate_lock_carries_the_q034_supplements() -> None:
+    payload = validate_continental_route_lock(LOCK_PATH, CATALOG_PATH, SELECTION_PATH)
+    supplements = payload["nhpn"]["supplementary_acquisitions"]
+    by_site = {entry["site_id"]: entry["object_ids"] for entry in supplements}
+    assert by_site == {
+        "i10-ontario-to-i405--component-00-01": [
+            545360, 545363, 545364, 545365, 545366, 545370,
+            546470, 546510, 546519, 546522, 546524, 546525, 546526,
+            546556, 546557, 546558, 546559, 546568, 546569,
+            546571, 546572, 546573, 546574,
+        ],
+        "i15-salt-lake-to-cove-fort--component-00-01": [43839, 43841],
+        "i40-i81-to-barstow--component-00-01": [38597],
+        "i40-i81-to-barstow--component-02-04": [218838],
+        "i70-denver-to-cove-fort--component-01-02": [59709],
+    }
+    assert payload["nhpn"]["candidate_union"]["expected_count"] == 15_553
