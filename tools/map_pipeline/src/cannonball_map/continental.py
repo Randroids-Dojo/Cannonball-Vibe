@@ -19037,3 +19037,3685 @@ def validate_continental_junction_geometry(
             "committed movements."
         )
     return payload
+
+
+LANE_TOPOLOGY_STATUS = "lane_topology_locked_collision_package_pending"
+
+LANE_WIDTH_M = 3.6576
+LANE_LEFT_SHOULDER_M = 1.2192
+LANE_RIGHT_SHOULDER_M = 3.048
+LANE_RAMP_WIDTH_M = 4.8768
+LANE_MAINLINE_COUNT = 2
+LANE_MAINLINE_DESIGN_SPEED_MPH = 70.0
+# MUTCD 11th ed. 3B.12 high-speed lane-reduction taper: L = W x S with the
+# 12 ft controlled offset at the 70 mph mainline design speed = 840 ft.
+LANE_TAPER_LENGTH_M = 256.032
+LANE_AUX_FULL_WIDTH_M = 300.0
+LANE_INDEX_RULE = (
+    "Lane index 0 is the leftmost (median-adjacent) lane of the directed "
+    "carriageway; indexes increase rightward. Stable lane IDs carry lane "
+    "identity across sections (ADR-0013 control-line rule); indexes are "
+    "per-section ordering only."
+)
+
+# AASHTO GDHS minimum radii at e_max = 6 % for the metric design speeds the
+# corner classes declare (252 m at 80 km/h, 79 m at 50 km/h, 21 m at
+# 30 km/h).
+LANE_CORNER_DESIGN_CLASSES = {
+    "directional_80": {"design_speed_kmh": 80.0, "minimum_radius_m": 252.0},
+    "ramp_50": {"design_speed_kmh": 50.0, "minimum_radius_m": 79.0},
+    "street_30": {"design_speed_kmh": 30.0, "minimum_radius_m": 21.0},
+}
+LANE_CORNER_DIRECTIONAL_TURN_LIMIT_DEG = 50.0
+LANE_CLASS_ORDER = ("directional_80", "ramp_50", "street_30")
+LANE_REFINEMENT_PROFILE = "sine_eased_heading"
+LANE_REFINEMENT_MIN_TURN_DEG = 1.0
+LANE_REFINEMENT_INTEGRATION_STEPS = 2048
+LANE_REFINEMENT_SAMPLE_COUNT = 64
+LANE_REFINEMENT_MIN_TANGENT_M = 5.0
+LANE_REFINEMENT_INITIAL_LEG_M = 25.0
+LANE_REFINEMENT_LEG_GROWTH_M = 25.0
+LANE_REFINEMENT_MAX_LEG_M = 450.0
+# A refined movement corner must not touch the 25 m seam lens the junction
+# lock's attachment gates were adjudicated over.
+LANE_REFINEMENT_END_MARGIN_M = 25.0
+LANE_REFINEMENT_NEIGHBOUR_GAP_M = 5.0
+# The catalog documents NHPN centerline vertices at the ~80 m horizontal
+# error class; a refinement that departs the locked line beyond that class
+# would exceed source fidelity rather than remove digitization noise.
+LANE_REFINEMENT_MAX_DEPARTURE_M = 80.0
+LANE_REFINEMENT_CLOSURE_LIMIT_M = 0.01
+LANE_REFINEMENT_MONOTONICITY_TOLERANCE_DEG = 0.2
+LANE_REFINEMENT_DEPARTURE_SAMPLE_M = 5.0
+LANE_SHARED_PAVEMENT_TOLERANCE_M = 1.0
+
+# Vertical easing: a symmetric 9-station (900 m) moving average over the
+# conditioned 100 m profile with both segment boundary stations pinned
+# exactly (junction and connector seam elevations stand unchanged). AASHTO
+# metric rate-of-vertical-curvature minima: K = 74/55 (crest/sag) at
+# 110 km/h, K = 26/30 at 80 km/h.
+LANE_VERTICAL_HALF_WINDOW_STATIONS = 4
+LANE_VERTICAL_CREST_K_110 = 74.0
+LANE_VERTICAL_SAG_K_110 = 55.0
+LANE_VERTICAL_CREST_K_80 = 26.0
+LANE_VERTICAL_SAG_K_80 = 30.0
+LANE_VERTICAL_MAX_DEPARTURE_M = 16.0
+# 16.5 ft standard freeway vertical clearance for the authored
+# grade-separation declarations at the recorded plan-view crossings.
+LANE_GRADE_SEPARATION_CLEARANCE_M = 5.03
+LANE_ATTRIBUTE_FIELD_CANDIDATES = (
+    "LANES",
+    "LANE_QTY",
+    "NUM_LANES",
+    "THROUGH_LA",
+    "THROUGH_LANES",
+    "THRU_LANES",
+)
+
+LANE_MOVEMENT_CLASSES = (
+    "mainline_continuation",
+    "fork_exit_ramp",
+    "merge_entrance_ramp",
+    "directional_transfer",
+    "turnaround_loop",
+)
+
+LANE_TOPOLOGY_MODEL = {
+    "decision": "ADR-0011",
+    "control_line_decision": "ADR-0013",
+    "carriageway_decision": "ADR-0014",
+    "reconstruction_decision": "ADR-0018",
+    "context_decision": "ADR-0017",
+    "metric_crs": "EPSG:5070",
+    "lane_index_rule": LANE_INDEX_RULE,
+    "defaults": {
+        "divided_carriageway": {
+            "lane_count": LANE_MAINLINE_COUNT,
+            "lane_width_m": LANE_WIDTH_M,
+            "left_shoulder_m": LANE_LEFT_SHOULDER_M,
+            "right_shoulder_m": LANE_RIGHT_SHOULDER_M,
+            "design_speed_mph": LANE_MAINLINE_DESIGN_SPEED_MPH,
+            "justification": (
+                "The locked NHPN source asserts no lane attribute (the "
+                "derive censuses every cached response field), so the "
+                "corridor carries the AASHTO Interstate design standard "
+                "cross-section as an authored ADR-0018 default: two 12 ft "
+                "general lanes per carriageway with a 10 ft right and 4 ft "
+                "left paved shoulder at a 70 mph rural design speed. Never "
+                "claimed as observed lane geometry; per-site richness is "
+                "later authored refinement over a locked source."
+            ),
+        },
+        "one_way_ramp": {
+            "lane_count": 1,
+            "lane_width_m": LANE_RAMP_WIDTH_M,
+            "left_shoulder_m": LANE_LEFT_SHOULDER_M,
+            "right_shoulder_m": LANE_LEFT_SHOULDER_M,
+            "justification": (
+                "Single-lane ramp and turnaround cross-sections carry the "
+                "AASHTO single-lane ramp traveled-way class (16 ft) with "
+                "minimum shoulders - authored defaults, recorded per "
+                "movement."
+            ),
+        },
+        "unclassified": {
+            "lane_count": 1,
+            "lane_width_m": LANE_WIDTH_M,
+            "left_shoulder_m": 0.0,
+            "right_shoulder_m": 0.0,
+            "justification": (
+                "The authored endpoint connectors are ADR-0014 "
+                "'unclassified' city-street records: one 12 ft travel lane "
+                "in the travel direction with no shoulder claim. The "
+                "undivided cross-section cannot claim the "
+                "divided-carriageway reciprocal pair (endpoint connector "
+                "lock's standing reason)."
+            ),
+        },
+    },
+    "eastbound_rule": (
+        "The eastbound carriageway mirrors the westbound lane model "
+        "section-for-section through the carriageway lock's reciprocal "
+        "pairing rule; no separate eastbound rows are recorded."
+    ),
+    "section_projection_rule": (
+        "The package build projects each segment's ordered westbound "
+        "sections onto the directed element edges by clipping section "
+        "spans to each element's station range; lane IDs and roles are "
+        "preserved verbatim."
+    ),
+    "corner_refinement": {
+        "profile": LANE_REFINEMENT_PROFILE,
+        "integration_steps": LANE_REFINEMENT_INTEGRATION_STEPS,
+        "sample_count_rule": (
+            "one curve sample per metre of arc length, floored at 8 and "
+            "capped at 64 - short curves keep the mm-quantization heading "
+            "jitter inside the monotonicity tolerance"
+        ),
+        "max_sample_count": LANE_REFINEMENT_SAMPLE_COUNT,
+        "class_assignment_rule": (
+            "route_corner, overlay_corner, and junction_transfer_corner "
+            "sites take directional_80 when the corner's total lens turn "
+            "is at or below 50 degrees and ramp_50 above it; "
+            "connector_corner sites take street_30. A junction corner "
+            "whose bounded movement window cannot host its assigned curve "
+            "steps down class by class (ramp_50, then street_30) with "
+            "every step recorded; the slowest class must fit or the site "
+            "refuses. Chain and connector windows may grow instead, so "
+            "they never step down."
+        ),
+        "construction_rule": (
+            "The refined corner is the sine-eased heading curve "
+            "theta(u) = h_entry + turn * (u - sin(2*pi*u)/(2*pi)) whose "
+            "arc length L = 2*|turn|*R pins the peak curvature at exactly "
+            "1/R for the achieved class radius, spliced between straight "
+            "tangent legs solved so the path closes exactly onto the "
+            "recorded seam poses - a pure function of the recorded poses "
+            "and radius that the validator reconstructs exactly. The "
+            "window legs grow deterministically from the smallest lens "
+            "step until the designed tangent legs fit, so the achieved "
+            "window is the tightest that hosts the designed curve."
+        ),
+        "minimum_turn_deg": LANE_REFINEMENT_MIN_TURN_DEG,
+        "min_tangent_m": LANE_REFINEMENT_MIN_TANGENT_M,
+        "initial_leg_m": LANE_REFINEMENT_INITIAL_LEG_M,
+        "leg_growth_m": LANE_REFINEMENT_LEG_GROWTH_M,
+        "max_leg_m": LANE_REFINEMENT_MAX_LEG_M,
+        "end_margin_m": LANE_REFINEMENT_END_MARGIN_M,
+        "neighbour_gap_m": LANE_REFINEMENT_NEIGHBOUR_GAP_M,
+        "max_departure_m": LANE_REFINEMENT_MAX_DEPARTURE_M,
+        "closure_limit_m": LANE_REFINEMENT_CLOSURE_LIMIT_M,
+        "monotonicity_tolerance_deg": LANE_REFINEMENT_MONOTONICITY_TOLERANCE_DEG,
+        "design_classes": LANE_CORNER_DESIGN_CLASSES,
+        "directional_turn_limit_deg": LANE_CORNER_DIRECTIONAL_TURN_LIMIT_DEG,
+        "excluded_corner_classes": {
+            "junction_backtrack_approach": (
+                "The doubled backtrack approach travel was superseded by "
+                "the junction lock's authored turn-around movements; no "
+                "pavement remains to refine."
+            ),
+        },
+        "serpentine_rule": (
+            "A corner cluster whose flagged 25 m lens turns carry mixed "
+            "signs is a serpentine (winding-alignment) site, not a single "
+            "corner: replacing it with one designed curve would erase real "
+            "winding road beyond the locked fidelity envelope, and the "
+            "locked ~80 m-class NHPN vertices cannot support a "
+            "speed-designed multi-curve refinement. The site is recorded "
+            "as a reduced-design-speed zone at the fastest class whose "
+            "minimum radius the measured lens geometry supports, and a "
+            "designed replacement waits for an ADR-0026 supplementary "
+            "geometric source."
+        ),
+    },
+    "transitions": {
+        "taper_formula": (
+            "MUTCD 11th ed. 3B.12 high-speed lane-reduction relationship "
+            "L = W x S (feet) at the 70 mph mainline design speed for the "
+            "12 ft controlled offset: 840 ft = 256.032 m for every "
+            "mainline lane add, drop, and auxiliary taper; the controlled "
+            "edge interpolates linearly (ADR-0013)."
+        ),
+        "taper_length_m": LANE_TAPER_LENGTH_M,
+        "auxiliary_full_width_m": LANE_AUX_FULL_WIDTH_M,
+        "auxiliary_justification": (
+            "The 300 m full-width auxiliary run before an exit gore and "
+            "after an entrance gore is an authored default inside the "
+            "AASHTO deceleration/acceleration-length class for a 70 mph "
+            "mainline and the ramp design speeds; it is refined only when "
+            "an authoritative geometric source is locked."
+        ),
+        "turnaround_rule": (
+            "A turnaround approach drops its right lane through the "
+            "speed-designed taper ending at the loop entry seam; the loop "
+            "attaches on the left (median) side to lane 0. A departing "
+            "segment fed only by the single-lane loop adds its right lane "
+            "through the same designed taper from the loop exit seam; a "
+            "departing segment also fed by a two-lane through movement "
+            "keeps two lanes and the loop connects to lane 0."
+        ),
+        "gore_rule": (
+            "An exit gore sits at the refined ramp curve's entry seam "
+            "station in the movement frame (where the ramp departs the "
+            "shared pavement); an entrance gore sits at the refined ramp "
+            "curve's exit seam station (where the ramp joins it). "
+            "Auxiliary spans extend across the movement/segment seam "
+            "where the designed lengths require it, recorded per span."
+        ),
+        "endpoint_rule": (
+            "The corridor edge attached to an authored endpoint connector "
+            "begins (or ends) as one lane at the attachment seam and "
+            "gains (or drops) its second lane through the designed taper; "
+            "the two portal terminals are the only open lane boundaries. "
+            "The southern path's Holland Tunnel seam stays open and "
+            "recorded until that connector is authored."
+        ),
+    },
+    "vertical_easing": {
+        "method": (
+            "Symmetric 9-station (900 m) moving average over each "
+            "segment's conditioned 100 m profile, windows truncated at "
+            "the ends, with both boundary stations re-pinned exactly and "
+            "the correction blended linearly across the first and last "
+            "half-window - segment seam elevations stand unchanged. The "
+            "irregular terminal station keeps its conditioned value."
+        ),
+        "half_window_stations": LANE_VERTICAL_HALF_WINDOW_STATIONS,
+        "station_interval_m": ELEVATION_STATION_INTERVAL_M,
+        "k_minimums_m_per_percent": {
+            "crest_110_kmh": LANE_VERTICAL_CREST_K_110,
+            "sag_110_kmh": LANE_VERTICAL_SAG_K_110,
+            "crest_80_kmh": LANE_VERTICAL_CREST_K_80,
+            "sag_80_kmh": LANE_VERTICAL_SAG_K_80,
+        },
+        "census_rule": (
+            "Between consecutive 100 m intervals the implied rate of "
+            "vertical curvature K = interval / |grade change|. Stations "
+            "inside the 110 km/h class pass silently; stations inside the "
+            "80 km/h class are recorded exception sites for the collision "
+            "and package stage's vertical sampling; any station below the "
+            "80 km/h class refuses. The 100 m DEM station quantum cannot "
+            "adjudicate design vertical curves more finely (the "
+            "conditioned profile's standing artifact classes)."
+        ),
+        "max_departure_m": LANE_VERTICAL_MAX_DEPARTURE_M,
+        "departure_justification": (
+            "The easing may depart the conditioned profile by at most "
+            "16 m - the measured 13.78 m worst case sits at a recorded "
+            "22 % station-scale jitter site of the same non-road artifact "
+            "class the conditioning audit characterised; a larger "
+            "departure would demand a new per-site disposition."
+        ),
+    },
+    "grade_separation": {
+        "min_vertical_clearance_m": LANE_GRADE_SEPARATION_CLEARANCE_M,
+        "rule": (
+            "Every plan-view opposing-carriageway crossing the junction "
+            "lock records is a grade-separated interchange movement; no "
+            "locked source asserts its vertical geometry, so each "
+            "crossing carries an authored ADR-0018 declaration that the "
+            "transfer passes over the opposing carriageway with at least "
+            "the 16.5 ft standard freeway clearance. The collision and "
+            "package stage must build the two levels at least that far "
+            "apart at the crossing."
+        ),
+    },
+    "shared_pavement_tolerance_m": LANE_SHARED_PAVEMENT_TOLERANCE_M,
+    "corner_threshold_deg": CARRIAGEWAY_CORNER_THRESHOLD_DEG,
+    "reversal_threshold_deg": CARRIAGEWAY_REVERSAL_THRESHOLD_DEG,
+    "tangent_lens_m": CARRIAGEWAY_TANGENT_LENS_M,
+}
+
+LANE_TOPOLOGY_SOURCE_POLICY = {
+    "route_decision": "ADR-0024",
+    "context_decision": "ADR-0017",
+    "reconstruction_decision": "ADR-0018",
+    "lane_attribution_present_in_locked_source": False,
+    "lane_counts_authored_default": True,
+    "observed_lane_geometry_claimed": False,
+    "lane_topology_generated": True,
+    "collision_generated": False,
+    "package_built": False,
+    "continental_downloads_committed": False,
+    "run_length_effect_claimed": False,
+    "run_length_effect_note": (
+        "Corner refinements shorten the traveled line by recorded "
+        "per-site deltas inside the locked source-centerline fidelity "
+        "envelope; the published ADR-0024 portal-to-portal figure remains "
+        "the westbound carriageway lock's record."
+    ),
+}
+
+LANE_TOPOLOGY_DEFERRED_GATES = {
+    "deferred_to": "collision-and-package-build-stage",
+    "gates": [
+        "sightline",
+        "clearance",
+        "collision",
+        "endpoint_connector_grade",
+        "endpoint_connector_vertical_curvature",
+        "endpoint_reciprocal_separation",
+    ],
+    "reason": (
+        "Sightline and clearance adjudication need the 3D collision "
+        "ribbons and structure model the collision stage generates; the "
+        "authored grade-separation clearances declared here are that "
+        "stage's input, and the collision gates run over its generated "
+        "meshes. The endpoint connector vertical set keeps the endpoint "
+        "connector lock's standing reason: no locked elevation source "
+        "covers the connector facilities, and the undivided cross-section "
+        "has no reciprocal pair to measure; the service-bubble build at "
+        "the package stage authors and gates them."
+    ),
+}
+
+LANE_TOPOLOGY_NEXT_STAGE = {
+    "id": "collision-chunking-and-adr-0019-package-build",
+    "requires": [
+        "collision ribbons over the refined lane model with the deferred "
+        "collision/sightline/clearance gates and the declared "
+        "grade-separation clearances",
+        "streaming-budget-aware chunking (ADR-0023) with independently "
+        "hashable chunks, then the ADR-0019 GeoPackage/FlatBuffer package "
+        "build: two builds, every shipping byte compared, the 64 MB root "
+        "and 16 MB chunk ceilings enforced and recorded",
+        "the southern path's Holland Tunnel connector (nyc-start-to-i78) "
+        "and its recorded open lane seam",
+        "runtime integration and the traversal evidence",
+    ],
+}
+
+
+def _lane_signed_heading_difference(entry_deg: float, exit_deg: float) -> float:
+    """Signed turn from the entry heading to the exit heading in (-180, 180]."""
+    return -_normalize_degrees(entry_deg - exit_deg)
+
+
+class _LaneRefinementFitError(ValueError):
+    """The designed curve does not fit between the current seam poses."""
+
+    def __init__(self, refinement_id: str, facts: dict[str, Any]) -> None:
+        self.facts = facts
+        super().__init__(
+            json.dumps(
+                {
+                    "refusal": "corner refinement tangent legs do not fit "
+                    "the window",
+                    "refinement_id": refinement_id,
+                    "entry_tangent_m": facts["entry_tangent_m"],
+                    "exit_tangent_m": facts["exit_tangent_m"],
+                },
+                sort_keys=True,
+            )
+        )
+
+
+def _lane_eased_corner_geometry(
+    refinement_id: str,
+    entry_pose: dict[str, Any],
+    exit_pose: dict[str, Any],
+    radius_m: float,
+) -> tuple[list[tuple[float, float]], dict[str, Any]]:
+    """Author one refined corner from its recorded seam poses and radius.
+
+    A pure function of the two mm-rounded seam coordinates, their recorded
+    headings, and the achieved class radius, so the validator reproduces
+    the geometry exactly. The sine-eased heading curve's arc length pins
+    peak curvature at exactly 1/R; the straight tangent legs solve a 2x2
+    linear closure onto the exit pose.
+    """
+    entry_point = (entry_pose["coordinate"][0], entry_pose["coordinate"][1])
+    exit_point = (exit_pose["coordinate"][0], exit_pose["coordinate"][1])
+    entry_heading = math.radians(entry_pose["heading_deg"])
+    exit_heading = math.radians(exit_pose["heading_deg"])
+    turn_deg = _lane_signed_heading_difference(
+        entry_pose["heading_deg"], exit_pose["heading_deg"]
+    )
+    if abs(turn_deg) < LANE_REFINEMENT_MIN_TURN_DEG:
+        raise ValueError(
+            json.dumps(
+                {
+                    "refusal": "corner refinement turn is degenerate",
+                    "refinement_id": refinement_id,
+                    "turn_deg": round(turn_deg, 4),
+                },
+                sort_keys=True,
+            )
+        )
+    if abs(turn_deg) > CARRIAGEWAY_REVERSAL_THRESHOLD_DEG:
+        raise ValueError(
+            json.dumps(
+                {
+                    "refusal": "corner refinement turn is reversal-class",
+                    "refinement_id": refinement_id,
+                    "turn_deg": round(turn_deg, 4),
+                },
+                sort_keys=True,
+            )
+        )
+    turn = math.radians(turn_deg)
+    arc_length = 2.0 * abs(turn) * radius_m
+    steps = LANE_REFINEMENT_INTEGRATION_STEPS
+    step = 1.0 / steps
+    unit_x = [0.0]
+    unit_y = [0.0]
+    for index in range(1, steps + 1):
+        u_mid = (index - 0.5) * step
+        theta = entry_heading + turn * (
+            u_mid - math.sin(2.0 * math.pi * u_mid) / (2.0 * math.pi)
+        )
+        unit_x.append(unit_x[-1] + math.cos(theta) * step)
+        unit_y.append(unit_y[-1] + math.sin(theta) * step)
+    curve_dx = arc_length * unit_x[-1]
+    curve_dy = arc_length * unit_y[-1]
+    entry_dir = (math.cos(entry_heading), math.sin(entry_heading))
+    exit_dir = (math.cos(exit_heading), math.sin(exit_heading))
+    residual_x = exit_point[0] - entry_point[0] - curve_dx
+    residual_y = exit_point[1] - entry_point[1] - curve_dy
+    determinant = entry_dir[0] * exit_dir[1] - entry_dir[1] * exit_dir[0]
+    if abs(determinant) < 1e-9:
+        raise ValueError(
+            json.dumps(
+                {
+                    "refusal": "corner refinement seam headings are "
+                    "parallel; the tangent legs cannot solve",
+                    "refinement_id": refinement_id,
+                },
+                sort_keys=True,
+            )
+        )
+    entry_tangent = (
+        residual_x * exit_dir[1] - residual_y * exit_dir[0]
+    ) / determinant
+    exit_tangent = (
+        entry_dir[0] * residual_y - entry_dir[1] * residual_x
+    ) / determinant
+    samples = max(8, min(LANE_REFINEMENT_SAMPLE_COUNT, math.ceil(arc_length)))
+    facts = {
+        "profile": LANE_REFINEMENT_PROFILE,
+        "turn_deg": round(turn_deg, 4),
+        "arc_length_m": round(arc_length, 3),
+        "entry_tangent_m": round(entry_tangent, 3),
+        "exit_tangent_m": round(exit_tangent, 3),
+        "max_curvature_1_per_m": round(1.0 / radius_m, 6),
+        "sample_count": samples,
+    }
+    if (
+        entry_tangent < LANE_REFINEMENT_MIN_TANGENT_M - 1e-9
+        or exit_tangent < LANE_REFINEMENT_MIN_TANGENT_M - 1e-9
+    ):
+        raise _LaneRefinementFitError(refinement_id, facts)
+    curve_start = (
+        entry_point[0] + entry_tangent * entry_dir[0],
+        entry_point[1] + entry_tangent * entry_dir[1],
+    )
+    raw_points: list[tuple[float, float]] = [entry_point]
+    for index in range(samples + 1):
+        u = index / samples
+        grid = u * steps
+        low = int(grid)
+        if low >= steps:
+            ux, uy = unit_x[-1], unit_y[-1]
+        else:
+            fraction = grid - low
+            ux = unit_x[low] + (unit_x[low + 1] - unit_x[low]) * fraction
+            uy = unit_y[low] + (unit_y[low + 1] - unit_y[low]) * fraction
+        raw_points.append(
+            (
+                curve_start[0] + arc_length * ux,
+                curve_start[1] + arc_length * uy,
+            )
+        )
+    curve_end = raw_points[-1]
+    landing = (
+        curve_end[0] + exit_tangent * exit_dir[0],
+        curve_end[1] + exit_tangent * exit_dir[1],
+    )
+    closure = math.dist(landing, exit_point)
+    if closure > LANE_REFINEMENT_CLOSURE_LIMIT_M:
+        raise ValueError(
+            json.dumps(
+                {
+                    "refusal": "corner refinement does not close onto the "
+                    "exit seam",
+                    "refinement_id": refinement_id,
+                    "closure_m": round(closure, 6),
+                    "limit_m": LANE_REFINEMENT_CLOSURE_LIMIT_M,
+                },
+                sort_keys=True,
+            )
+        )
+    correction = (exit_point[0] - landing[0], exit_point[1] - landing[1])
+    corrected: list[tuple[float, float]] = []
+    for index, point in enumerate(raw_points):
+        fraction = index / (len(raw_points) - 1)
+        corrected.append(
+            (
+                round(
+                    point[0] + correction[0] * fraction,
+                    CARRIAGEWAY_GEOMETRY_DECIMALS,
+                ),
+                round(
+                    point[1] + correction[1] * fraction,
+                    CARRIAGEWAY_GEOMETRY_DECIMALS,
+                ),
+            )
+        )
+    corrected.append(
+        (
+            round(exit_point[0], CARRIAGEWAY_GEOMETRY_DECIMALS),
+            round(exit_point[1], CARRIAGEWAY_GEOMETRY_DECIMALS),
+        )
+    )
+    facts["closure_correction_m"] = round(closure, 6)
+    return _dedupe_polyline(corrected), facts
+
+
+def _lane_refinement_monotonicity(
+    coordinates: Sequence[tuple[float, float]], turn_deg: float
+) -> float:
+    """Worst against-turn heading step along a refined corner, degrees."""
+    sign = 1.0 if turn_deg >= 0 else -1.0
+    worst = 0.0
+    for index in range(1, len(coordinates) - 1):
+        signed = _signed_turn_degrees(coordinates, index)
+        against = -sign * signed
+        worst = max(worst, against)
+    return round(worst, 4)
+
+
+def _lane_refinement_lens_peak(
+    coordinates: Sequence[tuple[float, float]],
+) -> float:
+    """Peak 25 m tangent-lens turn along a refined corner, degrees."""
+    lens_samples = _resample_polyline(coordinates, CARRIAGEWAY_TANGENT_LENS_M)
+    peak = 0.0
+    for index in range(1, len(lens_samples) - 1):
+        peak = max(peak, _vertex_turn_degrees(lens_samples, index))
+    return round(peak, 2)
+
+
+def _lane_class_lens_bound(design_class: str) -> float:
+    if design_class == "street_30":
+        radius = LANE_CORNER_DESIGN_CLASSES["street_30"]["minimum_radius_m"]
+        return round(
+            math.degrees(CARRIAGEWAY_TANGENT_LENS_M / radius) + 1.0, 2
+        )
+    return CARRIAGEWAY_CORNER_THRESHOLD_DEG
+
+
+def _lane_refinement_departure(
+    refined: Sequence[tuple[float, float]],
+    host_window: LineString,
+) -> float:
+    """Two-way maximum departure between the refined path and the window."""
+    refined_line = LineString(refined)
+    worst = 0.0
+    for line, other in (
+        (refined_line, host_window),
+        (host_window, refined_line),
+    ):
+        for point in _resample_polyline(
+            [tuple(vertex) for vertex in line.coords],
+            LANE_REFINEMENT_DEPARTURE_SAMPLE_M,
+        ):
+            worst = max(worst, other.distance(Point(point)))
+    return round(worst, 3)
+
+
+def _lane_eased_segment_profile(
+    elevation_segment: dict[str, Any], conditioned_segment: dict[str, Any]
+) -> list[float]:
+    """One segment's vertically eased station elevations (boundary-pinned)."""
+    values = _conditioned_segment_elevations(elevation_segment, conditioned_segment)
+    regular = values[:-1]
+    half = LANE_VERTICAL_HALF_WINDOW_STATIONS
+    count = len(regular)
+    if count <= 2 * half + 1:
+        return [round(value, ELEVATION_VALUE_DECIMALS) for value in values]
+    prefix = [0.0]
+    for value in regular:
+        prefix.append(prefix[-1] + value)
+    averaged = []
+    for index in range(count):
+        low = max(0, index - half)
+        high = min(count - 1, index + half)
+        averaged.append((prefix[high + 1] - prefix[low]) / (high - low + 1))
+    start_correction = regular[0] - averaged[0]
+    end_correction = regular[-1] - averaged[-1]
+    eased = []
+    for index in range(count):
+        value = averaged[index]
+        if index < half:
+            value += start_correction * (half - index) / half
+        if index > count - 1 - half:
+            value += end_correction * (index - (count - 1 - half)) / half
+        eased.append(round(value, ELEVATION_VALUE_DECIMALS))
+    eased.append(round(values[-1], ELEVATION_VALUE_DECIMALS))
+    return eased
+
+
+def _lane_vertical_census(
+    segment_id: str,
+    conditioned: Sequence[float],
+    eased: Sequence[float],
+    interval: float,
+) -> dict[str, Any]:
+    """The eased profile's implied vertical-curvature census for one segment.
+
+    Any station pair below the 80 km/h class refuses; 80 km/h-class pairs
+    are recorded exception sites for the collision and package stage.
+    """
+    crest_110 = interval / LANE_VERTICAL_CREST_K_110
+    sag_110 = interval / LANE_VERTICAL_SAG_K_110
+    crest_80 = interval / LANE_VERTICAL_CREST_K_80
+    sag_80 = interval / LANE_VERTICAL_SAG_K_80
+    grades = [
+        (eased[index + 1] - eased[index]) / interval * 100.0
+        for index in range(len(eased) - 2)
+    ]
+    sites: list[dict[str, Any]] = []
+    class_110 = 0
+    worst_delta = 0.0
+    for index in range(len(grades) - 1):
+        delta = grades[index + 1] - grades[index]
+        vertical_class = "crest" if delta < 0 else "sag"
+        bound_110 = crest_110 if vertical_class == "crest" else sag_110
+        bound_80 = crest_80 if vertical_class == "crest" else sag_80
+        magnitude = abs(delta)
+        worst_delta = max(worst_delta, magnitude)
+        if magnitude <= bound_110 + 1e-9:
+            class_110 += 1
+            continue
+        if magnitude > bound_80 + 1e-9:
+            raise ValueError(
+                json.dumps(
+                    {
+                        "refusal": "eased vertical profile falls below the "
+                        "80 km/h vertical-curvature class",
+                        "segment_id": segment_id,
+                        "station_m": round((index + 1) * interval, 1),
+                        "delta_grade_percent": round(delta, 3),
+                        "bound_percent": round(bound_80, 3),
+                    },
+                    sort_keys=True,
+                )
+            )
+        sites.append(
+            {
+                "station_m": round((index + 1) * interval, 1),
+                "delta_grade_percent": round(delta, 3),
+                "implied_k_m_per_percent": round(interval / magnitude, 1),
+                "vertical_class": vertical_class,
+            }
+        )
+    departure = 0.0
+    for original, smoothed in zip(conditioned, eased, strict=True):
+        departure = max(departure, abs(original - smoothed))
+    return {
+        "station_pair_count": len(grades) - 1,
+        "class_110_count": class_110,
+        "class_80_sites": sites,
+        "class_80_count": len(sites),
+        "max_delta_grade_percent": round(worst_delta, 3),
+        "max_easing_departure_m": round(departure, 2),
+        "boundary_deltas_m": [
+            round(abs(conditioned[0] - eased[0]), 6),
+            round(abs(conditioned[-2] - eased[-2]), 6),
+            round(abs(conditioned[-1] - eased[-1]), 6),
+        ],
+    }
+
+
+def _lane_movement_classes(junction_lock: dict[str, Any]) -> dict[str, str]:
+    """Classify every junction movement's lane behaviour deterministically."""
+    movements = junction_lock["movements"]
+    from_counts: dict[tuple[str, str], int] = {}
+    to_counts: dict[tuple[str, str], int] = {}
+    for movement in movements:
+        from_key = (movement["anchor_id"], movement["from_segment_id"])
+        to_key = (movement["anchor_id"], movement["to_segment_id"])
+        from_counts[from_key] = from_counts.get(from_key, 0) + 1
+        to_counts[to_key] = to_counts.get(to_key, 0) + 1
+    classes: dict[str, str] = {}
+    for movement in movements:
+        movement_id = movement["movement_id"]
+        if movement["movement_kind"] == "turnaround_transfer":
+            classes[movement_id] = "turnaround_loop"
+        elif not movement.get("corner_sites"):
+            classes[movement_id] = "mainline_continuation"
+        elif from_counts[(movement["anchor_id"], movement["from_segment_id"])] > 1:
+            classes[movement_id] = "fork_exit_ramp"
+        elif to_counts[(movement["anchor_id"], movement["to_segment_id"])] > 1:
+            classes[movement_id] = "merge_entrance_ramp"
+        else:
+            classes[movement_id] = "directional_transfer"
+    return classes
+
+
+def _lane_corner_pose(
+    line: LineString, station: float, entry: bool
+) -> dict[str, Any]:
+    """One mm-rounded seam pose on a host line at the 25 m lens."""
+    point = line.interpolate(station)
+    if entry:
+        heading = _line_heading_between(
+            line, station, station + CARRIAGEWAY_TANGENT_LENS_M
+        )
+    else:
+        heading = _line_heading_between(
+            line, station - CARRIAGEWAY_TANGENT_LENS_M, station
+        )
+    return {
+        "coordinate": [
+            round(point.x, CARRIAGEWAY_GEOMETRY_DECIMALS),
+            round(point.y, CARRIAGEWAY_GEOMETRY_DECIMALS),
+        ],
+        "heading_deg": round(heading, 9),
+    }
+
+
+def _lane_refinement_gates(
+    record: dict[str, Any],
+    design_class: str,
+    assigned_class: str,
+) -> dict[str, Any]:
+    """The refinement gate battery from one record's measurements."""
+    construction = record["construction"]
+    measurements = record["measurements"]
+    minimum_radius = LANE_CORNER_DESIGN_CLASSES[design_class]["minimum_radius_m"]
+    lens_bound = _lane_class_lens_bound(design_class)
+    return {
+        "design_radius": _carriageway_gate(
+            record["design"]["achieved_radius_m"],
+            minimum_radius,
+            record["design"]["achieved_radius_m"] >= minimum_radius,
+        ),
+        "design_class_floor": _carriageway_gate(
+            {"assigned": assigned_class, "achieved": design_class},
+            "achieved class is the assigned class or a recorded slower "
+            "step-down",
+            design_class == assigned_class
+            or LANE_CLASS_ORDER.index(design_class)
+            > LANE_CLASS_ORDER.index(assigned_class),
+        ),
+        "tangent_fit": _carriageway_gate(
+            {
+                "entry_tangent_m": construction["entry_tangent_m"],
+                "exit_tangent_m": construction["exit_tangent_m"],
+            },
+            LANE_REFINEMENT_MIN_TANGENT_M,
+            min(
+                construction["entry_tangent_m"],
+                construction["exit_tangent_m"],
+            )
+            >= LANE_REFINEMENT_MIN_TANGENT_M - 1e-9,
+        ),
+        "closure": _carriageway_gate(
+            construction["closure_correction_m"],
+            LANE_REFINEMENT_CLOSURE_LIMIT_M,
+            construction["closure_correction_m"]
+            <= LANE_REFINEMENT_CLOSURE_LIMIT_M,
+        ),
+        "lens_discipline": _carriageway_gate(
+            measurements["max_lens_turn_deg"],
+            lens_bound,
+            measurements["max_lens_turn_deg"] <= lens_bound,
+        ),
+        "heading_monotonicity": _carriageway_gate(
+            measurements["max_against_turn_deg"],
+            LANE_REFINEMENT_MONOTONICITY_TOLERANCE_DEG,
+            measurements["max_against_turn_deg"]
+            <= LANE_REFINEMENT_MONOTONICITY_TOLERANCE_DEG,
+        ),
+        "refinement_departure": _carriageway_gate(
+            measurements["max_departure_m"],
+            LANE_REFINEMENT_MAX_DEPARTURE_M,
+            measurements["max_departure_m"] <= LANE_REFINEMENT_MAX_DEPARTURE_M,
+        ),
+    }
+
+
+class _LanePostCheckError(ValueError):
+    """A designed candidate failed a derive-time post check for its class."""
+
+
+def _lane_refinement_record(
+    host: dict[str, Any],
+    corner: dict[str, Any],
+    line: LineString,
+    lower_bound_m: float,
+    upper_bound_m: float,
+    assigned_class: str,
+    *,
+    allow_step_down: bool,
+    post_check: Callable[[dict[str, Any]], dict[str, Any]] | None = None,
+) -> dict[str, Any]:
+    """Author one speed-designed corner refinement over its host line.
+
+    Deterministic bounded search: the window legs grow from the initial
+    lens until the designed curve's tangent legs fit, stepping the design
+    class down rung by rung only where allowed (junction corners inside a
+    bounded movement window, including when the fitted candidate fails
+    its derive-time post check); refusal is machine-readable.
+    """
+    refinement_id = f"{corner['corner_id']}--refinement"
+    ladder = [assigned_class]
+    if allow_step_down:
+        start = LANE_CLASS_ORDER.index(assigned_class)
+        ladder.extend(LANE_CLASS_ORDER[start + 1 :])
+    last_fit_error: _LaneRefinementFitError | None = None
+    last_post_error: _LanePostCheckError | None = None
+    for design_class in ladder:
+        radius = LANE_CORNER_DESIGN_CLASSES[design_class]["minimum_radius_m"]
+        leg = LANE_REFINEMENT_INITIAL_LEG_M
+        while leg <= LANE_REFINEMENT_MAX_LEG_M:
+            entry_station = corner["from_station_m"] - leg
+            exit_station = corner["to_station_m"] + leg
+            if (
+                entry_station < lower_bound_m
+                or exit_station > upper_bound_m
+            ):
+                break
+            entry_pose = _lane_corner_pose(line, entry_station, entry=True)
+            exit_pose = _lane_corner_pose(line, exit_station, entry=False)
+            try:
+                coordinates, facts = _lane_eased_corner_geometry(
+                    refinement_id, entry_pose, exit_pose, radius
+                )
+            except _LaneRefinementFitError as error:
+                last_fit_error = error
+                leg += LANE_REFINEMENT_LEG_GROWTH_M
+                continue
+            window_line = substring(line, entry_station, exit_station)
+            departure = _lane_refinement_departure(coordinates, window_line)
+            refined_length = round(_polyline_length(coordinates), 3)
+            window_length = round(exit_station - entry_station, 3)
+            record = {
+                "refinement_id": refinement_id,
+                "host": dict(host),
+                "corner": {
+                    "corner_id": corner["corner_id"],
+                    "corner_class": corner["corner_class"],
+                    "peak_turn_deg": corner["peak_turn_deg"],
+                    "turn_sum_deg": corner["turn_sum_deg"],
+                    "from_station_m": corner["from_station_m"],
+                    "to_station_m": corner["to_station_m"],
+                },
+                "design": {
+                    "assigned_class": assigned_class,
+                    "achieved_class": design_class,
+                    "design_speed_kmh": LANE_CORNER_DESIGN_CLASSES[
+                        design_class
+                    ]["design_speed_kmh"],
+                    "achieved_radius_m": radius,
+                },
+                "window": {
+                    "entry_station_m": round(entry_station, 3),
+                    "exit_station_m": round(exit_station, 3),
+                    "leg_m": round(leg, 3),
+                    "window_length_m": window_length,
+                },
+                "seam_poses": {"entry": entry_pose, "exit": exit_pose},
+                "construction": facts,
+                "geometry": {
+                    "crs": "EPSG:5070",
+                    "coordinates": [[x, y] for x, y in coordinates],
+                    "vertex_count": len(coordinates),
+                    "planimetric_m": refined_length,
+                    "geometry_sha256": canonical_sha256(
+                        [[x, y] for x, y in coordinates]
+                    ),
+                },
+                "measurements": {
+                    "max_departure_m": departure,
+                    "length_delta_m": round(refined_length - window_length, 3),
+                    "max_lens_turn_deg": _lane_refinement_lens_peak(
+                        coordinates
+                    ),
+                    "max_against_turn_deg": _lane_refinement_monotonicity(
+                        coordinates, facts["turn_deg"]
+                    ),
+                },
+            }
+            gates = _lane_refinement_gates(record, design_class, assigned_class)
+            failed = sorted(
+                name for name, gate in gates.items() if not gate["passed"]
+            )
+            if failed:
+                raise ValueError(
+                    json.dumps(
+                        {
+                            "refusal": "corner refinement gates failed",
+                            "refinement_id": refinement_id,
+                            "failed_gates": failed,
+                            "gates": gates,
+                        },
+                        sort_keys=True,
+                    )
+                )
+            record["gates"] = gates
+            if post_check is not None:
+                try:
+                    record.update(post_check(record))
+                except _LanePostCheckError as error:
+                    last_post_error = error
+                    break
+            return record
+    detail: dict[str, Any] = {
+        "refusal": "corner refinement cannot fit a designed curve inside "
+        "the host window",
+        "refinement_id": refinement_id,
+        "lower_bound_m": round(lower_bound_m, 3),
+        "upper_bound_m": round(upper_bound_m, 3),
+        "classes_tried": ladder,
+    }
+    if last_fit_error is not None:
+        detail["last_fit"] = last_fit_error.facts
+    if last_post_error is not None:
+        detail["last_post_check"] = str(last_post_error)
+    raise ValueError(json.dumps(detail, sort_keys=True))
+
+
+def _lane_cluster_turn_profile(
+    line: LineString, corner: dict[str, Any]
+) -> dict[str, Any]:
+    """Signed 25 m lens turns across one corner cluster's flagged span."""
+    lens = CARRIAGEWAY_TANGENT_LENS_M
+    signed_turns: list[float] = []
+    station = corner["from_station_m"]
+    while station <= corner["to_station_m"] + 1e-6:
+        before = _line_heading_between(line, station - lens, station)
+        after = _line_heading_between(line, station, station + lens)
+        signed_turns.append(
+            round(_lane_signed_heading_difference(before, after), 2)
+        )
+        station += lens
+    flagged = [
+        turn
+        for turn in signed_turns
+        if abs(turn) > CARRIAGEWAY_CORNER_THRESHOLD_DEG
+    ]
+    mixed = any(turn > 0 for turn in flagged) and any(
+        turn < 0 for turn in flagged
+    )
+    return {
+        "signed_turns_deg": signed_turns,
+        "flagged_turns_deg": flagged,
+        "mixed_sign": mixed,
+    }
+
+
+def _lane_implied_lens_radius(peak_turn_deg: float) -> float:
+    """The circumscribed radius the 25 m lens chords imply at the peak."""
+    half = math.radians(peak_turn_deg) / 2.0
+    return round((CARRIAGEWAY_TANGENT_LENS_M / 2.0) / math.sin(half), 1)
+
+
+def _lane_zone_class_for_radius(radius_m: float) -> str:
+    """The fastest design class whose minimum radius the geometry supports."""
+    for name in ("directional_80", "ramp_50", "street_30"):
+        if radius_m >= LANE_CORNER_DESIGN_CLASSES[name]["minimum_radius_m"]:
+            return name
+    return "street_30"
+
+
+def _lane_serpentine_record(
+    host: dict[str, Any],
+    corner: dict[str, Any],
+    profile: dict[str, Any],
+) -> dict[str, Any]:
+    """One winding-alignment exception record (recorded, never refined)."""
+    implied_radius = _lane_implied_lens_radius(corner["peak_turn_deg"])
+    zone_class = _lane_zone_class_for_radius(implied_radius)
+    return {
+        "exception_id": f"{corner['corner_id']}--serpentine",
+        "host": dict(host),
+        "corner": {
+            "corner_id": corner["corner_id"],
+            "corner_class": corner["corner_class"],
+            "peak_turn_deg": corner["peak_turn_deg"],
+            "turn_sum_deg": corner["turn_sum_deg"],
+            "from_station_m": corner["from_station_m"],
+            "to_station_m": corner["to_station_m"],
+        },
+        "signed_turns_deg": profile["signed_turns_deg"],
+        "zone_span_m": [
+            round(corner["from_station_m"] - CARRIAGEWAY_TANGENT_LENS_M, 3),
+            round(corner["to_station_m"] + CARRIAGEWAY_TANGENT_LENS_M, 3),
+        ],
+        "min_implied_radius_m": implied_radius,
+        "declared_zone_design_class": zone_class,
+        "declared_zone_design_speed_kmh": LANE_CORNER_DESIGN_CLASSES[
+            zone_class
+        ]["design_speed_kmh"],
+        "disposition": (
+            "Winding-alignment cluster with mixed-sign lens turns: a "
+            "single designed curve would erase real winding road beyond "
+            "the locked fidelity envelope, and the ~80 m-class NHPN "
+            "vertices cannot support a speed-designed multi-curve "
+            "replacement. Recorded as a reduced-design-speed zone at the "
+            "class the measured lens geometry supports; a designed "
+            "replacement requires an ADR-0026 supplementary geometric "
+            "source."
+        ),
+    }
+
+
+def _lane_side_of_travel(
+    reference_line: LineString, reference_station: float, probe: Point
+) -> str:
+    """Which side of directed travel a probe point sits on: left or right."""
+    ahead = min(
+        reference_station + CARRIAGEWAY_TANGENT_LENS_M, reference_line.length
+    )
+    behind = max(reference_station, 0.0)
+    start = reference_line.interpolate(behind)
+    end = reference_line.interpolate(ahead)
+    cross = (end.x - start.x) * (probe.y - start.y) - (end.y - start.y) * (
+        probe.x - start.x
+    )
+    return "left" if cross >= 0.0 else "right"
+
+
+def _lane_shared_pavement_deviation(
+    first: LineString,
+    second: LineString,
+    *,
+    from_start: bool,
+    span_m: float,
+) -> float:
+    """Two-way deviation between two movements' shared pavement spans."""
+    if from_start:
+        first_span = substring(first, 0.0, span_m)
+        second_span = substring(second, 0.0, span_m)
+    else:
+        first_span = substring(first, first.length - span_m, first.length)
+        second_span = substring(second, second.length - span_m, second.length)
+    worst = 0.0
+    for line, other in ((first_span, second_span), (second_span, first_span)):
+        for point in _resample_polyline(
+            [tuple(vertex) for vertex in line.coords],
+            LANE_REFINEMENT_DEPARTURE_SAMPLE_M,
+        ):
+            worst = max(worst, other.distance(Point(point)))
+    return round(worst, 3)
+
+
+def _lane_record(lane_id: str, index: int, role: str, width: float) -> dict[str, Any]:
+    return {
+        "lane_id": lane_id,
+        "index": index,
+        "role": role,
+        "width_m": width,
+    }
+
+
+def _lane_mainline_lane_set(
+    scope: str,
+    *,
+    single: bool = False,
+    aux: dict[str, Any] | None = None,
+) -> list[dict[str, Any]]:
+    """The ordered left-to-right mainline lane array for one section."""
+    general = [
+        _lane_record(f"{scope}--lane-000", 0, "general", LANE_WIDTH_M),
+    ]
+    if not single:
+        general.append(
+            _lane_record(f"{scope}--lane-001", 1, "general", LANE_WIDTH_M)
+        )
+    if aux is None:
+        return general
+    aux_record = _lane_record(
+        aux["lane_id"], 0, aux["role"], LANE_WIDTH_M
+    )
+    ordered = (
+        [aux_record, *general]
+        if aux["side"] == "left"
+        else [*general, aux_record]
+    )
+    for index, lane in enumerate(ordered):
+        lane["index"] = index
+    return ordered
+
+
+def _lane_transition(
+    kind: str,
+    lane_id: str,
+    side: str,
+    *,
+    forming: bool,
+    movement_id: str | None,
+) -> dict[str, Any]:
+    record = {
+        "kind": kind,
+        "lane_id": lane_id,
+        "side": side,
+        "from_width_m": 0.0 if forming else LANE_WIDTH_M,
+        "to_width_m": LANE_WIDTH_M if forming else 0.0,
+        "designed_length_m": LANE_TAPER_LENGTH_M,
+        "design_speed_mph": LANE_MAINLINE_DESIGN_SPEED_MPH,
+        "formula": "MUTCD 3B.12 L = W x S (>= 45 mph)",
+    }
+    if movement_id is not None:
+        record["movement_id"] = movement_id
+    return record
+
+
+def _lane_connector_record(
+    connector_id: str,
+    seam: str,
+    movement: str,
+    from_host: tuple[str, str, str],
+    to_host: tuple[str, str, str],
+) -> dict[str, Any]:
+    return {
+        "connector_id": connector_id,
+        "seam": seam,
+        "movement": movement,
+        "from": {
+            "host_kind": from_host[0],
+            "host_id": from_host[1],
+            "lane_id": from_host[2],
+        },
+        "to": {
+            "host_kind": to_host[0],
+            "host_id": to_host[1],
+            "lane_id": to_host[2],
+        },
+    }
+
+
+def _lane_movement_entry_replaced(movement: dict[str, Any]) -> float:
+    if movement["movement_kind"] == "turnaround_transfer":
+        return 0.0
+    return float(movement["attachments"]["entry"]["replaced_westbound_m"])
+
+
+def _lane_movement_exit_replaced(movement: dict[str, Any]) -> float:
+    if movement["movement_kind"] == "turnaround_transfer":
+        return 0.0
+    return float(movement["attachments"]["exit"]["replaced_westbound_m"])
+
+
+def _lane_topology_plan(
+    carriageway_lock: dict[str, Any],
+    junction_lock: dict[str, Any],
+    connector_lock: dict[str, Any],
+    refinements: Sequence[dict[str, Any]],
+) -> dict[str, Any]:
+    """The complete lane plan from the committed locks and refinements.
+
+    A pure function of its lock inputs, so the validator rebuilds every
+    section, movement cross-section, gore, shared-pavement record, lane
+    connector, and open seam and requires the committed plan to reproduce
+    record-for-record.
+    """
+    movement_classes = _lane_movement_classes(junction_lock)
+    movements = {
+        movement["movement_id"]: movement
+        for movement in junction_lock["movements"]
+    }
+    refinement_by_movement = {
+        record["host"]["id"]: record
+        for record in refinements
+        if record["host"]["kind"] == "junction_movement"
+    }
+    movement_lines = {
+        movement_id: LineString(
+            [tuple(point) for point in movement["geometry"]["coordinates"]]
+        )
+        for movement_id, movement in movements.items()
+    }
+    siblings: dict[str, str] = {}
+    for movement_id, lane_class in movement_classes.items():
+        movement = movements[movement_id]
+        if lane_class == "fork_exit_ramp":
+            key = ("from", movement["anchor_id"], movement["from_segment_id"])
+        elif lane_class == "merge_entrance_ramp":
+            key = ("to", movement["anchor_id"], movement["to_segment_id"])
+        else:
+            continue
+        matches = [
+            other["movement_id"]
+            for other in junction_lock["movements"]
+            if other["movement_id"] != movement_id
+            and other["anchor_id"] == key[1]
+            and other[f"{key[0]}_segment_id"] == key[2]
+        ]
+        if len(matches) != 1:
+            raise ValueError(
+                json.dumps(
+                    {
+                        "refusal": "ramp movement does not have exactly one "
+                        "shared-pavement sibling",
+                        "movement_id": movement_id,
+                        "candidates": matches,
+                    },
+                    sort_keys=True,
+                )
+            )
+        siblings[movement_id] = matches[0]
+
+    gores: dict[str, dict[str, Any]] = {}
+    shared: dict[str, dict[str, Any]] = {}
+    for movement_id, lane_class in movement_classes.items():
+        if lane_class not in ("fork_exit_ramp", "merge_entrance_ramp"):
+            continue
+        refinement = refinement_by_movement.get(movement_id)
+        if refinement is None:
+            raise ValueError(
+                json.dumps(
+                    {
+                        "refusal": "ramp movement is missing its corner "
+                        "refinement",
+                        "movement_id": movement_id,
+                    },
+                    sort_keys=True,
+                )
+            )
+        sibling_id = siblings[movement_id]
+        line = movement_lines[movement_id]
+        sibling_line = movement_lines[sibling_id]
+        if lane_class == "fork_exit_ramp":
+            gore_station = refinement["window"]["entry_station_m"]
+            span = gore_station
+            entry_replaced = _lane_movement_entry_replaced(
+                movements[movement_id]
+            )
+            sibling_replaced = _lane_movement_entry_replaced(
+                movements[sibling_id]
+            )
+            if span > min(entry_replaced, sibling_replaced) + 1e-6:
+                raise ValueError(
+                    json.dumps(
+                        {
+                            "refusal": "fork gore falls outside the shared "
+                            "arriving window",
+                            "movement_id": movement_id,
+                            "gore_station_m": gore_station,
+                        },
+                        sort_keys=True,
+                    )
+                )
+            deviation = _lane_shared_pavement_deviation(
+                line, sibling_line, from_start=True, span_m=span
+            )
+            reference_station = max(
+                gore_station - CARRIAGEWAY_TANGENT_LENS_M, 0.0
+            )
+            probe = line.interpolate(
+                min(gore_station + CARRIAGEWAY_TANGENT_LENS_M, line.length)
+            )
+            side = _lane_side_of_travel(
+                sibling_line, reference_station, probe
+            )
+            gores[movement_id] = {
+                "gore_id": f"{movement_id}--gore",
+                "kind": "exit",
+                "movement_frame_station_m": round(gore_station, 3),
+                "side": side,
+                "shared_with_movement_id": sibling_id,
+            }
+            shared[movement_id] = {
+                "with_movement_id": sibling_id,
+                "span": "head",
+                "span_m": round(span, 3),
+                "max_deviation_m": deviation,
+                "tolerance_m": LANE_SHARED_PAVEMENT_TOLERANCE_M,
+            }
+        else:
+            gore_station = refinement["window"]["exit_station_m"]
+            tail = line.length - gore_station
+            exit_replaced = _lane_movement_exit_replaced(
+                movements[movement_id]
+            )
+            sibling_exit_replaced = _lane_movement_exit_replaced(
+                movements[sibling_id]
+            )
+            if tail > min(exit_replaced, sibling_exit_replaced) + 1e-6:
+                raise ValueError(
+                    json.dumps(
+                        {
+                            "refusal": "merge gore falls outside the shared "
+                            "departing window",
+                            "movement_id": movement_id,
+                            "gore_station_m": gore_station,
+                        },
+                        sort_keys=True,
+                    )
+                )
+            deviation = _lane_shared_pavement_deviation(
+                line, sibling_line, from_start=False, span_m=tail
+            )
+            probe = line.interpolate(
+                max(gore_station - CARRIAGEWAY_TANGENT_LENS_M, 0.0)
+            )
+            side = _lane_side_of_travel(line, gore_station, probe)
+            gores[movement_id] = {
+                "gore_id": f"{movement_id}--gore",
+                "kind": "entrance",
+                "movement_frame_station_m": round(gore_station, 3),
+                "side": side,
+                "shared_with_movement_id": sibling_id,
+            }
+            shared[movement_id] = {
+                "with_movement_id": sibling_id,
+                "span": "tail",
+                "span_m": round(tail, 3),
+                "max_deviation_m": deviation,
+                "tolerance_m": LANE_SHARED_PAVEMENT_TOLERANCE_M,
+            }
+        if shared[movement_id]["max_deviation_m"] > (
+            LANE_SHARED_PAVEMENT_TOLERANCE_M
+        ):
+            raise ValueError(
+                json.dumps(
+                    {
+                        "refusal": "shared pavement spans diverge beyond "
+                        "the tolerance",
+                        "movement_id": movement_id,
+                        "max_deviation_m": shared[movement_id][
+                            "max_deviation_m"
+                        ],
+                    },
+                    sort_keys=True,
+                )
+            )
+
+    connector_attachments: dict[tuple[str, str], dict[str, Any]] = {}
+    for connector in connector_lock["connectors"]:
+        end = connector["corridor_end"]
+        connector_attachments[(end["segment_id"], end["end"])] = connector
+    has_unauthored_connectors = bool(
+        connector_lock.get("unauthored_connectors")
+    )
+
+    segment_records: list[dict[str, Any]] = []
+    open_lane_seams: list[dict[str, Any]] = []
+    lane_connectors: list[dict[str, Any]] = []
+    movement_records: list[dict[str, Any]] = []
+
+    carriageway_segments = {
+        segment["segment_id"]: segment
+        for segment in carriageway_lock["segments"]
+    }
+    tail_movements: dict[str, list[str]] = {}
+    head_movements: dict[str, list[str]] = {}
+    for movement_id, movement in movements.items():
+        tail_movements.setdefault(movement["from_segment_id"], []).append(
+            movement_id
+        )
+        head_movements.setdefault(movement["to_segment_id"], []).append(
+            movement_id
+        )
+    for value in tail_movements.values():
+        value.sort()
+    for value in head_movements.values():
+        value.sort()
+
+    for segment_id in sorted(carriageway_segments):
+        lock_segment = carriageway_segments[segment_id]
+        length = float(lock_segment["westbound"]["length_m"])
+        tail_ids = tail_movements.get(segment_id, [])
+        head_ids = head_movements.get(segment_id, [])
+        tail_replaced = min(
+            (
+                _lane_movement_entry_replaced(movements[movement_id])
+                for movement_id in tail_ids
+            ),
+            default=0.0,
+        )
+        head_replaced = min(
+            (
+                _lane_movement_exit_replaced(movements[movement_id])
+                for movement_id in head_ids
+            ),
+            default=0.0,
+        )
+        traveled_start = round(head_replaced, 3)
+        traveled_end = round(length - tail_replaced, 3)
+        tail_classes = {movement_classes[mid] for mid in tail_ids}
+        head_classes = {movement_classes[mid] for mid in head_ids}
+
+        features: list[dict[str, Any]] = []
+        head_feature = "none"
+        tail_feature = "none"
+        segment_aux: dict[str, Any] | None = None
+
+        if not head_ids:
+            attachment = connector_attachments.get((segment_id, "from"))
+            if attachment is not None:
+                head_feature = "add_taper_from_connector"
+                features.append(
+                    {
+                        "start_m": traveled_start,
+                        "end_m": round(
+                            traveled_start + LANE_TAPER_LENGTH_M, 3
+                        ),
+                        "template": "add_taper",
+                        "movement_id": None,
+                    }
+                )
+            elif has_unauthored_connectors:
+                head_feature = "open_seam"
+                open_lane_seams.append(
+                    {
+                        "seam_id": f"{segment_id}--head",
+                        "kind": "unauthored_connector",
+                        "reason": (
+                            "The endpoint connector lock records an "
+                            "unauthored connector (the southern path's "
+                            "Holland Tunnel approach); this head seam "
+                            "stays open and unconnected until it is "
+                            "authored and gated."
+                        ),
+                    }
+                )
+            else:
+                raise ValueError(
+                    json.dumps(
+                        {
+                            "refusal": "segment head has no inbound "
+                            "movement and no endpoint connector",
+                            "segment_id": segment_id,
+                        },
+                        sort_keys=True,
+                    )
+                )
+        elif head_classes == {"turnaround_loop"} or head_classes == {
+            "fork_exit_ramp"
+        }:
+            head_feature = "add_taper"
+            features.append(
+                {
+                    "start_m": traveled_start,
+                    "end_m": round(traveled_start + LANE_TAPER_LENGTH_M, 3),
+                    "template": "add_taper",
+                    "movement_id": head_ids[0],
+                }
+            )
+        elif "merge_entrance_ramp" in head_classes:
+            head_feature = "entrance_aux"
+            merge_id = next(
+                mid
+                for mid in head_ids
+                if movement_classes[mid] == "merge_entrance_ramp"
+            )
+            gore = gores[merge_id]
+            movement_length = movement_lines[merge_id].length
+            movement_tail = movement_length - gore["movement_frame_station_m"]
+            remainder = round(
+                max(0.0, LANE_AUX_FULL_WIDTH_M - movement_tail), 3
+            )
+            segment_aux = {
+                "lane_id": f"{segment_id}--westbound--lane-aux",
+                "role": "entrance_only",
+                "side": gore["side"],
+            }
+            if remainder > 0:
+                features.append(
+                    {
+                        "start_m": traveled_start,
+                        "end_m": round(traveled_start + remainder, 3),
+                        "template": "aux_full",
+                        "movement_id": merge_id,
+                    }
+                )
+            features.append(
+                {
+                    "start_m": round(traveled_start + remainder, 3),
+                    "end_m": round(
+                        traveled_start + remainder + LANE_TAPER_LENGTH_M, 3
+                    ),
+                    "template": "aux_end_taper",
+                    "movement_id": merge_id,
+                }
+            )
+        elif head_classes <= {
+            "mainline_continuation",
+            "directional_transfer",
+            "turnaround_loop",
+        }:
+            head_feature = (
+                "mixed_two_lane" if "turnaround_loop" in head_classes else "none"
+            )
+        else:
+            raise ValueError(
+                json.dumps(
+                    {
+                        "refusal": "segment head movement classes have no "
+                        "lane rule",
+                        "segment_id": segment_id,
+                        "head_classes": sorted(head_classes),
+                    },
+                    sort_keys=True,
+                )
+            )
+
+        if not tail_ids:
+            attachment = connector_attachments.get((segment_id, "to"))
+            if attachment is not None:
+                tail_feature = "drop_taper_to_connector"
+                features.append(
+                    {
+                        "start_m": round(
+                            traveled_end - LANE_TAPER_LENGTH_M, 3
+                        ),
+                        "end_m": traveled_end,
+                        "template": "drop_taper",
+                        "movement_id": None,
+                    }
+                )
+            else:
+                raise ValueError(
+                    json.dumps(
+                        {
+                            "refusal": "segment tail has no outbound "
+                            "movement and no endpoint connector",
+                            "segment_id": segment_id,
+                        },
+                        sort_keys=True,
+                    )
+                )
+        elif tail_classes == {"turnaround_loop"} or tail_classes == {
+            "merge_entrance_ramp"
+        }:
+            tail_feature = "drop_taper"
+            features.append(
+                {
+                    "start_m": round(traveled_end - LANE_TAPER_LENGTH_M, 3),
+                    "end_m": traveled_end,
+                    "template": "drop_taper",
+                    "movement_id": tail_ids[0],
+                }
+            )
+        elif tail_classes == {"fork_exit_ramp", "mainline_continuation"}:
+            tail_feature = "exit_aux"
+            fork_id = next(
+                mid
+                for mid in tail_ids
+                if movement_classes[mid] == "fork_exit_ramp"
+            )
+            gore = gores[fork_id]
+            remainder = round(
+                max(
+                    0.0,
+                    LANE_AUX_FULL_WIDTH_M
+                    - gore["movement_frame_station_m"],
+                ),
+                3,
+            )
+            segment_aux = {
+                "lane_id": f"{segment_id}--westbound--lane-aux",
+                "role": "exit_only",
+                "side": gore["side"],
+            }
+            features.append(
+                {
+                    "start_m": round(
+                        traveled_end - remainder - LANE_TAPER_LENGTH_M, 3
+                    ),
+                    "end_m": round(traveled_end - remainder, 3),
+                    "template": "aux_add_taper",
+                    "movement_id": fork_id,
+                }
+            )
+            if remainder > 0:
+                features.append(
+                    {
+                        "start_m": round(traveled_end - remainder, 3),
+                        "end_m": traveled_end,
+                        "template": "aux_full",
+                        "movement_id": fork_id,
+                    }
+                )
+        elif tail_classes <= {
+            "mainline_continuation",
+            "directional_transfer",
+        }:
+            tail_feature = "none"
+        else:
+            raise ValueError(
+                json.dumps(
+                    {
+                        "refusal": "segment tail movement classes have no "
+                        "lane rule",
+                        "segment_id": segment_id,
+                        "tail_classes": sorted(tail_classes),
+                    },
+                    sort_keys=True,
+                )
+            )
+
+        features.sort(key=lambda feature: feature["start_m"])
+        previous_end = traveled_start
+        for feature in features:
+            if feature["start_m"] < previous_end - 1e-6:
+                raise ValueError(
+                    json.dumps(
+                        {
+                            "refusal": "segment lane features overlap",
+                            "segment_id": segment_id,
+                            "feature_start_m": feature["start_m"],
+                        },
+                        sort_keys=True,
+                    )
+                )
+            previous_end = feature["end_m"]
+        if previous_end > traveled_end + 1e-6:
+            raise ValueError(
+                json.dumps(
+                    {
+                        "refusal": "segment lane features exceed the "
+                        "traveled span",
+                        "segment_id": segment_id,
+                    },
+                    sort_keys=True,
+                )
+            )
+
+        spans: list[dict[str, Any]] = []
+        cursor = traveled_start
+        for feature in features:
+            if feature["start_m"] > cursor + 1e-6:
+                spans.append(
+                    {
+                        "start_m": cursor,
+                        "end_m": feature["start_m"],
+                        "template": "base",
+                        "movement_id": None,
+                    }
+                )
+            spans.append(feature)
+            cursor = feature["end_m"]
+        if traveled_end > cursor + 1e-6:
+            spans.append(
+                {
+                    "start_m": cursor,
+                    "end_m": traveled_end,
+                    "template": "base",
+                    "movement_id": None,
+                }
+            )
+
+        scope = f"{segment_id}--westbound"
+        sections: list[dict[str, Any]] = []
+        for index, span in enumerate(spans):
+            template = span["template"]
+            transition = None
+            if template == "base":
+                lanes = _lane_mainline_lane_set(scope)
+            elif template == "add_taper":
+                lanes = _lane_mainline_lane_set(scope)
+                transition = _lane_transition(
+                    "lane_add",
+                    f"{scope}--lane-001",
+                    "right",
+                    forming=True,
+                    movement_id=span["movement_id"],
+                )
+            elif template == "drop_taper":
+                lanes = _lane_mainline_lane_set(scope)
+                transition = _lane_transition(
+                    "lane_drop",
+                    f"{scope}--lane-001",
+                    "right",
+                    forming=False,
+                    movement_id=span["movement_id"],
+                )
+            elif template == "aux_full":
+                lanes = _lane_mainline_lane_set(scope, aux=segment_aux)
+            elif template == "aux_add_taper":
+                lanes = _lane_mainline_lane_set(scope, aux=segment_aux)
+                transition = _lane_transition(
+                    "aux_lane_add",
+                    segment_aux["lane_id"],
+                    segment_aux["side"],
+                    forming=True,
+                    movement_id=span["movement_id"],
+                )
+            elif template == "aux_end_taper":
+                lanes = _lane_mainline_lane_set(scope, aux=segment_aux)
+                transition = _lane_transition(
+                    "aux_lane_end",
+                    segment_aux["lane_id"],
+                    segment_aux["side"],
+                    forming=False,
+                    movement_id=span["movement_id"],
+                )
+            else:  # pragma: no cover - template set is closed
+                raise ValueError(f"Unknown lane section template {template}.")
+            section = {
+                "section_id": f"{scope}--section-{index:03d}",
+                "start_m": round(span["start_m"], 3),
+                "end_m": round(span["end_m"], 3),
+                "lanes": lanes,
+                "left_shoulder_m": LANE_LEFT_SHOULDER_M,
+                "right_shoulder_m": LANE_RIGHT_SHOULDER_M,
+                "transition": transition,
+            }
+            sections.append(section)
+
+        segment_records.append(
+            {
+                "segment_id": segment_id,
+                "westbound_length_m": round(length, 3),
+                "traveled_span_m": [traveled_start, traveled_end],
+                "replaced_head": {
+                    "replaced_m": traveled_start,
+                    "movement_ids": head_ids,
+                }
+                if head_ids
+                else None,
+                "replaced_tail": {
+                    "replaced_m": round(tail_replaced, 3),
+                    "movement_ids": tail_ids,
+                }
+                if tail_ids
+                else None,
+                "head_feature": head_feature,
+                "tail_feature": tail_feature,
+                "section_count": len(sections),
+                "sections": sections,
+            }
+        )
+
+    mainline_speed_kmh = round(LANE_MAINLINE_DESIGN_SPEED_MPH * 1.609344, 3)
+    for movement_id in sorted(movements):
+        movement = movements[movement_id]
+        lane_class = movement_classes[movement_id]
+        line_length = movement_lines[movement_id].length
+        refinement = refinement_by_movement.get(movement_id)
+        scope = movement_id
+        cross_sections: list[dict[str, Any]] = []
+        gore = gores.get(movement_id)
+        shared_record = shared.get(movement_id)
+        from_scope = f"{movement['from_segment_id']}--westbound"
+        to_scope = f"{movement['to_segment_id']}--westbound"
+        if lane_class == "mainline_continuation":
+            sibling_of = next(
+                (
+                    ramp_id
+                    for ramp_id, sibling_id in siblings.items()
+                    if sibling_id == movement_id
+                ),
+                None,
+            )
+            if sibling_of is not None and (
+                movement_classes[sibling_of] == "fork_exit_ramp"
+            ):
+                ramp_gore = gores[sibling_of]
+                aux = {
+                    "lane_id": f"{scope}--lane-aux",
+                    "role": "exit_only",
+                    "side": ramp_gore["side"],
+                }
+                boundary = ramp_gore["movement_frame_station_m"]
+                cross_sections.append(
+                    {
+                        "start_m": 0.0,
+                        "end_m": boundary,
+                        "lanes": _lane_mainline_lane_set(scope, aux=aux),
+                    }
+                )
+                cross_sections.append(
+                    {
+                        "start_m": boundary,
+                        "end_m": round(line_length, 3),
+                        "lanes": _lane_mainline_lane_set(scope),
+                    }
+                )
+            elif sibling_of is not None and (
+                movement_classes[sibling_of] == "merge_entrance_ramp"
+            ):
+                ramp_gore = gores[sibling_of]
+                ramp_length = movement_lines[sibling_of].length
+                tail_span = ramp_length - ramp_gore[
+                    "movement_frame_station_m"
+                ]
+                boundary = round(line_length - tail_span, 3)
+                aux = {
+                    "lane_id": f"{scope}--lane-aux",
+                    "role": "entrance_only",
+                    "side": ramp_gore["side"],
+                }
+                cross_sections.append(
+                    {
+                        "start_m": 0.0,
+                        "end_m": boundary,
+                        "lanes": _lane_mainline_lane_set(scope),
+                    }
+                )
+                cross_sections.append(
+                    {
+                        "start_m": boundary,
+                        "end_m": round(line_length, 3),
+                        "lanes": _lane_mainline_lane_set(scope, aux=aux),
+                    }
+                )
+            else:
+                cross_sections.append(
+                    {
+                        "start_m": 0.0,
+                        "end_m": round(line_length, 3),
+                        "lanes": _lane_mainline_lane_set(scope),
+                    }
+                )
+            design_speed = mainline_speed_kmh
+        elif lane_class == "directional_transfer":
+            cross_sections.append(
+                {
+                    "start_m": 0.0,
+                    "end_m": round(line_length, 3),
+                    "lanes": _lane_mainline_lane_set(scope),
+                }
+            )
+            design_speed = refinement["design"]["design_speed_kmh"]
+        elif lane_class == "fork_exit_ramp":
+            boundary = gore["movement_frame_station_m"]
+            cross_sections.append(
+                {
+                    "start_m": boundary,
+                    "end_m": round(line_length, 3),
+                    "lanes": [
+                        _lane_record(
+                            f"{scope}--lane-ramp",
+                            0,
+                            "general",
+                            LANE_RAMP_WIDTH_M,
+                        )
+                    ],
+                }
+            )
+            design_speed = refinement["design"]["design_speed_kmh"]
+        elif lane_class == "merge_entrance_ramp":
+            boundary = gore["movement_frame_station_m"]
+            cross_sections.append(
+                {
+                    "start_m": 0.0,
+                    "end_m": boundary,
+                    "lanes": [
+                        _lane_record(
+                            f"{scope}--lane-ramp",
+                            0,
+                            "general",
+                            LANE_RAMP_WIDTH_M,
+                        )
+                    ],
+                }
+            )
+            design_speed = refinement["design"]["design_speed_kmh"]
+        else:  # turnaround_loop
+            cross_sections.append(
+                {
+                    "start_m": 0.0,
+                    "end_m": round(line_length, 3),
+                    "lanes": [
+                        _lane_record(
+                            f"{scope}--lane-loop",
+                            0,
+                            "general",
+                            LANE_RAMP_WIDTH_M,
+                        )
+                    ],
+                }
+            )
+            design_speed = TURNAROUND_DESIGN_SPEED_KMH
+
+        movement_records.append(
+            {
+                "movement_id": movement_id,
+                "lane_class": lane_class,
+                "design_speed_kmh": design_speed,
+                "cross_sections": cross_sections,
+                "gore": gore,
+                "shared_pavement": shared_record,
+                "refinement_id": refinement["refinement_id"]
+                if refinement is not None
+                else None,
+            }
+        )
+
+        if lane_class in ("mainline_continuation", "directional_transfer"):
+            entry_movement = (
+                "continuation"
+                if lane_class == "mainline_continuation"
+                else "highway_transfer"
+            )
+            for lane_index in (0, 1):
+                lane_connectors.append(
+                    _lane_connector_record(
+                        f"{movement_id}--entry-{lane_index:02d}",
+                        "movement_entry",
+                        entry_movement,
+                        (
+                            "segment",
+                            movement["from_segment_id"],
+                            f"{from_scope}--lane-{lane_index:03d}",
+                        ),
+                        ("movement", movement_id, f"{scope}--lane-{lane_index:03d}"),
+                    )
+                )
+                lane_connectors.append(
+                    _lane_connector_record(
+                        f"{movement_id}--exit-{lane_index:02d}",
+                        "movement_exit",
+                        entry_movement,
+                        ("movement", movement_id, f"{scope}--lane-{lane_index:03d}"),
+                        (
+                            "segment",
+                            movement["to_segment_id"],
+                            f"{to_scope}--lane-{lane_index:03d}",
+                        ),
+                    )
+                )
+            sibling_of = next(
+                (
+                    ramp_id
+                    for ramp_id, sibling_id in siblings.items()
+                    if sibling_id == movement_id
+                ),
+                None,
+            )
+            if sibling_of is not None and (
+                movement_classes[sibling_of] == "fork_exit_ramp"
+            ):
+                lane_connectors.append(
+                    _lane_connector_record(
+                        f"{movement_id}--entry-aux",
+                        "movement_entry",
+                        "continuation",
+                        (
+                            "segment",
+                            movement["from_segment_id"],
+                            f"{from_scope}--lane-aux",
+                        ),
+                        ("movement", movement_id, f"{scope}--lane-aux"),
+                    )
+                )
+            if sibling_of is not None and (
+                movement_classes[sibling_of] == "merge_entrance_ramp"
+            ):
+                lane_connectors.append(
+                    _lane_connector_record(
+                        f"{movement_id}--exit-aux",
+                        "movement_exit",
+                        "continuation",
+                        ("movement", movement_id, f"{scope}--lane-aux"),
+                        (
+                            "segment",
+                            movement["to_segment_id"],
+                            f"{to_scope}--lane-aux",
+                        ),
+                    )
+                )
+        elif lane_class == "fork_exit_ramp":
+            sibling_id = siblings[movement_id]
+            lane_connectors.append(
+                _lane_connector_record(
+                    f"{movement_id}--gore-split",
+                    "gore",
+                    "split",
+                    ("movement", sibling_id, f"{sibling_id}--lane-aux"),
+                    ("movement", movement_id, f"{scope}--lane-ramp"),
+                )
+            )
+            lane_connectors.append(
+                _lane_connector_record(
+                    f"{movement_id}--exit-00",
+                    "movement_exit",
+                    "continuation",
+                    ("movement", movement_id, f"{scope}--lane-ramp"),
+                    (
+                        "segment",
+                        movement["to_segment_id"],
+                        f"{to_scope}--lane-000",
+                    ),
+                )
+            )
+        elif lane_class == "merge_entrance_ramp":
+            sibling_id = siblings[movement_id]
+            lane_connectors.append(
+                _lane_connector_record(
+                    f"{movement_id}--entry-00",
+                    "movement_entry",
+                    "highway_transfer",
+                    (
+                        "segment",
+                        movement["from_segment_id"],
+                        f"{from_scope}--lane-000",
+                    ),
+                    ("movement", movement_id, f"{scope}--lane-ramp"),
+                )
+            )
+            lane_connectors.append(
+                _lane_connector_record(
+                    f"{movement_id}--gore-merge",
+                    "gore",
+                    "merge",
+                    ("movement", movement_id, f"{scope}--lane-ramp"),
+                    ("movement", sibling_id, f"{sibling_id}--lane-aux"),
+                )
+            )
+        else:  # turnaround_loop
+            lane_connectors.append(
+                _lane_connector_record(
+                    f"{movement_id}--entry-00",
+                    "movement_entry",
+                    "highway_transfer",
+                    (
+                        "segment",
+                        movement["from_segment_id"],
+                        f"{from_scope}--lane-000",
+                    ),
+                    ("movement", movement_id, f"{scope}--lane-loop"),
+                )
+            )
+            lane_connectors.append(
+                _lane_connector_record(
+                    f"{movement_id}--exit-00",
+                    "movement_exit",
+                    "highway_transfer",
+                    ("movement", movement_id, f"{scope}--lane-loop"),
+                    (
+                        "segment",
+                        movement["to_segment_id"],
+                        f"{to_scope}--lane-000",
+                    ),
+                )
+            )
+
+    endpoint_records: list[dict[str, Any]] = []
+    for connector in sorted(
+        connector_lock["connectors"], key=lambda item: item["connector_id"]
+    ):
+        connector_id = connector["connector_id"]
+        end = connector["corridor_end"]
+        segment_scope = f"{end['segment_id']}--westbound"
+        lane_id = f"{connector_id}--lane-000"
+        if end["end"] == "from":
+            lane_connectors.append(
+                _lane_connector_record(
+                    f"{connector_id}--attachment",
+                    "endpoint_attachment",
+                    "entrance",
+                    ("endpoint_connector", connector_id, lane_id),
+                    ("segment", end["segment_id"], f"{segment_scope}--lane-000"),
+                )
+            )
+        else:
+            lane_connectors.append(
+                _lane_connector_record(
+                    f"{connector_id}--attachment",
+                    "endpoint_attachment",
+                    "exit",
+                    ("segment", end["segment_id"], f"{segment_scope}--lane-000"),
+                    ("endpoint_connector", connector_id, lane_id),
+                )
+            )
+        open_lane_seams.append(
+            {
+                "seam_id": f"{connector_id}--portal",
+                "kind": "portal_terminal",
+                "reason": (
+                    "The route begins or ends at this locked portal; the "
+                    "portal-side lane boundary is the graph terminal and "
+                    "carries no connector."
+                ),
+            }
+        )
+        endpoint_records.append(
+            {
+                "connector_id": connector_id,
+                "roadway_kind": connector["roadway_kind"],
+                "travel": connector["travel"],
+                "attachment": {
+                    "segment_id": end["segment_id"],
+                    "end": end["end"],
+                },
+                "lanes": [
+                    _lane_record(lane_id, 0, "general", LANE_WIDTH_M)
+                ],
+                "left_shoulder_m": 0.0,
+                "right_shoulder_m": 0.0,
+                "refinement_ids": [
+                    f"{site['corner_id']}--refinement"
+                    for site in connector["corner_sites"]
+                ],
+            }
+        )
+    open_lane_seams.sort(key=lambda seam: seam["seam_id"])
+    lane_connectors.sort(key=lambda record: record["connector_id"])
+    return {
+        "segments": segment_records,
+        "movements": movement_records,
+        "endpoint_connectors": endpoint_records,
+        "lane_connectors": lane_connectors,
+        "open_lane_seams": open_lane_seams,
+    }
+
+
+LANE_CHAIN_EXCLUSION_MARGIN_M = 50.0
+LANE_CONNECTOR_END_MARGIN_M = 10.0
+LANE_REFINABLE_CHAIN_CLASSES = (
+    "route_corner",
+    "overlay_corner",
+    "conflated_span_corner",
+)
+
+
+def _lane_chain_bounds(
+    segment_id: str,
+    chain_length_m: float,
+    junction_lock: dict[str, Any],
+    carriageway_lock: dict[str, Any],
+) -> tuple[float, float]:
+    """The refinable chain span outside junction windows and backtracks."""
+    head_exclusion = 0.0
+    tail_exclusion = 0.0
+    for movement in junction_lock["movements"]:
+        if movement["from_segment_id"] == segment_id:
+            tail_exclusion = max(
+                tail_exclusion, _lane_movement_entry_replaced(movement)
+            )
+        if movement["to_segment_id"] == segment_id:
+            head_exclusion = max(
+                head_exclusion, _lane_movement_exit_replaced(movement)
+            )
+    for backtrack in carriageway_lock["junction_backtracks"]:
+        if backtrack["from_segment_id"] == segment_id:
+            tail_exclusion = max(
+                tail_exclusion, float(backtrack["locked_backtrack_length_m"])
+            )
+        if backtrack["to_segment_id"] == segment_id:
+            head_exclusion = max(
+                head_exclusion, float(backtrack["mirrored_length_m"])
+            )
+    lower = head_exclusion + LANE_CHAIN_EXCLUSION_MARGIN_M
+    upper = chain_length_m - tail_exclusion - LANE_CHAIN_EXCLUSION_MARGIN_M
+    return lower, upper
+
+
+def _lane_connector_line(
+    connector: dict[str, Any], forward: Transformer
+) -> LineString:
+    """One endpoint connector's authored waypoint polyline in the metric CRS."""
+    coordinates = [
+        forward.transform(waypoint["longitude"], waypoint["latitude"])
+        for waypoint in connector["waypoints"]
+    ]
+    return LineString(coordinates)
+
+
+def _lane_assigned_corner_class(corner: dict[str, Any]) -> str:
+    if corner["corner_class"] == "connector_corner":
+        return "street_30"
+    if corner["turn_sum_deg"] <= LANE_CORNER_DIRECTIONAL_TURN_LIMIT_DEG:
+        return "directional_80"
+    return "ramp_50"
+
+
+def _lane_refinement_sites(
+    carriageway_lock: dict[str, Any],
+    junction_lock: dict[str, Any],
+    connector_lock: dict[str, Any],
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    """Every corner site owed a refinement, in deterministic order."""
+    eligible: list[dict[str, Any]] = []
+    excluded: list[dict[str, Any]] = []
+    for segment in carriageway_lock["segments"]:
+        for corner in segment["corner_sites"]:
+            if corner["corner_class"] in LANE_REFINABLE_CHAIN_CLASSES:
+                eligible.append(
+                    {
+                        "host": {
+                            "kind": "carriageway_chain",
+                            "id": segment["segment_id"],
+                        },
+                        "corner": corner,
+                        "assigned_class": _lane_assigned_corner_class(corner),
+                        "allow_step_down": False,
+                    }
+                )
+            elif corner["corner_class"] == "junction_backtrack_approach":
+                excluded.append(
+                    {
+                        "corner_id": corner["corner_id"],
+                        "corner_class": corner["corner_class"],
+                        "reason": LANE_TOPOLOGY_MODEL["corner_refinement"][
+                            "excluded_corner_classes"
+                        ]["junction_backtrack_approach"],
+                    }
+                )
+            else:
+                raise ValueError(
+                    json.dumps(
+                        {
+                            "refusal": "carriageway corner class has no "
+                            "refinement rule",
+                            "corner_id": corner["corner_id"],
+                            "corner_class": corner["corner_class"],
+                        },
+                        sort_keys=True,
+                    )
+                )
+    for movement in sorted(
+        junction_lock["movements"], key=lambda item: item["movement_id"]
+    ):
+        for corner in movement.get("corner_sites", []):
+            eligible.append(
+                {
+                    "host": {
+                        "kind": "junction_movement",
+                        "id": movement["movement_id"],
+                    },
+                    "corner": corner,
+                    "assigned_class": _lane_assigned_corner_class(corner),
+                    "allow_step_down": True,
+                }
+            )
+    for connector in sorted(
+        connector_lock["connectors"], key=lambda item: item["connector_id"]
+    ):
+        for corner in connector["corner_sites"]:
+            eligible.append(
+                {
+                    "host": {
+                        "kind": "endpoint_connector",
+                        "id": connector["connector_id"],
+                    },
+                    "corner": corner,
+                    "assigned_class": "street_30",
+                    "allow_step_down": False,
+                }
+            )
+    return eligible, excluded
+
+
+def _lane_check_refinement_spacing(
+    refinements: Sequence[dict[str, Any]],
+) -> None:
+    """Refinement windows on one host must stay disjoint and ordered."""
+    by_host: dict[tuple[str, str], list[dict[str, Any]]] = {}
+    for record in refinements:
+        key = (record["host"]["kind"], record["host"]["id"])
+        by_host.setdefault(key, []).append(record)
+    for key, records in by_host.items():
+        ordered = sorted(
+            records, key=lambda item: item["window"]["entry_station_m"]
+        )
+        for previous, current in zip(ordered, ordered[1:], strict=False):
+            if (
+                previous["window"]["exit_station_m"]
+                + LANE_REFINEMENT_NEIGHBOUR_GAP_M
+                > current["window"]["entry_station_m"]
+            ):
+                raise ValueError(
+                    json.dumps(
+                        {
+                            "refusal": "corner refinement windows overlap",
+                            "host": list(key),
+                            "first": previous["refinement_id"],
+                            "second": current["refinement_id"],
+                        },
+                        sort_keys=True,
+                    )
+                )
+
+
+def _lane_segment_vertical(
+    segment_id: str,
+    elevation_segment: dict[str, Any],
+    conditioned_segment: dict[str, Any],
+) -> dict[str, Any]:
+    """One segment's eased vertical record with its gate battery."""
+    conditioned = _conditioned_segment_elevations(
+        elevation_segment, conditioned_segment
+    )
+    eased = _lane_eased_segment_profile(elevation_segment, conditioned_segment)
+    interval = float(elevation_segment["station_interval_m"])
+    census = _lane_vertical_census(segment_id, conditioned, eased, interval)
+    gates = {
+        "vertical_curvature_class": _carriageway_gate(
+            {
+                "class_80_count": census["class_80_count"],
+                "max_delta_grade_percent": census["max_delta_grade_percent"],
+            },
+            "every station pair inside the 80 km/h class; 80 km/h-class "
+            "pairs recorded",
+            True,
+        ),
+        "easing_departure": _carriageway_gate(
+            census["max_easing_departure_m"],
+            LANE_VERTICAL_MAX_DEPARTURE_M,
+            census["max_easing_departure_m"] <= LANE_VERTICAL_MAX_DEPARTURE_M,
+        ),
+        "boundary_pinning": _carriageway_gate(
+            census["boundary_deltas_m"],
+            0.0,
+            all(delta == 0.0 for delta in census["boundary_deltas_m"]),
+        ),
+    }
+    failed = sorted(name for name, gate in gates.items() if not gate["passed"])
+    if failed:
+        raise ValueError(
+            json.dumps(
+                {
+                    "refusal": "vertical easing gates failed",
+                    "segment_id": segment_id,
+                    "failed_gates": failed,
+                },
+                sort_keys=True,
+            )
+        )
+    return {**census, "gates": gates}
+
+
+def _lane_default_census(
+    carriageway_lock: dict[str, Any],
+    junction_lock: dict[str, Any],
+    connector_lock: dict[str, Any],
+    attribution: dict[str, Any],
+) -> dict[str, Any]:
+    """The lane-count provenance census: everything is an authored default."""
+    summary = carriageway_lock["summary"]
+    junction_summary = junction_lock["summary"]
+    connector_summary = connector_lock["summary"]
+    return {
+        "lane_attribution": attribution,
+        "locked_attribution_miles": 0.0,
+        "authored_default_miles": summary["westbound_miles"],
+        "by_roadway_kind": {
+            "divided_carriageway": {
+                "westbound_miles": summary["westbound_miles"],
+                "lane_count": LANE_MAINLINE_COUNT,
+                "provenance": "authored_default",
+            },
+            "one_way_ramp": {
+                "through_transfer_length_m": junction_summary[
+                    "through_transfer_length_m"
+                ],
+                "turnaround_length_m": junction_summary["turnaround_length_m"],
+                "movement_count": junction_summary["movement_count"],
+                "provenance": "authored_default",
+            },
+            "unclassified": {
+                "connector_geodesic_m": connector_summary[
+                    "authored_geodesic_m"
+                ],
+                "connector_count": connector_summary["connector_count"],
+                "lane_count": 1,
+                "provenance": "authored_default",
+            },
+        },
+        "statement": (
+            "The locked NHPN response schema carries no lane-count "
+            "attribute (censused per field over every cached page), so "
+            "zero corridor miles carry locked lane attribution and the "
+            "entire lane model is the recorded authored default per "
+            "roadway kind - never claimed as observed lane geometry."
+        ),
+    }
+
+
+def _lane_topology_summary(
+    plan: dict[str, Any],
+    refinements: Sequence[dict[str, Any]],
+    serpentine_exceptions: Sequence[dict[str, Any]],
+    excluded_sites: Sequence[dict[str, Any]],
+    segment_vertical: dict[str, dict[str, Any]],
+    grade_separations: Sequence[dict[str, Any]],
+    top_gates: dict[str, Any],
+) -> dict[str, Any]:
+    section_count = sum(
+        segment["section_count"] for segment in plan["segments"]
+    )
+    transition_count = sum(
+        1
+        for segment in plan["segments"]
+        for section in segment["sections"]
+        if section["transition"] is not None
+    )
+    refinement_by_class: dict[str, int] = {}
+    refinement_by_host: dict[str, int] = {}
+    total_length_delta = 0.0
+    gates_passed = 0
+    gates_failed = 0
+    for record in refinements:
+        achieved = record["design"]["achieved_class"]
+        refinement_by_class[achieved] = refinement_by_class.get(achieved, 0) + 1
+        host_kind = record["host"]["kind"]
+        refinement_by_host[host_kind] = refinement_by_host.get(host_kind, 0) + 1
+        total_length_delta += record["measurements"]["length_delta_m"]
+        for gate in record["gates"].values():
+            if gate["passed"]:
+                gates_passed += 1
+            else:
+                gates_failed += 1
+    stepped_down = sum(
+        1
+        for record in refinements
+        if record["design"]["achieved_class"]
+        != record["design"]["assigned_class"]
+    )
+    vertical_sites = 0
+    max_easing_departure = 0.0
+    for vertical in segment_vertical.values():
+        vertical_sites += vertical["class_80_count"]
+        max_easing_departure = max(
+            max_easing_departure, vertical["max_easing_departure_m"]
+        )
+        for gate in vertical["gates"].values():
+            if gate["passed"]:
+                gates_passed += 1
+            else:
+                gates_failed += 1
+    for movement in plan["movements"]:
+        shared_record = movement.get("shared_pavement")
+        if shared_record is not None:
+            if shared_record["max_deviation_m"] <= shared_record["tolerance_m"]:
+                gates_passed += 1
+            else:
+                gates_failed += 1
+    for gate in top_gates.values():
+        if gate["passed"]:
+            gates_passed += 1
+        else:
+            gates_failed += 1
+    return {
+        "segment_count": len(plan["segments"]),
+        "section_count": section_count,
+        "transition_count": transition_count,
+        "lane_connector_count": len(plan["lane_connectors"]),
+        "movement_count": len(plan["movements"]),
+        "endpoint_connector_count": len(plan["endpoint_connectors"]),
+        "open_lane_seam_count": len(plan["open_lane_seams"]),
+        "refinement_count": len(refinements),
+        "refinements_by_class": dict(sorted(refinement_by_class.items())),
+        "refinements_by_host": dict(sorted(refinement_by_host.items())),
+        "refinements_stepped_down": stepped_down,
+        "serpentine_exception_count": len(serpentine_exceptions),
+        "excluded_corner_count": len(excluded_sites),
+        "refined_length_delta_m": round(total_length_delta, 3),
+        "vertical_class_80_site_count": vertical_sites,
+        "max_easing_departure_m": round(max_easing_departure, 2),
+        "grade_separation_count": len(grade_separations),
+        "gates_passed": gates_passed,
+        "gates_failed": gates_failed,
+    }
+
+
+def _lane_attribution_census(
+    route_lock: dict[str, Any], cache_directory: Path
+) -> dict[str, Any]:
+    """Prove the locked NHPN schema asserts no lane-count attribute.
+
+    A derive-time census over every cached candidate page (the pages'
+    canonical hashes are pinned by the candidate lock); a lane attribute
+    in the locked schema would refuse - the default model may not shadow
+    locked attribution.
+    """
+    service_hash = route_lock["nhpn"]["service"]["canonical_metadata_sha256"]
+    cache_root = Path(cache_directory) / service_hash
+    field_names: set[str] = set()
+    feature_count = 0
+    page_count = 0
+    for snapshot in sorted(
+        route_lock["nhpn"]["segment_snapshots"],
+        key=lambda item: item["segment_id"],
+    ):
+        directory = cache_root / snapshot["segment_id"]
+        for index in range(len(snapshot["pages"])):
+            page_path = directory / f"page-{index:06d}.json"
+            if not page_path.is_file():
+                raise ValueError(
+                    json.dumps(
+                        {
+                            "refusal": "NHPN cache page is missing; re-run "
+                            "acquire-continental-nhpn",
+                            "page": str(page_path),
+                        },
+                        sort_keys=True,
+                    )
+                )
+            response = load_json(page_path)["response"]
+            page_count += 1
+            for field in response.get("fields", []):
+                field_names.add(str(field.get("name")))
+            feature_count += len(response.get("features", []))
+    present = sorted(
+        field_names.intersection(LANE_ATTRIBUTE_FIELD_CANDIDATES)
+    )
+    if present:
+        raise ValueError(
+            json.dumps(
+                {
+                    "refusal": "locked NHPN schema asserts lane attribution; "
+                    "the authored default may not shadow it",
+                    "lane_attribute_fields_present": present,
+                },
+                sort_keys=True,
+            )
+        )
+    ordered_fields = sorted(field_names)
+    return {
+        "scope": "nhpn-base-candidate-pages",
+        "page_count": page_count,
+        "feature_count": feature_count,
+        "field_count": len(ordered_fields),
+        "field_names": ordered_fields,
+        "field_names_sha256": canonical_sha256(ordered_fields),
+        "lane_attribute_candidates": list(LANE_ATTRIBUTE_FIELD_CANDIDATES),
+        "lane_attribute_fields_present": [],
+    }
+
+
+def _lane_verified_carriageway_caches(
+    carriageway_lock: dict[str, Any], carriageway_cache_directory: Path
+) -> dict[str, dict[str, Any]]:
+    """The carriageway cache, refused unless it reproduces the lock."""
+    caches: dict[str, dict[str, Any]] = {}
+    for lock_segment in carriageway_lock["segments"]:
+        segment_id = lock_segment["segment_id"]
+        cache_path = Path(carriageway_cache_directory) / f"{segment_id}.json"
+        if not cache_path.is_file():
+            raise ValueError(
+                json.dumps(
+                    {
+                        "refusal": "carriageway cache segment is missing; "
+                        "re-run derive-continental-westbound-carriageway",
+                        "segment_id": segment_id,
+                        "cache_path": str(cache_path),
+                    },
+                    sort_keys=True,
+                )
+            )
+        payload = load_json(cache_path)
+        for side in ("westbound", "eastbound"):
+            digest = canonical_sha256(payload[f"{side}_coordinates"])
+            if digest != lock_segment[side]["geometry_sha256"]:
+                raise ValueError(
+                    json.dumps(
+                        {
+                            "refusal": "carriageway cache does not "
+                            "reproduce the committed westbound carriageway "
+                            "lock; re-run "
+                            "derive-continental-westbound-carriageway",
+                            "segment_id": segment_id,
+                            "side": side,
+                        },
+                        sort_keys=True,
+                    )
+                )
+        chain = [tuple(point) for point in payload["chain_coordinates"]]
+        chain_length = round(_polyline_length(chain), 3)
+        envelope = _rounding_envelope_m(lock_segment["chain"]["vertex_count"])
+        if (
+            abs(chain_length - lock_segment["chain"]["length_m"]) > envelope
+            or len(chain) != lock_segment["chain"]["vertex_count"]
+        ):
+            raise ValueError(
+                json.dumps(
+                    {
+                        "refusal": "carriageway cache chain drifted from "
+                        "the committed westbound carriageway lock",
+                        "segment_id": segment_id,
+                    },
+                    sort_keys=True,
+                )
+            )
+        caches[segment_id] = payload
+    return caches
+
+
+def _lane_spliced_movement_line(
+    line: LineString,
+    entry_station: float,
+    exit_station: float,
+    curve: Sequence[tuple[float, float]],
+) -> LineString:
+    head = substring(line, 0.0, entry_station)
+    tail = substring(line, exit_station, line.length)
+    coordinates = (
+        [tuple(point) for point in head.coords][:-1]
+        + [tuple(point) for point in curve]
+        + [tuple(point) for point in tail.coords][1:]
+    )
+    return LineString(_dedupe_polyline(coordinates))
+
+
+def _lane_movement_opposing_context(
+    refinement_id: str,
+    refined_line: LineString,
+    movement: dict[str, Any],
+    caches: dict[str, dict[str, Any]],
+    inverse: Transformer,
+) -> dict[str, Any]:
+    """Re-measure the refined movement against both opposing carriageways.
+
+    Crossings must stay transversal and inside the junction limit (each
+    one carries an authored grade separation); a non-crossing side must
+    hold the full carriageway clearance.
+    """
+    context: dict[str, Any] = {}
+    for side_key, segment_id in (
+        ("from_eastbound", movement["from_segment_id"]),
+        ("to_eastbound", movement["to_segment_id"]),
+    ):
+        eastbound = LineString(
+            [tuple(point) for point in caches[segment_id]["eastbound_coordinates"]]
+        )
+        intersection = refined_line.intersection(eastbound)
+        crossing_points: list[Point] = []
+        if intersection.is_empty:
+            pass
+        elif intersection.geom_type == "Point":
+            crossing_points = [intersection]
+        elif intersection.geom_type == "MultiPoint":
+            crossing_points = sorted(
+                intersection.geoms, key=lambda point: (point.x, point.y)
+            )
+        else:
+            raise _LanePostCheckError(
+                json.dumps(
+                    {
+                        "refusal": "refined movement overlaps the opposing "
+                        "carriageway linearly",
+                        "refinement_id": refinement_id,
+                        "side": side_key,
+                        "geometry_type": intersection.geom_type,
+                    },
+                    sort_keys=True,
+                )
+            )
+        if len(crossing_points) > JUNCTION_OPPOSING_CROSSING_LIMIT:
+            raise _LanePostCheckError(
+                json.dumps(
+                    {
+                        "refusal": "refined movement crosses the opposing "
+                        "carriageway beyond the junction limit",
+                        "refinement_id": refinement_id,
+                        "side": side_key,
+                        "crossing_count": len(crossing_points),
+                    },
+                    sort_keys=True,
+                )
+            )
+        record: dict[str, Any] = {
+            "crossing_count": len(crossing_points),
+            "crossing_coordinates": [],
+        }
+        for point in crossing_points:
+            longitude, latitude = inverse.transform(point.x, point.y)
+            record["crossing_coordinates"].append(
+                [round(longitude, 7), round(latitude, 7)]
+            )
+        if not crossing_points:
+            distance = round(refined_line.distance(eastbound), 3)
+            record["min_distance_m"] = distance
+            if distance < JUNCTION_OPPOSING_CLEARANCE_M:
+                raise _LanePostCheckError(
+                    json.dumps(
+                        {
+                            "refusal": "refined movement approaches the "
+                            "opposing carriageway inside the clearance",
+                            "refinement_id": refinement_id,
+                            "side": side_key,
+                            "min_distance_m": distance,
+                            "clearance_m": JUNCTION_OPPOSING_CLEARANCE_M,
+                        },
+                        sort_keys=True,
+                    )
+                )
+        context[side_key] = record
+    return context
+
+
+def derive_continental_lane_topology(
+    junction_lock_path: Path,
+    carriageway_lock_path: Path,
+    conditioned_lock_path: Path,
+    elevation_lock_path: Path,
+    dem_lock_path: Path,
+    directed_lock_path: Path,
+    selection_path: Path,
+    route_lock_path: Path,
+    transfer_lock_path: Path,
+    policy_path: Path,
+    edge_path_lock_path: Path,
+    fill_lock_path: Path,
+    disposition_path: Path,
+    overlay_lock_path: Path,
+    conflation_lock_path: Path,
+    connector_lock_path: Path,
+    catalog_path: Path,
+    cache_directory: Path,
+    carriageway_cache_directory: Path,
+    output_path: Path,
+    *,
+    derived_at: str | None = None,
+) -> dict[str, Any]:
+    """Derive the continental lane topology lock (ADR-0011/ADR-0013).
+
+    Runs the deferred ADR-0018 design gates this stage owns: the
+    speed-designed corner refinements over every recorded exception site,
+    the eased vertical-curvature census, the ADR-0013 transition design,
+    the lane-connection completeness of the whole traveled graph, and the
+    authored grade separations at the recorded plan-view crossings. The
+    carriageway cache is refused unless it reproduces the committed lock;
+    the derive-time NHPN field census proves the authored lane defaults
+    shadow no locked attribution.
+    """
+    junction_lock = validate_continental_junction_geometry(
+        junction_lock_path,
+        carriageway_lock_path,
+        conditioned_lock_path,
+        elevation_lock_path,
+        dem_lock_path,
+        directed_lock_path,
+        selection_path,
+        route_lock_path,
+        transfer_lock_path,
+        policy_path,
+        edge_path_lock_path,
+        fill_lock_path,
+        disposition_path,
+        overlay_lock_path,
+        conflation_lock_path,
+        connector_lock_path,
+        catalog_path,
+    )
+    carriageway_lock = load_json(carriageway_lock_path)
+    connector_lock = load_json(connector_lock_path)
+    elevation_lock = load_json(elevation_lock_path)
+    conditioned_lock = load_json(conditioned_lock_path)
+    route_lock = load_json(route_lock_path)
+    selection = load_json(selection_path)
+    timestamp = derived_at or datetime.now(UTC).replace(
+        microsecond=0
+    ).isoformat().replace("+00:00", "Z")
+    forward = Transformer.from_crs("EPSG:4326", "EPSG:5070", always_xy=True)
+    inverse = Transformer.from_crs("EPSG:5070", "EPSG:4326", always_xy=True)
+    caches = _lane_verified_carriageway_caches(
+        carriageway_lock, carriageway_cache_directory
+    )
+    attribution = _lane_attribution_census(route_lock, cache_directory)
+    movements = {
+        movement["movement_id"]: movement
+        for movement in junction_lock["movements"]
+    }
+    movement_lines = {
+        movement_id: LineString(
+            [tuple(point) for point in movement["geometry"]["coordinates"]]
+        )
+        for movement_id, movement in movements.items()
+    }
+    connector_lines = {
+        connector["connector_id"]: _lane_connector_line(connector, forward)
+        for connector in connector_lock["connectors"]
+    }
+    chain_lines = {
+        segment_id: LineString(
+            [tuple(point) for point in payload["chain_coordinates"]]
+        )
+        for segment_id, payload in caches.items()
+    }
+    carriageway_segments = {
+        segment["segment_id"]: segment
+        for segment in carriageway_lock["segments"]
+    }
+    sites, excluded_sites = _lane_refinement_sites(
+        carriageway_lock, junction_lock, connector_lock
+    )
+    refinements: list[dict[str, Any]] = []
+    serpentine_exceptions: list[dict[str, Any]] = []
+    for site in sites:
+        host = site["host"]
+        if host["kind"] == "carriageway_chain":
+            line = chain_lines[host["id"]]
+            lower, upper = _lane_chain_bounds(
+                host["id"],
+                float(carriageway_segments[host["id"]]["chain"]["length_m"]),
+                junction_lock,
+                carriageway_lock,
+            )
+        elif host["kind"] == "junction_movement":
+            line = movement_lines[host["id"]]
+            lower = LANE_REFINEMENT_END_MARGIN_M
+            upper = line.length - LANE_REFINEMENT_END_MARGIN_M
+        else:
+            line = connector_lines[host["id"]]
+            lower = LANE_CONNECTOR_END_MARGIN_M
+            upper = line.length - LANE_CONNECTOR_END_MARGIN_M
+        profile = _lane_cluster_turn_profile(line, site["corner"])
+        if profile["mixed_sign"]:
+            serpentine_exceptions.append(
+                _lane_serpentine_record(host, site["corner"], profile)
+            )
+            continue
+        post_check = None
+        if host["kind"] == "junction_movement":
+            movement = movements[host["id"]]
+            host_line = line
+
+            def post_check(
+                candidate: dict[str, Any],
+                movement: dict[str, Any] = movement,
+                host_line: LineString = host_line,
+            ) -> dict[str, Any]:
+                refined_line = _lane_spliced_movement_line(
+                    host_line,
+                    candidate["window"]["entry_station_m"],
+                    candidate["window"]["exit_station_m"],
+                    [
+                        tuple(point)
+                        for point in candidate["geometry"]["coordinates"]
+                    ],
+                )
+                return {
+                    "opposing_context": _lane_movement_opposing_context(
+                        candidate["refinement_id"],
+                        refined_line,
+                        movement,
+                        caches,
+                        inverse,
+                    )
+                }
+
+        record = _lane_refinement_record(
+            host,
+            site["corner"],
+            line,
+            lower,
+            upper,
+            site["assigned_class"],
+            allow_step_down=site["allow_step_down"],
+            post_check=post_check,
+        )
+        refinements.append(record)
+    _lane_check_refinement_spacing(
+        refinements
+        + [
+            {
+                "refinement_id": record["exception_id"],
+                "host": record["host"],
+                "window": {
+                    "entry_station_m": record["zone_span_m"][0],
+                    "exit_station_m": record["zone_span_m"][1],
+                },
+            }
+            for record in serpentine_exceptions
+        ]
+    )
+    plan = _lane_topology_plan(
+        carriageway_lock, junction_lock, connector_lock, refinements
+    )
+    elevation_segments = {
+        segment["segment_id"]: segment
+        for segment in elevation_lock["segments"]
+    }
+    conditioned_segments = {
+        segment["segment_id"]: segment
+        for segment in conditioned_lock["segments"]
+    }
+    segment_vertical: dict[str, dict[str, Any]] = {}
+    for segment in plan["segments"]:
+        segment_id = segment["segment_id"]
+        segment_vertical[segment_id] = _lane_segment_vertical(
+            segment_id,
+            elevation_segments[segment_id],
+            conditioned_segments[segment_id],
+        )
+        segment["vertical"] = segment_vertical[segment_id]
+    grade_separations = _lane_grade_separations_from_refinements(
+        junction_lock, refinements
+    )
+    expected_crossings = sum(
+        context["crossing_count"]
+        for record in refinements
+        if record["host"]["kind"] == "junction_movement"
+        for context in record["opposing_context"].values()
+    ) + sum(
+        (movement.get("opposing_carriageways") or {})
+        .get(side, {})
+        .get("crossing_count", 0)
+        for movement in junction_lock["movements"]
+        if movement["movement_id"]
+        not in {
+            record["host"]["id"]
+            for record in refinements
+            if record["host"]["kind"] == "junction_movement"
+        }
+        for side in ("from_eastbound", "to_eastbound")
+    )
+    top_gates = {
+        "lane_attribution_census": _carriageway_gate(
+            {
+                "field_count": attribution["field_count"],
+                "lane_attribute_fields_present": attribution[
+                    "lane_attribute_fields_present"
+                ],
+            },
+            "no lane attribute in the locked NHPN schema",
+            not attribution["lane_attribute_fields_present"],
+        ),
+        "grade_separation_coverage": _carriageway_gate(
+            {
+                "declared": len(grade_separations),
+                "recorded_crossings": expected_crossings,
+            },
+            "every recorded plan-view crossing carries exactly one "
+            "authored grade separation",
+            len(grade_separations) == expected_crossings,
+        ),
+    }
+    failed_top = sorted(
+        name for name, gate in top_gates.items() if not gate["passed"]
+    )
+    if failed_top:
+        raise ValueError(
+            json.dumps(
+                {
+                    "refusal": "lane topology top-level gates failed",
+                    "failed_gates": failed_top,
+                },
+                sort_keys=True,
+            )
+        )
+    census = _lane_default_census(
+        carriageway_lock, junction_lock, connector_lock, attribution
+    )
+    summary = _lane_topology_summary(
+        plan,
+        refinements,
+        serpentine_exceptions,
+        excluded_sites,
+        segment_vertical,
+        grade_separations,
+        top_gates,
+    )
+    payload = {
+        "schema_version": 1,
+        "status": LANE_TOPOLOGY_STATUS,
+        "decision": "ADR-0011",
+        "control_line_decision": "ADR-0013",
+        "carriageway_decision": "ADR-0014",
+        "reconstruction_decision": "ADR-0018",
+        "context_decision": "ADR-0017",
+        "route_decision": selection["decision"],
+        "derived_at": timestamp,
+        "coordinate_crs": "EPSG:4326",
+        "metric_crs": "EPSG:5070",
+        "catalog_sha256": compute_sha256(catalog_path),
+        "route_selection_sha256": compute_sha256(selection_path),
+        "candidate_lock_sha256": compute_sha256(route_lock_path),
+        "transfer_lock_sha256": compute_sha256(transfer_lock_path),
+        "edge_path_lock_sha256": compute_sha256(edge_path_lock_path),
+        "nhs_fill_lock_sha256": compute_sha256(fill_lock_path),
+        "break_disposition_sha256": compute_sha256(disposition_path),
+        "reconstruction_overlay_lock_sha256": compute_sha256(overlay_lock_path),
+        "nhs_conflation_lock_sha256": compute_sha256(conflation_lock_path),
+        "endpoint_connector_lock_sha256": compute_sha256(connector_lock_path),
+        "dem_product_lock_sha256": compute_sha256(dem_lock_path),
+        "directed_route_lock_sha256": compute_sha256(directed_lock_path),
+        "corridor_elevation_lock_sha256": compute_sha256(elevation_lock_path),
+        "conditioned_profile_lock_sha256": compute_sha256(conditioned_lock_path),
+        "westbound_carriageway_lock_sha256": compute_sha256(
+            carriageway_lock_path
+        ),
+        "junction_geometry_lock_sha256": compute_sha256(junction_lock_path),
+        "model": LANE_TOPOLOGY_MODEL,
+        "source_policy": dict(LANE_TOPOLOGY_SOURCE_POLICY),
+        "deferred_gates": dict(LANE_TOPOLOGY_DEFERRED_GATES),
+        "lane_default_census": census,
+        "segments": plan["segments"],
+        "segments_sha256": canonical_sha256(plan["segments"]),
+        "movements": plan["movements"],
+        "movements_sha256": canonical_sha256(plan["movements"]),
+        "endpoint_connectors": plan["endpoint_connectors"],
+        "lane_connectors": plan["lane_connectors"],
+        "lane_connectors_sha256": canonical_sha256(plan["lane_connectors"]),
+        "open_lane_seams": plan["open_lane_seams"],
+        "corner_refinements": refinements,
+        "corner_refinements_sha256": canonical_sha256(refinements),
+        "serpentine_exceptions": serpentine_exceptions,
+        "serpentine_exceptions_sha256": canonical_sha256(serpentine_exceptions),
+        "excluded_corner_sites": excluded_sites,
+        "grade_separations": grade_separations,
+        "gates": top_gates,
+        "summary": summary,
+        "next_stage": LANE_TOPOLOGY_NEXT_STAGE,
+    }
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(
+        json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
+    return payload
+
+
+def _lane_grade_separations_from_refinements(
+    junction_lock: dict[str, Any], refinements: Sequence[dict[str, Any]]
+) -> list[dict[str, Any]]:
+    """Grade separations from refined opposing contexts plus unrefined locks.
+
+    A refined movement's crossings are re-measured over its refined
+    geometry; an unrefined movement keeps the junction lock's records.
+    """
+    refined_contexts = {
+        record["host"]["id"]: record["opposing_context"]
+        for record in refinements
+        if record["host"]["kind"] == "junction_movement"
+    }
+    records: list[dict[str, Any]] = []
+    for movement in sorted(
+        junction_lock["movements"], key=lambda item: item["movement_id"]
+    ):
+        movement_id = movement["movement_id"]
+        if movement_id in refined_contexts:
+            opposing = refined_contexts[movement_id]
+        else:
+            opposing = movement.get("opposing_carriageways") or {}
+        for side in sorted(opposing):
+            context = opposing[side]
+            for index, coordinate in enumerate(
+                context.get("crossing_coordinates", [])
+            ):
+                records.append(
+                    {
+                        "separation_id": (
+                            f"{movement_id}--{side}--crossing-{index:02d}"
+                        ),
+                        "movement_id": movement_id,
+                        "opposing_side": side,
+                        "coordinate": coordinate,
+                        "relationship": (
+                            "transfer_passes_over_opposing_carriageway"
+                        ),
+                        "declared_min_vertical_clearance_m": (
+                            LANE_GRADE_SEPARATION_CLEARANCE_M
+                        ),
+                        "provenance": {
+                            "class": "authored_grade_separation",
+                            "statement": (
+                                "A plan-view opposing-carriageway crossing "
+                                "of a grade-separated interchange movement; "
+                                "no locked source asserts its vertical "
+                                "geometry, so the transfer passes over the "
+                                "opposing carriageway with at least the "
+                                "16.5 ft standard freeway clearance as an "
+                                "authored ADR-0018 record the collision "
+                                "stage must honour."
+                            ),
+                        },
+                    }
+                )
+    return records
+
+
+def validate_continental_lane_topology(
+    lane_lock_path: Path,
+    junction_lock_path: Path,
+    carriageway_lock_path: Path,
+    conditioned_lock_path: Path,
+    elevation_lock_path: Path,
+    dem_lock_path: Path,
+    directed_lock_path: Path,
+    selection_path: Path,
+    route_lock_path: Path,
+    transfer_lock_path: Path,
+    policy_path: Path,
+    edge_path_lock_path: Path,
+    fill_lock_path: Path,
+    disposition_path: Path,
+    overlay_lock_path: Path,
+    conflation_lock_path: Path,
+    connector_lock_path: Path,
+    catalog_path: Path,
+) -> dict[str, Any]:
+    """Validate the lane topology lock without caches or network.
+
+    The validator revalidates the full upstream battery, reconstructs
+    every corner refinement exactly from its recorded seam poses (and,
+    for movement and connector hosts, recomputes the poses and departures
+    from the committed host geometry), recomputes the eased vertical
+    census from the committed profile locks, rebuilds the entire lane
+    plan from the locks and requires record-for-record reproduction, and
+    reproduces the census, grade separations, gates, digests, and
+    summary. Chain-host seam poses, departures, and the NHPN field census
+    are recorded derive-time facts held to the locked thresholds and
+    pinned through the carriageway lock hash and the derive's cache and
+    census refusals.
+    """
+    payload = load_json(lane_lock_path)
+    if payload.get("schema_version") != 1:
+        raise ValueError("Lane topology lock schema_version must be 1.")
+    if payload.get("status") != LANE_TOPOLOGY_STATUS:
+        raise ValueError("Lane topology lock has an unsupported status.")
+    if (
+        payload.get("decision") != "ADR-0011"
+        or payload.get("control_line_decision") != "ADR-0013"
+        or payload.get("carriageway_decision") != "ADR-0014"
+        or payload.get("reconstruction_decision") != "ADR-0018"
+        or payload.get("context_decision") != "ADR-0017"
+    ):
+        raise ValueError("Lane topology lock decisions drifted.")
+    junction_lock = validate_continental_junction_geometry(
+        junction_lock_path,
+        carriageway_lock_path,
+        conditioned_lock_path,
+        elevation_lock_path,
+        dem_lock_path,
+        directed_lock_path,
+        selection_path,
+        route_lock_path,
+        transfer_lock_path,
+        policy_path,
+        edge_path_lock_path,
+        fill_lock_path,
+        disposition_path,
+        overlay_lock_path,
+        conflation_lock_path,
+        connector_lock_path,
+        catalog_path,
+    )
+    carriageway_lock = load_json(carriageway_lock_path)
+    connector_lock = load_json(connector_lock_path)
+    elevation_lock = load_json(elevation_lock_path)
+    conditioned_lock = load_json(conditioned_lock_path)
+    selection = load_json(selection_path)
+    expected_hashes = {
+        "catalog_sha256": compute_sha256(catalog_path),
+        "route_selection_sha256": compute_sha256(selection_path),
+        "candidate_lock_sha256": compute_sha256(route_lock_path),
+        "transfer_lock_sha256": compute_sha256(transfer_lock_path),
+        "edge_path_lock_sha256": compute_sha256(edge_path_lock_path),
+        "nhs_fill_lock_sha256": compute_sha256(fill_lock_path),
+        "break_disposition_sha256": compute_sha256(disposition_path),
+        "reconstruction_overlay_lock_sha256": compute_sha256(overlay_lock_path),
+        "nhs_conflation_lock_sha256": compute_sha256(conflation_lock_path),
+        "endpoint_connector_lock_sha256": compute_sha256(connector_lock_path),
+        "dem_product_lock_sha256": compute_sha256(dem_lock_path),
+        "directed_route_lock_sha256": compute_sha256(directed_lock_path),
+        "corridor_elevation_lock_sha256": compute_sha256(elevation_lock_path),
+        "conditioned_profile_lock_sha256": compute_sha256(conditioned_lock_path),
+        "westbound_carriageway_lock_sha256": compute_sha256(
+            carriageway_lock_path
+        ),
+        "junction_geometry_lock_sha256": compute_sha256(junction_lock_path),
+    }
+    if any(payload.get(key) != value for key, value in expected_hashes.items()):
+        raise ValueError("Lane topology lock input hash drifted.")
+    if payload.get("route_decision") != selection["decision"]:
+        raise ValueError("Lane topology lock route decision drifted.")
+    if payload.get("model") != LANE_TOPOLOGY_MODEL:
+        raise ValueError("Lane topology lock model drifted.")
+    if payload.get("source_policy") != LANE_TOPOLOGY_SOURCE_POLICY:
+        raise ValueError("Lane topology lock source policy drifted.")
+    if payload.get("deferred_gates") != LANE_TOPOLOGY_DEFERRED_GATES:
+        raise ValueError("Lane topology lock deferred gates drifted.")
+    if payload.get("next_stage") != LANE_TOPOLOGY_NEXT_STAGE:
+        raise ValueError("Lane topology lock next stage drifted.")
+    if not isinstance(payload.get("derived_at"), str) or not payload["derived_at"]:
+        raise ValueError("Lane topology lock derivation timestamp is missing.")
+    forward = Transformer.from_crs("EPSG:4326", "EPSG:5070", always_xy=True)
+    sites, excluded_sites = _lane_refinement_sites(
+        carriageway_lock, junction_lock, connector_lock
+    )
+    if payload.get("excluded_corner_sites") != excluded_sites:
+        raise ValueError("Lane topology lock excluded corner sites drifted.")
+    refinements = payload.get("corner_refinements", [])
+    serpentine_exceptions = payload.get("serpentine_exceptions", [])
+    if len(refinements) + len(serpentine_exceptions) != len(sites):
+        raise ValueError(
+            "Lane topology lock does not cover exactly the locked corner "
+            "sites."
+        )
+    movements = {
+        movement["movement_id"]: movement
+        for movement in junction_lock["movements"]
+    }
+    movement_lines = {
+        movement_id: LineString(
+            [tuple(point) for point in movement["geometry"]["coordinates"]]
+        )
+        for movement_id, movement in movements.items()
+    }
+    connector_lines = {
+        connector["connector_id"]: _lane_connector_line(connector, forward)
+        for connector in connector_lock["connectors"]
+    }
+    carriageway_segments = {
+        segment["segment_id"]: segment
+        for segment in carriageway_lock["segments"]
+    }
+    refinement_cursor = 0
+    serpentine_cursor = 0
+    for site in sites:
+        corner = site["corner"]
+        host = site["host"]
+        if host["kind"] == "junction_movement":
+            host_line = movement_lines[host["id"]]
+        elif host["kind"] == "endpoint_connector":
+            host_line = connector_lines[host["id"]]
+        else:
+            host_line = None
+        if (
+            serpentine_cursor < len(serpentine_exceptions)
+            and serpentine_exceptions[serpentine_cursor]["corner"][
+                "corner_id"
+            ]
+            == corner["corner_id"]
+        ):
+            serpentine = serpentine_exceptions[serpentine_cursor]
+            serpentine_cursor += 1
+            expected_corner = {
+                "corner_id": corner["corner_id"],
+                "corner_class": corner["corner_class"],
+                "peak_turn_deg": corner["peak_turn_deg"],
+                "turn_sum_deg": corner["turn_sum_deg"],
+                "from_station_m": corner["from_station_m"],
+                "to_station_m": corner["to_station_m"],
+            }
+            implied_radius = _lane_implied_lens_radius(
+                corner["peak_turn_deg"]
+            )
+            zone_class = _lane_zone_class_for_radius(implied_radius)
+            if host_line is not None:
+                profile = _lane_cluster_turn_profile(host_line, corner)
+                if not profile["mixed_sign"] or serpentine.get(
+                    "signed_turns_deg"
+                ) != profile["signed_turns_deg"]:
+                    raise ValueError(
+                        f"Serpentine exception "
+                        f"'{serpentine.get('exception_id')}' does not "
+                        "reproduce from the committed host geometry."
+                    )
+            else:
+                recorded_turns = serpentine.get("signed_turns_deg", [])
+                flagged = [
+                    turn
+                    for turn in recorded_turns
+                    if abs(turn) > CARRIAGEWAY_CORNER_THRESHOLD_DEG
+                ]
+                if not (
+                    any(turn > 0 for turn in flagged)
+                    and any(turn < 0 for turn in flagged)
+                ):
+                    raise ValueError(
+                        f"Serpentine exception "
+                        f"'{serpentine.get('exception_id')}' does not "
+                        "record mixed-sign flagged turns."
+                    )
+            expected = _lane_serpentine_record(
+                host,
+                corner,
+                {"signed_turns_deg": serpentine.get("signed_turns_deg", [])},
+            )
+            if serpentine != expected or serpentine["corner"] != (
+                expected_corner
+            ) or serpentine["declared_zone_design_class"] != zone_class:
+                raise ValueError(
+                    f"Serpentine exception "
+                    f"'{serpentine.get('exception_id')}' facts drifted."
+                )
+            continue
+        if refinement_cursor >= len(refinements):
+            raise ValueError(
+                "Lane topology lock corner records fall short of the "
+                "locked sites."
+            )
+        record = refinements[refinement_cursor]
+        refinement_cursor += 1
+        if host_line is not None:
+            profile = _lane_cluster_turn_profile(host_line, corner)
+            if profile["mixed_sign"]:
+                raise ValueError(
+                    f"Corner '{corner['corner_id']}' is serpentine on its "
+                    "committed host geometry but was refined."
+                )
+        refinement_id = f"{corner['corner_id']}--refinement"
+        if record.get("refinement_id") != refinement_id or record.get(
+            "host"
+        ) != site["host"]:
+            raise ValueError(
+                f"Lane refinement '{record.get('refinement_id')}' does not "
+                "cover its locked corner site."
+            )
+        expected_corner = {
+            "corner_id": corner["corner_id"],
+            "corner_class": corner["corner_class"],
+            "peak_turn_deg": corner["peak_turn_deg"],
+            "turn_sum_deg": corner["turn_sum_deg"],
+            "from_station_m": corner["from_station_m"],
+            "to_station_m": corner["to_station_m"],
+        }
+        if record.get("corner") != expected_corner:
+            raise ValueError(
+                f"Lane refinement '{refinement_id}' corner facts drifted."
+            )
+        design = record.get("design", {})
+        assigned = design.get("assigned_class")
+        achieved = design.get("achieved_class")
+        if assigned != site["assigned_class"]:
+            raise ValueError(
+                f"Lane refinement '{refinement_id}' assigned class drifted."
+            )
+        if achieved != assigned and not (
+            site["allow_step_down"]
+            and achieved in LANE_CLASS_ORDER
+            and LANE_CLASS_ORDER.index(achieved)
+            > LANE_CLASS_ORDER.index(assigned)
+        ):
+            raise ValueError(
+                f"Lane refinement '{refinement_id}' achieved class is not "
+                "the assigned class or its allowed step-down."
+            )
+        achieved_model = LANE_CORNER_DESIGN_CLASSES[achieved]
+        if (
+            design.get("design_speed_kmh")
+            != achieved_model["design_speed_kmh"]
+            or design.get("achieved_radius_m")
+            != achieved_model["minimum_radius_m"]
+        ):
+            raise ValueError(
+                f"Lane refinement '{refinement_id}' design facts drifted."
+            )
+        coordinates, facts = _lane_eased_corner_geometry(
+            refinement_id,
+            record["seam_poses"]["entry"],
+            record["seam_poses"]["exit"],
+            achieved_model["minimum_radius_m"],
+        )
+        geometry = record.get("geometry", {})
+        if (
+            [list(point) for point in coordinates]
+            != geometry.get("coordinates")
+            or geometry.get("vertex_count") != len(coordinates)
+            or geometry.get("crs") != "EPSG:5070"
+        ):
+            raise ValueError(
+                f"Lane refinement '{refinement_id}' does not reproduce "
+                "from its recorded seam poses."
+            )
+        if geometry.get("geometry_sha256") != canonical_sha256(
+            geometry.get("coordinates")
+        ):
+            raise ValueError(
+                f"Lane refinement '{refinement_id}' geometry digest drifted."
+            )
+        refined_length = round(_polyline_length(coordinates), 3)
+        if geometry.get("planimetric_m") != refined_length:
+            raise ValueError(
+                f"Lane refinement '{refinement_id}' geometry length drifted."
+            )
+        if record.get("construction") != facts:
+            raise ValueError(
+                f"Lane refinement '{refinement_id}' construction facts do "
+                "not reproduce."
+            )
+        window = record.get("window", {})
+        window_length = round(
+            window.get("exit_station_m", 0.0)
+            - window.get("entry_station_m", 0.0),
+            3,
+        )
+        if window.get("window_length_m") != window_length:
+            raise ValueError(
+                f"Lane refinement '{refinement_id}' window arithmetic "
+                "drifted."
+            )
+        measurements = record.get("measurements", {})
+        if measurements.get("length_delta_m") != round(
+            refined_length - window_length, 3
+        ):
+            raise ValueError(
+                f"Lane refinement '{refinement_id}' length delta drifted."
+            )
+        if measurements.get("max_lens_turn_deg") != (
+            _lane_refinement_lens_peak(coordinates)
+        ) or measurements.get("max_against_turn_deg") != (
+            _lane_refinement_monotonicity(coordinates, facts["turn_deg"])
+        ):
+            raise ValueError(
+                f"Lane refinement '{refinement_id}' lens measurements do "
+                "not reproduce."
+            )
+        host = record["host"]
+        if host["kind"] == "junction_movement":
+            line = movement_lines[host["id"]]
+            lower = LANE_REFINEMENT_END_MARGIN_M
+            upper = line.length - LANE_REFINEMENT_END_MARGIN_M
+        elif host["kind"] == "endpoint_connector":
+            line = connector_lines[host["id"]]
+            lower = LANE_CONNECTOR_END_MARGIN_M
+            upper = line.length - LANE_CONNECTOR_END_MARGIN_M
+        else:
+            line = None
+            lower, upper = _lane_chain_bounds(
+                host["id"],
+                float(carriageway_segments[host["id"]]["chain"]["length_m"]),
+                junction_lock,
+                carriageway_lock,
+            )
+        if (
+            window.get("entry_station_m", -1.0) < lower - 1e-6
+            or window.get("exit_station_m", float("inf")) > upper + 1e-6
+        ):
+            raise ValueError(
+                f"Lane refinement '{refinement_id}' window escapes its "
+                "host bounds."
+            )
+        if line is not None:
+            entry_pose = _lane_corner_pose(
+                line, window["entry_station_m"], entry=True
+            )
+            exit_pose = _lane_corner_pose(
+                line, window["exit_station_m"], entry=False
+            )
+            if (
+                record["seam_poses"]["entry"] != entry_pose
+                or record["seam_poses"]["exit"] != exit_pose
+            ):
+                raise ValueError(
+                    f"Lane refinement '{refinement_id}' seam poses do not "
+                    "reproduce from the committed host geometry."
+                )
+            window_line = substring(
+                line, window["entry_station_m"], window["exit_station_m"]
+            )
+            if measurements.get("max_departure_m") != (
+                _lane_refinement_departure(coordinates, window_line)
+            ):
+                raise ValueError(
+                    f"Lane refinement '{refinement_id}' departure does not "
+                    "reproduce."
+                )
+        elif measurements.get("max_departure_m", float("inf")) > (
+            LANE_REFINEMENT_MAX_DEPARTURE_M
+        ):
+            raise ValueError(
+                f"Lane refinement '{refinement_id}' recorded departure "
+                "violates its bound."
+            )
+        expected_gates = _lane_refinement_gates(record, achieved, assigned)
+        recorded_gates = dict(record.get("gates", {}))
+        opposing = record.get("opposing_context")
+        if host["kind"] == "junction_movement":
+            if opposing is None:
+                raise ValueError(
+                    f"Lane refinement '{refinement_id}' is missing its "
+                    "opposing-carriageway context."
+                )
+            for side in ("from_eastbound", "to_eastbound"):
+                context = opposing.get(side, {})
+                crossings = context.get("crossing_count", 0)
+                if crossings > JUNCTION_OPPOSING_CROSSING_LIMIT or len(
+                    context.get("crossing_coordinates", [])
+                ) != crossings:
+                    raise ValueError(
+                        f"Lane refinement '{refinement_id}' opposing "
+                        "crossing structure is invalid."
+                    )
+                if crossings == 0 and context.get("min_distance_m", 0.0) < (
+                    JUNCTION_OPPOSING_CLEARANCE_M
+                ):
+                    raise ValueError(
+                        f"Lane refinement '{refinement_id}' opposing "
+                        "clearance violates its bound."
+                    )
+        elif opposing is not None:
+            raise ValueError(
+                f"Lane refinement '{refinement_id}' carries an opposing "
+                "context its host cannot measure."
+            )
+        if recorded_gates != expected_gates:
+            raise ValueError(
+                f"Lane refinement '{refinement_id}' gates do not reproduce."
+            )
+        for name, gate in recorded_gates.items():
+            if gate.get("passed") is not True:
+                raise ValueError(
+                    f"Lane refinement '{refinement_id}' gate '{name}' did "
+                    "not pass."
+                )
+    if refinement_cursor != len(refinements) or serpentine_cursor != len(
+        serpentine_exceptions
+    ):
+        raise ValueError(
+            "Lane topology lock corner records exceed the locked sites."
+        )
+    _lane_check_refinement_spacing(
+        refinements
+        + [
+            {
+                "refinement_id": record["exception_id"],
+                "host": record["host"],
+                "window": {
+                    "entry_station_m": record["zone_span_m"][0],
+                    "exit_station_m": record["zone_span_m"][1],
+                },
+            }
+            for record in serpentine_exceptions
+        ]
+    )
+    plan = _lane_topology_plan(
+        carriageway_lock, junction_lock, connector_lock, refinements
+    )
+    elevation_segments = {
+        segment["segment_id"]: segment
+        for segment in elevation_lock["segments"]
+    }
+    conditioned_segments = {
+        segment["segment_id"]: segment
+        for segment in conditioned_lock["segments"]
+    }
+    segment_vertical: dict[str, dict[str, Any]] = {}
+    for segment in plan["segments"]:
+        segment_id = segment["segment_id"]
+        segment_vertical[segment_id] = _lane_segment_vertical(
+            segment_id,
+            elevation_segments[segment_id],
+            conditioned_segments[segment_id],
+        )
+        segment["vertical"] = segment_vertical[segment_id]
+    if payload.get("segments") != plan["segments"]:
+        raise ValueError(
+            "Lane topology lock segments do not reproduce from the "
+            "committed locks."
+        )
+    if payload.get("movements") != plan["movements"]:
+        raise ValueError(
+            "Lane topology lock movements do not reproduce from the "
+            "committed locks."
+        )
+    if payload.get("endpoint_connectors") != plan["endpoint_connectors"]:
+        raise ValueError(
+            "Lane topology lock endpoint connectors do not reproduce."
+        )
+    if payload.get("lane_connectors") != plan["lane_connectors"]:
+        raise ValueError(
+            "Lane topology lock lane connectors do not reproduce."
+        )
+    if payload.get("open_lane_seams") != plan["open_lane_seams"]:
+        raise ValueError("Lane topology lock open lane seams do not reproduce.")
+    attribution = payload.get("lane_default_census", {}).get(
+        "lane_attribution", {}
+    )
+    if (
+        attribution.get("lane_attribute_fields_present") != []
+        or attribution.get("lane_attribute_candidates")
+        != list(LANE_ATTRIBUTE_FIELD_CANDIDATES)
+        or attribution.get("field_names_sha256")
+        != canonical_sha256(attribution.get("field_names", []))
+        or attribution.get("field_count")
+        != len(attribution.get("field_names", []))
+        or not attribution.get("page_count")
+        or not attribution.get("feature_count")
+    ):
+        raise ValueError(
+            "Lane topology lock lane-attribution census is invalid."
+        )
+    if payload.get("lane_default_census") != _lane_default_census(
+        carriageway_lock, junction_lock, connector_lock, attribution
+    ):
+        raise ValueError(
+            "Lane topology lock lane default census does not reproduce."
+        )
+    grade_separations = _lane_grade_separations_from_refinements(
+        junction_lock, refinements
+    )
+    if payload.get("grade_separations") != grade_separations:
+        raise ValueError(
+            "Lane topology lock grade separations do not reproduce."
+        )
+    refined_movement_ids = {
+        record["host"]["id"]
+        for record in refinements
+        if record["host"]["kind"] == "junction_movement"
+    }
+    expected_crossings = sum(
+        context["crossing_count"]
+        for record in refinements
+        if record["host"]["kind"] == "junction_movement"
+        for context in record["opposing_context"].values()
+    ) + sum(
+        (movement.get("opposing_carriageways") or {})
+        .get(side, {})
+        .get("crossing_count", 0)
+        for movement in junction_lock["movements"]
+        if movement["movement_id"] not in refined_movement_ids
+        for side in ("from_eastbound", "to_eastbound")
+    )
+    expected_top_gates = {
+        "lane_attribution_census": _carriageway_gate(
+            {
+                "field_count": attribution["field_count"],
+                "lane_attribute_fields_present": attribution[
+                    "lane_attribute_fields_present"
+                ],
+            },
+            "no lane attribute in the locked NHPN schema",
+            not attribution["lane_attribute_fields_present"],
+        ),
+        "grade_separation_coverage": _carriageway_gate(
+            {
+                "declared": len(grade_separations),
+                "recorded_crossings": expected_crossings,
+            },
+            "every recorded plan-view crossing carries exactly one "
+            "authored grade separation",
+            len(grade_separations) == expected_crossings,
+        ),
+    }
+    if payload.get("gates") != expected_top_gates:
+        raise ValueError("Lane topology lock gates do not reproduce.")
+    for name, gate in expected_top_gates.items():
+        if not gate["passed"]:
+            raise ValueError(
+                f"Lane topology lock gate '{name}' did not pass."
+            )
+    for digest_key, value in (
+        ("segments_sha256", plan["segments"]),
+        ("movements_sha256", plan["movements"]),
+        ("lane_connectors_sha256", plan["lane_connectors"]),
+        ("corner_refinements_sha256", refinements),
+        ("serpentine_exceptions_sha256", serpentine_exceptions),
+    ):
+        if payload.get(digest_key) != canonical_sha256(value):
+            raise ValueError(f"Lane topology lock {digest_key} drifted.")
+    if payload.get("summary") != _lane_topology_summary(
+        plan,
+        refinements,
+        serpentine_exceptions,
+        excluded_sites,
+        segment_vertical,
+        grade_separations,
+        expected_top_gates,
+    ):
+        raise ValueError(
+            "Lane topology lock summary does not reproduce from the "
+            "committed records."
+        )
+    return payload

@@ -4972,3 +4972,395 @@ def test_junction_geometry_lock_rejects_semantic_tampering(
 
     with pytest.raises(ValueError, match="geometry digest drifted"):
         _validate_junction(_tampered_junction_lock(tmp_path, drifted_digest))
+
+
+LANE_LOCK_PATH = Path("data/routes/continental/lane-topology-lock.v1.json")
+
+
+def _validate_lane(path: Path) -> dict:
+    return continental.validate_continental_lane_topology(
+        path,
+        JUNCTION_LOCK_PATH,
+        CARRIAGEWAY_LOCK_PATH,
+        CONDITIONED_LOCK_PATH,
+        ELEVATION_LOCK_PATH,
+        DEM_LOCK_PATH,
+        DIRECTED_LOCK_PATH,
+        SELECTION_PATH,
+        LOCK_PATH,
+        TRANSFER_LOCK_PATH,
+        TRANSFER_POLICY_PATH,
+        EDGE_PATH_LOCK_PATH,
+        NHS_FILL_LOCK_PATH,
+        DISPOSITION_PATH,
+        OVERLAY_LOCK_PATH,
+        CONFLATION_LOCK_PATH,
+        CONNECTOR_LOCK_PATH,
+        CATALOG_PATH,
+    )
+
+
+def test_lane_signed_heading_difference_wraps() -> None:
+    assert continental._lane_signed_heading_difference(170.0, -170.0) == 20.0
+    assert continental._lane_signed_heading_difference(-170.0, 170.0) == -20.0
+    assert continental._lane_signed_heading_difference(10.0, 50.0) == 40.0
+
+
+def test_lane_eased_corner_reproduces_and_refuses() -> None:
+    entry = {"coordinate": [0.0, 0.0], "heading_deg": 0.0}
+    exit_pose = {"coordinate": [200.0, 80.0], "heading_deg": 40.0}
+    radius = continental.LANE_CORNER_DESIGN_CLASSES["ramp_50"][
+        "minimum_radius_m"
+    ]
+    coordinates, facts = continental._lane_eased_corner_geometry(
+        "refinement", entry, exit_pose, radius
+    )
+    assert facts["turn_deg"] == 40.0
+    assert facts["max_curvature_1_per_m"] == round(1.0 / radius, 6)
+    assert facts["closure_correction_m"] <= (
+        continental.LANE_REFINEMENT_CLOSURE_LIMIT_M
+    )
+    assert coordinates[0] == (0.0, 0.0)
+    assert coordinates[-1] == (200.0, 80.0)
+    # The identical construction reproduces exactly (validator contract).
+    replay, replay_facts = continental._lane_eased_corner_geometry(
+        "refinement", entry, exit_pose, radius
+    )
+    assert replay == coordinates and replay_facts == facts
+    # Peak discrete curvature sits at the designed bound inside the
+    # millimetre-quantization envelope of the ~1.7 m sample legs.
+    profile = continental._discrete_curvature_profile(coordinates)
+    assert profile["max_curvature_1_per_m"] <= round(1.0 / radius, 6) * 1.06
+    with pytest.raises(ValueError, match="degenerate"):
+        continental._lane_eased_corner_geometry(
+            "refinement",
+            entry,
+            {"coordinate": [200.0, 0.0], "heading_deg": 0.5},
+            radius,
+        )
+    with pytest.raises(ValueError, match="reversal-class"):
+        continental._lane_eased_corner_geometry(
+            "refinement",
+            entry,
+            {"coordinate": [10.0, 30.0], "heading_deg": 170.0},
+            radius,
+        )
+    with pytest.raises(ValueError, match="do not fit"):
+        continental._lane_eased_corner_geometry(
+            "refinement",
+            entry,
+            {"coordinate": [30.0, 5.0], "heading_deg": 40.0},
+            radius,
+        )
+
+
+def test_lane_vertical_easing_pins_boundaries_and_flags_sites() -> None:
+    elevations = [100.0] * 40
+    elevations[20] += 16.0
+    elevation_segment = {
+        "elevations_m": elevations,
+        "station_interval_m": 100.0,
+        "terminal_station_m": 3_900.0,
+    }
+    conditioned_segment = {"conditioning_records": []}
+    eased = continental._lane_eased_segment_profile(
+        elevation_segment, conditioned_segment
+    )
+    assert eased[0] == 100.0 and eased[-2] == 100.0 and eased[-1] == 100.0
+    assert max(eased) < 112.0
+    census = continental._lane_vertical_census(
+        "segment", elevations, eased, 100.0
+    )
+    assert census["class_80_count"] >= 1
+    assert census["boundary_deltas_m"] == [0.0, 0.0, 0.0]
+    assert all(
+        site["vertical_class"] in ("crest", "sag")
+        for site in census["class_80_sites"]
+    )
+    spiked = list(elevations)
+    spiked[20] += 28.0
+    spiked_eased = continental._lane_eased_segment_profile(
+        {**elevation_segment, "elevations_m": spiked}, conditioned_segment
+    )
+    with pytest.raises(ValueError, match="80 km/h"):
+        continental._lane_vertical_census("segment", spiked, spiked_eased, 100.0)
+
+
+def test_lane_cluster_profile_zone_classes_and_implied_radius() -> None:
+    import math as _math
+
+    points = [(0.0, 0.0), (75.0, 0.0)]
+    heading = _math.radians(30.0)
+    points.append(
+        (points[-1][0] + 25.0 * _math.cos(heading), 25.0 * _math.sin(heading))
+    )
+    points.append((points[-1][0] + 50.0, points[-1][1]))
+    line = LineString(points)
+    corner = {"from_station_m": 75.0, "to_station_m": 100.0}
+    profile = continental._lane_cluster_turn_profile(line, corner)
+    assert profile["mixed_sign"] is True
+    assert len(profile["flagged_turns_deg"]) == 2
+    assert continental._lane_implied_lens_radius(60.0) == 25.0
+    assert continental._lane_zone_class_for_radius(25.0) == "street_30"
+    assert continental._lane_zone_class_for_radius(100.0) == "ramp_50"
+    assert continental._lane_zone_class_for_radius(300.0) == "directional_80"
+
+
+def test_lane_movement_classes_on_repository_lock() -> None:
+    junction_lock = json.loads(JUNCTION_LOCK_PATH.read_text(encoding="utf-8"))
+    classes = continental._lane_movement_classes(junction_lock)
+    census: dict[str, int] = {}
+    for value in classes.values():
+        census[value] = census.get(value, 0) + 1
+    assert census == {
+        "mainline_continuation": 6,
+        "fork_exit_ramp": 1,
+        "merge_entrance_ramp": 1,
+        "directional_transfer": 2,
+        "turnaround_loop": 2,
+    }
+    assert (
+        classes[
+            "ne-big-springs-i80-i76--i80-new-jersey-to-big-springs"
+            "--i80-big-springs-to-salt-lake"
+        ]
+        == "fork_exit_ramp"
+    )
+    assert (
+        classes[
+            "ut-cove-fort-i70-i15--i70-denver-to-cove-fort"
+            "--i15-cove-fort-to-barstow"
+        ]
+        == "merge_entrance_ramp"
+    )
+
+
+def test_repository_lane_topology_lock_validates() -> None:
+    payload = _validate_lane(LANE_LOCK_PATH)
+    assert payload["status"] == continental.LANE_TOPOLOGY_STATUS
+    policy = payload["source_policy"]
+    assert policy["lane_attribution_present_in_locked_source"] is False
+    assert policy["lane_counts_authored_default"] is True
+    assert policy["observed_lane_geometry_claimed"] is False
+    assert policy["run_length_effect_claimed"] is False
+    summary = payload["summary"]
+    assert summary["gates_failed"] == 0
+    assert summary["gates_passed"] == 257
+    assert summary["segment_count"] == 12
+    assert summary["section_count"] == 23
+    assert summary["transition_count"] == 9
+    assert summary["lane_connector_count"] == 44
+    assert summary["refinement_count"] == 31
+    assert summary["refinements_by_host"] == {
+        "carriageway_chain": 18,
+        "endpoint_connector": 9,
+        "junction_movement": 4,
+    }
+    assert summary["refinements_by_class"] == {
+        "directional_80": 6,
+        "ramp_50": 14,
+        "street_30": 11,
+    }
+    assert summary["refinements_stepped_down"] == 3
+    assert summary["serpentine_exception_count"] == 3
+    assert summary["excluded_corner_count"] == 2
+    assert summary["vertical_class_80_site_count"] == 68
+    assert summary["grade_separation_count"] == 2
+    assert summary["open_lane_seam_count"] == 3
+    census = payload["lane_default_census"]
+    assert census["locked_attribution_miles"] == 0.0
+    assert census["authored_default_miles"] == 6294.223
+    assert census["lane_attribution"]["lane_attribute_fields_present"] == []
+    refinements = {
+        record["refinement_id"]: record
+        for record in payload["corner_refinements"]
+    }
+    cove_fort = refinements[
+        "ut-cove-fort-i70-i15--i70-denver-to-cove-fort"
+        "--i15-cove-fort-to-barstow--corner-000--refinement"
+    ]
+    assert cove_fort["design"]["assigned_class"] == "directional_80"
+    assert cove_fort["design"]["achieved_class"] == "street_30"
+    for context in cove_fort["opposing_context"].values():
+        assert context["crossing_count"] == 0
+        assert context["min_distance_m"] >= 10.0
+    west_la = refinements[
+        "ca-west-la-i10-i405--i10-ontario-to-i405"
+        "--i405-west-la-to-ca107--corner-000--refinement"
+    ]
+    assert west_la["design"]["achieved_class"] == "street_30"
+    assert all(
+        context["crossing_count"] == 1
+        for context in west_la["opposing_context"].values()
+    )
+    for record in payload["corner_refinements"]:
+        assert all(gate["passed"] for gate in record["gates"].values())
+        assert record["measurements"]["max_departure_m"] <= 80.0
+    assert all(
+        record["declared_zone_design_class"] == "street_30"
+        for record in payload["serpentine_exceptions"]
+    )
+    movements = {
+        movement["movement_id"]: movement
+        for movement in payload["movements"]
+    }
+    fork = movements[
+        "ne-big-springs-i80-i76--i80-new-jersey-to-big-springs"
+        "--i80-big-springs-to-salt-lake"
+    ]
+    assert fork["gore"]["kind"] == "exit" and fork["gore"]["side"] == "right"
+    assert fork["shared_pavement"]["max_deviation_m"] <= 1.0
+    merge = movements[
+        "ut-cove-fort-i70-i15--i70-denver-to-cove-fort"
+        "--i15-cove-fort-to-barstow"
+    ]
+    assert merge["gore"]["kind"] == "entrance"
+    assert merge["gore"]["side"] == "left"
+    for movement in payload["movements"]:
+        if movement["lane_class"] == "turnaround_loop":
+            assert movement["design_speed_kmh"] == 15.0
+    segments = {
+        segment["segment_id"]: segment for segment in payload["segments"]
+    }
+    nj = segments["i80-new-jersey-to-big-springs"]
+    assert nj["head_feature"] == "add_taper_from_connector"
+    assert nj["tail_feature"] == "exit_aux"
+    assert nj["section_count"] == 4
+    assert segments["i78-holland-tunnel-to-i81"]["head_feature"] == "open_seam"
+    barstow = segments["i15-barstow-to-ontario"]
+    assert barstow["head_feature"] == "mixed_two_lane"
+    assert barstow["traveled_span_m"][0] == 0.0
+    for separation in payload["grade_separations"]:
+        assert separation["declared_min_vertical_clearance_m"] == 5.03
+        assert separation["provenance"]["class"] == "authored_grade_separation"
+    seams = {seam["seam_id"] for seam in payload["open_lane_seams"]}
+    assert "i78-holland-tunnel-to-i81--head" in seams
+
+
+def _tampered_lane_lock(tmp_path: Path, mutate) -> Path:
+    payload = json.loads(LANE_LOCK_PATH.read_text(encoding="utf-8"))
+    mutate(payload)
+    payload["segments_sha256"] = canonical_sha256(payload["segments"])
+    payload["movements_sha256"] = canonical_sha256(payload["movements"])
+    payload["lane_connectors_sha256"] = canonical_sha256(
+        payload["lane_connectors"]
+    )
+    payload["corner_refinements_sha256"] = canonical_sha256(
+        payload["corner_refinements"]
+    )
+    payload["serpentine_exceptions_sha256"] = canonical_sha256(
+        payload["serpentine_exceptions"]
+    )
+    target = tmp_path / "lane-topology-lock.json"
+    target.write_text(json.dumps(payload), encoding="utf-8")
+    return target
+
+
+def test_lane_topology_lock_rejects_semantic_tampering(tmp_path: Path) -> None:
+    def failed_gate(payload: dict) -> None:
+        payload["corner_refinements"][0]["gates"]["design_radius"][
+            "passed"
+        ] = False
+
+    with pytest.raises(ValueError, match="gates do not reproduce"):
+        _validate_lane(_tampered_lane_lock(tmp_path, failed_gate))
+
+    def drifted_vertex(payload: dict) -> None:
+        record = payload["corner_refinements"][0]
+        record["geometry"]["coordinates"][3][1] += 5.0
+        record["geometry"]["geometry_sha256"] = canonical_sha256(
+            record["geometry"]["coordinates"]
+        )
+
+    with pytest.raises(ValueError, match="does not reproduce from its"):
+        _validate_lane(_tampered_lane_lock(tmp_path, drifted_vertex))
+
+    def drifted_seam_pose(payload: dict) -> None:
+        record = payload["corner_refinements"][0]
+        record["seam_poses"]["entry"]["heading_deg"] += 0.05
+
+    with pytest.raises(ValueError, match="does not reproduce"):
+        _validate_lane(_tampered_lane_lock(tmp_path, drifted_seam_pose))
+
+    def dropped_refinement(payload: dict) -> None:
+        payload["corner_refinements"].pop()
+
+    with pytest.raises(ValueError, match="does not cover exactly"):
+        _validate_lane(_tampered_lane_lock(tmp_path, dropped_refinement))
+
+    def unauthorised_step_down(payload: dict) -> None:
+        record = next(
+            item
+            for item in payload["corner_refinements"]
+            if item["host"]["kind"] == "carriageway_chain"
+            and item["design"]["assigned_class"] == "directional_80"
+        )
+        record["design"]["achieved_class"] = "ramp_50"
+
+    with pytest.raises(ValueError, match="achieved class is not"):
+        _validate_lane(_tampered_lane_lock(tmp_path, unauthorised_step_down))
+
+    def same_sign_serpentine(payload: dict) -> None:
+        record = payload["serpentine_exceptions"][0]
+        record["signed_turns_deg"] = [
+            abs(turn) for turn in record["signed_turns_deg"]
+        ]
+
+    with pytest.raises(ValueError, match="mixed-sign"):
+        _validate_lane(_tampered_lane_lock(tmp_path, same_sign_serpentine))
+
+    def drifted_section(payload: dict) -> None:
+        payload["segments"][0]["sections"][0]["end_m"] += 1.0
+
+    with pytest.raises(ValueError, match="segments do not reproduce"):
+        _validate_lane(_tampered_lane_lock(tmp_path, drifted_section))
+
+    def drifted_vertical(payload: dict) -> None:
+        payload["segments"][0]["vertical"]["class_80_count"] += 1
+
+    with pytest.raises(ValueError, match="segments do not reproduce"):
+        _validate_lane(_tampered_lane_lock(tmp_path, drifted_vertical))
+
+    def dropped_connector(payload: dict) -> None:
+        payload["lane_connectors"].pop()
+
+    with pytest.raises(ValueError, match="lane connectors do not reproduce"):
+        _validate_lane(_tampered_lane_lock(tmp_path, dropped_connector))
+
+    def drifted_census(payload: dict) -> None:
+        payload["lane_default_census"]["locked_attribution_miles"] = 100.0
+
+    with pytest.raises(ValueError, match="census does not reproduce"):
+        _validate_lane(_tampered_lane_lock(tmp_path, drifted_census))
+
+    def relaxed_clearance(payload: dict) -> None:
+        payload["grade_separations"][0][
+            "declared_min_vertical_clearance_m"
+        ] = 1.0
+
+    with pytest.raises(ValueError, match="grade separations do not reproduce"):
+        _validate_lane(_tampered_lane_lock(tmp_path, relaxed_clearance))
+
+    def drifted_summary(payload: dict) -> None:
+        payload["summary"]["gates_passed"] += 1
+
+    with pytest.raises(ValueError, match="summary does not reproduce"):
+        _validate_lane(_tampered_lane_lock(tmp_path, drifted_summary))
+
+    def drifted_hash(payload: dict) -> None:
+        payload["junction_geometry_lock_sha256"] = "0" * 64
+
+    with pytest.raises(ValueError, match="input hash drifted"):
+        _validate_lane(_tampered_lane_lock(tmp_path, drifted_hash))
+
+    def drifted_model(payload: dict) -> None:
+        payload["model"]["defaults"]["divided_carriageway"]["lane_count"] = 3
+
+    with pytest.raises(ValueError, match="model drifted"):
+        _validate_lane(_tampered_lane_lock(tmp_path, drifted_model))
+
+    def unclaimed_defaults(payload: dict) -> None:
+        payload["source_policy"]["lane_counts_authored_default"] = False
+
+    with pytest.raises(ValueError, match="source policy drifted"):
+        _validate_lane(_tampered_lane_lock(tmp_path, unclaimed_defaults))
