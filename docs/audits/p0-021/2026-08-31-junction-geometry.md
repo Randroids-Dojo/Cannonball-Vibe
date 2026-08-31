@@ -238,7 +238,14 @@ widened threshold, drifted excision class, drifted path coverage, inflated
 crossing structure, drifted input hash, drifted summary, drifted model,
 unclaimed generation policy, drifted geometry digest).
 
-`./scripts/check.sh` results are recorded in the pull request.
+`GODOT_BIN` resolved to the official 4.7.1.stable.mono editor;
+`./scripts/check.sh` passed every step on commit `a8d4924`: doctor,
+warning-free dotnet build, 145 xUnit tests, Ruff, frame-allocation scan,
+the fourteen-stage continental validation, 264 map-pipeline tests, 13
+PlayGodot unit tests, and the official-Godot save-writing smoke (80.7 mph
+peak, save at 56.1 m, 11.222 ms max chunk build, 2.133 ms max collision
+build). Gate summary SHA-256
+`1c302ff5a08dab885f95465424f98cfa5031421c53a09cf2584a99a493b86e8f`.
 
 ## What P0-021 still needs
 
