@@ -4659,3 +4659,316 @@ def test_carriageway_corner_sites_classify_conflated_span_corners() -> None:
         "seg", corner_chain, [overlay], 0.0, 0.0, inverse, span_lines=[span]
     )
     assert overlay_sites[0]["corner_class"] == "overlay_corner"
+
+
+JUNCTION_LOCK_PATH = Path("data/routes/continental/junction-geometry-lock.v1.json")
+
+
+def test_junction_cut_window_interpolates_at_the_model_length() -> None:
+    chain = [(0.0, 0.0), (100.0, 0.0), (400.0, 0.0)]
+    head = continental._junction_cut_window(chain, False, 250.0)
+    assert head == [(0.0, 0.0), (100.0, 0.0), (250.0, 0.0)]
+    tail = continental._junction_cut_window(chain, True, 250.0)
+    assert tail == [(150.0, 0.0), (400.0, 0.0)]
+    # A chain shorter than the window keeps its full extent.
+    short = continental._junction_cut_window([(0.0, 0.0), (80.0, 0.0)], False, 250.0)
+    assert short == [(0.0, 0.0), (80.0, 0.0)]
+
+
+def test_junction_zigzag_excision_records_and_caps() -> None:
+    inverse = Transformer.from_crs("EPSG:5070", "EPSG:4326", always_xy=True)
+    zigzag = [(0.0, 0.0), (100.0, 0.0), (90.0, 1.0), (200.0, 1.0)]
+    conditioned, records = continental._excise_junction_zigzags(
+        "movement", list(zigzag), inverse
+    )
+    assert len(records) == 1
+    assert records[0]["reversal_class"] == "junction_anchor_zigzag"
+    assert records[0]["turn_deg"] > 150.0
+    assert records[0]["window_length_delta_m"] < 0.0
+    assert all(
+        continental._vertex_turn_degrees(conditioned, index) <= 150.0
+        for index in range(1, len(conditioned) - 1)
+    )
+    comb: list[tuple[float, float]] = [(0.0, 0.0)]
+    cursor = 0.0
+    rung = 0.0
+    for _ in range(10):
+        cursor += 20.0
+        comb.append((cursor, rung))
+        cursor -= 10.0
+        rung += 0.01
+        comb.append((cursor, rung))
+    cursor += 20.0
+    comb.append((cursor, rung))
+    with pytest.raises(ValueError, match="removal cap"):
+        continental._excise_junction_zigzags("movement", comb, inverse)
+
+
+def test_junction_corner_census_records_and_refuses_reversals() -> None:
+    inverse = Transformer.from_crs("EPSG:5070", "EPSG:4326", always_xy=True)
+    corner = [(0.0, 0.0), (200.0, 0.0), (200.0, 200.0)]
+    sites, total_turn = continental._junction_corner_sites(
+        "movement", corner, inverse
+    )
+    assert len(sites) == 1
+    assert sites[0]["corner_class"] == "junction_transfer_corner"
+    assert sites[0]["corner_id"].startswith("movement--corner-")
+    assert total_turn >= sites[0]["turn_sum_deg"]
+    hairpin = [(0.0, 0.0), (200.0, 0.0), (0.0, 5.0)]
+    with pytest.raises(ValueError, match="reversal-class turn"):
+        continental._junction_corner_sites("movement", hairpin, inverse)
+
+
+def test_turnaround_loop_reproduces_and_refuses() -> None:
+    entry = {"coordinate": [0.0, 0.0], "heading_deg": 0.0}
+    exit_pose = {"coordinate": [0.0, 20.0], "heading_deg": 180.0}
+    loop, construction = continental._turnaround_loop_geometry(
+        "movement", entry, exit_pose
+    )
+    assert loop[0] == (0.0, 0.0)
+    assert loop[-1] == (0.0, 20.0)
+    assert construction["turn_deg"] == 180.0
+    assert abs(construction["arc_length_m"] - 51.46) <= 0.02
+    assert construction["closure_correction_m"] <= 0.01
+    curvature = continental._discrete_curvature_profile(loop)
+    assert curvature["min_radius_m"] >= continental.TURNAROUND_MIN_RADIUS_M
+    assert continental._seam_curvature(loop, at_end=False) <= (
+        continental.TURNAROUND_SEAM_CURVATURE_LIMIT
+    )
+    assert continental._seam_curvature(loop, at_end=True) <= (
+        continental.TURNAROUND_SEAM_CURVATURE_LIMIT
+    )
+    assert min(
+        continental._signed_turn_degrees(loop, index)
+        for index in range(1, len(loop) - 1)
+    ) >= -continental.TURNAROUND_MONOTONICITY_TOLERANCE_DEG
+    # The identical construction reproduces exactly (validator contract).
+    replay, replay_construction = continental._turnaround_loop_geometry(
+        "movement", entry, exit_pose
+    )
+    assert replay == loop and replay_construction == construction
+    with pytest.raises(ValueError, match="not\\s+anti-parallel"):
+        continental._turnaround_loop_geometry(
+            "movement", entry, {"coordinate": [0.0, 20.0], "heading_deg": 150.0}
+        )
+    with pytest.raises(ValueError, match="reciprocal-pair separation"):
+        continental._turnaround_loop_geometry(
+            "movement", entry, {"coordinate": [0.0, -20.0], "heading_deg": 180.0}
+        )
+    with pytest.raises(ValueError, match="reciprocal-pair separation"):
+        continental._turnaround_loop_geometry(
+            "movement", entry, {"coordinate": [0.0, 5.0], "heading_deg": 180.0}
+        )
+
+
+def _validate_junction(path: Path) -> dict:
+    return continental.validate_continental_junction_geometry(
+        path,
+        CARRIAGEWAY_LOCK_PATH,
+        CONDITIONED_LOCK_PATH,
+        ELEVATION_LOCK_PATH,
+        DEM_LOCK_PATH,
+        DIRECTED_LOCK_PATH,
+        SELECTION_PATH,
+        LOCK_PATH,
+        TRANSFER_LOCK_PATH,
+        TRANSFER_POLICY_PATH,
+        EDGE_PATH_LOCK_PATH,
+        NHS_FILL_LOCK_PATH,
+        DISPOSITION_PATH,
+        OVERLAY_LOCK_PATH,
+        CONFLATION_LOCK_PATH,
+        CONNECTOR_LOCK_PATH,
+        CATALOG_PATH,
+    )
+
+
+def test_repository_junction_geometry_lock_validates() -> None:
+    payload = _validate_junction(JUNCTION_LOCK_PATH)
+    assert payload["status"] == continental.JUNCTION_GEOMETRY_STATUS
+    assert payload["source_policy"]["junction_transfer_geometry_generated"] is True
+    summary = payload["summary"]
+    assert summary["movement_count"] == 12
+    assert summary["through_transfer_count"] == 10
+    assert summary["turnaround_transfer_count"] == 2
+    assert summary["cross_segment_junction_anchor_count"] == 7
+    assert summary["turnaround_anchor_count"] == 2
+    assert summary["derived_movement_count"] == 8
+    assert summary["authored_bridge_movement_count"] == 2
+    assert summary["authored_turnaround_count"] == 2
+    assert summary["gates_failed"] == 0
+    movements = {
+        movement["movement_id"]: movement for movement in payload["movements"]
+    }
+    turnarounds = [
+        movement
+        for movement in payload["movements"]
+        if movement["movement_kind"] == "turnaround_transfer"
+    ]
+    assert {movement["anchor_id"] for movement in turnarounds} == {
+        "ca-barstow-i40-i15",
+        "ut-salt-lake-i80-i15",
+    }
+    for movement in turnarounds:
+        assert movement["provenance"]["class"] == "authored_turnaround"
+        assert movement["design"]["minimum_radius_m"] >= (
+            continental.TURNAROUND_MIN_RADIUS_M
+        )
+        assert abs(movement["construction"]["lateral_span_m"] - 20.0) <= 0.01
+        assert abs(movement["construction"]["arc_length_m"] - 51.46) <= 0.02
+        assert movement["vertical_context"]["anchor_agreement_m"] == 0.0
+    west_la = movements[
+        "ca-west-la-i10-i405--i10-ontario-to-i405--i405-west-la-to-ca107"
+    ]
+    assert west_la["provenance"]["class"] == "derived_with_authored_bridge"
+    assert len(west_la["excisions"]) == 4
+    assert all(
+        excision["reversal_class"] == "junction_anchor_zigzag"
+        for excision in west_la["excisions"]
+    )
+    assert west_la["opposing_carriageways"]["from_eastbound"]["crossing_count"] == 1
+    assert west_la["opposing_carriageways"]["to_eastbound"]["crossing_count"] == 1
+    ontario = movements[
+        "ca-ontario-i15-i10--i15-barstow-to-ontario--i10-ontario-to-i405"
+    ]
+    assert ontario["provenance"]["class"] == "derived_with_authored_bridge"
+    assert abs(
+        ontario["window"]["bridge_m"] - ontario["junction"]["continuity_gap_m"]
+    ) <= 0.5
+    for movement in payload["movements"]:
+        assert all(gate["passed"] for gate in movement["gates"].values())
+        for site in movement.get("corner_sites", []):
+            assert site["corner_class"] == "junction_transfer_corner"
+            assert site["peak_turn_deg"] <= 150.0
+
+
+def _tampered_junction_lock(tmp_path: Path, mutate) -> Path:
+    payload = json.loads(JUNCTION_LOCK_PATH.read_text(encoding="utf-8"))
+    mutate(payload)
+    payload["movements_sha256"] = canonical_sha256(payload["movements"])
+    target = tmp_path / "junction-geometry-lock.json"
+    target.write_text(json.dumps(payload), encoding="utf-8")
+    return target
+
+
+def test_junction_geometry_lock_rejects_semantic_tampering(
+    tmp_path: Path,
+) -> None:
+    def failed_gate(payload: dict) -> None:
+        payload["movements"][0]["gates"]["anchor_proximity"]["passed"] = False
+
+    with pytest.raises(ValueError, match="did not pass"):
+        _validate_junction(_tampered_junction_lock(tmp_path, failed_gate))
+
+    def drifted_vertex(payload: dict) -> None:
+        movement = next(
+            m
+            for m in payload["movements"]
+            if m["movement_kind"] == "through_transfer"
+        )
+        movement["geometry"]["coordinates"][3][1] += 5.0
+        movement["geometry"]["geometry_sha256"] = canonical_sha256(
+            movement["geometry"]["coordinates"]
+        )
+
+    with pytest.raises(ValueError, match="geometry length drifted"):
+        _validate_junction(_tampered_junction_lock(tmp_path, drifted_vertex))
+
+    def dropped_movement(payload: dict) -> None:
+        payload["movements"].pop()
+
+    with pytest.raises(ValueError, match="does not cover exactly"):
+        _validate_junction(_tampered_junction_lock(tmp_path, dropped_movement))
+
+    def drifted_vertical(payload: dict) -> None:
+        movement = payload["movements"][1]
+        movement["vertical_context"]["boundary_elevations_m"][0] += 1.0
+
+    with pytest.raises(ValueError, match="vertical context does not reproduce"):
+        _validate_junction(_tampered_junction_lock(tmp_path, drifted_vertical))
+
+    def drifted_seam_pose(payload: dict) -> None:
+        movement = next(
+            m
+            for m in payload["movements"]
+            if m["movement_kind"] == "turnaround_transfer"
+        )
+        movement["seam_poses"]["entry"]["heading_deg"] += 0.005
+
+    with pytest.raises(ValueError, match="does not reproduce from its recorded"):
+        _validate_junction(_tampered_junction_lock(tmp_path, drifted_seam_pose))
+
+    def widened_threshold(payload: dict) -> None:
+        movement = next(
+            m
+            for m in payload["movements"]
+            if m["movement_kind"] == "through_transfer"
+        )
+        movement["gates"]["entry_seam_position"]["threshold"] = 10.0
+
+    with pytest.raises(ValueError, match="gates do not reproduce"):
+        _validate_junction(_tampered_junction_lock(tmp_path, widened_threshold))
+
+    def drifted_excision_class(payload: dict) -> None:
+        movement = next(
+            m for m in payload["movements"] if m.get("excisions")
+        )
+        movement["excisions"][0]["reversal_class"] = "smoothed_away"
+
+    with pytest.raises(ValueError, match="excision record is invalid"):
+        _validate_junction(
+            _tampered_junction_lock(tmp_path, drifted_excision_class)
+        )
+
+    def drifted_paths(payload: dict) -> None:
+        payload["movements"][0]["path_ids"] = ["central-rockies"]
+
+    with pytest.raises(ValueError, match="path coverage drifted"):
+        _validate_junction(_tampered_junction_lock(tmp_path, drifted_paths))
+
+    def inflated_crossings(payload: dict) -> None:
+        movement = next(
+            m
+            for m in payload["movements"]
+            if m["movement_kind"] == "through_transfer"
+        )
+        movement["opposing_carriageways"]["from_eastbound"] = {
+            "crossing_count": 5,
+            "crossing_coordinates": [[0.0, 0.0]] * 5,
+            "note": "n",
+        }
+
+    with pytest.raises(ValueError, match="opposing crossing structure"):
+        _validate_junction(_tampered_junction_lock(tmp_path, inflated_crossings))
+
+    def drifted_hash(payload: dict) -> None:
+        payload["catalog_sha256"] = "0" * 64
+
+    with pytest.raises(ValueError, match="input hash drifted"):
+        _validate_junction(_tampered_junction_lock(tmp_path, drifted_hash))
+
+    def drifted_summary(payload: dict) -> None:
+        payload["summary"]["gates_passed"] += 1
+
+    with pytest.raises(ValueError, match="summary does not reproduce"):
+        _validate_junction(_tampered_junction_lock(tmp_path, drifted_summary))
+
+    def drifted_model(payload: dict) -> None:
+        payload["model"]["window_m"] = 100.0
+
+    with pytest.raises(ValueError, match="model drifted"):
+        _validate_junction(_tampered_junction_lock(tmp_path, drifted_model))
+
+    def unclaimed_generation(payload: dict) -> None:
+        payload["source_policy"]["junction_transfer_geometry_generated"] = False
+
+    with pytest.raises(ValueError, match="source policy drifted"):
+        _validate_junction(
+            _tampered_junction_lock(tmp_path, unclaimed_generation)
+        )
+
+    def drifted_digest(payload: dict) -> None:
+        payload["movements"][0]["geometry"]["geometry_sha256"] = "0" * 64
+
+    with pytest.raises(ValueError, match="geometry digest drifted"):
+        _validate_junction(_tampered_junction_lock(tmp_path, drifted_digest))

@@ -16803,3 +16803,2237 @@ def validate_continental_endpoint_connectors(
             "derivation exactly."
         )
     return payload
+
+
+# --- ADR-0013/ADR-0018 junction transfer geometry --------------------------
+
+JUNCTION_GEOMETRY_STATUS = "junction_transfer_geometry_locked_lane_topology_pending"
+
+# Each cross-segment movement rides a composed window of the two locked
+# carriageway chains: enough length on each side of the anchor for the 25 m
+# census lens to resolve the junction turn against stable approach tangents,
+# cut at an exact interpolated station so the attachment seam always lands
+# on (or mid-edge inside) locked geometry.
+JUNCTION_WINDOW_M = 250.0
+# The composed transfer must reattach onto each segment's locked westbound
+# carriageway: the seam endpoint sits on the carriageway polyline and the
+# transfer's 25 m lens heading matches the carriageway's over the identical
+# window. Measured envelope across all ten through movements: position
+# <= 0.0006 m, heading <= 0.05 degrees; the bounds refuse a transfer built
+# from anything but the locked geometry without absorbing real drift.
+JUNCTION_SEAM_POSITION_TOLERANCE_M = 0.01
+JUNCTION_SEAM_HEADING_TOLERANCE_DEG = 0.5
+# Plan-view clearance to the two segments' opposing (eastbound) carriageways:
+# a non-crossing transfer may never come closer than one carriageway offset
+# (the West LA and Cove Fort left-turn movements measure 15.3 m and greater
+# elsewhere); a crossing transfer is a grade-separated interchange movement
+# in reality - the crossing must be transversal (point-type, never a linear
+# overlap that would be doubled pavement) and at most two per opposing line.
+JUNCTION_OPPOSING_CLEARANCE_M = 10.0
+JUNCTION_OPPOSING_CROSSING_LIMIT = 2
+# The two segments' conditioned profiles sample the anchor from independent
+# directed-walk stations; their agreement at the shared junction is a
+# cross-profile sampling fact (measured maximum 1.05 m at West LA, whose
+# chain ends sit 24.6 m apart), never silently averaged.
+JUNCTION_ELEVATION_AGREEMENT_M = 2.0
+# The transfer geometry must pass by its locked transfer-node anchor within
+# the directed lock's junction continuity limit.
+JUNCTION_ANCHOR_PROXIMITY_LIMIT_M = 50.0
+# The offset transfer's length departs from its composed centerline window by
+# join geometry at the junction corner: outer round joins add up to
+# offset x turn radians and inner joins trim up to 2 x offset x tan(turn/2)
+# (capped at the 120-degree tangent blowup), plus a slack for the small
+# lens-sample turns the census records along the approaches.
+JUNCTION_LENGTH_AGREEMENT_SLACK_M = 2.0
+JUNCTION_LENGTH_AGREEMENT_TRIM_CAP_DEG = 120.0
+JUNCTION_TRANSFER_CORNER_CLASS = "junction_transfer_corner"
+# A reversal-class vertex in the composed window is the two anchor-snapped
+# chain terminals overlapping longitudinally inside the recorded continuity
+# gap (the West LA terminals digitize 24.6 m apart with the I-405 doubling
+# back past the I-10 end) - doubled travel, excised with a bounded record
+# exactly like the carriageway stage's joint back-steps.
+JUNCTION_REVERSAL_CLASS = "junction_anchor_zigzag"
+
+# The turn-around loop at a backtrack anchor connects the arriving westbound
+# carriageway terminus to the departing westbound carriageway origin (which
+# the carriageway lock proves is the arriving eastbound carriageway to a
+# 0.000 m reciprocity gap). Heading follows the fully eased sine profile
+# theta(u) = Theta * (u - sin(2*pi*u) / (2*pi)) over arc-length fraction u:
+# curvature is exactly zero at both attachment seams, heading progresses
+# monotonically through the turn, and the loop closes with zero net forward
+# drift, so the U-turn spans exactly the measured 20 m reciprocal-pair
+# separation. Solved against the measured seam poses the minimum radius is
+# 8.19 m - above the 6.5 m bound (the AASHTO passenger design vehicle's
+# 6.4 m minimum centerline turning radius, rounded up) at the declared
+# 15 km/h loop design speed (V^2/(127*f) with low-speed side friction 0.32
+# gives 8.19 m at 18.2 km/h).
+TURNAROUND_EASING_PROFILE = "sine_eased_heading"
+TURNAROUND_INTEGRATION_STEPS = 2048
+TURNAROUND_SAMPLE_COUNT = 64
+TURNAROUND_DESIGN_SPEED_KMH = 15.0
+TURNAROUND_MIN_RADIUS_M = 6.5
+# The seams attach to near-straight locked carriageway ends; both sides'
+# discrete curvature must agree within a 200 m-radius class envelope.
+TURNAROUND_SEAM_CURVATURE_LIMIT = 0.005
+# The mirrored seam poses are exactly anti-parallel and exactly one
+# reciprocal separation apart by construction (GEOS offsets of identical
+# reversed lines); the tolerances are numerical envelopes, not fudges.
+TURNAROUND_ANTIPARALLEL_TOLERANCE_DEG = 0.1
+TURNAROUND_LATERAL_RANGE_M = (19.0, 21.0)
+TURNAROUND_CLOSURE_LIMIT_M = 0.01
+# Millimetre quantization of the ~0.8 m loop samples jitters each signed
+# lens turn by up to about 2 * atan(0.001 / 0.8) = 0.14 degrees; monotone
+# heading is enforced outside that envelope so quantization noise cannot
+# refuse a genuinely monotone loop and a genuine wiggle cannot hide in it.
+TURNAROUND_MONOTONICITY_TOLERANCE_DEG = 0.2
+
+JUNCTION_GEOMETRY_MODEL = {
+    "decision": "ADR-0018",
+    "control_line_decision": "ADR-0013",
+    "carriageway_decision": "ADR-0014",
+    "context_decision": "ADR-0017",
+    "metric_crs": "EPSG:5070",
+    "window_m": JUNCTION_WINDOW_M,
+    "tangent_lens_m": CARRIAGEWAY_TANGENT_LENS_M,
+    "corner_threshold_deg": CARRIAGEWAY_CORNER_THRESHOLD_DEG,
+    "reversal_threshold_deg": CARRIAGEWAY_REVERSAL_THRESHOLD_DEG,
+    "seam_position_tolerance_m": JUNCTION_SEAM_POSITION_TOLERANCE_M,
+    "seam_heading_tolerance_deg": JUNCTION_SEAM_HEADING_TOLERANCE_DEG,
+    "opposing_clearance_m": JUNCTION_OPPOSING_CLEARANCE_M,
+    "opposing_crossing_limit": JUNCTION_OPPOSING_CROSSING_LIMIT,
+    "elevation_agreement_m": JUNCTION_ELEVATION_AGREEMENT_M,
+    "anchor_proximity_limit_m": JUNCTION_ANCHOR_PROXIMITY_LIMIT_M,
+    "length_agreement_slack_m": JUNCTION_LENGTH_AGREEMENT_SLACK_M,
+    "through_transfer_rule": (
+        "A cross-segment movement is the westbound offset of the composed "
+        "chain window: the arriving chain's final window and the departing "
+        "chain's initial window, cut at the exact model station, joined "
+        "across the directed lock's recorded junction continuity gap, "
+        "conditioned of reversal-class anchor zigzags with bounded records, "
+        "and offset through the same ADR-0014 round-join machinery as the "
+        "carriageway model. ADR-0013 control-line continuity is adjudicated "
+        "at both attachment seams (position and heading against the locked "
+        "westbound carriageways over the identical lens); the junction "
+        "corner is a recorded exception site whose speed-designed transition "
+        "refinement is lane-topology output, exactly as for the locked "
+        "corridor's route corners."
+    ),
+    "turnaround_rule": (
+        "A backtrack anchor's turn-around joins the arriving westbound "
+        "carriageway terminus to the departing westbound carriageway origin "
+        "(the proven reciprocal pair) with the fully eased sine heading "
+        "profile: zero curvature at both attachment seams, monotone heading "
+        "through the turn, zero net forward drift, and the measured minimum "
+        "radius adjudicated against the authored low-speed design bound in "
+        "this stage. The loop is an authored ADR-0018 record - no source "
+        "asserts geometry for the anchor turn-around - justified by the "
+        "directed lock's recorded backtrack finding."
+    ),
+    "turnaround_profile": {
+        "profile": TURNAROUND_EASING_PROFILE,
+        "integration_steps": TURNAROUND_INTEGRATION_STEPS,
+        "sample_count": TURNAROUND_SAMPLE_COUNT,
+        "design_speed_kmh": TURNAROUND_DESIGN_SPEED_KMH,
+        "minimum_radius_m": TURNAROUND_MIN_RADIUS_M,
+        "seam_curvature_limit_1_per_m": TURNAROUND_SEAM_CURVATURE_LIMIT,
+        "antiparallel_tolerance_deg": TURNAROUND_ANTIPARALLEL_TOLERANCE_DEG,
+        "lateral_range_m": list(TURNAROUND_LATERAL_RANGE_M),
+        "closure_limit_m": TURNAROUND_CLOSURE_LIMIT_M,
+        "monotonicity_tolerance_deg": TURNAROUND_MONOTONICITY_TOLERANCE_DEG,
+        "justification": (
+            "The AASHTO passenger design vehicle turns a 6.4 m minimum "
+            "centerline radius; the loop's solved 8.19 m minimum radius "
+            "clears the 6.5 m bound at the declared 15 km/h design speed "
+            "(V^2/(127*f) with low-speed side friction 0.32 sustains "
+            "8.19 m at 18.2 km/h). Median turn-around geometry at a "
+            "20 m carriageway separation is a low-speed crossover "
+            "movement, never claimed as a highway-speed ramp."
+        ),
+    },
+    "vertical_rule": (
+        "ADR-0017 conditioned vertical context: boundary elevations come "
+        "from the two segments' committed conditioned profiles at the seam "
+        "stations (planimetric window length mapped through each segment's "
+        "geodesic/planimetric ratio - a derived approximation, recorded), "
+        "the cross-profile agreement at the shared anchor is measured and "
+        "bounded, and no observed junction elevation is claimed."
+    ),
+}
+
+JUNCTION_GEOMETRY_SOURCE_POLICY = {
+    "reconstruction_decision": "ADR-0018",
+    "control_line_decision": "ADR-0013",
+    "carriageway_decision": "ADR-0014",
+    "context_decision": "ADR-0017",
+    "route_decision": "ADR-0024",
+    "junction_transfer_geometry_generated": True,
+    "opposing_geometry_synthesized_from_proximity": False,
+    "lane_geometry_claimed": False,
+    "vertical_geometry_claimed": False,
+    "run_length_effect_claimed": False,
+    "run_length_effect_note": (
+        "Per-movement window and excision length effects are recorded facts "
+        "inside the locked source-centerline fidelity envelope; the "
+        "published ADR-0024 portal-to-portal figure remains the westbound "
+        "carriageway lock's record."
+    ),
+    "continental_downloads_committed": False,
+}
+
+JUNCTION_GEOMETRY_DEFERRED_GATES = {
+    "deferred_to": "lane-topology-and-package-build-stage",
+    "gates": [
+        "curvature_design_radius",
+        "curvature_rate",
+        "vertical_curvature",
+        "sightline",
+        "clearance",
+        "collision",
+        "lane_connection",
+        "drivability",
+        "grade_separation_vertical_resolution",
+    ],
+    "reason": (
+        "Through transfers are composed of NHPN-class locked geometry whose "
+        "~80 m vertex noise cannot adjudicate design radii (the carriageway "
+        "lock's standing reason); their junction corners are recorded "
+        "exception sites for the lane-topology stage's speed-designed ramp "
+        "refinement. The recorded plan-view opposing-carriageway crossings "
+        "are grade-separated interchange movements whose vertical "
+        "resolution is lane-topology/collision output. The authored "
+        "turn-around loops are full-precision geometry, so their design "
+        "bound (minimum radius at the declared design speed) is "
+        "adjudicated in this stage, not deferred."
+    ),
+}
+
+JUNCTION_GEOMETRY_NEXT_STAGE = {
+    "id": "lane-topology-collision-and-package-build",
+    "requires": [
+        "lane topology, ramps, and collision over the carriageway and "
+        "junction-transfer model with the deferred ADR-0018 gates",
+        "the GeoPackage/FlatBuffer package build (materializing the cached "
+        "carriageway geometry) under ADR-0019 budgets",
+        "the southern path's Holland Tunnel connector (nyc-start-to-i78) "
+        "before its portal-to-portal figure can publish",
+        "runtime integration and the double-build/traversal evidence",
+    ],
+}
+
+
+def _normalize_degrees(value: float) -> float:
+    return (value + 180.0) % 360.0 - 180.0
+
+
+def _edge_heading_degrees(
+    origin: tuple[float, float], target: tuple[float, float]
+) -> float:
+    return math.degrees(math.atan2(target[1] - origin[1], target[0] - origin[0]))
+
+
+def _line_heading_between(line: LineString, start_m: float, end_m: float) -> float:
+    """Chord heading of a line between two clamped stations."""
+    length = line.length
+    origin = line.interpolate(min(max(start_m, 0.0), length))
+    target = line.interpolate(min(max(end_m, 0.0), length))
+    return _edge_heading_degrees((origin.x, origin.y), (target.x, target.y))
+
+
+def _junction_cut_window(
+    chain: Sequence[tuple[float, float]], from_end: bool, window_m: float
+) -> list[tuple[float, float]]:
+    """The chain's terminal window cut at exactly ``window_m``.
+
+    The cut point interpolates mm-rounded along the chain, so the seam lands
+    on locked geometry (mid-edge in the common case) rather than at an
+    arbitrary vertex whose local turn would corrupt the attachment.
+    """
+    points = list(chain)
+    if from_end:
+        points = points[::-1]
+    out = [points[0]]
+    travelled = 0.0
+    for index in range(1, len(points)):
+        leg = math.dist(points[index - 1], points[index])
+        if travelled + leg >= window_m - 1e-9:
+            fraction = (window_m - travelled) / leg
+            out.append(
+                (
+                    round(
+                        points[index - 1][0]
+                        + (points[index][0] - points[index - 1][0]) * fraction,
+                        CARRIAGEWAY_GEOMETRY_DECIMALS,
+                    ),
+                    round(
+                        points[index - 1][1]
+                        + (points[index][1] - points[index - 1][1]) * fraction,
+                        CARRIAGEWAY_GEOMETRY_DECIMALS,
+                    ),
+                )
+            )
+            break
+        travelled += leg
+        out.append(points[index])
+    if from_end:
+        out = out[::-1]
+    return _dedupe_polyline(out)
+
+
+def _excise_junction_zigzags(
+    movement_id: str,
+    coordinates: list[tuple[float, float]],
+    inverse: Transformer,
+) -> tuple[list[tuple[float, float]], list[dict[str, Any]]]:
+    """Remove reversal-class anchor-zigzag vertices with a record for each."""
+    records: list[dict[str, Any]] = []
+    while True:
+        worst: tuple[int, float] | None = None
+        for index in range(1, len(coordinates) - 1):
+            angle = _vertex_turn_degrees(coordinates, index)
+            if angle > CARRIAGEWAY_REVERSAL_THRESHOLD_DEG and (
+                worst is None or angle > worst[1]
+            ):
+                worst = (index, angle)
+        if worst is None:
+            return coordinates, records
+        if len(records) >= CARRIAGEWAY_MAX_REVERSAL_REMOVALS:
+            raise ValueError(
+                json.dumps(
+                    {
+                        "refusal": "junction zigzag excision exceeded the "
+                        "removal cap",
+                        "movement_id": movement_id,
+                        "cap": CARRIAGEWAY_MAX_REVERSAL_REMOVALS,
+                    },
+                    sort_keys=True,
+                )
+            )
+        index, angle = worst
+        apex = coordinates[index]
+        station = round(_polyline_length(coordinates[: index + 1]), 3)
+        length_before = _polyline_length(coordinates)
+        del coordinates[index]
+        coordinates = _dedupe_polyline(coordinates)
+        longitude, latitude = inverse.transform(apex[0], apex[1])
+        records.append(
+            {
+                "reversal_class": JUNCTION_REVERSAL_CLASS,
+                "window_station_m": station,
+                "turn_deg": round(angle, 2),
+                "coordinate": [round(longitude, 7), round(latitude, 7)],
+                "window_length_delta_m": round(
+                    _polyline_length(coordinates) - length_before, 3
+                ),
+            }
+        )
+
+
+def _junction_corner_sites(
+    movement_id: str,
+    coordinates: Sequence[tuple[float, float]],
+    inverse: Transformer,
+) -> tuple[list[dict[str, Any]], float]:
+    """Corner census over one transfer at the carriageway lens.
+
+    Returns the recorded sites plus the total absolute lens turn (the
+    length-agreement gate's join-geometry envelope input). A reversal-class
+    turn at the lens refuses - the window was conditioned below it.
+    """
+    samples = _resample_polyline(coordinates, CARRIAGEWAY_TANGENT_LENS_M)
+    flagged: list[tuple[float, int]] = []
+    total_turn = 0.0
+    for index in range(1, len(samples) - 1):
+        angle = _vertex_turn_degrees(samples, index)
+        total_turn += angle
+        if angle > CARRIAGEWAY_REVERSAL_THRESHOLD_DEG:
+            raise ValueError(
+                json.dumps(
+                    {
+                        "refusal": "junction transfer carries a "
+                        "reversal-class turn",
+                        "movement_id": movement_id,
+                        "turn_deg": round(angle, 2),
+                        "station_m": round(index * CARRIAGEWAY_TANGENT_LENS_M, 1),
+                    },
+                    sort_keys=True,
+                )
+            )
+        if angle > CARRIAGEWAY_CORNER_THRESHOLD_DEG:
+            flagged.append((angle, index))
+    clusters: list[list[tuple[float, int]]] = []
+    for angle, index in flagged:
+        if clusters and index - clusters[-1][-1][1] <= CARRIAGEWAY_CORNER_CLUSTER_STEPS:
+            clusters[-1].append((angle, index))
+        else:
+            clusters.append([(angle, index)])
+    sites: list[dict[str, Any]] = []
+    for cluster_index, cluster in enumerate(clusters):
+        peak_angle, peak_sample = max(cluster)
+        longitude, latitude = inverse.transform(*samples[peak_sample])
+        sites.append(
+            {
+                "corner_id": f"{movement_id}--corner-{cluster_index:03d}",
+                "corner_class": JUNCTION_TRANSFER_CORNER_CLASS,
+                "from_station_m": round(
+                    cluster[0][1] * CARRIAGEWAY_TANGENT_LENS_M, 1
+                ),
+                "to_station_m": round(cluster[-1][1] * CARRIAGEWAY_TANGENT_LENS_M, 1),
+                "peak_turn_deg": round(peak_angle, 2),
+                "turn_sum_deg": round(sum(angle for angle, _ in cluster), 2),
+                "sample_count": len(cluster),
+                "coordinate": [round(longitude, 7), round(latitude, 7)],
+            }
+        )
+    return sites, total_turn
+
+
+def _opposing_carriageway_context(
+    movement_id: str,
+    side_label: str,
+    transfer_line: LineString,
+    opposing_line: LineString,
+    inverse: Transformer,
+) -> dict[str, Any]:
+    """Plan-view clearance or crossing structure against one opposing line."""
+    intersection = transfer_line.intersection(opposing_line)
+    if intersection.is_empty:
+        return {
+            "crossing_count": 0,
+            "min_distance_m": round(transfer_line.distance(opposing_line), 3),
+        }
+    parts = list(getattr(intersection, "geoms", [intersection]))
+    crossings: list[list[float]] = []
+    for part in parts:
+        if part.geom_type != "Point":
+            raise ValueError(
+                json.dumps(
+                    {
+                        "refusal": "junction transfer overlaps an opposing "
+                        "carriageway linearly",
+                        "movement_id": movement_id,
+                        "opposing": side_label,
+                        "geometry_type": part.geom_type,
+                    },
+                    sort_keys=True,
+                )
+            )
+        longitude, latitude = inverse.transform(part.x, part.y)
+        crossings.append([round(longitude, 7), round(latitude, 7)])
+    if len(crossings) > JUNCTION_OPPOSING_CROSSING_LIMIT:
+        raise ValueError(
+            json.dumps(
+                {
+                    "refusal": "junction transfer crosses an opposing "
+                    "carriageway beyond the transversal limit",
+                    "movement_id": movement_id,
+                    "opposing": side_label,
+                    "crossing_count": len(crossings),
+                    "limit": JUNCTION_OPPOSING_CROSSING_LIMIT,
+                },
+                sort_keys=True,
+            )
+        )
+    return {
+        "crossing_count": len(crossings),
+        "crossing_coordinates": sorted(crossings),
+        "note": (
+            "Transversal plan-view crossing of the opposing carriageway: a "
+            "grade-separated interchange movement in reality; vertical "
+            "resolution is lane-topology/collision stage output."
+        ),
+    }
+
+
+def _turnaround_loop_geometry(
+    movement_id: str,
+    entry_pose: dict[str, Any],
+    exit_pose: dict[str, Any],
+) -> tuple[list[tuple[float, float]], dict[str, Any]]:
+    """Author one turn-around loop from its recorded seam poses.
+
+    A pure function of the two mm-rounded seam coordinates and their
+    edge headings, so the validator reproduces the geometry exactly.
+    """
+    entry_point = (entry_pose["coordinate"][0], entry_pose["coordinate"][1])
+    exit_point = (exit_pose["coordinate"][0], exit_pose["coordinate"][1])
+    entry_heading = math.radians(entry_pose["heading_deg"])
+    exit_heading = math.radians(exit_pose["heading_deg"])
+    antiparallel_deviation = _normalize_degrees(
+        math.degrees(exit_heading - entry_heading) - 180.0
+    )
+    if abs(antiparallel_deviation) > TURNAROUND_ANTIPARALLEL_TOLERANCE_DEG:
+        raise ValueError(
+            json.dumps(
+                {
+                    "refusal": "turn-around seam headings are not "
+                    "anti-parallel",
+                    "movement_id": movement_id,
+                    "deviation_deg": round(antiparallel_deviation, 4),
+                },
+                sort_keys=True,
+            )
+        )
+    cos_h = math.cos(entry_heading)
+    sin_h = math.sin(entry_heading)
+    delta_x = exit_point[0] - entry_point[0]
+    delta_y = exit_point[1] - entry_point[1]
+    forward = delta_x * cos_h + delta_y * sin_h
+    lateral = -delta_x * sin_h + delta_y * cos_h
+    if not (
+        TURNAROUND_LATERAL_RANGE_M[0] <= lateral <= TURNAROUND_LATERAL_RANGE_M[1]
+    ):
+        raise ValueError(
+            json.dumps(
+                {
+                    "refusal": "turn-around seams do not span the "
+                    "reciprocal-pair separation on the median side",
+                    "movement_id": movement_id,
+                    "lateral_m": round(lateral, 4),
+                    "range_m": list(TURNAROUND_LATERAL_RANGE_M),
+                },
+                sort_keys=True,
+            )
+        )
+    turn_total = math.pi + math.radians(antiparallel_deviation)
+    # Midpoint-rule integration of the unit eased-heading profile.
+    steps = TURNAROUND_INTEGRATION_STEPS
+    step = 1.0 / steps
+    unit_x = [0.0]
+    unit_y = [0.0]
+    for index in range(1, steps + 1):
+        u_mid = (index - 0.5) * step
+        theta = turn_total * (u_mid - math.sin(2.0 * math.pi * u_mid) / (2.0 * math.pi))
+        unit_x.append(unit_x[-1] + math.cos(theta) * step)
+        unit_y.append(unit_y[-1] + math.sin(theta) * step)
+    arc_length = lateral / unit_y[-1]
+    samples = TURNAROUND_SAMPLE_COUNT
+    raw_points: list[tuple[float, float]] = []
+    max_forward = 0.0
+    for index in range(samples + 1):
+        u = index / samples
+        grid = u * steps
+        low = int(grid)
+        if low >= steps:
+            ux, uy = unit_x[-1], unit_y[-1]
+        else:
+            fraction = grid - low
+            ux = unit_x[low] + (unit_x[low + 1] - unit_x[low]) * fraction
+            uy = unit_y[low] + (unit_y[low + 1] - unit_y[low]) * fraction
+        local_x = arc_length * ux
+        local_y = arc_length * uy
+        max_forward = max(max_forward, local_x)
+        raw_points.append(
+            (
+                entry_point[0] + local_x * cos_h - local_y * sin_h,
+                entry_point[1] + local_x * sin_h + local_y * cos_h,
+            )
+        )
+    closure = math.dist(raw_points[-1], exit_point)
+    if closure > TURNAROUND_CLOSURE_LIMIT_M:
+        raise ValueError(
+            json.dumps(
+                {
+                    "refusal": "turn-around loop does not close onto the "
+                    "exit seam",
+                    "movement_id": movement_id,
+                    "closure_m": round(closure, 4),
+                    "limit_m": TURNAROUND_CLOSURE_LIMIT_M,
+                },
+                sort_keys=True,
+            )
+        )
+    correction = (
+        exit_point[0] - raw_points[-1][0],
+        exit_point[1] - raw_points[-1][1],
+    )
+    corrected: list[tuple[float, float]] = []
+    for index, point in enumerate(raw_points):
+        fraction = index / samples
+        corrected.append(
+            (
+                round(point[0] + correction[0] * fraction, CARRIAGEWAY_GEOMETRY_DECIMALS),
+                round(point[1] + correction[1] * fraction, CARRIAGEWAY_GEOMETRY_DECIMALS),
+            )
+        )
+    corrected[0] = (
+        round(entry_point[0], CARRIAGEWAY_GEOMETRY_DECIMALS),
+        round(entry_point[1], CARRIAGEWAY_GEOMETRY_DECIMALS),
+    )
+    corrected[-1] = (
+        round(exit_point[0], CARRIAGEWAY_GEOMETRY_DECIMALS),
+        round(exit_point[1], CARRIAGEWAY_GEOMETRY_DECIMALS),
+    )
+    coordinates = _dedupe_polyline(corrected)
+    facts = {
+        "profile": TURNAROUND_EASING_PROFILE,
+        "turn_deg": round(math.degrees(turn_total), 4),
+        "arc_length_m": round(arc_length, 3),
+        "lateral_span_m": round(lateral, 4),
+        "forward_offset_m": round(forward, 4),
+        "max_forward_excursion_m": round(max_forward, 3),
+        "closure_correction_m": round(closure, 4),
+        "antiparallel_deviation_deg": round(antiparallel_deviation, 4),
+    }
+    return coordinates, facts
+
+
+def _discrete_curvature_profile(
+    coordinates: Sequence[tuple[float, float]],
+) -> dict[str, Any]:
+    """Discrete curvature facts of one polyline (turn over mean leg)."""
+    max_curvature = 0.0
+    for index in range(1, len(coordinates) - 1):
+        turn = math.radians(_vertex_turn_degrees(coordinates, index))
+        mean_leg = 0.5 * (
+            math.dist(coordinates[index - 1], coordinates[index])
+            + math.dist(coordinates[index], coordinates[index + 1])
+        )
+        if mean_leg > 1e-9:
+            max_curvature = max(max_curvature, turn / mean_leg)
+    return {
+        "max_curvature_1_per_m": round(max_curvature, 6),
+        "min_radius_m": round(1.0 / max_curvature, 3)
+        if max_curvature > 1e-9
+        else None,
+    }
+
+
+def _seam_curvature(
+    coordinates: Sequence[tuple[float, float]], at_end: bool
+) -> float:
+    """Discrete curvature at a polyline's first or last interior vertex."""
+    if len(coordinates) < 3:
+        return 0.0
+    index = len(coordinates) - 2 if at_end else 1
+    turn = math.radians(_vertex_turn_degrees(coordinates, index))
+    mean_leg = 0.5 * (
+        math.dist(coordinates[index - 1], coordinates[index])
+        + math.dist(coordinates[index], coordinates[index + 1])
+    )
+    if mean_leg <= 1e-9:
+        return 0.0
+    return turn / mean_leg
+
+
+def _signed_turn_degrees(
+    coordinates: Sequence[tuple[float, float]], index: int
+) -> float:
+    ax = coordinates[index][0] - coordinates[index - 1][0]
+    ay = coordinates[index][1] - coordinates[index - 1][1]
+    bx = coordinates[index + 1][0] - coordinates[index][0]
+    by = coordinates[index + 1][1] - coordinates[index][1]
+    unsigned = _vertex_turn_degrees(coordinates, index)
+    return unsigned if ax * by - ay * bx >= 0.0 else -unsigned
+
+
+def _junction_vertical_context(
+    elevation_segments: dict[str, dict[str, Any]],
+    conditioned_segments: dict[str, dict[str, Any]],
+    directed_segments: dict[str, dict[str, Any]],
+    from_segment_id: str,
+    to_segment_id: str,
+    entry_back_m: float,
+    exit_forward_m: float,
+    transfer_length_m: float,
+) -> dict[str, Any]:
+    """ADR-0017 conditioned vertical context for one junction movement.
+
+    Boundary elevations from the two committed conditioned profiles at the
+    seam stations; the planimetric window lengths map through each segment's
+    geodesic/planimetric ratio (a derived approximation, recorded). The
+    cross-profile agreement at the shared anchor is measured, never
+    averaged away.
+    """
+    contexts = {}
+    for segment_id in (from_segment_id, to_segment_id):
+        elevation_segment = elevation_segments[segment_id]
+        values = _conditioned_segment_elevations(
+            elevation_segment, conditioned_segments[segment_id]
+        )
+        contexts[segment_id] = (
+            values,
+            float(elevation_segment["station_interval_m"]),
+            float(elevation_segment["terminal_station_m"]),
+        )
+    from_values, from_interval, from_terminal = contexts[from_segment_id]
+    to_values, to_interval, to_terminal = contexts[to_segment_id]
+    from_ratio = from_terminal / float(
+        directed_segments[from_segment_id]["planimetric_length_m"]
+    )
+    to_ratio = to_terminal / float(
+        directed_segments[to_segment_id]["planimetric_length_m"]
+    )
+    entry_station = from_terminal - entry_back_m * from_ratio
+    exit_station = exit_forward_m * to_ratio
+    entry_elevation = _profile_elevation_at(
+        from_values, from_interval, from_terminal, entry_station
+    )
+    exit_elevation = _profile_elevation_at(
+        to_values, to_interval, to_terminal, exit_station
+    )
+    from_anchor_elevation = _profile_elevation_at(
+        from_values, from_interval, from_terminal, from_terminal
+    )
+    to_anchor_elevation = _profile_elevation_at(to_values, to_interval, to_terminal, 0.0)
+    grade = (
+        (exit_elevation - entry_elevation) / transfer_length_m * 100.0
+        if transfer_length_m > 0
+        else 0.0
+    )
+    return {
+        "source": "conditioned-profile-lock over corridor-elevation-lock",
+        "method": (
+            "ADR-0017 conditioned boundary elevations at the seam stations; "
+            "planimetric window lengths map through each segment's "
+            "geodesic/planimetric ratio (derived approximation); the grade "
+            "is the boundary chord over the transfer's planimetric length."
+        ),
+        "entry_station_m": round(entry_station, 3),
+        "exit_station_m": round(exit_station, 3),
+        "boundary_elevations_m": [
+            round(entry_elevation, 2),
+            round(exit_elevation, 2),
+        ],
+        "anchor_elevations_m": [
+            round(from_anchor_elevation, 2),
+            round(to_anchor_elevation, 2),
+        ],
+        "anchor_agreement_m": round(
+            abs(from_anchor_elevation - to_anchor_elevation), 2
+        ),
+        "chord_grade_percent": round(grade, 3),
+    }
+
+
+def _junction_movement_keys(
+    directed_lock: dict[str, Any],
+) -> dict[tuple[str, str, str], dict[str, Any]]:
+    """Unique junction movements across the locked paths, with their users."""
+    movements: dict[tuple[str, str, str], dict[str, Any]] = {}
+    for path in directed_lock["paths"]:
+        for junction in path["junctions"]:
+            key = (
+                junction["anchor_id"],
+                junction["from_segment_id"],
+                junction["to_segment_id"],
+            )
+            entry = movements.setdefault(
+                key, {"junction": junction, "path_ids": []}
+            )
+            entry["path_ids"].append(path["path_id"])
+    for entry in movements.values():
+        entry["path_ids"] = sorted(entry["path_ids"])
+    return movements
+
+
+def _junction_length_agreement_bound(
+    total_turn_deg: float, peak_turn_deg: float
+) -> float:
+    """Join-geometry envelope for one transfer's offset-vs-window length."""
+    trim_deg = min(peak_turn_deg, JUNCTION_LENGTH_AGREEMENT_TRIM_CAP_DEG)
+    return round(
+        CARRIAGEWAY_OFFSET_M * math.radians(total_turn_deg)
+        + 2.0 * CARRIAGEWAY_OFFSET_M * math.tan(math.radians(trim_deg) / 2.0)
+        + JUNCTION_LENGTH_AGREEMENT_SLACK_M,
+        3,
+    )
+
+
+def _through_transfer_record(
+    junction: dict[str, Any],
+    path_ids: Sequence[str],
+    from_cache: dict[str, Any],
+    to_cache: dict[str, Any],
+    anchor_point: tuple[float, float],
+    carriageway_segments: dict[str, dict[str, Any]],
+    elevation_segments: dict[str, dict[str, Any]],
+    conditioned_segments: dict[str, dict[str, Any]],
+    directed_segments: dict[str, dict[str, Any]],
+    inverse: Transformer,
+) -> dict[str, Any]:
+    """One cross-segment movement derived over the locked carriageway model."""
+    anchor_id = junction["anchor_id"]
+    from_segment_id = junction["from_segment_id"]
+    to_segment_id = junction["to_segment_id"]
+    movement_id = f"{anchor_id}--{from_segment_id}--{to_segment_id}"
+    from_chain = [tuple(point) for point in from_cache["chain_coordinates"]]
+    to_chain = [tuple(point) for point in to_cache["chain_coordinates"]]
+    tail = _junction_cut_window(from_chain, True, JUNCTION_WINDOW_M)
+    head = _junction_cut_window(to_chain, False, JUNCTION_WINDOW_M)
+    bridge_m = math.dist(tail[-1], head[0])
+    window = _dedupe_polyline(tail + head)
+    window, excisions = _excise_junction_zigzags(movement_id, window, inverse)
+    window_length = _polyline_length(window)
+    transfer = _offset_carriageway(movement_id, LineString(window), "westbound")
+    transfer_line = LineString(transfer)
+    transfer_length = _polyline_length(transfer)
+    corner_sites, total_turn = _junction_corner_sites(movement_id, transfer, inverse)
+    sample_peak = max(
+        (
+            _vertex_turn_degrees(samples, index)
+            for samples in (_resample_polyline(transfer, CARRIAGEWAY_TANGENT_LENS_M),)
+            for index in range(1, len(samples) - 1)
+        ),
+        default=0.0,
+    )
+    from_westbound_line = LineString(
+        [tuple(point) for point in from_cache["westbound_coordinates"]]
+    )
+    to_westbound_line = LineString(
+        [tuple(point) for point in to_cache["westbound_coordinates"]]
+    )
+    entry_gap = from_westbound_line.distance(Point(transfer[0]))
+    exit_gap = to_westbound_line.distance(Point(transfer[-1]))
+    entry_station = float(from_westbound_line.project(Point(transfer[0])))
+    exit_station = float(to_westbound_line.project(Point(transfer[-1])))
+    entry_heading = _line_heading_between(
+        transfer_line, 0.0, CARRIAGEWAY_TANGENT_LENS_M
+    )
+    exit_heading = _line_heading_between(
+        transfer_line,
+        transfer_line.length - CARRIAGEWAY_TANGENT_LENS_M,
+        transfer_line.length,
+    )
+    entry_heading_deviation = abs(
+        _normalize_degrees(
+            entry_heading
+            - _line_heading_between(
+                from_westbound_line,
+                entry_station,
+                entry_station + CARRIAGEWAY_TANGENT_LENS_M,
+            )
+        )
+    )
+    exit_heading_deviation = abs(
+        _normalize_degrees(
+            exit_heading
+            - _line_heading_between(
+                to_westbound_line,
+                exit_station - CARRIAGEWAY_TANGENT_LENS_M,
+                exit_station,
+            )
+        )
+    )
+    opposing = {
+        "from_eastbound": _opposing_carriageway_context(
+            movement_id,
+            "from_eastbound",
+            transfer_line,
+            LineString([tuple(point) for point in from_cache["eastbound_coordinates"]]),
+            inverse,
+        ),
+        "to_eastbound": _opposing_carriageway_context(
+            movement_id,
+            "to_eastbound",
+            transfer_line,
+            LineString([tuple(point) for point in to_cache["eastbound_coordinates"]]),
+            inverse,
+        ),
+    }
+    clearance_ok = all(
+        context["crossing_count"] > 0
+        or context["min_distance_m"] >= JUNCTION_OPPOSING_CLEARANCE_M
+        for context in opposing.values()
+    )
+    anchor_distance = transfer_line.distance(Point(anchor_point))
+    vertical = _junction_vertical_context(
+        elevation_segments,
+        conditioned_segments,
+        directed_segments,
+        from_segment_id,
+        to_segment_id,
+        JUNCTION_WINDOW_M,
+        JUNCTION_WINDOW_M,
+        round(transfer_length, 3),
+    )
+    length_bound = _junction_length_agreement_bound(total_turn, sample_peak)
+    transfer_planimetric = round(transfer_length, 3)
+    window_planimetric = round(window_length, 3)
+    length_delta = round(abs(transfer_planimetric - window_planimetric), 3)
+    gates = {
+        "entry_seam_position": _carriageway_gate(
+            round(entry_gap, 4),
+            JUNCTION_SEAM_POSITION_TOLERANCE_M,
+            entry_gap <= JUNCTION_SEAM_POSITION_TOLERANCE_M,
+        ),
+        "entry_seam_heading": _carriageway_gate(
+            round(entry_heading_deviation, 3),
+            JUNCTION_SEAM_HEADING_TOLERANCE_DEG,
+            entry_heading_deviation <= JUNCTION_SEAM_HEADING_TOLERANCE_DEG,
+        ),
+        "exit_seam_position": _carriageway_gate(
+            round(exit_gap, 4),
+            JUNCTION_SEAM_POSITION_TOLERANCE_M,
+            exit_gap <= JUNCTION_SEAM_POSITION_TOLERANCE_M,
+        ),
+        "exit_seam_heading": _carriageway_gate(
+            round(exit_heading_deviation, 3),
+            JUNCTION_SEAM_HEADING_TOLERANCE_DEG,
+            exit_heading_deviation <= JUNCTION_SEAM_HEADING_TOLERANCE_DEG,
+        ),
+        "reversal_excision": _carriageway_gate(
+            len(excisions),
+            CARRIAGEWAY_MAX_REVERSAL_REMOVALS,
+            len(excisions) <= CARRIAGEWAY_MAX_REVERSAL_REMOVALS,
+        ),
+        "heading_discipline": _carriageway_gate(
+            round(sample_peak, 2),
+            CARRIAGEWAY_REVERSAL_THRESHOLD_DEG,
+            sample_peak <= CARRIAGEWAY_REVERSAL_THRESHOLD_DEG,
+        ),
+        "self_intersection": _carriageway_gate(
+            {"simple": True},
+            "transfer offset is a single simple LineString",
+            True,
+        ),
+        "station_monotonicity": _carriageway_gate(
+            {"vertex_count": len(transfer)},
+            "strictly increasing station at every vertex",
+            True,
+        ),
+        "length_agreement": _carriageway_gate(
+            length_delta,
+            length_bound,
+            length_delta <= length_bound,
+        ),
+        "opposing_clearance": _carriageway_gate(
+            {
+                "from_eastbound_crossings": opposing["from_eastbound"][
+                    "crossing_count"
+                ],
+                "to_eastbound_crossings": opposing["to_eastbound"]["crossing_count"],
+            },
+            {
+                "crossing_limit": JUNCTION_OPPOSING_CROSSING_LIMIT,
+                "clearance_m": JUNCTION_OPPOSING_CLEARANCE_M,
+            },
+            clearance_ok,
+        ),
+        "junction_elevation_agreement": _carriageway_gate(
+            vertical["anchor_agreement_m"],
+            JUNCTION_ELEVATION_AGREEMENT_M,
+            vertical["anchor_agreement_m"] <= JUNCTION_ELEVATION_AGREEMENT_M,
+        ),
+        "transfer_grade": _carriageway_gate(
+            vertical["chord_grade_percent"],
+            CONDITIONING_SUSTAINED_BOUND_PERCENT,
+            abs(vertical["chord_grade_percent"])
+            <= CONDITIONING_SUSTAINED_BOUND_PERCENT,
+        ),
+        "anchor_proximity": _carriageway_gate(
+            round(anchor_distance, 3),
+            JUNCTION_ANCHOR_PROXIMITY_LIMIT_M,
+            anchor_distance <= JUNCTION_ANCHOR_PROXIMITY_LIMIT_M,
+        ),
+    }
+    failed = {name for name, gate in gates.items() if not gate["passed"]}
+    if failed:
+        raise ValueError(
+            json.dumps(
+                {
+                    "refusal": "junction transfer gates failed",
+                    "movement_id": movement_id,
+                    "failed_gates": sorted(failed),
+                    "gates": gates,
+                },
+                sort_keys=True,
+            )
+        )
+    continuity_gap = float(junction["continuity_gap_m"])
+    if continuity_gap > 0.0:
+        provenance = {
+            "class": "derived_with_authored_bridge",
+            "authored_bridge_m": round(bridge_m, 3),
+            "statement": (
+                "The window rides the two locked carriageway chains; the "
+                "directed lock records this junction's continuity gap "
+                "(within the 2 x 25 m junction limit, the transfer lock's "
+                "characterised cross-facility anchor separation), and the "
+                "bridge across it is an authored ADR-0018 component, "
+                "conditioned of the anchor-zigzag doubled travel with "
+                "bounded records."
+            ),
+        }
+    else:
+        provenance = {
+            "class": "derived_from_locked_carriageways",
+            "authored_bridge_m": 0.0,
+            "statement": (
+                "The two chains share the snapped junction node, so the "
+                "movement exists in the locks: every metre of the composed "
+                "window is locked chain geometry and the transfer is its "
+                "ADR-0014 westbound offset."
+            ),
+        }
+    entry_lon, entry_lat = inverse.transform(*transfer[0])
+    exit_lon, exit_lat = inverse.transform(*transfer[-1])
+    replaced_entry = round(from_westbound_line.length - entry_station, 3)
+    replaced_exit = round(exit_station, 3)
+    from_lock_segment = carriageway_segments[from_segment_id]
+    to_lock_segment = carriageway_segments[to_segment_id]
+    return {
+        "movement_id": movement_id,
+        "movement_kind": "through_transfer",
+        "anchor_id": anchor_id,
+        "from_segment_id": from_segment_id,
+        "to_segment_id": to_segment_id,
+        "path_ids": list(path_ids),
+        "junction": {"continuity_gap_m": junction["continuity_gap_m"]},
+        "provenance": provenance,
+        "window": {
+            "window_m": JUNCTION_WINDOW_M,
+            "length_m": round(window_length, 3),
+            "bridge_m": round(bridge_m, 3),
+        },
+        "attachments": {
+            "entry": {
+                "segment_id": from_segment_id,
+                "side": "westbound",
+                "station_m": round(entry_station, 3),
+                "westbound_length_m": from_lock_segment["westbound"]["length_m"],
+                "replaced_westbound_m": replaced_entry,
+                "coordinate": [round(entry_lon, 7), round(entry_lat, 7)],
+                "heading_deg": round(entry_heading, 3),
+            },
+            "exit": {
+                "segment_id": to_segment_id,
+                "side": "westbound",
+                "station_m": round(exit_station, 3),
+                "westbound_length_m": to_lock_segment["westbound"]["length_m"],
+                "replaced_westbound_m": replaced_exit,
+                "coordinate": [round(exit_lon, 7), round(exit_lat, 7)],
+                "heading_deg": round(exit_heading, 3),
+            },
+        },
+        "geometry": {
+            "crs": "EPSG:5070",
+            "coordinates": [[x, y] for x, y in transfer],
+            "vertex_count": len(transfer),
+            "planimetric_m": round(transfer_length, 3),
+            "geometry_sha256": canonical_sha256([[x, y] for x, y in transfer]),
+        },
+        "length_effect": {
+            "replaced_westbound_m": round(replaced_entry + replaced_exit, 3),
+            "transfer_m": transfer_planimetric,
+            "delta_m": round(
+                transfer_planimetric - round(replaced_entry + replaced_exit, 3), 3
+            ),
+        },
+        "excisions": excisions,
+        "corner_sites": corner_sites,
+        "census_total_turn_deg": round(total_turn, 3),
+        "opposing_carriageways": opposing,
+        "vertical_context": vertical,
+        "gates": gates,
+    }
+
+
+def _turnaround_transfer_record(
+    junction: dict[str, Any],
+    path_ids: Sequence[str],
+    from_cache: dict[str, Any],
+    to_cache: dict[str, Any],
+    anchor_point: tuple[float, float],
+    backtrack_record: dict[str, Any],
+    elevation_segments: dict[str, dict[str, Any]],
+    conditioned_segments: dict[str, dict[str, Any]],
+    directed_segments: dict[str, dict[str, Any]],
+    inverse: Transformer,
+) -> dict[str, Any]:
+    """One authored turn-around loop at a backtrack anchor."""
+    anchor_id = junction["anchor_id"]
+    from_segment_id = junction["from_segment_id"]
+    to_segment_id = junction["to_segment_id"]
+    movement_id = f"{anchor_id}--{from_segment_id}--{to_segment_id}"
+    from_westbound = [tuple(point) for point in from_cache["westbound_coordinates"]]
+    to_westbound = [tuple(point) for point in to_cache["westbound_coordinates"]]
+    entry_pose = {
+        "coordinate": [from_westbound[-1][0], from_westbound[-1][1]],
+        "heading_deg": round(
+            _edge_heading_degrees(from_westbound[-2], from_westbound[-1]), 9
+        ),
+    }
+    exit_pose = {
+        "coordinate": [to_westbound[0][0], to_westbound[0][1]],
+        "heading_deg": round(
+            _edge_heading_degrees(to_westbound[0], to_westbound[1]), 9
+        ),
+    }
+    loop, construction = _turnaround_loop_geometry(movement_id, entry_pose, exit_pose)
+    loop_line = LineString(loop)
+    loop_length = _polyline_length(loop)
+    curvature = _discrete_curvature_profile(loop)
+    entry_loop_curvature = _seam_curvature(loop, at_end=False)
+    exit_loop_curvature = _seam_curvature(loop, at_end=True)
+    entry_carriageway_curvature = _seam_curvature(from_westbound, at_end=True)
+    exit_carriageway_curvature = _seam_curvature(to_westbound, at_end=False)
+    min_signed_turn = min(
+        (
+            _signed_turn_degrees(loop, index)
+            for index in range(1, len(loop) - 1)
+        ),
+        default=0.0,
+    )
+    entry_heading_deviation = abs(
+        _normalize_degrees(
+            _edge_heading_degrees(loop[0], loop[1]) - entry_pose["heading_deg"]
+        )
+    )
+    exit_heading_deviation = abs(
+        _normalize_degrees(
+            _edge_heading_degrees(loop[-2], loop[-1]) - exit_pose["heading_deg"]
+        )
+    )
+    seam_points = (Point(loop[0]), Point(loop[-1]))
+    attachment_max = 0.0
+    for label, line in (
+        ("from_westbound", LineString(from_westbound)),
+        ("to_westbound", LineString(to_westbound)),
+    ):
+        intersection = loop_line.intersection(line)
+        if intersection.is_empty:
+            continue
+        for part in getattr(intersection, "geoms", [intersection]):
+            if part.geom_type != "Point":
+                raise ValueError(
+                    json.dumps(
+                        {
+                            "refusal": "turn-around loop overlaps a "
+                            "carriageway linearly",
+                            "movement_id": movement_id,
+                            "carriageway": label,
+                        },
+                        sort_keys=True,
+                    )
+                )
+            attachment_max = max(
+                attachment_max,
+                min(part.distance(seam) for seam in seam_points),
+            )
+    anchor_distance = loop_line.distance(Point(anchor_point))
+    vertical = _junction_vertical_context(
+        elevation_segments,
+        conditioned_segments,
+        directed_segments,
+        from_segment_id,
+        to_segment_id,
+        0.0,
+        0.0,
+        round(loop_length, 3),
+    )
+    separation_delta = abs(
+        construction["lateral_span_m"] - backtrack_record["westbound_separation_m"]
+    )
+    minimum_radius = curvature["min_radius_m"]
+    gates = {
+        "entry_seam_position": _carriageway_gate(
+            0.0,
+            JUNCTION_SEAM_POSITION_TOLERANCE_M,
+            True,
+        ),
+        "entry_seam_heading": _carriageway_gate(
+            round(entry_heading_deviation, 3),
+            JUNCTION_SEAM_HEADING_TOLERANCE_DEG,
+            entry_heading_deviation <= JUNCTION_SEAM_HEADING_TOLERANCE_DEG,
+        ),
+        "exit_seam_position": _carriageway_gate(
+            0.0,
+            JUNCTION_SEAM_POSITION_TOLERANCE_M,
+            True,
+        ),
+        "exit_seam_heading": _carriageway_gate(
+            round(exit_heading_deviation, 3),
+            JUNCTION_SEAM_HEADING_TOLERANCE_DEG,
+            exit_heading_deviation <= JUNCTION_SEAM_HEADING_TOLERANCE_DEG,
+        ),
+        "entry_curvature_continuity": _carriageway_gate(
+            round(abs(entry_loop_curvature - entry_carriageway_curvature), 6),
+            TURNAROUND_SEAM_CURVATURE_LIMIT,
+            abs(entry_loop_curvature - entry_carriageway_curvature)
+            <= TURNAROUND_SEAM_CURVATURE_LIMIT,
+        ),
+        "exit_curvature_continuity": _carriageway_gate(
+            round(abs(exit_loop_curvature - exit_carriageway_curvature), 6),
+            TURNAROUND_SEAM_CURVATURE_LIMIT,
+            abs(exit_loop_curvature - exit_carriageway_curvature)
+            <= TURNAROUND_SEAM_CURVATURE_LIMIT,
+        ),
+        "minimum_radius": _carriageway_gate(
+            minimum_radius,
+            TURNAROUND_MIN_RADIUS_M,
+            minimum_radius is not None and minimum_radius >= TURNAROUND_MIN_RADIUS_M,
+        ),
+        "heading_monotonicity": _carriageway_gate(
+            round(min_signed_turn, 4),
+            -TURNAROUND_MONOTONICITY_TOLERANCE_DEG,
+            min_signed_turn >= -TURNAROUND_MONOTONICITY_TOLERANCE_DEG,
+        ),
+        "closure_correction": _carriageway_gate(
+            construction["closure_correction_m"],
+            TURNAROUND_CLOSURE_LIMIT_M,
+            construction["closure_correction_m"] <= TURNAROUND_CLOSURE_LIMIT_M,
+        ),
+        "seam_separation_agreement": _carriageway_gate(
+            round(separation_delta, 4),
+            0.01,
+            separation_delta <= 0.01,
+        ),
+        "carriageway_attachment_only": _carriageway_gate(
+            round(attachment_max, 4),
+            JUNCTION_SEAM_POSITION_TOLERANCE_M,
+            attachment_max <= JUNCTION_SEAM_POSITION_TOLERANCE_M,
+        ),
+        "self_intersection": _carriageway_gate(
+            {"simple": bool(loop_line.is_simple)},
+            "authored loop is a single simple LineString",
+            bool(loop_line.is_simple),
+        ),
+        "turnaround_grade": _carriageway_gate(
+            vertical["chord_grade_percent"],
+            CONDITIONING_SUSTAINED_BOUND_PERCENT,
+            abs(vertical["chord_grade_percent"])
+            <= CONDITIONING_SUSTAINED_BOUND_PERCENT,
+        ),
+        "junction_elevation_agreement": _carriageway_gate(
+            vertical["anchor_agreement_m"],
+            JUNCTION_ELEVATION_AGREEMENT_M,
+            vertical["anchor_agreement_m"] <= JUNCTION_ELEVATION_AGREEMENT_M,
+        ),
+        "anchor_proximity": _carriageway_gate(
+            round(anchor_distance, 3),
+            JUNCTION_ANCHOR_PROXIMITY_LIMIT_M,
+            anchor_distance <= JUNCTION_ANCHOR_PROXIMITY_LIMIT_M,
+        ),
+    }
+    failed = {name for name, gate in gates.items() if not gate["passed"]}
+    if failed:
+        raise ValueError(
+            json.dumps(
+                {
+                    "refusal": "turn-around gates failed",
+                    "movement_id": movement_id,
+                    "failed_gates": sorted(failed),
+                    "gates": gates,
+                },
+                sort_keys=True,
+            )
+        )
+    return {
+        "movement_id": movement_id,
+        "movement_kind": "turnaround_transfer",
+        "anchor_id": anchor_id,
+        "from_segment_id": from_segment_id,
+        "to_segment_id": to_segment_id,
+        "path_ids": list(path_ids),
+        "locked_backtrack": {
+            "backtrack_element_count": junction["backtrack_element_count"],
+            "backtrack_length_m": junction["backtrack_length_m"],
+            "westbound_separation_m": backtrack_record["westbound_separation_m"],
+        },
+        "provenance": {
+            "class": "authored_turnaround",
+            "authored_planimetric_m": round(loop_length, 3),
+            "statement": (
+                "No source asserts geometry for the anchor turn-around: the "
+                "directed lock records the doubled junction-approach travel "
+                "as a measured anchor-model fact and the carriageway lock "
+                "proves the approach rides the reciprocal pair to a 0.000 m "
+                "reciprocity gap, so the loop joining departing-westbound "
+                "to arriving-eastbound is an authored ADR-0018 record with "
+                "the declared low-speed design bound."
+            ),
+        },
+        "seam_poses": {"entry": entry_pose, "exit": exit_pose},
+        "construction": construction,
+        "design": {
+            "design_speed_kmh": TURNAROUND_DESIGN_SPEED_KMH,
+            "minimum_radius_m": minimum_radius,
+            "max_curvature_1_per_m": curvature["max_curvature_1_per_m"],
+            "entry_seam_curvature_1_per_m": round(entry_loop_curvature, 6),
+            "exit_seam_curvature_1_per_m": round(exit_loop_curvature, 6),
+        },
+        "geometry": {
+            "crs": "EPSG:5070",
+            "coordinates": [[x, y] for x, y in loop],
+            "vertex_count": len(loop),
+            "planimetric_m": round(loop_length, 3),
+            "geometry_sha256": canonical_sha256([[x, y] for x, y in loop]),
+        },
+        "length_effect": {
+            "replaced_westbound_m": 0.0,
+            "transfer_m": round(loop_length, 3),
+            "delta_m": round(loop_length, 3),
+        },
+        "vertical_context": vertical,
+        "gates": gates,
+    }
+
+
+def _junction_geometry_summary(
+    movements: Sequence[dict[str, Any]],
+) -> dict[str, Any]:
+    through = [
+        movement
+        for movement in movements
+        if movement["movement_kind"] == "through_transfer"
+    ]
+    turnarounds = [
+        movement
+        for movement in movements
+        if movement["movement_kind"] == "turnaround_transfer"
+    ]
+    turnaround_anchors = {movement["anchor_id"] for movement in turnarounds}
+    through_anchors = {movement["anchor_id"] for movement in through}
+    gates_passed = sum(
+        1
+        for movement in movements
+        for gate in movement["gates"].values()
+        if gate["passed"]
+    )
+    return {
+        "movement_count": len(movements),
+        "through_transfer_count": len(through),
+        "turnaround_transfer_count": len(turnarounds),
+        "cross_segment_junction_anchor_count": len(
+            through_anchors - turnaround_anchors
+        ),
+        "turnaround_anchor_count": len(turnaround_anchors),
+        "derived_movement_count": sum(
+            1
+            for movement in through
+            if movement["provenance"]["class"] == "derived_from_locked_carriageways"
+        ),
+        "authored_bridge_movement_count": sum(
+            1
+            for movement in through
+            if movement["provenance"]["class"] == "derived_with_authored_bridge"
+        ),
+        "authored_turnaround_count": len(turnarounds),
+        "corner_site_count": sum(
+            len(movement.get("corner_sites", [])) for movement in movements
+        ),
+        "excision_count": sum(
+            len(movement.get("excisions", [])) for movement in movements
+        ),
+        "opposing_crossing_count": sum(
+            context["crossing_count"]
+            for movement in through
+            for context in movement["opposing_carriageways"].values()
+        ),
+        "through_transfer_length_m": round(
+            sum(movement["geometry"]["planimetric_m"] for movement in through), 3
+        ),
+        "turnaround_length_m": round(
+            sum(movement["geometry"]["planimetric_m"] for movement in turnarounds), 3
+        ),
+        "gates_passed": gates_passed,
+        "gates_failed": 0,
+    }
+
+
+def derive_continental_junction_geometry(
+    carriageway_lock_path: Path,
+    conditioned_lock_path: Path,
+    elevation_lock_path: Path,
+    dem_lock_path: Path,
+    directed_lock_path: Path,
+    selection_path: Path,
+    route_lock_path: Path,
+    transfer_lock_path: Path,
+    policy_path: Path,
+    edge_path_lock_path: Path,
+    fill_lock_path: Path,
+    disposition_path: Path,
+    overlay_lock_path: Path,
+    conflation_lock_path: Path,
+    connector_lock_path: Path,
+    catalog_path: Path,
+    carriageway_cache_directory: Path,
+    output_path: Path,
+    *,
+    derived_at: str | None = None,
+) -> dict[str, Any]:
+    """Derive the junction transfer geometry lock (ADR-0013/ADR-0018).
+
+    Sources the movements from the locked carriageway geometry: the cached
+    carriageway chains and offsets are refused unless they reproduce the
+    committed westbound carriageway lock's digests, then every cross-segment
+    movement is composed, conditioned, offset, and gated, and the two
+    backtrack turn-arounds are authored from the proven reciprocal-pair seam
+    poses. The lock carries the complete movement geometry (compact - a few
+    hundred metres per movement), so validation needs no cache.
+    """
+    carriageway_lock = validate_continental_westbound_carriageway(
+        carriageway_lock_path,
+        conditioned_lock_path,
+        elevation_lock_path,
+        dem_lock_path,
+        directed_lock_path,
+        selection_path,
+        route_lock_path,
+        transfer_lock_path,
+        policy_path,
+        edge_path_lock_path,
+        fill_lock_path,
+        disposition_path,
+        overlay_lock_path,
+        conflation_lock_path,
+        connector_lock_path,
+        catalog_path,
+    )
+    directed_lock = load_json(directed_lock_path)
+    transfer_lock = load_json(transfer_lock_path)
+    elevation_lock = load_json(elevation_lock_path)
+    conditioned_lock = load_json(conditioned_lock_path)
+    timestamp = derived_at or datetime.now(UTC).replace(
+        microsecond=0
+    ).isoformat().replace("+00:00", "Z")
+    forward = Transformer.from_crs("EPSG:4326", "EPSG:5070", always_xy=True)
+    inverse = Transformer.from_crs("EPSG:5070", "EPSG:4326", always_xy=True)
+    carriageway_segments = {
+        segment["segment_id"]: segment for segment in carriageway_lock["segments"]
+    }
+    caches: dict[str, dict[str, Any]] = {}
+    for segment_id, lock_segment in carriageway_segments.items():
+        cache_path = carriageway_cache_directory / f"{segment_id}.json"
+        if not cache_path.is_file():
+            raise ValueError(
+                json.dumps(
+                    {
+                        "refusal": "carriageway cache segment is missing; "
+                        "re-run derive-continental-westbound-carriageway",
+                        "segment_id": segment_id,
+                        "cache_path": str(cache_path),
+                    },
+                    sort_keys=True,
+                )
+            )
+        payload = load_json(cache_path)
+        for side in ("westbound", "eastbound"):
+            digest = canonical_sha256(payload[f"{side}_coordinates"])
+            if digest != lock_segment[side]["geometry_sha256"]:
+                raise ValueError(
+                    json.dumps(
+                        {
+                            "refusal": "carriageway cache does not reproduce "
+                            "the committed westbound carriageway lock; "
+                            "re-run derive-continental-westbound-carriageway",
+                            "segment_id": segment_id,
+                            "side": side,
+                            "cache_sha256": digest,
+                            "locked_sha256": lock_segment[side]["geometry_sha256"],
+                        },
+                        sort_keys=True,
+                    )
+                )
+        chain = [tuple(point) for point in payload["chain_coordinates"]]
+        chain_length = round(_polyline_length(chain), 3)
+        # The lock measured the chain before millimetre rounding into the
+        # cache; the recomputed length over rounded vertices may differ by
+        # at most the per-vertex quantization envelope.
+        length_envelope = _rounding_envelope_m(
+            lock_segment["chain"]["vertex_count"]
+        )
+        if (
+            abs(chain_length - lock_segment["chain"]["length_m"]) > length_envelope
+            or len(chain) != lock_segment["chain"]["vertex_count"]
+        ):
+            raise ValueError(
+                json.dumps(
+                    {
+                        "refusal": "carriageway cache chain drifted from the "
+                        "committed westbound carriageway lock",
+                        "segment_id": segment_id,
+                        "cache_length_m": chain_length,
+                        "locked_length_m": lock_segment["chain"]["length_m"],
+                    },
+                    sort_keys=True,
+                )
+            )
+        caches[segment_id] = payload
+    transfer_nodes = {
+        node["id"]: node for node in transfer_lock["transfer_nodes"]
+    }
+    elevation_segments = {
+        segment["segment_id"]: segment for segment in elevation_lock["segments"]
+    }
+    conditioned_segments = {
+        segment["segment_id"]: segment for segment in conditioned_lock["segments"]
+    }
+    directed_segments = {
+        segment["segment_id"]: segment for segment in directed_lock["segments"]
+    }
+    backtracks = {
+        (record["anchor_id"], record["from_segment_id"], record["to_segment_id"]): (
+            record
+        )
+        for record in carriageway_lock["junction_backtracks"]
+    }
+    movements: list[dict[str, Any]] = []
+    for key, entry in sorted(_junction_movement_keys(directed_lock).items()):
+        junction = entry["junction"]
+        anchor = transfer_nodes[junction["anchor_id"]]
+        anchor_point = forward.transform(
+            anchor["coordinate"]["longitude"], anchor["coordinate"]["latitude"]
+        )
+        if junction["backtrack_element_count"] > 0:
+            movements.append(
+                _turnaround_transfer_record(
+                    junction,
+                    entry["path_ids"],
+                    caches[junction["from_segment_id"]],
+                    caches[junction["to_segment_id"]],
+                    anchor_point,
+                    backtracks[key],
+                    elevation_segments,
+                    conditioned_segments,
+                    directed_segments,
+                    inverse,
+                )
+            )
+        else:
+            movements.append(
+                _through_transfer_record(
+                    junction,
+                    entry["path_ids"],
+                    caches[junction["from_segment_id"]],
+                    caches[junction["to_segment_id"]],
+                    anchor_point,
+                    carriageway_segments,
+                    elevation_segments,
+                    conditioned_segments,
+                    directed_segments,
+                    inverse,
+                )
+            )
+    payload = {
+        "schema_version": 1,
+        "status": JUNCTION_GEOMETRY_STATUS,
+        "decision": "ADR-0018",
+        "control_line_decision": "ADR-0013",
+        "carriageway_decision": "ADR-0014",
+        "context_decision": "ADR-0017",
+        "route_decision": load_json(selection_path)["decision"],
+        "derived_at": timestamp,
+        "coordinate_crs": "EPSG:4326",
+        "metric_crs": "EPSG:5070",
+        "catalog_sha256": compute_sha256(catalog_path),
+        "route_selection_sha256": compute_sha256(selection_path),
+        "candidate_lock_sha256": compute_sha256(route_lock_path),
+        "transfer_lock_sha256": compute_sha256(transfer_lock_path),
+        "edge_path_lock_sha256": compute_sha256(edge_path_lock_path),
+        "nhs_fill_lock_sha256": compute_sha256(fill_lock_path),
+        "break_disposition_sha256": compute_sha256(disposition_path),
+        "reconstruction_overlay_lock_sha256": compute_sha256(overlay_lock_path),
+        "nhs_conflation_lock_sha256": compute_sha256(conflation_lock_path),
+        "endpoint_connector_lock_sha256": compute_sha256(connector_lock_path),
+        "dem_product_lock_sha256": compute_sha256(dem_lock_path),
+        "directed_route_lock_sha256": compute_sha256(directed_lock_path),
+        "corridor_elevation_lock_sha256": compute_sha256(elevation_lock_path),
+        "conditioned_profile_lock_sha256": compute_sha256(conditioned_lock_path),
+        "westbound_carriageway_lock_sha256": compute_sha256(carriageway_lock_path),
+        "model": dict(JUNCTION_GEOMETRY_MODEL),
+        "source_policy": dict(JUNCTION_GEOMETRY_SOURCE_POLICY),
+        "deferred_gates": dict(JUNCTION_GEOMETRY_DEFERRED_GATES),
+        "movement_count": len(movements),
+        "movements": movements,
+        "movements_sha256": canonical_sha256(movements),
+        "summary": _junction_geometry_summary(movements),
+        "next_stage": JUNCTION_GEOMETRY_NEXT_STAGE,
+    }
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(
+        json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
+    return payload
+
+
+def _expected_through_gates(
+    movement: dict[str, Any],
+    sample_peak: float,
+    length_delta: float,
+    length_bound: float,
+    vertical: dict[str, Any],
+    transfer_vertex_count: int,
+) -> dict[str, Any]:
+    """The through-movement gate battery reproduced from its measurements."""
+    gates = movement.get("gates", {})
+    opposing = movement.get("opposing_carriageways", {})
+    clearance_ok = all(
+        context.get("crossing_count", 0) > 0
+        or context.get("min_distance_m", 0.0) >= JUNCTION_OPPOSING_CLEARANCE_M
+        for context in opposing.values()
+    )
+
+    def recorded(name: str) -> Any:
+        return gates.get(name, {}).get("measured")
+
+    return {
+        "entry_seam_position": _carriageway_gate(
+            recorded("entry_seam_position"),
+            JUNCTION_SEAM_POSITION_TOLERANCE_M,
+            True,
+        ),
+        "entry_seam_heading": _carriageway_gate(
+            recorded("entry_seam_heading"),
+            JUNCTION_SEAM_HEADING_TOLERANCE_DEG,
+            True,
+        ),
+        "exit_seam_position": _carriageway_gate(
+            recorded("exit_seam_position"),
+            JUNCTION_SEAM_POSITION_TOLERANCE_M,
+            True,
+        ),
+        "exit_seam_heading": _carriageway_gate(
+            recorded("exit_seam_heading"),
+            JUNCTION_SEAM_HEADING_TOLERANCE_DEG,
+            True,
+        ),
+        "reversal_excision": _carriageway_gate(
+            len(movement.get("excisions", [])),
+            CARRIAGEWAY_MAX_REVERSAL_REMOVALS,
+            True,
+        ),
+        "heading_discipline": _carriageway_gate(
+            round(sample_peak, 2),
+            CARRIAGEWAY_REVERSAL_THRESHOLD_DEG,
+            True,
+        ),
+        "self_intersection": _carriageway_gate(
+            {"simple": True},
+            "transfer offset is a single simple LineString",
+            True,
+        ),
+        "station_monotonicity": _carriageway_gate(
+            {"vertex_count": transfer_vertex_count},
+            "strictly increasing station at every vertex",
+            True,
+        ),
+        "length_agreement": _carriageway_gate(
+            length_delta,
+            length_bound,
+            True,
+        ),
+        "opposing_clearance": _carriageway_gate(
+            {
+                "from_eastbound_crossings": opposing.get("from_eastbound", {}).get(
+                    "crossing_count"
+                ),
+                "to_eastbound_crossings": opposing.get("to_eastbound", {}).get(
+                    "crossing_count"
+                ),
+            },
+            {
+                "crossing_limit": JUNCTION_OPPOSING_CROSSING_LIMIT,
+                "clearance_m": JUNCTION_OPPOSING_CLEARANCE_M,
+            },
+            clearance_ok,
+        ),
+        "junction_elevation_agreement": _carriageway_gate(
+            vertical["anchor_agreement_m"],
+            JUNCTION_ELEVATION_AGREEMENT_M,
+            True,
+        ),
+        "transfer_grade": _carriageway_gate(
+            vertical["chord_grade_percent"],
+            CONDITIONING_SUSTAINED_BOUND_PERCENT,
+            True,
+        ),
+        "anchor_proximity": _carriageway_gate(
+            recorded("anchor_proximity"),
+            JUNCTION_ANCHOR_PROXIMITY_LIMIT_M,
+            True,
+        ),
+    }
+
+
+def validate_continental_junction_geometry(
+    junction_lock_path: Path,
+    carriageway_lock_path: Path,
+    conditioned_lock_path: Path,
+    elevation_lock_path: Path,
+    dem_lock_path: Path,
+    directed_lock_path: Path,
+    selection_path: Path,
+    route_lock_path: Path,
+    transfer_lock_path: Path,
+    policy_path: Path,
+    edge_path_lock_path: Path,
+    fill_lock_path: Path,
+    disposition_path: Path,
+    overlay_lock_path: Path,
+    conflation_lock_path: Path,
+    connector_lock_path: Path,
+    catalog_path: Path,
+) -> dict[str, Any]:
+    """Validate the junction geometry lock without caches or network.
+
+    The lock carries every movement's complete geometry, so the validator
+    recomputes lengths, digests, the corner census, self-intersection, the
+    length-agreement envelope, the vertical context from the committed
+    profile locks, and the anchor proximity from the transfer lock, and it
+    reconstructs both authored turn-around loops exactly from their recorded
+    seam poses. Seam and opposing-clearance measurements against the bulk
+    carriageway geometry are recorded derive-time facts held to the locked
+    thresholds; their provenance is pinned through the westbound carriageway
+    lock hash and the derive-time digest refusal over the cache.
+    """
+    payload = load_json(junction_lock_path)
+    if payload.get("schema_version") != 1:
+        raise ValueError("Junction geometry lock schema_version must be 1.")
+    if payload.get("status") != JUNCTION_GEOMETRY_STATUS:
+        raise ValueError("Junction geometry lock has an unsupported status.")
+    if (
+        payload.get("decision") != "ADR-0018"
+        or payload.get("control_line_decision") != "ADR-0013"
+        or payload.get("carriageway_decision") != "ADR-0014"
+        or payload.get("context_decision") != "ADR-0017"
+    ):
+        raise ValueError("Junction geometry lock decisions drifted.")
+    carriageway_lock = validate_continental_westbound_carriageway(
+        carriageway_lock_path,
+        conditioned_lock_path,
+        elevation_lock_path,
+        dem_lock_path,
+        directed_lock_path,
+        selection_path,
+        route_lock_path,
+        transfer_lock_path,
+        policy_path,
+        edge_path_lock_path,
+        fill_lock_path,
+        disposition_path,
+        overlay_lock_path,
+        conflation_lock_path,
+        connector_lock_path,
+        catalog_path,
+    )
+    directed_lock = load_json(directed_lock_path)
+    transfer_lock = load_json(transfer_lock_path)
+    elevation_lock = load_json(elevation_lock_path)
+    conditioned_lock = load_json(conditioned_lock_path)
+    selection = load_json(selection_path)
+    expected_hashes = {
+        "catalog_sha256": compute_sha256(catalog_path),
+        "route_selection_sha256": compute_sha256(selection_path),
+        "candidate_lock_sha256": compute_sha256(route_lock_path),
+        "transfer_lock_sha256": compute_sha256(transfer_lock_path),
+        "edge_path_lock_sha256": compute_sha256(edge_path_lock_path),
+        "nhs_fill_lock_sha256": compute_sha256(fill_lock_path),
+        "break_disposition_sha256": compute_sha256(disposition_path),
+        "reconstruction_overlay_lock_sha256": compute_sha256(overlay_lock_path),
+        "nhs_conflation_lock_sha256": compute_sha256(conflation_lock_path),
+        "endpoint_connector_lock_sha256": compute_sha256(connector_lock_path),
+        "dem_product_lock_sha256": compute_sha256(dem_lock_path),
+        "directed_route_lock_sha256": compute_sha256(directed_lock_path),
+        "corridor_elevation_lock_sha256": compute_sha256(elevation_lock_path),
+        "conditioned_profile_lock_sha256": compute_sha256(conditioned_lock_path),
+        "westbound_carriageway_lock_sha256": compute_sha256(carriageway_lock_path),
+    }
+    if any(payload.get(key) != value for key, value in expected_hashes.items()):
+        raise ValueError("Junction geometry lock input hash drifted.")
+    if payload.get("route_decision") != selection["decision"]:
+        raise ValueError("Junction geometry lock route decision drifted.")
+    if payload.get("model") != JUNCTION_GEOMETRY_MODEL:
+        raise ValueError("Junction geometry lock model drifted.")
+    if payload.get("source_policy") != JUNCTION_GEOMETRY_SOURCE_POLICY:
+        raise ValueError("Junction geometry lock source policy drifted.")
+    if payload.get("deferred_gates") != JUNCTION_GEOMETRY_DEFERRED_GATES:
+        raise ValueError("Junction geometry lock deferred gates drifted.")
+    if payload.get("next_stage") != JUNCTION_GEOMETRY_NEXT_STAGE:
+        raise ValueError("Junction geometry lock next stage drifted.")
+    if not isinstance(payload.get("derived_at"), str) or not payload["derived_at"]:
+        raise ValueError("Junction geometry lock derivation timestamp is missing.")
+    expected_movements = _junction_movement_keys(directed_lock)
+    movements = payload.get("movements", [])
+    recorded_keys = [
+        (
+            movement.get("anchor_id"),
+            movement.get("from_segment_id"),
+            movement.get("to_segment_id"),
+        )
+        for movement in movements
+    ]
+    if recorded_keys != sorted(expected_movements) or payload.get(
+        "movement_count"
+    ) != len(movements):
+        raise ValueError(
+            "Junction geometry lock does not cover exactly the directed "
+            "lock's junction movements in order."
+        )
+    forward = Transformer.from_crs("EPSG:4326", "EPSG:5070", always_xy=True)
+    inverse = Transformer.from_crs("EPSG:5070", "EPSG:4326", always_xy=True)
+    transfer_nodes = {node["id"]: node for node in transfer_lock["transfer_nodes"]}
+    elevation_segments = {
+        segment["segment_id"]: segment for segment in elevation_lock["segments"]
+    }
+    conditioned_segments = {
+        segment["segment_id"]: segment for segment in conditioned_lock["segments"]
+    }
+    directed_segments = {
+        segment["segment_id"]: segment for segment in directed_lock["segments"]
+    }
+    carriageway_segments = {
+        segment["segment_id"]: segment for segment in carriageway_lock["segments"]
+    }
+    backtracks = {
+        (record["anchor_id"], record["from_segment_id"], record["to_segment_id"]): (
+            record
+        )
+        for record in carriageway_lock["junction_backtracks"]
+    }
+    for movement in movements:
+        key = (
+            movement["anchor_id"],
+            movement["from_segment_id"],
+            movement["to_segment_id"],
+        )
+        movement_id = movement.get("movement_id")
+        if movement_id != f"{key[0]}--{key[1]}--{key[2]}":
+            raise ValueError(f"Junction movement '{movement_id}' identity drifted.")
+        expected = expected_movements[key]
+        junction = expected["junction"]
+        if movement.get("path_ids") != expected["path_ids"]:
+            raise ValueError(
+                f"Junction movement '{movement_id}' path coverage drifted."
+            )
+        geometry = movement.get("geometry", {})
+        coordinates = [tuple(point) for point in geometry.get("coordinates", [])]
+        if len(coordinates) < 2:
+            raise ValueError(
+                f"Junction movement '{movement_id}' geometry is degenerate."
+            )
+        if geometry.get("crs") != "EPSG:5070":
+            raise ValueError(
+                f"Junction movement '{movement_id}' geometry CRS drifted."
+            )
+        if geometry.get("geometry_sha256") != canonical_sha256(
+            [[x, y] for x, y in coordinates]
+        ) or geometry.get("vertex_count") != len(coordinates):
+            raise ValueError(
+                f"Junction movement '{movement_id}' geometry digest drifted."
+            )
+        length = round(_polyline_length(coordinates), 3)
+        if geometry.get("planimetric_m") != length:
+            raise ValueError(
+                f"Junction movement '{movement_id}' geometry length drifted."
+            )
+        line = LineString(coordinates)
+        if not line.is_simple:
+            raise ValueError(
+                f"Junction movement '{movement_id}' geometry self-intersects."
+            )
+        anchor = transfer_nodes[movement["anchor_id"]]
+        anchor_point = Point(
+            forward.transform(
+                anchor["coordinate"]["longitude"], anchor["coordinate"]["latitude"]
+            )
+        )
+        if round(line.distance(anchor_point), 3) != movement["gates"][
+            "anchor_proximity"
+        ].get("measured"):
+            raise ValueError(
+                f"Junction movement '{movement_id}' anchor proximity does "
+                "not reproduce."
+            )
+        gates = movement.get("gates", {})
+        for name, gate in gates.items():
+            if gate.get("passed") is not True:
+                raise ValueError(
+                    f"Junction movement '{movement_id}' gate '{name}' did "
+                    "not pass."
+                )
+        if movement.get("movement_kind") == "turnaround_transfer":
+            if junction["backtrack_element_count"] <= 0:
+                raise ValueError(
+                    f"Junction movement '{movement_id}' claims a turn-around "
+                    "the directed lock does not record."
+                )
+            backtrack = backtracks[key]
+            locked = movement.get("locked_backtrack", {})
+            if locked != {
+                "backtrack_element_count": junction["backtrack_element_count"],
+                "backtrack_length_m": junction["backtrack_length_m"],
+                "westbound_separation_m": backtrack["westbound_separation_m"],
+            }:
+                raise ValueError(
+                    f"Junction movement '{movement_id}' backtrack facts "
+                    "drifted from the locked records."
+                )
+            loop, construction = _turnaround_loop_geometry(
+                movement_id,
+                movement["seam_poses"]["entry"],
+                movement["seam_poses"]["exit"],
+            )
+            if [list(point) for point in loop] != geometry.get("coordinates"):
+                raise ValueError(
+                    f"Junction movement '{movement_id}' loop does not "
+                    "reproduce from its recorded seam poses."
+                )
+            if movement.get("construction") != construction:
+                raise ValueError(
+                    f"Junction movement '{movement_id}' construction facts "
+                    "do not reproduce."
+                )
+            curvature = _discrete_curvature_profile(loop)
+            design = movement.get("design", {})
+            if (
+                design.get("design_speed_kmh") != TURNAROUND_DESIGN_SPEED_KMH
+                or design.get("minimum_radius_m") != curvature["min_radius_m"]
+                or design.get("max_curvature_1_per_m")
+                != curvature["max_curvature_1_per_m"]
+                or design.get("entry_seam_curvature_1_per_m")
+                != round(_seam_curvature(loop, at_end=False), 6)
+                or design.get("exit_seam_curvature_1_per_m")
+                != round(_seam_curvature(loop, at_end=True), 6)
+            ):
+                raise ValueError(
+                    f"Junction movement '{movement_id}' design facts do not "
+                    "reproduce."
+                )
+            if (
+                curvature["min_radius_m"] is None
+                or curvature["min_radius_m"] < TURNAROUND_MIN_RADIUS_M
+            ):
+                raise ValueError(
+                    f"Junction movement '{movement_id}' violates the "
+                    "turn-around minimum radius."
+                )
+            min_signed = min(
+                (
+                    _signed_turn_degrees(loop, index)
+                    for index in range(1, len(loop) - 1)
+                ),
+                default=0.0,
+            )
+            if min_signed < -TURNAROUND_MONOTONICITY_TOLERANCE_DEG:
+                raise ValueError(
+                    f"Junction movement '{movement_id}' loop heading is not "
+                    "monotone."
+                )
+            monotonicity = gates.get("heading_monotonicity", {})
+            if monotonicity.get("measured") != round(min_signed, 4) or (
+                monotonicity.get("threshold")
+                != -TURNAROUND_MONOTONICITY_TOLERANCE_DEG
+            ):
+                raise ValueError(
+                    f"Junction movement '{movement_id}' monotonicity gate "
+                    "drifted."
+                )
+            vertical = _junction_vertical_context(
+                elevation_segments,
+                conditioned_segments,
+                directed_segments,
+                movement["from_segment_id"],
+                movement["to_segment_id"],
+                0.0,
+                0.0,
+                geometry["planimetric_m"],
+            )
+            if movement.get("vertical_context") != vertical:
+                raise ValueError(
+                    f"Junction movement '{movement_id}' vertical context "
+                    "does not reproduce from the committed profile locks."
+                )
+            separation_delta = round(
+                abs(
+                    construction["lateral_span_m"]
+                    - backtrack["westbound_separation_m"]
+                ),
+                4,
+            )
+            if (
+                gates.get("seam_separation_agreement", {}).get("measured")
+                != separation_delta
+                or separation_delta > 0.01
+            ):
+                raise ValueError(
+                    f"Junction movement '{movement_id}' seam separation "
+                    "disagrees with the locked reciprocal pair."
+                )
+            for name, threshold in (
+                ("entry_seam_position", JUNCTION_SEAM_POSITION_TOLERANCE_M),
+                ("exit_seam_position", JUNCTION_SEAM_POSITION_TOLERANCE_M),
+                ("entry_seam_heading", JUNCTION_SEAM_HEADING_TOLERANCE_DEG),
+                ("exit_seam_heading", JUNCTION_SEAM_HEADING_TOLERANCE_DEG),
+                ("entry_curvature_continuity", TURNAROUND_SEAM_CURVATURE_LIMIT),
+                ("exit_curvature_continuity", TURNAROUND_SEAM_CURVATURE_LIMIT),
+                ("closure_correction", TURNAROUND_CLOSURE_LIMIT_M),
+                ("carriageway_attachment_only", JUNCTION_SEAM_POSITION_TOLERANCE_M),
+                ("junction_elevation_agreement", JUNCTION_ELEVATION_AGREEMENT_M),
+                ("anchor_proximity", JUNCTION_ANCHOR_PROXIMITY_LIMIT_M),
+            ):
+                gate = gates.get(name, {})
+                if (
+                    gate.get("threshold") != threshold
+                    or not isinstance(gate.get("measured"), int | float)
+                    or gate["measured"] > threshold
+                ):
+                    raise ValueError(
+                        f"Junction movement '{movement_id}' gate '{name}' "
+                        "drifted."
+                    )
+            if gates.get("minimum_radius", {}).get("measured") != (
+                curvature["min_radius_m"]
+            ) or gates["minimum_radius"].get("threshold") != TURNAROUND_MIN_RADIUS_M:
+                raise ValueError(
+                    f"Junction movement '{movement_id}' minimum radius gate "
+                    "drifted."
+                )
+            if gates.get("turnaround_grade", {}).get("measured") != vertical[
+                "chord_grade_percent"
+            ] or abs(vertical["chord_grade_percent"]) > (
+                CONDITIONING_SUSTAINED_BOUND_PERCENT
+            ):
+                raise ValueError(
+                    f"Junction movement '{movement_id}' grade gate drifted."
+                )
+            if movement.get("provenance", {}).get("class") != "authored_turnaround":
+                raise ValueError(
+                    f"Junction movement '{movement_id}' provenance drifted."
+                )
+            continue
+        if junction["backtrack_element_count"] > 0:
+            raise ValueError(
+                f"Junction movement '{movement_id}' must be a turn-around."
+            )
+        if movement.get("movement_kind") != "through_transfer":
+            raise ValueError(
+                f"Junction movement '{movement_id}' kind is unsupported."
+            )
+        if movement.get("junction", {}).get("continuity_gap_m") != junction[
+            "continuity_gap_m"
+        ]:
+            raise ValueError(
+                f"Junction movement '{movement_id}' continuity gap drifted "
+                "from the directed lock."
+            )
+        corner_sites, total_turn = _junction_corner_sites(
+            movement_id, coordinates, inverse
+        )
+        if movement.get("corner_sites") != corner_sites or movement.get(
+            "census_total_turn_deg"
+        ) != round(total_turn, 3):
+            raise ValueError(
+                f"Junction movement '{movement_id}' corner census does not "
+                "reproduce from its geometry."
+            )
+        samples = _resample_polyline(coordinates, CARRIAGEWAY_TANGENT_LENS_M)
+        sample_peak = max(
+            (
+                _vertex_turn_degrees(samples, index)
+                for index in range(1, len(samples) - 1)
+            ),
+            default=0.0,
+        )
+        excisions = movement.get("excisions", [])
+        for excision in excisions:
+            if (
+                excision.get("reversal_class") != JUNCTION_REVERSAL_CLASS
+                or not isinstance(excision.get("turn_deg"), int | float)
+                or excision["turn_deg"] <= CARRIAGEWAY_REVERSAL_THRESHOLD_DEG
+            ):
+                raise ValueError(
+                    f"Junction movement '{movement_id}' excision record is "
+                    "invalid."
+                )
+        window = movement.get("window", {})
+        expected_window = (
+            2.0 * JUNCTION_WINDOW_M
+            + window.get("bridge_m", 0.0)
+            + sum(
+                excision.get("window_length_delta_m", 0.0) for excision in excisions
+            )
+        )
+        if (
+            window.get("window_m") != JUNCTION_WINDOW_M
+            or not isinstance(window.get("length_m"), int | float)
+            or abs(window["length_m"] - expected_window) > 0.02
+        ):
+            raise ValueError(
+                f"Junction movement '{movement_id}' window facts do not "
+                "reproduce."
+            )
+        continuity_gap = float(junction["continuity_gap_m"])
+        provenance = movement.get("provenance", {})
+        if continuity_gap > 0.0:
+            if (
+                provenance.get("class") != "derived_with_authored_bridge"
+                or provenance.get("authored_bridge_m") != window.get("bridge_m")
+                or abs(window.get("bridge_m", 0.0) - continuity_gap) > 0.5
+            ):
+                raise ValueError(
+                    f"Junction movement '{movement_id}' authored bridge "
+                    "provenance drifted."
+                )
+        else:
+            if (
+                provenance.get("class") != "derived_from_locked_carriageways"
+                or provenance.get("authored_bridge_m") != 0.0
+                or window.get("bridge_m", 0.0) > CARRIAGEWAY_JOINT_GAP_LIMIT_M
+            ):
+                raise ValueError(
+                    f"Junction movement '{movement_id}' provenance drifted."
+                )
+        attachments = movement.get("attachments", {})
+        for role, segment_key in (
+            ("entry", "from_segment_id"),
+            ("exit", "to_segment_id"),
+        ):
+            attachment = attachments.get(role, {})
+            segment_id = movement[segment_key]
+            lock_segment = carriageway_segments[segment_id]
+            if (
+                attachment.get("segment_id") != segment_id
+                or attachment.get("side") != "westbound"
+                or attachment.get("westbound_length_m")
+                != lock_segment["westbound"]["length_m"]
+            ):
+                raise ValueError(
+                    f"Junction movement '{movement_id}' {role} attachment "
+                    "drifted from the carriageway lock."
+                )
+            station = attachment.get("station_m")
+            replaced = attachment.get("replaced_westbound_m")
+            if not isinstance(station, int | float) or not isinstance(
+                replaced, int | float
+            ):
+                raise ValueError(
+                    f"Junction movement '{movement_id}' {role} attachment "
+                    "stations are invalid."
+                )
+            if role == "entry":
+                expected_replaced = round(
+                    lock_segment["westbound"]["length_m"] - station, 3
+                )
+            else:
+                expected_replaced = round(station, 3)
+            if abs(replaced - expected_replaced) > 0.011:
+                raise ValueError(
+                    f"Junction movement '{movement_id}' {role} replaced "
+                    "length does not reproduce."
+                )
+        entry_heading = round(
+            _line_heading_between(line, 0.0, CARRIAGEWAY_TANGENT_LENS_M), 3
+        )
+        exit_heading = round(
+            _line_heading_between(
+                line, line.length - CARRIAGEWAY_TANGENT_LENS_M, line.length
+            ),
+            3,
+        )
+        if (
+            attachments["entry"].get("heading_deg") != entry_heading
+            or attachments["exit"].get("heading_deg") != exit_heading
+        ):
+            raise ValueError(
+                f"Junction movement '{movement_id}' attachment headings do "
+                "not reproduce from its geometry."
+            )
+        length_effect = movement.get("length_effect", {})
+        replaced_total = round(
+            attachments["entry"]["replaced_westbound_m"]
+            + attachments["exit"]["replaced_westbound_m"],
+            3,
+        )
+        if length_effect != {
+            "replaced_westbound_m": replaced_total,
+            "transfer_m": geometry["planimetric_m"],
+            "delta_m": round(geometry["planimetric_m"] - replaced_total, 3),
+        }:
+            raise ValueError(
+                f"Junction movement '{movement_id}' length effect does not "
+                "reproduce."
+            )
+        opposing = movement.get("opposing_carriageways", {})
+        if set(opposing) != {"from_eastbound", "to_eastbound"}:
+            raise ValueError(
+                f"Junction movement '{movement_id}' opposing context is "
+                "incomplete."
+            )
+        for context in opposing.values():
+            count = context.get("crossing_count")
+            if not isinstance(count, int) or count < 0 or count > (
+                JUNCTION_OPPOSING_CROSSING_LIMIT
+            ):
+                raise ValueError(
+                    f"Junction movement '{movement_id}' opposing crossing "
+                    "structure is invalid."
+                )
+            if count == 0 and context.get("min_distance_m", 0.0) < (
+                JUNCTION_OPPOSING_CLEARANCE_M
+            ):
+                raise ValueError(
+                    f"Junction movement '{movement_id}' opposing clearance "
+                    "violates the bound."
+                )
+            if count > 0 and len(context.get("crossing_coordinates", [])) != count:
+                raise ValueError(
+                    f"Junction movement '{movement_id}' opposing crossings "
+                    "are unrecorded."
+                )
+        vertical = _junction_vertical_context(
+            elevation_segments,
+            conditioned_segments,
+            directed_segments,
+            movement["from_segment_id"],
+            movement["to_segment_id"],
+            JUNCTION_WINDOW_M,
+            JUNCTION_WINDOW_M,
+            geometry["planimetric_m"],
+        )
+        if movement.get("vertical_context") != vertical:
+            raise ValueError(
+                f"Junction movement '{movement_id}' vertical context does "
+                "not reproduce from the committed profile locks."
+            )
+        length_delta = round(abs(geometry["planimetric_m"] - window["length_m"]), 3)
+        length_bound = _junction_length_agreement_bound(total_turn, sample_peak)
+        expected_gates = _expected_through_gates(
+            movement,
+            sample_peak,
+            length_delta,
+            length_bound,
+            vertical,
+            len(coordinates),
+        )
+        if gates != expected_gates:
+            raise ValueError(
+                f"Junction movement '{movement_id}' gates do not reproduce "
+                "from the recorded measurements."
+            )
+        for name, threshold in (
+            ("entry_seam_position", JUNCTION_SEAM_POSITION_TOLERANCE_M),
+            ("exit_seam_position", JUNCTION_SEAM_POSITION_TOLERANCE_M),
+            ("entry_seam_heading", JUNCTION_SEAM_HEADING_TOLERANCE_DEG),
+            ("exit_seam_heading", JUNCTION_SEAM_HEADING_TOLERANCE_DEG),
+            ("anchor_proximity", JUNCTION_ANCHOR_PROXIMITY_LIMIT_M),
+        ):
+            gate = gates[name]
+            if not isinstance(gate.get("measured"), int | float) or gate[
+                "measured"
+            ] > threshold:
+                raise ValueError(
+                    f"Junction movement '{movement_id}' gate '{name}' "
+                    "violates its bound."
+                )
+        if (
+            sample_peak > CARRIAGEWAY_REVERSAL_THRESHOLD_DEG
+            or length_delta > length_bound
+            or abs(vertical["chord_grade_percent"])
+            > CONDITIONING_SUSTAINED_BOUND_PERCENT
+            or vertical["anchor_agreement_m"] > JUNCTION_ELEVATION_AGREEMENT_M
+            or len(excisions) > CARRIAGEWAY_MAX_REVERSAL_REMOVALS
+        ):
+            raise ValueError(
+                f"Junction movement '{movement_id}' recomputed measurements "
+                "violate the gate battery."
+            )
+    if payload.get("movements_sha256") != canonical_sha256(movements):
+        raise ValueError("Junction geometry lock movement digest drifted.")
+    if payload.get("summary") != _junction_geometry_summary(movements):
+        raise ValueError(
+            "Junction geometry lock summary does not reproduce from the "
+            "committed movements."
+        )
+    return payload
