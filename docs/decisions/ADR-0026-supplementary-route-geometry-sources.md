@@ -67,6 +67,12 @@ attribution hole on the canonical corridor.
 
 - `data/sources/catalog.json` gains the NHS and NAIP entries recorded with
   this ADR.
+- The living locks pin the catalog's SHA-256 recursively (source lock,
+  corridor lock, continental route lock, transfer-node and edge-path
+  locks, the representative contract, and the validation-corpus lock);
+  accepting this ADR re-blesses that pin chain to the new catalog hash.
+  Historical evidence files retain the hashes that were true at their
+  verification time and are never rewritten.
 - Shipped chunks that draw on NHS geometry cite two ancestries (NHPN
   backbone plus NHS centerlines); provenance records must name both.
 - Conflation between NHPN keys and NHS state-LRS routes becomes pipeline

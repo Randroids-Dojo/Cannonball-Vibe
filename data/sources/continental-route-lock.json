@@ -1,5 +1,5 @@
 {
-  "catalog_sha256": "356a0fe4810a37bb5e5970bba3ae8295208908bc800e016c22e3b608bbb7c9eb",
+  "catalog_sha256": "4d3a4c115875fc7e72f12e6a9d32a31d4b103a1b73bdbc731f47864989b8447f",
   "created_at": "2026-08-04T02:00:37Z",
   "elevation": {
     "reason": "3DEP product discovery requires the exact connected NHPN edge set and authored connector bounds; candidate route-family supersets are too broad.",

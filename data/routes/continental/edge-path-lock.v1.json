@@ -1,7 +1,7 @@
 {
   "anchor_snap_limit_m": 25.0,
   "audit_finding": "Each locked segment is a near-linear chain rather than a network: 97 to 100 percent of endpoints join exactly two records. It is nonetheless broken: there are 67 chain ends across the twelve segments, and 6 of 12 segments have no undirected path between their locked transfer nodes. Only 3 chain-end pairs are adjacent in linear referencing, meaning almost none of the breaks are two records that merely missed each other; the candidate set does not contain the records that would join them. Spatial proximity between chain ends is not evidence of adjacency, because unrelated parts of a route pass close together. Where a path was found it is a shortest undirected traversal and is not a westbound selection, which this stage does not assert.",
-  "candidate_lock_sha256": "f5ad2786e031a8640a242aae73ee8665a548dfda15368a9b940bd360b73aef72",
+  "candidate_lock_sha256": "5c35de08e6dafebf6e3d7c2045833f15483092e7522fea1f5ee78beee13079f0",
   "connected_segment_count": 6,
   "coordinate_crs": "EPSG:4326",
   "decision": "ADR-0024",
@@ -21414,7 +21414,7 @@
     "openstreetmap_ancestry_allowed": false
   },
   "status": "connectivity_audited_westbound_selection_pending",
-  "transfer_lock_sha256": "4a2a0c6e48ab14a54f5bbad1b086e96fcb35e6c3a50e21924428278662f3f175",
+  "transfer_lock_sha256": "37cf05ee41a19e23a3ef647d4bdea3a64df5dba2dce123a65851517d91a8fdd4",
   "unconnected_segment_count": 6,
   "westbound_selection_validated": false
 }

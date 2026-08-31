@@ -1,5 +1,5 @@
 {
-  "candidate_lock_sha256": "f5ad2786e031a8640a242aae73ee8665a548dfda15368a9b940bd360b73aef72",
+  "candidate_lock_sha256": "5c35de08e6dafebf6e3d7c2045833f15483092e7522fea1f5ee78beee13079f0",
   "coordinate_crs": "EPSG:4326",
   "decision": "ADR-0024",
   "derived_at": "2026-08-04T03:51:27Z",
