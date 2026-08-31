@@ -21,7 +21,12 @@ from cannonball_map.acquisition import (
     UrllibArcGisTransport,
     acquire_nhpn,
 )
-from cannonball_map.catalog import load_catalog, require_catalog_source
+from cannonball_map.catalog import (
+    CatalogSource,
+    load_catalog,
+    require_catalog_source,
+    url_matches_prefix,
+)
 from cannonball_map.lockfile import canonical_sha256
 from cannonball_map.manifest import SHA256_PATTERN, compute_sha256
 
@@ -2364,38 +2369,26 @@ def _records_milepost_contiguous(
     )
 
 
-def _probe_segment_break_ends(
-    segment_id: str,
-    failure: str,
+def _select_break_ends(
     metric_lines: tuple[tuple[LockedCandidateLine, LineString], ...],
     from_point: tuple[float, float],
     to_point: tuple[float, float],
     tolerance: float,
-    *,
-    transport: ArcGisTransport,
-    query_url: str,
-    probe_root: Path,
-    page_size: int,
-    locked_segments_by_object_id: dict[int, tuple[str, ...]],
-    forward: Transformer,
     inverse: Transformer,
-    buffer_meters: float = BREAK_PROBE_BUFFER_METERS,
-) -> dict[str, Any]:
-    """Census NHPN spatially around one unconnected segment's break ends.
+) -> dict[str, Any] | None:
+    """Select one unconnected segment's break ends from its snapped graph.
 
-    A break end is a chain end that is not the anchor component's continuation
-    beyond the corridor. For each one, everything NHPN carries inside a window
-    around the end is fetched with no sign, state, or key filter and reported
-    with its keys, signs, and geometric offsets. Nothing is joined and no lock
-    is touched: the output is the evidence an ADR-0018-compliant per-break
-    decision needs, not the decision.
+    Shared by the break-end census and the gap-interior sweep, on top of the
+    shared graph builder, so no two artifacts can disagree about which chain
+    ends are breaks. A break end is a degree-1 chain end that is not, per
+    anchor, the chain end of that anchor's component farthest from the opposite
+    anchor - that end is where the chain legitimately continues beyond the
+    corridor (past the anchor, or past the declared jurisdictions). Returns
+    None when the segment produced no graph nodes.
     """
     graph, nodes, incident, _ = _build_snapped_endpoint_graph(metric_lines, tolerance)
-    result: dict[str, Any] = {"segment_id": segment_id, "failure": failure}
     if not graph.number_of_nodes():
-        result.update(break_end_count=0, break_ends=[], break_pairs=[],
-                      note="segment produced no graph nodes")
-        return result
+        return None
 
     components = sorted(nx.connected_components(graph), key=lambda c: (-len(c), min(c)))
     component_of = {node: index for index, comp in enumerate(components) for node in comp}
@@ -2410,10 +2403,6 @@ def _probe_segment_break_ends(
         assert best_key is not None
         return best_key, best_distance
 
-    # The chain end of each anchor's component farthest from the opposite anchor
-    # is where the chain legitimately continues beyond the corridor (past the
-    # anchor, or past the declared jurisdictions), not a break. Every other
-    # chain end marks a place the corridor's chain stops.
     anchor_side_ends: list[dict[str, Any]] = []
     excluded: set[tuple[int, int]] = set()
     anchor_components: dict[str, int] = {}
@@ -2459,14 +2448,122 @@ def _probe_segment_break_ends(
             incident[key][0][2],
         ),
     )
+    end_id_by_node: dict[tuple[int, int], str] = {}
+    for node in break_nodes:
+        candidate, _, which = incident[node][0]
+        end_id_by_node[node] = (
+            f"end-{candidate.object_id:07d}-{candidate.part_index:02d}-{which}"
+        )
+    return {
+        "graph": graph,
+        "nodes": nodes,
+        "incident": incident,
+        "components": components,
+        "component_of": component_of,
+        "anchor_side_ends": anchor_side_ends,
+        "anchor_components": anchor_components,
+        "anchor_distances": anchor_distances,
+        "break_nodes": break_nodes,
+        "end_id_by_node": end_id_by_node,
+        "node_by_end_id": {value: key for key, value in end_id_by_node.items()},
+    }
+
+
+def _nearest_cross_component_pairs(
+    break_nodes: Sequence[tuple[int, int]],
+    nodes: dict[tuple[int, int], tuple[float, float]],
+    component_of: dict[tuple[int, int], int],
+    end_id_by_node: dict[tuple[int, int], str],
+) -> tuple[dict[str, dict[str, Any] | None], list[dict[str, Any]]]:
+    """Pair every break end with the nearest break end in a different component.
+
+    Observed geometry, not asserted adjacency. Returns each end's nearest
+    cross-component end and the deduplicated pair list with raw separations,
+    shared by the census and the gap-interior sweep so they cannot disagree
+    about which interiors exist.
+    """
+    nearest_by_end: dict[str, dict[str, Any] | None] = {}
+    pair_keys: set[tuple[str, str]] = set()
+    for node in break_nodes:
+        end_id = end_id_by_node[node]
+        others = [
+            other for other in break_nodes if component_of[other] != component_of[node]
+        ]
+        if not others:
+            nearest_by_end[end_id] = None
+            continue
+        nearest = min(
+            others,
+            key=lambda other: (math.dist(nodes[node], nodes[other]), end_id_by_node[other]),
+        )
+        separation = math.dist(nodes[node], nodes[nearest])
+        nearest_by_end[end_id] = {
+            "id": end_id_by_node[nearest],
+            "separation_m": round(separation, 3),
+        }
+        pair_keys.add(tuple(sorted((end_id, end_id_by_node[nearest]))))
+    node_by_end_id = {value: key for key, value in end_id_by_node.items()}
+    pairs = [
+        {
+            "end_ids": [left_id, right_id],
+            "separation_m": math.dist(
+                nodes[node_by_end_id[left_id]], nodes[node_by_end_id[right_id]]
+            ),
+        }
+        for left_id, right_id in sorted(pair_keys)
+    ]
+    return nearest_by_end, pairs
+
+
+def _probe_segment_break_ends(
+    segment_id: str,
+    failure: str,
+    metric_lines: tuple[tuple[LockedCandidateLine, LineString], ...],
+    from_point: tuple[float, float],
+    to_point: tuple[float, float],
+    tolerance: float,
+    *,
+    transport: ArcGisTransport,
+    query_url: str,
+    probe_root: Path,
+    page_size: int,
+    locked_segments_by_object_id: dict[int, tuple[str, ...]],
+    forward: Transformer,
+    inverse: Transformer,
+    buffer_meters: float = BREAK_PROBE_BUFFER_METERS,
+) -> dict[str, Any]:
+    """Census NHPN spatially around one unconnected segment's break ends.
+
+    A break end is a chain end that is not the anchor component's continuation
+    beyond the corridor. For each one, everything NHPN carries inside a window
+    around the end is fetched with no sign, state, or key filter and reported
+    with its keys, signs, and geometric offsets. Nothing is joined and no lock
+    is touched: the output is the evidence an ADR-0018-compliant per-break
+    decision needs, not the decision.
+    """
+    selection = _select_break_ends(metric_lines, from_point, to_point, tolerance, inverse)
+    result: dict[str, Any] = {"segment_id": segment_id, "failure": failure}
+    if selection is None:
+        result.update(break_end_count=0, break_ends=[], break_pairs=[],
+                      note="segment produced no graph nodes")
+        return result
+
+    nodes = selection["nodes"]
+    incident = selection["incident"]
+    components = selection["components"]
+    component_of = selection["component_of"]
+    anchor_side_ends = selection["anchor_side_ends"]
+    anchor_components = selection["anchor_components"]
+    anchor_distances = selection["anchor_distances"]
+    break_nodes = selection["break_nodes"]
+    end_id_by_node = selection["end_id_by_node"]
+    node_by_id = selection["node_by_end_id"]
 
     break_ends: list[dict[str, Any]] = []
     features_by_end: dict[str, dict[int, dict[str, Any]]] = {}
-    node_by_id: dict[str, tuple[int, int]] = {}
     for node in break_nodes:
         candidate, line, which = incident[node][0]
-        end_id = f"end-{candidate.object_id:07d}-{candidate.part_index:02d}-{which}"
-        node_by_id[end_id] = node
+        end_id = end_id_by_node[node]
         break_point = Point(nodes[node])
         end_bearing = _chord_bearing(line, 0.0 if which == "start" else line.length)
         envelope = _spatial_probe_envelope(
@@ -2582,34 +2679,17 @@ def _probe_segment_break_ends(
     # Pair every break end with the nearest break end in a different component:
     # observed geometry, not asserted adjacency. Joining evidence for a pair is
     # any probed feature that comes near both of its ends.
-    pair_keys: set[tuple[str, str]] = set()
+    nearest_by_end, raw_pairs = _nearest_cross_component_pairs(
+        break_nodes, nodes, component_of, end_id_by_node
+    )
     for entry in break_ends:
-        node = node_by_id[entry["id"]]
-        others = [
-            other for other in break_ends
-            if other["component_index"] != entry["component_index"]
-        ]
-        if not others:
-            entry["nearest_cross_component_end"] = None
-            continue
-        nearest = min(
-            others,
-            key=lambda other: (
-                math.dist(nodes[node], nodes[node_by_id[other["id"]]]),
-                other["id"],
-            ),
-        )
-        separation = math.dist(nodes[node], nodes[node_by_id[nearest["id"]]])
-        entry["nearest_cross_component_end"] = {
-            "id": nearest["id"],
-            "separation_m": round(separation, 3),
-        }
-        pair_keys.add(tuple(sorted((entry["id"], nearest["id"]))))
+        entry["nearest_cross_component_end"] = nearest_by_end[entry["id"]]
 
     break_pairs: list[dict[str, Any]] = []
-    for left_id, right_id in sorted(pair_keys):
+    for pair in raw_pairs:
+        left_id, right_id = pair["end_ids"]
         left_node, right_node = node_by_id[left_id], node_by_id[right_id]
-        separation = math.dist(nodes[left_node], nodes[right_node])
+        separation = pair["separation_m"]
         windows_overlap = separation <= 2 * buffer_meters
         spanning: list[int] = []
         if windows_overlap:
@@ -2847,6 +2927,1365 @@ def probe_continental_break_ends(
         "finding": _break_probe_finding(segments),
         "segments": segments,
     }
+
+
+# --- Interior sweep of the break pairs wider than the census windows ----------
+#
+# The break-end census characterises 500 m neighbourhoods around each break
+# end, so a pair separated by more than two window widths has an interior
+# neither probe has seen. The sweep tiles that interior with the same
+# unfiltered envelope machinery and classifies what NHPN carries there
+# relative to the pair's end-to-end chord. Reporting lenses only: nothing is
+# joined, no direction is claimed, and no lock changes.
+
+# A pair whose ends are closer than two census windows has no unseen interior.
+INTERIOR_SWEEP_MINIMUM_SEPARATION_METERS = 2.0 * BREAK_PROBE_BUFFER_METERS
+
+# Above this separation a pair does not measure a candidate mainline break: it
+# measures the isolation of a fragment embedded in another route's pavement
+# (the 27.3 km I-15 and 13.6 km Albuquerque fragment pairings), whose milepost
+# interiors the 2026-08-27 whole-key probe already characterised. Such pairs
+# are recorded as beyond the sweep limit rather than swept.
+INTERIOR_SWEEP_MAXIMUM_SEPARATION_METERS = 5_000.0
+
+
+def _interior_window_centers(
+    from_metric: tuple[float, float],
+    to_metric: tuple[float, float],
+    buffer_meters: float,
+) -> list[tuple[float, float]]:
+    """Window centres tiling the interior between two break ends.
+
+    Centres are spaced at most one window half-width apart along the straight
+    chord, so consecutive windows overlap and jointly cover the chord end to
+    end with margin on every side.
+    """
+    separation = math.dist(from_metric, to_metric)
+    count = max(1, math.ceil(separation / buffer_meters))
+    return [
+        (
+            from_metric[0] + (to_metric[0] - from_metric[0]) * (index + 0.5) / count,
+            from_metric[1] + (to_metric[1] - from_metric[1]) * (index + 0.5) / count,
+        )
+        for index in range(count)
+    ]
+
+
+def _interior_feature_metrics(
+    chord: LineString,
+    chord_bearing: float | None,
+    metric_parts: Sequence[LineString],
+) -> dict[str, float | None]:
+    """How one probed feature sits relative to a gap's end-to-end chord.
+
+    ``chord_distance_m`` is the feature's nearest approach to the chord;
+    ``alignment_degrees`` compares the feature's local bearing at that approach
+    against the chord bearing. The chord is a straight reference line between
+    the two break ends, not an asserted road alignment.
+    """
+    if not metric_parts:
+        return {"chord_distance_m": None, "alignment_degrees": None}
+    best_part: LineString | None = None
+    best_distance = float("inf")
+    for part in metric_parts:
+        distance = part.distance(chord)
+        if distance < best_distance:
+            best_part, best_distance = part, distance
+    alignment: float | None = None
+    if best_part is not None and chord_bearing is not None:
+        _, on_part = nearest_points(chord, best_part)
+        feature_bearing = _chord_bearing(best_part, best_part.project(on_part))
+        if feature_bearing is not None:
+            alignment = _acute_angle_degrees(chord_bearing, feature_bearing)
+    return {
+        "chord_distance_m": round(best_distance, 3),
+        "alignment_degrees": None if alignment is None else round(alignment, 1),
+    }
+
+
+def _interior_feature_tier(
+    metrics: dict[str, float | None],
+    axis_lens_meters: float = BREAK_NEAR_JOIN_TOLERANCE_METERS,
+) -> str:
+    """Descriptive evidence tier for one feature inside a swept gap interior."""
+    chord_distance = metrics["chord_distance_m"]
+    alignment = metrics["alignment_degrees"]
+    if chord_distance is None:
+        return "no_geometry"
+    aligned = alignment is not None and alignment <= BREAK_ALIGNMENT_TOLERANCE_DEGREES
+    if chord_distance <= axis_lens_meters:
+        return "aligned_on_axis" if aligned else "crossing_on_axis"
+    if aligned:
+        return "aligned_off_axis"
+    return "elsewhere_in_window"
+
+
+# Gap summary classifications from strongest to weakest interior evidence.
+_INTERIOR_SUMMARY_BY_TIER = {
+    "aligned_on_axis": "mainline_candidate_on_axis",
+    "aligned_off_axis": "aligned_facilities_off_axis_only",
+    "crossing_on_axis": "crossings_only_on_axis",
+    "elsewhere_in_window": "distant_features_only",
+    "no_geometry": "distant_features_only",
+}
+_INTERIOR_TIER_ORDER = tuple(_INTERIOR_SUMMARY_BY_TIER)
+
+
+def _interior_sweep_finding(segments: list[dict[str, Any]]) -> str:
+    """Describe the sweep using the numbers it actually produced."""
+    if not segments:
+        return "No unconnected segments were swept."
+    gaps = [gap for segment in segments for gap in segment.get("swept_gaps", [])]
+    if not gaps:
+        return "No break pair exceeded the sweep threshold; every interior is covered."
+    by_class: dict[str, int] = {}
+    for gap in gaps:
+        by_class[gap["classification"]] = by_class.get(gap["classification"], 0) + 1
+    total_km = sum(gap["separation_m"] for gap in gaps) / 1000.0
+    return (
+        f"{len(gaps)} break-pair interiors wider than the census windows were swept "
+        f"({total_km:.1f} km in total) with unfiltered envelopes tiling each pair's "
+        f"chord. {by_class.get('mainline_candidate_on_axis', 0)} interiors carry an "
+        "unlocked feature aligned with and within the near-join lens of the chord, "
+        f"{by_class.get('aligned_facilities_off_axis_only', 0)} carry aligned "
+        "facilities only away from the chord, "
+        f"{by_class.get('crossings_only_on_axis', 0)} carry only crossings on the "
+        f"chord, {by_class.get('distant_features_only', 0)} carry only distant "
+        f"features, and {by_class.get('interior_void_beyond_lock', 0)} carry nothing "
+        "beyond the already-locked records. The chord is a straight reference line, "
+        "not an asserted alignment; these tiers are reporting lenses for the Q-034 "
+        "disposition, not bridging decisions, and no lock is changed."
+    )
+
+
+def probe_continental_gap_interiors(
+    selection_path: Path,
+    route_lock_path: Path,
+    transfer_lock_path: Path,
+    policy_path: Path,
+    edge_path_lock_path: Path,
+    catalog_path: Path,
+    cache_directory: Path,
+    probe_cache_directory: Path,
+    *,
+    transport: ArcGisTransport | None = None,
+    service_metadata: dict[str, Any] | None = None,
+    acquired_at: str | None = None,
+    page_size: int = 2_000,
+    buffer_meters: float = BREAK_PROBE_BUFFER_METERS,
+    minimum_separation_meters: float = INTERIOR_SWEEP_MINIMUM_SEPARATION_METERS,
+    maximum_separation_meters: float = INTERIOR_SWEEP_MAXIMUM_SEPARATION_METERS,
+) -> dict[str, Any]:
+    """Sweep what NHPN carries inside the break-pair interiors wider than the
+    census windows.
+
+    The 2026-08-30 census characterised 500 m neighbourhoods around every break
+    end; this closes its named evidence hole - the pair interiors wider than
+    two windows - by tiling each such interior with the same unfiltered
+    envelope machinery. It is a characterisation, not a selection: it changes
+    no lock, claims no direction and no distance, and its responses stay in the
+    ignored cache. It refuses a live service that has drifted from the locked
+    snapshot.
+    """
+    edge_lock = validate_continental_edge_path_lock(
+        edge_path_lock_path,
+        transfer_lock_path,
+        policy_path,
+        selection_path,
+        route_lock_path,
+        catalog_path,
+    )
+    route_lock = validate_continental_route_lock(route_lock_path, catalog_path, selection_path)
+    transfer_lock = validate_continental_transfer_lock(
+        transfer_lock_path, policy_path, selection_path, route_lock_path, catalog_path
+    )
+    selection = load_json(selection_path)
+
+    source = load_catalog(catalog_path)[NHPN_SOURCE_ID]
+    service_url = source.raw["service_url"]
+    query_url = service_url + NHPN_QUERY_SUFFIX
+    if service_metadata is None:
+        with urllib.request.urlopen(service_url + "?f=pjson", timeout=120) as response:
+            service_metadata = json.loads(response.read())
+    _validate_live_service_metadata(service_metadata)
+    service_metadata_sha256 = canonical_sha256(service_metadata)
+    locked_metadata_sha256 = route_lock["nhpn"]["service"]["canonical_metadata_sha256"]
+    if service_metadata_sha256 != locked_metadata_sha256:
+        raise ValueError(
+            "Live NHPN service metadata has drifted from the candidate lock; a sweep "
+            "against it would characterise a different dataset than the one whose "
+            "gap interiors it is explaining."
+        )
+    if transport is None:
+        transport = UrllibArcGisTransport(timeout_seconds=120)
+    timestamp = acquired_at or datetime.now(UTC).replace(microsecond=0).isoformat().replace(
+        "+00:00", "Z"
+    )
+
+    snapshot_by_id = {
+        snapshot["segment_id"]: snapshot
+        for snapshot in route_lock["nhpn"]["segment_snapshots"]
+    }
+    locked_segments: dict[int, set[str]] = {}
+    for snapshot in route_lock["nhpn"]["segment_snapshots"]:
+        for object_id in snapshot["object_ids"]:
+            locked_segments.setdefault(object_id, set()).add(snapshot["segment_id"])
+
+    segment_by_id = {segment["id"]: segment for segment in selection["segments"]}
+    transfer_by_id = {node["id"]: node for node in transfer_lock["transfer_nodes"]}
+    cache_root = cache_directory / locked_metadata_sha256
+    probe_root = probe_cache_directory / service_metadata_sha256
+    forward = Transformer.from_crs("EPSG:4326", "EPSG:5070", always_xy=True)
+    inverse = Transformer.from_crs("EPSG:5070", "EPSG:4326", always_xy=True)
+    tolerance = float(edge_lock["endpoint_snap_tolerance_m"])
+
+    def metric_point(node_id: str) -> tuple[float, float]:
+        coordinate = transfer_by_id[node_id]["coordinate"]
+        return forward.transform(coordinate["longitude"], coordinate["latitude"])
+
+    unconnected = sorted(
+        (entry for entry in edge_lock["segments"] if not entry.get("connected")),
+        key=lambda entry: entry["segment_id"],
+    )
+    segments: list[dict[str, Any]] = []
+    for entry in unconnected:
+        segment = segment_by_id[entry["segment_id"]]
+        lines = _load_locked_candidate_lines(
+            snapshot_by_id[entry["segment_id"]], cache_root / entry["segment_id"]
+        )
+        metric_lines = tuple(
+            (candidate, transform(forward.transform, candidate.geometry))
+            for candidate in lines
+        )
+        segments.append(
+            _sweep_segment_gap_interiors(
+                entry["segment_id"],
+                str(entry.get("failure", "")),
+                metric_lines,
+                metric_point(segment["from"]),
+                metric_point(segment["to"]),
+                tolerance,
+                transport=transport,
+                query_url=query_url,
+                probe_root=probe_root,
+                page_size=page_size,
+                locked_segments_by_object_id={
+                    object_id: tuple(sorted(ids)) for object_id, ids in locked_segments.items()
+                },
+                forward=forward,
+                inverse=inverse,
+                buffer_meters=buffer_meters,
+                minimum_separation_meters=minimum_separation_meters,
+                maximum_separation_meters=maximum_separation_meters,
+            )
+        )
+
+    swept = [gap for segment in segments for gap in segment["swept_gaps"]]
+    return {
+        "schema_version": 1,
+        "status": (
+            "diagnostic acquisition; characterises what NHPN carries inside the "
+            "break-pair interiors wider than the census windows; no bridging "
+            "decided and no lock changed"
+        ),
+        "acquired_at": timestamp,
+        "query_url": query_url,
+        "buffer_meters": buffer_meters,
+        "minimum_separation_meters": minimum_separation_meters,
+        "maximum_separation_meters": maximum_separation_meters,
+        "endpoint_snap_tolerance_m": tolerance,
+        "axis_lens_m": BREAK_NEAR_JOIN_TOLERANCE_METERS,
+        "alignment_tolerance_degrees": BREAK_ALIGNMENT_TOLERANCE_DEGREES,
+        "service": {
+            "canonical_metadata_sha256": service_metadata_sha256,
+            "data_last_edit_epoch_ms": service_metadata["editingInfo"]["dataLastEditDate"],
+            "matches_candidate_lock": True,
+        },
+        "route_selection_sha256": compute_sha256(selection_path),
+        "candidate_lock_sha256": compute_sha256(route_lock_path),
+        "transfer_lock_sha256": compute_sha256(transfer_lock_path),
+        "edge_path_lock_sha256": compute_sha256(edge_path_lock_path),
+        "source_policy": {
+            "candidate_source": NHPN_SOURCE_ID,
+            "nhpn_role": "coarse_topology_only",
+            "openstreetmap_ancestry_allowed": False,
+            "probe_is_selected_route_geometry": False,
+            "continental_downloads_committed": False,
+            "bridging_decided": False,
+        },
+        "unconnected_segment_count": len(segments),
+        "swept_gap_count": len(swept),
+        "swept_meters_total": round(sum(gap["separation_m"] for gap in swept), 3),
+        "finding": _interior_sweep_finding(segments),
+        "segments": segments,
+    }
+
+
+def _sweep_segment_gap_interiors(
+    segment_id: str,
+    failure: str,
+    metric_lines: tuple[tuple[LockedCandidateLine, LineString], ...],
+    from_point: tuple[float, float],
+    to_point: tuple[float, float],
+    tolerance: float,
+    *,
+    transport: ArcGisTransport,
+    query_url: str,
+    probe_root: Path,
+    page_size: int,
+    locked_segments_by_object_id: dict[int, tuple[str, ...]],
+    forward: Transformer,
+    inverse: Transformer,
+    buffer_meters: float,
+    minimum_separation_meters: float,
+    maximum_separation_meters: float,
+) -> dict[str, Any]:
+    """Sweep one unconnected segment's over-wide break-pair interiors."""
+    selection = _select_break_ends(metric_lines, from_point, to_point, tolerance, inverse)
+    result: dict[str, Any] = {"segment_id": segment_id, "failure": failure}
+    if selection is None:
+        result.update(
+            break_end_ids=[],
+            swept_gaps=[],
+            pairs_covered_by_break_end_windows=[],
+            pairs_beyond_sweep_limit=[],
+            note="segment produced no graph nodes",
+        )
+        return result
+    nodes = selection["nodes"]
+    component_of = selection["component_of"]
+    break_nodes = selection["break_nodes"]
+    end_id_by_node = selection["end_id_by_node"]
+    node_by_id = selection["node_by_end_id"]
+    _, raw_pairs = _nearest_cross_component_pairs(
+        break_nodes, nodes, component_of, end_id_by_node
+    )
+
+    covered: list[dict[str, Any]] = []
+    beyond: list[dict[str, Any]] = []
+    swept: list[dict[str, Any]] = []
+    for pair in raw_pairs:
+        separation = pair["separation_m"]
+        record = {"end_ids": pair["end_ids"], "separation_m": round(separation, 3)}
+        if separation <= minimum_separation_meters:
+            covered.append(record)
+            continue
+        if separation > maximum_separation_meters:
+            beyond.append(record)
+            continue
+        left_id, right_id = pair["end_ids"]
+        from_metric = nodes[node_by_id[left_id]]
+        to_metric = nodes[node_by_id[right_id]]
+        chord = LineString([from_metric, to_metric])
+        chord_bearing = math.degrees(
+            math.atan2(to_metric[1] - from_metric[1], to_metric[0] - from_metric[0])
+        )
+        gap_id = f"{left_id}--{right_id}"
+        windows: list[dict[str, Any]] = []
+        own_locked_ids: set[int] = set()
+        details_by_id: dict[int, dict[str, Any]] = {}
+        for window_index, center in enumerate(
+            _interior_window_centers(from_metric, to_metric, buffer_meters)
+        ):
+            envelope = _spatial_probe_envelope(center, center, inverse, buffer_meters)
+            query = {
+                "where": "1=1",
+                "geometry": ",".join(f"{coordinate:.12f}" for coordinate in envelope),
+                "geometryType": "esriGeometryEnvelope",
+                "inSR": "4326",
+                "spatialRel": "esriSpatialRelIntersects",
+            }
+            acquisition = acquire_nhpn(
+                transport,
+                query_url,
+                query,
+                probe_root / segment_id / gap_id / f"window-{window_index:03d}",
+                page_size=page_size,
+            )
+            center_longitude, center_latitude = inverse.transform(*center)
+            windows.append(
+                {
+                    "index": window_index,
+                    "center": {
+                        "longitude": round(center_longitude, 7),
+                        "latitude": round(center_latitude, 7),
+                    },
+                    "envelope_4326": [round(value, 7) for value in envelope],
+                    "expected_count": acquisition.expected_count,
+                    "object_ids_sha256": canonical_sha256(list(acquisition.object_ids)),
+                    "features_sha256": canonical_sha256(list(acquisition.features)),
+                    "retries": acquisition.retries,
+                    "resumed_pages": acquisition.resumed_pages,
+                }
+            )
+            for feature in acquisition.features:
+                attributes = feature["attributes"]
+                object_id = int(attributes["OBJECTID"])
+                locked_under = locked_segments_by_object_id.get(object_id, ())
+                if segment_id in locked_under:
+                    own_locked_ids.add(object_id)
+                    continue
+                if object_id in details_by_id:
+                    continue
+                metric_parts = [
+                    transform(forward.transform, LineString(coordinates))
+                    for coordinates in feature.get("geometry", {}).get("paths", [])
+                    if len(coordinates) >= 2
+                ]
+                metrics = _interior_feature_metrics(chord, chord_bearing, metric_parts)
+                details_by_id[object_id] = {
+                    "object_id": object_id,
+                    "state_fips": str(attributes.get("STFIPS") or "").strip(),
+                    "lrs_key": str(attributes.get("LRSKEY") or "").strip(),
+                    "signed_routes": sorted(
+                        f"{sign_type}-{sign_number}"
+                        for sign_type, sign_number in _probe_sign_identities(attributes)
+                    ),
+                    "record_begin_milepost": attributes.get("BEGIN_POIN"),
+                    "record_end_milepost": attributes.get("END_POINT"),
+                    "locked_segment_ids": sorted(locked_under),
+                    **metrics,
+                    "classification": _interior_feature_tier(metrics),
+                }
+        details = sorted(
+            details_by_id.values(),
+            key=lambda item: (
+                item["chord_distance_m"]
+                if item["chord_distance_m"] is not None
+                else float("inf"),
+                item["object_id"],
+            ),
+        )
+        tiers_present = {detail["classification"] for detail in details}
+        summary = "interior_void_beyond_lock"
+        for tier in _INTERIOR_TIER_ORDER:
+            if tier in tiers_present:
+                summary = _INTERIOR_SUMMARY_BY_TIER[tier]
+                break
+        from_longitude, from_latitude = inverse.transform(*from_metric)
+        to_longitude, to_latitude = inverse.transform(*to_metric)
+        swept.append(
+            {
+                "gap_id": gap_id,
+                "end_ids": [left_id, right_id],
+                "from_coordinate": {
+                    "longitude": round(from_longitude, 7),
+                    "latitude": round(from_latitude, 7),
+                },
+                "to_coordinate": {
+                    "longitude": round(to_longitude, 7),
+                    "latitude": round(to_latitude, 7),
+                },
+                "separation_m": round(separation, 3),
+                "window_count": len(windows),
+                "windows": windows,
+                "own_locked_feature_count": len(own_locked_ids),
+                "classification": summary,
+                "classification_counts": {
+                    tier: sum(1 for detail in details if detail["classification"] == tier)
+                    for tier in _INTERIOR_TIER_ORDER
+                    if tier in tiers_present
+                },
+                "on_axis_object_ids": sorted(
+                    detail["object_id"]
+                    for detail in details
+                    if detail["classification"] == "aligned_on_axis"
+                ),
+                "features": details,
+            }
+        )
+
+    result.update(
+        break_end_ids=[end_id_by_node[node] for node in break_nodes],
+        anchor_side_ends=selection["anchor_side_ends"],
+        swept_gaps=swept,
+        pairs_covered_by_break_end_windows=covered,
+        pairs_beyond_sweep_limit=beyond,
+    )
+    return result
+
+
+# --- NHS probes at the break sites and swept gap interiors (ADR-0026) ---------
+#
+# ADR-0026 adopts the NTAD National Highway System dataset as the supplementary
+# corridor-geometry source where NHPN keys carry no records. These probes
+# record what NHS asserts at the bounded break sites and inside the swept gap
+# interiors - route identity, measures, and geometric continuity - as evidence
+# for the Q-034 per-site disposition. They select nothing and change no lock.
+
+NHS_SOURCE_ID = "usdot-ntad-national-highway-system"
+NHS_QUERY_SUFFIX = "/query"
+NHS_SERVICE_ITEM_ID = "dce9f09392eb474c8ad8e6a78416279b"
+
+# Reporting lens for whether NHS geometry reaches a break end or spans a site.
+# Grounded in the catalog's documented NHPN limitation: NHPN horizontal error
+# can reach approximately 80 m, and the site endpoints are NHPN coordinates, so
+# a tighter lens would report a false void wherever the two datasets merely
+# disagree within their stated error. A lens is not a join: nothing is snapped,
+# bridged, or selected at this distance.
+NHS_PROXIMITY_LENS_METERS = 80.0
+
+
+def _validate_nhs_service_metadata(metadata: dict[str, Any]) -> None:
+    if metadata.get("id") != 0 or metadata.get("objectIdField") != "OBJECTID":
+        raise ValueError("NHS service identity or object ID field changed.")
+    if metadata.get("serviceItemId") != NHS_SERVICE_ITEM_ID:
+        raise ValueError("NHS service item changed.")
+    try:
+        max_record_count = int(metadata.get("maxRecordCount", 0))
+    except (TypeError, ValueError) as error:
+        raise ValueError("NHS service has no usable record limit.") from error
+    if max_record_count < 1:
+        raise ValueError("NHS service has no usable record limit.")
+    editing_info = metadata.get("editingInfo")
+    if not isinstance(editing_info, dict) or not isinstance(
+        editing_info.get("dataLastEditDate"), int
+    ):
+        raise ValueError("NHS service no longer reports a data last edit date.")
+    copyright_text = str(metadata.get("copyrightText", "")).lower()
+    if (
+        "work of the united states government" not in copyright_text
+        or "unrestricted public use" not in copyright_text
+    ):
+        raise ValueError("NHS service no longer declares its public-domain status.")
+
+
+def _require_nhs_query_url(source: CatalogSource) -> tuple[str, str]:
+    """The catalog-approved NHS service and query URLs, allowlist-enforced."""
+    service_url = str(source.raw.get("service_url", ""))
+    query_url = service_url + NHS_QUERY_SUFFIX
+    for url in (service_url, query_url):
+        if not any(
+            url_matches_prefix(url, prefix) for prefix in source.allowed_url_prefixes
+        ):
+            raise ValueError(f"NHS URL is outside the catalog allowlist: {url}")
+    return service_url, query_url
+
+
+def _nhs_feature_identity(attributes: dict[str, Any]) -> dict[str, Any]:
+    """The NHS record fields the disposition needs: route identity and measures."""
+    sign_type = str(attributes.get("SIGNT1") or "").strip()
+    sign_number = str(attributes.get("SIGNN1") or "").strip()
+    return {
+        "object_id": int(attributes["OBJECTID"]),
+        "state_fips": str(attributes.get("STFIPS") or "").strip(),
+        "route_id": str(attributes.get("ROUTEID") or "").strip(),
+        "signed_route": f"{sign_type}-{sign_number}" if sign_type and sign_number else "",
+        "local_name": str(attributes.get("LNAME") or "").strip(),
+        "nhs_component": attributes.get("NHS"),
+        "status": attributes.get("STATUS"),
+        "facility_type": str(attributes.get("FACILITYT") or "").strip(),
+        "begin_point": attributes.get("BEGINPOINT"),
+        "end_point": attributes.get("ENDPOINT"),
+        "miles": attributes.get("MILES"),
+        "year": attributes.get("YEAR"),
+        "version": str(attributes.get("VERSION") or "").strip(),
+        "update_date": str(attributes.get("UPDATE_DAT") or "").strip(),
+    }
+
+
+def _merge_value_spans(spans: Sequence[tuple[float, float]]) -> list[tuple[float, float]]:
+    """Union of numeric intervals, direction-insensitive."""
+    ordered = sorted((min(low, high), max(low, high)) for low, high in spans)
+    merged: list[list[float]] = []
+    for low, high in ordered:
+        if merged and low <= merged[-1][1]:
+            merged[-1][1] = max(merged[-1][1], high)
+        else:
+            merged.append([low, high])
+    return [(low, high) for low, high in merged]
+
+
+def _classify_nhs_site(
+    from_metric: tuple[float, float],
+    to_metric: tuple[float, float],
+    features: Sequence[dict[str, Any]],
+    forward: Transformer,
+    lens_meters: float = NHS_PROXIMITY_LENS_METERS,
+) -> dict[str, Any]:
+    """What NHS asserts between a site's two ends: identity, measures, geometry.
+
+    ``spans_between_ends`` is a reporting lens - a single record whose geometry
+    passes within the lens of both ends - and ``route_groups`` reconstructs each
+    state route's measure coverage so the disposition can judge linear-reference
+    continuity. Nothing here is a join, a selection, or a direction claim.
+    """
+    separation = math.dist(from_metric, to_metric)
+    from_point = Point(from_metric)
+    to_point = Point(to_metric)
+    chord = LineString([from_metric, to_metric]) if separation > 0 else None
+    chord_bearing = (
+        math.degrees(
+            math.atan2(to_metric[1] - from_metric[1], to_metric[0] - from_metric[0])
+        )
+        if separation >= 1.0
+        else None
+    )
+    details: list[dict[str, Any]] = []
+    for feature in features:
+        identity = _nhs_feature_identity(feature["attributes"])
+        metric_parts = [
+            transform(forward.transform, LineString(coordinates))
+            for coordinates in feature.get("geometry", {}).get("paths", [])
+            if len(coordinates) >= 2
+        ]
+        if not metric_parts:
+            details.append(
+                {
+                    **identity,
+                    "distance_to_from_end_m": None,
+                    "distance_to_to_end_m": None,
+                    "alignment_degrees": None,
+                    "spans_between_ends": False,
+                }
+            )
+            continue
+        distance_from = min(part.distance(from_point) for part in metric_parts)
+        distance_to = min(part.distance(to_point) for part in metric_parts)
+        alignment: float | None = None
+        if chord is not None and chord_bearing is not None:
+            best_part = min(metric_parts, key=lambda part: part.distance(chord))
+            _, on_part = nearest_points(chord, best_part)
+            feature_bearing = _chord_bearing(best_part, best_part.project(on_part))
+            if feature_bearing is not None:
+                alignment = _acute_angle_degrees(chord_bearing, feature_bearing)
+        details.append(
+            {
+                **identity,
+                "distance_to_from_end_m": round(distance_from, 3),
+                "distance_to_to_end_m": round(distance_to, 3),
+                "alignment_degrees": None if alignment is None else round(alignment, 1),
+                "spans_between_ends": distance_from <= lens_meters
+                and distance_to <= lens_meters,
+            }
+        )
+    details.sort(
+        key=lambda item: (
+            min(
+                value
+                for value in (
+                    item["distance_to_from_end_m"],
+                    item["distance_to_to_end_m"],
+                    float("inf"),
+                )
+                if value is not None
+            ),
+            item["object_id"],
+        )
+    )
+
+    groups: dict[tuple[str, str], list[dict[str, Any]]] = {}
+    for detail in details:
+        groups.setdefault((detail["state_fips"], detail["route_id"]), []).append(detail)
+    route_groups: list[dict[str, Any]] = []
+    for (state_fips, route_id), members in sorted(groups.items()):
+        measure_spans = _merge_value_spans(
+            [
+                (float(member["begin_point"]), float(member["end_point"]))
+                for member in members
+                if member["begin_point"] is not None and member["end_point"] is not None
+            ]
+        )
+        largest_gap = max(
+            (
+                second[0] - first[1]
+                for first, second in zip(measure_spans, measure_spans[1:], strict=False)
+            ),
+            default=0.0,
+        )
+        near_from = any(
+            member["distance_to_from_end_m"] is not None
+            and member["distance_to_from_end_m"] <= lens_meters
+            for member in members
+        )
+        near_to = any(
+            member["distance_to_to_end_m"] is not None
+            and member["distance_to_to_end_m"] <= lens_meters
+            for member in members
+        )
+        route_groups.append(
+            {
+                "state_fips": state_fips,
+                "route_id": route_id,
+                "feature_count": len(members),
+                "signed_routes": sorted(
+                    {member["signed_route"] for member in members if member["signed_route"]}
+                ),
+                "near_from_end": near_from,
+                "near_to_end": near_to,
+                "geometry_near_both_ends": near_from and near_to,
+                "measure_spans": [
+                    [round(low, 3), round(high, 3)] for low, high in measure_spans
+                ],
+                "largest_measure_gap_miles": round(largest_gap, 3),
+            }
+        )
+    spanning_ids = sorted(
+        detail["object_id"] for detail in details if detail["spans_between_ends"]
+    )
+    return {
+        "proximity_lens_m": lens_meters,
+        "feature_count": len(details),
+        "features_spanning_between_ends": spanning_ids,
+        "nhs_carries_between_ends": bool(spanning_ids)
+        or any(group["geometry_near_both_ends"] for group in route_groups),
+        "route_groups": route_groups,
+        "features": details,
+    }
+
+
+def _nhs_probe_finding(
+    sites: Sequence[dict[str, Any]], interior_gaps: Sequence[dict[str, Any]]
+) -> str:
+    """Describe the NHS probe using the numbers it actually produced."""
+    if not sites and not interior_gaps:
+        return "No break sites or gap interiors were probed against NHS."
+    carrying = sum(1 for site in sites if site["nhs"]["nhs_carries_between_ends"])
+    empty = sum(1 for site in sites if site["nhs"]["feature_count"] == 0)
+    interior_carrying = sum(
+        1 for gap in interior_gaps if gap["nhs"]["nhs_carries_between_ends"]
+    )
+    return (
+        f"NHS was probed at {len(sites)} bounded break sites and across "
+        f"{len(interior_gaps)} swept gap interiors. {carrying} sites and "
+        f"{interior_carrying} interiors have NHS geometry within the "
+        f"{NHS_PROXIMITY_LENS_METERS:g} m lens of both ends, and {empty} sites "
+        "returned no NHS features at all. The lens is a reporting device over "
+        "two datasets' stated horizontal error, not a snap, join, or selection: "
+        "these are ADR-0026 supplementary-source facts for the Q-034 "
+        "disposition, no direction or distance is claimed, and no lock is "
+        "changed."
+    )
+
+
+def probe_continental_nhs_breaks(
+    selection_path: Path,
+    route_lock_path: Path,
+    transfer_lock_path: Path,
+    policy_path: Path,
+    edge_path_lock_path: Path,
+    catalog_path: Path,
+    cache_directory: Path,
+    probe_cache_directory: Path,
+    *,
+    transport: ArcGisTransport | None = None,
+    service_metadata: dict[str, Any] | None = None,
+    expected_metadata_sha256: str | None = None,
+    acquired_at: str | None = None,
+    page_size: int = 2_000,
+    padding_meters: float = GEOMETRIC_PROBE_PADDING_METERS,
+    buffer_meters: float = BREAK_PROBE_BUFFER_METERS,
+    minimum_interior_separation_meters: float = INTERIOR_SWEEP_MINIMUM_SEPARATION_METERS,
+    maximum_interior_separation_meters: float = INTERIOR_SWEEP_MAXIMUM_SEPARATION_METERS,
+) -> dict[str, Any]:
+    """Probe what NHS asserts at every bounded break site and swept interior.
+
+    ADR-0026 adopts NTAD NHS as the supplementary corridor-geometry source;
+    this records its evidence at the exact places the NHPN probes found wanting:
+    the 14 bounded break sites and the break-pair interiors wider than the
+    census windows. Acquisition mirrors the NHPN discipline exactly - paging,
+    checkpoints, page hashes, retry limits - against the catalog-approved
+    service URL only. It refuses a service whose identity or public-domain
+    declaration changed, and, when an expected metadata hash is supplied, one
+    that has drifted from it. Responses stay in the ignored cache; nothing is
+    selected and no lock changes.
+    """
+    # Catalog and service gates come first so a refusal cannot depend on the
+    # locked response cache being present.
+    catalog = load_catalog(catalog_path)
+    if NHS_SOURCE_ID not in catalog:
+        raise ValueError("NHS is not in the approved source catalog.")
+    source = catalog[NHS_SOURCE_ID]
+    service_url, query_url = _require_nhs_query_url(source)
+    if service_metadata is None:
+        with urllib.request.urlopen(service_url + "?f=pjson", timeout=120) as response:
+            service_metadata = json.loads(response.read())
+    _validate_nhs_service_metadata(service_metadata)
+    service_metadata_sha256 = canonical_sha256(service_metadata)
+    if (
+        expected_metadata_sha256 is not None
+        and service_metadata_sha256 != expected_metadata_sha256
+    ):
+        raise ValueError(
+            "Live NHS service metadata has drifted from the expected snapshot; a "
+            "probe against it would characterise a different dataset than the one "
+            "the disposition evidence names."
+        )
+    max_record_count = int(service_metadata["maxRecordCount"])
+    if page_size > max_record_count:
+        raise ValueError(
+            f"NHS page size {page_size} exceeds the live service limit of "
+            f"{max_record_count}."
+        )
+
+    selection = load_json(selection_path)
+    route_lock = validate_continental_route_lock(
+        route_lock_path, catalog_path, selection_path
+    )
+    transfer_lock = validate_continental_transfer_lock(
+        transfer_lock_path, policy_path, selection_path, route_lock_path, catalog_path
+    )
+    edge_lock = validate_continental_edge_path_lock(
+        edge_path_lock_path,
+        transfer_lock_path,
+        policy_path,
+        selection_path,
+        route_lock_path,
+        catalog_path,
+    )
+    if transport is None:
+        transport = UrllibArcGisTransport(timeout_seconds=120)
+    timestamp = acquired_at or datetime.now(UTC).replace(microsecond=0).isoformat().replace(
+        "+00:00", "Z"
+    )
+
+    snapshot_by_id = {
+        snapshot["segment_id"]: snapshot
+        for snapshot in route_lock["nhpn"]["segment_snapshots"]
+    }
+    transfer_by_id = {node["id"]: node for node in transfer_lock["transfer_nodes"]}
+    edge_by_id = {entry["segment_id"]: entry for entry in edge_lock["segments"]}
+    cache_root = cache_directory / route_lock["nhpn"]["service"][
+        "canonical_metadata_sha256"
+    ]
+    probe_root = probe_cache_directory / service_metadata_sha256
+    forward = Transformer.from_crs("EPSG:4326", "EPSG:5070", always_xy=True)
+    inverse = Transformer.from_crs("EPSG:5070", "EPSG:4326", always_xy=True)
+    tolerance = float(edge_lock["endpoint_snap_tolerance_m"])
+
+    sites: list[dict[str, Any]] = []
+    interior_pairs: list[dict[str, Any]] = []
+    for segment in selection["segments"]:
+        segment_id = segment["id"]
+        edge_entry = edge_by_id.get(segment_id)
+        if edge_entry is None or edge_entry.get("connected"):
+            continue
+        snapshot = snapshot_by_id[segment_id]
+        lines = _load_locked_candidate_lines(snapshot, cache_root / segment_id)
+        metric_lines = tuple(
+            (candidate, transform(forward.transform, candidate.geometry))
+            for candidate in lines
+        )
+
+        def metric_point(node_id: str) -> tuple[float, float]:
+            coordinate = transfer_by_id[node_id]["coordinate"]
+            return forward.transform(coordinate["longitude"], coordinate["latitude"])
+
+        from_point = metric_point(segment["from"])
+        to_point = metric_point(segment["to"])
+        reproduced = _solve_segment_edge_path(
+            segment,
+            metric_lines,
+            from_point,
+            to_point,
+            tolerance,
+        )
+        if canonical_sha256(reproduced) != canonical_sha256(edge_entry):
+            raise ValueError(
+                f"Locked cache no longer reproduces edge-path diagnostics for "
+                f"'{segment_id}'."
+            )
+        sites.extend(
+            _derive_segment_geometric_probe_sites(
+                segment_id,
+                metric_lines,
+                from_point,
+                to_point,
+                tolerance,
+                edge_lock["anchor_snap_limit_m"],
+            )
+        )
+        break_selection = _select_break_ends(
+            metric_lines, from_point, to_point, tolerance, inverse
+        )
+        if break_selection is None:
+            continue
+        _, raw_pairs = _nearest_cross_component_pairs(
+            break_selection["break_nodes"],
+            break_selection["nodes"],
+            break_selection["component_of"],
+            break_selection["end_id_by_node"],
+        )
+        for pair in raw_pairs:
+            if not (
+                minimum_interior_separation_meters
+                < pair["separation_m"]
+                <= maximum_interior_separation_meters
+            ):
+                continue
+            node_by_id = break_selection["node_by_end_id"]
+            left_id, right_id = pair["end_ids"]
+            interior_pairs.append(
+                {
+                    "segment_id": segment_id,
+                    "gap_id": f"{left_id}--{right_id}",
+                    "end_ids": pair["end_ids"],
+                    "from_metric": break_selection["nodes"][node_by_id[left_id]],
+                    "to_metric": break_selection["nodes"][node_by_id[right_id]],
+                    "separation_m": pair["separation_m"],
+                }
+            )
+
+    site_results: list[dict[str, Any]] = []
+    for site in sorted(sites, key=lambda entry: entry["site_id"]):
+        envelope = _spatial_probe_envelope(
+            site["from_metric"], site["to_metric"], inverse, padding_meters
+        )
+        query = {
+            "where": "1=1",
+            "geometry": ",".join(f"{coordinate:.12f}" for coordinate in envelope),
+            "geometryType": "esriGeometryEnvelope",
+            "inSR": "4326",
+            "spatialRel": "esriSpatialRelIntersects",
+        }
+        acquisition = acquire_nhpn(
+            transport,
+            query_url,
+            query,
+            probe_root / "sites" / site["site_id"],
+            page_size=page_size,
+        )
+        classification = _classify_nhs_site(
+            site["from_metric"], site["to_metric"], acquisition.features, forward
+        )
+        from_longitude, from_latitude = inverse.transform(*site["from_metric"])
+        to_longitude, to_latitude = inverse.transform(*site["to_metric"])
+        site_results.append(
+            {
+                "site_id": site["site_id"],
+                "segment_id": site["segment_id"],
+                "kind": site["kind"],
+                "from_coordinate": {
+                    "longitude": round(from_longitude, 12),
+                    "latitude": round(from_latitude, 12),
+                },
+                "to_coordinate": {
+                    "longitude": round(to_longitude, 12),
+                    "latitude": round(to_latitude, 12),
+                },
+                "separation_m": round(site["separation_m"], 3),
+                "envelope_4326": [round(value, 7) for value in envelope],
+                "probe": {
+                    "expected_count": acquisition.expected_count,
+                    "object_ids_sha256": canonical_sha256(list(acquisition.object_ids)),
+                    "features_sha256": canonical_sha256(list(acquisition.features)),
+                    "retries": acquisition.retries,
+                    "resumed_pages": acquisition.resumed_pages,
+                },
+                "nhs": classification,
+            }
+        )
+
+    interior_results: list[dict[str, Any]] = []
+    for pair in sorted(interior_pairs, key=lambda entry: (entry["segment_id"], entry["gap_id"])):
+        windows: list[dict[str, Any]] = []
+        features_by_id: dict[int, dict[str, Any]] = {}
+        for window_index, center in enumerate(
+            _interior_window_centers(pair["from_metric"], pair["to_metric"], buffer_meters)
+        ):
+            envelope = _spatial_probe_envelope(center, center, inverse, buffer_meters)
+            query = {
+                "where": "1=1",
+                "geometry": ",".join(f"{coordinate:.12f}" for coordinate in envelope),
+                "geometryType": "esriGeometryEnvelope",
+                "inSR": "4326",
+                "spatialRel": "esriSpatialRelIntersects",
+            }
+            acquisition = acquire_nhpn(
+                transport,
+                query_url,
+                query,
+                probe_root
+                / "interiors"
+                / pair["segment_id"]
+                / pair["gap_id"]
+                / f"window-{window_index:03d}",
+                page_size=page_size,
+            )
+            windows.append(
+                {
+                    "index": window_index,
+                    "envelope_4326": [round(value, 7) for value in envelope],
+                    "expected_count": acquisition.expected_count,
+                    "object_ids_sha256": canonical_sha256(list(acquisition.object_ids)),
+                    "features_sha256": canonical_sha256(list(acquisition.features)),
+                    "retries": acquisition.retries,
+                    "resumed_pages": acquisition.resumed_pages,
+                }
+            )
+            for feature in acquisition.features:
+                object_id = int(feature["attributes"]["OBJECTID"])
+                features_by_id.setdefault(object_id, feature)
+        classification = _classify_nhs_site(
+            pair["from_metric"],
+            pair["to_metric"],
+            [features_by_id[key] for key in sorted(features_by_id)],
+            forward,
+        )
+        interior_results.append(
+            {
+                "segment_id": pair["segment_id"],
+                "gap_id": pair["gap_id"],
+                "end_ids": pair["end_ids"],
+                "separation_m": round(pair["separation_m"], 3),
+                "window_count": len(windows),
+                "windows": windows,
+                "nhs": classification,
+            }
+        )
+
+    return {
+        "schema_version": 1,
+        "status": (
+            "diagnostic acquisition; records what the ADR-0026 supplementary NHS "
+            "source asserts at the bounded break sites and swept gap interiors; "
+            "no bridging decided and no lock changed"
+        ),
+        "acquired_at": timestamp,
+        "query_url": query_url,
+        "probe_padding_meters": padding_meters,
+        "buffer_meters": buffer_meters,
+        "proximity_lens_m": NHS_PROXIMITY_LENS_METERS,
+        "endpoint_snap_tolerance_m": tolerance,
+        "service": {
+            "source_id": NHS_SOURCE_ID,
+            "item_id": service_metadata["serviceItemId"],
+            "canonical_metadata_sha256": service_metadata_sha256,
+            "data_last_edit_epoch_ms": service_metadata["editingInfo"]["dataLastEditDate"],
+            "copyright_text": service_metadata.get("copyrightText", ""),
+        },
+        "route_selection_sha256": compute_sha256(selection_path),
+        "candidate_lock_sha256": compute_sha256(route_lock_path),
+        "transfer_lock_sha256": compute_sha256(transfer_lock_path),
+        "edge_path_lock_sha256": compute_sha256(edge_path_lock_path),
+        "source_policy": {
+            "supplementary_source": NHS_SOURCE_ID,
+            "nhs_role": "supplementary_centerlines_only",
+            "nhpn_remains_route_authority": True,
+            "openstreetmap_ancestry_allowed": False,
+            "probe_is_selected_route_geometry": False,
+            "continental_downloads_committed": False,
+            "bridging_decided": False,
+        },
+        "site_count": len(site_results),
+        "interior_gap_count": len(interior_results),
+        "sites_with_nhs_between_ends": sum(
+            1 for site in site_results if site["nhs"]["nhs_carries_between_ends"]
+        ),
+        "finding": _nhs_probe_finding(site_results, interior_results),
+        "sites": site_results,
+        "interior_gaps": interior_results,
+    }
+
+
+# --- Q-034 per-site disposition record -----------------------------------------
+#
+# The disposition artifact is authored, not derived: it records the ADR-0018
+# decision the evidence supports at every bounded break site. The validator
+# enforces its structure, its pins against the locked inputs, and the bounds
+# that keep an exception bounded. It cannot validate the judgment itself; the
+# dated audit and Q-034 carry that.
+
+DISPOSITION_STATUS = "dispositions_recorded_lock_revision_pending"
+DISPOSITION_CLASSES = (
+    "nhpn_scoped_acquisition",
+    "nhs_fill",
+    "bounded_reconstruction_exception",
+    "ambiguous",
+)
+CENSUS_END_CLASSES = (
+    "covered_by_site_disposition",
+    "beyond_corridor_continuation",
+    "fragment_embedded_in_other_route",
+)
+Q034_SUBITEM_PATTERN = re.compile(r"^Q-034[a-z]$")
+BREAK_END_ID_PATTERN = re.compile(r"^end-\d{7}-\d{2}-(start|end)$")
+
+# The widest gap a bounded reconstruction exception may cover, in metres. The
+# exception class exists for authoring discontinuities the source asserts
+# adjacency across (the 1.011 m Omaha and 9.190 m Quad Cities micro-gaps), not
+# for real corridor voids; the ceiling is the same 30 m near-join lens the
+# census grounded in the source's observed cross-facility authoring offset.
+MAXIMUM_EXCEPTION_LENGTH_METERS = BREAK_NEAR_JOIN_TOLERANCE_METERS
+
+
+def _require_nonempty_string(value: Any, message: str) -> str:
+    if not isinstance(value, str) or not value.strip():
+        raise ValueError(message)
+    return value
+
+
+def _require_conus_coordinate(value: Any, message: str) -> None:
+    if not isinstance(value, dict):
+        raise ValueError(message)
+    longitude = value.get("longitude")
+    latitude = value.get("latitude")
+    if not isinstance(longitude, int | float) or not isinstance(latitude, int | float):
+        raise ValueError(message)
+    if not (-125 <= longitude <= -66 and 24 <= latitude <= 50):
+        raise ValueError(message)
+
+
+def _validate_disposition_site(
+    site: dict[str, Any], unconnected_ids: set[str], locked_object_ids: frozenset[int]
+) -> None:
+    site_id = _require_nonempty_string(
+        site.get("site_id"), "Disposition site has no site ID."
+    )
+    segment_id = site.get("segment_id")
+    if segment_id not in unconnected_ids:
+        raise ValueError(f"Disposition site '{site_id}' names a connected segment.")
+    if not site_id.startswith(f"{segment_id}--"):
+        raise ValueError(f"Disposition site '{site_id}' is not scoped to its segment.")
+    if site.get("kind") not in {"component_gap", "anchor_gap"}:
+        raise ValueError(f"Disposition site '{site_id}' has an unsupported kind.")
+    separation = site.get("separation_m")
+    if (
+        not isinstance(separation, int | float)
+        or isinstance(separation, bool)
+        or not math.isfinite(separation)
+        or separation < 0
+    ):
+        raise ValueError(f"Disposition site '{site_id}' has an invalid separation.")
+    _require_nonempty_string(
+        site.get("evidence_summary"),
+        f"Disposition site '{site_id}' records no evidence summary.",
+    )
+    disposition = site.get("disposition")
+    if disposition not in DISPOSITION_CLASSES:
+        raise ValueError(f"Disposition site '{site_id}' has an unsupported class.")
+    if disposition == "nhpn_scoped_acquisition":
+        object_ids = site.get("joining_object_ids")
+        if (
+            not isinstance(object_ids, list)
+            or not object_ids
+            or any(not isinstance(value, int) or isinstance(value, bool) for value in object_ids)
+            or object_ids != sorted(set(object_ids))
+        ):
+            raise ValueError(
+                f"Disposition site '{site_id}' names no sorted unique joining OBJECTIDs."
+            )
+        already_locked = sorted(set(object_ids) & locked_object_ids)
+        if already_locked:
+            raise ValueError(
+                f"Disposition site '{site_id}' proposes acquiring already-locked "
+                f"OBJECTIDs {already_locked}."
+            )
+        _require_nonempty_string(
+            site.get("direction_review"),
+            f"Disposition site '{site_id}' records no direction review.",
+        )
+        _require_nonempty_string(
+            site.get("corridor_fit"),
+            f"Disposition site '{site_id}' records no corridor-fit review.",
+        )
+    elif disposition == "nhs_fill":
+        evidence = site.get("nhs_evidence")
+        if not isinstance(evidence, dict):
+            raise ValueError(f"Disposition site '{site_id}' records no NHS evidence.")
+        _require_nonempty_string(
+            evidence.get("summary"),
+            f"Disposition site '{site_id}' records no NHS evidence summary.",
+        )
+        if not SHA256_PATTERN.fullmatch(str(evidence.get("probe_artifact_sha256", ""))):
+            raise ValueError(
+                f"Disposition site '{site_id}' records no NHS probe artifact hash."
+            )
+    elif disposition == "bounded_reconstruction_exception":
+        exception = site.get("exception")
+        if not isinstance(exception, dict):
+            raise ValueError(f"Disposition site '{site_id}' records no exception.")
+        _require_nonempty_string(
+            exception.get("kind"),
+            f"Disposition site '{site_id}' exception has no kind.",
+        )
+        _require_nonempty_string(
+            exception.get("rationale"),
+            f"Disposition site '{site_id}' exception has no rationale.",
+        )
+        boundary = exception.get("boundary")
+        if not isinstance(boundary, dict):
+            raise ValueError(f"Disposition site '{site_id}' exception has no boundary.")
+        for corner in ("from_coordinate", "to_coordinate"):
+            _require_conus_coordinate(
+                boundary.get(corner),
+                f"Disposition site '{site_id}' exception boundary is invalid.",
+            )
+        length = boundary.get("length_m")
+        if (
+            not isinstance(length, int | float)
+            or isinstance(length, bool)
+            or not math.isfinite(length)
+            or length <= 0
+        ):
+            raise ValueError(
+                f"Disposition site '{site_id}' exception has no finite positive length."
+            )
+        if length > MAXIMUM_EXCEPTION_LENGTH_METERS:
+            raise ValueError(
+                f"Disposition site '{site_id}' exception exceeds the "
+                f"{MAXIMUM_EXCEPTION_LENGTH_METERS:g} m bounded-exception ceiling; a "
+                "wider gap is a corridor void, not an authoring discontinuity."
+            )
+    else:  # ambiguous
+        subitem = site.get("q034_subitem", "")
+        if not isinstance(subitem, str) or not Q034_SUBITEM_PATTERN.fullmatch(subitem):
+            raise ValueError(
+                f"Disposition site '{site_id}' is ambiguous without a Q-034 sub-item."
+            )
+        _require_nonempty_string(
+            site.get("blocking_question"),
+            f"Disposition site '{site_id}' records no blocking question.",
+        )
+
+
+def validate_continental_break_dispositions(
+    disposition_path: Path,
+    selection_path: Path,
+    route_lock_path: Path,
+    transfer_lock_path: Path,
+    policy_path: Path,
+    edge_path_lock_path: Path,
+    catalog_path: Path,
+) -> dict[str, Any]:
+    """Validate the Q-034 per-site disposition record against the locked inputs."""
+    payload = load_json(disposition_path)
+    if payload.get("schema_version") != 1:
+        raise ValueError("Unsupported break-disposition schema.")
+    if payload.get("status") != DISPOSITION_STATUS:
+        raise ValueError("Break-disposition record has an unsupported status.")
+    selection = load_json(selection_path)
+    if payload.get("decision") != selection.get("decision"):
+        raise ValueError("Break-disposition decision does not match the route selection.")
+    route_lock = validate_continental_route_lock(
+        route_lock_path, catalog_path, selection_path
+    )
+    validate_continental_transfer_lock(
+        transfer_lock_path, policy_path, selection_path, route_lock_path, catalog_path
+    )
+    edge_lock = validate_continental_edge_path_lock(
+        edge_path_lock_path,
+        transfer_lock_path,
+        policy_path,
+        selection_path,
+        route_lock_path,
+        catalog_path,
+    )
+    expected_hashes = {
+        "route_selection_sha256": compute_sha256(selection_path),
+        "candidate_lock_sha256": compute_sha256(route_lock_path),
+        "transfer_lock_sha256": compute_sha256(transfer_lock_path),
+        "edge_path_lock_sha256": compute_sha256(edge_path_lock_path),
+    }
+    if any(payload.get(key) != value for key, value in expected_hashes.items()):
+        raise ValueError("Break-disposition input hash drifted.")
+    raw_authored_at = payload.get("authored_at")
+    if not isinstance(raw_authored_at, str):
+        raise ValueError("Break-disposition authoring time is invalid.")
+    try:
+        authored_at = datetime.fromisoformat(raw_authored_at.replace("Z", "+00:00"))
+    except ValueError as error:
+        raise ValueError("Break-disposition authoring time is invalid.") from error
+    if authored_at.tzinfo is None:
+        raise ValueError("Break-disposition authoring time has no timezone.")
+    if payload.get("open_question") != "Q-034":
+        raise ValueError("Break-disposition record does not cite Q-034.")
+    authority = payload.get("authority", {})
+    decision_records = authority.get("decision_records")
+    if (
+        not isinstance(decision_records, list)
+        or not {"ADR-0018", "ADR-0026"}.issubset(set(decision_records))
+    ):
+        raise ValueError("Break-disposition record does not cite ADR-0018 and ADR-0026.")
+    _require_nonempty_string(
+        authority.get("owner_directive"),
+        "Break-disposition record does not cite the owner directive.",
+    )
+    policy = payload.get("source_policy", {})
+    if policy != {
+        "bridging_performed": False,
+        "locks_modified": False,
+        "openstreetmap_ancestry_allowed": False,
+        "tolerance_changed": False,
+    }:
+        raise ValueError("Break-disposition source policy is incomplete.")
+    evidence = payload.get("evidence")
+    if not isinstance(evidence, list) or not evidence:
+        raise ValueError("Break-disposition record cites no evidence.")
+    for item in evidence:
+        if not isinstance(item, dict):
+            raise ValueError("Break-disposition evidence entry is invalid.")
+        if "path" in item:
+            if not Path(str(item["path"])).is_file():
+                raise ValueError(
+                    f"Break-disposition evidence path is missing: {item['path']}"
+                )
+        elif not (
+            isinstance(item.get("artifact"), str)
+            and SHA256_PATTERN.fullmatch(str(item.get("sha256", "")))
+        ):
+            raise ValueError("Break-disposition evidence entry is invalid.")
+
+    unconnected_ids = {
+        entry["segment_id"] for entry in edge_lock["segments"] if not entry.get("connected")
+    }
+    locked_object_ids = frozenset(
+        object_id
+        for snapshot in route_lock["nhpn"]["segment_snapshots"]
+        for object_id in snapshot["object_ids"]
+    )
+    sites = payload.get("sites")
+    if not isinstance(sites, list) or not sites:
+        raise ValueError("Break-disposition record contains no sites.")
+    site_ids = [site.get("site_id") for site in sites]
+    if len(set(site_ids)) != len(site_ids):
+        raise ValueError("Break-disposition record repeats a site.")
+    for site in sites:
+        _validate_disposition_site(site, unconnected_ids, locked_object_ids)
+    if {site["segment_id"] for site in sites} != unconnected_ids:
+        raise ValueError(
+            "Break-disposition sites do not cover exactly the unconnected segments."
+        )
+    if payload.get("site_count") != len(sites):
+        raise ValueError("Break-disposition site count does not reconcile.")
+    expected_counts: dict[str, int] = {}
+    for site in sites:
+        expected_counts[site["disposition"]] = expected_counts.get(site["disposition"], 0) + 1
+    if payload.get("disposition_counts") != expected_counts:
+        raise ValueError("Break-disposition class counts do not reconcile.")
+
+    census_ends = payload.get("census_ends", [])
+    if not isinstance(census_ends, list):
+        raise ValueError("Break-disposition census ends are invalid.")
+    end_ids = [end.get("end_id") for end in census_ends if isinstance(end, dict)]
+    if len(end_ids) != len(census_ends) or len(set(end_ids)) != len(end_ids):
+        raise ValueError("Break-disposition census ends are invalid.")
+    for end in census_ends:
+        end_id = str(end.get("end_id", ""))
+        if not BREAK_END_ID_PATTERN.fullmatch(end_id):
+            raise ValueError(f"Break-disposition census end '{end_id}' has an invalid ID.")
+        if end.get("segment_id") not in unconnected_ids:
+            raise ValueError(
+                f"Break-disposition census end '{end_id}' names a connected segment."
+            )
+        if end.get("classification") not in CENSUS_END_CLASSES:
+            raise ValueError(
+                f"Break-disposition census end '{end_id}' has an unsupported class."
+            )
+        _require_nonempty_string(
+            end.get("note"), f"Break-disposition census end '{end_id}' has no note."
+        )
+
+    implementation = payload.get("implementation", {})
+    for key in ("implemented_this_slice", "deferred_to_lock_revision"):
+        items = implementation.get(key)
+        if (
+            not isinstance(items, list)
+            or not items
+            or any(not isinstance(item, str) or not item.strip() for item in items)
+        ):
+            raise ValueError(f"Break-disposition implementation '{key}' is invalid.")
+    return payload
 
 
 def derive_continental_edge_path_lock(
