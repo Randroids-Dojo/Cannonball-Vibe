@@ -47,6 +47,6 @@
     "data/sources/fixtures/nhpn-boulder-us36.manifest.json": "54da0c7b64e476909f9e62008f09f94abc622631971b6549d030b67778fe429b",
     "data/sources/fixtures/usgs-13-n40w106-boulder.tif": "16af3387633b982f3363f34c638f8ca72646b04ec18aa2dcab1189f0352af507",
     "data/sources/fixtures/usgs-13-n40w106-boulder.metadata.json": "d626a7d24235884e089effcd38b4d173a26a5427cbec3ffedc063963e55e1cea",
-    "data/sources/source-lock.json": "a3f640c9f804909a9b171c1a169ce5704544fd5905bec73dcc8d7da64b67e2cd"
+    "data/sources/source-lock.json": "9bbf1738fab7aaf35614f15619019ddfc3e5e947d2230faffdc6e620c1fd55a4"
   }
 }

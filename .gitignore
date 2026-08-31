@@ -18,3 +18,6 @@ tools/map_pipeline/.ruff_cache/
 data/processed/
 data/downloads/
 /telemetry/
+
+# Local Claude Code session state
+.claude/

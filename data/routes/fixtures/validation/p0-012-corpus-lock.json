@@ -25,7 +25,7 @@
     },
     {
       "path": "data/routes/fixtures/semantics/representative-contract.json",
-      "sha256": "c1e7bf3de3ba82503ff434a116fba71b8694f650a312256ff5d2165485cba5d1",
+      "sha256": "1a4b786e7905966b2bde24f6529b5f83c01d26cd14ec179ba87a3c2ffc4e00ea",
       "provenance_kind": "deterministic_derivation"
     },
     {
@@ -40,7 +40,7 @@
     },
     {
       "path": "data/sources/representative-corridor-lock.json",
-      "sha256": "020692b11640728f83b81175f33226ca13ed89699bbeaeea3bf6dbbdb5ea9a3d",
+      "sha256": "80a80b4a22e0f2c0af71bd084b7ee8862a55c973031c0aa78c1309fd16ee061b",
       "provenance_kind": "recursive_source_lock"
     }
   ],

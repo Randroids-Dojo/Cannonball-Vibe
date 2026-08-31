@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "created_at": "2026-07-16T06:01:10Z",
-  "catalog_sha256": "356a0fe4810a37bb5e5970bba3ae8295208908bc800e016c22e3b608bbb7c9eb",
+  "catalog_sha256": "4d3a4c115875fc7e72f12e6a9d32a31d4b103a1b73bdbc731f47864989b8447f",
   "corridor": {
     "id": "boulder-us36-official-fixture",
     "crs": "EPSG:4326",
