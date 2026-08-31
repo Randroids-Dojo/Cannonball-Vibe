@@ -12673,3 +12673,2274 @@ def validate_continental_corridor_elevation(
     if payload.get("next_stage") != CORRIDOR_ELEVATION_NEXT_STAGE:
         raise ValueError("Corridor elevation lock next stage drifted.")
     return payload
+
+
+CONDITIONED_PROFILE_STATUS = "vertical_profile_conditioned_carriageway_pending"
+
+# ADR-0017 vertical conditioning bounds, grounded in the 2026-08-31 corridor
+# elevation audit's characterised artifact classes and in interstate design
+# practice. Sustained design grades on the US interstate system top out near
+# six percent, with mountainous-terrain exceptions to about seven (AASHTO
+# maximum grades; the corridor's steepest signed real grades - I-70's western
+# approaches - are posted at six to seven percent). Seven percent over the
+# locked 1 km sustained window is therefore the physical plausibility bound:
+# anything a conditioning chord cannot bring under it is a refusal, never a
+# silent smooth. The single-interval trigger is looser: real pavement cannot
+# exceed the sustained design envelope by much over a whole 100 m leg
+# (vertical curves round the grade breaks), but bilinear 1/3 arc-second
+# samples on legitimate steep road carry per-leg sampling noise of a couple
+# percent; twelve percent - the design envelope plus double that noise - marks
+# only unambiguous artifacts. Measured on the committed profile, every 100 m
+# interval beyond twelve percent belongs to a characterised artifact class,
+# and conditioning exactly those windows brings every 1 km sustained window on
+# all twelve segments under the seven percent bound. Between seven and twelve
+# percent per interval is recorded measurement noise for the package-build
+# grade policy, not this stage's artifact correction.
+CONDITIONING_INTERVAL_TRIGGER_PERCENT = 12.0
+CONDITIONING_SUSTAINED_BOUND_PERCENT = 7.0
+# Bilinear samples of a hydro-flattened water surface repeat the identical
+# centimetre value station after station; real pavement on a 10 m surface
+# model never does (the corridor-wide census finds no run of four identical
+# values anywhere except the characterised water crossings). Four stations
+# (>= 300 m of exactly zero grade) therefore seed a water-surface window even
+# when the approach grades stay under the interval trigger (the Newark tidal
+# viaducts descend at ~8.5 percent per leg).
+CONDITIONING_FLAT_RUN_MIN_STATIONS = 4
+# Neighbouring detections within one sustained window merge into a single
+# artifact window rather than fragmenting one structure into many records.
+CONDITIONING_JOIN_DISTANCE_M = 1000.0
+CONDITIONING_METHOD = "linear_chord"
+# Window shape classification: interior departure from the boundary chord
+# must clear both an absolute floor and dominance over the opposite side
+# before a window reads as a ridge or a dip rather than a mixed spike.
+CONDITIONING_SHAPE_MIN_M = 5.0
+CONDITIONING_SHAPE_DOMINANCE_RATIO = 2.0
+# A bore-consistent tunnel chord must look like a real tunnel: interstate
+# bores hold gentle sustained grades (the Eisenhower-Johnson bore runs about
+# 1.6 percent), and the conditioned window must sit at bore scale with its
+# boundary stations near the authored portal elevations (the 100 m station
+# grid and the surface-vs-portal difference bound the agreement).
+CONDITIONING_TUNNEL_GRADE_BOUND_PERCENT = 3.0
+CONDITIONING_TUNNEL_PORTAL_TOLERANCE_M = 60.0
+CONDITIONING_TUNNEL_LENGTH_RATIO_RANGE = (0.5, 2.0)
+# Chord-overlap evidence: a conditioning window whose stations lie within
+# two station intervals of a locked fill or overlay chord span samples the
+# terrain the chord bridges, and the record cites the span.
+CONDITIONING_CHORD_EVIDENCE_MARGIN_M = 200.0
+
+CONDITIONING_ARTIFACT_CLASSES = (
+    "tunnel_bore",
+    "water_surface",
+    "fill_span_terrain",
+    "terrain_ridge",
+    "bridge_deck_dip",
+    "interval_spike",
+)
+
+# ADR-0017 authored route context: deterministic authored overlay values with
+# recursive provenance and reviewer-visible source notes. The registry names
+# the corridor's one characterised bore whose overburden the surface model
+# samples. Authored, not observed; the conditioning window itself is detected
+# from the committed profile and only classified against this registry.
+AUTHORED_TUNNEL_REGISTRY = (
+    {
+        "tunnel_id": "eisenhower-johnson-memorial-tunnel",
+        "segment_id": "i70-denver-to-cove-fort",
+        "search_station_range_m": [84000.0, 94000.0],
+        "portal_elevation_m": {"east": 3356.8, "west": 3401.0},
+        "bore_length_m": 2720.0,
+        "provenance": "authored",
+        "source_notes": (
+            "Colorado DOT Eisenhower-Johnson Memorial Tunnel public facility "
+            "facts: east portal 11,013 ft (3,356.8 m), west portal 11,158 ft "
+            "(3,401.0 m) - the highest point on the Interstate system - and a "
+            "bore of about 1.69 mi (2,720 m). The 2026-08-31 corridor "
+            "elevation audit characterised the surface model's 3,837.26 m "
+            "ridge above this bore as the corridor's largest artifact."
+        ),
+        "evidence": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+    },
+)
+
+CONDITIONED_PROFILE_SOURCE_POLICY = {
+    "elevation_source": DEM_SOURCE_ID,
+    "baseline_decision": "ADR-0007",
+    "conditioning_decision": "ADR-0017",
+    "artifact_conditioning_applied": True,
+    "silent_smoothing_applied": False,
+    "package_build_grade_policy": (
+        "ADR-0017 grade smoothing over sub-artifact raster noise remains a "
+        "package-build policy; this stage removes only the characterised "
+        "artifact classes as bounded, evidence-linked records"
+    ),
+    "continental_downloads_committed": False,
+    "authoritative_distance_claimed": False,
+}
+
+CONDITIONED_PROFILE_NEXT_STAGE = {
+    "id": "westbound-carriageway",
+    "requires": [
+        "reciprocal directed westbound carriageway model under ADR-0014 over "
+        "the locked directed sequence",
+        "ADR-0018 geometry gates, including the deferred overlay-site gates "
+        "and the recorded Quad Cities 77.2 degree corner constraint",
+    ],
+}
+
+
+def _directed_chord_spans(directed_segment: dict[str, Any]) -> list[dict[str, Any]]:
+    """Station spans of a directed segment's fill and overlay chord elements.
+
+    Spans lie on the same geodesic station axis the elevation profile uses,
+    so a conditioning window's overlap with a chord span is exact evidence
+    that the window samples terrain a locked chord bridges.
+    """
+    spans: list[dict[str, Any]] = []
+    for element in directed_segment["elements"]:
+        if element["kind"] not in ("nhs_fill_chord", "authored_overlay_chord"):
+            continue
+        end = float(element["cumulative_geodesic_m"])
+        spans.append(
+            {
+                "kind": element["kind"],
+                "site_id": element.get("site_id"),
+                "from_station_m": round(end - float(element["geodesic_length_m"]), 3),
+                "to_station_m": round(end, 3),
+            }
+        )
+    return spans
+
+
+def _conditioning_seed_windows(
+    offsets: Sequence[float], elevations: Sequence[float]
+) -> list[tuple[int, int, str]]:
+    """Detection seeds: interval-grade excursions and water flat runs."""
+    seeds: list[tuple[int, int, str]] = []
+    count = len(elevations)
+    for index in range(count - 1):
+        run = offsets[index + 1] - offsets[index]
+        # Terminal short legs quantise centimetre elevations into meaningless
+        # grades and are excluded exactly as the raw profile statistics do.
+        if abs(run - ELEVATION_STATION_INTERVAL_M) > 1e-6:
+            continue
+        grade = abs(elevations[index + 1] - elevations[index]) / run * 100.0
+        if grade > CONDITIONING_INTERVAL_TRIGGER_PERCENT:
+            seeds.append((index, index + 1, "interval_grade_trigger"))
+    run_length = 1
+    for index in range(1, count + 1):
+        if index < count and elevations[index] == elevations[index - 1]:
+            run_length += 1
+            continue
+        if run_length >= CONDITIONING_FLAT_RUN_MIN_STATIONS:
+            seeds.append((index - run_length, index - 1, "water_flat_run"))
+        run_length = 1
+    seeds.sort(key=lambda seed: (seed[0], seed[1]))
+    return seeds
+
+
+def _expand_conditioning_window(
+    offsets: Sequence[float],
+    elevations: Sequence[float],
+    start: int,
+    end: int,
+    segment_id: str,
+) -> tuple[int, int]:
+    """Grow a window until its boundary chord is physically plausible.
+
+    A boundary may not touch a flat pair (a chord anchored on a hydro-flat
+    water value would replace water with water), so flat runs adjacent to a
+    boundary are absorbed whole and stepped past; then the window grows one
+    station at a time on the side that most improves the chord grade until
+    the chord sits under the sustained bound. Ties grow the upstream side,
+    deterministically.
+    """
+    count = len(elevations)
+    while True:
+        while start > 0 and (
+            elevations[start - 1] == elevations[start]
+            or elevations[start] == elevations[start + 1]
+        ):
+            start -= 1
+        while end < count - 1 and (
+            elevations[end + 1] == elevations[end]
+            or elevations[end] == elevations[end - 1]
+        ):
+            end += 1
+        run = offsets[end] - offsets[start]
+        chord = (elevations[end] - elevations[start]) / run * 100.0
+        if abs(chord) <= CONDITIONING_SUSTAINED_BOUND_PERCENT:
+            return start, end
+        if start > 0 and end < count - 1:
+            upstream = (
+                (elevations[end] - elevations[start - 1])
+                / (offsets[end] - offsets[start - 1])
+                * 100.0
+            )
+            downstream = (
+                (elevations[end + 1] - elevations[start])
+                / (offsets[end + 1] - offsets[start])
+                * 100.0
+            )
+            if abs(upstream) <= abs(downstream):
+                start -= 1
+            else:
+                end += 1
+        elif start > 0:
+            start -= 1
+        elif end < count - 1:
+            end += 1
+        else:
+            raise ValueError(
+                json.dumps(
+                    {
+                        "refusal": "conditioning window cannot reach a "
+                        "plausible boundary chord",
+                        "segment_id": segment_id,
+                        "chord_grade_percent": round(chord, 3),
+                        "bound_percent": CONDITIONING_SUSTAINED_BOUND_PERCENT,
+                    },
+                    sort_keys=True,
+                )
+            )
+
+
+def _conditioning_windows(
+    offsets: Sequence[float], elevations: Sequence[float], segment_id: str
+) -> list[tuple[int, int, list[str]]]:
+    """Final artifact windows: seeds merged, expanded, and re-merged."""
+    seeds = _conditioning_seed_windows(offsets, elevations)
+    join_steps = int(round(CONDITIONING_JOIN_DISTANCE_M / ELEVATION_STATION_INTERVAL_M))
+    merged: list[list[Any]] = []
+    for start, end, detection in seeds:
+        if merged and start - merged[-1][1] <= join_steps:
+            merged[-1][1] = max(merged[-1][1], end)
+            if detection not in merged[-1][2]:
+                merged[-1][2].append(detection)
+        else:
+            merged.append([start, end, [detection]])
+    windows: list[list[Any]] = []
+    for start, end, detections in merged:
+        start, end = _expand_conditioning_window(
+            offsets, elevations, start, end, segment_id
+        )
+        if windows and start <= windows[-1][1]:
+            windows[-1][1] = max(windows[-1][1], end)
+            for detection in detections:
+                if detection not in windows[-1][2]:
+                    windows[-1][2].append(detection)
+        else:
+            windows.append([start, end, detections])
+    for window in windows:
+        window[0], window[1] = _expand_conditioning_window(
+            offsets, elevations, window[0], window[1], segment_id
+        )
+    return [(window[0], window[1], window[2]) for window in windows]
+
+
+def _conditioning_record(
+    segment_id: str,
+    record_index: int,
+    offsets: Sequence[float],
+    elevations: Sequence[float],
+    start: int,
+    end: int,
+    detections: list[str],
+    chord_spans: Sequence[dict[str, Any]],
+    tunnel_registry: Sequence[dict[str, Any]],
+) -> dict[str, Any]:
+    """One bounded, evidence-linked conditioning record with its replacement."""
+    run = offsets[end] - offsets[start]
+    chord_grade = (elevations[end] - elevations[start]) / run * 100.0
+    above = 0.0
+    below = 0.0
+    flat_best = 1
+    flat_current = 1
+    max_interval_grade = 0.0
+    for index in range(start, end + 1):
+        chord_value = elevations[start] + (
+            elevations[end] - elevations[start]
+        ) * (offsets[index] - offsets[start]) / run
+        above = max(above, elevations[index] - chord_value)
+        below = max(below, chord_value - elevations[index])
+        if index > start:
+            if elevations[index] == elevations[index - 1]:
+                flat_current += 1
+                flat_best = max(flat_best, flat_current)
+            else:
+                flat_current = 1
+            leg = offsets[index] - offsets[index - 1]
+            if abs(leg - ELEVATION_STATION_INTERVAL_M) <= 1e-6:
+                max_interval_grade = max(
+                    max_interval_grade,
+                    abs(elevations[index] - elevations[index - 1]) / leg * 100.0,
+                )
+    overlaps = [
+        span
+        for span in chord_spans
+        if span["from_station_m"] - CONDITIONING_CHORD_EVIDENCE_MARGIN_M
+        <= offsets[end]
+        and offsets[start]
+        <= span["to_station_m"] + CONDITIONING_CHORD_EVIDENCE_MARGIN_M
+    ]
+    tunnel = None
+    for entry in tunnel_registry:
+        if entry["segment_id"] != segment_id:
+            continue
+        search_from, search_to = entry["search_station_range_m"]
+        if offsets[start] <= search_to and search_from <= offsets[end]:
+            tunnel = entry
+            break
+    if flat_best >= CONDITIONING_FLAT_RUN_MIN_STATIONS:
+        artifact_class = "water_surface"
+    elif tunnel is not None and above >= below:
+        artifact_class = "tunnel_bore"
+    elif overlaps:
+        artifact_class = "fill_span_terrain"
+    elif (
+        above > CONDITIONING_SHAPE_DOMINANCE_RATIO * below
+        and above > CONDITIONING_SHAPE_MIN_M
+    ):
+        artifact_class = "terrain_ridge"
+    elif (
+        below > CONDITIONING_SHAPE_DOMINANCE_RATIO * above
+        and below > CONDITIONING_SHAPE_MIN_M
+    ):
+        artifact_class = "bridge_deck_dip"
+    else:
+        artifact_class = "interval_spike"
+    evidence: dict[str, Any] = {
+        "detections": list(detections),
+        "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+    }
+    if overlaps:
+        evidence["chord_span_overlaps"] = overlaps
+    if artifact_class == "tunnel_bore":
+        portal_east = tunnel["portal_elevation_m"]["east"]
+        portal_west = tunnel["portal_elevation_m"]["west"]
+        # Westbound travel enters at the east portal and exits at the west.
+        entry_delta = round(elevations[start] - portal_east, 2)
+        exit_delta = round(elevations[end] - portal_west, 2)
+        length_ratio = run / tunnel["bore_length_m"]
+        low, high = CONDITIONING_TUNNEL_LENGTH_RATIO_RANGE
+        if (
+            abs(chord_grade) > CONDITIONING_TUNNEL_GRADE_BOUND_PERCENT
+            or abs(entry_delta) > CONDITIONING_TUNNEL_PORTAL_TOLERANCE_M
+            or abs(exit_delta) > CONDITIONING_TUNNEL_PORTAL_TOLERANCE_M
+            or not low <= length_ratio <= high
+        ):
+            raise ValueError(
+                json.dumps(
+                    {
+                        "refusal": "conditioning window does not agree with "
+                        "its authored tunnel",
+                        "segment_id": segment_id,
+                        "tunnel_id": tunnel["tunnel_id"],
+                        "chord_grade_percent": round(chord_grade, 3),
+                        "entry_portal_delta_m": entry_delta,
+                        "exit_portal_delta_m": exit_delta,
+                        "window_to_bore_ratio": round(length_ratio, 3),
+                    },
+                    sort_keys=True,
+                )
+            )
+        evidence["authored_tunnel"] = {
+            "tunnel_id": tunnel["tunnel_id"],
+            "entry_portal_delta_m": entry_delta,
+            "exit_portal_delta_m": exit_delta,
+            "window_to_bore_length_ratio": round(length_ratio, 3),
+            "source_notes": tunnel["source_notes"],
+            "provenance": tunnel["provenance"],
+        }
+    replacement = [
+        round(
+            elevations[start]
+            + (elevations[end] - elevations[start])
+            * (offsets[index] - offsets[start])
+            / run,
+            ELEVATION_VALUE_DECIMALS,
+        )
+        for index in range(start + 1, end)
+    ]
+    return {
+        "record_id": f"{segment_id}--conditioning-{record_index:03d}",
+        "artifact_class": artifact_class,
+        "method": CONDITIONING_METHOD,
+        "from_station_m": offsets[start],
+        "to_station_m": offsets[end],
+        "interior_station_count": end - start - 1,
+        "before": {
+            "max_interval_grade_percent": round(max_interval_grade, 3),
+            "max_above_chord_m": round(above, 2),
+            "max_below_chord_m": round(below, 2),
+            "longest_flat_run_stations": flat_best,
+            "raw_sha256": canonical_sha256(list(elevations[start : end + 1])),
+        },
+        "after": {
+            "chord_grade_percent": round(chord_grade, 3),
+            "replacement_elevations_m": replacement,
+        },
+        "evidence": evidence,
+    }
+
+
+def _condition_segment_profile(
+    segment_id: str,
+    offsets: Sequence[float],
+    elevations: Sequence[float],
+    chord_spans: Sequence[dict[str, Any]],
+    tunnel_registry: Sequence[dict[str, Any]],
+) -> tuple[list[dict[str, Any]], list[float]]:
+    """All conditioning records for one segment plus its conditioned profile."""
+    windows = _conditioning_windows(offsets, elevations, segment_id)
+    records: list[dict[str, Any]] = []
+    conditioned = list(elevations)
+    for index, (start, end, detections) in enumerate(windows):
+        record = _conditioning_record(
+            segment_id,
+            index,
+            offsets,
+            elevations,
+            start,
+            end,
+            detections,
+            chord_spans,
+            tunnel_registry,
+        )
+        records.append(record)
+        conditioned[start + 1 : end] = record["after"]["replacement_elevations_m"]
+    return records, conditioned
+
+
+def _conditioned_summary(
+    segments_payload: Sequence[dict[str, Any]],
+    raw_summary: dict[str, Any],
+) -> dict[str, Any]:
+    """Corridor-wide conditioning summary: corrections by class plus the
+    post-conditioning extremes, next to the raw baseline they replace."""
+    by_class: dict[str, dict[str, Any]] = {}
+    record_count = 0
+    corrected_stations = 0
+    corrected_length = 0.0
+    for segment in segments_payload:
+        for record in segment["conditioning_records"]:
+            entry = by_class.setdefault(
+                record["artifact_class"],
+                {
+                    "record_count": 0,
+                    "corrected_station_count": 0,
+                    "corrected_length_m": 0.0,
+                },
+            )
+            entry["record_count"] += 1
+            entry["corrected_station_count"] += record["interior_station_count"]
+            entry["corrected_length_m"] += (
+                record["to_station_m"] - record["from_station_m"]
+            )
+            record_count += 1
+            corrected_stations += record["interior_station_count"]
+            corrected_length += record["to_station_m"] - record["from_station_m"]
+    for entry in by_class.values():
+        entry["corrected_length_m"] = round(entry["corrected_length_m"], 3)
+    highest: dict[str, Any] | None = None
+    lowest: dict[str, Any] | None = None
+    sustained: dict[str, Any] | None = None
+    interval: dict[str, Any] | None = None
+    station_count = 0
+    for segment in segments_payload:
+        statistics = segment["statistics"]
+        top = statistics["max_elevation"]
+        if highest is None or top["elevation_m"] > highest["elevation_m"]:
+            highest = {"segment_id": segment["segment_id"], **top}
+        bottom = statistics["min_elevation"]
+        if lowest is None or bottom["elevation_m"] < lowest["elevation_m"]:
+            lowest = {"segment_id": segment["segment_id"], **bottom}
+        candidate = statistics["max_sustained_grade"]
+        if candidate is not None and (
+            sustained is None
+            or abs(candidate["grade_percent"]) > abs(sustained["grade_percent"])
+        ):
+            sustained = {"segment_id": segment["segment_id"], **candidate}
+        leg = statistics["max_interval_grade"]
+        if leg is not None and (
+            interval is None
+            or abs(leg["grade_percent"]) > abs(interval["grade_percent"])
+        ):
+            interval = {"segment_id": segment["segment_id"], **leg}
+        station_count += segment["station_count"]
+    return {
+        "segment_count": len(segments_payload),
+        "station_count": station_count,
+        "record_count": record_count,
+        "corrected_station_count": corrected_stations,
+        "corrected_length_m": round(corrected_length, 3),
+        "corrections_by_class": by_class,
+        "highest_point": highest,
+        "lowest_point": lowest,
+        "max_sustained_grade": sustained,
+        "max_interval_grade": interval,
+        "raw_max_sustained_grade": dict(raw_summary["max_sustained_grade"]),
+        "raw_highest_point": dict(raw_summary["highest_point"]),
+    }
+
+
+def derive_continental_conditioned_profile(
+    elevation_lock_path: Path,
+    dem_lock_path: Path,
+    directed_lock_path: Path,
+    selection_path: Path,
+    route_lock_path: Path,
+    transfer_lock_path: Path,
+    policy_path: Path,
+    edge_path_lock_path: Path,
+    fill_lock_path: Path,
+    disposition_path: Path,
+    overlay_lock_path: Path,
+    conflation_lock_path: Path,
+    catalog_path: Path,
+    output_path: Path,
+    *,
+    derived_at: str | None = None,
+) -> dict[str, Any]:
+    """Derive the ADR-0017 conditioned elevation profile from committed locks.
+
+    A pure function of the committed corridor elevation lock and the directed
+    route lock - no caches, rasters, or network. Every correction is a
+    bounded, evidence-linked conditioning record (interval, artifact class,
+    method, before/after, replacement values); nothing outside a record's
+    interior changes, and the stage refuses outright when a window cannot be
+    conditioned under the physical sustained-grade bound.
+    """
+    elevation_lock = validate_continental_corridor_elevation(
+        elevation_lock_path,
+        dem_lock_path,
+        directed_lock_path,
+        selection_path,
+        route_lock_path,
+        transfer_lock_path,
+        policy_path,
+        edge_path_lock_path,
+        fill_lock_path,
+        disposition_path,
+        overlay_lock_path,
+        conflation_lock_path,
+        catalog_path,
+    )
+    directed_lock = load_json(directed_lock_path)
+    timestamp = derived_at or datetime.now(UTC).replace(
+        microsecond=0
+    ).isoformat().replace("+00:00", "Z")
+    directed_by_id = {
+        record["segment_id"]: record for record in directed_lock["segments"]
+    }
+    segments_payload: list[dict[str, Any]] = []
+    for segment in elevation_lock["segments"]:
+        segment_id = segment["segment_id"]
+        offsets = _elevation_station_offsets(
+            segment["geodesic_length_m"], ELEVATION_STATION_INTERVAL_M
+        )
+        elevations = segment["elevations_m"]
+        chord_spans = _directed_chord_spans(directed_by_id[segment_id])
+        records, conditioned = _condition_segment_profile(
+            segment_id, offsets, elevations, chord_spans, AUTHORED_TUNNEL_REGISTRY
+        )
+        statistics = _elevation_profile_statistics(
+            offsets,
+            conditioned,
+            ELEVATION_STATION_INTERVAL_M,
+            ELEVATION_SUSTAINED_WINDOW_M,
+        )
+        sustained = statistics["max_sustained_grade"]
+        if sustained is not None and (
+            abs(sustained["grade_percent"]) > CONDITIONING_SUSTAINED_BOUND_PERCENT
+        ):
+            raise ValueError(
+                json.dumps(
+                    {
+                        "refusal": "conditioned profile still exceeds the "
+                        "physical sustained-grade bound",
+                        "segment_id": segment_id,
+                        "max_sustained_grade": sustained,
+                        "bound_percent": CONDITIONING_SUSTAINED_BOUND_PERCENT,
+                    },
+                    sort_keys=True,
+                )
+            )
+        segments_payload.append(
+            {
+                "segment_id": segment_id,
+                "geodesic_length_m": segment["geodesic_length_m"],
+                "station_interval_m": ELEVATION_STATION_INTERVAL_M,
+                "station_count": len(offsets),
+                "terminal_station_m": offsets[-1],
+                "record_count": len(records),
+                "corrected_station_count": sum(
+                    record["interior_station_count"] for record in records
+                ),
+                "conditioning_records": records,
+                "conditioned_profile_sha256": canonical_sha256(conditioned),
+                "statistics": statistics,
+            }
+        )
+    used_tunnels = {
+        record["evidence"]["authored_tunnel"]["tunnel_id"]
+        for segment in segments_payload
+        for record in segment["conditioning_records"]
+        if record["artifact_class"] == "tunnel_bore"
+    }
+    for entry in AUTHORED_TUNNEL_REGISTRY:
+        if entry["tunnel_id"] not in used_tunnels:
+            raise ValueError(
+                json.dumps(
+                    {
+                        "refusal": "authored tunnel matched no conditioning "
+                        "window",
+                        "tunnel_id": entry["tunnel_id"],
+                    },
+                    sort_keys=True,
+                )
+            )
+    paths_payload = _elevation_path_records(directed_lock["paths"], segments_payload)
+    summary = _conditioned_summary(segments_payload, elevation_lock["summary"])
+    payload = {
+        "schema_version": 1,
+        "status": CONDITIONED_PROFILE_STATUS,
+        "decision": "ADR-0017",
+        "route_decision": elevation_lock["route_decision"],
+        "carriageway_decision": "ADR-0014",
+        "derived_at": timestamp,
+        "coordinate_crs": "EPSG:4326",
+        "metric_crs": "EPSG:5070",
+        "catalog_sha256": compute_sha256(catalog_path),
+        "route_selection_sha256": compute_sha256(selection_path),
+        "candidate_lock_sha256": compute_sha256(route_lock_path),
+        "transfer_lock_sha256": compute_sha256(transfer_lock_path),
+        "edge_path_lock_sha256": compute_sha256(edge_path_lock_path),
+        "nhs_fill_lock_sha256": compute_sha256(fill_lock_path),
+        "break_disposition_sha256": compute_sha256(disposition_path),
+        "reconstruction_overlay_lock_sha256": compute_sha256(overlay_lock_path),
+        "nhs_conflation_lock_sha256": compute_sha256(conflation_lock_path),
+        "dem_product_lock_sha256": compute_sha256(dem_lock_path),
+        "directed_route_lock_sha256": compute_sha256(directed_lock_path),
+        "corridor_elevation_lock_sha256": compute_sha256(elevation_lock_path),
+        "model": {
+            "interval_trigger_grade_percent": CONDITIONING_INTERVAL_TRIGGER_PERCENT,
+            "sustained_bound_percent": CONDITIONING_SUSTAINED_BOUND_PERCENT,
+            "flat_run_min_stations": CONDITIONING_FLAT_RUN_MIN_STATIONS,
+            "join_distance_m": CONDITIONING_JOIN_DISTANCE_M,
+            "method": CONDITIONING_METHOD,
+            "station_interval_m": ELEVATION_STATION_INTERVAL_M,
+            "sustained_grade_window_m": ELEVATION_SUSTAINED_WINDOW_M,
+            "elevation_decimals": ELEVATION_VALUE_DECIMALS,
+            "bound_justification": (
+                "Sustained design grades on the US interstate system reach "
+                "six percent, with mountainous exceptions near seven; seven "
+                "percent over the locked 1 km window is the physical "
+                "plausibility bound. The 100 m interval trigger of twelve "
+                "percent is that envelope plus double the per-leg sampling "
+                "noise of bilinear 1/3 arc-second samples on legitimate "
+                "steep pavement, so only unambiguous artifacts condition; "
+                "intervals between the bounds remain recorded raster noise "
+                "for the package-build grade policy."
+            ),
+            "conditioning_note": (
+                "Corrections replace only each record's interior stations "
+                "with the boundary chord, rounded to the locked precision; "
+                "boundary stations keep their committed raw values, every "
+                "record carries before/after evidence, and the conditioned "
+                "profile reproduces deterministically from the raw lock "
+                "plus the records."
+            ),
+        },
+        "authored_tunnels": [dict(entry) for entry in AUTHORED_TUNNEL_REGISTRY],
+        "source_policy": dict(CONDITIONED_PROFILE_SOURCE_POLICY),
+        "segment_count": len(segments_payload),
+        "segments": segments_payload,
+        "segments_sha256": canonical_sha256(segments_payload),
+        "paths": paths_payload,
+        "paths_sha256": canonical_sha256(paths_payload),
+        "summary": summary,
+        "next_stage": CONDITIONED_PROFILE_NEXT_STAGE,
+    }
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(
+        json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
+    return payload
+
+
+def validate_continental_conditioned_profile(
+    conditioned_lock_path: Path,
+    elevation_lock_path: Path,
+    dem_lock_path: Path,
+    directed_lock_path: Path,
+    selection_path: Path,
+    route_lock_path: Path,
+    transfer_lock_path: Path,
+    policy_path: Path,
+    edge_path_lock_path: Path,
+    fill_lock_path: Path,
+    disposition_path: Path,
+    overlay_lock_path: Path,
+    conflation_lock_path: Path,
+    catalog_path: Path,
+) -> dict[str, Any]:
+    """Validate the conditioned profile lock without caches or network.
+
+    The whole conditioning derivation is recomputed from the committed raw
+    elevations under the module's locked model constants - windows, classes,
+    replacement values, statistics, paths, and summary must all reproduce
+    exactly, so a drifted record, a widened bound, or a silent smooth cannot
+    validate itself.
+    """
+    payload = load_json(conditioned_lock_path)
+    if payload.get("schema_version") != 1:
+        raise ValueError("Conditioned profile lock schema_version must be 1.")
+    if payload.get("status") != CONDITIONED_PROFILE_STATUS:
+        raise ValueError("Conditioned profile lock has an unsupported status.")
+    if payload.get("decision") != "ADR-0017":
+        raise ValueError("Conditioned profile lock does not cite ADR-0017.")
+    elevation_lock = validate_continental_corridor_elevation(
+        elevation_lock_path,
+        dem_lock_path,
+        directed_lock_path,
+        selection_path,
+        route_lock_path,
+        transfer_lock_path,
+        policy_path,
+        edge_path_lock_path,
+        fill_lock_path,
+        disposition_path,
+        overlay_lock_path,
+        conflation_lock_path,
+        catalog_path,
+    )
+    directed_lock = load_json(directed_lock_path)
+    expected_hashes = {
+        "catalog_sha256": compute_sha256(catalog_path),
+        "route_selection_sha256": compute_sha256(selection_path),
+        "candidate_lock_sha256": compute_sha256(route_lock_path),
+        "transfer_lock_sha256": compute_sha256(transfer_lock_path),
+        "edge_path_lock_sha256": compute_sha256(edge_path_lock_path),
+        "nhs_fill_lock_sha256": compute_sha256(fill_lock_path),
+        "break_disposition_sha256": compute_sha256(disposition_path),
+        "reconstruction_overlay_lock_sha256": compute_sha256(overlay_lock_path),
+        "nhs_conflation_lock_sha256": compute_sha256(conflation_lock_path),
+        "dem_product_lock_sha256": compute_sha256(dem_lock_path),
+        "directed_route_lock_sha256": compute_sha256(directed_lock_path),
+        "corridor_elevation_lock_sha256": compute_sha256(elevation_lock_path),
+    }
+    if any(payload.get(key) != value for key, value in expected_hashes.items()):
+        raise ValueError("Conditioned profile lock input hash drifted.")
+    model = payload.get("model", {})
+    if (
+        model.get("interval_trigger_grade_percent")
+        != CONDITIONING_INTERVAL_TRIGGER_PERCENT
+        or model.get("sustained_bound_percent") != CONDITIONING_SUSTAINED_BOUND_PERCENT
+        or model.get("flat_run_min_stations") != CONDITIONING_FLAT_RUN_MIN_STATIONS
+        or model.get("join_distance_m") != CONDITIONING_JOIN_DISTANCE_M
+        or model.get("method") != CONDITIONING_METHOD
+        or model.get("station_interval_m") != ELEVATION_STATION_INTERVAL_M
+        or model.get("sustained_grade_window_m") != ELEVATION_SUSTAINED_WINDOW_M
+        or model.get("elevation_decimals") != ELEVATION_VALUE_DECIMALS
+    ):
+        raise ValueError("Conditioned profile lock model constants drifted.")
+    if payload.get("authored_tunnels") != [
+        dict(entry) for entry in AUTHORED_TUNNEL_REGISTRY
+    ]:
+        raise ValueError("Conditioned profile lock authored tunnels drifted.")
+    if payload.get("source_policy") != CONDITIONED_PROFILE_SOURCE_POLICY:
+        raise ValueError("Conditioned profile lock source policy drifted.")
+    segments = payload.get("segments", [])
+    if payload.get("segment_count") != len(segments) or [
+        segment.get("segment_id") for segment in segments
+    ] != [segment["segment_id"] for segment in elevation_lock["segments"]]:
+        raise ValueError(
+            "Conditioned profile lock does not cover exactly the locked "
+            "segments in order."
+        )
+    directed_by_id = {
+        record["segment_id"]: record for record in directed_lock["segments"]
+    }
+    raw_by_id = {
+        segment["segment_id"]: segment for segment in elevation_lock["segments"]
+    }
+    for segment in segments:
+        segment_id = segment["segment_id"]
+        raw_segment = raw_by_id[segment_id]
+        offsets = _elevation_station_offsets(
+            raw_segment["geodesic_length_m"], ELEVATION_STATION_INTERVAL_M
+        )
+        if (
+            segment.get("geodesic_length_m") != raw_segment["geodesic_length_m"]
+            or segment.get("station_interval_m") != ELEVATION_STATION_INTERVAL_M
+            or segment.get("station_count") != len(offsets)
+            or segment.get("terminal_station_m") != offsets[-1]
+        ):
+            raise ValueError(
+                f"Conditioned segment '{segment_id}' stationing drifted from "
+                "the raw profile."
+            )
+        chord_spans = _directed_chord_spans(directed_by_id[segment_id])
+        expected_records, conditioned = _condition_segment_profile(
+            segment_id,
+            offsets,
+            raw_segment["elevations_m"],
+            chord_spans,
+            AUTHORED_TUNNEL_REGISTRY,
+        )
+        if segment.get("conditioning_records") != expected_records:
+            raise ValueError(
+                f"Conditioned segment '{segment_id}' records do not reproduce "
+                "from the committed raw profile under the locked model."
+            )
+        if segment.get("record_count") != len(expected_records) or segment.get(
+            "corrected_station_count"
+        ) != sum(record["interior_station_count"] for record in expected_records):
+            raise ValueError(
+                f"Conditioned segment '{segment_id}' record accounting drifted."
+            )
+        if segment.get("conditioned_profile_sha256") != canonical_sha256(conditioned):
+            raise ValueError(
+                f"Conditioned segment '{segment_id}' profile digest drifted."
+            )
+        expected_statistics = _elevation_profile_statistics(
+            offsets,
+            conditioned,
+            ELEVATION_STATION_INTERVAL_M,
+            ELEVATION_SUSTAINED_WINDOW_M,
+        )
+        if segment.get("statistics") != expected_statistics:
+            raise ValueError(
+                f"Conditioned segment '{segment_id}' statistics do not "
+                "reproduce from the conditioned profile."
+            )
+        sustained = expected_statistics["max_sustained_grade"]
+        if sustained is not None and (
+            abs(sustained["grade_percent"]) > CONDITIONING_SUSTAINED_BOUND_PERCENT
+        ):
+            raise ValueError(
+                f"Conditioned segment '{segment_id}' still exceeds the "
+                "physical sustained-grade bound."
+            )
+    if payload.get("segments_sha256") != canonical_sha256(segments):
+        raise ValueError("Conditioned profile lock segment digest drifted.")
+    expected_paths = _elevation_path_records(directed_lock["paths"], segments)
+    if payload.get("paths") != expected_paths:
+        raise ValueError(
+            "Conditioned profile lock paths do not reproduce from the "
+            "committed segments."
+        )
+    if payload.get("paths_sha256") != canonical_sha256(expected_paths):
+        raise ValueError("Conditioned profile lock path digest drifted.")
+    expected_summary = _conditioned_summary(segments, elevation_lock["summary"])
+    if payload.get("summary") != expected_summary:
+        raise ValueError(
+            "Conditioned profile lock summary does not reproduce from the "
+            "committed segments."
+        )
+    if payload.get("next_stage") != CONDITIONED_PROFILE_NEXT_STAGE:
+        raise ValueError("Conditioned profile lock next stage drifted.")
+    return payload
+
+
+WESTBOUND_CARRIAGEWAY_STATUS = "westbound_carriageway_locked_junction_geometry_pending"
+
+# ADR-0014 reciprocal carriageway model parameters. The offset is an authored
+# uniform model parameter under ADR-0017's observed/derived/authored
+# discipline - NHPN asserts a single facility centerline and no median
+# geometry, so the 20 m carriageway-centreline separation (two 12 ft lanes
+# per carriageway around a 40 ft-class depressed median gives 64 ft = 19.5 m;
+# common rural interstate medians span 36-60 ft) is recorded as authored and
+# never claimed as observed cross-section. Per-site cross-sections are later
+# lane-topology refinement.
+CARRIAGEWAY_OFFSET_M = 10.0
+CARRIAGEWAY_QUAD_SEGS = 8
+CARRIAGEWAY_JOIN_STYLE = "round"
+CARRIAGEWAY_GEOMETRY_DECIMALS = 3
+# Consecutive directed elements share snapped nodes within the locked 1 m
+# endpoint tolerance; a joint gap beyond it is a chain break, not a bridge.
+CARRIAGEWAY_JOINT_GAP_LIMIT_M = 1.0
+# Heading discipline at the census lens the break-end census established:
+# turn angles are measured on 25 m tangents, corner-class turns (> 20
+# degrees) are recorded exception sites, and reversal-class turns (> 150
+# degrees) are physically impossible pavement - the corridor's real corners
+# top out at 143.7 degrees (the Barstow junction approach) while the
+# characterised joint back-steps measure 173.8-180.0 degrees, so 150 cleanly
+# separates road from artifact.
+CARRIAGEWAY_TANGENT_LENS_M = 25.0
+CARRIAGEWAY_CORNER_THRESHOLD_DEG = 20.0
+CARRIAGEWAY_REVERSAL_THRESHOLD_DEG = 150.0
+CARRIAGEWAY_CORNER_CLUSTER_STEPS = 10
+CARRIAGEWAY_MAX_REVERSAL_REMOVALS = 8
+# A removed reversal apex within this distance of an authored overlay chord
+# is the chord's own out-and-back (the Omaha 1.011 m start-to-start chord);
+# anything else is an NHPN joint back-step.
+CARRIAGEWAY_OVERLAY_PROXIMITY_M = 2.0
+# Corner sites within this distance of an authored overlay chord adjudicate
+# that overlay's deferred heading gate against its recorded corner constraint.
+CARRIAGEWAY_OVERLAY_CORNER_LENS_M = 100.0
+CARRIAGEWAY_OVERLAY_CORNER_TOLERANCE_DEG = 5.0
+# The reciprocal pair must hold the dual-carriageway envelope apart
+# everywhere: five percent under the nominal 2 x offset separation absorbs
+# join-arc trimming at recorded corners without ever letting the pair touch.
+CARRIAGEWAY_MIN_SEPARATION_M = 19.0
+# An offset curve's length differs from its centerline by join geometry:
+# outer round joins add up to offset x turn of arc per corner and inner
+# joins trim up to 2 x offset x tan(turn/2). On the corner-densest segment
+# (the Virgin River Gorge curves plus the Barstow junction-approach corner)
+# the measured divergence is 0.107 percent; 0.2 percent accommodates
+# corner-class join geometry while tripping genuine geometry loss (a
+# dropped loop or a collapsed corner run).
+CARRIAGEWAY_LENGTH_AGREEMENT_RATIO = 0.002
+# Backtrack reciprocity: the mirrored coordinate run must reproduce the
+# directed lock's recorded backtrack length to the rounding quantum, and the
+# departing westbound carriageway must equal the arriving eastbound
+# carriageway over that run - GEOS offsets of identical reversed lines agree
+# exactly, so the tolerance is a numerical epsilon, not a fudge.
+CARRIAGEWAY_BACKTRACK_LENGTH_TOLERANCE_M = 0.005
+CARRIAGEWAY_BACKTRACK_MIRROR_TOLERANCE_M = 0.001
+CARRIAGEWAY_BACKTRACK_MATCH_EPSILON_M = 1e-6
+
+CARRIAGEWAY_CORNER_CLASSES = (
+    "overlay_corner",
+    "junction_backtrack_approach",
+    "route_corner",
+)
+CARRIAGEWAY_REVERSAL_CLASSES = ("overlay_out_and_back", "joint_back_step")
+
+CARRIAGEWAY_MODEL = {
+    "decision": "ADR-0014",
+    "offset_m": CARRIAGEWAY_OFFSET_M,
+    "offset_provenance": "authored",
+    "offset_justification": (
+        "NHPN models the facility as a single centerline with no median "
+        "geometry; the 20 m carriageway-centreline separation matches a "
+        "typical rural divided interstate cross-section (two 12 ft lanes "
+        "per carriageway around a 40 ft-class depressed median = 64 ft = "
+        "19.5 m; common medians span 36-60 ft). Authored uniform model "
+        "parameter per ADR-0017 - never claimed as observed cross-section; "
+        "per-site cross-sections are later lane-topology refinement."
+    ),
+    "metric_crs": "EPSG:5070",
+    "join_style": CARRIAGEWAY_JOIN_STYLE,
+    "quad_segs": CARRIAGEWAY_QUAD_SEGS,
+    "geometry_decimals": CARRIAGEWAY_GEOMETRY_DECIMALS,
+    "tangent_lens_m": CARRIAGEWAY_TANGENT_LENS_M,
+    "corner_threshold_deg": CARRIAGEWAY_CORNER_THRESHOLD_DEG,
+    "reversal_threshold_deg": CARRIAGEWAY_REVERSAL_THRESHOLD_DEG,
+    "side_rule": (
+        "The westbound carriageway offsets to the right of westbound travel; "
+        "the source centerline is the median axis on the left of each "
+        "directed carriageway, carrying ADR-0014 marking semantics (yellow "
+        "continuous left/median edge, white broken same-direction dividers, "
+        "white continuous right edge)."
+    ),
+    "pairing_rule": (
+        "Per directed element index k of segment s, the westbound edge "
+        "'<s>:<k>:westbound' pairs the opposing edge '<s>:<k>:eastbound' in "
+        "carriageway group '<s>:<k>' with roadway_kind divided_carriageway - "
+        "a deterministic reciprocal rule over the locked element sequence "
+        "rather than 12,582 explicit rows. The eastbound carriageway is the "
+        "opposite offset of the same locked centerline with travel reversed, "
+        "so the pair is reciprocal by construction and no opposing geometry "
+        "is synthesized from unrelated nearby lines."
+    ),
+}
+
+CARRIAGEWAY_DEFERRED_GATES = {
+    "deferred_to": "lane-topology-and-package-build-stage",
+    "gates": [
+        "curvature_design_radius",
+        "curvature_rate",
+        "vertical_curvature",
+        "sightline",
+        "clearance",
+        "collision",
+        "lane_connection",
+        "drivability",
+    ],
+    "reason": (
+        "NHPN centerline vertices carry catalog-documented ~80 m class "
+        "horizontal error; design-radius adjudication on 25 m tangents would "
+        "measure digitization noise, not road design. This stage adjudicates "
+        "corner-class heading discipline (every turn beyond 20 degrees at "
+        "the 25 m lens is a recorded exception site, reversal-class turns "
+        "are refused), topology (self-intersection, monotonicity, "
+        "reciprocal separation), and the grade gate against the conditioned "
+        "profile; the finer gates run when lane splines and collision "
+        "ribbons are generated over this carriageway model."
+    ),
+}
+
+CARRIAGEWAY_SOURCE_POLICY = {
+    "carriageway_decision": "ADR-0014",
+    "reconstruction_decision": "ADR-0018",
+    "context_decision": "ADR-0017",
+    "control_line_decision": "ADR-0013",
+    "opposing_geometry_synthesized_from_proximity": False,
+    "fill_chords_replaced_by_conflated_spans": False,
+    "junction_transfer_geometry_generated": False,
+    "endpoint_connectors_generated": False,
+    "continental_downloads_committed": False,
+    "authoritative_distance_claimed": False,
+}
+
+WESTBOUND_CARRIAGEWAY_NEXT_STAGE = {
+    "id": "junction-and-span-geometry",
+    "requires": [
+        "conflated NHS span geometry replacing the three traversed fill "
+        "chords (ADR-0026 conflation lock spans)",
+        "transfer geometry at the seven cross-segment junctions and the two "
+        "junction-backtrack turn-arounds",
+        "authored endpoint connector geometry, after which ADR-0024's "
+        "portal-to-portal run length can be published",
+        "lane topology, ramps, and collision over the carriageway model "
+        "with the deferred ADR-0018 gates",
+    ],
+}
+
+
+def _carriageway_gate(measured: Any, threshold: Any, passed: bool) -> dict[str, Any]:
+    return {"measured": measured, "threshold": threshold, "passed": bool(passed)}
+
+
+def _polyline_length(coordinates: Sequence[tuple[float, float]]) -> float:
+    return sum(
+        math.dist(coordinates[index - 1], coordinates[index])
+        for index in range(1, len(coordinates))
+    )
+
+
+def _vertex_turn_degrees(
+    coordinates: Sequence[tuple[float, float]], index: int
+) -> float:
+    """Unsigned direction change at one interior vertex."""
+    ax = coordinates[index][0] - coordinates[index - 1][0]
+    ay = coordinates[index][1] - coordinates[index - 1][1]
+    bx = coordinates[index + 1][0] - coordinates[index][0]
+    by = coordinates[index + 1][1] - coordinates[index][1]
+    da = math.hypot(ax, ay)
+    db = math.hypot(bx, by)
+    if da < 1e-9 or db < 1e-9:
+        return 0.0
+    dot = max(-1.0, min(1.0, (ax * bx + ay * by) / (da * db)))
+    return math.degrees(math.acos(dot))
+
+
+def _dedupe_polyline(
+    coordinates: Sequence[tuple[float, float]], epsilon: float = 1e-9
+) -> list[tuple[float, float]]:
+    deduped = [tuple(coordinates[0])]
+    for point in coordinates[1:]:
+        if math.dist(deduped[-1], point) > epsilon:
+            deduped.append(tuple(point))
+    return deduped
+
+
+def _resample_polyline(
+    coordinates: Sequence[tuple[float, float]], spacing: float
+) -> list[tuple[float, float]]:
+    """Points every ``spacing`` metres along the polyline plus its terminus.
+
+    A single linear walk over the vertices - deterministic and linear-time
+    where per-point interpolation against a 70,000-vertex line would not be.
+    """
+    samples = [tuple(coordinates[0])]
+    target = spacing
+    travelled = 0.0
+    for index in range(1, len(coordinates)):
+        previous = coordinates[index - 1]
+        current = coordinates[index]
+        leg = math.dist(previous, current)
+        while leg > 0 and target <= travelled + leg + 1e-12:
+            fraction = (target - travelled) / leg
+            samples.append(
+                (
+                    previous[0] + (current[0] - previous[0]) * fraction,
+                    previous[1] + (current[1] - previous[1]) * fraction,
+                )
+            )
+            target += spacing
+        travelled += leg
+    terminus = tuple(coordinates[-1])
+    if math.dist(samples[-1], terminus) > 1e-9:
+        samples.append(terminus)
+    return samples
+
+
+def _build_segment_chain(
+    segment_id: str, geometries: Sequence[LineString]
+) -> tuple[list[tuple[float, float]], dict[str, Any]]:
+    """One continuous metric-CRS chain over a segment's directed elements.
+
+    Consecutive element geometries share snapped nodes exactly or within the
+    locked endpoint tolerance; exact joints deduplicate and tolerance joints
+    bridge with a recorded step. Anything beyond the tolerance refuses.
+    """
+    coordinates: list[tuple[float, float]] = []
+    max_joint_gap = 0.0
+    bridged = 0
+    for geometry in geometries:
+        points = [tuple(point) for point in geometry.coords]
+        if coordinates:
+            gap = math.dist(coordinates[-1], points[0])
+            if gap > CARRIAGEWAY_JOINT_GAP_LIMIT_M:
+                raise ValueError(
+                    json.dumps(
+                        {
+                            "refusal": "directed element joint exceeds the "
+                            "locked endpoint tolerance",
+                            "segment_id": segment_id,
+                            "joint_gap_m": round(gap, 6),
+                            "limit_m": CARRIAGEWAY_JOINT_GAP_LIMIT_M,
+                        },
+                        sort_keys=True,
+                    )
+                )
+            max_joint_gap = max(max_joint_gap, gap)
+            if gap <= 1e-6:
+                points = points[1:]
+            else:
+                bridged += 1
+        coordinates.extend(points)
+    return _dedupe_polyline(coordinates), {
+        "max_joint_gap_m": round(max_joint_gap, 6),
+        "bridged_joint_count": bridged,
+    }
+
+
+def _excise_reversal_apexes(
+    segment_id: str,
+    coordinates: list[tuple[float, float]],
+    overlay_lines: Sequence[LineString],
+    inverse: Transformer,
+) -> tuple[list[tuple[float, float]], list[dict[str, Any]]]:
+    """Remove reversal-class apex vertices with a bounded record for each.
+
+    A vertex whose tangents reverse beyond the threshold is doubled travel
+    the source digitized (a record-joint overlap back-step, or an authored
+    overlay chord's lateral out-and-back), never pavement; the apex is
+    removed, the chain re-deduplicated, and the excision recorded with
+    before/after lengths. The loop is greedy on the worst turn and refuses
+    beyond the removal cap.
+    """
+    records: list[dict[str, Any]] = []
+    while True:
+        worst: tuple[int, float] | None = None
+        for index in range(1, len(coordinates) - 1):
+            angle = _vertex_turn_degrees(coordinates, index)
+            if angle > CARRIAGEWAY_REVERSAL_THRESHOLD_DEG and (
+                worst is None or angle > worst[1]
+            ):
+                worst = (index, angle)
+        if worst is None:
+            break
+        if len(records) >= CARRIAGEWAY_MAX_REVERSAL_REMOVALS:
+            raise ValueError(
+                json.dumps(
+                    {
+                        "refusal": "reversal excision exceeded the removal cap",
+                        "segment_id": segment_id,
+                        "cap": CARRIAGEWAY_MAX_REVERSAL_REMOVALS,
+                    },
+                    sort_keys=True,
+                )
+            )
+        index, angle = worst
+        apex = coordinates[index]
+        station = round(_polyline_length(coordinates[: index + 1]), 3)
+        apex_point = Point(apex)
+        reversal_class = "joint_back_step"
+        for overlay_line in overlay_lines:
+            if apex_point.distance(overlay_line) <= CARRIAGEWAY_OVERLAY_PROXIMITY_M:
+                reversal_class = "overlay_out_and_back"
+                break
+        length_before = _polyline_length(coordinates)
+        del coordinates[index]
+        coordinates = _dedupe_polyline(coordinates)
+        longitude, latitude = inverse.transform(apex[0], apex[1])
+        records.append(
+            {
+                "reversal_class": reversal_class,
+                "chain_station_m": station,
+                "turn_deg": round(angle, 2),
+                "coordinate": [round(longitude, 7), round(latitude, 7)],
+                "chain_length_delta_m": round(
+                    _polyline_length(coordinates) - length_before, 3
+                ),
+            }
+        )
+    return coordinates, records
+
+
+def _carriageway_corner_sites(
+    segment_id: str,
+    coordinates: Sequence[tuple[float, float]],
+    overlay_lines: Sequence[LineString],
+    tail_backtrack_m: float,
+    head_backtrack_m: float,
+    inverse: Transformer,
+) -> list[dict[str, Any]]:
+    """Corner-class heading exceptions at the 25 m tangent lens.
+
+    Every turn beyond the corner threshold joins a cluster; each cluster is
+    recorded with its peak and summed turn and classified: an overlay corner
+    (adjudicating that overlay's deferred heading gate), a junction-backtrack
+    approach (transfer geometry is deferred stage output), or a route corner
+    the designated route itself turns through. Reversal-class turns at the
+    lens refuse - the chain was conditioned below them.
+    """
+    samples = _resample_polyline(coordinates, CARRIAGEWAY_TANGENT_LENS_M)
+    chain_length = _polyline_length(coordinates)
+    flagged: list[tuple[float, int]] = []
+    for index in range(1, len(samples) - 1):
+        angle = _vertex_turn_degrees(samples, index)
+        if angle > CARRIAGEWAY_REVERSAL_THRESHOLD_DEG:
+            raise ValueError(
+                json.dumps(
+                    {
+                        "refusal": "reversal-class turn survived conditioning",
+                        "segment_id": segment_id,
+                        "turn_deg": round(angle, 2),
+                        "station_m": round(index * CARRIAGEWAY_TANGENT_LENS_M, 1),
+                    },
+                    sort_keys=True,
+                )
+            )
+        if angle > CARRIAGEWAY_CORNER_THRESHOLD_DEG:
+            flagged.append((angle, index))
+    clusters: list[list[tuple[float, int]]] = []
+    for angle, index in flagged:
+        if (
+            clusters
+            and index - clusters[-1][-1][1] <= CARRIAGEWAY_CORNER_CLUSTER_STEPS
+        ):
+            clusters[-1].append((angle, index))
+        else:
+            clusters.append([(angle, index)])
+    sites: list[dict[str, Any]] = []
+    for cluster_index, cluster in enumerate(clusters):
+        peak_angle, peak_sample = max(cluster)
+        station = round(peak_sample * CARRIAGEWAY_TANGENT_LENS_M, 1)
+        peak_point = Point(samples[peak_sample])
+        corner_class = "route_corner"
+        overlay_distance = None
+        for overlay_line in overlay_lines:
+            distance = peak_point.distance(overlay_line)
+            if distance <= CARRIAGEWAY_OVERLAY_CORNER_LENS_M:
+                corner_class = "overlay_corner"
+                overlay_distance = round(distance, 3)
+                break
+        if corner_class == "route_corner":
+            margin = CARRIAGEWAY_TANGENT_LENS_M * CARRIAGEWAY_CORNER_CLUSTER_STEPS
+            in_tail = tail_backtrack_m > 0 and station >= chain_length - (
+                tail_backtrack_m + margin
+            )
+            in_head = head_backtrack_m > 0 and station <= head_backtrack_m + margin
+            if in_tail or in_head:
+                corner_class = "junction_backtrack_approach"
+        longitude, latitude = inverse.transform(*samples[peak_sample])
+        site = {
+            "corner_id": f"{segment_id}--corner-{cluster_index:03d}",
+            "corner_class": corner_class,
+            "from_station_m": round(cluster[0][1] * CARRIAGEWAY_TANGENT_LENS_M, 1),
+            "to_station_m": round(cluster[-1][1] * CARRIAGEWAY_TANGENT_LENS_M, 1),
+            "peak_turn_deg": round(peak_angle, 2),
+            "turn_sum_deg": round(sum(angle for angle, _ in cluster), 2),
+            "sample_count": len(cluster),
+            "coordinate": [round(longitude, 7), round(latitude, 7)],
+        }
+        if overlay_distance is not None:
+            site["overlay_distance_m"] = overlay_distance
+        sites.append(site)
+    return sites
+
+
+def _offset_carriageway(
+    segment_id: str, chain: LineString, side: str
+) -> list[tuple[float, float]]:
+    """One directed carriageway as a millimetre-rounded offset polyline."""
+    distance = (
+        -CARRIAGEWAY_OFFSET_M if side == "westbound" else CARRIAGEWAY_OFFSET_M
+    )
+    offset = chain.offset_curve(
+        distance,
+        quad_segs=CARRIAGEWAY_QUAD_SEGS,
+        join_style=CARRIAGEWAY_JOIN_STYLE,
+    )
+    if offset.geom_type != "LineString" or offset.is_empty:
+        raise ValueError(
+            json.dumps(
+                {
+                    "refusal": "carriageway offset is not a single line",
+                    "segment_id": segment_id,
+                    "side": side,
+                    "geometry_type": offset.geom_type,
+                },
+                sort_keys=True,
+            )
+        )
+    if not offset.is_simple:
+        raise ValueError(
+            json.dumps(
+                {
+                    "refusal": "carriageway offset self-intersects",
+                    "segment_id": segment_id,
+                    "side": side,
+                },
+                sort_keys=True,
+            )
+        )
+    rounded = [
+        (
+            round(x, CARRIAGEWAY_GEOMETRY_DECIMALS),
+            round(y, CARRIAGEWAY_GEOMETRY_DECIMALS),
+        )
+        for x, y in offset.coords
+    ]
+    deduped = _dedupe_polyline(rounded) if rounded else []
+    if len(deduped) < 2:
+        raise ValueError(
+            json.dumps(
+                {
+                    "refusal": "carriageway offset is degenerate",
+                    "segment_id": segment_id,
+                    "side": side,
+                },
+                sort_keys=True,
+            )
+        )
+    return deduped
+
+
+def _directed_backtrack_junctions(
+    directed_lock: dict[str, Any],
+) -> list[dict[str, Any]]:
+    """Unique junction-backtrack records across the locked paths."""
+    seen: dict[tuple[str, str, str], dict[str, Any]] = {}
+    for path in directed_lock["paths"]:
+        for junction in path["junctions"]:
+            if junction["backtrack_element_count"] <= 0:
+                continue
+            key = (
+                junction["anchor_id"],
+                junction["from_segment_id"],
+                junction["to_segment_id"],
+            )
+            seen.setdefault(key, junction)
+    return [seen[key] for key in sorted(seen)]
+
+
+def _carriageway_backtrack_record(
+    junction: dict[str, Any],
+    arriving_chain: Sequence[tuple[float, float]],
+    departing_chain: Sequence[tuple[float, float]],
+) -> dict[str, Any]:
+    """Prove the doubled junction-approach travel rides the reciprocal pair.
+
+    The departing chain must open with the arriving chain's closing
+    coordinates exactly mirrored; over that run the departing westbound
+    carriageway must equal the arriving eastbound carriageway (the ADR-0014
+    reciprocal edge), and the two directions' westbound carriageways must
+    hold the full reciprocal separation. The turn-around at the anchor
+    remains deferred transfer geometry, recorded, never bridged silently.
+    """
+    limit = min(len(arriving_chain), len(departing_chain))
+    mirrored = 0
+    while (
+        mirrored < limit
+        and math.dist(arriving_chain[-1 - mirrored], departing_chain[mirrored])
+        <= CARRIAGEWAY_BACKTRACK_MATCH_EPSILON_M
+    ):
+        mirrored += 1
+    if mirrored < 2:
+        raise ValueError(
+            json.dumps(
+                {
+                    "refusal": "junction backtrack chains do not mirror",
+                    "anchor_id": junction["anchor_id"],
+                },
+                sort_keys=True,
+            )
+        )
+    shared = departing_chain[:mirrored]
+    shared_length = _polyline_length(shared)
+    if (
+        abs(shared_length - junction["backtrack_length_m"])
+        > CARRIAGEWAY_BACKTRACK_LENGTH_TOLERANCE_M
+    ):
+        raise ValueError(
+            json.dumps(
+                {
+                    "refusal": "mirrored backtrack length drifted from the "
+                    "directed lock",
+                    "anchor_id": junction["anchor_id"],
+                    "measured_m": round(shared_length, 3),
+                    "locked_m": junction["backtrack_length_m"],
+                },
+                sort_keys=True,
+            )
+        )
+    arriving_line = LineString(arriving_chain[-mirrored:])
+    departing_line = LineString(shared)
+    departing_westbound = departing_line.offset_curve(
+        -CARRIAGEWAY_OFFSET_M,
+        quad_segs=CARRIAGEWAY_QUAD_SEGS,
+        join_style=CARRIAGEWAY_JOIN_STYLE,
+    )
+    arriving_eastbound = arriving_line.offset_curve(
+        CARRIAGEWAY_OFFSET_M,
+        quad_segs=CARRIAGEWAY_QUAD_SEGS,
+        join_style=CARRIAGEWAY_JOIN_STYLE,
+    )
+    arriving_westbound = arriving_line.offset_curve(
+        -CARRIAGEWAY_OFFSET_M,
+        quad_segs=CARRIAGEWAY_QUAD_SEGS,
+        join_style=CARRIAGEWAY_JOIN_STYLE,
+    )
+    mirror_gap = departing_westbound.hausdorff_distance(arriving_eastbound)
+    separation = departing_westbound.distance(arriving_westbound)
+    if mirror_gap > CARRIAGEWAY_BACKTRACK_MIRROR_TOLERANCE_M:
+        raise ValueError(
+            json.dumps(
+                {
+                    "refusal": "backtrack reciprocity failed: the departing "
+                    "westbound carriageway is not the arriving eastbound "
+                    "carriageway",
+                    "anchor_id": junction["anchor_id"],
+                    "mirror_gap_m": round(mirror_gap, 6),
+                },
+                sort_keys=True,
+            )
+        )
+    if separation < CARRIAGEWAY_MIN_SEPARATION_M:
+        raise ValueError(
+            json.dumps(
+                {
+                    "refusal": "backtrack carriageways violate the "
+                    "reciprocal separation",
+                    "anchor_id": junction["anchor_id"],
+                    "separation_m": round(separation, 3),
+                },
+                sort_keys=True,
+            )
+        )
+    return {
+        "anchor_id": junction["anchor_id"],
+        "from_segment_id": junction["from_segment_id"],
+        "to_segment_id": junction["to_segment_id"],
+        "backtrack_element_count": junction["backtrack_element_count"],
+        "mirrored_vertex_count": mirrored,
+        "mirrored_length_m": round(shared_length, 3),
+        "locked_backtrack_length_m": junction["backtrack_length_m"],
+        "reciprocity_gap_m": round(mirror_gap, 6),
+        "westbound_separation_m": round(separation, 3),
+        "resolution": (
+            "The doubled junction-approach travel rides the reciprocal "
+            "carriageway pair: the departing westbound carriageway over the "
+            "mirrored elements is exactly the arriving eastbound "
+            "carriageway, so the directed route occupies each physical "
+            "roadway once per direction. The anchor turn-around is deferred "
+            "transfer geometry."
+        ),
+    }
+
+
+def _carriageway_summary(
+    segments_payload: Sequence[dict[str, Any]],
+    backtracks: Sequence[dict[str, Any]],
+) -> dict[str, Any]:
+    corner_by_class: dict[str, int] = {}
+    reversal_by_class: dict[str, int] = {}
+    gates_passed = 0
+    westbound_length = 0.0
+    eastbound_length = 0.0
+    chain_length = 0.0
+    element_count = 0
+    min_separation: float | None = None
+    for segment in segments_payload:
+        element_count += segment["element_count"]
+        westbound_length += segment["westbound"]["length_m"]
+        eastbound_length += segment["eastbound"]["length_m"]
+        chain_length += segment["chain"]["length_m"]
+        for site in segment["corner_sites"]:
+            corner_by_class[site["corner_class"]] = (
+                corner_by_class.get(site["corner_class"], 0) + 1
+            )
+        for record in segment["planimetric_conditioning"]:
+            reversal_by_class[record["reversal_class"]] = (
+                reversal_by_class.get(record["reversal_class"], 0) + 1
+            )
+        for gate in segment["gates"].values():
+            if gate["passed"]:
+                gates_passed += 1
+        separation = segment["gates"]["reciprocal_separation"]["measured"]
+        if min_separation is None or separation < min_separation:
+            min_separation = separation
+    return {
+        "segment_count": len(segments_payload),
+        "element_count": element_count,
+        "chain_length_m": round(chain_length, 3),
+        "westbound_length_m": round(westbound_length, 3),
+        "westbound_miles": round(westbound_length / 1609.344, 3),
+        "eastbound_length_m": round(eastbound_length, 3),
+        "corner_site_count": sum(corner_by_class.values()),
+        "corner_sites_by_class": dict(sorted(corner_by_class.items())),
+        "planimetric_conditioning_count": sum(reversal_by_class.values()),
+        "planimetric_conditioning_by_class": dict(sorted(reversal_by_class.items())),
+        "min_reciprocal_separation_m": min_separation,
+        "junction_backtrack_count": len(backtracks),
+        "gates_passed": gates_passed,
+        "gates_failed": 0,
+    }
+
+
+def derive_continental_westbound_carriageway(
+    conditioned_lock_path: Path,
+    elevation_lock_path: Path,
+    dem_lock_path: Path,
+    directed_lock_path: Path,
+    selection_path: Path,
+    route_lock_path: Path,
+    transfer_lock_path: Path,
+    policy_path: Path,
+    edge_path_lock_path: Path,
+    fill_lock_path: Path,
+    disposition_path: Path,
+    overlay_lock_path: Path,
+    conflation_lock_path: Path,
+    catalog_path: Path,
+    cache_directory: Path,
+    carriageway_cache_directory: Path,
+    output_path: Path,
+    *,
+    derived_at: str | None = None,
+) -> dict[str, Any]:
+    """Derive the reciprocal directed westbound carriageway model (ADR-0014).
+
+    The directed walk is re-derived through the locked machinery and refused
+    unless it reproduces the committed directed route lock; each segment's
+    element chain is conditioned of reversal-class digitization artifacts
+    (every excision recorded), censused for corner-class heading exceptions,
+    and offset into the reciprocal westbound/eastbound pair through the
+    ADR-0018 gates. Bulk geometry stays in the ignored cache; the lock
+    carries the derivation, measurements, gate results, and digests.
+    """
+    conditioned_lock = validate_continental_conditioned_profile(
+        conditioned_lock_path,
+        elevation_lock_path,
+        dem_lock_path,
+        directed_lock_path,
+        selection_path,
+        route_lock_path,
+        transfer_lock_path,
+        policy_path,
+        edge_path_lock_path,
+        fill_lock_path,
+        disposition_path,
+        overlay_lock_path,
+        conflation_lock_path,
+        catalog_path,
+    )
+    directed_lock = load_json(directed_lock_path)
+    selection = load_json(selection_path)
+    route_lock = validate_continental_route_lock(
+        route_lock_path, catalog_path, selection_path
+    )
+    transfer_lock = validate_continental_transfer_lock(
+        transfer_lock_path, policy_path, selection_path, route_lock_path, catalog_path
+    )
+    edge_lock = validate_continental_edge_path_lock(
+        edge_path_lock_path,
+        transfer_lock_path,
+        policy_path,
+        selection_path,
+        route_lock_path,
+        catalog_path,
+    )
+    fill_lock = validate_continental_nhs_fill_lock(
+        fill_lock_path,
+        selection_path,
+        route_lock_path,
+        transfer_lock_path,
+        policy_path,
+        edge_path_lock_path,
+        catalog_path,
+    )
+    overlay_lock = validate_continental_reconstruction_overlays(
+        overlay_lock_path,
+        disposition_path,
+        selection_path,
+        route_lock_path,
+        transfer_lock_path,
+        policy_path,
+        edge_path_lock_path,
+        fill_lock_path,
+        catalog_path,
+    )
+    conflation_lock = validate_continental_nhs_conflation(
+        conflation_lock_path,
+        fill_lock_path,
+        selection_path,
+        route_lock_path,
+        transfer_lock_path,
+        policy_path,
+        edge_path_lock_path,
+        catalog_path,
+    )
+    timestamp = derived_at or datetime.now(UTC).replace(
+        microsecond=0
+    ).isoformat().replace("+00:00", "Z")
+    forward = Transformer.from_crs("EPSG:4326", "EPSG:5070", always_xy=True)
+    inverse = Transformer.from_crs("EPSG:5070", "EPSG:4326", always_xy=True)
+    cache_root = (
+        cache_directory / route_lock["nhpn"]["service"]["canonical_metadata_sha256"]
+    )
+    tolerance = float(edge_lock["endpoint_snap_tolerance_m"])
+    anchor_limit = float(edge_lock["anchor_snap_limit_m"])
+    transfer_by_id = {node["id"]: node for node in transfer_lock["transfer_nodes"]}
+    edge_by_id = {entry["segment_id"]: entry for entry in edge_lock["segments"]}
+    chain_by_id = {
+        entry["segment_id"]: entry
+        for entry in overlay_lock["chain_connectivity"]["segments"]
+    }
+    conflation_site_by_id = {
+        site["site_id"]: site for site in conflation_lock["sites"]
+    }
+    fills_by_segment: dict[str, list[dict[str, Any]]] = {}
+    for site in fill_lock["sites"]:
+        fills_by_segment.setdefault(site["segment_id"], []).append(site)
+    overlays_by_segment: dict[str, list[dict[str, Any]]] = {}
+    overlay_lines_by_segment: dict[str, list[LineString]] = {}
+    for overlay in overlay_lock["overlays"]:
+        overlays_by_segment.setdefault(overlay["segment_id"], []).append(
+            {
+                "site_id": overlay["site_id"],
+                "overlay_id": overlay["overlay_id"],
+                "from_coordinate": overlay["boundary"]["from_coordinate"],
+                "to_coordinate": overlay["boundary"]["to_coordinate"],
+                "separation_m": overlay["boundary"]["length_m"],
+                "geometry": overlay["geometry"],
+            }
+        )
+        overlay_lines_by_segment.setdefault(overlay["segment_id"], []).append(
+            LineString(
+                [
+                    forward.transform(point[0], point[1])
+                    for point in overlay["geometry"]["coordinates"]
+                ]
+            )
+        )
+    locked_record_by_id = {
+        record["segment_id"]: record for record in directed_lock["segments"]
+    }
+    backtrack_junctions = _directed_backtrack_junctions(directed_lock)
+    tail_backtrack = {
+        junction["from_segment_id"]: float(junction["backtrack_length_m"])
+        for junction in backtrack_junctions
+    }
+    head_backtrack = {
+        junction["to_segment_id"]: float(junction["backtrack_length_m"])
+        for junction in backtrack_junctions
+    }
+
+    segments_payload: list[dict[str, Any]] = []
+    chains_by_segment: dict[str, list[tuple[float, float]]] = {}
+    carriageway_cache_directory.mkdir(parents=True, exist_ok=True)
+    for segment in selection["segments"]:
+        segment_id = segment["id"]
+        if segment_id not in locked_record_by_id:
+            continue
+        lines = _segment_locked_lines(route_lock, segment_id, cache_root)
+        geometries: list[LineString] = []
+        record = _derive_directed_segment(
+            segment,
+            edge_by_id[segment_id],
+            chain_by_id.get(segment_id),
+            lines,
+            fills_by_segment.get(segment_id, []),
+            overlays_by_segment.get(segment_id, []),
+            conflation_site_by_id,
+            forward.transform(
+                transfer_by_id[segment["from"]]["coordinate"]["longitude"],
+                transfer_by_id[segment["from"]]["coordinate"]["latitude"],
+            ),
+            forward.transform(
+                transfer_by_id[segment["to"]]["coordinate"]["longitude"],
+                transfer_by_id[segment["to"]]["coordinate"]["latitude"],
+            ),
+            tolerance,
+            anchor_limit,
+            forward,
+            inverse,
+            geometry_sink=geometries,
+        )
+        locked_record = locked_record_by_id[segment_id]
+        if canonical_sha256(record) != canonical_sha256(locked_record):
+            raise ValueError(
+                f"Directed walk for '{segment_id}' does not reproduce the "
+                "committed directed route lock; refusing to build a "
+                "carriageway for a different route."
+            )
+        overlay_lines = overlay_lines_by_segment.get(segment_id, [])
+        coordinates, joint_facts = _build_segment_chain(segment_id, geometries)
+        raw_length = _polyline_length(coordinates)
+        coordinates, excisions = _excise_reversal_apexes(
+            segment_id, coordinates, overlay_lines, inverse
+        )
+        chain_length = _polyline_length(coordinates)
+        corner_sites = _carriageway_corner_sites(
+            segment_id,
+            coordinates,
+            overlay_lines,
+            tail_backtrack.get(segment_id, 0.0),
+            head_backtrack.get(segment_id, 0.0),
+            inverse,
+        )
+        chain_line = LineString(coordinates)
+        westbound = _offset_carriageway(segment_id, chain_line, "westbound")
+        eastbound = _offset_carriageway(segment_id, chain_line, "eastbound")
+        westbound_length = _polyline_length(westbound)
+        eastbound_length = _polyline_length(eastbound)
+        separation = LineString(westbound).distance(LineString(eastbound))
+        length_ratio = max(
+            abs(westbound_length - chain_length),
+            abs(eastbound_length - chain_length),
+        ) / chain_length
+        gates = {
+            "chain_continuity": _carriageway_gate(
+                joint_facts["max_joint_gap_m"],
+                CARRIAGEWAY_JOINT_GAP_LIMIT_M,
+                joint_facts["max_joint_gap_m"] <= CARRIAGEWAY_JOINT_GAP_LIMIT_M,
+            ),
+            "reversal_excision": _carriageway_gate(
+                len(excisions),
+                CARRIAGEWAY_MAX_REVERSAL_REMOVALS,
+                len(excisions) <= CARRIAGEWAY_MAX_REVERSAL_REMOVALS,
+            ),
+            "heading_discipline": _carriageway_gate(
+                max(
+                    (site["peak_turn_deg"] for site in corner_sites),
+                    default=0.0,
+                ),
+                CARRIAGEWAY_REVERSAL_THRESHOLD_DEG,
+                True,
+            ),
+            "self_intersection": _carriageway_gate(
+                {"westbound_simple": True, "eastbound_simple": True},
+                "both offsets single simple LineStrings",
+                True,
+            ),
+            "station_monotonicity": _carriageway_gate(
+                {
+                    "westbound_vertex_count": len(westbound),
+                    "eastbound_vertex_count": len(eastbound),
+                },
+                "strictly increasing station at every vertex",
+                True,
+            ),
+            "reciprocal_separation": _carriageway_gate(
+                round(separation, 3),
+                CARRIAGEWAY_MIN_SEPARATION_M,
+                separation >= CARRIAGEWAY_MIN_SEPARATION_M,
+            ),
+            "length_agreement": _carriageway_gate(
+                round(length_ratio, 9),
+                CARRIAGEWAY_LENGTH_AGREEMENT_RATIO,
+                length_ratio <= CARRIAGEWAY_LENGTH_AGREEMENT_RATIO,
+            ),
+        }
+        failed = {name for name, gate in gates.items() if not gate["passed"]}
+        if failed:
+            raise ValueError(
+                json.dumps(
+                    {
+                        "refusal": "carriageway gates failed",
+                        "segment_id": segment_id,
+                        "failed_gates": sorted(failed),
+                        "gates": gates,
+                    },
+                    sort_keys=True,
+                )
+            )
+        cache_payload = {
+            "schema_version": 1,
+            "segment_id": segment_id,
+            "metric_crs": "EPSG:5070",
+            "offset_m": CARRIAGEWAY_OFFSET_M,
+            "chain_coordinates": [
+                [
+                    round(x, CARRIAGEWAY_GEOMETRY_DECIMALS),
+                    round(y, CARRIAGEWAY_GEOMETRY_DECIMALS),
+                ]
+                for x, y in coordinates
+            ],
+            "westbound_coordinates": [[x, y] for x, y in westbound],
+            "eastbound_coordinates": [[x, y] for x, y in eastbound],
+        }
+        cache_path = carriageway_cache_directory / f"{segment_id}.json"
+        cache_path.write_text(
+            json.dumps(cache_payload, sort_keys=True) + "\n", encoding="utf-8"
+        )
+        segments_payload.append(
+            {
+                "segment_id": segment_id,
+                "element_count": locked_record["element_count"],
+                "chain": {
+                    "vertex_count": len(coordinates),
+                    "length_m": round(chain_length, 3),
+                    "raw_length_m": round(raw_length, 3),
+                    "max_joint_gap_m": joint_facts["max_joint_gap_m"],
+                    "bridged_joint_count": joint_facts["bridged_joint_count"],
+                },
+                "planimetric_conditioning": excisions,
+                "corner_sites": corner_sites,
+                "westbound": {
+                    "length_m": round(westbound_length, 3),
+                    "vertex_count": len(westbound),
+                    "geometry_sha256": canonical_sha256(
+                        cache_payload["westbound_coordinates"]
+                    ),
+                },
+                "eastbound": {
+                    "length_m": round(eastbound_length, 3),
+                    "vertex_count": len(eastbound),
+                    "geometry_sha256": canonical_sha256(
+                        cache_payload["eastbound_coordinates"]
+                    ),
+                },
+                "gates": gates,
+            }
+        )
+        chains_by_segment[segment_id] = coordinates
+
+    backtracks_payload = [
+        _carriageway_backtrack_record(
+            junction,
+            chains_by_segment[junction["from_segment_id"]],
+            chains_by_segment[junction["to_segment_id"]],
+        )
+        for junction in backtrack_junctions
+    ]
+    overlay_corner_constraints = {
+        overlay["overlay_id"]: overlay["gates"]["heading_continuity"]["measured"][
+            "end_tangent_deviation_degrees"
+        ]
+        for overlay in overlay_lock["overlays"]
+    }
+    summary = _carriageway_summary(segments_payload, backtracks_payload)
+    grade_gate = _carriageway_gate(
+        conditioned_lock["summary"]["max_sustained_grade"],
+        CONDITIONING_SUSTAINED_BOUND_PERCENT,
+        abs(conditioned_lock["summary"]["max_sustained_grade"]["grade_percent"])
+        <= CONDITIONING_SUSTAINED_BOUND_PERCENT,
+    )
+    payload = {
+        "schema_version": 1,
+        "status": WESTBOUND_CARRIAGEWAY_STATUS,
+        "decision": "ADR-0014",
+        "reconstruction_decision": "ADR-0018",
+        "route_decision": selection["decision"],
+        "derived_at": timestamp,
+        "coordinate_crs": "EPSG:4326",
+        "metric_crs": "EPSG:5070",
+        "catalog_sha256": compute_sha256(catalog_path),
+        "route_selection_sha256": compute_sha256(selection_path),
+        "candidate_lock_sha256": compute_sha256(route_lock_path),
+        "transfer_lock_sha256": compute_sha256(transfer_lock_path),
+        "edge_path_lock_sha256": compute_sha256(edge_path_lock_path),
+        "nhs_fill_lock_sha256": compute_sha256(fill_lock_path),
+        "break_disposition_sha256": compute_sha256(disposition_path),
+        "reconstruction_overlay_lock_sha256": compute_sha256(overlay_lock_path),
+        "nhs_conflation_lock_sha256": compute_sha256(conflation_lock_path),
+        "dem_product_lock_sha256": compute_sha256(dem_lock_path),
+        "directed_route_lock_sha256": compute_sha256(directed_lock_path),
+        "corridor_elevation_lock_sha256": compute_sha256(elevation_lock_path),
+        "conditioned_profile_lock_sha256": compute_sha256(conditioned_lock_path),
+        "model": dict(CARRIAGEWAY_MODEL),
+        "source_policy": dict(CARRIAGEWAY_SOURCE_POLICY),
+        "westbound_selection": {
+            "carriageway_direction_claimed": True,
+            "basis": (
+                "The directed route lock fixes anchor-to-anchor travel; this "
+                "ADR-0014 reconstruction stage constructs the reciprocal "
+                "offset pair over that locked sequence and claims the "
+                "westbound carriageway as the travel roadway. NHPN itself "
+                "still asserts no per-carriageway direction (the directed "
+                "lock's facility census stands)."
+            ),
+        },
+        "deferred_gates": dict(CARRIAGEWAY_DEFERRED_GATES),
+        "grade_gate": {
+            **grade_gate,
+            "source": "conditioned-profile-lock",
+        },
+        "overlay_corner_constraints": overlay_corner_constraints,
+        "segment_count": len(segments_payload),
+        "segments": segments_payload,
+        "segments_sha256": canonical_sha256(segments_payload),
+        "junction_backtracks": backtracks_payload,
+        "summary": summary,
+        "next_stage": WESTBOUND_CARRIAGEWAY_NEXT_STAGE,
+    }
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(
+        json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
+    return payload
+
+
+def validate_continental_westbound_carriageway(
+    carriageway_lock_path: Path,
+    conditioned_lock_path: Path,
+    elevation_lock_path: Path,
+    dem_lock_path: Path,
+    directed_lock_path: Path,
+    selection_path: Path,
+    route_lock_path: Path,
+    transfer_lock_path: Path,
+    policy_path: Path,
+    edge_path_lock_path: Path,
+    fill_lock_path: Path,
+    disposition_path: Path,
+    overlay_lock_path: Path,
+    conflation_lock_path: Path,
+    catalog_path: Path,
+) -> dict[str, Any]:
+    """Validate the westbound carriageway lock without caches or network.
+
+    Cache-independent: every recorded measurement is held to the module's
+    locked thresholds, every gate must pass, the corner census must include
+    the overlay-corner adjudication of the Quad Cities constraint and no
+    reversal-class turn, the junction backtracks must match the directed
+    lock's records with reciprocity proven, and the summary must reproduce
+    from the committed segments.
+    """
+    payload = load_json(carriageway_lock_path)
+    if payload.get("schema_version") != 1:
+        raise ValueError("Westbound carriageway lock schema_version must be 1.")
+    if payload.get("status") != WESTBOUND_CARRIAGEWAY_STATUS:
+        raise ValueError("Westbound carriageway lock has an unsupported status.")
+    if payload.get("decision") != "ADR-0014":
+        raise ValueError("Westbound carriageway lock does not cite ADR-0014.")
+    if payload.get("reconstruction_decision") != "ADR-0018":
+        raise ValueError("Westbound carriageway lock does not cite ADR-0018.")
+    conditioned_lock = validate_continental_conditioned_profile(
+        conditioned_lock_path,
+        elevation_lock_path,
+        dem_lock_path,
+        directed_lock_path,
+        selection_path,
+        route_lock_path,
+        transfer_lock_path,
+        policy_path,
+        edge_path_lock_path,
+        fill_lock_path,
+        disposition_path,
+        overlay_lock_path,
+        conflation_lock_path,
+        catalog_path,
+    )
+    directed_lock = load_json(directed_lock_path)
+    overlay_lock = load_json(overlay_lock_path)
+    expected_hashes = {
+        "catalog_sha256": compute_sha256(catalog_path),
+        "route_selection_sha256": compute_sha256(selection_path),
+        "candidate_lock_sha256": compute_sha256(route_lock_path),
+        "transfer_lock_sha256": compute_sha256(transfer_lock_path),
+        "edge_path_lock_sha256": compute_sha256(edge_path_lock_path),
+        "nhs_fill_lock_sha256": compute_sha256(fill_lock_path),
+        "break_disposition_sha256": compute_sha256(disposition_path),
+        "reconstruction_overlay_lock_sha256": compute_sha256(overlay_lock_path),
+        "nhs_conflation_lock_sha256": compute_sha256(conflation_lock_path),
+        "dem_product_lock_sha256": compute_sha256(dem_lock_path),
+        "directed_route_lock_sha256": compute_sha256(directed_lock_path),
+        "corridor_elevation_lock_sha256": compute_sha256(elevation_lock_path),
+        "conditioned_profile_lock_sha256": compute_sha256(conditioned_lock_path),
+    }
+    if any(payload.get(key) != value for key, value in expected_hashes.items()):
+        raise ValueError("Westbound carriageway lock input hash drifted.")
+    if payload.get("model") != CARRIAGEWAY_MODEL:
+        raise ValueError("Westbound carriageway lock model drifted.")
+    if payload.get("source_policy") != CARRIAGEWAY_SOURCE_POLICY:
+        raise ValueError("Westbound carriageway lock source policy drifted.")
+    if payload.get("deferred_gates") != CARRIAGEWAY_DEFERRED_GATES:
+        raise ValueError("Westbound carriageway lock deferred gates drifted.")
+    claim = payload.get("westbound_selection", {})
+    if claim.get("carriageway_direction_claimed") is not True or not claim.get(
+        "basis"
+    ):
+        raise ValueError(
+            "Westbound carriageway lock must claim the carriageway direction "
+            "with its basis."
+        )
+    directed_claim = directed_lock["westbound_selection"][
+        "carriageway_direction_claimed"
+    ]
+    if directed_claim is not False:
+        raise ValueError(
+            "The directed route lock may not claim carriageway direction; "
+            "that claim belongs to this reconstruction stage."
+        )
+    grade_gate = payload.get("grade_gate", {})
+    sustained = conditioned_lock["summary"]["max_sustained_grade"]
+    if (
+        grade_gate.get("measured") != sustained
+        or grade_gate.get("threshold") != CONDITIONING_SUSTAINED_BOUND_PERCENT
+        or grade_gate.get("passed")
+        is not (abs(sustained["grade_percent"]) <= CONDITIONING_SUSTAINED_BOUND_PERCENT)
+        or grade_gate.get("source") != "conditioned-profile-lock"
+        or not grade_gate.get("passed")
+    ):
+        raise ValueError(
+            "Westbound carriageway grade gate does not adjudicate the "
+            "conditioned profile."
+        )
+    expected_constraints = {
+        overlay["overlay_id"]: overlay["gates"]["heading_continuity"]["measured"][
+            "end_tangent_deviation_degrees"
+        ]
+        for overlay in overlay_lock["overlays"]
+    }
+    if payload.get("overlay_corner_constraints") != expected_constraints:
+        raise ValueError(
+            "Westbound carriageway lock overlay corner constraints drifted."
+        )
+    segments = payload.get("segments", [])
+    directed_by_id = {
+        record["segment_id"]: record for record in directed_lock["segments"]
+    }
+    if payload.get("segment_count") != len(segments) or [
+        segment.get("segment_id") for segment in segments
+    ] != [record["segment_id"] for record in directed_lock["segments"]]:
+        raise ValueError(
+            "Westbound carriageway lock does not cover exactly the directed "
+            "segments in order."
+        )
+    overlay_segments = {
+        overlay["segment_id"] for overlay in overlay_lock["overlays"]
+    }
+    corner_corners = 0
+    for segment in segments:
+        segment_id = segment["segment_id"]
+        if segment.get("element_count") != directed_by_id[segment_id][
+            "element_count"
+        ]:
+            raise ValueError(
+                f"Carriageway segment '{segment_id}' element count drifted "
+                "from the directed lock."
+            )
+        chain = segment.get("chain", {})
+        if (
+            not isinstance(chain.get("vertex_count"), int)
+            or chain["vertex_count"] < 2
+            or not isinstance(chain.get("length_m"), int | float)
+            or chain["length_m"] <= 0
+        ):
+            raise ValueError(
+                f"Carriageway segment '{segment_id}' chain facts are invalid."
+            )
+        gates = segment.get("gates", {})
+        expected_gate_names = {
+            "chain_continuity",
+            "reversal_excision",
+            "heading_discipline",
+            "self_intersection",
+            "station_monotonicity",
+            "reciprocal_separation",
+            "length_agreement",
+        }
+        if set(gates) != expected_gate_names:
+            raise ValueError(
+                f"Carriageway segment '{segment_id}' gate battery is incomplete."
+            )
+        for name, gate in gates.items():
+            if gate.get("passed") is not True:
+                raise ValueError(
+                    f"Carriageway segment '{segment_id}' gate '{name}' did "
+                    "not pass."
+                )
+        if (
+            gates["chain_continuity"]["threshold"] != CARRIAGEWAY_JOINT_GAP_LIMIT_M
+            or gates["chain_continuity"]["measured"]
+            > CARRIAGEWAY_JOINT_GAP_LIMIT_M
+            or gates["chain_continuity"]["measured"] != chain.get("max_joint_gap_m")
+        ):
+            raise ValueError(
+                f"Carriageway segment '{segment_id}' chain continuity gate "
+                "drifted."
+            )
+        excisions = segment.get("planimetric_conditioning", [])
+        if (
+            gates["reversal_excision"]["threshold"]
+            != CARRIAGEWAY_MAX_REVERSAL_REMOVALS
+            or gates["reversal_excision"]["measured"] != len(excisions)
+            or len(excisions) > CARRIAGEWAY_MAX_REVERSAL_REMOVALS
+        ):
+            raise ValueError(
+                f"Carriageway segment '{segment_id}' reversal excision gate "
+                "drifted."
+            )
+        for excision in excisions:
+            if excision.get("reversal_class") not in CARRIAGEWAY_REVERSAL_CLASSES:
+                raise ValueError(
+                    f"Carriageway segment '{segment_id}' carries an unknown "
+                    "reversal class."
+                )
+            if (
+                not isinstance(excision.get("turn_deg"), int | float)
+                or excision["turn_deg"] <= CARRIAGEWAY_REVERSAL_THRESHOLD_DEG
+            ):
+                raise ValueError(
+                    f"Carriageway segment '{segment_id}' excised a "
+                    "non-reversal turn."
+                )
+        corner_sites = segment.get("corner_sites", [])
+        if gates["heading_discipline"]["measured"] != max(
+            (site["peak_turn_deg"] for site in corner_sites), default=0.0
+        ) or gates["heading_discipline"]["threshold"] != (
+            CARRIAGEWAY_REVERSAL_THRESHOLD_DEG
+        ):
+            raise ValueError(
+                f"Carriageway segment '{segment_id}' heading gate drifted."
+            )
+        for site in corner_sites:
+            if site.get("corner_class") not in CARRIAGEWAY_CORNER_CLASSES:
+                raise ValueError(
+                    f"Carriageway segment '{segment_id}' carries an unknown "
+                    "corner class."
+                )
+            if (
+                not isinstance(site.get("peak_turn_deg"), int | float)
+                or site["peak_turn_deg"] <= CARRIAGEWAY_CORNER_THRESHOLD_DEG
+                or site["peak_turn_deg"] > CARRIAGEWAY_REVERSAL_THRESHOLD_DEG
+            ):
+                raise ValueError(
+                    f"Carriageway segment '{segment_id}' corner site "
+                    "measurement is outside the corner class."
+                )
+            if site["corner_class"] == "overlay_corner":
+                corner_corners += 1
+                if segment_id not in overlay_segments:
+                    raise ValueError(
+                        f"Carriageway segment '{segment_id}' claims an "
+                        "overlay corner without an overlay."
+                    )
+                deviations = [
+                    expected_constraints[overlay["overlay_id"]]
+                    for overlay in overlay_lock["overlays"]
+                    if overlay["segment_id"] == segment_id
+                ]
+                if not any(
+                    abs(site["turn_sum_deg"] - deviation)
+                    <= CARRIAGEWAY_OVERLAY_CORNER_TOLERANCE_DEG
+                    for deviation in deviations
+                ):
+                    raise ValueError(
+                        f"Carriageway segment '{segment_id}' overlay corner "
+                        "does not honor the overlay lock's recorded corner "
+                        "constraint."
+                    )
+        if (
+            gates["reciprocal_separation"]["threshold"]
+            != CARRIAGEWAY_MIN_SEPARATION_M
+            or gates["reciprocal_separation"]["measured"]
+            < CARRIAGEWAY_MIN_SEPARATION_M
+        ):
+            raise ValueError(
+                f"Carriageway segment '{segment_id}' separation gate drifted."
+            )
+        if (
+            gates["length_agreement"]["threshold"]
+            != CARRIAGEWAY_LENGTH_AGREEMENT_RATIO
+            or gates["length_agreement"]["measured"]
+            > CARRIAGEWAY_LENGTH_AGREEMENT_RATIO
+        ):
+            raise ValueError(
+                f"Carriageway segment '{segment_id}' length agreement gate "
+                "drifted."
+            )
+        for side in ("westbound", "eastbound"):
+            facts = segment.get(side, {})
+            if (
+                not isinstance(facts.get("length_m"), int | float)
+                or facts["length_m"] <= 0
+                or not isinstance(facts.get("vertex_count"), int)
+                or facts["vertex_count"] < 2
+                or not SHA256_PATTERN.fullmatch(str(facts.get("geometry_sha256", "")))
+            ):
+                raise ValueError(
+                    f"Carriageway segment '{segment_id}' {side} record is "
+                    "invalid."
+                )
+            if (
+                abs(facts["length_m"] - chain["length_m"]) / chain["length_m"]
+                > CARRIAGEWAY_LENGTH_AGREEMENT_RATIO
+            ):
+                raise ValueError(
+                    f"Carriageway segment '{segment_id}' {side} length "
+                    "disagrees with its chain."
+                )
+    quad_cities_overlay = "i80-new-jersey-to-big-springs--component-01-02--authored-overlay"
+    if quad_cities_overlay in expected_constraints and corner_corners < 1:
+        raise ValueError(
+            "The Quad Cities overlay corner constraint has no adjudicating "
+            "corner site."
+        )
+    if payload.get("segments_sha256") != canonical_sha256(segments):
+        raise ValueError("Westbound carriageway lock segment digest drifted.")
+    backtracks = payload.get("junction_backtracks", [])
+    expected_junctions = _directed_backtrack_junctions(directed_lock)
+    if len(backtracks) != len(expected_junctions):
+        raise ValueError(
+            "Westbound carriageway lock does not cover exactly the directed "
+            "lock's junction backtracks."
+        )
+    for backtrack, junction in zip(backtracks, expected_junctions, strict=True):
+        if (
+            backtrack.get("anchor_id") != junction["anchor_id"]
+            or backtrack.get("from_segment_id") != junction["from_segment_id"]
+            or backtrack.get("to_segment_id") != junction["to_segment_id"]
+            or backtrack.get("backtrack_element_count")
+            != junction["backtrack_element_count"]
+            or backtrack.get("locked_backtrack_length_m")
+            != junction["backtrack_length_m"]
+        ):
+            raise ValueError(
+                "Westbound carriageway backtrack record drifted from the "
+                "directed lock."
+            )
+        if (
+            abs(
+                backtrack.get("mirrored_length_m", 0.0)
+                - junction["backtrack_length_m"]
+            )
+            > CARRIAGEWAY_BACKTRACK_LENGTH_TOLERANCE_M
+        ):
+            raise ValueError(
+                "Westbound carriageway backtrack mirrored length drifted."
+            )
+        if (
+            backtrack.get("reciprocity_gap_m", 1.0)
+            > CARRIAGEWAY_BACKTRACK_MIRROR_TOLERANCE_M
+        ):
+            raise ValueError(
+                "Westbound carriageway backtrack reciprocity gap exceeds the "
+                "tolerance."
+            )
+        if (
+            backtrack.get("westbound_separation_m", 0.0)
+            < CARRIAGEWAY_MIN_SEPARATION_M
+        ):
+            raise ValueError(
+                "Westbound carriageway backtrack separation violates the "
+                "reciprocal bound."
+            )
+    if payload.get("summary") != _carriageway_summary(segments, backtracks):
+        raise ValueError(
+            "Westbound carriageway lock summary does not reproduce from the "
+            "committed segments."
+        )
+    if payload.get("next_stage") != WESTBOUND_CARRIAGEWAY_NEXT_STAGE:
+        raise ValueError("Westbound carriageway lock next stage drifted.")
+    return payload

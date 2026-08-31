@@ -3776,3 +3776,508 @@ def test_corridor_elevation_lock_rejects_semantic_tampering(tmp_path: Path) -> N
 
     with pytest.raises(ValueError, match="summary does not reproduce"):
         _validate_elevation(_tampered_elevation_lock(tmp_path, summary_drift))
+
+
+CONDITIONED_LOCK_PATH = Path(
+    "data/routes/continental/conditioned-profile-lock.v1.json"
+)
+CARRIAGEWAY_LOCK_PATH = Path(
+    "data/routes/continental/westbound-carriageway-lock.v1.json"
+)
+
+
+def test_conditioning_seed_windows_detect_triggers_and_flat_runs() -> None:
+    offsets = [index * 100.0 for index in range(12)]
+    elevations = [
+        100.0, 100.0, 130.0, 100.0, 100.0, 50.0, 50.0, 50.0, 50.0, 100.0,
+        100.0, 100.0,
+    ]
+    seeds = continental._conditioning_seed_windows(offsets, elevations)
+    kinds = {detection for _, _, detection in seeds}
+    assert kinds == {"interval_grade_trigger", "water_flat_run"}
+    # The 50 m flat run seeds even though its own grade is zero.
+    assert (5, 8, "water_flat_run") in seeds
+    # Terminal short legs never seed: a 30 m rise over the terminal leg is
+    # quantisation, not an artifact.
+    short = continental._conditioning_seed_windows(
+        [0.0, 100.0, 130.0], [10.0, 10.0, 40.0]
+    )
+    assert short == []
+
+
+def test_conditioning_window_expansion_steps_off_flat_pairs() -> None:
+    offsets = [index * 100.0 for index in range(10)]
+    elevations = [10.0, 9.0, 0.0, 0.0, 0.0, 0.0, 8.0, 9.0, 9.5, 9.6]
+    windows = continental._conditioning_windows(offsets, elevations, "seg")
+    assert len(windows) == 1
+    start, end, _ = windows[0]
+    # The chord is anchored on real terrain on both sides of the water, never
+    # on a flat-pair value.
+    assert elevations[start] != elevations[start + 1]
+    assert elevations[end] != elevations[end - 1]
+    assert start <= 1 and end >= 6
+
+
+def test_conditioning_records_classify_and_replace_with_the_chord() -> None:
+    offsets = [index * 100.0 for index in range(9)]
+    ridge = [10.0, 10.0, 40.0, 80.0, 120.0, 80.0, 40.0, 10.0, 10.0]
+    records, conditioned = continental._condition_segment_profile(
+        "seg", offsets, ridge, [], []
+    )
+    assert len(records) == 1
+    record = records[0]
+    assert record["artifact_class"] == "terrain_ridge"
+    assert record["method"] == "linear_chord"
+    assert record["before"]["max_above_chord_m"] > 100.0
+    # Interior stations take the rounded chord; boundaries keep raw values.
+    interior = record["after"]["replacement_elevations_m"]
+    start_index = offsets.index(record["from_station_m"])
+    end_index = offsets.index(record["to_station_m"])
+    assert conditioned[start_index] == ridge[start_index]
+    assert conditioned[end_index] == ridge[end_index]
+    assert conditioned[start_index + 1 : end_index] == interior
+    assert abs(record["after"]["chord_grade_percent"]) <= (
+        continental.CONDITIONING_SUSTAINED_BOUND_PERCENT
+    )
+    dip = [10.0, 10.0, -40.0, -80.0, -40.0, 10.0, 10.5, 10.7, 10.9]
+    dip_records, _ = continental._condition_segment_profile(
+        "seg", offsets, dip, [], []
+    )
+    assert dip_records[0]["artifact_class"] == "bridge_deck_dip"
+    # A window overlapping a locked chord span reads as fill-span terrain.
+    span = [{"kind": "nhs_fill_chord", "site_id": "x",
+             "from_station_m": 200.0, "to_station_m": 400.0}]
+    span_records, _ = continental._condition_segment_profile(
+        "seg", offsets, dip, span, []
+    )
+    assert span_records[0]["artifact_class"] == "fill_span_terrain"
+    assert span_records[0]["evidence"]["chord_span_overlaps"] == span
+
+
+def test_conditioning_tunnel_window_must_agree_with_the_authored_bore() -> None:
+    offsets = [index * 100.0 for index in range(9)]
+    ridge = [10.0, 10.0, 40.0, 80.0, 120.0, 80.0, 40.0, 10.0, 10.0]
+    registry = [
+        {
+            "tunnel_id": "fake",
+            "segment_id": "seg",
+            "search_station_range_m": [0.0, 900.0],
+            "portal_elevation_m": {"east": 500.0, "west": 500.0},
+            "bore_length_m": 600.0,
+            "provenance": "authored",
+            "source_notes": "synthetic",
+        }
+    ]
+    # Portals hundreds of metres off the window's boundary elevations refuse.
+    with pytest.raises(ValueError, match="authored tunnel"):
+        continental._condition_segment_profile(
+            "seg", offsets, ridge, [], registry
+        )
+    registry[0]["portal_elevation_m"] = {"east": 10.0, "west": 10.0}
+    records, _ = continental._condition_segment_profile(
+        "seg", offsets, ridge, [], registry
+    )
+    assert records[0]["artifact_class"] == "tunnel_bore"
+    evidence = records[0]["evidence"]["authored_tunnel"]
+    assert evidence["tunnel_id"] == "fake"
+    assert abs(evidence["entry_portal_delta_m"]) <= (
+        continental.CONDITIONING_TUNNEL_PORTAL_TOLERANCE_M
+    )
+
+
+def _validate_conditioned(path: Path) -> dict:
+    return continental.validate_continental_conditioned_profile(
+        path,
+        ELEVATION_LOCK_PATH,
+        DEM_LOCK_PATH,
+        DIRECTED_LOCK_PATH,
+        SELECTION_PATH,
+        LOCK_PATH,
+        TRANSFER_LOCK_PATH,
+        TRANSFER_POLICY_PATH,
+        EDGE_PATH_LOCK_PATH,
+        NHS_FILL_LOCK_PATH,
+        DISPOSITION_PATH,
+        OVERLAY_LOCK_PATH,
+        CONFLATION_LOCK_PATH,
+        CATALOG_PATH,
+    )
+
+
+def test_repository_conditioned_profile_lock_validates() -> None:
+    payload = _validate_conditioned(CONDITIONED_LOCK_PATH)
+    assert payload["status"] == continental.CONDITIONED_PROFILE_STATUS
+    summary = payload["summary"]
+    assert summary["record_count"] == 154
+    assert summary["corrected_station_count"] == 546
+    assert {
+        cls: entry["record_count"]
+        for cls, entry in summary["corrections_by_class"].items()
+    } == {
+        "bridge_deck_dip": 115,
+        "fill_span_terrain": 1,
+        "interval_spike": 8,
+        "terrain_ridge": 20,
+        "tunnel_bore": 1,
+        "water_surface": 9,
+    }
+    # The post-conditioning corridor reads like a real road: the steepest
+    # sustained kilometre is under the interstate design bound, and the
+    # highest point is the Eisenhower-Johnson bore crown, not the ridge
+    # above it.
+    assert abs(summary["max_sustained_grade"]["grade_percent"]) <= 7.0
+    assert summary["max_sustained_grade"]["segment_id"] == "i70-denver-to-cove-fort"
+    assert summary["highest_point"]["elevation_m"] == 3402.08
+    assert summary["raw_highest_point"]["elevation_m"] == 3837.26
+    assert summary["raw_max_sustained_grade"]["grade_percent"] == -43.979
+    for segment in payload["segments"]:
+        sustained = segment["statistics"]["max_sustained_grade"]
+        assert abs(sustained["grade_percent"]) <= 7.0
+    tunnel_records = [
+        record
+        for segment in payload["segments"]
+        for record in segment["conditioning_records"]
+        if record["artifact_class"] == "tunnel_bore"
+    ]
+    assert len(tunnel_records) == 1
+    tunnel = tunnel_records[0]
+    assert tunnel["from_station_m"] == 86300.0
+    assert tunnel["to_station_m"] == 89000.0
+    assert abs(
+        tunnel["evidence"]["authored_tunnel"]["exit_portal_delta_m"]
+    ) <= 60.0
+    # The Delaware River fill chord's terrain window carries its span.
+    fill_records = [
+        record
+        for segment in payload["segments"]
+        for record in segment["conditioning_records"]
+        if record["artifact_class"] == "fill_span_terrain"
+    ]
+    assert len(fill_records) == 1
+    overlap = fill_records[0]["evidence"]["chord_span_overlaps"][0]
+    assert overlap["kind"] == "nhs_fill_chord"
+
+
+def _tampered_conditioned_lock(tmp_path: Path, mutate) -> Path:
+    payload = json.loads(CONDITIONED_LOCK_PATH.read_text(encoding="utf-8"))
+    mutate(payload)
+    payload["segments_sha256"] = canonical_sha256(payload["segments"])
+    payload["paths_sha256"] = canonical_sha256(payload["paths"])
+    target = tmp_path / "conditioned-profile-lock.json"
+    target.write_text(json.dumps(payload), encoding="utf-8")
+    return target
+
+
+def test_conditioned_profile_lock_rejects_semantic_tampering(
+    tmp_path: Path,
+) -> None:
+    def drifted_replacement(payload: dict) -> None:
+        record = payload["segments"][0]["conditioning_records"][0]
+        record["after"]["replacement_elevations_m"][0] += 1.0
+
+    with pytest.raises(ValueError, match="records do not reproduce"):
+        _validate_conditioned(
+            _tampered_conditioned_lock(tmp_path, drifted_replacement)
+        )
+
+    def dropped_record(payload: dict) -> None:
+        segment = payload["segments"][0]
+        segment["conditioning_records"] = segment["conditioning_records"][1:]
+        segment["record_count"] -= 1
+
+    with pytest.raises(ValueError, match="records do not reproduce"):
+        _validate_conditioned(_tampered_conditioned_lock(tmp_path, dropped_record))
+
+    def widened_trigger(payload: dict) -> None:
+        payload["model"]["interval_trigger_grade_percent"] = 50.0
+
+    with pytest.raises(ValueError, match="model constants drifted"):
+        _validate_conditioned(_tampered_conditioned_lock(tmp_path, widened_trigger))
+
+    def silent_smooth_claim(payload: dict) -> None:
+        payload["source_policy"]["silent_smoothing_applied"] = True
+
+    with pytest.raises(ValueError, match="source policy drifted"):
+        _validate_conditioned(
+            _tampered_conditioned_lock(tmp_path, silent_smooth_claim)
+        )
+
+    def drifted_tunnel(payload: dict) -> None:
+        payload["authored_tunnels"][0]["portal_elevation_m"]["west"] = 4000.0
+
+    with pytest.raises(ValueError, match="authored tunnels drifted"):
+        _validate_conditioned(_tampered_conditioned_lock(tmp_path, drifted_tunnel))
+
+    def drifted_digest(payload: dict) -> None:
+        payload["segments"][0]["conditioned_profile_sha256"] = "0" * 64
+
+    with pytest.raises(ValueError, match="profile digest drifted"):
+        _validate_conditioned(_tampered_conditioned_lock(tmp_path, drifted_digest))
+
+    def summary_drift(payload: dict) -> None:
+        payload["summary"]["corrected_station_count"] += 1
+
+    with pytest.raises(ValueError, match="summary does not reproduce"):
+        _validate_conditioned(_tampered_conditioned_lock(tmp_path, summary_drift))
+
+
+def test_resample_polyline_walks_stations_linearly() -> None:
+    coordinates = [(0.0, 0.0), (100.0, 0.0), (100.0, 50.0)]
+    samples = continental._resample_polyline(coordinates, 25.0)
+    assert samples[0] == (0.0, 0.0)
+    assert samples[1] == (25.0, 0.0)
+    assert samples[4] == (100.0, 0.0)
+    assert samples[-1] == (100.0, 50.0)
+    assert len(samples) == 7
+    assert continental._vertex_turn_degrees(samples, 4) == pytest.approx(90.0)
+
+
+def test_excise_reversal_apexes_removes_back_steps_with_records() -> None:
+    inverse = Transformer.from_crs("EPSG:5070", "EPSG:4326", always_xy=True)
+    # A 60 m out-and-back inside an otherwise straight chain.
+    chain = [
+        (0.0, 0.0), (100.0, 0.0), (200.0, 0.0), (140.0, 0.001),
+        (200.0, 0.002), (300.0, 0.002), (400.0, 0.002),
+    ]
+    conditioned, records = continental._excise_reversal_apexes(
+        "seg", list(chain), [], inverse
+    )
+    assert not records or all(
+        record["reversal_class"] == "joint_back_step" for record in records
+    )
+    assert records
+    for index in range(1, len(conditioned) - 1):
+        assert continental._vertex_turn_degrees(conditioned, index) <= (
+            continental.CARRIAGEWAY_REVERSAL_THRESHOLD_DEG
+        )
+    assert records[0]["chain_length_delta_m"] < 0
+    # An overlay chord's out-and-back classifies against the overlay line.
+    overlay = LineString([(200.0, 0.0), (140.0, 0.001)])
+    _, overlay_records = continental._excise_reversal_apexes(
+        "seg", list(chain), [overlay], inverse
+    )
+    assert overlay_records[0]["reversal_class"] == "overlay_out_and_back"
+    # A comb of reversals beyond the cap refuses.
+    comb: list[tuple[float, float]] = [(0.0, 0.0)]
+    for tooth in range(12):
+        comb.append((tooth * 10.0 + 10.0, 0.0))
+        comb.append((tooth * 10.0 + 4.0, 0.001 * (tooth + 1)))
+    with pytest.raises(ValueError, match="removal cap"):
+        continental._excise_reversal_apexes("seg", comb, [], inverse)
+
+
+def test_carriageway_corner_sites_classify_and_refuse_reversals() -> None:
+    inverse = Transformer.from_crs("EPSG:5070", "EPSG:4326", always_xy=True)
+    # A right-angle corner far from any overlay or backtrack is a route
+    # corner.
+    corner_chain = [(0.0, 0.0), (1000.0, 0.0), (1000.0, 1000.0)]
+    sites = continental._carriageway_corner_sites(
+        "seg", corner_chain, [], 0.0, 0.0, inverse
+    )
+    assert len(sites) == 1
+    assert sites[0]["corner_class"] == "route_corner"
+    assert sites[0]["peak_turn_deg"] > 20.0
+    # The same corner inside an overlay lens adjudicates the overlay gate.
+    overlay = LineString([(999.0, 0.0), (1001.0, 0.0)])
+    overlay_sites = continental._carriageway_corner_sites(
+        "seg", corner_chain, [overlay], 0.0, 0.0, inverse
+    )
+    assert overlay_sites[0]["corner_class"] == "overlay_corner"
+    # Inside a junction-backtrack tail span it is a junction approach.
+    tail_sites = continental._carriageway_corner_sites(
+        "seg", corner_chain, [], 1200.0, 0.0, inverse
+    )
+    assert tail_sites[0]["corner_class"] == "junction_backtrack_approach"
+    # A reversal-class turn surviving to the census refuses.
+    reversal_chain = [(0.0, 0.0), (1000.0, 0.0), (0.0, 0.5)]
+    with pytest.raises(ValueError, match="reversal-class turn survived"):
+        continental._carriageway_corner_sites(
+            "seg", reversal_chain, [], 0.0, 0.0, inverse
+        )
+
+
+def test_offset_carriageway_refuses_a_self_intersecting_offset() -> None:
+    # The inner side of a hairpin narrower than the offset degenerates.
+    hairpin = LineString(
+        [(0.0, 0.0), (100.0, 0.0), (100.0, 4.0), (0.0, 4.0)]
+    )
+    with pytest.raises(ValueError, match="not a single line|degenerate"):
+        continental._offset_carriageway("seg", hairpin, "eastbound")
+    # A zigzag whose offset splits into pieces refuses on either side.
+    zigzag = LineString(
+        [(0.0, 0.0), (200.0, 0.0), (200.0, 30.0), (100.0, 30.0),
+         (100.0, 15.0), (300.0, 15.0)]
+    )
+    with pytest.raises(ValueError, match="not a single line"):
+        continental._offset_carriageway("seg", zigzag, "westbound")
+    straight = LineString([(0.0, 0.0), (500.0, 0.0)])
+    westbound = continental._offset_carriageway("seg", straight, "westbound")
+    eastbound = continental._offset_carriageway("seg", straight, "eastbound")
+    assert westbound[0][1] == -continental.CARRIAGEWAY_OFFSET_M
+    assert eastbound[0][1] == continental.CARRIAGEWAY_OFFSET_M
+
+
+def test_carriageway_backtrack_record_proves_reciprocity() -> None:
+    shared = [(0.0, 0.0), (100.0, 0.0), (200.0, 0.0), (300.0, 0.0)]
+    arriving = [(-100.0, 300.0), (-100.0, 0.0)] + shared
+    departing = list(reversed(shared)) + [(-50.0, -200.0)]
+    junction = {
+        "anchor_id": "test-anchor",
+        "from_segment_id": "a",
+        "to_segment_id": "b",
+        "backtrack_element_count": 2,
+        "backtrack_length_m": 300.0,
+    }
+    record = continental._carriageway_backtrack_record(
+        junction, arriving, departing
+    )
+    assert record["mirrored_length_m"] == 300.0
+    assert record["reciprocity_gap_m"] <= 0.001
+    assert record["westbound_separation_m"] >= 19.0
+    # A drifted locked length refuses.
+    drifted = dict(junction, backtrack_length_m=250.0)
+    with pytest.raises(ValueError, match="mirrored backtrack length drifted"):
+        continental._carriageway_backtrack_record(drifted, arriving, departing)
+    # Chains that do not mirror refuse.
+    with pytest.raises(ValueError, match="do not mirror"):
+        continental._carriageway_backtrack_record(
+            junction, arriving, [(5000.0, 5000.0), (6000.0, 6000.0)]
+        )
+
+
+def _validate_carriageway(path: Path) -> dict:
+    return continental.validate_continental_westbound_carriageway(
+        path,
+        CONDITIONED_LOCK_PATH,
+        ELEVATION_LOCK_PATH,
+        DEM_LOCK_PATH,
+        DIRECTED_LOCK_PATH,
+        SELECTION_PATH,
+        LOCK_PATH,
+        TRANSFER_LOCK_PATH,
+        TRANSFER_POLICY_PATH,
+        EDGE_PATH_LOCK_PATH,
+        NHS_FILL_LOCK_PATH,
+        DISPOSITION_PATH,
+        OVERLAY_LOCK_PATH,
+        CONFLATION_LOCK_PATH,
+        CATALOG_PATH,
+    )
+
+
+def test_repository_westbound_carriageway_lock_validates() -> None:
+    payload = _validate_carriageway(CARRIAGEWAY_LOCK_PATH)
+    assert payload["status"] == continental.WESTBOUND_CARRIAGEWAY_STATUS
+    assert payload["westbound_selection"]["carriageway_direction_claimed"] is True
+    summary = payload["summary"]
+    assert summary["segment_count"] == 12
+    assert summary["element_count"] == 12582
+    assert summary["gates_failed"] == 0
+    assert summary["min_reciprocal_separation_m"] >= 19.0
+    assert summary["junction_backtrack_count"] == 2
+    # The Quad Cities overlay corner is adjudicated against the overlay
+    # lock's recorded 77.2 degree constraint.
+    overlay_sites = [
+        site
+        for segment in payload["segments"]
+        for site in segment["corner_sites"]
+        if site["corner_class"] == "overlay_corner"
+    ]
+    assert len(overlay_sites) == 1
+    assert abs(overlay_sites[0]["turn_sum_deg"] - 77.2) <= 5.0
+    # The two junction backtracks resolve onto the reciprocal pair.
+    anchors = {record["anchor_id"] for record in payload["junction_backtracks"]}
+    assert anchors == {"ca-barstow-i40-i15", "ut-salt-lake-i80-i15"}
+    for record in payload["junction_backtracks"]:
+        assert record["reciprocity_gap_m"] <= 0.001
+        assert record["westbound_separation_m"] >= 19.0
+    # The grade gate adjudicates the conditioned profile.
+    assert payload["grade_gate"]["passed"] is True
+    assert payload["grade_gate"]["source"] == "conditioned-profile-lock"
+
+
+def _tampered_carriageway_lock(tmp_path: Path, mutate) -> Path:
+    payload = json.loads(CARRIAGEWAY_LOCK_PATH.read_text(encoding="utf-8"))
+    mutate(payload)
+    payload["segments_sha256"] = canonical_sha256(payload["segments"])
+    target = tmp_path / "westbound-carriageway-lock.json"
+    target.write_text(json.dumps(payload), encoding="utf-8")
+    return target
+
+
+def test_westbound_carriageway_lock_rejects_semantic_tampering(
+    tmp_path: Path,
+) -> None:
+    def unclaimed_direction(payload: dict) -> None:
+        payload["westbound_selection"]["carriageway_direction_claimed"] = False
+
+    with pytest.raises(ValueError, match="must claim the carriageway direction"):
+        _validate_carriageway(
+            _tampered_carriageway_lock(tmp_path, unclaimed_direction)
+        )
+
+    def failed_gate(payload: dict) -> None:
+        payload["segments"][0]["gates"]["reciprocal_separation"]["passed"] = False
+
+    with pytest.raises(ValueError, match="did not pass"):
+        _validate_carriageway(_tampered_carriageway_lock(tmp_path, failed_gate))
+
+    def narrowed_separation(payload: dict) -> None:
+        payload["segments"][0]["gates"]["reciprocal_separation"]["measured"] = 5.0
+
+    with pytest.raises(ValueError, match="separation gate drifted"):
+        _validate_carriageway(
+            _tampered_carriageway_lock(tmp_path, narrowed_separation)
+        )
+
+    def unknown_corner_class(payload: dict) -> None:
+        for segment in payload["segments"]:
+            if segment["corner_sites"]:
+                segment["corner_sites"][0]["corner_class"] = "smoothed_away"
+                return
+
+    with pytest.raises(ValueError, match="unknown corner class"):
+        _validate_carriageway(
+            _tampered_carriageway_lock(tmp_path, unknown_corner_class)
+        )
+
+    def reversal_grade_corner(payload: dict) -> None:
+        for segment in payload["segments"]:
+            if segment["corner_sites"]:
+                site = segment["corner_sites"][0]
+                site["peak_turn_deg"] = 170.0
+                segment["gates"]["heading_discipline"]["measured"] = 170.0
+                return
+
+    with pytest.raises(ValueError, match="outside the corner class"):
+        _validate_carriageway(
+            _tampered_carriageway_lock(tmp_path, reversal_grade_corner)
+        )
+
+    def drifted_backtrack(payload: dict) -> None:
+        payload["junction_backtracks"][0]["reciprocity_gap_m"] = 5.0
+
+    with pytest.raises(ValueError, match="reciprocity gap exceeds"):
+        _validate_carriageway(
+            _tampered_carriageway_lock(tmp_path, drifted_backtrack)
+        )
+
+    def dropped_backtrack(payload: dict) -> None:
+        payload["junction_backtracks"] = payload["junction_backtracks"][:1]
+
+    with pytest.raises(ValueError, match="junction backtracks"):
+        _validate_carriageway(
+            _tampered_carriageway_lock(tmp_path, dropped_backtrack)
+        )
+
+    def widened_model(payload: dict) -> None:
+        payload["model"]["offset_m"] = 3.0
+
+    with pytest.raises(ValueError, match="model drifted"):
+        _validate_carriageway(_tampered_carriageway_lock(tmp_path, widened_model))
+
+    def summary_drift(payload: dict) -> None:
+        payload["summary"]["westbound_miles"] += 1.0
+
+    with pytest.raises(ValueError, match="summary does not reproduce"):
+        _validate_carriageway(_tampered_carriageway_lock(tmp_path, summary_drift))
