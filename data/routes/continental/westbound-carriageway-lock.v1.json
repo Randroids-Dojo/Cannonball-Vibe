@@ -1,0 +1,1301 @@
+{
+  "break_disposition_sha256": "48c9a40e33bf6a306c06232dc3c191c53e7a9ed73d17b412d7cf73e7eb137405",
+  "candidate_lock_sha256": "cbdaaa3710e2b2e9409628f32fb1ef16228ec2256c5b8f1428d3363618e73900",
+  "catalog_sha256": "4d3a4c115875fc7e72f12e6a9d32a31d4b103a1b73bdbc731f47864989b8447f",
+  "conditioned_profile_lock_sha256": "a3de91ffbe1fecb38cdbdfb0be2ca60805b1f7201c0c25e4400c6f11b2554d9f",
+  "coordinate_crs": "EPSG:4326",
+  "corridor_elevation_lock_sha256": "082a1e0432edac2a89a3c561b1f2ee121692a68fde3226087fdb43631ac4cac7",
+  "decision": "ADR-0014",
+  "deferred_gates": {
+    "deferred_to": "lane-topology-and-package-build-stage",
+    "gates": [
+      "curvature_design_radius",
+      "curvature_rate",
+      "vertical_curvature",
+      "sightline",
+      "clearance",
+      "collision",
+      "lane_connection",
+      "drivability"
+    ],
+    "reason": "NHPN centerline vertices carry catalog-documented ~80 m class horizontal error; design-radius adjudication on 25 m tangents would measure digitization noise, not road design. This stage adjudicates corner-class heading discipline (every turn beyond 20 degrees at the 25 m lens is a recorded exception site, reversal-class turns are refused), topology (self-intersection, monotonicity, reciprocal separation), and the grade gate against the conditioned profile; the finer gates run when lane splines and collision ribbons are generated over this carriageway model."
+  },
+  "dem_product_lock_sha256": "8863b1cd0445188427e0af597b6599b8f3e855ca43c34e93c664db1e3705860f",
+  "derived_at": "2026-08-31T13:24:25Z",
+  "directed_route_lock_sha256": "cd31ea3193a755f06349fdf1cea814775d5de700e04a75113f70e68d18793294",
+  "edge_path_lock_sha256": "fcf0da1dcff80eb74364b1496e2033c351b14c25cbbf7f857e8af8a42295fc5e",
+  "grade_gate": {
+    "measured": {
+      "from_station_m": 133400.0,
+      "grade_percent": -6.939,
+      "segment_id": "i70-denver-to-cove-fort",
+      "window_m": 1000.0
+    },
+    "passed": true,
+    "source": "conditioned-profile-lock",
+    "threshold": 7.0
+  },
+  "junction_backtracks": [
+    {
+      "anchor_id": "ca-barstow-i40-i15",
+      "backtrack_element_count": 4,
+      "from_segment_id": "i15-cove-fort-to-barstow",
+      "locked_backtrack_length_m": 485.938,
+      "mirrored_length_m": 485.939,
+      "mirrored_vertex_count": 13,
+      "reciprocity_gap_m": 0.0,
+      "resolution": "The doubled junction-approach travel rides the reciprocal carriageway pair: the departing westbound carriageway over the mirrored elements is exactly the arriving eastbound carriageway, so the directed route occupies each physical roadway once per direction. The anchor turn-around is deferred transfer geometry.",
+      "to_segment_id": "i15-barstow-to-ontario",
+      "westbound_separation_m": 20.0
+    },
+    {
+      "anchor_id": "ut-salt-lake-i80-i15",
+      "backtrack_element_count": 6,
+      "from_segment_id": "i80-big-springs-to-salt-lake",
+      "locked_backtrack_length_m": 2337.242,
+      "mirrored_length_m": 2337.242,
+      "mirrored_vertex_count": 19,
+      "reciprocity_gap_m": 0.0,
+      "resolution": "The doubled junction-approach travel rides the reciprocal carriageway pair: the departing westbound carriageway over the mirrored elements is exactly the arriving eastbound carriageway, so the directed route occupies each physical roadway once per direction. The anchor turn-around is deferred transfer geometry.",
+      "to_segment_id": "i15-salt-lake-to-cove-fort",
+      "westbound_separation_m": 20.0
+    }
+  ],
+  "metric_crs": "EPSG:5070",
+  "model": {
+    "corner_threshold_deg": 20.0,
+    "decision": "ADR-0014",
+    "geometry_decimals": 3,
+    "join_style": "round",
+    "metric_crs": "EPSG:5070",
+    "offset_justification": "NHPN models the facility as a single centerline with no median geometry; the 20 m carriageway-centreline separation matches a typical rural divided interstate cross-section (two 12 ft lanes per carriageway around a 40 ft-class depressed median = 64 ft = 19.5 m; common medians span 36-60 ft). Authored uniform model parameter per ADR-0017 - never claimed as observed cross-section; per-site cross-sections are later lane-topology refinement.",
+    "offset_m": 10.0,
+    "offset_provenance": "authored",
+    "pairing_rule": "Per directed element index k of segment s, the westbound edge '<s>:<k>:westbound' pairs the opposing edge '<s>:<k>:eastbound' in carriageway group '<s>:<k>' with roadway_kind divided_carriageway - a deterministic reciprocal rule over the locked element sequence rather than 12,582 explicit rows. The eastbound carriageway is the opposite offset of the same locked centerline with travel reversed, so the pair is reciprocal by construction and no opposing geometry is synthesized from unrelated nearby lines.",
+    "quad_segs": 8,
+    "reversal_threshold_deg": 150.0,
+    "side_rule": "The westbound carriageway offsets to the right of westbound travel; the source centerline is the median axis on the left of each directed carriageway, carrying ADR-0014 marking semantics (yellow continuous left/median edge, white broken same-direction dividers, white continuous right edge).",
+    "tangent_lens_m": 25.0
+  },
+  "next_stage": {
+    "id": "junction-and-span-geometry",
+    "requires": [
+      "conflated NHS span geometry replacing the three traversed fill chords (ADR-0026 conflation lock spans)",
+      "transfer geometry at the seven cross-segment junctions and the two junction-backtrack turn-arounds",
+      "authored endpoint connector geometry, after which ADR-0024's portal-to-portal run length can be published",
+      "lane topology, ramps, and collision over the carriageway model with the deferred ADR-0018 gates"
+    ]
+  },
+  "nhs_conflation_lock_sha256": "4448c547c0a051ac6c58f26c8e37f092d3a4fbd5a33072f807103b5394292251",
+  "nhs_fill_lock_sha256": "2d05552540107464344aa579e833333a17539de3f1ab7ac8595d5b3ad98c2852",
+  "overlay_corner_constraints": {
+    "i80-new-jersey-to-big-springs--component-00-01--authored-overlay": 0.0,
+    "i80-new-jersey-to-big-springs--component-01-02--authored-overlay": 77.2
+  },
+  "reconstruction_decision": "ADR-0018",
+  "reconstruction_overlay_lock_sha256": "b01be230edc495e5aa30981d37b342519514e8884896df778380584032f908a0",
+  "route_decision": "ADR-0024",
+  "route_selection_sha256": "00ac4df354a8644997a2a073ee07c736ff3f3bc2d2565c8cd9cb51b957d2ff2f",
+  "schema_version": 1,
+  "segment_count": 12,
+  "segments": [
+    {
+      "chain": {
+        "bridged_joint_count": 4,
+        "length_m": 2504068.184,
+        "max_joint_gap_m": 0.428624,
+        "raw_length_m": 2504071.37,
+        "vertex_count": 52060
+      },
+      "corner_sites": [
+        {
+          "coordinate": [
+            -80.837879,
+            41.1099875
+          ],
+          "corner_class": "route_corner",
+          "corner_id": "i80-new-jersey-to-big-springs--corner-000",
+          "from_station_m": 595500.0,
+          "peak_turn_deg": 42.01,
+          "sample_count": 2,
+          "to_station_m": 595525.0,
+          "turn_sum_deg": 65.8
+        },
+        {
+          "coordinate": [
+            -87.2238282,
+            41.589963
+          ],
+          "corner_class": "route_corner",
+          "corner_id": "i80-new-jersey-to-big-springs--corner-001",
+          "from_station_m": 1162775.0,
+          "peak_turn_deg": 48.35,
+          "sample_count": 1,
+          "to_station_m": 1162775.0,
+          "turn_sum_deg": 48.35
+        },
+        {
+          "coordinate": [
+            -90.3299857,
+            41.4402316
+          ],
+          "corner_class": "overlay_corner",
+          "corner_id": "i80-new-jersey-to-big-springs--corner-002",
+          "from_station_m": 1433450.0,
+          "overlay_distance_m": 9.153,
+          "peak_turn_deg": 43.24,
+          "sample_count": 2,
+          "to_station_m": 1433475.0,
+          "turn_sum_deg": 77.04
+        },
+        {
+          "coordinate": [
+            -93.7772954,
+            41.5922808
+          ],
+          "corner_class": "route_corner",
+          "corner_id": "i80-new-jersey-to-big-springs--corner-003",
+          "from_station_m": 1742775.0,
+          "peak_turn_deg": 63.23,
+          "sample_count": 2,
+          "to_station_m": 1742800.0,
+          "turn_sum_deg": 87.42
+        },
+        {
+          "coordinate": [
+            -95.584893,
+            41.4988503
+          ],
+          "corner_class": "route_corner",
+          "corner_id": "i80-new-jersey-to-big-springs--corner-004",
+          "from_station_m": 1895700.0,
+          "peak_turn_deg": 60.24,
+          "sample_count": 2,
+          "to_station_m": 1895725.0,
+          "turn_sum_deg": 87.12
+        },
+        {
+          "coordinate": [
+            -95.8396837,
+            41.2282255
+          ],
+          "corner_class": "route_corner",
+          "corner_id": "i80-new-jersey-to-big-springs--corner-005",
+          "from_station_m": 1934025.0,
+          "peak_turn_deg": 67.81,
+          "sample_count": 1,
+          "to_station_m": 1934025.0,
+          "turn_sum_deg": 67.81
+        }
+      ],
+      "eastbound": {
+        "geometry_sha256": "4a1994dfff17d870f4bfafe221aad8a68460e4b43604d8aed6000f35fe523795",
+        "length_m": 2504055.253,
+        "vertex_count": 73386
+      },
+      "element_count": 1936,
+      "gates": {
+        "chain_continuity": {
+          "measured": 0.428624,
+          "passed": true,
+          "threshold": 1.0
+        },
+        "heading_discipline": {
+          "measured": 67.81,
+          "passed": true,
+          "threshold": 150.0
+        },
+        "length_agreement": {
+          "measured": 7.795e-06,
+          "passed": true,
+          "threshold": 0.002
+        },
+        "reciprocal_separation": {
+          "measured": 19.929,
+          "passed": true,
+          "threshold": 19.0
+        },
+        "reversal_excision": {
+          "measured": 2,
+          "passed": true,
+          "threshold": 8
+        },
+        "self_intersection": {
+          "measured": {
+            "eastbound_simple": true,
+            "westbound_simple": true
+          },
+          "passed": true,
+          "threshold": "both offsets single simple LineStrings"
+        },
+        "station_monotonicity": {
+          "measured": {
+            "eastbound_vertex_count": 73386,
+            "westbound_vertex_count": 73751
+          },
+          "passed": true,
+          "threshold": "strictly increasing station at every vertex"
+        }
+      },
+      "planimetric_conditioning": [
+        {
+          "chain_length_delta_m": -2.022,
+          "chain_station_m": 1956057.544,
+          "coordinate": [
+            -96.090891,
+            41.216201
+          ],
+          "reversal_class": "overlay_out_and_back",
+          "turn_deg": 180.0
+        },
+        {
+          "chain_length_delta_m": -1.164,
+          "chain_station_m": 1942973.298,
+          "coordinate": [
+            -95.943896,
+            41.226167
+          ],
+          "reversal_class": "joint_back_step",
+          "turn_deg": 177.6
+        }
+      ],
+      "segment_id": "i80-new-jersey-to-big-springs",
+      "westbound": {
+        "geometry_sha256": "79d62f01c39ca107bdc8febaa738fc7c9e4d8ec09235f7cd2fa71d256eec1e0e",
+        "length_m": 2504048.664,
+        "vertex_count": 73751
+      }
+    },
+    {
+      "chain": {
+        "bridged_joint_count": 0,
+        "length_m": 299259.27,
+        "max_joint_gap_m": 0.0,
+        "raw_length_m": 299259.27,
+        "vertex_count": 1297
+      },
+      "corner_sites": [],
+      "eastbound": {
+        "geometry_sha256": "daea95375419fa9d0f7bdd49fb893f42955ff45a8e953c9fc5863cf2557691bf",
+        "length_m": 299264.16,
+        "vertex_count": 1797
+      },
+      "element_count": 264,
+      "gates": {
+        "chain_continuity": {
+          "measured": 0.0,
+          "passed": true,
+          "threshold": 1.0
+        },
+        "heading_discipline": {
+          "measured": 0.0,
+          "passed": true,
+          "threshold": 150.0
+        },
+        "length_agreement": {
+          "measured": 1.7965e-05,
+          "passed": true,
+          "threshold": 0.002
+        },
+        "reciprocal_separation": {
+          "measured": 19.942,
+          "passed": true,
+          "threshold": 19.0
+        },
+        "reversal_excision": {
+          "measured": 0,
+          "passed": true,
+          "threshold": 8
+        },
+        "self_intersection": {
+          "measured": {
+            "eastbound_simple": true,
+            "westbound_simple": true
+          },
+          "passed": true,
+          "threshold": "both offsets single simple LineStrings"
+        },
+        "station_monotonicity": {
+          "measured": {
+            "eastbound_vertex_count": 1797,
+            "westbound_vertex_count": 1786
+          },
+          "passed": true,
+          "threshold": "strictly increasing station at every vertex"
+        }
+      },
+      "planimetric_conditioning": [],
+      "segment_id": "i76-big-springs-to-denver",
+      "westbound": {
+        "geometry_sha256": "d76650cc94254b838d1466b57e563269892ebb881c36e3d9cbdbbbfea4fc0666",
+        "length_m": 299253.894,
+        "vertex_count": 1786
+      }
+    },
+    {
+      "chain": {
+        "bridged_joint_count": 0,
+        "length_m": 804576.944,
+        "max_joint_gap_m": 0.0,
+        "raw_length_m": 804576.944,
+        "vertex_count": 8466
+      },
+      "corner_sites": [
+        {
+          "coordinate": [
+            -107.8435996,
+            39.520318
+          ],
+          "corner_class": "route_corner",
+          "corner_id": "i70-denver-to-cove-fort--corner-000",
+          "from_station_m": 293425.0,
+          "peak_turn_deg": 56.77,
+          "sample_count": 5,
+          "to_station_m": 293625.0,
+          "turn_sum_deg": 162.74
+        },
+        {
+          "coordinate": [
+            -110.8643667,
+            38.860288
+          ],
+          "corner_class": "route_corner",
+          "corner_id": "i70-denver-to-cove-fort--corner-001",
+          "from_station_m": 612600.0,
+          "peak_turn_deg": 21.6,
+          "sample_count": 1,
+          "to_station_m": 612600.0,
+          "turn_sum_deg": 21.6
+        }
+      ],
+      "eastbound": {
+        "geometry_sha256": "3de15070597bf6a95db576a9d51c3472c1e4c2bfcfb8dae4e36671f8f8df2de5",
+        "length_m": 804565.009,
+        "vertex_count": 12323
+      },
+      "element_count": 487,
+      "gates": {
+        "chain_continuity": {
+          "measured": 0.0,
+          "passed": true,
+          "threshold": 1.0
+        },
+        "heading_discipline": {
+          "measured": 56.77,
+          "passed": true,
+          "threshold": 150.0
+        },
+        "length_agreement": {
+          "measured": 1.4833e-05,
+          "passed": true,
+          "threshold": 0.002
+        },
+        "reciprocal_separation": {
+          "measured": 19.955,
+          "passed": true,
+          "threshold": 19.0
+        },
+        "reversal_excision": {
+          "measured": 0,
+          "passed": true,
+          "threshold": 8
+        },
+        "self_intersection": {
+          "measured": {
+            "eastbound_simple": true,
+            "westbound_simple": true
+          },
+          "passed": true,
+          "threshold": "both offsets single simple LineStrings"
+        },
+        "station_monotonicity": {
+          "measured": {
+            "eastbound_vertex_count": 12323,
+            "westbound_vertex_count": 12406
+          },
+          "passed": true,
+          "threshold": "strictly increasing station at every vertex"
+        }
+      },
+      "planimetric_conditioning": [],
+      "segment_id": "i70-denver-to-cove-fort",
+      "westbound": {
+        "geometry_sha256": "b81e6557d10cf819783503ac9573bb7644c022a2421276f736fa2dc9e2fc2e27",
+        "length_m": 804576.708,
+        "vertex_count": 12406
+      }
+    },
+    {
+      "chain": {
+        "bridged_joint_count": 0,
+        "length_m": 930447.931,
+        "max_joint_gap_m": 0.0,
+        "raw_length_m": 930447.931,
+        "vertex_count": 17983
+      },
+      "corner_sites": [
+        {
+          "coordinate": [
+            -111.9042114,
+            40.7184375
+          ],
+          "corner_class": "junction_backtrack_approach",
+          "corner_id": "i80-big-springs-to-salt-lake--corner-000",
+          "from_station_m": 928100.0,
+          "peak_turn_deg": 28.93,
+          "sample_count": 2,
+          "to_station_m": 928125.0,
+          "turn_sum_deg": 50.12
+        }
+      ],
+      "eastbound": {
+        "geometry_sha256": "789b86cd6b0b7110a109641fd9c18cda0996816d4c52b271af4d22d5df0b801d",
+        "length_m": 930462.511,
+        "vertex_count": 25480
+      },
+      "element_count": 504,
+      "gates": {
+        "chain_continuity": {
+          "measured": 0.0,
+          "passed": true,
+          "threshold": 1.0
+        },
+        "heading_discipline": {
+          "measured": 28.93,
+          "passed": true,
+          "threshold": 150.0
+        },
+        "length_agreement": {
+          "measured": 1.8338e-05,
+          "passed": true,
+          "threshold": 0.002
+        },
+        "reciprocal_separation": {
+          "measured": 19.956,
+          "passed": true,
+          "threshold": 19.0
+        },
+        "reversal_excision": {
+          "measured": 0,
+          "passed": true,
+          "threshold": 8
+        },
+        "self_intersection": {
+          "measured": {
+            "eastbound_simple": true,
+            "westbound_simple": true
+          },
+          "passed": true,
+          "threshold": "both offsets single simple LineStrings"
+        },
+        "station_monotonicity": {
+          "measured": {
+            "eastbound_vertex_count": 25480,
+            "westbound_vertex_count": 25504
+          },
+          "passed": true,
+          "threshold": "strictly increasing station at every vertex"
+        }
+      },
+      "planimetric_conditioning": [],
+      "segment_id": "i80-big-springs-to-salt-lake",
+      "westbound": {
+        "geometry_sha256": "4b2ed1dc37032a334ca1cc932cce956640003d828ae97d340ffaae5fd0189514",
+        "length_m": 930430.869,
+        "vertex_count": 25504
+      }
+    },
+    {
+      "chain": {
+        "bridged_joint_count": 0,
+        "length_m": 281552.684,
+        "max_joint_gap_m": 0.0,
+        "raw_length_m": 281552.684,
+        "vertex_count": 1690
+      },
+      "corner_sites": [
+        {
+          "coordinate": [
+            -111.6589538,
+            40.2088899
+          ],
+          "corner_class": "route_corner",
+          "corner_id": "i15-salt-lake-to-cove-fort--corner-000",
+          "from_station_m": 69175.0,
+          "peak_turn_deg": 25.37,
+          "sample_count": 1,
+          "to_station_m": 69175.0,
+          "turn_sum_deg": 25.37
+        }
+      ],
+      "eastbound": {
+        "geometry_sha256": "ade7d7b6de64c6cf466452bd920f529156fb4fb61b0049b1de4ee57980ac231b",
+        "length_m": 281551.448,
+        "vertex_count": 2461
+      },
+      "element_count": 246,
+      "gates": {
+        "chain_continuity": {
+          "measured": 0.0,
+          "passed": true,
+          "threshold": 1.0
+        },
+        "heading_discipline": {
+          "measured": 25.37,
+          "passed": true,
+          "threshold": 150.0
+        },
+        "length_agreement": {
+          "measured": 4.391e-06,
+          "passed": true,
+          "threshold": 0.002
+        },
+        "reciprocal_separation": {
+          "measured": 19.97,
+          "passed": true,
+          "threshold": 19.0
+        },
+        "reversal_excision": {
+          "measured": 0,
+          "passed": true,
+          "threshold": 8
+        },
+        "self_intersection": {
+          "measured": {
+            "eastbound_simple": true,
+            "westbound_simple": true
+          },
+          "passed": true,
+          "threshold": "both offsets single simple LineStrings"
+        },
+        "station_monotonicity": {
+          "measured": {
+            "eastbound_vertex_count": 2461,
+            "westbound_vertex_count": 2464
+          },
+          "passed": true,
+          "threshold": "strictly increasing station at every vertex"
+        }
+      },
+      "planimetric_conditioning": [],
+      "segment_id": "i15-salt-lake-to-cove-fort",
+      "westbound": {
+        "geometry_sha256": "76361d2dfd3977ab13c41fbe5eebc7de723f563939bcfa6f76c7dacdf34dacb4",
+        "length_m": 281552.23,
+        "vertex_count": 2464
+      }
+    },
+    {
+      "chain": {
+        "bridged_joint_count": 0,
+        "length_m": 231084.598,
+        "max_joint_gap_m": 0.0,
+        "raw_length_m": 231084.598,
+        "vertex_count": 4147
+      },
+      "corner_sites": [
+        {
+          "coordinate": [
+            -75.1777741,
+            40.6718254
+          ],
+          "corner_class": "route_corner",
+          "corner_id": "i78-holland-tunnel-to-i81--corner-000",
+          "from_station_m": 107550.0,
+          "peak_turn_deg": 29.9,
+          "sample_count": 2,
+          "to_station_m": 107575.0,
+          "turn_sum_deg": 59.22
+        }
+      ],
+      "eastbound": {
+        "geometry_sha256": "7499ae2498a38f1f579e0349eb03f6ce92d9d0a4fc953114c60f7e67d781689b",
+        "length_m": 231077.057,
+        "vertex_count": 6068
+      },
+      "element_count": 274,
+      "gates": {
+        "chain_continuity": {
+          "measured": 0.0,
+          "passed": true,
+          "threshold": 1.0
+        },
+        "heading_discipline": {
+          "measured": 29.9,
+          "passed": true,
+          "threshold": 150.0
+        },
+        "length_agreement": {
+          "measured": 3.2635e-05,
+          "passed": true,
+          "threshold": 0.002
+        },
+        "reciprocal_separation": {
+          "measured": 19.955,
+          "passed": true,
+          "threshold": 19.0
+        },
+        "reversal_excision": {
+          "measured": 0,
+          "passed": true,
+          "threshold": 8
+        },
+        "self_intersection": {
+          "measured": {
+            "eastbound_simple": true,
+            "westbound_simple": true
+          },
+          "passed": true,
+          "threshold": "both offsets single simple LineStrings"
+        },
+        "station_monotonicity": {
+          "measured": {
+            "eastbound_vertex_count": 6068,
+            "westbound_vertex_count": 6058
+          },
+          "passed": true,
+          "threshold": "strictly increasing station at every vertex"
+        }
+      },
+      "planimetric_conditioning": [],
+      "segment_id": "i78-holland-tunnel-to-i81",
+      "westbound": {
+        "geometry_sha256": "ede93b474473bc88fd31e10d930dbb35dda85cf34d1285c1d478fdc84a4f2084",
+        "length_m": 231090.849,
+        "vertex_count": 6058
+      }
+    },
+    {
+      "chain": {
+        "bridged_joint_count": 1,
+        "length_m": 845899.534,
+        "max_joint_gap_m": 0.850441,
+        "raw_length_m": 845899.534,
+        "vertex_count": 49106
+      },
+      "corner_sites": [],
+      "eastbound": {
+        "geometry_sha256": "c49fede6719ab80a613ba93ae59fda58cbb155a71335634bd0cc20419435aec4",
+        "length_m": 845899.122,
+        "vertex_count": 70899
+      },
+      "element_count": 763,
+      "gates": {
+        "chain_continuity": {
+          "measured": 0.850441,
+          "passed": true,
+          "threshold": 1.0
+        },
+        "heading_discipline": {
+          "measured": 0.0,
+          "passed": true,
+          "threshold": 150.0
+        },
+        "length_agreement": {
+          "measured": 1.153e-06,
+          "passed": true,
+          "threshold": 0.002
+        },
+        "reciprocal_separation": {
+          "measured": 19.951,
+          "passed": true,
+          "threshold": 19.0
+        },
+        "reversal_excision": {
+          "measured": 0,
+          "passed": true,
+          "threshold": 8
+        },
+        "self_intersection": {
+          "measured": {
+            "eastbound_simple": true,
+            "westbound_simple": true
+          },
+          "passed": true,
+          "threshold": "both offsets single simple LineStrings"
+        },
+        "station_monotonicity": {
+          "measured": {
+            "eastbound_vertex_count": 70899,
+            "westbound_vertex_count": 71075
+          },
+          "passed": true,
+          "threshold": "strictly increasing station at every vertex"
+        }
+      },
+      "planimetric_conditioning": [],
+      "segment_id": "i81-i78-to-i40",
+      "westbound": {
+        "geometry_sha256": "314eca045c4e12079d7719cc8159a58d266eb4f24b4ea4d88a286a96db41af8d",
+        "length_m": 845898.558,
+        "vertex_count": 71075
+      }
+    },
+    {
+      "chain": {
+        "bridged_joint_count": 6,
+        "length_m": 3366359.749,
+        "max_joint_gap_m": 0.934318,
+        "raw_length_m": 3366488.799,
+        "vertex_count": 70362
+      },
+      "corner_sites": [
+        {
+          "coordinate": [
+            -89.8849339,
+            35.1513583
+          ],
+          "corner_class": "route_corner",
+          "corner_id": "i40-i81-to-barstow--corner-000",
+          "from_station_m": 657375.0,
+          "peak_turn_deg": 63.13,
+          "sample_count": 2,
+          "to_station_m": 657400.0,
+          "turn_sum_deg": 87.26
+        },
+        {
+          "coordinate": [
+            -97.4672459,
+            35.4665374
+          ],
+          "corner_class": "route_corner",
+          "corner_id": "i40-i81-to-barstow--corner-001",
+          "from_station_m": 1419400.0,
+          "peak_turn_deg": 103.28,
+          "sample_count": 1,
+          "to_station_m": 1419400.0,
+          "turn_sum_deg": 103.28
+        },
+        {
+          "coordinate": [
+            -101.5814453,
+            35.2207245
+          ],
+          "corner_class": "route_corner",
+          "corner_id": "i40-i81-to-barstow--corner-002",
+          "from_station_m": 1810450.0,
+          "peak_turn_deg": 23.85,
+          "sample_count": 1,
+          "to_station_m": 1810450.0,
+          "turn_sum_deg": 23.85
+        },
+        {
+          "coordinate": [
+            -109.0467859,
+            35.3633348
+          ],
+          "corner_class": "route_corner",
+          "corner_id": "i40-i81-to-barstow--corner-003",
+          "from_station_m": 2543975.0,
+          "peak_turn_deg": 32.79,
+          "sample_count": 1,
+          "to_station_m": 2543975.0,
+          "turn_sum_deg": 32.79
+        },
+        {
+          "coordinate": [
+            -114.4784114,
+            34.7180871
+          ],
+          "corner_class": "route_corner",
+          "corner_id": "i40-i81-to-barstow--corner-004",
+          "from_station_m": 3118200.0,
+          "peak_turn_deg": 24.46,
+          "sample_count": 1,
+          "to_station_m": 3118200.0,
+          "turn_sum_deg": 24.46
+        }
+      ],
+      "eastbound": {
+        "geometry_sha256": "3dca388500b42d2bbad11006ea745ff714ca3a6708f4c7c1b9b5c3d0e2e75188",
+        "length_m": 3366346.533,
+        "vertex_count": 100433
+      },
+      "element_count": 6558,
+      "gates": {
+        "chain_continuity": {
+          "measured": 0.934318,
+          "passed": true,
+          "threshold": 1.0
+        },
+        "heading_discipline": {
+          "measured": 103.28,
+          "passed": true,
+          "threshold": 150.0
+        },
+        "length_agreement": {
+          "measured": 4.586e-06,
+          "passed": true,
+          "threshold": 0.002
+        },
+        "reciprocal_separation": {
+          "measured": 19.947,
+          "passed": true,
+          "threshold": 19.0
+        },
+        "reversal_excision": {
+          "measured": 2,
+          "passed": true,
+          "threshold": 8
+        },
+        "self_intersection": {
+          "measured": {
+            "eastbound_simple": true,
+            "westbound_simple": true
+          },
+          "passed": true,
+          "threshold": "both offsets single simple LineStrings"
+        },
+        "station_monotonicity": {
+          "measured": {
+            "eastbound_vertex_count": 100433,
+            "westbound_vertex_count": 100934
+          },
+          "passed": true,
+          "threshold": "strictly increasing station at every vertex"
+        }
+      },
+      "planimetric_conditioning": [
+        {
+          "chain_length_delta_m": -128.465,
+          "chain_station_m": 2490234.35,
+          "coordinate": [
+            -108.540877,
+            35.511073
+          ],
+          "reversal_class": "joint_back_step",
+          "turn_deg": 179.97
+        },
+        {
+          "chain_length_delta_m": -0.585,
+          "chain_station_m": 2808276.927,
+          "coordinate": [
+            -111.678513,
+            35.17739
+          ],
+          "reversal_class": "joint_back_step",
+          "turn_deg": 174.31
+        }
+      ],
+      "segment_id": "i40-i81-to-barstow",
+      "westbound": {
+        "geometry_sha256": "554ad5437f8ad3a98939fc768bbf73c0e051d79b4c7f8944b2c6934bbf1400b0",
+        "length_m": 3366344.311,
+        "vertex_count": 100934
+      }
+    },
+    {
+      "chain": {
+        "bridged_joint_count": 6,
+        "length_m": 641166.827,
+        "max_joint_gap_m": 0.828632,
+        "raw_length_m": 641166.827,
+        "vertex_count": 5292
+      },
+      "corner_sites": [
+        {
+          "coordinate": [
+            -114.0501517,
+            36.8175397
+          ],
+          "corner_class": "route_corner",
+          "corner_id": "i15-cove-fort-to-barstow--corner-000",
+          "from_station_m": 261200.0,
+          "peak_turn_deg": 20.39,
+          "sample_count": 1,
+          "to_station_m": 261200.0,
+          "turn_sum_deg": 20.39
+        },
+        {
+          "coordinate": [
+            -114.0638192,
+            36.8097918
+          ],
+          "corner_class": "route_corner",
+          "corner_id": "i15-cove-fort-to-barstow--corner-001",
+          "from_station_m": 262700.0,
+          "peak_turn_deg": 48.74,
+          "sample_count": 2,
+          "to_station_m": 262725.0,
+          "turn_sum_deg": 81.23
+        },
+        {
+          "coordinate": [
+            -114.0647031,
+            36.804003
+          ],
+          "corner_class": "route_corner",
+          "corner_id": "i15-cove-fort-to-barstow--corner-002",
+          "from_station_m": 263375.0,
+          "peak_turn_deg": 80.33,
+          "sample_count": 1,
+          "to_station_m": 263375.0,
+          "turn_sum_deg": 80.33
+        },
+        {
+          "coordinate": [
+            -114.1071635,
+            36.8029917
+          ],
+          "corner_class": "route_corner",
+          "corner_id": "i15-cove-fort-to-barstow--corner-003",
+          "from_station_m": 267150.0,
+          "peak_turn_deg": 53.53,
+          "sample_count": 1,
+          "to_station_m": 267150.0,
+          "turn_sum_deg": 53.53
+        },
+        {
+          "coordinate": [
+            -117.0137099,
+            34.88579
+          ],
+          "corner_class": "junction_backtrack_approach",
+          "corner_id": "i15-cove-fort-to-barstow--corner-004",
+          "from_station_m": 640675.0,
+          "peak_turn_deg": 143.67,
+          "sample_count": 2,
+          "to_station_m": 640700.0,
+          "turn_sum_deg": 171.84
+        }
+      ],
+      "eastbound": {
+        "geometry_sha256": "a99c1d5e5e81f5088a762c6efde6cf1e15131e4e43276844fb224037557bb317",
+        "length_m": 640478.887,
+        "vertex_count": 7662
+      },
+      "element_count": 617,
+      "gates": {
+        "chain_continuity": {
+          "measured": 0.828632,
+          "passed": true,
+          "threshold": 1.0
+        },
+        "heading_discipline": {
+          "measured": 143.67,
+          "passed": true,
+          "threshold": 150.0
+        },
+        "length_agreement": {
+          "measured": 0.00107295,
+          "passed": true,
+          "threshold": 0.002
+        },
+        "reciprocal_separation": {
+          "measured": 19.931,
+          "passed": true,
+          "threshold": 19.0
+        },
+        "reversal_excision": {
+          "measured": 0,
+          "passed": true,
+          "threshold": 8
+        },
+        "self_intersection": {
+          "measured": {
+            "eastbound_simple": true,
+            "westbound_simple": true
+          },
+          "passed": true,
+          "threshold": "both offsets single simple LineStrings"
+        },
+        "station_monotonicity": {
+          "measured": {
+            "eastbound_vertex_count": 7662,
+            "westbound_vertex_count": 7580
+          },
+          "passed": true,
+          "threshold": "strictly increasing station at every vertex"
+        }
+      },
+      "planimetric_conditioning": [],
+      "segment_id": "i15-cove-fort-to-barstow",
+      "westbound": {
+        "geometry_sha256": "fec4f6cf0230a818dd25e2918d84bf78ebf73bfc9bf8e3feeda4a0d793c8a2e6",
+        "length_m": 641178.586,
+        "vertex_count": 7580
+      }
+    },
+    {
+      "chain": {
+        "bridged_joint_count": 2,
+        "length_m": 117307.64,
+        "max_joint_gap_m": 0.93544,
+        "raw_length_m": 117307.64,
+        "vertex_count": 1735
+      },
+      "corner_sites": [
+        {
+          "coordinate": [
+            -117.4096832,
+            34.2252742
+          ],
+          "corner_class": "route_corner",
+          "corner_id": "i15-barstow-to-ontario--corner-000",
+          "from_station_m": 94750.0,
+          "peak_turn_deg": 33.12,
+          "sample_count": 1,
+          "to_station_m": 94750.0,
+          "turn_sum_deg": 33.12
+        }
+      ],
+      "eastbound": {
+        "geometry_sha256": "e14f74addf40820cd8da2f3b1c365cd0ed3051a7f3c1fdac0a47ad7977c58aed",
+        "length_m": 117294.219,
+        "vertex_count": 2534
+      },
+      "element_count": 316,
+      "gates": {
+        "chain_continuity": {
+          "measured": 0.93544,
+          "passed": true,
+          "threshold": 1.0
+        },
+        "heading_discipline": {
+          "measured": 33.12,
+          "passed": true,
+          "threshold": 150.0
+        },
+        "length_agreement": {
+          "measured": 0.000114406,
+          "passed": true,
+          "threshold": 0.002
+        },
+        "reciprocal_separation": {
+          "measured": 19.956,
+          "passed": true,
+          "threshold": 19.0
+        },
+        "reversal_excision": {
+          "measured": 0,
+          "passed": true,
+          "threshold": 8
+        },
+        "self_intersection": {
+          "measured": {
+            "eastbound_simple": true,
+            "westbound_simple": true
+          },
+          "passed": true,
+          "threshold": "both offsets single simple LineStrings"
+        },
+        "station_monotonicity": {
+          "measured": {
+            "eastbound_vertex_count": 2534,
+            "westbound_vertex_count": 2372
+          },
+          "passed": true,
+          "threshold": "strictly increasing station at every vertex"
+        }
+      },
+      "planimetric_conditioning": [],
+      "segment_id": "i15-barstow-to-ontario",
+      "westbound": {
+        "geometry_sha256": "2eb5c70822454934347cff7438e0aed6eb72af5afceb163b72bc16b66b9d574f",
+        "length_m": 117320.304,
+        "vertex_count": 2372
+      }
+    },
+    {
+      "chain": {
+        "bridged_joint_count": 10,
+        "length_m": 87569.669,
+        "max_joint_gap_m": 0.916557,
+        "raw_length_m": 87569.669,
+        "vertex_count": 1774
+      },
+      "corner_sites": [
+        {
+          "coordinate": [
+            -118.2244862,
+            34.0524017
+          ],
+          "corner_class": "route_corner",
+          "corner_id": "i10-ontario-to-i405--corner-000",
+          "from_station_m": 64675.0,
+          "peak_turn_deg": 135.71,
+          "sample_count": 1,
+          "to_station_m": 64675.0,
+          "turn_sum_deg": 135.71
+        },
+        {
+          "coordinate": [
+            -118.2209783,
+            34.0336378
+          ],
+          "corner_class": "route_corner",
+          "corner_id": "i10-ontario-to-i405--corner-001",
+          "from_station_m": 66850.0,
+          "peak_turn_deg": 30.97,
+          "sample_count": 2,
+          "to_station_m": 66875.0,
+          "turn_sum_deg": 53.98
+        }
+      ],
+      "eastbound": {
+        "geometry_sha256": "2418e1882b97058b0366d49f194609c318e95810f4d1a877782721eb1187bdd7",
+        "length_m": 87540.521,
+        "vertex_count": 2515
+      },
+      "element_count": 460,
+      "gates": {
+        "chain_continuity": {
+          "measured": 0.916557,
+          "passed": true,
+          "threshold": 1.0
+        },
+        "heading_discipline": {
+          "measured": 135.71,
+          "passed": true,
+          "threshold": 150.0
+        },
+        "length_agreement": {
+          "measured": 0.000332862,
+          "passed": true,
+          "threshold": 0.002
+        },
+        "reciprocal_separation": {
+          "measured": 19.981,
+          "passed": true,
+          "threshold": 19.0
+        },
+        "reversal_excision": {
+          "measured": 0,
+          "passed": true,
+          "threshold": 8
+        },
+        "self_intersection": {
+          "measured": {
+            "eastbound_simple": true,
+            "westbound_simple": true
+          },
+          "passed": true,
+          "threshold": "both offsets single simple LineStrings"
+        },
+        "station_monotonicity": {
+          "measured": {
+            "eastbound_vertex_count": 2515,
+            "westbound_vertex_count": 2546
+          },
+          "passed": true,
+          "threshold": "strictly increasing station at every vertex"
+        }
+      },
+      "planimetric_conditioning": [],
+      "segment_id": "i10-ontario-to-i405",
+      "westbound": {
+        "geometry_sha256": "d6ff5dbca035dec9c4b6a2cab56d4e8c9505d584d91d710a62fa95016b2da618",
+        "length_m": 87569.935,
+        "vertex_count": 2546
+      }
+    },
+    {
+      "chain": {
+        "bridged_joint_count": 0,
+        "length_m": 19936.134,
+        "max_joint_gap_m": 0.0,
+        "raw_length_m": 19936.134,
+        "vertex_count": 457
+      },
+      "corner_sites": [],
+      "eastbound": {
+        "geometry_sha256": "762fc10bc67e9d5125f02e2f0acb39e82c513a833a0efd79dac3e4cf8249e940",
+        "length_m": 19936.177,
+        "vertex_count": 644
+      },
+      "element_count": 157,
+      "gates": {
+        "chain_continuity": {
+          "measured": 0.0,
+          "passed": true,
+          "threshold": 1.0
+        },
+        "heading_discipline": {
+          "measured": 0.0,
+          "passed": true,
+          "threshold": 150.0
+        },
+        "length_agreement": {
+          "measured": 9.411e-06,
+          "passed": true,
+          "threshold": 0.002
+        },
+        "reciprocal_separation": {
+          "measured": 19.989,
+          "passed": true,
+          "threshold": 19.0
+        },
+        "reversal_excision": {
+          "measured": 0,
+          "passed": true,
+          "threshold": 8
+        },
+        "self_intersection": {
+          "measured": {
+            "eastbound_simple": true,
+            "westbound_simple": true
+          },
+          "passed": true,
+          "threshold": "both offsets single simple LineStrings"
+        },
+        "station_monotonicity": {
+          "measured": {
+            "eastbound_vertex_count": 644,
+            "westbound_vertex_count": 635
+          },
+          "passed": true,
+          "threshold": "strictly increasing station at every vertex"
+        }
+      },
+      "planimetric_conditioning": [],
+      "segment_id": "i405-west-la-to-ca107",
+      "westbound": {
+        "geometry_sha256": "0f878578924b018232be680dbd11055f19252a74deac92db4c4049019bf5521c",
+        "length_m": 19935.946,
+        "vertex_count": 635
+      }
+    }
+  ],
+  "segments_sha256": "99571ec6e34bf27fcb26b33d7c588d036be975e48d78723cd73e0f0d42ec3846",
+  "source_policy": {
+    "authoritative_distance_claimed": false,
+    "carriageway_decision": "ADR-0014",
+    "context_decision": "ADR-0017",
+    "continental_downloads_committed": false,
+    "control_line_decision": "ADR-0013",
+    "endpoint_connectors_generated": false,
+    "fill_chords_replaced_by_conflated_spans": false,
+    "junction_transfer_geometry_generated": false,
+    "opposing_geometry_synthesized_from_proximity": false,
+    "reconstruction_decision": "ADR-0018"
+  },
+  "status": "westbound_carriageway_locked_junction_geometry_pending",
+  "summary": {
+    "chain_length_m": 10129229.164,
+    "corner_site_count": 24,
+    "corner_sites_by_class": {
+      "junction_backtrack_approach": 2,
+      "overlay_corner": 1,
+      "route_corner": 21
+    },
+    "eastbound_length_m": 10128470.897,
+    "element_count": 12582,
+    "gates_failed": 0,
+    "gates_passed": 84,
+    "junction_backtrack_count": 2,
+    "min_reciprocal_separation_m": 19.929,
+    "planimetric_conditioning_by_class": {
+      "joint_back_step": 3,
+      "overlay_out_and_back": 1
+    },
+    "planimetric_conditioning_count": 4,
+    "segment_count": 12,
+    "westbound_length_m": 10129200.854,
+    "westbound_miles": 6293.994
+  },
+  "transfer_lock_sha256": "b267282a1d48014783c90a60c46cda85cea61741911d23649bf318404aea2b3b",
+  "westbound_selection": {
+    "basis": "The directed route lock fixes anchor-to-anchor travel; this ADR-0014 reconstruction stage constructs the reciprocal offset pair over that locked sequence and claims the westbound carriageway as the travel roadway. NHPN itself still asserts no per-carriageway direction (the directed lock's facility census stands).",
+    "carriageway_direction_claimed": true
+  }
+}

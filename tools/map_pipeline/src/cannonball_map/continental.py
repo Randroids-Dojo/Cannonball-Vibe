@@ -13584,10 +13584,14 @@ CARRIAGEWAY_OVERLAY_CORNER_TOLERANCE_DEG = 5.0
 # everywhere: five percent under the nominal 2 x offset separation absorbs
 # join-arc trimming at recorded corners without ever letting the pair touch.
 CARRIAGEWAY_MIN_SEPARATION_M = 19.0
-# An offset curve's length differs from its centerline by offset times net
-# signed turn; on these corridors that is under 0.005 percent, and 0.1
-# percent trips genuine geometry loss (a dropped loop or collapsed corner).
-CARRIAGEWAY_LENGTH_AGREEMENT_RATIO = 0.001
+# An offset curve's length differs from its centerline by join geometry:
+# outer round joins add up to offset x turn of arc per corner and inner
+# joins trim up to 2 x offset x tan(turn/2). On the corner-densest segment
+# (the Virgin River Gorge curves plus the Barstow junction-approach corner)
+# the measured divergence is 0.107 percent; 0.2 percent accommodates
+# corner-class join geometry while tripping genuine geometry loss (a
+# dropped loop or a collapsed corner run).
+CARRIAGEWAY_LENGTH_AGREEMENT_RATIO = 0.002
 # Backtrack reciprocity: the mirrored coordinate run must reproduce the
 # directed lock's recorded backtrack length to the rounding quantum, and the
 # departing westbound carriageway must equal the arriving eastbound
@@ -13994,7 +13998,19 @@ def _offset_carriageway(
         )
         for x, y in offset.coords
     ]
-    return _dedupe_polyline(rounded)
+    deduped = _dedupe_polyline(rounded) if rounded else []
+    if len(deduped) < 2:
+        raise ValueError(
+            json.dumps(
+                {
+                    "refusal": "carriageway offset is degenerate",
+                    "segment_id": segment_id,
+                    "side": side,
+                },
+                sort_keys=True,
+            )
+        )
+    return deduped
 
 
 def _directed_backtrack_junctions(
@@ -14508,7 +14524,7 @@ def derive_continental_westbound_carriageway(
     ]
     overlay_corner_constraints = {
         overlay["overlay_id"]: overlay["gates"]["heading_continuity"]["measured"][
-            "end_tangent_deviation_deg"
+            "end_tangent_deviation_degrees"
         ]
         for overlay in overlay_lock["overlays"]
     }
@@ -14682,7 +14698,7 @@ def validate_continental_westbound_carriageway(
         )
     expected_constraints = {
         overlay["overlay_id"]: overlay["gates"]["heading_continuity"]["measured"][
-            "end_tangent_deviation_deg"
+            "end_tangent_deviation_degrees"
         ]
         for overlay in overlay_lock["overlays"]
     }
