@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 from pyproj import Transformer
-from shapely.geometry import LineString
+from shapely.geometry import LineString, Point
 from shapely.ops import transform
 from typer.testing import CliRunner
 
@@ -1124,3 +1124,321 @@ def test_component_probe_does_not_use_the_transfer_anchor_snap_limit() -> None:
     assert result["from_probe_snap_distance_m"] == pytest.approx(10.0)
     assert result["from_probe_snap_limit_m"] == ENDPOINT_SNAP_TOLERANCE_METERS
     assert result["source_connection_found"] is False
+
+
+# --- Per-chain-end census at the unconnected segments' break ends --------------
+
+
+def _metric_identity() -> Transformer:
+    """Metric and geographic space coincide, so fabricated metric geometry can
+    round-trip through the census's CRS conversions unchanged."""
+    return Transformer.from_crs("EPSG:5070", "EPSG:5070", always_xy=True)
+
+
+def test_chord_bearing_smooths_jitter_and_refuses_degenerate_lines() -> None:
+    line = LineString([(0.0, 0.0), (50.0, 0.0), (100.0, 0.0)])
+    assert continental._chord_bearing(line, 0.0) == pytest.approx(0.0)
+    assert continental._chord_bearing(line, line.length) == pytest.approx(0.0)
+    vertical = LineString([(0.0, 0.0), (0.0, 100.0)])
+    assert continental._chord_bearing(vertical, 50.0) == pytest.approx(90.0)
+    # A zero-length chord carries no direction.
+    dot = LineString([(0.0, 0.0), (0.0, 0.0)])
+    assert continental._chord_bearing(dot, 0.0) is None
+
+
+def test_acute_angle_is_undirected_and_wraps_mod_180() -> None:
+    assert continental._acute_angle_degrees(0.0, 180.0) == pytest.approx(0.0)
+    assert continental._acute_angle_degrees(10.0, -170.0) == pytest.approx(0.0)
+    assert continental._acute_angle_degrees(0.0, 90.0) == pytest.approx(90.0)
+    assert continental._acute_angle_degrees(350.0, 5.0) == pytest.approx(15.0)
+
+
+def test_break_feature_tiers_step_from_asserted_join_to_distant() -> None:
+    """Each tier is a descriptive lens: an endpoint within the snap tolerance is
+    what the source asserting a join looks like, a nearby aligned line without an
+    endpoint is a carriageway passing through, and the rest is context."""
+    break_point = Point(0.0, 0.0)
+    bearing = 0.0
+    tolerance = ENDPOINT_SNAP_TOLERANCE_METERS
+
+    def tier(parts: list[LineString]) -> str:
+        metrics = continental._break_feature_metrics(break_point, bearing, parts)
+        return continental._break_feature_tier(metrics, tolerance)
+
+    assert tier([LineString([(0.5, 0.0), (100.0, 0.0)])]) == "asserted_endpoint_join"
+    assert tier([LineString([(20.0, 0.0), (100.0, 0.0)])]) == "near_endpoint_join"
+    assert tier([LineString([(-500.0, 20.0), (500.0, 20.0)])]) == "aligned_continuation"
+    assert tier([LineString([(20.0, -500.0), (20.0, 500.0)])]) == "connector_or_crossing"
+    assert tier([LineString([(-500.0, 400.0), (500.0, 400.0)])]) == "elsewhere_in_window"
+    assert tier([]) == "no_geometry"
+
+
+def _break_probe_feature(
+    object_id: int,
+    coordinates: list[list[float]],
+    *,
+    lrs: str = "KEY000000000009",
+    state_fips: str = "34",
+    sign_type: str = "U",
+    sign_number: str = "30",
+    begin: float = 0.0,
+    end: float = 1.0,
+) -> dict:
+    return {
+        "attributes": {
+            "OBJECTID": object_id,
+            "LRSKEY": lrs,
+            "BEGMP": 0.0,
+            "ENDMP": 30.0,
+            "BEGIN_POIN": begin,
+            "END_POINT": end,
+            "STFIPS": state_fips,
+            "SIGNT1": sign_type,
+            "SIGNN1": sign_number,
+            "SIGNT2": " ",
+            "SIGNN2": " ",
+            "SIGNT3": " ",
+            "SIGNN3": " ",
+        },
+        "geometry": {"paths": [coordinates]},
+    }
+
+
+class _BreakWindowTransport:
+    """Returns one fixed neighbourhood for every break-end window and records
+    each window envelope it is asked for."""
+
+    def __init__(self, features: list[dict]) -> None:
+        self.features = features
+        self.envelopes: list[str] = []
+
+    def post(self, _url: str, form: dict[str, str]) -> dict:
+        if form.get("returnCountOnly") == "true":
+            self.envelopes.append(form.get("geometry", ""))
+            return {"count": len(self.features)}
+        if form.get("returnIdsOnly") == "true":
+            return {
+                "objectIdFieldName": "OBJECTID",
+                "objectIds": [f["attributes"]["OBJECTID"] for f in self.features],
+            }
+        return {"features": self.features}
+
+
+class _ExplodingTransport:
+    def post(self, _url: str, form: dict[str, str]) -> dict:
+        raise AssertionError("the probe must not touch the network here")
+
+
+def _broken_segment_lines():
+    """Two chains along y=0 split by a 40 m break between x=2000 and x=2040,
+    with the anchors at the outer ends."""
+    return (
+        _metric_line(1, [(0.0, 0.0), (1000.0, 0.0)], lrs="K1", record=(0.0, 0.5)),
+        _metric_line(2, [(1000.0, 0.0), (2000.0, 0.0)], lrs="K1", record=(0.5, 1.0)),
+        _metric_line(3, [(2040.0, 0.0), (3000.0, 0.0)], lrs="K1", record=(1.0, 1.5)),
+        _metric_line(4, [(3000.0, 0.0), (4000.0, 0.0)], lrs="K1", record=(1.5, 2.0)),
+    )
+
+
+def _run_break_end_census(transport, tmp_path: Path, lines=None) -> dict:
+    identity = _metric_identity()
+    return continental._probe_segment_break_ends(
+        "seg",
+        "no connected path between the locked transfer nodes",
+        lines if lines is not None else _broken_segment_lines(),
+        (0.0, 0.0),
+        (4000.0, 0.0),
+        ENDPOINT_SNAP_TOLERANCE_METERS,
+        transport=transport,
+        query_url="https://example.test/query",
+        probe_root=tmp_path / "break-probe",
+        page_size=2_000,
+        locked_segments_by_object_id={
+            1: ("seg",),
+            2: ("seg",),
+            3: ("seg",),
+            4: ("seg",),
+            20: ("other-seg",),
+        },
+        forward=identity,
+        inverse=identity,
+    )
+
+
+def test_break_end_census_excludes_anchor_side_ends_and_probes_only_breaks(
+    tmp_path: Path,
+) -> None:
+    """The chain end of each anchor's component farthest from the opposite anchor
+    is the chain continuing beyond the corridor, not a break, so only the two
+    facing ends of the 40 m break are probed."""
+    transport = _BreakWindowTransport([])
+    result = _run_break_end_census(transport, tmp_path)
+
+    assert result["connected_component_count"] == 2
+    assert result["from_component_index"] != result["to_component_index"]
+    assert result["break_end_count"] == 2
+    assert [end["id"] for end in result["break_ends"]] == [
+        "end-0000002-00-end",
+        "end-0000003-00-start",
+    ]
+    assert len(transport.envelopes) == 2
+    assert {entry["record"]["object_id"] for entry in result["anchor_side_ends"]} == {1, 4}
+    assert {entry["anchor"] for entry in result["anchor_side_ends"]} == {"from", "to"}
+
+
+def test_break_end_census_classifies_every_returned_feature(tmp_path: Path) -> None:
+    features = [
+        # The segment's own locked records around the break: counted, not detailed.
+        _break_probe_feature(
+            2, [[1000.0, 0.0], [2000.0, 0.0]], sign_type="I", sign_number="80"
+        ),
+        _break_probe_feature(
+            3, [[2040.0, 0.0], [3000.0, 0.0]], sign_type="I", sign_number="80"
+        ),
+        # An unsigned filler exactly bridging the break: the source asserting a join.
+        _break_probe_feature(10, [[2000.0, 0.0], [2040.0, 0.0]]),
+        # A crossing road through the break area.
+        _break_probe_feature(11, [[2020.0, -100.0], [2020.0, 100.0]]),
+        # A road elsewhere in the window.
+        _break_probe_feature(12, [[2000.0, 400.0], [2040.0, 400.0]]),
+        # An aligned carriageway passing through without an endpoint here.
+        _break_probe_feature(13, [[1500.0, 20.0], [2500.0, 20.0]]),
+        # A record locked under a different segment, ending near both break ends.
+        _break_probe_feature(20, [[1990.0, -10.0], [2050.0, -10.0]]),
+    ]
+    transport = _BreakWindowTransport(features)
+    result = _run_break_end_census(transport, tmp_path)
+
+    left = result["break_ends"][0]
+    assert left["classification"] == "asserted_join_present"
+    assert left["own_locked_feature_count"] == 2
+    assert left["record"]["state_fips"] == "34"
+    assert left["record"]["signed_routes"] == ["I-80"]
+    by_id = {feature["object_id"]: feature for feature in left["features"]}
+    assert set(by_id) == {10, 11, 12, 13, 20}
+    assert by_id[10]["classification"] == "asserted_endpoint_join"
+    assert by_id[10]["endpoint_offset_m"] == pytest.approx(0.0)
+    assert by_id[11]["classification"] == "connector_or_crossing"
+    assert by_id[12]["classification"] == "elsewhere_in_window"
+    assert by_id[13]["classification"] == "aligned_continuation"
+    assert by_id[13]["alignment_degrees"] == pytest.approx(0.0)
+    assert by_id[20]["classification"] == "near_endpoint_join"
+    assert by_id[20]["locked_segment_ids"] == ["other-seg"]
+
+    # The pair is the 40 m break, its records are milepost-contiguous, and the
+    # bridging filler is seen from both of its ends.
+    assert len(result["break_pairs"]) == 1
+    pair = result["break_pairs"][0]
+    assert pair["end_ids"] == ["end-0000002-00-end", "end-0000003-00-start"]
+    assert pair["separation_m"] == pytest.approx(40.0)
+    assert pair["milepost_contiguous"] is True
+    assert pair["probe_windows_overlap"] is True
+    assert 10 in pair["spanning_feature_object_ids"]
+    assert 12 not in pair["spanning_feature_object_ids"]
+    assert left["nearest_cross_component_end"]["id"] == "end-0000003-00-start"
+    assert left["nearest_cross_component_end"]["separation_m"] == pytest.approx(40.0)
+
+
+def test_break_end_census_reports_a_source_void_beyond_the_lock(tmp_path: Path) -> None:
+    """Only the segment's own locked records around the break: the source
+    asserts nothing else there, and the census must say so rather than infer."""
+    transport = _BreakWindowTransport(
+        [
+            _break_probe_feature(2, [[1000.0, 0.0], [2000.0, 0.0]]),
+            _break_probe_feature(3, [[2040.0, 0.0], [3000.0, 0.0]]),
+        ]
+    )
+    result = _run_break_end_census(transport, tmp_path)
+
+    for end in result["break_ends"]:
+        assert end["classification"] == "source_void_beyond_lock"
+        assert end["features"] == []
+        assert end["own_locked_feature_count"] == 2
+
+
+def test_break_end_census_resumes_spatial_responses_from_checkpoints(
+    tmp_path: Path,
+) -> None:
+    features = [_break_probe_feature(10, [[2000.0, 0.0], [2040.0, 0.0]])]
+    transport = _BreakWindowTransport(features)
+    first = _run_break_end_census(transport, tmp_path)
+    second = _run_break_end_census(transport, tmp_path)
+
+    assert all(end["probe"]["resumed_pages"] == 0 for end in first["break_ends"])
+    assert all(end["probe"]["resumed_pages"] == 1 for end in second["break_ends"])
+
+
+def test_break_end_census_does_not_invent_breaks_on_a_single_chain(
+    tmp_path: Path,
+) -> None:
+    """A single connected chain between the anchors has two chain ends, both of
+    them anchor-side: nothing to probe, and the network must not be touched."""
+    lines = (
+        _metric_line(1, [(0.0, 0.0), (1000.0, 0.0)], lrs="K1"),
+        _metric_line(2, [(1000.0, 0.0), (2000.0, 0.0)], lrs="K1"),
+    )
+    identity = _metric_identity()
+    result = continental._probe_segment_break_ends(
+        "seg",
+        "a locked transfer anchor is farther than the anchor snap limit",
+        lines,
+        (0.0, 0.0),
+        (2000.0, 0.0),
+        ENDPOINT_SNAP_TOLERANCE_METERS,
+        transport=_ExplodingTransport(),
+        query_url="https://example.test/query",
+        probe_root=tmp_path / "break-probe",
+        page_size=2_000,
+        locked_segments_by_object_id={1: ("seg",), 2: ("seg",)},
+        forward=identity,
+        inverse=identity,
+    )
+
+    assert result["break_end_count"] == 0
+    assert result["break_ends"] == []
+    assert result["break_pairs"] == []
+    assert len(result["anchor_side_ends"]) == 2
+
+
+def test_break_end_census_refuses_a_drifted_live_service(tmp_path: Path) -> None:
+    """A census against a drifted service would characterise a different dataset
+    than the one whose breaks it is explaining."""
+    drifted = {**_service_metadata(), "editingInfo": {"dataLastEditDate": 2}}
+    # The repository lock pins a different metadata hash, so this must refuse
+    # before any network or cache access.
+    with pytest.raises(ValueError, match="drifted"):
+        continental.probe_continental_break_ends(
+            SELECTION_PATH,
+            LOCK_PATH,
+            TRANSFER_LOCK_PATH,
+            TRANSFER_POLICY_PATH,
+            EDGE_PATH_LOCK_PATH,
+            CATALOG_PATH,
+            tmp_path / "cache",
+            tmp_path / "probe-cache",
+            transport=_ExplodingTransport(),
+            service_metadata=drifted,
+            acquired_at="2026-08-30T00:00:00Z",
+        )
+
+
+def test_break_end_census_finding_is_derived_from_the_probed_ends() -> None:
+    segments = [
+        {
+            "break_ends": [
+                {"classification": "asserted_join_present"},
+                {"classification": "source_void_beyond_lock"},
+            ],
+            "break_pairs": [
+                {
+                    "milepost_contiguous": True,
+                    "spanning_feature_object_ids": [10],
+                }
+            ],
+        }
+    ]
+    finding = continental._break_probe_finding(segments)
+    assert "2 break ends" in finding
+    assert "1 break ends have an unlocked" in finding
+    assert "reporting lenses, not" in finding
+    assert continental._break_probe_finding([]) == "No unconnected segments were probed."

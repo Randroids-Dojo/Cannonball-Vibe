@@ -14,6 +14,7 @@ from cannonball_map.continental import (
     audit_continental_milepost_gaps,
     derive_continental_edge_path_lock,
     derive_continental_transfer_lock,
+    probe_continental_break_ends,
     probe_continental_geometric_breaks,
     probe_continental_milepost_gaps,
     validate_continental_edge_path_lock,
@@ -655,4 +656,80 @@ def probe_continental_geometric_breaks_command(
     typer.echo(
         f"continental-geometric-probe: {payload['site_count']} sites probed, "
         f"{payload['source_connection_count']} source connections found"
+    )
+
+
+@app.command("probe-continental-break-ends")
+def probe_continental_break_ends_command(
+    selection: Path = typer.Option(
+        Path("data/routes/continental/route-selection.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    route_lock: Path = typer.Option(
+        Path("data/sources/continental-route-lock.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    transfer_lock: Path = typer.Option(
+        Path("data/routes/continental/transfer-node-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    policy: Path = typer.Option(
+        Path("data/routes/continental/transfer-node-policy.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    edge_path_lock: Path = typer.Option(
+        Path("data/routes/continental/edge-path-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    catalog: Path = typer.Option(DEFAULT_CATALOG, exists=True, file_okay=True, dir_okay=False),
+    cache: Path = typer.Option(
+        Path(".tools/continental/nhpn"),
+        help="Locked NHPN response cache.",
+        exists=True, file_okay=False, dir_okay=True,
+    ),
+    probe_cache: Path = typer.Option(
+        Path(".tools/continental/nhpn-break-probe"),
+        help="Ignored cache for the census's per-end spatial responses.",
+        file_okay=False, dir_okay=True,
+    ),
+    page_size: int = typer.Option(2_000, min=1, max=2_000),
+    output: Path | None = typer.Option(None, file_okay=True, dir_okay=False),
+) -> None:
+    """Census what joins every unconnected-segment break end. Changes no lock.
+
+    Complements probe-continental-geometric-breaks: that command tests for a
+    local unfiltered source path across each bounded component-pair site; this
+    one reports, per chain end, every joining feature with its keys, signs, and
+    measured offsets, including where no local source path exists.
+    """
+    try:
+        payload = probe_continental_break_ends(
+            selection,
+            route_lock,
+            transfer_lock,
+            policy,
+            edge_path_lock,
+            catalog,
+            cache,
+            probe_cache,
+            page_size=page_size,
+        )
+    except ValueError as error:
+        typer.echo(f"continental-break-ends-probe-failed: {error}", err=True)
+        raise typer.Exit(code=1) from error
+    if output is not None:
+        output.parent.mkdir(parents=True, exist_ok=True)
+        output.write_text(
+            json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+        )
+    ends = [
+        end for segment in payload["segments"] for end in segment["break_ends"]
+    ]
+    voids = sum(1 for end in ends if end["classification"] == "source_void_beyond_lock")
+    asserted = sum(1 for end in ends if end["classification"] == "asserted_join_present")
+    typer.echo(
+        f"continental-break-ends: {payload['unconnected_segment_count']} segments, "
+        f"{payload['break_end_count']} break ends probed, "
+        f"{asserted} with an asserted endpoint join, "
+        f"{voids} with nothing beyond the locked records"
     )

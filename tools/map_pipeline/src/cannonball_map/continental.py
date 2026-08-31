@@ -974,24 +974,25 @@ def _resolve_endpoint_node(
     return key
 
 
-def _solve_segment_edge_path(
-    segment: dict[str, Any],
+def _build_snapped_endpoint_graph(
     metric_lines: tuple[tuple[LockedCandidateLine, LineString], ...],
-    from_point: tuple[float, float],
-    to_point: tuple[float, float],
     tolerance: float,
-    anchor_limit: float = ANCHOR_SNAP_LIMIT_METERS,
-) -> dict[str, Any]:
-    """Snap endpoints, audit connectivity, and solve one segment's edge path.
+) -> tuple[
+    nx.MultiGraph,
+    dict[tuple[int, int], tuple[float, float]],
+    dict[tuple[int, int], list[tuple[LockedCandidateLine, LineString, str]]],
+    float,
+]:
+    """Snap every record endpoint onto shared nodes and build the segment graph.
 
-    Every quantity the caller might use to judge the result is returned, including
-    the failure diagnostics, because a segment that cannot be solved is a finding
-    rather than an error to swallow.
+    Returns the graph, the node coordinates, each node's incident record ends as
+    (candidate, metric line, "start" or "end"), and the largest snap distance
+    actually used. Shared by the connectivity solve and the break probes so they
+    can never disagree about where a segment's graph separates.
     """
     graph = nx.MultiGraph()
     nodes: dict[tuple[int, int], tuple[float, float]] = {}
-    edge_endpoints: list[tuple[tuple[int, int], tuple[int, int]]] = []
-    end_line: dict[tuple[int, int], list[LockedCandidateLine]] = {}
+    incident: dict[tuple[int, int], list[tuple[LockedCandidateLine, LineString, str]]] = {}
     max_snap_distance = 0.0
 
     # Insert in object-id order so the graph, and therefore any tie between
@@ -1023,18 +1024,38 @@ def _solve_segment_edge_path(
             page_response_sha256=candidate.page_response_sha256,
             start_key=start_key,
         )
-        edge_endpoints.append((start_key, end_key))
-        end_line.setdefault(start_key, []).append(candidate)
-        end_line.setdefault(end_key, []).append(candidate)
+        incident.setdefault(start_key, []).append((candidate, line, "start"))
+        incident.setdefault(end_key, []).append((candidate, line, "end"))
+    return graph, nodes, incident, max_snap_distance
+
+
+def _solve_segment_edge_path(
+    segment: dict[str, Any],
+    metric_lines: tuple[tuple[LockedCandidateLine, LineString], ...],
+    from_point: tuple[float, float],
+    to_point: tuple[float, float],
+    tolerance: float,
+    anchor_limit: float = ANCHOR_SNAP_LIMIT_METERS,
+) -> dict[str, Any]:
+    """Snap endpoints, audit connectivity, and solve one segment's edge path.
+
+    Every quantity the caller might use to judge the result is returned, including
+    the failure diagnostics, because a segment that cannot be solved is a finding
+    rather than an error to swallow.
+    """
+    graph, nodes, incident, max_snap_distance = _build_snapped_endpoint_graph(
+        metric_lines, tolerance
+    )
+    end_line = {
+        key: [candidate for candidate, _, _ in entries]
+        for key, entries in incident.items()
+    }
 
     # What shape is this candidate set? An endpoint joining exactly two records is
     # chain interior; one joining a single record is a chain end. A near-linear
     # corridor is dominated by degree 2, and its components separate at chain ends,
     # so the distances between those ends are what explain a connectivity failure.
-    endpoint_degree: dict[tuple[int, int], int] = {}
-    for start_key, end_key in edge_endpoints:
-        endpoint_degree[start_key] = endpoint_degree.get(start_key, 0) + 1
-        endpoint_degree[end_key] = endpoint_degree.get(end_key, 0) + 1
+    endpoint_degree = {key: len(entries) for key, entries in incident.items()}
     degree_counts: dict[str, int] = {}
     for degree in endpoint_degree.values():
         bucket = str(degree) if degree < 3 else "3+"
@@ -1704,20 +1725,11 @@ def _derive_segment_geometric_probe_sites(
     Distant transfer anchors are separate sites because their mismatch can exist
     even when the candidate graph itself is connected.
     """
-    graph = nx.MultiGraph()
-    nodes: dict[tuple[int, int], tuple[float, float]] = {}
-    end_lines: dict[tuple[int, int], set[int]] = {}
-    for candidate, line in sorted(
-        metric_lines, key=lambda pair: (pair[0].object_id, pair[0].part_index)
-    ):
-        coordinates = list(line.coords)
-        start_key = _resolve_endpoint_node(coordinates[0], nodes, tolerance)
-        end_key = _resolve_endpoint_node(coordinates[-1], nodes, tolerance)
-        if start_key == end_key:
-            continue
-        graph.add_edge(start_key, end_key)
-        end_lines.setdefault(start_key, set()).add(candidate.object_id)
-        end_lines.setdefault(end_key, set()).add(candidate.object_id)
+    graph, nodes, incident, _ = _build_snapped_endpoint_graph(metric_lines, tolerance)
+    end_lines = {
+        key: {candidate.object_id for candidate, _, _ in entries}
+        for key, entries in incident.items()
+    }
     if not graph.number_of_nodes():
         return []
 
@@ -2199,6 +2211,641 @@ def probe_continental_geometric_breaks(
         ),
         "finding": _geometric_probe_finding(sites),
         "sites": sites,
+    }
+
+
+# --- Per-chain-end census at the unconnected segments' break ends -------------
+#
+# probe-continental-geometric-breaks answers a path question: does an unfiltered
+# local NHPN graph connect the two sides of each bounded break site? The census
+# below answers the identity question that remains when it does not: what does
+# the source assert at every individual chain end - which features join it,
+# under which keys, signs, and states, at what measured offsets and bearings.
+# The two probes share the snapped-graph builder and the envelope helper and
+# are reconciled in docs/audits/p0-021/2026-08-30-spatial-break-probe.md and
+# Q-034.
+
+# Half-width of the spatial query window around each break end, in metres of the
+# EPSG:5070 metric CRS. Grounded in the observed data: the largest endpoint
+# discontinuity the connectivity audits measured between nearby chain ends is
+# 661 m, so the two sides of such a break each see well past their midpoint,
+# while the window stays local to the break rather than sampling the corridor.
+BREAK_PROBE_BUFFER_METERS = 500.0
+
+# Endpoint-offset ceiling for reporting an unlocked feature as a near join
+# rather than an asserted one. Grounded in the transfer lock's own numbers:
+# paired NHPN facilities reconcile within 24.401 m, so 30 m sits just above the
+# source's observed cross-facility authoring offset. These tiers are reporting
+# lenses for the audit, not bridging tolerances; ADR-0018 still forbids joining
+# anything, and this probe joins nothing.
+BREAK_NEAR_JOIN_TOLERANCE_METERS = 30.0
+
+# A feature whose local bearing is within this many degrees of the break end's
+# bearing is reported as aligned with the broken carriageway.
+BREAK_ALIGNMENT_TOLERANCE_DEGREES = 20.0
+
+# Chord length for measuring a local bearing: long enough to smooth
+# digitisation jitter, short enough to stay local to the break.
+BREAK_TANGENT_CHORD_METERS = 25.0
+
+# Feature tiers from strongest to weakest joining evidence. The break end's
+# summary classification is the strongest tier any returned feature reaches.
+_BREAK_END_SUMMARY_BY_TIER = {
+    "asserted_endpoint_join": "asserted_join_present",
+    "near_endpoint_join": "near_join_present",
+    "aligned_continuation": "aligned_continuation_present",
+    "connector_or_crossing": "connectors_or_crossings_only",
+    "elsewhere_in_window": "distant_features_only",
+    "no_geometry": "distant_features_only",
+}
+_BREAK_TIER_ORDER = tuple(_BREAK_END_SUMMARY_BY_TIER)
+
+
+def _chord_bearing(
+    line: LineString,
+    at_distance: float,
+    chord: float = BREAK_TANGENT_CHORD_METERS,
+) -> float | None:
+    """Bearing of the line over a chord centred on ``at_distance``, in degrees.
+
+    A chord absorbs the vertex-to-vertex jitter a digitised centreline carries.
+    Returns None when the line is too degenerate to carry a direction.
+    """
+    low = max(0.0, at_distance - chord)
+    high = min(line.length, at_distance + chord)
+    if high <= low:
+        return None
+    first = line.interpolate(low)
+    second = line.interpolate(high)
+    if first.x == second.x and first.y == second.y:
+        return None
+    return math.degrees(math.atan2(second.y - first.y, second.x - first.x))
+
+
+def _acute_angle_degrees(first: float, second: float) -> float:
+    """Smallest angle between two undirected bearings, in [0, 90]."""
+    difference = abs(first - second) % 180.0
+    return min(difference, 180.0 - difference)
+
+
+def _break_feature_metrics(
+    break_point: Point,
+    break_bearing: float | None,
+    metric_parts: Sequence[LineString],
+) -> dict[str, float | None]:
+    """How one probed feature sits relative to a break end, in metric metres.
+
+    ``endpoint_offset_m`` is the nearest feature endpoint, because an endpoint
+    near the break is how NHPN would assert a join. ``geometry_distance_m`` is
+    the nearest point anywhere on the feature, because a carriageway that
+    continues *through* the break area never presents an endpoint there.
+    ``alignment_degrees`` compares local bearings at the closest approach.
+    """
+    if not metric_parts:
+        return {
+            "endpoint_offset_m": None,
+            "geometry_distance_m": None,
+            "alignment_degrees": None,
+        }
+    endpoint_offset = float("inf")
+    best_part: LineString | None = None
+    best_distance = float("inf")
+    for part in metric_parts:
+        coordinates = list(part.coords)
+        for endpoint in (coordinates[0], coordinates[-1]):
+            endpoint_offset = min(
+                endpoint_offset, math.dist((break_point.x, break_point.y), endpoint)
+            )
+        distance = part.distance(break_point)
+        if distance < best_distance:
+            best_part, best_distance = part, distance
+    alignment: float | None = None
+    if best_part is not None and break_bearing is not None:
+        feature_bearing = _chord_bearing(best_part, best_part.project(break_point))
+        if feature_bearing is not None:
+            alignment = _acute_angle_degrees(break_bearing, feature_bearing)
+    return {
+        "endpoint_offset_m": round(endpoint_offset, 3),
+        "geometry_distance_m": round(best_distance, 3),
+        "alignment_degrees": None if alignment is None else round(alignment, 1),
+    }
+
+
+def _break_feature_tier(
+    metrics: dict[str, float | None], snap_tolerance: float
+) -> str:
+    """Descriptive evidence tier for one probed feature at one break end."""
+    endpoint_offset = metrics["endpoint_offset_m"]
+    geometry_distance = metrics["geometry_distance_m"]
+    alignment = metrics["alignment_degrees"]
+    if endpoint_offset is None or geometry_distance is None:
+        return "no_geometry"
+    if endpoint_offset <= snap_tolerance:
+        return "asserted_endpoint_join"
+    if endpoint_offset <= BREAK_NEAR_JOIN_TOLERANCE_METERS:
+        return "near_endpoint_join"
+    if geometry_distance <= BREAK_NEAR_JOIN_TOLERANCE_METERS:
+        if alignment is not None and alignment <= BREAK_ALIGNMENT_TOLERANCE_DEGREES:
+            return "aligned_continuation"
+        return "connector_or_crossing"
+    return "elsewhere_in_window"
+
+
+def _records_milepost_contiguous(
+    left: LockedCandidateLine, right: LockedCandidateLine
+) -> bool:
+    """The 2026-08-14 adjacency rule: one record's END_POINT equals the other's
+    BEGIN_POIN on the same LRSKEY."""
+    if left.lrs_key != right.lrs_key or not left.lrs_key:
+        return False
+    return (
+        abs(left.record_end_milepost - right.record_begin_milepost) < 1e-6
+        or abs(right.record_end_milepost - left.record_begin_milepost) < 1e-6
+    )
+
+
+def _probe_segment_break_ends(
+    segment_id: str,
+    failure: str,
+    metric_lines: tuple[tuple[LockedCandidateLine, LineString], ...],
+    from_point: tuple[float, float],
+    to_point: tuple[float, float],
+    tolerance: float,
+    *,
+    transport: ArcGisTransport,
+    query_url: str,
+    probe_root: Path,
+    page_size: int,
+    locked_segments_by_object_id: dict[int, tuple[str, ...]],
+    forward: Transformer,
+    inverse: Transformer,
+    buffer_meters: float = BREAK_PROBE_BUFFER_METERS,
+) -> dict[str, Any]:
+    """Census NHPN spatially around one unconnected segment's break ends.
+
+    A break end is a chain end that is not the anchor component's continuation
+    beyond the corridor. For each one, everything NHPN carries inside a window
+    around the end is fetched with no sign, state, or key filter and reported
+    with its keys, signs, and geometric offsets. Nothing is joined and no lock
+    is touched: the output is the evidence an ADR-0018-compliant per-break
+    decision needs, not the decision.
+    """
+    graph, nodes, incident, _ = _build_snapped_endpoint_graph(metric_lines, tolerance)
+    result: dict[str, Any] = {"segment_id": segment_id, "failure": failure}
+    if not graph.number_of_nodes():
+        result.update(break_end_count=0, break_ends=[], break_pairs=[],
+                      note="segment produced no graph nodes")
+        return result
+
+    components = sorted(nx.connected_components(graph), key=lambda c: (-len(c), min(c)))
+    component_of = {node: index for index, comp in enumerate(components) for node in comp}
+    chain_ends = sorted(key for key, entries in incident.items() if len(entries) == 1)
+
+    def nearest_node(point: tuple[float, float]) -> tuple[tuple[int, int], float]:
+        best_key, best_distance = None, float("inf")
+        for key in sorted(nodes):
+            distance = math.dist(point, nodes[key])
+            if distance < best_distance:
+                best_key, best_distance = key, distance
+        assert best_key is not None
+        return best_key, best_distance
+
+    # The chain end of each anchor's component farthest from the opposite anchor
+    # is where the chain legitimately continues beyond the corridor (past the
+    # anchor, or past the declared jurisdictions), not a break. Every other
+    # chain end marks a place the corridor's chain stops.
+    anchor_side_ends: list[dict[str, Any]] = []
+    excluded: set[tuple[int, int]] = set()
+    anchor_components: dict[str, int] = {}
+    anchor_distances: dict[str, float] = {}
+    for label, anchor, opposite in (
+        ("from", from_point, to_point),
+        ("to", to_point, from_point),
+    ):
+        anchor_node, anchor_distance = nearest_node(anchor)
+        component_index = component_of[anchor_node]
+        anchor_components[label] = component_index
+        anchor_distances[label] = anchor_distance
+        component_ends = [key for key in chain_ends if component_of[key] == component_index]
+        if not component_ends:
+            continue
+        end = max(component_ends, key=lambda key: (math.dist(opposite, nodes[key]), key))
+        excluded.add(end)
+        candidate, _, which = incident[end][0]
+        longitude, latitude = inverse.transform(*nodes[end])
+        anchor_side_ends.append(
+            {
+                "anchor": label,
+                "component_index": component_index,
+                "coordinate": {
+                    "longitude": round(longitude, 7),
+                    "latitude": round(latitude, 7),
+                },
+                "record": {
+                    "object_id": candidate.object_id,
+                    "part_index": candidate.part_index,
+                    "geometry_end": which,
+                    "lrs_key": candidate.lrs_key,
+                },
+                "distance_to_anchor_m": round(math.dist(anchor, nodes[end]), 3),
+            }
+        )
+
+    break_nodes = sorted(
+        (key for key in chain_ends if key not in excluded),
+        key=lambda key: (
+            incident[key][0][0].object_id,
+            incident[key][0][0].part_index,
+            incident[key][0][2],
+        ),
+    )
+
+    break_ends: list[dict[str, Any]] = []
+    features_by_end: dict[str, dict[int, dict[str, Any]]] = {}
+    node_by_id: dict[str, tuple[int, int]] = {}
+    for node in break_nodes:
+        candidate, line, which = incident[node][0]
+        end_id = f"end-{candidate.object_id:07d}-{candidate.part_index:02d}-{which}"
+        node_by_id[end_id] = node
+        break_point = Point(nodes[node])
+        end_bearing = _chord_bearing(line, 0.0 if which == "start" else line.length)
+        envelope = _spatial_probe_envelope(
+            nodes[node], nodes[node], inverse, buffer_meters
+        )
+        query = {
+            "where": "1=1",
+            "geometry": ",".join(f"{coordinate:.12f}" for coordinate in envelope),
+            "geometryType": "esriGeometryEnvelope",
+            "inSR": "4326",
+            "spatialRel": "esriSpatialRelIntersects",
+        }
+        acquisition = acquire_nhpn(
+            transport,
+            query_url,
+            query,
+            probe_root / segment_id / end_id,
+            page_size=page_size,
+        )
+
+        own_locked_count = 0
+        break_record_state = ""
+        break_record_signs: list[str] = []
+        details: list[dict[str, Any]] = []
+        for feature in acquisition.features:
+            attributes = feature["attributes"]
+            object_id = int(attributes["OBJECTID"])
+            locked_under = locked_segments_by_object_id.get(object_id, ())
+            if object_id == candidate.object_id:
+                break_record_state = str(attributes.get("STFIPS") or "").strip()
+                break_record_signs = sorted(
+                    f"{sign_type}-{sign_number}"
+                    for sign_type, sign_number in _probe_sign_identities(attributes)
+                )
+            if segment_id in locked_under:
+                own_locked_count += 1
+                continue
+            metric_parts = [
+                transform(forward.transform, LineString(coordinates))
+                for coordinates in feature.get("geometry", {}).get("paths", [])
+                if len(coordinates) >= 2
+            ]
+            metrics = _break_feature_metrics(break_point, end_bearing, metric_parts)
+            details.append(
+                {
+                    "object_id": object_id,
+                    "state_fips": str(attributes.get("STFIPS") or "").strip(),
+                    "lrs_key": str(attributes.get("LRSKEY") or "").strip(),
+                    "signed_routes": sorted(
+                        f"{sign_type}-{sign_number}"
+                        for sign_type, sign_number in _probe_sign_identities(attributes)
+                    ),
+                    "record_begin_milepost": attributes.get("BEGIN_POIN"),
+                    "record_end_milepost": attributes.get("END_POINT"),
+                    "locked_segment_ids": sorted(locked_under),
+                    **metrics,
+                    "classification": _break_feature_tier(metrics, tolerance),
+                }
+            )
+        details.sort(
+            key=lambda item: (
+                item["geometry_distance_m"] if item["geometry_distance_m"] is not None
+                else float("inf"),
+                item["object_id"],
+            )
+        )
+        tiers_present = {detail["classification"] for detail in details}
+        summary = "source_void_beyond_lock"
+        for tier in _BREAK_TIER_ORDER:
+            if tier in tiers_present:
+                summary = _BREAK_END_SUMMARY_BY_TIER[tier]
+                break
+        longitude, latitude = inverse.transform(*nodes[node])
+        features_by_end[end_id] = {detail["object_id"]: detail for detail in details}
+        break_ends.append(
+            {
+                "id": end_id,
+                "component_index": component_of[node],
+                "component_node_count": len(components[component_of[node]]),
+                "coordinate": {
+                    "longitude": round(longitude, 7),
+                    "latitude": round(latitude, 7),
+                },
+                "record": {
+                    "object_id": candidate.object_id,
+                    "part_index": candidate.part_index,
+                    "geometry_end": which,
+                    "lrs_key": candidate.lrs_key,
+                    "record_begin_milepost": candidate.record_begin_milepost,
+                    "record_end_milepost": candidate.record_end_milepost,
+                    "state_fips": break_record_state,
+                    "signed_routes": break_record_signs,
+                },
+                "envelope_4326": [round(value, 7) for value in envelope],
+                "probe": {
+                    "expected_count": acquisition.expected_count,
+                    "object_ids_sha256": canonical_sha256(list(acquisition.object_ids)),
+                    "features_sha256": canonical_sha256(list(acquisition.features)),
+                    "retries": acquisition.retries,
+                    "resumed_pages": acquisition.resumed_pages,
+                },
+                "own_locked_feature_count": own_locked_count,
+                "classification": summary,
+                "classification_counts": {
+                    tier: sum(1 for detail in details if detail["classification"] == tier)
+                    for tier in _BREAK_TIER_ORDER
+                    if tier in tiers_present
+                },
+                "features": details,
+            }
+        )
+
+    # Pair every break end with the nearest break end in a different component:
+    # observed geometry, not asserted adjacency. Joining evidence for a pair is
+    # any probed feature that comes near both of its ends.
+    pair_keys: set[tuple[str, str]] = set()
+    for entry in break_ends:
+        node = node_by_id[entry["id"]]
+        others = [
+            other for other in break_ends
+            if other["component_index"] != entry["component_index"]
+        ]
+        if not others:
+            entry["nearest_cross_component_end"] = None
+            continue
+        nearest = min(
+            others,
+            key=lambda other: (
+                math.dist(nodes[node], nodes[node_by_id[other["id"]]]),
+                other["id"],
+            ),
+        )
+        separation = math.dist(nodes[node], nodes[node_by_id[nearest["id"]]])
+        entry["nearest_cross_component_end"] = {
+            "id": nearest["id"],
+            "separation_m": round(separation, 3),
+        }
+        pair_keys.add(tuple(sorted((entry["id"], nearest["id"]))))
+
+    break_pairs: list[dict[str, Any]] = []
+    for left_id, right_id in sorted(pair_keys):
+        left_node, right_node = node_by_id[left_id], node_by_id[right_id]
+        separation = math.dist(nodes[left_node], nodes[right_node])
+        windows_overlap = separation <= 2 * buffer_meters
+        spanning: list[int] = []
+        if windows_overlap:
+            spanning = sorted(
+                object_id
+                for object_id, detail in features_by_end[left_id].items()
+                if object_id in features_by_end[right_id]
+                and detail["geometry_distance_m"] is not None
+                and detail["geometry_distance_m"] <= BREAK_NEAR_JOIN_TOLERANCE_METERS
+                and features_by_end[right_id][object_id]["geometry_distance_m"] is not None
+                and features_by_end[right_id][object_id]["geometry_distance_m"]
+                <= BREAK_NEAR_JOIN_TOLERANCE_METERS
+            )
+        break_pairs.append(
+            {
+                "end_ids": [left_id, right_id],
+                "separation_m": round(separation, 3),
+                "milepost_contiguous": _records_milepost_contiguous(
+                    incident[left_node][0][0], incident[right_node][0][0]
+                ),
+                "probe_windows_overlap": windows_overlap,
+                "spanning_feature_object_ids": spanning,
+            }
+        )
+
+    result.update(
+        connected_component_count=len(components),
+        component_node_counts=[len(component) for component in components],
+        from_component_index=anchor_components["from"],
+        to_component_index=anchor_components["to"],
+        from_anchor_node_distance_m=round(anchor_distances["from"], 3),
+        to_anchor_node_distance_m=round(anchor_distances["to"], 3),
+        anchor_side_ends=anchor_side_ends,
+        break_end_count=len(break_ends),
+        break_ends=break_ends,
+        break_pairs=break_pairs,
+    )
+    return result
+
+
+def _break_probe_finding(segments: list[dict[str, Any]]) -> str:
+    """Describe the census using the numbers it actually produced.
+
+    Generated rather than written so it cannot drift from the break results
+    beside it.
+    """
+    if not segments:
+        return "No unconnected segments were probed."
+    ends = [end for segment in segments for end in segment.get("break_ends", [])]
+    by_class: dict[str, int] = {}
+    for end in ends:
+        by_class[end["classification"]] = by_class.get(end["classification"], 0) + 1
+    pairs = [pair for segment in segments for pair in segment.get("break_pairs", [])]
+    spanned = sum(1 for pair in pairs if pair["spanning_feature_object_ids"])
+    contiguous = sum(1 for pair in pairs if pair["milepost_contiguous"])
+    return (
+        f"Across {len(segments)} unconnected segments, {len(ends)} break ends were "
+        "probed spatially with no sign, state, or key filter. "
+        f"{by_class.get('asserted_join_present', 0)} break ends have an unlocked "
+        "feature whose endpoint coincides with the break end within the snapping "
+        f"tolerance, {by_class.get('near_join_present', 0)} have one within the "
+        f"{BREAK_NEAR_JOIN_TOLERANCE_METERS:g} m near-join lens, "
+        f"{by_class.get('aligned_continuation_present', 0)} have an aligned "
+        "carriageway passing through without an endpoint, "
+        f"{by_class.get('connectors_or_crossings_only', 0)} see only connectors or "
+        f"crossings, {by_class.get('distant_features_only', 0)} see only distant "
+        f"features, and {by_class.get('source_void_beyond_lock', 0)} see nothing "
+        f"beyond the already-locked records. Of {len(pairs)} cross-component end "
+        f"pairs, {contiguous} are milepost-contiguous and {spanned} have at least "
+        "one probed feature near both ends. These tiers are reporting lenses, not "
+        "bridging decisions: nothing is joined, no direction or distance is "
+        "claimed, and no lock is changed."
+    )
+
+
+def probe_continental_break_ends(
+    selection_path: Path,
+    route_lock_path: Path,
+    transfer_lock_path: Path,
+    policy_path: Path,
+    edge_path_lock_path: Path,
+    catalog_path: Path,
+    cache_directory: Path,
+    probe_cache_directory: Path,
+    *,
+    transport: ArcGisTransport | None = None,
+    service_metadata: dict[str, Any] | None = None,
+    acquired_at: str | None = None,
+    page_size: int = 2_000,
+    buffer_meters: float = BREAK_PROBE_BUFFER_METERS,
+) -> dict[str, Any]:
+    """Census what NHPN asserts at every unconnected-segment break end.
+
+    Complements probe_continental_geometric_breaks, which tests whether an
+    unfiltered local source graph supplies a path across each bounded
+    component-pair site. This census instead characterises every individual
+    chain end: which features physically join it, under which keys, signs, and
+    states, at what measured endpoint offsets, geometry distances, and bearing
+    alignments — including at sites where no local source path exists, and at
+    spur ends the site selection never visits. Both probes feed the Q-034
+    per-site disposition.
+
+    It is a characterisation, not a selection or a bridging policy: it changes
+    no lock, claims no westbound direction and no authoritative distance, and
+    its responses stay in the ignored cache. It refuses to run when the live
+    service has drifted from the locked snapshot, because it would then probe a
+    different dataset than the one whose breaks it is explaining.
+    """
+    edge_lock = validate_continental_edge_path_lock(
+        edge_path_lock_path,
+        transfer_lock_path,
+        policy_path,
+        selection_path,
+        route_lock_path,
+        catalog_path,
+    )
+    route_lock = validate_continental_route_lock(route_lock_path, catalog_path, selection_path)
+    transfer_lock = validate_continental_transfer_lock(
+        transfer_lock_path, policy_path, selection_path, route_lock_path, catalog_path
+    )
+    selection = load_json(selection_path)
+
+    source = load_catalog(catalog_path)[NHPN_SOURCE_ID]
+    service_url = source.raw["service_url"]
+    query_url = service_url + NHPN_QUERY_SUFFIX
+    if service_metadata is None:
+        with urllib.request.urlopen(service_url + "?f=pjson", timeout=120) as response:
+            service_metadata = json.loads(response.read())
+    _validate_live_service_metadata(service_metadata)
+    service_metadata_sha256 = canonical_sha256(service_metadata)
+    locked_metadata_sha256 = route_lock["nhpn"]["service"]["canonical_metadata_sha256"]
+    if service_metadata_sha256 != locked_metadata_sha256:
+        raise ValueError(
+            "Live NHPN service metadata has drifted from the candidate lock; a probe "
+            "against it would characterise a different dataset than the one whose "
+            "breaks it is explaining."
+        )
+    if transport is None:
+        transport = UrllibArcGisTransport(timeout_seconds=120)
+    timestamp = acquired_at or datetime.now(UTC).replace(microsecond=0).isoformat().replace(
+        "+00:00", "Z"
+    )
+
+    snapshot_by_id = {
+        snapshot["segment_id"]: snapshot
+        for snapshot in route_lock["nhpn"]["segment_snapshots"]
+    }
+    locked_segments: dict[int, set[str]] = {}
+    for snapshot in route_lock["nhpn"]["segment_snapshots"]:
+        for object_id in snapshot["object_ids"]:
+            locked_segments.setdefault(object_id, set()).add(snapshot["segment_id"])
+    locked_segments_by_object_id = {
+        object_id: tuple(sorted(segment_ids))
+        for object_id, segment_ids in locked_segments.items()
+    }
+
+    segment_by_id = {segment["id"]: segment for segment in selection["segments"]}
+    transfer_by_id = {node["id"]: node for node in transfer_lock["transfer_nodes"]}
+    cache_root = cache_directory / locked_metadata_sha256
+    probe_root = probe_cache_directory / service_metadata_sha256
+    forward = Transformer.from_crs("EPSG:4326", "EPSG:5070", always_xy=True)
+    inverse = Transformer.from_crs("EPSG:5070", "EPSG:4326", always_xy=True)
+    tolerance = float(edge_lock["endpoint_snap_tolerance_m"])
+
+    def metric_point(node_id: str) -> tuple[float, float]:
+        coordinate = transfer_by_id[node_id]["coordinate"]
+        return forward.transform(coordinate["longitude"], coordinate["latitude"])
+
+    unconnected = sorted(
+        (entry for entry in edge_lock["segments"] if not entry.get("connected")),
+        key=lambda entry: entry["segment_id"],
+    )
+    segments: list[dict[str, Any]] = []
+    for entry in unconnected:
+        segment = segment_by_id[entry["segment_id"]]
+        lines = _load_locked_candidate_lines(
+            snapshot_by_id[entry["segment_id"]], cache_root / entry["segment_id"]
+        )
+        metric_lines = tuple(
+            (candidate, transform(forward.transform, candidate.geometry))
+            for candidate in lines
+        )
+        segments.append(
+            _probe_segment_break_ends(
+                entry["segment_id"],
+                str(entry.get("failure", "")),
+                metric_lines,
+                metric_point(segment["from"]),
+                metric_point(segment["to"]),
+                tolerance,
+                transport=transport,
+                query_url=query_url,
+                probe_root=probe_root,
+                page_size=page_size,
+                locked_segments_by_object_id=locked_segments_by_object_id,
+                forward=forward,
+                inverse=inverse,
+                buffer_meters=buffer_meters,
+            )
+        )
+
+    return {
+        "schema_version": 1,
+        "status": (
+            "diagnostic acquisition; characterises what NHPN asserts at the "
+            "unconnected segments' break ends; no bridging decided and no "
+            "lock changed"
+        ),
+        "acquired_at": timestamp,
+        "query_url": query_url,
+        "buffer_meters": buffer_meters,
+        "endpoint_snap_tolerance_m": tolerance,
+        "near_join_tolerance_m": BREAK_NEAR_JOIN_TOLERANCE_METERS,
+        "alignment_tolerance_degrees": BREAK_ALIGNMENT_TOLERANCE_DEGREES,
+        "tangent_chord_m": BREAK_TANGENT_CHORD_METERS,
+        "service": {
+            "canonical_metadata_sha256": service_metadata_sha256,
+            "data_last_edit_epoch_ms": service_metadata["editingInfo"]["dataLastEditDate"],
+            "matches_candidate_lock": True,
+        },
+        "route_selection_sha256": compute_sha256(selection_path),
+        "candidate_lock_sha256": compute_sha256(route_lock_path),
+        "transfer_lock_sha256": compute_sha256(transfer_lock_path),
+        "edge_path_lock_sha256": compute_sha256(edge_path_lock_path),
+        "source_policy": {
+            "candidate_source": NHPN_SOURCE_ID,
+            "nhpn_role": "coarse_topology_only",
+            "openstreetmap_ancestry_allowed": False,
+            "probe_is_selected_route_geometry": False,
+            "continental_downloads_committed": False,
+            "bridging_decided": False,
+        },
+        "unconnected_segment_count": len(segments),
+        "break_end_count": sum(segment["break_end_count"] for segment in segments),
+        "finding": _break_probe_finding(segments),
+        "segments": segments,
     }
 
 
