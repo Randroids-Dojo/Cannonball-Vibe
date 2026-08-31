@@ -984,3 +984,143 @@ def test_gap_probe_refuses_a_drifted_live_service(tmp_path: Path) -> None:
             service_metadata=drifted,
             acquired_at="2026-08-27T00:00:00Z",
         )
+
+
+def test_geometric_probe_sites_span_components_without_joining_the_graph() -> None:
+    metric_lines = (
+        _metric_line(1, [(0.0, 0.0), (100.0, 0.0)]),
+        _metric_line(2, [(140.0, 0.0), (240.0, 0.0)]),
+        _metric_line(3, [(300.0, 0.0), (400.0, 0.0)]),
+    )
+
+    sites = continental._derive_segment_geometric_probe_sites(
+        "seg", metric_lines, (0.0, 0.0), (400.0, 0.0)
+    )
+
+    # Three components need two candidate sites. The minimum spanning tree avoids
+    # treating the distant first-to-third pair as another alleged road break.
+    assert [site["separation_m"] for site in sites] == [40.0, 60.0]
+    assert all(site["kind"] == "component_gap" for site in sites)
+    assert len(sites) == 2
+    # Site derivation is diagnostic only: the authoritative solver remains red.
+    assert _solve_segment_edge_path(
+        {"id": "seg"}, metric_lines, (0.0, 0.0), (400.0, 0.0),
+        ENDPOINT_SNAP_TOLERANCE_METERS,
+    )["connected"] is False
+
+
+def test_geometric_probe_sites_include_a_distant_transfer_anchor() -> None:
+    metric_lines = (
+        _metric_line(1, [(0.0, 0.0), (100.0, 0.0)]),
+        _metric_line(2, [(100.0, 0.0), (200.0, 0.0)]),
+    )
+
+    sites = continental._derive_segment_geometric_probe_sites(
+        "seg", metric_lines, (-100.0, 0.0), (200.0, 0.0)
+    )
+
+    assert len(sites) == 1
+    assert sites[0]["kind"] == "anchor_gap"
+    assert sites[0]["anchor_side"] == "from"
+    assert sites[0]["separation_m"] == pytest.approx(100.0)
+
+
+def _spatial_feature(
+    object_id: int,
+    coordinates: list[tuple[float, float]],
+    *,
+    sign_type: str = "I",
+    sign_number: str = "80",
+) -> dict:
+    return {
+        "attributes": {
+            "OBJECTID": object_id,
+            "STFIPS": "34",
+            "SIGNT1": sign_type,
+            "SIGNN1": sign_number,
+            "SIGNT2": " ",
+            "SIGNN2": " ",
+            "SIGNT3": " ",
+            "SIGNN3": " ",
+        },
+        "geometry": {"paths": [[list(coordinate) for coordinate in coordinates]]},
+    }
+
+
+def test_geometric_probe_classifies_an_unacquired_source_connection() -> None:
+    identity = Transformer.from_crs("EPSG:5070", "EPSG:5070", always_xy=True)
+    site = {
+        "kind": "component_gap",
+        "from_metric": (100.0, 0.0),
+        "to_metric": (140.0, 0.0),
+    }
+    features = [
+        _spatial_feature(1, [(0.0, 0.0), (100.0, 0.0)]),
+        _spatial_feature(3, [(100.0, 0.0), (140.0, 0.0)], sign_type="U", sign_number="30"),
+        _spatial_feature(2, [(140.0, 0.0), (240.0, 0.0)]),
+    ]
+
+    result = continental._classify_spatial_probe_connection(
+        site,
+        features,
+        identity,
+        frozenset({1, 2}),
+        frozenset({1, 2}),
+    )
+
+    assert result["source_connection_found"] is True
+    assert result["path_object_ids"] == [3]
+    assert result["path_records_unacquired"] == [3]
+    assert result["path_records_in_segment_lock"] == []
+    assert result["path_signed_routes"] == ["U-30"]
+
+
+def test_geometric_probe_does_not_bridge_disconnected_nearby_features() -> None:
+    identity = Transformer.from_crs("EPSG:5070", "EPSG:5070", always_xy=True)
+    site = {
+        "kind": "component_gap",
+        "from_metric": (100.0, 0.0),
+        "to_metric": (140.0, 0.0),
+    }
+    features = [
+        _spatial_feature(1, [(0.0, 0.0), (100.0, 0.0)]),
+        _spatial_feature(2, [(140.0, 0.0), (240.0, 0.0)]),
+    ]
+
+    result = continental._classify_spatial_probe_connection(
+        site,
+        features,
+        identity,
+        frozenset({1, 2}),
+        frozenset({1, 2}),
+    )
+
+    assert result["source_connection_found"] is False
+    assert result["path_object_ids"] == []
+
+
+def test_component_probe_does_not_use_the_transfer_anchor_snap_limit() -> None:
+    """A road merely near both chain ends is not a source-asserted join.
+
+    The 25 m limit belongs only to a locked transfer anchor. Component ends
+    retain the 1 m endpoint tolerance that prevents the route graph from
+    inventing connectivity.
+    """
+    identity = Transformer.from_crs("EPSG:5070", "EPSG:5070", always_xy=True)
+    site = {
+        "kind": "component_gap",
+        "from_metric": (100.0, 0.0),
+        "to_metric": (140.0, 0.0),
+    }
+
+    result = continental._classify_spatial_probe_connection(
+        site,
+        [_spatial_feature(3, [(110.0, 0.0), (130.0, 0.0)])],
+        identity,
+        frozenset(),
+        frozenset(),
+    )
+
+    assert result["from_probe_snap_distance_m"] == pytest.approx(10.0)
+    assert result["from_probe_snap_limit_m"] == ENDPOINT_SNAP_TOLERANCE_METERS
+    assert result["source_connection_found"] is False
