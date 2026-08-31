@@ -1,0 +1,5226 @@
+{
+  "authored_tunnels": [
+    {
+      "bore_length_m": 2720.0,
+      "evidence": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+      "portal_elevation_m": {
+        "east": 3356.8,
+        "west": 3401.0
+      },
+      "provenance": "authored",
+      "search_station_range_m": [
+        84000.0,
+        94000.0
+      ],
+      "segment_id": "i70-denver-to-cove-fort",
+      "source_notes": "Colorado DOT Eisenhower-Johnson Memorial Tunnel public facility facts: east portal 11,013 ft (3,356.8 m), west portal 11,158 ft (3,401.0 m) - the highest point on the Interstate system - and a bore of about 1.69 mi (2,720 m). The 2026-08-31 corridor elevation audit characterised the surface model's 3,837.26 m ridge above this bore as the corridor's largest artifact.",
+      "tunnel_id": "eisenhower-johnson-memorial-tunnel"
+    }
+  ],
+  "break_disposition_sha256": "48c9a40e33bf6a306c06232dc3c191c53e7a9ed73d17b412d7cf73e7eb137405",
+  "candidate_lock_sha256": "cbdaaa3710e2b2e9409628f32fb1ef16228ec2256c5b8f1428d3363618e73900",
+  "carriageway_decision": "ADR-0014",
+  "catalog_sha256": "4d3a4c115875fc7e72f12e6a9d32a31d4b103a1b73bdbc731f47864989b8447f",
+  "coordinate_crs": "EPSG:4326",
+  "corridor_elevation_lock_sha256": "082a1e0432edac2a89a3c561b1f2ee121692a68fde3226087fdb43631ac4cac7",
+  "decision": "ADR-0017",
+  "dem_product_lock_sha256": "8863b1cd0445188427e0af597b6599b8f3e855ca43c34e93c664db1e3705860f",
+  "derived_at": "2026-08-31T13:19:59Z",
+  "directed_route_lock_sha256": "cd31ea3193a755f06349fdf1cea814775d5de700e04a75113f70e68d18793294",
+  "edge_path_lock_sha256": "fcf0da1dcff80eb74364b1496e2033c351b14c25cbbf7f857e8af8a42295fc5e",
+  "metric_crs": "EPSG:5070",
+  "model": {
+    "bound_justification": "Sustained design grades on the US interstate system reach six percent, with mountainous exceptions near seven; seven percent over the locked 1 km window is the physical plausibility bound. The 100 m interval trigger of twelve percent is that envelope plus double the per-leg sampling noise of bilinear 1/3 arc-second samples on legitimate steep pavement, so only unambiguous artifacts condition; intervals between the bounds remain recorded raster noise for the package-build grade policy.",
+    "conditioning_note": "Corrections replace only each record's interior stations with the boundary chord, rounded to the locked precision; boundary stations keep their committed raw values, every record carries before/after evidence, and the conditioned profile reproduces deterministically from the raw lock plus the records.",
+    "elevation_decimals": 2,
+    "flat_run_min_stations": 4,
+    "interval_trigger_grade_percent": 12.0,
+    "join_distance_m": 1000.0,
+    "method": "linear_chord",
+    "station_interval_m": 100.0,
+    "sustained_bound_percent": 7.0,
+    "sustained_grade_window_m": 1000.0
+  },
+  "next_stage": {
+    "id": "westbound-carriageway",
+    "requires": [
+      "reciprocal directed westbound carriageway model under ADR-0014 over the locked directed sequence",
+      "ADR-0018 geometry gates, including the deferred overlay-site gates and the recorded Quad Cities 77.2 degree corner constraint"
+    ]
+  },
+  "nhs_conflation_lock_sha256": "4448c547c0a051ac6c58f26c8e37f092d3a4fbd5a33072f807103b5394292251",
+  "nhs_fill_lock_sha256": "2d05552540107464344aa579e833333a17539de3f1ab7ac8595d5b3ad98c2852",
+  "paths": [
+    {
+      "highest_point": {
+        "elevation_m": 3402.08,
+        "segment_id": "i70-denver-to-cove-fort",
+        "station_m": 89000.0
+      },
+      "locked_segment_ids": [
+        "i80-new-jersey-to-big-springs",
+        "i76-big-springs-to-denver",
+        "i70-denver-to-cove-fort",
+        "i15-cove-fort-to-barstow",
+        "i15-barstow-to-ontario",
+        "i10-ontario-to-i405",
+        "i405-west-la-to-ca107"
+      ],
+      "lowest_point": {
+        "elevation_m": 6.93,
+        "segment_id": "i405-west-la-to-ca107",
+        "station_m": 4900.0
+      },
+      "max_interval_grade": {
+        "from_station_m": 31800.0,
+        "grade_percent": 11.98,
+        "segment_id": "i70-denver-to-cove-fort"
+      },
+      "max_sustained_grade": {
+        "from_station_m": 133400.0,
+        "grade_percent": -6.939,
+        "segment_id": "i70-denver-to-cove-fort",
+        "window_m": 1000.0
+      },
+      "path_id": "central-rockies",
+      "role": "canonical",
+      "station_count": 44939,
+      "total_climb_m": 29546.99,
+      "total_descent_m": 29618.38,
+      "total_geodesic_m": 4492918.463,
+      "total_geodesic_miles": 2791.77
+    },
+    {
+      "highest_point": {
+        "elevation_m": 2635.07,
+        "segment_id": "i80-big-springs-to-salt-lake",
+        "station_m": 292900.0
+      },
+      "locked_segment_ids": [
+        "i80-new-jersey-to-big-springs",
+        "i80-big-springs-to-salt-lake",
+        "i15-salt-lake-to-cove-fort",
+        "i15-cove-fort-to-barstow",
+        "i15-barstow-to-ontario",
+        "i10-ontario-to-i405",
+        "i405-west-la-to-ca107"
+      ],
+      "lowest_point": {
+        "elevation_m": 6.93,
+        "segment_id": "i405-west-la-to-ca107",
+        "station_m": 4900.0
+      },
+      "max_interval_grade": {
+        "from_station_m": 1907200.0,
+        "grade_percent": 11.96,
+        "segment_id": "i80-new-jersey-to-big-springs"
+      },
+      "max_sustained_grade": {
+        "from_station_m": 913500.0,
+        "grade_percent": -6.54,
+        "segment_id": "i80-big-springs-to-salt-lake",
+        "window_m": 1000.0
+      },
+      "path_id": "northern-plains",
+      "role": "major_alternative",
+      "station_count": 46011,
+      "total_climb_m": 28317.67,
+      "total_descent_m": 28389.06,
+      "total_geodesic_m": 4600070.081,
+      "total_geodesic_miles": 2858.351
+    },
+    {
+      "highest_point": {
+        "elevation_m": 2236.69,
+        "segment_id": "i40-i81-to-barstow",
+        "station_m": 2832700.0
+      },
+      "locked_segment_ids": [
+        "i78-holland-tunnel-to-i81",
+        "i81-i78-to-i40",
+        "i40-i81-to-barstow",
+        "i15-barstow-to-ontario",
+        "i10-ontario-to-i405",
+        "i405-west-la-to-ca107"
+      ],
+      "lowest_point": {
+        "elevation_m": -0.49,
+        "segment_id": "i78-holland-tunnel-to-i81",
+        "station_m": 16400.0
+      },
+      "max_interval_grade": {
+        "from_station_m": 459400.0,
+        "grade_percent": -11.98,
+        "segment_id": "i81-i78-to-i40"
+      },
+      "max_sustained_grade": {
+        "from_station_m": 2889300.0,
+        "grade_percent": -6.124,
+        "segment_id": "i40-i81-to-barstow",
+        "window_m": 1000.0
+      },
+      "path_id": "southern-i40",
+      "role": "major_alternative",
+      "station_count": 46920,
+      "total_climb_m": 31595.73,
+      "total_descent_m": 31575.13,
+      "total_geodesic_m": 4691103.623,
+      "total_geodesic_miles": 2914.917
+    }
+  ],
+  "paths_sha256": "c232f59f47a47678d6bb797899219dfcf24cf2575a02588766248907dde8eb43",
+  "reconstruction_overlay_lock_sha256": "b01be230edc495e5aa30981d37b342519514e8884896df778380584032f908a0",
+  "route_decision": "ADR-0024",
+  "route_selection_sha256": "00ac4df354a8644997a2a073ee07c736ff3f3bc2d2565c8cd9cb51b957d2ff2f",
+  "schema_version": 1,
+  "segment_count": 12,
+  "segments": [
+    {
+      "conditioned_profile_sha256": "0662c282b516561f03ffaf8f8578029bcabc714b7f680a28c1e4007274bbb227",
+      "conditioning_records": [
+        {
+          "after": {
+            "chord_grade_percent": -4.075,
+            "replacement_elevations_m": [
+              274.11
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 10.5,
+            "max_interval_grade_percent": 14.57,
+            "raw_sha256": "d3aa249eaf651dd6aef4f9741e76116cf7dcb0141a623fe802cf1dfed642aa2e"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 26800.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i80-new-jersey-to-big-springs--conditioning-000",
+          "to_station_m": 27000.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 0.603,
+            "replacement_elevations_m": [
+              103.2,
+              103.8,
+              104.41,
+              105.01,
+              105.61,
+              106.22,
+              106.82
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 2,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 18.02,
+            "max_interval_grade_percent": 13.33,
+            "raw_sha256": "1d31282da2c572b08bccb28595c39cc570d92e4b94f63fabf6784d1b0b693f03"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 68900.0,
+          "interior_station_count": 7,
+          "method": "linear_chord",
+          "record_id": "i80-new-jersey-to-big-springs--conditioning-001",
+          "to_station_m": 69700.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 2.307,
+            "replacement_elevations_m": [
+              117.86,
+              120.16
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 20.73,
+            "max_interval_grade_percent": 18.42,
+            "raw_sha256": "c197209e12722034740a5b251aaacb2e66c5258e1e16a3f1e9d7e30182d4510e"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 71800.0,
+          "interior_station_count": 2,
+          "method": "linear_chord",
+          "record_id": "i80-new-jersey-to-big-springs--conditioning-002",
+          "to_station_m": 72100.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -1.985,
+            "replacement_elevations_m": [
+              129.36
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 15.36,
+            "max_interval_grade_percent": 17.34,
+            "raw_sha256": "15b594fed707390b9715aae53f4ce68e46206234f9dff8fc0f6e2277dfbd095f"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 75000.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i80-new-jersey-to-big-springs--conditioning-003",
+          "to_station_m": 75200.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -1.003,
+            "replacement_elevations_m": [
+              359.31,
+              358.3
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 30.7,
+            "max_interval_grade_percent": 31.7,
+            "raw_sha256": "fcdb004c3325a0223f3e5b8915a58ae69d4195ba2523f18edb6e39785f4ea2f0"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 130800.0,
+          "interior_station_count": 2,
+          "method": "linear_chord",
+          "record_id": "i80-new-jersey-to-big-springs--conditioning-004",
+          "to_station_m": 131100.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -0.865,
+            "replacement_elevations_m": [
+              202.07
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 13.76,
+            "max_interval_grade_percent": 14.63,
+            "raw_sha256": "67d6197f5ed97cd2613a14ad81f0c3447b3efe00f3a4838a7d9e16e9ccba0404"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 166200.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i80-new-jersey-to-big-springs--conditioning-005",
+          "to_station_m": 166400.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 6.527,
+            "replacement_elevations_m": [
+              147.17,
+              153.69
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 9.47,
+            "max_interval_grade_percent": 16.0,
+            "raw_sha256": "7bf74077d506a2c12ddafb8ffaeb827e8a05b4e52d0a5f20daa152da2a9ca854"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 181600.0,
+          "interior_station_count": 2,
+          "method": "linear_chord",
+          "record_id": "i80-new-jersey-to-big-springs--conditioning-006",
+          "to_station_m": 181900.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 1.816,
+            "replacement_elevations_m": [
+              141.02,
+              142.83,
+              144.65,
+              146.46
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 2,
+            "max_above_chord_m": 2.67,
+            "max_below_chord_m": 10.64,
+            "max_interval_grade_percent": 15.12,
+            "raw_sha256": "f5ca1e021322601cb91cf25af3cdb758583881e62c557d9ae623f3cf2c23a440"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 230100.0,
+          "interior_station_count": 4,
+          "method": "linear_chord",
+          "record_id": "i80-new-jersey-to-big-springs--conditioning-007",
+          "to_station_m": 230600.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 6.775,
+            "replacement_elevations_m": [
+              475.79
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 8.39,
+            "max_interval_grade_percent": 15.17,
+            "raw_sha256": "2ae3f00ef215e46701ded863e6acedd46c2c7b358db2718912ac11c08267aab7"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 326300.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i80-new-jersey-to-big-springs--conditioning-008",
+          "to_station_m": 326500.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 1.505,
+            "replacement_elevations_m": [
+              438.18,
+              439.68,
+              441.19
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 46.2,
+            "max_interval_grade_percent": 44.6,
+            "raw_sha256": "e8ba46b09e295cf878810e41d2a2337bbb03ec6e72794751ab3fc6f557f01123"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 347400.0,
+          "interior_station_count": 3,
+          "method": "linear_chord",
+          "record_id": "i80-new-jersey-to-big-springs--conditioning-009",
+          "to_station_m": 347800.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 1.133,
+            "replacement_elevations_m": [
+              358.46,
+              359.6,
+              360.73
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 36.99,
+            "max_interval_grade_percent": 38.12,
+            "raw_sha256": "758d538c23f4eb3d3b08294909143566dbc9a973b9f79c5cffe2cc50afc514fc"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 376300.0,
+          "interior_station_count": 3,
+          "method": "linear_chord",
+          "record_id": "i80-new-jersey-to-big-springs--conditioning-010",
+          "to_station_m": 376700.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 0.435,
+            "replacement_elevations_m": [
+              528.91
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 13.47,
+            "max_interval_grade_percent": 13.91,
+            "raw_sha256": "9224643ff6ecd2ad884375250c5215ab0cb6d04cd1775eadc2b92de676965d56"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 399200.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i80-new-jersey-to-big-springs--conditioning-011",
+          "to_station_m": 399400.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 1.32,
+            "replacement_elevations_m": [
+              444.39
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 15.96,
+            "max_interval_grade_percent": 17.28,
+            "raw_sha256": "6d7c6db2afd61086f5aef9773c6ce5f94071c7cf2e0a954ddcbfbeef757b70a6"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 415200.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i80-new-jersey-to-big-springs--conditioning-012",
+          "to_station_m": 415400.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 2.485,
+            "replacement_elevations_m": [
+              409.02
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 11.23,
+            "max_interval_grade_percent": 13.72,
+            "raw_sha256": "2dffc96ac5c414769d573b6a44bee8888c01a9a44272af9f60d577d7bd4bcf6b"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 434600.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i80-new-jersey-to-big-springs--conditioning-013",
+          "to_station_m": 434800.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 0.258,
+            "replacement_elevations_m": [
+              408.66,
+              408.91,
+              409.17
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 38.93,
+            "max_interval_grade_percent": 39.19,
+            "raw_sha256": "a79c073d7fd10e021cfb0cd5ded427c11669c1682abdfcc7abb5dd78f970c325"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 441100.0,
+          "interior_station_count": 3,
+          "method": "linear_chord",
+          "record_id": "i80-new-jersey-to-big-springs--conditioning-014",
+          "to_station_m": 441500.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -1.612,
+            "replacement_elevations_m": [
+              391.64,
+              390.03,
+              388.41,
+              386.8
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 55.94,
+            "max_interval_grade_percent": 45.72,
+            "raw_sha256": "22ee1189cff362205f954560520e128d1d3b55515859fbeb1c9e68cae02b4e05"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 471400.0,
+          "interior_station_count": 4,
+          "method": "linear_chord",
+          "record_id": "i80-new-jersey-to-big-springs--conditioning-015",
+          "to_station_m": 471900.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -1.49,
+            "replacement_elevations_m": [
+              392.84,
+              391.35,
+              389.86
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 58.73,
+            "max_interval_grade_percent": 39.4,
+            "raw_sha256": "dd2f8f7ab3b60ade6f996298b97cccc923ae8128d26e344ac10aa8779651f7c5"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 475600.0,
+          "interior_station_count": 3,
+          "method": "linear_chord",
+          "record_id": "i80-new-jersey-to-big-springs--conditioning-016",
+          "to_station_m": 476000.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -3.66,
+            "replacement_elevations_m": [
+              403.88,
+              400.22,
+              396.56
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 37.91,
+            "max_interval_grade_percent": 34.25,
+            "raw_sha256": "3709573112f57664a32518c2f28af2a152d731885922fc93eeb779fa16d8f68b"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 480600.0,
+          "interior_station_count": 3,
+          "method": "linear_chord",
+          "record_id": "i80-new-jersey-to-big-springs--conditioning-017",
+          "to_station_m": 481000.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -1.154,
+            "replacement_elevations_m": [
+              340.59,
+              339.43,
+              338.28,
+              337.12
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 74.8,
+            "max_interval_grade_percent": 59.82,
+            "raw_sha256": "06cf69b2f53f6fb1e2bf98b8e3932c94e6395fa8567500f649407d019503f12c"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 498000.0,
+          "interior_station_count": 4,
+          "method": "linear_chord",
+          "record_id": "i80-new-jersey-to-big-springs--conditioning-018",
+          "to_station_m": 498500.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -0.655,
+            "replacement_elevations_m": [
+              345.88
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 12.58,
+            "max_interval_grade_percent": 13.24,
+            "raw_sha256": "d4848654cd57b6e5a8b2c31ccf0714e128dcf126d76f06adbb70fc0a64dc7e87"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 544000.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i80-new-jersey-to-big-springs--conditioning-019",
+          "to_station_m": 544200.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -0.263,
+            "replacement_elevations_m": [
+              280.47,
+              280.2,
+              279.94,
+              279.68,
+              279.41,
+              279.15,
+              278.89,
+              278.62
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 22.57,
+            "max_interval_grade_percent": 22.31,
+            "raw_sha256": "aa2329fb5a6a3177942680700768be4c44123ff62c48ecced73a2763df06793e"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 586100.0,
+          "interior_station_count": 8,
+          "method": "linear_chord",
+          "record_id": "i80-new-jersey-to-big-springs--conditioning-020",
+          "to_station_m": 587000.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 0.459,
+            "replacement_elevations_m": [
+              276.63,
+              277.09,
+              277.55,
+              278.0,
+              278.46,
+              278.92,
+              279.38
+            ]
+          },
+          "artifact_class": "water_surface",
+          "before": {
+            "longest_flat_run_stations": 7,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 3.25,
+            "max_interval_grade_percent": 3.71,
+            "raw_sha256": "4ea35e3c9d31cd01ac90ed0a2d276fe5163926fdc6796fe766e245015a906040"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "water_flat_run"
+            ]
+          },
+          "from_station_m": 596000.0,
+          "interior_station_count": 7,
+          "method": "linear_chord",
+          "record_id": "i80-new-jersey-to-big-springs--conditioning-021",
+          "to_station_m": 596800.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 1.801,
+            "replacement_elevations_m": [
+              236.07,
+              237.87,
+              239.67,
+              241.47,
+              243.28,
+              245.08,
+              246.88
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 40.64,
+            "max_interval_grade_percent": 23.36,
+            "raw_sha256": "b4584c9db2c3a45646c18fc56fb328cd50add49e06059ea7a6ca123cab8b0b2b"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 665600.0,
+          "interior_station_count": 7,
+          "method": "linear_chord",
+          "record_id": "i80-new-jersey-to-big-springs--conditioning-022",
+          "to_station_m": 666400.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -1.98,
+            "replacement_elevations_m": [
+              307.92
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 12.33,
+            "max_interval_grade_percent": 14.31,
+            "raw_sha256": "68fac535cb08cfd8859393836d18899e25b00b0e64a6fb7cbea7efb372faff8c"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 683500.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i80-new-jersey-to-big-springs--conditioning-023",
+          "to_station_m": 683700.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 0.46,
+            "replacement_elevations_m": [
+              206.21
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 15.91,
+            "max_interval_grade_percent": 16.37,
+            "raw_sha256": "c3f0fb2fd1ba5f6b00cbdb30eb5bd3c6244de9c1d44c3cd3c2d98ef2abe72d8c"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 716200.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i80-new-jersey-to-big-springs--conditioning-024",
+          "to_station_m": 716400.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -6.635,
+            "replacement_elevations_m": [
+              186.12
+            ]
+          },
+          "artifact_class": "terrain_ridge",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 6.12,
+            "max_below_chord_m": 0.0,
+            "max_interval_grade_percent": 12.76,
+            "raw_sha256": "4169cbbda2c8ed13605a53b8ea010d13247bd52654e1c0f6632ca1dc641f5ba0"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 758400.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i80-new-jersey-to-big-springs--conditioning-025",
+          "to_station_m": 758600.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -6.31,
+            "replacement_elevations_m": [
+              187.22,
+              180.91
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 12.5,
+            "max_interval_grade_percent": 18.81,
+            "raw_sha256": "59c21146ba30048defd7ebc70a025a4574a645c377fa0d9cbc8155552010eaaf"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 849500.0,
+          "interior_station_count": 2,
+          "method": "linear_chord",
+          "record_id": "i80-new-jersey-to-big-springs--conditioning-026",
+          "to_station_m": 849800.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -5.243,
+            "replacement_elevations_m": [
+              188.51,
+              183.26
+            ]
+          },
+          "artifact_class": "terrain_ridge",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 8.15,
+            "max_below_chord_m": 0.0,
+            "max_interval_grade_percent": 13.39,
+            "raw_sha256": "82a519fb626f8b5c72cb92bf4db92f6137f3a28da40b7e19ae9789bffe6b36f1"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 1242200.0,
+          "interior_station_count": 2,
+          "method": "linear_chord",
+          "record_id": "i80-new-jersey-to-big-springs--conditioning-027",
+          "to_station_m": 1242500.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 2.36,
+            "replacement_elevations_m": [
+              171.27
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 13.07,
+            "max_interval_grade_percent": 15.43,
+            "raw_sha256": "3800c18f3adb0b52dee09e5219f3c4dea5dd28f7f86f8e82d2ab0ab8cca791ef"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 1243700.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i80-new-jersey-to-big-springs--conditioning-028",
+          "to_station_m": 1243900.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 5.91,
+            "replacement_elevations_m": [
+              169.51
+            ]
+          },
+          "artifact_class": "terrain_ridge",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 6.29,
+            "max_below_chord_m": 0.0,
+            "max_interval_grade_percent": 12.2,
+            "raw_sha256": "0724677912ecf2292c4a35d72289aaf592e93930ccae050f5f30ecd2cfffdc31"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 1245300.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i80-new-jersey-to-big-springs--conditioning-029",
+          "to_station_m": 1245500.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -0.095,
+            "replacement_elevations_m": [
+              161.29
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 18.43,
+            "max_interval_grade_percent": 18.53,
+            "raw_sha256": "848466c27b7ec0d28133a0ec5b8257fa7e8b564a64076a142f8d5ef7d2ca4447"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 1309200.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i80-new-jersey-to-big-springs--conditioning-030",
+          "to_station_m": 1309400.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 0.9,
+            "replacement_elevations_m": [
+              181.61
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 20.14,
+            "max_interval_grade_percent": 21.04,
+            "raw_sha256": "1f24450d1a71d9c155d258718cf815f5a9d80b38e212f5c5e9e500c57acd78b1"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 1334200.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i80-new-jersey-to-big-springs--conditioning-031",
+          "to_station_m": 1334400.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 0.695,
+            "replacement_elevations_m": [
+              191.97
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 15.11,
+            "max_interval_grade_percent": 15.81,
+            "raw_sha256": "3b31e2bf4638ec17f1bf24f31c5f49e86d39ee98923a834b514e15a6603304d3"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 1370500.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i80-new-jersey-to-big-springs--conditioning-032",
+          "to_station_m": 1370700.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -0.31,
+            "replacement_elevations_m": [
+              176.26,
+              175.95,
+              175.64,
+              175.33,
+              175.02,
+              174.71,
+              174.4
+            ]
+          },
+          "artifact_class": "water_surface",
+          "before": {
+            "longest_flat_run_stations": 7,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 2.19,
+            "max_interval_grade_percent": 2.5,
+            "raw_sha256": "676dd9eb0bfde6ac952eaffc634eeec06509fe63a37215667853d16f3cc00a21"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "water_flat_run"
+            ]
+          },
+          "from_station_m": 1457700.0,
+          "interior_station_count": 7,
+          "method": "linear_chord",
+          "record_id": "i80-new-jersey-to-big-springs--conditioning-033",
+          "to_station_m": 1458500.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 6.763,
+            "replacement_elevations_m": [
+              298.88,
+              305.64,
+              312.41
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 9.03,
+            "max_interval_grade_percent": 15.79,
+            "raw_sha256": "3dff3e1f0018a77c60555db9516a8f2d591d8901d94bae8accdd6357c1041a5d"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 1951400.0,
+          "interior_station_count": 3,
+          "method": "linear_chord",
+          "record_id": "i80-new-jersey-to-big-springs--conditioning-034",
+          "to_station_m": 1951800.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -1.155,
+            "replacement_elevations_m": [
+              365.65
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 16.9,
+            "max_interval_grade_percent": 18.06,
+            "raw_sha256": "d8f9fd0dff308e34ba5397f8ead481e377cbc7135bc01789bc30c5ba49576a2b"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 1955000.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i80-new-jersey-to-big-springs--conditioning-035",
+          "to_station_m": 1955200.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 0.585,
+            "replacement_elevations_m": [
+              319.48
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 14.11,
+            "max_interval_grade_percent": 14.69,
+            "raw_sha256": "f7b0be90f1fd32fe9752560b6f51da57cd542ee464926b103215441b7d6b98ec"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 1960000.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i80-new-jersey-to-big-springs--conditioning-036",
+          "to_station_m": 1960200.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -1.026,
+            "replacement_elevations_m": [
+              324.14,
+              323.12,
+              322.09,
+              321.07
+            ]
+          },
+          "artifact_class": "water_surface",
+          "before": {
+            "longest_flat_run_stations": 4,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 6.35,
+            "max_interval_grade_percent": 7.38,
+            "raw_sha256": "913404e1e7ff3b66407989d7d38adf6b7643dd086babc53f25e8cc60288bb6e8"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "water_flat_run"
+            ]
+          },
+          "from_station_m": 1996200.0,
+          "interior_station_count": 4,
+          "method": "linear_chord",
+          "record_id": "i80-new-jersey-to-big-springs--conditioning-037",
+          "to_station_m": 1996700.0
+        }
+      ],
+      "corrected_station_count": 98,
+      "geodesic_length_m": 2518867.855,
+      "record_count": 38,
+      "segment_id": "i80-new-jersey-to-big-springs",
+      "station_count": 25190,
+      "station_interval_m": 100.0,
+      "statistics": {
+        "max_elevation": {
+          "elevation_m": 1041.1,
+          "station_m": 2518500.0
+        },
+        "max_interval_grade": {
+          "from_station_m": 1907200.0,
+          "grade_percent": 11.96
+        },
+        "max_sustained_grade": {
+          "from_station_m": 32900.0,
+          "grade_percent": 4.95,
+          "window_m": 1000.0
+        },
+        "min_elevation": {
+          "elevation_m": 92.05,
+          "station_m": 63000.0
+        },
+        "total_climb_m": 14235.58,
+        "total_descent_m": 13289.56
+      },
+      "terminal_station_m": 2518867.855
+    },
+    {
+      "conditioned_profile_sha256": "bfc72c533a81dcf364ade0dc84d27e298558cac3b66caeaa4597e03d6edb4cd9",
+      "conditioning_records": [
+        {
+          "after": {
+            "chord_grade_percent": 2.53,
+            "replacement_elevations_m": [
+              1596.27,
+              1598.8
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 13.89,
+            "max_interval_grade_percent": 16.42,
+            "raw_sha256": "7a12c05c682dabaa23e564e8313c7a9569b86e7a916da00055fcd56ed635674e"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 294200.0,
+          "interior_station_count": 2,
+          "method": "linear_chord",
+          "record_id": "i76-big-springs-to-denver--conditioning-000",
+          "to_station_m": 294500.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 2.215,
+            "replacement_elevations_m": [
+              1597.55
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 10.36,
+            "max_interval_grade_percent": 12.58,
+            "raw_sha256": "92889fb688af7360da7f869e97e1012ab60e2e3f8d56d09f4ecc47e7f4ac80f9"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 295800.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i76-big-springs-to-denver--conditioning-001",
+          "to_station_m": 296000.0
+        }
+      ],
+      "corrected_station_count": 3,
+      "geodesic_length_m": 300331.444,
+      "record_count": 2,
+      "segment_id": "i76-big-springs-to-denver",
+      "station_count": 3005,
+      "station_interval_m": 100.0,
+      "statistics": {
+        "max_elevation": {
+          "elevation_m": 1625.68,
+          "station_m": 299800.0
+        },
+        "max_interval_grade": {
+          "from_station_m": 288000.0,
+          "grade_percent": -10.93
+        },
+        "max_sustained_grade": {
+          "from_station_m": 21500.0,
+          "grade_percent": 3.127,
+          "window_m": 1000.0
+        },
+        "min_elevation": {
+          "elevation_m": 1040.9,
+          "station_m": 100.0
+        },
+        "total_climb_m": 1524.59,
+        "total_descent_m": 943.04
+      },
+      "terminal_station_m": 300331.444
+    },
+    {
+      "conditioned_profile_sha256": "cee6e9322cb6dd7a05b5bfb6330dbad756d5a002861ac398a7900295edb9f10d",
+      "conditioning_records": [
+        {
+          "after": {
+            "chord_grade_percent": -3.205,
+            "replacement_elevations_m": [
+              2211.24
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 9.92,
+            "max_interval_grade_percent": 13.13,
+            "raw_sha256": "c9b398d19843ca572f894c788281ed50685c82378a71d1e3d2f9c283c0be9b35"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 39600.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i70-denver-to-cove-fort--conditioning-000",
+          "to_station_m": 39800.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 5.633,
+            "replacement_elevations_m": [
+              2254.29,
+              2259.93
+            ]
+          },
+          "artifact_class": "terrain_ridge",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 84.95,
+            "max_below_chord_m": 0.0,
+            "max_interval_grade_percent": 79.32,
+            "raw_sha256": "e52278d711673cd7da47b6fd25e102c92ff1f7f2b5e0ce0584ecb11990750c7f"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 42900.0,
+          "interior_station_count": 2,
+          "method": "linear_chord",
+          "record_id": "i70-denver-to-cove-fort--conditioning-001",
+          "to_station_m": 43200.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 6.435,
+            "replacement_elevations_m": [
+              3279.01
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 11.16,
+            "max_interval_grade_percent": 17.6,
+            "raw_sha256": "e51659ca8381cef69ef80947af2e60fc8d0c6872182ebdb64fcb7a2519fba37c"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 84700.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i70-denver-to-cove-fort--conditioning-002",
+          "to_station_m": 84900.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 1.245,
+            "replacement_elevations_m": [
+              3369.71,
+              3370.95,
+              3372.2,
+              3373.44,
+              3374.69,
+              3375.93,
+              3377.18,
+              3378.42,
+              3379.67,
+              3380.91,
+              3382.16,
+              3383.4,
+              3384.65,
+              3385.89,
+              3387.14,
+              3388.38,
+              3389.63,
+              3390.87,
+              3392.12,
+              3393.36,
+              3394.61,
+              3395.85,
+              3397.1,
+              3398.34,
+              3399.59,
+              3400.83
+            ]
+          },
+          "artifact_class": "tunnel_bore",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 445.14,
+            "max_below_chord_m": 0.0,
+            "max_interval_grade_percent": 90.77,
+            "raw_sha256": "75c767ec800f77fa92b46b74c5521ab788ebecd680014cf11d551220da02b5c0"
+          },
+          "evidence": {
+            "authored_tunnel": {
+              "entry_portal_delta_m": 11.66,
+              "exit_portal_delta_m": 1.08,
+              "provenance": "authored",
+              "source_notes": "Colorado DOT Eisenhower-Johnson Memorial Tunnel public facility facts: east portal 11,013 ft (3,356.8 m), west portal 11,158 ft (3,401.0 m) - the highest point on the Interstate system - and a bore of about 1.69 mi (2,720 m). The 2026-08-31 corridor elevation audit characterised the surface model's 3,837.26 m ridge above this bore as the corridor's largest artifact.",
+              "tunnel_id": "eisenhower-johnson-memorial-tunnel",
+              "window_to_bore_length_ratio": 0.993
+            },
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 86300.0,
+          "interior_station_count": 26,
+          "method": "linear_chord",
+          "record_id": "i70-denver-to-cove-fort--conditioning-003",
+          "to_station_m": 89000.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 6.18,
+            "replacement_elevations_m": [
+              3016.07,
+              3022.25,
+              3028.43,
+              3034.61,
+              3040.79,
+              3046.97,
+              3053.15
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 4.82,
+            "max_below_chord_m": 16.36,
+            "max_interval_grade_percent": 22.54,
+            "raw_sha256": "a0a85ccea486d52e1ad04402da37074c731bb84e0846cdad9fa2a36839d41f10"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 121000.0,
+          "interior_station_count": 7,
+          "method": "linear_chord",
+          "record_id": "i70-denver-to-cove-fort--conditioning-004",
+          "to_station_m": 121800.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 5.759,
+            "replacement_elevations_m": [
+              3083.57,
+              3089.33,
+              3095.09,
+              3100.85,
+              3106.61,
+              3112.36,
+              3118.12,
+              3123.88,
+              3129.64
+            ]
+          },
+          "artifact_class": "interval_spike",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 11.22,
+            "max_below_chord_m": 8.39,
+            "max_interval_grade_percent": 16.98,
+            "raw_sha256": "5edbf20dccdc9ea31a75ad0b985df7b457c1091728fed06f824b59b0f1ff1837"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 123100.0,
+          "interior_station_count": 9,
+          "method": "linear_chord",
+          "record_id": "i70-denver-to-cove-fort--conditioning-005",
+          "to_station_m": 124100.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -4.527,
+            "replacement_elevations_m": [
+              2917.62,
+              2913.1,
+              2908.57,
+              2904.04,
+              2899.52,
+              2894.99,
+              2890.46,
+              2885.94,
+              2881.41,
+              2876.88,
+              2872.36,
+              2867.83,
+              2863.3,
+              2858.77,
+              2854.25,
+              2849.72,
+              2845.19,
+              2840.67,
+              2836.14,
+              2831.61,
+              2827.09,
+              2822.56,
+              2818.03,
+              2813.51
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 2,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 51.84,
+            "max_interval_grade_percent": 23.51,
+            "raw_sha256": "4a08624e0c08c243a61237f68541277682a4be7652fbb099300f895d1f8be281"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 134700.0,
+          "interior_station_count": 24,
+          "method": "linear_chord",
+          "record_id": "i70-denver-to-cove-fort--conditioning-006",
+          "to_station_m": 137200.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -1.827,
+            "replacement_elevations_m": [
+              2648.79,
+              2646.97
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 20.42,
+            "max_interval_grade_percent": 22.25,
+            "raw_sha256": "0b37b24b6c0ca54d49b8f62ab53e183256c3b9fb3c60e0b10f9aa28d0e5a7484"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 140300.0,
+          "interior_station_count": 2,
+          "method": "linear_chord",
+          "record_id": "i70-denver-to-cove-fort--conditioning-007",
+          "to_station_m": 140600.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 2.957,
+            "replacement_elevations_m": [
+              2604.75,
+              2607.7
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 17.55,
+            "max_interval_grade_percent": 20.51,
+            "raw_sha256": "f3b00423e976e3ab84ced6ab4067c6603130b65821d2b5f0e190543644a2de62"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 142000.0,
+          "interior_station_count": 2,
+          "method": "linear_chord",
+          "record_id": "i70-denver-to-cove-fort--conditioning-008",
+          "to_station_m": 142300.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 1.8,
+            "replacement_elevations_m": [
+              2368.38
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 10.62,
+            "max_interval_grade_percent": 12.42,
+            "raw_sha256": "4c2b3a579839f23f0dfe623e29e275f4bf73fb654dbf12b3d5f6b5e9194cf6bb"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 157500.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i70-denver-to-cove-fort--conditioning-009",
+          "to_station_m": 157700.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -4.26,
+            "replacement_elevations_m": [
+              2315.16
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 11.62,
+            "max_interval_grade_percent": 15.88,
+            "raw_sha256": "37140b330afba976be549363171d0f3fd6e28d89c46821f36718faab906bdb11"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 161400.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i70-denver-to-cove-fort--conditioning-010",
+          "to_station_m": 161600.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -5.06,
+            "replacement_elevations_m": [
+              2162.45
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 15.32,
+            "max_interval_grade_percent": 20.38,
+            "raw_sha256": "6c4b8d300867270ec5d1fe1d1b3ec429a42acd25118570f69a072bdb38b4433f"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 177500.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i70-denver-to-cove-fort--conditioning-011",
+          "to_station_m": 177700.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 3.195,
+            "replacement_elevations_m": [
+              2005.24
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 16.45,
+            "max_interval_grade_percent": 19.65,
+            "raw_sha256": "4a195e520d8ba8a60a0e65992bceefbebd2674c4aacc1dff8bce1246ec040e22"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 201600.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i70-denver-to-cove-fort--conditioning-012",
+          "to_station_m": 201800.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -5.08,
+            "replacement_elevations_m": [
+              1879.58
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 8.09,
+            "max_interval_grade_percent": 13.17,
+            "raw_sha256": "6a90a8122578a4f11d3449af62996ee36e6a96c89453182680203632eb0959e5"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 218200.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i70-denver-to-cove-fort--conditioning-013",
+          "to_station_m": 218400.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -0.167,
+            "replacement_elevations_m": [
+              1861.06,
+              1860.9,
+              1860.73,
+              1860.56,
+              1860.39,
+              1860.23,
+              1860.06,
+              1859.89,
+              1859.73,
+              1859.56,
+              1859.39,
+              1859.22,
+              1859.06
+            ]
+          },
+          "artifact_class": "terrain_ridge",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 218.61,
+            "max_below_chord_m": 0.0,
+            "max_interval_grade_percent": 182.72,
+            "raw_sha256": "0179cbbdbeab1cff80495dabab5afef00e68de1a5d4a40bc32545227bd313ea7"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 231100.0,
+          "interior_station_count": 13,
+          "method": "linear_chord",
+          "record_id": "i70-denver-to-cove-fort--conditioning-014",
+          "to_station_m": 232500.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -2.737,
+            "replacement_elevations_m": [
+              1772.38,
+              1769.64,
+              1766.91
+            ]
+          },
+          "artifact_class": "terrain_ridge",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 122.91,
+            "max_below_chord_m": 0.0,
+            "max_interval_grade_percent": 94.36,
+            "raw_sha256": "249bffd5c874bb884b91d5d13a5ee1b4879b56bd78c8059b2417e694173890b4"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 244400.0,
+          "interior_station_count": 3,
+          "method": "linear_chord",
+          "record_id": "i70-denver-to-cove-fort--conditioning-015",
+          "to_station_m": 244800.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 1.703,
+            "replacement_elevations_m": [
+              1462.61,
+              1464.32
+            ]
+          },
+          "artifact_class": "terrain_ridge",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 50.83,
+            "max_below_chord_m": 0.0,
+            "max_interval_grade_percent": 52.53,
+            "raw_sha256": "9060eeeb3bac6be4c3612ce8ac95900f258dc4ed240aa04affc0755207744e99"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 353500.0,
+          "interior_station_count": 2,
+          "method": "linear_chord",
+          "record_id": "i70-denver-to-cove-fort--conditioning-016",
+          "to_station_m": 353800.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 6.093,
+            "replacement_elevations_m": [
+              1450.28,
+              1456.38
+            ]
+          },
+          "artifact_class": "terrain_ridge",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 6.83,
+            "max_below_chord_m": 0.0,
+            "max_interval_grade_percent": 12.92,
+            "raw_sha256": "2656f8f6dde95d0257d89e6d3d2cf5bc45bec294845bb60a90d1b1a061bbdf22"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 364300.0,
+          "interior_station_count": 2,
+          "method": "linear_chord",
+          "record_id": "i70-denver-to-cove-fort--conditioning-017",
+          "to_station_m": 364600.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 6.01,
+            "replacement_elevations_m": [
+              1401.12,
+              1407.13,
+              1413.14,
+              1419.15
+            ]
+          },
+          "artifact_class": "interval_spike",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 19.37,
+            "max_below_chord_m": 19.49,
+            "max_interval_grade_percent": 25.5,
+            "raw_sha256": "8d88e315c06e6c12a4a45837149aaa727473ca8513f79eb6a3e4c7f71eb792e6"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 420000.0,
+          "interior_station_count": 4,
+          "method": "linear_chord",
+          "record_id": "i70-denver-to-cove-fort--conditioning-018",
+          "to_station_m": 420500.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 6.83,
+            "replacement_elevations_m": [
+              1447.69
+            ]
+          },
+          "artifact_class": "terrain_ridge",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 13.87,
+            "max_below_chord_m": 0.0,
+            "max_interval_grade_percent": 20.7,
+            "raw_sha256": "bcaafd3b0d94570e64ec5d509a1ebff98499910c28be66097b9ce5a57e592302"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 432400.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i70-denver-to-cove-fort--conditioning-019",
+          "to_station_m": 432600.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -0.077,
+            "replacement_elevations_m": [
+              2074.05,
+              2073.98
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 53.98,
+            "max_interval_grade_percent": 54.06,
+            "raw_sha256": "e0dbfe957c51ceeb9778b75067a58324aee751c335c7b7ae01403f7e3fdd7be6"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 615100.0,
+          "interior_station_count": 2,
+          "method": "linear_chord",
+          "record_id": "i70-denver-to-cove-fort--conditioning-020",
+          "to_station_m": 615400.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 4.07,
+            "replacement_elevations_m": [
+              1722.44
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 8.54,
+            "max_interval_grade_percent": 12.61,
+            "raw_sha256": "0bfb079d4c63e78c40579e84bf9e85c84f1493dd2281e1431c55f6cf57dc9df0"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 770500.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i70-denver-to-cove-fort--conditioning-021",
+          "to_station_m": 770700.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 2.703,
+            "replacement_elevations_m": [
+              2000.18,
+              2002.89
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 13.72,
+            "max_interval_grade_percent": 16.42,
+            "raw_sha256": "111cee9e63a8cd3daae6fbf4121b1e86fb9132d11c5355c8e9901df986a0b65e"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 784300.0,
+          "interior_station_count": 2,
+          "method": "linear_chord",
+          "record_id": "i70-denver-to-cove-fort--conditioning-022",
+          "to_station_m": 784600.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 0.407,
+            "replacement_elevations_m": [
+              1999.07,
+              1999.47,
+              1999.88
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 51.04,
+            "max_interval_grade_percent": 30.42,
+            "raw_sha256": "4f75f03c0fdb1285a49c8edd0fab49f5ffd402e0af19fba182daf8c22c25b694"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 789400.0,
+          "interior_station_count": 3,
+          "method": "linear_chord",
+          "record_id": "i70-denver-to-cove-fort--conditioning-023",
+          "to_station_m": 789800.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 1.813,
+            "replacement_elevations_m": [
+              2052.05,
+              2053.87
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 33.75,
+            "max_interval_grade_percent": 35.56,
+            "raw_sha256": "c1b6f233006d50ebb89e09ceb437a85811e4c040cd489bb19a48bcd2b480fcc5"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 792200.0,
+          "interior_station_count": 2,
+          "method": "linear_chord",
+          "record_id": "i70-denver-to-cove-fort--conditioning-024",
+          "to_station_m": 792500.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -6.82,
+            "replacement_elevations_m": [
+              2153.01
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 6.56,
+            "max_interval_grade_percent": 13.38,
+            "raw_sha256": "b516e071404067fc97f83c2ee528d88c89eba989a4cee2f63b172c1cec672cca"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 796800.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i70-denver-to-cove-fort--conditioning-025",
+          "to_station_m": 797000.0
+        }
+      ],
+      "corrected_station_count": 115,
+      "geodesic_length_m": 807795.394,
+      "record_count": 26,
+      "segment_id": "i70-denver-to-cove-fort",
+      "station_count": 8079,
+      "station_interval_m": 100.0,
+      "statistics": {
+        "max_elevation": {
+          "elevation_m": 3402.08,
+          "station_m": 89000.0
+        },
+        "max_interval_grade": {
+          "from_station_m": 31800.0,
+          "grade_percent": 11.98
+        },
+        "max_sustained_grade": {
+          "from_station_m": 133400.0,
+          "grade_percent": -6.939,
+          "window_m": 1000.0
+        },
+        "min_elevation": {
+          "elevation_m": 1232.25,
+          "station_m": 545400.0
+        },
+        "total_climb_m": 8051.54,
+        "total_descent_m": 7836.51
+      },
+      "terminal_station_m": 807795.394
+    },
+    {
+      "conditioned_profile_sha256": "0ac80355fa67be77ddc1d4039361d1cfdf7e9cd662e49221cbbb85a198d9a511",
+      "conditioning_records": [
+        {
+          "after": {
+            "chord_grade_percent": -0.26,
+            "replacement_elevations_m": [
+              1923.42
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 12.25,
+            "max_interval_grade_percent": 12.51,
+            "raw_sha256": "e96d6159f763ad9c9c21afff9c63048f01fbf1001c7781a4067cec0e62d1c790"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 644400.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i80-big-springs-to-salt-lake--conditioning-000",
+          "to_station_m": 644600.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -2.605,
+            "replacement_elevations_m": [
+              1933.8,
+              1931.19,
+              1928.59
+            ]
+          },
+          "artifact_class": "terrain_ridge",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 79.57,
+            "max_below_chord_m": 0.0,
+            "max_interval_grade_percent": 45.15,
+            "raw_sha256": "421d848de4f0126d88cbe7b08f994eade0ca70915bdc4732d0a908529fbbfc84"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 667600.0,
+          "interior_station_count": 3,
+          "method": "linear_chord",
+          "record_id": "i80-big-springs-to-salt-lake--conditioning-001",
+          "to_station_m": 668000.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 2.885,
+            "replacement_elevations_m": [
+              2081.15
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 9.48,
+            "max_interval_grade_percent": 12.36,
+            "raw_sha256": "45aa5448a1cdaeec2b6e58f65e3e55103d13fc953b74d84292775b761c3be22c"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 774900.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i80-big-springs-to-salt-lake--conditioning-002",
+          "to_station_m": 775100.0
+        }
+      ],
+      "corrected_station_count": 5,
+      "geodesic_length_m": 935038.076,
+      "record_count": 3,
+      "segment_id": "i80-big-springs-to-salt-lake",
+      "station_count": 9352,
+      "station_interval_m": 100.0,
+      "statistics": {
+        "max_elevation": {
+          "elevation_m": 2635.07,
+          "station_m": 292900.0
+        },
+        "max_interval_grade": {
+          "from_station_m": 22100.0,
+          "grade_percent": -10.21
+        },
+        "max_sustained_grade": {
+          "from_station_m": 913500.0,
+          "grade_percent": -6.54,
+          "window_m": 1000.0
+        },
+        "min_elevation": {
+          "elevation_m": 1037.27,
+          "station_m": 900.0
+        },
+        "total_climb_m": 6237.29,
+        "total_descent_m": 5985.68
+      },
+      "terminal_station_m": 935038.076
+    },
+    {
+      "conditioned_profile_sha256": "45ec66ec70c473b5e33681047d923efc19d529da0c60836b2713569adda69f60",
+      "conditioning_records": [],
+      "corrected_station_count": 0,
+      "geodesic_length_m": 280240.38,
+      "record_count": 0,
+      "segment_id": "i15-salt-lake-to-cove-fort",
+      "station_count": 2804,
+      "station_interval_m": 100.0,
+      "statistics": {
+        "max_elevation": {
+          "elevation_m": 1873.22,
+          "station_m": 273800.0
+        },
+        "max_interval_grade": {
+          "from_station_m": 163300.0,
+          "grade_percent": -11.04
+        },
+        "max_sustained_grade": {
+          "from_station_m": 271900.0,
+          "grade_percent": 5.217,
+          "window_m": 1000.0
+        },
+        "min_elevation": {
+          "elevation_m": 1290.24,
+          "station_m": 1100.0
+        },
+        "total_climb_m": 2109.52,
+        "total_descent_m": 1564.55
+      },
+      "terminal_station_m": 280240.38
+    },
+    {
+      "conditioned_profile_sha256": "4c98fa6ccbd22024c2e897770679854ceec0b7bdf86881c1e97f170d4b5cdb43",
+      "conditioning_records": [
+        {
+          "after": {
+            "chord_grade_percent": -3.425,
+            "replacement_elevations_m": [
+              14.2
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 9.75,
+            "max_interval_grade_percent": 13.18,
+            "raw_sha256": "26c0a8e44c4981127f871b82efbb26bd00c12ffbc5556d73cc469986ef5f54d7"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 7600.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i78-holland-tunnel-to-i81--conditioning-000",
+          "to_station_m": 7800.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -0.27,
+            "replacement_elevations_m": [
+              3.05,
+              2.78,
+              2.51,
+              2.24,
+              1.97,
+              1.7,
+              1.43,
+              1.16,
+              0.89,
+              0.62,
+              0.35,
+              0.08
+            ]
+          },
+          "artifact_class": "water_surface",
+          "before": {
+            "longest_flat_run_stations": 12,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 4.2,
+            "max_interval_grade_percent": 4.47,
+            "raw_sha256": "73c4d57ed709e092b42cc0a1ba1e6f303acc9c3ef8e3698e05209a5a1215c367"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "water_flat_run"
+            ]
+          },
+          "from_station_m": 9700.0,
+          "interior_station_count": 12,
+          "method": "linear_chord",
+          "record_id": "i78-holland-tunnel-to-i81--conditioning-001",
+          "to_station_m": 11000.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 5.145,
+            "replacement_elevations_m": [
+              54.75
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 8.81,
+            "max_interval_grade_percent": 13.95,
+            "raw_sha256": "a80a47ff442a673ac98e227106b603d8b2becb2de782701fb59abf799d8e24e9"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 29200.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i78-holland-tunnel-to-i81--conditioning-002",
+          "to_station_m": 29400.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 2.295,
+            "replacement_elevations_m": [
+              115.97
+            ]
+          },
+          "artifact_class": "terrain_ridge",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 9.97,
+            "max_below_chord_m": 0.0,
+            "max_interval_grade_percent": 12.26,
+            "raw_sha256": "da0177dedbe563ac3d6d13d84ffa2da6f271c7421f783cb8f34c27e37e3e3910"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 33800.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i78-holland-tunnel-to-i81--conditioning-003",
+          "to_station_m": 34000.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 2.6,
+            "replacement_elevations_m": [
+              115.92,
+              118.52
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 17.18,
+            "max_interval_grade_percent": 15.28,
+            "raw_sha256": "b21bdadde3819d0ae2f3d992bba364ff1bee0dbdb9869a46a40e11bfe443c720"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 39300.0,
+          "interior_station_count": 2,
+          "method": "linear_chord",
+          "record_id": "i78-holland-tunnel-to-i81--conditioning-004",
+          "to_station_m": 39600.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 2.105,
+            "replacement_elevations_m": [
+              85.85
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 10.87,
+            "max_interval_grade_percent": 12.98,
+            "raw_sha256": "2ade30adbcef07c356d7ea130a9f182d6e7a745e8b65b31d8cec2d3abbc99ab6"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 99300.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i78-holland-tunnel-to-i81--conditioning-005",
+          "to_station_m": 99500.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 1.239,
+            "replacement_elevations_m": [
+              80.32,
+              81.56,
+              82.8,
+              84.04,
+              85.28,
+              86.51,
+              87.75,
+              88.99,
+              90.23,
+              91.47,
+              92.71,
+              93.95,
+              95.19,
+              96.43,
+              97.67,
+              98.91,
+              100.15,
+              101.38,
+              102.62,
+              103.86,
+              105.1,
+              106.34
+            ]
+          },
+          "artifact_class": "fill_span_terrain",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 85.6,
+            "max_below_chord_m": 35.58,
+            "max_interval_grade_percent": 29.09,
+            "raw_sha256": "c2aa417985f211cee36280fdbb7758c6d58718d002cf0e57a762a62cccd3cbeb"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "chord_span_overlaps": [
+              {
+                "from_station_m": 108171.271,
+                "kind": "nhs_fill_chord",
+                "site_id": "i78-holland-tunnel-to-i81--component-00-01",
+                "to_station_m": 111219.059
+              }
+            ],
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 108000.0,
+          "interior_station_count": 22,
+          "method": "linear_chord",
+          "record_id": "i78-holland-tunnel-to-i81--conditioning-006",
+          "to_station_m": 110300.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 3.035,
+            "replacement_elevations_m": [
+              134.88
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 9.19,
+            "max_interval_grade_percent": 12.23,
+            "raw_sha256": "4339346f721ebeb83d2134ae4592a8dfcb4e8fb8f94002bbc732b9c6929bab5b"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 117500.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i78-holland-tunnel-to-i81--conditioning-007",
+          "to_station_m": 117700.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -3.81,
+            "replacement_elevations_m": [
+              123.79
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 20.37,
+            "max_interval_grade_percent": 24.18,
+            "raw_sha256": "450c348f5d66d34f665bd65883c938ca49ed35e42949271809edab36eb5a7f76"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 121600.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i78-holland-tunnel-to-i81--conditioning-008",
+          "to_station_m": 121800.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -4.233,
+            "replacement_elevations_m": [
+              89.87,
+              85.63
+            ]
+          },
+          "artifact_class": "interval_spike",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 5.84,
+            "max_below_chord_m": 7.98,
+            "max_interval_grade_percent": 18.06,
+            "raw_sha256": "164cc7d0afe3ce73a6bc985fd6cb4c571b8169a70116e585cc3d4076129efbc6"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 125700.0,
+          "interior_station_count": 2,
+          "method": "linear_chord",
+          "record_id": "i78-holland-tunnel-to-i81--conditioning-009",
+          "to_station_m": 126000.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -2.34,
+            "replacement_elevations_m": [
+              100.64
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 17.36,
+            "max_interval_grade_percent": 19.7,
+            "raw_sha256": "066f8f447d9a7094a44fcfbc8577ee6de02a68be30e8f34682648824bc280c72"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 141400.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i78-holland-tunnel-to-i81--conditioning-010",
+          "to_station_m": 141600.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -6.715,
+            "replacement_elevations_m": [
+              117.28
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 6.78,
+            "max_interval_grade_percent": 13.5,
+            "raw_sha256": "f4c19b8e877b1648c86123072334413ba2d382ef37006be55606cd533a93e5b1"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 174900.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i78-holland-tunnel-to-i81--conditioning-011",
+          "to_station_m": 175100.0
+        }
+      ],
+      "corrected_station_count": 46,
+      "geodesic_length_m": 232462.65,
+      "record_count": 12,
+      "segment_id": "i78-holland-tunnel-to-i81",
+      "station_count": 2326,
+      "station_interval_m": 100.0,
+      "statistics": {
+        "max_elevation": {
+          "elevation_m": 256.62,
+          "station_m": 165500.0
+        },
+        "max_interval_grade": {
+          "from_station_m": 184500.0,
+          "grade_percent": 11.93
+        },
+        "max_sustained_grade": {
+          "from_station_m": 137500.0,
+          "grade_percent": -4.994,
+          "window_m": 1000.0
+        },
+        "min_elevation": {
+          "elevation_m": -0.49,
+          "station_m": 16400.0
+        },
+        "total_climb_m": 2243.17,
+        "total_descent_m": 2087.5
+      },
+      "terminal_station_m": 232462.65
+    },
+    {
+      "conditioned_profile_sha256": "3b4a20a62ee1d7f3501aea81cd8d81c57c768755672a093c86a268238ca77c75",
+      "conditioning_records": [
+        {
+          "after": {
+            "chord_grade_percent": -5.355,
+            "replacement_elevations_m": [
+              98.06
+            ]
+          },
+          "artifact_class": "terrain_ridge",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 7.67,
+            "max_below_chord_m": 0.0,
+            "max_interval_grade_percent": 13.03,
+            "raw_sha256": "7fd762d72fbb71588dcbd2fdb635c24d3a99a6f344e1d92b7cfbe3d6f07488c4"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 36000.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i81-i78-to-i40--conditioning-000",
+          "to_station_m": 36200.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 3.602,
+            "replacement_elevations_m": [
+              95.69,
+              99.3,
+              102.9
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 2,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 10.82,
+            "max_interval_grade_percent": 14.42,
+            "raw_sha256": "fc65f168e4e8d332ec239b4dd7dfab539e00be84011e7b0879977b4bff3bab60"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 37200.0,
+          "interior_station_count": 3,
+          "method": "linear_chord",
+          "record_id": "i81-i78-to-i40--conditioning-001",
+          "to_station_m": 37600.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -2.577,
+            "replacement_elevations_m": [
+              123.27,
+              120.69,
+              118.12
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 2,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 21.36,
+            "max_interval_grade_percent": 22.7,
+            "raw_sha256": "49a88347248e178bbf73c4be457cbc7fb6332708299ae6bd05853c0e390da66e"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 161300.0,
+          "interior_station_count": 3,
+          "method": "linear_chord",
+          "record_id": "i81-i78-to-i40--conditioning-002",
+          "to_station_m": 161700.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -0.495,
+            "replacement_elevations_m": [
+              209.47
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 13.44,
+            "max_interval_grade_percent": 13.93,
+            "raw_sha256": "e909e9dbfc5e3b2b96de2df4d14d826b3ee9befc463a386f04854409d37be076"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 219800.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i81-i78-to-i40--conditioning-003",
+          "to_station_m": 220000.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 1.765,
+            "replacement_elevations_m": [
+              258.19
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 17.03,
+            "max_interval_grade_percent": 18.79,
+            "raw_sha256": "36579f3d714c9d75dcabd29f557b6da096653caf4b103f6de291416a0901650e"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 272200.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i81-i78-to-i40--conditioning-004",
+          "to_station_m": 272400.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -0.915,
+            "replacement_elevations_m": [
+              260.65
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 12.84,
+            "max_interval_grade_percent": 13.76,
+            "raw_sha256": "ac4fa1402e2e645746229b30d1090ca712607f9e8b53dd7cad9457e2d6585654"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 275700.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i81-i78-to-i40--conditioning-005",
+          "to_station_m": 275900.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -0.475,
+            "replacement_elevations_m": [
+              282.78
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 12.11,
+            "max_interval_grade_percent": 12.59,
+            "raw_sha256": "fab026b336fc65a9a5b1168e36a5d5d41084e4c879758f352e45795401bf3cd3"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 287000.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i81-i78-to-i40--conditioning-006",
+          "to_station_m": 287200.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 1.007,
+            "replacement_elevations_m": [
+              282.5,
+              283.5
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 18.69,
+            "max_interval_grade_percent": 19.7,
+            "raw_sha256": "fe05c640a624932fb6863cc5df0cce8440c8d25ceb0ae967aecd60c04b272e87"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 419000.0,
+          "interior_station_count": 2,
+          "method": "linear_chord",
+          "record_id": "i81-i78-to-i40--conditioning-007",
+          "to_station_m": 419300.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 1.6,
+            "replacement_elevations_m": [
+              285.37
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 32.06,
+            "max_interval_grade_percent": 33.66,
+            "raw_sha256": "9b9691cea3bca1f576a51cb36ca7269be65f3eb25cd42feb7ed7d26537a8f0e6"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 428900.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i81-i78-to-i40--conditioning-008",
+          "to_station_m": 429100.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 0.73,
+            "replacement_elevations_m": [
+              265.29
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 18.25,
+            "max_interval_grade_percent": 18.98,
+            "raw_sha256": "572f1407dbe660babf81c9817874dc72ad5295f364b2086913a1d48226b88d73"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 459600.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i81-i78-to-i40--conditioning-009",
+          "to_station_m": 459800.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -0.985,
+            "replacement_elevations_m": [
+              388.0
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 17.06,
+            "max_interval_grade_percent": 18.05,
+            "raw_sha256": "5d53cc08946d5862db0b06bf0587a2813a7072a4118c2792f590b2bc6c4202ed"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 518600.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i81-i78-to-i40--conditioning-010",
+          "to_station_m": 518800.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 2.003,
+            "replacement_elevations_m": [
+              550.47,
+              552.48,
+              554.48,
+              556.48,
+              558.49
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 27.46,
+            "max_interval_grade_percent": 25.18,
+            "raw_sha256": "c25de1c73a14b3a278d01982168ddd0ab98815e09aae3e5368c887b1cb8de6f9"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 556100.0,
+          "interior_station_count": 5,
+          "method": "linear_chord",
+          "record_id": "i81-i78-to-i40--conditioning-011",
+          "to_station_m": 556700.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 1.555,
+            "replacement_elevations_m": [
+              582.62
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 12.98,
+            "max_interval_grade_percent": 14.53,
+            "raw_sha256": "75b7d8d57248be1dc6d820ec1ff29c94fea93903a9d9833f5dc1c7ee98bf8275"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 570900.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i81-i78-to-i40--conditioning-012",
+          "to_station_m": 571100.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -1.137,
+            "replacement_elevations_m": [
+              686.69,
+              685.56
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 20.88,
+            "max_interval_grade_percent": 22.02,
+            "raw_sha256": "ff362f1ac154e03af9c548b421906e0360f06f198e203c7332efb1dbaa607fda"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 615700.0,
+          "interior_station_count": 2,
+          "method": "linear_chord",
+          "record_id": "i81-i78-to-i40--conditioning-013",
+          "to_station_m": 616000.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -0.095,
+            "replacement_elevations_m": [
+              781.06
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 14.62,
+            "max_interval_grade_percent": 14.71,
+            "raw_sha256": "976dcc4521db5164936c3c0afa79c4ede1f38d1f06317f92da98d3a665de6e73"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 628800.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i81-i78-to-i40--conditioning-014",
+          "to_station_m": 629000.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 6.656,
+            "replacement_elevations_m": [
+              759.18,
+              765.83,
+              772.49,
+              779.14,
+              785.8,
+              792.45
+            ]
+          },
+          "artifact_class": "terrain_ridge",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 13.55,
+            "max_below_chord_m": 0.0,
+            "max_interval_grade_percent": 13.84,
+            "raw_sha256": "147880333e5332e06da6ed339198947c4579e8b4d6b4099f55f0f044a23674b4"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 630100.0,
+          "interior_station_count": 6,
+          "method": "linear_chord",
+          "record_id": "i81-i78-to-i40--conditioning-015",
+          "to_station_m": 630800.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -6.654,
+            "replacement_elevations_m": [
+              756.96,
+              750.3,
+              743.65,
+              736.99
+            ]
+          },
+          "artifact_class": "interval_spike",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 7.21,
+            "max_below_chord_m": 8.77,
+            "max_interval_grade_percent": 18.38,
+            "raw_sha256": "1b3db62b2cae931af3f32589281c28188de341277fb5edec1a09473f7793a34b"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 636600.0,
+          "interior_station_count": 4,
+          "method": "linear_chord",
+          "record_id": "i81-i78-to-i40--conditioning-016",
+          "to_station_m": 637100.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -6.4,
+            "replacement_elevations_m": [
+              740.45,
+              734.05
+            ]
+          },
+          "artifact_class": "terrain_ridge",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 7.67,
+            "max_below_chord_m": 0.0,
+            "max_interval_grade_percent": 14.07,
+            "raw_sha256": "a0f698ce3b7c0bfd0c875b83a0c16c72d1b5fa7ca5b89083f5c309a59e09b29b"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 638600.0,
+          "interior_station_count": 2,
+          "method": "linear_chord",
+          "record_id": "i81-i78-to-i40--conditioning-017",
+          "to_station_m": 638900.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -0.249,
+            "replacement_elevations_m": [
+              717.96,
+              717.71,
+              717.46,
+              717.21,
+              716.96,
+              716.72,
+              716.47,
+              716.22,
+              715.97,
+              715.72,
+              715.47,
+              715.22,
+              714.97,
+              714.72,
+              714.47,
+              714.22,
+              713.98,
+              713.73,
+              713.48,
+              713.23,
+              712.98
+            ]
+          },
+          "artifact_class": "terrain_ridge",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 22.13,
+            "max_below_chord_m": 8.9,
+            "max_interval_grade_percent": 31.28,
+            "raw_sha256": "343427721781d7dd28bb9b71d7b767ecb8c1cf8b24354891177e420ad181b856"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 640500.0,
+          "interior_station_count": 21,
+          "method": "linear_chord",
+          "record_id": "i81-i78-to-i40--conditioning-018",
+          "to_station_m": 642700.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -0.931,
+            "replacement_elevations_m": [
+              703.29,
+              702.36,
+              701.43,
+              700.5,
+              699.57,
+              698.64,
+              697.71,
+              696.78,
+              695.85,
+              694.91,
+              693.98,
+              693.05,
+              692.12,
+              691.19,
+              690.26,
+              689.33,
+              688.4,
+              687.47
+            ]
+          },
+          "artifact_class": "interval_spike",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 33.28,
+            "max_below_chord_m": 16.83,
+            "max_interval_grade_percent": 27.15,
+            "raw_sha256": "2ce0c86673ac01705e7ce19fe852bbd5aa8eb49f1645796602e0e8b06988a997"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 645900.0,
+          "interior_station_count": 18,
+          "method": "linear_chord",
+          "record_id": "i81-i78-to-i40--conditioning-019",
+          "to_station_m": 647800.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -0.453,
+            "replacement_elevations_m": [
+              667.12,
+              666.66,
+              666.21,
+              665.76,
+              665.3,
+              664.85,
+              664.4,
+              663.95,
+              663.49,
+              663.04,
+              662.59,
+              662.13,
+              661.68,
+              661.23,
+              660.77,
+              660.32,
+              659.87,
+              659.41,
+              658.96,
+              658.51,
+              658.06,
+              657.6,
+              657.15,
+              656.7,
+              656.24,
+              655.79,
+              655.34,
+              654.88,
+              654.43,
+              653.98,
+              653.52,
+              653.07,
+              652.62,
+              652.17,
+              651.71,
+              651.26,
+              650.81,
+              650.35,
+              649.9,
+              649.45,
+              648.99,
+              648.54,
+              648.09,
+              647.63,
+              647.18,
+              646.73,
+              646.28,
+              645.82,
+              645.37,
+              644.92,
+              644.46
+            ]
+          },
+          "artifact_class": "terrain_ridge",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 56.11,
+            "max_below_chord_m": 0.4,
+            "max_interval_grade_percent": 29.07,
+            "raw_sha256": "ffb83a59283fc28229c50b56830e574becf51cc01b38bfdd3a7aca13265ab3a3"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 650000.0,
+          "interior_station_count": 51,
+          "method": "linear_chord",
+          "record_id": "i81-i78-to-i40--conditioning-020",
+          "to_station_m": 655200.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 0.179,
+            "replacement_elevations_m": [
+              673.85,
+              674.03,
+              674.21,
+              674.38,
+              674.56,
+              674.74
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 28.57,
+            "max_interval_grade_percent": 17.73,
+            "raw_sha256": "1149af1c467fd2a3dea4b61d78a3387e75c90c1698cf63cd2b9406a807ea7f3c"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 656600.0,
+          "interior_station_count": 6,
+          "method": "linear_chord",
+          "record_id": "i81-i78-to-i40--conditioning-021",
+          "to_station_m": 657300.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -2.325,
+            "replacement_elevations_m": [
+              674.13,
+              671.81,
+              669.49
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 16.1,
+            "max_interval_grade_percent": 18.14,
+            "raw_sha256": "de0c8c182c693334df4f189ba32039a82d2998f1939224e07b75de332c8071ca"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 659700.0,
+          "interior_station_count": 3,
+          "method": "linear_chord",
+          "record_id": "i81-i78-to-i40--conditioning-022",
+          "to_station_m": 660100.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -3.945,
+            "replacement_elevations_m": [
+              608.43
+            ]
+          },
+          "artifact_class": "terrain_ridge",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 8.65,
+            "max_below_chord_m": 0.0,
+            "max_interval_grade_percent": 12.59,
+            "raw_sha256": "76dca5bbc03ff519b0eb33cf523889b5978523b8561eddb334d9ad21dbad9b1d"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 663700.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i81-i78-to-i40--conditioning-023",
+          "to_station_m": 663900.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 0.192,
+            "replacement_elevations_m": [
+              611.66,
+              611.85,
+              612.04,
+              612.24,
+              612.43,
+              612.62,
+              612.81,
+              613.0,
+              613.19,
+              613.39,
+              613.58,
+              613.77
+            ]
+          },
+          "artifact_class": "interval_spike",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 22.46,
+            "max_below_chord_m": 12.37,
+            "max_interval_grade_percent": 15.65,
+            "raw_sha256": "2c555a38621e487666297a24a4373641c828e97d80607548098ec5896fee5baa"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 666100.0,
+          "interior_station_count": 12,
+          "method": "linear_chord",
+          "record_id": "i81-i78-to-i40--conditioning-024",
+          "to_station_m": 667400.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 0.907,
+            "replacement_elevations_m": [
+              606.51,
+              607.41,
+              608.32,
+              609.23,
+              610.14,
+              611.05,
+              611.95,
+              612.86,
+              613.77,
+              614.67,
+              615.58,
+              616.49,
+              617.4,
+              618.31,
+              619.21
+            ]
+          },
+          "artifact_class": "terrain_ridge",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 46.35,
+            "max_below_chord_m": 0.0,
+            "max_interval_grade_percent": 12.79,
+            "raw_sha256": "bea527ffa5fcb8a4963576f171f88d2fb4867ab409ff259bf1b992e060eb72f4"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 670800.0,
+          "interior_station_count": 15,
+          "method": "linear_chord",
+          "record_id": "i81-i78-to-i40--conditioning-025",
+          "to_station_m": 672400.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -4.078,
+            "replacement_elevations_m": [
+              650.02,
+              645.94,
+              641.87,
+              637.79
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 20.99,
+            "max_interval_grade_percent": 16.14,
+            "raw_sha256": "73831f3299b856662f42e2809fd0ec7c2a12ad52786065d2ebbd0c79854e2cea"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 679700.0,
+          "interior_station_count": 4,
+          "method": "linear_chord",
+          "record_id": "i81-i78-to-i40--conditioning-026",
+          "to_station_m": 680200.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 1.15,
+            "replacement_elevations_m": [
+              540.96
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 11.38,
+            "max_interval_grade_percent": 12.53,
+            "raw_sha256": "2483281ce4dda73ce9b145cc54becc8e7f8a3100d2dbfd927ed0952b1935ac6a"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 719500.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i81-i78-to-i40--conditioning-027",
+          "to_station_m": 719700.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -4.727,
+            "replacement_elevations_m": [
+              413.03,
+              408.31
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 2,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 29.29,
+            "max_interval_grade_percent": 34.02,
+            "raw_sha256": "edac985ce41017e4bbdf9a645224a396b0f5c05979e9baa0420764ddff513a4c"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 750000.0,
+          "interior_station_count": 2,
+          "method": "linear_chord",
+          "record_id": "i81-i78-to-i40--conditioning-028",
+          "to_station_m": 750300.0
+        }
+      ],
+      "corrected_station_count": 171,
+      "geodesic_length_m": 847004.485,
+      "record_count": 29,
+      "segment_id": "i81-i78-to-i40",
+      "station_count": 8472,
+      "station_interval_m": 100.0,
+      "statistics": {
+        "max_elevation": {
+          "elevation_m": 804.56,
+          "station_m": 631800.0
+        },
+        "max_interval_grade": {
+          "from_station_m": 459400.0,
+          "grade_percent": -11.98
+        },
+        "max_sustained_grade": {
+          "from_station_m": 629900.0,
+          "grade_percent": 4.654,
+          "window_m": 1000.0
+        },
+        "min_elevation": {
+          "elevation_m": 92.09,
+          "station_m": 36300.0
+        },
+        "total_climb_m": 6957.14,
+        "total_descent_m": 6726.85
+      },
+      "terminal_station_m": 847004.485
+    },
+    {
+      "conditioned_profile_sha256": "a3799662c297c2fbb91a7d5b61f2ae37ab08c308be325702995c61efaf8e39ef",
+      "conditioning_records": [
+        {
+          "after": {
+            "chord_grade_percent": 5.003,
+            "replacement_elevations_m": [
+              255.69,
+              260.7
+            ]
+          },
+          "artifact_class": "interval_spike",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 5.52,
+            "max_below_chord_m": 5.96,
+            "max_interval_grade_percent": 16.49,
+            "raw_sha256": "e2cf37e790697aec8b82e644eab193ac065a7d0243075374336e06fbd5a889d7"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 42400.0,
+          "interior_station_count": 2,
+          "method": "linear_chord",
+          "record_id": "i40-i81-to-barstow--conditioning-000",
+          "to_station_m": 42700.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 2.717,
+            "replacement_elevations_m": [
+              275.66,
+              278.37
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 14.26,
+            "max_interval_grade_percent": 16.72,
+            "raw_sha256": "72d8438acac4598d87ba21217edbc21d0b08161665f3f524f49d2284495a88bf"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 56100.0,
+          "interior_station_count": 2,
+          "method": "linear_chord",
+          "record_id": "i40-i81-to-barstow--conditioning-001",
+          "to_station_m": 56400.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 6.223,
+            "replacement_elevations_m": [
+              230.73,
+              236.96
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 2,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 12.47,
+            "max_interval_grade_percent": 18.69,
+            "raw_sha256": "f49f9b8af2d15917979386b6e277bb3baf35836f3d0e021d4b94f02f7b041d79"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 111900.0,
+          "interior_station_count": 2,
+          "method": "linear_chord",
+          "record_id": "i40-i81-to-barstow--conditioning-002",
+          "to_station_m": 112200.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 1.975,
+            "replacement_elevations_m": [
+              251.59
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 10.57,
+            "max_interval_grade_percent": 12.55,
+            "raw_sha256": "b50a37eace594632412214369c4122955df54963da05786a004985e7e5a640f1"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 118400.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i40-i81-to-barstow--conditioning-003",
+          "to_station_m": 118600.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -2.355,
+            "replacement_elevations_m": [
+              423.76
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 14.35,
+            "max_interval_grade_percent": 16.71,
+            "raw_sha256": "72390e0b607a790ef5fa7b1b80b5a1c26b003dcfe7728e9e9edf631f980a3892"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 132400.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i40-i81-to-barstow--conditioning-004",
+          "to_station_m": 132600.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -2.33,
+            "replacement_elevations_m": [
+              496.88
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 10.07,
+            "max_interval_grade_percent": 12.4,
+            "raw_sha256": "d16b9549bfa9a43fcef07654759c317720a15555ceb526c7fc5b0a4931494756"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 152000.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i40-i81-to-barstow--conditioning-005",
+          "to_station_m": 152200.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -1.425,
+            "replacement_elevations_m": [
+              531.25
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 14.62,
+            "max_interval_grade_percent": 16.05,
+            "raw_sha256": "b35e461fe30794757f83790426b1146d4d7d25baed38b6fb59d5455499eed0f8"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 166300.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i40-i81-to-barstow--conditioning-006",
+          "to_station_m": 166500.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 5.635,
+            "replacement_elevations_m": [
+              525.43
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 8.68,
+            "max_interval_grade_percent": 14.32,
+            "raw_sha256": "7c723612d474c9d3c1430adc052dce8a70805e2bb915879c18ade72c02997e28"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 169500.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i40-i81-to-barstow--conditioning-007",
+          "to_station_m": 169700.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 2.105,
+            "replacement_elevations_m": [
+              306.23
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 15.73,
+            "max_interval_grade_percent": 17.83,
+            "raw_sha256": "215ab00ed1a05baacabbf49993873701e9255c962cdc2a8fe46c6eeacd704d48"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 208900.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i40-i81-to-barstow--conditioning-008",
+          "to_station_m": 209100.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -1.328,
+            "replacement_elevations_m": [
+              160.15,
+              158.82,
+              157.5,
+              156.17,
+              154.84,
+              153.51,
+              152.18,
+              150.85,
+              149.52,
+              148.2,
+              146.87
+            ]
+          },
+          "artifact_class": "interval_spike",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 11.32,
+            "max_below_chord_m": 12.57,
+            "max_interval_grade_percent": 13.9,
+            "raw_sha256": "23cf2a7f6d02498c997e593df5d153ae79e36367fd06c269fc074c4f06de0310"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 246700.0,
+          "interior_station_count": 11,
+          "method": "linear_chord",
+          "record_id": "i40-i81-to-barstow--conditioning-009",
+          "to_station_m": 247900.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 1.42,
+            "replacement_elevations_m": [
+              155.53
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 11.11,
+            "max_interval_grade_percent": 12.53,
+            "raw_sha256": "65f971199eb5f07e96473943c37208b50af5d60dcc197193306f6637ed48ca3b"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 253500.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i40-i81-to-barstow--conditioning-010",
+          "to_station_m": 253700.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -2.853,
+            "replacement_elevations_m": [
+              144.31,
+              141.45
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 20.38,
+            "max_interval_grade_percent": 19.35,
+            "raw_sha256": "e9fa57c8c0d95e3de1c3083d3925915d0c8d5c1ae2e1b81a46b0e388e65bb00b"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 324600.0,
+          "interior_station_count": 2,
+          "method": "linear_chord",
+          "record_id": "i40-i81-to-barstow--conditioning-011",
+          "to_station_m": 324900.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 2.885,
+            "replacement_elevations_m": [
+              139.69
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 10.07,
+            "max_interval_grade_percent": 12.96,
+            "raw_sha256": "ad5e52318e2e23f4060bc55193ea3fb5cb58e4e1426b4cfa61f649eab8c8b43e"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 354900.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i40-i81-to-barstow--conditioning-012",
+          "to_station_m": 355100.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 4.61,
+            "replacement_elevations_m": [
+              162.43
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 9.84,
+            "max_interval_grade_percent": 14.45,
+            "raw_sha256": "261ff3772a4bd67d759dcb9ad63f32fdaa5ed7c330f00dde322f178c4e278557"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 372200.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i40-i81-to-barstow--conditioning-013",
+          "to_station_m": 372400.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 0.764,
+            "replacement_elevations_m": [
+              116.05,
+              116.82,
+              117.58,
+              118.35,
+              119.11,
+              119.87,
+              120.64
+            ]
+          },
+          "artifact_class": "water_surface",
+          "before": {
+            "longest_flat_run_stations": 4,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 11.52,
+            "max_interval_grade_percent": 12.28,
+            "raw_sha256": "28c2aafaeea0e6ece980c3fd67cbe3507048d6dc3cfda4369edbf607141037f0"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "water_flat_run",
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 460900.0,
+          "interior_station_count": 7,
+          "method": "linear_chord",
+          "record_id": "i40-i81-to-barstow--conditioning-014",
+          "to_station_m": 461700.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 5.315,
+            "replacement_elevations_m": [
+              69.27
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 8.88,
+            "max_interval_grade_percent": 14.2,
+            "raw_sha256": "ca080d7696edc0a3a9625e92bd669c06efe25aabf01bd229c7d1e523066b2523"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 675600.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i40-i81-to-barstow--conditioning-015",
+          "to_station_m": 675800.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -1.103,
+            "replacement_elevations_m": [
+              68.57,
+              67.46,
+              66.36,
+              65.26,
+              64.15,
+              63.05,
+              61.95,
+              60.85,
+              59.74,
+              58.64,
+              57.54,
+              56.43
+            ]
+          },
+          "artifact_class": "water_surface",
+          "before": {
+            "longest_flat_run_stations": 8,
+            "max_above_chord_m": 1.04,
+            "max_below_chord_m": 11.44,
+            "max_interval_grade_percent": 12.54,
+            "raw_sha256": "9388ae2a290769f1d85b1e449da5b7574e9f6f4f95f090d2cc5d052b9ded72fb"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger",
+              "water_flat_run"
+            ]
+          },
+          "from_station_m": 682700.0,
+          "interior_station_count": 12,
+          "method": "linear_chord",
+          "record_id": "i40-i81-to-barstow--conditioning-016",
+          "to_station_m": 684000.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 0.004,
+            "replacement_elevations_m": [
+              72.9,
+              72.91,
+              72.91,
+              72.92
+            ]
+          },
+          "artifact_class": "water_surface",
+          "before": {
+            "longest_flat_run_stations": 4,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 0.04,
+            "max_interval_grade_percent": 0.04,
+            "raw_sha256": "d40c8b96be904f4dd85de35e8550b865fa904a5e26eb4a34323c08951359428b"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "water_flat_run"
+            ]
+          },
+          "from_station_m": 685700.0,
+          "interior_station_count": 4,
+          "method": "linear_chord",
+          "record_id": "i40-i81-to-barstow--conditioning-017",
+          "to_station_m": 686200.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 5.265,
+            "replacement_elevations_m": [
+              61.69
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 10.48,
+            "max_interval_grade_percent": 15.74,
+            "raw_sha256": "cbb39477dca98a3bf31eedbae98f89615112aa73a0289335376f468d71ba6363"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 747100.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i40-i81-to-barstow--conditioning-018",
+          "to_station_m": 747300.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -0.39,
+            "replacement_elevations_m": [
+              85.49
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 12.55,
+            "max_interval_grade_percent": 12.94,
+            "raw_sha256": "8ab70ebc69932ff0febfaec9ff89e0279f8978135bbe32391c47e879b34bceda"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 750600.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i40-i81-to-barstow--conditioning-019",
+          "to_station_m": 750800.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -1.883,
+            "replacement_elevations_m": [
+              104.13,
+              102.24
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 18.39,
+            "max_interval_grade_percent": 20.27,
+            "raw_sha256": "cc83d51e26471fadfac14d2f75ebe0eba8b435013074fa970468c65a36687510"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 896900.0,
+          "interior_station_count": 2,
+          "method": "linear_chord",
+          "record_id": "i40-i81-to-barstow--conditioning-020",
+          "to_station_m": 897200.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 0.426,
+            "replacement_elevations_m": [
+              156.95,
+              157.37,
+              157.8,
+              158.22,
+              158.65,
+              159.07
+            ]
+          },
+          "artifact_class": "water_surface",
+          "before": {
+            "longest_flat_run_stations": 4,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 18.85,
+            "max_interval_grade_percent": 19.28,
+            "raw_sha256": "0ef71b6e9abc3cbaa342fcd980decfd7787d9d24e629398ae89e20a28dc044d4"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger",
+              "water_flat_run"
+            ]
+          },
+          "from_station_m": 1206600.0,
+          "interior_station_count": 6,
+          "method": "linear_chord",
+          "record_id": "i40-i81-to-barstow--conditioning-021",
+          "to_station_m": 1207300.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 3.885,
+            "replacement_elevations_m": [
+              316.14
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 10.38,
+            "max_interval_grade_percent": 14.27,
+            "raw_sha256": "9acac5c22d9cf8996df8abec4b009b067ccc68bae87b63df245d385021c8ab1a"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 1385300.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i40-i81-to-barstow--conditioning-022",
+          "to_station_m": 1385500.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -4.245,
+            "replacement_elevations_m": [
+              366.95
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 8.69,
+            "max_interval_grade_percent": 12.94,
+            "raw_sha256": "53e6731f70a21a487a9276a9baa670922517ad7df8fd43ff77c9744d3f50c3b8"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 1430000.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i40-i81-to-barstow--conditioning-023",
+          "to_station_m": 1430200.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 0.072,
+            "replacement_elevations_m": [
+              371.17,
+              371.24,
+              371.32,
+              371.39
+            ]
+          },
+          "artifact_class": "water_surface",
+          "before": {
+            "longest_flat_run_stations": 4,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 0.27,
+            "max_interval_grade_percent": 0.34,
+            "raw_sha256": "05a72fa58ff45cfa7a8adfef1050bc229e6ebaea5c7464a7f7e340026c0de5e2"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "water_flat_run"
+            ]
+          },
+          "from_station_m": 1443600.0,
+          "interior_station_count": 4,
+          "method": "linear_chord",
+          "record_id": "i40-i81-to-barstow--conditioning-024",
+          "to_station_m": 1444100.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -2.43,
+            "replacement_elevations_m": [
+              473.13
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 11.64,
+            "max_interval_grade_percent": 14.07,
+            "raw_sha256": "143de54a56bc9a0a265c14d24661807171d27309b4bb33d79baa898c27030842"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 1537000.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i40-i81-to-barstow--conditioning-025",
+          "to_station_m": 1537200.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -0.615,
+            "replacement_elevations_m": [
+              1767.41
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 12.47,
+            "max_interval_grade_percent": 13.09,
+            "raw_sha256": "430ceb9f481b7d0d9bbcab3b7437fa0cf9d977adcddcfbd95032066e2cac24b7"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 2287300.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i40-i81-to-barstow--conditioning-026",
+          "to_station_m": 2287500.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 4.555,
+            "replacement_elevations_m": [
+              2007.82
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 8.61,
+            "max_interval_grade_percent": 13.16,
+            "raw_sha256": "22e81bd579078cc426846f86471accdb75dc12d85339c8c0890a211fc7fde50b"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 2518300.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i40-i81-to-barstow--conditioning-027",
+          "to_station_m": 2518500.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -0.535,
+            "replacement_elevations_m": [
+              1891.84
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 12.63,
+            "max_interval_grade_percent": 13.17,
+            "raw_sha256": "ea9b8dfa7aab6095f2651f07b872506244d62310bc86ce8af6bd41eea0a75774"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 2558100.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i40-i81-to-barstow--conditioning-028",
+          "to_station_m": 2558300.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 0.24,
+            "replacement_elevations_m": [
+              1797.8
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 19.85,
+            "max_interval_grade_percent": 20.09,
+            "raw_sha256": "125535b7191ddd37c0e6b1c7b0ce1e84547d7204b3579fb2e9d162d6c8d9eaac"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 2786400.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i40-i81-to-barstow--conditioning-029",
+          "to_station_m": 2786600.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -3.965,
+            "replacement_elevations_m": [
+              1685.05
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 12.2,
+            "max_interval_grade_percent": 16.16,
+            "raw_sha256": "3c4c9c7931d2d30689d1e62869a762c6203bc63ce00925df66bbcbc928661dd5"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 2965400.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i40-i81-to-barstow--conditioning-030",
+          "to_station_m": 2965600.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -0.15,
+            "replacement_elevations_m": [
+              1399.94
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 17.42,
+            "max_interval_grade_percent": 17.57,
+            "raw_sha256": "01c5b912bd2994ae0a4b2d384586fad9a1dcb783fe91a8f8c37ebcad6161901f"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 3001500.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i40-i81-to-barstow--conditioning-031",
+          "to_station_m": 3001700.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -3.202,
+            "replacement_elevations_m": [
+              1355.1,
+              1351.9,
+              1348.7,
+              1345.49,
+              1342.29,
+              1339.09,
+              1335.89,
+              1332.69,
+              1329.49,
+              1326.28,
+              1323.08,
+              1319.88
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 2.12,
+            "max_below_chord_m": 16.86,
+            "max_interval_grade_percent": 22.18,
+            "raw_sha256": "6a56d503eb156b3ac069d539168a315822360b2830dbddb4971a86f0f0f07d93"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 3003800.0,
+          "interior_station_count": 12,
+          "method": "linear_chord",
+          "record_id": "i40-i81-to-barstow--conditioning-032",
+          "to_station_m": 3005100.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -5.035,
+            "replacement_elevations_m": [
+              1056.43
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 10.65,
+            "max_interval_grade_percent": 15.69,
+            "raw_sha256": "d163de0a802c9e21cb6c4fca7df8ac164201cea6fa24ff458ca4f1bf7ad50244"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 3057700.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i40-i81-to-barstow--conditioning-033",
+          "to_station_m": 3057900.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 5.197,
+            "replacement_elevations_m": [
+              144.43,
+              149.62
+            ]
+          },
+          "artifact_class": "terrain_ridge",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 11.84,
+            "max_below_chord_m": 4.23,
+            "max_interval_grade_percent": 21.26,
+            "raw_sha256": "1ae872b88609fa3feffe4f00fd425877a7fe4f6bb3e8756222ca4737b2d92d7f"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 3137800.0,
+          "interior_station_count": 2,
+          "method": "linear_chord",
+          "record_id": "i40-i81-to-barstow--conditioning-034",
+          "to_station_m": 3138100.0
+        }
+      ],
+      "corrected_station_count": 90,
+      "geodesic_length_m": 3386648.789,
+      "record_count": 35,
+      "segment_id": "i40-i81-to-barstow",
+      "station_count": 33868,
+      "station_interval_m": 100.0,
+      "statistics": {
+        "max_elevation": {
+          "elevation_m": 2236.69,
+          "station_m": 2832700.0
+        },
+        "max_interval_grade": {
+          "from_station_m": 343000.0,
+          "grade_percent": -11.98
+        },
+        "max_sustained_grade": {
+          "from_station_m": 2889300.0,
+          "grade_percent": -6.124,
+          "window_m": 1000.0
+        },
+        "min_elevation": {
+          "elevation_m": 49.64,
+          "station_m": 820400.0
+        },
+        "total_climb_m": 20749.36,
+        "total_descent_m": 20465.64
+      },
+      "terminal_station_m": 3386648.789
+    },
+    {
+      "conditioned_profile_sha256": "a0c6a974fe52e83c3571518d55e6605f7ad81400f32c35fa8c6a98383e786063",
+      "conditioning_records": [
+        {
+          "after": {
+            "chord_grade_percent": 0.08,
+            "replacement_elevations_m": [
+              741.27
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 32.02,
+            "max_interval_grade_percent": 32.1,
+            "raw_sha256": "d573ab30b06a5f04f156743cca5d09e9bba02b824830761e4abe912d3843b83a"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 224100.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i15-cove-fort-to-barstow--conditioning-000",
+          "to_station_m": 224300.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -0.972,
+            "replacement_elevations_m": [
+              632.33,
+              631.36,
+              630.38,
+              629.41
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 9.4,
+            "max_below_chord_m": 19.72,
+            "max_interval_grade_percent": 28.61,
+            "raw_sha256": "0eb3de9b1d334670104fc932293dea70d0176c4dbb4e931caf49fbb2ff0fd3d2"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 235200.0,
+          "interior_station_count": 4,
+          "method": "linear_chord",
+          "record_id": "i15-cove-fort-to-barstow--conditioning-001",
+          "to_station_m": 235700.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -1.24,
+            "replacement_elevations_m": [
+              607.51,
+              606.27
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 15.66,
+            "max_interval_grade_percent": 16.9,
+            "raw_sha256": "321338b35d108ebf58f54730a8303467707150cb50e6b74fd129fbefebda24f3"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 239100.0,
+          "interior_station_count": 2,
+          "method": "linear_chord",
+          "record_id": "i15-cove-fort-to-barstow--conditioning-002",
+          "to_station_m": 239400.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -2.99,
+            "replacement_elevations_m": [
+              569.96,
+              566.97
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 24.47,
+            "max_interval_grade_percent": 27.46,
+            "raw_sha256": "3e6c79cbc220787b1f05ada6246652f9400f8747c0aa0b573e29b816095e9c54"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 245500.0,
+          "interior_station_count": 2,
+          "method": "linear_chord",
+          "record_id": "i15-cove-fort-to-barstow--conditioning-003",
+          "to_station_m": 245800.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 1.145,
+            "replacement_elevations_m": [
+              474.08
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 12.58,
+            "max_interval_grade_percent": 13.72,
+            "raw_sha256": "19068827f0892fa5e3b9c40fca6c39e65c3c73bead3c746089ce6729703ee6fb"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 275000.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i15-cove-fort-to-barstow--conditioning-004",
+          "to_station_m": 275200.0
+        }
+      ],
+      "corrected_station_count": 10,
+      "geodesic_length_m": 640936.071,
+      "record_count": 5,
+      "segment_id": "i15-cove-fort-to-barstow",
+      "station_count": 6411,
+      "station_interval_m": 100.0,
+      "statistics": {
+        "max_elevation": {
+          "elevation_m": 2011.35,
+          "station_m": 11900.0
+        },
+        "max_interval_grade": {
+          "from_station_m": 204400.0,
+          "grade_percent": -10.82
+        },
+        "max_sustained_grade": {
+          "from_station_m": 307800.0,
+          "grade_percent": -5.823,
+          "window_m": 1000.0
+        },
+        "min_elevation": {
+          "elevation_m": 280.58,
+          "station_m": 540500.0
+        },
+        "total_climb_m": 4089.22,
+        "total_descent_m": 5254.13
+      },
+      "terminal_station_m": 640936.071
+    },
+    {
+      "conditioned_profile_sha256": "44372ffe3bec1f4e6c86308dda22cfdab94879ef1f10bae154ab070e3f3e8da1",
+      "conditioning_records": [
+        {
+          "after": {
+            "chord_grade_percent": -1.995,
+            "replacement_elevations_m": [
+              881.41
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 13.25,
+            "max_interval_grade_percent": 15.24,
+            "raw_sha256": "d3938943c481b34f35923d26cb6c938e5acef84ed591a06afbacff23403b4f90"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 86800.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i15-barstow-to-ontario--conditioning-000",
+          "to_station_m": 87000.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": -2.65,
+            "replacement_elevations_m": [
+              657.28,
+              654.63
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 21.67,
+            "max_interval_grade_percent": 24.32,
+            "raw_sha256": "ae79b27bbc2b4f0ce1bfe5b447f5902165464a90da13aa4e99121b5b452f04c7"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 94800.0,
+          "interior_station_count": 2,
+          "method": "linear_chord",
+          "record_id": "i15-barstow-to-ontario--conditioning-001",
+          "to_station_m": 95100.0
+        }
+      ],
+      "corrected_station_count": 3,
+      "geodesic_length_m": 117022.005,
+      "record_count": 2,
+      "segment_id": "i15-barstow-to-ontario",
+      "station_count": 1172,
+      "station_interval_m": 100.0,
+      "statistics": {
+        "max_elevation": {
+          "elevation_m": 1278.03,
+          "station_m": 74800.0
+        },
+        "max_interval_grade": {
+          "from_station_m": 94500.0,
+          "grade_percent": 11.94
+        },
+        "max_sustained_grade": {
+          "from_station_m": 77400.0,
+          "grade_percent": -5.512,
+          "window_m": 1000.0
+        },
+        "min_elevation": {
+          "elevation_m": 305.45,
+          "station_m": 117022.005
+        },
+        "total_climb_m": 991.9,
+        "total_descent_m": 1359.13
+      },
+      "terminal_station_m": 117022.005
+    },
+    {
+      "conditioned_profile_sha256": "f8215bd48458e3dad2c8c8ad867434175f105c62165ec7531947964124e2a1b0",
+      "conditioning_records": [
+        {
+          "after": {
+            "chord_grade_percent": -1.208,
+            "replacement_elevations_m": [
+              79.74,
+              78.53,
+              77.33,
+              76.12
+            ]
+          },
+          "artifact_class": "terrain_ridge",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 18.19,
+            "max_below_chord_m": 0.0,
+            "max_interval_grade_percent": 17.19,
+            "raw_sha256": "d624d23516095f898b1cee01e2426e736d226873044d20c7b400f5e1f79a723d"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 67300.0,
+          "interior_station_count": 4,
+          "method": "linear_chord",
+          "record_id": "i10-ontario-to-i405--conditioning-000",
+          "to_station_m": 67800.0
+        },
+        {
+          "after": {
+            "chord_grade_percent": 0.265,
+            "replacement_elevations_m": [
+              36.05
+            ]
+          },
+          "artifact_class": "bridge_deck_dip",
+          "before": {
+            "longest_flat_run_stations": 1,
+            "max_above_chord_m": 0.0,
+            "max_below_chord_m": 15.03,
+            "max_interval_grade_percent": 15.29,
+            "raw_sha256": "516c5f983a17a3254ba3ef4dccf57adcbcbd07bc3a5ef7845a8a335569e98193"
+          },
+          "evidence": {
+            "characterisation": "docs/audits/p0-021/2026-08-31-corridor-elevation.md",
+            "detections": [
+              "interval_grade_trigger"
+            ]
+          },
+          "from_station_m": 82100.0,
+          "interior_station_count": 1,
+          "method": "linear_chord",
+          "record_id": "i10-ontario-to-i405--conditioning-001",
+          "to_station_m": 82300.0
+        }
+      ],
+      "corrected_station_count": 5,
+      "geodesic_length_m": 88098.974,
+      "record_count": 2,
+      "segment_id": "i10-ontario-to-i405",
+      "station_count": 882,
+      "station_interval_m": 100.0,
+      "statistics": {
+        "max_elevation": {
+          "elevation_m": 358.89,
+          "station_m": 12100.0
+        },
+        "max_interval_grade": {
+          "from_station_m": 86000.0,
+          "grade_percent": 10.53
+        },
+        "max_sustained_grade": {
+          "from_station_m": 29100.0,
+          "grade_percent": -5.511,
+          "window_m": 1000.0
+        },
+        "min_elevation": {
+          "elevation_m": 27.41,
+          "station_m": 82500.0
+        },
+        "total_climb_m": 533.4,
+        "total_descent_m": 792.41
+      },
+      "terminal_station_m": 88098.974
+    },
+    {
+      "conditioned_profile_sha256": "31f7f14026f31ebf628329db869e46f01565972313e77de1e6b8e0df49093993",
+      "conditioning_records": [],
+      "corrected_station_count": 0,
+      "geodesic_length_m": 19866.72,
+      "record_count": 0,
+      "segment_id": "i405-west-la-to-ca107",
+      "station_count": 200,
+      "station_interval_m": 100.0,
+      "statistics": {
+        "max_elevation": {
+          "elevation_m": 47.5,
+          "station_m": 0.0
+        },
+        "max_interval_grade": {
+          "from_station_m": 6700.0,
+          "grade_percent": -9.2
+        },
+        "max_sustained_grade": {
+          "from_station_m": 3900.0,
+          "grade_percent": -1.409,
+          "window_m": 1000.0
+        },
+        "min_elevation": {
+          "elevation_m": 6.93,
+          "station_m": 4900.0
+        },
+        "total_climb_m": 120.76,
+        "total_descent_m": 143.6
+      },
+      "terminal_station_m": 19866.72
+    }
+  ],
+  "segments_sha256": "d05e887d7263246195ff7ca0c5b09531ece8163aa55589db92f34a8a090948b6",
+  "source_policy": {
+    "artifact_conditioning_applied": true,
+    "authoritative_distance_claimed": false,
+    "baseline_decision": "ADR-0007",
+    "conditioning_decision": "ADR-0017",
+    "continental_downloads_committed": false,
+    "elevation_source": "usgs-3dep",
+    "package_build_grade_policy": "ADR-0017 grade smoothing over sub-artifact raster noise remains a package-build policy; this stage removes only the characterised artifact classes as bounded, evidence-linked records",
+    "silent_smoothing_applied": false
+  },
+  "status": "vertical_profile_conditioned_carriageway_pending",
+  "summary": {
+    "corrected_length_m": 70000.0,
+    "corrected_station_count": 546,
+    "corrections_by_class": {
+      "bridge_deck_dip": {
+        "corrected_length_m": 35400.0,
+        "corrected_station_count": 239,
+        "record_count": 115
+      },
+      "fill_span_terrain": {
+        "corrected_length_m": 2300.0,
+        "corrected_station_count": 22,
+        "record_count": 1
+      },
+      "interval_spike": {
+        "corrected_length_m": 7000.0,
+        "corrected_station_count": 62,
+        "record_count": 8
+      },
+      "terrain_ridge": {
+        "corrected_length_m": 15400.0,
+        "corrected_station_count": 134,
+        "record_count": 20
+      },
+      "tunnel_bore": {
+        "corrected_length_m": 2700.0,
+        "corrected_station_count": 26,
+        "record_count": 1
+      },
+      "water_surface": {
+        "corrected_length_m": 7200.0,
+        "corrected_station_count": 63,
+        "record_count": 9
+      }
+    },
+    "highest_point": {
+      "elevation_m": 3402.08,
+      "segment_id": "i70-denver-to-cove-fort",
+      "station_m": 89000.0
+    },
+    "lowest_point": {
+      "elevation_m": -0.49,
+      "segment_id": "i78-holland-tunnel-to-i81",
+      "station_m": 16400.0
+    },
+    "max_interval_grade": {
+      "from_station_m": 31800.0,
+      "grade_percent": 11.98,
+      "segment_id": "i70-denver-to-cove-fort"
+    },
+    "max_sustained_grade": {
+      "from_station_m": 133400.0,
+      "grade_percent": -6.939,
+      "segment_id": "i70-denver-to-cove-fort",
+      "window_m": 1000.0
+    },
+    "raw_highest_point": {
+      "elevation_m": 3837.26,
+      "segment_id": "i70-denver-to-cove-fort",
+      "station_m": 88200.0
+    },
+    "raw_max_sustained_grade": {
+      "from_station_m": 88200.0,
+      "grade_percent": -43.979,
+      "segment_id": "i70-denver-to-cove-fort",
+      "window_m": 1000.0
+    },
+    "record_count": 154,
+    "segment_count": 12,
+    "station_count": 101761
+  },
+  "transfer_lock_sha256": "b267282a1d48014783c90a60c46cda85cea61741911d23649bf318404aea2b3b"
+}

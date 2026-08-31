@@ -16,10 +16,12 @@ from cannonball_map.continental import (
     acquire_continental_nhs_fill_lock,
     audit_continental_milepost_gaps,
     author_continental_reconstruction_overlays,
+    derive_continental_conditioned_profile,
     derive_continental_directed_route_lock,
     derive_continental_edge_path_lock,
     derive_continental_nhs_conflation,
     derive_continental_transfer_lock,
+    derive_continental_westbound_carriageway,
     lock_continental_3dep_products,
     probe_continental_break_ends,
     probe_continental_gap_interiors,
@@ -28,6 +30,7 @@ from cannonball_map.continental import (
     probe_continental_nhs_breaks,
     validate_continental_3dep_products,
     validate_continental_break_dispositions,
+    validate_continental_conditioned_profile,
     validate_continental_corridor_elevation,
     validate_continental_directed_route_lock,
     validate_continental_edge_path_lock,
@@ -36,6 +39,7 @@ from cannonball_map.continental import (
     validate_continental_reconstruction_overlays,
     validate_continental_route_lock,
     validate_continental_transfer_lock,
+    validate_continental_westbound_carriageway,
 )
 from cannonball_map.elevation import ElevationMetadata, ElevationSampler
 from cannonball_map.lockfile import materialize_locked_role, validate_lock
@@ -1917,4 +1921,391 @@ def validate_continental_corridor_elevation_command(
         f"continental-corridor-elevation-ok: {elevation_lock} "
         f"({payload['tile_count']} tiles, {summary['station_count']} stations, "
         f"{payload['segment_count']} segments)"
+    )
+
+
+@app.command("derive-continental-conditioned-profile")
+def derive_continental_conditioned_profile_command(
+    elevation_lock: Path = typer.Option(
+        Path("data/routes/continental/corridor-elevation-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    dem_lock: Path = typer.Option(
+        Path("data/routes/continental/3dep-product-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    directed_lock: Path = typer.Option(
+        Path("data/routes/continental/directed-route-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    selection: Path = typer.Option(
+        Path("data/routes/continental/route-selection.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    route_lock: Path = typer.Option(
+        Path("data/sources/continental-route-lock.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    transfer_lock: Path = typer.Option(
+        Path("data/routes/continental/transfer-node-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    policy: Path = typer.Option(
+        Path("data/routes/continental/transfer-node-policy.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    edge_path_lock: Path = typer.Option(
+        Path("data/routes/continental/edge-path-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    fill_lock: Path = typer.Option(
+        Path("data/routes/continental/nhs-fill-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    disposition: Path = typer.Option(
+        Path("data/routes/continental/break-disposition.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    overlay_lock: Path = typer.Option(
+        Path("data/routes/continental/reconstruction-overlay-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    conflation_lock: Path = typer.Option(
+        Path("data/routes/continental/nhs-conflation-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    catalog: Path = typer.Option(DEFAULT_CATALOG, exists=True, file_okay=True, dir_okay=False),
+    output: Path = typer.Option(
+        Path("data/routes/continental/conditioned-profile-lock.v1.json"),
+        help="Conditioned profile lock to write.",
+        file_okay=True, dir_okay=False,
+    ),
+) -> None:
+    """Derive the ADR-0017 conditioned elevation profile from committed locks.
+
+    A pure function of the committed corridor elevation and directed route
+    locks - no caches, rasters, or network. Classifies and corrects the
+    characterised artifact classes (tunnel-bore overburden, water surfaces,
+    fill-span terrain, ridges, dips, spikes) as bounded, evidence-linked
+    conditioning records, never a silent smooth.
+    """
+    try:
+        payload = derive_continental_conditioned_profile(
+            elevation_lock,
+            dem_lock,
+            directed_lock,
+            selection,
+            route_lock,
+            transfer_lock,
+            policy,
+            edge_path_lock,
+            fill_lock,
+            disposition,
+            overlay_lock,
+            conflation_lock,
+            catalog,
+            output,
+        )
+    except ValueError as error:
+        typer.echo(f"continental-conditioned-profile-failed: {error}", err=True)
+        raise typer.Exit(code=1) from error
+    summary = payload["summary"]
+    sustained = summary["max_sustained_grade"]
+    typer.echo(
+        f"continental-conditioned-profile: {output} ({summary['record_count']} "
+        f"conditioning records over {summary['corrected_station_count']} "
+        f"stations, max sustained grade {sustained['grade_percent']}% on "
+        f"{sustained['segment_id']})"
+    )
+
+
+@app.command("validate-continental-conditioned-profile")
+def validate_continental_conditioned_profile_command(
+    conditioned_lock: Path = typer.Argument(
+        Path("data/routes/continental/conditioned-profile-lock.v1.json"),
+        help="Conditioned profile lock to validate.",
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    elevation_lock: Path = typer.Option(
+        Path("data/routes/continental/corridor-elevation-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    dem_lock: Path = typer.Option(
+        Path("data/routes/continental/3dep-product-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    directed_lock: Path = typer.Option(
+        Path("data/routes/continental/directed-route-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    selection: Path = typer.Option(
+        Path("data/routes/continental/route-selection.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    route_lock: Path = typer.Option(
+        Path("data/sources/continental-route-lock.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    transfer_lock: Path = typer.Option(
+        Path("data/routes/continental/transfer-node-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    policy: Path = typer.Option(
+        Path("data/routes/continental/transfer-node-policy.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    edge_path_lock: Path = typer.Option(
+        Path("data/routes/continental/edge-path-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    fill_lock: Path = typer.Option(
+        Path("data/routes/continental/nhs-fill-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    disposition: Path = typer.Option(
+        Path("data/routes/continental/break-disposition.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    overlay_lock: Path = typer.Option(
+        Path("data/routes/continental/reconstruction-overlay-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    conflation_lock: Path = typer.Option(
+        Path("data/routes/continental/nhs-conflation-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    catalog: Path = typer.Option(DEFAULT_CATALOG, exists=True, file_okay=True, dir_okay=False),
+) -> None:
+    """Validate the conditioned profile lock without caches or network."""
+    try:
+        payload = validate_continental_conditioned_profile(
+            conditioned_lock,
+            elevation_lock,
+            dem_lock,
+            directed_lock,
+            selection,
+            route_lock,
+            transfer_lock,
+            policy,
+            edge_path_lock,
+            fill_lock,
+            disposition,
+            overlay_lock,
+            conflation_lock,
+            catalog,
+        )
+    except ValueError as error:
+        typer.echo(f"continental-conditioned-profile-invalid: {error}", err=True)
+        raise typer.Exit(code=1) from error
+    summary = payload["summary"]
+    typer.echo(
+        f"continental-conditioned-profile-ok: {conditioned_lock} "
+        f"({summary['record_count']} records, "
+        f"{summary['corrected_station_count']} corrected stations, max "
+        f"sustained {summary['max_sustained_grade']['grade_percent']}%)"
+    )
+
+
+@app.command("derive-continental-westbound-carriageway")
+def derive_continental_westbound_carriageway_command(
+    conditioned_lock: Path = typer.Option(
+        Path("data/routes/continental/conditioned-profile-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    elevation_lock: Path = typer.Option(
+        Path("data/routes/continental/corridor-elevation-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    dem_lock: Path = typer.Option(
+        Path("data/routes/continental/3dep-product-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    directed_lock: Path = typer.Option(
+        Path("data/routes/continental/directed-route-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    selection: Path = typer.Option(
+        Path("data/routes/continental/route-selection.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    route_lock: Path = typer.Option(
+        Path("data/sources/continental-route-lock.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    transfer_lock: Path = typer.Option(
+        Path("data/routes/continental/transfer-node-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    policy: Path = typer.Option(
+        Path("data/routes/continental/transfer-node-policy.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    edge_path_lock: Path = typer.Option(
+        Path("data/routes/continental/edge-path-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    fill_lock: Path = typer.Option(
+        Path("data/routes/continental/nhs-fill-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    disposition: Path = typer.Option(
+        Path("data/routes/continental/break-disposition.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    overlay_lock: Path = typer.Option(
+        Path("data/routes/continental/reconstruction-overlay-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    conflation_lock: Path = typer.Option(
+        Path("data/routes/continental/nhs-conflation-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    catalog: Path = typer.Option(DEFAULT_CATALOG, exists=True, file_okay=True, dir_okay=False),
+    cache: Path = typer.Option(
+        Path(".tools/continental/nhpn"),
+        help="Locked NHPN response cache.",
+        exists=True, file_okay=False, dir_okay=True,
+    ),
+    carriageway_cache: Path = typer.Option(
+        Path(".tools/continental/carriageway"),
+        help="Ignored cache for the bulk carriageway geometry.",
+        file_okay=False, dir_okay=True,
+    ),
+    output: Path = typer.Option(
+        Path("data/routes/continental/westbound-carriageway-lock.v1.json"),
+        help="Westbound carriageway lock to write.",
+        file_okay=True, dir_okay=False,
+    ),
+) -> None:
+    """Derive the reciprocal directed westbound carriageway model (ADR-0014).
+
+    Re-derives the directed walk (refusing unless it reproduces the committed
+    directed route lock), conditions reversal-class digitization artifacts
+    with bounded records, censuses corner-class heading exceptions at the
+    25 m lens, and offsets the reciprocal westbound/eastbound pair through
+    the ADR-0018 gates. Bulk geometry stays in the ignored cache.
+    """
+    try:
+        payload = derive_continental_westbound_carriageway(
+            conditioned_lock,
+            elevation_lock,
+            dem_lock,
+            directed_lock,
+            selection,
+            route_lock,
+            transfer_lock,
+            policy,
+            edge_path_lock,
+            fill_lock,
+            disposition,
+            overlay_lock,
+            conflation_lock,
+            catalog,
+            cache,
+            carriageway_cache,
+            output,
+        )
+    except ValueError as error:
+        typer.echo(f"continental-westbound-carriageway-failed: {error}", err=True)
+        raise typer.Exit(code=1) from error
+    summary = payload["summary"]
+    typer.echo(
+        f"continental-westbound-carriageway: {output} "
+        f"({summary['segment_count']} segments, {summary['element_count']} "
+        f"elements, {summary['westbound_miles']} westbound miles, "
+        f"{summary['corner_site_count']} corner sites, "
+        f"{summary['junction_backtrack_count']} junction backtracks)"
+    )
+
+
+@app.command("validate-continental-westbound-carriageway")
+def validate_continental_westbound_carriageway_command(
+    carriageway_lock: Path = typer.Argument(
+        Path("data/routes/continental/westbound-carriageway-lock.v1.json"),
+        help="Westbound carriageway lock to validate.",
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    conditioned_lock: Path = typer.Option(
+        Path("data/routes/continental/conditioned-profile-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    elevation_lock: Path = typer.Option(
+        Path("data/routes/continental/corridor-elevation-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    dem_lock: Path = typer.Option(
+        Path("data/routes/continental/3dep-product-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    directed_lock: Path = typer.Option(
+        Path("data/routes/continental/directed-route-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    selection: Path = typer.Option(
+        Path("data/routes/continental/route-selection.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    route_lock: Path = typer.Option(
+        Path("data/sources/continental-route-lock.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    transfer_lock: Path = typer.Option(
+        Path("data/routes/continental/transfer-node-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    policy: Path = typer.Option(
+        Path("data/routes/continental/transfer-node-policy.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    edge_path_lock: Path = typer.Option(
+        Path("data/routes/continental/edge-path-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    fill_lock: Path = typer.Option(
+        Path("data/routes/continental/nhs-fill-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    disposition: Path = typer.Option(
+        Path("data/routes/continental/break-disposition.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    overlay_lock: Path = typer.Option(
+        Path("data/routes/continental/reconstruction-overlay-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    conflation_lock: Path = typer.Option(
+        Path("data/routes/continental/nhs-conflation-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    catalog: Path = typer.Option(DEFAULT_CATALOG, exists=True, file_okay=True, dir_okay=False),
+) -> None:
+    """Validate the westbound carriageway lock without caches or network."""
+    try:
+        payload = validate_continental_westbound_carriageway(
+            carriageway_lock,
+            conditioned_lock,
+            elevation_lock,
+            dem_lock,
+            directed_lock,
+            selection,
+            route_lock,
+            transfer_lock,
+            policy,
+            edge_path_lock,
+            fill_lock,
+            disposition,
+            overlay_lock,
+            conflation_lock,
+            catalog,
+        )
+    except ValueError as error:
+        typer.echo(f"continental-westbound-carriageway-invalid: {error}", err=True)
+        raise typer.Exit(code=1) from error
+    summary = payload["summary"]
+    typer.echo(
+        f"continental-westbound-carriageway-ok: {carriageway_lock} "
+        f"({summary['segment_count']} segments, "
+        f"{summary['westbound_miles']} westbound miles, "
+        f"{summary['gates_passed']} gates passed, "
+        f"{summary['corner_site_count']} corner sites)"
     )
