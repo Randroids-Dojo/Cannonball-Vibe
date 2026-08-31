@@ -1346,6 +1346,14 @@ LRS_KEY_PATTERN = re.compile(r"^[A-Za-z0-9_]{1,15}$")
 # spans here.
 GAP_COVERAGE_TOLERANCE_MILES = MILEPOST_QUANTUM_MILES * 1.1
 
+# Spatial break probes inspect a bounded envelope around the two graph points
+# whose components would need to meet. The padding is for nearby interchange or
+# concurrency features; it is not a snapping tolerance and never changes graph
+# connectivity. Any connection still has to satisfy the separately locked 1 m
+# endpoint tolerance, with each probe endpoint anchored within the existing 25 m
+# limit.
+GEOMETRIC_PROBE_PADDING_METERS = 250.0
+
 
 @dataclass(frozen=True)
 class ProbedGapRecord:
@@ -1677,6 +1685,520 @@ def probe_continental_milepost_gaps(
         ),
         "finding": _gap_probe_finding(gap_results),
         "gaps": gap_results,
+    }
+
+
+def _derive_segment_geometric_probe_sites(
+    segment_id: str,
+    metric_lines: tuple[tuple[LockedCandidateLine, LineString], ...],
+    from_point: tuple[float, float],
+    to_point: tuple[float, float],
+    tolerance: float = ENDPOINT_SNAP_TOLERANCE_METERS,
+    anchor_limit: float = ANCHOR_SNAP_LIMIT_METERS,
+) -> list[dict[str, Any]]:
+    """Derive the smallest deterministic set of local sites that spans components.
+
+    Components are joined conceptually with a minimum spanning tree whose edge
+    weights are the nearest chain-end separations. This chooses probe locations;
+    it does not join the route graph or assert that proximity means adjacency.
+    Distant transfer anchors are separate sites because their mismatch can exist
+    even when the candidate graph itself is connected.
+    """
+    graph = nx.MultiGraph()
+    nodes: dict[tuple[int, int], tuple[float, float]] = {}
+    end_lines: dict[tuple[int, int], set[int]] = {}
+    for candidate, line in sorted(
+        metric_lines, key=lambda pair: (pair[0].object_id, pair[0].part_index)
+    ):
+        coordinates = list(line.coords)
+        start_key = _resolve_endpoint_node(coordinates[0], nodes, tolerance)
+        end_key = _resolve_endpoint_node(coordinates[-1], nodes, tolerance)
+        if start_key == end_key:
+            continue
+        graph.add_edge(start_key, end_key)
+        end_lines.setdefault(start_key, set()).add(candidate.object_id)
+        end_lines.setdefault(end_key, set()).add(candidate.object_id)
+    if not graph.number_of_nodes():
+        return []
+
+    components = sorted(
+        (set(component) for component in nx.connected_components(graph)),
+        key=lambda component: min(component),
+    )
+    component_index = {
+        node: index for index, component in enumerate(components) for node in component
+    }
+
+    # A near-linear component's degree-1 nodes are its ends. Fall back to all
+    # component nodes only for a closed loop so the diagnostic remains defined.
+    component_ends: list[list[tuple[int, int]]] = []
+    for component in components:
+        ends = sorted(node for node in component if graph.degree(node) == 1)
+        component_ends.append(ends or sorted(component))
+
+    pair_candidates: list[
+        tuple[float, int, int, tuple[int, int], tuple[int, int]]
+    ] = []
+    for left_index, left_ends in enumerate(component_ends):
+        for right_index in range(left_index + 1, len(component_ends)):
+            choices = [
+                (math.dist(nodes[left], nodes[right]), left, right)
+                for left in left_ends
+                for right in component_ends[right_index]
+            ]
+            distance, left, right = min(choices)
+            pair_candidates.append((distance, left_index, right_index, left, right))
+
+    parent = list(range(len(components)))
+
+    def find(index: int) -> int:
+        while parent[index] != index:
+            parent[index] = parent[parent[index]]
+            index = parent[index]
+        return index
+
+    def union(left: int, right: int) -> bool:
+        left_root, right_root = find(left), find(right)
+        if left_root == right_root:
+            return False
+        parent[max(left_root, right_root)] = min(left_root, right_root)
+        return True
+
+    sites: list[dict[str, Any]] = []
+    for distance, left_index, right_index, left, right in sorted(pair_candidates):
+        if not union(left_index, right_index):
+            continue
+        sites.append(
+            {
+                "site_id": (
+                    f"{segment_id}--component-{left_index:02d}-{right_index:02d}"
+                ),
+                "segment_id": segment_id,
+                "kind": "component_gap",
+                "from_component": left_index,
+                "to_component": right_index,
+                "from_metric": nodes[left],
+                "to_metric": nodes[right],
+                "from_adjacent_object_ids": sorted(end_lines.get(left, set())),
+                "to_adjacent_object_ids": sorted(end_lines.get(right, set())),
+                "separation_m": distance,
+            }
+        )
+
+    def nearest_node(point: tuple[float, float]) -> tuple[tuple[int, int], float]:
+        return min(
+            ((node, math.dist(point, coordinate)) for node, coordinate in nodes.items()),
+            key=lambda item: (item[1], item[0]),
+        )
+
+    for side, point in (("from", from_point), ("to", to_point)):
+        node, distance = nearest_node(point)
+        if distance <= anchor_limit:
+            continue
+        sites.append(
+            {
+                "site_id": f"{segment_id}--anchor-{side}",
+                "segment_id": segment_id,
+                "kind": "anchor_gap",
+                "anchor_side": side,
+                "from_component": None,
+                "to_component": component_index[node],
+                "from_metric": point,
+                "to_metric": nodes[node],
+                "from_adjacent_object_ids": [],
+                "to_adjacent_object_ids": sorted(end_lines.get(node, set())),
+                "separation_m": distance,
+            }
+        )
+    return sorted(sites, key=lambda site: site["site_id"])
+
+
+def _spatial_probe_envelope(
+    from_metric: tuple[float, float],
+    to_metric: tuple[float, float],
+    inverse: Transformer,
+    padding_meters: float,
+) -> tuple[float, float, float, float]:
+    min_x = min(from_metric[0], to_metric[0]) - padding_meters
+    max_x = max(from_metric[0], to_metric[0]) + padding_meters
+    min_y = min(from_metric[1], to_metric[1]) - padding_meters
+    max_y = max(from_metric[1], to_metric[1]) + padding_meters
+    corners = [
+        inverse.transform(x, y)
+        for x in (min_x, max_x)
+        for y in (min_y, max_y)
+    ]
+    longitudes = [coordinate[0] for coordinate in corners]
+    latitudes = [coordinate[1] for coordinate in corners]
+    return min(longitudes), min(latitudes), max(longitudes), max(latitudes)
+
+
+def _feature_metric_lines(
+    features: Sequence[dict[str, Any]], forward: Transformer
+) -> tuple[list[tuple[int, int, LineString, dict[str, Any]]], int]:
+    lines: list[tuple[int, int, LineString, dict[str, Any]]] = []
+    records_without_geometry = 0
+    for feature in features:
+        attributes = feature["attributes"]
+        paths = feature.get("geometry", {}).get("paths", [])
+        if not paths:
+            records_without_geometry += 1
+            continue
+        for part_index, coordinates in enumerate(paths):
+            if len(coordinates) < 2:
+                records_without_geometry += 1
+                continue
+            line = transform(forward.transform, LineString(coordinates))
+            lines.append((int(attributes["OBJECTID"]), part_index, line, attributes))
+    return lines, records_without_geometry
+
+
+def _classify_spatial_probe_connection(
+    site: dict[str, Any],
+    features: Sequence[dict[str, Any]],
+    forward: Transformer,
+    segment_object_ids: frozenset[int],
+    all_locked_object_ids: frozenset[int],
+    tolerance: float = ENDPOINT_SNAP_TOLERANCE_METERS,
+    anchor_limit: float = ANCHOR_SNAP_LIMIT_METERS,
+) -> dict[str, Any]:
+    """Test whether an unfiltered local NHPN graph connects a probe site's ends."""
+    lines, records_without_geometry = _feature_metric_lines(features, forward)
+    graph = nx.MultiGraph()
+    nodes: dict[tuple[int, int], tuple[float, float]] = {}
+    attributes_by_id: dict[int, dict[str, Any]] = {}
+    for object_id, part_index, line, attributes in sorted(
+        lines, key=lambda item: (item[0], item[1])
+    ):
+        coordinates = list(line.coords)
+        start_key = _resolve_endpoint_node(coordinates[0], nodes, tolerance)
+        end_key = _resolve_endpoint_node(coordinates[-1], nodes, tolerance)
+        if start_key == end_key:
+            continue
+        graph.add_edge(
+            start_key,
+            end_key,
+            key=(object_id, part_index),
+            weight=line.length,
+            object_id=object_id,
+        )
+        attributes_by_id[object_id] = attributes
+
+    result: dict[str, Any] = {
+        "source_connection_found": False,
+        "records_without_geometry": records_without_geometry,
+        "local_graph_node_count": graph.number_of_nodes(),
+        "local_graph_edge_count": graph.number_of_edges(),
+        "from_probe_snap_distance_m": None,
+        "to_probe_snap_distance_m": None,
+        "from_probe_snap_limit_m": tolerance,
+        "to_probe_snap_limit_m": tolerance,
+        "path_object_ids": [],
+        "path_records_in_segment_lock": [],
+        "path_records_elsewhere_in_candidate_lock": [],
+        "path_records_unacquired": [],
+        "path_signed_routes": [],
+        "path_state_fips": [],
+    }
+    if not graph.number_of_nodes():
+        return result
+
+    def nearest(point: tuple[float, float]) -> tuple[tuple[int, int], float]:
+        return min(
+            ((node, math.dist(point, coordinate)) for node, coordinate in nodes.items()),
+            key=lambda item: (item[1], item[0]),
+        )
+
+    from_node, from_distance = nearest(site["from_metric"])
+    to_node, to_distance = nearest(site["to_metric"])
+    from_limit = (
+        anchor_limit
+        if site.get("kind") == "anchor_gap" and site.get("anchor_side") == "from"
+        else tolerance
+    )
+    to_limit = (
+        anchor_limit
+        if site.get("kind") == "anchor_gap" and site.get("anchor_side") == "to"
+        else tolerance
+    )
+    result["from_probe_snap_distance_m"] = round(from_distance, 3)
+    result["to_probe_snap_distance_m"] = round(to_distance, 3)
+    result["from_probe_snap_limit_m"] = from_limit
+    result["to_probe_snap_limit_m"] = to_limit
+    if from_distance > from_limit or to_distance > to_limit:
+        return result
+    if from_node != to_node and not nx.has_path(graph, from_node, to_node):
+        return result
+
+    node_path = (
+        [from_node]
+        if from_node == to_node
+        else nx.shortest_path(graph, from_node, to_node, weight="weight")
+    )
+    path_object_ids: list[int] = []
+    for previous, current in zip(node_path, node_path[1:], strict=False):
+        parallel = graph.get_edge_data(previous, current)
+        chosen_key = min(
+            parallel,
+            key=lambda edge_key: (parallel[edge_key]["weight"], edge_key),
+        )
+        path_object_ids.append(int(parallel[chosen_key]["object_id"]))
+    unique_ids = sorted(set(path_object_ids))
+    signed_routes = {
+        f"{sign_type}-{sign_number}"
+        for object_id in unique_ids
+        for sign_type, sign_number in _probe_sign_identities(attributes_by_id[object_id])
+    }
+    states = {
+        str(attributes_by_id[object_id].get("STFIPS") or "").strip()
+        for object_id in unique_ids
+    }
+    result.update(
+        source_connection_found=True,
+        path_object_ids=path_object_ids,
+        path_records_in_segment_lock=sorted(
+            object_id for object_id in unique_ids if object_id in segment_object_ids
+        ),
+        path_records_elsewhere_in_candidate_lock=sorted(
+            object_id
+            for object_id in unique_ids
+            if object_id in all_locked_object_ids and object_id not in segment_object_ids
+        ),
+        path_records_unacquired=sorted(
+            object_id for object_id in unique_ids if object_id not in all_locked_object_ids
+        ),
+        path_signed_routes=sorted(signed_routes),
+        path_state_fips=sorted(state for state in states if state),
+    )
+    return result
+
+
+def _geometric_probe_finding(sites: Sequence[dict[str, Any]]) -> str:
+    connected = [site for site in sites if site["source_connection_found"]]
+    segment_count = len({site["segment_id"] for site in sites})
+    with_unacquired = sum(bool(site["path_records_unacquired"]) for site in connected)
+    with_elsewhere = sum(
+        bool(site["path_records_elsewhere_in_candidate_lock"]) for site in connected
+    )
+    return (
+        f"The locked graph produced {len(sites)} bounded candidate break sites across "
+        f"{segment_count} unconnected segments. Unfiltered local NHPN topology connects "
+        f"{len(connected)} sites; {with_unacquired} use records absent from the "
+        f"candidate lock and {with_elsewhere} use records locked only for another "
+        "segment. These are source-topology findings, not bridge approvals, a "
+        "westbound selection, lane geometry, or an authoritative distance; every "
+        "site still requires an ADR-0018 disposition."
+    )
+
+
+def probe_continental_geometric_breaks(
+    selection_path: Path,
+    route_lock_path: Path,
+    transfer_lock_path: Path,
+    transfer_policy_path: Path,
+    edge_path_lock_path: Path,
+    catalog_path: Path,
+    cache_directory: Path,
+    probe_cache_directory: Path,
+    *,
+    transport: ArcGisTransport | None = None,
+    service_metadata: dict[str, Any] | None = None,
+    acquired_at: str | None = None,
+    page_size: int = 2_000,
+    padding_meters: float = GEOMETRIC_PROBE_PADDING_METERS,
+) -> dict[str, Any]:
+    """Probe unfiltered NHPN topology around locked graph break candidates."""
+    if not math.isfinite(padding_meters) or padding_meters <= 0:
+        raise ValueError("Geometric probe padding must be a positive finite distance.")
+    selection = load_json(selection_path)
+    route_lock = validate_continental_route_lock(
+        route_lock_path, catalog_path, selection_path
+    )
+    transfer_lock = validate_continental_transfer_lock(
+        transfer_lock_path,
+        transfer_policy_path,
+        selection_path,
+        route_lock_path,
+        catalog_path,
+    )
+    edge_lock = validate_continental_edge_path_lock(
+        edge_path_lock_path,
+        transfer_lock_path,
+        transfer_policy_path,
+        selection_path,
+        route_lock_path,
+        catalog_path,
+    )
+    snapshot_by_id = {
+        snapshot["segment_id"]: snapshot
+        for snapshot in route_lock["nhpn"]["segment_snapshots"]
+    }
+    transfer_by_id = {node["id"]: node for node in transfer_lock["transfer_nodes"]}
+    edge_by_id = {entry["segment_id"]: entry for entry in edge_lock["segments"]}
+    all_locked_object_ids = frozenset(
+        object_id
+        for snapshot in route_lock["nhpn"]["segment_snapshots"]
+        for object_id in snapshot["object_ids"]
+    )
+    cache_root = cache_directory / route_lock["nhpn"]["service"][
+        "canonical_metadata_sha256"
+    ]
+    forward = Transformer.from_crs("EPSG:4326", "EPSG:5070", always_xy=True)
+    inverse = Transformer.from_crs("EPSG:5070", "EPSG:4326", always_xy=True)
+
+    sites: list[dict[str, Any]] = []
+    for segment in selection["segments"]:
+        segment_id = segment["id"]
+        edge_entry = edge_by_id.get(segment_id)
+        if edge_entry is None or edge_entry.get("connected"):
+            continue
+        snapshot = snapshot_by_id[segment_id]
+        lines = _load_locked_candidate_lines(snapshot, cache_root / segment_id)
+        metric_lines = tuple(
+            (candidate, transform(forward.transform, candidate.geometry))
+            for candidate in lines
+        )
+
+        def metric_point(node_id: str) -> tuple[float, float]:
+            coordinate = transfer_by_id[node_id]["coordinate"]
+            return forward.transform(coordinate["longitude"], coordinate["latitude"])
+
+        from_point = metric_point(segment["from"])
+        to_point = metric_point(segment["to"])
+        reproduced = _solve_segment_edge_path(
+            segment,
+            metric_lines,
+            from_point,
+            to_point,
+            edge_lock["endpoint_snap_tolerance_m"],
+        )
+        if canonical_sha256(reproduced) != canonical_sha256(edge_entry):
+            raise ValueError(
+                f"Locked cache no longer reproduces edge-path diagnostics for '{segment_id}'."
+            )
+        sites.extend(
+            _derive_segment_geometric_probe_sites(
+                segment_id,
+                metric_lines,
+                from_point,
+                to_point,
+                edge_lock["endpoint_snap_tolerance_m"],
+                edge_lock["anchor_snap_limit_m"],
+            )
+        )
+
+    source = load_catalog(catalog_path)[NHPN_SOURCE_ID]
+    service_url = source.raw["service_url"]
+    query_url = service_url + NHPN_QUERY_SUFFIX
+    if service_metadata is None:
+        with urllib.request.urlopen(service_url + "?f=pjson", timeout=120) as response:
+            service_metadata = json.loads(response.read())
+    _validate_live_service_metadata(service_metadata)
+    service_metadata_sha256 = canonical_sha256(service_metadata)
+    locked_metadata_sha256 = route_lock["nhpn"]["service"][
+        "canonical_metadata_sha256"
+    ]
+    if service_metadata_sha256 != locked_metadata_sha256:
+        raise ValueError(
+            "Live NHPN service metadata has drifted from the candidate lock; a "
+            "geometric probe would inspect a different dataset."
+        )
+    if transport is None:
+        transport = UrllibArcGisTransport(timeout_seconds=120)
+    timestamp = acquired_at or datetime.now(UTC).replace(microsecond=0).isoformat().replace(
+        "+00:00", "Z"
+    )
+    probe_root = probe_cache_directory / service_metadata_sha256
+    for site in sites:
+        envelope = _spatial_probe_envelope(
+            site["from_metric"], site["to_metric"], inverse, padding_meters
+        )
+        envelope_text = ",".join(f"{coordinate:.12f}" for coordinate in envelope)
+        query = {
+            "where": "1=1",
+            "geometry": envelope_text,
+            "geometryType": "esriGeometryEnvelope",
+            "inSR": "4326",
+            "spatialRel": "esriSpatialRelIntersects",
+        }
+        result = acquire_nhpn(
+            transport,
+            query_url,
+            query,
+            probe_root / site["site_id"],
+            page_size=page_size,
+        )
+        segment_snapshot = snapshot_by_id[site["segment_id"]]
+        classification = _classify_spatial_probe_connection(
+            site,
+            result.features,
+            forward,
+            frozenset(segment_snapshot["object_ids"]),
+            all_locked_object_ids,
+            edge_lock["endpoint_snap_tolerance_m"],
+            edge_lock["anchor_snap_limit_m"],
+        )
+        from_longitude, from_latitude = inverse.transform(*site.pop("from_metric"))
+        to_longitude, to_latitude = inverse.transform(*site.pop("to_metric"))
+        site.update(
+            {
+                "from_coordinate": {
+                    "longitude": round(from_longitude, 12),
+                    "latitude": round(from_latitude, 12),
+                },
+                "to_coordinate": {
+                    "longitude": round(to_longitude, 12),
+                    "latitude": round(to_latitude, 12),
+                },
+                "separation_m": round(site["separation_m"], 3),
+                "query": query,
+                "expected_count": result.expected_count,
+                "object_ids_sha256": canonical_sha256(list(result.object_ids)),
+                "features_sha256": canonical_sha256(list(result.features)),
+                "retries": result.retries,
+                "resumed_pages": result.resumed_pages,
+                **classification,
+            }
+        )
+
+    sites.sort(key=lambda site: site["site_id"])
+    return {
+        "schema_version": 1,
+        "status": (
+            "diagnostic acquisition; probes unfiltered source topology around locked "
+            "break candidates; no lock changed"
+        ),
+        "acquired_at": timestamp,
+        "query_url": query_url,
+        "probe_padding_meters": padding_meters,
+        "endpoint_snap_tolerance_m": edge_lock["endpoint_snap_tolerance_m"],
+        "anchor_snap_limit_m": edge_lock["anchor_snap_limit_m"],
+        "service": {
+            "canonical_metadata_sha256": service_metadata_sha256,
+            "data_last_edit_epoch_ms": service_metadata["editingInfo"]["dataLastEditDate"],
+            "matches_candidate_lock": True,
+        },
+        "route_selection_sha256": compute_sha256(selection_path),
+        "candidate_lock_sha256": compute_sha256(route_lock_path),
+        "transfer_lock_sha256": compute_sha256(transfer_lock_path),
+        "edge_path_lock_sha256": compute_sha256(edge_path_lock_path),
+        "source_policy": {
+            "candidate_source": NHPN_SOURCE_ID,
+            "nhpn_role": "coarse_topology_only",
+            "openstreetmap_ancestry_allowed": False,
+            "probe_is_selected_route_geometry": False,
+            "bridge_approved": False,
+            "westbound_selection_validated": False,
+            "authoritative_distance_claimed": False,
+            "continental_downloads_committed": False,
+        },
+        "unconnected_segment_count": edge_lock["unconnected_segment_count"],
+        "site_count": len(sites),
+        "source_connection_count": sum(
+            1 for site in sites if site["source_connection_found"]
+        ),
+        "finding": _geometric_probe_finding(sites),
+        "sites": sites,
     }
 
 

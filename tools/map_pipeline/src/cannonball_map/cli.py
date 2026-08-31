@@ -14,6 +14,7 @@ from cannonball_map.continental import (
     audit_continental_milepost_gaps,
     derive_continental_edge_path_lock,
     derive_continental_transfer_lock,
+    probe_continental_geometric_breaks,
     probe_continental_milepost_gaps,
     validate_continental_edge_path_lock,
     validate_continental_route_lock,
@@ -589,4 +590,69 @@ def probe_continental_milepost_gaps_command(
         f"{payload['gaps_partially_covered']} partially covered, "
         f"{payload['gaps_no_records']} without records on their key, "
         f"{payload['predicate_anomaly_count']} predicate anomalies"
+    )
+
+
+@app.command("probe-continental-geometric-breaks")
+def probe_continental_geometric_breaks_command(
+    selection: Path = typer.Option(
+        Path("data/routes/continental/route-selection.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    route_lock: Path = typer.Option(
+        Path("data/sources/continental-route-lock.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    transfer_lock: Path = typer.Option(
+        Path("data/routes/continental/transfer-node-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    policy: Path = typer.Option(
+        Path("data/routes/continental/transfer-node-policy.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    edge_path_lock: Path = typer.Option(
+        Path("data/routes/continental/edge-path-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    catalog: Path = typer.Option(DEFAULT_CATALOG, exists=True, file_okay=True, dir_okay=False),
+    cache: Path = typer.Option(
+        Path(".tools/continental/nhpn"),
+        help="Locked NHPN response cache.",
+        exists=True, file_okay=False, dir_okay=True,
+    ),
+    probe_cache: Path = typer.Option(
+        Path(".tools/continental/nhpn-geometric-probe"),
+        help="Ignored cache for the probe's bounded spatial responses.",
+        file_okay=False, dir_okay=True,
+    ),
+    padding_meters: float = typer.Option(250.0, min=1.0),
+    page_size: int = typer.Option(2_000, min=1, max=2_000),
+    output: Path | None = typer.Option(None, file_okay=True, dir_okay=False),
+) -> None:
+    """Probe source topology around locked disconnected graph sites."""
+    try:
+        payload = probe_continental_geometric_breaks(
+            selection,
+            route_lock,
+            transfer_lock,
+            policy,
+            edge_path_lock,
+            catalog,
+            cache,
+            probe_cache,
+            page_size=page_size,
+            padding_meters=padding_meters,
+        )
+    except ValueError as error:
+        typer.echo(f"continental-geometric-probe-failed: {error}", err=True)
+        raise typer.Exit(code=1) from error
+    if output is not None:
+        output.parent.mkdir(parents=True, exist_ok=True)
+        output.write_text(
+            json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+        )
+    typer.echo(
+        f"continental-geometric-probe: {payload['site_count']} sites probed, "
+        f"{payload['source_connection_count']} source connections found"
     )
