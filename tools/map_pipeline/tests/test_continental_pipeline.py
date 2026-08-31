@@ -3831,7 +3831,6 @@ def test_conditioning_records_classify_and_replace_with_the_chord() -> None:
     assert record["before"]["max_above_chord_m"] > 100.0
     # Interior stations take the rounded chord; boundaries keep raw values.
     interior = record["after"]["replacement_elevations_m"]
-    assert conditioned[record["interior_station_count"] and 1] == ridge[1] or True
     start_index = offsets.index(record["from_station_m"])
     end_index = offsets.index(record["to_station_m"])
     assert conditioned[start_index] == ridge[start_index]
