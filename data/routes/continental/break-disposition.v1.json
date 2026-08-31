@@ -199,12 +199,12 @@
   ],
   "decision": "ADR-0024",
   "disposition_counts": {
-    "ambiguous": 2,
+    "anchor_edge_split": 2,
     "bounded_reconstruction_exception": 2,
     "nhpn_scoped_acquisition": 5,
     "nhs_fill": 5
   },
-  "edge_path_lock_sha256": "846da2e3727a84c823fbb5f6dedb189fbdb57a951a7f999eb068ef426c448521",
+  "edge_path_lock_sha256": "fcf0da1dcff80eb74364b1496e2033c351b14c25cbbf7f857e8af8a42295fc5e",
   "evidence": [
     {
       "path": "docs/audits/p0-021/2026-08-30-geometric-break-probe.md"
@@ -231,24 +231,30 @@
     },
     {
       "path": "data/routes/continental/nhs-fill-lock.v1.json"
+    },
+    {
+      "path": "docs/audits/p0-021/2026-08-31-topology-closure.md"
+    },
+    {
+      "path": "data/routes/continental/reconstruction-overlay-lock.v1.json"
     }
   ],
   "implementation": {
     "deferred_to_lock_revision": [
-      "Q-034c/Q-034d anchor mechanism (anchor re-derivation or edge-split-at-anchor solve; approach-record acquisition ruled out by the 2026-08-31 measure review)",
-      "the two bounded ADR-0018 micro-gap overlays (Omaha 1.011 m, Quad Cities 9.190 m), authored through the reconstruction gates when that stage exists",
       "NHPN-to-NHS geometry conflation over the locked fill spans",
-      "3DEP product lock and the westbound directed edge selection"
+      "3DEP product lock and the westbound directed edge selection over the closed topology"
     ],
     "implemented_this_slice": [
       "supplementary NHPN acquisitions for all five scoped sites (28 records: 43839+43841 Payson, 218838 Memphis, 59709 Denver, 38597 Topock, and the 23-record downtown Los Angeles S-10/US-101 concurrency set)",
       "Q-034a resolved by the prescribed directed whole-key milepost review and folded in as a scoped acquisition",
       "Q-034b resolved by sliver geometry review (38597 spans the gap exactly) and folded in as a scoped acquisition",
       "NHS acquisition locks for the five nhs_fill sites in data/routes/continental/nhs-fill-lock.v1.json with ADR-0026 dual ancestry",
-      "transfer and edge-path locks re-derived against the revised candidate set (anchors unchanged; 8 of 12 segments NHPN-connected, 10 of 12 chained with fills)"
+      "transfer and edge-path locks re-derived against the revised candidate set (anchors unchanged; 8 of 12 segments NHPN-connected, 10 of 12 chained with fills)",
+      "Q-034c/Q-034d resolved by the edge-split-at-anchor mechanism (2026-08-31 topology closure): the edge-path solve splits a locked record at an on-edge anchor as a fallback used only beyond the unchanged 25 m endpoint search, with the splits recorded machine-checkably in the edge-path lock and the transfer lock byte-identical",
+      "the two bounded ADR-0018 micro-gap overlays (Omaha 1.011 m, Quad Cities 9.190 m) authored through the reconstruction gates into data/routes/continental/reconstruction-overlay-lock.v1.json, boundaries pinned to this record's probed end coordinates"
     ]
   },
-  "nhs_fill_lock_sha256": "c552ae0aef9621b0905faf84480cee44538947158e3ff6f513e71c25929015d5",
+  "nhs_fill_lock_sha256": "2d05552540107464344aa579e833333a17539de3f1ab7ac8595d5b3ad98c2852",
   "nhs_service": {
     "canonical_metadata_sha256": "a29f96df0512d0748d0c243cf15867d432439f6df5927d9b9d682e167410c027",
     "data_last_edit_epoch_ms": 1778183346545,
@@ -476,8 +482,11 @@
       }
     },
     {
-      "blocking_question": "The anchor sits mid-record on the corridor's own locked pavement (433412), so no acquisition can bring a graph node within the 25 m anchor limit. Choose between re-deriving the anchor onto a candidate endpoint (moves a locked ADR-0024 transfer coordinate 381.157 m) and an edge-split-at-anchor solve semantics; either changes a lock or the solver contract and needs its own reviewed slice.",
-      "disposition": "ambiguous",
+      "anchor_split": {
+        "object_id": 433412,
+        "side": "from"
+      },
+      "disposition": "anchor_edge_split",
       "evidence_summary": "The locked from-anchor sits 381.157 m from any candidate endpoint - a transfer-anchor mismatch, not a road break; the geometric probe found the anchor outside the local source graph (4 features, no path). Census: the segment's Jersey City approach ends join US-22 (427523) and an NJ-139-key record (434168). NHS: NJ I-78 (00000078__) continuous 66.339-67.16 through the anchor window.",
       "from_coordinate": {
         "latitude": 40.72927608447,
@@ -485,7 +494,8 @@
       },
       "kind": "anchor_gap",
       "mechanism_review": "2026-08-31 measure review: the anchor lies exactly on locked record 433412 (Holland Tunnel, 1,576 m) at line offset 0.0 m, 381.157 m from that record's nearest endpoint. No record in the unfiltered 500 m envelope - locked or unlocked - has an endpoint within the 25 m anchor snap limit (nearest unlocked endpoint: 433415 at 381.2 m), so approach-record acquisition cannot resolve this site. The remaining mechanisms are transfer-lock-affecting: re-derive the anchor onto a candidate endpoint, or teach the edge-path solve to split an edge at an on-edge anchor.",
-      "q034_subitem": "Q-034c",
+      "resolution": "2026-08-31 mechanism decision: edge-split-at-anchor, implemented in the edge-path solve as a fallback used only when no record endpoint lies within the unchanged 25 m anchor snap limit. The anchor lies exactly on locked record 433412 at 0.000 m line offset, so splitting that record's edge at the anchor's projection puts the anchor on the graph at 0.000 m without moving anything: the ADR-0024 transfer lock stays byte-identical, both tolerances keep their locked values, and the ten endpoint-anchored segments' solves are untouched by construction (verified entry-identical on re-derivation). Anchor re-derivation was rejected: it would move a research-grounded locked transfer coordinate 381.157 m onto an artifact of NHPN record segmentation and misplace the Holland Tunnel portal the corridor is defined by, and the nearest-endpoint target can itself move whenever the candidate set grows. The shipping route model is edge ID plus distance-along-edge, so an on-edge transfer node is exactly representable; the recorded split is machine-checkable in the edge-path lock's anchor_edge_splits.",
+      "resolved_q034_subitem": "Q-034c",
       "segment_id": "i78-holland-tunnel-to-i81",
       "separation_m": 381.157,
       "site_id": "i78-holland-tunnel-to-i81--anchor-from",
@@ -516,8 +526,11 @@
       }
     },
     {
-      "blocking_question": "Same class as Q-034c: the anchor is mid-record on locked I-80 pavement (431704); re-derivation or edge-split-at-anchor are the only mechanisms, both lock- or solver-affecting, needing their own reviewed slice.",
-      "disposition": "ambiguous",
+      "anchor_split": {
+        "object_id": 431704,
+        "side": "from"
+      },
+      "disposition": "anchor_edge_split",
       "evidence_summary": "The locked from-anchor sits 253.027 m from any candidate endpoint - the second transfer-anchor mismatch; the geometric probe found the anchor outside the local source graph (5 features, no path). NHS: NJ I-80 (00000080__) continuous 42.57-43.27 through the anchor window.",
       "from_coordinate": {
         "latitude": 40.865474227172,
@@ -525,7 +538,8 @@
       },
       "kind": "anchor_gap",
       "mechanism_review": "2026-08-31 measure review: the anchor lies exactly on locked record 431704 (I-80, 742.9 m) at line offset 0.0 m, 253.027 m from that record's nearest endpoint. No record in the unfiltered 500 m envelope has an endpoint within the 25 m anchor snap limit (nearest unlocked endpoint: U-202 431715 at 266.6 m), so approach-record acquisition cannot resolve this site either; the mechanism choice is the same as Q-034c.",
-      "q034_subitem": "Q-034d",
+      "resolution": "2026-08-31 mechanism decision: edge-split-at-anchor, the same mechanism and rationale as Q-034c. The anchor lies exactly on locked record 431704 at 0.000 m line offset; the solve splits that record's edge at the anchor's projection, putting the US-46/I-80 transfer anchor on the graph at 0.000 m with the ADR-0024 transfer lock byte-identical and both tolerances unchanged. Anchor re-derivation was rejected for moving the locked coordinate 253.027 m onto a segmentation artifact. The recorded split is machine-checkable in the edge-path lock's anchor_edge_splits.",
+      "resolved_q034_subitem": "Q-034d",
       "segment_id": "i80-new-jersey-to-big-springs",
       "separation_m": 253.027,
       "site_id": "i80-new-jersey-to-big-springs--anchor-from",
@@ -603,6 +617,6 @@
     "openstreetmap_ancestry_allowed": false,
     "tolerance_changed": false
   },
-  "status": "lock_revision_implemented_sub_items_pending",
+  "status": "lock_revision_implemented_topology_closed",
   "transfer_lock_sha256": "b267282a1d48014783c90a60c46cda85cea61741911d23649bf318404aea2b3b"
 }

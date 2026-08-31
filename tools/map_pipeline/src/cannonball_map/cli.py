@@ -14,6 +14,7 @@ from cannonball_map.continental import (
     acquire_continental_nhpn_supplements,
     acquire_continental_nhs_fill_lock,
     audit_continental_milepost_gaps,
+    author_continental_reconstruction_overlays,
     derive_continental_edge_path_lock,
     derive_continental_transfer_lock,
     probe_continental_break_ends,
@@ -24,6 +25,7 @@ from cannonball_map.continental import (
     validate_continental_break_dispositions,
     validate_continental_edge_path_lock,
     validate_continental_nhs_fill_lock,
+    validate_continental_reconstruction_overlays,
     validate_continental_route_lock,
     validate_continental_transfer_lock,
 )
@@ -1107,6 +1109,12 @@ def validate_continental_break_dispositions_command(
         help="NHS fill lock; required once the disposition status is implemented.",
         exists=True, file_okay=True, dir_okay=False,
     ),
+    overlay_lock: Path | None = typer.Option(
+        None,
+        "--overlay-lock",
+        help="Reconstruction overlay lock; required once the disposition status is closed.",
+        exists=True, file_okay=True, dir_okay=False,
+    ),
     catalog: Path = typer.Option(DEFAULT_CATALOG, exists=True, file_okay=True, dir_okay=False),
 ) -> None:
     """Validate the Q-034 break-disposition record without the response cache."""
@@ -1120,6 +1128,7 @@ def validate_continental_break_dispositions_command(
             edge_path_lock,
             catalog,
             nhs_fill_lock_path=nhs_fill_lock,
+            overlay_lock_path=overlay_lock,
         )
     except ValueError as error:
         typer.echo(f"continental-break-dispositions-invalid: {error}", err=True)
@@ -1131,4 +1140,139 @@ def validate_continental_break_dispositions_command(
     typer.echo(
         f"continental-break-dispositions-ok: {disposition} "
         f"({payload['site_count']} sites: {counts})"
+    )
+
+
+@app.command("author-continental-reconstruction-overlays")
+def author_continental_reconstruction_overlays_command(
+    disposition: Path = typer.Option(
+        Path("data/routes/continental/break-disposition.v1.json"),
+        help="Q-034 disposition record naming the bounded exceptions.",
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    selection: Path = typer.Option(
+        Path("data/routes/continental/route-selection.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    route_lock: Path = typer.Option(
+        Path("data/sources/continental-route-lock.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    transfer_lock: Path = typer.Option(
+        Path("data/routes/continental/transfer-node-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    policy: Path = typer.Option(
+        Path("data/routes/continental/transfer-node-policy.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    edge_path_lock: Path = typer.Option(
+        Path("data/routes/continental/edge-path-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    nhs_fill_lock: Path = typer.Option(
+        Path("data/routes/continental/nhs-fill-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    catalog: Path = typer.Option(DEFAULT_CATALOG, exists=True, file_okay=True, dir_okay=False),
+    cache: Path = typer.Option(
+        Path(".tools/continental/nhpn"),
+        help="Locked NHPN response cache.",
+        exists=True, file_okay=False, dir_okay=True,
+    ),
+    output: Path = typer.Option(
+        Path("data/routes/continental/reconstruction-overlay-lock.v1.json"),
+        help="Reconstruction overlay lock to write.",
+        file_okay=True, dir_okay=False,
+    ),
+) -> None:
+    """Author the ADR-0018 bounded-exception overlays through the reconstruction gates.
+
+    Deterministic authoring from checksum-locked inputs only: each Q-034
+    bounded exception becomes a chord overlay between its pinned boundary
+    coordinates, accepted only when every applicable gate passes and refused
+    with machine-readable diagnostics otherwise. No network access.
+    """
+    try:
+        payload = author_continental_reconstruction_overlays(
+            disposition,
+            selection,
+            route_lock,
+            transfer_lock,
+            policy,
+            edge_path_lock,
+            nhs_fill_lock,
+            catalog,
+            cache,
+            output,
+        )
+    except ValueError as error:
+        typer.echo(f"continental-overlays-rejected: {error}", err=True)
+        raise typer.Exit(code=1) from error
+    corridor = payload["corridor"]
+    typer.echo(
+        f"continental-overlays-authored: {output} ({payload['overlay_count']} overlays, "
+        f"{corridor['segments_chaining_anchor_to_anchor']}/{corridor['segment_count']} "
+        "segments chaining anchor-to-anchor)"
+    )
+
+
+@app.command("validate-continental-reconstruction-overlays")
+def validate_continental_reconstruction_overlays_command(
+    overlay_lock: Path = typer.Argument(
+        Path("data/routes/continental/reconstruction-overlay-lock.v1.json"),
+        help="Reconstruction overlay lock to validate.",
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    disposition: Path = typer.Option(
+        Path("data/routes/continental/break-disposition.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    selection: Path = typer.Option(
+        Path("data/routes/continental/route-selection.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    route_lock: Path = typer.Option(
+        Path("data/sources/continental-route-lock.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    transfer_lock: Path = typer.Option(
+        Path("data/routes/continental/transfer-node-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    policy: Path = typer.Option(
+        Path("data/routes/continental/transfer-node-policy.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    edge_path_lock: Path = typer.Option(
+        Path("data/routes/continental/edge-path-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    nhs_fill_lock: Path = typer.Option(
+        Path("data/routes/continental/nhs-fill-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    catalog: Path = typer.Option(DEFAULT_CATALOG, exists=True, file_okay=True, dir_okay=False),
+) -> None:
+    """Validate the reconstruction overlay lock without the response cache."""
+    try:
+        payload = validate_continental_reconstruction_overlays(
+            overlay_lock,
+            disposition,
+            selection,
+            route_lock,
+            transfer_lock,
+            policy,
+            edge_path_lock,
+            nhs_fill_lock,
+            catalog,
+        )
+    except ValueError as error:
+        typer.echo(f"continental-overlays-invalid: {error}", err=True)
+        raise typer.Exit(code=1) from error
+    corridor = payload["corridor"]
+    typer.echo(
+        f"continental-overlays-ok: {overlay_lock} ({payload['overlay_count']} overlays, "
+        f"{corridor['segments_chaining_anchor_to_anchor']}/{corridor['segment_count']} "
+        "segments chaining anchor-to-anchor)"
     )
