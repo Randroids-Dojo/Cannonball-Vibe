@@ -51,12 +51,19 @@ gate and a superseding ADR.
 1. Check mainline health: `gh issue list --label red-main --state open`. If
    main is red, the repair is this session's task; new work waits.
 2. Select an open task from `docs/DELIVERY_LEDGER.json`.
-3. Confirm that every dependency is `complete` or that the task explicitly
+3. Claim the slice before implementing. Check for an existing claim with
+   `gh pr list --state open --search "<task-id>"` and
+   `git ls-remote origin 'refs/heads/*<task-id>*'`; if another branch or PR
+   already names the task's slice, select different work. Otherwise push
+   your branch and open a draft PR titled with the task ID as your first
+   act — the draft PR is the claim. Two sessions probing the same slice
+   concurrently (PR #88 vs #92, 2026-08-30) is the failure this prevents.
+4. Confirm that every dependency is `complete` or that the task explicitly
    allows work against a fixture.
-4. Declare the files and generated outputs the task owns. Avoid parallel work
+5. Declare the files and generated outputs the task owns. Avoid parallel work
    that writes the same schema, generated code, lockfile, or content package.
-5. Read the linked ADR, audit finding, open question, and acceptance criteria.
-6. Record any necessary scope change in the ledger or a new decision record
+6. Read the linked ADR, audit finding, open question, and acceptance criteria.
+7. Record any necessary scope change in the ledger or a new decision record
    before implementation.
 
 Use separate branches or worktrees for concurrent tasks. Preserve unrelated
