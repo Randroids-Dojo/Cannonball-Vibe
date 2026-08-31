@@ -1,0 +1,565 @@
+{
+  "authored_at": "2026-08-31T00:00:00Z",
+  "authority": {
+    "decision_records": [
+      "ADR-0018",
+      "ADR-0024",
+      "ADR-0026"
+    ],
+    "owner_directive": "2026-08-30: after reviewing the corridor-gap evidence the owner directed adoption of the best public-domain sources ('use the best sources needed'); ADR-0026 records the adoption of NTAD NHS as supplementary centerlines and NAIP as break evidence."
+  },
+  "candidate_lock_sha256": "5c35de08e6dafebf6e3d7c2045833f15483092e7522fea1f5ee78beee13079f0",
+  "census_ends": [
+    {
+      "classification": "covered_by_site_disposition",
+      "end_id": "end-0546481-00-end",
+      "note": "Western downtown end (exact S-60 join 546481 side); part of the 3,116.6 m downtown pairing resolved with Q-034a.",
+      "segment_id": "i10-ontario-to-i405"
+    },
+    {
+      "classification": "covered_by_site_disposition",
+      "end_id": "end-0546512-00-end",
+      "note": "Western downtown end of the 2,491.6 m site pair (Q-034a).",
+      "segment_id": "i10-ontario-to-i405"
+    },
+    {
+      "classification": "covered_by_site_disposition",
+      "end_id": "end-0546553-00-start",
+      "note": "Eastern downtown end, continuing as S-10 on the segment's own key; shared by both downtown pairings (Q-034a).",
+      "segment_id": "i10-ontario-to-i405"
+    },
+    {
+      "classification": "covered_by_site_disposition",
+      "end_id": "end-0043842-00-end",
+      "note": "Payson site pair end (U-189 scoped-acquisition candidate).",
+      "segment_id": "i15-salt-lake-to-cove-fort"
+    },
+    {
+      "classification": "covered_by_site_disposition",
+      "end_id": "end-0043843-00-end",
+      "note": "Payson site pair end (U-189 scoped-acquisition candidate).",
+      "segment_id": "i15-salt-lake-to-cove-fort"
+    },
+    {
+      "classification": "fragment_embedded_in_other_route",
+      "end_id": "end-0042789-00-start",
+      "note": "End of the 0.267-mile fragment; census: joins US-6 record exactly. The fragment is embedded in US-6 pavement; corridor continuity is the segment's NHS-fill disposition.",
+      "segment_id": "i15-salt-lake-to-cove-fort"
+    },
+    {
+      "classification": "fragment_embedded_in_other_route",
+      "end_id": "end-0042789-00-end",
+      "note": "Other end of the same US-6-embedded fragment.",
+      "segment_id": "i15-salt-lake-to-cove-fort"
+    },
+    {
+      "classification": "beyond_corridor_continuation",
+      "end_id": "end-0042749-00-start",
+      "note": "Tremonton-side end; census: joins I-84/S-30 record 42752 exactly. The chain stops at a junction beyond the corridor's Salt Lake end.",
+      "segment_id": "i15-salt-lake-to-cove-fort"
+    },
+    {
+      "classification": "covered_by_site_disposition",
+      "end_id": "end-0038590-00-end",
+      "note": "Topock site pair end (Q-034b).",
+      "segment_id": "i40-i81-to-barstow"
+    },
+    {
+      "classification": "covered_by_site_disposition",
+      "end_id": "end-0038595-00-start",
+      "note": "Topock site pair end (Q-034b).",
+      "segment_id": "i40-i81-to-barstow"
+    },
+    {
+      "classification": "covered_by_site_disposition",
+      "end_id": "end-0218835-00-start",
+      "note": "Memphis site pair end (218838 scoped-acquisition candidate).",
+      "segment_id": "i40-i81-to-barstow"
+    },
+    {
+      "classification": "covered_by_site_disposition",
+      "end_id": "end-0219194-00-end",
+      "note": "Memphis site pair end (218838 scoped-acquisition candidate).",
+      "segment_id": "i40-i81-to-barstow"
+    },
+    {
+      "classification": "covered_by_site_disposition",
+      "end_id": "end-0587409-00-end",
+      "note": "Albuquerque Big-I site pair end (NHS fill).",
+      "segment_id": "i40-i81-to-barstow"
+    },
+    {
+      "classification": "covered_by_site_disposition",
+      "end_id": "end-0587450-00-start",
+      "note": "Albuquerque Big-I site pair end (NHS fill).",
+      "segment_id": "i40-i81-to-barstow"
+    },
+    {
+      "classification": "fragment_embedded_in_other_route",
+      "end_id": "end-0588342-00-start",
+      "note": "Albuquerque fragment end; census: joins unsigned record 588344 exactly. Corridor continuity is the segment's NHS-fill disposition.",
+      "segment_id": "i40-i81-to-barstow"
+    },
+    {
+      "classification": "fragment_embedded_in_other_route",
+      "end_id": "end-0591093-00-end",
+      "note": "Albuquerque fragment end; census: joins historic US-66/S-337 records exactly.",
+      "segment_id": "i40-i81-to-barstow"
+    },
+    {
+      "classification": "beyond_corridor_continuation",
+      "end_id": "end-0250917-00-end",
+      "note": "Knoxville-side end; census: joins I-275 record 247816 exactly. The chain stops at a junction near the corridor's eastern anchor.",
+      "segment_id": "i40-i81-to-barstow"
+    },
+    {
+      "classification": "covered_by_site_disposition",
+      "end_id": "end-0060295-00-end",
+      "note": "Rifle site pair end (NHS fill); census: joins US-6 record 60293 exactly, aligned 0.0 degrees.",
+      "segment_id": "i70-denver-to-cove-fort"
+    },
+    {
+      "classification": "covered_by_site_disposition",
+      "end_id": "end-0060300-00-start",
+      "note": "Rifle site pair end (NHS fill); the one-sided void's western end.",
+      "segment_id": "i70-denver-to-cove-fort"
+    },
+    {
+      "classification": "covered_by_site_disposition",
+      "end_id": "end-0063225-00-start",
+      "note": "Denver site eastern end (59709 scoped-acquisition candidate); the western side is the from-anchor component's far end, recorded anchor-side by the census and the sweep alike.",
+      "segment_id": "i70-denver-to-cove-fort"
+    },
+    {
+      "classification": "beyond_corridor_continuation",
+      "end_id": "end-0042513-00-start",
+      "note": "Fremont Junction end; census: joins S-72 record 42510 exactly. A spur end the site selection does not need to join the components.",
+      "segment_id": "i70-denver-to-cove-fort"
+    },
+    {
+      "classification": "beyond_corridor_continuation",
+      "end_id": "end-0070398-00-end",
+      "note": "Kanorado end; census: joins the Kansas I-70 key (70438) - the declared route in an undeclared state, beyond the corridor's Denver end.",
+      "segment_id": "i70-denver-to-cove-fort"
+    },
+    {
+      "classification": "covered_by_site_disposition",
+      "end_id": "end-0427271-00-start",
+      "note": "Delaware River site pair end (NHS fill), Pennsylvania side.",
+      "segment_id": "i78-holland-tunnel-to-i81"
+    },
+    {
+      "classification": "covered_by_site_disposition",
+      "end_id": "end-0427281-00-end",
+      "note": "Delaware River site pair end (NHS fill), New Jersey side.",
+      "segment_id": "i78-holland-tunnel-to-i81"
+    },
+    {
+      "classification": "covered_by_site_disposition",
+      "end_id": "end-0428678-00-end",
+      "note": "Jersey City approach end; census: joins US-22 record 427523 exactly. Resolved with the anchor-from disposition (Q-034c).",
+      "segment_id": "i78-holland-tunnel-to-i81"
+    },
+    {
+      "classification": "covered_by_site_disposition",
+      "end_id": "end-0434167-00-start",
+      "note": "Jersey City approach end; census: joins the NJ-139-key record 434168 exactly. Resolved with the anchor-from disposition (Q-034c).",
+      "segment_id": "i78-holland-tunnel-to-i81"
+    },
+    {
+      "classification": "covered_by_site_disposition",
+      "end_id": "end-0189077-00-start",
+      "note": "Omaha micro-gap pair end (bounded exception).",
+      "segment_id": "i80-new-jersey-to-big-springs"
+    },
+    {
+      "classification": "covered_by_site_disposition",
+      "end_id": "end-0189376-00-start",
+      "note": "Omaha micro-gap pair end (bounded exception).",
+      "segment_id": "i80-new-jersey-to-big-springs"
+    },
+    {
+      "classification": "covered_by_site_disposition",
+      "end_id": "end-0229620-00-end",
+      "note": "Quad Cities pair end (bounded exception).",
+      "segment_id": "i80-new-jersey-to-big-springs"
+    },
+    {
+      "classification": "covered_by_site_disposition",
+      "end_id": "end-0229624-00-start",
+      "note": "Quad Cities pair end (bounded exception).",
+      "segment_id": "i80-new-jersey-to-big-springs"
+    },
+    {
+      "classification": "beyond_corridor_continuation",
+      "end_id": "end-0261177-00-end",
+      "note": "Chicago-area branch end; census: joins I-294 record 261170 exactly. A spur end the site selection does not need to join the components.",
+      "segment_id": "i80-new-jersey-to-big-springs"
+    }
+  ],
+  "decision": "ADR-0024",
+  "disposition_counts": {
+    "ambiguous": 4,
+    "bounded_reconstruction_exception": 2,
+    "nhpn_scoped_acquisition": 3,
+    "nhs_fill": 5
+  },
+  "edge_path_lock_sha256": "a0d4e7914faa9e1c0b0b16b8972b17963c829d9ea0a059de9e854c66ab5e8be0",
+  "evidence": [
+    {
+      "path": "docs/audits/p0-021/2026-08-30-geometric-break-probe.md"
+    },
+    {
+      "path": "docs/audits/p0-021/2026-08-30-spatial-break-probe.md"
+    },
+    {
+      "path": "docs/audits/p0-021/2026-08-27-large-gap-probe.md"
+    },
+    {
+      "path": "docs/audits/p0-021/2026-08-31-per-site-disposition.md"
+    },
+    {
+      "artifact": ".tools/continental/interior-sweep.json",
+      "sha256": "849c5db967f0b8503aab6d034419d38f1cd4d3f7b324d681cb2a5698f9fc7f69"
+    },
+    {
+      "artifact": ".tools/continental/nhs-break-probe.json",
+      "sha256": "db2c70de279bc551512d8cffb7ceb39739a697ae6de5bb263b7e224fd9d695ef"
+    }
+  ],
+  "implementation": {
+    "deferred_to_lock_revision": [
+      "scoped NHPN acquisition of OBJECTIDs 43839, 43841, 218838, and 59709 into the candidate lock, which requires a supplementary-acquisition extension of the lock schema and cascades through the transfer and edge-path locks in one coherent slice",
+      "NHS centerline acquisition locks for the five nhs_fill sites and the NHPN-to-NHS conflation model ADR-0026 names",
+      "authoring the two bounded micro-gap overlays through the ADR-0018 generation gates once the reconstruction stage exists",
+      "the Q-034a-d sub-item decisions (downtown Los Angeles mainline review, the Topock tee mechanism, and both transfer-anchor re-derivations)"
+    ],
+    "implemented_this_slice": [
+      "the bounded interior sweep of the four over-wide gap interiors (probe-continental-gap-interiors) and its checksummed evidence",
+      "the ADR-0026 NHS acquisition capability and scoped NHS probes at all 14 sites and 4 interiors (probe-continental-nhs-breaks)",
+      "this per-site disposition record and its validator (validate-continental-break-dispositions), wired into scripts/validate-continental-route.sh"
+    ]
+  },
+  "nhs_service": {
+    "canonical_metadata_sha256": "a29f96df0512d0748d0c243cf15867d432439f6df5927d9b9d682e167410c027",
+    "data_last_edit_epoch_ms": 1778183346545,
+    "source_id": "usdot-ntad-national-highway-system"
+  },
+  "open_question": "Q-034",
+  "route_selection_sha256": "00ac4df354a8644997a2a073ee07c736ff3f3bc2d2565c8cd9cb51b957d2ff2f",
+  "schema_version": 1,
+  "site_count": 14,
+  "sites": [
+    {
+      "blocking_question": "Which exact NHPN records constitute the westbound I-10 mainline through downtown Los Angeles - the S-10-signed continuation on key 000000001001037, not the shortest undirected S-10/U-101 path - and does the ADR-0024 I-10-to-I-405 transfer follow that mainline? Requires a directed whole-key milepost review before any scoped acquisition; the second 3,116.6 m downtown pairing shares this review.",
+      "disposition": "ambiguous",
+      "evidence_summary": "Geometric probe: a 22-record undirected S-10/U-101 path exists. Census: exact 0.0 m same-key joins; the eastern end continues as S-10 on the segment's own LRS key 000000001001037. Interior sweep: both downtown interiors carry I-5/US-101/S-60 records on the straight chord while the S-10 records cross it at 77-82 degrees (the mainline curves away from the chord). NHS: CA route SHS_010._P signed I-10/S-10 with continuous measures 15.824-17.572 across the site.",
+      "from_coordinate": {
+        "latitude": 34.033727000001,
+        "longitude": -118.220917999866
+      },
+      "kind": "component_gap",
+      "q034_subitem": "Q-034a",
+      "segment_id": "i10-ontario-to-i405",
+      "separation_m": 2491.563,
+      "site_id": "i10-ontario-to-i405--component-00-01",
+      "to_coordinate": {
+        "latitude": 34.055073999665,
+        "longitude": -118.213082000034
+      }
+    },
+    {
+      "corridor_fit": "US-189-signed records carrying the I-15 corridor across an 88.176 m authoring break near Payson; the source asserts both joins at shared coordinates, and NHS carries I-15 continuously through the same window.",
+      "direction_review": "Both records are exact-endpoint continuations of the broken chain ends; the 44-degree grade marks a curving connector, not a crossing. Acquisition adds route-family candidates only - the westbound directed edge selection remains the later solve, which may reject either record.",
+      "disposition": "nhpn_scoped_acquisition",
+      "evidence_summary": "Census: OBJECTIDs 43841 and 43839 join the two chain ends with exact 0.0 m endpoint offsets, signed U-189, graded 0.4 degrees at one end and 44 degrees at the other (a curving connector). Geometric probe: 43841 supplies the undirected path. NHS corroborates: UT route 0015PM (I-15) continuous 263.07-265.59 and 0189PM (US-189) 0.0-0.502 across the site.",
+      "from_coordinate": {
+        "latitude": 40.20823900023,
+        "longitude": -111.658556999606
+      },
+      "joining_object_ids": [
+        43839,
+        43841
+      ],
+      "kind": "component_gap",
+      "segment_id": "i15-salt-lake-to-cove-fort",
+      "separation_m": 88.176,
+      "site_id": "i15-salt-lake-to-cove-fort--component-00-01",
+      "to_coordinate": {
+        "latitude": 40.20896100025,
+        "longitude": -111.658972999904
+      }
+    },
+    {
+      "disposition": "nhs_fill",
+      "evidence_summary": "The 27,347 m pairing isolates a 0.267-mile fragment embedded in US-6 pavement (census: fragment ends join US-6 records 42098 and 42792 exactly). The 2026-08-27 whole-key probe proved NHPN carries no records in the corridor's milepost range: this is the 2,400.9-mile no-records class ADR-0026 adopted NHS for.",
+      "from_coordinate": {
+        "latitude": 40.20823900023,
+        "longitude": -111.658556999606
+      },
+      "kind": "component_gap",
+      "nhs_evidence": {
+        "probe_artifact_sha256": "db2c70de279bc551512d8cffb7ceb39739a697ae6de5bb263b7e224fd9d695ef",
+        "service_metadata_sha256": "a29f96df0512d0748d0c243cf15867d432439f6df5927d9b9d682e167410c027",
+        "summary": "NHS route 49/0015PM (I-15) spans the entire site with 62 records, continuous measures 244.838-265.59, zero measure gap."
+      },
+      "segment_id": "i15-salt-lake-to-cove-fort",
+      "separation_m": 27347.243,
+      "site_id": "i15-salt-lake-to-cove-fort--component-00-02",
+      "to_coordinate": {
+        "latitude": 39.978729000443,
+        "longitude": -111.768689999943
+      }
+    },
+    {
+      "blocking_question": "The tee geometry cannot establish corridor fit for the crossing route's records: closing the 14.069 m either acquires 14 m slivers of AZ-95 pavement, or uses NHS centerlines, or is authored as a bounded exception (it sits under the 30 m ceiling). Which mechanism applies is a policy choice the evidence does not force; NAIP adjudication may settle the physical geometry first.",
+      "disposition": "ambiguous",
+      "evidence_summary": "Census: S-95 records 38597 and 38596 join both ends exactly but meet the corridor at ~88 degrees - a tee with the crossing route at Topock, not a continuation. NHS: AZ route 'I 040' (I-40) continuous 0.23-3.222 across the 14.069 m site.",
+      "from_coordinate": {
+        "latitude": 34.718109999677,
+        "longitude": -114.478224999884
+      },
+      "kind": "component_gap",
+      "q034_subitem": "Q-034b",
+      "segment_id": "i40-i81-to-barstow",
+      "separation_m": 14.069,
+      "site_id": "i40-i81-to-barstow--component-00-01",
+      "to_coordinate": {
+        "latitude": 34.717986000254,
+        "longitude": -114.478198999584
+      }
+    },
+    {
+      "disposition": "nhs_fill",
+      "evidence_summary": "Interior sweep: the 1,854 m Big-I interior carries zero on-axis records - only frontage roads aligned 300+ m off the chord (21 aligned_off_axis) - so the NHPN mainline void spans the whole gap, confirming the census's per-end finding.",
+      "from_coordinate": {
+        "latitude": 35.106657999567,
+        "longitude": -106.650371999968
+      },
+      "kind": "component_gap",
+      "nhs_evidence": {
+        "probe_artifact_sha256": "db2c70de279bc551512d8cffb7ceb39739a697ae6de5bb263b7e224fd9d695ef",
+        "service_metadata_sha256": "a29f96df0512d0748d0c243cf15867d432439f6df5927d9b9d682e167410c027",
+        "summary": "NHS route 35/I40P (I-40) spans the interior with 10 records, continuous measures 157.995-159.61, zero measure gap, through the Albuquerque I-40/I-25 interchange."
+      },
+      "segment_id": "i40-i81-to-barstow",
+      "separation_m": 1854.0,
+      "site_id": "i40-i81-to-barstow--component-01-02",
+      "to_coordinate": {
+        "latitude": 35.105119999688,
+        "longitude": -106.629949999793
+      }
+    },
+    {
+      "disposition": "nhs_fill",
+      "evidence_summary": "The 13,572 m pairing isolates the six-mile Albuquerque fragment whose ends join an unsigned record (588344) and historic US-66/S-337 records exactly (census). The corridor between the fragment and the main chain is NHPN-void on its keys per the 2026-08-27 probe.",
+      "from_coordinate": {
+        "latitude": 35.105119999688,
+        "longitude": -106.629949999793
+      },
+      "kind": "component_gap",
+      "nhs_evidence": {
+        "probe_artifact_sha256": "db2c70de279bc551512d8cffb7ceb39739a697ae6de5bb263b7e224fd9d695ef",
+        "service_metadata_sha256": "a29f96df0512d0748d0c243cf15867d432439f6df5927d9b9d682e167410c027",
+        "summary": "NHS route 35/I40P (I-40) spans the site with 25 records, continuous measures 159.149-168.85, zero measure gap."
+      },
+      "segment_id": "i40-i81-to-barstow",
+      "separation_m": 13571.622,
+      "site_id": "i40-i81-to-barstow--component-02-03",
+      "to_coordinate": {
+        "latitude": 35.065702000347,
+        "longitude": -106.487996999762
+      }
+    },
+    {
+      "corridor_fit": "An unsigned inventory section of the I-40 mainline near Memphis, invisible to the sign-filtered predicate, joining both locked chain ends at shared coordinates.",
+      "direction_review": "An aligned (3-degree) same-carriageway continuation whose record extent exactly fills the milepost space between the locked ends; acquisition adds a candidate only - the westbound directed selection remains the later solve.",
+      "disposition": "nhpn_scoped_acquisition",
+      "evidence_summary": "Census: unsigned OBJECTID 218838 joins exactly (0.0 m), aligned within 3 degrees, and its mileposts 2.227-2.378 exactly fill the space between the two ends' records across two keys - the unsigned concurrency the large-gap probe hypothesised, confirmed in identity and linear referencing. NHS corroborates: TN route 79I0040001 (I-40) continuous 1.45-2.54.",
+      "from_coordinate": {
+        "latitude": 35.150022000115,
+        "longitude": -90.029481999694
+      },
+      "joining_object_ids": [
+        218838
+      ],
+      "kind": "component_gap",
+      "segment_id": "i40-i81-to-barstow",
+      "separation_m": 228.362,
+      "site_id": "i40-i81-to-barstow--component-02-04",
+      "to_coordinate": {
+        "latitude": 35.149970999562,
+        "longitude": -90.026955000073
+      }
+    },
+    {
+      "disposition": "nhs_fill",
+      "evidence_summary": "Census: the void is one-sided - the east end joins US-6 record 60293 exactly (aligned 0.0 degrees) while the west end (60300) joins nothing, with US-6 records running parallel 74-89 m away. NHPN cannot supply the west side of the 320 m Rifle break under any sign or state.",
+      "from_coordinate": {
+        "latitude": 39.510333000168,
+        "longitude": -107.875541999963
+      },
+      "kind": "component_gap",
+      "nhs_evidence": {
+        "probe_artifact_sha256": "db2c70de279bc551512d8cffb7ceb39739a697ae6de5bb263b7e224fd9d695ef",
+        "service_metadata_sha256": "a29f96df0512d0748d0c243cf15867d432439f6df5927d9b9d682e167410c027",
+        "summary": "NHS route 08/070A (I-70) spans the site as a single feature with measures 81.364-86.984. The exact-joining US-6 record 60293 remains a named NHPN candidate for the east half if the lock revision prefers it; the disposition for the void is NHS."
+      },
+      "segment_id": "i70-denver-to-cove-fort",
+      "separation_m": 320.0,
+      "site_id": "i70-denver-to-cove-fort--component-00-01",
+      "to_coordinate": {
+        "latitude": 39.510925999635,
+        "longitude": -107.871867999608
+      }
+    },
+    {
+      "corridor_fit": "The record joins the two I-70 sections at their shared junction node; it is the corridor's own pavement carried under I-270/US-36 signage.",
+      "direction_review": "A 5.8 m aligned continuation of the through carriageway where I-70's LRS sections meet; authored under the crossing routes' signs, which is why the predicate excluded it. Candidate only; the westbound solve still selects edges.",
+      "disposition": "nhpn_scoped_acquisition",
+      "evidence_summary": "Geometric probe: OBJECTID 59709 (signed I-270/U-36) supplies the local path across the 5.819 m break; census grades its eastern join exact (0.0 m) and aligned 1.1 degrees. The two chain ends are mileposts 280.4 and 4.9 of one key - the junction point of I-70's own LRS sections at the I-270/US-36 interchange. NHS: CO route 070A (I-70) continuous 279.395-280.498 plus a distinct 270A route.",
+      "from_coordinate": {
+        "latitude": 39.778351999645,
+        "longitude": -104.896800999766
+      },
+      "joining_object_ids": [
+        59709
+      ],
+      "kind": "component_gap",
+      "segment_id": "i70-denver-to-cove-fort",
+      "separation_m": 5.819,
+      "site_id": "i70-denver-to-cove-fort--component-01-02",
+      "to_coordinate": {
+        "latitude": 39.778321000014,
+        "longitude": -104.896745999928
+      }
+    },
+    {
+      "blocking_question": "Whether to re-derive the from-anchor under the transfer policy (lock-affecting) or scope-acquire the NHPN approach records the census names; an anchor decision changes the transfer lock and is out of scope for a probe-evidence disposition.",
+      "disposition": "ambiguous",
+      "evidence_summary": "The locked from-anchor sits 381.157 m from any candidate endpoint - a transfer-anchor mismatch, not a road break; the geometric probe found the anchor outside the local source graph (4 features, no path). Census: the segment's Jersey City approach ends join US-22 (427523) and an NJ-139-key record (434168). NHS: NJ I-78 (00000078__) continuous 66.339-67.16 through the anchor window.",
+      "from_coordinate": {
+        "latitude": 40.72927608447,
+        "longitude": -74.035214779672
+      },
+      "kind": "anchor_gap",
+      "q034_subitem": "Q-034c",
+      "segment_id": "i78-holland-tunnel-to-i81",
+      "separation_m": 381.157,
+      "site_id": "i78-holland-tunnel-to-i81--anchor-from",
+      "to_coordinate": {
+        "latitude": 40.72994300007,
+        "longitude": -74.039676999994
+      }
+    },
+    {
+      "disposition": "nhs_fill",
+      "evidence_summary": "Interior sweep: the 3,022 m Delaware River interior carries only S-611 and unsigned crossing records (47.6-76 degrees to the chord); the mid-river window returns zero NHPN features. The census found the NJ end joins nothing and the PA end joins only an unsigned crossing record (427293, ~85 degrees).",
+      "from_coordinate": {
+        "latitude": 40.67034299993,
+        "longitude": -75.213843999701
+      },
+      "kind": "component_gap",
+      "nhs_evidence": {
+        "probe_artifact_sha256": "db2c70de279bc551512d8cffb7ceb39739a697ae6de5bb263b7e224fd9d695ef",
+        "service_metadata_sha256": "a29f96df0512d0748d0c243cf15867d432439f6df5927d9b9d682e167410c027",
+        "summary": "NHS route 42/'6 48 48B3 - 86216' (I-78) spans the river with 2 records, continuous measures 0.0-2.669, zero measure gap - the I-78 toll bridge crossing."
+      },
+      "segment_id": "i78-holland-tunnel-to-i81",
+      "separation_m": 3021.991,
+      "site_id": "i78-holland-tunnel-to-i81--component-00-01",
+      "to_coordinate": {
+        "latitude": 40.67191699967,
+        "longitude": -75.1778570003
+      }
+    },
+    {
+      "blocking_question": "Same class as Q-034c: re-derive the anchor under the transfer policy or scope-acquire the approach records; either changes a lock and needs its own reviewed slice.",
+      "disposition": "ambiguous",
+      "evidence_summary": "The locked from-anchor sits 253.027 m from any candidate endpoint - the second transfer-anchor mismatch; the geometric probe found the anchor outside the local source graph (5 features, no path). NHS: NJ I-80 (00000080__) continuous 42.57-43.27 through the anchor window.",
+      "from_coordinate": {
+        "latitude": 40.865474227172,
+        "longitude": -74.429603688176
+      },
+      "kind": "anchor_gap",
+      "q034_subitem": "Q-034d",
+      "segment_id": "i80-new-jersey-to-big-springs",
+      "separation_m": 253.027,
+      "site_id": "i80-new-jersey-to-big-springs--anchor-from",
+      "to_coordinate": {
+        "latitude": 40.865707999824,
+        "longitude": -74.432613999936
+      }
+    },
+    {
+      "disposition": "bounded_reconstruction_exception",
+      "evidence_summary": "Both probes agree the 1.011 m Omaha pair is milepost-contiguous and joined by nothing: no third feature exists in the source, and the nearest other features are a US-275/S-92 crossing ~470 m away. The gap is 11 mm beyond the locked 1 m endpoint tolerance and sits inside the 1.61 m milepost quantum. NHS: NE route 080 (I-80) continuous 445.05-445.48 across the point.",
+      "exception": {
+        "boundary": {
+          "from_coordinate": {
+            "latitude": 41.216201000276,
+            "longitude": -96.09089100022
+          },
+          "length_m": 1.011,
+          "to_coordinate": {
+            "latitude": 41.216209999792,
+            "longitude": -96.090892000266
+          }
+        },
+        "kind": "authoring_micro_gap",
+        "rationale": "The source asserts adjacency in linear referencing (one record's END_POINT equals the other's BEGIN_POIN on the same key) while authoring no joining geometry; no acquisition can close it. A deterministic ADR-0018 authored overlay bounded to this 1.011 m span closes it without widening the 1 m snap tolerance, which stays unchanged."
+      },
+      "from_coordinate": {
+        "latitude": 41.216201000276,
+        "longitude": -96.09089100022
+      },
+      "kind": "component_gap",
+      "segment_id": "i80-new-jersey-to-big-springs",
+      "separation_m": 1.011,
+      "site_id": "i80-new-jersey-to-big-springs--component-00-01",
+      "to_coordinate": {
+        "latitude": 41.216209999792,
+        "longitude": -96.090892000266
+      }
+    },
+    {
+      "disposition": "bounded_reconstruction_exception",
+      "evidence_summary": "The Quad Cities 9.190 m pair is milepost-contiguous on its own key, and I-74/I-280 records 229625/229626 join the two ends exactly (0.000 m each) while sitting 9.190 m from each other - the identical gap replicated through the joining pavement, one authoring discontinuity shared by two route families. NHS: IL I-80 (037  10080 000000) 3.91-5.52 and I-74 continuous across the site.",
+      "exception": {
+        "boundary": {
+          "from_coordinate": {
+            "latitude": 41.440105999692,
+            "longitude": -90.3299479999
+          },
+          "length_m": 9.19,
+          "to_coordinate": {
+            "latitude": 41.440180000407,
+            "longitude": -90.329900000385
+          }
+        },
+        "kind": "authoring_micro_gap",
+        "rationale": "Acquiring the joining I-74/I-280 records cannot close the break - they carry the same 9.190 m discontinuity, which is why the unfiltered local graph finds no path. The source asserts milepost adjacency across the gap; a deterministic ADR-0018 authored overlay bounded to this 9.190 m span is the only closure. The 1 m snap tolerance stays unchanged."
+      },
+      "from_coordinate": {
+        "latitude": 41.440105999692,
+        "longitude": -90.3299479999
+      },
+      "kind": "component_gap",
+      "segment_id": "i80-new-jersey-to-big-springs",
+      "separation_m": 9.19,
+      "site_id": "i80-new-jersey-to-big-springs--component-01-02",
+      "to_coordinate": {
+        "latitude": 41.440180000407,
+        "longitude": -90.329900000385
+      }
+    }
+  ],
+  "source_policy": {
+    "bridging_performed": false,
+    "locks_modified": false,
+    "openstreetmap_ancestry_allowed": false,
+    "tolerance_changed": false
+  },
+  "status": "dispositions_recorded_lock_revision_pending",
+  "transfer_lock_sha256": "37cf05ee41a19e23a3ef647d4bdea3a64df5dba2dce123a65851517d91a8fdd4"
+}
