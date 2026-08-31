@@ -116,6 +116,14 @@ func _accept_connection() -> void:
 	if Time.get_ticks_msec() < _auth_blocked_until_ms:
 		candidate.disconnect_from_host()
 		return
+	if _peer != null:
+		# Poll before judging the previous peer: its status is only refreshed by
+		# poll(), and this runs before _poll_connection each frame. Without the
+		# poll, a client that closed its socket and immediately reconnected was
+		# refused for one frame because the stale peer still reported
+		# STATUS_CONNECTED, and the new connection was dropped without any
+		# response (observed as a live-suite NoneType flake on Windows CI).
+		_peer.poll()
 	if _peer != null and _peer.get_status() == StreamPeerTCP.STATUS_CONNECTED:
 		candidate.disconnect_from_host()
 		return

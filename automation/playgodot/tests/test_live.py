@@ -21,7 +21,7 @@ from cannonball_playgodot import (
     ProtocolError,
 )
 
-from .input_support import wait_for_key_conditioner
+from .input_support import wait_for_describe, wait_for_key_conditioner
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 MAX_RAW_LOG_BYTES = 2_000_000
@@ -122,24 +122,48 @@ def _write_bounded_log(log: BinaryIO, line: bytes) -> None:
         log.flush()
 
 
-async def _raw_request(host: str, port: int, payload: bytes) -> dict | None:
-    for attempt in range(3):
-        reader, writer = await asyncio.open_connection(host, port)
+async def _raw_request(
+    host: str, port: int, payload: bytes, *, allow_empty: bool = False
+) -> dict | None:
+    """Send one raw line and return the decoded response.
+
+    The bridge accepts a single connection at a time and refuses a new
+    candidate while a stale previous peer has not yet been observed as closed,
+    dropping it without any response. A connection reset or an empty read is
+    therefore a transient of connection turnover, never an answer: retry it
+    within a bounded deadline (red-main #100 was this returning None on
+    Windows CI and the caller subscripting it). Refused candidates carry no
+    application data, so retrying cannot double-apply a request.
+
+    ``allow_empty`` callers accept "closed without a response" as a legitimate
+    final outcome (the oversized-request probe); everyone else gets a failure
+    with diagnostics when the deadline expires.
+    """
+    deadline = asyncio.get_running_loop().time() + 5.0
+    while True:
+        empty_reason = "connection closed before a response line arrived"
         try:
-            writer.write(payload + b"\n")
-            await writer.drain()
-            line = await asyncio.wait_for(reader.readline(), 2)
-            return json.loads(line) if line else None
-        except ConnectionResetError:
-            if attempt == 2:
-                raise
-            await asyncio.sleep(0.1)
-        finally:
-            writer.close()
-            with contextlib.suppress(ConnectionError):
-                await writer.wait_closed()
-            await asyncio.sleep(0.05)
-    raise AssertionError("raw request retry loop exhausted")
+            reader, writer = await asyncio.open_connection(host, port)
+        except ConnectionError:
+            empty_reason = "connection attempt was refused"
+        else:
+            try:
+                writer.write(payload + b"\n")
+                await writer.drain()
+                line = await asyncio.wait_for(reader.readline(), 2)
+                if line:
+                    return json.loads(line)
+            except ConnectionResetError:
+                empty_reason = "connection was reset before a response line arrived"
+            finally:
+                writer.close()
+                with contextlib.suppress(ConnectionError):
+                    await writer.wait_closed()
+        if asyncio.get_running_loop().time() >= deadline:
+            if allow_empty:
+                return None
+            pytest.fail(f"Raw request retry deadline expired; last attempt: {empty_reason}")
+        await asyncio.sleep(0.05)
 
 
 async def _connect_after_session_cleanup(
@@ -207,16 +231,33 @@ async def test_official_engine_semantic_round_trip(tmp_path: Path) -> None:
         assert cockpit_state["maximum_stabilization_degrees"] == 6
         assert cockpit_state["maximum_look_yaw_degrees"] == 72
         assert cockpit_state["maximum_look_pitch_degrees"] == 24
+        # The camera toggle is polled by the vehicle, so hold the action until
+        # its effect is observed before releasing: releasing after a fixed
+        # sleep raced the polling tick and could drop the toggle entirely.
         await client.request("input.action", {"action": "toggle_camera", "state": "press"})
-        await asyncio.sleep(0.05)
+        await wait_for_describe(
+            client,
+            "camera.cockpit.view",
+            lambda state: state["test_state"]["active"] is True,
+            "Camera toggle to cockpit was not observed",
+        )
         await client.request("input.action", {"action": "toggle_camera", "state": "release"})
-        await asyncio.sleep(0.05)
         assert (await client.describe("camera.chase.rig"))["test_state"]["active"] is False
         assert (await client.describe("camera.cockpit.view"))["test_state"]["active"] is True
+        # The camera toggle is edge-detected in the vehicle's physics phase, so
+        # the release must be observed by a physics tick before the next press
+        # can register a rising edge. 50 ms accumulates several 120 Hz ticks on
+        # any runner; without it the re-press can land in a frame whose physics
+        # phase never saw the released state, and the second toggle is lost.
+        await asyncio.sleep(0.05)
         await client.request("input.action", {"action": "toggle_camera", "state": "press"})
-        await asyncio.sleep(0.05)
+        await wait_for_describe(
+            client,
+            "camera.chase.rig",
+            lambda state: state["test_state"]["active"] is True,
+            "Camera toggle back to chase was not observed",
+        )
         await client.request("input.action", {"action": "toggle_camera", "state": "release"})
-        await asyncio.sleep(0.05)
         assert (await client.describe("camera.chase.rig"))["test_state"]["active"] is True
 
         speed = await client.describe("hud.speed")
@@ -307,14 +348,15 @@ async def test_official_engine_semantic_round_trip(tmp_path: Path) -> None:
             )
         )
         await asyncio.sleep(0)
+        # The trip-map toggle is polled by Main, so hold the action until the
+        # visibility change confirms it was observed before releasing.
         await client.request(
             "input.action", {"action": "toggle_trip_map", "state": "press"}
         )
-        await asyncio.sleep(0.05)
+        assert (await wait_for_trip_map)["signal"] == "visibility_changed"
         await client.request(
             "input.action", {"action": "toggle_trip_map", "state": "release"}
         )
-        assert (await wait_for_trip_map)["signal"] == "visibility_changed"
 
         trip_map = await client.describe("trip-map.root")
         assert trip_map["visible"] is True
@@ -495,14 +537,21 @@ async def test_trip_map_resume_preserves_vehicle_vertical_stability(tmp_path: Pa
                 )
                 await asyncio.sleep(0.02)
 
+            # Hold the polled toggle action until the trip map is observed
+            # open, then release: releasing after a fixed sleep raced the
+            # polling frame and could drop the toggle entirely.
             await client.request(
                 "input.action", {"action": "toggle_trip_map", "state": "press"}
             )
-            await asyncio.sleep(0.05)
+            trip_map = await wait_for_describe(
+                client,
+                "trip-map.root",
+                lambda state: state["visible"] is True,
+                "Trip Overview did not open for the resume probe",
+            )
             await client.request(
                 "input.action", {"action": "toggle_trip_map", "state": "release"}
             )
-            trip_map = await client.describe("trip-map.root")
             assert trip_map["visible"] is True
             assert trip_map["test_state"]["simulation_paused"] is True
             paused_start = (await client.describe("run.session"))["test_state"]
@@ -520,10 +569,43 @@ async def test_trip_map_resume_preserves_vehicle_vertical_stability(tmp_path: Pa
                 assert paused[field] == pytest.approx(paused_start[field], abs=0.001)
 
             await client.request("input.click", {"automation_id": "trip-map.close"})
+            # Watch the resume transient until the vertical motion has settled:
+            # the vehicle has demonstrably moved since the pause (so the
+            # simulation is really running again) and two consecutive grounded
+            # samples agree on vertical velocity. A fixed one-second wall-clock
+            # window sampled a runner-dependent stretch of road, folding
+            # legitimate terrain motion into the transient bounds; the settle
+            # condition ends the watch deterministically, a resume impulse
+            # defers settling until it has been captured, and the generous
+            # deadline fails with diagnostics instead of racing.
             samples = []
-            deadline = asyncio.get_running_loop().time() + 1.0
-            while asyncio.get_running_loop().time() < deadline:
-                samples.append((await client.describe("run.session"))["test_state"])
+            deadline = asyncio.get_running_loop().time() + 8.0
+            previous = None
+            while True:
+                sample = (await client.describe("run.session"))["test_state"]
+                samples.append(sample)
+                moved_meters = max(
+                    abs(sample["vehicle_position_x"] - paused["vehicle_position_x"]),
+                    abs(sample["vehicle_position_z"] - paused["vehicle_position_z"]),
+                )
+                if (
+                    previous is not None
+                    and moved_meters > 1.0
+                    and sample["grounded_wheel_count"] >= 3
+                    and previous["grounded_wheel_count"] >= 3
+                    and abs(
+                        sample["vehicle_linear_velocity_y"]
+                        - previous["vehicle_linear_velocity_y"]
+                    )
+                    <= 0.25
+                ):
+                    break
+                if asyncio.get_running_loop().time() >= deadline:
+                    pytest.fail(
+                        "Vehicle vertical motion did not settle after the Trip "
+                        f"Overview resume; last sample={sample}"
+                    )
+                previous = sample
                 await asyncio.sleep(0.02)
 
             maximum_vertical_rise = max(
@@ -772,8 +854,14 @@ async def test_hostile_requests_fail_closed_and_are_transcribed(tmp_path: Path) 
         await asyncio.sleep(0.1)
 
         second_client = await _connect_after_session_cleanup(host, port, token=token)
-        await asyncio.sleep(0.25)
-        released_action_state = await second_client.describe("playgodot.fixture.action-state")
+        # Session cleanup releases the abandoned action; wait for the fixture
+        # to observe the release instead of sampling after a fixed sleep.
+        released_action_state = await wait_for_describe(
+            second_client,
+            "playgodot.fixture.action-state",
+            lambda state: state["text"] == "released",
+            "Abandoned injected action was not released by session cleanup",
+        )
         assert released_action_state["text"] == "released"
         capacity_results = await asyncio.gather(
             *(
@@ -819,7 +907,7 @@ async def test_hostile_requests_fail_closed_and_are_transcribed(tmp_path: Path) 
         rejected = await _raw_request(host, port, wrong_token)
         assert rejected["error"]["name"] == "AUTH_FAILED"
 
-        oversized = await _raw_request(host, port, b"x" * 65_537)
+        oversized = await _raw_request(host, port, b"x" * 65_537, allow_empty=True)
         assert oversized is None or oversized["error"]["name"] == "LIMIT_EXCEEDED"
 
     outcomes = {json.loads(line)["outcome"] for line in transcript.read_text().splitlines()}

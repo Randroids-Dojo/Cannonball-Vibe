@@ -113,6 +113,19 @@ public sealed partial class CannonballVehicle : RigidBody3D
         var input = AutomationInputOverride ?? (AutopilotEnabled
             ? ReadAutopilot()
             : DrivingInputController.Read(forwardSpeed, delta, AssistProfile));
+        if (GetTree().Paused)
+        {
+            // Main keeps this subtree in ProcessMode.Always, so these callbacks
+            // continue while the tree is paused - but a paused tree deactivates
+            // the physics server, so the space never steps. Any force applied
+            // here would accumulate for the whole pause and integrate as a
+            // single impulse on resume: a 0.5 s trip-map pause measurably
+            // launched the vehicle upward at ~5 m/s on CI, scaling with pause
+            // length. Input conditioning above still runs so pause suppression
+            // can observe neutral input; everything that pushes the body must
+            // wait for the simulation to actually run.
+            return;
+        }
         if (input.Reset || _resetRequested || Position.Y < -20)
         {
             ResetToRoad();
