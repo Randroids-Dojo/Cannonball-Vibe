@@ -113,12 +113,23 @@ public sealed partial class DrivingInputController : Node
 
     public void ClearAndSuppress(string reason)
     {
-        _conditioner.Reset();
         _suppressUntilNeutral = true;
         _suppressionReason = reason;
         _suppressionSequence += 1;
         _lastSuppressionReason = reason;
-        UpdateAutomationState(Current, new RawDrivingInput());
+        // Publish the same suppressed-empty state a suppressed Read() produces,
+        // in a single step. Publishing the default-initialized conditioner
+        // state here left stationary_hold false alongside the new suppression
+        // sequence until the next physics tick republished it - a window the
+        // live pause guard observed on macOS CI when a paused frame carried no
+        // physics tick. The suppression transition must be atomic to observers.
+        var suppressed = _conditioner.Step(
+            new RawDrivingInput(),
+            _forwardSpeedMetersPerSecond,
+            0,
+            _activeProfile,
+            inputEnabled: false);
+        UpdateAutomationState(suppressed, new RawDrivingInput());
     }
 
     private RawDrivingInput ReadRaw()

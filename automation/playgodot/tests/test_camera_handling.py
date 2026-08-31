@@ -148,7 +148,9 @@ async def test_camera_handling_survives_pause_device_reset_and_mode_transitions(
         assert chase_forward["rear_view_yaw_degrees"] < 4
 
         await _action(client, "toggle_camera")
-        cockpit = (await client.describe("camera.cockpit.view"))["test_state"]
+        cockpit = await _settle(
+            client, "camera.cockpit.view", lambda s: s["active"] is True
+        )
         assert cockpit["active"] is True
         assert cockpit["vehicle_local"] is True
         assert abs(cockpit["horizon_roll_degrees"]) < 10
@@ -193,12 +195,17 @@ async def test_camera_handling_survives_pause_device_reset_and_mode_transitions(
         assert abs(cockpit_rear["displayed_yaw_degrees"]) > 170
 
         await _action(client, "toggle_camera")
-        switched_rear = (await client.describe("camera.chase.rig"))["test_state"]
+        switched_rear = await _settle(
+            client, "camera.chase.rig", lambda s: s["active"] is True
+        )
         assert switched_rear["active"] is True
         assert switched_rear["rear_view_held"] is True
         assert switched_rear["rear_view_yaw_degrees"] > 160
         await _action(client, "toggle_camera")
-        assert (await client.describe("camera.cockpit.view"))["test_state"]["active"] is True
+        cockpit_returned_active = await _settle(
+            client, "camera.cockpit.view", lambda s: s["active"] is True
+        )
+        assert cockpit_returned_active["active"] is True
 
         await client.request(
             "input.action", {"action": "look_behind", "state": "release"}
@@ -224,9 +231,10 @@ async def test_camera_handling_survives_pause_device_reset_and_mode_transitions(
 
         await client.request("input.key", {"key": "Escape", "state": "press"})
         await client.request("input.key", {"key": "Escape", "state": "release"})
-        await asyncio.sleep(0.05)
-        menu = await client.describe("menu.driver.root")
-        assert menu["test_state"]["simulation_paused"] is True
+        menu = await _settle(
+            client, "menu.driver.root", lambda s: s["simulation_paused"] is True
+        )
+        assert menu["simulation_paused"] is True
         assert (await client.describe("camera.cockpit.view"))["test_state"]["active"] is True
 
         await client.request("input.click", {"automation_id": "menu.driver.resume"})
@@ -241,7 +249,16 @@ async def test_camera_handling_survives_pause_device_reset_and_mode_transitions(
 
         await _action(client, "toggle_camera")
         await _action(client, "reset_vehicle")
-        chase = (await client.describe("camera.chase.rig"))["test_state"]
+        chase = await _settle(
+            client,
+            "camera.chase.rig",
+            lambda s: (
+                s["active"] is True
+                and s["target_valid"] is True
+                and s["target_distance_m"] < 15
+                and abs(s["horizon_roll_degrees"]) < 0.01
+            ),
+        )
         _assert_attached_and_level(chase)
         assert chase["active"] is True
 
