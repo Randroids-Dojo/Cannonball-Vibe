@@ -1,0 +1,3611 @@
+{
+  "break_disposition_sha256": "48c9a40e33bf6a306c06232dc3c191c53e7a9ed73d17b412d7cf73e7eb137405",
+  "candidate_lock_sha256": "cbdaaa3710e2b2e9409628f32fb1ef16228ec2256c5b8f1428d3363618e73900",
+  "carriageway_decision": "ADR-0014",
+  "catalog_sha256": "4d3a4c115875fc7e72f12e6a9d32a31d4b103a1b73bdbc731f47864989b8447f",
+  "conditioned_profile_lock_sha256": "a3de91ffbe1fecb38cdbdfb0be2ca60805b1f7201c0c25e4400c6f11b2554d9f",
+  "context_decision": "ADR-0017",
+  "control_line_decision": "ADR-0013",
+  "coordinate_crs": "EPSG:4326",
+  "corridor_elevation_lock_sha256": "082a1e0432edac2a89a3c561b1f2ee121692a68fde3226087fdb43631ac4cac7",
+  "decision": "ADR-0018",
+  "deferred_gates": {
+    "deferred_to": "lane-topology-and-package-build-stage",
+    "gates": [
+      "curvature_design_radius",
+      "curvature_rate",
+      "vertical_curvature",
+      "sightline",
+      "clearance",
+      "collision",
+      "lane_connection",
+      "drivability",
+      "grade_separation_vertical_resolution"
+    ],
+    "reason": "Through transfers are composed of NHPN-class locked geometry whose ~80 m vertex noise cannot adjudicate design radii (the carriageway lock's standing reason); their junction corners are recorded exception sites for the lane-topology stage's speed-designed ramp refinement. The recorded plan-view opposing-carriageway crossings are grade-separated interchange movements whose vertical resolution is lane-topology/collision output. The authored turn-around loops are full-precision geometry, so their design bound (minimum radius at the declared design speed) is adjudicated in this stage, not deferred."
+  },
+  "dem_product_lock_sha256": "8863b1cd0445188427e0af597b6599b8f3e855ca43c34e93c664db1e3705860f",
+  "derived_at": "2026-08-31T15:17:46Z",
+  "directed_route_lock_sha256": "cd31ea3193a755f06349fdf1cea814775d5de700e04a75113f70e68d18793294",
+  "edge_path_lock_sha256": "fcf0da1dcff80eb74364b1496e2033c351b14c25cbbf7f857e8af8a42295fc5e",
+  "endpoint_connector_lock_sha256": "2544063bc8494016268aab322ae443c91712ef14087dfa37c41888bac878a2c8",
+  "metric_crs": "EPSG:5070",
+  "model": {
+    "anchor_proximity_limit_m": 50.0,
+    "carriageway_decision": "ADR-0014",
+    "context_decision": "ADR-0017",
+    "control_line_decision": "ADR-0013",
+    "corner_threshold_deg": 20.0,
+    "decision": "ADR-0018",
+    "elevation_agreement_m": 2.0,
+    "length_agreement_slack_m": 2.0,
+    "metric_crs": "EPSG:5070",
+    "opposing_clearance_m": 10.0,
+    "opposing_crossing_limit": 2,
+    "reversal_threshold_deg": 150.0,
+    "seam_heading_tolerance_deg": 0.5,
+    "seam_position_tolerance_m": 0.01,
+    "tangent_lens_m": 25.0,
+    "through_transfer_rule": "A cross-segment movement is the westbound offset of the composed chain window: the arriving chain's final window and the departing chain's initial window, cut at the exact model station, joined across the directed lock's recorded junction continuity gap, conditioned of reversal-class anchor zigzags with bounded records, and offset through the same ADR-0014 round-join machinery as the carriageway model. ADR-0013 control-line continuity is adjudicated at both attachment seams (position and heading against the locked westbound carriageways over the identical lens); the junction corner is a recorded exception site whose speed-designed transition refinement is lane-topology output, exactly as for the locked corridor's route corners.",
+    "turnaround_profile": {
+      "antiparallel_tolerance_deg": 0.1,
+      "closure_limit_m": 0.01,
+      "design_speed_kmh": 15.0,
+      "integration_steps": 2048,
+      "justification": "The AASHTO passenger design vehicle turns a 6.4 m minimum centerline radius; the loop's solved 8.19 m minimum radius clears the 6.5 m bound at the declared 15 km/h design speed (V^2/(127*f) with low-speed side friction 0.32 sustains 8.19 m at 18.2 km/h). Median turn-around geometry at a 20 m carriageway separation is a low-speed crossover movement, never claimed as a highway-speed ramp.",
+      "lateral_range_m": [
+        19.0,
+        21.0
+      ],
+      "minimum_radius_m": 6.5,
+      "monotonicity_tolerance_deg": 0.2,
+      "profile": "sine_eased_heading",
+      "sample_count": 64,
+      "seam_curvature_limit_1_per_m": 0.005
+    },
+    "turnaround_rule": "A backtrack anchor's turn-around joins the arriving westbound carriageway terminus to the departing westbound carriageway origin (the proven reciprocal pair) with the fully eased sine heading profile: zero curvature at both attachment seams, monotone heading through the turn, zero net forward drift, and the measured minimum radius adjudicated against the authored low-speed design bound in this stage. The loop is an authored ADR-0018 record - no source asserts geometry for the anchor turn-around - justified by the directed lock's recorded backtrack finding.",
+    "vertical_rule": "ADR-0017 conditioned vertical context: boundary elevations come from the two segments' committed conditioned profiles at the seam stations (planimetric window length mapped through each segment's geodesic/planimetric ratio - a derived approximation, recorded), the cross-profile agreement at the shared anchor is measured and bounded, and no observed junction elevation is claimed.",
+    "window_m": 250.0
+  },
+  "movement_count": 12,
+  "movements": [
+    {
+      "anchor_id": "ca-barstow-i40-i15",
+      "construction": {
+        "antiparallel_deviation_deg": -0.0001,
+        "arc_length_m": 51.46,
+        "closure_correction_m": 0.0004,
+        "forward_offset_m": 0.0004,
+        "lateral_span_m": 19.9996,
+        "max_forward_excursion_m": 20.611,
+        "profile": "sine_eased_heading",
+        "turn_deg": 179.9999
+      },
+      "design": {
+        "design_speed_kmh": 15.0,
+        "entry_seam_curvature_1_per_m": 0.001546,
+        "exit_seam_curvature_1_per_m": 0.0,
+        "max_curvature_1_per_m": 0.122718,
+        "minimum_radius_m": 8.149
+      },
+      "from_segment_id": "i15-cove-fort-to-barstow",
+      "gates": {
+        "anchor_proximity": {
+          "measured": 10.0,
+          "passed": true,
+          "threshold": 50.0
+        },
+        "carriageway_attachment_only": {
+          "measured": 0.0,
+          "passed": true,
+          "threshold": 0.01
+        },
+        "closure_correction": {
+          "measured": 0.0004,
+          "passed": true,
+          "threshold": 0.01
+        },
+        "entry_curvature_continuity": {
+          "measured": 0.001083,
+          "passed": true,
+          "threshold": 0.005
+        },
+        "entry_seam_heading": {
+          "measured": 0.011,
+          "passed": true,
+          "threshold": 0.5
+        },
+        "entry_seam_position": {
+          "measured": 0.0,
+          "passed": true,
+          "threshold": 0.01
+        },
+        "exit_curvature_continuity": {
+          "measured": 0.000735,
+          "passed": true,
+          "threshold": 0.005
+        },
+        "exit_seam_heading": {
+          "measured": 0.011,
+          "passed": true,
+          "threshold": 0.5
+        },
+        "exit_seam_position": {
+          "measured": 0.0,
+          "passed": true,
+          "threshold": 0.01
+        },
+        "heading_monotonicity": {
+          "measured": 0.0,
+          "passed": true,
+          "threshold": -0.2
+        },
+        "junction_elevation_agreement": {
+          "measured": 0.0,
+          "passed": true,
+          "threshold": 2.0
+        },
+        "minimum_radius": {
+          "measured": 8.149,
+          "passed": true,
+          "threshold": 6.5
+        },
+        "seam_separation_agreement": {
+          "measured": 0.0004,
+          "passed": true,
+          "threshold": 0.01
+        },
+        "self_intersection": {
+          "measured": {
+            "simple": true
+          },
+          "passed": true,
+          "threshold": "authored loop is a single simple LineString"
+        },
+        "turnaround_grade": {
+          "measured": 0.0,
+          "passed": true,
+          "threshold": 7.0
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          [
+            -1888968.587,
+            1523697.748
+          ],
+          [
+            -1888967.783,
+            1523697.735
+          ],
+          [
+            -1888966.979,
+            1523697.723
+          ],
+          [
+            -1888966.175,
+            1523697.711
+          ],
+          [
+            -1888965.371,
+            1523697.701
+          ],
+          [
+            -1888964.567,
+            1523697.694
+          ],
+          [
+            -1888963.763,
+            1523697.691
+          ],
+          [
+            -1888962.959,
+            1523697.696
+          ],
+          [
+            -1888962.155,
+            1523697.709
+          ],
+          [
+            -1888961.351,
+            1523697.734
+          ],
+          [
+            -1888960.548,
+            1523697.773
+          ],
+          [
+            -1888959.746,
+            1523697.83
+          ],
+          [
+            -1888958.946,
+            1523697.907
+          ],
+          [
+            -1888958.148,
+            1523698.009
+          ],
+          [
+            -1888957.355,
+            1523698.139
+          ],
+          [
+            -1888956.567,
+            1523698.3
+          ],
+          [
+            -1888955.787,
+            1523698.495
+          ],
+          [
+            -1888955.018,
+            1523698.729
+          ],
+          [
+            -1888954.262,
+            1523699.004
+          ],
+          [
+            -1888953.524,
+            1523699.322
+          ],
+          [
+            -1888952.808,
+            1523699.687
+          ],
+          [
+            -1888952.117,
+            1523700.099
+          ],
+          [
+            -1888951.459,
+            1523700.56
+          ],
+          [
+            -1888950.837,
+            1523701.07
+          ],
+          [
+            -1888950.259,
+            1523701.628
+          ],
+          [
+            -1888949.729,
+            1523702.232
+          ],
+          [
+            -1888949.254,
+            1523702.88
+          ],
+          [
+            -1888948.838,
+            1523703.568
+          ],
+          [
+            -1888948.488,
+            1523704.292
+          ],
+          [
+            -1888948.208,
+            1523705.045
+          ],
+          [
+            -1888948.001,
+            1523705.822
+          ],
+          [
+            -1888947.871,
+            1523706.615
+          ],
+          [
+            -1888947.819,
+            1523707.417
+          ],
+          [
+            -1888947.845,
+            1523708.22
+          ],
+          [
+            -1888947.95,
+            1523709.017
+          ],
+          [
+            -1888948.132,
+            1523709.8
+          ],
+          [
+            -1888948.388,
+            1523710.562
+          ],
+          [
+            -1888948.715,
+            1523711.296
+          ],
+          [
+            -1888949.108,
+            1523711.998
+          ],
+          [
+            -1888949.562,
+            1523712.661
+          ],
+          [
+            -1888950.072,
+            1523713.282
+          ],
+          [
+            -1888950.633,
+            1523713.858
+          ],
+          [
+            -1888951.238,
+            1523714.387
+          ],
+          [
+            -1888951.881,
+            1523714.869
+          ],
+          [
+            -1888952.558,
+            1523715.303
+          ],
+          [
+            -1888953.262,
+            1523715.69
+          ],
+          [
+            -1888953.99,
+            1523716.032
+          ],
+          [
+            -1888954.736,
+            1523716.331
+          ],
+          [
+            -1888955.498,
+            1523716.589
+          ],
+          [
+            -1888956.271,
+            1523716.809
+          ],
+          [
+            -1888957.053,
+            1523716.995
+          ],
+          [
+            -1888957.842,
+            1523717.15
+          ],
+          [
+            -1888958.636,
+            1523717.278
+          ],
+          [
+            -1888959.433,
+            1523717.381
+          ],
+          [
+            -1888960.233,
+            1523717.463
+          ],
+          [
+            -1888961.035,
+            1523717.528
+          ],
+          [
+            -1888961.837,
+            1523717.579
+          ],
+          [
+            -1888962.64,
+            1523717.618
+          ],
+          [
+            -1888963.444,
+            1523717.648
+          ],
+          [
+            -1888964.247,
+            1523717.671
+          ],
+          [
+            -1888965.051,
+            1523717.69
+          ],
+          [
+            -1888965.855,
+            1523717.705
+          ],
+          [
+            -1888966.659,
+            1523717.719
+          ],
+          [
+            -1888967.463,
+            1523717.732
+          ],
+          [
+            -1888968.267,
+            1523717.745
+          ]
+        ],
+        "crs": "EPSG:5070",
+        "geometry_sha256": "ab06fccfb464491084791a7029e3b2671e2f0aeb01bd6da6cacd67a52409d620",
+        "planimetric_m": 51.452,
+        "vertex_count": 65
+      },
+      "length_effect": {
+        "delta_m": 51.452,
+        "replaced_westbound_m": 0.0,
+        "transfer_m": 51.452
+      },
+      "locked_backtrack": {
+        "backtrack_element_count": 4,
+        "backtrack_length_m": 485.938,
+        "westbound_separation_m": 20.0
+      },
+      "movement_id": "ca-barstow-i40-i15--i15-cove-fort-to-barstow--i15-barstow-to-ontario",
+      "movement_kind": "turnaround_transfer",
+      "path_ids": [
+        "central-rockies",
+        "northern-plains"
+      ],
+      "provenance": {
+        "authored_planimetric_m": 51.452,
+        "class": "authored_turnaround",
+        "statement": "No source asserts geometry for the anchor turn-around: the directed lock records the doubled junction-approach travel as a measured anchor-model fact and the carriageway lock proves the approach rides the reciprocal pair to a 0.000 m reciprocity gap, so the loop joining departing-westbound to arriving-eastbound is an authored ADR-0018 record with the declared low-speed design bound."
+      },
+      "seam_poses": {
+        "entry": {
+          "coordinate": [
+            -1888968.587,
+            1523697.748
+          ],
+          "heading_deg": -0.915538938
+        },
+        "exit": {
+          "coordinate": [
+            -1888968.267,
+            1523717.745
+          ],
+          "heading_deg": 179.084394448
+        }
+      },
+      "to_segment_id": "i15-barstow-to-ontario",
+      "vertical_context": {
+        "anchor_agreement_m": 0.0,
+        "anchor_elevations_m": [
+          672.68,
+          672.68
+        ],
+        "boundary_elevations_m": [
+          672.68,
+          672.68
+        ],
+        "chord_grade_percent": 0.0,
+        "entry_station_m": 640936.071,
+        "exit_station_m": 0.0,
+        "method": "ADR-0017 conditioned boundary elevations at the seam stations; planimetric window lengths map through each segment's geodesic/planimetric ratio (derived approximation); the grade is the boundary chord over the transfer's planimetric length.",
+        "source": "conditioned-profile-lock over corridor-elevation-lock"
+      }
+    },
+    {
+      "anchor_id": "ca-barstow-i40-i15",
+      "attachments": {
+        "entry": {
+          "coordinate": [
+            -117.0057545,
+            34.8866145
+          ],
+          "heading_deg": 174.638,
+          "replaced_westbound_m": 250.856,
+          "segment_id": "i40-i81-to-barstow",
+          "side": "westbound",
+          "station_m": 3366103.82,
+          "westbound_length_m": 3366354.675
+        },
+        "exit": {
+          "coordinate": [
+            -117.011189,
+            34.8858809
+          ],
+          "heading_deg": 173.049,
+          "replaced_westbound_m": 249.018,
+          "segment_id": "i15-barstow-to-ontario",
+          "side": "westbound",
+          "station_m": 249.018,
+          "westbound_length_m": 117320.304
+        }
+      },
+      "census_total_turn_deg": 10.723,
+      "corner_sites": [],
+      "excisions": [],
+      "from_segment_id": "i40-i81-to-barstow",
+      "gates": {
+        "anchor_proximity": {
+          "measured": 10.001,
+          "passed": true,
+          "threshold": 50.0
+        },
+        "entry_seam_heading": {
+          "measured": 0.0,
+          "passed": true,
+          "threshold": 0.5
+        },
+        "entry_seam_position": {
+          "measured": 0.0001,
+          "passed": true,
+          "threshold": 0.01
+        },
+        "exit_seam_heading": {
+          "measured": 0.001,
+          "passed": true,
+          "threshold": 0.5
+        },
+        "exit_seam_position": {
+          "measured": 0.0006,
+          "passed": true,
+          "threshold": 0.01
+        },
+        "heading_discipline": {
+          "measured": 3.11,
+          "passed": true,
+          "threshold": 150.0
+        },
+        "junction_elevation_agreement": {
+          "measured": 0.0,
+          "passed": true,
+          "threshold": 2.0
+        },
+        "length_agreement": {
+          "measured": 0.134,
+          "passed": true,
+          "threshold": 4.415
+        },
+        "opposing_clearance": {
+          "measured": {
+            "from_eastbound_crossings": 0,
+            "to_eastbound_crossings": 0
+          },
+          "passed": true,
+          "threshold": {
+            "clearance_m": 10.0,
+            "crossing_limit": 2
+          }
+        },
+        "reversal_excision": {
+          "measured": 0,
+          "passed": true,
+          "threshold": 8
+        },
+        "self_intersection": {
+          "measured": {
+            "simple": true
+          },
+          "passed": true,
+          "threshold": "transfer offset is a single simple LineString"
+        },
+        "station_monotonicity": {
+          "measured": {
+            "vertex_count": 16
+          },
+          "passed": true,
+          "threshold": "strictly increasing station at every vertex"
+        },
+        "transfer_grade": {
+          "measured": 3.538,
+          "passed": true,
+          "threshold": 7.0
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          [
+            -1888717.773,
+            1523706.627
+          ],
+          [
+            -1888723.106,
+            1523707.167
+          ],
+          [
+            -1888723.199,
+            1523707.176
+          ],
+          [
+            -1888743.044,
+            1523708.998
+          ],
+          [
+            -1888743.076,
+            1523709.001
+          ],
+          [
+            -1888774.232,
+            1523711.76
+          ],
+          [
+            -1888774.612,
+            1523711.786
+          ],
+          [
+            -1888860.054,
+            1523716.08
+          ],
+          [
+            -1888860.403,
+            1523716.092
+          ],
+          [
+            -1888968.27,
+            1523717.746
+          ],
+          [
+            -1889074.013,
+            1523719.435
+          ],
+          [
+            -1889108.798,
+            1523721.791
+          ],
+          [
+            -1889117.397,
+            1523722.39
+          ],
+          [
+            -1889212.148,
+            1523734.082
+          ],
+          [
+            -1889212.233,
+            1523734.092
+          ],
+          [
+            -1889216.424,
+            1523734.573
+          ]
+        ],
+        "crs": "EPSG:5070",
+        "geometry_sha256": "0b1b1fdfc87dac9a8fa9570a3d30e8e13cbd7128125ec68816b0ba788374963f",
+        "planimetric_m": 499.867,
+        "vertex_count": 16
+      },
+      "junction": {
+        "continuity_gap_m": 0.0
+      },
+      "length_effect": {
+        "delta_m": -0.007,
+        "replaced_westbound_m": 499.874,
+        "transfer_m": 499.867
+      },
+      "movement_id": "ca-barstow-i40-i15--i40-i81-to-barstow--i15-barstow-to-ontario",
+      "movement_kind": "through_transfer",
+      "opposing_carriageways": {
+        "from_eastbound": {
+          "crossing_count": 0,
+          "min_distance_m": 19.999
+        },
+        "to_eastbound": {
+          "crossing_count": 0,
+          "min_distance_m": 20.0
+        }
+      },
+      "path_ids": [
+        "southern-i40"
+      ],
+      "provenance": {
+        "authored_bridge_m": 0.0,
+        "class": "derived_from_locked_carriageways",
+        "statement": "The two chains share the snapped junction node, so the movement exists in the locks: every metre of the composed window is locked chain geometry and the transfer is its ADR-0014 westbound offset."
+      },
+      "to_segment_id": "i15-barstow-to-ontario",
+      "vertical_context": {
+        "anchor_agreement_m": 0.0,
+        "anchor_elevations_m": [
+          672.68,
+          672.68
+        ],
+        "boundary_elevations_m": [
+          666.58,
+          684.27
+        ],
+        "chord_grade_percent": 3.538,
+        "entry_station_m": 3386397.292,
+        "exit_station_m": 249.394,
+        "method": "ADR-0017 conditioned boundary elevations at the seam stations; planimetric window lengths map through each segment's geodesic/planimetric ratio (derived approximation); the grade is the boundary chord over the transfer's planimetric length.",
+        "source": "conditioned-profile-lock over corridor-elevation-lock"
+      },
+      "window": {
+        "bridge_m": 0.0,
+        "length_m": 500.001,
+        "window_m": 250.0
+      }
+    },
+    {
+      "anchor_id": "ca-ontario-i15-i10",
+      "attachments": {
+        "entry": {
+          "coordinate": [
+            -117.544849,
+            34.0697345
+          ],
+          "heading_deg": -102.32,
+          "replaced_westbound_m": 249.4,
+          "segment_id": "i15-barstow-to-ontario",
+          "side": "westbound",
+          "station_m": 117070.904,
+          "westbound_length_m": 117320.304
+        },
+        "exit": {
+          "coordinate": [
+            -117.5474474,
+            34.0674328
+          ],
+          "heading_deg": 167.378,
+          "replaced_westbound_m": 249.775,
+          "segment_id": "i10-ontario-to-i405",
+          "side": "westbound",
+          "station_m": 249.775,
+          "westbound_length_m": 87569.935
+        }
+      },
+      "census_total_turn_deg": 91.43,
+      "corner_sites": [
+        {
+          "coordinate": [
+            -117.5448232,
+            34.067498
+          ],
+          "corner_class": "junction_transfer_corner",
+          "corner_id": "ca-ontario-i15-i10--i15-barstow-to-ontario--i10-ontario-to-i405--corner-000",
+          "from_station_m": 250.0,
+          "peak_turn_deg": 69.6,
+          "sample_count": 1,
+          "to_station_m": 250.0,
+          "turn_sum_deg": 69.6
+        }
+      ],
+      "excisions": [],
+      "from_segment_id": "i15-barstow-to-ontario",
+      "gates": {
+        "anchor_proximity": {
+          "measured": 10.179,
+          "passed": true,
+          "threshold": 50.0
+        },
+        "entry_seam_heading": {
+          "measured": 0.0,
+          "passed": true,
+          "threshold": 0.5
+        },
+        "entry_seam_position": {
+          "measured": 0.0002,
+          "passed": true,
+          "threshold": 0.01
+        },
+        "exit_seam_heading": {
+          "measured": 0.0,
+          "passed": true,
+          "threshold": 0.5
+        },
+        "exit_seam_position": {
+          "measured": 0.0005,
+          "passed": true,
+          "threshold": 0.01
+        },
+        "heading_discipline": {
+          "measured": 69.6,
+          "passed": true,
+          "threshold": 150.0
+        },
+        "junction_elevation_agreement": {
+          "measured": 0.01,
+          "passed": true,
+          "threshold": 2.0
+        },
+        "length_agreement": {
+          "measured": 19.561,
+          "passed": true,
+          "threshold": 31.857
+        },
+        "opposing_clearance": {
+          "measured": {
+            "from_eastbound_crossings": 0,
+            "to_eastbound_crossings": 0
+          },
+          "passed": true,
+          "threshold": {
+            "clearance_m": 10.0,
+            "crossing_limit": 2
+          }
+        },
+        "reversal_excision": {
+          "measured": 0,
+          "passed": true,
+          "threshold": 8
+        },
+        "self_intersection": {
+          "measured": {
+            "simple": true
+          },
+          "passed": true,
+          "threshold": "transfer offset is a single simple LineString"
+        },
+        "station_monotonicity": {
+          "measured": {
+            "vertex_count": 20
+          },
+          "passed": true,
+          "threshold": "strictly increasing station at every vertex"
+        },
+        "transfer_grade": {
+          "measured": -2.209,
+          "passed": true,
+          "threshold": 7.0
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          [
+            -1956899.232,
+            1445548.208
+          ],
+          [
+            -1956932.371,
+            1445396.47
+          ],
+          [
+            -1956932.378,
+            1445396.437
+          ],
+          [
+            -1956945.149,
+            1445336.997
+          ],
+          [
+            -1956948.195,
+            1445322.986
+          ],
+          [
+            -1956949.12,
+            1445319.37
+          ],
+          [
+            -1956949.128,
+            1445319.338
+          ],
+          [
+            -1956951.322,
+            1445310.632
+          ],
+          [
+            -1956951.953,
+            1445308.283
+          ],
+          [
+            -1956952.968,
+            1445304.682
+          ],
+          [
+            -1956953.034,
+            1445304.437
+          ],
+          [
+            -1956954.638,
+            1445298.147
+          ],
+          [
+            -1956964.276,
+            1445300.078
+          ],
+          [
+            -1956972.489,
+            1445301.748
+          ],
+          [
+            -1956973.344,
+            1445301.945
+          ],
+          [
+            -1956973.366,
+            1445301.95
+          ],
+          [
+            -1957059.104,
+            1445321.498
+          ],
+          [
+            -1957126.49,
+            1445337.044
+          ],
+          [
+            -1957126.553,
+            1445337.058
+          ],
+          [
+            -1957189.017,
+            1445351.045
+          ]
+        ],
+        "crs": "EPSG:5070",
+        "geometry_sha256": "b1117bb0fe92a2574037a6608116fa2a898daa2dba616ab407215deec6e93eeb",
+        "planimetric_m": 496.425,
+        "vertex_count": 20
+      },
+      "junction": {
+        "continuity_gap_m": 15.866
+      },
+      "length_effect": {
+        "delta_m": -2.75,
+        "replaced_westbound_m": 499.175,
+        "transfer_m": 496.425
+      },
+      "movement_id": "ca-ontario-i15-i10--i15-barstow-to-ontario--i10-ontario-to-i405",
+      "movement_kind": "through_transfer",
+      "opposing_carriageways": {
+        "from_eastbound": {
+          "crossing_count": 0,
+          "min_distance_m": 19.997
+        },
+        "to_eastbound": {
+          "crossing_count": 0,
+          "min_distance_m": 19.999
+        }
+      },
+      "path_ids": [
+        "central-rockies",
+        "northern-plains",
+        "southern-i40"
+      ],
+      "provenance": {
+        "authored_bridge_m": 15.986,
+        "class": "derived_with_authored_bridge",
+        "statement": "The window rides the two locked carriageway chains; the directed lock records this junction's continuity gap (within the 2 x 25 m junction limit, the transfer lock's characterised cross-facility anchor separation), and the bridge across it is an authored ADR-0018 component, conditioned of the anchor-zigzag doubled travel with bounded records."
+      },
+      "to_segment_id": "i10-ontario-to-i405",
+      "vertical_context": {
+        "anchor_agreement_m": 0.01,
+        "anchor_elevations_m": [
+          305.45,
+          305.46
+        ],
+        "boundary_elevations_m": [
+          315.62,
+          304.66
+        ],
+        "chord_grade_percent": -2.209,
+        "entry_station_m": 116772.611,
+        "exit_station_m": 251.527,
+        "method": "ADR-0017 conditioned boundary elevations at the seam stations; planimetric window lengths map through each segment's geodesic/planimetric ratio (derived approximation); the grade is the boundary chord over the transfer's planimetric length.",
+        "source": "conditioned-profile-lock over corridor-elevation-lock"
+      },
+      "window": {
+        "bridge_m": 15.986,
+        "length_m": 515.986,
+        "window_m": 250.0
+      }
+    },
+    {
+      "anchor_id": "ca-west-la-i10-i405",
+      "attachments": {
+        "entry": {
+          "coordinate": [
+            -118.4307658,
+            34.0316262
+          ],
+          "heading_deg": 173.359,
+          "replaced_westbound_m": 250.522,
+          "segment_id": "i10-ontario-to-i405",
+          "side": "westbound",
+          "station_m": 87319.412,
+          "westbound_length_m": 87569.935
+        },
+        "exit": {
+          "coordinate": [
+            -118.4321297,
+            34.0294891
+          ],
+          "heading_deg": -70.559,
+          "replaced_westbound_m": 249.641,
+          "segment_id": "i405-west-la-to-ca107",
+          "side": "westbound",
+          "station_m": 249.641,
+          "westbound_length_m": 19935.946
+        }
+      },
+      "census_total_turn_deg": 116.473,
+      "corner_sites": [
+        {
+          "coordinate": [
+            -118.4334503,
+            34.0312692
+          ],
+          "corner_class": "junction_transfer_corner",
+          "corner_id": "ca-west-la-i10-i405--i10-ontario-to-i405--i405-west-la-to-ca107--corner-000",
+          "from_station_m": 250.0,
+          "peak_turn_deg": 90.16,
+          "sample_count": 1,
+          "to_station_m": 250.0,
+          "turn_sum_deg": 90.16
+        }
+      ],
+      "excisions": [
+        {
+          "coordinate": [
+            -118.433525,
+            34.031413
+          ],
+          "reversal_class": "junction_anchor_zigzag",
+          "turn_deg": 161.44,
+          "window_length_delta_m": -14.459,
+          "window_station_m": 274.59
+        },
+        {
+          "coordinate": [
+            -118.433478,
+            34.031358
+          ],
+          "reversal_class": "junction_anchor_zigzag",
+          "turn_deg": 155.72,
+          "window_length_delta_m": -26.885,
+          "window_station_m": 267.637
+        },
+        {
+          "coordinate": [
+            -118.433449,
+            34.031202
+          ],
+          "reversal_class": "junction_anchor_zigzag",
+          "turn_deg": 160.4,
+          "window_length_delta_m": -12.458,
+          "window_station_m": 250.001
+        },
+        {
+          "coordinate": [
+            -118.43338,
+            34.031234
+          ],
+          "reversal_class": "junction_anchor_zigzag",
+          "turn_deg": 180.0,
+          "window_length_delta_m": -5.247,
+          "window_station_m": 244.808
+        }
+      ],
+      "from_segment_id": "i10-ontario-to-i405",
+      "gates": {
+        "anchor_proximity": {
+          "measured": 6.182,
+          "passed": true,
+          "threshold": 50.0
+        },
+        "entry_seam_heading": {
+          "measured": 0.0,
+          "passed": true,
+          "threshold": 0.5
+        },
+        "entry_seam_position": {
+          "measured": 0.0001,
+          "passed": true,
+          "threshold": 0.01
+        },
+        "exit_seam_heading": {
+          "measured": 0.0,
+          "passed": true,
+          "threshold": 0.5
+        },
+        "exit_seam_position": {
+          "measured": 0.0001,
+          "passed": true,
+          "threshold": 0.01
+        },
+        "heading_discipline": {
+          "measured": 90.16,
+          "passed": true,
+          "threshold": 150.0
+        },
+        "junction_elevation_agreement": {
+          "measured": 1.05,
+          "passed": true,
+          "threshold": 2.0
+        },
+        "length_agreement": {
+          "measured": 20.227,
+          "passed": true,
+          "threshold": 42.385
+        },
+        "opposing_clearance": {
+          "measured": {
+            "from_eastbound_crossings": 1,
+            "to_eastbound_crossings": 1
+          },
+          "passed": true,
+          "threshold": {
+            "clearance_m": 10.0,
+            "crossing_limit": 2
+          }
+        },
+        "reversal_excision": {
+          "measured": 4,
+          "passed": true,
+          "threshold": 8
+        },
+        "self_intersection": {
+          "measured": {
+            "simple": true
+          },
+          "passed": true,
+          "threshold": "transfer offset is a single simple LineString"
+        },
+        "station_monotonicity": {
+          "measured": {
+            "vertex_count": 33
+          },
+          "passed": true,
+          "threshold": "strictly increasing station at every vertex"
+        },
+        "transfer_grade": {
+          "measured": -0.87,
+          "passed": true,
+          "threshold": 7.0
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          [
+            -2036892.751,
+            1460018.032
+          ],
+          [
+            -2036936.605,
+            1460023.138
+          ],
+          [
+            -2036936.869,
+            1460023.165
+          ],
+          [
+            -2036939.517,
+            1460023.402
+          ],
+          [
+            -2036939.951,
+            1460023.479
+          ],
+          [
+            -2036955.278,
+            1460025.212
+          ],
+          [
+            -2036955.513,
+            1460025.235
+          ],
+          [
+            -2037017.07,
+            1460030.73
+          ],
+          [
+            -2037017.279,
+            1460030.747
+          ],
+          [
+            -2037034.6,
+            1460031.928
+          ],
+          [
+            -2037057.184,
+            1460033.571
+          ],
+          [
+            -2037057.29,
+            1460033.578
+          ],
+          [
+            -2037066.906,
+            1460034.174
+          ],
+          [
+            -2037077.705,
+            1460034.941
+          ],
+          [
+            -2037130.629,
+            1460038.705
+          ],
+          [
+            -2037130.743,
+            1460038.712
+          ],
+          [
+            -2037134.553,
+            1460038.939
+          ],
+          [
+            -2037136.523,
+            1460038.862
+          ],
+          [
+            -2037138.44,
+            1460038.4
+          ],
+          [
+            -2037140.229,
+            1460037.57
+          ],
+          [
+            -2037141.82,
+            1460036.406
+          ],
+          [
+            -2037143.152,
+            1460034.952
+          ],
+          [
+            -2037144.172,
+            1460033.265
+          ],
+          [
+            -2037144.842,
+            1460031.411
+          ],
+          [
+            -2037145.135,
+            1460029.461
+          ],
+          [
+            -2037145.04,
+            1460027.491
+          ],
+          [
+            -2037144.56,
+            1460025.579
+          ],
+          [
+            -2037142.536,
+            1460019.939
+          ],
+          [
+            -2037135.923,
+            1460001.241
+          ],
+          [
+            -2037096.262,
+            1459889.058
+          ],
+          [
+            -2037093.13,
+            1459880.151
+          ],
+          [
+            -2037093.126,
+            1459880.14
+          ],
+          [
+            -2037070.148,
+            1459815.04
+          ]
+        ],
+        "crs": "EPSG:5070",
+        "geometry_sha256": "8a43491505b25dd0572b683d95ee4c0b6348cad973159ac051a98ac45e498ff9",
+        "planimetric_m": 485.767,
+        "vertex_count": 33
+      },
+      "junction": {
+        "continuity_gap_m": 24.434
+      },
+      "length_effect": {
+        "delta_m": -14.396,
+        "replaced_westbound_m": 500.163,
+        "transfer_m": 485.767
+      },
+      "movement_id": "ca-west-la-i10-i405--i10-ontario-to-i405--i405-west-la-to-ca107",
+      "movement_kind": "through_transfer",
+      "opposing_carriageways": {
+        "from_eastbound": {
+          "crossing_coordinates": [
+            [
+              -118.4334169,
+              34.0311158
+            ]
+          ],
+          "crossing_count": 1,
+          "note": "Transversal plan-view crossing of the opposing carriageway: a grade-separated interchange movement in reality; vertical resolution is lane-topology/collision stage output."
+        },
+        "to_eastbound": {
+          "crossing_coordinates": [
+            [
+              -118.4333119,
+              34.0313124
+            ]
+          ],
+          "crossing_count": 1,
+          "note": "Transversal plan-view crossing of the opposing carriageway: a grade-separated interchange movement in reality; vertical resolution is lane-topology/collision stage output."
+        }
+      },
+      "path_ids": [
+        "central-rockies",
+        "northern-plains",
+        "southern-i40"
+      ],
+      "provenance": {
+        "authored_bridge_m": 24.589,
+        "class": "derived_with_authored_bridge",
+        "statement": "The window rides the two locked carriageway chains; the directed lock records this junction's continuity gap (within the 2 x 25 m junction limit, the transfer lock's characterised cross-facility anchor separation), and the bridge across it is an authored ADR-0018 component, conditioned of the anchor-zigzag doubled travel with bounded records."
+      },
+      "to_segment_id": "i405-west-la-to-ca107",
+      "vertical_context": {
+        "anchor_agreement_m": 1.05,
+        "anchor_elevations_m": [
+          46.45,
+          47.5
+        ],
+        "boundary_elevations_m": [
+          48.43,
+          44.2
+        ],
+        "chord_grade_percent": -0.87,
+        "entry_station_m": 87847.447,
+        "exit_station_m": 249.13,
+        "method": "ADR-0017 conditioned boundary elevations at the seam stations; planimetric window lengths map through each segment's geodesic/planimetric ratio (derived approximation); the grade is the boundary chord over the transfer's planimetric length.",
+        "source": "conditioned-profile-lock over corridor-elevation-lock"
+      },
+      "window": {
+        "bridge_m": 24.589,
+        "length_m": 465.54,
+        "window_m": 250.0
+      }
+    },
+    {
+      "anchor_id": "co-denver-i76-i70",
+      "attachments": {
+        "entry": {
+          "coordinate": [
+            -105.0755484,
+            39.786729
+          ],
+          "heading_deg": 176.073,
+          "replaced_westbound_m": 250.96,
+          "segment_id": "i76-big-springs-to-denver",
+          "side": "westbound",
+          "station_m": 299002.934,
+          "westbound_length_m": 299253.894
+        },
+        "exit": {
+          "coordinate": [
+            -105.0813941,
+            39.7861296
+          ],
+          "heading_deg": -173.033,
+          "replaced_westbound_m": 251.572,
+          "segment_id": "i70-denver-to-cove-fort",
+          "side": "westbound",
+          "station_m": 251.572,
+          "westbound_length_m": 804576.711
+        }
+      },
+      "census_total_turn_deg": 19.66,
+      "corner_sites": [],
+      "excisions": [],
+      "from_segment_id": "i76-big-springs-to-denver",
+      "gates": {
+        "anchor_proximity": {
+          "measured": 10.002,
+          "passed": true,
+          "threshold": 50.0
+        },
+        "entry_seam_heading": {
+          "measured": 0.001,
+          "passed": true,
+          "threshold": 0.5
+        },
+        "entry_seam_position": {
+          "measured": 0.0004,
+          "passed": true,
+          "threshold": 0.01
+        },
+        "exit_seam_heading": {
+          "measured": 0.001,
+          "passed": true,
+          "threshold": 0.5
+        },
+        "exit_seam_position": {
+          "measured": 0.0002,
+          "passed": true,
+          "threshold": 0.01
+        },
+        "heading_discipline": {
+          "measured": 3.65,
+          "passed": true,
+          "threshold": 150.0
+        },
+        "junction_elevation_agreement": {
+          "measured": 0.0,
+          "passed": true,
+          "threshold": 2.0
+        },
+        "length_agreement": {
+          "measured": 2.216,
+          "passed": true,
+          "threshold": 6.068
+        },
+        "opposing_clearance": {
+          "measured": {
+            "from_eastbound_crossings": 0,
+            "to_eastbound_crossings": 0
+          },
+          "passed": true,
+          "threshold": {
+            "clearance_m": 10.0,
+            "crossing_limit": 2
+          }
+        },
+        "reversal_excision": {
+          "measured": 0,
+          "passed": true,
+          "threshold": 8
+        },
+        "self_intersection": {
+          "measured": {
+            "simple": true
+          },
+          "passed": true,
+          "threshold": "transfer offset is a single simple LineString"
+        },
+        "station_monotonicity": {
+          "measured": {
+            "vertex_count": 13
+          },
+          "passed": true,
+          "threshold": "strictly increasing station at every vertex"
+        },
+        "transfer_grade": {
+          "measured": 1.255,
+          "passed": true,
+          "threshold": 7.0
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          [
+            -769108.666,
+            1899832.497
+          ],
+          [
+            -769116.872,
+            1899832.63
+          ],
+          [
+            -769195.406,
+            1899840.042
+          ],
+          [
+            -769196.092,
+            1899840.083
+          ],
+          [
+            -769295.267,
+            1899842.606
+          ],
+          [
+            -769296.319,
+            1899842.577
+          ],
+          [
+            -769358.884,
+            1899837.568
+          ],
+          [
+            -769430.594,
+            1899834.105
+          ],
+          [
+            -769431.285,
+            1899834.048
+          ],
+          [
+            -769561.769,
+            1899818.635
+          ],
+          [
+            -769607.478,
+            1899813.223
+          ],
+          [
+            -769608.342,
+            1899813.082
+          ],
+          [
+            -769608.961,
+            1899812.953
+          ]
+        ],
+        "crs": "EPSG:5070",
+        "geometry_sha256": "ba42ab3418e245491346eed82975aa1ab945ed18310dd4d3ee740e2b9b3f0a35",
+        "planimetric_m": 502.216,
+        "vertex_count": 13
+      },
+      "junction": {
+        "continuity_gap_m": 0.0
+      },
+      "length_effect": {
+        "delta_m": -0.316,
+        "replaced_westbound_m": 502.532,
+        "transfer_m": 502.216
+      },
+      "movement_id": "co-denver-i76-i70--i76-big-springs-to-denver--i70-denver-to-cove-fort",
+      "movement_kind": "through_transfer",
+      "opposing_carriageways": {
+        "from_eastbound": {
+          "crossing_count": 0,
+          "min_distance_m": 19.999
+        },
+        "to_eastbound": {
+          "crossing_count": 0,
+          "min_distance_m": 20.0
+        }
+      },
+      "path_ids": [
+        "central-rockies"
+      ],
+      "provenance": {
+        "authored_bridge_m": 0.0,
+        "class": "derived_from_locked_carriageways",
+        "statement": "The two chains share the snapped junction node, so the movement exists in the locks: every metre of the composed window is locked chain geometry and the transfer is its ADR-0014 westbound offset."
+      },
+      "to_segment_id": "i70-denver-to-cove-fort",
+      "vertical_context": {
+        "anchor_agreement_m": 0.0,
+        "anchor_elevations_m": [
+          1622.56,
+          1622.56
+        ],
+        "boundary_elevations_m": [
+          1619.81,
+          1626.11
+        ],
+        "chord_grade_percent": 1.255,
+        "entry_station_m": 300080.548,
+        "exit_station_m": 251.0,
+        "method": "ADR-0017 conditioned boundary elevations at the seam stations; planimetric window lengths map through each segment's geodesic/planimetric ratio (derived approximation); the grade is the boundary chord over the transfer's planimetric length.",
+        "source": "conditioned-profile-lock over corridor-elevation-lock"
+      },
+      "window": {
+        "bridge_m": 0.0,
+        "length_m": 500.0,
+        "window_m": 250.0
+      }
+    },
+    {
+      "anchor_id": "ne-big-springs-i80-i76",
+      "attachments": {
+        "entry": {
+          "coordinate": [
+            -102.1529668,
+            41.0279304
+          ],
+          "heading_deg": -146.131,
+          "replaced_westbound_m": 250.0,
+          "segment_id": "i80-new-jersey-to-big-springs",
+          "side": "westbound",
+          "station_m": 2503798.664,
+          "westbound_length_m": 2504048.664
+        },
+        "exit": {
+          "coordinate": [
+            -102.1577153,
+            41.025205
+          ],
+          "heading_deg": -146.065,
+          "replaced_westbound_m": 250.001,
+          "segment_id": "i76-big-springs-to-denver",
+          "side": "westbound",
+          "station_m": 250.001,
+          "westbound_length_m": 299253.894
+        }
+      },
+      "census_total_turn_deg": 0.066,
+      "corner_sites": [],
+      "excisions": [],
+      "from_segment_id": "i80-new-jersey-to-big-springs",
+      "gates": {
+        "anchor_proximity": {
+          "measured": 10.0,
+          "passed": true,
+          "threshold": 50.0
+        },
+        "entry_seam_heading": {
+          "measured": 0.0,
+          "passed": true,
+          "threshold": 0.5
+        },
+        "entry_seam_position": {
+          "measured": 0.0003,
+          "passed": true,
+          "threshold": 0.01
+        },
+        "exit_seam_heading": {
+          "measured": 0.0,
+          "passed": true,
+          "threshold": 0.5
+        },
+        "exit_seam_position": {
+          "measured": 0.0002,
+          "passed": true,
+          "threshold": 0.01
+        },
+        "heading_discipline": {
+          "measured": 0.06,
+          "passed": true,
+          "threshold": 150.0
+        },
+        "junction_elevation_agreement": {
+          "measured": 0.0,
+          "passed": true,
+          "threshold": 2.0
+        },
+        "length_agreement": {
+          "measured": 0.012,
+          "passed": true,
+          "threshold": 2.023
+        },
+        "opposing_clearance": {
+          "measured": {
+            "from_eastbound_crossings": 0,
+            "to_eastbound_crossings": 0
+          },
+          "passed": true,
+          "threshold": {
+            "clearance_m": 10.0,
+            "crossing_limit": 2
+          }
+        },
+        "reversal_excision": {
+          "measured": 0,
+          "passed": true,
+          "threshold": 8
+        },
+        "self_intersection": {
+          "measured": {
+            "simple": true
+          },
+          "passed": true,
+          "threshold": "transfer offset is a single simple LineString"
+        },
+        "station_monotonicity": {
+          "measured": {
+            "vertex_count": 4
+          },
+          "passed": true,
+          "threshold": "strictly increasing station at every vertex"
+        },
+        "transfer_grade": {
+          "measured": 0.163,
+          "passed": true,
+          "threshold": 7.0
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          [
+            -512866.904,
+            2018727.067
+          ],
+          [
+            -513074.482,
+            2018587.743
+          ],
+          [
+            -513074.492,
+            2018587.737
+          ],
+          [
+            -513281.91,
+            2018448.173
+          ]
+        ],
+        "crs": "EPSG:5070",
+        "geometry_sha256": "c7cecaf791e68a7fb8c7143d80a300c76bbb278987226526f358d6d094a0889f",
+        "planimetric_m": 500.012,
+        "vertex_count": 4
+      },
+      "junction": {
+        "continuity_gap_m": 0.0
+      },
+      "length_effect": {
+        "delta_m": 0.011,
+        "replaced_westbound_m": 500.001,
+        "transfer_m": 500.012
+      },
+      "movement_id": "ne-big-springs-i80-i76--i80-new-jersey-to-big-springs--i76-big-springs-to-denver",
+      "movement_kind": "through_transfer",
+      "opposing_carriageways": {
+        "from_eastbound": {
+          "crossing_count": 0,
+          "min_distance_m": 19.999
+        },
+        "to_eastbound": {
+          "crossing_count": 0,
+          "min_distance_m": 20.0
+        }
+      },
+      "path_ids": [
+        "central-rockies"
+      ],
+      "provenance": {
+        "authored_bridge_m": 0.0,
+        "class": "derived_from_locked_carriageways",
+        "statement": "The two chains share the snapped junction node, so the movement exists in the locks: every metre of the composed window is locked chain geometry and the transfer is its ADR-0014 westbound offset."
+      },
+      "to_segment_id": "i76-big-springs-to-denver",
+      "vertical_context": {
+        "anchor_agreement_m": 0.0,
+        "anchor_elevations_m": [
+          1041.01,
+          1041.01
+        ],
+        "boundary_elevations_m": [
+          1040.35,
+          1041.17
+        ],
+        "chord_grade_percent": 0.163,
+        "entry_station_m": 2518616.378,
+        "exit_station_m": 250.896,
+        "method": "ADR-0017 conditioned boundary elevations at the seam stations; planimetric window lengths map through each segment's geodesic/planimetric ratio (derived approximation); the grade is the boundary chord over the transfer's planimetric length.",
+        "source": "conditioned-profile-lock over corridor-elevation-lock"
+      },
+      "window": {
+        "bridge_m": 0.0,
+        "length_m": 500.0,
+        "window_m": 250.0
+      }
+    },
+    {
+      "anchor_id": "ne-big-springs-i80-i76",
+      "attachments": {
+        "entry": {
+          "coordinate": [
+            -102.1529668,
+            41.0279304
+          ],
+          "heading_deg": -146.131,
+          "replaced_westbound_m": 250.0,
+          "segment_id": "i80-new-jersey-to-big-springs",
+          "side": "westbound",
+          "station_m": 2503798.664,
+          "westbound_length_m": 2504048.664
+        },
+        "exit": {
+          "coordinate": [
+            -102.1581752,
+            41.0270508
+          ],
+          "heading_deg": 164.131,
+          "replaced_westbound_m": 249.672,
+          "segment_id": "i80-big-springs-to-salt-lake",
+          "side": "westbound",
+          "station_m": 249.672,
+          "westbound_length_m": 930430.869
+        }
+      },
+      "census_total_turn_deg": 50.745,
+      "corner_sites": [
+        {
+          "coordinate": [
+            -102.1553523,
+            41.0265998
+          ],
+          "corner_class": "junction_transfer_corner",
+          "corner_id": "ne-big-springs-i80-i76--i80-new-jersey-to-big-springs--i80-big-springs-to-salt-lake--corner-000",
+          "from_station_m": 250.0,
+          "peak_turn_deg": 40.45,
+          "sample_count": 1,
+          "to_station_m": 250.0,
+          "turn_sum_deg": 40.45
+        }
+      ],
+      "excisions": [],
+      "from_segment_id": "i80-new-jersey-to-big-springs",
+      "gates": {
+        "anchor_proximity": {
+          "measured": 10.935,
+          "passed": true,
+          "threshold": 50.0
+        },
+        "entry_seam_heading": {
+          "measured": 0.0,
+          "passed": true,
+          "threshold": 0.5
+        },
+        "entry_seam_position": {
+          "measured": 0.0003,
+          "passed": true,
+          "threshold": 0.01
+        },
+        "exit_seam_heading": {
+          "measured": 0.0,
+          "passed": true,
+          "threshold": 0.5
+        },
+        "exit_seam_position": {
+          "measured": 0.0005,
+          "passed": true,
+          "threshold": 0.01
+        },
+        "heading_discipline": {
+          "measured": 40.45,
+          "passed": true,
+          "threshold": 150.0
+        },
+        "junction_elevation_agreement": {
+          "measured": 0.0,
+          "passed": true,
+          "threshold": 2.0
+        },
+        "length_agreement": {
+          "measured": 9.176,
+          "passed": true,
+          "threshold": 18.225
+        },
+        "opposing_clearance": {
+          "measured": {
+            "from_eastbound_crossings": 0,
+            "to_eastbound_crossings": 0
+          },
+          "passed": true,
+          "threshold": {
+            "clearance_m": 10.0,
+            "crossing_limit": 2
+          }
+        },
+        "reversal_excision": {
+          "measured": 0,
+          "passed": true,
+          "threshold": 8
+        },
+        "self_intersection": {
+          "measured": {
+            "simple": true
+          },
+          "passed": true,
+          "threshold": "transfer offset is a single simple LineString"
+        },
+        "station_monotonicity": {
+          "measured": {
+            "vertex_count": 21
+          },
+          "passed": true,
+          "threshold": "strictly increasing station at every vertex"
+        },
+        "transfer_grade": {
+          "measured": 0.23,
+          "passed": true,
+          "threshold": 7.0
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          [
+            -512866.904,
+            2018727.067
+          ],
+          [
+            -513070.809,
+            2018590.209
+          ],
+          [
+            -513082.483,
+            2018593.089
+          ],
+          [
+            -513098.217,
+            2018597.225
+          ],
+          [
+            -513114.112,
+            2018601.597
+          ],
+          [
+            -513130.048,
+            2018606.208
+          ],
+          [
+            -513130.081,
+            2018606.218
+          ],
+          [
+            -513145.838,
+            2018610.718
+          ],
+          [
+            -513145.868,
+            2018610.726
+          ],
+          [
+            -513161.864,
+            2018615.24
+          ],
+          [
+            -513178.164,
+            2018619.881
+          ],
+          [
+            -513194.151,
+            2018624.506
+          ],
+          [
+            -513211.209,
+            2018629.426
+          ],
+          [
+            -513226.633,
+            2018633.905
+          ],
+          [
+            -513243.125,
+            2018638.678
+          ],
+          [
+            -513259.616,
+            2018643.451
+          ],
+          [
+            -513259.655,
+            2018643.462
+          ],
+          [
+            -513276.47,
+            2018648.254
+          ],
+          [
+            -513293.61,
+            2018653.178
+          ],
+          [
+            -513293.659,
+            2018653.192
+          ],
+          [
+            -513306.804,
+            2018656.896
+          ]
+        ],
+        "crs": "EPSG:5070",
+        "geometry_sha256": "68a8213bd24ae4e3f1aaff253f4f8dcab434b6b34be6282cb5ef474bdb56ca55",
+        "planimetric_m": 490.824,
+        "vertex_count": 21
+      },
+      "junction": {
+        "continuity_gap_m": 0.0
+      },
+      "length_effect": {
+        "delta_m": -8.848,
+        "replaced_westbound_m": 499.672,
+        "transfer_m": 490.824
+      },
+      "movement_id": "ne-big-springs-i80-i76--i80-new-jersey-to-big-springs--i80-big-springs-to-salt-lake",
+      "movement_kind": "through_transfer",
+      "opposing_carriageways": {
+        "from_eastbound": {
+          "crossing_count": 0,
+          "min_distance_m": 19.999
+        },
+        "to_eastbound": {
+          "crossing_count": 0,
+          "min_distance_m": 19.999
+        }
+      },
+      "path_ids": [
+        "northern-plains"
+      ],
+      "provenance": {
+        "authored_bridge_m": 0.0,
+        "class": "derived_from_locked_carriageways",
+        "statement": "The two chains share the snapped junction node, so the movement exists in the locks: every metre of the composed window is locked chain geometry and the transfer is its ADR-0014 westbound offset."
+      },
+      "to_segment_id": "i80-big-springs-to-salt-lake",
+      "vertical_context": {
+        "anchor_agreement_m": 0.0,
+        "anchor_elevations_m": [
+          1041.01,
+          1041.01
+        ],
+        "boundary_elevations_m": [
+          1040.35,
+          1041.48
+        ],
+        "chord_grade_percent": 0.23,
+        "entry_station_m": 2518616.378,
+        "exit_station_m": 251.233,
+        "method": "ADR-0017 conditioned boundary elevations at the seam stations; planimetric window lengths map through each segment's geodesic/planimetric ratio (derived approximation); the grade is the boundary chord over the transfer's planimetric length.",
+        "source": "conditioned-profile-lock over corridor-elevation-lock"
+      },
+      "window": {
+        "bridge_m": 0.0,
+        "length_m": 500.0,
+        "window_m": 250.0
+      }
+    },
+    {
+      "anchor_id": "pa-i78-i81",
+      "attachments": {
+        "entry": {
+          "coordinate": [
+            -76.5233989,
+            40.424923
+          ],
+          "heading_deg": -151.444,
+          "replaced_westbound_m": 249.523,
+          "segment_id": "i78-holland-tunnel-to-i81",
+          "side": "westbound",
+          "station_m": 231200.192,
+          "westbound_length_m": 231449.715
+        },
+        "exit": {
+          "coordinate": [
+            -76.5291242,
+            40.423727
+          ],
+          "heading_deg": -151.954,
+          "replaced_westbound_m": 250.047,
+          "segment_id": "i81-i78-to-i40",
+          "side": "westbound",
+          "station_m": 250.047,
+          "westbound_length_m": 845898.558
+        }
+      },
+      "census_total_turn_deg": 7.199,
+      "corner_sites": [],
+      "excisions": [],
+      "from_segment_id": "i78-holland-tunnel-to-i81",
+      "gates": {
+        "anchor_proximity": {
+          "measured": 9.997,
+          "passed": true,
+          "threshold": 50.0
+        },
+        "entry_seam_heading": {
+          "measured": 0.001,
+          "passed": true,
+          "threshold": 0.5
+        },
+        "entry_seam_position": {
+          "measured": 0.0002,
+          "passed": true,
+          "threshold": 0.01
+        },
+        "exit_seam_heading": {
+          "measured": 0.0,
+          "passed": true,
+          "threshold": 0.5
+        },
+        "exit_seam_position": {
+          "measured": 0.0001,
+          "passed": true,
+          "threshold": 0.01
+        },
+        "heading_discipline": {
+          "measured": 2.69,
+          "passed": true,
+          "threshold": 150.0
+        },
+        "junction_elevation_agreement": {
+          "measured": 0.0,
+          "passed": true,
+          "threshold": 2.0
+        },
+        "length_agreement": {
+          "measured": 0.043,
+          "passed": true,
+          "threshold": 3.726
+        },
+        "opposing_clearance": {
+          "measured": {
+            "from_eastbound_crossings": 0,
+            "to_eastbound_crossings": 0
+          },
+          "passed": true,
+          "threshold": {
+            "clearance_m": 10.0,
+            "crossing_limit": 2
+          }
+        },
+        "reversal_excision": {
+          "measured": 0,
+          "passed": true,
+          "threshold": 8
+        },
+        "self_intersection": {
+          "measured": {
+            "simple": true
+          },
+          "passed": true,
+          "threshold": "transfer offset is a single simple LineString"
+        },
+        "station_monotonicity": {
+          "measured": {
+            "vertex_count": 13
+          },
+          "passed": true,
+          "threshold": "strictly increasing station at every vertex"
+        },
+        "transfer_grade": {
+          "measured": -0.486,
+          "passed": true,
+          "threshold": 7.0
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          [
+            1626959.179,
+            2101888.16
+          ],
+          [
+            1626952.29,
+            2101884.528
+          ],
+          [
+            1626952.121,
+            2101884.436
+          ],
+          [
+            1626904.363,
+            2101858.07
+          ],
+          [
+            1626846.513,
+            2101827.947
+          ],
+          [
+            1626736.215,
+            2101776.355
+          ],
+          [
+            1626735.791,
+            2101776.144
+          ],
+          [
+            1626688.087,
+            2101751.012
+          ],
+          [
+            1626688.058,
+            2101750.997
+          ],
+          [
+            1626592.497,
+            2101700.246
+          ],
+          [
+            1626563.4,
+            2101684.819
+          ],
+          [
+            1626563.382,
+            2101684.81
+          ],
+          [
+            1626514.894,
+            2101658.979
+          ]
+        ],
+        "crs": "EPSG:5070",
+        "geometry_sha256": "9ef2686d5ee5e0ff8c4552d10971f7fa6c52e2b494dab6d1d9360a9426cd24fb",
+        "planimetric_m": 500.044,
+        "vertex_count": 13
+      },
+      "junction": {
+        "continuity_gap_m": 0.0
+      },
+      "length_effect": {
+        "delta_m": 0.474,
+        "replaced_westbound_m": 499.57,
+        "transfer_m": 500.044
+      },
+      "movement_id": "pa-i78-i81--i78-holland-tunnel-to-i81--i81-i78-to-i40",
+      "movement_kind": "through_transfer",
+      "opposing_carriageways": {
+        "from_eastbound": {
+          "crossing_count": 0,
+          "min_distance_m": 19.989
+        },
+        "to_eastbound": {
+          "crossing_count": 0,
+          "min_distance_m": 19.989
+        }
+      },
+      "path_ids": [
+        "southern-i40"
+      ],
+      "provenance": {
+        "authored_bridge_m": 0.0,
+        "class": "derived_from_locked_carriageways",
+        "statement": "The two chains share the snapped junction node, so the movement exists in the locks: every metre of the composed window is locked chain geometry and the transfer is its ADR-0014 westbound offset."
+      },
+      "to_segment_id": "i81-i78-to-i40",
+      "vertical_context": {
+        "anchor_agreement_m": 0.0,
+        "anchor_elevations_m": [
+          158.67,
+          158.67
+        ],
+        "boundary_elevations_m": [
+          159.78,
+          157.35
+        ],
+        "chord_grade_percent": -0.486,
+        "entry_station_m": 232211.159,
+        "exit_station_m": 250.327,
+        "method": "ADR-0017 conditioned boundary elevations at the seam stations; planimetric window lengths map through each segment's geodesic/planimetric ratio (derived approximation); the grade is the boundary chord over the transfer's planimetric length.",
+        "source": "conditioned-profile-lock over corridor-elevation-lock"
+      },
+      "window": {
+        "bridge_m": 0.0,
+        "length_m": 500.001,
+        "window_m": 250.0
+      }
+    },
+    {
+      "anchor_id": "tn-i81-i40",
+      "attachments": {
+        "entry": {
+          "coordinate": [
+            -83.3856909,
+            36.0681073
+          ],
+          "heading_deg": -141.82,
+          "replaced_westbound_m": 247.976,
+          "segment_id": "i81-i78-to-i40",
+          "side": "westbound",
+          "station_m": 845650.582,
+          "westbound_length_m": 845898.558
+        },
+        "exit": {
+          "coordinate": [
+            -83.3908024,
+            36.0663267
+          ],
+          "heading_deg": -137.3,
+          "replaced_westbound_m": 253.889,
+          "segment_id": "i40-i81-to-barstow",
+          "side": "westbound",
+          "station_m": 253.889,
+          "westbound_length_m": 3366354.675
+        }
+      },
+      "census_total_turn_deg": 38.589,
+      "corner_sites": [],
+      "excisions": [],
+      "from_segment_id": "i81-i78-to-i40",
+      "gates": {
+        "anchor_proximity": {
+          "measured": 10.012,
+          "passed": true,
+          "threshold": 50.0
+        },
+        "entry_seam_heading": {
+          "measured": 0.0,
+          "passed": true,
+          "threshold": 0.5
+        },
+        "entry_seam_position": {
+          "measured": 0.0002,
+          "passed": true,
+          "threshold": 0.01
+        },
+        "exit_seam_heading": {
+          "measured": 0.0,
+          "passed": true,
+          "threshold": 0.5
+        },
+        "exit_seam_position": {
+          "measured": 0.0005,
+          "passed": true,
+          "threshold": 0.01
+        },
+        "heading_discipline": {
+          "measured": 4.33,
+          "passed": true,
+          "threshold": 150.0
+        },
+        "junction_elevation_agreement": {
+          "measured": 0.0,
+          "passed": true,
+          "threshold": 2.0
+        },
+        "length_agreement": {
+          "measured": 0.893,
+          "passed": true,
+          "threshold": 9.492
+        },
+        "opposing_clearance": {
+          "measured": {
+            "from_eastbound_crossings": 0,
+            "to_eastbound_crossings": 0
+          },
+          "passed": true,
+          "threshold": {
+            "clearance_m": 10.0,
+            "crossing_limit": 2
+          }
+        },
+        "reversal_excision": {
+          "measured": 0,
+          "passed": true,
+          "threshold": 8
+        },
+        "self_intersection": {
+          "measured": {
+            "simple": true
+          },
+          "passed": true,
+          "threshold": "transfer offset is a single simple LineString"
+        },
+        "station_monotonicity": {
+          "measured": {
+            "vertex_count": 64
+          },
+          "passed": true,
+          "threshold": "strictly increasing station at every vertex"
+        },
+        "transfer_grade": {
+          "measured": 0.787,
+          "passed": true,
+          "threshold": 7.0
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          [
+            1122637.768,
+            1520981.308
+          ],
+          [
+            1122630.654,
+            1520975.658
+          ],
+          [
+            1122621.923,
+            1520968.774
+          ],
+          [
+            1122613.336,
+            1520962.189
+          ],
+          [
+            1122600.379,
+            1520952.768
+          ],
+          [
+            1122591.505,
+            1520946.557
+          ],
+          [
+            1122582.902,
+            1520940.627
+          ],
+          [
+            1122574.105,
+            1520934.898
+          ],
+          [
+            1122565.292,
+            1520929.277
+          ],
+          [
+            1122556.234,
+            1520923.827
+          ],
+          [
+            1122547.148,
+            1520918.359
+          ],
+          [
+            1122538.145,
+            1520913.177
+          ],
+          [
+            1122528.856,
+            1520908.143
+          ],
+          [
+            1122519.789,
+            1520903.239
+          ],
+          [
+            1122510.45,
+            1520898.414
+          ],
+          [
+            1122500.939,
+            1520893.533
+          ],
+          [
+            1122500.837,
+            1520893.48
+          ],
+          [
+            1122491.806,
+            1520888.714
+          ],
+          [
+            1122482.393,
+            1520884.118
+          ],
+          [
+            1122482.288,
+            1520884.066
+          ],
+          [
+            1122472.564,
+            1520879.175
+          ],
+          [
+            1122462.987,
+            1520874.531
+          ],
+          [
+            1122462.946,
+            1520874.51
+          ],
+          [
+            1122453.17,
+            1520869.713
+          ],
+          [
+            1122431.541,
+            1520859.266
+          ],
+          [
+            1122431.371,
+            1520859.182
+          ],
+          [
+            1122425.141,
+            1520856.026
+          ],
+          [
+            1122380.228,
+            1520838.51
+          ],
+          [
+            1122379.914,
+            1520838.381
+          ],
+          [
+            1122370.375,
+            1520834.283
+          ],
+          [
+            1122369.985,
+            1520834.105
+          ],
+          [
+            1122359.927,
+            1520829.264
+          ],
+          [
+            1122349.781,
+            1520824.411
+          ],
+          [
+            1122349.481,
+            1520824.262
+          ],
+          [
+            1122339.545,
+            1520819.094
+          ],
+          [
+            1122339.262,
+            1520818.941
+          ],
+          [
+            1122328.704,
+            1520813.011
+          ],
+          [
+            1122319.741,
+            1520807.973
+          ],
+          [
+            1122319.386,
+            1520807.764
+          ],
+          [
+            1122309.818,
+            1520801.855
+          ],
+          [
+            1122309.608,
+            1520801.722
+          ],
+          [
+            1122300.248,
+            1520795.614
+          ],
+          [
+            1122300.052,
+            1520795.482
+          ],
+          [
+            1122291.885,
+            1520789.873
+          ],
+          [
+            1122291.431,
+            1520789.542
+          ],
+          [
+            1122290.516,
+            1520788.835
+          ],
+          [
+            1122281.542,
+            1520782.415
+          ],
+          [
+            1122281.34,
+            1520782.266
+          ],
+          [
+            1122272.422,
+            1520775.54
+          ],
+          [
+            1122272.284,
+            1520775.434
+          ],
+          [
+            1122263.395,
+            1520768.485
+          ],
+          [
+            1122263.265,
+            1520768.381
+          ],
+          [
+            1122254.569,
+            1520761.346
+          ],
+          [
+            1122254.405,
+            1520761.212
+          ],
+          [
+            1122245.826,
+            1520753.966
+          ],
+          [
+            1122245.73,
+            1520753.883
+          ],
+          [
+            1122237.255,
+            1520746.538
+          ],
+          [
+            1122237.097,
+            1520746.399
+          ],
+          [
+            1122228.74,
+            1520738.843
+          ],
+          [
+            1122228.647,
+            1520738.758
+          ],
+          [
+            1122220.406,
+            1520731.116
+          ],
+          [
+            1122212.239,
+            1520723.595
+          ],
+          [
+            1122212.118,
+            1520723.482
+          ],
+          [
+            1122211.91,
+            1520723.284
+          ]
+        ],
+        "crs": "EPSG:5070",
+        "geometry_sha256": "e82f8f1507df7757c78fce0ca9f5b72475155d096aaa1e71dd79b706d730e9f1",
+        "planimetric_m": 500.894,
+        "vertex_count": 64
+      },
+      "junction": {
+        "continuity_gap_m": 0.0
+      },
+      "length_effect": {
+        "delta_m": -0.971,
+        "replaced_westbound_m": 501.865,
+        "transfer_m": 500.894
+      },
+      "movement_id": "tn-i81-i40--i81-i78-to-i40--i40-i81-to-barstow",
+      "movement_kind": "through_transfer",
+      "opposing_carriageways": {
+        "from_eastbound": {
+          "crossing_count": 0,
+          "min_distance_m": 19.999
+        },
+        "to_eastbound": {
+          "crossing_count": 0,
+          "min_distance_m": 19.999
+        }
+      },
+      "path_ids": [
+        "southern-i40"
+      ],
+      "provenance": {
+        "authored_bridge_m": 0.0,
+        "class": "derived_from_locked_carriageways",
+        "statement": "The two chains share the snapped junction node, so the movement exists in the locks: every metre of the composed window is locked chain geometry and the transfer is its ADR-0014 westbound offset."
+      },
+      "to_segment_id": "i40-i81-to-barstow",
+      "vertical_context": {
+        "anchor_agreement_m": 0.0,
+        "anchor_elevations_m": [
+          388.96,
+          388.96
+        ],
+        "boundary_elevations_m": [
+          388.46,
+          392.4
+        ],
+        "chord_grade_percent": 0.787,
+        "entry_station_m": 846754.158,
+        "exit_station_m": 251.497,
+        "method": "ADR-0017 conditioned boundary elevations at the seam stations; planimetric window lengths map through each segment's geodesic/planimetric ratio (derived approximation); the grade is the boundary chord over the transfer's planimetric length.",
+        "source": "conditioned-profile-lock over corridor-elevation-lock"
+      },
+      "window": {
+        "bridge_m": 0.0,
+        "length_m": 500.001,
+        "window_m": 250.0
+      }
+    },
+    {
+      "anchor_id": "ut-cove-fort-i70-i15",
+      "attachments": {
+        "entry": {
+          "coordinate": [
+            -112.6034995,
+            38.5795425
+          ],
+          "heading_deg": -94.281,
+          "replaced_westbound_m": 249.063,
+          "segment_id": "i15-salt-lake-to-cove-fort",
+          "side": "westbound",
+          "station_m": 281303.167,
+          "westbound_length_m": 281552.23
+        },
+        "exit": {
+          "coordinate": [
+            -112.603298,
+            38.5751059
+          ],
+          "heading_deg": -102.865,
+          "replaced_westbound_m": 249.086,
+          "segment_id": "i15-cove-fort-to-barstow",
+          "side": "westbound",
+          "station_m": 249.086,
+          "westbound_length_m": 641178.586
+        }
+      },
+      "census_total_turn_deg": 13.645,
+      "corner_sites": [],
+      "excisions": [],
+      "from_segment_id": "i15-salt-lake-to-cove-fort",
+      "gates": {
+        "anchor_proximity": {
+          "measured": 9.999,
+          "passed": true,
+          "threshold": 50.0
+        },
+        "entry_seam_heading": {
+          "measured": 0.0,
+          "passed": true,
+          "threshold": 0.5
+        },
+        "entry_seam_position": {
+          "measured": 0.0001,
+          "passed": true,
+          "threshold": 0.01
+        },
+        "exit_seam_heading": {
+          "measured": 0.001,
+          "passed": true,
+          "threshold": 0.5
+        },
+        "exit_seam_position": {
+          "measured": 0.0005,
+          "passed": true,
+          "threshold": 0.01
+        },
+        "heading_discipline": {
+          "measured": 2.16,
+          "passed": true,
+          "threshold": 150.0
+        },
+        "junction_elevation_agreement": {
+          "measured": 0.0,
+          "passed": true,
+          "threshold": 2.0
+        },
+        "length_agreement": {
+          "measured": 1.849,
+          "passed": true,
+          "threshold": 4.758
+        },
+        "opposing_clearance": {
+          "measured": {
+            "from_eastbound_crossings": 0,
+            "to_eastbound_crossings": 0
+          },
+          "passed": true,
+          "threshold": {
+            "clearance_m": 10.0,
+            "crossing_limit": 2
+          }
+        },
+        "reversal_excision": {
+          "measured": 0,
+          "passed": true,
+          "threshold": 8
+        },
+        "self_intersection": {
+          "measured": {
+            "simple": true
+          },
+          "passed": true,
+          "threshold": "transfer offset is a single simple LineString"
+        },
+        "station_monotonicity": {
+          "measured": {
+            "vertex_count": 14
+          },
+          "passed": true,
+          "threshold": "strictly increasing station at every vertex"
+        },
+        "transfer_grade": {
+          "measured": -0.838,
+          "passed": true,
+          "threshold": 7.0
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          [
+            -1425566.729,
+            1852633.128
+          ],
+          [
+            -1425566.778,
+            1852632.181
+          ],
+          [
+            -1425572.945,
+            1852550.791
+          ],
+          [
+            -1425584.385,
+            1852461.219
+          ],
+          [
+            -1425584.429,
+            1852460.813
+          ],
+          [
+            -1425588.132,
+            1852417.987
+          ],
+          [
+            -1425588.148,
+            1852417.777
+          ],
+          [
+            -1425588.398,
+            1852413.949
+          ],
+          [
+            -1425589.912,
+            1852396.637
+          ],
+          [
+            -1425591.556,
+            1852385.382
+          ],
+          [
+            -1425597.381,
+            1852345.455
+          ],
+          [
+            -1425621.981,
+            1852203.114
+          ],
+          [
+            -1425633.973,
+            1852148.994
+          ],
+          [
+            -1425636.046,
+            1852140.387
+          ]
+        ],
+        "crs": "EPSG:5070",
+        "geometry_sha256": "b7dc409945ebc2206c4a72b5985de05d89f6161e0d5f648a8b60630a85e0e624",
+        "planimetric_m": 498.151,
+        "vertex_count": 14
+      },
+      "junction": {
+        "continuity_gap_m": 0.0
+      },
+      "length_effect": {
+        "delta_m": 0.002,
+        "replaced_westbound_m": 498.149,
+        "transfer_m": 498.151
+      },
+      "movement_id": "ut-cove-fort-i70-i15--i15-salt-lake-to-cove-fort--i15-cove-fort-to-barstow",
+      "movement_kind": "through_transfer",
+      "opposing_carriageways": {
+        "from_eastbound": {
+          "crossing_count": 0,
+          "min_distance_m": 19.999
+        },
+        "to_eastbound": {
+          "crossing_count": 0,
+          "min_distance_m": 19.999
+        }
+      },
+      "path_ids": [
+        "northern-plains"
+      ],
+      "provenance": {
+        "authored_bridge_m": 0.0,
+        "class": "derived_from_locked_carriageways",
+        "statement": "The two chains share the snapped junction node, so the movement exists in the locks: every metre of the composed window is locked chain geometry and the transfer is its ADR-0014 westbound offset."
+      },
+      "to_segment_id": "i15-cove-fort-to-barstow",
+      "vertical_context": {
+        "anchor_agreement_m": 0.0,
+        "anchor_elevations_m": [
+          1837.59,
+          1837.59
+        ],
+        "boundary_elevations_m": [
+          1839.74,
+          1835.57
+        ],
+        "chord_grade_percent": -0.838,
+        "entry_station_m": 279991.545,
+        "exit_station_m": 249.911,
+        "method": "ADR-0017 conditioned boundary elevations at the seam stations; planimetric window lengths map through each segment's geodesic/planimetric ratio (derived approximation); the grade is the boundary chord over the transfer's planimetric length.",
+        "source": "conditioned-profile-lock over corridor-elevation-lock"
+      },
+      "window": {
+        "bridge_m": 0.0,
+        "length_m": 500.0,
+        "window_m": 250.0
+      }
+    },
+    {
+      "anchor_id": "ut-cove-fort-i70-i15",
+      "attachments": {
+        "entry": {
+          "coordinate": [
+            -112.6008102,
+            38.5786284
+          ],
+          "heading_deg": -156.563,
+          "replaced_westbound_m": 250.113,
+          "segment_id": "i70-denver-to-cove-fort",
+          "side": "westbound",
+          "station_m": 804326.597,
+          "westbound_length_m": 804576.711
+        },
+        "exit": {
+          "coordinate": [
+            -112.603298,
+            38.5751059
+          ],
+          "heading_deg": -102.865,
+          "replaced_westbound_m": 249.086,
+          "segment_id": "i15-cove-fort-to-barstow",
+          "side": "westbound",
+          "station_m": 249.086,
+          "westbound_length_m": 641178.586
+        }
+      },
+      "census_total_turn_deg": 64.835,
+      "corner_sites": [
+        {
+          "coordinate": [
+            -112.6032319,
+            38.5774044
+          ],
+          "corner_class": "junction_transfer_corner",
+          "corner_id": "ut-cove-fort-i70-i15--i70-denver-to-cove-fort--i15-cove-fort-to-barstow--corner-000",
+          "from_station_m": 250.0,
+          "peak_turn_deg": 47.13,
+          "sample_count": 1,
+          "to_station_m": 250.0,
+          "turn_sum_deg": 47.13
+        }
+      ],
+      "excisions": [],
+      "from_segment_id": "i70-denver-to-cove-fort",
+      "gates": {
+        "anchor_proximity": {
+          "measured": 9.949,
+          "passed": true,
+          "threshold": 50.0
+        },
+        "entry_seam_heading": {
+          "measured": 0.0,
+          "passed": true,
+          "threshold": 0.5
+        },
+        "entry_seam_position": {
+          "measured": 0.0003,
+          "passed": true,
+          "threshold": 0.01
+        },
+        "exit_seam_heading": {
+          "measured": 0.001,
+          "passed": true,
+          "threshold": 0.5
+        },
+        "exit_seam_position": {
+          "measured": 0.0005,
+          "passed": true,
+          "threshold": 0.01
+        },
+        "heading_discipline": {
+          "measured": 47.13,
+          "passed": true,
+          "threshold": 150.0
+        },
+        "junction_elevation_agreement": {
+          "measured": 0.0,
+          "passed": true,
+          "threshold": 2.0
+        },
+        "length_agreement": {
+          "measured": 9.237,
+          "passed": true,
+          "threshold": 22.038
+        },
+        "opposing_clearance": {
+          "measured": {
+            "from_eastbound_crossings": 0,
+            "to_eastbound_crossings": 0
+          },
+          "passed": true,
+          "threshold": {
+            "clearance_m": 10.0,
+            "crossing_limit": 2
+          }
+        },
+        "reversal_excision": {
+          "measured": 0,
+          "passed": true,
+          "threshold": 8
+        },
+        "self_intersection": {
+          "measured": {
+            "simple": true
+          },
+          "passed": true,
+          "threshold": "transfer offset is a single simple LineString"
+        },
+        "station_monotonicity": {
+          "measured": {
+            "vertex_count": 15
+          },
+          "passed": true,
+          "threshold": "strictly increasing station at every vertex"
+        },
+        "transfer_grade": {
+          "measured": 0.164,
+          "passed": true,
+          "threshold": 7.0
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          [
+            -1425355.985,
+            1852491.893
+          ],
+          [
+            -1425512.676,
+            1852423.967
+          ],
+          [
+            -1425545.666,
+            1852410.021
+          ],
+          [
+            -1425578.763,
+            1852396.183
+          ],
+          [
+            -1425578.986,
+            1852396.087
+          ],
+          [
+            -1425585.741,
+            1852393.068
+          ],
+          [
+            -1425587.483,
+            1852392.069
+          ],
+          [
+            -1425588.99,
+            1852390.742
+          ],
+          [
+            -1425590.201,
+            1852389.14
+          ],
+          [
+            -1425591.068,
+            1852387.329
+          ],
+          [
+            -1425591.556,
+            1852385.382
+          ],
+          [
+            -1425597.381,
+            1852345.455
+          ],
+          [
+            -1425621.981,
+            1852203.114
+          ],
+          [
+            -1425633.973,
+            1852148.994
+          ],
+          [
+            -1425636.046,
+            1852140.387
+          ]
+        ],
+        "crs": "EPSG:5070",
+        "geometry_sha256": "0a745c4a04d5d259f5dda2eed7e81a765cf54948fc113d68f6c823f57a7413a0",
+        "planimetric_m": 509.238,
+        "vertex_count": 15
+      },
+      "junction": {
+        "continuity_gap_m": 0.0
+      },
+      "length_effect": {
+        "delta_m": 10.039,
+        "replaced_westbound_m": 499.199,
+        "transfer_m": 509.238
+      },
+      "movement_id": "ut-cove-fort-i70-i15--i70-denver-to-cove-fort--i15-cove-fort-to-barstow",
+      "movement_kind": "through_transfer",
+      "opposing_carriageways": {
+        "from_eastbound": {
+          "crossing_count": 0,
+          "min_distance_m": 15.355
+        },
+        "to_eastbound": {
+          "crossing_count": 0,
+          "min_distance_m": 15.328
+        }
+      },
+      "path_ids": [
+        "central-rockies"
+      ],
+      "provenance": {
+        "authored_bridge_m": 0.0,
+        "class": "derived_from_locked_carriageways",
+        "statement": "The two chains share the snapped junction node, so the movement exists in the locks: every metre of the composed window is locked chain geometry and the transfer is its ADR-0014 westbound offset."
+      },
+      "to_segment_id": "i15-cove-fort-to-barstow",
+      "vertical_context": {
+        "anchor_agreement_m": 0.0,
+        "anchor_elevations_m": [
+          1837.59,
+          1837.59
+        ],
+        "boundary_elevations_m": [
+          1834.73,
+          1835.57
+        ],
+        "chord_grade_percent": 0.164,
+        "entry_station_m": 807544.394,
+        "exit_station_m": 249.911,
+        "method": "ADR-0017 conditioned boundary elevations at the seam stations; planimetric window lengths map through each segment's geodesic/planimetric ratio (derived approximation); the grade is the boundary chord over the transfer's planimetric length.",
+        "source": "conditioned-profile-lock over corridor-elevation-lock"
+      },
+      "window": {
+        "bridge_m": 0.0,
+        "length_m": 500.001,
+        "window_m": 250.0
+      }
+    },
+    {
+      "anchor_id": "ut-salt-lake-i80-i15",
+      "construction": {
+        "antiparallel_deviation_deg": 0.0,
+        "arc_length_m": 51.46,
+        "closure_correction_m": 0.0002,
+        "forward_offset_m": 0.0002,
+        "lateral_span_m": 19.9995,
+        "max_forward_excursion_m": 20.611,
+        "profile": "sine_eased_heading",
+        "turn_deg": 180.0
+      },
+      "design": {
+        "design_speed_kmh": 15.0,
+        "entry_seam_curvature_1_per_m": 0.000339,
+        "exit_seam_curvature_1_per_m": 0.000339,
+        "max_curvature_1_per_m": 0.12403,
+        "minimum_radius_m": 8.063
+      },
+      "from_segment_id": "i80-big-springs-to-salt-lake",
+      "gates": {
+        "anchor_proximity": {
+          "measured": 10.0,
+          "passed": true,
+          "threshold": 50.0
+        },
+        "carriageway_attachment_only": {
+          "measured": 0.0,
+          "passed": true,
+          "threshold": 0.01
+        },
+        "closure_correction": {
+          "measured": 0.0002,
+          "passed": true,
+          "threshold": 0.01
+        },
+        "entry_curvature_continuity": {
+          "measured": 0.0002,
+          "passed": true,
+          "threshold": 0.005
+        },
+        "entry_seam_heading": {
+          "measured": 0.013,
+          "passed": true,
+          "threshold": 0.5
+        },
+        "entry_seam_position": {
+          "measured": 0.0,
+          "passed": true,
+          "threshold": 0.01
+        },
+        "exit_curvature_continuity": {
+          "measured": 0.000249,
+          "passed": true,
+          "threshold": 0.005
+        },
+        "exit_seam_heading": {
+          "measured": 0.013,
+          "passed": true,
+          "threshold": 0.5
+        },
+        "exit_seam_position": {
+          "measured": 0.0,
+          "passed": true,
+          "threshold": 0.01
+        },
+        "heading_monotonicity": {
+          "measured": -0.0156,
+          "passed": true,
+          "threshold": -0.2
+        },
+        "junction_elevation_agreement": {
+          "measured": 0.0,
+          "passed": true,
+          "threshold": 2.0
+        },
+        "minimum_radius": {
+          "measured": 8.063,
+          "passed": true,
+          "threshold": 6.5
+        },
+        "seam_separation_agreement": {
+          "measured": 0.0005,
+          "passed": true,
+          "threshold": 0.01
+        },
+        "self_intersection": {
+          "measured": {
+            "simple": true
+          },
+          "passed": true,
+          "threshold": "authored loop is a single simple LineString"
+        },
+        "turnaround_grade": {
+          "measured": 0.0,
+          "passed": true,
+          "threshold": 7.0
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          [
+            -1325776.426,
+            2080997.719
+          ],
+          [
+            -1325776.25,
+            2080998.504
+          ],
+          [
+            -1325776.074,
+            2080999.288
+          ],
+          [
+            -1325775.899,
+            2081000.073
+          ],
+          [
+            -1325775.726,
+            2081000.858
+          ],
+          [
+            -1325775.555,
+            2081001.644
+          ],
+          [
+            -1325775.389,
+            2081002.431
+          ],
+          [
+            -1325775.23,
+            2081003.219
+          ],
+          [
+            -1325775.08,
+            2081004.009
+          ],
+          [
+            -1325774.94,
+            2081004.801
+          ],
+          [
+            -1325774.816,
+            2081005.595
+          ],
+          [
+            -1325774.708,
+            2081006.392
+          ],
+          [
+            -1325774.621,
+            2081007.191
+          ],
+          [
+            -1325774.559,
+            2081007.993
+          ],
+          [
+            -1325774.524,
+            2081008.796
+          ],
+          [
+            -1325774.522,
+            2081009.6
+          ],
+          [
+            -1325774.555,
+            2081010.403
+          ],
+          [
+            -1325774.627,
+            2081011.204
+          ],
+          [
+            -1325774.742,
+            2081012.0
+          ],
+          [
+            -1325774.904,
+            2081012.787
+          ],
+          [
+            -1325775.115,
+            2081013.563
+          ],
+          [
+            -1325775.378,
+            2081014.322
+          ],
+          [
+            -1325775.696,
+            2081015.061
+          ],
+          [
+            -1325776.068,
+            2081015.773
+          ],
+          [
+            -1325776.497,
+            2081016.453
+          ],
+          [
+            -1325776.981,
+            2081017.095
+          ],
+          [
+            -1325777.519,
+            2081017.692
+          ],
+          [
+            -1325778.108,
+            2081018.239
+          ],
+          [
+            -1325778.746,
+            2081018.728
+          ],
+          [
+            -1325779.426,
+            2081019.156
+          ],
+          [
+            -1325780.145,
+            2081019.516
+          ],
+          [
+            -1325780.895,
+            2081019.805
+          ],
+          [
+            -1325781.669,
+            2081020.02
+          ],
+          [
+            -1325782.461,
+            2081020.157
+          ],
+          [
+            -1325783.263,
+            2081020.216
+          ],
+          [
+            -1325784.066,
+            2081020.198
+          ],
+          [
+            -1325784.864,
+            2081020.102
+          ],
+          [
+            -1325785.65,
+            2081019.931
+          ],
+          [
+            -1325786.416,
+            2081019.689
+          ],
+          [
+            -1325787.158,
+            2081019.379
+          ],
+          [
+            -1325787.87,
+            2081019.006
+          ],
+          [
+            -1325788.548,
+            2081018.574
+          ],
+          [
+            -1325789.189,
+            2081018.089
+          ],
+          [
+            -1325789.792,
+            2081017.557
+          ],
+          [
+            -1325790.354,
+            2081016.983
+          ],
+          [
+            -1325790.877,
+            2081016.372
+          ],
+          [
+            -1325791.36,
+            2081015.729
+          ],
+          [
+            -1325791.804,
+            2081015.059
+          ],
+          [
+            -1325792.211,
+            2081014.366
+          ],
+          [
+            -1325792.584,
+            2081013.654
+          ],
+          [
+            -1325792.925,
+            2081012.926
+          ],
+          [
+            -1325793.238,
+            2081012.185
+          ],
+          [
+            -1325793.524,
+            2081011.434
+          ],
+          [
+            -1325793.787,
+            2081010.674
+          ],
+          [
+            -1325794.03,
+            2081009.908
+          ],
+          [
+            -1325794.257,
+            2081009.136
+          ],
+          [
+            -1325794.469,
+            2081008.361
+          ],
+          [
+            -1325794.671,
+            2081007.582
+          ],
+          [
+            -1325794.864,
+            2081006.802
+          ],
+          [
+            -1325795.05,
+            2081006.02
+          ],
+          [
+            -1325795.232,
+            2081005.236
+          ],
+          [
+            -1325795.41,
+            2081004.452
+          ],
+          [
+            -1325795.588,
+            2081003.668
+          ],
+          [
+            -1325795.764,
+            2081002.884
+          ],
+          [
+            -1325795.94,
+            2081002.099
+          ]
+        ],
+        "crs": "EPSG:5070",
+        "geometry_sha256": "ee8f454f500af2c6f6db5b5fbb9940384cd9ddf6fb7eeaf9775ff27c1997d5fe",
+        "planimetric_m": 51.452,
+        "vertex_count": 65
+      },
+      "length_effect": {
+        "delta_m": 51.452,
+        "replaced_westbound_m": 0.0,
+        "transfer_m": 51.452
+      },
+      "locked_backtrack": {
+        "backtrack_element_count": 6,
+        "backtrack_length_m": 2337.242,
+        "westbound_separation_m": 20.0
+      },
+      "movement_id": "ut-salt-lake-i80-i15--i80-big-springs-to-salt-lake--i15-salt-lake-to-cove-fort",
+      "movement_kind": "turnaround_transfer",
+      "path_ids": [
+        "northern-plains"
+      ],
+      "provenance": {
+        "authored_planimetric_m": 51.452,
+        "class": "authored_turnaround",
+        "statement": "No source asserts geometry for the anchor turn-around: the directed lock records the doubled junction-approach travel as a measured anchor-model fact and the carriageway lock proves the approach rides the reciprocal pair to a 0.000 m reciprocity gap, so the loop joining departing-westbound to arriving-eastbound is an authored ADR-0018 record with the declared low-speed design bound."
+      },
+      "seam_poses": {
+        "entry": {
+          "coordinate": [
+            -1325776.426,
+            2080997.719
+          ],
+          "heading_deg": 77.349938508
+        },
+        "exit": {
+          "coordinate": [
+            -1325795.94,
+            2081002.099
+          ],
+          "heading_deg": -102.650057793
+        }
+      },
+      "to_segment_id": "i15-salt-lake-to-cove-fort",
+      "vertical_context": {
+        "anchor_agreement_m": 0.0,
+        "anchor_elevations_m": [
+          1292.62,
+          1292.62
+        ],
+        "boundary_elevations_m": [
+          1292.62,
+          1292.62
+        ],
+        "chord_grade_percent": 0.0,
+        "entry_station_m": 935038.076,
+        "exit_station_m": 0.0,
+        "method": "ADR-0017 conditioned boundary elevations at the seam stations; planimetric window lengths map through each segment's geodesic/planimetric ratio (derived approximation); the grade is the boundary chord over the transfer's planimetric length.",
+        "source": "conditioned-profile-lock over corridor-elevation-lock"
+      }
+    }
+  ],
+  "movements_sha256": "5fe06b39265a5b8fd869f33250710621c525f1a1ce8ff0201a442603ef1ba7f2",
+  "next_stage": {
+    "id": "lane-topology-collision-and-package-build",
+    "requires": [
+      "lane topology, ramps, and collision over the carriageway and junction-transfer model with the deferred ADR-0018 gates",
+      "the GeoPackage/FlatBuffer package build (materializing the cached carriageway geometry) under ADR-0019 budgets",
+      "the southern path's Holland Tunnel connector (nyc-start-to-i78) before its portal-to-portal figure can publish",
+      "runtime integration and the double-build/traversal evidence"
+    ]
+  },
+  "nhs_conflation_lock_sha256": "4448c547c0a051ac6c58f26c8e37f092d3a4fbd5a33072f807103b5394292251",
+  "nhs_fill_lock_sha256": "2d05552540107464344aa579e833333a17539de3f1ab7ac8595d5b3ad98c2852",
+  "reconstruction_overlay_lock_sha256": "b01be230edc495e5aa30981d37b342519514e8884896df778380584032f908a0",
+  "route_decision": "ADR-0024",
+  "route_selection_sha256": "00ac4df354a8644997a2a073ee07c736ff3f3bc2d2565c8cd9cb51b957d2ff2f",
+  "schema_version": 1,
+  "source_policy": {
+    "carriageway_decision": "ADR-0014",
+    "context_decision": "ADR-0017",
+    "continental_downloads_committed": false,
+    "control_line_decision": "ADR-0013",
+    "junction_transfer_geometry_generated": true,
+    "lane_geometry_claimed": false,
+    "opposing_geometry_synthesized_from_proximity": false,
+    "reconstruction_decision": "ADR-0018",
+    "route_decision": "ADR-0024",
+    "run_length_effect_claimed": false,
+    "run_length_effect_note": "Per-movement window and excision length effects are recorded facts inside the locked source-centerline fidelity envelope; the published ADR-0024 portal-to-portal figure remains the westbound carriageway lock's record.",
+    "vertical_geometry_claimed": false
+  },
+  "status": "junction_transfer_geometry_locked_lane_topology_pending",
+  "summary": {
+    "authored_bridge_movement_count": 2,
+    "authored_turnaround_count": 2,
+    "corner_site_count": 4,
+    "cross_segment_junction_anchor_count": 7,
+    "derived_movement_count": 8,
+    "excision_count": 4,
+    "gates_failed": 0,
+    "gates_passed": 160,
+    "movement_count": 12,
+    "opposing_crossing_count": 2,
+    "through_transfer_count": 10,
+    "through_transfer_length_m": 4983.438,
+    "turnaround_anchor_count": 2,
+    "turnaround_length_m": 102.904,
+    "turnaround_transfer_count": 2
+  },
+  "transfer_lock_sha256": "b267282a1d48014783c90a60c46cda85cea61741911d23649bf318404aea2b3b",
+  "westbound_carriageway_lock_sha256": "391b2b811fe68444f4c37958e43e1d0c3068bba2dd59ea6952ce0789687283f7"
+}
