@@ -210,6 +210,24 @@ uv run --project tools/map_pipeline --frozen cannonball-map \
 # nhpn_scoped_acquisition=3, nhs_fill=5
 ```
 
+```bash
+GODOT_BIN=…/Godot ./scripts/check.sh
+# exit 0: doctor; warning-free build; 145 xUnit; Ruff; frame-allocation scan;
+# continental lock, transfer, edge-path, and break-disposition validation;
+# 187 map-pipeline tests; 13 PlayGodot unit tests; official Godot 4.7.1
+# save-writing smoke (80.7 mph peak, save at 56.1 m, 11.257 ms max chunk
+# build, 1.223 ms max collision build)
+```
+
+The gate summary SHA-256 is
+`622fb07ccc1cd667d21ef41124eb853071efcf36858821b6c3287f9bcec552ba`; the
+doctor report SHA-256 is
+`33cb1935e7bc974bbc4cc89452ab1f85a6648768cd2301f08b7df88be56e1dca`. One
+repository-root `pytest` invocation failed by collecting PlayGodot tests with
+the map-pipeline environment — the same known invocation trap the 2026-08-30
+audit recorded — and the scoped `pytest tools/map_pipeline` invocation was
+used instead; no test was changed.
+
 New unit tests cover the window tiling, the chord-metric tier ladder, the
 sweep's covered/beyond-limit routing and checkpoint resumption, the shared
 break-end selection (via the unchanged census suite), NHS metadata identity
