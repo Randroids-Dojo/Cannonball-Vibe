@@ -8173,6 +8173,11 @@ DEM_EXPECTED_VERTICAL_DATUM = "North American Vertical Datum of 1988"
 DEM_EXPECTED_ELEVATION_UNITS = "meters"
 DEM_EXPECTED_NODATA = -999999.0
 DEM_PIXEL_DEGREES = 1.0 / 10_800.0
+# The staged products encode the cell size with about nine significant digits
+# (observed 9.25925927753796e-05 against the exact 1/10800), so the agreement
+# tolerance is one part per million - far tighter than the 3x gap to the next
+# product family, far looser than the source's own encoding noise.
+DEM_PIXEL_RELATIVE_TOLERANCE = 1e-6
 DEM_DISCOVERY_MAX = 100
 DEM_SAMPLE_POLICY = (
     "deterministic sample: the first, middle, and last cell of the sorted "
@@ -8530,7 +8535,7 @@ def _parse_dem_fgdc_metadata(body_text: str) -> dict[str, Any]:
         raw = field(tag)
         if raw:
             value = abs(float(raw))
-            if abs(value - DEM_PIXEL_DEGREES) / DEM_PIXEL_DEGREES > 1e-6:
+            if abs(value - DEM_PIXEL_DEGREES) / DEM_PIXEL_DEGREES > DEM_PIXEL_RELATIVE_TOLERANCE:
                 raise ValueError(
                     f"FGDC {tag} {value!r} is not the 1/3 arc-second cell size."
                 )
@@ -8559,7 +8564,7 @@ def _inspect_dem_raster(path: Path, cell_id: str) -> dict[str, Any]:
         pixel_x = abs(raster.transform.a)
         pixel_y = abs(raster.transform.e)
         for pixel in (pixel_x, pixel_y):
-            if abs(pixel - DEM_PIXEL_DEGREES) / DEM_PIXEL_DEGREES > 1e-9:
+            if abs(pixel - DEM_PIXEL_DEGREES) / DEM_PIXEL_DEGREES > DEM_PIXEL_RELATIVE_TOLERANCE:
                 raise ValueError(
                     f"Sample tile '{cell_id}' pixel size {pixel!r} is not 1/3 "
                     "arc-second."
@@ -9343,7 +9348,8 @@ def validate_continental_3dep_products(
             or raster.get("nodata") != DEM_EXPECTED_NODATA
             or len(pixels) != 2
             or any(
-                abs(pixel - DEM_PIXEL_DEGREES) / DEM_PIXEL_DEGREES > 1e-9
+                abs(pixel - DEM_PIXEL_DEGREES) / DEM_PIXEL_DEGREES
+                > DEM_PIXEL_RELATIVE_TOLERANCE
                 for pixel in pixels
             )
         ):
