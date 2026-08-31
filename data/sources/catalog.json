@@ -21,6 +21,35 @@
       "limitations": "Nominal 1:100,000 source scale; horizontal error can reach approximately 80 meters. Never treat as final lane geometry."
     },
     {
+      "id": "usdot-ntad-national-highway-system",
+      "name": "National Highway System (NHS)",
+      "publisher": "U.S. Department of Transportation, Federal Highway Administration (via BTS NTAD)",
+      "landing_page": "https://geodata.bts.gov/datasets/usdot::national-highway-system-nhs/about",
+      "license_evidence_url": "https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/NTAD_National_Highway_System/FeatureServer",
+      "license_status": "public_domain",
+      "service_url": "https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/NTAD_National_Highway_System/FeatureServer/0",
+      "allowed_url_prefixes": [
+        "https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/NTAD_National_Highway_System/FeatureServer/0",
+        "https://www.fhwa.dot.gov/planning/national_highway_system/nhs_maps/"
+      ],
+      "use": "Supplementary corridor centerlines and state-LRS milepoints where NHPN keys carry no records; NHPN remains the route-family backbone (ADR-0026)",
+      "limitations": "NHS extent only; per-state geometry vintage and density vary (record fields YEAR, VERSION, UPDATE_DAT). Redistribution must retain the source metadata entry per the dataset's own license text. Not lane geometry."
+    },
+    {
+      "id": "usda-naip",
+      "name": "National Agriculture Imagery Program (NAIP)",
+      "publisher": "U.S. Department of Agriculture, FPAC Geospatial Enterprise Operations",
+      "landing_page": "https://naip-usdaonline.hub.arcgis.com/",
+      "license_evidence_url": "https://catalog.data.gov/dataset/national-agriculture-imagery-program-naip-imagery",
+      "license_status": "public_domain",
+      "allowed_url_prefixes": [
+        "https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPImagery/",
+        "https://prd-tnm.s3.amazonaws.com/StagedProducts/"
+      ],
+      "use": "Break-adjudication ground truth only: dated, checksummed quads evidencing physical road continuity for ADR-0018 correction records (ADR-0026). Not a geometry source.",
+      "limitations": "2-3 year state acquisition cycles; record quad ID, flight date, resolution, and SHA-256 per acquired tile."
+    },
+    {
       "id": "usgs-3dep",
       "name": "3D Elevation Program",
       "publisher": "U.S. Geological Survey",
