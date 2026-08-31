@@ -2746,3 +2746,429 @@ def test_overlay_lock_rejects_semantic_tampering(tmp_path: Path) -> None:
 
     with pytest.raises(ValueError, match="corridor summary"):
         _validate_overlay_lock(_tampered_overlay_lock(tmp_path, corridor_drift))
+
+
+CONFLATION_LOCK_PATH = Path("data/routes/continental/nhs-conflation-lock.v1.json")
+DEM_LOCK_PATH = Path("data/routes/continental/3dep-product-lock.v1.json")
+
+
+def test_measure_orientation_votes_resolve_forward_and_reversed() -> None:
+    neighbour = {
+        "object_id": 2,
+        "begin": 11.0,
+        "end": 12.0,
+        "line": LineString([(1600.0, 0.0), (3200.0, 0.0)]),
+    }
+    forward_target = {
+        "object_id": 1,
+        "begin": 10.0,
+        "end": 11.0,
+        "line": LineString([(0.0, 0.0), (1600.0, 0.0)]),
+    }
+    orientation, evidence = continental._measure_adjacency_votes(
+        forward_target, [neighbour], 5.0
+    )
+    assert orientation == "forward"
+    assert [item["vote"] for item in evidence if "vote" in item] == ["forward"]
+
+    reversed_target = {
+        "object_id": 3,
+        "begin": 10.0,
+        "end": 11.0,
+        "line": LineString([(1600.0, 0.0), (0.0, 0.0)]),
+    }
+    orientation, _ = continental._measure_adjacency_votes(
+        reversed_target, [neighbour], 5.0
+    )
+    assert orientation == "reversed"
+
+
+def test_measure_orientation_orients_a_quantum_short_record() -> None:
+    # A 0.001-mile record is shorter than the coincidence tolerance, so both of
+    # its ends sit near the neighbour; the strictly closer end still decides.
+    target = {
+        "object_id": 1,
+        "begin": 246.177,
+        "end": 246.178,
+        "line": LineString([(0.0, 0.0), (1.6, 0.0)]),
+    }
+    east = {
+        "object_id": 2,
+        "begin": 246.178,
+        "end": 247.0,
+        "line": LineString([(1.6, 0.0), (1000.0, 0.0)]),
+    }
+    orientation, evidence = continental._measure_adjacency_votes(target, [east], 5.0)
+    assert orientation == "forward"
+    votes = [item for item in evidence if "vote" in item]
+    assert votes and votes[0]["endpoint_gap_m"] == 0.0
+
+
+def test_measure_orientation_refuses_conflicting_votes() -> None:
+    target = {
+        "object_id": 1,
+        "begin": 0.0,
+        "end": 1.0,
+        "line": LineString([(0.0, 0.0), (1600.0, 0.0)]),
+    }
+    agreeing = {
+        "object_id": 2,
+        "begin": 1.0,
+        "end": 2.0,
+        "line": LineString([(1600.0, 0.0), (3200.0, 0.0)]),
+    }
+    conflicting = {
+        "object_id": 3,
+        "begin": 1.0,
+        "end": 2.0,
+        "line": LineString([(0.0, 0.0), (-1600.0, 0.0)]),
+    }
+    with pytest.raises(ValueError, match="conflicting measure-orientation"):
+        continental._measure_adjacency_votes(target, [agreeing, conflicting], 5.0)
+
+
+def test_conflation_margin_predicate_escapes_and_bounds() -> None:
+    predicate = continental._conflation_margin_predicate("42", "A'B", 1.0, 2.0)
+    assert predicate == (
+        "STFIPS = '42' AND ROUTEID = 'A''B' AND ENDPOINT > 0.750000 "
+        "AND BEGINPOINT < 2.250000"
+    )
+
+
+def test_measure_at_distance_maps_both_orientations() -> None:
+    record = {
+        "begin": 10.0,
+        "end": 12.0,
+        "line": LineString([(0.0, 0.0), (100.0, 0.0)]),
+        "orientation": "forward",
+    }
+    assert continental._measure_at_distance(record, 25.0) == pytest.approx(10.5)
+    assert continental._measure_at_distance({**record, "orientation": "reversed"}, 25.0) == (
+        pytest.approx(11.5)
+    )
+
+
+def test_conflation_span_assembly_clips_orients_and_joins() -> None:
+    mile = continental.METRES_PER_MILE
+    records = [
+        {
+            "object_id": 1,
+            "begin": 0.0,
+            "end": 1.0,
+            "line": LineString([(0.0, 0.0), (mile, 0.0)]),
+            "orientation": "forward",
+        },
+        {
+            "object_id": 2,
+            "begin": 1.0,
+            "end": 2.0,
+            "line": LineString([(2.0 * mile, 0.0), (mile, 0.0)]),
+            "orientation": "reversed",
+        },
+    ]
+    span = continental._assemble_conflation_span(records, 0.5, 1.5)
+    assert [piece["measure_range"] for piece in span["pieces"]] == [
+        [0.5, 1.0],
+        [1.0, 1.5],
+    ]
+    assert span["max_joint_gap_m"] == 0.0
+    assert float(span["line"].length) == pytest.approx(mile, rel=1e-9)
+    coordinates = list(span["line"].coords)
+    assert coordinates[0][0] == pytest.approx(mile / 2)
+    assert coordinates[-1][0] == pytest.approx(1.5 * mile)
+
+    with pytest.raises(ValueError, match="do not cover"):
+        continental._assemble_conflation_span(records[:1], 0.5, 1.9)
+
+
+def test_span_nhpn_agreement_reports_the_void_runs() -> None:
+    span_line = LineString([(0.0, 0.0), (1000.0, 0.0)])
+    nearby = LineString([(0.0, 5.0), (100.0, 5.0)])
+    result = continental._span_nhpn_agreement(span_line, [(None, nearby)], 50.0, 80.0)
+    assert result["station_count"] == 21
+    assert result["stations_within_nhpn_lens"] == 4
+    assert result["stations_beyond_nhpn_lens"] == 17
+    assert result["nhpn_void_runs"] == [{"start_m": 200.0, "end_m": 1000.0}]
+    assert result["nhpn_agreement"]["max_offset_m"] <= 80.0
+
+
+def _validate_conflation(path: Path) -> dict:
+    return continental.validate_continental_nhs_conflation(
+        path,
+        NHS_FILL_LOCK_PATH,
+        SELECTION_PATH,
+        LOCK_PATH,
+        TRANSFER_LOCK_PATH,
+        TRANSFER_POLICY_PATH,
+        EDGE_PATH_LOCK_PATH,
+        CATALOG_PATH,
+    )
+
+
+def test_repository_nhs_conflation_lock_validates() -> None:
+    payload = _validate_conflation(CONFLATION_LOCK_PATH)
+    assert payload["site_count"] == 5
+    summary = payload["summary"]
+    assert summary["seam_count"] == 10
+    assert summary["seams_within_bound"] == 10
+    assert summary["max_seam_offset_m"] <= continental.CONFLATION_SEAM_OFFSET_BOUND_METERS
+    assert (
+        summary["max_record_geometry_miles_ratio"]
+        <= continental.CONFLATION_GEOMETRY_MILES_AGREEMENT_RATIO
+    )
+    # The calibrated measure axis is characterised, never absorbed: the i78
+    # span's measure extent runs 14.6% past its planimetric geometry.
+    i78 = next(site for site in payload["sites"] if site["site_id"].startswith("i78"))
+    assert i78["span"]["measure_axis_distortion_ratio"] > 0.1
+    # The i15 span is fully NHPN-covered after the Payson acquisition, while
+    # the Big-I and Delaware River spans keep their recorded NHPN void runs.
+    i15 = next(site for site in payload["sites"] if site["site_id"].startswith("i15"))
+    assert i15["span"]["nhpn_void_runs"] == []
+    assert summary["sites_with_nhpn_void"] == 3
+
+
+def _tampered_conflation_lock(tmp_path: Path, mutate) -> Path:
+    payload = json.loads(CONFLATION_LOCK_PATH.read_text(encoding="utf-8"))
+    mutate(payload)
+    payload["sites_sha256"] = canonical_sha256(payload["sites"])
+    target = tmp_path / "nhs-conflation-lock.json"
+    target.write_text(json.dumps(payload), encoding="utf-8")
+    return target
+
+
+def test_nhs_conflation_lock_rejects_semantic_tampering(tmp_path: Path) -> None:
+    def seam_offset(payload: dict) -> None:
+        payload["sites"][0]["seams"][0]["nhs"]["seam_offset_m"] = 80.1
+
+    with pytest.raises(ValueError, match="seam offset violates"):
+        _validate_conflation(_tampered_conflation_lock(tmp_path, seam_offset))
+
+    def direction(payload: dict) -> None:
+        payload["westbound_selection_validated"] = True
+
+    with pytest.raises(ValueError, match="westbound selection"):
+        _validate_conflation(_tampered_conflation_lock(tmp_path, direction))
+
+    def widened_bound(payload: dict) -> None:
+        payload["model"]["seam_offset_bound_m"] = 200.0
+
+    with pytest.raises(ValueError, match="model constants drifted"):
+        _validate_conflation(_tampered_conflation_lock(tmp_path, widened_bound))
+
+    def dropped_site(payload: dict) -> None:
+        payload["sites"] = payload["sites"][1:]
+        payload["site_count"] = len(payload["sites"])
+
+    with pytest.raises(ValueError, match="exactly the locked fill sites"):
+        _validate_conflation(_tampered_conflation_lock(tmp_path, dropped_site))
+
+    def unlocked_record(payload: dict) -> None:
+        payload["sites"][0]["seams"][0]["nhs"]["object_id"] = 999_999_999
+
+    with pytest.raises(ValueError, match="unlocked NHS record"):
+        _validate_conflation(_tampered_conflation_lock(tmp_path, unlocked_record))
+
+    def predicate_drift(payload: dict) -> None:
+        payload["sites"][0]["margin_acquisition"]["predicate"] += " AND 1=1"
+
+    with pytest.raises(ValueError, match="margin predicate drifted"):
+        _validate_conflation(_tampered_conflation_lock(tmp_path, predicate_drift))
+
+    def miles_disagreement(payload: dict) -> None:
+        payload["sites"][0]["span"]["records_checked"][0]["geometry_length_m"] *= 2.0
+
+    with pytest.raises(ValueError, match="geometry-MILES"):
+        _validate_conflation(_tampered_conflation_lock(tmp_path, miles_disagreement))
+
+    def milepost_outside_interval(payload: dict) -> None:
+        correspondence = payload["sites"][0]["seams"][0]["nhpn"]["correspondence"]
+        correspondence["milepost_at_seam"] = 9_999.0
+
+    with pytest.raises(ValueError, match="outside its record interval"):
+        _validate_conflation(
+            _tampered_conflation_lock(tmp_path, milepost_outside_interval)
+        )
+
+
+def test_dem_cell_ids_and_line_cells() -> None:
+    assert continental._dem_cell_id((-106, 39)) == "n40w106"
+    assert continental._dem_cell_bounds("n40w106") == (-106, 39, -105, 40)
+    cells: set[tuple[int, int]] = set()
+    continental._cells_intersecting_line(
+        LineString([(-105.5, 39.5), (-104.5, 39.5)]), cells
+    )
+    assert cells == {(-106, 39), (-105, 39)}
+    with pytest.raises(ValueError, match="outside CONUS"):
+        continental._dem_cell_id((10, 50))
+    with pytest.raises(ValueError, match="Invalid 3DEP cell id"):
+        continental._dem_cell_bounds("x40w106")
+
+
+def _dem_item(source_id: str, publication_date: str, **overrides) -> dict:
+    item = {
+        "sourceId": source_id,
+        "title": f"USGS 1/3 Arc Second n40w106 {publication_date}",
+        "publicationDate": publication_date,
+        "format": "GeoTIFF",
+        "extent": "1 x 1 degree",
+        "sizeInBytes": 123,
+        "downloadURL": (
+            "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/"
+            f"historical/n40w106/USGS_13_n40w106_{source_id}.tif"
+        ),
+        "boundingBox": {
+            "minX": -106.0006,
+            "maxX": -104.9994,
+            "minY": 38.9994,
+            "maxY": 40.0006,
+        },
+    }
+    item.update(overrides)
+    return item
+
+
+_DEM_PREFIXES = ("https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/",)
+
+
+def test_dem_product_selection_prefers_latest_then_lexical() -> None:
+    items = [
+        _dem_item("bbb", "2026-05-28"),
+        _dem_item("aaa", "2026-05-28"),
+        _dem_item("zzz", "2022-02-16"),
+    ]
+    selected, candidates = continental._select_dem_product(
+        items, (-106, 39), "1 x 1 degree", _DEM_PREFIXES
+    )
+    assert selected["source_id"] == "aaa"
+    assert selected["publication_date"] == "2026-05-28"
+    assert len(candidates) == 3
+
+
+def test_dem_product_selection_filters_and_refuses() -> None:
+    non_covering = _dem_item(
+        "aaa",
+        "2026-05-28",
+        boundingBox={"minX": -106.0, "maxX": -105.5, "minY": 39.0, "maxY": 40.0},
+    )
+    offsite = _dem_item(
+        "bbb", "2026-05-28", downloadURL="https://example.com/USGS_13_n40w106.tif"
+    )
+    wrong_format = _dem_item("ccc", "2026-05-28", format="IMG")
+    with pytest.raises(ValueError, match="no covering catalog product"):
+        continental._select_dem_product(
+            [non_covering, offsite, wrong_format], (-106, 39), "1 x 1 degree", _DEM_PREFIXES
+        )
+
+
+_DEM_FGDC_BODY = (
+    "<metadata><horizdn>North American Datum of 1983</horizdn>"
+    "<altdatum>North American Vertical Datum of 1988</altdatum>"
+    "<altunits>meters</altunits>"
+    "<latres>-9.259259269220167e-05</latres>"
+    "<longres>9.25925927753796e-05</longres>"
+    "<pubdate>20260701</pubdate></metadata>"
+)
+
+
+def test_dem_fgdc_parse_requires_datums_and_cell_size() -> None:
+    parsed = continental._parse_dem_fgdc_metadata(_DEM_FGDC_BODY)
+    assert parsed["horizontal_datum"] == "North American Datum of 1983"
+    assert parsed["vertical_datum"] == "North American Vertical Datum of 1988"
+    assert parsed["elevation_units"] == "meters"
+    assert parsed["metadata_publication_date"] == "20260701"
+
+    with pytest.raises(ValueError, match="does not state the product datums"):
+        continental._parse_dem_fgdc_metadata(
+            _DEM_FGDC_BODY.replace("altdatum>", "unstated>")
+        )
+    with pytest.raises(ValueError, match="not the 1/3 arc-second"):
+        continental._parse_dem_fgdc_metadata(
+            _DEM_FGDC_BODY.replace("-9.259259269220167e-05", "-1e-04")
+        )
+
+
+def _validate_dem(path: Path) -> dict:
+    return continental.validate_continental_3dep_products(
+        path,
+        SELECTION_PATH,
+        LOCK_PATH,
+        TRANSFER_LOCK_PATH,
+        TRANSFER_POLICY_PATH,
+        EDGE_PATH_LOCK_PATH,
+        NHS_FILL_LOCK_PATH,
+        OVERLAY_LOCK_PATH,
+        CATALOG_PATH,
+    )
+
+
+def test_repository_3dep_product_lock_validates() -> None:
+    payload = _validate_dem(DEM_LOCK_PATH)
+    assert payload["product_count"] == payload["corridor"]["cell_count"]
+    assert payload["sample_verification"]["sample_count"] == 3
+    for product in payload["products"]:
+        metadata = product["metadata"]
+        assert metadata["horizontal_datum"] == "North American Datum of 1983"
+        assert metadata["vertical_datum"] == "North American Vertical Datum of 1988"
+        assert metadata["elevation_units"] == "meters"
+
+
+def _tampered_dem_lock(tmp_path: Path, mutate) -> Path:
+    payload = json.loads(DEM_LOCK_PATH.read_text(encoding="utf-8"))
+    mutate(payload)
+    payload["products_sha256"] = canonical_sha256(payload["products"])
+    payload["corridor"]["cell_count"] = len(payload["corridor"]["cells"])
+    payload["corridor"]["cells_sha256"] = canonical_sha256(payload["corridor"]["cells"])
+    target = tmp_path / "3dep-product-lock.json"
+    target.write_text(json.dumps(payload), encoding="utf-8")
+    return target
+
+
+def test_3dep_lock_rejects_semantic_tampering(tmp_path: Path) -> None:
+    def datum_drift(payload: dict) -> None:
+        payload["products"][0]["metadata"]["vertical_datum"] = "EGM2008"
+
+    with pytest.raises(ValueError, match="does not state the locked datums"):
+        _validate_dem(_tampered_dem_lock(tmp_path, datum_drift))
+
+    def offsite_product(payload: dict) -> None:
+        payload["products"][0]["product"]["download_url"] = (
+            "https://example.com/USGS_13_n40w106.tif"
+        )
+
+    with pytest.raises(ValueError, match="outside the catalog allowlist"):
+        _validate_dem(_tampered_dem_lock(tmp_path, offsite_product))
+
+    def stale_selection(payload: dict) -> None:
+        payload["products"][0]["discovery"]["candidates"].append(
+            {"source_id": "zzz", "publication_date": "2099-01-01"}
+        )
+        payload["products"][0]["discovery"]["candidate_count"] += 1
+
+    with pytest.raises(ValueError, match="violates the selection policy"):
+        _validate_dem(_tampered_dem_lock(tmp_path, stale_selection))
+
+    def dropped_product(payload: dict) -> None:
+        payload["products"] = payload["products"][1:]
+
+    with pytest.raises(ValueError, match="one product per corridor cell"):
+        _validate_dem(_tampered_dem_lock(tmp_path, dropped_product))
+
+    def sample_size_drift(payload: dict) -> None:
+        payload["sample_verification"]["samples"][0]["byte_count"] += 1
+
+    with pytest.raises(ValueError, match="byte count does not match"):
+        _validate_dem(_tampered_dem_lock(tmp_path, sample_size_drift))
+
+    def non_deterministic_sample(payload: dict) -> None:
+        samples = payload["sample_verification"]["samples"]
+        payload["sample_verification"]["samples"] = samples[1:]
+        payload["sample_verification"]["sample_count"] = len(samples) - 1
+
+    with pytest.raises(ValueError, match="deterministic sample"):
+        _validate_dem(_tampered_dem_lock(tmp_path, non_deterministic_sample))
+
+    def direction(payload: dict) -> None:
+        payload["westbound_selection_validated"] = True
+
+    with pytest.raises(ValueError, match="westbound selection"):
+        _validate_dem(_tampered_dem_lock(tmp_path, direction))

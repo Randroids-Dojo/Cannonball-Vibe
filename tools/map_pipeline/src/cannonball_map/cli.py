@@ -16,14 +16,18 @@ from cannonball_map.continental import (
     audit_continental_milepost_gaps,
     author_continental_reconstruction_overlays,
     derive_continental_edge_path_lock,
+    derive_continental_nhs_conflation,
     derive_continental_transfer_lock,
+    lock_continental_3dep_products,
     probe_continental_break_ends,
     probe_continental_gap_interiors,
     probe_continental_geometric_breaks,
     probe_continental_milepost_gaps,
     probe_continental_nhs_breaks,
+    validate_continental_3dep_products,
     validate_continental_break_dispositions,
     validate_continental_edge_path_lock,
+    validate_continental_nhs_conflation,
     validate_continental_nhs_fill_lock,
     validate_continental_reconstruction_overlays,
     validate_continental_route_lock,
@@ -1275,4 +1279,291 @@ def validate_continental_reconstruction_overlays_command(
         f"continental-overlays-ok: {overlay_lock} ({payload['overlay_count']} overlays, "
         f"{corridor['segments_chaining_anchor_to_anchor']}/{corridor['segment_count']} "
         "segments chaining anchor-to-anchor)"
+    )
+
+
+@app.command("derive-continental-nhs-conflation")
+def derive_continental_nhs_conflation_command(
+    fill_lock: Path = typer.Option(
+        Path("data/routes/continental/nhs-fill-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    selection: Path = typer.Option(
+        Path("data/routes/continental/route-selection.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    route_lock: Path = typer.Option(
+        Path("data/sources/continental-route-lock.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    transfer_lock: Path = typer.Option(
+        Path("data/routes/continental/transfer-node-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    policy: Path = typer.Option(
+        Path("data/routes/continental/transfer-node-policy.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    edge_path_lock: Path = typer.Option(
+        Path("data/routes/continental/edge-path-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    catalog: Path = typer.Option(DEFAULT_CATALOG, exists=True, file_okay=True, dir_okay=False),
+    cache: Path = typer.Option(
+        Path(".tools/continental/nhpn"),
+        help="Locked NHPN response cache.",
+        exists=True, file_okay=False, dir_okay=True,
+    ),
+    fill_cache: Path = typer.Option(
+        Path(".tools/continental/nhs-fills"),
+        help="Locked NHS fill response cache.",
+        exists=True, file_okay=False, dir_okay=True,
+    ),
+    conflation_cache: Path = typer.Option(
+        Path(".tools/continental/nhs-conflation"),
+        help="Ignored cache for the orientation-evidence margin responses.",
+        file_okay=False, dir_okay=True,
+    ),
+    output: Path = typer.Option(
+        Path("data/routes/continental/nhs-conflation-lock.v1.json"),
+        help="NHPN-NHS conflation lock to write.",
+        file_okay=True, dir_okay=False,
+    ),
+    page_size: int = typer.Option(2_000, min=1, max=2_000),
+) -> None:
+    """Derive the ADR-0026 NHPN-NHS conflation model over the locked fill spans.
+
+    Seam correspondence at every span end (NHS state-LRS measures against the
+    NHPN record and milepost space), oriented span geometry between the seams,
+    and recorded geometric agreement bounds. Refuses any bound failure with
+    machine-readable diagnostics; nothing is absorbed silently.
+    """
+    try:
+        payload = derive_continental_nhs_conflation(
+            fill_lock,
+            selection,
+            route_lock,
+            transfer_lock,
+            policy,
+            edge_path_lock,
+            catalog,
+            cache,
+            fill_cache,
+            conflation_cache,
+            output,
+            page_size=page_size,
+        )
+    except ValueError as error:
+        typer.echo(f"continental-nhs-conflation-failed: {error}", err=True)
+        raise typer.Exit(code=1) from error
+    summary = payload["summary"]
+    typer.echo(
+        f"continental-nhs-conflation: {output} ({payload['site_count']} spans, "
+        f"{summary['seams_within_bound']}/{summary['seam_count']} seams within "
+        f"{payload['model']['seam_offset_bound_m']:g} m, max seam offset "
+        f"{summary['max_seam_offset_m']:g} m)"
+    )
+
+
+@app.command("validate-continental-nhs-conflation")
+def validate_continental_nhs_conflation_command(
+    conflation_lock: Path = typer.Argument(
+        Path("data/routes/continental/nhs-conflation-lock.v1.json"),
+        help="NHPN-NHS conflation lock to validate.",
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    fill_lock: Path = typer.Option(
+        Path("data/routes/continental/nhs-fill-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    selection: Path = typer.Option(
+        Path("data/routes/continental/route-selection.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    route_lock: Path = typer.Option(
+        Path("data/sources/continental-route-lock.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    transfer_lock: Path = typer.Option(
+        Path("data/routes/continental/transfer-node-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    policy: Path = typer.Option(
+        Path("data/routes/continental/transfer-node-policy.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    edge_path_lock: Path = typer.Option(
+        Path("data/routes/continental/edge-path-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    catalog: Path = typer.Option(DEFAULT_CATALOG, exists=True, file_okay=True, dir_okay=False),
+) -> None:
+    """Validate the NHPN-NHS conflation lock without the response caches."""
+    try:
+        payload = validate_continental_nhs_conflation(
+            conflation_lock,
+            fill_lock,
+            selection,
+            route_lock,
+            transfer_lock,
+            policy,
+            edge_path_lock,
+            catalog,
+        )
+    except ValueError as error:
+        typer.echo(f"continental-nhs-conflation-invalid: {error}", err=True)
+        raise typer.Exit(code=1) from error
+    summary = payload["summary"]
+    typer.echo(
+        f"continental-nhs-conflation-ok: {conflation_lock} "
+        f"({payload['site_count']} spans, {summary['seams_within_bound']}/"
+        f"{summary['seam_count']} seams within bound)"
+    )
+
+
+@app.command("lock-continental-3dep-products")
+def lock_continental_3dep_products_command(
+    selection: Path = typer.Option(
+        Path("data/routes/continental/route-selection.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    route_lock: Path = typer.Option(
+        Path("data/sources/continental-route-lock.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    transfer_lock: Path = typer.Option(
+        Path("data/routes/continental/transfer-node-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    policy: Path = typer.Option(
+        Path("data/routes/continental/transfer-node-policy.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    edge_path_lock: Path = typer.Option(
+        Path("data/routes/continental/edge-path-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    fill_lock: Path = typer.Option(
+        Path("data/routes/continental/nhs-fill-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    overlay_lock: Path = typer.Option(
+        Path("data/routes/continental/reconstruction-overlay-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    catalog: Path = typer.Option(DEFAULT_CATALOG, exists=True, file_okay=True, dir_okay=False),
+    cache: Path = typer.Option(
+        Path(".tools/continental/nhpn"),
+        help="Locked NHPN response cache.",
+        exists=True, file_okay=False, dir_okay=True,
+    ),
+    fill_cache: Path = typer.Option(
+        Path(".tools/continental/nhs-fills"),
+        help="Locked NHS fill response cache.",
+        exists=True, file_okay=False, dir_okay=True,
+    ),
+    dem_cache: Path = typer.Option(
+        Path(".tools/continental/3dep"),
+        help="Ignored cache for discovery responses, tile metadata, and sample tiles.",
+        file_okay=False, dir_okay=True,
+    ),
+    output: Path = typer.Option(
+        Path("data/routes/continental/3dep-product-lock.v1.json"),
+        help="3DEP product lock to write.",
+        file_okay=True, dir_okay=False,
+    ),
+) -> None:
+    """Lock the exact ADR-0007 3DEP product set over the closed corridor.
+
+    One discovery request per corridor cell inside the catalog's discovery
+    endpoint, deterministic latest-publication selection, per-tile FGDC datum
+    evidence from inside the catalog's allowed prefixes, and a deterministic
+    three-tile end-to-end sample verification. The lock is the deliverable;
+    nothing continental is committed.
+    """
+    try:
+        payload = lock_continental_3dep_products(
+            selection,
+            route_lock,
+            transfer_lock,
+            policy,
+            edge_path_lock,
+            fill_lock,
+            overlay_lock,
+            catalog,
+            cache,
+            fill_cache,
+            dem_cache,
+            output,
+        )
+    except ValueError as error:
+        typer.echo(f"continental-3dep-lock-failed: {error}", err=True)
+        raise typer.Exit(code=1) from error
+    corridor = payload["corridor"]
+    samples = payload["sample_verification"]
+    typer.echo(
+        f"continental-3dep-locked: {output} ({corridor['cell_count']} cells, "
+        f"{payload['product_count']} products, {samples['sample_count']} sample "
+        "tiles verified end-to-end)"
+    )
+
+
+@app.command("validate-continental-3dep-products")
+def validate_continental_3dep_products_command(
+    dem_lock: Path = typer.Argument(
+        Path("data/routes/continental/3dep-product-lock.v1.json"),
+        help="3DEP product lock to validate.",
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    selection: Path = typer.Option(
+        Path("data/routes/continental/route-selection.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    route_lock: Path = typer.Option(
+        Path("data/sources/continental-route-lock.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    transfer_lock: Path = typer.Option(
+        Path("data/routes/continental/transfer-node-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    policy: Path = typer.Option(
+        Path("data/routes/continental/transfer-node-policy.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    edge_path_lock: Path = typer.Option(
+        Path("data/routes/continental/edge-path-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    fill_lock: Path = typer.Option(
+        Path("data/routes/continental/nhs-fill-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    overlay_lock: Path = typer.Option(
+        Path("data/routes/continental/reconstruction-overlay-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    catalog: Path = typer.Option(DEFAULT_CATALOG, exists=True, file_okay=True, dir_okay=False),
+) -> None:
+    """Validate the 3DEP product lock without caches, downloads, or discovery."""
+    try:
+        payload = validate_continental_3dep_products(
+            dem_lock,
+            selection,
+            route_lock,
+            transfer_lock,
+            policy,
+            edge_path_lock,
+            fill_lock,
+            overlay_lock,
+            catalog,
+        )
+    except ValueError as error:
+        typer.echo(f"continental-3dep-lock-invalid: {error}", err=True)
+        raise typer.Exit(code=1) from error
+    corridor = payload["corridor"]
+    typer.echo(
+        f"continental-3dep-lock-ok: {dem_lock} ({corridor['cell_count']} cells, "
+        f"{payload['product_count']} products, "
+        f"{payload['sample_verification']['sample_count']} verified samples)"
     )

@@ -1,0 +1,4827 @@
+{
+  "acquired_at": "2026-08-31T09:07:59Z",
+  "ancestry": {
+    "nhpn_backbone": {
+      "candidate_lock_sha256": "cbdaaa3710e2b2e9409628f32fb1ef16228ec2256c5b8f1428d3363618e73900",
+      "role": "route-family and topology backbone; authority for which facilities are on the route",
+      "source_id": "usdot-national-highway-planning-network"
+    },
+    "nhs_centerlines": {
+      "decision": "ADR-0026",
+      "role": "supplementary corridor centerlines and state-LRS milepoints across the named NHPN voids only",
+      "source_id": "usdot-ntad-national-highway-system"
+    }
+  },
+  "candidate_lock_sha256": "cbdaaa3710e2b2e9409628f32fb1ef16228ec2256c5b8f1428d3363618e73900",
+  "catalog_sha256": "4d3a4c115875fc7e72f12e6a9d32a31d4b103a1b73bdbc731f47864989b8447f",
+  "coordinate_crs": "EPSG:4326",
+  "decision": "ADR-0026",
+  "edge_path_lock_sha256": "fcf0da1dcff80eb74364b1496e2033c351b14c25cbbf7f857e8af8a42295fc5e",
+  "endpoint_snap_tolerance_m": 1.0,
+  "metric_crs": "EPSG:5070",
+  "model": {
+    "adjacency_gap_m": 5.0,
+    "geometry_miles_agreement_bound": 0.02,
+    "hpms_reuse": {
+      "decision": "ADR-0026",
+      "keyed_on": [
+        "state_fips",
+        "route_id",
+        "measure"
+      ],
+      "note": "HPMS extracts the same ARNOLD substrate, so every seam correspondence and span parametrisation here is keyed on the ARNOLD LRS identity and reusable unchanged if HPMS is adopted."
+    },
+    "measure_axis_note": "The state-LRS measure axis is calibrated, not metric: per-record measure extents diverge from planimetric length by up to 43% on the locked fill records while the source's own MILES field agrees with its geometry within about 1%. Measures parametrise the span and key the correspondence; they are never a length, and the length bound is between geometry and MILES.",
+    "measure_margin_miles": 0.25,
+    "measure_space": "state-LRS route measures (STFIPS, ROUTEID, measure)",
+    "nhpn_proximity_lens_m": 80.0,
+    "seam_offset_bound_m": 80.0,
+    "station_spacing_m": 50.0
+  },
+  "next_stage": {
+    "id": "westbound-selection-and-reconstruction",
+    "requires": [
+      "westbound directed edge selection over the closed topology",
+      "reconstruction geometry through the full ADR-0018 gate battery"
+    ]
+  },
+  "nhs": {
+    "license_evidence_url": "https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/NTAD_National_Highway_System/FeatureServer",
+    "license_status": "public_domain",
+    "publisher": "U.S. Department of Transportation, Federal Highway Administration (via BTS NTAD)",
+    "query_url": "https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/NTAD_National_Highway_System/FeatureServer/0/query",
+    "service": {
+      "canonical_metadata_sha256": "a29f96df0512d0748d0c243cf15867d432439f6df5927d9b9d682e167410c027",
+      "data_last_edit_epoch_ms": 1778183346545,
+      "item_id": "dce9f09392eb474c8ad8e6a78416279b",
+      "layer_id": 0,
+      "max_record_count": 2000,
+      "object_id_field": "OBJECTID"
+    },
+    "service_url": "https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/NTAD_National_Highway_System/FeatureServer/0",
+    "source_id": "usdot-ntad-national-highway-system"
+  },
+  "nhs_fill_lock_sha256": "2d05552540107464344aa579e833333a17539de3f1ab7ac8595d5b3ad98c2852",
+  "route_decision": "ADR-0024",
+  "route_selection_sha256": "00ac4df354a8644997a2a073ee07c736ff3f3bc2d2565c8cd9cb51b957d2ff2f",
+  "schema_version": 1,
+  "site_count": 5,
+  "sites": [
+    {
+      "facility": "I-15",
+      "group": {
+        "route_id": "0015PM",
+        "signed_routes": [
+          "I-15"
+        ],
+        "state_fips": "49"
+      },
+      "margin_acquisition": {
+        "acquired_at": "2026-08-31T09:07:59Z",
+        "expected_count": 66,
+        "features_sha256": "e6689eac54f60df1c4de4249d44d2445534d817b5223adc4b71654513747b046",
+        "locked_records_reproduced": true,
+        "object_ids": [
+          98653,
+          98654,
+          98700,
+          98707,
+          98713,
+          98714,
+          98715,
+          98716,
+          98717,
+          98718,
+          98719,
+          98720,
+          98721,
+          98722,
+          98723,
+          98724,
+          98725,
+          98726,
+          98727,
+          98728,
+          98729,
+          98730,
+          98731,
+          98732,
+          98733,
+          98734,
+          98735,
+          98736,
+          98737,
+          98750,
+          99800,
+          99804,
+          99808,
+          99809,
+          99810,
+          99819,
+          99820,
+          99822,
+          99823,
+          99824,
+          99825,
+          99826,
+          99827,
+          99828,
+          99829,
+          99830,
+          99831,
+          99832,
+          99833,
+          99834,
+          99835,
+          99837,
+          99847,
+          99851,
+          99852,
+          99853,
+          99854,
+          99855,
+          99856,
+          99857,
+          99858,
+          99859,
+          99860,
+          99861,
+          99862,
+          99863
+        ],
+        "object_ids_sha256": "fa59736c859af33ad65a775f128163e5a0f24d800d402e762cb2995c8caacd6a",
+        "page_size": 2000,
+        "pages": [
+          {
+            "canonical_response_sha256": "477ccc00fd5f02de63b956277f7ea54ec9f630f5018a1044645f20695a1e2242",
+            "feature_count": 66,
+            "index": 0,
+            "object_id_offset": 0,
+            "object_ids_sha256": "fa59736c859af33ad65a775f128163e5a0f24d800d402e762cb2995c8caacd6a"
+          }
+        ],
+        "predicate": "STFIPS = '49' AND ROUTEID = '0015PM' AND ENDPOINT > 244.588000 AND BEGINPOINT < 265.840000",
+        "resumed_pages": 1,
+        "retries": 0
+      },
+      "orientation": [
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 255.141,
+              "end_gap_m": 2593.505,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 98736,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 256.74,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99809,
+              "start_gap_m": 2593.505,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 98653,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "high",
+              "boundary_measure": 265.59,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 98750,
+              "start_gap_m": 3598.193,
+              "vote": "forward"
+            },
+            {
+              "boundary": "low",
+              "boundary_measure": 263.358,
+              "end_gap_m": 3598.193,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99847,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 98654,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 244.92,
+              "end_gap_m": 276.107,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 98707,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 245.09,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 98718,
+              "start_gap_m": 276.107,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 98700,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "high",
+              "boundary_measure": 244.92,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 98700,
+              "start_gap_m": 132.105,
+              "vote": "forward"
+            },
+            {
+              "boundary": "low",
+              "boundary_measure": 244.838,
+              "end_gap_m": 132.105,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 98715,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 98707,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 249.335,
+              "end_gap_m": 1742.293,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 98722,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 250.41,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 98729,
+              "start_gap_m": 1742.293,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 98716,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 246.77,
+              "end_gap_m": 1074.603,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 98719,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 247.43,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 98723,
+              "start_gap_m": 1074.603,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 98717,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 245.09,
+              "end_gap_m": 1751.559,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 98700,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 246.177,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 98720,
+              "start_gap_m": 1751.559,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 98718,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "high",
+              "boundary_measure": 246.77,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 98717,
+              "start_gap_m": 966.587,
+              "vote": "forward"
+            },
+            {
+              "boundary": "low",
+              "boundary_measure": 246.178,
+              "end_gap_m": 966.587,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 98720,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 98719,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 246.177,
+              "end_gap_m": 1.578,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 98718,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 246.178,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 98719,
+              "start_gap_m": 1.578,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 98720,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 248.27,
+              "end_gap_m": 275.582,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 98723,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 248.44,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 98724,
+              "start_gap_m": 275.582,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 98721,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "high",
+              "boundary_measure": 249.335,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 98716,
+              "start_gap_m": 794.664,
+              "vote": "forward"
+            },
+            {
+              "boundary": "low",
+              "boundary_measure": 248.845,
+              "end_gap_m": 794.664,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 98724,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 98722,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 247.43,
+              "end_gap_m": 1367.068,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 98717,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 248.27,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 98721,
+              "start_gap_m": 1367.068,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 98723,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 248.44,
+              "end_gap_m": 653.234,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 98721,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 248.845,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 98722,
+              "start_gap_m": 653.234,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 98724,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 252.65,
+              "end_gap_m": 1451.424,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 98734,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 253.557,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 98735,
+              "start_gap_m": 1451.424,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 98725,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "high",
+              "boundary_measure": 251.37,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 98727,
+              "start_gap_m": 511.982,
+              "vote": "forward"
+            },
+            {
+              "boundary": "low",
+              "boundary_measure": 251.05,
+              "end_gap_m": 511.982,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 98732,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 98726,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 251.37,
+              "end_gap_m": 1764.62,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 98726,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 252.47,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 98734,
+              "start_gap_m": 1764.62,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 98727,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 250.51,
+              "end_gap_m": 16.157,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 98729,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 250.52,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 98731,
+              "start_gap_m": 16.157,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 98728,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 250.41,
+              "end_gap_m": 161.264,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 98716,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 250.51,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 98728,
+              "start_gap_m": 161.264,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 98729,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 250.7,
+              "end_gap_m": 323.482,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 98731,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 250.9,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 98733,
+              "start_gap_m": 323.482,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 98730,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 250.52,
+              "end_gap_m": 291.151,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 98728,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 250.7,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 98730,
+              "start_gap_m": 291.151,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 98731,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "high",
+              "boundary_measure": 251.05,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 98726,
+              "start_gap_m": 212.191,
+              "vote": "forward"
+            },
+            {
+              "boundary": "low",
+              "boundary_measure": 250.923,
+              "end_gap_m": 212.191,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 98733,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 98732,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 250.9,
+              "end_gap_m": 37.286,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 98730,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 250.923,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 98732,
+              "start_gap_m": 37.286,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 98733,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "high",
+              "boundary_measure": 252.65,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 98725,
+              "start_gap_m": 288.559,
+              "vote": "forward"
+            },
+            {
+              "boundary": "low",
+              "boundary_measure": 252.47,
+              "end_gap_m": 288.559,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 98727,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 98734,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 253.557,
+              "end_gap_m": 1292.37,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 98725,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 254.35,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 98737,
+              "start_gap_m": 1292.37,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 98735,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "high",
+              "boundary_measure": 255.141,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 98653,
+              "start_gap_m": 1127.754,
+              "vote": "forward"
+            },
+            {
+              "boundary": "low",
+              "boundary_measure": 254.439,
+              "end_gap_m": 1127.754,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 98737,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 98736,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 254.35,
+              "end_gap_m": 140.481,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 98735,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 254.439,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 98736,
+              "start_gap_m": 140.481,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 98737,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 260.08,
+              "end_gap_m": 1384.903,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99837,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 260.93,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99853,
+              "start_gap_m": 1384.903,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 99800,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 258.46,
+              "end_gap_m": 423.394,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99829,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 258.72,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99833,
+              "start_gap_m": 423.394,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 99804,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 256.99,
+              "end_gap_m": 414.553,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99810,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 257.246,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99823,
+              "start_gap_m": 414.553,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 99808,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 256.74,
+              "end_gap_m": 210.996,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 98653,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 256.87,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99810,
+              "start_gap_m": 210.996,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 99809,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "high",
+              "boundary_measure": 256.99,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99808,
+              "start_gap_m": 193.57,
+              "vote": "forward"
+            },
+            {
+              "boundary": "low",
+              "boundary_measure": 256.87,
+              "end_gap_m": 193.57,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99809,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 99810,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 257.666,
+              "end_gap_m": 352.708,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99827,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 257.89,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99828,
+              "start_gap_m": 352.708,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 99819,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 257.9,
+              "end_gap_m": 169.857,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99828,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 258.007,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99830,
+              "start_gap_m": 169.857,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 99820,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 257.38,
+              "end_gap_m": 143.571,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99824,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 257.471,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99826,
+              "start_gap_m": 143.571,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 99822,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 257.246,
+              "end_gap_m": 66.957,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99808,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 257.286,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99825,
+              "start_gap_m": 66.957,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 99823,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "high",
+              "boundary_measure": 257.38,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99822,
+              "start_gap_m": 125.653,
+              "vote": "forward"
+            },
+            {
+              "boundary": "low",
+              "boundary_measure": 257.3,
+              "end_gap_m": 125.653,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99825,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 99824,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 257.286,
+              "end_gap_m": 21.894,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99823,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 257.3,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99824,
+              "start_gap_m": 21.894,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 99825,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 257.471,
+              "end_gap_m": 264.729,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99822,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 257.64,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99827,
+              "start_gap_m": 264.729,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 99826,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "high",
+              "boundary_measure": 257.666,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99819,
+              "start_gap_m": 41.432,
+              "vote": "forward"
+            },
+            {
+              "boundary": "low",
+              "boundary_measure": 257.64,
+              "end_gap_m": 41.432,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99826,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 99827,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 257.89,
+              "end_gap_m": 16.569,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99819,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 257.9,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99820,
+              "start_gap_m": 16.569,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 99828,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "high",
+              "boundary_measure": 258.46,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99804,
+              "start_gap_m": 341.942,
+              "vote": "forward"
+            },
+            {
+              "boundary": "low",
+              "boundary_measure": 258.25,
+              "end_gap_m": 341.942,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99830,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 99829,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 258.007,
+              "end_gap_m": 399.65,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99820,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 258.25,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99829,
+              "start_gap_m": 399.65,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 99830,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 258.82,
+              "end_gap_m": 1864.109,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99835,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 259.963,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99837,
+              "start_gap_m": 1864.109,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 99831,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 258.76,
+              "end_gap_m": 71.705,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99834,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 258.804,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99835,
+              "start_gap_m": 71.705,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 99832,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 258.72,
+              "end_gap_m": 40.67,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99804,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 258.745,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99834,
+              "start_gap_m": 40.67,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 99833,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "high",
+              "boundary_measure": 258.76,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99832,
+              "start_gap_m": 24.424,
+              "vote": "forward"
+            },
+            {
+              "boundary": "low",
+              "boundary_measure": 258.745,
+              "end_gap_m": 24.424,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99833,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 99834,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "high",
+              "boundary_measure": 258.82,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99831,
+              "start_gap_m": 26.105,
+              "vote": "forward"
+            },
+            {
+              "boundary": "low",
+              "boundary_measure": 258.804,
+              "end_gap_m": 26.105,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99832,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 99835,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "high",
+              "boundary_measure": 260.08,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99800,
+              "start_gap_m": 190.578,
+              "vote": "forward"
+            },
+            {
+              "boundary": "low",
+              "boundary_measure": 259.963,
+              "end_gap_m": 190.578,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99831,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 99837,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "high",
+              "boundary_measure": 263.358,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 98654,
+              "start_gap_m": 467.434,
+              "vote": "forward"
+            },
+            {
+              "boundary": "low",
+              "boundary_measure": 263.07,
+              "end_gap_m": 467.434,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99861,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 99847,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 261.93,
+              "end_gap_m": 48.57,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99855,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 261.96,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99863,
+              "start_gap_m": 48.57,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 99851,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 261.23,
+              "end_gap_m": 423.499,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99853,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 261.49,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99854,
+              "start_gap_m": 423.499,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 99852,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 260.93,
+              "end_gap_m": 488.704,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99800,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 261.23,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99852,
+              "start_gap_m": 488.704,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 99853,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 261.49,
+              "end_gap_m": 474.26,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99852,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 261.781,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99855,
+              "start_gap_m": 474.26,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 99854,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "high",
+              "boundary_measure": 261.93,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99851,
+              "start_gap_m": 240.775,
+              "vote": "forward"
+            },
+            {
+              "boundary": "low",
+              "boundary_measure": 261.781,
+              "end_gap_m": 240.775,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99854,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 99855,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "high",
+              "boundary_measure": 262.47,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99858,
+              "start_gap_m": 291.854,
+              "vote": "forward"
+            },
+            {
+              "boundary": "low",
+              "boundary_measure": 262.29,
+              "end_gap_m": 291.854,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99862,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 99856,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 262.48,
+              "end_gap_m": 328.817,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99858,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 262.683,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99859,
+              "start_gap_m": 328.817,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 99857,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 262.47,
+              "end_gap_m": 16.211,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99856,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 262.48,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99857,
+              "start_gap_m": 16.211,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 99858,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 262.683,
+              "end_gap_m": 290.048,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99857,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 262.862,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99860,
+              "start_gap_m": 290.048,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 99859,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 262.862,
+              "end_gap_m": 45.244,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99859,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 262.89,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99861,
+              "start_gap_m": 45.244,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 99860,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "high",
+              "boundary_measure": 263.07,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99847,
+              "start_gap_m": 291.632,
+              "vote": "forward"
+            },
+            {
+              "boundary": "low",
+              "boundary_measure": 262.89,
+              "end_gap_m": 291.632,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99860,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 99861,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "high",
+              "boundary_measure": 262.29,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99856,
+              "start_gap_m": 248.836,
+              "vote": "forward"
+            },
+            {
+              "boundary": "low",
+              "boundary_measure": 262.137,
+              "end_gap_m": 248.836,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99863,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 99862,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 261.96,
+              "end_gap_m": 288.12,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99851,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 262.137,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 99862,
+              "start_gap_m": 288.12,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 99863,
+          "orientation": "forward"
+        }
+      ],
+      "seams": [
+        {
+          "coordinate": {
+            "latitude": 40.20823900023,
+            "longitude": -111.658556999606
+          },
+          "nhpn": {
+            "correspondence": {
+              "endpoint_distance_m": 0.0,
+              "geometry_end": "start",
+              "lrs_key": "000000018900049",
+              "milepost_at_seam": 0.0,
+              "object_id": 43841,
+              "orientation": "forward",
+              "orientation_evidence": [
+                {
+                  "boundary": "high",
+                  "boundary_measure": 0.056,
+                  "end_gap_m": 0.0,
+                  "endpoint_gap_m": 0.0,
+                  "neighbour_object_id": 43839,
+                  "start_gap_m": 88.176,
+                  "vote": "forward"
+                }
+              ],
+              "page_response_sha256": "657e7c48dc986e00d8b0e7f5266e401d570cf71a3d9e66e02796e1b60b39b2d7",
+              "part_index": 0,
+              "record_milepost_interval": [
+                0.0,
+                0.056
+              ]
+            },
+            "matches": [
+              {
+                "endpoint_distance_m": 0.0,
+                "geometry_end": "start",
+                "lrs_key": "000000018900049",
+                "object_id": 43841,
+                "page_response_sha256": "657e7c48dc986e00d8b0e7f5266e401d570cf71a3d9e66e02796e1b60b39b2d7",
+                "part_index": 0,
+                "record_milepost_interval": [
+                  0.0,
+                  0.056
+                ]
+              },
+              {
+                "endpoint_distance_m": 0.0,
+                "geometry_end": "end",
+                "lrs_key": "000000001500049",
+                "object_id": 43843,
+                "page_response_sha256": "88d1f89572b1e7df5e8b72eb03fef6d7814ae7328b8fa98a3c69025f75df38f1",
+                "part_index": 0,
+                "record_milepost_interval": [
+                  0.188,
+                  0.233
+                ]
+              }
+            ]
+          },
+          "nhs": {
+            "measure_at_seam": 263.354539,
+            "measure_interval": [
+              263.07,
+              263.358
+            ],
+            "object_id": 99847,
+            "orientation": "forward",
+            "seam_offset_m": 40.799
+          },
+          "side": "from",
+          "within_bound": true
+        },
+        {
+          "coordinate": {
+            "latitude": 39.978729000443,
+            "longitude": -111.768689999943
+          },
+          "nhpn": {
+            "correspondence": {
+              "endpoint_distance_m": 0.0,
+              "geometry_end": "end",
+              "lrs_key": "000000001500049",
+              "milepost_at_seam": null,
+              "object_id": 42789,
+              "orientation": null,
+              "orientation_evidence": [],
+              "page_response_sha256": "88d1f89572b1e7df5e8b72eb03fef6d7814ae7328b8fa98a3c69025f75df38f1",
+              "part_index": 0,
+              "record_milepost_interval": [
+                0.0,
+                0.267
+              ]
+            },
+            "matches": [
+              {
+                "endpoint_distance_m": 0.0,
+                "geometry_end": "end",
+                "lrs_key": "000000001500049",
+                "object_id": 42789,
+                "page_response_sha256": "88d1f89572b1e7df5e8b72eb03fef6d7814ae7328b8fa98a3c69025f75df38f1",
+                "part_index": 0,
+                "record_milepost_interval": [
+                  0.0,
+                  0.267
+                ]
+              }
+            ]
+          },
+          "nhs": {
+            "measure_at_seam": 245.104077,
+            "measure_interval": [
+              245.09,
+              246.177
+            ],
+            "object_id": 98718,
+            "orientation": "forward",
+            "seam_offset_m": 42.527
+          },
+          "side": "to",
+          "within_bound": true
+        }
+      ],
+      "segment_id": "i15-salt-lake-to-cove-fort",
+      "site_id": "i15-salt-lake-to-cove-fort--component-00-02",
+      "span": {
+        "geometry_length_m": 29578.895,
+        "geometry_sha256": "be39589ee4c501402be9d0bc02c4b9cf1fa20b28756090bb01f35f09309edd8d",
+        "max_piece_joint_gap_m": 0.0,
+        "max_record_geometry_miles_ratio": 0.009062,
+        "measure_axis_distortion_ratio": 0.007069,
+        "measure_delta_miles": 18.250462,
+        "measure_high": 263.354539,
+        "measure_length_m": 29371.272,
+        "measure_low": 245.104077,
+        "nhpn_agreement": {
+          "max_offset_m": 40.728,
+          "mean_offset_m": 3.036
+        },
+        "nhpn_void_runs": [],
+        "pieces": [
+          {
+            "length_m": 1745.524,
+            "measure_range": [
+              245.104077,
+              246.177
+            ],
+            "object_id": 98718
+          },
+          {
+            "length_m": 1.578,
+            "measure_range": [
+              246.177,
+              246.178
+            ],
+            "object_id": 98720
+          },
+          {
+            "length_m": 966.594,
+            "measure_range": [
+              246.178,
+              246.77
+            ],
+            "object_id": 98719
+          },
+          {
+            "length_m": 1075.475,
+            "measure_range": [
+              246.77,
+              247.43
+            ],
+            "object_id": 98717
+          },
+          {
+            "length_m": 1370.19,
+            "measure_range": [
+              247.43,
+              248.27
+            ],
+            "object_id": 98723
+          },
+          {
+            "length_m": 276.019,
+            "measure_range": [
+              248.27,
+              248.44
+            ],
+            "object_id": 98721
+          },
+          {
+            "length_m": 655.915,
+            "measure_range": [
+              248.44,
+              248.845
+            ],
+            "object_id": 98724
+          },
+          {
+            "length_m": 794.794,
+            "measure_range": [
+              248.845,
+              249.335
+            ],
+            "object_id": 98722
+          },
+          {
+            "length_m": 1742.319,
+            "measure_range": [
+              249.335,
+              250.41
+            ],
+            "object_id": 98716
+          },
+          {
+            "length_m": 161.264,
+            "measure_range": [
+              250.41,
+              250.51
+            ],
+            "object_id": 98729
+          },
+          {
+            "length_m": 16.161,
+            "measure_range": [
+              250.51,
+              250.52
+            ],
+            "object_id": 98728
+          },
+          {
+            "length_m": 291.258,
+            "measure_range": [
+              250.52,
+              250.7
+            ],
+            "object_id": 98731
+          },
+          {
+            "length_m": 323.482,
+            "measure_range": [
+              250.7,
+              250.9
+            ],
+            "object_id": 98730
+          },
+          {
+            "length_m": 37.286,
+            "measure_range": [
+              250.9,
+              250.923
+            ],
+            "object_id": 98733
+          },
+          {
+            "length_m": 212.359,
+            "measure_range": [
+              250.923,
+              251.05
+            ],
+            "object_id": 98732
+          },
+          {
+            "length_m": 512.164,
+            "measure_range": [
+              251.05,
+              251.37
+            ],
+            "object_id": 98726
+          },
+          {
+            "length_m": 1764.915,
+            "measure_range": [
+              251.37,
+              252.47
+            ],
+            "object_id": 98727
+          },
+          {
+            "length_m": 288.559,
+            "measure_range": [
+              252.47,
+              252.65
+            ],
+            "object_id": 98734
+          },
+          {
+            "length_m": 1452.074,
+            "measure_range": [
+              252.65,
+              253.557
+            ],
+            "object_id": 98725
+          },
+          {
+            "length_m": 1293.315,
+            "measure_range": [
+              253.557,
+              254.35
+            ],
+            "object_id": 98735
+          },
+          {
+            "length_m": 140.481,
+            "measure_range": [
+              254.35,
+              254.439
+            ],
+            "object_id": 98737
+          },
+          {
+            "length_m": 1129.149,
+            "measure_range": [
+              254.439,
+              255.141
+            ],
+            "object_id": 98736
+          },
+          {
+            "length_m": 2594.367,
+            "measure_range": [
+              255.141,
+              256.74
+            ],
+            "object_id": 98653
+          },
+          {
+            "length_m": 211.002,
+            "measure_range": [
+              256.74,
+              256.87
+            ],
+            "object_id": 99809
+          },
+          {
+            "length_m": 193.624,
+            "measure_range": [
+              256.87,
+              256.99
+            ],
+            "object_id": 99810
+          },
+          {
+            "length_m": 415.24,
+            "measure_range": [
+              256.99,
+              257.246
+            ],
+            "object_id": 99808
+          },
+          {
+            "length_m": 66.957,
+            "measure_range": [
+              257.246,
+              257.286
+            ],
+            "object_id": 99823
+          },
+          {
+            "length_m": 21.894,
+            "measure_range": [
+              257.286,
+              257.3
+            ],
+            "object_id": 99825
+          },
+          {
+            "length_m": 125.654,
+            "measure_range": [
+              257.3,
+              257.38
+            ],
+            "object_id": 99824
+          },
+          {
+            "length_m": 143.571,
+            "measure_range": [
+              257.38,
+              257.471
+            ],
+            "object_id": 99822
+          },
+          {
+            "length_m": 265.686,
+            "measure_range": [
+              257.471,
+              257.64
+            ],
+            "object_id": 99826
+          },
+          {
+            "length_m": 41.432,
+            "measure_range": [
+              257.64,
+              257.666
+            ],
+            "object_id": 99827
+          },
+          {
+            "length_m": 355.017,
+            "measure_range": [
+              257.666,
+              257.89
+            ],
+            "object_id": 99819
+          },
+          {
+            "length_m": 16.569,
+            "measure_range": [
+              257.89,
+              257.9
+            ],
+            "object_id": 99828
+          },
+          {
+            "length_m": 170.09,
+            "measure_range": [
+              257.9,
+              258.007
+            ],
+            "object_id": 99820
+          },
+          {
+            "length_m": 399.744,
+            "measure_range": [
+              258.007,
+              258.25
+            ],
+            "object_id": 99830
+          },
+          {
+            "length_m": 341.942,
+            "measure_range": [
+              258.25,
+              258.46
+            ],
+            "object_id": 99829
+          },
+          {
+            "length_m": 423.394,
+            "measure_range": [
+              258.46,
+              258.72
+            ],
+            "object_id": 99804
+          },
+          {
+            "length_m": 40.67,
+            "measure_range": [
+              258.72,
+              258.745
+            ],
+            "object_id": 99833
+          },
+          {
+            "length_m": 24.424,
+            "measure_range": [
+              258.745,
+              258.76
+            ],
+            "object_id": 99834
+          },
+          {
+            "length_m": 71.705,
+            "measure_range": [
+              258.76,
+              258.804
+            ],
+            "object_id": 99832
+          },
+          {
+            "length_m": 26.105,
+            "measure_range": [
+              258.804,
+              258.82
+            ],
+            "object_id": 99835
+          },
+          {
+            "length_m": 1864.109,
+            "measure_range": [
+              258.82,
+              259.963
+            ],
+            "object_id": 99831
+          },
+          {
+            "length_m": 190.578,
+            "measure_range": [
+              259.963,
+              260.08
+            ],
+            "object_id": 99837
+          },
+          {
+            "length_m": 1384.903,
+            "measure_range": [
+              260.08,
+              260.93
+            ],
+            "object_id": 99800
+          },
+          {
+            "length_m": 488.704,
+            "measure_range": [
+              260.93,
+              261.23
+            ],
+            "object_id": 99853
+          },
+          {
+            "length_m": 423.5,
+            "measure_range": [
+              261.23,
+              261.49
+            ],
+            "object_id": 99852
+          },
+          {
+            "length_m": 474.26,
+            "measure_range": [
+              261.49,
+              261.781
+            ],
+            "object_id": 99854
+          },
+          {
+            "length_m": 240.937,
+            "measure_range": [
+              261.781,
+              261.93
+            ],
+            "object_id": 99855
+          },
+          {
+            "length_m": 48.575,
+            "measure_range": [
+              261.93,
+              261.96
+            ],
+            "object_id": 99851
+          },
+          {
+            "length_m": 288.44,
+            "measure_range": [
+              261.96,
+              262.137
+            ],
+            "object_id": 99863
+          },
+          {
+            "length_m": 249.072,
+            "measure_range": [
+              262.137,
+              262.29
+            ],
+            "object_id": 99862
+          },
+          {
+            "length_m": 292.059,
+            "measure_range": [
+              262.29,
+              262.47
+            ],
+            "object_id": 99856
+          },
+          {
+            "length_m": 16.211,
+            "measure_range": [
+              262.47,
+              262.48
+            ],
+            "object_id": 99858
+          },
+          {
+            "length_m": 328.818,
+            "measure_range": [
+              262.48,
+              262.683
+            ],
+            "object_id": 99857
+          },
+          {
+            "length_m": 290.048,
+            "measure_range": [
+              262.683,
+              262.862
+            ],
+            "object_id": 99859
+          },
+          {
+            "length_m": 45.244,
+            "measure_range": [
+              262.862,
+              262.89
+            ],
+            "object_id": 99860
+          },
+          {
+            "length_m": 291.632,
+            "measure_range": [
+              262.89,
+              263.07
+            ],
+            "object_id": 99861
+          },
+          {
+            "length_m": 461.843,
+            "measure_range": [
+              263.07,
+              263.354539
+            ],
+            "object_id": 99847
+          }
+        ],
+        "records_checked": [
+          {
+            "geometry_length_m": 2594.367,
+            "geometry_miles_ratio": 0.000156,
+            "miles": 1.611813,
+            "object_id": 98653
+          },
+          {
+            "geometry_length_m": 1742.319,
+            "geometry_miles_ratio": 0.002377,
+            "miles": 1.080059,
+            "object_id": 98716
+          },
+          {
+            "geometry_length_m": 1075.475,
+            "geometry_miles_ratio": 0.009062,
+            "miles": 0.662268,
+            "object_id": 98717
+          },
+          {
+            "geometry_length_m": 1768.426,
+            "geometry_miles_ratio": 0.007372,
+            "miles": 1.090807,
+            "object_id": 98718
+          },
+          {
+            "geometry_length_m": 966.594,
+            "geometry_miles_ratio": 0.009019,
+            "miles": 0.595245,
+            "object_id": 98719
+          },
+          {
+            "geometry_length_m": 1.578,
+            "geometry_miles_ratio": 0.008769,
+            "miles": 0.000972,
+            "object_id": 98720
+          },
+          {
+            "geometry_length_m": 276.019,
+            "geometry_miles_ratio": 0.007402,
+            "miles": 0.17025,
+            "object_id": 98721
+          },
+          {
+            "geometry_length_m": 794.794,
+            "geometry_miles_ratio": 0.002446,
+            "miles": 0.492657,
+            "object_id": 98722
+          },
+          {
+            "geometry_length_m": 1370.19,
+            "geometry_miles_ratio": 0.009012,
+            "miles": 0.843792,
+            "object_id": 98723
+          },
+          {
+            "geometry_length_m": 655.915,
+            "geometry_miles_ratio": 0.003874,
+            "miles": 0.405994,
+            "object_id": 98724
+          },
+          {
+            "geometry_length_m": 1452.074,
+            "geometry_miles_ratio": 0.001741,
+            "miles": 0.900709,
+            "object_id": 98725
+          },
+          {
+            "geometry_length_m": 512.164,
+            "geometry_miles_ratio": 0.003769,
+            "miles": 0.317049,
+            "object_id": 98726
+          },
+          {
+            "geometry_length_m": 1764.915,
+            "geometry_miles_ratio": 0.002397,
+            "miles": 1.094045,
+            "object_id": 98727
+          },
+          {
+            "geometry_length_m": 16.161,
+            "geometry_miles_ratio": 0.002194,
+            "miles": 0.01002,
+            "object_id": 98728
+          },
+          {
+            "geometry_length_m": 161.264,
+            "geometry_miles_ratio": 0.002369,
+            "miles": 0.099968,
+            "object_id": 98729
+          },
+          {
+            "geometry_length_m": 323.482,
+            "geometry_miles_ratio": 0.001227,
+            "miles": 0.200756,
+            "object_id": 98730
+          },
+          {
+            "geometry_length_m": 291.258,
+            "geometry_miles_ratio": 0.000865,
+            "miles": 0.180823,
+            "object_id": 98731
+          },
+          {
+            "geometry_length_m": 212.359,
+            "geometry_miles_ratio": 0.002886,
+            "miles": 0.131574,
+            "object_id": 98732
+          },
+          {
+            "geometry_length_m": 37.286,
+            "geometry_miles_ratio": 0.001229,
+            "miles": 0.02314,
+            "object_id": 98733
+          },
+          {
+            "geometry_length_m": 288.559,
+            "geometry_miles_ratio": 0.002327,
+            "miles": 0.178886,
+            "object_id": 98734
+          },
+          {
+            "geometry_length_m": 1293.315,
+            "geometry_miles_ratio": 0.003084,
+            "miles": 0.801158,
+            "object_id": 98735
+          },
+          {
+            "geometry_length_m": 1129.149,
+            "geometry_miles_ratio": 0.001231,
+            "miles": 0.700758,
+            "object_id": 98736
+          },
+          {
+            "geometry_length_m": 140.481,
+            "geometry_miles_ratio": 0.002318,
+            "miles": 0.087089,
+            "object_id": 98737
+          },
+          {
+            "geometry_length_m": 1384.903,
+            "geometry_miles_ratio": 0.008999,
+            "miles": 0.852864,
+            "object_id": 99800
+          },
+          {
+            "geometry_length_m": 423.394,
+            "geometry_miles_ratio": 0.00902,
+            "miles": 0.260733,
+            "object_id": 99804
+          },
+          {
+            "geometry_length_m": 415.24,
+            "geometry_miles_ratio": 0.001999,
+            "miles": 0.258535,
+            "object_id": 99808
+          },
+          {
+            "geometry_length_m": 211.002,
+            "geometry_miles_ratio": 0.000354,
+            "miles": 0.131157,
+            "object_id": 99809
+          },
+          {
+            "geometry_length_m": 193.624,
+            "geometry_miles_ratio": 0.000421,
+            "miles": 0.120363,
+            "object_id": 99810
+          },
+          {
+            "geometry_length_m": 355.017,
+            "geometry_miles_ratio": 0.005361,
+            "miles": 0.219421,
+            "object_id": 99819
+          },
+          {
+            "geometry_length_m": 170.09,
+            "geometry_miles_ratio": 0.008493,
+            "miles": 0.104799,
+            "object_id": 99820
+          },
+          {
+            "geometry_length_m": 143.571,
+            "geometry_miles_ratio": 0.003642,
+            "miles": 0.089537,
+            "object_id": 99822
+          },
+          {
+            "geometry_length_m": 66.957,
+            "geometry_miles_ratio": 0.003159,
+            "miles": 0.041737,
+            "object_id": 99823
+          },
+          {
+            "geometry_length_m": 125.654,
+            "geometry_miles_ratio": 0.003614,
+            "miles": 0.078361,
+            "object_id": 99824
+          },
+          {
+            "geometry_length_m": 21.894,
+            "geometry_miles_ratio": 0.003567,
+            "miles": 0.013653,
+            "object_id": 99825
+          },
+          {
+            "geometry_length_m": 265.686,
+            "geometry_miles_ratio": 0.000958,
+            "miles": 0.165248,
+            "object_id": 99826
+          },
+          {
+            "geometry_length_m": 41.432,
+            "geometry_miles_ratio": 0.002479,
+            "miles": 0.025681,
+            "object_id": 99827
+          },
+          {
+            "geometry_length_m": 16.569,
+            "geometry_miles_ratio": 0.007782,
+            "miles": 0.010216,
+            "object_id": 99828
+          },
+          {
+            "geometry_length_m": 341.942,
+            "geometry_miles_ratio": 0.009023,
+            "miles": 0.210573,
+            "object_id": 99829
+          },
+          {
+            "geometry_length_m": 399.744,
+            "geometry_miles_ratio": 0.009016,
+            "miles": 0.24617,
+            "object_id": 99830
+          },
+          {
+            "geometry_length_m": 1864.109,
+            "geometry_miles_ratio": 0.00901,
+            "miles": 1.14796,
+            "object_id": 99831
+          },
+          {
+            "geometry_length_m": 71.705,
+            "geometry_miles_ratio": 0.009023,
+            "miles": 0.044157,
+            "object_id": 99832
+          },
+          {
+            "geometry_length_m": 40.67,
+            "geometry_miles_ratio": 0.00903,
+            "miles": 0.025045,
+            "object_id": 99833
+          },
+          {
+            "geometry_length_m": 24.424,
+            "geometry_miles_ratio": 0.009,
+            "miles": 0.015041,
+            "object_id": 99834
+          },
+          {
+            "geometry_length_m": 26.105,
+            "geometry_miles_ratio": 0.009013,
+            "miles": 0.016076,
+            "object_id": 99835
+          },
+          {
+            "geometry_length_m": 190.578,
+            "geometry_miles_ratio": 0.009004,
+            "miles": 0.117363,
+            "object_id": 99837
+          },
+          {
+            "geometry_length_m": 467.46,
+            "geometry_miles_ratio": 0.003969,
+            "miles": 0.289318,
+            "object_id": 99847
+          },
+          {
+            "geometry_length_m": 48.575,
+            "geometry_miles_ratio": 0.00876,
+            "miles": 0.029921,
+            "object_id": 99851
+          },
+          {
+            "geometry_length_m": 423.5,
+            "geometry_miles_ratio": 0.00899,
+            "miles": 0.260806,
+            "object_id": 99852
+          },
+          {
+            "geometry_length_m": 488.704,
+            "geometry_miles_ratio": 0.008993,
+            "miles": 0.30096,
+            "object_id": 99853
+          },
+          {
+            "geometry_length_m": 474.26,
+            "geometry_miles_ratio": 0.008986,
+            "miles": 0.292067,
+            "object_id": 99854
+          },
+          {
+            "geometry_length_m": 240.937,
+            "geometry_miles_ratio": 0.008945,
+            "miles": 0.148384,
+            "object_id": 99855
+          },
+          {
+            "geometry_length_m": 292.059,
+            "geometry_miles_ratio": 0.004489,
+            "miles": 0.180666,
+            "object_id": 99856
+          },
+          {
+            "geometry_length_m": 328.818,
+            "geometry_miles_ratio": 0.004054,
+            "miles": 0.203493,
+            "object_id": 99857
+          },
+          {
+            "geometry_length_m": 16.211,
+            "geometry_miles_ratio": 0.004192,
+            "miles": 0.010031,
+            "object_id": 99858
+          },
+          {
+            "geometry_length_m": 290.048,
+            "geometry_miles_ratio": 0.003902,
+            "miles": 0.179527,
+            "object_id": 99859
+          },
+          {
+            "geometry_length_m": 45.244,
+            "geometry_miles_ratio": 0.003904,
+            "miles": 0.028004,
+            "object_id": 99860
+          },
+          {
+            "geometry_length_m": 291.632,
+            "geometry_miles_ratio": 0.003899,
+            "miles": 0.180508,
+            "object_id": 99861
+          },
+          {
+            "geometry_length_m": 249.072,
+            "geometry_miles_ratio": 0.006616,
+            "miles": 0.153749,
+            "object_id": 99862
+          },
+          {
+            "geometry_length_m": 288.44,
+            "geometry_miles_ratio": 0.00813,
+            "miles": 0.177783,
+            "object_id": 99863
+          }
+        ],
+        "station_count": 593,
+        "station_spacing_m": 50.0,
+        "stations_beyond_nhpn_lens": 0,
+        "stations_within_nhpn_lens": 593
+      }
+    },
+    {
+      "facility": "I-40",
+      "group": {
+        "route_id": "I40P",
+        "signed_routes": [
+          "I-40"
+        ],
+        "state_fips": "35"
+      },
+      "margin_acquisition": {
+        "acquired_at": "2026-08-31T09:07:59Z",
+        "expected_count": 16,
+        "features_sha256": "75e770699723f20c75ee17c4b36b75684b429eaee71bd23e9371acaa31f2b544",
+        "locked_records_reproduced": true,
+        "object_ids": [
+          110917,
+          110930,
+          110953,
+          110954,
+          110955,
+          110956,
+          110957,
+          110958,
+          110959,
+          110960,
+          110961,
+          110963,
+          110965,
+          110966,
+          110967,
+          110968
+        ],
+        "object_ids_sha256": "a8ef8aa426bb611ee11fd5937546ad35d6395e277790f8e25b88be0d7537566f",
+        "page_size": 2000,
+        "pages": [
+          {
+            "canonical_response_sha256": "f4b6f8acdeb07c40c832cadfc51080018fbbf8de5cc655db76bc8e4f5fc5f778",
+            "feature_count": 16,
+            "index": 0,
+            "object_id_offset": 0,
+            "object_ids_sha256": "a8ef8aa426bb611ee11fd5937546ad35d6395e277790f8e25b88be0d7537566f"
+          }
+        ],
+        "predicate": "STFIPS = '35' AND ROUTEID = 'I40P' AND ENDPOINT > 157.745000 AND BEGINPOINT < 159.860000",
+        "resumed_pages": 1,
+        "retries": 0
+      },
+      "orientation": [
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 159.479,
+              "end_gap_m": 203.299,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110963,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 159.61,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110967,
+              "start_gap_m": 203.299,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 110917,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 158.166,
+              "end_gap_m": 634.856,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110954,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 158.46,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110957,
+              "start_gap_m": 634.856,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 110953,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "high",
+              "boundary_measure": 158.166,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110953,
+              "start_gap_m": 364.132,
+              "vote": "forward"
+            },
+            {
+              "boundary": "low",
+              "boundary_measure": 157.995,
+              "end_gap_m": 364.132,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110955,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 110954,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 158.959,
+              "end_gap_m": 210.262,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110958,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 159.12,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110960,
+              "start_gap_m": 210.262,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 110956,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 158.46,
+              "end_gap_m": 621.16,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110953,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 158.936,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110958,
+              "start_gap_m": 621.16,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 110957,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "high",
+              "boundary_measure": 158.959,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110956,
+              "start_gap_m": 30.036,
+              "vote": "forward"
+            },
+            {
+              "boundary": "low",
+              "boundary_measure": 158.936,
+              "end_gap_m": 30.036,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110957,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 110958,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 159.16,
+              "end_gap_m": 309.433,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110961,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 159.397,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110963,
+              "start_gap_m": 309.433,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 110959,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 159.12,
+              "end_gap_m": 37.789,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110956,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 159.149,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110961,
+              "start_gap_m": 37.789,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 110960,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "high",
+              "boundary_measure": 159.16,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110959,
+              "start_gap_m": 14.374,
+              "vote": "forward"
+            },
+            {
+              "boundary": "low",
+              "boundary_measure": 159.149,
+              "end_gap_m": 14.374,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110960,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 110961,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "high",
+              "boundary_measure": 159.479,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110917,
+              "start_gap_m": 127.318,
+              "vote": "forward"
+            },
+            {
+              "boundary": "low",
+              "boundary_measure": 159.397,
+              "end_gap_m": 127.318,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110959,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 110963,
+          "orientation": "forward"
+        }
+      ],
+      "seams": [
+        {
+          "coordinate": {
+            "latitude": 35.106657999567,
+            "longitude": -106.650371999968
+          },
+          "nhpn": {
+            "correspondence": {
+              "endpoint_distance_m": 0.0,
+              "geometry_end": "end",
+              "lrs_key": "0000I0004000001",
+              "milepost_at_seam": 158.31,
+              "object_id": 587409,
+              "orientation": "forward",
+              "orientation_evidence": [
+                {
+                  "boundary": "low",
+                  "boundary_measure": 158.269,
+                  "end_gap_m": 65.491,
+                  "endpoint_gap_m": 0.0,
+                  "neighbour_object_id": 587401,
+                  "start_gap_m": 0.0,
+                  "vote": "forward"
+                }
+              ],
+              "page_response_sha256": "536bcf751ec1700203a1a843fea6389c324e5a2f1acdba1baf868d853d618847",
+              "part_index": 0,
+              "record_milepost_interval": [
+                158.269,
+                158.31
+              ]
+            },
+            "matches": [
+              {
+                "endpoint_distance_m": 0.0,
+                "geometry_end": "end",
+                "lrs_key": "0000I0004000001",
+                "object_id": 587409,
+                "page_response_sha256": "536bcf751ec1700203a1a843fea6389c324e5a2f1acdba1baf868d853d618847",
+                "part_index": 0,
+                "record_milepost_interval": [
+                  158.269,
+                  158.31
+                ]
+              }
+            ]
+          },
+          "nhs": {
+            "measure_at_seam": 158.147452,
+            "measure_interval": [
+              157.995,
+              158.166
+            ],
+            "object_id": 110954,
+            "orientation": "forward",
+            "seam_offset_m": 0.1
+          },
+          "side": "from",
+          "within_bound": true
+        },
+        {
+          "coordinate": {
+            "latitude": 35.105119999688,
+            "longitude": -106.629949999793
+          },
+          "nhpn": {
+            "correspondence": {
+              "endpoint_distance_m": 0.0,
+              "geometry_end": "start",
+              "lrs_key": "0000I0004000001",
+              "milepost_at_seam": 159.479,
+              "object_id": 587450,
+              "orientation": "forward",
+              "orientation_evidence": [
+                {
+                  "boundary": "high",
+                  "boundary_measure": 159.513,
+                  "end_gap_m": 0.0,
+                  "endpoint_gap_m": 0.0,
+                  "neighbour_object_id": 587447,
+                  "start_gap_m": 54.278,
+                  "vote": "forward"
+                }
+              ],
+              "page_response_sha256": "536bcf751ec1700203a1a843fea6389c324e5a2f1acdba1baf868d853d618847",
+              "part_index": 0,
+              "record_milepost_interval": [
+                159.479,
+                159.513
+              ]
+            },
+            "matches": [
+              {
+                "endpoint_distance_m": 0.0,
+                "geometry_end": "start",
+                "lrs_key": "0000I0004000001",
+                "object_id": 587450,
+                "page_response_sha256": "536bcf751ec1700203a1a843fea6389c324e5a2f1acdba1baf868d853d618847",
+                "part_index": 0,
+                "record_milepost_interval": [
+                  159.479,
+                  159.513
+                ]
+              }
+            ]
+          },
+          "nhs": {
+            "measure_at_seam": 159.370285,
+            "measure_interval": [
+              159.16,
+              159.397
+            ],
+            "object_id": 110959,
+            "orientation": "forward",
+            "seam_offset_m": 0.066
+          },
+          "side": "to",
+          "within_bound": true
+        }
+      ],
+      "segment_id": "i40-i81-to-barstow",
+      "site_id": "i40-i81-to-barstow--component-01-02",
+      "span": {
+        "geometry_length_m": 1864.352,
+        "geometry_sha256": "84a51fd65af1accca86f44110e58625ea80b5a9a60756bf20250d6a37ad7009e",
+        "max_piece_joint_gap_m": 0.0,
+        "max_record_geometry_miles_ratio": 0.008593,
+        "measure_axis_distortion_ratio": 0.052647,
+        "measure_delta_miles": 1.222833,
+        "measure_high": 159.370285,
+        "measure_length_m": 1967.959,
+        "measure_low": 158.147452,
+        "nhpn_agreement": {
+          "max_offset_m": 64.349,
+          "mean_offset_m": 25.773
+        },
+        "nhpn_void_runs": [
+          {
+            "end_m": 1750.0,
+            "start_m": 100.0
+          }
+        ],
+        "pieces": [
+          {
+            "length_m": 40.101,
+            "measure_range": [
+              158.147452,
+              158.166
+            ],
+            "object_id": 110954
+          },
+          {
+            "length_m": 635.613,
+            "measure_range": [
+              158.166,
+              158.46
+            ],
+            "object_id": 110953
+          },
+          {
+            "length_m": 621.515,
+            "measure_range": [
+              158.46,
+              158.936
+            ],
+            "object_id": 110957
+          },
+          {
+            "length_m": 30.036,
+            "measure_range": [
+              158.936,
+              158.959
+            ],
+            "object_id": 110958
+          },
+          {
+            "length_m": 210.298,
+            "measure_range": [
+              158.959,
+              159.12
+            ],
+            "object_id": 110956
+          },
+          {
+            "length_m": 37.789,
+            "measure_range": [
+              159.12,
+              159.149
+            ],
+            "object_id": 110960
+          },
+          {
+            "length_m": 14.374,
+            "measure_range": [
+              159.149,
+              159.16
+            ],
+            "object_id": 110961
+          },
+          {
+            "length_m": 274.626,
+            "measure_range": [
+              159.16,
+              159.370285
+            ],
+            "object_id": 110959
+          }
+        ],
+        "records_checked": [
+          {
+            "geometry_length_m": 635.613,
+            "geometry_miles_ratio": 0.007799,
+            "miles": 0.398056,
+            "object_id": 110953
+          },
+          {
+            "geometry_length_m": 369.695,
+            "geometry_miles_ratio": 0.007934,
+            "miles": 0.231555,
+            "object_id": 110954
+          },
+          {
+            "geometry_length_m": 210.298,
+            "geometry_miles_ratio": 0.00852,
+            "miles": 0.131796,
+            "object_id": 110956
+          },
+          {
+            "geometry_length_m": 621.515,
+            "geometry_miles_ratio": 0.00841,
+            "miles": 0.389467,
+            "object_id": 110957
+          },
+          {
+            "geometry_length_m": 30.036,
+            "geometry_miles_ratio": 0.008526,
+            "miles": 0.018824,
+            "object_id": 110958
+          },
+          {
+            "geometry_length_m": 309.516,
+            "geometry_miles_ratio": 0.008464,
+            "miles": 0.193966,
+            "object_id": 110959
+          },
+          {
+            "geometry_length_m": 37.789,
+            "geometry_miles_ratio": 0.008529,
+            "miles": 0.023683,
+            "object_id": 110960
+          },
+          {
+            "geometry_length_m": 14.374,
+            "geometry_miles_ratio": 0.008593,
+            "miles": 0.009009,
+            "object_id": 110961
+          }
+        ],
+        "station_count": 39,
+        "station_spacing_m": 50.0,
+        "stations_beyond_nhpn_lens": 34,
+        "stations_within_nhpn_lens": 5
+      }
+    },
+    {
+      "facility": "I-40",
+      "group": {
+        "route_id": "I40P",
+        "signed_routes": [
+          "I-40"
+        ],
+        "state_fips": "35"
+      },
+      "margin_acquisition": {
+        "acquired_at": "2026-08-31T09:07:59Z",
+        "expected_count": 30,
+        "features_sha256": "df0c9309470298b3d7c34dd287f7802af712499234f8b167f0639a704bc61ecb",
+        "locked_records_reproduced": true,
+        "object_ids": [
+          110908,
+          110917,
+          110956,
+          110957,
+          110958,
+          110959,
+          110960,
+          110961,
+          110963,
+          110964,
+          110965,
+          110966,
+          110967,
+          110968,
+          110975,
+          110976,
+          110977,
+          110978,
+          110979,
+          110980,
+          110981,
+          110982,
+          110983,
+          110986,
+          110991,
+          110995,
+          110996,
+          110998,
+          111011,
+          111012
+        ],
+        "object_ids_sha256": "d79f8956e73bbcc4bc66f1ac33333f8ad58e320ba685477f7325082f92eae120",
+        "page_size": 2000,
+        "pages": [
+          {
+            "canonical_response_sha256": "70bbd226b09dc062bb78508aa73da258d56ca3039becd6c59ce14a57a58fa67c",
+            "feature_count": 30,
+            "index": 0,
+            "object_id_offset": 0,
+            "object_ids_sha256": "d79f8956e73bbcc4bc66f1ac33333f8ad58e320ba685477f7325082f92eae120"
+          }
+        ],
+        "predicate": "STFIPS = '35' AND ROUTEID = 'I40P' AND ENDPOINT > 158.899000 AND BEGINPOINT < 169.100000",
+        "resumed_pages": 1,
+        "retries": 0
+      },
+      "orientation": [
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 163.21,
+              "end_gap_m": 773.806,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110981,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 163.91,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110991,
+              "start_gap_m": 773.806,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 110908,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 159.479,
+              "end_gap_m": 203.299,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110963,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 159.61,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110967,
+              "start_gap_m": 203.299,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 110917,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 159.16,
+              "end_gap_m": 309.433,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110961,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 159.397,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110963,
+              "start_gap_m": 309.433,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 110959,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "high",
+              "boundary_measure": 159.16,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110959,
+              "start_gap_m": 14.374,
+              "vote": "forward"
+            },
+            {
+              "boundary": "low",
+              "boundary_measure": 159.149,
+              "end_gap_m": 14.374,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110960,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 110961,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "high",
+              "boundary_measure": 159.479,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110917,
+              "start_gap_m": 127.318,
+              "vote": "forward"
+            },
+            {
+              "boundary": "low",
+              "boundary_measure": 159.397,
+              "end_gap_m": 127.318,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110959,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 110963,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 161.06,
+              "end_gap_m": 714.009,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110975,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 161.651,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110978,
+              "start_gap_m": 714.009,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 110964,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 159.776,
+              "end_gap_m": 1190.144,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110968,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 160.564,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110975,
+              "start_gap_m": 1190.144,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 110965,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 159.649,
+              "end_gap_m": 94.79,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110967,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 159.71,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110968,
+              "start_gap_m": 94.79,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 110966,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 159.61,
+              "end_gap_m": 60.678,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110917,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 159.649,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110966,
+              "start_gap_m": 60.678,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 110967,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "high",
+              "boundary_measure": 159.776,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110965,
+              "start_gap_m": 102.471,
+              "vote": "forward"
+            },
+            {
+              "boundary": "low",
+              "boundary_measure": 159.71,
+              "end_gap_m": 102.471,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110966,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 110968,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "high",
+              "boundary_measure": 161.06,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110964,
+              "start_gap_m": 1060.699,
+              "vote": "forward"
+            },
+            {
+              "boundary": "low",
+              "boundary_measure": 160.564,
+              "end_gap_m": 1060.699,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110965,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 110975,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 161.966,
+              "end_gap_m": 656.568,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110977,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 162.5,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110980,
+              "start_gap_m": 656.568,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 110976,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "high",
+              "boundary_measure": 161.966,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110976,
+              "start_gap_m": 668.36,
+              "vote": "forward"
+            },
+            {
+              "boundary": "low",
+              "boundary_measure": 161.655,
+              "end_gap_m": 668.36,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110978,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 110977,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 161.651,
+              "end_gap_m": 8.59,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110964,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 161.655,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110977,
+              "start_gap_m": 8.59,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 110978,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 162.637,
+              "end_gap_m": 532.869,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110980,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 162.91,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110981,
+              "start_gap_m": 532.869,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 110979,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 162.5,
+              "end_gap_m": 267.358,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110976,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 162.637,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110979,
+              "start_gap_m": 267.358,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 110980,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "high",
+              "boundary_measure": 163.21,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110908,
+              "start_gap_m": 691.625,
+              "vote": "forward"
+            },
+            {
+              "boundary": "low",
+              "boundary_measure": 162.91,
+              "end_gap_m": 691.625,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110979,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 110981,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 167.16,
+              "end_gap_m": 1323.978,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110998,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 167.937,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 111011,
+              "start_gap_m": 1323.978,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 110982,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 165.41,
+              "end_gap_m": 905.257,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110995,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 166.025,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110996,
+              "start_gap_m": 905.257,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 110983,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 164.29,
+              "end_gap_m": 969.246,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110991,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 164.956,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110995,
+              "start_gap_m": 969.246,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 110986,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 163.91,
+              "end_gap_m": 810.923,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110908,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 164.29,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110986,
+              "start_gap_m": 810.923,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 110991,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "high",
+              "boundary_measure": 165.41,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110983,
+              "start_gap_m": 763.939,
+              "vote": "forward"
+            },
+            {
+              "boundary": "low",
+              "boundary_measure": 164.956,
+              "end_gap_m": 763.939,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110986,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 110995,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 166.025,
+              "end_gap_m": 839.914,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110983,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 166.5,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110998,
+              "start_gap_m": 839.914,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 110996,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "high",
+              "boundary_measure": 167.16,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110982,
+              "start_gap_m": 743.543,
+              "vote": "forward"
+            },
+            {
+              "boundary": "low",
+              "boundary_measure": 166.5,
+              "end_gap_m": 743.543,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110996,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 110998,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 167.937,
+              "end_gap_m": 1509.319,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 110982,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 168.85,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 111012,
+              "start_gap_m": 1509.319,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 111011,
+          "orientation": "forward"
+        }
+      ],
+      "seams": [
+        {
+          "coordinate": {
+            "latitude": 35.105119999688,
+            "longitude": -106.629949999793
+          },
+          "nhpn": {
+            "correspondence": {
+              "endpoint_distance_m": 0.0,
+              "geometry_end": "start",
+              "lrs_key": "0000I0004000001",
+              "milepost_at_seam": 159.479,
+              "object_id": 587450,
+              "orientation": "forward",
+              "orientation_evidence": [
+                {
+                  "boundary": "high",
+                  "boundary_measure": 159.513,
+                  "end_gap_m": 0.0,
+                  "endpoint_gap_m": 0.0,
+                  "neighbour_object_id": 587447,
+                  "start_gap_m": 54.278,
+                  "vote": "forward"
+                }
+              ],
+              "page_response_sha256": "536bcf751ec1700203a1a843fea6389c324e5a2f1acdba1baf868d853d618847",
+              "part_index": 0,
+              "record_milepost_interval": [
+                159.479,
+                159.513
+              ]
+            },
+            "matches": [
+              {
+                "endpoint_distance_m": 0.0,
+                "geometry_end": "start",
+                "lrs_key": "0000I0004000001",
+                "object_id": 587450,
+                "page_response_sha256": "536bcf751ec1700203a1a843fea6389c324e5a2f1acdba1baf868d853d618847",
+                "part_index": 0,
+                "record_milepost_interval": [
+                  159.479,
+                  159.513
+                ]
+              }
+            ]
+          },
+          "nhs": {
+            "measure_at_seam": 159.370285,
+            "measure_interval": [
+              159.16,
+              159.397
+            ],
+            "object_id": 110959,
+            "orientation": "forward",
+            "seam_offset_m": 0.066
+          },
+          "side": "from",
+          "within_bound": true
+        },
+        {
+          "coordinate": {
+            "latitude": 35.065702000347,
+            "longitude": -106.487996999762
+          },
+          "nhpn": {
+            "correspondence": {
+              "endpoint_distance_m": 0.0,
+              "geometry_end": "start",
+              "lrs_key": "0000I0004000001",
+              "milepost_at_seam": 0.651,
+              "object_id": 588342,
+              "orientation": "forward",
+              "orientation_evidence": [
+                {
+                  "boundary": "high",
+                  "boundary_measure": 0.751,
+                  "end_gap_m": 0.0,
+                  "endpoint_gap_m": 0.0,
+                  "neighbour_object_id": 588360,
+                  "start_gap_m": 135.377,
+                  "vote": "forward"
+                }
+              ],
+              "page_response_sha256": "536bcf751ec1700203a1a843fea6389c324e5a2f1acdba1baf868d853d618847",
+              "part_index": 0,
+              "record_milepost_interval": [
+                0.651,
+                0.751
+              ]
+            },
+            "matches": [
+              {
+                "endpoint_distance_m": 0.0,
+                "geometry_end": "start",
+                "lrs_key": "0000I0004000001",
+                "object_id": 588342,
+                "page_response_sha256": "536bcf751ec1700203a1a843fea6389c324e5a2f1acdba1baf868d853d618847",
+                "part_index": 0,
+                "record_milepost_interval": [
+                  0.651,
+                  0.751
+                ]
+              }
+            ]
+          },
+          "nhs": {
+            "measure_at_seam": 168.113959,
+            "measure_interval": [
+              167.937,
+              168.85
+            ],
+            "object_id": 111011,
+            "orientation": "forward",
+            "seam_offset_m": 30.168
+          },
+          "side": "to",
+          "within_bound": true
+        }
+      ],
+      "segment_id": "i40-i81-to-barstow",
+      "site_id": "i40-i81-to-barstow--component-02-03",
+      "span": {
+        "geometry_length_m": 13885.943,
+        "geometry_sha256": "28207884d7bd76438d2389308b33bea693fbc62276400934cce592b18b7bf3a3",
+        "max_piece_joint_gap_m": 0.0,
+        "max_record_geometry_miles_ratio": 0.008493,
+        "measure_axis_distortion_ratio": 0.013192,
+        "measure_delta_miles": 8.743674,
+        "measure_high": 168.113959,
+        "measure_length_m": 14071.58,
+        "measure_low": 159.370285,
+        "nhpn_agreement": {
+          "max_offset_m": 0.116,
+          "mean_offset_m": 0.036
+        },
+        "nhpn_void_runs": [],
+        "pieces": [
+          {
+            "length_m": 34.89,
+            "measure_range": [
+              159.370285,
+              159.397
+            ],
+            "object_id": 110959
+          },
+          {
+            "length_m": 127.323,
+            "measure_range": [
+              159.397,
+              159.479
+            ],
+            "object_id": 110963
+          },
+          {
+            "length_m": 203.342,
+            "measure_range": [
+              159.479,
+              159.61
+            ],
+            "object_id": 110917
+          },
+          {
+            "length_m": 60.678,
+            "measure_range": [
+              159.61,
+              159.649
+            ],
+            "object_id": 110967
+          },
+          {
+            "length_m": 94.795,
+            "measure_range": [
+              159.649,
+              159.71
+            ],
+            "object_id": 110966
+          },
+          {
+            "length_m": 102.506,
+            "measure_range": [
+              159.71,
+              159.776
+            ],
+            "object_id": 110968
+          },
+          {
+            "length_m": 1224.292,
+            "measure_range": [
+              159.776,
+              160.564
+            ],
+            "object_id": 110965
+          },
+          {
+            "length_m": 1062.503,
+            "measure_range": [
+              160.564,
+              161.06
+            ],
+            "object_id": 110975
+          },
+          {
+            "length_m": 714.071,
+            "measure_range": [
+              161.06,
+              161.651
+            ],
+            "object_id": 110964
+          },
+          {
+            "length_m": 8.59,
+            "measure_range": [
+              161.651,
+              161.655
+            ],
+            "object_id": 110978
+          },
+          {
+            "length_m": 672.251,
+            "measure_range": [
+              161.655,
+              161.966
+            ],
+            "object_id": 110977
+          },
+          {
+            "length_m": 656.631,
+            "measure_range": [
+              161.966,
+              162.5
+            ],
+            "object_id": 110976
+          },
+          {
+            "length_m": 267.358,
+            "measure_range": [
+              162.5,
+              162.637
+            ],
+            "object_id": 110980
+          },
+          {
+            "length_m": 532.869,
+            "measure_range": [
+              162.637,
+              162.91
+            ],
+            "object_id": 110979
+          },
+          {
+            "length_m": 691.627,
+            "measure_range": [
+              162.91,
+              163.21
+            ],
+            "object_id": 110981
+          },
+          {
+            "length_m": 773.818,
+            "measure_range": [
+              163.21,
+              163.91
+            ],
+            "object_id": 110908
+          },
+          {
+            "length_m": 810.943,
+            "measure_range": [
+              163.91,
+              164.29
+            ],
+            "object_id": 110991
+          },
+          {
+            "length_m": 969.267,
+            "measure_range": [
+              164.29,
+              164.956
+            ],
+            "object_id": 110986
+          },
+          {
+            "length_m": 763.953,
+            "measure_range": [
+              164.956,
+              165.41
+            ],
+            "object_id": 110995
+          },
+          {
+            "length_m": 905.296,
+            "measure_range": [
+              165.41,
+              166.025
+            ],
+            "object_id": 110983
+          },
+          {
+            "length_m": 839.946,
+            "measure_range": [
+              166.025,
+              166.5
+            ],
+            "object_id": 110996
+          },
+          {
+            "length_m": 743.564,
+            "measure_range": [
+              166.5,
+              167.16
+            ],
+            "object_id": 110998
+          },
+          {
+            "length_m": 1324.038,
+            "measure_range": [
+              167.16,
+              167.937
+            ],
+            "object_id": 110982
+          },
+          {
+            "length_m": 301.394,
+            "measure_range": [
+              167.937,
+              168.113959
+            ],
+            "object_id": 111011
+          }
+        ],
+        "records_checked": [
+          {
+            "geometry_length_m": 773.818,
+            "geometry_miles_ratio": 0.005055,
+            "miles": 0.483271,
+            "object_id": 110908
+          },
+          {
+            "geometry_length_m": 203.342,
+            "geometry_miles_ratio": 0.008025,
+            "miles": 0.127373,
+            "object_id": 110917
+          },
+          {
+            "geometry_length_m": 309.516,
+            "geometry_miles_ratio": 0.008464,
+            "miles": 0.193966,
+            "object_id": 110959
+          },
+          {
+            "geometry_length_m": 127.323,
+            "geometry_miles_ratio": 0.008263,
+            "miles": 0.079774,
+            "object_id": 110963
+          },
+          {
+            "geometry_length_m": 714.071,
+            "geometry_miles_ratio": 0.008493,
+            "miles": 0.447504,
+            "object_id": 110964
+          },
+          {
+            "geometry_length_m": 1224.292,
+            "geometry_miles_ratio": 0.007613,
+            "miles": 0.766576,
+            "object_id": 110965
+          },
+          {
+            "geometry_length_m": 94.795,
+            "geometry_miles_ratio": 0.0076,
+            "miles": 0.059354,
+            "object_id": 110966
+          },
+          {
+            "geometry_length_m": 60.678,
+            "geometry_miles_ratio": 0.007775,
+            "miles": 0.037999,
+            "object_id": 110967
+          },
+          {
+            "geometry_length_m": 102.506,
+            "geometry_miles_ratio": 0.007398,
+            "miles": 0.064169,
+            "object_id": 110968
+          },
+          {
+            "geometry_length_m": 1062.503,
+            "geometry_miles_ratio": 0.007533,
+            "miles": 0.66522,
+            "object_id": 110975
+          },
+          {
+            "geometry_length_m": 656.631,
+            "geometry_miles_ratio": 0.005238,
+            "miles": 0.41016,
+            "object_id": 110976
+          },
+          {
+            "geometry_length_m": 672.251,
+            "geometry_miles_ratio": 0.008191,
+            "miles": 0.421167,
+            "object_id": 110977
+          },
+          {
+            "geometry_length_m": 8.59,
+            "geometry_miles_ratio": 0.008438,
+            "miles": 0.005383,
+            "object_id": 110978
+          },
+          {
+            "geometry_length_m": 532.869,
+            "geometry_miles_ratio": 0.005169,
+            "miles": 0.33283,
+            "object_id": 110979
+          },
+          {
+            "geometry_length_m": 267.358,
+            "geometry_miles_ratio": 0.005165,
+            "miles": 0.166991,
+            "object_id": 110980
+          },
+          {
+            "geometry_length_m": 691.627,
+            "geometry_miles_ratio": 0.00519,
+            "miles": 0.431999,
+            "object_id": 110981
+          },
+          {
+            "geometry_length_m": 1324.038,
+            "geometry_miles_ratio": 0.005501,
+            "miles": 0.82727,
+            "object_id": 110982
+          },
+          {
+            "geometry_length_m": 905.296,
+            "geometry_miles_ratio": 0.005488,
+            "miles": 0.565629,
+            "object_id": 110983
+          },
+          {
+            "geometry_length_m": 969.267,
+            "geometry_miles_ratio": 0.005453,
+            "miles": 0.605577,
+            "object_id": 110986
+          },
+          {
+            "geometry_length_m": 810.943,
+            "geometry_miles_ratio": 0.005268,
+            "miles": 0.506565,
+            "object_id": 110991
+          },
+          {
+            "geometry_length_m": 763.953,
+            "geometry_miles_ratio": 0.005436,
+            "miles": 0.477293,
+            "object_id": 110995
+          },
+          {
+            "geometry_length_m": 839.946,
+            "geometry_miles_ratio": 0.005408,
+            "miles": 0.524756,
+            "object_id": 110996
+          },
+          {
+            "geometry_length_m": 743.564,
+            "geometry_miles_ratio": 0.00546,
+            "miles": 0.464566,
+            "object_id": 110998
+          },
+          {
+            "geometry_length_m": 1555.007,
+            "geometry_miles_ratio": 0.005998,
+            "miles": 0.972067,
+            "object_id": 111011
+          }
+        ],
+        "station_count": 279,
+        "station_spacing_m": 50.0,
+        "stations_beyond_nhpn_lens": 0,
+        "stations_within_nhpn_lens": 279
+      }
+    },
+    {
+      "facility": "I-70",
+      "group": {
+        "route_id": "070A",
+        "signed_routes": [
+          "I-70"
+        ],
+        "state_fips": "8"
+      },
+      "margin_acquisition": {
+        "acquired_at": "2026-08-31T09:07:59Z",
+        "expected_count": 3,
+        "features_sha256": "9d1925392bbbc4b749603c37d5162e9e45e345d15ea05064d5b4842f739f7e06",
+        "locked_records_reproduced": true,
+        "object_ids": [
+          111653,
+          111877,
+          111878
+        ],
+        "object_ids_sha256": "ca0458d3388338bcee49cce6bb4b6355ca216f19fbbf56586d218c0ad60e76d5",
+        "page_size": 2000,
+        "pages": [
+          {
+            "canonical_response_sha256": "250e60fe3166dcd4cbbde87588db4ceef10b1428cf5507112edd4fff318d925c",
+            "feature_count": 3,
+            "index": 0,
+            "object_id_offset": 0,
+            "object_ids_sha256": "ca0458d3388338bcee49cce6bb4b6355ca216f19fbbf56586d218c0ad60e76d5"
+          }
+        ],
+        "predicate": "STFIPS = '8' AND ROUTEID = '070A' AND ENDPOINT > 81.114000 AND BEGINPOINT < 87.234000",
+        "resumed_pages": 1,
+        "retries": 0
+      },
+      "orientation": [
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 81.364,
+              "end_gap_m": 8719.733,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 111653,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            },
+            {
+              "boundary": "high",
+              "boundary_measure": 86.984,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 111878,
+              "start_gap_m": 8719.733,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 111877,
+          "orientation": "forward"
+        }
+      ],
+      "seams": [
+        {
+          "coordinate": {
+            "latitude": 39.510333000168,
+            "longitude": -107.875541999963
+          },
+          "nhpn": {
+            "correspondence": {
+              "endpoint_distance_m": 0.0,
+              "geometry_end": "end",
+              "lrs_key": "000000070A00045",
+              "milepost_at_seam": 84.8,
+              "object_id": 60295,
+              "orientation": "forward",
+              "orientation_evidence": [
+                {
+                  "boundary": "low",
+                  "boundary_measure": 84.782,
+                  "end_gap_m": 27.444,
+                  "endpoint_gap_m": 0.0,
+                  "neighbour_object_id": 60294,
+                  "start_gap_m": 0.0,
+                  "vote": "forward"
+                }
+              ],
+              "page_response_sha256": "7ee20dc01017a89315c9ea6f351d92088a028d510c4dcbed28fe8297f5857b52",
+              "part_index": 0,
+              "record_milepost_interval": [
+                84.782,
+                84.8
+              ]
+            },
+            "matches": [
+              {
+                "endpoint_distance_m": 0.0,
+                "geometry_end": "end",
+                "lrs_key": "000000070A00045",
+                "object_id": 60295,
+                "page_response_sha256": "7ee20dc01017a89315c9ea6f351d92088a028d510c4dcbed28fe8297f5857b52",
+                "part_index": 0,
+                "record_milepost_interval": [
+                  84.782,
+                  84.8
+                ]
+              }
+            ]
+          },
+          "nhs": {
+            "measure_at_seam": 85.132592,
+            "measure_interval": [
+              81.364,
+              86.984
+            ],
+            "object_id": 111877,
+            "orientation": "forward",
+            "seam_offset_m": 17.422
+          },
+          "side": "from",
+          "within_bound": true
+        },
+        {
+          "coordinate": {
+            "latitude": 39.510925999635,
+            "longitude": -107.871867999608
+          },
+          "nhpn": {
+            "correspondence": {
+              "endpoint_distance_m": 0.0,
+              "geometry_end": "start",
+              "lrs_key": "000000070A00045",
+              "milepost_at_seam": 62.305,
+              "object_id": 60300,
+              "orientation": "forward",
+              "orientation_evidence": [
+                {
+                  "boundary": "high",
+                  "boundary_measure": 62.647,
+                  "end_gap_m": 0.0,
+                  "endpoint_gap_m": 0.0,
+                  "neighbour_object_id": 60296,
+                  "start_gap_m": 36.816,
+                  "vote": "forward"
+                }
+              ],
+              "page_response_sha256": "7ee20dc01017a89315c9ea6f351d92088a028d510c4dcbed28fe8297f5857b52",
+              "part_index": 0,
+              "record_milepost_interval": [
+                62.305,
+                62.647
+              ]
+            },
+            "matches": [
+              {
+                "endpoint_distance_m": 0.0,
+                "geometry_end": "start",
+                "lrs_key": "000000070A00045",
+                "object_id": 60300,
+                "page_response_sha256": "7ee20dc01017a89315c9ea6f351d92088a028d510c4dcbed28fe8297f5857b52",
+                "part_index": 0,
+                "record_milepost_interval": [
+                  62.305,
+                  62.647
+                ]
+              }
+            ]
+          },
+          "nhs": {
+            "measure_at_seam": 85.3279,
+            "measure_interval": [
+              81.364,
+              86.984
+            ],
+            "object_id": 111877,
+            "orientation": "forward",
+            "seam_offset_m": 55.755
+          },
+          "side": "to",
+          "within_bound": true
+        }
+      ],
+      "segment_id": "i70-denver-to-cove-fort",
+      "site_id": "i70-denver-to-cove-fort--component-00-01",
+      "span": {
+        "geometry_length_m": 311.435,
+        "geometry_sha256": "65a3a266fb4bcccb7fa6fd47144b33ec14369dd10fe806987d5cf55a775baf43",
+        "max_piece_joint_gap_m": 0.0,
+        "max_record_geometry_miles_ratio": 0.0069,
+        "measure_axis_distortion_ratio": 0.009172,
+        "measure_delta_miles": 0.195308,
+        "measure_high": 85.3279,
+        "measure_length_m": 314.318,
+        "measure_low": 85.132592,
+        "nhpn_agreement": {
+          "max_offset_m": 56.915,
+          "mean_offset_m": 45.746
+        },
+        "nhpn_void_runs": [
+          {
+            "end_m": 250.0,
+            "start_m": 100.0
+          }
+        ],
+        "pieces": [
+          {
+            "length_m": 311.435,
+            "measure_range": [
+              85.132592,
+              85.3279
+            ],
+            "object_id": 111877
+          }
+        ],
+        "records_checked": [
+          {
+            "geometry_length_m": 8961.551,
+            "geometry_miles_ratio": 0.0069,
+            "miles": 5.60714,
+            "object_id": 111877
+          }
+        ],
+        "station_count": 8,
+        "station_spacing_m": 50.0,
+        "stations_beyond_nhpn_lens": 4,
+        "stations_within_nhpn_lens": 4
+      }
+    },
+    {
+      "facility": "I-78",
+      "group": {
+        "route_id": "6 48 48B3 - 86216",
+        "signed_routes": [
+          "I-78"
+        ],
+        "state_fips": "42"
+      },
+      "margin_acquisition": {
+        "acquired_at": "2026-08-31T09:07:59Z",
+        "expected_count": 2,
+        "features_sha256": "19106543b8027a226cf403c317d92c1c8de2784eacf8f3fa59213541821d7e12",
+        "locked_records_reproduced": true,
+        "object_ids": [
+          428279,
+          428356
+        ],
+        "object_ids_sha256": "bf9280d1b7d8651287bbfbf9e9c0e01f462e17862cc523bbba04ce90bbebc634",
+        "page_size": 2000,
+        "pages": [
+          {
+            "canonical_response_sha256": "09da424d03d8b3333f8360648f1a3db73e840390528cbd0b9b5b3f33ce768528",
+            "feature_count": 2,
+            "index": 0,
+            "object_id_offset": 0,
+            "object_ids_sha256": "bf9280d1b7d8651287bbfbf9e9c0e01f462e17862cc523bbba04ce90bbebc634"
+          }
+        ],
+        "predicate": "STFIPS = '42' AND ROUTEID = '6 48 48B3 - 86216' AND ENDPOINT > -0.250000 AND BEGINPOINT < 2.919000",
+        "resumed_pages": 1,
+        "retries": 0
+      },
+      "orientation": [
+        {
+          "evidence": [
+            {
+              "boundary": "high",
+              "boundary_measure": 2.553,
+              "end_gap_m": 0.0,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 428356,
+              "start_gap_m": 3227.142,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 428279,
+          "orientation": "forward"
+        },
+        {
+          "evidence": [
+            {
+              "boundary": "low",
+              "boundary_measure": 2.553,
+              "end_gap_m": 165.31,
+              "endpoint_gap_m": 0.0,
+              "neighbour_object_id": 428279,
+              "start_gap_m": 0.0,
+              "vote": "forward"
+            }
+          ],
+          "object_id": 428356,
+          "orientation": "forward"
+        }
+      ],
+      "seams": [
+        {
+          "coordinate": {
+            "latitude": 40.67034299993,
+            "longitude": -75.213843999701
+          },
+          "nhpn": {
+            "correspondence": {
+              "endpoint_distance_m": 0.0,
+              "geometry_end": "end",
+              "lrs_key": "000048007800095",
+              "milepost_at_seam": 12.225,
+              "object_id": 427281,
+              "orientation": "forward",
+              "orientation_evidence": [
+                {
+                  "boundary": "low",
+                  "boundary_measure": 11.835,
+                  "end_gap_m": 580.912,
+                  "endpoint_gap_m": 0.0,
+                  "neighbour_object_id": 426692,
+                  "start_gap_m": 0.0,
+                  "vote": "forward"
+                }
+              ],
+              "page_response_sha256": "925d7b3b9230aedd9073b2c60cad8778be05b339deca709a82a3546bfee7f4ef",
+              "part_index": 0,
+              "record_milepost_interval": [
+                11.835,
+                12.225
+              ]
+            },
+            "matches": [
+              {
+                "endpoint_distance_m": 0.0,
+                "geometry_end": "end",
+                "lrs_key": "000048007800095",
+                "object_id": 427281,
+                "page_response_sha256": "925d7b3b9230aedd9073b2c60cad8778be05b339deca709a82a3546bfee7f4ef",
+                "part_index": 0,
+                "record_milepost_interval": [
+                  11.835,
+                  12.225
+                ]
+              }
+            ]
+          },
+          "nhs": {
+            "measure_at_seam": 0.212449,
+            "measure_interval": [
+              0.0,
+              2.553
+            ],
+            "object_id": 428279,
+            "orientation": "forward",
+            "seam_offset_m": 16.353
+          },
+          "side": "from",
+          "within_bound": true
+        },
+        {
+          "coordinate": {
+            "latitude": 40.67191699967,
+            "longitude": -75.1778570003
+          },
+          "nhpn": {
+            "correspondence": {
+              "endpoint_distance_m": 0.0,
+              "geometry_end": "start",
+              "lrs_key": "00000078__00041",
+              "milepost_at_seam": 0.0,
+              "object_id": 427271,
+              "orientation": "forward",
+              "orientation_evidence": [
+                {
+                  "boundary": "high",
+                  "boundary_measure": 2.177,
+                  "end_gap_m": 0.0,
+                  "endpoint_gap_m": 0.0,
+                  "neighbour_object_id": 427332,
+                  "start_gap_m": 3042.388,
+                  "vote": "forward"
+                }
+              ],
+              "page_response_sha256": "925d7b3b9230aedd9073b2c60cad8778be05b339deca709a82a3546bfee7f4ef",
+              "part_index": 0,
+              "record_milepost_interval": [
+                0.0,
+                2.177
+              ]
+            },
+            "matches": [
+              {
+                "endpoint_distance_m": 0.0,
+                "geometry_end": "start",
+                "lrs_key": "00000078__00041",
+                "object_id": 427271,
+                "page_response_sha256": "925d7b3b9230aedd9073b2c60cad8778be05b339deca709a82a3546bfee7f4ef",
+                "part_index": 0,
+                "record_milepost_interval": [
+                  0.0,
+                  2.177
+                ]
+              }
+            ]
+          },
+          "nhs": {
+            "measure_at_seam": 2.669,
+            "measure_interval": [
+              2.553,
+              2.669
+            ],
+            "object_id": 428356,
+            "orientation": "forward",
+            "seam_offset_m": 14.826
+          },
+          "side": "to",
+          "within_bound": true
+        }
+      ],
+      "segment_id": "i78-holland-tunnel-to-i81",
+      "site_id": "i78-holland-tunnel-to-i81--component-00-01",
+      "span": {
+        "geometry_length_m": 3378.063,
+        "geometry_sha256": "b9caba3aacf7037c74ebda2a1bb4b15dceb3def16d8ecee9a7fb81a5e5318cc4",
+        "max_piece_joint_gap_m": 0.0,
+        "max_record_geometry_miles_ratio": 0.005934,
+        "measure_axis_distortion_ratio": 0.145537,
+        "measure_delta_miles": 2.456551,
+        "measure_high": 2.669,
+        "measure_length_m": 3953.435,
+        "measure_low": 0.212449,
+        "nhpn_agreement": {
+          "max_offset_m": 52.854,
+          "mean_offset_m": 31.709
+        },
+        "nhpn_void_runs": [
+          {
+            "end_m": 3300.0,
+            "start_m": 100.0
+          }
+        ],
+        "pieces": [
+          {
+            "length_m": 3212.743,
+            "measure_range": [
+              0.212449,
+              2.553
+            ],
+            "object_id": 428279
+          },
+          {
+            "length_m": 165.319,
+            "measure_range": [
+              2.553,
+              2.669
+            ],
+            "object_id": 428356
+          }
+        ],
+        "records_checked": [
+          {
+            "geometry_length_m": 3504.361,
+            "geometry_miles_ratio": 0.005934,
+            "miles": 2.190508,
+            "object_id": 428279
+          },
+          {
+            "geometry_length_m": 165.319,
+            "geometry_miles_ratio": 0.003247,
+            "miles": 0.102392,
+            "object_id": 428356
+          }
+        ],
+        "station_count": 69,
+        "station_spacing_m": 50.0,
+        "stations_beyond_nhpn_lens": 65,
+        "stations_within_nhpn_lens": 4
+      }
+    }
+  ],
+  "sites_sha256": "facb17bea437fd8fd35328ca6e07a53e574447f2e29868fe78963607a1c7f913",
+  "source_policy": {
+    "authoritative_distance_claimed": false,
+    "conflation_performed": true,
+    "continental_downloads_committed": false,
+    "lane_geometry_claimed": false,
+    "margin_records_are_orientation_evidence_only": true,
+    "nhpn_remains_route_authority": true,
+    "nhs_role": "supplementary_centerlines_only",
+    "openstreetmap_ancestry_allowed": false,
+    "supplementary_source": "usdot-ntad-national-highway-system"
+  },
+  "status": "nhpn_nhs_conflation_locked_reconstruction_pending",
+  "summary": {
+    "max_measure_axis_distortion_ratio": 0.145537,
+    "max_record_geometry_miles_ratio": 0.009062,
+    "max_seam_offset_m": 55.755,
+    "seam_count": 10,
+    "seams_within_bound": 10,
+    "sites_with_nhpn_void": 3,
+    "total_span_meters": 49018.688
+  },
+  "transfer_lock_sha256": "b267282a1d48014783c90a60c46cda85cea61741911d23649bf318404aea2b3b",
+  "westbound_selection_validated": false
+}
