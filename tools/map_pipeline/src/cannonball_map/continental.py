@@ -13543,7 +13543,25 @@ def validate_continental_conditioned_profile(
     return payload
 
 
-WESTBOUND_CARRIAGEWAY_STATUS = "westbound_carriageway_locked_junction_geometry_pending"
+WESTBOUND_CARRIAGEWAY_STATUS = "portal_corridor_locked_transfer_geometry_pending"
+
+# The v1 lock (the first carriageway cut, with the three traversed NHS fill
+# chords still riding their pinned boundary chords and no endpoint
+# connectors) is superseded by the schema-2 revision, never rewritten: its
+# recorded digest and status stay here as append-only history.
+SUPERSEDED_WESTBOUND_CARRIAGEWAY_V1 = {
+    "artifact": "westbound-carriageway-lock.v1.json",
+    "schema_version": 1,
+    "sha256": "4607550702f6042412f99c45e12008a7a5c299c817deb62bb70cf29cde570c5b",
+    "status": "westbound_carriageway_locked_junction_geometry_pending",
+    "superseded_reason": (
+        "The junction-and-span-geometry stage replaced the three traversed "
+        "NHS fill chords with their seam-registered conflated spans, "
+        "integrated the two authored ADR-0024 endpoint connectors, and "
+        "published the portal-to-portal run length; the v1 gate results "
+        "over chord-class fill geometry are history, not current claims."
+    ),
+}
 
 # ADR-0014 reciprocal carriageway model parameters. The offset is an authored
 # uniform model parameter under ADR-0017's observed/derived/authored
@@ -13603,10 +13621,26 @@ CARRIAGEWAY_BACKTRACK_MATCH_EPSILON_M = 1e-6
 
 CARRIAGEWAY_CORNER_CLASSES = (
     "overlay_corner",
+    "conflated_span_corner",
     "junction_backtrack_approach",
     "route_corner",
 )
 CARRIAGEWAY_REVERSAL_CLASSES = ("overlay_out_and_back", "joint_back_step")
+
+# Conflated-span replacement: each traversed fill chord is replaced by its
+# conflation-lock span, reassembled from the locked NHS fill cache and
+# refused unless it reproduces the locked geometry digest, then registered
+# onto the pinned chord endpoints by a correction interpolated linearly in
+# arc length. The endpoint corrections are exactly the conflation lock's
+# recorded seam offsets (the two datasets' characterised lateral
+# disagreement inside the catalog's ~80 m NHPN error class); the measured
+# correction must agree with the recorded offset to the measure-quantum
+# rounding envelope.
+CARRIAGEWAY_SPAN_SEAM_TOLERANCE_M = 0.02
+# Corner sites within this lens of a replaced span record the span's
+# cross-dataset seam heading and its real NHS road curvature as their own
+# recorded class.
+CARRIAGEWAY_SPAN_CORNER_LENS_M = 100.0
 
 CARRIAGEWAY_MODEL = {
     "decision": "ADR-0014",
@@ -13645,6 +13679,26 @@ CARRIAGEWAY_MODEL = {
         "so the pair is reciprocal by construction and no opposing geometry "
         "is synthesized from unrelated nearby lines."
     ),
+    "span_replacement": {
+        "decision": "ADR-0026",
+        "method": "seam_registration_linear_in_arc_length",
+        "seam_tolerance_m": CARRIAGEWAY_SPAN_SEAM_TOLERANCE_M,
+        "span_corner_lens_m": CARRIAGEWAY_SPAN_CORNER_LENS_M,
+        "justification": (
+            "Each traversed NHS fill chord is replaced by its conflation-"
+            "lock span, reassembled from the locked NHS fill cache and "
+            "refused unless it reproduces the locked geometry digest, then "
+            "registered onto the pinned chord endpoints by a correction "
+            "interpolated linearly in arc length. The endpoint corrections "
+            "equal the conflation lock's recorded seam offsets - the two "
+            "datasets' characterised lateral disagreement inside the "
+            "catalog's ~80 m NHPN error class - so the chain joints stay "
+            "exact and no seam jog is invented. Vertical context is the "
+            "ADR-0017 conditioned profile over the chord's directed-walk "
+            "station interval, re-parametrised by the span's arc length; no "
+            "observed span elevation is claimed."
+        ),
+    },
 }
 
 CARRIAGEWAY_DEFERRED_GATES = {
@@ -13678,24 +13732,31 @@ CARRIAGEWAY_SOURCE_POLICY = {
     "context_decision": "ADR-0017",
     "control_line_decision": "ADR-0013",
     "opposing_geometry_synthesized_from_proximity": False,
-    "fill_chords_replaced_by_conflated_spans": False,
+    "fill_chords_replaced_by_conflated_spans": True,
     "junction_transfer_geometry_generated": False,
-    "endpoint_connectors_generated": False,
+    "endpoint_connectors_generated": True,
     "continental_downloads_committed": False,
-    "authoritative_distance_claimed": False,
+    "authoritative_distance_claimed": True,
+    "authoritative_distance_scope": (
+        "ADR-0024 portal-to-portal westbound run length over the locked "
+        "corridor (traversed fill chords replaced by their seam-registered "
+        "conflated NHS spans) plus the two authored endpoint connectors; "
+        "the connector contribution carries declared authored-waypoint "
+        "precision, recorded in the run-length record."
+    ),
 }
 
 WESTBOUND_CARRIAGEWAY_NEXT_STAGE = {
-    "id": "junction-and-span-geometry",
+    "id": "transfer-and-lane-geometry",
     "requires": [
-        "conflated NHS span geometry replacing the three traversed fill "
-        "chords (ADR-0026 conflation lock spans)",
         "transfer geometry at the seven cross-segment junctions and the two "
         "junction-backtrack turn-arounds",
-        "authored endpoint connector geometry, after which ADR-0024's "
-        "portal-to-portal run length can be published",
         "lane topology, ramps, and collision over the carriageway model "
-        "with the deferred ADR-0018 gates",
+        "with the deferred ADR-0018 gates, then the GeoPackage/FlatBuffer "
+        "package build under ADR-0019 budgets",
+        "the southern path's Holland Tunnel connector (nyc-start-to-i78) "
+        "before its portal-to-portal figure can publish",
+        "runtime integration and the double-build/traversal evidence",
     ],
 }
 
@@ -13880,15 +13941,18 @@ def _carriageway_corner_sites(
     tail_backtrack_m: float,
     head_backtrack_m: float,
     inverse: Transformer,
+    span_lines: Sequence[LineString] = (),
 ) -> list[dict[str, Any]]:
     """Corner-class heading exceptions at the 25 m tangent lens.
 
     Every turn beyond the corner threshold joins a cluster; each cluster is
     recorded with its peak and summed turn and classified: an overlay corner
-    (adjudicating that overlay's deferred heading gate), a junction-backtrack
-    approach (transfer geometry is deferred stage output), or a route corner
-    the designated route itself turns through. Reversal-class turns at the
-    lens refuse - the chain was conditioned below them.
+    (adjudicating that overlay's deferred heading gate), a conflated-span
+    corner (the replaced span's cross-dataset seam heading or its real NHS
+    road curvature), a junction-backtrack approach (transfer geometry is
+    deferred stage output), or a route corner the designated route itself
+    turns through. Reversal-class turns at the lens refuse - the chain was
+    conditioned below them.
     """
     samples = _resample_polyline(coordinates, CARRIAGEWAY_TANGENT_LENS_M)
     chain_length = _polyline_length(coordinates)
@@ -13925,12 +13989,20 @@ def _carriageway_corner_sites(
         peak_point = Point(samples[peak_sample])
         corner_class = "route_corner"
         overlay_distance = None
+        span_distance = None
         for overlay_line in overlay_lines:
             distance = peak_point.distance(overlay_line)
             if distance <= CARRIAGEWAY_OVERLAY_CORNER_LENS_M:
                 corner_class = "overlay_corner"
                 overlay_distance = round(distance, 3)
                 break
+        if corner_class == "route_corner":
+            for span_line in span_lines:
+                distance = peak_point.distance(span_line)
+                if distance <= CARRIAGEWAY_SPAN_CORNER_LENS_M:
+                    corner_class = "conflated_span_corner"
+                    span_distance = round(distance, 3)
+                    break
         if corner_class == "route_corner":
             margin = CARRIAGEWAY_TANGENT_LENS_M * CARRIAGEWAY_CORNER_CLUSTER_STEPS
             in_tail = tail_backtrack_m > 0 and station >= chain_length - (
@@ -13952,6 +14024,8 @@ def _carriageway_corner_sites(
         }
         if overlay_distance is not None:
             site["overlay_distance_m"] = overlay_distance
+        if span_distance is not None:
+            site["span_distance_m"] = span_distance
         sites.append(site)
     return sites
 
@@ -14146,9 +14220,441 @@ def _carriageway_backtrack_record(
     }
 
 
+def _conditioned_segment_elevations(
+    elevation_segment: dict[str, Any], conditioned_segment: dict[str, Any]
+) -> list[float]:
+    """One segment's conditioned station elevations from the committed locks.
+
+    The committed raw profile with every conditioning record's replacement
+    values applied over its interior stations - exactly the substitution the
+    conditioned-profile derivation recorded (boundary stations keep their raw
+    values).
+    """
+    values = [float(value) for value in elevation_segment["elevations_m"]]
+    interval = float(elevation_segment["station_interval_m"])
+    for record in conditioned_segment["conditioning_records"]:
+        from_index = int(round(record["from_station_m"] / interval))
+        to_index = int(round(record["to_station_m"] / interval))
+        replacements = record["after"]["replacement_elevations_m"]
+        if to_index - from_index - 1 != len(replacements):
+            raise ValueError(
+                f"Conditioning record '{record['record_id']}' interior span "
+                "does not match its replacement values."
+            )
+        values[from_index + 1 : to_index] = [float(value) for value in replacements]
+    return values
+
+
+def _profile_elevation_at(
+    values: Sequence[float],
+    interval: float,
+    terminal_station: float,
+    station: float,
+) -> float:
+    """Linear interpolation of the station profile at one exact station."""
+    clamped = min(max(station, 0.0), terminal_station)
+    last_regular = len(values) - 2
+    index = int(clamped // interval)
+    if index >= last_regular:
+        low_station = last_regular * interval
+        high_station = terminal_station
+        low_value = values[-2]
+        high_value = values[-1]
+    else:
+        low_station = index * interval
+        high_station = low_station + interval
+        low_value = values[index]
+        high_value = values[index + 1]
+    if high_station <= low_station:
+        return high_value
+    fraction = (clamped - low_station) / (high_station - low_station)
+    return low_value + (high_value - low_value) * fraction
+
+
+def _span_vertical_context(
+    elevation_segment: dict[str, Any],
+    conditioned_segment: dict[str, Any],
+    interval_from_m: float,
+    interval_to_m: float,
+    registered_geodesic_m: float,
+) -> dict[str, Any]:
+    """ADR-0017 vertical context for one replaced span.
+
+    The conditioned profile over the chord's directed-walk station interval,
+    re-parametrised by the registered span's arc length: a derived deck
+    chord, never observed span elevation. The overlapping conditioning
+    records are cited as the interval's characterised artifact evidence.
+    """
+    values = _conditioned_segment_elevations(elevation_segment, conditioned_segment)
+    interval = float(elevation_segment["station_interval_m"])
+    terminal = float(elevation_segment["terminal_station_m"])
+    entry_elevation = _profile_elevation_at(values, interval, terminal, interval_from_m)
+    exit_elevation = _profile_elevation_at(values, interval, terminal, interval_to_m)
+    delta = exit_elevation - entry_elevation
+    chord_length = interval_to_m - interval_from_m
+    overlapping = [
+        {
+            "record_id": record["record_id"],
+            "artifact_class": record["artifact_class"],
+        }
+        for record in conditioned_segment["conditioning_records"]
+        if record["to_station_m"] >= interval_from_m
+        and record["from_station_m"] <= interval_to_m
+    ]
+    span_grade = (
+        delta / registered_geodesic_m * 100.0 if registered_geodesic_m > 0 else 0.0
+    )
+    return {
+        "source": "conditioned-profile-lock over corridor-elevation-lock",
+        "method": (
+            "ADR-0017 deck-chord re-parametrisation: the conditioned "
+            "profile's boundary elevations over the chord's directed-walk "
+            "station interval map linearly onto the span's arc length; no "
+            "observed span elevation is claimed."
+        ),
+        "chord_station_interval_m": [
+            round(interval_from_m, 3),
+            round(interval_to_m, 3),
+        ],
+        "boundary_elevations_m": [
+            round(entry_elevation, 2),
+            round(exit_elevation, 2),
+        ],
+        "conditioning_records": overlapping,
+        "chord_grade_percent": round(
+            delta / chord_length * 100.0 if chord_length > 0 else 0.0, 3
+        ),
+        "span_grade_percent": round(span_grade, 3),
+    }
+
+
+def _registered_conflation_span(
+    site: dict[str, Any],
+    conflation_site: dict[str, Any],
+    fill_root: Path,
+    forward: Transformer,
+) -> tuple[LineString, dict[str, Any]]:
+    """One traversed fill span, reassembled, verified, and seam-registered.
+
+    Reassembles the conflation lock's oriented span geometry from the locked
+    NHS fill cache (refusing unless it reproduces the locked geometry
+    digest), orients it chord-from to chord-to, and registers it onto the
+    pinned chord endpoints with a correction interpolated linearly in arc
+    length whose endpoint magnitudes must reproduce the conflation lock's
+    recorded seam offsets.
+    """
+    site_id = site["site_id"]
+    features = _load_locked_nhs_site_features(site, fill_root / site_id)
+    orientation_by_id = {
+        entry["object_id"]: entry["orientation"]
+        for entry in conflation_site["orientation"]
+    }
+    groups = site["fill_route_groups"]
+    if len(groups) != 1:
+        raise ValueError(
+            f"Fill site '{site_id}' does not carry exactly one qualifying "
+            "route group."
+        )
+    group_ids = sorted(record["object_id"] for record in groups[0]["records"])
+    records = []
+    record_by_id: dict[int, dict[str, Any]] = {}
+    for object_id in group_ids:
+        attributes = features[object_id]["attributes"]
+        record = {
+            "object_id": object_id,
+            "begin": float(attributes.get("BEGINPOINT") or 0.0),
+            "end": float(attributes.get("ENDPOINT") or 0.0),
+            "orientation": orientation_by_id[object_id],
+            "line": transform(
+                forward.transform, _merged_feature_line(features[object_id])
+            ),
+        }
+        records.append(record)
+        record_by_id[object_id] = record
+    span_block = conflation_site["span"]
+    # The conflation derive clipped at full-precision seam measures and
+    # recorded them rounded; recompute each seam measure through the exact
+    # projection the conflation used and refuse if the rounded value no
+    # longer reproduces the lock.
+    seam_measures: list[float] = []
+    for seam in conflation_site["seams"]:
+        seam_record = record_by_id[seam["nhs"]["object_id"]]
+        seam_point = Point(
+            forward.transform(
+                seam["coordinate"]["longitude"], seam["coordinate"]["latitude"]
+            )
+        )
+        distance_along = float(seam_record["line"].project(seam_point))
+        measure = _measure_at_distance(seam_record, distance_along)
+        if round(measure, 6) != seam["nhs"]["measure_at_seam"]:
+            raise ValueError(
+                json.dumps(
+                    {
+                        "refusal": "recomputed seam measure does not "
+                        "reproduce the conflation lock",
+                        "site_id": site_id,
+                        "side": seam["side"],
+                        "recomputed": round(measure, 6),
+                        "locked": seam["nhs"]["measure_at_seam"],
+                    },
+                    sort_keys=True,
+                )
+            )
+        seam_measures.append(measure)
+    span_low, span_high = sorted(seam_measures)
+    span = _assemble_conflation_span(records, span_low, span_high)
+    span_line = span["line"]
+    digest = canonical_sha256(
+        [[round(x, 3), round(y, 3)] for x, y in span_line.coords]
+    )
+    if digest != span_block["geometry_sha256"]:
+        raise ValueError(
+            json.dumps(
+                {
+                    "refusal": "reassembled span does not reproduce the "
+                    "conflation lock's geometry digest",
+                    "site_id": site_id,
+                    "reassembled_sha256": digest,
+                    "locked_sha256": span_block["geometry_sha256"],
+                },
+                sort_keys=True,
+            )
+        )
+    measure_by_side = {
+        seam["side"]: seam["nhs"]["measure_at_seam"]
+        for seam in conflation_site["seams"]
+    }
+    offsets_by_side = {
+        seam["side"]: seam["nhs"]["seam_offset_m"]
+        for seam in conflation_site["seams"]
+    }
+    coordinates = list(span_line.coords)
+    if measure_by_side["from"] > measure_by_side["to"]:
+        coordinates = coordinates[::-1]
+    chord_from = forward.transform(
+        site["from_coordinate"]["longitude"], site["from_coordinate"]["latitude"]
+    )
+    chord_to = forward.transform(
+        site["to_coordinate"]["longitude"], site["to_coordinate"]["latitude"]
+    )
+    from_offset = math.dist(chord_from, coordinates[0])
+    to_offset = math.dist(chord_to, coordinates[-1])
+    agreement = max(
+        abs(from_offset - offsets_by_side["from"]),
+        abs(to_offset - offsets_by_side["to"]),
+    )
+    if agreement > CARRIAGEWAY_SPAN_SEAM_TOLERANCE_M:
+        raise ValueError(
+            json.dumps(
+                {
+                    "refusal": "seam registration disagrees with the "
+                    "conflation lock's recorded seam offsets",
+                    "site_id": site_id,
+                    "measured_from_m": round(from_offset, 3),
+                    "measured_to_m": round(to_offset, 3),
+                    "recorded_from_m": offsets_by_side["from"],
+                    "recorded_to_m": offsets_by_side["to"],
+                    "tolerance_m": CARRIAGEWAY_SPAN_SEAM_TOLERANCE_M,
+                },
+                sort_keys=True,
+            )
+        )
+    delta_from = (chord_from[0] - coordinates[0][0], chord_from[1] - coordinates[0][1])
+    delta_to = (chord_to[0] - coordinates[-1][0], chord_to[1] - coordinates[-1][1])
+    total_length = _polyline_length(coordinates)
+    registered: list[tuple[float, float]] = []
+    travelled = 0.0
+    for index, vertex in enumerate(coordinates):
+        if index > 0:
+            travelled += math.dist(coordinates[index - 1], vertex)
+        fraction = travelled / total_length if total_length > 0 else 0.0
+        registered.append(
+            (
+                vertex[0] + delta_from[0] * (1.0 - fraction) + delta_to[0] * fraction,
+                vertex[1] + delta_from[1] * (1.0 - fraction) + delta_to[1] * fraction,
+            )
+        )
+    registered[0] = chord_from
+    registered[-1] = chord_to
+    registered_line = LineString(registered)
+    if not registered_line.is_simple:
+        raise ValueError(
+            json.dumps(
+                {
+                    "refusal": "registered span self-intersects",
+                    "site_id": site_id,
+                },
+                sort_keys=True,
+            )
+        )
+    facts = {
+        "span": {
+            "geometry_sha256": span_block["geometry_sha256"],
+            "geometry_length_m": span_block["geometry_length_m"],
+            "piece_count": len(span["pieces"]),
+            "reassembled_digest_verified": True,
+        },
+        "seam_registration": {
+            "method": "linear_in_arc_length",
+            "from_offset_m": round(from_offset, 3),
+            "to_offset_m": round(to_offset, 3),
+            "recorded_seam_offsets_m": {
+                "from": offsets_by_side["from"],
+                "to": offsets_by_side["to"],
+            },
+            "offset_agreement_delta_m": round(agreement, 3),
+        },
+    }
+    return registered_line, facts
+
+
+def _run_length_records(
+    directed_lock: dict[str, Any],
+    connector_payload: dict[str, Any],
+    span_replacements: Sequence[dict[str, Any]],
+) -> dict[str, Any]:
+    """The ADR-0024 portal-to-portal run-length record per locked path.
+
+    A path publishes when every one of its excluded endpoint connectors is
+    authored and gated; otherwise it stays recorded pending with the reason.
+    The corridor figure is the directed lock's anchor-to-anchor total with
+    each traversed fill chord's contribution replaced by its registered
+    span's measured lengths.
+    """
+    connectors_by_id = {
+        connector["connector_id"]: connector
+        for connector in connector_payload["connectors"]
+    }
+    replacements_by_segment: dict[str, list[dict[str, Any]]] = {}
+    for replacement in span_replacements:
+        replacements_by_segment.setdefault(replacement["segment_id"], []).append(
+            replacement
+        )
+    paths: list[dict[str, Any]] = []
+    canonical: dict[str, Any] | None = None
+    for path in directed_lock["paths"]:
+        segment_ids = list(path["locked_segment_ids"])
+        refinement_geodesic = 0.0
+        refinement_planimetric = 0.0
+        path_replacements: list[str] = []
+        for segment_id in segment_ids:
+            for replacement in replacements_by_segment.get(segment_id, []):
+                refinement_geodesic += (
+                    replacement["registered"]["geodesic_m"]
+                    - replacement["chord"]["geodesic_m"]
+                )
+                refinement_planimetric += (
+                    replacement["registered"]["planimetric_m"]
+                    - replacement["chord"]["planimetric_m"]
+                )
+                path_replacements.append(replacement["site_id"])
+        excluded = [
+            entry["segment_id"] for entry in path["excluded_connector_segments"]
+        ]
+        missing = [
+            segment_id
+            for segment_id in excluded
+            if segment_id not in connectors_by_id
+        ]
+        record: dict[str, Any] = {
+            "path_id": path["path_id"],
+            "role": path["role"],
+            "corridor_anchor_to_anchor_geodesic_m": path["total_geodesic_m"],
+            "corridor_anchor_to_anchor_planimetric_m": path["total_planimetric_m"],
+            "span_refinement_geodesic_m": round(refinement_geodesic, 3),
+            "span_refinement_planimetric_m": round(refinement_planimetric, 3),
+            "replaced_span_site_ids": sorted(path_replacements),
+            "connector_segment_ids": excluded,
+        }
+        if missing:
+            record["published"] = False
+            record["reason"] = (
+                "Endpoint connector(s) "
+                + ", ".join(sorted(missing))
+                + " are not yet authored; the portal-to-portal figure for "
+                "this path stays unpublished."
+            )
+        else:
+            connector_geodesic = sum(
+                connectors_by_id[segment_id]["lengths"]["geodesic_m"]
+                for segment_id in excluded
+            )
+            connector_planimetric = sum(
+                connectors_by_id[segment_id]["lengths"]["planimetric_m"]
+                for segment_id in excluded
+            )
+            geodesic_total = round(
+                path["total_geodesic_m"] + refinement_geodesic + connector_geodesic,
+                3,
+            )
+            planimetric_total = round(
+                path["total_planimetric_m"]
+                + refinement_planimetric
+                + connector_planimetric,
+                3,
+            )
+            record["published"] = True
+            record["connector_geodesic_m"] = {
+                segment_id: connectors_by_id[segment_id]["lengths"]["geodesic_m"]
+                for segment_id in excluded
+            }
+            record["portal_to_portal_geodesic_m"] = geodesic_total
+            record["portal_to_portal_miles"] = round(
+                geodesic_total / METRES_PER_MILE, 2
+            )
+            record["portal_to_portal_planimetric_m"] = planimetric_total
+        paths.append(record)
+        if path["role"] == "canonical":
+            canonical = record
+    if canonical is None or not canonical.get("published"):
+        raise ValueError(
+            "The canonical path's portal-to-portal run length did not "
+            "publish; the ADR-0024 figure is the point of this stage."
+        )
+    authoritative = directed_lock["corridor"]["authoritative_distance"]
+    return {
+        "decision": "ADR-0024",
+        "scope": "portal_to_portal_westbound",
+        "from_portal": "nyc-east-31st-public-road-portal",
+        "to_portal": "redondo-portofino-way-public-road-portal",
+        "basis": (
+            "GRS80 geodesic over the locked corridor anchor-to-anchor "
+            "traversal with each traversed NHS fill chord's contribution "
+            "replaced by its seam-registered conflated span, plus the two "
+            "authored ADR-0018 endpoint connectors joining the locked "
+            "portals to the corridor ends."
+        ),
+        "canonical_portal_to_portal_miles": canonical["portal_to_portal_miles"],
+        "canonical_portal_to_portal_geodesic_m": canonical[
+            "portal_to_portal_geodesic_m"
+        ],
+        "anchor_to_anchor_reference": {
+            "geodesic_m": authoritative["geodesic_length_m"],
+            "miles": authoritative["geodesic_length_miles"],
+            "relationship": (
+                "portal-to-portal = the anchor-to-anchor corridor figure "
+                "plus the recorded span refinement plus the two authored "
+                "connectors; every component is recorded per path."
+            ),
+        },
+        "precision": {
+            "corridor": "locked source-centerline fidelity",
+            "connectors": (
+                "authored-waypoint fidelity per the endpoint connector "
+                "lock's declared class; the connector contribution is "
+                "recorded per connector and refines when connector source "
+                "geometry is acquired"
+            ),
+        },
+        "junction_backtrack_note": authoritative["junction_backtrack_note"],
+        "paths": paths,
+    }
+
+
 def _carriageway_summary(
     segments_payload: Sequence[dict[str, Any]],
     backtracks: Sequence[dict[str, Any]],
+    span_replacements: Sequence[dict[str, Any]] = (),
 ) -> dict[str, Any]:
     corner_by_class: dict[str, int] = {}
     reversal_by_class: dict[str, int] = {}
@@ -14177,6 +14683,12 @@ def _carriageway_summary(
         separation = segment["gates"]["reciprocal_separation"]["measured"]
         if min_separation is None or separation < min_separation:
             min_separation = separation
+    replaced_span_length = 0.0
+    for replacement in span_replacements:
+        replaced_span_length += replacement["registered"]["planimetric_m"]
+        for gate in replacement["gates"].values():
+            if gate["passed"]:
+                gates_passed += 1
     return {
         "segment_count": len(segments_payload),
         "element_count": element_count,
@@ -14190,6 +14702,8 @@ def _carriageway_summary(
         "planimetric_conditioning_by_class": dict(sorted(reversal_by_class.items())),
         "min_reciprocal_separation_m": min_separation,
         "junction_backtrack_count": len(backtracks),
+        "span_replacement_count": len(span_replacements),
+        "replaced_span_length_m": round(replaced_span_length, 3),
         "gates_passed": gates_passed,
         "gates_failed": 0,
     }
@@ -14209,8 +14723,10 @@ def derive_continental_westbound_carriageway(
     disposition_path: Path,
     overlay_lock_path: Path,
     conflation_lock_path: Path,
+    connector_lock_path: Path,
     catalog_path: Path,
     cache_directory: Path,
+    fill_cache_directory: Path,
     carriageway_cache_directory: Path,
     output_path: Path,
     *,
@@ -14223,8 +14739,13 @@ def derive_continental_westbound_carriageway(
     element chain is conditioned of reversal-class digitization artifacts
     (every excision recorded), censused for corner-class heading exceptions,
     and offset into the reciprocal westbound/eastbound pair through the
-    ADR-0018 gates. Bulk geometry stays in the ignored cache; the lock
-    carries the derivation, measurements, gate results, and digests.
+    ADR-0018 gates. The schema-2 revision replaces each traversed NHS fill
+    chord with its seam-registered conflated span (verified against the
+    conflation lock's geometry digest, conditioned vertically per ADR-0017),
+    integrates the authored endpoint connector lock, and publishes the
+    ADR-0024 portal-to-portal run length. Bulk geometry stays in the ignored
+    cache; the lock carries the derivation, measurements, gate results, and
+    digests.
     """
     conditioned_lock = validate_continental_conditioned_profile(
         conditioned_lock_path,
@@ -14288,6 +14809,27 @@ def derive_continental_westbound_carriageway(
         edge_path_lock_path,
         catalog_path,
     )
+    connector_payload = validate_continental_endpoint_connectors(
+        connector_lock_path,
+        directed_lock_path,
+        selection_path,
+        route_lock_path,
+        transfer_lock_path,
+        policy_path,
+        edge_path_lock_path,
+        fill_lock_path,
+        disposition_path,
+        overlay_lock_path,
+        conflation_lock_path,
+        catalog_path,
+    )
+    elevation_lock = load_json(elevation_lock_path)
+    elevation_by_id = {
+        segment["segment_id"]: segment for segment in elevation_lock["segments"]
+    }
+    conditioned_by_id = {
+        segment["segment_id"]: segment for segment in conditioned_lock["segments"]
+    }
     timestamp = derived_at or datetime.now(UTC).replace(
         microsecond=0
     ).isoformat().replace("+00:00", "Z")
@@ -14295,6 +14837,10 @@ def derive_continental_westbound_carriageway(
     inverse = Transformer.from_crs("EPSG:5070", "EPSG:4326", always_xy=True)
     cache_root = (
         cache_directory / route_lock["nhpn"]["service"]["canonical_metadata_sha256"]
+    )
+    fill_root = (
+        fill_cache_directory
+        / fill_lock["nhs"]["service"]["canonical_metadata_sha256"]
     )
     tolerance = float(edge_lock["endpoint_snap_tolerance_m"])
     anchor_limit = float(edge_lock["anchor_snap_limit_m"])
@@ -14345,6 +14891,7 @@ def derive_continental_westbound_carriageway(
     }
 
     segments_payload: list[dict[str, Any]] = []
+    span_replacements: list[dict[str, Any]] = []
     chains_by_segment: dict[str, list[tuple[float, float]]] = {}
     carriageway_cache_directory.mkdir(parents=True, exist_ok=True)
     for segment in selection["segments"]:
@@ -14382,6 +14929,132 @@ def derive_continental_westbound_carriageway(
                 "committed directed route lock; refusing to build a "
                 "carriageway for a different route."
             )
+        # Conflated-span replacement: every traversed fill chord's geometry
+        # is swapped for its seam-registered conflation span before the
+        # chain is built, so the carriageway rides source-asserted road
+        # geometry across the NHPN voids instead of chord-class fills.
+        fill_site_by_id = {
+            site["site_id"]: site for site in fills_by_segment.get(segment_id, [])
+        }
+        segment_span_lines: list[LineString] = []
+        for element_index, element in enumerate(record["elements"]):
+            if element["kind"] != "nhs_fill_chord":
+                continue
+            site = fill_site_by_id[element["site_id"]]
+            conflation_site = conflation_site_by_id[element["site_id"]]
+            registered_line, span_facts = _registered_conflation_span(
+                site, conflation_site, fill_root, forward
+            )
+            registered_coordinates = list(registered_line.coords)
+            registered_planimetric = round(
+                _polyline_length(registered_coordinates), 3
+            )
+            registered_geodesic = round(
+                _geodesic_line_length_m(
+                    [inverse.transform(x, y) for x, y in registered_coordinates]
+                ),
+                3,
+            )
+            interval_to = element["cumulative_geodesic_m"]
+            interval_from = interval_to - element["geodesic_length_m"]
+            vertical = _span_vertical_context(
+                elevation_by_id[segment_id],
+                conditioned_by_id[segment_id],
+                interval_from,
+                interval_to,
+                registered_geodesic,
+            )
+            length_change_bound = round(
+                span_facts["seam_registration"]["from_offset_m"]
+                + span_facts["seam_registration"]["to_offset_m"]
+                + 0.01,
+                3,
+            )
+            gates = {
+                "span_digest_agreement": _carriageway_gate(
+                    span_facts["span"]["geometry_sha256"],
+                    "reassembled span reproduces the conflation lock digest",
+                    True,
+                ),
+                "seam_registration": _carriageway_gate(
+                    span_facts["seam_registration"]["offset_agreement_delta_m"],
+                    CARRIAGEWAY_SPAN_SEAM_TOLERANCE_M,
+                    True,
+                ),
+                "registration_length_change": _carriageway_gate(
+                    round(
+                        abs(
+                            registered_planimetric
+                            - span_facts["span"]["geometry_length_m"]
+                        ),
+                        3,
+                    ),
+                    length_change_bound,
+                    abs(
+                        registered_planimetric
+                        - span_facts["span"]["geometry_length_m"]
+                    )
+                    <= length_change_bound,
+                ),
+                "span_grade": _carriageway_gate(
+                    vertical["span_grade_percent"],
+                    CONDITIONING_SUSTAINED_BOUND_PERCENT,
+                    abs(vertical["span_grade_percent"])
+                    <= CONDITIONING_SUSTAINED_BOUND_PERCENT,
+                ),
+            }
+            failed_span_gates = {
+                name for name, gate in gates.items() if not gate["passed"]
+            }
+            if failed_span_gates:
+                raise ValueError(
+                    json.dumps(
+                        {
+                            "refusal": "span replacement gates failed",
+                            "site_id": element["site_id"],
+                            "failed_gates": sorted(failed_span_gates),
+                            "gates": gates,
+                        },
+                        sort_keys=True,
+                    )
+                )
+            geometries[element_index] = (
+                LineString(registered_coordinates[::-1])
+                if element["reversed_for_travel"]
+                else registered_line
+            )
+            segment_span_lines.append(registered_line)
+            span_replacements.append(
+                {
+                    "site_id": element["site_id"],
+                    "segment_id": segment_id,
+                    "element_index": element_index,
+                    "nhs_route": dict(element["nhs_route"]),
+                    "reversed_for_travel": element["reversed_for_travel"],
+                    "chord": {
+                        "planimetric_m": element["length_m"],
+                        "geodesic_m": element["geodesic_length_m"],
+                    },
+                    **span_facts,
+                    "registered": {
+                        "planimetric_m": registered_planimetric,
+                        "geodesic_m": registered_geodesic,
+                        "vertex_count": len(registered_coordinates),
+                    },
+                    "deltas": {
+                        "registered_minus_chord_m": round(
+                            registered_planimetric - element["length_m"], 3
+                        ),
+                        "span_minus_chord_m": round(
+                            span_facts["span"]["geometry_length_m"]
+                            - element["length_m"],
+                            3,
+                        ),
+                    },
+                    "vertical_context": vertical,
+                    "gates": gates,
+                }
+            )
         overlay_lines = overlay_lines_by_segment.get(segment_id, [])
         coordinates, joint_facts = _build_segment_chain(segment_id, geometries)
         raw_length = _polyline_length(coordinates)
@@ -14396,6 +15069,7 @@ def derive_continental_westbound_carriageway(
             tail_backtrack.get(segment_id, 0.0),
             head_backtrack.get(segment_id, 0.0),
             inverse,
+            span_lines=segment_span_lines,
         )
         chain_line = LineString(coordinates)
         westbound = _offset_carriageway(segment_id, chain_line, "westbound")
@@ -14528,7 +15202,12 @@ def derive_continental_westbound_carriageway(
         ]
         for overlay in overlay_lock["overlays"]
     }
-    summary = _carriageway_summary(segments_payload, backtracks_payload)
+    summary = _carriageway_summary(
+        segments_payload, backtracks_payload, span_replacements
+    )
+    run_length = _run_length_records(
+        directed_lock, connector_payload, span_replacements
+    )
     grade_gate = _carriageway_gate(
         conditioned_lock["summary"]["max_sustained_grade"],
         CONDITIONING_SUSTAINED_BOUND_PERCENT,
@@ -14536,7 +15215,8 @@ def derive_continental_westbound_carriageway(
         <= CONDITIONING_SUSTAINED_BOUND_PERCENT,
     )
     payload = {
-        "schema_version": 1,
+        "schema_version": 2,
+        "supersedes": dict(SUPERSEDED_WESTBOUND_CARRIAGEWAY_V1),
         "status": WESTBOUND_CARRIAGEWAY_STATUS,
         "decision": "ADR-0014",
         "reconstruction_decision": "ADR-0018",
@@ -14553,6 +15233,7 @@ def derive_continental_westbound_carriageway(
         "break_disposition_sha256": compute_sha256(disposition_path),
         "reconstruction_overlay_lock_sha256": compute_sha256(overlay_lock_path),
         "nhs_conflation_lock_sha256": compute_sha256(conflation_lock_path),
+        "endpoint_connector_lock_sha256": compute_sha256(connector_lock_path),
         "dem_product_lock_sha256": compute_sha256(dem_lock_path),
         "directed_route_lock_sha256": compute_sha256(directed_lock_path),
         "corridor_elevation_lock_sha256": compute_sha256(elevation_lock_path),
@@ -14579,7 +15260,10 @@ def derive_continental_westbound_carriageway(
         "segment_count": len(segments_payload),
         "segments": segments_payload,
         "segments_sha256": canonical_sha256(segments_payload),
+        "span_replacements": span_replacements,
+        "span_replacements_sha256": canonical_sha256(span_replacements),
         "junction_backtracks": backtracks_payload,
+        "run_length": run_length,
         "summary": summary,
         "next_stage": WESTBOUND_CARRIAGEWAY_NEXT_STAGE,
     }
@@ -14605,6 +15289,7 @@ def validate_continental_westbound_carriageway(
     disposition_path: Path,
     overlay_lock_path: Path,
     conflation_lock_path: Path,
+    connector_lock_path: Path,
     catalog_path: Path,
 ) -> dict[str, Any]:
     """Validate the westbound carriageway lock without caches or network.
@@ -14613,12 +15298,21 @@ def validate_continental_westbound_carriageway(
     locked thresholds, every gate must pass, the corner census must include
     the overlay-corner adjudication of the Quad Cities constraint and no
     reversal-class turn, the junction backtracks must match the directed
-    lock's records with reciprocity proven, and the summary must reproduce
+    lock's records with reciprocity proven, the span replacements must cite
+    exactly the directed lock's traversed fill chords with the conflation
+    lock's digests and seam offsets and a vertical context recomputed from
+    the committed profile locks, the run length must reproduce from the
+    directed, span, and connector records, and the summary must reproduce
     from the committed segments.
     """
     payload = load_json(carriageway_lock_path)
-    if payload.get("schema_version") != 1:
-        raise ValueError("Westbound carriageway lock schema_version must be 1.")
+    if payload.get("schema_version") != 2:
+        raise ValueError("Westbound carriageway lock schema_version must be 2.")
+    if payload.get("supersedes") != SUPERSEDED_WESTBOUND_CARRIAGEWAY_V1:
+        raise ValueError(
+            "Westbound carriageway lock must record the superseded v1 lock "
+            "verbatim."
+        )
     if payload.get("status") != WESTBOUND_CARRIAGEWAY_STATUS:
         raise ValueError("Westbound carriageway lock has an unsupported status.")
     if payload.get("decision") != "ADR-0014":
@@ -14643,6 +15337,22 @@ def validate_continental_westbound_carriageway(
     )
     directed_lock = load_json(directed_lock_path)
     overlay_lock = load_json(overlay_lock_path)
+    conflation_lock = load_json(conflation_lock_path)
+    elevation_lock = load_json(elevation_lock_path)
+    connector_payload = validate_continental_endpoint_connectors(
+        connector_lock_path,
+        directed_lock_path,
+        selection_path,
+        route_lock_path,
+        transfer_lock_path,
+        policy_path,
+        edge_path_lock_path,
+        fill_lock_path,
+        disposition_path,
+        overlay_lock_path,
+        conflation_lock_path,
+        catalog_path,
+    )
     expected_hashes = {
         "catalog_sha256": compute_sha256(catalog_path),
         "route_selection_sha256": compute_sha256(selection_path),
@@ -14653,6 +15363,7 @@ def validate_continental_westbound_carriageway(
         "break_disposition_sha256": compute_sha256(disposition_path),
         "reconstruction_overlay_lock_sha256": compute_sha256(overlay_lock_path),
         "nhs_conflation_lock_sha256": compute_sha256(conflation_lock_path),
+        "endpoint_connector_lock_sha256": compute_sha256(connector_lock_path),
         "dem_product_lock_sha256": compute_sha256(dem_lock_path),
         "directed_route_lock_sha256": compute_sha256(directed_lock_path),
         "corridor_elevation_lock_sha256": compute_sha256(elevation_lock_path),
@@ -14719,6 +15430,10 @@ def validate_continental_westbound_carriageway(
         )
     overlay_segments = {
         overlay["segment_id"] for overlay in overlay_lock["overlays"]
+    }
+    span_replacements = payload.get("span_replacements", [])
+    replaced_segments = {
+        replacement.get("segment_id") for replacement in span_replacements
     }
     corner_corners = 0
     for segment in segments:
@@ -14818,6 +15533,13 @@ def validate_continental_westbound_carriageway(
                 raise ValueError(
                     f"Carriageway segment '{segment_id}' corner site "
                     "measurement is outside the corner class."
+                )
+            if site["corner_class"] == "conflated_span_corner" and (
+                segment_id not in replaced_segments
+            ):
+                raise ValueError(
+                    f"Carriageway segment '{segment_id}' claims a "
+                    "conflated-span corner without a span replacement."
                 )
             if site["corner_class"] == "overlay_corner":
                 corner_corners += 1
@@ -14936,11 +15658,1148 @@ def validate_continental_westbound_carriageway(
                 "Westbound carriageway backtrack separation violates the "
                 "reciprocal bound."
             )
-    if payload.get("summary") != _carriageway_summary(segments, backtracks):
+    # Span replacements: exactly the directed lock's traversed fill chords,
+    # carrying the conflation lock's digests and seam offsets, with a
+    # vertical context recomputed from the committed profile locks.
+    directed_fill_elements: dict[tuple[str, str], tuple[int, dict[str, Any]]] = {}
+    for record in directed_lock["segments"]:
+        for index, element in enumerate(record["elements"]):
+            if element["kind"] == "nhs_fill_chord":
+                directed_fill_elements[
+                    (record["segment_id"], element["site_id"])
+                ] = (index, element)
+    recorded_keys = {
+        (replacement.get("segment_id"), replacement.get("site_id"))
+        for replacement in span_replacements
+    }
+    if recorded_keys != set(directed_fill_elements) or len(span_replacements) != len(
+        directed_fill_elements
+    ):
+        raise ValueError(
+            "Westbound carriageway span replacements do not cover exactly "
+            "the directed lock's traversed fill chords."
+        )
+    conflation_by_site = {
+        site["site_id"]: site for site in conflation_lock["sites"]
+    }
+    elevation_by_id = {
+        segment["segment_id"]: segment for segment in elevation_lock["segments"]
+    }
+    conditioned_by_id = {
+        segment["segment_id"]: segment
+        for segment in conditioned_lock["segments"]
+    }
+    for replacement in span_replacements:
+        key = (replacement["segment_id"], replacement["site_id"])
+        element_index, element = directed_fill_elements[key]
+        if (
+            replacement.get("element_index") != element_index
+            or replacement.get("reversed_for_travel")
+            != element["reversed_for_travel"]
+            or replacement.get("nhs_route") != element["nhs_route"]
+        ):
+            raise ValueError(
+                f"Span replacement '{replacement['site_id']}' drifted from "
+                "the directed lock's fill element."
+            )
+        chord = replacement.get("chord", {})
+        if (
+            chord.get("planimetric_m") != element["length_m"]
+            or chord.get("geodesic_m") != element["geodesic_length_m"]
+        ):
+            raise ValueError(
+                f"Span replacement '{replacement['site_id']}' chord lengths "
+                "drifted from the directed lock."
+            )
+        conflation_site = conflation_by_site[replacement["site_id"]]
+        span_block = conflation_site["span"]
+        span = replacement.get("span", {})
+        if (
+            span.get("geometry_sha256") != span_block["geometry_sha256"]
+            or span.get("geometry_length_m") != span_block["geometry_length_m"]
+            or span.get("reassembled_digest_verified") is not True
+            or span.get("piece_count") != len(span_block["pieces"])
+        ):
+            raise ValueError(
+                f"Span replacement '{replacement['site_id']}' span facts "
+                "drifted from the conflation lock."
+            )
+        offsets_by_side = {
+            seam["side"]: seam["nhs"]["seam_offset_m"]
+            for seam in conflation_site["seams"]
+        }
+        registration = replacement.get("seam_registration", {})
+        if (
+            registration.get("method") != "linear_in_arc_length"
+            or registration.get("recorded_seam_offsets_m")
+            != {"from": offsets_by_side["from"], "to": offsets_by_side["to"]}
+            or not isinstance(registration.get("from_offset_m"), int | float)
+            or not isinstance(registration.get("to_offset_m"), int | float)
+            or abs(registration["from_offset_m"] - offsets_by_side["from"])
+            > CARRIAGEWAY_SPAN_SEAM_TOLERANCE_M
+            or abs(registration["to_offset_m"] - offsets_by_side["to"])
+            > CARRIAGEWAY_SPAN_SEAM_TOLERANCE_M
+            or registration.get("offset_agreement_delta_m", 1.0)
+            > CARRIAGEWAY_SPAN_SEAM_TOLERANCE_M
+        ):
+            raise ValueError(
+                f"Span replacement '{replacement['site_id']}' seam "
+                "registration disagrees with the conflation lock's recorded "
+                "seam offsets."
+            )
+        registered = replacement.get("registered", {})
+        if (
+            not isinstance(registered.get("planimetric_m"), int | float)
+            or not isinstance(registered.get("geodesic_m"), int | float)
+            or not isinstance(registered.get("vertex_count"), int)
+            or registered["planimetric_m"] <= 0
+            or registered["vertex_count"] < 2
+        ):
+            raise ValueError(
+                f"Span replacement '{replacement['site_id']}' registered "
+                "facts are invalid."
+            )
+        length_change_bound = round(
+            registration["from_offset_m"] + registration["to_offset_m"] + 0.01, 3
+        )
+        length_change = round(
+            abs(registered.get("planimetric_m", 0.0) - span_block["geometry_length_m"]),
+            3,
+        )
+        if length_change > length_change_bound:
+            raise ValueError(
+                f"Span replacement '{replacement['site_id']}' registered "
+                "length departs from the span beyond the seam-correction "
+                "envelope."
+            )
+        geodesic_allowance = (
+            GEODESIC_PLANIMETRIC_AGREEMENT_RATIO * registered.get("planimetric_m", 0.0)
+            + GEODESIC_ROUNDING_ALLOWANCE_M
+        )
+        if (
+            abs(registered.get("geodesic_m", 0.0) - registered.get("planimetric_m", 0.0))
+            > geodesic_allowance
+        ):
+            raise ValueError(
+                f"Span replacement '{replacement['site_id']}' registered "
+                "geodesic length departs from its planimetric length."
+            )
+        interval_to = element["cumulative_geodesic_m"]
+        interval_from = interval_to - element["geodesic_length_m"]
+        expected_vertical = _span_vertical_context(
+            elevation_by_id[replacement["segment_id"]],
+            conditioned_by_id[replacement["segment_id"]],
+            interval_from,
+            interval_to,
+            registered.get("geodesic_m", 0.0),
+        )
+        if replacement.get("vertical_context") != expected_vertical:
+            raise ValueError(
+                f"Span replacement '{replacement['site_id']}' vertical "
+                "context does not reproduce from the committed profile locks."
+            )
+        if abs(expected_vertical["span_grade_percent"]) > (
+            CONDITIONING_SUSTAINED_BOUND_PERCENT
+        ):
+            raise ValueError(
+                f"Span replacement '{replacement['site_id']}' grade exceeds "
+                "the sustained bound."
+            )
+        expected_gates = {
+            "span_digest_agreement": _carriageway_gate(
+                span_block["geometry_sha256"],
+                "reassembled span reproduces the conflation lock digest",
+                True,
+            ),
+            "seam_registration": _carriageway_gate(
+                registration["offset_agreement_delta_m"],
+                CARRIAGEWAY_SPAN_SEAM_TOLERANCE_M,
+                True,
+            ),
+            "registration_length_change": _carriageway_gate(
+                length_change,
+                length_change_bound,
+                True,
+            ),
+            "span_grade": _carriageway_gate(
+                expected_vertical["span_grade_percent"],
+                CONDITIONING_SUSTAINED_BOUND_PERCENT,
+                True,
+            ),
+        }
+        if replacement.get("gates") != expected_gates:
+            raise ValueError(
+                f"Span replacement '{replacement['site_id']}' gates do not "
+                "reproduce from the recorded measurements."
+            )
+        deltas = replacement.get("deltas", {})
+        if deltas != {
+            "registered_minus_chord_m": round(
+                registered["planimetric_m"] - element["length_m"], 3
+            ),
+            "span_minus_chord_m": round(
+                span_block["geometry_length_m"] - element["length_m"], 3
+            ),
+        }:
+            raise ValueError(
+                f"Span replacement '{replacement['site_id']}' deltas do not "
+                "reproduce."
+            )
+    if payload.get("span_replacements_sha256") != canonical_sha256(
+        span_replacements
+    ):
+        raise ValueError(
+            "Westbound carriageway span replacement digest drifted."
+        )
+    if payload.get("run_length") != _run_length_records(
+        directed_lock, connector_payload, span_replacements
+    ):
+        raise ValueError(
+            "Westbound carriageway run length does not reproduce from the "
+            "directed, span, and connector records."
+        )
+    if payload.get("summary") != _carriageway_summary(
+        segments, backtracks, span_replacements
+    ):
         raise ValueError(
             "Westbound carriageway lock summary does not reproduce from the "
             "committed segments."
         )
     if payload.get("next_stage") != WESTBOUND_CARRIAGEWAY_NEXT_STAGE:
         raise ValueError("Westbound carriageway lock next stage drifted.")
+    return payload
+
+
+# --- ADR-0024 authored endpoint connectors ---------------------------------
+
+ENDPOINT_CONNECTOR_STATUS = "endpoint_connectors_authored_run_length_publishable"
+
+# The connector census reuses the carriageway heading discipline: turns are
+# measured on 25 m tangents, corner-class turns are recorded exception sites,
+# and reversal-class turns refuse. Urban connector corners (street-grid right
+# angles, the Portofino marina corner) are expected recorded sites, never
+# hidden.
+CONNECTOR_CORNER_CLASS = "connector_corner"
+# The recomputed portal-to-anchor straight line must reproduce the directed
+# lock's recorded context to its rounding quantum.
+CONNECTOR_STRAIGHT_LINE_AGREEMENT_M = 0.1
+# Every authored leg must be resolvable at the census lens.
+CONNECTOR_MIN_LEG_M = 2.0 * CARRIAGEWAY_TANGENT_LENS_M
+
+ENDPOINT_CONNECTOR_FIDELITY = {
+    "class": "authored_waypoint",
+    "waypoint_position_class_m": 250.0,
+    "statement": (
+        "Interior waypoints are project-authored route context at declared "
+        "waypoint fidelity (ADR-0017 authored class): each waypoint names the "
+        "public facility ADR-0024 prescribes and is placed from public "
+        "geographic knowledge of that facility, never claimed as observed "
+        "centerline, lane geometry, or survey-class position. The connector "
+        "length therefore carries authored-waypoint precision; the locked "
+        "corridor figure it joins remains source-centerline fidelity. "
+        "Acquiring locked source geometry for these facilities is recorded "
+        "future refinement, not assumed."
+    ),
+}
+
+ENDPOINT_CONNECTOR_MODEL = {
+    "decision": "ADR-0018",
+    "context_decision": "ADR-0017",
+    "carriageway_decision": "ADR-0014",
+    "metric_crs": "EPSG:5070",
+    "tangent_lens_m": CARRIAGEWAY_TANGENT_LENS_M,
+    "corner_threshold_deg": CARRIAGEWAY_CORNER_THRESHOLD_DEG,
+    "reversal_threshold_deg": CARRIAGEWAY_REVERSAL_THRESHOLD_DEG,
+    "min_leg_m": CONNECTOR_MIN_LEG_M,
+    "straight_line_agreement_m": CONNECTOR_STRAIGHT_LINE_AGREEMENT_M,
+    "fidelity": ENDPOINT_CONNECTOR_FIDELITY,
+    "endpoint_rule": (
+        "Each connector joins exactly two locked coordinates: the "
+        "route-selection public-road portal (census address match) and the "
+        "directed route lock's corridor-end node at the ADR-0024 anchor. "
+        "Both are carried verbatim; every metre between them is authored and "
+        "recorded with its facility justification."
+    ),
+    "roadway_kind_rule": (
+        "Connectors are ADR-0014 'unclassified' roadway records: the "
+        "sequence spans divided highways (NJ 495, NJ 3, US 46, CA 107) and "
+        "undivided public streets (Manhattan crosstown, Torrance Boulevard "
+        "approaches, Portofino Way), so no reciprocal divided-carriageway "
+        "pair is claimed and no opposing edge is synthesized. Lane-level "
+        "modelling of the endpoint service bubbles is later stage output."
+    ),
+}
+
+ENDPOINT_CONNECTOR_SOURCE_POLICY = {
+    "reconstruction_decision": "ADR-0018",
+    "context_decision": "ADR-0017",
+    "route_decision": "ADR-0024",
+    "authored_geometry_claimed_as_source": False,
+    "lane_geometry_claimed": False,
+    "vertical_context_claimed": False,
+    "private_property_required": False,
+    "continental_downloads_committed": False,
+}
+
+ENDPOINT_CONNECTOR_DEFERRED_GATES = {
+    "deferred_to": "lane-topology-and-package-build-stage",
+    "gates": [
+        "grade",
+        "vertical_curvature",
+        "curvature_design_radius",
+        "curvature_rate",
+        "sightline",
+        "clearance",
+        "collision",
+        "lane_connection",
+        "drivability",
+        "reciprocal_separation",
+    ],
+    "reason": (
+        "No locked elevation or lane source covers the connector facilities: "
+        "the corridor elevation lock stations only the locked directed walk, "
+        "and ADR-0017 keeps unknown values unknown rather than authored into "
+        "false precision. The connectors are ADR-0014 'unclassified' roadway "
+        "records - the undivided portions cannot claim the divided-"
+        "carriageway reciprocal pair, so the separation gate has no pair to "
+        "measure. Vertical and lane-level gates run when the endpoint "
+        "service bubbles are built at the package-build stage."
+    ),
+}
+
+ENDPOINT_CONNECTOR_NEXT_STAGE = {
+    "id": "portal-run-length-publication",
+    "requires": [
+        "the westbound carriageway lock revision pins this artifact and "
+        "publishes ADR-0024's portal-to-portal run length from the locked "
+        "corridor plus these connectors",
+        "the southern path's Holland Tunnel connector (nyc-start-to-i78) "
+        "remains unauthored; its portal-to-portal figure stays unpublished "
+        "until it is",
+        "endpoint service-bubble lane topology, elevation, and collision at "
+        "the package-build stage",
+    ],
+}
+
+# Interior waypoints are authored travel-ordered route context between the two
+# locked endpoint coordinates. Each carries the ADR-0024 facility its arriving
+# leg travels and a reviewer-visible justification note (ADR-0017/ADR-0018
+# authored-overlay discipline). The envelope ratio bounds the authored length
+# against the directed lock's recorded portal-to-anchor straight line.
+AUTHORED_ENDPOINT_CONNECTORS = (
+    {
+        "segment_id": "nyc-start-to-i80",
+        "role": "atlantic_start",
+        "travel": "portal_to_corridor",
+        "corridor_end": {"segment_id": "i80-new-jersey-to-big-springs", "end": "from"},
+        "length_envelope_ratio": 1.25,
+        "length_envelope_justification": (
+            "The Lincoln Tunnel / NJ 495 / NJ 3 / US 46 corridor runs "
+            "broadly parallel to the portal-to-anchor straight line across "
+            "the Hudson and the Meadowlands; a metropolitan arterial "
+            "connector on these facilities cannot legitimately exceed a "
+            "quarter more than the straight line, and the authored polyline "
+            "measures near 1.10."
+        ),
+        "waypoints": (
+            {
+                "longitude": -73.984167,
+                "latitude": 40.746667,
+                "facility": "project-authored Manhattan connector",
+                "note": (
+                    "Midtown crosstown from the E 31st Street portal toward "
+                    "the Lincoln Tunnel approach."
+                ),
+            },
+            {
+                "longitude": -73.9925,
+                "latitude": 40.7515,
+                "facility": "project-authored Manhattan connector",
+                "note": (
+                    "Herald Square area crosstown context (W 34th Street "
+                    "corridor)."
+                ),
+            },
+            {
+                "longitude": -73.9967,
+                "latitude": 40.757,
+                "facility": "project-authored Manhattan connector",
+                "note": "Dyer Avenue approach to the Lincoln Tunnel New York portal.",
+            },
+            {
+                "longitude": -74.01,
+                "latitude": 40.7625,
+                "facility": "Lincoln Tunnel",
+                "note": (
+                    "Mid-river tunnel alignment under the Hudson (authored "
+                    "context; the bore is not surface geometry)."
+                ),
+            },
+            {
+                "longitude": -74.0205,
+                "latitude": 40.7655,
+                "facility": "Lincoln Tunnel",
+                "note": "Weehawken portal and helix.",
+            },
+            {
+                "longitude": -74.033,
+                "latitude": 40.769,
+                "facility": "NJ 495",
+                "note": "NJ 495 westbound through Union City.",
+            },
+            {
+                "longitude": -74.063,
+                "latitude": 40.777,
+                "facility": "NJ 495",
+                "note": (
+                    "NJ 495 / NJ 3 continuation at the eastern Meadowlands "
+                    "interchange complex."
+                ),
+            },
+            {
+                "longitude": -74.093,
+                "latitude": 40.79,
+                "facility": "NJ 3",
+                "note": "NJ 3 across the Hackensack Meadowlands.",
+            },
+            {
+                "longitude": -74.128,
+                "latitude": 40.809,
+                "facility": "NJ 3",
+                "note": "NJ 3 through Rutherford; Passaic River approach.",
+            },
+            {
+                "longitude": -74.156,
+                "latitude": 40.8215,
+                "facility": "NJ 3",
+                "note": "NJ 3 through Clifton.",
+            },
+            {
+                "longitude": -74.183,
+                "latitude": 40.852,
+                "facility": "NJ 3",
+                "note": "NJ 3 western terminus at the US 46 merge in Clifton.",
+            },
+            {
+                "longitude": -74.223,
+                "latitude": 40.87,
+                "facility": "US 46",
+                "note": "US 46 through Little Falls.",
+            },
+            {
+                "longitude": -74.258,
+                "latitude": 40.888,
+                "facility": "US 46",
+                "note": "US 46 at the Willowbrook interchange complex in Wayne.",
+            },
+            {
+                "longitude": -74.31,
+                "latitude": 40.881,
+                "facility": "US 46",
+                "note": "US 46 through Fairfield.",
+            },
+            {
+                "longitude": -74.345,
+                "latitude": 40.872,
+                "facility": "US 46",
+                "note": "US 46 through Pine Brook.",
+            },
+            {
+                "longitude": -74.395,
+                "latitude": 40.868,
+                "facility": "US 46",
+                "note": "US 46 through Parsippany-Troy Hills.",
+            },
+        ),
+        "final_leg_facility": "US 46",
+        "final_leg_note": (
+            "US 46 at the locked I-80 corridor anchor (the directed lock's "
+            "from-node of i80-new-jersey-to-big-springs)."
+        ),
+    },
+    {
+        "segment_id": "redondo-access-to-finish",
+        "role": "pacific_finish",
+        "travel": "corridor_to_portal",
+        "corridor_end": {"segment_id": "i405-west-la-to-ca107", "end": "to"},
+        "length_envelope_ratio": 1.8,
+        "length_envelope_justification": (
+            "The locked street sequence is a right-angle dogleg - south on "
+            "CA 107 / Hawthorne Boulevard, then west to the Redondo Beach "
+            "waterfront - so the taxicab geometry of the named streets "
+            "legitimately exceeds the diagonal straight line (the dogleg "
+            "alone measures near 1.57); 1.8 bounds the grid detour without "
+            "absorbing an unjustified route."
+        ),
+        "waypoints": (
+            {
+                "longitude": -118.3524,
+                "latitude": 33.8785,
+                "facility": "CA 107 / Hawthorne Boulevard",
+                "note": (
+                    "Hawthorne Boulevard immediately south of the I-405 "
+                    "interchange."
+                ),
+            },
+            {
+                "longitude": -118.3525,
+                "latitude": 33.8595,
+                "facility": "CA 107 / Hawthorne Boulevard",
+                "note": "Hawthorne Boulevard at the 190th Street corridor.",
+            },
+            {
+                "longitude": -118.3526,
+                "latitude": 33.8358,
+                "facility": "CA 107 / Hawthorne Boulevard",
+                "note": (
+                    "Hawthorne Boulevard at Torrance Boulevard - the CA 107 "
+                    "terminus corner."
+                ),
+            },
+            {
+                "longitude": -118.37,
+                "latitude": 33.8358,
+                "facility": "Torrance Boulevard",
+                "note": "Torrance Boulevard westbound through central Torrance.",
+            },
+            {
+                "longitude": -118.3875,
+                "latitude": 33.8363,
+                "facility": "Torrance Boulevard",
+                "note": "Torrance Boulevard at Catalina Avenue in Redondo Beach.",
+            },
+            {
+                "longitude": -118.3895,
+                "latitude": 33.8428,
+                "facility": "Catalina Avenue",
+                "note": "Catalina Avenue north to Beryl Street.",
+            },
+            {
+                "longitude": -118.3928,
+                "latitude": 33.844,
+                "facility": "Beryl Street",
+                "note": "Beryl Street west to Harbor Drive.",
+            },
+            {
+                "longitude": -118.3947,
+                "latitude": 33.846,
+                "facility": "Harbor Drive",
+                "note": "Harbor Drive north to the Portofino Way corner.",
+            },
+        ),
+        "final_leg_facility": "Portofino Way",
+        "final_leg_note": (
+            "Portofino Way public-road portal adjacent to the historical "
+            "260 Portofino Way reference address; no private hotel or "
+            "marina property is required or implied."
+        ),
+    },
+)
+
+
+def _connector_corner_sites(
+    connector_id: str,
+    coordinates: Sequence[tuple[float, float]],
+    inverse: Transformer,
+) -> list[dict[str, Any]]:
+    """Corner-class heading exceptions along one authored connector.
+
+    The carriageway census discipline at the 25 m lens: every turn beyond the
+    corner threshold joins a recorded cluster, and a reversal-class turn is a
+    refusal - an authored connector may not double back on itself.
+    """
+    samples = _resample_polyline(coordinates, CARRIAGEWAY_TANGENT_LENS_M)
+    flagged: list[tuple[float, int]] = []
+    for index in range(1, len(samples) - 1):
+        angle = _vertex_turn_degrees(samples, index)
+        if angle > CARRIAGEWAY_REVERSAL_THRESHOLD_DEG:
+            raise ValueError(
+                json.dumps(
+                    {
+                        "refusal": "authored connector carries a "
+                        "reversal-class turn",
+                        "connector_id": connector_id,
+                        "turn_deg": round(angle, 2),
+                        "station_m": round(index * CARRIAGEWAY_TANGENT_LENS_M, 1),
+                    },
+                    sort_keys=True,
+                )
+            )
+        if angle > CARRIAGEWAY_CORNER_THRESHOLD_DEG:
+            flagged.append((angle, index))
+    clusters: list[list[tuple[float, int]]] = []
+    for angle, index in flagged:
+        if clusters and index - clusters[-1][-1][1] <= CARRIAGEWAY_CORNER_CLUSTER_STEPS:
+            clusters[-1].append((angle, index))
+        else:
+            clusters.append([(angle, index)])
+    sites: list[dict[str, Any]] = []
+    for cluster_index, cluster in enumerate(clusters):
+        peak_angle, peak_sample = max(cluster)
+        longitude, latitude = inverse.transform(*samples[peak_sample])
+        sites.append(
+            {
+                "corner_id": f"{connector_id}--corner-{cluster_index:03d}",
+                "corner_class": CONNECTOR_CORNER_CLASS,
+                "from_station_m": round(
+                    cluster[0][1] * CARRIAGEWAY_TANGENT_LENS_M, 1
+                ),
+                "to_station_m": round(cluster[-1][1] * CARRIAGEWAY_TANGENT_LENS_M, 1),
+                "peak_turn_deg": round(peak_angle, 2),
+                "turn_sum_deg": round(sum(angle for angle, _ in cluster), 2),
+                "sample_count": len(cluster),
+                "coordinate": [round(longitude, 7), round(latitude, 7)],
+            }
+        )
+    return sites
+
+
+def _endpoint_connector_records(
+    selection: dict[str, Any],
+    transfer_lock: dict[str, Any],
+    directed_lock: dict[str, Any],
+) -> list[dict[str, Any]]:
+    """The two authored ADR-0024 endpoint connectors, gated and recorded."""
+    forward = Transformer.from_crs("EPSG:4326", "EPSG:5070", always_xy=True)
+    inverse = Transformer.from_crs("EPSG:5070", "EPSG:4326", always_xy=True)
+    selection_by_id = {segment["id"]: segment for segment in selection["segments"]}
+    endpoints_by_node = {
+        endpoint["node_id"]: endpoint for endpoint in selection["endpoints"].values()
+    }
+    transfer_by_id = {node["id"]: node for node in transfer_lock["transfer_nodes"]}
+    directed_by_id = {
+        record["segment_id"]: record for record in directed_lock["segments"]
+    }
+    straight_line_by_segment = {
+        entry["segment_id"]: entry
+        for entry in directed_lock["corridor"]["authoritative_distance"][
+            "excluded_endpoint_connectors"
+        ]
+    }
+
+    connectors: list[dict[str, Any]] = []
+    for authored in AUTHORED_ENDPOINT_CONNECTORS:
+        connector_id = authored["segment_id"]
+        segment = selection_by_id[connector_id]
+        portal_ids = [
+            node_id
+            for node_id in (segment["from"], segment["to"])
+            if node_id in endpoints_by_node
+        ]
+        anchor_ids = [
+            node_id
+            for node_id in (segment["from"], segment["to"])
+            if node_id in transfer_by_id
+        ]
+        if len(portal_ids) != 1 or len(anchor_ids) != 1:
+            raise ValueError(
+                f"Connector '{connector_id}' does not join exactly one portal "
+                "to exactly one locked anchor."
+            )
+        portal = endpoints_by_node[portal_ids[0]]
+        anchor = transfer_by_id[anchor_ids[0]]
+        corridor_record = directed_by_id[authored["corridor_end"]["segment_id"]]
+        end_key = f"{authored['corridor_end']['end']}_node"
+        corridor_node = corridor_record[end_key]
+        corridor_anchor_id = corridor_record[
+            f"{authored['corridor_end']['end']}_anchor"
+        ]
+        if corridor_anchor_id != anchor_ids[0]:
+            raise ValueError(
+                f"Connector '{connector_id}' corridor end does not sit at its "
+                "ADR-0024 anchor."
+            )
+
+        portal_point = (
+            portal["coordinate"]["longitude"],
+            portal["coordinate"]["latitude"],
+        )
+        corridor_point = (corridor_node["longitude"], corridor_node["latitude"])
+        interior = [
+            (waypoint["longitude"], waypoint["latitude"])
+            for waypoint in authored["waypoints"]
+        ]
+        if authored["travel"] == "portal_to_corridor":
+            coordinates = [portal_point, *interior, corridor_point]
+        else:
+            coordinates = [corridor_point, *interior, portal_point]
+
+        # The recomputed straight line must reproduce the directed lock's
+        # recorded portal-to-anchor context.
+        straight_line = round(
+            _geodesic_distance_m(
+                portal_point,
+                (anchor["coordinate"]["longitude"], anchor["coordinate"]["latitude"]),
+            ),
+            1,
+        )
+        recorded_straight = straight_line_by_segment[connector_id][
+            "portal_to_anchor_straight_line_m"
+        ]
+        if abs(straight_line - recorded_straight) > CONNECTOR_STRAIGHT_LINE_AGREEMENT_M:
+            raise ValueError(
+                f"Connector '{connector_id}' straight-line context "
+                f"({straight_line} m) does not reproduce the directed lock's "
+                f"recorded {recorded_straight} m."
+            )
+
+        metric = [forward.transform(*point) for point in coordinates]
+        legs: list[dict[str, Any]] = []
+        facilities: list[str] = []
+        geodesic_total = 0.0
+        planimetric_total = 0.0
+        for index in range(1, len(coordinates)):
+            arriving_authored = (
+                authored["waypoints"][index - 1]
+                if index - 1 < len(authored["waypoints"])
+                else None
+            )
+            facility = (
+                arriving_authored["facility"]
+                if arriving_authored is not None
+                else authored["final_leg_facility"]
+            )
+            note = (
+                arriving_authored["note"]
+                if arriving_authored is not None
+                else authored["final_leg_note"]
+            )
+            geodesic = _geodesic_line_length_m(
+                [coordinates[index - 1], coordinates[index]]
+            )
+            planimetric = math.dist(metric[index - 1], metric[index])
+            if planimetric < CONNECTOR_MIN_LEG_M:
+                raise ValueError(
+                    f"Connector '{connector_id}' leg {index} is shorter than "
+                    f"the {CONNECTOR_MIN_LEG_M} m census floor."
+                )
+            legs.append(
+                {
+                    "leg_index": index - 1,
+                    "facility": facility,
+                    "note": note,
+                    "provenance": "authored",
+                    "geodesic_m": round(geodesic, 3),
+                    "planimetric_m": round(planimetric, 3),
+                }
+            )
+            facilities.append(facility)
+            geodesic_total += geodesic
+            planimetric_total += planimetric
+
+        # The travel-ordered facility sequence must be exactly the ADR-0024
+        # selection's facility sequence, with no facility invented or dropped.
+        deduped: list[str] = []
+        for facility in facilities:
+            if not deduped or deduped[-1] != facility:
+                deduped.append(facility)
+        # Both authored connectors list their ADR-0024 facility sequence in
+        # travel order (the selection writes each connector portal-outward
+        # for the start and corridor-outward for the finish).
+        travel_sequence = list(segment["facility_sequence"])
+        if deduped != travel_sequence:
+            raise ValueError(
+                f"Connector '{connector_id}' authored facility sequence "
+                f"{deduped} does not reproduce the ADR-0024 sequence "
+                f"{travel_sequence}."
+            )
+
+        line = LineString(metric)
+        if not line.is_simple:
+            raise ValueError(
+                f"Connector '{connector_id}' authored polyline "
+                "self-intersects."
+            )
+        corner_sites = _connector_corner_sites(connector_id, metric, inverse)
+        geodesic_total = round(geodesic_total, 3)
+        planimetric_total = round(planimetric_total, 3)
+        detour_ratio = round(geodesic_total / recorded_straight, 6)
+        agreement_allowance = (
+            GEODESIC_PLANIMETRIC_AGREEMENT_RATIO * planimetric_total
+            + GEODESIC_ROUNDING_ALLOWANCE_M * len(legs)
+        )
+        gates = {
+            "endpoint_continuity": _carriageway_gate(
+                {
+                    "portal_gap_m": 0.0,
+                    "corridor_end_gap_m": 0.0,
+                },
+                "locked portal and corridor-end coordinates carried verbatim",
+                True,
+            ),
+            "heading_discipline": _carriageway_gate(
+                max((site["peak_turn_deg"] for site in corner_sites), default=0.0),
+                CARRIAGEWAY_REVERSAL_THRESHOLD_DEG,
+                True,
+            ),
+            "self_intersection": _carriageway_gate(
+                {"simple": True},
+                "authored polyline is a single simple LineString",
+                True,
+            ),
+            "station_monotonicity": _carriageway_gate(
+                {"vertex_count": len(coordinates)},
+                "strictly increasing station at every vertex",
+                True,
+            ),
+            "length_envelope": _carriageway_gate(
+                detour_ratio,
+                authored["length_envelope_ratio"],
+                1.0 <= detour_ratio <= authored["length_envelope_ratio"],
+            ),
+            "geodesic_planimetric_agreement": _carriageway_gate(
+                round(abs(geodesic_total - planimetric_total), 3),
+                round(agreement_allowance, 3),
+                abs(geodesic_total - planimetric_total) <= agreement_allowance,
+            ),
+        }
+        failed = {name for name, gate in gates.items() if not gate["passed"]}
+        if failed:
+            raise ValueError(
+                json.dumps(
+                    {
+                        "refusal": "endpoint connector gates failed",
+                        "connector_id": connector_id,
+                        "failed_gates": sorted(failed),
+                        "gates": gates,
+                    },
+                    sort_keys=True,
+                )
+            )
+
+        waypoints_payload: list[dict[str, Any]] = []
+        for index, point in enumerate(coordinates):
+            if index == 0:
+                provenance = (
+                    "locked_portal"
+                    if authored["travel"] == "portal_to_corridor"
+                    else "locked_corridor_end"
+                )
+            elif index == len(coordinates) - 1:
+                provenance = (
+                    "locked_corridor_end"
+                    if authored["travel"] == "portal_to_corridor"
+                    else "locked_portal"
+                )
+            else:
+                provenance = "authored"
+            entry: dict[str, Any] = {
+                "index": index,
+                "longitude": point[0],
+                "latitude": point[1],
+                "provenance": provenance,
+            }
+            if provenance == "authored":
+                authored_waypoint = authored["waypoints"][index - 1]
+                entry["facility"] = authored_waypoint["facility"]
+                entry["note"] = authored_waypoint["note"]
+            waypoints_payload.append(entry)
+
+        connectors.append(
+            {
+                "connector_id": connector_id,
+                "role": authored["role"],
+                "decision": "ADR-0018",
+                "travel": authored["travel"],
+                "roadway_kind": "unclassified",
+                "portal": {
+                    "node_id": portal["node_id"],
+                    "label": portal["label"],
+                    "reference_address": portal["reference_address"],
+                    "coordinate": {
+                        "longitude": portal["coordinate"]["longitude"],
+                        "latitude": portal["coordinate"]["latitude"],
+                        "precision": portal["coordinate"]["precision"],
+                    },
+                    "playable_policy": portal["playable_policy"],
+                },
+                "corridor_end": {
+                    "anchor_id": anchor_ids[0],
+                    "segment_id": authored["corridor_end"]["segment_id"],
+                    "end": authored["corridor_end"]["end"],
+                    "coordinate": dict(corridor_node),
+                    "provenance": "directed-route-lock",
+                },
+                "straight_line_context_m": straight_line,
+                "length_envelope": {
+                    "ratio_bound": authored["length_envelope_ratio"],
+                    "justification": authored["length_envelope_justification"],
+                },
+                "waypoints": waypoints_payload,
+                "legs": legs,
+                "lengths": {
+                    "geodesic_m": geodesic_total,
+                    "geodesic_miles": round(geodesic_total / METRES_PER_MILE, 3),
+                    "planimetric_m": planimetric_total,
+                    "detour_ratio": detour_ratio,
+                },
+                "authored_breakdown": {
+                    "locked_endpoint_count": 2,
+                    "authored_waypoint_count": len(authored["waypoints"]),
+                    "authored_geodesic_m": geodesic_total,
+                    "sourced_geodesic_m": 0.0,
+                    "statement": (
+                        "The two endpoint coordinates are locked artifacts "
+                        "(route-selection portal; directed-route-lock "
+                        "corridor-end node). No locked or probed source "
+                        "geometry exists for the connector facilities - the "
+                        "NHPN candidate lock is scoped to the twelve "
+                        "corridor segments - so every metre between the "
+                        "locked endpoints is authored, each leg justified by "
+                        "its ADR-0024 facility."
+                    ),
+                },
+                "corner_sites": corner_sites,
+                "gates": gates,
+            }
+        )
+    return connectors
+
+
+def author_continental_endpoint_connectors(
+    directed_lock_path: Path,
+    selection_path: Path,
+    route_lock_path: Path,
+    transfer_lock_path: Path,
+    policy_path: Path,
+    edge_path_lock_path: Path,
+    fill_lock_path: Path,
+    disposition_path: Path,
+    overlay_lock_path: Path,
+    conflation_lock_path: Path,
+    catalog_path: Path,
+    output_path: Path,
+    *,
+    authored_at: str | None = None,
+) -> dict[str, Any]:
+    """Author the two ADR-0024 endpoint connectors as bounded ADR-0018 records.
+
+    A pure function of the committed locks and the authored registry - no
+    cache, no network. Each connector joins the locked public-road portal to
+    the directed lock's corridor-end node over the ADR-0024 facility
+    sequence, with every authored metre recorded and gated.
+    """
+    directed_lock = validate_continental_directed_route_lock(
+        directed_lock_path,
+        selection_path,
+        route_lock_path,
+        transfer_lock_path,
+        policy_path,
+        edge_path_lock_path,
+        fill_lock_path,
+        disposition_path,
+        overlay_lock_path,
+        conflation_lock_path,
+        catalog_path,
+    )
+    selection = load_json(selection_path)
+    transfer_lock = validate_continental_transfer_lock(
+        transfer_lock_path, policy_path, selection_path, route_lock_path, catalog_path
+    )
+    timestamp = authored_at or datetime.now(UTC).replace(
+        microsecond=0
+    ).isoformat().replace("+00:00", "Z")
+    connectors = _endpoint_connector_records(selection, transfer_lock, directed_lock)
+    payload = {
+        "schema_version": 1,
+        "status": ENDPOINT_CONNECTOR_STATUS,
+        "decision": "ADR-0018",
+        "route_decision": selection["decision"],
+        "context_decision": "ADR-0017",
+        "carriageway_decision": "ADR-0014",
+        "authored_at": timestamp,
+        "coordinate_crs": "EPSG:4326",
+        "metric_crs": "EPSG:5070",
+        "catalog_sha256": compute_sha256(catalog_path),
+        "route_selection_sha256": compute_sha256(selection_path),
+        "candidate_lock_sha256": compute_sha256(route_lock_path),
+        "transfer_lock_sha256": compute_sha256(transfer_lock_path),
+        "edge_path_lock_sha256": compute_sha256(edge_path_lock_path),
+        "nhs_fill_lock_sha256": compute_sha256(fill_lock_path),
+        "break_disposition_sha256": compute_sha256(disposition_path),
+        "reconstruction_overlay_lock_sha256": compute_sha256(overlay_lock_path),
+        "nhs_conflation_lock_sha256": compute_sha256(conflation_lock_path),
+        "directed_route_lock_sha256": compute_sha256(directed_lock_path),
+        "model": dict(ENDPOINT_CONNECTOR_MODEL),
+        "source_policy": dict(ENDPOINT_CONNECTOR_SOURCE_POLICY),
+        "deferred_gates": dict(ENDPOINT_CONNECTOR_DEFERRED_GATES),
+        "connector_count": len(connectors),
+        "connectors": connectors,
+        "connectors_sha256": canonical_sha256(connectors),
+        "unauthored_connectors": [
+            {
+                "segment_id": "nyc-start-to-i78",
+                "reason": (
+                    "The southern path's Holland Tunnel connector remains "
+                    "unauthored; ADR-0024's canonical run uses the Lincoln "
+                    "Tunnel start, and the southern portal-to-portal figure "
+                    "stays unpublished until this connector is authored and "
+                    "gated."
+                ),
+            }
+        ],
+        "summary": {
+            "connector_count": len(connectors),
+            "gates_passed": sum(
+                1
+                for connector in connectors
+                for gate in connector["gates"].values()
+                if gate["passed"]
+            ),
+            "gates_failed": 0,
+            "corner_site_count": sum(
+                len(connector["corner_sites"]) for connector in connectors
+            ),
+            "authored_geodesic_m": round(
+                sum(connector["lengths"]["geodesic_m"] for connector in connectors),
+                3,
+            ),
+            "authored_waypoint_count": sum(
+                connector["authored_breakdown"]["authored_waypoint_count"]
+                for connector in connectors
+            ),
+        },
+        "next_stage": ENDPOINT_CONNECTOR_NEXT_STAGE,
+    }
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(
+        json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
+    return payload
+
+
+def validate_continental_endpoint_connectors(
+    connector_lock_path: Path,
+    directed_lock_path: Path,
+    selection_path: Path,
+    route_lock_path: Path,
+    transfer_lock_path: Path,
+    policy_path: Path,
+    edge_path_lock_path: Path,
+    fill_lock_path: Path,
+    disposition_path: Path,
+    overlay_lock_path: Path,
+    conflation_lock_path: Path,
+    catalog_path: Path,
+) -> dict[str, Any]:
+    """Validate the endpoint connector lock by full re-derivation.
+
+    The authoring is a pure function of committed locks and the authored
+    registry, so the validator recomputes the entire artifact and requires
+    exact reproduction modulo the authoring timestamp - a drifted waypoint,
+    dropped leg, widened envelope, or hand-edited gate cannot validate.
+    """
+    payload = load_json(connector_lock_path)
+    if payload.get("schema_version") != 1:
+        raise ValueError("Endpoint connector lock schema_version must be 1.")
+    directed_lock = validate_continental_directed_route_lock(
+        directed_lock_path,
+        selection_path,
+        route_lock_path,
+        transfer_lock_path,
+        policy_path,
+        edge_path_lock_path,
+        fill_lock_path,
+        disposition_path,
+        overlay_lock_path,
+        conflation_lock_path,
+        catalog_path,
+    )
+    selection = load_json(selection_path)
+    transfer_lock = validate_continental_transfer_lock(
+        transfer_lock_path, policy_path, selection_path, route_lock_path, catalog_path
+    )
+    expected_hashes = {
+        "catalog_sha256": compute_sha256(catalog_path),
+        "route_selection_sha256": compute_sha256(selection_path),
+        "candidate_lock_sha256": compute_sha256(route_lock_path),
+        "transfer_lock_sha256": compute_sha256(transfer_lock_path),
+        "edge_path_lock_sha256": compute_sha256(edge_path_lock_path),
+        "nhs_fill_lock_sha256": compute_sha256(fill_lock_path),
+        "break_disposition_sha256": compute_sha256(disposition_path),
+        "reconstruction_overlay_lock_sha256": compute_sha256(overlay_lock_path),
+        "nhs_conflation_lock_sha256": compute_sha256(conflation_lock_path),
+        "directed_route_lock_sha256": compute_sha256(directed_lock_path),
+    }
+    if any(payload.get(key) != value for key, value in expected_hashes.items()):
+        raise ValueError("Endpoint connector lock input hash drifted.")
+    expected_connectors = _endpoint_connector_records(
+        selection, transfer_lock, directed_lock
+    )
+    expected = {
+        "schema_version": 1,
+        "status": ENDPOINT_CONNECTOR_STATUS,
+        "decision": "ADR-0018",
+        "route_decision": selection["decision"],
+        "context_decision": "ADR-0017",
+        "carriageway_decision": "ADR-0014",
+        "authored_at": payload.get("authored_at"),
+        "coordinate_crs": "EPSG:4326",
+        "metric_crs": "EPSG:5070",
+        **expected_hashes,
+        "model": dict(ENDPOINT_CONNECTOR_MODEL),
+        "source_policy": dict(ENDPOINT_CONNECTOR_SOURCE_POLICY),
+        "deferred_gates": dict(ENDPOINT_CONNECTOR_DEFERRED_GATES),
+        "connector_count": len(expected_connectors),
+        "connectors": expected_connectors,
+        "connectors_sha256": canonical_sha256(expected_connectors),
+        "unauthored_connectors": payload.get("unauthored_connectors"),
+        "summary": payload.get("summary"),
+        "next_stage": ENDPOINT_CONNECTOR_NEXT_STAGE,
+    }
+    if payload.get("connectors_sha256") != expected["connectors_sha256"] or (
+        payload.get("connectors") != expected_connectors
+    ):
+        raise ValueError(
+            "Endpoint connector lock does not reproduce from the committed "
+            "inputs and the authored registry."
+        )
+    if not isinstance(payload.get("authored_at"), str) or not payload["authored_at"]:
+        raise ValueError("Endpoint connector lock authoring timestamp is missing.")
+    unauthored = payload.get("unauthored_connectors")
+    if (
+        not isinstance(unauthored, list)
+        or len(unauthored) != 1
+        or unauthored[0].get("segment_id") != "nyc-start-to-i78"
+        or not unauthored[0].get("reason")
+    ):
+        raise ValueError(
+            "Endpoint connector lock must record the unauthored Holland "
+            "Tunnel connector with its reason."
+        )
+    expected_summary = {
+        "connector_count": len(expected_connectors),
+        "gates_passed": sum(
+            1
+            for connector in expected_connectors
+            for gate in connector["gates"].values()
+            if gate["passed"]
+        ),
+        "gates_failed": 0,
+        "corner_site_count": sum(
+            len(connector["corner_sites"]) for connector in expected_connectors
+        ),
+        "authored_geodesic_m": round(
+            sum(
+                connector["lengths"]["geodesic_m"]
+                for connector in expected_connectors
+            ),
+            3,
+        ),
+        "authored_waypoint_count": sum(
+            connector["authored_breakdown"]["authored_waypoint_count"]
+            for connector in expected_connectors
+        ),
+    }
+    if payload.get("summary") != expected_summary:
+        raise ValueError(
+            "Endpoint connector lock summary does not reproduce from the "
+            "committed connectors."
+        )
+    comparable = {key: value for key, value in payload.items()}
+    if comparable != expected:
+        raise ValueError(
+            "Endpoint connector lock does not reproduce the authored "
+            "derivation exactly."
+        )
     return payload
