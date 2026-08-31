@@ -10,6 +10,7 @@ import typer
 from cannonball_map.acquisition import UrllibArcGisTransport, acquire_nhpn
 from cannonball_map.catalog import load_catalog, url_matches_prefix
 from cannonball_map.continental import (
+    acquire_continental_corridor_elevation,
     acquire_continental_nhpn_candidates,
     acquire_continental_nhpn_supplements,
     acquire_continental_nhs_fill_lock,
@@ -27,6 +28,7 @@ from cannonball_map.continental import (
     probe_continental_nhs_breaks,
     validate_continental_3dep_products,
     validate_continental_break_dispositions,
+    validate_continental_corridor_elevation,
     validate_continental_directed_route_lock,
     validate_continental_edge_path_lock,
     validate_continental_nhs_conflation,
@@ -1727,4 +1729,192 @@ def validate_continental_directed_route_command(
         f"({payload['segment_count']} segments, "
         f"{payload['summary']['element_count']} elements, canonical "
         f"{corridor['authoritative_distance']['geodesic_length_miles']} mi)"
+    )
+
+
+@app.command("acquire-continental-corridor-elevation")
+def acquire_continental_corridor_elevation_command(
+    dem_lock: Path = typer.Option(
+        Path("data/routes/continental/3dep-product-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    directed_lock: Path = typer.Option(
+        Path("data/routes/continental/directed-route-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    selection: Path = typer.Option(
+        Path("data/routes/continental/route-selection.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    route_lock: Path = typer.Option(
+        Path("data/sources/continental-route-lock.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    transfer_lock: Path = typer.Option(
+        Path("data/routes/continental/transfer-node-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    policy: Path = typer.Option(
+        Path("data/routes/continental/transfer-node-policy.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    edge_path_lock: Path = typer.Option(
+        Path("data/routes/continental/edge-path-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    fill_lock: Path = typer.Option(
+        Path("data/routes/continental/nhs-fill-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    disposition: Path = typer.Option(
+        Path("data/routes/continental/break-disposition.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    overlay_lock: Path = typer.Option(
+        Path("data/routes/continental/reconstruction-overlay-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    conflation_lock: Path = typer.Option(
+        Path("data/routes/continental/nhs-conflation-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    catalog: Path = typer.Option(DEFAULT_CATALOG, exists=True, file_okay=True, dir_okay=False),
+    cache: Path = typer.Option(
+        Path(".tools/continental/nhpn"),
+        help="Locked NHPN response cache.",
+        exists=True, file_okay=False, dir_okay=True,
+    ),
+    dem_cache: Path = typer.Option(
+        Path(".tools/continental/3dep"),
+        help="Ignored cache for tiles, checkpoints, and station extractions.",
+        file_okay=False, dir_okay=True,
+    ),
+    output: Path = typer.Option(
+        Path("data/routes/continental/corridor-elevation-lock.v1.json"),
+        help="Corridor elevation lock to write.",
+        file_okay=True, dir_okay=False,
+    ),
+    release_tiles: bool = typer.Option(
+        False,
+        help="Delete each raster after verification and station extraction; "
+        "checkpoints retain the hashes, raster facts, and elevations.",
+    ),
+) -> None:
+    """Acquire and verify all locked 3DEP tiles and lock the corridor profile.
+
+    Downloads every tile the product lock pins, verifies each against its
+    locked declaration (URL, byte count, pinned or first-recorded SHA-256,
+    full raster inspection), samples the locked westbound directed route at
+    the model's station interval, and writes the committed elevation profile
+    lock. Checkpointed and resumable; rasters stay in the ignored cache.
+    """
+    try:
+        payload = acquire_continental_corridor_elevation(
+            dem_lock,
+            directed_lock,
+            selection,
+            route_lock,
+            transfer_lock,
+            policy,
+            edge_path_lock,
+            fill_lock,
+            disposition,
+            overlay_lock,
+            conflation_lock,
+            catalog,
+            cache,
+            dem_cache,
+            output,
+            release_tiles=release_tiles,
+        )
+    except ValueError as error:
+        typer.echo(f"continental-corridor-elevation-failed: {error}", err=True)
+        raise typer.Exit(code=1) from error
+    summary = payload["summary"]
+    highest = summary["highest_point"]
+    typer.echo(
+        f"continental-corridor-elevation: {output} ({payload['tile_count']} tiles "
+        f"verified, {summary['station_count']} stations, highest "
+        f"{highest['elevation_m']} m on {highest['segment_id']})"
+    )
+
+
+@app.command("validate-continental-corridor-elevation")
+def validate_continental_corridor_elevation_command(
+    elevation_lock: Path = typer.Argument(
+        Path("data/routes/continental/corridor-elevation-lock.v1.json"),
+        help="Corridor elevation lock to validate.",
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    dem_lock: Path = typer.Option(
+        Path("data/routes/continental/3dep-product-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    directed_lock: Path = typer.Option(
+        Path("data/routes/continental/directed-route-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    selection: Path = typer.Option(
+        Path("data/routes/continental/route-selection.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    route_lock: Path = typer.Option(
+        Path("data/sources/continental-route-lock.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    transfer_lock: Path = typer.Option(
+        Path("data/routes/continental/transfer-node-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    policy: Path = typer.Option(
+        Path("data/routes/continental/transfer-node-policy.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    edge_path_lock: Path = typer.Option(
+        Path("data/routes/continental/edge-path-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    fill_lock: Path = typer.Option(
+        Path("data/routes/continental/nhs-fill-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    disposition: Path = typer.Option(
+        Path("data/routes/continental/break-disposition.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    overlay_lock: Path = typer.Option(
+        Path("data/routes/continental/reconstruction-overlay-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    conflation_lock: Path = typer.Option(
+        Path("data/routes/continental/nhs-conflation-lock.v1.json"),
+        exists=True, file_okay=True, dir_okay=False,
+    ),
+    catalog: Path = typer.Option(DEFAULT_CATALOG, exists=True, file_okay=True, dir_okay=False),
+) -> None:
+    """Validate the corridor elevation lock without caches, rasters, or network."""
+    try:
+        payload = validate_continental_corridor_elevation(
+            elevation_lock,
+            dem_lock,
+            directed_lock,
+            selection,
+            route_lock,
+            transfer_lock,
+            policy,
+            edge_path_lock,
+            fill_lock,
+            disposition,
+            overlay_lock,
+            conflation_lock,
+            catalog,
+        )
+    except ValueError as error:
+        typer.echo(f"continental-corridor-elevation-invalid: {error}", err=True)
+        raise typer.Exit(code=1) from error
+    summary = payload["summary"]
+    typer.echo(
+        f"continental-corridor-elevation-ok: {elevation_lock} "
+        f"({payload['tile_count']} tiles, {summary['station_count']} stations, "
+        f"{payload['segment_count']} segments)"
     )

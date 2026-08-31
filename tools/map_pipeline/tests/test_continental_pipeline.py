@@ -3514,3 +3514,265 @@ def test_geodesic_lengths_are_ellipsoidal() -> None:
     assert length == pytest.approx(111319.49, abs=1.0)
     distance = continental._geodesic_distance_m((0.0, 0.0), (1.0, 0.0))
     assert distance == pytest.approx(length, abs=1e-6)
+
+
+# --- Corridor elevation lock -------------------------------------------------------
+
+ELEVATION_LOCK_PATH = Path("data/routes/continental/corridor-elevation-lock.v1.json")
+
+
+def test_elevation_station_offsets() -> None:
+    # A partial final interval appends the terminal station...
+    offsets = continental._elevation_station_offsets(1050.0, 100.0)
+    assert offsets[:2] == [0.0, 100.0]
+    assert offsets[-2:] == [1000.0, 1050.0]
+    assert len(offsets) == 12
+    # ...and an exact multiple does not duplicate it.
+    assert continental._elevation_station_offsets(1000.0, 100.0)[-1] == 1000.0
+    assert len(continental._elevation_station_offsets(1000.0, 100.0)) == 11
+    with pytest.raises(ValueError, match="positive lengths"):
+        continental._elevation_station_offsets(0.0, 100.0)
+
+
+def test_elevation_profile_statistics() -> None:
+    offsets = [0.0, 100.0, 200.0, 300.0, 400.0, 450.0]
+    elevations = [10.0, 20.0, 15.0, 15.0, 30.0, 30.5]
+    stats = continental._elevation_profile_statistics(offsets, elevations, 100.0, 200.0)
+    assert stats["min_elevation"] == {"elevation_m": 10.0, "station_m": 0.0}
+    assert stats["max_elevation"] == {"elevation_m": 30.5, "station_m": 450.0}
+    assert stats["total_climb_m"] == 25.5
+    assert stats["total_descent_m"] == 5.0
+    # The steepest single interval is the 15 m rise over 200-400 m's last leg.
+    assert stats["max_interval_grade"] == {
+        "grade_percent": 15.0,
+        "from_station_m": 300.0,
+    }
+    # Sustained windows are whole-interval only: the 400-450 m terminal leg
+    # never forms one, and the steepest 200 m window is 200-400 m.
+    assert stats["max_sustained_grade"] == {
+        "grade_percent": 7.5,
+        "from_station_m": 200.0,
+        "window_m": 200.0,
+    }
+    # Extreme ties resolve to the first station.
+    flat = continental._elevation_profile_statistics(
+        [0.0, 100.0, 200.0], [5.0, 5.0, 5.0], 100.0, 200.0
+    )
+    assert flat["min_elevation"]["station_m"] == 0.0
+    assert flat["max_elevation"]["station_m"] == 0.0
+    # A segment shorter than the window records no sustained grade.
+    short = continental._elevation_profile_statistics(
+        [0.0, 100.0], [5.0, 6.0], 100.0, 1000.0
+    )
+    assert short["max_sustained_grade"] is None
+    with pytest.raises(ValueError, match="strictly increase"):
+        continental._elevation_profile_statistics(
+            [0.0, 0.0, 100.0], [1.0, 2.0, 3.0], 100.0, 200.0
+        )
+
+
+def test_elevation_station_cell_resolution() -> None:
+    locked = frozenset({"n40w106", "n40w105"})
+    assert continental._elevation_station_cell(-105.5, 39.5, locked) == "n40w106"
+    # A station a reprojection epsilon across the cell edge resolves to a
+    # locked neighbour instead of refusing.
+    assert (
+        continental._elevation_station_cell(-105.0000000001, 39.5, frozenset({"n40w105"}))
+        == "n40w105"
+    )
+    with pytest.raises(ValueError, match="outside the locked corridor cells"):
+        continental._elevation_station_cell(-90.5, 39.5, locked)
+
+
+def test_directed_walk_geometry_sink_orients_travel() -> None:
+    forward = Transformer.from_crs("EPSG:4326", "EPSG:5070", always_xy=True)
+    inverse = Transformer.from_crs("EPSG:5070", "EPSG:4326", always_xy=True)
+    lines = (
+        LockedCandidateLine(
+            "seg", 1, "0" * 64,
+            LineString([(-100.0, 40.0), (-99.99, 40.0)]),
+            "K1", 0.0, 10.0, 0.0, 0.6, 0, 0.53, 2,
+        ),
+        LockedCandidateLine(
+            "seg", 2, "0" * 64,
+            LineString([(-99.98, 40.0), (-99.99, 40.0)]),
+            "K1", 0.0, 10.0, 0.6, 1.1, 0, 0.53, 2,
+        ),
+    )
+    segment = {"id": "seg", "from": "west", "to": "east"}
+    metric_lines = tuple(
+        (candidate, transform(forward.transform, candidate.geometry))
+        for candidate in lines
+    )
+    from_point = metric_lines[0][1].coords[0]
+    to_point = metric_lines[1][1].coords[0]
+    edge_entry = _solve_segment_edge_path(
+        segment, metric_lines, from_point, to_point, ENDPOINT_SNAP_TOLERANCE_METERS
+    )
+    geometries: list[LineString] = []
+    record = continental._derive_directed_segment(
+        segment,
+        edge_entry,
+        None,
+        lines,
+        (),
+        (),
+        {},
+        from_point,
+        to_point,
+        ENDPOINT_SNAP_TOLERANCE_METERS,
+        ANCHOR_SNAP_LIMIT_METERS,
+        forward,
+        inverse,
+        geometry_sink=geometries,
+    )
+    elements = record["elements"]
+    assert len(geometries) == len(elements) == 2
+    assert elements[1]["reversed_for_travel"] is True
+    # Every oriented geometry starts where the previous one ended: the sink
+    # yields travel-direction geometry, not source-digitization geometry.
+    for previous, current in zip(geometries, geometries[1:], strict=False):
+        assert Point(previous.coords[-1]).distance(Point(current.coords[0])) < 1e-6
+    # The reversed element's oriented coordinates are its source coordinates
+    # backwards.
+    source_metric = metric_lines[1][1]
+    assert list(geometries[1].coords) == list(source_metric.coords)[::-1]
+    # Station coordinates walk the oriented chain monotonically westward here.
+    offsets = continental._elevation_station_offsets(
+        record["geodesic_length_m"], 500.0
+    )
+    coordinates = continental._segment_station_coordinates(
+        elements, geometries, offsets, inverse
+    )
+    assert len(coordinates) == len(offsets)
+    longitudes = [coordinate[0] for coordinate in coordinates]
+    assert longitudes == sorted(longitudes)
+    assert coordinates[0][0] == pytest.approx(-100.0, abs=1e-6)
+    assert coordinates[-1][0] == pytest.approx(-99.98, abs=1e-6)
+
+
+def _validate_elevation(path: Path) -> dict:
+    return continental.validate_continental_corridor_elevation(
+        path,
+        DEM_LOCK_PATH,
+        DIRECTED_LOCK_PATH,
+        SELECTION_PATH,
+        LOCK_PATH,
+        TRANSFER_LOCK_PATH,
+        TRANSFER_POLICY_PATH,
+        EDGE_PATH_LOCK_PATH,
+        NHS_FILL_LOCK_PATH,
+        DISPOSITION_PATH,
+        OVERLAY_LOCK_PATH,
+        CONFLATION_LOCK_PATH,
+        CATALOG_PATH,
+    )
+
+
+def test_repository_corridor_elevation_lock_validates() -> None:
+    payload = _validate_elevation(ELEVATION_LOCK_PATH)
+    assert payload["status"] == continental.CORRIDOR_ELEVATION_STATUS
+    assert payload["tile_count"] == 124
+    assert payload["segment_count"] == 12
+    summary = payload["summary"]
+    assert summary["nodata_station_count"] == 0
+    assert summary["tile_station_count"] == summary["station_count"]
+    # The three product-lock sample hashes stay pinned end to end.
+    pinned = [
+        tile["cell_id"]
+        for tile in payload["tiles"]
+        if tile["sha256_pinned_by_product_lock"]
+    ]
+    assert pinned == ["n34w119", "n39w110", "n42w112"]
+    # The canonical NY-to-LA path composes from its locked segments.
+    canonical = next(
+        path for path in payload["paths"] if path["role"] == "canonical"
+    )
+    assert canonical["total_geodesic_miles"] == 2791.77
+    assert canonical["highest_point"]["elevation_m"] <= summary[
+        "highest_point"
+    ]["elevation_m"]
+    assert canonical["total_climb_m"] > 0
+
+
+def _tampered_elevation_lock(tmp_path: Path, mutate) -> Path:
+    payload = json.loads(ELEVATION_LOCK_PATH.read_text(encoding="utf-8"))
+    mutate(payload)
+    payload["tiles_sha256"] = canonical_sha256(payload["tiles"])
+    payload["profile_sha256"] = canonical_sha256(payload["segments"])
+    payload["paths_sha256"] = canonical_sha256(payload["paths"])
+    target = tmp_path / "corridor-elevation-lock.json"
+    target.write_text(json.dumps(payload), encoding="utf-8")
+    return target
+
+
+def test_corridor_elevation_lock_rejects_semantic_tampering(tmp_path: Path) -> None:
+    def raised_station(payload: dict) -> None:
+        payload["segments"][0]["elevations_m"][10] += 5.0
+
+    with pytest.raises(ValueError, match="statistics do not reproduce"):
+        _validate_elevation(_tampered_elevation_lock(tmp_path, raised_station))
+
+    def unrounded_station(payload: dict) -> None:
+        payload["segments"][0]["elevations_m"][10] += 0.001
+
+    with pytest.raises(ValueError, match="non-finite or unrounded"):
+        _validate_elevation(_tampered_elevation_lock(tmp_path, unrounded_station))
+
+    def sample_hash_drift(payload: dict) -> None:
+        payload["tiles"][0]["sha256"] = "0" * 64
+
+    with pytest.raises(ValueError, match="pinned sample hash"):
+        _validate_elevation(_tampered_elevation_lock(tmp_path, sample_hash_drift))
+
+    def byte_drift(payload: dict) -> None:
+        payload["tiles"][1]["byte_count"] += 1
+
+    with pytest.raises(ValueError, match="byte count does not match"):
+        _validate_elevation(_tampered_elevation_lock(tmp_path, byte_drift))
+
+    def stripped_size_exception(payload: dict) -> None:
+        tile = next(
+            tile for tile in payload["tiles"] if "declared_size_exception" in tile
+        )
+        del tile["declared_size_exception"]
+
+    with pytest.raises(ValueError, match="no characterised declaration exception"):
+        _validate_elevation(
+            _tampered_elevation_lock(tmp_path, stripped_size_exception)
+        )
+
+    def unneeded_size_exception(payload: dict) -> None:
+        payload["tiles"][1]["declared_size_exception"] = dict(
+            continental.ELEVATION_DECLARED_SIZE_EXCEPTIONS["n36w102"]
+        )
+
+    with pytest.raises(ValueError, match="exception it does not need"):
+        _validate_elevation(
+            _tampered_elevation_lock(tmp_path, unneeded_size_exception)
+        )
+
+    def dropped_tile(payload: dict) -> None:
+        payload["tiles"] = payload["tiles"][1:]
+        payload["tile_count"] -= 1
+
+    with pytest.raises(ValueError, match="exactly the locked corridor cells"):
+        _validate_elevation(_tampered_elevation_lock(tmp_path, dropped_tile))
+
+    def widened_interval(payload: dict) -> None:
+        payload["model"]["station_interval_m"] = 500.0
+
+    with pytest.raises(ValueError, match="model constants drifted"):
+        _validate_elevation(_tampered_elevation_lock(tmp_path, widened_interval))
+
+    def smoothed_policy(payload: dict) -> None:
+        payload["source_policy"]["profile_smoothing_applied"] = True
+
+    with pytest.raises(ValueError, match="source policy drifted"):
+        _validate_elevation(_tampered_elevation_lock(tmp_path, smoothed_policy))
+
+    def summary_drift(payload: dict) -> None:
+        payload["summary"]["highest_point"]["elevation_m"] += 10.0
+
+    with pytest.raises(ValueError, match="summary does not reproduce"):
+        _validate_elevation(_tampered_elevation_lock(tmp_path, summary_drift))
