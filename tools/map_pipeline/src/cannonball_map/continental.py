@@ -9571,6 +9571,7 @@ def _derive_directed_segment(
     anchor_limit: float,
     forward: Transformer,
     inverse: Transformer,
+    geometry_sink: list[LineString] | None = None,
 ) -> dict[str, Any]:
     """Walk one segment's locked traversal from its from-anchor to its to-anchor.
 
@@ -9692,6 +9693,9 @@ def _derive_directed_segment(
                 ),
             ]
             geodesic = _geodesic_line_length_m(chord)
+            travel_geometry = LineString(
+                [forward.transform(*chord[0]), forward.transform(*chord[1])]
+            )
             measure_by_side = {
                 seam["side"]: seam["nhs"]["measure_at_seam"]
                 for seam in conflation_site["seams"]
@@ -9735,6 +9739,9 @@ def _derive_directed_segment(
             site = overlay_by_id[site_id]
             reversed_for_travel = bridge_ends[site_id][0] != previous
             geodesic = _geodesic_line_length_m(site["geometry"]["coordinates"])
+            travel_geometry = LineString(
+                [forward.transform(x, y) for x, y in site["geometry"]["coordinates"]]
+            )
             length = float(site["separation_m"])
             element = {
                 "kind": "authored_overlay_chord",
@@ -9757,9 +9764,11 @@ def _derive_directed_segment(
             reversed_for_travel = data["start_key"] != previous
             length = float(data["weight"])
             if part_range is None:
+                travel_geometry = metric
                 geodesic = _geodesic_line_length_m(list(candidate.geometry.coords))
             else:
                 clipped = substring(metric, float(part_range[0]), float(part_range[1]))
+                travel_geometry = clipped
                 geodesic = _geodesic_line_length_m(
                     [inverse.transform(x, y) for x, y in clipped.coords]
                 )
@@ -9841,6 +9850,12 @@ def _derive_directed_segment(
         element["cumulative_geodesic_m"] = round(geodesic_total, 3)
         if element["reversed_for_travel"]:
             reversed_count += 1
+        if geometry_sink is not None:
+            geometry_sink.append(
+                LineString(list(travel_geometry.coords)[::-1])
+                if element["reversed_for_travel"]
+                else travel_geometry
+            )
         elements.append(element)
 
     # Refuse anything that does not reproduce the locked artifacts exactly.
@@ -11456,4 +11471,1205 @@ def validate_continental_directed_route_lock(
         )
     if payload.get("next_stage") != DIRECTED_ROUTE_NEXT_STAGE:
         raise ValueError("Directed route lock next stage drifted.")
+    return payload
+
+
+# --- ADR-0007 corridor elevation acquisition over the directed route --------------
+#
+# The 3DEP product lock is the contract: exact dated immutable staged-product
+# URLs, discovery byte counts, per-tile datum evidence, and three sample tiles
+# already verified end to end. This stage executes that contract - every locked
+# tile is downloaded, verified against its declaration (byte count, first
+# recorded or pinned SHA-256, full raster inspection), and sampled along the
+# locked westbound directed route - and locks the corridor's first elevation
+# profile. Rasters stay in the ignored cache (optionally released after
+# verification); the committed artifact carries the hashes, the stations, and
+# the statistics.
+
+CORRIDOR_ELEVATION_STATUS = "corridor_elevation_acquired_reconstruction_pending"
+
+# One station every 100 m of directed geodesic stationing (plus the terminal
+# station) resolves grade features an order of magnitude wider than the
+# raster's ~10 m cells without committing a megabyte-scale artifact per
+# segment. Sustained grade is the mean grade over a 1 km window - the scale of
+# a real mountain-grade sign, not a single raster cell.
+ELEVATION_STATION_INTERVAL_M = 100.0
+ELEVATION_SUSTAINED_WINDOW_M = 1000.0
+ELEVATION_VALUE_DECIMALS = 2
+# A station may sit a reprojection epsilon outside its floored cell when an
+# element crosses a cell edge between vertices; the staged tiles overhang their
+# nominal cell by ~0.002 degrees, so a neighbouring locked cell within this
+# margin samples identically.
+ELEVATION_CELL_EDGE_EPSILON_DEG = 1e-6
+
+ELEVATION_SAMPLER_MODEL = {
+    "interpolation": "bilinear between raster cell centres",
+    "station_crs": "EPSG:4326",
+    "raster_crs": "EPSG:4269",
+    "nodata_policy": "refuse",
+}
+
+# Characterised source-side declaration defects, refused unless pinned here
+# exactly. A HEAD census of all 124 locked product URLs on 2026-08-31 found
+# exactly six catalog declarations disagreeing with the immutable dated S3
+# objects, every one of which was last modified 2022-12-03 - years before the
+# product lock's discovery snapshot - so the defect is TNM's catalog size
+# index, not object drift: two sub-megabyte nonsense declarations (n36w102,
+# n36w103: a ~361 KB / ~338 KB claim for ~350 MB tiles) and four
+# percent-scale staleness errors (n36w104 -0.14%, n38w080 +11.8%, n42w086
+# +0.13%, n42w087 +0.18%, declared relative to actual). Live re-discovery
+# still asserts the defective values (items lastUpdated 2026-06-08), and the
+# S3 objects' own Content-Lengths match the downloads byte for byte. All six
+# rasters verify fully - CRS, exact 1/3 arc-second pixels, single float32
+# band, locked nodata, full cell coverage - so each pin holds its tile to
+# the measured size AND its SHA-256, strictly tighter than the defective
+# declaration it stands in for. The other 118 tiles stay under byte
+# equality, and an unpinned mismatch anywhere is still a refusal.
+ELEVATION_DECLARED_SIZE_EXCEPTIONS = {
+    "n36w102": {
+        "declared_size_bytes": 361416,
+        "measured_byte_count": 370105790,
+        "sha256": "0b4c8518558a35408b875e4d14112188cbcef73b6db294911b9c1b7cc0b79a2c",
+        "reason": (
+            "TNM catalog sizeInBytes misdeclares the immutable staged object; "
+            "the S3 object's own Content-Length matches the measured bytes"
+        ),
+    },
+    "n36w103": {
+        "declared_size_bytes": 338581,
+        "measured_byte_count": 346722950,
+        "sha256": "cba6c24be98497a574f044ab46cee5c2da5573b235024bbe96d311b1ece57ec3",
+        "reason": (
+            "TNM catalog sizeInBytes misdeclares the immutable staged object; "
+            "the S3 object's own Content-Length matches the measured bytes"
+        ),
+    },
+    "n36w104": {
+        "declared_size_bytes": 363746466,
+        "measured_byte_count": 364271986,
+        "sha256": "ffa3e9d85ec7a8cf1a0bbb73a5bc39ad75273de9b727796fad55f06b9563f0ee",
+        "reason": (
+            "TNM catalog sizeInBytes misdeclares the immutable staged object; "
+            "the S3 object's own Content-Length matches the measured bytes"
+        ),
+    },
+    "n38w080": {
+        "declared_size_bytes": 543397409,
+        "measured_byte_count": 486226211,
+        "sha256": "cae7570266a794b58c33f8aac96d9edffc2f48e4e6a15c4fe4dae931e113cc3f",
+        "reason": (
+            "TNM catalog sizeInBytes misdeclares the immutable staged object; "
+            "the S3 object's own Content-Length matches the measured bytes"
+        ),
+    },
+    "n42w086": {
+        "declared_size_bytes": 430468098,
+        "measured_byte_count": 429895986,
+        "sha256": "f2e8fb009073aeefafd7d181053473b2397d63c4a46f8d839d3a264b3cf7bc97",
+        "reason": (
+            "TNM catalog sizeInBytes misdeclares the immutable staged object; "
+            "the S3 object's own Content-Length matches the measured bytes"
+        ),
+    },
+    "n42w087": {
+        "declared_size_bytes": 400229668,
+        "measured_byte_count": 399510396,
+        "sha256": "cec8c921bfc9ddd2c39a27359bb30386ea787bbf2f292423716dea6a4ffd7434",
+        "reason": (
+            "TNM catalog sizeInBytes misdeclares the immutable staged object; "
+            "the S3 object's own Content-Length matches the measured bytes"
+        ),
+    },
+}
+
+CORRIDOR_ELEVATION_SOURCE_POLICY = {
+    "elevation_source": DEM_SOURCE_ID,
+    "baseline_decision": "ADR-0007",
+    "one_meter_upgrade": "remains gated per ADR-0007 and is not locked here",
+    "opportunistic_lookup_allowed": False,
+    "silent_resolution_fallback_allowed": False,
+    "continental_downloads_committed": False,
+    "profile_smoothing_applied": False,
+    "authoritative_distance_claimed": False,
+}
+
+CORRIDOR_ELEVATION_NEXT_STAGE = {
+    "id": "reconstruction-geometry",
+    "requires": [
+        "reciprocal directed westbound carriageway reconstruction under ADR-0014",
+        "full ADR-0018 gate battery, including the gates deferred at the two "
+        "overlay sites and the recorded Quad Cities 77.2 degree corner constraint",
+        "ADR-0017 vertical profile conditioning and grade policy at package build",
+        "authored endpoint connector geometry for the three non-NHPN segments",
+    ],
+}
+
+
+def _elevation_station_offsets(
+    total_geodesic_m: float, interval_m: float
+) -> list[float]:
+    """Station offsets over one directed segment's geodesic stationing.
+
+    Every whole interval from the from-anchor node, plus the terminal station
+    at the segment's locked (millimetre-rounded) geodesic length when it does
+    not fall on the grid.
+    """
+    if total_geodesic_m <= 0 or interval_m <= 0:
+        raise ValueError("Station offsets need positive lengths.")
+    count = int(math.floor(total_geodesic_m / interval_m))
+    offsets = [round(index * interval_m, 3) for index in range(count + 1)]
+    terminal = round(total_geodesic_m, 3)
+    if offsets[-1] < terminal:
+        offsets.append(terminal)
+    return offsets
+
+
+def _segment_station_coordinates(
+    elements: Sequence[dict[str, Any]],
+    geometries: Sequence[LineString],
+    offsets: Sequence[float],
+    inverse: Transformer,
+) -> list[tuple[float, float]]:
+    """EPSG:4326 coordinates of one segment's stations on its directed walk.
+
+    A station's containing element is found on the locked cumulative geodesic
+    stationing; its position interpolates planimetrically within that element
+    at the station's geodesic fraction. The two axes agree within the recorded
+    one percent bound, so the longitudinal placement error within a single
+    element is bounded by that ratio times the element length.
+    """
+    if len(elements) != len(geometries):
+        raise ValueError("Element and geometry sequences must align.")
+    coordinates: list[tuple[float, float]] = []
+    index = 0
+    for offset in offsets:
+        while (
+            index < len(elements) - 1
+            and offset > elements[index]["cumulative_geodesic_m"]
+        ):
+            index += 1
+        cumulative_end = elements[index]["cumulative_geodesic_m"]
+        length = float(elements[index]["geodesic_length_m"])
+        local = offset - (cumulative_end - length)
+        fraction = 0.0 if length <= 0 else min(max(local / length, 0.0), 1.0)
+        geometry = geometries[index]
+        point = geometry.interpolate(fraction * geometry.length)
+        coordinates.append(inverse.transform(point.x, point.y))
+    return coordinates
+
+
+def _elevation_station_cell(
+    longitude: float, latitude: float, locked_cells: frozenset[str]
+) -> str:
+    """The locked corridor cell whose tile samples one station."""
+    candidates: list[str] = []
+    for west in {math.floor(longitude), math.floor(longitude - ELEVATION_CELL_EDGE_EPSILON_DEG),
+                 math.floor(longitude + ELEVATION_CELL_EDGE_EPSILON_DEG)}:
+        for south in {math.floor(latitude), math.floor(latitude - ELEVATION_CELL_EDGE_EPSILON_DEG),
+                      math.floor(latitude + ELEVATION_CELL_EDGE_EPSILON_DEG)}:
+            try:
+                cell_id = _dem_cell_id((west, south))
+            except ValueError:
+                continue
+            if cell_id in locked_cells:
+                candidates.append(cell_id)
+    primary = f"n{math.floor(latitude) + 1:02d}w{-math.floor(longitude):03d}"
+    if primary in candidates:
+        return primary
+    if candidates:
+        return sorted(set(candidates))[0]
+    raise ValueError(
+        json.dumps(
+            {
+                "refusal": "station falls outside the locked corridor cells",
+                "longitude": round(longitude, 9),
+                "latitude": round(latitude, 9),
+            },
+            sort_keys=True,
+        )
+    )
+
+
+def _elevation_profile_statistics(
+    offsets: Sequence[float],
+    elevations: Sequence[float],
+    interval_m: float,
+    window_m: float,
+) -> dict[str, Any]:
+    """Deterministic profile statistics over one segment's committed stations.
+
+    Operates entirely on the millimetre-rounded station offsets and the
+    centimetre-rounded committed elevations, so the cache-independent validator
+    recomputes bit-identical figures. Extremes and steepest grades resolve ties
+    to the first (lowest-station) occurrence.
+    """
+    if len(offsets) != len(elevations) or len(offsets) < 2:
+        raise ValueError("Profile statistics need at least two matched stations.")
+    min_index = 0
+    max_index = 0
+    climb = 0.0
+    descent = 0.0
+    steepest: tuple[float, float, float] | None = None
+    for index in range(len(elevations)):
+        if elevations[index] < elevations[min_index]:
+            min_index = index
+        if elevations[index] > elevations[max_index]:
+            max_index = index
+        if index == 0:
+            continue
+        run = offsets[index] - offsets[index - 1]
+        if run <= 0:
+            raise ValueError("Station offsets must strictly increase.")
+        delta = elevations[index] - elevations[index - 1]
+        if delta >= 0:
+            climb += delta
+        else:
+            descent -= delta
+        # The terminal leg can be arbitrarily short (a millimetre-rounded
+        # segment length modulo the interval), where centimetre-rounded
+        # elevations would quantise into a meaningless grade; grades are
+        # therefore measured over whole-interval legs only.
+        if abs(run - interval_m) > 1e-6:
+            continue
+        grade = delta / run
+        if steepest is None or abs(grade) > steepest[0]:
+            steepest = (abs(grade), offsets[index - 1], grade)
+    window_steps = int(round(window_m / interval_m))
+    sustained: tuple[float, float, float] | None = None
+    for start in range(len(elevations) - window_steps):
+        run = offsets[start + window_steps] - offsets[start]
+        if abs(run - window_m) > 1e-6:
+            continue
+        grade = (elevations[start + window_steps] - elevations[start]) / run
+        if sustained is None or abs(grade) > sustained[0]:
+            sustained = (abs(grade), offsets[start], grade)
+    return {
+        "min_elevation": {
+            "elevation_m": elevations[min_index],
+            "station_m": offsets[min_index],
+        },
+        "max_elevation": {
+            "elevation_m": elevations[max_index],
+            "station_m": offsets[max_index],
+        },
+        "total_climb_m": round(climb, 2),
+        "total_descent_m": round(descent, 2),
+        "max_interval_grade": (
+            None
+            if steepest is None
+            else {
+                "grade_percent": round(steepest[2] * 100.0, 3),
+                "from_station_m": steepest[1],
+            }
+        ),
+        "max_sustained_grade": (
+            None
+            if sustained is None
+            else {
+                "grade_percent": round(sustained[2] * 100.0, 3),
+                "from_station_m": sustained[1],
+                "window_m": window_m,
+            }
+        ),
+    }
+
+
+def _elevation_path_records(
+    directed_paths: Sequence[dict[str, Any]],
+    segments_payload: Sequence[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """Per-ADR-0024-path elevation composition from the per-segment statistics.
+
+    Stationing is per segment and junction gaps are excluded from it, so no
+    grade window spans a junction; the composition of per-segment statistics is
+    therefore exact, not an approximation.
+    """
+    segment_by_id = {segment["segment_id"]: segment for segment in segments_payload}
+    records: list[dict[str, Any]] = []
+    for path in directed_paths:
+        highest: dict[str, Any] | None = None
+        lowest: dict[str, Any] | None = None
+        sustained: dict[str, Any] | None = None
+        interval_extreme: dict[str, Any] | None = None
+        climb = 0.0
+        descent = 0.0
+        station_count = 0
+        for segment_id in path["locked_segment_ids"]:
+            segment = segment_by_id[segment_id]
+            statistics = segment["statistics"]
+            top = statistics["max_elevation"]
+            if highest is None or top["elevation_m"] > highest["elevation_m"]:
+                highest = {"segment_id": segment_id, **top}
+            bottom = statistics["min_elevation"]
+            if lowest is None or bottom["elevation_m"] < lowest["elevation_m"]:
+                lowest = {"segment_id": segment_id, **bottom}
+            candidate = statistics["max_sustained_grade"]
+            if candidate is not None and (
+                sustained is None
+                or abs(candidate["grade_percent"]) > abs(sustained["grade_percent"])
+            ):
+                sustained = {"segment_id": segment_id, **candidate}
+            interval_candidate = statistics["max_interval_grade"]
+            if interval_candidate is not None and (
+                interval_extreme is None
+                or abs(interval_candidate["grade_percent"])
+                > abs(interval_extreme["grade_percent"])
+            ):
+                interval_extreme = {"segment_id": segment_id, **interval_candidate}
+            climb += statistics["total_climb_m"]
+            descent += statistics["total_descent_m"]
+            station_count += segment["station_count"]
+        records.append(
+            {
+                "path_id": path["path_id"],
+                "role": path["role"],
+                "locked_segment_ids": list(path["locked_segment_ids"]),
+                "total_geodesic_m": path["total_geodesic_m"],
+                "total_geodesic_miles": path["total_geodesic_miles"],
+                "station_count": station_count,
+                "highest_point": highest,
+                "lowest_point": lowest,
+                "total_climb_m": round(climb, 2),
+                "total_descent_m": round(descent, 2),
+                "max_sustained_grade": sustained,
+                "max_interval_grade": interval_extreme,
+            }
+        )
+    return records
+
+
+def _elevation_summary(
+    segments_payload: Sequence[dict[str, Any]],
+    tiles: Sequence[dict[str, Any]],
+) -> dict[str, Any]:
+    """Corridor-wide elevation summary across all locked segments."""
+    highest: dict[str, Any] | None = None
+    lowest: dict[str, Any] | None = None
+    sustained: dict[str, Any] | None = None
+    station_count = 0
+    for segment in segments_payload:
+        statistics = segment["statistics"]
+        top = statistics["max_elevation"]
+        if highest is None or top["elevation_m"] > highest["elevation_m"]:
+            highest = {"segment_id": segment["segment_id"], **top}
+        bottom = statistics["min_elevation"]
+        if lowest is None or bottom["elevation_m"] < lowest["elevation_m"]:
+            lowest = {"segment_id": segment["segment_id"], **bottom}
+        candidate = statistics["max_sustained_grade"]
+        if candidate is not None and (
+            sustained is None
+            or abs(candidate["grade_percent"]) > abs(sustained["grade_percent"])
+        ):
+            sustained = {"segment_id": segment["segment_id"], **candidate}
+        station_count += segment["station_count"]
+    return {
+        "segment_count": len(segments_payload),
+        "station_count": station_count,
+        "tile_count": len(tiles),
+        "total_tile_bytes": sum(tile["byte_count"] for tile in tiles),
+        "tile_station_count": sum(tile["station_count"] for tile in tiles),
+        "highest_point": highest,
+        "lowest_point": lowest,
+        "max_sustained_grade": sustained,
+        "nodata_station_count": 0,
+    }
+
+
+def _check_elevation_raster_facts(raster: dict[str, Any], cell_id: str) -> None:
+    """The raster facts every verified tile must state (sample-tile precedent)."""
+    west, south, east, north = _dem_cell_bounds(cell_id)
+    pixels = raster.get("pixel_degrees", [])
+    if (
+        raster.get("crs") != f"EPSG:{DEM_EXPECTED_RASTER_EPSG}"
+        or raster.get("band_count") != 1
+        or raster.get("dtype") != "float32"
+        or raster.get("nodata") != DEM_EXPECTED_NODATA
+        or len(pixels) != 2
+        or any(
+            abs(pixel - DEM_PIXEL_DEGREES) / DEM_PIXEL_DEGREES
+            > DEM_PIXEL_RELATIVE_TOLERANCE
+            for pixel in pixels
+        )
+    ):
+        raise ValueError(
+            f"Verified tile for cell '{cell_id}' does not match the locked "
+            "product facts."
+        )
+    bounds = raster.get("bounds", [])
+    if len(bounds) != 4 or not (
+        bounds[0] <= west + 1e-6
+        and bounds[1] <= south + 1e-6
+        and bounds[2] >= east - 1e-6
+        and bounds[3] >= north - 1e-6
+    ):
+        raise ValueError(
+            f"Verified tile for cell '{cell_id}' does not cover its cell."
+        )
+
+
+def acquire_continental_corridor_elevation(
+    dem_lock_path: Path,
+    directed_lock_path: Path,
+    selection_path: Path,
+    route_lock_path: Path,
+    transfer_lock_path: Path,
+    policy_path: Path,
+    edge_path_lock_path: Path,
+    fill_lock_path: Path,
+    disposition_path: Path,
+    overlay_lock_path: Path,
+    conflation_lock_path: Path,
+    catalog_path: Path,
+    cache_directory: Path,
+    dem_cache_directory: Path,
+    output_path: Path,
+    *,
+    transport: DemTransport | None = None,
+    acquired_at: str | None = None,
+    release_tiles: bool = False,
+) -> dict[str, Any]:
+    """Acquire and verify every locked 3DEP tile and lock the corridor profile.
+
+    Verification per tile: the download URL must be the locked product URL
+    inside the catalog allowlist, the byte count must equal the discovery
+    declaration, the SHA-256 must equal the product lock's pinned hash where it
+    pins one (the three sample tiles) and is recorded as the first-acquisition
+    pin otherwise, and the raster must state the locked CRS, cell size, band
+    layout, nodata, and cell coverage. Tiles are checkpointed and resumable;
+    with ``release_tiles`` each raster is deleted after verification and
+    station extraction, so the cache retains hashes and elevations rather than
+    51.68 GB of rasters. The directed walk is re-derived and refused unless it
+    reproduces the committed directed route lock exactly.
+    """
+    dem_lock = validate_continental_3dep_products(
+        dem_lock_path,
+        selection_path,
+        route_lock_path,
+        transfer_lock_path,
+        policy_path,
+        edge_path_lock_path,
+        fill_lock_path,
+        overlay_lock_path,
+        catalog_path,
+    )
+    directed_lock = validate_continental_directed_route_lock(
+        directed_lock_path,
+        selection_path,
+        route_lock_path,
+        transfer_lock_path,
+        policy_path,
+        edge_path_lock_path,
+        fill_lock_path,
+        disposition_path,
+        overlay_lock_path,
+        conflation_lock_path,
+        catalog_path,
+    )
+    catalog = load_catalog(catalog_path)
+    source = catalog[DEM_SOURCE_ID]
+    selection = load_json(selection_path)
+    route_lock = validate_continental_route_lock(
+        route_lock_path, catalog_path, selection_path
+    )
+    transfer_lock = validate_continental_transfer_lock(
+        transfer_lock_path, policy_path, selection_path, route_lock_path, catalog_path
+    )
+    edge_lock = validate_continental_edge_path_lock(
+        edge_path_lock_path,
+        transfer_lock_path,
+        policy_path,
+        selection_path,
+        route_lock_path,
+        catalog_path,
+    )
+    fill_lock = validate_continental_nhs_fill_lock(
+        fill_lock_path,
+        selection_path,
+        route_lock_path,
+        transfer_lock_path,
+        policy_path,
+        edge_path_lock_path,
+        catalog_path,
+    )
+    overlay_lock = validate_continental_reconstruction_overlays(
+        overlay_lock_path,
+        disposition_path,
+        selection_path,
+        route_lock_path,
+        transfer_lock_path,
+        policy_path,
+        edge_path_lock_path,
+        fill_lock_path,
+        catalog_path,
+    )
+    conflation_lock = validate_continental_nhs_conflation(
+        conflation_lock_path,
+        fill_lock_path,
+        selection_path,
+        route_lock_path,
+        transfer_lock_path,
+        policy_path,
+        edge_path_lock_path,
+        catalog_path,
+    )
+    if transport is None:
+        transport = UrllibDemTransport()
+    timestamp = acquired_at or datetime.now(UTC).replace(
+        microsecond=0
+    ).isoformat().replace("+00:00", "Z")
+    forward = Transformer.from_crs("EPSG:4326", "EPSG:5070", always_xy=True)
+    inverse = Transformer.from_crs("EPSG:5070", "EPSG:4326", always_xy=True)
+    cache_root = (
+        cache_directory / route_lock["nhpn"]["service"]["canonical_metadata_sha256"]
+    )
+    tolerance = float(edge_lock["endpoint_snap_tolerance_m"])
+    anchor_limit = float(edge_lock["anchor_snap_limit_m"])
+    transfer_by_id = {node["id"]: node for node in transfer_lock["transfer_nodes"]}
+    edge_by_id = {entry["segment_id"]: entry for entry in edge_lock["segments"]}
+    chain_by_id = {
+        entry["segment_id"]: entry
+        for entry in overlay_lock["chain_connectivity"]["segments"]
+    }
+    conflation_site_by_id = {
+        site["site_id"]: site for site in conflation_lock["sites"]
+    }
+    fills_by_segment: dict[str, list[dict[str, Any]]] = {}
+    for site in fill_lock["sites"]:
+        fills_by_segment.setdefault(site["segment_id"], []).append(site)
+    overlays_by_segment: dict[str, list[dict[str, Any]]] = {}
+    for overlay in overlay_lock["overlays"]:
+        overlays_by_segment.setdefault(overlay["segment_id"], []).append(
+            {
+                "site_id": overlay["site_id"],
+                "overlay_id": overlay["overlay_id"],
+                "from_coordinate": overlay["boundary"]["from_coordinate"],
+                "to_coordinate": overlay["boundary"]["to_coordinate"],
+                "separation_m": overlay["boundary"]["length_m"],
+                "geometry": overlay["geometry"],
+            }
+        )
+    snapshot_ids = {
+        snapshot["segment_id"]
+        for snapshot in route_lock["nhpn"]["segment_snapshots"]
+    }
+    locked_record_by_id = {
+        record["segment_id"]: record for record in directed_lock["segments"]
+    }
+    locked_cells = frozenset(dem_lock["corridor"]["cells"])
+
+    segment_profiles: list[dict[str, Any]] = []
+    stations_by_cell: dict[str, list[tuple[int, int]]] = {}
+    for segment in selection["segments"]:
+        if segment["id"] not in snapshot_ids:
+            continue
+        lines = _segment_locked_lines(route_lock, segment["id"], cache_root)
+        geometries: list[LineString] = []
+        record = _derive_directed_segment(
+            segment,
+            edge_by_id[segment["id"]],
+            chain_by_id.get(segment["id"]),
+            lines,
+            fills_by_segment.get(segment["id"], []),
+            overlays_by_segment.get(segment["id"], []),
+            conflation_site_by_id,
+            forward.transform(
+                transfer_by_id[segment["from"]]["coordinate"]["longitude"],
+                transfer_by_id[segment["from"]]["coordinate"]["latitude"],
+            ),
+            forward.transform(
+                transfer_by_id[segment["to"]]["coordinate"]["longitude"],
+                transfer_by_id[segment["to"]]["coordinate"]["latitude"],
+            ),
+            tolerance,
+            anchor_limit,
+            forward,
+            inverse,
+            geometry_sink=geometries,
+        )
+        locked_record = locked_record_by_id[segment["id"]]
+        if canonical_sha256(record) != canonical_sha256(locked_record):
+            raise ValueError(
+                f"Directed walk for '{segment['id']}' does not reproduce the "
+                "committed directed route lock; refusing to sample elevation "
+                "for a different route."
+            )
+        offsets = _elevation_station_offsets(
+            record["geodesic_length_m"], ELEVATION_STATION_INTERVAL_M
+        )
+        coordinates = _segment_station_coordinates(
+            record["elements"], geometries, offsets, inverse
+        )
+        segment_index = len(segment_profiles)
+        for station_index, (longitude, latitude) in enumerate(coordinates):
+            cell_id = _elevation_station_cell(longitude, latitude, locked_cells)
+            stations_by_cell.setdefault(cell_id, []).append(
+                (segment_index, station_index)
+            )
+        segment_profiles.append(
+            {
+                "segment_id": segment["id"],
+                "geodesic_length_m": record["geodesic_length_m"],
+                "offsets": offsets,
+                "coordinates": coordinates,
+                "elevations": [None] * len(offsets),
+            }
+        )
+
+    tiles_root = dem_cache_directory / "tiles"
+    elevation_root = dem_cache_directory / "elevation"
+    sample_sha_by_cell = {
+        sample["cell_id"]: sample["sha256"]
+        for sample in dem_lock["sample_verification"]["samples"]
+    }
+    product_by_cell = {product["cell_id"]: product for product in dem_lock["products"]}
+    tiles: list[dict[str, Any]] = []
+    anomalies: list[dict[str, Any]] = []
+    resumed_tiles = 0
+    reused_extractions = 0
+    downloaded_bytes = 0
+    for cell_id in dem_lock["corridor"]["cells"]:
+        product = product_by_cell[cell_id]["product"]
+        url = product["download_url"]
+        if not any(
+            url_matches_prefix(url, prefix) for prefix in source.allowed_url_prefixes
+        ):
+            raise ValueError(
+                f"Locked product URL for cell '{cell_id}' is outside the catalog "
+                "allowlist."
+            )
+        filename = url.rsplit("/", 1)[-1]
+        destination = tiles_root / filename
+        checkpoint_path = tiles_root / f"{filename}.json"
+        request_sha256 = canonical_sha256({"url": url})
+        record = _dem_checkpoint_reuse(checkpoint_path, request_sha256)
+        cell_stations = sorted(stations_by_cell.get(cell_id, []))
+        station_points = [
+            [
+                round(segment_profiles[segment_index]["coordinates"][station_index][0], 9),
+                round(segment_profiles[segment_index]["coordinates"][station_index][1], 9),
+            ]
+            for segment_index, station_index in cell_stations
+        ]
+
+        extraction_scope = {
+            "cell_id": cell_id,
+            "url": url,
+            "stations": station_points,
+            "sampler": ELEVATION_SAMPLER_MODEL,
+        }
+        extraction_path = elevation_root / f"{cell_id}.json"
+        tile_on_disk = destination.is_file()
+        if (
+            record is not None
+            and tile_on_disk
+            and compute_sha256(destination) == record["sha256"]
+        ):
+            resumed_tiles += 1
+        elif (
+            record is not None
+            and not tile_on_disk
+            and isinstance(record.get("raster"), dict)
+            and _dem_checkpoint_reuse(
+                extraction_path,
+                canonical_sha256(
+                    {**extraction_scope, "tile_sha256": record["sha256"]}
+                ),
+            )
+            is not None
+        ):
+            # The tile was verified, sampled, and released; the checkpoint
+            # carries its hash, raster facts, and extraction evidence.
+            resumed_tiles += 1
+        else:
+            fetched = transport.fetch(url, destination)
+            if fetched.status != 200:
+                raise ValueError(
+                    f"3DEP tile download failed for cell '{cell_id}' with status "
+                    f"{fetched.status}."
+                )
+            record = {
+                "request_sha256": request_sha256,
+                "url": url,
+                "sha256": fetched.sha256,
+                "byte_count": fetched.byte_count,
+                "response": {
+                    "status": fetched.status,
+                    "content_type": fetched.content_type,
+                    "etag": fetched.etag,
+                    "last_modified": fetched.last_modified,
+                },
+                "acquired_at": timestamp,
+            }
+            downloaded_bytes += fetched.byte_count
+            tile_on_disk = True
+        if "acquired_at" not in record:
+            # A checkpoint written by the product-lock sample stage predates
+            # this field; pin the first acquisition timestamp this stage saw.
+            record["acquired_at"] = timestamp
+        size_exception = None
+        if record["byte_count"] != product["size_bytes"]:
+            size_exception = ELEVATION_DECLARED_SIZE_EXCEPTIONS.get(cell_id)
+            if (
+                size_exception is None
+                or product["size_bytes"] != size_exception["declared_size_bytes"]
+                or record["byte_count"] != size_exception["measured_byte_count"]
+                or record["sha256"] != size_exception["sha256"]
+            ):
+                raise ValueError(
+                    f"3DEP tile for cell '{cell_id}' carries "
+                    f"{record['byte_count']} bytes where discovery declared "
+                    f"{product['size_bytes']}, and no characterised declaration "
+                    "exception pins this exact artifact."
+                )
+        locked_sample_sha256 = sample_sha_by_cell.get(cell_id)
+        if (
+            locked_sample_sha256 is not None
+            and record["sha256"] != locked_sample_sha256
+        ):
+            raise ValueError(
+                f"3DEP tile for cell '{cell_id}' hash {record['sha256']} does not "
+                "match the product lock's pinned sample hash."
+            )
+        if tile_on_disk:
+            record["raster"] = _inspect_dem_raster(destination, cell_id)
+        raster = record["raster"]
+        _check_elevation_raster_facts(raster, cell_id)
+        _write_dem_checkpoint(checkpoint_path, record)
+
+        extraction_request = canonical_sha256(
+            {**extraction_scope, "tile_sha256": record["sha256"]}
+        )
+        extraction = _dem_checkpoint_reuse(extraction_path, extraction_request)
+        if extraction is None:
+            # Imported here like rasterio in _inspect_dem_raster: raster tooling
+            # loads only when a tile actually needs sampling.
+            from cannonball_map.elevation import ElevationMetadata, ElevationSampler
+
+            metadata = ElevationMetadata(
+                product_id=product["source_id"],
+                product_title=product["title"],
+                product_resolution=DEM_EXPECTED_RESOLUTION,
+                raster_crs=f"EPSG:{DEM_EXPECTED_RASTER_EPSG}",
+                horizontal_datum=DEM_EXPECTED_HORIZONTAL_DATUM,
+                vertical_datum=DEM_EXPECTED_VERTICAL_DATUM,
+                elevation_units=DEM_EXPECTED_ELEVATION_UNITS,
+                artifact_sha256=record["sha256"],
+            )
+            values: list[float | None] = []
+            with ElevationSampler(destination, metadata, "EPSG:4326") as sampler:
+                for point in station_points:
+                    try:
+                        values.append(
+                            round(
+                                sampler.sample(point[0], point[1]),
+                                ELEVATION_VALUE_DECIMALS,
+                            )
+                        )
+                    except ValueError as error:
+                        values.append(None)
+                        anomalies.append(
+                            {
+                                "cell_id": cell_id,
+                                "longitude": point[0],
+                                "latitude": point[1],
+                                "error": str(error),
+                            }
+                        )
+            extraction = {
+                "request_sha256": extraction_request,
+                "cell_id": cell_id,
+                "tile_sha256": record["sha256"],
+                "station_count": len(values),
+                "elevations_m": values,
+            }
+            _write_dem_checkpoint(extraction_path, extraction)
+        else:
+            reused_extractions += 1
+        for (segment_index, station_index), value in zip(
+            cell_stations, extraction["elevations_m"], strict=True
+        ):
+            segment_profiles[segment_index]["elevations"][station_index] = value
+        if release_tiles and destination.is_file():
+            destination.unlink()
+        tile_record = {
+            "cell_id": cell_id,
+            "url": url,
+            "publication_date": product["publication_date"],
+            "sha256": record["sha256"],
+            "byte_count": record["byte_count"],
+            "acquired_at": record["acquired_at"],
+            "response": record["response"],
+            "raster": raster,
+            "station_count": len(cell_stations),
+            "sha256_pinned_by_product_lock": locked_sample_sha256 is not None,
+        }
+        if size_exception is not None:
+            tile_record["declared_size_exception"] = dict(size_exception)
+        tiles.append(tile_record)
+
+    if anomalies:
+        raise ValueError(
+            json.dumps(
+                {
+                    "refusal": "elevation stations intersect nodata or fall "
+                    "outside their raster",
+                    "anomaly_count": len(anomalies),
+                    "first_anomalies": anomalies[:20],
+                },
+                sort_keys=True,
+            )
+        )
+
+    segments_payload: list[dict[str, Any]] = []
+    for profile in segment_profiles:
+        elevations = profile["elevations"]
+        if any(value is None for value in elevations):
+            raise AssertionError("Unextracted station survived the tile loop.")
+        statistics = _elevation_profile_statistics(
+            profile["offsets"],
+            elevations,
+            ELEVATION_STATION_INTERVAL_M,
+            ELEVATION_SUSTAINED_WINDOW_M,
+        )
+        segments_payload.append(
+            {
+                "segment_id": profile["segment_id"],
+                "geodesic_length_m": profile["geodesic_length_m"],
+                "station_interval_m": ELEVATION_STATION_INTERVAL_M,
+                "station_count": len(elevations),
+                "terminal_station_m": profile["offsets"][-1],
+                "elevations_m": elevations,
+                "statistics": statistics,
+            }
+        )
+    paths_payload = _elevation_path_records(directed_lock["paths"], segments_payload)
+    summary = _elevation_summary(segments_payload, tiles)
+
+    payload = {
+        "schema_version": 1,
+        "status": CORRIDOR_ELEVATION_STATUS,
+        "decision": "ADR-0007",
+        "route_decision": selection["decision"],
+        "carriageway_decision": "ADR-0014",
+        "acquired_at": timestamp,
+        "coordinate_crs": "EPSG:4326",
+        "metric_crs": "EPSG:5070",
+        "catalog_sha256": compute_sha256(catalog_path),
+        "route_selection_sha256": compute_sha256(selection_path),
+        "candidate_lock_sha256": compute_sha256(route_lock_path),
+        "transfer_lock_sha256": compute_sha256(transfer_lock_path),
+        "edge_path_lock_sha256": compute_sha256(edge_path_lock_path),
+        "nhs_fill_lock_sha256": compute_sha256(fill_lock_path),
+        "break_disposition_sha256": compute_sha256(disposition_path),
+        "reconstruction_overlay_lock_sha256": compute_sha256(overlay_lock_path),
+        "nhs_conflation_lock_sha256": compute_sha256(conflation_lock_path),
+        "dem_product_lock_sha256": compute_sha256(dem_lock_path),
+        "directed_route_lock_sha256": compute_sha256(directed_lock_path),
+        "source": dict(dem_lock["source"]),
+        "product_family": dict(dem_lock["product_family"]),
+        "model": {
+            "station_interval_m": ELEVATION_STATION_INTERVAL_M,
+            "sustained_grade_window_m": ELEVATION_SUSTAINED_WINDOW_M,
+            "elevation_decimals": ELEVATION_VALUE_DECIMALS,
+            "sampler": dict(ELEVATION_SAMPLER_MODEL),
+            "stationing_note": (
+                "Stations lie on each directed segment's geodesic stationing - "
+                "every interval from the from-anchor node plus the terminal "
+                "station; positions interpolate planimetrically within the "
+                "containing element at the station's geodesic fraction, and "
+                "junction gaps carry no stations."
+            ),
+            "smoothing_note": (
+                "No smoothing or conditioning is applied: this is the raw "
+                "1/3 arc-second baseline profile at the stated stations. "
+                "ADR-0017 grade smoothing remains a package-build policy, and "
+                "single-interval grade extremes can reflect structures the "
+                "surface model captured rather than road surface (2026-08-16 "
+                "survey-departure decomposition)."
+            ),
+            "grade_note": (
+                "Grades are station-to-station differences of the committed "
+                "elevations over the geodesic station axis, measured on "
+                "whole-interval legs and windows only: the terminal leg can be "
+                "arbitrarily short, where centimetre-rounded elevations "
+                "quantise into meaningless grades."
+            ),
+        },
+        "source_policy": dict(CORRIDOR_ELEVATION_SOURCE_POLICY),
+        "tile_retention": (
+            "released_after_verification" if release_tiles else "cached"
+        ),
+        "resumed_tile_count": resumed_tiles,
+        "reused_extraction_count": reused_extractions,
+        "downloaded_byte_count": downloaded_bytes,
+        "tile_count": len(tiles),
+        "tiles": tiles,
+        "tiles_sha256": canonical_sha256(tiles),
+        "segment_count": len(segments_payload),
+        "segments": segments_payload,
+        "profile_sha256": canonical_sha256(segments_payload),
+        "paths": paths_payload,
+        "paths_sha256": canonical_sha256(paths_payload),
+        "summary": summary,
+        "next_stage": CORRIDOR_ELEVATION_NEXT_STAGE,
+    }
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(
+        json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
+    return payload
+
+
+def validate_continental_corridor_elevation(
+    elevation_lock_path: Path,
+    dem_lock_path: Path,
+    directed_lock_path: Path,
+    selection_path: Path,
+    route_lock_path: Path,
+    transfer_lock_path: Path,
+    policy_path: Path,
+    edge_path_lock_path: Path,
+    fill_lock_path: Path,
+    disposition_path: Path,
+    overlay_lock_path: Path,
+    conflation_lock_path: Path,
+    catalog_path: Path,
+) -> dict[str, Any]:
+    """Validate the corridor elevation lock without caches, rasters, or network.
+
+    Everything recomputable from committed artifacts is recomputed: every tile
+    against the product lock's declarations (URL, byte count, pinned sample
+    hashes, raster facts), every station count against the directed lock's
+    stationing, every statistic from the committed elevations through the same
+    helpers the acquisition used, and the path and summary compositions. The
+    model constants are held to the module's values so a widened interval or
+    window cannot validate itself.
+    """
+    payload = load_json(elevation_lock_path)
+    if payload.get("schema_version") != 1:
+        raise ValueError("Corridor elevation lock schema_version must be 1.")
+    if payload.get("status") != CORRIDOR_ELEVATION_STATUS:
+        raise ValueError("Corridor elevation lock has an unsupported status.")
+    if payload.get("decision") != "ADR-0007":
+        raise ValueError("Corridor elevation lock does not cite ADR-0007.")
+    dem_lock = validate_continental_3dep_products(
+        dem_lock_path,
+        selection_path,
+        route_lock_path,
+        transfer_lock_path,
+        policy_path,
+        edge_path_lock_path,
+        fill_lock_path,
+        overlay_lock_path,
+        catalog_path,
+    )
+    directed_lock = validate_continental_directed_route_lock(
+        directed_lock_path,
+        selection_path,
+        route_lock_path,
+        transfer_lock_path,
+        policy_path,
+        edge_path_lock_path,
+        fill_lock_path,
+        disposition_path,
+        overlay_lock_path,
+        conflation_lock_path,
+        catalog_path,
+    )
+    selection = load_json(selection_path)
+    if payload.get("route_decision") != selection.get("decision"):
+        raise ValueError(
+            "Corridor elevation lock decision does not match the selection."
+        )
+    expected_hashes = {
+        "catalog_sha256": compute_sha256(catalog_path),
+        "route_selection_sha256": compute_sha256(selection_path),
+        "candidate_lock_sha256": compute_sha256(route_lock_path),
+        "transfer_lock_sha256": compute_sha256(transfer_lock_path),
+        "edge_path_lock_sha256": compute_sha256(edge_path_lock_path),
+        "nhs_fill_lock_sha256": compute_sha256(fill_lock_path),
+        "break_disposition_sha256": compute_sha256(disposition_path),
+        "reconstruction_overlay_lock_sha256": compute_sha256(overlay_lock_path),
+        "nhs_conflation_lock_sha256": compute_sha256(conflation_lock_path),
+        "dem_product_lock_sha256": compute_sha256(dem_lock_path),
+        "directed_route_lock_sha256": compute_sha256(directed_lock_path),
+    }
+    if any(payload.get(key) != value for key, value in expected_hashes.items()):
+        raise ValueError("Corridor elevation lock input hash drifted.")
+    if payload.get("source") != dem_lock["source"]:
+        raise ValueError("Corridor elevation lock source drifted from the product lock.")
+    if payload.get("product_family") != dem_lock["product_family"]:
+        raise ValueError(
+            "Corridor elevation lock product family drifted from the product lock."
+        )
+    model = payload.get("model", {})
+    if (
+        model.get("station_interval_m") != ELEVATION_STATION_INTERVAL_M
+        or model.get("sustained_grade_window_m") != ELEVATION_SUSTAINED_WINDOW_M
+        or model.get("elevation_decimals") != ELEVATION_VALUE_DECIMALS
+        or model.get("sampler") != ELEVATION_SAMPLER_MODEL
+    ):
+        raise ValueError("Corridor elevation lock model constants drifted.")
+    if payload.get("source_policy") != CORRIDOR_ELEVATION_SOURCE_POLICY:
+        raise ValueError("Corridor elevation lock source policy drifted.")
+    if payload.get("tile_retention") not in ("cached", "released_after_verification"):
+        raise ValueError("Corridor elevation lock tile retention is unstated.")
+
+    tiles = payload.get("tiles", [])
+    cells = dem_lock["corridor"]["cells"]
+    if payload.get("tile_count") != len(tiles) or [
+        tile.get("cell_id") for tile in tiles
+    ] != cells:
+        raise ValueError(
+            "Corridor elevation lock does not verify exactly the locked corridor "
+            "cells in order."
+        )
+    sample_sha_by_cell = {
+        sample["cell_id"]: sample["sha256"]
+        for sample in dem_lock["sample_verification"]["samples"]
+    }
+    product_by_cell = {product["cell_id"]: product for product in dem_lock["products"]}
+    for tile in tiles:
+        cell_id = tile["cell_id"]
+        product = product_by_cell[cell_id]["product"]
+        if tile.get("url") != product["download_url"]:
+            raise ValueError(
+                f"Verified tile for cell '{cell_id}' is not the locked URL."
+            )
+        if tile.get("publication_date") != product["publication_date"]:
+            raise ValueError(
+                f"Verified tile for cell '{cell_id}' publication date drifted."
+            )
+        size_exception = ELEVATION_DECLARED_SIZE_EXCEPTIONS.get(cell_id)
+        if tile.get("byte_count") != product["size_bytes"]:
+            if (
+                size_exception is None
+                or tile.get("declared_size_exception") != size_exception
+                or product["size_bytes"] != size_exception["declared_size_bytes"]
+                or tile.get("byte_count") != size_exception["measured_byte_count"]
+                or tile.get("sha256") != size_exception["sha256"]
+            ):
+                raise ValueError(
+                    f"Verified tile for cell '{cell_id}' byte count does not "
+                    "match discovery and no characterised declaration exception "
+                    "pins it."
+                )
+        elif tile.get("declared_size_exception") is not None:
+            raise ValueError(
+                f"Verified tile for cell '{cell_id}' claims a declaration "
+                "exception it does not need."
+            )
+        if not SHA256_PATTERN.fullmatch(str(tile.get("sha256", ""))):
+            raise ValueError(
+                f"Verified tile for cell '{cell_id}' has an invalid checksum."
+            )
+        pinned = sample_sha_by_cell.get(cell_id)
+        if tile.get("sha256_pinned_by_product_lock") != (pinned is not None):
+            raise ValueError(
+                f"Verified tile for cell '{cell_id}' misstates its sample pin."
+            )
+        if pinned is not None and tile["sha256"] != pinned:
+            raise ValueError(
+                f"Verified tile for cell '{cell_id}' does not match the product "
+                "lock's pinned sample hash."
+            )
+        response = tile.get("response", {})
+        if response.get("status") != 200 or not response.get("content_type"):
+            raise ValueError(
+                f"Verified tile for cell '{cell_id}' has incomplete response "
+                "metadata."
+            )
+        if not tile.get("acquired_at"):
+            raise ValueError(
+                f"Verified tile for cell '{cell_id}' has no acquisition timestamp."
+            )
+        _check_elevation_raster_facts(tile.get("raster", {}), cell_id)
+        if not isinstance(tile.get("station_count"), int) or tile["station_count"] < 0:
+            raise ValueError(
+                f"Verified tile for cell '{cell_id}' has an invalid station count."
+            )
+    if payload.get("tiles_sha256") != canonical_sha256(tiles):
+        raise ValueError("Corridor elevation lock tile digest drifted.")
+
+    segments = payload.get("segments", [])
+    directed_segments = directed_lock["segments"]
+    if payload.get("segment_count") != len(segments) or [
+        segment.get("segment_id") for segment in segments
+    ] != [record["segment_id"] for record in directed_segments]:
+        raise ValueError(
+            "Corridor elevation lock does not cover exactly the directed "
+            "segments in order."
+        )
+    total_stations = 0
+    for segment, record in zip(segments, directed_segments, strict=True):
+        segment_id = segment["segment_id"]
+        if segment.get("geodesic_length_m") != record["geodesic_length_m"]:
+            raise ValueError(
+                f"Elevation segment '{segment_id}' geodesic length drifted from "
+                "the directed lock."
+            )
+        if segment.get("station_interval_m") != ELEVATION_STATION_INTERVAL_M:
+            raise ValueError(
+                f"Elevation segment '{segment_id}' station interval drifted."
+            )
+        offsets = _elevation_station_offsets(
+            record["geodesic_length_m"], ELEVATION_STATION_INTERVAL_M
+        )
+        elevations = segment.get("elevations_m", [])
+        if (
+            segment.get("station_count") != len(offsets)
+            or len(elevations) != len(offsets)
+            or segment.get("terminal_station_m") != offsets[-1]
+        ):
+            raise ValueError(
+                f"Elevation segment '{segment_id}' stationing does not reproduce "
+                "the directed lock's geodesic length under the locked interval."
+            )
+        for value in elevations:
+            if (
+                not isinstance(value, int | float)
+                or isinstance(value, bool)
+                or value != value
+                or round(float(value), ELEVATION_VALUE_DECIMALS) != value
+            ):
+                raise ValueError(
+                    f"Elevation segment '{segment_id}' carries a non-finite or "
+                    "unrounded elevation."
+                )
+        expected_statistics = _elevation_profile_statistics(
+            offsets,
+            elevations,
+            ELEVATION_STATION_INTERVAL_M,
+            ELEVATION_SUSTAINED_WINDOW_M,
+        )
+        if segment.get("statistics") != expected_statistics:
+            raise ValueError(
+                f"Elevation segment '{segment_id}' statistics do not reproduce "
+                "from its committed stations."
+            )
+        total_stations += len(offsets)
+    if payload.get("profile_sha256") != canonical_sha256(segments):
+        raise ValueError("Corridor elevation lock profile digest drifted.")
+    if sum(tile["station_count"] for tile in tiles) != total_stations:
+        raise ValueError(
+            "Corridor elevation lock tile station counts do not cover every "
+            "station exactly once."
+        )
+
+    expected_paths = _elevation_path_records(directed_lock["paths"], segments)
+    if payload.get("paths") != expected_paths:
+        raise ValueError(
+            "Corridor elevation lock paths do not reproduce from the committed "
+            "segments."
+        )
+    if payload.get("paths_sha256") != canonical_sha256(expected_paths):
+        raise ValueError("Corridor elevation lock path digest drifted.")
+    expected_summary = _elevation_summary(segments, tiles)
+    if payload.get("summary") != expected_summary:
+        raise ValueError(
+            "Corridor elevation lock summary does not reproduce from the "
+            "committed sections."
+        )
+    if payload.get("next_stage") != CORRIDOR_ELEVATION_NEXT_STAGE:
+        raise ValueError("Corridor elevation lock next stage drifted.")
     return payload
