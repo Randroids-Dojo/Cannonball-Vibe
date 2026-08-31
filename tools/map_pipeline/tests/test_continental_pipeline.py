@@ -3784,6 +3784,9 @@ CONDITIONED_LOCK_PATH = Path(
 CARRIAGEWAY_LOCK_PATH = Path(
     "data/routes/continental/westbound-carriageway-lock.v1.json"
 )
+CONNECTOR_LOCK_PATH = Path(
+    "data/routes/continental/endpoint-connector-lock.v1.json"
+)
 
 
 def test_conditioning_seed_windows_detect_triggers_and_flat_runs() -> None:
@@ -4161,6 +4164,7 @@ def _validate_carriageway(path: Path) -> dict:
         DISPOSITION_PATH,
         OVERLAY_LOCK_PATH,
         CONFLATION_LOCK_PATH,
+        CONNECTOR_LOCK_PATH,
         CATALOG_PATH,
     )
 
@@ -4168,6 +4172,10 @@ def _validate_carriageway(path: Path) -> dict:
 def test_repository_westbound_carriageway_lock_validates() -> None:
     payload = _validate_carriageway(CARRIAGEWAY_LOCK_PATH)
     assert payload["status"] == continental.WESTBOUND_CARRIAGEWAY_STATUS
+    assert payload["schema_version"] == 2
+    assert payload["supersedes"] == (
+        continental.SUPERSEDED_WESTBOUND_CARRIAGEWAY_V1
+    )
     assert payload["westbound_selection"]["carriageway_direction_claimed"] is True
     summary = payload["summary"]
     assert summary["segment_count"] == 12
@@ -4175,6 +4183,7 @@ def test_repository_westbound_carriageway_lock_validates() -> None:
     assert summary["gates_failed"] == 0
     assert summary["min_reciprocal_separation_m"] >= 19.0
     assert summary["junction_backtrack_count"] == 2
+    assert summary["span_replacement_count"] == 3
     # The Quad Cities overlay corner is adjudicated against the overlay
     # lock's recorded 77.2 degree constraint.
     overlay_sites = [
@@ -4194,12 +4203,44 @@ def test_repository_westbound_carriageway_lock_validates() -> None:
     # The grade gate adjudicates the conditioned profile.
     assert payload["grade_gate"]["passed"] is True
     assert payload["grade_gate"]["source"] == "conditioned-profile-lock"
+    # The three traversed fill chords are replaced by their conflated spans.
+    sites = {record["site_id"] for record in payload["span_replacements"]}
+    assert sites == {
+        "i40-i81-to-barstow--component-01-02",
+        "i70-denver-to-cove-fort--component-00-01",
+        "i78-holland-tunnel-to-i81--component-00-01",
+    }
+    for record in payload["span_replacements"]:
+        assert record["span"]["reassembled_digest_verified"] is True
+        assert record["seam_registration"]["offset_agreement_delta_m"] <= (
+            continental.CARRIAGEWAY_SPAN_SEAM_TOLERANCE_M
+        )
+        assert abs(record["vertical_context"]["span_grade_percent"]) <= 7.0
+        assert all(gate["passed"] for gate in record["gates"].values())
+    # The ADR-0024 portal-to-portal run length is published.
+    run_length = payload["run_length"]
+    assert run_length["decision"] == "ADR-0024"
+    assert run_length["canonical_portal_to_portal_miles"] == 2825.1
+    assert run_length["anchor_to_anchor_reference"]["miles"] == 2791.77
+    by_path = {record["path_id"]: record for record in run_length["paths"]}
+    assert by_path["central-rockies"]["published"] is True
+    assert by_path["northern-plains"]["published"] is True
+    assert by_path["southern-i40"]["published"] is False
+    assert "nyc-start-to-i78" in by_path["southern-i40"]["reason"]
+    assert payload["source_policy"]["authoritative_distance_claimed"] is True
+    assert payload["source_policy"]["fill_chords_replaced_by_conflated_spans"] is (
+        True
+    )
+    assert payload["source_policy"]["endpoint_connectors_generated"] is True
 
 
 def _tampered_carriageway_lock(tmp_path: Path, mutate) -> Path:
     payload = json.loads(CARRIAGEWAY_LOCK_PATH.read_text(encoding="utf-8"))
     mutate(payload)
     payload["segments_sha256"] = canonical_sha256(payload["segments"])
+    payload["span_replacements_sha256"] = canonical_sha256(
+        payload["span_replacements"]
+    )
     target = tmp_path / "westbound-carriageway-lock.json"
     target.write_text(json.dumps(payload), encoding="utf-8")
     return target
@@ -4281,3 +4322,340 @@ def test_westbound_carriageway_lock_rejects_semantic_tampering(
 
     with pytest.raises(ValueError, match="summary does not reproduce"):
         _validate_carriageway(_tampered_carriageway_lock(tmp_path, summary_drift))
+
+    def drifted_supersedes(payload: dict) -> None:
+        payload["supersedes"]["sha256"] = "0" * 64
+
+    with pytest.raises(ValueError, match="superseded v1 lock verbatim"):
+        _validate_carriageway(
+            _tampered_carriageway_lock(tmp_path, drifted_supersedes)
+        )
+
+    def drifted_span_digest(payload: dict) -> None:
+        payload["span_replacements"][0]["span"]["geometry_sha256"] = "1" * 64
+
+    with pytest.raises(ValueError, match="span facts drifted"):
+        _validate_carriageway(
+            _tampered_carriageway_lock(tmp_path, drifted_span_digest)
+        )
+
+    def dropped_span_replacement(payload: dict) -> None:
+        payload["span_replacements"] = payload["span_replacements"][1:]
+
+    with pytest.raises(ValueError, match="do not cover exactly"):
+        _validate_carriageway(
+            _tampered_carriageway_lock(tmp_path, dropped_span_replacement)
+        )
+
+    def drifted_registered_length(payload: dict) -> None:
+        payload["span_replacements"][0]["registered"]["planimetric_m"] += 100.0
+
+    with pytest.raises(ValueError, match="registered length departs"):
+        _validate_carriageway(
+            _tampered_carriageway_lock(tmp_path, drifted_registered_length)
+        )
+
+    def drifted_vertical_context(payload: dict) -> None:
+        payload["span_replacements"][0]["vertical_context"][
+            "boundary_elevations_m"
+        ][0] += 5.0
+
+    with pytest.raises(ValueError, match="vertical context does not reproduce"):
+        _validate_carriageway(
+            _tampered_carriageway_lock(tmp_path, drifted_vertical_context)
+        )
+
+    def drifted_run_length(payload: dict) -> None:
+        payload["run_length"]["canonical_portal_to_portal_miles"] += 10.0
+
+    with pytest.raises(ValueError, match="run length does not reproduce"):
+        _validate_carriageway(
+            _tampered_carriageway_lock(tmp_path, drifted_run_length)
+        )
+
+    def span_corner_without_replacement(payload: dict) -> None:
+        for segment in payload["segments"]:
+            if (
+                segment["segment_id"] == "i80-new-jersey-to-big-springs"
+                and segment["corner_sites"]
+            ):
+                segment["corner_sites"][0]["corner_class"] = (
+                    "conflated_span_corner"
+                )
+                return
+
+    with pytest.raises(ValueError, match="without a span replacement"):
+        _validate_carriageway(
+            _tampered_carriageway_lock(tmp_path, span_corner_without_replacement)
+        )
+
+
+# --- ADR-0024 authored endpoint connectors ---------------------------------
+
+
+def _validate_connectors(path: Path) -> dict:
+    return continental.validate_continental_endpoint_connectors(
+        path,
+        DIRECTED_LOCK_PATH,
+        SELECTION_PATH,
+        LOCK_PATH,
+        TRANSFER_LOCK_PATH,
+        TRANSFER_POLICY_PATH,
+        EDGE_PATH_LOCK_PATH,
+        NHS_FILL_LOCK_PATH,
+        DISPOSITION_PATH,
+        OVERLAY_LOCK_PATH,
+        CONFLATION_LOCK_PATH,
+        CATALOG_PATH,
+    )
+
+
+def test_repository_endpoint_connector_lock_validates() -> None:
+    payload = _validate_connectors(CONNECTOR_LOCK_PATH)
+    assert payload["status"] == continental.ENDPOINT_CONNECTOR_STATUS
+    assert payload["decision"] == "ADR-0018"
+    assert payload["connector_count"] == 2
+    by_id = {
+        connector["connector_id"]: connector
+        for connector in payload["connectors"]
+    }
+    assert set(by_id) == {"nyc-start-to-i80", "redondo-access-to-finish"}
+    nyc = by_id["nyc-start-to-i80"]
+    assert nyc["travel"] == "portal_to_corridor"
+    assert nyc["portal"]["node_id"] == "nyc-east-31st-public-road-portal"
+    assert nyc["corridor_end"]["anchor_id"] == "nj-us46-i80"
+    assert nyc["straight_line_context_m"] == 40181.7
+    redondo = by_id["redondo-access-to-finish"]
+    assert redondo["travel"] == "corridor_to_portal"
+    assert redondo["corridor_end"]["anchor_id"] == "ca-redondo-i405-ca107"
+    assert redondo["straight_line_context_m"] == 6024.2
+    for connector in payload["connectors"]:
+        assert connector["roadway_kind"] == "unclassified"
+        assert connector["authored_breakdown"]["sourced_geodesic_m"] == 0.0
+        assert connector["authored_breakdown"]["locked_endpoint_count"] == 2
+        assert all(gate["passed"] for gate in connector["gates"].values())
+        assert 1.0 <= connector["lengths"]["detour_ratio"] <= (
+            connector["length_envelope"]["ratio_bound"]
+        )
+        # Endpoints are the locked coordinates verbatim.
+        first = connector["waypoints"][0]
+        last = connector["waypoints"][-1]
+        assert {first["provenance"], last["provenance"]} == {
+            "locked_portal",
+            "locked_corridor_end",
+        }
+        assert all(
+            waypoint["provenance"] == "authored"
+            for waypoint in connector["waypoints"][1:-1]
+        )
+    assert payload["summary"]["gates_failed"] == 0
+    assert payload["unauthored_connectors"][0]["segment_id"] == "nyc-start-to-i78"
+
+
+def _tampered_connector_lock(tmp_path: Path, mutate) -> Path:
+    payload = json.loads(CONNECTOR_LOCK_PATH.read_text(encoding="utf-8"))
+    mutate(payload)
+    payload["connectors_sha256"] = canonical_sha256(payload["connectors"])
+    target = tmp_path / "endpoint-connector-lock.json"
+    target.write_text(json.dumps(payload), encoding="utf-8")
+    return target
+
+
+def test_endpoint_connector_lock_rejects_semantic_tampering(
+    tmp_path: Path,
+) -> None:
+    def drifted_waypoint(payload: dict) -> None:
+        payload["connectors"][0]["waypoints"][3]["latitude"] += 0.01
+
+    with pytest.raises(ValueError, match="does not reproduce"):
+        _validate_connectors(_tampered_connector_lock(tmp_path, drifted_waypoint))
+
+    def dropped_leg(payload: dict) -> None:
+        payload["connectors"][0]["legs"] = payload["connectors"][0]["legs"][:-1]
+
+    with pytest.raises(ValueError, match="does not reproduce"):
+        _validate_connectors(_tampered_connector_lock(tmp_path, dropped_leg))
+
+    def widened_envelope(payload: dict) -> None:
+        payload["connectors"][1]["length_envelope"]["ratio_bound"] = 5.0
+
+    with pytest.raises(ValueError, match="does not reproduce"):
+        _validate_connectors(
+            _tampered_connector_lock(tmp_path, widened_envelope)
+        )
+
+    def drifted_authored_length(payload: dict) -> None:
+        payload["connectors"][0]["lengths"]["geodesic_m"] -= 1000.0
+
+    with pytest.raises(ValueError, match="does not reproduce"):
+        _validate_connectors(
+            _tampered_connector_lock(tmp_path, drifted_authored_length)
+        )
+
+    def dropped_unauthored_record(payload: dict) -> None:
+        payload["unauthored_connectors"] = []
+
+    with pytest.raises(ValueError, match="unauthored Holland"):
+        _validate_connectors(
+            _tampered_connector_lock(tmp_path, dropped_unauthored_record)
+        )
+
+    def summary_drift(payload: dict) -> None:
+        payload["summary"]["authored_geodesic_m"] += 1.0
+
+    with pytest.raises(ValueError, match="summary does not reproduce"):
+        _validate_connectors(_tampered_connector_lock(tmp_path, summary_drift))
+
+
+def test_connector_corner_sites_record_and_refuse_reversals() -> None:
+    inverse = Transformer.from_crs("EPSG:5070", "EPSG:4326", always_xy=True)
+    corner = [(0.0, 0.0), (1000.0, 0.0), (1000.0, 1000.0)]
+    sites = continental._connector_corner_sites("conn", corner, inverse)
+    assert len(sites) == 1
+    assert sites[0]["corner_class"] == "connector_corner"
+    assert sites[0]["peak_turn_deg"] > 20.0
+    reversal = [(0.0, 0.0), (1000.0, 0.0), (0.0, 0.5)]
+    with pytest.raises(ValueError, match="reversal-class turn"):
+        continental._connector_corner_sites("conn", reversal, inverse)
+
+
+def test_profile_elevation_interpolates_including_terminal_leg() -> None:
+    values = [100.0, 110.0, 120.0, 121.0]
+    # Regular stations 0/100/200 plus the 250 m terminal.
+    assert continental._profile_elevation_at(values, 100.0, 250.0, 50.0) == 105.0
+    assert continental._profile_elevation_at(values, 100.0, 250.0, 200.0) == 120.0
+    assert continental._profile_elevation_at(values, 100.0, 250.0, 225.0) == 120.5
+    assert continental._profile_elevation_at(values, 100.0, 250.0, 999.0) == 121.0
+
+
+def test_conditioned_segment_elevations_apply_replacements() -> None:
+    elevation_segment = {
+        "elevations_m": [10.0, 20.0, 90.0, 40.0, 50.0],
+        "station_interval_m": 100.0,
+    }
+    conditioned_segment = {
+        "conditioning_records": [
+            {
+                "record_id": "seg--conditioning-000",
+                "from_station_m": 100.0,
+                "to_station_m": 300.0,
+                "after": {"replacement_elevations_m": [30.0]},
+            }
+        ]
+    }
+    values = continental._conditioned_segment_elevations(
+        elevation_segment, conditioned_segment
+    )
+    assert values == [10.0, 20.0, 30.0, 40.0, 50.0]
+    bad = copy.deepcopy(conditioned_segment)
+    bad["conditioning_records"][0]["after"]["replacement_elevations_m"] = [1.0, 2.0]
+    with pytest.raises(ValueError, match="does not match its replacement"):
+        continental._conditioned_segment_elevations(elevation_segment, bad)
+
+
+def test_span_vertical_context_reparametrises_the_deck_chord() -> None:
+    elevation_segment = {
+        "elevations_m": [100.0, 100.0, 110.0, 120.0],
+        "station_interval_m": 100.0,
+        "terminal_station_m": 250.0,
+    }
+    conditioned_segment = {"conditioning_records": []}
+    context = continental._span_vertical_context(
+        elevation_segment, conditioned_segment, 100.0, 200.0, 200.0
+    )
+    assert context["boundary_elevations_m"] == [100.0, 110.0]
+    assert context["chord_grade_percent"] == 10.0
+    # The same rise over the longer span arc is a gentler grade.
+    assert context["span_grade_percent"] == 5.0
+    assert context["conditioning_records"] == []
+
+
+def test_run_length_records_publish_and_withhold() -> None:
+    directed_lock = {
+        "paths": [
+            {
+                "path_id": "central-rockies",
+                "role": "canonical",
+                "locked_segment_ids": ["s1"],
+                "total_geodesic_m": 1000.0,
+                "total_planimetric_m": 999.0,
+                "excluded_connector_segments": [
+                    {"segment_id": "c1"},
+                    {"segment_id": "c2"},
+                ],
+            },
+            {
+                "path_id": "southern",
+                "role": "major_alternative",
+                "locked_segment_ids": ["s2"],
+                "total_geodesic_m": 2000.0,
+                "total_planimetric_m": 1998.0,
+                "excluded_connector_segments": [
+                    {"segment_id": "c3"},
+                    {"segment_id": "c2"},
+                ],
+            },
+        ],
+        "corridor": {
+            "authoritative_distance": {
+                "geodesic_length_m": 1000.0,
+                "geodesic_length_miles": 0.62,
+                "junction_backtrack_note": "note",
+            }
+        },
+    }
+    connector_payload = {
+        "connectors": [
+            {
+                "connector_id": "c1",
+                "lengths": {"geodesic_m": 10.0, "planimetric_m": 10.0},
+            },
+            {
+                "connector_id": "c2",
+                "lengths": {"geodesic_m": 5.0, "planimetric_m": 5.0},
+            },
+        ]
+    }
+    replacements = [
+        {
+            "segment_id": "s1",
+            "site_id": "site-1",
+            "registered": {"geodesic_m": 110.0, "planimetric_m": 109.0},
+            "chord": {"geodesic_m": 100.0, "planimetric_m": 99.0},
+        }
+    ]
+    run_length = continental._run_length_records(
+        directed_lock, connector_payload, replacements
+    )
+    by_path = {record["path_id"]: record for record in run_length["paths"]}
+    canonical = by_path["central-rockies"]
+    assert canonical["published"] is True
+    assert canonical["span_refinement_geodesic_m"] == 10.0
+    assert canonical["portal_to_portal_geodesic_m"] == 1025.0
+    southern = by_path["southern"]
+    assert southern["published"] is False
+    assert "c3" in southern["reason"]
+    # A canonical path with an unauthored connector refuses the publication.
+    broken = copy.deepcopy(directed_lock)
+    broken["paths"][0]["excluded_connector_segments"].append(
+        {"segment_id": "c9"}
+    )
+    with pytest.raises(ValueError, match="did not publish"):
+        continental._run_length_records(broken, connector_payload, replacements)
+
+
+def test_carriageway_corner_sites_classify_conflated_span_corners() -> None:
+    inverse = Transformer.from_crs("EPSG:5070", "EPSG:4326", always_xy=True)
+    corner_chain = [(0.0, 0.0), (1000.0, 0.0), (1000.0, 1000.0)]
+    span = LineString([(950.0, 0.0), (1000.0, 0.0), (1000.0, 50.0)])
+    sites = continental._carriageway_corner_sites(
+        "seg", corner_chain, [], 0.0, 0.0, inverse, span_lines=[span]
+    )
+    assert sites[0]["corner_class"] == "conflated_span_corner"
+    assert sites[0]["span_distance_m"] == 0.0
+    # An overlay lens hit still takes precedence over the span lens.
+    overlay = LineString([(999.0, 0.0), (1001.0, 0.0)])
+    overlay_sites = continental._carriageway_corner_sites(
+        "seg", corner_chain, [overlay], 0.0, 0.0, inverse, span_lines=[span]
+    )
+    assert overlay_sites[0]["corner_class"] == "overlay_corner"

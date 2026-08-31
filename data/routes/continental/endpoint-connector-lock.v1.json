@@ -1,0 +1,814 @@
+{
+  "authored_at": "2026-08-31T14:06:48Z",
+  "break_disposition_sha256": "48c9a40e33bf6a306c06232dc3c191c53e7a9ed73d17b412d7cf73e7eb137405",
+  "candidate_lock_sha256": "cbdaaa3710e2b2e9409628f32fb1ef16228ec2256c5b8f1428d3363618e73900",
+  "carriageway_decision": "ADR-0014",
+  "catalog_sha256": "4d3a4c115875fc7e72f12e6a9d32a31d4b103a1b73bdbc731f47864989b8447f",
+  "connector_count": 2,
+  "connectors": [
+    {
+      "authored_breakdown": {
+        "authored_geodesic_m": 43588.805,
+        "authored_waypoint_count": 16,
+        "locked_endpoint_count": 2,
+        "sourced_geodesic_m": 0.0,
+        "statement": "The two endpoint coordinates are locked artifacts (route-selection portal; directed-route-lock corridor-end node). No locked or probed source geometry exists for the connector facilities - the NHPN candidate lock is scoped to the twelve corridor segments - so every metre between the locked endpoints is authored, each leg justified by its ADR-0024 facility."
+      },
+      "connector_id": "nyc-start-to-i80",
+      "corner_sites": [
+        {
+          "coordinate": [
+            -73.9967476,
+            40.7570197
+          ],
+          "corner_class": "connector_corner",
+          "corner_id": "nyc-start-to-i80--corner-000",
+          "from_station_m": 1975.0,
+          "peak_turn_deg": 25.76,
+          "sample_count": 1,
+          "to_station_m": 1975.0,
+          "turn_sum_deg": 25.76
+        },
+        {
+          "coordinate": [
+            -74.1560356,
+            40.8215402
+          ],
+          "corner_class": "connector_corner",
+          "corner_id": "nyc-start-to-i80--corner-001",
+          "from_station_m": 17225.0,
+          "peak_turn_deg": 20.23,
+          "sample_count": 1,
+          "to_station_m": 17225.0,
+          "turn_sum_deg": 20.23
+        },
+        {
+          "coordinate": [
+            -74.2580378,
+            40.8879949
+          ],
+          "corner_class": "connector_corner",
+          "corner_id": "nyc-start-to-i80--corner-002",
+          "from_station_m": 28775.0,
+          "peak_turn_deg": 39.4,
+          "sample_count": 1,
+          "to_station_m": 28775.0,
+          "turn_sum_deg": 39.4
+        }
+      ],
+      "corridor_end": {
+        "anchor_id": "nj-us46-i80",
+        "coordinate": {
+          "latitude": 40.865474227,
+          "longitude": -74.429603688
+        },
+        "end": "from",
+        "provenance": "directed-route-lock",
+        "segment_id": "i80-new-jersey-to-big-springs"
+      },
+      "decision": "ADR-0018",
+      "gates": {
+        "endpoint_continuity": {
+          "measured": {
+            "corridor_end_gap_m": 0.0,
+            "portal_gap_m": 0.0
+          },
+          "passed": true,
+          "threshold": "locked portal and corridor-end coordinates carried verbatim"
+        },
+        "geodesic_planimetric_agreement": {
+          "measured": 195.872,
+          "passed": true,
+          "threshold": 433.963
+        },
+        "heading_discipline": {
+          "measured": 39.4,
+          "passed": true,
+          "threshold": 150.0
+        },
+        "length_envelope": {
+          "measured": 1.084792,
+          "passed": true,
+          "threshold": 1.25
+        },
+        "self_intersection": {
+          "measured": {
+            "simple": true
+          },
+          "passed": true,
+          "threshold": "authored polyline is a single simple LineString"
+        },
+        "station_monotonicity": {
+          "measured": {
+            "vertex_count": 18
+          },
+          "passed": true,
+          "threshold": "strictly increasing station at every vertex"
+        }
+      },
+      "legs": [
+        {
+          "facility": "project-authored Manhattan connector",
+          "geodesic_m": 378.209,
+          "leg_index": 0,
+          "note": "Midtown crosstown from the E 31st Street portal toward the Lincoln Tunnel approach.",
+          "planimetric_m": 378.021,
+          "provenance": "authored"
+        },
+        {
+          "facility": "project-authored Manhattan connector",
+          "geodesic_m": 885.049,
+          "leg_index": 1,
+          "note": "Herald Square area crosstown context (W 34th Street corridor).",
+          "planimetric_m": 883.123,
+          "provenance": "authored"
+        },
+        {
+          "facility": "project-authored Manhattan connector",
+          "geodesic_m": 706.283,
+          "leg_index": 2,
+          "note": "Dyer Avenue approach to the Lincoln Tunnel New York portal.",
+          "planimetric_m": 709.298,
+          "provenance": "authored"
+        },
+        {
+          "facility": "Lincoln Tunnel",
+          "geodesic_m": 1278.392,
+          "leg_index": 3,
+          "note": "Mid-river tunnel alignment under the Hudson (authored context; the bore is not surface geometry).",
+          "planimetric_m": 1272.579,
+          "provenance": "authored"
+        },
+        {
+          "facility": "Lincoln Tunnel",
+          "geodesic_m": 947.091,
+          "leg_index": 4,
+          "note": "Weehawken portal and helix.",
+          "planimetric_m": 941.1,
+          "provenance": "authored"
+        },
+        {
+          "facility": "NJ 495",
+          "geodesic_m": 1124.676,
+          "leg_index": 5,
+          "note": "NJ 495 westbound through Union City.",
+          "planimetric_m": 1117.481,
+          "provenance": "authored"
+        },
+        {
+          "facility": "NJ 495",
+          "geodesic_m": 2683.988,
+          "leg_index": 6,
+          "note": "NJ 495 / NJ 3 continuation at the eastern Meadowlands interchange complex.",
+          "planimetric_m": 2666.378,
+          "provenance": "authored"
+        },
+        {
+          "facility": "NJ 3",
+          "geodesic_m": 2914.9,
+          "leg_index": 7,
+          "note": "NJ 3 across the Hackensack Meadowlands.",
+          "planimetric_m": 2902.524,
+          "provenance": "authored"
+        },
+        {
+          "facility": "NJ 3",
+          "geodesic_m": 3629.857,
+          "leg_index": 8,
+          "note": "NJ 3 through Rutherford; Passaic River approach.",
+          "planimetric_m": 3620.167,
+          "provenance": "authored"
+        },
+        {
+          "facility": "NJ 3",
+          "geodesic_m": 2740.001,
+          "leg_index": 9,
+          "note": "NJ 3 through Clifton.",
+          "planimetric_m": 2728.935,
+          "provenance": "authored"
+        },
+        {
+          "facility": "NJ 3",
+          "geodesic_m": 4081.414,
+          "leg_index": 10,
+          "note": "NJ 3 western terminus at the US 46 merge in Clifton.",
+          "planimetric_m": 4094.631,
+          "provenance": "authored"
+        },
+        {
+          "facility": "US 46",
+          "geodesic_m": 3920.36,
+          "leg_index": 11,
+          "note": "US 46 through Little Falls.",
+          "planimetric_m": 3904.826,
+          "provenance": "authored"
+        },
+        {
+          "facility": "US 46",
+          "geodesic_m": 3563.547,
+          "leg_index": 12,
+          "note": "US 46 at the Willowbrook interchange complex in Wayne.",
+          "planimetric_m": 3552.726,
+          "provenance": "authored"
+        },
+        {
+          "facility": "US 46",
+          "geodesic_m": 4451.065,
+          "leg_index": 13,
+          "note": "US 46 through Fairfield.",
+          "planimetric_m": 4416.289,
+          "provenance": "authored"
+        },
+        {
+          "facility": "US 46",
+          "geodesic_m": 3114.921,
+          "leg_index": 14,
+          "note": "US 46 through Pine Brook.",
+          "planimetric_m": 3094.368,
+          "provenance": "authored"
+        },
+        {
+          "facility": "US 46",
+          "geodesic_m": 4238.356,
+          "leg_index": 15,
+          "note": "US 46 through Parsippany-Troy Hills.",
+          "planimetric_m": 4203.791,
+          "provenance": "authored"
+        },
+        {
+          "facility": "US 46",
+          "geodesic_m": 2930.697,
+          "leg_index": 16,
+          "note": "US 46 at the locked I-80 corridor anchor (the directed lock's from-node of i80-new-jersey-to-big-springs).",
+          "planimetric_m": 2906.697,
+          "provenance": "authored"
+        }
+      ],
+      "length_envelope": {
+        "justification": "The Lincoln Tunnel / NJ 495 / NJ 3 / US 46 corridor runs broadly parallel to the portal-to-anchor straight line across the Hudson and the Meadowlands; a metropolitan arterial connector on these facilities cannot legitimately exceed a quarter more than the straight line, and the authored polyline measures near 1.10.",
+        "ratio_bound": 1.25
+      },
+      "lengths": {
+        "detour_ratio": 1.084792,
+        "geodesic_m": 43588.805,
+        "geodesic_miles": 27.085,
+        "planimetric_m": 43392.933
+      },
+      "portal": {
+        "coordinate": {
+          "latitude": 40.744340584366,
+          "longitude": -73.980896463321,
+          "precision": "census_address_match_not_lane_geometry"
+        },
+        "label": "East 31st Street start portal",
+        "node_id": "nyc-east-31st-public-road-portal",
+        "playable_policy": "Use a project-authored public-road portal adjacent to the historical reference address; do not require or imply access to private property.",
+        "reference_address": "142 E 31st St, New York, NY 10016"
+      },
+      "roadway_kind": "unclassified",
+      "role": "atlantic_start",
+      "straight_line_context_m": 40181.7,
+      "travel": "portal_to_corridor",
+      "waypoints": [
+        {
+          "index": 0,
+          "latitude": 40.744340584366,
+          "longitude": -73.980896463321,
+          "provenance": "locked_portal"
+        },
+        {
+          "facility": "project-authored Manhattan connector",
+          "index": 1,
+          "latitude": 40.746667,
+          "longitude": -73.984167,
+          "note": "Midtown crosstown from the E 31st Street portal toward the Lincoln Tunnel approach.",
+          "provenance": "authored"
+        },
+        {
+          "facility": "project-authored Manhattan connector",
+          "index": 2,
+          "latitude": 40.7515,
+          "longitude": -73.9925,
+          "note": "Herald Square area crosstown context (W 34th Street corridor).",
+          "provenance": "authored"
+        },
+        {
+          "facility": "project-authored Manhattan connector",
+          "index": 3,
+          "latitude": 40.757,
+          "longitude": -73.9967,
+          "note": "Dyer Avenue approach to the Lincoln Tunnel New York portal.",
+          "provenance": "authored"
+        },
+        {
+          "facility": "Lincoln Tunnel",
+          "index": 4,
+          "latitude": 40.7625,
+          "longitude": -74.01,
+          "note": "Mid-river tunnel alignment under the Hudson (authored context; the bore is not surface geometry).",
+          "provenance": "authored"
+        },
+        {
+          "facility": "Lincoln Tunnel",
+          "index": 5,
+          "latitude": 40.7655,
+          "longitude": -74.0205,
+          "note": "Weehawken portal and helix.",
+          "provenance": "authored"
+        },
+        {
+          "facility": "NJ 495",
+          "index": 6,
+          "latitude": 40.769,
+          "longitude": -74.033,
+          "note": "NJ 495 westbound through Union City.",
+          "provenance": "authored"
+        },
+        {
+          "facility": "NJ 495",
+          "index": 7,
+          "latitude": 40.777,
+          "longitude": -74.063,
+          "note": "NJ 495 / NJ 3 continuation at the eastern Meadowlands interchange complex.",
+          "provenance": "authored"
+        },
+        {
+          "facility": "NJ 3",
+          "index": 8,
+          "latitude": 40.79,
+          "longitude": -74.093,
+          "note": "NJ 3 across the Hackensack Meadowlands.",
+          "provenance": "authored"
+        },
+        {
+          "facility": "NJ 3",
+          "index": 9,
+          "latitude": 40.809,
+          "longitude": -74.128,
+          "note": "NJ 3 through Rutherford; Passaic River approach.",
+          "provenance": "authored"
+        },
+        {
+          "facility": "NJ 3",
+          "index": 10,
+          "latitude": 40.8215,
+          "longitude": -74.156,
+          "note": "NJ 3 through Clifton.",
+          "provenance": "authored"
+        },
+        {
+          "facility": "NJ 3",
+          "index": 11,
+          "latitude": 40.852,
+          "longitude": -74.183,
+          "note": "NJ 3 western terminus at the US 46 merge in Clifton.",
+          "provenance": "authored"
+        },
+        {
+          "facility": "US 46",
+          "index": 12,
+          "latitude": 40.87,
+          "longitude": -74.223,
+          "note": "US 46 through Little Falls.",
+          "provenance": "authored"
+        },
+        {
+          "facility": "US 46",
+          "index": 13,
+          "latitude": 40.888,
+          "longitude": -74.258,
+          "note": "US 46 at the Willowbrook interchange complex in Wayne.",
+          "provenance": "authored"
+        },
+        {
+          "facility": "US 46",
+          "index": 14,
+          "latitude": 40.881,
+          "longitude": -74.31,
+          "note": "US 46 through Fairfield.",
+          "provenance": "authored"
+        },
+        {
+          "facility": "US 46",
+          "index": 15,
+          "latitude": 40.872,
+          "longitude": -74.345,
+          "note": "US 46 through Pine Brook.",
+          "provenance": "authored"
+        },
+        {
+          "facility": "US 46",
+          "index": 16,
+          "latitude": 40.868,
+          "longitude": -74.395,
+          "note": "US 46 through Parsippany-Troy Hills.",
+          "provenance": "authored"
+        },
+        {
+          "index": 17,
+          "latitude": 40.865474227,
+          "longitude": -74.429603688,
+          "provenance": "locked_corridor_end"
+        }
+      ]
+    },
+    {
+      "authored_breakdown": {
+        "authored_geodesic_m": 10045.233,
+        "authored_waypoint_count": 8,
+        "locked_endpoint_count": 2,
+        "sourced_geodesic_m": 0.0,
+        "statement": "The two endpoint coordinates are locked artifacts (route-selection portal; directed-route-lock corridor-end node). No locked or probed source geometry exists for the connector facilities - the NHPN candidate lock is scoped to the twelve corridor segments - so every metre between the locked endpoints is authored, each leg justified by its ADR-0024 facility."
+      },
+      "connector_id": "redondo-access-to-finish",
+      "corner_sites": [
+        {
+          "coordinate": [
+            -118.3524001,
+            33.8784732
+          ],
+          "corner_class": "connector_corner",
+          "corner_id": "redondo-access-to-finish--corner-000",
+          "from_station_m": 500.0,
+          "peak_turn_deg": 52.83,
+          "sample_count": 1,
+          "to_station_m": 500.0,
+          "turn_sum_deg": 52.83
+        },
+        {
+          "coordinate": [
+            -118.3526736,
+            33.8358
+          ],
+          "corner_class": "connector_corner",
+          "corner_id": "redondo-access-to-finish--corner-001",
+          "from_station_m": 5250.0,
+          "peak_turn_deg": 69.48,
+          "sample_count": 2,
+          "to_station_m": 5275.0,
+          "turn_sum_deg": 89.81
+        },
+        {
+          "coordinate": [
+            -118.3874885,
+            33.8362997
+          ],
+          "corner_class": "connector_corner",
+          "corner_id": "redondo-access-to-finish--corner-002",
+          "from_station_m": 8475.0,
+          "peak_turn_deg": 71.42,
+          "sample_count": 1,
+          "to_station_m": 8475.0,
+          "turn_sum_deg": 71.42
+        },
+        {
+          "coordinate": [
+            -118.3894994,
+            33.8427981
+          ],
+          "corner_class": "connector_corner",
+          "corner_id": "redondo-access-to-finish--corner-003",
+          "from_station_m": 9225.0,
+          "peak_turn_deg": 51.54,
+          "sample_count": 1,
+          "to_station_m": 9225.0,
+          "turn_sum_deg": 51.54
+        },
+        {
+          "coordinate": [
+            -118.3927329,
+            33.8439756
+          ],
+          "corner_class": "connector_corner",
+          "corner_id": "redondo-access-to-finish--corner-004",
+          "from_station_m": 9550.0,
+          "peak_turn_deg": 20.66,
+          "sample_count": 1,
+          "to_station_m": 9550.0,
+          "turn_sum_deg": 20.66
+        },
+        {
+          "coordinate": [
+            -118.3947722,
+            33.8459368
+          ],
+          "corner_class": "connector_corner",
+          "corner_id": "redondo-access-to-finish--corner-005",
+          "from_station_m": 9825.0,
+          "peak_turn_deg": 64.08,
+          "sample_count": 2,
+          "to_station_m": 9850.0,
+          "turn_sum_deg": 98.76
+        }
+      ],
+      "corridor_end": {
+        "anchor_id": "ca-redondo-i405-ca107",
+        "coordinate": {
+          "latitude": 33.88077,
+          "longitude": -118.347746
+        },
+        "end": "to",
+        "provenance": "directed-route-lock",
+        "segment_id": "i405-west-la-to-ca107"
+      },
+      "decision": "ADR-0018",
+      "gates": {
+        "endpoint_continuity": {
+          "measured": {
+            "corridor_end_gap_m": 0.0,
+            "portal_gap_m": 0.0
+          },
+          "passed": true,
+          "threshold": "locked portal and corridor-end coordinates carried verbatim"
+        },
+        "geodesic_planimetric_agreement": {
+          "measured": 13.326,
+          "passed": true,
+          "threshold": 100.604
+        },
+        "heading_discipline": {
+          "measured": 71.42,
+          "passed": true,
+          "threshold": 150.0
+        },
+        "length_envelope": {
+          "measured": 1.66748,
+          "passed": true,
+          "threshold": 1.8
+        },
+        "self_intersection": {
+          "measured": {
+            "simple": true
+          },
+          "passed": true,
+          "threshold": "authored polyline is a single simple LineString"
+        },
+        "station_monotonicity": {
+          "measured": {
+            "vertex_count": 10
+          },
+          "passed": true,
+          "threshold": "strictly increasing station at every vertex"
+        }
+      },
+      "legs": [
+        {
+          "facility": "CA 107 / Hawthorne Boulevard",
+          "geodesic_m": 498.782,
+          "leg_index": 0,
+          "note": "Hawthorne Boulevard immediately south of the I-405 interchange.",
+          "planimetric_m": 497.003,
+          "provenance": "authored"
+        },
+        {
+          "facility": "CA 107 / Hawthorne Boulevard",
+          "geodesic_m": 2107.501,
+          "leg_index": 1,
+          "note": "Hawthorne Boulevard at the 190th Street corridor.",
+          "planimetric_m": 2123.068,
+          "provenance": "authored"
+        },
+        {
+          "facility": "CA 107 / Hawthorne Boulevard",
+          "geodesic_m": 2628.812,
+          "leg_index": 2,
+          "note": "Hawthorne Boulevard at Torrance Boulevard - the CA 107 terminus corner.",
+          "planimetric_m": 2648.165,
+          "provenance": "authored"
+        },
+        {
+          "facility": "Torrance Boulevard",
+          "geodesic_m": 1610.582,
+          "leg_index": 3,
+          "note": "Torrance Boulevard westbound through central Torrance.",
+          "planimetric_m": 1598.833,
+          "provenance": "authored"
+        },
+        {
+          "facility": "Torrance Boulevard",
+          "geodesic_m": 1620.782,
+          "leg_index": 4,
+          "note": "Torrance Boulevard at Catalina Avenue in Redondo Beach.",
+          "planimetric_m": 1608.986,
+          "provenance": "authored"
+        },
+        {
+          "facility": "Catalina Avenue",
+          "geodesic_m": 744.362,
+          "leg_index": 5,
+          "note": "Catalina Avenue north to Beryl Street.",
+          "planimetric_m": 749.166,
+          "provenance": "authored"
+        },
+        {
+          "facility": "Beryl Street",
+          "geodesic_m": 333.171,
+          "leg_index": 6,
+          "note": "Beryl Street west to Harbor Drive.",
+          "planimetric_m": 331.522,
+          "provenance": "authored"
+        },
+        {
+          "facility": "Harbor Drive",
+          "geodesic_m": 283.082,
+          "leg_index": 7,
+          "note": "Harbor Drive north to the Portofino Way corner.",
+          "planimetric_m": 283.571,
+          "provenance": "authored"
+        },
+        {
+          "facility": "Portofino Way",
+          "geodesic_m": 218.159,
+          "leg_index": 8,
+          "note": "Portofino Way public-road portal adjacent to the historical 260 Portofino Way reference address; no private hotel or marina property is required or implied.",
+          "planimetric_m": 218.246,
+          "provenance": "authored"
+        }
+      ],
+      "length_envelope": {
+        "justification": "The locked street sequence is a right-angle dogleg - south on CA 107 / Hawthorne Boulevard, then west to the Redondo Beach waterfront - so the taxicab geometry of the named streets legitimately exceeds the diagonal straight line (the dogleg alone measures near 1.57); 1.8 bounds the grid detour without absorbing an unjustified route.",
+        "ratio_bound": 1.8
+      },
+      "lengths": {
+        "detour_ratio": 1.66748,
+        "geodesic_m": 10045.233,
+        "geodesic_miles": 6.242,
+        "planimetric_m": 10058.559
+      },
+      "portal": {
+        "coordinate": {
+          "latitude": 33.844577173017,
+          "longitude": -118.396327415478,
+          "precision": "census_address_match_not_lane_geometry"
+        },
+        "label": "Portofino Way finish portal",
+        "node_id": "redondo-portofino-way-public-road-portal",
+        "playable_policy": "Use a project-authored public-road portal on Portofino Way; do not require or imply access to private hotel or marina property.",
+        "reference_address": "260 Portofino Way, Redondo Beach, CA 90277"
+      },
+      "roadway_kind": "unclassified",
+      "role": "pacific_finish",
+      "straight_line_context_m": 6024.2,
+      "travel": "corridor_to_portal",
+      "waypoints": [
+        {
+          "index": 0,
+          "latitude": 33.88077,
+          "longitude": -118.347746,
+          "provenance": "locked_corridor_end"
+        },
+        {
+          "facility": "CA 107 / Hawthorne Boulevard",
+          "index": 1,
+          "latitude": 33.8785,
+          "longitude": -118.3524,
+          "note": "Hawthorne Boulevard immediately south of the I-405 interchange.",
+          "provenance": "authored"
+        },
+        {
+          "facility": "CA 107 / Hawthorne Boulevard",
+          "index": 2,
+          "latitude": 33.8595,
+          "longitude": -118.3525,
+          "note": "Hawthorne Boulevard at the 190th Street corridor.",
+          "provenance": "authored"
+        },
+        {
+          "facility": "CA 107 / Hawthorne Boulevard",
+          "index": 3,
+          "latitude": 33.8358,
+          "longitude": -118.3526,
+          "note": "Hawthorne Boulevard at Torrance Boulevard - the CA 107 terminus corner.",
+          "provenance": "authored"
+        },
+        {
+          "facility": "Torrance Boulevard",
+          "index": 4,
+          "latitude": 33.8358,
+          "longitude": -118.37,
+          "note": "Torrance Boulevard westbound through central Torrance.",
+          "provenance": "authored"
+        },
+        {
+          "facility": "Torrance Boulevard",
+          "index": 5,
+          "latitude": 33.8363,
+          "longitude": -118.3875,
+          "note": "Torrance Boulevard at Catalina Avenue in Redondo Beach.",
+          "provenance": "authored"
+        },
+        {
+          "facility": "Catalina Avenue",
+          "index": 6,
+          "latitude": 33.8428,
+          "longitude": -118.3895,
+          "note": "Catalina Avenue north to Beryl Street.",
+          "provenance": "authored"
+        },
+        {
+          "facility": "Beryl Street",
+          "index": 7,
+          "latitude": 33.844,
+          "longitude": -118.3928,
+          "note": "Beryl Street west to Harbor Drive.",
+          "provenance": "authored"
+        },
+        {
+          "facility": "Harbor Drive",
+          "index": 8,
+          "latitude": 33.846,
+          "longitude": -118.3947,
+          "note": "Harbor Drive north to the Portofino Way corner.",
+          "provenance": "authored"
+        },
+        {
+          "index": 9,
+          "latitude": 33.844577173017,
+          "longitude": -118.396327415478,
+          "provenance": "locked_portal"
+        }
+      ]
+    }
+  ],
+  "connectors_sha256": "8f38fbbbcffac1cd74b9b7f1279bd3a12307198a997fd8c04bcaf1efd6257f75",
+  "context_decision": "ADR-0017",
+  "coordinate_crs": "EPSG:4326",
+  "decision": "ADR-0018",
+  "deferred_gates": {
+    "deferred_to": "lane-topology-and-package-build-stage",
+    "gates": [
+      "grade",
+      "vertical_curvature",
+      "curvature_design_radius",
+      "curvature_rate",
+      "sightline",
+      "clearance",
+      "collision",
+      "lane_connection",
+      "drivability",
+      "reciprocal_separation"
+    ],
+    "reason": "No locked elevation or lane source covers the connector facilities: the corridor elevation lock stations only the locked directed walk, and ADR-0017 keeps unknown values unknown rather than authored into false precision. The connectors are ADR-0014 'unclassified' roadway records - the undivided portions cannot claim the divided-carriageway reciprocal pair, so the separation gate has no pair to measure. Vertical and lane-level gates run when the endpoint service bubbles are built at the package-build stage."
+  },
+  "directed_route_lock_sha256": "cd31ea3193a755f06349fdf1cea814775d5de700e04a75113f70e68d18793294",
+  "edge_path_lock_sha256": "fcf0da1dcff80eb74364b1496e2033c351b14c25cbbf7f857e8af8a42295fc5e",
+  "metric_crs": "EPSG:5070",
+  "model": {
+    "carriageway_decision": "ADR-0014",
+    "context_decision": "ADR-0017",
+    "corner_threshold_deg": 20.0,
+    "decision": "ADR-0018",
+    "endpoint_rule": "Each connector joins exactly two locked coordinates: the route-selection public-road portal (census address match) and the directed route lock's corridor-end node at the ADR-0024 anchor. Both are carried verbatim; every metre between them is authored and recorded with its facility justification.",
+    "fidelity": {
+      "class": "authored_waypoint",
+      "statement": "Interior waypoints are project-authored route context at declared waypoint fidelity (ADR-0017 authored class): each waypoint names the public facility ADR-0024 prescribes and is placed from public geographic knowledge of that facility, never claimed as observed centerline, lane geometry, or survey-class position. The connector length therefore carries authored-waypoint precision; the locked corridor figure it joins remains source-centerline fidelity. Acquiring locked source geometry for these facilities is recorded future refinement, not assumed.",
+      "waypoint_position_class_m": 250.0
+    },
+    "metric_crs": "EPSG:5070",
+    "min_leg_m": 50.0,
+    "reversal_threshold_deg": 150.0,
+    "roadway_kind_rule": "Connectors are ADR-0014 'unclassified' roadway records: the sequence spans divided highways (NJ 495, NJ 3, US 46, CA 107) and undivided public streets (Manhattan crosstown, Torrance Boulevard approaches, Portofino Way), so no reciprocal divided-carriageway pair is claimed and no opposing edge is synthesized. Lane-level modelling of the endpoint service bubbles is later stage output.",
+    "straight_line_agreement_m": 0.1,
+    "tangent_lens_m": 25.0
+  },
+  "next_stage": {
+    "id": "portal-run-length-publication",
+    "requires": [
+      "the westbound carriageway lock revision pins this artifact and publishes ADR-0024's portal-to-portal run length from the locked corridor plus these connectors",
+      "the southern path's Holland Tunnel connector (nyc-start-to-i78) remains unauthored; its portal-to-portal figure stays unpublished until it is",
+      "endpoint service-bubble lane topology, elevation, and collision at the package-build stage"
+    ]
+  },
+  "nhs_conflation_lock_sha256": "4448c547c0a051ac6c58f26c8e37f092d3a4fbd5a33072f807103b5394292251",
+  "nhs_fill_lock_sha256": "2d05552540107464344aa579e833333a17539de3f1ab7ac8595d5b3ad98c2852",
+  "reconstruction_overlay_lock_sha256": "b01be230edc495e5aa30981d37b342519514e8884896df778380584032f908a0",
+  "route_decision": "ADR-0024",
+  "route_selection_sha256": "00ac4df354a8644997a2a073ee07c736ff3f3bc2d2565c8cd9cb51b957d2ff2f",
+  "schema_version": 1,
+  "source_policy": {
+    "authored_geometry_claimed_as_source": false,
+    "context_decision": "ADR-0017",
+    "continental_downloads_committed": false,
+    "lane_geometry_claimed": false,
+    "private_property_required": false,
+    "reconstruction_decision": "ADR-0018",
+    "route_decision": "ADR-0024",
+    "vertical_context_claimed": false
+  },
+  "status": "endpoint_connectors_authored_run_length_publishable",
+  "summary": {
+    "authored_geodesic_m": 53634.038,
+    "authored_waypoint_count": 24,
+    "connector_count": 2,
+    "corner_site_count": 9,
+    "gates_failed": 0,
+    "gates_passed": 12
+  },
+  "transfer_lock_sha256": "b267282a1d48014783c90a60c46cda85cea61741911d23649bf318404aea2b3b",
+  "unauthored_connectors": [
+    {
+      "reason": "The southern path's Holland Tunnel connector remains unauthored; ADR-0024's canonical run uses the Lincoln Tunnel start, and the southern portal-to-portal figure stays unpublished until this connector is authored and gated.",
+      "segment_id": "nyc-start-to-i78"
+    }
+  ]
+}

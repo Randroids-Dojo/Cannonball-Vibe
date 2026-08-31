@@ -21,9 +21,10 @@
     "reason": "NHPN centerline vertices carry catalog-documented ~80 m class horizontal error; design-radius adjudication on 25 m tangents would measure digitization noise, not road design. This stage adjudicates corner-class heading discipline (every turn beyond 20 degrees at the 25 m lens is a recorded exception site, reversal-class turns are refused), topology (self-intersection, monotonicity, reciprocal separation), and the grade gate against the conditioned profile; the finer gates run when lane splines and collision ribbons are generated over this carriageway model."
   },
   "dem_product_lock_sha256": "8863b1cd0445188427e0af597b6599b8f3e855ca43c34e93c664db1e3705860f",
-  "derived_at": "2026-08-31T13:24:25Z",
+  "derived_at": "2026-08-31T14:07:55Z",
   "directed_route_lock_sha256": "cd31ea3193a755f06349fdf1cea814775d5de700e04a75113f70e68d18793294",
   "edge_path_lock_sha256": "fcf0da1dcff80eb74364b1496e2033c351b14c25cbbf7f857e8af8a42295fc5e",
+  "endpoint_connector_lock_sha256": "2544063bc8494016268aab322ae443c91712ef14087dfa37c41888bac878a2c8",
   "grade_gate": {
     "measured": {
       "from_station_m": 133400.0,
@@ -75,15 +76,22 @@
     "quad_segs": 8,
     "reversal_threshold_deg": 150.0,
     "side_rule": "The westbound carriageway offsets to the right of westbound travel; the source centerline is the median axis on the left of each directed carriageway, carrying ADR-0014 marking semantics (yellow continuous left/median edge, white broken same-direction dividers, white continuous right edge).",
+    "span_replacement": {
+      "decision": "ADR-0026",
+      "justification": "Each traversed NHS fill chord is replaced by its conflation-lock span, reassembled from the locked NHS fill cache and refused unless it reproduces the locked geometry digest, then registered onto the pinned chord endpoints by a correction interpolated linearly in arc length. The endpoint corrections equal the conflation lock's recorded seam offsets - the two datasets' characterised lateral disagreement inside the catalog's ~80 m NHPN error class - so the chain joints stay exact and no seam jog is invented. Vertical context is the ADR-0017 conditioned profile over the chord's directed-walk station interval, re-parametrised by the span's arc length; no observed span elevation is claimed.",
+      "method": "seam_registration_linear_in_arc_length",
+      "seam_tolerance_m": 0.02,
+      "span_corner_lens_m": 100.0
+    },
     "tangent_lens_m": 25.0
   },
   "next_stage": {
-    "id": "junction-and-span-geometry",
+    "id": "transfer-and-lane-geometry",
     "requires": [
-      "conflated NHS span geometry replacing the three traversed fill chords (ADR-0026 conflation lock spans)",
       "transfer geometry at the seven cross-segment junctions and the two junction-backtrack turn-arounds",
-      "authored endpoint connector geometry, after which ADR-0024's portal-to-portal run length can be published",
-      "lane topology, ramps, and collision over the carriageway model with the deferred ADR-0018 gates"
+      "lane topology, ramps, and collision over the carriageway model with the deferred ADR-0018 gates, then the GeoPackage/FlatBuffer package build under ADR-0019 budgets",
+      "the southern path's Holland Tunnel connector (nyc-start-to-i78) before its portal-to-portal figure can publish",
+      "runtime integration and the double-build/traversal evidence"
     ]
   },
   "nhs_conflation_lock_sha256": "4448c547c0a051ac6c58f26c8e37f092d3a4fbd5a33072f807103b5394292251",
@@ -96,7 +104,90 @@
   "reconstruction_overlay_lock_sha256": "b01be230edc495e5aa30981d37b342519514e8884896df778380584032f908a0",
   "route_decision": "ADR-0024",
   "route_selection_sha256": "00ac4df354a8644997a2a073ee07c736ff3f3bc2d2565c8cd9cb51b957d2ff2f",
-  "schema_version": 1,
+  "run_length": {
+    "anchor_to_anchor_reference": {
+      "geodesic_m": 4492918.463,
+      "miles": 2791.77,
+      "relationship": "portal-to-portal = the anchor-to-anchor corridor figure plus the recorded span refinement plus the two authored connectors; every component is recorded per path."
+    },
+    "basis": "GRS80 geodesic over the locked corridor anchor-to-anchor traversal with each traversed NHS fill chord's contribution replaced by its seam-registered conflated span, plus the two authored ADR-0018 endpoint connectors joining the locked portals to the corridor ends.",
+    "canonical_portal_to_portal_geodesic_m": 4546552.503,
+    "canonical_portal_to_portal_miles": 2825.1,
+    "decision": "ADR-0024",
+    "from_portal": "nyc-east-31st-public-road-portal",
+    "junction_backtrack_note": "The composed figure includes 971.876 m of doubled junction-approach travel at anchors whose locked coordinate sits off the through junction (recorded per junction); transfer geometry is reconstruction-stage output.",
+    "paths": [
+      {
+        "connector_geodesic_m": {
+          "nyc-start-to-i80": 43588.805,
+          "redondo-access-to-finish": 10045.233
+        },
+        "connector_segment_ids": [
+          "nyc-start-to-i80",
+          "redondo-access-to-finish"
+        ],
+        "corridor_anchor_to_anchor_geodesic_m": 4492918.463,
+        "corridor_anchor_to_anchor_planimetric_m": 4473876.594,
+        "path_id": "central-rockies",
+        "portal_to_portal_geodesic_m": 4546552.503,
+        "portal_to_portal_miles": 2825.1,
+        "portal_to_portal_planimetric_m": 4527328.088,
+        "published": true,
+        "replaced_span_site_ids": [
+          "i70-denver-to-cove-fort--component-00-01"
+        ],
+        "role": "canonical",
+        "span_refinement_geodesic_m": 0.002,
+        "span_refinement_planimetric_m": 0.002
+      },
+      {
+        "connector_geodesic_m": {
+          "nyc-start-to-i80": 43588.805,
+          "redondo-access-to-finish": 10045.233
+        },
+        "connector_segment_ids": [
+          "nyc-start-to-i80",
+          "redondo-access-to-finish"
+        ],
+        "corridor_anchor_to_anchor_geodesic_m": 4600070.081,
+        "corridor_anchor_to_anchor_planimetric_m": 4582040.995,
+        "path_id": "northern-plains",
+        "portal_to_portal_geodesic_m": 4653704.119,
+        "portal_to_portal_miles": 2891.68,
+        "portal_to_portal_planimetric_m": 4635492.487,
+        "published": true,
+        "replaced_span_site_ids": [],
+        "role": "major_alternative",
+        "span_refinement_geodesic_m": 0.0,
+        "span_refinement_planimetric_m": 0.0
+      },
+      {
+        "connector_segment_ids": [
+          "nyc-start-to-i78",
+          "redondo-access-to-finish"
+        ],
+        "corridor_anchor_to_anchor_geodesic_m": 4691103.623,
+        "corridor_anchor_to_anchor_planimetric_m": 4668274.829,
+        "path_id": "southern-i40",
+        "published": false,
+        "reason": "Endpoint connector(s) nyc-start-to-i78 are not yet authored; the portal-to-portal figure for this path stays unpublished.",
+        "replaced_span_site_ids": [
+          "i40-i81-to-barstow--component-01-02",
+          "i78-holland-tunnel-to-i81--component-00-01"
+        ],
+        "role": "major_alternative",
+        "span_refinement_geodesic_m": 361.395,
+        "span_refinement_planimetric_m": 369.206
+      }
+    ],
+    "precision": {
+      "connectors": "authored-waypoint fidelity per the endpoint connector lock's declared class; the connector contribution is recorded per connector and refines when connector source geometry is acquired",
+      "corridor": "locked source-centerline fidelity"
+    },
+    "scope": "portal_to_portal_westbound",
+    "to_portal": "redondo-portofino-way-public-road-portal"
+  },
+  "schema_version": 2,
   "segment_count": 12,
   "segments": [
     {
@@ -335,10 +426,10 @@
     {
       "chain": {
         "bridged_joint_count": 0,
-        "length_m": 804576.944,
+        "length_m": 804576.946,
         "max_joint_gap_m": 0.0,
-        "raw_length_m": 804576.944,
-        "vertex_count": 8466
+        "raw_length_m": 804576.946,
+        "vertex_count": 8476
       },
       "corner_sites": [
         {
@@ -357,7 +448,7 @@
         {
           "coordinate": [
             -110.8643667,
-            38.860288
+            38.8602881
           ],
           "corner_class": "route_corner",
           "corner_id": "i70-denver-to-cove-fort--corner-001",
@@ -369,9 +460,9 @@
         }
       ],
       "eastbound": {
-        "geometry_sha256": "3de15070597bf6a95db576a9d51c3472c1e4c2bfcfb8dae4e36671f8f8df2de5",
-        "length_m": 804565.009,
-        "vertex_count": 12323
+        "geometry_sha256": "2bb1a57e912a11d9740e7a64e08a21ddf1d8a9fcb5421e044d2a558c9a793373",
+        "length_m": 804565.011,
+        "vertex_count": 12338
       },
       "element_count": 487,
       "gates": {
@@ -386,7 +477,7 @@
           "threshold": 150.0
         },
         "length_agreement": {
-          "measured": 1.4833e-05,
+          "measured": 1.4834e-05,
           "passed": true,
           "threshold": 0.002
         },
@@ -410,8 +501,8 @@
         },
         "station_monotonicity": {
           "measured": {
-            "eastbound_vertex_count": 12323,
-            "westbound_vertex_count": 12406
+            "eastbound_vertex_count": 12338,
+            "westbound_vertex_count": 12419
           },
           "passed": true,
           "threshold": "strictly increasing station at every vertex"
@@ -420,9 +511,9 @@
       "planimetric_conditioning": [],
       "segment_id": "i70-denver-to-cove-fort",
       "westbound": {
-        "geometry_sha256": "b81e6557d10cf819783503ac9573bb7644c022a2421276f736fa2dc9e2fc2e27",
-        "length_m": 804576.708,
-        "vertex_count": 12406
+        "geometry_sha256": "70043c865e8fd6757985429f5dc4900108aacad5e298b04902a26c69128b0af9",
+        "length_m": 804576.711,
+        "vertex_count": 12419
       }
     },
     {
@@ -588,30 +679,16 @@
     {
       "chain": {
         "bridged_joint_count": 0,
-        "length_m": 231084.598,
+        "length_m": 231443.448,
         "max_joint_gap_m": 0.0,
-        "raw_length_m": 231084.598,
-        "vertex_count": 4147
+        "raw_length_m": 231443.448,
+        "vertex_count": 4193
       },
-      "corner_sites": [
-        {
-          "coordinate": [
-            -75.1777741,
-            40.6718254
-          ],
-          "corner_class": "route_corner",
-          "corner_id": "i78-holland-tunnel-to-i81--corner-000",
-          "from_station_m": 107550.0,
-          "peak_turn_deg": 29.9,
-          "sample_count": 2,
-          "to_station_m": 107575.0,
-          "turn_sum_deg": 59.22
-        }
-      ],
+      "corner_sites": [],
       "eastbound": {
-        "geometry_sha256": "7499ae2498a38f1f579e0349eb03f6ce92d9d0a4fc953114c60f7e67d781689b",
-        "length_m": 231077.057,
-        "vertex_count": 6068
+        "geometry_sha256": "c8feec43c1f33830f5aa502f224543bf7a1463d228d9077e97e9fbaa504ee6d2",
+        "length_m": 231436.934,
+        "vertex_count": 6124
       },
       "element_count": 274,
       "gates": {
@@ -621,12 +698,12 @@
           "threshold": 1.0
         },
         "heading_discipline": {
-          "measured": 29.9,
+          "measured": 0.0,
           "passed": true,
           "threshold": 150.0
         },
         "length_agreement": {
-          "measured": 3.2635e-05,
+          "measured": 2.8145e-05,
           "passed": true,
           "threshold": 0.002
         },
@@ -650,8 +727,8 @@
         },
         "station_monotonicity": {
           "measured": {
-            "eastbound_vertex_count": 6068,
-            "westbound_vertex_count": 6058
+            "eastbound_vertex_count": 6124,
+            "westbound_vertex_count": 6134
           },
           "passed": true,
           "threshold": "strictly increasing station at every vertex"
@@ -660,9 +737,9 @@
       "planimetric_conditioning": [],
       "segment_id": "i78-holland-tunnel-to-i81",
       "westbound": {
-        "geometry_sha256": "ede93b474473bc88fd31e10d930dbb35dda85cf34d1285c1d478fdc84a4f2084",
-        "length_m": 231090.849,
-        "vertex_count": 6058
+        "geometry_sha256": "e093d1664b607830e965d792d83bf6470fc6a0f0081c457466b0d088a7440fc2",
+        "length_m": 231449.715,
+        "vertex_count": 6134
       }
     },
     {
@@ -734,10 +811,10 @@
     {
       "chain": {
         "bridged_joint_count": 6,
-        "length_m": 3366359.749,
+        "length_m": 3366370.104,
         "max_joint_gap_m": 0.934318,
-        "raw_length_m": 3366488.799,
-        "vertex_count": 70362
+        "raw_length_m": 3366499.154,
+        "vertex_count": 70392
       },
       "corner_sites": [
         {
@@ -781,35 +858,35 @@
         },
         {
           "coordinate": [
-            -109.0467859,
-            35.3633348
+            -109.0456451,
+            35.3641168
           ],
           "corner_class": "route_corner",
           "corner_id": "i40-i81-to-barstow--corner-003",
-          "from_station_m": 2543975.0,
-          "peak_turn_deg": 32.79,
-          "sample_count": 1,
+          "from_station_m": 2543850.0,
+          "peak_turn_deg": 26.87,
+          "sample_count": 2,
           "to_station_m": 2543975.0,
-          "turn_sum_deg": 32.79
+          "turn_sum_deg": 49.01
         },
         {
           "coordinate": [
-            -114.4784114,
-            34.7180871
+            -114.4782987,
+            34.718101
           ],
           "corner_class": "route_corner",
           "corner_id": "i40-i81-to-barstow--corner-004",
-          "from_station_m": 3118200.0,
-          "peak_turn_deg": 24.46,
-          "sample_count": 1,
+          "from_station_m": 3118175.0,
+          "peak_turn_deg": 51.7,
+          "sample_count": 2,
           "to_station_m": 3118200.0,
-          "turn_sum_deg": 24.46
+          "turn_sum_deg": 102.17
         }
       ],
       "eastbound": {
-        "geometry_sha256": "3dca388500b42d2bbad11006ea745ff714ca3a6708f4c7c1b9b5c3d0e2e75188",
-        "length_m": 3366346.533,
-        "vertex_count": 100433
+        "geometry_sha256": "752fb8a105a95785f72566586c86b0626c455ebfa431e0930b16a216d431810c",
+        "length_m": 3366356.892,
+        "vertex_count": 100481
       },
       "element_count": 6558,
       "gates": {
@@ -824,7 +901,7 @@
           "threshold": 150.0
         },
         "length_agreement": {
-          "measured": 4.586e-06,
+          "measured": 4.583e-06,
           "passed": true,
           "threshold": 0.002
         },
@@ -848,8 +925,8 @@
         },
         "station_monotonicity": {
           "measured": {
-            "eastbound_vertex_count": 100433,
-            "westbound_vertex_count": 100934
+            "eastbound_vertex_count": 100481,
+            "westbound_vertex_count": 100969
           },
           "passed": true,
           "threshold": "strictly increasing station at every vertex"
@@ -858,7 +935,7 @@
       "planimetric_conditioning": [
         {
           "chain_length_delta_m": -128.465,
-          "chain_station_m": 2490234.35,
+          "chain_station_m": 2490244.705,
           "coordinate": [
             -108.540877,
             35.511073
@@ -868,7 +945,7 @@
         },
         {
           "chain_length_delta_m": -0.585,
-          "chain_station_m": 2808276.927,
+          "chain_station_m": 2808287.282,
           "coordinate": [
             -111.678513,
             35.17739
@@ -879,9 +956,9 @@
       ],
       "segment_id": "i40-i81-to-barstow",
       "westbound": {
-        "geometry_sha256": "554ad5437f8ad3a98939fc768bbf73c0e051d79b4c7f8944b2c6934bbf1400b0",
-        "length_m": 3366344.311,
-        "vertex_count": 100934
+        "geometry_sha256": "9f98bc5ba76159466a49ff572163b04edd5bc38a46d412d2d1b85862b176f00d",
+        "length_m": 3366354.675,
+        "vertex_count": 100969
       }
     },
     {
@@ -1256,32 +1333,269 @@
       }
     }
   ],
-  "segments_sha256": "99571ec6e34bf27fcb26b33d7c588d036be975e48d78723cd73e0f0d42ec3846",
+  "segments_sha256": "e34bfad99f135b7a6b656e0146a467dea0a1cf26d10f3cf6b16363c1f7961825",
   "source_policy": {
-    "authoritative_distance_claimed": false,
+    "authoritative_distance_claimed": true,
+    "authoritative_distance_scope": "ADR-0024 portal-to-portal westbound run length over the locked corridor (traversed fill chords replaced by their seam-registered conflated NHS spans) plus the two authored endpoint connectors; the connector contribution carries declared authored-waypoint precision, recorded in the run-length record.",
     "carriageway_decision": "ADR-0014",
     "context_decision": "ADR-0017",
     "continental_downloads_committed": false,
     "control_line_decision": "ADR-0013",
-    "endpoint_connectors_generated": false,
-    "fill_chords_replaced_by_conflated_spans": false,
+    "endpoint_connectors_generated": true,
+    "fill_chords_replaced_by_conflated_spans": true,
     "junction_transfer_geometry_generated": false,
     "opposing_geometry_synthesized_from_proximity": false,
     "reconstruction_decision": "ADR-0018"
   },
-  "status": "westbound_carriageway_locked_junction_geometry_pending",
+  "span_replacements": [
+    {
+      "chord": {
+        "geodesic_m": 322.752,
+        "planimetric_m": 320.0
+      },
+      "deltas": {
+        "registered_minus_chord_m": 0.002,
+        "span_minus_chord_m": -8.565
+      },
+      "element_index": 260,
+      "gates": {
+        "registration_length_change": {
+          "measured": 8.567,
+          "passed": true,
+          "threshold": 73.187
+        },
+        "seam_registration": {
+          "measured": 0.0,
+          "passed": true,
+          "threshold": 0.02
+        },
+        "span_digest_agreement": {
+          "measured": "65a3a266fb4bcccb7fa6fd47144b33ec14369dd10fe806987d5cf55a775baf43",
+          "passed": true,
+          "threshold": "reassembled span reproduces the conflation lock digest"
+        },
+        "span_grade": {
+          "measured": 4.479,
+          "passed": true,
+          "threshold": 7.0
+        }
+      },
+      "nhs_route": {
+        "route_id": "070A",
+        "state_fips": "8"
+      },
+      "registered": {
+        "geodesic_m": 322.754,
+        "planimetric_m": 320.002,
+        "vertex_count": 12
+      },
+      "reversed_for_travel": true,
+      "seam_registration": {
+        "from_offset_m": 17.422,
+        "method": "linear_in_arc_length",
+        "offset_agreement_delta_m": 0.0,
+        "recorded_seam_offsets_m": {
+          "from": 17.422,
+          "to": 55.755
+        },
+        "to_offset_m": 55.755
+      },
+      "segment_id": "i70-denver-to-cove-fort",
+      "site_id": "i70-denver-to-cove-fort--component-00-01",
+      "span": {
+        "geometry_length_m": 311.435,
+        "geometry_sha256": "65a3a266fb4bcccb7fa6fd47144b33ec14369dd10fe806987d5cf55a775baf43",
+        "piece_count": 1,
+        "reassembled_digest_verified": true
+      },
+      "vertical_context": {
+        "boundary_elevations_m": [
+          1601.55,
+          1616.0
+        ],
+        "chord_grade_percent": 4.479,
+        "chord_station_interval_m": [
+          297405.393,
+          297728.145
+        ],
+        "conditioning_records": [],
+        "method": "ADR-0017 deck-chord re-parametrisation: the conditioned profile's boundary elevations over the chord's directed-walk station interval map linearly onto the span's arc length; no observed span elevation is claimed.",
+        "source": "conditioned-profile-lock over corridor-elevation-lock",
+        "span_grade_percent": 4.479
+      }
+    },
+    {
+      "chord": {
+        "geodesic_m": 3047.788,
+        "planimetric_m": 3021.991
+      },
+      "deltas": {
+        "registered_minus_chord_m": 358.85,
+        "span_minus_chord_m": 356.072
+      },
+      "element_index": 164,
+      "gates": {
+        "registration_length_change": {
+          "measured": 2.778,
+          "passed": true,
+          "threshold": 31.189
+        },
+        "seam_registration": {
+          "measured": 0.0,
+          "passed": true,
+          "threshold": 0.02
+        },
+        "span_digest_agreement": {
+          "measured": "b9caba3aacf7037c74ebda2a1bb4b15dceb3def16d8ecee9a7fb81a5e5318cc4",
+          "passed": true,
+          "threshold": "reassembled span reproduces the conflation lock digest"
+        },
+        "span_grade": {
+          "measured": 1.078,
+          "passed": true,
+          "threshold": 7.0
+        }
+      },
+      "nhs_route": {
+        "route_id": "6 48 48B3 - 86216",
+        "state_fips": "42"
+      },
+      "registered": {
+        "geodesic_m": 3399.084,
+        "planimetric_m": 3380.841,
+        "vertex_count": 48
+      },
+      "reversed_for_travel": true,
+      "seam_registration": {
+        "from_offset_m": 16.353,
+        "method": "linear_in_arc_length",
+        "offset_agreement_delta_m": 0.0,
+        "recorded_seam_offsets_m": {
+          "from": 16.353,
+          "to": 14.826
+        },
+        "to_offset_m": 14.826
+      },
+      "segment_id": "i78-holland-tunnel-to-i81",
+      "site_id": "i78-holland-tunnel-to-i81--component-00-01",
+      "span": {
+        "geometry_length_m": 3378.063,
+        "geometry_sha256": "b9caba3aacf7037c74ebda2a1bb4b15dceb3def16d8ecee9a7fb81a5e5318cc4",
+        "piece_count": 2,
+        "reassembled_digest_verified": true
+      },
+      "vertical_context": {
+        "boundary_elevations_m": [
+          81.2,
+          117.84
+        ],
+        "chord_grade_percent": 1.202,
+        "chord_station_interval_m": [
+          108171.271,
+          111219.059
+        ],
+        "conditioning_records": [
+          {
+            "artifact_class": "fill_span_terrain",
+            "record_id": "i78-holland-tunnel-to-i81--conditioning-006"
+          }
+        ],
+        "method": "ADR-0017 deck-chord re-parametrisation: the conditioned profile's boundary elevations over the chord's directed-walk station interval map linearly onto the span's arc length; no observed span elevation is claimed.",
+        "source": "conditioned-profile-lock over corridor-elevation-lock",
+        "span_grade_percent": 1.078
+      }
+    },
+    {
+      "chord": {
+        "geodesic_m": 1869.684,
+        "planimetric_m": 1854.0
+      },
+      "deltas": {
+        "registered_minus_chord_m": 10.356,
+        "span_minus_chord_m": 10.352
+      },
+      "element_index": 4213,
+      "gates": {
+        "registration_length_change": {
+          "measured": 0.004,
+          "passed": true,
+          "threshold": 0.176
+        },
+        "seam_registration": {
+          "measured": 0.0,
+          "passed": true,
+          "threshold": 0.02
+        },
+        "span_digest_agreement": {
+          "measured": "84a51fd65af1accca86f44110e58625ea80b5a9a60756bf20250d6a37ad7009e",
+          "passed": true,
+          "threshold": "reassembled span reproduces the conflation lock digest"
+        },
+        "span_grade": {
+          "measured": -0.736,
+          "passed": true,
+          "threshold": 7.0
+        }
+      },
+      "nhs_route": {
+        "route_id": "I40P",
+        "state_fips": "35"
+      },
+      "registered": {
+        "geodesic_m": 1879.783,
+        "planimetric_m": 1864.356,
+        "vertex_count": 32
+      },
+      "reversed_for_travel": true,
+      "seam_registration": {
+        "from_offset_m": 0.1,
+        "method": "linear_in_arc_length",
+        "offset_agreement_delta_m": 0.0,
+        "recorded_seam_offsets_m": {
+          "from": 0.1,
+          "to": 0.066
+        },
+        "to_offset_m": 0.066
+      },
+      "segment_id": "i40-i81-to-barstow",
+      "site_id": "i40-i81-to-barstow--component-01-02",
+      "span": {
+        "geometry_length_m": 1864.352,
+        "geometry_sha256": "84a51fd65af1accca86f44110e58625ea80b5a9a60756bf20250d6a37ad7009e",
+        "piece_count": 8,
+        "reassembled_digest_verified": true
+      },
+      "vertical_context": {
+        "boundary_elevations_m": [
+          1533.4,
+          1519.57
+        ],
+        "chord_grade_percent": -0.74,
+        "chord_station_interval_m": [
+          2303505.131,
+          2305374.815
+        ],
+        "conditioning_records": [],
+        "method": "ADR-0017 deck-chord re-parametrisation: the conditioned profile's boundary elevations over the chord's directed-walk station interval map linearly onto the span's arc length; no observed span elevation is claimed.",
+        "source": "conditioned-profile-lock over corridor-elevation-lock",
+        "span_grade_percent": -0.736
+      }
+    }
+  ],
+  "span_replacements_sha256": "f286afd1b9a2e6228ad7392b9fd3617d05fc3d89579a2cef39dca5f8396ab08a",
+  "status": "portal_corridor_locked_transfer_geometry_pending",
   "summary": {
-    "chain_length_m": 10129229.164,
-    "corner_site_count": 24,
+    "chain_length_m": 10129598.371,
+    "corner_site_count": 23,
     "corner_sites_by_class": {
       "junction_backtrack_approach": 2,
       "overlay_corner": 1,
-      "route_corner": 21
+      "route_corner": 20
     },
-    "eastbound_length_m": 10128470.897,
+    "eastbound_length_m": 10128841.135,
     "element_count": 12582,
     "gates_failed": 0,
-    "gates_passed": 84,
+    "gates_passed": 96,
     "junction_backtrack_count": 2,
     "min_reciprocal_separation_m": 19.929,
     "planimetric_conditioning_by_class": {
@@ -1289,9 +1603,18 @@
       "overlay_out_and_back": 1
     },
     "planimetric_conditioning_count": 4,
+    "replaced_span_length_m": 5565.199,
     "segment_count": 12,
-    "westbound_length_m": 10129200.854,
-    "westbound_miles": 6293.994
+    "span_replacement_count": 3,
+    "westbound_length_m": 10129570.087,
+    "westbound_miles": 6294.223
+  },
+  "supersedes": {
+    "artifact": "westbound-carriageway-lock.v1.json",
+    "schema_version": 1,
+    "sha256": "4607550702f6042412f99c45e12008a7a5c299c817deb62bb70cf29cde570c5b",
+    "status": "westbound_carriageway_locked_junction_geometry_pending",
+    "superseded_reason": "The junction-and-span-geometry stage replaced the three traversed NHS fill chords with their seam-registered conflated spans, integrated the two authored ADR-0024 endpoint connectors, and published the portal-to-portal run length; the v1 gate results over chord-class fill geometry are history, not current claims."
   },
   "transfer_lock_sha256": "b267282a1d48014783c90a60c46cda85cea61741911d23649bf318404aea2b3b",
   "westbound_selection": {
