@@ -15,7 +15,7 @@ from pathlib import Path
 from typing import Any, Protocol
 
 import networkx as nx
-from pyproj import Transformer
+from pyproj import Geod, Transformer
 from shapely.geometry import LineString, MultiLineString, Point, box
 from shapely.ops import linemerge, nearest_points, substring, transform
 
@@ -125,6 +125,12 @@ class LockedCandidateLine:
     record_begin_milepost: float = 0.0
     record_end_milepost: float = 0.0
     part_index: int = 0
+    # MILES: the source's own per-record length assertion, and FACILITY_T: the
+    # source's facility-type code. Carried for the directed-selection stage's
+    # cross-checks and direction-evidence census; None when the source omits
+    # them. Neither is ever a substitute for locked geometry.
+    miles: float | None = None
+    facility_type: int | None = None
 
 
 def _reject_non_finite(literal: str) -> float:
@@ -818,6 +824,8 @@ def _load_locked_candidate_lines(
                 if len(coordinates) < 2:
                     raise ValueError(f"NHPN OBJECTID {object_id} has a degenerate path.")
                 attributes = feature["attributes"]
+                miles = attributes.get("MILES")
+                facility_type = attributes.get("FACILITY_T")
                 lines.append(
                     LockedCandidateLine(
                         snapshot["segment_id"],
@@ -830,6 +838,11 @@ def _load_locked_candidate_lines(
                         float(attributes.get("BEGIN_POIN") or 0.0),
                         float(attributes.get("END_POINT") or 0.0),
                         part_index,
+                        float(miles) if isinstance(miles, int | float) else None,
+                        int(facility_type)
+                        if isinstance(facility_type, int | float)
+                        and not isinstance(facility_type, bool)
+                        else None,
                     )
                 )
     if seen != set(object_ids):
@@ -9370,4 +9383,2077 @@ def validate_continental_3dep_products(
             )
     if payload.get("next_stage") != DEM_PRODUCT_NEXT_STAGE:
         raise ValueError("3DEP product lock next stage drifted.")
+    return payload
+
+
+# --- Westbound directed route lock over the closed corridor -----------------------
+
+DIRECTED_ROUTE_STATUS = "westbound_directed_route_locked_reconstruction_pending"
+DIRECTED_ROUTE_NEXT_STAGE = {
+    "id": "reconstruction-geometry",
+    "requires": [
+        "reciprocal directed westbound carriageway reconstruction under ADR-0014",
+        "full ADR-0018 gate battery, including the gates deferred at the two "
+        "overlay sites and the recorded Quad Cities 77.2 degree corner constraint",
+        "corridor elevation acquisition against the locked 3DEP product URLs",
+        "authored endpoint connector geometry for the three non-NHPN segments",
+    ],
+}
+
+# Every directed element is measured two ways: the EPSG:5070 planimetric length
+# the chain and edge-path locks already recorded (their exact figures are
+# reproduced, not approximated), and a geodesic length on the GRS80 ellipsoid
+# over the record's locked EPSG:4326 coordinates. EPSG:5070 is an equal-area
+# projection, not an equidistant one; its scale error inside the corridor's
+# latitude band (33.8 to 41.3 degrees N, spanning the 29.5/45.5 standard
+# parallels) stays under one percent, so a wider disagreement between the two
+# measurements of the same locked coordinates is a defect, not projection
+# distortion. The measured corridor-wide divergence at lock time is recorded in
+# the artifact beside the bound.
+GEODESIC_PLANIMETRIC_AGREEMENT_RATIO = 0.01
+
+# Recorded element lengths are millimetre-rounded, so any comparison between two
+# recorded values may carry up to two half-quantum rounding steps.
+GEODESIC_ROUNDING_ALLOWANCE_M = 0.002
+
+# The NHPN MILES aggregation is a cross-check against the source's own length
+# assertion, not a distance authority. Unlike the NHS/ARNOLD MILES field, which
+# the conflation lock proved agrees with its geometry within about 0.9 percent,
+# the NHPN MILES field (VERSION-stamped 2014.05 on the corridor records)
+# disagrees with the same records' locked geometry by a characterised margin:
+# at derivation the per-segment aggregate divergence envelope measured 0.4 to
+# 4.4 percent, with a per-record median MILES/geodesic ratio near 0.96. The
+# bound trips a material drift beyond that characterised envelope without
+# absorbing the envelope itself.
+NHPN_MILES_AGGREGATE_BOUND = 0.06
+
+# Two consecutive segments resolve their shared ADR-0024 anchor on two
+# independently snapped graphs, each within the unchanged 25 m anchor snap
+# limit, so their terminal nodes may sit up to twice that limit apart. The gap
+# is a bounded anchor-model discontinuity, recorded and excluded from
+# stationing; junction geometry is reconstruction-stage output.
+JUNCTION_CONTINUITY_LIMIT_M = 2.0 * ANCHOR_SNAP_LIMIT_METERS
+
+_DIRECTED_GEOD = Geod(ellps="GRS80")
+
+
+def _geodesic_line_length_m(coordinates: Sequence[tuple[float, float]]) -> float:
+    """GRS80 geodesic length of an EPSG:4326 coordinate sequence, in metres."""
+    return float(
+        _DIRECTED_GEOD.line_length(
+            [point[0] for point in coordinates], [point[1] for point in coordinates]
+        )
+    )
+
+
+def _geodesic_distance_m(
+    first: tuple[float, float], second: tuple[float, float]
+) -> float:
+    """GRS80 geodesic distance between two EPSG:4326 lon/lat points, in metres."""
+    _, _, distance = _DIRECTED_GEOD.inv(first[0], first[1], second[0], second[1])
+    return float(distance)
+
+
+def _milepost_trend(entry: float | None, exit: float | None) -> str:
+    if entry is None or exit is None:
+        return "unmeasured"
+    if exit < entry:
+        return "decreasing"
+    if exit > entry:
+        return "increasing"
+    return "flat"
+
+
+def _rounding_envelope_m(count: int, quantum: float = 0.001) -> float:
+    """The largest disagreement pure rounding can produce between a recorded sum
+    and the sum of its recorded, individually rounded parts."""
+    return 0.5 * quantum * (count + 1) + 1e-6
+
+
+def _increasing_milepost_runs(elements: Sequence[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Contiguous same-key runs of increasing milepost trend along a traversal.
+
+    Direction evidence, not adjudication: within one LRS key a consistent
+    milepost trend corroborates the traversal orientation, and a run against
+    the dominant trend is a key-local calibration-direction fact worth reading,
+    not an error.
+    """
+    runs: list[dict[str, Any]] = []
+    current: dict[str, Any] | None = None
+    for index, element in enumerate(elements):
+        if element["kind"] not in ("nhpn_edge", "nhpn_split_edge"):
+            current = None
+            continue
+        trend = _milepost_trend(element["entry_milepost"], element["exit_milepost"])
+        if trend != "increasing":
+            current = None
+            continue
+        if (
+            current is not None
+            and current["lrs_key"] == element["lrs_key"]
+            and current["first_element_index"] + current["element_count"] == index
+        ):
+            current["element_count"] += 1
+            current["exit_milepost"] = element["exit_milepost"]
+        else:
+            current = {
+                "lrs_key": element["lrs_key"],
+                "first_element_index": index,
+                "element_count": 1,
+                "entry_milepost": element["entry_milepost"],
+                "exit_milepost": element["exit_milepost"],
+            }
+            runs.append(current)
+    return runs
+
+
+def _directed_bridge_sites(
+    graph: nx.MultiGraph,
+    nodes: dict[tuple[int, int], tuple[float, float]],
+    sites: Sequence[dict[str, Any]],
+    data_key: str,
+    tolerance: float,
+    forward: Transformer,
+) -> dict[str, tuple[tuple[int, int], tuple[int, int]]]:
+    """Bridge fill or overlay sites exactly as the chain-connectivity model does.
+
+    Same edge keys, weights, and attributes, so the shortest traversal cannot
+    disagree with the locked chain; additionally returns each site's
+    (from-node, to-node) keys so the traversal can record which pinned boundary
+    end it entered.
+    """
+    ends_by_site: dict[str, tuple[tuple[int, int], tuple[int, int]]] = {}
+
+    def nearest_node(point: tuple[float, float]) -> tuple[tuple[int, int], float]:
+        best_key, best_distance = None, float("inf")
+        for key in sorted(nodes):
+            distance = math.dist(point, nodes[key])
+            if distance < best_distance:
+                best_key, best_distance = key, distance
+        assert best_key is not None
+        return best_key, best_distance
+
+    for site in sorted(sites, key=lambda entry: entry["site_id"]):
+        ends = []
+        for corner in ("from_coordinate", "to_coordinate"):
+            point = forward.transform(
+                site[corner]["longitude"], site[corner]["latitude"]
+            )
+            node, distance = nearest_node(point)
+            if distance > tolerance:
+                raise ValueError(
+                    f"Bridge '{site['site_id']}' {corner} does not land on a locked "
+                    f"chain end within the {tolerance:g} m tolerance."
+                )
+            ends.append(node)
+        graph.add_edge(
+            ends[0],
+            ends[1],
+            key=(data_key, site["site_id"]),
+            weight=float(site["separation_m"]),
+            **{f"{data_key}_site_id": site["site_id"]},
+        )
+        ends_by_site[site["site_id"]] = (ends[0], ends[1])
+    return ends_by_site
+
+
+def _derive_directed_segment(
+    segment: dict[str, Any],
+    edge_entry: dict[str, Any],
+    chain_entry: dict[str, Any] | None,
+    lines: tuple[LockedCandidateLine, ...],
+    fill_sites: Sequence[dict[str, Any]],
+    overlay_sites: Sequence[dict[str, Any]],
+    conflation_site_by_id: dict[str, dict[str, Any]],
+    from_point: tuple[float, float],
+    to_point: tuple[float, float],
+    tolerance: float,
+    anchor_limit: float,
+    forward: Transformer,
+    inverse: Transformer,
+) -> dict[str, Any]:
+    """Walk one segment's locked traversal from its from-anchor to its to-anchor.
+
+    Rebuilds the identical snapped graph, bridges, and anchor resolution the
+    edge-path and chain-connectivity locks used, then refuses to emit anything
+    that does not reproduce those locks exactly: the directed sequence is the
+    locked topology traversed in the ADR-0024 westbound anchor order, never a
+    new selection.
+    """
+    segment_id = segment["id"]
+    connected = bool(edge_entry.get("connected"))
+
+    candidate_by_key: dict[tuple[int, int], LockedCandidateLine] = {}
+    metric_by_key: dict[tuple[int, int], LineString] = {}
+    part_counts: dict[int, int] = {}
+    record_metric_total: dict[int, float] = {}
+    metric_pairs: list[tuple[LockedCandidateLine, LineString]] = []
+    for candidate in lines:
+        metric = transform(forward.transform, candidate.geometry)
+        metric_pairs.append((candidate, metric))
+        key = (candidate.object_id, candidate.part_index)
+        if key in candidate_by_key:
+            raise ValueError(
+                f"Segment '{segment_id}' locked candidates repeat part {key}."
+            )
+        candidate_by_key[key] = candidate
+        metric_by_key[key] = metric
+        part_counts[candidate.object_id] = part_counts.get(candidate.object_id, 0) + 1
+        record_metric_total[candidate.object_id] = (
+            record_metric_total.get(candidate.object_id, 0.0) + float(metric.length)
+        )
+    metric_lines = tuple(metric_pairs)
+
+    graph, nodes, _, _ = _build_snapped_endpoint_graph(metric_lines, tolerance)
+    bridge_ends: dict[str, tuple[tuple[int, int], tuple[int, int]]] = {}
+    if not connected:
+        bridge_ends.update(
+            _directed_bridge_sites(graph, nodes, fill_sites, "fill", tolerance, forward)
+        )
+        bridge_ends.update(
+            _directed_bridge_sites(
+                graph, nodes, overlay_sites, "overlay", tolerance, forward
+            )
+        )
+
+    splits: list[dict[str, Any]] = []
+    from_key, from_distance, from_split = _resolve_anchor_node(
+        graph, nodes, metric_lines, from_point, "from", tolerance, anchor_limit
+    )
+    if from_split is not None:
+        splits.append(from_split)
+    to_key, to_distance, to_split = _resolve_anchor_node(
+        graph, nodes, metric_lines, to_point, "to", tolerance, anchor_limit
+    )
+    if to_split is not None:
+        splits.append(to_split)
+    if max(from_distance, to_distance) > anchor_limit or from_key == to_key:
+        raise ValueError(
+            f"Segment '{segment_id}' anchors did not resolve onto the locked graph."
+        )
+    if not nx.has_path(graph, from_key, to_key):
+        raise ValueError(
+            f"Segment '{segment_id}' has no anchor-to-anchor path on the locked "
+            "closed topology."
+        )
+    node_path = nx.shortest_path(graph, from_key, to_key, weight="weight")
+
+    fill_by_id = {site["site_id"]: site for site in fill_sites}
+    overlay_by_id = {site["site_id"]: site for site in overlay_sites}
+    elements: list[dict[str, Any]] = []
+    ancestry_counts = {
+        "nhpn_edge": 0,
+        "nhpn_split_edge": 0,
+        "nhs_fill_chord": 0,
+        "authored_overlay_chord": 0,
+    }
+    planimetric_sums = {"nhpn": 0.0, "fill": 0.0, "overlay": 0.0}
+    geodesic_total = 0.0
+    nhpn_geodesic_total = 0.0
+    miles_total = 0.0
+    miles_unavailable = 0
+    facility_counts: dict[str, int] = {}
+    trend_counts = {"decreasing": 0, "increasing": 0, "flat": 0, "unmeasured": 0}
+    thin = {"flat_milepost": [], "unmeasured_milepost": [], "authored_overlay": []}
+    fill_ids: list[str] = []
+    overlay_ids: list[str] = []
+    reversed_count = 0
+
+    for previous, current in zip(node_path, node_path[1:], strict=False):
+        parallel = graph.get_edge_data(previous, current)
+        if connected:
+            chosen = min(
+                parallel, key=lambda edge_key: (parallel[edge_key]["weight"], edge_key)
+            )
+        else:
+            chosen = min(
+                parallel,
+                key=lambda edge_key: (parallel[edge_key]["weight"], str(edge_key)),
+            )
+        data = parallel[chosen]
+        index = len(elements)
+        if "fill_site_id" in data:
+            site_id = data["fill_site_id"]
+            site = fill_by_id[site_id]
+            conflation_site = conflation_site_by_id.get(site_id)
+            if conflation_site is None:
+                raise ValueError(
+                    f"Traversed fill '{site_id}' has no conflation lock span."
+                )
+            reversed_for_travel = bridge_ends[site_id][0] != previous
+            chord = [
+                (
+                    site["from_coordinate"]["longitude"],
+                    site["from_coordinate"]["latitude"],
+                ),
+                (
+                    site["to_coordinate"]["longitude"],
+                    site["to_coordinate"]["latitude"],
+                ),
+            ]
+            geodesic = _geodesic_line_length_m(chord)
+            measure_by_side = {
+                seam["side"]: seam["nhs"]["measure_at_seam"]
+                for seam in conflation_site["seams"]
+            }
+            if set(measure_by_side) != {"from", "to"}:
+                raise ValueError(
+                    f"Conflation span '{site_id}' does not record both seam sides."
+                )
+            entry_side = "to" if reversed_for_travel else "from"
+            exit_side = "from" if reversed_for_travel else "to"
+            span = conflation_site["span"]
+            length = float(site["separation_m"])
+            element = {
+                "kind": "nhs_fill_chord",
+                "site_id": site_id,
+                "reversed_for_travel": reversed_for_travel,
+                "length_m": round(length, 3),
+                "geodesic_length_m": round(geodesic, 3),
+                "nhs_route": {
+                    "state_fips": conflation_site["group"]["state_fips"],
+                    "route_id": conflation_site["group"]["route_id"],
+                },
+                "entry_measure": measure_by_side[entry_side],
+                "exit_measure": measure_by_side[exit_side],
+                "measure_trend": _milepost_trend(
+                    measure_by_side[entry_side], measure_by_side[exit_side]
+                ),
+                "conflated_span": {
+                    "geometry_sha256": span["geometry_sha256"],
+                    "geometry_length_m": span["geometry_length_m"],
+                    "span_minus_chord_m": round(
+                        span["geometry_length_m"] - round(length, 3), 3
+                    ),
+                },
+            }
+            ancestry_counts["nhs_fill_chord"] += 1
+            planimetric_sums["fill"] += length
+            fill_ids.append(site_id)
+        elif "overlay_site_id" in data:
+            site_id = data["overlay_site_id"]
+            site = overlay_by_id[site_id]
+            reversed_for_travel = bridge_ends[site_id][0] != previous
+            geodesic = _geodesic_line_length_m(site["geometry"]["coordinates"])
+            length = float(site["separation_m"])
+            element = {
+                "kind": "authored_overlay_chord",
+                "site_id": site_id,
+                "overlay_id": site["overlay_id"],
+                "reversed_for_travel": reversed_for_travel,
+                "length_m": round(length, 3),
+                "geodesic_length_m": round(geodesic, 3),
+            }
+            ancestry_counts["authored_overlay_chord"] += 1
+            planimetric_sums["overlay"] += length
+            overlay_ids.append(site_id)
+            thin["authored_overlay"].append(index)
+        else:
+            object_id = int(data["object_id"])
+            part_index = int(data["part_index"])
+            candidate = candidate_by_key[(object_id, part_index)]
+            metric = metric_by_key[(object_id, part_index)]
+            part_range = data.get("part_range_m")
+            reversed_for_travel = data["start_key"] != previous
+            length = float(data["weight"])
+            if part_range is None:
+                geodesic = _geodesic_line_length_m(list(candidate.geometry.coords))
+            else:
+                clipped = substring(metric, float(part_range[0]), float(part_range[1]))
+                geodesic = _geodesic_line_length_m(
+                    [inverse.transform(x, y) for x, y in clipped.coords]
+                )
+            single_part = part_counts[object_id] == 1
+            whole_part = part_range is None
+            if whole_part and single_part:
+                entry_milepost = (
+                    candidate.record_end_milepost
+                    if reversed_for_travel
+                    else candidate.record_begin_milepost
+                )
+                exit_milepost = (
+                    candidate.record_begin_milepost
+                    if reversed_for_travel
+                    else candidate.record_end_milepost
+                )
+            else:
+                # A record's mileposts describe the whole record; a split
+                # sub-edge or one part of a multi-part record has no source
+                # measure of its own, and interpolating one would manufacture
+                # precision the measure axis does not carry.
+                entry_milepost = None
+                exit_milepost = None
+            if candidate.miles is None:
+                prorated_miles = None
+                miles_unavailable += 1
+            elif whole_part and single_part:
+                prorated_miles = float(candidate.miles)
+            else:
+                prorated_miles = (
+                    float(candidate.miles) * length / record_metric_total[object_id]
+                )
+            element = {
+                "kind": "nhpn_edge" if whole_part else "nhpn_split_edge",
+                "object_id": object_id,
+                "part_index": part_index,
+                "lrs_key": candidate.lrs_key,
+                "reversed_for_travel": reversed_for_travel,
+                "length_m": round(length, 3),
+                "geodesic_length_m": round(geodesic, 3),
+                "entry_milepost": entry_milepost,
+                "exit_milepost": exit_milepost,
+                "miles": None if prorated_miles is None else round(prorated_miles, 6),
+                "facility_type": candidate.facility_type,
+            }
+            if not whole_part:
+                element["part_range_m"] = [
+                    round(float(part_range[0]), 3),
+                    round(float(part_range[1]), 3),
+                ]
+            kind_key = "nhpn_edge" if whole_part else "nhpn_split_edge"
+            ancestry_counts[kind_key] += 1
+            planimetric_sums["nhpn"] += length
+            nhpn_geodesic_total += geodesic
+            if prorated_miles is not None:
+                miles_total += prorated_miles
+            facility_key = (
+                "null" if candidate.facility_type is None else str(candidate.facility_type)
+            )
+            facility_counts[facility_key] = facility_counts.get(facility_key, 0) + 1
+            trend = _milepost_trend(entry_milepost, exit_milepost)
+            trend_counts[trend] += 1
+            if trend == "flat":
+                thin["flat_milepost"].append(index)
+            elif trend == "unmeasured":
+                thin["unmeasured_milepost"].append(index)
+        deviation = abs(element["geodesic_length_m"] - element["length_m"])
+        allowance = (
+            GEODESIC_PLANIMETRIC_AGREEMENT_RATIO * element["length_m"]
+            + GEODESIC_ROUNDING_ALLOWANCE_M
+        )
+        if deviation > allowance:
+            raise ValueError(
+                f"Segment '{segment_id}' element {index} geodesic length departs "
+                f"from its planimetric length by {deviation:.3f} m against the "
+                f"{allowance:.3f} m agreement bound."
+            )
+        geodesic_total += geodesic
+        element["cumulative_geodesic_m"] = round(geodesic_total, 3)
+        if element["reversed_for_travel"]:
+            reversed_count += 1
+        elements.append(element)
+
+    # Refuse anything that does not reproduce the locked artifacts exactly.
+    planimetric_total = round(sum(planimetric_sums.values()), 3)
+    if connected:
+        recorded_edges = edge_entry["edges"]
+        walked = [
+            element
+            for element in elements
+            if element["kind"] in ("nhpn_edge", "nhpn_split_edge")
+        ]
+        if len(recorded_edges) != len(walked) or len(walked) != len(elements):
+            raise ValueError(
+                f"Segment '{segment_id}' directed walk does not reproduce the "
+                "locked edge path."
+            )
+        for recorded, element in zip(recorded_edges, walked, strict=True):
+            recorded_range = recorded.get("part_range_m")
+            if (
+                recorded["object_id"] != element["object_id"]
+                or recorded["part_index"] != element["part_index"]
+                or recorded["reversed_for_travel"] != element["reversed_for_travel"]
+                or recorded["length_meters"] != element["length_m"]
+                or recorded_range != element.get("part_range_m")
+            ):
+                raise ValueError(
+                    f"Segment '{segment_id}' directed walk disagrees with the "
+                    "locked edge path."
+                )
+        if planimetric_total != edge_entry["length_meters"]:
+            raise ValueError(
+                f"Segment '{segment_id}' directed length does not reproduce the "
+                "locked edge-path length."
+            )
+        locked_reference = {
+            "artifact": "edge-path-lock.v1",
+            "length_m": edge_entry["length_meters"],
+        }
+    else:
+        assert chain_entry is not None
+        checks = (
+            ("chain_length_meters", planimetric_total),
+            ("nhpn_path_meters", round(planimetric_sums["nhpn"], 3)),
+            ("fill_chord_meters", round(planimetric_sums["fill"], 3)),
+            ("overlay_chord_meters", round(planimetric_sums["overlay"], 3)),
+        )
+        for key, value in checks:
+            if chain_entry.get(key) != value:
+                raise ValueError(
+                    f"Segment '{segment_id}' directed walk does not reproduce the "
+                    f"locked chain connectivity ({key})."
+                )
+        if sorted(fill_ids) != chain_entry.get("fill_site_ids_on_chain", []):
+            raise ValueError(
+                f"Segment '{segment_id}' traversed fills disagree with the locked "
+                "chain."
+            )
+        if sorted(overlay_ids) != chain_entry.get("overlay_site_ids_on_chain", []):
+            raise ValueError(
+                f"Segment '{segment_id}' traversed overlays disagree with the "
+                "locked chain."
+            )
+        recorded_splits = chain_entry.get("anchor_edge_splits", [])
+        if canonical_sha256(splits) != canonical_sha256(recorded_splits):
+            raise ValueError(
+                f"Segment '{segment_id}' anchor resolution does not reproduce the "
+                "locked anchor edge splits."
+            )
+        locked_reference = {
+            "artifact": "reconstruction-overlay-lock.v1#chain_connectivity",
+            "length_m": chain_entry["chain_length_meters"],
+        }
+
+    increasing_runs = _increasing_milepost_runs(elements)
+
+    geodesic_total_rounded = round(geodesic_total, 3)
+    nhpn_geodesic_rounded = round(nhpn_geodesic_total, 3)
+    miles_total_rounded = round(miles_total, 6)
+    miles_divergence = round(
+        (miles_total_rounded * METRES_PER_MILE - nhpn_geodesic_rounded)
+        / nhpn_geodesic_rounded,
+        6,
+    )
+    if abs(miles_divergence) > NHPN_MILES_AGGREGATE_BOUND:
+        raise ValueError(
+            f"Segment '{segment_id}' NHPN MILES aggregation diverges from its "
+            f"geodesic length by {miles_divergence:+.4%}, beyond the "
+            f"{NHPN_MILES_AGGREGATE_BOUND:.0%} bound."
+        )
+    from_node = inverse.transform(*nodes[from_key])
+    to_node = inverse.transform(*nodes[to_key])
+
+    if connected and canonical_sha256(splits) != canonical_sha256(
+        edge_entry.get("anchor_edge_splits", [])
+    ):
+        raise ValueError(
+            f"Segment '{segment_id}' anchor resolution does not reproduce the "
+            "locked anchor edge splits."
+        )
+
+    record: dict[str, Any] = {
+        "segment_id": segment_id,
+        "from_anchor": segment["from"],
+        "to_anchor": segment["to"],
+        "solve": "nhpn_connected" if connected else "mixed_ancestry_chain",
+        "from_anchor_snap_distance_m": round(from_distance, 3),
+        "to_anchor_snap_distance_m": round(to_distance, 3),
+        "from_node": {
+            "longitude": round(from_node[0], 9),
+            "latitude": round(from_node[1], 9),
+        },
+        "to_node": {
+            "longitude": round(to_node[0], 9),
+            "latitude": round(to_node[1], 9),
+        },
+        "element_count": len(elements),
+        "ancestry_counts": ancestry_counts,
+        "reversed_for_travel_count": reversed_count,
+        "planimetric_length_m": planimetric_total,
+        "nhpn_planimetric_length_m": round(planimetric_sums["nhpn"], 3),
+        "fill_chord_planimetric_length_m": round(planimetric_sums["fill"], 3),
+        "overlay_chord_planimetric_length_m": round(planimetric_sums["overlay"], 3),
+        "locked_reference": locked_reference,
+        "geodesic_length_m": geodesic_total_rounded,
+        "geodesic_planimetric_divergence_ratio": round(
+            (geodesic_total_rounded - planimetric_total) / planimetric_total, 6
+        ),
+        "nhpn_geodesic_length_m": nhpn_geodesic_rounded,
+        "nhpn_miles_sum": miles_total_rounded,
+        "nhpn_miles_divergence_ratio": miles_divergence,
+        "miles_unavailable_element_count": miles_unavailable,
+        "facility_type_counts": dict(sorted(facility_counts.items())),
+        "milepost_trend": trend_counts,
+        "increasing_milepost_runs": increasing_runs,
+        "thin_direction_elements": thin,
+        "elements": elements,
+    }
+    if splits:
+        record["anchor_edge_splits"] = splits
+    return record
+
+
+def _directed_junction_gaps(
+    locked_ids: Sequence[str], record_by_id: dict[str, dict[str, Any]]
+) -> list[dict[str, Any]]:
+    """Continuity gaps between consecutive segments' recorded terminal nodes."""
+    junctions: list[dict[str, Any]] = []
+    for from_id, to_id in zip(locked_ids, locked_ids[1:], strict=False):
+        exit_node = record_by_id[from_id]["to_node"]
+        entry_node = record_by_id[to_id]["from_node"]
+        gap = round(
+            _geodesic_distance_m(
+                (exit_node["longitude"], exit_node["latitude"]),
+                (entry_node["longitude"], entry_node["latitude"]),
+            ),
+            3,
+        )
+        junctions.append(
+            {
+                "anchor_id": record_by_id[from_id]["to_anchor"],
+                "from_segment_id": from_id,
+                "to_segment_id": to_id,
+                "continuity_gap_m": gap,
+            }
+        )
+    return junctions
+
+
+def _directed_path_records(
+    selection: dict[str, Any],
+    record_by_id: dict[str, dict[str, Any]],
+    snapshot_ids: set[str],
+) -> list[dict[str, Any]]:
+    """One directed path record per ADR-0024 path, over the locked segments only."""
+    selection_by_id = {segment["id"]: segment for segment in selection["segments"]}
+    paths: list[dict[str, Any]] = []
+    for path in selection["paths"]:
+        locked_ids = [sid for sid in path["segment_ids"] if sid in snapshot_ids]
+        excluded = [
+            {
+                "segment_id": sid,
+                "geometry_status": selection_by_id[sid]["geometry_status"],
+            }
+            for sid in path["segment_ids"]
+            if sid not in snapshot_ids
+        ]
+        if not locked_ids:
+            raise ValueError(f"Path '{path['id']}' has no locked segments.")
+        anchor_sequence = [selection_by_id[locked_ids[0]]["from"]]
+        for previous_id, current_id in zip(locked_ids, locked_ids[1:], strict=False):
+            if selection_by_id[previous_id]["to"] != selection_by_id[current_id]["from"]:
+                raise ValueError(
+                    f"Path '{path['id']}' locked segments do not chain: "
+                    f"'{previous_id}' does not hand off to '{current_id}'."
+                )
+        anchor_sequence.extend(selection_by_id[sid]["to"] for sid in locked_ids)
+        junctions = _directed_junction_gaps(locked_ids, record_by_id)
+        backtracks = _path_junction_backtracks(path["id"], locked_ids, record_by_id)
+        for junction in junctions:
+            if junction["continuity_gap_m"] > JUNCTION_CONTINUITY_LIMIT_M:
+                raise ValueError(
+                    f"Path '{path['id']}' junction at '{junction['anchor_id']}' has a "
+                    f"{junction['continuity_gap_m']:.3f} m continuity gap beyond the "
+                    f"{JUNCTION_CONTINUITY_LIMIT_M:g} m limit."
+                )
+            backtrack = backtracks.get(
+                junction["from_segment_id"],
+                {"element_count": 0, "backtrack_length_m": 0.0},
+            )
+            junction["backtrack_element_count"] = backtrack["element_count"]
+            junction["backtrack_length_m"] = backtrack["backtrack_length_m"]
+        total_planimetric = round(
+            sum(record_by_id[sid]["planimetric_length_m"] for sid in locked_ids), 3
+        )
+        total_geodesic = round(
+            sum(record_by_id[sid]["geodesic_length_m"] for sid in locked_ids), 3
+        )
+        paths.append(
+            {
+                "path_id": path["id"],
+                "role": path["role"],
+                "anchor_sequence": anchor_sequence,
+                "locked_segment_ids": locked_ids,
+                "excluded_connector_segments": excluded,
+                "junctions": junctions,
+                "total_planimetric_m": total_planimetric,
+                "total_geodesic_m": total_geodesic,
+                "total_geodesic_miles": round(total_geodesic / METRES_PER_MILE, 3),
+            }
+        )
+    return paths
+
+
+def _directed_portal_exclusions(
+    selection: dict[str, Any],
+    transfer_lock: dict[str, Any],
+    canonical_path: dict[str, Any],
+) -> list[dict[str, Any]]:
+    """The canonical path's pending endpoint connectors, with portal context.
+
+    The straight-line portal-to-anchor distances are context only - never route
+    geometry and never added to any distance figure.
+    """
+    selection_by_id = {segment["id"]: segment for segment in selection["segments"]}
+    portal_coordinates = {
+        endpoint["node_id"]: endpoint["coordinate"]
+        for endpoint in selection["endpoints"].values()
+    }
+    transfer_by_id = {node["id"]: node for node in transfer_lock["transfer_nodes"]}
+    exclusions: list[dict[str, Any]] = []
+    for excluded in canonical_path["excluded_connector_segments"]:
+        segment = selection_by_id[excluded["segment_id"]]
+        portal_ids = [
+            node_id
+            for node_id in (segment["from"], segment["to"])
+            if node_id in portal_coordinates
+        ]
+        anchor_ids = [
+            node_id
+            for node_id in (segment["from"], segment["to"])
+            if node_id in transfer_by_id
+        ]
+        if len(portal_ids) != 1 or len(anchor_ids) != 1:
+            raise ValueError(
+                f"Connector segment '{segment['id']}' does not join exactly one "
+                "portal to exactly one locked anchor."
+            )
+        portal = portal_coordinates[portal_ids[0]]
+        anchor = transfer_by_id[anchor_ids[0]]["coordinate"]
+        exclusions.append(
+            {
+                "segment_id": segment["id"],
+                "geometry_status": segment["geometry_status"],
+                "portal_node_id": portal_ids[0],
+                "anchor_id": anchor_ids[0],
+                "portal_to_anchor_straight_line_m": round(
+                    _geodesic_distance_m(
+                        (portal["longitude"], portal["latitude"]),
+                        (anchor["longitude"], anchor["latitude"]),
+                    ),
+                    1,
+                ),
+            }
+        )
+    return exclusions
+
+
+def _directed_element_identity(element: dict[str, Any]) -> tuple[Any, ...]:
+    if element["kind"] in ("nhpn_edge", "nhpn_split_edge"):
+        return (
+            element["object_id"],
+            element["part_index"],
+            tuple(element.get("part_range_m") or ()),
+        )
+    return (element["kind"], element["site_id"])
+
+
+def _path_junction_backtracks(
+    path_id: str,
+    locked_ids: Sequence[str],
+    record_by_id: dict[str, dict[str, Any]],
+) -> dict[str, dict[str, Any]]:
+    """Measure, and bound, element overlap between a path's composed segments.
+
+    Two consecutive segments may share elements in exactly one shape: a
+    mirrored junction-approach backtrack, where the locked ADR-0024 anchor sits
+    on pavement off the through junction, so the arriving traversal's final
+    elements are the departing traversal's first elements travelled in the
+    opposite orientation (observed at Barstow, where the anchor is the I-40
+    terminus, and at Salt Lake City on the I-80/I-15 concurrency). That is a
+    measured fact of the locked anchor model, recorded per junction; any other
+    repetition - non-consecutive segments, non-contiguous overlap, or a repeat
+    travelled in the same direction - is a defective composition and is
+    refused. Junction and transfer geometry remain reconstruction-stage output.
+    """
+    identities = {
+        segment_id: [
+            _directed_element_identity(element)
+            for element in record_by_id[segment_id]["elements"]
+        ]
+        for segment_id in locked_ids
+    }
+    backtracks: dict[str, dict[str, Any]] = {}
+    for position, earlier_id in enumerate(locked_ids):
+        for later_id in locked_ids[position + 1 :]:
+            earlier = identities[earlier_id]
+            later = identities[later_id]
+            shared = set(earlier) & set(later)
+            if not shared:
+                continue
+            if later_id != locked_ids[position + 1]:
+                raise ValueError(
+                    f"Path '{path_id}' repeats directed elements between "
+                    f"non-consecutive segments '{earlier_id}' and '{later_id}'."
+                )
+            earlier_positions = sorted(earlier.index(identity) for identity in shared)
+            later_positions = sorted(later.index(identity) for identity in shared)
+            contiguous = (
+                earlier_positions
+                == list(range(earlier_positions[0], earlier_positions[-1] + 1))
+                and later_positions
+                == list(range(later_positions[0], later_positions[-1] + 1))
+                and earlier_positions[-1] == len(earlier) - 1
+                and later_positions[0] == 0
+            )
+            mirrored = [earlier[index] for index in earlier_positions] == [
+                later[index] for index in reversed(later_positions)
+            ]
+            earlier_elements = record_by_id[earlier_id]["elements"]
+            later_elements = record_by_id[later_id]["elements"]
+            opposite = all(
+                earlier_elements[earlier.index(identity)]["reversed_for_travel"]
+                != later_elements[later.index(identity)]["reversed_for_travel"]
+                for identity in shared
+            )
+            if not (contiguous and mirrored and opposite):
+                raise ValueError(
+                    f"Path '{path_id}' repeats directed elements between "
+                    f"'{earlier_id}' and '{later_id}' in a shape that is not a "
+                    "mirrored junction-approach backtrack."
+                )
+            backtracks[earlier_id] = {
+                "element_count": len(shared),
+                "backtrack_length_m": round(
+                    sum(
+                        earlier_elements[index]["length_m"]
+                        for index in earlier_positions
+                    ),
+                    3,
+                ),
+            }
+    return backtracks
+
+
+def _directed_corridor_and_summary(
+    selection: dict[str, Any],
+    transfer_lock: dict[str, Any],
+    fill_lock: dict[str, Any],
+    overlay_lock: dict[str, Any],
+    segments: Sequence[dict[str, Any]],
+    paths: Sequence[dict[str, Any]],
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    """The corridor and summary sections, recomputed identically by derivation
+    and validation so the two can never disagree about an aggregate."""
+    canonical = next(path for path in paths if path["role"] == "canonical")
+
+    corridor_planimetric = round(
+        sum(record["planimetric_length_m"] for record in segments), 3
+    )
+    corridor_planimetric_miles = round(corridor_planimetric / METRES_PER_MILE, 1)
+    locked_corridor_miles = overlay_lock["corridor"][
+        "continuously_chained_corridor_miles"
+    ]
+    if corridor_planimetric_miles != locked_corridor_miles:
+        raise ValueError(
+            "Directed corridor length does not reproduce the locked chained "
+            f"corridor ({corridor_planimetric_miles} vs {locked_corridor_miles} mi)."
+        )
+    corridor_geodesic = round(
+        sum(record["geodesic_length_m"] for record in segments), 3
+    )
+    corridor_nhpn_geodesic = round(
+        sum(record["nhpn_geodesic_length_m"] for record in segments), 3
+    )
+    corridor_miles_sum = round(
+        sum(record["nhpn_miles_sum"] for record in segments), 6
+    )
+    corridor_miles_divergence = round(
+        (corridor_miles_sum * METRES_PER_MILE - corridor_nhpn_geodesic)
+        / corridor_nhpn_geodesic,
+        6,
+    )
+    if abs(corridor_miles_divergence) > NHPN_MILES_AGGREGATE_BOUND:
+        raise ValueError(
+            "Corridor NHPN MILES aggregation diverges beyond the "
+            f"{NHPN_MILES_AGGREGATE_BOUND:.0%} bound."
+        )
+
+    traversed_fills: list[dict[str, Any]] = []
+    traversed_fill_ids: set[str] = set()
+    for record in segments:
+        for element in record["elements"]:
+            if element["kind"] != "nhs_fill_chord":
+                continue
+            traversed_fill_ids.add(element["site_id"])
+            traversed_fills.append(
+                {
+                    "site_id": element["site_id"],
+                    "segment_id": record["segment_id"],
+                    "chord_m": element["length_m"],
+                    "conflated_span_m": element["conflated_span"]["geometry_length_m"],
+                    "delta_m": element["conflated_span"]["span_minus_chord_m"],
+                }
+            )
+    traversed_fills.sort(key=lambda entry: entry["site_id"])
+    untraversed_fills = [
+        {
+            "site_id": site["site_id"],
+            "segment_id": site["segment_id"],
+            "reason": (
+                "The locked chain traversal does not cross this site's bridge: "
+                "locked NHPN carries the traversal across its span (see the "
+                "conflation lock's per-station agreement for the span)."
+            ),
+        }
+        for site in sorted(fill_lock["sites"], key=lambda entry: entry["site_id"])
+        if site["site_id"] not in traversed_fill_ids
+    ]
+    fill_delta_total = round(sum(entry["delta_m"] for entry in traversed_fills), 3)
+    junction_gaps = [
+        junction["continuity_gap_m"]
+        for path in paths
+        for junction in path["junctions"]
+    ]
+    backtracks_by_anchor: dict[str, dict[str, Any]] = {}
+    for path in paths:
+        for junction in path["junctions"]:
+            if junction["backtrack_element_count"] == 0:
+                continue
+            entry = {
+                "anchor_id": junction["anchor_id"],
+                "element_count": junction["backtrack_element_count"],
+                "backtrack_length_m": junction["backtrack_length_m"],
+            }
+            existing = backtracks_by_anchor.get(junction["anchor_id"])
+            if existing is not None and existing != entry:
+                raise ValueError(
+                    f"Junction backtrack at '{junction['anchor_id']}' disagrees "
+                    "between paths."
+                )
+            backtracks_by_anchor[junction["anchor_id"]] = entry
+    junction_backtracks = [
+        backtracks_by_anchor[anchor_id]
+        for anchor_id in sorted(backtracks_by_anchor)
+    ]
+    canonical_backtrack_doubled = round(
+        2.0
+        * sum(
+            junction["backtrack_length_m"] for junction in canonical["junctions"]
+        ),
+        3,
+    )
+
+    corridor = {
+        "planimetric_length_m": corridor_planimetric,
+        "planimetric_length_miles": corridor_planimetric_miles,
+        "chained_corridor_miles_reference": locked_corridor_miles,
+        "geodesic_length_m": corridor_geodesic,
+        "geodesic_length_miles": round(corridor_geodesic / METRES_PER_MILE, 3),
+        "geodesic_planimetric_divergence_ratio": round(
+            (corridor_geodesic - corridor_planimetric) / corridor_planimetric, 6
+        ),
+        "authoritative_distance": {
+            "claimed": True,
+            "scope": "westbound_corridor_anchor_to_anchor",
+            "path_id": canonical["path_id"],
+            "from_anchor": canonical["anchor_sequence"][0],
+            "to_anchor": canonical["anchor_sequence"][-1],
+            "geodesic_length_m": canonical["total_geodesic_m"],
+            "geodesic_length_miles": canonical["total_geodesic_miles"],
+            "planimetric_length_m": canonical["total_planimetric_m"],
+            "basis": (
+                "GRS80 geodesic over the locked source centerline coordinates "
+                "of the canonical westbound traversal, with traversed NHS fill "
+                "and authored overlay chords at their pinned boundaries."
+            ),
+            "excluded_endpoint_connectors": _directed_portal_exclusions(
+                selection, transfer_lock, canonical
+            ),
+            "adr_0024_note": (
+                "ADR-0024's portal-to-portal run length remains unpublished "
+                "until the authored endpoint connectors are checksum-locked; "
+                "this figure is the locked highway corridor anchor-to-anchor."
+            ),
+            "fill_chord_refinement_note": (
+                "Reconstruction replaces each traversed fill chord with its "
+                "conflated NHS span; the recorded per-site deltas total "
+                f"{fill_delta_total} m."
+            ),
+            "junction_backtrack_note": (
+                "The composed figure includes "
+                f"{canonical_backtrack_doubled} m of doubled junction-approach "
+                "travel at anchors whose locked coordinate sits off the through "
+                "junction (recorded per junction); transfer geometry is "
+                "reconstruction-stage output."
+            ),
+        },
+        "fill_spans": {
+            "traversed": traversed_fills,
+            "traversed_delta_total_m": fill_delta_total,
+            "locked_but_not_on_directed_chain": untraversed_fills,
+        },
+        "junction_continuity": {
+            "limit_m": JUNCTION_CONTINUITY_LIMIT_M,
+            "max_gap_m": max(junction_gaps) if junction_gaps else 0.0,
+            "backtracks": junction_backtracks,
+        },
+    }
+
+    summary = {
+        "element_count": sum(record["element_count"] for record in segments),
+        "ancestry_counts": {
+            kind: sum(record["ancestry_counts"][kind] for record in segments)
+            for kind in (
+                "nhpn_edge",
+                "nhpn_split_edge",
+                "nhs_fill_chord",
+                "authored_overlay_chord",
+            )
+        },
+        "reversed_for_travel_count": sum(
+            record["reversed_for_travel_count"] for record in segments
+        ),
+        "milepost_trend": {
+            trend: sum(record["milepost_trend"][trend] for record in segments)
+            for trend in ("decreasing", "increasing", "flat", "unmeasured")
+        },
+        "facility_type_counts": {},
+        "max_geodesic_planimetric_divergence_ratio": max(
+            abs(record["geodesic_planimetric_divergence_ratio"])
+            for record in segments
+        ),
+        "thin_direction_element_count": sum(
+            len(indices)
+            for record in segments
+            for indices in record["thin_direction_elements"].values()
+        ),
+        "miles_cross_check": {
+            "nhpn_miles_sum": corridor_miles_sum,
+            "nhpn_geodesic_length_m": corridor_nhpn_geodesic,
+            "nhpn_miles_divergence_ratio": corridor_miles_divergence,
+            "finding": (
+                "NHPN's MILES field is a coarse length assertion: the corridor "
+                "aggregation runs short of the same records' geodesic geometry "
+                "by the recorded ratio, where the NHS/ARNOLD MILES field agreed "
+                "within about 0.9 percent on the fill records. Distance authority "
+                "is the locked geometry; MILES is recorded as the source's own "
+                "cross-check."
+            ),
+        },
+    }
+    facility_totals: dict[str, int] = {}
+    for record in segments:
+        for code, count in record["facility_type_counts"].items():
+            facility_totals[code] = facility_totals.get(code, 0) + count
+    summary["facility_type_counts"] = dict(sorted(facility_totals.items()))
+    return corridor, summary
+
+
+def derive_continental_directed_route_lock(
+    selection_path: Path,
+    route_lock_path: Path,
+    transfer_lock_path: Path,
+    policy_path: Path,
+    edge_path_lock_path: Path,
+    fill_lock_path: Path,
+    disposition_path: Path,
+    overlay_lock_path: Path,
+    conflation_lock_path: Path,
+    catalog_path: Path,
+    cache_directory: Path,
+    output_path: Path,
+    *,
+    derived_at: str | None = None,
+) -> dict[str, Any]:
+    """Derive the westbound directed edge sequence over the closed corridor.
+
+    Consumes only checksum-locked inputs plus the locked NHPN response cache -
+    no network access and no new acquisition. Every segment is traversed from
+    its ADR-0024 from-anchor to its to-anchor on exactly the graph the edge-path
+    and chain-connectivity locks solved, and the derivation refuses to write a
+    lock whose traversal does not reproduce those artifacts to the millimetre.
+    Direction is the traversal orientation over NHPN's single centerline
+    topology; the reciprocal directed westbound carriageway remains
+    reconstruction-stage output under ADR-0014 and is expressly not claimed.
+    """
+    selection = load_json(selection_path)
+    route_lock = validate_continental_route_lock(
+        route_lock_path, catalog_path, selection_path
+    )
+    transfer_lock = validate_continental_transfer_lock(
+        transfer_lock_path, policy_path, selection_path, route_lock_path, catalog_path
+    )
+    edge_lock = validate_continental_edge_path_lock(
+        edge_path_lock_path,
+        transfer_lock_path,
+        policy_path,
+        selection_path,
+        route_lock_path,
+        catalog_path,
+    )
+    fill_lock = validate_continental_nhs_fill_lock(
+        fill_lock_path,
+        selection_path,
+        route_lock_path,
+        transfer_lock_path,
+        policy_path,
+        edge_path_lock_path,
+        catalog_path,
+    )
+    validate_continental_break_dispositions(
+        disposition_path,
+        selection_path,
+        route_lock_path,
+        transfer_lock_path,
+        policy_path,
+        edge_path_lock_path,
+        catalog_path,
+        nhs_fill_lock_path=fill_lock_path,
+        overlay_lock_path=overlay_lock_path,
+    )
+    overlay_lock = validate_continental_reconstruction_overlays(
+        overlay_lock_path,
+        disposition_path,
+        selection_path,
+        route_lock_path,
+        transfer_lock_path,
+        policy_path,
+        edge_path_lock_path,
+        fill_lock_path,
+        catalog_path,
+    )
+    conflation_lock = validate_continental_nhs_conflation(
+        conflation_lock_path,
+        fill_lock_path,
+        selection_path,
+        route_lock_path,
+        transfer_lock_path,
+        policy_path,
+        edge_path_lock_path,
+        catalog_path,
+    )
+
+    cache_root = (
+        cache_directory / route_lock["nhpn"]["service"]["canonical_metadata_sha256"]
+    )
+    forward = Transformer.from_crs("EPSG:4326", "EPSG:5070", always_xy=True)
+    inverse = Transformer.from_crs("EPSG:5070", "EPSG:4326", always_xy=True)
+    tolerance = float(edge_lock["endpoint_snap_tolerance_m"])
+    anchor_limit = float(edge_lock["anchor_snap_limit_m"])
+    transfer_by_id = {node["id"]: node for node in transfer_lock["transfer_nodes"]}
+    edge_by_id = {entry["segment_id"]: entry for entry in edge_lock["segments"]}
+    chain_by_id = {
+        entry["segment_id"]: entry
+        for entry in overlay_lock["chain_connectivity"]["segments"]
+    }
+    conflation_site_by_id = {
+        site["site_id"]: site for site in conflation_lock["sites"]
+    }
+    fills_by_segment: dict[str, list[dict[str, Any]]] = {}
+    for site in fill_lock["sites"]:
+        fills_by_segment.setdefault(site["segment_id"], []).append(site)
+    overlays_by_segment: dict[str, list[dict[str, Any]]] = {}
+    for overlay in overlay_lock["overlays"]:
+        overlays_by_segment.setdefault(overlay["segment_id"], []).append(
+            {
+                "site_id": overlay["site_id"],
+                "overlay_id": overlay["overlay_id"],
+                "from_coordinate": overlay["boundary"]["from_coordinate"],
+                "to_coordinate": overlay["boundary"]["to_coordinate"],
+                "separation_m": overlay["boundary"]["length_m"],
+                "geometry": overlay["geometry"],
+            }
+        )
+    snapshot_ids = {
+        snapshot["segment_id"]
+        for snapshot in route_lock["nhpn"]["segment_snapshots"]
+    }
+
+    segments: list[dict[str, Any]] = []
+    for segment in selection["segments"]:
+        if segment["id"] not in snapshot_ids:
+            continue
+        lines = _segment_locked_lines(route_lock, segment["id"], cache_root)
+        edge_entry = edge_by_id[segment["id"]]
+        segments.append(
+            _derive_directed_segment(
+                segment,
+                edge_entry,
+                chain_by_id.get(segment["id"]),
+                lines,
+                fills_by_segment.get(segment["id"], []),
+                overlays_by_segment.get(segment["id"], []),
+                conflation_site_by_id,
+                forward.transform(
+                    transfer_by_id[segment["from"]]["coordinate"]["longitude"],
+                    transfer_by_id[segment["from"]]["coordinate"]["latitude"],
+                ),
+                forward.transform(
+                    transfer_by_id[segment["to"]]["coordinate"]["longitude"],
+                    transfer_by_id[segment["to"]]["coordinate"]["latitude"],
+                ),
+                tolerance,
+                anchor_limit,
+                forward,
+                inverse,
+            )
+        )
+    record_by_id = {record["segment_id"]: record for record in segments}
+    paths = _directed_path_records(selection, record_by_id, snapshot_ids)
+    corridor, summary = _directed_corridor_and_summary(
+        selection, transfer_lock, fill_lock, overlay_lock, segments, paths
+    )
+    timestamp = derived_at or datetime.now(UTC).replace(
+        microsecond=0
+    ).isoformat().replace("+00:00", "Z")
+
+    payload = {
+        "schema_version": 1,
+        "status": DIRECTED_ROUTE_STATUS,
+        "route_decision": "ADR-0024",
+        "carriageway_decision": "ADR-0014",
+        "reconstruction_decision": "ADR-0018",
+        "derived_at": timestamp,
+        "coordinate_crs": "EPSG:4326",
+        "metric_crs": "EPSG:5070",
+        "endpoint_snap_tolerance_m": tolerance,
+        "anchor_snap_limit_m": anchor_limit,
+        "route_selection_sha256": compute_sha256(selection_path),
+        "candidate_lock_sha256": compute_sha256(route_lock_path),
+        "transfer_lock_sha256": compute_sha256(transfer_lock_path),
+        "edge_path_lock_sha256": compute_sha256(edge_path_lock_path),
+        "nhs_fill_lock_sha256": compute_sha256(fill_lock_path),
+        "break_disposition_sha256": compute_sha256(disposition_path),
+        "reconstruction_overlay_lock_sha256": compute_sha256(overlay_lock_path),
+        "nhs_conflation_lock_sha256": compute_sha256(conflation_lock_path),
+        "catalog_sha256": compute_sha256(catalog_path),
+        "model": {
+            "geodesic": {
+                "ellipsoid": "GRS80",
+                "method": (
+                    "pyproj Geod.line_length over each record's locked EPSG:4326 "
+                    "coordinates; split sub-edges over the EPSG:5070 substring "
+                    "reprojected to EPSG:4326; chords between their pinned "
+                    "boundary coordinates"
+                ),
+            },
+            "geodesic_planimetric_agreement_ratio": (
+                GEODESIC_PLANIMETRIC_AGREEMENT_RATIO
+            ),
+            "geodesic_rounding_allowance_m": GEODESIC_ROUNDING_ALLOWANCE_M,
+            "nhpn_miles_aggregate_bound": NHPN_MILES_AGGREGATE_BOUND,
+            "junction_continuity_limit_m": JUNCTION_CONTINUITY_LIMIT_M,
+            "stationing_note": (
+                "cumulative_geodesic_m is the millimetre-rounded running geodesic "
+                "sum from the segment's from-anchor node; junction gaps are "
+                "recorded separately and never added to stationing."
+            ),
+            "measure_note": (
+                "Mileposts and state-LRS measures parametrise and key; they are "
+                "never a length (2026-08-31 conflation finding: the measure axis "
+                "is calibrated, not metric)."
+            ),
+        },
+        "source_policy": {
+            "candidate_source": NHPN_SOURCE_ID,
+            "fill_source": NHS_SOURCE_ID,
+            "authored_overlays": True,
+            "nhpn_role": "coarse_topology_only",
+            "lane_geometry_claimed": False,
+            "carriageway_direction_claimed": False,
+            "openstreetmap_ancestry_allowed": False,
+            "continental_downloads_committed": False,
+            "authoritative_corridor_distance_claimed": True,
+        },
+        "westbound_selection": {
+            "validated": True,
+            "level": "source_centerline_traversal",
+            "carriageway_direction_claimed": False,
+            "definition": (
+                "Each segment is traversed from its ADR-0024 from-anchor to its "
+                "to-anchor in the route selection's Atlantic-to-Pacific order; "
+                "every element records its orientation relative to the locked "
+                "source geometry."
+            ),
+            "carriageway_note": (
+                "NHPN models these facilities as a single centerline (facility-"
+                "type census recorded per segment); the reciprocal directed "
+                "westbound carriageway is reconstruction-stage output under "
+                "ADR-0014 and is not claimed here."
+            ),
+            "direction_evidence": {
+                "primary": (
+                    "anchor-to-anchor chain continuity over the locked closed "
+                    "topology"
+                ),
+                "corroborating": [
+                    "NHPN record milepost trend within shared LRS keys",
+                    "NHS state-LRS measures at traversed fill seams",
+                    "NHPN facility-type census",
+                ],
+            },
+        },
+        "segment_count": len(segments),
+        "segments": segments,
+        "segments_sha256": canonical_sha256(segments),
+        "paths": paths,
+        "paths_sha256": canonical_sha256(paths),
+        "corridor": corridor,
+        "summary": summary,
+        "next_stage": DIRECTED_ROUTE_NEXT_STAGE,
+    }
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(
+        json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
+    return payload
+
+
+def _require_finite_number(value: Any, message: str, minimum: float | None = None) -> float:
+    if (
+        not isinstance(value, int | float)
+        or isinstance(value, bool)
+        or not math.isfinite(value)
+    ):
+        raise ValueError(message)
+    if minimum is not None and value < minimum:
+        raise ValueError(message)
+    return float(value)
+
+
+def _validate_directed_segment_record(
+    record: dict[str, Any],
+    segment: dict[str, Any],
+    edge_entry: dict[str, Any],
+    chain_entry: dict[str, Any] | None,
+    transfer_by_id: dict[str, dict[str, Any]],
+    page_hashes_by_id: dict[int, set[str]],
+    fill_site_by_id: dict[str, dict[str, Any]],
+    overlay_by_site_id: dict[str, dict[str, Any]],
+    conflation_site_by_id: dict[str, dict[str, Any]],
+) -> None:
+    """Recompute one directed segment record from its locked inputs and refuse
+    any recorded quantity the elements beside it do not reproduce."""
+    segment_id = record["segment_id"]
+    connected = edge_entry.get("connected") is True
+    if record.get("from_anchor") != segment["from"] or record.get("to_anchor") != segment["to"]:
+        raise ValueError(f"Segment '{segment_id}' anchors drifted from the selection.")
+    expected_solve = "nhpn_connected" if connected else "mixed_ancestry_chain"
+    if record.get("solve") != expected_solve:
+        raise ValueError(f"Segment '{segment_id}' records the wrong solve kind.")
+    if connected:
+        locked_from = edge_entry["from_transfer_node_snap_distance_m"]
+        locked_to = edge_entry["to_transfer_node_snap_distance_m"]
+        locked_splits = edge_entry.get("anchor_edge_splits", [])
+    else:
+        if chain_entry is None:
+            raise ValueError(f"Segment '{segment_id}' has no locked chain entry.")
+        locked_from = chain_entry["from_anchor_snap_distance_m"]
+        locked_to = chain_entry["to_anchor_snap_distance_m"]
+        locked_splits = chain_entry.get("anchor_edge_splits", [])
+    if (
+        record.get("from_anchor_snap_distance_m") != locked_from
+        or record.get("to_anchor_snap_distance_m") != locked_to
+    ):
+        raise ValueError(
+            f"Segment '{segment_id}' anchor snap distances drifted from the locks."
+        )
+    if canonical_sha256(record.get("anchor_edge_splits", [])) != canonical_sha256(
+        locked_splits
+    ):
+        raise ValueError(
+            f"Segment '{segment_id}' anchor edge splits drifted from the locks."
+        )
+    for side in ("from", "to"):
+        node = record.get(f"{side}_node")
+        if not isinstance(node, dict):
+            raise ValueError(f"Segment '{segment_id}' records no {side} node.")
+        longitude = _require_finite_number(
+            node.get("longitude"), f"Segment '{segment_id}' {side} node is invalid."
+        )
+        latitude = _require_finite_number(
+            node.get("latitude"), f"Segment '{segment_id}' {side} node is invalid."
+        )
+        anchor = transfer_by_id[segment[side]]["coordinate"]
+        distance = _geodesic_distance_m(
+            (longitude, latitude), (anchor["longitude"], anchor["latitude"])
+        )
+        allowed = (
+            ANCHOR_SNAP_LIMIT_METERS * (1.0 + GEODESIC_PLANIMETRIC_AGREEMENT_RATIO)
+            + GEODESIC_ROUNDING_ALLOWANCE_M
+        )
+        if distance > allowed:
+            raise ValueError(
+                f"Segment '{segment_id}' {side} node sits {distance:.3f} m from its "
+                "locked anchor, beyond the anchor snap limit."
+            )
+
+    elements = record.get("elements")
+    if not isinstance(elements, list) or not elements:
+        raise ValueError(f"Segment '{segment_id}' records no directed elements.")
+    ancestry = {
+        "nhpn_edge": 0,
+        "nhpn_split_edge": 0,
+        "nhs_fill_chord": 0,
+        "authored_overlay_chord": 0,
+    }
+    trend_counts = {"decreasing": 0, "increasing": 0, "flat": 0, "unmeasured": 0}
+    facility_counts: dict[str, int] = {}
+    thin = {"flat_milepost": [], "unmeasured_milepost": [], "authored_overlay": []}
+    length_sums = {"nhpn": 0.0, "fill": 0.0, "overlay": 0.0}
+    geodesic_sum = 0.0
+    nhpn_geodesic_sum = 0.0
+    miles_sum = 0.0
+    miles_unavailable = 0
+    reversed_count = 0
+    previous_cumulative = 0.0
+    seen: set[tuple[Any, ...]] = set()
+    fill_ids: list[str] = []
+    overlay_ids: list[str] = []
+
+    for index, element in enumerate(elements):
+        kind = element.get("kind")
+        if kind not in ancestry:
+            raise ValueError(
+                f"Segment '{segment_id}' element {index} has unknown kind '{kind}'."
+            )
+        length = _require_finite_number(
+            element.get("length_m"),
+            f"Segment '{segment_id}' element {index} has no finite length.",
+            minimum=0.0,
+        )
+        geodesic = _require_finite_number(
+            element.get("geodesic_length_m"),
+            f"Segment '{segment_id}' element {index} has no finite geodesic length.",
+            minimum=0.0,
+        )
+        if abs(geodesic - length) > (
+            GEODESIC_PLANIMETRIC_AGREEMENT_RATIO * length
+            + GEODESIC_ROUNDING_ALLOWANCE_M
+        ):
+            raise ValueError(
+                f"Segment '{segment_id}' element {index} breaks the geodesic-"
+                "planimetric agreement bound."
+            )
+        cumulative = _require_finite_number(
+            element.get("cumulative_geodesic_m"),
+            f"Segment '{segment_id}' element {index} has no finite stationing.",
+            minimum=0.0,
+        )
+        if abs(cumulative - previous_cumulative - geodesic) > 0.002:
+            raise ValueError(
+                f"Segment '{segment_id}' element {index} breaks the cumulative "
+                "stationing cascade."
+            )
+        previous_cumulative = cumulative
+        if not isinstance(element.get("reversed_for_travel"), bool):
+            raise ValueError(
+                f"Segment '{segment_id}' element {index} records no travel "
+                "orientation."
+            )
+        if element["reversed_for_travel"]:
+            reversed_count += 1
+        ancestry[kind] += 1
+        geodesic_sum += geodesic
+
+        if kind in ("nhpn_edge", "nhpn_split_edge"):
+            object_id = element.get("object_id")
+            if not isinstance(object_id, int) or object_id not in page_hashes_by_id:
+                raise ValueError(
+                    f"Segment '{segment_id}' element {index} cites an unlocked "
+                    "NHPN record."
+                )
+            part_index = element.get("part_index")
+            if not isinstance(part_index, int) or part_index < 0:
+                raise ValueError(
+                    f"Segment '{segment_id}' element {index} has an invalid part."
+                )
+            if not isinstance(element.get("lrs_key"), str):
+                raise ValueError(
+                    f"Segment '{segment_id}' element {index} records no LRS key."
+                )
+            part_range = element.get("part_range_m")
+            if kind == "nhpn_split_edge":
+                if (
+                    not isinstance(part_range, list)
+                    or len(part_range) != 2
+                    or not 0.0 <= part_range[0] < part_range[1]
+                ):
+                    raise ValueError(
+                        f"Segment '{segment_id}' element {index} split range is "
+                        "invalid."
+                    )
+            elif part_range is not None:
+                raise ValueError(
+                    f"Segment '{segment_id}' element {index} is not a split but "
+                    "records a part range."
+                )
+            entry_milepost = element.get("entry_milepost")
+            exit_milepost = element.get("exit_milepost")
+            if (entry_milepost is None) != (exit_milepost is None):
+                raise ValueError(
+                    f"Segment '{segment_id}' element {index} records a one-sided "
+                    "milepost."
+                )
+            if kind == "nhpn_split_edge" and entry_milepost is not None:
+                raise ValueError(
+                    f"Segment '{segment_id}' element {index} interpolates a "
+                    "milepost onto a split sub-edge."
+                )
+            if entry_milepost is not None:
+                _require_finite_number(
+                    entry_milepost,
+                    f"Segment '{segment_id}' element {index} milepost is invalid.",
+                )
+                _require_finite_number(
+                    exit_milepost,
+                    f"Segment '{segment_id}' element {index} milepost is invalid.",
+                )
+            miles = element.get("miles")
+            if miles is None:
+                miles_unavailable += 1
+            else:
+                miles_sum += _require_finite_number(
+                    miles,
+                    f"Segment '{segment_id}' element {index} MILES is invalid.",
+                    minimum=0.0,
+                )
+            facility_type = element.get("facility_type")
+            if facility_type is not None and (
+                not isinstance(facility_type, int) or isinstance(facility_type, bool)
+            ):
+                raise ValueError(
+                    f"Segment '{segment_id}' element {index} facility type is "
+                    "invalid."
+                )
+            facility_key = "null" if facility_type is None else str(facility_type)
+            facility_counts[facility_key] = facility_counts.get(facility_key, 0) + 1
+            trend = _milepost_trend(entry_milepost, exit_milepost)
+            trend_counts[trend] += 1
+            if trend == "flat":
+                thin["flat_milepost"].append(index)
+            elif trend == "unmeasured":
+                thin["unmeasured_milepost"].append(index)
+            length_sums["nhpn"] += length
+            nhpn_geodesic_sum += geodesic
+            identity = (
+                object_id,
+                part_index,
+                tuple(part_range) if part_range else (),
+            )
+        elif kind == "nhs_fill_chord":
+            if connected:
+                raise ValueError(
+                    f"Segment '{segment_id}' is NHPN-connected but traverses a "
+                    "fill chord."
+                )
+            site_id = element.get("site_id")
+            site = fill_site_by_id.get(site_id)
+            if site is None or site["segment_id"] != segment_id:
+                raise ValueError(
+                    f"Segment '{segment_id}' element {index} cites an unlocked "
+                    "fill site."
+                )
+            if element["length_m"] != round(float(site["separation_m"]), 3):
+                raise ValueError(
+                    f"Segment '{segment_id}' element {index} chord length drifted "
+                    "from the fill lock."
+                )
+            chord = round(
+                _geodesic_line_length_m(
+                    [
+                        (
+                            site["from_coordinate"]["longitude"],
+                            site["from_coordinate"]["latitude"],
+                        ),
+                        (
+                            site["to_coordinate"]["longitude"],
+                            site["to_coordinate"]["latitude"],
+                        ),
+                    ]
+                ),
+                3,
+            )
+            if element["geodesic_length_m"] != chord:
+                raise ValueError(
+                    f"Segment '{segment_id}' element {index} geodesic chord does "
+                    "not reproduce from the pinned boundary."
+                )
+            conflation_site = conflation_site_by_id.get(site_id)
+            if conflation_site is None:
+                raise ValueError(
+                    f"Segment '{segment_id}' element {index} has no conflation "
+                    "span."
+                )
+            measure_by_side = {
+                seam["side"]: seam["nhs"]["measure_at_seam"]
+                for seam in conflation_site["seams"]
+            }
+            entry_side = "to" if element["reversed_for_travel"] else "from"
+            exit_side = "from" if element["reversed_for_travel"] else "to"
+            if (
+                element.get("entry_measure") != measure_by_side.get(entry_side)
+                or element.get("exit_measure") != measure_by_side.get(exit_side)
+                or element.get("measure_trend")
+                != _milepost_trend(
+                    measure_by_side.get(entry_side), measure_by_side.get(exit_side)
+                )
+            ):
+                raise ValueError(
+                    f"Segment '{segment_id}' element {index} seam measures drifted "
+                    "from the conflation lock."
+                )
+            if element.get("nhs_route") != {
+                "state_fips": conflation_site["group"]["state_fips"],
+                "route_id": conflation_site["group"]["route_id"],
+            }:
+                raise ValueError(
+                    f"Segment '{segment_id}' element {index} NHS route identity "
+                    "drifted."
+                )
+            span = conflation_site["span"]
+            recorded_span = element.get("conflated_span")
+            if recorded_span != {
+                "geometry_sha256": span["geometry_sha256"],
+                "geometry_length_m": span["geometry_length_m"],
+                "span_minus_chord_m": round(
+                    span["geometry_length_m"] - element["length_m"], 3
+                ),
+            }:
+                raise ValueError(
+                    f"Segment '{segment_id}' element {index} conflated span "
+                    "citation drifted."
+                )
+            length_sums["fill"] += length
+            fill_ids.append(site_id)
+            identity = (kind, site_id)
+        else:
+            if connected:
+                raise ValueError(
+                    f"Segment '{segment_id}' is NHPN-connected but traverses an "
+                    "overlay chord."
+                )
+            site_id = element.get("site_id")
+            overlay = overlay_by_site_id.get(site_id)
+            if overlay is None or overlay["segment_id"] != segment_id:
+                raise ValueError(
+                    f"Segment '{segment_id}' element {index} cites an unauthored "
+                    "overlay."
+                )
+            if element.get("overlay_id") != overlay["overlay_id"]:
+                raise ValueError(
+                    f"Segment '{segment_id}' element {index} overlay identity "
+                    "drifted."
+                )
+            if element["length_m"] != round(float(overlay["boundary"]["length_m"]), 3):
+                raise ValueError(
+                    f"Segment '{segment_id}' element {index} overlay chord length "
+                    "drifted."
+                )
+            recomputed = round(
+                _geodesic_line_length_m(overlay["geometry"]["coordinates"]), 3
+            )
+            if element["geodesic_length_m"] != recomputed:
+                raise ValueError(
+                    f"Segment '{segment_id}' element {index} overlay geodesic "
+                    "length does not reproduce from the authored geometry."
+                )
+            length_sums["overlay"] += length
+            overlay_ids.append(site_id)
+            thin["authored_overlay"].append(index)
+            identity = (kind, site_id)
+        if identity in seen:
+            raise ValueError(
+                f"Segment '{segment_id}' repeats directed element {identity}."
+            )
+        seen.add(identity)
+
+    if record.get("element_count") != len(elements):
+        raise ValueError(f"Segment '{segment_id}' element count disagrees.")
+    if record.get("ancestry_counts") != ancestry:
+        raise ValueError(f"Segment '{segment_id}' ancestry counts disagree.")
+    if record.get("reversed_for_travel_count") != reversed_count:
+        raise ValueError(f"Segment '{segment_id}' orientation census disagrees.")
+    if record.get("facility_type_counts") != dict(sorted(facility_counts.items())):
+        raise ValueError(f"Segment '{segment_id}' facility-type census disagrees.")
+    if record.get("milepost_trend") != trend_counts:
+        raise ValueError(f"Segment '{segment_id}' milepost trend census disagrees.")
+    if record.get("thin_direction_elements") != thin:
+        raise ValueError(f"Segment '{segment_id}' thin-evidence census disagrees.")
+    if record.get("increasing_milepost_runs") != _increasing_milepost_runs(elements):
+        raise ValueError(f"Segment '{segment_id}' milepost trend runs disagree.")
+    if record.get("miles_unavailable_element_count") != miles_unavailable:
+        raise ValueError(f"Segment '{segment_id}' MILES availability disagrees.")
+
+    for field, sum_key in (
+        ("nhpn_planimetric_length_m", "nhpn"),
+        ("fill_chord_planimetric_length_m", "fill"),
+        ("overlay_chord_planimetric_length_m", "overlay"),
+    ):
+        recorded = _require_finite_number(
+            record.get(field), f"Segment '{segment_id}' records no finite {field}.",
+            minimum=0.0,
+        )
+        count = (
+            ancestry["nhpn_edge"] + ancestry["nhpn_split_edge"]
+            if sum_key == "nhpn"
+            else ancestry["nhs_fill_chord"]
+            if sum_key == "fill"
+            else ancestry["authored_overlay_chord"]
+        )
+        if abs(length_sums[sum_key] - recorded) > _rounding_envelope_m(count):
+            raise ValueError(
+                f"Segment '{segment_id}' {field} disagrees with its elements."
+            )
+    planimetric = _require_finite_number(
+        record.get("planimetric_length_m"),
+        f"Segment '{segment_id}' records no finite planimetric length.",
+        minimum=0.0,
+    )
+    if (
+        abs(
+            record["nhpn_planimetric_length_m"]
+            + record["fill_chord_planimetric_length_m"]
+            + record["overlay_chord_planimetric_length_m"]
+            - planimetric
+        )
+        > _rounding_envelope_m(3)
+    ):
+        raise ValueError(
+            f"Segment '{segment_id}' planimetric length disagrees with its "
+            "ancestry decomposition."
+        )
+
+    if connected:
+        recorded_edges = edge_entry["edges"]
+        if record["locked_reference"] != {
+            "artifact": "edge-path-lock.v1",
+            "length_m": edge_entry["length_meters"],
+        }:
+            raise ValueError(f"Segment '{segment_id}' locked reference drifted.")
+        if planimetric != edge_entry["length_meters"]:
+            raise ValueError(
+                f"Segment '{segment_id}' planimetric length does not reproduce "
+                "the locked edge-path length."
+            )
+        if len(recorded_edges) != len(elements):
+            raise ValueError(
+                f"Segment '{segment_id}' does not cover the locked edge path."
+            )
+        for locked_edge, element in zip(recorded_edges, elements, strict=True):
+            if (
+                locked_edge["object_id"] != element.get("object_id")
+                or locked_edge["part_index"] != element.get("part_index")
+                or locked_edge["reversed_for_travel"]
+                != element.get("reversed_for_travel")
+                or locked_edge["length_meters"] != element.get("length_m")
+                or locked_edge.get("part_range_m") != element.get("part_range_m")
+            ):
+                raise ValueError(
+                    f"Segment '{segment_id}' directed sequence disagrees with the "
+                    "locked edge path."
+                )
+    else:
+        assert chain_entry is not None
+        if record["locked_reference"] != {
+            "artifact": "reconstruction-overlay-lock.v1#chain_connectivity",
+            "length_m": chain_entry["chain_length_meters"],
+        }:
+            raise ValueError(f"Segment '{segment_id}' locked reference drifted.")
+        for field, key in (
+            ("planimetric_length_m", "chain_length_meters"),
+            ("nhpn_planimetric_length_m", "nhpn_path_meters"),
+            ("fill_chord_planimetric_length_m", "fill_chord_meters"),
+            ("overlay_chord_planimetric_length_m", "overlay_chord_meters"),
+        ):
+            if record[field] != chain_entry.get(key):
+                raise ValueError(
+                    f"Segment '{segment_id}' {field} does not reproduce the "
+                    "locked chain connectivity."
+                )
+        if sorted(fill_ids) != chain_entry.get("fill_site_ids_on_chain", []):
+            raise ValueError(
+                f"Segment '{segment_id}' traversed fills disagree with the locked "
+                "chain."
+            )
+        if sorted(overlay_ids) != chain_entry.get("overlay_site_ids_on_chain", []):
+            raise ValueError(
+                f"Segment '{segment_id}' traversed overlays disagree with the "
+                "locked chain."
+            )
+
+    geodesic_total = _require_finite_number(
+        record.get("geodesic_length_m"),
+        f"Segment '{segment_id}' records no finite geodesic length.",
+        minimum=0.0,
+    )
+    if elements[-1]["cumulative_geodesic_m"] != geodesic_total:
+        raise ValueError(
+            f"Segment '{segment_id}' stationing does not end at its geodesic "
+            "length."
+        )
+    if abs(geodesic_sum - geodesic_total) > _rounding_envelope_m(len(elements)):
+        raise ValueError(
+            f"Segment '{segment_id}' geodesic length disagrees with its elements."
+        )
+    nhpn_geodesic = _require_finite_number(
+        record.get("nhpn_geodesic_length_m"),
+        f"Segment '{segment_id}' records no finite NHPN geodesic length.",
+        minimum=0.0,
+    )
+    nhpn_count = ancestry["nhpn_edge"] + ancestry["nhpn_split_edge"]
+    if abs(nhpn_geodesic_sum - nhpn_geodesic) > _rounding_envelope_m(nhpn_count):
+        raise ValueError(
+            f"Segment '{segment_id}' NHPN geodesic length disagrees with its "
+            "elements."
+        )
+    if abs(geodesic_total - planimetric) > (
+        GEODESIC_PLANIMETRIC_AGREEMENT_RATIO * planimetric
+        + GEODESIC_ROUNDING_ALLOWANCE_M
+    ):
+        raise ValueError(
+            f"Segment '{segment_id}' breaks the geodesic-planimetric agreement "
+            "bound."
+        )
+    if record.get("geodesic_planimetric_divergence_ratio") != round(
+        (geodesic_total - planimetric) / planimetric, 6
+    ):
+        raise ValueError(
+            f"Segment '{segment_id}' divergence ratio does not reproduce."
+        )
+    miles_recorded = _require_finite_number(
+        record.get("nhpn_miles_sum"),
+        f"Segment '{segment_id}' records no finite MILES aggregation.",
+        minimum=0.0,
+    )
+    if abs(miles_sum - miles_recorded) > _rounding_envelope_m(nhpn_count, 1e-6):
+        raise ValueError(
+            f"Segment '{segment_id}' MILES aggregation disagrees with its "
+            "elements."
+        )
+    expected_divergence = round(
+        (miles_recorded * METRES_PER_MILE - nhpn_geodesic) / nhpn_geodesic, 6
+    )
+    if record.get("nhpn_miles_divergence_ratio") != expected_divergence:
+        raise ValueError(
+            f"Segment '{segment_id}' MILES divergence ratio does not reproduce."
+        )
+    if abs(expected_divergence) > NHPN_MILES_AGGREGATE_BOUND:
+        raise ValueError(
+            f"Segment '{segment_id}' MILES aggregation diverges beyond the "
+            f"{NHPN_MILES_AGGREGATE_BOUND:.0%} bound."
+        )
+
+
+def validate_continental_directed_route_lock(
+    directed_lock_path: Path,
+    selection_path: Path,
+    route_lock_path: Path,
+    transfer_lock_path: Path,
+    policy_path: Path,
+    edge_path_lock_path: Path,
+    fill_lock_path: Path,
+    disposition_path: Path,
+    overlay_lock_path: Path,
+    conflation_lock_path: Path,
+    catalog_path: Path,
+) -> dict[str, Any]:
+    """Validate the directed route lock without the ignored response cache.
+
+    Everything recomputable without the cache is recomputed: the pins, every
+    per-element citation against the locks that own it, the stationing cascade,
+    the censuses, the exact reproduction of the edge-path and chain-connectivity
+    figures, and the paths, corridor, and summary sections through the same
+    helpers the derivation used. The NHPN element geometry itself lives in the
+    cache; its lengths are held to the locked artifacts and the recorded
+    agreement bounds instead.
+    """
+    payload = load_json(directed_lock_path)
+    if payload.get("schema_version") != 1:
+        raise ValueError("Directed route lock schema_version must be 1.")
+    if payload.get("status") != DIRECTED_ROUTE_STATUS:
+        raise ValueError("Directed route lock has an unsupported status.")
+    for field, expected in (
+        ("route_decision", "ADR-0024"),
+        ("carriageway_decision", "ADR-0014"),
+        ("reconstruction_decision", "ADR-0018"),
+        ("coordinate_crs", "EPSG:4326"),
+        ("metric_crs", "EPSG:5070"),
+    ):
+        if payload.get(field) != expected:
+            raise ValueError(f"Directed route lock {field} drifted.")
+    tolerance = payload.get("endpoint_snap_tolerance_m")
+    if (
+        not isinstance(tolerance, int | float)
+        or isinstance(tolerance, bool)
+        or not 0 < tolerance <= MAXIMUM_ENDPOINT_SNAP_TOLERANCE_METERS
+    ):
+        raise ValueError(
+            "Directed route lock declares a snap tolerance outside the permitted "
+            f"range of 0 to {MAXIMUM_ENDPOINT_SNAP_TOLERANCE_METERS} m."
+        )
+    if payload.get("anchor_snap_limit_m") != ANCHOR_SNAP_LIMIT_METERS:
+        raise ValueError("Directed route lock declares a non-standard anchor limit.")
+    model = payload.get("model")
+    if not isinstance(model, dict):
+        raise ValueError("Directed route lock records no model.")
+    for field, expected in (
+        ("geodesic_planimetric_agreement_ratio", GEODESIC_PLANIMETRIC_AGREEMENT_RATIO),
+        ("geodesic_rounding_allowance_m", GEODESIC_ROUNDING_ALLOWANCE_M),
+        ("nhpn_miles_aggregate_bound", NHPN_MILES_AGGREGATE_BOUND),
+        ("junction_continuity_limit_m", JUNCTION_CONTINUITY_LIMIT_M),
+    ):
+        if model.get(field) != expected:
+            raise ValueError(f"Directed route lock widens or drifts the {field} bound.")
+    if not isinstance(model.get("geodesic"), dict) or model["geodesic"].get(
+        "ellipsoid"
+    ) != "GRS80":
+        raise ValueError("Directed route lock geodesic model drifted.")
+    source_policy = payload.get("source_policy")
+    if not isinstance(source_policy, dict):
+        raise ValueError("Directed route lock records no source policy.")
+    for field, expected in (
+        ("carriageway_direction_claimed", False),
+        ("lane_geometry_claimed", False),
+        ("openstreetmap_ancestry_allowed", False),
+        ("continental_downloads_committed", False),
+        ("authoritative_corridor_distance_claimed", True),
+    ):
+        if source_policy.get(field) is not expected:
+            raise ValueError(f"Directed route lock source policy {field} drifted.")
+    westbound = payload.get("westbound_selection")
+    if (
+        not isinstance(westbound, dict)
+        or westbound.get("validated") is not True
+        or westbound.get("level") != "source_centerline_traversal"
+        or westbound.get("carriageway_direction_claimed") is not False
+    ):
+        raise ValueError(
+            "Directed route lock westbound-selection claim drifted: this stage "
+            "validates the source-centerline traversal and expressly not a "
+            "carriageway direction."
+        )
+
+    selection = load_json(selection_path)
+    route_lock = validate_continental_route_lock(
+        route_lock_path, catalog_path, selection_path
+    )
+    transfer_lock = validate_continental_transfer_lock(
+        transfer_lock_path, policy_path, selection_path, route_lock_path, catalog_path
+    )
+    edge_lock = validate_continental_edge_path_lock(
+        edge_path_lock_path,
+        transfer_lock_path,
+        policy_path,
+        selection_path,
+        route_lock_path,
+        catalog_path,
+    )
+    fill_lock = validate_continental_nhs_fill_lock(
+        fill_lock_path,
+        selection_path,
+        route_lock_path,
+        transfer_lock_path,
+        policy_path,
+        edge_path_lock_path,
+        catalog_path,
+    )
+    validate_continental_break_dispositions(
+        disposition_path,
+        selection_path,
+        route_lock_path,
+        transfer_lock_path,
+        policy_path,
+        edge_path_lock_path,
+        catalog_path,
+        nhs_fill_lock_path=fill_lock_path,
+        overlay_lock_path=overlay_lock_path,
+    )
+    overlay_lock = validate_continental_reconstruction_overlays(
+        overlay_lock_path,
+        disposition_path,
+        selection_path,
+        route_lock_path,
+        transfer_lock_path,
+        policy_path,
+        edge_path_lock_path,
+        fill_lock_path,
+        catalog_path,
+    )
+    conflation_lock = validate_continental_nhs_conflation(
+        conflation_lock_path,
+        fill_lock_path,
+        selection_path,
+        route_lock_path,
+        transfer_lock_path,
+        policy_path,
+        edge_path_lock_path,
+        catalog_path,
+    )
+    for field, path in (
+        ("route_selection_sha256", selection_path),
+        ("candidate_lock_sha256", route_lock_path),
+        ("transfer_lock_sha256", transfer_lock_path),
+        ("edge_path_lock_sha256", edge_path_lock_path),
+        ("nhs_fill_lock_sha256", fill_lock_path),
+        ("break_disposition_sha256", disposition_path),
+        ("reconstruction_overlay_lock_sha256", overlay_lock_path),
+        ("nhs_conflation_lock_sha256", conflation_lock_path),
+        ("catalog_sha256", catalog_path),
+    ):
+        if payload.get(field) != compute_sha256(path):
+            raise ValueError(f"Directed route lock {field} does not match its input.")
+
+    snapshot_ids = {
+        snapshot["segment_id"]
+        for snapshot in route_lock["nhpn"]["segment_snapshots"]
+    }
+    ordered_ids = [
+        segment["id"] for segment in selection["segments"] if segment["id"] in snapshot_ids
+    ]
+    segments = payload.get("segments")
+    if not isinstance(segments, list) or [
+        record.get("segment_id") for record in segments
+    ] != ordered_ids:
+        raise ValueError(
+            "Directed route lock does not cover exactly the locked segments in "
+            "selection order."
+        )
+    if payload.get("segment_count") != len(segments):
+        raise ValueError("Directed route lock segment count disagrees.")
+    if payload.get("segments_sha256") != canonical_sha256(segments):
+        raise ValueError("Directed route lock segment digest drifted.")
+
+    selection_by_id = {segment["id"]: segment for segment in selection["segments"]}
+    transfer_by_id = {node["id"]: node for node in transfer_lock["transfer_nodes"]}
+    edge_by_id = {entry["segment_id"]: entry for entry in edge_lock["segments"]}
+    chain_by_id = {
+        entry["segment_id"]: entry
+        for entry in overlay_lock["chain_connectivity"]["segments"]
+    }
+    page_hashes_by_id = _locked_page_hashes_by_object_id(route_lock)
+    fill_site_by_id = {site["site_id"]: site for site in fill_lock["sites"]}
+    overlay_by_site_id = {
+        overlay["site_id"]: overlay for overlay in overlay_lock["overlays"]
+    }
+    conflation_site_by_id = {
+        site["site_id"]: site for site in conflation_lock["sites"]
+    }
+    for record in segments:
+        _validate_directed_segment_record(
+            record,
+            selection_by_id[record["segment_id"]],
+            edge_by_id[record["segment_id"]],
+            chain_by_id.get(record["segment_id"]),
+            transfer_by_id,
+            page_hashes_by_id,
+            fill_site_by_id,
+            overlay_by_site_id,
+            conflation_site_by_id,
+        )
+
+    record_by_id = {record["segment_id"]: record for record in segments}
+    expected_paths = _directed_path_records(selection, record_by_id, snapshot_ids)
+    if payload.get("paths") != expected_paths:
+        raise ValueError(
+            "Directed route lock paths do not reproduce from the locked segments."
+        )
+    if payload.get("paths_sha256") != canonical_sha256(expected_paths):
+        raise ValueError("Directed route lock path digest drifted.")
+    expected_corridor, expected_summary = _directed_corridor_and_summary(
+        selection, transfer_lock, fill_lock, overlay_lock, segments, expected_paths
+    )
+    if payload.get("corridor") != expected_corridor:
+        raise ValueError(
+            "Directed route lock corridor section does not reproduce from the "
+            "locked segments."
+        )
+    if payload.get("summary") != expected_summary:
+        raise ValueError(
+            "Directed route lock summary does not reproduce from the locked "
+            "segments."
+        )
+    if payload.get("next_stage") != DIRECTED_ROUTE_NEXT_STAGE:
+        raise ValueError("Directed route lock next stage drifted.")
     return payload

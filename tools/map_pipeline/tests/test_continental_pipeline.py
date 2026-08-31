@@ -3172,3 +3172,345 @@ def test_3dep_lock_rejects_semantic_tampering(tmp_path: Path) -> None:
 
     with pytest.raises(ValueError, match="westbound selection"):
         _validate_dem(_tampered_dem_lock(tmp_path, direction))
+
+
+# --- Westbound directed route lock -------------------------------------------------
+
+DIRECTED_LOCK_PATH = Path("data/routes/continental/directed-route-lock.v1.json")
+
+
+def _validate_directed(path: Path) -> dict:
+    return continental.validate_continental_directed_route_lock(
+        path,
+        SELECTION_PATH,
+        LOCK_PATH,
+        TRANSFER_LOCK_PATH,
+        TRANSFER_POLICY_PATH,
+        EDGE_PATH_LOCK_PATH,
+        NHS_FILL_LOCK_PATH,
+        DISPOSITION_PATH,
+        OVERLAY_LOCK_PATH,
+        CONFLATION_LOCK_PATH,
+        CATALOG_PATH,
+    )
+
+
+def test_repository_directed_route_lock_validates() -> None:
+    payload = _validate_directed(DIRECTED_LOCK_PATH)
+
+    assert payload["status"] == continental.DIRECTED_ROUTE_STATUS
+    assert payload["segment_count"] == 12
+    summary = payload["summary"]
+    assert summary["ancestry_counts"] == {
+        "nhpn_edge": 12575,
+        "nhpn_split_edge": 2,
+        "nhs_fill_chord": 3,
+        "authored_overlay_chord": 2,
+    }
+    corridor = payload["corridor"]
+    # The directed corridor reproduces the locked chained corridor exactly.
+    assert corridor["planimetric_length_miles"] == 6294.1
+    assert (
+        corridor["planimetric_length_miles"]
+        == corridor["chained_corridor_miles_reference"]
+    )
+    # The authoritative NY-to-LA figure is the canonical anchor-to-anchor
+    # geodesic; the portal connectors stay excluded and recorded.
+    authoritative = corridor["authoritative_distance"]
+    assert authoritative["path_id"] == "central-rockies"
+    assert authoritative["geodesic_length_miles"] == 2791.77
+    assert {
+        entry["segment_id"]
+        for entry in authoritative["excluded_endpoint_connectors"]
+    } == {"nyc-start-to-i80", "redondo-access-to-finish"}
+    # Direction is centerline traversal only; the carriageway stays ADR-0014's.
+    assert payload["westbound_selection"]["validated"] is True
+    assert payload["westbound_selection"]["carriageway_direction_claimed"] is False
+    assert payload["source_policy"]["carriageway_direction_claimed"] is False
+    # The two junction backtracks are measured facts of the anchor model.
+    backtracks = {
+        entry["anchor_id"]: entry["backtrack_length_m"]
+        for entry in corridor["junction_continuity"]["backtracks"]
+    }
+    assert backtracks == {
+        "ca-barstow-i40-i15": 485.938,
+        "ut-salt-lake-i80-i15": 2337.242,
+    }
+    # The two fills NHPN already carries stay locked but off the directed chain.
+    assert {
+        entry["site_id"]
+        for entry in corridor["fill_spans"]["locked_but_not_on_directed_chain"]
+    } == {
+        "i15-salt-lake-to-cove-fort--component-00-02",
+        "i40-i81-to-barstow--component-02-03",
+    }
+
+
+def _tampered_directed_lock(tmp_path: Path, mutate) -> Path:
+    payload = json.loads(DIRECTED_LOCK_PATH.read_text(encoding="utf-8"))
+    mutate(payload)
+    payload["segments_sha256"] = canonical_sha256(payload["segments"])
+    payload["paths_sha256"] = canonical_sha256(payload["paths"])
+    target = tmp_path / "directed-route-lock.json"
+    target.write_text(json.dumps(payload), encoding="utf-8")
+    return target
+
+
+def test_directed_route_lock_rejects_semantic_tampering(tmp_path: Path) -> None:
+    def claimed_carriageway(payload: dict) -> None:
+        payload["westbound_selection"]["carriageway_direction_claimed"] = True
+
+    with pytest.raises(ValueError, match="expressly not a"):
+        _validate_directed(_tampered_directed_lock(tmp_path, claimed_carriageway))
+
+    def widened_miles_bound(payload: dict) -> None:
+        payload["model"]["nhpn_miles_aggregate_bound"] = 0.5
+
+    with pytest.raises(ValueError, match="widens or drifts"):
+        _validate_directed(_tampered_directed_lock(tmp_path, widened_miles_bound))
+
+    def drifted_pin(payload: dict) -> None:
+        payload["edge_path_lock_sha256"] = "0" * 64
+
+    with pytest.raises(ValueError, match="does not match its input"):
+        _validate_directed(_tampered_directed_lock(tmp_path, drifted_pin))
+
+    def drifted_element_length(payload: dict) -> None:
+        segment = next(
+            entry
+            for entry in payload["segments"]
+            if entry["solve"] == "nhpn_connected"
+        )
+        segment["elements"][0]["length_m"] += 1.0
+
+    with pytest.raises(ValueError, match="disagrees with its elements"):
+        _validate_directed(
+            _tampered_directed_lock(tmp_path, drifted_element_length)
+        )
+
+    def broken_stationing(payload: dict) -> None:
+        segment = payload["segments"][0]
+        segment["elements"][1]["cumulative_geodesic_m"] += 1.0
+
+    with pytest.raises(ValueError, match="stationing cascade"):
+        _validate_directed(_tampered_directed_lock(tmp_path, broken_stationing))
+
+    def unlocked_record(payload: dict) -> None:
+        segment = payload["segments"][0]
+        element = next(
+            element
+            for element in segment["elements"]
+            if element["kind"] == "nhpn_edge"
+        )
+        element["object_id"] = 999_999_999
+
+    with pytest.raises(ValueError, match="unlocked\\s+NHPN record"):
+        _validate_directed(_tampered_directed_lock(tmp_path, unlocked_record))
+
+    def drifted_fill_chord(payload: dict) -> None:
+        for segment in payload["segments"]:
+            for element in segment["elements"]:
+                if element["kind"] == "nhs_fill_chord":
+                    element["length_m"] += 1.0
+                    return
+
+    with pytest.raises(ValueError, match="chord length drifted"):
+        _validate_directed(_tampered_directed_lock(tmp_path, drifted_fill_chord))
+
+    def drifted_seam_measure(payload: dict) -> None:
+        for segment in payload["segments"]:
+            for element in segment["elements"]:
+                if element["kind"] == "nhs_fill_chord":
+                    element["entry_measure"] += 1.0
+                    return
+
+    with pytest.raises(ValueError, match="seam measures drifted"):
+        _validate_directed(_tampered_directed_lock(tmp_path, drifted_seam_measure))
+
+    def interpolated_split_milepost(payload: dict) -> None:
+        for segment in payload["segments"]:
+            for element in segment["elements"]:
+                if element["kind"] == "nhpn_split_edge":
+                    element["entry_milepost"] = 1.0
+                    element["exit_milepost"] = 2.0
+                    return
+
+    with pytest.raises(ValueError, match="interpolates a"):
+        _validate_directed(
+            _tampered_directed_lock(tmp_path, interpolated_split_milepost)
+        )
+
+    def drifted_authoritative_distance(payload: dict) -> None:
+        payload["corridor"]["authoritative_distance"]["geodesic_length_miles"] += 1.0
+
+    with pytest.raises(ValueError, match="corridor section does not reproduce"):
+        _validate_directed(
+            _tampered_directed_lock(tmp_path, drifted_authoritative_distance)
+        )
+
+    def drifted_trend_census(payload: dict) -> None:
+        payload["segments"][0]["milepost_trend"]["decreasing"] += 1
+        payload["segments"][0]["milepost_trend"]["increasing"] -= 1
+
+    with pytest.raises(ValueError, match="trend census disagrees"):
+        _validate_directed(_tampered_directed_lock(tmp_path, drifted_trend_census))
+
+
+def test_milepost_trend_and_increasing_runs() -> None:
+    assert continental._milepost_trend(2.0, 1.0) == "decreasing"
+    assert continental._milepost_trend(1.0, 2.0) == "increasing"
+    assert continental._milepost_trend(1.0, 1.0) == "flat"
+    assert continental._milepost_trend(None, None) == "unmeasured"
+
+    def element(kind: str, key: str, entry: float | None, exit: float | None) -> dict:
+        return {
+            "kind": kind,
+            "lrs_key": key,
+            "entry_milepost": entry,
+            "exit_milepost": exit,
+        }
+
+    elements = [
+        element("nhpn_edge", "A", 1.0, 2.0),
+        element("nhpn_edge", "A", 2.0, 3.0),
+        element("nhpn_edge", "B", 3.0, 4.0),  # key change starts a new run
+        {"kind": "nhs_fill_chord", "site_id": "x"},  # a chord interrupts a run
+        element("nhpn_edge", "B", 4.0, 5.0),
+        element("nhpn_edge", "B", 5.0, 4.0),  # decreasing does not run
+    ]
+    runs = continental._increasing_milepost_runs(elements)
+    assert [
+        (run["lrs_key"], run["first_element_index"], run["element_count"])
+        for run in runs
+    ] == [("A", 0, 2), ("B", 2, 1), ("B", 4, 1)]
+    assert runs[0]["entry_milepost"] == 1.0
+    assert runs[0]["exit_milepost"] == 3.0
+
+
+def test_junction_backtracks_accept_only_the_mirrored_shape() -> None:
+    def nhpn(object_id: int, reversed_for_travel: bool) -> dict:
+        return {
+            "kind": "nhpn_edge",
+            "object_id": object_id,
+            "part_index": 0,
+            "part_range_m": None,
+            "reversed_for_travel": reversed_for_travel,
+            "length_m": 100.0,
+        }
+
+    arriving = {"elements": [nhpn(1, False), nhpn(2, False), nhpn(3, False)]}
+    departing = {"elements": [nhpn(3, True), nhpn(2, True), nhpn(4, False)]}
+    backtracks = continental._path_junction_backtracks(
+        "path", ["a", "b"], {"a": arriving, "b": departing}
+    )
+    assert backtracks == {
+        "a": {"element_count": 2, "backtrack_length_m": 200.0}
+    }
+
+    same_direction = {"elements": [nhpn(3, False), nhpn(2, False), nhpn(4, False)]}
+    with pytest.raises(ValueError, match="not a\\s+mirrored junction-approach"):
+        continental._path_junction_backtracks(
+            "path", ["a", "b"], {"a": arriving, "b": same_direction}
+        )
+
+    non_consecutive = {"elements": [nhpn(9, False)]}
+    with pytest.raises(ValueError, match="non-consecutive segments"):
+        continental._path_junction_backtracks(
+            "path",
+            ["a", "middle", "b"],
+            {"a": arriving, "middle": non_consecutive, "b": departing},
+        )
+
+    interior_overlap = {"elements": [nhpn(5, False), nhpn(2, True), nhpn(6, False)]}
+    with pytest.raises(ValueError, match="not a\\s+mirrored junction-approach"):
+        continental._path_junction_backtracks(
+            "path", ["a", "b"], {"a": arriving, "b": interior_overlap}
+        )
+
+
+def test_directed_walk_orients_measures_and_prorates_miles() -> None:
+    forward = Transformer.from_crs("EPSG:4326", "EPSG:5070", always_xy=True)
+    inverse = Transformer.from_crs("EPSG:5070", "EPSG:4326", always_xy=True)
+    # Two single-part records digitized in opposite directions, plus one
+    # two-part record whose MILES must be prorated between its parts.
+    lines = (
+        LockedCandidateLine(
+            "seg", 1, "0" * 64,
+            LineString([(-100.0, 40.0), (-99.99, 40.0)]),
+            "K1", 0.0, 10.0, 0.0, 0.6, 0, 0.53, 2,
+        ),
+        LockedCandidateLine(
+            "seg", 2, "0" * 64,
+            LineString([(-99.98, 40.0), (-99.99, 40.0)]),
+            "K1", 0.0, 10.0, 0.6, 1.1, 0, 0.53, 2,
+        ),
+        LockedCandidateLine(
+            "seg", 3, "0" * 64,
+            LineString([(-99.98, 40.0), (-99.97, 40.0)]),
+            "K1", 0.0, 10.0, 1.1, 2.0, 0, 1.0, 2,
+        ),
+        LockedCandidateLine(
+            "seg", 3, "0" * 64,
+            LineString([(-99.97, 40.0), (-99.96, 40.0)]),
+            "K1", 0.0, 10.0, 1.1, 2.0, 1, 1.0, 2,
+        ),
+    )
+    segment = {"id": "seg", "from": "west", "to": "east"}
+    metric_lines = tuple(
+        (candidate, transform(forward.transform, candidate.geometry))
+        for candidate in lines
+    )
+    from_point = metric_lines[0][1].coords[0]
+    to_point = metric_lines[3][1].coords[-1]
+    edge_entry = _solve_segment_edge_path(
+        segment, metric_lines, from_point, to_point, ENDPOINT_SNAP_TOLERANCE_METERS
+    )
+    assert edge_entry["connected"] is True
+
+    record = continental._derive_directed_segment(
+        segment,
+        edge_entry,
+        None,
+        lines,
+        (),
+        (),
+        {},
+        from_point,
+        to_point,
+        ENDPOINT_SNAP_TOLERANCE_METERS,
+        ANCHOR_SNAP_LIMIT_METERS,
+        forward,
+        inverse,
+    )
+    elements = record["elements"]
+    assert [element["object_id"] for element in elements] == [1, 2, 3, 3]
+    # Record 2 is digitized against the travel direction, so its recorded
+    # mileposts swap and its trend reads decreasing.
+    assert elements[0]["reversed_for_travel"] is False
+    assert elements[1]["reversed_for_travel"] is True
+    assert elements[1]["entry_milepost"] == 1.1
+    assert elements[1]["exit_milepost"] == 0.6
+    assert record["milepost_trend"] == {
+        "decreasing": 1,
+        "increasing": 1,
+        "flat": 0,
+        "unmeasured": 2,
+    }
+    # Single-part records keep the source MILES verbatim; the two-part record
+    # prorates its MILES by traversed metric length and drops its mileposts.
+    assert elements[0]["miles"] == 0.53
+    assert elements[2]["entry_milepost"] is None
+    assert elements[2]["miles"] == pytest.approx(0.5, abs=0.01)
+    assert elements[3]["miles"] == pytest.approx(0.5, abs=0.01)
+    # Stationing cascades to the recorded geodesic total.
+    assert elements[-1]["cumulative_geodesic_m"] == record["geodesic_length_m"]
+    assert record["planimetric_length_m"] == edge_entry["length_meters"]
+    assert record["facility_type_counts"] == {"2": 4}
+
+
+def test_geodesic_lengths_are_ellipsoidal() -> None:
+    # One degree of longitude along the equator on GRS80.
+    length = continental._geodesic_line_length_m([(0.0, 0.0), (1.0, 0.0)])
+    assert length == pytest.approx(111319.49, abs=1.0)
+    distance = continental._geodesic_distance_m((0.0, 0.0), (1.0, 0.0))
+    assert distance == pytest.approx(length, abs=1e-6)
