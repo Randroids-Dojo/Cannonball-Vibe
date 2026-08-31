@@ -5272,15 +5272,31 @@ def test_lane_topology_lock_rejects_semantic_tampering(tmp_path: Path) -> None:
             record["geometry"]["coordinates"]
         )
 
-    with pytest.raises(ValueError, match="does not reproduce from its"):
+    with pytest.raises(ValueError, match="from its recorded seam poses"):
         _validate_lane(_tampered_lane_lock(tmp_path, drifted_vertex))
 
     def drifted_seam_pose(payload: dict) -> None:
         record = payload["corner_refinements"][0]
         record["seam_poses"]["entry"]["heading_deg"] += 0.05
 
-    with pytest.raises(ValueError, match="does not reproduce"):
+    with pytest.raises(ValueError, match="from its recorded seam poses"):
         _validate_lane(_tampered_lane_lock(tmp_path, drifted_seam_pose))
+
+    def shifted_connector_window(payload: dict) -> None:
+        record = next(
+            item
+            for item in payload["corner_refinements"]
+            if item["host"]["kind"] == "endpoint_connector"
+        )
+        record["window"]["entry_station_m"] += 5.0
+        record["window"]["exit_station_m"] += 5.0
+
+    with pytest.raises(
+        ValueError, match="from the committed host geometry"
+    ):
+        _validate_lane(
+            _tampered_lane_lock(tmp_path, shifted_connector_window)
+        )
 
     def dropped_refinement(payload: dict) -> None:
         payload["corner_refinements"].pop()

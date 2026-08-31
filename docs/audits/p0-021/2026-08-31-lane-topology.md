@@ -127,7 +127,7 @@ ramp_50 above it, connector corners take street_30.
 - The 2 `junction_backtrack_approach` corners stay excluded with the
   recorded reason (their doubled travel was superseded by the authored
   turnaround loops).
-- Total refined-length effect: −637.623 m across 6,294 corridor miles,
+- Total refined-length effect: −637.622 m across 6,294 corridor miles,
   a recorded fact inside the source fidelity envelope;
   `run_length_effect_claimed` stays false and the published ADR-0024
   figure remains the carriageway lock's record.
@@ -210,6 +210,53 @@ census are recorded derive-time facts held to the locked thresholds,
 pinned through the carriageway lock hash and the derive's cache and
 census refusals.
 
+## Cross-platform determinism correction (same day)
+
+The first derivation of this lock passed every local macOS gate and was
+**rejected identically by both required M0 platforms** (run 33415657230,
+ubuntu and windows): `Lane refinement
+'nyc-start-to-i80--corner-000--refinement' seam poses do not reproduce
+from the committed host geometry`, with the tamper battery cascading
+into the same refusal.
+
+Root cause, confirmed: the endpoint connectors were the only refinement
+host whose line the validator rebuilt from a **live PROJ projection**
+(authored lon/lat waypoints → EPSG:5070) without quantization, then
+compared 9-decimal seam headings exactly. PROJ's trigonometric
+projection differs across platform libms in its final ULPs (~1e-9 to
+1e-7 m per coordinate); over the 25 m heading lens that amplifies to up
+to ~3e-7 degrees — hundreds of times the 5e-10 comparison quantum — so
+the poses recorded on one platform cannot reproduce on another. The
+diagnosis is corroborated in the negative: the 18 chain-host and 4
+movement-host records, whose host geometry is millimetre-quantized in
+the cache and the junction lock, reproduced exactly on both CI
+platforms, including the full 2048-step eased-curve reconstructions;
+only the first pyproj-rebuilt connector host failed.
+
+Fix (representation, not tolerance): `_lane_connector_line` now
+quantizes the projected waypoints to the millimetre **before any
+derived quantity is measured, at derive and validate alike** — exactly
+how every other host geometry in the corpus is stored. On identical
+quantized inputs, interpolation and distance are IEEE arithmetic and
+libm atan2's final-ULP spread (~1e-14 degrees) sits four orders below
+the recorded heading quantum, so exact comparison is platform-stable by
+construction; no epsilon was widened. The re-derived lock changes only
+the nine connector-host refinements (headings by ≤ 5.4e-4 degrees,
+coordinates and departures by ≤ 1 mm, total refined-length effect
+−637.623 → −637.622 m); every gate, count, and census is unchanged, and
+replay remains identical modulo `derived_at`. The residual class — a
+projected waypoint landing within the libm spread of a millimetre
+rounding boundary — is the same class the endpoint-connector lock's
+full re-derivation validator already carries on CI, and a flip would
+surface as a deterministic validation failure, never a silent drift.
+
+Recorded lesson (ADR-0020): the local single-platform gate cannot prove
+cross-platform determinism — the macOS run was green while both M0
+platforms failed; the required Linux/Windows pair is the authority for
+reproducibility claims, and exact-comparison validators must operate
+only on quantized stored representations, never on live projection
+output.
+
 ## Provenance and replay
 
 - Base revision: `7468a08` (main), branch
@@ -223,7 +270,11 @@ census refusals.
   rebuilding the carriageway cache whose digests both the junction and
   lane derives refuse without.
 - Lane topology lock SHA-256
-  `8e8c4c80d61bdb18ad439ebe6acccaa7bcdc33ef6f519ca8599e681b5d532986`.
+  `1d64d6cf763fe84b9c60856697e058c568621bf71481e7f4a67583758237aa8f`
+  (superseding the first derivation
+  `8e8c4c80d61bdb18ad439ebe6acccaa7bcdc33ef6f519ca8599e681b5d532986`,
+  rejected by both M0 platforms — see the cross-platform determinism
+  correction below).
 - Replay: two consecutive `derive-continental-lane-topology` runs
   produce identical locks modulo the top-level `derived_at` (every
   content digest stable).

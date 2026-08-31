@@ -21221,10 +21221,29 @@ def _lane_chain_bounds(
 def _lane_connector_line(
     connector: dict[str, Any], forward: Transformer
 ) -> LineString:
-    """One endpoint connector's authored waypoint polyline in the metric CRS."""
+    """One endpoint connector's authored waypoint polyline in the metric CRS.
+
+    The projected waypoints are quantized to the millimetre before any
+    derived quantity is measured, exactly like every other host geometry
+    (the carriageway cache and the committed movement polylines). PROJ's
+    trigonometric projection differs across platforms in its final ULPs
+    (~1e-9 to 1e-7 m); over the 25 m heading lens that amplifies to up to
+    ~3e-7 degrees - above the 9-decimal pose quantum - so an unquantized
+    host line cannot reproduce its recorded seam poses on another
+    platform. On the quantized line every downstream comparison is a pure
+    function of identical inputs: interpolation and distance are IEEE
+    arithmetic, and libm atan2's final-ULP spread (~1e-14 degrees) sits
+    four orders below the recorded heading quantum.
+    """
     coordinates = [
-        forward.transform(waypoint["longitude"], waypoint["latitude"])
-        for waypoint in connector["waypoints"]
+        (
+            round(x, CARRIAGEWAY_GEOMETRY_DECIMALS),
+            round(y, CARRIAGEWAY_GEOMETRY_DECIMALS),
+        )
+        for x, y in (
+            forward.transform(waypoint["longitude"], waypoint["latitude"])
+            for waypoint in connector["waypoints"]
+        )
     ]
     return LineString(coordinates)
 

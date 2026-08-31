@@ -8245,7 +8245,7 @@
         "max_curvature_1_per_m": 0.047619,
         "profile": "sine_eased_heading",
         "sample_count": 19,
-        "turn_deg": 25.7612
+        "turn_deg": 25.7615
       },
       "corner": {
         "corner_class": "connector_corner",
@@ -8281,7 +8281,7 @@
           "threshold": 21.0
         },
         "heading_monotonicity": {
-          "measured": 0.0,
+          "measured": 0.0443,
           "passed": true,
           "threshold": 0.2
         },
@@ -8291,7 +8291,7 @@
           "threshold": 69.21
         },
         "refinement_departure": {
-          "measured": 1.998,
+          "measured": 1.999,
           "passed": true,
           "threshold": 80.0
         },
@@ -8311,15 +8311,15 @@
             2184094.0
           ],
           [
-            1825929.192,
-            2184103.869
+            1825929.193,
+            2184103.868
           ],
           [
-            1825928.447,
+            1825928.448,
             2184104.526
           ],
           [
-            1825927.701,
+            1825927.702,
             2184105.183
           ],
           [
@@ -8327,7 +8327,7 @@
             2184105.836
           ],
           [
-            1825926.195,
+            1825926.196,
             2184106.481
           ],
           [
@@ -8339,11 +8339,11 @@
             2184107.723
           ],
           [
-            1825923.84,
+            1825923.841,
             2184108.308
           ],
           [
-            1825923.014,
+            1825923.015,
             2184108.86
           ],
           [
@@ -8359,12 +8359,12 @@
             2184110.285
           ],
           [
-            1825919.485,
+            1825919.486,
             2184110.679
           ],
           [
             1825918.558,
-            2184111.037
+            2184111.036
           ],
           [
             1825917.62,
@@ -8383,12 +8383,12 @@
             2184112.226
           ],
           [
-            1825913.809,
+            1825913.81,
             2184112.497
           ],
           [
             1825912.853,
-            2184112.766
+            2184112.765
           ],
           [
             1825897.971,
@@ -8396,7 +8396,7 @@
           ]
         ],
         "crs": "EPSG:5070",
-        "geometry_sha256": "aecd1c3ea8c710b48980290cd192bce31f2c5adf79e3d26af9f9333058559709",
+        "geometry_sha256": "1f93c85994dca2373142896999f68664983c233c7ba8fa0582aadb989db4734d",
         "planimetric_m": 49.249,
         "vertex_count": 22
       },
@@ -8406,8 +8406,8 @@
       },
       "measurements": {
         "length_delta_m": -0.751,
-        "max_against_turn_deg": 0.0,
-        "max_departure_m": 1.998,
+        "max_against_turn_deg": 0.0443,
+        "max_departure_m": 1.999,
         "max_lens_turn_deg": 22.78
       },
       "refinement_id": "nyc-start-to-i80--corner-000--refinement",
@@ -8417,14 +8417,14 @@
             1825940.367,
             2184094.0
           ],
-          "heading_deg": 138.551411625
+          "heading_deg": 138.551156004
         },
         "exit": {
           "coordinate": [
             1825897.971,
             2184116.945
           ],
-          "heading_deg": 164.312660697
+          "heading_deg": 164.312656517
         }
       },
       "window": {
@@ -8439,11 +8439,11 @@
         "arc_length_m": 14.827,
         "closure_correction_m": 0.0,
         "entry_tangent_m": 17.117,
-        "exit_tangent_m": 17.538,
+        "exit_tangent_m": 17.539,
         "max_curvature_1_per_m": 0.047619,
         "profile": "sine_eased_heading",
         "sample_count": 15,
-        "turn_deg": -20.2264
+        "turn_deg": -20.2269
       },
       "corner": {
         "corner_class": "connector_corner",
@@ -8484,19 +8484,19 @@
           "threshold": 0.2
         },
         "lens_discipline": {
-          "measured": 18.4,
+          "measured": 18.41,
           "passed": true,
           "threshold": 69.21
         },
         "refinement_departure": {
-          "measured": 1.74,
+          "measured": 1.739,
           "passed": true,
           "threshold": 80.0
         },
         "tangent_fit": {
           "measured": {
             "entry_tangent_m": 17.117,
-            "exit_tangent_m": 17.538
+            "exit_tangent_m": 17.539
           },
           "passed": true,
           "threshold": 5.0
@@ -8509,43 +8509,43 @@
             2188086.679
           ],
           [
-            1811298.704,
+            1811298.705,
             2188093.406
           ],
           [
-            1811297.795,
+            1811297.796,
             2188093.795
           ],
           [
-            1811296.887,
-            2188094.186
+            1811296.888,
+            2188094.185
           ],
           [
-            1811295.982,
-            2188094.584
+            1811295.983,
+            2188094.583
           ],
           [
-            1811295.084,
-            2188094.997
+            1811295.085,
+            2188094.996
           ],
           [
-            1811294.197,
+            1811294.198,
             2188095.432
           ],
           [
-            1811293.326,
+            1811293.327,
             2188095.899
           ],
           [
-            1811292.475,
-            2188096.403
+            1811292.476,
+            2188096.402
           ],
           [
             1811291.649,
-            2188096.945
+            2188096.944
           ],
           [
-            1811290.848,
+            1811290.849,
             2188097.524
           ],
           [
@@ -8554,14 +8554,14 @@
           ],
           [
             1811289.32,
-            2188098.777
+            2188098.776
           ],
           [
             1811288.583,
             2188099.436
           ],
           [
-            1811287.857,
+            1811287.858,
             2188100.107
           ],
           [
@@ -8569,8 +8569,8 @@
             2188100.784
           ],
           [
-            1811286.418,
-            2188101.463
+            1811286.419,
+            2188101.462
           ],
           [
             1811273.669,
@@ -8578,7 +8578,7 @@
           ]
         ],
         "crs": "EPSG:5070",
-        "geometry_sha256": "6cc01e36c800b4dc60c615e6f6367c9bb0f24dd07de202a62424d2de17c7d650",
+        "geometry_sha256": "96df273cdca4a2c15b58ae4383cbb033d80815db0197b62c6a1322846c2bd71d",
         "planimetric_m": 49.482,
         "vertex_count": 18
       },
@@ -8589,8 +8589,8 @@
       "measurements": {
         "length_delta_m": -0.518,
         "max_against_turn_deg": 0.0,
-        "max_departure_m": 1.74,
-        "max_lens_turn_deg": 18.4
+        "max_departure_m": 1.739,
+        "max_lens_turn_deg": 18.41
       },
       "refinement_id": "nyc-start-to-i80--corner-001--refinement",
       "seam_poses": {
@@ -8599,14 +8599,14 @@
             1811314.444,
             2188086.679
           ],
-          "heading_deg": 156.857882622
+          "heading_deg": 156.858424281
         },
         "exit": {
           "coordinate": [
             1811273.669,
             2188113.506
           ],
-          "heading_deg": 136.631510547
+          "heading_deg": 136.631513135
         }
       },
       "window": {
@@ -8620,12 +8620,12 @@
       "construction": {
         "arc_length_m": 28.879,
         "closure_correction_m": 0.0,
-        "entry_tangent_m": 9.365,
-        "exit_tangent_m": 10.19,
+        "entry_tangent_m": 9.364,
+        "exit_tangent_m": 10.191,
         "max_curvature_1_per_m": 0.047619,
         "profile": "sine_eased_heading",
         "sample_count": 29,
-        "turn_deg": 39.397
+        "turn_deg": 39.3969
       },
       "corner": {
         "corner_class": "connector_corner",
@@ -8661,7 +8661,7 @@
           "threshold": 21.0
         },
         "heading_monotonicity": {
-          "measured": 0.0078,
+          "measured": 0.0553,
           "passed": true,
           "threshold": 0.2
         },
@@ -8677,8 +8677,8 @@
         },
         "tangent_fit": {
           "measured": {
-            "entry_tangent_m": 9.365,
-            "exit_tangent_m": 10.19
+            "entry_tangent_m": 9.364,
+            "exit_tangent_m": 10.191
           },
           "passed": true,
           "threshold": 5.0
@@ -8691,132 +8691,132 @@
             2193398.117
           ],
           [
-            1801308.732,
+            1801308.733,
             2193400.711
           ],
           [
-            1801307.775,
-            2193400.987
+            1801307.776,
+            2193400.986
           ],
           [
-            1801306.818,
+            1801306.819,
             2193401.262
           ],
           [
-            1801305.86,
+            1801305.862,
             2193401.535
           ],
           [
-            1801304.901,
+            1801304.903,
             2193401.803
           ],
           [
-            1801303.94,
+            1801303.941,
             2193402.063
           ],
           [
-            1801302.976,
-            2193402.312
+            1801302.977,
+            2193402.311
           ],
           [
-            1801302.007,
-            2193402.543
+            1801302.008,
+            2193402.542
           ],
           [
-            1801301.033,
+            1801301.035,
             2193402.752
           ],
           [
-            1801300.055,
-            2193402.935
+            1801300.056,
+            2193402.934
           ],
           [
-            1801299.07,
+            1801299.072,
             2193403.085
           ],
           [
-            1801298.081,
-            2193403.2
+            1801298.082,
+            2193403.199
           ],
           [
-            1801297.088,
+            1801297.089,
             2193403.273
           ],
           [
-            1801296.093,
+            1801296.094,
             2193403.303
           ],
           [
-            1801295.097,
+            1801295.098,
             2193403.287
           ],
           [
-            1801294.103,
-            2193403.225
+            1801294.105,
+            2193403.224
           ],
           [
-            1801293.114,
-            2193403.115
+            1801293.115,
+            2193403.114
           ],
           [
-            1801292.13,
-            2193402.96
+            1801292.131,
+            2193402.959
           ],
           [
-            1801291.154,
-            2193402.762
+            1801291.155,
+            2193402.761
           ],
           [
-            1801290.187,
-            2193402.524
+            1801290.189,
+            2193402.523
           ],
           [
-            1801289.23,
+            1801289.231,
             2193402.25
           ],
           [
-            1801288.282,
-            2193401.946
+            1801288.283,
+            2193401.945
           ],
           [
-            1801287.342,
+            1801287.343,
             2193401.615
           ],
           [
-            1801286.41,
+            1801286.412,
             2193401.264
           ],
           [
-            1801285.485,
+            1801285.486,
             2193400.896
           ],
           [
-            1801284.564,
+            1801284.565,
             2193400.517
           ],
           [
-            1801283.646,
+            1801283.648,
             2193400.13
           ],
           [
-            1801282.731,
-            2193399.739
+            1801282.732,
+            2193399.738
           ],
           [
-            1801281.816,
+            1801281.817,
             2193399.345
           ],
           [
-            1801280.901,
+            1801280.903,
             2193398.951
           ],
           [
             1801271.544,
-            2193394.918
+            2193394.917
           ]
         ],
         "crs": "EPSG:5070",
-        "geometry_sha256": "d3661585766a608291c86329d897187b062f87b1d7982efcc55bcf7bc29794c6",
+        "geometry_sha256": "dee28d7c7246aba67d50af5ddff1e52401dc33b2a05a3611ce731eeccab0a13d",
         "planimetric_m": 48.433,
         "vertex_count": 32
       },
@@ -8826,7 +8826,7 @@
       },
       "measurements": {
         "length_delta_m": -1.567,
-        "max_against_turn_deg": 0.0078,
+        "max_against_turn_deg": 0.0553,
         "max_departure_m": 2.373,
         "max_lens_turn_deg": 32.31
       },
@@ -8837,14 +8837,14 @@
             1801317.731,
             2193398.117
           ],
-          "heading_deg": 163.919823497
+          "heading_deg": 163.919857601
         },
         "exit": {
           "coordinate": [
             1801271.544,
-            2193394.918
+            2193394.917
           ],
-          "heading_deg": -156.683214702
+          "heading_deg": -156.683221529
         }
       },
       "window": {
@@ -8909,7 +8909,7 @@
           "threshold": 69.21
         },
         "refinement_departure": {
-          "measured": 2.935,
+          "measured": 2.936,
           "passed": true,
           "threshold": 80.0
         },
@@ -9125,7 +9125,7 @@
       "measurements": {
         "length_delta_m": -2.657,
         "max_against_turn_deg": 0.0274,
-        "max_departure_m": 2.935,
+        "max_departure_m": 2.936,
         "max_lens_turn_deg": 41.9
       },
       "refinement_id": "redondo-access-to-finish--corner-000--refinement",
@@ -9135,14 +9135,14 @@
             -2033851.43,
             1441714.207
           ],
-          "heading_deg": -162.786896176
+          "heading_deg": -162.786916646
         },
         "exit": {
           "coordinate": [
             -2033908.901,
             1441648.813
           ],
-          "heading_deg": -103.724227061
+          "heading_deg": -103.724237188
         }
       },
       "window": {
@@ -9513,14 +9513,14 @@
             -2035009.963,
             1437131.053
           ],
-          "heading_deg": -103.67519139
+          "heading_deg": -103.675181052
         },
         "exit": {
           "coordinate": [
             -2035081.295,
             1437077.986
           ],
-          "heading_deg": 166.51831031
+          "heading_deg": 166.518318214
         }
       },
       "window": {
@@ -9855,14 +9855,14 @@
             -2038082.272,
             1437853.364
           ],
-          "heading_deg": 164.517963829
+          "heading_deg": 164.517955876
         },
         "exit": {
           "coordinate": [
             -2038132.073,
             1437915.934
           ],
-          "heading_deg": 90.701057212
+          "heading_deg": 90.7010287
         }
       },
       "window": {
@@ -9874,14 +9874,14 @@
     },
     {
       "construction": {
-        "arc_length_m": 37.784,
+        "arc_length_m": 37.785,
         "closure_correction_m": 0.0,
-        "entry_tangent_m": 5.25,
+        "entry_tangent_m": 5.249,
         "exit_tangent_m": 5.165,
         "max_curvature_1_per_m": 0.047619,
         "profile": "sine_eased_heading",
         "sample_count": 38,
-        "turn_deg": 51.5439
+        "turn_deg": 51.5451
       },
       "corner": {
         "corner_class": "connector_corner",
@@ -9922,7 +9922,7 @@
           "threshold": 0.2
         },
         "lens_discipline": {
-          "measured": 39.53,
+          "measured": 39.54,
           "passed": true,
           "threshold": 69.21
         },
@@ -9933,7 +9933,7 @@
         },
         "tangent_fit": {
           "measured": {
-            "entry_tangent_m": 5.25,
+            "entry_tangent_m": 5.249,
             "exit_tangent_m": 5.165
           },
           "passed": true,
@@ -9943,91 +9943,91 @@
       "geometry": {
         "coordinates": [
           [
-            -2038140.332,
+            -2038140.331,
             1438590.883
           ],
           [
-            -2038140.396,
-            1438596.133
+            -2038140.395,
+            1438596.132
           ],
           [
-            -2038140.408,
-            1438597.127
+            -2038140.407,
+            1438597.126
           ],
           [
-            -2038140.421,
-            1438598.121
+            -2038140.42,
+            1438598.12
           ],
           [
-            -2038140.435,
+            -2038140.434,
             1438599.115
           ],
           [
-            -2038140.452,
+            -2038140.451,
             1438600.109
           ],
           [
-            -2038140.473,
+            -2038140.472,
             1438601.103
           ],
           [
-            -2038140.503,
+            -2038140.502,
             1438602.097
           ],
           [
-            -2038140.543,
-            1438603.091
+            -2038140.542,
+            1438603.09
           ],
           [
-            -2038140.597,
-            1438604.084
+            -2038140.596,
+            1438604.083
           ],
           [
-            -2038140.669,
+            -2038140.668,
             1438605.075
           ],
           [
-            -2038140.763,
+            -2038140.762,
             1438606.065
           ],
           [
-            -2038140.881,
+            -2038140.88,
             1438607.052
           ],
           [
-            -2038141.029,
-            1438608.036
+            -2038141.028,
+            1438608.035
           ],
           [
-            -2038141.209,
+            -2038141.208,
             1438609.013
           ],
           [
-            -2038141.425,
+            -2038141.424,
             1438609.984
           ],
           [
-            -2038141.68,
+            -2038141.679,
             1438610.945
           ],
           [
-            -2038141.974,
-            1438611.895
+            -2038141.973,
+            1438611.894
           ],
           [
-            -2038142.311,
+            -2038142.31,
             1438612.83
           ],
           [
-            -2038142.69,
+            -2038142.689,
             1438613.749
           ],
           [
-            -2038143.112,
+            -2038143.111,
             1438614.649
           ],
           [
-            -2038143.577,
+            -2038143.576,
             1438615.528
           ],
           [
@@ -10035,7 +10035,7 @@
             1438616.385
           ],
           [
-            -2038144.625,
+            -2038144.624,
             1438617.217
           ],
           [
@@ -10043,11 +10043,11 @@
             1438618.025
           ],
           [
-            -2038145.819,
+            -2038145.818,
             1438618.807
           ],
           [
-            -2038146.464,
+            -2038146.463,
             1438619.564
           ],
           [
@@ -10055,35 +10055,35 @@
             1438620.297
           ],
           [
-            -2038147.831,
+            -2038147.83,
             1438621.007
           ],
           [
-            -2038148.547,
+            -2038148.546,
             1438621.697
           ],
           [
-            -2038149.281,
+            -2038149.28,
             1438622.368
           ],
           [
-            -2038150.029,
+            -2038150.028,
             1438623.023
           ],
           [
-            -2038150.789,
-            1438623.665
+            -2038150.788,
+            1438623.664
           ],
           [
             -2038151.557,
             1438624.295
           ],
           [
-            -2038152.333,
-            1438624.918
+            -2038152.332,
+            1438624.917
           ],
           [
-            -2038153.113,
+            -2038153.112,
             1438625.534
           ],
           [
@@ -10092,7 +10092,7 @@
           ],
           [
             -2038154.681,
-            1438626.757
+            1438626.756
           ],
           [
             -2038155.467,
@@ -10108,8 +10108,8 @@
           ]
         ],
         "crs": "EPSG:5070",
-        "geometry_sha256": "84ac47aca493e2dc7ae0f01d11784d177aed9f1c5759a6f7cdf26a8e55f212eb",
-        "planimetric_m": 48.197,
+        "geometry_sha256": "aef7c8be7617ca5d91e9654f833198e38ca9368b979ff911afdab3a9186f2456",
+        "planimetric_m": 48.198,
         "vertex_count": 41
       },
       "host": {
@@ -10117,26 +10117,26 @@
         "kind": "endpoint_connector"
       },
       "measurements": {
-        "length_delta_m": -1.803,
+        "length_delta_m": -1.802,
         "max_against_turn_deg": 0.034,
         "max_departure_m": 2.764,
-        "max_lens_turn_deg": 39.53
+        "max_lens_turn_deg": 39.54
       },
       "refinement_id": "redondo-access-to-finish--corner-003--refinement",
       "seam_poses": {
         "entry": {
           "coordinate": [
-            -2038140.332,
+            -2038140.331,
             1438590.883
           ],
-          "heading_deg": 90.701057212
+          "heading_deg": 90.7010287
         },
         "exit": {
           "coordinate": [
             -2038160.337,
             1438631.137
           ],
-          "heading_deg": 142.244947457
+          "heading_deg": 142.246148826
         }
       },
       "window": {
@@ -10150,12 +10150,12 @@
       "construction": {
         "arc_length_m": 15.146,
         "closure_correction_m": 0.0,
-        "entry_tangent_m": 17.375,
-        "exit_tangent_m": 16.786,
+        "entry_tangent_m": 17.376,
+        "exit_tangent_m": 16.784,
         "max_curvature_1_per_m": 0.047619,
         "profile": "sine_eased_heading",
         "sample_count": 16,
-        "turn_deg": -20.6626
+        "turn_deg": -20.6623
       },
       "corner": {
         "corner_class": "connector_corner",
@@ -10191,7 +10191,7 @@
           "threshold": 21.0
         },
         "heading_monotonicity": {
-          "measured": 0.0396,
+          "measured": 0.0214,
           "passed": true,
           "threshold": 0.2
         },
@@ -10207,8 +10207,8 @@
         },
         "tangent_fit": {
           "measured": {
-            "entry_tangent_m": 17.375,
-            "exit_tangent_m": 16.786
+            "entry_tangent_m": 17.376,
+            "exit_tangent_m": 16.784
           },
           "passed": true,
           "threshold": 5.0
@@ -10221,80 +10221,80 @@
             1438797.998
           ],
           [
-            -2038392.74,
+            -2038392.741,
             1438808.541
           ],
           [
             -2038393.493,
-            1438809.115
+            1438809.116
           ],
           [
-            -2038394.244,
-            1438809.691
+            -2038394.245,
+            1438809.692
           ],
           [
-            -2038394.991,
-            1438810.272
+            -2038394.992,
+            1438810.273
           ],
           [
-            -2038395.73,
+            -2038395.731,
             1438810.864
           ],
           [
-            -2038396.456,
+            -2038396.457,
             1438811.472
           ],
           [
-            -2038397.162,
-            1438812.102
+            -2038397.163,
+            1438812.103
           ],
           [
-            -2038397.844,
+            -2038397.845,
             1438812.759
           ],
           [
-            -2038398.496,
-            1438813.444
+            -2038398.497,
+            1438813.445
           ],
           [
-            -2038399.118,
-            1438814.158
+            -2038399.119,
+            1438814.159
           ],
           [
-            -2038399.708,
+            -2038399.709,
             1438814.899
           ],
           [
-            -2038400.269,
+            -2038400.27,
             1438815.661
           ],
           [
             -2038400.807,
-            1438816.44
+            1438816.441
           ],
           [
-            -2038401.326,
-            1438817.231
+            -2038401.327,
+            1438817.232
           ],
           [
-            -2038401.835,
+            -2038401.836,
             1438818.03
           ],
           [
-            -2038402.338,
+            -2038402.339,
             1438818.832
           ],
           [
-            -2038402.839,
+            -2038402.84,
             1438819.635
           ],
           [
             -2038411.73,
-            1438833.873
+            1438833.872
           ]
         ],
         "crs": "EPSG:5070",
-        "geometry_sha256": "9dc78098d02113fca0df52455db2f2ca9926a37d761d8cc2ff120f6209eef04e",
+        "geometry_sha256": "7fe24cb20a131de112f521bacd5b7c393cf8de08614860480cc10bbfef58a6c9",
         "planimetric_m": 49.307,
         "vertex_count": 19
       },
@@ -10304,7 +10304,7 @@
       },
       "measurements": {
         "length_delta_m": -0.693,
-        "max_against_turn_deg": 0.0396,
+        "max_against_turn_deg": 0.0214,
         "max_departure_m": 1.955,
         "max_lens_turn_deg": 18.77
       },
@@ -10315,14 +10315,14 @@
             -2038378.929,
             1438797.998
           ],
-          "heading_deg": 142.643897514
+          "heading_deg": 142.643937009
         },
         "exit": {
           "coordinate": [
             -2038411.73,
-            1438833.873
+            1438833.872
           ],
-          "heading_deg": 121.981298995
+          "heading_deg": 121.981594729
         }
       },
       "window": {
@@ -10387,7 +10387,7 @@
           "threshold": 69.21
         },
         "refinement_departure": {
-          "measured": 13.251,
+          "measured": 13.25,
           "passed": true,
           "threshold": 80.0
         },
@@ -10491,7 +10491,7 @@
             1439054.942
           ],
           [
-            -2038515.087,
+            -2038515.086,
             1439055.784
           ],
           [
@@ -10547,7 +10547,7 @@
             1439062.864
           ],
           [
-            -2038528.796,
+            -2038528.795,
             1439063.03
           ],
           [
@@ -10559,7 +10559,7 @@
             1439063.186
           ],
           [
-            -2038532.183,
+            -2038532.182,
             1439063.177
           ],
           [
@@ -10651,7 +10651,7 @@
             1439053.616
           ],
           [
-            -2038555.753,
+            -2038555.752,
             1439052.997
           ],
           [
@@ -10672,7 +10672,7 @@
           ]
         ],
         "crs": "EPSG:5070",
-        "geometry_sha256": "9b40d8c4bcbf50e887f5e538ff0dc2561a157c78497954564db5c2319a448e0b",
+        "geometry_sha256": "eb07c172ae89dfe82a2545ab9097e7b592e179b66afffd631989473f097daf0b",
         "planimetric_m": 109.229,
         "vertex_count": 67
       },
@@ -10683,7 +10683,7 @@
       "measurements": {
         "length_delta_m": -15.771,
         "max_against_turn_deg": 0.0296,
-        "max_departure_m": 13.251,
+        "max_departure_m": 13.25,
         "max_lens_turn_deg": 52.27
       },
       "refinement_id": "redondo-access-to-finish--corner-005--refinement",
@@ -10693,14 +10693,14 @@
             -2038494.649,
             1439015.874
           ],
-          "heading_deg": 114.493869577
+          "heading_deg": 114.493819411
         },
         "exit": {
           "coordinate": [
             -2038571.641,
             1439042.58
           ],
-          "heading_deg": -146.745777526
+          "heading_deg": -146.745791781
         }
       },
       "window": {
@@ -10711,7 +10711,7 @@
       }
     }
   ],
-  "corner_refinements_sha256": "365c68634dc88ffc897dc5591edd7f86300bf0a16ef8750bb4b4fefe6723648b",
+  "corner_refinements_sha256": "a463303281a09ff3521492fce8443ef469c0dd75e3ea0720b9a547ab60a56cb1",
   "corridor_elevation_lock_sha256": "082a1e0432edac2a89a3c561b1f2ee121692a68fde3226087fdb43631ac4cac7",
   "decision": "ADR-0011",
   "deferred_gates": {
@@ -10727,7 +10727,7 @@
     "reason": "Sightline and clearance adjudication need the 3D collision ribbons and structure model the collision stage generates; the authored grade-separation clearances declared here are that stage's input, and the collision gates run over its generated meshes. The endpoint connector vertical set keeps the endpoint connector lock's standing reason: no locked elevation source covers the connector facilities, and the undivided cross-section has no reciprocal pair to measure; the service-bubble build at the package stage authors and gates them."
   },
   "dem_product_lock_sha256": "8863b1cd0445188427e0af597b6599b8f3e855ca43c34e93c664db1e3705860f",
-  "derived_at": "2026-08-31T16:30:38Z",
+  "derived_at": "2026-08-31T17:10:29Z",
   "directed_route_lock_sha256": "cd31ea3193a755f06349fdf1cea814775d5de700e04a75113f70e68d18793294",
   "edge_path_lock_sha256": "fcf0da1dcff80eb74364b1496e2033c351b14c25cbbf7f857e8af8a42295fc5e",
   "endpoint_connector_lock_sha256": "2544063bc8494016268aab322ae443c91712ef14087dfa37c41888bac878a2c8",
@@ -14013,7 +14013,7 @@
     "max_easing_departure_m": 13.78,
     "movement_count": 12,
     "open_lane_seam_count": 3,
-    "refined_length_delta_m": -637.623,
+    "refined_length_delta_m": -637.622,
     "refinement_count": 31,
     "refinements_by_class": {
       "directional_80": 6,
