@@ -225,7 +225,15 @@ rejections (raised station, unrounded elevation, sample-hash drift, byte
 drift, dropped tile, widened interval, claimed smoothing, summary drift,
 stripped declaration exception, unneeded declaration exception).
 
-`./scripts/check.sh` result is recorded in the PR after the full gate run.
+`GODOT_BIN` resolved to the official 4.7.1.stable.mono editor;
+`./scripts/check.sh` passed every step: doctor, warning-free dotnet build,
+145 xUnit tests, Ruff, the ten-stage continental validation (candidate,
+transfer, edge-path, NHS fill, break dispositions, reconstruction overlays,
+NHS conflation, 3DEP products, directed route, corridor elevation), 237
+map-pipeline tests, 13 PlayGodot unit tests, and the official-Godot
+save-writing smoke (80.7 mph peak, save at 56.1 m, 11.388 ms max chunk
+build, 1.204 ms max collision build). Gate summary SHA-256
+`52ab1189cb28e8cffff2337050a65706907292fb9867e1b4c52fab7de3f8142a`.
 
 ## What P0-021 still needs
 
