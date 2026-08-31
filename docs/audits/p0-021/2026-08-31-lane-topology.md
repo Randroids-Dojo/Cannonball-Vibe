@@ -248,6 +248,31 @@ uv run --project tools/map_pipeline --frozen cannonball-map \
 # exit 0: all fifteen stages green
 ```
 
+## Verification
+
+`ruff` clean; 271 map-pipeline tests pass under the scoped invocation
+(`pytest tools/map_pipeline`). New unit tests cover the eased-corner
+construction (exact reproduction, pinned peak curvature, and the
+degenerate/reversal/fit refusals), the vertical easing (boundary
+pinning, crest/sag site recording, and the below-class refusal), the
+serpentine cluster classification and zone-class table, the movement
+lane-class census on the repository lock, the repository lock's
+recorded state, and the validator's semantic-tampering rejections
+(failed gate, drifted refinement vertex, drifted seam pose, dropped
+refinement, unauthorised step-down, same-sign serpentine, drifted
+section, drifted vertical census, dropped lane connector, drifted
+census, relaxed grade-separation clearance, drifted summary, drifted
+input hash, drifted model, unclaimed source policy).
+
+`GODOT_BIN` resolved to the official 4.7.1.stable.mono editor;
+`./scripts/check.sh` passed every step on commit `56ebf70`: doctor,
+warning-free dotnet build, 145 xUnit tests, Ruff, frame-allocation
+scan, the fifteen-stage continental validation, 271 map-pipeline tests,
+13 PlayGodot unit tests, and the official-Godot save-writing smoke
+(80.7 mph peak, save at 56.1 m, 11.113 ms max chunk build, 2.290 ms max
+collision build). Gate summary SHA-256
+`764163518d17601e42abbbb65a132c320d19db1d009a0cfae7dcf30b236ededc`.
+
 ## What P0-021 still needs
 
 1. **Collision ribbons, chunking, and the ADR-0019 package build**: the
