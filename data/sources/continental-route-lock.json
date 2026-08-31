@@ -17,8 +17,8 @@
   },
   "nhpn": {
     "candidate_union": {
-      "expected_count": 15525,
-      "object_ids_sha256": "bb192757b04478758f282d8953f88fa919808cd5435201bfae3c31f8edcb7d44"
+      "expected_count": 15553,
+      "object_ids_sha256": "7b453a749521670b1a27e67e5b6bdef9f9db9580d9271a41e372aa1011f4be59"
     },
     "license_evidence_url": "https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/NTAD_National_Highway_Planning_Network/FeatureServer/0",
     "license_status": "public_domain",
@@ -18005,8 +18005,164 @@
       "object_id_field": "OBJECTID"
     },
     "service_url": "https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/NTAD_National_Highway_Planning_Network/FeatureServer/0",
-    "source_id": "usdot-national-highway-planning-network"
+    "source_id": "usdot-national-highway-planning-network",
+    "supplementary_acquisitions": [
+      {
+        "acquired_at": "2026-08-31T07:03:57Z",
+        "disposition": "nhpn_scoped_acquisition",
+        "expected_count": 23,
+        "features_sha256": "ac33bb96fe5005073195d9969c814dabe3b881bc370a3c6c61547ec351259fcb",
+        "object_ids": [
+          545360,
+          545363,
+          545364,
+          545365,
+          545366,
+          545370,
+          546470,
+          546510,
+          546519,
+          546522,
+          546524,
+          546525,
+          546526,
+          546556,
+          546557,
+          546558,
+          546559,
+          546568,
+          546569,
+          546571,
+          546572,
+          546573,
+          546574
+        ],
+        "object_ids_sha256": "a44e29141627fb6b6c23f8581fea4f19cbecc9150e7a575758bd47ef88d290a2",
+        "open_question": "Q-034",
+        "page_size": 2000,
+        "pages": [
+          {
+            "canonical_response_sha256": "29b72739e6ffa9e7ddfc53e875f4ead4a2016056622f156f7aab5b2eaf89b4e7",
+            "feature_count": 23,
+            "index": 0,
+            "object_id_offset": 0,
+            "object_ids_sha256": "a44e29141627fb6b6c23f8581fea4f19cbecc9150e7a575758bd47ef88d290a2"
+          }
+        ],
+        "predicate": "OBJECTID IN (545360,545363,545364,545365,545366,545370,546470,546510,546519,546522,546524,546525,546526,546556,546557,546558,546559,546568,546569,546571,546572,546573,546574)",
+        "resumed_pages": 0,
+        "retries": 0,
+        "segment_id": "i10-ontario-to-i405",
+        "site_id": "i10-ontario-to-i405--component-00-01"
+      },
+      {
+        "acquired_at": "2026-08-31T07:03:57Z",
+        "disposition": "nhpn_scoped_acquisition",
+        "expected_count": 2,
+        "features_sha256": "43b3023ad639a484d558990f2428225478b494ebb2d80a2169a088301cdf101e",
+        "object_ids": [
+          43839,
+          43841
+        ],
+        "object_ids_sha256": "f374fc25e3282023f904c815e9b4bf926facb6774318c2674ee8f5fb71f20776",
+        "open_question": "Q-034",
+        "page_size": 2000,
+        "pages": [
+          {
+            "canonical_response_sha256": "657e7c48dc986e00d8b0e7f5266e401d570cf71a3d9e66e02796e1b60b39b2d7",
+            "feature_count": 2,
+            "index": 0,
+            "object_id_offset": 0,
+            "object_ids_sha256": "f374fc25e3282023f904c815e9b4bf926facb6774318c2674ee8f5fb71f20776"
+          }
+        ],
+        "predicate": "OBJECTID IN (43839,43841)",
+        "resumed_pages": 0,
+        "retries": 0,
+        "segment_id": "i15-salt-lake-to-cove-fort",
+        "site_id": "i15-salt-lake-to-cove-fort--component-00-01"
+      },
+      {
+        "acquired_at": "2026-08-31T07:03:57Z",
+        "disposition": "nhpn_scoped_acquisition",
+        "expected_count": 1,
+        "features_sha256": "9731919bf52125830983f41fc0235d00f06e9fe330bda86914aa57d5e5547934",
+        "object_ids": [
+          38597
+        ],
+        "object_ids_sha256": "136d89d4fcd47b19eb091b480f6b7a645d5c5b4c641df50f7809c5919f78f6bb",
+        "open_question": "Q-034",
+        "page_size": 2000,
+        "pages": [
+          {
+            "canonical_response_sha256": "28cacaaad3926fcaa86f1fb0e9d6ab94b6adbb7df3bb9f4f6382e40a72b98622",
+            "feature_count": 1,
+            "index": 0,
+            "object_id_offset": 0,
+            "object_ids_sha256": "136d89d4fcd47b19eb091b480f6b7a645d5c5b4c641df50f7809c5919f78f6bb"
+          }
+        ],
+        "predicate": "OBJECTID IN (38597)",
+        "resumed_pages": 0,
+        "retries": 0,
+        "segment_id": "i40-i81-to-barstow",
+        "site_id": "i40-i81-to-barstow--component-00-01"
+      },
+      {
+        "acquired_at": "2026-08-31T07:03:57Z",
+        "disposition": "nhpn_scoped_acquisition",
+        "expected_count": 1,
+        "features_sha256": "333e6de024b8a058d8c221c878ee08edb61fc8b1eea407635ac2046acf2e0c2b",
+        "object_ids": [
+          218838
+        ],
+        "object_ids_sha256": "0bd022bb287a6f6678668a9f417b626ed76d5edf815658099d5d040c4c4012a4",
+        "open_question": "Q-034",
+        "page_size": 2000,
+        "pages": [
+          {
+            "canonical_response_sha256": "4fb7c6813414517e24452b91591d99a0d250d45118464e9e6c36d0c4eb40b6ff",
+            "feature_count": 1,
+            "index": 0,
+            "object_id_offset": 0,
+            "object_ids_sha256": "0bd022bb287a6f6678668a9f417b626ed76d5edf815658099d5d040c4c4012a4"
+          }
+        ],
+        "predicate": "OBJECTID IN (218838)",
+        "resumed_pages": 0,
+        "retries": 0,
+        "segment_id": "i40-i81-to-barstow",
+        "site_id": "i40-i81-to-barstow--component-02-04"
+      },
+      {
+        "acquired_at": "2026-08-31T07:03:57Z",
+        "disposition": "nhpn_scoped_acquisition",
+        "expected_count": 1,
+        "features_sha256": "1493492f28811d322b0cdd3f131101ff86555800add72d28d8f5ab4c15ef6f23",
+        "object_ids": [
+          59709
+        ],
+        "object_ids_sha256": "1c3caffc6fd204244443cc777fad0082b9c3982ce8c346c0faee25c1a74c0ac7",
+        "open_question": "Q-034",
+        "page_size": 2000,
+        "pages": [
+          {
+            "canonical_response_sha256": "adba5cd15677cbd239b3933d8158514fa06822c45b200e0014612c76086ee421",
+            "feature_count": 1,
+            "index": 0,
+            "object_id_offset": 0,
+            "object_ids_sha256": "1c3caffc6fd204244443cc777fad0082b9c3982ce8c346c0faee25c1a74c0ac7"
+          }
+        ],
+        "predicate": "OBJECTID IN (59709)",
+        "resumed_pages": 0,
+        "retries": 0,
+        "segment_id": "i70-denver-to-cove-fort",
+        "site_id": "i70-denver-to-cove-fort--component-01-02"
+      }
+    ]
   },
+  "revised_at": "2026-08-31T07:03:57Z",
   "route_selection": {
     "decision": "ADR-0024",
     "path": "data/routes/continental/route-selection.v1.json",

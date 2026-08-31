@@ -1,0 +1,1642 @@
+{
+  "acquired_at": "2026-08-31T07:06:45Z",
+  "ancestry": {
+    "nhpn_backbone": {
+      "candidate_lock_sha256": "cbdaaa3710e2b2e9409628f32fb1ef16228ec2256c5b8f1428d3363618e73900",
+      "role": "route-family and topology backbone; authority for which facilities are on the route",
+      "source_id": "usdot-national-highway-planning-network"
+    },
+    "nhs_centerlines": {
+      "decision": "ADR-0026",
+      "role": "supplementary corridor centerlines and state-LRS milepoints across the named NHPN voids only",
+      "source_id": "usdot-ntad-national-highway-system"
+    }
+  },
+  "anchor_snap_limit_m": 25.0,
+  "candidate_lock_sha256": "cbdaaa3710e2b2e9409628f32fb1ef16228ec2256c5b8f1428d3363618e73900",
+  "catalog_sha256": "4d3a4c115875fc7e72f12e6a9d32a31d4b103a1b73bdbc731f47864989b8447f",
+  "chain_connectivity": {
+    "chained_segment_count": 2,
+    "note": "Anchor-to-anchor connectivity of each unconnected segment once every locked NHS fill bridges its pinned break ends. A chained segment is a mixed-ancestry chain (NHPN backbone plus NHS fill chords), not an NHPN path, not a westbound selection, and not an authoritative distance.",
+    "segments": [
+      {
+        "chain_connected_with_fills": true,
+        "chain_length_meters": 3366484.933,
+        "fill_bridge_count": 2,
+        "fill_chord_meters": 1854.0,
+        "fill_site_ids_on_chain": [
+          "i40-i81-to-barstow--component-01-02"
+        ],
+        "from_anchor_snap_distance_m": 0.0,
+        "nhpn_path_meters": 3364630.933,
+        "remaining_blockers": [],
+        "segment_id": "i40-i81-to-barstow",
+        "to_anchor_snap_distance_m": 0.0
+      },
+      {
+        "chain_connected_with_fills": true,
+        "chain_length_meters": 804576.944,
+        "fill_bridge_count": 1,
+        "fill_chord_meters": 320.0,
+        "fill_site_ids_on_chain": [
+          "i70-denver-to-cove-fort--component-00-01"
+        ],
+        "from_anchor_snap_distance_m": 0.0,
+        "nhpn_path_meters": 804256.944,
+        "remaining_blockers": [],
+        "segment_id": "i70-denver-to-cove-fort",
+        "to_anchor_snap_distance_m": 0.0
+      },
+      {
+        "chain_connected_with_fills": false,
+        "fill_bridge_count": 1,
+        "from_anchor_snap_distance_m": 381.157,
+        "remaining_blockers": [
+          {
+            "disposition": "ambiguous",
+            "q034_subitem": "Q-034c",
+            "site_id": "i78-holland-tunnel-to-i81--anchor-from"
+          },
+          {
+            "distance_m": 381.157,
+            "kind": "anchor_beyond_snap_limit",
+            "side": "from"
+          }
+        ],
+        "segment_id": "i78-holland-tunnel-to-i81",
+        "to_anchor_snap_distance_m": 0.0
+      },
+      {
+        "chain_connected_with_fills": false,
+        "fill_bridge_count": 0,
+        "from_anchor_snap_distance_m": 253.027,
+        "remaining_blockers": [
+          {
+            "disposition": "ambiguous",
+            "q034_subitem": "Q-034d",
+            "site_id": "i80-new-jersey-to-big-springs--anchor-from"
+          },
+          {
+            "disposition": "bounded_reconstruction_exception",
+            "site_id": "i80-new-jersey-to-big-springs--component-00-01"
+          },
+          {
+            "disposition": "bounded_reconstruction_exception",
+            "site_id": "i80-new-jersey-to-big-springs--component-01-02"
+          },
+          {
+            "distance_m": 253.027,
+            "kind": "anchor_beyond_snap_limit",
+            "side": "from"
+          }
+        ],
+        "segment_id": "i80-new-jersey-to-big-springs",
+        "to_anchor_snap_distance_m": 0.0
+      }
+    ],
+    "unchained_segment_count": 2
+  },
+  "chain_connectivity_sha256": "ef1146e6be4e669b5552f6bb487c04cc0d171197721380f2dbf2fed56c33738c",
+  "coordinate_crs": "EPSG:4326",
+  "decision": "ADR-0024",
+  "edge_path_lock_sha256": "846da2e3727a84c823fbb5f6dedb189fbdb57a951a7f999eb068ef426c448521",
+  "endpoint_snap_tolerance_m": 1.0,
+  "metric_crs": "EPSG:5070",
+  "next_stage": {
+    "id": "nhpn-nhs-conflation-and-reconstruction",
+    "requires": [
+      "NHPN-to-NHS conflation model over the locked fill spans",
+      "ADR-0018 reconstruction gates for the bounded exception overlays",
+      "3DEP product lock over the chained corridor"
+    ]
+  },
+  "nhs": {
+    "license_evidence_url": "https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/NTAD_National_Highway_System/FeatureServer",
+    "license_status": "public_domain",
+    "publisher": "U.S. Department of Transportation, Federal Highway Administration (via BTS NTAD)",
+    "query_url": "https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/NTAD_National_Highway_System/FeatureServer/0/query",
+    "service": {
+      "canonical_metadata_sha256": "a29f96df0512d0748d0c243cf15867d432439f6df5927d9b9d682e167410c027",
+      "data_last_edit_epoch_ms": 1778183346545,
+      "item_id": "dce9f09392eb474c8ad8e6a78416279b",
+      "layer_id": 0,
+      "max_record_count": 2000,
+      "object_id_field": "OBJECTID"
+    },
+    "service_url": "https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/NTAD_National_Highway_System/FeatureServer/0",
+    "source_id": "usdot-ntad-national-highway-system"
+  },
+  "open_question": "Q-034",
+  "probe_padding_meters": 250.0,
+  "proximity_lens_m": 80.0,
+  "route_selection_sha256": "00ac4df354a8644997a2a073ee07c736ff3f3bc2d2565c8cd9cb51b957d2ff2f",
+  "schema_version": 1,
+  "site_count": 5,
+  "sites": [
+    {
+      "acquired_at": "2026-08-31T07:06:45Z",
+      "envelope_4326": [
+        -111.8187398,
+        39.9761599,
+        -111.608967,
+        40.2108062
+      ],
+      "expected_count": 104,
+      "facility": "I-15",
+      "features_sha256": "2e41b1828831cdef913c95ec196e26fd34fc7f348457a83c2c499c351562dba9",
+      "fill_route_groups": [
+        {
+          "feature_count": 62,
+          "largest_measure_gap_miles": 0.0,
+          "measure_spans": [
+            [
+              244.838,
+              265.59
+            ]
+          ],
+          "records": [
+            {
+              "begin_point": 263.07,
+              "end_point": 263.358,
+              "miles": 0.289318,
+              "object_id": 99847,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 263.358,
+              "end_point": 265.59,
+              "miles": 2.237551,
+              "object_id": 98654,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 245.09,
+              "end_point": 246.177,
+              "miles": 1.090807,
+              "object_id": 98718,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 244.92,
+              "end_point": 245.09,
+              "miles": 0.170997,
+              "object_id": 98700,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 244.838,
+              "end_point": 244.92,
+              "miles": 0.08187,
+              "object_id": 98707,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 262.89,
+              "end_point": 263.07,
+              "miles": 0.180508,
+              "object_id": 99861,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 262.862,
+              "end_point": 262.89,
+              "miles": 0.028004,
+              "object_id": 99860,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 262.683,
+              "end_point": 262.862,
+              "miles": 0.179527,
+              "object_id": 99859,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 262.48,
+              "end_point": 262.683,
+              "miles": 0.203493,
+              "object_id": 99857,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 262.47,
+              "end_point": 262.48,
+              "miles": 0.010031,
+              "object_id": 99858,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 262.29,
+              "end_point": 262.47,
+              "miles": 0.180666,
+              "object_id": 99856,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 262.137,
+              "end_point": 262.29,
+              "miles": 0.153749,
+              "object_id": 99862,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 246.177,
+              "end_point": 246.178,
+              "miles": 0.000972,
+              "object_id": 98720,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 246.178,
+              "end_point": 246.77,
+              "miles": 0.595245,
+              "object_id": 98719,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 261.96,
+              "end_point": 262.137,
+              "miles": 0.177783,
+              "object_id": 99863,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 261.93,
+              "end_point": 261.96,
+              "miles": 0.029921,
+              "object_id": 99851,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 261.781,
+              "end_point": 261.93,
+              "miles": 0.148384,
+              "object_id": 99855,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 261.49,
+              "end_point": 261.781,
+              "miles": 0.292067,
+              "object_id": 99854,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 246.77,
+              "end_point": 247.43,
+              "miles": 0.662268,
+              "object_id": 98717,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 261.23,
+              "end_point": 261.49,
+              "miles": 0.260806,
+              "object_id": 99852,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 260.93,
+              "end_point": 261.23,
+              "miles": 0.30096,
+              "object_id": 99853,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 247.43,
+              "end_point": 248.27,
+              "miles": 0.843792,
+              "object_id": 98723,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 260.08,
+              "end_point": 260.93,
+              "miles": 0.852864,
+              "object_id": 99800,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 248.27,
+              "end_point": 248.44,
+              "miles": 0.17025,
+              "object_id": 98721,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 259.963,
+              "end_point": 260.08,
+              "miles": 0.117363,
+              "object_id": 99837,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 258.82,
+              "end_point": 259.963,
+              "miles": 1.14796,
+              "object_id": 99831,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 248.44,
+              "end_point": 248.845,
+              "miles": 0.405994,
+              "object_id": 98724,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 248.845,
+              "end_point": 249.335,
+              "miles": 0.492657,
+              "object_id": 98722,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 249.335,
+              "end_point": 250.41,
+              "miles": 1.080059,
+              "object_id": 98716,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 258.804,
+              "end_point": 258.82,
+              "miles": 0.016076,
+              "object_id": 99835,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 258.76,
+              "end_point": 258.804,
+              "miles": 0.044157,
+              "object_id": 99832,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 258.745,
+              "end_point": 258.76,
+              "miles": 0.015041,
+              "object_id": 99834,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 258.72,
+              "end_point": 258.745,
+              "miles": 0.025045,
+              "object_id": 99833,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 258.46,
+              "end_point": 258.72,
+              "miles": 0.260733,
+              "object_id": 99804,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 258.25,
+              "end_point": 258.46,
+              "miles": 0.210573,
+              "object_id": 99829,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 258.007,
+              "end_point": 258.25,
+              "miles": 0.24617,
+              "object_id": 99830,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 250.41,
+              "end_point": 250.51,
+              "miles": 0.099968,
+              "object_id": 98729,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 250.51,
+              "end_point": 250.52,
+              "miles": 0.01002,
+              "object_id": 98728,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 250.52,
+              "end_point": 250.7,
+              "miles": 0.180823,
+              "object_id": 98731,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 257.9,
+              "end_point": 258.007,
+              "miles": 0.104799,
+              "object_id": 99820,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 257.89,
+              "end_point": 257.9,
+              "miles": 0.010216,
+              "object_id": 99828,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 257.666,
+              "end_point": 257.89,
+              "miles": 0.219421,
+              "object_id": 99819,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 250.7,
+              "end_point": 250.9,
+              "miles": 0.200756,
+              "object_id": 98730,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 257.64,
+              "end_point": 257.666,
+              "miles": 0.025681,
+              "object_id": 99827,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 257.471,
+              "end_point": 257.64,
+              "miles": 0.165248,
+              "object_id": 99826,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 250.9,
+              "end_point": 250.923,
+              "miles": 0.02314,
+              "object_id": 98733,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 250.923,
+              "end_point": 251.05,
+              "miles": 0.131574,
+              "object_id": 98732,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 257.38,
+              "end_point": 257.471,
+              "miles": 0.089537,
+              "object_id": 99822,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 257.3,
+              "end_point": 257.38,
+              "miles": 0.078361,
+              "object_id": 99824,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 251.05,
+              "end_point": 251.37,
+              "miles": 0.317049,
+              "object_id": 98726,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 257.286,
+              "end_point": 257.3,
+              "miles": 0.013653,
+              "object_id": 99825,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 257.246,
+              "end_point": 257.286,
+              "miles": 0.041737,
+              "object_id": 99823,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 256.99,
+              "end_point": 257.246,
+              "miles": 0.258535,
+              "object_id": 99808,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 256.87,
+              "end_point": 256.99,
+              "miles": 0.120363,
+              "object_id": 99810,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 256.74,
+              "end_point": 256.87,
+              "miles": 0.131157,
+              "object_id": 99809,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 251.37,
+              "end_point": 252.47,
+              "miles": 1.094045,
+              "object_id": 98727,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 255.141,
+              "end_point": 256.74,
+              "miles": 1.611813,
+              "object_id": 98653,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 252.47,
+              "end_point": 252.65,
+              "miles": 0.178886,
+              "object_id": 98734,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 252.65,
+              "end_point": 253.557,
+              "miles": 0.900709,
+              "object_id": 98725,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 254.439,
+              "end_point": 255.141,
+              "miles": 0.700758,
+              "object_id": 98736,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 254.35,
+              "end_point": 254.439,
+              "miles": 0.087089,
+              "object_id": 98737,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 253.557,
+              "end_point": 254.35,
+              "miles": 0.801158,
+              "object_id": 98735,
+              "signed_route": "I-15",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            }
+          ],
+          "route_id": "0015PM",
+          "signed_routes": [
+            "I-15"
+          ],
+          "state_fips": "49"
+        }
+      ],
+      "from_coordinate": {
+        "latitude": 40.20823900023,
+        "longitude": -111.658556999606
+      },
+      "nhs_carries_between_ends": true,
+      "object_ids": [
+        98653,
+        98654,
+        98700,
+        98707,
+        98716,
+        98717,
+        98718,
+        98719,
+        98720,
+        98721,
+        98722,
+        98723,
+        98724,
+        98725,
+        98726,
+        98727,
+        98728,
+        98729,
+        98730,
+        98731,
+        98732,
+        98733,
+        98734,
+        98735,
+        98736,
+        98737,
+        99756,
+        99758,
+        99764,
+        99765,
+        99766,
+        99767,
+        99800,
+        99801,
+        99802,
+        99803,
+        99804,
+        99805,
+        99806,
+        99807,
+        99808,
+        99809,
+        99810,
+        99811,
+        99812,
+        99813,
+        99814,
+        99815,
+        99816,
+        99817,
+        99818,
+        99819,
+        99820,
+        99821,
+        99822,
+        99823,
+        99824,
+        99825,
+        99826,
+        99827,
+        99828,
+        99829,
+        99830,
+        99831,
+        99832,
+        99833,
+        99834,
+        99835,
+        99836,
+        99837,
+        99838,
+        99839,
+        99840,
+        99841,
+        99842,
+        99843,
+        99844,
+        99845,
+        99846,
+        99847,
+        99848,
+        99849,
+        99850,
+        99851,
+        99852,
+        99853,
+        99854,
+        99855,
+        99856,
+        99857,
+        99858,
+        99859,
+        99860,
+        99861,
+        99862,
+        99863,
+        99867,
+        99868,
+        99888,
+        99889,
+        99890,
+        99891,
+        99892,
+        99893
+      ],
+      "object_ids_sha256": "955699e159782300f7fdb426487cd6a2f1b36f73018dea7433b35cc847847309",
+      "page_size": 2000,
+      "pages": [
+        {
+          "canonical_response_sha256": "c5eb12c2346a1d9678741d5a8614cc25af5ed85bd91a7f415b1050047672f2d1",
+          "feature_count": 104,
+          "index": 0,
+          "object_id_offset": 0,
+          "object_ids_sha256": "955699e159782300f7fdb426487cd6a2f1b36f73018dea7433b35cc847847309"
+        }
+      ],
+      "proximity_lens_m": 80.0,
+      "resumed_pages": 0,
+      "retries": 0,
+      "segment_id": "i15-salt-lake-to-cove-fort",
+      "separation_m": 27347.243,
+      "site_id": "i15-salt-lake-to-cove-fort--component-00-02",
+      "to_coordinate": {
+        "latitude": 39.978729000443,
+        "longitude": -111.768689999943
+      }
+    },
+    {
+      "acquired_at": "2026-08-31T07:06:45Z",
+      "envelope_4326": [
+        -106.6534298,
+        35.1008375,
+        -106.626893,
+        35.1109401
+      ],
+      "expected_count": 13,
+      "facility": "I-40",
+      "features_sha256": "bcb752953af2a8dc4b02a15a7332239be3b79d0a19a9e911932e62ac87ad6585",
+      "fill_route_groups": [
+        {
+          "feature_count": 10,
+          "largest_measure_gap_miles": 0.0,
+          "measure_spans": [
+            [
+              157.995,
+              159.61
+            ]
+          ],
+          "records": [
+            {
+              "begin_point": 159.16,
+              "end_point": 159.397,
+              "miles": 0.193966,
+              "object_id": 110959,
+              "signed_route": "I-40",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 157.995,
+              "end_point": 158.166,
+              "miles": 0.231555,
+              "object_id": 110954,
+              "signed_route": "I-40",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 159.397,
+              "end_point": 159.479,
+              "miles": 0.079774,
+              "object_id": 110963,
+              "signed_route": "I-40",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 158.166,
+              "end_point": 158.46,
+              "miles": 0.398056,
+              "object_id": 110953,
+              "signed_route": "I-40",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 159.479,
+              "end_point": 159.61,
+              "miles": 0.127373,
+              "object_id": 110917,
+              "signed_route": "I-40",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 159.149,
+              "end_point": 159.16,
+              "miles": 0.009009,
+              "object_id": 110961,
+              "signed_route": "I-40",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 159.12,
+              "end_point": 159.149,
+              "miles": 0.023683,
+              "object_id": 110960,
+              "signed_route": "I-40",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 158.959,
+              "end_point": 159.12,
+              "miles": 0.131796,
+              "object_id": 110956,
+              "signed_route": "I-40",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 158.936,
+              "end_point": 158.959,
+              "miles": 0.018824,
+              "object_id": 110958,
+              "signed_route": "I-40",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 158.46,
+              "end_point": 158.936,
+              "miles": 0.389467,
+              "object_id": 110957,
+              "signed_route": "I-40",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            }
+          ],
+          "route_id": "I40P",
+          "signed_routes": [
+            "I-40"
+          ],
+          "state_fips": "35"
+        }
+      ],
+      "from_coordinate": {
+        "latitude": 35.106657999567,
+        "longitude": -106.650371999968
+      },
+      "nhs_carries_between_ends": true,
+      "object_ids": [
+        110916,
+        110917,
+        110929,
+        110953,
+        110954,
+        110956,
+        110957,
+        110958,
+        110959,
+        110960,
+        110961,
+        110962,
+        110963
+      ],
+      "object_ids_sha256": "a11c6c8a2818d0d7a6055f56c7aaa586f17267e9c557bc66e373884fa1b15d3b",
+      "page_size": 2000,
+      "pages": [
+        {
+          "canonical_response_sha256": "57e6900d693ff001a4d002fcc548b8e9f3bbfdf291ea02485c12fa49b523b83b",
+          "feature_count": 13,
+          "index": 0,
+          "object_id_offset": 0,
+          "object_ids_sha256": "a11c6c8a2818d0d7a6055f56c7aaa586f17267e9c557bc66e373884fa1b15d3b"
+        }
+      ],
+      "proximity_lens_m": 80.0,
+      "resumed_pages": 0,
+      "retries": 0,
+      "segment_id": "i40-i81-to-barstow",
+      "separation_m": 1854.0,
+      "site_id": "i40-i81-to-barstow--component-01-02",
+      "to_coordinate": {
+        "latitude": 35.105119999688,
+        "longitude": -106.629949999793
+      }
+    },
+    {
+      "acquired_at": "2026-08-31T07:06:45Z",
+      "envelope_4326": [
+        -106.6330072,
+        35.0510808,
+        -106.4849452,
+        35.1197459
+      ],
+      "expected_count": 56,
+      "facility": "I-40",
+      "features_sha256": "3fa4a886b2d9d9486a7501a0542bc4bc801c316a5245874bb2b50f9f5ad927fd",
+      "fill_route_groups": [
+        {
+          "feature_count": 25,
+          "largest_measure_gap_miles": 0.0,
+          "measure_spans": [
+            [
+              159.149,
+              168.85
+            ]
+          ],
+          "records": [
+            {
+              "begin_point": 159.16,
+              "end_point": 159.397,
+              "miles": 0.193966,
+              "object_id": 110959,
+              "signed_route": "I-40",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 167.937,
+              "end_point": 168.85,
+              "miles": 0.972067,
+              "object_id": 111011,
+              "signed_route": "I-40",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 159.397,
+              "end_point": 159.479,
+              "miles": 0.079774,
+              "object_id": 110963,
+              "signed_route": "I-40",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 159.479,
+              "end_point": 159.61,
+              "miles": 0.127373,
+              "object_id": 110917,
+              "signed_route": "I-40",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 159.149,
+              "end_point": 159.16,
+              "miles": 0.009009,
+              "object_id": 110961,
+              "signed_route": "I-40",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 167.16,
+              "end_point": 167.937,
+              "miles": 0.82727,
+              "object_id": 110982,
+              "signed_route": "I-40",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 159.61,
+              "end_point": 159.649,
+              "miles": 0.037999,
+              "object_id": 110967,
+              "signed_route": "I-40",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 159.649,
+              "end_point": 159.71,
+              "miles": 0.059354,
+              "object_id": 110966,
+              "signed_route": "I-40",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 159.71,
+              "end_point": 159.776,
+              "miles": 0.064169,
+              "object_id": 110968,
+              "signed_route": "I-40",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 159.776,
+              "end_point": 160.564,
+              "miles": 0.766576,
+              "object_id": 110965,
+              "signed_route": "I-40",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 166.5,
+              "end_point": 167.16,
+              "miles": 0.464566,
+              "object_id": 110998,
+              "signed_route": "I-40",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 160.564,
+              "end_point": 161.06,
+              "miles": 0.66522,
+              "object_id": 110975,
+              "signed_route": "I-40",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 166.025,
+              "end_point": 166.5,
+              "miles": 0.524756,
+              "object_id": 110996,
+              "signed_route": "I-40",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 161.06,
+              "end_point": 161.651,
+              "miles": 0.447504,
+              "object_id": 110964,
+              "signed_route": "I-40",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 165.41,
+              "end_point": 166.025,
+              "miles": 0.565629,
+              "object_id": 110983,
+              "signed_route": "I-40",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 161.651,
+              "end_point": 161.655,
+              "miles": 0.005383,
+              "object_id": 110978,
+              "signed_route": "I-40",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 161.655,
+              "end_point": 161.966,
+              "miles": 0.421167,
+              "object_id": 110977,
+              "signed_route": "I-40",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 164.956,
+              "end_point": 165.41,
+              "miles": 0.477293,
+              "object_id": 110995,
+              "signed_route": "I-40",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 161.966,
+              "end_point": 162.5,
+              "miles": 0.41016,
+              "object_id": 110976,
+              "signed_route": "I-40",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 162.5,
+              "end_point": 162.637,
+              "miles": 0.166991,
+              "object_id": 110980,
+              "signed_route": "I-40",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 164.29,
+              "end_point": 164.956,
+              "miles": 0.605577,
+              "object_id": 110986,
+              "signed_route": "I-40",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 162.637,
+              "end_point": 162.91,
+              "miles": 0.33283,
+              "object_id": 110979,
+              "signed_route": "I-40",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 162.91,
+              "end_point": 163.21,
+              "miles": 0.431999,
+              "object_id": 110981,
+              "signed_route": "I-40",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 163.91,
+              "end_point": 164.29,
+              "miles": 0.506565,
+              "object_id": 110991,
+              "signed_route": "I-40",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 163.21,
+              "end_point": 163.91,
+              "miles": 0.483271,
+              "object_id": 110908,
+              "signed_route": "I-40",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            }
+          ],
+          "route_id": "I40P",
+          "signed_routes": [
+            "I-40"
+          ],
+          "state_fips": "35"
+        }
+      ],
+      "from_coordinate": {
+        "latitude": 35.105119999688,
+        "longitude": -106.629949999793
+      },
+      "nhs_carries_between_ends": true,
+      "object_ids": [
+        110908,
+        110916,
+        110917,
+        110918,
+        110929,
+        110959,
+        110961,
+        110962,
+        110963,
+        110964,
+        110965,
+        110966,
+        110967,
+        110968,
+        110969,
+        110970,
+        110971,
+        110972,
+        110973,
+        110975,
+        110976,
+        110977,
+        110978,
+        110979,
+        110980,
+        110981,
+        110982,
+        110983,
+        110984,
+        110985,
+        110986,
+        110987,
+        110988,
+        110989,
+        110990,
+        110991,
+        110992,
+        110993,
+        110994,
+        110995,
+        110996,
+        110997,
+        110998,
+        110999,
+        111000,
+        111001,
+        111002,
+        111003,
+        111004,
+        111005,
+        111006,
+        111007,
+        111008,
+        111009,
+        111010,
+        111011
+      ],
+      "object_ids_sha256": "ef5fa3709c7587914711e8d807727dd6a45f810d94f1933d6b0443fd1eb5ac83",
+      "page_size": 2000,
+      "pages": [
+        {
+          "canonical_response_sha256": "efd3682a6f646a3578190a17108650cb884823e124d3c53b3537cbfe7aa640e3",
+          "feature_count": 56,
+          "index": 0,
+          "object_id_offset": 0,
+          "object_ids_sha256": "ef5fa3709c7587914711e8d807727dd6a45f810d94f1933d6b0443fd1eb5ac83"
+        }
+      ],
+      "proximity_lens_m": 80.0,
+      "resumed_pages": 0,
+      "retries": 0,
+      "segment_id": "i40-i81-to-barstow",
+      "separation_m": 13571.622,
+      "site_id": "i40-i81-to-barstow--component-02-03",
+      "to_coordinate": {
+        "latitude": 35.065702000347,
+        "longitude": -106.487996999762
+      }
+    },
+    {
+      "acquired_at": "2026-08-31T07:06:45Z",
+      "envelope_4326": [
+        -107.8788586,
+        39.5078416,
+        -107.8685517,
+        39.5134173
+      ],
+      "expected_count": 1,
+      "facility": "I-70",
+      "features_sha256": "e3d4c5be32323dbc6fc0cbbd50ca6b927e9d305413aa0c2e01f421e223661b62",
+      "fill_route_groups": [
+        {
+          "feature_count": 1,
+          "largest_measure_gap_miles": 0.0,
+          "measure_spans": [
+            [
+              81.364,
+              86.984
+            ]
+          ],
+          "records": [
+            {
+              "begin_point": 81.364,
+              "end_point": 86.984,
+              "miles": 5.60714,
+              "object_id": 111877,
+              "signed_route": "I-70",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            }
+          ],
+          "route_id": "070A",
+          "signed_routes": [
+            "I-70"
+          ],
+          "state_fips": "8"
+        }
+      ],
+      "from_coordinate": {
+        "latitude": 39.510333000168,
+        "longitude": -107.875541999963
+      },
+      "nhs_carries_between_ends": true,
+      "object_ids": [
+        111877
+      ],
+      "object_ids_sha256": "136fb4d96268fb06efdd9cca5c77f289db9427b256d49990ae85c9e33e0826ea",
+      "page_size": 2000,
+      "pages": [
+        {
+          "canonical_response_sha256": "4380a5d1bb44af90a2279be63b4bbf1986e00211c9dccf747c30e3cb97414e37",
+          "feature_count": 1,
+          "index": 0,
+          "object_id_offset": 0,
+          "object_ids_sha256": "136fb4d96268fb06efdd9cca5c77f289db9427b256d49990ae85c9e33e0826ea"
+        }
+      ],
+      "proximity_lens_m": 80.0,
+      "resumed_pages": 0,
+      "retries": 0,
+      "segment_id": "i70-denver-to-cove-fort",
+      "separation_m": 320.0,
+      "site_id": "i70-denver-to-cove-fort--component-00-01",
+      "to_coordinate": {
+        "latitude": 39.510925999635,
+        "longitude": -107.871867999608
+      }
+    },
+    {
+      "acquired_at": "2026-08-31T07:06:45Z",
+      "envelope_4326": [
+        -75.2174021,
+        40.6620437,
+        -75.1742978,
+        40.6802164
+      ],
+      "expected_count": 22,
+      "facility": "I-78",
+      "features_sha256": "905d48baac7168068abad5a1bab410b32cdea9b15c739914ef7a1ea97d32daba",
+      "fill_route_groups": [
+        {
+          "feature_count": 2,
+          "largest_measure_gap_miles": 0.0,
+          "measure_spans": [
+            [
+              0.0,
+              2.669
+            ]
+          ],
+          "records": [
+            {
+              "begin_point": 2.553,
+              "end_point": 2.669,
+              "miles": 0.102392,
+              "object_id": 428356,
+              "signed_route": "I-78",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            },
+            {
+              "begin_point": 0,
+              "end_point": 2.553,
+              "miles": 2.190508,
+              "object_id": 428279,
+              "signed_route": "I-78",
+              "update_date": "",
+              "version": "2025.08.08",
+              "year": 2020
+            }
+          ],
+          "route_id": "6 48 48B3 - 86216",
+          "signed_routes": [
+            "I-78"
+          ],
+          "state_fips": "42"
+        }
+      ],
+      "from_coordinate": {
+        "latitude": 40.67034299993,
+        "longitude": -75.213843999701
+      },
+      "nhs_carries_between_ends": true,
+      "object_ids": [
+        428268,
+        428269,
+        428276,
+        428278,
+        428279,
+        428282,
+        428283,
+        428285,
+        428294,
+        428295,
+        428296,
+        428297,
+        428298,
+        428299,
+        428337,
+        428340,
+        428341,
+        428342,
+        428343,
+        428344,
+        428355,
+        428356
+      ],
+      "object_ids_sha256": "ede3929403f4ff389e8673cef7a576815201f05d8222ca7a786c87f107ac64c3",
+      "page_size": 2000,
+      "pages": [
+        {
+          "canonical_response_sha256": "c292417076d3df34a99fbb02eaf0c3bbc5d2499b182864aa7ce2b222abcc6936",
+          "feature_count": 22,
+          "index": 0,
+          "object_id_offset": 0,
+          "object_ids_sha256": "ede3929403f4ff389e8673cef7a576815201f05d8222ca7a786c87f107ac64c3"
+        }
+      ],
+      "proximity_lens_m": 80.0,
+      "resumed_pages": 0,
+      "retries": 0,
+      "segment_id": "i78-holland-tunnel-to-i81",
+      "separation_m": 3021.991,
+      "site_id": "i78-holland-tunnel-to-i81--component-00-01",
+      "to_coordinate": {
+        "latitude": 40.67191699967,
+        "longitude": -75.1778570003
+      }
+    }
+  ],
+  "sites_sha256": "1d8eba69a62768681af54990115b98fe6b5d1721e2fb5e7e27e1049ce8a1760a",
+  "source_policy": {
+    "authoritative_distance_claimed": false,
+    "conflation_performed": false,
+    "continental_downloads_committed": false,
+    "lane_geometry_claimed": false,
+    "nhpn_remains_route_authority": true,
+    "nhs_role": "supplementary_centerlines_only",
+    "openstreetmap_ancestry_allowed": false,
+    "supplementary_source": "usdot-ntad-national-highway-system"
+  },
+  "status": "nhs_fills_locked_conflation_pending",
+  "transfer_lock_sha256": "b267282a1d48014783c90a60c46cda85cea61741911d23649bf318404aea2b3b",
+  "westbound_selection_validated": false
+}

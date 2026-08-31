@@ -1,8 +1,8 @@
 {
-  "candidate_lock_sha256": "5c35de08e6dafebf6e3d7c2045833f15483092e7522fea1f5ee78beee13079f0",
+  "candidate_lock_sha256": "cbdaaa3710e2b2e9409628f32fb1ef16228ec2256c5b8f1428d3363618e73900",
   "coordinate_crs": "EPSG:4326",
   "decision": "ADR-0024",
-  "derived_at": "2026-08-04T03:51:27Z",
+  "derived_at": "2026-08-31T07:04:39Z",
   "metric_crs": "EPSG:5070",
   "next_stage": {
     "id": "exact-westbound-path-solve",
