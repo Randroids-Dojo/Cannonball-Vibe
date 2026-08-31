@@ -96,7 +96,7 @@ corner is the sine-eased heading curve theta(u) = h_entry +
 turn x (u − sin(2 pi u)/(2 pi)) whose arc length L = 2|turn|R pins peak
 curvature at exactly 1/R for the achieved class radius, spliced between
 straight tangent legs solved so the path closes exactly onto the seam
-poses (closure ≤ 0.01 m; measured ≤ 0.0001 m). Design classes carry the
+poses (closure ≤ 0.01 m; measured 0.000 m everywhere). Design classes carry the
 AASHTO minimum radii at e_max 6 %: directional_80 (80 km/h, 252 m),
 ramp_50 (50 km/h, 79 m), street_30 (30 km/h, 21 m); route and junction
 corners take directional_80 at or below a 50 degree total turn and
@@ -108,8 +108,9 @@ ramp_50 above it, connector corners take street_30.
 - **7 gates per site** (plus the opposing re-measure on movement hosts):
   design radius, class floor, tangent fit, closure, lens discipline,
   heading monotonicity, and refinement departure (two-way, bounded by
-  the catalog-documented ~80 m NHPN class; worst measured 38.1 m at the
-  Ontario 90.7 degree movement corner).
+  the catalog-documented ~80 m NHPN class; worst measured 74.4 m at the
+  78.8 degree `i10-ontario-to-i405` route corner, and 38.1 m among the
+  movement corners at Ontario's 90.7 degree transfer).
 - **3 recorded step-downs**, each machine-verifiable: Big Springs' fork
   corner steps directional_80 → ramp_50 (the 356 m directional curve
   cannot fit the bounded 500 m movement window outside the 25 m seam
