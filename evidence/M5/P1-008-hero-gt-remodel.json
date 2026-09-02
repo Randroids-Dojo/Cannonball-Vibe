@@ -1,0 +1,208 @@
+{
+  "schema_version": 1,
+  "task_id": "P1-008",
+  "milestone": "M5",
+  "status": "in_progress",
+  "slice": "hero-gt-remodel-2026-09-02",
+  "git_revision": "75b864d05444fa8de615afa3fbfb74079649f0c3",
+  "recorded_at_utc": "2026-09-02T16:02:54Z",
+  "platform": {
+    "os": "Windows 11 Pro 10.0.26200",
+    "architecture": "x64",
+    "gpu": "NVIDIA GeForce RTX 3080 Ti 12 GB",
+    "renderer_for_captures": "Godot Compatibility/OpenGL 3.3 (capture-scenario.sh)"
+  },
+  "tool_versions": {
+    "godot": "4.7.1.stable.mono.official.a13da4feb",
+    "blender": "5.1.2",
+    "blender_build_hash": "ec6e62d40fa9",
+    "dotnet_sdk": "10.0.102",
+    "node": "24.18.0"
+  },
+  "scope": {
+    "verified": [
+      "second-generation procedural Hero GT: lofted Catmull-Clark body with booleaned arches, split greenhouse, spoked wheels with brakes, LED bars, mirrors, cockpit",
+      "unchanged 37-node semantic contract, wheelbase, track, wheel radius, rest length, three LODs, box collision proxy, no textures, ten materials",
+      "deterministic export, importer-normalised scene, Godot wrapper validation and schema-1 manifest",
+      "wrapper-applied clear coat and glass polish that the glTF importer cannot carry",
+      "vehicle-visual profile contract on the representative corridor"
+    ],
+    "completion_pending": [
+      "Q-020 art-direction approval on the new silhouette and Q-040 production path",
+      "PCK audit stage of verify-vehicle-asset.sh on this machine (export templates)",
+      "Q-022 performance matrix on the new content"
+    ],
+    "excluded_claims": [
+      "human art approval",
+      "frame-time claims"
+    ]
+  },
+  "input_artifacts": [
+    {
+      "path": "tools/vehicles/create_hero_gt.py",
+      "sha256": "08e1e67afd5c67a84d408c49b528cbf9790874d43c99de56cfb64ce1426d31ea"
+    },
+    {
+      "path": "tools/vehicles/validate_and_export_hero_gt.py",
+      "sha256": "82aa2d1626e790bc3ab26ea60fb2f0b0c5c49b867e1db36b399503dc963d02ef"
+    },
+    {
+      "path": "data/assets/vehicles/sources/hero-gt.blend",
+      "sha256": "5e61b990b3bde01110957a57b30eaf42914848d4dbccc4cd202324a80337f87d"
+    },
+    {
+      "path": "tools/assets/profiles/gltf2-binary-v1.json",
+      "sha256": "f63c4edb51fa5456177f2f43a8d1b21d8a732b6980a136d6aa82a742e856e272"
+    },
+    {
+      "path": "game/Vehicle/VehicleVisualRig.cs",
+      "sha256": "4616ac3e4762447ec239e25030982024b63224d49ae8ff2506ad38fc0ae28fbf"
+    }
+  ],
+  "scenario_arguments": {
+    "fixture": "representative-corridor",
+    "profiles": [
+      "vehicle-visual",
+      "vehicle-visual-review capture"
+    ]
+  },
+  "commands": [
+    {
+      "command": "blender --background --python tools/vehicles/create_hero_gt.py -- --output data/assets/vehicles/sources/hero-gt.blend",
+      "exit_status": 0
+    },
+    {
+      "command": "blender --background <source> --python tools/vehicles/validate_and_export_hero_gt.py -- ...",
+      "exit_status": 0
+    },
+    {
+      "command": "godot --headless --script res://tools/vehicles/pack_imported_scene.gd -- <glb> <generated.tscn>",
+      "exit_status": 0
+    },
+    {
+      "command": "godot --headless --script res://tools/vehicles/validate_import.gd -- ...",
+      "exit_status": 0
+    },
+    {
+      "command": "node tools/vehicles/generate_manifest.mjs; node tools/assets/validate_manifest.mjs ...",
+      "exit_status": 0
+    },
+    {
+      "command": "./scripts/run-scenario.sh --fixture representative-corridor --profile vehicle-visual",
+      "exit_status": 0
+    }
+  ],
+  "metrics": {
+    "lod0_triangles": 16634,
+    "triangle_total": 19498,
+    "materials": [
+      "Material_Body",
+      "Material_Brake",
+      "Material_Carbon",
+      "Material_Glass",
+      "Material_Headlight",
+      "Material_Interior",
+      "Material_Taillight",
+      "Material_Tire",
+      "Material_Trim",
+      "Material_Wheel"
+    ],
+    "budgets": {
+      "collision_triangles_max": 128,
+      "materials_max": 10,
+      "texture_bytes_max": 0,
+      "textures_max": 0,
+      "triangles_lod0_max": 24000,
+      "triangles_total_max": 30000
+    },
+    "godot_nodes": null,
+    "vehicle_visual_marker": {
+      "semantic_nodes": "37",
+      "lods": "3",
+      "damage_zones": "5",
+      "wheelbase_m": "2.84",
+      "track_m": "1.64",
+      "graybox_equivalent": "True"
+    },
+    "integrated_visual_slice_marker": {
+      "vehicle": "hero-gt",
+      "vehicle_semantic_nodes": "37",
+      "road": "production",
+      "road_chunks": "11",
+      "road_materials": "19",
+      "road_meshes": "10",
+      "environment": "balanced",
+      "environment_regions": "1",
+      "environment_chunks": "11",
+      "terrain_ribbons": "11",
+      "route_distance_m": "60.412",
+      "vehicle_speed_mps": "44.638",
+      "stable_frames": "3"
+    }
+  },
+  "acceptance_comparisons": [
+    {
+      "criterion": "LOD0 triangles within budget",
+      "observed": 16634,
+      "limit": 24000,
+      "passed": true
+    },
+    {
+      "criterion": "total triangles within budget",
+      "observed": 19498,
+      "limit": 30000,
+      "passed": true
+    },
+    {
+      "criterion": "materials within budget",
+      "observed": 10,
+      "limit": 10,
+      "passed": true
+    },
+    {
+      "criterion": "all 37 semantic nodes resolve through the wrapper",
+      "observed": true,
+      "passed": true
+    }
+  ],
+  "output_artifacts": [
+    {
+      "path": "data/assets/vehicles/derived/hero-gt.glb",
+      "sha256": "6a355c0d783317b3fa8f9e8889b350ec169d1eda28417561059dbd931397f0a1"
+    },
+    {
+      "path": "assets/vehicles/hero-gt/hero-gt.generated.tscn",
+      "sha256": "38da04539bd05b7534bc4588b2219f40b5b2e364a4f2f42952fd13e876a3a515"
+    },
+    {
+      "path": "data/assets/vehicles/hero-gt.asset.json",
+      "sha256": "232b09f7b0f08863eaecc195a295314cdebc61271586fae13c7b5f6274e83435"
+    },
+    {
+      "path": "data/assets/vehicles/hero-gt.blender.json",
+      "sha256": "09cff0ae341e518cda9f92e6d65a6c0a1bc662e70a4cbbbeb2e018fb822d8c59"
+    },
+    {
+      "path": "data/assets/vehicles/hero-gt.godot.json",
+      "sha256": "f0212b12976ab28f7e6da92ee6e00d11d890f1deae86e8c510237ddd27b16435"
+    },
+    {
+      "path": "data/assets/vehicles/hero-gt-contact-sheet.png",
+      "sha256": "10f13c4ccfdd2165504ee461d18ed7a22237c6b28c802959964dd56e73e2534d"
+    },
+    {
+      "path": "docs/images/p1-008-hero-gt-remodel-review.png",
+      "sha256": "ea228f4ed63ab7f1cf610874b19f71b5e6d87d0183d377f7036d74be4776c2bc"
+    }
+  ],
+  "failure_logs": [
+    "relative output paths in the vehicle exporter resolved against the Blender working directory on Windows; rerun with absolute paths"
+  ],
+  "retry_count": 1,
+  "recovery_result": "pass",
+  "human_gate": {
+    "name": "Hero vehicle art direction and final rights approval",
+    "status": "open",
+    "approval_reference": null
+  }
+}

@@ -26,7 +26,7 @@ const creationScript = "tools/vehicles/create_hero_gt.py";
 const exportScript = "tools/vehicles/validate_and_export_hero_gt.py";
 const importScript = "tools/vehicles/validate_import.gd";
 const normalizationScript = "tools/vehicles/pack_imported_scene.gd";
-const gltfProfile = "tools/assets/profiles/gltf2-binary-v1.json";
+const gltfProfile = "tools/assets/profiles/gltf2-binary-v3.json";
 const godotProfile = "tools/assets/profiles/godot-4.7.1-v1.json";
 
 if (blender.asset_id !== "hero-gt" || godot.asset_id !== "hero-gt") {
