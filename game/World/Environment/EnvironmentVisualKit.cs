@@ -229,8 +229,9 @@ public sealed class EnvironmentVisualKit : IDisposable
         EnvironmentTextures.Bind(material, "dry", dryGrass);
         EnvironmentTextures.Bind(material, "dirt", dirt);
         EnvironmentTextures.Bind(material, "rock", rock);
-        material.SetShaderParameter("tile_meters", 7.0f);
-        material.SetShaderParameter("macro_tile_meters", 53.0f);
+        // Both divide the 4096 m UV wrap period, so the wrap never shows.
+        material.SetShaderParameter("tile_meters", 8.0f);
+        material.SetShaderParameter("macro_tile_meters", 51.2f);
         return material;
     }
 

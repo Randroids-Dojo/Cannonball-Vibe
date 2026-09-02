@@ -1,0 +1,163 @@
+{
+  "schema_version": 1,
+  "task_id": "P1-009",
+  "milestone": "M5",
+  "status": "in_progress",
+  "slice": "highway-surfaces-2026-09-02",
+  "git_revision": "16b502f5a802d0ee9cba8d39507e5b80bb88d1ec",
+  "recorded_at_utc": "2026-09-02T15:26:06Z",
+  "platform": {
+    "os": "Windows 11 Pro 10.0.26200",
+    "architecture": "x64",
+    "gpu": "NVIDIA GeForce RTX 3080 Ti 12 GB",
+    "renderer_for_captures": "Godot Compatibility/OpenGL 3.3 (capture-scenario.sh)"
+  },
+  "tool_versions": {
+    "godot": "4.7.1.stable.mono.official.a13da4feb",
+    "dotnet_sdk": "10.0.102",
+    "node": "24.18.0"
+  },
+  "scope": {
+    "verified": [
+      "sourced pavement (clean_asphalt 2K) and shoulder (asphalt_04 1K) through a metre-UV pavement shader with anti-tiling, patch bands and far-field convergence",
+      "sourced precast concrete (concrete_wall_008) through a scaled-object-space triplanar furniture shader with per-instance route offsets for continuity",
+      "FHWA-profile Jersey barrier and W-beam guardrail meshes instanced through the unchanged segment transforms",
+      "road-visual profile contract on representative-interchanges with all counts resolved and surfaces=sourced terrain=sourced"
+    ],
+    "completion_pending": [
+      "Q-037 rights review; release presets exclude the sourced directory",
+      "sign faces, posts, delineators and bridge structure detail beyond the shared surfaces",
+      "Q-024 jurisdiction-specific research and readability captures"
+    ],
+    "excluded_claims": [
+      "human readability or art approval",
+      "frame-time or residency claims"
+    ]
+  },
+  "input_artifacts": [
+    {
+      "path": "assets/environments/shaders/pavement.gdshader",
+      "sha256": "383e7e93253ffc4755e264a127d351b0b147ebd5367bb6f7e88794d4c7d5115d"
+    },
+    {
+      "path": "assets/environments/shaders/furniture.gdshader",
+      "sha256": "127db779a7aeee40fce2b9431017764c671b915ac5417b863c5d8cb0ed84f429"
+    },
+    {
+      "path": "game/World/RoadVisuals/RoadVisualKit.cs",
+      "sha256": "5602c7e20347c3e958b1918a09fd793e8febe4dd8266b1396cee437a987855a3"
+    },
+    {
+      "path": "game/World/RoadVisuals/RoadFurnitureMeshes.cs",
+      "sha256": "20e856f5cb739d6145ea7e8694bfe1c0bb21a6db860e627558cc4700c01239eb"
+    },
+    {
+      "path": "game/World/RoadChunk.cs",
+      "sha256": "7e942f123409bb0b0da4071db6050647f05add3297ee3ba7266ccee60cc51649"
+    },
+    {
+      "path": "data/assets/environments/sourced-assets.lock.json",
+      "sha256": "2ff0c9d255e742cd663857404011b75e701c706171a81da3f2fc8664b1509fad"
+    }
+  ],
+  "scenario_arguments": {
+    "fixture": "representative-interchanges",
+    "profiles": [
+      "road-visual",
+      "road-visual-review capture"
+    ]
+  },
+  "commands": [
+    {
+      "command": "./scripts/run-scenario.sh --fixture representative-interchanges --profile road-visual",
+      "exit_status": 0
+    },
+    {
+      "command": "./scripts/capture-scenario.sh <frames>/road.png --fixture representative-interchanges --road-visual-review",
+      "exit_status": 0
+    },
+    {
+      "command": "DOTNET_ROLL_FORWARD=Major dotnet test Cannonball.sln --no-build",
+      "exit_status": 0
+    }
+  ],
+  "metrics": {
+    "road_visual_marker": {
+      "profile": "production",
+      "chunks": "9",
+      "reflectors": "626",
+      "barriers": "199",
+      "guardrails": "199",
+      "guide_signs": "3",
+      "shields": "6",
+      "standard_shields": "6",
+      "geometric_lane_arrows": "3",
+      "typography_fallbacks": "3",
+      "services": "2",
+      "gore_chunks": "0",
+      "opposing_carriageway_chunks": "1",
+      "shared_materials": "19",
+      "shared_meshes": "10",
+      "retroreflective_materials": "11",
+      "surfaces": "sourced",
+      "terrain": "sourced",
+      "bridge_decks": "1",
+      "overpass_openings": "1",
+      "structure_nodes": "11",
+      "lighting_stages": "2",
+      "max_visual_build_ms": "26.993",
+      "max_collision_build_ms": "2.153"
+    },
+    "integrated_visual_slice_marker": {
+      "vehicle": "hero-gt",
+      "vehicle_semantic_nodes": "37",
+      "road": "production",
+      "road_chunks": "11",
+      "road_materials": "19",
+      "road_meshes": "10",
+      "environment": "balanced",
+      "environment_regions": "1",
+      "environment_chunks": "11",
+      "terrain_ribbons": "11",
+      "route_distance_m": "60.785",
+      "vehicle_speed_mps": "44.777",
+      "stable_frames": "3"
+    }
+  },
+  "acceptance_comparisons": [
+    {
+      "criterion": "road chunk visual build within the 50 ms initial budget",
+      "observed_ms": "26.993",
+      "limit_ms": 50,
+      "passed": true
+    },
+    {
+      "criterion": "shared material and mesh counts pinned",
+      "observed": {
+        "materials": "19",
+        "meshes": "10",
+        "retroreflective": "11"
+      },
+      "expected": {
+        "materials": "19",
+        "meshes": "10",
+        "retroreflective": "11"
+      },
+      "passed": true
+    }
+  ],
+  "output_artifacts": [
+    {
+      "path": "docs/images/p1-009-highway-surfaces-review.png",
+      "sha256": "17a81a73d31ae79e52be51757cb4dce3ca8d1ce86c1078a493e35e8bf7d0a0e3"
+    }
+  ],
+  "failure_logs": [],
+  "retry_count": 0,
+  "recovery_result": "n/a",
+  "human_gate": {
+    "name": "Highway art readability, visual quality, and final rights approval",
+    "status": "open",
+    "approval_reference": null
+  }
+}
