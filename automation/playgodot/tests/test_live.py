@@ -62,6 +62,7 @@ async def _raw_server(tmp_path: Path) -> AsyncIterator[tuple[str, int, str, Path
         "addons/playgodot/bootstrap.tscn",
         "--",
         "--playgodot",
+        "--graybox-environment-assets",
         f"--route-package={_route_package()}",
         f"--telemetry-path={tmp_path / 'telemetry.jsonl'}",
     ]

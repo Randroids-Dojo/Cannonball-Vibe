@@ -182,6 +182,19 @@ probe, which had passed on every recent main run.
 The reference-PC target is unchanged; it moved from the project file to the
 High tier. What changed is what the gates pay for.
 
+**Live suite, after the merge.** With the import and tier fixes in, main's
+first CI run still failed the PlayGodot suite on both software-rendered
+runners, one timing bound each (Ubuntu: a camera-handling wait timed out;
+macOS: `elapsed_seconds < 1` read 1.96 s after a restart whose every exact
+field matched). The suite itself got slower: 87 to 98 s on Ubuntu before the
+slice, 138 to 195 s after. The suite asserts input, camera, menu and restart
+semantics and never inspects the art, so its launcher now starts the game
+with `--graybox-environment-assets`, the flat-colour environment it ran
+against before this slice, and the Low and Graybox tiers drop the renderer to
+no MSAA, a 2048 atlas, hard shadows and very low SSAO. The production art
+path keeps its own gates: the environment, road, vehicle and integrated
+scenarios, and the review captures. Q-042 tracks the bounds themselves.
+
 ## Claims not made
 
 - No human has approved art direction, readability or rights; Q-021 and the

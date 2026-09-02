@@ -14,8 +14,10 @@ namespace Cannonball.Game.World.Environments;
 /// software-rendered CI runners never pay for the reference PC. The High tier
 /// is the ADR-0023 target (2560x1440 at 60 FPS on an RTX 3080 Ti) and is
 /// selected with <c>--environment-quality=high</c>, the same argument that
-/// scales the environment layers. Low and Graybox share the Balanced renderer
-/// settings; their savings come from the environment kit, not the renderer.
+/// scales the environment layers. Low and Graybox drop to a tier with no
+/// MSAA, a 2048 atlas, hard shadows and very low SSAO: the PlayGodot live
+/// suite runs Graybox on software-rendered runners, where every fragment
+/// costs wall-clock time the suite's bounds cannot absorb.
 /// </remarks>
 public static class RenderQuality
 {
@@ -25,14 +27,19 @@ public static class RenderQuality
     {
         ArgumentNullException.ThrowIfNull(viewport);
         var high = quality == EnvironmentQuality.High;
-        var msaa = high ? Viewport.Msaa.Msaa4X : Viewport.Msaa.Msaa2X;
-        var shadowSize = high ? 8192 : 4096;
+        var cheap = quality is EnvironmentQuality.Low or EnvironmentQuality.Graybox;
+        var msaa = high ? Viewport.Msaa.Msaa4X : cheap ? Viewport.Msaa.Disabled : Viewport.Msaa.Msaa2X;
+        var shadowSize = high ? 8192 : cheap ? 2048 : 4096;
         var shadowQuality = high
             ? RenderingServer.ShadowQuality.SoftMedium
-            : RenderingServer.ShadowQuality.SoftLow;
+            : cheap
+                ? RenderingServer.ShadowQuality.Hard
+                : RenderingServer.ShadowQuality.SoftLow;
         var ssaoQuality = high
             ? RenderingServer.EnvironmentSsaoQuality.Medium
-            : RenderingServer.EnvironmentSsaoQuality.Low;
+            : cheap
+                ? RenderingServer.EnvironmentSsaoQuality.VeryLow
+                : RenderingServer.EnvironmentSsaoQuality.Low;
 
         viewport.Msaa3D = msaa;
         RenderingServer.DirectionalShadowAtlasSetSize(shadowSize, true);
