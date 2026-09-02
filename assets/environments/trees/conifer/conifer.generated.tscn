@@ -223,6 +223,7 @@ metadata/extras = {
 }
 
 [node name="CollisionProxy" type="MeshInstance3D" parent="AssetRoot"]
+gi_mode = 0
 mesh = SubResource("ArrayMesh_46235")
 metadata/extras = {
 "collision_kind": "cylinder",
@@ -235,12 +236,14 @@ metadata/extras = {
 }
 
 [node name="LOD0_Needles" type="MeshInstance3D" parent="AssetRoot/Visual_LOD0"]
+gi_mode = 0
 mesh = SubResource("ArrayMesh_vee11")
 metadata/extras = {
 "semantic_role": "LOD0_Needles"
 }
 
 [node name="LOD0_Trunk" type="MeshInstance3D" parent="AssetRoot/Visual_LOD0"]
+gi_mode = 0
 mesh = SubResource("ArrayMesh_ivv2c")
 metadata/extras = {
 "semantic_role": "LOD0_Trunk"
@@ -252,12 +255,14 @@ metadata/extras = {
 }
 
 [node name="LOD1_Needles" type="MeshInstance3D" parent="AssetRoot/Visual_LOD1"]
+gi_mode = 0
 mesh = SubResource("ArrayMesh_pnck7")
 metadata/extras = {
 "semantic_role": "LOD1_Needles"
 }
 
 [node name="LOD1_Trunk" type="MeshInstance3D" parent="AssetRoot/Visual_LOD1"]
+gi_mode = 0
 mesh = SubResource("ArrayMesh_w2ytd")
 metadata/extras = {
 "semantic_role": "LOD1_Trunk"
@@ -269,6 +274,7 @@ metadata/extras = {
 }
 
 [node name="LOD2_Impostor" type="MeshInstance3D" parent="AssetRoot/Visual_LOD2"]
+gi_mode = 0
 mesh = SubResource("ArrayMesh_87o50")
 metadata/extras = {
 "semantic_role": "LOD2_Impostor"

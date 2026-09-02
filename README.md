@@ -87,6 +87,13 @@ elsewhere.
 Asset authors can run the separately pinned Blender 5.1.2 and Godot 4.7.1
 pipeline with `./scripts/validate-assets.sh`; normal graybox development does
 not require Blender. See [tools/assets/README.md](tools/assets/README.md).
+Environment art has its own gates: `./scripts/verify-environment-asset.sh
+--asset conifer` for the Blender-built conifer and
+`python tools/environments/sourced_assets.py verify --lock
+data/assets/environments/sourced-assets.lock.json` for the checksum-locked
+Poly Haven sources. Scenario scripts import resources once per checkout
+before launching Godot, so the first run after a clone takes about a minute
+longer.
 
 Run a Godot-only scenario through the same exact-version CLI front door:
 

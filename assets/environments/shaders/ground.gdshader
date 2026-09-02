@@ -77,7 +77,8 @@ vec4 sample_bombed(sampler2D tex, vec2 uv, float mix_weight) {
 void vertex() {
 	uv_meters = UV * uv_scale_meters;
 	vec3 world_normal = normalize((MODEL_MATRIX * vec4(NORMAL, 0.0)).xyz);
-	slope_up = clamp(world_normal.y, 0.0, 1.0);
+	// Ribbons are double-sided with mixed winding; the facing is irrelevant to slope.
+	slope_up = abs(world_normal.y);
 	layer_weights = weight_override.w > 0.5 ? weight_override.rgb : clamp(COLOR.rgb, 0.0, 1.0);
 	view_distance = length((MODELVIEW_MATRIX * vec4(VERTEX, 1.0)).xyz);
 }

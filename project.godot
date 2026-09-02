@@ -18,6 +18,17 @@ project/assembly_name="Cannonball"
 [editor]
 export/convert_text_resources_to_binary=false
 
+[importer_defaults]
+
+; Every texture imports VRAM-compressed with mipmaps so sourced PBR maps never
+; ship as raw RGBA. Normal-map detection is left to per-file .import settings.
+texture={
+"compress/mode": 2,
+"compress/high_quality": true,
+"mipmaps/generate": true,
+"detect_3d/compress_to": 0
+}
+
 [input_devices]
 joypads/ignore_joypad_on_unfocused_application=true
 
@@ -36,3 +47,12 @@ common/max_physics_steps_per_frame=16
 [rendering]
 renderer/rendering_method="forward_plus"
 renderer/rendering_method.mobile="mobile"
+; Reference target is 2560x1440 High at 60 FPS on an RTX 3080 Ti (ADR-0023).
+; 4x MSAA keeps alpha-scissored foliage and thin road markings clean at speed
+; without the ghosting temporal AA shows on a car moving 90 m/s.
+anti_aliasing/quality/msaa_3d=2
+textures/default_filters/anisotropic_filtering_level=3
+lights_and_shadows/directional_shadow/size=8192
+lights_and_shadows/directional_shadow/soft_shadow_filter_quality=3
+environment/ssao/quality=2
+environment/glow/upscale_mode=1

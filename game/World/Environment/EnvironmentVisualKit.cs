@@ -82,6 +82,7 @@ public sealed class EnvironmentVisualKit : IDisposable
             ? new StandardMaterial3D
             {
                 AlbedoTexture = impostor,
+                AlbedoColor = new Color(0.50f, 0.58f, 0.44f),
                 Transparency = BaseMaterial3D.TransparencyEnum.AlphaScissor,
                 AlphaScissorThreshold = 0.45f,
                 CullMode = BaseMaterial3D.CullModeEnum.Disabled,
@@ -255,6 +256,7 @@ public sealed class EnvironmentVisualKit : IDisposable
     {
         var material = new ShaderMaterial { Shader = shader };
         material.SetShaderParameter("needle_albedo", albedo);
+        material.SetShaderParameter("tint", new Vector3(0.62f, 0.72f, 0.55f));
         if (normal is not null)
         {
             material.SetShaderParameter("needle_normal", normal);

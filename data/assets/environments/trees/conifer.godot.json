@@ -3,7 +3,7 @@
   "asset_id": "conifer",
   "automation_id": "environment.asset.conifer",
   "color_attribute_surfaces": 5,
-  "generated_scene_sha256": "8119e91cf1bb600c4e81993a19efba3d8d430d5133f37f5507323d447cc5f544",
+  "generated_scene_sha256": "7d75e4b014c7fb9a937f8e889b68c3e81a1ec1314fcbb1a4cb5a1b55c2590cfd",
   "glb_sha256": "a60da93003389b67d4dc0a323866b1ce0c79bbfdf97eca58fdb0e12af03c936f",
   "godot_version": "4.7.1.stable.mono.official.a13da4feb",
   "import_settings_sha256": "7b8cb3ebc326ac1d60fc77645b1c9593d934a001aa5cd6deeea452135d3d708e",

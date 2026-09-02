@@ -1,9 +1,34 @@
 {
-  "schema_version": 1,
-  "kit_id": "colorado-proof-corridor-v2",
+  "schema_version": 2,
+  "kit_id": "colorado-proof-corridor-v3",
   "region": "Colorado mountain-to-plains proof corridor",
-  "status": "procedural technical baseline",
+  "status": "sourced PBR ground, HDRI skies, and a project-original conifer over the procedural technical baseline; rights review pending",
   "assets": [
+    {
+      "id": "sourced-polyhaven-environment-sets",
+      "source": "data/assets/environments/sourced-assets.lock.json",
+      "creator": "Poly Haven contributors (per-asset authors in the lock)",
+      "license": "CC0-1.0",
+      "rights_status": "pending-human-review; runtime directory excluded from release export presets until approved",
+      "covers": [
+        "day, dawn, overcast and night sky panoramas with measured sun directions (assets/environments/sky-presets.json)",
+        "grass, dry grass, dirt and rock-face ground layers blended by the ground shader",
+        "rock faces on massifs, hills and boulders through the mountain shader",
+        "conifer bark",
+        "pavement, weathered shoulder and precast concrete sets acquired for the P1-009 highway kit"
+      ]
+    },
+    {
+      "id": "conifer",
+      "source": "data/assets/environments/trees/conifer.asset.json",
+      "creator": "Cannonball-Vibe project (tools/environments/create_conifer.py)",
+      "license": "CC0-1.0",
+      "rights_status": "pending-human-review",
+      "covers": [
+        "near-layer conifer stands with three LODs and an impostor",
+        "EEVEE-rendered needle card albedo and normal, impostor card"
+      ]
+    },
     {
       "id": "procedural-regional-environment",
       "source": "game/World/Environment/EnvironmentVisualKit.cs",
@@ -11,13 +36,17 @@
       "license": "project-original",
       "rights_status": "cleared for repository use",
       "covers": [
-        "near-road vegetation and rocks",
-        "foothill and plains midground",
-        "mountain silhouettes",
+        "heightfield massifs and hills (HeightfieldMeshes.cs)",
+        "displaced boulders and the fallback conifer (ProceduralMeshes.cs)",
         "urban-edge massing",
-        "dawn, day, overcast, and night palettes"
+        "graybox and rights-pending fallback materials with identical semantics"
       ]
     }
+  ],
+  "shaders": [
+    "assets/environments/shaders/ground.gdshader",
+    "assets/environments/shaders/mountain.gdshader",
+    "assets/environments/shaders/conifer_needles.gdshader"
   ],
   "production_replacement_gate": "Q-021 art direction and final asset rights approval"
 }
