@@ -1,0 +1,24 @@
+name: Install pinned Git LFS
+description: >-
+  Installs the exact Git LFS release scripts/tool-versions.sh declares on a
+  Linux runner. The doctor pins the version and the pin is load-bearing:
+  ubuntu-latest and ubuntu-24.04 moved to Git LFS 3.8.0 in early September
+  2026 while the pin was 3.7.1, and every job that runs the doctor failed on
+  the drift. The archive checksum is fixed here and must move with the pin.
+runs:
+  using: composite
+  steps:
+    - name: Install pinned Git LFS
+      if: ${{ runner.os == 'Linux' }}
+      shell: bash
+      run: |
+        version="$(grep CANNONBALL_GIT_LFS_VERSION scripts/tool-versions.sh | cut -d '"' -f 2)"
+        archive="$RUNNER_TEMP/git-lfs.tar.gz"
+        curl --fail --location --retry 3 --output "$archive" \
+          "https://github.com/git-lfs/git-lfs/releases/download/v${version}/git-lfs-linux-amd64-v${version}.tar.gz"
+        echo "1c0b6ee5200ca708c5cebebb18fdeb0e1c98f1af5c1a9cba205a4c0ab5a5ec08  $archive" | sha256sum --check --strict
+        mkdir -p "$RUNNER_TEMP/git-lfs-bin"
+        tar -xzf "$archive" -C "$RUNNER_TEMP" "git-lfs-${version}/git-lfs"
+        mv "$RUNNER_TEMP/git-lfs-${version}/git-lfs" "$RUNNER_TEMP/git-lfs-bin/git-lfs"
+        echo "$RUNNER_TEMP/git-lfs-bin" >> "$GITHUB_PATH"
+        "$RUNNER_TEMP/git-lfs-bin/git-lfs" version

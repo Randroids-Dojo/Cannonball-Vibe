@@ -12,7 +12,11 @@ public enum RoadVisualProfile
 
 public sealed class RoadVisualKit : IDisposable
 {
+<<<<<<< HEAD
     public const string Version = "colorado-freeway-v5";
+=======
+    public const string Version = "colorado-freeway-v4";
+>>>>>>> origin/main
     public const double TerrainMarginMeters = 120;
     private readonly IReadOnlyList<Material> _sharedMaterials;
     private readonly IReadOnlyList<Mesh> _sharedMeshes;
@@ -29,6 +33,7 @@ public sealed class RoadVisualKit : IDisposable
         Terrain = (Material?)sharedGround ?? Material(graybox ? "526052" : "344536", 1.0f);
         TerrainSource = sharedGround is null ? (graybox ? "graybox" : "fallback") : "sourced";
         Scenery = Material(graybox ? "777b80" : "6b665e", 0.98f);
+<<<<<<< HEAD
         // Sourced pavement, shoulder and precast concrete; the flat colours stay
         // as the graybox and rights-pending export fallback.
         var pavementShader = graybox ? null : EnvironmentTextures.LoadShader("pavement");
@@ -45,6 +50,10 @@ public sealed class RoadVisualKit : IDisposable
         Shoulder = surfacesSourced
             ? PavementMaterial(pavementShader!, shoulderAsphalt!, tileMeters: 2.56f, macroMeters: 20.48f, tint: new Vector3(0.86f, 0.85f, 0.83f), roughnessBias: 0.08f, patch: 0.05f)
             : Material(graybox ? "55585c" : "34363b", 0.97f);
+=======
+        Shoulder = Material(graybox ? "55585c" : "34363b", 0.97f);
+        Pavement = Material(graybox ? "33363b" : "171a20", 0.94f);
+>>>>>>> origin/main
         MarkingWhite = Retroreflective(graybox ? "e8e8e8" : "f5f1d8", 0.32f);
         MarkingYellow = Retroreflective(graybox ? "d7bf58" : "f2c230", 0.35f);
         Gore = Retroreflective(graybox ? "e8e8e8" : "f5f1d8", 0.4f);
@@ -141,12 +150,19 @@ public sealed class RoadVisualKit : IDisposable
         : "graybox";
     /// <summary>"sourced" when the environment ground surface resolved, else "fallback" or "graybox".</summary>
     public string TerrainSource { get; }
+<<<<<<< HEAD
     /// <summary>"sourced" when the pavement, shoulder and concrete sets resolved, else "fallback" or "graybox".</summary>
     public string SurfaceSource { get; }
     public Material Terrain { get; }
     public StandardMaterial3D Scenery { get; }
     public Material Shoulder { get; }
     public Material Pavement { get; }
+=======
+    public Material Terrain { get; }
+    public StandardMaterial3D Scenery { get; }
+    public StandardMaterial3D Shoulder { get; }
+    public StandardMaterial3D Pavement { get; }
+>>>>>>> origin/main
     public StandardMaterial3D MarkingWhite { get; }
     public StandardMaterial3D MarkingYellow { get; }
     public StandardMaterial3D Gore { get; }
