@@ -1522,8 +1522,10 @@ public sealed partial class Main : Node3D
         CollectLongRouteStreamerMetrics(includeRebases: false);
         RemoveRuntimeWorld();
         _elapsedSecondsBase = actual.Run.ElapsedSeconds;
-        _sessionStartedTicks = Time.GetTicksMsec();
         ConfigureRuntimeWorld(routePlan: null, actual);
+        // Rebuilding the resumed world is loading, not driving; the clock
+        // resumes from the saved elapsed time once the world stands.
+        _sessionStartedTicks = Time.GetTicksMsec();
         ValidateResumedRuntime(actual);
         _vehicle.AutopilotEnabled = false;
         _vehicle.SetAssistProfile(_longRouteAssistProfiles[_longRouteProfileIndex]);
@@ -1575,8 +1577,8 @@ public sealed partial class Main : Node3D
 
         RemoveRuntimeWorld();
         _elapsedSecondsBase = 0;
-        _sessionStartedTicks = Time.GetTicksMsec();
         ConfigureRuntimeWorld(routePlan: null);
+        _sessionStartedTicks = Time.GetTicksMsec();
         BeginLongRouteProfile();
     }
 
@@ -3367,7 +3369,6 @@ public sealed partial class Main : Node3D
         _vehicleCondition = initial.Vehicle;
         _enforcement = initial.Enforcement;
         _elapsedSecondsBase = 0;
-        _sessionStartedTicks = Time.GetTicksMsec();
         _tripMapPauseStartedTicks = 0;
         _tripMapPausedSeconds = 0;
         _previousDistance = 0;
@@ -3377,6 +3378,12 @@ public sealed partial class Main : Node3D
         _vehicle.SetAssistProfile(initial.AssistProfile);
         _vehicle.AutopilotEnabled = _initialAutopilotEnabled;
         _vehicle.DrivingInputController.ClearAndSuppress("restart_run");
+        // The authoritative run clock starts once the world is rebuilt and the
+        // vehicle is placed, the same way a trip-map pause is excluded from it.
+        // Rebuilding the streamed world is loading, not driving: on a
+        // software-rendered CI runner it took over a second after the P1-010
+        // environment landed, and the clock had been counting it (Q-042).
+        _sessionStartedTicks = Time.GetTicksMsec();
         _lastRestartRouteDistanceMeters = _streamer.RouteDistanceMeters;
         _lastRestartPositionErrorMeters =
             _vehicle.Transform.Origin.DistanceTo(_initialVehicleTransform.Origin);
