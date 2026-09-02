@@ -38,22 +38,9 @@ jobs:
           use-dotnet: true
           include-templates: false
       - name: Install pinned Git LFS
-        # ubuntu-latest moved to Git LFS 3.8.0 in early September 2026 while the
-        # doctor pins 3.7.1; the pin is load-bearing, so the gate installs the
-        # exact release it declares rather than trusting the runner image.
-        if: ${{ runner.os == 'Linux' }}
-        shell: bash
-        run: |
-          version="$(grep CANNONBALL_GIT_LFS_VERSION scripts/tool-versions.sh | cut -d '"' -f 2)"
-          archive="$RUNNER_TEMP/git-lfs.tar.gz"
-          curl --fail --location --retry 3 --output "$archive" \
-            "https://github.com/git-lfs/git-lfs/releases/download/v${version}/git-lfs-linux-amd64-v${version}.tar.gz"
-          echo "1c0b6ee5200ca708c5cebebb18fdeb0e1c98f1af5c1a9cba205a4c0ab5a5ec08  $archive" | sha256sum --check --strict
-          mkdir -p "$RUNNER_TEMP/git-lfs-bin"
-          tar -xzf "$archive" -C "$RUNNER_TEMP" "git-lfs-${version}/git-lfs"
-          mv "$RUNNER_TEMP/git-lfs-${version}/git-lfs" "$RUNNER_TEMP/git-lfs-bin/git-lfs"
-          echo "$RUNNER_TEMP/git-lfs-bin" >> "$GITHUB_PATH"
-          "$RUNNER_TEMP/git-lfs-bin/git-lfs" version
+        # The doctor pin is load-bearing and the runner images drifted past it;
+        # the composite action installs the declared release on Linux runners.
+        uses: ./.github/actions/pinned-git-lfs
       - name: Verify complete M0 gate
         shell: bash
         run: ./scripts/check.sh

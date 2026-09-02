@@ -52,6 +52,8 @@ jobs:
       - name: Install exact export templates
         shell: bash
         run: ./scripts/release/install-templates.sh
+      - name: Install pinned Git LFS
+        uses: ./.github/actions/pinned-git-lfs
       - name: Verify repository gate before artifact build
         shell: bash
         env:
