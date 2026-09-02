@@ -3347,8 +3347,11 @@ public sealed partial class Main : Node3D
     /// switches presets through <see cref="World.Environments.SkyLighting"/>,
     /// which owns the sky, sun, fog and post-processing for all of them.
     /// </summary>
-    private void BuildLighting() =>
+    private void BuildLighting()
+    {
         World.Environments.SkyLighting.Build(this, World.Environments.LightingPreset.Night);
+        World.Environments.RenderQuality.Apply(GetViewport(), World.Environments.RenderQuality.FromCommandLine());
+    }
 
     private void RequestRestartRun() => _restartRunRequested = true;
 

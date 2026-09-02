@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://lxp5tndhrw3q"
-path.bptc="res://.godot/imported/aerial_grass_rock_diff_1k.jpg-44262423e047aae32cc3b824fd5f016c.bptc.ctex"
+path.s3tc="res://.godot/imported/aerial_grass_rock_diff_1k.jpg-44262423e047aae32cc3b824fd5f016c.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -12,12 +12,12 @@ metadata={
 [deps]
 
 source_file="res://assets/environments/sourced/polyhaven/aerial_grass_rock/aerial_grass_rock_diff_1k.jpg"
-dest_files=["res://.godot/imported/aerial_grass_rock_diff_1k.jpg-44262423e047aae32cc3b824fd5f016c.bptc.ctex"]
+dest_files=["res://.godot/imported/aerial_grass_rock_diff_1k.jpg-44262423e047aae32cc3b824fd5f016c.s3tc.ctex"]
 
 [params]
 
 compress/mode=2
-compress/high_quality=true
+compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0
