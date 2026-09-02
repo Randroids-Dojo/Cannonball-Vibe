@@ -143,6 +143,11 @@ meshes; urban buildings receive per-instance tints.
   launcher in the two scenario scripts; see Q-039.
 - Blender 5.1.2 was not installed; the pinned Windows build was fetched
   (zip SHA-256 `345bedea…f14ff`) and verified against the toolchain hash.
+- The ubuntu-latest runner image moved to Git LFS 3.8.0 after the last main
+  run on 2026-08-31, so the doctor failed the Ubuntu M0 gate on this PR while
+  Windows passed. The M0 job now installs the pinned 3.7.1 release with a
+  checksum instead of trusting the runner image, the way uv, .NET and Godot
+  are already provisioned.
 
 ## Claims not made
 

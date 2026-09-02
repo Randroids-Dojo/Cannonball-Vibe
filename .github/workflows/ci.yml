@@ -44,9 +44,10 @@ jobs:
         if: ${{ runner.os == 'Linux' }}
         shell: bash
         run: |
-          version="$(sed -n 's/^readonly CANNONBALL_GIT_LFS_VERSION="\(.*\)"$//p' scripts/tool-versions.sh)"
+          version="$(grep CANNONBALL_GIT_LFS_VERSION scripts/tool-versions.sh | cut -d '"' -f 2)"
           archive="$RUNNER_TEMP/git-lfs.tar.gz"
-          curl --fail --location --retry 3 --output "$archive"             "https://github.com/git-lfs/git-lfs/releases/download/v${version}/git-lfs-linux-amd64-v${version}.tar.gz"
+          curl --fail --location --retry 3 --output "$archive" \
+            "https://github.com/git-lfs/git-lfs/releases/download/v${version}/git-lfs-linux-amd64-v${version}.tar.gz"
           echo "1c0b6ee5200ca708c5cebebb18fdeb0e1c98f1af5c1a9cba205a4c0ab5a5ec08  $archive" | sha256sum --check --strict
           mkdir -p "$RUNNER_TEMP/git-lfs-bin"
           tar -xzf "$archive" -C "$RUNNER_TEMP" "git-lfs-${version}/git-lfs"
