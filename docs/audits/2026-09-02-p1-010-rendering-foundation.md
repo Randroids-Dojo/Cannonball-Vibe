@@ -149,6 +149,39 @@ meshes; urban buildings receive per-instance tints.
   checksum instead of trusting the runner image, the way uv, .NET and Godot
   are already provisioned.
 
+## CI cost, found after the first full run (2026-09-02)
+
+The first CI run of this slice cancelled Windows M0 at the job timeout of
+15 minutes (main runs it in 4 to 7) and stretched Ubuntu M0 from 3 to
+11 minutes. The Ubuntu PlayGodot job also failed the chase-camera damping
+probe, which had passed on every recent main run.
+
+- **Texture import.** Every log had one silent gap right after the dotnet
+  build: the fresh `godot --import` that `run-scenario.sh` performs. It took
+  about 9 minutes on Windows and 7 on Ubuntu. All 40 new textures imported
+  with `compress/high_quality`, which is the CPU BC7 encoder, and the four
+  HDRIs encoded to BC6H. Both are slow on a 4-vCPU runner and neither was
+  needed: the per-file imports now use the fast S3TC path, the HDRIs stay
+  VRAM-uncompressed RGBE (about 11 MB each at 2k, one loaded at a time,
+  and free of the banding BC6H puts into sky gradients), and the importer
+  default no longer requests high quality. A fresh import of the whole
+  project fell from 52 s to 13 s on the 24-thread workstation.
+- **Renderer defaults.** The reference-PC settings had been written as
+  project defaults, so the software-rendered runners drew every frame with
+  4x MSAA, an 8192 directional shadow atlas, soft-medium shadow filtering
+  and medium SSAO. That is the likeliest cause of the damping probe missing
+  its 1-degree lag inside its one-second window: the vehicle turns slower in
+  wall time when physics steps are clamped behind slow frames. The defaults
+  are now the Balanced tier (2x MSAA, 4096 atlas, soft-low filtering, low
+  SSAO, 8x anisotropy) and `RenderQuality.Apply` raises the viewport and
+  rendering server to the High tier at runtime for
+  `--environment-quality=high`, the argument that already scales the
+  environment layers. The tier is recorded on the viewport as
+  `render_quality`, `msaa_3d` and `directional_shadow_size` metadata.
+
+The reference-PC target is unchanged; it moved from the project file to the
+High tier. What changed is what the gates pay for.
+
 ## Claims not made
 
 - No human has approved art direction, readability or rights; Q-021 and the

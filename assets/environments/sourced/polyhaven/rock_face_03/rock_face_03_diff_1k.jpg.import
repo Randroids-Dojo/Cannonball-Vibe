@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dsa0fkpb0mfh2"
-path.bptc="res://.godot/imported/rock_face_03_diff_1k.jpg-a6e9aeb78c3a8f941e52cfe948409ddf.bptc.ctex"
+path.s3tc="res://.godot/imported/rock_face_03_diff_1k.jpg-a6e9aeb78c3a8f941e52cfe948409ddf.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -12,12 +12,12 @@ metadata={
 [deps]
 
 source_file="res://assets/environments/sourced/polyhaven/rock_face_03/rock_face_03_diff_1k.jpg"
-dest_files=["res://.godot/imported/rock_face_03_diff_1k.jpg-a6e9aeb78c3a8f941e52cfe948409ddf.bptc.ctex"]
+dest_files=["res://.godot/imported/rock_face_03_diff_1k.jpg-a6e9aeb78c3a8f941e52cfe948409ddf.s3tc.ctex"]
 
 [params]
 
 compress/mode=2
-compress/high_quality=true
+compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0

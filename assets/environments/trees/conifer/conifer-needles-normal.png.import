@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://vsyxnla4wh6"
-path.bptc="res://.godot/imported/conifer-needles-normal.png-fc6b60182104162a338426675f4c59e3.bptc.ctex"
+path.s3tc="res://.godot/imported/conifer-needles-normal.png-fc6b60182104162a338426675f4c59e3.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -12,12 +12,12 @@ metadata={
 [deps]
 
 source_file="res://assets/environments/trees/conifer/conifer-needles-normal.png"
-dest_files=["res://.godot/imported/conifer-needles-normal.png-fc6b60182104162a338426675f4c59e3.bptc.ctex"]
+dest_files=["res://.godot/imported/conifer-needles-normal.png-fc6b60182104162a338426675f4c59e3.s3tc.ctex"]
 
 [params]
 
 compress/mode=2
-compress/high_quality=true
+compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0

@@ -3,21 +3,20 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dhicj70neahgo"
-path.bptc="res://.godot/imported/kloofendal_48d_partly_cloudy_puresky_2k.hdr-b8c778e09257d1abb41e9d3d53f61faa.bptc.ctex"
+path="res://.godot/imported/kloofendal_48d_partly_cloudy_puresky_2k.hdr-b8c778e09257d1abb41e9d3d53f61faa.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://assets/environments/sourced/polyhaven/kloofendal_48d_partly_cloudy_puresky/kloofendal_48d_partly_cloudy_puresky_2k.hdr"
-dest_files=["res://.godot/imported/kloofendal_48d_partly_cloudy_puresky_2k.hdr-b8c778e09257d1abb41e9d3d53f61faa.bptc.ctex"]
+dest_files=["res://.godot/imported/kloofendal_48d_partly_cloudy_puresky_2k.hdr-b8c778e09257d1abb41e9d3d53f61faa.ctex"]
 
 [params]
 
-compress/mode=2
-compress/high_quality=true
+compress/mode=1
+compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0

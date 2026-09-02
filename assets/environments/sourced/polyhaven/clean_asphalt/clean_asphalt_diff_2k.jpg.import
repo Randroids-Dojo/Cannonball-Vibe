@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://jfi84q4k14l3"
-path.bptc="res://.godot/imported/clean_asphalt_diff_2k.jpg-dbc53a33c1013e33690e7a44526b951f.bptc.ctex"
+path.s3tc="res://.godot/imported/clean_asphalt_diff_2k.jpg-dbc53a33c1013e33690e7a44526b951f.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -12,12 +12,12 @@ metadata={
 [deps]
 
 source_file="res://assets/environments/sourced/polyhaven/clean_asphalt/clean_asphalt_diff_2k.jpg"
-dest_files=["res://.godot/imported/clean_asphalt_diff_2k.jpg-dbc53a33c1013e33690e7a44526b951f.bptc.ctex"]
+dest_files=["res://.godot/imported/clean_asphalt_diff_2k.jpg-dbc53a33c1013e33690e7a44526b951f.s3tc.ctex"]
 
 [params]
 
 compress/mode=2
-compress/high_quality=true
+compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0
