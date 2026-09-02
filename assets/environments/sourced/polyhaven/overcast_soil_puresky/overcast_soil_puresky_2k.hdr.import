@@ -3,21 +3,20 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://2ooouutjmrf6"
-path.bptc="res://.godot/imported/overcast_soil_puresky_2k.hdr-58adce042ee68a812dd6db0a46e50347.bptc.ctex"
+path="res://.godot/imported/overcast_soil_puresky_2k.hdr-58adce042ee68a812dd6db0a46e50347.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://assets/environments/sourced/polyhaven/overcast_soil_puresky/overcast_soil_puresky_2k.hdr"
-dest_files=["res://.godot/imported/overcast_soil_puresky_2k.hdr-58adce042ee68a812dd6db0a46e50347.bptc.ctex"]
+dest_files=["res://.godot/imported/overcast_soil_puresky_2k.hdr-58adce042ee68a812dd6db0a46e50347.ctex"]
 
 [params]
 
-compress/mode=2
-compress/high_quality=true
+compress/mode=1
+compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0

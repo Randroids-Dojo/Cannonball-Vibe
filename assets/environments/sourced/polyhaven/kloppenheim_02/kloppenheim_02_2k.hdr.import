@@ -3,21 +3,20 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://titb8j5sxar3"
-path.bptc="res://.godot/imported/kloppenheim_02_2k.hdr-f4d907ff1c1250fe7abcb5f9736cf789.bptc.ctex"
+path="res://.godot/imported/kloppenheim_02_2k.hdr-f4d907ff1c1250fe7abcb5f9736cf789.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://assets/environments/sourced/polyhaven/kloppenheim_02/kloppenheim_02_2k.hdr"
-dest_files=["res://.godot/imported/kloppenheim_02_2k.hdr-f4d907ff1c1250fe7abcb5f9736cf789.bptc.ctex"]
+dest_files=["res://.godot/imported/kloppenheim_02_2k.hdr-f4d907ff1c1250fe7abcb5f9736cf789.ctex"]
 
 [params]
 
-compress/mode=2
-compress/high_quality=true
+compress/mode=1
+compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0

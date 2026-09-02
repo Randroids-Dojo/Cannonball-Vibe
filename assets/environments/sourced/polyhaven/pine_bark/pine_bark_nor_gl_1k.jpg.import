@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cv711wptp2ck3"
-path.bptc="res://.godot/imported/pine_bark_nor_gl_1k.jpg-825b947141e0b797d48bbba5642fb528.bptc.ctex"
+path.s3tc="res://.godot/imported/pine_bark_nor_gl_1k.jpg-825b947141e0b797d48bbba5642fb528.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -12,12 +12,12 @@ metadata={
 [deps]
 
 source_file="res://assets/environments/sourced/polyhaven/pine_bark/pine_bark_nor_gl_1k.jpg"
-dest_files=["res://.godot/imported/pine_bark_nor_gl_1k.jpg-825b947141e0b797d48bbba5642fb528.bptc.ctex"]
+dest_files=["res://.godot/imported/pine_bark_nor_gl_1k.jpg-825b947141e0b797d48bbba5642fb528.s3tc.ctex"]
 
 [params]
 
 compress/mode=2
-compress/high_quality=true
+compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0

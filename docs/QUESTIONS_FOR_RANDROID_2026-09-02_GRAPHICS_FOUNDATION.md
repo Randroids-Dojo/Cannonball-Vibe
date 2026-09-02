@@ -107,21 +107,38 @@ modelling work.
   (recommended if A is off the table; it stays fully agentic).
 - **C. Both**: procedural now, replace later.
 
-## Q-041 - Texture residency preset
+## Q-041 - Renderer tiers and how the shipped build selects High
 
-`project.godot` now imports every texture VRAM-compressed at high quality
-(BC7) with mipmaps, enables 4x MSAA, 8x anisotropy, an 8192 directional shadow
-atlas and high soft-shadow quality. These are the High preset ADR-0023 asks
-for but the repository has never defined; nothing lower exists yet.
+The first CI run of this slice showed that reference-PC renderer settings
+cannot live in `project.godot`: the software-rendered runners cancelled
+Windows M0 at its 15-minute timeout and failed a PlayGodot camera probe.
+The project defaults are therefore the Balanced tier (2x MSAA, 8x
+anisotropy, 4096 directional shadow atlas, soft-low filtering, low SSAO),
+and `RenderQuality.Apply` raises the viewport and rendering server to the
+High tier (4x MSAA, 8192 atlas, soft-medium filtering, medium SSAO) when the
+game starts with `--environment-quality=high`, the argument that already
+scales the environment layers. Textures import VRAM-compressed with mipmaps
+on the fast S3TC path; the four HDRIs stay uncompressed RGBE.
 
-- **A. Accept these as the High preset** and let P1-013 record them (working
-  default).
-- **B. Ask for a Balanced/Low renderer preset** before more content lands.
+What this leaves open: a player on the reference PC gets Balanced unless
+something passes that argument. There is no settings menu and no GPU
+detection.
+
+- **A. Settings-menu entry in P1-013 (recommended).** The tier becomes a
+  saved user setting; automation keeps the command-line argument.
+- **B. Auto-select High on first run** when the adapter name matches a
+  discrete GPU, with the menu entry as the override.
+- **C. Ship High as the default** and give CI an `override.cfg` that pins the
+  Balanced tier. Cheapest, but the gates would then run settings the player
+  never sees.
 
 ## Reviewer notes, not questions
 
-- Cold Godot import of the new art takes about 51 s (130 files, 111 MB cache)
-  and runs once per CI job now that `run-scenario.sh` imports before launch.
+- Cold Godot import of the whole project took 52 s on the workstation with
+  BC7 and BC6H encoding and 7 to 9 minutes on the 4-vCPU runners; it takes
+  13 s on the workstation after the import settings moved to S3TC and
+  uncompressed RGBE. It runs once per CI job now that `run-scenario.sh`
+  imports before launch.
 - `verify-environment-assets.sh` and `verify-environment-asset.sh` are not in
   any CI workflow; the first would have caught the streamer stall. Adding
   them to the post-merge tripwires is a P1-010 follow-up.

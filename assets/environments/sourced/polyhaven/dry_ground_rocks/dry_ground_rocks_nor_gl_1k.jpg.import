@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bm1xsn6w4o3g7"
-path.bptc="res://.godot/imported/dry_ground_rocks_nor_gl_1k.jpg-98044b58acfd59cb5128391ae3124307.bptc.ctex"
+path.s3tc="res://.godot/imported/dry_ground_rocks_nor_gl_1k.jpg-98044b58acfd59cb5128391ae3124307.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -12,12 +12,12 @@ metadata={
 [deps]
 
 source_file="res://assets/environments/sourced/polyhaven/dry_ground_rocks/dry_ground_rocks_nor_gl_1k.jpg"
-dest_files=["res://.godot/imported/dry_ground_rocks_nor_gl_1k.jpg-98044b58acfd59cb5128391ae3124307.bptc.ctex"]
+dest_files=["res://.godot/imported/dry_ground_rocks_nor_gl_1k.jpg-98044b58acfd59cb5128391ae3124307.s3tc.ctex"]
 
 [params]
 
 compress/mode=2
-compress/high_quality=true
+compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0
