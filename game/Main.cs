@@ -2660,8 +2660,19 @@ public sealed partial class Main : Node3D
     {
         if (_environmentVisualScenario is not { Complete: true })
         {
+            var partial = _streamer.CaptureEnvironmentSnapshot();
             throw new InvalidOperationException(
-                "Environment-streaming profile did not complete every regional review stage.");
+                "Environment-streaming profile did not complete every regional review stage: " +
+                $"stage={_environmentVisualScenario?.CurrentStageName ?? "none"} " +
+                $"completed={_environmentVisualScenario?.CompletedStageCount ?? 0} " +
+                $"review_target_ready={_streamer.ReviewTargetReady} " +
+                $"streaming_settled={_streamer.IsStreamingSettled} " +
+                $"environment_settled={_streamer.IsEnvironmentStreamingSettled} " +
+                $"loaded={_streamer.LoadedChunkCount} desired={_streamer.DesiredVisualChunkCount} " +
+                $"environment_chunks={partial.LoadedChunks.Count} " +
+                $"chunk_failures={_streamer.ChunkFailureCount} " +
+                $"route_distance_m={_streamer.RouteDistanceMeters:0.0} " +
+                $"route_length_m={_streamer.TotalRouteLengthMeters:0.0}.");
         }
         var snapshot = _streamer.CaptureEnvironmentSnapshot();
         if (!snapshot.CollisionFree || snapshot.CollisionBudget != 0 ||
@@ -2716,7 +2727,7 @@ public sealed partial class Main : Node3D
             snapshot.GeometricLaneArrowCount != snapshot.GuideSignCount ||
             snapshot.TypographyFallbackCount != snapshot.GuideSignCount ||
             snapshot.ServiceIconCount < 2 ||
-            snapshot.SharedMaterialCount != 18 || snapshot.SharedMeshCount != 9 ||
+            snapshot.SharedMaterialCount != 19 || snapshot.SharedMeshCount != 10 ||
             snapshot.RetroreflectiveMaterialCount != 11 ||
             snapshot.BridgeDeckCount < 1 || snapshot.OverpassOpeningCount < 1 ||
             snapshot.StructureCount < 1 || snapshot.StructureSemanticNodeCount < 1 ||
@@ -3330,35 +3341,15 @@ public sealed partial class Main : Node3D
         return -1;
     }
 
+    /// <summary>
+    /// The run starts at night, as the Cannonball did. Every visual scenario
+    /// switches presets through <see cref="World.Environments.SkyLighting"/>,
+    /// which owns the sky, sun, fog and post-processing for all of them.
+    /// </summary>
     private void BuildLighting()
     {
-        AddChild(new DirectionalLight3D
-        {
-            Name = "MoonLight",
-            RotationDegrees = new Vector3(-48, -28, 0),
-            LightColor = new Color("a9c4ff"),
-            LightEnergy = 1.3f,
-            ShadowEnabled = true,
-        });
-        // The node takes its own reference on assignment, so releasing this wrapper
-        // immediately leaves the environment intact. Left undisposed the wrapper
-        // survives to finalisation after engine shutdown, which is one of the
-        // "Leaked unsafe reference to object" errors in the Linux smoke.
-        using (var nightEnvironment = new Godot.Environment
-        {
-            BackgroundMode = Godot.Environment.BGMode.Color,
-            BackgroundColor = new Color("060912"),
-            AmbientLightSource = Godot.Environment.AmbientSource.Color,
-            AmbientLightColor = new Color("425072"),
-            AmbientLightEnergy = 0.45f,
-        })
-        {
-            AddChild(new WorldEnvironment
-            {
-                Name = "NightEnvironment",
-                Environment = nightEnvironment,
-            });
-        }
+        World.Environments.SkyLighting.Build(this, World.Environments.LightingPreset.Night);
+        World.Environments.RenderQuality.Apply(GetViewport(), World.Environments.RenderQuality.FromCommandLine());
     }
 
     private void RequestRestartRun() => _restartRunRequested = true;

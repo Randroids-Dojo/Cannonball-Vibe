@@ -9,6 +9,9 @@ namespace Cannonball.Game.World.Environments;
 
 public sealed partial class RegionalEnvironmentChunk : Node3D
 {
+    /// <summary>Near-layer instances are grouped into cells of this route length so LOD and visibility ranges switch per cell rather than per chunk.</summary>
+    public const float NearCellLengthMeters = 150;
+
     private ArrayMesh? _ownedTerrainMesh;
 
     private RegionalEnvironmentChunk()
@@ -161,23 +164,80 @@ public sealed partial class RegionalEnvironmentChunk : Node3D
         return false;
     }
 
+    /// <summary>
+    /// Trees and rocks from the road margin out to the middle terrain band,
+    /// grouped in route cells with three LOD multimeshes each. Density and
+    /// lateral placement follow the region: dense conifer stands in the
+    /// mountains, thinning through the foothills, scattered on the plains.
+    /// </summary>
     private void BuildNearLayer(
         EnvironmentVisualKit kit,
         IReadOnlyList<Vector3> samples,
         ref StableRandom random)
     {
-        var count = kit.NearInstanceBudget;
-        var sparse = Region is EnvironmentRegion.Plains or EnvironmentRegion.UrbanEdge;
-        if (sparse)
+        var (treeFactor, rockFactor, minimumLateral, maximumLateral) = Region switch
         {
-            count = Math.Max(4, count / 2);
+            EnvironmentRegion.Mountain => (1.0f, 0.7f, 26f, 250f),
+            EnvironmentRegion.Foothill => (0.55f, 0.5f, 34f, 250f),
+            EnvironmentRegion.Plains => (0.07f, 0.3f, 60f, 250f),
+            EnvironmentRegion.UrbanEdge => (0.14f, 0.35f, 45f, 220f),
+            _ => throw new ArgumentOutOfRangeException(nameof(Region)),
+        };
+        var total = 0;
+        var cellIndex = 0;
+        foreach (var cell in Cells(samples, NearCellLengthMeters))
+        {
+            var treeCount = Math.Max(
+                Region == EnvironmentRegion.Mountain ? 2 : 0,
+                (int)Math.Round(kit.NearTreesPerHundredMeters * treeFactor * cell.LengthMeters / 100 * 2));
+            var rockCount = (int)Math.Round(kit.NearRocksPerHundredMeters * rockFactor * cell.LengthMeters / 100 * 2);
+            if (cellIndex == 0)
+            {
+                // Every chunk keeps at least one tree and one rock so the near
+                // layer is never empty, which the streaming contract requires.
+                treeCount = Math.Max(treeCount, 1);
+                rockCount = Math.Max(rockCount, 1);
+            }
+            var trees = new List<Transform3D>(treeCount);
+            for (var index = 0; index < treeCount; index++)
+            {
+                var placement = Place(cell, samples, minimumLateral, maximumLateral, ref random);
+                var height = 9.5f + random.NextFloat() * 10.5f;
+                var basis = Basis.FromEuler(new Vector3(0, random.NextFloat() * Mathf.Tau, 0))
+                    .Scaled(new Vector3(height, height, height));
+                trees.Add(new Transform3D(basis, placement));
+            }
+            var rocks = new List<Transform3D>(rockCount);
+            for (var index = 0; index < rockCount; index++)
+            {
+                var placement = Place(cell, samples, minimumLateral * 0.8f, 130f, ref random);
+                var size = 0.6f + random.NextFloat() * 2.4f;
+                var basis = Basis.FromEuler(new Vector3(
+                        (random.NextFloat() - 0.5f) * 0.3f,
+                        random.NextFloat() * Mathf.Tau,
+                        (random.NextFloat() - 0.5f) * 0.3f))
+                    .Scaled(new Vector3(size * (0.8f + random.NextFloat() * 0.5f), size * 0.8f, size));
+                placement.Y -= size * 0.12f;
+                rocks.Add(new Transform3D(basis, placement));
+            }
+            if (trees.Count > 0)
+            {
+                AddMultiMesh($"Near{cellIndex}Lod0", $"near.{cellIndex}.lod0", kit.ConiferLod0, trees,
+                    0, kit.NearLod0Meters, GeometryInstance3D.ShadowCastingSetting.On, "near");
+                AddMultiMesh($"Near{cellIndex}Lod1", $"near.{cellIndex}.lod1", kit.ConiferLod1, trees,
+                    kit.NearLod0Meters, kit.NearLod1Meters, GeometryInstance3D.ShadowCastingSetting.On, "near");
+                AddMultiMesh($"Near{cellIndex}Lod2", $"near.{cellIndex}.lod2", kit.ConiferLod2, trees,
+                    kit.NearLod1Meters, kit.NearLod2Meters, GeometryInstance3D.ShadowCastingSetting.Off, "near");
+            }
+            if (rocks.Count > 0)
+            {
+                AddMultiMesh($"Near{cellIndex}Rocks", $"near.{cellIndex}.rocks", kit.RockMesh, rocks,
+                    0, kit.NearLod1Meters, GeometryInstance3D.ShadowCastingSetting.On, "near");
+            }
+            total += trees.Count + rocks.Count;
+            cellIndex++;
         }
-        var mesh = Region == EnvironmentRegion.UrbanEdge ? kit.RockMesh : kit.PineMesh;
-        var scale = Region == EnvironmentRegion.UrbanEdge
-            ? new Vector2(1.1f, 2.8f)
-            : new Vector2(3.5f, 9.0f);
-        AddInstances("Near", mesh, count, samples, 145, 260, scale, 1_000, ref random);
-        NearInstanceCount = count;
+        NearInstanceCount = total;
     }
 
     private void BuildMidLayer(
@@ -186,14 +246,49 @@ public sealed partial class RegionalEnvironmentChunk : Node3D
         ref StableRandom random)
     {
         var urban = Region == EnvironmentRegion.UrbanEdge;
-        var mesh = urban ? kit.BuildingMesh : kit.FoothillMesh;
-        var scale = urban
-            ? new Vector2(22, 70)
-            : Region == EnvironmentRegion.Plains
-                ? new Vector2(30, 70)
-                : new Vector2(65, 150);
-        AddInstances("Mid", mesh, kit.MidInstanceBudget, samples, 320, 850, scale, 4_000, ref random);
-        MidInstanceCount = kit.MidInstanceBudget;
+        var count = kit.MidInstanceBudget;
+        var transforms = new List<Transform3D>(count);
+        var colors = new List<Color>(count);
+        for (var index = 0; index < count; index++)
+        {
+            var lateral = Mathf.Lerp(320, 850, random.NextFloat());
+            var placement = PlaceAtLateral(samples, random.NextFloat(), lateral * (random.NextFloat() < 0.5f ? -1 : 1), out _);
+            if (urban)
+            {
+                var footprint = Mathf.Lerp(22, 70, random.NextFloat());
+                var height = footprint * Mathf.Lerp(0.55f, 1.35f, random.NextFloat());
+                placement.Y += height * 0.5f - 0.5f;
+                transforms.Add(new Transform3D(
+                    Basis.FromEuler(new Vector3(0, random.NextFloat() * Mathf.Tau, 0))
+                        .Scaled(new Vector3(footprint, height, footprint)),
+                    placement));
+                colors.Add(BuildingTint(ref random));
+                continue;
+            }
+            var hillFootprint = Region == EnvironmentRegion.Plains
+                ? Mathf.Lerp(30, 70, random.NextFloat())
+                : Mathf.Lerp(65, 150, random.NextFloat());
+            var hillHeight = hillFootprint * Mathf.Lerp(0.16f, 0.36f, random.NextFloat());
+            placement.Y -= hillHeight * 0.05f;
+            transforms.Add(new Transform3D(
+                Basis.FromEuler(new Vector3(0, random.NextFloat() * Mathf.Tau, 0))
+                    .Scaled(new Vector3(hillFootprint, hillHeight, hillFootprint)),
+                placement));
+        }
+        if (urban)
+        {
+            AddMultiMesh("MidInstances", "mid", kit.BuildingMesh, transforms, 0, 4_000,
+                GeometryInstance3D.ShadowCastingSetting.On, "mid", colors);
+        }
+        else
+        {
+            var half = transforms.Count / 2;
+            AddMultiMesh("MidInstances", "mid", kit.HillMesh(0), transforms.Take(half).ToList(), 0, 4_000,
+                GeometryInstance3D.ShadowCastingSetting.On, "mid");
+            AddMultiMesh("MidInstancesB", "mid.b", kit.HillMesh(1), transforms.Skip(half).ToList(), 0, 4_000,
+                GeometryInstance3D.ShadowCastingSetting.On, "mid");
+        }
+        MidInstanceCount = count;
     }
 
     private void BuildDistantLayer(
@@ -202,89 +297,207 @@ public sealed partial class RegionalEnvironmentChunk : Node3D
         ref StableRandom random)
     {
         var urban = Region == EnvironmentRegion.UrbanEdge;
-        var mesh = urban ? kit.BuildingMesh : kit.MountainMesh;
-        var scale = urban
-            ? new Vector2(55, 180)
-            : Region == EnvironmentRegion.Plains
-                ? new Vector2(150, 340)
-                : new Vector2(230, 520);
-        AddInstances(
-            "Distant",
-            mesh,
-            kit.DistantInstanceBudget,
-            samples,
-            1_100,
-            2_600,
-            scale,
-            12_000,
-            ref random);
-        DistantInstanceCount = kit.DistantInstanceBudget;
+        var count = kit.DistantInstanceBudget;
+        var groups = new List<Transform3D>[3];
+        for (var group = 0; group < groups.Length; group++)
+        {
+            groups[group] = [];
+        }
+        var colors = new List<Color>(count);
+        for (var index = 0; index < count; index++)
+        {
+            var lateral = Mathf.Lerp(1_100, 2_600, random.NextFloat());
+            var placement = PlaceAtLateral(samples, random.NextFloat(), lateral * (random.NextFloat() < 0.5f ? -1 : 1), out _);
+            if (urban)
+            {
+                var footprint = Mathf.Lerp(55, 180, random.NextFloat());
+                var height = footprint * Mathf.Lerp(0.55f, 1.35f, random.NextFloat());
+                placement.Y += height * 0.5f - 0.5f;
+                groups[0].Add(new Transform3D(
+                    Basis.FromEuler(new Vector3(0, random.NextFloat() * Mathf.Tau, 0))
+                        .Scaled(new Vector3(footprint, height, footprint)),
+                    placement));
+                colors.Add(BuildingTint(ref random));
+                continue;
+            }
+            var massifFootprint = Region == EnvironmentRegion.Plains
+                ? Mathf.Lerp(150, 340, random.NextFloat())
+                : Mathf.Lerp(230, 520, random.NextFloat());
+            var massifHeight = massifFootprint * (Region == EnvironmentRegion.Plains
+                ? Mathf.Lerp(0.14f, 0.32f, random.NextFloat())
+                : Mathf.Lerp(0.45f, 0.95f, random.NextFloat()));
+            placement.Y -= massifHeight * 0.05f;
+            groups[index % 3].Add(new Transform3D(
+                Basis.FromEuler(new Vector3(0, random.NextFloat() * Mathf.Tau, 0))
+                    .Scaled(new Vector3(massifFootprint, massifHeight, massifFootprint)),
+                placement));
+        }
+        if (urban)
+        {
+            AddMultiMesh("DistantInstances", "distant", kit.BuildingMesh, groups[0], 0, 12_000,
+                GeometryInstance3D.ShadowCastingSetting.Off, "distant", colors);
+        }
+        else
+        {
+            for (var group = 0; group < groups.Length; group++)
+            {
+                if (groups[group].Count == 0)
+                {
+                    continue;
+                }
+                var mesh = Region == EnvironmentRegion.Plains ? kit.HillMesh(group) : kit.MassifMesh(group);
+                AddMultiMesh(
+                    group == 0 ? "DistantInstances" : $"DistantInstances{group}",
+                    group == 0 ? "distant" : $"distant.{group}",
+                    mesh, groups[group], 0, 12_000,
+                    GeometryInstance3D.ShadowCastingSetting.Off, "distant");
+            }
+        }
+        DistantInstanceCount = count;
     }
 
-    private void AddInstances(
-        string layer,
-        Mesh mesh,
-        int count,
+    private static Color BuildingTint(ref StableRandom random)
+    {
+        var warmth = random.NextFloat();
+        var value = 0.55f + random.NextFloat() * 0.35f;
+        return new Color(
+            value * (0.92f + warmth * 0.10f),
+            value * (0.90f + warmth * 0.04f),
+            value * (0.86f + (1 - warmth) * 0.12f));
+    }
+
+    private readonly record struct RouteCell(int StartIndex, int EndIndex, float LengthMeters, double RouteStartMeters, double RouteEndMeters);
+
+    private IEnumerable<RouteCell> Cells(IReadOnlyList<Vector3> samples, float cellLength)
+    {
+        var lengths = new float[samples.Count];
+        for (var index = 1; index < samples.Count; index++)
+        {
+            lengths[index] = lengths[index - 1] + samples[index].DistanceTo(samples[index - 1]);
+        }
+        var total = lengths[^1];
+        if (total <= 0)
+        {
+            yield return new RouteCell(0, samples.Count - 1, 0, _routeStartMeters, _routeEndMeters);
+            yield break;
+        }
+        var cells = Math.Max(1, (int)Math.Round(total / cellLength));
+        var perCell = total / cells;
+        var start = 0;
+        for (var cell = 0; cell < cells; cell++)
+        {
+            var target = (cell + 1) * perCell;
+            var end = start;
+            while (end < samples.Count - 1 && lengths[end] < target)
+            {
+                end++;
+            }
+            if (cell == cells - 1)
+            {
+                end = samples.Count - 1;
+            }
+            if (end <= start)
+            {
+                end = Math.Min(samples.Count - 1, start + 1);
+            }
+            var fractionStart = lengths[start] / total;
+            var fractionEnd = lengths[end] / total;
+            yield return new RouteCell(
+                start,
+                end,
+                lengths[end] - lengths[start],
+                Mathf.Lerp((float)_routeStartMeters, (float)_routeEndMeters, fractionStart),
+                Mathf.Lerp((float)_routeStartMeters, (float)_routeEndMeters, fractionEnd));
+            start = end;
+        }
+    }
+
+    private Vector3 Place(
+        RouteCell cell,
         IReadOnlyList<Vector3> samples,
         float minimumLateral,
         float maximumLateral,
-        Vector2 scaleRange,
-        float visibilityRange,
         ref StableRandom random)
+    {
+        var side = random.NextFloat() < 0.5f ? -1 : 1;
+        // Bias toward the road so stands read as continuous cover rather than a
+        // sparse band far from the driver.
+        var t = random.NextFloat();
+        var lateral = Mathf.Lerp(minimumLateral, maximumLateral, t * t) * side;
+        var span = Math.Max(1, cell.EndIndex - cell.StartIndex);
+        var progress = (cell.StartIndex + random.NextFloat() * span) / (samples.Count - 1);
+        return PlaceAtLateral(samples, (float)progress, lateral, out _);
+    }
+
+    private Vector3 PlaceAtLateral(
+        IReadOnlyList<Vector3> samples,
+        float progress,
+        float lateral,
+        out Vector3 forward)
+    {
+        var sampleIndex = Math.Clamp(
+            (int)(progress * (samples.Count - 1)),
+            0,
+            samples.Count - 2);
+        var localProgress = progress * (samples.Count - 1) - sampleIndex;
+        var point = samples[sampleIndex].Lerp(samples[sampleIndex + 1], localProgress);
+        forward = (samples[sampleIndex + 1] - samples[sampleIndex]).Normalized();
+        var right = forward.Cross(Vector3.Up).Normalized();
+        var position = point + right * lateral;
+        var routeDistance = Mathf.Lerp(
+            (float)_routeStartMeters,
+            (float)_routeEndMeters,
+            progress);
+        position.Y += RegionalTerrainRibbon.SurfaceHeight(
+            routeDistance,
+            _routeLengthMeters,
+            lateral);
+        return position;
+    }
+
+    private void AddMultiMesh(
+        string name,
+        string automationSuffix,
+        Mesh mesh,
+        IReadOnlyList<Transform3D> transforms,
+        float visibilityBegin,
+        float visibilityEnd,
+        GeometryInstance3D.ShadowCastingSetting shadows,
+        string layer,
+        IReadOnlyList<Color>? colors = null)
     {
         // Disposed once the instance owns it, so no wrapper survives to
         // finalisation after the engine has torn down.
         using var multimesh = new MultiMesh
         {
             TransformFormat = MultiMesh.TransformFormatEnum.Transform3D,
+            UseColors = colors is not null,
             Mesh = mesh,
-            InstanceCount = count,
+            InstanceCount = transforms.Count,
         };
-        for (var index = 0; index < count; index++)
+        for (var index = 0; index < transforms.Count; index++)
         {
-            var progress = random.NextFloat();
-            var sampleIndex = Math.Clamp(
-                (int)(progress * (samples.Count - 1)),
-                0,
-                samples.Count - 2);
-            var localProgress = progress * (samples.Count - 1) - sampleIndex;
-            var point = samples[sampleIndex].Lerp(samples[sampleIndex + 1], localProgress);
-            var forward = (samples[sampleIndex + 1] - samples[sampleIndex]).Normalized();
-            var right = forward.Cross(Vector3.Up).Normalized();
-            var side = random.NextFloat() < 0.5f ? -1 : 1;
-            var lateral = Mathf.Lerp(minimumLateral, maximumLateral, random.NextFloat()) * side;
-            var footprint = Mathf.Lerp(scaleRange.X, scaleRange.Y, random.NextFloat());
-            var heightScale = layer == "Near"
-                ? footprint
-                : footprint * Mathf.Lerp(0.55f, 1.35f, random.NextFloat());
-            var position = point + right * lateral;
-            var routeDistance = Mathf.Lerp(
-                (float)_routeStartMeters,
-                (float)_routeEndMeters,
-                progress);
-            position.Y += RegionalTerrainRibbon.SurfaceHeight(
-                routeDistance,
-                _routeLengthMeters,
-                lateral);
-            position.Y -= layer == "Near" ? 0 : heightScale * 0.18f;
-            var basis = Basis.FromEuler(new Vector3(0, random.NextFloat() * Mathf.Tau, 0))
-                .Scaled(new Vector3(footprint, heightScale, footprint));
-            multimesh.SetInstanceTransform(index, new Transform3D(basis, position));
+            multimesh.SetInstanceTransform(index, transforms[index]);
+            if (colors is not null)
+            {
+                multimesh.SetInstanceColor(index, colors[index]);
+            }
         }
         var instance = new MultiMeshInstance3D
         {
-            Name = $"{layer}Instances",
+            Name = name,
             Multimesh = multimesh,
-            VisibilityRangeEnd = visibilityRange,
-            VisibilityRangeFadeMode = GeometryInstance3D.VisibilityRangeFadeModeEnum.Self,
-            CastShadow = layer == "Distant"
-                ? GeometryInstance3D.ShadowCastingSetting.Off
-                : GeometryInstance3D.ShadowCastingSetting.On,
+            VisibilityRangeBegin = visibilityBegin,
+            VisibilityRangeBeginMargin = visibilityBegin > 0 ? 12 : 0,
+            VisibilityRangeEnd = visibilityEnd,
+            VisibilityRangeEndMargin = 12,
+            VisibilityRangeFadeMode = GeometryInstance3D.VisibilityRangeFadeModeEnum.Disabled,
+            CastShadow = shadows,
         };
         EnvironmentVisualKit.MarkSemantic(
             instance,
-            $"environment.chunk.{ChunkId}.{layer.ToLowerInvariant()}",
-            layer.ToLowerInvariant());
+            $"environment.chunk.{ChunkId}.{automationSuffix}",
+            layer);
         AddChild(instance);
         SemanticNodeCount++;
     }

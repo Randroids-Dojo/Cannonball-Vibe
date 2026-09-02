@@ -1,0 +1,55 @@
+{
+  "asset_id": "conifer",
+  "asset_kind": "environment",
+  "required_nodes": [
+    "AssetRoot",
+    "Anchor_Origin",
+    "Visual_LOD0",
+    "Visual_LOD1",
+    "Visual_LOD2",
+    "LOD0_Trunk",
+    "LOD0_Needles",
+    "LOD1_Trunk",
+    "LOD1_Needles",
+    "LOD2_Impostor",
+    "CollisionProxy"
+  ],
+  "budgets": {
+    "triangles_lod0_max": 4500,
+    "triangles_total_max": 6500,
+    "materials_max": 3,
+    "textures_max": 0,
+    "texture_bytes_max": 0,
+    "collision_triangles_max": 64
+  },
+  "bounds_meters": [
+    0.854,
+    0.835,
+    1.01
+  ],
+  "bounds_tolerance_meters": 0.02,
+  "contact_sheet_width": 384,
+  "contact_sheet_height": 512,
+  "contact_sheet_target": [
+    0.0,
+    0.0,
+    0.5
+  ],
+  "contact_sheet_views": [
+    [
+      1.6,
+      -2.4,
+      0.9
+    ],
+    [
+      -2.2,
+      -1.6,
+      0.6
+    ],
+    [
+      0.0,
+      -3.0,
+      1.2
+    ]
+  ]
+}

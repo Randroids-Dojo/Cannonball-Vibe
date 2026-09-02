@@ -1,4 +1,5 @@
 using Cannonball.Game.World;
+using Cannonball.Game.World.Environments;
 using Godot;
 
 namespace Cannonball.Game.Automation;
@@ -105,22 +106,14 @@ public sealed class RoadVisualScenario
                 $"standard_shields={snapshot.StandardRouteShieldCount}, " +
                 $"geometric_lane_arrows={snapshot.GeometricLaneArrowCount}.");
         }
-        var expectedBackground = daylight ? new Color("78a7d8") : new Color("060912");
-        var expectedEnergy = daylight ? 1.8f : 1.3f;
-        if (!_environment.BackgroundColor.IsEqualApprox(expectedBackground) ||
-            !Mathf.IsEqualApprox(_light.LightEnergy, expectedEnergy))
+        var expectedPreset = daylight ? LightingPreset.Day : LightingPreset.Night;
+        if (!SkyLighting.Matches(_light, _environment, expectedPreset))
         {
             throw new InvalidOperationException(
                 $"Road visual {StageNames[_stageIndex]} lighting contract drifted.");
         }
     }
 
-    private void SetLighting(bool daylight)
-    {
-        _light.LightColor = daylight ? new Color("fff2d6") : new Color("a9c4ff");
-        _light.LightEnergy = daylight ? 1.8f : 1.3f;
-        _environment.BackgroundColor = daylight ? new Color("78a7d8") : new Color("060912");
-        _environment.AmbientLightColor = daylight ? new Color("dbe8f6") : new Color("425072");
-        _environment.AmbientLightEnergy = daylight ? 0.8f : 0.45f;
-    }
+    private void SetLighting(bool daylight) =>
+        SkyLighting.Apply(_light, _environment, daylight ? LightingPreset.Day : LightingPreset.Night);
 }

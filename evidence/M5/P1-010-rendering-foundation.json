@@ -1,0 +1,624 @@
+{
+  "schema_version": 1,
+  "task_id": "P1-010",
+  "milestone": "M5",
+  "status": "in_progress",
+  "slice": "rendering-foundation-2026-09-02",
+  "git_revision": "e12cf86a6d5bf6d9b2d9e57c0f6887de82ef7ff3",
+  "recorded_at_utc": "2026-09-02T15:15:58Z",
+  "platform": {
+    "os": "Windows 11 Pro 10.0.26200",
+    "architecture": "x64",
+    "cpu": "AMD Ryzen 9 5900X",
+    "gpu": "NVIDIA GeForce RTX 3080 Ti 12 GB",
+    "renderer_for_captures": "Godot Compatibility/OpenGL 3.3 (capture-scenario.sh)",
+    "renderer_for_headless_gates": "Godot headless"
+  },
+  "tool_versions": {
+    "godot": "4.7.1.stable.mono.official.a13da4feb",
+    "blender": "5.1.2",
+    "blender_build_hash": "ec6e62d40fa9",
+    "blender_windows_zip_sha256": "345bedea7b0acf7cc9666423d8553f9129622aea34ded65c23e8cb70f83f14ff",
+    "dotnet_sdk": "10.0.102",
+    "node": "24.18.0",
+    "uv": "0.11.29 (shared trusted venv; see Q-039)",
+    "git_lfs": "3.7.1"
+  },
+  "scope": {
+    "verified": [
+      "checksum-locked Poly Haven CC0 acquisition with declared size and MD5 checks and recorded SHA-256, timestamps and response metadata",
+      "sky-driven lighting presets applied idempotently by every visual scenario with HDRI-measured sun directions",
+      "ground shader with route weights, slope rock, anti-tiling and far-field convergence on ribbons, road margins, junction seams and backdrop",
+      "heightfield massifs and hills with slope and altitude shading",
+      "project-original conifer through a contract-driven deterministic Blender export, isolated Godot import, byte-identical normalized scene, and schema-1 manifest",
+      "cell-based near-layer LOD streaming with region-specific density",
+      "environment gate on high, balanced, low and graybox with equivalent semantics and ordered terrain degradation",
+      "streamer collision-backlog refresh fix for stationary review points"
+    ],
+    "completion_pending": [
+      "Q-037 human rights review of every sourced record; release presets exclude assets/environments/sourced until approved",
+      "Q-021 art direction and readability approval",
+      "Forward+ reference-profile capture and Q-022 performance matrix on the new content",
+      "production highway kit (P1-009) and Hero GT (P1-008) surfaces"
+    ],
+    "excluded_claims": [
+      "human visual approval of any frame in the review sheet",
+      "frame-time, GPU-memory or residency claims for the new content",
+      "photorealistic or production-complete regional art"
+    ]
+  },
+  "input_artifacts": [
+    {
+      "path": "data/assets/environments/sourced-assets.lock.json",
+      "sha256": "2ff0c9d255e742cd663857404011b75e701c706171a81da3f2fc8664b1509fad"
+    },
+    {
+      "path": "data/assets/environments/trees/sources/conifer.blend",
+      "sha256": "e22223c6ec001b2a1f6d274b99554b9ba753a3d8173bb1ed5791c60ce31e61bf"
+    },
+    {
+      "path": "data/assets/environments/trees/conifer.contract.json",
+      "sha256": "d3879b96147920a5b63b81de053086909f43d95e3ad1c87ce534b9c2d1d86cea"
+    },
+    {
+      "path": "tools/environments/create_conifer.py",
+      "sha256": "01719461580796ea74de216ce659250a10a9e1e9a0d966d374b7a1b1be864399"
+    },
+    {
+      "path": "tools/environments/validate_and_export_environment_asset.py",
+      "sha256": "69e7020c38bc4db4731a19f6580407f6e923559a7f962aa5232125d645f097ed"
+    },
+    {
+      "path": "tools/environments/analyze_skies.py",
+      "sha256": "3e41654e752a544d41f791e9d79625cb451ff43be8f3d6fdf5f603b4ad2eb99f"
+    },
+    {
+      "path": "tools/environments/sourced_assets.py",
+      "sha256": "861f1894b54bd865df2dbf1b15f0e7c5cde0234e1a5ff3778152c15fd843d382"
+    },
+    {
+      "path": "tools/assets/profiles/gltf2-binary-v2.json",
+      "sha256": "404abd40146b9ddd4ef6b6eecb3c4112249cbcf40d3e74435d0262866fbdabac"
+    },
+    {
+      "path": "tools/assets/profiles/godot-4.7.1-v1.json",
+      "sha256": "22feccfc894d853a070bbcfd3ba04963165d72adfa918dbfdb657b2dbbfc5645"
+    },
+    {
+      "path": "assets/environments/shaders/ground.gdshader",
+      "sha256": "52a2a80c714454f56a3e0836d38ae5c5e6c539d935805944c7db6311f21bccb9"
+    },
+    {
+      "path": "assets/environments/shaders/mountain.gdshader",
+      "sha256": "0c81415fa77c349fc3a28ba51d73547bf512da5288dcdae57a16d94b40986ee3"
+    },
+    {
+      "path": "assets/environments/shaders/conifer_needles.gdshader",
+      "sha256": "08a00023d927951d453fb63e76e54149a7517bcac5f6ed867dfc79fac31b3f8c"
+    },
+    {
+      "path": "game/World/Environment/SkyLighting.cs",
+      "sha256": "5d83abf50dd2378527ec9d4cb02f79d27ad8468e15803e48c3c966c26598187c"
+    },
+    {
+      "path": "game/World/Environment/EnvironmentVisualKit.cs",
+      "sha256": "0de2158ae955e66883d478a2744de7fc17a91a7c08082d88411fd86ee6489637"
+    },
+    {
+      "path": "game/World/Environment/RegionalEnvironmentChunk.cs",
+      "sha256": "dbf31a0423ca910a6388a833b0ebc12bd88a2c876f98ffcb5b910a3ded751743"
+    },
+    {
+      "path": "game/World/Environment/RegionalTerrainRibbon.cs",
+      "sha256": "672be21da4ee1c0131e6a61cacf39d80ed92662831167c68a69410c84ffad564"
+    },
+    {
+      "path": "game/World/Environment/HeightfieldMeshes.cs",
+      "sha256": "1a810a413f1530d56d2f8d374bd5cdbecfda75f01c0e0887b9e82442dd349ed3"
+    },
+    {
+      "path": "game/World/WorldStreamer.cs",
+      "sha256": "77cf68f96e4b9b2bb86e3006d4be62adf7568b9b85a53e51007414bc9eab4747"
+    }
+  ],
+  "scenario_arguments": {
+    "fixture": "representative-corridor",
+    "profiles": [
+      "environment-streaming --environment-quality=high|balanced|low",
+      "environment-streaming --graybox-environment-assets",
+      "environment-review capture"
+    ],
+    "stable_seed": "route content version plus 'colorado-proof-corridor' plus chunk id, region and kit version colorado-proof-corridor-v3",
+    "conifer_generator_seed": 20260902,
+    "heightfield_seeds": [
+      101,
+      202,
+      303,
+      404,
+      505
+    ]
+  },
+  "commands": [
+    {
+      "command": "python tools/environments/sourced_assets.py plan/acquire/verify --lock data/assets/environments/sourced-assets.lock.json",
+      "exit_status": 0
+    },
+    {
+      "command": "blender --background --python tools/environments/analyze_skies.py -- --lock ... --output assets/environments/sky-presets.json",
+      "exit_status": 0
+    },
+    {
+      "command": "blender --background --python tools/environments/create_conifer.py -- --output data/assets/environments/trees/sources/conifer.blend --textures assets/environments/trees/conifer",
+      "exit_status": 0
+    },
+    {
+      "command": "./scripts/verify-environment-asset.sh --asset conifer",
+      "exit_status": 0
+    },
+    {
+      "command": "./scripts/verify-environment-assets.sh --region representative --all-quality-levels",
+      "exit_status": 0
+    },
+    {
+      "command": "./scripts/run-scenario.sh --fixture representative-corridor --profile environment-streaming --environment-quality=high",
+      "exit_status": 0
+    },
+    {
+      "command": "./scripts/capture-scenario.sh <frames>/env.png --fixture representative-corridor --environment-review",
+      "exit_status": 0
+    },
+    {
+      "command": "DOTNET_ROLL_FORWARD=Major dotnet test Cannonball.sln --no-build",
+      "exit_status": 0
+    }
+  ],
+  "metrics": {
+    "environment_profiles": {
+      "high": {
+        "terrain_triangles": "3656",
+        "stages": "5",
+        "regions": "4",
+        "observed_chunks": "49",
+        "terrain_ribbons": "24",
+        "max_terrain_seam_m": "0.0005",
+        "collision_free": "True",
+        "collision_budget": "0",
+        "rebases": "5"
+      },
+      "balanced": {
+        "terrain_triangles": "1880",
+        "stages": "5",
+        "regions": "4",
+        "observed_chunks": "49",
+        "terrain_ribbons": "24",
+        "max_terrain_seam_m": "0.0005",
+        "collision_free": "True",
+        "collision_budget": "0",
+        "rebases": "5"
+      },
+      "low": {
+        "terrain_triangles": "984",
+        "stages": "5",
+        "regions": "4",
+        "observed_chunks": "49",
+        "terrain_ribbons": "24",
+        "max_terrain_seam_m": "0.0005",
+        "collision_free": "True",
+        "collision_budget": "0",
+        "rebases": "5"
+      },
+      "graybox": {
+        "terrain_triangles": "536",
+        "stages": "5",
+        "regions": "4",
+        "observed_chunks": "49",
+        "terrain_ribbons": "24",
+        "max_terrain_seam_m": "0.0005",
+        "collision_free": "True",
+        "collision_budget": "0",
+        "rebases": "5"
+      }
+    },
+    "environment_high_marker": {
+      "profile": "high",
+      "stages": "5",
+      "regions": "4",
+      "observed_chunks": "49",
+      "near_instances": "555",
+      "mid_instances": "432",
+      "distant_instances": "240",
+      "semantic_nodes": "428",
+      "terrain_ribbons": "24",
+      "terrain_vertices": "10968",
+      "terrain_triangles": "3656",
+      "max_terrain_seam_m": "0.0005",
+      "max_terrain_seam_float32_ratio": "0.231",
+      "seam_magnitude_m": "3582.5",
+      "shared_materials": "9",
+      "shared_meshes": "11",
+      "textures": "sourced",
+      "conifer": "generated-scene",
+      "sky": "sourced-hdri",
+      "collision_free": "True",
+      "collision_budget": "0",
+      "rebases": "5",
+      "max_build_ms": "16.292"
+    },
+    "environment_balanced_marker": {
+      "profile": "balanced",
+      "stages": "5",
+      "regions": "4",
+      "observed_chunks": "49",
+      "near_instances": "380",
+      "mid_instances": "288",
+      "distant_instances": "168",
+      "semantic_nodes": "428",
+      "terrain_ribbons": "24",
+      "terrain_vertices": "5640",
+      "terrain_triangles": "1880",
+      "max_terrain_seam_m": "0.0005",
+      "max_terrain_seam_float32_ratio": "0.231",
+      "seam_magnitude_m": "3582.5",
+      "shared_materials": "9",
+      "shared_meshes": "11",
+      "textures": "sourced",
+      "conifer": "generated-scene",
+      "sky": "sourced-hdri",
+      "collision_free": "True",
+      "collision_budget": "0",
+      "rebases": "5",
+      "max_build_ms": "13.222"
+    },
+    "conifer_gate_marker": "CANNONBALL_ENVIRONMENT_ASSET_OK asset=conifer blender=5.1.2 godot=4.7.1 deterministic_rebuilds=2 lods=3",
+    "conifer_lod_triangles": {
+      "lod0": 1557,
+      "lod1": 197,
+      "lod2": 4,
+      "total": 1778
+    },
+    "sourced_assets": {
+      "assets": 16,
+      "files": 42,
+      "bytes": 61301680,
+      "license_statuses": [
+        "pending-human-review"
+      ]
+    },
+    "csharp_tests": {
+      "passed": 145,
+      "failed": 0
+    },
+    "cold_import_seconds": 51,
+    "cold_import_files": 130,
+    "sun_directions": {
+      "day": {
+        "sun_azimuth_degrees": 214.26,
+        "sun_elevation_degrees": 47.87,
+        "light_yaw_degrees": 34.26,
+        "light_pitch_degrees": -47.87
+      },
+      "dawn": {
+        "sun_azimuth_degrees": 219.6,
+        "sun_elevation_degrees": 6.41,
+        "light_yaw_degrees": 39.6,
+        "light_pitch_degrees": -6.41
+      },
+      "overcast": {
+        "sun_azimuth_degrees": 169.16,
+        "sun_elevation_degrees": 35.25,
+        "light_yaw_degrees": -10.84,
+        "light_pitch_degrees": -35.25
+      },
+      "night": {
+        "sun_azimuth_degrees": 210.55,
+        "sun_elevation_degrees": 15.58,
+        "light_yaw_degrees": 30.55,
+        "light_pitch_degrees": -15.58
+      }
+    }
+  },
+  "acceptance_comparisons": [
+    {
+      "criterion": "terrain degradation strictly ordered across profiles",
+      "observed": {
+        "high": "3656",
+        "balanced": "1880",
+        "low": "984",
+        "graybox": "536"
+      },
+      "passed": true
+    },
+    {
+      "criterion": "route, streaming, region, collision and seam semantics equivalent across profiles",
+      "observed": "verify-environment-assets.sh semantics_equivalent=true",
+      "passed": true
+    },
+    {
+      "criterion": "environment chunk build within the 50 ms initial chunk budget",
+      "observed_ms": "16.292",
+      "limit_ms": 50,
+      "passed": true
+    },
+    {
+      "criterion": "conifer GLB byte-identical across two exports and tracked",
+      "observed": "deterministic_rebuilds=2",
+      "passed": true
+    },
+    {
+      "criterion": "every sourced file matches its locked SHA-256 and declared byte count",
+      "observed": "42 files",
+      "passed": true
+    }
+  ],
+  "output_artifacts": [
+    {
+      "path": "assets/environments/sky-presets.json",
+      "sha256": "15e0eac354f45c5150e34ed8ba713a1fa3feb2e1dd78377a95d6bcdffd99ca44"
+    },
+    {
+      "path": "assets/environments/trees/conifer/conifer.generated.tscn",
+      "sha256": "7d75e4b014c7fb9a937f8e889b68c3e81a1ec1314fcbb1a4cb5a1b55c2590cfd"
+    },
+    {
+      "path": "assets/environments/trees/conifer/conifer-needles-albedo.png",
+      "sha256": "80790136d0ad4fc83320b6735a4abb06e092639173cb3f24e6c4447274f000fd"
+    },
+    {
+      "path": "assets/environments/trees/conifer/conifer-needles-normal.png",
+      "sha256": "27783056e8b9b9f438a8751968bf91d65dcc4213b25ed5f49cd9ed68fe8ef947"
+    },
+    {
+      "path": "assets/environments/trees/conifer/conifer-impostor.png",
+      "sha256": "ac41be3e3b0568afcca797665dd9cdc15ac223af6ec8b3bed7f205730eed148a"
+    },
+    {
+      "path": "data/assets/environments/trees/derived/conifer.glb",
+      "sha256": "a60da93003389b67d4dc0a323866b1ce0c79bbfdf97eca58fdb0e12af03c936f"
+    },
+    {
+      "path": "data/assets/environments/trees/conifer.asset.json",
+      "sha256": "9254c71d63ed21de3873486c93cc80d182276232608ad2c6bab703c15634efbb"
+    },
+    {
+      "path": "data/assets/environments/trees/conifer.blender.json",
+      "sha256": "7134b1d930c043b4fcbbe2033ff54b939b8960375172ac48c9670e860b3fc894"
+    },
+    {
+      "path": "data/assets/environments/trees/conifer.godot.json",
+      "sha256": "995ff9474a6d28179dfabb9d2db70addc2eb7f9c5be6196d12a407f48e1a117d"
+    },
+    {
+      "path": "data/assets/environments/trees/conifer-contact-sheet.png",
+      "sha256": "a565bfcb032a11e03f88cc9bc35bd68b0a60950c2e645d76b08208639d3a31f3"
+    },
+    {
+      "path": "docs/images/p1-010-rendering-foundation-review.png",
+      "sha256": "8360d4782a0c98967b843731283e5cff482a20c129b9ecc2e848f2048556c36a"
+    }
+  ],
+  "sourced_runtime_artifacts": [
+    {
+      "path": "assets/environments/sourced/polyhaven/kloofendal_48d_partly_cloudy_puresky/kloofendal_48d_partly_cloudy_puresky_2k.hdr",
+      "sha256": "5244534e9cf5b606f2ff513aa00ddb161b0a4826ffd88a0d3bd03ac29247d198",
+      "bytes": 5451493
+    },
+    {
+      "path": "assets/environments/sourced/polyhaven/kloppenheim_06_puresky/kloppenheim_06_puresky_2k.hdr",
+      "sha256": "99451201586489ef3288c97bfac2a2ac232a5491c51a1faf0ec8ea39f3ccd533",
+      "bytes": 4434394
+    },
+    {
+      "path": "assets/environments/sourced/polyhaven/overcast_soil_puresky/overcast_soil_puresky_2k.hdr",
+      "sha256": "5414e1ac0c35e451d28595b2a2cba05e2ca301fdeb755b0a469408443093dafc",
+      "bytes": 4568000
+    },
+    {
+      "path": "assets/environments/sourced/polyhaven/kloppenheim_02/kloppenheim_02_2k.hdr",
+      "sha256": "c119c42e55d1df602e820f1a0234ccab7714cdf56afc3ca9d44543ad58492767",
+      "bytes": 6936669
+    },
+    {
+      "path": "assets/environments/sourced/polyhaven/rocky_terrain_02/rocky_terrain_02_diff_1k.jpg",
+      "sha256": "d570c10b1d5302f4fde9e0e94f4cbab0d5e112fc3fe2b3b91c38a98bd3ddaf4b",
+      "bytes": 843188
+    },
+    {
+      "path": "assets/environments/sourced/polyhaven/rocky_terrain_02/rocky_terrain_02_nor_gl_1k.jpg",
+      "sha256": "f4f9d9671c660f4e509e96d5da3091887dfd557e1353e313fa2d1dc789499ffd",
+      "bytes": 993692
+    },
+    {
+      "path": "assets/environments/sourced/polyhaven/rocky_terrain_02/rocky_terrain_02_arm_1k.jpg",
+      "sha256": "1894a2b068c006b27087703b8b8ffb9ac67af469481897d395f54735d699a8a1",
+      "bytes": 524868
+    },
+    {
+      "path": "assets/environments/sourced/polyhaven/aerial_grass_rock/aerial_grass_rock_diff_1k.jpg",
+      "sha256": "57b8041bfe0d0f01430e4dbaad45e7ddddf0a9fc97317f90dbc51f7b0d9e1b5d",
+      "bytes": 666655
+    },
+    {
+      "path": "assets/environments/sourced/polyhaven/aerial_grass_rock/aerial_grass_rock_nor_gl_1k.jpg",
+      "sha256": "1aa3e23bff453f152e089b9f83aa36b4901651e019f7e2ca01d5331a9bbbda78",
+      "bytes": 904956
+    },
+    {
+      "path": "assets/environments/sourced/polyhaven/aerial_grass_rock/aerial_grass_rock_arm_1k.jpg",
+      "sha256": "95d8f5180bafaab3f76c394cee3dca9b4f8ca6531281c00c4a06e4485d0ab956",
+      "bytes": 216829
+    },
+    {
+      "path": "assets/environments/sourced/polyhaven/dry_ground_rocks/dry_ground_rocks_diff_1k.jpg",
+      "sha256": "491ac5be54859171730c620ad768a615f600b81ce00d83bbeab8a7aed7b199d8",
+      "bytes": 826834
+    },
+    {
+      "path": "assets/environments/sourced/polyhaven/dry_ground_rocks/dry_ground_rocks_nor_gl_1k.jpg",
+      "sha256": "0bba49a710d0d1f7497ac7c72db2f0ed622ed07397539ce2d5ba756bf5fb3051",
+      "bytes": 1263934
+    },
+    {
+      "path": "assets/environments/sourced/polyhaven/dry_ground_rocks/dry_ground_rocks_arm_1k.jpg",
+      "sha256": "84f9311dad3a6d0778c738298121c049be7e62e3ec7f15aa14c8cad7ff56e3f3",
+      "bytes": 268118
+    },
+    {
+      "path": "assets/environments/sourced/polyhaven/forrest_ground_03/forrest_ground_03_diff_1k.jpg",
+      "sha256": "69c3ae8a40c70eecbb312c2ca1044b5dea4f48d37f2a6f84ca7ed56b95f04a7b",
+      "bytes": 821191
+    },
+    {
+      "path": "assets/environments/sourced/polyhaven/forrest_ground_03/forrest_ground_03_nor_gl_1k.jpg",
+      "sha256": "2f2a18622ff1fde203ad7b17f12da5e46608b77b27307f6a91cc5a016cc72e41",
+      "bytes": 1587102
+    },
+    {
+      "path": "assets/environments/sourced/polyhaven/forrest_ground_03/forrest_ground_03_arm_1k.jpg",
+      "sha256": "7856a569af65d19e2982c1f062277f24e507b7954a74fbeb808fab2907006b53",
+      "bytes": 272025
+    },
+    {
+      "path": "assets/environments/sourced/polyhaven/gravel_ground_01/gravel_ground_01_diff_1k.jpg",
+      "sha256": "c3a12b0e3a9399913158dd5cfa1d67ede066970acd1f99e5b89969ac13f89089",
+      "bytes": 954257
+    },
+    {
+      "path": "assets/environments/sourced/polyhaven/gravel_ground_01/gravel_ground_01_nor_gl_1k.jpg",
+      "sha256": "3a832b27276d1457031b164147434558bd245469dc27fd1ff6ae075bde0b12b2",
+      "bytes": 1314248
+    },
+    {
+      "path": "assets/environments/sourced/polyhaven/gravel_ground_01/gravel_ground_01_arm_1k.jpg",
+      "sha256": "cf78bb8dd9c0079874ebceba2cbb58fc3eccf03d84204b3fccdcf0549b808e03",
+      "bytes": 151288
+    },
+    {
+      "path": "assets/environments/sourced/polyhaven/rock_face_03/rock_face_03_diff_1k.jpg",
+      "sha256": "ea48e0e47ad42c8bd312476178b1248ec66f0eb19156a26a1c222f2a40caaf2d",
+      "bytes": 927082
+    },
+    {
+      "path": "assets/environments/sourced/polyhaven/rock_face_03/rock_face_03_nor_gl_1k.jpg",
+      "sha256": "c6423169583f31715cf0636954bad524e806848a5f2861fcea6794275f726ff0",
+      "bytes": 1146788
+    },
+    {
+      "path": "assets/environments/sourced/polyhaven/rock_face_03/rock_face_03_arm_1k.jpg",
+      "sha256": "a1f8e60eaf4f119071840e36e165d3a9185be62bd3ac7068ab6d886aa639d29f",
+      "bytes": 793241
+    },
+    {
+      "path": "assets/environments/sourced/polyhaven/clean_asphalt/clean_asphalt_diff_2k.jpg",
+      "sha256": "9d58f263b695c268e391aa39ea2f6b30ab9f36d279715cc78593a4d43368039c",
+      "bytes": 3314999
+    },
+    {
+      "path": "assets/environments/sourced/polyhaven/clean_asphalt/clean_asphalt_nor_gl_2k.jpg",
+      "sha256": "ee6e217a75851a73ab0ce54501e787b63707e0cf8dfd7293989adf7d3e325162",
+      "bytes": 3923727
+    },
+    {
+      "path": "assets/environments/sourced/polyhaven/clean_asphalt/clean_asphalt_arm_2k.jpg",
+      "sha256": "88e7f69b2b749559841c46c5f7732c1dc59f15acca7bb8f27c6a8b3a6f22cfac",
+      "bytes": 3461113
+    },
+    {
+      "path": "assets/environments/sourced/polyhaven/asphalt_04/asphalt_04_diff_1k.jpg",
+      "sha256": "837a78bb1e94864c221f847c85480484e953a9ee958772481dd2c501e18def2e",
+      "bytes": 880083
+    },
+    {
+      "path": "assets/environments/sourced/polyhaven/asphalt_04/asphalt_04_nor_gl_1k.jpg",
+      "sha256": "18b91c2a6d83a8fbaa8d7fe84e80a66bd6451e4ec2774a09bf4429498c8f3912",
+      "bytes": 986045
+    },
+    {
+      "path": "assets/environments/sourced/polyhaven/asphalt_04/asphalt_04_arm_1k.jpg",
+      "sha256": "35f582fb66d223d242d294616aec5749affdc6ca0a97067311cd6f247f7ef081",
+      "bytes": 554776
+    },
+    {
+      "path": "assets/environments/sourced/polyhaven/concrete_wall_008/concrete_wall_008_diff_1k.jpg",
+      "sha256": "a203166d280d3cfc6a91bbc9ffdae406eb9555b4a4f658cd92619063eb17c147",
+      "bytes": 623051
+    },
+    {
+      "path": "assets/environments/sourced/polyhaven/concrete_wall_008/concrete_wall_008_nor_gl_1k.jpg",
+      "sha256": "83cd3fa2c7cbf4c81402386065daf8fa6f72e1f1f77e02ccb1eedb28496909ae",
+      "bytes": 511519
+    },
+    {
+      "path": "assets/environments/sourced/polyhaven/concrete_wall_008/concrete_wall_008_arm_1k.jpg",
+      "sha256": "12b8b88bd0a9b303150f45cf0080371d78b7f04744d4ab14030b8958ec7dc2e3",
+      "bytes": 667023
+    },
+    {
+      "path": "assets/environments/sourced/polyhaven/concrete_wall_007/concrete_wall_007_diff_1k.jpg",
+      "sha256": "1a5ff668a66e147d9fb795d8407ca67a144a1ca010779a5b8386137a4917a086",
+      "bytes": 654485
+    },
+    {
+      "path": "assets/environments/sourced/polyhaven/concrete_wall_007/concrete_wall_007_nor_gl_1k.jpg",
+      "sha256": "cccb1841908ced8b89b65b5de97c1926f717dab63a14559264703a99639c291f",
+      "bytes": 602349
+    },
+    {
+      "path": "assets/environments/sourced/polyhaven/concrete_wall_007/concrete_wall_007_arm_1k.jpg",
+      "sha256": "b403affeb0eaac2386bd6d91d41acb99f7862e1b9101a14ab0af6da21fdf544f",
+      "bytes": 657491
+    },
+    {
+      "path": "assets/environments/sourced/polyhaven/pine_bark/pine_bark_diff_1k.jpg",
+      "sha256": "89ddfbff0388d30caff902ba600cdf75eb1e651ca71ece6594b5a9b27abb47ab",
+      "bytes": 837641
+    },
+    {
+      "path": "assets/environments/sourced/polyhaven/pine_bark/pine_bark_nor_gl_1k.jpg",
+      "sha256": "666e5f175a010f12577687dd8029125bff99110e6a97958afb295b34266437db",
+      "bytes": 1178440
+    },
+    {
+      "path": "assets/environments/sourced/polyhaven/pine_bark/pine_bark_arm_1k.jpg",
+      "sha256": "1ba20ec25c9f43327d6aa0ea809917854cff553ad7f21fb548e853a5b5ec701a",
+      "bytes": 810100
+    },
+    {
+      "path": "assets/environments/sourced/polyhaven/boulder_01/boulder_01_1k.gltf",
+      "sha256": "51487934db898b4c24072780a451e34eca5c02e3ada24a62bbc600bbc4019e92",
+      "bytes": 2773
+    },
+    {
+      "path": "assets/environments/sourced/polyhaven/boulder_01/boulder_01.bin",
+      "sha256": "7f5b06503d62bd95bfe9c6b8a354a5cc8ff04a4d271a8cf87a3e3125db4232d7",
+      "bytes": 2938808
+    },
+    {
+      "path": "assets/environments/sourced/polyhaven/boulder_01/textures/boulder_01_diff_1k.jpg",
+      "sha256": "c38f0e918f6dc16b8d386ba3cdd89805c78320c119a1ceec85856f82b09a65b8",
+      "bytes": 987467
+    },
+    {
+      "path": "assets/environments/sourced/polyhaven/boulder_01/textures/boulder_01_nor_gl_1k.jpg",
+      "sha256": "0810cf6e89d89bb6eb065b4d2e2855288f5dcbd2c15c6e40ab90d462021b50aa",
+      "bytes": 1183552
+    },
+    {
+      "path": "assets/environments/sourced/polyhaven/boulder_01/textures/boulder_01_arm_1k.jpg",
+      "sha256": "c57187c5746b6be913fa53846cb44ff78743e7ca5000f131c9627b99563c2b87",
+      "bytes": 659386
+    }
+  ],
+  "failure_logs": [
+    "environment-streaming stalled at the urban-edge stage (streaming_settled=False, loaded=8 desired=8) on unmodified main and on this branch until the collision-backlog refresh fix",
+    "first sky lighting build threw ObjectDisposedException on PanoramaSkyMaterial; fixed",
+    "isolated conifer import differed from the worktree-cached generated scene (gi_mode lines); tracked scene regenerated from the isolated import"
+  ],
+  "retry_count": 3,
+  "recovery_result": "all gates pass after the fixes above",
+  "human_gate": {
+    "name": "Representative-region art direction, readability, and final rights approval",
+    "status": "open",
+    "approval_reference": null,
+    "questions": "docs/QUESTIONS_FOR_RANDROID_2026-09-02_GRAPHICS_FOUNDATION.md"
+  }
+}

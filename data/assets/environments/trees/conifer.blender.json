@@ -1,0 +1,120 @@
+{
+  "asset_id": "conifer",
+  "blender_build_hash": "ec6e62d40fa9",
+  "blender_version": "5.1.2",
+  "bounds_meters": [
+    0.854,
+    0.835,
+    1.01
+  ],
+  "budgets": {
+    "collision_triangles_max": 64,
+    "materials_max": 3,
+    "texture_bytes_max": 0,
+    "textures_max": 0,
+    "triangles_lod0_max": 4500,
+    "triangles_total_max": 6500
+  },
+  "collision_triangle_total": 20,
+  "contact_sheet": {
+    "height": 512,
+    "path": "data/assets/environments/trees/conifer-contact-sheet.png",
+    "sha256": "a565bfcb032a11e03f88cc9bc35bd68b0a60950c2e645d76b08208639d3a31f3",
+    "width": 1152
+  },
+  "contract": {
+    "path": "data/assets/environments/trees/conifer.contract.json",
+    "sha256": "d3879b96147920a5b63b81de053086909f43d95e3ad1c87ce534b9c2d1d86cea"
+  },
+  "glb": {
+    "color_attribute_primitive_count": 5,
+    "external_uri_count": 0,
+    "generator": "Khronos glTF Blender I/O v5.1.20",
+    "material_count": 3,
+    "mesh_count": 6,
+    "node_names": [
+      "Anchor_Origin",
+      "AssetRoot",
+      "CollisionProxy",
+      "LOD0_Needles",
+      "LOD0_Trunk",
+      "LOD1_Needles",
+      "LOD1_Trunk",
+      "LOD2_Impostor",
+      "Visual_LOD0",
+      "Visual_LOD1",
+      "Visual_LOD2"
+    ],
+    "path": "data/assets/environments/trees/derived/conifer.glb",
+    "scene_count": 1,
+    "sha256": "a60da93003389b67d4dc0a323866b1ce0c79bbfdf97eca58fdb0e12af03c936f"
+  },
+  "godot_axes": {
+    "forward": "-Z",
+    "up": "+Y"
+  },
+  "identity_transforms": true,
+  "lod0_triangle_total": 1557,
+  "lod_triangles": {
+    "Visual_LOD0": 1557,
+    "Visual_LOD1": 197,
+    "Visual_LOD2": 4
+  },
+  "materials": [
+    "Material_Bark",
+    "Material_Impostor",
+    "Material_Needles"
+  ],
+  "metric_scale": 1.0,
+  "nodes": [
+    "Anchor_Origin",
+    "AssetRoot",
+    "CollisionProxy",
+    "LOD0_Needles",
+    "LOD0_Trunk",
+    "LOD1_Needles",
+    "LOD1_Trunk",
+    "LOD2_Impostor",
+    "Visual_LOD0",
+    "Visual_LOD1",
+    "Visual_LOD2"
+  ],
+  "portable_paths": true,
+  "profile": {
+    "path": "tools/assets/profiles/gltf2-binary-v2.json",
+    "sha256": "404abd40146b9ddd4ef6b6eecb3c4112249cbcf40d3e74435d0262866fbdabac"
+  },
+  "required_nodes": [
+    "Anchor_Origin",
+    "AssetRoot",
+    "CollisionProxy",
+    "LOD0_Needles",
+    "LOD0_Trunk",
+    "LOD1_Needles",
+    "LOD1_Trunk",
+    "LOD2_Impostor",
+    "Visual_LOD0",
+    "Visual_LOD1",
+    "Visual_LOD2"
+  ],
+  "schema_version": 1,
+  "source": {
+    "path": "data/assets/environments/trees/sources/conifer.blend",
+    "sha256": "e22223c6ec001b2a1f6d274b99554b9ba753a3d8173bb1ed5791c60ce31e61bf"
+  },
+  "source_axes": {
+    "forward": "-Y",
+    "up": "+Z"
+  },
+  "texture_bytes_total": 0,
+  "textures": [],
+  "triangle_total": 1778,
+  "triangles": {
+    "CollisionProxy": 20,
+    "LOD0_Needles": 1307,
+    "LOD0_Trunk": 250,
+    "LOD1_Needles": 131,
+    "LOD1_Trunk": 66,
+    "LOD2_Impostor": 4
+  }
+}

@@ -98,8 +98,8 @@ public sealed class IntegratedVisualSliceScenario
             road.ReflectorCount < 1 ||
             road.BarrierSegmentCount < 1 ||
             road.GuardrailSegmentCount < 1 ||
-            road.SharedMaterialCount != 18 ||
-            road.SharedMeshCount != 9 ||
+            road.SharedMaterialCount != 19 ||
+            road.SharedMeshCount != 10 ||
             road.RetroreflectiveMaterialCount != 11)
         {
             throw new InvalidOperationException(
