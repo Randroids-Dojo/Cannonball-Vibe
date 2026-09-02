@@ -25,7 +25,7 @@
     "reason": "Through transfers are composed of NHPN-class locked geometry whose ~80 m vertex noise cannot adjudicate design radii (the carriageway lock's standing reason); their junction corners are recorded exception sites for the lane-topology stage's speed-designed ramp refinement. The recorded plan-view opposing-carriageway crossings are grade-separated interchange movements whose vertical resolution is lane-topology/collision output. The authored turn-around loops are full-precision geometry, so their design bound (minimum radius at the declared design speed) is adjudicated in this stage, not deferred."
   },
   "dem_product_lock_sha256": "8863b1cd0445188427e0af597b6599b8f3e855ca43c34e93c664db1e3705860f",
-  "derived_at": "2026-08-31T15:17:46Z",
+  "derived_at": "2026-09-02T04:02:08Z",
   "directed_route_lock_sha256": "cd31ea3193a755f06349fdf1cea814775d5de700e04a75113f70e68d18793294",
   "edge_path_lock_sha256": "fcf0da1dcff80eb74364b1496e2033c351b14c25cbbf7f857e8af8a42295fc5e",
   "endpoint_connector_lock_sha256": "2544063bc8494016268aab322ae443c91712ef14087dfa37c41888bac878a2c8",
@@ -3607,5 +3607,5 @@
     "turnaround_transfer_count": 2
   },
   "transfer_lock_sha256": "b267282a1d48014783c90a60c46cda85cea61741911d23649bf318404aea2b3b",
-  "westbound_carriageway_lock_sha256": "391b2b811fe68444f4c37958e43e1d0c3068bba2dd59ea6952ce0789687283f7"
+  "westbound_carriageway_lock_sha256": "12be49299bd978b74b919d2d1ca5a24af4a3ce44585fdaf99779cb16cabdf3ce"
 }

@@ -10727,7 +10727,7 @@
     "reason": "Sightline and clearance adjudication need the 3D collision ribbons and structure model the collision stage generates; the authored grade-separation clearances declared here are that stage's input, and the collision gates run over its generated meshes. The endpoint connector vertical set keeps the endpoint connector lock's standing reason: no locked elevation source covers the connector facilities, and the undivided cross-section has no reciprocal pair to measure; the service-bubble build at the package stage authors and gates them."
   },
   "dem_product_lock_sha256": "8863b1cd0445188427e0af597b6599b8f3e855ca43c34e93c664db1e3705860f",
-  "derived_at": "2026-08-31T17:10:29Z",
+  "derived_at": "2026-09-02T04:02:16Z",
   "directed_route_lock_sha256": "cd31ea3193a755f06349fdf1cea814775d5de700e04a75113f70e68d18793294",
   "edge_path_lock_sha256": "fcf0da1dcff80eb74364b1496e2033c351b14c25cbbf7f857e8af8a42295fc5e",
   "endpoint_connector_lock_sha256": "2544063bc8494016268aab322ae443c91712ef14087dfa37c41888bac878a2c8",
@@ -10846,7 +10846,7 @@
       "separation_id": "ca-west-la-i10-i405--i10-ontario-to-i405--i405-west-la-to-ca107--to_eastbound--crossing-00"
     }
   ],
-  "junction_geometry_lock_sha256": "9ee2bbec8a0024e4249eaea6a89070ef4bf0232b5e1d1bb1b3b0d757290c5c0d",
+  "junction_geometry_lock_sha256": "7bb8315cecb8e1fe4ef5519d9de11dc761cfb1d05c8b72d0955cb928c39eed9b",
   "lane_connectors": [
     {
       "connector_id": "ca-barstow-i40-i15--i15-cove-fort-to-barstow--i15-barstow-to-ontario--entry-00",
@@ -14033,5 +14033,5 @@
     "vertical_class_80_site_count": 68
   },
   "transfer_lock_sha256": "b267282a1d48014783c90a60c46cda85cea61741911d23649bf318404aea2b3b",
-  "westbound_carriageway_lock_sha256": "391b2b811fe68444f4c37958e43e1d0c3068bba2dd59ea6952ce0789687283f7"
+  "westbound_carriageway_lock_sha256": "12be49299bd978b74b919d2d1ca5a24af4a3ce44585fdaf99779cb16cabdf3ce"
 }
