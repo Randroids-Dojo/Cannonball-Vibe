@@ -83,6 +83,11 @@ class PlayGodotProcess:
             "addons/playgodot/bootstrap.tscn",
             "--",
             "--playgodot",
+            # The semantic suite runs the graybox environment: its assertions
+            # are about input, camera, menu and restart behaviour, and the
+            # software-rendered runners cannot draw the production art fast
+            # enough to hold the suite's wall-clock bounds (Q-042).
+            "--graybox-environment-assets",
             f"--route-package={self.route_package}",
             f"--telemetry-path={self._runtime_directory / 'telemetry.jsonl'}",
         ]

@@ -92,6 +92,12 @@ untouched because P1-013 and P0-021 own them.
   `UV_PROJECT_ENVIRONMENT`, `UV_NO_SYNC=1` and `PYTHONPATH`, which is what this
   session did locally.
 
+Update 2026-09-02, later: `scripts/verify-playgodot-package-boundary.sh`
+was a third caller of the blocked launcher and now uses `python -m
+cannonball_map` like the scenario scripts, so the live suite can be verified
+locally on the reference PC. `capture-reference-performance.sh` and
+`validate-continental-route.sh` still call the launcher.
+
 ## Q-040 - Hero GT production art path
 
 Q-020 selected the project-original Hero GT. The third stacked PR of this
