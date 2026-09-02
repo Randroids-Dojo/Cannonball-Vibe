@@ -12,7 +12,7 @@ public enum RoadVisualProfile
 
 public sealed class RoadVisualKit : IDisposable
 {
-    public const string Version = "colorado-freeway-v4";
+    public const string Version = "colorado-freeway-v5";
     public const double TerrainMarginMeters = 120;
     private readonly IReadOnlyList<Material> _sharedMaterials;
     private readonly IReadOnlyList<Mesh> _sharedMeshes;
@@ -29,13 +29,36 @@ public sealed class RoadVisualKit : IDisposable
         Terrain = (Material?)sharedGround ?? Material(graybox ? "526052" : "344536", 1.0f);
         TerrainSource = sharedGround is null ? (graybox ? "graybox" : "fallback") : "sourced";
         Scenery = Material(graybox ? "777b80" : "6b665e", 0.98f);
-        Shoulder = Material(graybox ? "55585c" : "34363b", 0.97f);
-        Pavement = Material(graybox ? "33363b" : "171a20", 0.94f);
+        // Sourced pavement, shoulder and precast concrete; the flat colours stay
+        // as the graybox and rights-pending export fallback.
+        var pavementShader = graybox ? null : EnvironmentTextures.LoadShader("pavement");
+        var furnitureShader = graybox ? null : EnvironmentTextures.LoadShader("furniture");
+        var asphalt = graybox ? null : EnvironmentTextures.Load("clean_asphalt", "2k");
+        var shoulderAsphalt = graybox ? null : EnvironmentTextures.Load("asphalt_04", "1k");
+        var precast = graybox ? null : EnvironmentTextures.Load("concrete_wall_008", "1k");
+        var surfacesSourced = pavementShader is not null && furnitureShader is not null &&
+            asphalt is { Available: true } && shoulderAsphalt is { Available: true } && precast is { Available: true };
+        SurfaceSource = graybox ? "graybox" : surfacesSourced ? "sourced" : "fallback";
+        Pavement = surfacesSourced
+            ? PavementMaterial(pavementShader!, asphalt!, tileMeters: 3.2f, macroMeters: 25.6f, tint: new Vector3(0.78f, 0.78f, 0.80f), roughnessBias: 0.02f, patch: 0.18f)
+            : Material(graybox ? "33363b" : "171a20", 0.94f);
+        Shoulder = surfacesSourced
+            ? PavementMaterial(pavementShader!, shoulderAsphalt!, tileMeters: 2.56f, macroMeters: 20.48f, tint: new Vector3(0.86f, 0.85f, 0.83f), roughnessBias: 0.08f, patch: 0.05f)
+            : Material(graybox ? "55585c" : "34363b", 0.97f);
         MarkingWhite = Retroreflective(graybox ? "e8e8e8" : "f5f1d8", 0.32f);
         MarkingYellow = Retroreflective(graybox ? "d7bf58" : "f2c230", 0.35f);
         Gore = Retroreflective(graybox ? "e8e8e8" : "f5f1d8", 0.4f);
-        Concrete = Material(graybox ? "92969a" : "a7a9a3", 0.82f);
-        GalvanizedSteel = Material(graybox ? "8b9099" : "aeb4b8", 0.42f, 0.72f);
+        Concrete = surfacesSourced
+            ? FurnitureMaterial(furnitureShader!, precast!, tileMeters: 4.096f, tint: new Vector3(0.96f, 0.95f, 0.93f))
+            : Material(graybox ? "92969a" : "a7a9a3", 0.82f);
+        GalvanizedSteel = new StandardMaterial3D
+        {
+            AlbedoColor = new Color(graybox ? "8b9099" : "b9bec2"),
+            Roughness = graybox ? 0.42f : 0.46f,
+            Metallic = graybox ? 0.72f : 0.88f,
+            MetallicSpecular = 0.6f,
+            CullMode = BaseMaterial3D.CullModeEnum.Disabled,
+        };
         Delineator = Material(graybox ? "d6d0ad" : "e7e5dc", 0.78f);
         ReflectorWhite = Retroreflective("fff8db", 0.9f);
         ReflectorYellow = Retroreflective("ffc92f", 0.9f);
@@ -47,16 +70,12 @@ public sealed class RoadVisualKit : IDisposable
         InterstateBlue = Retroreflective("174a91", 0.25f);
         InterstateRed = Retroreflective("b3262d", 0.25f);
 
-        MedianBarrierMesh = new BoxMesh
-        {
-            Size = new Vector3(0.38f, 0.82f, 1),
-            Material = Concrete,
-        };
-        GuardrailMesh = new BoxMesh
-        {
-            Size = new Vector3(0.18f, 0.34f, 1),
-            Material = GalvanizedSteel,
-        };
+        MedianBarrierMesh = graybox
+            ? new BoxMesh { Size = new Vector3(0.38f, 0.82f, 1), Material = Concrete }
+            : RoadFurnitureMeshes.BuildJerseyBarrier(Concrete);
+        GuardrailMesh = graybox
+            ? new BoxMesh { Size = new Vector3(0.18f, 0.34f, 1), Material = GalvanizedSteel }
+            : RoadFurnitureMeshes.BuildWBeam(GalvanizedSteel);
         GuardrailPostMesh = new BoxMesh
         {
             Size = new Vector3(0.14f, 0.8f, 0.14f),
@@ -122,14 +141,16 @@ public sealed class RoadVisualKit : IDisposable
         : "graybox";
     /// <summary>"sourced" when the environment ground surface resolved, else "fallback" or "graybox".</summary>
     public string TerrainSource { get; }
+    /// <summary>"sourced" when the pavement, shoulder and concrete sets resolved, else "fallback" or "graybox".</summary>
+    public string SurfaceSource { get; }
     public Material Terrain { get; }
     public StandardMaterial3D Scenery { get; }
-    public StandardMaterial3D Shoulder { get; }
-    public StandardMaterial3D Pavement { get; }
+    public Material Shoulder { get; }
+    public Material Pavement { get; }
     public StandardMaterial3D MarkingWhite { get; }
     public StandardMaterial3D MarkingYellow { get; }
     public StandardMaterial3D Gore { get; }
-    public StandardMaterial3D Concrete { get; }
+    public Material Concrete { get; }
     public StandardMaterial3D GalvanizedSteel { get; }
     public StandardMaterial3D Delineator { get; }
     public StandardMaterial3D ReflectorWhite { get; }
@@ -164,6 +185,42 @@ public sealed class RoadVisualKit : IDisposable
     {
         node.SetMeta("automation_id", automationId);
         node.SetMeta("road_visual_kit", Version);
+    }
+
+    private static ShaderMaterial PavementMaterial(
+        Shader shader,
+        SourcedTextureSet set,
+        float tileMeters,
+        float macroMeters,
+        Vector3 tint,
+        float roughnessBias,
+        float patch)
+    {
+        var material = new ShaderMaterial { Shader = shader };
+        material.SetShaderParameter("albedo_map", set.Albedo!);
+        material.SetShaderParameter("normal_map", set.Normal!);
+        material.SetShaderParameter("arm_map", set.Arm!);
+        material.SetShaderParameter("tile_meters", tileMeters);
+        material.SetShaderParameter("macro_tile_meters", macroMeters);
+        material.SetShaderParameter("tint", tint);
+        material.SetShaderParameter("roughness_bias", roughnessBias);
+        material.SetShaderParameter("patch_strength", patch);
+        return material;
+    }
+
+    private static ShaderMaterial FurnitureMaterial(
+        Shader shader,
+        SourcedTextureSet set,
+        float tileMeters,
+        Vector3 tint)
+    {
+        var material = new ShaderMaterial { Shader = shader };
+        material.SetShaderParameter("albedo_map", set.Albedo!);
+        material.SetShaderParameter("normal_map", set.Normal!);
+        material.SetShaderParameter("arm_map", set.Arm!);
+        material.SetShaderParameter("tile_meters", tileMeters);
+        material.SetShaderParameter("tint", tint);
+        return material;
     }
 
     private static StandardMaterial3D Material(

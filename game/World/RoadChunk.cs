@@ -232,7 +232,7 @@ public sealed partial class RoadChunk : Node3D
         chunk.BuildLaneMarkings(points, tangents, renderSamples, layouts);
         chunk.BuildReflectors(points, tangents, layouts);
         chunk.BuildGoreAreas(points, tangents, layouts);
-        chunk.BuildBarriers(points, tangents, layouts);
+        chunk.BuildBarriers(points, tangents, renderSamples, layouts);
         if (extendBehindRouteStart)
         {
             chunk.BuildRouteStartBarrier(points[0], tangents[0], layouts[0]);
@@ -972,7 +972,8 @@ public sealed partial class RoadChunk : Node3D
             layouts,
             layout => layout.PavedLeftMeters,
             layout => layout.PavedRightMeters,
-            -0.035f);
+            -0.035f,
+            RouteDistance);
         var shoulders = new MeshInstance3D
         {
             Name = "PavedShoulders",
@@ -988,7 +989,8 @@ public sealed partial class RoadChunk : Node3D
             layouts,
             layout => layout.LaneLeftMeters,
             layout => layout.LaneRightMeters,
-            0);
+            0,
+            RouteDistance);
         var surface = new MeshInstance3D
         {
             Name = "RoadSurface",
@@ -1006,7 +1008,8 @@ public sealed partial class RoadChunk : Node3D
         IReadOnlyList<LaneGeometrySample> layouts,
         Func<LaneGeometrySample, double> leftOffset,
         Func<LaneGeometrySample, double> rightOffset,
-        float verticalOffset)
+        float verticalOffset,
+        Func<RouteChunkSample, double> routeDistance)
     {
         using var surface = new SurfaceTool();
         surface.Begin(Mesh.PrimitiveType.Triangles);
@@ -1020,14 +1023,23 @@ public sealed partial class RoadChunk : Node3D
             var right0 = center0 + right0Direction * (float)rightOffset(layouts[index]);
             var left1 = center1 + right1Direction * (float)leftOffset(layouts[index + 1]);
             var right1 = center1 + right1Direction * (float)rightOffset(layouts[index + 1]);
-            var v0 = (float)(samples[index].DistanceMeters / 20.0);
-            var v1 = (float)(samples[index + 1].DistanceMeters / 20.0);
+            // Metre UVs: U is lateral offset, V is route distance wrapped per
+            // segment so float32 stays precise across the continent.
+            var distance0 = routeDistance(samples[index]);
+            var distance1 = routeDistance(samples[index + 1]);
+            var v0 = (float)Environments.RegionalTerrainRibbon.WrapUv(distance0);
+            var v1 = v0 + (float)(distance1 - distance0);
+            var uLeft0 = (float)leftOffset(layouts[index]);
+            var uRight0 = (float)rightOffset(layouts[index]);
+            var uLeft1 = (float)leftOffset(layouts[index + 1]);
+            var uRight1 = (float)rightOffset(layouts[index + 1]);
 
-            AddTriangle(surface, left0, right1, right0, new Vector2(0, v0), new Vector2(1, v1), new Vector2(1, v0));
-            AddTriangle(surface, left0, left1, right1, new Vector2(0, v0), new Vector2(0, v1), new Vector2(1, v1));
+            AddTriangle(surface, left0, right1, right0, new Vector2(uLeft0, v0), new Vector2(uRight1, v1), new Vector2(uRight0, v0));
+            AddTriangle(surface, left0, left1, right1, new Vector2(uLeft0, v0), new Vector2(uLeft1, v1), new Vector2(uRight1, v1));
         }
 
         surface.GenerateNormals();
+        surface.GenerateTangents();
         return surface.Commit();
     }
 
@@ -1371,7 +1383,8 @@ public sealed partial class RoadChunk : Node3D
         IReadOnlyList<Transform3D> transforms,
         Material? materialOverride = null,
         GeometryInstance3D.ShadowCastingSetting castShadow =
-            GeometryInstance3D.ShadowCastingSetting.On)
+            GeometryInstance3D.ShadowCastingSetting.On,
+        IReadOnlyList<Color>? customData = null)
     {
         if (transforms.Count == 0)
         {
@@ -1382,12 +1395,17 @@ public sealed partial class RoadChunk : Node3D
         using var multiMesh = new MultiMesh
         {
             TransformFormat = MultiMesh.TransformFormatEnum.Transform3D,
+            UseCustomData = customData is not null,
             Mesh = mesh,
             InstanceCount = transforms.Count,
         };
         for (var index = 0; index < transforms.Count; index++)
         {
             multiMesh.SetInstanceTransform(index, transforms[index]);
+            if (customData is not null)
+            {
+                multiMesh.SetInstanceCustomData(index, customData[index]);
+            }
         }
         var instance = new MultiMeshInstance3D
         {
@@ -1434,11 +1452,13 @@ public sealed partial class RoadChunk : Node3D
     private void BuildBarriers(
         IReadOnlyList<Vector3> points,
         IReadOnlyList<Vector3> tangents,
+        IReadOnlyList<RouteChunkSample> samples,
         IReadOnlyList<LaneGeometrySample> layouts)
     {
         var barrierTransforms = new List<Transform3D>();
         var guardrailTransforms = new List<Transform3D>();
         var guardrailPostTransforms = new List<Transform3D>();
+        var segmentOffsets = new List<Color>();
         for (var index = 0; index < points.Count - 1; index++)
         {
             var length = points[index].DistanceTo(points[index + 1]);
@@ -1446,6 +1466,9 @@ public sealed partial class RoadChunk : Node3D
             {
                 continue;
             }
+            var midpointDistance = Environments.RegionalTerrainRibbon.WrapUv(
+                (RouteDistance(samples[index]) + RouteDistance(samples[index + 1])) * 0.5);
+            segmentOffsets.Add(new Color((float)midpointDistance, 0, 0, 0));
             var tangent = (tangents[index] + tangents[index + 1]).Normalized();
             var right = tangent.Cross(Vector3.Up).Normalized();
             var segmentBasis = Basis.LookingAt(tangent, Vector3.Up);
@@ -1470,12 +1493,14 @@ public sealed partial class RoadChunk : Node3D
             "RoadBarriers",
             "median-barriers",
             _visualKit.MedianBarrierMesh,
-            barrierTransforms);
+            barrierTransforms,
+            customData: segmentOffsets);
         AddMultiMesh(
             "Guardrails",
             "guardrails",
             _visualKit.GuardrailMesh,
-            guardrailTransforms);
+            guardrailTransforms,
+            customData: segmentOffsets);
         AddMultiMesh(
             "GuardrailPosts",
             "guardrail-posts",

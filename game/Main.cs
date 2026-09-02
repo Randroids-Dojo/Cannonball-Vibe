@@ -2635,6 +2635,7 @@ public sealed partial class Main : Node3D
             $"shared_materials={snapshot.SharedMaterialCount} " +
             $"shared_meshes={snapshot.SharedMeshCount} " +
             $"retroreflective_materials={snapshot.RetroreflectiveMaterialCount} " +
+            $"surfaces={snapshot.SurfaceSource} terrain={snapshot.TerrainSource} " +
             $"bridge_decks={snapshot.BridgeDeckCount} " +
             $"overpass_openings={snapshot.OverpassOpeningCount} " +
             $"structure_nodes={snapshot.StructureSemanticNodeCount} " +
