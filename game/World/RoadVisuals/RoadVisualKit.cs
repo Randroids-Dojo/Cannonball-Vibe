@@ -1,4 +1,5 @@
 using System;
+using Cannonball.Game.World.Environments;
 using Godot;
 
 namespace Cannonball.Game.World.RoadVisuals;
@@ -11,7 +12,7 @@ public enum RoadVisualProfile
 
 public sealed class RoadVisualKit : IDisposable
 {
-    public const string Version = "colorado-freeway-v3";
+    public const string Version = "colorado-freeway-v4";
     public const double TerrainMarginMeters = 120;
     private readonly IReadOnlyList<Material> _sharedMaterials;
     private readonly IReadOnlyList<Mesh> _sharedMeshes;
@@ -21,7 +22,13 @@ public sealed class RoadVisualKit : IDisposable
     {
         Profile = profile;
         var graybox = profile == RoadVisualProfile.Graybox;
-        Terrain = Material(graybox ? "526052" : "344536", 1.0f);
+        // The road terrain margin shares the environment ground surface so the
+        // two ribbons meet without a material seam; the flat colour remains the
+        // graybox and rights-pending export fallback.
+        var sharedGround = graybox ? null : EnvironmentVisualKit.TryBuildSharedGroundMaterial();
+        Terrain = (Material?)sharedGround ?? Material(graybox ? "526052" : "344536", 1.0f);
+        TerrainSource = sharedGround is null ? (graybox ? "graybox" : "fallback") : "sourced";
+        Scenery = Material(graybox ? "777b80" : "6b665e", 0.98f);
         Shoulder = Material(graybox ? "55585c" : "34363b", 0.97f);
         Pavement = Material(graybox ? "33363b" : "171a20", 0.94f);
         MarkingWhite = Retroreflective(graybox ? "e8e8e8" : "f5f1d8", 0.32f);
@@ -87,18 +94,19 @@ public sealed class RoadVisualKit : IDisposable
             Size = new Vector3(1, 1, 0.8f),
             Material = Concrete,
         };
+        SceneryMesh = ProceduralMeshes.BuildRock(20260902u, radialSegments: 12, rings: 7, Scenery);
         _sharedMaterials =
         [
             Terrain, Shoulder, Pavement, MarkingWhite, MarkingYellow, Gore,
             Concrete, GalvanizedSteel, Delineator, ReflectorWhite, ReflectorYellow,
             GuideGreen, ServiceBlue, ExitOnlyYellow, SignWhite, SignBlack,
-            InterstateBlue, InterstateRed,
+            InterstateBlue, InterstateRed, Scenery,
         ];
         _sharedMeshes =
         [
             MedianBarrierMesh, GuardrailMesh, GuardrailPostMesh, ReflectorMesh,
             DelineatorMesh, BridgeDeckMesh, BridgeGirderMesh, BridgePierMesh,
-            BridgeAbutmentMesh,
+            BridgeAbutmentMesh, SceneryMesh,
         ];
         _retroreflectiveMaterials =
         [
@@ -112,7 +120,10 @@ public sealed class RoadVisualKit : IDisposable
     public string ProfileId => Profile == RoadVisualProfile.Production
         ? "production"
         : "graybox";
-    public StandardMaterial3D Terrain { get; }
+    /// <summary>"sourced" when the environment ground surface resolved, else "fallback" or "graybox".</summary>
+    public string TerrainSource { get; }
+    public Material Terrain { get; }
+    public StandardMaterial3D Scenery { get; }
     public StandardMaterial3D Shoulder { get; }
     public StandardMaterial3D Pavement { get; }
     public StandardMaterial3D MarkingWhite { get; }
@@ -139,6 +150,7 @@ public sealed class RoadVisualKit : IDisposable
     public Mesh BridgeGirderMesh { get; }
     public Mesh BridgePierMesh { get; }
     public Mesh BridgeAbutmentMesh { get; }
+    public Mesh SceneryMesh { get; }
     public int SharedMaterialCount => _sharedMaterials.Count;
     public int SharedMeshCount => _sharedMeshes.Count;
     public int RetroreflectiveMaterialCount => _retroreflectiveMaterials.Count;

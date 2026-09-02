@@ -165,15 +165,27 @@ public sealed partial class JunctionSeam : Node3D
         var fromRightPoint = fromCenter + fromDirection * (float)fromRight + vertical;
         var toLeftPoint = toCenter + toDirection * (float)toLeft + vertical;
         var toRightPoint = toCenter + toDirection * (float)toRight + vertical;
+        // Metre UVs (lateral, along) and neutral ground weights keep the seam
+        // quad continuous with the ground shader on both neighbouring chunks.
+        var along = (float)(toCenter - fromCenter).Length();
+        var weights = new Color(0.35f, 0.12f, 0.02f);
         using var surface = new SurfaceTool();
         surface.Begin(Mesh.PrimitiveType.Triangles);
+        surface.SetColor(weights);
+        surface.SetUV(new Vector2((float)fromLeft, 0));
         surface.AddVertex(fromLeftPoint);
+        surface.SetUV(new Vector2((float)toRight, along));
         surface.AddVertex(toRightPoint);
+        surface.SetUV(new Vector2((float)fromRight, 0));
         surface.AddVertex(fromRightPoint);
+        surface.SetUV(new Vector2((float)fromLeft, 0));
         surface.AddVertex(fromLeftPoint);
+        surface.SetUV(new Vector2((float)toLeft, along));
         surface.AddVertex(toLeftPoint);
+        surface.SetUV(new Vector2((float)toRight, along));
         surface.AddVertex(toRightPoint);
         surface.GenerateNormals();
+        surface.GenerateTangents();
         return surface.Commit();
     }
 

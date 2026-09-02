@@ -43,6 +43,8 @@ public sealed partial class WorldStreamer : Node3D
     private readonly HashSet<string> _failed = new(StringComparer.Ordinal);
     private HashSet<string> _desiredVisual = new(StringComparer.Ordinal);
     private HashSet<string> _desiredCollision = new(StringComparer.Ordinal);
+    /// <summary>True while a loaded chunk still needs collision that the one-per-refresh budget deferred.</summary>
+    private bool _collisionBacklog;
     private RouteContentPackage _package = null!;
     private IRouteChunkContentSource _source = null!;
     private LinearRoutePlan _routePlan = null!;
@@ -56,6 +58,7 @@ public sealed partial class WorldStreamer : Node3D
     private EnvironmentVisualKit _environmentVisualKit = null!;
     private RoadStructureSet _roadStructures = null!;
     private MeshInstance3D _terrainBackdrop = null!;
+    private ShaderMaterial? _backdropMaterial;
     private double _terrainBackdropElevation = double.PositiveInfinity;
     private CannonballVehicle? _vehicle;
     private RouteWorldPoint _localOriginWorld;
@@ -255,6 +258,8 @@ public sealed partial class WorldStreamer : Node3D
             seam.MagnitudeMeters,
             _environmentVisualKit.SharedMaterialCount,
             _environmentVisualKit.SharedMeshCount,
+            _environmentVisualKit.TextureSource,
+            _environmentVisualKit.ConiferSource,
             chunks.All(chunk => chunk.CollisionFree),
             EnvironmentCollisionBudget,
             MaximumEnvironmentBuildMilliseconds,
@@ -451,6 +456,14 @@ public sealed partial class WorldStreamer : Node3D
             _frame,
             _localOriginWorld);
         AddChild(_roadStructures);
+        // The backdrop plane has 0..1 UVs across 30 km and white vertex colour,
+        // so it gets its own ground-shader instance with metre scaling and fixed
+        // plains weights; the kit material is the fallback.
+        _backdropMaterial = _roadVisualKit.Terrain is ShaderMaterial groundShader
+            ? (ShaderMaterial)groundShader.Duplicate()
+            : null;
+        _backdropMaterial?.SetShaderParameter("uv_scale_meters", new Vector2(30_000, 30_000));
+        _backdropMaterial?.SetShaderParameter("weight_override", new Vector4(0.55f, 0.25f, 0.0f, 1.0f));
         _terrainBackdrop = new MeshInstance3D
         {
             Name = "TerrainBackdrop",
@@ -458,7 +471,7 @@ public sealed partial class WorldStreamer : Node3D
             {
                 Size = new Vector2(30_000, 30_000),
             },
-            MaterialOverride = _roadVisualKit.Terrain,
+            MaterialOverride = (Material?)_backdropMaterial ?? _roadVisualKit.Terrain,
             CastShadow = GeometryInstance3D.ShadowCastingSetting.Off,
         };
         RoadVisualKit.MarkSemantic(_terrainBackdrop, "road.visual.terrain.backdrop");
@@ -571,8 +584,16 @@ public sealed partial class WorldStreamer : Node3D
         // movement. That hung the 500-mile traversal outright. Refreshing whenever a
         // load completes keeps the queue draining while stationary, and costs nothing
         // during steady cruise where completions are rare.
+        //
+        // Collision is a third trigger. RefreshDesiredChunks builds at most one
+        // collision body per call to bound the frame cost, so a stationary
+        // position that needs two - a review target or a resume point beside a
+        // chunk boundary - was left with the second one unbuilt: no travel, no
+        // completion, no refresh, and IsStreamingSettled stayed false until the
+        // scenario's frame budget ran out. The environment-streaming review had
+        // failed that way on its urban-edge stage since the per-metre gate landed.
         var travelled = Math.Abs(_routeDistanceMeters - _lastDesiredRefreshDistanceMeters);
-        if (completedALoad || travelled >= DesiredRefreshIntervalMeters)
+        if (completedALoad || _collisionBacklog || travelled >= DesiredRefreshIntervalMeters)
         {
             _lastDesiredRefreshDistanceMeters = _routeDistanceMeters;
             RefreshDesiredChunks();
@@ -789,6 +810,7 @@ public sealed partial class WorldStreamer : Node3D
         StartPendingReads(_desiredVisual);
 
         var collisionBuiltThisRefresh = false;
+        var collisionBacklog = false;
         foreach (var (id, chunk) in _loaded.ToArray())
         {
             var needsCollision = _desiredCollision.Contains(id);
@@ -798,6 +820,10 @@ public sealed partial class WorldStreamer : Node3D
                     chunk,
                     needsCollision);
                 collisionBuiltThisRefresh |= changed && needsCollision;
+            }
+            else
+            {
+                collisionBacklog = true;
             }
             if (!_desiredVisual.Contains(id))
             {
@@ -825,6 +851,7 @@ public sealed partial class WorldStreamer : Node3D
                 chunk.QueueFree();
             }
         }
+        _collisionBacklog = collisionBacklog;
         RefreshJunctionSeamCollisions();
         MaximumVisualChunkCount = Math.Max(MaximumVisualChunkCount, _loaded.Count);
         MaximumCollisionChunkCount = Math.Max(MaximumCollisionChunkCount, CollisionChunkCount);
@@ -928,6 +955,10 @@ public sealed partial class WorldStreamer : Node3D
         }
         var edge = _package.Graph.GetEdge(content.EdgeId);
         var routeContextPlan = GetRouteContextPlan(edge);
+        var planSpan = _routePlanEdgeIds.Contains(content.EdgeId)
+            ? _manifests.SingleOrDefault(span =>
+                string.Equals(span.Manifest.Id, content.Id, StringComparison.Ordinal))
+            : null;
         var chunk = RoadChunk.Create(
             content,
             edge,
@@ -937,7 +968,9 @@ public sealed partial class WorldStreamer : Node3D
             _roadVisualKit,
             extendBehindRouteStart:
                 string.Equals(content.EdgeId, _routePlan.Edges[0].EdgeId, StringComparison.Ordinal) &&
-                Math.Abs(content.StartMeters) <= 1e-9);
+                Math.Abs(content.StartMeters) <= 1e-9,
+            routeStartMeters: planSpan?.StartMeters ?? double.NaN,
+            routeLengthMeters: planSpan is null ? double.NaN : RouteLengthMeters);
         // Budget profiles validate collected timing samples. Normal play keeps valid content
         // loaded instead of turning host scheduling or first-frame JIT into a chunk failure.
         _content.Add(content.Id, content);
@@ -1063,6 +1096,8 @@ public sealed partial class WorldStreamer : Node3D
         }
         _roadVisualKit?.Dispose();
         _environmentVisualKit?.Dispose();
+        _backdropMaterial?.Dispose();
+        _backdropMaterial = null;
         _roadVisualKit = null!;
         _environmentVisualKit = null!;
     }
@@ -1720,6 +1755,8 @@ public sealed record EnvironmentStreamSnapshot(
     double MaximumTerrainSeamMagnitudeMeters,
     int SharedMaterialCount,
     int SharedMeshCount,
+    string TextureSource,
+    string ConiferSource,
     bool CollisionFree,
     int CollisionBudget,
     double MaximumBuildMilliseconds,

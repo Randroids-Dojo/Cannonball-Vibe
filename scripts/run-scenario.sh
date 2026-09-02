@@ -357,7 +357,7 @@ verification_mode=""
 verified_chunk_reads=""
 if [[ -n "$fixture" ]]; then
   package_directory="$repo_root/.tools/scenarios/$fixture"
-  uv run --project "$repo_root/tools/map_pipeline" --frozen cannonball-map build \
+  uv run --project "$repo_root/tools/map_pipeline" --frozen python -m cannonball_map build \
     --source "$fixture_source" \
     --manifest "$fixture_manifest" \
     --catalog "$repo_root/data/sources/catalog.json" \
@@ -420,6 +420,10 @@ timeout_marker="${TMPDIR:-/tmp}/cannonball-scenario-timeout-$$"
 rm -f "$timeout_marker"
 
 dotnet build "$repo_root/Cannonball.sln" --nologo
+# Sourced textures, HDRI skies and generated scenes need the importer once per
+# checkout; the .godot cache makes later runs a no-op.
+"$repo_root/scripts/godot.sh" --headless --path "$repo_root" --import >/dev/null 2>&1 || \
+  "$repo_root/scripts/godot.sh" --headless --path "$repo_root" --import
 export CANNONBALL_GIT_REVISION
 CANNONBALL_GIT_REVISION="$(git rev-parse HEAD)"
 

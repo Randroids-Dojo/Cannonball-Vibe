@@ -1,0 +1,45 @@
+{
+  "all_required_nodes_resolved": true,
+  "asset_id": "conifer",
+  "automation_id": "environment.asset.conifer",
+  "color_attribute_surfaces": 5,
+  "generated_scene_sha256": "8119e91cf1bb600c4e81993a19efba3d8d430d5133f37f5507323d447cc5f544",
+  "glb_sha256": "a60da93003389b67d4dc0a323866b1ce0c79bbfdf97eca58fdb0e12af03c936f",
+  "godot_version": "4.7.1.stable.mono.official.a13da4feb",
+  "import_settings_sha256": "7b8cb3ebc326ac1d60fc77645b1c9593d934a001aa5cd6deeea452135d3d708e",
+  "lod_count": 3,
+  "lod_triangles": {
+    "Visual_LOD0": 1557,
+    "Visual_LOD1": 197,
+    "Visual_LOD2": 4
+  },
+  "mesh_nodes": [
+    "CollisionProxy",
+    "LOD0_Needles",
+    "LOD0_Trunk",
+    "LOD1_Needles",
+    "LOD1_Trunk",
+    "LOD2_Impostor"
+  ],
+  "release_dependency_count": 0,
+  "release_depends_on_blender": false,
+  "release_depends_on_test_automation": false,
+  "required_nodes": [
+    "Anchor_Origin",
+    "AssetRoot",
+    "CollisionProxy",
+    "LOD0_Needles",
+    "LOD0_Trunk",
+    "LOD1_Needles",
+    "LOD1_Trunk",
+    "LOD2_Impostor",
+    "Visual_LOD0",
+    "Visual_LOD1",
+    "Visual_LOD2"
+  ],
+  "schema_version": 1,
+  "surface_count": 6,
+  "tangent_surfaces": 6,
+  "triangle_count": 1778,
+  "wrapper": "res://assets/environments/trees/conifer/conifer.generated.tscn"
+}

@@ -1,0 +1,163 @@
+{
+  "schema_version": 1,
+  "asset_id": "conifer",
+  "asset_kind": "environment",
+  "authorship": {
+    "creator": "Randroid's Dojo",
+    "creation_date": "2026-09-02",
+    "method": "Project-original deterministic procedural Blender conifer with EEVEE-rendered needle cards and impostor",
+    "creation_script": "tools/environments/create_conifer.py",
+    "creation_script_sha256": "01719461580796ea74de216ce659250a10a9e1e9a0d966d374b7a1b1be864399"
+  },
+  "license": {
+    "spdx": "CC0-1.0",
+    "redistributable": true,
+    "status": "pending-human-review",
+    "attribution": "Cannonball-Vibe project-original conifer; no third-party source art. Runtime bark uses the separately locked Poly Haven pine_bark set."
+  },
+  "source": {
+    "path": "data/assets/environments/trees/sources/conifer.blend",
+    "sha256": "e22223c6ec001b2a1f6d274b99554b9ba753a3d8173bb1ed5791c60ce31e61bf",
+    "kind": "blender-source"
+  },
+  "transformations": [
+    {
+      "id": "conifer-blender-export-v1",
+      "tool": "Blender",
+      "tool_version": "5.1.2+ec6e62d40fa9",
+      "script": "tools/environments/validate_and_export_environment_asset.py",
+      "script_sha256": "69e7020c38bc4db4731a19f6580407f6e923559a7f962aa5232125d645f097ed",
+      "profile": "tools/assets/profiles/gltf2-binary-v2.json",
+      "profile_sha256": "404abd40146b9ddd4ef6b6eecb3c4112249cbcf40d3e74435d0262866fbdabac",
+      "inputs": [
+        {
+          "path": "data/assets/environments/trees/sources/conifer.blend",
+          "sha256": "e22223c6ec001b2a1f6d274b99554b9ba753a3d8173bb1ed5791c60ce31e61bf",
+          "kind": "blender-source"
+        },
+        {
+          "path": "data/assets/environments/trees/conifer.contract.json",
+          "sha256": "d3879b96147920a5b63b81de053086909f43d95e3ad1c87ce534b9c2d1d86cea",
+          "kind": "asset-contract"
+        }
+      ]
+    },
+    {
+      "id": "conifer-card-render-v1",
+      "tool": "Blender",
+      "tool_version": "5.1.2+ec6e62d40fa9",
+      "script": "tools/environments/create_conifer.py",
+      "script_sha256": "01719461580796ea74de216ce659250a10a9e1e9a0d966d374b7a1b1be864399",
+      "profile": "tools/assets/profiles/gltf2-binary-v2.json",
+      "profile_sha256": "404abd40146b9ddd4ef6b6eecb3c4112249cbcf40d3e74435d0262866fbdabac",
+      "inputs": [
+        {
+          "path": "tools/environments/create_conifer.py",
+          "sha256": "01719461580796ea74de216ce659250a10a9e1e9a0d966d374b7a1b1be864399",
+          "kind": "creation-script"
+        }
+      ]
+    },
+    {
+      "id": "conifer-godot-normalization-v1",
+      "tool": "Godot",
+      "tool_version": "4.7.1.stable.mono.official.a13da4feb",
+      "script": "tools/vehicles/pack_imported_scene.gd",
+      "script_sha256": "3bf1aab9bc64f48b4cdc7176aaf132885b608ffbea94d2d2d93e2db2a42a5625",
+      "profile": "tools/assets/profiles/godot-4.7.1-v1.json",
+      "profile_sha256": "22feccfc894d853a070bbcfd3ba04963165d72adfa918dbfdb657b2dbbfc5645",
+      "inputs": [
+        {
+          "path": "data/assets/environments/trees/derived/conifer.glb",
+          "sha256": "a60da93003389b67d4dc0a323866b1ce0c79bbfdf97eca58fdb0e12af03c936f",
+          "kind": "gltf-binary"
+        },
+        {
+          "path": "data/assets/environments/trees/conifer.glb.import",
+          "sha256": "7b8cb3ebc326ac1d60fc77645b1c9593d934a001aa5cd6deeea452135d3d708e",
+          "kind": "godot-import-settings"
+        }
+      ]
+    }
+  ],
+  "derived": [
+    {
+      "path": "data/assets/environments/trees/derived/conifer.glb",
+      "sha256": "a60da93003389b67d4dc0a323866b1ce0c79bbfdf97eca58fdb0e12af03c936f",
+      "kind": "gltf-binary"
+    },
+    {
+      "path": "assets/environments/trees/conifer/conifer.generated.tscn",
+      "sha256": "8119e91cf1bb600c4e81993a19efba3d8d430d5133f37f5507323d447cc5f544",
+      "kind": "godot-generated-scene"
+    },
+    {
+      "path": "data/assets/environments/trees/conifer.glb.import",
+      "sha256": "7b8cb3ebc326ac1d60fc77645b1c9593d934a001aa5cd6deeea452135d3d708e",
+      "kind": "godot-import-settings"
+    },
+    {
+      "path": "data/assets/environments/trees/conifer-contact-sheet.png",
+      "sha256": "a565bfcb032a11e03f88cc9bc35bd68b0a60950c2e645d76b08208639d3a31f3",
+      "kind": "renderer-contact-sheet"
+    },
+    {
+      "path": "assets/environments/trees/conifer/conifer-needles-albedo.png",
+      "sha256": "80790136d0ad4fc83320b6735a4abb06e092639173cb3f24e6c4447274f000fd",
+      "kind": "rendered-card-albedo"
+    },
+    {
+      "path": "assets/environments/trees/conifer/conifer-needles-normal.png",
+      "sha256": "27783056e8b9b9f438a8751968bf91d65dcc4213b25ed5f49cd9ed68fe8ef947",
+      "kind": "rendered-card-normal"
+    },
+    {
+      "path": "assets/environments/trees/conifer/conifer-impostor.png",
+      "sha256": "ac41be3e3b0568afcca797665dd9cdc15ac223af6ec8b3bed7f205730eed148a",
+      "kind": "rendered-impostor"
+    },
+    {
+      "path": "assets/environments/shaders/conifer_needles.gdshader",
+      "sha256": "08a00023d927951d453fb63e76e54149a7517bcac5f6ed867dfc79fac31b3f8c",
+      "kind": "runtime-shader"
+    },
+    {
+      "path": "data/assets/environments/trees/conifer.blender.json",
+      "sha256": "7134b1d930c043b4fcbbe2033ff54b939b8960375172ac48c9670e860b3fc894",
+      "kind": "blender-inventory"
+    }
+  ],
+  "semantic_contract": {
+    "required_nodes": [
+      "Anchor_Origin",
+      "AssetRoot",
+      "CollisionProxy",
+      "LOD0_Needles",
+      "LOD0_Trunk",
+      "LOD1_Needles",
+      "LOD1_Trunk",
+      "LOD2_Impostor",
+      "Visual_LOD0",
+      "Visual_LOD1",
+      "Visual_LOD2"
+    ],
+    "forward_axis": "-Z",
+    "up_axis": "+Y",
+    "unit_meters": 1,
+    "bounds_meters": [
+      0.854,
+      0.835,
+      1.01
+    ],
+    "wrapper_scene": "assets/environments/trees/conifer/conifer.generated.tscn",
+    "automation_id": "environment.asset.conifer"
+  },
+  "budgets": {
+    "collision_triangles_max": 64,
+    "materials_max": 3,
+    "texture_bytes_max": 0,
+    "textures_max": 0,
+    "triangles_lod0_max": 4500,
+    "triangles_total_max": 6500
+  }
+}

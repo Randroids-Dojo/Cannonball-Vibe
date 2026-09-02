@@ -10,10 +10,12 @@ public static class RegionalTerrainRibbon
     public const float OuterOffsetMeters = 460;
     public const float VisibilityMeters = 6_000;
 
-    private static readonly Color MountainColor = new("5f6652");
-    private static readonly Color FoothillColor = new("647650");
-    private static readonly Color PlainsColor = new("718461");
-    private static readonly Color UrbanColor = new("65716c");
+    /// <summary>
+    /// Route-distance UVs wrap at this period so float32 texture coordinates
+    /// keep sub-millimetre precision thousands of kilometres from the start
+    /// line. Every ground tile size divides it, so the wrap is invisible.
+    /// </summary>
+    public const double UvWrapPeriodMeters = 4096;
 
     public static RegionalTerrainRibbonResult Build(
         RouteChunkContent content,
@@ -46,10 +48,12 @@ public static class RegionalTerrainRibbon
 
         using var surface = new SurfaceTool();
         surface.Begin(Mesh.PrimitiveType.Triangles);
-        surface.SetMaterial(kit.TerrainBlend);
+        surface.SetMaterial(kit.Ground);
         var vertexCount = 0;
         for (var index = 0; index < points.Length - 1; index++)
         {
+            var uv0 = WrapUv(routeDistances[index]);
+            var uv1 = uv0 + (routeDistances[index + 1] - routeDistances[index]);
             foreach (var side in new[] { -1f, 1f })
             {
                 var row0 = BuildRow(
@@ -57,13 +61,15 @@ public static class RegionalTerrainRibbon
                     tangents[index],
                     routeDistances[index],
                     routeLengthMeters,
-                    side);
+                    side,
+                    uv0);
                 var row1 = BuildRow(
                     points[index + 1],
                     tangents[index + 1],
                     routeDistances[index + 1],
                     routeLengthMeters,
-                    side);
+                    side,
+                    uv1);
                 for (var band = 0; band < 2; band++)
                 {
                     if (side < 0)
@@ -97,16 +103,17 @@ public static class RegionalTerrainRibbon
             }
         }
         surface.GenerateNormals();
+        surface.GenerateTangents();
         var mesh = surface.Commit();
         var startRows = new[]
         {
-            BuildRow(points[0], tangents[0], routeDistances[0], routeLengthMeters, -1),
-            BuildRow(points[0], tangents[0], routeDistances[0], routeLengthMeters, 1),
+            BuildRow(points[0], tangents[0], routeDistances[0], routeLengthMeters, -1, 0),
+            BuildRow(points[0], tangents[0], routeDistances[0], routeLengthMeters, 1, 0),
         };
         var endRows = new[]
         {
-            BuildRow(points[^1], tangents[^1], routeDistances[^1], routeLengthMeters, -1),
-            BuildRow(points[^1], tangents[^1], routeDistances[^1], routeLengthMeters, 1),
+            BuildRow(points[^1], tangents[^1], routeDistances[^1], routeLengthMeters, -1, 0),
+            BuildRow(points[^1], tangents[^1], routeDistances[^1], routeLengthMeters, 1, 0),
         };
         return new RegionalTerrainRibbonResult(
             mesh,
@@ -114,6 +121,38 @@ public static class RegionalTerrainRibbon
             vertexCount / 3,
             [startRows[0][^1].Position, startRows[1][^1].Position],
             [endRows[0][^1].Position, endRows[1][^1].Position]);
+    }
+
+    /// <summary>Route distance folded into the UV wrap period.</summary>
+    public static double WrapUv(double routeDistanceMeters)
+    {
+        var wrapped = routeDistanceMeters % UvWrapPeriodMeters;
+        return wrapped < 0 ? wrapped + UvWrapPeriodMeters : wrapped;
+    }
+
+    /// <summary>
+    /// Ground-shader layer weights for a point on the route: R is dry grass,
+    /// G is bare dirt, B is extra rock. The representative corridor blends
+    /// mountain, foothill, plains and urban-edge thirds like the region bands.
+    /// </summary>
+    public static Color GroundWeights(double routeDistanceMeters, double routeLengthMeters)
+    {
+        var fraction = routeLengthMeters <= 0
+            ? 0
+            : Math.Clamp(routeDistanceMeters / routeLengthMeters, 0, 1);
+        var mountain = new Color(0.10f, 0.06f, 0.14f);
+        var foothill = new Color(0.38f, 0.12f, 0.04f);
+        var plains = new Color(0.88f, 0.22f, 0.0f);
+        var urban = new Color(0.62f, 0.55f, 0.0f);
+        if (fraction < 1.0 / 3.0)
+        {
+            return mountain.Lerp(foothill, Smooth(fraction * 3));
+        }
+        if (fraction < 2.0 / 3.0)
+        {
+            return foothill.Lerp(plains, Smooth((fraction - 1.0 / 3.0) * 3));
+        }
+        return plains.Lerp(urban, Smooth((fraction - 2.0 / 3.0) * 3));
     }
 
     private static IReadOnlyList<RouteChunkSample> SelectSamples(
@@ -137,11 +176,12 @@ public static class RegionalTerrainRibbon
         Vector3 tangent,
         double routeDistanceMeters,
         double routeLengthMeters,
-        float side)
+        float side,
+        double uvDistance)
     {
         var right = tangent.Cross(Vector3.Up).Normalized();
-        var fraction = Math.Clamp(routeDistanceMeters / routeLengthMeters, 0, 1);
-        var color = TerrainColor(fraction);
+        var color = GroundWeights(routeDistanceMeters, routeLengthMeters);
+        var v = (float)uvDistance;
         return
         [
             new TerrainVertex(
@@ -151,15 +191,15 @@ public static class RegionalTerrainRibbon
                         routeLengthMeters,
                         InnerOffsetMeters),
                 color,
-                new Vector2(0, (float)(routeDistanceMeters / 80))),
+                new Vector2(InnerOffsetMeters * side, v)),
             new TerrainVertex(
                 point + right * (MiddleOffsetMeters * side) +
                     Vector3.Up * SurfaceHeight(
                         routeDistanceMeters,
                         routeLengthMeters,
                         MiddleOffsetMeters),
-                color.Lightened(0.035f),
-                new Vector2(0.5f, (float)(routeDistanceMeters / 80))),
+                color,
+                new Vector2(MiddleOffsetMeters * side, v)),
             new TerrainVertex(
                 point + right * (OuterOffsetMeters * side) +
                     Vector3.Up * SurfaceHeight(
@@ -167,7 +207,7 @@ public static class RegionalTerrainRibbon
                         routeLengthMeters,
                         OuterOffsetMeters),
                 color,
-                new Vector2(1, (float)(routeDistanceMeters / 80))),
+                new Vector2(OuterOffsetMeters * side, v)),
         ];
     }
 
@@ -205,19 +245,6 @@ public static class RegionalTerrainRibbon
         var broad = Math.Sin(routeDistanceMeters / 760 * Math.PI * 2);
         var detail = Math.Sin(routeDistanceMeters / 230 * Math.PI * 2 + 0.7);
         return (float)(-1.2 + broad * amplitude + detail * amplitude * 0.22);
-    }
-
-    private static Color TerrainColor(double fraction)
-    {
-        if (fraction < 1.0 / 3.0)
-        {
-            return MountainColor.Lerp(FoothillColor, Smooth(fraction * 3));
-        }
-        if (fraction < 2.0 / 3.0)
-        {
-            return FoothillColor.Lerp(PlainsColor, Smooth((fraction - 1.0 / 3.0) * 3));
-        }
-        return PlainsColor.Lerp(UrbanColor, Smooth((fraction - 2.0 / 3.0) * 3));
     }
 
     private static float BlendByRoute(
