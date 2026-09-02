@@ -149,6 +149,27 @@ detection.
   Balanced tier. Cheapest, but the gates would then run settings the player
   never sees.
 
+## Q-042 - macOS live-suite bounds after the graphics slices
+
+Three PlayGodot live-suite failures landed on the software-rendered runners
+the afternoon the slices merged, each a wall-clock bound rather than a wrong
+value: the macOS pause wait (the Q-035 class, once), the macOS
+`elapsed_seconds < 1` restart bound (twice, at 2.31 s and 1.96 s with every
+exact field of the restart matching), and one Ubuntu camera-handling wait.
+The suite had slowed from about 90 s to 138 to 195 s on Ubuntu with the
+production art on llvmpipe. The follow-up PR runs the suite against the
+graybox environment, which is what it ran against before the slices, and
+the bounds themselves are untouched. `docs/OPEN_QUESTIONS.md` carries the
+run and job ids.
+
+- **A. Root-cause the remaining bounds in the Q-035 style (recommended)**:
+  re-express latency-shaped bounds such as `elapsed_seconds` against the
+  game clock the run already exposes, so a slow describe cannot fail them.
+- **B. Accept graybox as the live-suite environment and leave the bounds**,
+  logging further recurrences under Q-042.
+- **C. Drop the macOS runner from the live suite** and keep it on the
+  packaged smoke only.
+
 ## Reviewer notes, not questions
 
 - Cold Godot import of the whole project took 52 s on the workstation with
