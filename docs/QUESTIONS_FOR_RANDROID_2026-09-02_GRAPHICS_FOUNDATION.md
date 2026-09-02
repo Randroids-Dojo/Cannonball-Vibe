@@ -94,18 +94,29 @@ untouched because P1-013 and P0-021 own them.
 
 ## Q-040 - Hero GT production art path
 
-Q-020 selected the project-original Hero GT. The current model is beveled boxes
-with nine flat materials and no textures; it is the weakest surface on screen
-now that the world around it is textured. Reaching AA quality by script alone
-is possible for the body (lofted profiles, subdivision, baked AO and curvature,
-clearcoat) but a convincing cabin, wheels and light clusters are days of
-modelling work.
+Q-020 selected the project-original Hero GT. The third stacked PR of this
+pass (P1-008) replaces the beveled-box baseline with a second-generation
+procedural model under the unchanged 37-node contract: a lofted, subdivided
+grand-tourer body with booleaned arches, a split greenhouse, spoked wheels
+with brakes, LED bars, mirrors and a cockpit, with clear-coat paint and
+tinted glass restored by the wrapper. It reads as a car now, but a
+script-built body cannot reach the panel gaps, trim, badges and interior
+detail of a modelled production vehicle.
 
-- **A. Commission or license one car model** under a clear licence and adapt
-  it to the existing semantic rig (the rig contract was designed for this).
-- **B. Continue the procedural Hero GT** with a substantial remodel next pass
-  (recommended if A is off the table; it stays fully agentic).
+- **A. Keep iterating the procedural Hero GT** (working default; fully
+  agentic, deterministic, rights-clean).
+- **B. Commission or license one car model** under a clear licence and adapt
+  it to the same semantic rig; the rig contract and gates are ready for it.
 - **C. Both**: procedural now, replace later.
+
+Reviewer note: the first-generation Hero GT had been mounted backwards since
+2026-07-18. The Blender exporter maps Blender +Y to Godot -Z, the direction
+the vehicle drives and where its front axle raycasts sit, while the v1 export
+profile assumed -Y did. The nose, headlights and steering wheels therefore
+rendered at the tail in every chase capture. The new generator mirrors the
+model as its last step, the vehicle lint now asserts the front axle exports
+to -Z, and a v3 export profile states the true axis mapping. The P1-002
+fixture and the conifer are symmetric and unaffected by the v1 claim.
 
 ## Q-041 - Renderer tiers and how the shipped build selects High
 

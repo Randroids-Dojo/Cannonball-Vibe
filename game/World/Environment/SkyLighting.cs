@@ -99,12 +99,19 @@ public static class SkyLighting
             RadianceSize = Sky.RadianceSizeEnum.Size256,
             ProcessMode = Sky.ProcessModeEnum.Quality,
         };
+        // The Compatibility renderer, which the headless capture path uses,
+        // contributes no measurable sky-sourced ambient: shadow sides rendered
+        // near black at any energy. It gets the preset colour ambient instead,
+        // while Forward+ on the reference PC keeps the sky-lit ambient.
+        var compatibility = RenderingServer.GetCurrentRenderingMethod() == "gl_compatibility";
         using var environment = new Godot.Environment
         {
             BackgroundMode = Godot.Environment.BGMode.Sky,
             Sky = sky,
-            AmbientLightSource = Godot.Environment.AmbientSource.Sky,
-            AmbientLightSkyContribution = 1.0f,
+            AmbientLightSource = compatibility
+                ? Godot.Environment.AmbientSource.Color
+                : Godot.Environment.AmbientSource.Sky,
+            AmbientLightSkyContribution = compatibility ? 0.0f : 1.0f,
             ReflectedLightSource = Godot.Environment.ReflectionSource.Sky,
             TonemapMode = Godot.Environment.ToneMapper.Agx,
             TonemapExposure = 1.0f,
@@ -163,6 +170,7 @@ public static class SkyLighting
         environment.BackgroundColor = values.Background;
         environment.AmbientLightColor = values.Ambient;
         environment.AmbientLightEnergy = values.AmbientEnergy;
+        environment.SetMeta("ambient_source", environment.AmbientLightSource.ToString().ToLowerInvariant());
         environment.FogLightColor = values.FogColor;
         environment.FogDensity = values.FogDensity;
         environment.FogAerialPerspective = values.FogAerialPerspective;
@@ -238,28 +246,28 @@ public static class SkyLighting
             [LightingPreset.Dawn] = new(
                 LightingPreset.Dawn,
                 new Color("f6b982"), 1.15f, -9, DefaultYawDegrees,
-                new Color("8b6d78"), new Color("b58a8b"), 0.62f,
+                new Color("8b6d78"), new Color("b58a8b"), 1.15f,
                 null, 1.0f,
                 new Color("d9a58a"), 0.00045f, 0.55f,
                 new Color("5d6f9c"), new Color("f2b98e"), new Color("8a6f66"), 1.0f),
             [LightingPreset.Day] = new(
                 LightingPreset.Day,
                 new Color("fff2d6"), 1.8f, -48, DefaultYawDegrees,
-                new Color("78a7d8"), new Color("dbe8f6"), 0.8f,
+                new Color("78a7d8"), new Color("dbe8f6"), 1.55f,
                 null, 1.0f,
                 new Color("c9d8ea"), 0.00012f, 0.5f,
                 new Color("3f78c9"), new Color("c4d8ee"), new Color("8b9a8a"), 1.0f),
             [LightingPreset.Overcast] = new(
                 LightingPreset.Overcast,
                 new Color("d8e0e5"), 0.72f, -54, DefaultYawDegrees,
-                new Color("687683"), new Color("a7b2b9"), 0.92f,
+                new Color("687683"), new Color("a7b2b9"), 1.45f,
                 null, 1.0f,
                 new Color("b9c2c9"), 0.00060f, 0.7f,
                 new Color("8c98a3"), new Color("c6cdd3"), new Color("7f8985"), 1.0f),
             [LightingPreset.Night] = new(
                 LightingPreset.Night,
                 new Color("a9c4ff"), 1.3f, -24, DefaultYawDegrees,
-                new Color("060912"), new Color("425072"), 0.45f,
+                new Color("060912"), new Color("425072"), 0.7f,
                 null, 1.0f,
                 new Color("0d1322"), 0.00030f, 0.3f,
                 new Color("04070f"), new Color("101a2e"), new Color("06090f"), 1.0f),
