@@ -30,7 +30,7 @@ playgodot_token="$(uv run --project "$repo_root/automation/playgodot" --frozen \
   python -c 'import secrets; print(secrets.token_hex(32))')"
 
 package_directory="$repo_root/.tools/scenarios/official-corridor"
-if ! uv run --project "$repo_root/tools/map_pipeline" --frozen cannonball-map build \
+if ! uv run --project "$repo_root/tools/map_pipeline" --frozen python -m cannonball_map build \
   --source "$repo_root/data/sources/fixtures/nhpn-boulder-us36.geojson" \
   --manifest "$repo_root/data/sources/fixtures/nhpn-boulder-us36.manifest.json" \
   --catalog "$repo_root/data/sources/catalog.json" \

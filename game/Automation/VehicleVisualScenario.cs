@@ -182,12 +182,9 @@ public sealed class VehicleVisualScenario
         }
     }
 
-    private void SetLighting(bool daylight)
-    {
-        _light.LightColor = daylight ? new Color("fff2d6") : new Color("a9c4ff");
-        _light.LightEnergy = daylight ? 1.8f : 1.3f;
-        _environment.BackgroundColor = daylight ? new Color("78a7d8") : new Color("060912");
-        _environment.AmbientLightColor = daylight ? new Color("dbe8f6") : new Color("425072");
-        _environment.AmbientLightEnergy = daylight ? 0.8f : 0.45f;
-    }
+    private void SetLighting(bool daylight) =>
+        World.Environments.SkyLighting.Apply(
+            _light,
+            _environment,
+            daylight ? World.Environments.LightingPreset.Day : World.Environments.LightingPreset.Night);
 }

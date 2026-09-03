@@ -158,6 +158,10 @@ def lint(profile: dict) -> dict:
     right = bpy.data.objects["Wheel_FR"].matrix_world.translation
     if not near(abs(front.y - rear.y), WHEELBASE_METERS):
         raise ValueError("Wheelbase contract drift")
+    # Blender +Y exports to Godot -Z, the physics front axle; the front pivots
+    # must sit there or the steering wheels render at the tail.
+    if front.y <= rear.y or bpy.data.objects["Light_Head_FL"].matrix_world.translation.y <= 0:
+        raise ValueError("Front wheels and headlights must sit at +Y so they export to Godot -Z")
     if not near(abs(front.x - right.x), TRACK_METERS):
         raise ValueError("Track-width contract drift")
     for suffix in ("FL", "FR", "RL", "RR"):
@@ -172,7 +176,7 @@ def lint(profile: dict) -> dict:
             raise ValueError(f"Contact_{suffix} must be below the wheel pivot")
     if profile["format"] != "GLB" or profile["gltf_version"] != "2.0":
         raise ValueError("Only the pinned glTF 2.0 binary profile is supported")
-    expected_axes = ("-Y", "+Z", "-Z", "+Y")
+    expected_axes = ("+Y", "+Z", "-Z", "+Y")
     actual_axes = (
         profile["source_forward_axis"], profile["source_up_axis"],
         profile["target_forward_axis"], profile["target_up_axis"],
@@ -256,9 +260,18 @@ def point_camera(camera: bpy.types.Object, target: Vector) -> None:
 def render_contact_sheet(path: Path) -> None:
     scene = bpy.context.scene
     camera = bpy.data.objects["PreviewCamera"]
-    views = [(5.8, -7.2, 3.8), (-5.8, -7.0, 3.1), (5.4, 6.6, 2.7)]
+    # The nose is at +Y; the first two views are front three-quarters, the third the tail.
+    views = [(5.8, 7.2, 3.8), (-5.8, 7.0, 3.1), (5.4, -6.6, 2.7)]
     rendered: list[Path] = []
     path.parent.mkdir(parents=True, exist_ok=True)
+    # hide_render does not cascade from an empty to its children, so the LOD1
+    # and LOD2 meshes and the collision proxy are hidden explicitly; the review
+    # shows LOD0 and the wheel assemblies only.
+    hidden = []
+    for item in bpy.data.collections["Asset"].objects:
+        if item.type == "MESH" and (item.name.startswith(("LOD1_", "LOD2_")) or item.name == "CollisionProxy") and not item.hide_render:
+            item.hide_render = True
+            hidden.append(item)
     for index, location in enumerate(views):
         camera.location = location
         point_camera(camera, Vector((0, 0, 0.72)))

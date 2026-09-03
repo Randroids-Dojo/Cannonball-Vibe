@@ -64,6 +64,7 @@ public sealed partial class VehicleVisualRig : Node3D
             _suspensionRestPositions[index] = _suspensionAnchors[index].Position;
         }
         BuildDamageIndicators(resolved);
+        PolishImportedMaterials();
         SetLod(0);
         SetDamageHighlight(false);
         _automationState["cockpit_excluded_mesh_count"] = 0;
@@ -144,6 +145,63 @@ public sealed partial class VehicleVisualRig : Node3D
         _automationState["cockpit_excluded_mesh_count"] = excludedCount;
         _automationState["cockpit_camera_cull_mask"] = (long)camera.CullMask;
         _automationState["chase_exterior_geometry_visible"] = true;
+    }
+
+    /// <summary>
+    /// Material properties the glTF importer cannot carry, applied by the
+    /// project-owned wrapper as ADR-0012 directs: the Blender source declares a
+    /// clear coat on the paint and a tinted, depth-sorted glass, and Godot's
+    /// importer drops KHR_materials_clearcoat and flattens the glass, so the
+    /// same intent is restored here by material name. A re-export cannot erase
+    /// it, and the graybox fallback never reaches this path.
+    /// </summary>
+    private void PolishImportedMaterials()
+    {
+        var polished = 0;
+        foreach (var meshInstance in Descendants(this).OfType<MeshInstance3D>())
+        {
+            if (meshInstance.Mesh is not { } mesh)
+            {
+                continue;
+            }
+            for (var surface = 0; surface < mesh.GetSurfaceCount(); surface++)
+            {
+                if (mesh.SurfaceGetMaterial(surface) is not StandardMaterial3D material)
+                {
+                    continue;
+                }
+                var name = material.ResourceName;
+                if (name.EndsWith("Material_Body", StringComparison.Ordinal))
+                {
+                    material.ClearcoatEnabled = true;
+                    material.Clearcoat = 1.0f;
+                    material.ClearcoatRoughness = 0.05f;
+                    material.Metallic = 0.22f;
+                    material.MetallicSpecular = 0.55f;
+                    material.Roughness = 0.38f;
+                    polished++;
+                }
+                else if (name.EndsWith("Material_Glass", StringComparison.Ordinal))
+                {
+                    material.Transparency = BaseMaterial3D.TransparencyEnum.Alpha;
+                    material.DepthDrawMode = BaseMaterial3D.DepthDrawModeEnum.Always;
+                    material.CullMode = BaseMaterial3D.CullModeEnum.Back;
+                    material.Roughness = 0.08f;
+                    material.Metallic = 0.0f;
+                    material.MetallicSpecular = 0.4f;
+                    material.SpecularMode = BaseMaterial3D.SpecularModeEnum.SchlickGgx;
+                    polished++;
+                }
+                else if (name.EndsWith("Material_Wheel", StringComparison.Ordinal) ||
+                    name.EndsWith("Material_Trim", StringComparison.Ordinal))
+                {
+                    material.Metallic = 1.0f;
+                    material.Roughness = Math.Clamp(material.Roughness, 0.12f, 0.3f);
+                    polished++;
+                }
+            }
+        }
+        _automationState["polished_material_surfaces"] = polished;
     }
 
     public VehicleVisualSnapshot CaptureSnapshot() => new(

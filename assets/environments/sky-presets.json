@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "generator": "tools/environments/analyze_skies.py",
+  "blender_version": "5.1.2",
+  "blender_build_hash": "ec6e62d40fa9",
+  "lock": "data/assets/environments/sourced-assets.lock.json",
+  "presets": {
+    "day": {
+      "asset": "polyhaven/kloofendal_48d_partly_cloudy_puresky",
+      "panorama": "res://assets/environments/sourced/polyhaven/kloofendal_48d_partly_cloudy_puresky/kloofendal_48d_partly_cloudy_puresky_2k.hdr",
+      "sha256": "5244534e9cf5b606f2ff513aa00ddb161b0a4826ffd88a0d3bd03ac29247d198",
+      "attribution": "Kloofendal 48d Partly Cloudy (Pure Sky) by Greg Zaal, Jarod Guest via Poly Haven (https://polyhaven.com/a/kloofendal_48d_partly_cloudy_puresky), CC0 1.0",
+      "light_yaw_degrees": 34.26,
+      "light_pitch_degrees": -47.87,
+      "sky_energy": 1.0,
+      "sun_u": 0.59517,
+      "sun_v": 0.23403,
+      "sun_azimuth_degrees": 214.26,
+      "sun_elevation_degrees": 47.87,
+      "peak_luminance": 72558.797,
+      "width": 2048,
+      "height": 1024
+    },
+    "dawn": {
+      "asset": "polyhaven/kloppenheim_06_puresky",
+      "panorama": "res://assets/environments/sourced/polyhaven/kloppenheim_06_puresky/kloppenheim_06_puresky_2k.hdr",
+      "sha256": "99451201586489ef3288c97bfac2a2ac232a5491c51a1faf0ec8ea39f3ccd533",
+      "attribution": "Kloppenheim 06 (Pure Sky) by Greg Zaal, Jarod Guest via Poly Haven (https://polyhaven.com/a/kloppenheim_06_puresky), CC0 1.0",
+      "light_yaw_degrees": 39.6,
+      "light_pitch_degrees": -6.41,
+      "sky_energy": 1.0,
+      "sun_u": 0.60999,
+      "sun_v": 0.46438,
+      "sun_azimuth_degrees": 219.6,
+      "sun_elevation_degrees": 6.41,
+      "peak_luminance": 32.996,
+      "width": 2048,
+      "height": 1024
+    },
+    "overcast": {
+      "asset": "polyhaven/overcast_soil_puresky",
+      "panorama": "res://assets/environments/sourced/polyhaven/overcast_soil_puresky/overcast_soil_puresky_2k.hdr",
+      "sha256": "5414e1ac0c35e451d28595b2a2cba05e2ca301fdeb755b0a469408443093dafc",
+      "attribution": "Overcast Soil (Pure Sky) by Jarod Guest, Sergej Majboroda via Poly Haven (https://polyhaven.com/a/overcast_soil_puresky), CC0 1.0",
+      "light_yaw_degrees": -10.84,
+      "light_pitch_degrees": -35.25,
+      "sky_energy": 0.85,
+      "sun_u": 0.46988,
+      "sun_v": 0.30416,
+      "sun_azimuth_degrees": 169.16,
+      "sun_elevation_degrees": 35.25,
+      "peak_luminance": 5.26,
+      "width": 2048,
+      "height": 1024
+    },
+    "night": {
+      "asset": "polyhaven/kloppenheim_02",
+      "panorama": "res://assets/environments/sourced/polyhaven/kloppenheim_02/kloppenheim_02_2k.hdr",
+      "sha256": "c119c42e55d1df602e820f1a0234ccab7714cdf56afc3ca9d44543ad58492767",
+      "attribution": "Kloppenheim 02 by Greg Zaal via Poly Haven (https://polyhaven.com/a/kloppenheim_02), CC0 1.0",
+      "light_yaw_degrees": 30.55,
+      "light_pitch_degrees": -15.58,
+      "sky_energy": 0.9,
+      "sun_u": 0.58485,
+      "sun_v": 0.41346,
+      "sun_azimuth_degrees": 210.55,
+      "sun_elevation_degrees": 15.58,
+      "peak_luminance": 55834.982,
+      "width": 2048,
+      "height": 1024
+    }
+  }
+}

@@ -586,23 +586,16 @@ public sealed class ReferencePerformanceScenario
     /// Mirrors the daylight and night values in <see cref="EnvironmentVisualScenario"/> so a
     /// performance capture and a visual review describe the same lighting states.
     /// </summary>
-    private void ApplyLighting(LightingMode lighting)
-    {
-        var values = lighting switch
-        {
-            LightingMode.Daylight => new LightingState(
-                new Color("fff2d6"), 1.8f, -48, new Color("78a7d8"), new Color("dbe8f6"), 0.8f),
-            LightingMode.Night => new LightingState(
-                new Color("a9c4ff"), 1.3f, -24, new Color("060912"), new Color("425072"), 0.45f),
-            _ => throw new ArgumentOutOfRangeException(nameof(lighting)),
-        };
-        _light.LightColor = values.Light;
-        _light.LightEnergy = values.Energy;
-        _light.RotationDegrees = new Vector3(values.PitchDegrees, -28, 0);
-        _environment.BackgroundColor = values.Background;
-        _environment.AmbientLightColor = values.Ambient;
-        _environment.AmbientLightEnergy = values.AmbientEnergy;
-    }
+    private void ApplyLighting(LightingMode lighting) =>
+        World.Environments.SkyLighting.Apply(
+            _light,
+            _environment,
+            lighting switch
+            {
+                LightingMode.Daylight => World.Environments.LightingPreset.Day,
+                LightingMode.Night => World.Environments.LightingPreset.Night,
+                _ => throw new ArgumentOutOfRangeException(nameof(lighting)),
+            });
 
     public void ValidateComplete()
     {
@@ -1651,13 +1644,6 @@ public sealed class ReferencePerformanceScenario
         int LoadedChunkCount,
         int RebaseCount);
 
-    private sealed record LightingState(
-        Color Light,
-        float Energy,
-        float PitchDegrees,
-        Color Background,
-        Color Ambient,
-        float AmbientEnergy);
 }
 
 public enum LightingMode

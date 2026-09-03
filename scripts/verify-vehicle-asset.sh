@@ -54,7 +54,7 @@ tracked_godot_inventory="data/assets/vehicles/hero-gt.godot.json"
 wrapper="game/Vehicle/Visuals/HeroGt.tscn"
 import_settings="data/assets/vehicles/hero-gt.glb.import"
 manifest="data/assets/vehicles/hero-gt.asset.json"
-profile="tools/assets/profiles/gltf2-binary-v1.json"
+profile="tools/assets/profiles/gltf2-binary-v3.json"
 godot_profile="tools/assets/profiles/godot-4.7.1-v1.json"
 for binary in "$source_asset" "$tracked_glb" "$tracked_contact"; do
   if [[ "$(git check-attr filter -- "$binary")" != *": lfs" ]]; then
@@ -66,6 +66,15 @@ done
 work="$(mktemp -d "${TMPDIR:-/tmp}/cannonball-hero-gt.XXXXXX")"
 trap 'rm -rf "$work"' EXIT
 mkdir -p "$work/first" "$work/second" reports/assets
+
+# rsync is absent from Git for Windows; tar preserves the same exclusions.
+stage_project() {
+  local destination="$1"
+  mkdir -p "$destination"
+  tar --exclude=.git --exclude=.godot --exclude=.tools --exclude=reports \
+    --exclude='*/bin' --exclude='*/obj' --exclude='bin' --exclude='obj' \
+    -cf - . | tar -xf - -C "$destination"
+}
 
 export_once() {
   local destination="$1"
@@ -116,8 +125,7 @@ done
 
 import_stage="$work/import-project"
 mkdir -p "$import_stage"
-rsync -a --exclude .git --exclude .godot --exclude .tools --exclude reports \
-  --exclude '**/bin' --exclude '**/obj' ./ "$import_stage/"
+stage_project "$import_stage"
 mkdir -p "$import_stage/assets/vehicles/hero-gt"
 cp "$tracked_glb" "$import_stage/assets/vehicles/hero-gt/hero-gt.glb"
 cp "$import_settings" "$import_stage/assets/vehicles/hero-gt/hero-gt.glb.import"
@@ -130,8 +138,7 @@ cmp "$import_stage/assets/vehicles/hero-gt/hero-gt.rebuilt.tscn" "$tracked_gener
 
 project_stage="$work/project"
 mkdir -p "$project_stage"
-rsync -a --exclude .git --exclude .godot --exclude .tools --exclude reports \
-  --exclude '**/bin' --exclude '**/obj' ./ "$project_stage/"
+stage_project "$project_stage"
 ./scripts/godot.sh --headless --path "$project_stage" --import
 dotnet build "$project_stage/Cannonball.csproj" --nologo
 ./scripts/godot.sh --headless --path "$project_stage" --import

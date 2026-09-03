@@ -9,11 +9,11 @@ public sealed class EnvironmentVisualScenario
     private const int ReviewFramesPerStage = 90;
     private static readonly Stage[] Stages =
     [
-        new("mountain-dawn", 0.08, EnvironmentRegion.Mountain, Lighting.Dawn),
-        new("foothill-day", 0.36, EnvironmentRegion.Foothill, Lighting.Day),
-        new("plains-weather", 0.62, EnvironmentRegion.Plains, Lighting.Overcast),
-        new("urban-edge-night", 0.88, EnvironmentRegion.UrbanEdge, Lighting.Night),
-        new("stream-boundary-day", 0.50, EnvironmentRegion.Plains, Lighting.Day),
+        new("mountain-dawn", 0.08, EnvironmentRegion.Mountain, LightingPreset.Dawn),
+        new("foothill-day", 0.36, EnvironmentRegion.Foothill, LightingPreset.Day),
+        new("plains-weather", 0.62, EnvironmentRegion.Plains, LightingPreset.Overcast),
+        new("urban-edge-night", 0.88, EnvironmentRegion.UrbanEdge, LightingPreset.Night),
+        new("stream-boundary-day", 0.50, EnvironmentRegion.Plains, LightingPreset.Day),
     ];
 
     private readonly WorldStreamer _streamer;
@@ -40,6 +40,7 @@ public sealed class EnvironmentVisualScenario
 
     public bool Complete { get; private set; }
     public int CompletedStageCount { get; private set; }
+    public string CurrentStageName => _stageIndex < Stages.Length ? Stages[_stageIndex].Name : "complete";
 
     public void Advance()
     {
@@ -71,7 +72,7 @@ public sealed class EnvironmentVisualScenario
             $"CANNONBALL_ENVIRONMENT_STAGE_OK stage={stage.Name} " +
             $"region={stage.Region.ToString().ToLowerInvariant()} " +
             $"lighting={stage.Lighting.ToString().ToLowerInvariant()} " +
-            $"index={_stageIndex + 1} of={Stages.Length}");
+            $"index={_stageIndex + 1} of={Stages.Length} frame={Engine.GetProcessFrames()}");
         CompletedStageCount++;
         _stageIndex++;
         _stageFrames = 0;
@@ -107,6 +108,9 @@ public sealed class EnvironmentVisualScenario
             $"seam_magnitude_m={snapshot.MaximumTerrainSeamMagnitudeMeters:0.0} " +
             $"shared_materials={snapshot.SharedMaterialCount} " +
             $"shared_meshes={snapshot.SharedMeshCount} " +
+            $"textures={snapshot.TextureSource} " +
+            $"conifer={snapshot.ConiferSource} " +
+            $"sky={_environment.GetMeta("sky_source", "unknown").AsString()} " +
             $"collision_free={snapshot.CollisionFree} " +
             $"collision_budget={snapshot.CollisionBudget} " +
             $"rebases={_streamer.RebaseCount} " +
@@ -140,58 +144,19 @@ public sealed class EnvironmentVisualScenario
                 $"seam_magnitude_m={snapshot.MaximumTerrainSeamMagnitudeMeters:0.0}, " +
                 $"collision_free={snapshot.CollisionFree}.");
         }
-        var expected = LightingValues(stage.Lighting);
-        if (!_environment.BackgroundColor.IsEqualApprox(expected.Background) ||
-            !Mathf.IsEqualApprox(_light.LightEnergy, expected.Energy))
+        if (!SkyLighting.Matches(_light, _environment, stage.Lighting))
         {
             throw new InvalidOperationException(
                 $"Environment stage '{stage.Name}' lighting contract drifted.");
         }
     }
 
-    private void SetLighting(Lighting lighting)
-    {
-        var values = LightingValues(lighting);
-        _light.LightColor = values.Light;
-        _light.LightEnergy = values.Energy;
-        _light.RotationDegrees = new Vector3(values.PitchDegrees, -28, 0);
-        _environment.BackgroundColor = values.Background;
-        _environment.AmbientLightColor = values.Ambient;
-        _environment.AmbientLightEnergy = values.AmbientEnergy;
-    }
-
-    private static LightingState LightingValues(Lighting lighting) => lighting switch
-    {
-        Lighting.Dawn => new(
-            new Color("f6b982"), 1.15f, -9, new Color("8b6d78"), new Color("b58a8b"), 0.62f),
-        Lighting.Day => new(
-            new Color("fff2d6"), 1.8f, -48, new Color("78a7d8"), new Color("dbe8f6"), 0.8f),
-        Lighting.Overcast => new(
-            new Color("d8e0e5"), 0.72f, -54, new Color("687683"), new Color("a7b2b9"), 0.92f),
-        Lighting.Night => new(
-            new Color("a9c4ff"), 1.3f, -24, new Color("060912"), new Color("425072"), 0.45f),
-        _ => throw new ArgumentOutOfRangeException(nameof(lighting)),
-    };
-
-    private enum Lighting
-    {
-        Dawn,
-        Day,
-        Overcast,
-        Night,
-    }
+    private void SetLighting(LightingPreset lighting) =>
+        SkyLighting.Apply(_light, _environment, lighting);
 
     private sealed record Stage(
         string Name,
         double RouteFraction,
         EnvironmentRegion Region,
-        Lighting Lighting);
-
-    private sealed record LightingState(
-        Color Light,
-        float Energy,
-        float PitchDegrees,
-        Color Background,
-        Color Ambient,
-        float AmbientEnergy);
+        LightingPreset Lighting);
 }

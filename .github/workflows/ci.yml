@@ -37,6 +37,10 @@ jobs:
           version: 4.7.1
           use-dotnet: true
           include-templates: false
+      - name: Install pinned Git LFS
+        # The doctor pin is load-bearing and the runner images drifted past it;
+        # the composite action installs the declared release on Linux runners.
+        uses: ./.github/actions/pinned-git-lfs
       - name: Verify complete M0 gate
         shell: bash
         run: ./scripts/check.sh

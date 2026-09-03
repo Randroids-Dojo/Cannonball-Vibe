@@ -241,6 +241,19 @@ record hashes, authorship, licensing, transformations, and export profiles.
 Binary source art and models use Git LFS, while generated imports remain
 replaceable.
 
+Third-party art follows the same discipline through
+`tools/environments/sourced_assets.py`: a checksum lock
+(`data/assets/environments/sourced-assets.lock.json`) records provider
+metadata, authors, canonical URLs, declared sizes and MD5s, acquired SHA-256s,
+timestamps and response headers for every CC0 file, the acquired bytes are the
+runtime bytes, and records stay `pending-human-review` and excluded from
+release presets until the Q-023 rights review approves them. Environment
+assets built in Blender run through `validate_and_export_environment_asset.py`
+against a per-asset JSON contract and `scripts/verify-environment-asset.sh`.
+Lighting is owned by `game/World/Environment/SkyLighting.cs`: sourced HDRI
+panoramas with measured sun directions, AgX tonemapping, SSAO, glow, fog and
+PSSM shadows, applied as presets by every visual scenario.
+
 [ADR-0023](decisions/ADR-0023-reference-performance-target-and-layered-budgets.md)
 sets the first production reference target at 2560×1440 High and a stable 60
 FPS on the declared Ryzen 9 5900X, RTX 3080 Ti 12 GB, and 64 GB Windows 11 PC.
