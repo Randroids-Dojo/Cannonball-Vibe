@@ -21,7 +21,7 @@
     "reason": "NHPN centerline vertices carry catalog-documented ~80 m class horizontal error; design-radius adjudication on 25 m tangents would measure digitization noise, not road design. This stage adjudicates corner-class heading discipline (every turn beyond 20 degrees at the 25 m lens is a recorded exception site, reversal-class turns are refused), topology (self-intersection, monotonicity, reciprocal separation), and the grade gate against the conditioned profile; the finer gates run when lane splines and collision ribbons are generated over this carriageway model."
   },
   "dem_product_lock_sha256": "8863b1cd0445188427e0af597b6599b8f3e855ca43c34e93c664db1e3705860f",
-  "derived_at": "2026-08-31T14:07:55Z",
+  "derived_at": "2026-09-02T04:00:37Z",
   "directed_route_lock_sha256": "cd31ea3193a755f06349fdf1cea814775d5de700e04a75113f70e68d18793294",
   "edge_path_lock_sha256": "fcf0da1dcff80eb74364b1496e2033c351b14c25cbbf7f857e8af8a42295fc5e",
   "endpoint_connector_lock_sha256": "2544063bc8494016268aab322ae443c91712ef14087dfa37c41888bac878a2c8",
@@ -280,7 +280,7 @@
         }
       ],
       "eastbound": {
-        "geometry_sha256": "4a1994dfff17d870f4bfafe221aad8a68460e4b43604d8aed6000f35fe523795",
+        "geometry_sha256": "e01351be70d64b154695311792d2934ea80b5e1aa9c097b63e3243f56355baf7",
         "length_m": 2504055.253,
         "vertex_count": 73386
       },
@@ -352,7 +352,7 @@
       ],
       "segment_id": "i80-new-jersey-to-big-springs",
       "westbound": {
-        "geometry_sha256": "79d62f01c39ca107bdc8febaa738fc7c9e4d8ec09235f7cd2fa71d256eec1e0e",
+        "geometry_sha256": "746295d8e9c77dcfed704de64bea97b0c957208b46799dd7e795d187cd06fe73",
         "length_m": 2504048.664,
         "vertex_count": 73751
       }
@@ -540,7 +540,7 @@
         }
       ],
       "eastbound": {
-        "geometry_sha256": "789b86cd6b0b7110a109641fd9c18cda0996816d4c52b271af4d22d5df0b801d",
+        "geometry_sha256": "35e3ce40f2ee7c7d2dd95983c7b0f0ae9f2b1859b02994b8b5843a6c9985ba31",
         "length_m": 930462.511,
         "vertex_count": 25480
       },
@@ -591,7 +591,7 @@
       "planimetric_conditioning": [],
       "segment_id": "i80-big-springs-to-salt-lake",
       "westbound": {
-        "geometry_sha256": "4b2ed1dc37032a334ca1cc932cce956640003d828ae97d340ffaae5fd0189514",
+        "geometry_sha256": "a5a1f2f64bdf522287e08fcf354393123e5848bf9ca7a61906eb3311bce44b20",
         "length_m": 930430.869,
         "vertex_count": 25504
       }
@@ -752,7 +752,7 @@
       },
       "corner_sites": [],
       "eastbound": {
-        "geometry_sha256": "c49fede6719ab80a613ba93ae59fda58cbb155a71335634bd0cc20419435aec4",
+        "geometry_sha256": "25a5697f40537bec1efbe1e45f928f5887c7d0ee6851872e43f5c103d27e666a",
         "length_m": 845899.122,
         "vertex_count": 70899
       },
@@ -803,7 +803,7 @@
       "planimetric_conditioning": [],
       "segment_id": "i81-i78-to-i40",
       "westbound": {
-        "geometry_sha256": "314eca045c4e12079d7719cc8159a58d266eb4f24b4ea4d88a286a96db41af8d",
+        "geometry_sha256": "b19a03965d8f7d9e95e09e40742a9da861319455161705f32d7f618e6db253b6",
         "length_m": 845898.558,
         "vertex_count": 71075
       }
@@ -884,7 +884,7 @@
         }
       ],
       "eastbound": {
-        "geometry_sha256": "752fb8a105a95785f72566586c86b0626c455ebfa431e0930b16a216d431810c",
+        "geometry_sha256": "11a549f4bacf1e252a9feed35446fa30e055efb55bc9d29524b9e498fc87528e",
         "length_m": 3366356.892,
         "vertex_count": 100481
       },
@@ -956,7 +956,7 @@
       ],
       "segment_id": "i40-i81-to-barstow",
       "westbound": {
-        "geometry_sha256": "9f98bc5ba76159466a49ff572163b04edd5bc38a46d412d2d1b85862b176f00d",
+        "geometry_sha256": "18f57c32d98e5eda5600560a05091061917d1954f953df1a2224637dd248dc6d",
         "length_m": 3366354.675,
         "vertex_count": 100969
       }
@@ -1037,7 +1037,7 @@
         }
       ],
       "eastbound": {
-        "geometry_sha256": "a99c1d5e5e81f5088a762c6efde6cf1e15131e4e43276844fb224037557bb317",
+        "geometry_sha256": "3e89d4a5c0f50b7214f0e19e7a136b15cc65aaa64878765168c382fd6654190c",
         "length_m": 640478.887,
         "vertex_count": 7662
       },
@@ -1088,7 +1088,7 @@
       "planimetric_conditioning": [],
       "segment_id": "i15-cove-fort-to-barstow",
       "westbound": {
-        "geometry_sha256": "fec4f6cf0230a818dd25e2918d84bf78ebf73bfc9bf8e3feeda4a0d793c8a2e6",
+        "geometry_sha256": "1c94e0406b41863b2b1f4fd946eb782cfefb45a7b5b3a1750dafada2e403e9b1",
         "length_m": 641178.586,
         "vertex_count": 7580
       }
@@ -1333,7 +1333,7 @@
       }
     }
   ],
-  "segments_sha256": "e34bfad99f135b7a6b656e0146a467dea0a1cf26d10f3cf6b16363c1f7961825",
+  "segments_sha256": "0709ceacd3a42559f0ee0e5fbd8868a7a6fe74e6d249457ab4c336bdf3c9e721",
   "source_policy": {
     "authoritative_distance_claimed": true,
     "authoritative_distance_scope": "ADR-0024 portal-to-portal westbound run length over the locked corridor (traversed fill chords replaced by their seam-registered conflated NHS spans) plus the two authored endpoint connectors; the connector contribution carries declared authored-waypoint precision, recorded in the run-length record.",

@@ -207,4 +207,8 @@ uv run --project tools/map_pipeline --frozen \
   --connector-lock data/routes/continental/endpoint-connector-lock.v1.json \
   --catalog data/sources/catalog.json
 
+uv run --project tools/map_pipeline --frozen \
+  cannonball-map validate-continental-collision \
+  data/routes/continental/collision-chunk-lock.v1.json
+
 printf 'continental-route-validation-ok\n'

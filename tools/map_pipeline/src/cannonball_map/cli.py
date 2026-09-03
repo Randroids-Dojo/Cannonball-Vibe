@@ -47,6 +47,10 @@ from cannonball_map.continental import (
     validate_continental_transfer_lock,
     validate_continental_westbound_carriageway,
 )
+from cannonball_map.continental_collision import (
+    derive_continental_collision_lock,
+    validate_continental_collision_lock,
+)
 from cannonball_map.elevation import ElevationMetadata, ElevationSampler
 from cannonball_map.lockfile import materialize_locked_role, validate_lock
 from cannonball_map.manifest import SourceManifest, validate_source
@@ -2958,4 +2962,100 @@ def validate_continental_lane_topology_command(
         f"{summary['refinement_count']} corner refinements, "
         f"{summary['lane_connector_count']} lane connectors, "
         f"{summary['gates_passed']} gates passed)"
+    )
+
+
+@app.command("derive-continental-collision")
+def derive_continental_collision_command(
+    lane_lock: Path = typer.Option(
+        Path("data/routes/continental/lane-topology-lock.v1.json"), exists=True
+    ),
+    carriageway_lock: Path = typer.Option(
+        Path("data/routes/continental/westbound-carriageway-lock.v1.json"), exists=True
+    ),
+    junction_lock: Path = typer.Option(
+        Path("data/routes/continental/junction-geometry-lock.v1.json"), exists=True
+    ),
+    connector_lock: Path = typer.Option(
+        Path("data/routes/continental/endpoint-connector-lock.v1.json"), exists=True
+    ),
+    conditioned_lock: Path = typer.Option(
+        Path("data/routes/continental/conditioned-profile-lock.v1.json"), exists=True
+    ),
+    elevation_lock: Path = typer.Option(
+        Path("data/routes/continental/corridor-elevation-lock.v1.json"), exists=True
+    ),
+    carriageway_cache: Path = typer.Option(
+        Path(".tools/continental/carriageway"), exists=True
+    ),
+    output: Path = typer.Option(
+        Path("data/routes/continental/collision-chunk-lock.v1.json")
+    ),
+) -> None:
+    """Generate deterministic, independently streamable collision ribbons."""
+    try:
+        payload = derive_continental_collision_lock(
+            lane_lock,
+            carriageway_lock,
+            junction_lock,
+            connector_lock,
+            conditioned_lock,
+            elevation_lock,
+            carriageway_cache,
+            output,
+        )
+    except ValueError as error:
+        typer.echo(f"continental-collision-failed: {error}", err=True)
+        raise typer.Exit(code=1) from error
+    summary = payload["summary"]
+    typer.echo(
+        f"continental-collision: {output} ({summary['host_count']} hosts, "
+        f"{summary['chunk_count']} chunks, {summary['triangle_count']} triangles, "
+        f"{summary['grade_separation_count']} grade separations)"
+    )
+
+
+@app.command("validate-continental-collision")
+def validate_continental_collision_command(
+    collision_lock: Path = typer.Argument(
+        Path("data/routes/continental/collision-chunk-lock.v1.json"), exists=True
+    ),
+    lane_lock: Path = typer.Option(
+        Path("data/routes/continental/lane-topology-lock.v1.json"), exists=True
+    ),
+    carriageway_lock: Path = typer.Option(
+        Path("data/routes/continental/westbound-carriageway-lock.v1.json"), exists=True
+    ),
+    junction_lock: Path = typer.Option(
+        Path("data/routes/continental/junction-geometry-lock.v1.json"), exists=True
+    ),
+    connector_lock: Path = typer.Option(
+        Path("data/routes/continental/endpoint-connector-lock.v1.json"), exists=True
+    ),
+    conditioned_lock: Path = typer.Option(
+        Path("data/routes/continental/conditioned-profile-lock.v1.json"), exists=True
+    ),
+    elevation_lock: Path = typer.Option(
+        Path("data/routes/continental/corridor-elevation-lock.v1.json"), exists=True
+    ),
+) -> None:
+    """Validate the collision lock without ignored caches or network."""
+    try:
+        payload = validate_continental_collision_lock(
+            collision_lock,
+            lane_lock,
+            carriageway_lock,
+            junction_lock,
+            connector_lock,
+            conditioned_lock,
+            elevation_lock,
+        )
+    except ValueError as error:
+        typer.echo(f"continental-collision-invalid: {error}", err=True)
+        raise typer.Exit(code=1) from error
+    summary = payload["summary"]
+    typer.echo(
+        f"continental-collision-ok: {collision_lock} "
+        f"({summary['host_count']} hosts, {summary['chunk_count']} chunks, "
+        "zero open seams)"
     )
