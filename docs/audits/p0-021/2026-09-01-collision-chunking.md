@@ -74,6 +74,24 @@ above passed directly. The full Godot gate was not run because the pinned Godot
 4.7.1 .NET editor is not installed in this checkout or discoverable on the
 host.
 
+## Defect found at merge (2026-09-02)
+
+The first CI run of this slice failed four map-pipeline lock tests on every
+platform with "Junction geometry lock input hash drifted". The carriageway,
+junction and lane locks regenerated above were written with CRLF line endings
+on Windows and their file digests taken before git normalised them to LF
+under `* text=auto eol=lf`. Every digest that named one of the three files
+(`westbound_carriageway_lock_sha256` in the junction, lane and collision
+locks; `junction_geometry_lock_sha256` in the lane and collision locks;
+`lane_topology_lock_sha256` in the collision lock) therefore matched bytes
+that never reached the repository, and the cache-independent validators
+correctly refused the chain. The digests were recomputed from the committed
+bytes, which changed six hash strings and nothing else: the collision
+content, its host and chunk digests, and every gate are as recorded above.
+Every lock writer in the pipeline now passes an explicit LF newline so a
+Windows regeneration cannot drift again. The full map suite passed after the
+repair; the C# suite passed 145 tests.
+
 ## Remaining work
 
 The next bounded P0-021 slice is the ADR-0019 package build: emit the shipping

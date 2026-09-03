@@ -297,7 +297,11 @@ def acquire_continental_nhpn_candidates(
         },
     }
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    output_path.write_text(
+        json.dumps(payload, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+        newline="\n",
+    )
     return payload
 
 
@@ -431,7 +435,11 @@ def acquire_continental_nhpn_supplements(
         "object_ids_sha256": canonical_sha256(union),
     }
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    output_path.write_text(
+        json.dumps(payload, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+        newline="\n",
+    )
     return payload
 
 
@@ -635,7 +643,11 @@ def derive_continental_transfer_lock(
         "next_stage": TRANSFER_NEXT_STAGE,
     }
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    output_path.write_text(
+        json.dumps(payload, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+        newline="\n",
+    )
     return payload
 
 
@@ -4917,7 +4929,11 @@ def acquire_continental_nhs_fill_lock(
         "next_stage": NHS_FILL_NEXT_STAGE,
     }
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    output_path.write_text(
+        json.dumps(payload, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+        newline="\n",
+    )
     return payload
 
 
@@ -5741,8 +5757,7 @@ def derive_continental_edge_path_lock(
     }
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(
-        json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8"
-    )
+        json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
     return payload
 
 
@@ -6427,8 +6442,7 @@ def author_continental_reconstruction_overlays(
     }
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(
-        json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8"
-    )
+        json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
     return payload
 
 
@@ -7730,8 +7744,7 @@ def derive_continental_nhs_conflation(
     }
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(
-        json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8"
-    )
+        json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
     return payload
 
 
@@ -8772,8 +8785,7 @@ def _write_dem_checkpoint(checkpoint: Path, record: dict[str, Any]) -> None:
     checkpoint.parent.mkdir(parents=True, exist_ok=True)
     temporary = checkpoint.with_suffix(".tmp")
     temporary.write_text(
-        json.dumps(record, indent=2, sort_keys=True) + "\n", encoding="utf-8"
-    )
+        json.dumps(record, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
     temporary.replace(checkpoint)
 
 
@@ -9118,8 +9130,7 @@ def lock_continental_3dep_products(
     }
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(
-        json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8"
-    )
+        json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
     return payload
 
 
@@ -10700,8 +10711,7 @@ def derive_continental_directed_route_lock(
     }
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(
-        json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8"
-    )
+        json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
     return payload
 
 
@@ -12415,8 +12425,7 @@ def acquire_continental_corridor_elevation(
     }
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(
-        json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8"
-    )
+        json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
     return payload
 
 
@@ -13363,8 +13372,7 @@ def derive_continental_conditioned_profile(
     }
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(
-        json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8"
-    )
+        json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
     return payload
 
 
@@ -15154,8 +15162,7 @@ def derive_continental_westbound_carriageway(
         }
         cache_path = carriageway_cache_directory / f"{segment_id}.json"
         cache_path.write_text(
-            json.dumps(cache_payload, sort_keys=True) + "\n", encoding="utf-8"
-        )
+            json.dumps(cache_payload, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
         segments_payload.append(
             {
                 "segment_id": segment_id,
@@ -15269,8 +15276,7 @@ def derive_continental_westbound_carriageway(
     }
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(
-        json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8"
-    )
+        json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
     return payload
 
 
@@ -16663,8 +16669,7 @@ def author_continental_endpoint_connectors(
     }
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(
-        json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8"
-    )
+        json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
     return payload
 
 
@@ -18343,8 +18348,7 @@ def derive_continental_junction_geometry(
     }
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(
-        json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8"
-    )
+        json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
     return payload
 
 
@@ -22089,8 +22093,7 @@ def derive_continental_lane_topology(
     }
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(
-        json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8"
-    )
+        json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
     return payload
 
 

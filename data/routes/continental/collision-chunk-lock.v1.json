@@ -174008,8 +174008,8 @@
     }
   ],
   "hosts_sha256": "254be4f9cbe9cdfc3564b9a4340c04ff0b2e36a5ce957ff2154483ed28b0062d",
-  "junction_geometry_lock_sha256": "7bb8315cecb8e1fe4ef5519d9de11dc761cfb1d05c8b72d0955cb928c39eed9b",
-  "lane_topology_lock_sha256": "c125fb238434beb344d851f3055d0d7c313dbb10ca12e45653fb70210a0e5dbf",
+  "junction_geometry_lock_sha256": "1d1ddf31c0431460bad1552081c2a9d2d5fa372f6ac9dba83149796f7b3cedda",
+  "lane_topology_lock_sha256": "6bf0e518660ad942a2c1a8b2b953f74076958e3341b823ead0340a997a47c2ea",
   "model": {
     "chunk_length_m": 2000.0,
     "clearance_ramp_m": 100.0,
@@ -174031,5 +174031,5 @@
     "segment_count": 12,
     "triangle_count": 815044
   },
-  "westbound_carriageway_lock_sha256": "12be49299bd978b74b919d2d1ca5a24af4a3ce44585fdaf99779cb16cabdf3ce"
+  "westbound_carriageway_lock_sha256": "eb99323d3da3986a561a902309593716ae90e22703e7f1f68359144c8638f1fa"
 }
