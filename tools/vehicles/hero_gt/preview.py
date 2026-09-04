@@ -73,7 +73,7 @@ def main() -> None:
     if args.textured:
         textured = materials.build_materials(materials.Textures(args.repo_root))
         paint, dark, glass = textured["paint"], textured["dark"], textured["glass"]
-        wheel_materials = {key: textured[key] for key in ("tyre", "rim", "rim_dark", "disc", "hat", "caliper")}
+        wheel_materials = {key: textured[key] for key in ("tyre", "tyre_side", "rim", "rim_dark", "disc", "hat", "caliper")}
     else:
         paint = simple_material("Paint", (0.040, 0.125, 0.270, 1.0), metallic=0.22, roughness=0.36, coat=1.0)
         dark = simple_material("Dark", (0.01, 0.01, 0.011, 1.0), roughness=0.7)
@@ -83,7 +83,7 @@ def main() -> None:
         rim_dark = simple_material("RimDark", (0.05, 0.05, 0.055, 1.0), metallic=0.8, roughness=0.5)
         disc_material = simple_material("Disc", (0.55, 0.55, 0.56, 1.0), metallic=1.0, roughness=0.38)
         caliper_material = simple_material("Caliper", (0.60, 0.04, 0.02, 1.0), roughness=0.35, coat=0.5)
-        wheel_materials = {"tyre": tyre_material, "rim": rim_material, "rim_dark": rim_dark, "disc": disc_material, "hat": rim_dark, "caliper": caliper_material}
+        wheel_materials = {"tyre": tyre_material, "tyre_side": tyre_material, "rim": rim_material, "rim_dark": rim_dark, "disc": disc_material, "hat": rim_dark, "caliper": caliper_material}
     if args.part == "wheel":
         pivot = bpy.data.objects.new("Wheel_FR", None)
         scene.collection.objects.link(pivot)
@@ -127,11 +127,9 @@ def main() -> None:
         print("missing glass")
     bpy.data.objects.remove(hull.obj, do_unlink=True)
     apertures = {}
-    for obj in parts.cut(panels["FrontBumper"], parts.front_cutters(profiles)):
+    for obj in parts.cut(panels["FrontBumper"], parts.front_cutters(profiles) + parts.lamp_cutters(profiles)):
         apertures[obj.name.replace("Aperture", "")] = obj
     for obj in parts.cut(panels["RearBumper"], parts.rear_cutters()):
-        apertures[obj.name.replace("Aperture", "")] = obj
-    for obj in parts.cut(panels["Body"], parts.lamp_cutters(profiles)):
         apertures[obj.name.replace("Aperture", "")] = obj
     for obj in parts.cut(panels["Door"], parts.side_cutters(profiles)):
         bpy.data.objects.remove(obj, do_unlink=True)

@@ -144,7 +144,17 @@ embeds them in the GLB and the importer extracts Blender-composed copies
 (roughness and metalness packed, colour with opacity) which the packer
 redirects to `assets/vehicles/sourced/hero-gt/`. That folder is excluded
 from the release presets like the environment art, so a release build today
-would load the car without textures.
+loads the car without textures.
+
+Update 2026-09-04 (polish slice): the sentence above was not true when
+written. The generated scene named the textures as `ext_resource` entries,
+Godot refuses to load a scene with a missing dependency, and the packaged
+smoke workflow had failed on every run since #116 with the whole vehicle
+absent. The packer now detaches the references to
+`assets/vehicles/hero-gt/hero-gt.generated.textures.json` and the wrapper
+binds each one that exists, so the packaged game draws the flat-colour
+materials until this question clears. Option A still needs the exclusion
+removed; nothing else changes.
 
 - **A. Approve all ten records (recommended).** Flip `license.status` to
   `approved` in the lock and remove `assets/vehicles/sourced/*` from the
@@ -233,6 +243,15 @@ instead of failing on the order of its checks.
 
 ## Reviewer notes, not questions
 
+- The third-generation stance was redesigned the same afternoon it landed,
+  after the first true walk-around capture (a new ninth review stage with a
+  38-degree lens) showed a slab-sided wagon: the beltline fell from about
+  1.0 m to 0.89 m, the glasshouse grew to a third of the height, the hood
+  dropped under the fender crests, the lamps moved onto the fascia and the
+  tail dropped ten centimetres. The proportion sheet records the revised
+  numbers. Judge the car in the walk-around frames or the Blender
+  orthographic previews; the 76-degree chase view inflates whatever is
+  nearest and misled the first review.
 - The Hero GT visual rig had ridden 0.38 m too high since P1-002: the wrapper
   mounted it 0.76 m below the chassis while the physics rests the chassis
   0.975 m above the road, so the body floated 0.215 m while driving and the

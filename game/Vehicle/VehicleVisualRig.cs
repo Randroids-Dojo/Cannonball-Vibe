@@ -27,6 +27,14 @@ public sealed partial class VehicleVisualRig : Node3D
     /// </summary>
     public static readonly string[] CockpitExcludedMeshes = ["LOD0_Cabin", "LOD0_RoofSpine"];
 
+    /// <summary>
+    /// Texture bindings the packer detached from the generated scene. The
+    /// sourced maps live in a rights-gated folder the release presets
+    /// exclude, and a scene that names a missing resource fails to load, so
+    /// the scene ships untextured and the wrapper binds whatever exists.
+    /// </summary>
+    public const string SourcedTexturesPath = "res://assets/vehicles/hero-gt/hero-gt.generated.textures.json";
+
     private static readonly string[] WheelSuffixes = ["FL", "FR", "RL", "RR"];
     private readonly Node3D[] _wheelPivots = new Node3D[4];
     private readonly Node3D[] _suspensionAnchors = new Node3D[4];
@@ -72,6 +80,7 @@ public sealed partial class VehicleVisualRig : Node3D
             _suspensionRestPositions[index] = _suspensionAnchors[index].Position;
         }
         BuildDamageIndicators(resolved);
+        BindSourcedTextures();
         PolishImportedMaterials();
         // The collision proxy is a contract node for collision policy, not a
         // visual; the third-generation body tucks under at the sills and
@@ -178,6 +187,69 @@ public sealed partial class VehicleVisualRig : Node3D
     /// export itself writes; materials without extras fall back to their
     /// names so the second-generation asset keeps working.
     /// </summary>
+    private void BindSourcedTextures()
+    {
+        var bound = 0;
+        var missing = 0;
+        _automationState["sourced_textures_bound"] = 0;
+        _automationState["sourced_textures_missing"] = 0;
+        if (!Godot.FileAccess.FileExists(SourcedTexturesPath))
+        {
+            return;
+        }
+        var parsed = Json.ParseString(Godot.FileAccess.GetFileAsString(SourcedTexturesPath));
+        if (parsed.Obj is not Godot.Collections.Dictionary sidecar ||
+            !sidecar.TryGetValue("materials", out var materialsValue) ||
+            materialsValue.Obj is not Godot.Collections.Dictionary bindings)
+        {
+            GD.PushWarning($"Hero GT texture sidecar {SourcedTexturesPath} is not a schema-1 binding table.");
+            return;
+        }
+        using (sidecar)
+        using (bindings)
+        {
+            var seen = new HashSet<Rid>();
+            foreach (var meshInstance in Descendants(this).OfType<MeshInstance3D>())
+            {
+                using var mesh = meshInstance.Mesh;
+                if (mesh is null)
+                {
+                    continue;
+                }
+                for (var surface = 0; surface < mesh.GetSurfaceCount(); surface++)
+                {
+                    using var surfaceMaterial = mesh.SurfaceGetMaterial(surface);
+                    if (surfaceMaterial is not StandardMaterial3D material || !seen.Add(material.GetRid()))
+                    {
+                        continue;
+                    }
+                    if (!bindings.TryGetValue(material.ResourceName, out var slotsValue) ||
+                        slotsValue.Obj is not Godot.Collections.Dictionary slots)
+                    {
+                        continue;
+                    }
+                    using (slots)
+                    {
+                        foreach (var slot in slots.Keys)
+                        {
+                            var path = slots[slot].AsString();
+                            if (!ResourceLoader.Exists(path))
+                            {
+                                missing++;
+                                continue;
+                            }
+                            using var texture = ResourceLoader.Load<Texture2D>(path);
+                            material.Set(slot.AsString(), texture);
+                            bound++;
+                        }
+                    }
+                }
+            }
+        }
+        _automationState["sourced_textures_bound"] = bound;
+        _automationState["sourced_textures_missing"] = missing;
+    }
+
     private void PolishImportedMaterials()
     {
         var polished = 0;

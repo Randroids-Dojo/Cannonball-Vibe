@@ -18,6 +18,7 @@ const godot = JSON.parse(readFileSync(godotInventoryPath, "utf8"));
 const sourcePath = "data/assets/vehicles/sources/hero-gt.blend";
 const glbPath = "data/assets/vehicles/derived/hero-gt.glb";
 const generatedScenePath = "assets/vehicles/hero-gt/hero-gt.generated.tscn";
+const textureBindingsPath = "assets/vehicles/hero-gt/hero-gt.generated.textures.json";
 const wrapperPath = "game/Vehicle/Visuals/HeroGt.tscn";
 const adapterPath = "game/Vehicle/VehicleVisualRig.cs";
 const importPath = "data/assets/vehicles/hero-gt.glb.import";
@@ -85,6 +86,7 @@ const manifest = {
   derived: [
     artifact(glbPath, "gltf-binary"),
     artifact(generatedScenePath, "godot-generated-scene"),
+    artifact(textureBindingsPath, "godot-texture-bindings"),
     artifact(wrapperPath, "godot-wrapper"),
     artifact(adapterPath, "runtime-adapter"),
     artifact(importPath, "godot-import-settings"),

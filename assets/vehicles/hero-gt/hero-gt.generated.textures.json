@@ -1,0 +1,79 @@
+{
+  "materials": {
+    "Material_Body": {
+      "normal_texture": "res://assets/vehicles/sourced/hero-gt/hero-gt_Paint005_1K-JPG_NormalGL.jpg"
+    },
+    "Material_BrakeDisc": {
+      "albedo_texture": "res://assets/vehicles/sourced/hero-gt/hero-gt_Metal051A_1K-JPG_Color.jpg",
+      "metallic_texture": "res://assets/vehicles/sourced/hero-gt/hero-gt_Metal051A_1K-JPG_Roughness.png",
+      "normal_texture": "res://assets/vehicles/sourced/hero-gt/hero-gt_Metal051A_1K-JPG_NormalGL.jpg",
+      "roughness_texture": "res://assets/vehicles/sourced/hero-gt/hero-gt_Metal051A_1K-JPG_Roughness.png"
+    },
+    "Material_Carbon": {
+      "albedo_texture": "res://assets/vehicles/sourced/hero-gt/hero-gt_Fabric004_2K-JPG_Color.jpg",
+      "metallic_texture": "res://assets/vehicles/sourced/hero-gt/hero-gt_Fabric004_2K-JPG_Roughness.png",
+      "normal_texture": "res://assets/vehicles/sourced/hero-gt/hero-gt_Fabric004_2K-JPG_NormalGL.jpg",
+      "roughness_texture": "res://assets/vehicles/sourced/hero-gt/hero-gt_Fabric004_2K-JPG_Roughness.png"
+    },
+    "Material_Chrome": {
+      "normal_texture": "res://assets/vehicles/sourced/hero-gt/hero-gt_Metal051A_1K-JPG_NormalGL.jpg"
+    },
+    "Material_Grille": {
+      "albedo_texture": "res://assets/vehicles/sourced/hero-gt/hero-gt_SheetMetal001_1K-PNG_Color-SheetMetal001_1K-PNG_Opacity.png",
+      "metallic_texture": "res://assets/vehicles/sourced/hero-gt/hero-gt_SheetMetal001_1K-PNG_Roughness.png",
+      "normal_texture": "res://assets/vehicles/sourced/hero-gt/hero-gt_SheetMetal001_1K-PNG_NormalGL.png",
+      "roughness_texture": "res://assets/vehicles/sourced/hero-gt/hero-gt_SheetMetal001_1K-PNG_Roughness.png"
+    },
+    "Material_Interior": {
+      "albedo_texture": "res://assets/vehicles/sourced/hero-gt/hero-gt_Leather027_1K-JPG_Color.jpg",
+      "metallic_texture": "res://assets/vehicles/sourced/hero-gt/hero-gt_Leather027_1K-JPG_Roughness.png",
+      "normal_texture": "res://assets/vehicles/sourced/hero-gt/hero-gt_Leather027_1K-JPG_NormalGL.jpg",
+      "roughness_texture": "res://assets/vehicles/sourced/hero-gt/hero-gt_Leather027_1K-JPG_Roughness.png"
+    },
+    "Material_InteriorAlu": {
+      "albedo_texture": "res://assets/vehicles/sourced/hero-gt/hero-gt_Metal009_1K-JPG_Color.jpg",
+      "metallic_texture": "res://assets/vehicles/sourced/hero-gt/hero-gt_Metal009_1K-JPG_Roughness.png",
+      "normal_texture": "res://assets/vehicles/sourced/hero-gt/hero-gt_Metal009_1K-JPG_NormalGL.jpg",
+      "roughness_texture": "res://assets/vehicles/sourced/hero-gt/hero-gt_Metal009_1K-JPG_Roughness.png"
+    },
+    "Material_InteriorDash": {
+      "albedo_texture": "res://assets/vehicles/sourced/hero-gt/hero-gt_Leather026_1K-JPG_Color.jpg",
+      "metallic_texture": "res://assets/vehicles/sourced/hero-gt/hero-gt_Leather026_1K-JPG_Roughness.png",
+      "normal_texture": "res://assets/vehicles/sourced/hero-gt/hero-gt_Leather026_1K-JPG_NormalGL.jpg",
+      "roughness_texture": "res://assets/vehicles/sourced/hero-gt/hero-gt_Leather026_1K-JPG_Roughness.png"
+    },
+    "Material_InteriorSuede": {
+      "albedo_texture": "res://assets/vehicles/sourced/hero-gt/hero-gt_scuba_suede_diff_1k.jpg",
+      "normal_texture": "res://assets/vehicles/sourced/hero-gt/hero-gt_scuba_suede_nor_gl_1k.jpg"
+    },
+    "Material_Tire": {
+      "albedo_texture": "res://assets/vehicles/sourced/hero-gt/hero-gt_plastic_0022_color_2k.jpg",
+      "ao_texture": "res://assets/vehicles/sourced/hero-gt/hero-gt_plastic_0022_ao_2k-plastic_0022_roughness_2k.png",
+      "metallic_texture": "res://assets/vehicles/sourced/hero-gt/hero-gt_plastic_0022_ao_2k-plastic_0022_roughness_2k.png",
+      "normal_texture": "res://assets/vehicles/sourced/hero-gt/hero-gt_plastic_0022_normal_opengl_2k.jpg",
+      "roughness_texture": "res://assets/vehicles/sourced/hero-gt/hero-gt_plastic_0022_ao_2k-plastic_0022_roughness_2k.png"
+    },
+    "Material_TireSidewall": {
+      "albedo_texture": "res://assets/vehicles/sourced/hero-gt/hero-gt_Plastic012A_1K-JPG_Color.jpg",
+      "metallic_texture": "res://assets/vehicles/sourced/hero-gt/hero-gt_Plastic012A_1K-JPG_Roughness.png",
+      "normal_texture": "res://assets/vehicles/sourced/hero-gt/hero-gt_Plastic012A_1K-JPG_NormalGL.jpg",
+      "roughness_texture": "res://assets/vehicles/sourced/hero-gt/hero-gt_Plastic012A_1K-JPG_Roughness.png"
+    },
+    "Material_Trim": {
+      "albedo_texture": "res://assets/vehicles/sourced/hero-gt/hero-gt_Plastic012A_1K-JPG_Color.jpg",
+      "metallic_texture": "res://assets/vehicles/sourced/hero-gt/hero-gt_Plastic012A_1K-JPG_Roughness.png",
+      "normal_texture": "res://assets/vehicles/sourced/hero-gt/hero-gt_Plastic012A_1K-JPG_NormalGL.jpg",
+      "roughness_texture": "res://assets/vehicles/sourced/hero-gt/hero-gt_Plastic012A_1K-JPG_Roughness.png"
+    },
+    "Material_Well": {
+      "albedo_texture": "res://assets/vehicles/sourced/hero-gt/hero-gt_Plastic012A_1K-JPG_Color.jpg",
+      "normal_texture": "res://assets/vehicles/sourced/hero-gt/hero-gt_Plastic012A_1K-JPG_NormalGL.jpg"
+    },
+    "Material_Wheel": {
+      "metallic_texture": "res://assets/vehicles/sourced/hero-gt/hero-gt_Metal051A_1K-JPG_Roughness.png",
+      "normal_texture": "res://assets/vehicles/sourced/hero-gt/hero-gt_Metal051A_1K-JPG_NormalGL.jpg",
+      "roughness_texture": "res://assets/vehicles/sourced/hero-gt/hero-gt_Metal051A_1K-JPG_Roughness.png"
+    }
+  },
+  "schema": 1
+}

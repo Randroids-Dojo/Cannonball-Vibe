@@ -34,6 +34,7 @@ func _init() -> void:
 		return
 	text = unique_ids.sub(text, "", true)
 	text = _redirect_extracted_textures(text)
+	text = _detach_textures(text, args[1].get_basename() + ".textures.json")
 	var normalized := FileAccess.open(args[1], FileAccess.WRITE)
 	if normalized == null:
 		push_error("Could not rewrite normalized scene")
@@ -63,6 +64,71 @@ func _redirect_extracted_textures(text: String) -> String:
 		return text
 	text = uid_pattern.sub(text, "[ext_resource type=\"Texture2D\" path=\"" + SOURCED_PREFIX, true)
 	return text.replace(EXTRACTED_PREFIX, SOURCED_PREFIX)
+
+
+# A scene that names a missing ext_resource fails to load outright, so the
+# release build, which excludes the sourced folder, would lose the whole
+# vehicle. The texture references leave the scene and go to a sidecar next to
+# it; VehicleVisualRig binds each one that exists at runtime, and the
+# packaged game draws the untextured materials until the rights records clear.
+func _detach_textures(text: String, sidecar_path: String) -> String:
+	var ext_pattern := RegEx.new()
+	if ext_pattern.compile("^\\[ext_resource type=\"Texture2D\" path=\"([^\"]+)\" id=\"([^\"]+)\"\\]$") != OK:
+		push_error("Could not compile texture ext_resource pattern")
+		return text
+	var slot_pattern := RegEx.new()
+	if slot_pattern.compile("^(\\w+_texture) = ExtResource\\(\"([^\"]+)\"\\)$") != OK:
+		push_error("Could not compile texture slot pattern")
+		return text
+	var name_pattern := RegEx.new()
+	if name_pattern.compile("^resource_name = \"([^\"]+)\"$") != OK:
+		push_error("Could not compile resource name pattern")
+		return text
+	var paths := {}
+	var kept: PackedStringArray = []
+	var bindings := {}
+	var material := ""
+	for line in text.split("\n"):
+		var ext := ext_pattern.search(line)
+		if ext != null:
+			paths[ext.get_string(2)] = ext.get_string(1)
+			continue
+		if line.begins_with("[sub_resource type=\"StandardMaterial3D\""):
+			material = ""
+		elif line.begins_with("["):
+			material = ""
+		var named := name_pattern.search(line)
+		if named != null:
+			material = named.get_string(1)
+		var slot := slot_pattern.search(line)
+		if slot != null and paths.has(slot.get_string(2)):
+			if material.is_empty():
+				push_error("Texture slot outside a named material: %s" % line)
+				return text
+			if not bindings.has(material):
+				bindings[material] = {}
+			bindings[material][slot.get_string(1)] = paths[slot.get_string(2)]
+			continue
+		kept.append(line)
+	var names := bindings.keys()
+	names.sort()
+	var ordered := {}
+	for key in names:
+		var slots: Dictionary = bindings[key]
+		var slot_names := slots.keys()
+		slot_names.sort()
+		var ordered_slots := {}
+		for slot_name in slot_names:
+			ordered_slots[slot_name] = slots[slot_name]
+		ordered[key] = ordered_slots
+	var sidecar := FileAccess.open(sidecar_path, FileAccess.WRITE)
+	if sidecar == null:
+		push_error("Could not write texture sidecar %s" % sidecar_path)
+		return text
+	sidecar.store_string(JSON.stringify({"schema": 1, "materials": ordered}, "  ") + "\n")
+	sidecar.close()
+	print("CANNONBALL_PACKED_TEXTURES_DETACHED materials=%d textures=%d sidecar=%s" % [ordered.size(), paths.size(), sidecar_path])
+	return "\n".join(kept)
 
 
 func _assign_owner(node: Node, scene_owner: Node) -> void:

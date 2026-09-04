@@ -171,6 +171,10 @@ async def test_camera_handling_survives_pause_device_reset_and_mode_transitions(
         assert visual["cockpit_excluded_mesh_count"] == len(
             visual["cockpit_excluded_meshes"]
         )
+        # The generated scene ships without texture references; the wrapper
+        # binds the sourced maps from the sidecar, and the checkout has them.
+        assert visual["sourced_textures_bound"] > 0
+        assert visual["sourced_textures_missing"] == 0
         assert visual["chase_exterior_geometry_visible"] is True
         exterior_layer = visual["cockpit_exterior_layer"]
         assert cockpit["cull_mask"] & exterior_layer == 0
