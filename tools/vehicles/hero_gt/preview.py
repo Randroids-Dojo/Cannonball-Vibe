@@ -131,6 +131,8 @@ def main() -> None:
         apertures[obj.name.replace("Aperture", "")] = obj
     for obj in parts.cut(panels["RearBumper"], parts.rear_cutters()):
         apertures[obj.name.replace("Aperture", "")] = obj
+    for obj in parts.cut(panels["Body"], parts.body_cutters(profiles)):
+        apertures[obj.name.replace("Aperture", "")] = obj
     for obj in parts.cut(panels["Door"], parts.side_cutters(profiles)):
         bpy.data.objects.remove(obj, do_unlink=True)
     for name in ("FrontBumper", "RearBumper", "Door"):
@@ -141,8 +143,8 @@ def main() -> None:
             "paint", "housing", "cavity", "grille", "carbon", "chrome", "headlamp", "led", "lens_glass", "taillamp",
             "lens_glass_red", "plate")}
         parts.build_front_parts(scene.collection, None, part_materials, apertures)
-        parts.build_rear_parts(scene.collection, None, part_materials, apertures)
-        parts.build_side_parts(scene.collection, None, part_materials, profiles)
+        parts.build_rear_parts(scene.collection, None, part_materials, apertures, profiles)
+        parts.build_side_parts(scene.collection, None, part_materials, profiles, apertures)
         interior.build_interior(scene.collection, None, textured, profiles)
         for obj in apertures.values():
             bpy.data.objects.remove(obj, do_unlink=True)
@@ -174,8 +176,8 @@ def main() -> None:
         "plate": plate,
     }
     parts.build_front_parts(scene.collection, None, part_materials, apertures)
-    parts.build_rear_parts(scene.collection, None, part_materials, apertures)
-    parts.build_side_parts(scene.collection, None, part_materials, profiles)
+    parts.build_rear_parts(scene.collection, None, part_materials, apertures, profiles)
+    parts.build_side_parts(scene.collection, None, part_materials, profiles, apertures)
     for obj in apertures.values():
         bpy.data.objects.remove(obj, do_unlink=True)
     finish_scene(scene, args, wheel_materials, dark)

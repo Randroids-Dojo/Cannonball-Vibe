@@ -261,6 +261,17 @@ def lamp_cutters(profiles: spec.Profiles) -> list[bpy.types.Object]:
     return cutters
 
 
+FUEL_FLAP_Y = 1.62
+FUEL_FLAP_Z = 0.86
+
+
+def body_cutters(profiles: spec.Profiles) -> list[bpy.types.Object]:
+    """Apertures cut from the body panel: the fuel flap on the right rear quarter."""
+    x_surface = surface_x(profiles, FUEL_FLAP_Y, FUEL_FLAP_Z)
+    return [cutter_object("FuelFlapCutter", rounded_box_bmesh(
+        (0.30, 0.17, 0.17), (x_surface, FUEL_FLAP_Y, FUEL_FLAP_Z), bevel=0.03, segments=3))]
+
+
 def build_front_parts(collection, parent, materials, apertures: dict[str, bpy.types.Object]) -> None:
     nose = spec.NOSE_Y
     # Grille: cavity floor with walls, perforated mesh insert, nose badge.
@@ -330,8 +341,13 @@ def rear_cutters() -> list[bpy.types.Object]:
     return cutters
 
 
-def build_rear_parts(collection, parent, materials, apertures: dict[str, bpy.types.Object]) -> None:
+def build_rear_parts(collection, parent, materials, apertures: dict[str, bpy.types.Object], profiles: spec.Profiles | None = None) -> None:
     tail = spec.TAIL_Y
+    if profiles is not None:
+        # Third brake light: a slim red lens along the trunk lip, unlit.
+        lip_y = spec.TRUNK_REAR_Y - 0.035
+        rounded_box("LOD0_BrakeLight", (0.34, 0.022, 0.014), (0.0, lip_y, surface_z(profiles, lip_y, 0.0) - 0.002),
+                    collection, parent, materials["lens_glass_red"], bevel=0.004)
     bar = apertures["TailBarCutter"]
     offset_copy(bar, "LOD0_TailBarHousing", 0.05, materials["housing"], collection, parent, walls=True)
     offset_copy(bar, "LOD0_TailBar", 0.018, materials["taillamp"], collection, parent, gap=0.005)
@@ -382,7 +398,12 @@ def side_cutters(profiles: spec.Profiles) -> list[bpy.types.Object]:
     return cutters
 
 
-def build_side_parts(collection, parent, materials, profiles: spec.Profiles) -> None:
+def build_side_parts(collection, parent, materials, profiles: spec.Profiles, apertures: dict[str, bpy.types.Object] | None = None) -> None:
+    if apertures and "FuelFlapCutter" in apertures:
+        # The flap is its own aperture piece set 3 mm in with dark walls, so it
+        # reads as a shut line on the quarter panel.
+        offset_copy(apertures["FuelFlapCutter"], "LOD0_FuelFlap", 0.003, materials["paint"], collection, parent,
+                    gap=0.0025, walls=True, wall_material=materials["housing"])
     for side in (-1, 1):
         suffix = "L" if side < 0 else "R"
         x = profiles.belt_x(spec.DOOR_HANDLE_Y)

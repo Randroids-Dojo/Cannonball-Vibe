@@ -7,7 +7,7 @@
     "creation_date": "2026-07-18",
     "method": "Project-original deterministic procedural Blender model",
     "creation_script": "tools/vehicles/create_hero_gt.py",
-    "creation_script_sha256": "f3067f93e372c5ddb1b19a5854068fa7ea47082492411291332f164cc8dcaa46"
+    "creation_script_sha256": "ff70cb1c91989ddab1de71a9b9928bbcbb50e3f0ff1f7844d72c1caf3feb1daf"
   },
   "license": {
     "spdx": "CC0-1.0",
@@ -17,7 +17,7 @@
   },
   "source": {
     "path": "data/assets/vehicles/sources/hero-gt.blend",
-    "sha256": "0705b872733a09d8ca67db21f256db8201eb45df2ed12caa44fa5e7106b69e6c",
+    "sha256": "a87a0ea01e5a920de477e1d3a821a68c7c1fe486470c37a3fc3693e8f78b3bd7",
     "kind": "blender-source"
   },
   "transformations": [
@@ -32,7 +32,7 @@
       "inputs": [
         {
           "path": "data/assets/vehicles/sources/hero-gt.blend",
-          "sha256": "0705b872733a09d8ca67db21f256db8201eb45df2ed12caa44fa5e7106b69e6c",
+          "sha256": "a87a0ea01e5a920de477e1d3a821a68c7c1fe486470c37a3fc3693e8f78b3bd7",
           "kind": "blender-source"
         }
       ]
@@ -48,7 +48,7 @@
       "inputs": [
         {
           "path": "data/assets/vehicles/derived/hero-gt.glb",
-          "sha256": "cbec92a7b1428741179cdcabdd14a1782b0c4411cb4e3d843bc32c1a7f9b79a3",
+          "sha256": "e426453295cdaeaf098290913cf38b6ec118dc595f5164e7aebf02c85f790676",
           "kind": "gltf-binary"
         }
       ]
@@ -64,7 +64,7 @@
       "inputs": [
         {
           "path": "assets/vehicles/hero-gt/hero-gt.generated.tscn",
-          "sha256": "a9e5cbbfae9e54b7301dd284d65d70290d0bd257bb68bc656b891e20652cfff1",
+          "sha256": "2e8dacfdba18665b4b3d9398dc07d25ecedecfbfed9cfec908c4086ddabdc4b8",
           "kind": "godot-generated-scene"
         }
       ]
@@ -73,12 +73,12 @@
   "derived": [
     {
       "path": "data/assets/vehicles/derived/hero-gt.glb",
-      "sha256": "cbec92a7b1428741179cdcabdd14a1782b0c4411cb4e3d843bc32c1a7f9b79a3",
+      "sha256": "e426453295cdaeaf098290913cf38b6ec118dc595f5164e7aebf02c85f790676",
       "kind": "gltf-binary"
     },
     {
       "path": "assets/vehicles/hero-gt/hero-gt.generated.tscn",
-      "sha256": "a9e5cbbfae9e54b7301dd284d65d70290d0bd257bb68bc656b891e20652cfff1",
+      "sha256": "2e8dacfdba18665b4b3d9398dc07d25ecedecfbfed9cfec908c4086ddabdc4b8",
       "kind": "godot-generated-scene"
     },
     {
@@ -103,17 +103,17 @@
     },
     {
       "path": "data/assets/vehicles/hero-gt-contact-sheet.png",
-      "sha256": "bb4aa4f54c90416e903d8bc7bf3940b07fd00f4e85b8b7eb479c233d5b419875",
+      "sha256": "f8b68ae26f8205f9f33ff7cd78b5872668d2345e46811add17277f6adec25441",
       "kind": "renderer-contact-sheet"
     },
     {
       "path": "data/assets/vehicles/hero-gt.blender.json",
-      "sha256": "4071213fcad0c45091006e6893fa785c6c0ecc53a92d6e4fe442180254958a85",
+      "sha256": "48f9f9a6cd60064cce9a80e1ead2ec5987839a6dfe4588a18c0c92fcf4dcca4e",
       "kind": "blender-inventory"
     },
     {
       "path": "data/assets/vehicles/hero-gt.godot.json",
-      "sha256": "e1cefdee234679112e75a2717a64c125ec7d571e0c801acce66346bf82c522b4",
+      "sha256": "c0dee4fd80aa0c3c506f0c254ab44faadad67442e3fda74e98bd3f870e9bc80f",
       "kind": "godot-inventory"
     }
   ],
