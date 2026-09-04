@@ -54,6 +54,11 @@ public sealed partial class VehicleVisualRig : Node3D
 
     /// <summary>Whether the head and tail lamps are lit.</summary>
     public bool HeadlightsOn { get; private set; }
+
+    /// <summary>Sidecar texture slots bound at load, and slots whose file was absent.</summary>
+    public int SourcedTexturesBound { get; private set; }
+
+    public int SourcedTexturesMissing { get; private set; }
     private Node3D _lod0 = null!;
     private Node3D _lod1 = null!;
     private Node3D _lod2 = null!;
@@ -384,6 +389,8 @@ public sealed partial class VehicleVisualRig : Node3D
                 }
             }
         }
+        SourcedTexturesBound = bound;
+        SourcedTexturesMissing = missing;
         _automationState["sourced_textures_bound"] = bound;
         _automationState["sourced_textures_missing"] = missing;
     }
