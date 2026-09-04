@@ -241,6 +241,32 @@ instead of failing on the order of its checks.
 - **C. Drop the macOS runner from the live suite** and keep it on the
   packaged smoke only.
 
+## Hero GT status at the end of 2026-09-04
+
+Five slices landed today on the third-generation Hero GT (#116, #121,
+#122, #123 and the lamps follow-up), with three live-suite repairs between
+them (#118, #119, #120). Where it stands:
+
+- Stance and face: sports-GT ratios (belt at 0.65 of the height, a third of
+  the height in glass, fender crests over a dipped hood), fascia lamp bars
+  over a wide grille, a low tail with the exhausts and plate on its face.
+  Judge it in `docs/images/p1-008-hero-gt-gen3-polish-review.png` and the
+  later sheets, never in the 76-degree chase view.
+- Paint: deep metallic navy under a flake clear coat (one constant to change).
+- Cockpit: a driver eye point behind the wheel, pillars, header, visors,
+  headliner, dark glowing screens, hooded binnacle; still boxes underneath.
+- Lamps: the car lights the road at night (the run starts at night), doused
+  by day, under half a millisecond on the reference PC.
+- Release build: the scene ships without texture references and binds the
+  sourced maps when present, so the packaged game loads the car untextured
+  until Q-043 clears; the clean-machine smoke is green again.
+- Review: ten stages, 600 Forward+ frames per capture, including a
+  day-and-night walk-around and a daylight cockpit pan.
+
+Not AA yet, in order of what would move it most: badges and small exterior
+details, sculpted seats and a real dash form, baked occlusion, a second pass
+on the wheels, and the human art gate (Q-020) with the rights gate (Q-043).
+
 ## Reviewer notes, not questions
 
 - The Hero GT now lights the road at night: shadowed low beams and spills
