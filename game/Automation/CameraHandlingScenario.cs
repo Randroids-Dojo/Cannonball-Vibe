@@ -260,8 +260,49 @@ public sealed class CameraHandlingScenario
                     throw new InvalidOperationException(
                         $"Cockpit stabilization exceeded its bounded local contract: {cockpit}.");
                 }
+                ValidateVisualRigContract();
                 break;
         }
+    }
+
+    /// <summary>
+    /// The production rig's cockpit contract, checked here on the headless
+    /// M0 path rather than in the PlayGodot camera test: the live suite runs
+    /// on software renderers where the production rig draws too few frames
+    /// for its settle windows (Q-042), and this scenario always runs the
+    /// production rig at whatever frame rate the machine gives.
+    /// </summary>
+    private void ValidateVisualRigContract()
+    {
+        var rig = _vehicle.VisualRig ??
+            throw new InvalidOperationException("Camera handling requires the Hero GT rig for its cockpit contract.");
+        var layer = VehicleVisualRig.CockpitExteriorRenderLayer;
+        foreach (var name in VehicleVisualRig.CockpitExcludedMeshes)
+        {
+            if (rig.FindChild(name, recursive: true, owned: false) is not GeometryInstance3D geometry)
+            {
+                throw new InvalidOperationException($"Cockpit exclusion mesh '{name}' is missing from the rig.");
+            }
+            if ((geometry.Layers & layer) != layer)
+            {
+                throw new InvalidOperationException($"Cockpit exclusion mesh '{name}' is not on the exterior layer.");
+            }
+        }
+        if ((_vehicle.CockpitCameraRig.Camera.CullMask & layer) != 0)
+        {
+            throw new InvalidOperationException("The cockpit camera still draws the exterior layer.");
+        }
+        if ((_vehicle.ChaseCameraRig.Camera.CullMask & layer) != layer)
+        {
+            throw new InvalidOperationException("The chase camera does not draw the exterior layer.");
+        }
+        if (rig.SourcedTexturesMissing != 0 || rig.SourcedTexturesBound == 0)
+        {
+            throw new InvalidOperationException(
+                $"Sourced texture binding drifted: bound={rig.SourcedTexturesBound} missing={rig.SourcedTexturesMissing}.");
+        }
+        _automationState["cockpit_excluded_meshes"] = new Godot.Collections.Array<string>(VehicleVisualRig.CockpitExcludedMeshes);
+        _automationState["sourced_textures_bound"] = rig.SourcedTexturesBound;
     }
 
     private static void ValidateAttachedAndLevel(ChaseCameraSnapshot snapshot, string stage)

@@ -233,6 +233,17 @@ The raw-socket tests build their own launch and needed the same flag; the
 damping test now accepts a qualifying sample that lands after its deadline
 instead of failing on the order of its checks.
 
+Update, later the same day: the camera test kept the production rig for its
+cockpit contract and kept failing its rear-view settle on macOS (0.85, then
+0.84 of the 0.9 bound with beam shadows off) because the rig draws too few
+frames there and the blends advance per frame. The camera test now runs the
+graybox car too, and the cockpit contract (exclusion names on the exterior
+layer, cull masks, sourced-texture binding) is asserted by the headless
+`camera-handling` scenario on the M0 path, which is a gate. The live suite
+no longer renders the production car anywhere. The hostile-request bridge
+class (Q-035) recurred once more on macOS with the graybox car and remains
+the one open live-suite cause.
+
 - **A. Root-cause the remaining bounds in the Q-035 style (recommended)**:
   re-express latency-shaped bounds such as `elapsed_seconds` against the
   game clock the run already exposes, so a slow describe cannot fail them.
