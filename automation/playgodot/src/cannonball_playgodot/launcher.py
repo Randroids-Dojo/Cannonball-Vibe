@@ -29,10 +29,12 @@ class PlayGodotProcess:
         request_timeout: float = 10.0,
         transcript: Path | None = None,
         log_path: Path | None = None,
+        production_vehicle: bool = False,
     ) -> None:
         self.repo_root = repo_root.resolve()
         self.route_package = route_package.resolve()
         self.capabilities = capabilities
+        self.production_vehicle = production_vehicle
         self.godot_bin = godot_bin or self._godot_from_environment()
         self.startup_timeout = startup_timeout
         self.request_timeout = request_timeout
@@ -91,6 +93,13 @@ class PlayGodotProcess:
             f"--route-package={self.route_package}",
             f"--telemetry-path={self._runtime_directory / 'telemetry.jsonl'}",
         ]
+        if not self.production_vehicle:
+            # The same reasoning covers the car: the third-generation Hero GT
+            # brought twenty-eight textured materials whose first draw stalls
+            # the main thread for tens of seconds on the software renderers,
+            # which is longer than the suite's request and settle windows.
+            # Only the camera test needs the production rig's contract.
+            command.append("--graybox-vehicle")
         if platform.system() == "Linux" and os.environ.get("PLAYGODOT_XVFB") == "1":
             command = ["xvfb-run", "-a", *command]
         try:

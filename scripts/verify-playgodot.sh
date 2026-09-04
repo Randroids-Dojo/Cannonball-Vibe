@@ -51,8 +51,9 @@ dotnet build "$repo_root/Cannonball.sln" --nologo
 
 "$repo_root/scripts/verify-playgodot-package-boundary.sh"
 uv run --project automation/playgodot --frozen ruff check automation/playgodot
+# Durations show which launch paid for a slow first draw when a bound trips.
 if [[ -n "$test_filter" ]]; then
-  uv run --project automation/playgodot --frozen pytest automation/playgodot -k "$test_filter"
+  uv run --project automation/playgodot --frozen pytest automation/playgodot --durations=10 -k "$test_filter"
 else
-  uv run --project automation/playgodot --frozen pytest automation/playgodot
+  uv run --project automation/playgodot --frozen pytest automation/playgodot --durations=10
 fi
