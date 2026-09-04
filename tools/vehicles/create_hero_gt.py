@@ -103,6 +103,8 @@ def build_lod0(asset, lod0, mats, profiles) -> dict[str, bpy.types.Object]:
         apertures[obj.name.replace("Aperture", "")] = obj
     for obj in parts.cut(panels["LOD0_RearBumper"], parts.rear_cutters()):
         apertures[obj.name.replace("Aperture", "")] = obj
+    for obj in parts.cut(panels["LOD0_Body"], parts.body_cutters(profiles)):
+        apertures[obj.name.replace("Aperture", "")] = obj
     for obj in parts.cut(panels["LOD0_Door"], parts.side_cutters(profiles)):
         bpy.data.objects.remove(obj, do_unlink=True)
     for name, rim in (("LOD0_FrontBumper", 0.014), ("LOD0_RearBumper", 0.014), ("LOD0_Door", 0.014), ("LOD0_Body", 0.02), ("LOD0_RoofSpine", 0.012)):
@@ -111,8 +113,8 @@ def build_lod0(asset, lod0, mats, profiles) -> dict[str, bpy.types.Object]:
         "paint", "housing", "cavity", "grille", "carbon", "chrome", "headlamp", "led", "lens_glass", "taillamp",
         "lens_glass_red", "plate")}
     parts.build_front_parts(asset, lod0, part_materials, apertures)
-    parts.build_rear_parts(asset, lod0, part_materials, apertures)
-    parts.build_side_parts(asset, lod0, part_materials, profiles)
+    parts.build_rear_parts(asset, lod0, part_materials, apertures, profiles)
+    parts.build_side_parts(asset, lod0, part_materials, profiles, apertures)
     for obj in apertures.values():
         bpy.data.objects.remove(obj, do_unlink=True)
     interior.build_interior(asset, lod0, mats, profiles)
