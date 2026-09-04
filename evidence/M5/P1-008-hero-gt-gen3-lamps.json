@@ -4,8 +4,8 @@
   "milestone": "M5",
   "status": "in_progress",
   "slice": "hero-gt-generation-3-lamps-2026-09-04",
-  "git_revision": "3c1e55743997a046d81bf158edfd23d63fdf2946",
-  "recorded_at_utc": "2026-09-04T18:38:42Z",
+  "git_revision": "a1d4b128d7fd1b471cfd35484003d64e2df6814a",
+  "recorded_at_utc": "2026-09-04T18:48:15Z",
   "platform": {
     "os": "Windows 11 Pro 10.0.26200",
     "architecture": "x64",
@@ -20,14 +20,16 @@
     "verified": [
       "working lamps under the four light anchors: shadowed warm low beams (30 energy, 120 m, 38 degrees, dipped 2.2 degrees) with 3 m spills under the head anchors, red glows under the tail anchors",
       "SkyLighting publishes CurrentPreset and PresetChanged; the rig lights the lamps for Night and Dawn and douses them for Day and Overcast from whatever preset is current when it enters the tree",
-      "vehicle-visual stages assert lamps lit at night and doused by day; the walk-around runs its second half at night"
+      "vehicle-visual stages assert lamps lit at night and doused by day; the walk-around runs its second half at night",
+      "tail bar and projector lens emission scaled to 12 percent when doused; beam shadows off under the graybox-assets flag so the software-rendered semantic suite keeps its settle windows",
+      "reference performance capture at 1440p on the RTX 3080 Ti: night with lamps 3.43 ms mean frame against 2.95 ms by day without them"
     ],
     "completion_pending": [
-      "frame-time measurement of the two shadowed spot lights per tier (Q-041)",
-      "high beam, indicators, preset-driven lamp emission"
+      "frame-time on the Low tier (Q-041)",
+      "high beam, indicators"
     ],
     "excluded_claims": [
-      "frame-time claims",
+      "frame-time claims for tiers other than Balanced on the reference PC",
       "human art approval"
     ]
   },
@@ -39,8 +41,8 @@
     },
     {
       "path": "game/Vehicle/VehicleVisualRig.cs",
-      "sha256": "2f4e9fc1991143ef25691e17bfc179d2ee3d5a50463a8c4f12421f319d202814",
-      "bytes": 24312
+      "sha256": "e27bc7e9a9087a268ae2a9bbd6c81896c7fbaaa41a08eca76850ea4aaba6f1f4",
+      "bytes": 26673
     },
     {
       "path": "game/Vehicle/CannonballVehicle.cs",
@@ -60,13 +62,14 @@
       "range_m": 120.0,
       "angle_degrees": 38.0,
       "dip_degrees": 2.2,
-      "shadow": true,
+      "shadow": "on unless --graybox-environment-assets",
       "color": [
         1.0,
         0.93,
         0.8
       ]
     },
+    "doused_emission_scale": 0.12,
     "head_spill": {
       "type": "OmniLight3D",
       "energy": 1.2,
@@ -119,23 +122,45 @@
     "night_orbit_frames": "510-539",
     "night_cockpit_frames": "60-119"
   },
+  "reference_performance": {
+    "command": "./scripts/capture-reference-performance.sh --scenario lamps-<mode> --lighting <mode> --camera chase --warmup-seconds 15 --measure-seconds 60 --environment-quality balanced --allow-contended",
+    "resolution": "2560x1440",
+    "night_with_lamps": {
+      "mean_frame_ms": 3.426,
+      "p99_frame_ms": 5.103,
+      "mean_render_gpu_ms": 2.904,
+      "mean_draw_calls": 1326,
+      "mean_fps": 291.9,
+      "frames": 17513
+    },
+    "daylight_without_lamps": {
+      "mean_frame_ms": 2.947,
+      "p99_frame_ms": 4.203,
+      "mean_render_gpu_ms": 2.433,
+      "mean_draw_calls": 1158,
+      "mean_fps": 339.4,
+      "frames": 20363
+    },
+    "note": "bounds the beams plus the night preset together at under 0.5 ms mean on the reference PC; machine was not idle"
+  },
   "output_artifacts": [
     {
       "path": "docs/images/p1-008-hero-gt-gen3-lamps-review.png",
-      "sha256": "7644245d38fcade4487ba45102066b6f678f15aaf3ea7176ce4cece3c161b5e6",
-      "bytes": 1768237
+      "sha256": "174a91b71f1774658e259944c6087e65b6312d331b00655845cfbfb64d3b6a83",
+      "bytes": 1768165
     },
     {
       "path": "docs/audits/2026-09-04-p1-008-hero-gt-lamps.md",
-      "sha256": "a5381dce62052dc22126ebaa6b6a42d4e70d11598825e8b84a80b7dcbb74a0db",
-      "bytes": 2993
+      "sha256": "c60e8a26b5bb4a1479aa39d9a4f64d084ae4479a5a1b71fb39b292941a651a53",
+      "bytes": 3824
     }
   ],
   "failure_logs": [
     "the first beam (18 energy, 90 m, dipped 3.5 degrees) reached about twenty metres from the eye point; a low beam wants fifty or more, so the energy, range and dip were retuned",
-    "the first tail glow (1.6 energy) pooled a strong red on the road; halved"
+    "the first tail glow (1.6 energy) pooled a strong red on the road; halved",
+    "first CI run: the macOS camera test reached 0.85 of its 0.9 rear-view blend bound inside the settle window with two shadowed beams on the software renderer (run 33907041405); beams cast no shadow under the graybox-assets flag now, no bound moved"
   ],
-  "retry_count": 1,
+  "retry_count": 2,
   "recovery_result": "pass",
   "human_gate": {
     "name": "Hero vehicle art direction and final rights approval",
