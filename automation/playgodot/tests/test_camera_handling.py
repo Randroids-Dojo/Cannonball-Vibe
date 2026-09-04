@@ -113,13 +113,19 @@ async def test_camera_handling_survives_pause_device_reset_and_mode_transitions(
     tmp_path: Path,
 ) -> None:
     artifacts = _artifacts(tmp_path)
+    # This test asserts the production rig's cockpit contract, so it runs
+    # the real Hero GT. Its first draw compiles the car's shaders on the
+    # software renderers, a one-time stall that exceeded 30 s on the Windows
+    # runner; the budget covers that warm-up, and every later request still
+    # answers in milliseconds.
     process = PlayGodotProcess(
         REPO_ROOT,
         _route_package(),
         capabilities=("read", "input", "screenshot"),
-        request_timeout=30.0,
+        request_timeout=150.0,
         transcript=artifacts / "camera-handling.jsonl",
         log_path=artifacts / "camera-handling-godot.log",
+        production_vehicle=True,
     )
     async with process as client:
         chase = (await client.describe("camera.chase.rig"))["test_state"]
