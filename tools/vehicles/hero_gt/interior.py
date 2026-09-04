@@ -46,10 +46,37 @@ def build_interior(collection, parent, materials, profiles: spec.Profiles) -> No
     dash_obj = _link("LOD0_Dash", dash, collection, parent, [dash_leather])
     smooth(dash_obj, 40)
     rounded_box("LOD0_DashStrip", (1.40, 0.03, 0.05), (0.0, spec.COWL_Y + 0.32, cowl_top - 0.12), collection, parent, carbon, bevel=0.008)
-    rounded_box("LOD0_Binnacle", (0.38, 0.20, 0.12), (-SEAT_X, spec.COWL_Y + 0.22, cowl_top - 0.02), collection, parent, plastic, bevel=0.03)
-    rounded_box("LOD0_Cluster", (0.30, 0.006, 0.09), (-SEAT_X, spec.COWL_Y + 0.33, cowl_top - 0.03), collection, parent, screen, bevel=0.004)
+    # Binnacle: a hooded cowl over the cluster, its top rounded and its rear
+    # lip drawn back over the screen, tilted a little towards the driver.
+    hood = rounded_box_bmesh((0.40, 0.22, 0.13), (0, 0, 0), bevel=0.05, segments=4)
+    for vert in hood.verts:
+        if vert.co.z > 0.0:
+            vert.co.y += 0.03 * vert.co.z / 0.065
+            vert.co.x *= 1.0 - 0.10 * vert.co.z / 0.065
+    bmesh.ops.rotate(hood, cent=Vector((0, 0, 0)), matrix=Matrix.Rotation(math.radians(-8), 3, "X"), verts=hood.verts)
+    bmesh.ops.translate(hood, vec=Vector((-SEAT_X, spec.COWL_Y + 0.21, cowl_top - 0.01)), verts=hood.verts)
+    hood_obj = _link("LOD0_Binnacle", hood, collection, parent, [dash_leather])
+    smooth(hood_obj, 45)
+    rounded_box("LOD0_ClusterBezel", (0.33, 0.014, 0.115), (-SEAT_X, spec.COWL_Y + 0.325, cowl_top - 0.035), collection, parent, plastic,
+                rotation=(math.radians(-10), 0, 0), bevel=0.006)
+    rounded_box("LOD0_Cluster", (0.30, 0.006, 0.09), (-SEAT_X, spec.COWL_Y + 0.334, cowl_top - 0.035), collection, parent, screen,
+                rotation=(math.radians(-10), 0, 0), bevel=0.004)
+    rounded_box("LOD0_CentreScreenBezel", (0.34, 0.014, 0.21), (0.0, spec.COWL_Y + 0.305, cowl_top - 0.13), collection, parent, plastic,
+                rotation=(math.radians(-12), 0, 0), bevel=0.008)
     rounded_box("LOD0_CentreScreen", (0.30, 0.012, 0.17), (0.0, spec.COWL_Y + 0.31, cowl_top - 0.13), collection, parent, screen,
                 rotation=(math.radians(-12), 0, 0), bevel=0.004)
+    # Air vents: slim dark slots with two alloy vanes each, outboard and centre.
+    for index, x in enumerate((-0.64, -0.13, 0.13, 0.64)):
+        y = spec.COWL_Y + 0.30
+        z = cowl_top - 0.075
+        rounded_box(f"LOD0_Vent_{index}", (0.11, 0.03, 0.036), (x, y, z), collection, parent, plastic, bevel=0.006)
+        for vane in (-0.008, 0.008):
+            rounded_box(f"LOD0_VentVane_{index}{'A' if vane < 0 else 'B'}", (0.10, 0.012, 0.004), (x, y + 0.012, z + vane),
+                        collection, parent, alu, bevel=0.001)
+    # Start button on the console, ahead of the drive selector.
+    start = cylinder_bmesh(0.018, 0.012, (0.10, 0.02, FLOOR_Z + 0.482), axis="Z", segments=24)
+    start_obj = _link("LOD0_StartButton", start, collection, parent, [alu])
+    smooth(start_obj, 40)
     rounded_box("LOD0_Console", (0.30, 1.05, 0.26), (0.0, 0.40, FLOOR_Z + 0.34), collection, parent, dash_leather, bevel=0.03)
     rounded_box("LOD0_ConsoleTrim", (0.26, 0.60, 0.012), (0.0, 0.28, FLOOR_Z + 0.475), collection, parent, carbon, bevel=0.004)
     knob = cylinder_bmesh(0.03, 0.03, (0.0, 0.10, FLOOR_Z + 0.50), axis="Z", segments=24)
@@ -100,6 +127,7 @@ def build_interior(collection, parent, materials, profiles: spec.Profiles) -> No
         bm.from_mesh(temp)
         bpy.data.meshes.remove(temp)
     hub = cylinder_bmesh(0.05, 0.05, (0, 0, 0), axis="Z", segments=24)
+    bmesh.ops.scale(hub, vec=Vector((1.25, 0.9, 1.0)), verts=hub.verts)
     temp = bpy.data.meshes.new("TempHub")
     hub.to_mesh(temp)
     hub.free()
