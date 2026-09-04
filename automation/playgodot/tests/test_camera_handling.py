@@ -159,7 +159,12 @@ async def test_camera_handling_survives_pause_device_reset_and_mode_transitions(
         assert cockpit["camera_offset_z"] == 0
         assert cockpit["near_clip_m"] == pytest.approx(0.05)
         visual = (await client.describe("vehicle.hero-gt.visual-rig"))["test_state"]
-        assert visual["cockpit_excluded_mesh_count"] == 3
+        # The wrapper owns the exclusion list; the suite pins the names so a
+        # remodel that drops one fails here rather than in a review capture.
+        assert visual["cockpit_excluded_meshes"] == ["LOD0_Cabin", "LOD0_RoofSpine"]
+        assert visual["cockpit_excluded_mesh_count"] == len(
+            visual["cockpit_excluded_meshes"]
+        )
         assert visual["chase_exterior_geometry_visible"] is True
         exterior_layer = visual["cockpit_exterior_layer"]
         assert cockpit["cull_mask"] & exterior_layer == 0
