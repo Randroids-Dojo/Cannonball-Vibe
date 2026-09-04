@@ -160,6 +160,24 @@ the extras the export writes, including a flake clear-coat paint shader.
   meshes and 213 materials; every wrapper the polish pass takes is now
   released before the next mesh, matching the damage-indicator pattern.
 
+## Defect found after the merge
+
+- The PlayGodot semantic suite failed on all three runners after #116
+  merged (M0 is the only merge gate, so the merge went through). The suite
+  launches the game without importing the project, which the M0 scenario
+  runner does; a fresh checkout therefore had the generated scene's
+  twenty-six sourced-texture dependencies unimported, and Godot refuses to
+  load a scene with a missing dependency. The wrapper then threw "missing
+  semantic node AssetRoot" and the cockpit toggle threw for the missing
+  cabin mesh, so the visual-rig descriptor carried no state and the camera
+  test failed on the first read. The second-generation model had no texture
+  references, which is why the gap never showed. `verify-playgodot.sh` now
+  imports the project the way `run-scenario.sh` does, and the suite pins the
+  wrapper's cockpit exclusion names (cabin and roof spine) rather than the
+  old count of three from the first-generation placeholder interior. The
+  live suite was not run locally before the merge; it is now part of the
+  pre-merge routine for vehicle changes.
+
 ## Claims not made
 
 - No human has approved the design, materials or rights; Q-020's art gate
