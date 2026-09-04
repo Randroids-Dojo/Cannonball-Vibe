@@ -38,10 +38,22 @@ if [[ "$actual_version" != "$CANNONBALL_GODOT_VERSION" ]]; then
   exit 1
 fi
 
+# The suite runs whatever assembly sits in .godot; Godot only builds one when
+# none exists, so a checkout that switched branches would test stale code.
+dotnet build "$repo_root/Cannonball.sln" --nologo
+# The live suite runs production scenes such as the Hero GT wrapper, whose
+# sourced textures and generated scene need the importer once per checkout.
+# Godot refuses to load a scene with an unimported dependency, so a fresh
+# checkout without this step loses the whole vehicle rather than a texture.
+# The .godot cache makes later runs a no-op.
+"$repo_root/scripts/godot.sh" --headless --path "$repo_root" --import >/dev/null 2>&1 || \
+  "$repo_root/scripts/godot.sh" --headless --path "$repo_root" --import
+
 "$repo_root/scripts/verify-playgodot-package-boundary.sh"
 uv run --project automation/playgodot --frozen ruff check automation/playgodot
+# Durations show which launch paid for a slow first draw when a bound trips.
 if [[ -n "$test_filter" ]]; then
-  uv run --project automation/playgodot --frozen pytest automation/playgodot -k "$test_filter"
+  uv run --project automation/playgodot --frozen pytest automation/playgodot --durations=10 -k "$test_filter"
 else
-  uv run --project automation/playgodot --frozen pytest automation/playgodot
+  uv run --project automation/playgodot --frozen pytest automation/playgodot --durations=10
 fi

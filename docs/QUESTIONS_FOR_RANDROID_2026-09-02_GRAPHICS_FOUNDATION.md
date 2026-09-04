@@ -211,6 +211,18 @@ graybox environment, which is what it ran against before the slices, and
 the bounds themselves are untouched. `docs/OPEN_QUESTIONS.md` carries the
 run and job ids.
 
+Update 2026-09-04: the third-generation Hero GT tripped the same class on
+Windows and macOS on its first run (a 30 s first describe, and two 2 s
+socket windows), because the first draw of its twenty-eight textured
+materials compiles shaders on the software renderers and stalls the main
+thread. The suite now runs the graybox vehicle as well as the graybox
+environment; only the camera test loads the production rig, with a 150 s
+budget for that one-time warm-up. The semantic assertions never needed the
+production car, and the rig contract is still exercised once per run.
+The raw-socket tests build their own launch and needed the same flag; the
+damping test now accepts a qualifying sample that lands after its deadline
+instead of failing on the order of its checks.
+
 - **A. Root-cause the remaining bounds in the Q-035 style (recommended)**:
   re-express latency-shaped bounds such as `elapsed_seconds` against the
   game clock the run already exposes, so a slow describe cannot fail them.

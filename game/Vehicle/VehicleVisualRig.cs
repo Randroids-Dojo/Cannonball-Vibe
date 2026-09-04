@@ -171,6 +171,7 @@ public sealed partial class VehicleVisualRig : Node3D
         }
         camera.CullMask &= ~CockpitExteriorRenderLayer;
         _automationState["cockpit_excluded_mesh_count"] = excludedCount;
+        _automationState["cockpit_excluded_meshes"] = new Godot.Collections.Array<string>(CockpitExcludedMeshes);
         _automationState["cockpit_camera_cull_mask"] = (long)camera.CullMask;
         _automationState["chase_exterior_geometry_visible"] = true;
     }

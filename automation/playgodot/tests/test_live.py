@@ -63,6 +63,10 @@ async def _raw_server(tmp_path: Path) -> AsyncIterator[tuple[str, int, str, Path
         "--",
         "--playgodot",
         "--graybox-environment-assets",
+        # The raw-socket tests measure the bridge in 2 s windows; the
+        # production car's first draw stalls the main thread longer than that
+        # on the software renderers, and the launcher already runs graybox.
+        "--graybox-vehicle",
         f"--route-package={_route_package()}",
         f"--telemetry-path={tmp_path / 'telemetry.jsonl'}",
     ]
@@ -706,13 +710,17 @@ async def test_chase_camera_damps_vehicle_yaw_and_keeps_a_level_horizon(
                 max_heading_lag = max(max_heading_lag, heading_lag)
                 if heading_lag >= 45:
                     pytest.fail(f"Chase camera heading lag exceeded 45 degrees: {heading_lag}")
+                # A qualifying sample settles the question even when it is the
+                # one that arrived after the deadline: on a loaded runner the
+                # describe round trip stretches, and the old order failed a
+                # run whose last sample read 1.56 degrees.
+                if 1 < heading_lag < 45:
+                    break
                 if asyncio.get_running_loop().time() >= deadline:
                     pytest.fail(
                         "Chase camera did not exhibit measurable heading damping; "
                         f"maximum observed lag was {max_heading_lag} degrees"
                     )
-                if 1 < heading_lag < 45:
-                    break
                 await asyncio.sleep(0.02)
 
             assert 1 < state["heading_lag_degrees"] < 45
