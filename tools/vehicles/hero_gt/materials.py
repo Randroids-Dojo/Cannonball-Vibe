@@ -155,10 +155,12 @@ def _gltf_output(tree):
 def build_materials(textures: Textures) -> dict[str, bpy.types.Material]:
     """Every material the Hero GT uses, keyed by role."""
     t = textures
-    paint_color = (0.040, 0.125, 0.270, 1.0)
+    # Deep metallic navy: sRGB (0.11, 0.17, 0.33). Judged in the Forward+
+    # walk-around against the mid blue, which read flat under the game sky.
+    paint_color = (0.0116, 0.0246, 0.0884, 1.0)
     materials = {}
     materials["paint"] = principled(
-        "Material_Body", paint_color, metallic=0.30, roughness=0.22, coat=1.0, coat_roughness=0.03,
+        "Material_Body", paint_color, metallic=0.50, roughness=0.26, coat=1.0, coat_roughness=0.03,
         textures={"normal": t.ambientcg("Paint005", "1K-JPG", "NormalGL")}, uv_scale=(3.0, 3.0), normal_strength=0.1,
         extras={"cv_shader": "car_paint", "cv_clearcoat": 1.0, "cv_clearcoat_roughness": 0.03, "cv_normal_strength": 0.1,
                 "cv_flake_scale": 900.0, "cv_flake_strength": 0.22, "cv_edge_tint": [0.02, 0.05, 0.12]},
@@ -276,7 +278,9 @@ def build_materials(textures: Textures) -> dict[str, bpy.types.Material]:
         uv_scale=(2.0, 2.0),
     )
     materials["suede"] = principled(
-        "Material_InteriorSuede", (0.20, 0.20, 0.22, 1.0), roughness=0.9, specular=0.25,
+        # Warm multiplier: the scuba suede set is blue and read teal on the
+        # headliner and pillars under the game sky.
+        "Material_InteriorSuede", (0.30, 0.25, 0.21, 1.0), roughness=0.9, specular=0.25,
         textures={"color": t.image(f"{SOURCED}/polyhaven/scuba_suede/scuba_suede_diff_1k.jpg"),
                   "normal": t.image(f"{SOURCED}/polyhaven/scuba_suede/scuba_suede_nor_gl_1k.jpg", True)},
         uv_scale=(3.0, 3.0),
@@ -289,7 +293,9 @@ def build_materials(textures: Textures) -> dict[str, bpy.types.Material]:
     )
     materials["plastic"] = principled("Material_InteriorPlastic", (0.03, 0.03, 0.032, 1.0), roughness=0.7, specular=0.35)
     materials["screen"] = principled(
-        "Material_Screen", (0.02, 0.03, 0.05, 1.0), roughness=0.15, emission=(0.10, 0.35, 0.60, 1.0), emission_strength=2.5,
+        # Dark glass with a dim glow: at 2.5 the cluster and centre screen read
+        # as flat light-blue slabs from the eye point.
+        "Material_Screen", (0.008, 0.010, 0.016, 1.0), roughness=0.08, specular=0.6, emission=(0.05, 0.12, 0.22, 1.0), emission_strength=0.7,
     )
     return materials
 

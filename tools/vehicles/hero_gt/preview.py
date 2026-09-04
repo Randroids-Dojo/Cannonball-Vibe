@@ -75,7 +75,7 @@ def main() -> None:
         paint, dark, glass = textured["paint"], textured["dark"], textured["glass"]
         wheel_materials = {key: textured[key] for key in ("tyre", "tyre_side", "rim", "rim_dark", "disc", "hat", "caliper")}
     else:
-        paint = simple_material("Paint", (0.040, 0.125, 0.270, 1.0), metallic=0.22, roughness=0.36, coat=1.0)
+        paint = simple_material("Paint", (0.0116, 0.0246, 0.0884, 1.0), metallic=0.50, roughness=0.26, coat=1.0)
         dark = simple_material("Dark", (0.01, 0.01, 0.011, 1.0), roughness=0.7)
         glass = simple_material("Glass", (0.02, 0.03, 0.04, 1.0), roughness=0.05, alpha=0.6)
         tyre_material = simple_material("Tyre", (0.012, 0.012, 0.013, 1.0), roughness=0.82)

@@ -17,6 +17,7 @@ public sealed class VehicleVisualScenario
         "damage-zones",
         "graybox-equivalence",
         "walk-around",
+        "daylight-cockpit",
     ];
 
     private readonly CannonballVehicle _vehicle;
@@ -122,6 +123,7 @@ public sealed class VehicleVisualScenario
         // processing is off for that stage and back on for every other one.
         _vehicle.ChaseCameraRig.SetProcess(true);
         _chaseCamera.Fov = _vehicle.ChaseCameraRig.BaseFieldOfViewDegrees;
+        _cockpitCamera.RotationDegrees = Vector3.Zero;
         _chaseArm.SpringLength = 5.4f;
         _chaseArm.Position = new Vector3(0, 1.15f, 1.25f);
         _chaseArm.RotationDegrees = new Vector3(-8, 0, 0);
@@ -175,6 +177,15 @@ public sealed class VehicleVisualScenario
                 _chaseArm.RotationDegrees = new Vector3(-4.5f, phase * 360.0f, 0);
                 rig.ApplyPhysicsState(0, 0, 1.0f / 60.0f, [0.085f, 0.085f, 0.085f, 0.085f]);
                 break;
+            case 9:
+                // The night cockpit stage proves the anchor; this one shows the
+                // interior under daylight so the dash, wheel and seats can be
+                // reviewed, with a slow look to the right across the cabin.
+                SetLighting(daylight: true);
+                _vehicle.SetCameraMode(cockpit: true);
+                _cockpitCamera.RotationDegrees = new Vector3(-6.0f, -26.0f * phase, 0);
+                rig.ApplyPhysicsState(0, 0, 1.0f / 60.0f, [0.085f, 0.085f, 0.085f, 0.085f]);
+                break;
         }
     }
 
@@ -202,6 +213,8 @@ public sealed class VehicleVisualScenario
                 throw new InvalidOperationException("Graybox fallback changed the authoritative collision contract.");
             case 8 when !_chaseCamera.Current || snapshot.ActiveLod != 0 || _graybox.Visible:
                 throw new InvalidOperationException("Walk-around review did not orbit the LOD0 hero vehicle with the chase camera.");
+            case 9 when !_cockpitCamera.Current || _chaseCamera.Current:
+                throw new InvalidOperationException("Daylight cockpit review did not use the cockpit camera.");
         }
     }
 

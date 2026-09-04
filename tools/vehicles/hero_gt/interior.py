@@ -126,9 +126,37 @@ def build_interior(collection, parent, materials, profiles: spec.Profiles) -> No
                 collection, parent, plastic, bevel=0.01)
     rounded_box("LOD0_RearViewGlass", (0.22, 0.004, 0.06), (0.0, spec.COWL_Y + 0.437, profiles.top_z(spec.COWL_Y + 0.42) - 0.09),
                 collection, parent, chrome, bevel=0.002)
-    # Headliner: a thin panel under the roof between the pillars.
-    rounded_box("LOD0_Headliner", (1.30, 1.10, 0.012), (0.0, (spec.A_PILLAR_TOP_Y + spec.REAR_ROOF_Y) / 2, profiles.top_z(spec.ROOF_PEAK_Y) - 0.05),
-                collection, parent, suede, bevel=0.0)
+    # Headliner: three suede panels that follow the roof from the windshield
+    # header to the backlight, so the ceiling is there from the eye point.
+    segments = 3
+    span = (spec.REAR_ROOF_Y - spec.A_PILLAR_TOP_Y) / segments
+    for index in range(segments):
+        y0 = spec.A_PILLAR_TOP_Y + index * span
+        centre_y = y0 + span / 2
+        pitch = math.atan2(profiles.top_z(y0 + span) - profiles.top_z(y0), span)
+        rounded_box(f"LOD0_Headliner_{index}", (1.30, span + 0.02, 0.012), (0.0, centre_y, profiles.top_z(centre_y) - 0.06),
+                    collection, parent, suede, rotation=(pitch, 0, 0), bevel=0.0)
+    # A-pillars and windshield header: suede-trimmed bars along the glass edge
+    # from the cowl corners to the roof rail, set just inboard of the glass.
+    cowl_x = profiles.belt_x(spec.COWL_Y) - 0.058 - 0.045
+    cowl_z = profiles.belt_z(spec.COWL_Y) + 0.02
+    rail_x = profiles.roof_x(spec.A_PILLAR_TOP_Y) - 0.035
+    rail_z = profiles.top_z(spec.A_PILLAR_TOP_Y) - 0.06
+    for side, suffix in ((-1, "L"), (1, "R")):
+        start = Vector((side * cowl_x, spec.COWL_Y + 0.02, cowl_z))
+        end = Vector((side * rail_x, spec.A_PILLAR_TOP_Y, rail_z))
+        direction = end - start
+        bar = rounded_box_bmesh((0.075, direction.length, 0.06), (0, 0, 0), bevel=0.014, segments=2)
+        rotation = Vector((0, 1, 0)).rotation_difference(direction.normalized()).to_matrix()
+        bmesh.ops.rotate(bar, cent=Vector((0, 0, 0)), matrix=rotation, verts=bar.verts)
+        bmesh.ops.translate(bar, vec=(start + end) / 2, verts=bar.verts)
+        pillar = _link(f"LOD0_APillar_{suffix}", bar, collection, parent, [suede])
+        smooth(pillar, 40)
+        # Sun visors folded up against the header.
+        rounded_box(f"LOD0_SunVisor_{suffix}", (0.30, 0.15, 0.012), (side * 0.40, spec.A_PILLAR_TOP_Y + 0.10, profiles.top_z(spec.A_PILLAR_TOP_Y + 0.10) - 0.085),
+                    collection, parent, suede, rotation=(math.radians(18), 0, 0), bevel=0.004)
+    rounded_box("LOD0_WindshieldHeader", (2 * rail_x + 0.02, 0.09, 0.05), (0.0, spec.A_PILLAR_TOP_Y - 0.02, rail_z + 0.005),
+                collection, parent, suede, bevel=0.012)
 
 
 def _torus(bm, major, minor, segments, rings) -> None:
