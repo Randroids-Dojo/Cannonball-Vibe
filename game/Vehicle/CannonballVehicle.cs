@@ -8,6 +8,20 @@ namespace Cannonball.Game.Vehicle;
 
 public sealed partial class CannonballVehicle : RigidBody3D
 {
+    /// <summary>
+    /// Height of the chassis origin above the tyre contact points at static
+    /// ride height: the wheel anchor depth plus the spring length that remains
+    /// once four springs carry the vehicle mass, plus the tyre radius. The
+    /// visual rig hangs this far below the chassis so its design ground plane
+    /// is the road, and review placement freezes the car at this height.
+    /// </summary>
+    public static readonly float VisualRigMountHeightMeters =
+        0.18f +
+        (VehicleDynamicsProfile.SpringRestLengthMeters -
+            VehicleDynamicsProfile.VehicleMassKilograms * VehicleDynamicsProfile.GravityMetersPerSecondSquared /
+            (4 * VehicleDynamicsProfile.SpringStrengthNewtonsPerMeter)) +
+        VehicleDynamicsProfile.WheelRadiusMeters;
+
     private static readonly Vector3[] WheelPositions =
     [
         new(-0.82f, -0.18f, -1.42f),
@@ -154,7 +168,10 @@ public sealed partial class CannonballVehicle : RigidBody3D
     public void PlaceForReview(Vector3 point, Vector3 forward)
     {
         Freeze = true;
-        Position = point + Vector3.Up * 0.78f;
+        // Frozen at the static ride height, so the suspension rays report the
+        // same compression a settled car has and the visual wheels sit on the
+        // road exactly as they do while driving.
+        Position = point + Vector3.Up * VisualRigMountHeightMeters;
         Basis = Basis.LookingAt(forward, Vector3.Up);
         LinearVelocity = Vector3.Zero;
         AngularVelocity = Vector3.Zero;
@@ -531,7 +548,10 @@ public sealed partial class CannonballVehicle : RigidBody3D
                 throw new InvalidOperationException("Hero GT wrapper scene could not be loaded.");
             }
             VisualRig = wrapper.Instantiate<VehicleVisualRig>();
-            VisualRig.Position = new Vector3(0, -0.76f, 0);
+            // The rig's ground plane sits where the road is at static ride
+            // height: the chassis origin rests VisualRigMountHeightMeters above
+            // the contact points once the springs carry the vehicle.
+            VisualRig.Position = new Vector3(0, -VisualRigMountHeightMeters, 0);
             AddChild(VisualRig);
             return;
         }

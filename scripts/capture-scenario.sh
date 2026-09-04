@@ -12,6 +12,7 @@ fi
 output_path="$1"
 shift
 fixture="official-corridor"
+renderer=""
 scenario_args=()
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -27,12 +28,35 @@ while [[ $# -gt 0 ]]; do
       fixture="${1#--fixture=}"
       shift
       ;;
+    --renderer)
+      if [[ $# -lt 2 ]]; then
+        echo "--renderer requires forward_plus or gl_compatibility." >&2
+        exit 2
+      fi
+      renderer="$2"
+      shift 2
+      ;;
+    --renderer=*)
+      renderer="${1#--renderer=}"
+      shift
+      ;;
     *)
       scenario_args+=("$1")
       shift
       ;;
   esac
 done
+# CI and the headless review path render through the Compatibility renderer;
+# the reference PC passes --renderer forward_plus (or CANNONBALL_CAPTURE_RENDERER)
+# so review frames show the Forward+ look the ADR-0023 target is measured on.
+renderer="${renderer:-${CANNONBALL_CAPTURE_RENDERER:-gl_compatibility}}"
+case "$renderer" in
+  forward_plus|gl_compatibility|mobile) ;;
+  *)
+    echo "--renderer must be forward_plus, mobile, or gl_compatibility; found: $renderer" >&2
+    exit 2
+    ;;
+esac
 capture_fps="${CANNONBALL_CAPTURE_FPS:-60}"
 default_capture_frames=60
 if [[ " ${scenario_args[*]} " == *" --topology-review "* ]]; then
@@ -131,7 +155,7 @@ dotnet build "$repo_root/Cannonball.sln" --nologo
   "$repo_root/scripts/godot.sh" --headless --path "$repo_root" --import
 
 "$repo_root/scripts/godot.sh" \
-  --rendering-method gl_compatibility \
+  --rendering-method "$renderer" \
   --path "$repo_root" \
   --write-movie "$output_path" \
   --fixed-fps "$capture_fps" \
