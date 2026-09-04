@@ -19,14 +19,14 @@
   "contact_sheet": {
     "height": 480,
     "path": "data/assets/vehicles/hero-gt-contact-sheet.png",
-    "sha256": "b2983f9096efd5b00ea55fa9413a10b8c1dc56d956ce78ba74e64cf9d8382c47",
+    "sha256": "8ca058627901b97bf1388690b88c5b18935cd8b76f822bf707d360ab490688b7",
     "width": 1920
   },
   "glb": {
     "external_uri_count": 0,
     "generator": "Khronos glTF Blender I/O v5.1.20",
     "material_count": 28,
-    "mesh_count": 170,
+    "mesh_count": 177,
     "node_names": [
       "AssetRoot",
       "Camera_ChaseTarget",
@@ -45,6 +45,8 @@
       "Driver_Reference",
       "Exhaust_L",
       "Exhaust_R",
+      "LOD0_APillar_L",
+      "LOD0_APillar_R",
       "LOD0_Antenna",
       "LOD0_Armrest",
       "LOD0_Binnacle",
@@ -104,7 +106,9 @@
       "LOD0_HandleRecess_R",
       "LOD0_Handle_L",
       "LOD0_Handle_R",
-      "LOD0_Headliner",
+      "LOD0_Headliner_0",
+      "LOD0_Headliner_1",
+      "LOD0_Headliner_2",
       "LOD0_Headrest_L",
       "LOD0_Headrest_R",
       "LOD0_Hood",
@@ -179,6 +183,8 @@
       "LOD0_Splitter",
       "LOD0_SteeringColumn",
       "LOD0_SteeringWheel",
+      "LOD0_SunVisor_L",
+      "LOD0_SunVisor_R",
       "LOD0_TailBadge",
       "LOD0_TailBar",
       "LOD0_TailBarCover",
@@ -193,6 +199,7 @@
       "LOD0_Well_FR",
       "LOD0_Well_RL",
       "LOD0_Well_RR",
+      "LOD0_WindshieldHeader",
       "LOD0_Wiper_0",
       "LOD0_Wiper_1",
       "LOD1_Body",
@@ -237,14 +244,14 @@
     ],
     "path": "data/assets/vehicles/derived/hero-gt.glb",
     "scene_count": 1,
-    "sha256": "aaa0d9b7b2a416b79581a3b1949fc771d781bad8623bc23f4f553d9a43f220fc"
+    "sha256": "232578e4c3679c224470d17638c8cdd7f9b39fdd5c4c0560e44968ec7edd48e1"
   },
   "godot_axes": {
     "forward": "-Z",
     "up": "+Y"
   },
   "identity_transforms": true,
-  "lod0_triangle_total": 106660,
+  "lod0_triangle_total": 106984,
   "materials": [
     "Material_Body",
     "Material_Brake",
@@ -294,6 +301,8 @@
     "Driver_Reference",
     "Exhaust_L",
     "Exhaust_R",
+    "LOD0_APillar_L",
+    "LOD0_APillar_R",
     "LOD0_Antenna",
     "LOD0_Armrest",
     "LOD0_Binnacle",
@@ -353,7 +362,9 @@
     "LOD0_HandleRecess_R",
     "LOD0_Handle_L",
     "LOD0_Handle_R",
-    "LOD0_Headliner",
+    "LOD0_Headliner_0",
+    "LOD0_Headliner_1",
+    "LOD0_Headliner_2",
     "LOD0_Headrest_L",
     "LOD0_Headrest_R",
     "LOD0_Hood",
@@ -428,6 +439,8 @@
     "LOD0_Splitter",
     "LOD0_SteeringColumn",
     "LOD0_SteeringWheel",
+    "LOD0_SunVisor_L",
+    "LOD0_SunVisor_R",
     "LOD0_TailBadge",
     "LOD0_TailBar",
     "LOD0_TailBarCover",
@@ -442,6 +455,7 @@
     "LOD0_Well_FR",
     "LOD0_Well_RL",
     "LOD0_Well_RR",
+    "LOD0_WindshieldHeader",
     "LOD0_Wiper_0",
     "LOD0_Wiper_1",
     "LOD1_Body",
@@ -531,7 +545,7 @@
   "schema_version": 1,
   "source": {
     "path": "data/assets/vehicles/sources/hero-gt.blend",
-    "sha256": "34c671c926d65cc7501356403ab8191fb017d80ca307fd97fddd2847f1edbe01"
+    "sha256": "d56b96df9ea8932ed9c571c42379d6774d3c125a512ad5a57b553714275a2eb4"
   },
   "source_axes": {
     "forward": "-Y",
@@ -688,9 +702,11 @@
       "name": "scuba_suede_nor_gl_1k.jpg"
     }
   ],
-  "triangle_total": 123860,
+  "triangle_total": 124184,
   "triangles": {
     "CollisionProxy": 12,
+    "LOD0_APillar_L": 60,
+    "LOD0_APillar_R": 60,
     "LOD0_Antenna": 60,
     "LOD0_Armrest": 60,
     "LOD0_Binnacle": 60,
@@ -750,7 +766,9 @@
     "LOD0_HandleRecess_R": 60,
     "LOD0_Handle_L": 60,
     "LOD0_Handle_R": 60,
-    "LOD0_Headliner": 12,
+    "LOD0_Headliner_0": 12,
+    "LOD0_Headliner_1": 12,
+    "LOD0_Headliner_2": 12,
     "LOD0_Headrest_L": 92,
     "LOD0_Headrest_R": 92,
     "LOD0_Hood": 5992,
@@ -825,6 +843,8 @@
     "LOD0_Splitter": 60,
     "LOD0_SteeringColumn": 76,
     "LOD0_SteeringWheel": 1136,
+    "LOD0_SunVisor_L": 60,
+    "LOD0_SunVisor_R": 60,
     "LOD0_TailBadge": 60,
     "LOD0_TailBar": 56,
     "LOD0_TailBarCover": 56,
@@ -839,6 +859,7 @@
     "LOD0_Well_FR": 142,
     "LOD0_Well_RL": 142,
     "LOD0_Well_RR": 142,
+    "LOD0_WindshieldHeader": 60,
     "LOD0_Wiper_0": 60,
     "LOD0_Wiper_1": 60,
     "LOD1_Body": 9656,

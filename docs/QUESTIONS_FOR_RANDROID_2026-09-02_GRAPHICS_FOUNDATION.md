@@ -243,6 +243,13 @@ instead of failing on the order of its checks.
 
 ## Reviewer notes, not questions
 
+- Paint colour (Q-020 gate): the Hero GT now wears a deep metallic navy,
+  sRGB (0.11, 0.17, 0.33) with metallic 0.50 and roughness 0.26 under the
+  clear coat, chosen from an A/B Forward+ capture against the mid blue, which
+  read as flat plastic. It is one constant in `hero_gt/materials.py`
+  (`paint_color`) and the wrapper shader takes whatever the source says, so
+  a different direction costs one regeneration. Say the word if you want a
+  colour study sheet instead.
 - The third-generation stance was redesigned the same afternoon it landed,
   after the first true walk-around capture (a new ninth review stage with a
   38-degree lens) showed a slab-sided wagon: the beltline fell from about

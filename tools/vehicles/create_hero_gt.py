@@ -275,8 +275,9 @@ def main() -> None:
     collision["semantic_role"] = "CollisionProxy"
 
     empty("Camera_ChaseTarget", asset, root, (0, 0.75, 1.16), role="camera_target")
-    # Driver eye: 0.57 m above the 0.55 m H-point, 0.18 m under the headliner.
-    empty("Camera_Cockpit", asset, root, (-0.34, 0.02, 1.12), role="camera_anchor")
+    # Driver eye: 0.55 m above the H-point and 0.25 m behind the wheel
+    # centre; the old point sat 3 cm behind the rim and saw no wheel at all.
+    empty("Camera_Cockpit", asset, root, (-0.34, 0.30, 1.10), role="camera_anchor")
     y0, y1 = spec.HEADLAMP_Y
     empty("Light_Head_FL", asset, root, (-spec.HEADLAMP_X - 0.12, (y0 + y1) / 2, spec.HEADLAMP_Z), role="light_anchor")
     empty("Light_Head_FR", asset, root, (spec.HEADLAMP_X + 0.12, (y0 + y1) / 2, spec.HEADLAMP_Z), role="light_anchor")

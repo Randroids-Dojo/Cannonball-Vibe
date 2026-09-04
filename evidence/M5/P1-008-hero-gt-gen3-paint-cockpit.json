@@ -1,0 +1,354 @@
+{
+  "schema_version": 1,
+  "task_id": "P1-008",
+  "milestone": "M5",
+  "status": "in_progress",
+  "slice": "hero-gt-generation-3-paint-cockpit-2026-09-04",
+  "git_revision": "5373122a71e4b971ea74442d8dabe5a52ea6210f",
+  "recorded_at_utc": "2026-09-04T18:26:50Z",
+  "platform": {
+    "os": "Windows 11 Pro 10.0.26200",
+    "architecture": "x64",
+    "gpu": "NVIDIA GeForce RTX 3080 Ti 12 GB",
+    "renderer_for_captures": "Godot 4.7.1 Forward+ (reference PC) and Compatibility (headless review path)"
+  },
+  "tool_versions": {
+    "godot": "4.7.1.stable.mono.official.a13da4feb",
+    "blender": "5.1.2",
+    "blender_build_hash": "ec6e62d40fa9",
+    "dotnet_sdk": "10.0.102",
+    "node": "24.18.0"
+  },
+  "scope": {
+    "verified": [
+      "deep metallic navy paint (sRGB 0.11, 0.17, 0.33; metallic 0.50, roughness 0.26) judged by an A/B Forward+ capture against the mid blue",
+      "eye point 0.25 m behind the wheel centre; A-pillars, windshield header, sun visors and a roof-following headliner as interior parts; dark glowing screens; neutral suede",
+      "tenth vehicle-visual stage: daylight cockpit with a 26-degree pan, validated to use the cockpit camera",
+      "redesigned stance on the same contract: belt at 0.65 of the height, a third of the height in glass, fender crests over a dipped hood, fascia headlamp bars above a wider grille, lower deck and tail, exhausts and plate on the rear face, sculpted mirrors, wipers on the cowl, end caps on the bumper covers",
+      "tyres split into a plain sidewall material and a tread rolling around the circumference",
+      "ninth vehicle-visual stage: a 360-degree walk-around with a 38-degree lens at static ride height, validated to use the chase camera on LOD0",
+      "generated scene ships with no texture references; the packer detaches them to a schema-1 sidecar and the wrapper binds those that exist, so the release build (which excludes the rights-gated sourced folder) loads the vehicle untextured instead of failing",
+      "third-generation Hero GT: spline-lofted creased Catmull-Clark body to the proportion sheet, panels split with 3 mm shut lines and dark rim walls, conformal grille, intake, headlamp, tail-bar, plate and exhaust apertures, 275/35 R20 tyres on ten-spoke rims with drilled discs and calipers, leather and suede cockpit",
+      "ten checksum-locked CC0 texture sets (ambientCG, TextureCan, Poly Haven) packed into the source and embedded in the GLB; extracted composed textures redirected to the rights-gated sourced folder by the packer",
+      "unchanged 37-node semantic contract, wheelbase, track, wheel radius, rest length, three LODs, box collision proxy",
+      "raised budgets recorded in the exporter; deterministic export, importer-normalised scene with material extras, wrapper validation and schema-1 manifest",
+      "wrapper reads material extras to apply the flake clear-coat paint shader, transparent glass, clear-coated carbon and metal",
+      "vehicle-visual profile contract on the representative corridor"
+    ],
+    "completion_pending": [
+      "Q-020 art-direction approval on the new design",
+      "rights review of the ten new sourced records (Q-037 extension)",
+      "PCK audit stage of verify-vehicle-asset.sh (no Mono export templates on this machine)",
+      "baked occlusion and wheel-design polish"
+    ],
+    "excluded_claims": [
+      "human art approval",
+      "frame-time claims beyond the scenario build budget",
+      "rights approval"
+    ]
+  },
+  "input_artifacts": [
+    {
+      "path": "tools/vehicles/create_hero_gt.py",
+      "sha256": "f3067f93e372c5ddb1b19a5854068fa7ea47082492411291332f164cc8dcaa46",
+      "bytes": 15770
+    },
+    {
+      "path": "tools/vehicles/hero_gt/spec.py",
+      "sha256": "9ad0fc4b53ea125efe0b5aa85853436e3f56fdbc5c523d0e7a25c6e30f5bdde8",
+      "bytes": 6987
+    },
+    {
+      "path": "tools/vehicles/hero_gt/curves.py",
+      "sha256": "1c5bbc71e8da49e8d5c8302879b2e0fda9e1bfbf526086236d2c8a1a5edf5a17",
+      "bytes": 5739
+    },
+    {
+      "path": "tools/vehicles/hero_gt/body.py",
+      "sha256": "08992c0b26b19e9136e2838a133f7e7782767ff6d9368152834b095e87fbdeb2",
+      "bytes": 16765
+    },
+    {
+      "path": "tools/vehicles/hero_gt/parts.py",
+      "sha256": "f2f90921ef5af5cb165f62faaea865d8af1fc8fab95b661b2a3e146b27f3d3bd",
+      "bytes": 22879
+    },
+    {
+      "path": "tools/vehicles/hero_gt/wheels.py",
+      "sha256": "eb33db678102f87e414ad3e1f46817241e779057965f38ea11c031586eea395c",
+      "bytes": 17063
+    },
+    {
+      "path": "tools/vehicles/hero_gt/interior.py",
+      "sha256": "5c15e74eb751c6b3e3f798a0a3e83fed207ca97de7d77614689bccd92c7399cd",
+      "bytes": 10947
+    },
+    {
+      "path": "tools/vehicles/hero_gt/materials.py",
+      "sha256": "a8a8bdd782c2018b073c2d34aab13e84720ebc0da5ebc754bc851d882923d97f",
+      "bytes": 16676
+    },
+    {
+      "path": "tools/vehicles/validate_and_export_hero_gt.py",
+      "sha256": "ef896c2108ac0bb19fe93655aece2e89724e0e39aa7049a8861f91c20642ce92",
+      "bytes": 14961
+    },
+    {
+      "path": "tools/vehicles/pack_imported_scene.gd",
+      "sha256": "fbb354608fa2aed7c2bf318626fe1ce8b058f85e9c3d3f3ae62f1f01ff354fa5",
+      "bytes": 5212
+    },
+    {
+      "path": "tools/assets/profiles/gltf2-binary-v3.json",
+      "sha256": "9183cbf5f5c25a0e5da826962b5bdb60271569396fde56bf4b313498d7b9ee63",
+      "bytes": 756
+    },
+    {
+      "path": "data/assets/vehicles/sourced-materials.lock.json",
+      "sha256": "78b49b2fccc50196f2b96f00ca74350b719b8f0f373ec192c3b83a19e914a382",
+      "bytes": 30946
+    },
+    {
+      "path": "data/assets/vehicles/sources/hero-gt.blend",
+      "sha256": "d56b96df9ea8932ed9c571c42379d6774d3c125a512ad5a57b553714275a2eb4",
+      "bytes": 23917720
+    },
+    {
+      "path": "game/Vehicle/VehicleVisualRig.cs",
+      "sha256": "298157c236a2e4036e3d8e1c2d3b59c84b587da27fe96e80b2620cf7554cdb00",
+      "bytes": 21005
+    },
+    {
+      "path": "game/Automation/VehicleVisualScenario.cs",
+      "sha256": "907a9eb98a6c636aba40a9b3265a02e6ba0dcc569712a907d44973ce0eed20eb",
+      "bytes": 10194
+    },
+    {
+      "path": "assets/vehicles/hero-gt/shaders/car_paint.gdshader",
+      "sha256": "45bce1db524d5cecdbddba1fc939ef835898887197a8724824d59f0bcbd594b1",
+      "bytes": 2961
+    }
+  ],
+  "sourced_materials": {
+    "lock": "hero-gt-sourced-materials-2026-09-04",
+    "records": 10,
+    "runtime_files": 35,
+    "license_statuses": [
+      "pending-human-review"
+    ],
+    "extracted_runtime_textures": 54
+  },
+  "scenario_arguments": {
+    "fixture": "representative-corridor",
+    "profiles": [
+      "vehicle-visual (9 stages)",
+      "integrated-visual-slice",
+      "vehicle-visual-review capture (forward_plus, 540 frames)"
+    ]
+  },
+  "late_bound_textures": {
+    "sidecar": "assets/vehicles/hero-gt/hero-gt.generated.textures.json",
+    "materials": 14,
+    "bindings": 46,
+    "scene_ext_resources": 0
+  },
+  "review_capture": {
+    "frames": 600,
+    "stages": 10,
+    "walk_around_frames": "480-539",
+    "daylight_cockpit_frames": "540-599"
+  },
+  "commands": [
+    {
+      "command": "blender --background --python tools/vehicles/create_hero_gt.py -- --output data/assets/vehicles/sources/hero-gt.blend",
+      "exit_status": 0
+    },
+    {
+      "command": "blender --background <source> --python tools/vehicles/validate_and_export_hero_gt.py -- ...",
+      "exit_status": 0
+    },
+    {
+      "command": "godot --headless --path <stage> --import; godot --headless --script res://tools/vehicles/pack_imported_scene.gd -- <glb> <rebuilt.tscn>",
+      "exit_status": 0
+    },
+    {
+      "command": "godot --headless --script res://tools/vehicles/validate_import.gd -- ...",
+      "exit_status": 0
+    },
+    {
+      "command": "node tools/vehicles/generate_manifest.mjs; node tools/assets/validate_manifest.mjs ...",
+      "exit_status": 0
+    },
+    {
+      "command": "python tools/environments/sourced_assets.py plan|acquire|verify --lock data/assets/vehicles/sourced-materials.lock.json",
+      "exit_status": 0
+    },
+    {
+      "command": "./scripts/run-scenario.sh --fixture representative-corridor --profile vehicle-visual",
+      "exit_status": 0
+    },
+    {
+      "command": "./scripts/capture-scenario.sh <frames> --fixture representative-corridor --vehicle-visual-review --renderer forward_plus",
+      "exit_status": 0
+    }
+  ],
+  "metrics": {
+    "lod0_triangles": 106984,
+    "triangle_total": 124184,
+    "materials": [
+      "Material_Body",
+      "Material_Brake",
+      "Material_BrakeDisc",
+      "Material_BrakeHat",
+      "Material_Carbon",
+      "Material_Cavity",
+      "Material_Chrome",
+      "Material_Glass",
+      "Material_Grille",
+      "Material_Headlight",
+      "Material_HeadlightLed",
+      "Material_Interior",
+      "Material_InteriorAlu",
+      "Material_InteriorDash",
+      "Material_InteriorPlastic",
+      "Material_InteriorSuede",
+      "Material_LensGlass",
+      "Material_LensGlassRed",
+      "Material_Plate",
+      "Material_Screen",
+      "Material_Shut",
+      "Material_Taillight",
+      "Material_Tire",
+      "Material_TireSidewall",
+      "Material_Trim",
+      "Material_Well",
+      "Material_Wheel",
+      "Material_WheelBarrel"
+    ],
+    "textures": 37,
+    "texture_bytes": 28834097,
+    "budgets": {
+      "collision_triangles_max": 128,
+      "materials_max": 32,
+      "texture_bytes_max": 96000000,
+      "textures_max": 48,
+      "triangles_lod0_max": 150000,
+      "triangles_total_max": 200000
+    },
+    "glb_bytes": 32003648,
+    "godot_nodes": null,
+    "vehicle_visual_marker": {
+      "semantic_nodes": "37",
+      "lods": "3",
+      "damage_zones": "5",
+      "wheelbase_m": "2.84",
+      "track_m": "1.64",
+      "graybox_equivalent": "True"
+    },
+    "integrated_visual_slice_marker": {
+      "vehicle": "hero-gt",
+      "vehicle_semantic_nodes": "37",
+      "road": "production",
+      "road_chunks": "11",
+      "road_materials": "19",
+      "road_meshes": "10",
+      "environment": "balanced",
+      "environment_regions": "1",
+      "environment_chunks": "11",
+      "terrain_ribbons": "11",
+      "route_distance_m": "60.785",
+      "vehicle_speed_mps": "44.777",
+      "stable_frames": "3"
+    }
+  },
+  "acceptance_comparisons": [
+    {
+      "criterion": "LOD0 triangles within budget",
+      "observed": 106984,
+      "limit": 150000,
+      "passed": true
+    },
+    {
+      "criterion": "total triangles within budget",
+      "observed": 124184,
+      "limit": 200000,
+      "passed": true
+    },
+    {
+      "criterion": "materials within budget",
+      "observed": 28,
+      "limit": 32,
+      "passed": true
+    },
+    {
+      "criterion": "all 37 semantic nodes resolve through the wrapper",
+      "observed": true,
+      "passed": true
+    },
+    {
+      "criterion": "sourced material lock verifies",
+      "observed": 35,
+      "passed": true
+    }
+  ],
+  "output_artifacts": [
+    {
+      "path": "data/assets/vehicles/derived/hero-gt.glb",
+      "sha256": "232578e4c3679c224470d17638c8cdd7f9b39fdd5c4c0560e44968ec7edd48e1",
+      "bytes": 32003648
+    },
+    {
+      "path": "assets/vehicles/hero-gt/hero-gt.generated.tscn",
+      "sha256": "589c9bc645d46a06dadb89d1a4d3aa046add5bf10c35b083f4c65e759265fec7",
+      "bytes": 5338057
+    },
+    {
+      "path": "assets/vehicles/hero-gt/hero-gt.generated.textures.json",
+      "sha256": "9c797045fe6c8d3d151378f660e7aa273905b458cecc29291b472c9be68dc8d1",
+      "bytes": 5383
+    },
+    {
+      "path": "data/assets/vehicles/hero-gt.asset.json",
+      "sha256": "db89eb3872ea136592dd814c119135dab71332e78277c672a0b6f874795fbca1",
+      "bytes": 5918
+    },
+    {
+      "path": "data/assets/vehicles/hero-gt.blender.json",
+      "sha256": "338a2a45813548f4a7aa1b48768902db413c97ec6cb769964fc1816580e0aee7",
+      "bytes": 22942
+    },
+    {
+      "path": "data/assets/vehicles/hero-gt.godot.json",
+      "sha256": "1fae4a7184e7d8849b41d535cdd885842571218672abe7fe885ef7aa36c07c0e",
+      "bytes": 6160
+    },
+    {
+      "path": "data/assets/vehicles/hero-gt-contact-sheet.png",
+      "sha256": "8ca058627901b97bf1388690b88c5b18935cd8b76f822bf707d360ab490688b7",
+      "bytes": 777635
+    },
+    {
+      "path": "docs/images/p1-008-hero-gt-gen3-paint-cockpit-review.png",
+      "sha256": "3937103332136d61951379b9338cd3dfdc913f4d7fa7a3a849f76094b518df62",
+      "bytes": 1685244
+    }
+  ],
+  "failure_logs": [
+    "the cockpit eye point sat 3 cm behind the steering wheel rim, so the daylight cockpit stage showed no wheel and a slab of dash; it moved 0.28 m back to the seat",
+    "the cockpit camera culls the glass and roof shell, so the cabin read as a convertible until pillars, header and headliner were added as interior parts",
+    "the first third-generation cut carried its beltline at 0.98 to 1.03 m and read as a slab-sided wagon in the walk-around; the profiles were redesigned to sports-GT ratios",
+    "the walk-around stage did not orbit until the chase rig, which rewrites the arm every frame, was switched off for that stage",
+    "the nose end cap handed its upper band to the hood panel, which grew an island with its own dark rim: two dark ovals on the nose",
+    "the packaged smoke failed because the generated scene named the rights-gated textures as ext_resources; they are now detached to a sidecar and bound late",
+    "an exact boolean on an open panel welds the cutter faces into the result; apertures are now bisected by the cutter planes and the enclosed faces removed",
+    "relative exporter paths resolve against the .blend directory; the chain passes absolute paths",
+    "the importer extracts embedded textures next to the scene; the packer redirects them to assets/vehicles/sourced/hero-gt/"
+  ],
+  "retry_count": 4,
+  "recovery_result": "pass",
+  "human_gate": {
+    "name": "Hero vehicle art direction and final rights approval",
+    "status": "open",
+    "approval_reference": null
+  }
+}
