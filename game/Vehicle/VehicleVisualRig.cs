@@ -42,6 +42,14 @@ public sealed partial class VehicleVisualRig : Node3D
     private readonly List<MeshInstance3D> _damageIndicators = [];
     private readonly Godot.Collections.Dictionary _automationState = new();
     private readonly List<Light3D> _lamps = [];
+    private readonly Dictionary<string, float> _lampEmission = new(StringComparer.Ordinal);
+
+    /// <summary>
+    /// Lamp lens materials whose glow follows the lamps. The LED strips stay
+    /// lit by day as running lights, so they are not listed.
+    /// </summary>
+    private static readonly string[] LampEmissiveMaterials = ["Material_Taillight", "Material_Headlight"];
+    private const float DousedEmissionScale = 0.12f;
     private Action<World.Environments.LightingPreset>? _presetHandler;
 
     /// <summary>Whether the head and tail lamps are lit.</summary>
@@ -177,8 +185,44 @@ public sealed partial class VehicleVisualRig : Node3D
         {
             lamp.Visible = on;
         }
+        ApplyLampEmission(on);
         _automationState["headlights_on"] = on;
         _automationState["lamp_count"] = _lamps.Count;
+        _automationState["beam_shadows"] = _lamps.OfType<SpotLight3D>().Any(beam => beam.ShadowEnabled);
+    }
+
+    /// <summary>
+    /// Scales the tail bar and projector lens glow with the lamps. The
+    /// source emission strength is remembered per material name the first
+    /// time it is seen, so a doused lamp is a fraction of the source rather
+    /// than a constant that could drift from the asset. Wrappers are released
+    /// per surface, as in the polish pass.
+    /// </summary>
+    private void ApplyLampEmission(bool on)
+    {
+        foreach (var meshInstance in Descendants(this).OfType<MeshInstance3D>())
+        {
+            using var mesh = meshInstance.Mesh;
+            if (mesh is null)
+            {
+                continue;
+            }
+            for (var surface = 0; surface < mesh.GetSurfaceCount(); surface++)
+            {
+                using var surfaceMaterial = mesh.SurfaceGetMaterial(surface);
+                if (surfaceMaterial is not StandardMaterial3D material ||
+                    Array.IndexOf(LampEmissiveMaterials, material.ResourceName) < 0)
+                {
+                    continue;
+                }
+                if (!_lampEmission.TryGetValue(material.ResourceName, out var source))
+                {
+                    source = material.EmissionEnergyMultiplier;
+                    _lampEmission[material.ResourceName] = source;
+                }
+                material.EmissionEnergyMultiplier = on ? source : source * DousedEmissionScale;
+            }
+        }
     }
 
     /// <summary>
@@ -189,6 +233,11 @@ public sealed partial class VehicleVisualRig : Node3D
     /// </summary>
     private void BuildLamps(IReadOnlyDictionary<string, Node> resolved)
     {
+        // The semantic suite runs the production rig on software renderers
+        // behind the graybox-assets flag; two shadowed beams there cost the
+        // macOS camera test its rear-view settle window, and nothing in that
+        // suite looks at a beam shadow.
+        var shadowedBeams = !World.Environments.SkyLighting.GrayboxRequested();
         foreach (var name in new[] { "Light_Head_FL", "Light_Head_FR" })
         {
             var anchor = (Node3D)resolved[name];
@@ -202,7 +251,7 @@ public sealed partial class VehicleVisualRig : Node3D
                 SpotAngle = 38.0f,
                 SpotAngleAttenuation = 0.7f,
                 SpotAttenuation = 0.9f,
-                ShadowEnabled = true,
+                ShadowEnabled = shadowedBeams,
                 ShadowBias = 0.06f,
                 ShadowNormalBias = 1.5f,
                 RotationDegrees = new Vector3(-2.2f, 0, 0),
