@@ -58,6 +58,18 @@ public static class SkyLighting
 
     private static IReadOnlyDictionary<LightingPreset, LightingState>? _states;
 
+    /// <summary>The preset most recently applied anywhere, so nodes built
+    /// later (the vehicle rig, its lamps) can match it without every scenario
+    /// telling them.</summary>
+    public static LightingPreset? CurrentPreset { get; private set; }
+
+    /// <summary>Raised when <see cref="Apply"/> changes the preset.</summary>
+    public static event Action<LightingPreset>? PresetChanged;
+
+    /// <summary>Whether a preset wants the vehicle lamps lit.</summary>
+    public static bool LampsLit(LightingPreset preset) =>
+        preset is LightingPreset.Night or LightingPreset.Dawn;
+
     public static LightingState State(LightingPreset preset) => States()[preset];
 
     public static bool GrayboxRequested() =>
@@ -154,6 +166,11 @@ public static class SkyLighting
         ArgumentNullException.ThrowIfNull(environment);
         var values = State(preset);
         var name = preset.ToString().ToLowerInvariant();
+        if (CurrentPreset != preset)
+        {
+            CurrentPreset = preset;
+            PresetChanged?.Invoke(preset);
+        }
         // Scenarios re-apply their preset every frame; swapping the panorama
         // rebuilds the radiance map, so an unchanged preset is a no-op.
         if (environment.GetMeta("lighting_preset", "").AsString() == name &&
