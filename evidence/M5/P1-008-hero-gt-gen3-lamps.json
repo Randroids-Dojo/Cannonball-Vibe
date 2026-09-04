@@ -1,0 +1,145 @@
+{
+  "schema_version": 1,
+  "task_id": "P1-008",
+  "milestone": "M5",
+  "status": "in_progress",
+  "slice": "hero-gt-generation-3-lamps-2026-09-04",
+  "git_revision": "3c1e55743997a046d81bf158edfd23d63fdf2946",
+  "recorded_at_utc": "2026-09-04T18:38:42Z",
+  "platform": {
+    "os": "Windows 11 Pro 10.0.26200",
+    "architecture": "x64",
+    "gpu": "NVIDIA GeForce RTX 3080 Ti 12 GB",
+    "renderer_for_captures": "Godot 4.7.1 Forward+ (reference PC) and Compatibility (headless review path)"
+  },
+  "tool_versions": {
+    "godot": "4.7.1.stable.mono.official.a13da4feb",
+    "dotnet_sdk": "10.0.102"
+  },
+  "scope": {
+    "verified": [
+      "working lamps under the four light anchors: shadowed warm low beams (30 energy, 120 m, 38 degrees, dipped 2.2 degrees) with 3 m spills under the head anchors, red glows under the tail anchors",
+      "SkyLighting publishes CurrentPreset and PresetChanged; the rig lights the lamps for Night and Dawn and douses them for Day and Overcast from whatever preset is current when it enters the tree",
+      "vehicle-visual stages assert lamps lit at night and doused by day; the walk-around runs its second half at night"
+    ],
+    "completion_pending": [
+      "frame-time measurement of the two shadowed spot lights per tier (Q-041)",
+      "high beam, indicators, preset-driven lamp emission"
+    ],
+    "excluded_claims": [
+      "frame-time claims",
+      "human art approval"
+    ]
+  },
+  "input_artifacts": [
+    {
+      "path": "game/World/Environment/SkyLighting.cs",
+      "sha256": "f6416559bdbabeaa084ebadcf022c5a3bf12ec929a3c47e99e72ad4453fa8ab1",
+      "bytes": 14422
+    },
+    {
+      "path": "game/Vehicle/VehicleVisualRig.cs",
+      "sha256": "2f4e9fc1991143ef25691e17bfc179d2ee3d5a50463a8c4f12421f319d202814",
+      "bytes": 24312
+    },
+    {
+      "path": "game/Vehicle/CannonballVehicle.cs",
+      "sha256": "6963163dde83423f78b61944de4d09cd89c39f3ed9126a0432efef1949b6237d",
+      "bytes": 26640
+    },
+    {
+      "path": "game/Automation/VehicleVisualScenario.cs",
+      "sha256": "aa5e7a4d26c8a2472180e405ff790debf6887aa9b5366b59620f8c43a6d49ba3",
+      "bytes": 10494
+    }
+  ],
+  "lamps": {
+    "head_beam": {
+      "type": "SpotLight3D",
+      "energy": 30.0,
+      "range_m": 120.0,
+      "angle_degrees": 38.0,
+      "dip_degrees": 2.2,
+      "shadow": true,
+      "color": [
+        1.0,
+        0.93,
+        0.8
+      ]
+    },
+    "head_spill": {
+      "type": "OmniLight3D",
+      "energy": 1.2,
+      "range_m": 3.0
+    },
+    "tail_glow": {
+      "type": "OmniLight3D",
+      "energy": 0.8,
+      "range_m": 2.0,
+      "color": [
+        1.0,
+        0.07,
+        0.03
+      ]
+    },
+    "lit_for_presets": [
+      "Night",
+      "Dawn"
+    ]
+  },
+  "scenario_arguments": {
+    "fixture": "representative-corridor",
+    "profiles": [
+      "vehicle-visual (10 stages)",
+      "vehicle-visual-review capture (forward_plus, 600 frames)"
+    ]
+  },
+  "commands": [
+    {
+      "command": "dotnet test Cannonball.sln",
+      "exit_status": 0,
+      "result": "145 passed"
+    },
+    {
+      "command": "./scripts/run-scenario.sh --fixture representative-corridor --profile vehicle-visual",
+      "exit_status": 0
+    },
+    {
+      "command": "./scripts/capture-scenario.sh <frames> --fixture representative-corridor --vehicle-visual-review --renderer forward_plus",
+      "exit_status": 0
+    },
+    {
+      "command": "pytest automation/playgodot -k camera_handling (GODOT_BIN, production rig)",
+      "exit_status": 0
+    }
+  ],
+  "metrics": {
+    "review_frames": 600,
+    "vehicle_visual_marker": "CANNONBALL_VEHICLE_VISUAL_OK semantic_nodes=37 lods=3 damage_zones=5 wheelbase_m=2.84 track_m=1.64 graybox_equivalent=True",
+    "night_orbit_frames": "510-539",
+    "night_cockpit_frames": "60-119"
+  },
+  "output_artifacts": [
+    {
+      "path": "docs/images/p1-008-hero-gt-gen3-lamps-review.png",
+      "sha256": "7644245d38fcade4487ba45102066b6f678f15aaf3ea7176ce4cece3c161b5e6",
+      "bytes": 1768237
+    },
+    {
+      "path": "docs/audits/2026-09-04-p1-008-hero-gt-lamps.md",
+      "sha256": "a5381dce62052dc22126ebaa6b6a42d4e70d11598825e8b84a80b7dcbb74a0db",
+      "bytes": 2993
+    }
+  ],
+  "failure_logs": [
+    "the first beam (18 energy, 90 m, dipped 3.5 degrees) reached about twenty metres from the eye point; a low beam wants fifty or more, so the energy, range and dip were retuned",
+    "the first tail glow (1.6 energy) pooled a strong red on the road; halved"
+  ],
+  "retry_count": 1,
+  "recovery_result": "pass",
+  "human_gate": {
+    "name": "Hero vehicle art direction and final rights approval",
+    "status": "open",
+    "approval_reference": null
+  }
+}

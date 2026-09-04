@@ -41,6 +41,11 @@ public sealed partial class VehicleVisualRig : Node3D
     private readonly Vector3[] _suspensionRestPositions = new Vector3[4];
     private readonly List<MeshInstance3D> _damageIndicators = [];
     private readonly Godot.Collections.Dictionary _automationState = new();
+    private readonly List<Light3D> _lamps = [];
+    private Action<World.Environments.LightingPreset>? _presetHandler;
+
+    /// <summary>Whether the head and tail lamps are lit.</summary>
+    public bool HeadlightsOn { get; private set; }
     private Node3D _lod0 = null!;
     private Node3D _lod1 = null!;
     private Node3D _lod2 = null!;
@@ -80,6 +85,7 @@ public sealed partial class VehicleVisualRig : Node3D
             _suspensionRestPositions[index] = _suspensionAnchors[index].Position;
         }
         BuildDamageIndicators(resolved);
+        BuildLamps(resolved);
         BindSourcedTextures();
         PolishImportedMaterials();
         // The collision proxy is a contract node for collision policy, not a
@@ -91,6 +97,13 @@ public sealed partial class VehicleVisualRig : Node3D
         }
         SetLod(0);
         SetDamageHighlight(false);
+        // The run starts at night; the lamps follow whatever preset the world
+        // applies from here on.
+        SetHeadlights(World.Environments.SkyLighting.CurrentPreset is { } preset
+            ? World.Environments.SkyLighting.LampsLit(preset)
+            : true);
+        _presetHandler = changed => SetHeadlights(World.Environments.SkyLighting.LampsLit(changed));
+        World.Environments.SkyLighting.PresetChanged += _presetHandler;
         _automationState["cockpit_excluded_mesh_count"] = 0;
         _automationState["cockpit_exterior_layer"] = (long)CockpitExteriorRenderLayer;
     }
@@ -144,6 +157,82 @@ public sealed partial class VehicleVisualRig : Node3D
                     child.Visible = ActiveLod == 0;
                 }
             }
+        }
+    }
+
+    public override void _ExitTree()
+    {
+        if (_presetHandler is not null)
+        {
+            World.Environments.SkyLighting.PresetChanged -= _presetHandler;
+            _presetHandler = null;
+        }
+    }
+
+    /// <summary>Lights or douses the head and tail lamps.</summary>
+    public void SetHeadlights(bool on)
+    {
+        HeadlightsOn = on;
+        foreach (var lamp in _lamps)
+        {
+            lamp.Visible = on;
+        }
+        _automationState["headlights_on"] = on;
+        _automationState["lamp_count"] = _lamps.Count;
+    }
+
+    /// <summary>
+    /// Working lamps under the contract anchors: a low beam per headlamp with
+    /// a warm colour and a shadow, and a small red glow per tail lamp. The
+    /// anchors carry the identity rotation the exporter enforces, so the
+    /// beams point down the vehicle forward axis with a slight dip.
+    /// </summary>
+    private void BuildLamps(IReadOnlyDictionary<string, Node> resolved)
+    {
+        foreach (var name in new[] { "Light_Head_FL", "Light_Head_FR" })
+        {
+            var anchor = (Node3D)resolved[name];
+            var beam = new SpotLight3D
+            {
+                Name = $"{name}_Beam",
+                LightColor = new Color(1.0f, 0.93f, 0.80f),
+                LightEnergy = 30.0f,
+                LightSpecular = 0.35f,
+                SpotRange = 120.0f,
+                SpotAngle = 38.0f,
+                SpotAngleAttenuation = 0.7f,
+                SpotAttenuation = 0.9f,
+                ShadowEnabled = true,
+                ShadowBias = 0.06f,
+                ShadowNormalBias = 1.5f,
+                RotationDegrees = new Vector3(-2.2f, 0, 0),
+            };
+            anchor.AddChild(beam);
+            _lamps.Add(beam);
+            var spill = new OmniLight3D
+            {
+                Name = $"{name}_Spill",
+                LightColor = new Color(1.0f, 0.93f, 0.80f),
+                LightEnergy = 1.2f,
+                OmniRange = 3.0f,
+                ShadowEnabled = false,
+            };
+            anchor.AddChild(spill);
+            _lamps.Add(spill);
+        }
+        foreach (var name in new[] { "Light_Tail_RL", "Light_Tail_RR" })
+        {
+            var anchor = (Node3D)resolved[name];
+            var glow = new OmniLight3D
+            {
+                Name = $"{name}_Glow",
+                LightColor = new Color(1.0f, 0.07f, 0.03f),
+                LightEnergy = 0.8f,
+                OmniRange = 2.0f,
+                ShadowEnabled = false,
+            };
+            anchor.AddChild(glow);
+            _lamps.Add(glow);
         }
     }
 

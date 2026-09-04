@@ -243,6 +243,12 @@ instead of failing on the order of its checks.
 
 ## Reviewer notes, not questions
 
+- The Hero GT now lights the road at night: shadowed low beams and spills
+  under the head anchors and red glows under the tail anchors, switched by
+  the lighting preset. Until 2026-09-04 the four light anchors carried
+  nothing, and the run starts at night. Two shadowed spot lights are new GPU
+  work on every tier; Q-041 can decide whether the Low tier drops the beam
+  shadows, which is one line per tier.
 - Paint colour (Q-020 gate): the Hero GT now wears a deep metallic navy,
   sRGB (0.11, 0.17, 0.33) with metallic 0.50 and roughness 0.26 under the
   clear coat, chosen from an A/B Forward+ capture against the mid blue, which

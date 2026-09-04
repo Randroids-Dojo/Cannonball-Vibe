@@ -209,6 +209,8 @@ public sealed partial class CannonballVehicle : RigidBody3D
 
     public void SetDamageHighlight(bool visible) => VisualRig?.SetDamageHighlight(visible);
 
+    public void SetHeadlights(bool on) => VisualRig?.SetHeadlights(on);
+
     public void ToggleCameraMode() => SetCameraMode(CurrentCameraMode != "cockpit");
 
     public void SetCameraMode(bool cockpit)

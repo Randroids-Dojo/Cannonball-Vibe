@@ -163,10 +163,10 @@ public sealed class VehicleVisualScenario
                 rig.ApplyPhysicsState(0, 0, 1.0f / 60.0f, [0.18f, 0.18f, 0.18f, 0.18f]);
                 break;
             case 8:
-                // A full orbit at static ride height in daylight, low and
-                // close, so the review sheet shows the car from every side
-                // rather than only its tail; the art-direction gate needs it.
-                SetLighting(daylight: true);
+                // A full orbit at static ride height, low and close, so the
+                // review sheet shows the car from every side rather than only
+                // its tail; the second half runs at night with the lamps lit.
+                SetLighting(daylight: phase < 0.5f);
                 _vehicle.ChaseCameraRig.SetProcess(false);
                 // A long lens from further back keeps the proportions honest;
                 // the chase camera's 76-degree field of view inflates whatever
@@ -198,8 +198,12 @@ public sealed class VehicleVisualScenario
         }
         switch (stage)
         {
+            case 0 when rig.HeadlightsOn:
+                throw new InvalidOperationException("Daylight review left the vehicle lamps lit.");
             case 1 when !_cockpitCamera.Current || _chaseCamera.Current:
                 throw new InvalidOperationException("Cockpit review did not use the declared cockpit camera anchor.");
+            case 1 when !rig.HeadlightsOn:
+                throw new InvalidOperationException("Night review did not light the vehicle lamps.");
             case 3 when Math.Abs(snapshot.SteeringRadians - 0.38f) > 0.001f:
                 throw new InvalidOperationException("Steering-lock visual did not reach the declared angle.");
             case 4 when snapshot.MaximumSuspensionTravelMeters < 0.619f:
