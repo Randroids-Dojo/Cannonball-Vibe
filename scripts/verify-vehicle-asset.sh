@@ -48,6 +48,7 @@ fi
 source_asset="data/assets/vehicles/sources/hero-gt.blend"
 tracked_glb="data/assets/vehicles/derived/hero-gt.glb"
 tracked_generated_scene="assets/vehicles/hero-gt/hero-gt.generated.tscn"
+tracked_texture_bindings="assets/vehicles/hero-gt/hero-gt.generated.textures.json"
 tracked_contact="data/assets/vehicles/hero-gt-contact-sheet.png"
 tracked_blender_inventory="data/assets/vehicles/hero-gt.blender.json"
 tracked_godot_inventory="data/assets/vehicles/hero-gt.godot.json"
@@ -135,6 +136,7 @@ cp "$import_settings" "$import_stage/assets/vehicles/hero-gt/hero-gt.glb.import"
   res://assets/vehicles/hero-gt/hero-gt.glb \
   res://assets/vehicles/hero-gt/hero-gt.rebuilt.tscn
 cmp "$import_stage/assets/vehicles/hero-gt/hero-gt.rebuilt.tscn" "$tracked_generated_scene"
+cmp "$import_stage/assets/vehicles/hero-gt/hero-gt.rebuilt.textures.json" "$tracked_texture_bindings"
 
 project_stage="$work/project"
 mkdir -p "$project_stage"

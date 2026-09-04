@@ -19,7 +19,7 @@
   "contact_sheet": {
     "height": 480,
     "path": "data/assets/vehicles/hero-gt-contact-sheet.png",
-    "sha256": "9908453109553ea581dfeb9ce883c15a53a7e28ebcb994f749f5122ad7edb25e",
+    "sha256": "b2983f9096efd5b00ea55fa9413a10b8c1dc56d956ce78ba74e64cf9d8382c47",
     "width": 1920
   },
   "glb": {
@@ -237,14 +237,14 @@
     ],
     "path": "data/assets/vehicles/derived/hero-gt.glb",
     "scene_count": 1,
-    "sha256": "21705aa1c8e7a39c8e2576ba2b4e656f94f6b5cd60dbef36d9c5677f0014c0fe"
+    "sha256": "aaa0d9b7b2a416b79581a3b1949fc771d781bad8623bc23f4f553d9a43f220fc"
   },
   "godot_axes": {
     "forward": "-Z",
     "up": "+Y"
   },
   "identity_transforms": true,
-  "lod0_triangle_total": 106748,
+  "lod0_triangle_total": 106660,
   "materials": [
     "Material_Body",
     "Material_Brake",
@@ -531,7 +531,7 @@
   "schema_version": 1,
   "source": {
     "path": "data/assets/vehicles/sources/hero-gt.blend",
-    "sha256": "096d3f684c3a5ac6131a7d6262bdd1a97dd68b7499a161952c439fdde6f0b6ce"
+    "sha256": "34c671c926d65cc7501356403ab8191fb017d80ca307fd97fddd2847f1edbe01"
   },
   "source_axes": {
     "forward": "-Y",
@@ -688,7 +688,7 @@
       "name": "scuba_suede_nor_gl_1k.jpg"
     }
   ],
-  "triangle_total": 123948,
+  "triangle_total": 123860,
   "triangles": {
     "CollisionProxy": 12,
     "LOD0_Antenna": 60,
@@ -743,9 +743,9 @@
     "LOD0_ExhaustR66_Inner": 108,
     "LOD0_ExhaustR66_Tip": 108,
     "LOD0_Floor": 12,
-    "LOD0_FrontBumper": 5328,
-    "LOD0_GrilleCavity": 216,
-    "LOD0_GrilleMesh": 144,
+    "LOD0_FrontBumper": 5512,
+    "LOD0_GrilleCavity": 164,
+    "LOD0_GrilleMesh": 104,
     "LOD0_HandleRecess_L": 60,
     "LOD0_HandleRecess_R": 60,
     "LOD0_Handle_L": 60,
@@ -753,25 +753,25 @@
     "LOD0_Headliner": 12,
     "LOD0_Headrest_L": 92,
     "LOD0_Headrest_R": 92,
-    "LOD0_Hood": 6328,
+    "LOD0_Hood": 5992,
     "LOD0_IntakeCavity_L": 78,
     "LOD0_IntakeCavity_R": 78,
     "LOD0_IntakeMesh_L": 34,
     "LOD0_IntakeMesh_R": 34,
     "LOD0_LampBezel_FL": 124,
     "LOD0_LampBezel_FR": 124,
-    "LOD0_LampCover_FL": 38,
-    "LOD0_LampCover_FR": 38,
-    "LOD0_LampHousing_FL": 90,
-    "LOD0_LampHousing_FR": 90,
+    "LOD0_LampCover_FL": 26,
+    "LOD0_LampCover_FR": 26,
+    "LOD0_LampHousing_FL": 58,
+    "LOD0_LampHousing_FR": 58,
     "LOD0_LampLens_FL": 124,
     "LOD0_LampLens_FR": 124,
-    "LOD0_LampStrip_FL": 38,
-    "LOD0_LampStrip_FR": 38,
+    "LOD0_LampStrip_FL": 26,
+    "LOD0_LampStrip_FR": 26,
     "LOD0_MirrorGlass_L": 108,
     "LOD0_MirrorGlass_R": 108,
-    "LOD0_MirrorHousing_L": 624,
-    "LOD0_MirrorHousing_R": 624,
+    "LOD0_MirrorHousing_L": 840,
+    "LOD0_MirrorHousing_R": 840,
     "LOD0_MirrorStalk_L": 60,
     "LOD0_MirrorStalk_R": 60,
     "LOD0_NoseBadge": 124,
@@ -782,7 +782,7 @@
     "LOD0_Plate": 60,
     "LOD0_PlateRecess": 48,
     "LOD0_RearBulkhead": 60,
-    "LOD0_RearBumper": 5618,
+    "LOD0_RearBumper": 5734,
     "LOD0_RearViewGlass": 60,
     "LOD0_RearViewMirror": 60,
     "LOD0_Rim_FL_Barrel": 1872,
@@ -826,10 +826,10 @@
     "LOD0_SteeringColumn": 76,
     "LOD0_SteeringWheel": 1136,
     "LOD0_TailBadge": 60,
-    "LOD0_TailBar": 40,
-    "LOD0_TailBarCover": 40,
-    "LOD0_TailBarHousing": 112,
-    "LOD0_Trunk": 2176,
+    "LOD0_TailBar": 56,
+    "LOD0_TailBarCover": 56,
+    "LOD0_TailBarHousing": 136,
+    "LOD0_Trunk": 1840,
     "LOD0_Tunnel": 60,
     "LOD0_Tyre_FL": 5376,
     "LOD0_Tyre_FR": 5376,

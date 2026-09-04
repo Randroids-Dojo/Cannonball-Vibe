@@ -46,29 +46,32 @@ plus 290 to 315 mm; height is 1.8 to 1.9 tyre diameters.
 | Width over arches | 1.95 m | track plus 0.31 m; the tyre outer face at 0.9615 m leaves 14 mm inside the arch lip |
 | Height | 1.30 m | 1.91 tyre diameters |
 | Ground clearance | 0.11 m | between the Vantage and the DB12 |
-| Cowl (windshield base) | 0.97 m behind the front axle | the sheet proposed 1.10 m; the model uses 0.97 m for a more conventional cabin position |
+| Cowl (windshield base) | 0.97 m behind the front axle, 0.915 m high | the sheet proposed 1.10 m; the model uses 0.97 m for a more conventional cabin position; the cowl height fell from 0.98 m with the beltline |
 | Windshield rake | 62 degrees from vertical | C4 Corvette 64 degrees, drag optimum near 25 degrees from horizontal |
 | Roof peak | 1.30 m, 1.82 m behind the front axle | |
 | Backlight | about 20 degrees from horizontal | fastback convention (Mustang, BMW 4-series) |
-| Beltline | 0.98 m at the cowl rising to 1.03 m at the deck | |
+| Beltline | 0.90 m at the cowl, 0.89 m at the B-pillar, 0.93 m at the deck | revised 2026-09-04: the first cut ran 0.98 to 1.03 m, three quarters of the height, and read as a slab-sided wagon; sports GTs carry the belt near 0.65 of the height with a third of the height in glass |
 | Rocker top / underside | 0.32 m / 0.13 m | |
-| Arch radius | 0.395 m | 55 mm over the tyre; the sheet's 65 mm put the arch top above the 0.81 m fender crest, so the front fender crest was raised to 0.865 m |
+| Arch radius | 0.395 m | 55 mm over the tyre; the front fender crest sits at 0.862 m over a hood centreline of 0.805 m at the axle, so the fenders read as shoulders over a dipped hood |
 | Arch blister | 40 to 45 mm proud of the door skin | |
 | Panel gaps | 3 mm hood and doors, 4 mm bumper seams | factory specifications for current sports cars run 2 to 4.5 mm |
 
 ## Lighting and details
 
-- Headlamps centred 0.66 m high and 0.72 m from the centreline, each unit
-  0.32 m long wrapping from the nose back along the fender (FMVSS 108
-  allows 22 to 54 in for the lamp centre).
+- Headlamps centred 0.515 m high and 0.56 m from the centreline on the
+  fascia, each a 0.44 m bar 82 mm tall swept back 24 degrees around the
+  corner (FMVSS 108 allows 22 to 54 in for the lamp centre). The first cut
+  put them at 0.66 m on the fender flank, where they read as nubs from the
+  front.
 - Tail lamp bar 60 mm tall across 1.70 m; the model places it at 0.80 m,
   below the bumper seam, so the bar cuts one panel.
 - Quad exhaust tips of 90 mm at 0.52 m and 0.66 m from the centreline,
-  0.30 m high.
-- Plate 305 x 152 mm centred 0.52 m high.
+  0.385 m high; at 0.30 m they sat on the rolled underside of the bumper.
+- Plate 305 x 152 mm centred 0.56 m high.
 - Mirror housings about 200 x 110 x 90 mm at the door front, 2.15 m over
   mirrors.
-- Grille aperture 0.95 x 0.30 m centred 0.45 m high.
+- Grille aperture 1.16 x 0.25 m centred 0.325 m high, with 0.20 x 0.11 m
+  outer intakes at 0.72 m from the centreline.
 - Badges 140 mm on the nose and tail.
 
 ## Not sourced

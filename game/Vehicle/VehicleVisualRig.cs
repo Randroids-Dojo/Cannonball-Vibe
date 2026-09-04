@@ -193,11 +193,11 @@ public sealed partial class VehicleVisualRig : Node3D
         var missing = 0;
         _automationState["sourced_textures_bound"] = 0;
         _automationState["sourced_textures_missing"] = 0;
-        if (!FileAccess.FileExists(SourcedTexturesPath))
+        if (!Godot.FileAccess.FileExists(SourcedTexturesPath))
         {
             return;
         }
-        var parsed = Json.ParseString(FileAccess.GetFileAsString(SourcedTexturesPath));
+        var parsed = Json.ParseString(Godot.FileAccess.GetFileAsString(SourcedTexturesPath));
         if (parsed.Obj is not Godot.Collections.Dictionary sidecar ||
             !sidecar.TryGetValue("materials", out var materialsValue) ||
             materialsValue.Obj is not Godot.Collections.Dictionary bindings)
