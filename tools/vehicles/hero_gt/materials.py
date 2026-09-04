@@ -158,10 +158,10 @@ def build_materials(textures: Textures) -> dict[str, bpy.types.Material]:
     paint_color = (0.040, 0.125, 0.270, 1.0)
     materials = {}
     materials["paint"] = principled(
-        "Material_Body", paint_color, metallic=0.22, roughness=0.36, coat=1.0, coat_roughness=0.04,
-        textures={"normal": t.ambientcg("Paint005", "1K-JPG", "NormalGL")}, uv_scale=(3.0, 3.0), normal_strength=0.2,
-        extras={"cv_shader": "car_paint", "cv_clearcoat": 1.0, "cv_clearcoat_roughness": 0.04, "cv_normal_strength": 0.2,
-                "cv_flake_scale": 900.0, "cv_flake_strength": 0.35, "cv_edge_tint": [0.02, 0.05, 0.12]},
+        "Material_Body", paint_color, metallic=0.30, roughness=0.22, coat=1.0, coat_roughness=0.03,
+        textures={"normal": t.ambientcg("Paint005", "1K-JPG", "NormalGL")}, uv_scale=(3.0, 3.0), normal_strength=0.1,
+        extras={"cv_shader": "car_paint", "cv_clearcoat": 1.0, "cv_clearcoat_roughness": 0.03, "cv_normal_strength": 0.1,
+                "cv_flake_scale": 900.0, "cv_flake_strength": 0.22, "cv_edge_tint": [0.02, 0.05, 0.12]},
     )
     materials["dark"] = principled("Material_Shut", (0.006, 0.006, 0.007, 1.0), roughness=0.85, specular=0.3)
     materials["glass"] = principled(
@@ -231,7 +231,7 @@ def build_materials(textures: Textures) -> dict[str, bpy.types.Material]:
     )
     materials["plate"] = principled("Material_Plate", (0.88, 0.88, 0.85, 1.0), roughness=0.45)
     materials["tyre"] = principled(
-        "Material_Tire", (0.85, 0.85, 0.86, 1.0), roughness=0.85, specular=0.3,
+        "Material_Tire", (0.80, 0.80, 0.81, 1.0), roughness=0.85, specular=0.3, normal_strength=0.8,
         textures={
             "color": t.image(f"{SOURCED}/texturecan/plastic_0022/plastic_0022_color_2k.jpg"),
             "normal": t.image(f"{SOURCED}/texturecan/plastic_0022/plastic_0022_normal_opengl_2k.jpg", True),
@@ -239,6 +239,15 @@ def build_materials(textures: Textures) -> dict[str, bpy.types.Material]:
             "ao": t.image(f"{SOURCED}/texturecan/plastic_0022/plastic_0022_ao_2k.jpg", True),
         },
         uv_scale=(1.0, 1.0),
+    )
+    materials["tyre_side"] = principled(
+        "Material_TireSidewall", (0.16, 0.16, 0.165, 1.0), roughness=0.88, specular=0.3,
+        textures={
+            "color": t.ambientcg("Plastic012A", "1K-JPG", "Color"),
+            "normal": t.ambientcg("Plastic012A", "1K-JPG", "NormalGL"),
+            "roughness": t.ambientcg("Plastic012A", "1K-JPG", "Roughness"),
+        },
+        uv_scale=(1.0, 1.0), normal_strength=0.6,
     )
     materials["rim"] = principled(
         "Material_Wheel", (0.30, 0.31, 0.33, 1.0), metallic=1.0, roughness=0.28,

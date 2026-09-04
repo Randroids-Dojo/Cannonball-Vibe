@@ -222,6 +222,18 @@ def surface_x(profiles: spec.Profiles, y: float, z: float) -> float:
     return max(x for x, _ in points)
 
 
+def surface_z(profiles: spec.Profiles, y: float, x: float) -> float:
+    """Upper-surface height at plan position (x, y) for the station y."""
+    from . import body as body_module
+    points = body_module.half_loop(y, profiles)
+    upper = points[spec.STATION_BELT:]
+    ax = abs(x)
+    for (x0, z0), (x1, z1) in zip(upper, upper[1:]):
+        if min(x0, x1) <= ax <= max(x0, x1) and x1 != x0:
+            return z0 + (z1 - z0) * (ax - x0) / (x1 - x0)
+    return max(z for _, z in points)
+
+
 def front_cutters(profiles: spec.Profiles) -> list[bpy.types.Object]:
     """Grille aperture, two lower intakes and two headlamp recesses."""
     nose = spec.NOSE_Y
@@ -231,21 +243,21 @@ def front_cutters(profiles: spec.Profiles) -> list[bpy.types.Object]:
         (width, 0.40, height), (0.0, nose + 0.06, spec.GRILLE_Z), bevel=0.06, segments=4)))
     for side in (-1, 1):
         cutters.append(cutter_object(f"Intake{'L' if side < 0 else 'R'}Cutter", rounded_box_bmesh(
-            (0.22, 0.34, 0.11), (side * 0.40, nose + 0.06, 0.245), bevel=0.04, segments=4)))
+            (0.20, 0.34, 0.11), (side * 0.72, nose + 0.10, 0.30), bevel=0.03, segments=4)))
     return cutters
 
 
 def lamp_cutters(profiles: spec.Profiles) -> list[bpy.types.Object]:
-    """Headlamp recesses: above the bumper seam, so they cut the fender."""
+    """Headlamp recesses on the fascia above the grille corners.
+
+    Each is a slim horizontal bar that starts on the front face and sweeps
+    back around the corner, so it reads from the front and the side.
+    """
     cutters = []
-    y0, y1 = spec.HEADLAMP_Y
-    y_mid = (y0 + y1) / 2
-    x_surface = surface_x(profiles, y_mid, spec.HEADLAMP_Z)
-    angle = math.atan2(surface_x(profiles, y0, spec.HEADLAMP_Z) - surface_x(profiles, y1, spec.HEADLAMP_Z), y1 - y0)
     for side in (-1, 1):
         cutters.append(cutter_object(f"Headlamp{'FL' if side < 0 else 'FR'}Cutter", rounded_box_bmesh(
-            (0.24, y1 - y0, 0.11), (side * (x_surface - 0.02), y_mid, spec.HEADLAMP_Z),
-            rotation=(0, 0, side * angle), bevel=0.03, segments=3)))
+            (0.44, 0.34, 0.082), (side * spec.HEADLAMP_X, spec.NOSE_Y + 0.10, spec.HEADLAMP_Z),
+            rotation=(0, 0, side * math.radians(-24)), bevel=0.025, segments=3)))
     return cutters
 
 
@@ -386,29 +398,36 @@ def build_side_parts(collection, parent, materials, profiles: spec.Profiles) -> 
         mirror_z = belt_z + 0.035
         rounded_box(f"LOD0_MirrorStalk_{suffix}", (0.13, 0.045, 0.02), (side * (belt_x + 0.01), spec.MIRROR_Y, belt_z + 0.012),
                     collection, parent, materials["housing"], rotation=(0, side * math.radians(-15), 0), bevel=0.006)
+        # Housing: a pebble with a flat rear face, its outer end drawn back
+        # and its nose tapered so it reads as a cast shell rather than a ball.
         housing = bmesh.new()
-        bmesh.ops.create_uvsphere(housing, u_segments=24, v_segments=14, radius=0.5)
-        bmesh.ops.scale(housing, vec=Vector((0.19, 0.12, 0.085)), verts=housing.verts)
+        bmesh.ops.create_uvsphere(housing, u_segments=28, v_segments=16, radius=0.5)
+        bmesh.ops.scale(housing, vec=Vector((0.21, 0.13, 0.072)), verts=housing.verts)
         for vert in housing.verts:
-            if vert.co.y > 0.03:
-                vert.co.y = 0.03
+            # Thinner and narrower towards the leading edge, flat at the glass.
+            taper = 0.80 + 0.20 * (vert.co.y + 0.065) / 0.13
+            vert.co.z *= taper
+            if vert.co.y > 0.042:
+                vert.co.y = 0.042
+        bmesh.ops.rotate(housing, cent=Vector((0, 0, 0)), matrix=rotation_matrix((0, side * math.radians(6), side * math.radians(-8))), verts=housing.verts)
         bmesh.ops.translate(housing, vec=Vector((mirror_x, spec.MIRROR_Y, mirror_z)), verts=housing.verts)
         housing_obj = _link(f"LOD0_MirrorHousing_{suffix}", housing, collection, parent, [materials["paint"]])
-        smooth(housing_obj, 45)
-        glass = cylinder_bmesh(0.045, 0.004, (0, 0, 0), axis="Y", segments=28)
-        bmesh.ops.scale(glass, vec=Vector((1.7, 1.0, 1.0)), verts=glass.verts)
-        bmesh.ops.translate(glass, vec=Vector((mirror_x, spec.MIRROR_Y + 0.032, mirror_z)), verts=glass.verts)
+        smooth(housing_obj, 50)
+        glass = cylinder_bmesh(0.036, 0.004, (0, 0, 0), axis="Y", segments=28)
+        bmesh.ops.scale(glass, vec=Vector((2.2, 1.0, 1.0)), verts=glass.verts)
+        bmesh.ops.translate(glass, vec=Vector((mirror_x, spec.MIRROR_Y + 0.047, mirror_z)), verts=glass.verts)
         glass_obj = _link(f"LOD0_MirrorGlass_{suffix}", glass, collection, parent, [materials["chrome"]])
         smooth(glass_obj, 40)
         # Sill blade tucked under the rocker.
         sill_x = profiles.belt_x(0.2) - 0.105
         rounded_box(f"LOD0_SillBlade_{suffix}", (0.07, 2.05, 0.04), (side * sill_x, 0.22, profiles.sill_z(0.2) - 0.10),
                     collection, parent, materials["carbon"], bevel=0.008)
-    # Wipers parked on the cowl panel ahead of the glass, below the eye line.
+    # Wipers parked on the cowl panel behind the hood shut line, ahead of the
+    # glass and well below the eye line now that the cowl sits at 0.915 m.
     for index, x in enumerate((-0.42, 0.18)):
-        y = spec.COWL_Y - 0.07
-        rounded_box(f"LOD0_Wiper_{index}", (0.50, 0.014, 0.008), (x, y, profiles.top_z(y) + 0.006),
-                    collection, parent, materials["housing"], rotation=(0, 0, math.radians(-6)), bevel=0.003)
+        y = spec.COWL_Y + 0.012
+        rounded_box(f"LOD0_Wiper_{index}", (0.46, 0.012, 0.006), (x, y, surface_z(profiles, y, x) - 0.004),
+                    collection, parent, materials["housing"], rotation=(0, 0, math.radians(-5)), bevel=0.0025)
     # Shark-fin antenna at the rear of the roof.
     fin = rounded_box_bmesh((0.028, 0.15, 0.036), (0.0, spec.REAR_ROOF_Y - 0.16, profiles.top_z(spec.REAR_ROOF_Y - 0.16) + 0.008), bevel=0.008)
     for vert in fin.verts:

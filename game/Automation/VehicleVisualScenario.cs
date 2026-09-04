@@ -16,6 +16,7 @@ public sealed class VehicleVisualScenario
         "lod-transitions",
         "damage-zones",
         "graybox-equivalence",
+        "walk-around",
     ];
 
     private readonly CannonballVehicle _vehicle;
@@ -116,6 +117,11 @@ public sealed class VehicleVisualScenario
         rig.SetLod(0);
         _vehicle.SetCameraMode(cockpit: false);
         _vehicle.Rotation = Vector3.Zero;
+        // The chase rig rewrites the arm's rotation and spring length every
+        // frame; the walk-around stage takes the arm over, so the rig's
+        // processing is off for that stage and back on for every other one.
+        _vehicle.ChaseCameraRig.SetProcess(true);
+        _chaseCamera.Fov = _vehicle.ChaseCameraRig.BaseFieldOfViewDegrees;
         _chaseArm.SpringLength = 5.4f;
         _chaseArm.Position = new Vector3(0, 1.15f, 1.25f);
         _chaseArm.RotationDegrees = new Vector3(-8, 0, 0);
@@ -154,6 +160,21 @@ public sealed class VehicleVisualScenario
                 _graybox.Visible = true;
                 rig.ApplyPhysicsState(0, 0, 1.0f / 60.0f, [0.18f, 0.18f, 0.18f, 0.18f]);
                 break;
+            case 8:
+                // A full orbit at static ride height in daylight, low and
+                // close, so the review sheet shows the car from every side
+                // rather than only its tail; the art-direction gate needs it.
+                SetLighting(daylight: true);
+                _vehicle.ChaseCameraRig.SetProcess(false);
+                // A long lens from further back keeps the proportions honest;
+                // the chase camera's 76-degree field of view inflates whatever
+                // is nearest and made the body read taller than it is.
+                _chaseCamera.Fov = 38.0f;
+                _chaseArm.SpringLength = 10.5f;
+                _chaseArm.Position = new Vector3(0, 0.95f, 0.1f);
+                _chaseArm.RotationDegrees = new Vector3(-4.5f, phase * 360.0f, 0);
+                rig.ApplyPhysicsState(0, 0, 1.0f / 60.0f, [0.085f, 0.085f, 0.085f, 0.085f]);
+                break;
         }
     }
 
@@ -179,6 +200,8 @@ public sealed class VehicleVisualScenario
             case 7 when !_graybox.UsesGrayboxVisual || _graybox.VisualRig is not null ||
                 _graybox.GetNodeOrNull<CollisionShape3D>("ChassisCollision") is null:
                 throw new InvalidOperationException("Graybox fallback changed the authoritative collision contract.");
+            case 8 when !_chaseCamera.Current || snapshot.ActiveLod != 0 || _graybox.Visible:
+                throw new InvalidOperationException("Walk-around review did not orbit the LOD0 hero vehicle with the chase camera.");
         }
     }
 

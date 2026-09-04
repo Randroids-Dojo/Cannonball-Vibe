@@ -87,7 +87,7 @@ def full_loop(y: float, p: spec.Profiles) -> list[Vector]:
     distance = min(y - spec.NOSE_Y, spec.TAIL_Y - y)
     if distance < 0.30:
         t = max(0.0, distance) / 0.30
-        factor = 0.70 + 0.30 * (1.0 - (1.0 - t) ** 2.6) ** (1.0 / 2.6)
+        factor = 0.78 + 0.22 * (1.0 - (1.0 - t) ** 2.6) ** (1.0 / 2.6)
         right = [(x * factor, z) for x, z in right]
     left = [(-x, z) for x, z in reversed(right[1:-1])]
     return [Vector((x, y, z)) for x, z in right + left]
@@ -160,13 +160,13 @@ def panel_for_face(y: float, station: int) -> int:
 # Crease weights along the length at each station edge (right and left).
 STATION_CREASES = {
     spec.STATION_FLOOR_EDGE: 0.55,
-    spec.STATION_SILL_TOP: 0.45,
-    spec.STATION_SHOULDER: 0.50,
-    spec.STATION_BELT_TOP: 0.62,
-    spec.STATION_ROOF_RAIL: 0.28,
+    spec.STATION_SILL_TOP: 0.50,
+    spec.STATION_SHOULDER: 0.74,
+    spec.STATION_BELT_TOP: 0.70,
+    spec.STATION_ROOF_RAIL: 0.30,
 }
 # Crease weights around the loop at a section boundary (upper stations only).
-SECTION_CREASES = {spec.COWL_Y: 0.35, spec.DECK_Y: 0.30}
+SECTION_CREASES = {spec.HOOD_FRONT_Y: 0.55, spec.COWL_Y: 0.35, spec.DECK_Y: 0.40}
 
 
 def ladder_cap(bm: bmesh.types.BMesh, loop: list[bmesh.types.BMVert]) -> list[tuple[bmesh.types.BMFace, int]]:
@@ -190,7 +190,14 @@ def ladder_cap(bm: bmesh.types.BMesh, loop: list[bmesh.types.BMVert]) -> list[tu
 
 
 def cap_upper_panel(panel: int) -> int:
-    return spec.PANEL_HOOD if panel == spec.PANEL_FRONT_BUMPER else spec.PANEL_TRUNK
+    """The end caps belong to the bumper covers at every station.
+
+    The nose and tail faces used to hand their upper band to the hood and
+    trunk, which begin well behind the caps; the band became an island of
+    that panel on the fascia, grew its own dark rim, and read as two dark
+    ovals on the nose once the nose dropped low enough to see them.
+    """
+    return panel
 
 
 @dataclass

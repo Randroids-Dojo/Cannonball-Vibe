@@ -99,11 +99,9 @@ def build_lod0(asset, lod0, mats, profiles) -> dict[str, bpy.types.Object]:
     panels["LOD0_Cabin"] = adopt(glass, "LOD0_Cabin", asset, lod0)
     bpy.data.objects.remove(hull.obj, do_unlink=True)
     apertures = {}
-    for obj in parts.cut(panels["LOD0_FrontBumper"], parts.front_cutters(profiles)):
+    for obj in parts.cut(panels["LOD0_FrontBumper"], parts.front_cutters(profiles) + parts.lamp_cutters(profiles)):
         apertures[obj.name.replace("Aperture", "")] = obj
     for obj in parts.cut(panels["LOD0_RearBumper"], parts.rear_cutters()):
-        apertures[obj.name.replace("Aperture", "")] = obj
-    for obj in parts.cut(panels["LOD0_Body"], parts.lamp_cutters(profiles)):
         apertures[obj.name.replace("Aperture", "")] = obj
     for obj in parts.cut(panels["LOD0_Door"], parts.side_cutters(profiles)):
         bpy.data.objects.remove(obj, do_unlink=True)
@@ -239,7 +237,7 @@ def main() -> None:
     build_lod1(asset, lod1, mats, profiles)
     build_lod2(asset, lod2, mats, profiles)
 
-    wheel_materials = {key: mats[key] for key in ("tyre", "rim", "rim_dark", "disc", "hat", "caliper")}
+    wheel_materials = {key: mats[key] for key in ("tyre", "tyre_side", "rim", "rim_dark", "disc", "hat", "caliper")}
     # The rig raises each anchor by the measured spring compression, so the
     # anchor's rest height must be where the physics wheel sits at zero
     # compression: the chassis mounts the rig 0.975 m below its origin (its

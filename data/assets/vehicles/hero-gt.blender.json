@@ -19,13 +19,13 @@
   "contact_sheet": {
     "height": 480,
     "path": "data/assets/vehicles/hero-gt-contact-sheet.png",
-    "sha256": "f8a65cb982c4ab7dcd1b7de20d242d0d38e17f6fb0a6ace0ef232f59b19636e3",
+    "sha256": "9908453109553ea581dfeb9ce883c15a53a7e28ebcb994f749f5122ad7edb25e",
     "width": 1920
   },
   "glb": {
     "external_uri_count": 0,
     "generator": "Khronos glTF Blender I/O v5.1.20",
-    "material_count": 27,
+    "material_count": 28,
     "mesh_count": 170,
     "node_names": [
       "AssetRoot",
@@ -237,14 +237,14 @@
     ],
     "path": "data/assets/vehicles/derived/hero-gt.glb",
     "scene_count": 1,
-    "sha256": "8b9149442a3bdffe4b79e74a77be143d59eed93bce8d734aaaea66161bf0045b"
+    "sha256": "21705aa1c8e7a39c8e2576ba2b4e656f94f6b5cd60dbef36d9c5677f0014c0fe"
   },
   "godot_axes": {
     "forward": "-Z",
     "up": "+Y"
   },
   "identity_transforms": true,
-  "lod0_triangle_total": 108039,
+  "lod0_triangle_total": 106748,
   "materials": [
     "Material_Body",
     "Material_Brake",
@@ -269,6 +269,7 @@
     "Material_Shut",
     "Material_Taillight",
     "Material_Tire",
+    "Material_TireSidewall",
     "Material_Trim",
     "Material_Well",
     "Material_Wheel",
@@ -530,13 +531,13 @@
   "schema_version": 1,
   "source": {
     "path": "data/assets/vehicles/sources/hero-gt.blend",
-    "sha256": "5893014087e92c6cfabe0de6ede42abc17c596d4d68ffc4553d489d14f0ff776"
+    "sha256": "096d3f684c3a5ac6131a7d6262bdd1a97dd68b7499a161952c439fdde6f0b6ce"
   },
   "source_axes": {
     "forward": "-Y",
     "up": "+Z"
   },
-  "texture_bytes_total": 26224388,
+  "texture_bytes_total": 28834097,
   "textures": [
     {
       "bytes": 566952,
@@ -623,12 +624,24 @@
       "name": "Plastic012A_1K-JPG_Color.jpg"
     },
     {
+      "bytes": 426356,
+      "name": "Plastic012A_1K-JPG_Color.jpg"
+    },
+    {
       "bytes": 1606418,
       "name": "Plastic012A_1K-JPG_NormalGL.jpg"
     },
     {
       "bytes": 1606418,
       "name": "Plastic012A_1K-JPG_NormalGL.jpg"
+    },
+    {
+      "bytes": 1606418,
+      "name": "Plastic012A_1K-JPG_NormalGL.jpg"
+    },
+    {
+      "bytes": 576935,
+      "name": "Plastic012A_1K-JPG_Roughness.jpg"
     },
     {
       "bytes": 576935,
@@ -675,13 +688,13 @@
       "name": "scuba_suede_nor_gl_1k.jpg"
     }
   ],
-  "triangle_total": 125233,
+  "triangle_total": 123948,
   "triangles": {
     "CollisionProxy": 12,
     "LOD0_Antenna": 60,
     "LOD0_Armrest": 60,
     "LOD0_Binnacle": 60,
-    "LOD0_Body": 18720,
+    "LOD0_Body": 17710,
     "LOD0_Brake_FL_Caliper": 564,
     "LOD0_Brake_FL_Disc": 576,
     "LOD0_Brake_FL_Hat": 400,
@@ -707,7 +720,7 @@
     "LOD0_DiffuserFin_50": 60,
     "LOD0_DiffuserFin_75": 60,
     "LOD0_DiffuserTray": 60,
-    "LOD0_Door": 5040,
+    "LOD0_Door": 5096,
     "LOD0_DoorArmrest_L": 60,
     "LOD0_DoorArmrest_R": 60,
     "LOD0_DoorCard_L": 60,
@@ -717,22 +730,22 @@
     "LOD0_DoorTrim_L": 60,
     "LOD0_DoorTrim_R": 60,
     "LOD0_DriveKnob": 92,
-    "LOD0_ExhaustL52_Bore": 228,
+    "LOD0_ExhaustL52_Bore": 96,
     "LOD0_ExhaustL52_Inner": 108,
     "LOD0_ExhaustL52_Tip": 108,
-    "LOD0_ExhaustL66_Bore": 110,
+    "LOD0_ExhaustL66_Bore": 119,
     "LOD0_ExhaustL66_Inner": 108,
     "LOD0_ExhaustL66_Tip": 108,
-    "LOD0_ExhaustR52_Bore": 228,
+    "LOD0_ExhaustR52_Bore": 96,
     "LOD0_ExhaustR52_Inner": 108,
     "LOD0_ExhaustR52_Tip": 108,
-    "LOD0_ExhaustR66_Bore": 110,
+    "LOD0_ExhaustR66_Bore": 117,
     "LOD0_ExhaustR66_Inner": 108,
     "LOD0_ExhaustR66_Tip": 108,
     "LOD0_Floor": 12,
-    "LOD0_FrontBumper": 3992,
-    "LOD0_GrilleCavity": 220,
-    "LOD0_GrilleMesh": 132,
+    "LOD0_FrontBumper": 5328,
+    "LOD0_GrilleCavity": 216,
+    "LOD0_GrilleMesh": 144,
     "LOD0_HandleRecess_L": 60,
     "LOD0_HandleRecess_R": 60,
     "LOD0_Handle_L": 60,
@@ -740,21 +753,21 @@
     "LOD0_Headliner": 12,
     "LOD0_Headrest_L": 92,
     "LOD0_Headrest_R": 92,
-    "LOD0_Hood": 6208,
-    "LOD0_IntakeCavity_L": 30,
-    "LOD0_IntakeCavity_R": 30,
-    "LOD0_IntakeMesh_L": 10,
-    "LOD0_IntakeMesh_R": 10,
+    "LOD0_Hood": 6328,
+    "LOD0_IntakeCavity_L": 78,
+    "LOD0_IntakeCavity_R": 78,
+    "LOD0_IntakeMesh_L": 34,
+    "LOD0_IntakeMesh_R": 34,
     "LOD0_LampBezel_FL": 124,
     "LOD0_LampBezel_FR": 124,
-    "LOD0_LampCover_FL": 64,
-    "LOD0_LampCover_FR": 62,
-    "LOD0_LampHousing_FL": 128,
-    "LOD0_LampHousing_FR": 126,
+    "LOD0_LampCover_FL": 38,
+    "LOD0_LampCover_FR": 38,
+    "LOD0_LampHousing_FL": 90,
+    "LOD0_LampHousing_FR": 90,
     "LOD0_LampLens_FL": 124,
     "LOD0_LampLens_FR": 124,
-    "LOD0_LampStrip_FL": 40,
-    "LOD0_LampStrip_FR": 39,
+    "LOD0_LampStrip_FL": 38,
+    "LOD0_LampStrip_FR": 38,
     "LOD0_MirrorGlass_L": 108,
     "LOD0_MirrorGlass_R": 108,
     "LOD0_MirrorHousing_L": 624,
@@ -769,7 +782,7 @@
     "LOD0_Plate": 60,
     "LOD0_PlateRecess": 48,
     "LOD0_RearBulkhead": 60,
-    "LOD0_RearBumper": 7200,
+    "LOD0_RearBumper": 5618,
     "LOD0_RearViewGlass": 60,
     "LOD0_RearViewMirror": 60,
     "LOD0_Rim_FL_Barrel": 1872,
@@ -813,9 +826,9 @@
     "LOD0_SteeringColumn": 76,
     "LOD0_SteeringWheel": 1136,
     "LOD0_TailBadge": 60,
-    "LOD0_TailBar": 36,
-    "LOD0_TailBarCover": 36,
-    "LOD0_TailBarHousing": 108,
+    "LOD0_TailBar": 40,
+    "LOD0_TailBarCover": 40,
+    "LOD0_TailBarHousing": 112,
     "LOD0_Trunk": 2176,
     "LOD0_Tunnel": 60,
     "LOD0_Tyre_FL": 5376,
@@ -828,7 +841,7 @@
     "LOD0_Well_RR": 142,
     "LOD0_Wiper_0": 60,
     "LOD0_Wiper_1": 60,
-    "LOD1_Body": 9668,
+    "LOD1_Body": 9656,
     "LOD1_Cabin": 1664,
     "LOD1_Wheel_FL_Face": 96,
     "LOD1_Wheel_FL_Tyre": 288,
@@ -838,7 +851,7 @@
     "LOD1_Wheel_RL_Tyre": 288,
     "LOD1_Wheel_RR_Face": 96,
     "LOD1_Wheel_RR_Tyre": 288,
-    "LOD2_Silhouette": 3642,
+    "LOD2_Silhouette": 3660,
     "LOD2_Wheel_FL_Face": 48,
     "LOD2_Wheel_FL_Tyre": 120,
     "LOD2_Wheel_FR_Face": 48,

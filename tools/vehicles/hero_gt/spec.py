@@ -61,18 +61,18 @@ REAR_BUMPER_Y = 1.95
 MIRROR_Y = -0.38
 
 # Lighting and details from the sheet.
-HEADLAMP_Z = 0.66
-HEADLAMP_X = 0.72
-HEADLAMP_Y = (-2.02, -1.70)  # wraps from the nose back along the fender
+HEADLAMP_Z = 0.515
+HEADLAMP_X = 0.56  # lamp centre from the centreline, on the fascia above the grille corner
+HEADLAMP_Y = (-2.34, -2.02)  # on the fascia corner, wrapping nose to fender  # wraps from the nose back along the fender
 TAIL_BAR_Z = 0.80  # below the bumper seam so the bar cuts one panel
 TAIL_BAR_HALF_WIDTH = 0.85
-EXHAUST_Z = 0.30
+EXHAUST_Z = 0.385
 EXHAUST_X = (0.52, 0.66)
 EXHAUST_DIAMETER = 0.09
-PLATE_Z = 0.52
+PLATE_Z = 0.56
 PLATE_SIZE = (0.305, 0.152)
-GRILLE_SIZE = (0.95, 0.30)
-GRILLE_Z = 0.45
+GRILLE_SIZE = (1.16, 0.25)
+GRILLE_Z = 0.325
 DOOR_HANDLE_Z = 0.88
 DOOR_HANDLE_Y = 0.73
 
@@ -92,39 +92,42 @@ class Profiles:
 
 
 def default_profiles() -> Profiles:
+    """The GT stance: belt at 0.65 of the height, a third of the height in
+    glass, fender crests above a dipped hood, a haunch over the rear wheel
+    and a deck that falls to a low tail."""
     return Profiles(
         top_z=Spline([
-            (NOSE_Y, 0.62), (HOOD_FRONT_Y, 0.74), (-1.80, 0.805), (FRONT_AXLE_Y, 0.84),
-            (-1.0, 0.885), (-0.72, 0.925), (COWL_Y, 0.98), (-0.15, 1.15),
-            (A_PILLAR_TOP_Y, 1.27), (ROOF_PEAK_Y, ROOF_HEIGHT), (1.0, 1.28),
-            (REAR_ROOF_Y, 1.21), (1.68, 1.09), (DECK_Y, 0.995), (2.20, 0.98), (TAIL_Y, 0.975),
+            (NOSE_Y, 0.60), (HOOD_FRONT_Y, 0.675), (-1.80, 0.755), (FRONT_AXLE_Y, 0.805),
+            (-1.0, 0.845), (-0.72, 0.87), (COWL_Y, 0.915), (-0.15, 1.085),
+            (A_PILLAR_TOP_Y, 1.225), (ROOF_PEAK_Y, ROOF_HEIGHT), (1.0, 1.275),
+            (REAR_ROOF_Y, 1.19), (1.68, 1.04), (DECK_Y, 0.935), (2.20, 0.925), (TAIL_Y, 0.905),
         ], tension=0.12),
         belt_z=Spline([
-            (NOSE_Y, 0.60), (HOOD_FRONT_Y, 0.72), (-1.80, 0.82), (FRONT_AXLE_Y, 0.865),
-            (-1.0, 0.90), (-0.72, 0.935), (COWL_Y, 0.975), (0.30, 0.99), (B_PILLAR_Y, 1.00),
-            (REAR_AXLE_Y, 1.02), (DECK_Y, 1.03), (2.15, 1.00), (TAIL_Y, 0.97),
+            (NOSE_Y, 0.575), (HOOD_FRONT_Y, 0.66), (-1.80, 0.795), (FRONT_AXLE_Y, 0.862),
+            (-1.0, 0.878), (-0.72, 0.888), (COWL_Y, 0.90), (0.30, 0.885), (B_PILLAR_Y, 0.89),
+            (REAR_AXLE_Y, 0.925), (DECK_Y, 0.93), (2.15, 0.915), (TAIL_Y, 0.895),
         ], tension=0.1),
         belt_x=Spline([
-            (NOSE_Y, 0.74), (-2.10, 0.86), (-1.85, 0.93), (FRONT_AXLE_Y, HALF_WIDTH),
-            (-1.0, 0.955), (COWL_Y, 0.945), (0.30, 0.932), (B_PILLAR_Y, 0.93),
-            (REAR_AXLE_Y, HALF_WIDTH), (2.0, 0.955), (TAIL_Y, 0.88),
+            (NOSE_Y, 0.84), (-2.10, 0.905), (-1.85, 0.945), (FRONT_AXLE_Y, HALF_WIDTH),
+            (-1.0, 0.955), (COWL_Y, 0.94), (0.30, 0.925), (B_PILLAR_Y, 0.925),
+            (REAR_AXLE_Y, HALF_WIDTH), (2.0, 0.95), (TAIL_Y, 0.87),
         ], tension=0.1),
         shoulder_z=Spline([
-            (NOSE_Y, 0.48), (HOOD_FRONT_Y, 0.58), (FRONT_AXLE_Y, 0.70), (COWL_Y, 0.875),
-            (B_PILLAR_Y, 0.905), (REAR_AXLE_Y, 0.93), (TAIL_Y, 0.87),
+            (NOSE_Y, 0.45), (HOOD_FRONT_Y, 0.545), (FRONT_AXLE_Y, 0.67), (COWL_Y, 0.80),
+            (B_PILLAR_Y, 0.805), (REAR_AXLE_Y, 0.845), (TAIL_Y, 0.80),
         ]),
         sill_z=Spline([(NOSE_Y, 0.30), (-1.0, 0.32), (0.0, 0.32), (1.0, 0.32), (TAIL_Y, 0.30)]),
         floor_z=Spline([
-            (NOSE_Y, 0.20), (-2.0, 0.125), (-1.0, GROUND_CLEARANCE), (1.0, GROUND_CLEARANCE),
+            (NOSE_Y, 0.165), (-2.0, 0.12), (-1.0, GROUND_CLEARANCE), (1.0, GROUND_CLEARANCE),
             (1.9, 0.14), (TAIL_Y, 0.30),
         ]),
         roof_x=Spline([
-            (NOSE_Y, 0.55), (COWL_Y, 0.66), (A_PILLAR_TOP_Y, 0.74), (ROOF_PEAK_Y, 0.79),
-            (B_PILLAR_Y, 0.81), (REAR_ROOF_Y, 0.77), (DECK_Y, 0.66), (TAIL_Y, 0.55),
+            (NOSE_Y, 0.55), (COWL_Y, 0.68), (A_PILLAR_TOP_Y, 0.74), (ROOF_PEAK_Y, 0.775),
+            (B_PILLAR_Y, 0.785), (REAR_ROOF_Y, 0.75), (DECK_Y, 0.66), (TAIL_Y, 0.55),
         ]),
         roof_flat_x=Spline([
-            (NOSE_Y, 0.35), (COWL_Y, 0.48), (A_PILLAR_TOP_Y, 0.58), (ROOF_PEAK_Y, 0.64),
-            (B_PILLAR_Y, 0.65), (REAR_ROOF_Y, 0.60), (DECK_Y, 0.50), (TAIL_Y, 0.38),
+            (NOSE_Y, 0.35), (COWL_Y, 0.50), (A_PILLAR_TOP_Y, 0.57), (ROOF_PEAK_Y, 0.61),
+            (B_PILLAR_Y, 0.62), (REAR_ROOF_Y, 0.58), (DECK_Y, 0.50), (TAIL_Y, 0.38),
         ]),
     )
 

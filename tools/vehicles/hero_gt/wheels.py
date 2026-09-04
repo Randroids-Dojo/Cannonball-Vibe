@@ -103,34 +103,54 @@ def tyre_profile() -> list[tuple[float, float]]:
     return profile
 
 
-def build_tyre(name: str, parent, collection, material, segments: int = 96) -> bpy.types.Object:
-    bm, rings = revolve(tyre_profile(), segments, closed=True)
-    # UVs: u around the circumference (tiling the tread texture), v across
-    # the profile by arc length so the sidewall and tread share one map.
-    uv_layer = bm.loops.layers.uv.new("UVMap")
+def build_tyre(name: str, parent, collection, tread_material, sidewall_material, segments: int = 96) -> bpy.types.Object:
+    """Tyre ring: plain rubber sidewalls, tread texture rolling around the crown.
+
+    The tread band (the profile rings between the shoulders) takes material
+    slot 0 with the tread set; the sidewalls and beads take slot 1 with the
+    grained rubber. UVs on the tread run u across the width and v around the
+    circumference, tiled so a block pattern authored top-to-bottom rolls in
+    the driving direction; the sidewall UVs are the same wrap at a coarser
+    tiling so the grain never stretches.
+    """
     profile = tyre_profile()
+    bm, rings = revolve(profile, segments, closed=True)
+    half = TYRE_WIDTH / 2
+    tread_start = -half + 0.026
+    tread_end = half - 0.026
+    ring_x = [x for x, _ in profile]
+    ring_index = {}
+    for p, ring in enumerate(rings):
+        for i, vert in enumerate(ring):
+            ring_index[id(vert)] = (p, i)
+    uv_layer = bm.loops.layers.uv.new("UVMap")
     arc = [0.0]
     for (x0, r0), (x1, r1) in zip(profile, profile[1:]):
         arc.append(arc[-1] + math.hypot(x1 - x0, r1 - r0))
     total = arc[-1]
-    ring_index = {}
-    for p, ring in enumerate(rings):
-        for i, vert in enumerate(ring):
-            ring_index[vert.index if False else id(vert)] = (p, i)
-    repeats = 24.0
+    tread_repeats = 22.0
+    side_repeats = 12.0
     for face in bm.faces:
+        rows = [ring_index[id(loop.vert)][0] for loop in face.loops]
+        columns = [ring_index[id(loop.vert)][1] for loop in face.loops]
+        low, high = min(rows), max(rows)
+        on_tread = ring_x[low] >= tread_start - 1e-6 and ring_x[high] <= tread_end + 1e-6 and high - low == 1
+        face.material_index = 0 if on_tread else 1
+        wraps = 0 in columns and segments - 1 in columns
+        repeats = tread_repeats if on_tread else side_repeats
         for loop in face.loops:
             p, i = ring_index[id(loop.vert)]
-            u = i / segments * repeats
-            # Seam handling: faces spanning the wrap use the next repeat.
-            if any(ring_index[id(other.vert)][1] == 0 for other in face.loops) and i == segments - 1:
-                u = (segments - 1) / segments * repeats
-            if i == 0 and any(ring_index[id(other.vert)][1] == segments - 1 for other in face.loops):
-                u = repeats
-            v = arc[p] / total
+            column = i
+            if wraps and i == 0:
+                column = segments
+            v = column / segments * repeats
+            if on_tread:
+                u = (ring_x[p] - tread_start) / (tread_end - tread_start)
+            else:
+                u = arc[p] / total * 3.0
             loop[uv_layer].uv = (u, v)
     bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
-    obj = _link(name, bm, parent, collection, [material])
+    obj = _link(name, bm, parent, collection, [tread_material, sidewall_material])
     _smooth(obj, 50)
     return obj
 
@@ -340,7 +360,7 @@ def build_well(name: str, parent, collection, material, side: int, location) -> 
 
 def build_wheel(wheel_pivot, suspension, suffix: str, collection, side: int, materials: dict) -> None:
     """Complete wheel under its pivot and brake under the suspension anchor."""
-    build_tyre(f"LOD0_Tyre_{suffix}", wheel_pivot, collection, materials["tyre"])
+    build_tyre(f"LOD0_Tyre_{suffix}", wheel_pivot, collection, materials["tyre"], materials["tyre_side"])
     build_rim(f"LOD0_Rim_{suffix}", wheel_pivot, collection, side, materials["rim"], materials["rim_dark"])
     brake_parent = suspension
     for obj in build_brake(f"LOD0_Brake_{suffix}", brake_parent, collection, side, materials["disc"], materials["hat"], materials["caliper"]):
