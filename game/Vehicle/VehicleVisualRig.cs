@@ -5,6 +5,7 @@ namespace Cannonball.Game.Vehicle;
 public sealed partial class VehicleVisualRig : Node3D
 {
     public const uint CockpitExteriorRenderLayer = 1u << 19;
+    public const string CarPaintShaderPath = "res://assets/vehicles/hero-gt/shaders/car_paint.gdshader";
 
     public static readonly string[] RequiredSemanticNodes =
     [
@@ -18,6 +19,13 @@ public sealed partial class VehicleVisualRig : Node3D
         "MaterialGroup_Wheels", "MaterialGroup_Interior", "MaterialGroup_Lights",
         "Damage_Front", "Damage_Rear", "Damage_Left", "Damage_Right", "Damage_Roof",
     ];
+
+    /// <summary>
+    /// Meshes the cockpit camera must not draw: the glass it sits behind and
+    /// the roof it sits under. The interior stays visible; that is the point
+    /// of a cockpit view.
+    /// </summary>
+    public static readonly string[] CockpitExcludedMeshes = ["LOD0_Cabin", "LOD0_RoofSpine"];
 
     private static readonly string[] WheelSuffixes = ["FL", "FR", "RL", "RR"];
     private readonly Node3D[] _wheelPivots = new Node3D[4];
@@ -65,6 +73,13 @@ public sealed partial class VehicleVisualRig : Node3D
         }
         BuildDamageIndicators(resolved);
         PolishImportedMaterials();
+        // The collision proxy is a contract node for collision policy, not a
+        // visual; the third-generation body tucks under at the sills and
+        // tapers at the tail, so the box would show if it were drawn.
+        if (resolved["CollisionProxy"] is GeometryInstance3D collisionProxy)
+        {
+            collisionProxy.Visible = false;
+        }
         SetLod(0);
         SetDamageHighlight(false);
         _automationState["cockpit_excluded_mesh_count"] = 0;
@@ -105,12 +120,17 @@ public sealed partial class VehicleVisualRig : Node3D
         SetVisualVisibility(_lod0, ActiveLod == 0);
         SetVisualVisibility(_lod1, ActiveLod == 1);
         SetVisualVisibility(_lod2, ActiveLod == 2);
+        // Rolling wheels and brakes hang under the pivots and anchors, outside
+        // the LOD groups; they show with LOD0 only.
         foreach (var suffix in WheelSuffixes)
         {
-            var wheel = FindDescendant(this, $"Wheel_{suffix}");
-            if (wheel is not null)
+            foreach (var root in new[] { FindDescendant(this, $"Wheel_{suffix}"), FindDescendant(this, $"Suspension_{suffix}") })
             {
-                foreach (var child in Descendants(wheel).OfType<GeometryInstance3D>())
+                if (root is null)
+                {
+                    continue;
+                }
+                foreach (var child in Descendants(root).OfType<GeometryInstance3D>())
                 {
                     child.Visible = ActiveLod == 0;
                 }
@@ -129,9 +149,8 @@ public sealed partial class VehicleVisualRig : Node3D
     public void ConfigureCockpitCamera(Camera3D camera)
     {
         ArgumentNullException.ThrowIfNull(camera);
-        var excludedNames = new[] { "LOD0_Cabin", "LOD0_RoofSpine", "LOD0_Interior" };
         var excludedCount = 0;
-        foreach (var name in excludedNames)
+        foreach (var name in CockpitExcludedMeshes)
         {
             if (FindDescendant(this, name) is not GeometryInstance3D geometry)
             {
@@ -149,59 +168,165 @@ public sealed partial class VehicleVisualRig : Node3D
 
     /// <summary>
     /// Material properties the glTF importer cannot carry, applied by the
-    /// project-owned wrapper as ADR-0012 directs: the Blender source declares a
-    /// clear coat on the paint and a tinted, depth-sorted glass, and Godot's
-    /// importer drops KHR_materials_clearcoat and flattens the glass, so the
-    /// same intent is restored here by material name. A re-export cannot erase
-    /// it, and the graybox fallback never reaches this path.
+    /// project-owned wrapper as ADR-0012 directs. The Blender source records
+    /// its intent as material custom properties, which arrive as the
+    /// material's <c>extras</c> metadata: the paint becomes the flake
+    /// clear-coat shader, glass becomes a depth-sorted transparent surface,
+    /// carbon keeps its clear coat, and cut metal stays fully metallic. A
+    /// re-export cannot erase this because it is keyed by the extras the
+    /// export itself writes; materials without extras fall back to their
+    /// names so the second-generation asset keeps working.
     /// </summary>
     private void PolishImportedMaterials()
     {
         var polished = 0;
+        var paintShader = ResourceLoader.Exists(CarPaintShaderPath)
+            ? ResourceLoader.Load<Shader>(CarPaintShaderPath)
+            : null;
+        var paintMaterials = new Dictionary<string, ShaderMaterial>(StringComparer.Ordinal);
         foreach (var meshInstance in Descendants(this).OfType<MeshInstance3D>())
         {
-            if (meshInstance.Mesh is not { } mesh)
+            // Every wrapper taken here is released before the next mesh: the
+            // scene owns the native resources, and managed wrappers left to the
+            // garbage collector finalize after the native side is gone at
+            // shutdown, which the .NET runtime reports as a fatal error.
+            using var mesh = meshInstance.Mesh;
+            if (mesh is null)
             {
                 continue;
             }
             for (var surface = 0; surface < mesh.GetSurfaceCount(); surface++)
             {
-                if (mesh.SurfaceGetMaterial(surface) is not StandardMaterial3D material)
+                using var surfaceMaterial = mesh.SurfaceGetMaterial(surface);
+                if (surfaceMaterial is not StandardMaterial3D material)
                 {
                     continue;
                 }
                 var name = material.ResourceName;
-                if (name.EndsWith("Material_Body", StringComparison.Ordinal))
+                using var extras = material.HasMeta("extras") && material.GetMeta("extras").Obj is Godot.Collections.Dictionary dictionary
+                    ? dictionary
+                    : new Godot.Collections.Dictionary();
+                var family = extras.TryGetValue("cv_shader", out var shaderValue)
+                    ? shaderValue.AsString()
+                    : FamilyFromName(name);
+                switch (family)
                 {
-                    material.ClearcoatEnabled = true;
-                    material.Clearcoat = 1.0f;
-                    material.ClearcoatRoughness = 0.05f;
-                    material.Metallic = 0.22f;
-                    material.MetallicSpecular = 0.55f;
-                    material.Roughness = 0.38f;
-                    polished++;
+                    case "car_paint" when paintShader is not null:
+                        if (!paintMaterials.TryGetValue(name, out var paint))
+                        {
+                            paint = BuildCarPaint(paintShader, material, extras);
+                            paintMaterials[name] = paint;
+                        }
+                        meshInstance.SetSurfaceOverrideMaterial(surface, paint);
+                        polished++;
+                        break;
+                    case "car_paint":
+                        material.ClearcoatEnabled = true;
+                        material.Clearcoat = 1.0f;
+                        material.ClearcoatRoughness = 0.05f;
+                        material.Metallic = 0.22f;
+                        material.MetallicSpecular = 0.55f;
+                        material.Roughness = 0.38f;
+                        polished++;
+                        break;
+                    case "glass":
+                        material.Transparency = BaseMaterial3D.TransparencyEnum.Alpha;
+                        material.DepthDrawMode = BaseMaterial3D.DepthDrawModeEnum.Always;
+                        material.CullMode = BaseMaterial3D.CullModeEnum.Back;
+                        material.Roughness = Math.Clamp(material.Roughness, 0.02f, 0.1f);
+                        material.Metallic = 0.0f;
+                        material.MetallicSpecular = 0.6f;
+                        material.SpecularMode = BaseMaterial3D.SpecularModeEnum.SchlickGgx;
+                        material.RenderPriority = name.Contains("Lens", StringComparison.Ordinal) ? 1 : 0;
+                        polished++;
+                        break;
+                    case "clearcoat":
+                        material.ClearcoatEnabled = true;
+                        material.Clearcoat = extras.TryGetValue("cv_clearcoat", out var coat) ? (float)coat.AsDouble() : 1.0f;
+                        material.ClearcoatRoughness = extras.TryGetValue("cv_clearcoat_roughness", out var coatRoughness)
+                            ? (float)coatRoughness.AsDouble()
+                            : 0.06f;
+                        polished++;
+                        break;
+                    case "metal":
+                        material.Metallic = 1.0f;
+                        material.Roughness = Math.Clamp(material.Roughness, 0.12f, 0.4f);
+                        polished++;
+                        break;
                 }
-                else if (name.EndsWith("Material_Glass", StringComparison.Ordinal))
+                if (extras.TryGetValue("cv_alpha_scissor", out var scissor))
                 {
-                    material.Transparency = BaseMaterial3D.TransparencyEnum.Alpha;
-                    material.DepthDrawMode = BaseMaterial3D.DepthDrawModeEnum.Always;
-                    material.CullMode = BaseMaterial3D.CullModeEnum.Back;
-                    material.Roughness = 0.08f;
-                    material.Metallic = 0.0f;
-                    material.MetallicSpecular = 0.4f;
-                    material.SpecularMode = BaseMaterial3D.SpecularModeEnum.SchlickGgx;
-                    polished++;
-                }
-                else if (name.EndsWith("Material_Wheel", StringComparison.Ordinal) ||
-                    name.EndsWith("Material_Trim", StringComparison.Ordinal))
-                {
-                    material.Metallic = 1.0f;
-                    material.Roughness = Math.Clamp(material.Roughness, 0.12f, 0.3f);
-                    polished++;
+                    material.Transparency = BaseMaterial3D.TransparencyEnum.AlphaScissor;
+                    material.AlphaScissorThreshold = (float)scissor.AsDouble();
+                    material.CullMode = BaseMaterial3D.CullModeEnum.Disabled;
                 }
             }
         }
         _automationState["polished_material_surfaces"] = polished;
+        _automationState["car_paint_shader"] = paintShader is not null;
+        // Every surface now holds its own native reference; releasing the
+        // managed wrappers here keeps the .NET finalizer from touching
+        // resources the scene tree has already freed at shutdown (the same
+        // rule the damage indicators follow).
+        foreach (var paint in paintMaterials.Values)
+        {
+            paint.Dispose();
+        }
+        paintShader?.Dispose();
+    }
+
+    private static string FamilyFromName(string name)
+    {
+        if (name.EndsWith("Material_Body", StringComparison.Ordinal))
+        {
+            return "car_paint";
+        }
+        if (name.EndsWith("Material_Glass", StringComparison.Ordinal))
+        {
+            return "glass";
+        }
+        if (name.EndsWith("Material_Wheel", StringComparison.Ordinal) || name.EndsWith("Material_Trim", StringComparison.Ordinal))
+        {
+            return "metal";
+        }
+        return "";
+    }
+
+    private static ShaderMaterial BuildCarPaint(Shader shader, StandardMaterial3D source, Godot.Collections.Dictionary extras)
+    {
+        var paint = new ShaderMaterial { Shader = shader, ResourceName = source.ResourceName };
+        paint.SetShaderParameter("base_color", source.AlbedoColor);
+        paint.SetShaderParameter("metallic", source.Metallic);
+        paint.SetShaderParameter("roughness", source.Roughness);
+        if (extras.TryGetValue("cv_clearcoat", out var coat))
+        {
+            paint.SetShaderParameter("clearcoat", (float)coat.AsDouble());
+        }
+        if (extras.TryGetValue("cv_clearcoat_roughness", out var coatRoughness))
+        {
+            paint.SetShaderParameter("clearcoat_roughness", Math.Max(0.01f, (float)coatRoughness.AsDouble()));
+        }
+        if (extras.TryGetValue("cv_flake_scale", out var flakeScale))
+        {
+            paint.SetShaderParameter("flake_scale", (float)flakeScale.AsDouble());
+        }
+        if (extras.TryGetValue("cv_flake_strength", out var flakeStrength))
+        {
+            paint.SetShaderParameter("flake_strength", (float)flakeStrength.AsDouble());
+        }
+        if (extras.TryGetValue("cv_normal_strength", out var normalStrength))
+        {
+            paint.SetShaderParameter("orange_peel_strength", (float)normalStrength.AsDouble());
+        }
+        if (extras.TryGetValue("cv_edge_tint", out var edgeTint) && edgeTint.Obj is Godot.Collections.Array tint && tint.Count == 3)
+        {
+            paint.SetShaderParameter("edge_tint", new Color((float)tint[0].AsDouble(), (float)tint[1].AsDouble(), (float)tint[2].AsDouble()));
+        }
+        if (source.NormalTexture is { } orangePeel)
+        {
+            paint.SetShaderParameter("orange_peel", orangePeel);
+        }
+        return paint;
     }
 
     public VehicleVisualSnapshot CaptureSnapshot() => new(

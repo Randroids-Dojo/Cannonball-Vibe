@@ -56,12 +56,17 @@ REQUIRED_NODES = {
     "Damage_Right",
     "Damage_Roof",
 }
+# Third-generation budgets (2026-09-04): a hero car at AA quality carries
+# roughly 100k triangles at LOD0 plus wheels, two lighter LODs, packed CC0
+# PBR textures at 1K and 2K, and one material per surface family. ADR-0012
+# left exact budgets open until representative assets existed; these are the
+# representative numbers and P1-013 ratifies or trims them.
 BUDGETS = {
-    "triangles_lod0_max": 24_000,
-    "triangles_total_max": 30_000,
-    "materials_max": 10,
-    "textures_max": 0,
-    "texture_bytes_max": 0,
+    "triangles_lod0_max": 150_000,
+    "triangles_total_max": 200_000,
+    "materials_max": 32,
+    "textures_max": 48,
+    "texture_bytes_max": 96_000_000,
     "collision_triangles_max": 128,
 }
 
@@ -108,7 +113,9 @@ def lint(profile: dict) -> dict:
         raise ValueError(f"Missing semantic nodes: {sorted(missing)}")
     if bpy.data.libraries:
         raise ValueError("Linked Blender libraries are not portable asset inputs")
-    external_images = [image.filepath for image in bpy.data.images if image.source == "FILE"]
+    # Textures must travel inside the .blend: a packed image is portable, a
+    # path to a file outside the source is not.
+    external_images = [image.filepath for image in bpy.data.images if image.source == "FILE" and image.packed_file is None]
     if external_images:
         raise ValueError(f"External image paths are not allowed: {external_images}")
 
@@ -303,6 +310,14 @@ def main() -> None:
     bpy.ops.wm.open_mainfile(filepath=str(args.source))
     inventory = lint(profile)
     export_glb(args.output, profile)
+    # The source stores the suspension anchors at zero compression, where the
+    # physics wheel hangs fully extended; the game raises them by measured
+    # compression. The contact sheet shows the car as it sits at static ride
+    # height, so the anchors are lifted by the 0.085 m static compression
+    # (1,450 kg over four 42 kN/m springs) for the render only, after export.
+    for suffix in ("FL", "FR", "RL", "RR"):
+        bpy.data.objects[f"Suspension_{suffix}"].location.z += 0.085
+    bpy.context.view_layer.update()
     render_contact_sheet(args.contact_sheet)
     inventory.update({
         "schema_version": 1,

@@ -21,3 +21,4 @@ data/downloads/
 
 # Local Claude Code session state
 .claude/
+*.blend1

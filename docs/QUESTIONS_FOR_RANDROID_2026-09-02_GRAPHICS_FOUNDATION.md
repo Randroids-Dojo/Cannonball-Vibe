@@ -109,6 +109,14 @@ tinted glass restored by the wrapper. It reads as a car now, but a
 script-built body cannot reach the panel gaps, trim, badges and interior
 detail of a modelled production vehicle.
 
+Update 2026-09-04: generation 3 of the procedural car landed (see the audit
+`docs/audits/2026-09-04-p1-008-hero-gt-generation-3.md`) with panel shut
+lines, conformal lamps, forged wheels, a cockpit and sourced PBR textures.
+It is a credible AA-class asset from the scripted pipeline; the remaining
+gap to a licensed model is surface detail only hand modelling adds (badging,
+interior seams, tyre lettering). The question is now whether that last step
+is worth a licence.
+
 - **A. Keep iterating the procedural Hero GT** (working default; fully
   agentic, deterministic, rights-clean).
 - **B. Commission or license one car model** under a clear licence and adapt
@@ -123,6 +131,47 @@ rendered at the tail in every chase capture. The new generator mirrors the
 model as its last step, the vehicle lint now asserts the front axle exports
 to -Z, and a v3 export profile states the true axis mapping. The P1-002
 fixture and the conifer are symmetric and unaffected by the v1 claim.
+
+## Q-043 - Rights review for the Hero GT texture sets (blocking release inclusion)
+
+The third-generation Hero GT (2026-09-04) uses ten CC0 texture sets from
+ambientCG (Leather027, Leather026, Fabric004 carbon, Metal009, Metal051A,
+Plastic012A, Paint005, SheetMetal001), TextureCan (plastic_0022 tyre tread)
+and Poly Haven (scuba_suede). They are locked in
+`data/assets/vehicles/sourced-materials.lock.json` with the archive and
+per-file SHA-256, and every record is `pending-human-review`. The exporter
+embeds them in the GLB and the importer extracts Blender-composed copies
+(roughness and metalness packed, colour with opacity) which the packer
+redirects to `assets/vehicles/sourced/hero-gt/`. That folder is excluded
+from the release presets like the environment art, so a release build today
+would load the car without textures.
+
+- **A. Approve all ten records (recommended).** Flip `license.status` to
+  `approved` in the lock and remove `assets/vehicles/sourced/*` from the
+  export exclusions.
+- **B. Approve per record.** Same edits for the subset you accept; the rest
+  stay excluded and their materials fall back to flat colour.
+- **C. Reject sourced textures for the vehicle.** The paint, glass and
+  lights are procedural already; leather, carbon, tread, metal and grille
+  would need baked or hand-made replacements.
+
+## Q-044 - Hero GT budgets and payload
+
+Generation 3 carries 108,039 triangles at LOD0 and 124,395 in total, 26
+materials, 27 textures and a 31.9 MB GLB, against generation 2's 16,634,
+19,498, 10, 0 and 1.1 MB. ADR-0012 left exact budgets open until a
+representative asset existed; the exporter now records 150k / 200k
+triangles, 32 materials, 48 textures and 96 MB as the representative
+ceilings. The research brief puts AA hero cars at 80k to 200k triangles for
+racing games and 40k to 80k for open-world titles. Git LFS grows by about
+60 MB for the source, GLB and textures (Q-038 already tracks the bandwidth).
+
+- **A. Ratify these budgets in P1-013 with a measured frame-time
+  (recommended).** The capture path can now run Forward+ on the reference PC.
+- **B. Trim to the open-world band** (about 60k at LOD0) by dropping the
+  subdivision level on the body and simplifying the interior.
+- **C. Keep the ceilings provisional** and revisit when traffic vehicles
+  land (P0-015), since they share the budget.
 
 ## Q-041 - Renderer tiers and how the shipped build selects High
 
@@ -172,6 +221,13 @@ run and job ids.
 
 ## Reviewer notes, not questions
 
+- The Hero GT visual rig had ridden 0.38 m too high since P1-002: the wrapper
+  mounted it 0.76 m below the chassis while the physics rests the chassis
+  0.975 m above the road, so the body floated 0.215 m while driving and the
+  wheels sat inside the arches; frozen review captures at 0.78 m hid it.
+  Generation 3 derives the mount and review heights from the physics
+  constants. Any older frame-time or readability capture was taken with the
+  body 0.2 m high; none of the recorded gates depended on it.
 - Cold Godot import of the whole project took 52 s on the workstation with
   BC7 and BC6H encoding and 7 to 9 minutes on the 4-vCPU runners; it takes
   13 s on the workstation after the import settings moved to S3TC and

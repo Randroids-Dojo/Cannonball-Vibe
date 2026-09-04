@@ -1,0 +1,760 @@
+{
+  "schema_version": 1,
+  "id": "hero-gt-sourced-materials-2026-09-04",
+  "policy": "Q-023: every third-party asset is recorded here with provider, licence, canonical URL, declared size, acquired SHA-256 and acquisition time; records stay pending-human-review until the owner approves them and assets/vehicles/sourced/ is excluded from release presets until then.",
+  "rights_note": "All providers publish under CC0 1.0 (ambientCG: https://docs.ambientcg.com/license/, TextureCan: https://www.texturecan.com/terms/, Poly Haven: https://polyhaven.com/license). Attribution strings are kept as a courtesy, not an obligation.",
+  "providers": {
+    "ambientcg": {
+      "api": "https://ambientcg.com/api/v2/full_json",
+      "license_url": "https://docs.ambientcg.com/license/"
+    },
+    "texturecan": {
+      "license_url": "https://www.texturecan.com/terms/"
+    },
+    "polyhaven": {
+      "api": "https://api.polyhaven.com",
+      "license_url": "https://polyhaven.com/license"
+    }
+  },
+  "assets": [
+    {
+      "id": "ambientcg/Leather027",
+      "provider": "ambientcg",
+      "provider_asset_id": "Leather027",
+      "kind": "texture-set",
+      "use": "Seat and door-card leather: black fine pebble grain",
+      "runtime_directory": "assets/vehicles/sourced/ambientcg/Leather027",
+      "license": {
+        "spdx": "CC0-1.0",
+        "redistributable": true,
+        "status": "pending-human-review",
+        "attribution": "Leather027 via ambientCG (https://ambientcg.com/a/Leather027), CC0 1.0"
+      },
+      "archive": {
+        "attribute": "1K-JPG",
+        "url": "https://ambientcg.com/get?file=Leather027_1K-JPG.zip",
+        "declared_bytes": 6646279,
+        "cache_path": ".tools/sourced-cache/ambientcg/Leather027_1K-JPG.zip",
+        "sha256": "101cc5b0d26759cbb473dd245a0c94bd3a6db7f4c0e2637bb777f6d262bf3d5a",
+        "md5": "3838c99eda3f8e277d46f0063eba7595",
+        "acquired_utc": "2026-09-04T15:57:12Z",
+        "resolved_url": "https://acg-download.struffelproductions.com/file/ambientCG-Web/download/Leather027_7P2mTdIS/Leather027_1K-JPG.zip",
+        "response": {
+          "content-type": "application/zip",
+          "content-length": "6646279",
+          "last-modified": "Fri, 04 Sep 2026 15:57:11 GMT",
+          "server": "cloudflare"
+        }
+      },
+      "files": [
+        {
+          "map": "color",
+          "member": "Leather027_1K-JPG_Color.jpg",
+          "path": "assets/vehicles/sourced/ambientcg/Leather027/Leather027_1K-JPG_Color.jpg",
+          "sha256": "fa8dcf2341268e0ea22f1e28d6d9eca55f3dc9f888520c058b7d200b2e680765",
+          "declared_bytes": 509963,
+          "acquired_utc": "2026-09-04T15:57:12Z"
+        },
+        {
+          "map": "normal",
+          "member": "Leather027_1K-JPG_NormalGL.jpg",
+          "path": "assets/vehicles/sourced/ambientcg/Leather027/Leather027_1K-JPG_NormalGL.jpg",
+          "sha256": "5dbbaa3d66ec814bdcea712d8e863da77d55f72afb48490fb4cb8c7f55a1e2bd",
+          "declared_bytes": 1714094,
+          "acquired_utc": "2026-09-04T15:57:12Z"
+        },
+        {
+          "map": "roughness",
+          "member": "Leather027_1K-JPG_Roughness.jpg",
+          "path": "assets/vehicles/sourced/ambientcg/Leather027/Leather027_1K-JPG_Roughness.jpg",
+          "sha256": "1c06d09b0c2c7e7076c0dd73b935c68125b6883c778f2b2af8ce124d3419b37c",
+          "declared_bytes": 562528,
+          "acquired_utc": "2026-09-04T15:57:12Z"
+        }
+      ],
+      "name": "Leather027",
+      "authors": {
+        "ambientCG (Lennart Demes)": "Publisher"
+      },
+      "canonical_url": "https://ambientcg.com/a/Leather027",
+      "provider_categories": [
+        "27",
+        "black",
+        "dark",
+        "leather",
+        "smooth"
+      ]
+    },
+    {
+      "id": "ambientcg/Leather026",
+      "provider": "ambientcg",
+      "provider_asset_id": "Leather026",
+      "kind": "texture-set",
+      "use": "Dashboard and console leather: very fine dotted grain",
+      "runtime_directory": "assets/vehicles/sourced/ambientcg/Leather026",
+      "license": {
+        "spdx": "CC0-1.0",
+        "redistributable": true,
+        "status": "pending-human-review",
+        "attribution": "Leather026 via ambientCG (https://ambientcg.com/a/Leather026), CC0 1.0"
+      },
+      "archive": {
+        "attribute": "1K-JPG",
+        "url": "https://ambientcg.com/get?file=Leather026_1K-JPG.zip",
+        "declared_bytes": 6841165,
+        "cache_path": ".tools/sourced-cache/ambientcg/Leather026_1K-JPG.zip",
+        "sha256": "6af2f446f9855c641da2a072f128d30965431ffae3306d22d75dbfff99c04646",
+        "md5": "012f17260094a2315da8870ef5b89019",
+        "acquired_utc": "2026-09-04T15:57:14Z",
+        "resolved_url": "https://acg-download.struffelproductions.com/file/ambientCG-Web/download/Leather026_Mz5Jbq7X/Leather026_1K-JPG.zip",
+        "response": {
+          "content-type": "application/zip",
+          "content-length": "6841165",
+          "last-modified": "Fri, 04 Sep 2026 15:57:13 GMT",
+          "server": "cloudflare"
+        }
+      },
+      "files": [
+        {
+          "map": "color",
+          "member": "Leather026_1K-JPG_Color.jpg",
+          "path": "assets/vehicles/sourced/ambientcg/Leather026/Leather026_1K-JPG_Color.jpg",
+          "sha256": "b84e117b23895db1fc4f02f481788f2ad39a965cf777f0efc4e7f90c66b5304e",
+          "declared_bytes": 726553,
+          "acquired_utc": "2026-09-04T15:57:14Z"
+        },
+        {
+          "map": "normal",
+          "member": "Leather026_1K-JPG_NormalGL.jpg",
+          "path": "assets/vehicles/sourced/ambientcg/Leather026/Leather026_1K-JPG_NormalGL.jpg",
+          "sha256": "02d85cb546396c3faae47792e8d1a9d6ff40771b1a8439c93ddea08255619306",
+          "declared_bytes": 1706867,
+          "acquired_utc": "2026-09-04T15:57:14Z"
+        },
+        {
+          "map": "roughness",
+          "member": "Leather026_1K-JPG_Roughness.jpg",
+          "path": "assets/vehicles/sourced/ambientcg/Leather026/Leather026_1K-JPG_Roughness.jpg",
+          "sha256": "dea058b5c912b3755ae7352aff64f8aca98d0b8c90ba6c89807d1ee5a2d145c4",
+          "declared_bytes": 552720,
+          "acquired_utc": "2026-09-04T15:57:14Z"
+        }
+      ],
+      "name": "Leather026",
+      "authors": {
+        "ambientCG (Lennart Demes)": "Publisher"
+      },
+      "canonical_url": "https://ambientcg.com/a/Leather026",
+      "provider_categories": [
+        "26",
+        "black",
+        "dark",
+        "leather",
+        "smooth"
+      ]
+    },
+    {
+      "id": "ambientcg/Fabric004",
+      "provider": "ambientcg",
+      "provider_asset_id": "Fabric004",
+      "kind": "texture-set",
+      "use": "Carbon-fibre twill for the splitter, diffuser, mirror caps and interior trim",
+      "runtime_directory": "assets/vehicles/sourced/ambientcg/Fabric004",
+      "license": {
+        "spdx": "CC0-1.0",
+        "redistributable": true,
+        "status": "pending-human-review",
+        "attribution": "Fabric004 via ambientCG (https://ambientcg.com/a/Fabric004), CC0 1.0"
+      },
+      "archive": {
+        "attribute": "2K-JPG",
+        "url": "https://ambientcg.com/get?file=Fabric004_2K-JPG.zip",
+        "declared_bytes": 6278724,
+        "cache_path": ".tools/sourced-cache/ambientcg/Fabric004_2K-JPG.zip",
+        "sha256": "3ffdf20e88d13efd41bcee85ec3fa0fb9b2efee9a39849320c296e427a9234b2",
+        "md5": "f3fd5fc4844bed395e97319b68790d16",
+        "acquired_utc": "2026-09-04T15:57:15Z",
+        "resolved_url": "https://acg-download.struffelproductions.com/file/ambientCG-Web/download/Fabric004_0JU7LSgT/Fabric004_2K-JPG.zip",
+        "response": {
+          "content-type": "application/zip",
+          "content-length": "6278724",
+          "last-modified": "Fri, 04 Sep 2026 15:34:04 GMT",
+          "server": "cloudflare"
+        }
+      },
+      "files": [
+        {
+          "map": "color",
+          "member": "Fabric004_2K-JPG_Color.jpg",
+          "path": "assets/vehicles/sourced/ambientcg/Fabric004/Fabric004_2K-JPG_Color.jpg",
+          "sha256": "327e42b2dfc859efd9b4f122cf1adbdb611c75e80dd3cb8a18bc69e83eef9585",
+          "declared_bytes": 566952,
+          "acquired_utc": "2026-09-04T15:57:15Z"
+        },
+        {
+          "map": "normal",
+          "member": "Fabric004_2K-JPG_NormalGL.jpg",
+          "path": "assets/vehicles/sourced/ambientcg/Fabric004/Fabric004_2K-JPG_NormalGL.jpg",
+          "sha256": "e76a53fce87086a2346756ef1ef25f6db6153bda3433611a192ac71b32b2ebdc",
+          "declared_bytes": 1356999,
+          "acquired_utc": "2026-09-04T15:57:15Z"
+        },
+        {
+          "map": "roughness",
+          "member": "Fabric004_2K-JPG_Roughness.jpg",
+          "path": "assets/vehicles/sourced/ambientcg/Fabric004/Fabric004_2K-JPG_Roughness.jpg",
+          "sha256": "8005027078e974df48351781ce90885bd6325ac63d0a16b41938fca8fd35a634",
+          "declared_bytes": 1189710,
+          "acquired_utc": "2026-09-04T15:57:15Z"
+        },
+        {
+          "map": "metalness",
+          "member": "Fabric004_2K-JPG_Metalness.jpg",
+          "path": "assets/vehicles/sourced/ambientcg/Fabric004/Fabric004_2K-JPG_Metalness.jpg",
+          "sha256": "b65d6b9091747bd81ee58adedcb6209d8ee21b2bde9298d7216989ada85ef622",
+          "declared_bytes": 16545,
+          "acquired_utc": "2026-09-04T15:57:15Z"
+        }
+      ],
+      "name": "Fabric004",
+      "authors": {
+        "ambientCG (Lennart Demes)": "Publisher"
+      },
+      "canonical_url": "https://ambientcg.com/a/Fabric004",
+      "provider_categories": [
+        "4",
+        "black",
+        "carbon",
+        "clean",
+        "dark",
+        "fabric",
+        "fi",
+        "fiber",
+        "modern",
+        "sci"
+      ]
+    },
+    {
+      "id": "ambientcg/Metal009",
+      "provider": "ambientcg",
+      "provider_asset_id": "Metal009",
+      "kind": "texture-set",
+      "use": "Brushed aluminium for interior trim and the exhaust surround",
+      "runtime_directory": "assets/vehicles/sourced/ambientcg/Metal009",
+      "license": {
+        "spdx": "CC0-1.0",
+        "redistributable": true,
+        "status": "pending-human-review",
+        "attribution": "Metal009 via ambientCG (https://ambientcg.com/a/Metal009), CC0 1.0"
+      },
+      "archive": {
+        "attribute": "1K-JPG",
+        "url": "https://ambientcg.com/get?file=Metal009_1K-JPG.zip",
+        "declared_bytes": 4767000,
+        "cache_path": ".tools/sourced-cache/ambientcg/Metal009_1K-JPG.zip",
+        "sha256": "1b1970219b40fe707e7194b28702f1a65b0d227bbea56da69dfbc8d8b5cfcb5e",
+        "md5": "627e722ebfe39e75512a543523c60e9f",
+        "acquired_utc": "2026-09-04T15:57:16Z",
+        "resolved_url": "https://acg-download.struffelproductions.com/file/ambientCG-Web/download/Metal009_YvADakOS/Metal009_1K-JPG.zip",
+        "response": {
+          "content-type": "application/zip",
+          "content-length": "4767000",
+          "last-modified": "Fri, 04 Sep 2026 15:57:16 GMT",
+          "server": "cloudflare"
+        }
+      },
+      "files": [
+        {
+          "map": "color",
+          "member": "Metal009_1K-JPG_Color.jpg",
+          "path": "assets/vehicles/sourced/ambientcg/Metal009/Metal009_1K-JPG_Color.jpg",
+          "sha256": "e066e240ad0eaab6a73fb0f40fa7caa94365160770331babc91de2e8ce6a986f",
+          "declared_bytes": 616678,
+          "acquired_utc": "2026-09-04T15:57:16Z"
+        },
+        {
+          "map": "normal",
+          "member": "Metal009_1K-JPG_NormalGL.jpg",
+          "path": "assets/vehicles/sourced/ambientcg/Metal009/Metal009_1K-JPG_NormalGL.jpg",
+          "sha256": "45c7c88685e6b44da7e8d25e2cf6d8645d42209793ccc4354e68c16cdae15d62",
+          "declared_bytes": 814572,
+          "acquired_utc": "2026-09-04T15:57:16Z"
+        },
+        {
+          "map": "roughness",
+          "member": "Metal009_1K-JPG_Roughness.jpg",
+          "path": "assets/vehicles/sourced/ambientcg/Metal009/Metal009_1K-JPG_Roughness.jpg",
+          "sha256": "6d06dfe8c240d3b6f33030740110284245bd8aefb2e10e8eb0c563444d9c0c5b",
+          "declared_bytes": 486233,
+          "acquired_utc": "2026-09-04T15:57:16Z"
+        },
+        {
+          "map": "metalness",
+          "member": "Metal009_1K-JPG_Metalness.jpg",
+          "path": "assets/vehicles/sourced/ambientcg/Metal009/Metal009_1K-JPG_Metalness.jpg",
+          "sha256": "843102638fa0a5bf897888868877efab8ccdc4cb84a48e57bdb52bfb30f5e714",
+          "declared_bytes": 4257,
+          "acquired_utc": "2026-09-04T15:57:16Z"
+        }
+      ],
+      "name": "Metal009",
+      "authors": {
+        "ambientCG (Lennart Demes)": "Publisher"
+      },
+      "canonical_url": "https://ambientcg.com/a/Metal009",
+      "provider_categories": [
+        "9",
+        "brushed",
+        "bumpy",
+        "metal",
+        "scratches",
+        "silver",
+        "steel"
+      ]
+    },
+    {
+      "id": "ambientcg/Metal051A",
+      "provider": "ambientcg",
+      "provider_asset_id": "Metal051A",
+      "kind": "texture-set",
+      "use": "Machined circular brushing for the brake-disc faces and the wheel spoke faces",
+      "runtime_directory": "assets/vehicles/sourced/ambientcg/Metal051A",
+      "license": {
+        "spdx": "CC0-1.0",
+        "redistributable": true,
+        "status": "pending-human-review",
+        "attribution": "Metal051A via ambientCG (https://ambientcg.com/a/Metal051A), CC0 1.0"
+      },
+      "archive": {
+        "attribute": "1K-JPG",
+        "url": "https://ambientcg.com/get?file=Metal051A_1K-JPG.zip",
+        "declared_bytes": 3086692,
+        "cache_path": ".tools/sourced-cache/ambientcg/Metal051A_1K-JPG.zip",
+        "sha256": "a9165804feb3b40e5759e525be4e0692549d999b4af588e191f589b58a1a4534",
+        "md5": "dcce626d191c548dfa772e8c71b06bb8",
+        "acquired_utc": "2026-09-04T15:57:17Z",
+        "resolved_url": "https://acg-download.struffelproductions.com/file/ambientCG-Web/download/Metal051A_IRF1BAdO/Metal051A_1K-JPG.zip",
+        "response": {
+          "content-type": "application/zip",
+          "content-length": "3086692",
+          "last-modified": "Fri, 04 Sep 2026 15:57:17 GMT",
+          "server": "cloudflare"
+        }
+      },
+      "files": [
+        {
+          "map": "color",
+          "member": "Metal051A_1K-JPG_Color.jpg",
+          "path": "assets/vehicles/sourced/ambientcg/Metal051A/Metal051A_1K-JPG_Color.jpg",
+          "sha256": "2434e887ae2bc9522d649450be6977491a9c9650e9f04b63af3d1c71d2422a01",
+          "declared_bytes": 374635,
+          "acquired_utc": "2026-09-04T15:57:17Z"
+        },
+        {
+          "map": "normal",
+          "member": "Metal051A_1K-JPG_NormalGL.jpg",
+          "path": "assets/vehicles/sourced/ambientcg/Metal051A/Metal051A_1K-JPG_NormalGL.jpg",
+          "sha256": "01bb7382c7f382f24981622deb842273e0d0c0f7625835eb6ff481863f8a1572",
+          "declared_bytes": 406357,
+          "acquired_utc": "2026-09-04T15:57:17Z"
+        },
+        {
+          "map": "roughness",
+          "member": "Metal051A_1K-JPG_Roughness.jpg",
+          "path": "assets/vehicles/sourced/ambientcg/Metal051A/Metal051A_1K-JPG_Roughness.jpg",
+          "sha256": "8b8b49e4394953239427bfe6051c75d549c4818e3fd455c099bc093236fead84",
+          "declared_bytes": 405606,
+          "acquired_utc": "2026-09-04T15:57:17Z"
+        },
+        {
+          "map": "metalness",
+          "member": "Metal051A_1K-JPG_Metalness.jpg",
+          "path": "assets/vehicles/sourced/ambientcg/Metal051A/Metal051A_1K-JPG_Metalness.jpg",
+          "sha256": "58449b1694597d6a80abc0e59e76d15666ff6b73a33d94f212a9a2990be91f35",
+          "declared_bytes": 7798,
+          "acquired_utc": "2026-09-04T15:57:17Z"
+        }
+      ],
+      "name": "Metal051A",
+      "authors": {
+        "ambientCG (Lennart Demes)": "Publisher"
+      },
+      "canonical_url": "https://ambientcg.com/a/Metal051A",
+      "provider_categories": [
+        "51",
+        "aluminum",
+        "brushed",
+        "circular",
+        "metal"
+      ]
+    },
+    {
+      "id": "ambientcg/Plastic012A",
+      "provider": "ambientcg",
+      "provider_asset_id": "Plastic012A",
+      "kind": "texture-set",
+      "use": "Grained black plastic for lower trim, wheel wells and tyre sidewalls",
+      "runtime_directory": "assets/vehicles/sourced/ambientcg/Plastic012A",
+      "license": {
+        "spdx": "CC0-1.0",
+        "redistributable": true,
+        "status": "pending-human-review",
+        "attribution": "Plastic012A via ambientCG (https://ambientcg.com/a/Plastic012A), CC0 1.0"
+      },
+      "archive": {
+        "attribute": "1K-JPG",
+        "url": "https://ambientcg.com/get?file=Plastic012A_1K-JPG.zip",
+        "declared_bytes": 6372576,
+        "cache_path": ".tools/sourced-cache/ambientcg/Plastic012A_1K-JPG.zip",
+        "sha256": "46503e4196d5ca0af96b15570ce2a89c3df3c450eeae642976f9446b9a43001d",
+        "md5": "d63c1fb2190839bf38a0a1bf73860937",
+        "acquired_utc": "2026-09-04T15:57:19Z",
+        "resolved_url": "https://acg-download.struffelproductions.com/file/ambientCG-Web/download/Plastic012A_PwMWQgqr/Plastic012A_1K-JPG.zip",
+        "response": {
+          "content-type": "application/zip",
+          "content-length": "6372576",
+          "last-modified": "Fri, 04 Sep 2026 15:57:18 GMT",
+          "server": "cloudflare"
+        }
+      },
+      "files": [
+        {
+          "map": "color",
+          "member": "Plastic012A_1K-JPG_Color.jpg",
+          "path": "assets/vehicles/sourced/ambientcg/Plastic012A/Plastic012A_1K-JPG_Color.jpg",
+          "sha256": "d7d0eeea69c5deb0bd0eb773622c0691fe07679597ef429e2a4249ab42203978",
+          "declared_bytes": 426356,
+          "acquired_utc": "2026-09-04T15:57:19Z"
+        },
+        {
+          "map": "normal",
+          "member": "Plastic012A_1K-JPG_NormalGL.jpg",
+          "path": "assets/vehicles/sourced/ambientcg/Plastic012A/Plastic012A_1K-JPG_NormalGL.jpg",
+          "sha256": "a1ed32b21ff9ff7c6edb0d79d6b789ff2df3e29728dca78bc5e7e1e2f91b23fa",
+          "declared_bytes": 1606418,
+          "acquired_utc": "2026-09-04T15:57:19Z"
+        },
+        {
+          "map": "roughness",
+          "member": "Plastic012A_1K-JPG_Roughness.jpg",
+          "path": "assets/vehicles/sourced/ambientcg/Plastic012A/Plastic012A_1K-JPG_Roughness.jpg",
+          "sha256": "43aacffa8bdb331102b69d8e120d2c921dfca83939500f135a2d3c50bebe9f92",
+          "declared_bytes": 576935,
+          "acquired_utc": "2026-09-04T15:57:19Z"
+        }
+      ],
+      "name": "Plastic012A",
+      "authors": {
+        "ambientCG (Lennart Demes)": "Publisher"
+      },
+      "canonical_url": "https://ambientcg.com/a/Plastic012A",
+      "provider_categories": [
+        "12",
+        "black",
+        "plastic"
+      ]
+    },
+    {
+      "id": "ambientcg/Paint005",
+      "provider": "ambientcg",
+      "provider_asset_id": "Paint005",
+      "kind": "texture-set",
+      "use": "Clear-coat orange-peel normal and roughness detail under the body colour",
+      "runtime_directory": "assets/vehicles/sourced/ambientcg/Paint005",
+      "license": {
+        "spdx": "CC0-1.0",
+        "redistributable": true,
+        "status": "pending-human-review",
+        "attribution": "Paint005 via ambientCG (https://ambientcg.com/a/Paint005), CC0 1.0"
+      },
+      "archive": {
+        "attribute": "1K-JPG",
+        "url": "https://ambientcg.com/get?file=Paint005_1K-JPG.zip",
+        "declared_bytes": 6131163,
+        "cache_path": ".tools/sourced-cache/ambientcg/Paint005_1K-JPG.zip",
+        "sha256": "bbd50ecdc874bb1f0a9e67284e5967f26d778a0e80f6fdfd87fdda3c5e4d3aa4",
+        "md5": "fc3f917ec809d345ccb3cc327f525afa",
+        "acquired_utc": "2026-09-04T15:57:20Z",
+        "resolved_url": "https://acg-download.struffelproductions.com/file/ambientCG-Web/download/Paint005_yBDsaz3U/Paint005_1K-JPG.zip",
+        "response": {
+          "content-type": "application/zip",
+          "content-length": "6131163",
+          "last-modified": "Fri, 04 Sep 2026 15:57:20 GMT",
+          "server": "cloudflare"
+        }
+      },
+      "files": [
+        {
+          "map": "normal",
+          "member": "Paint005_1K-JPG_NormalGL.jpg",
+          "path": "assets/vehicles/sourced/ambientcg/Paint005/Paint005_1K-JPG_NormalGL.jpg",
+          "sha256": "e752250d478d3859348bf5d646e68b26364f776b0e99acaac7afdc826c42aeb5",
+          "declared_bytes": 1452166,
+          "acquired_utc": "2026-09-04T15:57:20Z"
+        },
+        {
+          "map": "roughness",
+          "member": "Paint005_1K-JPG_Roughness.jpg",
+          "path": "assets/vehicles/sourced/ambientcg/Paint005/Paint005_1K-JPG_Roughness.jpg",
+          "sha256": "769bc117964a8a818e3b910e272284e825a1dbb1442ac1cd40f64b6d16b36e65",
+          "declared_bytes": 550735,
+          "acquired_utc": "2026-09-04T15:57:20Z"
+        }
+      ],
+      "name": "Paint005",
+      "authors": {
+        "ambientCG (Lennart Demes)": "Publisher"
+      },
+      "canonical_url": "https://ambientcg.com/a/Paint005",
+      "provider_categories": [
+        "5",
+        "black",
+        "cracks",
+        "dark",
+        "paint",
+        "reflective",
+        "shiny"
+      ]
+    },
+    {
+      "id": "ambientcg/SheetMetal001",
+      "provider": "ambientcg",
+      "provider_asset_id": "SheetMetal001",
+      "kind": "texture-set",
+      "use": "Perforated grille mesh with opacity for the front aperture and intakes",
+      "runtime_directory": "assets/vehicles/sourced/ambientcg/SheetMetal001",
+      "license": {
+        "spdx": "CC0-1.0",
+        "redistributable": true,
+        "status": "pending-human-review",
+        "attribution": "SheetMetal001 via ambientCG (https://ambientcg.com/a/SheetMetal001), CC0 1.0"
+      },
+      "archive": {
+        "attribute": "1K-PNG",
+        "url": "https://ambientcg.com/get?file=SheetMetal001_1K-PNG.zip",
+        "declared_bytes": 8716287,
+        "cache_path": ".tools/sourced-cache/ambientcg/SheetMetal001_1K-PNG.zip",
+        "sha256": "4b45d83cc269bdc02e5e075577942012adc702aaacb292e770888af058571390",
+        "md5": "ac6e0bdb2a27c51ac7451e37f5b09514",
+        "acquired_utc": "2026-09-04T15:57:21Z",
+        "resolved_url": "https://acg-download.struffelproductions.com/file/ambientCG-Web/download/SheetMetal001_imbl4kFq/SheetMetal001_1K-PNG.zip",
+        "response": {
+          "content-type": "application/zip",
+          "content-length": "8716287",
+          "last-modified": "Fri, 04 Sep 2026 15:57:21 GMT",
+          "server": "cloudflare"
+        }
+      },
+      "files": [
+        {
+          "map": "color",
+          "member": "SheetMetal001_1K-PNG_Color.png",
+          "path": "assets/vehicles/sourced/ambientcg/SheetMetal001/SheetMetal001_1K-PNG_Color.png",
+          "sha256": "249d900076f99b37227d32eb98e4eceef3dabb28267933b1ee13eead4edc5b3c",
+          "declared_bytes": 719771,
+          "acquired_utc": "2026-09-04T15:57:21Z"
+        },
+        {
+          "map": "normal",
+          "member": "SheetMetal001_1K-PNG_NormalGL.png",
+          "path": "assets/vehicles/sourced/ambientcg/SheetMetal001/SheetMetal001_1K-PNG_NormalGL.png",
+          "sha256": "65f4b22716a2225e1124fe12e41d83fb72d629af6ebe0f5239177a767d085a97",
+          "declared_bytes": 2456379,
+          "acquired_utc": "2026-09-04T15:57:21Z"
+        },
+        {
+          "map": "roughness",
+          "member": "SheetMetal001_1K-PNG_Roughness.png",
+          "path": "assets/vehicles/sourced/ambientcg/SheetMetal001/SheetMetal001_1K-PNG_Roughness.png",
+          "sha256": "5d6cf15f6c78edd02ffee313d66ea679ad9867719e3f70d28a7993a035a93795",
+          "declared_bytes": 537789,
+          "acquired_utc": "2026-09-04T15:57:21Z"
+        },
+        {
+          "map": "opacity",
+          "member": "SheetMetal001_1K-PNG_Opacity.png",
+          "path": "assets/vehicles/sourced/ambientcg/SheetMetal001/SheetMetal001_1K-PNG_Opacity.png",
+          "sha256": "6a367f458725501be6f5df371e03bad06a91a2e4a0a03be2d5b4b93f91aa322e",
+          "declared_bytes": 21219,
+          "acquired_utc": "2026-09-04T15:57:21Z"
+        }
+      ],
+      "name": "SheetMetal001",
+      "authors": {
+        "ambientCG (Lennart Demes)": "Publisher"
+      },
+      "canonical_url": "https://ambientcg.com/a/SheetMetal001",
+      "provider_categories": [
+        "1",
+        "hole",
+        "holes",
+        "metal",
+        "pattern",
+        "perforated",
+        "sheet",
+        "sheets",
+        "stamped"
+      ]
+    },
+    {
+      "id": "texturecan/plastic_0022",
+      "provider": "texturecan",
+      "provider_asset_id": "plastic_0022",
+      "name": "Clean Car Tire Rubber Texture",
+      "kind": "texture-set",
+      "use": "Tyre tread block pattern: colour, normal, roughness, height and occlusion",
+      "runtime_directory": "assets/vehicles/sourced/texturecan/plastic_0022",
+      "canonical_url": "https://www.texturecan.com/details/575/",
+      "license": {
+        "spdx": "CC0-1.0",
+        "redistributable": true,
+        "status": "pending-human-review",
+        "attribution": "Clean Car Tire Rubber Texture via TextureCan (https://www.texturecan.com/details/575/), CC0 1.0"
+      },
+      "archive": {
+        "url": "https://www.texturecan.com/downloads/plastic_0022/plastic_0022_2k_TKmv2N.zip",
+        "declared_bytes": 2580153,
+        "cache_path": ".tools/sourced-cache/texturecan/plastic_0022_2k_TKmv2N.zip",
+        "sha256": "bb633390f1c003f5ef79988bffdd27d0cda46ecdcda8cf379e5d708096118dd8",
+        "md5": "4956043954eba303ece191918bf7a334",
+        "acquired_utc": "2026-09-04T15:57:22Z",
+        "resolved_url": "https://www.texturecan.com/downloads/plastic_0022/plastic_0022_2k_TKmv2N.zip",
+        "response": {
+          "content-type": "application/zip",
+          "content-length": "2580153",
+          "last-modified": "Sat, 26 Nov 2022 15:02:46 GMT",
+          "server": "cloudflare"
+        }
+      },
+      "files": [
+        {
+          "map": "color",
+          "member": "plastic_0022_color_2k.jpg",
+          "path": "assets/vehicles/sourced/texturecan/plastic_0022/plastic_0022_color_2k.jpg",
+          "sha256": "b4a85761492e02ef7aeab53830e43e960f7e9a560faa540adccdefa62ed9fb44",
+          "declared_bytes": 452578,
+          "acquired_utc": "2026-09-04T15:57:22Z"
+        },
+        {
+          "map": "normal",
+          "member": "plastic_0022_normal_opengl_2k.jpg",
+          "path": "assets/vehicles/sourced/texturecan/plastic_0022/plastic_0022_normal_opengl_2k.jpg",
+          "sha256": "1aa47171fedddb32f9a16cf3444d0e339409a8e0c4441f619c9900cccf090cce",
+          "declared_bytes": 709705,
+          "acquired_utc": "2026-09-04T15:57:22Z"
+        },
+        {
+          "map": "roughness",
+          "member": "plastic_0022_roughness_2k.jpg",
+          "path": "assets/vehicles/sourced/texturecan/plastic_0022/plastic_0022_roughness_2k.jpg",
+          "sha256": "e240306c49584e68178cdbf71b0e4f8dd2c8ec16729523089e5132b68605e1ba",
+          "declared_bytes": 124121,
+          "acquired_utc": "2026-09-04T15:57:22Z"
+        },
+        {
+          "map": "height",
+          "member": "plastic_0022_height_2k.jpg",
+          "path": "assets/vehicles/sourced/texturecan/plastic_0022/plastic_0022_height_2k.jpg",
+          "sha256": "0d0e83bd039957bc6f0f0f836e64a9f791062ee64b2f354259b67014aff58447",
+          "declared_bytes": 89726,
+          "acquired_utc": "2026-09-04T15:57:22Z"
+        },
+        {
+          "map": "ao",
+          "member": "plastic_0022_ao_2k.jpg",
+          "path": "assets/vehicles/sourced/texturecan/plastic_0022/plastic_0022_ao_2k.jpg",
+          "sha256": "a9e2780575155e40d0ae231199b57ef87c1af06660ad723cc7b8d1bdc98b4afd",
+          "declared_bytes": 211742,
+          "acquired_utc": "2026-09-04T15:57:22Z"
+        }
+      ],
+      "authors": {
+        "TextureCan": "Publisher"
+      }
+    },
+    {
+      "id": "polyhaven/scuba_suede",
+      "provider": "polyhaven",
+      "provider_asset_id": "scuba_suede",
+      "kind": "texture-set",
+      "use": "Alcantara-style headliner and seat centres, tinted to black in the material",
+      "runtime_directory": "assets/vehicles/sourced/polyhaven/scuba_suede",
+      "license": {
+        "spdx": "CC0-1.0",
+        "redistributable": true,
+        "status": "pending-human-review",
+        "attribution": "Scuba Suede by colormass, Rico Cilliers via Poly Haven (https://polyhaven.com/a/scuba_suede), CC0 1.0"
+      },
+      "files": [
+        {
+          "map": "diffuse",
+          "resolution": "1k",
+          "format": "jpg",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/scuba_suede/scuba_suede_diff_1k.jpg",
+          "declared_bytes": 784559,
+          "declared_md5": "afacab8f1c8dcc0d5f3c026b0c2e01f1",
+          "path": "assets/vehicles/sourced/polyhaven/scuba_suede/scuba_suede_diff_1k.jpg",
+          "sha256": "ec8af4e3cfa5a1ec30fd9fb116e1821bca1e847d7458ebd9a1ad49254a817c3f",
+          "acquired_utc": "2026-09-04T15:57:22Z",
+          "response": {
+            "content-type": "image/jpeg",
+            "content-length": "784559",
+            "last-modified": "Wed, 26 Aug 2026 17:17:53 GMT",
+            "server": "cloudflare"
+          }
+        },
+        {
+          "map": "normal",
+          "resolution": "1k",
+          "format": "jpg",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/scuba_suede/scuba_suede_nor_gl_1k.jpg",
+          "declared_bytes": 903089,
+          "declared_md5": "6fa818a8d12f1e4f1c804c63933a7a9e",
+          "path": "assets/vehicles/sourced/polyhaven/scuba_suede/scuba_suede_nor_gl_1k.jpg",
+          "sha256": "7b2a30665892b7e02d309487a5f7729adc8ddf46fe12086cb14a2917a4b7a68e",
+          "acquired_utc": "2026-09-04T15:57:22Z",
+          "response": {
+            "content-type": "image/jpeg",
+            "content-length": "903089",
+            "last-modified": "Fri, 04 Sep 2026 00:38:38 GMT",
+            "server": "cloudflare"
+          }
+        },
+        {
+          "map": "arm",
+          "resolution": "1k",
+          "format": "jpg",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/scuba_suede/scuba_suede_arm_1k.jpg",
+          "declared_bytes": 1065772,
+          "declared_md5": "2c9bf3c74ae655fd0b5e0deded6e5a3e",
+          "path": "assets/vehicles/sourced/polyhaven/scuba_suede/scuba_suede_arm_1k.jpg",
+          "sha256": "adcd86eb143eebba03599306dec754e7db2d5a2e4731ee1202314e09b4981cb6",
+          "acquired_utc": "2026-09-04T15:57:22Z",
+          "response": {
+            "content-type": "image/jpeg",
+            "content-length": "1065772",
+            "last-modified": "Tue, 01 Sep 2026 20:11:01 GMT",
+            "server": "cloudflare"
+          }
+        }
+      ],
+      "name": "Scuba Suede",
+      "authors": {
+        "colormass": "Photography",
+        "Rico Cilliers": "Processing"
+      },
+      "date_published_utc": "2025-09-05",
+      "canonical_url": "https://polyhaven.com/a/scuba_suede",
+      "provider_categories": [
+        "fabric",
+        "suede"
+      ],
+      "dimensions_mm": [
+        285.2202902890041,
+        278.89999747276306
+      ]
+    }
+  ],
+  "planned_utc": "2026-09-04T15:57:10Z",
+  "acquired_utc": "2026-09-04T15:57:22Z"
+}

@@ -33,6 +33,7 @@ func _init() -> void:
 		quit(1)
 		return
 	text = unique_ids.sub(text, "", true)
+	text = _redirect_extracted_textures(text)
 	var normalized := FileAccess.open(args[1], FileAccess.WRITE)
 	if normalized == null:
 		push_error("Could not rewrite normalized scene")
@@ -43,6 +44,25 @@ func _init() -> void:
 	instance.free()
 	print("CANNONBALL_PACKED_GLTF_OK output=%s" % args[1])
 	quit(0)
+
+
+# The importer extracts the GLB's embedded textures next to the scene it
+# imported from. Those files are Blender-composed bytes of sourced CC0 maps
+# (roughness and metalness packed, colour with opacity), so they live with the
+# other sourced material under assets/vehicles/sourced/, which the release
+# presets exclude until the rights records are approved (Q-023, Q-037). The
+# stage's import UIDs are dropped so the repository resolves them by path.
+const EXTRACTED_PREFIX := "res://assets/vehicles/hero-gt/hero-gt_"
+const SOURCED_PREFIX := "res://assets/vehicles/sourced/hero-gt/hero-gt_"
+
+
+func _redirect_extracted_textures(text: String) -> String:
+	var uid_pattern := RegEx.new()
+	if uid_pattern.compile("\\[ext_resource type=\"Texture2D\" uid=\"uid://[^\"]*\" path=\"" + EXTRACTED_PREFIX.replace("/", "\\/")) != OK:
+		push_error("Could not compile texture redirect")
+		return text
+	text = uid_pattern.sub(text, "[ext_resource type=\"Texture2D\" path=\"" + SOURCED_PREFIX, true)
+	return text.replace(EXTRACTED_PREFIX, SOURCED_PREFIX)
 
 
 func _assign_owner(node: Node, scene_owner: Node) -> void:
