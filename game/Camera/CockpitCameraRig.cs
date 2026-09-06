@@ -12,6 +12,7 @@ public sealed partial class CockpitCameraRig : Node3D
     private float _lookPitchRadians;
     private Camera3D _camera = null!;
     private float _rearViewBlend;
+    private Vector3 _mountOffset;
 
     public Camera3D Camera => _camera;
     public bool IsActive => _camera.Current;
@@ -34,8 +35,9 @@ public sealed partial class CockpitCameraRig : Node3D
     public override void _Ready()
     {
         Name = "CockpitCameraRig";
-        // The vehicle parent still supplies its interpolated pose. Only our
-        // render-frame look/stabilization rotation must bypass interpolation.
+        _mountOffset = Position;
+        // Compose the displayed mount pose with look rotation every render
+        // frame. Disabling interpolation alone would follow the raw parent.
         PhysicsInterpolationMode = PhysicsInterpolationModeEnum.Off;
         _camera = new Camera3D
         {
@@ -89,7 +91,8 @@ public sealed partial class CockpitCameraRig : Node3D
         }
 
         var parent = GetParentOrNull<Node3D>();
-        var parentEuler = parent?.GetGlobalTransformInterpolated().Basis.GetEuler() ?? Vector3.Zero;
+        var displayedMount = parent?.GetGlobalTransformInterpolated() ?? Transform3D.Identity;
+        var parentEuler = displayedMount.Basis.GetEuler();
         var maximumCorrection = Mathf.DegToRad(MaximumStabilizationDegrees);
         var pitchCorrection = -Mathf.Clamp(
             Mathf.Wrap(parentEuler.X, -Mathf.Pi, Mathf.Pi),
@@ -105,10 +108,11 @@ public sealed partial class CockpitCameraRig : Node3D
             Mathf.DegToRad(RearViewTransitionSpeedDegreesPerSecond) *
                 (float)Math.Max(0, delta) / Mathf.Pi);
         var displayedYaw = Mathf.LerpAngle(_lookYawRadians, Mathf.Pi, _rearViewBlend);
-        Rotation = new Vector3(
+        var lookRotation = new Vector3(
             _lookPitchRadians + pitchCorrection,
             displayedYaw,
             rollCorrection);
+        GlobalTransform = displayedMount * new Transform3D(Basis.FromEuler(lookRotation), _mountOffset);
         UpdateAutomationState(pitchCorrection, rollCorrection, displayedYaw, rearViewHeld);
     }
 
