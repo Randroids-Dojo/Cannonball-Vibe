@@ -432,7 +432,8 @@ during_sampler_pid="$!"
 trap 'kill "$during_sampler_pid" 2>/dev/null || true' EXIT
 
 set +e
-timeout --foreground --signal=TERM --kill-after=30 "${timeout_seconds}s" \
+uv run --project "$repo_root/tools/map_pipeline" --frozen python \
+  "$repo_root/scripts/run_with_timeout.py" "$timeout_seconds" \
   "$repo_root/scripts/godot.sh" "${godot_args[@]}" 2>&1 | tee "$log_path"
 capture_exit="${PIPESTATUS[0]}"
 set -e

@@ -1,3 +1,4 @@
+using Cannonball.Game.Input;
 using Godot;
 
 namespace Cannonball.Game.Camera;
@@ -33,6 +34,9 @@ public sealed partial class CockpitCameraRig : Node3D
     public override void _Ready()
     {
         Name = "CockpitCameraRig";
+        // The vehicle parent still supplies its interpolated pose. Only our
+        // render-frame look/stabilization rotation must bypass interpolation.
+        PhysicsInterpolationMode = PhysicsInterpolationModeEnum.Off;
         _camera = new Camera3D
         {
             Name = "CockpitCamera",
@@ -49,11 +53,11 @@ public sealed partial class CockpitCameraRig : Node3D
 
     public override void _Process(double delta)
     {
-        var rearViewHeld = Godot.Input.IsActionPressed("look_behind");
-        var yawInput = Godot.Input.GetActionStrength("camera_look_right") -
-            Godot.Input.GetActionStrength("camera_look_left");
-        var pitchInput = Godot.Input.GetActionStrength("camera_look_down") -
-            Godot.Input.GetActionStrength("camera_look_up");
+        var rearViewHeld = Godot.Input.IsActionPressed(GameInputMap.LookBehind);
+        var yawInput = Godot.Input.GetActionStrength(GameInputMap.CameraLookRight) -
+            Godot.Input.GetActionStrength(GameInputMap.CameraLookLeft);
+        var pitchInput = Godot.Input.GetActionStrength(GameInputMap.CameraLookDown) -
+            Godot.Input.GetActionStrength(GameInputMap.CameraLookUp);
         var step = Mathf.DegToRad(LookSpeedDegreesPerSecond) * (float)Math.Max(0, delta);
         if (!rearViewHeld && _rearViewBlend <= 0.001f && Math.Abs(yawInput) > 0.001f)
         {
@@ -85,7 +89,7 @@ public sealed partial class CockpitCameraRig : Node3D
         }
 
         var parent = GetParentOrNull<Node3D>();
-        var parentEuler = parent?.GlobalBasis.GetEuler() ?? Vector3.Zero;
+        var parentEuler = parent?.GetGlobalTransformInterpolated().Basis.GetEuler() ?? Vector3.Zero;
         var maximumCorrection = Mathf.DegToRad(MaximumStabilizationDegrees);
         var pitchCorrection = -Mathf.Clamp(
             Mathf.Wrap(parentEuler.X, -Mathf.Pi, Mathf.Pi),

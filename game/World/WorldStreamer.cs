@@ -1372,27 +1372,31 @@ public sealed partial class WorldStreamer : Node3D
         {
             return;
         }
-        IReadOnlySet<string> projectionEdgeIds = _routePlanEdgeIds;
-        if (_routePlanConnectors.Count > 0)
+        var boundedProjection = _routePlanConnectors.Count > 0;
+        string? nextProjectionEdgeId = null;
+        if (boundedProjection)
         {
             var currentIndex = FindRoutePlanEdgeIndex(_currentEdgeId);
-            var bounded = new HashSet<string>(StringComparer.Ordinal) { _currentEdgeId };
             var currentPlanEdge = _routePlan.Edges[currentIndex];
             if (currentIndex + 1 < _routePlan.Edges.Count &&
                 currentPlanEdge.EndMeters - _routeDistanceMeters <= 30)
             {
-                bounded.Add(_routePlan.Edges[currentIndex + 1].EdgeId);
+                nextProjectionEdgeId = _routePlan.Edges[currentIndex + 1].EdgeId;
             }
-            projectionEdgeIds = bounded;
         }
         var vehicleX = _localOriginWorld.X + _vehicle.Position.X;
         var vehicleZ = _localOriginWorld.Z + _vehicle.Position.Z;
         var bestDistanceSquared = double.PositiveInfinity;
         var bestRouteDistance = _routeDistanceMeters;
         var bestLateral = _lateralOffsetMeters;
-        foreach (var chunk in _content.Values.Where(chunk =>
-                     projectionEdgeIds.Contains(chunk.EdgeId)))
+        foreach (var chunk in _content.Values)
         {
+            if (boundedProjection
+                    ? chunk.EdgeId != _currentEdgeId && chunk.EdgeId != nextProjectionEdgeId
+                    : !_routePlanEdgeIds.Contains(chunk.EdgeId))
+            {
+                continue;
+            }
             for (var index = 0; index < chunk.Samples.Count - 1; index++)
             {
                 var first = _frame.ToWorld(chunk.Samples[index]);
@@ -1440,24 +1444,25 @@ public sealed partial class WorldStreamer : Node3D
     private void UpdateCurrentLane()
     {
         var edge = _package.Graph.GetEdge(_currentEdgeId);
-        var activeLanes = LaneGeometryProfile.Evaluate(edge, CurrentEdgeDistanceMeters).Lanes
-            .Where(candidate => candidate.WidthMeters > 0.5)
-            .ToArray();
-        var geometryLane = (_routePlanConnectors.Count > 0
-                ? activeLanes.SingleOrDefault(candidate => string.Equals(
-                    candidate.Id,
-                    CurrentStableLaneId,
-                    StringComparison.Ordinal))
-                : null)
-            ?? activeLanes.MinBy(candidate => Math.Abs(
-                candidate.CenterMeters - _lateralOffsetMeters))
+        var activeLanes = LaneGeometryProfile.Evaluate(edge, CurrentEdgeDistanceMeters).Lanes;
+        var geometryLane = SelectActiveLane(
+                activeLanes,
+                _routePlanConnectors.Count > 0 ? CurrentStableLaneId : null)
             ?? throw new InvalidDataException(
                 $"Route edge '{edge.Id}' has no active lane at " +
                 $"{CurrentEdgeDistanceMeters:F3} meters.");
-        var lane = edge.GetLaneSection(CurrentEdgeDistanceMeters).Lanes.Single(candidate =>
-            candidate.Id == geometryLane.Id);
-        CurrentLaneIndex = lane.Index;
-        CurrentStableLaneId = lane.Id;
+        var lanes = edge.GetLaneSection(CurrentEdgeDistanceMeters).Lanes;
+        for (var index = 0; index < lanes.Count; index++)
+        {
+            var lane = lanes[index];
+            if (lane.Id == geometryLane.Id)
+            {
+                CurrentLaneIndex = lane.Index;
+                CurrentStableLaneId = lane.Id;
+                return;
+            }
+        }
+        throw new InvalidDataException($"Lane '{geometryLane.Id}' is absent from its active section.");
     }
 
     private (RouteWorldPoint Point, Vector3 Forward) GetRoadPose(double distanceMeters)
@@ -1481,14 +1486,22 @@ public sealed partial class WorldStreamer : Node3D
         double distanceMeters,
         out (RouteWorldPoint Point, Vector3 Forward) pose)
     {
-        foreach (var chunk in _content.Values
-                     .Where(value => _routePlanEdgeIds.Contains(value.EdgeId))
-                     .OrderBy(value =>
-                         _routePlan.GetEdge(value.EdgeId).StartMeters + value.StartMeters))
+        // Preserve the earliest containing chunk at a seam without sorting the
+        // loaded content and allocating an iterator on every road-pose query.
+        var bestStartMeters = double.PositiveInfinity;
+        var found = false;
+        pose = default;
+        foreach (var chunk in _content.Values)
         {
+            if (!_routePlanEdgeIds.Contains(chunk.EdgeId))
+            {
+                continue;
+            }
             var edgeOffset = _routePlan.GetEdge(chunk.EdgeId).StartMeters;
+            var startMeters = edgeOffset + chunk.StartMeters;
             var localDistance = distanceMeters - edgeOffset;
-            if (localDistance < chunk.StartMeters || localDistance > chunk.EndMeters)
+            if (startMeters >= bestStartMeters ||
+                localDistance < chunk.StartMeters || localDistance > chunk.EndMeters)
             {
                 continue;
             }
@@ -1510,12 +1523,13 @@ public sealed partial class WorldStreamer : Node3D
                 var tangentY = firstSample.ProjectedTangentY +
                     (secondSample.ProjectedTangentY - firstSample.ProjectedTangentY) * factor;
                 pose = (first.Lerp(second, factor), _frame.DirectionToWorld(tangentX, tangentY));
-                return true;
+                bestStartMeters = startMeters;
+                found = true;
+                break;
             }
         }
 
-        pose = default;
-        return false;
+        return found;
     }
 
     private void TryPlaceVehicleForReview()
@@ -1585,16 +1599,38 @@ public sealed partial class WorldStreamer : Node3D
             0,
             edge.LengthMeters);
         var layout = LaneGeometryProfile.Evaluate(edge, edgeDistance);
-        var lane = layout.Lanes.SingleOrDefault(candidate =>
-                string.Equals(candidate.Id, CurrentStableLaneId, StringComparison.Ordinal) &&
-                candidate.WidthMeters > 0.5)
-            ?? layout.Lanes
-                .Where(candidate => candidate.WidthMeters > 0.5)
-                .MinBy(candidate => Math.Abs(candidate.CenterMeters - _lateralOffsetMeters))
+        var lane = SelectActiveLane(layout.Lanes, CurrentStableLaneId)
             ?? throw new InvalidDataException(
                 $"Route edge '{edge.Id}' has no active lane at {edgeDistance:F3} meters.");
         var right = forward.Cross(Vector3.Up).Normalized();
         return point.Add(right * (float)lane.CenterMeters);
+    }
+
+    private LaneGeometryLane? SelectActiveLane(
+        IReadOnlyList<LaneGeometryLane> lanes,
+        string? preferredLaneId)
+    {
+        LaneGeometryLane? closest = null;
+        var closestDistance = double.PositiveInfinity;
+        for (var index = 0; index < lanes.Count; index++)
+        {
+            var lane = lanes[index];
+            if (lane.WidthMeters <= 0.5)
+            {
+                continue;
+            }
+            if (lane.Id == preferredLaneId)
+            {
+                return lane;
+            }
+            var distance = Math.Abs(lane.CenterMeters - _lateralOffsetMeters);
+            if (distance < closestDistance)
+            {
+                closest = lane;
+                closestDistance = distance;
+            }
+        }
+        return closest;
     }
 
     private void UpdateCurrentEdge()

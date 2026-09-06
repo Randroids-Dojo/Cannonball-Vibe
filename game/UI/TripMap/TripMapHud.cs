@@ -1,3 +1,4 @@
+using Cannonball.Game.Input;
 using Cannonball.Core.Simulation;
 using Godot;
 
@@ -159,15 +160,15 @@ public sealed partial class TripMapHud : CanvasLayer
         using var region = Cannonball.Core.Performance.SubsystemProfiler.Measure(
             Cannonball.Core.Performance.SubsystemProfiler.Subsystem.Ui);
         const float panStep = 14;
-        if (Godot.Input.IsActionPressed("trip_map_pan_left")) _canvas.PanBy(Vector2.Left * panStep);
-        if (Godot.Input.IsActionPressed("trip_map_pan_right")) _canvas.PanBy(Vector2.Right * panStep);
-        if (Godot.Input.IsActionPressed("trip_map_pan_up")) _canvas.PanBy(Vector2.Up * panStep);
-        if (Godot.Input.IsActionPressed("trip_map_pan_down")) _canvas.PanBy(Vector2.Down * panStep);
-        if (Godot.Input.IsActionJustPressed("trip_map_zoom_in")) _canvas.ZoomBy(1.25f);
-        if (Godot.Input.IsActionJustPressed("trip_map_zoom_out")) _canvas.ZoomBy(0.8f);
-        if (Godot.Input.IsActionJustPressed("trip_map_recenter")) _canvas.Recenter();
-        if (Godot.Input.IsActionJustPressed("trip_map_previous")) ChangeInspection(-1);
-        if (Godot.Input.IsActionJustPressed("trip_map_next")) ChangeInspection(1);
+        if (Godot.Input.IsActionPressed(GameInputMap.TripMapPanLeft)) _canvas.PanBy(Vector2.Left * panStep);
+        if (Godot.Input.IsActionPressed(GameInputMap.TripMapPanRight)) _canvas.PanBy(Vector2.Right * panStep);
+        if (Godot.Input.IsActionPressed(GameInputMap.TripMapPanUp)) _canvas.PanBy(Vector2.Up * panStep);
+        if (Godot.Input.IsActionPressed(GameInputMap.TripMapPanDown)) _canvas.PanBy(Vector2.Down * panStep);
+        if (Godot.Input.IsActionJustPressed(GameInputMap.TripMapZoomIn)) _canvas.ZoomBy(1.25f);
+        if (Godot.Input.IsActionJustPressed(GameInputMap.TripMapZoomOut)) _canvas.ZoomBy(0.8f);
+        if (Godot.Input.IsActionJustPressed(GameInputMap.TripMapRecenter)) _canvas.Recenter();
+        if (Godot.Input.IsActionJustPressed(GameInputMap.TripMapPrevious)) ChangeInspection(-1);
+        if (Godot.Input.IsActionJustPressed(GameInputMap.TripMapNext)) ChangeInspection(1);
         UpdateAutomationState();
     }
 

@@ -47,6 +47,10 @@ public sealed partial class CannonballVehicle : RigidBody3D
     private float _supportRatio;
 
     public bool AutopilotEnabled { get; set; }
+
+    // Reference captures must include the input polling/conditioning cost paid
+    // during a real drive, even though autopilot supplies deterministic controls.
+    public bool SampleManualInputDuringAutopilot { get; set; }
     public DriveInputState? AutomationInputOverride { get; set; }
     public AssistProfile AssistProfile { get; private set; } = AssistProfile.Balanced;
     public double RouteDistanceMeters { get; set; }
@@ -124,6 +128,10 @@ public sealed partial class CannonballVehicle : RigidBody3D
         UpdateCameraInput();
         var heading = -GlobalTransform.Basis.Z.Normalized();
         var forwardSpeed = LinearVelocity.Dot(heading);
+        if (AutopilotEnabled && SampleManualInputDuringAutopilot)
+        {
+            _ = DrivingInputController.Read(forwardSpeed, delta, AssistProfile);
+        }
         var input = AutomationInputOverride ?? (AutopilotEnabled
             ? ReadAutopilot()
             : DrivingInputController.Read(forwardSpeed, delta, AssistProfile));
@@ -221,7 +229,7 @@ public sealed partial class CannonballVehicle : RigidBody3D
 
     private void UpdateCameraInput()
     {
-        var pressed = Godot.Input.IsActionPressed("toggle_camera");
+        var pressed = Godot.Input.IsActionPressed(GameInputMap.ToggleCamera);
         if (pressed && !_cameraToggleHeld)
         {
             ToggleCameraMode();

@@ -199,10 +199,17 @@ public static class RouteSemanticsCompatibility
         }
 
         const double boundaryToleranceMeters = 1e-9;
-        var section = edge.GetEffectiveLaneSections()
-            .OrderBy(candidate => candidate.StartMeters)
-            .LastOrDefault(candidate =>
-                distanceMeters + boundaryToleranceMeters >= candidate.StartMeters);
+        var sections = edge.GetEffectiveLaneSections();
+        LaneSection? section = null;
+        for (var index = 0; index < sections.Count; index++)
+        {
+            var candidate = sections[index];
+            if (distanceMeters + boundaryToleranceMeters >= candidate.StartMeters &&
+                (section is null || candidate.StartMeters >= section.StartMeters))
+            {
+                section = candidate;
+            }
+        }
         if (section is null || distanceMeters > section.EndMeters + boundaryToleranceMeters)
         {
             throw new InvalidDataException(

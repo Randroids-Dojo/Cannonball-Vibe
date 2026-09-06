@@ -1,3 +1,4 @@
+using Cannonball.Game.Input;
 using Godot;
 
 namespace Cannonball.Game.Camera;
@@ -60,6 +61,9 @@ public sealed partial class ChaseCameraRig : Node3D
 
         Name = "ChaseCameraRig";
         TopLevel = true;
+        // This rig moves on render frames. Interpolating it again on the physics
+        // clock makes the displayed camera lag and step relative to the car.
+        PhysicsInterpolationMode = PhysicsInterpolationModeEnum.Off;
         _arm = new SpringArm3D
         {
             Name = "ChaseCameraArm",
@@ -97,8 +101,9 @@ public sealed partial class ChaseCameraRig : Node3D
         using var cameraRegion = Cannonball.Core.Performance.SubsystemProfiler.Measure(
             Cannonball.Core.Performance.SubsystemProfiler.Subsystem.Camera);
 
-        var targetPosition = Target.GlobalPosition;
-        var targetForward = HorizontalForward(Target.GlobalTransform.Basis);
+        var displayedTarget = Target.GetGlobalTransformInterpolated();
+        var targetPosition = displayedTarget.Origin;
+        var targetForward = HorizontalForward(displayedTarget.Basis);
         if (!_initialized || _smoothedPosition.DistanceTo(targetPosition) > TeleportSnapDistanceMeters)
         {
             SnapToTarget();
@@ -118,7 +123,7 @@ public sealed partial class ChaseCameraRig : Node3D
             .Rotated(Vector3.Up, headingDelta * headingBlend)
             .Normalized();
         ApplyWorldTransform();
-        var rearViewHeld = Godot.Input.IsActionPressed("look_behind");
+        var rearViewHeld = Godot.Input.IsActionPressed(GameInputMap.LookBehind);
         _rearViewBlend = Mathf.Lerp(
             _rearViewBlend,
             rearViewHeld ? 1.0f : 0.0f,
@@ -244,7 +249,7 @@ public sealed partial class ChaseCameraRig : Node3D
         _automationState["speed_mps"] = speedMetersPerSecond;
         _automationState["collision_mask"] = (long)_arm.CollisionMask;
         _automationState["cull_mask"] = (long)_camera.CullMask;
-        _automationState["rear_view_held"] = Godot.Input.IsActionPressed("look_behind");
+        _automationState["rear_view_held"] = Godot.Input.IsActionPressed(GameInputMap.LookBehind);
         _automationState["rear_view_blend"] = _rearViewBlend;
         _automationState["rear_view_yaw_degrees"] = 180.0f * _rearViewBlend;
     }

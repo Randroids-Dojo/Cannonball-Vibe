@@ -5,6 +5,29 @@ namespace Cannonball.Core.Tests;
 public sealed class LaneGeometryProfileTests
 {
     [Fact]
+    public void SteadyLaneQueriesAllocateNothingAfterGeometryWarmup()
+    {
+        var edge = VariableLaneEdge();
+        _ = LaneGeometryProfile.Evaluate(edge, 100);
+        _ = LaneGeometryProfile.Evaluate(edge, 600);
+        var allocatedBefore = GC.GetAllocatedBytesForCurrentThread();
+        double widthSum = 0;
+        for (var index = 0; index < 10_000; index++)
+        {
+            var distance = index % 2 == 0 ? 100 : 600;
+            var sample = LaneGeometryProfile.Evaluate(edge, distance);
+            widthSum += sample.LaneWidthMeters;
+            _ = edge.GetLaneSection(distance);
+        }
+        var allocated = GC.GetAllocatedBytesForCurrentThread() - allocatedBefore;
+
+        Assert.Equal(0, allocated);
+        Assert.InRange(widthSum, 89_999.99, 90_000.01); // Widths originate as floats.
+        Assert.Equal(100, LaneGeometryProfile.Evaluate(edge, 100).DistanceMeters);
+        Assert.Equal(600, LaneGeometryProfile.Evaluate(edge, 600).DistanceMeters);
+    }
+
+    [Fact]
     public void StableThroughLanesDoNotJumpWhenRightLaneIsAdded()
     {
         var edge = VariableLaneEdge();

@@ -33,7 +33,23 @@ public sealed class LinearRoutePlan
         {
             throw new ArgumentOutOfRangeException(nameof(distanceMeters));
         }
-        return Edges.FirstOrDefault(edge => distanceMeters < edge.EndMeters) ?? Edges[^1];
+        // Spans are ordered and contiguous. At a seam choose the following edge;
+        // the route's final endpoint belongs to the last edge.
+        var first = 0;
+        var last = Edges.Count - 1;
+        while (first < last)
+        {
+            var middle = first + (last - first) / 2;
+            if (distanceMeters < Edges[middle].EndMeters)
+            {
+                last = middle;
+            }
+            else
+            {
+                first = middle + 1;
+            }
+        }
+        return Edges[first];
     }
 
     public static LinearRoutePlan Build(IRouteGraph graph, IEnumerable<string> edgeIds)

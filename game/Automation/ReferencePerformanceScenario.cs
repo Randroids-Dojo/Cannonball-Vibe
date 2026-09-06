@@ -112,6 +112,7 @@ public sealed class ReferencePerformanceScenario
     private int _startingGen1Collections;
     private int _startingGen2Collections;
     private long _startingAllocatedBytes;
+    private TimeSpan _startingGcPauseDuration;
     private WorkCounters _previousCounters;
     // Road-holding, because a capture that reports "steady driving" while the car
     // leaves the carriageway and is teleported back is not measuring steady
@@ -220,6 +221,7 @@ public sealed class ReferencePerformanceScenario
         ApplyLighting(_options.Lighting);
         _vehicle.SetCameraMode(cockpit: _options.Camera == CameraView.Cockpit);
         _vehicle.AutopilotEnabled = true;
+        _vehicle.SampleManualInputDuringAutopilot = true;
         _vehicle.AutopilotSpeedLimitMetersPerSecond = (float)_options.TargetSpeedMetersPerSecond;
         _streamer.ShortCorridorLoopEnabled = _options.LoopCorridor;
         _configured = true;
@@ -295,6 +297,7 @@ public sealed class ReferencePerformanceScenario
         _startingGen1Collections = GC.CollectionCount(1);
         _startingGen2Collections = GC.CollectionCount(2);
         _startingAllocatedBytes = GC.GetTotalAllocatedBytes(precise: false);
+        _startingGcPauseDuration = GC.GetTotalPauseDuration();
         _startingRebaseCount = _streamer.RebaseCount;
         _startingRouteDistanceMeters = _streamer.RouteDistanceMeters;
         _startingResetCount = _vehicle.ResetToRoadCount;
@@ -778,6 +781,8 @@ public sealed class ReferencePerformanceScenario
             // working-set trend belongs to the game or to the measurement harness.
             garbage_collection = new
             {
+                pause_milliseconds = (GC.GetTotalPauseDuration() - _startingGcPauseDuration)
+                    .TotalMilliseconds,
                 gen0_collections = _memorySamples.Count > 0
                     ? _memorySamples[^1].Gen0Collections : 0,
                 gen1_collections = _memorySamples.Count > 0
@@ -844,6 +849,8 @@ public sealed class ReferencePerformanceScenario
             ? "headless"
             : (string)ProjectSettings.GetSetting("rendering/renderer/rendering_method"),
         build_configuration = BuildConfiguration,
+        managed_runtime = System.Environment.Version.ToString(),
+        gc_gen0_size_environment = System.Environment.GetEnvironmentVariable("DOTNET_GCgen0size"),
         headless = _options.Headless,
         vsync_enabled = _options.VsyncEnabled,
         engine_max_fps = Engine.MaxFps,
@@ -851,11 +858,14 @@ public sealed class ReferencePerformanceScenario
         physics_jitter_fix =
             ProjectSettings.GetSetting("physics/common/physics_jitter_fix").AsDouble(),
         physics_ticks_per_second = Engine.PhysicsTicksPerSecond,
+        physics_interpolation_enabled =
+            ProjectSettings.GetSetting("physics/common/physics_interpolation").AsBool(),
         lighting = _options.Lighting.ToString().ToLowerInvariant(),
         camera = _options.Camera.ToString().ToLowerInvariant(),
         environment_quality = _environmentSnapshot?.ProfileId ?? "unmeasured",
         road_profile = _roadSnapshot?.ProfileId ?? "unmeasured",
         target_speed_mps = _options.TargetSpeedMetersPerSecond,
+        manual_input_sampled_during_autopilot = _vehicle.SampleManualInputDuringAutopilot,
         corridor_loop_enabled = _options.LoopCorridor,
         video_adapter = _options.Headless ? "headless" : RenderingServer.GetVideoAdapterName(),
         video_adapter_api_version = _options.Headless
@@ -877,11 +887,15 @@ public sealed class ReferencePerformanceScenario
             mean_frame_ms = frameMean,
             mean_render_cpu_ms = cpuMean,
             mean_render_gpu_ms = gpuMean,
-            mean_non_render_ms = Math.Max(0, frameMean - Math.Max(cpuMean, gpuMean)),
+            gpu_timing_available = _gpuMilliseconds.Maximum > 0,
+            mean_non_render_ms = _gpuMilliseconds.Maximum > 0
+                ? (double?)Math.Max(0, frameMean - Math.Max(cpuMean, gpuMean))
+                : null,
             gpu_bound_frame_ratio = _frameMilliseconds.Count > 0
                 ? (double)_gpuBoundFrames / _frameMilliseconds.Count
                 : 0,
-            bound_by = gpuMean > cpuMean ? "gpu" : "cpu",
+            bound_by = _gpuMilliseconds.Maximum <= 0 ? "unknown_gpu_timing_unavailable"
+                : gpuMean > cpuMean ? "gpu" : "cpu",
             subsystem_cpu_ms = SubsystemAttribution(),
             subsystem_allocation = SubsystemAllocation(),
             road_holding = RoadHolding(),
