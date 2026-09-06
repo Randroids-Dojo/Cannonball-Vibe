@@ -147,6 +147,9 @@ while [[ $# -gt 0 ]]; do
       elif [[ "$2" == "camera-handling" ]]; then
         scenario_mode="camera-handling"
         scenario_args+=("--camera-handling-profile")
+      elif [[ "$2" == "off-road-ground" ]]; then
+        scenario_mode="off-road-ground"
+        scenario_args+=("--off-road-ground-profile")
       elif [[ "$2" == "vehicle-dynamics" ]]; then
         scenario_mode="vehicle-dynamics"
         scenario_args+=("--vehicle-dynamics-profile")
@@ -187,6 +190,9 @@ while [[ $# -gt 0 ]]; do
       elif [[ "$profile" == "camera-handling" ]]; then
         scenario_mode="camera-handling"
         scenario_args+=("--camera-handling-profile")
+      elif [[ "$profile" == "off-road-ground" ]]; then
+        scenario_mode="off-road-ground"
+        scenario_args+=("--off-road-ground-profile")
       elif [[ "$profile" == "vehicle-dynamics" ]]; then
         scenario_mode="vehicle-dynamics"
         scenario_args+=("--vehicle-dynamics-profile")
