@@ -51,6 +51,7 @@ from cannonball_map.continental_collision import (
     derive_continental_collision_lock,
     validate_continental_collision_lock,
 )
+from cannonball_map.continental_package import build_continental_package
 from cannonball_map.elevation import ElevationMetadata, ElevationSampler
 from cannonball_map.lockfile import materialize_locked_role, validate_lock
 from cannonball_map.manifest import SourceManifest, validate_source
@@ -3058,4 +3059,64 @@ def validate_continental_collision_command(
         f"continental-collision-ok: {collision_lock} "
         f"({summary['host_count']} hosts, {summary['chunk_count']} chunks, "
         "zero open seams)"
+    )
+
+
+@app.command("build-continental-package")
+def build_continental_package_command(
+    segment: str = typer.Option(..., help="Continental segment id, e.g. i70-denver-to-cove-fort."),
+    output: Path = typer.Option(Path(".tools/continental/package")),
+    collision_lock: Path = typer.Option(
+        Path("data/routes/continental/collision-chunk-lock.v1.json"), exists=True
+    ),
+    lane_lock: Path = typer.Option(
+        Path("data/routes/continental/lane-topology-lock.v1.json"), exists=True
+    ),
+    carriageway_lock: Path = typer.Option(
+        Path("data/routes/continental/westbound-carriageway-lock.v1.json"), exists=True
+    ),
+    conditioned_lock: Path = typer.Option(
+        Path("data/routes/continental/conditioned-profile-lock.v1.json"), exists=True
+    ),
+    elevation_lock: Path = typer.Option(
+        Path("data/routes/continental/corridor-elevation-lock.v1.json"), exists=True
+    ),
+    dem_lock: Path = typer.Option(
+        Path("data/routes/continental/3dep-product-lock.v1.json"), exists=True
+    ),
+    directed_route_lock: Path = typer.Option(
+        Path("data/routes/continental/directed-route-lock.v1.json"), exists=True
+    ),
+    route_lock: Path = typer.Option(Path("data/sources/continental-route-lock.json"), exists=True),
+    carriageway_cache: Path = typer.Option(
+        Path(".tools/continental/carriageway"), exists=True, file_okay=False
+    ),
+    resample_meters: float = typer.Option(25.0),
+    chunk_meters: float = typer.Option(2_000.0),
+) -> None:
+    """Build the runtime route package for one locked continental segment."""
+    try:
+        provenance = build_continental_package(
+            segment,
+            collision_lock_path=collision_lock,
+            lane_lock_path=lane_lock,
+            carriageway_lock_path=carriageway_lock,
+            conditioned_lock_path=conditioned_lock,
+            elevation_lock_path=elevation_lock,
+            dem_lock_path=dem_lock,
+            directed_route_lock_path=directed_route_lock,
+            route_lock_path=route_lock,
+            carriageway_cache_directory=carriageway_cache,
+            output_directory=output,
+            resample_meters=resample_meters,
+            chunk_meters=chunk_meters,
+        )
+    except ValueError as error:
+        typer.echo(f"continental-package-failed: {error}", err=True)
+        raise typer.Exit(code=1) from error
+    typer.echo(
+        f"continental-package: {output} ({segment}, {provenance['length_m']:.1f} m, "
+        f"{provenance['sample_count']} samples, {provenance['chunk_count']} chunks, "
+        f"root {provenance['root_bytes']} bytes, largest chunk "
+        f"{provenance['max_chunk_bytes']} bytes, {provenance['content_version']})"
     )
