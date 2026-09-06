@@ -56,6 +56,7 @@ public sealed class EnvironmentVisualKit : IDisposable
         var needleAlbedo = graybox ? null : EnvironmentTextures.LoadOptional(ConiferNeedleAlbedoPath);
         var needleNormal = graybox ? null : EnvironmentTextures.LoadOptional(ConiferNeedleNormalPath);
         var impostor = graybox ? null : EnvironmentTextures.LoadOptional(ConiferImpostorPath);
+        var impostorShader = graybox ? null : EnvironmentTextures.LoadShader("conifer_impostor");
         var sourced = grass.Available && dryGrass.Available && dirt.Available && rock.Available &&
             bark.Available && groundShader is not null && mountainShader is not null;
         TextureSource = graybox ? "graybox" : sourced ? "sourced" : "fallback";
@@ -78,17 +79,8 @@ public sealed class EnvironmentVisualKit : IDisposable
         Needles = sourced && needleShader is not null && needleAlbedo is not null
             ? BuildNeedleMaterial(needleShader, needleAlbedo, needleNormal)
             : Flat(graybox ? "4b6854" : "214d32", 0.95f, cullDisabled: true);
-        Impostor = sourced && impostor is not null
-            ? new StandardMaterial3D
-            {
-                AlbedoTexture = impostor,
-                AlbedoColor = new Color(0.50f, 0.58f, 0.44f),
-                Transparency = BaseMaterial3D.TransparencyEnum.AlphaScissor,
-                AlphaScissorThreshold = 0.45f,
-                CullMode = BaseMaterial3D.CullModeEnum.Disabled,
-                Roughness = 0.9f,
-                TextureFilter = BaseMaterial3D.TextureFilterEnum.LinearWithMipmapsAnisotropic,
-            }
+        Impostor = sourced && impostor is not null && impostorShader is not null
+            ? BuildImpostorMaterial(impostorShader, impostor)
             : Flat(graybox ? "4b6854" : "1f4630", 0.95f, cullDisabled: true);
         Building = new StandardMaterial3D
         {
@@ -262,6 +254,13 @@ public sealed class EnvironmentVisualKit : IDisposable
         {
             material.SetShaderParameter("needle_normal", normal);
         }
+        return material;
+    }
+
+    private static ShaderMaterial BuildImpostorMaterial(Shader shader, Texture2D albedo)
+    {
+        var material = new ShaderMaterial { Shader = shader };
+        material.SetShaderParameter("tree_albedo", albedo);
         return material;
     }
 

@@ -7,6 +7,8 @@
 shader_type spatial;
 render_mode cull_disabled, depth_draw_opaque, depth_prepass_alpha;
 
+#include "conifer_lod_fade.gdshaderinc"
+
 uniform sampler2D needle_albedo : source_color, filter_linear_mipmap_anisotropic;
 uniform sampler2D needle_normal : hint_normal, filter_linear_mipmap;
 uniform float alpha_scissor : hint_range(0.0, 1.0) = 0.42;
@@ -26,6 +28,11 @@ void vertex() {
 }
 
 void fragment() {
+	// ALPHA arrives with the native visibility fade. Preserve it as coverage
+	// before the needle texture supplies its independent cutout mask.
+	if (ALPHA <= tree_lod_threshold(FRAGCOORD.xy)) {
+		discard;
+	}
 	vec4 sample = texture(needle_albedo, UV);
 	ALPHA = sample.a;
 	ALPHA_SCISSOR_THRESHOLD = alpha_scissor;
