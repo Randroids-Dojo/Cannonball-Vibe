@@ -163,6 +163,8 @@ public sealed partial class WorldStreamer : Node3D
     public bool HasTerrainBackdrop =>
         _terrainBackdrop is { Mesh: not null, Visible: true };
     public IReadOnlyCollection<string> JunctionSeamIdsBuilt => _junctionSeamsBuilt;
+    public IReadOnlyCollection<RoadChunk> LoadedRoadChunks => _loaded.Values;
+    public IReadOnlyCollection<JunctionSeam> LoadedJunctionSeams => _junctionSeams.Values;
     public IReadOnlyCollection<string> JunctionTransitionSeamIdsBuilt =>
         _junctionTransitionSeamsBuilt;
     public IReadOnlyCollection<string> RouteContextAutomationIds =>
@@ -672,6 +674,27 @@ public sealed partial class WorldStreamer : Node3D
         }
 
         Rebase(horizontal);
+    }
+
+    /// <summary>
+    /// The road at a route distance in local coordinates, with the paved
+    /// edges from the authoritative lane profile, for scenarios that place
+    /// the vehicle relative to the carriageway rather than the lane centre.
+    /// </summary>
+    public RoadProbe ProbeRoad(double routeDistanceMeters)
+    {
+        var distance = Math.Clamp(routeDistanceMeters, 0, RouteLengthMeters);
+        var pose = GetRoadPose(distance);
+        var planEdge = _routePlan.GetEdgeAtDistance(distance);
+        var edge = _package.Graph.GetEdge(planEdge.EdgeId);
+        var layout = LaneGeometryProfile.Evaluate(
+            edge,
+            Math.Clamp(distance - planEdge.StartMeters, 0, edge.LengthMeters));
+        return new RoadProbe(
+            pose.Point.RelativeTo(_localOriginWorld),
+            pose.Forward,
+            layout.PavedLeftMeters,
+            layout.PavedRightMeters);
     }
 
     public void Track(CannonballVehicle vehicle)
@@ -1268,6 +1291,10 @@ public sealed partial class WorldStreamer : Node3D
         {
             return;
         }
+        var fromSpan = _manifests.SingleOrDefault(span =>
+            string.Equals(span.Manifest.Id, fromContent.Id, StringComparison.Ordinal));
+        var toSpan = _manifests.SingleOrDefault(span =>
+            string.Equals(span.Manifest.Id, toContent.Id, StringComparison.Ordinal));
         var seam = JunctionSeam.Create(
             fromContent,
             fromEdge,
@@ -1275,7 +1302,10 @@ public sealed partial class WorldStreamer : Node3D
             toEdge,
             _frame,
             _localOriginWorld,
-            _roadVisualKit);
+            _roadVisualKit,
+            fromSpan?.EndMeters ?? double.NaN,
+            toSpan?.StartMeters ?? double.NaN,
+            fromSpan is null || toSpan is null ? double.NaN : RouteLengthMeters);
         _junctionSeams.Add(key, seam);
         _junctionSeamsBuilt.Add(key);
         if (!string.Equals(fromEdge.Id, toEdge.Id, StringComparison.Ordinal))
@@ -1768,3 +1798,11 @@ public sealed record EnvironmentStreamSnapshot(
     double MidVisibilityMeters,
     double DistantVisibilityMeters,
     double RetainBehindMeters);
+
+/// <summary>A road cross-section in local coordinates: centreline point,
+/// forward direction and the paved edges as signed lateral offsets.</summary>
+public sealed record RoadProbe(
+    Vector3 Point,
+    Vector3 Forward,
+    double PavedLeftMeters,
+    double PavedRightMeters);

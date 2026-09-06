@@ -16,6 +16,11 @@
 // far field converges on each layer's mean colour so distant ground shows no
 // texture moire at speed.
 shader_type spatial;
+// Double-sided on purpose: the ribbon's 260 m and 460 m offset rows fold on
+// the inside of curves and its short end segments produce near-vertical
+// slivers, so back-face culling would open holes in the midground. Back
+// faces cost nothing while the camera is above the ground, and the terrain
+// margin now collides, so the underside is not reachable in play.
 render_mode cull_disabled, depth_draw_opaque;
 
 uniform sampler2D grass_albedo : source_color, filter_linear_mipmap_anisotropic, repeat_enable;

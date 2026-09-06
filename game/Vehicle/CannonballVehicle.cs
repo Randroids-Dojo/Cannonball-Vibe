@@ -76,6 +76,14 @@ public sealed partial class CannonballVehicle : RigidBody3D
     /// other metrics describe.
     /// </remarks>
     public int ResetToRoadCount { get; private set; }
+
+    /// <summary>
+    /// How far below its tracked road point the chassis may fall before it
+    /// is put back on the road. The terrain margin lies 0.18 m under the
+    /// paved surface and the deepest legitimate excursion is a crashed car
+    /// on its roof in a shallow cut, so eight metres is unreachable in play.
+    /// </summary>
+    public const float FallRecoveryDepthMeters = 8f;
     public bool HasBeenGrounded => _hasBeenGrounded;
     public int PostGroundingPhysicsFrames { get; private set; }
     public int WellGroundedPhysicsFrames { get; private set; }
@@ -140,7 +148,12 @@ public sealed partial class CannonballVehicle : RigidBody3D
             // wait for the simulation to actually run.
             return;
         }
-        if (input.Reset || _resetRequested || Position.Y < -20)
+        // The recovery depth is measured from the road the car is tracking.
+        // The old plane at local Y = -20 was relative to the rebased origin, so
+        // a fall on a descending route could last far longer than the two
+        // seconds it implied, and never fired on a route that climbed.
+        if (input.Reset || _resetRequested ||
+            Position.Y < TargetRoadPoint.Y - FallRecoveryDepthMeters)
         {
             ResetToRoad();
             _resetRequested = false;
