@@ -1,0 +1,166 @@
+{
+  "schema_version": 1,
+  "task_id": "P1-010",
+  "milestone": "M5",
+  "status": "in_progress",
+  "slice": "off-road-ground-2026-09-06",
+  "base_git_revision": "9d637326277c303f5fdd4e72d8ca69b5985c4d3e",
+  "base_git_revision_note": "origin/main (#129) when the slice was verified; the slice lands as the squash merge of its PR",
+  "recorded_at_utc": "2026-09-06T23:20:56Z",
+  "platform": {
+    "os": "Windows 11 Pro 10.0.26200",
+    "architecture": "x64",
+    "cpu": "AMD Ryzen 9 5900X",
+    "gpu": "NVIDIA GeForce RTX 3080 Ti 12 GB",
+    "memory_gb": 64,
+    "renderer_for_headless_gates": "Godot headless (gl_compatibility)",
+    "renderer_for_rendered_check": "Godot Compatibility/OpenGL via PlayGodot (graybox environment, production Hero GT)"
+  },
+  "tool_versions": {
+    "godot": "4.7.1.stable.mono.official.a13da4feb",
+    "dotnet_sdk": "10.0.102",
+    "uv": "shared trusted venv (Q-039)"
+  },
+  "inputs": {
+    "route_package": {
+      "fixture": "official-corridor",
+      "path": ".tools/scenarios/official-corridor/route_graph-943e9d373aa236794960f1fca1dff168a7ce4c686ec3ccc6b86f399ad5339a06.cbrg",
+      "sha256": "e4a51b9cae2ade98c1a488b4244c9d666f31c70ac578c4ea777e3d20875d8fe2",
+      "content_version": "route-v5-4928c40733239740"
+    },
+    "source_sha256": {
+      "game/Automation/OffRoadGroundScenario.cs": "1feee3bb782b3b580931bbc5f71a6642d6cc78bea8a7e9c51fdd918ae0190276",
+      "game/World/Environment/RegionalTerrainRibbon.cs": "1126711785099ec53c2df1a4e4e95eb7201c0fb19d4f4d2824449363dbdc1c13",
+      "game/World/RoadChunk.cs": "f869fb697913fa38b6215f408d19da04b2e8883cd96827138df42efad07e1ddb",
+      "game/World/JunctionSeam.cs": "06b5ee2bea15fb10f4f7955407e2324e4fc5db14d186f96293d87b08740c8df7",
+      "game/Vehicle/CannonballVehicle.cs": "e01360790ad317f902bc1d4cc1af6c46756747b0ea0f40eb630d008063ce3c52",
+      "scripts/verify-off-road-ground.sh": "838f2231d9361f9ca32ef9b4c37ff96e84a38fea061d75fa7d8b201f760d6191"
+    }
+  },
+  "scope": {
+    "verified": [
+      "RegionalTerrainRibbon.BuildGroundCollisionMesh builds a collider from each paved edge to the 460 m outer band on the ribbon's analytic surface; RoadChunk and JunctionSeam add it as TerrainCollision with back-face collision whenever chunk collision is active",
+      "collider and visual margin wind clockwise seen from above so the downward suspension rays hit the front face",
+      "RegionalTerrainRibbon.NearGroundOffsetMeters (-0.18 m) sets the road margin, junction quads and the ribbon inner plateau; near-layer instances anchor on the drawn surface",
+      "CannonballVehicle recovers a fall 8 m below the tracked road point rather than at local Y = -20",
+      "OffRoadGroundScenario drops the car 8 m, 100 m and 300 m beyond each paved edge and it rests on the ground with four grounded wheels and no reset",
+      "every --smoke-test run asserts the ground contract (terrain collider on each collision chunk and seam) before CANNONBALL_SMOKE_OK",
+      "a rendered high-speed exit (56 m/s, held right steer) ends at rest on the ground with no reset"
+    ],
+    "excluded_claims": [
+      "the ground shader remains double-sided; no underside culling is claimed (see audit for the folded-ribbon reason)",
+      "no change to authoritative route elevation or the paved collision ribbon",
+      "no collider beyond the 460 m outer band; the recovery depth covers a car that leaves it",
+      "no human visual approval of any frame",
+      "no Q-022 performance recapture; the collision build time is the headless smoke's own reported maximum"
+    ]
+  },
+  "commands": [
+    {
+      "command": "dotnet build Cannonball.sln --nologo",
+      "exit_status": 0,
+      "result": "Build succeeded, 0 warnings, 0 errors"
+    },
+    {
+      "command": "./scripts/verify-off-road-ground.sh",
+      "exit_status": 0,
+      "result": "CANNONBALL_GROUND_CONTRACT_OK and CANNONBALL_OFF_ROAD_GROUND_OK present"
+    },
+    {
+      "command": "CANNONBALL_GODOT_LOG_FILE=... ./scripts/run-scenario.sh --fixture official-corridor --smoke-test",
+      "exit_status": 0,
+      "result": "CANNONBALL_GROUND_CONTRACT_OK then CANNONBALL_SMOKE_OK"
+    },
+    {
+      "command": "PlayGodot rendered drive (production_vehicle=True): accelerate 1.2 s, hold steer_right 3 s while accelerating, brake 3.5 s, describe vehicle.input.conditioner, screenshot",
+      "exit_status": 0,
+      "result": "last_suppression_reason=none, suppression_sequence=0, car at rest off the road"
+    }
+  ],
+  "metrics": {
+    "ground_contract_at_route_start": {
+      "collision_chunks": 4,
+      "terrain_collision_chunks": 4,
+      "collision_seams": 3
+    },
+    "off_road_drops": [
+      {
+        "probe": "right-verge",
+        "beyond_paved_edge_m": 8,
+        "resting_error_m": 0.06,
+        "grounded_wheels": 4,
+        "resets": 0
+      },
+      {
+        "probe": "right-margin-outer",
+        "beyond_paved_edge_m": 100,
+        "resting_error_m": 0.015,
+        "grounded_wheels": 4,
+        "resets": 0
+      },
+      {
+        "probe": "right-middle-band",
+        "beyond_paved_edge_m": 300,
+        "resting_error_m": 0.053,
+        "grounded_wheels": 4,
+        "resets": 0
+      },
+      {
+        "probe": "left-verge",
+        "beyond_paved_edge_m": -8,
+        "resting_error_m": 0.032,
+        "grounded_wheels": 4,
+        "resets": 0
+      },
+      {
+        "probe": "left-margin-outer",
+        "beyond_paved_edge_m": -100,
+        "resting_error_m": 0.023,
+        "grounded_wheels": 4,
+        "resets": 0
+      },
+      {
+        "probe": "left-middle-band",
+        "beyond_paved_edge_m": -300,
+        "resting_error_m": 0.036,
+        "grounded_wheels": 4,
+        "resets": 0
+      }
+    ],
+    "drop_acceptance": {
+      "resting_tolerance_m": 0.45,
+      "drop_height_m": 1.0,
+      "recovery_depth_m": 8.0
+    },
+    "smoke": {
+      "max_collision_build_ms": 2.131,
+      "collision_build_budget_ms": 40,
+      "max_chunk_build_ms": 21.362,
+      "peak_mph": 86.8,
+      "distance_m": 84.8
+    },
+    "rendered_exit": {
+      "peak_forward_speed_mps": 57.95,
+      "steering_authority_at_speed": 0.11,
+      "with_120m_margin_only": "last_suppression_reason=reset (fell off the end of the drawn margin)",
+      "with_collider_to_460m": "last_suppression_reason=none, suppression_sequence=0",
+      "screenshot_sha256": "f4fdf2bfd3b34e444be34de2d85af5ede51d6421951c1ce76272858ebee97244"
+    },
+    "before_the_winding_fix": {
+      "probe": "right-verge",
+      "outcome": "fell through the margin and was reset at frame 196 (resets=1, grounded_wheels=0)",
+      "cause": "the margin wound counter-clockwise seen from above and the concave shape ignored back faces for the downward suspension rays"
+    },
+    "cull_back_attempt": {
+      "outcome": "reverted",
+      "first_failure": "RegionalTerrainRibbon on chunk edge-60c0aae17db97464501a-c0000 had a triangle with normal (0.131, 0.053, 0.990)",
+      "reason": "offset rows fold on curves and short end segments give near-vertical slivers; culling would open midground holes"
+    }
+  },
+  "output_artifacts": [
+    "docs/audits/2026-09-06-p1-010-off-road-ground.md"
+  ],
+  "failure_logs": [],
+  "retry_count": 0,
+  "human_gate_approval": null
+}

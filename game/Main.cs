@@ -53,6 +53,7 @@ public sealed partial class Main : Node3D
     private bool _vehicleVisualReview;
     private bool _cameraHandlingProfile;
     private bool _cameraHandlingReview;
+    private bool _offRoadGroundProfile;
     private bool _vehicleDynamicsProfile;
     private bool _vehicleDynamicsReview;
     private bool _roadVisualProfile;
@@ -131,6 +132,7 @@ public sealed partial class Main : Node3D
     private IntegratedVisualSliceScenario? _integratedVisualSliceScenario;
     private ReferencePerformanceScenario? _referencePerformanceScenario;
     private CameraHandlingScenario? _cameraHandlingScenario;
+    private OffRoadGroundScenario? _offRoadGroundScenario;
     private VehicleDynamicsScenario? _vehicleDynamicsScenario;
     private bool _resumeRequested;
     private bool _resumeVerify;
@@ -251,6 +253,7 @@ public sealed partial class Main : Node3D
             _vehicleVisualReview = arguments.Contains("--vehicle-visual-review", StringComparer.Ordinal);
             _cameraHandlingProfile = arguments.Contains("--camera-handling-profile", StringComparer.Ordinal);
             _cameraHandlingReview = arguments.Contains("--camera-handling-review", StringComparer.Ordinal);
+            _offRoadGroundProfile = arguments.Contains("--off-road-ground-profile", StringComparer.Ordinal);
             _vehicleDynamicsProfile = arguments.Contains(
                 "--vehicle-dynamics-profile",
                 StringComparer.Ordinal);
@@ -282,7 +285,7 @@ public sealed partial class Main : Node3D
                 _vehicleVisualProfile || _vehicleVisualReview || _roadVisualProfile ||
                 _roadVisualReview || _environmentStreamingProfile || _environmentReview ||
                 _integratedVisualSliceProfile || _referencePerformanceProfile ||
-                _tripMapReview || _cameraHandlingProfile ||
+                _tripMapReview || _cameraHandlingProfile || _offRoadGroundProfile ||
                 _cameraHandlingReview || _vehicleDynamicsProfile || _vehicleDynamicsReview ||
                 _tripMapScaleProfile || _longRouteProfile || _resumeVerify;
             _smokeTargetFrames = _stressTest || _shortCorridorSoak ? 3_600 : 360;
@@ -318,7 +321,7 @@ public sealed partial class Main : Node3D
             {
                 _smokeTargetFrames = 1_200;
             }
-            if (_cameraHandlingProfile || _cameraHandlingReview)
+            if (_cameraHandlingProfile || _cameraHandlingReview || _offRoadGroundProfile)
             {
                 _smokeTargetFrames = 1_200;
             }
@@ -484,6 +487,7 @@ public sealed partial class Main : Node3D
                 !_vehicleVisualReview && !_roadVisualProfile && !_roadVisualReview &&
                 !_environmentStreamingProfile && !_environmentReview &&
                 !_tripMapReview && !_cameraHandlingProfile && !_cameraHandlingReview &&
+                !_offRoadGroundProfile &&
                 !_vehicleDynamicsProfile && !_vehicleDynamicsReview && !_longRouteProfile;
             if (resumedSave is not null)
             {
@@ -583,6 +587,10 @@ public sealed partial class Main : Node3D
                     _streamer.InitialVehiclePoint,
                     _streamer.InitialRoadForward,
                     _cameraHandlingReview);
+            }
+            if (_offRoadGroundProfile && !_resumeVerify)
+            {
+                _offRoadGroundScenario = new OffRoadGroundScenario(this, _vehicle, _streamer);
             }
             if ((_vehicleDynamicsProfile || _vehicleDynamicsReview) && !_resumeVerify)
             {
@@ -781,6 +789,20 @@ public sealed partial class Main : Node3D
                 return;
             }
         }
+        if (_offRoadGroundScenario is { Complete: false })
+        {
+            try
+            {
+                _offRoadGroundScenario.Advance();
+            }
+            catch (Exception exception)
+            {
+                GD.PushError(exception.ToString());
+                _shutdownStarted = true;
+                GetTree().Quit(1);
+                return;
+            }
+        }
         if (_roadVisualScenario is { Complete: false } && _routeContextProfileComplete)
         {
             try
@@ -901,6 +923,7 @@ public sealed partial class Main : Node3D
             _longRouteComplete ||
             _vehicleVisualScenario is { Complete: true } ||
             _cameraHandlingScenario is { Complete: true } ||
+            _offRoadGroundScenario is { Complete: true } ||
             _vehicleDynamicsScenario is { Complete: true } ||
             _environmentVisualScenario is { Complete: true } ||
             _integratedVisualSliceScenario is { Complete: true } ||
@@ -1919,6 +1942,11 @@ public sealed partial class Main : Node3D
                     throw new InvalidOperationException(
                         $"Streaming encountered {_streamer.ChunkFailureCount} verified chunk failures.");
                 }
+                // The ground contract is an invariant of the loaded world, not of
+                // a scenario: every collision chunk and junction seam carries its
+                // terrain collider. Checking it on the M0 smoke gates a
+                // regression on every PR.
+                GD.Print(OffRoadGroundScenario.ValidateGroundContract(_streamer).Marker());
                 GD.Print(
                     $"CANNONBALL_SMOKE_OK chunks={_streamer.LoadedChunkCount} " +
                     $"distance_m={_streamer.RouteDistanceMeters:0.0} " +

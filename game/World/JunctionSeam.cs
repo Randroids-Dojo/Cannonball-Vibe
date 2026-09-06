@@ -9,10 +9,13 @@ public sealed partial class JunctionSeam : Node3D
 {
     private StaticBody3D? _collisionBody;
     private ArrayMesh _collisionMesh = null!;
+    private ArrayMesh _terrainCollisionMesh = null!;
 
     public string FromChunkId { get; private init; } = string.Empty;
     public string ToChunkId { get; private init; } = string.Empty;
     public bool HasCollision => _collisionBody is not null;
+    public bool HasTerrainCollision =>
+        _collisionBody?.GetNodeOrNull<CollisionShape3D>("TerrainCollision") is not null;
     public bool HasTerrainSurface =>
         GetNodeOrNull<MeshInstance3D>("JunctionTerrainSurface") is
             { Mesh: not null, Visible: true };
@@ -25,7 +28,10 @@ public sealed partial class JunctionSeam : Node3D
         RouteEdge toEdge,
         RouteFrame frame,
         RouteWorldPoint localOriginWorld,
-        RoadVisualKit visualKit)
+        RoadVisualKit visualKit,
+        double fromRouteDistanceMeters,
+        double toRouteDistanceMeters,
+        double routeLengthMeters)
     {
         ArgumentNullException.ThrowIfNull(visualKit);
         var anchor = frame.ToWorld(fromContent.Samples[^1]);
@@ -65,6 +71,25 @@ public sealed partial class JunctionSeam : Node3D
             toLayout.PavedLeftMeters,
             toLayout.PavedRightMeters,
             -0.035f);
+        // The seam's ground collider spans the gap between the two chunks'
+        // colliders on the same surface, out to the ribbon's outer band.
+        seam._terrainCollisionMesh = seam.Owned(
+            Environments.RegionalTerrainRibbon.BuildGroundCollisionMesh(
+                [
+                    new Environments.GroundStation(
+                        fromCenter,
+                        fromTangent.Cross(Vector3.Up).Normalized(),
+                        fromRouteDistanceMeters,
+                        fromLayout.PavedLeftMeters,
+                        fromLayout.PavedRightMeters),
+                    new Environments.GroundStation(
+                        toCenter,
+                        toTangent.Cross(Vector3.Up).Normalized(),
+                        toRouteDistanceMeters,
+                        toLayout.PavedLeftMeters,
+                        toLayout.PavedRightMeters),
+                ],
+                routeLengthMeters));
         var terrain = new MeshInstance3D
         {
             Name = "JunctionTerrainSurface",
@@ -77,7 +102,7 @@ public sealed partial class JunctionSeam : Node3D
                 toTangent,
                 toLayout.PavedLeftMeters - RoadVisualKit.TerrainMarginMeters,
                 toLayout.PavedRightMeters + RoadVisualKit.TerrainMarginMeters,
-                -0.16f)),
+                Environments.RegionalTerrainRibbon.NearGroundOffsetMeters)),
             MaterialOverride = visualKit.Terrain,
             CastShadow = GeometryInstance3D.ShadowCastingSetting.Off,
         };
@@ -143,6 +168,17 @@ public sealed partial class JunctionSeam : Node3D
         using (var trimesh = _collisionMesh.CreateTrimeshShape())
         {
             _collisionBody.AddChild(new CollisionShape3D { Shape = trimesh });
+        }
+        // The seam's ground collider is the ground between two chunks'
+        // colliders; a car crossing a junction off the paved edge lands on it.
+        using (var terrain = _terrainCollisionMesh.CreateTrimeshShape())
+        {
+            terrain.BackfaceCollision = true;
+            _collisionBody.AddChild(new CollisionShape3D
+            {
+                Name = "TerrainCollision",
+                Shape = terrain,
+            });
         }
         AddChild(_collisionBody);
     }

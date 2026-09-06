@@ -13,6 +13,7 @@ public sealed partial class RoadChunk : Node3D
     private const float RouteContextLabelRangeMeters = 250;
     private StaticBody3D? _collisionBody;
     private ArrayMesh _collisionMesh = null!;
+    private ArrayMesh _terrainCollisionMesh = null!;
     private double _routeStartMeters = double.NaN;
     private double _routeLengthMeters = double.NaN;
     private double _contentStartMeters;
@@ -29,6 +30,8 @@ public sealed partial class RoadChunk : Node3D
     public double BuildMilliseconds { get; private set; }
     public double StartApronMeters { get; private set; }
     public bool HasCollision => _collisionBody is not null;
+    public bool HasTerrainCollision =>
+        _collisionBody?.GetNodeOrNull<CollisionShape3D>("TerrainCollision") is not null;
     public bool HasRouteStartBarrier => _routeStartBarrier is { Mesh: not null, Visible: true };
     public bool HasRouteStartBarrierCollision =>
         _collisionBody?.GetNodeOrNull<CollisionShape3D>("RouteStartBarrierCollision") is not null;
@@ -946,6 +949,25 @@ public sealed partial class RoadChunk : Node3D
         {
             _collisionBody.AddChild(new CollisionShape3D { Shape = trimesh });
         }
+        // The ground either side of the road is the collider a car that
+        // leaves the paved edge lands on: from the paved edge to the
+        // ribbon's 460 m outer band on the surface the ribbon draws. Without
+        // it the only collider in the world was the paved ribbon and a wheel
+        // past the shoulder found nothing until the vehicle reached the
+        // recovery depth; a 120 m margin alone was crossed in two seconds at
+        // highway speed. Twelve triangles per segment, a fraction of the
+        // paved trimesh.
+        using (var terrain = _terrainCollisionMesh.CreateTrimeshShape())
+        {
+            // Back faces collide too: a margin folded on the inside of a tight
+            // curve must still hold the car from either winding.
+            terrain.BackfaceCollision = true;
+            _collisionBody.AddChild(new CollisionShape3D
+            {
+                Name = "TerrainCollision",
+                Shape = terrain,
+            });
+        }
         if (_routeStartBarrier?.Mesh is BoxMesh barrierMesh)
         {
             _collisionBody.AddChild(new CollisionShape3D
@@ -1049,6 +1071,18 @@ public sealed partial class RoadChunk : Node3D
         IReadOnlyList<RouteChunkSample> samples,
         IReadOnlyList<LaneGeometrySample> layouts)
     {
+        var stations = new Environments.GroundStation[points.Count];
+        for (var index = 0; index < points.Count; index++)
+        {
+            stations[index] = new Environments.GroundStation(
+                points[index],
+                tangents[index].Cross(Vector3.Up).Normalized(),
+                RouteDistance(samples[index]),
+                layouts[index].PavedLeftMeters,
+                layouts[index].PavedRightMeters);
+        }
+        _terrainCollisionMesh = Owned(
+            Environments.RegionalTerrainRibbon.BuildGroundCollisionMesh(stations, _routeLengthMeters));
         var terrain = new MeshInstance3D
         {
             Name = "TerrainShoulders",
@@ -1064,6 +1098,10 @@ public sealed partial class RoadChunk : Node3D
     /// The 120 m terrain margin either side of the paved edge, with the ground
     /// shader's metre UVs (lateral offset, wrapped route distance) and layer
     /// weights so it is continuous with the regional terrain ribbon beyond it.
+    /// It winds like the paved ribbon, clockwise seen from above, which Godot
+    /// treats as the front face; the collider built beside it in BuildTerrain
+    /// winds the same way because a concave shape ignores back faces for the
+    /// downward suspension rays.
     /// </summary>
     private ArrayMesh BuildTerrainMarginMesh(
         IReadOnlyList<Vector3> points,
@@ -1071,7 +1109,7 @@ public sealed partial class RoadChunk : Node3D
         IReadOnlyList<RouteChunkSample> samples,
         IReadOnlyList<LaneGeometrySample> layouts)
     {
-        const float verticalOffset = -0.18f;
+        const float verticalOffset = Environments.RegionalTerrainRibbon.NearGroundOffsetMeters;
         using var surface = new SurfaceTool();
         surface.Begin(Mesh.PrimitiveType.Triangles);
         for (var index = 0; index < points.Count - 1; index++)
@@ -1102,13 +1140,13 @@ public sealed partial class RoadChunk : Node3D
                 var uvD = new Vector2((float)outer1, v1);
                 if (side < 0)
                 {
-                    AddTerrainTriangle(surface, a, d, b, uvA, uvD, uvB, color0, color1, color0);
-                    AddTerrainTriangle(surface, a, c, d, uvA, uvC, uvD, color0, color1, color1);
+                    AddTerrainTriangle(surface, a, b, d, uvA, uvB, uvD, color0, color0, color1);
+                    AddTerrainTriangle(surface, a, d, c, uvA, uvD, uvC, color0, color1, color1);
                 }
                 else
                 {
-                    AddTerrainTriangle(surface, a, b, d, uvA, uvB, uvD, color0, color0, color1);
-                    AddTerrainTriangle(surface, a, d, c, uvA, uvD, uvC, color0, color1, color1);
+                    AddTerrainTriangle(surface, a, d, b, uvA, uvD, uvB, color0, color1, color0);
+                    AddTerrainTriangle(surface, a, c, d, uvA, uvC, uvD, color0, color1, color1);
                 }
             }
         }
@@ -1579,7 +1617,8 @@ public sealed partial class RoadChunk : Node3D
                 .Scaled(new Vector3(size * 1.3f, size * 0.7f, size));
             rockTransforms.Add(new Transform3D(
                 basis,
-                points[index] + right * (side * distance) + Vector3.Up * (-0.18f - size * 0.15f)));
+                points[index] + right * (side * distance) +
+                    Vector3.Up * (Environments.RegionalTerrainRibbon.NearGroundOffsetMeters - size * 0.15f)));
         }
         if (rockTransforms.Count == 0)
         {
