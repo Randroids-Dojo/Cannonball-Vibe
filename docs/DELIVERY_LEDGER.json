@@ -2080,7 +2080,10 @@
       ],
       "generated_outputs": [
         "reports/mac-performance/",
-        "reports/m0/"
+        "reports/m0/",
+        "game/Automation/CameraInterpolationProbe.cs.uid",
+        "assets/environments/shaders/conifer_impostor.gdshader.uid",
+        "assets/environments/shaders/conifer_lod_fade.gdshaderinc.uid"
       ],
       "acceptance": [
         "Normal input and camera polling reuse Godot StringName instances; the observed temporary-wrapper allocation path is removed and covered by a regression check",
