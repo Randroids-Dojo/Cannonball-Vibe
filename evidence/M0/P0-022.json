@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "task_id": "P0-022",
+  "milestone": "M0",
+  "status": "in_progress",
+  "git_revision": "93251ac",
+  "utc_time": "2026-09-06T22:40:53.579Z",
+  "platform": "macOS / Apple M4 Max",
+  "tool_versions": {
+    "godot": "4.7.1.stable.mono.official.a13da4feb",
+    "dotnet_sdk": "10.0.102",
+    "uv": "0.9.24"
+  },
+  "input_artifacts": [
+    {
+      "path": "automation/playgodot/src/cannonball_playgodot/launcher.py",
+      "bytes": 9231,
+      "sha256": "f8e7377969018103f6d955fc8cfce02c3c22efd29fcbfd779e6879faa459b7e4"
+    },
+    {
+      "path": "automation/playgodot/src/cannonball_playgodot/warmup.py",
+      "bytes": 2310,
+      "sha256": "7a76e150db9ecab28ea24c5d44e314c2895cf579703d5b2df79b2d0edba4c601"
+    },
+    {
+      "path": "automation/playgodot/tests/test_launcher.py",
+      "bytes": 1373,
+      "sha256": "a2ee0e5e64d7696487cc14384ccf0dff21a4773930dc8afc789dfbff1d79ab34"
+    },
+    {
+      "path": "automation/playgodot/tests/test_live.py",
+      "bytes": 40371,
+      "sha256": "43fb5c048cf74e1deb0755d76456c64db77d806943862814e004b472f1132000"
+    },
+    {
+      "path": "scripts/verify-playgodot.sh",
+      "bytes": 2450,
+      "sha256": "d6d8410a1b0adc3b1fe8cfc394f7b26cc73d8ea6a670e46101b8ce5df41f7b19"
+    }
+  ],
+  "commands": [
+    {
+      "command": "GODOT_BIN=<official 4.7.1> ./scripts/check.sh",
+      "exit_status": 0
+    },
+    {
+      "command": "GODOT_BIN=<official 4.7.1> ./scripts/verify-playgodot.sh",
+      "exit_status": 0
+    }
+  ],
+  "metrics": {
+    "playgodot_tests_passed": 28,
+    "renderer_preparation_seconds": 2.911,
+    "interactive_startup_deadline_seconds": 20,
+    "preparation_total_deadline_seconds": 180
+  },
+  "acceptance": {
+    "local_front_door": true,
+    "local_semantic_suite": true,
+    "original_timeout_cause_fully_attributed": false,
+    "exact_patch_remote_checks": "pending"
+  },
+  "output_artifacts": [
+    {
+      "path": "reports/m0/p0-022-check-console.log",
+      "bytes": 6449,
+      "sha256": "7eb550551fe32c6e6029f8faf4e9803cde689318d0c522e9796c8c1070d64e4c"
+    },
+    {
+      "path": "reports/playgodot/p0-022-verify-console.log",
+      "bytes": 2284,
+      "sha256": "ada3a0a8fdecb8a396af0d6f1be0ed358a28cd1d23ce36f7e12c81e799ed14b4"
+    },
+    {
+      "path": "reports/playgodot/renderer-warmup-summary.json",
+      "bytes": 362,
+      "sha256": "b600deefb5f57d2986ae3d1edc3a73674fb4799e88c9cd0cccd871589efd2179"
+    },
+    {
+      "path": "reports/playgodot/renderer-warmup.png",
+      "bytes": 1005811,
+      "sha256": "30317a2b45c80d101db15907a5a25949cc22ae7494131004a130d80440b7daef"
+    }
+  ],
+  "failure_logs": [],
+  "retry_count": 0,
+  "recovery_result": "Failure logs no longer collide and cold renderer preparation has separate timing and artifacts. Original startup cause remains unproven.",
+  "human_gate": null
+}
