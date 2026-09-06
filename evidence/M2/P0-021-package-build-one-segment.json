@@ -1,0 +1,119 @@
+{
+  "schema_version": 1,
+  "task_id": "P0-021",
+  "milestone": "M2",
+  "status": "in_progress",
+  "slice": "package-build-one-segment-2026-09-06",
+  "git_revision": "48c9a444c64a7a7f93faec45c8c0d3beb8c9d526",
+  "base_git_revision": "5135062c4dabc5630002723932198ca5ed236d96",
+  "recorded_at_utc": "2026-09-06T23:46:57Z",
+  "platform": {
+    "os": "Windows 11 Pro 10.0.26200",
+    "architecture": "x64",
+    "cpu": "AMD Ryzen 9 5900X",
+    "gpu": "NVIDIA GeForce RTX 3080 Ti 12 GB",
+    "memory_gb": 64
+  },
+  "tool_versions": {
+    "godot": "4.7.1.stable.mono.official.a13da4feb",
+    "dotnet_sdk": "10.0.102",
+    "python": "3.14.6",
+    "uv": "worktree map_pipeline venv (Q-039)"
+  },
+  "inputs": {
+    "segment_id": "i70-denver-to-cove-fort",
+    "lock_sha256": {
+      "collision_chunk_lock": "bebce25987d3bc1f3fa9847eb636fccf9a79124689c01de78982063ab8e4effb",
+      "conditioned_profile_lock": "a3de91ffbe1fecb38cdbdfb0be2ca60805b1f7201c0c25e4400c6f11b2554d9f",
+      "continental_route_lock": "cbdaaa3710e2b2e9409628f32fb1ef16228ec2256c5b8f1428d3363618e73900",
+      "corridor_elevation_lock": "082a1e0432edac2a89a3c561b1f2ee121692a68fde3226087fdb43631ac4cac7",
+      "dem_product_lock": "8863b1cd0445188427e0af597b6599b8f3e855ca43c34e93c664db1e3705860f",
+      "directed_route_lock": "cd31ea3193a755f06349fdf1cea814775d5de700e04a75113f70e68d18793294",
+      "lane_topology_lock": "6bf0e518660ad942a2c1a8b2b953f74076958e3341b823ead0340a997a47c2ea",
+      "westbound_carriageway_lock": "eb99323d3da3986a561a902309593716ae90e22703e7f1f68359144c8638f1fa"
+    },
+    "carriageway_cache_geometry_sha256": "70043c865e8fd6757985429f5dc4900108aacad5e298b04902a26c69128b0af9",
+    "carriageway_cache_note": "gitignored .tools/continental/carriageway/<segment>.json, admitted only when it reproduces the westbound carriageway lock digest and vertex count"
+  },
+  "scope": {
+    "verified": [
+      "build-continental-package emits a schema-5 sharded package for one segment through write_sharded_package from the committed locks and the digest-authenticated carriageway cache",
+      "samples on the collision 25 m station grid and chunks on its 2 km grid; counts match the collision host record",
+      "lane sections from the lane topology lock with stable lane ids, extended to the edge ends with the extension recorded in provenance",
+      "two builds byte-identical across every shipping file (ADR-0019 double-build gate)",
+      "root and every chunk inside the ADR-0019 ceilings",
+      "the game loads the package, starts on the first lane, saves and completes the headless smoke",
+      "the --distance-miles 20 probe verified every chunk read (403 of 403, zero failures) and the driven smoke on the package passed with the ground contract"
+    ],
+    "excluded_claims": [
+      "the other eleven segments and the joined coast-to-coast chain",
+      "the eastbound carriageway and the divided-carriageway reciprocal pair (the edge ships as one_way_roadway)",
+      "junction movements and endpoint connectors (the single segment has none)",
+      "the GeoPackage audit artifact for the continental package",
+      "reproducibility from a clean checkout: the centreline geometry is a gitignored cache",
+      "human review of any frame; no rendered capture of the segment is claimed here"
+    ]
+  },
+  "commands": [
+    {
+      "command": "uv run --project tools/map_pipeline --frozen ruff check tools/map_pipeline",
+      "exit_status": 0
+    },
+    {
+      "command": "uv run --project tools/map_pipeline --frozen python -m pytest tools/map_pipeline/tests/test_continental_package.py tools/map_pipeline/tests/test_sharding.py",
+      "exit_status": 0,
+      "result": "25 passed"
+    },
+    {
+      "command": "python -m cannonball_map build-continental-package --segment i70-denver-to-cove-fort --output .tools/scenarios/continental-i70",
+      "exit_status": 0,
+      "result": "31 s"
+    },
+    {
+      "command": "build twice into scratch directories and sha256 every file",
+      "exit_status": 0,
+      "result": "406 files byte-identical (provenance sidecar with its timestamp excluded)"
+    },
+    {
+      "command": "./scripts/run-continental-scenario.sh --smoke-test",
+      "exit_status": 0,
+      "result": "CANNONBALL_SMOKE_OK chunks=3 distance_m=64.8 peak_mph=104.2 rebases=0 max_chunk_build_ms=19.348 max_collision_build_ms=1.997 visual_chunks=3 collision_chunks=2 content_source=packaged"
+    },
+    {
+      "command": "CANNONBALL_SCENARIO_TIMEOUT_SECONDS=1500 ./scripts/run-continental-scenario.sh --distance-miles 20",
+      "exit_status": 0,
+      "result": [
+        "CANNONBALL_SAVE_OK distance_m=243.2",
+        "CANNONBALL_GROUND_CONTRACT_OK collision_chunks=2 terrain_collision_chunks=2 collision_seams=1",
+        "CANNONBALL_SMOKE_OK chunks=6 distance_m=250.8 peak_mph=199.6 rebases=0 max_chunk_build_ms=21.740 max_collision_build_ms=2.695 visual_chunks=6 collision_chunks=2 content_source=packaged"
+      ]
+    }
+  ],
+  "metrics": {
+    "length_m": 804567.2065736046,
+    "sample_count": 32184,
+    "chunk_count": 403,
+    "lane_section_count": 2,
+    "root_bytes": 1126504,
+    "root_ceiling_bytes": 64000000,
+    "max_chunk_bytes": 4736,
+    "chunk_ceiling_bytes": 16000000,
+    "total_chunk_bytes": 1905408,
+    "collision_host": {
+      "chunk_count": 403,
+      "length_m": 804567.207,
+      "sample_count": 32184
+    },
+    "content_version": "route-v5-81f460be5e998e72",
+    "root_sha256": "c6e55d5eb44ec04d2a8ef383ab66126717077799ece53c5b063035b97c787d90",
+    "root_relative_path": "route_graph-d36200c98174fafbe9434414858d23e55a1e423145e1240ac879a5c15d3629d9.cbrg",
+    "metadata_sidecar_bytes": 15876318
+  },
+  "output_artifacts": [
+    "docs/audits/p0-021/2026-09-06-package-build-plan.md",
+    "docs/audits/p0-021/2026-09-06-package-build-one-segment.md"
+  ],
+  "failure_logs": [],
+  "retry_count": 0,
+  "human_gate_approval": null
+}
