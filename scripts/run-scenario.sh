@@ -325,6 +325,7 @@ if [[ "$scenario_mode" == "integrated-visual-slice" && "$fixture_explicit" == "f
   fixture="representative-corridor"
 fi
 
+continental_segment=""
 case "$fixture" in
   official-corridor)
     fixture_source="$repo_root/data/sources/fixtures/nhpn-boulder-us36.geojson"
@@ -342,8 +343,13 @@ case "$fixture" in
     fixture_lock="$repo_root/data/sources/representative-corridor-lock.json"
     fixture_chunk_meters=2000
     ;;
+  continental-i70)
+    # One locked continental segment built from the committed P0-021 locks
+    # rather than a fixture source; no download, no cache.
+    continental_segment="i70-denver-to-cove-fort"
+    ;;
   *)
-    echo "Unknown fixture '$fixture'. Supported fixtures: official-corridor, representative-corridor, variable-lanes, representative-interchanges, route-context." >&2
+    echo "Unknown fixture '$fixture'. Supported fixtures: official-corridor, representative-corridor, variable-lanes, representative-interchanges, route-context, continental-i70." >&2
     exit 2
     ;;
 esac
@@ -363,15 +369,21 @@ verification_mode=""
 verified_chunk_reads=""
 if [[ -n "$fixture" ]]; then
   package_directory="$repo_root/.tools/scenarios/$fixture"
-  uv run --project "$repo_root/tools/map_pipeline" --frozen python -m cannonball_map build \
-    --source "$fixture_source" \
-    --manifest "$fixture_manifest" \
-    --catalog "$repo_root/data/sources/catalog.json" \
-    --elevation "$fixture_elevation" \
-    --elevation-metadata "$fixture_elevation_metadata" \
-    --acquisition-lock "$fixture_lock" \
-    --chunk-meters "$fixture_chunk_meters" \
-    --output "$package_directory"
+  if [[ -n "$continental_segment" ]]; then
+    uv run --project "$repo_root/tools/map_pipeline" --frozen python -m cannonball_map build-continental-package \
+      --segment "$continental_segment" \
+      --output "$package_directory"
+  else
+    uv run --project "$repo_root/tools/map_pipeline" --frozen python -m cannonball_map build \
+      --source "$fixture_source" \
+      --manifest "$fixture_manifest" \
+      --catalog "$repo_root/data/sources/catalog.json" \
+      --elevation "$fixture_elevation" \
+      --elevation-metadata "$fixture_elevation_metadata" \
+      --acquisition-lock "$fixture_lock" \
+      --chunk-meters "$fixture_chunk_meters" \
+      --output "$package_directory"
+  fi
 
   package_pointer="$package_directory/current-package.json"
   if [[ ! -f "$package_pointer" ]]; then

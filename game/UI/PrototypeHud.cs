@@ -75,12 +75,16 @@ public sealed partial class PrototypeHud : CanvasLayer
     public void UpdateTelemetry(
         float metersPerSecond,
         double distanceMeters,
+        double routeLengthMeters,
         int chunks,
         double originMeters,
         AssistProfile assistProfile)
     {
         _speed.Text = $"{metersPerSecond * 2.236936f,3:0} MPH";
-        _distance.Text = $"{distanceMeters / 1609.344:0.00} / 25.00 MILES";
+        // The total is the loaded route's length: 25 miles on the Boulder
+        // fixture, 500 on the first continental segment.
+        _distance.Text =
+            $"{distanceMeters / 1609.344:0.00} / {routeLengthMeters / 1609.344:0.00} MILES";
         _streaming.Text =
             $"{assistProfile.ToString().ToUpperInvariant()}  //  STREAM {chunks} CHUNKS  //  ORIGIN {originMeters / 1000.0:0.0} KM";
     }
