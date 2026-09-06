@@ -244,6 +244,19 @@ no longer renders the production car anywhere. The hostile-request bridge
 class (Q-035) recurred once more on macOS with the graybox car and remains
 the one open live-suite cause.
 
+Update 2026-09-06: main stayed red after the graybox-camera PR because the
+Ubuntu runner's first Godot launch of the run, the camera test, reached the
+launcher's 20 s startup budget twice (20.02 s and 20.04 s to the ready
+line, once with the production rig and once with the graybox car) while
+every later launch on the same runner started in time. The ready line
+prints before `Main._Ready`, so the cold cost is engine boot, .NET hosting
+and scene instantiation, not the world build. The exact wait is unknown
+because the damping test shared the camera test's artifact names and
+overwrote its log. The startup budget is launch plumbing, not a behaviour
+bound: it is 90 s now, the request and settle windows are unchanged, the
+launcher logs the seconds to ready and prints the captured output on a
+startup timeout, and the artifact names are distinct.
+
 - **A. Root-cause the remaining bounds in the Q-035 style (recommended)**:
   re-express latency-shaped bounds such as `elapsed_seconds` against the
   game clock the run already exposes, so a slow describe cannot fail them.

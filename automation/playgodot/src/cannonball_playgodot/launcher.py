@@ -9,6 +9,7 @@ import secrets
 import shutil
 import signal
 import tempfile
+import time
 from collections import deque
 from pathlib import Path
 
@@ -25,7 +26,15 @@ class PlayGodotProcess:
         *,
         capabilities: tuple[str, ...] = ("read",),
         godot_bin: Path | None = None,
-        startup_timeout: float = 20.0,
+        # The server node is the first child of the bootstrap scene, so its
+        # ready line precedes Main._Ready and the world build; the wait
+        # covers engine boot, .NET hosting and scene instantiation, which
+        # on a cold hosted runner reached 20.0 s on the first launch of two
+        # of four consecutive main runs (CI 33908423448, 33910478508) while
+        # every later launch started in time. Startup time is not what the
+        # suite asserts, so this budget is generous and the request and
+        # settle windows stay tight.
+        startup_timeout: float = 90.0,
         request_timeout: float = 10.0,
         transcript: Path | None = None,
         log_path: Path | None = None,
@@ -110,7 +119,20 @@ class PlayGodotProcess:
                 env=environment,
                 start_new_session=os.name == "posix",
             )
-            ready = await asyncio.wait_for(self._read_ready(), self.startup_timeout)
+            started = time.monotonic()
+            try:
+                ready = await asyncio.wait_for(self._read_ready(), self.startup_timeout)
+            except TimeoutError:
+                # Without the captured output a startup timeout is
+                # indistinguishable from a hang, a crash or a slow draw.
+                tail = "\n".join(list(self.output)[-20:])
+                raise TimeoutError(
+                    f"PlayGodot did not print its ready line within "
+                    f"{self.startup_timeout:.0f} s\n{tail}"
+                ) from None
+            # The evidence log carries the launch time so a slow runner is
+            # measured rather than inferred from a later bound.
+            self._record_output(f"launcher: ready after {time.monotonic() - started:.1f} s")
             if ready.get("address") != "127.0.0.1" or ready.get("protocol") != "1.0":
                 raise ProtocolError("PlayGodot advertised an unsafe or incompatible endpoint")
             if ready.get("engine") != "4.7.1-stable (official)":

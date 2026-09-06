@@ -637,8 +637,11 @@ async def test_chase_camera_damps_vehicle_yaw_and_keeps_a_level_horizon(
         REPO_ROOT,
         _route_package(),
         capabilities=("read", "input", "screenshot"),
-        transcript=artifacts / "camera-handling.jsonl",
-        log_path=artifacts / "camera-handling-godot.log",
+        # test_camera_handling.py owns the camera-handling artifact names;
+        # sharing them here overwrote that test's Godot log with this one's
+        # in the CI evidence, which hid what its failed launch printed.
+        transcript=artifacts / "camera-damping.jsonl",
+        log_path=artifacts / "camera-damping-godot.log",
     )
     async with process as client:
         ready = (await client.describe("vehicle.input.conditioner"))["test_state"]
