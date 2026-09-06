@@ -45,6 +45,7 @@ class PlayGodotProcess:
         self.output: deque[str] = deque(maxlen=1_000)
         self._drain_task: asyncio.Task[None] | None = None
         self._runtime_directory: Path | None = None
+        self.startup_elapsed_seconds: float | None = None
 
     @staticmethod
     def _godot_from_environment() -> Path:
@@ -103,6 +104,7 @@ class PlayGodotProcess:
         if platform.system() == "Linux" and os.environ.get("PLAYGODOT_XVFB") == "1":
             command = ["xvfb-run", "-a", *command]
         try:
+            startup_started = asyncio.get_running_loop().time()
             self.process = await asyncio.create_subprocess_exec(
                 *command,
                 stdout=asyncio.subprocess.PIPE,
@@ -110,7 +112,15 @@ class PlayGodotProcess:
                 env=environment,
                 start_new_session=os.name == "posix",
             )
-            ready = await asyncio.wait_for(self._read_ready(), self.startup_timeout)
+            try:
+                ready = await asyncio.wait_for(self._read_ready(), self.startup_timeout)
+            except TimeoutError as error:
+                tail = "\n".join(list(self.output)[-20:])
+                raise TimeoutError(
+                    f"Godot did not advertise PLAYGODOT_READY within "
+                    f"{self.startup_timeout:g}s; process output:\n{tail}"
+                ) from error
+            self.startup_elapsed_seconds = asyncio.get_running_loop().time() - startup_started
             if ready.get("address") != "127.0.0.1" or ready.get("protocol") != "1.0":
                 raise ProtocolError("PlayGodot advertised an unsafe or incompatible endpoint")
             if ready.get("engine") != "4.7.1-stable (official)":

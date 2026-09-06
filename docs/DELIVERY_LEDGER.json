@@ -2002,6 +2002,41 @@
       "notes": "Opened on 2026-08-16 from the frame-stutter root cause. Godot wrappers carry finalizers and cannot die in gen0, so every collection promotes and pause length tracks nursery size. Measured at 50 m/s over 60 s on the representative corridor, the dynamic default gave 9 collections with a 39.7 ms worst frame, 8 MB gave 17 collections with a 24.5 ms worst frame, and 64 MB gave 2 collections with a 116.5 ms worst frame, so more frequent smaller pauses win. scripts/godot.sh now exports DOTNET_GCgen0size=800000 hex, which covers check.sh, every scenario, every capture and every verify script. An exported build does not run that script and therefore does not get the setting, so a player would see the default behaviour the captures no longer measure. A runtimeconfig.template.json carrying System.GC.Gen0Size was tried first and removed: it merged into the generated Cannonball.runtimeconfig.json correctly and had no effect, confirmed because adding the environment variable on top still changed gen0 counts. Godot hosts the runtime itself, so the application's configProperties never reach GC initialisation. Leaving an inert setting in the tree would have looked authoritative while doing nothing. Candidate mechanisms not yet evaluated: a launcher shim or .bat/.sh wrapper that sets the variable before starting the binary, an export-time hook, or a Godot-side runtime setting if one exists that is honoured."
     },
     {
+      "id": "P0-022",
+      "milestone": "M0",
+      "priority": "P0",
+      "title": "Repair mainline PlayGodot startup timeout",
+      "status": "in_progress",
+      "owner": "Runtime + automation",
+      "dependencies": [
+        "P0-001",
+        "P1-004"
+      ],
+      "owned_paths": [
+        "automation/playgodot/src/cannonball_playgodot/launcher.py",
+        "automation/playgodot/tests/",
+        "addons/playgodot/",
+        "scripts/verify-playgodot.sh",
+        "docs/audits/2026-09-06-playgodot-startup-repair.md",
+        "evidence/M0/P0-022.json"
+      ],
+      "generated_outputs": [
+        "reports/playgodot/",
+        "reports/m0/"
+      ],
+      "acceptance": [
+        "The startup failure in mainline CI run 33910478508 is explained using its retained process logs and a reproducible or directly verified cause",
+        "Startup and readiness handling preserve authentication, cleanup, and existing gameplay assertions; failure diagnostics identify the blocked startup phase",
+        "The local scripts/check.sh front door and relevant PlayGodot tests pass",
+        "Required Linux and Windows M0 checks and the affected Linux semantic UI suite pass on the repair revision, with evidence recorded"
+      ],
+      "evidence": [
+        "evidence/M0/P0-022.json",
+        "docs/audits/2026-09-06-playgodot-startup-repair.md"
+      ],
+      "notes": "Claim for red-main issue #126 under ADR-0025. This repair precedes the owner-requested Mac allocation work. The 308a13a mainline run still failed before PLAYGODOT_READY in the camera test, despite using the graybox vehicle. No performance or human gate is closed by this task."
+    },
+    {
       "id": "P1-015",
       "milestone": "M5",
       "priority": "P1",

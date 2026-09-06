@@ -637,8 +637,8 @@ async def test_chase_camera_damps_vehicle_yaw_and_keeps_a_level_horizon(
         REPO_ROOT,
         _route_package(),
         capabilities=("read", "input", "screenshot"),
-        transcript=artifacts / "camera-handling.jsonl",
-        log_path=artifacts / "camera-handling-godot.log",
+        transcript=artifacts / "chase-camera-damping.jsonl",
+        log_path=artifacts / "chase-camera-damping-godot.log",
     )
     async with process as client:
         ready = (await client.describe("vehicle.input.conditioner"))["test_state"]
