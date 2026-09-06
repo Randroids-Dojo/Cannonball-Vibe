@@ -702,6 +702,7 @@ public sealed partial class Main : Node3D
             _hud.UpdateTelemetry(
                 _vehicle.SpeedMetersPerSecond,
                 _streamer.RouteDistanceMeters,
+                _streamer.TotalRouteLengthMeters,
                 _streamer.LoadedChunkCount,
                 _streamer.LocalOriginMeters,
                 _vehicle.AssistProfile);
