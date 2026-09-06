@@ -53,7 +53,7 @@ run_step "godot-smoke" env \
   "$repo_root/scripts/run-scenario.sh" --fixture official-corridor --smoke-test
 run_step "camera-interpolation" uv run --project tools/map_pipeline --frozen python \
   "$repo_root/scripts/run_with_timeout.py" 30 \
-  "$repo_root/scripts/godot.sh" --headless --fixed-fps 120 --path "$repo_root" \
+  bash "$repo_root/scripts/godot.sh" --headless --fixed-fps 120 --path "$repo_root" \
   res://game/Automation/CameraInterpolationProbe.tscn
 
 finished_at="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
