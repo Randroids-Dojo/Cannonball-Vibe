@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated": "2026-09-04",
+  "updated": "2026-09-06",
   "project": "Cannonball-Vibe",
   "authority": {
     "architecture_decisions": "docs/decisions/",
@@ -2000,6 +2000,56 @@
         "docs/audits/2026-08-16-frame-stutter-root-cause.md"
       ],
       "notes": "Opened on 2026-08-16 from the frame-stutter root cause. Godot wrappers carry finalizers and cannot die in gen0, so every collection promotes and pause length tracks nursery size. Measured at 50 m/s over 60 s on the representative corridor, the dynamic default gave 9 collections with a 39.7 ms worst frame, 8 MB gave 17 collections with a 24.5 ms worst frame, and 64 MB gave 2 collections with a 116.5 ms worst frame, so more frequent smaller pauses win. scripts/godot.sh now exports DOTNET_GCgen0size=800000 hex, which covers check.sh, every scenario, every capture and every verify script. An exported build does not run that script and therefore does not get the setting, so a player would see the default behaviour the captures no longer measure. A runtimeconfig.template.json carrying System.GC.Gen0Size was tried first and removed: it merged into the generated Cannonball.runtimeconfig.json correctly and had no effect, confirmed because adding the environment variable on top still changed gen0 counts. Godot hosts the runtime itself, so the application's configProperties never reach GC initialisation. Leaving an inert setting in the tree would have looked authoritative while doing nothing. Candidate mechanisms not yet evaluated: a launcher shim or .bat/.sh wrapper that sets the variable before starting the binary, an export-time hook, or a Godot-side runtime setting if one exists that is honoured."
+    },
+    {
+      "id": "P1-015",
+      "milestone": "M5",
+      "priority": "P1",
+      "title": "Mac frame pacing and steady-state allocation reduction",
+      "status": "in_progress",
+      "owner": "Runtime",
+      "dependencies": [
+        "P0-004",
+        "P0-017",
+        "P0-018",
+        "P1-001"
+      ],
+      "owned_paths": [
+        "game/Input/GameInputMap.cs",
+        "game/Vehicle/DrivingInputController.cs",
+        "game/Vehicle/CannonballVehicle.cs",
+        "game/Camera/ChaseCameraRig.cs",
+        "game/Camera/CockpitCameraRig.cs",
+        "game/Main.cs",
+        "game/UI/TripMap/TripMapHud.cs",
+        "game/World/WorldStreamer.cs",
+        "game/Automation/ReferencePerformanceScenario.cs",
+        "src/Cannonball.Core/Routes/LaneGeometryProfile.cs",
+        "src/Cannonball.Core/Routes/RouteSemantics.cs",
+        "src/Cannonball.Core/Routes/LinearRoutePlan.cs",
+        "tests/Cannonball.Core.Tests/",
+        "scripts/check_frame_allocations.py",
+        "tools/map_pipeline/tests/",
+        "docs/audits/2026-09-06-macos-frame-pacing.md",
+        "evidence/M5/P1-015.json"
+      ],
+      "generated_outputs": [
+        "reports/mac-performance/",
+        "reports/m0/"
+      ],
+      "acceptance": [
+        "Normal input and camera polling reuse Godot StringName instances; the observed temporary-wrapper allocation path is removed and covered by a regression check",
+        "Steady non-transition lane evaluation and route selection avoid repeated sorting and temporary arrays without changing geometric results or boundary selection",
+        "Reference captures exercise the normal manual-input sampling path even while autopilot controls the car, and record that measurement configuration",
+        "Comparable official-engine Forward+ rendered Mac captures with unchanged production art record frame percentiles, stalls, GC and allocation, CPU/GPU timing, streaming and actual settings before and after the change",
+        "Repeat Mac captures assess the existing 60 FPS frame budget at 2560x1440 High as a diagnostic target, with any failure or contention retained rather than treated as a passed shipping gate",
+        "The full local scripts/check.sh front door and relevant camera/input scenarios pass; Linux and Windows M0 pass before integration"
+      ],
+      "evidence": [
+        "evidence/M5/P1-015.json",
+        "docs/audits/2026-09-06-macos-frame-pacing.md"
+      ],
+      "notes": "Owner request 2026-09-06: PC performance is confirmed satisfactory; address measured Mac bottlenecks before considering a rewrite. This slice explicitly uses the representative-corridor fixture and current Hero GT/environment art while P1-008/P1-009/P1-010 remain in progress. It does not ratify new minimum specs, close P1-013 production budgets, replace the selected stack, or approve human driving feel. Initial live Mac research is retained in the original checkout under reports/performance-research-2026-09-06."
     }
   ]
 }
