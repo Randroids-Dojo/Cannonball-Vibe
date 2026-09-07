@@ -53,8 +53,13 @@ The integrated Windows local gate passed at
 `10b0a6a3a7e8bd5c7f40bd4f31dbf72017621182`: 157 Core tests, 345 pipeline tests
 (including all 60 atlas tests; one existing cache-dependent test skipped), 13
 PlayGodot unit tests, continental lock checks and official-engine smoke, camera
-interpolation and starter-speed scenarios. Linux and Windows remote M0 results
-are recorded separately in the evidence artifact after the implementation push.
+interpolation and starter-speed scenarios. Both required remote M0 jobs passed
+on implementation head `0da7b8e6e1c0030f2b6764f8d5d5c1d8d40b5978` in
+[CI run 34074548108](https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34074548108).
+The downloaded Linux and Windows reports each confirm 60 atlas tests and 345
+passing pipeline tests with one existing cache-dependent skip. Their exact PR
+merge revision, tool checks and artifact hashes are recorded in the evidence.
+The follow-up commit updates only this audit, the ledger and the evidence.
 
 ## Remaining data work
 

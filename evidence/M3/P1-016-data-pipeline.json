@@ -3,7 +3,7 @@
   "task_id": "P1-016",
   "milestone": "M3",
   "slice": "Offline atlas dataset intake, validation and explicit coverage audits",
-  "status": "offline_slice_locally_verified_remote_m0_pending",
+  "status": "offline_slice_verified",
   "parent_task_status": "in_progress",
   "git_revision": "10b0a6a3a7e8bd5c7f40bd4f31dbf72017621182",
   "git_revision_role": "Implementation and locked inputs verified by the full local gate and live replay. This evidence and final documentation are committed afterward.",
@@ -332,6 +332,18 @@
       "criterion": "Pinned local pre-push gate passes",
       "expected": "passed",
       "actual": "passed",
+      "status": "passed"
+    },
+    {
+      "criterion": "Implementation passes both required remote M0 platforms",
+      "expected": [
+        "M0 (ubuntu-latest): success",
+        "M0 (windows-latest): success"
+      ],
+      "actual": [
+        "M0 (ubuntu-latest): success",
+        "M0 (windows-latest): success"
+      ],
       "status": "passed"
     }
   ],
@@ -802,12 +814,724 @@
     }
   ],
   "remote_m0": {
-    "status": "pending",
+    "status": "passed",
+    "verified_at": "2026-09-07T02:02:03.912591+00:00",
     "required_platforms": [
       "ubuntu-latest",
       "windows-latest"
     ],
-    "checks": []
+    "run_id": 34074548108,
+    "run_url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34074548108",
+    "tested_head_revision": "0da7b8e6e1c0030f2b6764f8d5d5c1d8d40b5978",
+    "revision_note": "Both M0 jobs tested this implementation PR head through its GitHub pull-request merge commit. Subsequent evidence/status-only commits preserve the tested implementation and locked input bytes.",
+    "checks": [
+      {
+        "completedAt": "2026-09-07T02:01:12Z",
+        "conclusion": "success",
+        "databaseId": 101598006418,
+        "name": "M0 (windows-latest)",
+        "startedAt": "2026-09-07T01:55:14Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-09-07T01:55:17Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-09-07T01:55:15Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-07T01:55:32Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10",
+            "number": 2,
+            "startedAt": "2026-09-07T01:55:17Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-07T01:56:09Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1",
+            "number": 3,
+            "startedAt": "2026-09-07T01:55:32Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-07T01:56:14Z",
+            "conclusion": "success",
+            "name": "Run astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990",
+            "number": 4,
+            "startedAt": "2026-09-07T01:56:09Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-07T01:56:16Z",
+            "conclusion": "success",
+            "name": "Run chickensoft-games/setup-godot@f166999204a4f2722c6fe042fbaa3b3ea0d9c789",
+            "number": 5,
+            "startedAt": "2026-09-07T01:56:14Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-07T01:56:16Z",
+            "conclusion": "success",
+            "name": "Install pinned Git LFS",
+            "number": 6,
+            "startedAt": "2026-09-07T01:56:16Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-07T02:00:54Z",
+            "conclusion": "success",
+            "name": "Verify complete M0 gate",
+            "number": 7,
+            "startedAt": "2026-09-07T01:56:16Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-07T02:01:07Z",
+            "conclusion": "success",
+            "name": "Verify integrated visual slice",
+            "number": 8,
+            "startedAt": "2026-09-07T02:00:54Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-07T02:01:08Z",
+            "conclusion": "success",
+            "name": "Upload M0 evidence",
+            "number": 9,
+            "startedAt": "2026-09-07T02:01:07Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-07T02:01:08Z",
+            "conclusion": "success",
+            "name": "Post Run astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990",
+            "number": 16,
+            "startedAt": "2026-09-07T02:01:08Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-07T02:01:09Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1",
+            "number": 17,
+            "startedAt": "2026-09-07T02:01:08Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-07T02:01:10Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10",
+            "number": 18,
+            "startedAt": "2026-09-07T02:01:09Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-07T02:01:11Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 19,
+            "startedAt": "2026-09-07T02:01:10Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34074548108/job/101598006418"
+      },
+      {
+        "completedAt": "2026-09-07T01:59:05Z",
+        "conclusion": "success",
+        "databaseId": 101598006517,
+        "name": "M0 (ubuntu-latest)",
+        "startedAt": "2026-09-07T01:55:13Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-09-07T01:55:16Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-09-07T01:55:14Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-07T01:55:24Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10",
+            "number": 2,
+            "startedAt": "2026-09-07T01:55:16Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-07T01:55:35Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1",
+            "number": 3,
+            "startedAt": "2026-09-07T01:55:24Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-07T01:55:37Z",
+            "conclusion": "success",
+            "name": "Run astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990",
+            "number": 4,
+            "startedAt": "2026-09-07T01:55:35Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-07T01:55:40Z",
+            "conclusion": "success",
+            "name": "Run chickensoft-games/setup-godot@f166999204a4f2722c6fe042fbaa3b3ea0d9c789",
+            "number": 5,
+            "startedAt": "2026-09-07T01:55:37Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-07T01:55:40Z",
+            "conclusion": "success",
+            "name": "Install pinned Git LFS",
+            "number": 6,
+            "startedAt": "2026-09-07T01:55:40Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-07T01:58:48Z",
+            "conclusion": "success",
+            "name": "Verify complete M0 gate",
+            "number": 7,
+            "startedAt": "2026-09-07T01:55:40Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-07T01:59:00Z",
+            "conclusion": "success",
+            "name": "Verify integrated visual slice",
+            "number": 8,
+            "startedAt": "2026-09-07T01:58:48Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-07T01:59:01Z",
+            "conclusion": "success",
+            "name": "Upload M0 evidence",
+            "number": 9,
+            "startedAt": "2026-09-07T01:59:00Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-07T01:59:02Z",
+            "conclusion": "success",
+            "name": "Post Run astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990",
+            "number": 16,
+            "startedAt": "2026-09-07T01:59:01Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-07T01:59:02Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1",
+            "number": 17,
+            "startedAt": "2026-09-07T01:59:02Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-07T01:59:02Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10",
+            "number": 18,
+            "startedAt": "2026-09-07T01:59:02Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-07T01:59:02Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 19,
+            "startedAt": "2026-09-07T01:59:02Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34074548108/job/101598006517"
+      }
+    ],
+    "platforms": [
+      {
+        "runner": "Linux",
+        "artifact": {
+          "id": 10001648471,
+          "name": "m0-Linux-1",
+          "size_in_bytes": 70839,
+          "created_at": "2026-09-07T01:59:01Z",
+          "expires_at": "2026-09-21T01:59:00Z",
+          "digest": "sha256:13b22698809d9501a373ccc5f9465e4ece156d4a9d716b7d718876e224f80319",
+          "archive_download_url": "https://api.github.com/repos/Randroids-Dojo/Cannonball-Vibe/actions/artifacts/10001648471/zip"
+        },
+        "download_command": [
+          "gh",
+          "run",
+          "download",
+          "34074548108",
+          "--name",
+          "m0-Linux-1",
+          "--dir",
+          "reports/atlas/remote-m0-verified/linux"
+        ],
+        "download_exit_code": 0,
+        "tested_merge_revision": "0bee2606cd507c44460423cf588d229085510b4d",
+        "summary": {
+          "schema_version": 1,
+          "status": "passed",
+          "platform": "Linux",
+          "commit": "0bee2606cd507c44460423cf588d229085510b4d",
+          "started_at": "2026-09-07T01:55:40Z",
+          "finished_at": "2026-09-07T01:58:48Z",
+          "steps": [
+            {
+              "name": "doctor",
+              "status": "passed",
+              "exit_code": 0,
+              "log": "logs/doctor.log"
+            },
+            {
+              "name": "dotnet-build",
+              "status": "passed",
+              "exit_code": 0,
+              "log": "logs/dotnet-build.log"
+            },
+            {
+              "name": "dotnet-test",
+              "status": "passed",
+              "exit_code": 0,
+              "log": "logs/dotnet-test.log"
+            },
+            {
+              "name": "ruff",
+              "status": "passed",
+              "exit_code": 0,
+              "log": "logs/ruff.log"
+            },
+            {
+              "name": "frame-allocations",
+              "status": "passed",
+              "exit_code": 0,
+              "log": "logs/frame-allocations.log"
+            },
+            {
+              "name": "continental-route",
+              "status": "passed",
+              "exit_code": 0,
+              "log": "logs/continental-route.log"
+            },
+            {
+              "name": "pytest-map-pipeline",
+              "status": "passed",
+              "exit_code": 0,
+              "log": "logs/pytest-map-pipeline.log"
+            },
+            {
+              "name": "pytest-playgodot-unit",
+              "status": "passed",
+              "exit_code": 0,
+              "log": "logs/pytest-playgodot-unit.log"
+            },
+            {
+              "name": "godot-smoke",
+              "status": "passed",
+              "exit_code": 0,
+              "log": "logs/godot-smoke.log"
+            },
+            {
+              "name": "camera-interpolation",
+              "status": "passed",
+              "exit_code": 0,
+              "log": "logs/camera-interpolation.log"
+            },
+            {
+              "name": "starter-speed",
+              "status": "passed",
+              "exit_code": 0,
+              "log": "logs/starter-speed.log"
+            }
+          ]
+        },
+        "doctor": {
+          "schema_version": 1,
+          "status": "passed",
+          "failed_checks": 0,
+          "checks": [
+            {
+              "name": "dotnet",
+              "expected": "10.0.102",
+              "actual": "10.0.102",
+              "status": "passed"
+            },
+            {
+              "name": "uv",
+              "expected": "0.9.24",
+              "actual": "0.9.24",
+              "status": "passed"
+            },
+            {
+              "name": "git-lfs",
+              "expected": "3.7.1",
+              "actual": "3.7.1",
+              "status": "passed"
+            },
+            {
+              "name": "perl",
+              "expected": "available",
+              "actual": "available",
+              "status": "passed"
+            },
+            {
+              "name": "godot",
+              "expected": "4.7.1.stable.mono.official.a13da4feb",
+              "actual": "4.7.1.stable.mono.official.a13da4feb",
+              "status": "passed"
+            }
+          ]
+        },
+        "atlas_tests_passed": 60,
+        "map_pipeline_tests_passed": 345,
+        "map_pipeline_tests_skipped": 1,
+        "local_evidence_files": [
+          {
+            "path": "reports/atlas/remote-m0-verified/linux/reports/m0/doctor.json",
+            "bytes": 545,
+            "sha256": "33cb1935e7bc974bbc4cc89452ab1f85a6648768cd2301f08b7df88be56e1dca"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/linux/reports/m0/dotnet/core-tests.trx",
+            "bytes": 226769,
+            "sha256": "8e5768f5726b4e79f8401b0e6caf618661631196095eccb1c692507328ee4feb"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/linux/reports/m0/godot/godot.log",
+            "bytes": 618,
+            "sha256": "8245681e14bee61a524ad23763d31cedff26b1e8a51479ccce86b73b54757bfc"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/linux/reports/m0/godot/scenario.json",
+            "bytes": 173,
+            "sha256": "648c60f18474637ac487f37a423b5bb6afa93ac1950e93f6a659c358cab18b5f"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/linux/reports/m0/godot/starter-speed.json",
+            "bytes": 5824,
+            "sha256": "68d27afdadce2acaf4fd161a238bdce5002bd00b0eb60417e26eca8eff7fc339"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/linux/reports/m0/logs/camera-interpolation.log",
+            "bytes": 230,
+            "sha256": "a7041f0f75233446cccf6a813afce009d83df5f45ede74aee87be634993dae2d"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/linux/reports/m0/logs/continental-route.log",
+            "bytes": 2197,
+            "sha256": "4084847a94bbecc389e349cfe3dd18a87f896298d190f49ded4bc27b0817a81d"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/linux/reports/m0/logs/doctor.log",
+            "bytes": 406,
+            "sha256": "34c158e6d244a436da731f6a69c2e2b0b66b90638424b174d14a8baa6b2290e9"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/linux/reports/m0/logs/dotnet-build.log",
+            "bytes": 841,
+            "sha256": "3c2a7e0cc039cad0181c458f21f9ee8fbd447e14435f08a8907e0d4464beebf1"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/linux/reports/m0/logs/dotnet-test.log",
+            "bytes": 439,
+            "sha256": "5aa87263048e8191aa40ee2bc3355605e4f03780f91f83f9fa6d02542be53b09"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/linux/reports/m0/logs/frame-allocations.log",
+            "bytes": 55,
+            "sha256": "636682e61464683e90a585a946cade4e9cff0c8fd0ada7787488090aea542130"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/linux/reports/m0/logs/godot-smoke.log",
+            "bytes": 1342,
+            "sha256": "ceae73c78d78acbce03fd8c58e922ded47b680a7b18b8b705ed4a6ee50814316"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/linux/reports/m0/logs/pytest-map-pipeline.log",
+            "bytes": 443,
+            "sha256": "e7920a3bd37d0ab2379375b8cd4924eeb0b4d6310f893cf777e4c34959428cfb"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/linux/reports/m0/logs/pytest-playgodot-unit.log",
+            "bytes": 482,
+            "sha256": "b00f7efe06ebaca43ad3f02e6adb68549e3488dfe8043dc7d81d307ff7be1b90"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/linux/reports/m0/logs/ruff.log",
+            "bytes": 947,
+            "sha256": "95721f3307da90ad98f5451ce6551b19ec406797862ae1cec93f5d6184120aaa"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/linux/reports/m0/logs/starter-speed.log",
+            "bytes": 3985,
+            "sha256": "c171621857abf487c39d7313c02a96bfd485f82a67fbc9103288fa8a6c01869b"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/linux/reports/m0/python/junit.xml",
+            "bytes": 45277,
+            "sha256": "3e72beea102e23dfa9b212981fb62c76409cd8894f322434310261c0be4d2a3f"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/linux/reports/m0/python/playgodot-unit.xml",
+            "bytes": 1756,
+            "sha256": "f57fb692f9881093ebd20e5a70c50915117ba7c41f91b444f82351da9565bc6b"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/linux/reports/m0/summary.json",
+            "bytes": 1264,
+            "sha256": "4e64c4e0c58cf61ac694d058a7abdaa39cddbae254f2a42602b4534703535bcf"
+          }
+        ]
+      },
+      {
+        "runner": "Windows",
+        "artifact": {
+          "id": 10001683630,
+          "name": "m0-Windows-1",
+          "size_in_bytes": 71239,
+          "created_at": "2026-09-07T02:01:08Z",
+          "expires_at": "2026-09-21T02:01:07Z",
+          "digest": "sha256:729526e6c7acc2f459a36711076559cdbc7f502509b6287aeb25a4e73f23b5b9",
+          "archive_download_url": "https://api.github.com/repos/Randroids-Dojo/Cannonball-Vibe/actions/artifacts/10001683630/zip"
+        },
+        "download_command": [
+          "gh",
+          "run",
+          "download",
+          "34074548108",
+          "--name",
+          "m0-Windows-1",
+          "--dir",
+          "reports/atlas/remote-m0-verified/windows"
+        ],
+        "download_exit_code": 0,
+        "tested_merge_revision": "0bee2606cd507c44460423cf588d229085510b4d",
+        "summary": {
+          "schema_version": 1,
+          "status": "passed",
+          "platform": "MINGW64_NT-10.0-26100",
+          "commit": "0bee2606cd507c44460423cf588d229085510b4d",
+          "started_at": "2026-09-07T01:56:18Z",
+          "finished_at": "2026-09-07T02:00:54Z",
+          "steps": [
+            {
+              "name": "doctor",
+              "status": "passed",
+              "exit_code": 0,
+              "log": "logs/doctor.log"
+            },
+            {
+              "name": "dotnet-build",
+              "status": "passed",
+              "exit_code": 0,
+              "log": "logs/dotnet-build.log"
+            },
+            {
+              "name": "dotnet-test",
+              "status": "passed",
+              "exit_code": 0,
+              "log": "logs/dotnet-test.log"
+            },
+            {
+              "name": "ruff",
+              "status": "passed",
+              "exit_code": 0,
+              "log": "logs/ruff.log"
+            },
+            {
+              "name": "frame-allocations",
+              "status": "passed",
+              "exit_code": 0,
+              "log": "logs/frame-allocations.log"
+            },
+            {
+              "name": "continental-route",
+              "status": "passed",
+              "exit_code": 0,
+              "log": "logs/continental-route.log"
+            },
+            {
+              "name": "pytest-map-pipeline",
+              "status": "passed",
+              "exit_code": 0,
+              "log": "logs/pytest-map-pipeline.log"
+            },
+            {
+              "name": "pytest-playgodot-unit",
+              "status": "passed",
+              "exit_code": 0,
+              "log": "logs/pytest-playgodot-unit.log"
+            },
+            {
+              "name": "godot-smoke",
+              "status": "passed",
+              "exit_code": 0,
+              "log": "logs/godot-smoke.log"
+            },
+            {
+              "name": "camera-interpolation",
+              "status": "passed",
+              "exit_code": 0,
+              "log": "logs/camera-interpolation.log"
+            },
+            {
+              "name": "starter-speed",
+              "status": "passed",
+              "exit_code": 0,
+              "log": "logs/starter-speed.log"
+            }
+          ]
+        },
+        "doctor": {
+          "schema_version": 1,
+          "status": "passed",
+          "failed_checks": 0,
+          "checks": [
+            {
+              "name": "dotnet",
+              "expected": "10.0.102",
+              "actual": "10.0.102",
+              "status": "passed"
+            },
+            {
+              "name": "uv",
+              "expected": "0.9.24",
+              "actual": "0.9.24",
+              "status": "passed"
+            },
+            {
+              "name": "git-lfs",
+              "expected": "3.7.1",
+              "actual": "3.7.1",
+              "status": "passed"
+            },
+            {
+              "name": "perl",
+              "expected": "available",
+              "actual": "available",
+              "status": "passed"
+            },
+            {
+              "name": "godot",
+              "expected": "4.7.1.stable.mono.official.a13da4feb",
+              "actual": "4.7.1.stable.mono.official.a13da4feb",
+              "status": "passed"
+            }
+          ]
+        },
+        "atlas_tests_passed": 60,
+        "map_pipeline_tests_passed": 345,
+        "map_pipeline_tests_skipped": 1,
+        "local_evidence_files": [
+          {
+            "path": "reports/atlas/remote-m0-verified/windows/reports/m0/doctor.json",
+            "bytes": 545,
+            "sha256": "33cb1935e7bc974bbc4cc89452ab1f85a6648768cd2301f08b7df88be56e1dca"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/windows/reports/m0/dotnet/core-tests.trx",
+            "bytes": 223694,
+            "sha256": "90d5bd6f25251691ab7dc9d2a297b477746e45ca8aeec4ffdd574b6e4dcbf96b"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/windows/reports/m0/godot/godot.log",
+            "bytes": 618,
+            "sha256": "f5a1b35ea5f0340bf1666d758dabd7d8c9c6258dd5275a00ee22f679ca1bd3df"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/windows/reports/m0/godot/scenario.json",
+            "bytes": 189,
+            "sha256": "73e2a6ba879a276bccd7ede0a4b52827a7e71931f1ea4782a1bffeafacdf7a3e"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/windows/reports/m0/godot/starter-speed.json",
+            "bytes": 6038,
+            "sha256": "290df79acb019dab6402c83e2a3b5e091950f63a9fbf28eb7c68f83000303729"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/windows/reports/m0/logs/camera-interpolation.log",
+            "bytes": 233,
+            "sha256": "412aedfb7cb14257d14f1517bb64d016ca6bb134d8f092d05fde73d0e7889291"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/windows/reports/m0/logs/continental-route.log",
+            "bytes": 2213,
+            "sha256": "b6d849612dc6360b7410bda3ba3ceac7646512c09d2fdbb875b38b2eaf709c70"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/windows/reports/m0/logs/doctor.log",
+            "bytes": 393,
+            "sha256": "0cfe54c84dc3c2905be46d0c7da0c9bf01de1458e35eda90c51e0b9405a647db"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/windows/reports/m0/logs/dotnet-build.log",
+            "bytes": 780,
+            "sha256": "168743680e5df0d565356c627562befc886cc8cf6201b7129c308070539e0381"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/windows/reports/m0/logs/dotnet-test.log",
+            "bytes": 415,
+            "sha256": "cd216bf0694d08b77fd3558c8b63d69f9cd7fefadc852472396c40dfe68a329b"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/windows/reports/m0/logs/frame-allocations.log",
+            "bytes": 56,
+            "sha256": "1fb668e8dfc00678638d88cf9241472749abefb243ea12151ce5669b6f8fa859"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/windows/reports/m0/logs/godot-smoke.log",
+            "bytes": 1309,
+            "sha256": "ced7d878866886f4b97eb302b3ba99c902675fb890f8fb8832a9e3d318191993"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/windows/reports/m0/logs/pytest-map-pipeline.log",
+            "bytes": 449,
+            "sha256": "9c5320c9304cf04e00ec989d5a8a9f5049fbc689a91f8a7b5615632e296afdab"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/windows/reports/m0/logs/pytest-playgodot-unit.log",
+            "bytes": 534,
+            "sha256": "95912f5b766bef1412492aa34e8864a7e61e27426863755ae2c7fcafcad577ec"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/windows/reports/m0/logs/ruff.log",
+            "bytes": 874,
+            "sha256": "5909dcea082916df1e0b0d9702b9e349a327a629f41593fa384cb941aa9c5203"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/windows/reports/m0/logs/starter-speed.log",
+            "bytes": 4239,
+            "sha256": "642ad1ea0ebaf087eab84cf8606bd0887732aada6d82e5012de17d8c01fdaef4"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/windows/reports/m0/python/junit.xml",
+            "bytes": 45264,
+            "sha256": "d7d0ff6046424572b2f68018d1b0788420924c8f6823c376c1af8edce638a518"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/windows/reports/m0/python/playgodot-unit.xml",
+            "bytes": 1756,
+            "sha256": "639dfb65395c9e4b3b2cc645ad2b1c2558fdb7b7743a1ce5d03217ccaeab594d"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/windows/reports/m0/summary.json",
+            "bytes": 1280,
+            "sha256": "ed3fc8dd96601360a3f95adc166ce5c8954d98fdb32a3baffb77f7e5d72c925a"
+          }
+        ]
+      }
+    ]
   },
   "mainline_health": {
     "status_at_claim": "healthy",
