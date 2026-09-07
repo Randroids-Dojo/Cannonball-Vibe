@@ -1984,6 +1984,52 @@
       "notes": "Q-007 was resolved by the owner on 2026-07-23 as Option A: Steam is the authoritative commercial customer channel, itch.io may carry explicitly labeled demos or early builds, and GitHub Releases remains the technical artifact and provenance channel. The task remains blocked by incomplete dependencies and by human approval for signing credentials, commercial terms, the Steam Direct fee or any other spending, store submission, build upload, and public release. No spending, storefront creation, credential use, upload, or publication is authorized by the channel decision."
     },
     {
+      "id": "P1-016",
+      "milestone": "M3",
+      "priority": "P1",
+      "title": "Streamed 2D highway atlas",
+      "status": "in_progress",
+      "dependencies": [
+        "P0-004",
+        "P0-013"
+      ],
+      "scope": "Owner-requested research and design of a realistic, zoomable 2D map covering only the supported highway graph. This claim owns the design slice; runtime implementation and source acquisition are subsequent slices. Research may inspect the selected continental policy and representative fixtures while P0-021 remains in progress; complete continental coverage depends on P0-021.",
+      "owned_paths": [
+        "docs/audits/2026-09-06-streamed-highway-map-design.md",
+        "docs/decisions/ADR-0027-streamed-highway-atlas.md",
+        "docs/decisions/README.md",
+        "docs/OPEN_QUESTIONS.md",
+        "docs/TECH_STACK.md",
+        "docs/DELIVERY_LEDGER.json",
+        "evidence/M3/P1-016.json"
+      ],
+      "generated_outputs": [
+        "reports/p1-016/"
+      ],
+      "acceptance": [
+        "A dated, primary-source-backed design defines supported facilities, cartographic detail by zoom, source coverage and rights gaps, versioned tile contracts, bounded streaming, and an implementation sequence",
+        "A subsequent implementation streams overview and detailed map layers independently of the 3D world, keeps authoritative edge-plus-distance state unchanged, and preserves solo pause and resume behavior",
+        "Coverage and readability are exercised across the three selected route families with verified exits, route concurrency, places, services, and unavailable-detail behavior",
+        "Deterministic map packages, cold and warm streaming, corruption recovery, bounded CPU and GPU residency, and frame pacing pass their declared platform gates with machine-readable evidence",
+        "The redesigned atlas passes a new human comprehension and accessibility review; existing P0-013 approval is not inherited"
+      ],
+      "verification": [
+        "Design slice: JSON parsing, repository-link and scope validation, source review, and git diff --check",
+        "./scripts/check.sh",
+        "Runtime slices: Core tile/projection tests, official-engine map scenarios, rendered semantic UI checks, and reference-PC atlas interaction captures"
+      ],
+      "evidence": [
+        "evidence/M3/P1-016.json",
+        "docs/audits/2026-09-06-streamed-highway-map-design.md"
+      ],
+      "human_gate": {
+        "name": "Realistic atlas comprehension, accessibility, and source rights review",
+        "required_for": "production_atlas",
+        "status": "pending"
+      },
+      "notes": "Claimed 2026-09-06 for research and design after the owner confirmed the 2D highway-map scope. P0-004 and P0-013 dependencies are complete. No runtime code, schema, source catalog, route lock, or generated content is owned by this design slice. The full task remains in progress after the design is delivered."
+    },
+    {
       "id": "P1-014",
       "milestone": "M5",
       "priority": "P1",
