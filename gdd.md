@@ -457,6 +457,42 @@ Very short reaction window, rapid heat and component load, severe crash conseque
 
 # Damage and recovery
 
+## Starter speed, heat, and wear requirements
+
+Owner-requested design clarification, 2026-09-06. The stock starter cap is
+implemented by P1-017 at a provisional 125 mph, with power tapering over the
+final 1 mph and a grounded forward-speed governor. The upgrades, heat, wear,
+and broader acceptance below remain planned behavior. Exact balance values
+remain open in [Q-046](docs/OPEN_QUESTIONS.md).
+
+- Starter cars have a defined top-speed cap. Performance-shop upgrades can
+  raise it during a run, with costs and trade-offs in acceleration, efficiency,
+  cooling, and durability. The 200 mph prototype target does not set the stock
+  starter cap. A stock starter must still support a winnable first run.
+- Sustained engine load builds heat. Exceeding cooling capacity causes
+  overheating, reduced performance, and, if warnings are ignored, lasting
+  engine damage or failure. Cooling upgrades increase sustainable headroom.
+- Repeated hard braking builds brake heat and progressively reduces braking
+  effectiveness. Continued abuse can leave almost no useful braking. Clear
+  warnings and increasing stopping distance precede that extreme.
+- Tire tread wears according to how the car is driven. Hard cornering,
+  wheelspin, and locked-wheel braking accelerate wear toward bald tires, with
+  progressively reduced grip and a clearly displayed need for replacement.
+- Track temporary heat effects separately from lasting wear and damage.
+  Reducing load or stopping can cool components and restore heat-related
+  performance; cooling does not repair an engine or replace worn brake
+  components or tire tread. Service and replacement cost time and money.
+
+Future acceptance must compare stock and upgraded attainable speed under the
+same conditions; sustained-load overheating against a cooling/recovery run;
+repeated hard stops against rested brakes, including severe fade; and equal
+distance driven gently versus aggressively for tread loss and grip. Verify
+that cooling restores temporary losses without erasing permanent deterioration,
+that service restores the appropriate condition, and that save/resume preserves
+speed upgrades, temperatures, wear, and damage. Record the tuning values and
+measured differences. Human playtesting must confirm that warnings and recovery
+options are understandable and the driving remains enjoyable.
+
 __Severity__
 
 __Examples__
@@ -977,7 +1013,9 @@ Visibility, regional awareness, downstream patrol response, and a simple active-
 
 __Resources__
 
-Elapsed time, fuel, cash, tires, brakes/cooling aggregate, damage, and awareness
+Elapsed time, fuel, cash, tire tread/condition, brake and engine temperatures,
+lasting mechanical wear/damage, and awareness. A compact UI may summarize these,
+but heat recovery and permanent deterioration must retain distinct behavior.
 
 __Stops__
 

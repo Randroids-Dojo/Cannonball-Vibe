@@ -55,6 +55,12 @@ run_step "camera-interpolation" uv run --project tools/map_pipeline --frozen pyt
   "$repo_root/scripts/run_with_timeout.py" 30 \
   "$BASH" "$repo_root/scripts/godot.sh" --headless --fixed-fps 120 --path "$repo_root" \
   res://game/Automation/CameraInterpolationProbe.tscn
+run_step "starter-speed" env \
+  CANNONBALL_STARTER_SPEED_RESULT="$report_root/godot/starter-speed.json" \
+  uv run --project tools/map_pipeline --frozen python \
+  "$repo_root/scripts/run_with_timeout.py" 60 \
+  "$BASH" "$repo_root/scripts/godot.sh" --headless --fixed-fps 120 --path "$repo_root" \
+  res://game/Automation/StarterSpeedProbe.tscn
 
 finished_at="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
 check_status="passed"
