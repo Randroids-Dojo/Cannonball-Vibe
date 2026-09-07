@@ -64,6 +64,31 @@ has not yet been reproduced locally and is not assumed to share that cause.
 
 ## Verification
 
-In progress; exact revisions, commands, artifacts and platform results belong in
+At `3b29bec`, the complete local gate passed: 157 Core tests, 345 map tests
+with one pre-existing skip, 13 protocol tests, three export-verifier fixtures,
+and all 13 speed cases including 12 destroyed physics-state binding checks and
+forced finalizer collections. The local rendered suite passed all 28 tests.
+Both native export smokes passed in run `34169504322`, including clean shutdown
+under the stricter fatal-diagnostic check. Required M0 passed on Linux/Windows;
+semantic UI passed on Linux/Windows; both 500-mile scenarios passed.
+
+The macOS suite in run `34169504309` passed the pause regression but exposed a
+separate camera-fixture failure: one acknowledged `look_behind` press was
+followed by 31 more descriptions, ending the original three-second settle bound
+with `rear_view_held` false. The settle helper returns its last state on timeout,
+so this does not establish that the rear blend ever crossed its target. The
+single injected press had not supplied the held-input precondition. Native
+startup focus changes are a known mechanism for clearing such actions; no
+application-side code releases `look_behind` before this test's explicit release.
+
+The camera fixture now reasserts that continuous action during its bounded
+settle and requires both held input and the original blend threshold. Its
+three-second deadline covers input requests as well as state reads. Two added
+fixture tests reproduce loss of an acknowledged press and a stalled input
+request. No camera tuning or acceptance threshold changed. The complete local
+rendered suite then passed all 30 tests. This follow-up remains pending remote
+validation; the native repair's runtime sources are unchanged.
+
+Exact revisions, commands, artifacts and platform results belong in
 `evidence/M0/P0-024.json`. No human gate applies to this bounded repair. The
 starter cap remains 125 mph and the high-speed scenario setup remains 250 mph.
