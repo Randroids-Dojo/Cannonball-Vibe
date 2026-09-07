@@ -47,6 +47,7 @@ run_step "pytest-map-pipeline" uv run --project tools/map_pipeline --frozen \
 run_step "pytest-playgodot-unit" uv run --project automation/playgodot --frozen \
   python -m pytest automation/playgodot/tests/test_client.py automation/playgodot/tests/test_cli.py \
   --junitxml "$report_root/python/playgodot-unit.xml"
+run_step "release-smoke-unit" node --test "$repo_root/scripts/release/smoke.test.mjs"
 run_step "godot-smoke" env \
   CANNONBALL_GODOT_LOG_FILE="$report_root/godot/godot.log" \
   CANNONBALL_SCENARIO_RESULT_FILE="$report_root/godot/scenario.json" \

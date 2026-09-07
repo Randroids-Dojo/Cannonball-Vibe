@@ -46,6 +46,7 @@ public sealed partial class CannonballVehicle : RigidBody3D
     private Vector3 _supportNormal = Vector3.Up;
     private float _supportRatio;
     private VehicleSetup _setup = VehicleSetup.Starter;
+    private PhysicsDirectBodyState3D? _physicsState;
 
     public VehicleSetup Setup
     {
@@ -186,6 +187,10 @@ public sealed partial class CannonballVehicle : RigidBody3D
 
     public override void _IntegrateForces(PhysicsDirectBodyState3D state)
     {
+        // Jolt owns the native state for this body's lifetime. Keep its managed
+        // wrapper alive and release the binding before the body is destroyed,
+        // so its finalizer cannot access Jolt memory after engine teardown.
+        _physicsState = state;
         if (GroundedWheelCount == 0)
         {
             return;
@@ -203,6 +208,15 @@ public sealed partial class CannonballVehicle : RigidBody3D
         if (excess > 0)
         {
             state.LinearVelocity = velocity - roadForward * excess;
+        }
+    }
+
+    public override void _Notification(int what)
+    {
+        if (what == NotificationPredelete)
+        {
+            _physicsState?.Dispose();
+            _physicsState = null;
         }
     }
 

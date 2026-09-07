@@ -73,7 +73,11 @@ const required = [
 ];
 const normalizedTranscript = transcript.replace(/\x1B\[[0-?]*[ -/]*[@-~]/g, "").replace(/\r/g, "");
 const missing = required.filter((marker) => !normalizedTranscript.includes(marker));
-const forbidden = ["PLAYGODOT_", hostileToken, "SCRIPT ERROR", "ERROR:", "FATAL", "Unhandled exception"].filter((marker) => transcript.includes(marker));
+// Windows' console wrapper can report zero after the native process aborts.
+// .NET spells its diagnostic "Fatal error", so status and case-sensitive
+// "FATAL" matching alone cannot establish a clean engine shutdown.
+const forbidden = ["PLAYGODOT_", hostileToken, "SCRIPT ERROR", "ERROR:", "FATAL", "Unhandled exception"].filter((marker) =>
+  normalizedTranscript.toLowerCase().includes(marker.toLowerCase()));
 const transcriptCreated = existsSync(forbiddenTranscript);
 rmSync(runtimeHome, { recursive: true, force: true });
 if (code !== 0 || signal || missing.length || forbidden.length || transcriptCreated) {
