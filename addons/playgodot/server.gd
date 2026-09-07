@@ -69,6 +69,16 @@ func _ready() -> void:
 	_allowed_capabilities = _parse_allowed_capabilities(
 		OS.get_environment("PLAYGODOT_CAPABILITIES")
 	)
+	# _ready runs before Main's first draw. Accepting requests here lets the
+	# first driver/pipeline compilation consume a live test's response deadline.
+	# A warm-up in a different process cannot establish this process's readiness.
+	var preparation_started := Time.get_ticks_msec()
+	print("PLAYGODOT_PREPARING_FIRST_FRAME")
+	await RenderingServer.frame_post_draw
+	print("PLAYGODOT_FIRST_FRAME " + JSON.stringify({
+		"preparation_ms": Time.get_ticks_msec() - preparation_started,
+		"process_frames": Engine.get_process_frames(),
+	}))
 	_listener = TCPServer.new()
 	var error := _listener.listen(0, "127.0.0.1")
 	if error != OK:
