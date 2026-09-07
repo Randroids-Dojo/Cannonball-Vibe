@@ -2123,7 +2123,7 @@
       "milestone": "M0",
       "priority": "P0",
       "title": "Repair semantic UI response stalls after renderer readiness",
-      "status": "in_progress",
+      "status": "verified_local",
       "owner": "Runtime + automation",
       "dependencies": [
         "P0-001",
