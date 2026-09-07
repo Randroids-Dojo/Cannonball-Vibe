@@ -35,7 +35,7 @@ geometry conflicts. No source wins through ordering.
 | --- | --- |
 | Focused fixture suite | 60 tests pass on Windows, including all six formats, negative provenance/ancestry cases, CRS and semantic type checks, stale/unknown dates, partial-page recovery, source-edition changes, missing fields, independent/empty inventories, documentary access evidence and CLI exit status. |
 | Continental starter | 15 policy segments, 105 segment/kind cells, 135 explicit gaps, no fabricated features. All 105 denominators remain null. |
-| Approved live source | NHPN OBJECTID 38283, selected I-70 candidate source record, acquired through the new bounded ArcGIS path with no retries. Normalizes one road-context record. |
+| Approved live source | NHPN OBJECTID 38283, selected I-70 candidate source record, acquired through the new bounded ArcGIS path with no retries. The final replay reuses one checksummed data-page response after checking the source edition. Normalizes one road-context record. |
 | Live audit | 105 cells, 122 gaps; retains the record's old observation date and missing atlas assignment. A successful acquisition does not establish complete or current atlas data. |
 | Offline repeatability | Both complete synthetic coverage and the incomplete live audit produce identical bytes in all seven outputs across separate output directories. |
 | Output verification | Every output's actual bytes are checked against `manifest.json`; tampering is detected. |
@@ -48,6 +48,13 @@ manifest beside it. Live response bodies and the input job remain under ignored
 Exact full-gate commands, versions, revisions, statuses and artifact hashes are
 recorded in the evidence JSON. These are data-pipeline checks, not a rendered
 atlas readability or performance result.
+
+The integrated Windows local gate passed at
+`10b0a6a3a7e8bd5c7f40bd4f31dbf72017621182`: 157 Core tests, 345 pipeline tests
+(including all 60 atlas tests; one existing cache-dependent test skipped), 13
+PlayGodot unit tests, continental lock checks and official-engine smoke, camera
+interpolation and starter-speed scenarios. Linux and Windows remote M0 results
+are recorded separately in the evidence artifact after the implementation push.
 
 ## Remaining data work
 
@@ -76,4 +83,7 @@ SIGSEGV before readiness. The pipeline's files do not touch either runtime path.
 Those findings are not atlas validation failures and are not marked repaired by
 this data-pipeline slice; no new task was selected after that health signal.
 
-A pre-push Git-blob check detected CRLF in newly generated profile/scope JSON. The inputs were normalized to the repository's LF contract and re-locked before CI; a dedicated regression check prevents recurrence. The full local gate was then rerun on the integrated mainline base.
+A pre-push Git-blob check detected CRLF in newly generated profile/scope JSON.
+The inputs were normalized to the repository's LF contract and re-locked before
+CI; a dedicated regression check prevents recurrence. The full local gate was
+then rerun on the integrated mainline base.
