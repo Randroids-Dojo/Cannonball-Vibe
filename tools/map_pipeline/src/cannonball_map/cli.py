@@ -8,6 +8,7 @@ from pathlib import Path
 import typer
 
 from cannonball_map.acquisition import UrllibArcGisTransport, acquire_nhpn
+from cannonball_map.atlas.cli import app as atlas_app
 from cannonball_map.catalog import load_catalog, url_matches_prefix
 from cannonball_map.continental import (
     acquire_continental_corridor_elevation,
@@ -60,6 +61,7 @@ from cannonball_map.sharding import write_sharded_package
 from cannonball_map.telemetry import summarize_telemetry
 
 app = typer.Typer(no_args_is_help=True)
+app.add_typer(atlas_app, name="atlas")
 DEFAULT_CATALOG = Path("data/sources/catalog.json")
 
 

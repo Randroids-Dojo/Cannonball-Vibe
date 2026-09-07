@@ -1994,7 +1994,7 @@
         "P0-004",
         "P0-013"
       ],
-      "scope": "Owner-requested research and design of a realistic, zoomable 2D map covering only the supported highway graph. This claim owns the design slice; runtime implementation and source acquisition are subsequent slices. Research may inspect the selected continental policy and representative fixtures while P0-021 remains in progress; complete continental coverage depends on P0-021.",
+      "scope": "Owner-requested research and design of a realistic, zoomable 2D map covering only the supported highway graph. This claim owns the design slice; runtime implementation and source acquisition are subsequent slices. Research may inspect the selected continental policy and representative fixtures while P0-021 remains in progress; complete continental coverage depends on P0-021. Owner subsequently authorized the offline dataset intake, validation, and gap-reporting slice in PR #139. This slice may use synthetic fixtures while P0-021 remains in progress and does not admit new sources or implement runtime tiles.",
       "owned_paths": [
         "docs/audits/2026-09-06-streamed-highway-map-design.md",
         "docs/decisions/ADR-0027-streamed-highway-atlas.md",
@@ -2002,33 +2002,48 @@
         "docs/OPEN_QUESTIONS.md",
         "docs/TECH_STACK.md",
         "docs/DELIVERY_LEDGER.json",
-        "evidence/M3/P1-016.json"
+        "evidence/M3/P1-016.json",
+        "tools/map_pipeline/src/cannonball_map/atlas/",
+        "tools/map_pipeline/src/cannonball_map/cli.py",
+        "tools/map_pipeline/tests/test_atlas.py",
+        "tools/map_pipeline/README.md",
+        "data/atlas/",
+        "docs/decisions/ADR-0028-atlas-data-intake-and-coverage.md",
+        "docs/audits/2026-09-06-atlas-data-pipeline.md",
+        "evidence/M3/P1-016-data-pipeline.json"
       ],
       "generated_outputs": [
-        "reports/p1-016/"
+        "reports/p1-016/",
+        "reports/atlas/",
+        ".tools/atlas/"
       ],
       "acceptance": [
         "A dated, primary-source-backed design defines supported facilities, cartographic detail by zoom, source coverage and rights gaps, versioned tile contracts, bounded streaming, and an implementation sequence",
         "A subsequent implementation streams overview and detailed map layers independently of the 3D world, keeps authoritative edge-plus-distance state unchanged, and preserves solo pause and resume behavior",
         "Coverage and readability are exercised across the three selected route families with verified exits, route concurrency, places, services, and unavailable-detail behavior",
         "Deterministic map packages, cold and warm streaming, corruption recovery, bounded CPU and GPU residency, and frame pacing pass their declared platform gates with machine-readable evidence",
-        "The redesigned atlas passes a new human comprehension and accessibility review; existing P0-013 approval is not inherited"
+        "The redesigned atlas passes a new human comprehension and accessibility review; existing P0-013 approval is not inherited",
+        "Offline intake slice: versioned profiles normalize supported dataset formats; acquisition and recursive provenance enforce the existing catalog; deterministic reports expose missing, blocked, stale, conflicting, unlocated and unverified-access records against independent segment inventories; unknown denominators never become complete coverage."
       ],
       "verification": [
         "Design slice: JSON parsing, repository-link and scope validation, source review, and git diff --check",
         "./scripts/check.sh",
-        "Runtime slices: Core tile/projection tests, official-engine map scenarios, rendered semantic UI checks, and reference-PC atlas interaction captures"
+        "Runtime slices: Core tile/projection tests, official-engine map scenarios, rendered semantic UI checks, and reference-PC atlas interaction captures",
+        "uv run --project tools/map_pipeline --frozen pytest tools/map_pipeline/tests/test_atlas.py",
+        "uv run --project tools/map_pipeline --frozen cannonball-map atlas audit data/atlas/continental-job.v1.json --output reports/atlas/continental (exit 2 expected until coverage gaps are resolved)"
       ],
       "evidence": [
         "evidence/M3/P1-016.json",
-        "docs/audits/2026-09-06-streamed-highway-map-design.md"
+        "docs/audits/2026-09-06-streamed-highway-map-design.md",
+        "evidence/M3/P1-016-data-pipeline.json",
+        "docs/audits/2026-09-06-atlas-data-pipeline.md"
       ],
       "human_gate": {
         "name": "Realistic atlas comprehension, accessibility, and source rights review",
         "required_for": "production_atlas",
         "status": "pending"
       },
-      "notes": "Claimed 2026-09-06 in PR #135 after the owner confirmed the 2D highway-map scope. The dated design audit and proposed ADR-0027 cover all three selected route families, progressive readable cartography, a separately streamed map pyramid, scoped candidate sources, verified exit/service metadata gaps, and measurable delivery slices. Q-045 preserves architecture/source admission and complete coverage as unresolved. P0-004 and P0-013 dependencies are complete; full continental coverage requires P0-021, including its unbuilt Southern I-40 start connector. No runtime code, schema, source catalog, route lock, or generated content is owned by this design slice. Design delivery does not complete the runtime task or its new human gates."
+      "notes": "Claimed 2026-09-06 in PR #135 after the owner confirmed the 2D highway-map scope. The dated design audit and proposed ADR-0027 cover all three selected route families, progressive readable cartography, a separately streamed map pyramid, scoped candidate sources, verified exit/service metadata gaps, and measurable delivery slices. Q-045 preserves architecture/source admission and complete coverage as unresolved. P0-004 and P0-013 dependencies are complete; full continental coverage requires P0-021, including its unbuilt Southern I-40 start connector. No runtime code, schema, source catalog, route lock, or generated content is owned by this design slice. Design delivery does not complete the runtime task or its new human gates. PR #139 claims the authorized offline data-pipeline slice under ADR-0028. Dataset profiles remain candidates; acquisition must pass the unchanged catalog. The parent task remains in progress for runtime, production coverage and human gates."
     },
     {
       "id": "P1-014",

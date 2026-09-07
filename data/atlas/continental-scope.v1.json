@@ -1,0 +1,952 @@
+{
+  "schema_version": 1,
+  "route_selection_sha256": "00ac4df354a8644997a2a073ee07c736ff3f3bc2d2565c8cd9cb51b957d2ff2f",
+  "note": "Starter inventory only. Missing masks and inventories are explicit gaps; no guessed corridor polygons or absence claims.",
+  "segments": [
+    {
+      "id": "nyc-start-to-i80",
+      "geometry": null,
+      "review_reference": null,
+      "requirements": [
+        {
+          "kind": "exit",
+          "fields": [
+            "exit_number",
+            "destination",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "service",
+          "fields": [
+            "name",
+            "category",
+            "geometry",
+            "access"
+          ]
+        },
+        {
+          "kind": "place",
+          "fields": [
+            "name",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "water",
+          "fields": [
+            "name",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "boundary",
+          "fields": [
+            "name",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "road",
+          "fields": [
+            "route",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "toll",
+          "fields": [
+            "name",
+            "geometry",
+            "toll_amount",
+            "currency",
+            "direction",
+            "vehicle_class"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "i80-new-jersey-to-big-springs",
+      "geometry": null,
+      "review_reference": null,
+      "requirements": [
+        {
+          "kind": "exit",
+          "fields": [
+            "exit_number",
+            "destination",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "service",
+          "fields": [
+            "name",
+            "category",
+            "geometry",
+            "access"
+          ]
+        },
+        {
+          "kind": "place",
+          "fields": [
+            "name",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "water",
+          "fields": [
+            "name",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "boundary",
+          "fields": [
+            "name",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "road",
+          "fields": [
+            "route",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "toll",
+          "fields": [
+            "name",
+            "geometry",
+            "toll_amount",
+            "currency",
+            "direction",
+            "vehicle_class"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "i76-big-springs-to-denver",
+      "geometry": null,
+      "review_reference": null,
+      "requirements": [
+        {
+          "kind": "exit",
+          "fields": [
+            "exit_number",
+            "destination",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "service",
+          "fields": [
+            "name",
+            "category",
+            "geometry",
+            "access"
+          ]
+        },
+        {
+          "kind": "place",
+          "fields": [
+            "name",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "water",
+          "fields": [
+            "name",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "boundary",
+          "fields": [
+            "name",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "road",
+          "fields": [
+            "route",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "toll",
+          "fields": [
+            "name",
+            "geometry",
+            "toll_amount",
+            "currency",
+            "direction",
+            "vehicle_class"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "i70-denver-to-cove-fort",
+      "geometry": null,
+      "review_reference": null,
+      "requirements": [
+        {
+          "kind": "exit",
+          "fields": [
+            "exit_number",
+            "destination",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "service",
+          "fields": [
+            "name",
+            "category",
+            "geometry",
+            "access"
+          ]
+        },
+        {
+          "kind": "place",
+          "fields": [
+            "name",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "water",
+          "fields": [
+            "name",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "boundary",
+          "fields": [
+            "name",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "road",
+          "fields": [
+            "route",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "toll",
+          "fields": [
+            "name",
+            "geometry",
+            "toll_amount",
+            "currency",
+            "direction",
+            "vehicle_class"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "i80-big-springs-to-salt-lake",
+      "geometry": null,
+      "review_reference": null,
+      "requirements": [
+        {
+          "kind": "exit",
+          "fields": [
+            "exit_number",
+            "destination",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "service",
+          "fields": [
+            "name",
+            "category",
+            "geometry",
+            "access"
+          ]
+        },
+        {
+          "kind": "place",
+          "fields": [
+            "name",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "water",
+          "fields": [
+            "name",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "boundary",
+          "fields": [
+            "name",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "road",
+          "fields": [
+            "route",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "toll",
+          "fields": [
+            "name",
+            "geometry",
+            "toll_amount",
+            "currency",
+            "direction",
+            "vehicle_class"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "i15-salt-lake-to-cove-fort",
+      "geometry": null,
+      "review_reference": null,
+      "requirements": [
+        {
+          "kind": "exit",
+          "fields": [
+            "exit_number",
+            "destination",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "service",
+          "fields": [
+            "name",
+            "category",
+            "geometry",
+            "access"
+          ]
+        },
+        {
+          "kind": "place",
+          "fields": [
+            "name",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "water",
+          "fields": [
+            "name",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "boundary",
+          "fields": [
+            "name",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "road",
+          "fields": [
+            "route",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "toll",
+          "fields": [
+            "name",
+            "geometry",
+            "toll_amount",
+            "currency",
+            "direction",
+            "vehicle_class"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "nyc-start-to-i78",
+      "geometry": null,
+      "review_reference": null,
+      "requirements": [
+        {
+          "kind": "exit",
+          "fields": [
+            "exit_number",
+            "destination",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "service",
+          "fields": [
+            "name",
+            "category",
+            "geometry",
+            "access"
+          ]
+        },
+        {
+          "kind": "place",
+          "fields": [
+            "name",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "water",
+          "fields": [
+            "name",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "boundary",
+          "fields": [
+            "name",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "road",
+          "fields": [
+            "route",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "toll",
+          "fields": [
+            "name",
+            "geometry",
+            "toll_amount",
+            "currency",
+            "direction",
+            "vehicle_class"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "i78-holland-tunnel-to-i81",
+      "geometry": null,
+      "review_reference": null,
+      "requirements": [
+        {
+          "kind": "exit",
+          "fields": [
+            "exit_number",
+            "destination",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "service",
+          "fields": [
+            "name",
+            "category",
+            "geometry",
+            "access"
+          ]
+        },
+        {
+          "kind": "place",
+          "fields": [
+            "name",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "water",
+          "fields": [
+            "name",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "boundary",
+          "fields": [
+            "name",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "road",
+          "fields": [
+            "route",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "toll",
+          "fields": [
+            "name",
+            "geometry",
+            "toll_amount",
+            "currency",
+            "direction",
+            "vehicle_class"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "i81-i78-to-i40",
+      "geometry": null,
+      "review_reference": null,
+      "requirements": [
+        {
+          "kind": "exit",
+          "fields": [
+            "exit_number",
+            "destination",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "service",
+          "fields": [
+            "name",
+            "category",
+            "geometry",
+            "access"
+          ]
+        },
+        {
+          "kind": "place",
+          "fields": [
+            "name",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "water",
+          "fields": [
+            "name",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "boundary",
+          "fields": [
+            "name",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "road",
+          "fields": [
+            "route",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "toll",
+          "fields": [
+            "name",
+            "geometry",
+            "toll_amount",
+            "currency",
+            "direction",
+            "vehicle_class"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "i40-i81-to-barstow",
+      "geometry": null,
+      "review_reference": null,
+      "requirements": [
+        {
+          "kind": "exit",
+          "fields": [
+            "exit_number",
+            "destination",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "service",
+          "fields": [
+            "name",
+            "category",
+            "geometry",
+            "access"
+          ]
+        },
+        {
+          "kind": "place",
+          "fields": [
+            "name",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "water",
+          "fields": [
+            "name",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "boundary",
+          "fields": [
+            "name",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "road",
+          "fields": [
+            "route",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "toll",
+          "fields": [
+            "name",
+            "geometry",
+            "toll_amount",
+            "currency",
+            "direction",
+            "vehicle_class"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "i15-cove-fort-to-barstow",
+      "geometry": null,
+      "review_reference": null,
+      "requirements": [
+        {
+          "kind": "exit",
+          "fields": [
+            "exit_number",
+            "destination",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "service",
+          "fields": [
+            "name",
+            "category",
+            "geometry",
+            "access"
+          ]
+        },
+        {
+          "kind": "place",
+          "fields": [
+            "name",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "water",
+          "fields": [
+            "name",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "boundary",
+          "fields": [
+            "name",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "road",
+          "fields": [
+            "route",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "toll",
+          "fields": [
+            "name",
+            "geometry",
+            "toll_amount",
+            "currency",
+            "direction",
+            "vehicle_class"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "i15-barstow-to-ontario",
+      "geometry": null,
+      "review_reference": null,
+      "requirements": [
+        {
+          "kind": "exit",
+          "fields": [
+            "exit_number",
+            "destination",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "service",
+          "fields": [
+            "name",
+            "category",
+            "geometry",
+            "access"
+          ]
+        },
+        {
+          "kind": "place",
+          "fields": [
+            "name",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "water",
+          "fields": [
+            "name",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "boundary",
+          "fields": [
+            "name",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "road",
+          "fields": [
+            "route",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "toll",
+          "fields": [
+            "name",
+            "geometry",
+            "toll_amount",
+            "currency",
+            "direction",
+            "vehicle_class"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "i10-ontario-to-i405",
+      "geometry": null,
+      "review_reference": null,
+      "requirements": [
+        {
+          "kind": "exit",
+          "fields": [
+            "exit_number",
+            "destination",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "service",
+          "fields": [
+            "name",
+            "category",
+            "geometry",
+            "access"
+          ]
+        },
+        {
+          "kind": "place",
+          "fields": [
+            "name",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "water",
+          "fields": [
+            "name",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "boundary",
+          "fields": [
+            "name",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "road",
+          "fields": [
+            "route",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "toll",
+          "fields": [
+            "name",
+            "geometry",
+            "toll_amount",
+            "currency",
+            "direction",
+            "vehicle_class"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "i405-west-la-to-ca107",
+      "geometry": null,
+      "review_reference": null,
+      "requirements": [
+        {
+          "kind": "exit",
+          "fields": [
+            "exit_number",
+            "destination",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "service",
+          "fields": [
+            "name",
+            "category",
+            "geometry",
+            "access"
+          ]
+        },
+        {
+          "kind": "place",
+          "fields": [
+            "name",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "water",
+          "fields": [
+            "name",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "boundary",
+          "fields": [
+            "name",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "road",
+          "fields": [
+            "route",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "toll",
+          "fields": [
+            "name",
+            "geometry",
+            "toll_amount",
+            "currency",
+            "direction",
+            "vehicle_class"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "redondo-access-to-finish",
+      "geometry": null,
+      "review_reference": null,
+      "requirements": [
+        {
+          "kind": "exit",
+          "fields": [
+            "exit_number",
+            "destination",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "service",
+          "fields": [
+            "name",
+            "category",
+            "geometry",
+            "access"
+          ]
+        },
+        {
+          "kind": "place",
+          "fields": [
+            "name",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "water",
+          "fields": [
+            "name",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "boundary",
+          "fields": [
+            "name",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "road",
+          "fields": [
+            "route",
+            "geometry"
+          ]
+        },
+        {
+          "kind": "toll",
+          "fields": [
+            "name",
+            "geometry",
+            "toll_amount",
+            "currency",
+            "direction",
+            "vehicle_class"
+          ]
+        }
+      ]
+    }
+  ]
+}
