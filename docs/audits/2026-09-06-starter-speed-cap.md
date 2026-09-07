@@ -54,3 +54,24 @@ The existing rendered controller restart test also checks normal-game setup
 selection before and after restart. Unit tests cover taper boundaries, reverse,
 configuration isolation and invalid values. Results and exact input/output
 hashes are recorded in `evidence/M1/P1-017.json`.
+
+Local verification passed on official Godot 4.7.1 / macOS arm64: 157 C# tests,
+285 map tests (one pre-existing skip), 13 protocol unit tests, 13 starter physics
+cases, and 28 rendered semantic tests. Level stock speed stabilized at 124.941
+mph; the 20% downhill coast held 125.000 mph. The 150 mph configuration reached
+149.918 mph. All nine 200 mph straight/braking/incline cases passed across the
+three assist profiles. The wrapper hit a local MSBuild workload-resolver error
+while building under `DOTNET_ROLL_FORWARD=Major`; the already-passed M0 core
+suite and the direct `scripts/run-scenario.sh` matrix supply the same checks.
+
+A separate read-only normal `--resume` launch loaded the actual scenario save
+(which retained 80.666 m/s forward velocity), reported `CANNONBALL_RESUME_OK`,
+and exposed the starter setup and 125 mph cap. The save remained byte-identical.
+The bounded engine overspeed fixture separately verifies enforcement after
+road support is available.
+
+Linux and Windows M0 both passed the complete 13-case probe on PR revision
+`1878a4a63f7a212450443f8818d2dadab0d9c857` in CI run `34071155395`.
+Their downloaded artifacts match the local cap behavior. All three platform
+semantic suites and both deterministic 500-mile suites also passed. P1-017 is
+technically complete; Q-046 retains the unapproved balance and future systems.

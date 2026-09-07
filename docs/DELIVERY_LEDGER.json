@@ -2205,7 +2205,7 @@
       "milestone": "M1",
       "priority": "P1",
       "title": "Capped top speed for the stock starter setup",
-      "status": "verified_local",
+      "status": "complete",
       "owner": "Runtime",
       "dependencies": [
         "P0-019"
@@ -2243,7 +2243,7 @@
         "docs/audits/2026-09-06-starter-speed-cap.md"
       ],
       "human_gate": null,
-      "notes": "Owner request 2026-09-06. Technical starter setup slice using an authored flat/downhill fixture; 125 mph is provisional initial tuning from the previously discussed 120-130 mph range unless the owner chooses otherwise. Upgrades, economy balancing, thermal/wear systems, full-run winnability and human enjoyment/comprehension remain separate open work. Scope clarification before documentation updates: preserve and carry forward the owner's existing GDD design requirements; the unpublished starter Q-045 becomes Q-046 because the merged highway atlas claim used Q-045. Only the stock cap is implemented here. Extend the existing normal-game/restart semantic test to verify setup selection and close out the already-green P0-023 evidence. Red-main repair PR #137 is submitted with auto-merge armed before this claim."
+      "notes": "Owner request 2026-09-06. Technical starter setup slice using an authored flat/downhill fixture; 125 mph is provisional initial tuning from the previously discussed 120-130 mph range unless the owner chooses otherwise. Upgrades, economy balancing, thermal/wear systems, full-run winnability and human enjoyment/comprehension remain separate open work. Scope clarification before documentation updates: preserve and carry forward the owner's existing GDD design requirements; the unpublished starter Q-045 becomes Q-046 because the merged highway atlas claim used Q-045. Only the stock cap is implemented here. Extend the existing normal-game/restart semantic test to verify setup selection and close out the already-green P0-023 evidence. Red-main repair PR #137 is submitted with auto-merge armed before this claim. Technical slice completed after the 13-case starter probe and M0 passed on macOS, Linux and Windows, normal resume and restart setup selection were verified, the 200 mph matrix passed, and all three platform semantic suites passed on PR revision 1878a4a63f7a212450443f8818d2dadab0d9c857. Q-046 balance and future-system gates remain open."
     }
   ]
 }

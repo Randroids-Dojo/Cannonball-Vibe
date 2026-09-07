@@ -5,7 +5,7 @@
   "git_revision": "c65498078ddbc738aca1c76851345b7a447b540f",
   "platform": "Darwin arm64",
   "utc": "2026-09-07T00:51:58.734Z",
-  "status": "verified_local",
+  "status": "complete",
   "tool_versions": [
     {
       "name": "dotnet",
@@ -74,6 +74,18 @@
     {
       "path": "project.godot",
       "sha256": "40196e5f18be822adde0ae30ca07a456cb15391ceeb52fb81356985455c2dc71"
+    },
+    {
+      "path": "reports/starter-speed/verify-resume.py",
+      "sha256": "c1c97e2802ca6d1a2289fe30508e9cc8aef1f3d6dbae964d9c04972b7e028422"
+    },
+    {
+      "path": ".tools/scenarios/official-corridor/current-package.json",
+      "sha256": "558d431943a58e55b90ea146cff0908c7c49719cb5939f0f7d97074dd6a7bf9d"
+    },
+    {
+      "path": ".tools/scenarios/official-corridor/route_graph-966f3932ff0b33fcc96f330dca0c2a7c3c592665647443d2a1237226555b7e8e.cbrg",
+      "sha256": "43c2af9596d52a17dabfcffc37e94b31c41681a80e46770c0e6fa8ba305f265c"
     }
   ],
   "deterministic_seed": 0,
@@ -90,6 +102,14 @@
     },
     {
       "command": "GODOT_BIN=/Users/randroid/Documents/Dev/Cannonball-Vibe/.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot PLAYGODOT_ARTIFACT_DIR=$PWD/reports/starter-speed/playgodot ./scripts/verify-playgodot.sh",
+      "exit_status": 0
+    },
+    {
+      "command": "GODOT_BIN=/Users/randroid/Documents/Dev/Cannonball-Vibe/.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot CANNONBALL_GODOT_LOG_FILE=$PWD/reports/starter-speed/high-speed/matrix.log ./scripts/run-scenario.sh --fixture official-corridor --profile vehicle-dynamics --assist=all --dynamics-speed-bands=redline --dynamics-fixtures=straight,braking,incline",
+      "exit_status": 0
+    },
+    {
+      "command": "GODOT_BIN=/Users/randroid/Documents/Dev/Cannonball-Vibe/.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot uv run --project automation/playgodot --frozen python reports/starter-speed/verify-resume.py",
       "exit_status": 0
     }
   ],
@@ -318,6 +338,58 @@
           "passed": true
         }
       ]
+    },
+    "high_speed_validation": {
+      "runs": 9,
+      "profiles": 3,
+      "entry_speed_mph": 200,
+      "fixtures": [
+        "straight",
+        "braking",
+        "incline"
+      ],
+      "marker": "CANNONBALL_VEHICLE_DYNAMICS_SUITE_OK runs=9 profiles=3 speed_bands=1 fixtures=3 physics_hz=120 result_hash=1dda47fc28de0a39ea9928571e0934f09164df9a8633feed0967463854065279"
+    },
+    "normal_resume": {
+      "status": "passed",
+      "mode": "normal --resume without a scenario flag",
+      "save_sha256": "cd000bfb76a58e0975725ddf4b9eea5ffa022aff65111c56070004811fa79f6f",
+      "saved_forward_velocity_mps": {
+        "positionX": 250,
+        "positionY": 0.7214770317077637,
+        "positionZ": -225.34153747558594,
+        "velocityX": -6.47096669581515e-7,
+        "velocityY": -0.00004007423558505252,
+        "velocityZ": -80.66580200195312,
+        "angularVelocityX": -0.00008578191045671701,
+        "angularVelocityY": 1.3409430899002928e-8,
+        "angularVelocityZ": -7.940289536989553e-10,
+        "rotationX": 0.003729342482984066,
+        "rotationY": 1.905022806170109e-9,
+        "rotationZ": 2.014936217875629e-9,
+        "rotationW": 0.9999930262565613
+      },
+      "vehicle_setup": "starter",
+      "forward_speed_cap_mph": 125,
+      "seed": 20260714,
+      "command": [
+        "/Users/randroid/Documents/Dev/Cannonball-Vibe/.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot",
+        "--audio-driver",
+        "Dummy",
+        "--rendering-method",
+        "gl_compatibility",
+        "--path",
+        "/Users/randroid/Documents/Dev/Cannonball-Vibe",
+        "addons/playgodot/bootstrap.tscn",
+        "--",
+        "--playgodot",
+        "--resume",
+        "--graybox-vehicle",
+        "--graybox-environment-assets",
+        "--route-package=/Users/randroid/Documents/Dev/Cannonball-Vibe/.tools/scenarios/official-corridor/route_graph-966f3932ff0b33fcc96f330dca0c2a7c3c592665647443d2a1237226555b7e8e.cbrg",
+        "--telemetry-path=/Users/randroid/Documents/Dev/Cannonball-Vibe/reports/starter-speed/resume-telemetry.jsonl"
+      ],
+      "save_unchanged": true
     }
   },
   "outputs": [
@@ -340,6 +412,42 @@
     {
       "path": "reports/starter-speed/playgodot/driving-input-controller-restart.jsonl",
       "sha256": "52368b4cbc2f75a1072b953f3f6667b0f12cb1941b1a9aab190d30706705bd4c"
+    },
+    {
+      "path": "reports/starter-speed/high-speed/matrix.log",
+      "sha256": "813b94f8b708abf0da6399a45428a6ce3681c4b9e87f421ef4775a2f107936d1"
+    },
+    {
+      "path": "reports/starter-speed/resume-result.json",
+      "sha256": "1f2a144d15893c1ed8a6c4e8af83c62be42feabe0811ee7a0aaf9f82e5d1ba38"
+    },
+    {
+      "path": "reports/starter-speed/resume-godot.log",
+      "sha256": "6530e809cf049808b119d8ec4ad1ff9e07380a5877da933c2f6167a35a23ed9f"
+    },
+    {
+      "path": "reports/starter-speed/ci-linux/reports/m0/summary.json",
+      "sha256": "aa03a0894bd44ef995f1e870fc6ee90f01421401d3e6bdbca680bb3eb6c23db9"
+    },
+    {
+      "path": "reports/starter-speed/ci-linux/reports/m0/doctor.json",
+      "sha256": "33cb1935e7bc974bbc4cc89452ab1f85a6648768cd2301f08b7df88be56e1dca"
+    },
+    {
+      "path": "reports/starter-speed/ci-linux/reports/m0/godot/starter-speed.json",
+      "sha256": "6f6589d74c7d8236a55f8ab06a4a4066565bdf57ad0113d9fd8717a8eaf78088"
+    },
+    {
+      "path": "reports/starter-speed/ci-windows/reports/m0/summary.json",
+      "sha256": "1a5e44a81d1848192c54e8989b5f35389e971005f66c3b248bb19a05dab12dd7"
+    },
+    {
+      "path": "reports/starter-speed/ci-windows/reports/m0/doctor.json",
+      "sha256": "33cb1935e7bc974bbc4cc89452ab1f85a6648768cd2301f08b7df88be56e1dca"
+    },
+    {
+      "path": "reports/starter-speed/ci-windows/reports/m0/godot/starter-speed.json",
+      "sha256": "48f5d616e1349e6f504110baee33748d33bce7817ddf388858dfc4c16915c750"
     }
   ],
   "failure_logs": [
@@ -364,5 +472,181 @@
   "recovery_result": "The downhill fixture was widened after drifting off its edge; actual road-plane recovery and longitudinal speed measurement are used. Final 13-case probe and full local gates pass with unchanged speed/contact thresholds.",
   "human_gate_approval": null,
   "balance_status": "125 mph is provisional; human enjoyment, full-run winnability, upgrades and thermal/wear behavior remain open in Q-046",
-  "remote_checks": "Pending Linux/Windows M0 and three-platform semantic CI on the implementation revision"
+  "remote_checks": {
+    "git_revision": "1878a4a63f7a212450443f8818d2dadab0d9c857",
+    "pull_request": "https://github.com/Randroids-Dojo/Cannonball-Vibe/pull/138",
+    "run": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34071155395",
+    "checks": [
+      {
+        "name": "M0 (ubuntu-latest)",
+        "conclusion": "SUCCESS",
+        "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34071155395/job/101588632640"
+      },
+      {
+        "name": "M0 (windows-latest)",
+        "conclusion": "SUCCESS",
+        "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34071155395/job/101588632535"
+      },
+      {
+        "name": "PlayGodot semantic UI (ubuntu-latest)",
+        "conclusion": "SUCCESS",
+        "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34071155395/job/101588632668"
+      },
+      {
+        "name": "PlayGodot semantic UI (windows-latest)",
+        "conclusion": "SUCCESS",
+        "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34071155395/job/101588632661"
+      },
+      {
+        "name": "PlayGodot semantic UI (macos-latest)",
+        "conclusion": "SUCCESS",
+        "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34071155395/job/101588632589"
+      }
+    ],
+    "artifacts": [
+      {
+        "platform": "linux",
+        "artifact": "m0-Linux-1",
+        "checkout_commit": "084000969d3665938c376ecb9ce19a8ce73fb79e",
+        "engine": "4.7.1-stable (official)",
+        "m0_status": "passed",
+        "probe_cases_passed": 13,
+        "measurements": [
+          {
+            "scenario": "level",
+            "assist": "Accessible",
+            "cap_mph": 125,
+            "peak_mph": 124.94075697924123,
+            "final_mph": 124.94075697924123
+          },
+          {
+            "scenario": "downhill",
+            "assist": "Accessible",
+            "cap_mph": 125,
+            "peak_mph": 124.98605046528276,
+            "final_mph": 124.98603256979241
+          },
+          {
+            "scenario": "level",
+            "assist": "Balanced",
+            "cap_mph": 125,
+            "peak_mph": 124.94075697924123,
+            "final_mph": 124.94075697924123
+          },
+          {
+            "scenario": "downhill",
+            "assist": "Balanced",
+            "cap_mph": 125,
+            "peak_mph": 124.98606388690051,
+            "final_mph": 124.98605046528276
+          },
+          {
+            "scenario": "level",
+            "assist": "Raw",
+            "cap_mph": 125,
+            "peak_mph": 124.94075697924123,
+            "final_mph": 124.94075697924123
+          },
+          {
+            "scenario": "downhill",
+            "assist": "Raw",
+            "cap_mph": 125,
+            "peak_mph": 124.98606388690051,
+            "final_mph": 124.98605941302792
+          },
+          {
+            "scenario": "configured-150",
+            "assist": "Balanced",
+            "cap_mph": 150,
+            "peak_mph": 149.91770311381532,
+            "final_mph": 149.91770311381532
+          },
+          {
+            "scenario": "downhill-coast",
+            "assist": "Balanced",
+            "cap_mph": 125,
+            "peak_mph": 125.00001118468145,
+            "final_mph": 125.00000000000001
+          }
+        ]
+      },
+      {
+        "platform": "windows",
+        "artifact": "m0-Windows-1",
+        "checkout_commit": "084000969d3665938c376ecb9ce19a8ce73fb79e",
+        "engine": "4.7.1-stable (official)",
+        "m0_status": "passed",
+        "probe_cases_passed": 13,
+        "measurements": [
+          {
+            "scenario": "level",
+            "assist": "Accessible",
+            "cap_mph": 125,
+            "peak_mph": 124.94075697924123,
+            "final_mph": 124.94075697924123
+          },
+          {
+            "scenario": "downhill",
+            "assist": "Accessible",
+            "cap_mph": 125,
+            "peak_mph": 124.98604151753757,
+            "final_mph": 124.98602585898354
+          },
+          {
+            "scenario": "level",
+            "assist": "Balanced",
+            "cap_mph": 125,
+            "peak_mph": 124.94075697924123,
+            "final_mph": 124.94075697924123
+          },
+          {
+            "scenario": "downhill",
+            "assist": "Balanced",
+            "cap_mph": 125,
+            "peak_mph": 124.98606388690051,
+            "final_mph": 124.98605941302792
+          },
+          {
+            "scenario": "level",
+            "assist": "Raw",
+            "cap_mph": 125,
+            "peak_mph": 124.94075697924123,
+            "final_mph": 124.94075697924123
+          },
+          {
+            "scenario": "downhill",
+            "assist": "Raw",
+            "cap_mph": 125,
+            "peak_mph": 124.98605046528276,
+            "final_mph": 124.98604151753757
+          },
+          {
+            "scenario": "configured-150",
+            "assist": "Balanced",
+            "cap_mph": 150,
+            "peak_mph": 149.91770311381532,
+            "final_mph": 149.91770311381532
+          },
+          {
+            "scenario": "downhill-coast",
+            "assist": "Balanced",
+            "cap_mph": 125,
+            "peak_mph": 125.00001118468145,
+            "final_mph": 125.00000000000001
+          }
+        ]
+      }
+    ]
+  },
+  "failure_recovery_details": {
+    "fixture": {
+      "failed_attempts": 2,
+      "recovery": "Widened the artificial plane and kept the original cap/contact thresholds"
+    },
+    "high_speed_wrapper": {
+      "exit_status": 1,
+      "reason": "The wrapper applies DOTNET_ROLL_FORWARD=Major while building, which hit a local MSBuild workload resolver exception. Full M0 had already passed all 157 C# tests; the same official-engine matrix was run directly through scripts/run-scenario.sh and passed all nine cases."
+    }
+  },
+  "completed_utc": "2026-09-07T00:59:37.905Z"
 }
