@@ -15,7 +15,7 @@ public sealed record LaneGeometryTransition(
     double EndMeters,
     double LateralOffsetMeters);
 
-public sealed record LaneGeometrySample(
+public readonly record struct LaneGeometrySample(
     double DistanceMeters,
     double LaneLeftMeters,
     double LaneRightMeters,
@@ -189,8 +189,8 @@ public static class LaneGeometryProfile
 
     private static double GetLateralOffsetMeters(SectionLayout before, SectionLayout after)
     {
-        var beforeBounds = GetLaneBounds(before.Lanes.Values);
-        var afterBounds = GetLaneBounds(after.Lanes.Values);
+        var beforeBounds = before.Bounds;
+        var afterBounds = after.Bounds;
         var maximum = Math.Max(
             Math.Abs(afterBounds.Left - beforeBounds.Left),
             Math.Abs(afterBounds.Right - beforeBounds.Right));
@@ -234,16 +234,15 @@ public static class LaneGeometryProfile
                 ? 0
                 : anchors.Average(id =>
                     previous.Lanes[id].CenterMeters - raw.Lanes[id].CenterMeters);
-            result.Add(raw with
-            {
-                Lanes = raw.Lanes.ToDictionary(
+            result.Add(new SectionLayout(
+                raw.Section,
+                raw.Lanes.ToDictionary(
                     entry => entry.Key,
                     entry => entry.Value with
                     {
                         CenterMeters = entry.Value.CenterMeters + offset,
                     },
-                    StringComparer.Ordinal),
-            });
+                    StringComparer.Ordinal)));
         }
         return result;
     }
@@ -321,8 +320,8 @@ public static class LaneGeometryProfile
         double distanceMeters,
         double factor)
     {
-        var beforeBounds = GetLaneBounds(before.Lanes.Values);
-        var afterBounds = GetLaneBounds(after.Lanes.Values);
+        var beforeBounds = before.Bounds;
+        var afterBounds = after.Bounds;
         var lanes = new List<LaneGeometryLane>();
         foreach (var id in before.Lanes.Keys.Union(after.Lanes.Keys, StringComparer.Ordinal))
         {
@@ -376,8 +375,8 @@ public static class LaneGeometryProfile
 
     private static LaneGeometrySample ToSample(SectionLayout layout, double distanceMeters)
     {
-        var lanes = layout.Lanes.Values.OrderBy(lane => lane.CenterMeters).ToArray();
-        var bounds = GetLaneBounds(lanes);
+        var lanes = layout.OrderedLanes;
+        var bounds = layout.Bounds;
         return new LaneGeometrySample(
             distanceMeters,
             bounds.Left,
@@ -388,16 +387,20 @@ public static class LaneGeometryProfile
     }
 
     private static (double Left, double Right) GetLaneBounds(
-        IEnumerable<LaneGeometryLane> lanes)
+        IReadOnlyList<LaneGeometryLane> lanes)
     {
-        var active = lanes.Where(lane => lane.WidthMeters > 1e-9).ToArray();
-        if (active.Length == 0)
+        var left = double.PositiveInfinity;
+        var right = double.NegativeInfinity;
+        for (var index = 0; index < lanes.Count; index++)
         {
-            return (0, 0);
+            var lane = lanes[index];
+            if (lane.WidthMeters > 1e-9)
+            {
+                left = Math.Min(left, lane.CenterMeters - lane.WidthMeters / 2);
+                right = Math.Max(right, lane.CenterMeters + lane.WidthMeters / 2);
+            }
         }
-        return (
-            active.Min(lane => lane.CenterMeters - lane.WidthMeters / 2),
-            active.Max(lane => lane.CenterMeters + lane.WidthMeters / 2));
+        return double.IsPositiveInfinity(left) ? (0, 0) : (left, right);
     }
 
     private static double ClosestEdge((double Left, double Right) bounds, double target) =>
@@ -445,7 +448,23 @@ public static class LaneGeometryProfile
     private static double Lerp(double from, double to, double factor) =>
         from + (to - from) * factor;
 
-    private sealed record SectionLayout(
-        LaneSection Section,
-        IReadOnlyDictionary<string, LaneGeometryLane> Lanes);
+    private sealed class SectionLayout
+    {
+        public SectionLayout(
+            LaneSection section,
+            IReadOnlyDictionary<string, LaneGeometryLane> lanes)
+        {
+            Section = section;
+            Lanes = lanes;
+            // A layout is immutable once aligned. Share a read-only view so a
+            // caller cannot mutate the cached lane order through an array cast.
+            OrderedLanes = Array.AsReadOnly(lanes.Values.OrderBy(lane => lane.CenterMeters).ToArray());
+            Bounds = GetLaneBounds(OrderedLanes);
+        }
+
+        public LaneSection Section { get; }
+        public IReadOnlyDictionary<string, LaneGeometryLane> Lanes { get; }
+        public IReadOnlyList<LaneGeometryLane> OrderedLanes { get; }
+        public (double Left, double Right) Bounds { get; }
+    }
 }

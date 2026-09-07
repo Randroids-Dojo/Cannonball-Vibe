@@ -208,6 +208,11 @@ public sealed class RouteSemanticsTests
 
         Assert.Equal("after", edge.GetLaneSection(50).Id);
         Assert.Equal("after", edge.GetLaneSection(100).Id);
+        Assert.Equal("before", edge.GetLaneSection(50 - 2e-9).Id);
+        var unsorted = edge with { LaneSections = edge.LaneSections.Reverse().ToArray() };
+        Assert.Equal("before", unsorted.GetLaneSection(0).Id);
+        Assert.Equal("after", unsorted.GetLaneSection(50).Id);
+        Assert.Equal("after", unsorted.GetLaneSection(100).Id);
     }
 
     [Fact]

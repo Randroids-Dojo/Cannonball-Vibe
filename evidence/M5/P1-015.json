@@ -1,0 +1,3993 @@
+{
+  "schema_version": 1,
+  "task_id": "P1-015",
+  "milestone": "M5",
+  "status": "complete",
+  "git_revision": "c978d8b98c6874e1881fb525bc9a250346c47cba",
+  "runtime_capture_revision": "c978d8b98c6874e1881fb525bc9a250346c47cba",
+  "utc_time": "2026-09-07T00:06:43.481816+00:00",
+  "platform": {
+    "os": "macOS",
+    "version": "26.7",
+    "architecture": "arm64",
+    "cpu": "Apple M4 Max",
+    "gpu_cores": 40,
+    "memory_gb": 128,
+    "display_refresh_hz": 120
+  },
+  "tool_versions": {
+    "godot": "4.7.1.stable.mono.official.a13da4feb",
+    "dotnet_sdk": "10.0.102",
+    "game_coreclr": "10.0.2",
+    "target_framework": "net8.0",
+    "uv": "0.9.24",
+    "pipeline_python": "3.13.11",
+    "diagnostics": "dotnet-counters and dotnet-trace 10.0.731102",
+    "git_lfs": "3.7.1"
+  },
+  "engine": {
+    "path": ".tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot",
+    "sha256": "d11dc4a241ec29a347e13c8c7706e49433379ae1f9fc6a6e6819efb3891fce97",
+    "bytes": 348815024
+  },
+  "seed": 20260714,
+  "scenario_arguments_basis": "Each retained capture command includes complete argv; common seed is Main default 20260714.",
+  "input_artifacts": {
+    "route_package": {
+      "path": ".tools/scenarios/representative-corridor/route_graph-a88eb43cd49ef797575786101fbf97753392e0cd84650a07f080a2bacecc2e6a.cbrg",
+      "sha256": "0421d873c70807ac539a969939e665ddc89222fd234917f811bb166fc55fa87c",
+      "bytes": 232952
+    },
+    "route_package_twice_built_manifest": {
+      "path": "reports/mac-performance/before/route-package-reproducibility-representative-corridor.json",
+      "sha256": "2ff22facae91cd680fe877d8cdc9067ae1616f2791fd5c45eb382a31866ab67d",
+      "bytes": 15740
+    },
+    "baseline_source_hashes": {
+      "project.godot": "eaa5d2f676125eb5b88d1e460eb38c620b7eda19d263e262434d5338f2d5c99f",
+      "assets/vehicles/hero-gt/hero-gt.generated.tscn": "d0c73f14574e810932a7ae25ac3113ca1cff61c1bee5a41291d0b1df4e548d25",
+      "assets/vehicles/sourced/hero-gt/hero-gt_Metal016_1K-JPG_Color.jpg": "52aa55b60ef6dbd26d16593fed422e7f1f7941de108434db73e802ddc5f121f3",
+      "game/Vehicle/CannonballVehicle.cs": "5bc5201a8ad7d7abc19618ea04299cfdd15428e3a1efc20a093ce69e6f4eead9",
+      "game/Automation/ReferencePerformanceScenario.cs": "bb2014619d9b29d4f99e165bd7023e73c521c46586f6d9cf3c998b22ba4d0ec2",
+      "reports/mac-performance/before/input.patch": "4c8541edd34796035fc58c54e281ac4d3ae02b7f47fb1443931ec3d5769f9f46"
+    },
+    "baseline_runtime": [
+      {
+        "path": "reports/mac-performance/before/runtime/Cannonball.Core.dll",
+        "sha256": "e2dc2ecbeecd52a5d84c574a0f2484a2f82651871e8996c7c1e46f633d2e7f40",
+        "bytes": 408576
+      },
+      {
+        "path": "reports/mac-performance/before/runtime/Cannonball.dll",
+        "sha256": "98fcedf3c4f117352c8a3c370f51da6ec0399b0fc9af1f9b070c088cf2fcddb6",
+        "bytes": 937472
+      }
+    ],
+    "source_files": [
+      {
+        "path": "assets/environments/shaders/conifer_impostor.gdshader",
+        "sha256": "0d22fb15f60e730f96c76bfdf30bd6164884db258d1f2241169c970b5649dcff",
+        "bytes": 449
+      },
+      {
+        "path": "assets/environments/shaders/conifer_lod_fade.gdshaderinc",
+        "sha256": "56e87c40b984ea51409de3569cbecad30a6ea3a5ec6faac1f7276d11013fd836",
+        "bytes": 393
+      },
+      {
+        "path": "assets/environments/shaders/conifer_needles.gdshader",
+        "sha256": "35dd8f91bcdb82a4095be5fcbe3f0a919020988cc41445f4e21621fcaab658f8",
+        "bytes": 1926
+      },
+      {
+        "path": "export_presets.cfg",
+        "sha256": "aa145597353db7da7b0df884a610102806abde9442da178423a77dea03840f71",
+        "bytes": 3546
+      },
+      {
+        "path": "game/Automation/CameraInterpolationProbe.cs",
+        "sha256": "be376ff11b144a7da3792468b2632e471aeeb3195420b1169e216fb436b6eb1f",
+        "bytes": 2631
+      },
+      {
+        "path": "game/Automation/CameraInterpolationProbe.tscn",
+        "sha256": "29d029d416d5247a84bad840670ccf0827a75abfce8876abf8a30f1bdf9e987d",
+        "bytes": 207
+      },
+      {
+        "path": "game/Automation/ReferencePerformanceScenario.cs",
+        "sha256": "1e58e75e0327a67f2a6327b62a7138c480c5595f04c45bc0eb59c1549eb082a3",
+        "bytes": 73641
+      },
+      {
+        "path": "game/Camera/ChaseCameraRig.cs",
+        "sha256": "863b28f0980b623145b93282f692c05a5a14169608ce614868ba23afa11551ba",
+        "bytes": 11593
+      },
+      {
+        "path": "game/Camera/CockpitCameraRig.cs",
+        "sha256": "c866cb5c87a875e3519f16aea440a4786fd3af03b0995445b1dc01beec7b9f5b",
+        "bytes": 7541
+      },
+      {
+        "path": "game/Input/GameInputMap.cs",
+        "sha256": "a6f8a35501c5d598c62e3f69209aeef233d9174493082b778e4daba6ce07cb2e",
+        "bytes": 7878
+      },
+      {
+        "path": "game/Main.cs",
+        "sha256": "fdc58928c3833acc13f83789c5b9ffdaf4bbd989129189acc9de121cc0c7bae8",
+        "bytes": 158505
+      },
+      {
+        "path": "game/UI/TripMap/TripMapHud.cs",
+        "sha256": "48fd33a7c4d3d56238ec171292a8e375de90bbb13bd6239d8ddac3e07a440dbb",
+        "bytes": 15828
+      },
+      {
+        "path": "game/Vehicle/CannonballVehicle.cs",
+        "sha256": "92fe864e7e532f2d4c5b65a48071dfa7a3303b898037a6a2298e7ffed1909ac5",
+        "bytes": 27796
+      },
+      {
+        "path": "game/Vehicle/DrivingInputController.cs",
+        "sha256": "fb31a67e42c1a9379f6e895bd05b4e52924027713a3d7f7e7ac223498b32680f",
+        "bytes": 11922
+      },
+      {
+        "path": "game/World/Environment/EnvironmentVisualKit.cs",
+        "sha256": "d32ee3cd8261c5a051969d522bec2b3734408cc401b37434461f8a723d96b248",
+        "bytes": 17703
+      },
+      {
+        "path": "game/World/Environment/RegionalEnvironmentChunk.cs",
+        "sha256": "a1cd131048aee6728f3745c7f4d05ff05a6040864e99c2b6db2a0db750108d36",
+        "bytes": 24420
+      },
+      {
+        "path": "game/World/WorldStreamer.cs",
+        "sha256": "324a11e967da364f83748bde9dd41527d242f8147b2002d512f14a6fda9d8084",
+        "bytes": 82072
+      },
+      {
+        "path": "scripts/capture-reference-performance.sh",
+        "sha256": "27f21715ce14ccbd397281b014504a7e6bb1e29ed6437d09416a32ab5aef6d74",
+        "bytes": 22452
+      },
+      {
+        "path": "scripts/check.sh",
+        "sha256": "80840b5856ca92f3ca940bf905113207bcd62cc9c4dad0bb2809124930b16f90",
+        "bytes": 3358
+      },
+      {
+        "path": "scripts/check_frame_allocations.py",
+        "sha256": "aba1af1bf60e60d759aab7f8b8a555bcfa6443c72ae27bce7f6ebcea1da2f3c1",
+        "bytes": 6500
+      },
+      {
+        "path": "scripts/run_with_timeout.py",
+        "sha256": "2aeaec94b4c6ee1277f43e6e3239c63e1cb2c1a0bcab12ec2eb2d545e2d145f9",
+        "bytes": 788
+      },
+      {
+        "path": "src/Cannonball.Core/Routes/LaneGeometryProfile.cs",
+        "sha256": "e1ab70b8ee1bbb3471db436a9357cc78b28db5ccf1d60b40beddae554ed8324f",
+        "bytes": 19088
+      },
+      {
+        "path": "src/Cannonball.Core/Routes/LinearRoutePlan.cs",
+        "sha256": "35cd19231004374c27e40e164da28e66fabe84c377edf642b0ee49eea6025cda",
+        "bytes": 4159
+      },
+      {
+        "path": "src/Cannonball.Core/Routes/RouteSemantics.cs",
+        "sha256": "3b3f031d8231a8fc05851890156dab2a38a7ba28aeb0ce8e33c39b9e505b01b1",
+        "bytes": 9752
+      }
+    ],
+    "local_art_and_settings": [
+      {
+        "path": "project.godot",
+        "sha256": "eaa5d2f676125eb5b88d1e460eb38c620b7eda19d263e262434d5338f2d5c99f",
+        "bytes": 1101
+      },
+      {
+        "path": "assets/vehicles/hero-gt/hero-gt.generated.tscn",
+        "sha256": "d0c73f14574e810932a7ae25ac3113ca1cff61c1bee5a41291d0b1df4e548d25",
+        "bytes": 5436547
+      },
+      {
+        "path": "assets/vehicles/hero-gt/hero-gt.generated.textures.json",
+        "sha256": "f2b82a9364596d4664f85301659fc14e04060a3f73de3cf45b07a872e27b908a",
+        "bytes": 5482
+      },
+      {
+        "path": "assets/vehicles/sourced/hero-gt/hero-gt_Metal016_1K-JPG_Color.jpg",
+        "sha256": "52aa55b60ef6dbd26d16593fed422e7f1f7941de108434db73e802ddc5f121f3",
+        "bytes": 1261784
+      }
+    ],
+    "final_measured_runtime": [
+      {
+        "path": "reports/mac-performance/final-runtime/Cannonball.Core.dll",
+        "sha256": "5fdda8d3d699bc782202f3222ddb6dbe39a17bb827219c116e51f7b77e96fe17",
+        "bytes": 407040
+      },
+      {
+        "path": "reports/mac-performance/final-runtime/Cannonball.deps.json",
+        "sha256": "38d97498260b64263573ff613f7de5601860e52cba79575ad67bb486f2921674",
+        "bytes": 2576
+      },
+      {
+        "path": "reports/mac-performance/final-runtime/Cannonball.dll",
+        "sha256": "7e6478277a4d991c0f499dd420108f00209d284f5eac8ea3fe41b233ae2f0efa",
+        "bytes": 945152
+      },
+      {
+        "path": "reports/mac-performance/final-runtime/Cannonball.runtimeconfig.json",
+        "sha256": "d6ba3df934e0856b41bec3ba9cfc8f326aa4873dc9a504bfeee391a40d64ce65",
+        "bytes": 363
+      },
+      {
+        "path": "reports/mac-performance/final-runtime/revision.txt",
+        "sha256": "422c81cf1e4247b73c34006848cd784941be9f8dac87391e74761f37d4bc6031",
+        "bytes": 41
+      }
+    ],
+    "integrated_measured_runtime": [
+      {
+        "path": "reports/mac-performance/integrated-runtime/Cannonball.Core.dll",
+        "sha256": "b30c37b44a85e5b33928dbeff06ee328a29bf43aa3e618d62de662881a52f7de",
+        "bytes": 407040
+      },
+      {
+        "path": "reports/mac-performance/integrated-runtime/Cannonball.deps.json",
+        "sha256": "38d97498260b64263573ff613f7de5601860e52cba79575ad67bb486f2921674",
+        "bytes": 2576
+      },
+      {
+        "path": "reports/mac-performance/integrated-runtime/Cannonball.dll",
+        "sha256": "ebafad135111d0660dfd03d1b6d13aab24c1f7a79ac7cba95bc9bc86943c0bde",
+        "bytes": 962048
+      },
+      {
+        "path": "reports/mac-performance/integrated-runtime/Cannonball.runtimeconfig.json",
+        "sha256": "d6ba3df934e0856b41bec3ba9cfc8f326aa4873dc9a504bfeee391a40d64ce65",
+        "bytes": 363
+      },
+      {
+        "path": "reports/mac-performance/integrated-runtime/revision.txt",
+        "sha256": "e8c6abe4baf3e29f9af5e341a4ddbdc280deea63f8886d845c85c42817f27403",
+        "bytes": 41
+      }
+    ]
+  },
+  "captures": [
+    {
+      "scenario": "before-night-1",
+      "art": "preserved local red",
+      "phase": "baseline plus input-parity and pause instrumentation",
+      "source_revision_note": "308a13afed5e14ede734b664e963c76aefd9ff62 plus before/input.patch",
+      "summary": {
+        "path": "reports/mac-performance/before/reference-performance-before-night-1.json",
+        "sha256": "8e087da2cdbdd606ab71f73491b24611afc9684c68327d08e8315a09cc8c84d6",
+        "bytes": 9706
+      },
+      "configuration": {
+        "width_pixels": 2560,
+        "height_pixels": 1440,
+        "actual_window_size": "2560x1440",
+        "content_scale_size_2d": "1920x1080",
+        "three_d_render_size": "2560x1440",
+        "three_d_render_size_basis": "canvas_items stretch scales 2D only; 3D renders at window resolution.",
+        "rendering_method": "forward_plus",
+        "build_configuration": "Release",
+        "headless": false,
+        "vsync_enabled": false,
+        "engine_max_fps": 0,
+        "frame_time_source": "Time.GetTicksUsec monotonic clock (not the smoothed engine delta)",
+        "physics_jitter_fix": 0.5,
+        "physics_ticks_per_second": 120,
+        "lighting": "night",
+        "camera": "chase",
+        "environment_quality": "high",
+        "road_profile": "production",
+        "target_speed_mps": 50,
+        "manual_input_sampled_during_autopilot": true,
+        "corridor_loop_enabled": true,
+        "video_adapter": "Apple M4 Max (Apple9)",
+        "video_adapter_api_version": "4.0",
+        "screen_refresh_hz": 120
+      },
+      "warmup": {
+        "requested_seconds": 20,
+        "observed_seconds": 20.00486800000001,
+        "discarded": true
+      },
+      "measurement": {
+        "measured_seconds": 60.004768,
+        "frames": 7339,
+        "mean_fps": 122.30694734125129
+      },
+      "frame_time_ms": {
+        "p50": 8.1475,
+        "p95": 11.352500000000001,
+        "p99": 14.8825,
+        "maximum": 18.135,
+        "mean": 8.176150429213811
+      },
+      "render_cpu_mean_ms": 0.5504079573094999,
+      "render_gpu_mean_ms": null,
+      "gpu_timing_available": false,
+      "garbage_collection": {
+        "pause_milliseconds": 40.241,
+        "gen0_collections": 6,
+        "gen1_collections": 3,
+        "gen2_collections": 0,
+        "allocated_bytes_during_measurement": 47095008,
+        "harness_allocated_bytes": 1269976,
+        "game_allocated_bytes": 45825032,
+        "harness_share_of_allocation": 0.02696625510712303,
+        "game_allocated_bytes_per_frame": 6244.04305763728,
+        "gen0_collections_per_second": 0.09999205396477827
+      },
+      "stalls": {
+        "threshold_ms": 20,
+        "total_count": 0,
+        "steady_driving_count": 0,
+        "loop_wrap_attributed_count": 0,
+        "attribution": {
+          "with_a_garbage_collection": 0,
+          "with_streaming_work": 0,
+          "with_no_attributable_work": 0,
+          "counters": "GC generation counts and WorldStreamer cumulative counters, differenced frame to frame",
+          "boundary": "These counters show what work coincided with a stall. They do not time that work, so a coincidence is not a cause."
+        }
+      },
+      "streaming": {
+        "cumulative_route_distance_m": 3000.3246046697386,
+        "final_route_position_m": 4058.0081221257856,
+        "starting_route_position_m": 1057.683517456047,
+        "maximum_chunk_build_ms": 36.4993,
+        "maximum_collision_build_ms": 9.8247,
+        "maximum_environment_build_ms": 6.996,
+        "loaded_chunks": 9,
+        "maximum_visual_chunks": 14,
+        "maximum_collision_chunks": 9,
+        "chunk_failures": 0,
+        "rebases": 3,
+        "corridor_loops": 0,
+        "collision_builds": 11,
+        "collision_removals": 9
+      },
+      "memory": {
+        "starting_working_set_bytes": 568819712,
+        "peak_working_set_bytes": 575488000,
+        "peak_video_memory_bytes": 856309760,
+        "peak_texture_memory_bytes": 686422784,
+        "peak_buffer_memory_bytes": 53825868,
+        "sample_count": 119,
+        "working_set_trend": {
+          "sample_count": 119,
+          "slope_bytes_per_minute": 4096084.624164729,
+          "r_squared": 0.7551759598818145,
+          "first_bytes": 568967168,
+          "last_bytes": 573079552
+        },
+        "video_memory_trend": {
+          "sample_count": 119,
+          "slope_bytes_per_minute": 144961.15615603808,
+          "r_squared": 0.29421147818151594,
+          "first_bytes": 856014848,
+          "last_bytes": 856309760
+        },
+        "managed_heap_trend": {
+          "sample_count": 119,
+          "slope_bytes_per_minute": -281936.8540603806,
+          "r_squared": 0.0004309219501437145,
+          "first_bytes": 20496032,
+          "last_bytes": 17251000
+        }
+      },
+      "mean_draw_calls": 1434.1372121542445,
+      "shared_environment_materials": 9,
+      "acceptance_comparisons": {
+        "p95_frame_ms": {
+          "measured": 11.352500000000001,
+          "limit": 16.67,
+          "applicable": true,
+          "passed": true,
+          "note": "Uncapped run judged against the ADR-0023 p95 limit."
+        },
+        "cap_adherence": {
+          "applicable": false,
+          "note": "Uncapped run; judged on the percentile limits above."
+        },
+        "p99_frame_ms": {
+          "measured": 14.8825,
+          "limit": 20,
+          "passed": true
+        },
+        "steady_driving_stalls_over_threshold": {
+          "measured": 0,
+          "limit": 0,
+          "passed": true,
+          "acceptance_threshold_ms": 20,
+          "recording_threshold_ms": 20
+        },
+        "gpu_memory_bytes": {
+          "measured": 856309760,
+          "limit": 9500000000,
+          "passed": true
+        },
+        "working_set_bytes": {
+          "measured": 575488000,
+          "limit": 16000000000,
+          "passed": true
+        },
+        "sustained_memory_growth": {
+          "working_set_slope_bytes_per_minute": 4096084.624164729,
+          "working_set_r_squared": 0.7551759598818145,
+          "evaluated": false,
+          "criterion": "slope > 1 MiB/min AND R^2 >= 0.5 over the measured window",
+          "criterion_status": "ratified 2026-08-14 (ADR-0023 Q-022d)",
+          "passed": true,
+          "note": "Run shorter than 30 minutes; slope is reported but the ADR-0023 sustained-growth threshold is not evaluated by this run."
+        }
+      },
+      "shipping_gate_passed": false,
+      "command": {
+        "entrypoint": "scripts/capture-reference-performance.sh",
+        "exact_invocation_retained": false,
+        "note": "Initial exploratory capture; configuration and raw data retained. The 120-second paired baseline below retains exact argv.",
+        "exit_status": 0
+      }
+    },
+    {
+      "scenario": "after-blue-night",
+      "art": "committed navy",
+      "phase": "camera and allocation fixes before tree change",
+      "source_revision_note": "Runtime changes from 614033d; final tree shaders from b6cfcac; initial V-Sync capture built at 693b6db",
+      "summary": {
+        "path": "reports/mac-performance/after-blue-night/summary.json",
+        "sha256": "eada0ab00f3cfc15a7b8fe2efe26bdc84af3658edefe85613c0f55bf64112802",
+        "bytes": 11104
+      },
+      "configuration": {
+        "width_pixels": 2560,
+        "height_pixels": 1440,
+        "actual_window_size": "2560x1440",
+        "content_scale_size_2d": "1920x1080",
+        "three_d_render_size": "2560x1440",
+        "three_d_render_size_basis": "canvas_items stretch scales 2D only; 3D renders at window resolution.",
+        "rendering_method": "forward_plus",
+        "build_configuration": "Release",
+        "managed_runtime": "10.0.2",
+        "gc_gen0_size_environment": "800000",
+        "headless": false,
+        "vsync_enabled": false,
+        "engine_max_fps": 0,
+        "frame_time_source": "Time.GetTicksUsec monotonic clock (not the smoothed engine delta)",
+        "physics_jitter_fix": 0.5,
+        "physics_ticks_per_second": 120,
+        "physics_interpolation_enabled": true,
+        "lighting": "night",
+        "camera": "chase",
+        "environment_quality": "high",
+        "road_profile": "production",
+        "target_speed_mps": 50,
+        "manual_input_sampled_during_autopilot": true,
+        "corridor_loop_enabled": true,
+        "video_adapter": "Apple M4 Max (Apple9)",
+        "video_adapter_api_version": "4.0",
+        "screen_refresh_hz": 120
+      },
+      "warmup": {
+        "requested_seconds": 20,
+        "observed_seconds": 20.00440200000004,
+        "discarded": true
+      },
+      "measurement": {
+        "measured_seconds": 60.004547,
+        "frames": 7387,
+        "mean_fps": 123.1073371822972
+      },
+      "frame_time_ms": {
+        "p50": 7.9125000000000005,
+        "p95": 12.3625,
+        "p99": 15.2075,
+        "maximum": 20.297,
+        "mean": 8.122992689860567
+      },
+      "render_cpu_mean_ms": 0.5666948696491246,
+      "render_gpu_mean_ms": null,
+      "gpu_timing_available": false,
+      "garbage_collection": {
+        "pause_milliseconds": 3.752,
+        "gen0_collections": 1,
+        "gen1_collections": 1,
+        "gen2_collections": 0,
+        "allocated_bytes_during_measurement": 13393208,
+        "harness_allocated_bytes": 1082400,
+        "game_allocated_bytes": 12310808,
+        "harness_share_of_allocation": 0.08081708280794266,
+        "game_allocated_bytes_per_frame": 1666.5504264248004,
+        "gen0_collections_per_second": 0.01666540370682242
+      },
+      "stalls": {
+        "threshold_ms": 20,
+        "total_count": 1,
+        "steady_driving_count": 1,
+        "loop_wrap_attributed_count": 0,
+        "attribution": {
+          "with_a_garbage_collection": 0,
+          "with_streaming_work": 0,
+          "with_no_attributable_work": 1,
+          "counters": "GC generation counts and WorldStreamer cumulative counters, differenced frame to frame",
+          "boundary": "These counters show what work coincided with a stall. They do not time that work, so a coincidence is not a cause."
+        }
+      },
+      "streaming": {
+        "cumulative_route_distance_m": 3000.7411542774717,
+        "final_route_position_m": 4058.4246717335186,
+        "starting_route_position_m": 1057.683517456047,
+        "maximum_chunk_build_ms": 27.6792,
+        "maximum_collision_build_ms": 8.4697,
+        "maximum_environment_build_ms": 13.3315,
+        "loaded_chunks": 9,
+        "maximum_visual_chunks": 14,
+        "maximum_collision_chunks": 9,
+        "chunk_failures": 0,
+        "rebases": 3,
+        "corridor_loops": 0,
+        "collision_builds": 11,
+        "collision_removals": 9
+      },
+      "memory": {
+        "starting_working_set_bytes": 506757120,
+        "peak_working_set_bytes": 511688704,
+        "peak_video_memory_bytes": 847691776,
+        "peak_texture_memory_bytes": 685718272,
+        "peak_buffer_memory_bytes": 53825932,
+        "sample_count": 119,
+        "working_set_trend": {
+          "sample_count": 119,
+          "slope_bytes_per_minute": 4991001.438422451,
+          "r_squared": 0.9074673934278699,
+          "first_bytes": 506888192,
+          "last_bytes": 511688704
+        },
+        "video_memory_trend": {
+          "sample_count": 119,
+          "slope_bytes_per_minute": 145019.23960665383,
+          "r_squared": 0.2943196411938247,
+          "first_bytes": 847396864,
+          "last_bytes": 847691776
+        },
+        "managed_heap_trend": {
+          "sample_count": 119,
+          "slope_bytes_per_minute": -2333309.411614054,
+          "r_squared": 0.06778532201056642,
+          "first_bytes": 12596568,
+          "last_bytes": 15195816
+        }
+      },
+      "mean_draw_calls": 1431.9343441180451,
+      "shared_environment_materials": 9,
+      "acceptance_comparisons": {
+        "p95_frame_ms": {
+          "measured": 12.3625,
+          "limit": 16.67,
+          "applicable": true,
+          "passed": true,
+          "note": "Uncapped run judged against the ADR-0023 p95 limit."
+        },
+        "cap_adherence": {
+          "applicable": false,
+          "note": "Uncapped run; judged on the percentile limits above."
+        },
+        "p99_frame_ms": {
+          "measured": 15.2075,
+          "limit": 20,
+          "passed": true
+        },
+        "steady_driving_stalls_over_threshold": {
+          "measured": 1,
+          "limit": 0,
+          "passed": false,
+          "acceptance_threshold_ms": 20,
+          "recording_threshold_ms": 20
+        },
+        "gpu_memory_bytes": {
+          "measured": 847691776,
+          "limit": 9500000000,
+          "passed": true
+        },
+        "working_set_bytes": {
+          "measured": 511688704,
+          "limit": 16000000000,
+          "passed": true
+        },
+        "sustained_memory_growth": {
+          "working_set_slope_bytes_per_minute": 4991001.438422451,
+          "working_set_r_squared": 0.9074673934278699,
+          "evaluated": false,
+          "criterion": "slope > 1 MiB/min AND R^2 >= 0.5 over the measured window",
+          "criterion_status": "ratified 2026-08-14 (ADR-0023 Q-022d)",
+          "passed": true,
+          "note": "Run shorter than 30 minutes; slope is reported but the ADR-0023 sustained-growth threshold is not evaluated by this run."
+        }
+      },
+      "shipping_gate_passed": false,
+      "command": {
+        "command": [
+          "/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/scripts/godot.sh",
+          "--rendering-method",
+          "forward_plus",
+          "--resolution",
+          "2560x1440",
+          "--path",
+          "/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf",
+          "--",
+          "--route-package=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/.tools/scenarios/representative-corridor/route_graph-a88eb43cd49ef797575786101fbf97753392e0cd84650a07f080a2bacecc2e6a.cbrg",
+          "--reference-performance-profile",
+          "--reference-scenario=after-blue-night",
+          "--reference-lighting=night",
+          "--reference-camera=chase",
+          "--reference-resolution=2560x1440",
+          "--reference-speed-mps=50",
+          "--reference-warmup-seconds=20",
+          "--reference-measure-seconds=60",
+          "--reference-vsync=false",
+          "--reference-max-fps=0",
+          "--reference-loop-corridor=true",
+          "--reference-summary=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/reports/mac-performance/after-blue-night/summary.json",
+          "--reference-samples=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/reports/mac-performance/after-blue-night/samples.jsonl",
+          "--environment-quality=high",
+          "--telemetry-path=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/reports/mac-performance/after-blue-night/telemetry.jsonl"
+        ],
+        "started_utc": "2026-09-06T23:00:27Z",
+        "old_runtime_temporarily_suspended": true,
+        "gpu_contention": "Unknown: nvidia-smi is unavailable on Apple Silicon. Other applications remain open.",
+        "exit_status": 0,
+        "finished_utc": "2026-09-06T23:02:03Z"
+      },
+      "command_artifact": {
+        "path": "reports/mac-performance/after-blue-night/command.json",
+        "sha256": "47c0dead73068fcff0b9b103596a9f78d6635868722a0085d2e041a2479b917a",
+        "bytes": 1565
+      }
+    },
+    {
+      "scenario": "after-red-night-1",
+      "art": "preserved local red",
+      "phase": "camera and allocation fixes before tree change",
+      "source_revision_note": "Runtime changes from 614033d; final tree shaders from b6cfcac; initial V-Sync capture built at 693b6db",
+      "summary": {
+        "path": "reports/mac-performance/after-red-night-1/summary.json",
+        "sha256": "9d66a0fc7a620e47e547ba2065506dc673bf62730c3dfe5c79085a16f83d84d0",
+        "bytes": 9797
+      },
+      "configuration": {
+        "width_pixels": 2560,
+        "height_pixels": 1440,
+        "actual_window_size": "2560x1440",
+        "content_scale_size_2d": "1920x1080",
+        "three_d_render_size": "2560x1440",
+        "three_d_render_size_basis": "canvas_items stretch scales 2D only; 3D renders at window resolution.",
+        "rendering_method": "forward_plus",
+        "build_configuration": "Release",
+        "managed_runtime": "10.0.2",
+        "gc_gen0_size_environment": "800000",
+        "headless": false,
+        "vsync_enabled": false,
+        "engine_max_fps": 0,
+        "frame_time_source": "Time.GetTicksUsec monotonic clock (not the smoothed engine delta)",
+        "physics_jitter_fix": 0.5,
+        "physics_ticks_per_second": 120,
+        "physics_interpolation_enabled": true,
+        "lighting": "night",
+        "camera": "chase",
+        "environment_quality": "high",
+        "road_profile": "production",
+        "target_speed_mps": 50,
+        "manual_input_sampled_during_autopilot": true,
+        "corridor_loop_enabled": true,
+        "video_adapter": "Apple M4 Max (Apple9)",
+        "video_adapter_api_version": "4.0",
+        "screen_refresh_hz": 120
+      },
+      "warmup": {
+        "requested_seconds": 20,
+        "observed_seconds": 20.009418,
+        "discarded": true
+      },
+      "measurement": {
+        "measured_seconds": 60.006854,
+        "frames": 6966,
+        "mean_fps": 116.0867390248454
+      },
+      "frame_time_ms": {
+        "p50": 8.3825,
+        "p95": 12.0775,
+        "p99": 15.7075,
+        "maximum": 18.762,
+        "mean": 8.61424834912432
+      },
+      "render_cpu_mean_ms": 0.5736360896636521,
+      "render_gpu_mean_ms": null,
+      "gpu_timing_available": false,
+      "garbage_collection": {
+        "pause_milliseconds": 2.33,
+        "gen0_collections": 1,
+        "gen1_collections": 1,
+        "gen2_collections": 0,
+        "allocated_bytes_during_measurement": 13260576,
+        "harness_allocated_bytes": 1114176,
+        "game_allocated_bytes": 12146400,
+        "harness_share_of_allocation": 0.08402168955556681,
+        "game_allocated_bytes_per_frame": 1743.669250645995,
+        "gen0_collections_per_second": 0.01666476299524051
+      },
+      "stalls": {
+        "threshold_ms": 20,
+        "total_count": 0,
+        "steady_driving_count": 0,
+        "loop_wrap_attributed_count": 0,
+        "attribution": {
+          "with_a_garbage_collection": 0,
+          "with_streaming_work": 0,
+          "with_no_attributable_work": 0,
+          "counters": "GC generation counts and WorldStreamer cumulative counters, differenced frame to frame",
+          "boundary": "These counters show what work coincided with a stall. They do not time that work, so a coincidence is not a cause."
+        }
+      },
+      "streaming": {
+        "cumulative_route_distance_m": 3000.3244483520966,
+        "final_route_position_m": 4058.8412520935467,
+        "starting_route_position_m": 1058.51680374145,
+        "maximum_chunk_build_ms": 14.0637,
+        "maximum_collision_build_ms": 8.7563,
+        "maximum_environment_build_ms": 6.9157,
+        "loaded_chunks": 9,
+        "maximum_visual_chunks": 14,
+        "maximum_collision_chunks": 9,
+        "chunk_failures": 0,
+        "rebases": 3,
+        "corridor_loops": 0,
+        "collision_builds": 11,
+        "collision_removals": 9
+      },
+      "memory": {
+        "starting_working_set_bytes": 497713152,
+        "peak_working_set_bytes": 502530048,
+        "peak_video_memory_bytes": 850018304,
+        "peak_texture_memory_bytes": 686422784,
+        "peak_buffer_memory_bytes": 53825868,
+        "sample_count": 119,
+        "working_set_trend": {
+          "sample_count": 119,
+          "slope_bytes_per_minute": 4725334.5180184785,
+          "r_squared": 0.9169130974237849,
+          "first_bytes": 497844224,
+          "last_bytes": 502530048
+        },
+        "video_memory_trend": {
+          "sample_count": 119,
+          "slope_bytes_per_minute": 145113.75736972457,
+          "r_squared": 0.2947185714461372,
+          "first_bytes": 849723392,
+          "last_bytes": 850018304
+        },
+        "managed_heap_trend": {
+          "sample_count": 119,
+          "slope_bytes_per_minute": -2276060.4817244513,
+          "r_squared": 0.06459669082200692,
+          "first_bytes": 12618344,
+          "last_bytes": 15239624
+        }
+      },
+      "mean_draw_calls": 1434.040482342808,
+      "shared_environment_materials": 9,
+      "acceptance_comparisons": {
+        "p95_frame_ms": {
+          "measured": 12.0775,
+          "limit": 16.67,
+          "applicable": true,
+          "passed": true,
+          "note": "Uncapped run judged against the ADR-0023 p95 limit."
+        },
+        "cap_adherence": {
+          "applicable": false,
+          "note": "Uncapped run; judged on the percentile limits above."
+        },
+        "p99_frame_ms": {
+          "measured": 15.7075,
+          "limit": 20,
+          "passed": true
+        },
+        "steady_driving_stalls_over_threshold": {
+          "measured": 0,
+          "limit": 0,
+          "passed": true,
+          "acceptance_threshold_ms": 20,
+          "recording_threshold_ms": 20
+        },
+        "gpu_memory_bytes": {
+          "measured": 850018304,
+          "limit": 9500000000,
+          "passed": true
+        },
+        "working_set_bytes": {
+          "measured": 502530048,
+          "limit": 16000000000,
+          "passed": true
+        },
+        "sustained_memory_growth": {
+          "working_set_slope_bytes_per_minute": 4725334.5180184785,
+          "working_set_r_squared": 0.9169130974237849,
+          "evaluated": false,
+          "criterion": "slope > 1 MiB/min AND R^2 >= 0.5 over the measured window",
+          "criterion_status": "ratified 2026-08-14 (ADR-0023 Q-022d)",
+          "passed": true,
+          "note": "Run shorter than 30 minutes; slope is reported but the ADR-0023 sustained-growth threshold is not evaluated by this run."
+        }
+      },
+      "shipping_gate_passed": false,
+      "command": {
+        "command": [
+          "/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/scripts/godot.sh",
+          "--rendering-method",
+          "forward_plus",
+          "--resolution",
+          "2560x1440",
+          "--path",
+          "/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf",
+          "--",
+          "--route-package=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/.tools/scenarios/representative-corridor/route_graph-a88eb43cd49ef797575786101fbf97753392e0cd84650a07f080a2bacecc2e6a.cbrg",
+          "--reference-performance-profile",
+          "--reference-scenario=after-red-night-1",
+          "--reference-lighting=night",
+          "--reference-camera=chase",
+          "--reference-resolution=2560x1440",
+          "--reference-speed-mps=50",
+          "--reference-warmup-seconds=20",
+          "--reference-measure-seconds=60",
+          "--reference-vsync=false",
+          "--reference-max-fps=0",
+          "--reference-loop-corridor=true",
+          "--reference-summary=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/reports/mac-performance/after-red-night-1/summary.json",
+          "--reference-samples=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/reports/mac-performance/after-red-night-1/samples.jsonl",
+          "--environment-quality=high",
+          "--telemetry-path=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/reports/mac-performance/after-red-night-1/telemetry.jsonl"
+        ],
+        "started_utc": "2026-09-06T23:02:28Z",
+        "old_runtime_temporarily_suspended": true,
+        "gpu_contention": "Unknown: nvidia-smi is unavailable on Apple Silicon. Other applications remain open.",
+        "exit_status": 0,
+        "finished_utc": "2026-09-06T23:03:53Z"
+      },
+      "command_artifact": {
+        "path": "reports/mac-performance/after-red-night-1/command.json",
+        "sha256": "cc092ffdd056219c3bf0841d5a74874a3706f4b9c1e53e75416cff4ff56e1051",
+        "bytes": 1569
+      }
+    },
+    {
+      "scenario": "after-tree-dither-night",
+      "art": "preserved local red",
+      "phase": "final tree shaders plus camera and allocation fixes",
+      "source_revision_note": "Runtime changes from 614033d; final tree shaders from b6cfcac; initial V-Sync capture built at 693b6db",
+      "summary": {
+        "path": "reports/mac-performance/after-tree-dither-night/summary.json",
+        "sha256": "c3d2e4b6c776542beb3541a71664b5920bc30b50c6de78a9e8d9d836d7df92a3",
+        "bytes": 15034
+      },
+      "configuration": {
+        "width_pixels": 2560,
+        "height_pixels": 1440,
+        "actual_window_size": "2560x1440",
+        "content_scale_size_2d": "1920x1080",
+        "three_d_render_size": "2560x1440",
+        "three_d_render_size_basis": "canvas_items stretch scales 2D only; 3D renders at window resolution.",
+        "rendering_method": "forward_plus",
+        "build_configuration": "Release",
+        "managed_runtime": "10.0.2",
+        "gc_gen0_size_environment": "800000",
+        "headless": false,
+        "vsync_enabled": false,
+        "engine_max_fps": 0,
+        "frame_time_source": "Time.GetTicksUsec monotonic clock (not the smoothed engine delta)",
+        "physics_jitter_fix": 0.5,
+        "physics_ticks_per_second": 120,
+        "physics_interpolation_enabled": true,
+        "lighting": "night",
+        "camera": "chase",
+        "environment_quality": "high",
+        "road_profile": "production",
+        "target_speed_mps": 50,
+        "manual_input_sampled_during_autopilot": true,
+        "corridor_loop_enabled": true,
+        "video_adapter": "Apple M4 Max (Apple9)",
+        "video_adapter_api_version": "4.0",
+        "screen_refresh_hz": 120
+      },
+      "warmup": {
+        "requested_seconds": 20,
+        "observed_seconds": 20.010206000000014,
+        "discarded": true
+      },
+      "measurement": {
+        "measured_seconds": 120.001208,
+        "frames": 14084,
+        "mean_fps": 117.36548518744911
+      },
+      "frame_time_ms": {
+        "p50": 8.4075,
+        "p95": 12.6725,
+        "p99": 14.967500000000001,
+        "maximum": 23.304,
+        "mean": 8.520392502130044
+      },
+      "render_cpu_mean_ms": 0.5652185460360543,
+      "render_gpu_mean_ms": null,
+      "gpu_timing_available": false,
+      "garbage_collection": {
+        "pause_milliseconds": 4.773,
+        "gen0_collections": 2,
+        "gen1_collections": 1,
+        "gen2_collections": 0,
+        "allocated_bytes_during_measurement": 24185616,
+        "harness_allocated_bytes": 2255720,
+        "game_allocated_bytes": 21929896,
+        "harness_share_of_allocation": 0.09326700630655842,
+        "game_allocated_bytes_per_frame": 1557.07867083215,
+        "gen0_collections_per_second": 0.016666498890577836
+      },
+      "stalls": {
+        "threshold_ms": 20,
+        "total_count": 4,
+        "steady_driving_count": 4,
+        "loop_wrap_attributed_count": 0,
+        "attribution": {
+          "with_a_garbage_collection": 0,
+          "with_streaming_work": 0,
+          "with_no_attributable_work": 4,
+          "counters": "GC generation counts and WorldStreamer cumulative counters, differenced frame to frame",
+          "boundary": "These counters show what work coincided with a stall. They do not time that work, so a coincidence is not a cause."
+        }
+      },
+      "streaming": {
+        "cumulative_route_distance_m": 5998.442213612027,
+        "final_route_position_m": 7056.542353229941,
+        "starting_route_position_m": 1058.1001396179136,
+        "maximum_chunk_build_ms": 14.2041,
+        "maximum_collision_build_ms": 12.4079,
+        "maximum_environment_build_ms": 7.6649,
+        "loaded_chunks": 10,
+        "maximum_visual_chunks": 14,
+        "maximum_collision_chunks": 9,
+        "chunk_failures": 0,
+        "rebases": 6,
+        "corridor_loops": 0,
+        "collision_builds": 15,
+        "collision_removals": 11
+      },
+      "memory": {
+        "starting_working_set_bytes": 590921728,
+        "peak_working_set_bytes": 595951616,
+        "peak_video_memory_bytes": 856309760,
+        "peak_texture_memory_bytes": 686422784,
+        "peak_buffer_memory_bytes": 53825724,
+        "sample_count": 238,
+        "working_set_trend": {
+          "sample_count": 238,
+          "slope_bytes_per_minute": 2134293.045365936,
+          "r_squared": 0.7783474140165652,
+          "first_bytes": 591036416,
+          "last_bytes": 595951616
+        },
+        "video_memory_trend": {
+          "sample_count": 238,
+          "slope_bytes_per_minute": 96202.86750137566,
+          "r_squared": 0.5369772577556762,
+          "first_bytes": 856014848,
+          "last_bytes": 856309760
+        },
+        "managed_heap_trend": {
+          "sample_count": 238,
+          "slope_bytes_per_minute": 143183.7119579502,
+          "r_squared": 0.0010334210073678074,
+          "first_bytes": 12471480,
+          "last_bytes": 17669608
+        }
+      },
+      "mean_draw_calls": 1393.6021726782164,
+      "shared_environment_materials": 9,
+      "acceptance_comparisons": {
+        "p95_frame_ms": {
+          "measured": 12.6725,
+          "limit": 16.67,
+          "applicable": true,
+          "passed": true,
+          "note": "Uncapped run judged against the ADR-0023 p95 limit."
+        },
+        "cap_adherence": {
+          "applicable": false,
+          "note": "Uncapped run; judged on the percentile limits above."
+        },
+        "p99_frame_ms": {
+          "measured": 14.967500000000001,
+          "limit": 20,
+          "passed": true
+        },
+        "steady_driving_stalls_over_threshold": {
+          "measured": 4,
+          "limit": 0,
+          "passed": false,
+          "acceptance_threshold_ms": 20,
+          "recording_threshold_ms": 20
+        },
+        "gpu_memory_bytes": {
+          "measured": 856309760,
+          "limit": 9500000000,
+          "passed": true
+        },
+        "working_set_bytes": {
+          "measured": 595951616,
+          "limit": 16000000000,
+          "passed": true
+        },
+        "sustained_memory_growth": {
+          "working_set_slope_bytes_per_minute": 2134293.045365936,
+          "working_set_r_squared": 0.7783474140165652,
+          "evaluated": false,
+          "criterion": "slope > 1 MiB/min AND R^2 >= 0.5 over the measured window",
+          "criterion_status": "ratified 2026-08-14 (ADR-0023 Q-022d)",
+          "passed": true,
+          "note": "Run shorter than 30 minutes; slope is reported but the ADR-0023 sustained-growth threshold is not evaluated by this run."
+        }
+      },
+      "shipping_gate_passed": false,
+      "command": {
+        "command": [
+          "/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/scripts/godot.sh",
+          "--rendering-method",
+          "forward_plus",
+          "--resolution",
+          "2560x1440",
+          "--path",
+          "/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf",
+          "--",
+          "--route-package=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/.tools/scenarios/representative-corridor/route_graph-a88eb43cd49ef797575786101fbf97753392e0cd84650a07f080a2bacecc2e6a.cbrg",
+          "--reference-performance-profile",
+          "--reference-scenario=after-tree-dither-night",
+          "--reference-lighting=night",
+          "--reference-camera=chase",
+          "--reference-resolution=2560x1440",
+          "--reference-speed-mps=50",
+          "--reference-warmup-seconds=20",
+          "--reference-measure-seconds=120",
+          "--reference-vsync=false",
+          "--reference-max-fps=0",
+          "--reference-loop-corridor=true",
+          "--reference-summary=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/reports/mac-performance/after-tree-dither-night/summary.json",
+          "--reference-samples=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/reports/mac-performance/after-tree-dither-night/samples.jsonl",
+          "--environment-quality=high",
+          "--telemetry-path=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/reports/mac-performance/after-tree-dither-night/telemetry.jsonl"
+        ],
+        "started_utc": "2026-09-06T23:11:10Z",
+        "old_runtime_temporarily_suspended": true,
+        "gpu_contention": "Unknown: nvidia-smi is unavailable on Apple Silicon. Other applications remain open.",
+        "exit_status": 0,
+        "finished_utc": "2026-09-06T23:13:35Z"
+      },
+      "command_artifact": {
+        "path": "reports/mac-performance/after-tree-dither-night/command.json",
+        "sha256": "68bf98ad85e53759f9d88b0e269a81bf465fc27c62948c406169273416df0ff2",
+        "bytes": 1594
+      }
+    },
+    {
+      "scenario": "after-tree-fade-night",
+      "art": "preserved local red",
+      "phase": "incomplete native-fade-only experiment",
+      "source_revision_note": "Runtime changes from 614033d; final tree shaders from b6cfcac; initial V-Sync capture built at 693b6db",
+      "summary": {
+        "path": "reports/mac-performance/after-tree-fade-night/summary.json",
+        "sha256": "1df80096e989497513d7c2ef4b3f0b498a31f6bf8bde27c792e1c434014a32cb",
+        "bytes": 9849
+      },
+      "configuration": {
+        "width_pixels": 2560,
+        "height_pixels": 1440,
+        "actual_window_size": "2560x1440",
+        "content_scale_size_2d": "1920x1080",
+        "three_d_render_size": "2560x1440",
+        "three_d_render_size_basis": "canvas_items stretch scales 2D only; 3D renders at window resolution.",
+        "rendering_method": "forward_plus",
+        "build_configuration": "Release",
+        "managed_runtime": "10.0.2",
+        "gc_gen0_size_environment": "800000",
+        "headless": false,
+        "vsync_enabled": false,
+        "engine_max_fps": 0,
+        "frame_time_source": "Time.GetTicksUsec monotonic clock (not the smoothed engine delta)",
+        "physics_jitter_fix": 0.5,
+        "physics_ticks_per_second": 120,
+        "physics_interpolation_enabled": true,
+        "lighting": "night",
+        "camera": "chase",
+        "environment_quality": "high",
+        "road_profile": "production",
+        "target_speed_mps": 50,
+        "manual_input_sampled_during_autopilot": true,
+        "corridor_loop_enabled": true,
+        "video_adapter": "Apple M4 Max (Apple9)",
+        "video_adapter_api_version": "4.0",
+        "screen_refresh_hz": 120
+      },
+      "warmup": {
+        "requested_seconds": 20,
+        "observed_seconds": 20.002058666666684,
+        "discarded": true
+      },
+      "measurement": {
+        "measured_seconds": 60.006478,
+        "frames": 6332,
+        "mean_fps": 105.52194048115938
+      },
+      "frame_time_ms": {
+        "p50": 8.9625,
+        "p95": 13.5875,
+        "p99": 15.9525,
+        "maximum": 19.605,
+        "mean": 9.476702147820577
+      },
+      "render_cpu_mean_ms": 0.5489559375592146,
+      "render_gpu_mean_ms": null,
+      "gpu_timing_available": false,
+      "garbage_collection": {
+        "pause_milliseconds": 1.143,
+        "gen0_collections": 1,
+        "gen1_collections": 0,
+        "gen2_collections": 0,
+        "allocated_bytes_during_measurement": 13010760,
+        "harness_allocated_bytes": 1155176,
+        "game_allocated_bytes": 11855584,
+        "harness_share_of_allocation": 0.08878620464907508,
+        "game_allocated_bytes_per_frame": 1872.328490208465,
+        "gen0_collections_per_second": 0.016664867416481266
+      },
+      "stalls": {
+        "threshold_ms": 20,
+        "total_count": 0,
+        "steady_driving_count": 0,
+        "loop_wrap_attributed_count": 0,
+        "attribution": {
+          "with_a_garbage_collection": 0,
+          "with_streaming_work": 0,
+          "with_no_attributable_work": 0,
+          "counters": "GC generation counts and WorldStreamer cumulative counters, differenced frame to frame",
+          "boundary": "These counters show what work coincided with a stall. They do not time that work, so a coincidence is not a cause."
+        }
+      },
+      "streaming": {
+        "cumulative_route_distance_m": 3000.7411542774717,
+        "final_route_position_m": 4058.4246717335186,
+        "starting_route_position_m": 1057.683517456047,
+        "maximum_chunk_build_ms": 13.0429,
+        "maximum_collision_build_ms": 11.9592,
+        "maximum_environment_build_ms": 7.643,
+        "loaded_chunks": 9,
+        "maximum_visual_chunks": 14,
+        "maximum_collision_chunks": 9,
+        "chunk_failures": 0,
+        "rebases": 3,
+        "corridor_loops": 0,
+        "collision_builds": 11,
+        "collision_removals": 9
+      },
+      "memory": {
+        "starting_working_set_bytes": 497172480,
+        "peak_working_set_bytes": 503463936,
+        "peak_video_memory_bytes": 850018304,
+        "peak_texture_memory_bytes": 686422784,
+        "peak_buffer_memory_bytes": 53825868,
+        "sample_count": 119,
+        "working_set_trend": {
+          "sample_count": 119,
+          "slope_bytes_per_minute": 6210793.180092551,
+          "r_squared": 0.9145480285709501,
+          "first_bytes": 497287168,
+          "last_bytes": 503463936
+        },
+        "video_memory_trend": {
+          "sample_count": 119,
+          "slope_bytes_per_minute": 144875.59034187408,
+          "r_squared": 0.2942932536255157,
+          "first_bytes": 849723392,
+          "last_bytes": 850018304
+        },
+        "managed_heap_trend": {
+          "sample_count": 119,
+          "slope_bytes_per_minute": 638818.9393678113,
+          "r_squared": 0.008223771196359975,
+          "first_bytes": 10049216,
+          "last_bytes": 14622248
+        }
+      },
+      "mean_draw_calls": 1440.2807959570437,
+      "shared_environment_materials": 9,
+      "acceptance_comparisons": {
+        "p95_frame_ms": {
+          "measured": 13.5875,
+          "limit": 16.67,
+          "applicable": true,
+          "passed": true,
+          "note": "Uncapped run judged against the ADR-0023 p95 limit."
+        },
+        "cap_adherence": {
+          "applicable": false,
+          "note": "Uncapped run; judged on the percentile limits above."
+        },
+        "p99_frame_ms": {
+          "measured": 15.9525,
+          "limit": 20,
+          "passed": true
+        },
+        "steady_driving_stalls_over_threshold": {
+          "measured": 0,
+          "limit": 0,
+          "passed": true,
+          "acceptance_threshold_ms": 20,
+          "recording_threshold_ms": 20
+        },
+        "gpu_memory_bytes": {
+          "measured": 850018304,
+          "limit": 9500000000,
+          "passed": true
+        },
+        "working_set_bytes": {
+          "measured": 503463936,
+          "limit": 16000000000,
+          "passed": true
+        },
+        "sustained_memory_growth": {
+          "working_set_slope_bytes_per_minute": 6210793.180092551,
+          "working_set_r_squared": 0.9145480285709501,
+          "evaluated": false,
+          "criterion": "slope > 1 MiB/min AND R^2 >= 0.5 over the measured window",
+          "criterion_status": "ratified 2026-08-14 (ADR-0023 Q-022d)",
+          "passed": true,
+          "note": "Run shorter than 30 minutes; slope is reported but the ADR-0023 sustained-growth threshold is not evaluated by this run."
+        }
+      },
+      "shipping_gate_passed": false,
+      "command": {
+        "command": [
+          "/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/scripts/godot.sh",
+          "--rendering-method",
+          "forward_plus",
+          "--resolution",
+          "2560x1440",
+          "--path",
+          "/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf",
+          "--",
+          "--route-package=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/.tools/scenarios/representative-corridor/route_graph-a88eb43cd49ef797575786101fbf97753392e0cd84650a07f080a2bacecc2e6a.cbrg",
+          "--reference-performance-profile",
+          "--reference-scenario=after-tree-fade-night",
+          "--reference-lighting=night",
+          "--reference-camera=chase",
+          "--reference-resolution=2560x1440",
+          "--reference-speed-mps=50",
+          "--reference-warmup-seconds=20",
+          "--reference-measure-seconds=60",
+          "--reference-vsync=false",
+          "--reference-max-fps=0",
+          "--reference-loop-corridor=true",
+          "--reference-summary=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/reports/mac-performance/after-tree-fade-night/summary.json",
+          "--reference-samples=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/reports/mac-performance/after-tree-fade-night/samples.jsonl",
+          "--environment-quality=high",
+          "--telemetry-path=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/reports/mac-performance/after-tree-fade-night/telemetry.jsonl"
+        ],
+        "started_utc": "2026-09-06T23:06:54Z",
+        "old_runtime_temporarily_suspended": true,
+        "gpu_contention": "Unknown: nvidia-smi is unavailable on Apple Silicon. Other applications remain open.",
+        "exit_status": 0,
+        "finished_utc": "2026-09-06T23:08:19Z"
+      },
+      "command_artifact": {
+        "path": "reports/mac-performance/after-tree-fade-night/command.json",
+        "sha256": "cff1890309386e1069af9f715b7b62886135e6d8dc1db03ff1d5f9ff29076162",
+        "bytes": 1585
+      }
+    },
+    {
+      "scenario": "after-tree-vsync-night",
+      "art": "preserved local red",
+      "phase": "final tree shaders plus camera and allocation fixes",
+      "source_revision_note": "Runtime changes from 614033d; final tree shaders from b6cfcac; initial V-Sync capture built at 693b6db",
+      "summary": {
+        "path": "reports/mac-performance/after-tree-vsync-night/summary.json",
+        "sha256": "506527f2196ecd186e0611c93fc989f267c5d79a72eb4780116c8db20e8f8021",
+        "bytes": 9856
+      },
+      "configuration": {
+        "width_pixels": 2560,
+        "height_pixels": 1440,
+        "actual_window_size": "2560x1440",
+        "content_scale_size_2d": "1920x1080",
+        "three_d_render_size": "2560x1440",
+        "three_d_render_size_basis": "canvas_items stretch scales 2D only; 3D renders at window resolution.",
+        "rendering_method": "forward_plus",
+        "build_configuration": "Release",
+        "managed_runtime": "10.0.2",
+        "gc_gen0_size_environment": "800000",
+        "headless": false,
+        "vsync_enabled": true,
+        "engine_max_fps": 0,
+        "frame_time_source": "Time.GetTicksUsec monotonic clock (not the smoothed engine delta)",
+        "physics_jitter_fix": 0.5,
+        "physics_ticks_per_second": 120,
+        "physics_interpolation_enabled": true,
+        "lighting": "night",
+        "camera": "chase",
+        "environment_quality": "high",
+        "road_profile": "production",
+        "target_speed_mps": 50,
+        "manual_input_sampled_during_autopilot": true,
+        "corridor_loop_enabled": true,
+        "video_adapter": "Apple M4 Max (Apple9)",
+        "video_adapter_api_version": "4.0",
+        "screen_refresh_hz": 120
+      },
+      "warmup": {
+        "requested_seconds": 20,
+        "observed_seconds": 20.00248600000023,
+        "discarded": true
+      },
+      "measurement": {
+        "measured_seconds": 120.004829,
+        "frames": 13120,
+        "mean_fps": 109.32893375482415
+      },
+      "frame_time_ms": {
+        "p50": 8.7225,
+        "p95": 12.5025,
+        "p99": 14.7375,
+        "maximum": 19.464,
+        "mean": 9.146709527438986
+      },
+      "render_cpu_mean_ms": 0.6584361280905219,
+      "render_gpu_mean_ms": null,
+      "gpu_timing_available": false,
+      "garbage_collection": {
+        "pause_milliseconds": 5.063,
+        "gen0_collections": 2,
+        "gen1_collections": 1,
+        "gen2_collections": 0,
+        "allocated_bytes_during_measurement": 23831704,
+        "harness_allocated_bytes": 2272320,
+        "game_allocated_bytes": 21559384,
+        "harness_share_of_allocation": 0.09534861628022906,
+        "game_allocated_bytes_per_frame": 1643.245731707317,
+        "gen0_collections_per_second": 0.016665995999210998
+      },
+      "stalls": {
+        "threshold_ms": 20,
+        "total_count": 0,
+        "steady_driving_count": 0,
+        "loop_wrap_attributed_count": 0,
+        "attribution": {
+          "with_a_garbage_collection": 0,
+          "with_streaming_work": 0,
+          "with_no_attributable_work": 0,
+          "counters": "GC generation counts and WorldStreamer cumulative counters, differenced frame to frame",
+          "boundary": "These counters show what work coincided with a stall. They do not time that work, so a coincidence is not a cause."
+        }
+      },
+      "streaming": {
+        "cumulative_route_distance_m": 5998.442170899827,
+        "final_route_position_m": 7056.1256883558735,
+        "starting_route_position_m": 1057.683517456047,
+        "maximum_chunk_build_ms": 12.8555,
+        "maximum_collision_build_ms": 11.9416,
+        "maximum_environment_build_ms": 7.0268,
+        "loaded_chunks": 10,
+        "maximum_visual_chunks": 14,
+        "maximum_collision_chunks": 9,
+        "chunk_failures": 0,
+        "rebases": 6,
+        "corridor_loops": 0,
+        "collision_builds": 15,
+        "collision_removals": 11
+      },
+      "memory": {
+        "starting_working_set_bytes": 499974144,
+        "peak_working_set_bytes": 505921536,
+        "peak_video_memory_bytes": 850804736,
+        "peak_texture_memory_bytes": 686422784,
+        "peak_buffer_memory_bytes": 53825724,
+        "sample_count": 238,
+        "working_set_trend": {
+          "sample_count": 238,
+          "slope_bytes_per_minute": 2423220.849525222,
+          "r_squared": 0.7657522401576,
+          "first_bytes": 500088832,
+          "last_bytes": 505888768
+        },
+        "video_memory_trend": {
+          "sample_count": 238,
+          "slope_bytes_per_minute": 96283.60357857984,
+          "r_squared": 0.5386077019954152,
+          "first_bytes": 850509824,
+          "last_bytes": 850804736
+        },
+        "managed_heap_trend": {
+          "sample_count": 238,
+          "slope_bytes_per_minute": -52352.175149464,
+          "r_squared": 0.00014020638249412354,
+          "first_bytes": 12463376,
+          "last_bytes": 17449560
+        }
+      },
+      "mean_draw_calls": 1394.4821646341463,
+      "shared_environment_materials": 9,
+      "acceptance_comparisons": {
+        "p95_frame_ms": {
+          "measured": 12.5025,
+          "limit": 16.67,
+          "applicable": true,
+          "passed": true,
+          "note": "Uncapped run judged against the ADR-0023 p95 limit."
+        },
+        "cap_adherence": {
+          "applicable": false,
+          "note": "Uncapped run; judged on the percentile limits above."
+        },
+        "p99_frame_ms": {
+          "measured": 14.7375,
+          "limit": 20,
+          "passed": true
+        },
+        "steady_driving_stalls_over_threshold": {
+          "measured": 0,
+          "limit": 0,
+          "passed": true,
+          "acceptance_threshold_ms": 20,
+          "recording_threshold_ms": 20
+        },
+        "gpu_memory_bytes": {
+          "measured": 850804736,
+          "limit": 9500000000,
+          "passed": true
+        },
+        "working_set_bytes": {
+          "measured": 505921536,
+          "limit": 16000000000,
+          "passed": true
+        },
+        "sustained_memory_growth": {
+          "working_set_slope_bytes_per_minute": 2423220.849525222,
+          "working_set_r_squared": 0.7657522401576,
+          "evaluated": false,
+          "criterion": "slope > 1 MiB/min AND R^2 >= 0.5 over the measured window",
+          "criterion_status": "ratified 2026-08-14 (ADR-0023 Q-022d)",
+          "passed": true,
+          "note": "Run shorter than 30 minutes; slope is reported but the ADR-0023 sustained-growth threshold is not evaluated by this run."
+        }
+      },
+      "shipping_gate_passed": false,
+      "command": {
+        "command": [
+          "/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/scripts/godot.sh",
+          "--rendering-method",
+          "forward_plus",
+          "--resolution",
+          "2560x1440",
+          "--path",
+          "/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf",
+          "--",
+          "--route-package=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/.tools/scenarios/representative-corridor/route_graph-a88eb43cd49ef797575786101fbf97753392e0cd84650a07f080a2bacecc2e6a.cbrg",
+          "--reference-performance-profile",
+          "--reference-scenario=after-tree-vsync-night",
+          "--reference-lighting=night",
+          "--reference-camera=chase",
+          "--reference-resolution=2560x1440",
+          "--reference-speed-mps=50",
+          "--reference-warmup-seconds=20",
+          "--reference-measure-seconds=120",
+          "--reference-vsync=true",
+          "--reference-max-fps=0",
+          "--reference-loop-corridor=true",
+          "--reference-summary=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/reports/mac-performance/after-tree-vsync-night/summary.json",
+          "--reference-samples=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/reports/mac-performance/after-tree-vsync-night/samples.jsonl",
+          "--environment-quality=high",
+          "--telemetry-path=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/reports/mac-performance/after-tree-vsync-night/telemetry.jsonl"
+        ],
+        "started_utc": "2026-09-06T23:24:04Z",
+        "old_runtime_temporarily_suspended": true,
+        "gpu_contention": "Unknown: nvidia-smi is unavailable on Apple Silicon. Other applications remain open.",
+        "exit_status": 0,
+        "finished_utc": "2026-09-06T23:26:28Z"
+      },
+      "command_artifact": {
+        "path": "reports/mac-performance/after-tree-vsync-night/command.json",
+        "sha256": "b25856d6893dbb6c71ea161a9a54dad6730c70bcdff521dbc55ce7de32117cab",
+        "bytes": 1589
+      }
+    },
+    {
+      "scenario": "before-blue-night",
+      "art": "committed navy",
+      "phase": "baseline plus input-parity and pause instrumentation",
+      "source_revision_note": "308a13afed5e14ede734b664e963c76aefd9ff62 plus before/input.patch",
+      "summary": {
+        "path": "reports/mac-performance/before-blue-night/summary.json",
+        "sha256": "793f74627186c61b64fa9172f00f4e63e327b5466379838b6572770b407682d3",
+        "bytes": 11012
+      },
+      "configuration": {
+        "width_pixels": 2560,
+        "height_pixels": 1440,
+        "actual_window_size": "2560x1440",
+        "content_scale_size_2d": "1920x1080",
+        "three_d_render_size": "2560x1440",
+        "three_d_render_size_basis": "canvas_items stretch scales 2D only; 3D renders at window resolution.",
+        "rendering_method": "forward_plus",
+        "build_configuration": "Release",
+        "headless": false,
+        "vsync_enabled": false,
+        "engine_max_fps": 0,
+        "frame_time_source": "Time.GetTicksUsec monotonic clock (not the smoothed engine delta)",
+        "physics_jitter_fix": 0.5,
+        "physics_ticks_per_second": 120,
+        "lighting": "night",
+        "camera": "chase",
+        "environment_quality": "high",
+        "road_profile": "production",
+        "target_speed_mps": 50,
+        "manual_input_sampled_during_autopilot": true,
+        "corridor_loop_enabled": true,
+        "video_adapter": "Apple M4 Max (Apple9)",
+        "video_adapter_api_version": "4.0",
+        "screen_refresh_hz": 120
+      },
+      "warmup": {
+        "requested_seconds": 20,
+        "observed_seconds": 20.00630299999999,
+        "discarded": true
+      },
+      "measurement": {
+        "measured_seconds": 60.004217,
+        "frames": 7533,
+        "mean_fps": 125.54117654764165
+      },
+      "frame_time_ms": {
+        "p50": 7.7575,
+        "p95": 12.1175,
+        "p99": 15.352500000000001,
+        "maximum": 20.666,
+        "mean": 7.965514005044497
+      },
+      "render_cpu_mean_ms": 0.5695371033581038,
+      "render_gpu_mean_ms": null,
+      "gpu_timing_available": false,
+      "garbage_collection": {
+        "pause_milliseconds": 44.488,
+        "gen0_collections": 6,
+        "gen1_collections": 3,
+        "gen2_collections": 0,
+        "allocated_bytes_during_measurement": 47552632,
+        "harness_allocated_bytes": 1156200,
+        "game_allocated_bytes": 46396432,
+        "harness_share_of_allocation": 0.024314111572204877,
+        "game_allocated_bytes_per_frame": 6159.090933227134,
+        "gen0_collections_per_second": 0.09999297216060665
+      },
+      "stalls": {
+        "threshold_ms": 20,
+        "total_count": 1,
+        "steady_driving_count": 1,
+        "loop_wrap_attributed_count": 0,
+        "attribution": {
+          "with_a_garbage_collection": 0,
+          "with_streaming_work": 0,
+          "with_no_attributable_work": 1,
+          "counters": "GC generation counts and WorldStreamer cumulative counters, differenced frame to frame",
+          "boundary": "These counters show what work coincided with a stall. They do not time that work, so a coincidence is not a cause."
+        }
+      },
+      "streaming": {
+        "cumulative_route_distance_m": 3000.324532115605,
+        "final_route_position_m": 4058.4246717335186,
+        "starting_route_position_m": 1058.1001396179136,
+        "maximum_chunk_build_ms": 12.6867,
+        "maximum_collision_build_ms": 9.0779,
+        "maximum_environment_build_ms": 6.5139,
+        "loaded_chunks": 9,
+        "maximum_visual_chunks": 14,
+        "maximum_collision_chunks": 9,
+        "chunk_failures": 0,
+        "rebases": 3,
+        "corridor_loops": 0,
+        "collision_builds": 11,
+        "collision_removals": 9
+      },
+      "memory": {
+        "starting_working_set_bytes": 567115776,
+        "peak_working_set_bytes": 573947904,
+        "peak_video_memory_bytes": 849313792,
+        "peak_texture_memory_bytes": 685718272,
+        "peak_buffer_memory_bytes": 53825932,
+        "sample_count": 119,
+        "working_set_trend": {
+          "sample_count": 119,
+          "slope_bytes_per_minute": 4030513.9364396636,
+          "r_squared": 0.7502156797736017,
+          "first_bytes": 567296000,
+          "last_bytes": 571359232
+        },
+        "video_memory_trend": {
+          "sample_count": 119,
+          "slope_bytes_per_minute": 145089.9049947229,
+          "r_squared": 0.29448797053066644,
+          "first_bytes": 849018880,
+          "last_bytes": 849313792
+        },
+        "managed_heap_trend": {
+          "sample_count": 119,
+          "slope_bytes_per_minute": -273517.9900159081,
+          "r_squared": 0.0004092045630291752,
+          "first_bytes": 21114736,
+          "last_bytes": 18315240
+        }
+      },
+      "mean_draw_calls": 1434.2724014336918,
+      "shared_environment_materials": 9,
+      "acceptance_comparisons": {
+        "p95_frame_ms": {
+          "measured": 12.1175,
+          "limit": 16.67,
+          "applicable": true,
+          "passed": true,
+          "note": "Uncapped run judged against the ADR-0023 p95 limit."
+        },
+        "cap_adherence": {
+          "applicable": false,
+          "note": "Uncapped run; judged on the percentile limits above."
+        },
+        "p99_frame_ms": {
+          "measured": 15.352500000000001,
+          "limit": 20,
+          "passed": true
+        },
+        "steady_driving_stalls_over_threshold": {
+          "measured": 1,
+          "limit": 0,
+          "passed": false,
+          "acceptance_threshold_ms": 20,
+          "recording_threshold_ms": 20
+        },
+        "gpu_memory_bytes": {
+          "measured": 849313792,
+          "limit": 9500000000,
+          "passed": true
+        },
+        "working_set_bytes": {
+          "measured": 573947904,
+          "limit": 16000000000,
+          "passed": true
+        },
+        "sustained_memory_growth": {
+          "working_set_slope_bytes_per_minute": 4030513.9364396636,
+          "working_set_r_squared": 0.7502156797736017,
+          "evaluated": false,
+          "criterion": "slope > 1 MiB/min AND R^2 >= 0.5 over the measured window",
+          "criterion_status": "ratified 2026-08-14 (ADR-0023 Q-022d)",
+          "passed": true,
+          "note": "Run shorter than 30 minutes; slope is reported but the ADR-0023 sustained-growth threshold is not evaluated by this run."
+        }
+      },
+      "shipping_gate_passed": false,
+      "command": {
+        "command": [
+          "/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/scripts/godot.sh",
+          "--rendering-method",
+          "forward_plus",
+          "--resolution",
+          "2560x1440",
+          "--path",
+          "/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf",
+          "--",
+          "--route-package=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/.tools/scenarios/representative-corridor/route_graph-a88eb43cd49ef797575786101fbf97753392e0cd84650a07f080a2bacecc2e6a.cbrg",
+          "--reference-performance-profile",
+          "--reference-scenario=before-blue-night",
+          "--reference-lighting=night",
+          "--reference-camera=chase",
+          "--reference-resolution=2560x1440",
+          "--reference-speed-mps=50",
+          "--reference-warmup-seconds=20",
+          "--reference-measure-seconds=60",
+          "--reference-vsync=false",
+          "--reference-max-fps=0",
+          "--reference-loop-corridor=true",
+          "--reference-summary=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/reports/mac-performance/before-blue-night/summary.json",
+          "--reference-samples=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/reports/mac-performance/before-blue-night/samples.jsonl",
+          "--environment-quality=high",
+          "--telemetry-path=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/reports/mac-performance/before-blue-night/telemetry.jsonl"
+        ],
+        "started_utc": "2026-09-06T22:56:15Z",
+        "old_runtime_temporarily_suspended": true,
+        "gpu_contention": "Unknown: nvidia-smi is unavailable on Apple Silicon. Other applications remain open.",
+        "exit_status": 0,
+        "finished_utc": "2026-09-06T22:57:40Z"
+      },
+      "command_artifact": {
+        "path": "reports/mac-performance/before-blue-night/command.json",
+        "sha256": "5ecc34e591a04af3c97f114407ea9b543ab0805e5628892e27bcbbe638bf5395",
+        "bytes": 1569
+      }
+    },
+    {
+      "scenario": "before-night-2",
+      "art": "preserved local red",
+      "phase": "baseline plus input-parity and pause instrumentation",
+      "source_revision_note": "308a13afed5e14ede734b664e963c76aefd9ff62 plus before/input.patch",
+      "summary": {
+        "path": "reports/mac-performance/before-night-2/summary.json",
+        "sha256": "37dff45cb0659ef2b42ff4eb10a8d435304aca6f9b1a40839528cd489a857714",
+        "bytes": 10981
+      },
+      "configuration": {
+        "width_pixels": 2560,
+        "height_pixels": 1440,
+        "actual_window_size": "2560x1440",
+        "content_scale_size_2d": "1920x1080",
+        "three_d_render_size": "2560x1440",
+        "three_d_render_size_basis": "canvas_items stretch scales 2D only; 3D renders at window resolution.",
+        "rendering_method": "forward_plus",
+        "build_configuration": "Release",
+        "headless": false,
+        "vsync_enabled": false,
+        "engine_max_fps": 0,
+        "frame_time_source": "Time.GetTicksUsec monotonic clock (not the smoothed engine delta)",
+        "physics_jitter_fix": 0.5,
+        "physics_ticks_per_second": 120,
+        "lighting": "night",
+        "camera": "chase",
+        "environment_quality": "high",
+        "road_profile": "production",
+        "target_speed_mps": 50,
+        "manual_input_sampled_during_autopilot": true,
+        "corridor_loop_enabled": true,
+        "video_adapter": "Apple M4 Max (Apple9)",
+        "video_adapter_api_version": "4.0",
+        "screen_refresh_hz": 120
+      },
+      "warmup": {
+        "requested_seconds": 20,
+        "observed_seconds": 20.005087999999997,
+        "discarded": true
+      },
+      "measurement": {
+        "measured_seconds": 120.003937,
+        "frames": 14985,
+        "mean_fps": 124.87090319378439
+      },
+      "frame_time_ms": {
+        "p50": 7.8925,
+        "p95": 11.4925,
+        "p99": 15.4725,
+        "maximum": 20.454,
+        "mean": 8.008270737404041
+      },
+      "render_cpu_mean_ms": 0.5159896564754121,
+      "render_gpu_mean_ms": null,
+      "gpu_timing_available": false,
+      "garbage_collection": {
+        "pause_milliseconds": 76.485,
+        "gen0_collections": 11,
+        "gen1_collections": 5,
+        "gen2_collections": 0,
+        "allocated_bytes_during_measurement": 92902376,
+        "harness_allocated_bytes": 2226872,
+        "game_allocated_bytes": 90675504,
+        "harness_share_of_allocation": 0.02397002203689602,
+        "game_allocated_bytes_per_frame": 6051.084684684684,
+        "gen0_collections_per_second": 0.09166365933477666
+      },
+      "stalls": {
+        "threshold_ms": 20,
+        "total_count": 1,
+        "steady_driving_count": 1,
+        "loop_wrap_attributed_count": 0,
+        "attribution": {
+          "with_a_garbage_collection": 0,
+          "with_streaming_work": 0,
+          "with_no_attributable_work": 1,
+          "counters": "GC generation counts and WorldStreamer cumulative counters, differenced frame to frame",
+          "boundary": "These counters show what work coincided with a stall. They do not time that work, so a coincidence is not a cause."
+        }
+      },
+      "streaming": {
+        "cumulative_route_distance_m": 5998.442170899827,
+        "final_route_position_m": 7056.1256883558735,
+        "starting_route_position_m": 1057.683517456047,
+        "maximum_chunk_build_ms": 13.105,
+        "maximum_collision_build_ms": 9.8557,
+        "maximum_environment_build_ms": 6.5122,
+        "loaded_chunks": 10,
+        "maximum_visual_chunks": 14,
+        "maximum_collision_chunks": 9,
+        "chunk_failures": 0,
+        "rebases": 6,
+        "corridor_loops": 0,
+        "collision_builds": 15,
+        "collision_removals": 11
+      },
+      "memory": {
+        "starting_working_set_bytes": 504709120,
+        "peak_working_set_bytes": 512524288,
+        "peak_video_memory_bytes": 850018304,
+        "peak_texture_memory_bytes": 686422784,
+        "peak_buffer_memory_bytes": 53825868,
+        "sample_count": 238,
+        "working_set_trend": {
+          "sample_count": 238,
+          "slope_bytes_per_minute": 1876981.9792613762,
+          "r_squared": 0.5644274658554012,
+          "first_bytes": 504872960,
+          "last_bytes": 510132224
+        },
+        "video_memory_trend": {
+          "sample_count": 238,
+          "slope_bytes_per_minute": 96199.52428188738,
+          "r_squared": 0.5369210718439857,
+          "first_bytes": 849723392,
+          "last_bytes": 850018304
+        },
+        "managed_heap_trend": {
+          "sample_count": 238,
+          "slope_bytes_per_minute": -1104925.2045766555,
+          "r_squared": 0.02214449411724284,
+          "first_bytes": 21241928,
+          "last_bytes": 22250472
+        }
+      },
+      "mean_draw_calls": 1386.373039706373,
+      "shared_environment_materials": 9,
+      "acceptance_comparisons": {
+        "p95_frame_ms": {
+          "measured": 11.4925,
+          "limit": 16.67,
+          "applicable": true,
+          "passed": true,
+          "note": "Uncapped run judged against the ADR-0023 p95 limit."
+        },
+        "cap_adherence": {
+          "applicable": false,
+          "note": "Uncapped run; judged on the percentile limits above."
+        },
+        "p99_frame_ms": {
+          "measured": 15.4725,
+          "limit": 20,
+          "passed": true
+        },
+        "steady_driving_stalls_over_threshold": {
+          "measured": 1,
+          "limit": 0,
+          "passed": false,
+          "acceptance_threshold_ms": 20,
+          "recording_threshold_ms": 20
+        },
+        "gpu_memory_bytes": {
+          "measured": 850018304,
+          "limit": 9500000000,
+          "passed": true
+        },
+        "working_set_bytes": {
+          "measured": 512524288,
+          "limit": 16000000000,
+          "passed": true
+        },
+        "sustained_memory_growth": {
+          "working_set_slope_bytes_per_minute": 1876981.9792613762,
+          "working_set_r_squared": 0.5644274658554012,
+          "evaluated": false,
+          "criterion": "slope > 1 MiB/min AND R^2 >= 0.5 over the measured window",
+          "criterion_status": "ratified 2026-08-14 (ADR-0023 Q-022d)",
+          "passed": true,
+          "note": "Run shorter than 30 minutes; slope is reported but the ADR-0023 sustained-growth threshold is not evaluated by this run."
+        }
+      },
+      "shipping_gate_passed": false,
+      "command": {
+        "command": [
+          "/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/scripts/godot.sh",
+          "--rendering-method",
+          "forward_plus",
+          "--resolution",
+          "2560x1440",
+          "--path",
+          "/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf",
+          "--",
+          "--route-package=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/.tools/scenarios/representative-corridor/route_graph-a88eb43cd49ef797575786101fbf97753392e0cd84650a07f080a2bacecc2e6a.cbrg",
+          "--reference-performance-profile",
+          "--reference-scenario=before-night-2",
+          "--reference-lighting=night",
+          "--reference-camera=chase",
+          "--reference-resolution=2560x1440",
+          "--reference-speed-mps=50",
+          "--reference-warmup-seconds=20",
+          "--reference-measure-seconds=120",
+          "--reference-vsync=false",
+          "--reference-max-fps=0",
+          "--reference-loop-corridor=true",
+          "--reference-summary=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/reports/mac-performance/before-night-2/summary.json",
+          "--reference-samples=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/reports/mac-performance/before-night-2/samples.jsonl",
+          "--environment-quality=high",
+          "--telemetry-path=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/reports/mac-performance/before-night-2/telemetry.jsonl"
+        ],
+        "started_utc": "2026-09-06T22:52:18Z",
+        "old_runtime_temporarily_suspended": true,
+        "gpu_contention": "Unknown: nvidia-smi is unavailable on Apple Silicon. Other applications remain open.",
+        "exit_status": 0,
+        "finished_utc": "2026-09-06T22:54:43Z"
+      },
+      "command_artifact": {
+        "path": "reports/mac-performance/before-night-2/command.json",
+        "sha256": "6a7c1e3e1543e12de6ed42b88b9f1f095208b014a194ad00a292e9afd03cff07",
+        "bytes": 1558
+      }
+    },
+    {
+      "scenario": "final-cameras-vsync-night",
+      "art": "preserved local red",
+      "phase": "final camera mount, allocation and tree fixes",
+      "source_revision_note": "Final cockpit position composition from 9dbc526",
+      "summary": {
+        "path": "reports/mac-performance/final-cameras-vsync-night/summary.json",
+        "sha256": "1f108cf31fe2ea2a2b3a51df40221e6f0bdb9c981deb159cb16407584b7cdfed",
+        "bytes": 36528
+      },
+      "configuration": {
+        "width_pixels": 2560,
+        "height_pixels": 1440,
+        "actual_window_size": "2560x1440",
+        "content_scale_size_2d": "1920x1080",
+        "three_d_render_size": "2560x1440",
+        "three_d_render_size_basis": "canvas_items stretch scales 2D only; 3D renders at window resolution.",
+        "rendering_method": "forward_plus",
+        "build_configuration": "Release",
+        "managed_runtime": "10.0.2",
+        "gc_gen0_size_environment": "800000",
+        "headless": false,
+        "vsync_enabled": true,
+        "engine_max_fps": 0,
+        "frame_time_source": "Time.GetTicksUsec monotonic clock (not the smoothed engine delta)",
+        "physics_jitter_fix": 0.5,
+        "physics_ticks_per_second": 120,
+        "physics_interpolation_enabled": true,
+        "lighting": "night",
+        "camera": "chase",
+        "environment_quality": "high",
+        "road_profile": "production",
+        "target_speed_mps": 50,
+        "manual_input_sampled_during_autopilot": true,
+        "corridor_loop_enabled": true,
+        "video_adapter": "Apple M4 Max (Apple9)",
+        "video_adapter_api_version": "4.0",
+        "screen_refresh_hz": 120
+      },
+      "warmup": {
+        "requested_seconds": 20,
+        "observed_seconds": 20.004593999999976,
+        "discarded": true
+      },
+      "measurement": {
+        "measured_seconds": 120.003024,
+        "frames": 12145,
+        "mean_fps": 101.20578294760305
+      },
+      "frame_time_ms": {
+        "p50": 9.0625,
+        "p95": 14.5075,
+        "p99": 17.2725,
+        "maximum": 23.924,
+        "mean": 9.880858295594887
+      },
+      "render_cpu_mean_ms": 0.5874403459709728,
+      "render_gpu_mean_ms": null,
+      "gpu_timing_available": false,
+      "garbage_collection": {
+        "pause_milliseconds": 2.141,
+        "gen0_collections": 2,
+        "gen1_collections": 0,
+        "gen2_collections": 0,
+        "allocated_bytes_during_measurement": 23338216,
+        "harness_allocated_bytes": 2188376,
+        "game_allocated_bytes": 21149840,
+        "harness_share_of_allocation": 0.09376792124985046,
+        "game_allocated_bytes_per_frame": 1741.4442157266365,
+        "gen0_collections_per_second": 0.0166662466772504
+      },
+      "stalls": {
+        "threshold_ms": 20,
+        "total_count": 21,
+        "steady_driving_count": 21,
+        "loop_wrap_attributed_count": 0,
+        "attribution": {
+          "with_a_garbage_collection": 0,
+          "with_streaming_work": 0,
+          "with_no_attributable_work": 21,
+          "counters": "GC generation counts and WorldStreamer cumulative counters, differenced frame to frame",
+          "boundary": "These counters show what work coincided with a stall. They do not time that work, so a coincidence is not a cause."
+        }
+      },
+      "streaming": {
+        "cumulative_route_distance_m": 5998.858835773894,
+        "final_route_position_m": 7056.542353229941,
+        "starting_route_position_m": 1057.683517456047,
+        "maximum_chunk_build_ms": 13.3803,
+        "maximum_collision_build_ms": 15.1323,
+        "maximum_environment_build_ms": 6.958,
+        "loaded_chunks": 10,
+        "maximum_visual_chunks": 14,
+        "maximum_collision_chunks": 9,
+        "chunk_failures": 0,
+        "rebases": 6,
+        "corridor_loops": 0,
+        "collision_builds": 15,
+        "collision_removals": 11
+      },
+      "memory": {
+        "starting_working_set_bytes": 497336320,
+        "peak_working_set_bytes": 504201216,
+        "peak_video_memory_bytes": 850804736,
+        "peak_texture_memory_bytes": 686422784,
+        "peak_buffer_memory_bytes": 53825724,
+        "sample_count": 238,
+        "working_set_trend": {
+          "sample_count": 238,
+          "slope_bytes_per_minute": 3037696.000246048,
+          "r_squared": 0.76218771224935,
+          "first_bytes": 497451008,
+          "last_bytes": 504201216
+        },
+        "video_memory_trend": {
+          "sample_count": 238,
+          "slope_bytes_per_minute": 96158.03887586495,
+          "r_squared": 0.5380991808940573,
+          "first_bytes": 850509824,
+          "last_bytes": 850804736
+        },
+        "managed_heap_trend": {
+          "sample_count": 238,
+          "slope_bytes_per_minute": 886715.2175042066,
+          "r_squared": 0.049756733696275646,
+          "first_bytes": 10333776,
+          "last_bytes": 16747240
+        }
+      },
+      "mean_draw_calls": 1396.3237546315356,
+      "shared_environment_materials": 9,
+      "acceptance_comparisons": {
+        "p95_frame_ms": {
+          "measured": 14.5075,
+          "limit": 16.67,
+          "applicable": true,
+          "passed": true,
+          "note": "Uncapped run judged against the ADR-0023 p95 limit."
+        },
+        "cap_adherence": {
+          "applicable": false,
+          "note": "Uncapped run; judged on the percentile limits above."
+        },
+        "p99_frame_ms": {
+          "measured": 17.2725,
+          "limit": 20,
+          "passed": true
+        },
+        "steady_driving_stalls_over_threshold": {
+          "measured": 21,
+          "limit": 0,
+          "passed": false,
+          "acceptance_threshold_ms": 20,
+          "recording_threshold_ms": 20
+        },
+        "gpu_memory_bytes": {
+          "measured": 850804736,
+          "limit": 9500000000,
+          "passed": true
+        },
+        "working_set_bytes": {
+          "measured": 504201216,
+          "limit": 16000000000,
+          "passed": true
+        },
+        "sustained_memory_growth": {
+          "working_set_slope_bytes_per_minute": 3037696.000246048,
+          "working_set_r_squared": 0.76218771224935,
+          "evaluated": false,
+          "criterion": "slope > 1 MiB/min AND R^2 >= 0.5 over the measured window",
+          "criterion_status": "ratified 2026-08-14 (ADR-0023 Q-022d)",
+          "passed": true,
+          "note": "Run shorter than 30 minutes; slope is reported but the ADR-0023 sustained-growth threshold is not evaluated by this run."
+        }
+      },
+      "shipping_gate_passed": false,
+      "command": {
+        "command": [
+          "/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/scripts/godot.sh",
+          "--rendering-method",
+          "forward_plus",
+          "--resolution",
+          "2560x1440",
+          "--path",
+          "/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf",
+          "--",
+          "--route-package=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/.tools/scenarios/representative-corridor/route_graph-a88eb43cd49ef797575786101fbf97753392e0cd84650a07f080a2bacecc2e6a.cbrg",
+          "--reference-performance-profile",
+          "--reference-scenario=final-cameras-vsync-night",
+          "--reference-lighting=night",
+          "--reference-camera=chase",
+          "--reference-resolution=2560x1440",
+          "--reference-speed-mps=50",
+          "--reference-warmup-seconds=20",
+          "--reference-measure-seconds=120",
+          "--reference-vsync=true",
+          "--reference-max-fps=0",
+          "--reference-loop-corridor=true",
+          "--reference-summary=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/reports/mac-performance/final-cameras-vsync-night/summary.json",
+          "--reference-samples=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/reports/mac-performance/final-cameras-vsync-night/samples.jsonl",
+          "--environment-quality=high",
+          "--telemetry-path=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/reports/mac-performance/final-cameras-vsync-night/telemetry.jsonl"
+        ],
+        "started_utc": "2026-09-06T23:45:35Z",
+        "old_runtime_temporarily_suspended": true,
+        "gpu_contention": "Unknown: nvidia-smi is unavailable on Apple Silicon. Other applications remain open.",
+        "exit_status": 0,
+        "finished_utc": "2026-09-06T23:48:00Z"
+      },
+      "command_artifact": {
+        "path": "reports/mac-performance/final-cameras-vsync-night/command.json",
+        "sha256": "59dd4568f7cd654e3a01b748f2cf777f3aa8636309abacfeedb7050e6d78643f",
+        "bytes": 1601
+      }
+    },
+    {
+      "scenario": "integrated-vsync-60fps-night",
+      "art": "preserved local red",
+      "phase": "final fixes integrated with mainline off-road ground changes",
+      "source_revision_note": "c978d8b98c6874e1881fb525bc9a250346c47cba",
+      "summary": {
+        "path": "reports/mac-performance/integrated-vsync-60fps-night/summary.json",
+        "sha256": "3b4ee7fa01ab869896d2e94e3275a383768c6c5c277a530c217023269a605c23",
+        "bytes": 62545
+      },
+      "configuration": {
+        "width_pixels": 2560,
+        "height_pixels": 1440,
+        "actual_window_size": "2560x1440",
+        "content_scale_size_2d": "1920x1080",
+        "three_d_render_size": "2560x1440",
+        "three_d_render_size_basis": "canvas_items stretch scales 2D only; 3D renders at window resolution.",
+        "rendering_method": "forward_plus",
+        "build_configuration": "Release",
+        "managed_runtime": "10.0.2",
+        "gc_gen0_size_environment": "800000",
+        "headless": false,
+        "vsync_enabled": true,
+        "engine_max_fps": 60,
+        "frame_time_source": "Time.GetTicksUsec monotonic clock (not the smoothed engine delta)",
+        "physics_jitter_fix": 0.5,
+        "physics_ticks_per_second": 120,
+        "physics_interpolation_enabled": true,
+        "lighting": "night",
+        "camera": "chase",
+        "environment_quality": "high",
+        "road_profile": "production",
+        "target_speed_mps": 50,
+        "manual_input_sampled_during_autopilot": true,
+        "corridor_loop_enabled": true,
+        "video_adapter": "Apple M4 Max (Apple9)",
+        "video_adapter_api_version": "4.0",
+        "screen_refresh_hz": 120
+      },
+      "warmup": {
+        "requested_seconds": 20,
+        "observed_seconds": 20.016499000000472,
+        "discarded": true
+      },
+      "measurement": {
+        "measured_seconds": 60.004999,
+        "frames": 3590,
+        "mean_fps": 59.82834863475291
+      },
+      "frame_time_ms": {
+        "p50": 16.6625,
+        "p95": 18.9125,
+        "p99": 20.0575,
+        "maximum": 23.986,
+        "mean": 16.7144844011142
+      },
+      "render_cpu_mean_ms": 0.5810431751368106,
+      "render_gpu_mean_ms": null,
+      "gpu_timing_available": false,
+      "garbage_collection": {
+        "pause_milliseconds": 2.194,
+        "gen0_collections": 1,
+        "gen1_collections": 1,
+        "gen2_collections": 0,
+        "allocated_bytes_during_measurement": 11606128,
+        "harness_allocated_bytes": 1169360,
+        "game_allocated_bytes": 10436768,
+        "harness_share_of_allocation": 0.1007536708194154,
+        "game_allocated_bytes_per_frame": 2907.1777158774375,
+        "gen0_collections_per_second": 0.016665278171240368
+      },
+      "stalls": {
+        "threshold_ms": 20,
+        "total_count": 41,
+        "steady_driving_count": 41,
+        "loop_wrap_attributed_count": 0,
+        "attribution": {
+          "with_a_garbage_collection": 0,
+          "with_streaming_work": 0,
+          "with_no_attributable_work": 41,
+          "counters": "GC generation counts and WorldStreamer cumulative counters, differenced frame to frame",
+          "boundary": "These counters show what work coincided with a stall. They do not time that work, so a coincidence is not a cause."
+        }
+      },
+      "streaming": {
+        "cumulative_route_distance_m": 3000.741112475633,
+        "final_route_position_m": 4058.8412520935467,
+        "starting_route_position_m": 1058.1001396179136,
+        "maximum_chunk_build_ms": 16.3245,
+        "maximum_collision_build_ms": 18.5361,
+        "maximum_environment_build_ms": 8.9576,
+        "loaded_chunks": 9,
+        "maximum_visual_chunks": 14,
+        "maximum_collision_chunks": 9,
+        "chunk_failures": 0,
+        "rebases": 3,
+        "corridor_loops": 0,
+        "collision_builds": 11,
+        "collision_removals": 9
+      },
+      "memory": {
+        "starting_working_set_bytes": 501121024,
+        "peak_working_set_bytes": 505872384,
+        "peak_video_memory_bytes": 851066880,
+        "peak_texture_memory_bytes": 686422784,
+        "peak_buffer_memory_bytes": 53981660,
+        "sample_count": 118,
+        "working_set_trend": {
+          "sample_count": 118,
+          "slope_bytes_per_minute": 4573073.452664975,
+          "r_squared": 0.9752536520711859,
+          "first_bytes": 501268480,
+          "last_bytes": 505872384
+        },
+        "video_memory_trend": {
+          "sample_count": 118,
+          "slope_bytes_per_minute": 314531.2927758873,
+          "r_squared": 0.4720997657195962,
+          "first_bytes": 850739200,
+          "last_bytes": 851066880
+        },
+        "managed_heap_trend": {
+          "sample_count": 118,
+          "slope_bytes_per_minute": 1007241.202588383,
+          "r_squared": 0.009794498874149293,
+          "first_bytes": 10789304,
+          "last_bytes": 11570616
+        }
+      },
+      "mean_draw_calls": 1438.617270194986,
+      "shared_environment_materials": 9,
+      "acceptance_comparisons": {
+        "p95_frame_ms": {
+          "measured": 18.9125,
+          "limit": 16.67,
+          "applicable": false,
+          "note": "Not applicable to a frame-capped run; see cap_adherence."
+        },
+        "cap_adherence": {
+          "engine_max_fps": 60,
+          "cap_period_ms": 16.666666666666668,
+          "mean_fps": 59.82834863475294,
+          "p50_frame_ms": 16.6625,
+          "mean_fps_tolerance": 0.1,
+          "p50_frame_ms_tolerance": 0.1,
+          "criterion": "mean FPS within 0.1 of the cap AND p50 within 0.1 ms of the cap period AND no steady-driving stall over 20 ms",
+          "criterion_status": "ratified 2026-08-14 (ADR-0023 Q-022e); stall threshold lowered 2026-08-16",
+          "passed": false
+        },
+        "p99_frame_ms": {
+          "measured": 20.0575,
+          "limit": 20,
+          "passed": false
+        },
+        "steady_driving_stalls_over_threshold": {
+          "measured": 41,
+          "limit": 0,
+          "passed": false,
+          "acceptance_threshold_ms": 20,
+          "recording_threshold_ms": 20
+        },
+        "gpu_memory_bytes": {
+          "measured": 851066880,
+          "limit": 9500000000,
+          "passed": true
+        },
+        "working_set_bytes": {
+          "measured": 505872384,
+          "limit": 16000000000,
+          "passed": true
+        },
+        "sustained_memory_growth": {
+          "working_set_slope_bytes_per_minute": 4573073.452664975,
+          "working_set_r_squared": 0.9752536520711859,
+          "evaluated": false,
+          "criterion": "slope > 1 MiB/min AND R^2 >= 0.5 over the measured window",
+          "criterion_status": "ratified 2026-08-14 (ADR-0023 Q-022d)",
+          "passed": true,
+          "note": "Run shorter than 30 minutes; slope is reported but the ADR-0023 sustained-growth threshold is not evaluated by this run."
+        }
+      },
+      "shipping_gate_passed": false,
+      "command": {
+        "command": [
+          "/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/scripts/godot.sh",
+          "--rendering-method",
+          "forward_plus",
+          "--resolution",
+          "2560x1440",
+          "--path",
+          "/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf",
+          "--",
+          "--route-package=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/.tools/scenarios/representative-corridor/route_graph-a88eb43cd49ef797575786101fbf97753392e0cd84650a07f080a2bacecc2e6a.cbrg",
+          "--reference-performance-profile",
+          "--reference-scenario=integrated-vsync-60fps-night",
+          "--reference-lighting=night",
+          "--reference-camera=chase",
+          "--reference-resolution=2560x1440",
+          "--reference-speed-mps=50",
+          "--reference-warmup-seconds=20",
+          "--reference-measure-seconds=60",
+          "--reference-vsync=true",
+          "--reference-max-fps=60",
+          "--reference-loop-corridor=true",
+          "--reference-summary=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/reports/mac-performance/integrated-vsync-60fps-night/summary.json",
+          "--reference-samples=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/reports/mac-performance/integrated-vsync-60fps-night/samples.jsonl",
+          "--environment-quality=high",
+          "--telemetry-path=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/reports/mac-performance/integrated-vsync-60fps-night/telemetry.jsonl"
+        ],
+        "started_utc": "2026-09-06T23:59:38Z",
+        "old_runtime_temporarily_suspended": true,
+        "gpu_contention": "Unknown: nvidia-smi is unavailable on Apple Silicon. Other applications remain open.",
+        "exit_status": 0,
+        "finished_utc": "2026-09-07T00:01:02Z"
+      },
+      "command_artifact": {
+        "path": "reports/mac-performance/integrated-vsync-60fps-night/command.json",
+        "sha256": "5af36d59b27c44287634e827fa59aa6c9985dd863bcc76c1bfc6a86ec94d0c8d",
+        "bytes": 1613
+      }
+    },
+    {
+      "scenario": "integrated-vsync-night",
+      "art": "preserved local red",
+      "phase": "final fixes integrated with mainline off-road ground changes",
+      "source_revision_note": "c978d8b98c6874e1881fb525bc9a250346c47cba",
+      "summary": {
+        "path": "reports/mac-performance/integrated-vsync-night/summary.json",
+        "sha256": "93d16203258215fddea5009e689aed201506d04e88362331461b920c8027886a",
+        "bytes": 77195
+      },
+      "configuration": {
+        "width_pixels": 2560,
+        "height_pixels": 1440,
+        "actual_window_size": "2560x1440",
+        "content_scale_size_2d": "1920x1080",
+        "three_d_render_size": "2560x1440",
+        "three_d_render_size_basis": "canvas_items stretch scales 2D only; 3D renders at window resolution.",
+        "rendering_method": "forward_plus",
+        "build_configuration": "Release",
+        "managed_runtime": "10.0.2",
+        "gc_gen0_size_environment": "800000",
+        "headless": false,
+        "vsync_enabled": true,
+        "engine_max_fps": 0,
+        "frame_time_source": "Time.GetTicksUsec monotonic clock (not the smoothed engine delta)",
+        "physics_jitter_fix": 0.5,
+        "physics_ticks_per_second": 120,
+        "physics_interpolation_enabled": true,
+        "lighting": "night",
+        "camera": "chase",
+        "environment_quality": "high",
+        "road_profile": "production",
+        "target_speed_mps": 50,
+        "manual_input_sampled_during_autopilot": true,
+        "corridor_loop_enabled": true,
+        "video_adapter": "Apple M4 Max (Apple9)",
+        "video_adapter_api_version": "4.0",
+        "screen_refresh_hz": 120
+      },
+      "warmup": {
+        "requested_seconds": 20,
+        "observed_seconds": 20.008214000000027,
+        "discarded": true
+      },
+      "measurement": {
+        "measured_seconds": 120.00895,
+        "frames": 11613,
+        "mean_fps": 96.76778273620425
+      },
+      "frame_time_ms": {
+        "p50": 9.7975,
+        "p95": 15.5275,
+        "p99": 18.6825,
+        "maximum": 25.637,
+        "mean": 10.334017910961881
+      },
+      "render_cpu_mean_ms": 0.625223542852405,
+      "render_gpu_mean_ms": null,
+      "gpu_timing_available": false,
+      "garbage_collection": {
+        "pause_milliseconds": 4.09,
+        "gen0_collections": 2,
+        "gen1_collections": 1,
+        "gen2_collections": 0,
+        "allocated_bytes_during_measurement": 23562872,
+        "harness_allocated_bytes": 2328760,
+        "game_allocated_bytes": 21234112,
+        "harness_share_of_allocation": 0.09883175531403812,
+        "game_allocated_bytes_per_frame": 1828.477740463274,
+        "gen0_collections_per_second": 0.016665423703815425
+      },
+      "stalls": {
+        "threshold_ms": 20,
+        "total_count": 53,
+        "steady_driving_count": 53,
+        "loop_wrap_attributed_count": 0,
+        "attribution": {
+          "with_a_garbage_collection": 0,
+          "with_streaming_work": 2,
+          "with_no_attributable_work": 51,
+          "counters": "GC generation counts and WorldStreamer cumulative counters, differenced frame to frame",
+          "boundary": "These counters show what work coincided with a stall. They do not time that work, so a coincidence is not a cause."
+        }
+      },
+      "streaming": {
+        "cumulative_route_distance_m": 5998.02554873796,
+        "final_route_position_m": 7056.1256883558735,
+        "starting_route_position_m": 1058.1001396179136,
+        "maximum_chunk_build_ms": 14.6162,
+        "maximum_collision_build_ms": 17.8406,
+        "maximum_environment_build_ms": 7.4985,
+        "loaded_chunks": 10,
+        "maximum_visual_chunks": 14,
+        "maximum_collision_chunks": 9,
+        "chunk_failures": 0,
+        "rebases": 6,
+        "corridor_loops": 0,
+        "collision_builds": 15,
+        "collision_removals": 11
+      },
+      "memory": {
+        "starting_working_set_bytes": 501448704,
+        "peak_working_set_bytes": 507494400,
+        "peak_video_memory_bytes": 851099648,
+        "peak_texture_memory_bytes": 686422784,
+        "peak_buffer_memory_bytes": 53985564,
+        "sample_count": 238,
+        "working_set_trend": {
+          "sample_count": 238,
+          "slope_bytes_per_minute": 2554959.4052599743,
+          "r_squared": 0.7670485450518696,
+          "first_bytes": 501596160,
+          "last_bytes": 507494400
+        },
+        "video_memory_trend": {
+          "sample_count": 238,
+          "slope_bytes_per_minute": 184283.51660855173,
+          "r_squared": 0.6477312507487989,
+          "first_bytes": 850739200,
+          "last_bytes": 851099648
+        },
+        "managed_heap_trend": {
+          "sample_count": 238,
+          "slope_bytes_per_minute": -131713.63502886248,
+          "r_squared": 0.0009292643396933142,
+          "first_bytes": 12187616,
+          "last_bytes": 16760648
+        }
+      },
+      "mean_draw_calls": 1394.8060793937827,
+      "shared_environment_materials": 9,
+      "acceptance_comparisons": {
+        "p95_frame_ms": {
+          "measured": 15.5275,
+          "limit": 16.67,
+          "applicable": true,
+          "passed": true,
+          "note": "Uncapped run judged against the ADR-0023 p95 limit."
+        },
+        "cap_adherence": {
+          "applicable": false,
+          "note": "Uncapped run; judged on the percentile limits above."
+        },
+        "p99_frame_ms": {
+          "measured": 18.6825,
+          "limit": 20,
+          "passed": true
+        },
+        "steady_driving_stalls_over_threshold": {
+          "measured": 53,
+          "limit": 0,
+          "passed": false,
+          "acceptance_threshold_ms": 20,
+          "recording_threshold_ms": 20
+        },
+        "gpu_memory_bytes": {
+          "measured": 851099648,
+          "limit": 9500000000,
+          "passed": true
+        },
+        "working_set_bytes": {
+          "measured": 507494400,
+          "limit": 16000000000,
+          "passed": true
+        },
+        "sustained_memory_growth": {
+          "working_set_slope_bytes_per_minute": 2554959.4052599743,
+          "working_set_r_squared": 0.7670485450518696,
+          "evaluated": false,
+          "criterion": "slope > 1 MiB/min AND R^2 >= 0.5 over the measured window",
+          "criterion_status": "ratified 2026-08-14 (ADR-0023 Q-022d)",
+          "passed": true,
+          "note": "Run shorter than 30 minutes; slope is reported but the ADR-0023 sustained-growth threshold is not evaluated by this run."
+        }
+      },
+      "shipping_gate_passed": false,
+      "command": {
+        "command": [
+          "/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/scripts/godot.sh",
+          "--rendering-method",
+          "forward_plus",
+          "--resolution",
+          "2560x1440",
+          "--path",
+          "/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf",
+          "--",
+          "--route-package=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/.tools/scenarios/representative-corridor/route_graph-a88eb43cd49ef797575786101fbf97753392e0cd84650a07f080a2bacecc2e6a.cbrg",
+          "--reference-performance-profile",
+          "--reference-scenario=integrated-vsync-night",
+          "--reference-lighting=night",
+          "--reference-camera=chase",
+          "--reference-resolution=2560x1440",
+          "--reference-speed-mps=50",
+          "--reference-warmup-seconds=20",
+          "--reference-measure-seconds=120",
+          "--reference-vsync=true",
+          "--reference-max-fps=0",
+          "--reference-loop-corridor=true",
+          "--reference-summary=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/reports/mac-performance/integrated-vsync-night/summary.json",
+          "--reference-samples=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/reports/mac-performance/integrated-vsync-night/samples.jsonl",
+          "--environment-quality=high",
+          "--telemetry-path=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/reports/mac-performance/integrated-vsync-night/telemetry.jsonl"
+        ],
+        "started_utc": "2026-09-06T23:53:59Z",
+        "old_runtime_temporarily_suspended": true,
+        "gpu_contention": "Unknown: nvidia-smi is unavailable on Apple Silicon. Other applications remain open.",
+        "exit_status": 0,
+        "finished_utc": "2026-09-06T23:56:24Z"
+      },
+      "command_artifact": {
+        "path": "reports/mac-performance/integrated-vsync-night/command.json",
+        "sha256": "14633ab05230ea1246bf143f338cbe0f863dc588681ab027c22446b34cc68d1f",
+        "bytes": 1589
+      }
+    }
+  ],
+  "camera_motion": {
+    "before_oscillation_m": 0.42804,
+    "after_oscillation_m": 0.000137,
+    "cockpit_intermediate_regression_m": 2.083344,
+    "cockpit_final_oscillation_m": 0,
+    "limit_m": 0.02,
+    "samples": 360,
+    "physics_hz": 20,
+    "render_hz": 120,
+    "speed_mps": 50,
+    "settle_seconds": 3,
+    "before_passed": false,
+    "after_passed": true,
+    "measurement": "Camera3D.GetCameraTransform(), the transform submitted to the renderer",
+    "normal_120hz_amplitude_claimed": false,
+    "command": "scripts/godot.sh --headless --fixed-fps 120 --path . res://game/Automation/CameraInterpolationProbe.tscn",
+    "before_exit_status": 1,
+    "after_exit_status": 0
+  },
+  "tree_fade": {
+    "margin_m": 30,
+    "total_transition_band_m": 60,
+    "placement_density_and_thresholds_unchanged": true,
+    "frame_csharp_lod_work_added": false,
+    "shared_material_count": 9,
+    "rendered_probe": {
+      "passed": true,
+      "renderer": "forward_plus",
+      "results": [
+        {
+          "coverage": [
+            {
+              "distance_m": 70.0,
+              "expected_fraction": 1.0,
+              "visible_fraction": 1.0
+            },
+            {
+              "distance_m": 85.0,
+              "expected_fraction": 0.84375,
+              "visible_fraction": 0.8434375
+            },
+            {
+              "distance_m": 100.0,
+              "expected_fraction": 0.5,
+              "visible_fraction": 0.49890625
+            },
+            {
+              "distance_m": 115.0,
+              "expected_fraction": 0.15625,
+              "visible_fraction": 0.1528125
+            },
+            {
+              "distance_m": 130.1,
+              "expected_fraction": 0.0,
+              "visible_fraction": 0.0
+            }
+          ],
+          "inverse": false,
+          "shader": "conifer_needles"
+        },
+        {
+          "coverage": [
+            {
+              "distance_m": 70.0,
+              "expected_fraction": 1.0,
+              "visible_fraction": 1.0
+            },
+            {
+              "distance_m": 85.0,
+              "expected_fraction": 0.84375,
+              "visible_fraction": 0.84328125
+            },
+            {
+              "distance_m": 100.0,
+              "expected_fraction": 0.5,
+              "visible_fraction": 0.4975
+            },
+            {
+              "distance_m": 115.0,
+              "expected_fraction": 0.15625,
+              "visible_fraction": 0.1525
+            },
+            {
+              "distance_m": 130.1,
+              "expected_fraction": 0.0,
+              "visible_fraction": 0.0
+            }
+          ],
+          "inverse": true,
+          "shader": "conifer_needles"
+        },
+        {
+          "coverage": [
+            {
+              "distance_m": 70.0,
+              "expected_fraction": 1.0,
+              "visible_fraction": 1.0
+            },
+            {
+              "distance_m": 85.0,
+              "expected_fraction": 0.84375,
+              "visible_fraction": 0.8434375
+            },
+            {
+              "distance_m": 100.0,
+              "expected_fraction": 0.5,
+              "visible_fraction": 0.49890625
+            },
+            {
+              "distance_m": 115.0,
+              "expected_fraction": 0.15625,
+              "visible_fraction": 0.1528125
+            },
+            {
+              "distance_m": 130.1,
+              "expected_fraction": 0.0,
+              "visible_fraction": 0.0
+            }
+          ],
+          "inverse": false,
+          "shader": "conifer_impostor"
+        },
+        {
+          "coverage": [
+            {
+              "distance_m": 70.0,
+              "expected_fraction": 1.0,
+              "visible_fraction": 1.0
+            },
+            {
+              "distance_m": 85.0,
+              "expected_fraction": 0.84375,
+              "visible_fraction": 0.84328125
+            },
+            {
+              "distance_m": 100.0,
+              "expected_fraction": 0.5,
+              "visible_fraction": 0.4975
+            },
+            {
+              "distance_m": 115.0,
+              "expected_fraction": 0.15625,
+              "visible_fraction": 0.1525
+            },
+            {
+              "distance_m": 130.1,
+              "expected_fraction": 0.0,
+              "visible_fraction": 0.0
+            }
+          ],
+          "inverse": true,
+          "shader": "conifer_impostor"
+        }
+      ]
+    },
+    "probe_scope": "Production shaders on one MultiMesh card with a constant projected area; observes real native fade coverage in Forward+ Metal. This does not substitute for forest appearance review.",
+    "command": "GODOT_BIN=.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot python3 scripts/run_with_timeout.py 30 ./scripts/godot.sh --rendering-method forward_plus --resolution 256x256 --path . --script reports/mac-performance/tree_fade_probe.gd",
+    "exit_status": 0
+  },
+  "validation": {
+    "local_gate": {
+      "schema_version": 1,
+      "status": "passed",
+      "platform": "Darwin",
+      "commit": "c978d8b98c6874e1881fb525bc9a250346c47cba",
+      "started_at": "2026-09-06T23:51:21Z",
+      "finished_at": "2026-09-06T23:52:41Z",
+      "steps": [
+        {
+          "name": "doctor",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/doctor.log"
+        },
+        {
+          "name": "dotnet-build",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/dotnet-build.log"
+        },
+        {
+          "name": "dotnet-test",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/dotnet-test.log"
+        },
+        {
+          "name": "ruff",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/ruff.log"
+        },
+        {
+          "name": "frame-allocations",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/frame-allocations.log"
+        },
+        {
+          "name": "continental-route",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/continental-route.log"
+        },
+        {
+          "name": "pytest-map-pipeline",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/pytest-map-pipeline.log"
+        },
+        {
+          "name": "pytest-playgodot-unit",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/pytest-playgodot-unit.log"
+        },
+        {
+          "name": "godot-smoke",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/godot-smoke.log"
+        },
+        {
+          "name": "camera-interpolation",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/camera-interpolation.log"
+        }
+      ]
+    },
+    "csharp_tests_passed": 146,
+    "pipeline_script_tests_passed": 279,
+    "playgodot_unit_tests_passed": 13,
+    "rendered_playgodot_tests_passed": 28,
+    "camera_handling_stages_passed": 6,
+    "environment_stages_passed": 5,
+    "environment_regions_exercised": 4,
+    "terrain_seam_error_m": 0,
+    "environment_collision_budget": 0,
+    "commands": [
+      {
+        "name": "full-local-gate",
+        "command": "GODOT_BIN=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot ./scripts/check.sh",
+        "exit_status": 0,
+        "log": "reports/mac-performance/validation/check.log"
+      },
+      {
+        "name": "camera-handling",
+        "command": "GODOT_BIN=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot ./scripts/run-scenario.sh --profile camera-handling",
+        "exit_status": 0,
+        "log": "reports/mac-performance/camera-handling.log"
+      },
+      {
+        "name": "environment-streaming",
+        "command": "GODOT_BIN=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot ./scripts/run-scenario.sh --profile environment-streaming",
+        "exit_status": 0,
+        "log": "reports/mac-performance/environment-streaming.log"
+      },
+      {
+        "name": "rendered-input-camera-suite",
+        "command": "GODOT_BIN=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot ./scripts/verify-playgodot.sh",
+        "exit_status": 0,
+        "log": "reports/mac-performance/playgodot.log"
+      },
+      {
+        "name": "release-build",
+        "command": "dotnet build Cannonball.csproj --configuration Release --output .godot/mono/temp/bin/Debug --no-restore --nologo",
+        "exit_status": 0,
+        "log": "reports/mac-performance/release-build.log"
+      },
+      {
+        "name": "full-local-gate-after-portability-fix",
+        "command": "GODOT_BIN=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot ./scripts/check.sh",
+        "exit_status": 0,
+        "log": "reports/mac-performance/validation/check-after-portability-fix.log"
+      },
+      {
+        "name": "pck-export",
+        "command": "GODOT_BIN=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot ./scripts/godot.sh --headless --path . --export-pack 'Linux x86_64' reports/mac-performance/validation/tree-fix.pck",
+        "exit_status": 0,
+        "log": "reports/mac-performance/validation/export-pack.log"
+      },
+      {
+        "name": "pck-inspection",
+        "command": "node scripts/release/pck-inspect.mjs reports/mac-performance/validation/tree-fix.pck",
+        "exit_status": 0,
+        "log": "reports/mac-performance/validation/pck-inspect.log"
+      },
+      {
+        "name": "full-local-gate-final-cameras",
+        "command": "GODOT_BIN=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot ./scripts/check.sh",
+        "exit_status": 0,
+        "log": "reports/mac-performance/validation/check-final-cameras.log"
+      },
+      {
+        "name": "camera-handling-final",
+        "command": "GODOT_BIN=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot ./scripts/run-scenario.sh --profile camera-handling",
+        "exit_status": 0,
+        "log": "reports/mac-performance/camera-handling-final.log"
+      },
+      {
+        "name": "playgodot-final-full",
+        "command": "GODOT_BIN=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot ./scripts/verify-playgodot.sh",
+        "exit_status": 1,
+        "log": "reports/mac-performance/playgodot-final.log"
+      },
+      {
+        "name": "playgodot-controller-retry",
+        "command": "GODOT_BIN=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot PLAYGODOT_ARTIFACT_DIR=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/reports/mac-performance/controller-retry ./scripts/verify-playgodot.sh --test-filter controller_camera_recover_menu_and_confirmed_restart_are_distinct",
+        "exit_status": 0,
+        "log": "reports/mac-performance/controller-retry.log"
+      },
+      {
+        "name": "final-release-build",
+        "command": "dotnet build Cannonball.csproj --configuration Release --output .godot/mono/temp/bin/Debug --no-restore --nologo",
+        "exit_status": 0,
+        "log": "reports/mac-performance/final-release-build.log"
+      },
+      {
+        "name": "full-local-gate-integrated",
+        "command": "GODOT_BIN=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot ./scripts/check.sh",
+        "exit_status": 0,
+        "log": "reports/mac-performance/validation/check-integrated.log"
+      },
+      {
+        "name": "off-road-ground-integrated",
+        "command": "GODOT_BIN=/Users/randroid/Documents/Dev/Cannonball-Vibe-mac-perf/.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot ./scripts/verify-off-road-ground.sh",
+        "exit_status": 0,
+        "log": "reports/mac-performance/off-road-integrated.log"
+      }
+    ],
+    "remote_checks": [
+      {
+        "link": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34068160098/job/101581109916",
+        "name": "Clean-machine smoke (windows)",
+        "state": "SUCCESS"
+      },
+      {
+        "link": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34068160098/job/101581109841",
+        "name": "Clean-machine smoke (linux)",
+        "state": "SUCCESS"
+      },
+      {
+        "link": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34068160204/job/101580502315",
+        "name": "PlayGodot semantic UI (macos-latest)",
+        "state": "SUCCESS"
+      },
+      {
+        "link": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34068160204/job/101580502388",
+        "name": "Deterministic 500-mile (ubuntu-latest)",
+        "state": "SUCCESS"
+      },
+      {
+        "link": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34068160204/job/101580502291",
+        "name": "M0 (ubuntu-latest)",
+        "state": "SUCCESS"
+      },
+      {
+        "link": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34068160204/job/101580502364",
+        "name": "PlayGodot semantic UI (ubuntu-latest)",
+        "state": "SUCCESS"
+      },
+      {
+        "link": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34068160123/job/101580502063",
+        "name": "Blender and Godot asset pipeline",
+        "state": "SUCCESS"
+      },
+      {
+        "link": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34068160098/job/101580501792",
+        "name": "Build reproducible fixture exports",
+        "state": "SUCCESS"
+      },
+      {
+        "link": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34068160204/job/101580502193",
+        "name": "M0 (windows-latest)",
+        "state": "SUCCESS"
+      },
+      {
+        "link": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34068160204/job/101580502317",
+        "name": "PlayGodot semantic UI (windows-latest)",
+        "state": "SUCCESS"
+      },
+      {
+        "link": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34068160204/job/101580502311",
+        "name": "Deterministic 500-mile (windows-latest)",
+        "state": "SUCCESS"
+      },
+      {
+        "link": "",
+        "name": "CodeRabbit",
+        "state": "SUCCESS"
+      }
+    ],
+    "remote_checks_revision": "c978d8b98c6874e1881fb525bc9a250346c47cba",
+    "required_remote_checks_passed": true,
+    "rendered_playgodot_final_full_run": {
+      "passed": 27,
+      "failed": 1,
+      "isolated_retry_passed": 1,
+      "code_changed_for_retry": false
+    },
+    "off_road_ground_probes_passed": 6,
+    "implementation_before_mainline_integration": {
+      "revision": "9dbc526601b48ecdf4e6be14b4e6ee9b2e99849e",
+      "checks": [
+        {
+          "link": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34067672276/job/101579972034",
+          "name": "Clean-machine smoke (linux)",
+          "state": "SUCCESS"
+        },
+        {
+          "link": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34067672276/job/101579972072",
+          "name": "Clean-machine smoke (windows)",
+          "state": "SUCCESS"
+        },
+        {
+          "link": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34067672282/job/101579200531",
+          "name": "PlayGodot semantic UI (macos-latest)",
+          "state": "SUCCESS"
+        },
+        {
+          "link": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34067672257/job/101579200461",
+          "name": "Blender and Godot asset pipeline",
+          "state": "SUCCESS"
+        },
+        {
+          "link": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34067672282/job/101579200449",
+          "name": "M0 (ubuntu-latest)",
+          "state": "SUCCESS"
+        },
+        {
+          "link": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34067672276/job/101579200435",
+          "name": "Build reproducible fixture exports",
+          "state": "SUCCESS"
+        },
+        {
+          "link": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34067672282/job/101579200515",
+          "name": "M0 (windows-latest)",
+          "state": "SUCCESS"
+        },
+        {
+          "link": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34067672282/job/101579200520",
+          "name": "PlayGodot semantic UI (ubuntu-latest)",
+          "state": "SUCCESS"
+        },
+        {
+          "link": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34067672282/job/101579200516",
+          "name": "PlayGodot semantic UI (windows-latest)",
+          "state": "SUCCESS"
+        },
+        {
+          "link": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34067672282/job/101579200363",
+          "name": "Deterministic 500-mile (ubuntu-latest)",
+          "state": "SUCCESS"
+        },
+        {
+          "link": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34067672282/job/101579200464",
+          "name": "Deterministic 500-mile (windows-latest)",
+          "state": "SUCCESS"
+        },
+        {
+          "link": "",
+          "name": "CodeRabbit",
+          "state": "SUCCESS"
+        }
+      ]
+    },
+    "unrelated_mainline_recovery": {
+      "attempt": 2,
+      "conclusion": "success",
+      "status": "completed"
+    }
+  },
+  "failures_and_recovery": [
+    {
+      "failure": "Old camera fails the motion probe.",
+      "retry_count": 1,
+      "recovery": "Corrected camera passes with the same probe."
+    },
+    {
+      "failure": "Initial new lane allocation test used an overprecise width-sum assertion for float-authored lane widths.",
+      "retry_count": 1,
+      "recovery": "Bound matches source precision; zero-allocation requirement unchanged; full 146 C# tests pass."
+    },
+    {
+      "failure": "Initial fade coverage probe expected linear opacity.",
+      "retry_count": 1,
+      "recovery": "Verified official Forward+ uses smoothstep; updated expected curve. Both production shaders and both polarities pass."
+    },
+    {
+      "failure": "First implementation Windows M0 could not directly execute a Bash script through Python CreateProcess (WinError 193). A bare bash executable resolved to the WSL stub on the first correction.",
+      "revision": "693b6db8d405afd390c1591ee5603e33076874f9 and 248f804",
+      "retry_count": 2,
+      "recovery": "Watchdog callers use the current Bash executable via the absolute BASH variable; local gate rerun; remote recovery shown above."
+    },
+    {
+      "failure": "First implementation asset/export CI included CameraInterpolationProbe.tscn in release PCK.",
+      "revision": "693b6db8d405afd390c1591ee5603e33076874f9",
+      "retry_count": 1,
+      "recovery": "All export presets exclude game/Automation; unchanged local PCK inspector passes. Remote recovery shown above."
+    },
+    {
+      "failure": "Final uncapped tree capture has four >20 ms frames.",
+      "retry_count": 0,
+      "recovery": "No zero-stall claim for this capture. A separate V-Sync mode capture has zero >20 ms frames over 120 seconds."
+    },
+    {
+      "failure": "Disabling cockpit interpolation without composing its displayed mount caused position stepping. GetGlobalTransformInterpolated masked this in the first diagnostic.",
+      "retry_count": 1,
+      "recovery": "Probe now reads actual GetCameraTransform; displayed-parent composition reduces the measured cockpit oscillation from 2.083344 m to zero at the deliberately low 20 Hz test rate."
+    },
+    {
+      "failure": "Final local full rendered suite missed the first controller camera-toggle press: 27 passed, 1 failed.",
+      "retry_count": 1,
+      "recovery": "The failed controller scenario passed unchanged on an isolated retry. Earlier full suite had passed all 28. Failure transcript and retry are retained; cause is unproven, and the helper uses a 30 ms press."
+    }
+  ],
+  "limitations": [
+    "Diagnostic interactive desktop; Apple GPU contention unknown, other applications open.",
+    "GPU timestamps unavailable on Metal; no CPU/GPU bottleneck split established.",
+    "Short fixture captures do not evaluate the 30-minute memory-growth gate, production route, minimum hardware or Windows reference GPU gate.",
+    "PC performance and smoother Mac motion are owner reports; exact PC build was not supplied. Navy and local red art were both measured on the Mac.",
+    "Initial live trace report preceded assembly-version verification. Later disk assembly identification and process start/build times established the original session had the August fixes.",
+    "Original game temporarily suspended during captures, then resumed; raw counter/trace timing is not a user-marked stutter attribution.",
+    "V-Sync requested and reported enabled, but frame intervals come from engine monotonic time, not OS display-present timestamps."
+  ],
+  "recommendation": "Retain Godot/C#. Revisit a bounded native extension only for a measured subsystem that still exceeds its budget; no evidence justifies a whole-game rewrite.",
+  "human_gate_approval_reference": null,
+  "owner_feedback": {
+    "source": "2026-09-06 conversation",
+    "text": "Looks way smoother. One thing I'm seeing is a lot of obvious pop-in from the trees LOD",
+    "scope": "Motion improvement only; separate driving enjoyment/30-minute handling approval remains open."
+  },
+  "audit": "docs/audits/2026-09-06-macos-frame-pacing.md",
+  "output_artifacts": [
+    {
+      "path": "reports/mac-performance/after-blue-night/command.json",
+      "sha256": "47c0dead73068fcff0b9b103596a9f78d6635868722a0085d2e041a2479b917a",
+      "bytes": 1565
+    },
+    {
+      "path": "reports/mac-performance/after-blue-night/engine.log",
+      "sha256": "907d8d250947a50b0d4aac2a8320486c7545da57b503eb5fe1b9d8f953a3f04e",
+      "bytes": 2860
+    },
+    {
+      "path": "reports/mac-performance/after-blue-night/samples.jsonl",
+      "sha256": "cf55da4fbcd3f815ec6d517ac4bc56f76005b034a9e0a41bc51d04669bdfd6ef",
+      "bytes": 41496
+    },
+    {
+      "path": "reports/mac-performance/after-blue-night/summary.json",
+      "sha256": "eada0ab00f3cfc15a7b8fe2efe26bdc84af3658edefe85613c0f55bf64112802",
+      "bytes": 11104
+    },
+    {
+      "path": "reports/mac-performance/after-blue-night/telemetry.jsonl",
+      "sha256": "e2b5b884f4d2087b55f8ba6a08c60b62ce597bd2088c1c3ffad4190b33097041",
+      "bytes": 9267
+    },
+    {
+      "path": "reports/mac-performance/after-red-night-1/command.json",
+      "sha256": "cc092ffdd056219c3bf0841d5a74874a3706f4b9c1e53e75416cff4ff56e1051",
+      "bytes": 1569
+    },
+    {
+      "path": "reports/mac-performance/after-red-night-1/engine.log",
+      "sha256": "805e9bd02096d55e6d72ba62f57a572d041d5fd2f023371855b5153b69b48399",
+      "bytes": 2863
+    },
+    {
+      "path": "reports/mac-performance/after-red-night-1/samples.jsonl",
+      "sha256": "976023c963dc277a4250613b99ec0d110717de7a2364853f0e37af0b10844364",
+      "bytes": 40624
+    },
+    {
+      "path": "reports/mac-performance/after-red-night-1/summary.json",
+      "sha256": "9d66a0fc7a620e47e547ba2065506dc673bf62730c3dfe5c79085a16f83d84d0",
+      "bytes": 9797
+    },
+    {
+      "path": "reports/mac-performance/after-red-night-1/telemetry.jsonl",
+      "sha256": "bad15e1ad09b02e0f7851677246d1136ef1073ec1d91ef34b31f3009f18c92d9",
+      "bytes": 9275
+    },
+    {
+      "path": "reports/mac-performance/after-tree-dither-night/command.json",
+      "sha256": "68bf98ad85e53759f9d88b0e269a81bf465fc27c62948c406169273416df0ff2",
+      "bytes": 1594
+    },
+    {
+      "path": "reports/mac-performance/after-tree-dither-night/engine.log",
+      "sha256": "40718dce01e55310327a698bec89adfc98fadd62460640ee22955617e6a51304",
+      "bytes": 3073
+    },
+    {
+      "path": "reports/mac-performance/after-tree-dither-night/samples.jsonl",
+      "sha256": "bab85a533132aea2a818790c0ff974068e5237908bf972cd5bf753feaf7b9d20",
+      "bytes": 83933
+    },
+    {
+      "path": "reports/mac-performance/after-tree-dither-night/summary.json",
+      "sha256": "c3d2e4b6c776542beb3541a71664b5920bc30b50c6de78a9e8d9d836d7df92a3",
+      "bytes": 15034
+    },
+    {
+      "path": "reports/mac-performance/after-tree-dither-night/telemetry.jsonl",
+      "sha256": "9c99a26c79ba1bba841036797a2413d925f6e7933198069f3c06bd06fb7a45e6",
+      "bytes": 15811
+    },
+    {
+      "path": "reports/mac-performance/after-tree-fade-night/command.json",
+      "sha256": "cff1890309386e1069af9f715b7b62886135e6d8dc1db03ff1d5f9ff29076162",
+      "bytes": 1585
+    },
+    {
+      "path": "reports/mac-performance/after-tree-fade-night/engine.log",
+      "sha256": "10a0d3ed2d66b8d336dca8d9dd5ad6fcdb8f5274b9799d7fa71c0a77600e45e0",
+      "bytes": 2876
+    },
+    {
+      "path": "reports/mac-performance/after-tree-fade-night/samples.jsonl",
+      "sha256": "f37e32f87d82890acdea3e5655e5fd96ab30cd5e086cc5fe63f1b9fec03afbfc",
+      "bytes": 40626
+    },
+    {
+      "path": "reports/mac-performance/after-tree-fade-night/summary.json",
+      "sha256": "1df80096e989497513d7c2ef4b3f0b498a31f6bf8bde27c792e1c434014a32cb",
+      "bytes": 9849
+    },
+    {
+      "path": "reports/mac-performance/after-tree-fade-night/telemetry.jsonl",
+      "sha256": "4699d8e7cb5e94e36a04f97457ad5c2ef63b214fc782b49aaca9b0842be25d84",
+      "bytes": 9288
+    },
+    {
+      "path": "reports/mac-performance/after-tree-vsync-night/command.json",
+      "sha256": "b25856d6893dbb6c71ea161a9a54dad6730c70bcdff521dbc55ce7de32117cab",
+      "bytes": 1589
+    },
+    {
+      "path": "reports/mac-performance/after-tree-vsync-night/engine.log",
+      "sha256": "acd0ac79dc7d22323071d838551a06394253da242b5a54cd6b07d9d51b8f2486",
+      "bytes": 3069
+    },
+    {
+      "path": "reports/mac-performance/after-tree-vsync-night/samples.jsonl",
+      "sha256": "5bf7dfd0a4e7419c8aac86a39fbb7080c89538326f03368172e01aab77a2f0dc",
+      "bytes": 80394
+    },
+    {
+      "path": "reports/mac-performance/after-tree-vsync-night/summary.json",
+      "sha256": "506527f2196ecd186e0611c93fc989f267c5d79a72eb4780116c8db20e8f8021",
+      "bytes": 9856
+    },
+    {
+      "path": "reports/mac-performance/after-tree-vsync-night/telemetry.jsonl",
+      "sha256": "3ed8bcfdad4e6dc076ea74b98d17d9e4b2f4a6f3695e942d65c726aee3f55007",
+      "bytes": 15827
+    },
+    {
+      "path": "reports/mac-performance/before/input-hashes.json",
+      "sha256": "08ab5f42768789b8b182df0230ae53ff3445d2fd736639fadca9490d5e2cec5d",
+      "bytes": 693
+    },
+    {
+      "path": "reports/mac-performance/before/input.patch",
+      "sha256": "4c8541edd34796035fc58c54e281ac4d3ae02b7f47fb1443931ec3d5769f9f46",
+      "bytes": 14504
+    },
+    {
+      "path": "reports/mac-performance/before/machine-state-before-night-1.json",
+      "sha256": "011a994c6471f628338a635a215cd0491950e57cc502739c345600e9cd62499d",
+      "bytes": 2560
+    },
+    {
+      "path": "reports/mac-performance/before/reference-performance-before-night-1.json",
+      "sha256": "8e087da2cdbdd606ab71f73491b24611afc9684c68327d08e8315a09cc8c84d6",
+      "bytes": 9706
+    },
+    {
+      "path": "reports/mac-performance/before/reference-performance-before-night-1.jsonl",
+      "sha256": "692164f5bf38e059f140c73f9ddf0f5fe04c80ce4c923264f06f4c785e023985",
+      "bytes": 40525
+    },
+    {
+      "path": "reports/mac-performance/before/reference-performance-before-night-1.log",
+      "sha256": "9999a3970b4120c5e574c3d21fffa6fd4f458d485e3fddf6b7b90c02bfc842f0",
+      "bytes": 4353
+    },
+    {
+      "path": "reports/mac-performance/before/route-package-reproducibility-representative-corridor.json",
+      "sha256": "2ff22facae91cd680fe877d8cdc9067ae1616f2791fd5c45eb382a31866ab67d",
+      "bytes": 15740
+    },
+    {
+      "path": "reports/mac-performance/before/telemetry-before-night-1.jsonl",
+      "sha256": "95ec606498fd38573f73e5a43ef253fd1b2e9729d000ac90fac6780aa4c0c9b8",
+      "bytes": 9274
+    },
+    {
+      "path": "reports/mac-performance/before-blue-night/command.json",
+      "sha256": "5ecc34e591a04af3c97f114407ea9b543ab0805e5628892e27bcbbe638bf5395",
+      "bytes": 1569
+    },
+    {
+      "path": "reports/mac-performance/before-blue-night/engine.log",
+      "sha256": "6ae0e6a9782f2b85100ce258ab93faf86a26ca6f1e257e7014c5171750e213ab",
+      "bytes": 4058
+    },
+    {
+      "path": "reports/mac-performance/before-blue-night/samples.jsonl",
+      "sha256": "1888f0dfddecc453f0b63c38ab755ffba76c2211a92fabe514eaca833521e50f",
+      "bytes": 41429
+    },
+    {
+      "path": "reports/mac-performance/before-blue-night/summary.json",
+      "sha256": "793f74627186c61b64fa9172f00f4e63e327b5466379838b6572770b407682d3",
+      "bytes": 11012
+    },
+    {
+      "path": "reports/mac-performance/before-blue-night/telemetry.jsonl",
+      "sha256": "e3c3e1ffeba404cabba6f9b7e75761161ee6aeae4e579600e2748f857a92b293",
+      "bytes": 9273
+    },
+    {
+      "path": "reports/mac-performance/before-night-2/command.json",
+      "sha256": "6a7c1e3e1543e12de6ed42b88b9f1f095208b014a194ad00a292e9afd03cff07",
+      "bytes": 1558
+    },
+    {
+      "path": "reports/mac-performance/before-night-2/engine.log",
+      "sha256": "6490cb985b90054387b47933420cfd37eed78ebd22394b057bf286a90919701c",
+      "bytes": 5196
+    },
+    {
+      "path": "reports/mac-performance/before-night-2/samples.jsonl",
+      "sha256": "c0e93be00a71b583ef425f25c99ae7ba31993583cd8f4e3354515f4f9aacbc46",
+      "bytes": 81203
+    },
+    {
+      "path": "reports/mac-performance/before-night-2/summary.json",
+      "sha256": "37dff45cb0659ef2b42ff4eb10a8d435304aca6f9b1a40839528cd489a857714",
+      "bytes": 10981
+    },
+    {
+      "path": "reports/mac-performance/before-night-2/telemetry.jsonl",
+      "sha256": "287022510e3a2b8d69141e2009a4f41ca944426599689a3293050980f0ade4f7",
+      "bytes": 15763
+    },
+    {
+      "path": "reports/mac-performance/camera-after.log",
+      "sha256": "525bb4a0d7f2a3d17aaa50d85add038cbc542715e57e5bb0862eb3a3e2c02f44",
+      "bytes": 199
+    },
+    {
+      "path": "reports/mac-performance/camera-before.log",
+      "sha256": "6962050e0971957c705f91c189b4e175bdd195d9ff45804f118f807e54132863",
+      "bytes": 203
+    },
+    {
+      "path": "reports/mac-performance/camera-handling-final.log",
+      "sha256": "b40dd0f515d46ca0970c0ccc11825d3d537e20fc95dc721df9be0ab07d180598",
+      "bytes": 1928
+    },
+    {
+      "path": "reports/mac-performance/camera-handling.log",
+      "sha256": "5e8de0abf6bcb5f474b4aafb6ad35858935eb04a833c89b86fd7b02e9e4dadde",
+      "bytes": 1928
+    },
+    {
+      "path": "reports/mac-performance/camera-original-actual-build.log",
+      "sha256": "3681f6f536d70cbd246ab762dd4b7713d462742b3d0e8de98fe7bbd1c5d28e85",
+      "bytes": 402
+    },
+    {
+      "path": "reports/mac-performance/camera-original-actual-command.json",
+      "sha256": "495a06c91f1bdfdfa58d9086a89914c65e2b55e13af2aba4dc2242df95bc0757",
+      "bytes": 351
+    },
+    {
+      "path": "reports/mac-performance/camera-original-actual.log",
+      "sha256": "9b708a241444822b2e67027b57fec695b4f6b3f0ac5b4f07fda17a750ab92050",
+      "bytes": 234
+    },
+    {
+      "path": "reports/mac-performance/ci-assets-failure.log",
+      "sha256": "3b6db7afda8846577231ea7c0e1bdb6009f6b9268322eb879e4984e7841d068e",
+      "bytes": 161191
+    },
+    {
+      "path": "reports/mac-performance/ci-checks.json",
+      "sha256": "d5a804b11df9fa92e205f46e3822e9488d0b46bb3aa9652fe51732c9a0514fc5",
+      "bytes": 1695
+    },
+    {
+      "path": "reports/mac-performance/ci-exports-failure.log",
+      "sha256": "4b655cc5ab40ddb5806bccf31a250f44f1539c355cf8dd28383a612e785abf64",
+      "bytes": 126738
+    },
+    {
+      "path": "reports/mac-performance/ci-implementation-9dbc526-checks.json",
+      "sha256": "d95adf8981d338b1e61d8cf74386ab8b61b85e28ab004d16e9a2da0781272bff",
+      "bytes": 1840
+    },
+    {
+      "path": "reports/mac-performance/ci-implementation-9dbc526-state.json",
+      "sha256": "733539b4960d165be5aec6e574735d9c32ca96bcf300fceda3e6c9beb8db5adc",
+      "bytes": 3741
+    },
+    {
+      "path": "reports/mac-performance/ci-recovery-checks.json",
+      "sha256": "7c09e7c7b8fb1e23bd864476561c539b21ca434e8688182cb30ca75ee9fc13e1",
+      "bytes": 1840
+    },
+    {
+      "path": "reports/mac-performance/ci-recovery-state.json",
+      "sha256": "51f20fca99921352ffff8109dc234d8f68a3552029241e3b5ded2fb908e6e2d6",
+      "bytes": 3741
+    },
+    {
+      "path": "reports/mac-performance/ci-windows-m0-failure.log",
+      "sha256": "f5090dbd2b1551e4d37ee28c7af9111e9fff46347d17e9e7702470db7e4399e2",
+      "bytes": 21113
+    },
+    {
+      "path": "reports/mac-performance/ci-windows-m0-retry-failure.log",
+      "sha256": "84ee02e4a8ed099ae409ee92216fdbdcbc534388e056d7d22d7a06251f7c6909",
+      "bytes": 19191
+    },
+    {
+      "path": "reports/mac-performance/cockpit-after-build.log",
+      "sha256": "adec7163acbe5919eb63efb2d49b7ce6de2776dfbcd866bf389a7fbb948f6d8b",
+      "bytes": 402
+    },
+    {
+      "path": "reports/mac-performance/cockpit-after.log",
+      "sha256": "a7041f0f75233446cccf6a813afce009d83df5f45ede74aee87be634993dae2d",
+      "bytes": 230
+    },
+    {
+      "path": "reports/mac-performance/cockpit-before-actual-camera.log",
+      "sha256": "77b9a321c92229758839c92fb0ae723cfe665e471712331e89e9088768d54d21",
+      "bytes": 234
+    },
+    {
+      "path": "reports/mac-performance/cockpit-before.log",
+      "sha256": "b6e63b6087cfd0d8be95b515a768753eea5aa381e711490ab0335fcc3328a2d5",
+      "bytes": 230
+    },
+    {
+      "path": "reports/mac-performance/cockpit-probe-build.log",
+      "sha256": "e6591e541e564a0717feed4b4bbe37078f2c9d4d0a64d9e92a3216a3d6a49075",
+      "bytes": 402
+    },
+    {
+      "path": "reports/mac-performance/controller-first-failure/driving-input-controller-restart-godot.log",
+      "sha256": "e9114422d5d7676c43d5eaac5f307268f5d8eaeb23382684ab81b3409d5d37e9",
+      "bytes": 492
+    },
+    {
+      "path": "reports/mac-performance/controller-first-failure/driving-input-controller-restart.jsonl",
+      "sha256": "313a0ab5c519213813b06c24052732480842e512a94141c43a0bba3f06a57e02",
+      "bytes": 7480
+    },
+    {
+      "path": "reports/mac-performance/controller-retry/driving-input-controller-restart-godot.log",
+      "sha256": "1ab7d7636fe613631e70fa4c1784c4b85ad2bcb98eeafb3138eddba891f686a2",
+      "bytes": 661
+    },
+    {
+      "path": "reports/mac-performance/controller-retry/driving-input-controller-restart.jsonl",
+      "sha256": "379ea1bd287fd6ed34353892cb8edb556079bf5f1c25d87f80c8214ffd77ef9e",
+      "bytes": 3772
+    },
+    {
+      "path": "reports/mac-performance/controller-retry/renderer-warmup-godot.log",
+      "sha256": "a37bffa00f4fb28c47bd2989c8be47310e5e0934a6353a25893f34a3690aa877",
+      "bytes": 492
+    },
+    {
+      "path": "reports/mac-performance/controller-retry/renderer-warmup-summary.json",
+      "sha256": "30e377b6f7586d89e57bd971a3dc65dbb3033d06ee78545abe9e1ad3cef4de86",
+      "bytes": 362
+    },
+    {
+      "path": "reports/mac-performance/controller-retry/renderer-warmup.jsonl",
+      "sha256": "a125715c7b19150d94481d8712b8920b0db8090034cda4aa0206615d724d4745",
+      "bytes": 318
+    },
+    {
+      "path": "reports/mac-performance/controller-retry.log",
+      "sha256": "0ddc96281559d70514d3ac52630a6ade1e0de4aa415aff23c930ab1d845d4512",
+      "bytes": 1103
+    },
+    {
+      "path": "reports/mac-performance/environment-streaming.log",
+      "sha256": "eb7b842fb4e79a8da0c975d0129c5d67a7869d1efc297b1f1abb3e7bfac9bc9f",
+      "bytes": 2282
+    },
+    {
+      "path": "reports/mac-performance/final-cameras-vsync-night/command.json",
+      "sha256": "59dd4568f7cd654e3a01b748f2cf777f3aa8636309abacfeedb7050e6d78643f",
+      "bytes": 1601
+    },
+    {
+      "path": "reports/mac-performance/final-cameras-vsync-night/engine.log",
+      "sha256": "0868c4b7e72710d24c5d127e445d971b2e0c2e29f62ee8991d952d65d3769d63",
+      "bytes": 3079
+    },
+    {
+      "path": "reports/mac-performance/final-cameras-vsync-night/samples.jsonl",
+      "sha256": "b83962941f2145d0dcebcc6b3f37fc04f8d7ade28aba910907ea09fc68e196e7",
+      "bytes": 98597
+    },
+    {
+      "path": "reports/mac-performance/final-cameras-vsync-night/summary.json",
+      "sha256": "1f108cf31fe2ea2a2b3a51df40221e6f0bdb9c981deb159cb16407584b7cdfed",
+      "bytes": 36528
+    },
+    {
+      "path": "reports/mac-performance/final-cameras-vsync-night/telemetry.jsonl",
+      "sha256": "3738e347b0a789a1c6b3029b40ecd12ec54a746e118403df5f31036954e7bd19",
+      "bytes": 15814
+    },
+    {
+      "path": "reports/mac-performance/final-release-build.log",
+      "sha256": "5996911a1826238b2d940308a7dfadec3d6be11ff72d6665403cddecbc72174e",
+      "bytes": 312
+    },
+    {
+      "path": "reports/mac-performance/integrated-release-build.log",
+      "sha256": "85b6ce4b36a5bf01fd1f0c2e0fc600528a655ef731aed3a857ca4f04a90ac303",
+      "bytes": 312
+    },
+    {
+      "path": "reports/mac-performance/integrated-vsync-60fps-night/command.json",
+      "sha256": "5af36d59b27c44287634e827fa59aa6c9985dd863bcc76c1bfc6a86ec94d0c8d",
+      "bytes": 1613
+    },
+    {
+      "path": "reports/mac-performance/integrated-vsync-60fps-night/engine.log",
+      "sha256": "3a10ec84cb4721042ab81a9476fee7b64ab33181747e4317d1d59b4f9caa80f0",
+      "bytes": 2992
+    },
+    {
+      "path": "reports/mac-performance/integrated-vsync-60fps-night/samples.jsonl",
+      "sha256": "756ba0f78a58e4308c6bfd5f9d234706ab5767bd8adf565ee37b35fe9522e3c7",
+      "bytes": 76196
+    },
+    {
+      "path": "reports/mac-performance/integrated-vsync-60fps-night/summary.json",
+      "sha256": "3b4ee7fa01ab869896d2e94e3275a383768c6c5c277a530c217023269a605c23",
+      "bytes": 62545
+    },
+    {
+      "path": "reports/mac-performance/integrated-vsync-60fps-night/telemetry.jsonl",
+      "sha256": "4630793dee3e6db8455a041cfea21c9b4ddc538a86dd39f5e40515fa759b4b65",
+      "bytes": 9290
+    },
+    {
+      "path": "reports/mac-performance/integrated-vsync-night/command.json",
+      "sha256": "14633ab05230ea1246bf143f338cbe0f863dc588681ab027c22446b34cc68d1f",
+      "bytes": 1589
+    },
+    {
+      "path": "reports/mac-performance/integrated-vsync-night/engine.log",
+      "sha256": "ed8cc99e0d9efa69b77f76666ef6ea3c8bafd1e38f79c18dfc1088599dd63205",
+      "bytes": 3164
+    },
+    {
+      "path": "reports/mac-performance/integrated-vsync-night/samples.jsonl",
+      "sha256": "ba490e840a359300b61bb24af5816d61fd33e747ee985654ac5cb7cec4a0645d",
+      "bytes": 126306
+    },
+    {
+      "path": "reports/mac-performance/integrated-vsync-night/summary.json",
+      "sha256": "93d16203258215fddea5009e689aed201506d04e88362331461b920c8027886a",
+      "bytes": 77195
+    },
+    {
+      "path": "reports/mac-performance/integrated-vsync-night/telemetry.jsonl",
+      "sha256": "8871840cc089c0ce73f351334d4b9714d2303b7eaeecd6bfadc8fc78cb83fd43",
+      "bytes": 15823
+    },
+    {
+      "path": "reports/mac-performance/mainline-134-failure.log",
+      "sha256": "1b8ebe0ebe8bb5dc4cc1b1a803156e851153fe575b0580cf1e81259a5f1e529f",
+      "bytes": 45996
+    },
+    {
+      "path": "reports/mac-performance/mainline-134-retry.json",
+      "sha256": "4382784c2bd0a7339ab768b3f97029a0480250c805941779dc38702c552da354",
+      "bytes": 58
+    },
+    {
+      "path": "reports/mac-performance/manual-preview-snapshot/engine-startup.log",
+      "sha256": "19ece733953a5bf55aaf9ab9c26d2343b8b919139de2b2fb6fbaa7edde987c0d",
+      "bytes": 376
+    },
+    {
+      "path": "reports/mac-performance/manual-preview-snapshot/launch.json",
+      "sha256": "3dcc60ef5b430c8142f8ac263d6689a4c9134e3c34ce4f140671f69d87ddeec3",
+      "bytes": 802
+    },
+    {
+      "path": "reports/mac-performance/manual-preview-snapshot/observation.json",
+      "sha256": "8dfaa07607b3d41fa6124b2587033264c0460c34a6644e7b39c59a646df5060b",
+      "bytes": 599
+    },
+    {
+      "path": "reports/mac-performance/off-road-integrated.log",
+      "sha256": "cf4a17a3e9d3a39e136c6221681f4bb35207b6d63aa15d6d94874dc9c35ba9ae",
+      "bytes": 3604
+    },
+    {
+      "path": "reports/mac-performance/playgodot-final.log",
+      "sha256": "2eef978f2929ccadfb4ea64fd3d925bf2993258aaf96299866184997b73822f7",
+      "bytes": 5897
+    },
+    {
+      "path": "reports/mac-performance/playgodot.log",
+      "sha256": "ca3e434f0d8a0ce449469f2908257a4263497b7cb7f58a686e2a7495219b60de",
+      "bytes": 1902
+    },
+    {
+      "path": "reports/mac-performance/release-build.log",
+      "sha256": "e5d978b84d56eccc76c535ead7703b133ffec7b41d1d1506255b40b346d75335",
+      "bytes": 312
+    },
+    {
+      "path": "reports/mac-performance/release-preview-build.log",
+      "sha256": "18f0478b316f3180c0f4401bbec8a7fcf8eb362a0df593e1153c72108cbb80e0",
+      "bytes": 312
+    },
+    {
+      "path": "reports/mac-performance/run_capture.py",
+      "sha256": "8cfcc755ed1add3ac8a98ea4e9924646e550edec72fafc0be5fae036ae8b0599",
+      "bytes": 2303
+    },
+    {
+      "path": "reports/mac-performance/run_preview.py",
+      "sha256": "7f648a0d8503c878a52a1fbe7c9498ee0fab752241e6e0d679dd3c35dc90e230",
+      "bytes": 1962
+    },
+    {
+      "path": "reports/mac-performance/tree-fade-probe-linear-expectation.json",
+      "sha256": "b1a0032bb3ce98b2d9f5b2d52697b2e4202300e67d49f97a41029fa3fb184e36",
+      "bytes": 2971
+    },
+    {
+      "path": "reports/mac-performance/tree-fade-probe-linear-expectation.log",
+      "sha256": "17bfd66b49ba47fcffb0f735f4d79c0bdfee01514f5a76bbe5449e19205b8bfc",
+      "bytes": 1886
+    },
+    {
+      "path": "reports/mac-performance/tree-fade-probe.json",
+      "sha256": "073a660b97fc1ff308553eccf10f51510cce438286e79716db2465d109c2f7a5",
+      "bytes": 2994
+    },
+    {
+      "path": "reports/mac-performance/tree-fade-probe.log",
+      "sha256": "85e72bd2057b3cb908ddcadf881cda190a1f6a0d508462140bf1f8c5ca58c509",
+      "bytes": 1909
+    },
+    {
+      "path": "reports/mac-performance/tree_fade_probe.gd",
+      "sha256": "db6b928f2ce4b34e5af32cda811ab3f70444029713b49a0f3fda5b712868b0f8",
+      "bytes": 3217
+    },
+    {
+      "path": "reports/mac-performance/validation/check-after-portability-fix.log",
+      "sha256": "5568b010a92e08efbca7ac95f6d15ec99a5b74a7afd2105861a5b676603264f3",
+      "bytes": 6133
+    },
+    {
+      "path": "reports/mac-performance/validation/check-final-cameras.log",
+      "sha256": "21a02aff1244a7c10c4e82a4bd89f0b0ca394f6dfc649e4855c95ae3abc2bd53",
+      "bytes": 5942
+    },
+    {
+      "path": "reports/mac-performance/validation/check-integrated.log",
+      "sha256": "77422179af240766fbe980e29dd67f793fbae1a1c7973256bc2da39ce6f05b81",
+      "bytes": 6036
+    },
+    {
+      "path": "reports/mac-performance/validation/check.log",
+      "sha256": "787b423d705415dd79c4e06961eeeba965e8d08df6fba3c781e8b53a78885440",
+      "bytes": 6570
+    },
+    {
+      "path": "reports/mac-performance/validation/export-pack.log",
+      "sha256": "3a32c2926e15a49949b4c3ea7d5b4802256f9e121e01d21b3e6ca9754e5aac5f",
+      "bytes": 4306
+    },
+    {
+      "path": "reports/mac-performance/validation/m0/doctor.json",
+      "sha256": "33cb1935e7bc974bbc4cc89452ab1f85a6648768cd2301f08b7df88be56e1dca",
+      "bytes": 545
+    },
+    {
+      "path": "reports/mac-performance/validation/m0/godot/godot.log",
+      "sha256": "04f03a7ad7efe97682ced1d19c3eea84c90fe64dbc47d3425ab2f8978fd39f84",
+      "bytes": 524
+    },
+    {
+      "path": "reports/mac-performance/validation/m0/godot/scenario.json",
+      "sha256": "d1466b5038bc0d557a2d3455cafd28fa16f693ee3bd7a7a111280f02ae980d67",
+      "bytes": 174
+    },
+    {
+      "path": "reports/mac-performance/validation/m0/logs/camera-interpolation.log",
+      "sha256": "525bb4a0d7f2a3d17aaa50d85add038cbc542715e57e5bb0862eb3a3e2c02f44",
+      "bytes": 199
+    },
+    {
+      "path": "reports/mac-performance/validation/m0/logs/continental-route.log",
+      "sha256": "4084847a94bbecc389e349cfe3dd18a87f896298d190f49ded4bc27b0817a81d",
+      "bytes": 2197
+    },
+    {
+      "path": "reports/mac-performance/validation/m0/logs/doctor.log",
+      "sha256": "b2943045d698e4cbf7d5eb71e76736d81c213d52e809f2d94e9b9b1160e2f507",
+      "bytes": 411
+    },
+    {
+      "path": "reports/mac-performance/validation/m0/logs/dotnet-build.log",
+      "sha256": "3ec12c3680611a6ac527dac27d6e6d6c138de831326af2b1eb4b8b6017e699b3",
+      "bytes": 867
+    },
+    {
+      "path": "reports/mac-performance/validation/m0/logs/dotnet-test.log",
+      "sha256": "fa14d2ba09f65be0f1d379e1e4d6e8b7025e45219b2c39a9366895f53fd9e96f",
+      "bytes": 449
+    },
+    {
+      "path": "reports/mac-performance/validation/m0/logs/frame-allocations.log",
+      "sha256": "636682e61464683e90a585a946cade4e9cff0c8fd0ada7787488090aea542130",
+      "bytes": 55
+    },
+    {
+      "path": "reports/mac-performance/validation/m0/logs/godot-smoke.log",
+      "sha256": "a20d216371e5a7fe92f2f04143d601c74943cef8a79318d764e055dc70ed9bd4",
+      "bytes": 1268
+    },
+    {
+      "path": "reports/mac-performance/validation/m0/logs/pytest-map-pipeline.log",
+      "sha256": "bc0d23fbd0dad5b402c6ca5f55a9fb72261c210cf6f123e888aa041c2f0bdab2",
+      "bytes": 341
+    },
+    {
+      "path": "reports/mac-performance/validation/m0/logs/pytest-playgodot-unit.log",
+      "sha256": "1933a73574ba98a31f65b0bfee263fa294c497767fd3f1b5b79668b1494660f6",
+      "bytes": 446
+    },
+    {
+      "path": "reports/mac-performance/validation/m0/logs/ruff.log",
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "bytes": 19
+    },
+    {
+      "path": "reports/mac-performance/validation/m0/summary.json",
+      "sha256": "a9fe462f017910d7d98852c2c60f0f285188610c3a451a10c7a9268cffd13ac0",
+      "bytes": 1172
+    },
+    {
+      "path": "reports/mac-performance/validation/m0-after-portability-fix/doctor.json",
+      "sha256": "33cb1935e7bc974bbc4cc89452ab1f85a6648768cd2301f08b7df88be56e1dca",
+      "bytes": 545
+    },
+    {
+      "path": "reports/mac-performance/validation/m0-after-portability-fix/godot/godot.log",
+      "sha256": "537549932bd11e6a0ea15a6897cdcd510e1cf47d710005a8a7a9314a549033af",
+      "bytes": 524
+    },
+    {
+      "path": "reports/mac-performance/validation/m0-after-portability-fix/godot/scenario.json",
+      "sha256": "d1466b5038bc0d557a2d3455cafd28fa16f693ee3bd7a7a111280f02ae980d67",
+      "bytes": 174
+    },
+    {
+      "path": "reports/mac-performance/validation/m0-after-portability-fix/logs/camera-interpolation.log",
+      "sha256": "525bb4a0d7f2a3d17aaa50d85add038cbc542715e57e5bb0862eb3a3e2c02f44",
+      "bytes": 199
+    },
+    {
+      "path": "reports/mac-performance/validation/m0-after-portability-fix/logs/continental-route.log",
+      "sha256": "4084847a94bbecc389e349cfe3dd18a87f896298d190f49ded4bc27b0817a81d",
+      "bytes": 2197
+    },
+    {
+      "path": "reports/mac-performance/validation/m0-after-portability-fix/logs/doctor.log",
+      "sha256": "b2943045d698e4cbf7d5eb71e76736d81c213d52e809f2d94e9b9b1160e2f507",
+      "bytes": 411
+    },
+    {
+      "path": "reports/mac-performance/validation/m0-after-portability-fix/logs/dotnet-build.log",
+      "sha256": "d38b853c936cdf7916b31a5b5a5c6208b4a4b1840d2742660c7913c32e4aa0c0",
+      "bytes": 777
+    },
+    {
+      "path": "reports/mac-performance/validation/m0-after-portability-fix/logs/dotnet-test.log",
+      "sha256": "7b0b3267989b3c905c0bdb74d2208041cf1710740ae15af0d7a27560f76eaa40",
+      "bytes": 449
+    },
+    {
+      "path": "reports/mac-performance/validation/m0-after-portability-fix/logs/frame-allocations.log",
+      "sha256": "636682e61464683e90a585a946cade4e9cff0c8fd0ada7787488090aea542130",
+      "bytes": 55
+    },
+    {
+      "path": "reports/mac-performance/validation/m0-after-portability-fix/logs/godot-smoke.log",
+      "sha256": "895c9f5723b3aa6033947ec44abe79bc185e502f33e93452373fdccbd92a77bb",
+      "bytes": 1268
+    },
+    {
+      "path": "reports/mac-performance/validation/m0-after-portability-fix/logs/pytest-map-pipeline.log",
+      "sha256": "3086cc42af1babdd8a41f9385a21b757a7c69774fdeecc02edf812ce9c648f64",
+      "bytes": 341
+    },
+    {
+      "path": "reports/mac-performance/validation/m0-after-portability-fix/logs/pytest-playgodot-unit.log",
+      "sha256": "8d34dce37c27a3c4769b56bc43d98ab45ce99d5cdba361ac49363da850458329",
+      "bytes": 99
+    },
+    {
+      "path": "reports/mac-performance/validation/m0-after-portability-fix/logs/ruff.log",
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "bytes": 19
+    },
+    {
+      "path": "reports/mac-performance/validation/m0-after-portability-fix/summary.json",
+      "sha256": "a2b15aaaf1d628f71d1dd60636ba8c73557ed8e232499935d0209f159176f038",
+      "bytes": 1172
+    },
+    {
+      "path": "reports/mac-performance/validation/m0-final/doctor.json",
+      "sha256": "33cb1935e7bc974bbc4cc89452ab1f85a6648768cd2301f08b7df88be56e1dca",
+      "bytes": 545
+    },
+    {
+      "path": "reports/mac-performance/validation/m0-final/godot/godot.log",
+      "sha256": "65bc819e09ed2e4908169cb957f4b5a1b46d7467526fa268b250e126fdb1c603",
+      "bytes": 524
+    },
+    {
+      "path": "reports/mac-performance/validation/m0-final/godot/scenario.json",
+      "sha256": "d1466b5038bc0d557a2d3455cafd28fa16f693ee3bd7a7a111280f02ae980d67",
+      "bytes": 174
+    },
+    {
+      "path": "reports/mac-performance/validation/m0-final/logs/camera-interpolation.log",
+      "sha256": "a7041f0f75233446cccf6a813afce009d83df5f45ede74aee87be634993dae2d",
+      "bytes": 230
+    },
+    {
+      "path": "reports/mac-performance/validation/m0-final/logs/continental-route.log",
+      "sha256": "4084847a94bbecc389e349cfe3dd18a87f896298d190f49ded4bc27b0817a81d",
+      "bytes": 2197
+    },
+    {
+      "path": "reports/mac-performance/validation/m0-final/logs/doctor.log",
+      "sha256": "b2943045d698e4cbf7d5eb71e76736d81c213d52e809f2d94e9b9b1160e2f507",
+      "bytes": 411
+    },
+    {
+      "path": "reports/mac-performance/validation/m0-final/logs/dotnet-build.log",
+      "sha256": "6b76623d4133120a87c109365034d4b58f6ee95caf21f6b3fb0a6610a26de3b0",
+      "bytes": 555
+    },
+    {
+      "path": "reports/mac-performance/validation/m0-final/logs/dotnet-test.log",
+      "sha256": "15735019d1cb1be65b5eab39eae14b6cfc29f2d67d1d0d3a9751791aea0fae84",
+      "bytes": 449
+    },
+    {
+      "path": "reports/mac-performance/validation/m0-final/logs/frame-allocations.log",
+      "sha256": "636682e61464683e90a585a946cade4e9cff0c8fd0ada7787488090aea542130",
+      "bytes": 55
+    },
+    {
+      "path": "reports/mac-performance/validation/m0-final/logs/godot-smoke.log",
+      "sha256": "8746b6ec8ab0fb9659f5e1af96e47a0d24dbe468cb2e14c1afcc1c5933881ffb",
+      "bytes": 1268
+    },
+    {
+      "path": "reports/mac-performance/validation/m0-final/logs/pytest-map-pipeline.log",
+      "sha256": "95cd58650b972956bc87b53b89acd0b9cd3a9dc9fc74f0cbfc51321ef250b678",
+      "bytes": 341
+    },
+    {
+      "path": "reports/mac-performance/validation/m0-final/logs/pytest-playgodot-unit.log",
+      "sha256": "16ecf17a81242ae26c4b34357d13b9935d53e100d635e5e4884e145582c34b6b",
+      "bytes": 99
+    },
+    {
+      "path": "reports/mac-performance/validation/m0-final/logs/ruff.log",
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "bytes": 19
+    },
+    {
+      "path": "reports/mac-performance/validation/m0-final/summary.json",
+      "sha256": "023b5ac407879cce21969e2b49b8131bda1d833fd21291fdffed2dd2fa6ac64e",
+      "bytes": 1172
+    },
+    {
+      "path": "reports/mac-performance/validation/m0-integrated/doctor.json",
+      "sha256": "33cb1935e7bc974bbc4cc89452ab1f85a6648768cd2301f08b7df88be56e1dca",
+      "bytes": 545
+    },
+    {
+      "path": "reports/mac-performance/validation/m0-integrated/godot/godot.log",
+      "sha256": "c45c22044d62c66c5c10c36cbf5e8b0fd2695b1d9b66bf2608cb0abc410a34e3",
+      "bytes": 618
+    },
+    {
+      "path": "reports/mac-performance/validation/m0-integrated/godot/scenario.json",
+      "sha256": "d1466b5038bc0d557a2d3455cafd28fa16f693ee3bd7a7a111280f02ae980d67",
+      "bytes": 174
+    },
+    {
+      "path": "reports/mac-performance/validation/m0-integrated/logs/camera-interpolation.log",
+      "sha256": "a7041f0f75233446cccf6a813afce009d83df5f45ede74aee87be634993dae2d",
+      "bytes": 230
+    },
+    {
+      "path": "reports/mac-performance/validation/m0-integrated/logs/continental-route.log",
+      "sha256": "4084847a94bbecc389e349cfe3dd18a87f896298d190f49ded4bc27b0817a81d",
+      "bytes": 2197
+    },
+    {
+      "path": "reports/mac-performance/validation/m0-integrated/logs/doctor.log",
+      "sha256": "b2943045d698e4cbf7d5eb71e76736d81c213d52e809f2d94e9b9b1160e2f507",
+      "bytes": 411
+    },
+    {
+      "path": "reports/mac-performance/validation/m0-integrated/logs/dotnet-build.log",
+      "sha256": "8d041b962c029eff3da3fee742e533ef7778de4ea1b79fd225f1177a42f44f89",
+      "bytes": 555
+    },
+    {
+      "path": "reports/mac-performance/validation/m0-integrated/logs/dotnet-test.log",
+      "sha256": "1ccc81288f68060632051c82f446b4c4461d3b06ada7e9c151c28c671adc05f8",
+      "bytes": 449
+    },
+    {
+      "path": "reports/mac-performance/validation/m0-integrated/logs/frame-allocations.log",
+      "sha256": "636682e61464683e90a585a946cade4e9cff0c8fd0ada7787488090aea542130",
+      "bytes": 55
+    },
+    {
+      "path": "reports/mac-performance/validation/m0-integrated/logs/godot-smoke.log",
+      "sha256": "bba836c2784241973317b5612447437b9c251634c01c9bc343a7b29a4865e38b",
+      "bytes": 1362
+    },
+    {
+      "path": "reports/mac-performance/validation/m0-integrated/logs/pytest-map-pipeline.log",
+      "sha256": "45b8b819883d05e2a0f9ef6bc6bd7d40336c85e2fb623e3d13af9ec547efae23",
+      "bytes": 341
+    },
+    {
+      "path": "reports/mac-performance/validation/m0-integrated/logs/pytest-playgodot-unit.log",
+      "sha256": "8d34dce37c27a3c4769b56bc43d98ab45ce99d5cdba361ac49363da850458329",
+      "bytes": 99
+    },
+    {
+      "path": "reports/mac-performance/validation/m0-integrated/logs/ruff.log",
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "bytes": 19
+    },
+    {
+      "path": "reports/mac-performance/validation/m0-integrated/summary.json",
+      "sha256": "334d227341247b3163a4801716b5d031dff68fc49cecf2cdfd363d2656a96b79",
+      "bytes": 1172
+    },
+    {
+      "path": "reports/mac-performance/validation/pck-inspect.log",
+      "sha256": "8f42263c8227d1f058df376d91e3a5fc5f00c85463a3a82d8afc29be27060909",
+      "bytes": 49
+    },
+    {
+      "path": "reports/mac-performance/validation/tree-fix.pck",
+      "sha256": "8d6a3919eb30c202e949229149a9521983e5a722d88ef4a0908a009143d36f2f",
+      "bytes": 9091092
+    },
+    {
+      "path": "reports/mac-performance/validation-commands.json",
+      "sha256": "5adf081e31aa39c8d2e429b31dee0d11e237fe5f2fc154b2bf7a6a1f0b8baf65",
+      "bytes": 4660
+    },
+    {
+      "path": "reports/mac-performance/write_evidence.py",
+      "sha256": "8ef18ea2be081ca240c7e6307fd27c44254f6fc7265e7a71a2b1e06530e6726c",
+      "bytes": 13134
+    }
+  ]
+}

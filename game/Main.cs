@@ -663,7 +663,7 @@ public sealed partial class Main : Node3D
             UpdateRunAutomationState();
         }
 
-        var tripMapTogglePressed = Godot.Input.IsActionPressed("toggle_trip_map");
+        var tripMapTogglePressed = Godot.Input.IsActionPressed(GameInputMap.ToggleTripMap);
         if (tripMapTogglePressed && !_tripMapToggleHeld)
         {
             if (_tripMap.IsOpen)
@@ -899,12 +899,12 @@ public sealed partial class Main : Node3D
             _ = RecordTelemetryAsync("pace_sample");
         }
 
-        if (Godot.Input.IsActionJustPressed("suspend_run"))
+        if (Godot.Input.IsActionJustPressed(GameInputMap.SuspendRun))
         {
             _ = PersistAsync(quitAfterSave: false);
         }
 
-        if (Godot.Input.IsActionJustPressed("cycle_assist"))
+        if (Godot.Input.IsActionJustPressed(GameInputMap.CycleAssist))
         {
             _vehicle.CycleAssistProfile();
         }

@@ -135,21 +135,21 @@ public sealed partial class DrivingInputController : Node
     private RawDrivingInput ReadRaw()
     {
         var keyboard = new RawDrivingInput(
-            Godot.Input.GetActionStrength("accelerate"),
-            Godot.Input.GetActionStrength("brake"),
-            Godot.Input.GetActionStrength("reverse"),
-            Godot.Input.GetActionStrength("handbrake"),
-            Godot.Input.GetAxis("steer_left", "steer_right"),
+            Godot.Input.GetActionStrength(GameInputMap.Accelerate),
+            Godot.Input.GetActionStrength(GameInputMap.Brake),
+            Godot.Input.GetActionStrength(GameInputMap.Reverse),
+            Godot.Input.GetActionStrength(GameInputMap.Handbrake),
+            Godot.Input.GetAxis(GameInputMap.SteerLeft, GameInputMap.SteerRight),
             DrivingInputDevice.Keyboard,
-            Godot.Input.IsActionJustPressed("reset_vehicle"));
+            Godot.Input.IsActionJustPressed(GameInputMap.ResetVehicle));
         var controller = new RawDrivingInput(
-            Godot.Input.GetActionStrength("accelerate_controller"),
-            Godot.Input.GetActionStrength("brake_controller"),
-            Godot.Input.GetActionStrength("reverse_controller"),
-            Godot.Input.GetActionStrength("handbrake_controller"),
-            Godot.Input.GetAxis("steer_left_controller", "steer_right_controller"),
+            Godot.Input.GetActionStrength(GameInputMap.AccelerateController),
+            Godot.Input.GetActionStrength(GameInputMap.BrakeController),
+            Godot.Input.GetActionStrength(GameInputMap.ReverseController),
+            Godot.Input.GetActionStrength(GameInputMap.HandbrakeController),
+            Godot.Input.GetAxis(GameInputMap.SteerLeftController, GameInputMap.SteerRightController),
             DrivingInputDevice.Controller,
-            Godot.Input.IsActionJustPressed("reset_vehicle_controller"));
+            Godot.Input.IsActionJustPressed(GameInputMap.ResetVehicleController));
         var keyboardActivity = Activity(keyboard);
         var controllerActivity = ControllerActivity(
             controller,

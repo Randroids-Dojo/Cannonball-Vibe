@@ -20,10 +20,9 @@ method body. It is deliberately a small, literal list rather than a general
 analysis: a check that produces false positives gets suppressed wholesale, and one
 that needs a call graph will not survive contact with a refactor.
 
-It does not catch allocation in a helper called from `_Process`. That is a real
-gap, stated rather than hidden, and the reason the reference capture also reports
-allocation per subsystem: this catches the common shape, the capture catches the
-rest.
+Input polling is also checked in helpers: literal action names implicitly create
+finalizable StringName wrappers at every call. Other helper allocations still
+need runtime profiling; this is not a C# parser or a call-graph analysis.
 
 Suppressing
 -----------
@@ -63,6 +62,12 @@ PER_FRAME_METHODS = re.compile(
 
 SUPPRESSION = re.compile(r"//\s*frame-alloc-ok:\s*\S")
 
+INPUT_POLL = re.compile(
+    r"\b(?:Godot\.)?Input\.(?:GetAxis|GetVector|GetActionStrength|GetActionRawStrength|"
+    r"IsActionPressed|IsActionJustPressed|IsActionJustReleased)\s*\(([^;]*?)\)",
+    re.MULTILINE,
+)
+
 
 def per_frame_bodies(text: str) -> list[tuple[str, int, list[str]]]:
     """Return (method, first line number, body lines) for each per-frame method."""
@@ -93,6 +98,19 @@ def scan(root: Path) -> list[str]:
         if any(part in {"bin", "obj", ".godot"} for part in path.parts):
             continue
         text = path.read_text(encoding="utf-8")
+        # Strip line comments but preserve newlines for diagnostics. Inspect the
+        # entire call, so a literal on the second GetAxis line is not missed.
+        code = re.sub(r"//[^\n]*", "", text)
+        for call in INPUT_POLL.finditer(code):
+            if '"' not in call.group(1):
+                continue
+            line_number = code.count("\n", 0, call.start()) + 1
+            if SUPPRESSION.search(text.splitlines()[line_number - 1]):
+                continue
+            failures.append(
+                f"{path.as_posix()}:{line_number}: input polling converts a literal "
+                "to a finalizable StringName. Reuse a cached StringName action."
+            )
         for method, first_line, body in per_frame_bodies(text):
             for offset, line in enumerate(body):
                 if SUPPRESSION.search(line):

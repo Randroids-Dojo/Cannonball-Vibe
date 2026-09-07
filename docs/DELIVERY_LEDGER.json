@@ -2051,6 +2051,72 @@
         "docs/audits/2026-09-06-playgodot-startup-repair.md"
       ],
       "notes": "Claim for red-main issue #126 under ADR-0025. This repair precedes the owner-requested Mac allocation work. The 308a13a mainline run still failed before PLAYGODOT_READY in the camera test, despite using the graybox vehicle. No performance or human gate is closed by this task."
+    },
+    {
+      "id": "P1-015",
+      "milestone": "M5",
+      "priority": "P1",
+      "title": "Mac frame pacing and steady-state allocation reduction",
+      "status": "complete",
+      "owner": "Runtime",
+      "dependencies": [
+        "P0-004",
+        "P0-017",
+        "P0-018",
+        "P1-001"
+      ],
+      "owned_paths": [
+        "game/Input/GameInputMap.cs",
+        "game/Vehicle/DrivingInputController.cs",
+        "game/Vehicle/CannonballVehicle.cs",
+        "game/Camera/ChaseCameraRig.cs",
+        "game/Camera/CockpitCameraRig.cs",
+        "game/Main.cs",
+        "game/UI/TripMap/TripMapHud.cs",
+        "game/World/WorldStreamer.cs",
+        "game/Automation/ReferencePerformanceScenario.cs",
+        "src/Cannonball.Core/Routes/LaneGeometryProfile.cs",
+        "src/Cannonball.Core/Routes/RouteSemantics.cs",
+        "src/Cannonball.Core/Routes/LinearRoutePlan.cs",
+        "tests/Cannonball.Core.Tests/",
+        "scripts/check_frame_allocations.py",
+        "tools/map_pipeline/tests/",
+        "docs/audits/2026-09-06-macos-frame-pacing.md",
+        "evidence/M5/P1-015.json",
+        "scripts/capture-reference-performance.sh",
+        "scripts/run_with_timeout.py",
+        "game/Automation/CameraInterpolationProbe.cs",
+        "game/Automation/CameraInterpolationProbe.tscn",
+        "scripts/check.sh",
+        "game/World/Environment/RegionalEnvironmentChunk.cs",
+        "game/World/Environment/EnvironmentVisualKit.cs",
+        "assets/environments/shaders/conifer_needles.gdshader",
+        "assets/environments/shaders/conifer_lod_fade.gdshaderinc",
+        "assets/environments/shaders/conifer_impostor.gdshader",
+        "export_presets.cfg"
+      ],
+      "generated_outputs": [
+        "reports/mac-performance/",
+        "reports/m0/",
+        "game/Automation/CameraInterpolationProbe.cs.uid",
+        "assets/environments/shaders/conifer_impostor.gdshader.uid",
+        "assets/environments/shaders/conifer_lod_fade.gdshaderinc.uid"
+      ],
+      "acceptance": [
+        "Normal input and camera polling reuse Godot StringName instances; the observed temporary-wrapper allocation path is removed and covered by a regression check",
+        "Steady non-transition lane evaluation and route selection avoid repeated sorting and temporary arrays without changing geometric results or boundary selection",
+        "Reference captures exercise the normal manual-input sampling path even while autopilot controls the car, and record that measurement configuration",
+        "Comparable official-engine Forward+ rendered Mac captures with unchanged production art record frame percentiles, stalls, GC and allocation, CPU/GPU timing, streaming and actual settings before and after the change",
+        "Repeat Mac captures assess the existing 60 FPS frame budget at 2560x1440 High as a diagnostic target, with any failure or contention retained rather than treated as a passed shipping gate",
+        "The full local scripts/check.sh front door and relevant camera/input scenarios pass; Linux and Windows M0 pass before integration",
+        "A deterministic engine probe measures relative camera/vehicle display motion between physics ticks and rejects the previous render/physics interpolation mismatch; camera reset, rebase, collision, and mode-switch checks still pass",
+        "Owner-reported tree LOD pop-in is softened with bounded render-side transitions, while repeated rendered Mac captures retain the frame budget comparison"
+      ],
+      "evidence": [
+        "evidence/M5/P1-015.json",
+        "docs/audits/2026-09-06-macos-frame-pacing.md"
+      ],
+      "notes": "Owner request 2026-09-06: PC performance is confirmed satisfactory; address measured Mac bottlenecks before considering a rewrite. This slice explicitly uses the representative-corridor fixture and current Hero GT/environment art while P1-008/P1-009/P1-010 remain in progress. It does not ratify new minimum specs, close P1-013 production budgets, replace the selected stack, or approve human driving feel. Initial live Mac research is retained in the original checkout under reports/performance-research-2026-09-06. Scope addition before implementation: make the rendered capture watchdog portable to macOS, which has no GNU timeout installed. Owner still observes stutter despite passing frame percentiles. Scope expanded to verify all previous fixes and correct camera interpolation using the displayed target transform, with an engine motion probe. Original Mac assembly identifies 308a13a and includes the August stutter fixes; red paint is an uncommitted material change from committed navy. Owner reports the patched run looks way smoother, then requests correction of obvious tree LOD pop-in. Scope addition: enable bounded native tree LOD cross-fades with shared culling bounds so sibling LODs transition at the same distance, retaining instancing and existing placement/density. Foliage cutout shaders overwrite native ALPHA, so retain the native fade as complementary dither coverage for needles and impostors. This adds no per-frame C# LOD work or per-tree material instances. Export tripwires caught the new camera probe scene in all-resources PCKs. Scope addition before correction: exclude game/Automation resources from each export preset, preserving the existing package boundary. Final review found that disabling cockpit interpolation also disables interpolation of its global mount position. Extend the real-camera motion probe to the cockpit and explicitly compose its displayed parent transform with look rotation, retaining its vehicle-local hierarchy. Completion evidence: c978d8b combines all fixes with mainline off-road ground changes. Full local gate, camera/ground scenarios, and all remote Linux/Windows M0, three-platform PlayGodot, long-route, assets and export jobs passed. Mac diagnostic percentile targets pass without a manual cap, but zero-stall acceptance remains open under P1-013; the 60 FPS cap experiment failed and was not adopted. No rewrite or human enjoyment approval is claimed."
     }
   ]
 }

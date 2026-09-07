@@ -11,6 +11,9 @@ public sealed partial class RegionalEnvironmentChunk : Node3D
 {
     /// <summary>Near-layer instances are grouped into cells of this route length so LOD and visibility ranges switch per cell rather than per chunk.</summary>
     public const float NearCellLengthMeters = 150;
+    private const float TreeLodFadeMarginMeters = 30;
+    private static readonly StringName TreeLodInverse = "tree_lod_inverse";
+    private bool _treeLodFadeSupported;
 
     private ArrayMesh? _ownedTerrainMesh;
 
@@ -67,6 +70,7 @@ public sealed partial class RegionalEnvironmentChunk : Node3D
             Name = $"Environment_{content.Id}",
             ChunkId = content.Id,
             Region = region,
+            _treeLodFadeSupported = RenderingServer.GetCurrentRenderingMethod() == "forward_plus",
             Position = anchor.RelativeTo(localOriginWorld),
             _routeStartMeters = routeStartMeters,
             _routeEndMeters = routeStartMeters + content.EndMeters - content.StartMeters,
@@ -222,12 +226,25 @@ public sealed partial class RegionalEnvironmentChunk : Node3D
             }
             if (trees.Count > 0)
             {
+                // Visibility distance uses the instance AABB center. Different
+                // authored LOD silhouettes must share that center, or one can
+                // disappear before its replacement reaches the fade band.
+                var meshBounds = kit.ConiferLod0.GetAabb()
+                    .Merge(kit.ConiferLod1.GetAabb()).Merge(kit.ConiferLod2.GetAabb());
+                var bounds = trees[0] * meshBounds;
+                for (var treeIndex = 1; treeIndex < trees.Count; treeIndex++)
+                {
+                    bounds = bounds.Merge(trees[treeIndex] * meshBounds);
+                }
                 AddMultiMesh($"Near{cellIndex}Lod0", $"near.{cellIndex}.lod0", kit.ConiferLod0, trees,
-                    0, kit.NearLod0Meters, GeometryInstance3D.ShadowCastingSetting.On, "near");
+                    0, kit.NearLod0Meters, GeometryInstance3D.ShadowCastingSetting.On, "near",
+                    treeLodBounds: bounds);
                 AddMultiMesh($"Near{cellIndex}Lod1", $"near.{cellIndex}.lod1", kit.ConiferLod1, trees,
-                    kit.NearLod0Meters, kit.NearLod1Meters, GeometryInstance3D.ShadowCastingSetting.On, "near");
+                    kit.NearLod0Meters, kit.NearLod1Meters, GeometryInstance3D.ShadowCastingSetting.On, "near",
+                    treeLodBounds: bounds, inverseLodDither: true);
                 AddMultiMesh($"Near{cellIndex}Lod2", $"near.{cellIndex}.lod2", kit.ConiferLod2, trees,
-                    kit.NearLod1Meters, kit.NearLod2Meters, GeometryInstance3D.ShadowCastingSetting.Off, "near");
+                    kit.NearLod1Meters, kit.NearLod2Meters, GeometryInstance3D.ShadowCastingSetting.Off, "near",
+                    treeLodBounds: bounds);
             }
             if (rocks.Count > 0)
             {
@@ -464,7 +481,9 @@ public sealed partial class RegionalEnvironmentChunk : Node3D
         float visibilityEnd,
         GeometryInstance3D.ShadowCastingSetting shadows,
         string layer,
-        IReadOnlyList<Color>? colors = null)
+        IReadOnlyList<Color>? colors = null,
+        Aabb? treeLodBounds = null,
+        bool inverseLodDither = false)
     {
         // Disposed once the instance owns it, so no wrapper survives to
         // finalisation after the engine has torn down.
@@ -483,17 +502,26 @@ public sealed partial class RegionalEnvironmentChunk : Node3D
                 multimesh.SetInstanceColor(index, colors[index]);
             }
         }
+        var fadeTrees = treeLodBounds.HasValue && _treeLodFadeSupported;
         var instance = new MultiMeshInstance3D
         {
             Name = name,
             Multimesh = multimesh,
             VisibilityRangeBegin = visibilityBegin,
-            VisibilityRangeBeginMargin = visibilityBegin > 0 ? 12 : 0,
+            VisibilityRangeBeginMargin = visibilityBegin > 0
+                ? fadeTrees ? TreeLodFadeMarginMeters : 12 : 0,
             VisibilityRangeEnd = visibilityEnd,
-            VisibilityRangeEndMargin = 12,
-            VisibilityRangeFadeMode = GeometryInstance3D.VisibilityRangeFadeModeEnum.Disabled,
+            VisibilityRangeEndMargin = fadeTrees ? TreeLodFadeMarginMeters : 12,
+            VisibilityRangeFadeMode = fadeTrees
+                ? GeometryInstance3D.VisibilityRangeFadeModeEnum.Self
+                : GeometryInstance3D.VisibilityRangeFadeModeEnum.Disabled,
+            CustomAabb = treeLodBounds ?? default,
             CastShadow = shadows,
         };
+        if (fadeTrees)
+        {
+            instance.SetInstanceShaderParameter(TreeLodInverse, inverseLodDither);
+        }
         EnvironmentVisualKit.MarkSemantic(
             instance,
             $"environment.chunk.{ChunkId}.{automationSuffix}",

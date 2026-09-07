@@ -118,6 +118,19 @@ public sealed class LinearRoutePlanTests
         Assert.Equal(350, plan.TotalLengthMeters);
         Assert.Equal(first.Id, plan.GetEdgeAtDistance(99.9).EdgeId);
         Assert.Equal(second.Id, plan.GetEdgeAtDistance(100).EdgeId);
+        Assert.Equal(first.Id, plan.GetEdgeAtDistance(0).EdgeId);
+        Assert.Equal(second.Id, plan.GetEdgeAtDistance(350).EdgeId);
+        Assert.Throws<ArgumentOutOfRangeException>(() => plan.GetEdgeAtDistance(double.NaN));
+        Assert.Throws<ArgumentOutOfRangeException>(() => plan.GetEdgeAtDistance(350.001));
+        var allocatedBefore = GC.GetAllocatedBytesForCurrentThread();
+        double endSum = 0;
+        for (var index = 0; index < 10_000; index++)
+        {
+            endSum += plan.GetEdgeAtDistance(index % 350).EndMeters;
+        }
+        var allocated = GC.GetAllocatedBytesForCurrentThread() - allocatedBefore;
+        Assert.Equal(0, allocated);
+        Assert.True(endSum > 0);
         Assert.Equal(100, plan.GetEdge(second.Id).StartMeters);
         Assert.Equal(350, plan.GetEdge(second.Id).EndMeters);
     }
