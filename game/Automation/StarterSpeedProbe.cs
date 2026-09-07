@@ -42,10 +42,11 @@ public sealed partial class StarterSpeedProbe : Node3D
         _cases.Add(new("airborne", AssistProfile.Balanced, VehicleSetup.Starter, 0, 0.25f));
         _cases.Add(new("lateral-impact", AssistProfile.Balanced, VehicleSetup.Starter, 0, 2f / PhysicsHz));
         _road = new StaticBody3D { CollisionLayer = 1 };
+        using var roadShape = new BoxShape3D { Size = new Vector3(2_000, 1, 8_000) };
         _road.AddChild(new CollisionShape3D
         {
             Position = new Vector3(0, -0.5f, 0),
-            Shape = new BoxShape3D { Size = new Vector3(2_000, 1, 8_000) },
+            Shape = roadShape,
         });
         AddChild(_road);
         BeginCase();
@@ -76,8 +77,13 @@ public sealed partial class StarterSpeedProbe : Node3D
     {
         if (_vehicle is not null)
         {
+            var bodyState = PhysicsServer3D.BodyGetDirectState(_vehicle.GetRid());
             RemoveChild(_vehicle);
             _vehicle.Free();
+            Require(bodyState.NativeInstance == IntPtr.Zero,
+                "destroyed vehicle retained a native physics-state binding");
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
         }
         var basis = Basis.FromEuler(new Vector3(Mathf.Atan(Current.Grade), 0, 0));
         _road.Basis = basis;

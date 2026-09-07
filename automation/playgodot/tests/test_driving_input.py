@@ -711,11 +711,33 @@ async def test_pause_clears_held_input_until_neutral(tmp_path: Path) -> None:
             "Pause did not suppress held input",
         )
         assert paused["conditioned_throttle"] == 0
+        assert paused["input_suppressed"] is True
         assert paused["stationary_hold"] is True
         assert paused["suppression_sequence"] > before_pause
         assert paused["last_suppression_reason"] == "pause"
 
         await client.request("input.key", {"key": "W", "state": "release"})
+        await wait_for_conditioner(
+            client,
+            lambda state: (
+                state["raw_throttle"] == 0
+                and state["input_suppressed"] is True
+                and state["conditioned_throttle"] == 0
+                and state["stationary_hold"] is True
+            ),
+            "Neutral input released suppression while paused",
+        )
+        await client.request("input.key", {"key": "W", "state": "press"})
+        await wait_for_conditioner(
+            client,
+            lambda state: (
+                state["raw_throttle"] == 1
+                and state["input_suppressed"] is True
+                and state["conditioned_throttle"] == 0
+                and state["stationary_hold"] is True
+            ),
+            "A key pressed in the pause menu escaped suppression",
+        )
         wait_for_resume = asyncio.create_task(
             client.request(
                 "signal.wait",
@@ -733,6 +755,17 @@ async def test_pause_clears_held_input_until_neutral(tmp_path: Path) -> None:
         menu = await client.describe("menu.driver.root")
         assert menu["visible"] is False
         assert menu["test_state"]["simulation_paused"] is False
+        await wait_for_conditioner(
+            client,
+            lambda state: (
+                state["raw_throttle"] == 1
+                and state["input_suppressed"] is True
+                and state["conditioned_throttle"] == 0
+                and state["stationary_hold"] is True
+            ),
+            "Resuming with a held key escaped suppression before neutral input",
+        )
+        await client.request("input.key", {"key": "W", "state": "release"})
         deadline = asyncio.get_running_loop().time() + 2.0
         while True:
             resumed = (await client.describe("vehicle.input.conditioner"))["test_state"]

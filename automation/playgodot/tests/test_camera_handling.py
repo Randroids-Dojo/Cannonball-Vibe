@@ -38,6 +38,7 @@ async def _settle(
     predicate,
     timeout: float = 3.0,
     interval: float = 0.05,
+    held_action: str | None = None,
 ) -> dict:
     """Poll ``node`` until ``predicate`` holds, then return that state.
 
@@ -50,11 +51,21 @@ async def _settle(
     deadline = loop.time() + timeout
     state: dict = {}
 
+    async def read_state() -> dict:
+        # Native focus changes during startup can clear an injected action
+        # after its acknowledgement. Reassert a continuous hold while waiting
+        # for its camera response, within the same original deadline.
+        if held_action is not None:
+            await client.request(
+                "input.action", {"action": held_action, "state": "press"}
+            )
+        return (await client.describe(node))["test_state"]
+
     remaining = deadline - loop.time()
     if remaining <= 0:
         return state
     try:
-        state = (await asyncio.wait_for(client.describe(node), remaining))["test_state"]
+        state = await asyncio.wait_for(read_state(), remaining)
     except TimeoutError:
         return state
 
@@ -71,7 +82,7 @@ async def _settle(
         if remaining <= 0:
             return state
         try:
-            state = (await asyncio.wait_for(client.describe(node), remaining))["test_state"]
+            state = await asyncio.wait_for(read_state(), remaining)
         except TimeoutError:
             return state
     return state
@@ -97,6 +108,55 @@ async def test_settle_bounds_a_delayed_initial_description() -> None:
 
     assert state == {}
     assert elapsed < 0.15
+
+
+@pytest.mark.asyncio
+async def test_settle_restores_a_hold_cleared_after_acknowledgement() -> None:
+    class FocusTransitionClient:
+        presses = 0
+
+        async def request(self, method: str, params: dict) -> None:
+            assert method == "input.action"
+            assert params == {"action": "look_behind", "state": "press"}
+            self.presses += 1
+
+        async def describe(self, _node: str) -> dict:
+            # The first acknowledged press is cleared by a native focus event.
+            held = self.presses > 1
+            return {"test_state": {"rear_view_held": held, "rear_view_blend": int(held)}}
+
+    client = FocusTransitionClient()
+    state = await _settle(
+        client,
+        "camera.chase.rig",
+        lambda s: s["rear_view_held"] and s["rear_view_blend"] > 0.9,
+        interval=0.005,
+        held_action="look_behind",
+    )
+    assert state == {"rear_view_held": True, "rear_view_blend": 1}
+    assert client.presses == 2
+
+
+@pytest.mark.asyncio
+async def test_settle_bounds_a_delayed_hold_request() -> None:
+    class DelayedInputClient:
+        async def request(self, _method: str, _params: dict) -> None:
+            await asyncio.sleep(0.2)
+
+        async def describe(self, _node: str) -> dict:
+            pytest.fail("An expired hold request must not start a description")
+
+    loop = asyncio.get_running_loop()
+    started = loop.time()
+    state = await _settle(
+        DelayedInputClient(),
+        "camera.chase.rig",
+        lambda s: s.get("rear_view_held", False),
+        timeout=0.05,
+        held_action="look_behind",
+    )
+    assert state == {}
+    assert loop.time() - started < 0.15
 
 
 def _assert_attached_and_level(state: dict) -> None:
@@ -133,13 +193,13 @@ async def test_camera_handling_survives_pause_device_reset_and_mode_transitions(
         assert chase["spring_hit_length_m"] <= chase["spring_length_m"]
         assert chase["collision_compression_m"] >= 0
 
-        await client.request(
-            "input.action", {"action": "look_behind", "state": "press"}
-        )
         chase_rear = await _settle(
-            client, "camera.chase.rig", lambda s: s["rear_view_blend"] > 0.9
+            client,
+            "camera.chase.rig",
+            lambda s: s["rear_view_held"] and s["rear_view_blend"] > 0.9,
+            held_action="look_behind",
         )
-        assert chase_rear["rear_view_held"] is True
+        assert chase_rear["rear_view_held"] is True, chase_rear
         assert chase_rear["rear_view_blend"] > 0.9
         assert chase_rear["rear_view_yaw_degrees"] > 160
         await client.request(
@@ -183,11 +243,11 @@ async def test_camera_handling_survives_pause_device_reset_and_mode_transitions(
         )
 
         await client.request("input.action", {"action": "reverse", "state": "press"})
-        await client.request(
-            "input.action", {"action": "look_behind", "state": "press"}
-        )
         cockpit_rear = await _settle(
-            client, "camera.cockpit.view", lambda s: s["rear_view_blend"] > 0.99
+            client,
+            "camera.cockpit.view",
+            lambda s: s["rear_view_held"] and s["rear_view_blend"] > 0.99,
+            held_action="look_behind",
         )
         reversing = (await client.describe("vehicle.input.conditioner"))["test_state"]
         assert reversing["raw_reverse"] == 1

@@ -84,7 +84,10 @@ public sealed partial class DrivingInputController : Node
         var raw = ReadRaw();
         if (_suppressUntilNeutral)
         {
-            if (IsNeutral(raw))
+            // This subtree keeps polling while paused. Neutral input must not
+            // re-enable driving until the simulation resumes, or a later key
+            // press in the menu can become conditioned driving input.
+            if (!GetTree().Paused && IsNeutral(raw))
             {
                 _suppressUntilNeutral = false;
                 _suppressionReason = "none";

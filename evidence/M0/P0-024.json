@@ -1,0 +1,631 @@
+{
+  "schema_version": 1,
+  "task_id": "P0-024",
+  "milestone": "M0",
+  "git_revision": "4d46e98e00f3ea4e402cb261ea86092fe0866daa",
+  "platform": "Darwin arm64",
+  "utc": "2026-09-07T23:39:00.885475+00:00",
+  "status": "complete",
+  "tool_versions": [
+    {
+      "name": "dotnet",
+      "expected": "10.0.102",
+      "actual": "10.0.102",
+      "status": "passed"
+    },
+    {
+      "name": "uv",
+      "expected": "0.9.24",
+      "actual": "0.9.24",
+      "status": "passed"
+    },
+    {
+      "name": "git-lfs",
+      "expected": "3.7.1",
+      "actual": "3.7.1",
+      "status": "passed"
+    },
+    {
+      "name": "perl",
+      "expected": "available",
+      "actual": "available",
+      "status": "passed"
+    },
+    {
+      "name": "godot",
+      "expected": "4.7.1.stable.mono.official.a13da4feb",
+      "actual": "4.7.1.stable.mono.official.a13da4feb",
+      "status": "passed"
+    },
+    {
+      "name": "node",
+      "actual": "v25.8.1"
+    },
+    {
+      "name": "python (map pipeline and PlayGodot)",
+      "actual": "3.13.11"
+    }
+  ],
+  "inputs": [
+    {
+      "path": "game/Vehicle/CannonballVehicle.cs",
+      "sha256": "75a830587be2785477b47820c2881449cac2e34e2e730530e6d099e89bd274cb"
+    },
+    {
+      "path": "game/Vehicle/DrivingInputController.cs",
+      "sha256": "9eb579bb7d3b14115d1e7dc30f29b05667f9be30ec09d343cd6e7e1f956c170d"
+    },
+    {
+      "path": "game/Automation/StarterSpeedProbe.cs",
+      "sha256": "bfc8323c6d84791478898d06f1a98a863bc2e1b23d05143c4da68b560fd2b284"
+    },
+    {
+      "path": "automation/playgodot/tests/test_driving_input.py",
+      "sha256": "622a16b2e15a8cb2adc0a5f6ea294b4daf29a95353b0f0f406268a22f6f3dbf0"
+    },
+    {
+      "path": "scripts/release/smoke.mjs",
+      "sha256": "16d1c6f7c46f2bfb87d99071ce17611fbb3ffa63941b260f5749f52f22b98d5a"
+    },
+    {
+      "path": "scripts/release/smoke.test.mjs",
+      "sha256": "eb2d7153657c6cd01f492982907baa5f46bd23b6a8984aa52cf4bc1efcacd5b6"
+    },
+    {
+      "path": "scripts/check.sh",
+      "sha256": "dc2b304158bd03c0531dc7e34eb1b9ec2d42ee2b7b6c9f93507343df67a64cbb"
+    },
+    {
+      "path": "automation/playgodot/tests/test_camera_handling.py",
+      "sha256": "60ada3d40eca1b9c6796a01bef56eb0d75de4c85c24f7628063373f1bb04eb3b"
+    },
+    {
+      "path": "Cannonball.csproj",
+      "sha256": "b3ffbb34389046cb20c7179293c3a298f53d97040c70eb60b121a9d708dbdf04"
+    },
+    {
+      "path": "project.godot",
+      "sha256": "40196e5f18be822adde0ae30ca07a456cb15391ceeb52fb81356985455c2dc71"
+    },
+    {
+      "path": "export_presets.cfg",
+      "sha256": "aa145597353db7da7b0df884a610102806abde9442da178423a77dea03840f71"
+    },
+    {
+      "path": ".tools/scenarios/official-corridor/route_graph-966f3932ff0b33fcc96f330dca0c2a7c3c592665647443d2a1237226555b7e8e.cbrg",
+      "sha256": "43c2af9596d52a17dabfcffc37e94b31c41681a80e46770c0e6fa8ba305f265c"
+    }
+  ],
+  "deterministic_seed": 0,
+  "scenario_arguments": [
+    "--fixture official-corridor --smoke-test",
+    "--headless --fixed-fps 120 res://game/Automation/StarterSpeedProbe.tscn",
+    "PlayGodot official-corridor rendered UI with isolated test saves"
+  ],
+  "commands": [
+    {
+      "command": "GODOT_BIN=$PWD/.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot ./scripts/check.sh",
+      "exit_status": 0
+    },
+    {
+      "command": "GODOT_BIN=$PWD/.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot PLAYGODOT_ARTIFACT_DIR=$PWD/reports/p0-024/playgodot-camera-recovery ./scripts/verify-playgodot.sh",
+      "exit_status": 0
+    }
+  ],
+  "metrics": {
+    "m0_steps_passed": 12,
+    "core_tests_passed": 157,
+    "map_tests_passed": 345,
+    "map_tests_preexisting_skips": 1,
+    "protocol_unit_tests_passed": 13,
+    "release_smoke_unit_tests_passed": 3,
+    "rendered_tests_passed": 30,
+    "starter_speed_cases_passed": 13,
+    "destroyed_physics_state_bindings_checked": 12,
+    "forced_finalizer_collections_between_cases": 12,
+    "starter_speed_overspeed_tolerance_mps": 0.1,
+    "starter_speed_comparisons": [
+      {
+        "scenario": "level",
+        "assist": "Accessible",
+        "setup": "starter",
+        "cap_mph": 125,
+        "grade": 0,
+        "physics_frames": 3600,
+        "peak_forward_mps": 55.853516,
+        "final_forward_mps": 55.853516,
+        "minimum_steady_mps": 55.853516,
+        "final_lateral_mps": 3.0371552e-07,
+        "final_vertical_mps": -2.8859246e-08,
+        "grounded_samples": 3600,
+        "resets": 0,
+        "passed": true
+      },
+      {
+        "scenario": "downhill",
+        "assist": "Accessible",
+        "setup": "starter",
+        "cap_mph": 125,
+        "grade": -0.08,
+        "physics_frames": 3600,
+        "peak_forward_mps": 55.873764,
+        "final_forward_mps": 55.873756,
+        "minimum_steady_mps": 55.87375,
+        "final_lateral_mps": 1.907701,
+        "final_vertical_mps": -4.453152,
+        "grounded_samples": 3600,
+        "resets": 0,
+        "passed": true
+      },
+      {
+        "scenario": "level",
+        "assist": "Balanced",
+        "setup": "starter",
+        "cap_mph": 125,
+        "grade": 0,
+        "physics_frames": 3600,
+        "peak_forward_mps": 55.853516,
+        "final_forward_mps": 55.853516,
+        "minimum_steady_mps": 55.853516,
+        "final_lateral_mps": -5.192819e-07,
+        "final_vertical_mps": 7.960616e-07,
+        "grounded_samples": 3600,
+        "resets": 0,
+        "passed": true
+      },
+      {
+        "scenario": "downhill",
+        "assist": "Balanced",
+        "setup": "starter",
+        "cap_mph": 125,
+        "grade": -0.08,
+        "physics_frames": 3600,
+        "peak_forward_mps": 55.87377,
+        "final_forward_mps": 55.873768,
+        "minimum_steady_mps": 55.873764,
+        "final_lateral_mps": -0.30307916,
+        "final_vertical_mps": -4.455405,
+        "grounded_samples": 3600,
+        "resets": 0,
+        "passed": true
+      },
+      {
+        "scenario": "level",
+        "assist": "Raw",
+        "setup": "starter",
+        "cap_mph": 125,
+        "grade": 0,
+        "physics_frames": 3600,
+        "peak_forward_mps": 55.853516,
+        "final_forward_mps": 55.853516,
+        "minimum_steady_mps": 55.853516,
+        "final_lateral_mps": -5.518374e-07,
+        "final_vertical_mps": 1.427221e-07,
+        "grounded_samples": 3600,
+        "resets": 0,
+        "passed": true
+      },
+      {
+        "scenario": "downhill",
+        "assist": "Raw",
+        "setup": "starter",
+        "cap_mph": 125,
+        "grade": -0.08,
+        "physics_frames": 3600,
+        "peak_forward_mps": 55.87377,
+        "final_forward_mps": 55.873768,
+        "minimum_steady_mps": 55.873764,
+        "final_lateral_mps": 0.09936953,
+        "final_vertical_mps": -4.4554205,
+        "grounded_samples": 3600,
+        "resets": 0,
+        "passed": true
+      },
+      {
+        "scenario": "configured-150",
+        "assist": "Balanced",
+        "setup": "tuning-fixture",
+        "cap_mph": 150,
+        "grade": 0,
+        "physics_frames": 3600,
+        "peak_forward_mps": 67.01921,
+        "final_forward_mps": 67.01921,
+        "minimum_steady_mps": 67.01921,
+        "final_lateral_mps": -7.233793e-07,
+        "final_vertical_mps": 3.432524e-07,
+        "grounded_samples": 3600,
+        "resets": 0,
+        "passed": true
+      },
+      {
+        "scenario": "downhill-coast",
+        "assist": "Balanced",
+        "setup": "starter",
+        "cap_mph": 125,
+        "grade": -0.2,
+        "physics_frames": 3600,
+        "peak_forward_mps": 55.880005,
+        "final_forward_mps": 55.88,
+        "minimum_steady_mps": 55.879997,
+        "final_lateral_mps": 0.8498233,
+        "final_vertical_mps": -10.957693,
+        "grounded_samples": 3600,
+        "resets": 0,
+        "passed": true
+      },
+      {
+        "scenario": "braking",
+        "assist": "Balanced",
+        "setup": "starter",
+        "cap_mph": 125,
+        "grade": 0,
+        "physics_frames": 480,
+        "peak_forward_mps": 55.65943,
+        "final_forward_mps": -0.035868213,
+        "minimum_steady_mps": null,
+        "final_lateral_mps": -0.04782305,
+        "final_vertical_mps": -2.9827443e-06,
+        "grounded_samples": 480,
+        "resets": 0,
+        "passed": true
+      },
+      {
+        "scenario": "reverse",
+        "assist": "Balanced",
+        "setup": "starter",
+        "cap_mph": 125,
+        "grade": 0,
+        "physics_frames": 240,
+        "peak_forward_mps": 0,
+        "final_forward_mps": -34.02505,
+        "minimum_steady_mps": null,
+        "final_lateral_mps": -2.272421e-07,
+        "final_vertical_mps": -0.05715647,
+        "grounded_samples": 240,
+        "resets": 0,
+        "passed": true
+      },
+      {
+        "scenario": "resume-overspeed",
+        "assist": "Balanced",
+        "setup": "starter",
+        "cap_mph": 125,
+        "grade": 0,
+        "physics_frames": 240,
+        "peak_forward_mps": 55.88,
+        "final_forward_mps": 55.853523,
+        "minimum_steady_mps": null,
+        "final_lateral_mps": -1.7562352e-08,
+        "final_vertical_mps": -1.4531719e-06,
+        "grounded_samples": 240,
+        "resets": 0,
+        "passed": true
+      },
+      {
+        "scenario": "airborne",
+        "assist": "Balanced",
+        "setup": "starter",
+        "cap_mph": 125,
+        "grade": 0,
+        "physics_frames": 30,
+        "peak_forward_mps": 65.869354,
+        "final_forward_mps": 65.56387,
+        "minimum_steady_mps": null,
+        "final_lateral_mps": 0,
+        "final_vertical_mps": 6.8074994,
+        "grounded_samples": 0,
+        "resets": 0,
+        "passed": true
+      },
+      {
+        "scenario": "lateral-impact",
+        "assist": "Balanced",
+        "setup": "starter",
+        "cap_mph": 125,
+        "grade": 0,
+        "physics_frames": 2,
+        "peak_forward_mps": 55.880005,
+        "final_forward_mps": 55.868618,
+        "minimum_steady_mps": null,
+        "final_lateral_mps": 9.995903,
+        "final_vertical_mps": 2.4386358,
+        "grounded_samples": 2,
+        "resets": 0,
+        "passed": true
+      }
+    ]
+  },
+  "outputs": [
+    {
+      "path": "reports/m0/summary.json",
+      "sha256": "8b1ec2f46a4bd554664328a4b27d0e605f15425f34b1cf406cf61bb8410fe1cd"
+    },
+    {
+      "path": "reports/m0/doctor.json",
+      "sha256": "33cb1935e7bc974bbc4cc89452ab1f85a6648768cd2301f08b7df88be56e1dca"
+    },
+    {
+      "path": "reports/m0/dotnet/core-tests.trx",
+      "sha256": "2052c02195c47892d05b473af9a9791704cbe14b8bca24a8f5b6a5875df6ecaf"
+    },
+    {
+      "path": "reports/m0/python/junit.xml",
+      "sha256": "85c791a27fca5f7c491cd35df8388ef9096bc79d8c923eb7f15b9af5f7ab4e43"
+    },
+    {
+      "path": "reports/m0/godot/starter-speed.json",
+      "sha256": "568dacf709f18ea05cab48cb7d1fa73bac4a7db4d9cdac4bc49eda9401196191"
+    },
+    {
+      "path": "reports/m0/logs/release-smoke-unit.log",
+      "sha256": "82af6a938767400b6feededab4fcd5c35ec2d5e5e16ecc6d034bfb3cd1078a17"
+    },
+    {
+      "path": "reports/p0-024/playgodot-camera-recovery.log",
+      "sha256": "afae1c97a93f849aa3cdb3f82cbeb8209eb4811eed6f2e17e22149e80e88354f"
+    },
+    {
+      "path": "reports/p0-024/windows-export-recovered.log",
+      "sha256": "a82722a3b8c5516453d2036d4f9616d6cd407455f60572b1580a0f0125a2e948"
+    },
+    {
+      "path": "reports/p0-024/linux-export-recovered.log",
+      "sha256": "6b30b3332f0d23f186e82e10ceb2a56b75a0244b36eb8ee6bbdc7d9804a7eede"
+    },
+    {
+      "path": "reports/p0-024/export-artifacts-3b29bec.json",
+      "sha256": "83bd1f6a7457ddbde6c9d75e9f62b2b6a22016dead2e2ca68adc1cf359281957"
+    },
+    {
+      "path": "reports/p0-024/mac-repair-failed.log",
+      "sha256": "6a0c2a4c9118d9cb536f344ed2427d8ea4d685f92aba1ad453e4f069db8fcc18"
+    },
+    {
+      "path": "reports/p0-024/playgodot-camera-recovery/driving-input-pause.jsonl",
+      "sha256": "84860cd8da3147034b8ead0d54f8f7c7fd6c439dd0642a755118d18b86a8c1e9"
+    },
+    {
+      "path": "reports/p0-024/playgodot-camera-recovery/driving-input-pause-godot.log",
+      "sha256": "d981e39429c001c09eaad70a656b921372dd20bdec1f2723f991c0013577173d"
+    },
+    {
+      "path": "reports/p0-024/upstream/ci-failed.log",
+      "sha256": "81ac93451017ba0a71757a9ddef75b9a0f2aa0a4b0d581fc1180cacf214c9029"
+    },
+    {
+      "path": "reports/p0-024/upstream/exports-failed.log",
+      "sha256": "34feafb5a28cd1bb884a99dd65180b774099b5b4e3cb722172796c057ec2f934"
+    },
+    {
+      "path": "reports/p0-024/upstream/claim-exports-failed.log",
+      "sha256": "c1a5d97406d1eddd09b7261359ee4ff47fceb52913f8efbbb70a4965025303b8"
+    },
+    {
+      "path": "reports/p0-024/container-baseline.log",
+      "sha256": "079f533ddf3c9ce685f02997ba2553d7464a4a1038e114d5e373337caaca6bd1"
+    },
+    {
+      "path": "reports/p0-024/ci-linux-final/reports/m0/summary.json",
+      "sha256": "c9949d97a7c3dfffa26dff6adbe1cb8dc8ebde6e3e3c4e7d85725b6bfbccf424"
+    },
+    {
+      "path": "reports/p0-024/ci-linux-final/reports/m0/godot/starter-speed.json",
+      "sha256": "3bf92a96443ca98875ae7d49b0a2f896e29f9347fdfd58a5788227bd1780026f"
+    },
+    {
+      "path": "reports/p0-024/ci-windows-final/reports/m0/summary.json",
+      "sha256": "a2bc74eafac2e5c1bc0f4d9446a09a708187374c7181060fa084f2e76e347abd"
+    },
+    {
+      "path": "reports/p0-024/ci-windows-final/reports/m0/godot/starter-speed.json",
+      "sha256": "063fa9369d2d204737e29db58e67110d32ab6e0175377fa6a6c4baf6884ed88e"
+    },
+    {
+      "path": "reports/p0-024/remote-checks.json",
+      "sha256": "d7fa3993b8a1257257c3217e2b1cde1a8f7514dbc77892ade7bb3797faede62b"
+    },
+    {
+      "path": "reports/p0-024/ci-merge-final.json",
+      "sha256": "97aa135de59ae97c07f67f940d420f5d197f573f77237e4728b3f5e91d555713"
+    },
+    {
+      "path": "reports/p0-024/export-artifacts-final.json",
+      "sha256": "d4c22f7c9271bc4d2bc31b3755f4f2d650ac6de72a7723b426b48d1f66c1f175"
+    },
+    {
+      "path": "reports/p0-024/export-jobs-final.json",
+      "sha256": "25ef3e9456e70af34ad33e5dd47432e58b7cc3025caa2ba6c268156a367fc77a"
+    },
+    {
+      "path": "reports/p0-024/windows-export-final.log",
+      "sha256": "63f574ceee0f181f3d188460afc8c41e685481cc086217c74c3d3f71fd21a450"
+    },
+    {
+      "path": "reports/p0-024/linux-export-final.log",
+      "sha256": "1addc95cd283b4bc046d8f8d826bc7c56e29d0e29bb3b165f526c0207e6467b7"
+    },
+    {
+      "path": "reports/p0-024/macos-ui-final.log",
+      "sha256": "16c1f42cdc4dcb1ccf0a87d3cbc65210522fdcdc850098e32abf4f91bc9d2fb0"
+    },
+    {
+      "path": "reports/p0-024/ci-macos-final/reports/playgodot/camera-handling-final.png",
+      "sha256": "3abe49180ab7129dfb97ffc89ca5bc10750444d0805f112effbe7ca5f8043e56"
+    }
+  ],
+  "failure_logs": {
+    "main_ci": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34075477248",
+    "main_exports": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34075477269",
+    "claim_only_exports": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34168681979",
+    "local_emulated_gdb": "reports/p0-024/container-baseline.log",
+    "camera_fixture_candidate": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34169504309"
+  },
+  "retry_count": 1,
+  "diagnostic_failures": 1,
+  "recovery_result": "Complete local M0 and 30 rendered tests passed. All 11 remote checks passed on the final implementation, including three-platform UI, Linux/Windows M0 and repeat reproducible clean-machine exports; the earlier native Windows failure did not recur in either repair export run.",
+  "limits": [
+    "The native finalizer stack does not name the disposed object.",
+    "The earlier Linux startup SIGSEGV did not reproduce on the claim-only revision; emulated gdb could not access registers."
+  ],
+  "human_gate_approval": null,
+  "remote_checks": {
+    "git_revision": "4d46e98e00f3ea4e402cb261ea86092fe0866daa",
+    "pull_request": "https://github.com/Randroids-Dojo/Cannonball-Vibe/pull/141",
+    "checks": [
+      {
+        "name": "M0 (ubuntu-latest)",
+        "conclusion": "SUCCESS",
+        "status": "COMPLETED",
+        "detailsUrl": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34170186259/job/101888864175"
+      },
+      {
+        "name": "Blender and Godot asset pipeline",
+        "conclusion": "SUCCESS",
+        "status": "COMPLETED",
+        "detailsUrl": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34170186359/job/101888864720"
+      },
+      {
+        "name": "Build reproducible fixture exports",
+        "conclusion": "SUCCESS",
+        "status": "COMPLETED",
+        "detailsUrl": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34170186236/job/101888863846"
+      },
+      {
+        "name": "M0 (windows-latest)",
+        "conclusion": "SUCCESS",
+        "status": "COMPLETED",
+        "detailsUrl": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34170186259/job/101888864241"
+      },
+      {
+        "name": "PlayGodot semantic UI (ubuntu-latest)",
+        "conclusion": "SUCCESS",
+        "status": "COMPLETED",
+        "detailsUrl": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34170186259/job/101888864203"
+      },
+      {
+        "name": "Clean-machine smoke (linux)",
+        "conclusion": "SUCCESS",
+        "status": "COMPLETED",
+        "detailsUrl": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34170186236/job/101889897337"
+      },
+      {
+        "name": "PlayGodot semantic UI (windows-latest)",
+        "conclusion": "SUCCESS",
+        "status": "COMPLETED",
+        "detailsUrl": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34170186259/job/101888864155"
+      },
+      {
+        "name": "Clean-machine smoke (windows)",
+        "conclusion": "SUCCESS",
+        "status": "COMPLETED",
+        "detailsUrl": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34170186236/job/101889897245"
+      },
+      {
+        "name": "PlayGodot semantic UI (macos-latest)",
+        "conclusion": "SUCCESS",
+        "status": "COMPLETED",
+        "detailsUrl": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34170186259/job/101888864302"
+      },
+      {
+        "name": "Deterministic 500-mile (ubuntu-latest)",
+        "conclusion": "SUCCESS",
+        "status": "COMPLETED",
+        "detailsUrl": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34170186259/job/101888864014"
+      },
+      {
+        "name": "Deterministic 500-mile (windows-latest)",
+        "conclusion": "SUCCESS",
+        "status": "COMPLETED",
+        "detailsUrl": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34170186259/job/101888864195"
+      }
+    ],
+    "checked_out_git_revision": "275d016af3e2d7fb46ba2fad80691b2b2381dc7b",
+    "source_tree": "9f89f799496d7d150b14f3e527d98fcdc416082c",
+    "source_tree_matches_pr_head": true,
+    "verified_utc": "2026-09-07T23:39:00.885475+00:00"
+  },
+  "platform_comparisons": [
+    {
+      "platform": "linux",
+      "git_revision": "275d016af3e2d7fb46ba2fad80691b2b2381dc7b",
+      "m0_steps_passed": 12,
+      "starter_speed_cases_passed": 13,
+      "maximum_forward_overspeed_mps": 4.999999994481641e-06,
+      "maximum_allowed_overspeed_mps": 0.1,
+      "acceptance_passed": true
+    },
+    {
+      "platform": "windows",
+      "git_revision": "275d016af3e2d7fb46ba2fad80691b2b2381dc7b",
+      "m0_steps_passed": 12,
+      "starter_speed_cases_passed": 13,
+      "maximum_forward_overspeed_mps": 4.999999994481641e-06,
+      "maximum_allowed_overspeed_mps": 0.1,
+      "acceptance_passed": true
+    }
+  ],
+  "native_exports": {
+    "successful_runs": [
+      "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34169504322",
+      "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34170186236"
+    ],
+    "each_platform_built_twice_with_identical_bytes": true,
+    "artifacts": [
+      {
+        "digest": "sha256:104db0024854fe4811d807599119fb1609213ad9a78bbb3ef0131f1b1d815d45",
+        "name": "unsigned-windows-275d016af3e2d7fb46ba2fad80691b2b2381dc7b-7b7f49f5b86fc3f5cb751a8898223a4a2252b800f60174227d06adc18159c203",
+        "size_in_bytes": 78642056
+      },
+      {
+        "digest": "sha256:36ee5c8340b9282ba70e45caffbc28aad3f884ee440e4dd57ab04cba9f971c10",
+        "name": "unsigned-linux-275d016af3e2d7fb46ba2fad80691b2b2381dc7b-708921e81f0f94e1b1cf8b162bd3b93d0bff7b0985fcce43c1be2a1ac0b11ce5",
+        "size_in_bytes": 67937842
+      }
+    ],
+    "clean_machine_smokes_passed": [
+      "linux",
+      "windows"
+    ],
+    "stock_cap_mph": 125,
+    "tool_versions": {
+      "godot": "4.7.1.stable.mono.official.a13da4feb",
+      "dotnet_sdk": "10.0.102",
+      "dotnet_runtime": "8.0.29",
+      "uv": "0.9.24",
+      "node": "22.22.1",
+      "python": "3.13.11"
+    }
+  },
+  "acceptance_comparisons": [
+    {
+      "criterion": "Full local M0 and rendered suite",
+      "expected": "12 M0 steps and 30 rendered tests pass",
+      "actual": "12 M0 steps and 30 rendered tests passed",
+      "passed": true
+    },
+    {
+      "criterion": "Linux and Windows M0",
+      "expected": 2,
+      "actual": 2,
+      "passed": true
+    },
+    {
+      "criterion": "Three-platform semantic UI",
+      "expected": 3,
+      "actual": 3,
+      "passed": true
+    },
+    {
+      "criterion": "Linux and Windows reproducible clean-machine exports",
+      "expected": 2,
+      "actual": 2,
+      "passed": true
+    },
+    {
+      "criterion": "Original failures retained and attributed",
+      "expected": "workflow and platform records plus native trace limit",
+      "actual": "audit and hashed logs present",
+      "passed": true
+    }
+  ]
+}

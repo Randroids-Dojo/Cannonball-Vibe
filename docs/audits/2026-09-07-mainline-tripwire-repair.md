@@ -1,0 +1,101 @@
+# P0-024: mainline runtime tripwire repair
+
+Date: 2026-09-07
+
+Task: P0-024. Claim: PR #141. Trigger: red-main #140 after P1-017 merged
+in PR #138 (`36035a5`), persisting at `01dd47d`.
+
+## Retained failures
+
+- Main CI run `34075477248`: macOS
+  `test_pause_clears_held_input_until_neutral` failed with suppression sequence 2,
+  last reason `pause`, neutral raw input, suppression false and stationary hold
+  false. The vehicle was still moving at 0.593 m/s. The menu was paused.
+- Main unsigned exports run `34075477269`: Linux exited with SIGSEGV before
+  readiness; Windows printed all smoke success markers, then crashed in
+  `GodotObject.Finalize` / `godotsharp_internal_object_get_associated_gchandle`.
+- Claim-only revision `ca45d99`, unsigned exports run `34168681979`: Linux passed;
+  Windows reproduced the same native finalizer stack after all success markers.
+  Its console wrapper reported exit zero, but the package verifier correctly
+  rejected the accompanying engine error output.
+
+Original workflow logs, macOS test artifacts and the checksummed Linux package
+are retained under `reports/p0-024/upstream/`. The Linux archive SHA-256 is
+`1b47cb54b7c844095969ab172e28711ad661d32f70469d9a31b030f25d4f3342`.
+An attempted Linux gdb reproduction in an amd64 container on the local arm64 Mac
+could not start the inferior because emulated ptrace register access failed.
+That attempt is diagnostic failure evidence, not a runtime result.
+
+## Changes
+
+`DrivingInputController.Read` can continue while paused because its subtree uses
+`ProcessMode.Always`. Previously any neutral sample cleared suppression, even
+while the menu remained open. Neutral input now clears suppression only after
+the simulation resumes. The rendered regression checks neutral input while
+paused, a fresh press in the pause menu, resume with that key held, and the final
+release. Each stage requires zero conditioned throttle and suppression until
+resume plus neutral input.
+
+The starter governor introduces a `PhysicsDirectBodyState3D` managed wrapper.
+The official pinned engine owns its native state in `JoltBody3D`, which deletes
+it with the body. The vehicle now retains that wrapper and disposes its managed
+binding on `NotificationPredelete`, before the native body is destroyed. This
+follows the repository's existing explicit wrapper-lifetime practice; no
+per-frame wrapper allocation or physics change is introduced. The speed probe
+now checks that each destroyed vehicle has no remaining native state binding,
+collects pending finalizers between cases, and scopes its road-shape wrapper.
+
+The package verifier now checks error markers without case sensitivity. The
+claim-only Windows failure showed a native `Fatal error` followed by a zero
+launcher status. Before this change, only separate `ERROR:` lines made that
+particular run fail. Three executable fixture tests cover a clean shutdown, a
+fatal stack after success markers with exit zero, and a nonzero exit after
+success markers. `scripts/check.sh` runs them as `release-smoke-unit`.
+
+Pinned engine source inspected:
+
+- [JoltBody3D ownership and destruction](https://github.com/godotengine/godot/blob/4.7.1-stable/modules/jolt_physics/objects/jolt_body_3d.cpp)
+- [Managed object binding disposal](https://github.com/godotengine/godot/blob/4.7.1-stable/modules/mono/glue/runtime_interop.cpp)
+
+The finalizer stack establishes the failure class, but does not identify the
+particular managed object. Cross-platform export results are required before
+attributing recovery to the lifetime correction. The early Linux startup crash
+has not yet been reproduced locally and is not assumed to share that cause.
+
+## Verification
+
+At `3b29bec`, the complete local gate passed: 157 Core tests, 345 map tests
+with one pre-existing skip, 13 protocol tests, three export-verifier fixtures,
+and all 13 speed cases including 12 destroyed physics-state binding checks and
+forced finalizer collections. The local rendered suite passed all 28 tests.
+Both native export smokes passed in run `34169504322`, including clean shutdown
+under the stricter fatal-diagnostic check. Required M0 passed on Linux/Windows;
+semantic UI passed on Linux/Windows; both 500-mile scenarios passed.
+
+The macOS suite in run `34169504309` passed the pause regression but exposed a
+separate camera-fixture failure: one acknowledged `look_behind` press was
+followed by 31 more descriptions, ending the original three-second settle bound
+with `rear_view_held` false. The settle helper returns its last state on timeout,
+so this does not establish that the rear blend ever crossed its target. The
+single injected press had not supplied the held-input precondition. Native
+startup focus changes are a known mechanism for clearing such actions; no
+application-side code releases `look_behind` before this test's explicit release.
+
+The camera fixture now reasserts that continuous action during its bounded
+settle and requires both held input and the original blend threshold. Its
+three-second deadline covers input requests as well as state reads. Two added
+fixture tests reproduce loss of an acknowledged press and a stalled input
+request. No camera tuning or acceptance threshold changed. The complete local
+rendered suite then passed all 30 tests.
+
+At final implementation `4d46e98`, CI run `34170186259` passed M0 on both
+platforms, all 30 semantic tests on Linux/Windows/macOS and both 500-mile
+scenarios. Export run `34170186236` passed byte reproducibility and clean-machine
+startup/save/shutdown on Linux and Windows; this is the second successful native
+export run after the lifetime correction. The asset workflow passed as well.
+CI checked out synthetic merge `275d016`, whose complete source tree was verified
+to equal the PR head. Task P0-024 is complete with no human gate.
+
+Exact revisions, commands, artifacts and platform results belong in
+`evidence/M0/P0-024.json`. No human gate applies to this bounded repair. The
+starter cap remains 125 mph and the high-speed scenario setup remains 250 mph.
