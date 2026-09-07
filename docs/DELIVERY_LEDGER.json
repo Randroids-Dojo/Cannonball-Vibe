@@ -2170,7 +2170,7 @@
       "milestone": "M0",
       "priority": "P0",
       "title": "Repair semantic UI response stalls after renderer readiness",
-      "status": "verified_local",
+      "status": "complete",
       "owner": "Runtime + automation",
       "dependencies": [
         "P0-001",
@@ -2198,7 +2198,52 @@
         "docs/audits/2026-09-06-playgodot-frame-readiness.md"
       ],
       "human_gate": null,
-      "notes": "Repair duty for red-main #136 under ADR-0025; isolated from the owner-requested starter speed cap."
+      "notes": "Repair duty for red-main #136 under ADR-0025; isolated from the owner-requested starter speed cap. Completed after PR #137 passed Linux/Windows M0 and Linux/Windows/macOS semantic UI on 7bd3f765e6a8290f1f8542fdac59bf3ba752a096 and merged without bypass."
+    },
+    {
+      "id": "P1-017",
+      "milestone": "M1",
+      "priority": "P1",
+      "title": "Capped top speed for the stock starter setup",
+      "status": "complete",
+      "owner": "Runtime",
+      "dependencies": [
+        "P0-019"
+      ],
+      "owned_paths": [
+        "src/Cannonball.Core/Simulation/Vehicle/VehicleSetup.cs",
+        "tests/Cannonball.Core.Tests/VehicleSetupTests.cs",
+        "game/Vehicle/CannonballVehicle.cs",
+        "game/Main.cs",
+        "game/Automation/StarterSpeedProbe.cs",
+        "game/Automation/StarterSpeedProbe.tscn",
+        "scripts/check.sh",
+        "docs/DELIVERY_LEDGER.json",
+        "docs/TECH_STACK.md",
+        "docs/audits/2026-09-06-starter-speed-cap.md",
+        "evidence/M1/P1-017.json",
+        "gdd.md",
+        "docs/OPEN_QUESTIONS.md",
+        "automation/playgodot/tests/test_driving_input.py",
+        "evidence/M0/P0-023.json"
+      ],
+      "generated_outputs": [
+        "game/Automation/StarterSpeedProbe.cs.uid",
+        "reports/m0/",
+        "reports/starter-speed/"
+      ],
+      "acceptance": [
+        "Normal new, restarted, and resumed gameplay selects the stock starter setup with an explicit forward top-speed cap, independent of driving assist profile",
+        "Full-throttle level and downhill official-engine fixtures approach the configured starter cap without sustained overspeed; braking, reversing, airborne motion and lateral velocity retain their separate behavior",
+        "The cap is configuration data with a validated tuning seam; explicit high-speed validation setups preserve the existing 200 mph physics and streaming scenarios",
+        "Unit checks and the official-engine starter-speed probe pass locally and in Linux and Windows M0; measured values and hashes are recorded"
+      ],
+      "evidence": [
+        "evidence/M1/P1-017.json",
+        "docs/audits/2026-09-06-starter-speed-cap.md"
+      ],
+      "human_gate": null,
+      "notes": "Owner request 2026-09-06. Technical starter setup slice using an authored flat/downhill fixture; 125 mph is provisional initial tuning from the previously discussed 120-130 mph range unless the owner chooses otherwise. Upgrades, economy balancing, thermal/wear systems, full-run winnability and human enjoyment/comprehension remain separate open work. Scope clarification before documentation updates: preserve and carry forward the owner's existing GDD design requirements; the unpublished starter Q-045 becomes Q-046 because the merged highway atlas claim used Q-045. Only the stock cap is implemented here. Extend the existing normal-game/restart semantic test to verify setup selection and close out the already-green P0-023 evidence. Red-main repair PR #137 is submitted with auto-merge armed before this claim. Technical slice completed after the 13-case starter probe and M0 passed on macOS, Linux and Windows, normal resume and restart setup selection were verified, the 200 mph matrix passed, and all three platform semantic suites passed on PR revision 1878a4a63f7a212450443f8818d2dadab0d9c857. Q-046 balance and future-system gates remain open."
     }
   ]
 }
