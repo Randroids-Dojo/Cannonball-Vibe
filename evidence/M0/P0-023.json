@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "task_id": "P0-023",
+  "milestone": "M0",
+  "git_revision": "458cd6e2873a4450000cd0fdec474599f3cd2f4a",
+  "platform": "Darwin arm64",
+  "utc": "2026-09-07T00:35:21.370Z",
+  "status": "verified_local",
+  "tool_versions": [
+    {
+      "name": "dotnet",
+      "expected": "10.0.102",
+      "actual": "10.0.102",
+      "status": "passed"
+    },
+    {
+      "name": "uv",
+      "expected": "0.9.24",
+      "actual": "0.9.24",
+      "status": "passed"
+    },
+    {
+      "name": "git-lfs",
+      "expected": "3.7.1",
+      "actual": "3.7.1",
+      "status": "passed"
+    },
+    {
+      "name": "perl",
+      "expected": "available",
+      "actual": "available",
+      "status": "passed"
+    },
+    {
+      "name": "godot",
+      "expected": "4.7.1.stable.mono.official.a13da4feb",
+      "actual": "4.7.1.stable.mono.official.a13da4feb",
+      "status": "passed"
+    }
+  ],
+  "inputs": [
+    {
+      "path": "addons/playgodot/server.gd",
+      "sha256": "ba7e18f5472e3103aeb7f2a1cf7991c4e92e43242f67e3797627b13f5a2ae90c"
+    },
+    {
+      "path": "automation/playgodot/tests/test_live.py",
+      "sha256": "d516211234b82224609170b4c3b31170aae60a0122c68fbd2136cf802a1ba659"
+    },
+    {
+      "path": "automation/playgodot/tests/test_camera_handling.py",
+      "sha256": "d1a35d1d9075e64aca7cd9bd0d5a5a27e28008ff42c121b61af5526469f53d64"
+    }
+  ],
+  "deterministic_seed": null,
+  "scenario_arguments": "PlayGodot official-corridor graybox fixture",
+  "commands": [
+    {
+      "command": "GODOT_BIN=/Users/randroid/Documents/Dev/Cannonball-Vibe/.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot ./scripts/check.sh",
+      "exit_status": 0
+    },
+    {
+      "command": "GODOT_BIN=/Users/randroid/Documents/Dev/Cannonball-Vibe/.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot PLAYGODOT_ARTIFACT_DIR=$PWD/reports/playgodot ./scripts/verify-playgodot.sh",
+      "exit_status": 0
+    }
+  ],
+  "metrics": {
+    "m0_steps_passed": 10,
+    "semantic_tests_passed": 28,
+    "semantic_tests_failed": 0,
+    "first_frame_precedes_ready": true
+  },
+  "outputs": [
+    {
+      "path": "reports/m0/summary.json",
+      "sha256": "275f97d26b648fd123975d1fb6e826fb3153e6f172fe67d69fef343f5342e8ab"
+    },
+    {
+      "path": "reports/playgodot/camera-handling-godot.log",
+      "sha256": "6738385a4a7643b386674a21524b0a293fe8740ba8e46eb756b7131037e55b1a"
+    },
+    {
+      "path": "reports/playgodot/raw-godot.log",
+      "sha256": "42aebcf962b08537759cb007d24c6d238e0e1949f840b9fbb180191bee7397a1"
+    },
+    {
+      "path": "reports/playgodot/round-trip.jsonl",
+      "sha256": "9c9eadc115af25e332f12a27d77cc0e4024c6610ae3eae4d89c677c7ac3f9b15"
+    }
+  ],
+  "failure_logs": {
+    "upstream_run": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34069163432",
+    "retained_artifact": "playgodot-macOS-1",
+    "local_path": "reports/mainline-34069163432/"
+  },
+  "retry_count": 0,
+  "recovery_result": "Local M0 and complete rendered suite passed after per-process first-frame readiness",
+  "human_gate_approval": null,
+  "remote_checks": "Pending PR CI; do not mark complete until required platforms pass"
+}

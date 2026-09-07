@@ -31,3 +31,4 @@ new ADR that supersedes the old one instead of rewriting history.
 | [ADR-0024](ADR-0024-canonical-continental-route-graph.md) | Accepted | Central Rockies canonical path with Northern Plains and Southern I-40 alternatives |
 | [ADR-0025](ADR-0025-continuous-mainline-integration.md) | Accepted | Auto-merge on green M0 with fix-forward mainline and post-merge adversarial review |
 | [ADR-0026](ADR-0026-supplementary-route-geometry-sources.md) | Accepted | NTAD NHS supplementary centerlines with NAIP break evidence and staged HPMS deepening |
+| [ADR-0027](ADR-0027-streamed-highway-atlas.md) | Proposed | Independent streamed 2D highway atlas, readable cartography, and scoped contextual data |

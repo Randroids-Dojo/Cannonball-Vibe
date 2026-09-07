@@ -5,6 +5,11 @@ The debug-only bootstrap binds an ephemeral port on `127.0.0.1` and reports the
 endpoint through inherited stdout. The 256-bit per-run token is inherited via
 `PLAYGODOT_TOKEN`; it is never printed or placed in process arguments.
 
+The listener starts only after this process completes its first rendered frame.
+`PLAYGODOT_PREPARING_FIRST_FRAME` and `PLAYGODOT_FIRST_FRAME` record that startup
+phase before `PLAYGODOT_READY`. First-draw work belongs to the existing bounded
+startup window, before interactive request and camera-settling deadlines begin.
+
 The first request must be `session.hello` with protocol `1.0`, the token, and a
 subset of the process allowlist (`read`, `input`, `screenshot`). The server
 rejects unknown capabilities rather than silently dropping them. Arbitrary
