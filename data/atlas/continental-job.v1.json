@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-09-07",
+  "catalog": {
+    "path": "../sources/catalog.json",
+    "sha256": "4d3a4c115875fc7e72f12e6a9d32a31d4b103a1b73bdbc731f47864989b8447f"
+  },
+  "profiles": {
+    "path": "datasets.v1.json",
+    "sha256": "f88aa8f4d4ee2d9ef672583a7fd50c078451855ba7d0ac7eea622d73cb56036f"
+  },
+  "route_selection": {
+    "path": "../routes/continental/route-selection.v1.json",
+    "sha256": "00ac4df354a8644997a2a073ee07c736ff3f3bc2d2565c8cd9cb51b957d2ff2f"
+  },
+  "scope": {
+    "path": "continental-scope.v1.json",
+    "sha256": "2bb74a7436e896dc7cc807bb952d743c5b118412cfb9289227c3c9fa09111e02"
+  },
+  "artifact_manifests": [],
+  "datasets": [
+    {
+      "profile_id": "nhpn-road-context",
+      "artifact_id": null
+    },
+    {
+      "profile_id": "utah-freeway-exits",
+      "artifact_id": null
+    },
+    {
+      "profile_id": "colorado-interchanges",
+      "artifact_id": null
+    },
+    {
+      "profile_id": "pennsylvania-exits",
+      "artifact_id": null
+    },
+    {
+      "profile_id": "iowa-rest-areas",
+      "artifact_id": null
+    },
+    {
+      "profile_id": "loves-locations",
+      "artifact_id": null
+    },
+    {
+      "profile_id": "overture-places",
+      "artifact_id": null
+    },
+    {
+      "profile_id": "california-exit-transcription",
+      "artifact_id": null
+    },
+    {
+      "profile_id": "virginia-exit-transcription",
+      "artifact_id": null
+    },
+    {
+      "profile_id": "new-jersey-exit-transcription",
+      "artifact_id": null
+    },
+    {
+      "profile_id": "ohio-service-plazas",
+      "artifact_id": null
+    },
+    {
+      "profile_id": "indiana-service-plazas",
+      "artifact_id": null
+    },
+    {
+      "profile_id": "gnis-place-labels",
+      "artifact_id": null
+    },
+    {
+      "profile_id": "census-context-boundaries",
+      "artifact_id": null
+    },
+    {
+      "profile_id": "usgs-hydrography",
+      "artifact_id": null
+    }
+  ],
+  "inventories": [],
+  "bindings": []
+}

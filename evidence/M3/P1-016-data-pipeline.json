@@ -1,0 +1,1555 @@
+{
+  "schema_version": 1,
+  "task_id": "P1-016",
+  "milestone": "M3",
+  "slice": "Offline atlas dataset intake, validation and explicit coverage audits",
+  "status": "offline_slice_verified",
+  "parent_task_status": "in_progress",
+  "git_revision": "10b0a6a3a7e8bd5c7f40bd4f31dbf72017621182",
+  "git_revision_role": "Implementation and locked inputs verified by the full local gate and live replay. This evidence and final documentation are committed afterward.",
+  "baseline_revision": "36035a576be407c2d33fc7e594afa327ee6f3807",
+  "pull_request": "https://github.com/Randroids-Dojo/Cannonball-Vibe/pull/139",
+  "platform": "MINGW64_NT-10.0-26200",
+  "utc_time": "2026-09-07T01:53:46.998940+00:00",
+  "tool_versions": {
+    "dotnet": "10.0.102",
+    "uv": "0.9.24",
+    "git-lfs": "3.7.1",
+    "perl": "available",
+    "godot": "4.7.1.stable.mono.official.a13da4feb",
+    "python": "3.13.11",
+    "git": "git version 2.55.0.windows.3",
+    "packages": {
+      "pytest": "9.1.1",
+      "ruff": "0.15.21",
+      "geopandas": "1.1.4",
+      "rasterio": "1.5.0",
+      "pyproj": "3.7.2",
+      "pyogrio": "0.13.0",
+      "shapely": "2.1.2",
+      "duckdb": "1.5.4",
+      "pandas": "3.0.3",
+      "flatbuffers": "25.12.19",
+      "typer": "0.26.8"
+    },
+    "proj": "9.5.1",
+    "pyogrio_gdal": "3.12.4",
+    "rasterio_gdal": "3.12.1",
+    "geos": "3.13.1"
+  },
+  "deterministic_seed": null,
+  "scenario_arguments": {
+    "as_of": "2026-09-07",
+    "live_profile": "nhpn-road-context",
+    "live_where": "OBJECTID=38283",
+    "live_observed_on_override": null,
+    "live_record_role": "One locked I-70 candidate NHPN record for acquisition/normalization proof; not route, lane, or inventory approval.",
+    "repeatability": "Replay the identical locked live job to two directories; compare the six declared outputs and manifest byte for byte."
+  },
+  "commands": [
+    {
+      "command": "CANNONBALL_REPORT_DIR=C:/Dev/Cannonball-Vibe-atlas-data/reports/atlas/m0-integration C:/Program Files/Git/bin/bash.exe ./scripts/check.sh",
+      "shell": "Windows PowerShell invoked Git Bash with CANNONBALL_REPORT_DIR set in the environment",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "summary": {
+        "path": "reports/atlas/m0-integration/summary.json",
+        "bytes": 1280,
+        "sha256": "54ade07005f57897f9d778eb64a2d315cfda5c0a159863fa865bd6facc565d9b"
+      },
+      "started_at": "2026-09-07T01:40:50Z",
+      "finished_at": "2026-09-07T01:44:09Z",
+      "steps": [
+        {
+          "name": "doctor",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/doctor.log"
+        },
+        {
+          "name": "dotnet-build",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/dotnet-build.log"
+        },
+        {
+          "name": "dotnet-test",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/dotnet-test.log"
+        },
+        {
+          "name": "ruff",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/ruff.log"
+        },
+        {
+          "name": "frame-allocations",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/frame-allocations.log"
+        },
+        {
+          "name": "continental-route",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/continental-route.log"
+        },
+        {
+          "name": "pytest-map-pipeline",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/pytest-map-pipeline.log"
+        },
+        {
+          "name": "pytest-playgodot-unit",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/pytest-playgodot-unit.log"
+        },
+        {
+          "name": "godot-smoke",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/godot-smoke.log"
+        },
+        {
+          "name": "camera-interpolation",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/camera-interpolation.log"
+        },
+        {
+          "name": "starter-speed",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/starter-speed.log"
+        }
+      ]
+    },
+    {
+      "command": [
+        "cannonball-map",
+        "atlas",
+        "acquire",
+        "nhpn-road-context",
+        "--where",
+        "OBJECTID=38283",
+        "--output",
+        ".tools/atlas/nhpn-live-verified"
+      ],
+      "started_at": "2026-09-07T01:51:32.014020+00:00",
+      "finished_at": "2026-09-07T01:51:34.572284+00:00",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "log": "reports/atlas/final-acquire.log",
+      "log_sha256": "1a626479067d19214d4772bdf8d6f02c54d6deea889598b7c4ebe55542be7225"
+    },
+    {
+      "command": [
+        "cannonball-map",
+        "atlas",
+        "lock",
+        ".tools/atlas/live-job.json"
+      ],
+      "started_at": "2026-09-07T01:51:34.573168+00:00",
+      "finished_at": "2026-09-07T01:51:35.587301+00:00",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "log": "reports/atlas/final-lock.log",
+      "log_sha256": "b2679e810b1d87a76088b106237d03995ca35d2a4c18338d5b97f1bb577348e1"
+    },
+    {
+      "command": [
+        "cannonball-map",
+        "atlas",
+        "audit",
+        "data/atlas/continental-job.v1.json",
+        "--output",
+        "reports/atlas/continental"
+      ],
+      "started_at": "2026-09-07T01:51:35.587470+00:00",
+      "finished_at": "2026-09-07T01:51:36.663791+00:00",
+      "exit_code": 2,
+      "expected_exit_code": 2,
+      "log": "reports/atlas/final-continental-audit.log",
+      "log_sha256": "3bbbdd4405f24bbac38580b112de1c011743b3ff1c2339ea09ad383b1e100c4a"
+    },
+    {
+      "command": [
+        "cannonball-map",
+        "atlas",
+        "verify",
+        "reports/atlas/continental"
+      ],
+      "started_at": "2026-09-07T01:51:36.663966+00:00",
+      "finished_at": "2026-09-07T01:51:37.677214+00:00",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "log": "reports/atlas/final-continental-verify.log",
+      "log_sha256": "95d27a468d6f10aaf3ab9e9b7d7e7603c2ff9a77d0959d94e4c86cd5722effa8"
+    },
+    {
+      "command": [
+        "cannonball-map",
+        "atlas",
+        "audit",
+        ".tools/atlas/live-job.json",
+        "--output",
+        "reports/atlas/live-one"
+      ],
+      "started_at": "2026-09-07T01:51:37.677428+00:00",
+      "finished_at": "2026-09-07T01:51:38.867717+00:00",
+      "exit_code": 2,
+      "expected_exit_code": 2,
+      "log": "reports/atlas/final-live-one-audit.log",
+      "log_sha256": "3f3a0fffae16a93f0971438a1849b346f34aa9a1d027df03c6269c25f3fd0251"
+    },
+    {
+      "command": [
+        "cannonball-map",
+        "atlas",
+        "verify",
+        "reports/atlas/live-one"
+      ],
+      "started_at": "2026-09-07T01:51:38.867891+00:00",
+      "finished_at": "2026-09-07T01:51:39.869181+00:00",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "log": "reports/atlas/final-live-one-verify.log",
+      "log_sha256": "95d27a468d6f10aaf3ab9e9b7d7e7603c2ff9a77d0959d94e4c86cd5722effa8"
+    },
+    {
+      "command": [
+        "cannonball-map",
+        "atlas",
+        "audit",
+        ".tools/atlas/live-job.json",
+        "--output",
+        "reports/atlas/live-two"
+      ],
+      "started_at": "2026-09-07T01:51:39.869356+00:00",
+      "finished_at": "2026-09-07T01:51:41.024158+00:00",
+      "exit_code": 2,
+      "expected_exit_code": 2,
+      "log": "reports/atlas/final-live-two-audit.log",
+      "log_sha256": "06c699afcac6ca47fe8f966b5680b9121d90edc2b12156f786f3f0975155f2f5"
+    },
+    {
+      "command": [
+        "cannonball-map",
+        "atlas",
+        "verify",
+        "reports/atlas/live-two"
+      ],
+      "started_at": "2026-09-07T01:51:41.024345+00:00",
+      "finished_at": "2026-09-07T01:51:42.008475+00:00",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "log": "reports/atlas/final-live-two-verify.log",
+      "log_sha256": "95d27a468d6f10aaf3ab9e9b7d7e7603c2ff9a77d0959d94e4c86cd5722effa8"
+    }
+  ],
+  "metrics": {
+    "atlas_tests_passed": 60,
+    "map_pipeline_tests_passed": 345,
+    "map_pipeline_tests_skipped": 1,
+    "map_pipeline_skip_reason": "Pre-existing continental repository-package test requires the ignored carriageway cache.",
+    "core_tests_passed": 157,
+    "playgodot_unit_tests_passed": 13,
+    "starter": {
+      "complete_cells": 0,
+      "coverage_cells": 105,
+      "gaps": 135,
+      "records": 0,
+      "selected_policy_segments": 15,
+      "unknown_inventory_denominators": 105,
+      "gaps_by_code": {
+        "inventory_unknown": 105,
+        "license_blocked": 14,
+        "not_acquired": 1,
+        "scope_geometry_missing": 15
+      }
+    },
+    "live": {
+      "complete_cells": 0,
+      "coverage_cells": 105,
+      "gaps": 122,
+      "records": 1,
+      "gaps_by_code": {
+        "inventory_unknown": 105,
+        "scope_geometry_missing": 15,
+        "stale_record": 1,
+        "unassigned_segment": 1
+      }
+    },
+    "byte_identical_live_outputs": 7,
+    "new_shipping_source_admissions": 0,
+    "acquisition_retries": 0,
+    "acquisition_resumed_responses": 1
+  },
+  "acceptance_comparisons": [
+    {
+      "criterion": "All six supported adapters and negative validation paths exercised",
+      "expected": 60,
+      "actual": 60,
+      "status": "passed"
+    },
+    {
+      "criterion": "Continental starter covers every policy segment and seven kinds without fabricated completeness",
+      "expected": {
+        "cells": 105,
+        "unknown_denominators": 105,
+        "records": 0
+      },
+      "actual": {
+        "cells": 105,
+        "unknown_denominators": 105,
+        "records": 0
+      },
+      "status": "passed"
+    },
+    {
+      "criterion": "Incomplete inputs exit 2 with explicit gaps",
+      "expected": {
+        "starter_gaps": 135,
+        "live_gaps": 122
+      },
+      "actual": {
+        "starter_gaps": 135,
+        "live_gaps": 122
+      },
+      "status": "passed"
+    },
+    {
+      "criterion": "Identical locked inputs produce every declared output byte identically",
+      "expected": 7,
+      "actual": 7,
+      "status": "passed"
+    },
+    {
+      "criterion": "Pinned local pre-push gate passes",
+      "expected": "passed",
+      "actual": "passed",
+      "status": "passed"
+    },
+    {
+      "criterion": "Implementation passes both required remote M0 platforms",
+      "expected": [
+        "M0 (ubuntu-latest): success",
+        "M0 (windows-latest): success"
+      ],
+      "actual": [
+        "M0 (ubuntu-latest): success",
+        "M0 (windows-latest): success"
+      ],
+      "status": "passed"
+    }
+  ],
+  "input_artifacts": [
+    {
+      "path": ".tools/atlas/live-job.json",
+      "bytes": 1024,
+      "sha256": "3847c2289fbab4f24e8bd7ca2521131eee668709f89c66770404f9fa5c024eac"
+    },
+    {
+      "path": ".tools/atlas/nhpn-live-verified/artifacts.json",
+      "bytes": 8725,
+      "sha256": "f557d8e39f68186e49423779c7d471b67ed8242197ad3661daf27608c39b9bd0"
+    },
+    {
+      "path": ".tools/atlas/nhpn-live-verified/dataset.json",
+      "bytes": 2098,
+      "sha256": "c3fe53a195204e353582beb82b3b6d9be7e29b5d29cd49c451ffee5e74644844"
+    },
+    {
+      "path": ".tools/atlas/nhpn-live-verified/responses/30c5da87c09f944885bbad75a3be17be71224cd24d11d0f186a824012437b71c.bin",
+      "bytes": 8390,
+      "sha256": "903407e74028f0d6ee066f50dfe8f6e5af285b9096598fe86dc37043cf3a6ccd"
+    },
+    {
+      "path": ".tools/atlas/nhpn-live-verified/responses/3b4c7c8c0f31a7b9becdb3945d009e7de2309e9f59de44c49ae5eb78e0037837.bin",
+      "bytes": 52,
+      "sha256": "5dd86c420605244d8e62327ef5e63b3650a967d0daa3cf683931e335bc840450"
+    },
+    {
+      "path": ".tools/atlas/nhpn-live-verified/responses/8bc5210962514eb7076fe425f57a6971dafe7ad393e9119226eacc75b6db2328.bin",
+      "bytes": 11,
+      "sha256": "6aea6dfe6561984cdc5c54ead84d47d2cf29e48253ae282aef237404adad4661"
+    },
+    {
+      "path": ".tools/atlas/nhpn-live-verified/responses/ba102583e0e30f77f431110aedb470507488f8266cb868efde9495ffe44126ac.bin",
+      "bytes": 16482,
+      "sha256": "b69960c68b75e58f5882dd2fd6e849811c2adf19101da71a74a2e7c16b88d429"
+    },
+    {
+      "path": ".tools/atlas/nhpn-live-verified/responses/bae7f98e0395845d1653a5fd030aecaa44212e36a571994c37223d4866b441a6.bin",
+      "bytes": 16482,
+      "sha256": "b69960c68b75e58f5882dd2fd6e849811c2adf19101da71a74a2e7c16b88d429"
+    },
+    {
+      "path": ".tools/atlas/nhpn-live-verified/responses/c6ccbebdc97536e3d1bbc5ab44a3803211a424f73a781fa4eefd2dcbfc2533a6.bin",
+      "bytes": 52,
+      "sha256": "5dd86c420605244d8e62327ef5e63b3650a967d0daa3cf683931e335bc840450"
+    },
+    {
+      "path": "data/atlas/continental-job.v1.json",
+      "bytes": 1970,
+      "sha256": "28bf3b1d8ea3b4db633a1bcda7f01f66a2bf8e36cd160ffd6e51b22f767534eb"
+    },
+    {
+      "path": "data/atlas/continental-scope.v1.json",
+      "bytes": 18291,
+      "sha256": "2bb74a7436e896dc7cc807bb952d743c5b118412cfb9289227c3c9fa09111e02"
+    },
+    {
+      "path": "data/atlas/datasets.v1.json",
+      "bytes": 13747,
+      "sha256": "f88aa8f4d4ee2d9ef672583a7fd50c078451855ba7d0ac7eea622d73cb56036f"
+    },
+    {
+      "path": "data/routes/continental/route-selection.v1.json",
+      "bytes": 15819,
+      "sha256": "00ac4df354a8644997a2a073ee07c736ff3f3bc2d2565c8cd9cb51b957d2ff2f"
+    },
+    {
+      "path": "data/sources/catalog.json",
+      "bytes": 4368,
+      "sha256": "4d3a4c115875fc7e72f12e6a9d32a31d4b103a1b73bdbc731f47864989b8447f"
+    },
+    {
+      "path": "tools/map_pipeline/tests/test_atlas.py",
+      "bytes": 26786,
+      "sha256": "8cd8c834f58ee6b358f6873b8633f6f8c4776f9405fe53418874836652bcc949"
+    },
+    {
+      "path": "tools/map_pipeline/uv.lock",
+      "bytes": 85006,
+      "sha256": "6bbd9d08562d15fa8cf849a5177d243d467811d2bcebf8dc90d3d14ed25bff93"
+    }
+  ],
+  "acquired_artifact_ancestry": [
+    {
+      "acquired_at": "2026-09-07T01:51:34.448480Z",
+      "id": "nhpn-road-context/dataset",
+      "license_evidence_url": "https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/NTAD_National_Highway_Planning_Network/FeatureServer/0",
+      "license_status": "public_domain",
+      "observed_on": null,
+      "origin": "derived",
+      "parents": [
+        "nhpn-road-context/response/30c5da87c09f944885bbad75a3be17be71224cd24d11d0f186a824012437b71c",
+        "nhpn-road-context/response/3b4c7c8c0f31a7b9becdb3945d009e7de2309e9f59de44c49ae5eb78e0037837",
+        "nhpn-road-context/response/8bc5210962514eb7076fe425f57a6971dafe7ad393e9119226eacc75b6db2328",
+        "nhpn-road-context/response/ba102583e0e30f77f431110aedb470507488f8266cb868efde9495ffe44126ac",
+        "nhpn-road-context/response/bae7f98e0395845d1653a5fd030aecaa44212e36a571994c37223d4866b441a6",
+        "nhpn-road-context/response/c6ccbebdc97536e3d1bbc5ab44a3803211a424f73a781fa4eefd2dcbfc2533a6"
+      ],
+      "path": "dataset.json",
+      "process_reference": "ADR-0028: bounded ArcGIS ID snapshot assembly v1",
+      "publisher": "U.S. Department of Transportation",
+      "response_metadata": {},
+      "sha256": "c3fe53a195204e353582beb82b3b6d9be7e29b5d29cd49c451ffee5e74644844",
+      "source_consistency": "ID set, available edit stamp and schema checked before/after",
+      "source_id": "usdot-national-highway-planning-network",
+      "source_url": "https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/NTAD_National_Highway_Planning_Network/FeatureServer/0",
+      "value_class": "observed"
+    },
+    {
+      "acquired_at": "2026-09-07T01:50:12.861869Z",
+      "id": "nhpn-road-context/response/30c5da87c09f944885bbad75a3be17be71224cd24d11d0f186a824012437b71c",
+      "license_evidence_url": "https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/NTAD_National_Highway_Planning_Network/FeatureServer/0",
+      "license_status": "public_domain",
+      "observed_on": null,
+      "origin": "acquired",
+      "parents": [],
+      "path": "responses/30c5da87c09f944885bbad75a3be17be71224cd24d11d0f186a824012437b71c.bin",
+      "publisher": "U.S. Department of Transportation",
+      "response_metadata": {
+        "content_type": "application/json; charset=utf-8",
+        "etag": "sd25015_563456648",
+        "final_url": "https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/NTAD_National_Highway_Planning_Network/FeatureServer/0/query?f=json&objectIds=38283&outFields=%2A&returnGeometry=true&outSR=4326&returnZ=false&returnM=false&orderByFields=OBJECTID+ASC",
+        "last_modified": "Mon, 08 Jul 2024 19:57:13 GMT",
+        "status": 200
+      },
+      "sha256": "903407e74028f0d6ee066f50dfe8f6e5af285b9096598fe86dc37043cf3a6ccd",
+      "source_id": "usdot-national-highway-planning-network",
+      "source_url": "https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/NTAD_National_Highway_Planning_Network/FeatureServer/0/query?f=json&objectIds=38283&outFields=%2A&returnGeometry=true&outSR=4326&returnZ=false&returnM=false&orderByFields=OBJECTID+ASC"
+    },
+    {
+      "acquired_at": "2026-09-07T01:51:34.029119Z",
+      "id": "nhpn-road-context/response/3b4c7c8c0f31a7b9becdb3945d009e7de2309e9f59de44c49ae5eb78e0037837",
+      "license_evidence_url": "https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/NTAD_National_Highway_Planning_Network/FeatureServer/0",
+      "license_status": "public_domain",
+      "observed_on": null,
+      "origin": "acquired",
+      "parents": [],
+      "path": "responses/3b4c7c8c0f31a7b9becdb3945d009e7de2309e9f59de44c49ae5eb78e0037837.bin",
+      "publisher": "U.S. Department of Transportation",
+      "response_metadata": {
+        "content_type": "application/json; charset=utf-8",
+        "etag": "sd25015_563456648",
+        "final_url": "https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/NTAD_National_Highway_Planning_Network/FeatureServer/0/query?f=json&where=OBJECTID%3D38283&returnIdsOnly=true",
+        "last_modified": "Mon, 08 Jul 2024 19:57:13 GMT",
+        "status": 200
+      },
+      "sha256": "5dd86c420605244d8e62327ef5e63b3650a967d0daa3cf683931e335bc840450",
+      "source_id": "usdot-national-highway-planning-network",
+      "source_url": "https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/NTAD_National_Highway_Planning_Network/FeatureServer/0/query?f=json&where=OBJECTID%3D38283&returnIdsOnly=true"
+    },
+    {
+      "acquired_at": "2026-09-07T01:51:33.758001Z",
+      "id": "nhpn-road-context/response/8bc5210962514eb7076fe425f57a6971dafe7ad393e9119226eacc75b6db2328",
+      "license_evidence_url": "https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/NTAD_National_Highway_Planning_Network/FeatureServer/0",
+      "license_status": "public_domain",
+      "observed_on": null,
+      "origin": "acquired",
+      "parents": [],
+      "path": "responses/8bc5210962514eb7076fe425f57a6971dafe7ad393e9119226eacc75b6db2328.bin",
+      "publisher": "U.S. Department of Transportation",
+      "response_metadata": {
+        "content_type": "application/json; charset=utf-8",
+        "etag": "sd25015_563456648",
+        "final_url": "https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/NTAD_National_Highway_Planning_Network/FeatureServer/0/query?f=json&where=OBJECTID%3D38283&returnCountOnly=true",
+        "last_modified": "Mon, 08 Jul 2024 19:57:13 GMT",
+        "status": 200
+      },
+      "sha256": "6aea6dfe6561984cdc5c54ead84d47d2cf29e48253ae282aef237404adad4661",
+      "source_id": "usdot-national-highway-planning-network",
+      "source_url": "https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/NTAD_National_Highway_Planning_Network/FeatureServer/0/query?f=json&where=OBJECTID%3D38283&returnCountOnly=true"
+    },
+    {
+      "acquired_at": "2026-09-07T01:51:33.340983Z",
+      "id": "nhpn-road-context/response/ba102583e0e30f77f431110aedb470507488f8266cb868efde9495ffe44126ac",
+      "license_evidence_url": "https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/NTAD_National_Highway_Planning_Network/FeatureServer/0",
+      "license_status": "public_domain",
+      "observed_on": null,
+      "origin": "acquired",
+      "parents": [],
+      "path": "responses/ba102583e0e30f77f431110aedb470507488f8266cb868efde9495ffe44126ac.bin",
+      "publisher": "U.S. Department of Transportation",
+      "response_metadata": {
+        "content_type": "application/json; charset=utf-8",
+        "etag": "633815760",
+        "final_url": "https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/NTAD_National_Highway_Planning_Network/FeatureServer/0?f=json",
+        "last_modified": "Mon, 08 Jul 2024 19:57:13 GMT",
+        "status": 200
+      },
+      "sha256": "b69960c68b75e58f5882dd2fd6e849811c2adf19101da71a74a2e7c16b88d429",
+      "source_id": "usdot-national-highway-planning-network",
+      "source_url": "https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/NTAD_National_Highway_Planning_Network/FeatureServer/0?f=json"
+    },
+    {
+      "acquired_at": "2026-09-07T01:51:34.448480Z",
+      "id": "nhpn-road-context/response/bae7f98e0395845d1653a5fd030aecaa44212e36a571994c37223d4866b441a6",
+      "license_evidence_url": "https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/NTAD_National_Highway_Planning_Network/FeatureServer/0",
+      "license_status": "public_domain",
+      "observed_on": null,
+      "origin": "acquired",
+      "parents": [],
+      "path": "responses/bae7f98e0395845d1653a5fd030aecaa44212e36a571994c37223d4866b441a6.bin",
+      "publisher": "U.S. Department of Transportation",
+      "response_metadata": {
+        "content_type": "application/json; charset=utf-8",
+        "etag": "633815760",
+        "final_url": "https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/NTAD_National_Highway_Planning_Network/FeatureServer/0?f=json",
+        "last_modified": "Mon, 08 Jul 2024 19:57:13 GMT",
+        "status": 200
+      },
+      "sha256": "b69960c68b75e58f5882dd2fd6e849811c2adf19101da71a74a2e7c16b88d429",
+      "source_id": "usdot-national-highway-planning-network",
+      "source_url": "https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/NTAD_National_Highway_Planning_Network/FeatureServer/0?f=json"
+    },
+    {
+      "acquired_at": "2026-09-07T01:51:34.249421Z",
+      "id": "nhpn-road-context/response/c6ccbebdc97536e3d1bbc5ab44a3803211a424f73a781fa4eefd2dcbfc2533a6",
+      "license_evidence_url": "https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/NTAD_National_Highway_Planning_Network/FeatureServer/0",
+      "license_status": "public_domain",
+      "observed_on": null,
+      "origin": "acquired",
+      "parents": [],
+      "path": "responses/c6ccbebdc97536e3d1bbc5ab44a3803211a424f73a781fa4eefd2dcbfc2533a6.bin",
+      "publisher": "U.S. Department of Transportation",
+      "response_metadata": {
+        "content_type": "application/json; charset=utf-8",
+        "etag": "sd25015_563456648",
+        "final_url": "https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/NTAD_National_Highway_Planning_Network/FeatureServer/0/query?f=json&where=OBJECTID%3D38283&returnIdsOnly=true",
+        "last_modified": "Mon, 08 Jul 2024 19:57:13 GMT",
+        "status": 200
+      },
+      "sha256": "5dd86c420605244d8e62327ef5e63b3650a967d0daa3cf683931e335bc840450",
+      "source_id": "usdot-national-highway-planning-network",
+      "source_url": "https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/NTAD_National_Highway_Planning_Network/FeatureServer/0/query?f=json&where=OBJECTID%3D38283&returnIdsOnly=true"
+    }
+  ],
+  "acquired_artifact_paths_relative_to": ".tools/atlas/nhpn-live-verified",
+  "output_artifacts": {
+    "continental_starter": [
+      {
+        "path": "reports/atlas/continental/coverage.json",
+        "bytes": 74056,
+        "sha256": "382633ba4c4dee796378193131260f311ec15f850ce8a6e59660cb97e8a7a16b"
+      },
+      {
+        "path": "reports/atlas/continental/features.geojson",
+        "bytes": 43,
+        "sha256": "6d6b80a88dc60e65991d34024fe7cf2eb86531ffba8b75efb697fe0a601f2799"
+      },
+      {
+        "path": "reports/atlas/continental/features.jsonl",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "reports/atlas/continental/gaps.csv",
+        "bytes": 18471,
+        "sha256": "f59d74f554e7861224e80274b76200a0ac7dce0fe4fbc375cb58510288b8fc3a"
+      },
+      {
+        "path": "reports/atlas/continental/gaps.geojson",
+        "bytes": 42649,
+        "sha256": "efd2b32191bf0267ddc33e9e8f4400b03af600db6dbd8f07a7ae6c5d65b7416a"
+      },
+      {
+        "path": "reports/atlas/continental/report.md",
+        "bytes": 27520,
+        "sha256": "ad0c9e182cbc8597df08c46e6d659922e11f4320fad853f8aa56e888d3a1ff53"
+      },
+      {
+        "path": "reports/atlas/continental/manifest.json",
+        "bytes": 1028,
+        "sha256": "a9a6be7dc74f30c77bc1628312257e9b18d07a81bfebfb8a1ea4c52d9668cf3d"
+      }
+    ],
+    "live_replay_one": [
+      {
+        "path": "reports/atlas/live-one/coverage.json",
+        "bytes": 77071,
+        "sha256": "ce8704e0846017c30a35e0eec259ee52eec4672fa86edf4dc3cec16c24469dc8"
+      },
+      {
+        "path": "reports/atlas/live-one/features.geojson",
+        "bytes": 2105,
+        "sha256": "d55a45236d4d144c20b61f1d50920aa262161b99896436f8989f27f23f187d72"
+      },
+      {
+        "path": "reports/atlas/live-one/features.jsonl",
+        "bytes": 1999,
+        "sha256": "85c3401b1078d957baa95cecbc143d1aa72d6fe84ede71770a8eeea6628185c7"
+      },
+      {
+        "path": "reports/atlas/live-one/gaps.csv",
+        "bytes": 17004,
+        "sha256": "562169e14c95aacf1605ee2b02a17eecbc677c329002b6f44815a15d73ab6f0a"
+      },
+      {
+        "path": "reports/atlas/live-one/gaps.geojson",
+        "bytes": 41581,
+        "sha256": "9d02b4702569b0e81c078f48352fdd36a5d2a2bdd08d7ae61d390144865bb6f4"
+      },
+      {
+        "path": "reports/atlas/live-one/report.md",
+        "bytes": 25500,
+        "sha256": "21cde737fd0bf1cf283dde0fcf84c120b81a4e37d45ebeaf8e32a36cd7c6431a"
+      },
+      {
+        "path": "reports/atlas/live-one/manifest.json",
+        "bytes": 1094,
+        "sha256": "3f911cfabae597e14053d0a11b83deec3e7fba2204f4a98812914d42e2fe33c4"
+      }
+    ],
+    "live_replay_two": [
+      {
+        "path": "reports/atlas/live-two/coverage.json",
+        "bytes": 77071,
+        "sha256": "ce8704e0846017c30a35e0eec259ee52eec4672fa86edf4dc3cec16c24469dc8"
+      },
+      {
+        "path": "reports/atlas/live-two/features.geojson",
+        "bytes": 2105,
+        "sha256": "d55a45236d4d144c20b61f1d50920aa262161b99896436f8989f27f23f187d72"
+      },
+      {
+        "path": "reports/atlas/live-two/features.jsonl",
+        "bytes": 1999,
+        "sha256": "85c3401b1078d957baa95cecbc143d1aa72d6fe84ede71770a8eeea6628185c7"
+      },
+      {
+        "path": "reports/atlas/live-two/gaps.csv",
+        "bytes": 17004,
+        "sha256": "562169e14c95aacf1605ee2b02a17eecbc677c329002b6f44815a15d73ab6f0a"
+      },
+      {
+        "path": "reports/atlas/live-two/gaps.geojson",
+        "bytes": 41581,
+        "sha256": "9d02b4702569b0e81c078f48352fdd36a5d2a2bdd08d7ae61d390144865bb6f4"
+      },
+      {
+        "path": "reports/atlas/live-two/report.md",
+        "bytes": 25500,
+        "sha256": "21cde737fd0bf1cf283dde0fcf84c120b81a4e37d45ebeaf8e32a36cd7c6431a"
+      },
+      {
+        "path": "reports/atlas/live-two/manifest.json",
+        "bytes": 1094,
+        "sha256": "3f911cfabae597e14053d0a11b83deec3e7fba2204f4a98812914d42e2fe33c4"
+      }
+    ],
+    "local_gate": [
+      {
+        "path": "reports/atlas/m0-integration/doctor.json",
+        "bytes": 545,
+        "sha256": "33cb1935e7bc974bbc4cc89452ab1f85a6648768cd2301f08b7df88be56e1dca"
+      },
+      {
+        "path": "reports/atlas/m0-integration/dotnet/core-tests.trx",
+        "bytes": 222414,
+        "sha256": "21cdab80fc3cc7165cd8efcdfcf07e0ab0a7cd59d57aba27d0c456e571104aff"
+      },
+      {
+        "path": "reports/atlas/m0-integration/godot/godot.log",
+        "bytes": 618,
+        "sha256": "07555839867f467a1adfcd38a5cafc88194fae1a653aa7ca9f2b08a31bfeb84f"
+      },
+      {
+        "path": "reports/atlas/m0-integration/godot/scenario.json",
+        "bytes": 189,
+        "sha256": "86937fdd43e64f22acd081f4aed63e11cb7647936f54f9ea4e31a1831dc808c0"
+      },
+      {
+        "path": "reports/atlas/m0-integration/godot/starter-speed.json",
+        "bytes": 6038,
+        "sha256": "ac095b69e8c53f42e8817626447d16ee62e2d0ca9f32c1d88abe4f195d5241a9"
+      },
+      {
+        "path": "reports/atlas/m0-integration/logs/camera-interpolation.log",
+        "bytes": 233,
+        "sha256": "412aedfb7cb14257d14f1517bb64d016ca6bb134d8f092d05fde73d0e7889291"
+      },
+      {
+        "path": "reports/atlas/m0-integration/logs/continental-route.log",
+        "bytes": 2213,
+        "sha256": "b6d849612dc6360b7410bda3ba3ceac7646512c09d2fdbb875b38b2eaf709c70"
+      },
+      {
+        "path": "reports/atlas/m0-integration/logs/doctor.log",
+        "bytes": 408,
+        "sha256": "3524e44606082574877bcb044540a246f5a713ab3fbbd8a7494b1d295962ae17"
+      },
+      {
+        "path": "reports/atlas/m0-integration/logs/dotnet-build.log",
+        "bytes": 503,
+        "sha256": "8c7aaae305e7158fc0812726bd7223ef5736cc4bc5990fa33ed5b9773c2d634a"
+      },
+      {
+        "path": "reports/atlas/m0-integration/logs/dotnet-test.log",
+        "bytes": 430,
+        "sha256": "12f35adf3c8ced27d0ef9a21338a98d57f20535c7376f275b4f7a4a61d478727"
+      },
+      {
+        "path": "reports/atlas/m0-integration/logs/frame-allocations.log",
+        "bytes": 56,
+        "sha256": "1fb668e8dfc00678638d88cf9241472749abefb243ea12151ce5669b6f8fa859"
+      },
+      {
+        "path": "reports/atlas/m0-integration/logs/godot-smoke.log",
+        "bytes": 1297,
+        "sha256": "5b0a1ab4f6b1e41eac612d921413f908a2ca4457f3c40d410ec904b89976ef34"
+      },
+      {
+        "path": "reports/atlas/m0-integration/logs/pytest-map-pipeline.log",
+        "bytes": 449,
+        "sha256": "d30550ddd340ac4d2fcaf6d420f67c6ff1bf7a0ab096d6e8f1de29fd85a71ccc"
+      },
+      {
+        "path": "reports/atlas/m0-integration/logs/pytest-playgodot-unit.log",
+        "bytes": 101,
+        "sha256": "42be24562d9637252ce825fd40890d8ba626c6170f0e5c622d66f6d60325d35c"
+      },
+      {
+        "path": "reports/atlas/m0-integration/logs/ruff.log",
+        "bytes": 19,
+        "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+      },
+      {
+        "path": "reports/atlas/m0-integration/logs/starter-speed.log",
+        "bytes": 4012,
+        "sha256": "035ea13fb1cb38f988f7a3b4e27571ca945318acd613dedba2ebd40c63d4527c"
+      },
+      {
+        "path": "reports/atlas/m0-integration/python/junit.xml",
+        "bytes": 45259,
+        "sha256": "7a77e390f56666266cbb0c6109a09ce179781ed5ba774d2b87d5663aafdbe897"
+      },
+      {
+        "path": "reports/atlas/m0-integration/python/playgodot-unit.xml",
+        "bytes": 1754,
+        "sha256": "581b5b43b9e23e234674d91b0efd5b946d8b4463ef8043d1f09889196b2cad82"
+      },
+      {
+        "path": "reports/atlas/m0-integration/summary.json",
+        "bytes": 1280,
+        "sha256": "54ade07005f57897f9d778eb64a2d315cfda5c0a159863fa865bd6facc565d9b"
+      }
+    ],
+    "probe_summary": {
+      "path": "reports/atlas/final-probe-summary.json",
+      "bytes": 5136,
+      "sha256": "fa1118a2d7caa5fd5f8e22c0713a6fc98867540844a53f59d47e170d2a22e63c"
+    }
+  },
+  "failures_and_recovery": [
+    {
+      "event": "Pre-push Git-byte comparison found Windows CRLF conversion would invalidate committed input locks",
+      "retry_count": 1,
+      "recovery": "Normalized atlas JSON to LF, re-locked both jobs, added a dedicated regression test, and reran the complete local gate on the integrated base.",
+      "result": "passed"
+    },
+    {
+      "event": "Evidence helper initially compared unrelated Godot-generated CSV translation sidecars in the report directories",
+      "retry_count": 1,
+      "recovery": "Restricted the evidence comparison to the seven pipeline-owned outputs declared by the manifest; all seven matched. No pipeline code changed.",
+      "result": "passed",
+      "failure_record": "AssertionError at finalize_probe.py:56 from counting every file in the output directory; CLI audits and output verification had each succeeded."
+    }
+  ],
+  "remote_m0": {
+    "status": "passed",
+    "verified_at": "2026-09-07T02:02:03.912591+00:00",
+    "required_platforms": [
+      "ubuntu-latest",
+      "windows-latest"
+    ],
+    "run_id": 34074548108,
+    "run_url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34074548108",
+    "tested_head_revision": "0da7b8e6e1c0030f2b6764f8d5d5c1d8d40b5978",
+    "revision_note": "Both M0 jobs tested this implementation PR head through its GitHub pull-request merge commit. Subsequent evidence/status-only commits preserve the tested implementation and locked input bytes.",
+    "checks": [
+      {
+        "completedAt": "2026-09-07T02:01:12Z",
+        "conclusion": "success",
+        "databaseId": 101598006418,
+        "name": "M0 (windows-latest)",
+        "startedAt": "2026-09-07T01:55:14Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-09-07T01:55:17Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-09-07T01:55:15Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-07T01:55:32Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10",
+            "number": 2,
+            "startedAt": "2026-09-07T01:55:17Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-07T01:56:09Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1",
+            "number": 3,
+            "startedAt": "2026-09-07T01:55:32Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-07T01:56:14Z",
+            "conclusion": "success",
+            "name": "Run astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990",
+            "number": 4,
+            "startedAt": "2026-09-07T01:56:09Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-07T01:56:16Z",
+            "conclusion": "success",
+            "name": "Run chickensoft-games/setup-godot@f166999204a4f2722c6fe042fbaa3b3ea0d9c789",
+            "number": 5,
+            "startedAt": "2026-09-07T01:56:14Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-07T01:56:16Z",
+            "conclusion": "success",
+            "name": "Install pinned Git LFS",
+            "number": 6,
+            "startedAt": "2026-09-07T01:56:16Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-07T02:00:54Z",
+            "conclusion": "success",
+            "name": "Verify complete M0 gate",
+            "number": 7,
+            "startedAt": "2026-09-07T01:56:16Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-07T02:01:07Z",
+            "conclusion": "success",
+            "name": "Verify integrated visual slice",
+            "number": 8,
+            "startedAt": "2026-09-07T02:00:54Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-07T02:01:08Z",
+            "conclusion": "success",
+            "name": "Upload M0 evidence",
+            "number": 9,
+            "startedAt": "2026-09-07T02:01:07Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-07T02:01:08Z",
+            "conclusion": "success",
+            "name": "Post Run astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990",
+            "number": 16,
+            "startedAt": "2026-09-07T02:01:08Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-07T02:01:09Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1",
+            "number": 17,
+            "startedAt": "2026-09-07T02:01:08Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-07T02:01:10Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10",
+            "number": 18,
+            "startedAt": "2026-09-07T02:01:09Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-07T02:01:11Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 19,
+            "startedAt": "2026-09-07T02:01:10Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34074548108/job/101598006418"
+      },
+      {
+        "completedAt": "2026-09-07T01:59:05Z",
+        "conclusion": "success",
+        "databaseId": 101598006517,
+        "name": "M0 (ubuntu-latest)",
+        "startedAt": "2026-09-07T01:55:13Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-09-07T01:55:16Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-09-07T01:55:14Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-07T01:55:24Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10",
+            "number": 2,
+            "startedAt": "2026-09-07T01:55:16Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-07T01:55:35Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1",
+            "number": 3,
+            "startedAt": "2026-09-07T01:55:24Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-07T01:55:37Z",
+            "conclusion": "success",
+            "name": "Run astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990",
+            "number": 4,
+            "startedAt": "2026-09-07T01:55:35Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-07T01:55:40Z",
+            "conclusion": "success",
+            "name": "Run chickensoft-games/setup-godot@f166999204a4f2722c6fe042fbaa3b3ea0d9c789",
+            "number": 5,
+            "startedAt": "2026-09-07T01:55:37Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-07T01:55:40Z",
+            "conclusion": "success",
+            "name": "Install pinned Git LFS",
+            "number": 6,
+            "startedAt": "2026-09-07T01:55:40Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-07T01:58:48Z",
+            "conclusion": "success",
+            "name": "Verify complete M0 gate",
+            "number": 7,
+            "startedAt": "2026-09-07T01:55:40Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-07T01:59:00Z",
+            "conclusion": "success",
+            "name": "Verify integrated visual slice",
+            "number": 8,
+            "startedAt": "2026-09-07T01:58:48Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-07T01:59:01Z",
+            "conclusion": "success",
+            "name": "Upload M0 evidence",
+            "number": 9,
+            "startedAt": "2026-09-07T01:59:00Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-07T01:59:02Z",
+            "conclusion": "success",
+            "name": "Post Run astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990",
+            "number": 16,
+            "startedAt": "2026-09-07T01:59:01Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-07T01:59:02Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1",
+            "number": 17,
+            "startedAt": "2026-09-07T01:59:02Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-07T01:59:02Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10",
+            "number": 18,
+            "startedAt": "2026-09-07T01:59:02Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-09-07T01:59:02Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 19,
+            "startedAt": "2026-09-07T01:59:02Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34074548108/job/101598006517"
+      }
+    ],
+    "platforms": [
+      {
+        "runner": "Linux",
+        "artifact": {
+          "id": 10001648471,
+          "name": "m0-Linux-1",
+          "size_in_bytes": 70839,
+          "created_at": "2026-09-07T01:59:01Z",
+          "expires_at": "2026-09-21T01:59:00Z",
+          "digest": "sha256:13b22698809d9501a373ccc5f9465e4ece156d4a9d716b7d718876e224f80319",
+          "archive_download_url": "https://api.github.com/repos/Randroids-Dojo/Cannonball-Vibe/actions/artifacts/10001648471/zip"
+        },
+        "download_command": [
+          "gh",
+          "run",
+          "download",
+          "34074548108",
+          "--name",
+          "m0-Linux-1",
+          "--dir",
+          "reports/atlas/remote-m0-verified/linux"
+        ],
+        "download_exit_code": 0,
+        "tested_merge_revision": "0bee2606cd507c44460423cf588d229085510b4d",
+        "summary": {
+          "schema_version": 1,
+          "status": "passed",
+          "platform": "Linux",
+          "commit": "0bee2606cd507c44460423cf588d229085510b4d",
+          "started_at": "2026-09-07T01:55:40Z",
+          "finished_at": "2026-09-07T01:58:48Z",
+          "steps": [
+            {
+              "name": "doctor",
+              "status": "passed",
+              "exit_code": 0,
+              "log": "logs/doctor.log"
+            },
+            {
+              "name": "dotnet-build",
+              "status": "passed",
+              "exit_code": 0,
+              "log": "logs/dotnet-build.log"
+            },
+            {
+              "name": "dotnet-test",
+              "status": "passed",
+              "exit_code": 0,
+              "log": "logs/dotnet-test.log"
+            },
+            {
+              "name": "ruff",
+              "status": "passed",
+              "exit_code": 0,
+              "log": "logs/ruff.log"
+            },
+            {
+              "name": "frame-allocations",
+              "status": "passed",
+              "exit_code": 0,
+              "log": "logs/frame-allocations.log"
+            },
+            {
+              "name": "continental-route",
+              "status": "passed",
+              "exit_code": 0,
+              "log": "logs/continental-route.log"
+            },
+            {
+              "name": "pytest-map-pipeline",
+              "status": "passed",
+              "exit_code": 0,
+              "log": "logs/pytest-map-pipeline.log"
+            },
+            {
+              "name": "pytest-playgodot-unit",
+              "status": "passed",
+              "exit_code": 0,
+              "log": "logs/pytest-playgodot-unit.log"
+            },
+            {
+              "name": "godot-smoke",
+              "status": "passed",
+              "exit_code": 0,
+              "log": "logs/godot-smoke.log"
+            },
+            {
+              "name": "camera-interpolation",
+              "status": "passed",
+              "exit_code": 0,
+              "log": "logs/camera-interpolation.log"
+            },
+            {
+              "name": "starter-speed",
+              "status": "passed",
+              "exit_code": 0,
+              "log": "logs/starter-speed.log"
+            }
+          ]
+        },
+        "doctor": {
+          "schema_version": 1,
+          "status": "passed",
+          "failed_checks": 0,
+          "checks": [
+            {
+              "name": "dotnet",
+              "expected": "10.0.102",
+              "actual": "10.0.102",
+              "status": "passed"
+            },
+            {
+              "name": "uv",
+              "expected": "0.9.24",
+              "actual": "0.9.24",
+              "status": "passed"
+            },
+            {
+              "name": "git-lfs",
+              "expected": "3.7.1",
+              "actual": "3.7.1",
+              "status": "passed"
+            },
+            {
+              "name": "perl",
+              "expected": "available",
+              "actual": "available",
+              "status": "passed"
+            },
+            {
+              "name": "godot",
+              "expected": "4.7.1.stable.mono.official.a13da4feb",
+              "actual": "4.7.1.stable.mono.official.a13da4feb",
+              "status": "passed"
+            }
+          ]
+        },
+        "atlas_tests_passed": 60,
+        "map_pipeline_tests_passed": 345,
+        "map_pipeline_tests_skipped": 1,
+        "local_evidence_files": [
+          {
+            "path": "reports/atlas/remote-m0-verified/linux/reports/m0/doctor.json",
+            "bytes": 545,
+            "sha256": "33cb1935e7bc974bbc4cc89452ab1f85a6648768cd2301f08b7df88be56e1dca"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/linux/reports/m0/dotnet/core-tests.trx",
+            "bytes": 226769,
+            "sha256": "8e5768f5726b4e79f8401b0e6caf618661631196095eccb1c692507328ee4feb"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/linux/reports/m0/godot/godot.log",
+            "bytes": 618,
+            "sha256": "8245681e14bee61a524ad23763d31cedff26b1e8a51479ccce86b73b54757bfc"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/linux/reports/m0/godot/scenario.json",
+            "bytes": 173,
+            "sha256": "648c60f18474637ac487f37a423b5bb6afa93ac1950e93f6a659c358cab18b5f"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/linux/reports/m0/godot/starter-speed.json",
+            "bytes": 5824,
+            "sha256": "68d27afdadce2acaf4fd161a238bdce5002bd00b0eb60417e26eca8eff7fc339"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/linux/reports/m0/logs/camera-interpolation.log",
+            "bytes": 230,
+            "sha256": "a7041f0f75233446cccf6a813afce009d83df5f45ede74aee87be634993dae2d"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/linux/reports/m0/logs/continental-route.log",
+            "bytes": 2197,
+            "sha256": "4084847a94bbecc389e349cfe3dd18a87f896298d190f49ded4bc27b0817a81d"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/linux/reports/m0/logs/doctor.log",
+            "bytes": 406,
+            "sha256": "34c158e6d244a436da731f6a69c2e2b0b66b90638424b174d14a8baa6b2290e9"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/linux/reports/m0/logs/dotnet-build.log",
+            "bytes": 841,
+            "sha256": "3c2a7e0cc039cad0181c458f21f9ee8fbd447e14435f08a8907e0d4464beebf1"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/linux/reports/m0/logs/dotnet-test.log",
+            "bytes": 439,
+            "sha256": "5aa87263048e8191aa40ee2bc3355605e4f03780f91f83f9fa6d02542be53b09"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/linux/reports/m0/logs/frame-allocations.log",
+            "bytes": 55,
+            "sha256": "636682e61464683e90a585a946cade4e9cff0c8fd0ada7787488090aea542130"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/linux/reports/m0/logs/godot-smoke.log",
+            "bytes": 1342,
+            "sha256": "ceae73c78d78acbce03fd8c58e922ded47b680a7b18b8b705ed4a6ee50814316"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/linux/reports/m0/logs/pytest-map-pipeline.log",
+            "bytes": 443,
+            "sha256": "e7920a3bd37d0ab2379375b8cd4924eeb0b4d6310f893cf777e4c34959428cfb"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/linux/reports/m0/logs/pytest-playgodot-unit.log",
+            "bytes": 482,
+            "sha256": "b00f7efe06ebaca43ad3f02e6adb68549e3488dfe8043dc7d81d307ff7be1b90"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/linux/reports/m0/logs/ruff.log",
+            "bytes": 947,
+            "sha256": "95721f3307da90ad98f5451ce6551b19ec406797862ae1cec93f5d6184120aaa"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/linux/reports/m0/logs/starter-speed.log",
+            "bytes": 3985,
+            "sha256": "c171621857abf487c39d7313c02a96bfd485f82a67fbc9103288fa8a6c01869b"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/linux/reports/m0/python/junit.xml",
+            "bytes": 45277,
+            "sha256": "3e72beea102e23dfa9b212981fb62c76409cd8894f322434310261c0be4d2a3f"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/linux/reports/m0/python/playgodot-unit.xml",
+            "bytes": 1756,
+            "sha256": "f57fb692f9881093ebd20e5a70c50915117ba7c41f91b444f82351da9565bc6b"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/linux/reports/m0/summary.json",
+            "bytes": 1264,
+            "sha256": "4e64c4e0c58cf61ac694d058a7abdaa39cddbae254f2a42602b4534703535bcf"
+          }
+        ]
+      },
+      {
+        "runner": "Windows",
+        "artifact": {
+          "id": 10001683630,
+          "name": "m0-Windows-1",
+          "size_in_bytes": 71239,
+          "created_at": "2026-09-07T02:01:08Z",
+          "expires_at": "2026-09-21T02:01:07Z",
+          "digest": "sha256:729526e6c7acc2f459a36711076559cdbc7f502509b6287aeb25a4e73f23b5b9",
+          "archive_download_url": "https://api.github.com/repos/Randroids-Dojo/Cannonball-Vibe/actions/artifacts/10001683630/zip"
+        },
+        "download_command": [
+          "gh",
+          "run",
+          "download",
+          "34074548108",
+          "--name",
+          "m0-Windows-1",
+          "--dir",
+          "reports/atlas/remote-m0-verified/windows"
+        ],
+        "download_exit_code": 0,
+        "tested_merge_revision": "0bee2606cd507c44460423cf588d229085510b4d",
+        "summary": {
+          "schema_version": 1,
+          "status": "passed",
+          "platform": "MINGW64_NT-10.0-26100",
+          "commit": "0bee2606cd507c44460423cf588d229085510b4d",
+          "started_at": "2026-09-07T01:56:18Z",
+          "finished_at": "2026-09-07T02:00:54Z",
+          "steps": [
+            {
+              "name": "doctor",
+              "status": "passed",
+              "exit_code": 0,
+              "log": "logs/doctor.log"
+            },
+            {
+              "name": "dotnet-build",
+              "status": "passed",
+              "exit_code": 0,
+              "log": "logs/dotnet-build.log"
+            },
+            {
+              "name": "dotnet-test",
+              "status": "passed",
+              "exit_code": 0,
+              "log": "logs/dotnet-test.log"
+            },
+            {
+              "name": "ruff",
+              "status": "passed",
+              "exit_code": 0,
+              "log": "logs/ruff.log"
+            },
+            {
+              "name": "frame-allocations",
+              "status": "passed",
+              "exit_code": 0,
+              "log": "logs/frame-allocations.log"
+            },
+            {
+              "name": "continental-route",
+              "status": "passed",
+              "exit_code": 0,
+              "log": "logs/continental-route.log"
+            },
+            {
+              "name": "pytest-map-pipeline",
+              "status": "passed",
+              "exit_code": 0,
+              "log": "logs/pytest-map-pipeline.log"
+            },
+            {
+              "name": "pytest-playgodot-unit",
+              "status": "passed",
+              "exit_code": 0,
+              "log": "logs/pytest-playgodot-unit.log"
+            },
+            {
+              "name": "godot-smoke",
+              "status": "passed",
+              "exit_code": 0,
+              "log": "logs/godot-smoke.log"
+            },
+            {
+              "name": "camera-interpolation",
+              "status": "passed",
+              "exit_code": 0,
+              "log": "logs/camera-interpolation.log"
+            },
+            {
+              "name": "starter-speed",
+              "status": "passed",
+              "exit_code": 0,
+              "log": "logs/starter-speed.log"
+            }
+          ]
+        },
+        "doctor": {
+          "schema_version": 1,
+          "status": "passed",
+          "failed_checks": 0,
+          "checks": [
+            {
+              "name": "dotnet",
+              "expected": "10.0.102",
+              "actual": "10.0.102",
+              "status": "passed"
+            },
+            {
+              "name": "uv",
+              "expected": "0.9.24",
+              "actual": "0.9.24",
+              "status": "passed"
+            },
+            {
+              "name": "git-lfs",
+              "expected": "3.7.1",
+              "actual": "3.7.1",
+              "status": "passed"
+            },
+            {
+              "name": "perl",
+              "expected": "available",
+              "actual": "available",
+              "status": "passed"
+            },
+            {
+              "name": "godot",
+              "expected": "4.7.1.stable.mono.official.a13da4feb",
+              "actual": "4.7.1.stable.mono.official.a13da4feb",
+              "status": "passed"
+            }
+          ]
+        },
+        "atlas_tests_passed": 60,
+        "map_pipeline_tests_passed": 345,
+        "map_pipeline_tests_skipped": 1,
+        "local_evidence_files": [
+          {
+            "path": "reports/atlas/remote-m0-verified/windows/reports/m0/doctor.json",
+            "bytes": 545,
+            "sha256": "33cb1935e7bc974bbc4cc89452ab1f85a6648768cd2301f08b7df88be56e1dca"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/windows/reports/m0/dotnet/core-tests.trx",
+            "bytes": 223694,
+            "sha256": "90d5bd6f25251691ab7dc9d2a297b477746e45ca8aeec4ffdd574b6e4dcbf96b"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/windows/reports/m0/godot/godot.log",
+            "bytes": 618,
+            "sha256": "f5a1b35ea5f0340bf1666d758dabd7d8c9c6258dd5275a00ee22f679ca1bd3df"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/windows/reports/m0/godot/scenario.json",
+            "bytes": 189,
+            "sha256": "73e2a6ba879a276bccd7ede0a4b52827a7e71931f1ea4782a1bffeafacdf7a3e"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/windows/reports/m0/godot/starter-speed.json",
+            "bytes": 6038,
+            "sha256": "290df79acb019dab6402c83e2a3b5e091950f63a9fbf28eb7c68f83000303729"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/windows/reports/m0/logs/camera-interpolation.log",
+            "bytes": 233,
+            "sha256": "412aedfb7cb14257d14f1517bb64d016ca6bb134d8f092d05fde73d0e7889291"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/windows/reports/m0/logs/continental-route.log",
+            "bytes": 2213,
+            "sha256": "b6d849612dc6360b7410bda3ba3ceac7646512c09d2fdbb875b38b2eaf709c70"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/windows/reports/m0/logs/doctor.log",
+            "bytes": 393,
+            "sha256": "0cfe54c84dc3c2905be46d0c7da0c9bf01de1458e35eda90c51e0b9405a647db"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/windows/reports/m0/logs/dotnet-build.log",
+            "bytes": 780,
+            "sha256": "168743680e5df0d565356c627562befc886cc8cf6201b7129c308070539e0381"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/windows/reports/m0/logs/dotnet-test.log",
+            "bytes": 415,
+            "sha256": "cd216bf0694d08b77fd3558c8b63d69f9cd7fefadc852472396c40dfe68a329b"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/windows/reports/m0/logs/frame-allocations.log",
+            "bytes": 56,
+            "sha256": "1fb668e8dfc00678638d88cf9241472749abefb243ea12151ce5669b6f8fa859"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/windows/reports/m0/logs/godot-smoke.log",
+            "bytes": 1309,
+            "sha256": "ced7d878866886f4b97eb302b3ba99c902675fb890f8fb8832a9e3d318191993"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/windows/reports/m0/logs/pytest-map-pipeline.log",
+            "bytes": 449,
+            "sha256": "9c5320c9304cf04e00ec989d5a8a9f5049fbc689a91f8a7b5615632e296afdab"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/windows/reports/m0/logs/pytest-playgodot-unit.log",
+            "bytes": 534,
+            "sha256": "95912f5b766bef1412492aa34e8864a7e61e27426863755ae2c7fcafcad577ec"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/windows/reports/m0/logs/ruff.log",
+            "bytes": 874,
+            "sha256": "5909dcea082916df1e0b0d9702b9e349a327a629f41593fa384cb941aa9c5203"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/windows/reports/m0/logs/starter-speed.log",
+            "bytes": 4239,
+            "sha256": "642ad1ea0ebaf087eab84cf8606bd0887732aada6d82e5012de17d8c01fdaef4"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/windows/reports/m0/python/junit.xml",
+            "bytes": 45264,
+            "sha256": "d7d0ff6046424572b2f68018d1b0788420924c8f6823c376c1af8edce638a518"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/windows/reports/m0/python/playgodot-unit.xml",
+            "bytes": 1756,
+            "sha256": "639dfb65395c9e4b3b2cc645ad2b1c2558fdb7b7743a1ce5d03217ccaeab594d"
+          },
+          {
+            "path": "reports/atlas/remote-m0-verified/windows/reports/m0/summary.json",
+            "bytes": 1280,
+            "sha256": "ed3fc8dd96601360a3f95adc166ce5c8954d98fdb32a3baffb77f7e5d72c925a"
+          }
+        ]
+      }
+    ]
+  },
+  "mainline_health": {
+    "status_at_claim": "healthy",
+    "later_issue": "https://github.com/Randroids-Dojo/Cannonball-Vibe/issues/140",
+    "failed_revision": "36035a576be407c2d33fc7e594afa327ee6f3807",
+    "failures": [
+      "Windows rendered camera spring-length comparison",
+      "Linux unsigned-export smoke SIGSEGV before readiness"
+    ],
+    "disposition": "Observed during this already-claimed slice. Runtime failures are not repaired or marked resolved here; no new task selected after the signal."
+  },
+  "human_gate_approval_reference": null,
+  "human_gate_scope": "No human gate is required for the offline engineering slice. Production source rights and atlas comprehension/accessibility gates remain pending.",
+  "remaining_work": [
+    "Product-specific source rights and recursive ancestry reviews for candidate datasets",
+    "Exact contextual-product exports and real observation dates",
+    "Reviewed corridor masks tied to the selected game highway segments",
+    "Independent reviewed inventories, source-to-entity bindings and documentary access reconciliation",
+    "FlatBuffer tile compilation, runtime atlas streaming, cartography, performance and human atlas reviews"
+  ]
+}

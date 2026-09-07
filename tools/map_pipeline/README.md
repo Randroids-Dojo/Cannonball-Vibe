@@ -1,5 +1,12 @@
 # Cannonball map pipeline
 
+The offline atlas intake commands are documented in
+[data/atlas/README.md](../../data/atlas/README.md). Run `cannonball-map atlas audit`
+to normalize locked datasets and produce segment coverage and gap reports;
+`atlas acquire` checks source admission before downloading, and `atlas verify`
+checks the resulting audit bytes. Atlas outputs are separate from runtime route
+packages.
+
 This tool turns an explicitly approved public-domain line dataset into three
 artifacts:
 

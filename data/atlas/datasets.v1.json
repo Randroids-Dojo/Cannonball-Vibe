@@ -1,0 +1,352 @@
+{
+  "schema_version": 1,
+  "decision": "ADR-0028",
+  "note": "Discovery profiles are not source admission. Only exact catalog-approved products may be acquired. Manual/normalized templates require reviewed export mappings before use.",
+  "datasets": [
+    {
+      "id": "nhpn-road-context",
+      "source_id": "usdot-national-highway-planning-network",
+      "publisher": "U.S. Department of Transportation",
+      "url": "https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/NTAD_National_Highway_Planning_Network/FeatureServer/0",
+      "kind": "road",
+      "format": "arcgis",
+      "id_field": "OBJECTID",
+      "fields": {
+        "route": "SIGN1",
+        "name": "LNAME",
+        "concurrent_route_2": "SIGN2",
+        "concurrent_route_3": "SIGN3"
+      },
+      "jurisdictions": [],
+      "crs": "EPSG:4326",
+      "license_status": "public_domain",
+      "license_evidence_url": "https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/NTAD_National_Highway_Planning_Network/FeatureServer/0",
+      "admission_notes": "Cataloged coarse route context only; never lane, exit or service geometry.",
+      "max_age_days": 730,
+      "date_field": {
+        "path": "YEAR_RECOR",
+        "format": "year"
+      }
+    },
+    {
+      "id": "utah-freeway-exits",
+      "source_id": "udot-freeway-exits",
+      "publisher": "Utah Department of Transportation",
+      "url": "https://services.arcgis.com/pA2nEVnB6tquxgOW/arcgis/rest/services/Freeway_Exit_Locations/FeatureServer/0",
+      "kind": "exit",
+      "format": "arcgis",
+      "id_field": "xid",
+      "fields": {
+        "route": "rtname",
+        "exit_number": "exitnbr",
+        "destination": "exitname"
+      },
+      "jurisdictions": [
+        "UT"
+      ],
+      "crs": "EPSG:4326",
+      "license_status": "unverified",
+      "license_evidence_url": "https://gis.utah.gov/documentation/policy/license/",
+      "admission_notes": "UDOT-hosted external record: exact reuse grant unresolved. UGRC defaults to CC BY except external references. Source observation date also needed.",
+      "max_age_days": 730
+    },
+    {
+      "id": "colorado-interchanges",
+      "source_id": "cdot-highway-interchanges",
+      "publisher": "Colorado Department of Transportation",
+      "url": "https://dtdapps.codot.gov/server/rest/services/Webapps/open_data_sde/MapServer/8",
+      "kind": "exit",
+      "format": "arcgis",
+      "id_field": "OBJECTID",
+      "fields": {
+        "route": "ROUTE",
+        "exit_number": "EXITNUMBERS",
+        "name": "NAME",
+        "description": "DESCRIPTION",
+        "destination": "FEATUREDESTINATION"
+      },
+      "jurisdictions": [
+        "CO"
+      ],
+      "crs": "EPSG:4326",
+      "license_status": "unverified",
+      "license_evidence_url": "https://dtdapps.codot.gov/server/rest/services/Webapps/open_data_sde/MapServer/8",
+      "admission_notes": "No verified public-domain grant. UPDATEYR samples include 2010; descriptions do not establish verbatim sign text.",
+      "max_age_days": 730,
+      "date_field": {
+        "path": "UPDATEYR",
+        "format": "year"
+      }
+    },
+    {
+      "id": "pennsylvania-exits",
+      "source_id": "penndot-exits",
+      "publisher": "Pennsylvania Department of Transportation",
+      "url": "https://gis.penndot.gov/arcgis/rest/services/opendata/exitsandendpoints/MapServer/0",
+      "kind": "exit",
+      "format": "arcgis",
+      "id_field": "OBJECTID",
+      "fields": {
+        "route": "ST_RT_NO",
+        "exit_number": "EXIT_NUMBER",
+        "destination": "EXIT_NAME",
+        "connecting_route": "EXIT_ROUTE",
+        "direction": "SIDE_IND"
+      },
+      "jurisdictions": [
+        "PA"
+      ],
+      "crs": "EPSG:4326",
+      "license_status": "unverified",
+      "license_evidence_url": "https://gis.penndot.gov/arcgis/rest/services/opendata/exitsandendpoints/MapServer/0",
+      "admission_notes": "Public-domain grant and vintage unresolved. Acquisition predicate must exclude endpoint records; preserve source duplicates for reconciliation.",
+      "max_age_days": 730
+    },
+    {
+      "id": "iowa-rest-areas",
+      "source_id": "iowadot-rest-areas",
+      "publisher": "Iowa Department of Transportation",
+      "url": "https://gis.iowadot.gov/agshost/rest/services/Hosted/Rest_Areas_All/FeatureServer/1",
+      "kind": "service",
+      "format": "arcgis",
+      "id_field": "objectid",
+      "fields": {
+        "name": "rest_areas",
+        "route": "route",
+        "direction": "travel_direction",
+        "restrooms": "restrooms",
+        "truck_parking": "num_truck_parking"
+      },
+      "jurisdictions": [
+        "IA"
+      ],
+      "crs": "EPSG:4326",
+      "license_status": "unverified",
+      "license_evidence_url": "https://gis.iowadot.gov/agshost/rest/services/Hosted/Rest_Areas_All/FeatureServer/1",
+      "admission_notes": "Exact rights and observation dates unresolved. edited_date is not a field-verification date; welcome centers are a separate layer.",
+      "max_age_days": 180
+    },
+    {
+      "id": "loves-locations",
+      "source_id": "alltheplaces-loves",
+      "publisher": "All The Places",
+      "url": "https://data.alltheplaces.xyz/runs/latest/output/loves_us.geojson",
+      "kind": "service",
+      "format": "geojson",
+      "id_field": "ref",
+      "fields": {
+        "name": "name",
+        "category": "amenity",
+        "website": "website",
+        "upstream_url": "@source_uri"
+      },
+      "jurisdictions": [],
+      "crs": "EPSG:4326",
+      "license_status": "cc0_pending_ancestry_review",
+      "license_evidence_url": "https://alltheplaces.xyz/",
+      "admission_notes": "Weekly CC0 candidate. Pin a dated run and audit first-party coordinates plus NSI/brand enrichment ancestry before catalog admission. A POI does not prove access.",
+      "max_age_days": 180
+    },
+    {
+      "id": "overture-places",
+      "source_id": "overture-places",
+      "publisher": "Overture Maps Foundation",
+      "url": "https://docs.overturemaps.org/guides/places/",
+      "kind": "service",
+      "format": "geoparquet",
+      "id_field": "id",
+      "fields": {
+        "name": "names.primary",
+        "category": "basic_category"
+      },
+      "jurisdictions": [],
+      "crs": "EPSG:4326",
+      "license_status": "permissive_non_public_domain",
+      "license_evidence_url": "https://docs.overturemaps.org/attribution/",
+      "admission_notes": "Places documents no OSM; other themes differ. Source policy decision required. Replace discovery URL with exact release/subset URL before admission; use bounded GeoParquet extracts.",
+      "max_age_days": 180,
+      "acquisition_mode": "manual_reviewed_export"
+    },
+    {
+      "id": "california-exit-transcription",
+      "source_id": "caltrans-calnexus",
+      "publisher": "California Department of Transportation",
+      "url": "https://dot.ca.gov/programs/safety-programs/exit",
+      "kind": "exit",
+      "format": "csv",
+      "id_field": "record_id",
+      "fields": {
+        "route": "route",
+        "exit_number": "exit_number",
+        "destination": "destination",
+        "direction": "direction"
+      },
+      "jurisdictions": [
+        "CA"
+      ],
+      "crs": "EPSG:4326",
+      "license_status": "unverified",
+      "license_evidence_url": "https://dot.ca.gov/programs/safety-programs/exit",
+      "admission_notes": "Reviewed CSV transcription template, not an automatic PDF downloader. Retain original PDF and page/row references as ancestors. Linked I-40 table is dated 2016-12-26.",
+      "max_age_days": 730,
+      "acquisition_mode": "manual_reviewed_export"
+    },
+    {
+      "id": "virginia-exit-transcription",
+      "source_id": "vdot-exit-tables",
+      "publisher": "Virginia Department of Transportation",
+      "url": "https://www.vdot.virginia.gov/about/our-system/highways/exit-numbers/",
+      "kind": "exit",
+      "format": "csv",
+      "id_field": "record_id",
+      "fields": {
+        "route": "route",
+        "exit_number": "exit_number",
+        "destination": "destination"
+      },
+      "jurisdictions": [
+        "VA"
+      ],
+      "crs": "EPSG:4326",
+      "license_status": "unverified",
+      "license_evidence_url": "https://www.vdot.virginia.gov/about/our-system/highways/exit-numbers/",
+      "admission_notes": "Reviewed table transcription with source ancestry. Exact reuse grant and observation dates need disposition.",
+      "max_age_days": 730,
+      "acquisition_mode": "manual_reviewed_export"
+    },
+    {
+      "id": "new-jersey-exit-transcription",
+      "source_id": "njdot-straight-line-diagrams",
+      "publisher": "New Jersey Department of Transportation",
+      "url": "https://www.nj.gov/transportation/refdata/sldiag/",
+      "kind": "exit",
+      "format": "csv",
+      "id_field": "record_id",
+      "fields": {
+        "route": "route",
+        "exit_number": "exit_number",
+        "destination": "destination"
+      },
+      "jurisdictions": [
+        "NJ"
+      ],
+      "crs": "EPSG:4326",
+      "license_status": "unverified",
+      "license_evidence_url": "https://www.nj.gov/transportation/refdata/sldiag/",
+      "admission_notes": "Reviewed diagram transcription; pin exact route PDF, edition, page and milepoint. Source licensing unresolved.",
+      "max_age_days": 730,
+      "acquisition_mode": "manual_reviewed_export"
+    },
+    {
+      "id": "ohio-service-plazas",
+      "source_id": "ohio-turnpike-plazas",
+      "publisher": "Ohio Turnpike and Infrastructure Commission",
+      "url": "https://www.ohioturnpike.org/truckers/service-plazas",
+      "kind": "service",
+      "format": "csv",
+      "id_field": "record_id",
+      "fields": {
+        "name": "name",
+        "direction": "direction",
+        "route": "route",
+        "category": "category"
+      },
+      "jurisdictions": [
+        "OH"
+      ],
+      "crs": "EPSG:4326",
+      "license_status": "unverified",
+      "license_evidence_url": "https://www.ohioturnpike.org/truckers/service-plazas",
+      "admission_notes": "Reviewed operator inventory template. Pin source pages and observation date. Reuse rights and access reconciliation remain open.",
+      "max_age_days": 180,
+      "acquisition_mode": "manual_reviewed_export"
+    },
+    {
+      "id": "indiana-service-plazas",
+      "source_id": "indiana-toll-road-plazas",
+      "publisher": "ITR Concession Company LLC",
+      "url": "https://www.indianatollroad.org/plazas-parking/",
+      "kind": "service",
+      "format": "csv",
+      "id_field": "record_id",
+      "fields": {
+        "name": "name",
+        "direction": "direction",
+        "route": "route",
+        "category": "category"
+      },
+      "jurisdictions": [
+        "IN"
+      ],
+      "crs": "EPSG:4326",
+      "license_status": "unverified",
+      "license_evidence_url": "https://www.indianatollroad.org/plazas-parking/",
+      "admission_notes": "Reviewed operator inventory template; commercial operator page is not a public-domain grant.",
+      "max_age_days": 180,
+      "acquisition_mode": "manual_reviewed_export"
+    },
+    {
+      "id": "gnis-place-labels",
+      "source_id": "usgs-gnis-domestic-names",
+      "publisher": "U.S. Geological Survey",
+      "url": "https://www.usgs.gov/us-board-on-geographic-names/download-gnis-data",
+      "kind": "place",
+      "format": "csv",
+      "id_field": "feature_id",
+      "fields": {
+        "name": "feature_name",
+        "feature_class": "feature_class"
+      },
+      "jurisdictions": [],
+      "crs": "EPSG:4326",
+      "license_status": "public_domain_pending_product_lock",
+      "license_evidence_url": "https://www.usgs.gov/us-board-on-geographic-names/download-gnis-data",
+      "admission_notes": "Candidate profile template: lock exact GNIS product and verify release headers before admission. Archived administrative features are not maintained.",
+      "max_age_days": 730,
+      "delimiter": "|",
+      "longitude_field": "prim_long_dec",
+      "latitude_field": "prim_lat_dec",
+      "acquisition_mode": "manual_reviewed_export"
+    },
+    {
+      "id": "census-context-boundaries",
+      "source_id": "census-cartographic-boundaries",
+      "publisher": "U.S. Census Bureau",
+      "url": "https://www.census.gov/geographies/mapping-files/time-series/geo/cartographic-boundary.html",
+      "kind": "boundary",
+      "format": "geopackage",
+      "id_field": "GEOID",
+      "fields": {
+        "name": "NAME"
+      },
+      "jurisdictions": [],
+      "crs": "EPSG:4326",
+      "license_status": "public_domain_pending_product_lock",
+      "license_evidence_url": "https://www.census.gov/geographies/mapping-files/time-series/geo/cartographic-boundary.html",
+      "admission_notes": "Offline normalized GeoPackage template; pin exact non-road product, layer, CRS and recursive conversion ancestry. No TIGER road geometry admission.",
+      "max_age_days": 730,
+      "layer": "boundaries",
+      "acquisition_mode": "manual_reviewed_export"
+    },
+    {
+      "id": "usgs-hydrography",
+      "source_id": "usgs-3dhp-hydrography",
+      "publisher": "U.S. Geological Survey",
+      "url": "https://www.usgs.gov/3d-hydrography-program/access-3dhp-data-products",
+      "kind": "water",
+      "format": "geopackage",
+      "id_field": "feature_id",
+      "fields": {
+        "name": "name"
+      },
+      "jurisdictions": [],
+      "crs": "EPSG:4326",
+      "license_status": "public_domain_pending_product_lock",
+      "license_evidence_url": "https://www.usgs.gov/3d-hydrography-program/access-3dhp-data-products",
+      "admission_notes": "Offline normalized template. Lock exact 3DHP coverage or legacy NHD fallback and conversion ancestry; verify actual release fields.",
+      "max_age_days": 730,
+      "layer": "water",
+      "acquisition_mode": "manual_reviewed_export"
+    }
+  ]
+}

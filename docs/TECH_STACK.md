@@ -343,3 +343,7 @@ or packaged result as a black-box visual check, while PlayGodot remains scoped
 to semantic rendered-UI automation rather than 3D asset promotion. Telemetry is
 append-only JSONL so playtests can be analyzed directly with DuckDB and Python
 without adding an online service dependency.
+
+## Atlas source intake (P1-016)
+
+[ADR-0028](decisions/ADR-0028-atlas-data-intake-and-coverage.md) adds offline Python atlas intake to `tools/map_pipeline`. Versioned candidate profiles and locked jobs normalize bounded GeoJSON, ArcGIS JSON, CSV/pipe text, NDJSON, GeoPackage and WKB GeoParquet inputs. The existing public-domain catalog and recursive provenance gates remain authoritative. Independent segment inventories drive deterministic JSON/CSV/GeoJSON/Markdown gap reports; missing inventories retain null denominators. [The workflow](../data/atlas/README.md) documents acquisition, record reconciliation, source disposition and review references. These audit outputs do not implement the proposed runtime tile renderer or close Q-045.
