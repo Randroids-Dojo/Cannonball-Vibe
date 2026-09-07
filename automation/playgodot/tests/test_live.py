@@ -207,6 +207,17 @@ async def test_official_engine_semantic_round_trip(tmp_path: Path) -> None:
         log_path=artifacts / "godot.log",
     )
     async with process as client:
+        startup = list(process.output)
+        first_frame = next(
+            index for index, line in enumerate(startup)
+            if line.startswith("PLAYGODOT_FIRST_FRAME ")
+        )
+        ready = next(
+            index for index, line in enumerate(startup)
+            if line.startswith("PLAYGODOT_READY ")
+        )
+        assert first_frame < ready
+        assert any(line.startswith("CANNONBALL_READY ") for line in startup[:first_frame])
         capabilities = await client.request("session.capabilities")
         assert capabilities["granted"] == ["read", "input", "screenshot"]
         assert capabilities["limits"]["tree_nodes"] == 512
