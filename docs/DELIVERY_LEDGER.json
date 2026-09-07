@@ -2265,7 +2265,7 @@
       "milestone": "M0",
       "priority": "P0",
       "title": "Repair native export crashes and mainline semantic UI failures",
-      "status": "in_progress",
+      "status": "complete",
       "owner": "Runtime + automation",
       "dependencies": [
         "P0-001",
@@ -2297,7 +2297,7 @@
         "docs/audits/2026-09-07-mainline-tripwire-repair.md"
       ],
       "human_gate": null,
-      "notes": "Repair duty discovered while confirming owner-requested merge of P1-017. PR #138 already merged as 36035a5; the red-main issue persists at latest main 01dd47d. Scope covers the two currently failing workflow classes; the starter cap must remain enforced."
+      "notes": "Completed at 4d46e98 with full local M0, 30 rendered tests, Linux/Windows M0, three-platform semantic UI, two passing native export runs, both 500-mile checks and the asset pipeline. CI checked out synthetic merge 275d016, whose source tree matches the PR head. Explicit physics-state binding disposal addresses vehicle teardown; pause suppression survives neutral input until resume; the camera fixture maintains continuous input within its original deadline; the release verifier rejects mixed-case fatal output even after launcher exit zero. The earlier Linux startup SIGSEGV was not locally reproduced; its trace limit remains explicit in the audit. The 125 mph starter cap is unchanged. PR #138 already merged as 36035a5; this is the fix-forward repair for red-main #140."
     }
   ]
 }

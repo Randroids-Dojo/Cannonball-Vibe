@@ -86,8 +86,15 @@ settle and requires both held input and the original blend threshold. Its
 three-second deadline covers input requests as well as state reads. Two added
 fixture tests reproduce loss of an acknowledged press and a stalled input
 request. No camera tuning or acceptance threshold changed. The complete local
-rendered suite then passed all 30 tests. This follow-up remains pending remote
-validation; the native repair's runtime sources are unchanged.
+rendered suite then passed all 30 tests.
+
+At final implementation `4d46e98`, CI run `34170186259` passed M0 on both
+platforms, all 30 semantic tests on Linux/Windows/macOS and both 500-mile
+scenarios. Export run `34170186236` passed byte reproducibility and clean-machine
+startup/save/shutdown on Linux and Windows; this is the second successful native
+export run after the lifetime correction. The asset workflow passed as well.
+CI checked out synthetic merge `275d016`, whose complete source tree was verified
+to equal the PR head. Task P0-024 is complete with no human gate.
 
 Exact revisions, commands, artifacts and platform results belong in
 `evidence/M0/P0-024.json`. No human gate applies to this bounded repair. The
