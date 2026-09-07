@@ -1,0 +1,368 @@
+{
+  "schema_version": 1,
+  "task_id": "P1-017",
+  "milestone": "M1",
+  "git_revision": "c65498078ddbc738aca1c76851345b7a447b540f",
+  "platform": "Darwin arm64",
+  "utc": "2026-09-07T00:51:58.734Z",
+  "status": "verified_local",
+  "tool_versions": [
+    {
+      "name": "dotnet",
+      "expected": "10.0.102",
+      "actual": "10.0.102",
+      "status": "passed"
+    },
+    {
+      "name": "uv",
+      "expected": "0.9.24",
+      "actual": "0.9.24",
+      "status": "passed"
+    },
+    {
+      "name": "git-lfs",
+      "expected": "3.7.1",
+      "actual": "3.7.1",
+      "status": "passed"
+    },
+    {
+      "name": "perl",
+      "expected": "available",
+      "actual": "available",
+      "status": "passed"
+    },
+    {
+      "name": "godot",
+      "expected": "4.7.1.stable.mono.official.a13da4feb",
+      "actual": "4.7.1.stable.mono.official.a13da4feb",
+      "status": "passed"
+    }
+  ],
+  "inputs": [
+    {
+      "path": "src/Cannonball.Core/Simulation/Vehicle/VehicleSetup.cs",
+      "sha256": "48abfe4aae9549f894f630a65ecc4893d04c2b2b09b3f1b28fdecc9ef62ef833"
+    },
+    {
+      "path": "game/Vehicle/CannonballVehicle.cs",
+      "sha256": "dc755799b8825aa1f8c3b07f3aea3a42634f30921816478bac538cb2637571be"
+    },
+    {
+      "path": "game/Main.cs",
+      "sha256": "e7010960e6f8e1762f35c7e522e46e92f39e77084dfb209ae736b4402f44bf04"
+    },
+    {
+      "path": "game/Automation/StarterSpeedProbe.cs",
+      "sha256": "774af468af6770edf538ed6e589aa06eb13510688099a26f10951d3e65bb43ee"
+    },
+    {
+      "path": "game/Automation/StarterSpeedProbe.tscn",
+      "sha256": "4453d83c3dcb67f07e2e63079fa9d42df04abad7acf286de1aa3d59cc60592a0"
+    },
+    {
+      "path": "tests/Cannonball.Core.Tests/VehicleSetupTests.cs",
+      "sha256": "5c549093a18e343927aaea85be4f6b030b777df8b045c6a60f0c8c42a4af5f68"
+    },
+    {
+      "path": "scripts/check.sh",
+      "sha256": "e2f8606bc18aafa9df0ad768ee27ea663d9684d608edba540ed1aa4f81109335"
+    },
+    {
+      "path": "automation/playgodot/tests/test_driving_input.py",
+      "sha256": "dedcb94fd5529aaf014f3ebcc138c7ee4814ec3001fc7ff2e196944d3e516089"
+    },
+    {
+      "path": "project.godot",
+      "sha256": "40196e5f18be822adde0ae30ca07a456cb15391ceeb52fb81356985455c2dc71"
+    }
+  ],
+  "deterministic_seed": 0,
+  "scenario_arguments": [
+    "--headless",
+    "--fixed-fps",
+    "120",
+    "res://game/Automation/StarterSpeedProbe.tscn"
+  ],
+  "commands": [
+    {
+      "command": "GODOT_BIN=/Users/randroid/Documents/Dev/Cannonball-Vibe/.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot ./scripts/check.sh",
+      "exit_status": 0
+    },
+    {
+      "command": "GODOT_BIN=/Users/randroid/Documents/Dev/Cannonball-Vibe/.tools/godot-4.7.1/Godot_mono.app/Contents/MacOS/Godot PLAYGODOT_ARTIFACT_DIR=$PWD/reports/starter-speed/playgodot ./scripts/verify-playgodot.sh",
+      "exit_status": 0
+    }
+  ],
+  "metrics": {
+    "m0_steps_passed": 11,
+    "core_tests_passed": 157,
+    "map_tests_passed": 285,
+    "map_tests_skipped": 1,
+    "playgodot_unit_tests_passed": 13,
+    "rendered_tests_passed": 28,
+    "starter_speed_probe": {
+      "status": "passed",
+      "failure": null,
+      "engine": "4.7.1-stable (official)",
+      "utc": "2026-09-07T00:49:09.415563+00:00",
+      "physics_hz": 120,
+      "seed": 0,
+      "overspeed_tolerance_mps": 0.1,
+      "results": [
+        {
+          "scenario": "level",
+          "assist": "Accessible",
+          "setup": "starter",
+          "cap_mph": 125,
+          "grade": 0,
+          "physics_frames": 3600,
+          "peak_forward_mps": 55.853516,
+          "final_forward_mps": 55.853516,
+          "minimum_steady_mps": 55.853516,
+          "final_lateral_mps": 3.0371552e-7,
+          "final_vertical_mps": -2.8859246e-8,
+          "grounded_samples": 3600,
+          "resets": 0,
+          "passed": true
+        },
+        {
+          "scenario": "downhill",
+          "assist": "Accessible",
+          "setup": "starter",
+          "cap_mph": 125,
+          "grade": -0.08,
+          "physics_frames": 3600,
+          "peak_forward_mps": 55.873764,
+          "final_forward_mps": 55.873756,
+          "minimum_steady_mps": 55.87375,
+          "final_lateral_mps": 1.907701,
+          "final_vertical_mps": -4.453152,
+          "grounded_samples": 3600,
+          "resets": 0,
+          "passed": true
+        },
+        {
+          "scenario": "level",
+          "assist": "Balanced",
+          "setup": "starter",
+          "cap_mph": 125,
+          "grade": 0,
+          "physics_frames": 3600,
+          "peak_forward_mps": 55.853516,
+          "final_forward_mps": 55.853516,
+          "minimum_steady_mps": 55.853516,
+          "final_lateral_mps": -5.192819e-7,
+          "final_vertical_mps": 7.960616e-7,
+          "grounded_samples": 3600,
+          "resets": 0,
+          "passed": true
+        },
+        {
+          "scenario": "downhill",
+          "assist": "Balanced",
+          "setup": "starter",
+          "cap_mph": 125,
+          "grade": -0.08,
+          "physics_frames": 3600,
+          "peak_forward_mps": 55.87377,
+          "final_forward_mps": 55.873768,
+          "minimum_steady_mps": 55.873764,
+          "final_lateral_mps": -0.30307916,
+          "final_vertical_mps": -4.455405,
+          "grounded_samples": 3600,
+          "resets": 0,
+          "passed": true
+        },
+        {
+          "scenario": "level",
+          "assist": "Raw",
+          "setup": "starter",
+          "cap_mph": 125,
+          "grade": 0,
+          "physics_frames": 3600,
+          "peak_forward_mps": 55.853516,
+          "final_forward_mps": 55.853516,
+          "minimum_steady_mps": 55.853516,
+          "final_lateral_mps": -5.518374e-7,
+          "final_vertical_mps": 1.427221e-7,
+          "grounded_samples": 3600,
+          "resets": 0,
+          "passed": true
+        },
+        {
+          "scenario": "downhill",
+          "assist": "Raw",
+          "setup": "starter",
+          "cap_mph": 125,
+          "grade": -0.08,
+          "physics_frames": 3600,
+          "peak_forward_mps": 55.87377,
+          "final_forward_mps": 55.873768,
+          "minimum_steady_mps": 55.873764,
+          "final_lateral_mps": 0.09936953,
+          "final_vertical_mps": -4.4554205,
+          "grounded_samples": 3600,
+          "resets": 0,
+          "passed": true
+        },
+        {
+          "scenario": "configured-150",
+          "assist": "Balanced",
+          "setup": "tuning-fixture",
+          "cap_mph": 150,
+          "grade": 0,
+          "physics_frames": 3600,
+          "peak_forward_mps": 67.01921,
+          "final_forward_mps": 67.01921,
+          "minimum_steady_mps": 67.01921,
+          "final_lateral_mps": -7.233793e-7,
+          "final_vertical_mps": 3.432524e-7,
+          "grounded_samples": 3600,
+          "resets": 0,
+          "passed": true
+        },
+        {
+          "scenario": "downhill-coast",
+          "assist": "Balanced",
+          "setup": "starter",
+          "cap_mph": 125,
+          "grade": -0.2,
+          "physics_frames": 3600,
+          "peak_forward_mps": 55.880005,
+          "final_forward_mps": 55.88,
+          "minimum_steady_mps": 55.879997,
+          "final_lateral_mps": 0.8498233,
+          "final_vertical_mps": -10.957693,
+          "grounded_samples": 3600,
+          "resets": 0,
+          "passed": true
+        },
+        {
+          "scenario": "braking",
+          "assist": "Balanced",
+          "setup": "starter",
+          "cap_mph": 125,
+          "grade": 0,
+          "physics_frames": 480,
+          "peak_forward_mps": 55.65943,
+          "final_forward_mps": -0.035868213,
+          "minimum_steady_mps": null,
+          "final_lateral_mps": -0.04782305,
+          "final_vertical_mps": -0.0000029827443,
+          "grounded_samples": 480,
+          "resets": 0,
+          "passed": true
+        },
+        {
+          "scenario": "reverse",
+          "assist": "Balanced",
+          "setup": "starter",
+          "cap_mph": 125,
+          "grade": 0,
+          "physics_frames": 240,
+          "peak_forward_mps": 0,
+          "final_forward_mps": -34.02505,
+          "minimum_steady_mps": null,
+          "final_lateral_mps": -2.272421e-7,
+          "final_vertical_mps": -0.05715647,
+          "grounded_samples": 240,
+          "resets": 0,
+          "passed": true
+        },
+        {
+          "scenario": "resume-overspeed",
+          "assist": "Balanced",
+          "setup": "starter",
+          "cap_mph": 125,
+          "grade": 0,
+          "physics_frames": 240,
+          "peak_forward_mps": 55.88,
+          "final_forward_mps": 55.853523,
+          "minimum_steady_mps": null,
+          "final_lateral_mps": -1.7562352e-8,
+          "final_vertical_mps": -0.0000014531719,
+          "grounded_samples": 240,
+          "resets": 0,
+          "passed": true
+        },
+        {
+          "scenario": "airborne",
+          "assist": "Balanced",
+          "setup": "starter",
+          "cap_mph": 125,
+          "grade": 0,
+          "physics_frames": 30,
+          "peak_forward_mps": 65.869354,
+          "final_forward_mps": 65.56387,
+          "minimum_steady_mps": null,
+          "final_lateral_mps": 0,
+          "final_vertical_mps": 6.8074994,
+          "grounded_samples": 0,
+          "resets": 0,
+          "passed": true
+        },
+        {
+          "scenario": "lateral-impact",
+          "assist": "Balanced",
+          "setup": "starter",
+          "cap_mph": 125,
+          "grade": 0,
+          "physics_frames": 2,
+          "peak_forward_mps": 55.880005,
+          "final_forward_mps": 55.868618,
+          "minimum_steady_mps": null,
+          "final_lateral_mps": 9.995903,
+          "final_vertical_mps": 2.4386358,
+          "grounded_samples": 2,
+          "resets": 0,
+          "passed": true
+        }
+      ]
+    }
+  },
+  "outputs": [
+    {
+      "path": "reports/m0/summary.json",
+      "sha256": "a1b1f4c28ca564bdc42909342226e87f24e08a3f74f571af31bda46364228197"
+    },
+    {
+      "path": "reports/m0/godot/starter-speed.json",
+      "sha256": "d2f06c59714336e7d34ec5d6e3432c61bed8bc25d75c59c41a717786ed7e7590"
+    },
+    {
+      "path": "reports/m0/logs/starter-speed.log",
+      "sha256": "9c2763f4b32ab875dc7c5803eaecb7463aeb941e35d95b323c71c7c92dda6f0f"
+    },
+    {
+      "path": "reports/m0/dotnet/core-tests.trx",
+      "sha256": "01d7ba3e9e3f49fa026e13a5752085362673d3d737d19b5ccdbb4a5f72aca533"
+    },
+    {
+      "path": "reports/starter-speed/playgodot/driving-input-controller-restart.jsonl",
+      "sha256": "52368b4cbc2f75a1072b953f3f6667b0f12cb1941b1a9aab190d30706705bd4c"
+    }
+  ],
+  "failure_logs": [
+    {
+      "path": "reports/starter-speed/failures/attempt-1.log",
+      "sha256": "e5f0c293094e38a5460bb17215f09bde8381c2b6327dad0bed0703fe96181693"
+    },
+    {
+      "path": "reports/starter-speed/failures/attempt-1.json",
+      "sha256": "dd4af99f26c73e9496eb965465bde996162f8444f9adb19422944047d4654bb4"
+    },
+    {
+      "path": "reports/starter-speed/failures/attempt-2.log",
+      "sha256": "f214013f21f890729fbf9cc8d7f341066359f27b4efed49ffd241d4c1813d111"
+    },
+    {
+      "path": "reports/starter-speed/failures/high-speed-wrapper-sdk.log",
+      "sha256": "937fc30a020e80a46bc534c6bc6f3608db82258bf237ad177e9b36ecddfe4d16"
+    }
+  ],
+  "retry_count": 2,
+  "recovery_result": "The downhill fixture was widened after drifting off its edge; actual road-plane recovery and longitudinal speed measurement are used. Final 13-case probe and full local gates pass with unchanged speed/contact thresholds.",
+  "human_gate_approval": null,
+  "balance_status": "125 mph is provisional; human enjoyment, full-run winnability, upgrades and thermal/wear behavior remain open in Q-046",
+  "remote_checks": "Pending Linux/Windows M0 and three-platform semantic CI on the implementation revision"
+}
