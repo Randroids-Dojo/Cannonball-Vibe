@@ -45,6 +45,13 @@ public sealed partial class CannonballVehicle : RigidBody3D
     private bool _cameraToggleHeld;
     private Vector3 _supportNormal = Vector3.Up;
     private float _supportRatio;
+    private VehicleSetup _setup = VehicleSetup.Starter;
+
+    public VehicleSetup Setup
+    {
+        get => _setup;
+        set => _setup = value ?? throw new ArgumentNullException(nameof(value));
+    }
 
     public bool AutopilotEnabled { get; set; }
 
@@ -175,6 +182,28 @@ public sealed partial class CannonballVehicle : RigidBody3D
             forwardSpeed,
             (float)delta,
             _wheelCompressionMeters);
+    }
+
+    public override void _IntegrateForces(PhysicsDirectBodyState3D state)
+    {
+        if (GroundedWheelCount == 0)
+        {
+            return;
+        }
+        // Enforce the road-tangent forward cap in the physics callback. Removing
+        // only that component preserves lateral slip and suspension/impact motion
+        // normal to the road; airborne and reverse motion are not governed.
+        var roadForward = (-state.Transform.Basis.Z).Slide(_supportNormal).Normalized();
+        if (roadForward.IsZeroApprox())
+        {
+            return;
+        }
+        var velocity = state.LinearVelocity;
+        var excess = (float)Setup.ForwardOverspeedMetersPerSecond(velocity.Dot(roadForward));
+        if (excess > 0)
+        {
+            state.LinearVelocity = velocity - roadForward * excess;
+        }
     }
 
     public void RequestReset() => _resetRequested = true;
@@ -430,7 +459,8 @@ public sealed partial class CannonballVehicle : RigidBody3D
             var longitudinalSpeed = LinearVelocity.Dot(roadForward);
             var roadRight = roadForward.Cross(roadNormal).Normalized();
             var lateralSpeed = LinearVelocity.Dot(roadRight);
-            var driveForce = roadForward * (input.Throttle - input.Reverse) *
+            var forwardDrive = input.Throttle * (float)Setup.ForwardDriveScale(longitudinalSpeed);
+            var driveForce = roadForward * (forwardDrive - input.Reverse) *
                 VehicleDynamicsProfile.EngineForceNewtons * contactAuthority;
             var brakingDirection = Math.Abs(longitudinalSpeed) < 0.05f
                 ? Vector3.Zero

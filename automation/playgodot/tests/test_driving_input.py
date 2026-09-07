@@ -571,6 +571,8 @@ async def test_controller_camera_recover_menu_and_confirmed_restart_are_distinct
             timeout=10.0,
         )
         progressed = progressed["test_state"]
+        assert progressed["vehicle_setup"] == "starter"
+        assert progressed["forward_speed_cap_mph"] == 125
         await client.request(
             "input.joypad_motion", {"axis": "trigger_right", "value": 0, "device": 2}
         )
@@ -650,6 +652,8 @@ async def test_controller_camera_recover_menu_and_confirmed_restart_are_distinct
         assert restarted["camera_mode"] == "chase"
         assert restarted["seed"] == progressed["seed"]
         assert restarted["cash"] == 25_000
+        assert restarted["vehicle_setup"] == "starter"
+        assert restarted["forward_speed_cap_mph"] == 125
 
 
 @pytest.mark.skipif("GODOT_BIN" not in os.environ, reason="GODOT_BIN enables live 4.7.1 tests")

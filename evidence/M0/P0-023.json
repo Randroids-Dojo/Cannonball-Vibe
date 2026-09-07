@@ -5,7 +5,7 @@
   "git_revision": "458cd6e2873a4450000cd0fdec474599f3cd2f4a",
   "platform": "Darwin arm64",
   "utc": "2026-09-07T00:35:21.370Z",
-  "status": "verified_local",
+  "status": "complete",
   "tool_versions": [
     {
       "name": "dotnet",
@@ -96,5 +96,36 @@
   "retry_count": 0,
   "recovery_result": "Local M0 and complete rendered suite passed after per-process first-frame readiness",
   "human_gate_approval": null,
-  "remote_checks": "Pending PR CI; do not mark complete until required platforms pass"
+  "remote_checks": {
+    "git_revision": "7bd3f765e6a8290f1f8542fdac59bf3ba752a096",
+    "pull_request": "https://github.com/Randroids-Dojo/Cannonball-Vibe/pull/137",
+    "verified_utc": "2026-09-07T00:48:24.223Z",
+    "checks": [
+      {
+        "name": "M0 (ubuntu-latest)",
+        "conclusion": "SUCCESS",
+        "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34070291647/job/101586252265"
+      },
+      {
+        "name": "M0 (windows-latest)",
+        "conclusion": "SUCCESS",
+        "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34070291647/job/101586252088"
+      },
+      {
+        "name": "PlayGodot semantic UI (ubuntu-latest)",
+        "conclusion": "SUCCESS",
+        "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34070291647/job/101586252189"
+      },
+      {
+        "name": "PlayGodot semantic UI (windows-latest)",
+        "conclusion": "SUCCESS",
+        "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34070291647/job/101586252187"
+      },
+      {
+        "name": "PlayGodot semantic UI (macos-latest)",
+        "conclusion": "SUCCESS",
+        "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34070291647/job/101586252283"
+      }
+    ]
+  }
 }

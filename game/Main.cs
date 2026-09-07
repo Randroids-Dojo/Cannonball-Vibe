@@ -3,6 +3,7 @@ using Cannonball.Core.Routes;
 using Cannonball.Core.Runs;
 using Cannonball.Core.Saves;
 using Cannonball.Core.Simulation;
+using Cannonball.Core.Simulation.Vehicle;
 using Cannonball.Core.Telemetry;
 using Cannonball.Game.Automation;
 using Cannonball.Game.Input;
@@ -1017,6 +1018,9 @@ public sealed partial class Main : Node3D
                     (float)resumedSave.LocalVehicle.PositionZ));
         _vehicle = new CannonballVehicle
         {
+            // Explicit scenario launches retain the original high-speed corpus.
+            // Normal play, including reconstructed saves/worlds, uses the starter.
+            Setup = _smokeTest ? VehicleSetup.HighSpeedValidation : VehicleSetup.Starter,
             Transform = vehicleTransform,
             LinearVelocity = resumedSave is null
                 ? Vector3.Zero
@@ -3465,6 +3469,8 @@ public sealed partial class Main : Node3D
         _runAutomationState["start_rotation_dot"] =
             Math.Abs(currentRotation.Dot(initialRotation));
         _runAutomationState["linear_speed_mps"] = _vehicle.LinearVelocity.Length();
+        _runAutomationState["vehicle_setup"] = _vehicle.Setup.Id;
+        _runAutomationState["forward_speed_cap_mph"] = _vehicle.Setup.ForwardTopSpeedMph;
         _runAutomationState["angular_speed_radps"] = _vehicle.AngularVelocity.Length();
         _runAutomationState["camera_mode"] = _vehicle.CurrentCameraMode;
         _runAutomationState["assist_profile"] =

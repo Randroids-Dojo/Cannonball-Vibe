@@ -47,6 +47,12 @@ authoritative route coordinates and the current local world.
 - Custom `RigidBody3D` vehicle with four suspension raycasts, spring/damper
   forces, tire lateral grip, speed-sensitive steering, yaw stabilization,
   downforce, drag, braking, CCD, keyboard, and controller input.
+- Normal play uses the stock `VehicleSetup.Starter` with a provisional 125 mph
+  forward cap, independent of driver assists. Engine drive tapers through the
+  final 1 mph; a grounded road-tangent governor also limits downhill overspeed.
+  Explicit scenario launches select `HighSpeedValidation` to retain the existing
+  200 mph corpus. The M0 starter-speed probe tests the stock setup separately.
+  See [P1-017's tuning and verification record](audits/2026-09-06-starter-speed-cap.md).
 - Schema-v4 FlatBuffer root plus independently hashed and sized `CBCK` route
   chunks, with real projected centerline, elevation, curvature, grade, lane
   topology, route context, and simplified trip-map geometry. The procedural
