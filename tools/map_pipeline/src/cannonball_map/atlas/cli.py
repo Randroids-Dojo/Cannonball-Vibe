@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 
 import typer
@@ -24,7 +25,11 @@ def lock_command(job: Path = typer.Argument(..., exists=True, dir_okay=False)) -
         for ref in document.get("artifact_manifests", []):
             ref["sha256"] = compute_sha256((job.parent / ref["path"]).resolve())
         temporary = job.with_suffix(job.suffix + ".tmp")
-        temporary.write_bytes(canonical(document))
+        temporary.write_bytes(
+            (json.dumps(document, indent=2, ensure_ascii=False, allow_nan=False) + "\n").encode(
+                "utf-8"
+            )
+        )
         temporary.replace(job)
     except (ValueError, TypeError, KeyError, OSError) as error:
         failure(job.parent, error)

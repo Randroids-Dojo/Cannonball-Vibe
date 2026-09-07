@@ -33,7 +33,7 @@ geometry conflicts. No source wins through ordering.
 
 | Exercise | Result |
 | --- | --- |
-| Focused fixture suite | 59 tests pass on Windows, including all six formats, negative provenance/ancestry cases, CRS and semantic type checks, stale/unknown dates, partial-page recovery, source-edition changes, missing fields, independent/empty inventories, documentary access evidence and CLI exit status. |
+| Focused fixture suite | 60 tests pass on Windows, including all six formats, negative provenance/ancestry cases, CRS and semantic type checks, stale/unknown dates, partial-page recovery, source-edition changes, missing fields, independent/empty inventories, documentary access evidence and CLI exit status. |
 | Continental starter | 15 policy segments, 105 segment/kind cells, 135 explicit gaps, no fabricated features. All 105 denominators remain null. |
 | Approved live source | NHPN OBJECTID 38283, selected I-70 candidate source record, acquired through the new bounded ArcGIS path with no retries. Normalizes one road-context record. |
 | Live audit | 105 cells, 122 gaps; retains the record's old observation date and missing atlas assignment. A successful acquisition does not establish complete or current atlas data. |
@@ -75,3 +75,5 @@ The same mainline revision's Linux unsigned-export smoke also terminated with
 SIGSEGV before readiness. The pipeline's files do not touch either runtime path.
 Those findings are not atlas validation failures and are not marked repaired by
 this data-pipeline slice; no new task was selected after that health signal.
+
+A pre-push Git-blob check detected CRLF in newly generated profile/scope JSON. The inputs were normalized to the repository's LF contract and re-locked before CI; a dedicated regression check prevents recurrence. The full local gate was then rerun on the integrated mainline base.

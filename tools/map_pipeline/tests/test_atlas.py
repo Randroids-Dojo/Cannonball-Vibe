@@ -695,3 +695,10 @@ def test_ambiguous_csv_headers_are_rejected(tmp_path):
     path.write_text("ID,ID\n1,2\n")
     with pytest.raises(IntakeError, match="duplicated"):
         list(records(path, {"format": "csv"}))
+
+
+def test_committed_atlas_inputs_use_git_line_endings():
+    root = Path(__file__).resolve().parents[3]
+    for name in ("datasets.v1.json", "continental-scope.v1.json", "continental-job.v1.json"):
+        # A Windows generator must not hash CRLF bytes which Git normalizes on commit.
+        assert b"\r\n" not in (root / "data/atlas" / name).read_bytes()
