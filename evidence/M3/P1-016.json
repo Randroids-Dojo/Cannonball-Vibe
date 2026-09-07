@@ -1,0 +1,455 @@
+{
+  "schema_version": 1,
+  "task_id": "P1-016",
+  "milestone": "M3",
+  "scope": "Research and design only; full atlas task remains in progress.",
+  "status": "design_delivered_runtime_unimplemented",
+  "git_revision": "f9859af2aec60418ab9fddf57c7ee0ede4ea7a43",
+  "git_revision_role": "Verified source/claim revision; authored design outputs are identified by SHA-256 below and committed afterward.",
+  "baseline_revision": "7453dff816b3d0f6e3d5c695b2c86a3dd62d7e47",
+  "platform": "MINGW64_NT-10.0-26200",
+  "utc_time": "2026-09-07T00:31:08.801852+00:00",
+  "tool_versions": {
+    "dotnet": "10.0.102",
+    "uv": "0.9.24",
+    "git-lfs": "3.7.1",
+    "perl": "v5.42.2",
+    "godot": "4.7.1.stable.mono.official.a13da4feb",
+    "evidence_python": "3.14.6",
+    "git": "git version 2.55.0.windows.3",
+    "map_pipeline_python": "Python 3.13.11",
+    "map_pipeline_packages": {
+      "pytest": "9.1.1",
+      "ruff": "0.15.21",
+      "geopandas": "1.1.4",
+      "rasterio": "1.5.0",
+      "pyproj": "3.7.2",
+      "flatbuffers": "25.12.19"
+    }
+  },
+  "source_inputs": [
+    {
+      "path": "data/routes/continental/route-selection.v1.json",
+      "bytes": 15819,
+      "sha256": "00ac4df354a8644997a2a073ee07c736ff3f3bc2d2565c8cd9cb51b957d2ff2f"
+    },
+    {
+      "path": "data/routes/continental/westbound-carriageway-lock.v1.json",
+      "bytes": 53945,
+      "sha256": "eb99323d3da3986a561a902309593716ae90e22703e7f1f68359144c8638f1fa"
+    },
+    {
+      "path": "data/sources/catalog.json",
+      "bytes": 4368,
+      "sha256": "4d3a4c115875fc7e72f12e6a9d32a31d4b103a1b73bdbc731f47864989b8447f"
+    },
+    {
+      "path": "schemas/route_graph.fbs",
+      "bytes": 3977,
+      "sha256": "874b998fbec1aae70a8aaf4909b0533594a176429bcd641ce711712412da58ab"
+    },
+    {
+      "path": "game/UI/TripMap/TripMapCanvas.cs",
+      "bytes": 8616,
+      "sha256": "d0dea27569cdb51d9bb15dfa1bdcbc1ec5c2927aa77c1ce64b8958767a135993"
+    },
+    {
+      "path": "src/Cannonball.Core/Simulation/TripMapProjection.cs",
+      "bytes": 23599,
+      "sha256": "853d7ac84d80bbbcf1e990d5268806d60e47e7792e21d112f5d87bf45374ed45"
+    },
+    {
+      "path": "docs/decisions/ADR-0011-lane-topology-route-context-and-trip-map.md",
+      "bytes": 6018,
+      "sha256": "f8befebbcdd190f83dd9ba4f9a7002b8bc2c943a7adb7171ff12c8eb943b2d2a"
+    },
+    {
+      "path": "docs/decisions/ADR-0017-authoritative-route-context-and-concurrency.md",
+      "bytes": 3244,
+      "sha256": "a4f99e092bda623e94c58087f90f03b6721f922158aa126ef4e0da7ca541a33d"
+    },
+    {
+      "path": "docs/decisions/ADR-0019-route-package-budgets-and-audit-reproducibility.md",
+      "bytes": 2732,
+      "sha256": "5c3525624a8db30b214ff23783be41bdb7a8976a07e2462c3614b5a6665287a0"
+    },
+    {
+      "path": "docs/decisions/ADR-0023-reference-performance-target-and-layered-budgets.md",
+      "bytes": 13410,
+      "sha256": "2172654fc7948b850970f1f501ad846fd2d6c67504829ebe2e2d318b9f89e4c7"
+    },
+    {
+      "path": "docs/decisions/ADR-0024-canonical-continental-route-graph.md",
+      "bytes": 5141,
+      "sha256": "da59dc73a14d97286cd97d84cabb9addeee8b9d8e0cf84e90a07ab69f29762a7"
+    },
+    {
+      "path": "docs/decisions/ADR-0026-supplementary-route-geometry-sources.md",
+      "bytes": 5332,
+      "sha256": "7a462dd4f26eff0f6b2aaf270a2c5bed990c128d0294ec37b992e938a633b86a"
+    }
+  ],
+  "online_schema_checks": [
+    {
+      "id": "nhpn",
+      "url": "https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/NTAD_National_Highway_Planning_Network/FeatureServer/0?f=pjson",
+      "http_status": 200,
+      "retrieved_utc": "2026-09-07T00:18:25Z",
+      "artifact": {
+        "path": "reports/p1-016/research/nhpn-metadata.json",
+        "bytes": 24370,
+        "sha256": "285782180728c77512fcae7ce65702f10ab8c6e6ccd44999cb89413de7ec4ae0"
+      },
+      "fields": [
+        "OBJECTID",
+        "YEAR_RECOR",
+        "ROUTE_ID",
+        "BEGIN_POIN",
+        "END_POINT",
+        "F_SYSTEM",
+        "FACILITY_T",
+        "URBAN_CODE",
+        "RECTYPE",
+        "VERSION",
+        "RECID",
+        "ORIGID",
+        "CTFIPS",
+        "SOURCE",
+        "LGURB",
+        "SMURB",
+        "SIGN1",
+        "SIGNT1",
+        "SIGNN1",
+        "SIGNQ1",
+        "SIGN2",
+        "SIGNT2",
+        "SIGNN2",
+        "SIGNQ2",
+        "SIGN3",
+        "SIGNT3",
+        "SIGNN3",
+        "SIGNQ3",
+        "LNAME",
+        "MILES",
+        "KM",
+        "FCLASS",
+        "RUCODE",
+        "STATUS",
+        "NHS",
+        "STRAHNET",
+        "FAC_ID",
+        "CONN_ID",
+        "CONN_DES",
+        "CONN_MILES",
+        "LRSKEY",
+        "LRSSEQ",
+        "BEGMP",
+        "ENDMP",
+        "STFIPS",
+        "Shape__Length"
+      ],
+      "finding": "No dedicated exit number, signed exit destination, or service-business fields in the inspected layer schema.",
+      "scope": "Research metadata only; not ingested, cataloged, or adopted as a new source lock."
+    },
+    {
+      "id": "nhs",
+      "url": "https://services.arcgis.com/xOi1kZaI0eWDREZv/arcgis/rest/services/NTAD_National_Highway_System/FeatureServer/0?f=pjson",
+      "http_status": 200,
+      "retrieved_utc": "2026-09-07T00:18:25Z",
+      "artifact": {
+        "path": "reports/p1-016/research/nhs-metadata.json",
+        "bytes": 28482,
+        "sha256": "b96a934487c40ce830f81e3ad0bab30df3ed5c07c26a4d2f6c67405fd2389dea"
+      },
+      "fields": [
+        "OBJECTID",
+        "VERSION",
+        "YEAR",
+        "STFIPS",
+        "CTFIPS",
+        "ROUTEID",
+        "BEGINPOINT",
+        "ENDPOINT",
+        "SIGN1",
+        "SIGNT1",
+        "SIGNN1",
+        "LNAME",
+        "NHS",
+        "STATUS",
+        "FACID",
+        "CONNID",
+        "CONNDES",
+        "CONNMILES",
+        "ACLASS",
+        "FCLASS",
+        "FACILITYT",
+        "THROUGH_LA",
+        "SPEED_LIMI",
+        "OWNERSHIP",
+        "URBANCODE",
+        "AADT",
+        "AADT_COM",
+        "AADT_SINGL",
+        "FUT_AADT",
+        "FUT_YEAR",
+        "MILES",
+        "UPDATE_DAT",
+        "NHS_ACTION",
+        "FILE_NAME",
+        "Shape__Length"
+      ],
+      "finding": "No dedicated exit number, signed exit destination, or service-business fields in the inspected layer schema.",
+      "scope": "Research metadata only; not ingested, cataloged, or adopted as a new source lock."
+    }
+  ],
+  "deterministic_seed": null,
+  "scenario_arguments": [
+    "--fixture",
+    "official-corridor",
+    "--smoke-test"
+  ],
+  "commands": [
+    {
+      "command": "gh issue list --label red-main --state open --json number,title,url,body",
+      "exit_status": 0,
+      "result": "No open red-main issue at task start."
+    },
+    {
+      "command": "gh pr list --state open --search P1-016 --json number,title,headRefName",
+      "exit_status": 0,
+      "result": "No existing claim."
+    },
+    {
+      "command": "git ls-remote origin refs/heads/*P1-016*",
+      "exit_status": 0,
+      "result": "No existing branch claim."
+    },
+    {
+      "command": "C:/Program Files/Git/bin/bash.exe ./scripts/doctor.sh",
+      "exit_status": 0
+    },
+    {
+      "command": "CANNONBALL_REPORT_DIR=C:/Dev/Cannonball-Vibe/reports/p1-016/m0 C:/Program Files/Git/bin/bash.exe ./scripts/check.sh",
+      "exit_status": 0,
+      "steps": [
+        {
+          "name": "doctor",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/doctor.log"
+        },
+        {
+          "name": "dotnet-build",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/dotnet-build.log"
+        },
+        {
+          "name": "dotnet-test",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/dotnet-test.log"
+        },
+        {
+          "name": "ruff",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/ruff.log"
+        },
+        {
+          "name": "frame-allocations",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/frame-allocations.log"
+        },
+        {
+          "name": "continental-route",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/continental-route.log"
+        },
+        {
+          "name": "pytest-map-pipeline",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/pytest-map-pipeline.log"
+        },
+        {
+          "name": "pytest-playgodot-unit",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/pytest-playgodot-unit.log"
+        },
+        {
+          "name": "godot-smoke",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/godot-smoke.log"
+        }
+      ]
+    },
+    {
+      "command": "Invoke-WebRequest -UseBasicParsing <NHPN/NHS metadata URLs recorded above>",
+      "exit_status": 0,
+      "result": "Both HTTP 200."
+    },
+    {
+      "command": "python reports/p1-016/record_design_evidence.py",
+      "exit_status": 0,
+      "result": "JSON, dependency, route-scope, owned-path, source-schema and local-link assertions passed."
+    },
+    {
+      "command": "git diff --check",
+      "exit_status": 0
+    }
+  ],
+  "metrics": {
+    "route_families": 3,
+    "policy_segments": 15,
+    "states": [
+      "AR",
+      "AZ",
+      "CA",
+      "CO",
+      "IA",
+      "IL",
+      "IN",
+      "MD",
+      "NE",
+      "NJ",
+      "NM",
+      "NV",
+      "NY",
+      "OH",
+      "OK",
+      "PA",
+      "TN",
+      "TX",
+      "UT",
+      "VA",
+      "WV",
+      "WY"
+    ],
+    "source_schemas_inspected": 2,
+    "tests": {
+      "map_pipeline": {
+        "tests": 281,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "playgodot_unit": {
+        "tests": 13,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "core": {
+        "total": 145,
+        "passed": 145,
+        "failed": 0
+      }
+    },
+    "runtime_diff_since_m0": false,
+    "atlas_installed_size_bytes": null,
+    "atlas_resident_memory_bytes": null,
+    "atlas_latency_ms": null,
+    "full_exit_service_coverage": null
+  },
+  "acceptance_comparisons": [
+    {
+      "criterion": "Research/design scope and linked sources recorded",
+      "status": "passed",
+      "artifact": "docs/audits/2026-09-06-streamed-highway-map-design.md"
+    },
+    {
+      "criterion": "Architecture and source changes remain explicit proposals",
+      "status": "passed",
+      "artifact": "docs/decisions/ADR-0027-streamed-highway-atlas.md"
+    },
+    {
+      "criterion": "Current local M0 front door",
+      "status": "passed",
+      "revision": "f9859af2aec60418ab9fddf57c7ee0ede4ea7a43"
+    },
+    {
+      "criterion": "New atlas runtime and performance acceptance",
+      "status": "not_exercised",
+      "reason": "No runtime implementation is part of the owner-requested design slice."
+    },
+    {
+      "criterion": "Required Linux/Windows atlas runtime evidence",
+      "status": "pending",
+      "reason": "Future implementation; local Windows baseline checks do not establish new atlas behavior."
+    },
+    {
+      "criterion": "All route families have complete real exit/service data",
+      "status": "pending",
+      "reason": "Independent corridor inventories and source admission required; southern start connector remains P0-021 work."
+    }
+  ],
+  "output_artifacts": [
+    {
+      "path": "docs/audits/2026-09-06-streamed-highway-map-design.md",
+      "bytes": 31371,
+      "sha256": "df73149e83c1938c2125eb71da5578437b44da630eb9b0a577b32d156321fdde"
+    },
+    {
+      "path": "docs/decisions/ADR-0027-streamed-highway-atlas.md",
+      "bytes": 5805,
+      "sha256": "d5256cc5c8cec6475699d5314f4ebd6a3ec5f5065ed7a033f035186ef1215419"
+    }
+  ],
+  "verification_artifacts": [
+    {
+      "path": "reports/p1-016/m0/summary.json",
+      "bytes": 1080,
+      "sha256": "26cbe2da9b6c3b63d3cd27093c001915b8fc29bb61de61ede28848e3ba88b09d"
+    },
+    {
+      "path": "reports/p1-016/m0/doctor.json",
+      "bytes": 545,
+      "sha256": "33cb1935e7bc974bbc4cc89452ab1f85a6648768cd2301f08b7df88be56e1dca"
+    },
+    {
+      "path": "reports/p1-016/m0/python/junit.xml",
+      "bytes": 36798,
+      "sha256": "849698ee0adfbdf124637c9c61bc867da80a3fe23e49f63131f447416a344260"
+    },
+    {
+      "path": "reports/p1-016/m0/python/playgodot-unit.xml",
+      "bytes": 1754,
+      "sha256": "ed1dafafecb1073cc8dd8c3d14b35ae23c71b0a90fe2b7760bdc58ec37ef1c28"
+    },
+    {
+      "path": "reports/p1-016/m0/dotnet/core-tests.trx",
+      "bytes": 203310,
+      "sha256": "23b490c486f4e02721890ec701710dec14a1b07c1aa5371c02fe561dc3c3d9e6"
+    },
+    {
+      "path": "reports/p1-016/m0/godot/scenario.json",
+      "bytes": 189,
+      "sha256": "86937fdd43e64f22acd081f4aed63e11cb7647936f54f9ea4e31a1831dc808c0"
+    },
+    {
+      "path": "reports/p1-016/design-validation.json",
+      "bytes": 2186,
+      "sha256": "ea78fa5eec50f488aa8509c07ab4fa6c80c95142ab96e37cec610d25d1e256ee"
+    }
+  ],
+  "failure_logs": [
+    "reports/p1-016/design-validation-initial-failure.txt"
+  ],
+  "retry_count": 1,
+  "recovery_result": "The documentation evidence helper initially indexed the absent unpublished southern mileage field. It now accepts absent/null mileage while still requiring published=false. M0 passed on its first invocation; no game or pipeline code changed.",
+  "human_gate_approval_reference": null,
+  "human_gates": {
+    "new_atlas_usability": "pending",
+    "new_source_and_asset_rights": "pending"
+  },
+  "open_questions": [
+    "Q-045"
+  ],
+  "proposal": "ADR-0027",
+  "claim_pr": "https://github.com/Randroids-Dojo/Cannonball-Vibe/pull/135"
+}

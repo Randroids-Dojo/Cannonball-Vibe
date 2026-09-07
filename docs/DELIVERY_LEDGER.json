@@ -21,7 +21,8 @@
       "P0-021",
       "P1-008",
       "P1-009",
-      "P1-010"
+      "P1-010",
+      "P1-016"
     ],
     "sequencing_note": "The owner set P0-021 as the next priority on 2026-08-13. P0-020 became dependency-ready the same day and is the only thing blocking P0-015, which in turn blocks P1-011 and P1-013. The two are independent, so the order is a scheduling choice rather than a constraint.",
     "blocked_by_an_open_task": {
@@ -2027,7 +2028,7 @@
         "required_for": "production_atlas",
         "status": "pending"
       },
-      "notes": "Claimed 2026-09-06 for research and design after the owner confirmed the 2D highway-map scope. P0-004 and P0-013 dependencies are complete. No runtime code, schema, source catalog, route lock, or generated content is owned by this design slice. The full task remains in progress after the design is delivered."
+      "notes": "Claimed 2026-09-06 in PR #135 after the owner confirmed the 2D highway-map scope. The dated design audit and proposed ADR-0027 cover all three selected route families, progressive readable cartography, a separately streamed map pyramid, scoped candidate sources, verified exit/service metadata gaps, and measurable delivery slices. Q-045 preserves architecture/source admission and complete coverage as unresolved. P0-004 and P0-013 dependencies are complete; full continental coverage requires P0-021, including its unbuilt Southern I-40 start connector. No runtime code, schema, source catalog, route lock, or generated content is owned by this design slice. Design delivery does not complete the runtime task or its new human gates."
     },
     {
       "id": "P1-014",

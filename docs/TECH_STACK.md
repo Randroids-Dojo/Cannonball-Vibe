@@ -137,6 +137,13 @@ progress. GDD decision D-009 defines 1:1 Endurance as the signature mode while
 retaining shorter Standard and Challenge modes. D-013 separately defines its
 decision cadence and quiet-highway stretches.
 
+P1-016 researches a realistic 2D atlas with independent spatial streaming,
+screen-space labels, and verified context along the selected highway graph.
+The [design audit](audits/2026-09-06-streamed-highway-map-design.md) and
+[proposed ADR-0027](decisions/ADR-0027-streamed-highway-atlas.md) describe future
+work; Q-045 tracks its disposition. The embedded-map implementation and source
+catalog described above remain current until a separately verified change.
+
 Generated continental packages belong in release/CI artifacts, not Git. Source
 art, audio, and binary models use Git LFS.
 
