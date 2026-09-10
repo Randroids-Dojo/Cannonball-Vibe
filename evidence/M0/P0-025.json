@@ -1,0 +1,253 @@
+{
+  "schema_version": 1,
+  "task_id": "P0-025",
+  "milestone": "M0",
+  "git_revision": "c18d6322e17463992289d1e3851de7d50b93ca66",
+  "platform": "Windows x86_64",
+  "utc": "2026-09-10T21:07:52.273764+00:00",
+  "status": "in_progress",
+  "claim": "https://github.com/Randroids-Dojo/Cannonball-Vibe/pull/142",
+  "trigger": "https://github.com/Randroids-Dojo/Cannonball-Vibe/issues/140",
+  "human_gate_approval": null,
+  "tool_versions": [
+    {
+      "name": "dotnet",
+      "expected": "10.0.102",
+      "actual": "10.0.102",
+      "status": "passed"
+    },
+    {
+      "name": "uv",
+      "expected": "0.9.24",
+      "actual": "0.9.24",
+      "status": "passed"
+    },
+    {
+      "name": "git-lfs",
+      "expected": "3.7.1",
+      "actual": "3.7.1",
+      "status": "passed"
+    },
+    {
+      "name": "perl",
+      "expected": "available",
+      "actual": "available",
+      "status": "passed"
+    },
+    {
+      "name": "godot",
+      "expected": "4.7.1.stable.mono.official.a13da4feb",
+      "actual": "4.7.1.stable.mono.official.a13da4feb",
+      "status": "passed"
+    }
+  ],
+  "inputs": [
+    {
+      "role": "original failing Windows archive",
+      "sha256": "d89b801ec674185f2c1968a1d44456442ca4eb1e8395a3f61fa5c50cc4746fa1",
+      "workflow_run": 34171220619
+    },
+    {
+      "role": "claim-only Linux archive",
+      "sha256": "3b8622fb36892c882f2e72c9ff75a428db8aab5f7d2f866ffe3323b43deace2e",
+      "workflow_run": 34528486032
+    }
+  ],
+  "commands": [
+    {
+      "command": "scripts/doctor.sh",
+      "exit_status": 0,
+      "result": "all pinned tools passed"
+    },
+    {
+      "command": "node --test scripts/release/smoke.test.mjs",
+      "exit_status": 0,
+      "result": "3 synthetic verifier fixtures passed; not native runtime evidence"
+    },
+    {
+      "command": "bash -n scripts/release/verify-package.sh",
+      "exit_status": 0
+    },
+    {
+      "command": "CANNONBALL_RELEASE_SMOKE_LOG_FILE=<package>/metadata/manifest.json bash scripts/release/verify-package.sh <original-package> --smoke",
+      "exit_status": 1,
+      "expected_exit_status": 1,
+      "result": "outside-package policy rejection; manifest SHA unchanged; engine not launched"
+    },
+    {
+      "command": "./scripts/verify-managed-shutdown.sh",
+      "exit_status": 0,
+      "result": "32 queued wrappers finalized; no fatal or leak output; 1523.972 ms shutdown"
+    },
+    {
+      "command": "./scripts/check.sh",
+      "exit_status": 0,
+      "result": "all 13 steps passed; implementation working tree at claim revision; hashes bind the tested C# files"
+    },
+    {
+      "command": "node22.22.1 --test scripts/release/smoke.test.mjs (after receipt chronology addition)",
+      "exit_status": 0,
+      "result": "3 verifier unit fixtures passed"
+    }
+  ],
+  "metrics": {
+    "baseline_windows_smokes": {
+      "runs": 20,
+      "passed": 20,
+      "access_violation_reproduced": false,
+      "configurations": {
+        "default_nursery": 12,
+        "64_kib_nursery": 8
+      }
+    },
+    "induced_backlog_before_fix": {
+      "runs": 3,
+      "failed": 3,
+      "queued_wrappers": 32,
+      "inaccessible_weak_references": 32,
+      "reported_pending_finalizers": 34,
+      "failure": "shutdown leaked resource and texture RID diagnostics",
+      "same_access_violation_stack": false
+    },
+    "corrected_induced_backlog": {
+      "derived_package_runs": 4,
+      "passed": 4,
+      "finalized_wrappers": 32,
+      "shutdown_ms_range": [
+        1542.031,
+        1550
+      ],
+      "final_front_door_shutdown_ms": 1543.203
+    },
+    "corrected_normal_diagnostic": {
+      "passed": true,
+      "shutdown_ms": 59.436
+    },
+    "invalid_startup_arguments": {
+      "exit_code": 1,
+      "shutdown_ms": 13.454,
+      "expected_failure_preserved": true
+    },
+    "local_m0": {
+      "steps": 13,
+      "passed": 13,
+      "summary": "reports/m0/summary.json",
+      "started_at": "2026-09-10T21:03:03Z",
+      "finished_at": "2026-09-10T21:06:18Z"
+    }
+  },
+  "failure_logs": [
+    {
+      "path": "reports/p0-025/upstream-failure.log",
+      "sha256": "417b5ac76625a19f3221e3fd77d3ab465ac8786fbda13ed281fe759ac56703c3",
+      "bytes": 39317
+    },
+    {
+      "path": "reports/p0-025/claim-export-failure.log",
+      "sha256": "6a0f9c41eb617c80ad7fe012d6df83b557848bfe17361500e90d1ce4ed273922",
+      "bytes": 65270
+    },
+    {
+      "path": "reports/p0-025/probe-uncorrected-01.log",
+      "sha256": "8533e8d0b6416894a5846c4914cc8a7a27966609b94dd9e9b5c547cd32f4ae5d",
+      "bytes": 1056
+    },
+    {
+      "path": "reports/p0-025/probe-uncorrected-02.log",
+      "sha256": "8d10405ffb5d9bf4f248e5f201de555603ef135a9f6d0bcf9001ada8a31bc2a4",
+      "bytes": 1056
+    },
+    {
+      "path": "reports/p0-025/probe-uncorrected-03.log",
+      "sha256": "3c9a0c0d830d68b5299a486b0931e8045e9d1569b7a83a3c15f70f667a3738e6",
+      "bytes": 1056
+    }
+  ],
+  "outputs": [
+    {
+      "path": "reports/m0/summary.json",
+      "sha256": "68ea5b2f1f8570de3e8af829bc9ba1a2fcaaa6ade5410b7cc600ba6287087e45",
+      "bytes": 1482
+    },
+    {
+      "path": "reports/p0-025/full-m0.log",
+      "sha256": "074bf631b21980ac79a44d07150ff6076975f86fa2423bc8768320f0e3dcfbe4",
+      "bytes": 25882
+    },
+    {
+      "path": "reports/p0-025/verifier-unit.log",
+      "sha256": "63ba753bd095a0dc8895cb856a68bf1fda9d55e2c869ab37a513f9c27457a9ac",
+      "bytes": 1506
+    },
+    {
+      "path": "reports/p0-025/invalid-log-destination.json",
+      "sha256": "33a2e31377f7beb491a3f3c60c879141db0b66a29e5fb0d1c485d449589bc7df",
+      "bytes": 208
+    },
+    {
+      "path": "reports/managed-shutdown/summary.json",
+      "sha256": "b06f727b511b35f38593f7c0cf80dbf39ef464202012a3d55af92511cbaef319",
+      "bytes": 305
+    }
+  ],
+  "retry_count": 0,
+  "recovery_result": "investigation in progress; no retry-to-green",
+  "remaining": [
+    "ten native Windows/Linux final package smokes",
+    "cross-platform M0/probe evidence",
+    "mainline health recovery",
+    "optional native window-close QA unavailable"
+  ],
+  "limits": [
+    "Exact native AccessViolation not reproduced locally; induced backlog errors/leaks are distinct",
+    "Linux release stdout buffering prevents startup attribution from missing readiness messages",
+    "Negative experimental DLL was replaced and has no retained input hash; original archive preserved",
+    "Computer Use native pipe unavailable; hidden window close attempt is not a verified actual close"
+  ],
+  "implementation_inputs": [
+    {
+      "path": "game/Main.cs",
+      "sha256": "d0f47f8ebc3b98f17e7aefd5c3456cb8e94140a05881217d1314988c3ba3b945"
+    },
+    {
+      "path": "game/World/WorldStreamer.cs",
+      "sha256": "8176995ef5e7c94123ec049e206739fba501f08a2aeeb799901be9ffaa464658"
+    },
+    {
+      "path": "game/Lifecycle/RuntimeShutdown.cs",
+      "sha256": "8aa6f8f6350f692e19c0840c68c577891c9a690aded8f00b505dca7c499d7e35"
+    },
+    {
+      "path": "game/Automation/ManagedShutdownScenario.cs",
+      "sha256": "67c5f43b138cadc99a67cba7cbf4d1022931421c6bddf454ee2a5fe9dcc9b912"
+    },
+    {
+      "path": "scripts/check.sh",
+      "sha256": "388c1cf9cd94c99cf05109eaf8518b3ec8977293a1c6ba045a404617dde96fa7"
+    },
+    {
+      "path": "scripts/verify-managed-shutdown.sh",
+      "sha256": "8508d53c83988cab7177bdb7a659ba1ff204804183229f9b38177c785c14d1fd"
+    },
+    {
+      "path": "scripts/release/smoke.mjs",
+      "sha256": "6700df487ecdf6014b51c5f81af5a6cc374c61b12e4d7e38dcc6b450c45e18c8"
+    },
+    {
+      "path": "scripts/release/smoke.test.mjs",
+      "sha256": "12e99eee446b347f04c7e7db61bf66064de1e4f43cf2af1be87f6528219fa782"
+    },
+    {
+      "path": "scripts/release/verify-package.sh",
+      "sha256": "36979587dd07bfbb5732599097d92e9b803f8b2801aa1286869b15eecf3f6ed7"
+    },
+    {
+      "path": "scripts/release/build-unsigned.sh",
+      "sha256": "9581d57135b30f9af184b6caa80f96f155e1f414c9760c10417b8b675c404113"
+    },
+    {
+      "path": ".github/workflows/unsigned-exports.yml",
+      "sha256": "3fde4406bab0462f3733cecaf6997da2fef27b296f965427a57d42ffb7a019e6"
+    }
+  ]
+}

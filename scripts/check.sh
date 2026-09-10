@@ -52,6 +52,9 @@ run_step "godot-smoke" env \
   CANNONBALL_GODOT_LOG_FILE="$report_root/godot/godot.log" \
   CANNONBALL_SCENARIO_RESULT_FILE="$report_root/godot/scenario.json" \
   "$repo_root/scripts/run-scenario.sh" --fixture official-corridor --smoke-test
+run_step "managed-shutdown" env \
+  CANNONBALL_MANAGED_SHUTDOWN_REPORT_DIR="$report_root/godot/managed-shutdown" \
+  "$repo_root/scripts/verify-managed-shutdown.sh"
 run_step "camera-interpolation" uv run --project tools/map_pipeline --frozen python \
   "$repo_root/scripts/run_with_timeout.py" 30 \
   "$BASH" "$repo_root/scripts/godot.sh" --headless --fixed-fps 120 --path "$repo_root" \

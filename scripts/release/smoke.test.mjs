@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { chmodSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { chmodSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -31,9 +31,14 @@ function runFixture(t, output, exitCode = 0) {
     ? `@"${process.execPath}" "%~dp0fixture.mjs"\r\n`
     : `#!/bin/sh\nexec ${quote(process.execPath)} ${quote(join(root, "fixture.mjs"))}\n`);
   chmodSync(join(root, launcher), 0o755);
-  return spawnSync(process.execPath, [verifier, root, join(root, "transcript.log")], {
+  const result = spawnSync(process.execPath, [verifier, root, join(root, "transcript.log")], {
     encoding: "utf8", timeout: 10_000,
   });
+  return {
+    ...result,
+    transcript: readFileSync(join(root, "transcript.log"), "utf8"),
+    outputEvents: readFileSync(join(root, "transcript.log.events.jsonl"), "utf8").trim().split("\n").map(JSON.parse),
+  };
 }
 
 test("a clean packaged runtime with every required marker passes", (t) => {
@@ -49,6 +54,12 @@ test("a native fatal error after success markers fails even when the launcher ex
   assert.equal(failure.code, 0);
   assert.deepEqual(failure.missing, []);
   assert.ok(failure.forbidden.includes("FATAL"));
+  assert.ok(result.transcript.includes(successOutput));
+  assert.ok(result.transcript.includes("Fatal error. System.AccessViolationException:"));
+  assert.ok(result.transcript.includes("godotsharp_internal_object_get_associated_gchandle(IntPtr)"));
+  assert.ok(result.outputEvents.some((event) => event.stream === "stdout" && event.chunk.includes("Fatal error.")));
+  assert.ok(result.outputEvents.every((event, index, events) => event.elapsed_ms >= 0 &&
+    (index === 0 || event.elapsed_ms >= events[index - 1].elapsed_ms)));
 });
 
 test("a nonzero runtime exit fails despite every success marker", (t) => {

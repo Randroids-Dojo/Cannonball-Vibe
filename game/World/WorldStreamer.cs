@@ -1106,6 +1106,40 @@ public sealed partial class WorldStreamer : Node3D
         return plan;
     }
 
+    /// <summary>Stops new reads and settles every outstanding read before teardown.</summary>
+    public async Task StopPendingReadsAsync()
+    {
+        ProcessMode = ProcessModeEnum.Disabled;
+        _loadQueue.Clear();
+        _queued.Clear();
+        var pending = _pending.Values.ToArray();
+        _pending.Clear();
+        foreach (var read in pending)
+        {
+            read.Cancellation.Cancel();
+        }
+        try
+        {
+            var completion = Task.WhenAll(pending.Select(read => read.Task));
+            try
+            {
+                await completion;
+            }
+            catch (OperationCanceledException) when (completion.IsCanceled)
+            {
+                // WhenAll settles every read even if another read fails or is
+                // cancelled. Only cancellation is expected during shutdown.
+            }
+        }
+        finally
+        {
+            foreach (var read in pending)
+            {
+                read.Cancellation.Dispose();
+            }
+        }
+    }
+
     // The visual kits are plain C# objects holding Godot resources, so nothing
     // frees them when the tree tears down and their wrappers survive to
     // finalisation after the engine has gone. Chunks already release their own

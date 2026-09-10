@@ -114,8 +114,38 @@ if [[ "$smoke" == "--smoke" ]]; then
   if [[ -f "$package_root/verification/smoke.mjs" ]]; then
     smoke_script="$package_root/verification/smoke.mjs"
   fi
-  smoke_log="$(mktemp "${TMPDIR:-/tmp}/cannonball-release-smoke.XXXXXX")"
-  trap 'rm -f "$smoke_log"' EXIT
+  smoke_log="${CANNONBALL_RELEASE_SMOKE_LOG_FILE:-}"
+  if [[ -z "$smoke_log" ]]; then
+    smoke_log="$(mktemp "${TMPDIR:-/tmp}/cannonball-release-smoke.XXXXXX")"
+    trap 'rm -f "$smoke_log" "$smoke_log.events.jsonl"' EXIT
+  else
+    # Keep requested evidence outside the immutable package; a later verifier
+    # invocation must still see exactly the declared inventory.
+    node_smoke_log="$smoke_log"
+    if command -v cygpath >/dev/null 2>&1; then node_smoke_log="$(cygpath -w "$smoke_log")"; fi
+    smoke_log="$(node - "$node_package_root" "$node_smoke_log" <<'NODE'
+const fs = require("node:fs");
+const path = require("node:path");
+const root = fs.realpathSync(process.argv[2]);
+let ancestor = path.resolve(process.argv[3]);
+const missing = [];
+while (!fs.existsSync(ancestor)) {
+  missing.unshift(path.basename(ancestor));
+  const parent = path.dirname(ancestor);
+  if (parent === ancestor) throw new Error("Smoke log has no existing ancestor.");
+  ancestor = parent;
+}
+const destination = path.join(fs.realpathSync(ancestor), ...missing);
+const relative = path.relative(root, destination);
+if (!relative || (!path.isAbsolute(relative) && relative !== ".." && !relative.startsWith(`..${path.sep}`))) {
+  throw new Error("Smoke log must be outside the immutable package.");
+}
+console.log(destination);
+NODE
+)"
+    if command -v cygpath >/dev/null 2>&1; then smoke_log="$(cygpath -u "$smoke_log")"; fi
+    mkdir -p "$(dirname "$smoke_log")"
+  fi
   if command -v cygpath >/dev/null 2>&1; then smoke_script="$(cygpath -w "$smoke_script")"; smoke_log="$(cygpath -w "$smoke_log")"; fi
   node "$smoke_script" "$node_package_root" "$smoke_log"
 fi

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated": "2026-09-07",
+  "updated": "2026-09-10",
   "project": "Cannonball-Vibe",
   "authority": {
     "architecture_decisions": "docs/decisions/",
@@ -2298,6 +2298,55 @@
       ],
       "human_gate": null,
       "notes": "Completed at 4d46e98 with full local M0, 30 rendered tests, Linux/Windows M0, three-platform semantic UI, two passing native export runs, both 500-mile checks and the asset pipeline. CI checked out synthetic merge 275d016, whose source tree matches the PR head. Explicit physics-state binding disposal addresses vehicle teardown; pause suppression survives neutral input until resume; the camera fixture maintains continuous input within its original deadline; the release verifier rejects mixed-case fatal output even after launcher exit zero. The earlier Linux startup SIGSEGV was not locally reproduced; its trace limit remains explicit in the audit. The 125 mph starter cap is unchanged. PR #138 already merged as 36035a5; this is the fix-forward repair for red-main #140."
+    },
+    {
+      "id": "P0-025",
+      "milestone": "M0",
+      "priority": "P0",
+      "title": "Repair remaining Windows export finalizer crash",
+      "status": "in_progress",
+      "owner": "Runtime + automation",
+      "dependencies": [
+        "P0-001",
+        "P0-007",
+        "P0-024"
+      ],
+      "owned_paths": [
+        "game/",
+        "scripts/release/",
+        "tests/",
+        "docs/DELIVERY_LEDGER.json",
+        "docs/audits/2026-09-10-export-finalizer-repair.md",
+        "evidence/M0/P0-025.json",
+        ".github/workflows/unsigned-exports.yml",
+        "scripts/check.sh",
+        "scripts/verify-managed-shutdown.sh"
+      ],
+      "generated_outputs": [
+        "reports/p0-025/",
+        "reports/m0/",
+        "build/releases/"
+      ],
+      "acceptance": [
+        "Retain exact mainline run 34171220619 failure and reproduce or explicitly bound the native finalizer crash",
+        "Correct the application-owned lifetime defect on the pinned official Godot engine without suppressing fatal diagnostics or weakening smoke acceptance",
+        "Pass full local M0 and repeated clean Windows packaged smoke with functional markers and clean shutdown",
+        "Pass Linux and Windows M0 and clean export smoke on the repair revision; confirm mainline health recovers",
+        "CI requires ten consecutive fresh-process package smokes per native platform, fails on the first defect and retains every attempted transcript outside the exact-inventory package",
+        "Both M0 platforms exercise the induced queued-finalizer lifecycle, prove all 32 wrappers finalized before native teardown, and reject any shutdown error or resource leak"
+      ],
+      "verification": [
+        "./scripts/verify-managed-shutdown.sh",
+        "./scripts/check.sh",
+        "./scripts/release/build-unsigned.sh",
+        "./scripts/release/verify-package.sh"
+      ],
+      "evidence": [
+        "evidence/M0/P0-025.json",
+        "docs/audits/2026-09-10-export-finalizer-repair.md"
+      ],
+      "human_gate": null,
+      "notes": "Required fix-forward repair for red-main #140 before the owner-requested original sedan. PR #141 made CI green but the current main unsigned export still crashes during GodotObject finalization after successful smoke markers. Claim only; no implementation at initial commit. Root owns governance and evidence; runtime agent owns agreed C# lifetime corrections. Preserve existing Hero GT and speed policies. Scope addition before implementation: ten fail-fast native package repetitions and persistent transcript evidence, because two prior passing exports did not exclude the intermittent shutdown failure; no threshold or fatal diagnostic is relaxed. Scope addition: claim-only native Linux export also reproduces the previously recorded early startup SIGSEGV; retain and investigate independently. The managed shutdown probe becomes a load-bearing M0 check before integration. Scope addition before launcher change: remove the independent --quit-after 1200 engine frame limit from packaged smoke only; it can trigger native teardown while asynchronous finalizer draining is still running. The existing 120-second external process watchdog remains authoritative and every functional/exit/fatal acceptance check is unchanged. Diagnostic scope addition: retain stdout/stderr receipt chronology and Linux native crash-report diagnostics on the first failing smoke. Raw process-memory dumps remain local to the CI runner; uploaded evidence is text/JSON. Release stdout buffering means a missing readiness marker cannot alone establish startup failure."
     }
   ]
 }
