@@ -2,9 +2,9 @@
   "schema_version": 1,
   "task_id": "P0-025",
   "milestone": "M0",
-  "git_revision": "c18d6322e17463992289d1e3851de7d50b93ca66",
+  "git_revision": "d42c23c54255167e0fdf7f3d5439d156ba9f570d",
   "platform": "Windows x86_64",
-  "utc": "2026-09-10T21:07:52.273764+00:00",
+  "utc": "2026-09-10T21:20:25.300829+00:00",
   "status": "in_progress",
   "claim": "https://github.com/Randroids-Dojo/Cannonball-Vibe/pull/142",
   "trigger": "https://github.com/Randroids-Dojo/Cannonball-Vibe/issues/140",
@@ -88,6 +88,26 @@
       "command": "node22.22.1 --test scripts/release/smoke.test.mjs (after receipt chronology addition)",
       "exit_status": 0,
       "result": "3 verifier unit fixtures passed"
+    },
+    {
+      "command": "./scripts/release/build-unsigned.sh windows (first local attempt)",
+      "exit_status": 1,
+      "result": "Pinned .NET export templates absent; no runtime package produced"
+    },
+    {
+      "command": "RUNNER_OS=Windows ./scripts/release/install-templates.sh",
+      "exit_status": 0,
+      "result": "Exact template archive SHA ef9a708be51ecd974cd7dccdcafd7a1870da3d3e1c24c072bdbb9818c7a7db63 installed"
+    },
+    {
+      "command": "./scripts/release/build-unsigned.sh windows (after installing pinned templates)",
+      "exit_status": 0,
+      "result": "Every package byte and archive identical across two independent builds"
+    },
+    {
+      "command": "node22.22.1 --test scripts/release/smoke.test.mjs (require shutdown completion)",
+      "exit_status": 0,
+      "result": "4 verifier fixtures passed"
     }
   ],
   "metrics": {
@@ -134,6 +154,37 @@
       "summary": "reports/m0/summary.json",
       "started_at": "2026-09-10T21:03:03Z",
       "finished_at": "2026-09-10T21:06:18Z"
+    },
+    "local_windows_reproducibility": {
+      "builds": 2,
+      "every_packaged_byte_identical": true,
+      "archive_sha256": "695c7746a7e2a11db3bf1a942fc367b22d975c4d74f2b95f9c0c375850e23021"
+    },
+    "linux_candidate_ci_smoke": {
+      "workflow_run": 34530441904,
+      "required": 10,
+      "completed": 10,
+      "status": "passed",
+      "ci_revision": "6890cabcba3d7ff3303c7e8cf7ad222c5a7a74ae",
+      "tree_identical_to_implementation": true
+    },
+    "unmodified_linux_diagnosis": {
+      "normal": {
+        "passed": 10,
+        "runs": 10
+      },
+      "gdb": {
+        "passed": 10,
+        "runs": 10,
+        "signal_count": 0
+      },
+      "four_cpu_affinity": {
+        "passed": 20,
+        "runs": 20
+      },
+      "native_cause_identified": false,
+      "buffered_stdout_confirmed": true,
+      "details": "reports/p0-025/linux-diagnosis/diagnosis.json"
     }
   },
   "failure_logs": [
@@ -188,15 +239,39 @@
       "path": "reports/managed-shutdown/summary.json",
       "sha256": "b06f727b511b35f38593f7c0cf80dbf39ef464202012a3d55af92511cbaef319",
       "bytes": 305
+    },
+    {
+      "path": "reports/p0-025/local-windows-export-2.log",
+      "sha256": "9c6bd35651623d257c5e0beb286ef7376c3e847fe1a66000dae54a9b7f0e171b",
+      "bytes": 220454
+    },
+    {
+      "path": "reports/p0-025/verifier-unit-final.log",
+      "sha256": "53de2a51016ccb4e1d2f96fb5f3c307734cc675a8697b86c034fbb6279cb52fa",
+      "bytes": 1884
+    },
+    {
+      "path": "reports/p0-025/ci-candidate/linux-smoke/summary.json",
+      "sha256": "7f4071517fae394ea0971305a27da00d52acb470176f623245fd7af0ed1c2bdc",
+      "bytes": 49
+    },
+    {
+      "path": "reports/p0-025/ci-candidate/source-tree-comparison.json",
+      "sha256": "d5eaf99a57117b198edf00906a2e96255422613739f2e8488ccee79f358b7517",
+      "bytes": 586
+    },
+    {
+      "path": "reports/p0-025/linux-diagnosis/diagnosis.json",
+      "sha256": "e88b5c3c0e8c3bab8f52e9bd345c1dfd503c0b6d6c01731f8ec07b1209aab985",
+      "bytes": 19170
     }
   ],
   "retry_count": 0,
   "recovery_result": "investigation in progress; no retry-to-green",
   "remaining": [
-    "ten native Windows/Linux final package smokes",
-    "cross-platform M0/probe evidence",
+    "final native Windows smoke and complete remote checks",
     "mainline health recovery",
-    "optional native window-close QA unavailable"
+    "native window-close QA unavailable"
   ],
   "limits": [
     "Exact native AccessViolation not reproduced locally; induced backlog errors/leaks are distinct",
