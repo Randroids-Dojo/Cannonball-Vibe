@@ -78,14 +78,16 @@ build_once() {
       # shellcheck disable=SC2016 # Expansion belongs in the generated launcher.
       printf '%s\n' 'root="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"'
       # shellcheck disable=SC2016 # Expansion belongs in the generated launcher.
-      printf '%s\n' 'engine_args=()' 'if [[ "${CANNONBALL_RELEASE_SMOKE:-}" == "1" ]]; then engine_args=(--headless --rendering-method gl_compatibility --quit-after 1200); fi'
+      # smoke.mjs owns the external watchdog. An engine frame-limit quit can
+      # bypass asynchronous managed cleanup while idle frames keep advancing.
+      printf '%s\n' 'engine_args=()' 'if [[ "${CANNONBALL_RELEASE_SMOKE:-}" == "1" ]]; then engine_args=(--headless --rendering-method gl_compatibility); fi'
       # shellcheck disable=SC2016 # Expansion belongs in the generated launcher.
       printf 'exec "$root/CannonballRun.x86_64" "${engine_args[@]}" -- "--route-package=$root/content/official-corridor/%s" "$@"\n' "$route_relative"
     } >"$stage/package/$launcher"
     chmod +x "$stage/package/$launcher" "$stage/package/$binary"
   else
     windows_route="${route_relative//\//\\}"
-    printf '@echo off\r\nset "ROOT=%%~dp0"\r\nif "%%CANNONBALL_RELEASE_SMOKE%%"=="1" (\r\n  "%%ROOT%%CannonballRun.console.exe" --headless --rendering-method gl_compatibility --quit-after 1200 -- "--route-package=%%ROOT%%content\\official-corridor\\%s" %%*\r\n) else (\r\n  "%%ROOT%%CannonballRun.exe" -- "--route-package=%%ROOT%%content\\official-corridor\\%s" %%*\r\n)\r\n' \
+    printf '@echo off\r\nset "ROOT=%%~dp0"\r\nif "%%CANNONBALL_RELEASE_SMOKE%%"=="1" (\r\n  "%%ROOT%%CannonballRun.console.exe" --headless --rendering-method gl_compatibility -- "--route-package=%%ROOT%%content\\official-corridor\\%s" %%*\r\n) else (\r\n  "%%ROOT%%CannonballRun.exe" -- "--route-package=%%ROOT%%content\\official-corridor\\%s" %%*\r\n)\r\n' \
       "$windows_route" "$windows_route" >"$stage/package/$launcher"
   fi
   cp "$source_root/scripts/release/smoke.mjs" "$source_root/scripts/release/pck-inspect.mjs" \

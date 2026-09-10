@@ -30,6 +30,15 @@ const runtimeHome = mkdtempSync(join(tmpdir(), "cannonball-release-smoke-"));
 mkdirSync(join(runtimeHome, "empty-dotnet-root"));
 const forbiddenTranscript = join(runtimeHome, "playgodot-transcript.jsonl");
 const hostileToken = "release-surface-must-remain-absent-7f4e6c9a";
+const startedAt = process.hrtime.bigint();
+const outputEvents = [];
+function recordOutput(stream, chunk) {
+  outputEvents.push({
+    elapsed_ms: Number(process.hrtime.bigint() - startedAt) / 1e6,
+    stream,
+    chunk,
+  });
+}
 
 const child = spawn(launcher, ["--smoke-test", "--playgodot"], {
   cwd: runtimeHome,
@@ -54,8 +63,8 @@ let stdout = "";
 let stderr = "";
 child.stdout.setEncoding("utf8");
 child.stderr.setEncoding("utf8");
-child.stdout.on("data", (chunk) => { stdout += chunk; process.stdout.write(chunk); });
-child.stderr.on("data", (chunk) => { stderr += chunk; process.stderr.write(chunk); });
+child.stdout.on("data", (chunk) => { recordOutput("stdout", chunk); stdout += chunk; process.stdout.write(chunk); });
+child.stderr.on("data", (chunk) => { recordOutput("stderr", chunk); stderr += chunk; process.stderr.write(chunk); });
 const timeout = setTimeout(() => {
   if (process.platform === "win32") spawn("taskkill", ["/pid", String(child.pid), "/t", "/f"]);
   else process.kill(-child.pid, "SIGKILL");
@@ -64,6 +73,9 @@ const [code, signal] = await new Promise((done) => child.on("close", (...result)
 clearTimeout(timeout);
 const transcript = `${stdout}\n${stderr}`;
 writeFileSync(transcriptPath, transcript);
+// Keep receipt order separately: release stdout may arrive only at exit, and
+// concatenating the streams cannot locate a native fault within startup/quit.
+writeFileSync(`${transcriptPath}.events.jsonl`, outputEvents.map((event) => JSON.stringify(event)).join("\n") + "\n");
 
 const required = [
   "CANNONBALL_READY engine=4.7.1-stable (official)",

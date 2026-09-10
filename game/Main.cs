@@ -7,6 +7,7 @@ using Cannonball.Core.Simulation.Vehicle;
 using Cannonball.Core.Telemetry;
 using Cannonball.Game.Automation;
 using Cannonball.Game.Input;
+using Cannonball.Game.Lifecycle;
 using Cannonball.Game.UI;
 using Cannonball.Game.Vehicle;
 using Cannonball.Game.World;
@@ -70,6 +71,7 @@ public sealed partial class Main : Node3D
     private bool _roadVisualProfileComplete;
     private bool _longRouteProfile;
     private bool _shutdownStarted;
+    private readonly RuntimeShutdown _runtimeShutdown = new();
     private int _smokeFrames;
     private double _telemetryElapsed;
     private double _previousDistance;
@@ -206,6 +208,7 @@ public sealed partial class Main : Node3D
         try
         {
             ProcessMode = ProcessModeEnum.Always;
+            GetTree().AutoAcceptQuit = false;
             SetMeta("automation_id", "run.session");
             SetMeta("automation_state", _runAutomationState);
             var arguments = OS.GetCmdlineUserArgs();
@@ -370,7 +373,7 @@ public sealed partial class Main : Node3D
                     $"real_eta_s={result.RealTimeEstimateSeconds:0.000} " +
                     $"fixed_eta_s={result.FixedCompressionEstimateSeconds:0.000} " +
                     $"selective_eta_s={result.SelectiveCruiseEstimateSeconds:0.000}");
-                GetTree().Quit();
+                RequestApplicationQuit();
                 return;
             }
             if (_longRouteProfile)
@@ -631,13 +634,13 @@ public sealed partial class Main : Node3D
                 $"content_source=packaged content_version={_package.Graph.ContentVersion}");
             if (_resumeVerify)
             {
-                GetTree().Quit();
+                RequestApplicationQuit();
             }
         }
         catch (Exception exception)
         {
             GD.PushError(exception.ToString());
-            GetTree().Quit(1);
+            RequestApplicationQuit(1);
         }
     }
 
@@ -682,7 +685,7 @@ public sealed partial class Main : Node3D
             if (_tripMapReview && !_shutdownStarted && ++_smokeFrames >= _smokeTargetFrames)
             {
                 _shutdownStarted = true;
-                GetTree().Quit();
+                RequestApplicationQuit();
             }
             return;
         }
@@ -759,7 +762,7 @@ public sealed partial class Main : Node3D
             {
                 GD.PushError(exception.ToString());
                 _shutdownStarted = true;
-                GetTree().Quit(1);
+                RequestApplicationQuit(1);
                 return;
             }
         }
@@ -773,7 +776,7 @@ public sealed partial class Main : Node3D
             {
                 GD.PushError(exception.ToString());
                 _shutdownStarted = true;
-                GetTree().Quit(1);
+                RequestApplicationQuit(1);
                 return;
             }
         }
@@ -787,7 +790,7 @@ public sealed partial class Main : Node3D
             {
                 GD.PushError(exception.ToString());
                 _shutdownStarted = true;
-                GetTree().Quit(1);
+                RequestApplicationQuit(1);
                 return;
             }
         }
@@ -801,7 +804,7 @@ public sealed partial class Main : Node3D
             {
                 GD.PushError(exception.ToString());
                 _shutdownStarted = true;
-                GetTree().Quit(1);
+                RequestApplicationQuit(1);
                 return;
             }
         }
@@ -815,7 +818,7 @@ public sealed partial class Main : Node3D
             {
                 GD.PushError(exception.ToString());
                 _shutdownStarted = true;
-                GetTree().Quit(1);
+                RequestApplicationQuit(1);
                 return;
             }
         }
@@ -829,7 +832,7 @@ public sealed partial class Main : Node3D
             {
                 GD.PushError(exception.ToString());
                 _shutdownStarted = true;
-                GetTree().Quit(1);
+                RequestApplicationQuit(1);
                 return;
             }
         }
@@ -843,7 +846,7 @@ public sealed partial class Main : Node3D
             {
                 GD.PushError(exception.ToString());
                 _shutdownStarted = true;
-                GetTree().Quit(1);
+                RequestApplicationQuit(1);
                 return;
             }
         }
@@ -857,7 +860,7 @@ public sealed partial class Main : Node3D
             {
                 GD.PushError(exception.ToString());
                 _shutdownStarted = true;
-                GetTree().Quit(1);
+                RequestApplicationQuit(1);
                 return;
             }
         }
@@ -871,7 +874,7 @@ public sealed partial class Main : Node3D
             {
                 GD.PushError(exception.ToString());
                 _shutdownStarted = true;
-                GetTree().Quit(1);
+                RequestApplicationQuit(1);
                 return;
             }
         }
@@ -889,7 +892,7 @@ public sealed partial class Main : Node3D
             {
                 GD.PushError(exception.ToString());
                 _shutdownStarted = true;
-                GetTree().Quit(1);
+                RequestApplicationQuit(1);
                 return;
             }
         }
@@ -952,7 +955,7 @@ public sealed partial class Main : Node3D
         {
             GD.PushError(exception.ToString());
             _shutdownStarted = true;
-            GetTree().Quit(1);
+            RequestApplicationQuit(1);
         }
     }
 
@@ -961,6 +964,43 @@ public sealed partial class Main : Node3D
         if (_telemetry is not null)
         {
             _telemetry.DisposeAsync().AsTask().GetAwaiter().GetResult();
+        }
+    }
+
+    public override void _Notification(int what)
+    {
+        if (what == NotificationWMCloseRequest)
+        {
+            RequestApplicationQuit();
+        }
+    }
+
+    private void RequestApplicationQuit(int exitCode = 0)
+    {
+        _shutdownStarted = true;
+        var probe = OS.GetCmdlineUserArgs().Contains("--managed-shutdown-probe", StringComparer.Ordinal);
+        var completion = _runtimeShutdown.Request(this, StopRuntimeProducersAsync, exitCode, probe);
+        if (probe)
+        {
+            var repeated = _runtimeShutdown.Request(this, StopRuntimeProducersAsync, exitCode, probe);
+            if (!ReferenceEquals(completion, repeated))
+            {
+                throw new InvalidOperationException("Repeated shutdown request started another teardown.");
+            }
+        }
+    }
+
+    private async Task StopRuntimeProducersAsync()
+    {
+        if (_streamer is not null)
+        {
+            await _streamer.StopPendingReadsAsync();
+        }
+        if (_telemetry is not null)
+        {
+            var telemetry = _telemetry;
+            _telemetry = null!;
+            await telemetry.DisposeAsync();
         }
     }
 
@@ -1823,7 +1863,7 @@ public sealed partial class Main : Node3D
         if (!_transportProbe.IsCompletedSuccessfully)
         {
             GD.PushError($"Packaged route transport probe failed: {_transportProbe.Exception?.GetBaseException()}");
-            GetTree().Quit(1);
+            RequestApplicationQuit(1);
             return false;
         }
         var result = _transportProbe.Result;
@@ -1962,7 +2002,7 @@ public sealed partial class Main : Node3D
                     $"visual_chunks={_streamer.LoadedChunkCount} " +
                     $"collision_chunks={_streamer.CollisionChunkCount} " +
                     $"content_source=packaged");
-                GetTree().Quit();
+                RequestApplicationQuit();
             }
         }
         catch (Exception exception)
@@ -1970,7 +2010,7 @@ public sealed partial class Main : Node3D
             GD.PushError(exception.ToString());
             if (quitAfterSave)
             {
-                GetTree().Quit(1);
+                RequestApplicationQuit(1);
             }
         }
     }

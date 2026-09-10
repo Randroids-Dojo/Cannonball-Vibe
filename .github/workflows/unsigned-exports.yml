@@ -117,6 +117,7 @@ jobs:
           path: artifact
           digest-mismatch: error
       - name: Verify and launch package
+        timeout-minutes: 7
         shell: bash
         run: |
           cd artifact
@@ -124,4 +125,39 @@ jobs:
           archive="$(find . -maxdepth 1 -name '*.zip' -print -quit)"
           unzip -q "$archive" -d unpacked
           package_root="unpacked/Cannonball-${{ matrix.target }}-x86_64"
-          bash "$package_root/verification/verify-package.sh" "$package_root" --smoke
+          evidence="$RUNNER_TEMP/package-smoke"
+          mkdir -p "$evidence"
+          printf '{"required":10,"completed":0,"status":"in_progress"}\n' >"$evidence/summary.json"
+          for attempt in {1..10}; do
+            export CANNONBALL_RELEASE_SMOKE_LOG_FILE="$evidence/attempt-$attempt.runtime.log"
+            if [[ "${{ matrix.target }}" == linux ]]; then
+              # Native faults can occur before release stdout is flushed.
+              # Retain stack reports/diagnostics; raw memory dumps stay local.
+              export DOTNET_DbgEnableMiniDump=1 DOTNET_DbgMiniDumpType=1
+              export DOTNET_EnableCrashReport=1 DOTNET_CreateDumpDiagnostics=1
+              export DOTNET_DbgMiniDumpName="$evidence/attempt-$attempt.native.dmp"
+              export DOTNET_CreateDumpLogToFile="$evidence/attempt-$attempt.createdump.log"
+            fi
+            if bash "$package_root/verification/verify-package.sh" "$package_root" --smoke \
+              >"$evidence/attempt-$attempt.verifier.log" 2>&1; then
+              printf '{"required":10,"completed":%d,"status":"%s"}\n' \
+                "$attempt" "$([[ $attempt -eq 10 ]] && echo passed || echo in_progress)" >"$evidence/summary.json"
+              echo "Package smoke $attempt/10 passed"
+            else
+              cat "$evidence/attempt-$attempt.verifier.log"
+              printf '{"required":10,"completed":%d,"failed_attempt":%d,"status":"failed"}\n' \
+                "$((attempt - 1))" "$attempt" >"$evidence/summary.json"
+              exit 1
+            fi
+          done
+      - name: Retain native shutdown smoke evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: package-smoke-${{ matrix.target }}-${{ github.sha }}
+          path: |
+            ${{ runner.temp }}/package-smoke/*.log
+            ${{ runner.temp }}/package-smoke/*.json
+            ${{ runner.temp }}/package-smoke/*.jsonl
+          if-no-files-found: warn
+          retention-days: 14

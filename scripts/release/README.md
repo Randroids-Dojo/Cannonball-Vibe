@@ -22,6 +22,14 @@ The clean-machine jobs download only this ZIP and checksum sidecar, verify the
 payload, then launch it with a hostile `--playgodot` argument to prove release
 automation is absent.
 
+Each native CI job requires ten consecutive smoke passes with fresh runtime
+homes and stops on the first failure. Runtime and verifier transcripts plus a
+completed-count summary are uploaded even after failure. For a local retained
+transcript, set `CANNONBALL_RELEASE_SMOKE_LOG_FILE` to a path outside the package
+when invoking `verify-package.sh ... --smoke`; package-contained paths are rejected.
+Functional success markers must be followed by clean process termination and no
+fatal/error output. Windows console-wrapper status alone does not prove that.
+
 ## Immutable promotion and rollback
 
 Artifacts are named with the SHA-256 of their bytes and uploads use
