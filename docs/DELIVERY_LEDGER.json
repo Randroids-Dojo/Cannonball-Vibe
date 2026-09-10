@@ -2347,6 +2347,90 @@
       ],
       "human_gate": null,
       "notes": "Completed fix-forward repair for red-main #140. Implementation d42c23c merged by auto-squash PR #142 as25f64ec. Bounded asynchronous managed shutdown stops producers and drains finalizers while native servers remain alive; the 32-wrapper probe is required in both M0 jobs. Exact ExportRelease negative-control replay differs only in Cannonball.dll across205files, fails without the drain, passes with it, and reproduces both DLL hashes. Local Windows exports are byte-identical across two builds; ten fresh-home strict package smokes pass with no retries. Candidate and main each pass ten native smokes on both Linux and Windows; every transcript was independently inspected. Main CI, assets and exports passed and the watcher automatically closed #140 at2026-09-10T21:29:49Z. PR #143 adds the mandatory completed-shutdown marker and final evidence; its exact57c94df front door passed13/13 steps. Original native AccessViolation stack remains locally unreproduced; controlled backlog evidence is distinct. Native window-close UI was unavailable and is not claimed. No human gate applies. Existing Hero GT and starter speed policies are unchanged."
+    },
+    {
+      "id": "P1-018",
+      "milestone": "M5",
+      "priority": "P1",
+      "title": "Original four-door endurance performance sedan",
+      "status": "in_progress",
+      "owner": "Vehicle production lead with research, runtime and independent QA agents",
+      "dependencies": [
+        "P1-002",
+        "P0-017",
+        "P0-019",
+        "P0-025"
+      ],
+      "owned_paths": [
+        "tools/vehicles/endurance_sedan/",
+        "tools/vehicles/create_endurance_sedan.py",
+        "tools/vehicles/validate_and_export_endurance_sedan.py",
+        "tools/vehicles/validate_import.gd",
+        "tools/vehicles/pack_imported_scene.gd",
+        "tools/vehicles/generate_manifest.mjs",
+        "tools/vehicles/vehicle_contract.json",
+        "data/assets/vehicles/sources/endurance-sedan.blend",
+        "data/assets/vehicles/derived/endurance-sedan.glb",
+        "data/assets/vehicles/endurance-sedan*",
+        "assets/vehicles/endurance-sedan/",
+        "game/Vehicle/",
+        "game/Automation/VehicleVisualScenario.cs",
+        "game/Automation/EnduranceSedanScenario.cs",
+        "game/Main.cs",
+        "game/UI/",
+        "scripts/verify-vehicle-asset.sh",
+        "scripts/verify-endurance-sedan.sh",
+        "scripts/capture-endurance-sedan.sh",
+        "tests/",
+        "docs/vehicles/endurance-sedan/",
+        "docs/decisions/",
+        "docs/OPEN_QUESTIONS.md",
+        "docs/TECH_STACK.md",
+        "README.md",
+        "docs/DELIVERY_LEDGER.json",
+        "evidence/M5/P1-018.json"
+      ],
+      "generated_outputs": [
+        "data/assets/vehicles/sources/endurance-sedan.blend",
+        "data/assets/vehicles/derived/endurance-sedan.glb",
+        "data/assets/vehicles/endurance-sedan.blender.json",
+        "data/assets/vehicles/endurance-sedan.godot.json",
+        "data/assets/vehicles/endurance-sedan.asset.json",
+        "assets/vehicles/endurance-sedan/",
+        "reports/p1-018/"
+      ],
+      "acceptance": [
+        "Referenced exact-year/market/trim engineering comparison, original-design rationale, confidence-tagged locked dimensions and feature matrix precede detailed surfaces; source uncertainty is separate from modeling tolerance",
+        "Fresh editable Blender source and early imported blockout prove scale, coordinates, wheel/contact/camera anchors, acceleration/braking/steering/reverse/collision/reset/cameras/rebase/save-resume using shared custom four-raycast physics; Hero GT and graybox regressions pass",
+        "Production original black sedan has four separate doors, hood/trunk, continuous exterior, complete front/rear cabin, wheels/brakes/lamps/glazing/seals and visible engine/trunk/underbody assemblies with inspection clearances",
+        "Keyboard/controller input, wheel/pedal/steering animations, complete lights/signals/hazards, state-driven instruments, wipers, measured mirrors and accessible opening controls function in exported Godot wrapper",
+        "Pinned Blender5.1.2 and official Godot4.7.1 pipeline validates evaluated topology, UV/material portability, semantic nodes, LODs, collision policy, dimensions and full animated clearances; every shipping byte matches two exports and final source reopens with a clean import",
+        "Geometry/material/texture/collision costs satisfy the shared contract; unratified allocations are explicit governance proposals; actual1440p performance and memory evidence is compared to ADR0023 without relaxing its limits",
+        "Independent QA inspects actual fixed-camera views, closeups, five lighting conditions, complete turntable/interior inspection and real runtime footage covering all required driving/interactions/LODs; substantive defects are corrected and confirming evidence retained",
+        "Full scripts/check.sh plus declared vehicle/asset/runtime/platform gates pass; structured evidence includes exact revisions, tool versions, hashes, commands/statuses, metrics, failures/retries and human approvals or null",
+        "Human visual/rights, driving enjoyment, controller/physical wheel feel and usability/accessibility gates remain explicit; ledger completes only when all applicable human gates and machine criteria pass"
+      ],
+      "verification": [
+        "./scripts/check.sh",
+        "./scripts/verify-vehicle-asset.sh --vehicle endurance-sedan --all-lods",
+        "./scripts/verify-vehicle-asset.sh --vehicle hero-gt --all-lods",
+        "./scripts/verify-endurance-sedan.sh",
+        "./scripts/capture-endurance-sedan.sh"
+      ],
+      "evidence": [
+        "evidence/M5/P1-018.json",
+        "docs/vehicles/endurance-sedan/research.md",
+        "docs/vehicles/endurance-sedan/specification.json",
+        "docs/vehicles/endurance-sedan/acceptance.json",
+        "docs/vehicles/endurance-sedan/defects.json"
+      ],
+      "human_gate": {
+        "name": "Sedan art direction, source/asset rights, driving feel and usability review",
+        "required_for": "M5",
+        "status": "pending",
+        "approval_reference": null
+      },
+      "notes": "Owner requested complete new black four-door Cannonball endurance sedan on2026-09-10. Mainline health repaired first by P0-025; watcher closed140 automatically. Claim-first scope only: no sedan implementation at initial commit. Root alone authors authoritative Blender scene and exports. Research agent owns referenced dossier and proposed dimension records; runtime agent owns agreed adapter/wrapper/verification source paths; QA agent owns independent defect observations and evidence under reports/p1-018/qa. Root owns shared contracts, governance and evidence. Existing Hero GT geometry/source and unrelated work are preserved. P1-008/P1-013 remain in progress: this task explicitly consumes their existing shared adapter and representative-corridor fixture without claiming their art/rights/budget approval. Researched car performance is separated from unchanged125mph starter and HighSpeedValidation policies. Engine-bay geometry does not claim mechanical simulation. New presentation interactions and provisional mirror costs will be scoped before implementation under ADR0012/0023."
     }
   ]
 }
