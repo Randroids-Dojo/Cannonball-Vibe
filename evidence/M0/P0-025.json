@@ -4,8 +4,8 @@
   "milestone": "M0",
   "git_revision": "d42c23c54255167e0fdf7f3d5439d156ba9f570d",
   "platform": "Windows x86_64",
-  "utc": "2026-09-10T21:20:25.300829+00:00",
-  "status": "in_progress",
+  "utc": "2026-09-10T21:31:58.080747+00:00",
+  "status": "complete",
   "claim": "https://github.com/Randroids-Dojo/Cannonball-Vibe/pull/142",
   "trigger": "https://github.com/Randroids-Dojo/Cannonball-Vibe/issues/140",
   "human_gate_approval": null,
@@ -108,6 +108,26 @@
       "command": "node22.22.1 --test scripts/release/smoke.test.mjs (require shutdown completion)",
       "exit_status": 0,
       "result": "4 verifier fixtures passed"
+    },
+    {
+      "command": "10 consecutive verify-package.sh <locked-windows-package> --smoke; then integrity recheck",
+      "exit_status": 0,
+      "result": "10/10 passed without retries; all shutdown markers present; package unchanged"
+    },
+    {
+      "command": "reproduce-negative-control.ps1; run negative and corrected package probes",
+      "exit_status": 0,
+      "result": "Rebuilt hashes identical; negative process 1 expected, corrected 0; only Cannonball.dll differs"
+    },
+    {
+      "command": "updated scripts/release/smoke.mjs <unchanged-locked-package>",
+      "exit_status": 0,
+      "result": "Tightened completed-shutdown requirement passes"
+    },
+    {
+      "command": "GODOT_BIN=<official 4.7.1 mono> ./scripts/check.sh (57c94df)",
+      "exit_status": 0,
+      "result": "All 13 steps passed, including four verifier fixtures and 32-wrapper shutdown probe"
     }
   ],
   "metrics": {
@@ -185,7 +205,197 @@
       "native_cause_identified": false,
       "buffered_stdout_confirmed": true,
       "details": "reports/p0-025/linux-diagnosis/diagnosis.json"
-    }
+    },
+    "locked_negative_control": {
+      "removed": "only the five-line finalizer-drain loop",
+      "source_revision": "d42c23c54255167e0fdf7f3d5439d156ba9f570d",
+      "hashed_source_inputs": 99,
+      "package_files_compared": 205,
+      "changed_package_files": [
+        "data_Cannonball_windows_x86_64/Cannonball.dll"
+      ],
+      "negative_dll_sha256": "74c71c0329ccb4bc51267cf48d364c0c6546bf28be945f5edda72d028b0f2056",
+      "corrected_dll_sha256": "a8ece3a63958350792618997e5dd2add4c5952a91542369deff09fcb8bb06586",
+      "negative_exit_status": 1,
+      "negative_pending_wrappers": 32,
+      "corrected_exit_status": 0,
+      "corrected_finalized_wrappers": 32,
+      "corrected_shutdown_ms": 1556.495,
+      "clean_replay_reproduced_both_dll_hashes": true,
+      "source_package_unchanged": true,
+      "details": "reports/p0-025/negative-control/summary.json"
+    },
+    "final_windows_smokes": {
+      "required": 10,
+      "completed": 10,
+      "passed": 10,
+      "retries": 0,
+      "shutdown_marker_present": 10,
+      "shutdown_ms_range": [
+        52.131,
+        60.416
+      ],
+      "final_package_integrity_passed": true,
+      "archive_unchanged": true,
+      "details": "reports/p0-025/final-windows-smoke/summary.json"
+    },
+    "tightened_verifier_native_check": {
+      "exit_status": 0,
+      "elapsed_ms": 3889.2989,
+      "verifier_sha256": "0d05f96cf923103ccce5559a8233244492911d52a89b20c342de7b7abd398304",
+      "same_locked_package": true,
+      "details": "reports/p0-025/final-windows-smoke/tightened-source-verifier.json"
+    },
+    "followup_local_m0": {
+      "revision": "57c94dfe484833a97d8ff884d5958bc8fd894f00",
+      "summary": {
+        "schema_version": 1,
+        "status": "passed",
+        "platform": "MINGW64_NT-10.0-26200",
+        "commit": "57c94dfe484833a97d8ff884d5958bc8fd894f00",
+        "started_at": "2026-09-10T21:26:04Z",
+        "finished_at": "2026-09-10T21:29:21Z",
+        "steps": [
+          {
+            "name": "doctor",
+            "status": "passed",
+            "exit_code": 0,
+            "log": "logs/doctor.log"
+          },
+          {
+            "name": "dotnet-build",
+            "status": "passed",
+            "exit_code": 0,
+            "log": "logs/dotnet-build.log"
+          },
+          {
+            "name": "dotnet-test",
+            "status": "passed",
+            "exit_code": 0,
+            "log": "logs/dotnet-test.log"
+          },
+          {
+            "name": "ruff",
+            "status": "passed",
+            "exit_code": 0,
+            "log": "logs/ruff.log"
+          },
+          {
+            "name": "frame-allocations",
+            "status": "passed",
+            "exit_code": 0,
+            "log": "logs/frame-allocations.log"
+          },
+          {
+            "name": "continental-route",
+            "status": "passed",
+            "exit_code": 0,
+            "log": "logs/continental-route.log"
+          },
+          {
+            "name": "pytest-map-pipeline",
+            "status": "passed",
+            "exit_code": 0,
+            "log": "logs/pytest-map-pipeline.log"
+          },
+          {
+            "name": "pytest-playgodot-unit",
+            "status": "passed",
+            "exit_code": 0,
+            "log": "logs/pytest-playgodot-unit.log"
+          },
+          {
+            "name": "release-smoke-unit",
+            "status": "passed",
+            "exit_code": 0,
+            "log": "logs/release-smoke-unit.log"
+          },
+          {
+            "name": "godot-smoke",
+            "status": "passed",
+            "exit_code": 0,
+            "log": "logs/godot-smoke.log"
+          },
+          {
+            "name": "managed-shutdown",
+            "status": "passed",
+            "exit_code": 0,
+            "log": "logs/managed-shutdown.log"
+          },
+          {
+            "name": "camera-interpolation",
+            "status": "passed",
+            "exit_code": 0,
+            "log": "logs/camera-interpolation.log"
+          },
+          {
+            "name": "starter-speed",
+            "status": "passed",
+            "exit_code": 0,
+            "log": "logs/starter-speed.log"
+          }
+        ]
+      },
+      "local_evidence_root": "C:\\Dev\\Cannonball-Vibe-p0-025-evidence"
+    },
+    "ci_native_smokes": [
+      {
+        "group": "candidate",
+        "platform": "windows",
+        "artifact_id": 10173681911,
+        "source_revision": "d42c23c54255167e0fdf7f3d5439d156ba9f570d",
+        "artifact_name": "package-smoke-windows-6890cabcba3d7ff3303c7e8cf7ad222c5a7a74ae",
+        "artifact_zip_sha256": "744c3035136f4a2a77c28b954e68a7ded2a2b91036f99bed9ab41456b2393661",
+        "summary": {
+          "required": 10,
+          "completed": 10,
+          "status": "passed"
+        },
+        "passed": true
+      },
+      {
+        "group": "candidate",
+        "platform": "linux",
+        "artifact_id": 10173559499,
+        "source_revision": "d42c23c54255167e0fdf7f3d5439d156ba9f570d",
+        "artifact_name": "package-smoke-linux-6890cabcba3d7ff3303c7e8cf7ad222c5a7a74ae",
+        "artifact_zip_sha256": "5205b70151b95c6602ad3854788a4e20494dd046543e987ccd118c6ea90d79db",
+        "summary": {
+          "required": 10,
+          "completed": 10,
+          "status": "passed"
+        },
+        "passed": true
+      },
+      {
+        "group": "main",
+        "platform": "windows",
+        "artifact_id": 10174040777,
+        "source_revision": "25f64ecb2de468f1651b67cde2eb9b58a07dbae4",
+        "artifact_name": "package-smoke-windows-25f64ecb2de468f1651b67cde2eb9b58a07dbae4",
+        "artifact_zip_sha256": "3234e72a543399261c621ea3fdb1d2eee0a7614402a3b106bb9db779de078ff4",
+        "summary": {
+          "required": 10,
+          "completed": 10,
+          "status": "passed"
+        },
+        "passed": true
+      },
+      {
+        "group": "main",
+        "platform": "linux",
+        "artifact_id": 10173929910,
+        "source_revision": "25f64ecb2de468f1651b67cde2eb9b58a07dbae4",
+        "artifact_name": "package-smoke-linux-25f64ecb2de468f1651b67cde2eb9b58a07dbae4",
+        "artifact_zip_sha256": "687d6e388002fcdc3c145c48dd74246ace36f0439dfcf6daeb99e7e47884e0b2",
+        "summary": {
+          "required": 10,
+          "completed": 10,
+          "status": "passed"
+        },
+        "passed": true
+      }
+    ]
   },
   "failure_logs": [
     {
@@ -264,20 +474,76 @@
       "path": "reports/p0-025/linux-diagnosis/diagnosis.json",
       "sha256": "e88b5c3c0e8c3bab8f52e9bd345c1dfd503c0b6d6c01731f8ec07b1209aab985",
       "bytes": 19170
+    },
+    {
+      "path": "reports/p0-025/negative-control/summary.json",
+      "sha256": "27bfe3477403e631e8b7e8367e3d670e960ed6646d67e886cb40e212792f366f",
+      "bytes": 19208
+    },
+    {
+      "path": "reports/p0-025/negative-control/build-inputs.json",
+      "sha256": "5ce47cb87418bf133cde74759b0dea4957e24405bb029ce0506ec26b867dc62e",
+      "bytes": 23056
+    },
+    {
+      "path": "reports/p0-025/negative-control/package-comparison.json",
+      "sha256": "5295056a81c23cc9943e75dff61a53ce8e5cec01deb8f92f63ee797d0fb56810",
+      "bytes": 78591
+    },
+    {
+      "path": "reports/p0-025/negative-control/remove-drain-loop.patch",
+      "sha256": "9f6507c8308be6f2e6654885c28267763fe74939cd8efbca6032383d2b83136f",
+      "bytes": 796
+    },
+    {
+      "path": "reports/p0-025/final-windows-smoke/summary.json",
+      "sha256": "5b7026238eec54f130ce421635c8c5474979072f0934898ee5c78cbcad515ca7",
+      "bytes": 21606
+    },
+    {
+      "path": "reports/p0-025/final-windows-smoke/shutdown-marker-review.json",
+      "sha256": "629517d7942b2c1b121e112fd9eab2d4f54ae809fec36dd9c32bd785e2780521",
+      "bytes": 3339
+    },
+    {
+      "path": "reports/p0-025/final-windows-smoke/tightened-source-verifier.json",
+      "sha256": "6a71ce39aa40b10e1563cc1840b059fa3954b951bc060e0fbbc573ee1b2f3bf2",
+      "bytes": 5902
+    },
+    {
+      "path": "C:\\Dev\\Cannonball-Vibe-p0-025-evidence\\reports\\m0\\summary.json",
+      "sha256": "111fa965fbaebffc3528d13cf7bf82db5679966955e65bd6ddec386cd555ec7f",
+      "bytes": 1482
+    },
+    {
+      "path": "C:\\Dev\\Cannonball-Vibe-p0-025-evidence\\reports\\m0\\doctor.json",
+      "sha256": "33cb1935e7bc974bbc4cc89452ab1f85a6648768cd2301f08b7df88be56e1dca",
+      "bytes": 545
+    },
+    {
+      "path": "C:\\Dev\\Cannonball-Vibe-p0-025-evidence\\reports\\p0-025\\full-m0.log",
+      "sha256": "e90828ce36b8b27f44d3b8254b35359061d183df8c6de2a956e074117c6f1702",
+      "bytes": 13774
+    },
+    {
+      "path": "C:\\Dev\\Cannonball-Vibe-p0-025-evidence\\reports\\p0-025\\verifier-unit.log",
+      "sha256": "032aa35f70b51f475d61d660018ddb558feefa4a30317828ac4d8fd91309748e",
+      "bytes": 1882
+    },
+    {
+      "path": "reports/p0-025/ci-candidate/log-review.json",
+      "sha256": "fceaa6d9ff77e86801932fb4ca967d77eb23e0cef6352076dcb8f91167b70822",
+      "bytes": 64465
     }
   ],
   "retry_count": 0,
-  "recovery_result": "investigation in progress; no retry-to-green",
-  "remaining": [
-    "final native Windows smoke and complete remote checks",
-    "mainline health recovery",
-    "native window-close QA unavailable"
-  ],
+  "recovery_result": "Main25f64ec CI, assets and exports passed; watcher34532478891 automatically closed red-main140 at2026-09-10T21:29:49Z; no retry-to-green",
+  "remaining": [],
   "limits": [
     "Exact native AccessViolation not reproduced locally; induced backlog errors/leaks are distinct",
     "Linux release stdout buffering prevents startup attribution from missing readiness messages",
-    "Negative experimental DLL was replaced and has no retained input hash; original archive preserved",
-    "Computer Use native pipe unavailable; hidden window close attempt is not a verified actual close"
+    "Computer Use native pipe unavailable; hidden window close attempt is not a verified actual close",
+    "Earlier exploratory DLL lacked a retained hash; superseded by the exact ExportRelease negative-control replay with both DLLs and 99 source input hashes retained"
   ],
   "implementation_inputs": [
     {
@@ -324,5 +590,161 @@
       "path": ".github/workflows/unsigned-exports.yml",
       "sha256": "3fde4406bab0462f3733cecaf6997da2fef27b296f965427a57d42ffb7a019e6"
     }
-  ]
+  ],
+  "local_evidence_root": "C:\\Dev\\Cannonball-Vibe-p0-025",
+  "followup_revision": "57c94dfe484833a97d8ff884d5958bc8fd894f00",
+  "followup_claim": "https://github.com/Randroids-Dojo/Cannonball-Vibe/pull/143",
+  "implementation_merge": {
+    "revision": "25f64ecb2de468f1651b67cde2eb9b58a07dbae4",
+    "utc": "2026-09-10T21:19:12Z",
+    "pull_request": 142
+  },
+  "followup_inputs": [
+    {
+      "path": "scripts/release/smoke.mjs",
+      "sha256": "0d05f96cf923103ccce5559a8233244492911d52a89b20c342de7b7abd398304"
+    },
+    {
+      "path": "scripts/release/smoke.test.mjs",
+      "sha256": "3923aa2ff14a3735ed6d842e416f15bb4fffd9a0d1c2b4c634c4a4d5dafddfa5"
+    }
+  ],
+  "remote_runs": {
+    "candidate_exports": {
+      "id": 34530441904,
+      "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34530441904",
+      "revision": "d42c23c54255167e0fdf7f3d5439d156ba9f570d",
+      "status": "completed",
+      "conclusion": "success",
+      "jobs": [
+        {
+          "name": "Build reproducible fixture exports",
+          "conclusion": "success",
+          "status": "completed",
+          "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34530441904/job/103049583257"
+        },
+        {
+          "name": "Clean-machine smoke (linux)",
+          "conclusion": "success",
+          "status": "completed",
+          "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34530441904/job/103051898975"
+        },
+        {
+          "name": "Clean-machine smoke (windows)",
+          "conclusion": "success",
+          "status": "completed",
+          "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34530441904/job/103051899074"
+        }
+      ]
+    },
+    "main_ci": {
+      "id": 34531521115,
+      "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34531521115",
+      "revision": "25f64ecb2de468f1651b67cde2eb9b58a07dbae4",
+      "status": "completed",
+      "conclusion": "success",
+      "jobs": [
+        {
+          "name": "PlayGodot semantic UI (ubuntu-latest)",
+          "conclusion": "success",
+          "status": "completed",
+          "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34531521115/job/103053112986"
+        },
+        {
+          "name": "M0 (ubuntu-latest)",
+          "conclusion": "success",
+          "status": "completed",
+          "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34531521115/job/103053113145"
+        },
+        {
+          "name": "PlayGodot semantic UI (macos-latest)",
+          "conclusion": "success",
+          "status": "completed",
+          "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34531521115/job/103053113154"
+        },
+        {
+          "name": "Deterministic 500-mile (ubuntu-latest)",
+          "conclusion": "success",
+          "status": "completed",
+          "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34531521115/job/103053113181"
+        },
+        {
+          "name": "PlayGodot semantic UI (windows-latest)",
+          "conclusion": "success",
+          "status": "completed",
+          "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34531521115/job/103053113237"
+        },
+        {
+          "name": "M0 (windows-latest)",
+          "conclusion": "success",
+          "status": "completed",
+          "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34531521115/job/103053113274"
+        },
+        {
+          "name": "Deterministic 500-mile (windows-latest)",
+          "conclusion": "success",
+          "status": "completed",
+          "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34531521115/job/103053113315"
+        }
+      ]
+    },
+    "main_exports": {
+      "id": 34531521188,
+      "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34531521188",
+      "revision": "25f64ecb2de468f1651b67cde2eb9b58a07dbae4",
+      "status": "completed",
+      "conclusion": "success",
+      "jobs": [
+        {
+          "name": "Build reproducible fixture exports",
+          "conclusion": "success",
+          "status": "completed",
+          "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34531521188/job/103053113272"
+        },
+        {
+          "name": "Clean-machine smoke (windows)",
+          "conclusion": "success",
+          "status": "completed",
+          "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34531521188/job/103055049143"
+        },
+        {
+          "name": "Clean-machine smoke (linux)",
+          "conclusion": "success",
+          "status": "completed",
+          "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34531521188/job/103055049175"
+        }
+      ]
+    },
+    "main_assets": {
+      "id": 34531521060,
+      "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34531521060",
+      "revision": "25f64ecb2de468f1651b67cde2eb9b58a07dbae4",
+      "status": "completed",
+      "conclusion": "success",
+      "jobs": [
+        {
+          "name": "Blender and Godot asset pipeline",
+          "conclusion": "success",
+          "status": "completed",
+          "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34531521060/job/103053119281"
+        }
+      ]
+    }
+  },
+  "mainline_health": {
+    "run": {
+      "id": 34532478891,
+      "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34532478891",
+      "status": "completed",
+      "conclusion": "success",
+      "metadata_path": "C:\\Dev\\Cannonball-Vibe-p0-025\\reports\\p0-025\\ci-candidate\\metadata\\2026-09-10T21-30-46-676Z\\latest-mainline-health.json",
+      "metadata_sha256": "87fe82ecd696ad09fd7fdee92f1b416ae4ec3fcd571145be8c19ef53d8005ee7"
+    },
+    "issue": {
+      "number": 140,
+      "state": "CLOSED",
+      "closed_at": "2026-09-10T21:29:49Z"
+    },
+    "open_red_main": []
+  }
 }

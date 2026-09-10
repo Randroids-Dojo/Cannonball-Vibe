@@ -122,3 +122,49 @@ Candidate export run `34530441904` passed ten Linux native smokes. Its synthetic
 merge `6890cabcba3d7ff3303c7e8cf7ad222c5a7a74ae` has the identical source tree
 `6ae4a7d98bbd87af5e0382117ae06640e62e210c` as implementation `d42c23c`.
 Windows/native final checks and mainline recovery remain pending.
+
+
+## Final package and controlled replay
+
+Implementation PR #142 merged through auto-squash as `25f64ecb` at
+2026-09-10T21:19:12Z. PR #143 retains the final repair evidence and makes the
+completed shutdown marker mandatory in every packaged smoke.
+
+The final Windows archive passed ten consecutive strict, fresh-home smokes with
+zero retries. Every transcript contains the completed two-drain shutdown marker;
+shutdown took 52.131-60.416 ms. Package integrity passed again afterward. The
+updated source verifier also passed against that same unchanged package.
+
+The final negative control now supersedes the exploratory unretained DLL. A
+recorded patch removes only the five-line drain loop at `d42c23c`, using exactly
+the final ExportRelease/win-x64 publish settings. Across 205 package files, only
+`Cannonball.dll` differs. The negative probe exits 1 with 32 pending wrappers and
+leak diagnostics; the corrected probe exits 0 with 32 finalized wrappers in
+1556.495 ms. A second fresh checkout reproduced both DLL hashes exactly. The
+corrected DLL also equals the final package DLL. All 99 input hashes, the patch,
+commands, package comparison and transcripts are retained under
+`reports/p0-025/negative-control/`. This proves the lifetime regression scenario;
+it does not claim to reproduce the original native AccessViolation stack.
+
+Local retained artifacts in this audit resolve against
+`C:/Dev/Cannonball-Vibe-p0-025`; the final followup front-door run resolves against
+`C:/Dev/Cannonball-Vibe-p0-025-evidence`. Structured records include output hashes.
+
+
+## Recovery confirmed
+
+The followup front door at exact `57c94df` passed all 13 steps from
+2026-09-10T21:26:04Z to 21:29:21Z. Independently inspected candidate and main
+artifacts each passed ten native package smokes on Linux and ten on Windows;
+all 40 transcripts contain every functional and completed-shutdown marker with
+no fatal, error, warning or leak diagnostics. Candidate `d42c23c`, synthetic merge
+`6890cabc` and main `25f64ecb` have identical source trees.
+
+Main [CI 34531521115](https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34531521115),
+[assets 34531521060](https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34531521060)
+and [exports 34531521188](https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34531521188)
+passed. [Health 34532478891](https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34532478891)
+automatically closed issue #140 at 2026-09-10T21:29:49Z. No open red-main issue
+remains. The final retained audit is `reports/p0-025/ci-candidate/log-review.json`.
+P0-025 is complete; the original sedan request may resume. The actual native
+window-close limitation and exact-crash reproduction boundary above remain.
