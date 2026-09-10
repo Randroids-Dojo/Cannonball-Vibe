@@ -12,6 +12,7 @@ const successOutput = [
   "content_version=smoke-fixture",
   "CANNONBALL_SAVE_OK",
   "CANNONBALL_SMOKE_OK",
+  "CANNONBALL_SHUTDOWN_OK drains=2 producers_stopped=true elapsed_ms=10.000",
 ].join("\n");
 
 function runFixture(t, output, exitCode = 0) {
@@ -65,4 +66,12 @@ test("a native fatal error after success markers fails even when the launcher ex
 test("a nonzero runtime exit fails despite every success marker", (t) => {
   const result = runFixture(t, successOutput, 7);
   assert.equal(result.status, 1, result.stderr);
+});
+
+test("gameplay markers without completed managed shutdown fail", (t) => {
+  const output = successOutput.split("\n").filter((line) => !line.startsWith("CANNONBALL_SHUTDOWN_OK")).join("\n");
+  const result = runFixture(t, output);
+  assert.equal(result.status, 1, result.stderr);
+  const failure = JSON.parse(result.stderr.trim().split("\n").at(-1));
+  assert.deepEqual(failure.missing, ["CANNONBALL_SHUTDOWN_OK drains=2 producers_stopped=true"]);
 });

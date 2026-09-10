@@ -102,3 +102,23 @@ separate claims.
 Implementation, exact revision checks and recovery evidence remain in progress.
 No human gate applies to this bounded repair. No sedan work or human approval is
 claimed by this audit.
+
+
+## Locked implementation verification
+
+At `d42c23c`, the complete local front door passed all 13 steps: 157 Core tests,
+345 map tests (one existing skip), protocol/verifier fixtures, the induced finalizer
+scenario, camera interpolation and all 13 starter-speed cases. The finalizer
+scenario finalized 32/32 wrappers and recorded 1543.203 ms shutdown without native
+diagnostics. The later marker-only verifier addition passes four unit fixtures and
+requires the ordinary package to report completed managed shutdown as well.
+
+The first local export could not find .NET templates. Installing the exact pinned
+archive corrected that machine dependency. Two Windows builds then compared every
+packaged byte and produced the same ZIP SHA-256:
+`695c7746a7e2a11db3bf1a942fc367b22d975c4d74f2b95f9c0c375850e23021`.
+
+Candidate export run `34530441904` passed ten Linux native smokes. Its synthetic
+merge `6890cabcba3d7ff3303c7e8cf7ad222c5a7a74ae` has the identical source tree
+`6ae4a7d98bbd87af5e0382117ae06640e62e210c` as implementation `d42c23c`.
+Windows/native final checks and mainline recovery remain pending.

@@ -82,6 +82,7 @@ const required = [
   `content_version=${manifest.content.content_version}`,
   "CANNONBALL_SAVE_OK",
   "CANNONBALL_SMOKE_OK",
+  "CANNONBALL_SHUTDOWN_OK drains=2 producers_stopped=true",
 ];
 const normalizedTranscript = transcript.replace(/\x1B\[[0-?]*[ -/]*[@-~]/g, "").replace(/\r/g, "");
 const missing = required.filter((marker) => !normalizedTranscript.includes(marker));
