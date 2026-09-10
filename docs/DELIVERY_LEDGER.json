@@ -2388,7 +2388,8 @@
         "docs/TECH_STACK.md",
         "README.md",
         "docs/DELIVERY_LEDGER.json",
-        "evidence/M5/P1-018.json"
+        "evidence/M5/P1-018.json",
+        "game/Input/GameInputMap.cs"
       ],
       "generated_outputs": [
         "data/assets/vehicles/sources/endurance-sedan.blend",
@@ -2430,7 +2431,7 @@
         "status": "pending",
         "approval_reference": null
       },
-      "notes": "Owner requested complete new black four-door Cannonball endurance sedan on2026-09-10. Mainline health repaired first by P0-025; watcher closed140 automatically. Claim-first scope only: no sedan implementation at initial commit. Root alone authors authoritative Blender scene and exports. Research agent owns referenced dossier and proposed dimension records; runtime agent owns agreed adapter/wrapper/verification source paths; QA agent owns independent defect observations and evidence under reports/p1-018/qa. Root owns shared contracts, governance and evidence. Existing Hero GT geometry/source and unrelated work are preserved. P1-008/P1-013 remain in progress: this task explicitly consumes their existing shared adapter and representative-corridor fixture without claiming their art/rights/budget approval. Researched car performance is separated from unchanged125mph starter and HighSpeedValidation policies. Engine-bay geometry does not claim mechanical simulation. New presentation interactions and provisional mirror costs will be scoped before implementation under ADR0012/0023."
+      "notes": "Owner requested complete new black four-door Cannonball endurance sedan on2026-09-10. Mainline health repaired first by P0-025; watcher closed140 automatically. Claim-first scope only: no sedan implementation at initial commit. Root alone authors authoritative Blender scene and exports. Research agent owns referenced dossier and proposed dimension records; runtime agent owns agreed adapter/wrapper/verification source paths; QA agent owns independent defect observations and evidence under reports/p1-018/qa. Root owns shared contracts, governance and evidence. Existing Hero GT geometry/source and unrelated work are preserved. P1-008/P1-013 remain in progress: this task explicitly consumes their existing shared adapter and representative-corridor fixture without claiming their art/rights/budget approval. Researched car performance is separated from unchanged125mph starter and HighSpeedValidation policies. Engine-bay geometry does not claim mechanical simulation. New presentation interactions and provisional mirror costs will be scoped before implementation under ADR0012/0023. Scope addition before input implementation: F2/controllerRB inspection plus free lighting/wiper shortcuts and focused labeled controls in GameInputMap. A separate presentation-settings file persists selected vehicle without changing the authoritative save schema. Source-only D001 documentation mismatch is corrected to accepted ADR0023; Q047 retains new sedan human gates and provisional mirror allocation. Original specification v1 is locked before first blockout construction; factory uncertainty remains in the referenced dossier."
     }
   ]
 }

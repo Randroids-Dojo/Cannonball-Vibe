@@ -271,9 +271,11 @@ PSSM shadows, applied as presets by every visual scenario.
 sets the first production reference target at 2560×1440 High and a stable 60
 FPS on the declared Ryzen 9 5900X, RTX 3080 Ti 12 GB, and 64 GB Windows 11 PC.
 After warm-up, provisional gates require p95 presented-frame time at or below
-16.67 ms, p99 at or below 20 ms, no steady-driving stall above 50 ms, no more
+16.67 ms, p99 at or below 20 ms, no steady-driving stall above 20 ms, no more
 than 9.5 GB of GPU memory, no more than 16 GB of process working set, and no
-sustained positive memory growth over a 30-minute steady-state run.
+sustained memory growth over a 30-minute steady-state run (failure requires a fitted
+slope above 1 MiB/min and R-squared at least 0.5). Capped presentation uses the
+ADR cap-adherence criteria instead of the uncapped p95 limit.
 Budgets are layered across whole-scene outcomes, subsystem allocations, and
 content-class geometry, draw-call, material, texture-residency, instancing, LOD,
 and pop-in limits. Fixture thresholds remain provisional; production limits
