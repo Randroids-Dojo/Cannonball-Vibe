@@ -534,6 +534,16 @@
       "path": "reports/p0-025/ci-candidate/log-review.json",
       "sha256": "fceaa6d9ff77e86801932fb4ca967d77eb23e0cef6352076dcb8f91167b70822",
       "bytes": 64465
+    },
+    {
+      "path": "reports/p0-025/ci-candidate/verified-source-hashes.json",
+      "sha256": "1e2de9d28130d9184ec8e59bc31e4b0b2a94abb585e171e617f7222b76a1af08",
+      "bytes": 1356
+    },
+    {
+      "path": "reports/p0-025/ci-candidate/health-recovery-review.json",
+      "sha256": "e0f3495e7a22c1f06ed280346e6caf535fcba2a3899a8a178558e0056393b877",
+      "bytes": 2066
     }
   ],
   "retry_count": 0,
