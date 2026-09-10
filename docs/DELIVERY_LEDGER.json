@@ -2304,7 +2304,7 @@
       "milestone": "M0",
       "priority": "P0",
       "title": "Repair remaining Windows export finalizer crash",
-      "status": "in_progress",
+      "status": "complete",
       "owner": "Runtime + automation",
       "dependencies": [
         "P0-001",
@@ -2346,7 +2346,7 @@
         "docs/audits/2026-09-10-export-finalizer-repair.md"
       ],
       "human_gate": null,
-      "notes": "Required fix-forward repair for red-main #140 before the owner-requested original sedan. PR #141 made CI green but the current main unsigned export still crashes during GodotObject finalization after successful smoke markers. Claim only; no implementation at initial commit. Root owns governance and evidence; runtime agent owns agreed C# lifetime corrections. Preserve existing Hero GT and speed policies. Scope addition before implementation: ten fail-fast native package repetitions and persistent transcript evidence, because two prior passing exports did not exclude the intermittent shutdown failure; no threshold or fatal diagnostic is relaxed. Scope addition: claim-only native Linux export also reproduces the previously recorded early startup SIGSEGV; retain and investigate independently. The managed shutdown probe becomes a load-bearing M0 check before integration. Scope addition before launcher change: remove the independent --quit-after 1200 engine frame limit from packaged smoke only; it can trigger native teardown while asynchronous finalizer draining is still running. The existing 120-second external process watchdog remains authoritative and every functional/exit/fatal acceptance check is unchanged. Diagnostic scope addition: retain stdout/stderr receipt chronology and Linux native crash-report diagnostics on the first failing smoke. Raw process-memory dumps remain local to the CI runner; uploaded evidence is text/JSON. Release stdout buffering means a missing readiness marker cannot alone establish startup failure."
+      "notes": "Completed fix-forward repair for red-main #140. Implementation d42c23c merged by auto-squash PR #142 as25f64ec. Bounded asynchronous managed shutdown stops producers and drains finalizers while native servers remain alive; the 32-wrapper probe is required in both M0 jobs. Exact ExportRelease negative-control replay differs only in Cannonball.dll across205files, fails without the drain, passes with it, and reproduces both DLL hashes. Local Windows exports are byte-identical across two builds; ten fresh-home strict package smokes pass with no retries. Candidate and main each pass ten native smokes on both Linux and Windows; every transcript was independently inspected. Main CI, assets and exports passed and the watcher automatically closed #140 at2026-09-10T21:29:49Z. PR #143 adds the mandatory completed-shutdown marker and final evidence; its exact57c94df front door passed13/13 steps. Original native AccessViolation stack remains locally unreproduced; controlled backlog evidence is distinct. Native window-close UI was unavailable and is not claimed. No human gate applies. Existing Hero GT and starter speed policies are unchanged."
     }
   ]
 }
