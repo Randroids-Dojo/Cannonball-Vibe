@@ -58,4 +58,22 @@ if [[ "$actual_version" != "$CANNONBALL_GODOT_VERSION" ]]; then
   exit 1
 fi
 
+# The official editor host defaults to LatestMajor so its project tools can
+# load the pinned SDK's MSBuild assemblies. CI's Major override selects .NET 8
+# here, which cannot load SDK 10's System.Runtime dependency. Restore the
+# official default only for editor operations; keep native runs and app args
+# after -- on their existing host policy.
+if [[ "${DOTNET_ROLL_FORWARD:-}" == "Major" ]]; then
+  for engine_arg in "$@"; do
+    case "$engine_arg" in
+      --) break ;;
+      -e|--editor|--recovery-mode|--import|--build-solutions|--export-release|--export-debug|--export-pack|--export-patch)
+        unset DOTNET_ROLL_FORWARD
+        echo "CANNONBALL_GODOT_EDITOR_HOST roll_forward=official-default removed_override=Major" >&2
+        break
+        ;;
+    esac
+  done
+fi
+
 exec "$godot_bin" "$@"

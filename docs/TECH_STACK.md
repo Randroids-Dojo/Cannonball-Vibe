@@ -17,6 +17,11 @@ The game targets C# 12 and .NET 8 while the repository pins the available .NET
 10.0.102 SDK. Forward+ is the shipping renderer, Godot Jolt is the default
 physics backend, and the physics loop runs at 120 Hz.
 
+The shared Godot wrapper preserves the official editor host selection for
+editor/import/export operations while keeping native game and test host
+settings. Evidence records the actual managed host version separately from the
+.NET8 target framework. See the [editor-host investigation](audits/2026-09-11-godot-editor-host-selection.md).
+
 The engine recommendation in GDD 0.1 is superseded for the prototype by this
 decision. The route graph and run state remain portable so another renderer or
 engine could consume them without rewriting game rules or content.

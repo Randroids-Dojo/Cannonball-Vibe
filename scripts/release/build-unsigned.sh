@@ -68,7 +68,7 @@ build_once() {
   RuntimeIdentifiers="$runtime_id" dotnet build "$source_root/Cannonball.csproj" -c Release --no-restore --nologo -p:GodotTargetPlatform="$target_platform"
   export_path="$stage/package/CannonballRun${platform/linux/.x86_64}"
   if [[ "$platform" == windows ]]; then export_path="$stage/package/CannonballRun.exe"; fi
-  RuntimeIdentifiers="$runtime_id" "$godot_bin" --headless --path "$source_root" --export-release "$preset" "$export_path"
+  GODOT_BIN="$godot_bin" RuntimeIdentifiers="$runtime_id" "$source_root/scripts/godot.sh" --headless --path "$source_root" --export-release "$preset" "$export_path"
   build_fixture "$source_root" "$stage/fixture"
   node "$source_root/scripts/release/package-tools.mjs" copy-content "$stage/fixture" "$stage/package/content/official-corridor"
   route_relative="$(node -p 'require(process.argv[1]).root_relative_path' "$stage/package/content/official-corridor/current-package.json")"

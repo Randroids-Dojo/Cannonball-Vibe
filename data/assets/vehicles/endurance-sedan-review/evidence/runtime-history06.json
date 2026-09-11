@@ -1,0 +1,1455 @@
+{
+  "task_id": "P1-018",
+  "milestone": "M5",
+  "status": "passed",
+  "started_utc": "2026-09-11T21:09:04.334523+00:00",
+  "git_revision": "e2a17c948e546108e76f795d17eacc93c0f2473b",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.14.6",
+  "zlib_runtime": "1.3.1.zlib-ng",
+  "tool_sha256": "1310e66035402d9eccaef4c0b2fe6d474f0b56958e914138d3f57be6285b18ff",
+  "input_manifest": {
+    "path": "reports/p1-018/runtime-history06-parts/part-01.manifest.json",
+    "sha256": "a327a6d9b6e5e6492eb8f0c075fa20f829d162ab0f4da931dcd0f6fdd3aee5b4"
+  },
+  "entries": [
+    {
+      "path": "reports/p1-018/final34/commands/20260911T203639.949720Z-headless101.json",
+      "sha256": "5cfa09856455b7cf6cdfe9986136a1985423bda826a6df3eb3f1a606b0f20571",
+      "bytes": 1661,
+      "reason": "Original completed101-stage command transcript/record",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/commands/20260911T203639.949720Z-headless101.json"
+    },
+    {
+      "path": "reports/p1-018/final34/commands/20260911T203639.949720Z-headless101.log",
+      "sha256": "eae49e0907cbc9c9bf474cb1971bb42c532f67321b5e19f51e5ef19ed1af1896",
+      "bytes": 254,
+      "reason": "Original completed101-stage command transcript/record",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/commands/20260911T203639.949720Z-headless101.log"
+    },
+    {
+      "path": "reports/p1-018/final34/editor-wrapper-correction-01/actual-build.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/editor-wrapper-correction-01/actual-build.stderr.log"
+    },
+    {
+      "path": "reports/p1-018/final34/editor-wrapper-correction-01/actual-build.stdout.log",
+      "sha256": "993d5665bb53133d8b519ee203c63dc48861d88dce31d9be119982c156b88f96",
+      "bytes": 725,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/editor-wrapper-correction-01/actual-build.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/final34/editor-wrapper-correction-01/actual-fresh-import.stderr.log",
+      "sha256": "4f4f7e406c453b80a00a9ce56a5cd7e900e1d96860e8e0b89128ab737e6d7ccc",
+      "bytes": 348,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/editor-wrapper-correction-01/actual-fresh-import.stderr.log"
+    },
+    {
+      "path": "reports/p1-018/final34/editor-wrapper-correction-01/actual-fresh-import.stdout.log",
+      "sha256": "17fa15626c3fbef0b591a5f81370db96e8812751f653776e745c9ff43375f001",
+      "bytes": 39220,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/editor-wrapper-correction-01/actual-fresh-import.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/final34/editor-wrapper-correction-01/app-flag-09.stdout.log",
+      "sha256": "d3dfaa6403c235f90bbca97b43e630ecce074cabe911719c0d3dcd5e8e0033ce",
+      "bytes": 126,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/editor-wrapper-correction-01/app-flag-09.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/final34/editor-wrapper-correction-01/app-flag-10.stdout.log",
+      "sha256": "7c3cd3961bb0d725738359fcdaccfabad3623388cda1d6320afb807f44b86985",
+      "bytes": 132,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/editor-wrapper-correction-01/app-flag-10.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/final34/editor-wrapper-correction-01/app-flag-11.stdout.log",
+      "sha256": "36450391b9e07f0f9966e07a1c2ba1f85e6940a096fd4a14a1c0935fbc86513e",
+      "bytes": 139,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/editor-wrapper-correction-01/app-flag-11.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/final34/editor-wrapper-correction-01/app-flag-12.stdout.log",
+      "sha256": "9e393ab025e4d5ca112ca617a10fd1dc09a7bb84c9fb651d4cf00b45d315add2",
+      "bytes": 132,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/editor-wrapper-correction-01/app-flag-12.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/final34/editor-wrapper-correction-01/app-flag-13.stdout.log",
+      "sha256": "13106f9fe0fd6eba8e65b62b6bf14a016eb9517d065934d59322dee6c0147211",
+      "bytes": 141,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/editor-wrapper-correction-01/app-flag-13.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/final34/editor-wrapper-correction-01/app-flag-14.stdout.log",
+      "sha256": "408ce9a78fc62c3e8d104656d6e5af1048f98d14c31f97170f7d9aab83319979",
+      "bytes": 140,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/editor-wrapper-correction-01/app-flag-14.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/final34/editor-wrapper-correction-01/app-flag-15.stdout.log",
+      "sha256": "35bafb4fdaa45383a1fb2a5de951421b899f0867a3443cc6544b37e7a26518c1",
+      "bytes": 138,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/editor-wrapper-correction-01/app-flag-15.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/final34/editor-wrapper-correction-01/app-flag-16.stdout.log",
+      "sha256": "86ec830dd36d9310bbef8a9132a330fa5560ec684c8f7f3bf032a41312cae5a7",
+      "bytes": 137,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/editor-wrapper-correction-01/app-flag-16.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/final34/editor-wrapper-correction-01/app-flag-17.stdout.log",
+      "sha256": "e75477926e6c93436286b13dafc5e8b9a8c8a7f9975855dc168cdd313790eb8b",
+      "bytes": 138,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/editor-wrapper-correction-01/app-flag-17.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/final34/editor-wrapper-correction-01/editor-00.stderr.log",
+      "sha256": "dd5972081be4efbb87ec80208fe881df384a168904fc4c7c81547f2167141d59",
+      "bytes": 82,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/editor-wrapper-correction-01/editor-00.stderr.log"
+    },
+    {
+      "path": "reports/p1-018/final34/editor-wrapper-correction-01/editor-00.stdout.log",
+      "sha256": "9e0a7e09c519aa9b60472a8515604055649222064c8daa296caf62e9007467c9",
+      "bytes": 117,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/editor-wrapper-correction-01/editor-00.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/final34/editor-wrapper-correction-01/editor-01.stdout.log",
+      "sha256": "e9c2a14dd573e523241968c17888960d78ccc78b5b025ea555847e5dea8b7216",
+      "bytes": 123,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/editor-wrapper-correction-01/editor-01.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/final34/editor-wrapper-correction-01/editor-02.stdout.log",
+      "sha256": "ed107ca31299cc5ba366c9236ab96e1a294510648b3cc47ee8ce804989c32048",
+      "bytes": 130,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/editor-wrapper-correction-01/editor-02.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/final34/editor-wrapper-correction-01/editor-03.stdout.log",
+      "sha256": "9662c7703dcd56ecaacdeb5ecce9175daa5d7f904e23dfde632d4ae1ca6a0921",
+      "bytes": 123,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/editor-wrapper-correction-01/editor-03.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/final34/editor-wrapper-correction-01/editor-04.stdout.log",
+      "sha256": "f081b13c31b6e1ef424afd92c7f3ebf469a6ded46e49dffed5197b268376cad5",
+      "bytes": 132,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/editor-wrapper-correction-01/editor-04.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/final34/editor-wrapper-correction-01/editor-05.stdout.log",
+      "sha256": "7cd78db6f7972a3ff1366d4ca63277c674e59fbb22588ced2422d7160be1dc6f",
+      "bytes": 131,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/editor-wrapper-correction-01/editor-05.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/final34/editor-wrapper-correction-01/editor-06.stdout.log",
+      "sha256": "63f6e628aad2de51bbeedd7d449c4ee952c24b6033400adce999e1c95d34fbba",
+      "bytes": 129,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/editor-wrapper-correction-01/editor-06.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/final34/editor-wrapper-correction-01/editor-07.stdout.log",
+      "sha256": "73588e12eb48c11a98682976f3203ac018e717b4ee81dcc9d2a64588bbb634d5",
+      "bytes": 128,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/editor-wrapper-correction-01/editor-07.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/final34/editor-wrapper-correction-01/editor-08.stdout.log",
+      "sha256": "296cfd46aedf09d2cc17452025e390dbf25830c4ba5befc69c64e770564a86ba",
+      "bytes": 129,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/editor-wrapper-correction-01/editor-08.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/final34/editor-wrapper-correction-01/evidence.json",
+      "sha256": "640dc1dce6c83c7c292b366edd66ec3db4e14c79db380950587a70bf6d84833b",
+      "bytes": 185641,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/editor-wrapper-correction-01/evidence.json"
+    },
+    {
+      "path": "reports/p1-018/final34/editor-wrapper-correction-01/explicit-Disable.stdout.log",
+      "sha256": "033767898ddb5cf80895858d624222e8299550085a060ac2402343fefc94689b",
+      "bytes": 98,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/editor-wrapper-correction-01/explicit-Disable.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/final34/editor-wrapper-correction-01/explicit-LatestMajor.stdout.log",
+      "sha256": "449cdcad5ecf06b9e8f4ebfc43a0caceafd0e5f646c8bee77f0e59d655a3ed26",
+      "bytes": 102,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/editor-wrapper-correction-01/explicit-LatestMajor.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/final34/editor-wrapper-correction-01/explicit-LatestMinor.stdout.log",
+      "sha256": "36ffaf12bcb34a1865e8fbce65dba915cc379ee7599d3b7b6ddc740b79ba75f7",
+      "bytes": 102,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/editor-wrapper-correction-01/explicit-LatestMinor.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/final34/editor-wrapper-correction-01/godot-before.sh",
+      "sha256": "094ee7cead8e6c0742d62e88260614001bfe33db02d78f7945f83cc556717600",
+      "bytes": 2856,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/editor-wrapper-correction-01/godot-before.sh"
+    },
+    {
+      "path": "reports/p1-018/final34/editor-wrapper-correction-01/godot-corrected.sh",
+      "sha256": "c2de40bc9f709916c9cabac7a8230914d114f48ea62ab89cb090f3763dfda659",
+      "bytes": 3634,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/editor-wrapper-correction-01/godot-corrected.sh"
+    },
+    {
+      "path": "reports/p1-018/final34/editor-wrapper-correction-01/lookalike.stdout.log",
+      "sha256": "686f3a8bb0389f88282e56c0671b41b99575ad9954d5819af93c99bd3f8b5b6d",
+      "bytes": 115,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/editor-wrapper-correction-01/lookalike.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/final34/editor-wrapper-correction-01/native-app-editor-arg.stdout.log",
+      "sha256": "c27bf56f50cfbe0cc733c5ac6a192b9578e37784803af8eae7a3fdb8d69a18c8",
+      "bytes": 123,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/editor-wrapper-correction-01/native-app-editor-arg.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/final34/editor-wrapper-correction-01/native.stdout.log",
+      "sha256": "b266d602c14d50168a544941a5b29656849c2d085f55be72b4449ed59fc0acca",
+      "bytes": 124,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/editor-wrapper-correction-01/native.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/final34/editor-wrapper-correction-01/spy-engine.sh",
+      "sha256": "dcb5e935a12be540c68f1e08518ab3a8434452ef78692c4bab71369257fe2cf6",
+      "bytes": 259,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/editor-wrapper-correction-01/spy-engine.sh"
+    },
+    {
+      "path": "reports/p1-018/final34/editor-wrapper-correction-01/spy.py",
+      "sha256": "08ffb97d2e94cc5726969279283f25b56c25ee9c895f1d213bb48616ebda22f0",
+      "bytes": 204,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/editor-wrapper-correction-01/spy.py"
+    },
+    {
+      "path": "reports/p1-018/final34/editor-wrapper-correction-01/unset.stdout.log",
+      "sha256": "b24733d6f7d760e9f91d9aa771197bf3fa55a6bde8e60c9130b4cec4aee390ff",
+      "bytes": 93,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/editor-wrapper-correction-01/unset.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/final34/editor-wrapper-correction-01/verify.py",
+      "sha256": "94b8a805b3e8e8e8d12bb1924e4856bb54f50cd9184b8705a69a26c70c5a36eb",
+      "bytes": 7649,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/editor-wrapper-correction-01/verify.py"
+    },
+    {
+      "path": "reports/p1-018/final34/editor-wrapper-correction-01/wrong-engine.stderr.log",
+      "sha256": "47577252467b562152742b2ecb35f6c1a87b1e85f2b8cd4204d4a6b93cbbcdb4",
+      "bytes": 172,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/editor-wrapper-correction-01/wrong-engine.stderr.log"
+    },
+    {
+      "path": "reports/p1-018/final34/headless-01/endurance-sedan/engine.log",
+      "sha256": "a1ca58c740b6e5dbb26134cc56941784bf08dd9b9a7acf5978a58756c8625720",
+      "bytes": 3278,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/headless-01/endurance-sedan/engine.log"
+    },
+    {
+      "path": "reports/p1-018/final34/headless-01/endurance-sedan/frames.jsonl",
+      "sha256": "dfedbed3a055bacb7d7bb7462e816bb135a3be513713107812dcc8cd25b132ef",
+      "bytes": 22089261,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/headless-01/endurance-sedan/frames.jsonl"
+    },
+    {
+      "path": "reports/p1-018/final34/headless-01/endurance-sedan/gate.json",
+      "sha256": "d0820d081553067311f2b5aa7a314adb0e584fb159e3ffdb1cbcbe8f684c4a27",
+      "bytes": 1298,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/headless-01/endurance-sedan/gate.json"
+    },
+    {
+      "path": "reports/p1-018/final34/headless-01/endurance-sedan/presentation/engine.log",
+      "sha256": "a613b5bf6ea312f7ed47e727995bd181bda55845b232fd831438979cb509812a",
+      "bytes": 4712,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/headless-01/endurance-sedan/presentation/engine.log"
+    },
+    {
+      "path": "reports/p1-018/final34/headless-01/endurance-sedan/presentation/gate.json",
+      "sha256": "0fea0e6bdebc94807bf91cb864c521c8ddc4ee315b6a4422d12f75e6aa3dc083",
+      "bytes": 2133,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/headless-01/endurance-sedan/presentation/gate.json"
+    },
+    {
+      "path": "reports/p1-018/final34/headless-01/endurance-sedan/presentation/presentation-frames.jsonl",
+      "sha256": "4ffed1951172ee6fa4d2b9520484738eee9fb1e7fb68dd865b9bac54396b6828",
+      "bytes": 67223733,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/headless-01/endurance-sedan/presentation/presentation-frames.jsonl"
+    },
+    {
+      "path": "reports/p1-018/final34/headless-01/endurance-sedan/presentation/presentation-summary.json",
+      "sha256": "a698b450392cbbd8af4935cf41be18910be37b854f4d5a25091115348948da82",
+      "bytes": 1011437,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/headless-01/endurance-sedan/presentation/presentation-summary.json"
+    },
+    {
+      "path": "reports/p1-018/final34/headless-01/endurance-sedan/presentation/process.json",
+      "sha256": "8be7a3cc5148ca2cd38ea9cb60eaa53abc8804861beac81e520d69232744d8b6",
+      "bytes": 198,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/headless-01/endurance-sedan/presentation/process.json"
+    },
+    {
+      "path": "reports/p1-018/final34/headless-01/endurance-sedan/presentation/run-save.json",
+      "sha256": "99f2bb97cc4440b53382bba51b8855d6638b1b79af8eb7866f849a12c9185055",
+      "bytes": 3775,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/headless-01/endurance-sedan/presentation/run-save.json"
+    },
+    {
+      "path": "reports/p1-018/final34/headless-01/endurance-sedan/presentation/transcript.log",
+      "sha256": "150c30ece53ef72c7a78fd6dea8025f22294813bcbc987ebcb970d9cc4661a23",
+      "bytes": 5434,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/headless-01/endurance-sedan/presentation/transcript.log"
+    },
+    {
+      "path": "reports/p1-018/final34/headless-01/endurance-sedan/run-save.json",
+      "sha256": "bae642d380a928f898ae4038594304feb1f1162e885ba190935d0163d2607e2a",
+      "bytes": 4725,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/headless-01/endurance-sedan/run-save.json"
+    },
+    {
+      "path": "reports/p1-018/final34/headless-01/endurance-sedan/run-save.json.bak",
+      "sha256": "1f354e989017cb674acb6ebb6c411e14f368afa64d3189861072c32f6f6c7243",
+      "bytes": 4763,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/headless-01/endurance-sedan/run-save.json.bak"
+    },
+    {
+      "path": "reports/p1-018/final34/headless-01/endurance-sedan/summary.json",
+      "sha256": "946e1de9e193f8d59ed4151c4970adbafe13fac9d8c0bd0078d669989e140abf",
+      "bytes": 48680,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/headless-01/endurance-sedan/summary.json"
+    },
+    {
+      "path": "reports/p1-018/final34/headless-01/endurance-sedan/transcript.log",
+      "sha256": "0a0e9c3ce394f4ea5611dceef3981685c4f02533acb42da7a8978c5de2bbcb99",
+      "bytes": 3970,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/headless-01/endurance-sedan/transcript.log"
+    },
+    {
+      "path": "reports/p1-018/final34/headless-01/graybox/engine.log",
+      "sha256": "c0b7456336960a686a724afc4e64f32b2ee883a021010b6ec2b5708a84bd5736",
+      "bytes": 3020,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/headless-01/graybox/engine.log"
+    },
+    {
+      "path": "reports/p1-018/final34/headless-01/graybox/frames.jsonl",
+      "sha256": "b216ff321b5bfb69e23b8cedeac1b42fe775146a705a3d0860e1661518a37689",
+      "bytes": 17199837,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/headless-01/graybox/frames.jsonl"
+    },
+    {
+      "path": "reports/p1-018/final34/headless-01/graybox/gate.json",
+      "sha256": "4ce5c934336f88473a968155b93ced9e533e85185b7de8a2ae9f6158c2e50080",
+      "bytes": 1274,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/headless-01/graybox/gate.json"
+    },
+    {
+      "path": "reports/p1-018/final34/headless-01/graybox/run-save.json",
+      "sha256": "65ba0567bbb691d9fb6522b4ff48b45307630b9f848ab44e4f91fa91c4c79dec",
+      "bytes": 4731,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/headless-01/graybox/run-save.json"
+    },
+    {
+      "path": "reports/p1-018/final34/headless-01/graybox/run-save.json.bak",
+      "sha256": "a6f272ebc42611540d1f2493c40c5d3fcaf40b74a526d76c7900dceb3a24cd07",
+      "bytes": 4762,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/headless-01/graybox/run-save.json.bak"
+    },
+    {
+      "path": "reports/p1-018/final34/headless-01/graybox/summary.json",
+      "sha256": "a009bd51353e98c98564a6482415711c4848d6ac99cb5f414f73d46be7b10884",
+      "bytes": 19755,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/headless-01/graybox/summary.json"
+    },
+    {
+      "path": "reports/p1-018/final34/headless-01/graybox/transcript.log",
+      "sha256": "8842ed3c7eb35f83140c557d83b96d27e7e047fed6d69dd53f7831ad6ed1041f",
+      "bytes": 3711,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/headless-01/graybox/transcript.log"
+    },
+    {
+      "path": "reports/p1-018/final34/headless-01/hero-gt/engine.log",
+      "sha256": "fb8c37b72aec506b9b48ab371217089110495d38fbbbc038400ea1819645ab54",
+      "bytes": 3020,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/headless-01/hero-gt/engine.log"
+    },
+    {
+      "path": "reports/p1-018/final34/headless-01/hero-gt/frames.jsonl",
+      "sha256": "b30357aaf9fbd813685ab0b54c6753242c5fd2774614fa9c8057286f455fef88",
+      "bytes": 17221783,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/headless-01/hero-gt/frames.jsonl"
+    },
+    {
+      "path": "reports/p1-018/final34/headless-01/hero-gt/gate.json",
+      "sha256": "92806c108d76ef3bd8056c9dab45a3a17d37a7ef03c75073f5db64a96ab5f6a5",
+      "bytes": 1274,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/headless-01/hero-gt/gate.json"
+    },
+    {
+      "path": "reports/p1-018/final34/headless-01/hero-gt/run-save.json",
+      "sha256": "b50a508670212060cf7b117c2614944839d0150171323172489ed3f02532bfc3",
+      "bytes": 4728,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/headless-01/hero-gt/run-save.json"
+    },
+    {
+      "path": "reports/p1-018/final34/headless-01/hero-gt/run-save.json.bak",
+      "sha256": "05ff3c6a870b7090a73816d7ef0369c61c3b97033aaa4c7d11f701b1c8a594d6",
+      "bytes": 4762,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/headless-01/hero-gt/run-save.json.bak"
+    },
+    {
+      "path": "reports/p1-018/final34/headless-01/hero-gt/summary.json",
+      "sha256": "8fe2e9330d47afc8676cd7f05d06e712153ea2adcc2e73461e5f5a1c991788e3",
+      "bytes": 42247,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/headless-01/hero-gt/summary.json"
+    },
+    {
+      "path": "reports/p1-018/final34/headless-01/hero-gt/transcript.log",
+      "sha256": "e728016f4161f1efeb00a0c167514b88dccb6b954fa1a74a78dc4b6a64caf889",
+      "bytes": 3711,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/headless-01/hero-gt/transcript.log"
+    },
+    {
+      "path": "reports/p1-018/final34/headless-handoff-01/evidence.json",
+      "sha256": "4714d861c0f05bb43d2147b20c6bd93bc7ec52fb2a5510dd225b5a8939b13637",
+      "bytes": 28953,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/headless-handoff-01/evidence.json"
+    },
+    {
+      "path": "reports/p1-018/final34/headless-handoff-01/summarize.py",
+      "sha256": "3feab558bb77405699cb48e17e547441cbb254cba4cb0ba79e69eaf4ba46b6d0",
+      "bytes": 4794,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/headless-handoff-01/summarize.py"
+    },
+    {
+      "path": "reports/p1-018/final34/resource-01/build.log",
+      "sha256": "05589b7fa26e630f110698d20d40f36b1e304435041b4c4f90b141c29b7d25bd",
+      "bytes": 657,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/resource-01/build.log"
+    },
+    {
+      "path": "reports/p1-018/final34/resource-01/dotnet-version.log",
+      "sha256": "3ccfabb187270882a308eb46f7bfdfdf2fbf7c14b9e4a704856cf8b1efb227aa",
+      "bytes": 10,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/resource-01/dotnet-version.log"
+    },
+    {
+      "path": "reports/p1-018/final34/resource-01/evidence.json",
+      "sha256": "ed4cbcfee1a58e56d904f7b214c3e2f464edb9a3fa8aa607af02f141b4cf4725",
+      "bytes": 153980,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/resource-01/evidence.json"
+    },
+    {
+      "path": "reports/p1-018/final34/resource-01/godot-version.log",
+      "sha256": "d1046084c2493a272b0b439dc2f6dc74b801cd74659c5010a67c1b2f3acc5866",
+      "bytes": 38,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/resource-01/godot-version.log"
+    },
+    {
+      "path": "reports/p1-018/final34/resource-01/import.log",
+      "sha256": "e1aaa172d4a956bc231f59225550f43b42933652f9ddc09fd773d936330be782",
+      "bytes": 41670,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/resource-01/import.log"
+    },
+    {
+      "path": "reports/p1-018/final34/resource-01/runner-input.py",
+      "sha256": "9e0b0b049ffaabfb145ad5de050369cea8c17dc54c82edd4d3be8713134892ba",
+      "bytes": 18151,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/resource-01/runner-input.py"
+    },
+    {
+      "path": "reports/p1-018/final34/resource-import-diagnostic-01/evidence.json",
+      "sha256": "9aecec5cf7213b90f1188834b96b59b2a92763aba6321f0cfbdca83703f3237c",
+      "bytes": 4710,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/resource-import-diagnostic-01/evidence.json"
+    },
+    {
+      "path": "reports/p1-018/final34/resource-import-diagnostic-01/explicit-editor/import.log",
+      "sha256": "f700f736b9321553d08cbea535b42d84333f9edc58e03b8fc78165db676bc1e2",
+      "bytes": 3163,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/resource-import-diagnostic-01/explicit-editor/import.log"
+    },
+    {
+      "path": "reports/p1-018/final34/resource-import-diagnostic-01/probe.py",
+      "sha256": "e68e8c9783f474f6129577aeefe957274d2aae1008b215eec847094be2b01f9d",
+      "bytes": 3305,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/resource-import-diagnostic-01/probe.py"
+    },
+    {
+      "path": "reports/p1-018/final34/resource-import-diagnostic-02/evidence.json",
+      "sha256": "4065c4d80bcdd24f8d12a8f7d0606008acad07aac9a45274252bc746cac1ac74",
+      "bytes": 6700,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/resource-import-diagnostic-02/evidence.json"
+    },
+    {
+      "path": "reports/p1-018/final34/resource-import-diagnostic-02/latest-major/import.log",
+      "sha256": "16d15b5a73d4997c8466f00f149a826cbe3ea9c8065b8a8523b0a1db7dc895d2",
+      "bytes": 1038,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/resource-import-diagnostic-02/latest-major/import.log"
+    },
+    {
+      "path": "reports/p1-018/final34/resource-import-diagnostic-02/probe.py",
+      "sha256": "3abbfe8142cd68796e2b8829e25d5b73b7c48e2be51c24d6c64387480f1a94a0",
+      "bytes": 3421,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/resource-import-diagnostic-02/probe.py"
+    },
+    {
+      "path": "reports/p1-018/final34/runtime-host-diagnostic-01/build.log",
+      "sha256": "75c328d4bd706922cf85da9fbc083c5ab6d7d819212e798ff2cb23eb3e94b5a4",
+      "bytes": 890,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/runtime-host-diagnostic-01/build.log"
+    },
+    {
+      "path": "reports/p1-018/final34/runtime-host-diagnostic-01/evidence.json",
+      "sha256": "a37ea84ee44b10512303d4e37ff13531c16ba6c177e5ce59d67044a1aa886737",
+      "bytes": 1124,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/runtime-host-diagnostic-01/evidence.json"
+    },
+    {
+      "path": "reports/p1-018/final34/runtime-host-diagnostic-01/probe.py",
+      "sha256": "eb72116d328a0bb930c8c40cd684ecfc477e5e24c1012ff914e3d81e92d8cf3e",
+      "bytes": 3514,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/runtime-host-diagnostic-01/probe.py"
+    },
+    {
+      "path": "reports/p1-018/final34/runtime-host-diagnostic-02/build.log",
+      "sha256": "e88a93978383b9d67e1ea2c2cb8f4b651dfad2dc52d2316f55d58d7120a4692c",
+      "bytes": 393,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/runtime-host-diagnostic-02/build.log"
+    },
+    {
+      "path": "reports/p1-018/final34/runtime-host-diagnostic-02/evidence.json",
+      "sha256": "99d9767df9e6908227f023d3ffc79690448eaeef9d825149ef99580fc98500db",
+      "bytes": 3373,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/runtime-host-diagnostic-02/evidence.json"
+    },
+    {
+      "path": "reports/p1-018/final34/runtime-host-diagnostic-02/game-unset.log",
+      "sha256": "1c27c8442710308ff64e5eacab935ecd3290045c16bc24dc8b8052a6abd65505",
+      "bytes": 123,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/runtime-host-diagnostic-02/game-unset.log"
+    },
+    {
+      "path": "reports/p1-018/final34/runtime-host-diagnostic-02/probe.py",
+      "sha256": "f5d0c322a96fd40c993aee41363058c4779ee04d2c726406c44dfc90aba6d226",
+      "bytes": 3521,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/runtime-host-diagnostic-02/probe.py"
+    },
+    {
+      "path": "reports/p1-018/final34/runtime-host-diagnostic-02/retained-binary/HostProbe.deps.json",
+      "sha256": "e227fd9e4aaa7c370feecc541f47be8515326965228b0a051b4b9eb135b79125",
+      "bytes": 1631,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/runtime-host-diagnostic-02/retained-binary/HostProbe.deps.json"
+    },
+    {
+      "path": "reports/p1-018/final34/runtime-host-diagnostic-02/retained-binary/HostProbe.dll",
+      "sha256": "5b38c6a6b8c76dcea18ab37429eed9f4e320f95c943b7dbfb92b28bcc3bad4c9",
+      "bytes": 7168,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/runtime-host-diagnostic-02/retained-binary/HostProbe.dll"
+    },
+    {
+      "path": "reports/p1-018/final34/runtime-host-diagnostic-02/retained-binary/HostProbe.runtimeconfig.json",
+      "sha256": "0b539cd55c434f10c9e5913db2d3a936cd8364449499f28ef21a1108f828e7e9",
+      "bytes": 303,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/runtime-host-diagnostic-02/retained-binary/HostProbe.runtimeconfig.json"
+    },
+    {
+      "path": "reports/p1-018/final34/runtime-host-diagnostic-02/retained-binary/bindings.json",
+      "sha256": "c9962073643501bd7262c6bb7ee988104e6d73d9f24580de00fc04d366512634",
+      "bytes": 1226,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/runtime-host-diagnostic-02/retained-binary/bindings.json"
+    },
+    {
+      "path": "reports/p1-018/final34/workflow-import-diagnostic-01/evidence.json",
+      "sha256": "fc05021454e9db5bb66863a185ae71ec2c24cce1efb2f0abdf7dd9019b6484d2",
+      "bytes": 154084,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/workflow-import-diagnostic-01/evidence.json"
+    },
+    {
+      "path": "reports/p1-018/final34/workflow-import-diagnostic-01/major/build.log",
+      "sha256": "72f1477a1ad7c546b0ae27f79561954dd5fbe98b717bbfc63cb02895b8a4973c",
+      "bytes": 753,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/workflow-import-diagnostic-01/major/build.log"
+    },
+    {
+      "path": "reports/p1-018/final34/workflow-import-diagnostic-01/major/import.log",
+      "sha256": "fdaa0a918bc3575e2a3197eff117f5f1177169f1b23f4e77fcfc932242b1785f",
+      "bytes": 41611,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/workflow-import-diagnostic-01/major/import.log"
+    },
+    {
+      "path": "reports/p1-018/final34/workflow-import-diagnostic-01/official-default/build.log",
+      "sha256": "2dd1d8f0dbf7d5a084fd175e7be4205470561b1e222b2ae3d344e66002bb1f34",
+      "bytes": 797,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/workflow-import-diagnostic-01/official-default/build.log"
+    },
+    {
+      "path": "reports/p1-018/final34/workflow-import-diagnostic-01/official-default/import.log",
+      "sha256": "f893eed1b719b37af4c8dd7fae7093d0f8e81fd2be4da277776ba60a82f48e5f",
+      "bytes": 39486,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/workflow-import-diagnostic-01/official-default/import.log"
+    },
+    {
+      "path": "reports/p1-018/final34/workflow-import-diagnostic-01/probe.py",
+      "sha256": "eaf817581f0f6934ad3332ceaad9d9de6de0bd253e218ca4b5ecc22e60db2d04",
+      "bytes": 5287,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/workflow-import-diagnostic-01/probe.py"
+    },
+    {
+      "path": "reports/p1-018/final34/workflow-import-diagnostic-01/workflow-inputs/.github/workflows/assets.yml",
+      "sha256": "a4bd5742a283764a7fcc5f1d3aea07e35932fd1b7d26eb63e58dcc0548933ddb",
+      "bytes": 6315,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/workflow-import-diagnostic-01/workflow-inputs/.github/workflows/assets.yml"
+    },
+    {
+      "path": "reports/p1-018/final34/workflow-import-diagnostic-01/workflow-inputs/.github/workflows/ci.yml",
+      "sha256": "60ff3cc52ba620bff3c4e56afc6aacaf6a3603fbfe4a46191eede733d1cc9d99",
+      "bytes": 5716,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/workflow-import-diagnostic-01/workflow-inputs/.github/workflows/ci.yml"
+    },
+    {
+      "path": "reports/p1-018/final34/workflow-import-diagnostic-01/workflow-inputs/.github/workflows/unsigned-exports.yml",
+      "sha256": "a890d4c07a7b3a2b41338082fc15d9eaeba8c16fd1b788308481204268d819dc",
+      "bytes": 7375,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/workflow-import-diagnostic-01/workflow-inputs/.github/workflows/unsigned-exports.yml"
+    },
+    {
+      "path": "reports/p1-018/final34/workflow-import-diagnostic-01/workflow-inputs/.github/workflows/windows-stress.yml",
+      "sha256": "d13952290c3213f830e2ea1da7ad88838eb3c1e86a030b90e0f0ff085d9daccd",
+      "bytes": 1744,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/final34/workflow-import-diagnostic-01/workflow-inputs/.github/workflows/windows-stress.yml"
+    },
+    {
+      "path": "reports/p1-018/runtime-history-05.json",
+      "sha256": "d6d7e2058a652b5f2375fcdfc8eeaf799947a1dac5451c30441609a25678a3f3",
+      "bytes": 256809,
+      "reason": "Previous immutable history05 inventory; prior payloads are already archived",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime-history-05.json"
+    },
+    {
+      "path": "reports/p1-018/runtime-history-06.json",
+      "bytes": 124197,
+      "sha256": "f6508957fb2edb98f5486e667089efe9d3276931aa746b621361cc3cc5030188",
+      "reason": "Complete original inventory including explicit aliases, exclusions and omissions"
+    },
+    {
+      "path": "reports/p1-018/runtime/execution-environment-01/README.md",
+      "sha256": "80fe88b82850ec0b77db202329fa307662a1ce219efe22b62337977ea7c1b20e",
+      "bytes": 1935,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/execution-environment-01/README.md"
+    },
+    {
+      "path": "reports/p1-018/runtime/execution-environment-01/audit.py",
+      "sha256": "9963d59c64c6bf930f54d75d17c40f59a2ae18238dd01ebbe2e7072b649826d9",
+      "bytes": 5609,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/execution-environment-01/audit.py"
+    },
+    {
+      "path": "reports/p1-018/runtime/execution-environment-01/evidence.json",
+      "sha256": "b49cc9e768d4c7b8d39c6e9ae2bd5834f7ff185b9f83b2f52bf623c07cfde99a",
+      "bytes": 4649,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/execution-environment-01/evidence.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-source-commands-01/COMMANDS-v2.md",
+      "sha256": "fdf6a2246fa341cfbe1135cc2d74a3813ef3fb31b6f97cc982ea44a2d9473500",
+      "bytes": 13625,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/final-source-commands-01/COMMANDS-v2.md"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-source-commands-01/COMMANDS.md",
+      "sha256": "c0b34174c67b050e26f4cf7e3c38b109e860b9e44952047172474d14efa700b5",
+      "bytes": 13660,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/final-source-commands-01/COMMANDS.md"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-source-commands-01/ContactResourceProbe.cs",
+      "sha256": "edb8f3d6290f82795244883021acfe0b498b642967afc337b30a29fd16502536",
+      "bytes": 15975,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/final-source-commands-01/ContactResourceProbe.cs"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-source-commands-01/freeze.json",
+      "sha256": "5fb94f2f1df2319e0d39b6e1502aac11e2464c1960cb4a0c98eb1c682a7673b6",
+      "bytes": 5698,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/final-source-commands-01/freeze.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-source-commands-01/freeze_preparation.py",
+      "sha256": "861794b27daa9f4022df7a28d600cde9b443ac454a76bd73f7f3486ab2c3915a",
+      "bytes": 3523,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/final-source-commands-01/freeze_preparation.py"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-source-commands-01/matrix-v2.json",
+      "sha256": "aae8a77b503d17c8d7b13cdbc44f647bc80f22d613a6de75e7847821df0e6fea",
+      "bytes": 24507,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/final-source-commands-01/matrix-v2.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-source-commands-01/matrix.json",
+      "sha256": "2e93eae3040ffdb41a93763a5d1e4479bc976d75b1b1fcf9808a6d7679612743",
+      "bytes": 23363,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/final-source-commands-01/matrix.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-source-commands-01/preparation-checks-01/evidence.json",
+      "sha256": "f9f500f89330ba848eac5c1349c7a9995afe6d36bcae204d735ac59c3b1da84b",
+      "bytes": 2454,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/final-source-commands-01/preparation-checks-01/evidence.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-source-commands-01/preparation-checks-01/help.stdout.log",
+      "sha256": "b33a9f5a4d49f773036e0aab3d44a45d4b95ecdf9b90e813adfb4b844894a3f1",
+      "bytes": 461,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/final-source-commands-01/preparation-checks-01/help.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-source-commands-01/preparation-draft-01/prepare_matrix.py",
+      "sha256": "b5dcc64bcbb5698c989ff117a01c31fcb757e452a170692d8354fe652af5da5d",
+      "bytes": 17563,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/final-source-commands-01/preparation-draft-01/prepare_matrix.py"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-source-commands-01/prepare_matrix.py",
+      "sha256": "e80c9bbcb4acd475b4e207a27d79327a63e49a33dbc2037af16f75898489e66e",
+      "bytes": 18314,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/final-source-commands-01/prepare_matrix.py"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-source-commands-01/resource_probe.py",
+      "sha256": "03df860f86291c9749f7cb0be1353f2642bef566769e7baeb38c2a22a1163d44",
+      "bytes": 13550,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/final-source-commands-01/resource_probe.py"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-source-commands-01/verify_preparation.py",
+      "sha256": "0ffb4ca7acbecb5cf73044fe31f3ccb2ab4799a918657e8363e0d948e297c0da",
+      "bytes": 4025,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/final-source-commands-01/verify_preparation.py"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-source-commands-02/COMMANDS.md",
+      "sha256": "44318e4f2760df65a17911a1f5c0880253ba3b28d539243ae56115088086ad26",
+      "bytes": 14691,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/final-source-commands-02/COMMANDS.md"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-source-commands-02/ContactResourceProbe.cs",
+      "sha256": "bf85e9a0f2f85cbbf907c107c07ef9ac562f1e99867d4f7d18bc28172b858128",
+      "bytes": 16484,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/final-source-commands-02/ContactResourceProbe.cs"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-source-commands-02/bind_layout.py",
+      "sha256": "b64ead03113581d5b082ef223f02b3f3a5cad9375536ddcbb7995ad0571f38c0",
+      "bytes": 1698,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/final-source-commands-02/bind_layout.py"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-source-commands-02/current-delivered-preflight-01/layout-lock.json",
+      "sha256": "1478b29fc5dd4f456ba86354eb424fea94428678b2216568502c8ff55077a011",
+      "bytes": 4154,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/final-source-commands-02/current-delivered-preflight-01/layout-lock.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-source-commands-02/freeze.json",
+      "sha256": "04dec566d6ac65df9f342ab2a040e8b7e00a1c5bf398a3610de765b47672a212",
+      "bytes": 8415,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/final-source-commands-02/freeze.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-source-commands-02/layout-controls-01/evidence.json",
+      "sha256": "874d0dcccf031ffbcd36483cb0b00602a148ad4155928d164b3f303af7351372",
+      "bytes": 9181,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/final-source-commands-02/layout-controls-01/evidence.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-source-commands-02/layout-controls-01/old-preflight.stderr.log",
+      "sha256": "e524dcee59f6feabbea22bbdbf8cc1d4e668c759b22b4110227db0567aa9088e",
+      "bytes": 994,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/final-source-commands-02/layout-controls-01/old-preflight.stderr.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-source-commands-02/layout-controls-01/probe-identity.patch",
+      "sha256": "089f6eb561b5e4d9ae373746fd21b760246fe0ebe27d0562072f5666b61d2845",
+      "bytes": 1004,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/final-source-commands-02/layout-controls-01/probe-identity.patch"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-source-commands-02/loaded-identity-block.txt",
+      "sha256": "e8adab15e1a946c23e7c9029b4dc5d2665235aea950a99b85fcaecb6e0634e4f",
+      "bytes": 509,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/final-source-commands-02/loaded-identity-block.txt"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-source-commands-02/matrix.json",
+      "sha256": "08736cac984191718f908d4aa6cfccf64968e080d0c976a0891c556a713114fc",
+      "bytes": 25838,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/final-source-commands-02/matrix.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-source-commands-02/prepare_handoff.py",
+      "sha256": "e45e4f877e32677cae93168821101c57c985463973c32108e63f1bb526a39e9b",
+      "bytes": 7265,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/final-source-commands-02/prepare_handoff.py"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-source-commands-02/promoted-source34-layout-01/layout-lock.json",
+      "sha256": "2ca36d997c3dabb6df34a29b7aa20b7f89b4292a64e87bf9a481718b09591295",
+      "bytes": 4154,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/final-source-commands-02/promoted-source34-layout-01/layout-lock.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-source-commands-02/verify_layout_preparation.py",
+      "sha256": "c89760192084396294577d9ba4b0375f734b3de9d2518a43462092fd7c33dc96",
+      "bytes": 5574,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/final-source-commands-02/verify_layout_preparation.py"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-source-commands-03/COMMANDS.md",
+      "sha256": "1c37f5b4ea6ded7b506887eda2e3e3668a1df1497aa21197d790362243f77ab7",
+      "bytes": 2280,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/final-source-commands-03/COMMANDS.md"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-source-commands-03/freeze.json",
+      "sha256": "a203ca53bfc0f925eb7b8f2ca8851f1a775721d8549e6f324ee797bcafda3bae",
+      "bytes": 2048,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/final-source-commands-03/freeze.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-source-commands-03/matrix.json",
+      "sha256": "f99aa65d9fe60766a3234e70ccc4f9dc5ad3b3f2964dc02a01139fec573d653b",
+      "bytes": 26280,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/final-source-commands-03/matrix.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-source-commands-03/prepare.py",
+      "sha256": "1793901dbe49cfa3852c286c2d5ac00a6f3152b2c320c27148b39f1d1714d535",
+      "bytes": 6650,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/final-source-commands-03/prepare.py"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-source-commands-03/resource_probe.py",
+      "sha256": "e2ba79dbbe0bfe61b601ba9a9c374b0ff5d31514435e4d5d65a790ca48c60096",
+      "bytes": 18753,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/final-source-commands-03/resource_probe.py"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-driver-01/README.md",
+      "sha256": "73bea6fee5d878edb79d02bfc292a8d03c5abd0fb90334e345072b52ecc534ef",
+      "bytes": 3097,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/performance-driver-01/README.md"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-driver-01/cap-schema-control-01/ReferencePerformanceScenario.cs",
+      "sha256": "d3203fea5666914ec4221811690b9400b79acba73a9ac0d79550e647b8b384e2",
+      "bytes": 90100,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/performance-driver-01/cap-schema-control-01/ReferencePerformanceScenario.cs"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-driver-01/cap-schema-control-01/evidence.json",
+      "sha256": "d75bb6805844a6d50e2f51d45b30c969908c6ed840f936c7723a1fb6e5a21987",
+      "bytes": 12352,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/performance-driver-01/cap-schema-control-01/evidence.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-driver-01/cap_schema_control.py",
+      "sha256": "fbf96b80b81da5d30688ce0a1d80652f3d522155626db2fbb32c1ab586123829",
+      "bytes": 3018,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/performance-driver-01/cap_schema_control.py"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-driver-01/checks/20260911T194531.624582Z-driver-unit-controls.json",
+      "sha256": "d4cd178e44740d9e5fd711e11c2e9072389795b4f1a89240228641033ad46bcb",
+      "bytes": 1026,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/performance-driver-01/checks/20260911T194531.624582Z-driver-unit-controls.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-driver-01/checks/20260911T194531.624582Z-driver-unit-controls.log",
+      "sha256": "34c9283c4df68f4dab07849c8b81ab3d3a968a862f627af8bb52d296e475ec98",
+      "bytes": 1878,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/performance-driver-01/checks/20260911T194531.624582Z-driver-unit-controls.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-driver-01/driver.py",
+      "sha256": "aed38baa41ecce7213f090473ae42f33df613a3a1370244d7eea6aabd3b3272b",
+      "bytes": 31918,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/performance-driver-01/driver.py"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-driver-01/launch_with_pinned_node.py",
+      "sha256": "9454aae8aa888c4bab093ba8209097aa7c905d15f8e44f8c28d9ef550e4da36d",
+      "bytes": 4568,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/performance-driver-01/launch_with_pinned_node.py"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-driver-01/node-wrapper-checks-01/evidence.json",
+      "sha256": "9b37edb26262564f49f989fff18502e010169408fc20b03dffd1eafae432f4ac",
+      "bytes": 1854,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/performance-driver-01/node-wrapper-checks-01/evidence.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-driver-01/node-wrapper-checks-01/plan/plan.json",
+      "sha256": "0202267107606e3ec750cfc77382bafe0a7331c6563a07da2b9c31f5e6c174d1",
+      "bytes": 10307,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/performance-driver-01/node-wrapper-checks-01/plan/plan.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-driver-01/preparation-checks-01/evidence.json",
+      "sha256": "55e1c612f16a148748cb21fcbccb366a99b6077155a80777781d3df24d206565",
+      "bytes": 7914,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/performance-driver-01/preparation-checks-01/evidence.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-driver-01/preparation-checks-01/help.stdout.log",
+      "sha256": "efeb4e09fe754ed58d4d27a72e0965820fe21981e1525b42d959f5799a6cf8f4",
+      "bytes": 1218,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/performance-driver-01/preparation-checks-01/help.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-driver-01/preparation-checks-01/input-snapshots/driver.py",
+      "sha256": "d1e87fc15df106604b9d3aa4ebf6a7c701034130e16deed8140bf44b2977ef4e",
+      "bytes": 31808,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/performance-driver-01/preparation-checks-01/input-snapshots/driver.py"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-driver-01/preparation-checks-01/input-snapshots/test_driver.py",
+      "sha256": "23f3fa0b44caea26d5d7dd97e6069554896ed9f54e71b70b618b9c026f01c4bd",
+      "bytes": 11210,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/performance-driver-01/preparation-checks-01/input-snapshots/test_driver.py"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-driver-01/preparation-checks-01/input-snapshots/verify_preparation.py",
+      "sha256": "3eaa56e7f69e6f394393a1209400360d8b8aff243a243a4a100aa9a135f0f064",
+      "bytes": 3542,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/performance-driver-01/preparation-checks-01/input-snapshots/verify_preparation.py"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-driver-01/preparation-checks-01/reject-abbreviation.stderr.log",
+      "sha256": "8af8288ae763e5120c9acafb6bcfb3ba381a7369a95bbd3cf14e4e6d153320ad",
+      "bytes": 343,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/performance-driver-01/preparation-checks-01/reject-abbreviation.stderr.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-driver-01/preparation-checks-01/synthetic-plan-only.stdout.log",
+      "sha256": "260fb4842fe977ffdacec52a5841d9c5791ce9296037b5e14a4669cf5e2fc179",
+      "bytes": 183,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/performance-driver-01/preparation-checks-01/synthetic-plan-only.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-driver-01/preparation-checks-01/synthetic-plan-only/plan.json",
+      "sha256": "717eda3e94fedcbfc7e98820a2aadf427cd9dcd948aaf4e59e367ba232cdf58e",
+      "bytes": 10308,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/performance-driver-01/preparation-checks-01/synthetic-plan-only/plan.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-driver-01/preparation-checks-02/evidence.json",
+      "sha256": "2b967b929b0639b8f721ed1be71abceaf86fcef8681101700f8edf153cf6d200",
+      "bytes": 7917,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/performance-driver-01/preparation-checks-02/evidence.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-driver-01/preparation-checks-02/pure-controls.stderr.log",
+      "sha256": "71f43657a06bc3f75847e56e9d277dadd9cd5c7e45bd9e97a8209dc08cd15119",
+      "bytes": 1878,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/performance-driver-01/preparation-checks-02/pure-controls.stderr.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-driver-01/preparation-checks-02/synthetic-plan-only.stdout.log",
+      "sha256": "c4b7a95e5e3d8755c837c45adb3623bd5a10394470e1bebaee527fa5779e25d6",
+      "bytes": 183,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/performance-driver-01/preparation-checks-02/synthetic-plan-only.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-driver-01/preparation-checks-02/synthetic-plan-only/plan.json",
+      "sha256": "ccf442686542b275b391c8c4341c7ba5f673d0a6dec6c8c224f05fc6f9be258a",
+      "bytes": 10308,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/performance-driver-01/preparation-checks-02/synthetic-plan-only/plan.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-driver-01/test_driver.py",
+      "sha256": "5cf02ac0c79d56cfe452874a00cf7c84edb1c6fa48f3da9211b90ee26fc39c74",
+      "bytes": 11466,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/performance-driver-01/test_driver.py"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-driver-01/verify_preparation_v2.py",
+      "sha256": "f45718186a997559a927f7a6c90f337aab56c5781108df25d2bf06a8fd40a6e5",
+      "bytes": 3545,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/performance-driver-01/verify_preparation_v2.py"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-driver-02/README.md",
+      "sha256": "00f0d39ccb3e1558fc124a00b26e47023d1dbafbc2c0cb0cfca2161a08bd4914",
+      "bytes": 3191,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/performance-driver-02/README.md"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-driver-02/checks-01/20260911T202352.897528Z-driver-unit-controls.json",
+      "sha256": "bbe3d6d1b8426bd9b1094d5ef6caaf1680bd5272e449a28dfb36e5c72937c003",
+      "bytes": 1029,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/performance-driver-02/checks-01/20260911T202352.897528Z-driver-unit-controls.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-driver-02/checks-01/20260911T202352.897528Z-driver-unit-controls.log",
+      "sha256": "67b5a827f7b7b2db6b7e5b9f91b1bb4406fa2b0bd3cfedb58e923d21bb20e5b9",
+      "bytes": 3046,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/performance-driver-02/checks-01/20260911T202352.897528Z-driver-unit-controls.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-driver-02/consistency-controls-01/driver.patch",
+      "sha256": "6a164423313c2149550d9e12e5bc860d0e159327de103a94319bb3f7752e6e93",
+      "bytes": 9116,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/performance-driver-02/consistency-controls-01/driver.patch"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-driver-02/consistency-controls-01/evidence.json",
+      "sha256": "baad8f7709e4a7efa6c4b6d2aa56c8bb78079a631fa097e88df701f6c5d5c65d",
+      "bytes": 18613,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/performance-driver-02/consistency-controls-01/evidence.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-driver-02/consistency-controls-01/inputs/game/Vehicle/EnduranceSedanPresentation.cs",
+      "sha256": "253321c8a2f061b3bb69d642cd5fbaf1521068d2fc0d397c54d513e19ebafba7",
+      "bytes": 32712,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/performance-driver-02/consistency-controls-01/inputs/game/Vehicle/EnduranceSedanPresentation.cs"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-driver-02/consistency-controls-01/inputs/reports/p1-018/qa/check_performance_driver34.py",
+      "sha256": "54c02e9888818fc3a6ea76da3d4a07f73c607bac51728a4e6d4f58c9a9259016",
+      "bytes": 3824,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/performance-driver-02/consistency-controls-01/inputs/reports/p1-018/qa/check_performance_driver34.py"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-driver-02/consistency-controls-01/inputs/reports/p1-018/qa/performance-driver-review-01/review.json",
+      "sha256": "86fc68f2bba306e501dbff1c262263028d9378f309637cfe7f337b5f23110e38",
+      "bytes": 11427,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/performance-driver-02/consistency-controls-01/inputs/reports/p1-018/qa/performance-driver-review-01/review.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-driver-02/consistency-controls-01/inputs/reports/p1-018/runtime/performance-driver-02/driver.py",
+      "sha256": "232aed7f34c521f0d446b276c3e90188ca2552885afbb92d20975ab1f90908c9",
+      "bytes": 36049,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/performance-driver-02/consistency-controls-01/inputs/reports/p1-018/runtime/performance-driver-02/driver.py"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-driver-02/consistency-controls-01/inputs/reports/p1-018/runtime/performance-driver-02/replay_consistency_controls.py",
+      "sha256": "b21bf8801828656ff3f3f02f50a809fb485e78bd324d96779a4fc22df263b520",
+      "bytes": 6665,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/performance-driver-02/consistency-controls-01/inputs/reports/p1-018/runtime/performance-driver-02/replay_consistency_controls.py"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-driver-02/consistency-controls-01/inputs/reports/p1-018/runtime/performance-driver-02/test_driver.py",
+      "sha256": "67b1eed8545aa40e24630166d7d1e7d27a57cf66a9b7804d962703d8790573d9",
+      "bytes": 17123,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/performance-driver-02/consistency-controls-01/inputs/reports/p1-018/runtime/performance-driver-02/test_driver.py"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-driver-02/launch_with_pinned_node.py",
+      "sha256": "7fe8eeccdd20edb8afec6b275de22e8b9750b03b0774e8733e4d92e2df374b95",
+      "bytes": 4568,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/performance-driver-02/launch_with_pinned_node.py"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-driver-02/node-wrapper-checks-01/evidence.json",
+      "sha256": "7f30174a5c0d0cb878f74bd3e32440265134c440db601736d69696705a8cf12c",
+      "bytes": 1854,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/performance-driver-02/node-wrapper-checks-01/evidence.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-driver-02/node-wrapper-checks-01/plan/plan.json",
+      "sha256": "f0fb7b1c2e8e075e5d07a11082e870a17c16f8f1f223512cbc7f4f6d2e29e066",
+      "bytes": 10307,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/performance-driver-02/node-wrapper-checks-01/plan/plan.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production-tooling-v10/retain_runtime_history06.py",
+      "sha256": "cb97bd57d83f9f7728a0bab0ce7d5a5460b265cc21e75a9be7937eb6ce59eefb",
+      "bytes": 5520,
+      "reason": "Exact preparation/source/command/output/failure/control or completed source34 headless evidence after history05",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production-tooling-v10/retain_runtime_history06.py"
+    },
+    {
+      "path": "tools/vehicles/endurance_sedan/partition_evidence.py",
+      "bytes": 5693,
+      "sha256": "e7b0aa7b71231eb02c034e930ecb3cf3a4ed0c97a2bb586793cab55de97ee1fe",
+      "reason": "Exact deterministic partition recipe"
+    }
+  ],
+  "archives": [
+    {
+      "path": "data/assets/vehicles/endurance-sedan-review/evidence/runtime-history06.zip",
+      "sha256": "d5d11a0e9c240c13d9b1dbbf9845cfe0f01aa88ca534c4a9ac4006e4ce4a1ed2",
+      "bytes": 8256946,
+      "crc_and_member_sha256_verified": true
+    },
+    {
+      "path": "reports/p1-018/runtime-history06-repeat.zip",
+      "sha256": "d5d11a0e9c240c13d9b1dbbf9845cfe0f01aa88ca534c4a9ac4006e4ce4a1ed2",
+      "bytes": 8256946,
+      "crc_and_member_sha256_verified": true
+    }
+  ],
+  "human_approval_reference": null,
+  "limits": "Evidence retention and byte identity only; individual reports retain their own scope, failures and approval status.",
+  "byte_reproducible": true,
+  "finished_utc": "2026-09-11T21:09:06.478843+00:00"
+}
