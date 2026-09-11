@@ -17,7 +17,7 @@ data/assets/vehicles/endurance-sedan-review/**/*.jsonl filter=lfs diff=lfs merge
 data/assets/vehicles/endurance-sedan-review/**/*.zip filter=lfs diff=lfs merge=lfs -text
 
 # Review logs and manifests retain their recorded bytes across checkouts.
-data/assets/vehicles/endurance-sedan-review/** -text
+data/assets/vehicles/endurance-sedan-review/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 
 # Preserve the pre-existing GDD images in normal Git history.
 docs/images/*.png -filter -diff -merge -text
