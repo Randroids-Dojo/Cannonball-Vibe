@@ -1,0 +1,18 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://game/Vehicle/VehicleVisualRig.cs" id="1_script"]
+[ext_resource type="PackedScene" path="res://assets/vehicles/endurance-sedan/endurance-sedan.generated.tscn" id="2_asset"]
+[ext_resource type="Resource" path="res://game/Vehicle/Setups/EnduranceSedan.tres" id="3_setup"]
+[ext_resource type="Resource" path="res://game/Vehicle/Setups/EnduranceSedanPresentation.tres" id="4_presentation"]
+
+[node name="EnduranceSedanVisualRig" type="Node3D"]
+script = ExtResource("1_script")
+RigSetup = ExtResource("3_setup")
+PresentationSetup = ExtResource("4_presentation")
+metadata/automation_id = "vehicle.endurance-sedan.visual-rig"
+metadata/asset_id = "endurance-sedan"
+
+[node name="ImportedAsset" parent="." instance=ExtResource("2_asset")]
+
+[node name="AutomationAnchor" type="Marker3D" parent="."]
+metadata/automation_id = "vehicle.endurance-sedan.visual-rig.anchor"

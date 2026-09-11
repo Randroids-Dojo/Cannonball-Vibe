@@ -26,7 +26,7 @@ def main() -> None:
     args = arguments()
     bpy.ops.wm.open_mainfile(filepath=str(args.source))
     if args.mutation == "unapplied-scale":
-        bpy.data.objects["LOD0_LowerBody"].scale.x = 1.25
+        bpy.data.objects["LOD0_Body"].scale.x = 1.25
     elif args.mutation == "missing-semantic-node":
         bpy.data.objects["Camera_Cockpit"].name = "BrokenCockpitAnchor"
     else:

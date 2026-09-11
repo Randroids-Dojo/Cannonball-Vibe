@@ -26,6 +26,10 @@ jobs:
       NUGET_XMLDOC_MODE: skip
     steps:
       - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+        env:
+          GIT_CONFIG_COUNT: "1"
+          GIT_CONFIG_KEY_0: lfs.fetchexclude
+          GIT_CONFIG_VALUE_0: data/assets/vehicles/endurance-sedan-review/**
         with:
           lfs: true
           persist-credentials: false
@@ -100,7 +104,7 @@ jobs:
     name: Clean-machine smoke (${{ matrix.target }})
     needs: build
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 10
+    timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
@@ -116,6 +120,10 @@ jobs:
           name: ${{ matrix.target == 'linux' && needs.build.outputs.linux_artifact || needs.build.outputs.windows_artifact }}
           path: artifact
           digest-mismatch: error
+      - name: Install standalone verification interpreter
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: 3.13.11
       - name: Verify and launch package
         timeout-minutes: 7
         shell: bash
@@ -150,6 +158,13 @@ jobs:
               exit 1
             fi
           done
+      - name: Select and exercise the packaged endurance sedan
+        timeout-minutes: 10
+        shell: bash
+        run: |
+          package_root="$GITHUB_WORKSPACE/artifact/unpacked/Cannonball-${{ matrix.target }}-x86_64"
+          python "$package_root/verification/verify_packaged_sedan.py" \
+            --package "$package_root" --output "$RUNNER_TEMP/package-sedan"
       - name: Retain native shutdown smoke evidence
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
@@ -159,5 +174,8 @@ jobs:
             ${{ runner.temp }}/package-smoke/*.log
             ${{ runner.temp }}/package-smoke/*.json
             ${{ runner.temp }}/package-smoke/*.jsonl
+            ${{ runner.temp }}/package-sedan/**/*.log
+            ${{ runner.temp }}/package-sedan/**/*.json
+            ${{ runner.temp }}/package-sedan/**/*.jsonl
           if-no-files-found: warn
           retention-days: 14

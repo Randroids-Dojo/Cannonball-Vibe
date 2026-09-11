@@ -92,6 +92,7 @@ build_once() {
   fi
   cp "$source_root/scripts/release/smoke.mjs" "$source_root/scripts/release/pck-inspect.mjs" \
     "$source_root/scripts/release/verify-package.sh" "$stage/package/verification/"
+  cp "$source_root/tools/vehicles/verify_packaged_sedan.py" "$stage/package/verification/"
   node "$source_root/scripts/release/package-tools.mjs" metadata "$stage/package" "$source_root" "$platform" "$revision" "$epoch" "$preset" "$binary" "$launcher" \
     "$CANNONBALL_RELEASE_TEMPLATE_SHA256" "$CANNONBALL_RELEASE_TEMPLATE_VERSION" "$CANNONBALL_RELEASE_GODOT_VERSION" \
     "$CANNONBALL_RELEASE_DOTNET_VERSION" "$CANNONBALL_RELEASE_RUNTIME_VERSION" "$CANNONBALL_RELEASE_UV_VERSION" \

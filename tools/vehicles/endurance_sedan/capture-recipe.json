@@ -1,0 +1,343 @@
+{
+  "task_id": "P1-018",
+  "purpose": "Actual locked-source review media; separate from runtime performance and human approval.",
+  "common_arguments": [
+    "--width",
+    "2560",
+    "--height",
+    "1440",
+    "--engine",
+    "cycles",
+    "--device",
+    "GPU",
+    "--gpu-denoising",
+    "--fps",
+    "30"
+  ],
+  "cases": [
+    {
+      "name": "neutral-exterior",
+      "arguments": [
+        "--samples",
+        "64",
+        "--views",
+        "front,rear,left,right,top,under,front3q,rear3q"
+      ]
+    },
+    {
+      "name": "neutral-clay",
+      "arguments": [
+        "--samples",
+        "48",
+        "--clay",
+        "--views",
+        "front,rear,left,right,top,under,front3q,rear3q"
+      ]
+    },
+    {
+      "name": "technical-orthos",
+      "arguments": [
+        "--samples",
+        "32",
+        "--technical-overlays",
+        "--views",
+        "front,rear,left,right,top,under"
+      ]
+    },
+    {
+      "name": "material-swatches",
+      "arguments": [
+        "--samples",
+        "64",
+        "--views",
+        "swatch_board,swatch_Paint,swatch_Trim,swatch_Rubber,swatch_Leather,swatch_Carpet,swatch_Fabric,swatch_Alloy,swatch_Metal,swatch_Glass"
+      ]
+    },
+    {
+      "name": "neutral-closeups",
+      "arguments": [
+        "--samples",
+        "64",
+        "--views",
+        "paint,panel_gap,front_lamps,rear_lamps,wheel,glass_seal,wipers"
+      ]
+    },
+    {
+      "name": "neutral-cabin",
+      "arguments": [
+        "--samples",
+        "64",
+        "--views",
+        "cockpit,rear_cabin,rear_seats,pedals,upholstery,roof_front,roof_rear"
+      ]
+    },
+    {
+      "name": "daylight",
+      "arguments": [
+        "--samples",
+        "64",
+        "--lighting",
+        "daylight",
+        "--views",
+        "front3q,rear3q,left,paint,cockpit,rear_cabin"
+      ]
+    },
+    {
+      "name": "overcast",
+      "arguments": [
+        "--samples",
+        "64",
+        "--lighting",
+        "overcast",
+        "--views",
+        "front3q,rear3q,left,paint,cockpit,rear_cabin"
+      ]
+    },
+    {
+      "name": "dusk",
+      "arguments": [
+        "--samples",
+        "64",
+        "--lighting",
+        "dusk",
+        "--control",
+        "headlights=1",
+        "--views",
+        "front3q,rear3q,left,paint,cockpit,rear_cabin"
+      ]
+    },
+    {
+      "name": "night",
+      "arguments": [
+        "--samples",
+        "64",
+        "--lighting",
+        "night",
+        "--control",
+        "headlights=1",
+        "--views",
+        "front3q,rear3q,left,paint,cockpit,rear_cabin"
+      ]
+    },
+    {
+      "name": "open-inspection-worklight",
+      "arguments": [
+        "--samples",
+        "64",
+        "--inspection-fill-watts",
+        "20",
+        "--control",
+        "Door_FL_open=1",
+        "--control",
+        "Door_FR_open=1",
+        "--control",
+        "Door_RL_open=1",
+        "--control",
+        "Door_RR_open=1",
+        "--control",
+        "Hood_Hinge_open=1",
+        "--control",
+        "Trunk_Hinge_open=1",
+        "--views",
+        "front_door,rear_door,engine,trunk,hood_hinge,trunk_hinge,upholstery,rear_seats"
+      ]
+    },
+    {
+      "name": "cabin-controls-worklight",
+      "arguments": [
+        "--samples",
+        "64",
+        "--inspection-fill-watts",
+        "20",
+        "--views",
+        "pedals,roof_front,roof_rear"
+      ]
+    },
+    {
+      "name": "steer-left-bump",
+      "arguments": [
+        "--samples",
+        "48",
+        "--control",
+        "steering=-1",
+        "--control",
+        "suspension=0.085",
+        "--views",
+        "front3q,left,under,wheel"
+      ]
+    },
+    {
+      "name": "steer-right-bump",
+      "arguments": [
+        "--samples",
+        "48",
+        "--control",
+        "steering=1",
+        "--control",
+        "suspension=0.085",
+        "--views",
+        "front3q,right,under,wheel"
+      ]
+    },
+    {
+      "name": "steer-left-droop",
+      "arguments": [
+        "--samples",
+        "48",
+        "--control",
+        "steering=-1",
+        "--control",
+        "suspension=-0.075",
+        "--views",
+        "front3q,left,under,wheel"
+      ]
+    },
+    {
+      "name": "steer-right-droop",
+      "arguments": [
+        "--samples",
+        "48",
+        "--control",
+        "steering=1",
+        "--control",
+        "suspension=-0.075",
+        "--views",
+        "front3q,right,under,wheel"
+      ]
+    },
+    {
+      "name": "restraints-worklight",
+      "arguments": [
+        "--samples",
+        "64",
+        "--inspection-fill-watts",
+        "20",
+        "--views",
+        "front_belt_left,rear_seats"
+      ]
+    },
+    {
+      "name": "turntable",
+      "arguments": [
+        "--samples",
+        "24",
+        "--sequence",
+        "turntable",
+        "--frames",
+        "360"
+      ]
+    },
+    {
+      "name": "interior-worklight",
+      "arguments": [
+        "--samples",
+        "24",
+        "--inspection-fill-watts",
+        "20",
+        "--sequence",
+        "interior",
+        "--frames",
+        "300"
+      ]
+    },
+    {
+      "name": "six-openings-worklight",
+      "arguments": [
+        "--samples",
+        "24",
+        "--inspection-fill-watts",
+        "20",
+        "--sequence",
+        "openings",
+        "--frames",
+        "546"
+      ]
+    },
+    {
+      "name": "all-openings",
+      "arguments": [
+        "--samples",
+        "24",
+        "--sequence",
+        "all-openings",
+        "--frames",
+        "121"
+      ]
+    },
+    {
+      "name": "wipers-exterior",
+      "arguments": [
+        "--samples",
+        "24",
+        "--sequence",
+        "hold",
+        "--views",
+        "wipers",
+        "--control",
+        "wipers_running=1",
+        "--frames",
+        "163"
+      ]
+    },
+    {
+      "name": "wipers-cockpit",
+      "arguments": [
+        "--samples",
+        "24",
+        "--sequence",
+        "hold",
+        "--views",
+        "cockpit",
+        "--control",
+        "wipers_running=1",
+        "--frames",
+        "163"
+      ]
+    },
+    {
+      "name": "wipers-oblique",
+      "arguments": [
+        "--samples",
+        "24",
+        "--sequence",
+        "hold",
+        "--views",
+        "wiper_oblique",
+        "--control",
+        "wipers_running=1",
+        "--frames",
+        "163"
+      ]
+    },
+    {
+      "name": "rear-bench-worklight",
+      "arguments": [
+        "--samples",
+        "24",
+        "--inspection-fill-watts",
+        "20",
+        "--sequence",
+        "hold",
+        "--views",
+        "rear_seats",
+        "--frames",
+        "121"
+      ]
+    },
+    {
+      "name": "wipers-overview",
+      "arguments": [
+        "--samples",
+        "24",
+        "--sequence",
+        "hold",
+        "--views",
+        "wiper_overview",
+        "--control",
+        "wipers_running=1",
+        "--frames",
+        "163"
+      ]
+    }
+  ]
+}

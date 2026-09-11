@@ -30,3 +30,9 @@ QA owns `defects.json` and independent observations/captures under
 The primary benchmark and fictional identity are not selected in this claim.
 No new performance target, rights approval, handling approval or completed art is
 claimed. Geometry is new; the existing Hero GT remains available.
+
+## 2026-09-11 addendum: claim history and locked selection
+
+The preceding unselected benchmark/identity statement records the **2026-09-10 claim-time state**. The [research dossier](research.md) subsequently selected the **2016 US Audi S6 C7 facelift** as the primary engineering benchmark. The original fictional vehicle is **Meridian S8R**, with its current locked dimensions, packaging and finish in [specification revision 17](specification.json) and the [revision 17 restraint construction record](packaging-revision-v17.md). The [design rationale](original-design-rationale.md) separates engineering references from original styling and construction.
+
+Current task status, remaining evidence and human gates are recorded under **P1-018** in the [delivery ledger](../../DELIVERY_LEDGER.json). This dated clarification grants no source/output rights, handling, usability or release approval.

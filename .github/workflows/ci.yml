@@ -21,6 +21,10 @@ jobs:
       DOTNET_ROLL_FORWARD: Major
     steps:
       - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+        env:
+          GIT_CONFIG_COUNT: "1"
+          GIT_CONFIG_KEY_0: lfs.fetchexclude
+          GIT_CONFIG_VALUE_0: data/assets/vehicles/endurance-sedan-review/**
         with:
           lfs: true
       - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5
@@ -70,6 +74,10 @@ jobs:
       DOTNET_ROLL_FORWARD: Major
     steps:
       - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+        env:
+          GIT_CONFIG_COUNT: "1"
+          GIT_CONFIG_KEY_0: lfs.fetchexclude
+          GIT_CONFIG_VALUE_0: data/assets/vehicles/endurance-sedan-review/**
         with:
           lfs: true
       - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5
@@ -121,6 +129,10 @@ jobs:
       CANNONBALL_SCENARIO_TIMEOUT_SECONDS: 600
     steps:
       - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+        env:
+          GIT_CONFIG_COUNT: "1"
+          GIT_CONFIG_KEY_0: lfs.fetchexclude
+          GIT_CONFIG_VALUE_0: data/assets/vehicles/endurance-sedan-review/**
         with:
           lfs: true
       - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5

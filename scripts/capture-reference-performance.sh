@@ -20,6 +20,7 @@ Usage: capture-reference-performance.sh --scenario NAME [options]
   --lighting daylight|night  Scenario lighting state (default: daylight).
   --camera chase|cockpit     Camera the run drives from (default: chase).
   --resolution WxH           Capture resolution (default: 2560x1440).
+  --fullscreen               Use the display's full native client area.
   --speed-mps N              Autopilot cruise target (default: 40).
   --warmup-seconds N         Warm-up discarded before measuring (default: 20).
   --measure-seconds N        Steady-state measurement duration (default: 120).
@@ -30,6 +31,8 @@ Usage: capture-reference-performance.sh --scenario NAME [options]
   --output-dir DIR           Artifact directory (default: reports/q022).
   --no-loop                  Disable short-corridor looping.
   --resample-meters N        Route sample spacing (default: pipeline default).
+  --vehicle ID              hero-gt|endurance-sedan|graybox (default: hero-gt).
+  --mirrors on|off           Benchmark-only mirror comparison (default: on).
   --graybox-vehicle          Drive the box stand-in instead of the Hero GT rig.
   --allow-contended          Publish even if the machine was not idle.
 USAGE
@@ -39,6 +42,7 @@ scenario=""
 lighting="daylight"
 camera="chase"
 resolution="2560x1440"
+fullscreen="false"
 speed_mps="40"
 warmup_seconds="20"
 measure_seconds="120"
@@ -53,6 +57,8 @@ allow_contended="false"
 # package; varying it is how the speed sweep separates mesh faceting from terrain.
 resample_meters=""
 graybox_vehicle="false"
+vehicle="hero-gt"
+mirrors="on"
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -62,12 +68,17 @@ while [[ $# -gt 0 ]]; do
     --lighting=*) lighting="${1#--lighting=}"; shift ;;
     --allow-contended) allow_contended="true"; shift ;;
     --graybox-vehicle) graybox_vehicle="true"; shift ;;
+    --vehicle) vehicle="${2:?--vehicle requires a value}"; shift 2 ;;
+    --vehicle=*) vehicle="${1#--vehicle=}"; shift ;;
+    --mirrors) mirrors="${2:?--mirrors requires a value}"; shift 2 ;;
+    --mirrors=*) mirrors="${1#--mirrors=}"; shift ;;
     --resample-meters) resample_meters="${2:?--resample-meters requires a value}"; shift 2 ;;
     --resample-meters=*) resample_meters="${1#--resample-meters=}"; shift ;;
     --camera) camera="${2:?--camera requires a value}"; shift 2 ;;
     --camera=*) camera="${1#--camera=}"; shift ;;
     --resolution) resolution="${2:?--resolution requires a value}"; shift 2 ;;
     --resolution=*) resolution="${1#--resolution=}"; shift ;;
+    --fullscreen) fullscreen="true"; shift ;;
     --speed-mps) speed_mps="${2:?--speed-mps requires a value}"; shift 2 ;;
     --speed-mps=*) speed_mps="${1#--speed-mps=}"; shift ;;
     --warmup-seconds) warmup_seconds="${2:?--warmup-seconds requires a value}"; shift 2 ;;
@@ -93,6 +104,21 @@ if [[ -z "$scenario" ]]; then
   echo "--scenario is required." >&2
   usage
   exit 2
+fi
+case "$vehicle" in
+  hero-gt|endurance-sedan|graybox) ;;
+  *) echo "--vehicle must be hero-gt, endurance-sedan or graybox." >&2; exit 2 ;;
+esac
+case "$mirrors" in
+  on|off) ;;
+  *) echo "--mirrors must be on or off." >&2; exit 2 ;;
+esac
+if [[ "$graybox_vehicle" == "true" ]]; then
+  if [[ "$vehicle" != "hero-gt" && "$vehicle" != "graybox" ]]; then
+    echo "--graybox-vehicle conflicts with --vehicle=$vehicle." >&2
+    exit 2
+  fi
+  vehicle="graybox"
 fi
 if [[ ! "$scenario" =~ ^[A-Za-z0-9][A-Za-z0-9._-]*$ ]]; then
   echo "--scenario must be a separator-free name using letters, numbers, '.', '_', or '-'." >&2
@@ -149,6 +175,13 @@ mkdir -p "$output_dir"
 summary_path="$output_dir/reference-performance-$scenario.json"
 samples_path="$output_dir/reference-performance-$scenario.jsonl"
 log_path="$output_dir/reference-performance-$scenario.log"
+save_path="$output_dir/run-save-$scenario.json"
+for artifact in "$summary_path" "$samples_path" "$log_path" "$save_path"; do
+  if [[ -e "$artifact" ]]; then
+    echo "Preserve existing capture evidence and use a fresh scenario/output directory: $artifact" >&2
+    exit 2
+  fi
+done
 
 package_directory="$repo_root/.tools/scenarios/$fixture"
 uv run --project "$repo_root/tools/map_pipeline" --frozen cannonball-map build \
@@ -333,13 +366,18 @@ CANNONBALL_GIT_REVISION="$(git rev-parse HEAD)"
 timeout_seconds="$(awk -v warmup="$warmup_seconds" -v measure="$measure_seconds" \
   'BEGIN { printf "%d", warmup + measure + 300 }')"
 
+fullscreen_args=()
+if [[ "$fullscreen" == "true" ]]; then fullscreen_args+=(--fullscreen); fi
 godot_args=(
   --rendering-method forward_plus
   --resolution "$resolution"
   --path "$repo_root"
+  "${fullscreen_args[@]}"
   --
   "--route-package=$route_package"
   --reference-performance-profile
+  "--vehicle=$vehicle"
+  "--reference-mirrors=$([[ "$mirrors" == "on" ]] && echo true || echo false)"
   "--reference-scenario=$scenario"
   "--reference-lighting=$lighting"
   "--reference-camera=$camera"
@@ -352,6 +390,7 @@ godot_args=(
   "--reference-loop-corridor=$loop_corridor"
   "--reference-summary=$summary_path"
   "--reference-samples=$samples_path"
+  "--run-save-path=$save_path"
   "--environment-quality=$environment_quality"
   "--telemetry-path=$output_dir/telemetry-$scenario.jsonl"
 )
@@ -362,8 +401,9 @@ if [[ "$graybox_vehicle" == "true" ]]; then
   godot_args+=("--graybox-vehicle")
 fi
 
-printf 'CANNONBALL_REFERENCE_CAPTURE_START scenario=%s configuration=%s resolution=%s lighting=%s camera=%s quality=%s vsync=%s max_fps=%s warmup_s=%s measure_s=%s timeout_s=%s\n' \
+printf 'CANNONBALL_REFERENCE_CAPTURE_START scenario=%s configuration=%s resolution=%s lighting=%s camera=%s quality=%s vehicle=%s mirrors=%s vsync=%s max_fps=%s warmup_s=%s measure_s=%s timeout_s=%s\n' \
   "$scenario" "$build_configuration" "$resolution" "$lighting" "$camera" "$environment_quality" \
+  "$vehicle" "$mirrors" \
   "$vsync" "$max_fps" "$warmup_seconds" "$measure_seconds" "$timeout_seconds"
 
 machine_state_path="$output_dir/machine-state-$scenario.json"
@@ -475,6 +515,10 @@ if [[ $capture_exit -ne 0 ]]; then
   echo "Reference performance capture exited with status $capture_exit." >&2
   exit "$capture_exit"
 fi
+if grep -Eiq '(^|[[:space:]])(ERROR|WARNING|SCRIPT ERROR):|Unhandled exception|Fatal error|AccessViolationException|SIGSEGV|Segmentation fault|ObjectDB instances leaked|resources still in use' "$log_path"; then
+  echo "Reference performance capture emitted an error, warning, fatal or resource-leak diagnostic." >&2
+  exit 1
+fi
 
 if marker="$(grep '^CANNONBALL_REFERENCE_PERFORMANCE_OK ' "$log_path")"; then
   :
@@ -490,14 +534,14 @@ if [[ -z "$marker" || "$marker" == *$'\n'* ]]; then
   echo "Reference performance capture emitted a missing or ambiguous completion marker." >&2
   exit 1
 fi
-for required in "scenario=$scenario" "resolution=$resolution" "headless=false"; do
+for required in "scenario=$scenario" "resolution=$resolution" "headless=false" "vehicle=$vehicle" "mirrors=$mirrors"; do
   if [[ " $marker " != *" $required "* ]]; then
     echo "Reference performance marker is missing '$required': $marker" >&2
     exit 1
   fi
 done
 for artifact in "$summary_path" "$samples_path" "$route_repro_path" \
-  "$machine_state_path"; do
+  "$machine_state_path" "$save_path"; do
   if [[ ! -s "$artifact" ]]; then
     echo "Reference performance capture did not write $artifact." >&2
     exit 1
@@ -505,11 +549,33 @@ for artifact in "$summary_path" "$samples_path" "$route_repro_path" \
 done
 
 uv run --project "$repo_root/tools/map_pipeline" --frozen python - \
-  "$summary_path" <<'PY'
+  "$summary_path" "$vehicle" "$mirrors" "$repo_root" "$save_path" "$log_path" "$resolution" <<'PY'
+import hashlib
 import json
 import sys
+from pathlib import Path
 
-acceptance = json.loads(open(sys.argv[1], encoding="utf-8").read())["acceptance"]
+summary = json.loads(open(sys.argv[1], encoding="utf-8").read())
+configuration = summary["configuration"]
+if configuration["actual_window_size"] != sys.argv[7] or configuration["three_d_render_size"] != sys.argv[7]:
+    raise SystemExit("Reference capture rendered size differs from the requested resolution")
+save_markers = [line.removeprefix("CANNONBALL_AUTOMATION_SAVE_PATH ") for line in Path(sys.argv[6]).read_text(encoding="utf-8").splitlines() if line.startswith("CANNONBALL_AUTOMATION_SAVE_PATH ")]
+if len(save_markers) != 1 or Path(json.loads(save_markers[0])["path"]).resolve() != Path(sys.argv[5]).resolve():
+    raise SystemExit("Reference capture did not use the requested isolated save path")
+print("CANNONBALL_REFERENCE_CAPTURE_SAVE_SHA256 " + hashlib.sha256(Path(sys.argv[5]).read_bytes()).hexdigest())
+if configuration["vehicle"]["selected_asset"] != sys.argv[2] or configuration["mirrors_enabled"] != (sys.argv[3] == "on"):
+    raise SystemExit("Reference capture vehicle/mirror selection does not match the requested fixture")
+if sys.argv[2] == "endurance-sedan":
+    lamps = summary["vehicle_illumination"]
+    if lamps["applicable"] is not True or lamps["content_state_verified"] is not True or lamps["sample_count"] <= 0 or lamps["mismatch_count"] != 0:
+        raise SystemExit("Reference capture actual head/tail/beam state did not match its requested lighting")
+    if lamps["expected_head_tail_on"] != (configuration["lighting"] == "night"):
+        raise SystemExit("Reference capture lamp expectation differs from its configured lighting")
+    print(f'CANNONBALL_REFERENCE_ILLUMINATION verified=true samples={lamps["sample_count"]} readback_max_ms={lamps["readback_max_ms"]}')
+for path, expected in configuration["vehicle"]["source_and_runtime_sha256"].items():
+    if not path.startswith("res://") or hashlib.sha256((Path(sys.argv[4]) / path[6:]).read_bytes()).hexdigest() != expected:
+        raise SystemExit("Reference capture input changed or has an invalid hash: " + path)
+acceptance = summary["acceptance"]
 for name, result in acceptance.items():
     # An entry carries no verdict when it does not apply to this run: cap_adherence
     # on an uncapped run, and the p95 limit on a capped one. Reporting those as

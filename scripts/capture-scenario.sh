@@ -68,6 +68,11 @@ fi
 if [[ " ${scenario_args[*]} " == *" --vehicle-visual-review "* ]]; then
   default_capture_frames=600
 fi
+if [[ " ${scenario_args[*]} " == *" --vehicle-visual-profile "* ||
+      " ${scenario_args[*]} " == *" --vehicle-visual-review "* ]]; then
+  # Keep the legacy Hero camera/rig review independent of saved selection.
+  scenario_args+=("--vehicle=hero-gt")
+fi
 if [[ " ${scenario_args[*]} " == *" --road-visual-review "* ]]; then
   default_capture_frames=600
 fi

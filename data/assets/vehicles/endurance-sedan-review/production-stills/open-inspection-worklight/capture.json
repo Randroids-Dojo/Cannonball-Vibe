@@ -1,0 +1,257 @@
+{
+  "source": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\checkpoints\\production-33.blend",
+  "configuration": {
+    "source_sha256": "8ddb88bfcf82b68ef7cccfa86dbfedf502a4de1fa4e9f0924cffe6609f8d7a50",
+    "renderer_sha256": "08b7c868fe0bd8b32e4cfa99c10aeb0655ae2ef32325d5ed501029e0dd73e057",
+    "blender": "5.1.2",
+    "build_hash": "ec6e62d40fa9",
+    "engine": "CYCLES",
+    "device": "GPU",
+    "devices": [
+      {
+        "name": "NVIDIA GeForce RTX 3080 Ti",
+        "type": "CUDA",
+        "enabled": false
+      },
+      {
+        "name": "AMD Ryzen 9 5900X 12-Core Processor",
+        "type": "CPU",
+        "enabled": false
+      },
+      {
+        "name": "NVIDIA GeForce RTX 3080 Ti",
+        "type": "OPTIX",
+        "enabled": true
+      }
+    ],
+    "size": [
+      2560,
+      1440
+    ],
+    "samples": 64,
+    "denoising": true,
+    "view_transform": "AgX",
+    "look": "AgX - Medium High Contrast",
+    "exposure": 0.0,
+    "clay": false,
+    "source_controls": {
+      "Door_FL_open": 1.0,
+      "Door_FR_open": 1.0,
+      "Door_RL_open": 1.0,
+      "Door_RR_open": 1.0,
+      "Hood_Hinge_open": 1.0,
+      "Trunk_Hinge_open": 1.0
+    },
+    "lighting": "neutral",
+    "sequence": "none",
+    "frame_count": 8,
+    "fps": 30,
+    "views": "front_door,rear_door,engine,trunk,hood_hinge,trunk_hinge,upholstery,rear_seats",
+    "ray_bounces": 10,
+    "source_timeline_fps": 60,
+    "inspection_fill_watts": 20.0,
+    "denoiser": "OPENIMAGEDENOISE",
+    "denoising_use_gpu": true,
+    "denoising_prefilter": "ACCURATE",
+    "technical_overlay": null,
+    "review_overlay_tool_sha256": "230827eb0257dd454e9429ddd3dd68e51107b540d58f6e18e893542196805fb7",
+    "review_geometry_tool_sha256": "0e9fad40b0d14ba1265958bd6836d133fde89474efd6f988860f46fc2cde2b90",
+    "material_swatches": {}
+  },
+  "configuration_sha256": "6bd17e392ef1db5f1d080871b475e1bec8cb7607e68a4e78c65023c87bbb8eba",
+  "status": "completed",
+  "frames": [
+    {
+      "view": "front_door",
+      "capture_view": "front_door",
+      "path": "front_door.png",
+      "sha256": "5fa9530a75ad2ff0fe1665304120f53b04e254b05f62c770d505daabb66983d5",
+      "seconds": 5.272087099998316,
+      "cold": true,
+      "camera_location": [
+        -1.75,
+        -0.25,
+        1.05
+      ],
+      "camera_target": [
+        -0.2,
+        0.1,
+        0.77
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 1,
+      "time_seconds": 0.0,
+      "animated_controls": {}
+    },
+    {
+      "view": "rear_door",
+      "capture_view": "rear_door",
+      "path": "rear_door.png",
+      "sha256": "4a7660258271739b8aa4591ed72b234f10d8aeeae7ce877285c9f6d0fc75c97e",
+      "seconds": 4.9810826999964775,
+      "cold": false,
+      "camera_location": [
+        -1.65,
+        -1.32,
+        1.03
+      ],
+      "camera_target": [
+        0,
+        -1.05,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 1,
+      "time_seconds": 0.0,
+      "animated_controls": {}
+    },
+    {
+      "view": "engine",
+      "capture_view": "engine",
+      "path": "engine.png",
+      "sha256": "63736ff899e560323399dea40cbb30c46b936e1c623a68435b49023fb2b9c119",
+      "seconds": 4.106686599996465,
+      "cold": false,
+      "camera_location": [
+        -0.95,
+        2.55,
+        2.75
+      ],
+      "camera_target": [
+        0,
+        1.38,
+        0.58
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 1,
+      "time_seconds": 0.0,
+      "animated_controls": {}
+    },
+    {
+      "view": "trunk",
+      "capture_view": "trunk",
+      "path": "trunk.png",
+      "sha256": "ae1c3fc19771e7ebab97dd0252a86cddd53d0b47789433d91cdf091357f4b927",
+      "seconds": 4.638336199997866,
+      "cold": false,
+      "camera_location": [
+        0.9,
+        -3.6,
+        2.55
+      ],
+      "camera_target": [
+        0,
+        -1.97,
+        0.58
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 1,
+      "time_seconds": 0.0,
+      "animated_controls": {}
+    },
+    {
+      "view": "hood_hinge",
+      "capture_view": "hood_hinge",
+      "path": "hood_hinge.png",
+      "sha256": "6dfdec02eeabbca69399995c153441a8dbb41e9f73bd78b99149c755b55c7791",
+      "seconds": 5.2379357000027085,
+      "cold": false,
+      "camera_location": [
+        -1.3,
+        1.6,
+        1.69
+      ],
+      "camera_target": [
+        -0.437,
+        0.8,
+        0.99
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 1,
+      "time_seconds": 0.0,
+      "animated_controls": {}
+    },
+    {
+      "view": "trunk_hinge",
+      "capture_view": "trunk_hinge",
+      "path": "trunk_hinge.png",
+      "sha256": "d6a38bf670df8340f8a68c207cc728655347e5fb8644c348d95ea8361422b028",
+      "seconds": 4.675940699999046,
+      "cold": false,
+      "camera_location": [
+        -0.95,
+        -2.9,
+        1.68
+      ],
+      "camera_target": [
+        -0.455,
+        -2.0,
+        0.99
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 1,
+      "time_seconds": 0.0,
+      "animated_controls": {}
+    },
+    {
+      "view": "upholstery",
+      "capture_view": "upholstery",
+      "path": "upholstery.png",
+      "sha256": "21c3964d8143c7cc4c5b18c4f11a97c5acc56134e99945833b56369da6bf493d",
+      "seconds": 4.767746299999999,
+      "cold": false,
+      "camera_location": [
+        0.02,
+        0.3,
+        1.12
+      ],
+      "camera_target": [
+        -0.4,
+        -0.28,
+        0.62
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 1,
+      "time_seconds": 0.0,
+      "animated_controls": {}
+    },
+    {
+      "view": "rear_seats",
+      "capture_view": "rear_seats",
+      "path": "rear_seats.png",
+      "sha256": "96eb21540116d14c2db193e5c91d6116635c9ba3335056d1ee2b837a6df071c2",
+      "seconds": 5.279234900001029,
+      "cold": false,
+      "camera_location": [
+        0,
+        0.08,
+        1.24
+      ],
+      "camera_target": [
+        0,
+        -1.3,
+        0.73
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 1,
+      "time_seconds": 0.0,
+      "animated_controls": {}
+    }
+  ]
+}

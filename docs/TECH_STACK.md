@@ -308,6 +308,19 @@ the owner selected the project-original Hero GT direction, while final
 silhouette, readability, renderer budgets, and exact rights evidence remain
 P1-008 acceptance gates.
 
+P1-018 adds the original Meridian S8R four-door endurance sedan through that
+same contract. `VehicleRigSetup` supplies each vehicle's dimensions, wheel
+radius and resource paths to the shared custom four-raycast simulation and
+visual adapter. A project-owned presentation component drives the sedan's
+openings, wipers, lights, instruments and cockpit mirrors from runtime state.
+Vehicle selection is a separate local presentation setting; it does not change
+the authoritative route/save contract or the Starter/HighSpeedValidation speed
+policies. The editable source, engineering references, fictional design choices,
+feature matrix and explicit modeled-versus-simulated boundaries are documented
+in [the sedan guide](vehicles/endurance-sedan/README.md). Its vehicle-specific
+asset and runtime gates include Hero GT and graybox regressions. Final human
+art, rights, driving and usability approval remains an independent P1-018 gate.
+
 P1-009 now exercises the same boundary for highway visuals. The procedural road
 generator consumes one shared `RoadVisualKit` with production and graybox
 profiles, semantic metadata, 18 shared materials, nine shared meshes, and

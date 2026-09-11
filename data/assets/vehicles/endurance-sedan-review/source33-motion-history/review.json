@@ -1,0 +1,1058 @@
+{
+  "task_id": "P1-018",
+  "milestone": "M5",
+  "status": "completed",
+  "utc": "2026-09-11T19:34:47.079010+00:00",
+  "git_revision": "eb5703e55f3656e91bd80fb79502f10ce250554b",
+  "source": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\checkpoints\\production-33.blend",
+  "source_sha256": "8ddb88bfcf82b68ef7cccfa86dbfedf502a4de1fa4e9f0924cffe6609f8d7a50",
+  "tool_sha256": "c42dc8f64e3984bd888d02ed510011561c2449cec1e36d4c1a16f80e8c3c629c",
+  "python": "3.13.11",
+  "pillow": "11.3.0",
+  "commands": [
+    {
+      "argv": [
+        "C:\\Dev\\Cannonball-Vibe-sedan\\.tools\\ffmpeg-9.0.1\\ffmpeg-9.0.1-essentials_build\\bin\\ffmpeg.exe",
+        "-version"
+      ],
+      "started_utc": "2026-09-11T19:34:47.094962+00:00",
+      "finished_utc": "2026-09-11T19:34:47.117549+00:00",
+      "exit_status": 0,
+      "log": "ffmpeg-version.log",
+      "sha256": "548d07da79082ab0db5b6ab14edc7d2e4221996319ee19b2031ee3226416727b"
+    },
+    {
+      "argv": [
+        "C:\\Dev\\Cannonball-Vibe-sedan\\.tools\\ffmpeg-9.0.1\\ffmpeg-9.0.1-essentials_build\\bin\\ffprobe.exe",
+        "-v",
+        "error",
+        "-select_streams",
+        "v:0",
+        "-count_frames",
+        "-show_entries",
+        "stream=width,height,nb_read_frames,avg_frame_rate,duration",
+        "-of",
+        "json",
+        "C:\\Dev\\Cannonball-Vibe-sedan\\data\\assets\\vehicles\\endurance-sedan-review\\source33-motion-history\\source33-turntable\\inspection.mp4"
+      ],
+      "started_utc": "2026-09-11T19:34:49.493455+00:00",
+      "finished_utc": "2026-09-11T19:34:52.047283+00:00",
+      "exit_status": 0,
+      "log": "source33-turntable-probe.log",
+      "sha256": "04d8640bd20a86ac64f75f803951ceb0751684d91693e8730450cc0dff537a43"
+    },
+    {
+      "argv": [
+        "C:\\Dev\\Cannonball-Vibe-sedan\\.tools\\ffmpeg-9.0.1\\ffmpeg-9.0.1-essentials_build\\bin\\ffmpeg.exe",
+        "-v",
+        "error",
+        "-xerror",
+        "-i",
+        "C:\\Dev\\Cannonball-Vibe-sedan\\data\\assets\\vehicles\\endurance-sedan-review\\source33-motion-history\\source33-turntable\\inspection.mp4",
+        "-f",
+        "null",
+        "-"
+      ],
+      "started_utc": "2026-09-11T19:34:52.047793+00:00",
+      "finished_utc": "2026-09-11T19:34:52.484572+00:00",
+      "exit_status": 0,
+      "log": "source33-turntable-decode.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "C:\\Dev\\Cannonball-Vibe-sedan\\.tools\\ffmpeg-9.0.1\\ffmpeg-9.0.1-essentials_build\\bin\\ffprobe.exe",
+        "-v",
+        "error",
+        "-select_streams",
+        "v:0",
+        "-count_frames",
+        "-show_entries",
+        "stream=width,height,nb_read_frames,avg_frame_rate,duration",
+        "-of",
+        "json",
+        "C:\\Dev\\Cannonball-Vibe-sedan\\data\\assets\\vehicles\\endurance-sedan-review\\source33-motion-history\\source33-interior-with-rear-occlusion\\inspection.mp4"
+      ],
+      "started_utc": "2026-09-11T19:34:54.954623+00:00",
+      "finished_utc": "2026-09-11T19:34:56.976422+00:00",
+      "exit_status": 0,
+      "log": "source33-interior-with-rear-occlusion-probe.log",
+      "sha256": "6c71fd3116bd95b4ea039957d20b62085844f19da4ef3d0874beaf74490defd0"
+    },
+    {
+      "argv": [
+        "C:\\Dev\\Cannonball-Vibe-sedan\\.tools\\ffmpeg-9.0.1\\ffmpeg-9.0.1-essentials_build\\bin\\ffmpeg.exe",
+        "-v",
+        "error",
+        "-xerror",
+        "-i",
+        "C:\\Dev\\Cannonball-Vibe-sedan\\data\\assets\\vehicles\\endurance-sedan-review\\source33-motion-history\\source33-interior-with-rear-occlusion\\inspection.mp4",
+        "-f",
+        "null",
+        "-"
+      ],
+      "started_utc": "2026-09-11T19:34:56.977013+00:00",
+      "finished_utc": "2026-09-11T19:34:57.371301+00:00",
+      "exit_status": 0,
+      "log": "source33-interior-with-rear-occlusion-decode.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "C:\\Dev\\Cannonball-Vibe-sedan\\.tools\\ffmpeg-9.0.1\\ffmpeg-9.0.1-essentials_build\\bin\\ffprobe.exe",
+        "-v",
+        "error",
+        "-select_streams",
+        "v:0",
+        "-count_frames",
+        "-show_entries",
+        "stream=width,height,nb_read_frames,avg_frame_rate,duration",
+        "-of",
+        "json",
+        "C:\\Dev\\Cannonball-Vibe-sedan\\data\\assets\\vehicles\\endurance-sedan-review\\source33-motion-history\\failed-door-cameras\\inspection.mp4"
+      ],
+      "started_utc": "2026-09-11T19:35:00.657989+00:00",
+      "finished_utc": "2026-09-11T19:35:04.723204+00:00",
+      "exit_status": 0,
+      "log": "failed-door-cameras-probe.log",
+      "sha256": "8e0539fd48a210b02ae96d85bf94b6dee673d09944d845cf73e24d80004d8075"
+    },
+    {
+      "argv": [
+        "C:\\Dev\\Cannonball-Vibe-sedan\\.tools\\ffmpeg-9.0.1\\ffmpeg-9.0.1-essentials_build\\bin\\ffmpeg.exe",
+        "-v",
+        "error",
+        "-xerror",
+        "-i",
+        "C:\\Dev\\Cannonball-Vibe-sedan\\data\\assets\\vehicles\\endurance-sedan-review\\source33-motion-history\\failed-door-cameras\\inspection.mp4",
+        "-f",
+        "null",
+        "-"
+      ],
+      "started_utc": "2026-09-11T19:35:04.723842+00:00",
+      "finished_utc": "2026-09-11T19:35:05.324065+00:00",
+      "exit_status": 0,
+      "log": "failed-door-cameras-decode.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "C:\\Dev\\Cannonball-Vibe-sedan\\.tools\\ffmpeg-9.0.1\\ffmpeg-9.0.1-essentials_build\\bin\\ffprobe.exe",
+        "-v",
+        "error",
+        "-select_streams",
+        "v:0",
+        "-count_frames",
+        "-show_entries",
+        "stream=width,height,nb_read_frames,avg_frame_rate,duration",
+        "-of",
+        "json",
+        "C:\\Dev\\Cannonball-Vibe-sedan\\data\\assets\\vehicles\\endurance-sedan-review\\source33-motion-history\\source33-all-openings\\inspection.mp4"
+      ],
+      "started_utc": "2026-09-11T19:35:07.095614+00:00",
+      "finished_utc": "2026-09-11T19:35:07.713297+00:00",
+      "exit_status": 0,
+      "log": "source33-all-openings-probe.log",
+      "sha256": "ab448e4fe3676be5648d04fd639f150329bdb05497c95ef0f10660a7cb935084"
+    },
+    {
+      "argv": [
+        "C:\\Dev\\Cannonball-Vibe-sedan\\.tools\\ffmpeg-9.0.1\\ffmpeg-9.0.1-essentials_build\\bin\\ffmpeg.exe",
+        "-v",
+        "error",
+        "-xerror",
+        "-i",
+        "C:\\Dev\\Cannonball-Vibe-sedan\\data\\assets\\vehicles\\endurance-sedan-review\\source33-motion-history\\source33-all-openings\\inspection.mp4",
+        "-f",
+        "null",
+        "-"
+      ],
+      "started_utc": "2026-09-11T19:35:07.713910+00:00",
+      "finished_utc": "2026-09-11T19:35:07.912020+00:00",
+      "exit_status": 0,
+      "log": "source33-all-openings-decode.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "C:\\Dev\\Cannonball-Vibe-sedan\\.tools\\ffmpeg-9.0.1\\ffmpeg-9.0.1-essentials_build\\bin\\ffprobe.exe",
+        "-v",
+        "error",
+        "-select_streams",
+        "v:0",
+        "-count_frames",
+        "-show_entries",
+        "stream=width,height,nb_read_frames,avg_frame_rate,duration",
+        "-of",
+        "json",
+        "C:\\Dev\\Cannonball-Vibe-sedan\\data\\assets\\vehicles\\endurance-sedan-review\\source33-motion-history\\source33-wipers-exterior\\inspection.mp4"
+      ],
+      "started_utc": "2026-09-11T19:35:10.081706+00:00",
+      "finished_utc": "2026-09-11T19:35:10.840424+00:00",
+      "exit_status": 0,
+      "log": "source33-wipers-exterior-probe.log",
+      "sha256": "703e5ebc8ca1241f1cf1a69d11c2b77d14481c4dbb9d24034ce543dee4d473d3"
+    },
+    {
+      "argv": [
+        "C:\\Dev\\Cannonball-Vibe-sedan\\.tools\\ffmpeg-9.0.1\\ffmpeg-9.0.1-essentials_build\\bin\\ffmpeg.exe",
+        "-v",
+        "error",
+        "-xerror",
+        "-i",
+        "C:\\Dev\\Cannonball-Vibe-sedan\\data\\assets\\vehicles\\endurance-sedan-review\\source33-motion-history\\source33-wipers-exterior\\inspection.mp4",
+        "-f",
+        "null",
+        "-"
+      ],
+      "started_utc": "2026-09-11T19:35:10.841128+00:00",
+      "finished_utc": "2026-09-11T19:35:11.055124+00:00",
+      "exit_status": 0,
+      "log": "source33-wipers-exterior-decode.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "C:\\Dev\\Cannonball-Vibe-sedan\\.tools\\ffmpeg-9.0.1\\ffmpeg-9.0.1-essentials_build\\bin\\ffprobe.exe",
+        "-v",
+        "error",
+        "-select_streams",
+        "v:0",
+        "-count_frames",
+        "-show_entries",
+        "stream=width,height,nb_read_frames,avg_frame_rate,duration",
+        "-of",
+        "json",
+        "C:\\Dev\\Cannonball-Vibe-sedan\\data\\assets\\vehicles\\endurance-sedan-review\\source33-motion-history\\source33-wipers-cockpit\\inspection.mp4"
+      ],
+      "started_utc": "2026-09-11T19:35:13.039783+00:00",
+      "finished_utc": "2026-09-11T19:35:13.649478+00:00",
+      "exit_status": 0,
+      "log": "source33-wipers-cockpit-probe.log",
+      "sha256": "703e5ebc8ca1241f1cf1a69d11c2b77d14481c4dbb9d24034ce543dee4d473d3"
+    },
+    {
+      "argv": [
+        "C:\\Dev\\Cannonball-Vibe-sedan\\.tools\\ffmpeg-9.0.1\\ffmpeg-9.0.1-essentials_build\\bin\\ffmpeg.exe",
+        "-v",
+        "error",
+        "-xerror",
+        "-i",
+        "C:\\Dev\\Cannonball-Vibe-sedan\\data\\assets\\vehicles\\endurance-sedan-review\\source33-motion-history\\source33-wipers-cockpit\\inspection.mp4",
+        "-f",
+        "null",
+        "-"
+      ],
+      "started_utc": "2026-09-11T19:35:13.650186+00:00",
+      "finished_utc": "2026-09-11T19:35:13.871486+00:00",
+      "exit_status": 0,
+      "log": "source33-wipers-cockpit-decode.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "C:\\Dev\\Cannonball-Vibe-sedan\\.tools\\ffmpeg-9.0.1\\ffmpeg-9.0.1-essentials_build\\bin\\ffprobe.exe",
+        "-v",
+        "error",
+        "-select_streams",
+        "v:0",
+        "-count_frames",
+        "-show_entries",
+        "stream=width,height,nb_read_frames,avg_frame_rate,duration",
+        "-of",
+        "json",
+        "C:\\Dev\\Cannonball-Vibe-sedan\\data\\assets\\vehicles\\endurance-sedan-review\\source33-motion-history\\source33-wipers-oblique\\inspection.mp4"
+      ],
+      "started_utc": "2026-09-11T19:35:15.860174+00:00",
+      "finished_utc": "2026-09-11T19:35:16.549275+00:00",
+      "exit_status": 0,
+      "log": "source33-wipers-oblique-probe.log",
+      "sha256": "703e5ebc8ca1241f1cf1a69d11c2b77d14481c4dbb9d24034ce543dee4d473d3"
+    },
+    {
+      "argv": [
+        "C:\\Dev\\Cannonball-Vibe-sedan\\.tools\\ffmpeg-9.0.1\\ffmpeg-9.0.1-essentials_build\\bin\\ffmpeg.exe",
+        "-v",
+        "error",
+        "-xerror",
+        "-i",
+        "C:\\Dev\\Cannonball-Vibe-sedan\\data\\assets\\vehicles\\endurance-sedan-review\\source33-motion-history\\source33-wipers-oblique\\inspection.mp4",
+        "-f",
+        "null",
+        "-"
+      ],
+      "started_utc": "2026-09-11T19:35:16.549952+00:00",
+      "finished_utc": "2026-09-11T19:35:16.770453+00:00",
+      "exit_status": 0,
+      "log": "source33-wipers-oblique-decode.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "captures": [
+    {
+      "label": "source33-turntable",
+      "kind": "Blender capture",
+      "input_manifest": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\source33-full-motion-suite-01\\turntable\\manifest.json",
+      "input_manifest_sha256": "d2ad9b084c6c33f93fb886b52cea54313fc6d2f89df323985a8d2a5f163462a7",
+      "configuration": {
+        "source_sha256": "8ddb88bfcf82b68ef7cccfa86dbfedf502a4de1fa4e9f0924cffe6609f8d7a50",
+        "renderer_sha256": "c75246f8c72139d78fc8da0760a3488d87c214fed4b56da49d6d1861686b39d1",
+        "blender": "5.1.2",
+        "build_hash": "ec6e62d40fa9",
+        "engine": "CYCLES",
+        "device": "GPU",
+        "devices": [
+          {
+            "name": "NVIDIA GeForce RTX 3080 Ti",
+            "type": "CUDA",
+            "enabled": false
+          },
+          {
+            "name": "AMD Ryzen 9 5900X 12-Core Processor",
+            "type": "CPU",
+            "enabled": false
+          },
+          {
+            "name": "NVIDIA GeForce RTX 3080 Ti",
+            "type": "OPTIX",
+            "enabled": true
+          }
+        ],
+        "size": [
+          2560,
+          1440
+        ],
+        "samples": 24,
+        "denoising": true,
+        "view_transform": "AgX",
+        "look": "AgX - Medium High Contrast",
+        "exposure": 0.0,
+        "clay": false,
+        "source_controls": {},
+        "lighting": "neutral",
+        "sequence": "turntable",
+        "frame_count": 360,
+        "fps": 30,
+        "views": "front3q,rear3q,left,front,rear,top",
+        "ray_bounces": 10,
+        "source_timeline_fps": 60,
+        "inspection_fill_watts": 0,
+        "inspection_fill_disk_diameter_m": {
+          "default": 0.35,
+          "pedals": 0.14
+        },
+        "inspection_fill_camera_local_m": [
+          0,
+          0,
+          0.025
+        ],
+        "denoiser": "OPENIMAGEDENOISE",
+        "denoising_use_gpu": true,
+        "denoising_prefilter": "ACCURATE",
+        "technical_overlay": null,
+        "review_overlay_tool_sha256": "230827eb0257dd454e9429ddd3dd68e51107b540d58f6e18e893542196805fb7",
+        "review_geometry_tool_sha256": "0e9fad40b0d14ba1265958bd6836d133fde89474efd6f988860f46fc2cde2b90",
+        "material_swatches": {}
+      },
+      "contact_sheet": "source33-turntable/contact-sheet.png",
+      "contact_sheet_sha256": "efdf29d5e187b45819c9b37ed23683c6368f7ca74418d8a4b729f4e461cf3841",
+      "sampled_contact_sheet_frames": [
+        "000001",
+        "000017",
+        "000032",
+        "000048",
+        "000063",
+        "000079",
+        "000095",
+        "000110",
+        "000126",
+        "000141",
+        "000157",
+        "000173",
+        "000188",
+        "000204",
+        "000220",
+        "000235",
+        "000251",
+        "000266",
+        "000282",
+        "000298",
+        "000313",
+        "000329",
+        "000344",
+        "000360"
+      ],
+      "actual_frame_count": 360,
+      "encoded_movie_record_sha256": "58657486ede144c7b00ab25246d5f237bc8ce2dcc781056d5b61571ca157391c",
+      "movie": {
+        "path": "source33-turntable/inspection.mp4",
+        "sha256": "5d0e76e36610f44aaf8636c9955fe0ddb74c974bea24f44611abbb38eeb06bb3",
+        "bytes": 11640134,
+        "decoded_stream": {
+          "width": 2560,
+          "height": 1440,
+          "avg_frame_rate": "30/1",
+          "duration": "12.000000",
+          "nb_read_frames": "360"
+        }
+      }
+    },
+    {
+      "label": "source33-interior-with-rear-occlusion",
+      "kind": "Blender capture",
+      "input_manifest": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\source33-full-motion-suite-01\\interior-worklight\\manifest.json",
+      "input_manifest_sha256": "b61a4fd1cee22e1df2a359ea792a4b28eb19d5560c5bd33d2613b47f26f5232f",
+      "configuration": {
+        "source_sha256": "8ddb88bfcf82b68ef7cccfa86dbfedf502a4de1fa4e9f0924cffe6609f8d7a50",
+        "renderer_sha256": "c75246f8c72139d78fc8da0760a3488d87c214fed4b56da49d6d1861686b39d1",
+        "blender": "5.1.2",
+        "build_hash": "ec6e62d40fa9",
+        "engine": "CYCLES",
+        "device": "GPU",
+        "devices": [
+          {
+            "name": "NVIDIA GeForce RTX 3080 Ti",
+            "type": "CUDA",
+            "enabled": false
+          },
+          {
+            "name": "AMD Ryzen 9 5900X 12-Core Processor",
+            "type": "CPU",
+            "enabled": false
+          },
+          {
+            "name": "NVIDIA GeForce RTX 3080 Ti",
+            "type": "OPTIX",
+            "enabled": true
+          }
+        ],
+        "size": [
+          2560,
+          1440
+        ],
+        "samples": 24,
+        "denoising": true,
+        "view_transform": "AgX",
+        "look": "AgX - Medium High Contrast",
+        "exposure": 0.0,
+        "clay": false,
+        "source_controls": {},
+        "lighting": "neutral",
+        "sequence": "interior",
+        "frame_count": 300,
+        "fps": 30,
+        "views": "front3q,rear3q,left,front,rear,top",
+        "ray_bounces": 10,
+        "source_timeline_fps": 60,
+        "inspection_fill_watts": 20.0,
+        "inspection_fill_disk_diameter_m": {
+          "default": 0.35,
+          "pedals": 0.14
+        },
+        "inspection_fill_camera_local_m": [
+          0,
+          0,
+          0.025
+        ],
+        "denoiser": "OPENIMAGEDENOISE",
+        "denoising_use_gpu": true,
+        "denoising_prefilter": "ACCURATE",
+        "technical_overlay": null,
+        "review_overlay_tool_sha256": "230827eb0257dd454e9429ddd3dd68e51107b540d58f6e18e893542196805fb7",
+        "review_geometry_tool_sha256": "0e9fad40b0d14ba1265958bd6836d133fde89474efd6f988860f46fc2cde2b90",
+        "material_swatches": {}
+      },
+      "contact_sheet": "source33-interior-with-rear-occlusion/contact-sheet.png",
+      "contact_sheet_sha256": "9364335544db8fbca315c62fe9e907121d6b3e09d1c666ecc39b65fd9a9e9692",
+      "sampled_contact_sheet_frames": [
+        "000001",
+        "000014",
+        "000027",
+        "000040",
+        "000053",
+        "000066",
+        "000079",
+        "000092",
+        "000105",
+        "000118",
+        "000131",
+        "000144",
+        "000157",
+        "000170",
+        "000183",
+        "000196",
+        "000209",
+        "000222",
+        "000235",
+        "000248",
+        "000261",
+        "000274",
+        "000287",
+        "000300"
+      ],
+      "actual_frame_count": 300,
+      "encoded_movie_record_sha256": "413485a2c9498fc7dff1786fd1283cfe61b2caf64d199a2c20c87c9e5aa0f377",
+      "movie": {
+        "path": "source33-interior-with-rear-occlusion/inspection.mp4",
+        "sha256": "0d4758ff1fd5cd616c4f424b7fd0eb4fb119c58bdad531fd82b79b7b6b4f48f8",
+        "bytes": 5889772,
+        "decoded_stream": {
+          "width": 2560,
+          "height": 1440,
+          "avg_frame_rate": "30/1",
+          "duration": "10.000000",
+          "nb_read_frames": "300"
+        }
+      }
+    },
+    {
+      "label": "failed-door-cameras",
+      "kind": "Blender capture",
+      "input_manifest": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\source33-full-motion-suite-01\\six-openings-worklight\\manifest.json",
+      "input_manifest_sha256": "aad422919b12a92158225d8c977004d7a70fafa6804de254688957844d997704",
+      "configuration": {
+        "source_sha256": "8ddb88bfcf82b68ef7cccfa86dbfedf502a4de1fa4e9f0924cffe6609f8d7a50",
+        "renderer_sha256": "c75246f8c72139d78fc8da0760a3488d87c214fed4b56da49d6d1861686b39d1",
+        "blender": "5.1.2",
+        "build_hash": "ec6e62d40fa9",
+        "engine": "CYCLES",
+        "device": "GPU",
+        "devices": [
+          {
+            "name": "NVIDIA GeForce RTX 3080 Ti",
+            "type": "CUDA",
+            "enabled": false
+          },
+          {
+            "name": "AMD Ryzen 9 5900X 12-Core Processor",
+            "type": "CPU",
+            "enabled": false
+          },
+          {
+            "name": "NVIDIA GeForce RTX 3080 Ti",
+            "type": "OPTIX",
+            "enabled": true
+          }
+        ],
+        "size": [
+          2560,
+          1440
+        ],
+        "samples": 24,
+        "denoising": true,
+        "view_transform": "AgX",
+        "look": "AgX - Medium High Contrast",
+        "exposure": 0.0,
+        "clay": false,
+        "source_controls": {},
+        "lighting": "neutral",
+        "sequence": "openings",
+        "frame_count": 546,
+        "fps": 30,
+        "views": "front3q,rear3q,left,front,rear,top",
+        "ray_bounces": 10,
+        "source_timeline_fps": 60,
+        "inspection_fill_watts": 20.0,
+        "inspection_fill_disk_diameter_m": {
+          "default": 0.35,
+          "pedals": 0.14
+        },
+        "inspection_fill_camera_local_m": [
+          0,
+          0,
+          0.025
+        ],
+        "denoiser": "OPENIMAGEDENOISE",
+        "denoising_use_gpu": true,
+        "denoising_prefilter": "ACCURATE",
+        "technical_overlay": null,
+        "review_overlay_tool_sha256": "230827eb0257dd454e9429ddd3dd68e51107b540d58f6e18e893542196805fb7",
+        "review_geometry_tool_sha256": "0e9fad40b0d14ba1265958bd6836d133fde89474efd6f988860f46fc2cde2b90",
+        "material_swatches": {}
+      },
+      "contact_sheet": "failed-door-cameras/contact-sheet.png",
+      "contact_sheet_sha256": "69400b4918c20ade66c116595993bec59160e73f245742230ee7f4850afb1701",
+      "sampled_contact_sheet_frames": [
+        "000001",
+        "000025",
+        "000048",
+        "000072",
+        "000096",
+        "000119",
+        "000143",
+        "000167",
+        "000191",
+        "000214",
+        "000238",
+        "000262",
+        "000285",
+        "000309",
+        "000333",
+        "000356",
+        "000380",
+        "000404",
+        "000428",
+        "000451",
+        "000475",
+        "000499",
+        "000522",
+        "000546"
+      ],
+      "actual_frame_count": 546,
+      "encoded_movie_record_sha256": "0eceed2bb6ee209f50100995fa52eaed4bd5e3e51c39c46ea4384f3851d11a5e",
+      "movie": {
+        "path": "failed-door-cameras/inspection.mp4",
+        "sha256": "7298ac880ce06e64c344433add0415e3fb29f5c1d9f243085c1374583ad1e9f7",
+        "bytes": 22279772,
+        "decoded_stream": {
+          "width": 2560,
+          "height": 1440,
+          "avg_frame_rate": "30/1",
+          "duration": "18.200000",
+          "nb_read_frames": "546"
+        }
+      }
+    },
+    {
+      "label": "source33-all-openings",
+      "kind": "Blender capture",
+      "input_manifest": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\source33-full-motion-suite-01\\all-openings\\manifest.json",
+      "input_manifest_sha256": "e9a878d270d80180ea1361f449d1ce5ecb31c9db61c968f2c14428daae421e0f",
+      "configuration": {
+        "source_sha256": "8ddb88bfcf82b68ef7cccfa86dbfedf502a4de1fa4e9f0924cffe6609f8d7a50",
+        "renderer_sha256": "c75246f8c72139d78fc8da0760a3488d87c214fed4b56da49d6d1861686b39d1",
+        "blender": "5.1.2",
+        "build_hash": "ec6e62d40fa9",
+        "engine": "CYCLES",
+        "device": "GPU",
+        "devices": [
+          {
+            "name": "NVIDIA GeForce RTX 3080 Ti",
+            "type": "CUDA",
+            "enabled": false
+          },
+          {
+            "name": "AMD Ryzen 9 5900X 12-Core Processor",
+            "type": "CPU",
+            "enabled": false
+          },
+          {
+            "name": "NVIDIA GeForce RTX 3080 Ti",
+            "type": "OPTIX",
+            "enabled": true
+          }
+        ],
+        "size": [
+          2560,
+          1440
+        ],
+        "samples": 24,
+        "denoising": true,
+        "view_transform": "AgX",
+        "look": "AgX - Medium High Contrast",
+        "exposure": 0.0,
+        "clay": false,
+        "source_controls": {},
+        "lighting": "neutral",
+        "sequence": "all-openings",
+        "frame_count": 121,
+        "fps": 30,
+        "views": "front3q,rear3q,left,front,rear,top",
+        "ray_bounces": 10,
+        "source_timeline_fps": 60,
+        "inspection_fill_watts": 0,
+        "inspection_fill_disk_diameter_m": {
+          "default": 0.35,
+          "pedals": 0.14
+        },
+        "inspection_fill_camera_local_m": [
+          0,
+          0,
+          0.025
+        ],
+        "denoiser": "OPENIMAGEDENOISE",
+        "denoising_use_gpu": true,
+        "denoising_prefilter": "ACCURATE",
+        "technical_overlay": null,
+        "review_overlay_tool_sha256": "230827eb0257dd454e9429ddd3dd68e51107b540d58f6e18e893542196805fb7",
+        "review_geometry_tool_sha256": "0e9fad40b0d14ba1265958bd6836d133fde89474efd6f988860f46fc2cde2b90",
+        "material_swatches": {}
+      },
+      "contact_sheet": "source33-all-openings/contact-sheet.png",
+      "contact_sheet_sha256": "d288f8e1c93f1e08f97672c2c2bb484eea48021855954a125864c3055c50137d",
+      "sampled_contact_sheet_frames": [
+        "000001",
+        "000006",
+        "000011",
+        "000017",
+        "000022",
+        "000027",
+        "000032",
+        "000038",
+        "000043",
+        "000048",
+        "000053",
+        "000058",
+        "000064",
+        "000069",
+        "000074",
+        "000079",
+        "000084",
+        "000090",
+        "000095",
+        "000100",
+        "000105",
+        "000111",
+        "000116",
+        "000121"
+      ],
+      "actual_frame_count": 121,
+      "encoded_movie_record_sha256": "566150bfb2e0eac1c90cf977cd2cf3f1236b8f361cfa5ac72f6ed6b91cc6d81e",
+      "movie": {
+        "path": "source33-all-openings/inspection.mp4",
+        "sha256": "f71a8b2e3a72d819ed05f0677d35a0f29e54e3bb215268c9e3e0e0f0b5a1fcbc",
+        "bytes": 2114370,
+        "decoded_stream": {
+          "width": 2560,
+          "height": 1440,
+          "avg_frame_rate": "30/1",
+          "duration": "4.033333",
+          "nb_read_frames": "121"
+        }
+      }
+    },
+    {
+      "label": "source33-wipers-exterior",
+      "kind": "Blender capture",
+      "input_manifest": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\source33-full-motion-suite-01\\wipers-exterior\\manifest.json",
+      "input_manifest_sha256": "a3133f62273f16d47c97abf453aab694544e1f6b95b8ee147d2a6a6b3ac18146",
+      "configuration": {
+        "source_sha256": "8ddb88bfcf82b68ef7cccfa86dbfedf502a4de1fa4e9f0924cffe6609f8d7a50",
+        "renderer_sha256": "c75246f8c72139d78fc8da0760a3488d87c214fed4b56da49d6d1861686b39d1",
+        "blender": "5.1.2",
+        "build_hash": "ec6e62d40fa9",
+        "engine": "CYCLES",
+        "device": "GPU",
+        "devices": [
+          {
+            "name": "NVIDIA GeForce RTX 3080 Ti",
+            "type": "CUDA",
+            "enabled": false
+          },
+          {
+            "name": "AMD Ryzen 9 5900X 12-Core Processor",
+            "type": "CPU",
+            "enabled": false
+          },
+          {
+            "name": "NVIDIA GeForce RTX 3080 Ti",
+            "type": "OPTIX",
+            "enabled": true
+          }
+        ],
+        "size": [
+          2560,
+          1440
+        ],
+        "samples": 24,
+        "denoising": true,
+        "view_transform": "AgX",
+        "look": "AgX - Medium High Contrast",
+        "exposure": 0.0,
+        "clay": false,
+        "source_controls": {
+          "wipers_running": 1.0
+        },
+        "lighting": "neutral",
+        "sequence": "hold",
+        "frame_count": 163,
+        "fps": 30,
+        "views": "wipers",
+        "ray_bounces": 10,
+        "source_timeline_fps": 60,
+        "inspection_fill_watts": 0,
+        "inspection_fill_disk_diameter_m": {
+          "default": 0.35,
+          "pedals": 0.14
+        },
+        "inspection_fill_camera_local_m": [
+          0,
+          0,
+          0.025
+        ],
+        "denoiser": "OPENIMAGEDENOISE",
+        "denoising_use_gpu": true,
+        "denoising_prefilter": "ACCURATE",
+        "technical_overlay": null,
+        "review_overlay_tool_sha256": "230827eb0257dd454e9429ddd3dd68e51107b540d58f6e18e893542196805fb7",
+        "review_geometry_tool_sha256": "0e9fad40b0d14ba1265958bd6836d133fde89474efd6f988860f46fc2cde2b90",
+        "material_swatches": {}
+      },
+      "contact_sheet": "source33-wipers-exterior/contact-sheet.png",
+      "contact_sheet_sha256": "ddc67c6c009208a2d6148b375e3c344f025b8d9d68a077e8c7c4f4392d555104",
+      "sampled_contact_sheet_frames": [
+        "000001",
+        "000008",
+        "000015",
+        "000022",
+        "000029",
+        "000036",
+        "000043",
+        "000050",
+        "000057",
+        "000064",
+        "000071",
+        "000078",
+        "000086",
+        "000093",
+        "000100",
+        "000107",
+        "000114",
+        "000121",
+        "000128",
+        "000135",
+        "000142",
+        "000149",
+        "000156",
+        "000163"
+      ],
+      "actual_frame_count": 163,
+      "encoded_movie_record_sha256": "11308d02f33489f47b684385f6a90eade08f93181b17aecde3e9c639dd913fc3",
+      "movie": {
+        "path": "source33-wipers-exterior/inspection.mp4",
+        "sha256": "3d6ec813c362a91e760a990182fb6409ddcc6545dd062607279236bdce07df4f",
+        "bytes": 2517660,
+        "decoded_stream": {
+          "width": 2560,
+          "height": 1440,
+          "avg_frame_rate": "30/1",
+          "duration": "5.433333",
+          "nb_read_frames": "163"
+        }
+      }
+    },
+    {
+      "label": "source33-wipers-cockpit",
+      "kind": "Blender capture",
+      "input_manifest": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\source33-full-motion-suite-01\\wipers-cockpit\\manifest.json",
+      "input_manifest_sha256": "5f377194f27f01303516769fd130352ea51b129765bc41a78a6d20926c53d376",
+      "configuration": {
+        "source_sha256": "8ddb88bfcf82b68ef7cccfa86dbfedf502a4de1fa4e9f0924cffe6609f8d7a50",
+        "renderer_sha256": "c75246f8c72139d78fc8da0760a3488d87c214fed4b56da49d6d1861686b39d1",
+        "blender": "5.1.2",
+        "build_hash": "ec6e62d40fa9",
+        "engine": "CYCLES",
+        "device": "GPU",
+        "devices": [
+          {
+            "name": "NVIDIA GeForce RTX 3080 Ti",
+            "type": "CUDA",
+            "enabled": false
+          },
+          {
+            "name": "AMD Ryzen 9 5900X 12-Core Processor",
+            "type": "CPU",
+            "enabled": false
+          },
+          {
+            "name": "NVIDIA GeForce RTX 3080 Ti",
+            "type": "OPTIX",
+            "enabled": true
+          }
+        ],
+        "size": [
+          2560,
+          1440
+        ],
+        "samples": 24,
+        "denoising": true,
+        "view_transform": "AgX",
+        "look": "AgX - Medium High Contrast",
+        "exposure": 0.0,
+        "clay": false,
+        "source_controls": {
+          "wipers_running": 1.0
+        },
+        "lighting": "neutral",
+        "sequence": "hold",
+        "frame_count": 163,
+        "fps": 30,
+        "views": "cockpit",
+        "ray_bounces": 10,
+        "source_timeline_fps": 60,
+        "inspection_fill_watts": 0,
+        "inspection_fill_disk_diameter_m": {
+          "default": 0.35,
+          "pedals": 0.14
+        },
+        "inspection_fill_camera_local_m": [
+          0,
+          0,
+          0.025
+        ],
+        "denoiser": "OPENIMAGEDENOISE",
+        "denoising_use_gpu": true,
+        "denoising_prefilter": "ACCURATE",
+        "technical_overlay": null,
+        "review_overlay_tool_sha256": "230827eb0257dd454e9429ddd3dd68e51107b540d58f6e18e893542196805fb7",
+        "review_geometry_tool_sha256": "0e9fad40b0d14ba1265958bd6836d133fde89474efd6f988860f46fc2cde2b90",
+        "material_swatches": {}
+      },
+      "contact_sheet": "source33-wipers-cockpit/contact-sheet.png",
+      "contact_sheet_sha256": "cdf0962418cba68397c558690c40b8c474c1888a8e9abfa4b5e4a200293d7191",
+      "sampled_contact_sheet_frames": [
+        "000001",
+        "000008",
+        "000015",
+        "000022",
+        "000029",
+        "000036",
+        "000043",
+        "000050",
+        "000057",
+        "000064",
+        "000071",
+        "000078",
+        "000086",
+        "000093",
+        "000100",
+        "000107",
+        "000114",
+        "000121",
+        "000128",
+        "000135",
+        "000142",
+        "000149",
+        "000156",
+        "000163"
+      ],
+      "actual_frame_count": 163,
+      "encoded_movie_record_sha256": "db916ada9f3172ee7a932f90e0d8fecfcd0cb81f522a4f855cd5a850026a6317",
+      "movie": {
+        "path": "source33-wipers-cockpit/inspection.mp4",
+        "sha256": "6d9c17567fd020be072bb26ea6eb1c1256528d845b0fcfaad262c2c863045662",
+        "bytes": 1167226,
+        "decoded_stream": {
+          "width": 2560,
+          "height": 1440,
+          "avg_frame_rate": "30/1",
+          "duration": "5.433333",
+          "nb_read_frames": "163"
+        }
+      }
+    },
+    {
+      "label": "source33-wipers-oblique",
+      "kind": "Blender capture",
+      "input_manifest": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\source33-full-motion-suite-01\\wipers-oblique\\manifest.json",
+      "input_manifest_sha256": "943ca04a3e5d6d9a7c2db112d8f90f9c984bd9faba03585b1c26967d94e86fd7",
+      "configuration": {
+        "source_sha256": "8ddb88bfcf82b68ef7cccfa86dbfedf502a4de1fa4e9f0924cffe6609f8d7a50",
+        "renderer_sha256": "c75246f8c72139d78fc8da0760a3488d87c214fed4b56da49d6d1861686b39d1",
+        "blender": "5.1.2",
+        "build_hash": "ec6e62d40fa9",
+        "engine": "CYCLES",
+        "device": "GPU",
+        "devices": [
+          {
+            "name": "NVIDIA GeForce RTX 3080 Ti",
+            "type": "CUDA",
+            "enabled": false
+          },
+          {
+            "name": "AMD Ryzen 9 5900X 12-Core Processor",
+            "type": "CPU",
+            "enabled": false
+          },
+          {
+            "name": "NVIDIA GeForce RTX 3080 Ti",
+            "type": "OPTIX",
+            "enabled": true
+          }
+        ],
+        "size": [
+          2560,
+          1440
+        ],
+        "samples": 24,
+        "denoising": true,
+        "view_transform": "AgX",
+        "look": "AgX - Medium High Contrast",
+        "exposure": 0.0,
+        "clay": false,
+        "source_controls": {
+          "wipers_running": 1.0
+        },
+        "lighting": "neutral",
+        "sequence": "hold",
+        "frame_count": 163,
+        "fps": 30,
+        "views": "wiper_oblique",
+        "ray_bounces": 10,
+        "source_timeline_fps": 60,
+        "inspection_fill_watts": 0,
+        "inspection_fill_disk_diameter_m": {
+          "default": 0.35,
+          "pedals": 0.14
+        },
+        "inspection_fill_camera_local_m": [
+          0,
+          0,
+          0.025
+        ],
+        "denoiser": "OPENIMAGEDENOISE",
+        "denoising_use_gpu": true,
+        "denoising_prefilter": "ACCURATE",
+        "technical_overlay": null,
+        "review_overlay_tool_sha256": "230827eb0257dd454e9429ddd3dd68e51107b540d58f6e18e893542196805fb7",
+        "review_geometry_tool_sha256": "0e9fad40b0d14ba1265958bd6836d133fde89474efd6f988860f46fc2cde2b90",
+        "material_swatches": {}
+      },
+      "contact_sheet": "source33-wipers-oblique/contact-sheet.png",
+      "contact_sheet_sha256": "764fd7e867ab923fc8e11f643129d6ff95456ddbb848721c2c382b7ce394305d",
+      "sampled_contact_sheet_frames": [
+        "000001",
+        "000008",
+        "000015",
+        "000022",
+        "000029",
+        "000036",
+        "000043",
+        "000050",
+        "000057",
+        "000064",
+        "000071",
+        "000078",
+        "000086",
+        "000093",
+        "000100",
+        "000107",
+        "000114",
+        "000121",
+        "000128",
+        "000135",
+        "000142",
+        "000149",
+        "000156",
+        "000163"
+      ],
+      "actual_frame_count": 163,
+      "encoded_movie_record_sha256": "fc1a06539323274dae70efa82c17c93f7c31e424397add0b7631db4cb872ab80",
+      "movie": {
+        "path": "source33-wipers-oblique/inspection.mp4",
+        "sha256": "edf2f6516763f6cee50b31f3d3483057deaafad87debd8403a4ff600a5eefaa6",
+        "bytes": 2195632,
+        "decoded_stream": {
+          "width": 2560,
+          "height": 1440,
+          "avg_frame_rate": "30/1",
+          "duration": "5.433333",
+          "nb_read_frames": "163"
+        }
+      }
+    }
+  ],
+  "human_approval_reference": null,
+  "ffmpeg": "ffmpeg version 9.0.1-essentials_build-www.gyan.dev Copyright (c) 2000-2026 the FFmpeg developers",
+  "gallery_sha256": "33c49f804913ebefac755eef98a28947c1b21482b2d301044b44c5ba04b8d0ce"
+}

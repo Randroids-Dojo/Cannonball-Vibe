@@ -30,11 +30,17 @@ class PlayGodotProcess:
         transcript: Path | None = None,
         log_path: Path | None = None,
         production_vehicle: bool = False,
+        vehicle: str | None = None,
+        isolate_user_data: bool = False,
     ) -> None:
         self.repo_root = repo_root.resolve()
         self.route_package = route_package.resolve()
         self.capabilities = capabilities
         self.production_vehicle = production_vehicle
+        if vehicle not in (None, "hero-gt", "endurance-sedan", "graybox"):
+            raise ValueError("Unknown explicit PlayGodot vehicle")
+        self.vehicle = vehicle
+        self.isolate_user_data = isolate_user_data
         self.godot_bin = godot_bin or self._godot_from_environment()
         self.startup_timeout = startup_timeout
         self.request_timeout = request_timeout
@@ -75,6 +81,15 @@ class PlayGodotProcess:
         self._runtime_directory = Path(
             tempfile.mkdtemp(prefix="cannonball-playgodot-")
         ).resolve()
+        if self.isolate_user_data:
+            # The selection test writes presentation settings. Scope its whole
+            # child-process user profile, never the developer's real save/config.
+            environment.update(
+                HOME=str(self._runtime_directory),
+                XDG_DATA_HOME=str(self._runtime_directory / "xdg-data"),
+                APPDATA=str(self._runtime_directory / "appdata"),
+                LOCALAPPDATA=str(self._runtime_directory / "localappdata"),
+            )
         command = [
             str(self.godot_bin),
             "--audio-driver",
@@ -94,13 +109,20 @@ class PlayGodotProcess:
             f"--route-package={self.route_package}",
             f"--telemetry-path={self._runtime_directory / 'telemetry.jsonl'}",
         ]
-        if not self.production_vehicle:
+        if self.vehicle is not None:
+            command.append(f"--vehicle={self.vehicle}")
+        elif self.production_vehicle:
+            # Legacy camera/visual tests exercise Hero's declared contract,
+            # independent of a player's persisted sedan or graybox selection.
+            command.append("--vehicle=hero-gt")
+        else:
             # The same reasoning covers the car: the third-generation Hero GT
             # brought twenty-eight textured materials whose first draw stalls
             # the main thread for tens of seconds on the software renderers,
             # which is longer than the suite's request and settle windows.
             # Only the camera test needs the production rig's contract.
             command.append("--graybox-vehicle")
+            command.append("--vehicle=graybox")
         if platform.system() == "Linux" and os.environ.get("PLAYGODOT_XVFB") == "1":
             command = ["xvfb-run", "-a", *command]
         try:

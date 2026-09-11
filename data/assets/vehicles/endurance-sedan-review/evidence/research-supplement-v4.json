@@ -1,0 +1,233 @@
+{
+  "task_id": "P1-018",
+  "milestone": "M5",
+  "status": "passed",
+  "started_utc": "2026-09-11T18:52:29.004719+00:00",
+  "git_revision": "eb5703e55f3656e91bd80fb79502f10ce250554b",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.14.6",
+  "zlib_runtime": "1.3.1.zlib-ng",
+  "tool_sha256": "1310e66035402d9eccaef4c0b2fe6d474f0b56958e914138d3f57be6285b18ff",
+  "input_manifest": {
+    "path": "reports/p1-018/research/retention-supplement-v4.json",
+    "sha256": "22583dd474f64ae13f9e6d5eb7440ab1e1fa5f6cde8a4cf04ceb94e4f82df834"
+  },
+  "entries": [
+    {
+      "path": "reports/p1-018/research/runtime-contact-correction-03/EnduranceSedanPresentation.cs.diff",
+      "sha256": "c84a972af1d4d75d2c4e5cba000ad1e996e28b2ce7e53c8641970c74fa6e6b63",
+      "bytes": 3511,
+      "reason": "Independent exact-input contact/cache/UID correction review, including retained failures, native evidence bindings, source snapshots and checked phase-coverage resolution."
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-correction-03/FINAL-REVIEW-01.md",
+      "sha256": "711efe792f6667dfb948ba82e0ad6858474b199417f14562f30aeb078a2ef960",
+      "bytes": 5165,
+      "reason": "Independent exact-input contact/cache/UID correction review, including retained failures, native evidence bindings, source snapshots and checked phase-coverage resolution."
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-correction-03/SOURCE-REVIEW-01.md",
+      "sha256": "d244c7e55427660c227402a3356f2acadc3c3cda5211dea709f08beea0607a4a",
+      "bytes": 7822,
+      "reason": "Independent exact-input contact/cache/UID correction review, including retained failures, native evidence bindings, source snapshots and checked phase-coverage resolution."
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-correction-03/VehicleContactShading.cs.diff",
+      "sha256": "e3c918bcea282c7db8b44d41335a945899bc141923a4f9220e8ac8e3b37bcf17",
+      "bytes": 1826,
+      "reason": "Independent exact-input contact/cache/UID correction review, including retained failures, native evidence bindings, source snapshots and checked phase-coverage resolution."
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-correction-03/binding-checks-01.json",
+      "sha256": "0b5e282d9d3c31f46660e97a263136321eda0485ce09fbd9c0605394cdb0f7ce",
+      "bytes": 15851,
+      "reason": "Independent exact-input contact/cache/UID correction review, including retained failures, native evidence bindings, source snapshots and checked phase-coverage resolution."
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-correction-03/binding-checks-02.json",
+      "sha256": "2a4db552d9833d3d5e7a3a45a1ec794c4a92d7d3e00651037a193db0479ad057",
+      "bytes": 16587,
+      "reason": "Independent exact-input contact/cache/UID correction review, including retained failures, native evidence bindings, source snapshots and checked phase-coverage resolution."
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-correction-03/blink-native-binding-01.json",
+      "sha256": "7651fb96ab46119f7f43d37625c0f3458efe900af830cc7869518f9364aba4d8",
+      "bytes": 54393,
+      "reason": "Independent exact-input contact/cache/UID correction review, including retained failures, native evidence bindings, source snapshots and checked phase-coverage resolution."
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-correction-03/final-review-01.json",
+      "sha256": "0d7888d4ee2b059da3042ad1bfeeae41e786c692c84f6bc238c9d9f0beffd241",
+      "bytes": 5635,
+      "reason": "Independent exact-input contact/cache/UID correction review, including retained failures, native evidence bindings, source snapshots and checked phase-coverage resolution."
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-correction-03/guard-native-binding-01.json",
+      "sha256": "54b9595b4193ea93667faf9c0bdb286d7fe8253a0ff499f5a9b94d61adfb174c",
+      "bytes": 112191,
+      "reason": "Independent exact-input contact/cache/UID correction review, including retained failures, native evidence bindings, source snapshots and checked phase-coverage resolution."
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-correction-03/inputs.json",
+      "sha256": "76d08d8c618b7202defd9fceb74ea1a42c5046f69d682146454c78d499132ef3",
+      "bytes": 5851,
+      "reason": "Independent exact-input contact/cache/UID correction review, including retained failures, native evidence bindings, source snapshots and checked phase-coverage resolution."
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-correction-03/inputs/docs/vehicles/endurance-sedan/specification.json",
+      "sha256": "6502d96dd00a9595c8e9989c45f0bdb38148996dbf5cc4ff638114b8bafa6eda",
+      "bytes": 51775,
+      "reason": "Independent exact-input contact/cache/UID correction review, including retained failures, native evidence bindings, source snapshots and checked phase-coverage resolution."
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-correction-03/inputs/game/Main.cs",
+      "sha256": "6ea88a91117aa3446a7449122e6f3b94baf6d91178b038ff2f1bbd66e13d6d8d",
+      "bytes": 170941,
+      "reason": "Independent exact-input contact/cache/UID correction review, including retained failures, native evidence bindings, source snapshots and checked phase-coverage resolution."
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-correction-03/inputs/game/Vehicle/CannonballVehicle.cs",
+      "sha256": "111e0b2c1cefdfe4320c4224c7271d7e091a77eb4d3079737e14567389042536",
+      "bytes": 30923,
+      "reason": "Independent exact-input contact/cache/UID correction review, including retained failures, native evidence bindings, source snapshots and checked phase-coverage resolution."
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-correction-03/inputs/game/Vehicle/EnduranceSedanPresentation.cs",
+      "sha256": "253321c8a2f061b3bb69d642cd5fbaf1521068d2fc0d397c54d513e19ebafba7",
+      "bytes": 32712,
+      "reason": "Independent exact-input contact/cache/UID correction review, including retained failures, native evidence bindings, source snapshots and checked phase-coverage resolution."
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-correction-03/inputs/game/Vehicle/EnduranceSedanPresentation.cs.uid",
+      "sha256": "ad9cc9c0126eaa5ab825e636842653b2aa98c933aadb54c1e805f73a72079bbc",
+      "bytes": 20,
+      "reason": "Independent exact-input contact/cache/UID correction review, including retained failures, native evidence bindings, source snapshots and checked phase-coverage resolution."
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-correction-03/inputs/game/Vehicle/EnduranceSedanPresentationSetup.cs",
+      "sha256": "3e6135462d92c833f73a2f5f1c7859f3305f3ade25265ff75635b74d2c34f19a",
+      "bytes": 2634,
+      "reason": "Independent exact-input contact/cache/UID correction review, including retained failures, native evidence bindings, source snapshots and checked phase-coverage resolution."
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-correction-03/inputs/game/Vehicle/Setups/EnduranceSedan.tres",
+      "sha256": "12141c277249d25cefbe5f9c896dc1c2c3dbb7830b7419178101d3d6e6888678",
+      "bytes": 1367,
+      "reason": "Independent exact-input contact/cache/UID correction review, including retained failures, native evidence bindings, source snapshots and checked phase-coverage resolution."
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-correction-03/inputs/game/Vehicle/Setups/EnduranceSedanPresentation.tres",
+      "sha256": "547594005699a8750e216e53bc4ea54dbf2a1cfd83793bc971f7ed89da014202",
+      "bytes": 894,
+      "reason": "Independent exact-input contact/cache/UID correction review, including retained failures, native evidence bindings, source snapshots and checked phase-coverage resolution."
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-correction-03/inputs/game/Vehicle/Setups/HeroGt.tres",
+      "sha256": "128aa36890a5e3ce25c6fbaadeffe862df78895dfa7a939cbecd9b5b10a4af11",
+      "bytes": 215,
+      "reason": "Independent exact-input contact/cache/UID correction review, including retained failures, native evidence bindings, source snapshots and checked phase-coverage resolution."
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-correction-03/inputs/game/Vehicle/VehicleContactShading.cs",
+      "sha256": "d79e44c9bf54ed996defad350c3895b4c24964a34221ad4f8249bd33350ac8a5",
+      "bytes": 13524,
+      "reason": "Independent exact-input contact/cache/UID correction review, including retained failures, native evidence bindings, source snapshots and checked phase-coverage resolution."
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-correction-03/inputs/game/Vehicle/VehicleContactShading.cs.uid",
+      "sha256": "249349a841a0501e2463b54d8feda37b7bb98531f01fd8f0bab579ce1d8fece3",
+      "bytes": 20,
+      "reason": "Independent exact-input contact/cache/UID correction review, including retained failures, native evidence bindings, source snapshots and checked phase-coverage resolution."
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-correction-03/inputs/game/Vehicle/VehicleRigSetup.cs",
+      "sha256": "7890736c826eb271b1b1069ec262e8ac018707191f43d6282c98c1605813113b",
+      "bytes": 7600,
+      "reason": "Independent exact-input contact/cache/UID correction review, including retained failures, native evidence bindings, source snapshots and checked phase-coverage resolution."
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-correction-03/inputs/game/Vehicle/VehicleVisualRig.cs",
+      "sha256": "bd0d6d3584f037dd349287db83eb8c20cbcd65403bcb8d4103bcb2970660f83e",
+      "bytes": 33317,
+      "reason": "Independent exact-input contact/cache/UID correction review, including retained failures, native evidence bindings, source snapshots and checked phase-coverage resolution."
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-correction-03/inputs/game/Vehicle/VehicleVisualRig.cs.uid",
+      "sha256": "5b8d2cb3090581fa8d088b51b6beea5f5cf30f8b709efc33a6866f890ee6bbee",
+      "bytes": 20,
+      "reason": "Independent exact-input contact/cache/UID correction review, including retained failures, native evidence bindings, source snapshots and checked phase-coverage resolution."
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-correction-03/inputs/game/World/RoadChunk.cs",
+      "sha256": "f869fb697913fa38b6215f408d19da04b2e8883cd96827138df42efad07e1ddb",
+      "bytes": 70361,
+      "reason": "Independent exact-input contact/cache/UID correction review, including retained failures, native evidence bindings, source snapshots and checked phase-coverage resolution."
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-correction-03/inputs/game/World/WorldStreamer.cs",
+      "sha256": "8176995ef5e7c94123ec049e206739fba501f08a2aeeb799901be9ffaa464658",
+      "bytes": 83099,
+      "reason": "Independent exact-input contact/cache/UID correction review, including retained failures, native evidence bindings, source snapshots and checked phase-coverage resolution."
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-correction-03/inputs/tools/vehicles/generate_manifest.mjs",
+      "sha256": "7607f2a7331cfccb8c397a502c1b5b224ba5930403d5cf0eddfb5371ea62af96",
+      "bytes": 13831,
+      "reason": "Independent exact-input contact/cache/UID correction review, including retained failures, native evidence bindings, source snapshots and checked phase-coverage resolution."
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-correction-03/inputs/tools/vehicles/validate_import.gd",
+      "sha256": "0120d02f9d0da29c6b107f4c3cdf7c432e8c2c2aa74017d98035a3b4136fa033",
+      "bytes": 18618,
+      "reason": "Independent exact-input contact/cache/UID correction review, including retained failures, native evidence bindings, source snapshots and checked phase-coverage resolution."
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-correction-03/inputs/tools/vehicles/verify_endurance_sedan.mjs",
+      "sha256": "6b48f34f3d7f35b10cfa8ece5b44f0fc10018ca2949e505a68873625d06b64a5",
+      "bytes": 33981,
+      "reason": "Independent exact-input contact/cache/UID correction review, including retained failures, native evidence bindings, source snapshots and checked phase-coverage resolution."
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-correction-03/phase-coverage-gap-01.json",
+      "sha256": "48f30d8a7ef0bff89a5d2ec5f42bc2e128bdf1f72f350cfc3c3682a987c5c158",
+      "bytes": 15470,
+      "reason": "Independent exact-input contact/cache/UID correction review, including retained failures, native evidence bindings, source snapshots and checked phase-coverage resolution."
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-correction-03/source33-native-asset-binding-01.json",
+      "sha256": "3b23994be85de215ed04b7c742b46076b00e4f8380579362f10eb170e150fa6a",
+      "bytes": 14659,
+      "reason": "Independent exact-input contact/cache/UID correction review, including retained failures, native evidence bindings, source snapshots and checked phase-coverage resolution."
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-correction-03/verify_blink_evidence.py",
+      "sha256": "69fd94aa46b3c02dafd503332da9873962bafcac09067fa00eda337971e29f7f",
+      "bytes": 7133,
+      "reason": "Independent exact-input contact/cache/UID correction review, including retained failures, native evidence bindings, source snapshots and checked phase-coverage resolution."
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-correction-03/verify_review_inputs.py",
+      "sha256": "4c20d4c13e236e44dd63fa019c1919cc51589055787a1f6a61c2605c7c9e65a7",
+      "bytes": 7600,
+      "reason": "Independent exact-input contact/cache/UID correction review, including retained failures, native evidence bindings, source snapshots and checked phase-coverage resolution."
+    }
+  ],
+  "archives": [
+    {
+      "path": "data/assets/vehicles/endurance-sedan-review/evidence/research-supplement-v4.zip",
+      "sha256": "becb7cd42be52452fa763a5bed42cd3149774439ddcb5f98968c532d1374f471",
+      "bytes": 173445,
+      "crc_and_member_sha256_verified": true
+    },
+    {
+      "path": "reports/p1-018/retention-repeats/research-supplement-v4.zip",
+      "sha256": "becb7cd42be52452fa763a5bed42cd3149774439ddcb5f98968c532d1374f471",
+      "bytes": 173445,
+      "crc_and_member_sha256_verified": true
+    }
+  ],
+  "human_approval_reference": null,
+  "limits": "Evidence retention and byte identity only; individual reports retain their own scope, failures and approval status.",
+  "byte_reproducible": true,
+  "finished_utc": "2026-09-11T18:52:29.162405+00:00"
+}

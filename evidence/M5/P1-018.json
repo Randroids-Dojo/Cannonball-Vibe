@@ -1,0 +1,701 @@
+{
+  "schema_version": 1,
+  "task_id": "P1-018",
+  "milestone": "M5",
+  "status": "in_progress",
+  "utc": "2026-09-11T20:57:51.138718+00:00",
+  "git_revision": "eb5703e55f3656e91bd80fb79502f10ce250554b",
+  "git_state": "Measured source34 worktree checkpoint before the implementation commit; committed-build runtime/performance/platform acceptance remains outstanding.",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "tool_versions": {
+    "blender": "Blender 5.1.2\r\n\tbuild date: 2026-05-19\r\n\tbuild time: 01:37:34\r\n\tbuild commit date: 2026-05-18\r\n\tbuild commit time: 13:43\r\n\tbuild hash: ec6e62d40fa9\r\n\tbuild branch: blender-v5.1-release\r\n\tbuild platform: Windows\r\n\tbuild type: Release\r\n\tbuild c flags:  -Wall -Werror=implicit-function-declaration -Werror=return-type -Wno-tautological-compare -Wno-unknown-pragmas -Wno-char-subscripts -Wstrict-prototypes -Wmissing-prototypes -Wunused-parameter -Wundef -Wundef-prefix -Werror=unguarded-availability-new /W3 -Wno-c++98-compat -Wno-old-style-cast -Wno-unsafe-buffer-usage -Wno-missing-prototypes -Wno-sign-conversion -Wno-missing-field-initializers -Wno-extra-semi -Wno-language-extension-token -Wno-implicit-float-conversion -Wno-c++98-compat-pedantic -Wno-implicit-int-float-conversion -Wno-double-promotion -Wno-pre-c++17-compat -Wno-shorten-64-to-32 -Wno-c++98-compat-local-type-template-args -Wno-reserved-identifier -Wno-cast-align -Wno-documentation -Wno-disabled-macro-expansion -Wno-extra-semi-stmt -Wno-zero-as-null-pointer-constant -Wno-float-conversion -Wno-reserved-macro-identifier -Wno-cast-function-type-strict -Wno-float-equal -Wno-implicit-int-conversion -Wno-shadow -Wno-shadow-field-in-constructor -Wno-cast-qual -Wno-pre-c++14-compat -Wno-global-constructors -Wno-switch-enum -Wno-exit-time-destructors -Wno-ctad-maybe-unsupported -Wno-undefined-func-template -Wno-c++98-compat-extra-semi -Wno-cast-function-type -Wno-nullability-extension -Wno-shadow-field -Wno-conditional-uninitialized -Wno-unused-parameter -Wno-suggest-destructor-override -Wno-shadow-uncaptured-local -Wno-unused-macros -Wno-covered-switch-default -Wno-signed-enum-bitfield -Wno-declaration-after-statement -Wno-implicit-fallthrough -Wno-non-virtual-dtor -Wno-nested-anon-types -Wno-gnu-zero-variadic-macro-arguments -Wno-unreachable-code-break -Wno-inconsistent-missing-destructor-override -Wno-format-pedantic -Wno-nonportable-system-include-path -Wno-undef -Wno-ignored-qualifiers -Wno-used-but-marked-unused -Wno-header-hygiene -Wno-char-subscripts -Wno-unreachable-code-return -Wno-unused-template -Wno-gnu-anonymous-struct -Wno-deprecated-copy-with-user-provided-dtor -Wno-inconsistent-missing-override -Wno-unreachable-code -Wno-deprecated-dynamic-exception-spec -Wno-bad-function-cast -Wno-microsoft-enum-value -Wno-deprecated-copy-with-user-provided-copy -Wno-zero-length-array -Wno-unused-function -Wno-pedantic -Wno-deprecated-copy-with-dtor -Wno-documentation-unknown-command -Wno-undefined-reinterpret-cast -Wno-format-nonliteral -Wno-comma -Wno-documentation-deprecated-sync -Wno-shift-sign-overflow -Wno-pre-c++17-compat-pedantic -Wno-c++98-compat-unnamed-type-template-args -Wno-sign-compare -Wno-format -Wno-c++98-compat-bind-to-temporary-copy -Wno-enum-enum-conversion -Wno-anon-enum-enum-conversion -Wno-range-loop-bind-reference -Wno-enum-float-conversion -Wno-keyword-macro -Wno-deprecated-copy -Wno-unused-member-function -Wno-missing-noreturn -Wno-missing-variable-declarations -Wno-documentation-html -Wno-gnu-redeclared-enum -Wno-deprecated-declarations -Wno-overloaded-virtual -Wno-c++98-c++11-compat-binary-literal -Wno-deprecated-redundant-constexpr-static-def -Wno-missing-braces -Wno-c99-extensions -Wno-strict-prototypes -Wno-unreachable-code-loop-increment -Wno-gnu-case-range -Wno-duplicate-enum -Wno-null-pointer-subtraction -Wno-deprecated-literal-operator -Wno-newline-eof -Wno-microsoft-cast -Wno-date-time -Wno-delete-non-abstract-non-virtual-dtor -Wno-unused-private-field -Wno-flexible-array-extensions -Wno-string-conversion -Wno-final-dtor-non-final-class -Wno-microsoft-unqualified-friend -Wno-invalid-noreturn -Wno-invalid-utf8 -Wno-four-char-constants -Wno-parentheses -Wno-pessimizing-move -Wno-deprecated-non-prototype -Wno-bitfield-enum-conversion -Wno-unused-lambda-capture -Wno-shadow-field-in-constructor-modified -Wno-switch-default -Wno-nan-infinity-disabled -Wno-pre-c11-compat /DWIN32 /D_WINDOWS  /MP /nologo /J /Gy /Gd /showFilenames -Wno-unused-command-line-argument -Wno-microsoft-enum-forward-reference /clang:-funsigned-char /clang:-fno-strict-aliasing /clang:-ffp-contract=off -march=x86-64-v2 \r\n\tbuild c++ flags:  -Wall -Wno-tautological-compare -Wno-unknown-pragmas -Wno-char-subscripts -Wno-overloaded-virtual -Wno-sign-compare -Wno-invalid-offsetof -Wno-suggest-override -Wundef -Wundef-prefix -Wunused-parameter -Wmismatched-tags -Werror=unguarded-availability-new /W3 -Wno-c++98-compat -Wno-old-style-cast -Wno-unsafe-buffer-usage -Wno-missing-prototypes -Wno-sign-conversion -Wno-missing-field-initializers -Wno-extra-semi -Wno-language-extension-token -Wno-implicit-float-conversion -Wno-c++98-compat-pedantic -Wno-implicit-int-float-conversion -Wno-double-promotion -Wno-pre-c++17-compat -Wno-shorten-64-to-32 -Wno-c++98-compat-local-type-template-args -Wno-reserved-identifier -Wno-cast-align -Wno-documentation -Wno-disabled-macro-expansion -Wno-extra-semi-stmt -Wno-zero-as-null-pointer-constant -Wno-float-conversion -Wno-reserved-macro-identifier -Wno-cast-function-type-strict -Wno-float-equal -Wno-implicit-int-conversion -Wno-shadow -Wno-shadow-field-in-constructor -Wno-cast-qual -Wno-pre-c++14-compat -Wno-global-constructors -Wno-switch-enum -Wno-exit-time-destructors -Wno-ctad-maybe-unsupported -Wno-undefined-func-template -Wno-c++98-compat-extra-semi -Wno-cast-function-type -Wno-nullability-extension -Wno-shadow-field -Wno-conditional-uninitialized -Wno-unused-parameter -Wno-suggest-destructor-override -Wno-shadow-uncaptured-local -Wno-unused-macros -Wno-covered-switch-default -Wno-signed-enum-bitfield -Wno-declaration-after-statement -Wno-implicit-fallthrough -Wno-non-virtual-dtor -Wno-nested-anon-types -Wno-gnu-zero-variadic-macro-arguments -Wno-unreachable-code-break -Wno-inconsistent-missing-destructor-override -Wno-format-pedantic -Wno-nonportable-system-include-path -Wno-undef -Wno-ignored-qualifiers -Wno-used-but-marked-unused -Wno-header-hygiene -Wno-char-subscripts -Wno-unreachable-code-return -Wno-unused-template -Wno-gnu-anonymous-struct -Wno-deprecated-copy-with-user-provided-dtor -Wno-inconsistent-missing-override -Wno-unreachable-code -Wno-deprecated-dynamic-exception-spec -Wno-bad-function-cast -Wno-microsoft-enum-value -Wno-deprecated-copy-with-user-provided-copy -Wno-zero-length-array -Wno-unused-function -Wno-pedantic -Wno-deprecated-copy-with-dtor -Wno-documentation-unknown-command -Wno-undefined-reinterpret-cast -Wno-format-nonliteral -Wno-comma -Wno-documentation-deprecated-sync -Wno-shift-sign-overflow -Wno-pre-c++17-compat-pedantic -Wno-c++98-compat-unnamed-type-template-args -Wno-sign-compare -Wno-format -Wno-c++98-compat-bind-to-temporary-copy -Wno-enum-enum-conversion -Wno-anon-enum-enum-conversion -Wno-range-loop-bind-reference -Wno-enum-float-conversion -Wno-keyword-macro -Wno-deprecated-copy -Wno-unused-member-function -Wno-missing-noreturn -Wno-missing-variable-declarations -Wno-documentation-html -Wno-gnu-redeclared-enum -Wno-deprecated-declarations -Wno-overloaded-virtual -Wno-c++98-c++11-compat-binary-literal -Wno-deprecated-redundant-constexpr-static-def -Wno-missing-braces -Wno-c99-extensions -Wno-strict-prototypes -Wno-unreachable-code-loop-increment -Wno-gnu-case-range -Wno-duplicate-enum -Wno-null-pointer-subtraction -Wno-deprecated-literal-operator -Wno-newline-eof -Wno-microsoft-cast -Wno-date-time -Wno-delete-non-abstract-non-virtual-dtor -Wno-unused-private-field -Wno-flexible-array-extensions -Wno-string-conversion -Wno-final-dtor-non-final-class -Wno-microsoft-unqualified-friend -Wno-invalid-noreturn -Wno-invalid-utf8 -Wno-four-char-constants -Wno-parentheses -Wno-pessimizing-move -Wno-deprecated-non-prototype -Wno-bitfield-enum-conversion -Wno-unused-lambda-capture -Wno-shadow-field-in-constructor-modified -Wno-switch-default -Wno-nan-infinity-disabled -Wno-pre-c11-compat /DWIN32 /D_WINDOWS   /EHsc  /Gy /MP /nologo /J /Gd /showFilenames /EHsc -Wno-unused-command-line-argument -Wno-microsoft-enum-forward-reference /clang:-funsigned-char /clang:-fno-strict-aliasing /clang:-ffp-contract=off -march=x86-64-v2 \r\n\tbuild link flags: /MACHINE:X64  /SUBSYSTEM:CONSOLE /STACK:2097152 /ignore:4049 /ignore:4217 /ignore:4221\r\n\tbuild system: CMake",
+    "godot": "4.7.1.stable.mono.official.a13da4feb",
+    "dotnet_sdk": "10.0.102",
+    "asset_verifier_node": "v22.22.1",
+    "root_command_python": "3.14.6",
+    "review_python": "3.13.11",
+    "review_pillow": "11.3.0",
+    "actual_headless_game_runtime": ".NET 8.0.23"
+  },
+  "claim": {
+    "branch": "feat/P1-018-endurance-sedan",
+    "pull_request": "https://github.com/Randroids-Dojo/Cannonball-Vibe/pull/144",
+    "draft": true,
+    "merge_policy": "ADR-0025 PR-only auto-squash; latest remote M0 and merge eligibility not yet established"
+  },
+  "identity": "Original fictional Meridian S8R; 2016 US Audi S6 Prestige engineering benchmark",
+  "deterministic_seed": {
+    "runtime_scenarios": 20260714,
+    "construction": "Analytic geometry and procedural material inputs are declared in the locked construction files; no runtime scenario uses an implied zero seed."
+  },
+  "scenario_arguments": "Exact argument arrays, environment, times, command status and log hashes are retained in the linked command records and stage reports.",
+  "input_artifacts": [
+    {
+      "path": "docs/vehicles/endurance-sedan/specification.json",
+      "sha256": "e18b9c6aae54be01696ced16fae9be978872a922835a8cbe8ae974e0608813b9",
+      "bytes": 59324
+    },
+    {
+      "path": "docs/vehicles/endurance-sedan/dimension-sheet.md",
+      "sha256": "8826da7b7acb6478bec586c762648e40cf02ac41b823e5e7dc8ee79368fedaf7",
+      "bytes": 42704
+    },
+    {
+      "path": "docs/vehicles/endurance-sedan/original-design-rationale.md",
+      "sha256": "c68930f218489549c4c37d256409c5e6ca71f88d3e1043c9c59f2e3325743e62",
+      "bytes": 37004
+    },
+    {
+      "path": "data/assets/vehicles/sources/endurance-sedan.blend",
+      "sha256": "0b4220d5c3f0024054de17a3c36add3388a4f52be2046cc2b837f3bac9edf793",
+      "bytes": 5011955
+    },
+    {
+      "path": "data/assets/vehicles/endurance-sedan.uv-bake.json",
+      "sha256": "c1f17f39d4d49bac0e66fbc2c9964c60e1ab300b9b74470e610eebff250020ee",
+      "bytes": 2744872
+    },
+    {
+      "path": "tools/vehicles/create_endurance_sedan.py",
+      "sha256": "1ef3d2e30ef59df81fe1ff678573129c1850762274a24e6412c68dc15e586de7",
+      "bytes": 9496
+    },
+    {
+      "path": "tools/vehicles/validate_and_export_endurance_sedan.py",
+      "sha256": "39ac10fd702be1683422030160e4c076a609477e2ceb1bdaecf5b2dc3f154efe",
+      "bytes": 13387
+    },
+    {
+      "path": "tools/vehicles/verify_endurance_sedan.mjs",
+      "sha256": "8ffd8f74ebcc017bf39c922afe06b9ff86cc7bb8064f6520e7bde0f14ca11783",
+      "bytes": 41064
+    },
+    {
+      "path": "tools/vehicles/vehicle_contract.json",
+      "sha256": "b14cff4f3611b57a2dfd7e3332aaa2b846be7e76c00299b91923a74a3f8aaa92",
+      "bytes": 902
+    }
+  ],
+  "output_artifacts": [
+    {
+      "path": "assets/vehicles/endurance-sedan/endurance-sedan.generated.textures.json",
+      "sha256": "2eb966adfc9853046385edd4431e79ca2ed13266d69edc27ac1310ce3bf91d35",
+      "bytes": 1164
+    },
+    {
+      "path": "assets/vehicles/endurance-sedan/endurance-sedan.generated.tscn",
+      "sha256": "a93782d73adb87809dfd3bf264242f3524f940f19cfdf2dabac7846cc8c77ed3",
+      "bytes": 10905265
+    },
+    {
+      "path": "assets/vehicles/endurance-sedan/endurance-sedan_Meridian_fabric_normal_v1.png",
+      "sha256": "f3f2a2901e1d02fa518d8e46367d1e26ab0fe88308e9b33d96319175fe326494",
+      "bytes": 431143
+    },
+    {
+      "path": "assets/vehicles/endurance-sedan/endurance-sedan_Meridian_fabric_normal_v1.png.import",
+      "sha256": "838f477c3fec0fa0626cf2f61527cb42f34350bf4c7b1d6c1724b07ba2caca73",
+      "bytes": 1174
+    },
+    {
+      "path": "assets/vehicles/endurance-sedan/endurance-sedan_Meridian_fabric_roughness_v1.png",
+      "sha256": "f06dcd0d2ba4b388b2070e781a0f022ec9b53dfa655367ce62fa85167e058117",
+      "bytes": 174368
+    },
+    {
+      "path": "assets/vehicles/endurance-sedan/endurance-sedan_Meridian_fabric_roughness_v1.png.import",
+      "sha256": "66e8229c300a49dca08294deca7c5c5726519a701f45b080879b5987cf049372",
+      "bytes": 1183
+    },
+    {
+      "path": "assets/vehicles/endurance-sedan/endurance-sedan_Meridian_leather_normal_v1.png",
+      "sha256": "90eec226e0e4cf92aac9dacf97bada11395a038972de6daa7c7432c06d1a1464",
+      "bytes": 332931
+    },
+    {
+      "path": "assets/vehicles/endurance-sedan/endurance-sedan_Meridian_leather_normal_v1.png.import",
+      "sha256": "99a20b48556e117fc4b1c6b4f4bda00427e02319b8650b720fc5e1bd87ccc028",
+      "bytes": 1177
+    },
+    {
+      "path": "assets/vehicles/endurance-sedan/endurance-sedan_Meridian_leather_roughness_v1.png",
+      "sha256": "86adaa53ba7059d148783ce8cd30409edf10cce7fbd06da6fb6ec141ac928228",
+      "bytes": 206491
+    },
+    {
+      "path": "assets/vehicles/endurance-sedan/endurance-sedan_Meridian_leather_roughness_v1.png.import",
+      "sha256": "763f6d8a89d13e73672f595d0636ea965915c08c129c1c665f956e68f1d66db4",
+      "bytes": 1186
+    },
+    {
+      "path": "assets/vehicles/endurance-sedan/endurance-sedan_Meridian_paint_normal_v1.png",
+      "sha256": "7e1ab964114d665f17cdf3047da20b3d1c86dbe6dedbabdc26b22bef1b8224d2",
+      "bytes": 168960
+    },
+    {
+      "path": "assets/vehicles/endurance-sedan/endurance-sedan_Meridian_paint_normal_v1.png.import",
+      "sha256": "503c01e8629d879be321cb5915886f3d1c734bb11e596e3394d8c318a4945537",
+      "bytes": 1171
+    },
+    {
+      "path": "assets/vehicles/endurance-sedan/endurance-sedan_Meridian_paint_roughness_v1.png",
+      "sha256": "eca7f1b0b9c7d734565ed343d68ae7ee1ad0991845eef9611245645e353e8a14",
+      "bytes": 159467
+    },
+    {
+      "path": "assets/vehicles/endurance-sedan/endurance-sedan_Meridian_paint_roughness_v1.png.import",
+      "sha256": "6eda2e78063b21f9ffda059f05837630a7bc8e7b15c3329e8eecf7dc8485ff78",
+      "bytes": 1180
+    },
+    {
+      "path": "data/assets/vehicles/derived/endurance-sedan.glb",
+      "sha256": "f9a30e7b19ea799c526ce2b1788e646af3a8e4f2aa3b7e910340004b99bc8417",
+      "bytes": 11248552
+    },
+    {
+      "path": "data/assets/vehicles/endurance-sedan.asset.json",
+      "sha256": "867995559c217e20b1e5a53ca4e1a39b06c3db10ad3d1354957a80bd5244c67e",
+      "bytes": 51570
+    },
+    {
+      "path": "data/assets/vehicles/endurance-sedan.blender.json",
+      "sha256": "e367d2a2ffb737623f9313d7e7ddabb5c74bb9f015cf5e100b5bf0a4b2eff332",
+      "bytes": 1461625
+    },
+    {
+      "path": "data/assets/vehicles/endurance-sedan.godot.json",
+      "sha256": "be732c17fe7200f8f95ac43142760adb7f9d633dca55d17fef3bf36995c41c04",
+      "bytes": 57606
+    },
+    {
+      "path": "game/Vehicle/Visuals/EnduranceSedan.tscn",
+      "sha256": "2bf66baf9874b7001a033cce751835ecabed47756532ba8dea3dca680e09bdc1",
+      "bytes": 929
+    }
+  ],
+  "canonical_artifact_state": "Production34/specification17 promoted. Editable source and matching evaluated-UV bake are current; redundant raw GLB is absent from the Godot runtime folder.",
+  "metrics": {
+    "shipping_lod_triangles": [
+      149428,
+      26726,
+      10136
+    ],
+    "collision_triangles": 24,
+    "all_triangles": 186314,
+    "runtime_batches": 360,
+    "authored_materials": 24,
+    "packed_original_texture_count": 6,
+    "encoded_texture_bytes": 1471013,
+    "bounds_godot_xyz_m": [
+      2.0999999046325684,
+      1.4498310089111328,
+      4.940000057220459
+    ],
+    "limits": {
+      "lod0_triangles": 150000,
+      "all_triangles": 200000,
+      "collision_triangles": 128,
+      "materials": 32,
+      "textures": 48,
+      "texture_bytes": 96000000
+    },
+    "content_comparison": "Passed provisional shared content ceilings; live material/contact/mirror resources must also be measured. Q044/Q047 allocations remain unratified."
+  },
+  "completed_machine_evidence": {
+    "source": {
+      "stages_passed": 14,
+      "total_stages": 14,
+      "report": "reports/p1-018/qa/full-source-34-01/evidence.json"
+    },
+    "delivered_asset": {
+      "exports": 2,
+      "clean_imports": 2,
+      "normalized_only_packs": 2,
+      "equal_byte_comparisons": 26,
+      "negative_groups_passed": 20,
+      "report": "reports/p1-018/source34-delivered-gate-02/evidence.json"
+    },
+    "full_local_front_door": {
+      "steps_passed": 13,
+      "csharp_tests_passed": 157,
+      "map_tests_passed": 345,
+      "map_tests_skipped": 1,
+      "playgodot_unit_tests_passed": 13,
+      "report": "reports/m0/p1-018-final34-01/summary.json"
+    },
+    "final_source_stills": {
+      "views": 99,
+      "groups": 17,
+      "resolution": [
+        2560,
+        1440
+      ],
+      "independent_review": "reports/p1-018/qa/source34-stills-reviewed-02/review.json",
+      "gallery": "data/assets/vehicles/endurance-sedan-review/production34-stills/index.html"
+    },
+    "hero_regression": "Complete all-LOD gate passed with all Hero art bytes preserved; one stale negative-fixture object name corrected.",
+    "historical_blockout": "Native reconstructed blockout06 and actual continuous frame review retained separately; not substituted for final source34.",
+    "headless_runtime": {
+      "sedan_driving": 17,
+      "hero_driving": 16,
+      "graybox_driving": 16,
+      "sedan_presentation": 52,
+      "status": "passed",
+      "report": "reports/p1-018/final34/headless-handoff-01/evidence.json",
+      "scope": "Headless state/physics/identity/geometry assertions; final actual native frames remain separate."
+    },
+    "index_portability": {
+      "files": 600,
+      "status": "passed",
+      "report": "reports/p1-018/newline-portability34-01/index-roundtrip-02.json",
+      "scope": "Index Git blobs/LFS payload SHA versus working bytes; the lead evidence JSON is updated afterward and staged separately."
+    }
+  },
+  "evidence_artifacts": [
+    {
+      "path": "reports/p1-018/qa/full-source-34-01/evidence.json",
+      "sha256": "0db54d90f0e2b200f4a160a16496676ba4307e9d4e5a561fe70f311a277619db",
+      "bytes": 43525
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/evidence.json",
+      "sha256": "e928fc878899aea3d8670b6479e6767a51166ecc2df08c2fd44df646da93e8c3",
+      "bytes": 2046376
+    },
+    {
+      "path": "reports/m0/p1-018-final34-01/summary.json",
+      "sha256": "bc487d752a433aec1363c27a22ecc2c28805c78b151f9523e224d0b1db31076e",
+      "bytes": 1482
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/evidence.json",
+      "sha256": "be1de311da80594451b6e59ac79bedb3aa2b80a551de1773e87e85ee680a8d10",
+      "bytes": 2040008
+    },
+    {
+      "path": "reports/p1-018/qa/batch-correspondence-34/review.json",
+      "sha256": "146e7de4ee1e80bde6d43f9e4a509bd96eadb3df693e1cbf69f2b4fcd6ce5555",
+      "bytes": 281054
+    },
+    {
+      "path": "reports/p1-018/qa/source34-stills-reviewed-02/review.json",
+      "sha256": "32e00dc739a4012c924be1cd23a453a8ff74a5cd77cdaddf33b633366e4a0dcf",
+      "bytes": 15914
+    },
+    {
+      "path": "reports/p1-018/research/source34-handoff-01/handoff.json",
+      "sha256": "28294c80ab4a7feca3bfbbf9d688c00c8b7108eb664313daa2520f2a58b57d50",
+      "bytes": 16110
+    },
+    {
+      "path": "reports/p1-018/research/source-input-binding-34/asset-input-inventory.json",
+      "sha256": "cd86109b272108c8d489b7511aab8b42556e0614ef4cec45fc383fedbc103080",
+      "bytes": 25308
+    },
+    {
+      "path": "reports/p1-018/research/acceptance-research-source34-02/review.json",
+      "sha256": "6f7f660cb3e3f321828cd2c38090785ab19d1bd4e1e68c9e8ab96f3da88071b8",
+      "bytes": 26756
+    },
+    {
+      "path": "reports/p1-018/readable-spec17-promotion-01/promotion.json",
+      "sha256": "8ece7898862867d5fb228620d7c316299a131e8c28d3fe2e1554cdaf6d45147a",
+      "bytes": 1187
+    },
+    {
+      "path": "reports/p1-018/qa/blockout06-reviewed-01/review.json",
+      "sha256": "7a1046d70fde6242addfa9c1581c016136d946afc4f75aaebff52a8fbb2f92eb",
+      "bytes": 66892
+    },
+    {
+      "path": "reports/p1-018/qa/performance-driver-review-02/review.json",
+      "sha256": "54fd7f34508e9b5a94855721880f7033a2c9b1bedacb2922300f015251ad8879",
+      "bytes": 5198
+    },
+    {
+      "path": "reports/p1-018/hero-source33-all-lods-02/result-reports-assets/p1-008-validation.json",
+      "sha256": "ef407f5427d5d024c719898c849bbadcf5ba49d2cd7a5a8a9b00de1728e8dfee",
+      "bytes": 5843
+    },
+    {
+      "path": "data/assets/vehicles/endurance-sedan-review/production34-stills/review.json",
+      "sha256": "404c37442bb2958dd4135ab4749ebfde793ea60798b7e256366db452ef379819",
+      "bytes": 58378
+    },
+    {
+      "path": "data/assets/vehicles/endurance-sedan-review/evidence/history-index-v4.json",
+      "sha256": "4fb22f83f08909f22f565b4ec3701ccb136f5ccd30165e59867e50c1488ef3c5",
+      "bytes": 12928
+    },
+    {
+      "path": "data/assets/vehicles/endurance-sedan-review/evidence/research-supplement-v5.json",
+      "sha256": "84e7a2016d0a62885acc8e00fbf471a53bbbac2d13bf9e5f9112b41ce2d09f13",
+      "bytes": 59440
+    },
+    {
+      "path": "reports/p1-018/final34/headless-handoff-01/evidence.json",
+      "sha256": "4714d861c0f05bb43d2147b20c6bd93bc7ec52fb2a5510dd225b5a8939b13637",
+      "bytes": 28953
+    },
+    {
+      "path": "reports/p1-018/qa/resource-preparation34-review-01/review.json",
+      "sha256": "cdab3b0566834f43aed0320e5d62286cae4c0ea3f261831b6d689136b65162a2",
+      "bytes": 11628
+    },
+    {
+      "path": "reports/p1-018/final34/resource-01/evidence.json",
+      "sha256": "ed4cbcfee1a58e56d904f7b214c3e2f464edb9a3fa8aa607af02f141b4cf4725",
+      "bytes": 153980
+    },
+    {
+      "path": "data/assets/vehicles/endurance-sedan-review/evidence/root-source34-gates01.json",
+      "sha256": "e8fcadd4cfcd543663d44f6524ba029af5e0bcbfad7ec859813a4028d9d4ec47",
+      "bytes": 143663
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-02/evidence.json",
+      "sha256": "29c773adcf4bce10c3c0e24a30aadd3219a9de7e6525a9e3c59733dd3d599b32",
+      "bytes": 2046387
+    },
+    {
+      "path": "reports/p1-018/newline-portability34-01/index-roundtrip-02.json",
+      "sha256": "709de9320db8403f4bc3cbd566f3f1d0b44708a51c57fd19829d14e52c822895",
+      "bytes": 229922
+    },
+    {
+      "path": "reports/p1-018/newline-portability34-01/evidence.json",
+      "sha256": "8f1b6c3686c3c225d24d9ae317f93b8d24ed09161f4e34fe27dd66df66d1f71d",
+      "bytes": 2630
+    },
+    {
+      "path": "reports/p1-018/qa/source34-turntable-reviewed-01/review.json",
+      "sha256": "140b7c4cbc515e0c97bb9faeeaa05dc5b9d059fbec4ebefd349753599f63bc7d",
+      "bytes": 220934
+    },
+    {
+      "path": "reports/p1-018/qa/source34-interior-reviewed-01/review.json",
+      "sha256": "fe3bd70ebf4d6e09c930b4b58988af8bdfc2470616fae855538a26eb5244cb0e",
+      "bytes": 194637
+    }
+  ],
+  "commands": [
+    {
+      "path": "reports/p1-018/commands/20260911T195201.117017Z-build-production34.json",
+      "sha256": "2a63f977a64bf03a1efd89c0d7c15aac7904d024f2a2f02215c481f48794912a",
+      "bytes": 6815,
+      "argv": [
+        "C:\\Program Files\\Blender\\blender-5.1.2-windows-x64\\blender.exe",
+        "--background",
+        "--factory-startup",
+        "--python-exit-code",
+        "1",
+        "--python",
+        "tools/vehicles/create_endurance_sedan.py",
+        "--",
+        "--output",
+        "reports/p1-018/checkpoints/production-34.blend",
+        "--stage",
+        "production"
+      ],
+      "exit_status": 0,
+      "log": "reports\\p1-018\\commands\\20260911T195201.117017Z-build-production34.log",
+      "log_sha256": "826f4204928c67f748c719c5f4d86a4d79f8928a09383d07950823edfd6b84e0"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T195335.329285Z-source34-wiper-overview-01.json",
+      "sha256": "1485c78622624a40162d4d1d59c694dab6c5f0a8d680aaad2af4570964602085",
+      "bytes": 1286,
+      "argv": [
+        "python",
+        "reports/p1-018/add_wiper_overview34.py"
+      ],
+      "exit_status": 0,
+      "log": "reports\\p1-018\\commands\\20260911T195335.329285Z-source34-wiper-overview-01.log",
+      "log_sha256": "3602acee60f5c886124466c7eab91c11f9acddbf867b61403dc81a2b44062d26"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T195349.911114Z-export-production34.json",
+      "sha256": "00f31e8a302152c48e042dc7247ec431a35d5dfc6a739497d21d22322d458f0d",
+      "bytes": 2330,
+      "argv": [
+        "C:\\Program Files\\Blender\\blender-5.1.2-windows-x64\\blender.exe",
+        "--background",
+        "--factory-startup",
+        "--python-exit-code",
+        "1",
+        "--python",
+        "tools/vehicles/validate_and_export_endurance_sedan.py",
+        "--",
+        "--source",
+        "reports/p1-018/checkpoints/production-34.blend",
+        "--output",
+        "reports/p1-018/production-34/endurance-sedan.glb",
+        "--inventory",
+        "reports/p1-018/production-34/blender.json",
+        "--prepare-uv-bake",
+        "reports/p1-018/production-34/endurance-sedan.uv-bake.json",
+        "--unbatched-output",
+        "reports/p1-018/production-34/unbatched-qa.glb"
+      ],
+      "exit_status": 0,
+      "log": "reports\\p1-018\\commands\\20260911T195349.911114Z-export-production34.log",
+      "log_sha256": "446d542b46c99df83da79fb9866dcb33146b37bd59955a53227e6545c16976eb"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T195504.805161Z-source34-front-belt-camera-01.json",
+      "sha256": "ec551868ddae5769fdbb679af67f28ad57c69f34a9dfa745fcd952be81a02d1d",
+      "bytes": 1115,
+      "argv": [
+        "python",
+        "reports/p1-018/add_front_belt_view34.py"
+      ],
+      "exit_status": 0,
+      "log": "reports\\p1-018\\commands\\20260911T195504.805161Z-source34-front-belt-camera-01.log",
+      "log_sha256": "43b33ca2f5c990878b3a1bcf1c34f5a3836b41469fdb471784d7f50341a7e504"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T195519.061232Z-source34-restraints-stills-01.json",
+      "sha256": "453feb902e2d52dc0f6b54f09228ff2fa17eca2a0949ecc2015ded072ecbaa99",
+      "bytes": 1472,
+      "argv": [
+        "C:\\Program Files\\Blender\\blender-5.1.2-windows-x64\\blender.exe",
+        "--background",
+        "reports/p1-018/checkpoints/production-34.blend",
+        "--python-exit-code",
+        "1",
+        "--python",
+        "tools/vehicles/endurance_sedan/render.py",
+        "--",
+        "--output",
+        "reports/p1-018/source34-restraints-stills-01",
+        "--engine",
+        "cycles",
+        "--device",
+        "GPU",
+        "--gpu-denoising",
+        "--width",
+        "2560",
+        "--height",
+        "1440",
+        "--samples",
+        "64",
+        "--inspection-fill-watts",
+        "20",
+        "--views",
+        "front_belt_left,rear_seats"
+      ],
+      "exit_status": 0,
+      "log": "reports\\p1-018\\commands\\20260911T195519.061232Z-source34-restraints-stills-01.log",
+      "log_sha256": "b6f93eaac3db0da292c16e5bd493f4c0be783c8102f3efc632474243652353f7"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T200639.312845Z-retained-history-index-v4.json",
+      "sha256": "daa0241122deefc1007b743f2a7a221207f7f7feaaca6ff5c9336da9bfc8dcbc",
+      "bytes": 1374,
+      "argv": [
+        "python",
+        "reports/p1-018/index_retained_history04.py"
+      ],
+      "exit_status": 0,
+      "log": "reports\\p1-018\\commands\\20260911T200639.312845Z-retained-history-index-v4.log",
+      "log_sha256": "42e42cb769d55e40d0fbd2ce177b36eda01d888b9ad5366d84e3a6f9a3ec95da"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T201622.102021Z-promote-source34.json",
+      "sha256": "264a71428d9b16dfdf85490ecfb185d6a741d7f2679cd236dbfe4e8fb2f7dc81",
+      "bytes": 1439,
+      "argv": [
+        "python",
+        "reports/p1-018/promote_source34.py",
+        "--qa-report",
+        "reports/p1-018/qa/full-source-34-01/evidence.json",
+        "--qa-sha256",
+        "0db54d90f0e2b200f4a160a16496676ba4307e9d4e5a561fe70f311a277619db"
+      ],
+      "exit_status": 0,
+      "log": "reports\\p1-018\\commands\\20260911T201622.102021Z-promote-source34.log",
+      "log_sha256": "63bcd47cac65a0db6c66c9cf030ae64e2d1162caff4a00556b8783e22f7e5fe2"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T201622.838182Z-source34-candidate-gate-01.json",
+      "sha256": "05188348325e2059543590bbfd3d7e8dfd3901321331e0ef95e7c8309890a22f",
+      "bytes": 1477,
+      "argv": [
+        "C:\\Program Files\\Git\\bin\\bash.exe",
+        "reports/p1-018/run_candidate34_gate01.sh"
+      ],
+      "exit_status": 0,
+      "log": "reports\\p1-018\\commands\\20260911T201622.838182Z-source34-candidate-gate-01.log",
+      "log_sha256": "f69f27c477d9c13150c19fccd6b35431cc1024aa5b9b3029e84b9b32f819c75f"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T202101.902406Z-promote-source34-candidate01.json",
+      "sha256": "38b2527ecc99ff1760d1c7a718c75e43fb5dcad459b74f920e874b52b787bb60",
+      "bytes": 1219,
+      "argv": [
+        "python",
+        "reports/p1-018/promote_sedan_candidate02.py",
+        "--evidence",
+        "reports/p1-018/source34-candidate-gate-01/evidence.json",
+        "--backup",
+        "reports/p1-018/canonical-before-source34-generated",
+        "--node",
+        "C:\\Dev\\Cannonball-Vibe-p0-025\\.tools\\node-v22.22.1-win-x64\\node.exe"
+      ],
+      "exit_status": 0,
+      "log": "reports\\p1-018\\commands\\20260911T202101.902406Z-promote-source34-candidate01.log",
+      "log_sha256": "348ab668f680de4b58f77818a2117c40211dddf05ffdc0833d8dde55096b4dda"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T202135.728969Z-source34-delivered-gate-01.json",
+      "sha256": "1accb68215bda38a13e98fa6dff0c1090363b69a1bbb73ac48c9c75c018d955a",
+      "bytes": 1478,
+      "argv": [
+        "C:\\Program Files\\Git\\bin\\bash.exe",
+        "reports/p1-018/run_delivered34_gate01.sh"
+      ],
+      "exit_status": 0,
+      "log": "reports\\p1-018\\commands\\20260911T202135.728969Z-source34-delivered-gate-01.log",
+      "log_sha256": "5896377b3014da9d15f4922dce9d81c78bdeb3d96d5d50374d0fa3f92a4ff06b"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T202135.729823Z-final34-full-m0-01.json",
+      "sha256": "6a0a0dda40003c9a9f7c517a63bb379e9f163a5a2faabe2821c2705554597542",
+      "bytes": 1761,
+      "argv": [
+        "python",
+        "reports/p1-018/run_final34_m0_01.py"
+      ],
+      "exit_status": 0,
+      "log": "reports\\p1-018\\commands\\20260911T202135.729823Z-final34-full-m0-01.log",
+      "log_sha256": "a827e3cea6f79f26f94aad067ae9fd24584f86540c03552579184a406b70c328"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T202653.311640Z-research-supplement-v5-retention.json",
+      "sha256": "033615ddee44fc0d7a1029b508c9b00a2024b90db1949654126217cb13b52134",
+      "bytes": 1347,
+      "argv": [
+        "python",
+        "tools/vehicles/endurance_sedan/retain_evidence.py",
+        "--manifest",
+        "reports/p1-018/research/retention-supplement-v5.json",
+        "--output",
+        "data/assets/vehicles/endurance-sedan-review/evidence/research-supplement-v5.zip",
+        "--repeat-output",
+        "reports/p1-018/research-supplement-v5-repeat.zip",
+        "--index",
+        "data/assets/vehicles/endurance-sedan-review/evidence/research-supplement-v5.json"
+      ],
+      "exit_status": 0,
+      "log": "reports\\p1-018\\commands\\20260911T202653.311640Z-research-supplement-v5-retention.log",
+      "log_sha256": "3d9f8c8de4d1438518dcfc6df5038d062c408a5dfe34035c13c38711fbe94112"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T203436.068893Z-readable-spec17-promotion-01.json",
+      "sha256": "2def1d7bd88d009f07a8c2edb70127a83d7e365458be24119dd739f84c96e9b0",
+      "bytes": 985,
+      "argv": [
+        "python",
+        "reports/p1-018/promote_readable_spec17.py",
+        "--promote"
+      ],
+      "exit_status": 0,
+      "log": "reports\\p1-018\\commands\\20260911T203436.068893Z-readable-spec17-promotion-01.log",
+      "log_sha256": "f452ce84c743831c1762372dcc6adb14e9ccdbb4ae9865f46bb0be6887ca91ff"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T203654.900610Z-package-source34-stills-01.json",
+      "sha256": "08c36cfc7f963b5c2092bd6276b5bdd637c9dfcd94593ae84c93b303b4fa0735",
+      "bytes": 1103,
+      "argv": [
+        "python",
+        "reports/p1-018/package_stills34.py"
+      ],
+      "exit_status": 1,
+      "log": "reports\\p1-018\\commands\\20260911T203654.900610Z-package-source34-stills-01.log",
+      "log_sha256": "6902680932e139eb8e0864304e8d94c17da6a5f9b1cc9545dd0ee5a3516820cf"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T203732.324440Z-package-source34-stills-02.json",
+      "sha256": "655120987d472ea531315a111d5a748334f908cfe4fe5ef8b85f95a3068275ed",
+      "bytes": 1103,
+      "argv": [
+        "python",
+        "reports/p1-018/package_stills34.py"
+      ],
+      "exit_status": 0,
+      "log": "reports\\p1-018\\commands\\20260911T203732.324440Z-package-source34-stills-02.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "failures_and_retries": {
+    "prior_checkpoint": {
+      "path": "reports/p1-018/evidence-before-source34-01.json",
+      "sha256": "a35552aaf2d2ba319ebcd94252b4cec20464e26ad1a9951ed62246949d5eb18f",
+      "bytes": 12486
+    },
+    "retained_history": "history-index-v4 plus research-supplement-v5 and root-source34-gates01 bind23 completed archives; individual reports retain original scopes/failures.",
+    "source33_uv_drift": "Original raw exports retained; explicit source-bound evaluated-UV bake corrects only permitted UV floats. Current source34 full delivered gate passes without changing geometry or tolerances.",
+    "texture_staging": "Original missing PNG import UID failure retained; copied-project fresh extraction and compressed import verified before final delivered gate.",
+    "hero_fixture": "Original missing LOD0_LowerBody mutation failure retained; actual LOD0_Body mutation rejected for the intended reason in the complete rerun.",
+    "review_packaging": {
+      "first_attempt": "20260911T203654.900610Z-package-source34-stills-01.json",
+      "failure": "Default Python lacked Pillow; no gallery output created.",
+      "retry": "20260911T203732.324440Z-package-source34-stills-02.json",
+      "recovery": "Pinned uv0.9.24 / Python3.13.11 / Pillow11.3.0 succeeded; unchanged source frames copied verbatim."
+    },
+    "isolated_resource_import": {
+      "report": "reports/p1-018/final34/resource-01/evidence.json",
+      "status": "failed_before_probe",
+      "diagnostic": "Fresh isolated Godot editor import logged a System.Runtime10 assembly load error despite process exit0. Strict diagnostics rejected the run.",
+      "recovery": "Environment diagnosis in progress; no resource or performance pass inferred."
+    },
+    "git_newlines": {
+      "finding": "The initial index normalized raw CRLF review evidence and the comment-only QA package file.",
+      "correction": "Review subtree now preserves bytes; QA docstring module is LF; exactly two asset-manifest input hashes refreshed.",
+      "verification": "Current delivered gate02 passed26 byte comparisons/20 rejection groups. All600 staged payloads equal working bytes.",
+      "audit_retry": "The first index audit ran before the ongoing restage completed and saw the prior index; retained failure is followed by a serialized passing audit02."
+    }
+  },
+  "outstanding_machine_work": [
+    "Final45resource state/phase samples; initial isolated editor import failed before any resource probe",
+    "Complete remaining source34 motion capture/review and gallery; turntable360 and interior300 actual-frame reviews passed",
+    "Native17 driving,55 presentation,4night-mirror stages and full movie/frame inspection",
+    "Full local and declared-platform PlayGodot",
+    "Clean committed Linux/Windows unsigned builds twice; all package bytes equal and native packaged scenarios",
+    "Five uncontended reference-machine performance cases at one exact commit using unchanged ADR0023 thresholds",
+    "Current declared remote platform checks and Windows soak",
+    "Final defect/feature reconciliation, retained evidence inventory and PR auto-squash integration"
+  ],
+  "human_gates": [
+    {
+      "name": "Final visual/art direction",
+      "status": "pending",
+      "approval_reference": null
+    },
+    {
+      "name": "Source and asset rights",
+      "status": "pending",
+      "approval_reference": null
+    },
+    {
+      "name": "Driving enjoyment and30-minute handling",
+      "status": "pending",
+      "approval_reference": null
+    },
+    {
+      "name": "Physical wheel calibration andcontroller feel",
+      "status": "pending",
+      "approval_reference": null
+    },
+    {
+      "name": "Player comprehension, accessibility andinspection usability",
+      "status": "pending",
+      "approval_reference": null
+    }
+  ],
+  "human_approval_reference": null,
+  "simulation_boundary": "Existing authoritative four-raycast rigid body and125mph starter/250mph validation policies retained. Engine bay, auxiliary fuel hardware and stowed restraints are modeled assemblies; no engine-internal, fuel-transfer, textile, crash or occupant simulation is claimed.",
+  "retention_resolution": "Ignored reports restore at exact member paths from checksum-indexed review evidence ZIPs. Root source34 export/import/byte gates and M0 are retained in root-source34-gates01; final runtime, motion and platform supplements remain in progress.",
+  "open_instructions": "docs/vehicles/endurance-sedan/README.md"
+}

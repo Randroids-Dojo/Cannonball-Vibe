@@ -4,6 +4,18 @@ namespace Cannonball.Game.Vehicle;
 
 public sealed partial class VehicleVisualRig : Node3D
 {
+    [Export] public VehicleRigSetup? RigSetup { get; set; }
+    [Export] public EnduranceSedanPresentationSetup? PresentationSetup { get; set; }
+    public EnduranceSedanPresentation? Presentation { get; private set; }
+    private readonly Dictionary<string, Node3D> _resolvedAnchors = new(StringComparer.Ordinal);
+    public Node3D ResolveAnchor(string name)
+    {
+        if (_resolvedAnchors.TryGetValue(name, out var cached) && GodotObject.IsInstanceValid(cached)) return cached;
+        var node = FindDescendant(this, name) as Node3D ??
+            throw new InvalidOperationException($"Vehicle '{RigSetup?.AssetId}' is missing semantic anchor {name}.");
+        _resolvedAnchors[name] = node;
+        return node;
+    }
     public const uint CockpitExteriorRenderLayer = 1u << 19;
     public const string CarPaintShaderPath = "res://assets/vehicles/hero-gt/shaders/car_paint.gdshader";
 
@@ -39,6 +51,9 @@ public sealed partial class VehicleVisualRig : Node3D
     private readonly Node3D[] _wheelPivots = new Node3D[4];
     private readonly Node3D[] _suspensionAnchors = new Node3D[4];
     private readonly Vector3[] _suspensionRestPositions = new Vector3[4];
+    private readonly Basis[] _suspensionRestBases = new Basis[4];
+    private readonly Basis[] _wheelRestBases = new Basis[4];
+    private readonly List<GeometryInstance3D>[] _distributedLods = [[], [], []];
     private readonly List<MeshInstance3D> _damageIndicators = [];
     private readonly Godot.Collections.Dictionary _automationState = new();
     private readonly List<Light3D> _lamps = [];
@@ -53,7 +68,8 @@ public sealed partial class VehicleVisualRig : Node3D
     private Action<World.Environments.LightingPreset>? _presetHandler;
 
     /// <summary>Whether the head and tail lamps are lit.</summary>
-    public bool HeadlightsOn { get; private set; }
+    private bool _headlightsOn;
+    public bool HeadlightsOn => Presentation?.HeadlightsOn ?? _headlightsOn;
 
     /// <summary>Sidecar texture slots bound at load, and slots whose file was absent.</summary>
     public int SourcedTexturesBound { get; private set; }
@@ -75,11 +91,16 @@ public sealed partial class VehicleVisualRig : Node3D
 
     public override void _Ready()
     {
-        Name = "HeroGtVisualRig";
+        RigSetup ??= VehicleRigSetup.Load("hero-gt");
+        RigSetup.Validate();
+        if (RigSetup.AssetId == "hero-gt")
+        {
+            Name = "HeroGtVisualRig";
+        }
         var resolved = RequiredSemanticNodes.ToDictionary(
             name => name,
             name => FindDescendant(this, name) ??
-                throw new InvalidOperationException($"Hero GT wrapper is missing semantic node {name}."),
+                throw new InvalidOperationException($"Vehicle '{RigSetup.AssetId}' wrapper is missing semantic node {name}."),
             StringComparer.Ordinal);
         ResolvedSemanticNodeCount = resolved.Count;
         ContractResolved = true;
@@ -90,17 +111,39 @@ public sealed partial class VehicleVisualRig : Node3D
         _lod2 = (Node3D)resolved["Visual_LOD2"];
         ChaseCameraTarget = (Node3D)resolved["Camera_ChaseTarget"];
         CockpitCameraAnchor = (Node3D)resolved["Camera_Cockpit"];
+        if (RigSetup.DistributedLodGeometry)
+        {
+            foreach (var geometry in Descendants(this).OfType<GeometryInstance3D>())
+            {
+                for (var lod = 0; lod < _distributedLods.Length; lod++)
+                {
+                    if (geometry.Name.ToString().StartsWith($"LOD{lod}_", StringComparison.Ordinal))
+                    {
+                        _distributedLods[lod].Add(geometry);
+                    }
+                }
+            }
+        }
         for (var index = 0; index < WheelSuffixes.Length; index++)
         {
             var suffix = WheelSuffixes[index];
             _wheelPivots[index] = (Node3D)resolved[$"Wheel_{suffix}"];
             _suspensionAnchors[index] = (Node3D)resolved[$"Suspension_{suffix}"];
             _suspensionRestPositions[index] = _suspensionAnchors[index].Position;
+            _suspensionRestBases[index] = _suspensionAnchors[index].Basis;
+            _wheelRestBases[index] = _wheelPivots[index].Basis;
         }
         BuildDamageIndicators(resolved);
-        BuildLamps(resolved);
+        if (PresentationSetup is null) BuildLamps(resolved);
         BindSourcedTextures();
         PolishImportedMaterials();
+        if (PresentationSetup is not null && GetParent() is CannonballVehicle vehicle &&
+            !OS.GetCmdlineUserArgs().Contains("--sedan-blockout", StringComparer.Ordinal))
+        {
+            Presentation = new EnduranceSedanPresentation();
+            Presentation.Configure(this, vehicle, PresentationSetup);
+            AddChild(Presentation);
+        }
         // The collision proxy is a contract node for collision policy, not a
         // visual; the third-generation body tucks under at the sills and
         // tapers at the tail, so the box would show if it were drawn.
@@ -108,6 +151,7 @@ public sealed partial class VehicleVisualRig : Node3D
         {
             collisionProxy.Visible = false;
         }
+        SetVisualVisibility(resolved["CollisionProxy"], false);
         SetLod(0);
         SetDamageHighlight(false);
         // The run starts at night; the lamps follow whatever preset the world
@@ -133,25 +177,45 @@ public sealed partial class VehicleVisualRig : Node3D
         }
         SteeringRadians = steeringRadians;
         _wheelRotationRadians = Mathf.Wrap(
-            _wheelRotationRadians + longitudinalSpeedMetersPerSecond / 0.34f * deltaSeconds,
+            _wheelRotationRadians + longitudinalSpeedMetersPerSecond / RigSetup!.TireRadiusMeters * deltaSeconds * RigSetup.WheelRollingSign,
             -Mathf.Pi,
             Mathf.Pi);
         MaximumSuspensionTravelMeters = 0;
         for (var index = 0; index < _wheelPivots.Length; index++)
         {
-            var compression = Mathf.Clamp(suspensionCompressionMeters[index], 0, 0.62f);
+            var compression = Mathf.Clamp(suspensionCompressionMeters[index], 0, RigSetup!.MaximumVisualCompressionMeters);
             MaximumSuspensionTravelMeters = Math.Max(MaximumSuspensionTravelMeters, compression);
             _suspensionAnchors[index].Position =
-                _suspensionRestPositions[index] + Vector3.Up * compression;
+                _suspensionRestPositions[index] + Vector3.Up *
+                    (compression - (RigSetup.AuthoredAtStaticRide ? RigSetup.StaticCompressionMeters : 0));
             var steering = index < 2 ? steeringRadians : 0;
-            _wheelPivots[index].Basis =
-                new Basis(Vector3.Up, steering) * new Basis(Vector3.Right, _wheelRotationRadians);
+            if (RigSetup.SteerSuspensionParent)
+            {
+                _suspensionAnchors[index].Basis = _suspensionRestBases[index] * new Basis(Vector3.Up, -steering);
+                _wheelPivots[index].Basis = _wheelRestBases[index] * new Basis(Vector3.Right, _wheelRotationRadians);
+            }
+            else
+            {
+                _wheelPivots[index].Basis =
+                    _wheelRestBases[index] * new Basis(Vector3.Up, -steering) * new Basis(Vector3.Right, _wheelRotationRadians);
+            }
         }
     }
 
     public void SetLod(int lod)
     {
         ActiveLod = Math.Clamp(lod, 0, 2);
+        if (RigSetup?.DistributedLodGeometry == true)
+        {
+            for (var level = 0; level < _distributedLods.Length; level++)
+            {
+                foreach (var geometry in _distributedLods[level])
+                {
+                    geometry.Visible = level == ActiveLod;
+                }
+            }
+            return;
+        }
         SetVisualVisibility(_lod0, ActiveLod == 0);
         SetVisualVisibility(_lod1, ActiveLod == 1);
         SetVisualVisibility(_lod2, ActiveLod == 2);
@@ -185,7 +249,8 @@ public sealed partial class VehicleVisualRig : Node3D
     /// <summary>Lights or douses the head and tail lamps.</summary>
     public void SetHeadlights(bool on)
     {
-        HeadlightsOn = on;
+        _headlightsOn = on;
+        Presentation?.SetEnvironmentHeadlights(on);
         foreach (var lamp in _lamps)
         {
             lamp.Visible = on;
@@ -302,19 +367,20 @@ public sealed partial class VehicleVisualRig : Node3D
     {
         ArgumentNullException.ThrowIfNull(camera);
         var excludedCount = 0;
-        foreach (var name in CockpitExcludedMeshes)
+        var exclusions = RigSetup?.CockpitExcludedMeshes ?? CockpitExcludedMeshes;
+        foreach (var name in exclusions)
         {
             if (FindDescendant(this, name) is not GeometryInstance3D geometry)
             {
                 throw new InvalidOperationException(
-                    $"Hero GT cockpit exclusion mesh '{name}' is missing.");
+                    $"Vehicle cockpit exclusion mesh '{name}' is missing.");
             }
             geometry.Layers = CockpitExteriorRenderLayer;
             excludedCount++;
         }
         camera.CullMask &= ~CockpitExteriorRenderLayer;
         _automationState["cockpit_excluded_mesh_count"] = excludedCount;
-        _automationState["cockpit_excluded_meshes"] = new Godot.Collections.Array<string>(CockpitExcludedMeshes);
+        _automationState["cockpit_excluded_meshes"] = new Godot.Collections.Array<string>(exclusions);
         _automationState["cockpit_camera_cull_mask"] = (long)camera.CullMask;
         _automationState["chase_exterior_geometry_visible"] = true;
     }
@@ -332,20 +398,21 @@ public sealed partial class VehicleVisualRig : Node3D
     /// </summary>
     private void BindSourcedTextures()
     {
+        var textureBindingsPath = RigSetup?.TextureBindingsPath ?? SourcedTexturesPath;
         var bound = 0;
         var missing = 0;
         _automationState["sourced_textures_bound"] = 0;
         _automationState["sourced_textures_missing"] = 0;
-        if (!Godot.FileAccess.FileExists(SourcedTexturesPath))
+        if (string.IsNullOrWhiteSpace(textureBindingsPath) || !Godot.FileAccess.FileExists(textureBindingsPath))
         {
             return;
         }
-        var parsed = Json.ParseString(Godot.FileAccess.GetFileAsString(SourcedTexturesPath));
+        var parsed = Json.ParseString(Godot.FileAccess.GetFileAsString(textureBindingsPath));
         if (parsed.Obj is not Godot.Collections.Dictionary sidecar ||
             !sidecar.TryGetValue("materials", out var materialsValue) ||
             materialsValue.Obj is not Godot.Collections.Dictionary bindings)
         {
-            GD.PushWarning($"Hero GT texture sidecar {SourcedTexturesPath} is not a schema-1 binding table.");
+            GD.PushWarning($"Vehicle texture sidecar {textureBindingsPath} is not a schema-1 binding table.");
             return;
         }
         using (sidecar)
@@ -398,8 +465,9 @@ public sealed partial class VehicleVisualRig : Node3D
     private void PolishImportedMaterials()
     {
         var polished = 0;
-        var paintShader = ResourceLoader.Exists(CarPaintShaderPath)
-            ? ResourceLoader.Load<Shader>(CarPaintShaderPath)
+        var paintShaderPath = RigSetup?.PaintShaderPath ?? CarPaintShaderPath;
+        var paintShader = ResourceLoader.Exists(paintShaderPath)
+            ? ResourceLoader.Load<Shader>(paintShaderPath)
             : null;
         var paintMaterials = new Dictionary<string, ShaderMaterial>(StringComparer.Ordinal);
         foreach (var meshInstance in Descendants(this).OfType<MeshInstance3D>())
@@ -429,6 +497,10 @@ public sealed partial class VehicleVisualRig : Node3D
                     : FamilyFromName(name);
                 switch (family)
                 {
+                    // Explicit source response is authoritative. In particular,
+                    // dark polymer trim must not inherit Hero's metallic fallback.
+                    case "standard":
+                        break;
                     case "car_paint" when paintShader is not null:
                         if (!paintMaterials.TryGetValue(name, out var paint))
                         {
@@ -558,6 +630,41 @@ public sealed partial class VehicleVisualRig : Node3D
         CockpitCameraAnchor.Position,
         _damageIndicators.Count);
 
+    /// <summary>Explicit verification only; actual active overrides and geometry after LOD selection.</summary>
+    public VehicleRuntimeResourceInventory CaptureRuntimeResourceInventory()
+    {
+        var materials = new Dictionary<ulong, Material>();
+        var textures = new Dictionary<ulong, Texture2D>();
+        var meshes = new HashSet<ulong>();
+        var drawnTriangles = 0;
+        var drawnMeshes = 0;
+        foreach (var instance in Descendants(this).OfType<MeshInstance3D>())
+        {
+            if (!instance.IsVisibleInTree() || instance.Mesh is not { } mesh) continue;
+            drawnMeshes++;
+            meshes.Add(mesh.GetRid().Id);
+            for (var surface = 0; surface < mesh.GetSurfaceCount(); surface++)
+            {
+                using var arrays = mesh.SurfaceGetArrays(surface);
+                var indices = arrays[(int)Mesh.ArrayType.Index].AsInt32Array();
+                drawnTriangles += (indices.Length > 0 ? indices.Length : arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array().Length) / 3;
+                if (instance.GetActiveMaterial(surface) is { } material)
+                    materials.TryAdd(material.GetRid().Id, material);
+            }
+        }
+        foreach (var material in materials.Values)
+            foreach (var property in material.GetPropertyList())
+            {
+                if (property["type"].AsInt32() != (int)Variant.Type.Object) continue;
+                if (material.Get(property["name"].AsString()).Obj is Texture2D texture)
+                    textures.TryAdd(texture.GetRid().Id, texture);
+            }
+        return new(ActiveLod, drawnTriangles, drawnMeshes, meshes.Count, materials.Count, textures.Count,
+            materials.Select(pair => new VehicleMaterialResource(pair.Key, pair.Value.ResourceName, pair.Value.GetClass())).ToArray(),
+            textures.Select(pair => new VehicleTextureResource(pair.Key, pair.Value.ResourcePath,
+                pair.Value.GetClass(), pair.Value.GetWidth(), pair.Value.GetHeight())).ToArray());
+    }
+
     private void BuildDamageIndicators(IReadOnlyDictionary<string, Node> resolved)
     {
         // Released once every indicator has taken its own reference; see the note
@@ -581,6 +688,7 @@ public sealed partial class VehicleVisualRig : Node3D
                 Mesh = indicatorMesh,
                 MaterialOverride = material,
             };
+            indicator.SetMeta("vehicle_runtime_generated", true);
             anchor.AddChild(indicator);
             _damageIndicators.Add(indicator);
         }
@@ -620,3 +728,9 @@ public sealed record VehicleVisualSnapshot(
     Vector3 ChaseCameraTarget,
     Vector3 CockpitCameraAnchor,
     int DamageZoneCount);
+
+public sealed record VehicleRuntimeResourceInventory(int ActiveLod, int DrawnTriangles, int DrawnMeshInstances,
+    int UniqueMeshResources, int ActiveMaterialResources, int ActiveTextureResources,
+    IReadOnlyList<VehicleMaterialResource> Materials, IReadOnlyList<VehicleTextureResource> Textures);
+public sealed record VehicleMaterialResource(ulong Rid, string Name, string ResourceType);
+public sealed record VehicleTextureResource(ulong Rid, string Path, string ResourceType, int Width, int Height);

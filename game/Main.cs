@@ -130,6 +130,13 @@ public sealed partial class Main : Node3D
     private int _routeChoiceMaximumUnsupportedFrames;
     private int _routeChoiceChunkFailures;
     private VehicleVisualScenario? _vehicleVisualScenario;
+    private string _selectedVehicleId = "hero-gt";
+    private string? _pendingVehicleSelection;
+    private bool _worldPhysicsFrameConnected;
+    private bool _enduranceSedanProfile;
+    private EnduranceSedanScenario? _enduranceSedanScenario;
+    private bool _sedanPresentationProfile;
+    private EnduranceSedanPresentationScenario? _sedanPresentationScenario;
     private RoadVisualScenario? _roadVisualScenario;
     private EnvironmentVisualScenario? _environmentVisualScenario;
     private IntegratedVisualSliceScenario? _integratedVisualSliceScenario;
@@ -212,6 +219,34 @@ public sealed partial class Main : Node3D
             SetMeta("automation_id", "run.session");
             SetMeta("automation_state", _runAutomationState);
             var arguments = OS.GetCmdlineUserArgs();
+            var referencePerformanceRequested = arguments.Contains("--reference-performance-profile", StringComparer.Ordinal);
+            if (OptionalArgument(arguments, "--reference-mirrors") is not null && !referencePerformanceRequested)
+                throw new ArgumentException("--reference-mirrors is a reference-performance benchmark option.");
+            var vehicleArguments = arguments.Select((value, index) =>
+                    value.StartsWith("--vehicle=", StringComparison.Ordinal) ? value["--vehicle=".Length..] :
+                    value == "--vehicle" ? index + 1 < arguments.Length ? arguments[index + 1] : "" : null)
+                .Where(value => value is not null).Distinct(StringComparer.Ordinal).ToArray();
+            if (vehicleArguments.Length > 1)
+                throw new ArgumentException("Conflicting --vehicle arguments are not supported.");
+            var requestedVehicle = vehicleArguments.SingleOrDefault();
+            if (requestedVehicle is not null && !VehicleSelectionSettings.IsKnown(requestedVehicle))
+                throw new ArgumentException("--vehicle requires hero-gt, endurance-sedan or graybox.");
+            var legacyGraybox = arguments.Contains("--graybox-vehicle", StringComparer.Ordinal);
+            var heroVisualRequested = arguments.Contains("--vehicle-visual-profile", StringComparer.Ordinal) ||
+                arguments.Contains("--vehicle-visual-review", StringComparer.Ordinal);
+            if (legacyGraybox && requestedVehicle is not null && requestedVehicle != "graybox")
+                throw new ArgumentException("--graybox-vehicle conflicts with an explicit non-graybox --vehicle.");
+            _selectedVehicleId = requestedVehicle ?? (legacyGraybox ? "graybox" :
+                heroVisualRequested ? "hero-gt" : VehicleSelectionSettings.Load());
+            if (heroVisualRequested && _selectedVehicleId != "hero-gt")
+                throw new ArgumentException("The Hero visual profile/review requires --vehicle=hero-gt.");
+            _enduranceSedanProfile = arguments.Contains("--endurance-sedan-profile", StringComparer.Ordinal);
+            _sedanPresentationProfile = arguments.Contains("--sedan-presentation-profile", StringComparer.Ordinal);
+            var automationSavePath = OptionalArgument(arguments, "--run-save-path");
+            if (automationSavePath is not null && !_enduranceSedanProfile && !_sedanPresentationProfile && !referencePerformanceRequested)
+                throw new ArgumentException("--run-save-path requires a sedan driving, presentation or reference-performance automation profile.");
+            if (_sedanPresentationProfile && (_enduranceSedanProfile || _selectedVehicleId != "endurance-sedan"))
+                throw new ArgumentException("The sedan presentation profile requires --vehicle=endurance-sedan and a separate invocation from driving.");
             var routePath = RequiredArgument(arguments, "--route-package");
             var requestedProbeMiles = OptionalPositiveDouble(arguments, "--distance-miles");
             _longRouteProfile = arguments.Contains("--long-route-profile", StringComparer.Ordinal);
@@ -291,7 +326,7 @@ public sealed partial class Main : Node3D
                 _integratedVisualSliceProfile || _referencePerformanceProfile ||
                 _tripMapReview || _cameraHandlingProfile || _offRoadGroundProfile ||
                 _cameraHandlingReview || _vehicleDynamicsProfile || _vehicleDynamicsReview ||
-                _tripMapScaleProfile || _longRouteProfile || _resumeVerify;
+                _tripMapScaleProfile || _longRouteProfile || _resumeVerify || _enduranceSedanProfile || _sedanPresentationProfile;
             _smokeTargetFrames = _stressTest || _shortCorridorSoak ? 3_600 : 360;
             if (_renderIntegrity)
             {
@@ -333,6 +368,7 @@ public sealed partial class Main : Node3D
             {
                 _smokeTargetFrames = 50_000;
             }
+            if (_enduranceSedanProfile || _sedanPresentationProfile) _smokeTargetFrames = 100_000;
             if (_roadVisualProfile || _roadVisualReview)
             {
                 _smokeTargetFrames = 1_200;
@@ -409,8 +445,13 @@ public sealed partial class Main : Node3D
                         ?? throw new InvalidDataException("Route package has no parent directory."));
             }
 
+            var runSavePath = automationSavePath is null
+                ? ProjectSettings.GlobalizePath("user://runs/suspended-run.json")
+                : Path.GetFullPath(automationSavePath);
+            if (automationSavePath is not null)
+                GD.Print("CANNONBALL_AUTOMATION_SAVE_PATH " + JsonSerializer.Serialize(new { path = runSavePath }));
             _saves = new JsonRunStateRepository(
-                ProjectSettings.GlobalizePath("user://runs/suspended-run.json"),
+                runSavePath,
                 RunSave.ComputePackageIdentity(_package));
             RunSave? resumedSave = null;
             if (_resumeRequested)
@@ -492,7 +533,7 @@ public sealed partial class Main : Node3D
                 !_environmentStreamingProfile && !_environmentReview &&
                 !_tripMapReview && !_cameraHandlingProfile && !_cameraHandlingReview &&
                 !_offRoadGroundProfile &&
-                !_vehicleDynamicsProfile && !_vehicleDynamicsReview && !_longRouteProfile;
+                !_vehicleDynamicsProfile && !_vehicleDynamicsReview && !_longRouteProfile && !_enduranceSedanProfile && !_sedanPresentationProfile;
             if (resumedSave is not null)
             {
                 _vehicle.SetAssistProfile(resumedSave.Run.AssistProfile);
@@ -547,6 +588,19 @@ public sealed partial class Main : Node3D
                     GetNode<DirectionalLight3D>("MoonLight"),
                     GetNode<WorldEnvironment>("NightEnvironment"),
                     _vehicleVisualReview);
+            }
+            if (_enduranceSedanProfile && !_resumeVerify)
+            {
+                _enduranceSedanScenario = new EnduranceSedanScenario(
+                    this, _vehicle, _streamer, _selectedVehicleId,
+                    OptionalArgument(arguments, "--sedan-evidence-dir") ??
+                        ProjectSettings.GlobalizePath($"res://reports/p1-018/runtime/{_selectedVehicleId}"),
+                    VerifyEnduranceSedanSaveResume, _runSeed);
+            }
+            if (_sedanPresentationProfile)
+            {
+                _sedanPresentationScenario = new EnduranceSedanPresentationScenario(
+                    this, _vehicle, _streamer, RequiredArgument(arguments, "--sedan-evidence-dir"));
             }
             if (_roadVisualProfile || _roadVisualReview)
             {
@@ -620,9 +674,11 @@ public sealed partial class Main : Node3D
             _initialRunState = InitialRunState.Create(_runSeed, _vehicle.AssistProfile);
             _initialVehicleTransform = new Transform3D(
                 Basis.LookingAt(_streamer.InitialRoadForward, Vector3.Up),
-                _streamer.InitialVehiclePoint + Vector3.Up * 0.78f);
+                _streamer.InitialVehiclePoint + Vector3.Up * _vehicle.RigSetup.SpawnHeightMeters);
             _initialAutopilotEnabled = _vehicle.AutopilotEnabled;
             UpdateRunAutomationState();
+            GetTree().PhysicsFrame += ApplyPendingWorldReconstruction;
+            _worldPhysicsFrameConnected = true;
             if (requestedProbeMiles > 0 && !_longRouteProfile)
             {
                 _transportProbe = RunTransportProbeAsync(requestedProbeMiles);
@@ -657,6 +713,19 @@ public sealed partial class Main : Node3D
         }
         using var frameRegion = Cannonball.Core.Performance.SubsystemProfiler.Measure(
             Cannonball.Core.Performance.SubsystemProfiler.Subsystem.Orchestration);
+
+        _vehicle.Condition = _vehicleCondition;
+        if (_sedanPresentationScenario is { Complete: false })
+        {
+            try { _sedanPresentationScenario.Advance(delta); }
+            catch (Exception exception)
+            {
+                GD.PushError(exception.ToString());
+                RequestApplicationQuit(1);
+                return;
+            }
+        }
+        if (_vehicle.InspectionActive) return;
 
         if (_restartRunRequested)
         {
@@ -776,6 +845,19 @@ public sealed partial class Main : Node3D
             {
                 GD.PushError(exception.ToString());
                 _shutdownStarted = true;
+                RequestApplicationQuit(1);
+                return;
+            }
+        }
+        if (_enduranceSedanScenario is { Complete: false })
+        {
+            try
+            {
+                _enduranceSedanScenario.AdvanceRender();
+            }
+            catch (Exception exception)
+            {
+                GD.PushError(exception.ToString());
                 RequestApplicationQuit(1);
                 return;
             }
@@ -927,6 +1009,8 @@ public sealed partial class Main : Node3D
             (_routeContextProfileComplete && !_roadVisualProfile && !_roadVisualReview) ||
             _longRouteComplete ||
             _vehicleVisualScenario is { Complete: true } ||
+            _enduranceSedanScenario is { Complete: true } ||
+            _sedanPresentationScenario is { Complete: true } ||
             _cameraHandlingScenario is { Complete: true } ||
             _offRoadGroundScenario is { Complete: true } ||
             _vehicleDynamicsScenario is { Complete: true } ||
@@ -943,13 +1027,14 @@ public sealed partial class Main : Node3D
     public override void _PhysicsProcess(double delta)
     {
         _ = delta;
-        if (_vehicleDynamicsScenario is not { Complete: false } || _shutdownStarted)
+        if (_shutdownStarted)
         {
             return;
         }
         try
         {
-            _vehicleDynamicsScenario.AdvancePhysics();
+            if (_vehicleDynamicsScenario is { Complete: false }) _vehicleDynamicsScenario.AdvancePhysics();
+            if (_enduranceSedanScenario is { Complete: false }) _enduranceSedanScenario.AdvancePhysics();
         }
         catch (Exception exception)
         {
@@ -961,6 +1046,13 @@ public sealed partial class Main : Node3D
 
     public override void _ExitTree()
     {
+        if (_worldPhysicsFrameConnected)
+        {
+            GetTree().PhysicsFrame -= ApplyPendingWorldReconstruction;
+            _worldPhysicsFrameConnected = false;
+        }
+        _enduranceSedanScenario?.Dispose();
+        _sedanPresentationScenario?.Dispose();
         if (_telemetry is not null)
         {
             _telemetry.DisposeAsync().AsTask().GetAwaiter().GetResult();
@@ -1042,10 +1134,11 @@ public sealed partial class Main : Node3D
             resumedSave?.Run.Navigation,
             _interchangeFixture?.RoadStructures);
         _streamer.ShortCorridorLoopEnabled = _shortCorridorSoak;
+        var rigSetup = VehicleRigSetup.Load(_selectedVehicleId);
         var vehicleTransform = resumedSave is null
             ? new Transform3D(
                 Basis.LookingAt(_streamer.InitialRoadForward, Vector3.Up),
-                _streamer.InitialVehiclePoint + Vector3.Up * 0.78f)
+                _streamer.InitialVehiclePoint + Vector3.Up * rigSetup.SpawnHeightMeters)
             : new Transform3D(
                 new Basis(new Quaternion(
                     (float)resumedSave.LocalVehicle.RotationX,
@@ -1058,6 +1151,9 @@ public sealed partial class Main : Node3D
                     (float)resumedSave.LocalVehicle.PositionZ));
         _vehicle = new CannonballVehicle
         {
+            RigSetup = rigSetup,
+            Condition = _vehicleCondition,
+            ForceGrayboxVisual = _selectedVehicleId == "graybox",
             // Explicit scenario launches retain the original high-speed corpus.
             // Normal play, including reconstructed saves/worlds, uses the starter.
             Setup = _smokeTest ? VehicleSetup.HighSpeedValidation : VehicleSetup.Starter,
@@ -1082,6 +1178,55 @@ public sealed partial class Main : Node3D
         _streamer.Track(_vehicle);
         AddChild(_streamer);
         AddChild(_vehicle);
+        _vehicle.InspectionPanel.VehicleSelected += id => _pendingVehicleSelection = id;
+    }
+
+    private void ApplyPendingVehicleSelection()
+    {
+        var id = _pendingVehicleSelection!;
+        _pendingVehicleSelection = null;
+        if (!VehicleSelectionSettings.IsKnown(id) || _vehicle.SpeedMetersPerSecond > 0.5f) return;
+        var current = CaptureSave();
+        var previousOriginHeight = _vehicle.RigSetup.ChassisOriginHeightMeters;
+        VehicleSelectionSettings.Save(id);
+        _selectedVehicleId = id;
+        RemoveRuntimeWorld();
+        _elapsedSecondsBase = current.Run.ElapsedSeconds;
+        ConfigureRuntimeWorld(routePlan: null, current);
+        // The carried time already excludes the old map pauses. Loading the
+        // replacement starts a new clock interval, as it does for a restart.
+        _tripMapPauseStartedTicks = 0;
+        _tripMapPausedSeconds = 0;
+        _sessionStartedTicks = Time.GetTicksMsec();
+        _vehicle.AutopilotEnabled = false;
+        // Preserve the parked horizontal position and heading. The two rigs
+        // measure their bodies from different vertical chassis origins; this
+        // conversion keeps that change out of the road-recovery/lookahead path.
+        _vehicle.Position += Vector3.Up * (_vehicle.RigSetup.ChassisOriginHeightMeters - previousOriginHeight);
+        _vehicle.LinearVelocity = Vector3.Zero;
+        _vehicle.AngularVelocity = Vector3.Zero;
+        _vehicle.ResetPhysicsInterpolation();
+        _vehicle.ChaseCameraRig.SnapToTarget();
+        _vehicle.DrivingInputController.ClearAndSuppress("vehicle_selected");
+        GD.Print($"CANNONBALL_VEHICLE_SELECTED asset={id} route={_streamer.CurrentEdgeId} parked_reconstruction=true");
+    }
+
+    private void ApplyPendingWorldReconstruction()
+    {
+        if (_shutdownStarted || _vehicle is null || _streamer is null || GetTree().Paused) return;
+        try
+        {
+            // PhysicsFrame precedes the native physics traversal. Newly built
+            // spring arms therefore perform their normal collision-aware child
+            // placement before this world's first rendered frame.
+            if (_pendingVehicleSelection is not null) ApplyPendingVehicleSelection();
+            _enduranceSedanScenario?.ApplyPendingReconstruction();
+        }
+        catch (Exception exception)
+        {
+            GD.PushError(exception.ToString());
+            RequestApplicationQuit(1);
+        }
     }
 
     private void ReplaceRuntimeWorld(ValidatedRoutePlan plan)
@@ -1564,6 +1709,36 @@ public sealed partial class Main : Node3D
         }
 
         CompleteLongRouteAssistProfile();
+    }
+
+    private (CannonballVehicle, WorldStreamer) VerifyEnduranceSedanSaveResume()
+    {
+        var expected = CaptureSave();
+        var selectedAsset = _vehicle.RigSetup.AssetId;
+        var actual = Task.Run(async () =>
+        {
+            await _saves.SaveAsync(expected);
+            return await _saves.LoadAsync();
+        }).GetAwaiter().GetResult() ?? throw new InvalidDataException("Sedan integration save disappeared.");
+        if (actual.ContentChecksum != expected.ContentChecksum || actual.Run.Position != expected.Run.Position ||
+            !actual.Run.RoutePlan.SequenceEqual(expected.Run.RoutePlan, StringComparer.Ordinal) ||
+            !StreamEquivalent(actual.Run.WorldStream, expected.Run.WorldStream) ||
+            actual.Run.Vehicle != expected.Run.Vehicle || actual.Run.Enforcement != expected.Run.Enforcement ||
+            actual.LocalVehicle != expected.LocalVehicle)
+        {
+            throw new InvalidDataException("Sedan integration persisted-state comparison diverged.");
+        }
+        RemoveRuntimeWorld();
+        _elapsedSecondsBase = actual.Run.ElapsedSeconds;
+        ConfigureRuntimeWorld(routePlan: null, actual);
+        _sessionStartedTicks = Time.GetTicksMsec();
+        ValidateResumedRuntime(actual);
+        if (_vehicle.RigSetup.AssetId != selectedAsset)
+        {
+            throw new InvalidDataException("Sedan resume changed the selected physical setup.");
+        }
+        GD.Print($"CANNONBALL_ENDURANCE_SEDAN_RESUME_OK selected={_selectedVehicleId} asset={selectedAsset} fuel_l={_vehicleCondition.FuelLiters:0.000} fixed_mass_kg={_vehicle.Mass:0.000}");
+        return (_vehicle, _streamer);
     }
 
     private void VerifyLongRouteSaveResume(double checkpointMeters)
@@ -3198,7 +3373,8 @@ public sealed partial class Main : Node3D
             OptionalBoolean(arguments, "--reference-loop-corridor", true),
             summaryPath,
             samplesPath,
-            camera);
+            camera,
+            OptionalBoolean(arguments, "--reference-mirrors", true));
     }
 
     private static double OptionalDoubleValue(
@@ -3491,6 +3667,8 @@ public sealed partial class Main : Node3D
         _runAutomationState["seed"] = _runSeed;
         _runAutomationState["cash"] = _cash;
         _runAutomationState["elapsed_seconds"] = CaptureElapsedSeconds();
+        _runAutomationState["clock_ticks_msec"] = (long)Time.GetTicksMsec();
+        _runAutomationState["selected_asset"] = _selectedVehicleId;
         _runAutomationState["route_distance_m"] = _streamer.RouteDistanceMeters;
         _runAutomationState["edge_distance_m"] = _streamer.CurrentEdgeDistanceMeters;
         _runAutomationState["vehicle_position_x"] = _vehicle.Position.X;
