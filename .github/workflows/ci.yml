@@ -230,7 +230,7 @@ jobs:
           import hashlib, io, pathlib, subprocess, sys, zipfile
           source = pathlib.Path("reports/recipe/tools/vehicles/diagnostics/p1-018-source34-ui.zip")
           payload = source.read_bytes()
-          assert hashlib.sha256(payload).hexdigest() == "77bd2e65940d84df100c25b308da15280230e6d71a128498c5eb35b0660c795a", "Diagnostic bundle changed"
+          assert hashlib.sha256(payload).hexdigest() == "804418e25bd7a8311a9f4f372f87a8f785a8d90ba5bc0934e911cd5b30752ed6", "Diagnostic bundle changed"
           destination = pathlib.Path("reports/p1-018/runtime/windows-ui-retry34-01/diagnostic-02")
           destination.mkdir(parents=True, exist_ok=False)
           with zipfile.ZipFile(io.BytesIO(payload)) as bundle:
