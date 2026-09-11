@@ -63,15 +63,17 @@ package="$(node -p 'require("./.tools/scenarios/official-corridor/current-packag
 | Handbrake / recover | Space / R | X / Y |
 | Chase / cockpit | V | Right-stick click |
 | Look / rear view | I J K L / hold B | Right stick / hold LB |
-| Save and suspend | F5 | No existing binding |
+| Save checkpoint | F5 | No existing binding |
 | Parked inspection | F2 | RB |
 
 Stop below 0.5 m/s to inspect. The labeled panel operates all four doors, hood,
 trunk, lights, wipers and cameras. Navigate with arrows/D-pad and Enter/Space/A
 or the mouse. F2/RB/Esc/B returns to driving. Its selector changes between
 Meridian S8R, Hero GT and graybox at the current route position. The selected
-presentation is saved separately from authoritative run state. Add `--resume`
-to the same manual launch command to resume a suspended run.
+presentation is saved separately from authoritative run state. F5 saves a
+checkpoint while driving continues. Wait for `CANNONBALL_SAVE_OK` in the
+console before closing. Add `--resume` to the same manual launch command to
+load the saved checkpoint.
 
 H cycles auto/on/off headlights; T toggles wipers; comma/period toggle left/right
 indicators and slash toggles hazards. Brake and reverse lamps follow driving
