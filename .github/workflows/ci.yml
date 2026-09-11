@@ -1,6 +1,13 @@
 name: CI
 
 on:
+  workflow_dispatch:
+    inputs:
+      p1_018_ui_diagnostic:
+        description: Observe the fixed source34 Windows selection failure (diagnostic only)
+        type: boolean
+        required: false
+        default: false
   pull_request:
   push:
     branches: [main]
@@ -167,5 +174,84 @@ jobs:
           path: |
             reports/m1/
             .tools/scenarios/representative-corridor/
+          if-no-files-found: error
+          retention-days: 14
+
+  p1-018-ui-diagnostic:
+    name: P1-018 source34 selection diagnosis (Windows, diagnostic only)
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.p1_018_ui_diagnostic }}
+    runs-on: windows-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    env:
+      DOTNET_ROLL_FORWARD: Major
+      DOTNET_GCgen0size: "800000"
+    steps:
+      - name: Obtain the immutable diagnostic recipe from the dispatch revision
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+        with:
+          ref: ${{ github.sha }}
+          path: reports/recipe
+          sparse-checkout: tools/vehicles/diagnostics/p1-018-source34-ui.zip
+          sparse-checkout-cone-mode: false
+          lfs: false
+          persist-credentials: false
+      - name: Check out the exact source34 tree in an isolated reports project
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+        env:
+          GIT_CONFIG_COUNT: "1"
+          GIT_CONFIG_KEY_0: lfs.fetchexclude
+          GIT_CONFIG_VALUE_0: data/assets/vehicles/endurance-sedan-review/**
+        with:
+          ref: 637c29aa5c1003188229aa95e956943879096f54
+          path: reports/p
+          lfs: true
+          persist-credentials: false
+      - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5
+        with:
+          dotnet-version: |
+            8.0.x
+            10.0.102
+      - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990 # v8.3.2
+        with:
+          version: "0.9.24"
+          python-version: "3.13.11"
+          enable-cache: true
+      - uses: chickensoft-games/setup-godot@f166999204a4f2722c6fe042fbaa3b3ea0d9c789 # v2
+        with:
+          version: 4.7.1
+          use-dotnet: true
+          include-templates: false
+      - name: Observe the unchanged deadline and retain the late-response diagnosis
+        shell: bash
+        run: |
+          uv run --project reports/p/automation/playgodot --frozen python - <<'PY'
+          import hashlib, io, pathlib, subprocess, sys, zipfile
+          source = pathlib.Path("reports/recipe/tools/vehicles/diagnostics/p1-018-source34-ui.zip")
+          payload = source.read_bytes()
+          assert hashlib.sha256(payload).hexdigest() == "77bd2e65940d84df100c25b308da15280230e6d71a128498c5eb35b0660c795a", "Diagnostic bundle changed"
+          destination = pathlib.Path("reports/p1-018/runtime/windows-ui-retry34-01/diagnostic-02")
+          destination.mkdir(parents=True, exist_ok=False)
+          with zipfile.ZipFile(io.BytesIO(payload)) as bundle:
+              assert len(bundle.infolist()) == 10
+              assert len(set(bundle.namelist())) == 10
+              for member in bundle.infolist():
+                  name = pathlib.PurePosixPath(member.filename)
+                  assert not name.is_absolute() and ".." not in name.parts and "\\" not in member.filename
+                  assert not ":" in member.filename and 0 < member.file_size < 200_000
+                  assert (member.external_attr >> 16) & 0o170000 != 0o120000
+              bundle.extractall(destination)
+          raise SystemExit(subprocess.call([sys.executable, str(destination / "remote_run.py"),
+              "--project", "reports/p", "--output", "reports/ui-diagnostic-output"]))
+          PY
+      - name: Upload bounded diagnostic evidence, including failures
+        if: ${{ always() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: p1-018-source34-ui-diagnostic-${{ github.run_attempt }}
+          path: |
+            reports/ui-diagnostic-output/
+            reports/p1-018/runtime/windows-ui-retry34-01/diagnostic-02/
           if-no-files-found: error
           retention-days: 14
