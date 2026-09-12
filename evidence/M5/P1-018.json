@@ -759,5 +759,52 @@
     ],
     "remaining": "Complete assembly repairs, final source35 native/LOD/export/import/runtime/media/performance/platform checks and required human gates remain open. The installed source34 Blender and GLB remain unchanged; their remote asset failure is not declared repaired by this checkpoint.",
     "human_approval_reference": null
+  },
+  "camera_observation_checkpoint_v26": {
+    "utc": "2026-09-12T13:07:00.565348+00:00",
+    "status": "windows-checkpoint-platform-rerun-pending",
+    "git_base_revision": "11d80201e79712dd10ac203a982fc1765dded7cd",
+    "working_tree_patch_sha256": "c2494a4a3853b2a058feb3c7eb19283dbb40c3d6f629d849257855110aa45449",
+    "platform": "Windows11 / officialGodot4.7.1 / .NET10.0.102",
+    "archive": {
+      "task_id": "P1-018",
+      "status": "retained-camera-checkpoint",
+      "archive_path": "data/assets/vehicles/endurance-sedan-review/camera-checkpoint-v26/camera-checkpoint-v26.zip",
+      "archive_sha256": "a052365a52246b4bb9890adfce4d22cf9f3583e018f253ae1c5ff04f542dbb81",
+      "archive_bytes": 12365072,
+      "manifest_sha256": "92f6bf170038063f78981de97d1a121e8a364bf483a388fe8ec39e54d849a2f1",
+      "input_count": 610,
+      "input_bytes": 15991210,
+      "two_archives_byte_identical": true,
+      "every_member_sha256_verified": true,
+      "crc_verified": true,
+      "human_approval_reference": null,
+      "scope": "Retention reproducibility only; not shipping Blender/GLB export equivalence."
+    },
+    "manifest_path": "data/assets/vehicles/endurance-sedan-review/camera-checkpoint-v26/manifest.json",
+    "manifest_sha256": "92f6bf170038063f78981de97d1a121e8a364bf483a388fe8ec39e54d849a2f1",
+    "index_sha256": "70a27ceab1cc38cb037bf3fe516b7bce95b880764e3fd377a6a6401d08e93630",
+    "verification": {
+      "full_frontdoor_steps_passed": 13,
+      "focused_camera_host_tests_passed": 36,
+      "exact_m0_python_unit_selection_passed": 97,
+      "ordinary_windows_camera_ui_tests_passed": 1,
+      "ordinary_ui_fixture": "red graybox / official corridor / OpenGL Compatibility",
+      "macos_rerun": "pending",
+      "linux_rerun": "pending"
+    },
+    "retention_command": {
+      "path": "reports/p1-018/commands/20260912T130526.137244Z-camera26-evidence-retention.json",
+      "sha256": "31f3608b71d4db7caa8acdd5e84bea4c646061870917072a2aef95264779fcb6",
+      "exit_status": 0
+    },
+    "documentation": "docs/vehicles/endurance-sedan/camera-checkpoint-v26.md",
+    "model_assets_replaced": false,
+    "human_approval_reference": null,
+    "limitations": [
+      "The full front door tested the recorded base plus hash-bound six-path working patch.",
+      "The ordinary UI transcript has no raw response values or retained engine exit code.",
+      "Mac teardown diagnostics, final sedan source/export/runtime/performance and human gates remain open."
+    ]
   }
 }

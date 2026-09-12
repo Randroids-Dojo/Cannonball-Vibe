@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import math
 import os
 from pathlib import Path
 
@@ -159,6 +160,36 @@ async def test_settle_bounds_a_delayed_hold_request() -> None:
     assert loop.time() - started < 0.15
 
 
+def _assert_completed_chase_cast(state: dict) -> None:
+    """Check one completed native cast; current requested length may have changed."""
+    assert state["spring_cast_ready"] is True, state
+    for name in (
+        "spring_observation_epoch",
+        "spring_cast_epoch",
+        "spring_cast_generation",
+        "spring_cast_physics_frame",
+        "spring_observation_physics_frame",
+    ):
+        assert type(state[name]) is int and state[name] >= 0, state
+    assert state["spring_cast_generation"] > 0, state
+    assert state["spring_cast_epoch"] > 0, state
+    assert state["spring_cast_epoch"] == state["spring_observation_epoch"], state
+    assert state["spring_cast_physics_frame"] <= state["spring_observation_physics_frame"], state
+    instance = state["spring_cast_arm_instance_id"]
+    assert isinstance(instance, str) and instance.isascii() and instance.isdigit(), state
+    assert int(instance) > 0 and instance == state["spring_arm_instance_id"], state
+    request, hit, compression = (
+        state["spring_cast_request_m"],
+        state["spring_cast_hit_m"],
+        state["spring_cast_compression_m"],
+    )
+    assert all(
+        type(value) in (int, float) and math.isfinite(value)
+        for value in (request, hit, compression)
+    ), state
+    assert 0 <= hit <= request, state
+    assert compression == max(0, request - hit), state
+
 def _assert_attached_and_level(state: dict) -> None:
     assert state["target_valid"] is True
     assert state["top_level"] is True
@@ -187,10 +218,12 @@ async def test_camera_handling_survives_pause_device_reset_and_mode_transitions(
         log_path=artifacts / "camera-handling-godot.log",
     )
     async with process as client:
-        chase = (await client.describe("camera.chase.rig"))["test_state"]
+        chase = await _settle(
+            client, "camera.chase.rig", lambda s: s.get("spring_cast_ready") is True
+        )
         _assert_attached_and_level(chase)
         assert chase["active"] is True
-        assert chase["spring_hit_length_m"] <= chase["spring_length_m"]
+        _assert_completed_chase_cast(chase)
         assert chase["collision_compression_m"] >= 0
 
         chase_rear = await _settle(
@@ -318,10 +351,12 @@ async def test_camera_handling_survives_pause_device_reset_and_mode_transitions(
                 and s["target_valid"] is True
                 and s["target_distance_m"] < 15
                 and abs(s["horizon_roll_degrees"]) < 0.01
+                and s.get("spring_cast_ready") is True
             ),
         )
         _assert_attached_and_level(chase)
         assert chase["active"] is True
+        _assert_completed_chase_cast(chase)
 
         screenshot = await client.screenshot(artifacts / "camera-handling-final.png")
         assert screenshot["bytes"] > 0

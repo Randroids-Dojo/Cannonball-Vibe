@@ -1,0 +1,3072 @@
+{
+  "task_id": "P1-018",
+  "milestone": "M5",
+  "utc": "2026-09-12T13:05:26.561974+00:00",
+  "git_base_revision": "11d80201e79712dd10ac203a982fc1765dded7cd",
+  "working_inputs": "The exact uncommitted six-path camera correction is bound by final.patch and these SHA256 rows. The revision is its base, not a claim of clean-HEAD testing.",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.14.6 (tags/v3.14.6:c63aec6, Jun 10 2026, 10:26:10) [MSC v.1944 64 bit (AMD64)]",
+  "zlib": "1.3.1.zlib-ng",
+  "scope": "Camera observation correction and Windows verification checkpoint only. No new sedan source/export, Mac rerun, teardown recovery, final performance or human approval claim.",
+  "windows_frontdoor": {
+    "status": "passed",
+    "steps": 13,
+    "started_at": "2026-09-12T12:57:19Z",
+    "finished_at": "2026-09-12T13:00:47Z"
+  },
+  "input_files": [
+    {
+      "path": "automation/playgodot/tests/test_camera_cast_state.py",
+      "sha256": "7ad0a5f65d678d8e9be2371aa6f49147282a5d9315b4d04eab8d465567823d7b",
+      "bytes": 3063
+    },
+    {
+      "path": "automation/playgodot/tests/test_camera_handling.py",
+      "sha256": "89097d78615d2d0b82f8335851f176bd1be2f49a82833bd237e788f221ee1a6a",
+      "bytes": 14004
+    },
+    {
+      "path": "docs/audits/2026-09-12-sedan-camera-cast-observation.md",
+      "sha256": "d79df07c5bdbb8c2156611163fcbdd1fb2649103c6e1f8c30df77621420f3507",
+      "bytes": 3048
+    },
+    {
+      "path": "game/Camera/ChaseCameraRig.cs",
+      "sha256": "e41e03d3c8ff18ce0a4a030001d62e296baf6d6a0265fd0539c7c1f84f932967",
+      "bytes": 12119
+    },
+    {
+      "path": "game/Camera/SpringArmCastObserver.cs",
+      "sha256": "e524d0994e27337d81806f9b2173b70c3833af18f526bb59d57b71caa68a6c7b",
+      "bytes": 3252
+    },
+    {
+      "path": "game/Camera/SpringArmCastObserver.cs.uid",
+      "sha256": "d3f09a8020c71b7f5ca8aa4fc8aaa2ee321fdaa67d9f58b60902688aae1ceb5d",
+      "bytes": 19
+    },
+    {
+      "path": "reports/p1-018/camera26-frontdoor01/m0/doctor.json",
+      "sha256": "33cb1935e7bc974bbc4cc89452ab1f85a6648768cd2301f08b7df88be56e1dca",
+      "bytes": 545
+    },
+    {
+      "path": "reports/p1-018/camera26-frontdoor01/m0/dotnet/core-tests.trx",
+      "sha256": "f878ed0586d650ea6ae3df4eca7dd3fa9f274f5367f61106a89fa65a022dceb4",
+      "bytes": 220844
+    },
+    {
+      "path": "reports/p1-018/camera26-frontdoor01/m0/godot/godot.log",
+      "sha256": "e651ded115cf5335720de41c42862836c66e0e383f69ae778d1ceb63978fd05b",
+      "bytes": 691
+    },
+    {
+      "path": "reports/p1-018/camera26-frontdoor01/m0/godot/managed-shutdown/runtime.log",
+      "sha256": "7b31beaf60fcde00583548fbedb53d7869f541c1e3816fffd568b9eabf533305",
+      "bytes": 1481
+    },
+    {
+      "path": "reports/p1-018/camera26-frontdoor01/m0/godot/managed-shutdown/summary.json",
+      "sha256": "2f0b354379a4a58c23a15fb85dd8e18adc62b35fee9d9f4bd853278769cb51e8",
+      "bytes": 305
+    },
+    {
+      "path": "reports/p1-018/camera26-frontdoor01/m0/godot/scenario.json",
+      "sha256": "86937fdd43e64f22acd081f4aed63e11cb7647936f54f9ea4e31a1831dc808c0",
+      "bytes": 189
+    },
+    {
+      "path": "reports/p1-018/camera26-frontdoor01/m0/godot/starter-speed.json",
+      "sha256": "69e15a12b7db9dfb6c98ba86b2a27ec87651624eb5f9ec179980202d492bbb39",
+      "bytes": 6038
+    },
+    {
+      "path": "reports/p1-018/camera26-frontdoor01/m0/logs/camera-interpolation.log",
+      "sha256": "412aedfb7cb14257d14f1517bb64d016ca6bb134d8f092d05fde73d0e7889291",
+      "bytes": 233
+    },
+    {
+      "path": "reports/p1-018/camera26-frontdoor01/m0/logs/continental-route.log",
+      "sha256": "b6d849612dc6360b7410bda3ba3ceac7646512c09d2fdbb875b38b2eaf709c70",
+      "bytes": 2213
+    },
+    {
+      "path": "reports/p1-018/camera26-frontdoor01/m0/logs/doctor.log",
+      "sha256": "c5acd49756f8fb5c71172ee8d1a029d31c7e5ca175a590b7c31dc6aeb8592ab7",
+      "bytes": 385
+    },
+    {
+      "path": "reports/p1-018/camera26-frontdoor01/m0/logs/dotnet-build.log",
+      "sha256": "46598290821f6e7a61c8b70761e11e2b69ff099e6d21106b21f0dcc886404440",
+      "bytes": 488
+    },
+    {
+      "path": "reports/p1-018/camera26-frontdoor01/m0/logs/dotnet-test.log",
+      "sha256": "3456617e39b75dfebdb093119b81ed163ef7bf58a2eb83e22bcacefa9fe03a25",
+      "bytes": 402
+    },
+    {
+      "path": "reports/p1-018/camera26-frontdoor01/m0/logs/frame-allocations.log",
+      "sha256": "1fb668e8dfc00678638d88cf9241472749abefb243ea12151ce5669b6f8fa859",
+      "bytes": 56
+    },
+    {
+      "path": "reports/p1-018/camera26-frontdoor01/m0/logs/godot-smoke.log",
+      "sha256": "fa9f7ba54145c814ba2cd5625a1ef50c3c5654bf843cc3349f61ce527acd28c5",
+      "bytes": 1351
+    },
+    {
+      "path": "reports/p1-018/camera26-frontdoor01/m0/logs/managed-shutdown.log",
+      "sha256": "bd5e30d2bbb3e340102e215b040bc529c57dd242b8abaf775e3dec51364d9a46",
+      "bytes": 1759
+    },
+    {
+      "path": "reports/p1-018/camera26-frontdoor01/m0/logs/pytest-map-pipeline.log",
+      "sha256": "6f1c72b8c4b05887256f4b5136e6966c19fa4c5eaeaf5451e06c22e043c8321d",
+      "bytes": 449
+    },
+    {
+      "path": "reports/p1-018/camera26-frontdoor01/m0/logs/pytest-playgodot-unit.log",
+      "sha256": "9b03afc26452f458cc5a8d9a3f5f2e41881a1e4e4ba52ba03186945a6343d2bc",
+      "bytes": 182
+    },
+    {
+      "path": "reports/p1-018/camera26-frontdoor01/m0/logs/release-smoke-unit.log",
+      "sha256": "cd8337aba9056e7541d90ea86390083aca3d49ad613f7c1453395f44bb2cd53a",
+      "bytes": 436
+    },
+    {
+      "path": "reports/p1-018/camera26-frontdoor01/m0/logs/ruff.log",
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "bytes": 19
+    },
+    {
+      "path": "reports/p1-018/camera26-frontdoor01/m0/logs/starter-speed.log",
+      "sha256": "96acac6d06166f4aaf47ed87d1a0ba002479c497f58744ab85bb307942b53c6e",
+      "bytes": 4018
+    },
+    {
+      "path": "reports/p1-018/camera26-frontdoor01/m0/python/junit.xml",
+      "sha256": "18c6a52266b4445d497fe9e2cfaf8e0182b7fe534ac2b2f7fa00acd8d08f8a31",
+      "bytes": 45254
+    },
+    {
+      "path": "reports/p1-018/camera26-frontdoor01/m0/python/playgodot-unit.xml",
+      "sha256": "cf8d2ffcb95e9b1a46c18893ebb8356ab021de8cc8a5dfca20c0b25a8238a50e",
+      "bytes": 17551
+    },
+    {
+      "path": "reports/p1-018/camera26-frontdoor01/m0/summary.json",
+      "sha256": "9629268259d7d2b2dccc0727309471135566febdfeb70b57ce8bcadbe4bab714",
+      "bytes": 1482
+    },
+    {
+      "path": "reports/p1-018/camera26-retention01/retain.py",
+      "sha256": "33d299141c518eae3f1e6223951805c7a01d5568046f8e5ac026247dc95bcec1",
+      "bytes": 5256
+    },
+    {
+      "path": "reports/p1-018/commands/20260912T125719.179659Z-camera26-working-frontdoor.json",
+      "sha256": "2e6ff1e2b36e8ccc84d6b6ee7de1c88beb64da211b623e752206ca7a3196900a",
+      "bytes": 1435
+    },
+    {
+      "path": "reports/p1-018/commands/20260912T125719.179659Z-camera26-working-frontdoor.log",
+      "sha256": "ce7c6b786474d9d3e9c93ee139f3e5f458959d987e059768c2623d71d7c081cf",
+      "bytes": 12354
+    },
+    {
+      "path": "reports/p1-018/environment35-doctor01/check.sh",
+      "sha256": "4968b6adb8d99465eef7197950ce45e58c1938f96bb473ea38b8b28218e4ca53",
+      "bytes": 319
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/INTEGRATION.md",
+      "sha256": "b9c446c5bed35c04ebbdcb5a773477bc7502b81ea884166e3ee5dea3c7391c5b",
+      "bytes": 4961
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/binaries/debug-no-automation.dll",
+      "sha256": "ac95bd53888ff9b74843b2622156cccddd3d356c1d0f81dac96e9b414811e9ff",
+      "bytes": 43520
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/binaries/native08.dll",
+      "sha256": "4da42dedb90250131df25d3646783bfc1ed30d0da068db58000657ee8e1cc673",
+      "bytes": 77312
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/binaries/no-debug-with-automation.dll",
+      "sha256": "9f1a389fb47c2cd7ea1405ac224f5b7f57522aa5e2b07b23307aa40349d1cdf4",
+      "bytes": 43008
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native01/build.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native01/build.stdout.log",
+      "sha256": "3a82495412ee13db9164c0d53da26a0842cd3828b6d545e40165fdee3836f89d",
+      "bytes": 2056
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native01/engine-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native01/engine-version.stdout.log",
+      "sha256": "d1046084c2493a272b0b439dc2f6dc74b801cd74659c5010a67c1b2f3acc5866",
+      "bytes": 38
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native01/inputs/Directory.Build.props",
+      "sha256": "7e4de6b393e2970fcefe0e874c1c65b74859ceac25f6e30a553eee62f2782fbc",
+      "bytes": 264
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native01/inputs/Fixture.cs",
+      "sha256": "d6c42534681af6f185f6d2d6cf7dd19de4f283465907ad5bbb45095bde8b32fc",
+      "bytes": 13292
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native01/inputs/Fixture.csproj",
+      "sha256": "4fd6446100cc7821d4af4aeaf10e80dc0e3a59fbcf304d045db61142f090de49",
+      "bytes": 299
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native01/inputs/Fixture.tscn",
+      "sha256": "f142d8bece370c9245da6e41378b39c8a65536066a9f054b82b0d348fbf3591b",
+      "bytes": 157
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native01/inputs/FixtureStubs.cs",
+      "sha256": "7d7d954883993be5e34e111a76c2003b4999a34d94f0d2376a96a52cf3213252",
+      "bytes": 627
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native01/inputs/baseline/ChaseCameraRig.cs",
+      "sha256": "e139e2a676864bd253ee90a83c235b3d18da2a6d300722de1d069fe1b4ed9b27",
+      "bytes": 11602
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native01/inputs/game/ChaseCameraRig.cs",
+      "sha256": "8c338de0e7a86b30392bd96bbf759fed98dc479a6b663fda19fd5cf39529b10d",
+      "bytes": 11987
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native01/inputs/game/SpringArmCastObserver.cs",
+      "sha256": "48c3c8a5eac91661aa6726381785de087560be9164500e2dd5d904cc0373a352",
+      "bytes": 2926
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native01/inputs/global.json",
+      "sha256": "b5cb6301b93270502bf2cf84d72ef76d92e31148179662fca781e732926b2bc4",
+      "bytes": 105
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native01/inputs/project.godot",
+      "sha256": "664152f7f41a445140687b79693fbd5f4b9cb274d0db585ad5c874e09405258e",
+      "bytes": 364
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native01/process.json",
+      "sha256": "e21b067f650c4242ff87807750092bcd2050c6f954f56e1a8189cc5b512e374c",
+      "bytes": 5115
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native01/sdk-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native01/sdk-version.stdout.log",
+      "sha256": "3ccfabb187270882a308eb46f7bfdfdf2fbf7c14b9e4a704856cf8b1efb227aa",
+      "bytes": 10
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native02/build.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native02/build.stdout.log",
+      "sha256": "817e174c49bad4054ec3e2771a5fba567d5ab7a234c9dd23d14cb0cc9dd09c4a",
+      "bytes": 389
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native02/editor-import.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native02/editor-import.stdout.log",
+      "sha256": "1214b0de666981f4129170de42f6bacefd65e7986cd5a832ba3268249a75bc3b",
+      "bytes": 1497
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native02/engine-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native02/engine-version.stdout.log",
+      "sha256": "d1046084c2493a272b0b439dc2f6dc74b801cd74659c5010a67c1b2f3acc5866",
+      "bytes": 38
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native02/inputs/Directory.Build.props",
+      "sha256": "7e4de6b393e2970fcefe0e874c1c65b74859ceac25f6e30a553eee62f2782fbc",
+      "bytes": 264
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native02/inputs/Fixture.cs",
+      "sha256": "bc63f92a27b36bdad2bde51ea9c7571cf5e69f398fa8b3270de8b54db6f3be22",
+      "bytes": 13299
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native02/inputs/Fixture.csproj",
+      "sha256": "4fd6446100cc7821d4af4aeaf10e80dc0e3a59fbcf304d045db61142f090de49",
+      "bytes": 299
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native02/inputs/Fixture.tscn",
+      "sha256": "f142d8bece370c9245da6e41378b39c8a65536066a9f054b82b0d348fbf3591b",
+      "bytes": 157
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native02/inputs/FixtureStubs.cs",
+      "sha256": "736760b13dd7bf75855f7936212971610c01915c30628513b9230ebfd61a1c2f",
+      "bytes": 631
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native02/inputs/baseline/ChaseCameraRig.cs",
+      "sha256": "e139e2a676864bd253ee90a83c235b3d18da2a6d300722de1d069fe1b4ed9b27",
+      "bytes": 11602
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native02/inputs/game/ChaseCameraRig.cs",
+      "sha256": "8c338de0e7a86b30392bd96bbf759fed98dc479a6b663fda19fd5cf39529b10d",
+      "bytes": 11987
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native02/inputs/game/SpringArmCastObserver.cs",
+      "sha256": "48c3c8a5eac91661aa6726381785de087560be9164500e2dd5d904cc0373a352",
+      "bytes": 2926
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native02/inputs/global.json",
+      "sha256": "b5cb6301b93270502bf2cf84d72ef76d92e31148179662fca781e732926b2bc4",
+      "bytes": 105
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native02/inputs/project.godot",
+      "sha256": "664152f7f41a445140687b79693fbd5f4b9cb274d0db585ad5c874e09405258e",
+      "bytes": 364
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native02/native-report.json",
+      "sha256": "623f683372aaab1145e234d406a9ffde2de4a6a4df7a5d83641038e82b4ae3c4",
+      "bytes": 614
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native02/native.stderr.log",
+      "sha256": "c1597064fd35729fb81b4f758d672d3140fb4bd8391cb0b4fee8043082ef1bd4",
+      "bytes": 2128
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native02/native.stdout.log",
+      "sha256": "2ff117a2c228fcacd1ed53cb2bc6c0064a8ed8a5731f469e9bb2caae064e5009",
+      "bytes": 80
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native02/process.json",
+      "sha256": "e0e22c7a1a6bcb565b2b15ae28bf7df6cebde98c9f1842ef12048eb3f4744a9a",
+      "bytes": 7982
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native02/sdk-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native02/sdk-version.stdout.log",
+      "sha256": "3ccfabb187270882a308eb46f7bfdfdf2fbf7c14b9e4a704856cf8b1efb227aa",
+      "bytes": 10
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native03/build.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native03/build.stdout.log",
+      "sha256": "3a347e1e3294fe632b789d30a29440f66b4cdbad44e29a7dc28b67cab751b9e9",
+      "bytes": 391
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native03/editor-import.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native03/editor-import.stdout.log",
+      "sha256": "16d15b5a73d4997c8466f00f149a826cbe3ea9c8065b8a8523b0a1db7dc895d2",
+      "bytes": 1038
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native03/engine-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native03/engine-version.stdout.log",
+      "sha256": "d1046084c2493a272b0b439dc2f6dc74b801cd74659c5010a67c1b2f3acc5866",
+      "bytes": 38
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native03/inputs/Directory.Build.props",
+      "sha256": "7e4de6b393e2970fcefe0e874c1c65b74859ceac25f6e30a553eee62f2782fbc",
+      "bytes": 264
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native03/inputs/Fixture.cs",
+      "sha256": "f3bed7927a20d89a855a9bcfd09393828edf2342bde8aff8dfa40c85fba18eea",
+      "bytes": 13382
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native03/inputs/Fixture.cs.uid",
+      "sha256": "5840e73cc4182a341a65ac278334235979152c480994a89c81cf8f4e33285921",
+      "bytes": 20
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native03/inputs/Fixture.csproj",
+      "sha256": "4fd6446100cc7821d4af4aeaf10e80dc0e3a59fbcf304d045db61142f090de49",
+      "bytes": 299
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native03/inputs/Fixture.tscn",
+      "sha256": "f142d8bece370c9245da6e41378b39c8a65536066a9f054b82b0d348fbf3591b",
+      "bytes": 157
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native03/inputs/FixtureStubs.cs",
+      "sha256": "736760b13dd7bf75855f7936212971610c01915c30628513b9230ebfd61a1c2f",
+      "bytes": 631
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native03/inputs/FixtureStubs.cs.uid",
+      "sha256": "f8e181a195af05b6c1ebbc0ac18a7f13e308ad982d5c04b801feb98ab1cfb59f",
+      "bytes": 20
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native03/inputs/baseline/ChaseCameraRig.cs",
+      "sha256": "e139e2a676864bd253ee90a83c235b3d18da2a6d300722de1d069fe1b4ed9b27",
+      "bytes": 11602
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native03/inputs/baseline/ChaseCameraRig.cs.uid",
+      "sha256": "b1496cf4fb5fe637002674a86ac5c74b8e58684491c7ec0224c6df19a5342b55",
+      "bytes": 19
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native03/inputs/game/ChaseCameraRig.cs",
+      "sha256": "8c338de0e7a86b30392bd96bbf759fed98dc479a6b663fda19fd5cf39529b10d",
+      "bytes": 11987
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native03/inputs/game/ChaseCameraRig.cs.uid",
+      "sha256": "9ddf1566b20ce5d5d84775d9044fc7a3381c5914d7a1acfc4342afad65f7e703",
+      "bytes": 20
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native03/inputs/game/SpringArmCastObserver.cs",
+      "sha256": "48c3c8a5eac91661aa6726381785de087560be9164500e2dd5d904cc0373a352",
+      "bytes": 2926
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native03/inputs/game/SpringArmCastObserver.cs.uid",
+      "sha256": "d3f09a8020c71b7f5ca8aa4fc8aaa2ee321fdaa67d9f58b60902688aae1ceb5d",
+      "bytes": 19
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native03/inputs/global.json",
+      "sha256": "b5cb6301b93270502bf2cf84d72ef76d92e31148179662fca781e732926b2bc4",
+      "bytes": 105
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native03/inputs/project.godot",
+      "sha256": "664152f7f41a445140687b79693fbd5f4b9cb274d0db585ad5c874e09405258e",
+      "bytes": 364
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native03/native-report.json",
+      "sha256": "3e15e366b46d7aa6d9616dc705f4a480204d84360e1649d56453e60409d66ed7",
+      "bytes": 17372
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native03/native.stderr.log",
+      "sha256": "7620b7713585ba5a1476755cc4149b359a2b8eada4ad1c7e1d0fd4b901b7b478",
+      "bytes": 6498
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native03/native.stdout.log",
+      "sha256": "d99fb58419531ea9e7582758fb11a8a004b6159af2d47c1ca91fb5dde66f5f8a",
+      "bytes": 133
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native03/process.json",
+      "sha256": "9070212ae001f0b936df838fab7fc6dadf43f7e5c5a18dfc08e4788d967cc6d2",
+      "bytes": 8938
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native03/sdk-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native03/sdk-version.stdout.log",
+      "sha256": "3ccfabb187270882a308eb46f7bfdfdf2fbf7c14b9e4a704856cf8b1efb227aa",
+      "bytes": 10
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native04/build.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native04/build.stdout.log",
+      "sha256": "3c68807503dca4dac30864c30af8f9f2fa611c2397d4af24fc7acbd26a4db357",
+      "bytes": 389
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native04/editor-import.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native04/editor-import.stdout.log",
+      "sha256": "16d15b5a73d4997c8466f00f149a826cbe3ea9c8065b8a8523b0a1db7dc895d2",
+      "bytes": 1038
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native04/engine-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native04/engine-version.stdout.log",
+      "sha256": "d1046084c2493a272b0b439dc2f6dc74b801cd74659c5010a67c1b2f3acc5866",
+      "bytes": 38
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native04/inputs/Directory.Build.props",
+      "sha256": "7e4de6b393e2970fcefe0e874c1c65b74859ceac25f6e30a553eee62f2782fbc",
+      "bytes": 264
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native04/inputs/Fixture.cs",
+      "sha256": "4076f0b9d63a6297d44b8dae191ea5a631cc52188b76f45f32588520633f8271",
+      "bytes": 13449
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native04/inputs/Fixture.cs.uid",
+      "sha256": "5840e73cc4182a341a65ac278334235979152c480994a89c81cf8f4e33285921",
+      "bytes": 20
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native04/inputs/Fixture.csproj",
+      "sha256": "4fd6446100cc7821d4af4aeaf10e80dc0e3a59fbcf304d045db61142f090de49",
+      "bytes": 299
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native04/inputs/Fixture.tscn",
+      "sha256": "f142d8bece370c9245da6e41378b39c8a65536066a9f054b82b0d348fbf3591b",
+      "bytes": 157
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native04/inputs/FixtureStubs.cs",
+      "sha256": "736760b13dd7bf75855f7936212971610c01915c30628513b9230ebfd61a1c2f",
+      "bytes": 631
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native04/inputs/FixtureStubs.cs.uid",
+      "sha256": "f8e181a195af05b6c1ebbc0ac18a7f13e308ad982d5c04b801feb98ab1cfb59f",
+      "bytes": 20
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native04/inputs/baseline/ChaseCameraRig.cs",
+      "sha256": "e139e2a676864bd253ee90a83c235b3d18da2a6d300722de1d069fe1b4ed9b27",
+      "bytes": 11602
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native04/inputs/baseline/ChaseCameraRig.cs.uid",
+      "sha256": "b1496cf4fb5fe637002674a86ac5c74b8e58684491c7ec0224c6df19a5342b55",
+      "bytes": 19
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native04/inputs/game/ChaseCameraRig.cs",
+      "sha256": "8c338de0e7a86b30392bd96bbf759fed98dc479a6b663fda19fd5cf39529b10d",
+      "bytes": 11987
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native04/inputs/game/ChaseCameraRig.cs.uid",
+      "sha256": "9ddf1566b20ce5d5d84775d9044fc7a3381c5914d7a1acfc4342afad65f7e703",
+      "bytes": 20
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native04/inputs/game/SpringArmCastObserver.cs",
+      "sha256": "48c3c8a5eac91661aa6726381785de087560be9164500e2dd5d904cc0373a352",
+      "bytes": 2926
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native04/inputs/game/SpringArmCastObserver.cs.uid",
+      "sha256": "d3f09a8020c71b7f5ca8aa4fc8aaa2ee321fdaa67d9f58b60902688aae1ceb5d",
+      "bytes": 19
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native04/inputs/global.json",
+      "sha256": "b5cb6301b93270502bf2cf84d72ef76d92e31148179662fca781e732926b2bc4",
+      "bytes": 105
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native04/inputs/project.godot",
+      "sha256": "664152f7f41a445140687b79693fbd5f4b9cb274d0db585ad5c874e09405258e",
+      "bytes": 364
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native04/native-report.json",
+      "sha256": "0ecbe83350ef985ee98cecebfb958a246a28bf0f03076ad1e487fcdaeee963db",
+      "bytes": 17331
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native04/native.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native04/native.stdout.log",
+      "sha256": "d99fb58419531ea9e7582758fb11a8a004b6159af2d47c1ca91fb5dde66f5f8a",
+      "bytes": 133
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native04/process.json",
+      "sha256": "119915bd1c27b4d7137a5c3efd1bd835d16bc68b86ff37ffaf315baf207ccd82",
+      "bytes": 8681
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native04/sdk-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native04/sdk-version.stdout.log",
+      "sha256": "3ccfabb187270882a308eb46f7bfdfdf2fbf7c14b9e4a704856cf8b1efb227aa",
+      "bytes": 10
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native05/build.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native05/build.stdout.log",
+      "sha256": "71355e2023e51dc3886a7b7e98723c7793f69e8161d65685ff5df7f01c49a744",
+      "bytes": 389
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native05/editor-import.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native05/editor-import.stdout.log",
+      "sha256": "16d15b5a73d4997c8466f00f149a826cbe3ea9c8065b8a8523b0a1db7dc895d2",
+      "bytes": 1038
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native05/engine-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native05/engine-version.stdout.log",
+      "sha256": "d1046084c2493a272b0b439dc2f6dc74b801cd74659c5010a67c1b2f3acc5866",
+      "bytes": 38
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native05/inputs/Directory.Build.props",
+      "sha256": "7e4de6b393e2970fcefe0e874c1c65b74859ceac25f6e30a553eee62f2782fbc",
+      "bytes": 264
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native05/inputs/Fixture.cs",
+      "sha256": "e4abcb32b0e5b3eb924da2983e58c69dba90464bfd171f4c0cbc14411a38300d",
+      "bytes": 14298
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native05/inputs/Fixture.cs.uid",
+      "sha256": "5840e73cc4182a341a65ac278334235979152c480994a89c81cf8f4e33285921",
+      "bytes": 20
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native05/inputs/Fixture.csproj",
+      "sha256": "4fd6446100cc7821d4af4aeaf10e80dc0e3a59fbcf304d045db61142f090de49",
+      "bytes": 299
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native05/inputs/Fixture.tscn",
+      "sha256": "f142d8bece370c9245da6e41378b39c8a65536066a9f054b82b0d348fbf3591b",
+      "bytes": 157
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native05/inputs/FixtureStubs.cs",
+      "sha256": "736760b13dd7bf75855f7936212971610c01915c30628513b9230ebfd61a1c2f",
+      "bytes": 631
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native05/inputs/FixtureStubs.cs.uid",
+      "sha256": "f8e181a195af05b6c1ebbc0ac18a7f13e308ad982d5c04b801feb98ab1cfb59f",
+      "bytes": 20
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native05/inputs/baseline/ChaseCameraRig.cs",
+      "sha256": "e139e2a676864bd253ee90a83c235b3d18da2a6d300722de1d069fe1b4ed9b27",
+      "bytes": 11602
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native05/inputs/baseline/ChaseCameraRig.cs.uid",
+      "sha256": "b1496cf4fb5fe637002674a86ac5c74b8e58684491c7ec0224c6df19a5342b55",
+      "bytes": 19
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native05/inputs/game/ChaseCameraRig.cs",
+      "sha256": "8c338de0e7a86b30392bd96bbf759fed98dc479a6b663fda19fd5cf39529b10d",
+      "bytes": 11987
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native05/inputs/game/ChaseCameraRig.cs.uid",
+      "sha256": "9ddf1566b20ce5d5d84775d9044fc7a3381c5914d7a1acfc4342afad65f7e703",
+      "bytes": 20
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native05/inputs/game/SpringArmCastObserver.cs",
+      "sha256": "48c3c8a5eac91661aa6726381785de087560be9164500e2dd5d904cc0373a352",
+      "bytes": 2926
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native05/inputs/game/SpringArmCastObserver.cs.uid",
+      "sha256": "d3f09a8020c71b7f5ca8aa4fc8aaa2ee321fdaa67d9f58b60902688aae1ceb5d",
+      "bytes": 19
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native05/inputs/global.json",
+      "sha256": "b5cb6301b93270502bf2cf84d72ef76d92e31148179662fca781e732926b2bc4",
+      "bytes": 105
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native05/inputs/project.godot",
+      "sha256": "664152f7f41a445140687b79693fbd5f4b9cb274d0db585ad5c874e09405258e",
+      "bytes": 364
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native05/native-report.json",
+      "sha256": "4d1022d95e965bb8d44504c4bc3fb597f138d77bec66212f9b14d4877c6edd97",
+      "bytes": 44104
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native05/native.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native05/native.stdout.log",
+      "sha256": "d99fb58419531ea9e7582758fb11a8a004b6159af2d47c1ca91fb5dde66f5f8a",
+      "bytes": 133
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native05/process.json",
+      "sha256": "ccdef7cc2ebe878fa3ae2d20e1a13b1d720aa6032ee8f36cd397e3755dd7e138",
+      "bytes": 8682
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native05/sdk-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native05/sdk-version.stdout.log",
+      "sha256": "3ccfabb187270882a308eb46f7bfdfdf2fbf7c14b9e4a704856cf8b1efb227aa",
+      "bytes": 10
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native06/build.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native06/build.stdout.log",
+      "sha256": "a6eed5911767f0264c88da50b1741c8b483a875fe5349e260e1a3a8c8e9bb506",
+      "bytes": 389
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native06/editor-import.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native06/editor-import.stdout.log",
+      "sha256": "16d15b5a73d4997c8466f00f149a826cbe3ea9c8065b8a8523b0a1db7dc895d2",
+      "bytes": 1038
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native06/engine-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native06/engine-version.stdout.log",
+      "sha256": "d1046084c2493a272b0b439dc2f6dc74b801cd74659c5010a67c1b2f3acc5866",
+      "bytes": 38
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native06/inputs/Directory.Build.props",
+      "sha256": "7e4de6b393e2970fcefe0e874c1c65b74859ceac25f6e30a553eee62f2782fbc",
+      "bytes": 264
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native06/inputs/Fixture.cs",
+      "sha256": "9c2a71bd1588b150da8c75a23eed335d0af45fd1bc1c6789e45696e66b887b0e",
+      "bytes": 14542
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native06/inputs/Fixture.cs.uid",
+      "sha256": "5840e73cc4182a341a65ac278334235979152c480994a89c81cf8f4e33285921",
+      "bytes": 20
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native06/inputs/Fixture.csproj",
+      "sha256": "4fd6446100cc7821d4af4aeaf10e80dc0e3a59fbcf304d045db61142f090de49",
+      "bytes": 299
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native06/inputs/Fixture.tscn",
+      "sha256": "f142d8bece370c9245da6e41378b39c8a65536066a9f054b82b0d348fbf3591b",
+      "bytes": 157
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native06/inputs/FixtureStubs.cs",
+      "sha256": "736760b13dd7bf75855f7936212971610c01915c30628513b9230ebfd61a1c2f",
+      "bytes": 631
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native06/inputs/FixtureStubs.cs.uid",
+      "sha256": "f8e181a195af05b6c1ebbc0ac18a7f13e308ad982d5c04b801feb98ab1cfb59f",
+      "bytes": 20
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native06/inputs/baseline/ChaseCameraRig.cs",
+      "sha256": "e139e2a676864bd253ee90a83c235b3d18da2a6d300722de1d069fe1b4ed9b27",
+      "bytes": 11602
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native06/inputs/baseline/ChaseCameraRig.cs.uid",
+      "sha256": "b1496cf4fb5fe637002674a86ac5c74b8e58684491c7ec0224c6df19a5342b55",
+      "bytes": 19
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native06/inputs/game/ChaseCameraRig.cs",
+      "sha256": "8c338de0e7a86b30392bd96bbf759fed98dc479a6b663fda19fd5cf39529b10d",
+      "bytes": 11987
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native06/inputs/game/ChaseCameraRig.cs.uid",
+      "sha256": "9ddf1566b20ce5d5d84775d9044fc7a3381c5914d7a1acfc4342afad65f7e703",
+      "bytes": 20
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native06/inputs/game/SpringArmCastObserver.cs",
+      "sha256": "48c3c8a5eac91661aa6726381785de087560be9164500e2dd5d904cc0373a352",
+      "bytes": 2926
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native06/inputs/game/SpringArmCastObserver.cs.uid",
+      "sha256": "d3f09a8020c71b7f5ca8aa4fc8aaa2ee321fdaa67d9f58b60902688aae1ceb5d",
+      "bytes": 19
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native06/inputs/global.json",
+      "sha256": "b5cb6301b93270502bf2cf84d72ef76d92e31148179662fca781e732926b2bc4",
+      "bytes": 105
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native06/inputs/project.godot",
+      "sha256": "664152f7f41a445140687b79693fbd5f4b9cb274d0db585ad5c874e09405258e",
+      "bytes": 364
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native06/native-report.json",
+      "sha256": "6ccb28775c594ab898c3df43b0832e64e21029c5cc27995a2e986b58d29ccdf0",
+      "bytes": 45921
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native06/native.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native06/native.stdout.log",
+      "sha256": "d99fb58419531ea9e7582758fb11a8a004b6159af2d47c1ca91fb5dde66f5f8a",
+      "bytes": 133
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native06/process.json",
+      "sha256": "79433fe4c2d02885d5760041a390458d5da3fb64c1427a71c36b686c4f6a3611",
+      "bytes": 8683
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native06/sdk-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native06/sdk-version.stdout.log",
+      "sha256": "3ccfabb187270882a308eb46f7bfdfdf2fbf7c14b9e4a704856cf8b1efb227aa",
+      "bytes": 10
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native07-metadata-negative/build.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native07-metadata-negative/build.stdout.log",
+      "sha256": "dac5631a517830eb051c786bc05f0a4d3e47e3579570a73b3ee9833b1d915fcd",
+      "bytes": 389
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native07-metadata-negative/editor-import.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native07-metadata-negative/editor-import.stdout.log",
+      "sha256": "16d15b5a73d4997c8466f00f149a826cbe3ea9c8065b8a8523b0a1db7dc895d2",
+      "bytes": 1038
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native07-metadata-negative/engine-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native07-metadata-negative/engine-version.stdout.log",
+      "sha256": "d1046084c2493a272b0b439dc2f6dc74b801cd74659c5010a67c1b2f3acc5866",
+      "bytes": 38
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native07-metadata-negative/inputs/Directory.Build.props",
+      "sha256": "7e4de6b393e2970fcefe0e874c1c65b74859ceac25f6e30a553eee62f2782fbc",
+      "bytes": 264
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native07-metadata-negative/inputs/Fixture.cs",
+      "sha256": "96f5d4c48cbe1f7857e3fbcae8d23b20b41e6eb13fea8275c59249743a98e42a",
+      "bytes": 14954
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native07-metadata-negative/inputs/Fixture.cs.uid",
+      "sha256": "5840e73cc4182a341a65ac278334235979152c480994a89c81cf8f4e33285921",
+      "bytes": 20
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native07-metadata-negative/inputs/Fixture.csproj",
+      "sha256": "4fd6446100cc7821d4af4aeaf10e80dc0e3a59fbcf304d045db61142f090de49",
+      "bytes": 299
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native07-metadata-negative/inputs/Fixture.tscn",
+      "sha256": "f142d8bece370c9245da6e41378b39c8a65536066a9f054b82b0d348fbf3591b",
+      "bytes": 157
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native07-metadata-negative/inputs/FixtureStubs.cs",
+      "sha256": "736760b13dd7bf75855f7936212971610c01915c30628513b9230ebfd61a1c2f",
+      "bytes": 631
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native07-metadata-negative/inputs/FixtureStubs.cs.uid",
+      "sha256": "f8e181a195af05b6c1ebbc0ac18a7f13e308ad982d5c04b801feb98ab1cfb59f",
+      "bytes": 20
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native07-metadata-negative/inputs/baseline/ChaseCameraRig.cs",
+      "sha256": "e139e2a676864bd253ee90a83c235b3d18da2a6d300722de1d069fe1b4ed9b27",
+      "bytes": 11602
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native07-metadata-negative/inputs/baseline/ChaseCameraRig.cs.uid",
+      "sha256": "b1496cf4fb5fe637002674a86ac5c74b8e58684491c7ec0224c6df19a5342b55",
+      "bytes": 19
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native07-metadata-negative/inputs/game/ChaseCameraRig.cs",
+      "sha256": "8c338de0e7a86b30392bd96bbf759fed98dc479a6b663fda19fd5cf39529b10d",
+      "bytes": 11987
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native07-metadata-negative/inputs/game/ChaseCameraRig.cs.uid",
+      "sha256": "9ddf1566b20ce5d5d84775d9044fc7a3381c5914d7a1acfc4342afad65f7e703",
+      "bytes": 20
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native07-metadata-negative/inputs/game/SpringArmCastObserver.cs",
+      "sha256": "48c3c8a5eac91661aa6726381785de087560be9164500e2dd5d904cc0373a352",
+      "bytes": 2926
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native07-metadata-negative/inputs/game/SpringArmCastObserver.cs.uid",
+      "sha256": "d3f09a8020c71b7f5ca8aa4fc8aaa2ee321fdaa67d9f58b60902688aae1ceb5d",
+      "bytes": 19
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native07-metadata-negative/inputs/global.json",
+      "sha256": "b5cb6301b93270502bf2cf84d72ef76d92e31148179662fca781e732926b2bc4",
+      "bytes": 105
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native07-metadata-negative/inputs/project.godot",
+      "sha256": "664152f7f41a445140687b79693fbd5f4b9cb274d0db585ad5c874e09405258e",
+      "bytes": 364
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native07-metadata-negative/native-report.json",
+      "sha256": "ad9580968f5953191fb801ec835414fca17357858f4e1f195f588440ee6c5edf",
+      "bytes": 27470
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native07-metadata-negative/native.stderr.log",
+      "sha256": "2f7474aa4086a9898147841f0e987250050891b9d3423e9e75571ba6779929c5",
+      "bytes": 2469
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native07-metadata-negative/native.stdout.log",
+      "sha256": "e5e9b73f6faf93636a4b23da9663f2f5e82134745ddec9e2a786f1615648a47a",
+      "bytes": 238
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native07-metadata-negative/process.json",
+      "sha256": "cb5b03a5ca94273a1b5d955002838ac189399e8d2a0e52af221840f0033f68fc",
+      "bytes": 9279
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native07-metadata-negative/sdk-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native07-metadata-negative/sdk-version.stdout.log",
+      "sha256": "3ccfabb187270882a308eb46f7bfdfdf2fbf7c14b9e4a704856cf8b1efb227aa",
+      "bytes": 10
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native08/build.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native08/build.stdout.log",
+      "sha256": "79cab4675d6f2d0b6d9a96e92970054440ad61d96b75b15d84e8de1334784de9",
+      "bytes": 389
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native08/editor-import.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native08/editor-import.stdout.log",
+      "sha256": "ab529b6d32c4d0e96c097b23c641f90aa70660c5d2baaec1691b3d16bd7c7087",
+      "bytes": 1320
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native08/engine-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native08/engine-version.stdout.log",
+      "sha256": "d1046084c2493a272b0b439dc2f6dc74b801cd74659c5010a67c1b2f3acc5866",
+      "bytes": 38
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native08/inputs/Directory.Build.props",
+      "sha256": "7e4de6b393e2970fcefe0e874c1c65b74859ceac25f6e30a553eee62f2782fbc",
+      "bytes": 264
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native08/inputs/Fixture.cs",
+      "sha256": "96f5d4c48cbe1f7857e3fbcae8d23b20b41e6eb13fea8275c59249743a98e42a",
+      "bytes": 14954
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native08/inputs/Fixture.cs.uid",
+      "sha256": "5840e73cc4182a341a65ac278334235979152c480994a89c81cf8f4e33285921",
+      "bytes": 20
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native08/inputs/Fixture.csproj",
+      "sha256": "4fd6446100cc7821d4af4aeaf10e80dc0e3a59fbcf304d045db61142f090de49",
+      "bytes": 299
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native08/inputs/Fixture.tscn",
+      "sha256": "f142d8bece370c9245da6e41378b39c8a65536066a9f054b82b0d348fbf3591b",
+      "bytes": 157
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native08/inputs/FixtureStubs.cs",
+      "sha256": "736760b13dd7bf75855f7936212971610c01915c30628513b9230ebfd61a1c2f",
+      "bytes": 631
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native08/inputs/FixtureStubs.cs.uid",
+      "sha256": "f8e181a195af05b6c1ebbc0ac18a7f13e308ad982d5c04b801feb98ab1cfb59f",
+      "bytes": 20
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native08/inputs/baseline/ChaseCameraRig.cs",
+      "sha256": "e139e2a676864bd253ee90a83c235b3d18da2a6d300722de1d069fe1b4ed9b27",
+      "bytes": 11602
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native08/inputs/baseline/ChaseCameraRig.cs.uid",
+      "sha256": "b1496cf4fb5fe637002674a86ac5c74b8e58684491c7ec0224c6df19a5342b55",
+      "bytes": 19
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native08/inputs/game/ChaseCameraRig.cs",
+      "sha256": "e41e03d3c8ff18ce0a4a030001d62e296baf6d6a0265fd0539c7c1f84f932967",
+      "bytes": 12119
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native08/inputs/game/ChaseCameraRig.cs.uid",
+      "sha256": "9ddf1566b20ce5d5d84775d9044fc7a3381c5914d7a1acfc4342afad65f7e703",
+      "bytes": 20
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native08/inputs/game/SpringArmCastObserver.cs",
+      "sha256": "e524d0994e27337d81806f9b2173b70c3833af18f526bb59d57b71caa68a6c7b",
+      "bytes": 3252
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native08/inputs/game/SpringArmCastObserver.cs.uid",
+      "sha256": "d3f09a8020c71b7f5ca8aa4fc8aaa2ee321fdaa67d9f58b60902688aae1ceb5d",
+      "bytes": 19
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native08/inputs/global.json",
+      "sha256": "b5cb6301b93270502bf2cf84d72ef76d92e31148179662fca781e732926b2bc4",
+      "bytes": 105
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native08/inputs/project.godot",
+      "sha256": "664152f7f41a445140687b79693fbd5f4b9cb274d0db585ad5c874e09405258e",
+      "bytes": 364
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native08/native-report.json",
+      "sha256": "2f1533126833f1b67076e85b41fc8ae6a88509a682b2a5a190c92038b52ddc4f",
+      "bytes": 45882
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native08/native.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native08/native.stdout.log",
+      "sha256": "d99fb58419531ea9e7582758fb11a8a004b6159af2d47c1ca91fb5dde66f5f8a",
+      "bytes": 133
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native08/process.json",
+      "sha256": "34fe6fd71f8c8745015cb9f49af35e2c9c01146fa143b1f14b44b7ad4362ecb5",
+      "bytes": 8681
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native08/sdk-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/commands/native08/sdk-version.stdout.log",
+      "sha256": "3ccfabb187270882a308eb46f7bfdfdf2fbf7c14b9e4a704856cf8b1efb227aa",
+      "bytes": 10
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/completed_cast_assert.py",
+      "sha256": "f342908ae85726743f8db26d115b03ebc051bf627107aeb7fb2b9e2149e44732",
+      "bytes": 1368
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory01/debug-no-automation/build.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory01/debug-no-automation/build.stdout.log",
+      "sha256": "740b54858b06ee3a987a1b8ede6d9f27cfbb71c340b03eabc1390532ad1325c3",
+      "bytes": 447
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory01/debug-no-automation/commands.json",
+      "sha256": "c3b09a91e2a3ac5338111ed1e5ca9aba7ddf307e99a229ae1af43983aa23dfe8",
+      "bytes": 3639
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory01/debug-no-automation/import.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory01/debug-no-automation/import.stdout.log",
+      "sha256": "1ac5d2bd53abfe98852a41216a8dd0cdce87bb67f78063c6c37339a4bee289d3",
+      "bytes": 1438
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory01/debug-no-automation/native-report.json",
+      "sha256": "0e02c65718891a9bebe61496cfaebf38ab26b91cdba2f64a52ce16fd31578a53",
+      "bytes": 149
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory01/debug-no-automation/native.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory01/debug-no-automation/native.stdout.log",
+      "sha256": "ae761ef0333e904238f2d4592832f95e4c52c0bfe61f85f2c486c692f196dc23",
+      "bytes": 114
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory01/debug-no-automation/project/ChaseCameraRig.cs",
+      "sha256": "8c338de0e7a86b30392bd96bbf759fed98dc479a6b663fda19fd5cf39529b10d",
+      "bytes": 11987
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory01/debug-no-automation/project/ChaseCameraRig.cs.uid",
+      "sha256": "de21ceb9348d8c3c9a463240294b211c0a4a1a4ec2c968b3b3a90bcd2f9abd3b",
+      "bytes": 19
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory01/debug-no-automation/project/Directory.Build.props",
+      "sha256": "7e4de6b393e2970fcefe0e874c1c65b74859ceac25f6e30a553eee62f2782fbc",
+      "bytes": 264
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory01/debug-no-automation/project/Fixture.cs",
+      "sha256": "66ce8538da4af03dd3cde164a3103253bb7c6d0585cc1372415a87c4d4bbe12e",
+      "bytes": 1414
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory01/debug-no-automation/project/Fixture.cs.uid",
+      "sha256": "4557a0f5f3320f93165869b1268c8c8497408f4938c9299497c017572b0da5fe",
+      "bytes": 19
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory01/debug-no-automation/project/Fixture.csproj",
+      "sha256": "4fd6446100cc7821d4af4aeaf10e80dc0e3a59fbcf304d045db61142f090de49",
+      "bytes": 299
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory01/debug-no-automation/project/Fixture.tscn",
+      "sha256": "f142d8bece370c9245da6e41378b39c8a65536066a9f054b82b0d348fbf3591b",
+      "bytes": 157
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory01/debug-no-automation/project/FixtureStubs.cs",
+      "sha256": "36cc6aed2d669c8526d1e6181e24b4e2c92679a7d33d5465fb253590001ae5e5",
+      "bytes": 632
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory01/debug-no-automation/project/FixtureStubs.cs.uid",
+      "sha256": "7edc63bab9191d49acccfe7807ed23a62e7148197c17de3213ace5de7ed07de2",
+      "bytes": 19
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory01/debug-no-automation/project/SpringArmCastObserver.cs",
+      "sha256": "48c3c8a5eac91661aa6726381785de087560be9164500e2dd5d904cc0373a352",
+      "bytes": 2926
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory01/debug-no-automation/project/SpringArmCastObserver.cs.uid",
+      "sha256": "432a01d4714488baa384b47b3056f83df35b6e371c026982aba1582119f4bbf7",
+      "bytes": 20
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory01/debug-no-automation/project/global.json",
+      "sha256": "b5cb6301b93270502bf2cf84d72ef76d92e31148179662fca781e732926b2bc4",
+      "bytes": 105
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory01/debug-no-automation/project/project.godot",
+      "sha256": "664152f7f41a445140687b79693fbd5f4b9cb274d0db585ad5c874e09405258e",
+      "bytes": 364
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory01/no-debug-with-automation/build.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory01/no-debug-with-automation/build.stdout.log",
+      "sha256": "5ac7392aad8d7d59ebcf12e6278f7c683e72674fd93ed9a16812e7bb718dd2ca",
+      "bytes": 455
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory01/no-debug-with-automation/commands.json",
+      "sha256": "1a6260054965a48f4e56e9671ba7c8944010f6f55c92dc1de2dc5be2d9c907ae",
+      "bytes": 3704
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory01/no-debug-with-automation/import.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory01/no-debug-with-automation/import.stdout.log",
+      "sha256": "1ac5d2bd53abfe98852a41216a8dd0cdce87bb67f78063c6c37339a4bee289d3",
+      "bytes": 1438
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory01/no-debug-with-automation/native-report.json",
+      "sha256": "602c7a31a55148fb5f9f0fc8a6409384e60974da7b7924a6556c7f75c0b063dc",
+      "bytes": 149
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory01/no-debug-with-automation/native.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory01/no-debug-with-automation/native.stdout.log",
+      "sha256": "ae761ef0333e904238f2d4592832f95e4c52c0bfe61f85f2c486c692f196dc23",
+      "bytes": 114
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory01/no-debug-with-automation/project/ChaseCameraRig.cs",
+      "sha256": "8c338de0e7a86b30392bd96bbf759fed98dc479a6b663fda19fd5cf39529b10d",
+      "bytes": 11987
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory01/no-debug-with-automation/project/ChaseCameraRig.cs.uid",
+      "sha256": "de21ceb9348d8c3c9a463240294b211c0a4a1a4ec2c968b3b3a90bcd2f9abd3b",
+      "bytes": 19
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory01/no-debug-with-automation/project/Directory.Build.props",
+      "sha256": "7e4de6b393e2970fcefe0e874c1c65b74859ceac25f6e30a553eee62f2782fbc",
+      "bytes": 264
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory01/no-debug-with-automation/project/Fixture.cs",
+      "sha256": "66ce8538da4af03dd3cde164a3103253bb7c6d0585cc1372415a87c4d4bbe12e",
+      "bytes": 1414
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory01/no-debug-with-automation/project/Fixture.cs.uid",
+      "sha256": "4557a0f5f3320f93165869b1268c8c8497408f4938c9299497c017572b0da5fe",
+      "bytes": 19
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory01/no-debug-with-automation/project/Fixture.csproj",
+      "sha256": "4fd6446100cc7821d4af4aeaf10e80dc0e3a59fbcf304d045db61142f090de49",
+      "bytes": 299
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory01/no-debug-with-automation/project/Fixture.tscn",
+      "sha256": "f142d8bece370c9245da6e41378b39c8a65536066a9f054b82b0d348fbf3591b",
+      "bytes": 157
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory01/no-debug-with-automation/project/FixtureStubs.cs",
+      "sha256": "736760b13dd7bf75855f7936212971610c01915c30628513b9230ebfd61a1c2f",
+      "bytes": 631
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory01/no-debug-with-automation/project/FixtureStubs.cs.uid",
+      "sha256": "f8e181a195af05b6c1ebbc0ac18a7f13e308ad982d5c04b801feb98ab1cfb59f",
+      "bytes": 20
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory01/no-debug-with-automation/project/SpringArmCastObserver.cs",
+      "sha256": "48c3c8a5eac91661aa6726381785de087560be9164500e2dd5d904cc0373a352",
+      "bytes": 2926
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory01/no-debug-with-automation/project/SpringArmCastObserver.cs.uid",
+      "sha256": "432a01d4714488baa384b47b3056f83df35b6e371c026982aba1582119f4bbf7",
+      "bytes": 20
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory01/no-debug-with-automation/project/global.json",
+      "sha256": "b5cb6301b93270502bf2cf84d72ef76d92e31148179662fca781e732926b2bc4",
+      "bytes": 105
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory01/no-debug-with-automation/project/project.godot",
+      "sha256": "664152f7f41a445140687b79693fbd5f4b9cb274d0db585ad5c874e09405258e",
+      "bytes": 364
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory01/report.json",
+      "sha256": "4aef11a6846fd10be1307cad668f01054ad8d611e92fa5fc9597c61587f37eea",
+      "bytes": 1413
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory02/debug-no-automation/build.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory02/debug-no-automation/build.stdout.log",
+      "sha256": "66bde9a286c3dfa8677fc3ea73b40f08b88a13baf4eb0dd60d89c320dae05a39",
+      "bytes": 445
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory02/debug-no-automation/commands.json",
+      "sha256": "ee67725c23590a4311e755f2f1d19d7bf8cce2180e03046f38eddfea3032fd57",
+      "bytes": 3637
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory02/debug-no-automation/import.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory02/debug-no-automation/import.stdout.log",
+      "sha256": "1ac5d2bd53abfe98852a41216a8dd0cdce87bb67f78063c6c37339a4bee289d3",
+      "bytes": 1438
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory02/debug-no-automation/native-report.json",
+      "sha256": "0e02c65718891a9bebe61496cfaebf38ab26b91cdba2f64a52ce16fd31578a53",
+      "bytes": 149
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory02/debug-no-automation/native.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory02/debug-no-automation/native.stdout.log",
+      "sha256": "ae761ef0333e904238f2d4592832f95e4c52c0bfe61f85f2c486c692f196dc23",
+      "bytes": 114
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory02/debug-no-automation/project/ChaseCameraRig.cs",
+      "sha256": "e41e03d3c8ff18ce0a4a030001d62e296baf6d6a0265fd0539c7c1f84f932967",
+      "bytes": 12119
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory02/debug-no-automation/project/ChaseCameraRig.cs.uid",
+      "sha256": "553c85116229cc56c58955b78307ed6b0752562695917b3dde0db04c8714444d",
+      "bytes": 20
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory02/debug-no-automation/project/Directory.Build.props",
+      "sha256": "7e4de6b393e2970fcefe0e874c1c65b74859ceac25f6e30a553eee62f2782fbc",
+      "bytes": 264
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory02/debug-no-automation/project/Fixture.cs",
+      "sha256": "66ce8538da4af03dd3cde164a3103253bb7c6d0585cc1372415a87c4d4bbe12e",
+      "bytes": 1414
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory02/debug-no-automation/project/Fixture.cs.uid",
+      "sha256": "4557a0f5f3320f93165869b1268c8c8497408f4938c9299497c017572b0da5fe",
+      "bytes": 19
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory02/debug-no-automation/project/Fixture.csproj",
+      "sha256": "4fd6446100cc7821d4af4aeaf10e80dc0e3a59fbcf304d045db61142f090de49",
+      "bytes": 299
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory02/debug-no-automation/project/Fixture.tscn",
+      "sha256": "f142d8bece370c9245da6e41378b39c8a65536066a9f054b82b0d348fbf3591b",
+      "bytes": 157
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory02/debug-no-automation/project/FixtureStubs.cs",
+      "sha256": "36cc6aed2d669c8526d1e6181e24b4e2c92679a7d33d5465fb253590001ae5e5",
+      "bytes": 632
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory02/debug-no-automation/project/FixtureStubs.cs.uid",
+      "sha256": "7edc63bab9191d49acccfe7807ed23a62e7148197c17de3213ace5de7ed07de2",
+      "bytes": 19
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory02/debug-no-automation/project/SpringArmCastObserver.cs",
+      "sha256": "e524d0994e27337d81806f9b2173b70c3833af18f526bb59d57b71caa68a6c7b",
+      "bytes": 3252
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory02/debug-no-automation/project/SpringArmCastObserver.cs.uid",
+      "sha256": "52a6bced14aaad37c2d1976819c6b7d89f6908ea07f4551cd3f938a25965ef96",
+      "bytes": 20
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory02/debug-no-automation/project/global.json",
+      "sha256": "b5cb6301b93270502bf2cf84d72ef76d92e31148179662fca781e732926b2bc4",
+      "bytes": 105
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory02/debug-no-automation/project/project.godot",
+      "sha256": "664152f7f41a445140687b79693fbd5f4b9cb274d0db585ad5c874e09405258e",
+      "bytes": 364
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory02/no-debug-with-automation/build.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory02/no-debug-with-automation/build.stdout.log",
+      "sha256": "4ca75b13f7c1d1d1fd649dc091bb99861b6a54902b1bfae784b839db5494cf93",
+      "bytes": 455
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory02/no-debug-with-automation/commands.json",
+      "sha256": "143b48a0b746f865eb896d6173817c4f034e7aa2994478fe46f1aa7f3d91eea2",
+      "bytes": 3706
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory02/no-debug-with-automation/import.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory02/no-debug-with-automation/import.stdout.log",
+      "sha256": "1ac5d2bd53abfe98852a41216a8dd0cdce87bb67f78063c6c37339a4bee289d3",
+      "bytes": 1438
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory02/no-debug-with-automation/native-report.json",
+      "sha256": "602c7a31a55148fb5f9f0fc8a6409384e60974da7b7924a6556c7f75c0b063dc",
+      "bytes": 149
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory02/no-debug-with-automation/native.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory02/no-debug-with-automation/native.stdout.log",
+      "sha256": "ae761ef0333e904238f2d4592832f95e4c52c0bfe61f85f2c486c692f196dc23",
+      "bytes": 114
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory02/no-debug-with-automation/project/ChaseCameraRig.cs",
+      "sha256": "e41e03d3c8ff18ce0a4a030001d62e296baf6d6a0265fd0539c7c1f84f932967",
+      "bytes": 12119
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory02/no-debug-with-automation/project/ChaseCameraRig.cs.uid",
+      "sha256": "553c85116229cc56c58955b78307ed6b0752562695917b3dde0db04c8714444d",
+      "bytes": 20
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory02/no-debug-with-automation/project/Directory.Build.props",
+      "sha256": "7e4de6b393e2970fcefe0e874c1c65b74859ceac25f6e30a553eee62f2782fbc",
+      "bytes": 264
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory02/no-debug-with-automation/project/Fixture.cs",
+      "sha256": "66ce8538da4af03dd3cde164a3103253bb7c6d0585cc1372415a87c4d4bbe12e",
+      "bytes": 1414
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory02/no-debug-with-automation/project/Fixture.cs.uid",
+      "sha256": "4557a0f5f3320f93165869b1268c8c8497408f4938c9299497c017572b0da5fe",
+      "bytes": 19
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory02/no-debug-with-automation/project/Fixture.csproj",
+      "sha256": "4fd6446100cc7821d4af4aeaf10e80dc0e3a59fbcf304d045db61142f090de49",
+      "bytes": 299
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory02/no-debug-with-automation/project/Fixture.tscn",
+      "sha256": "f142d8bece370c9245da6e41378b39c8a65536066a9f054b82b0d348fbf3591b",
+      "bytes": 157
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory02/no-debug-with-automation/project/FixtureStubs.cs",
+      "sha256": "736760b13dd7bf75855f7936212971610c01915c30628513b9230ebfd61a1c2f",
+      "bytes": 631
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory02/no-debug-with-automation/project/FixtureStubs.cs.uid",
+      "sha256": "f8e181a195af05b6c1ebbc0ac18a7f13e308ad982d5c04b801feb98ab1cfb59f",
+      "bytes": 20
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory02/no-debug-with-automation/project/SpringArmCastObserver.cs",
+      "sha256": "e524d0994e27337d81806f9b2173b70c3833af18f526bb59d57b71caa68a6c7b",
+      "bytes": 3252
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory02/no-debug-with-automation/project/SpringArmCastObserver.cs.uid",
+      "sha256": "52a6bced14aaad37c2d1976819c6b7d89f6908ea07f4551cd3f938a25965ef96",
+      "bytes": 20
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory02/no-debug-with-automation/project/global.json",
+      "sha256": "b5cb6301b93270502bf2cf84d72ef76d92e31148179662fca781e732926b2bc4",
+      "bytes": 105
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory02/no-debug-with-automation/project/project.godot",
+      "sha256": "664152f7f41a445140687b79693fbd5f4b9cb274d0db585ad5c874e09405258e",
+      "bytes": 364
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/factory02/report.json",
+      "sha256": "2709d5cc51d774fb048ee512a0eac9f1a9b5f306345fb93013c526c9d3afaa47",
+      "bytes": 1413
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/final-host01/commands.json",
+      "sha256": "a6e5539894683901d02c598dda191c1abf874c7369a3f6da40e26683b2a61a18",
+      "bytes": 2886
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/final-host01/m0-unit-selection.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/final-host01/m0-unit-selection.stdout.log",
+      "sha256": "e17b34c9ef6027b68453e375cc1ffbcf5d343079d9829d996a321d130e26639a",
+      "bytes": 764
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/final-host01/m0-unit-selection.xml",
+      "sha256": "ff544035ee1d39b0a4c022344f2b61f530f364e4d5a4ed2c0dfc1702d86c44ae",
+      "bytes": 7857
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/final-host01/native-reader.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/final-host01/native-reader.stdout.log",
+      "sha256": "17e0eeb2fe6179920d78c5eed6dfa19cb2ef037a8a9c321dbceb2c3d6adb08ae",
+      "bytes": 54
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/final-host01/ruff.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/final-host01/ruff.stdout.log",
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "bytes": 19
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/final-host01/unit-all.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/final-host01/unit-all.stdout.log",
+      "sha256": "4f762258483ac5561f3392fa6a6539af49b51f6435cd218267c8e67f7f37f66b",
+      "bytes": 950
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/final-host01/unit-all.xml",
+      "sha256": "252e73d11146160cbb06a467e904028fbcd9bcca34ed8f87748e2f5fd02b07e8",
+      "bytes": 8920
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/final_host01.py",
+      "sha256": "ea3b87973cd70f8b892707d00deb0f1eb1742b273fa0b2f17a2defd10a7e4e37",
+      "bytes": 2409
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/fixture-template/Fixture.cs",
+      "sha256": "96f5d4c48cbe1f7857e3fbcae8d23b20b41e6eb13fea8275c59249743a98e42a",
+      "bytes": 14954
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/fixture-template/Fixture.csproj",
+      "sha256": "4fd6446100cc7821d4af4aeaf10e80dc0e3a59fbcf304d045db61142f090de49",
+      "bytes": 299
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/fixture-template/Fixture.tscn",
+      "sha256": "f142d8bece370c9245da6e41378b39c8a65536066a9f054b82b0d348fbf3591b",
+      "bytes": 157
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/fixture-template/FixtureStubs.cs",
+      "sha256": "736760b13dd7bf75855f7936212971610c01915c30628513b9230ebfd61a1c2f",
+      "bytes": 631
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/fixture-template/project.godot",
+      "sha256": "664152f7f41a445140687b79693fbd5f4b9cb274d0db585ad5c874e09405258e",
+      "bytes": 364
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/fixture01/Directory.Build.props",
+      "sha256": "7e4de6b393e2970fcefe0e874c1c65b74859ceac25f6e30a553eee62f2782fbc",
+      "bytes": 264
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/fixture01/Fixture.cs",
+      "sha256": "96f5d4c48cbe1f7857e3fbcae8d23b20b41e6eb13fea8275c59249743a98e42a",
+      "bytes": 14954
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/fixture01/Fixture.cs.uid",
+      "sha256": "5840e73cc4182a341a65ac278334235979152c480994a89c81cf8f4e33285921",
+      "bytes": 20
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/fixture01/Fixture.csproj",
+      "sha256": "4fd6446100cc7821d4af4aeaf10e80dc0e3a59fbcf304d045db61142f090de49",
+      "bytes": 299
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/fixture01/Fixture.tscn",
+      "sha256": "f142d8bece370c9245da6e41378b39c8a65536066a9f054b82b0d348fbf3591b",
+      "bytes": 157
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/fixture01/FixtureStubs.cs",
+      "sha256": "736760b13dd7bf75855f7936212971610c01915c30628513b9230ebfd61a1c2f",
+      "bytes": 631
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/fixture01/FixtureStubs.cs.uid",
+      "sha256": "f8e181a195af05b6c1ebbc0ac18a7f13e308ad982d5c04b801feb98ab1cfb59f",
+      "bytes": 20
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/fixture01/baseline/ChaseCameraRig.cs",
+      "sha256": "e139e2a676864bd253ee90a83c235b3d18da2a6d300722de1d069fe1b4ed9b27",
+      "bytes": 11602
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/fixture01/baseline/ChaseCameraRig.cs.uid",
+      "sha256": "b1496cf4fb5fe637002674a86ac5c74b8e58684491c7ec0224c6df19a5342b55",
+      "bytes": 19
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/fixture01/game/ChaseCameraRig.cs",
+      "sha256": "e41e03d3c8ff18ce0a4a030001d62e296baf6d6a0265fd0539c7c1f84f932967",
+      "bytes": 12119
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/fixture01/game/ChaseCameraRig.cs.uid",
+      "sha256": "9ddf1566b20ce5d5d84775d9044fc7a3381c5914d7a1acfc4342afad65f7e703",
+      "bytes": 20
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/fixture01/game/SpringArmCastObserver.cs",
+      "sha256": "e524d0994e27337d81806f9b2173b70c3833af18f526bb59d57b71caa68a6c7b",
+      "bytes": 3252
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/fixture01/game/SpringArmCastObserver.cs.uid",
+      "sha256": "d3f09a8020c71b7f5ca8aa4fc8aaa2ee321fdaa67d9f58b60902688aae1ceb5d",
+      "bytes": 19
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/fixture01/global.json",
+      "sha256": "b5cb6301b93270502bf2cf84d72ef76d92e31148179662fca781e732926b2bc4",
+      "bytes": 105
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/fixture01/project.godot",
+      "sha256": "664152f7f41a445140687b79693fbd5f4b9cb274d0db585ad5c874e09405258e",
+      "bytes": 364
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/freeze01.py",
+      "sha256": "81cd479ea721b8a016b14def473f2e4c2172988d75e541782481e1c7a47c97f2",
+      "bytes": 13498
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/history/reader01-reconstruction.json",
+      "sha256": "a0c1ee106d528d342c52b73b7f9cf37054510347bb4dbf41566b6a0641ed54fe",
+      "bytes": 796
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/history/reader01.py",
+      "sha256": "9a4ef9068ec44229d84f3fa9bd774dd58b23438abb5472905ea832dea5275001",
+      "bytes": 13934
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/history/reader02.py",
+      "sha256": "3f511c5152882159ea8e5773d035ea2037bdbb617238e2e80a76064fcdd929f9",
+      "bytes": 16535
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/history/reader03.py",
+      "sha256": "a1088a57689fd7f1c022f2967e0adcbb5ba718c34ca70197d3520d679f5c40c2",
+      "bytes": 16953
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/history/run_factory-before-case-arg.py",
+      "sha256": "4058309521d3d94575ed8dfd7fa1938ffb803b742781a70a4e416eca24284703",
+      "bytes": 6214
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/host-controls01.json",
+      "sha256": "464de7df2f81dffedda33c8aa67edfb5c4d3463d56dfa949a8eb8314d1b9bf31",
+      "bytes": 26532
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/host-controls03.json",
+      "sha256": "473f78d0c323e77990d10852fd8f7e4ae142dde8faef32ee871cfacdc412cdf3",
+      "bytes": 56631
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/host-controls04.json",
+      "sha256": "1532f0f478ab46915f8e9bcf5b8f122b9d32fa60df1d1d4c57c9472c73e0d0ef",
+      "bytes": 56604
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/host-controls05.json",
+      "sha256": "f46f1a265294424bbfe54e9711ebbc98d070e740e0efcb617bd919b4fd806000",
+      "bytes": 56634
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/host02/command.json",
+      "sha256": "d1fb6600fd66dd2de5e5c838b01251c892cafc80ccfd675d158b37d56bba37ac",
+      "bytes": 593
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/host02/junit.xml",
+      "sha256": "0ced11ad461335b99bc1fc29a52036b5f716a9d701c7b14149a3cc21c2d9dbc8",
+      "bytes": 9453
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/host02/native-readback.json",
+      "sha256": "3b2378c8176674d48f639fc274fb107ea4f59c37f2865347270377df0e5dc424",
+      "bytes": 5758
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/host02/pytest.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/host02/pytest.stdout.log",
+      "sha256": "491a5fb1e34533ef60e2d0b098b41d39979f1e4458be3b7ce8399dfb8e4dd756",
+      "bytes": 1685
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/host03/commands.json",
+      "sha256": "7add46b431e44d599b78ca010bc1d0311103723d0936fe84cb2ec77a7a28386a",
+      "bytes": 1549
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/host03/junit.xml",
+      "sha256": "99a0c00466b42cbcedfa24a5de818ea22756b7b91da4803f04fac833ee3f55a3",
+      "bytes": 8854
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/host03/pytest.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/host03/pytest.stdout.log",
+      "sha256": "c05a6114f5950ba0a3cb4c2549b0ecbd4fc6ad167c8773e17016cf99d9e16853",
+      "bytes": 744
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/host03/reader.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/host03/reader.stdout.log",
+      "sha256": "17e0eeb2fe6179920d78c5eed6dfa19cb2ef037a8a9c321dbceb2c3d6adb08ae",
+      "bytes": 54
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/host03/ruff.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/host03/ruff.stdout.log",
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "bytes": 19
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/host04.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/host04.stdout.log",
+      "sha256": "17e0eeb2fe6179920d78c5eed6dfa19cb2ef037a8a9c321dbceb2c3d6adb08ae",
+      "bytes": 54
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/host_controls01.py",
+      "sha256": "ab42a6e2881d564b9a2df7a8e74db23cb153fa226aa80cbca58e930d57a615c9",
+      "bytes": 4414
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/host_controls03.py",
+      "sha256": "47ce3bd214445f1269428fba9d295a5fc0505f7c5b6a5ff567499bac7c35d2fc",
+      "bytes": 4679
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/host_controls04.py",
+      "sha256": "33959d8749afe65d89f813aa24c43e92f065fc72870ff9fee1d9c54594c9da9f",
+      "bytes": 4684
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/host_controls05.py",
+      "sha256": "dd654710848ec34d580906916f8ff1cb375e7d1f892404cef8719bbaec67bccd",
+      "bytes": 4695
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/inputs/AGENTS.md",
+      "sha256": "419d40ff360ea02e064b6b4513dfa923d339fa1fbbe09ecd884d4e44829fae29",
+      "bytes": 10626
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/inputs/Cannonball.csproj",
+      "sha256": "b3ffbb34389046cb20c7179293c3a298f53d97040c70eb60b121a9d708dbdf04",
+      "bytes": 916
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/inputs/Directory.Build.props",
+      "sha256": "7e4de6b393e2970fcefe0e874c1c65b74859ceac25f6e30a553eee62f2782fbc",
+      "bytes": 264
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/inputs/automation/playgodot/tests/test_camera_handling.py",
+      "sha256": "60ada3d40eca1b9c6796a01bef56eb0d75de4c85c24f7628063373f1bb04eb3b",
+      "bytes": 12500
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/inputs/docs/audits/2026-09-11-sedan-platform-verification.md",
+      "sha256": "93b0e8a3dd8e4996786a96c22e7869119e51650eeb403bb69a87d279404e7f37",
+      "bytes": 5524
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/inputs/game/Automation/AutomationInspection.cs",
+      "sha256": "4decbd9c5327f3bea647be76b13545b93cfadac295704d3b4dce38a78d9c08b0",
+      "bytes": 1136
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/inputs/game/Camera/ChaseCameraRig.cs",
+      "sha256": "863b28f0980b623145b93282f692c05a5a14169608ce614868ba23afa11551ba",
+      "bytes": 11593
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/inputs/global.json",
+      "sha256": "b5cb6301b93270502bf2cf84d72ef76d92e31148179662fca781e732926b2bc4",
+      "bytes": 105
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/inputs/official/scene/3d/physics/spring_arm_3d.cpp",
+      "sha256": "3ff1ac6a9eaa8c1752b7d90f5b0fbdfb77cbc3bddf1fc248c9b174066b3e819c",
+      "bytes": 7878
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/inputs/official/scene/main/scene_tree.cpp",
+      "sha256": "eed6dbff323344efff19f2de6763705aff062a76e00fd7cbe42a4ee849b7e5a4",
+      "bytes": 75907
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/inputs/project.godot",
+      "sha256": "40196e5f18be822adde0ae30ca07a456cb15391ceeb52fb81356985455c2dc71",
+      "bytes": 2225
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/inputs/scripts/check.sh",
+      "sha256": "a6090ebc558d595e152b585c8d87e510dcdf53589276401e7cc038a54da19094",
+      "bytes": 4004
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/inputs/scripts/godot.sh",
+      "sha256": "c2de40bc9f709916c9cabac7a8230914d114f48ea62ab89cb090f3763dfda659",
+      "bytes": 3634
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/inventory01.json",
+      "sha256": "f9821f93aa562a3b7349636b3ceb796ff382a26021507055957cb8f3969988a0",
+      "bytes": 112551
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/preparation01.json",
+      "sha256": "0ad63be6888a9f39146ab5998ea64d1cc2b96f7d3c981ad59b847ca9ae5c400d",
+      "bytes": 5555
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/prepare01.py",
+      "sha256": "4165b735e1ae30272745dc2e1945417df8ff4066603c9297c6321958bb5a7221",
+      "bytes": 7615
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/proposal01.patch",
+      "sha256": "38f61e1529d534c728b11b6240def75f6a227fa0ab4703ece7120a9a3ad203ec",
+      "bytes": 8156
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/proposal02.patch",
+      "sha256": "b5ec94d43610902ccc1a1c204d066c57a0019dc85a0a37525450c5f80d166175",
+      "bytes": 10955
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/proposal03.patch",
+      "sha256": "2c1c372282e2ec131ee94dd956a5e871cf48b5e99a3507049f9543025fdfedb8",
+      "bytes": 11389
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/proposal04.patch",
+      "sha256": "9067a074a86face6963cbc4d7eab10df893893d119a526f336dadfe3e9cb4267",
+      "bytes": 12884
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/proposed/automation/playgodot/tests/test_camera_cast_state.py",
+      "sha256": "48a37a173f46457a61ed9f05eeb290c66fe0ad5b617b72d5fdad389e2f980235",
+      "bytes": 3062
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/proposed/automation/playgodot/tests/test_camera_handling.py",
+      "sha256": "469db31f2c108e8e1272721ce3af7566cceb75623b4ef2e334dc5f842c7c9226",
+      "bytes": 14005
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/proposed/game/Camera/ChaseCameraRig.cs",
+      "sha256": "e41e03d3c8ff18ce0a4a030001d62e296baf6d6a0265fd0539c7c1f84f932967",
+      "bytes": 12119
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/proposed/game/Camera/SpringArmCastObserver.cs",
+      "sha256": "e524d0994e27337d81806f9b2173b70c3833af18f526bb59d57b71caa68a6c7b",
+      "bytes": 3252
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/proposed/game/Camera/SpringArmCastObserver.cs.uid",
+      "sha256": "d3f09a8020c71b7f5ca8aa4fc8aaa2ee321fdaa67d9f58b60902688aae1ceb5d",
+      "bytes": 19
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/proposed/scripts/check.sh",
+      "sha256": "793be6b1c2a0fea3dd93b8bcec0e18b149217d54cae6e206c9d5962d85c4543f",
+      "bytes": 4061
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/review01.json",
+      "sha256": "a70308a8ca08e55e78685fabf23b3b10bdf77cd1d23455d98c582ce04408100e",
+      "bytes": 14567
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/run_factory01.py",
+      "sha256": "fab2b32195e12f921d36b257437335dcf269a45c51721a559e00caf928ec1729",
+      "bytes": 6265
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/run_host03.py",
+      "sha256": "1015a48637e4d4a825ee6b88271c20b460342c0b88b21d7c6b0dbaf338347b22",
+      "bytes": 2765
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/run_native01.py",
+      "sha256": "dae28c81828edc8eaab5e0a82f443093e1afe63f8e0f4b084ee4e6b30b492832",
+      "bytes": 4321
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/scope.json",
+      "sha256": "3b148a4206c0b14ed8d7ac6dfe0ce04a2fdbf48e7ed6d61330b1c0808a82699e",
+      "bytes": 821
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-fix01/unit_tests_append.py",
+      "sha256": "7903fcf62212533dc09933d9e153854b1eb9819f171601644bef0134893a50c9",
+      "bytes": 2947
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/HANDOFF01.md",
+      "sha256": "cc2b672c6fac3d65b40249e27cae9fd4a5f722ef9f1ed75d71e9406c279e7a42",
+      "bytes": 2169
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/HANDOFF02.md",
+      "sha256": "eac64ef32616f14d3daaf0292287f5d54ca88a6389c6d4711a0d1a23e36c729b",
+      "bytes": 2454
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/application02.json",
+      "sha256": "53c25622d6345d4c2998433b1e0876245dc139bb06ae30e23f9b1c03ad29300d",
+      "bytes": 5479
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/applied-proposal04.patch",
+      "sha256": "9067a074a86face6963cbc4d7eab10df893893d119a526f336dadfe3e9cb4267",
+      "bytes": 12884
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/apply01.py",
+      "sha256": "bac8cdeadae7c3a093230e4f6ccb73398d856028ec00370c16689aa83ac08db4",
+      "bytes": 3857
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/apply02.py",
+      "sha256": "7b53bddd96c76aa8c036aeb73950a11afa4b47a21c32aa91bca15e7b1cadfb93",
+      "bytes": 4564
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/apply02.stderr.log",
+      "sha256": "25c17080f052cb8871eef18faa304ffa303236d8aade3a133f92499c90769025",
+      "bytes": 160
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/apply02.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/authorized-audit.md",
+      "sha256": "d79df07c5bdbb8c2156611163fcbdd1fb2649103c6e1f8c30df77621420f3507",
+      "bytes": 3048
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/before/AGENTS.md",
+      "sha256": "419d40ff360ea02e064b6b4513dfa923d339fa1fbbe09ecd884d4e44829fae29",
+      "bytes": 10626
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/before/Cannonball.csproj",
+      "sha256": "b3ffbb34389046cb20c7179293c3a298f53d97040c70eb60b121a9d708dbdf04",
+      "bytes": 916
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/before/Directory.Build.props",
+      "sha256": "7e4de6b393e2970fcefe0e874c1c65b74859ceac25f6e30a553eee62f2782fbc",
+      "bytes": 264
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/before/automation/playgodot/tests/test_camera_handling.py",
+      "sha256": "60ada3d40eca1b9c6796a01bef56eb0d75de4c85c24f7628063373f1bb04eb3b",
+      "bytes": 12500
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/before/docs/audits/2026-09-11-sedan-platform-verification.md",
+      "sha256": "93b0e8a3dd8e4996786a96c22e7869119e51650eeb403bb69a87d279404e7f37",
+      "bytes": 5524
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/before/game/Automation/AutomationInspection.cs",
+      "sha256": "4decbd9c5327f3bea647be76b13545b93cfadac295704d3b4dce38a78d9c08b0",
+      "bytes": 1136
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/before/game/Camera/ChaseCameraRig.cs",
+      "sha256": "863b28f0980b623145b93282f692c05a5a14169608ce614868ba23afa11551ba",
+      "bytes": 11593
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/before/global.json",
+      "sha256": "b5cb6301b93270502bf2cf84d72ef76d92e31148179662fca781e732926b2bc4",
+      "bytes": 105
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/before/project.godot",
+      "sha256": "40196e5f18be822adde0ae30ca07a456cb15391ceeb52fb81356985455c2dc71",
+      "bytes": 2225
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/before/scripts/check.sh",
+      "sha256": "a6090ebc558d595e152b585c8d87e510dcdf53589276401e7cc038a54da19094",
+      "bytes": 4004
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/before/scripts/godot.sh",
+      "sha256": "c2de40bc9f709916c9cabac7a8230914d114f48ea62ab89cb090f3763dfda659",
+      "bytes": 3634
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/binaries/Cannonball.Core.dll",
+      "sha256": "da65ba040b0c4f250d26b02f616482f0c7623fc932822888c5398561437aee89",
+      "bytes": 431616
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/binaries/Cannonball.dll",
+      "sha256": "eb69a886c13d736dd6d30ed8fa4ae5a32436f2946f3bb20556b721e9a705fdb7",
+      "bytes": 1561088
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/build01/command.json",
+      "sha256": "7d0015e4e2f88dff962d5e90421a0d064f8c92d7ccaff1a151bbc079c98e072e",
+      "bytes": 1282
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/build01/stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/build01/stdout.log",
+      "sha256": "4f484a1bfe3fc406b2f7bd82d42ae34813c352a26456c8d5d148ad6e4cca092a",
+      "bytes": 488
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/camera01.sh",
+      "sha256": "9907000167588dcb86aad1465afa2fd32321c8738c66a944735e850bc20579da",
+      "bytes": 415
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/camera01/artifacts/camera-handling-final.png",
+      "sha256": "4d6dca5f3ee5b7adcd9471c65ee9e864062e35e92458993aa3cd919bb3ec2235",
+      "bytes": 1035300
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/camera01/artifacts/camera-handling-godot.log",
+      "sha256": "e426f7555f713e86f8cbd06b8a1dab6a0c5fc085992e58fcc8244bc9bae209be",
+      "bytes": 987
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/camera01/artifacts/camera-handling.jsonl",
+      "sha256": "0159f86a90ce1246de45561f2a3446c233251da060842f7e3f4b354f520b9fd0",
+      "bytes": 5134
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/camera01/artifacts/cockpit-forward.png",
+      "sha256": "b78ada9c27fc07ead3cbbb131dce11b924a24d2062d312e31befa3cee823bc53",
+      "bytes": 237488
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/camera01/command.json",
+      "sha256": "91e77079e72b02b513ae13d477fa25c5660ce50e05eb98a1588ddcc2a1037555",
+      "bytes": 3529
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/camera01/home/appdata/Godot/app_userdata/Cannonball Run/logs/godot.log",
+      "sha256": "e426f7555f713e86f8cbd06b8a1dab6a0c5fc085992e58fcc8244bc9bae209be",
+      "bytes": 987
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/camera01/home/appdata/uv/tools/.gitignore",
+      "sha256": "684888c0ebb17f374298b65ee2807526c066094c701bcc7ebbe1c1095f494fc1",
+      "bytes": 1
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/camera01/home/appdata/uv/tools/.lock",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/camera01/junit.xml",
+      "sha256": "b45d16a047e811cccbf8d9538105f7138eaa841297bc80a768b4fe3a789eaa9e",
+      "bytes": 388
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/camera01/stderr.log",
+      "sha256": "ef218efe5cadb813111cefefb56b711efed6e41444f5f283d079e931e92f0505",
+      "bytes": 28
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/camera01/stdout.log",
+      "sha256": "72768033cdf94a40ba546fa30d372faa55f18e694479e47b849a5eac39ba4254",
+      "bytes": 516
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/check-inputs01.json",
+      "sha256": "3f4a60c0d23f2177635855e963abf6b9136598bec0c8517e771182edc2f34e53",
+      "bytes": 52144
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/check-inputs02.json",
+      "sha256": "9c68d4fbbd360d0513ee9d89fb71a7ae1db044985292d756153ea4b307db0285",
+      "bytes": 52336
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/check-inputs03.json",
+      "sha256": "7a9940812005c84ae61d55dec36c2a367296a7ecfd42bb776343df62104ca8d7",
+      "bytes": 52336
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/check.stderr.log",
+      "sha256": "32ec5f608d4de8e7f6aedd30b9661633cfdddeb5fe89e7d2e104d2e6cd22269d",
+      "bytes": 158
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/check.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/check02.stderr.log",
+      "sha256": "25c17080f052cb8871eef18faa304ffa303236d8aade3a133f92499c90769025",
+      "bytes": 160
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/check02.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/diff-check02.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/diff-check02.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/dotnet-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/dotnet-version.stdout.log",
+      "sha256": "3ccfabb187270882a308eb46f7bfdfdf2fbf7c14b9e4a704856cf8b1efb227aa",
+      "bytes": 10
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/final-reverse-check.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/final-reverse-check.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/final-whitespace.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/final-whitespace.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/final.patch",
+      "sha256": "c2494a4a3853b2a058feb3c7eb19283dbb40c3d6f629d849257855110aa45449",
+      "bytes": 12796
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/final/automation/playgodot/tests/test_camera_cast_state.py",
+      "sha256": "7ad0a5f65d678d8e9be2371aa6f49147282a5d9315b4d04eab8d465567823d7b",
+      "bytes": 3063
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/final/automation/playgodot/tests/test_camera_handling.py",
+      "sha256": "89097d78615d2d0b82f8335851f176bd1be2f49a82833bd237e788f221ee1a6a",
+      "bytes": 14004
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/final/game/Camera/ChaseCameraRig.cs",
+      "sha256": "e41e03d3c8ff18ce0a4a030001d62e296baf6d6a0265fd0539c7c1f84f932967",
+      "bytes": 12119
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/final/game/Camera/SpringArmCastObserver.cs",
+      "sha256": "e524d0994e27337d81806f9b2173b70c3833af18f526bb59d57b71caa68a6c7b",
+      "bytes": 3252
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/final/game/Camera/SpringArmCastObserver.cs.uid",
+      "sha256": "d3f09a8020c71b7f5ca8aa4fc8aaa2ee321fdaa67d9f58b60902688aae1ceb5d",
+      "bytes": 19
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/final/scripts/check.sh",
+      "sha256": "793be6b1c2a0fea3dd93b8bcec0e18b149217d54cae6e206c9d5962d85c4543f",
+      "bytes": 4061
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/freeze01.py",
+      "sha256": "afbd81982a29cd13c5d238d92ff551e3ef3cfa7762cfdc24b42a0d9eabf76ce9",
+      "bytes": 14457
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/godot-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/godot-version.stdout.log",
+      "sha256": "d1046084c2493a272b0b439dc2f6dc74b801cd74659c5010a67c1b2f3acc5866",
+      "bytes": 38
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/host01.sh",
+      "sha256": "c582990986eae3a38d34e1b5d6f78bbd497195025c092bfa4fefdda3a7a9724a",
+      "bytes": 776
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/host01/command.json",
+      "sha256": "deb16808cb84bb4d3dfb7348f516e2d3784cd501ec0f8eef31f49f05e91e0ef4",
+      "bytes": 1368
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/host01/stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/host01/stdout.log",
+      "sha256": "4cdc954d1c92b1c6d88210ce724d8b4b0039eb139a55567a6e5d91b9c0b409ce",
+      "bytes": 470
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/host02.sh",
+      "sha256": "776e3db7a1b63a64684229648a39c7c366f4b9f1e2666d49017b3c6cddbcd17c",
+      "bytes": 776
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/host02/command.json",
+      "sha256": "4de5e9db53bf2bcd17afe536c3dd42e08437527e0772b6297e54609b4ed2f235",
+      "bytes": 1521
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/host02/junit.xml",
+      "sha256": "02c7537bc6689fab80f356bb74f24b701489a18066654ebf38257e58c3ea0df8",
+      "bytes": 1041
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/host02/stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/host02/stdout.log",
+      "sha256": "8a57880449ac835c98da72907d5fee0e33ae4ef5a3fa5805cc9afe238e47f28c",
+      "bytes": 1162
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/host03.sh",
+      "sha256": "94c2dd3a42773a17b3dfbecd628a69c0fbc65424e8566a0bba0ec63b933db990",
+      "bytes": 1228
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/host03/command.json",
+      "sha256": "9d17e5ea454c749972cdb1f51f25e68c4426042d10668c5a2c4f28f7d64406b0",
+      "bytes": 1697
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/host03/focused-junit.xml",
+      "sha256": "2b5887431b7ea6eea2e443761cb2a50fc206913b9eefeeb05a12a4ea9eafa455",
+      "bytes": 5777
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/host03/m0-unit-selection-junit.xml",
+      "sha256": "9f72f6f11f90d9deda3b786c9d6c1cc8e2a0e18289737e24dd96899a8349666d",
+      "bytes": 17551
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/host03/stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/host03/stdout.log",
+      "sha256": "ec06056356ba96bbf867b27f91f2c1333070c5bacf6f65c1827c9a84095e7ea2",
+      "bytes": 378
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/import-before04.py",
+      "sha256": "bcd3db01d00c3bdb663f7e23e566968409845224069dd39db83bf5ca94a6c1f4",
+      "bytes": 3061
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/import01/command.json",
+      "sha256": "186840d504de69547f5efe6adbf89f570386a49f2afb7057a463f199dfcb0a5b",
+      "bytes": 1696
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/import01/stderr.log",
+      "sha256": "dd5972081be4efbb87ec80208fe881df384a168904fc4c7c81547f2167141d59",
+      "bytes": 82
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/import01/stdout.log",
+      "sha256": "ab529b6d32c4d0e96c097b23c641f90aa70660c5d2baaec1691b3d16bd7c7087",
+      "bytes": 1320
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/import04.json",
+      "sha256": "c0f06d5c5908027f960c1b8cf6ed7b1cb1cd81b6925521f479586882e7147fca",
+      "bytes": 935
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/import04.py",
+      "sha256": "7ed1337f4c3e09a211eb81dc7263b2bbc8e24590d98d1d067c5ecf779d60f609",
+      "bytes": 2454
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/inventory01.json",
+      "sha256": "113a304946c93d58cad19c729a5d10f9c8712990e98efddf288562bba621fe2d",
+      "bytes": 18181
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/inventory02.json",
+      "sha256": "142268f347591fbc70a36a12d46cc892d0f8bb84890fd9ec1066d84e043aaf00",
+      "bytes": 25535
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/pre-camera-binaries01.json",
+      "sha256": "046ab061c19fb728af312f9505eef055b9bfc7bff1e2c73b6880bbc112cb690a",
+      "bytes": 733
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/prepare-checks01.py",
+      "sha256": "b1b8e2e7e08bb65d23708c1074ea4f35e1fe5946ae3faf01332495df52288071",
+      "bytes": 3037
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/retention02.py",
+      "sha256": "5e74670ad89c3dd3323cccd0d648f1dee39bc67e4cc6b7492a5849cf5dc5b8dc",
+      "bytes": 3279
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/review01.json",
+      "sha256": "8849b9da909d104d6cd01b25ae503c32a474843ffe832b4dfa77fc19af76b711",
+      "bytes": 9545
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/run-check01.py",
+      "sha256": "2550865cf1c2e5812bf7af3955991175b375c38e31eedb7ea776863e159afb7d",
+      "bytes": 3745
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/run-check02.py",
+      "sha256": "73cfd4757307bf4fb4547a6c7dc6e56bb4788b867ac069d09e521db0be64346e",
+      "bytes": 3745
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/run-check03.py",
+      "sha256": "6273865763d69efb5bb060758fe2d895fb79f6c5e592037f1fe102f3679c9bd5",
+      "bytes": 3745
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/scope.json",
+      "sha256": "6059530d968b8d8879e8057a952194111f42ddb8b52968a9aab3fa818f47415c",
+      "bytes": 609
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/status-after-apply02.txt",
+      "sha256": "5f5123be502f9f22d070c3d5bed6f2a9f5852b6454060661b65dff8458b4f091",
+      "bytes": 518
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/status-at-freeze.txt",
+      "sha256": "2b6da5ecfc2ccae618a41e33f7530b52443a1d617b16b906f297e69b76056e6d",
+      "bytes": 576
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/status-before.txt",
+      "sha256": "a331437da56ae1b8bc431f016b0000c08630bcf1eb16fe4dec0a826c0b06a8f7",
+      "bytes": 271
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/style02.diff",
+      "sha256": "e9a0df92ef31ddf1fc6c227918e1919289c599fbbddc8b35c2a9131e35b456e2",
+      "bytes": 272
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/style02.py",
+      "sha256": "c1f6178db66fa716a1410bd546cc3480e1a833b23c944f1037359988f64dc6f6",
+      "bytes": 2486
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/style02.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/style03.diff",
+      "sha256": "e9a0df92ef31ddf1fc6c227918e1919289c599fbbddc8b35c2a9131e35b456e2",
+      "bytes": 272
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/style03.json",
+      "sha256": "b270849f3028c3eac0fad1446621eea4c2b3b100b5797bb10751f83594046b32",
+      "bytes": 861
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/style03.py",
+      "sha256": "8014f57f62f48aa66521916e6b204f83325d3a941b62ec42cb7644271ddc4bf7",
+      "bytes": 2486
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/style03.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/supplement02.json",
+      "sha256": "5deb2595fa80f1450eaba7d977741c165b9da9446db5ffa522d23fabe22606e3",
+      "bytes": 7530
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-camera26-integration01/tracked-diff02.patch",
+      "sha256": "19ac098e819870b85c5f84f41dcf8286c249f58bb491f826bcf274a7cffd22e3",
+      "bytes": 6929
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/analyze01-before-encoding-fix.py",
+      "sha256": "94c11a4fd3a1855d53d6ddd6b2dd19b9d5d3d814571ebfd75f5ad05704cd1a27",
+      "bytes": 6337
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/analyze01.py",
+      "sha256": "21c33211c442412cbc36289e091c19390b27fac99e36d48a81020e640e7aeeba",
+      "bytes": 6511
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact.zip",
+      "sha256": "c35ef500764b877b786583898a3a47b938dd7dea2938fb767ef91377f0009d21",
+      "bytes": 4826328
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact.zip.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/.tools/scenarios/official-corridor/audit/route-v5-8b1cc594881101d9/6f2552ab579a2152ae6c54210aa6bff11cdbb6b51d8cb3ae5e429793a2824ee0-normalized.gpkg",
+      "sha256": "6f2552ab579a2152ae6c54210aa6bff11cdbb6b51d8cb3ae5e429793a2824ee0",
+      "bytes": 155648
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/.tools/scenarios/official-corridor/chunks/route-v5-8b1cc594881101d9/93de5b31c90ec10dbf488d5002d83c30581e2b851f5cef4f4c4321599d55789c.cbck",
+      "sha256": "219b58079ae834f129d688962019ab44e163527d82f8a044aacc901de8a96258",
+      "bytes": 464
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/.tools/scenarios/official-corridor/chunks/route-v5-8b1cc594881101d9/a7696d74c694d2bfde058e0925e10baf58dd6146a1e81fd644c6db7a44beb4b7.cbck",
+      "sha256": "bdc646253e23168433c54a74bdc068e2737a697f01322c0e1830c4036ebdd4b0",
+      "bytes": 456
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/.tools/scenarios/official-corridor/chunks/route-v5-8b1cc594881101d9/e37c53f5de01b7b84536a27786db2de3a5211f8623786c9b60808d395a2a6639.cbck",
+      "sha256": "367730589482ff3d821a8d09cd0dfeca969a9e4e42d63951a4a649fddcf06bd9",
+      "bytes": 464
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/.tools/scenarios/official-corridor/chunks/route-v5-8b1cc594881101d9/ef3be8b24af023a4624873f42f9f0646edaa515f72048cd8e404dbaa586a029f.cbck",
+      "sha256": "ed6632977afd91e03cb68326a9cab1186e3bf72fbd1d03f8e7ce6384822913ab",
+      "bytes": 408
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/.tools/scenarios/official-corridor/current-package.json",
+      "sha256": "558d431943a58e55b90ea146cff0908c7c49719cb5939f0f7d97074dd6a7bf9d",
+      "bytes": 298
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/.tools/scenarios/official-corridor/route_graph-966f3932ff0b33fcc96f330dca0c2a7c3c592665647443d2a1237226555b7e8e.cbrg",
+      "sha256": "43c2af9596d52a17dabfcffc37e94b31c41681a80e46770c0e6fa8ba305f265c",
+      "bytes": 6504
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/.tools/scenarios/official-corridor/route_graph-966f3932ff0b33fcc96f330dca0c2a7c3c592665647443d2a1237226555b7e8e.json",
+      "sha256": "6b0e08122f0706b936c62ba15f00fe573f3035d563192b3f1d09efe6fd7435ce",
+      "bytes": 18213
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/reports/playgodot/camera-handling-godot.log",
+      "sha256": "7bc2de61c673774f1d5fa38290e774e261629a9126a1ef8ba4364ac4f64e3fbe",
+      "bytes": 2216
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/reports/playgodot/camera-handling.jsonl",
+      "sha256": "72668717eb52d771e5f7ebf68c9205b90a4482d65c2766f0157068e58923f360",
+      "bytes": 232
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/reports/playgodot/camera-steering.png",
+      "sha256": "9eb72db70894d5bc0cd72eb986048c735c31459962faa0b02c2fed2cd1c6c27a",
+      "bytes": 625809
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/reports/playgodot/chase-camera-damping-godot.log",
+      "sha256": "c615b10bd480d69dd735511e41be9effd97c08a1c240beaea957533af0532946",
+      "bytes": 2216
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/reports/playgodot/chase-camera-damping.jsonl",
+      "sha256": "db55a11a9d3e30105519015c852d3dfa398fdb9d5a6acfba5811f95a003ee59d",
+      "bytes": 2074
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/reports/playgodot/color.png",
+      "sha256": "286947b7d647c4ad1af2039faf01c15d2e9c5827e9e1428c5e209a9c46b98733",
+      "bytes": 169
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/reports/playgodot/driver-menu.png",
+      "sha256": "eb714f81a6c3320ef0969da209157cdf40f8370294dd52e54700c286cd9e8d0c",
+      "bytes": 54549
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/reports/playgodot/driving-input-controller-godot.log",
+      "sha256": "40a00d25c8ee4223f71728625d9589c6b14fcd9bc9c420bf0832fd75e7e8aecd",
+      "bytes": 2216
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/reports/playgodot/driving-input-controller-lifecycle-godot.log",
+      "sha256": "86d004a2c74cf060032f0e9cdbe264214aec48edd4f4342edab2e5515887fcb4",
+      "bytes": 2216
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/reports/playgodot/driving-input-controller-lifecycle.jsonl",
+      "sha256": "f205eb4a3079a4d0eb8419ec931d9b373dc1de78bf1c8013d7c43c3421dd1d3c",
+      "bytes": 1550
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/reports/playgodot/driving-input-controller-restart-godot.log",
+      "sha256": "0997248451b2b107ca4923f07f6a140cb9749a388bfb56c5a89a9f0060c8a607",
+      "bytes": 2876
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/reports/playgodot/driving-input-controller-restart.jsonl",
+      "sha256": "00b0ea477d8b6eef7ef25a7b346d22f6bbae33a7d4f0d1ab974be5caaabece0e",
+      "bytes": 3541
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/reports/playgodot/driving-input-controller.jsonl",
+      "sha256": "7f483b2e62305f25daa53e9506c302d52f2542d4372a75e9da4e145032d5323b",
+      "bytes": 4940
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/reports/playgodot/driving-input-hold-godot.log",
+      "sha256": "f7c074df82cac765c9d262cf25e43fcff5d46e433f79dbd9d29ac66bde0ee6a9",
+      "bytes": 2216
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/reports/playgodot/driving-input-hold.jsonl",
+      "sha256": "152298228cdc80fe82e6bb3c3500c722c237535731e776c68f72c832c7c0bda6",
+      "bytes": 308
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/reports/playgodot/driving-input-keyboard-godot.log",
+      "sha256": "fcbc3348d24cdf22496ee40198d9f43aa98b8763c5d3451cd507e3938fbb937c",
+      "bytes": 2089
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/reports/playgodot/driving-input-keyboard.jsonl",
+      "sha256": "fa7dba6e643bad8cbf8444b1e9ebbf6872a5f20040e85745b69b2b48029e6f06",
+      "bytes": 1855
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/reports/playgodot/driving-input-pause-godot.log",
+      "sha256": "669c31b925f15cb2c6815dfe45eac052c5e96fe0ce1ad45f7904a67a6703eda9",
+      "bytes": 2457
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/reports/playgodot/driving-input-pause.jsonl",
+      "sha256": "a6ff42f0b4e78e0f7ee3963c373ea447735d37521e43d2b72415ec8a339e3a3d",
+      "bytes": 1525
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/reports/playgodot/godot.log",
+      "sha256": "d53b851a64a96512af97135df7872adc7df1175d039f59c000c887860aa537be",
+      "bytes": 2447
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/reports/playgodot/hostile.jsonl",
+      "sha256": "47237266343dd0754be8bbcefc76235d909093cc1d035070eb77c46513d53b4a",
+      "bytes": 1645
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/reports/playgodot/input-steering.png",
+      "sha256": "4513bb4c0f6d5392b241f43c6d5b1bbc267f0c1ab34c688f2bbbc4eee970d504",
+      "bytes": 672682
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/reports/playgodot/raw-godot.log",
+      "sha256": "994ca88b1966eba92333f9d56f92498d0fa6b8f3000120d0868d8b1e541d8c24",
+      "bytes": 6766
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/reports/playgodot/renderer-warmup-godot.log",
+      "sha256": "3b0fd4ad7906a4ed263b08900c54117e3fec1b83f62ec68ba54bb9f173dcf23d",
+      "bytes": 2207
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/reports/playgodot/renderer-warmup-summary.json",
+      "sha256": "88cf6735e8cac2ee2a10c6e64407f629c75dd3445cf0bfd4b9bb962c46f9688b",
+      "bytes": 360
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/reports/playgodot/renderer-warmup.jsonl",
+      "sha256": "871e8d28cd8760f4fb8d8a79f51f8b8c00ed486700366711de2b16554fc05a31",
+      "bytes": 318
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/reports/playgodot/renderer-warmup.png",
+      "sha256": "44eae36e814ab7c06ceba1f4e2dd4835ec6444c231fec5f70e084cdcffc6f0dc",
+      "bytes": 673620
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/reports/playgodot/round-trip.jsonl",
+      "sha256": "63ec1c92ca0e9dbcf914d6e50f91533c1f10ddfda5ad3bbd8ff67fb89466dc8a",
+      "bytes": 4205
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/reports/playgodot/sedan-inspection-controller.png",
+      "sha256": "9a3081bd76c988f57d6dc2a5ccd49ed263f171e46e6877a9271ac4ef13cc63b1",
+      "bytes": 51508
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/reports/playgodot/sedan-inspection-escape.png",
+      "sha256": "86b1fb93d161029c1372f7f35d2dab83bfed03b5561d6c656e85bf38518409dd",
+      "bytes": 678851
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/reports/playgodot/sedan-inspection-godot.log",
+      "sha256": "03086644958150acea23765aa48402d501e41e9c6a94e06613cff73e14bc1743",
+      "bytes": 4483
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/reports/playgodot/sedan-inspection-keyboard.png",
+      "sha256": "61d50423a2dfa09d416f229e6449ed6d49a3ce3ee42f5f186f5e99ae0e7a4029",
+      "bytes": 639634
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/reports/playgodot/sedan-inspection-openings.png",
+      "sha256": "a90ca5d2abbd785139c8bffba40ec83a6f7e950c09b7752f6cedbd99fc78e95b",
+      "bytes": 639610
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/reports/playgodot/sedan-inspection-settings.cfg",
+      "sha256": "69a4552ff974dd6883911b2fe4b0d49245a11f95533fbdd1dd93c7e07f390fb4",
+      "bytes": 38
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/reports/playgodot/sedan-inspection-summary.json",
+      "sha256": "3725ef663a8844b5afba8a22a828441ba6c384cb631adb82e354badbbde137df",
+      "bytes": 33745
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/reports/playgodot/sedan-inspection.jsonl",
+      "sha256": "49cbe5fc58363088e6b7ca4313285d20009d31ac7f91e96529302179fcb0b656",
+      "bytes": 25566
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/reports/playgodot/sedan-selection-clock-observations.json",
+      "sha256": "eb6bec03df804abdb9ecc59197bc555273e2e7c3baed8f892faeef77b7e2a07d",
+      "bytes": 30128
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/reports/playgodot/sedan-selection-endurance-sedan-save.json",
+      "sha256": "f93d663e32fd9bfb4d7c08b7b56d124189e71d7df8191e3bd234b97426eb2eb3",
+      "bytes": 2650
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/reports/playgodot/sedan-selection-graybox-save.json",
+      "sha256": "cd1e3a4a9c7c6f8e933b532c1c094c093ef9c7c252c94f3d1dbafb512c857e5c",
+      "bytes": 2626
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/reports/playgodot/sedan-selection-hero-gt-save.json",
+      "sha256": "247f193383440422f6522ff9d13302edcc01043f7fb32355e426e06677865a2c",
+      "bytes": 2654
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/reports/playgodot/speed.png",
+      "sha256": "34bbec2cf627c7d0e0e2875b1c0ae4176443c90c11be02cfd6142da7d5588263",
+      "bytes": 1503
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/reports/playgodot/telemetry.jsonl",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/reports/playgodot/trip-map-resume-godot.log",
+      "sha256": "fe968c631bc425fb742e20859a466aacbbf59cf8e6504c848a7290c4d649e123",
+      "bytes": 2457
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/reports/playgodot/trip-map-resume.jsonl",
+      "sha256": "167fb1c1eb2e8f1d7b83046d187d5ad5a7e78fdfe7deebb1b393ec2648d3e3a3",
+      "bytes": 3134
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/reports/playgodot/trip-map.png",
+      "sha256": "6f7e1e3ae6e6a641d6c1c450140ad302bc5c501ae20abde6afa9e85ba380cc06",
+      "bytes": 68230
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifact/reports/playgodot/viewport.png",
+      "sha256": "b9abbf8d6a4a640a3b68d751773fdf172f581e34a2fcf79871edb76b1ba7f35b",
+      "bytes": 672509
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifacts.json",
+      "sha256": "5a81b80c62a7e565b89eac5ef22269c4d273809e1fe0b44cccad18419bd36831",
+      "bytes": 5143
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/artifacts.json.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/collect01.py",
+      "sha256": "b17e3b7c529b5e5a419ee4c7599493a55f3b5b355837268354f7f1736165fd61",
+      "bytes": 2651
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/collection.json",
+      "sha256": "4eac3683e25c700519ce35784bda1d27b1827f4a00f0f734f691893e15e20427",
+      "bytes": 14898
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/inputs/addons/playgodot/bootstrap.gd",
+      "sha256": "43df130861addfe2627f67a9b88d737210122d0350fd634ceb83937f04415967",
+      "bytes": 4603
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/inputs/automation/playgodot/src/cannonball_playgodot/launcher.py",
+      "sha256": "9b534d3c07aee06ed9a38442639e2e93e2f0bff9732666f8e4ec8d707063af2e",
+      "bytes": 16264
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/inputs/automation/playgodot/tests/test_camera_handling.py",
+      "sha256": "60ada3d40eca1b9c6796a01bef56eb0d75de4c85c24f7628063373f1bb04eb3b",
+      "bytes": 12500
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/inputs/game/Camera/ChaseCameraRig.cs",
+      "sha256": "863b28f0980b623145b93282f692c05a5a14169608ce614868ba23afa11551ba",
+      "bytes": 11593
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/inputs/official/retrieval.json",
+      "sha256": "34ba2f54b098d0190715d513057da764f9344ac193b99c7b8abc99854e5feb2f",
+      "bytes": 1497
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/inputs/official/spring_arm_3d.cpp",
+      "sha256": "3ff1ac6a9eaa8c1752b7d90f5b0fbdfb77cbc3bddf1fc248c9b174066b3e819c",
+      "bytes": 7878
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/inventory.json",
+      "sha256": "608c978ecb48554c0e863ae2a251814467409982213c1e11172f8bde5b66a08a",
+      "bytes": 15767
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/job.json",
+      "sha256": "85a9de179a0d1d10c24e65557a71d46f658c2c2fefa9dfdb1575a7575125b609",
+      "bytes": 3075
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/job.json.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/job.log",
+      "sha256": "9daa492f7d1c48779095e33741c39fc51590a0b8dfaff9e6d2e515239cf88fc4",
+      "bytes": 70357
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/job.log.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/preparation-retry.json",
+      "sha256": "57258359e7ff0e6d6ccf6ba7ec789bdd75d50876d58ad9877699043604d2d0d4",
+      "bytes": 276
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/review.json",
+      "sha256": "ea8dd9315bd97cc8ba0319fd7ac8d8c098b37d0f443cf74d4496e320c6d2fdca",
+      "bytes": 23822
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/run.json",
+      "sha256": "abeff3944400cc2cc98728cf8be216d91651bb4ea3b9e845ac1d08dbf95d65a2",
+      "bytes": 13886
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/run.json.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/scope.json",
+      "sha256": "53c44cea04e8b7e08211cec43d03be938d91bb8cf45f85d1baf9ec95fcb0ea1a",
+      "bytes": 280
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/source-ChaseCameraRig.cs.api.json",
+      "sha256": "7bc662af212e7ae3d604850bb1e668eb4454720fc72404a37db0f747e38f0aa7",
+      "bytes": 17137
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/source-ChaseCameraRig.cs.api.json.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/source-bootstrap.gd.api.json",
+      "sha256": "717152926c17ce96df4802d1e8f06a2e5197ccac61e72dccf177b9234229a22f",
+      "bytes": 7501
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/source-bootstrap.gd.api.json.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/source-launcher.py.api.json",
+      "sha256": "5f2df31be39217a7a755592862ab1ac5d2d9e960f69692e0d542725ce01f0f1c",
+      "bytes": 23735
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/source-launcher.py.api.json.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/source-test_camera_handling.py.api.json",
+      "sha256": "ccd8ee7de4eb67515dd83e1e066cc745c3d0f4e25ee5a7619e977a30d6ab42f0",
+      "bytes": 18517
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-ci35-triage01/source-test_camera_handling.py.api.json.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "scripts/check.sh",
+      "sha256": "793be6b1c2a0fea3dd93b8bcec0e18b149217d54cae6e206c9d5962d85c4543f",
+      "bytes": 4061
+    }
+  ],
+  "input_count": 610,
+  "input_bytes": 15991210,
+  "human_approval_reference": null
+}

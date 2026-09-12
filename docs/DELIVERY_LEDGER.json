@@ -2426,7 +2426,13 @@
         "docs/audits/2026-09-11-sedan-visual-refinement.md",
         "tools/vehicles/diagnostics/p1-018-source34-ui.zip",
         "addons/playgodot/bootstrap.gd",
-        "scripts/check.sh"
+        "scripts/check.sh",
+        "game/Camera/ChaseCameraRig.cs",
+        "game/Camera/SpringArmCastObserver.cs",
+        "game/Camera/SpringArmCastObserver.cs.uid",
+        "automation/playgodot/tests/test_camera_handling.py",
+        "automation/playgodot/tests/test_camera_cast_state.py",
+        "docs/audits/2026-09-12-sedan-camera-cast-observation.md"
       ],
       "generated_outputs": [
         "data/assets/vehicles/sources/endurance-sedan.blend",
@@ -2463,7 +2469,8 @@
         "docs/vehicles/endurance-sedan/research.md",
         "docs/vehicles/endurance-sedan/specification.json",
         "docs/vehicles/endurance-sedan/acceptance.json",
-        "docs/vehicles/endurance-sedan/defects.json"
+        "docs/vehicles/endurance-sedan/defects.json",
+        "docs/audits/2026-09-12-sedan-camera-cast-observation.md"
       ],
       "human_gate": {
         "name": "Sedan art direction, source/asset rights, driving feel and usability review",
