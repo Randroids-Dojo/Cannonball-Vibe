@@ -3,7 +3,7 @@
   "task_id": "P1-018",
   "milestone": "M5",
   "status": "in_progress",
-  "utc": "2026-09-12T15:07:48.645491+00:00",
+  "utc": "2026-09-12T17:49:34.796388+00:00",
   "git_revision": "eb5703e55f3656e91bd80fb79502f10ce250554b",
   "git_state": "Measured source34 worktree checkpoint before the implementation commit; committed-build runtime/performance/platform acceptance remains outstanding.",
   "platform": "Windows-11-10.0.26200-SP0",
@@ -860,5 +860,64 @@
       "The old Mac test did not retain the asserted save bytes; synthetic replay timestamps are not native Mac observations.",
       "Mac shutdown diagnostics, full current-source QA, final sedan export/runtime/performance and human gates remain open."
     ]
+  },
+  "debug_lifecycle_checkpoint_v26": {
+    "utc": "2026-09-12T17:49:34.796388+00:00",
+    "git_base_revision": "72b225ab0fd5513a16a6a6045ff27ac86b8c5d77",
+    "status": "windows-working-tree-machine-evidence-cross-platform-rerun-pending",
+    "platform": "Windows11 build26200; official Godot4.7.1 mono a13da4feb; .NET SDK10.0.102",
+    "source_packets": [
+      "owned-process-shutdown26-integration01/inventory18.json",
+      "signal-wait26-diagnosis01/inventory05.json",
+      "signal-wait26-integration01/inventory09.json",
+      "macos-save-clock26-rerun01/inventory11.json"
+    ],
+    "archive": {
+      "path": "data/assets/vehicles/endurance-sedan-review/lifecycle-checkpoint-v26/lifecycle-checkpoint-v26.zip",
+      "sha256": "8d59a307e58f5e988f2d476e73bec4f87c8e9448c5b2d1370dec1f2e8d527af3",
+      "bytes": 54707049,
+      "byte_identical_builds": 2,
+      "members": 894,
+      "complete_crc_sha_verified_by_agent_and_lead": true
+    },
+    "manifest": {
+      "path": "data/assets/vehicles/endurance-sedan-review/lifecycle-checkpoint-v26/manifest.json",
+      "sha256": "e198930cc6d78133af829cb0edbe49d6b62f007513f6b9ca4b4b85fd572977ef"
+    },
+    "lead_command": {
+      "path": "data/assets/vehicles/endurance-sedan-review/lifecycle-checkpoint-v26/lead-command.json",
+      "sha256": "8be1ca8a1d7bfdf313dba123aad22c68bef72c2b051c05bc959444a2d2765803",
+      "exit_status": 0
+    },
+    "verification": {
+      "full_windows_frontdoor_steps_passed": 13,
+      "frontdoor_bound_inputs": 20,
+      "changed_inputs": [],
+      "current_host_tests_passed": 96,
+      "current_headless_signal_cases_passed": 3,
+      "current_rendered_network_tests_passed": 7,
+      "current_pinned_ruff": "passed",
+      "ordinary_windows_shutdown_ui_tests_passed_before_signal_fix": 5,
+      "actual_exit_zero_and_log_drain": "checked; earlier failures retained",
+      "earlier_pr_ci_run": "34701330579",
+      "earlier_ui_tests_per_windows_linux_macos": 134,
+      "earlier_ci_revision": "72b225ab0fd5513a16a6a6045ff27ac86b8c5d77",
+      "current_cross_platform_clean_exit": "pending"
+    },
+    "failures_preserved": [
+      "Original signal event loss, timeout interference and freed-target errors",
+      "Native Mac/Linux shutdown errors and forced-exit controls",
+      "8.1552462s cleanup overrun and corrected bounded failure",
+      "Wrong-tool, preparation and lint retries",
+      "Incomplete long-path inventory and corrected extended-path inventory"
+    ],
+    "documentation": "docs/vehicles/endurance-sedan/lifecycle-checkpoint-v26.md",
+    "limitations": [
+      "M0 ran the base plus14 working runtime/QA files; this is not a clean-commit platform claim.",
+      "The canonical source-QA work remains separately uncommitted and is identified in the M0 binding.",
+      "Installed production34 source and runtime assets remain unchanged and unaccepted.",
+      "Full final source, LOD/export reproducibility, current runtime/performance/platform and human gates remain open."
+    ],
+    "human_approval_reference": null
   }
 }

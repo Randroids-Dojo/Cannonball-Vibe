@@ -2,23 +2,40 @@ from __future__ import annotations
 
 import asyncio
 import contextlib
+import copy
+import hashlib
 import json
 import math
 import os
 import platform
+import re
 import secrets
 import shutil
 import signal
 import tempfile
+import threading
+import time
 from collections import deque
 from pathlib import Path
 
-from .client import PlayGodotClient, ProtocolError
+from .client import PlayGodotClient, PlayGodotError, ProtocolError
 
 READY_PREFIX = "PLAYGODOT_READY "
 VEHICLE_RENDER_PREFIX = "PLAYGODOT_VEHICLE_RENDERED "
 VEHICLE_RENDER_FAILURE_PREFIX = "PLAYGODOT_VEHICLE_RENDER_FAILED "
 MAX_VEHICLE_RENDER_RECORDS = 64
+QUIT_PREFIX = "PLAYGODOT_QUIT "
+SHUTDOWN_PHASE_SECONDS = (5.0, 1.0, 1.0, 1.0)
+SHUTDOWN_TIMEOUT_SECONDS = sum(SHUTDOWN_PHASE_SECONDS)
+_EXIT_DIAGNOSTIC = re.compile(
+    r"Unreferenced static string|PagedAllocator|ObjectDB.*leak|RID.*leak|"
+    r"Thread object.*destroy|libc\+\+abi:|uncaught exception|fatal|crash|mutex.*failed",
+    re.IGNORECASE,
+)
+
+
+class ShutdownError(RuntimeError):
+    """The owned native process did not prove a clean, bounded exit."""
 
 
 class PlayGodotProcess:
@@ -61,6 +78,17 @@ class PlayGodotProcess:
         self._vehicle_render_error: Exception | None = None
         self._output_eof = False
         self._stopping = False
+        self._shutdown_token: str | None = None
+        self._shutdown_endpoint: tuple[str, int] | None = None
+        self._cleanup_task: asyncio.Task[None] | None = None
+        self._cleanup_waits: set[asyncio.Task] = set()
+        self._bookkeeping_future: asyncio.Future[dict[str, object]] | None = None
+        self._shutdown_log_lines: list[str] = []
+        self._output_lines = 0
+        self._diagnostics: list[dict[str, object]] = []
+        self._quit_record: dict[str, int] | None = None
+        self._quit_accepted = False
+        self.teardown_result: dict[str, object] | None = None
 
     @property
     def rendered_vehicle_generation(self) -> int:
@@ -119,6 +147,11 @@ class PlayGodotProcess:
     async def start(self) -> PlayGodotClient:
         if self.process is not None:
             raise RuntimeError("PlayGodot process is already running")
+        if ((self._cleanup_task is not None and not self._cleanup_task.done())
+                or (self._drain_task is not None and not self._drain_task.done())
+                or (self._bookkeeping_future is not None and not self._bookkeeping_future.done())
+                or any(not task.done() for task in self._cleanup_waits)):
+            raise RuntimeError("Previous PlayGodot cleanup is still incomplete")
         if not self.godot_bin.is_file():
             raise FileNotFoundError(self.godot_bin)
         if not self.route_package.is_file():
@@ -127,14 +160,31 @@ class PlayGodotProcess:
         self._vehicle_render_error = None
         self._vehicle_render_event.clear()
         self._output_eof = False
+        self._drain_task = None
+        self.output.clear()
         self._stopping = False
+        self._cleanup_task = None
+        self._bookkeeping_future = None
+        self._shutdown_log_lines.clear()
+        self.teardown_result = None
+        self._shutdown_endpoint = None
+        self._output_lines = 0
+        self._diagnostics.clear()
+        self._quit_record = None
+        self._quit_accepted = False
         token = secrets.token_urlsafe(32)
-        if self.log_path is not None:
-            self.log_path.parent.mkdir(parents=True, exist_ok=True)
-            self.log_path.write_text("")
+        self._shutdown_token = token
+        if self.log_path is None:
+            descriptor, name = tempfile.mkstemp(prefix="cannonball-playgodot-", suffix=".log")
+            os.close(descriptor)
+            self.log_path = Path(name)
+        self.log_path.parent.mkdir(parents=True, exist_ok=True)
+        self.log_path.write_text("", encoding="utf-8")
         environment = os.environ.copy()
         environment["PLAYGODOT_TOKEN"] = token
-        environment["PLAYGODOT_CAPABILITIES"] = ",".join(self.capabilities)
+        environment["PLAYGODOT_CAPABILITIES"] = ",".join(
+            dict.fromkeys((*self.capabilities, "shutdown"))
+        )
         if self.transcript is not None:
             self.transcript.parent.mkdir(parents=True, exist_ok=True)
             environment["PLAYGODOT_TRANSCRIPT"] = str(self.transcript.resolve())
@@ -207,6 +257,9 @@ class PlayGodotProcess:
                 raise ProtocolError("PlayGodot advertised an unsafe or incompatible endpoint")
             if ready.get("engine") != "4.7.1-stable (official)":
                 raise ProtocolError("PlayGodot did not start on official Godot 4.7.1")
+            if type(ready.get("port")) is not int or not 1 <= ready["port"] <= 65_535:
+                raise ProtocolError("PlayGodot advertised an invalid endpoint port")
+            self._shutdown_endpoint = ("127.0.0.1", ready["port"])
             self._drain_task = asyncio.create_task(self._drain_output())
             self.client = await PlayGodotClient.connect(
                 ready["address"],
@@ -216,8 +269,8 @@ class PlayGodotProcess:
                 timeout=self.request_timeout,
             )
             return self.client
-        except BaseException:
-            await self.stop()
+        except BaseException as original:
+            await self._stop_preserving(original)
             raise
 
     async def _read_ready(self) -> dict[str, object]:
@@ -244,18 +297,50 @@ class PlayGodotProcess:
         try:
             while line_bytes := await self.process.stdout.readline():
                 self._record_output(line_bytes.decode(errors="replace").rstrip())
+                if self._output_lines % 32 == 0:
+                    await asyncio.sleep(0)
+            self._output_eof = True
         except Exception as error:
             self._vehicle_render_error = error
             raise
         finally:
-            self._output_eof = True
             self._vehicle_render_event.set()
 
     def _record_output(self, line: str) -> None:
+        self._output_lines += 1
         self.output.append(line)
+        if line == "PLAYGODOT_QUIT_ACCEPTED":
+            self._quit_accepted = True
+        stripped = line.lstrip()
+        exit_diagnostic = bool(_EXIT_DIAGNOSTIC.search(stripped))
+        if exit_diagnostic or stripped.startswith(("ERROR:", "SCRIPT ERROR:")):
+            self._diagnostics.append({
+                "line": self._output_lines, "text": line,
+                "shutdown": self._stopping or self._quit_accepted or exit_diagnostic,
+            })
         if self.log_path is not None:
-            with self.log_path.open("a", encoding="utf-8", newline="\n") as log:
-                log.write(line + "\n")
+            if self._stopping or self._quit_accepted:
+                # Shutdown pipe draining must not perform blocking disk I/O.
+                # The bounded bookkeeping worker flushes these lines before
+                # hashing the complete native log and writing observations.
+                self._shutdown_log_lines.append(line)
+            else:
+                with self.log_path.open("a", encoding="utf-8", newline="\n") as log:
+                    log.write(line + "\n")
+        if line.startswith(QUIT_PREFIX):
+            try:
+                record = json.loads(line.removeprefix(QUIT_PREFIX))
+                expected = {"pending_waits_before", "held_inputs_before",
+                            "pending_waits_after", "held_inputs_after"}
+                if (not isinstance(record, dict) or set(record) != expected
+                        or any(type(value) is not int or value < 0 for value in record.values())
+                        or record["pending_waits_after"] != 0 or record["held_inputs_after"] != 0):
+                    raise ValueError("Invalid quit cleanup inventory")
+                self._quit_record = record
+                self._quit_accepted = True
+            except (ValueError, TypeError):
+                self._diagnostics.append({"line": self._output_lines,
+                    "text": "Invalid PLAYGODOT_QUIT record", "shutdown": True})
         if line.startswith(VEHICLE_RENDER_PREFIX):
             try:
                 self._record_vehicle_render(line.removeprefix(VEHICLE_RENDER_PREFIX))
@@ -300,42 +385,273 @@ class PlayGodotProcess:
     async def stop(self) -> None:
         self._stopping = True
         self._vehicle_render_event.set()
+        if self._cleanup_task is None:
+            self._cleanup_task = asyncio.create_task(self._stop_process())
         cancellation: asyncio.CancelledError | None = None
+        while not self._cleanup_task.done():
+            try:
+                await asyncio.shield(self._cleanup_task)
+            except asyncio.CancelledError as error:
+                cancellation = cancellation or error
+            except Exception:
+                break
         try:
-            if self.client is not None:
-                await self.client.close()
-        except asyncio.CancelledError as error:
-            cancellation = error
-        except BaseException:
-            pass
-        finally:
-            self.client = None
-        cleanup = asyncio.create_task(self._stop_process())
-        try:
-            await asyncio.shield(cleanup)
-        except asyncio.CancelledError as error:
-            cancellation = error
-            await cleanup
-        if self._runtime_directory is not None:
-            shutil.rmtree(self._runtime_directory, ignore_errors=True)
-            self._runtime_directory = None
+            self._cleanup_task.result()
+        except BaseException as error:
+            if cancellation is None:
+                raise
+            cancellation.add_note(f"Owned process cleanup also failed: {type(error).__name__}")
         if cancellation is not None:
             raise cancellation
 
+    async def _stop_preserving(self, original: BaseException | None) -> None:
+        try:
+            await self.stop()
+        except BaseException as cleanup_error:
+            if original is None:
+                raise
+            original.add_note(
+                f"Owned process cleanup also failed: {type(cleanup_error).__name__}; "
+                f"native log: {self.log_path}; teardown result: {self.teardown_result}"
+            )
+
+    async def _before(self, awaitable, deadline: float):
+        """A phase timeout must not await an uncooperative cancellation handler."""
+        task = asyncio.ensure_future(awaitable)
+        self._cleanup_waits.add(task)
+
+        def completed(done: asyncio.Task) -> None:
+            self._cleanup_waits.discard(done)
+            if not done.cancelled():
+                done.exception()
+
+        task.add_done_callback(completed)
+        remaining = max(0.0, deadline - asyncio.get_running_loop().time())
+        done, _pending = await asyncio.wait((task,), timeout=remaining)
+        if not done:
+            task.cancel()
+            raise TimeoutError("Owned process cleanup phase deadline expired")
+        return task.result()
+
+    @staticmethod
+    def _abort_client(client: PlayGodotClient | None) -> None:
+        if client is not None:
+            client._writer.transport.abort()
+
+    async def _request_quit(self, deadline: float, record: dict[str, object]) -> None:
+        if self._shutdown_endpoint is None or self._shutdown_token is None:
+            raise RuntimeError("No verified owned endpoint is available")
+        owner: PlayGodotClient | None = None
+        loop = asyncio.get_running_loop()
+        while loop.time() < deadline:
+            try:
+                owner = await self._before(PlayGodotClient.connect(
+                    *self._shutdown_endpoint, token=self._shutdown_token,
+                    capabilities=("shutdown",), timeout=deadline - loop.time(),
+                ), deadline)
+                break
+            except (ProtocolError, PlayGodotError, ConnectionResetError) as error:
+                stale = (isinstance(error, ProtocolError)
+                         and str(error) == "PlayGodot closed the connection without a response")
+                stale = stale or isinstance(error, ConnectionResetError)
+                stale = stale or (isinstance(error, PlayGodotError) and error.name == "BUSY")
+                if not stale:
+                    raise
+                record["connection_turnover_retries"] += 1
+                await self._before(asyncio.sleep(.02), deadline)
+        if owner is None:
+            raise TimeoutError("Owned quit handshake deadline expired")
+        try:
+            record["quit_requested"] = True
+            response = await self._before(owner.request("session.quit"), deadline)
+            if response != {"quitting": True} or type(response["quitting"]) is not bool:
+                raise ProtocolError("Invalid owned quit acknowledgement")
+            record["quit_acknowledged"] = True
+        finally:
+            self._abort_client(owner)
+            # Abort performs no RPC and releases client reader/pending resources.
+            await self._before(owner.close(abort=True), deadline)
+
+    def _start_bookkeeping(self, record: dict[str, object]) -> asyncio.Future:
+        """A stalled filesystem must not hold the owner or asyncio executor open.
+
+        The daemon writes observations only. A late write cannot certify owner
+        success; that requires the caller's successful return within its budget.
+        Keep the completion future so a new launch cannot race an unfinished write.
+        """
+        loop = asyncio.get_running_loop()
+        future = loop.create_future()
+        self._bookkeeping_future = future
+        snapshot = copy.deepcopy(record)
+        snapshot["status"] = "native-observation"
+        snapshot["owner_finalization_required"] = True
+        profile = self._runtime_directory if self.process is None else None
+        log_path = self.log_path
+        shutdown_lines = tuple(self._shutdown_log_lines)
+
+        def completed(result, error) -> None:
+            if not future.done():
+                if error is None:
+                    future.set_result(result)
+                else:
+                    future.set_exception(error)
+                    # Preserve the exception for an active waiter without an
+                    # unobserved-future warning after a timed-out caller exits.
+                    future.exception()
+
+        def work() -> None:
+            result, error = None, None
+            try:
+                result = {"profile_removed": False}
+                if log_path is not None:
+                    with log_path.open("a", encoding="utf-8", newline="\n") as log:
+                        for line in shutdown_lines:
+                            log.write(line + "\n")
+                    data = log_path.read_bytes()
+                    snapshot["native_log"] = {
+                        "path": str(log_path), "bytes": len(data),
+                        "sha256": hashlib.sha256(data).hexdigest(),
+                    }
+                    result["native_log"] = snapshot["native_log"]
+                if profile is not None:
+                    shutil.rmtree(profile)
+                    result["profile_removed"] = True
+                if log_path is not None:
+                    snapshot["observation_write_started_seconds"] = (
+                        time.monotonic() - record["started_monotonic_seconds"]
+                    )
+                    log_path.with_suffix(".shutdown.json").write_text(
+                        json.dumps(snapshot, indent=2, allow_nan=False) + "\n",
+                        encoding="utf-8", newline="\n",
+                    )
+            except BaseException as caught:
+                error = caught
+            with contextlib.suppress(RuntimeError):  # The owner loop may already be closed.
+                loop.call_soon_threadsafe(completed, result, error)
+
+        threading.Thread(target=work, name="playgodot-bookkeeping", daemon=True).start()
+        return future
+
     async def _stop_process(self) -> None:
         if self.process is None:
+            if self._runtime_directory is not None:
+                started = asyncio.get_running_loop().time()
+                record = {"status": "not-started", "pid": None, "exit_status": None,
+                          "started_monotonic_seconds": started}
+                self.teardown_result = record
+                try:
+                    await self._before(asyncio.shield(self._start_bookkeeping(record)), started + 1)
+                    self._runtime_directory = None
+                except Exception as error:
+                    record["status"] = "failed"
+                    raise ShutdownError("Unstarted process profile cleanup failed") from error
             return
-        if self.process.returncode is None:
-            self._signal_process(force=False)
+        loop = asyncio.get_running_loop()
+        started = loop.time()
+        normal_end = started + SHUTDOWN_PHASE_SECONDS[0]
+        record: dict[str, object] = {
+            "schema_version": 1, "pid": self.process.pid,
+            "started_monotonic_seconds": started,
+            "total_budget_seconds": SHUTDOWN_TIMEOUT_SECONDS,
+            "phase_seconds": list(SHUTDOWN_PHASE_SECONDS), "quit_requested": False,
+            "quit_acknowledged": False, "connection_turnover_retries": 0,
+            "fallback": [], "phase_errors": [], "phase_events": [],
+            "exit_status": None, "output_eof": False, "status": "failed",
+        }
+        self.teardown_result = record
+        if self._drain_task is None:
+            self._drain_task = asyncio.create_task(self._drain_output())
+
+        def failed(phase: str, error: BaseException) -> None:
+            # Remote/exception messages may contain caller data. Do not persist tokens.
+            record["phase_errors"].append({"phase": phase, "type": type(error).__name__})
+
+        if self.client is not None:
             try:
-                await asyncio.wait_for(self.process.wait(), 5.0)
-            except TimeoutError:
-                self._signal_process(force=True)
-                await self.process.wait()
-        if self._drain_task is not None:
-            await self._drain_task
-            self._drain_task = None
-        self.process = None
+                await self._before(self.client.close(), min(normal_end, started + 1.0))
+            except Exception as error:
+                failed("session-close", error)
+            finally:
+                self._abort_client(self.client)
+                self.client = None
+        if self.process.returncode is None:
+            try:
+                await self._request_quit(normal_end, record)
+            except Exception as error:
+                failed("session-quit", error)
+            try:
+                await self._before(self.process.wait(), normal_end)
+            except Exception as error:
+                failed("graceful-exit", error)
+        record["phase_events"].append({
+            "phase": "graceful", "elapsed_seconds": loop.time() - started,
+        })
+        for index, force in ((1, False), (2, True)):
+            if self.process.returncode is not None:
+                break
+            phase = "kill" if force else "terminate"
+            record["fallback"].append(phase)
+            try:
+                self._signal_process(force=force)
+                await self._before(self.process.wait(), min(
+                    started + sum(SHUTDOWN_PHASE_SECONDS[:index + 1]),
+                    loop.time() + SHUTDOWN_PHASE_SECONDS[index],
+                ))
+            except Exception as error:
+                failed(phase, error)
+            record["phase_events"].append({"phase": phase,
+                                            "elapsed_seconds": loop.time() - started})
+        final_end = min(started + SHUTDOWN_TIMEOUT_SECONDS,
+                        loop.time() + SHUTDOWN_PHASE_SECONDS[3])
+        try:
+            await self._before(
+                asyncio.shield(self._drain_task), final_end,
+            )
+        except Exception as error:
+            failed("output-drain", error)
+            self._drain_task.cancel()
+        record.update(
+            exit_status=self.process.returncode, output_eof=self._output_eof,
+            quit_cleanup=self._quit_record, diagnostics=list(self._diagnostics),
+        )
+        if self.process.returncode is not None:
+            self.process = None
+            self._shutdown_token = None
+        record["elapsed_seconds"] = loop.time() - started
+        record["bookkeeping_completed"] = False
+        try:
+            bookkeeping = self._start_bookkeeping(record)
+            if loop.time() >= final_end:
+                raise TimeoutError("No bookkeeping budget remains")
+            completed = await self._before(
+                asyncio.shield(bookkeeping), final_end,
+            )
+            record["bookkeeping_completed"] = True
+            if completed["profile_removed"]:
+                self._runtime_directory = None
+            if "native_log" in completed:
+                record["native_log"] = completed["native_log"]
+        except Exception as error:
+            failed("bookkeeping", error)
+        record["unfinished_operations"] = sum(not task.done() for task in self._cleanup_waits)
+        record["elapsed_seconds"] = loop.time() - started
+        record["status"] = "passed" if (
+            record["exit_status"] == 0 and not record["fallback"]
+            and self._output_eof and self._drain_task.done() and not self._drain_task.cancelled()
+            and self._drain_task.exception() is None and self._quit_record is not None
+            and not any(row["shutdown"] for row in self._diagnostics)
+            and record["unfinished_operations"] == 0
+            and record["bookkeeping_completed"]
+            and not any(row["phase"] in ("output-drain", "bookkeeping")
+                        for row in record["phase_errors"])
+            and record["elapsed_seconds"] <= SHUTDOWN_TIMEOUT_SECONDS
+        ) else "failed"
+        if record["status"] != "passed":
+            raise ShutdownError(
+                f"Owned Godot cleanup failed (pid={record['pid']}, exit={record['exit_status']}, "
+                f"fallback={record['fallback']}, phases={record['phase_errors']}); "
+                f"native log: {self.log_path}"
+            )
 
     def _signal_process(self, *, force: bool) -> None:
         assert self.process is not None
@@ -350,5 +666,5 @@ class PlayGodotProcess:
     async def __aenter__(self) -> PlayGodotClient:
         return await self.start()
 
-    async def __aexit__(self, *_exc: object) -> None:
-        await self.stop()
+    async def __aexit__(self, _type, original: BaseException | None, _traceback) -> None:
+        await self._stop_preserving(original)
