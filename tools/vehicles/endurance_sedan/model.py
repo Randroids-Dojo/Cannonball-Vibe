@@ -12,6 +12,7 @@ from . import geometry as geo
 
 CURVED_PROFILES = False
 BODY_UPPER_SURFACE = None
+BODY_FRONT_FENDER_REFERENCE = None
 
 
 def front_surface_y(x,z):
@@ -118,8 +119,20 @@ def inset_polygon(points, distance):
     return result
 
 
+def fascia_roll(z):
+    radius=3.457
+    return radius-math.sqrt(radius*radius-(z-.550)**2)
+
+
 def lower_body(collection, lod, mats):
     ys=sorted(set([-2.54+i*4.94/48 for i in range(49)]+[-2.4,-1.94,-1.46,.74,1.46,1.82,2.17,2.4]))
+    # Distinct Python stations can encode as exactly the same Blender float32.
+    # Keep the first actual native Y station; avoid a zero-width closing ring.
+    unique=[]
+    for station in ys:
+        if not unique or Vector((0,station,0)).y!=Vector((0,unique[-1],0)).y:
+            unique.append(station)
+    ys=unique
     vertices=[];rings=[]
     for y in ys:
         w=width(y); top=deck(y)
@@ -130,9 +143,7 @@ def lower_body(collection, lod, mats):
             # the shoulder rather than breaking across a faceted extrusion.
             xp=list(enumerate(p[0] for p in half));zp=list(enumerate(p[1] for p in half))
             parameters=[i/3 for i in range(25)]
-            # Actual matched renders identify insufficient shoulder curvature
-            # samples, not longitudinal density or normals, as the ripple.
-            # Refine only the front shoulder; preserve other body tessellation.
+            # Refine front shoulder sampling; preserve the remaining body tessellation.
             if y>=1.82:parameters=sorted(set(parameters+[5+i/9 for i in range(19)]))
             from .shoulder_profile import profile as shoulder_profile
             half=[tuple(axis[0] for axis in shoulder_profile(t,y,w,top))
@@ -148,6 +159,9 @@ def lower_body(collection, lod, mats):
                 adjusted_y-=.15*(abs(x)/w)**3*((y-2.05)/.35)**2
             if CURVED_PROFILES and y<-2.25:
                 adjusted_y+=.105*(abs(x)/w)**3*((-2.25-y)/.29)**2
+            if CURVED_PROFILES and y>2.230:
+                t=max(0.,min(1.,(y-2.230)/.170))
+                adjusted_y-=fascia_roll(z)*t*t*t*(10+t*(-15+6*t))
             vertices.append((x,adjusted_y,z))
     faces=[]
     for (left,lk),(right,rk) in zip(rings,rings[1:]):
@@ -162,17 +176,79 @@ def lower_body(collection, lod, mats):
                 faces.append((a,b,left[(i+1)%len(left)]));i+=1
             else:
                 faces.append((a,b,right[(j+1)%len(right)]));j+=1
-    faces.extend([tuple(reversed(rings[0][0])),tuple(rings[-1][0])])
+    faces.append(tuple(reversed(rings[0][0])))
+    boundary=rings[-1][0]
+    if CURVED_PROFILES:
+        cap_center=(0.,.550)
+        previous=None
+        center_index=len(vertices)
+        vertices.append((0.,2.40-fascia_roll(cap_center[1]),cap_center[1]))
+        for fraction in (.25,.5,.75,1.):
+            if fraction==1.:
+                current=boundary
+            else:
+                current=[]
+                for index in boundary:
+                    x,_,z=vertices[index]
+                    x*=fraction
+                    z=cap_center[1]+(z-cap_center[1])*fraction
+                    current.append(len(vertices))
+                    vertices.append((x,2.40-.15*(abs(x)/width(2.40))**3-fascia_roll(z),z))
+            for j in range(len(current)):
+                following=(j+1)%len(current)
+                if previous is None:
+                    faces.append((center_index,current[j],current[following]))
+                else:
+                    faces.append((previous[j],current[j],current[following],previous[following]))
+            previous=current
+    else:
+        faces.append(tuple(boundary))
     body=geo.mesh("LOD0_StructuralBody",vertices,faces,mats['paint'],collection,lod,smooth=True)
+    if CURVED_PROFILES:
+        cap_indices=set(boundary)|{center_index}|set(range(center_index,len(vertices)))
+        cap_polygon_ids=[int(p.index) for p in body.data.polygons if set(p.vertices)<=cap_indices]
+        cap_loop_vertices=[(int(i),int(body.data.loops[i].vertex_index)) for p in body.data.polygons if p.index in cap_polygon_ids for i in p.loop_indices]
+        perimeter={tuple(sorted((a,b))) for a,b in zip(boundary,boundary[1:]+boundary[:1])}
+        edge_ids=[int(e.index) for e in body.data.edges if tuple(sorted(e.vertices)) in perimeter]
+        if len(edge_ids)!=len(boundary):raise ValueError('Missing original cap perimeter edges')
+        marker=body.data.attributes.new(name='cb_fascia_cap',type='INT',domain='FACE')
+        for index in cap_polygon_ids:marker.data[index].value=1
+        weights=body.data.attributes.new(name='bevel_weight_edge',type='FLOAT',domain='EDGE')
+        for index in edge_ids:
+            edge=body.data.edges[index]
+            z=sum(body.data.vertices[v].co.z for v in edge.vertices)/2
+            t=max(0.,min(1.,(z-.670)/.100))
+            weights.data[index].value=t*t*t*(10-15*t+6*t*t)
+        def field(point):
+            x,y,z=point
+            return Vector((.45*x*abs(x)/width(2.4)**3,1.,(z-.550)/math.sqrt(3.457**2-(z-.550)**2))).normalized()
+        corners=[v.vector.copy() for v in body.data.corner_normals]
+        for loop,vertex in cap_loop_vertices:corners[loop]=field(body.data.vertices[vertex].co)
+        body.data.normals_split_custom_set(corners)
+        radius=body.modifiers.new('Original formed front perimeter18mm','BEVEL')
+        radius.width=.018;radius.segments=3;radius.limit_method='WEIGHT';radius.harden_normals=True
+        radius.face_strength_mode='FSTR_ALL'
+        bpy.context.view_layer.objects.active=body
+        bpy.ops.object.modifier_apply(modifier=radius.name)
+        marker=body.data.attributes['cb_fascia_cap']
+        strength=body.data.attributes['__mod_weightednormals_faceweight']
+        for face in body.data.polygons:
+            if marker.data[face.index].value==1 and strength.data[face.index].value!=16384:
+                marker.data[face.index].value=2
+        body['formed_front_perimeter_m']=.018
+        geo.project_uv(body)
     # C1 longitudinal profiles produce nonplanar quads at shoulder corners.
     # Give the exact solid boolean solver explicit planar faces first.
     if CURVED_PROFILES:
         triangulate=body.modifiers.new('Planar boolean input','TRIANGULATE')
         bpy.context.view_layer.objects.active=body
         bpy.ops.object.modifier_apply(modifier=triangulate.name)
-        global BODY_UPPER_SURFACE
+        geo.repair_triangulation(body)
+        global BODY_UPPER_SURFACE, BODY_FRONT_FENDER_REFERENCE
         bpy.context.view_layer.update()
         BODY_UPPER_SURFACE=BVHTree.FromObject(body,bpy.context.evaluated_depsgraph_get())
+        from . import fender_field
+        BODY_FRONT_FENDER_REFERENCE=fender_field.capture(body)
     # Real holes are needed for a usable cockpit and later opening inspection.
     for name,center,size in [
         ('CabinVoid',(0,-.55,1.12),(1.64,2.62,1.76)),
@@ -476,6 +552,8 @@ def build_production(collection, lod, mats, pivots, controls, spec):
 
     global CURVED_PROFILES
     CURVED_PROFILES = True
+    from . import fascia_surface
+    fascia_surface.validate(spec['original_packaging']['fascia_revision21'])
     body = lower_body(collection, lod, mats)
     split_doors(body, collection, mats, pivots)
     closures(collection, lod, mats, pivots)
@@ -494,7 +572,7 @@ def build_production(collection, lod, mats, pivots, controls, spec):
     mechanisms.wipers(collection, lod, mats, pivots, spec)
     mechanisms.source_controls(pivots, controls, mats, spec)
     source_dashboard.build(collection,lod,mats,pivots,controls,spec)
-    construction.build(body,collection,lod,mats,pivots)
+    construction.build(body,collection,lod,mats,pivots,spec)
     split_bumpers(body,collection,lod,mats)
     geo.bevel(body, .0012, 2)
     floor_panels.build(body, collection, lod, mats)
@@ -515,4 +593,6 @@ def split_bumpers(body,collection,lod,mats):
         remove(cutter);remove(inset)
         panel['closure_gap_m']=.0035
         geo.bevel(panel,.0012,2)
-        if name=='FrontBumper':panel.modifiers[-1].angle_limit=1.0
+        if name=='FrontBumper':
+            panel.modifiers[-1].angle_limit=1.0
+            panel.modifiers[-1].face_strength_mode='FSTR_ALL'

@@ -15,7 +15,7 @@ zero completed stages and fails at the first unsuccessful stage. Only the exact
 complete ordered inventory can pass. A successful process with a driver,
 Python, missing-image or native-fatal diagnostic fails acceptance.
 
-The nineteen stages are:
+The twenty stages are:
 
 1. Native evaluated topology and all three LOD inventories, including editable
    preview geometry validity;645 actual source poses and provisional Q044 caps.
@@ -44,7 +44,12 @@ The nineteen stages are:
     upholstery support domains. Eight shifted copies and an independently
     crossing second pad layer must reject. Every thread
     span needs continuous contact and bounded complete-surface penetration.
-12.152 named fixed interfaces and selected packaging, cabin, mirrors, aero and
+12. Two complete cupholder receiving wells, recessed console pockets and finite
+    annular lip seats. The entire local console surface must match its receiving
+    pocket; hidden blockers, uncut walls, moved inserts and raised pocket corners
+    must fail ten topology-valid geometric controls. Side/bottom clearance is
+    at least1.2mm within the existing1um numerical guard.
+13.152 named fixed interfaces and selected packaging, cabin, mirrors, aero and
    rear optical assemblies versus every other LOD0 mesh. Revision14 includes
    the finite roof flange, crossover caps and sixteen complete cabin-tray pad
    faces. Three deliberately intruding copies must fail these constraints.
@@ -57,19 +62,19 @@ The nineteen stages are:
    certificate from stage11 before being treated as mating interfaces.
    Two additional controls isolate clearance and region escape for the short
    header returns outside the roof projection.
-13. Continuous all-angle clearance for each opening, including independently
+14. Continuous all-angle clearance for each opening, including independently
    positioned adjacent openings. Whole-domain bounding boxes and adaptive
    projection bounds prove clearance; a sampled pose or exhausted search does
    not pass.
-14. Initial solid containment in both directions for the exact opening pair
+15. Initial solid containment in both directions for the exact opening pair
    inventory, using connected components and three agreeing unambiguous rays.
-15. Actual tire/tread/sipe envelopes over all rolling angles, full32-degree
+16. Actual tire/tread/sipe envelopes over all rolling angles, full32-degree
     steering, full suspension travel and independently positioned openings.
-16. Analytic full wiper sweep against actual windshield planes and aperture.
-17. Continuous cross-wiper, independent opening, cockpit-control, tire-envelope
+17. Analytic full wiper sweep against actual windshield planes and aperture.
+18. Continuous cross-wiper, independent opening, cockpit-control, tire-envelope
     and fixed-mesh separation over the declared domains.
-18. Initial solid containment for that exact wiper pair inventory.
-19. Seventeen native positive/rejection controls: malformed topology, hidden
+19. Initial solid containment for that exact wiper pair inventory.
+20. Seventeen native positive/rejection controls: malformed topology, hidden
     containment, interface intrusion, collision occurring only at an intermediate
     opening angle, invalid/corrected drivers, wiper geometry and extrema, and
     a missing-stage inventory. Synthetic fixtures are identified as such.
@@ -83,9 +88,10 @@ Roof/pad fragment coverage uses complete convex partitions; tiny area alone
 does not excuse an uncovered region. Initial containment is an additional check
 because disjoint surfaces alone could enclose a solid.
 
-Each report describes its exact domain and limitations. Internal upholstery and
-wheel/brake construction are separate assemblies; this is not an assertion that
-every possible pair of decorative parts has a mechanical clearance simulation.
+Each report describes its exact domain and limitations. The selected-interface
+certificate does not cover all internal upholstery, wheel/brake or floor/driveline
+construction. Newly reproduced floor and wheelhouse interference remains an
+open physical-assembly defect; a pass of these twenty stages does not waive it.
 The editable engine bay is modeled geometry, with no mechanical simulation
 claim. Source display thresholds reflect Blender's float32 driver precision.
 

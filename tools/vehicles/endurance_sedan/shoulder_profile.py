@@ -29,4 +29,19 @@ def profile(t,y,w,top,radius=.35):
         values=[p[axis] for p in points]
         old=cubic(values,t);new=quintic(values,t,radius)
         result.append(tuple(a+(b-a)*blend for a,b in zip(old,new)))
+    if radius!=.35:raise ValueError('The finite original shoulder requires its locked .35 parameter span')
+    result[1]=tuple(a+blend*b for a,b in zip(result[1],bump(t)))
     return result
+
+
+COEFFICIENT_M=-0.034
+PARAMETER_A=5.65
+PARAMETER_B=6.35
+
+def bump(t):
+    if not PARAMETER_A<t<PARAMETER_B:return (0.,0.,0.)
+    length=PARAMETER_B-PARAMETER_A;u=(t-PARAMETER_A)/length
+    value=u**3*(1-u)**3
+    first=3*u*u-12*u**3+15*u**4-6*u**5
+    second=6*u-36*u*u+60*u**3-30*u**4
+    return (COEFFICIENT_M*value,COEFFICIENT_M*first/length,COEFFICIENT_M*second/(length*length))

@@ -27,7 +27,7 @@ def replace_world_mesh(obj, vertices, faces, material=None, smooth=True):
     if old.users == 0:
         bpy.data.meshes.remove(old)
     geo.project_uv(obj)
-    obj['finish_refinement'] = 'Original formed surface, revision18 candidate; engineering anchors unchanged'
+    obj['finish_refinement'] = 'Original formed surface; engineering anchors unchanged'
 
 
 def rounded_loop(width, height, radius, samples=5):
@@ -311,14 +311,38 @@ def roof_closing_faces():
         obj['manufacturing_form']='Continuous fixed roof closing face folded towards the separately moving door sash; candidate4mm vertical seam'
 
 
-def roof_inner_returns():
+def tapered_roof_leading_edges(profile):
+    """Retain both original inner-return tables before changing either rail."""
+    from . import roof_leading, surface_clip
+    from .surface_normals import mark_fold_edges
+    if (profile['source_stations'],profile['section_vertices'],profile['terminal_lip_depth_m'],
+        profile['inboard_shelf_abs_x_max_m']) != (25,10,.002,.679):
+        raise ValueError('Roof leading recipe needs a new validated construction revision')
+    originals={};prepared={}
+    for symbol in ('L','R'):
+        obj=bpy.data.objects['LOD0_RoofSideRail_'+symbol]
+        points=[tuple(obj.matrix_world@vertex.co) for vertex in obj.data.vertices]
+        faces=[tuple(face.vertices) for face in obj.data.polygons]
+        prepared[obj.name]=roof_leading.make(points,faces,surface_clip)
+        originals[obj.name]=points
+    for name,(points,faces,proof) in prepared.items():
+        obj=bpy.data.objects[name]
+        replace_world_mesh(obj,points,faces)
+        mark_fold_edges(obj)
+        obj['formed_leading_flange']=json.dumps(proof,sort_keys=True)
+    return originals
+
+
+def roof_inner_returns(original_tables=None):
     """Integral inboard lips close the gasket/header sightline below the shelf."""
     from .floor_panels import freeze
     from .pillar_joints import normal_reference, preserve_surface_normals
     from .surface_normals import restore_owned
     for side,symbol in ((-1,'L'),(1,'R')):
         obj=bpy.data.objects['LOD0_RoofSideRail_'+symbol]
-        original=[obj.matrix_world@v.co for v in obj.data.vertices]
+        original=([Vector(p) for p in original_tables[obj.name]] if original_tables is not None
+                  else [obj.matrix_world@v.co for v in obj.data.vertices])
+        if len(original)!=250:raise ValueError('Inner return requires the original25x10 rail table')
         stations=[original[i*10].y for i in range(25)]
         def height(y):
             index=max(0,min(23,next((j-1 for j,q in enumerate(stations) if q>=y),23)))
@@ -681,7 +705,7 @@ def door_latches():
 HARDWARE_CHAMFERS = ('LOD0_AuxFillerGrip', 'LOD0_BatteryClamp', 'LOD0_ClimateSwitch_-0.062', 'LOD0_ClimateSwitch_0', 'LOD0_ClimateSwitch_0.062', 'LOD0_CoilPack_-10', 'LOD0_CoilPack_-11', 'LOD0_CoilPack_-12', 'LOD0_CoilPack_-13', 'LOD0_CoilPack_10', 'LOD0_CoilPack_11', 'LOD0_CoilPack_12', 'LOD0_CoilPack_13', 'LOD0_DoorLatch_FL', 'LOD0_DoorLatch_FR', 'LOD0_DoorLatch_RL', 'LOD0_DoorLatch_RR', 'LOD0_FrontLRailBase', 'LOD0_FrontLSeatSwitch', 'LOD0_FrontRRailBase', 'LOD0_FrontRSeatSwitch', 'LOD0_GloveboxHandle', 'LOD0_HandleTouch_FL', 'LOD0_HandleTouch_FR', 'LOD0_HandleTouch_RL', 'LOD0_HandleTouch_RR', 'LOD0_HoodHingeFixed_-1_-1', 'LOD0_HoodHingeFixed_-1_1', 'LOD0_HoodHingeFixed_1_-1', 'LOD0_HoodHingeFixed_1_1', 'LOD0_InstrumentShadeWing_-1', 'LOD0_InstrumentShadeWing_1', 'LOD0_Pedal_AcceleratorGrip0', 'LOD0_Pedal_AcceleratorGrip1', 'LOD0_Pedal_AcceleratorGrip2', 'LOD0_Pedal_AcceleratorGrip3', 'LOD0_Pedal_AcceleratorGrip4', 'LOD0_Pedal_BrakeGrip0', 'LOD0_Pedal_BrakeGrip1', 'LOD0_Pedal_BrakeGrip2', 'LOD0_Pedal_BrakeGrip3', 'LOD0_Pedal_BrakeGrip4', 'LOD0_RearLRailBase', 'LOD0_RearRRailBase', 'LOD0_SteeringButton_-10', 'LOD0_SteeringButton_-11', 'LOD0_SteeringButton_-12', 'LOD0_SteeringButton_10', 'LOD0_SteeringButton_11', 'LOD0_SteeringButton_12', 'LOD0_TrunkHingeFixed_-1_-1', 'LOD0_TrunkHingeFixed_-1_1', 'LOD0_TrunkHingeFixed_1_-1', 'LOD0_TrunkHingeFixed_1_1', 'LOD0_WindowSwitchPod_FL', 'LOD0_WindowSwitchPod_FR', 'LOD0_WindowSwitchPod_RL', 'LOD0_WindowSwitchPod_RR', 'LOD0_WindowSwitch_FL0', 'LOD0_WindowSwitch_FL1', 'LOD0_WindowSwitch_FR0', 'LOD0_WindowSwitch_FR1', 'LOD0_WindowSwitch_RL0', 'LOD0_WindowSwitch_RR0')
 
 
-def hardware_chamfers():
+def hardware_chamfers(profile):
     additional=('LOD0_Airbox_-1','LOD0_Airbox_1','LOD0_EnduranceRadio','LOD0_FuseBox',
                 'LOD0_RearBattery','LOD0_IntakePlenum_-1','LOD0_IntakePlenum_1','LOD0_ExpansionTank',
                 'LOD0_CentralResonator','LOD0_RearMuffler_-1','LOD0_RearMuffler_1','LOD0_RoofConsole')
@@ -703,6 +727,9 @@ def hardware_chamfers():
                  'LOD0_ProjectorEmitter_R-1','LOD0_ProjectorEmitter_R1',
                  'LOD0_ReadingLens_-1','LOD0_ReadingLens_1','LOD0_RearReflector_L',
                  'LOD0_RearReflector_R','LOD0_RegistrationPlate')
+    additional+=tuple(profile['names'])
+    if len(set(HARDWARE_CHAMFERS+additional))!=len(HARDWARE_CHAMFERS+additional):
+        raise ValueError('Repeated hardware chamfer ownership')
     for name in HARDWARE_CHAMFERS+additional:
         obj=bpy.data.objects[name]
         bevels=[m for m in obj.modifiers if m.type=='BEVEL']
@@ -736,15 +763,66 @@ def boolean_surface_diagonals():
         sys.path.remove(qa_path)
 
 
-def apply(*, include_header_return=True):
+def tapered_rocker_blades(profile):
+    sections=profile['sections']
+    if len(sections)!=4 or profile['cross_section_vertices']!=8:
+        raise ValueError('Rocker profile needs four eight-point sections')
+    for side,symbol in ((-1,'L'),(1,'R')):
+        obj=bpy.data.objects['LOD0_RockerBlade_'+symbol]
+        vertices=[]
+        for y,width,height,center_z,radius in sections:
+            hw,hh=width/2,height/2
+            if not 0<radius<min(hw,hh):raise ValueError('Invalid rocker chamfer')
+            ring=[(-hw+radius,-hh),(hw-radius,-hh),(hw,-hh+radius),(hw,hh-radius),
+                  (hw-radius,hh),(-hw+radius,hh),(-hw,hh-radius),(-hw,-hh+radius)]
+            vertices.extend((side*profile['center_abs_x_m']+x,y,center_z+z) for x,z in ring)
+        replace_world_mesh(obj,vertices,loft_faces(8,len(sections)))
+        obj['manufacturing_form']='Original tapered side blade; eight-point section with4/9mm chamfers and46mm center height reducing to12mm at both ends'
+        obj['original_taper_sections']=json.dumps(sections)
+
+
+def formed_back_bolsters(profile):
+    sections=profile['back_bolsters']['sections_z_width_depth_m']
+    count=profile['back_bolsters']['ring_vertices']
+    if count!=16 or len(sections)!=8 or not profile['back_bolsters']['original_lowest_z_retained']:
+        raise ValueError('Back bolster recipe requires the validated eight-section form')
+    for row,cy in (('Front',-.18),('Rear',-1.10)):
+        rear=row=='Rear';width=.475 if rear else .49
+        angle=profile['back_bolsters']['rear_rake_degrees' if rear else 'front_rake_degrees']
+        rotation=Euler((math.radians(angle),0,0)).to_matrix()
+        for side,cx in (('L',-.43),('R',.43)):
+            for direction in (-1,1):
+                obj=bpy.data.objects['LOD0_'+row+side+'BackBolster'+str(direction)]
+                original=[obj.matrix_world@v.co for v in obj.data.vertices]
+                center=Vector((cx+direction*(width/2-.058),cy-.146,.796))
+                vertices=[center+rotation@Vector((w/2*math.cos(i*math.tau/count),d/2*math.sin(i*math.tau/count),z))
+                          for z,w,d in sections for i in range(count)]
+                delta=min(v.z for v in original)-min(v.z for v in vertices)
+                vertices=[v+Vector((0,0,delta)) for v in vertices]
+                replace_world_mesh(obj,vertices,loft_faces(count,len(sections)))
+                obj['manufacturing_form']='Original molded upholstered back bolster; rounded ends aligned with the actual seat-back rake'
+                obj['formed_bolster']=json.dumps({'sections':sections,'rake_degrees':angle,
+                    'original_lowest_z_retained':True,'vertical_adjustment_m':delta},sort_keys=True)
+    thread=bpy.data.materials['Material_Stitch']
+    shader=thread.node_tree.nodes['Principled BSDF']
+    color=(*profile['thread']['color_linear_rgb'],1)
+    shader.inputs['Base Color'].default_value=color
+    shader.inputs['Roughness'].default_value=profile['thread']['roughness']
+    thread.diffuse_color=color
+
+
+def apply(spec, *, include_header_return=True):
+    profile=spec['original_packaging']['finish_revision19']
     bpy.context.view_layer.update()
     mirrors()
     cabin()
+    formed_back_bolsters(spec['original_packaging']['cabin_revision20'])
     grille()
     coherent_a_pillars()
     windows_and_pillars()
     roof_closing_faces()
-    roof_inner_returns()
+    original_rail_tables=tapered_roof_leading_edges(profile['roof_leading_flange'])
+    roof_inner_returns(original_rail_tables)
     if include_header_return:
         connected_header_returns()
     door_returns()
@@ -752,7 +830,13 @@ def apply(*, include_header_return=True):
     rear_inner_hems()
     headliner_mounts()
     pressed_door_returns()
-    hardware_chamfers()
+    hardware_chamfers(profile['additional_straight_chamfers'])
     door_latches()
     boolean_surface_diagonals()
+    from . import fascia_surface, fender_field, model, surface_normals
+    fascia_surface.apply(bpy.data.objects['LOD0_FrontBumper'],model.width(2.4))
+    fender_proof=fender_field.apply([bpy.data.objects['LOD0_FrontFender_'+side] for side in ('L','R')],
+                                   model.BODY_FRONT_FENDER_REFERENCE,surface_normals)
+    bpy.context.scene['original_fender_field']=json.dumps(fender_proof,sort_keys=True)
+    tapered_rocker_blades(profile['rocker_blade'])
     bpy.context.view_layer.update()

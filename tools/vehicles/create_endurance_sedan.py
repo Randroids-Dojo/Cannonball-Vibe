@@ -131,7 +131,7 @@ def main():
         if checkpoint['status']!='passed' or len(checkpoint['variants'])!=3:
             raise RuntimeError('Production surfaces require the recorded three-variant blockout proof')
         model.build_production(asset,lods[0],mats,pivots,controls,spec)
-        finish_refinement.apply()
+        finish_refinement.apply(spec)
     else:
         model.build_blockout(asset,lods[0],mats,pivots,spec)
     bpy.context.view_layer.update()

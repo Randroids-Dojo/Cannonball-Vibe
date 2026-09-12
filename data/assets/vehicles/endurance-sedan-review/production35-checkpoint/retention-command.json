@@ -1,0 +1,35 @@
+{
+  "task_id": "P1-018",
+  "start_utc": "2026-09-12T06:48:25.418294+00:00",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "cwd": "C:\\Dev\\Cannonball-Vibe-sedan",
+  "argv": [
+    "python",
+    "tools/vehicles/endurance_sedan/retain_evidence.py",
+    "--manifest",
+    "data/assets/vehicles/endurance-sedan-review/production35-checkpoint/manifest.json",
+    "--output",
+    "data/assets/vehicles/endurance-sedan-review/production35-checkpoint/source-checkpoint-v21.zip",
+    "--repeat-output",
+    "reports/p1-018/checkpoint35-retention01/source-checkpoint-v21-repeat.zip",
+    "--index",
+    "data/assets/vehicles/endurance-sedan-review/production35-checkpoint/index.json"
+  ],
+  "git_revision": "7dcfb99f8106b2204eddea38fc8ad27d41b1bde0",
+  "input_artifacts": [
+    {
+      "path": "tools\\vehicles\\endurance_sedan\\retain_evidence.py",
+      "sha256": "1310e66035402d9eccaef4c0b2fe6d474f0b56958e914138d3f57be6285b18ff"
+    },
+    {
+      "path": "data\\assets\\vehicles\\endurance-sedan-review\\production35-checkpoint\\manifest.json",
+      "sha256": "1d45e07f108e321ba79016d1ca4ab0eece79a94d9a7040e50d1c39c8851f2e02"
+    }
+  ],
+  "log": "reports\\p1-018\\commands\\20260912T064825.418294Z-source35-v21-checkpoint-retention.log",
+  "human_approval_reference": null,
+  "environment": {},
+  "end_utc": "2026-09-12T06:48:35.242995+00:00",
+  "exit_status": 0,
+  "log_sha256": "5ae53bb49b9b5d1cd6be8f31765182e2c82001800a61b4914a8b85abe6312791"
+}

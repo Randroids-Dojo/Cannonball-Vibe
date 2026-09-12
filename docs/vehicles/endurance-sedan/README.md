@@ -9,6 +9,10 @@ The authoritative completion record is [P1-018](../../DELIVERY_LEDGER.json).
 Machine verification and the required human art, rights, handling and usability
 reviews are separate. This vehicle is a review candidate until those gates close.
 
+The [v21 construction checkpoint](checkpoint-v21.md) retains the newer Blender
+surface work and its scoped evidence. The installed source and Godot GLB are
+still the previous production34 candidate while internal assembly repairs finish.
+
 ## Open and inspect the model
 
 From the repository root in PowerShell:
@@ -23,7 +27,7 @@ LOD1/LOD2 meshes. `Preview` contains the original studio, camera and source-only
 illumination. Units are meters; +Y points forward and +Z points up. The origin is
 on the ground midway between the axles. Godot converts source `(x,y,z)` to `(x,z,-y)`.
 
-Select `RigControls` in the Outliner and edit **Object Properties → Custom
+Select `RigControls` in the Outliner and edit **Object Properties â†’ Custom
 Properties**. Set `Door_FL_open`, `Door_FR_open`, `Door_RL_open`, `Door_RR_open`,
 `Hood_Hinge_open` or `Trunk_Hinge_open` between 0 and 1. `steering` spans -1 to 1;
 `wheel_roll` is radians and `suspension` spans -0.075 to +0.085 meters. The
@@ -135,8 +139,11 @@ python tools/vehicles/endurance_sedan/qa/run.py `
 ```
 
 It copies its exact QA tools into the new evidence directory and records all
-nineteen required stages, including exact authored-mesh and final lower-LOD
-self checks, plus complete formed-header, latch and upholstery interfaces.
+twenty required stages, including exact authored-mesh and final lower-LOD
+self checks, finite cupholder seats, formed-header, latch and the declared
+upholstery support interfaces. These selected interfaces do not certify every
+internal floor, drivetrain or upholstery contact; the defect ledger retains
+newly discovered assembly interference until its affected domain is verified.
 Partial output or a successful native process alone
 does not satisfy that gate. [Retained construction evidence](../../../data/assets/vehicles/endurance-sedan-review/evidence/README.md)
 preserves original checkpoints, before/after images, failures and corrections.

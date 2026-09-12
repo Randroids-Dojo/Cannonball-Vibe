@@ -129,12 +129,12 @@ def dashboard(collection, lod, mats, pivots, spec):
     text_mesh('LOD0_NavigationTitle', 'MERIDIAN', (0, .456, 1.045), .018, mats['cabin_lettering'], collection, lod)
     # The auxiliary center display is a parked branded screen, not a claim of
     # implemented navigation. All driving values live in the runtime cluster.
-    geo.box('LOD0_CenterConsole', (0, -.08, .451), (.279, 1.15, .270), mats['trim'], collection, lod, radius=.026)
+    console=geo.box('LOD0_CenterConsole', (0, -.08, .451), (.279, 1.15, .270), mats['trim'], collection, lod, radius=.026)
     geo.box('LOD0_ConsoleArmrest', (0, -.468, .589), (.267, .336, .060), mats['leather'], collection, lod, radius=.022)
     geo.box('LOD0_SelectorGate', (0, .191, .593), (.215, .201, .012), mats['wheel'], collection, lod, radius=.006)
     geo.box('LOD0_SelectorLever', (0, .185, .640), (.074, .083, .084), mats['leather'], collection, lod, radius=.023)
-    for side in (-1, 1):
-        geo.ellipsoid('LOD0_Cupholder_' + str(side), (side * .068, -.113, .589), (.094, .147, .018), mats['rubber'], collection, lod, 20, 8)
+    from . import cupholders
+    cupholders.build(console,mats['rubber'],spec['original_packaging']['cabin_revision20']['cupholders'])
     for cx in (-.143, .143):
         geo.tube('LOD0_ClimateKnob_' + str(cx), [(cx, .425, .733), (cx, .401, .733)], .024, mats['wheel'], collection, lod, sides=24)
         text_mesh('LOD0_ClimateSetpoint_' + str(cx), '20', (cx, .399, .733), .014, mats['cabin_lettering'], collection, lod)

@@ -93,7 +93,9 @@ def repair(obj,exact_scan,evaluated_counts,allow_sliver_flip=True):
                 candidate=stage.copy();candidate.data=stage.data.copy();bpy.context.scene.collection.objects.link(candidate)
                 edit=bmesh.new();edit.from_mesh(candidate.data);edit.verts.ensure_lookup_table()
                 edge=next(e for e in edit.edges if tuple(sorted(v.index for v in e.verts))==proposal['edge'])
-                if len({f.material_index for f in edge.link_faces})!=1 or len({f.smooth for f in edge.link_faces})!=1:
+                authorship=[edit.faces.layers.int.get(name) for name in ('cb_fascia_cap','__mod_weightednormals_faceweight')]
+                crosses_authorship=any(layer is not None and len({face[layer] for face in edge.link_faces})!=1 for layer in authorship)
+                if crosses_authorship or len({f.material_index for f in edge.link_faces})!=1 or len({f.smooth for f in edge.link_faces})!=1:
                     edit.free();data=candidate.data;bpy.data.objects.remove(candidate,do_unlink=True);bpy.data.meshes.remove(data);continue
                 bmesh.ops.rotate_edges(edit,edges=[edge],use_ccw=False);edit.to_mesh(candidate.data);edit.free();candidate.data.update()
                 proposed=_native(candidate);trial=exact_scan(proposed);valid=evaluated_counts(candidate)

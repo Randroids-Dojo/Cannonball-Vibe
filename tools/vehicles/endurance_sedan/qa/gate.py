@@ -8,7 +8,7 @@ from pathlib import Path
 import re
 
 STAGES = ('extraction', 'self-intersections', 'self-controls', 'lod-self-intersections', 'lod-self-controls', 'source-controls', 'source-lights', 'opening-drivers', 'motion-drivers',
-          'optical-seats', 'finish-interfaces', 'static-interfaces', 'openings', 'opening-containment',
+          'optical-seats', 'finish-interfaces', 'cupholder-interfaces', 'static-interfaces', 'openings', 'opening-containment',
           'tires', 'wiper-glass', 'wiper-interassembly', 'wiper-containment',
           'negative-controls')
 DIAGNOSTIC = re.compile(
@@ -147,6 +147,11 @@ def stage_report(name, report, source_sha):
     if name == 'finish-interfaces':
         from finish_report import validate_report
         return {'status':'passed',**validate_report(report,source_sha)}
+    if name == 'cupholder-interfaces':
+        from cupholder_interfaces import validate_report
+        validate_report(report, source_sha)
+        return {'status': 'passed', 'finite_interfaces': report['interface_count'],
+                'geometric_negative_controls': report['negative_control_count']}
     if name == 'static-interfaces' and (report['named_interface_count'] != 152
                                        or len(report['finite_interface_negative_controls']) != 3):
         raise ValueError('Revision17 requires152 finite named joints and3 original fitted interface controls')

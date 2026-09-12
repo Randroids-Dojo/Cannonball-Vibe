@@ -344,3 +344,200 @@ The additional strict near-planar optimization reserve is insufficient: `qa/body
 
 
 The current working checkpoint passed all13 Windows `scripts/check.sh` steps from03:17:44Z to03:21:23Z on2026-09-12. Exact command `20260912T031744.633970Z-source35-working-checkpoint-frontdoor.json` exited0; complete M0 outputs/logs are retained under `reports/p1-018/source35-checkpoint-frontdoor01/`. A preliminary shell-selector invocation entered WSL and failed tool discovery; `environment35-doctor01/wrong-shell-doctor.json` is retained. Explicit Git Bash then passed the pinned Windows doctor and front door. This is a code checkpoint, not final sedan platform/export evidence; the canonical source/runtime files still carry source34 while source35 refinement proceeds.
+
+
+### 2026-09-12 molded wheel-liner return trial
+
+The current molded liner uses a constantabsX0.918m outer edge, while the lower painted body retreats inward near the arch ends. The root will test a source-only outer edge at `min(0.918, minimum actual pre-cut bodyabsX at both shell radii minus0.003)m` at each existing angle. Both0.444/0.449m radii, original inboard edge,48spans,216degree arc, axle centers and all suspension/steering inputs remain unchanged. This shrinks the liner volume and adds no triangles; it is an original molded-return design choice, not a revised wheel or factory specification. Compare actual matched front/side views, validate closed surfaces, retainer fit and full steering/travel clearance before any adoption. Existing fascia normal defects are separately diagnosed; this trial does not presume every dark patch is a liner.
+
+
+Fascia trial03 is a bounded shading-only correction to rejected trial02: actual native adjacent faces4356/4357 share a vertex but had a13.25degree corner-normal jump because only4356 was assigned the curved-cap field. The root tests complete per-reference clipped-piece plane coverage; unchanged1micrometer footprint/plane guards,0.99985 alignment,2micrometer corner correspondence and no discarded remainder remain. Shared `surface_normals.py` and all roof normal behavior stay unchanged. Actual geometry and renders must be compared; a valid unit normal alone cannot approve the result.
+
+
+### 2026-09-12 original rocker taper trial
+
+After the liner-only front render removes the projecting dark lower-arch flap, the root pilots an independently reviewable side-blade taper. The existing2.07m length/centerabsX0.914m and37mm maximum width remain; four sections atY -1.06,-.98,.93,1.01m reduce the46mm middle height to12mm at both ends, with18mm end width and8-point chamfered sections. End centerZ0.220m versus0.227m at the middle yields a controlled rising lower edge into each arch. Expected60triangles per blade versus108 is a provisional count, not accepted savings. Original planform/finite volume, actual rendered transitions, self and opening/tire checks must be verified. This reports-only trial includes the separately retained liner trial solely for a readable assembled view; its image comparison must isolate the rocker change. No hardpoints, materials or runtime physics change.
+
+
+### 2026-09-12 post-bevel fascia normal authorship
+
+The unchanged-guard trial03 reproduced exactly564owned faces and does not correct the visual discontinuity. Runtime `fascia35-pilot02-diagnosis03/evidence.json` (`79fd7e42728fe4802b3c05a3ae655a0f82ca84ba6a1bfc93703b3eb31ef06c79`) reproduces six saved boundary vertices exactly after the original1.2mm/two-segment bevel; their36.99?94.13micrometer shifts explain the failed pre-cut reference mapping.
+
+Before the next root-only trial, the authored field scope is changed coherently: tag original cap faces before cuts, use pinned Blender `FSTR_ALL` to distinguish retained faces (`__mod_weightednormals_faceweight=16384`) from generated edges/corners (0/-16384), retain only these declared FACE INT layers when freezing evaluated triangles, and author the analytic curved-cap normal field on retained cap faces after all bevels/cuts. Shared generated-bevel corners receive the same adjoining cap tangent; unrelated actual normal encodings remain exact. This is a new original surface-field authorship step, not a looser claim of pre-cut preservation. Existing1micrometer geometry/fit guards and export correspondence tolerances remain unchanged. The actual new cap continuity must be within0.025degree and actual neutral images must eliminate the rejected macro patches before adoption.
+
+
+Post-bevel trial04 failed before production because adding a Blender FACE attribute invalidated cached loop-triangle RNA; trial05 snapshots plain IDs first. Trial05 then failed its stronger exact-unrelated-vector assertion after assigning the new cap field and restoring old INT16 normal codes. Trial06 will retain both actual decoded alternatives for every unrelated loop: fresh encoding of its unchanged target vector and its original code under the updated normal fan. It will choose the closer actual vector and reject a target error above0.025degree; this explicitly measured native representation step does not change any target outside the authored cap/bevel corners. Both prior failures and their failed scenes remain retained. Existing geometry/contact and final export correspondence gates remain unchanged.
+
+
+### 2026-09-12T04:06:28.694684+00:00 - Native fascia field and perimeter trial
+
+Pilot06 completed actual native construction and three fixed neutral renders. The retained cap field now covers650 actual faces/3027 corners, including1005 shared bevel corners, with zero shared-cap normal disagreement and0.004146921-degree maximum unrelated native reencoding. The large front triangle bands are reduced, but a visible cap-to-shoulder boundary above the lamp remains. This is not final visual acceptance. Pilot04 invalid RNA and pilot05 old-code-only restoration failures remain retained. The next reports-only root trial adds an actual18mm, three-segment formed perimeter before optical cuts, preserving the shared pre-cut fitting order; the trial is not a locked or shipping change. Native topology, assembly fit, geometry budgets and actual matched renders must pass before adoption. No material/lighting change hides this defect.
+
+Pilot07 correctly failed the actual splitter-to-fascia ray guard at X-0.830/Z0.207m: rounding the entire front perimeter removes the lower return that supports the existing splitter. Source.failed.blend/log retained. Pilot08 limits the18mm formed radius to the upper perimeter, with a C2 edge-weight ramp over Z0.670..0.770m; the lower splitter seating region remains unrounded. No guard or existing splitter fit target is relaxed.
+
+The initial interpretation of pilot07 was too narrow: readback of pilot08 shows empty front/rear bumper meshes and a damaged structural shell before the splitter query. Thus the missing ray is a downstream symptom, not proof of a local lost splitter seat. A native per-operation trace now checks the rounded shell and identifies the first damaging Boolean; no workaround or weakened splitter guard is accepted.
+
+Native trace02 measured282 degenerate triangles on the weighted-radius output before the first Boolean. Applying the existing bounded sliver cleanup immediately after native triangulation yields6190 closed triangles, no exact self intersections, and all eight initial body Boolean cuts retain valid topology. Pilot09 moves that existing cleanup before the pre-cut BVH and all optical/body fitting. Its exact tool/log evidence is retained; this is still an unaccepted trial.
+
+
+### 2026-09-12T04:25:01.299033+00:00 - Cabin inspection follow-up
+
+Five native full04 cabin stills use an explicitly recorded20W camera work light, so comparisons against prior0W images are not matched-light claims. Root and independent QA both observe that the two named cupholders are closed oval pads; they need actual receiving cavities in the console. A reports-only hollow molded-cup candidate will preserve existing centers(+/-0.068,-0.113m), fixed console envelope and nearby controls, cut real console pockets, and verify closed geometry and complete finite flange/pocket fit. Proposed circular lip radius44mm, receiving radius40mm, receiving depth60mm, with a closed3mm bottom. Final recipe requires a new specification lock before canonical adoption.
+
+The thread geometry passes its complete pad-contact gate, but the pale smooth strips read as isolated pinstripes in the close inspection. A separate charcoal-thread material trial will use the same geometry and20W camera setup, with no new external material inputs; actual visibility must be checked before any material choice is adopted. Segmented seat/bolster finish remains a visual review item, not an established new solid intersection.
+
+Independent native09 measurement withdraws any achieved18mm fillet claim: the requested radius was clamped at a duplicate final ring. Python stations2.4 and2.4000000000000004 encode to the same native coordinates; all72 zero edges join their corresponding vertices, with no other zero edges.114 probes on the38 nonzero full-weight perimeter edges remain within0.252881um of both sides, rather than showing a formed18mm radius. Pilot10 removes only native-coincident longitudinal stations before construction and retains the ordinary bevel/cleanup/fit order. It builds against the newly locked specification19 roof/liner/rocker/chamfer changes; no unaccepted fascia recipe is canonical yet.
+
+The root cabin form pilot retains separate material-only and material-plus-form Blender files. Charcoal thread uses original linear base(.040,.045,.050), roughness0.78, with the supported geometry unchanged. The back bolsters currently stand vertically beside9/18-degree raked seat backs; the form pilot aligns eight explicit oval sections to those existing rakes, retains each original lowestZ and maximum111mm width, and gives their ends finite rounded cross sections.16 points per section should reduce geometry while replacing the long pointed ellipsoid ends. All affected assembly/motion and actual visual checks remain required; no canonical cabin change is made.
+# 2026-09-12 revision19 assembled-source LOD repair
+
+The fresh full05 source (SHA256
+`cb1990ebefdff0445e1013f4f0d3ba5640d79d59214d659c1db59c8e78731403`)
+passes extraction, source self-intersection and negative self controls, but the
+fourth source gate rejects two folded wheel-liner shells in the LOD2 static
+Rubber group. The measured totals are148362/31948/17964 visual triangles plus24
+collision triangles (198298 shipping triangles). The failure is retained in
+`reports/p1-018/source35-full05/qa19-01/`, recorded command
+`20260912T043625.005849Z-source35-full05-nineteen-stage-qa` (exit1).
+
+Before correction, this scope authorizes adding that existing semantic group
+to the same independently checked per-component adaptive LOD construction used
+by the other17 groups. This changes no source shape, material, threshold or
+acceptance guard. A new assembled source must pass the unchanged full gate.
+The unaffected full05 motion/fit checks may run separately; they cannot convert
+the failed full19 result into a pass.
+
+## 2026-09-12T04:54:18.330070+00:00 revision20 cabin construction lock
+
+The actual charcoal-thread and rounded-bolster comparison is independently recorded in `reports/p1-018/qa/cabin35-material-form-pilot01-review/review.json` (SHA256 f693d4478098641281f55b92c063388d1be5d4fb8ed679a29ea4b4fab84de1e2). The lead has viewed the actual hollow-cup upholstery and cockpit originals from `cabin35-cup-pilot01`; the cavities read as open receiving pockets. Research handoff03 (SHA256 e656ed60d47ce0790fb1bb535c80aed30b2a88ae90ec2d271f6393d10396dbc9) records complete local insert/pocket clearance and rejection controls. Cup visuals and full assembled geometry remain under independent QA. Revision20 locks those specific recipes before canonical implementation. It does not adopt any fascia or rear wheel-tub cover trial. Existing human gates stay open.
+
+## 2026-09-12T04:56Z rear wheel-tub intrusion investigation
+
+Actual saved-camera native rays confirm the pointed rear-cabin surfaces are the unchanged inner wheel tubs. Native solid intersections also reveal intrusion into six outboard rear-seat parts per side in both full04 and the formed-bolster trial (research/rear-wheel-tub35-01/native01.json). Examples include157.224cm3 at the right cushion frame and169.244cm3 at its back shell. Prior static QA explicitly excluded remaining upholstery assembly construction; its pass does not cover this defect. A cover alone is inadequate. Before any implementation, the research agent is assigned a reports-only complete candidate retaining the authoritative tire/tub envelope and seating/rail/belt hardpoints, forming bounded seat relief and a supported cabin cover. The exact geometry, occupant-space effect, finite interfaces and costs must be measured and locked in a later specification revision before canonical adoption. Revision20 is retained as a local cabin recipe and does not resolve this defect.
+
+## 2026-09-12T04:57:26Z cup capture illumination correction
+
+The first cup trial neutral/upholstery and cockpit renders used0W inspection fill, as the actual command and manifest record. A coordination message incorrectly described them as matched20W. Preserve those originals as0W evidence; a fresh neutral-fill20 folder explicitly requests20W for the matched upholstery comparison. Geometry/readback results are unaffected. The final visual comparison must cite the actual illumination, not the mistaken message.
+
+## 2026-09-12T04:58:16.653582+00:00 rear rail relief scope
+
+Native rails02 confirms both existing rear RailBase solids also penetrate the unchanged wheel tubs (approximately57.986cm3 each). Preserving the already intruding outer surface would preserve a defect. The bounded candidate scope therefore includes finite outboard rail relief while retaining actual mounting positions, semantic supports and a continuous load-support section. Research must report the minimum remaining section. The tire/tub surfaces, seating and belt/rail hardpoints remain fixed; no new mechanical-simulation claim is made.
+
+## 2026-09-12T05:02:16.761323+00:00 complete revision19 motion continuation and local fascia correction
+
+The eight separately recorded full05 fit/motion stages pass: actual opening and motion drivers,231 optical pairs,42 finish interfaces,152 static construction interfaces, complete independent opening domains, initial containment and all four full steer/travel/roll tire envelopes. Evidence SHA256 a1b88f473fee3a002cbbbf34bce0df95716fc25820c97c058c643706246427fd. The original full19 LOD failure remains failed; this result cannot waive it.
+
+Lead-owned pilot11 changes one corrupted retained original-side normal on immutable pilot10, with two explicitly declared local sharp-edge splits. Geometry, UVs, material/provenance and optical recess normals remain unchanged; maximum unselected decoded-corner drift is0.002437deg, within the unchanged0.025deg export correspondence bound. Source SHA256 64b219ed25d3c65579d808954225137d980dfd68f1dd20714f716979a7d7c7cd. Actual matched front_lamps and paint renders show the downward streak is gone, independently confirmed by the runtime agent. The true cap/side crease and forked shoulder highlight remain; the opposite defective endpoint and a measured local shoulder dip still need a reproducible symmetric construction correction. The one-corner diagnostic is not a final production rule.
+
+## 2026-09-12T05:06:21.225244+00:00 revision20 assembled source and LOD repair result
+
+Fresh full06 source SHA256 e34139176f4e053a0367431a5c93c4b458dfd626605a2e699f9808f2c6a6893e builds from the locked canonical revision20 recipes. Actual counts147450/31944/18388 plus24 collision triangles total197806,24 materials. All evaluated topology and raw-normal counters pass;645 native poses are retained. Independent lower-LOD exact self scan passes all210 meshes and848 indexed shells (50332 triangles), including the corrected static Rubber group. The prior source05 failure is retained. This is an affected-source/LOD check, not the final full19/runtime/platform acceptance; rear wheelhouse physical repair is still required.
+
+## 2026-09-12T05:12:36.756431+00:00 rear relief rejected and packaging scope corrected
+
+Root saved candidate04 on actual full06 as rear-cabin35-pilot01 (source84510a98fa15d4053efb59a1e125d451d811b4413ad8ba84569a360f863c56b0). Initial invocation omitted the exact-scan callback and failed before mutation; build-failed01.py and both recorded commands are retained. The corrected invocation succeeds. Actual matched20W rear_seats render still shows a pointed blade-like form. Local fit05 reports rear occupied foam width narrowing465.55 to375.57mm, despite successful tub separation. This physical workaround is not adopted.
+
+The earlier internal instruction freezing all tub geometry was too restrictive; the task fixes wheel hardpoints and full tire envelope, not flawed fictional packaging. Research is now assigned a coherent reports-only proposal that moves the rear inboard tub wall outward only where the complete tire envelope permits, reconciles the cabin floor and supported trim/seat joints, and retains useful rear-seat width. Wheelbase, track, radius, travel and seat/belt/rail mounting positions remain fixed. Exact new geometry and clearance contracts must be locked before canonical adoption. This decision preserves the rejected candidate and does not treat an agent proxy as human comfort approval.
+
+## 2026-09-12T05:12:36.756441+00:00 finite fascia shoulder trial
+
+The actual pilot11 removes the isolated shading streak. Before the next root-owned trial, the runtime agent supplies a symmetric semantic endpoint rule and an exact-rational C2 height correction bounded to0.53125mm in the existing finite shoulder domain. X and endpoint position/first/second derivatives are unchanged. Native/rendered final outcome is still required; neither helper is adopted canonically.
+
+## 2026-09-12T05:24:13.906756+00:00 actual isolated front-reflection diagnosis
+
+Lead viewed all four native2560px paint-camera renders from the unchanged source12. The lower apparent fork branch remains under Key-only illumination; the upper branch remains under TopStrip-only illumination. Thus the remaining combined fork is attributable to two distinct studio-light reflections, rather than sufficient evidence by itself of a remaining surface seam. The earlier polynomial slope reversal was real and corrected; isolated illumination does not revoke that measurement. A smaller ribbed-looking highlight by the bumper/fender upper seam remains under inspection for geometry/normal versus denoising origin. No final surface acceptance is claimed by changing the ordinary review lighting.
+
+```json
+[
+  {
+    "light": "Key",
+    "manifest_sha256": "3cf3c1f98cea1c44e19b2b4fa548789bcafc071768e282400cd855c80f4554f1",
+    "image_sha256": "b578fa1f2907adc4476612b53049b6d01016300ad2f7f4adb0860e6e684a64c3"
+  },
+  {
+    "light": "Fill",
+    "manifest_sha256": "005a93402057d28027fafb6ce6b9a065ba31b3a64949afb5fbe60053c30973fb",
+    "image_sha256": "6c5abde08a900eb609b0ffc9e11ce6828120cf386aeba5283a531ce688b76dd6"
+  },
+  {
+    "light": "RearStrip",
+    "manifest_sha256": "f1d88af47ea989a0ccd2995611a6e042cfb654bcea3547958672a59ee1be5cee",
+    "image_sha256": "3ee6c281684702615f6cec9ebe45b5eecc237823dbc64d530b22e6da211d724b"
+  },
+  {
+    "light": "TopStrip",
+    "manifest_sha256": "2d8500b68021ad393e4af2adfdabc8a7e73b30b6267c1acc3e514720c6a0c914",
+    "image_sha256": "3a74ec1296ff231c7b09f07e49548301acf8bd6f13f3fac283afddaa03f551e7"
+  }
+]
+```
+
+## 2026-09-12T05:38:07.966423+00:00 physical cabin closure scope
+
+Native floor07 reproduces baseline flat-floor interference: transaxle2.65679L, resonator2.36715L, each mid exhaust pipe about1.162L and rear differential0.54798L of modeled overlap. These volumes describe geometric solids, not real component mass. Rear wheelhouse/liner contacts also involve mufflers, trunk carpet, sill/seal parts and the body/floor. The existing selected152-interface certificate was never an all-assembly interference proof. These findings remain failures until physically corrected or proved as explicit finite manufactured joints. Source/full04 historical passes are retained with this scope boundary.
+
+Root authorizes reports-only coherent formed-floor, tunnel, wheelhouse and seat-support investigation before a new canonical packaging lock. Wheel, occupant, seat, rail and belt hardpoints stay fixed. The latest2mm wheelhouse wall proposal at cabinX0.670/tireX0.672 plus1.2mm upholstery retains every seat mesh and gives actual complete-domain5.500019mm tire clearance against the locked5mm requirement. Native08 local topology passes, but adjoining assemblies are unresolved and this is not an accepted source. Root will inspect a separately saved visual pilot. No delivery export or old-source replacement is authorized by the pilot.
+
+Independent cupholder stage is frozen for integration review; two complete receiving wells and finite lip seats have10 actual geometric negative controls. The front fender seam ripple is now bound to alternating inherited cut-edge corner normals, not a proven shape or denoising defect. Runtime develops a symmetric bounded normal-field repair.
+
+## 2026-09-12T05:49:20.674608+00:00 rear visual pilot02 and cup stage integration
+
+Actual2560x1440 rear-seat, rear-cabin and upholstery originals were inspected with the same20W worklight as full06. Thin-wall candidate08 removes the two visible pointed intrusions without narrowing the seat. The separate saved pilot remains unaccepted because the adjoining physical assembly has unresolved interference. Original baseline and rejected pilot01 remain retained. See reports/p1-018/rear-cabin35-pilot02/lead-review.json.
+
+Root reviewed the frozen bbbc837a16b348c315661f94f7c4b80af4742a52fcd48bb77d303ae14d65eaf2 cup reader and wired it as required twentieth stage in qa/run.py and gate.py. The actual full06 certificate passes the integrated host reader; missing pair, missing negative, wrong source, incomplete whole-surface proof and omitted-stage controls all reject. The full twenty-stage checkpoint is running on source06 with copied locked tools. This extends the named fit scope; it does not waive new floor or upholstery defects.
+
+## 2026-09-12T05:59:18.867648+00:00 original fascia revision21 locked before integration
+
+Matched actual source13 paint/front-lamp renders remove the smaller ribbed fender seam region; independent runtime QA viewed all three originals and agrees. Helper03 adds six passed native rejection/atomicity controls while its positive reference and corrected fender geometry are byte-identical to helper02 used by source13. Root adopts this bounded fascia construction and native field into the reproducible builder under packaging-revision-v21.md. Archived specification-v20.json is immutable. Full regenerated source/LOD and all delivery checks remain required.
+
+## 2026-09-12T06:04:01.810849+00:00 full06 twenty-stage checkpoint passes
+
+The complete ordered20-stage source gate passed on full06 at2026-09-12T05:55:08.859622+00:00. Exact evidence SHA256 8521ec4882c902d176b21d6c65c8047d9b7326c59b6e9373aa8fd3914874d8c8. Every source mesh, all lower-LOD indexed shells, saved controls/lights, named optical/finish/static/cup interfaces, complete opening/tire/wiper domains, initial containment and rejection controls in that declared inventory passed. The source and executable remained unchanged. The independent newer floor/driveline/seat interference findings are outside the selected static-interface scope and remain open; this pass does not waive them.
+
+Windows scripts/check.sh also passed at the v20 working checkpoint. Its23 result/log files are copied and hashed in reports/p1-018/source35-v20-frontdoor01/index.json. Fascia revision21 was then integrated and a fresh full source07 construction started; previous source06 results are not relabeled as source07 evidence. Mainline red-main query remains empty.
+
+
+### 2026-09-12T06:24:54.712012+00:00 ? Full07 fascia integration and contact-shading diagnostics
+
+Root constructed the complete v21 source using pinned Blender 5.1.2, including
+regenerated LODs. `reports/p1-018/source35-full07/source.blend` has SHA-256
+`ea701f2a44b5baaaa0c746c2311c61a348cd58b0bf2f1f18c0d2a8edadcf79bb`. Build and three matched
+2560 ? 1440 Cycles renders exited 0; the root inspected all original paint,
+front-lamp and front three-quarter images. The localized fender reflection
+correction survives integration. Independent native geometry comparison and
+all connected LOD checks remain in progress. No shipping GLB has been replaced.
+
+The full06 v20 checkpoint completed all 20 current source stages with evidence
+SHA-256 `8521ec4882c902d176b21d6c65c8047d9b7326c59b6e9373aa8fd3914874d8c8`.
+Its Windows working front door passed. Those results precede v21 and do not
+certify the subsequently identified internal floor, driveline or seat contacts.
+
+For D050, an actual Forward+ SSAO debug capture confirms occlusion beneath the
+vehicle (`runtime/ssao-contact35-01` under the task reports). The diagnostic
+therefore rejects simple absence of SSAO as the explanation. A separate native
+trial changes only directional shadow normal bias from 1.8 to 0.2; its side
+image still looks weakly connected to the road. Neither trial changes canonical
+lighting. Source34 runtime inputs, native readbacks, full captures, commands and
+failures are retained in their distinct diagnostic directories. Both native
+commands exited 0; visual acceptance is still open.
+
+A reports-only Blender trial also places the original crew binder in a formed
+console-side pocket with a retaining band. It adds 56 triangles and preserves
+its original dimensions; physical support proofs and actual cabin images must
+be rebound before any canonical adoption. Seat and floor repairs remain
+independent prototypes, with no new human approval recorded.
+
+
+### 2026-09-12T06:35:00.515435+00:00 ? Bounded wheel tessellation trial before adoption
+
+Full07 has only 820 LOD0 and 58 total triangles of headroom. A reports-only
+Blender construction will test tire radial divisions 64 to 60, rim divisions
+48 to 36, and friction-disc divisions 48 to 36. Factory-reference dimensions,
+original cross-section profiles, pivots, material assignments and shoulder
+channel construction stay fixed. Maximum ideal-circle chord deficits are
+0.471 mm for tires, 0.940 mm for rims and 0.760 mm for front discs. These are
+modeling errors, not source uncertainty or changes to rolling radius. Actual
+triangle savings after shoulder cuts, topology, normal fields, tire clearance
+and a matched wheel close-up must pass before a new specification lock or
+canonical implementation. This trial is an optimization candidate, not an
+approved loss of inspection quality. Existing human gates remain open.

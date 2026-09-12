@@ -46,9 +46,9 @@ SELECTIVE_LOD_GROUPS = {
     (2,parent,'Material_BrakeLight') for parent in ('Light_Brake_L','Light_Brake_R')
 } | {(2,'Light_Tail_RL','Material_Taillight')} | {
     (2,'Visual_LOD0','Material_'+material)
-    for material in ('Fabric','Metal','Mirror','OpticalGlass','Paint','Trim')
+    for material in ('Fabric','Metal','Mirror','OpticalGlass','Paint','Rubber','Trim')
 }
-assert len(SELECTIVE_LOD_GROUPS)==17
+assert len(SELECTIVE_LOD_GROUPS)==18
 
 
 def clean_name(value):

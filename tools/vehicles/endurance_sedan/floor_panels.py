@@ -41,6 +41,13 @@ def freeze(obj):
     for original in source.uv_layers:
         layer = data.uv_layers.new(name=original.name)
         layer.data.foreach_set('uv', [value for index in loops for value in original.data[index].uv])
+    for name in ('cb_fascia_cap','__mod_weightednormals_faceweight'):
+        original=source.attributes.get(name)
+        if original is None:continue
+        if original.domain!='FACE' or original.data_type!='INT':raise ValueError('Unexpected authored surface metadata type')
+        attribute=data.attributes.new(name=name,type='INT',domain='FACE')
+        for face,triangle in zip(data.polygons,source.loop_triangles):
+            attribute.data[face.index].value=original.data[triangle.polygon_index].value
     data.update()
     data.normals_split_custom_set([tuple(source.corner_normals[index].vector) for index in loops])
     evaluated.to_mesh_clear()

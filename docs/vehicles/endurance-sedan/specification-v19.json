@@ -8,8 +8,8 @@
     "configuration": "four-door, left-hand-drive, all-wheel-drive endurance performance sedan",
     "status": "project-original fictional identity; final human art/rights review pending"
   },
-  "status": "locked_original_specification_v21",
-  "locked_utc": "2026-09-12T05:59:18.867648+00:00",
+  "status": "locked_original_specification_v19",
+  "locked_utc": "2026-09-12T04:22:55.461377+00:00",
   "benchmark": {
     "id": "audi_s6_2016_us",
     "model_year": 2016,
@@ -1224,7 +1224,7 @@
       "change": "Rear mirror Y .20 and camera Y .16; explicit mechanism axis spaces; original side mirror housing sets exact 2.10m width"
     }
   ],
-  "specification_revision": 20,
+  "specification_revision": 18,
   "original_packaging": {
     "auxiliary_cell_center_source_m": [
       0,
@@ -2227,164 +2227,6 @@
       },
       "scope": "Original styling/construction only. Engineering dimensions, hardpoints, gameplay, material inputs and budget ceilings remain unchanged. Fascia trials are not adopted in this revision.",
       "acceptance": "Combine the locally reviewed roof/liner/rocker changes and declared chamfers, then repeat all19 source gates and final source/export/LOD/runtime/platform/performance/media checks. Human approvals remain open."
-    },
-    "cabin_revision20": {
-      "thread": {
-        "color_linear_rgb": [
-          0.04,
-          0.045,
-          0.05
-        ],
-        "roughness": 0.78,
-        "provenance": "Original charcoal sewing thread response; existing supported physical routes and no external inputs"
-      },
-      "back_bolsters": {
-        "ring_vertices": 16,
-        "sections_z_width_depth_m": [
-          [
-            -0.2905,
-            0.038,
-            0.034
-          ],
-          [
-            -0.284,
-            0.075,
-            0.09
-          ],
-          [
-            -0.262,
-            0.102,
-            0.125
-          ],
-          [
-            -0.21,
-            0.111,
-            0.13
-          ],
-          [
-            0.19,
-            0.105,
-            0.123
-          ],
-          [
-            0.256,
-            0.092,
-            0.109
-          ],
-          [
-            0.281,
-            0.062,
-            0.07
-          ],
-          [
-            0.2905,
-            0.028,
-            0.025
-          ]
-        ],
-        "front_rake_degrees": 18,
-        "rear_rake_degrees": 9,
-        "original_lowest_z_retained": true,
-        "pilot_triangle_delta": -1504,
-        "scope": "Eight original back bolsters only; seat shell, cushion, belt anchors and occupant envelope unchanged"
-      },
-      "cupholders": {
-        "segments": 32,
-        "center_abs_x_m": 0.068,
-        "center_y_m": -0.113,
-        "receiving_inradius_m": 0.04,
-        "wall_thickness_m": 0.0015,
-        "pocket_clearance_m": 0.0012,
-        "lip_outer_radius_m": 0.044,
-        "lip_thickness_m": 0.002,
-        "lip_chamfer_m": 0.0005,
-        "receiving_depth_m": 0.06,
-        "bottom_thickness_m": 0.003,
-        "console_top_z_m": 0.586,
-        "pilot_triangle_delta": 592,
-        "mount": "Finite annular flange seat on actual console top; recessed sides and bottom maintain nominal1.2mm separation"
-      },
-      "acceptance": "Actual local renders and native trials support construction. Independent complete rebuilt self/contact/motion/LOD/export/runtime/media/performance checks and human gates remain required. Exposed rear wheel-tub trim and fascia are excluded pending measured candidates."
-    },
-    "fascia_revision21": {
-      "classification": "Original fictional formed exterior and native corner-field authorship; manufacturer geometry is not copied.",
-      "front_cap": {
-        "front_y_m": 2.4,
-        "half_width_m": 0.825,
-        "vertical_radius_m": 3.457,
-        "vertical_center_z_m": 0.55,
-        "plan_wrap_coefficient_m": 0.15,
-        "radial_fractions": [
-          0.25,
-          0.5,
-          0.75,
-          1.0
-        ],
-        "longitudinal_fade_y_m": [
-          2.23,
-          2.4
-        ],
-        "fade": "C2 quintic smoothstep"
-      },
-      "perimeter": {
-        "offset_m": 0.018,
-        "segments": 3,
-        "weight_ramp_z_m": [
-          0.67,
-          0.77
-        ],
-        "offset_definition": "Native Bevel OFFSET, weighted upper perimeter; not a certified constant18mm fillet radius.",
-        "native_face_strength_mode": "FSTR_ALL"
-      },
-      "native_stations": "Deduplicate only Y stations that encode to exactly the same Blender float32 before constructing rings.",
-      "shoulder": {
-        "parameter_span": [
-          5.65,
-          6.35
-        ],
-        "coefficient_m": -0.034,
-        "shape": "u^3*(1-u)^3 with original C2 longitudinal fade",
-        "maximum_height_change_m": 0.00053125,
-        "longitudinal_fade_y_m": [
-          1.9,
-          2.2
-        ],
-        "endpoints_and_first_two_derivatives_preserved": true
-      },
-      "cap_field": {
-        "retained_face_tag": 1,
-        "native_original_face_strength": 16384,
-        "normal_angle_guard_degrees": 0.025,
-        "retain_generated_bevel_vertices_shared_with_original_cap": true
-      },
-      "outer_side_endpoints": {
-        "count": 2,
-        "optical_floor_z_m": 0.673,
-        "abs_x_m": [
-          0.8,
-          0.87
-        ],
-        "y_m": [
-          2.2,
-          2.28
-        ],
-        "below_optical_floor_m": [
-          0,
-          0.006
-        ],
-        "target": "Geometric normal of the single retained original side triangle; retain the real cap/side dihedral."
-      },
-      "fender_field": {
-        "capture": "Actual native triangulated original body before its first Boolean",
-        "apply": "After final attributed diagonal repairs",
-        "whole_face_projection_guard_m": 1e-06,
-        "corner_lookup_guard_m": 2e-06,
-        "normal_angle_guard_degrees": 0.025,
-        "selection": "Only wholly owned upward original fender faces at the front cut and their previously continuous same-vertex corner fans; both sides required."
-      },
-      "provenance": "Preserve FACE INT cb_fascia_cap and __mod_weightednormals_faceweight through evaluated triangle freezing; refuse diagonal flips across differing authored values.",
-      "engineering_hardpoints_unchanged": true,
-      "acceptance_scope": "Matched source12/13 native renders and independent scoped source proofs support adoption for fresh construction. Full all-LOD, export, runtime and human acceptance remain pending; physical cabin closure is a separate unresolved scope."
     }
   },
   "specification_corrections_during_production": [
@@ -2451,12 +2293,6 @@
       "reason": "Taper the visible roof-rail lip while preserving its actual top support, fit liner ends inside the lower body, form tapered rocker blades, and use25 bounded hardware chamfers to fund geometry. Preserve fascia trials as unaccepted work.",
       "record": "docs/vehicles/endurance-sedan/packaging-revision-v19.md",
       "construction_acceptance": "Local independent visual/native evidence supports combined construction; complete rebuilt source and all final task gates remain required."
-    },
-    {
-      "revision": 20,
-      "reason": "Replace visually closed cup pads with real inserts and console pockets; align eight formed back bolsters to seat rake and reduce stitching brightness. Existing eighteen-group LOD validation includes the new liner failure repair.",
-      "record": "docs/vehicles/endurance-sedan/packaging-revision-v20.md",
-      "construction_acceptance": "Locked before canonical implementation; full assembled-source and all final acceptance gates remain required."
     }
   ]
 }

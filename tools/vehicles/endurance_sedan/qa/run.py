@@ -151,6 +151,7 @@ def main():
         ('motion-drivers', 'motion_drivers.py', ['--source', source, '--output', motion], [motion]),
         ('optical-seats', 'optical_seats.py', ['--geometry', geometry, '--output', paths['optical-seats']], [paths['optical-seats']]),
         ('finish-interfaces', 'finish_interfaces.py', ['--geometry', geometry, '--output', paths['finish-interfaces']], [paths['finish-interfaces']]),
+        ('cupholder-interfaces', 'cupholder_interfaces.py', ['--geometry', geometry, '--output', paths['cupholder-interfaces']], [paths['cupholder-interfaces']]),
         ('static-interfaces', 'static_interfaces.py', ['--geometry', geometry, '--optical-report', paths['optical-seats'], '--finish-report', paths['finish-interfaces'], '--output', paths['static-interfaces']], [paths['static-interfaces'], output / 'static-interfaces.intersection-solids.json.gz']),
         ('openings', 'openings.py', ['--input', geometry, '--drivers', opening, '--output', paths['openings']], [paths['openings']]),
         ('opening-containment', 'initial_containment.py', ['--geometry', geometry, '--certificate', paths['openings'], '--kind', 'openings', '--output', paths['opening-containment']], [paths['opening-containment']]),
