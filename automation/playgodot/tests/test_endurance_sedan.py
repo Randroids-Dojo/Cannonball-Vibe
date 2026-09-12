@@ -132,21 +132,32 @@ async def _verify_selected_clock_and_save(
     deadline = asyncio.get_running_loop().time() + 10
     while True:
         if save_path.is_file():
-            saved = json.loads(save_path.read_text())
+            saved_bytes = save_path.read_bytes()
+            saved = json.loads(saved_bytes)
             if saved["run"]["elapsedSeconds"] >= after["elapsed_seconds"]:
                 break
         assert asyncio.get_running_loop().time() < deadline, (
             "F5 did not persist the current run clock"
         )
         await asyncio.sleep(0.05)
-    following = await _clock_after(client, after["clock_ticks_msec"] + 1)
-    assert saved["run"]["elapsedSeconds"] <= following["elapsed_seconds"] + 0.01
-    saved_bytes = save_path.read_bytes()
+    # The bridge exposes Main's cached process sample. Reading the completed
+    # save does not make that sample newer than the later-in-frame F5 capture.
+    # Observe the cache after the file read, then require a newer sample. The
+    # saved value never participates in this readiness predicate.
+    save_read_barrier = (await client.describe("run.session"))["test_state"]
+    assert save_read_barrier["clock_ticks_msec"] >= after["clock_ticks_msec"]
+    following = await _clock_after(client, save_read_barrier["clock_ticks_msec"] + 1)
     (artifacts / f"sedan-selection-{selection}-save.json").write_bytes(saved_bytes)
     observations.append({"stage": "save-clock-" + selection,
                          "saved_elapsed_seconds": saved["run"]["elapsedSeconds"],
+                         "save_read_barrier": save_read_barrier,
+                         "following": following,
                          "following_elapsed_seconds": following["elapsed_seconds"],
                          "save_sha256": hashlib.sha256(saved_bytes).hexdigest()})
+    (artifacts / "sedan-selection-clock-observations.json").write_text(
+        json.dumps(observations, indent=2) + "\n",
+    )
+    assert saved["run"]["elapsedSeconds"] <= following["elapsed_seconds"] + 0.01
 
 
 @pytest.mark.skipif("GODOT_BIN" not in os.environ, reason="GODOT_BIN enables live 4.7.1 tests")
