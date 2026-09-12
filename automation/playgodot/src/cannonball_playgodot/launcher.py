@@ -601,8 +601,9 @@ class PlayGodotProcess:
                 failed(phase, error)
             record["phase_events"].append({"phase": phase,
                                             "elapsed_seconds": loop.time() - started})
-        final_end = min(started + SHUTDOWN_TIMEOUT_SECONDS,
-                        loop.time() + SHUTDOWN_PHASE_SECONDS[3])
+        # Early native exit leaves the unused graceful/fallback reservation
+        # available for output and evidence work, within the same absolute cap.
+        final_end = started + SHUTDOWN_TIMEOUT_SECONDS
         try:
             await self._before(
                 asyncio.shield(self._drain_task), final_end,

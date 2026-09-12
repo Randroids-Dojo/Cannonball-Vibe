@@ -104,7 +104,9 @@ method invocation or external process command is exposed.
 
 Owner cleanup has one monotonic eight-second maximum: five seconds for normal
 session close (at most one second), owner handshake/quit and native exit; then
-at most one second each for terminate, kill and final output drain/bookkeeping.
+at most one second each for terminate and kill. After native exit, final output
+drain and bookkeeping share the remainder of the original eight-second deadline,
+including unused graceful/fallback reservations.
 Connection-turnover retries consume the original deadline. Cancellation waits
 for this bounded cleanup before being re-raised. Repeated stop calls share the
 same result. Any earlier test/startup exception remains primary, with cleanup
@@ -117,7 +119,7 @@ native-observation record containing phase timings, acknowledgement, fallback,
 exit, EOF, native diagnostic lines and log SHA-256. Its
 `owner_finalization_required` field requires the owner's successful return (and
 the outer test/command result); the file alone is not cleanup acceptance. Final
-bookkeeping shares the drain's one-second deadline on a daemon worker, so a
+bookkeeping shares the drain's remaining absolute deadline on a daemon worker, so a
 blocked filesystem cannot keep the owner or its executor alive. A late worker
 can write only observations, never a successful final result. The launcher
 rejects a new start until that worker finishes. Earlier native errors are recorded separately;

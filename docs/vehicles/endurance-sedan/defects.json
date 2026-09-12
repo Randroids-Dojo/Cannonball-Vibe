@@ -4010,7 +4010,7 @@
           "bytes": 0
         }
       ],
-      "scope": "All digits0–9, R/N/1–7, idle/cruise/reverse, left/right/hazard phases and the low-fuel boundary decode correctly from actual evaluated source-preview geometry. No invalid drivers. This is source preview logic, not an engine or fuel-system simulation."
+      "scope": "All digits0\u20139, R/N/1\u20137, idle/cruise/reverse, left/right/hazard phases and the low-fuel boundary decode correctly from actual evaluated source-preview geometry. No invalid drivers. This is source preview logic, not an engine or fuel-system simulation."
     },
     {
       "task_id": "P1-018",
@@ -8889,6 +8889,88 @@
       ],
       "limits": "Three current fixed neutral stills only; source35-preview02 is over budget and is not the pending full03/04 source. Final complete source/LOD/export/cross-platform/native presentation/motion/performance and human art/rights/driving/usability gates remain open. Historical source34 media is a baseline, not transferred approval.",
       "human_approval_reference": null
+    },
+    {
+      "task_id": "P1-018",
+      "milestone": "M5",
+      "utc": "2026-09-12T11:27:05.868076+00:00",
+      "git_revision": "11d80201e79712dd10ac203a982fc1765dded7cd",
+      "platform": "Windows-11-10.0.26200-SP0",
+      "human_approval_reference": null,
+      "id": "P1-018-SPEAKER26-ACOUSTIC-03",
+      "kind": "actual-matched-originals-and-native-material-readback",
+      "source_sha256": "3374fa0f524568385c869e32f61ed165e7b10bc290146eda20deedde76fadcc0",
+      "status": "local-improvement-final-source-pending",
+      "related_defects": [
+        "P1-018-D073"
+      ],
+      "evidence": [
+        {
+          "path": "reports/p1-018/qa/speaker26-acoustic-review01/review.json",
+          "sha256": "e8a12b7857c3c8a75c129d44a18341aabc863539623566f748e37b12d8bb7bb8",
+          "bytes": 11813
+        }
+      ],
+      "observations": [
+        "Twelve actual original images independently viewed with identical camera/light/64sample/1440p settings.",
+        "Current six cloth covers have one material slot and exact cap geometry/UV/parent identity; historical two-slot detail02 is rejected."
+      ],
+      "limits": "Extreme fixed close-ups only. Coarse perimeter still visible; final cabin-scale, combined-source, LOD/export/runtime and human gates remain open."
+    },
+    {
+      "task_id": "P1-018",
+      "milestone": "M5",
+      "utc": "2026-09-12T11:27:05.868076+00:00",
+      "git_revision": "11d80201e79712dd10ac203a982fc1765dded7cd",
+      "platform": "Windows-11-10.0.26200-SP0",
+      "human_approval_reference": null,
+      "id": "P1-018-REAR-SEAT26-STABLE-REPLAY-22",
+      "kind": "actual-source-trace-and-unsaved-finite-geometry-field-candidate",
+      "source_sha256": "26b7fc239a3d88854f00ddfc71dde9bfe25e80e1432255e8ea0236e4348de53e",
+      "status": "stable-unsaved-candidate-with-new-authored-field-pending",
+      "related_defects": [
+        "P1-018-D074"
+      ],
+      "evidence": [
+        {
+          "path": "reports/p1-018/qa/rear-seat-replay35-01/handoff22.json",
+          "sha256": "971ead96930462522ae46b6fa477c5e1a0e278ecaab1042cdf02ecf4cda7755a",
+          "bytes": 71498
+        }
+      ],
+      "observations": [
+        "Both actual source contexts traced; unrelated physical assembly is excluded as a cause.",
+        "Complete geometry and affected finite fit pass; historical whole exterior field equality fails and is explicitly superseded only by a proposed authored-field scope."
+      ],
+      "limits": "No source saved or candidate render viewed in this proof. The optional.001-degree bound-width target was not reached; wider conservative full-domain bounds are retained. Final source/art gates stay open."
+    },
+    {
+      "task_id": "P1-018",
+      "milestone": "M5",
+      "utc": "2026-09-12T11:27:05.868076+00:00",
+      "git_revision": "11d80201e79712dd10ac203a982fc1765dded7cd",
+      "platform": "Windows-11-10.0.26200-SP0",
+      "human_approval_reference": null,
+      "id": "P1-018-ROOT-ROOF-AND-REAR26-VISUAL-01",
+      "kind": "lead-reported-actual-original-review-supplement",
+      "status": "visual-candidate-rejected-and-historical-defects-open",
+      "related_defects": [
+        "P1-018-D065",
+        "P1-018-D067",
+        "P1-018-D069"
+      ],
+      "evidence": [
+        {
+          "path": "reports/p1-018/roof-end26-field01/visual01.json",
+          "sha256": "13cc2b2ddf5c81a0169aef783b7beb9bb5c2867f020cf3feb9b6a2f7c6861f5d",
+          "bytes": 2872
+        }
+      ],
+      "observations": [
+        "Lead reports a new scalloped bright reflection on the C-pillar roof return and rejects the current closing candidate despite fitted geometry.",
+        "Lead matched full10 originals reproduce inherited rear bumper/quarter triangular reflections, rear-face highlight discontinuities and abrupt arch/rocker joins before later assembly edits."
+      ],
+      "limits": "Attributed to root actual-image review; independent QA has not viewed this specific eight-image roof/rear supplement. No historical defect is closed or overwritten."
     }
   ],
   "defects": [
@@ -9098,7 +9180,7 @@
         "O03"
       ],
       "summary": "Blockout attempt 01 had zero-area evaluated polygons from thin-object bevels and LOD simplification.",
-      "expected": "No evaluated polygon area below 1e-12 mÂ² and no unintended nonmanifold edges.",
+      "expected": "No evaluated polygon area below 1e-12 m\u00c2\u00b2 and no unintended nonmanifold edges.",
       "actual": {
         "degenerate_faces": 343,
         "affected_meshes": [
@@ -9238,7 +9320,7 @@
         "O03"
       ],
       "summary": "Attempt 02 GLB still has 14 degenerate triangles despite its polygon inventory passing.",
-      "expected": "Every exported triangle has area greater than the locked 1e-12 m² degeneracy threshold.",
+      "expected": "Every exported triangle has area greater than the locked 1e-12 m\u00b2 degeneracy threshold.",
       "actual": {
         "degenerate_triangles": 14,
         "triangles": 53552,
@@ -11786,7 +11868,7 @@
         {
           "utc": "2026-09-11T02:12:13.982593+00:00",
           "source_sha256": "997b38cf570991265b2c58e145927f6a24d014a0cef5e100e7494f1cf7285801",
-          "observation": "Source 20 InstrumentShade crosses the actual left wiper rubber at 60–100% sweep. Root is moving the shade behind the windshield; fresh mesh and view verification is required.",
+          "observation": "Source 20 InstrumentShade crosses the actual left wiper rubber at 60\u2013100% sweep. Root is moving the shade behind the windshield; fresh mesh and view verification is required.",
           "evidence": [
             {
               "path": "reports/p1-018/qa/production-surface-20/contact-regression-review.json",
@@ -12277,11 +12359,16 @@
         {
           "path": "reports/p1-018/qa/source-controls-10/stderr.log",
           "sha256": "b415adc54bf131cef1fc3337243b2c2c3565d618f8e2fceb110eda23af2ee52c"
+        },
+        {
+          "path": "reports/p1-018/visual26-root-review01/surface-trials03.json",
+          "sha256": "6460b24ed1ae298ec7d984543fb47baefa301be0c1775ba8bd8a77e8184754bd",
+          "bytes": 22833
         }
       ],
       "assigned_owner": "lead",
       "correction": null,
-      "verification": null,
+      "verification": " 2026-09-12T16:29:30.958783+00:00: Matched source AR trial reduces Material_Screen specular IOR level .5 to .06 and roughness .26 to .32 without changing exposure, emission, glyphs or lights. Root and independent QA inspect actual originals and confirm improved RPM/fuel/speed readability. Current source/GLB translation and native all-lighting visibility remain pending.",
       "followup_observations": [
         {
           "utc": "2026-09-11T00:44:45.563789+00:00",
@@ -13396,7 +13483,7 @@
       ],
       "assigned_owner": "runtime",
       "correction": null,
-      "verification": null,
+      "verification": "Open: actual active runtime material resources must be rebound after the final source/import/presenter composition. The earlier shutdown note was misattributed to this material-budget defect; see the dated lifecycle audits for its separate evidence.",
       "id": "P1-018-D057",
       "category": "runtime-material-resource-budget",
       "summary": "Actual active runtime material resources exceed the unchanged 32-material ceiling at every LOD.",
@@ -13672,7 +13759,7 @@
       ],
       "expected": "Resolve the exposed termination as a coherent formed finish and judge its highlight in matching grazing and exterior views while preserving the proved fixed/moving geometry and finite joint.",
       "correction": "partly_corrected_visual_finish_open",
-      "verification": "Exact fresh35-preview02 visual and finite-geometry evidence is linked; no full changed-source, native, performance or human acceptance is inferred.",
+      "verification": "Exact fresh35-preview02 visual and finite-geometry evidence is linked; no full changed-source, native, performance or human acceptance is inferred. 2026-09-12T16:29:30.958783+00:00: Actual fair50 source a812e93f improves the central corner reflection, but root rejects whole-roof acceptance because a crumpled patch remains below the revised region. Research traces a14.42-degree decoded field jump at its cut boundary; zero-triangle transition57 is a new trial awaiting actual comparison and final finite fit/motion/field rebind.",
       "related_defects": [
         "P1-018-D039",
         "P1-018-D048"
@@ -13682,6 +13769,11 @@
           "path": "reports/p1-018/qa/fresh35-preview02-visual-review01/review.json",
           "sha256": "6196fd93b6afaa349f1564bc076a1b1bd4a527fb93a31c35ca7bf41610977279",
           "bytes": 38048
+        },
+        {
+          "path": "reports/p1-018/visual26-root-review01/surface-trials03.json",
+          "sha256": "6460b24ed1ae298ec7d984543fb47baefa301be0c1775ba8bd8a77e8184754bd",
+          "bytes": 22833
         }
       ],
       "human_approval_reference": null
@@ -13735,7 +13827,7 @@
       ],
       "expected": "Finish the actual lower arch and pressed return transitions under matching open/under views, retaining full independent door travel and the finite latch interfaces.",
       "correction": "finite_latch_seats_corrected_broader_returns_open",
-      "verification": "Exact fresh35-preview02 visual and finite-geometry evidence is linked; no full changed-source, native, performance or human acceptance is inferred.",
+      "verification": "Exact fresh35-preview02 visual and finite-geometry evidence is linked; no full changed-source, native, performance or human acceptance is inferred. 2026-09-12T16:29:30.958783+00:00: Finite actual wheel-cut normal fields reduce fragmented lower glints. Extending only front liner ends from18 to27 degrees below the axle covers pointed exposed ends in matched actual images. Independent review finds two new tiny FrontUndertray overlaps and inherited damper/tower/liner contacts, so fit remains open. A dark notched upper-left shoulder patch is observed visually, without a proved cause.",
       "related_defects": [
         "P1-018-D031",
         "P1-018-D047"
@@ -13745,6 +13837,11 @@
           "path": "reports/p1-018/qa/fresh35-preview02-visual-review01/review.json",
           "sha256": "6196fd93b6afaa349f1564bc076a1b1bd4a527fb93a31c35ca7bf41610977279",
           "bytes": 38048
+        },
+        {
+          "path": "reports/p1-018/visual26-root-review01/surface-trials03.json",
+          "sha256": "6460b24ed1ae298ec7d984543fb47baefa301be0c1775ba8bd8a77e8184754bd",
+          "bytes": 22833
         }
       ],
       "human_approval_reference": null
@@ -13937,6 +14034,217 @@
         }
       ],
       "human_approval_reference": null
+    },
+    {
+      "severity": "major",
+      "status": "open",
+      "assigned_owner": "lead-modeling-and-independent-qa",
+      "observed_utc": "2026-09-12T11:27:05.868076+00:00",
+      "observed_revision": "11d80201e79712dd10ac203a982fc1765dded7cd",
+      "human_approval_reference": null,
+      "id": "P1-018-D073",
+      "category": "speaker-support-and-acoustic-finish",
+      "summary": "Speaker covers penetrate their supports in the original source and the fitted cap trial initially retains conspicuous glossy lobes.",
+      "actual": "The original six grilles have native finite penetrations: four door covers reach 4.499972 mm into the cards, rear-shelf covers 3.999949 mm into the shelf, and rear-door lower covers reach 21.499991 mm into the pockets. Actual matched close-ups of the physical-cap-only trial retain or increase glossy, uneven highlights. The intermediate acoustic detail02 has two material slots per closed component, violating the existing one-material batching contract.",
+      "expected": "Closed original oval covers with finite supported mounting backs, no unintended card/pocket penetration, plausible acoustic textile response and one material per component. Final source must preserve declared fit, budget, LOD and runtime behavior.",
+      "correction": "The reusable cap recipe preserves the visible 20/24-point outlines and peaks, constructs supported planar backs, and relieves the obscured rear pocket overlap, saving 1280 triangles. The later single-slot detail03 source3374fa0f... adds an explicit continuous elliptical skin field and one whole-cover acoustic cloth material. The actual cap geometry, UVs and parents compare exactly across cap/detail02/detail03 sources.",
+      "verification": "Independent QA viewed all12 matched2560x1440 originals, including the latest three. The cloth field removes the strong glossy lobes and reads as woven material; the perimeter remains visibly polygonal at extreme close-up. Actual native readback confirms six one-slot cloth covers and zero reported basic/raw-normal failures. Final combined source support/assembly/self/export/LOD/native appearance and human art gates remain open; local constructor metrics and images do not close this defect.",
+      "evidence": [
+        {
+          "path": "reports/p1-018/qa/speaker35-reserve01/handoff07.json",
+          "sha256": "a98d23560d3720a6a40a2e5579bad46c7d351ec8d1259b45a659e250529af000",
+          "bytes": 22349
+        },
+        {
+          "path": "reports/p1-018/qa/speaker35-reserve01/native06.json",
+          "sha256": "6cc9d72bdddcce0873df63295424b34f222f4d3cb94581c10a5fd8f16a2eef85",
+          "bytes": 1289390
+        },
+        {
+          "path": "reports/p1-018/qa/speaker26-acoustic-review01/review.json",
+          "sha256": "e8a12b7857c3c8a75c129d44a18341aabc863539623566f748e37b12d8bb7bb8",
+          "bytes": 11813
+        },
+        {
+          "path": "reports/p1-018/qa/speaker26-acoustic-review01/native01.json",
+          "sha256": "a367a935dbe0a97617947260707858fb61d53d7d891c7e08da13647370b046ed",
+          "bytes": 20744
+        },
+        {
+          "path": "reports/p1-018/assembly26-detail03/construction.json",
+          "sha256": "9295d26a42c780a3ba59d2702068aa7f953758de3c8d3f3dcf0dd7957b61cf54",
+          "bytes": 292689
+        }
+      ]
+    },
+    {
+      "severity": "major",
+      "status": "open",
+      "assigned_owner": "lead-modeling-and-independent-qa",
+      "observed_utc": "2026-09-12T11:27:05.868076+00:00",
+      "observed_revision": "11d80201e79712dd10ac203a982fc1765dded7cd",
+      "human_approval_reference": null,
+      "id": "P1-018-D074",
+      "category": "rear-seat-boolean-replay-topology-and-authored-field",
+      "summary": "Replaying the rear joined upholstery from equivalent source surfaces changes Boolean topology and shading fields.",
+      "actual": "Actual assembly26 replay differs from the earlier combined source by3 added/removed left triangles and22 right triangles, with shared-corner normal changes up to5.223306/5.9106 degrees. Small29.802/720.822 nm vertex differences do not account for or excuse the field drift. Direct source08/source10 tracing reproduces both outputs and isolates equivalent thigh-bolster input order and the BackShell Boolean difference as the first geometric divergence; subsequent native fallback/ownership propagates the normal changes.",
+      "expected": "A deterministic, current-source construction with explicit geometric ownership of every authored corner field, closed self-clear meshes, verified finite fit, unchanged .025-degree requested-native/export guards and explicit source-art review for any newly authored exterior interpolation.",
+      "correction": "Reports-only policy13 canonicalizes the two rear foam Boolean paths, assigns original-foam, opposed evaluated-carrier and completely supported generated-join field domains, and removes native Boolean fallback. Both source inputs produce exact matching coordinates/triangle order/UVs, with cross-input native corner difference at most.002749398 degrees and zero triangle delta. Rear shell/headrest outputs and front paths remain unchanged.",
+      "verification": "Complete bidirectional old/new surface coverage passes the existing1 micrometer source Boolean guard. The explicit unsaved current-assembly overlay passes18 affected finite groups and23 negatives;10 measurement controls pass. Historical exterior-field preservation still fails and is retained: full UV-corresponding exterior maximum is bounded by1.252245 degrees left and.899384 degrees right, including triangle interiors. Lead has authorized preparing these as new authored source fields, not a widened encoding tolerance. Matched rendered candidate review, scope lock and final saved-source/export/LOD/runtime checks remain pending; defect stays open.",
+      "evidence": [
+        {
+          "path": "reports/p1-018/assembly26-pilot01/topology-diagnosis01.json",
+          "sha256": "5177f146fbe5b4db0246369390a06bfe5dd33d118ee573ac05447ee3c6683415",
+          "bytes": 64492
+        },
+        {
+          "path": "reports/p1-018/qa/rear-seat-replay35-01/input-comparison02.json",
+          "sha256": "0e64ec76d501142a830e268d74e0c77826cd418884cbf45edea8709f6f0b7faf",
+          "bytes": 220368
+        },
+        {
+          "path": "reports/p1-018/qa/rear-seat-replay35-01/trace-comparison05.json",
+          "sha256": "4f638b72ebe266a1083c8f2c10fbb15945cb386e2ba85c5c6f444b0c3a9e87e8",
+          "bytes": 124560
+        },
+        {
+          "path": "reports/p1-018/qa/rear-seat-replay35-01/conservation15.json",
+          "sha256": "b4f14a47ff16e776946e0a0f0642c481190e48299134838361b8edae38708cca",
+          "bytes": 490658
+        },
+        {
+          "path": "reports/p1-018/qa/rear-seat-replay35-01/handoff22.json",
+          "sha256": "971ead96930462522ae46b6fa477c5e1a0e278ecaab1042cdf02ecf4cda7755a",
+          "bytes": 71498
+        },
+        {
+          "path": "reports/p1-018/qa/rear-seat-replay35-01/geometry16.json",
+          "sha256": "07456c50eab37c29c8db6cb6fc9b43ff8cf2c3547a6a2671f33bf8fde04d418b",
+          "bytes": 428582
+        },
+        {
+          "path": "reports/p1-018/qa/rear-seat-replay35-01/fit19.json",
+          "sha256": "daab2b395c617765ce5278baf6425f0c58d2033390b45b76dbd8bb8c3aedba4b",
+          "bytes": 12008801
+        }
+      ]
+    },
+    {
+      "severity": "major",
+      "status": "open",
+      "assigned_owner": "lead-modeling-and-independent-qa",
+      "observed_utc": "2026-09-12T16:29:30.958783+00:00",
+      "observed_revision": "72b225ab0fd5513a16a6a6045ff27ac86b8c5d77",
+      "human_approval_reference": null,
+      "id": "P1-018-D075",
+      "category": "front-running-gear-and-cooling-fit",
+      "summary": "Current cooling and front wheelhouse assemblies have unsupported fin backs and unintended solid interference.",
+      "actual": "Fresh04 has36 cooler fins3.499985mm into the wrong core and .499964mm short of their named carrier. The first hose reroute clears the inner tub but retains34.212926cm3 damper and11.839051cm3 liner intersections. Front tub/tower and tub/bumper intersections and incomplete liner cap bearing are independently observed. Extended liner ends introduce two tiny undertray overlaps; separate inherited damper/tower contacts remain.",
+      "expected": "Fins seat their declared core, the hose retains credible finite endpoint connections and clears unrelated hardware, and formed wheelhouse/liner receivers support their named finite domains through declared suspension/steering travel.",
+      "correction": "Reports-only cooling05 moves the main core5mm forward and extends36 fin backs to their actual carrier. Its separately qualified hose retains exact endpoint rings. Front-liner and front-tub trials extend lower molded returns, preserve original stations, and shape two4mm walls against actual tower/bumper receivers. All changes remain candidates until their complete affected checks pass.",
+      "verification": "Independent cooling review passes36 complete cap areas,38 basic/self/raw-normal checks and152 continuous tire domains. It explicitly rejects complete hose fit. Root saves/reopens the fitted tub trial079a1b30 with1115 other native fields exact and704 fewer triangles; complete receiver/all-neighbor/motion checks remain pending. No original intersection is accepted merely because it is inherited.",
+      "evidence": [
+        {
+          "path": "reports/p1-018/qa/cooling-fit26-review01/handoff04.json",
+          "sha256": "b44e4e9935c69d317e85206c3295843e90a357d0be455c550dd96165006a782b",
+          "bytes": 22186
+        },
+        {
+          "path": "reports/p1-018/qa/assembly26-current-source01/handoff14.json",
+          "sha256": "6304c43355ec66998e32f8ff95e352fcf45b76d5b1ad683eb0259360cb8fe8a5",
+          "bytes": 33614
+        },
+        {
+          "path": "reports/p1-018/front-tub26-pilot01/saved01/construction.json",
+          "sha256": "585fd2dcbf82ec15ab5e24b4f692a105a54d31be51400cf17d8c496c163f02c4",
+          "bytes": 12520
+        },
+        {
+          "path": "reports/p1-018/visual26-root-review01/surface-trials03.json",
+          "sha256": "6460b24ed1ae298ec7d984543fb47baefa301be0c1775ba8bd8a77e8184754bd",
+          "bytes": 22833
+        }
+      ]
+    },
+    {
+      "severity": "major",
+      "status": "open",
+      "assigned_owner": "lead-modeling-and-independent-qa",
+      "observed_utc": "2026-09-12T16:29:30.958783+00:00",
+      "observed_revision": "72b225ab0fd5513a16a6a6045ff27ac86b8c5d77",
+      "human_approval_reference": null,
+      "id": "P1-018-D076",
+      "category": "climate-control-mounting",
+      "summary": "Two visible climate-control knobs lack a modeled receiving mount.",
+      "actual": "Independent actual-source QA measures at least30.999959mm separation from the dashboard and38.870040mm along each rear axis. The three neighboring switches also require a common finite carrier.",
+      "expected": "Controls and labels stay at their usable locked positions while finite modeled bosses and a supported carrier provide credible construction without unrelated penetration.",
+      "correction": "Reports-only source6c8f45a4 adds one closed molded carrier and two hidden8-sided bosses,76 triangles total. The front plane derives from the actual switch backs and upper bearing from the actual dashboard plane; controls stay fixed.",
+      "verification": "Saved/reopened fields match; all1117 original mesh fields remain exact and three new basic/raw-normal checks pass. Root actual matched cockpit images show controls attached to the carrier. Eight finite contacts, self/nonmating/motion and independent visual checks are pending.",
+      "evidence": [
+        {
+          "path": "reports/p1-018/qa/detail-budget26-review01/handoff05.json",
+          "sha256": "beca386d16921f03334d6a022cc1f4d614b6f3582e52f5d4de459779c5462cbc",
+          "bytes": 23778
+        },
+        {
+          "path": "reports/p1-018/climate-mount26-pilot01/saved01/construction.json",
+          "sha256": "c1facace7cf815f73b89a113c10f4c6be61f127b9aa2d60e901b1ef5a063ef38",
+          "bytes": 5325
+        },
+        {
+          "path": "reports/p1-018/visual26-root-review01/surface-trials03.json",
+          "sha256": "6460b24ed1ae298ec7d984543fb47baefa301be0c1775ba8bd8a77e8184754bd",
+          "bytes": 22833
+        }
+      ]
+    },
+    {
+      "id": "P1-018-D077",
+      "severity": "major",
+      "status": "open",
+      "category": "brake-surface-shading",
+      "assigned_owner": "lead-modeling",
+      "observed_utc": "2026-09-12T17:05:17.830771+00:00",
+      "observed_revision": "72b225ab0fd5513a16a6a6045ff27ac86b8c5d77",
+      "summary": "Flat brake friction faces show lobed reflections in the actual close-up.",
+      "actual": "The wheel close-up contains round bright lobes across the friction annulus; the current ring has smooth shading across its axial/radial right-angle corners.",
+      "expected": "Flat machined friction faces retain constant axial normals; cylindrical walls have radial normals and deliberate rim boundaries.",
+      "correction": "Prepare an eight-mesh analytical normal-field trial with every geometry, UV and material field unchanged. The first matched actual render fixes friction-ring lobes; apply the same rule to the four adjacent straight annular brake hats, twelve meshes total, to finish the same defect.",
+      "verification": null,
+      "evidence": [
+        {
+          "path": "reports/p1-018/coolant-route26-pilot01/render01/wheel.png",
+          "sha256": "6b20766c4557195395236308c24091062de2e70f93f3d904f02501150eb80a58",
+          "bytes": 3506673
+        },
+        {
+          "path": "reports/p1-018/coolant-route26-pilot01/render01/manifest.json",
+          "sha256": "dd987986be37daa55b16a8f2fe52a068115cbd02d35dbb261fb4e279aa8e437a",
+          "bytes": 3306
+        },
+        {
+          "path": "reports/p1-018/brake-field26-pilot01/DESIGN.md",
+          "sha256": "99ad95b8331c09312f9918664956e2b5ed06a43a4e134ec447e868c139e36db1",
+          "bytes": 818
+        }
+      ],
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-D078",
+      "severity": "major",
+      "status": "open",
+      "category": "machined-cap-shading",
+      "summary": "Flat hub and strut-top caps have bulged reflections from blended cap/wall normals.",
+      "observed": "Actual brake-field26 render02/wheel and coolant-route26 render01/engine show lobed highlights across flat end caps.",
+      "evidence": [
+        "reports/p1-018/brake-field26-pilot01/render02/wheel.png",
+        "reports/p1-018/coolant-route26-pilot01/render01/engine.png"
+      ],
+      "correction": "Bounded33-part native field correction described in cylinder-finish26-pilot01/DESIGN.md; no geometry/material changes.",
+      "verification": "Pending actual saved/reopened native fields and matched render inspection.",
+      "assigned_owner": "lead",
+      "resolution_evidence": []
     }
   ],
   "qa_gaps": [
@@ -14078,5 +14386,5 @@
       "approval_reference": null
     }
   ],
-  "updated_utc": "2026-09-12T02:35:13.580420+00:00"
+  "updated_utc": "2026-09-12T17:49:34.796388+00:00"
 }

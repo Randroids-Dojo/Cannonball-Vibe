@@ -1,0 +1,1945 @@
+{
+  "task_id": "P1-018",
+  "milestone": "M5",
+  "status": "passed",
+  "started_utc": "2026-09-12T18:47:12.742506+00:00",
+  "git_revision": "568252ce674997d9d20a6959a557c7922e2fbe91",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.14.6",
+  "zlib_runtime": "1.3.1.zlib-ng",
+  "tool_sha256": "1310e66035402d9eccaef4c0b2fe6d474f0b56958e914138d3f57be6285b18ff",
+  "input_manifest": {
+    "path": "reports/p1-018/art-checkpoint26-retention01/manifest02-06.json",
+    "sha256": "4111ce097adb599ef46a1784d2604faf5789b4b4d3000597caaae07d614cbb25"
+  },
+  "entries": [
+    {
+      "path": "reports/p1-018/qa/assembly26-current-source01/current-caps03.json",
+      "sha256": "765dd2ab214b782a9afb8e6cf9213d631df5270a71f022890c348ae2a0ef6ce5",
+      "bytes": 7378685
+    },
+    {
+      "path": "reports/p1-018/qa/assembly26-current-source01/current-plan02.json",
+      "sha256": "c716de25c0c044d90e173df3b9920bdce80d8c845cca6e7c4b1475553c5706ae",
+      "bytes": 6739774
+    },
+    {
+      "path": "reports/p1-018/qa/assembly26-current-source01/diagnose12.py",
+      "sha256": "64a0c9147fe4c2cdf63bca6d528de439cbe6bedad38d77bd33d00b1432f6d751",
+      "bytes": 3111
+    },
+    {
+      "path": "reports/p1-018/qa/assembly26-current-source01/diagnosis12.json",
+      "sha256": "cdd3340bf10ed51eea586093038e5bbe814644bcc9f27745c265f5a2884082e3",
+      "bytes": 10043
+    },
+    {
+      "path": "reports/p1-018/qa/assembly26-current-source01/extract01/evaluated-inventory.json",
+      "sha256": "e0e3a58ef7e5de747e6185f688e4f5c51c2821e40d6cd15c08aa100d28a0046f",
+      "bytes": 1187078
+    },
+    {
+      "path": "reports/p1-018/qa/assembly26-current-source01/extract01/evaluated-meshes.json.gz",
+      "sha256": "96ecb5c59e484530b0260086fae4a828a8473c41f8a9cb41ac952ba53f091e00",
+      "bytes": 1546578
+    },
+    {
+      "path": "reports/p1-018/qa/assembly26-current-source01/finite11-native.json",
+      "sha256": "1142faf96ce03000ecbba247098b479a21b2be20cb8b4867d625dcf1533ce68f",
+      "bytes": 489860
+    },
+    {
+      "path": "reports/p1-018/qa/assembly26-current-source01/finite11.json",
+      "sha256": "fc1d7cfb568b5ac73e80d3441463abf3a9434e340648f22773382a77cd08c987",
+      "bytes": 612969
+    },
+    {
+      "path": "reports/p1-018/qa/assembly26-current-source01/finite13-native.json",
+      "sha256": "9a4cdbfd55cd7773aa4a549709aedffafc30f075ef77c554423ed8313a87d5e5",
+      "bytes": 521055
+    },
+    {
+      "path": "reports/p1-018/qa/assembly26-current-source01/finite13.json",
+      "sha256": "a22d1561ece692cfeaa43141d8b03626ba5a96dc36e3acf29a6d7dbd709c5b9c",
+      "bytes": 680538
+    },
+    {
+      "path": "reports/p1-018/qa/assembly26-current-source01/followup08/HANDOFF10.md",
+      "sha256": "23b87d02634f6e46d1de30e3dd97dc6f8567d967b7c17864a367aae55bd66ea1",
+      "bytes": 4116
+    },
+    {
+      "path": "reports/p1-018/qa/assembly26-current-source01/followup08/commands/20260912T145755.607623Z-current47-and-existing16.json",
+      "sha256": "69151d93af1943b374a8989922a21f25ceaf1c55b568262ec37df0cfd7ced147",
+      "bytes": 1629
+    },
+    {
+      "path": "reports/p1-018/qa/assembly26-current-source01/followup08/commands/20260912T145755.607623Z-current47-and-existing16.log",
+      "sha256": "59933087f3b0b6021862f4e988a12ea15aada8d3dd5ed074d2d867f875313fa7",
+      "bytes": 6274
+    },
+    {
+      "path": "reports/p1-018/qa/assembly26-current-source01/followup08/commands/20260912T150942.484960Z-bounded-correction-datums09.json",
+      "sha256": "6f695e94ebf5cb09a09b0688209544c215ff35bc66982191465847d4631af9a6",
+      "bytes": 1461
+    },
+    {
+      "path": "reports/p1-018/qa/assembly26-current-source01/followup08/commands/20260912T150942.484960Z-bounded-correction-datums09.log",
+      "sha256": "08c21c226dd72ec21aad2d496c17d651c5b2e00310300dd1a761e5d755117297",
+      "bytes": 300
+    },
+    {
+      "path": "reports/p1-018/qa/assembly26-current-source01/followup08/correction-bounds09.json",
+      "sha256": "30c43f556171e6f8a00d80b4c0e53b4625527cd6e82579b612d3bc1e2a0436e9",
+      "bytes": 848370
+    },
+    {
+      "path": "reports/p1-018/qa/assembly26-current-source01/followup08/correction_bounds09.py",
+      "sha256": "1f3c8370734561e42ecf75323d5dfe524266b7b4199046b3ead5c70792a8afa5",
+      "bytes": 4280
+    },
+    {
+      "path": "reports/p1-018/qa/assembly26-current-source01/followup08/findings10.json",
+      "sha256": "a93b670c2b1a22811a61995b76976bb0691efe37128194b68f22fd9ddaeb6889",
+      "bytes": 186968
+    },
+    {
+      "path": "reports/p1-018/qa/assembly26-current-source01/followup08/freeze10.py",
+      "sha256": "7f30c9e43d5c671f86baa12d74020ca4e901f77fc32c78e15b1eb0de0090d4fa",
+      "bytes": 18377
+    },
+    {
+      "path": "reports/p1-018/qa/assembly26-current-source01/followup08/handoff10.json",
+      "sha256": "a3e9a0087436458d8d7cfdc0f242283f9d1b4d501acf3944a9fd33d082b02ef9",
+      "bytes": 19711
+    },
+    {
+      "path": "reports/p1-018/qa/assembly26-current-source01/followup08/inspect47_native08.py",
+      "sha256": "28f0df7c6c894508cda36f1bf092c923c8556c8283fbbec10fce1e2ed263bd65",
+      "bytes": 9117
+    },
+    {
+      "path": "reports/p1-018/qa/assembly26-current-source01/followup08/intersections08.json.gz",
+      "sha256": "bc0e70ed0594f22a63a5c0a0ae71817966b6a814023c34811e9afcc3471a43ae",
+      "bytes": 28948
+    },
+    {
+      "path": "reports/p1-018/qa/assembly26-current-source01/followup08/native08.json",
+      "sha256": "65dcaecf7585aa965fb773daaa5cc6e6668836373826fd5db1c58f42d43e9e13",
+      "bytes": 816514
+    },
+    {
+      "path": "reports/p1-018/qa/assembly26-current-source01/freeze07.py",
+      "sha256": "a52b18aa202c59d4e4852624a345bd4b1b62ae45bc0f1117e4162665e9f58df7",
+      "bytes": 3506
+    },
+    {
+      "path": "reports/p1-018/qa/assembly26-current-source01/freeze14.py",
+      "sha256": "62abcb235749d2455873950f209c5da337b48d191342deebc0fee560909863da",
+      "bytes": 8991
+    },
+    {
+      "path": "reports/p1-018/qa/assembly26-current-source01/handoff07.json",
+      "sha256": "a2eca4bd4db055769e15c6a2dbf75930d3702eb5c4c4958ed12a2d31a027ec42",
+      "bytes": 67251
+    },
+    {
+      "path": "reports/p1-018/qa/assembly26-current-source01/handoff14.json",
+      "sha256": "6304c43355ec66998e32f8ff95e352fcf45b76d5b1ad683eb0259360cb8fe8a5",
+      "bytes": 33614
+    },
+    {
+      "path": "reports/p1-018/qa/assembly26-current-source01/inputs/inventory01-before-lint.py",
+      "sha256": "5547f479380044a842c99404a2842a6bd42f7c097ca618cc7705a5bb6d8716cc",
+      "bytes": 8038
+    },
+    {
+      "path": "reports/p1-018/qa/assembly26-current-source01/inventory01.json",
+      "sha256": "58d9b6ab18b1aeb7c3eecd965e0277a69d07c149b26252aedc3004e6bab344f8",
+      "bytes": 100706
+    },
+    {
+      "path": "reports/p1-018/qa/assembly26-current-source01/inventory01.py",
+      "sha256": "ac885ec016bdb3727ddcb7e428c305d2d1fe5bd7b325307d4575d52d6d1c1d1a",
+      "bytes": 8056
+    },
+    {
+      "path": "reports/p1-018/qa/assembly26-current-source01/proposed/assembly_contract.py",
+      "sha256": "96cbee04172c27a9db04bf4545b453d7132b7f4e73700e0b68eb96071e6256ca",
+      "bytes": 12310
+    },
+    {
+      "path": "reports/p1-018/qa/assembly26-current-source01/proposed/assembly_native.py",
+      "sha256": "f61e1a34473af6c633bcb175517e06ce7c553105c56fbecd38fd2e69331c34c5",
+      "bytes": 9484
+    },
+    {
+      "path": "reports/p1-018/qa/assembly26-current-source01/proposed11/assembly_finite.py",
+      "sha256": "ed0362ddafde029072b0310bc02ec5c4d829c2d8c906ce4cbee66e2e76c94ef8",
+      "bytes": 16731
+    },
+    {
+      "path": "reports/p1-018/qa/assembly26-current-source01/proposed13/assembly_finite.py",
+      "sha256": "559bcccb9ba6b978103feee556b80f45041c60ba10ff55f3b4e4a2d42d4d508e",
+      "bytes": 16866
+    },
+    {
+      "path": "reports/p1-018/qa/assembly26-current-source01/run_current02.py",
+      "sha256": "f818c9589b6679027914c002e4658a1bb34322192b05ce75fac53a87c44d534f",
+      "bytes": 2974
+    },
+    {
+      "path": "reports/p1-018/qa/assembly26-current-source01/run_finite11.py",
+      "sha256": "e262fdaa6c3f82e9d1cf4bc9498a3fbeb746a810d39df3911c93b85bb039d36e",
+      "bytes": 7354
+    },
+    {
+      "path": "reports/p1-018/qa/assembly26-current-source01/run_finite13.py",
+      "sha256": "073552b82ebb0c3e3c7089590566f005925af6c8f0816cc876d8b0b8f8934364",
+      "bytes": 8707
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-01/HANDOFF02.md",
+      "sha256": "e41fb4b5cce007184f8eb9b393b868b8f7d014add8318109a1afdbc2dec0ce59",
+      "bytes": 1762
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-01/commands/20260912T123134.398593Z-cleanup-authorship-native01.json",
+      "sha256": "c891a071f170c161e4b053de12b57ce90ecc7ed196bda05295022b32617c264b",
+      "bytes": 1372
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-01/commands/20260912T123134.398593Z-cleanup-authorship-native01.log",
+      "sha256": "544712d01060fc6929e74134f213e301ad3a9a3217448b7f699512327eeb4e5a",
+      "bytes": 3533
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-01/freeze02.py",
+      "sha256": "2bbecbd85d7f3dad871a94d76ba5a26d54f8d91f08ae18dba165bd81b0151fcd",
+      "bytes": 5652
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-01/handoff02.json",
+      "sha256": "562301a8c393ff1b2c2d4c145ef9200998d7be950ec50b3ca6bdcfa4160594ae",
+      "bytes": 12479
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-01/inputs/floor_panels.original-bytes.py",
+      "sha256": "dadf5562d15cf3c874aae2ef43903e7aa1822fe4af0fb23012aa6fc543d5a933",
+      "bytes": 13037
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-01/inputs/floor_panels.py",
+      "sha256": "dadf5562d15cf3c874aae2ef43903e7aa1822fe4af0fb23012aa6fc543d5a933",
+      "bytes": 13037
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-01/native01.json",
+      "sha256": "5f003d24d0bde3df7fa824100efad14cd5e29e3f08bb1807fb3ea0ee757a6ebf",
+      "bytes": 247855
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-01/native01.py",
+      "sha256": "69b7ad70364de071e980cfd539651c43dad57da1d368191f344a893b0cebec82",
+      "bytes": 7959
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-01/preparation01.json",
+      "sha256": "0bd0ae4701840c8774e271fb3269483640698516423db272eb0e8f1ea09e9e26",
+      "bytes": 821
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-01/prepare01.py",
+      "sha256": "582b566a5156759717dbd0efbf70bd5e49d3a5e350c28f4954fd569e18b02e5c",
+      "bytes": 4507
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-01/proposed/floor_panels.py",
+      "sha256": "9da8f1055346f31ac93650ae81a208561386ac52cfe153f5f19f1c51ee447e89",
+      "bytes": 14243
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-02/HANDOFF08.md",
+      "sha256": "906cc095e7d7decb7c8ad547ad641adc046f932efc1609e252310c6bbc59a948",
+      "bytes": 2681
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-02/commands/20260912T123718.275045Z-seam-inspection01.json",
+      "sha256": "08aabf4cd816e18b5a0ca8ba3a9d256c1d6e81b2cbde49239f0483ee0a0ef0c3",
+      "bytes": 1355
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-02/commands/20260912T123718.275045Z-seam-inspection01.log",
+      "sha256": "b89e9521b8b656325ac99a117ff9afb1c22ca7e05e344df00e5d7242e0ef086d",
+      "bytes": 9905
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-02/commands/20260912T123946.007641Z-seam-triangulation02.json",
+      "sha256": "806287395cb9d70af3251ba58721c3a8fa0cbce7ab7db238dc08c62aa7f33e17",
+      "bytes": 1170
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-02/commands/20260912T123946.007641Z-seam-triangulation02.log",
+      "sha256": "4e19e2e32087d3fc4d4ebad33b149565066808518d4f0259c3e8d3a7e1b889d5",
+      "bytes": 11659
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-02/commands/20260912T124134.270278Z-seam-sequence03.json",
+      "sha256": "677fa2354d0769a95b98683662837ec6d7a8721afa1121c116a2f37ff4be06b8",
+      "bytes": 1331
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-02/commands/20260912T124134.270278Z-seam-sequence03.log",
+      "sha256": "6365635b9961d9f33c7fa4baf8a50bf96686b84d10e1dcc6c29b5c74c8038a2e",
+      "bytes": 2756
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-02/commands/20260912T124756.317624Z-portable-seam04.json",
+      "sha256": "80cff23a6e316918cf93c06140f58831e72f86eb9231e4a5077c927d2e96a9ed",
+      "bytes": 1352
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-02/commands/20260912T124756.317624Z-portable-seam04.log",
+      "sha256": "868582660c7f4f2868bb1c65ffd60ea136e37ce3a334b0d4e394003844fa4668",
+      "bytes": 802
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-02/commands/20260912T124839.839536Z-portable-seam05.json",
+      "sha256": "826b8acd18c884b9239b55e60cc67130bb23317dc5005d3e77e5259cf2bee3c7",
+      "bytes": 1352
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-02/commands/20260912T124839.839536Z-portable-seam05.log",
+      "sha256": "37901d54b440da0dcae3eb72b2b9a7218271c8a3c484d766ef61c785186e1226",
+      "bytes": 788
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-02/commands/20260912T125100.439526Z-portable-seam06.json",
+      "sha256": "8812ad001e42365b474ed12acb0569cba4aab0dfabf6dab51924051fbbcd6846",
+      "bytes": 1352
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-02/commands/20260912T125100.439526Z-portable-seam06.log",
+      "sha256": "6dea2f366c7e5a7e02a1aadf3f19f5275054b463c978bccfa2be70789e1b7f14",
+      "bytes": 12622
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-02/commands/20260912T125429.471649Z-seam-controls07.json",
+      "sha256": "1871214648d9f3e94f56dd70cb3936dc81c1a1f1f28bde60d7bfdef86c9176c7",
+      "bytes": 1356
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-02/commands/20260912T125429.471649Z-seam-controls07.log",
+      "sha256": "ec5dee7174a8efbd4b69c33b36a4d42e3a76dd914ef81edb01056661482bd8c8",
+      "bytes": 347
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-02/controls07.json",
+      "sha256": "2bcfd85af66c4b721af2cead60019b518dc475c5bcd6bfd26c5908d3e3d29814",
+      "bytes": 17447
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-02/controls07.py",
+      "sha256": "5503b65c8a60b6ad775c78a799435b3dfcb12ace4e5297b11f9b7437b70cdd66",
+      "bytes": 5544
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-02/freeze08.py",
+      "sha256": "b4baf28d3b5b28b4372198e4f38521a1efd1c5777f2cb8109d049eb15d34ed33",
+      "bytes": 7744
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-02/handoff08.json",
+      "sha256": "1c72e97301e89118c1b1ed57f41f1ac64a750390adaa659d883cbafde36af410",
+      "bytes": 33509
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-02/inputs/sliver_faces04.py",
+      "sha256": "762634315a31db507cbb84b022f7bf2511c16a8a3ebd363086496b8663a12c30",
+      "bytes": 7411
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-02/inputs/sliver_faces05.py",
+      "sha256": "57ea99f564b20fbe4b01a3adfc799bbf835455b6671c80a2e3d3937b1f2bcc78",
+      "bytes": 7605
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-02/inspect01.py",
+      "sha256": "7b111c1aca14e40671437222424069bdac01a2a981ab09ad0d68c0800aa38613",
+      "bytes": 4510
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-02/native01-mesh.json.gz",
+      "sha256": "95763bbd93e8fa0639ac0dd2e53fd7ba492c585bd59297f82604d9b43a5f686a",
+      "bytes": 167501
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-02/native01.json",
+      "sha256": "1db4c0c658c3497b29ee3b7d3c6a64564d7f3cd6f62ce9b191a7bc59ed04e4ed",
+      "bytes": 22566
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-02/native06-mesh.json.gz",
+      "sha256": "0ec2bee585bc7980328147361783968b08621e6b9c886ef5b2f1796611bd5dd0",
+      "bytes": 212068
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-02/native06.json",
+      "sha256": "85cd91c1c9f5c720a160c347c9672e02cdb61e7540020f2e9d688a1ac189e7f2",
+      "bytes": 22511
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-02/proposed/sliver_faces.py",
+      "sha256": "078f7fb8edc025df06a152966873e85df4b44da2233de5d5d8e4cb201260c0a0",
+      "bytes": 9112
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-02/trial02-meshes.json.gz",
+      "sha256": "ad2494369f7fbf984d1fa59550e39f2e80100bca761db137aaaf02fdd2faba4e",
+      "bytes": 502980
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-02/trial02.json",
+      "sha256": "d28b592724b13570ec2af36a5cc0448b25993f4a6739c38059b115567be2c168",
+      "bytes": 25381
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-02/trial02.py",
+      "sha256": "47dcbc19ec992c66c554fbc7450a8db972c4949b6cf85662329a5bc2f94aafa5",
+      "bytes": 3755
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-02/trial03-mesh.json.gz",
+      "sha256": "f1a8fee7a6c01c20b1696189d3c8f555c96695bf4cd25d3afd3e574f49417963",
+      "bytes": 170151
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-02/trial03.json",
+      "sha256": "679a6a82d4d45e1416177fe0feed6b524e07ea076fc6ed00df72577ef2627eb6",
+      "bytes": 3366
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-02/trial03.py",
+      "sha256": "35e9a3c6d76d6816dfaafeefefa4fd25010ed6f6bdda008d60abb3f35897d30d",
+      "bytes": 3082
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-02/verify04.py",
+      "sha256": "e2df4f31cd21af7dfbb8fe45ebc0dce6af642d1a065ed55e763d562e541ae3bb",
+      "bytes": 3708
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-02/verify05.py",
+      "sha256": "34c45c62097c7863efc3f82663dda086860226d9dcc30fce315fabd75e184f6b",
+      "bytes": 3708
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-02/verify06.py",
+      "sha256": "2e7454f14ff00e8fa8dfb6f491d0de6117b6313e6f12a91036722520046da0b2",
+      "bytes": 3825
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-03/HANDOFF06.md",
+      "sha256": "674db04ee823f3fa8f8aa31916ad1100019d7bf6885f21b73edda0b2cda146f3",
+      "bytes": 2890
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-03/capture03.json.gz",
+      "sha256": "7194358b880c937b385523d32baa994951877de3929ad0c0dfc7c8a5448978df",
+      "bytes": 1684198
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-03/capture05.json.gz",
+      "sha256": "48dceab1c577e5dbf8ac1ec3071732e0b14b367d0fd1638c5e4bffcc2dcaefb2",
+      "bytes": 1684198
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-03/commands/20260912T130152.603301Z-front-seam-inspection01.json",
+      "sha256": "6f6844de0952a502750dbe4642fbeff2b3d98099a432a7d2d5f4cd17a18c3895",
+      "bytes": 1361
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-03/commands/20260912T130152.603301Z-front-seam-inspection01.log",
+      "sha256": "8b40d4b464619795e27e74e4348dd018e80513e753b7ac3ba271f7aa9cda30dc",
+      "bytes": 828
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-03/commands/20260912T131036.835811Z-front-owned-causal-replay03.json",
+      "sha256": "9372316dfca3700e41e0f94360556297e5640d45dedd4a2d24dd3dc0b9eb9ccf",
+      "bytes": 1522
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-03/commands/20260912T131036.835811Z-front-owned-causal-replay03.log",
+      "sha256": "e389a3ca80b0608b127537f74d7f69f2a4ab21e8d1897332ff07cfaf6d8b85b6",
+      "bytes": 2474
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-03/commands/20260912T131338.667696Z-front-fallback-controls04.json",
+      "sha256": "719585cecfdfa88d144b92a6b2030c1597472236f44c22c4970b5005098b68df",
+      "bytes": 1366
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-03/commands/20260912T131338.667696Z-front-fallback-controls04.log",
+      "sha256": "01e7a9471a94e7b8bd5741649e968fcb4b338f9e21baf98c3bc8031f2c52c00f",
+      "bytes": 482
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-03/commands/20260912T131443.470564Z-front-owned-continuation05.json",
+      "sha256": "190e62dca37f2f40f4b3afed347c060bdbf704206559765689bdd1c61b1a528a",
+      "bytes": 1521
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-03/commands/20260912T131443.470564Z-front-owned-continuation05.log",
+      "sha256": "d2dae773a9661e68eb7821dd1bf9780ad3df478951c7769e535e70d576a441a6",
+      "bytes": 1942
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-03/continuation05-details.json.gz",
+      "sha256": "21916e861c7cae6c52abb0563142a0b945a4d592285b95ba660cec23eeeffd08",
+      "bytes": 251099
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-03/continuation05-meshes.json.gz",
+      "sha256": "62be7f4bb3a2569abf835b1770e8b05c002d3013f05ec930eca9c7442d1b2127",
+      "bytes": 2198737
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-03/controls04.json",
+      "sha256": "db590daad0eecd0e19fdd61805ab6dc289232487d97b120d9b42cdedf38c2643",
+      "bytes": 27009
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-03/controls04.py",
+      "sha256": "61e111c6ed2211051fb377cb334d2194fc11d77a2fa397ba67a1199a0ee3ace9",
+      "bytes": 9475
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-03/freeze06.py",
+      "sha256": "20e5737ba342de20b71d7a949d7bebdd78b1218465ec1e4a5e1f141ea06bc756",
+      "bytes": 9180
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-03/handoff06.json",
+      "sha256": "f3447e52b1f3a85b58681124a96b8876a9c20fad841e435276d2335ee60a2b51",
+      "bytes": 74477
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-03/inputs/sliver_faces078.py",
+      "sha256": "078f7fb8edc025df06a152966873e85df4b44da2233de5d5d8e4cb201260c0a0",
+      "bytes": 9112
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-03/inspect01.py",
+      "sha256": "40ff56702fe3730e42e82aa9c82ca2d1a80b39e328b415e51d2f1bacfb1d9654",
+      "bytes": 4524
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-03/native01-mesh.json.gz",
+      "sha256": "17365cfe2219341f1621d99a11085132ce87f9ea41fed375ef9427b838dea6db",
+      "bytes": 1491904
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-03/native01.json",
+      "sha256": "c86ea85a2b13df8e1c6b67df0c6d1ae0cfa90c7a65d77627dedc9f20bd63b404",
+      "bytes": 25295
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-03/preparation02.json",
+      "sha256": "470b5e52ae5b50bbce9b1bf89ccb124c2af016809a0f66c3682b6dc02b90aa35",
+      "bytes": 322
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-03/prepare02.py",
+      "sha256": "2fb53314c03b53d4b9bc185f87b68b476deb8882ddbe3da1a2eaa7cca93c0ec5",
+      "bytes": 2393
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-03/prepare_controls04.py",
+      "sha256": "82b9520bfcb3c0a6692209a203e6d643acd4980bca5682bf26d32dd453d40e3b",
+      "bytes": 4896
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-03/prepare_replay05.py",
+      "sha256": "24c25ede882ad18a2e6b92fbf94517f3871ee0653a001bf6e01b4065c843a40d",
+      "bytes": 1241
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-03/proposed/sliver_faces.py",
+      "sha256": "54eff62972f86d0625c1ea14de80e27377db4cb7e8f52910f755931c4b6038ff",
+      "bytes": 10101
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-03/replay03.json",
+      "sha256": "3a64fd15779438955fea1fbc98fd0ac8401a3633cdae4408e9986d83df1c1e3b",
+      "bytes": 20727
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-03/replay03.py",
+      "sha256": "16999665a3e1660d0ec102cd97787698d8ef89d690971b6bd33facb8c77c9cd0",
+      "bytes": 8131
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-03/replay05.json",
+      "sha256": "3ad319912a927a763bbc8f9504cac4337ddc96f51e963dbab0925af496d3d48a",
+      "bytes": 85009
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-03/replay05.py",
+      "sha256": "7f3d5405921e70a2d85861039222344af644a7f419142aa194f73278ca24b899",
+      "bytes": 8473
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-04/HANDOFF02.md",
+      "sha256": "db6ef25f4d8b9bf450c68575a3c26cd3d96a2ac0b755dee6696edb2c302c4951",
+      "bytes": 2073
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-04/commands/20260912T135357.952851Z-repeated-tessellation-controls01.json",
+      "sha256": "d0a25c708da45b09a7751836548d5403bb0e2ab5f71037565746be8197a5d8b5",
+      "bytes": 1187
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-04/commands/20260912T135357.952851Z-repeated-tessellation-controls01.log",
+      "sha256": "db42fa67f6195924da71eebc5e8aaf67621f9a6a6054a6ab0b0c88ae1e41e5ee",
+      "bytes": 4173
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-04/floor-loop.patch",
+      "sha256": "ed11e751122642c8a0ac6ebd532fcc6fc853abea2ea789605f8196939ebedbfc",
+      "bytes": 1298
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-04/freeze02.py",
+      "sha256": "0b2f0cd36fbdd9c2d3225249788b9867399314ad5e89ebaea29bc047c2ff05a9",
+      "bytes": 4440
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-04/handoff02.json",
+      "sha256": "d8bb3170e6700eafc53207b3e6ff4c28f14a218e6f1a81dadcb0ce9dc58467de",
+      "bytes": 3621
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-04/native01.json",
+      "sha256": "4d4b031a19e870111be4b17e385efcda733dd6875914e9aa51a0f31e231c02e9",
+      "bytes": 21213
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-04/native01.py",
+      "sha256": "fa3e895bce776baaaccba1acc278faedc7457071e05d8af40452d7b7b5046b6c",
+      "bytes": 3280
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-04/ownership19.json",
+      "sha256": "3405eedf8e48d1b1ee4a0bbd1b4f533e36ecf98829eaf669a65d6fcb6443beab",
+      "bytes": 247862
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-04/ownership19.py",
+      "sha256": "35c8d4996fb220cde02c6cf7b76ab2b15c4ebb9904a4cd5773186a510b04d2d8",
+      "bytes": 8132
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-04/preparation01.json",
+      "sha256": "2ba56f07d0f45ee361bde05f54252c5d1d70563ba52f94780f5819b457497173",
+      "bytes": 29791
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-04/prepare01.py",
+      "sha256": "195df49440da9186924e7a805869f7ab3d5f9f16efc3752fbe75fc1ba1300e38",
+      "bytes": 4236
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-04/seam14.json",
+      "sha256": "70851be4ac68640baeb34434767a8cbe770d72eca9b4976681b0a9ce8133a623",
+      "bytes": 27009
+    },
+    {
+      "path": "reports/p1-018/qa/cleanup-authorship26-04/seam14.py",
+      "sha256": "c7735b7e87bbfc497a4418fd44a1e2b866a8833438fcd04aa7f54b65d8a32115",
+      "bytes": 9394
+    },
+    {
+      "path": "reports/p1-018/qa/climate-mount26-review01/commands/20260912T162826.246230Z-extract-actual01.json",
+      "sha256": "1090d4adab810e8804398342003f5bcabf023305173a699f1f3d19bfb199800a",
+      "bytes": 1432
+    },
+    {
+      "path": "reports/p1-018/qa/climate-mount26-review01/commands/20260912T162826.246230Z-extract-actual01.log",
+      "sha256": "43ad885c543d8ec7605df1f6635f56474e3273019cea63afc5e3d857ea919b47",
+      "bytes": 375
+    },
+    {
+      "path": "reports/p1-018/qa/climate-mount26-review01/commands/20260912T162826.256150Z-motion_drivers-actual01.json",
+      "sha256": "e8d105b83314dc6dae19494d7f09c71bda6407ea5e0936259cf7ef41f8164c33",
+      "bytes": 1465
+    },
+    {
+      "path": "reports/p1-018/qa/climate-mount26-review01/commands/20260912T162826.256150Z-motion_drivers-actual01.log",
+      "sha256": "a39bd975d597c4e8b9d6793a93f64c49f20ddebc82d5e785ed8a7ea9425f3079",
+      "bytes": 283
+    },
+    {
+      "path": "reports/p1-018/qa/climate-mount26-review01/commands/20260912T162826.256493Z-opening_drivers-actual01.json",
+      "sha256": "6b8a6af10126b16f3819999f52e7c4d57e3f097983d459fea17a93297c029f29",
+      "bytes": 1469
+    },
+    {
+      "path": "reports/p1-018/qa/climate-mount26-review01/commands/20260912T162826.256493Z-opening_drivers-actual01.log",
+      "sha256": "cbf3ef1f71608ba6d69dc10cb335d3b2fcd9dd6a2f7a6f30764d4af158c4beb6",
+      "bytes": 296
+    },
+    {
+      "path": "reports/p1-018/qa/climate-mount26-review01/commands/20260912T162924.490895Z-fit-motion02.json",
+      "sha256": "d9150ba10b0768a27694cf445af263eeb2a4662da32fecc451b9cd4a2ab06447",
+      "bytes": 1196
+    },
+    {
+      "path": "reports/p1-018/qa/climate-mount26-review01/commands/20260912T162924.490895Z-fit-motion02.log",
+      "sha256": "3902600ae7d4daf25aabf775708989597808e56af245a038a8bdbd62bf3bdedc",
+      "bytes": 494
+    },
+    {
+      "path": "reports/p1-018/qa/climate-mount26-review01/commands/20260912T162957.996428Z-fit-motion03.json",
+      "sha256": "76bb66fe894928b86a08c3fe5cb0ab35b1f71e295a65ed7203d9cf0158713f34",
+      "bytes": 1196
+    },
+    {
+      "path": "reports/p1-018/qa/climate-mount26-review01/commands/20260912T162957.996428Z-fit-motion03.log",
+      "sha256": "b4a172d002334fdba148963b434de098bdd07a2ba6c690dbf60cee643bac3f1a",
+      "bytes": 584
+    },
+    {
+      "path": "reports/p1-018/qa/climate-mount26-review01/commands/20260912T163256.330014Z-finite04.json",
+      "sha256": "8cb10e03f11e558ddda5886ac8d92c2c9bb3442e5d4fc87321c8d2c0ff7e0416",
+      "bytes": 1184
+    },
+    {
+      "path": "reports/p1-018/qa/climate-mount26-review01/commands/20260912T163256.330014Z-finite04.log",
+      "sha256": "067cae08c941f5ee36c7066cb4d5f6e3df5c5faf832a03225cb66327e442e7b7",
+      "bytes": 776
+    },
+    {
+      "path": "reports/p1-018/qa/climate-mount26-review01/extract01/evaluated-inventory.json",
+      "sha256": "819822b8ad149f5dc32b9f88a918b633ba060e08cbaab1be9f4da564eff4e8f2",
+      "bytes": 1189996
+    },
+    {
+      "path": "reports/p1-018/qa/climate-mount26-review01/extract01/evaluated-meshes.json.gz",
+      "sha256": "c79983686566ab05e0643d20e4320dfe228fbfcf70a886e711250467a6877151",
+      "bytes": 1543333
+    },
+    {
+      "path": "reports/p1-018/qa/climate-mount26-review01/finite04.json",
+      "sha256": "fd3d1439d57fc203ee3a36a6c0c4d5565441f3d72db12a244332004f4658e93d",
+      "bytes": 289574
+    },
+    {
+      "path": "reports/p1-018/qa/climate-mount26-review01/finite04.py",
+      "sha256": "498ce95702d2e4968ecd1e1b2a16c91546b90b0417d18ffd51df4bbc05ffc69b",
+      "bytes": 6307
+    },
+    {
+      "path": "reports/p1-018/qa/climate-mount26-review01/fit-motion03.json",
+      "sha256": "af70d23907ab68566bf03e7992723d4c3860a43aa0c1df295a04833338ff497a",
+      "bytes": 1018183
+    },
+    {
+      "path": "reports/p1-018/qa/climate-mount26-review01/fit_motion02.py",
+      "sha256": "bfb83448d82a5fa0e81aed00af9a8955bfc5f09276227eba28e1a4f5d73c9684",
+      "bytes": 15093
+    },
+    {
+      "path": "reports/p1-018/qa/climate-mount26-review01/fit_motion03.py",
+      "sha256": "ef5e1beead9d63354c85c5f7d1934f507ffdf2156b72dfa12f59a179ff39def0",
+      "bytes": 14950
+    },
+    {
+      "path": "reports/p1-018/qa/climate-mount26-review01/freeze05.py",
+      "sha256": "a80e836ea7a31bd5c4ca9f39c9a5e22200f7ba543c27dd3554ca084c4a41ecc9",
+      "bytes": 4884
+    },
+    {
+      "path": "reports/p1-018/qa/climate-mount26-review01/handoff05.json",
+      "sha256": "f56336a160e794d78552491ddd51e001d8e2ea7838dde6b0edbbc34b9e119a86",
+      "bytes": 28117
+    },
+    {
+      "path": "reports/p1-018/qa/climate-mount26-review01/intersections03.json.gz",
+      "sha256": "9827aaa427241a6b20c47a9bfc798b8a05bdcff91e4c4c37cb2503e4f8ac8b7d",
+      "bytes": 296
+    },
+    {
+      "path": "reports/p1-018/qa/climate-mount26-review01/motion-drivers01.json",
+      "sha256": "3c7257b4fda70f3110de579ca25faa62fc99308e4b1dbe96de8c13cd0c59f519",
+      "bytes": 60308
+    },
+    {
+      "path": "reports/p1-018/qa/climate-mount26-review01/opening-drivers01.json",
+      "sha256": "3366e3b16d613da439348e95f46f1fd9ea4e8ec53e8143822f99f713feddb1e0",
+      "bytes": 34123
+    },
+    {
+      "path": "reports/p1-018/qa/coolant-sockets26-review01/HANDOFF11.md",
+      "sha256": "2ad07cf8b7b2123029b299b67c1b67ae9d47f505135835ca90f9775a26d28977",
+      "bytes": 3149
+    },
+    {
+      "path": "reports/p1-018/qa/coolant-sockets26-review01/commands/20260912T173807.326932Z-independent-socket-review01.json",
+      "sha256": "75bb853a55642b68b17a461798df7f76dba96c0fd42d34e41d4d8fc5644a53e9",
+      "bytes": 1369
+    },
+    {
+      "path": "reports/p1-018/qa/coolant-sockets26-review01/commands/20260912T173807.326932Z-independent-socket-review01.log",
+      "sha256": "cdbab08ccbe2052ac65c051f3044b31b9b2f1893961ba0e42d2d329b426cfe97",
+      "bytes": 802
+    },
+    {
+      "path": "reports/p1-018/qa/coolant-sockets26-review01/commands/20260912T174133.813875Z-actual-self-witness02.json",
+      "sha256": "dc7b0750d32e31ce7500cd5a952330e509d0564c48d67a7420cbcd444d1d6202",
+      "bytes": 1365
+    },
+    {
+      "path": "reports/p1-018/qa/coolant-sockets26-review01/commands/20260912T174133.813875Z-actual-self-witness02.log",
+      "sha256": "0baaaa41a2695c213e3019b1f153bc641001ac7147f6fa3b994c7f42cb96b670",
+      "bytes": 592
+    },
+    {
+      "path": "reports/p1-018/qa/coolant-sockets26-review01/commands/20260912T174646.652512Z-tank-boolean-repair03.json",
+      "sha256": "7e06e816c0656b3729b7f1c0cdf815ad8f97001559d4f8a1caaa9aa02595d4c8",
+      "bytes": 1358
+    },
+    {
+      "path": "reports/p1-018/qa/coolant-sockets26-review01/commands/20260912T174646.652512Z-tank-boolean-repair03.log",
+      "sha256": "a5eaa5e468a6679121d9a8445c9a43948e597b5892f73d155eb4d89bf72fd511",
+      "bytes": 2170
+    },
+    {
+      "path": "reports/p1-018/qa/coolant-sockets26-review01/commands/20260912T174820.433336Z-repaired-socket-domains04.json",
+      "sha256": "775d756df799cb13b70fa58aa7849410e6c841ac5d87333259a910aa40b5608c",
+      "bytes": 1364
+    },
+    {
+      "path": "reports/p1-018/qa/coolant-sockets26-review01/commands/20260912T174820.433336Z-repaired-socket-domains04.log",
+      "sha256": "1b92b8370ffcbdbad3c0149907abb81054017c4974a7af1e044fe387b331b87b",
+      "bytes": 841
+    },
+    {
+      "path": "reports/p1-018/qa/coolant-sockets26-review01/commands/20260912T175158.140636Z-repaired-socket-domains06.json",
+      "sha256": "a9cc46b16dc7d12f1ba2c80cefbefac1e1846ee5a2d1edab4f76c7208f8aa42a",
+      "bytes": 1364
+    },
+    {
+      "path": "reports/p1-018/qa/coolant-sockets26-review01/commands/20260912T175158.140636Z-repaired-socket-domains06.log",
+      "sha256": "4d9a562dc7b907c1934b03c7017341dbe98db447f129a8cea98ddcbd75ae3f90",
+      "bytes": 834
+    },
+    {
+      "path": "reports/p1-018/qa/coolant-sockets26-review01/commands/20260912T175748.738351Z-authored-flat-tank-native09.json",
+      "sha256": "80878edcdd08cdabc8671f1eb0eda7d6895fc9a57566b00e23e3d54680d4b445",
+      "bytes": 1371
+    },
+    {
+      "path": "reports/p1-018/qa/coolant-sockets26-review01/commands/20260912T175748.738351Z-authored-flat-tank-native09.log",
+      "sha256": "4600b9769f406b91ac19a402453390d565c47a2d44bafc4650ca4d7d2030da94",
+      "bytes": 839
+    },
+    {
+      "path": "reports/p1-018/qa/coolant-sockets26-review01/fields05.json",
+      "sha256": "9dc7ec01cb9be609825e97eeb36d137db542780dc19e2c567b5144202609a3e1",
+      "bytes": 212651
+    },
+    {
+      "path": "reports/p1-018/qa/coolant-sockets26-review01/fields05.py",
+      "sha256": "8e7009a86b9ad7118f8e4d68edf71812ca44487f669f25978c534b101a937890",
+      "bytes": 3980
+    },
+    {
+      "path": "reports/p1-018/qa/coolant-sockets26-review01/fields10.json",
+      "sha256": "552aae2ffa5599c304579f36ea50de6b7a59e3369ee18826ea4e8b9ba4493c84",
+      "bytes": 161739
+    },
+    {
+      "path": "reports/p1-018/qa/coolant-sockets26-review01/fields10.py",
+      "sha256": "73f9adf89944cd3794d553670013079028f1196f9f49a44792ca041ba27ecfb0",
+      "bytes": 4786
+    },
+    {
+      "path": "reports/p1-018/qa/coolant-sockets26-review01/freeze11.py",
+      "sha256": "9051bd12c5fb3312bf460b8bb7c0e8dcfa6ce3b7a9de0584bb39f6a9472901af",
+      "bytes": 10521
+    },
+    {
+      "path": "reports/p1-018/qa/coolant-sockets26-review01/handoff11.json",
+      "sha256": "6867b6dd516aacbdc9b60af53c708158675436de8d94946923a177e66a3218e4",
+      "bytes": 56077
+    },
+    {
+      "path": "reports/p1-018/qa/coolant-sockets26-review01/lint11.json",
+      "sha256": "2aa1a6ef8e2557e93458bf2d46b69106b127eeead202242bd16e75b69a4507d1",
+      "bytes": 587
+    },
+    {
+      "path": "reports/p1-018/qa/coolant-sockets26-review01/native09-meshes.json.gz",
+      "sha256": "a3db23df333519baeb3b283bc59da0b7b52e22dcf3f42dba451e2ec433bcbab8",
+      "bytes": 31500
+    },
+    {
+      "path": "reports/p1-018/qa/coolant-sockets26-review01/native09.json",
+      "sha256": "c35921e8b153a86098853f0e184f44f28a8d6a91cbd5f71c18d57b0ccaef7bfc",
+      "bytes": 396214
+    },
+    {
+      "path": "reports/p1-018/qa/coolant-sockets26-review01/native09.py",
+      "sha256": "c4a8f06ca3842a2b0a084795eeab266db2798cf77077343c00abe2f9860d54b3",
+      "bytes": 13218
+    },
+    {
+      "path": "reports/p1-018/qa/coolant-sockets26-review01/prepare04.py",
+      "sha256": "0dcd4a947c59dcab244ea271f64c43e674e96a9d47a2312eadbdc8e97694333f",
+      "bytes": 2025
+    },
+    {
+      "path": "reports/p1-018/qa/coolant-sockets26-review01/prepare06.py",
+      "sha256": "3a2e11b6bc79c874b262f5b56da9528569229ff8b556cd6d9b645b37c7a5d74d",
+      "bytes": 1678
+    },
+    {
+      "path": "reports/p1-018/qa/coolant-sockets26-review01/prepare09.py",
+      "sha256": "63deec56d85ade0213a2096b1682611b6eaf9ccae7c33d9773492c09f4830809",
+      "bytes": 2906
+    },
+    {
+      "path": "reports/p1-018/qa/coolant-sockets26-review01/probe03-meshes.json.gz",
+      "sha256": "341eec9946d8ecd67a27d98ad3ce5dbd1d5bc3da178efcca0e97e8b5cd5ad037",
+      "bytes": 10003
+    },
+    {
+      "path": "reports/p1-018/qa/coolant-sockets26-review01/probe03.json",
+      "sha256": "3e428fc94533e6b9423c57d26c04be1b36abef081aed00721d3aec3685a17ac1",
+      "bytes": 76169
+    },
+    {
+      "path": "reports/p1-018/qa/coolant-sockets26-review01/probe03.py",
+      "sha256": "11b9a32fe56228f98be6d70b6d1bec27dbce3862b75897c6dc9307201774f418",
+      "bytes": 3847
+    },
+    {
+      "path": "reports/p1-018/qa/coolant-sockets26-review01/repair03.py",
+      "sha256": "b9327578405324692ff4cc26ffbbf8f4b7760a4d44fac81a02e31ce079d4b971",
+      "bytes": 1354
+    },
+    {
+      "path": "reports/p1-018/qa/coolant-sockets26-review01/review01.py",
+      "sha256": "a1a886490df87cd52d110aa4fe24b23feab0a5337cdb3a00e9225d8dca0ae228",
+      "bytes": 10325
+    },
+    {
+      "path": "reports/p1-018/qa/coolant-sockets26-review01/review04.py",
+      "sha256": "5f511d94cd38d2699e532077d7208f5b399153231eb984ae763423351526f031",
+      "bytes": 11422
+    },
+    {
+      "path": "reports/p1-018/qa/coolant-sockets26-review01/review06.json",
+      "sha256": "7c6b99eccd51bd93dd87358c5b6fff8bacca0ee61a8ffa27b0261d91837b51b8",
+      "bytes": 316502
+    },
+    {
+      "path": "reports/p1-018/qa/coolant-sockets26-review01/review06.py",
+      "sha256": "08482ccaf2c2cfd83f7ef1f9d7e798ad254be1af3ac5b496beefb737e77cadf7",
+      "bytes": 11755
+    },
+    {
+      "path": "reports/p1-018/qa/coolant-sockets26-review01/stack-uv11.json",
+      "sha256": "0eb8e2f859d55ded77a68b02dbbf4fc526d83b6b38dc2269a6f9a693e0acd781",
+      "bytes": 54588
+    },
+    {
+      "path": "reports/p1-018/qa/coolant-sockets26-review01/tank_finish07.py",
+      "sha256": "fb7b4847aa0c91ac211b351ddf24c846626ccf5d8a563866e5d284320e4dbc12",
+      "bytes": 8246
+    },
+    {
+      "path": "reports/p1-018/qa/coolant-sockets26-review01/uv08.json",
+      "sha256": "4b1233af589e506fd4fd9dd9f32e6ff37891e6596638597d3b17aee610347277",
+      "bytes": 238154
+    },
+    {
+      "path": "reports/p1-018/qa/coolant-sockets26-review01/uv08.py",
+      "sha256": "8ce8cf1c300ffe72ca233fcf275608e288627560d38388f439a2b0a2abea0a97",
+      "bytes": 5050
+    },
+    {
+      "path": "reports/p1-018/qa/coolant-sockets26-review01/witness02.json",
+      "sha256": "1226493c16dfa42a8deca120605c584364aad847885d9b60b98e088989f7a485",
+      "bytes": 22367
+    },
+    {
+      "path": "reports/p1-018/qa/coolant-sockets26-review01/witness02.py",
+      "sha256": "84d32fca36de47c30a972b491d8b60dc54946929814549c4f6e7befd7869045f",
+      "bytes": 4557
+    },
+    {
+      "path": "reports/p1-018/qa/cooling-fit26-review01/HANDOFF04.md",
+      "sha256": "be1eec024a070adf9563b0c2db50b51d2f91c47bbb248baada5ac886285f45d9",
+      "bytes": 3063
+    },
+    {
+      "path": "reports/p1-018/qa/cooling-fit26-review01/commands/20260912T155459.545170Z-cooling-extract01.json",
+      "sha256": "fc2fd29efedc7e2506d0142afedb825ceeb34d16b284f61c9e1bcbefc1acd7f1",
+      "bytes": 1425
+    },
+    {
+      "path": "reports/p1-018/qa/cooling-fit26-review01/commands/20260912T155459.545170Z-cooling-extract01.log",
+      "sha256": "dad6854c163f06d78f2a7018dd859351d6a0ed793ce8c7819d26f7cff7c9792b",
+      "bytes": 373
+    },
+    {
+      "path": "reports/p1-018/qa/cooling-fit26-review01/commands/20260912T155505.037498Z-cooling-motion-drivers01.json",
+      "sha256": "03ea8558b84cdd9d67c3c86e0e88d3459ba8c9430c309e8263a3104af4f08819",
+      "bytes": 1458
+    },
+    {
+      "path": "reports/p1-018/qa/cooling-fit26-review01/commands/20260912T155505.037498Z-cooling-motion-drivers01.log",
+      "sha256": "726948bb94958249be5be1ec180811d8bf9e9f8dd2838ee32fc94a5f6148be84",
+      "bytes": 281
+    },
+    {
+      "path": "reports/p1-018/qa/cooling-fit26-review01/commands/20260912T160015.666477Z-cooling38-self-caps-rest-motion02.json",
+      "sha256": "007c482ae68a77131d3b96ac567e42e4ac42fda202e64d5bc71dd2cb5aaa9006",
+      "bytes": 1378
+    },
+    {
+      "path": "reports/p1-018/qa/cooling-fit26-review01/commands/20260912T160015.666477Z-cooling38-self-caps-rest-motion02.log",
+      "sha256": "bc58a363372bea6ea1630cfd7c63ec747799f898ab5a5c4950f5ca7ed0a036c5",
+      "bytes": 1357
+    },
+    {
+      "path": "reports/p1-018/qa/cooling-fit26-review01/commands/20260912T160336.343785Z-cooling-retained4-strict-witness03.json",
+      "sha256": "7af137b52264f8035f40c6888ade2603c19a5ae0d47ae672f8b6de1d6f7c3fd1",
+      "bytes": 1211
+    },
+    {
+      "path": "reports/p1-018/qa/cooling-fit26-review01/commands/20260912T160336.343785Z-cooling-retained4-strict-witness03.log",
+      "sha256": "ce8cbf6a5778cc26a562a36304f947a395c53218ad8e0a12984d8b887be8c372",
+      "bytes": 700
+    },
+    {
+      "path": "reports/p1-018/qa/cooling-fit26-review01/extract01/evaluated-inventory.json",
+      "sha256": "34154ea6fc40676ca7d8a0fcf9219e824c8c05891d990816eaa23a6682202673",
+      "bytes": 1187034
+    },
+    {
+      "path": "reports/p1-018/qa/cooling-fit26-review01/extract01/evaluated-meshes.json.gz",
+      "sha256": "4f76ab9bba4e41739e10bea5ce775b01a053399bb534dd56ded6ea0e816e8543",
+      "bytes": 1547385
+    },
+    {
+      "path": "reports/p1-018/qa/cooling-fit26-review01/findings04.json",
+      "sha256": "234ce10faa56e2bd4b206df5b8d2716f402babfd30814887ee27016748a7ca44",
+      "bytes": 18480
+    },
+    {
+      "path": "reports/p1-018/qa/cooling-fit26-review01/freeze04.py",
+      "sha256": "91393193c01aa315c73d6e7cede912b5553adad06af1c3426a007f6361e30724",
+      "bytes": 8669
+    },
+    {
+      "path": "reports/p1-018/qa/cooling-fit26-review01/geometry-caps02.json",
+      "sha256": "5bf1abb53da61a73577dbb4c64bd3cb2c0ea10e96a077111df6ebc9001a71704",
+      "bytes": 513832
+    },
+    {
+      "path": "reports/p1-018/qa/cooling-fit26-review01/handoff04.json",
+      "sha256": "b44e4e9935c69d317e85206c3295843e90a357d0be455c550dd96165006a782b",
+      "bytes": 22186
+    },
+    {
+      "path": "reports/p1-018/qa/cooling-fit26-review01/inspect02.py",
+      "sha256": "935ecb169b3017df9b5a4960b607287d71deaf5d1ccda4fd5b002b1d38d0fa55",
+      "bytes": 16857
+    },
+    {
+      "path": "reports/p1-018/qa/cooling-fit26-review01/motion-drivers01.json",
+      "sha256": "87b649778abf901d62ae35619fbd9b56e590701076cbab2332b1df1cb3d00dc2",
+      "bytes": 60308
+    },
+    {
+      "path": "reports/p1-018/qa/cooling-fit26-review01/near-witnesses03.json",
+      "sha256": "3cb64a989c726840fe510a85a406fff5fffafdc5d08500277ceec29df7ff7de8",
+      "bytes": 28262
+    },
+    {
+      "path": "reports/p1-018/qa/cooling-fit26-review01/near_witnesses03.py",
+      "sha256": "bfc719427b49ea8cc030fca4bc1f4aeb855c14344372558be40823b6a5f74f61",
+      "bytes": 3900
+    },
+    {
+      "path": "reports/p1-018/qa/cooling-fit26-review01/rest-intersections02.json.gz",
+      "sha256": "d25493b79db2d29a692876c807baab27e62cceff7d8601082e8af601774abd31",
+      "bytes": 8154
+    },
+    {
+      "path": "reports/p1-018/qa/cooling-fit26-review01/rest-pairs02.json",
+      "sha256": "005e749aefb5c6798d53d557280b538780ae8beafe7c7532287eecb88830f94c",
+      "bytes": 8235239
+    },
+    {
+      "path": "reports/p1-018/qa/cooling-fit26-review01/review02.json",
+      "sha256": "5d1e91979b119e0affe68e04f1314f4bbc2dfb501d0e8e1acbd08a16951a8e84",
+      "bytes": 111835
+    },
+    {
+      "path": "reports/p1-018/qa/defect-update26-01/defects-before.json",
+      "sha256": "c89884f8901cb8742085d706015889f5ce6abced72b935255d577a0dbe31de4a",
+      "bytes": 584038
+    },
+    {
+      "path": "reports/p1-018/qa/defect-update26-01/evidence01.json",
+      "sha256": "d220daace9b9baa8d1701a95a9d6f40c220a8ba58f5a6c5701df9ff9cf24b8a0",
+      "bytes": 1278
+    },
+    {
+      "path": "reports/p1-018/qa/defect-update26-01/update01.py",
+      "sha256": "a623ea8124ce285101f13876912c8b0585c1096404a8aa766565d9098e6b36e3",
+      "bytes": 10817
+    },
+    {
+      "path": "reports/p1-018/qa/detail-budget26-review01/HANDOFF05.md",
+      "sha256": "a3fb45a9c812a4ffba885d5227a9de42d58b279bbb8e64ad8a564863c9840131",
+      "bytes": 2803
+    },
+    {
+      "path": "reports/p1-018/qa/detail-budget26-review01/commands/20260912T151949.176701Z-detail-extract02.json",
+      "sha256": "f495dace80843adbe23b66226d94065ab8e6c57d661212fe21959722c783fbe3",
+      "bytes": 1432
+    },
+    {
+      "path": "reports/p1-018/qa/detail-budget26-review01/commands/20260912T151949.176701Z-detail-extract02.log",
+      "sha256": "74038b0feb508af662b3558f725958e7954aab37b988718aa1310c5625985e9e",
+      "bytes": 375
+    },
+    {
+      "path": "reports/p1-018/qa/detail-budget26-review01/commands/20260912T151949.177504Z-detail-motion-drivers02.json",
+      "sha256": "1c477c1400dd144fb003d67df564f0b865d57f399909f07e9f0f45c1ebf0d662",
+      "bytes": 1465
+    },
+    {
+      "path": "reports/p1-018/qa/detail-budget26-review01/commands/20260912T151949.177504Z-detail-motion-drivers02.log",
+      "sha256": "3e2f0db0cf98ea8c5e70307fccf090cb5d467d3c77dcf31340ac958e0a100642",
+      "bytes": 283
+    },
+    {
+      "path": "reports/p1-018/qa/detail-budget26-review01/commands/20260912T151949.187141Z-detail-opening-drivers02.json",
+      "sha256": "493af57bec95c753fdb776a849538b4bbf4111cafef1fa66757692338bd36530",
+      "bytes": 1469
+    },
+    {
+      "path": "reports/p1-018/qa/detail-budget26-review01/commands/20260912T151949.187141Z-detail-opening-drivers02.log",
+      "sha256": "ba27276af38c91b3096ad2276c73814af74fae698d45369fd7e57fbd54e5917e",
+      "bytes": 296
+    },
+    {
+      "path": "reports/p1-018/qa/detail-budget26-review01/commands/20260912T152545.656878Z-six-detail-fit-motion03.json",
+      "sha256": "e0853d113e4c7fd3cdb50cf932a9e2fc5f46b1db3f654fb47c925633cb7cb127",
+      "bytes": 1572
+    },
+    {
+      "path": "reports/p1-018/qa/detail-budget26-review01/commands/20260912T152545.656878Z-six-detail-fit-motion03.log",
+      "sha256": "4e9e20d09cf495507e65199aeda78756a86cc6ebf04a28cad957b755dcb16581",
+      "bytes": 898
+    },
+    {
+      "path": "reports/p1-018/qa/detail-budget26-review01/commands/20260912T153003.276563Z-six-detail-targeted04.json",
+      "sha256": "52da48733126f3162e0e01c1b6a5046000fd1e1a8ab6ddc162556af6dc64a270",
+      "bytes": 1561
+    },
+    {
+      "path": "reports/p1-018/qa/detail-budget26-review01/commands/20260912T153003.276563Z-six-detail-targeted04.log",
+      "sha256": "e59ea8d435d0b1489d351f16b0c68035fff7de242f271afbe528b8dc1aa08d84",
+      "bytes": 381
+    },
+    {
+      "path": "reports/p1-018/qa/detail-budget26-review01/extract02/evaluated-inventory.json",
+      "sha256": "2f1ce5cd575eabc4831f9c6e428467391add8281d45fbf21d2ffd12a8bf047b1",
+      "bytes": 1187065
+    },
+    {
+      "path": "reports/p1-018/qa/detail-budget26-review01/extract02/evaluated-meshes.json.gz",
+      "sha256": "03221f576f741ad8b181dd2096e6467a505c8e2e35cf0d600c6f9aed70ad0bb8",
+      "bytes": 1545961
+    },
+    {
+      "path": "reports/p1-018/qa/detail-budget26-review01/findings05.json",
+      "sha256": "aa61e4c88881083c70c5ea9accafb4d9393f41ab65490ea5b52a865cda032d3b",
+      "bytes": 18478
+    },
+    {
+      "path": "reports/p1-018/qa/detail-budget26-review01/fit-motion03.json",
+      "sha256": "799f8b5c00a2b54ea11af75fbe220bab288db5fba1f2feb43726c5a4eba190ec",
+      "bytes": 2749149
+    },
+    {
+      "path": "reports/p1-018/qa/detail-budget26-review01/fit_motion03.py",
+      "sha256": "51aa55af8d9ad6d4901ce9cc2911dc32f748a2f0e55b7d9c0116fc4bd7a46e5f",
+      "bytes": 13943
+    },
+    {
+      "path": "reports/p1-018/qa/detail-budget26-review01/freeze05.py",
+      "sha256": "73de1fd903aa1439715cd3190edd37163ca0f7fab667396d8b5fe2eb1a85df05",
+      "bytes": 9818
+    },
+    {
+      "path": "reports/p1-018/qa/detail-budget26-review01/handoff05.json",
+      "sha256": "beca386d16921f03334d6a022cc1f4d614b6f3582e52f5d4de459779c5462cbc",
+      "bytes": 23778
+    },
+    {
+      "path": "reports/p1-018/qa/detail-budget26-review01/intersections03.json.gz",
+      "sha256": "6042111a5032faa5a0168e662d6f92817df7da8e94b04281b6b900051fea160d",
+      "bytes": 25621
+    },
+    {
+      "path": "reports/p1-018/qa/detail-budget26-review01/motion-drivers02.json",
+      "sha256": "68b28aafb8d14a44d213212df049e18381d26379c6d7da2a083e40e0123d94d7",
+      "bytes": 60308
+    },
+    {
+      "path": "reports/p1-018/qa/detail-budget26-review01/opening-drivers02.json",
+      "sha256": "2cc1ccb491e56b332c02966effbf98df6979fca71478b18dfa5365d2c0d23030",
+      "bytes": 34123
+    },
+    {
+      "path": "reports/p1-018/qa/detail-budget26-review01/preparation-note03.txt",
+      "sha256": "bcfa33d92fb59f76a6d91bca64ffd84e9d6b6ae72f58560c978f3b3874cc2131",
+      "bytes": 304
+    },
+    {
+      "path": "reports/p1-018/qa/detail-budget26-review01/targeted04.json",
+      "sha256": "ff95e3f33bdf61d97f1036b9480a5e077737cfbc002e9e9dbc64160ea46bbc2d",
+      "bytes": 27939
+    },
+    {
+      "path": "reports/p1-018/qa/detail-budget26-review01/targeted04.py",
+      "sha256": "e5ce0ce77f67df62b6b894beb0a51f0cbe7182c2fb104e8558ce07ecebeadc10",
+      "bytes": 6683
+    },
+    {
+      "path": "reports/p1-018/qa/detail-budget26-review01/verify_captures01.py",
+      "sha256": "a809ef0a76d10a755f19a9d0df544fb175919cc63968dca733bb01554fe9d021",
+      "bytes": 4912
+    },
+    {
+      "path": "reports/p1-018/qa/detail-budget26-review01/visual01.json",
+      "sha256": "c91014cd47bf770d8d41375947da04bd39771b5cd9d865733f07cfb54ef5ead7",
+      "bytes": 8216
+    },
+    {
+      "path": "reports/p1-018/qa/detail-reserve26-review01/axial03.json",
+      "sha256": "f2167325bc5f26e756e2fe5a43197bd2887497326028bf660ab7087f9407da7d",
+      "bytes": 70322
+    },
+    {
+      "path": "reports/p1-018/qa/detail-reserve26-review01/axial03.py",
+      "sha256": "09d686ce801eb2a848bd47b3c96e0884331e8d411e2e0370f9e7c4f5946e4298",
+      "bytes": 4629
+    },
+    {
+      "path": "reports/p1-018/qa/detail-reserve26-review01/commands/20260912T161019.369823Z-extract-actual01.json",
+      "sha256": "5a3b269f8202b99fc061936ec6c3ce57e3e204e4c9eb4ee30f523f14f7e728fb",
+      "bytes": 1436
+    },
+    {
+      "path": "reports/p1-018/qa/detail-reserve26-review01/commands/20260912T161019.369823Z-extract-actual01.log",
+      "sha256": "3c8ebb669bb6cadc3961bd1e90ecf9f2eb42d4d6eb16be3b21873be245d6d236",
+      "bytes": 376
+    },
+    {
+      "path": "reports/p1-018/qa/detail-reserve26-review01/commands/20260912T161019.369850Z-motion_drivers-actual01.json",
+      "sha256": "161fad8983b758ddb1c69c41acd7b15cdf991fcde9df8599fb8baf9996a276fa",
+      "bytes": 1469
+    },
+    {
+      "path": "reports/p1-018/qa/detail-reserve26-review01/commands/20260912T161019.369850Z-motion_drivers-actual01.log",
+      "sha256": "2be90ce8950ef0f2fd7c07dd38f060ca362f852be190ac7667de905736734acb",
+      "bytes": 284
+    },
+    {
+      "path": "reports/p1-018/qa/detail-reserve26-review01/commands/20260912T161019.377568Z-opening_drivers-actual01.json",
+      "sha256": "a40ffd1cb6777a5843dbc911ee82d7ffab017712a984ae83ce0c5c2f92673cb5",
+      "bytes": 1473
+    },
+    {
+      "path": "reports/p1-018/qa/detail-reserve26-review01/commands/20260912T161019.377568Z-opening_drivers-actual01.log",
+      "sha256": "e7e0129158964fd2bff3bffb63e3e51016f09d0fdff8833251994c82c7476c75",
+      "bytes": 297
+    },
+    {
+      "path": "reports/p1-018/qa/detail-reserve26-review01/commands/20260912T161157.291930Z-reserve13-fit-motion02.json",
+      "sha256": "249706820aae6530a7da21fc7584e0506a663993fb1fb47f204192587d83ab77",
+      "bytes": 1210
+    },
+    {
+      "path": "reports/p1-018/qa/detail-reserve26-review01/commands/20260912T161157.291930Z-reserve13-fit-motion02.log",
+      "sha256": "bc95c11ca887c1859329f8c70287ffbdd5f592f79b8dfbf4d6cab157d85666ca",
+      "bytes": 1202
+    },
+    {
+      "path": "reports/p1-018/qa/detail-reserve26-review01/commands/20260912T162259.140915Z-reserve-axial03.json",
+      "sha256": "f55911b283e49122fcccb4f131db8aa546bda0ad01209fc84eed0f5896656e1c",
+      "bytes": 1068
+    },
+    {
+      "path": "reports/p1-018/qa/detail-reserve26-review01/commands/20260912T162259.140915Z-reserve-axial03.log",
+      "sha256": "a5c30cb6ea77d8b12cb4bcfd11e6ee1158a97bcb111cb5ec104ffd3a0a0932c3",
+      "bytes": 244
+    },
+    {
+      "path": "reports/p1-018/qa/detail-reserve26-review01/extract01/evaluated-inventory.json",
+      "sha256": "562870506364df8ef616559d7838652853f5643bb1f19dc0e208ba9b903dae52",
+      "bytes": 1187066
+    },
+    {
+      "path": "reports/p1-018/qa/detail-reserve26-review01/extract01/evaluated-meshes.json.gz",
+      "sha256": "ea20fde4a795a1e1053aa743ed39566148df880fc3a1791665a11b51a33211c1",
+      "bytes": 1542930
+    },
+    {
+      "path": "reports/p1-018/qa/detail-reserve26-review01/fit-motion02.json",
+      "sha256": "0183ff6211599130221e0675bad7e0365c607838061822af71d26c9873c847fb",
+      "bytes": 41182509
+    },
+    {
+      "path": "reports/p1-018/qa/detail-reserve26-review01/fit_motion02.py",
+      "sha256": "419983826727ba2af97ee8ff1247a5fc7872daa6b72c0f60eced4f104f628cbd",
+      "bytes": 14639
+    },
+    {
+      "path": "reports/p1-018/qa/detail-reserve26-review01/freeze04.py",
+      "sha256": "501551844a7489243dad6313eceb92841ee972b2cca7850dc77219b1cc04fe83",
+      "bytes": 6259
+    },
+    {
+      "path": "reports/p1-018/qa/detail-reserve26-review01/handoff04.json",
+      "sha256": "5c2dfb6ffd1b3df9fda068999381446a27ca3ba57d2d99896eb8975544c335be",
+      "bytes": 29628
+    },
+    {
+      "path": "reports/p1-018/qa/detail-reserve26-review01/intersections02.json.gz",
+      "sha256": "936dbeeb6f286d744b5039f33087460ee3a11bdd01a084466b3175efba17d64f",
+      "bytes": 141022
+    },
+    {
+      "path": "reports/p1-018/qa/detail-reserve26-review01/motion-drivers01.json",
+      "sha256": "d0b6ebcaf7f08ed288eb02056232966d70ffea659c780dff7305a2c01d9c1e3f",
+      "bytes": 60308
+    },
+    {
+      "path": "reports/p1-018/qa/detail-reserve26-review01/opening-drivers01.json",
+      "sha256": "302711304e4d79df5559ea61e28ed9a8edd0d5989121f0e90af5620ba34611e6",
+      "bytes": 34123
+    },
+    {
+      "path": "reports/p1-018/qa/display-arch26-visual01/review01.json",
+      "sha256": "99f11f4e50470cea63b3c542c53a0a2b8f3abe7ed1a756a805f8e2045ad0eee3",
+      "bytes": 16141
+    },
+    {
+      "path": "reports/p1-018/qa/display-arch26-visual01/review01.py",
+      "sha256": "481bf03a9e1883694837420ca1f67477922866361b547bad3f80205ad54a2890",
+      "bytes": 6116
+    },
+    {
+      "path": "reports/p1-018/qa/fresh-assembly26-cleanup01/HANDOFF09.md",
+      "sha256": "328736ca5ade2408651026e49e5e64c7be3329d8b8581b371fb289025f4a3a18",
+      "bytes": 4010
+    },
+    {
+      "path": "reports/p1-018/qa/fresh-assembly26-cleanup01/captured03.json.gz",
+      "sha256": "562c01b3e21c740a5bfab2268c72c4d4790947a83958b73e2aa0e088589aae11",
+      "bytes": 3115099
+    },
+    {
+      "path": "reports/p1-018/qa/fresh-assembly26-cleanup01/commands/20260912T135731.312302Z-fresh03-target-inspection01.json",
+      "sha256": "5cf7fc4b34968f91f938c5b539b69efe2abb875fa3713676d9a535399ff9a7c9",
+      "bytes": 1204
+    },
+    {
+      "path": "reports/p1-018/qa/fresh-assembly26-cleanup01/commands/20260912T135731.312302Z-fresh03-target-inspection01.log",
+      "sha256": "ae8c9f6f53968568398a05b032e35c8642f34773edbdc0024f33a6789e1f32f6",
+      "bytes": 437
+    },
+    {
+      "path": "reports/p1-018/qa/fresh-assembly26-cleanup01/commands/20260912T140211.431774Z-fresh03-causal-boundary-replay03.json",
+      "sha256": "04cc2e9efdbae57ebc47e9d44a9678b5c5ede08d4e4aacec64ab7fed6a4e5f83",
+      "bytes": 1376
+    },
+    {
+      "path": "reports/p1-018/qa/fresh-assembly26-cleanup01/commands/20260912T140211.431774Z-fresh03-causal-boundary-replay03.log",
+      "sha256": "fe7850550ffbbf8b1f590f430705b7851f9caf8b7f6ef1a61d74ecebc723aa1b",
+      "bytes": 3857
+    },
+    {
+      "path": "reports/p1-018/qa/fresh-assembly26-cleanup01/commands/20260912T140640.357172Z-fresh03-unresolved-trial05.json",
+      "sha256": "584918204e2884a39e0a2949e75fb83fa36e78c01c349d0103efa3745070b11d",
+      "bytes": 1381
+    },
+    {
+      "path": "reports/p1-018/qa/fresh-assembly26-cleanup01/commands/20260912T140640.357172Z-fresh03-unresolved-trial05.log",
+      "sha256": "c94b3db21480388e3e5a49c901b07c6793479936b9293c60613de6af2cc24120",
+      "bytes": 637
+    },
+    {
+      "path": "reports/p1-018/qa/fresh-assembly26-cleanup01/commands/20260912T140714.574647Z-fresh03-unresolved-trial06.json",
+      "sha256": "b32daa18171d7e5ab82475f9c4ee8f82043dbc103ce18679180dbd92129e34f8",
+      "bytes": 1381
+    },
+    {
+      "path": "reports/p1-018/qa/fresh-assembly26-cleanup01/commands/20260912T140714.574647Z-fresh03-unresolved-trial06.log",
+      "sha256": "fb111fd299b85bd99bddea3d1f960cdccae5a23536bf1ed609c749f01a536a4f",
+      "bytes": 348
+    },
+    {
+      "path": "reports/p1-018/qa/fresh-assembly26-cleanup01/commands/20260912T141102.100218Z-fresh03-fallback-controls07.json",
+      "sha256": "0715be12f9a47b34787fc2c0c07253dcfe58560cf7ddf4e9639fd85ec29d6f67",
+      "bytes": 1397
+    },
+    {
+      "path": "reports/p1-018/qa/fresh-assembly26-cleanup01/commands/20260912T141102.100218Z-fresh03-fallback-controls07.log",
+      "sha256": "6f1aa12519d697140a35d40f83bbf5420b0b24141c41d4616b285270c7afa291",
+      "bytes": 3975
+    },
+    {
+      "path": "reports/p1-018/qa/fresh-assembly26-cleanup01/commands/20260912T141234.747918Z-fresh03-field-continuation08.json",
+      "sha256": "0a68b31282c388f7bc07432bc101512831a20338b3c2c3d2d18b53198197b8f2",
+      "bytes": 1383
+    },
+    {
+      "path": "reports/p1-018/qa/fresh-assembly26-cleanup01/commands/20260912T141234.747918Z-fresh03-field-continuation08.log",
+      "sha256": "b9ff7dec6627f2584a877e3e074f0ee2294e7c94ea20cacd6e96311719576d0c",
+      "bytes": 362
+    },
+    {
+      "path": "reports/p1-018/qa/fresh-assembly26-cleanup01/continued03.json.gz",
+      "sha256": "5423de528a69bce902bc54eaae29c17c28d34d737adea06e84eaa28dfeb731e6",
+      "bytes": 2767865
+    },
+    {
+      "path": "reports/p1-018/qa/fresh-assembly26-cleanup01/controls-preparation07.json",
+      "sha256": "1d9559fda13fedcca87115ef0d179e6b1c7ee2e049ff1321d9da5dd61421498a",
+      "bytes": 837
+    },
+    {
+      "path": "reports/p1-018/qa/fresh-assembly26-cleanup01/controls07.json",
+      "sha256": "e9d424f1a1bbe3cf5ea4f2bd4d40b3a4ca158049c6b60b93572391e6208f9f99",
+      "bytes": 29296
+    },
+    {
+      "path": "reports/p1-018/qa/fresh-assembly26-cleanup01/controls07.py",
+      "sha256": "d7663807064891006aa1bcac9379bafe052a49310cbe1b2f766413c439bece16",
+      "bytes": 2149
+    },
+    {
+      "path": "reports/p1-018/qa/fresh-assembly26-cleanup01/fallback-order.patch",
+      "sha256": "64ac3d4b2197f4a01e3c03af557cc8760ae2f7f9615504284833a3dc55d71ab5",
+      "bytes": 3841
+    },
+    {
+      "path": "reports/p1-018/qa/fresh-assembly26-cleanup01/freeze09.py",
+      "sha256": "2087f948e62658e0e844da637f66a398af4c8ce501e500adceeb938094f5052e",
+      "bytes": 7015
+    },
+    {
+      "path": "reports/p1-018/qa/fresh-assembly26-cleanup01/handoff09.json",
+      "sha256": "8b54fee63d8acfb55ea7d22a6e34ff0bb2c966ecaa73226fc9368bce933488aa",
+      "bytes": 14261
+    },
+    {
+      "path": "reports/p1-018/qa/fresh-assembly26-cleanup01/inspect01.json",
+      "sha256": "80b14faade93b20c65f27f452db72d4dae8ec6fb12cdac94ea7ed62d3e6f12fe",
+      "bytes": 73715
+    },
+    {
+      "path": "reports/p1-018/qa/fresh-assembly26-cleanup01/inspect01.py",
+      "sha256": "616104719ccf4375548042bf9211ce39213ca301fac350fef5817e2d841ba17a",
+      "bytes": 5974
+    },
+    {
+      "path": "reports/p1-018/qa/fresh-assembly26-cleanup01/native01.json.gz",
+      "sha256": "53733c2d7c8294a982ab9427910b3f165bcdfff94c7b220622f9287f2a9413c8",
+      "bytes": 2801142
+    },
+    {
+      "path": "reports/p1-018/qa/fresh-assembly26-cleanup01/ownership19.json",
+      "sha256": "46357682cc7dd4336416197945587e10cc78cdcfa12c32e4117127bd15331958",
+      "bytes": 247865
+    },
+    {
+      "path": "reports/p1-018/qa/fresh-assembly26-cleanup01/ownership19.py",
+      "sha256": "3ed34d655e3f21127df4c75f76af32eb095654072cb2fd90f354ec56c1d0e453",
+      "bytes": 8132
+    },
+    {
+      "path": "reports/p1-018/qa/fresh-assembly26-cleanup01/preparation02.json",
+      "sha256": "06333ff4b3923708f06b86d366c39be1e35bcc64ffabdbe7a5111b88fa00b24d",
+      "bytes": 441
+    },
+    {
+      "path": "reports/p1-018/qa/fresh-assembly26-cleanup01/preparation04.json",
+      "sha256": "83b180edb400513ae1d8307203a67cd6ceb39b91bc88112997531e376c41d0ec",
+      "bytes": 446
+    },
+    {
+      "path": "reports/p1-018/qa/fresh-assembly26-cleanup01/prepare02.py",
+      "sha256": "c9124c44853a42dfdd7fc8be27a96062289bb56b01fc7558345426ff942424b9",
+      "bytes": 2222
+    },
+    {
+      "path": "reports/p1-018/qa/fresh-assembly26-cleanup01/prepare04.py",
+      "sha256": "61a91f4276893635b8da89a494ca45b242cfa3bea46b6628db156ebfe3fad5db",
+      "bytes": 1424
+    },
+    {
+      "path": "reports/p1-018/qa/fresh-assembly26-cleanup01/prepare07.py",
+      "sha256": "b6ccadb35d130eaae8e86892f8ee95b8d984e07ee663c3917c2faadad9db7f88",
+      "bytes": 1138
+    },
+    {
+      "path": "reports/p1-018/qa/fresh-assembly26-cleanup01/proposed/sliver_faces.py",
+      "sha256": "c82e34868dfe68f964b993b873e3f5a682fc9151c4ed0d9c2db9d41c1aabcb27",
+      "bytes": 10101
+    },
+    {
+      "path": "reports/p1-018/qa/fresh-assembly26-cleanup01/proposed/sliver_faces04.py",
+      "sha256": "826d61eff9c05ff32878b5ae2c3ee0e045e10e673831c667f602554174a0f7a9",
+      "bytes": 9934
+    },
+    {
+      "path": "reports/p1-018/qa/fresh-assembly26-cleanup01/replay03.json",
+      "sha256": "71210091e5fabc0ef7f27fa4078e3b7275ea67b9d897c456e02ea5be6448da9c",
+      "bytes": 7025
+    },
+    {
+      "path": "reports/p1-018/qa/fresh-assembly26-cleanup01/replay03.py",
+      "sha256": "046e7b0cc4759b484aa22b322e1843eb53a8a08110098b08c752763414cc0a1c",
+      "bytes": 7844
+    },
+    {
+      "path": "reports/p1-018/qa/fresh-assembly26-cleanup01/seam14.json",
+      "sha256": "501fcd461476adbce198df905f4939318e1ddc5538b9a87a5f9c27c0639ca533",
+      "bytes": 27021
+    },
+    {
+      "path": "reports/p1-018/qa/fresh-assembly26-cleanup01/seam14.py",
+      "sha256": "f4b473e7799cb158550319e341b4255efdfc074c5bdc84d413d05be8d9349653",
+      "bytes": 9424
+    },
+    {
+      "path": "reports/p1-018/qa/fresh-assembly26-cleanup01/trial05.py",
+      "sha256": "0b60fc46e510ef45a7fbf34dfa9e85bd302373b28ceea7153d5ac14889a745ca",
+      "bytes": 6106
+    },
+    {
+      "path": "reports/p1-018/qa/fresh-assembly26-cleanup01/trial06-meshes.json.gz",
+      "sha256": "399159568f3837fe3f63809357153aace957923068915b8f38371066d75eb5e2",
+      "bytes": 2569181
+    },
+    {
+      "path": "reports/p1-018/qa/fresh-assembly26-cleanup01/trial06.json",
+      "sha256": "b3c88886a8266deeef5d574d9d4fea9dbd0e97793bba431d84dd93840dd8a5a2",
+      "bytes": 202500
+    },
+    {
+      "path": "reports/p1-018/qa/fresh-assembly26-cleanup01/trial06.py",
+      "sha256": "bf254b1d30b2422c1c936ac648a5991530b432650b2f866cc1b3255e5e87b6f3",
+      "bytes": 528
+    },
+    {
+      "path": "reports/p1-018/qa/fresh-assembly26-cleanup01/trial08-meshes.json.gz",
+      "sha256": "cfb0739f784e593d693e76bda6a05ac16b0fb063f531632e6700c44d02b1e8db",
+      "bytes": 2756330
+    },
+    {
+      "path": "reports/p1-018/qa/fresh-assembly26-cleanup01/trial08.json",
+      "sha256": "b70f10b4343f4a282736ce714ea9520d05211df649fe1fde43cfcd9d68ee9ea6",
+      "bytes": 107215
+    },
+    {
+      "path": "reports/p1-018/qa/fresh-assembly26-cleanup01/trial08.py",
+      "sha256": "6716893ebf0d9d959d072653553c984090ed1307e7508c318e45f54f1663cccd",
+      "bytes": 1701
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/HANDOFF18.md",
+      "sha256": "cc991f58f75c167654bc2adf962cdd92ceb8699fb43c2fec41d6712012e7442d",
+      "bytes": 3484
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/SCOPE01.md",
+      "sha256": "26049e5882cc0c10804c13ffdf76771ecc0f9770377431f03b570e5c6f6237cc",
+      "bytes": 2241
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/SCOPE02.md",
+      "sha256": "80083042b92cc4b6735879d27a449942079e0635c22d35d47a9312341b8b22a9",
+      "bytes": 1667
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/SCOPE03.md",
+      "sha256": "43471d2f4045c60ba745de7d9dbf730379684c8c58533629f4a3b26cf89fc2fd",
+      "bytes": 1463
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/SCOPE04.md",
+      "sha256": "c92b1cdcf0b319f24bad6f88fb77dd01090960d1d3b60f1a45cdffd37d1947e1",
+      "bytes": 1228
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/SCOPE05.md",
+      "sha256": "c99ee8f8fa7ea83ee1ba0cecf9a6d9619e4c070c046d53f5aa382393764d7bab",
+      "bytes": 1190
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/SCOPE06.md",
+      "sha256": "2db9d44d1edd271691a80c591d7e8681dc2c4d8e13898ba0cebcc255147511d7",
+      "bytes": 1283
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/candidate01-intersections.json.gz",
+      "sha256": "1b0a6ad5f91a69deb237ca7723f37c1b241eaf7fa4bdd9082fc708f83e0ca67e",
+      "bytes": 103
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/candidate01-meshes.json.gz",
+      "sha256": "1a6c6ee11f5aee90a3061d9dbbf68e11ffe1145074ef9137f3c5aae173350356",
+      "bytes": 1575832
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/candidate01.py",
+      "sha256": "5dfea77cd59dfa3a8e922608d61b2d21be0cf814a3338eec533430be7371f360",
+      "bytes": 7549
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/candidate02-intersections.json.gz",
+      "sha256": "56a491db929700ee63943b755042f61576d40def436b4653adb8699075cb1d5e",
+      "bytes": 10917
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/candidate02-meshes.json.gz",
+      "sha256": "2b67c047d1e9edffcf0329cae210bf4dd3f98279f5cc399afa9783b874ba5509",
+      "bytes": 1622011
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/candidate02.py",
+      "sha256": "1421b23c106a0e996263ddb564cc0f042d2f7983f840f3466395b87c3606a503",
+      "bytes": 7659
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/candidate03-intersections.json.gz",
+      "sha256": "651b36809711a6c88efd2611a39c38553600ce322c0d857093663795b5f6cf0d",
+      "bytes": 10960
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/candidate03-meshes.json.gz",
+      "sha256": "3e2d4001be6bd3e90374c0f29a28ee29a73b51e245aa8095f0b6a55504bd2421",
+      "bytes": 1646930
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/candidate03.py",
+      "sha256": "c9e3c330080cea2fa9c7ad216631977de1ac8d19bc900dcab3f5b5c91e33ec1d",
+      "bytes": 7907
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/candidate04-intersections.json.gz",
+      "sha256": "304082f1d19a72f41884c11b13e8d4194896f5b09cbb9c028bdd3cf169449af5",
+      "bytes": 12926
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/candidate04-meshes.json.gz",
+      "sha256": "71700343102be3732b6d26a1ae430b658cccf3960aab482a1b210049e5f41557",
+      "bytes": 1655067
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/candidate04.py",
+      "sha256": "e46f6b66947fd342dd8282ff54a81816cbe3b584671e10b2cbe718ea6edab055",
+      "bytes": 7906
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/candidate08.py",
+      "sha256": "d850e77cf3b18bc914d395f81d281d8a8bbee5090f1f0b7db621e0d2b1dbc25e",
+      "bytes": 8034
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/candidate10.py",
+      "sha256": "3fbbda5693e78f8ba38c91f3c3fa61169a146bc80231f635a77122225b79881b",
+      "bytes": 8361
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/candidate14-intersections.json.gz",
+      "sha256": "304082f1d19a72f41884c11b13e8d4194896f5b09cbb9c028bdd3cf169449af5",
+      "bytes": 12926
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/candidate14-meshes.json.gz",
+      "sha256": "1953b3439b11b3621ae2dc338e6950d1a4424afc2e08cefcfeb784a94b43c3f3",
+      "bytes": 1659505
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/candidate14.py",
+      "sha256": "ccca83ef80f6e867ac483096745bdd198bae8aa8bd858f278635ec410f7fcda3",
+      "bytes": 10034
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/commands/20260912T164748.782536Z-candidate-native01.json",
+      "sha256": "1b86faf00894110a51c075958ba5b8bbe4baf34aab1c89a912b24ff5839ca0aa",
+      "bytes": 1354
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/commands/20260912T164748.782536Z-candidate-native01.log",
+      "sha256": "947c05aa4385391e2ef3e99a6e899633d69a315d3d81d66ad756f6be7ca0da1f",
+      "bytes": 506
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/commands/20260912T164944.967597Z-candidate-native02.json",
+      "sha256": "2798ccc3a3bbcdea55874df46754d7ed923e9d447b80fbac28eeb20ad9a009ec",
+      "bytes": 1354
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/commands/20260912T164944.967597Z-candidate-native02.log",
+      "sha256": "b10946d7151096a89c8be2e958c9d1d6cf060f83a359b4edf81e0e3ad3210414",
+      "bytes": 630
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/commands/20260912T170043.200784Z-candidate-native03.json",
+      "sha256": "4c10f502644a4561c2d41a9391dfc405f711fc3ea0de304ef5372bebac19cd33",
+      "bytes": 1527
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/commands/20260912T170043.200784Z-candidate-native03.log",
+      "sha256": "3c70d47fb788f72c261a73ded0de04642cdbabce4711f5a3d1b6ee22ea9afc4d",
+      "bytes": 630
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/commands/20260912T170348.983703Z-candidate-native04.json",
+      "sha256": "06a7287c3ae067952cd11c8b73c757099ea1abbc3e13bd238d989802e4a63b49",
+      "bytes": 1527
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/commands/20260912T170348.983703Z-candidate-native04.log",
+      "sha256": "c1ceb6f4855803bbc34b4bb5dc907a5578d872597d748782842ac481a8a956fd",
+      "bytes": 630
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/commands/20260912T170821.480092Z-complete-finite05.json",
+      "sha256": "0b87e45fbb29221fb7804124bc0a19c53f76f90b22c89e2801e518b477959821",
+      "bytes": 1368
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/commands/20260912T170821.480092Z-complete-finite05.log",
+      "sha256": "5cb82f53c0df84595cd2aea6375cef42a297901b086f074b5cace5eb7858af5e",
+      "bytes": 1422
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/commands/20260912T170945.938441Z-complete-motion06.json",
+      "sha256": "4c4ffd14d378dbfa2cb6871eb201747bc5da45ad0eeb9f147f5716eea765466f",
+      "bytes": 1365
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/commands/20260912T170945.938441Z-complete-motion06.log",
+      "sha256": "a267974fd458e98ee5df36b1b2453c6e1f0163e9cc3cb2782c92e34b2bb3ec6f",
+      "bytes": 358
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/commands/20260912T171055.617252Z-root-hose-crosscheck07.json",
+      "sha256": "0f57fe5c75efee524c70b5f6db2b17a3113f46f607a0306ddf9ebfd99a6fef2b",
+      "bytes": 1370
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/commands/20260912T171055.617252Z-root-hose-crosscheck07.log",
+      "sha256": "e28b37b984b14ee52a418ad2438df17d6dcf0945f6f523303af4f4ae90d17a53",
+      "bytes": 187
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/commands/20260912T171530.545051Z-frozen-target-native08.json",
+      "sha256": "4b068e32e76e5cb8efc552a8ebbb0ef18d1d9658394644475f7679fde2ed5bec",
+      "bytes": 1531
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/commands/20260912T171530.545051Z-frozen-target-native08.log",
+      "sha256": "1abf6770ccc42283cff4e605972af18c2662782a0c764c15baa598e357e527bf",
+      "bytes": 1491
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/commands/20260912T171720.574577Z-frozen-target-diagnostic09.json",
+      "sha256": "95e1a00f8297e2e6baf85b129478c745f3cc5c48329e526431d80ed248650670",
+      "bytes": 1362
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/commands/20260912T171720.574577Z-frozen-target-diagnostic09.log",
+      "sha256": "c2acfb8ad549ac38d0bc64ffe3887f8c8dfde50e2d7ffcaa942bcc74ae0f07c2",
+      "bytes": 8863
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/commands/20260912T171915.228828Z-scoped-cut-cleanup-native10.json",
+      "sha256": "51d5a6697d4144b1894ad9e59e99bd04b1cc5d312f8915747057d33c00b58514",
+      "bytes": 1536
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/commands/20260912T171915.228828Z-scoped-cut-cleanup-native10.log",
+      "sha256": "af72a7dcc012ee447173748b8e30813b7acd6a7a183fe53870927d823dbdfcb7",
+      "bytes": 8872
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/commands/20260912T172524.589851Z-pinned-outer-native14.json",
+      "sha256": "ce71e487f0553aa1ad780cf00c1b73b369c85fe9e158d4152b9bb97fa4df03bf",
+      "bytes": 1530
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/commands/20260912T172524.589851Z-pinned-outer-native14.log",
+      "sha256": "20b443524e7afe02a75f542f7a4881677e9f8e42caa8a7ab1166e9f3edba4e36",
+      "bytes": 630
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/commands/20260912T172634.172434Z-complete-finite15.json",
+      "sha256": "11608ffb5e1438ad9043037b935dbd89d1a2016257174f4f4bacb38b187299da",
+      "bytes": 1192
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/commands/20260912T172634.172434Z-complete-finite15.log",
+      "sha256": "2c0a94179806694082f628fc2d30e8becda3262e0f807c39c9fef9c0c84d6bc0",
+      "bytes": 3100
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/commands/20260912T172634.177629Z-complete-motion16.json",
+      "sha256": "94b8a03b40ae6f45eb3d455866bb9154c9f3b874604188ce6c81d9784dc7f9e7",
+      "bytes": 1192
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/commands/20260912T172634.177629Z-complete-motion16.log",
+      "sha256": "a1c87e2fe0c407192aac3079ceb33260374142cfc8ef351cec0ca46b49471c2d",
+      "bytes": 358
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/commands/20260912T172634.191783Z-root-hose-crosscheck17.json",
+      "sha256": "f4bb897f59eb0228e6d459e2e815090a3435d065736558f5bacfdf105e857c15",
+      "bytes": 1193
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/commands/20260912T172634.191783Z-root-hose-crosscheck17.log",
+      "sha256": "dc3b811b67e70198663fced1a6486ad0883324357011aa457beb9ca2fe700702",
+      "bytes": 187
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/failed09-meshes.json.gz",
+      "sha256": "c11d6987205b4992e353025f9f42c115763eea09cd889089a69d8cabb2c2c614",
+      "bytes": 143178
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/failed10-meshes.json.gz",
+      "sha256": "de8d7a5896929f749df920ed8db4bf1372d39d084fdbd829e563112de23aba04",
+      "bytes": 143434
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/finite05-reference-domains.json.gz",
+      "sha256": "a93c5d4a47fa7e863862bc354ba5242dd22035af8e0051fe6fc40a9fc4a52531",
+      "bytes": 14632
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/finite05.json",
+      "sha256": "103a5f77bb2843ba9ac5cbdf53332fc00ba8aec76a3ccff98867c3ab0233e5eb",
+      "bytes": 2780090
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/finite05.py",
+      "sha256": "d2475cba74c9eed2abab6f3f1d554829ae4bfe60187f267719ea61bc62eea938",
+      "bytes": 12244
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/finite11.py",
+      "sha256": "688224cad82baea461796a88ebd384e9246ed676c027783e25db3b9b2c5da496",
+      "bytes": 13907
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/finite15-reference-domains.json.gz",
+      "sha256": "a93c5d4a47fa7e863862bc354ba5242dd22035af8e0051fe6fc40a9fc4a52531",
+      "bytes": 14632
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/finite15.json",
+      "sha256": "2e0613481bd817ddc082bcb144176900cd893bdd9aef04374567ca7c0d5ff7b2",
+      "bytes": 5788758
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/finite15.py",
+      "sha256": "a77be1b723db334e4322615cba786a9c97f70bde0a2beba676e56a6ea0f67a40",
+      "bytes": 13907
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/freeze18.py",
+      "sha256": "423da1530daf1ff684cfb66774323d64494cfe114a6afc4fd809b1cda7f4f88e",
+      "bytes": 10337
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/handoff18.json",
+      "sha256": "51e343a73087cae1ae8665bc28d6e61a5478c5e96d26a39279833d2bb6d3a339",
+      "bytes": 176921
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/hose07.json",
+      "sha256": "9b9060f989a6408326a518646dd2d2f4b45f66736a388b8568552748e45f07d6",
+      "bytes": 20821
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/hose07.py",
+      "sha256": "2fe1aa8a128c861935ec04883e24f0e4565c7978b01ed8ff1e0fb537d6912943",
+      "bytes": 2991
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/hose13.py",
+      "sha256": "66a0c0317b4826c5edafd873223686c309e4f3b19c4ed87e776e9a8f1a985c62",
+      "bytes": 2991
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/hose17.json",
+      "sha256": "055288007791d400bbbe3968ddbe9f689062543447252736dc641c15e04792f5",
+      "bytes": 20821
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/hose17.py",
+      "sha256": "0b13c4b131122de71d554262097333eb81e8f1ad2698bab9348b911794ee3127",
+      "bytes": 2991
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/motion06.json",
+      "sha256": "e780e94bbb87930d71d5595959103a9d1b273926abc15f7e0b4cda65f79278f4",
+      "bytes": 1550416
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/motion06.py",
+      "sha256": "feb579c8da3448ac3de90553e00791e30f9bc763b643c3dfb3765fea625e7b56",
+      "bytes": 10318
+    },
+    {
+      "path": "reports/p1-018/qa/front-housing26-proposal01/motion12.py",
+      "sha256": "c8e20e1349750a54ac409274b3d63bea58897ebfb9b65cf336e1400c64a90ce1",
+      "bytes": 10318
+    }
+  ],
+  "archives": [
+    {
+      "path": "data/assets/vehicles/endurance-sedan-review/art-checkpoint-v26/art-checkpoint-v26-06.zip",
+      "sha256": "7223e6ddd5fb4b4227cbafa451c93a765cbb4542635437be6d039ca22015593d",
+      "bytes": 43692614,
+      "crc_and_member_sha256_verified": true
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint26-retention01/art-checkpoint-v26-06-repeat.zip",
+      "sha256": "7223e6ddd5fb4b4227cbafa451c93a765cbb4542635437be6d039ca22015593d",
+      "bytes": 43692614,
+      "crc_and_member_sha256_verified": true
+    }
+  ],
+  "human_approval_reference": null,
+  "limits": "Evidence retention and byte identity only; individual reports retain their own scope, failures and approval status.",
+  "byte_reproducible": true,
+  "finished_utc": "2026-09-12T18:47:16.897032+00:00"
+}

@@ -652,6 +652,58 @@ async def test_restarted_startup_failure_drains_new_output_and_keeps_original_er
 
 
 @pytest.mark.asyncio
+@pytest.mark.parametrize("native_exit_delay", [0.0, 0.05])
+async def test_early_native_exit_uses_only_the_remaining_absolute_budget(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, native_exit_delay: float,
+) -> None:
+    from cannonball_playgodot import launcher
+
+    process, child, signals = _cleanup_fixture(tmp_path, monkeypatch)
+    profile = tmp_path / "owned-profile"
+    profile.mkdir()
+    process._runtime_directory = profile
+    release = threading.Event()
+    remove = shutil.rmtree
+    loop = asyncio.get_running_loop()
+    deadlines = []
+    before = process._before
+
+    def bounded_slow_remove(path):
+        assert path.resolve().is_relative_to(tmp_path.resolve())
+        # Longer than the .25s final reservation, within the same .45s cap.
+        loop.call_soon_threadsafe(loop.call_later, .30, release.set)
+        assert release.wait(2), "The test must release its bookkeeping worker"
+        remove(path)
+
+    async def observe_deadline(awaitable, deadline):
+        if process.process is None and process._bookkeeping_future is not None:
+            deadlines.append(deadline - process.teardown_result["started_monotonic_seconds"])
+        return await before(awaitable, deadline)
+
+    async def quit_child(_deadline, record):
+        await asyncio.sleep(native_exit_delay)
+        record.update(quit_requested=True, quit_acknowledged=True)
+        _quit_marker(process)
+        child.finish()
+
+    monkeypatch.setattr(launcher.shutil, "rmtree", bounded_slow_remove)
+    monkeypatch.setattr(process, "_before", observe_deadline)
+    monkeypatch.setattr(process, "_request_quit", quit_child)
+    try:
+        await process.stop()
+    finally:
+        release.set()
+        if process._bookkeeping_future is not None:
+            await asyncio.wait_for(asyncio.shield(process._bookkeeping_future), 1)
+    result = process.teardown_result
+    assert deadlines == pytest.approx([launcher.SHUTDOWN_TIMEOUT_SECONDS], abs=1e-8)
+    assert result["status"] == "passed" and result["exit_status"] == 0
+    assert result["bookkeeping_completed"] and not profile.exists()
+    assert not signals and not result["phase_errors"]
+    assert result["elapsed_seconds"] <= launcher.SHUTDOWN_TIMEOUT_SECONDS
+
+
+@pytest.mark.asyncio
 async def test_slow_bookkeeping_cannot_block_or_write_late_success(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
 ) -> None:

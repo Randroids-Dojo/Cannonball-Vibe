@@ -14,14 +14,10 @@ import sys
 import time
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from gate import json_read, sha, stage_report
-from finish_interfaces import inventory as finish_inventory
-from fitted_interfaces import negative_controls as fitted_negative_controls, prove as prove_fitted, roof_return_controls
-from geometry import bounds, box_distance2
-from initial_containment import check_pair
-from solid_interfaces import GUARD, prove_join
-from surface_minimum import Distances
-from restraint_interfaces import contract as restraint_contract, inspect as inspect_restraints
+from gate import json_read, sha, check_seat_report
+import seat_finish_report as finish_validation
+
+GUARD = 1e-6
 
 
 def contract(rows):
@@ -94,23 +90,47 @@ def contract(rows):
     return selected, rules
 
 
-def inspect(data, optical_report, finish_report):
-    rows = {name: row for name, row in data['meshes'].items() if not row['properties'].get('source_preview_only')}
+def selected_scope(rows, optical_report):
+    """Re-derive the native selected domain using only locked semantic inputs."""
     selected, rules = contract(rows)
-    stage_report('finish-interfaces',finish_report,data['source_sha256'])
-    expected=[{'kind':kind,'pair':[a,b]} for kind,a,b in finish_inventory(rows)]
-    if finish_report['exact_named_inventory']!=expected:
-        raise ValueError('Finish certificate does not cover the actual required source interfaces')
-    finish_pairs={tuple(sorted(row['pair'])):row for row in finish_report['results']}
-    assert optical_report['status'] == 'passed' and optical_report['source_sha256'] == data['source_sha256']
+    assert optical_report['status'] == 'passed'
     optical_pairs = {tuple(sorted(row['pair'])) for row in optical_report['pairs']}
     assert len(optical_pairs) == 231
     optical_names = {name for pair in optical_pairs for name in pair}
+    assert optical_names <= set(rows)
     selected.update(optical_names)
-    restraint_names, restraint_rules = restraint_contract(rows)
+    data = json_read(Path(__file__).with_name('restraint-interface-rules.json'))
+    assert data['numerical_guard_m'] == GUARD and data['nonmating_gap_m'] == .001
+    restraint_names = set(data['selected_components'])
+    restraint_rules = {tuple(sorted(row['pair'])): row for row in data['rules']}
+    assert len(restraint_names) == 28 and restraint_names <= set(rows)
+    assert len(restraint_rules) == len(data['rules']) == 40
+    assert all(name in rows for pair in restraint_rules for name in pair)
     assert not set(rules).intersection(restraint_rules)
     selected.update(restraint_names)
     rules.update(restraint_rules)
+    return selected, rules, optical_pairs
+
+
+def inspect(data, optical_report, finish_report):
+    from seat_finish_interfaces import inventory as finish_inventory
+    from fitted_interfaces import negative_controls as fitted_negative_controls, prove as prove_fitted, roof_return_controls
+    from geometry import bounds, box_distance2
+    from initial_containment import check_pair
+    from solid_interfaces import GUARD as native_guard, prove_join
+    from surface_minimum import Distances
+    from restraint_interfaces import contract as restraint_contract, inspect as inspect_restraints
+    assert native_guard == GUARD
+    rows = {name: row for name, row in data['meshes'].items() if not row['properties'].get('source_preview_only')}
+    finish_validation.validate_report(finish_report, data['source_sha256'])
+    expected = finish_inventory(rows)
+    if finish_report['exact_named_inventory'] != expected:
+        raise ValueError('Finish certificate does not cover the actual required source interfaces')
+    finish_pairs = finish_validation.validated_binary_pairs(finish_report, data['source_sha256'])
+    assert optical_report['source_sha256'] == data['source_sha256']
+    selected, rules, optical_pairs = selected_scope(rows, optical_report)
+    restraint_names, restraint_rules = restraint_contract(rows)
+    assert restraint_names <= selected and all(rules[k] == v for k, v in restraint_rules.items())
     boxes = {name: bounds(row['vertices']) for name, row in rows.items()}
     distances = Distances(rows)
     solid_cache = {}
@@ -163,8 +183,9 @@ def inspect(data, optical_report, finish_report):
             'finite_interface_negative_controls': controls,
             'roof_return_negative_controls':roof_return_controls(rows),
             'restraint_checks': restraint_checks,
-            'finish_interfaces_checked_separately':len(finish_pairs),
-            'finish_joint_certificates_used':finish_used,
+            'finish_interfaces_checked_separately':len(expected),
+            'finish_group_count':len(expected), 'finish_binary_pair_count':len(finish_pairs),
+            'finish_joint_certificates_used':sorted(finish_used, key=lambda row: row['pair']),
             'optical_internal_pairs_checked_separately': len(optical_pairs),
             'whole_aabb_certificates': broad, 'near_nonmating_pairs': near, 'failures': failures}, intersections
 
@@ -184,6 +205,10 @@ def main():
     assert any(row['sha256'] == sha(args.geometry) for row in optical['inputs']), 'Optics report used different geometry'
     if finish.get('geometry_payload_sha256')!=sha(args.geometry):
         raise ValueError('Finish report used different actual geometry')
+    expected_inputs = {str(p.resolve()): sha(p) for p in (
+        args.geometry, Path(data['source_path']),
+        *[Path(__file__).with_name(n) for n in finish_validation.DEPENDENCIES])}
+    check_seat_report(finish, data['source_sha256'], sha(args.geometry), expected_inputs, finish_validation)
     result, intersections = inspect(data, optical, finish)
     target = args.output.with_suffix('.intersection-solids.json.gz')
     assert not target.exists()

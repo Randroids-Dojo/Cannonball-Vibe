@@ -919,5 +919,129 @@
       "Full final source, LOD/export reproducibility, current runtime/performance/platform and human gates remain open."
     ],
     "human_approval_reference": null
+  },
+  "art_construction_checkpoint_v26": {
+    "utc": "2026-09-12T18:57:01.147732+00:00",
+    "git_base_revision": "568252ce674997d9d20a6959a557c7922e2fbe91",
+    "status": "retained-editable-surface-prototype",
+    "platform": "Windows 11 build 26200; Blender 5.1.2 ec6e62d40fa9",
+    "index": {
+      "path": "data/assets/vehicles/endurance-sedan-review/art-checkpoint-v26/index.json",
+      "sha256": "5f0cc200ec2bc5ab52451c115c888688ce3cb2ee4eba0eb9f8e498ea3628f267"
+    },
+    "source": {
+      "path": "reports/p1-018/detail-reserve26-composed01/saved01/source.blend",
+      "sha256": "abfd4727292092c73138600eacd74c75bd8833c9cef2fa116805cc3c4b4cc7f0"
+    },
+    "lead_command": {
+      "path": "data/assets/vehicles/endurance-sedan-review/art-checkpoint-v26/lead-command.json",
+      "sha256": "6497f89dfcf6ffa377aa0324fdb2e0b603493ef3605a93df34aa8528a5d191e7",
+      "exit_status": 0
+    },
+    "metrics": {
+      "archives": 10,
+      "input_files": 4392,
+      "archive_bytes": 996313566,
+      "byte_identical_builds": 2,
+      "lod0_triangles": 148948,
+      "lod0_ceiling": 150000,
+      "lod0_headroom": 1052,
+      "raw_meshes_and_modifier_settings_exact_after_reopen": 1122
+    },
+    "failures_and_retries": {
+      "cause": "Freeze captured its own still-open command log at zero bytes; the recorder completed the log after the freeze returned.",
+      "changed_input": [
+        {
+          "before": {
+            "path": "reports/p1-018/commands/20260912T183934.576319Z-art26-checkpoint-freeze.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "bytes": 0
+          },
+          "after": {
+            "path": "reports/p1-018/commands/20260912T183934.576319Z-art26-checkpoint-freeze.log",
+            "sha256": "895fd15acf333ed36d3afa98932867757d653f875020f9dc3783756102394019",
+            "bytes": 175
+          }
+        }
+      ],
+      "acceptance_change": false,
+      "recovery": "Use the completed original log and receipt in a new inventory; preserve inventory01 and its three valid archive parts. Future own live receipts stay outside the frozen input list."
+    },
+    "retention_retry_count": 1,
+    "documentation": "docs/vehicles/endurance-sedan/art-checkpoint-v26.md",
+    "limitations": [
+      "Review archive byte identity is not shipping GLB reproducibility.",
+      "Combined source has no derived LOD1/2 or final empty-scene constructor claim.",
+      "Roof, fascia, cooling packaging and full source/LOD/runtime/performance/platform checks remain open.",
+      "Installed production34 and Hero GT are unchanged."
+    ],
+    "human_approval_reference": null
+  },
+  "early_exit_checkpoint_v26": {
+    "utc": "2026-09-12T19:17:01.122643+00:00",
+    "git_base_revision": "568252ce674997d9d20a6959a557c7922e2fbe91",
+    "status": "working-input-windows-passed-new-platform-run-pending",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "archive": {
+      "task_id": "P1-018",
+      "utc": "2026-09-12T19:15:29.005717+00:00",
+      "archive_sha256": "3a027dca13ddc634c12437b6cabd264a2a7437fdede68baff74229bea2d3281d",
+      "archive_bytes": 44963804,
+      "inputs": 846,
+      "directly_byte_compared": true,
+      "lead_reread_all_member_sha256_and_crc_twice": true,
+      "human_approval_reference": null
+    },
+    "index": {
+      "path": "data/assets/vehicles/endurance-sedan-review/early-exit-checkpoint-v26/index.json",
+      "sha256": "9d1b878b886518c404593080d13cfa29667d2230e19cb5d42a5843f125c77e8b"
+    },
+    "manifest": {
+      "path": "data/assets/vehicles/endurance-sedan-review/early-exit-checkpoint-v26/manifest.json",
+      "sha256": "aa1ed1879ef32a889e7098dfe8f6058fe5d7a477a75945963e9404f9d55fe579"
+    },
+    "lead_command": {
+      "path": "data/assets/vehicles/endurance-sedan-review/early-exit-checkpoint-v26/lead-command.json",
+      "sha256": "b7414442dbb98688e6c50467d6b68b244e514a2c364b615ed3e24edc29b734d8",
+      "exit_status": 0
+    },
+    "verification": {
+      "focused_host_controls": 98,
+      "focused_rendered_native_cases": 4,
+      "full_frontdoor_steps": 13,
+      "csharp_tests": 157,
+      "map_tests_passed": 345,
+      "map_tests_skipped": 1,
+      "playgodot_unit_tests": 153,
+      "full_frontdoor_bound_inputs": 23,
+      "changed_inputs": [],
+      "original_ci_run": "34709448118",
+      "original_platform_counts_include_host_tests": true,
+      "original_windows": [
+        175,
+        1
+      ],
+      "original_linux": [
+        176,
+        0
+      ],
+      "original_macos": [
+        176,
+        0
+      ]
+    },
+    "documentation": "docs/vehicles/endurance-sedan/early-exit-checkpoint-v26.md",
+    "failures_preserved": [
+      "Original Windows bookkeeping timeout after clean native exit",
+      "Matched old-code schedule and beyond-absolute deadline rejection",
+      "Intentional null-Callable native negatives",
+      "Fixture, log-readback, post-build drift and long-path inventory corrections"
+    ],
+    "limitations": [
+      "Local front door tested base plus working runtime/QA/governance files.",
+      "Current remote platform evidence remains pending.",
+      "Installedproduction34, final Blender/LOD/export/runtime/performance and human gates remain open."
+    ],
+    "human_approval_reference": null
   }
 }

@@ -105,3 +105,52 @@ ownership. New physical, late, duct, core and roof domains need their own final
 source proofs; the68-group seat stage is not a blanket assembly exemption.
 
 2026-09-12T14:13:42.799554+00:00: Before Mac F5 observation correction, the exact a159 CI failure is scoped to automation/playgodot/tests/test_endurance_sedan.py, new automation/playgodot/tests/test_save_clock_state.py and one check.sh test-selection argument. Runtime agent owns only these three paths for the frozen proposal05 post-file-read cache barrier and20 portable schedule controls. Preserve actual saved bytes before assertion, original10ms elapsed tolerance, one10s newer-sample wait and all runtime code/physics/save behavior. Root retains governance, independent diff review, evidence retention and PR commits. Reports/p1-018/runtime/macos-save-clock26-triage01 binds actual113-pass/1-fail Mac evidence; source-function replay is not a native Mac pass and shutdown errors remain open.
+
+
+2026-09-12T15:56:03.085440+00:00: Before owned-process cleanup implementation, runtime owns only the five paths in docs/audits/2026-09-12-playgodot-owned-process-shutdown.md for capability-authorized session.quit and one absolute eight-second teardown schedule. The ordinary client receives no new capability; session.close remains connection-only. Require acknowledged main-loop quit, actual exit0, retained output/diagnostics and preserved original test exceptions. Denial, cancellation, fallback and reconnect controls precede normal Windows/Linux/Mac verification. No engine, game, physics, asset, dependency, workflow or timeout policy change. Root owns governance, review, retention and commits. All134 UI tests now pass on each platform at 72b225a, while native shutdown diagnostics remain open; that functional pass is not clean-exit evidence.
+
+
+2026-09-12T16:29:30.958783+00:00: Current matched actual-source visual trials and D075/D076 fit findings are recorded before adoption. Root alone owns the13-detail reserve, display AR, wheel-cut field, extended front liner, formed front tub and climate carrier trials. Their input-preserving recipes and construction rationale are under reports/p1-018/*26-pilot01/DESIGN.md. The fitted tub trial saves704tri and the second detail reserve saves672tri; neither changes the150000 ceiling. Whole roof, hose and liner fit remain unaccepted. Independent reports qualify each finite interface; current-source geometry, field, LOD, export, runtime and human gates must be rebound after a coherent revision is locked.
+
+
+2026-09-12T17:06:28.454852+00:00: Before independent signal-wait correction, extend runtime scope to the existing server.gd, PROTOCOL.md and test_live.py paths as specified in docs/audits/2026-09-12-playgodot-independent-signal-waits.md. Actual official-engine reproduction shows concurrent wait event loss, timeout interference and freed-target cleanup errors. Correct native callback identity, connection-result handling and validity-guard ordering; retain all existing limits and shutdown/authentication contracts. Root owns review, full M0, platform CI and retention.
+
+
+2026-09-12T17:38:56.575530+00:00: The C-pillar geometric transition remains restricted to
+Y-1.600..-1.310m. For its next authored shading field, additionally own the64
+complete original incident triangles per side identified in
+`research/roof-section26-continuity01/scope86.json`
+(SHA256 `19fe23d56fde6172abccb5d71b70da842137f309a5a958498b1520d61b2052e4`). Those long original triangles extend to
+Y-1.941056..-1.399999976m. Their original positions, triangle planes and UVs
+outside the shape domain remain fixed. Preserve original corner vectors and
+interpolation on the16 outer source edges per side, then author the inward
+transition; normals outside this declared shading domain remain exact.
+The0.025-degree native encoding bound measures the explicit NEW authored target.
+It does not require newly authored interpolation inside these named triangles
+to reproduce the rejected old field. This is a bounded original design decision,
+not an export tolerance increase. Retain the rejected old-field approximation
+attempts, including the excessive1,601-split trial; do not adopt their density.
+The150000 geometry ceiling, finite fit guards and human visual gate stay fixed.
+Actual surface, source-save, fixed-camera, current assembly and LOD checks must
+pass before adoption. Root remains sole source/export writer.
+
+
+2026-09-12T17:51:35.828283+00:00: Independent saved-source QA found four crossed triangle pairs
+in the new expansion-tank receiving socket. The existing bounded diagonal
+repair preserves its47 vertices,90 triangles, complete surface and UVs, but
+changes interpolation inside an old18-vertex polygon by54.3726degrees. The old
+field belongs to an unaccepted crossed mesh and is not an appearance target.
+Before the next trial, author the expansion tank's whole finite polygon domain
+with outward flat normals on its manufactured planar panels, chamfers and
+internal socket facets. Verify actual polygon planarity and exact geometric/UV
+conservation through repair; preserve every other mesh and material. The0.025
+degree bound remains an encoding check against those explicitly NEW targets.
+Do not claim reproduction of the rejected field. Complete socket domains,
+negative controls, saved/reopened normals and matched engine rendering remain
+required. Root alone saves/exports; QA owns an unsaved reports-only proposal.
+
+
+2026-09-12T18:25:52.692107+00:00: Before source composition, root owns only the explicit geometry/material domains locked in reports/p1-018/composition26-pilot01/scope.json. This combines exact locally checked native scene components onto fresh04 while retaining its newer suspension mounts and all unrelated assemblies. It is a visual/assembly prototype, with current cooler packaging, tank chamfer appearance, roof channel, receiver UV and full source/LOD/runtime gates still open. The portable constructor must later reproduce the chosen result from its declared inputs. No budget or human gate is changed. Neutral-clay diagnosis also explicitly sets shader Base Color to linear0.42, correcting the old renderer which set only viewport diffuse; this is a temporary diagnostic override, not a saved material change.
+
+
+2026-09-12T18:57:01.147732+00:00: Before early-exit bookkeeping implementation, runtime owns only automation/playgodot/src/cannonball_playgodot/launcher.py and automation/playgodot/tests/test_launcher.py under docs/audits/2026-09-12-playgodot-early-exit-bookkeeping.md. Use the remaining existing absolute eight-second cleanup budget after native exit; preserve fallback failure, cancellation, original errors, late-worker failure and idempotence. Root owns governance, independent review, full M0, platform evidence and commits.
