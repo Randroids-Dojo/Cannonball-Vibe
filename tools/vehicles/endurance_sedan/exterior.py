@@ -121,7 +121,10 @@ def fascia(body, collection, lod, mats, pivots, spec):
     attach(geo.box('LOD0_CenterBrakeEmitter', location, (.29, .012, .011), mats['brake'], collection, lod, radius=.002), pivots['Light_Brake_Center'])
 
 
-def closures_and_trim(collection, lod, mats, pivots):
+def closures_and_trim(collection, lod, mats, pivots, spec):
+    sleeve_segments=spec['original_packaging']['primitive_detail_revision24']['hinge_sleeve_segments']
+    if sleeve_segments!=8:
+        raise ValueError('Hinge sleeve detail needs a new measured construction revision')
     for side, symbol in ((-1, 'L'), (1, 'R')):
         for axle, cy in (('F', -.385), ('R', -1.085)):
             suffix = axle + symbol
@@ -159,9 +162,9 @@ def closures_and_trim(collection, lod, mats, pivots):
             geo.tube('LOD0_'+name+'HingePin_'+str(side),[(x-.037,y,z),(x+.037,y,z)],.004,mats['metal'],collection,lod,sides=12)
             for end in (-1,1):
                 a,b=sorted((x+end*.015,x+end*.033))
-                geo.hollow_tube('LOD0_'+name+'HingeFixedKnuckle_'+str(side)+'_'+str(end),(a,y,z),(b,y,z),.008,.0035,mats['metal'],collection,lod,segments=12)
+                geo.hollow_tube('LOD0_'+name+'HingeFixedKnuckle_'+str(side)+'_'+str(end),(a,y,z),(b,y,z),.008,.0035,mats['metal'],collection,lod,segments=sleeve_segments)
                 geo.box('LOD0_'+name+'HingeFixed_'+str(side)+'_'+str(end),(x+end*.024,y-direction*.022,z-.002),(.018,.028,.008),mats['metal'],collection,lod,radius=.001)
-            barrel=geo.hollow_tube('LOD0_'+name+'HingeMovingKnuckle_'+str(side),(x-.012,y,z),(x+.012,y,z),.008,.0035,mats['metal'],collection,lod,segments=12)
+            barrel=geo.hollow_tube('LOD0_'+name+'HingeMovingKnuckle_'+str(side),(x-.012,y,z),(x+.012,y,z),.008,.0035,mats['metal'],collection,lod,segments=sleeve_segments)
             barrel['contact_policy']='Concentric 4 mm pin within 4.5 mm bore; 0.5 mm radial bearing clearance'
             attach(barrel,pivot)
             attach_y=.850 if name=='Hood' else -2.068
@@ -182,11 +185,11 @@ def closures_and_trim(collection, lod, mats, pivots):
             geo.tube(label+'Pin',[(x,y,z-.028),(x,y,z+.028)],.004,mats['metal'],collection,lod,sides=12)
             for end in (-1,1):
                 a,b=sorted((z+end*.011,z+end*.026))
-                fixed=geo.hollow_tube(label+'FixedKnuckle_'+str(end),(x,y,a),(x,y,b),.0065,.002,mats['metal'],collection,lod,segments=12)
+                fixed=geo.hollow_tube(label+'FixedKnuckle_'+str(end),(x,y,a),(x,y,b),.0065,.002,mats['metal'],collection,lod,segments=sleeve_segments)
                 fixed['contact_policy']='Concentric4 mm pin within4.5 mm bore;0.5 mm radial bearing clearance'
                 mount=geo.box(label+'FixedMount_'+str(end),(x-side*.012,y+.004,(a+b)/2),(.024,.012,b-a),mats['metal'],collection,lod,radius=.001)
                 mount.modifiers[0].segments=1
-            moving=geo.hollow_tube(label+'MovingKnuckle',(x,y,z-.009),(x,y,z+.009),.0065,.002,mats['metal'],collection,lod,segments=12)
+            moving=geo.hollow_tube(label+'MovingKnuckle',(x,y,z-.009),(x,y,z+.009),.0065,.002,mats['metal'],collection,lod,segments=sleeve_segments)
             moving['contact_policy']='Concentric4 mm pin within4.5 mm bore;0.5 mm radial bearing clearance'
             attach(moving,pivot)
             front=name.startswith('Door_F')

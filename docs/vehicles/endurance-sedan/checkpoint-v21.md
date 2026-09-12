@@ -1,4 +1,4 @@
-# V21 construction checkpoint ? 2026-09-12
+# V21 construction checkpoint - 2026-09-12
 
 This is a retained production checkpoint for P1-018. It contains the editable
 full07 Blender source and its completed local surface/LOD checks. The installed

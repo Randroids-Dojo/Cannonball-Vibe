@@ -6,7 +6,7 @@ from . import geometry as geo
 from . import tire_surface
 
 
-def sector(name, parent, collection, material, center_x, thickness, inner, outer, start=-98, end=-42):
+def sector(name, parent, collection, material, center_x, thickness, inner, outer, start=-98, end=-42, bevel_segments=2):
     # Eight arc segments over56 degrees keep the maximum circular chord
     # error below0.412mm at the largest 220.5 mm radius. Endpoints/radii stay
     # fixed; this reserves geometry for actual panel seats and body joints.
@@ -14,13 +14,19 @@ def sector(name, parent, collection, material, center_x, thickness, inner, outer
     outline = [(outer * math.sin(a), outer * math.cos(a)) for a in angles]
     outline += [(inner * math.sin(a), inner * math.cos(a)) for a in reversed(angles)]
     obj = geo.prism_x(name, outline, center_x - thickness / 2, center_x + thickness / 2, material, collection, parent)
-    geo.bevel(obj, .002, 2)
+    geo.bevel(obj, .002, bevel_segments)
     return obj
 
 
 def build(collection, mats, pivots, spec):
     radius = spec['geometry']['wheel_radius_m']
     half = spec['geometry']['tire_width_m'] / 2
+    radial = spec['original_packaging']['wheel_tessellation_revision22']
+    detail = spec['original_packaging']['primitive_detail_revision24']
+    if (detail['brake_hat_segments'], detail['caliper_bevel_segments']) != (24, 1):
+        raise ValueError('Brake detail needs a new measured construction revision')
+    if tuple(radial[key] for key in ('tire_segments', 'rim_barrel_segments', 'friction_face_segments')) != (60, 36, 36):
+        raise ValueError('Wheel tessellation needs a new measured construction revision')
     profile = [(-half + .017, .2413), (-half + .004, .262), (-half, .287),
                (-half + .004, .311), (-half + .013, .328), (-half + .028, radius)]
     for offset in (-.068, -.023, .023, .068):
@@ -33,7 +39,7 @@ def build(collection, mats, pivots, spec):
         wheel = pivots['Wheel_' + suffix]
         suspension = pivots['Suspension_' + suffix]
         side = -1 if suffix.endswith('L') else 1
-        tire = geo.ring_x('LOD0_Tire_' + suffix, profile, (0, 0, 0), mats['rubber'], collection, wheel, 64)
+        tire = geo.ring_x('LOD0_Tire_' + suffix, profile, (0, 0, 0), mats['rubber'], collection, wheel, radial['tire_segments'])
         tire['clearance_role'] = 'tire'
         # Four4mm channels are part of the actual tire profile. Temporary
         # guides reproduce the locked native shoulder field, then are removed
@@ -54,7 +60,7 @@ def build(collection, mats, pivots, spec):
         tire_surface.cut_shoulders(tire, construction_guides)
         rim_profile = [(-.108, .227), (-.108, .2445), (-.100, .247), (-.094, .242),
                        (.094, .242), (.100, .247), (.108, .2445), (.108, .227)]
-        geo.ring_x('LOD0_RimBarrel_' + suffix, rim_profile, (0, 0, 0), mats['wheel'], collection, wheel, 48)
+        geo.ring_x('LOD0_RimBarrel_' + suffix, rim_profile, (0, 0, 0), mats['wheel'], collection, wheel, radial['rim_barrel_segments'])
         for j in range(10):
             angle = j * math.tau / 10
             # Tapered, slightly swept forged spokes; broad roots, slimmer tips.
@@ -76,8 +82,8 @@ def build(collection, mats, pivots, spec):
         for face_side in (-1, 1):
             offset = disk_center + face_side * (thickness - face_thickness) / 2
             geo.ring_x('LOD0_BrakeFace_' + suffix + str(face_side), [(-face_thickness / 2, .104), (-face_thickness / 2, r),
-                       (face_thickness / 2, r), (face_thickness / 2, .104)], (offset, 0, 0), mats['metal'], collection, wheel, 48)
-        geo.ring_x('LOD0_BrakeHat_' + suffix, [(-.018, .043), (-.018, .106), (.018, .106), (.018, .043)], (disk_center, 0, 0), mats['alloy'], collection, wheel, 32)
+                       (face_thickness / 2, r), (face_thickness / 2, .104)], (offset, 0, 0), mats['metal'], collection, wheel, radial['friction_face_segments'])
+        geo.ring_x('LOD0_BrakeHat_' + suffix, [(-.018, .043), (-.018, .106), (.018, .106), (.018, .043)], (disk_center, 0, 0), mats['alloy'], collection, wheel, detail['brake_hat_segments'])
         for j in range(30):
             a = j * math.tau / 30
             y0,z0=.111*math.sin(a),.111*math.cos(a)
@@ -89,5 +95,5 @@ def build(collection, mats, pivots, spec):
             vane['maximum_lod']=1
         for face_side in (-1, 1):
             x = disk_center + face_side * (thickness / 2 + .010)
-            sector('LOD0_CaliperCheek_' + suffix + str(face_side), suspension, collection, mats['caliper'], x, .013, r - .036, r + .020)
-        sector('LOD0_CaliperBridge_' + suffix, suspension, collection, mats['caliper'], disk_center, thickness + .024, r + .006, r + .021)
+            sector('LOD0_CaliperCheek_' + suffix + str(face_side), suspension, collection, mats['caliper'], x, .013, r - .036, r + .020, bevel_segments=detail['caliper_bevel_segments'])
+        sector('LOD0_CaliperBridge_' + suffix, suspension, collection, mats['caliper'], disk_center, thickness + .024, r + .006, r + .021, bevel_segments=detail['caliper_bevel_segments'])

@@ -47,8 +47,12 @@ SELECTIVE_LOD_GROUPS = {
 } | {(2,'Light_Tail_RL','Material_Taillight')} | {
     (2,'Visual_LOD0','Material_'+material)
     for material in ('Fabric','Metal','Mirror','OpticalGlass','Paint','Rubber','Trim')
+} | {
+    (2,parent,'Material_Metal') for parent in ('Wheel_FL','Wheel_FR')
+} | {
+    (2,'Wheel_'+suffix,'Material_Alloy') for suffix in ('FL','FR','RL','RR')
 }
-assert len(SELECTIVE_LOD_GROUPS)==18
+assert len(SELECTIVE_LOD_GROUPS)==24
 
 
 def clean_name(value):
@@ -129,7 +133,7 @@ def bake_batch(name, members, parent, collection, material):
     }
 
 
-def make_lods(collection, lods):
+def make_lods(collection, lods, distance_only_names=()):
     from . import lod_paint, selective_lod
     qa_path=str(Path(__file__).resolve().with_name('qa'))
     sys.path.insert(0,qa_path)
@@ -138,13 +142,17 @@ def make_lods(collection, lods):
     finally:
         sys.path.remove(qa_path)
     originals = [obj for obj in collection.objects if obj.type == 'MESH' and obj.name.startswith('LOD0_')]
+    distance_only_names = set(distance_only_names)
+    missing = distance_only_names - {obj.name for obj in originals}
+    if missing:
+        raise ValueError('Declared distance-only source components are absent: ' + ', '.join(sorted(missing)))
     for obj in originals:
         obj['lod_index'] = 0
     bpy.context.view_layer.update()
     for obj in originals:
         # Subpixel hardware and stitched seams disappear before the medium LOD.
         # Named semantic anchors are empties and are never removed by this rule.
-        if max(obj.dimensions) < .080 or any(word in obj.name for word in ('Stitch','Piping','CushionSeam','RotorVane','BrakeVane','LugBolt','ValveStem')):
+        if obj.name in distance_only_names or max(obj.dimensions) < .080 or any(word in obj.name for word in ('Stitch','Piping','CushionSeam','RotorVane','BrakeVane','LugBolt','ValveStem')):
             obj['maximum_lod'] = 0
     manifest = []
     selective_seen=set()

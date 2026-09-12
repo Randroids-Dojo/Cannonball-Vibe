@@ -85,9 +85,9 @@ def build_semantics(collection,spec):
     return root,lods,pivots,controls
 
 
-def make_lods(collection,lods):
+def make_lods(collection,lods,distance_only_names=()):
     from endurance_sedan.optimization import make_lods as build_distance_lods
-    build_distance_lods(collection,lods)
+    build_distance_lods(collection,lods,distance_only_names)
 
 
 def preview(collection):
@@ -148,7 +148,8 @@ def main():
     print('SEDAN_STAGE evaluated LOD0 repair complete',flush=True)
     scene['surface_preview_only']=args.surface_preview
     if not args.surface_preview:
-        make_lods(asset,lods)
+        distance_only_names=spec['original_packaging']['distance_lod_revision23']['maximum_lod_zero_names'] if args.stage=='production' else ()
+        make_lods(asset,lods,distance_only_names)
         for obj in list(asset.objects):
             if obj.type=='MESH':geo.repair_triangulation(obj)
     print('SEDAN_STAGE LOD construction complete',flush=True)

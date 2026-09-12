@@ -697,5 +697,67 @@
   "human_approval_reference": null,
   "simulation_boundary": "Existing authoritative four-raycast rigid body and125mph starter/250mph validation policies retained. Engine bay, auxiliary fuel hardware and stowed restraints are modeled assemblies; no engine-internal, fuel-transfer, textile, crash or occupant simulation is claimed.",
   "retention_resolution": "Ignored reports restore at exact member paths from checksum-indexed review evidence ZIPs. Root source34 export/import/byte gates and M0 are retained in root-source34-gates01; final runtime, motion and platform supplements remain in progress.",
-  "open_instructions": "docs/vehicles/endurance-sedan/README.md"
+  "open_instructions": "docs/vehicles/endurance-sedan/README.md",
+  "construction_checkpoint_v25": {
+    "utc": "2026-09-12T10:13:58.000716+00:00",
+    "git_revision": "a38fe9e7fb13c4b14d1c2ff7665425a88353ab7e",
+    "git_state": "V25 working construction inputs before checkpoint commit; archive contains their exact bytes and the corresponding full10 source.",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "status": "scoped-construction-checkpoint-passed",
+    "source_path_in_archive": "reports/p1-018/source35-full10/source.blend",
+    "source_sha256": "26b7fc239a3d88854f00ddfc71dde9bfe25e80e1432255e8ea0236e4348de53e",
+    "blender_version": "5.1.2",
+    "blender_build": "ec6e62d40fa9",
+    "source_qa": {
+      "stages_passed": 20,
+      "evidence_path_in_archive": "reports/p1-018/source35-full10/qa20/evidence.json"
+    },
+    "windows_front_door": {
+      "steps_passed": 13,
+      "evidence_path_in_archive": "reports/p1-018/source35-v25-frontdoor01/m0/summary.json"
+    },
+    "metrics": {
+      "lod_triangles": [
+        142828,
+        30272,
+        17576
+      ],
+      "collision_triangles": 24,
+      "all_shipping_triangles": 190700,
+      "materials": 24,
+      "lod0_limit": 150000,
+      "all_shipping_limit": 200000,
+      "material_limit": 32
+    },
+    "retained_inputs": 2003,
+    "archive_reproduced_byte_for_byte": true,
+    "artifacts": [
+      {
+        "path": "data/assets/vehicles/endurance-sedan-review/production35-checkpoint-v25/source-checkpoint-v25.zip",
+        "bytes": 567374200,
+        "sha256": "7eaf9f47c7c024fee7fa3a1afb0bb3d9cf14eeb2d130d039de6f2ae15220c971"
+      },
+      {
+        "path": "data/assets/vehicles/endurance-sedan-review/production35-checkpoint-v25/manifest.json",
+        "bytes": 428739,
+        "sha256": "8dd15fcd6b21ccb0d12a3c192afedf4ce6d2d58b1b7bcd4f82285e9f817780ca"
+      },
+      {
+        "path": "data/assets/vehicles/endurance-sedan-review/production35-checkpoint-v25/index.json",
+        "bytes": 429590,
+        "sha256": "f4cb2775b1526801bc466e3c086eb03f1f463293c0f398e968ef4202d5256d03"
+      },
+      {
+        "path": "data/assets/vehicles/endurance-sedan-review/production35-checkpoint-v25/20260912T101041.410186Z-source35-v25-checkpoint-retention.json",
+        "bytes": 1460,
+        "sha256": "0a682c300e39157fc73273c282903194ada55617d2fa7be6cacc00c1f14377ea"
+      }
+    ],
+    "failures_retained": [
+      "Full09 four distant brake-hat meshes each had three self-crossing pairs; repaired by exact selective fallback, then full10 passed all 20 stages.",
+      "Simplified turbo contour visibly degraded; original detailed housings retained."
+    ],
+    "remaining": "Complete assembly repairs, final source35 native/LOD/export/import/runtime/media/performance/platform checks and required human gates remain open. The installed source34 Blender and GLB remain unchanged; their remote asset failure is not declared repaired by this checkpoint.",
+    "human_approval_reference": null
+  }
 }

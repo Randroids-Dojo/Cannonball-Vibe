@@ -10,7 +10,11 @@ from . import model
 from .exterior import attach, cut_box
 
 
-def engine(collection, lod, mats, pivots):
+def engine(collection, lod, mats, pivots, spec):
+    detail = spec['original_packaging']['primitive_detail_revision24']
+    if (detail['fan_shroud_path_segments'], detail['turbo_segments'], detail['turbo_rings'],
+        detail['cooler_fin_long_edge_chamfer_m'], detail['cooler_fin_end_edge_chamfer_m']) != (24, 20, 10, .0007, 0):
+        raise ValueError('Cooling hardware detail needs a new measured construction revision')
     geo.box('LOD0_V8Crankcase', (0, 1.393, .491), (.451, .698, .341), mats['alloy'], collection, lod, radius=.028)
     geo.box('LOD0_Sump', (0, 1.442, .318), (.422, .512, .061), mats['alloy'], collection, lod, radius=.016)
     for side in (-1, 1):
@@ -20,7 +24,7 @@ def engine(collection, lod, mats, pivots):
             y = 1.145 + j * .157
             geo.box('LOD0_CoilPack_' + str(side) + str(j), (side * .263, y, .813), (.087, .064, .024), mats['trim'], collection, lod, radius=.006)
         # Two turbo housings occupy the hot V; shield and charge pipes are visible.
-        geo.ellipsoid('LOD0_HotVTurbo_' + str(side), (side * .111, 1.274, .811), (.145, .181, .137), mats['metal'], collection, lod, 20, 10)
+        geo.ellipsoid('LOD0_HotVTurbo_' + str(side), (side * .111, 1.274, .811), (.145, .181, .137), mats['metal'], collection, lod, detail['turbo_segments'], detail['turbo_rings'])
         geo.tube('LOD0_TurboIntake_' + str(side), [(side * .111, 1.321, .819), (side * .29, 1.626, .839), (side * .48, 1.867, .79)], .034, mats['rubber'], collection, lod, sides=12)
         geo.box('LOD0_Airbox_' + str(side), (side * .48, 1.867, .770), (.220, .210, .180), mats['trim'], collection, lod, radius=.022)
         for j in range(5):
@@ -43,10 +47,17 @@ def engine(collection, lod, mats, pivots):
     geo.box('LOD0_RadiatorStack', (0, 2.035, .535), (1.245, .080, .422), mats['metal'], collection, lod, radius=.008)
     geo.box('LOD0_ChargeCoolingRadiator', (0, 2.107, .464), (1.056, .069, .221), mats['alloy'], collection, lod, radius=.009)
     for i in range(36):
-        fin=geo.box('LOD0_CoolerFin_' + str(i), (-.505 + i * .0289, 2.144, .464), (.006, .004, .201), mats['metal'], collection, lod, radius=.0007)
-        fin.modifiers[0].segments=1
+        # Retain all long-edge chamfers; the concealed ends use planar caps.
+        cx,cy,cz=-.505+i*.0289,2.144,.464
+        hx,hy,chamfer=.003,.002,detail['cooler_fin_long_edge_chamfer_m']
+        ring=[(-hx+chamfer,-hy),(hx-chamfer,-hy),(hx,-hy+chamfer),(hx,hy-chamfer),
+              (hx-chamfer,hy),(-hx+chamfer,hy),(-hx,hy-chamfer),(-hx,-hy+chamfer)]
+        vertices=[(cx+x,cy+y,cz+sign*.201/2) for sign in (-1,1) for x,y in ring]
+        faces=[tuple(reversed(range(8))),tuple(range(8,16))]+[(j,(j+1)%8,(j+1)%8+8,j+8) for j in range(8)]
+        geo.mesh('LOD0_CoolerFin_'+str(i),vertices,faces,mats['metal'],collection,lod)
     for side in (-1, 1):
-        points = [(side * .277 + .153 * math.cos(i * math.tau / 32), 1.973, .583 + .153 * math.sin(i * math.tau / 32)) for i in range(32)]
+        segments=detail['fan_shroud_path_segments']
+        points = [(side * .277 + .153 * math.cos(i * math.tau / segments), 1.973, .583 + .153 * math.sin(i * math.tau / segments)) for i in range(segments)]
         geo.tube('LOD0_FanShroud_' + str(side), points, .014, mats['trim'], collection, lod, sides=6, closed=True)
         for j in range(7):
             a = j * math.tau / 7
@@ -159,7 +170,7 @@ def trunk(body, collection, lod, mats, pivots):
         geo.tube('LOD0_ExtinguisherStrap_' + str(y), [(.391, y, .278), (.394, y, .337), (.466, y, .337), (.469, y, .278)], .003, mats['metal'], collection, lod, sides=6)
 
 
-def build(body, collection, lod, mats, pivots):
-    engine(collection, lod, mats, pivots)
+def build(body, collection, lod, mats, pivots, spec):
+    engine(collection, lod, mats, pivots, spec)
     underside(body, collection, lod, mats)
     trunk(body, collection, lod, mats, pivots)

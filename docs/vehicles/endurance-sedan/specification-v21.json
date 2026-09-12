@@ -8,8 +8,8 @@
     "configuration": "four-door, left-hand-drive, all-wheel-drive endurance performance sedan",
     "status": "project-original fictional identity; final human art/rights review pending"
   },
-  "status": "locked_original_specification_v25",
-  "locked_utc": "2026-09-12T09:42:10.946053+00:00",
+  "status": "locked_original_specification_v21",
+  "locked_utc": "2026-09-12T05:59:18.867648+00:00",
   "benchmark": {
     "id": "audi_s6_2016_us",
     "model_year": 2016,
@@ -1199,45 +1199,6 @@
       "modeling_tolerance": 0.005,
       "model_parameter": "geometry.backlight_base_height_m",
       "runtime_parameter": null
-    },
-    {
-      "id": "wheel_tire_segments",
-      "value": 60,
-      "units": "count",
-      "classification": "fictional_design_choice",
-      "source_confidence": "Explicit authored mesh density; not a factory measurement.",
-      "reference_sources": [],
-      "source_uncertainty": null,
-      "modeling_tolerance": 0,
-      "model_parameter": "original_packaging.wheel_tessellation_revision22.tire_segments",
-      "runtime_parameter": null,
-      "evidence_record": "docs/vehicles/endurance-sedan/packaging-revision-v22.md"
-    },
-    {
-      "id": "wheel_rim_barrel_segments",
-      "value": 36,
-      "units": "count",
-      "classification": "fictional_design_choice",
-      "source_confidence": "Explicit authored mesh density; not a factory measurement.",
-      "reference_sources": [],
-      "source_uncertainty": null,
-      "modeling_tolerance": 0,
-      "model_parameter": "original_packaging.wheel_tessellation_revision22.rim_barrel_segments",
-      "runtime_parameter": null,
-      "evidence_record": "docs/vehicles/endurance-sedan/packaging-revision-v22.md"
-    },
-    {
-      "id": "wheel_friction_face_segments",
-      "value": 36,
-      "units": "count",
-      "classification": "fictional_design_choice",
-      "source_confidence": "Explicit authored mesh density; not a factory measurement.",
-      "reference_sources": [],
-      "source_uncertainty": null,
-      "modeling_tolerance": 0,
-      "model_parameter": "original_packaging.wheel_tessellation_revision22.friction_face_segments",
-      "runtime_parameter": null,
-      "evidence_record": "docs/vehicles/endurance-sedan/packaging-revision-v22.md"
     }
   ],
   "human_approval_reference": null,
@@ -1263,7 +1224,7 @@
       "change": "Rear mirror Y .20 and camera Y .16; explicit mechanism axis spaces; original side mirror housing sets exact 2.10m width"
     }
   ],
-  "specification_revision": 25,
+  "specification_revision": 20,
   "original_packaging": {
     "auxiliary_cell_center_source_m": [
       0,
@@ -2424,113 +2385,6 @@
       "provenance": "Preserve FACE INT cb_fascia_cap and __mod_weightednormals_faceweight through evaluated triangle freezing; refuse diagonal flips across differing authored values.",
       "engineering_hardpoints_unchanged": true,
       "acceptance_scope": "Matched source12/13 native renders and independent scoped source proofs support adoption for fresh construction. Full all-LOD, export, runtime and human acceptance remain pending; physical cabin closure is a separate unresolved scope."
-    },
-    "wheel_tessellation_revision22": {
-      "tire_segments": 60,
-      "rim_barrel_segments": 36,
-      "friction_face_segments": 36,
-      "classification": "fictional_design_choice",
-      "engineering_dimensions_changed": false,
-      "record": "docs/vehicles/endurance-sedan/packaging-revision-v22.md",
-      "source_trial_sha256": "beaa44316bc8ac949f8ad62b2835a88ad54b7e7b4e6a5032606e72eadeebf37a",
-      "independent_review_sha256": "58832d54b6429107a6cbbdd7aabd7f46819be08fcc45dd7b84b02dd27cab3eff"
-    },
-    "distance_lod_revision23": {
-      "classification": "fictional_design_choice",
-      "maximum_lod_zero_names": [
-        "LOD0_ColumnStalk_-1",
-        "LOD0_ColumnStalk_1",
-        "LOD0_CrewLogBinder",
-        "LOD0_Cupholder_-1",
-        "LOD0_Cupholder_1",
-        "LOD0_DoorSpeaker_FL",
-        "LOD0_DoorSpeaker_FR",
-        "LOD0_DoorSpeaker_RL",
-        "LOD0_DoorSpeaker_RR",
-        "LOD0_EnduranceRadio",
-        "LOD0_FootRest",
-        "LOD0_FrontLMapPocket",
-        "LOD0_FrontLRailBase",
-        "LOD0_FrontLSeatSwitch",
-        "LOD0_FrontRMapPocket",
-        "LOD0_FrontRRailBase",
-        "LOD0_FrontRSeatSwitch",
-        "LOD0_RadioCable",
-        "LOD0_RearLRailBase",
-        "LOD0_RearRRailBase",
-        "LOD0_RearSpeaker_-1",
-        "LOD0_RearSpeaker_1"
-      ],
-      "additional_selective_groups": [
-        [
-          2,
-          "Wheel_FL",
-          "Material_Metal"
-        ],
-        [
-          2,
-          "Wheel_FR",
-          "Material_Metal"
-        ]
-      ],
-      "runtime_transition_distances_m": [
-        28,
-        65
-      ],
-      "requested_ratios": [
-        0.23,
-        0.065
-      ],
-      "record": "docs/vehicles/endurance-sedan/packaging-revision-v23.md",
-      "source_trial_sha256": "5194381886b52fcbf0288f22823e7dbd8900f6835077f55da03a569f67b0b4e6",
-      "independent_review_sha256": "2d315ba03074ca7697f599936b685313f439a486e92da1ff7272749dc3009fd8"
-    },
-    "primitive_detail_revision24": {
-      "classification": "fictional_design_choice",
-      "fan_shroud_path_segments": 24,
-      "hinge_sleeve_segments": 8,
-      "brake_hat_segments": 24,
-      "caliper_bevel_segments": 1,
-      "cooler_fin_long_edge_chamfer_m": 0.0007,
-      "cooler_fin_end_edge_chamfer_m": 0,
-      "turbo_segments": 20,
-      "turbo_rings": 10,
-      "selected_component_count": 90,
-      "measured_lod0_saving": 3616,
-      "rejected_turbo_lod0_saving": 272,
-      "record": "docs/vehicles/endurance-sedan/packaging-revision-v24.md",
-      "lead_review_sha256": "7c2a4adea00527b0883e956b25f6d9fc1b196a5b3b9c6a5b74e65ed2cd297e43",
-      "hardware_review_sha256": "b2b5061a41db4748d7979550927886839b1fbd5f8dc12cd2aab85defbafc95ab"
-    },
-    "brake_lod_revision25": {
-      "classification": "verified_construction_correction",
-      "additional_selective_groups": [
-        [
-          2,
-          "Wheel_FL",
-          "Material_Alloy"
-        ],
-        [
-          2,
-          "Wheel_FR",
-          "Material_Alloy"
-        ],
-        [
-          2,
-          "Wheel_RL",
-          "Material_Alloy"
-        ],
-        [
-          2,
-          "Wheel_RR",
-          "Material_Alloy"
-        ]
-      ],
-      "measured_lod2_triangle_delta": 24,
-      "record": "docs/vehicles/endurance-sedan/packaging-revision-v25.md",
-      "trial_source_sha256": "d2cd4d3e6f9cda6cd92a9677e741b1af193b2f6e29f1e0ce742213aa683ae439",
-      "all_lods_sha256": "645eb363e57fa0340a79f4fe996598bcd2f2acf130d56241d7ae6eb1fdcbffba",
-      "unchanged_lod0_and_other_native_meshes": 1299
     }
   },
   "specification_corrections_during_production": [
@@ -2603,30 +2457,6 @@
       "reason": "Replace visually closed cup pads with real inserts and console pockets; align eight formed back bolsters to seat rake and reduce stitching brightness. Existing eighteen-group LOD validation includes the new liner failure repair.",
       "record": "docs/vehicles/endurance-sedan/packaging-revision-v20.md",
       "construction_acceptance": "Locked before canonical implementation; full assembled-source and all final acceptance gates remain required."
-    },
-    {
-      "revision": 22,
-      "reason": "Reduce wheel tessellation with unchanged engineering dimensions and verified native fit, recovering 2736 LOD0 triangles for observed assembly repairs.",
-      "record": "docs/vehicles/endurance-sedan/packaging-revision-v22.md",
-      "construction_acceptance": "Locked before code adoption. Complete regenerated source, LOD, export, runtime/platform and human acceptance remain required."
-    },
-    {
-      "revision": 23,
-      "reason": "Remove 22 small components from distance-only meshes and repair two far front brake groups with the existing per-component method; all LOD0 geometry remains present.",
-      "record": "docs/vehicles/endurance-sedan/packaging-revision-v23.md",
-      "construction_acceptance": "Locked for source construction only. Final native transitions, cockpit/opening inspection, export and human gates remain required."
-    },
-    {
-      "revision": 24,
-      "reason": "Adopt90 measured primitive-density changes; retain original turbo detail after actual render review rejected the coarser contour.",
-      "record": "docs/vehicles/endurance-sedan/packaging-revision-v24.md",
-      "construction_acceptance": "Source construction only; new LODs, combined QA, final exports/runtime and human approvals remain open."
-    },
-    {
-      "revision": 25,
-      "reason": "Repair four newly observed distant brake-hat self folds through the existing per-component exact-check fallback; retain all full-detail geometry.",
-      "record": "docs/vehicles/endurance-sedan/packaging-revision-v25.md",
-      "construction_acceptance": "Four repaired native LOD2 meshes and all indexed lower-LOD shell checks pass. Full construction, export, runtime and human gates remain required."
     }
   ]
 }

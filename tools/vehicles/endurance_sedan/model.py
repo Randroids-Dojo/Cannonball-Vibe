@@ -559,12 +559,12 @@ def build_production(collection, lod, mats, pivots, controls, spec):
     closures(collection, lod, mats, pivots)
     greenhouse(collection, lod, mats, pivots, spec)
     exterior.fascia(body, collection, lod, mats, pivots, spec)
-    exterior.closures_and_trim(collection, lod, mats, pivots)
+    exterior.closures_and_trim(collection, lod, mats, pivots, spec)
     exterior.mirrors(collection, lod, mats, pivots, spec)
     cabin.build(collection, lod, mats, pivots, spec)
     wheels.build(collection, mats, pivots, spec)
     before_powertrain=set(collection.objects)
-    powertrain.build(body, collection, lod, mats, pivots)
+    powertrain.build(body, collection, lod, mats, pivots, spec)
     # Inspection forces LOD0; hidden engine/trunk/underbody internals need not
     # survive the medium/far driving silhouettes. Exterior exhaust lips remain.
     for obj in set(collection.objects)-before_powertrain:

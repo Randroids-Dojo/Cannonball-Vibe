@@ -8,8 +8,8 @@
     "configuration": "four-door, left-hand-drive, all-wheel-drive endurance performance sedan",
     "status": "project-original fictional identity; final human art/rights review pending"
   },
-  "status": "locked_original_specification_v25",
-  "locked_utc": "2026-09-12T09:42:10.946053+00:00",
+  "status": "locked_original_specification_v23",
+  "locked_utc": "2026-09-12T07:59:22.402881+00:00",
   "benchmark": {
     "id": "audi_s6_2016_us",
     "model_year": 2016,
@@ -1263,7 +1263,7 @@
       "change": "Rear mirror Y .20 and camera Y .16; explicit mechanism axis spaces; original side mirror housing sets exact 2.10m width"
     }
   ],
-  "specification_revision": 25,
+  "specification_revision": 23,
   "original_packaging": {
     "auxiliary_cell_center_source_m": [
       0,
@@ -2484,53 +2484,6 @@
       "record": "docs/vehicles/endurance-sedan/packaging-revision-v23.md",
       "source_trial_sha256": "5194381886b52fcbf0288f22823e7dbd8900f6835077f55da03a569f67b0b4e6",
       "independent_review_sha256": "2d315ba03074ca7697f599936b685313f439a486e92da1ff7272749dc3009fd8"
-    },
-    "primitive_detail_revision24": {
-      "classification": "fictional_design_choice",
-      "fan_shroud_path_segments": 24,
-      "hinge_sleeve_segments": 8,
-      "brake_hat_segments": 24,
-      "caliper_bevel_segments": 1,
-      "cooler_fin_long_edge_chamfer_m": 0.0007,
-      "cooler_fin_end_edge_chamfer_m": 0,
-      "turbo_segments": 20,
-      "turbo_rings": 10,
-      "selected_component_count": 90,
-      "measured_lod0_saving": 3616,
-      "rejected_turbo_lod0_saving": 272,
-      "record": "docs/vehicles/endurance-sedan/packaging-revision-v24.md",
-      "lead_review_sha256": "7c2a4adea00527b0883e956b25f6d9fc1b196a5b3b9c6a5b74e65ed2cd297e43",
-      "hardware_review_sha256": "b2b5061a41db4748d7979550927886839b1fbd5f8dc12cd2aab85defbafc95ab"
-    },
-    "brake_lod_revision25": {
-      "classification": "verified_construction_correction",
-      "additional_selective_groups": [
-        [
-          2,
-          "Wheel_FL",
-          "Material_Alloy"
-        ],
-        [
-          2,
-          "Wheel_FR",
-          "Material_Alloy"
-        ],
-        [
-          2,
-          "Wheel_RL",
-          "Material_Alloy"
-        ],
-        [
-          2,
-          "Wheel_RR",
-          "Material_Alloy"
-        ]
-      ],
-      "measured_lod2_triangle_delta": 24,
-      "record": "docs/vehicles/endurance-sedan/packaging-revision-v25.md",
-      "trial_source_sha256": "d2cd4d3e6f9cda6cd92a9677e741b1af193b2f6e29f1e0ce742213aa683ae439",
-      "all_lods_sha256": "645eb363e57fa0340a79f4fe996598bcd2f2acf130d56241d7ae6eb1fdcbffba",
-      "unchanged_lod0_and_other_native_meshes": 1299
     }
   },
   "specification_corrections_during_production": [
@@ -2615,18 +2568,6 @@
       "reason": "Remove 22 small components from distance-only meshes and repair two far front brake groups with the existing per-component method; all LOD0 geometry remains present.",
       "record": "docs/vehicles/endurance-sedan/packaging-revision-v23.md",
       "construction_acceptance": "Locked for source construction only. Final native transitions, cockpit/opening inspection, export and human gates remain required."
-    },
-    {
-      "revision": 24,
-      "reason": "Adopt90 measured primitive-density changes; retain original turbo detail after actual render review rejected the coarser contour.",
-      "record": "docs/vehicles/endurance-sedan/packaging-revision-v24.md",
-      "construction_acceptance": "Source construction only; new LODs, combined QA, final exports/runtime and human approvals remain open."
-    },
-    {
-      "revision": 25,
-      "reason": "Repair four newly observed distant brake-hat self folds through the existing per-component exact-check fallback; retain all full-detail geometry.",
-      "record": "docs/vehicles/endurance-sedan/packaging-revision-v25.md",
-      "construction_acceptance": "Four repaired native LOD2 meshes and all indexed lower-LOD shell checks pass. Full construction, export, runtime and human gates remain required."
     }
   ]
 }

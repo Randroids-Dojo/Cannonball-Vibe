@@ -9,8 +9,8 @@ The authoritative completion record is [P1-018](../../DELIVERY_LEDGER.json).
 Machine verification and the required human art, rights, handling and usability
 reviews are separate. This vehicle is a review candidate until those gates close.
 
-The [v21 construction checkpoint](checkpoint-v21.md) retains the newer Blender
-surface work and its scoped evidence. The installed source and Godot GLB are
+The [v25 construction checkpoint](checkpoint-v25.md) retains the newer Blender
+surface work, geometry checks and Windows verification. The installed source and Godot GLB are
 still the previous production34 candidate while internal assembly repairs finish.
 
 ## Open and inspect the model
@@ -27,7 +27,7 @@ LOD1/LOD2 meshes. `Preview` contains the original studio, camera and source-only
 illumination. Units are meters; +Y points forward and +Z points up. The origin is
 on the ground midway between the axles. Godot converts source `(x,y,z)` to `(x,z,-y)`.
 
-Select `RigControls` in the Outliner and edit **Object Properties â†’ Custom
+Select `RigControls` in the Outliner and edit **Object Properties > Custom
 Properties**. Set `Door_FL_open`, `Door_FR_open`, `Door_RL_open`, `Door_RR_open`,
 `Hood_Hinge_open` or `Trunk_Hinge_open` between 0 and 1. `steering` spans -1 to 1;
 `wheel_roll` is radians and `suspension` spans -0.075 to +0.085 meters. The

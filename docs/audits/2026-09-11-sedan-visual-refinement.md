@@ -497,12 +497,12 @@ The complete ordered20-stage source gate passed on full06 at2026-09-12T05:55:08.
 Windows scripts/check.sh also passed at the v20 working checkpoint. Its23 result/log files are copied and hashed in reports/p1-018/source35-v20-frontdoor01/index.json. Fascia revision21 was then integrated and a fresh full source07 construction started; previous source06 results are not relabeled as source07 evidence. Mainline red-main query remains empty.
 
 
-### 2026-09-12T06:24:54.712012+00:00 ? Full07 fascia integration and contact-shading diagnostics
+### 2026-09-12T06:24:54.712012+00:00 - Full07 fascia integration and contact-shading diagnostics
 
 Root constructed the complete v21 source using pinned Blender 5.1.2, including
 regenerated LODs. `reports/p1-018/source35-full07/source.blend` has SHA-256
 `ea701f2a44b5baaaa0c746c2311c61a348cd58b0bf2f1f18c0d2a8edadcf79bb`. Build and three matched
-2560 ? 1440 Cycles renders exited 0; the root inspected all original paint,
+2560 x 1440 Cycles renders exited 0; the root inspected all original paint,
 front-lamp and front three-quarter images. The localized fender reflection
 correction survives integration. Independent native geometry comparison and
 all connected LOD checks remain in progress. No shipping GLB has been replaced.
@@ -528,7 +528,7 @@ be rebound before any canonical adoption. Seat and floor repairs remain
 independent prototypes, with no new human approval recorded.
 
 
-### 2026-09-12T06:35:00.515435+00:00 ? Bounded wheel tessellation trial before adoption
+### 2026-09-12T06:35:00.515435+00:00 - Bounded wheel tessellation trial before adoption
 
 Full07 has only 820 LOD0 and 58 total triangles of headroom. A reports-only
 Blender construction will test tire radial divisions 64 to 60, rim divisions
@@ -541,3 +541,75 @@ triangle savings after shoulder cuts, topology, normal fields, tire clearance
 and a matched wheel close-up must pass before a new specification lock or
 canonical implementation. This trial is an optimization candidate, not an
 approved loss of inspection quality. Existing human gates remain open.
+
+
+### 2026-09-12T07:06:40.768637+00:00 - Measured small-cabin distance-LOD trial
+
+Reports-only distance-LOD comparison from the exact wheel tessellation trial: generate an unchanged baseline and a variant that omits the 22 explicitly named small cabin inserts, speakers, low seat hardware, minor controls and stowed items from LOD1/2. All LOD0 geometry and retained console, door-card, seat and parcel-shelf shells stay present. Measure actual costs and native topology, inspect matched exterior renders at the existing 28 m and 65 m runtime boundaries, and require final native transition/cockpit/opening checks before canonical adoption. No specification, ceiling, gameplay or human approval change is made by this trial.
+
+
+### 2026-09-12T07:24:09.306260+00:00 - Revision22 wheel tessellation locked
+
+The exact independent wheel handoff supports the bounded60/36/36 choice. Root inspected the retained original close-up and whole-car views, and adopts this geometry budget correction under packaging-revision-v22.md. The previous specification bytes and wheel constructor are preserved. The new lock includes no floor, seat or lower-LOD omission candidate and no human approval.
+
+
+### 2026-09-12T07:59:22.402881+00:00 - Revision23 distance construction lock
+
+Frozen independent review2d315ba supports the exact22 source omissions and two far brake repairs. The previous specification and constructors are retained before editing. The trial's final native transition/cockpit/opening requirements remain shipping-acceptance gates; constructing the next review source does not close them. Geometry caps, gameplay, and human boundaries are unchanged.
+
+
+### 2026-09-12T08:08:59.918883+00:00 - Black paint response trial scope
+
+D069 remains visible in the latest front-three-quarter image: broad gray reflections flatten the apparent panel form. A reports-only unsaved Blender trial will compare the existing finish with a darker base and tighter roughness/clearcoat response under identical neutral and daylight rigs. No geometry, exposure, lighting or shipping material changes are authorized by the trial itself. Root owns reports/p1-018/paint-response35-pilot01; record exact parameters and original image hashes before choosing the source material.
+
+### 2026-09-12T09:02:29Z - Combined physical and upholstery review source
+
+Root saved `reports/p1-018/assembly35-pilot01/source.blend`, SHA-256
+`07de068d712efb10540ef646881917dedea57436bd4b3484de16e9251b679e3e`.
+The actual LOD0 count is 148,362 against the unchanged 150,000 ceiling. It
+combines the current-source physical14 repair, four coherent seat assemblies,
+the document pocket and primitive-density trials. Lower LODs are deliberately
+stale in this inspection file and cannot ship. Current-source physical14 has
+66 individually valid changed meshes, 115 unchanged hardpoint meshes and
+separate outside-field evidence. The seat recipe covers 54 finite interfaces;
+rear piping retains a bounded original soft-foam tuck of at most 4 mm.
+The old source-field reverse proof still has 181 unresolved domains. None of
+these results approves the complete assembly or its final exported artifact.
+
+### 2026-09-12T09:06:04.837267+00:00 - Primitive review and front cooling-core defect
+
+Root and independent QA inspected the ten matched wheel, engine, closure-hinge
+and open-door originals. The root also inspected a matched fitted-grille pair.
+The root report is `reports/p1-018/hardware-budget35-pilot01/lead-review.json`,
+SHA-256 `7c2a4adea00527b0883e956b25f6d9fc1b196a5b3b9c6a5b74e65ed2cd297e43`.
+The simplified turbo contour loses visible quality: retain the original two
+20 by 10 housings. The remaining 90 component changes save 3,616 LOD0
+triangles. Those density choices may enter the next construction lock after
+their exact parameters and evidence are recorded. New lower LODs, combined
+contacts, source/export correspondence and runtime checks remain required.
+
+The fitted grille view and native camera rays identify a second, independent
+defect: `LOD0_CentralRadiator` presents a plain metal slab through the opening.
+Root owns a bounded original front-core form/material trial under
+`reports/p1-018/cooling-core35-pilot01`. Preserve the existing external package
+envelope, grille, lamps, hardpoints and cooling-stack placement. Model a
+credible recessed finned face, measure mesh/material cost and actual nearby
+clearance, and inspect matched fitted-grille and whole-car views before
+construction adoption. This represents visible heat-exchanger construction;
+it does not add or claim airflow, cooling or thermal simulation. Existing
+geometry and material caps and all human gates remain unchanged.
+
+
+### 2026-09-12T09:11:42.981172+00:00 - Revision24 primitive construction lock
+
+Root adopts the exact90 selected primitives under packaging-revision-v24.md, after preserving the prior specification and four constructors. No floor, seat, binder, paint, cooling-core or shoulder-field prototype enters this lock. This isolates the measured budget correction before subsequent assembly integration.
+
+
+### 2026-09-12T09:42:10.946053+00:00 - Revision25 repairs newly generated far brake folds
+
+Full09 passed extraction, LOD0 self geometry and negative controls, then failed four Wheel_FL/FR/RL/RR Material_Alloy LOD2 indexed shells, each with three crossing pairs. The root-owned brake-lod25 pilot applies the existing source-component fallback to only those four meshes:18 to24 triangles each,1299 other native mesh digests unchanged. Every final lower-LOD indexed-shell certificate passes. This record precedes canonical constructor adoption. No geometry threshold, hardpoint, performance budget or human gate changes.
+
+
+### 2026-09-12T10:10:22.487997+00:00 - V25 completed construction checkpoint
+
+Full10 source SHA-25626b7fc239a3d88854f00ddfc71dde9bfe25e80e1432255e8ea0236e4348de53e passes all20 selected native geometry/control stages. Windows scripts/check.sh passes all13 steps on the same locked working inputs. The source totals190700 shipping triangles and24 materials. Retain the v22-v25 constructors, trials, original images, independent reviews and full09 failure in the separately indexed checkpoint-v25 archive. The newer portable assembly replay remains an unaccepted inspection file with stale lower LODs. Installed production34, final export/runtime/platform/performance and all human boundaries are unchanged.
