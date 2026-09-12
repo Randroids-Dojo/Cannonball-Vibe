@@ -270,7 +270,12 @@ async def test_endurance_sedan_inspection_and_selection_controls(tmp_path: Path)
                 f"Actual option popup did not select {selection}", timeout=10,
             )
             before_selection = await _clock_after(client, 0)
+            previous_render_generation = process.rendered_vehicle_generation
             await _click(client, "vehicle.selection.apply")
+            rendered = await process.wait_for_vehicle_render(
+                selection, after_generation=previous_render_generation, timeout=60,
+            )
+            observations.append({"stage": "render-ready-" + selection, "render": rendered})
             selected = await _state(client, selected_asset=selection, open=False)
             assert Path(selected["user_data_directory"]).resolve() == user_data
             settings = (user_data / "vehicle-presentation.cfg").read_text()

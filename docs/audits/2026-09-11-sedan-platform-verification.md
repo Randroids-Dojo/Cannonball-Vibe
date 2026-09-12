@@ -29,3 +29,48 @@ existing custom vehicle architecture. They do not change physics, speed policy,
 Core save schemas, performance gates or human approval requirements. Passing M0
 is merge eligibility only. Subsequent measurements and corrective evidence are
 recorded in the P1-018 ledger artifact; this dated failure record stays intact.
+
+The isolated diagnostic run34658981204 uses the same source637 and official
+Godot4.7.1 under ANGLE's Microsoft Basic Render Driver. Its first post-Hero
+request takes29,366.876ms; matching frame-pre/post-draw checkpoints enclose
+29,356.721ms of that delay in the same rendered frame182. This identifies a
+first-render readiness gap after reconstruction; it does not identify shader
+compilation as its internal cause. The original full-suite timeouts are retained.
+
+Before implementation, authorize a bounded PlayGodot readiness correction in
+exactly `addons/playgodot/bootstrap.gd`,
+`automation/playgodot/src/cannonball_playgodot/launcher.py`,
+`automation/playgodot/tests/test_launcher.py`, and
+`automation/playgodot/tests/test_endurance_sedan.py`. The debug fixture records
+an actual same-instance first completed rendered frame after selection. A
+monotonic generation and exact requested asset/body/panel identity prevent a
+previous selection satisfying readiness. The launcher waits on its existing
+stdout drain before the existing RPC assertions, using the test's existing60s
+startup allowance as a separate first-render bound. All ordinary30s RPC limits,
+the240s outer test deadline and original functional assertions remain intact.
+Require stale/wrong/pre-only/malformed/missing/exit/cancellation controls,
+bounded state, debug-only activation, callback cleanup, and actual delayed-frame
+positive/no-wait-negative cases. Then rerun the original full local and remote
+UI suites. Bootstrap telemetry is test readiness evidence, not gameplay or
+performance acceptance; production C# and server/client RPC behavior stay intact.
+At2026-09-12T00:20UTC, the readiness repair scope includes one additional
+positional test file in the existing `pytest-playgodot-unit` M0 step:
+`automation/playgodot/tests/test_launcher.py`. Its fake-stream and subprocess
+controls require no native renderer. Keep the existing step, limits, report
+paths and all other test selections unchanged. The full rendered suite and
+new committed-head Windows/Linux/macOS evidence remain separate requirements.
+
+At2026-09-12T00:36:28Z the five readiness files are frozen and locally verified.
+The unfiltered PlayGodot suite passes81 tests in53.69s; the front door takes
+75.861s and the sedan test16.72s. Full M0 passes all13 steps in200.821s,
+including157 .NET tests,345 map tests with one existing skip and64 automation
+units. The command envelope is
+`reports/p1-018/runtime/windows-ui-retry34-01/full-ui-01/evidence.json`, SHA256
+`2e45a25a7317910293e26ffad8ba142a6127bcafec616f901a874fda72edea0c`.
+Its469 scoped input hashes are unchanged and71 output artifacts are recorded.
+Independent review `qa/readiness34-reviewed-03/review.json` has SHA256
+`d40125cc9ea63dff1bd5d2c74dd50345327f0e7322acb7807a78897001aa3b65`.
+The actual31s delayed-render case passes; no-wait and premature-ready controls
+fail at the unchanged30s RPC deadline. No engine process remains. This is
+source34 runtime preparation evidence on local NVIDIA Compatibility, not the
+new source35 model, remote Microsoft backend or reference performance result.

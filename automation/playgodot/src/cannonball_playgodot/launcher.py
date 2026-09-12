@@ -3,6 +3,7 @@ from __future__ import annotations
 import asyncio
 import contextlib
 import json
+import math
 import os
 import platform
 import secrets
@@ -15,6 +16,9 @@ from pathlib import Path
 from .client import PlayGodotClient, ProtocolError
 
 READY_PREFIX = "PLAYGODOT_READY "
+VEHICLE_RENDER_PREFIX = "PLAYGODOT_VEHICLE_RENDERED "
+VEHICLE_RENDER_FAILURE_PREFIX = "PLAYGODOT_VEHICLE_RENDER_FAILED "
+MAX_VEHICLE_RENDER_RECORDS = 64
 
 
 class PlayGodotProcess:
@@ -52,6 +56,57 @@ class PlayGodotProcess:
         self._drain_task: asyncio.Task[None] | None = None
         self._runtime_directory: Path | None = None
         self.startup_elapsed_seconds: float | None = None
+        self._vehicle_renders: deque[dict[str, object]] = deque(maxlen=MAX_VEHICLE_RENDER_RECORDS)
+        self._vehicle_render_event = asyncio.Event()
+        self._vehicle_render_error: Exception | None = None
+        self._output_eof = False
+        self._stopping = False
+
+    @property
+    def rendered_vehicle_generation(self) -> int:
+        return int(self._vehicle_renders[-1]["generation"]) if self._vehicle_renders else 0
+
+    async def wait_for_vehicle_render(
+        self, asset_id: str, *, after_generation: int, timeout: float = 60.0,
+    ) -> dict[str, object]:
+        """Wait for a new body's completed draw, separately from live RPC deadlines."""
+        if asset_id not in ("endurance-sedan", "hero-gt", "graybox"):
+            raise ValueError("Unknown rendered vehicle")
+        if (type(after_generation) is not int
+                or not 0 <= after_generation <= self.rendered_vehicle_generation):
+            raise ValueError("Render generation must be a captured current or prior generation")
+        if (not isinstance(timeout, (int, float)) or isinstance(timeout, bool)
+                or not math.isfinite(timeout) or not 0 < timeout <= 60):
+            raise ValueError("Render preparation must have a positive bound at most 60 seconds")
+        started = asyncio.get_running_loop().time()
+        deadline = started + timeout
+        while True:
+            self._vehicle_render_event.clear()
+            if self._vehicle_render_error is not None:
+                raise ProtocolError(
+                    f"Invalid vehicle render preparation: {self._vehicle_render_error}"
+                )
+            if self._stopping or self._output_eof:
+                raise RuntimeError("Godot stopped or closed stdout before vehicle render completed")
+            for record in self._vehicle_renders:
+                if int(record["generation"]) > after_generation and record["asset_id"] == asset_id:
+                    return {
+                        **record,
+                        "preparation_budget_seconds": timeout,
+                        "wait_elapsed_seconds": asyncio.get_running_loop().time() - started,
+                    }
+            remaining = deadline - asyncio.get_running_loop().time()
+            if remaining <= 0:
+                break
+            try:
+                await asyncio.wait_for(self._vehicle_render_event.wait(), remaining)
+            except TimeoutError:
+                break
+        tail = "\n".join(list(self.output)[-20:])
+        raise TimeoutError(
+            f"Godot did not complete a new {asset_id} draw after generation {after_generation} "
+            f"within the separate {timeout:g}s render preparation; process output:\n{tail}"
+        )
 
     @staticmethod
     def _godot_from_environment() -> Path:
@@ -68,6 +123,11 @@ class PlayGodotProcess:
             raise FileNotFoundError(self.godot_bin)
         if not self.route_package.is_file():
             raise FileNotFoundError(self.route_package)
+        self._vehicle_renders.clear()
+        self._vehicle_render_error = None
+        self._vehicle_render_event.clear()
+        self._output_eof = False
+        self._stopping = False
         token = secrets.token_urlsafe(32)
         if self.log_path is not None:
             self.log_path.parent.mkdir(parents=True, exist_ok=True)
@@ -181,16 +241,65 @@ class PlayGodotProcess:
 
     async def _drain_output(self) -> None:
         assert self.process is not None and self.process.stdout is not None
-        while line_bytes := await self.process.stdout.readline():
-            self._record_output(line_bytes.decode(errors="replace").rstrip())
+        try:
+            while line_bytes := await self.process.stdout.readline():
+                self._record_output(line_bytes.decode(errors="replace").rstrip())
+        except Exception as error:
+            self._vehicle_render_error = error
+            raise
+        finally:
+            self._output_eof = True
+            self._vehicle_render_event.set()
 
     def _record_output(self, line: str) -> None:
         self.output.append(line)
         if self.log_path is not None:
             with self.log_path.open("a", encoding="utf-8", newline="\n") as log:
                 log.write(line + "\n")
+        if line.startswith(VEHICLE_RENDER_PREFIX):
+            try:
+                self._record_vehicle_render(line.removeprefix(VEHICLE_RENDER_PREFIX))
+            except (ValueError, TypeError) as error:
+                self._vehicle_render_error = error
+            self._vehicle_render_event.set()
+        elif line.startswith(VEHICLE_RENDER_FAILURE_PREFIX):
+            self._vehicle_render_error = ValueError(line)
+            self._vehicle_render_event.set()
+
+    def _record_vehicle_render(self, payload: str) -> None:
+        if len(payload) > 4_096:
+            raise ValueError("Vehicle render record exceeds its size bound")
+        record = json.loads(payload)
+        identifiers = (
+            "vehicle_instance_id", "panel_instance_id",
+            "viewport_instance_id", "camera_instance_id",
+        )
+        frame_kinds = ("process_frame", "physics_frame", "drawn_frame")
+        integers = (*identifiers, "generation", "pre_draw_usec", "post_draw_usec",
+                    *(f"{phase}_{kind}" for phase in ("pre", "post") for kind in frame_kinds))
+        if not isinstance(record, dict) or set(record) != {"asset_id", *integers}:
+            raise ValueError("Vehicle render record has an invalid field inventory")
+        if record["asset_id"] not in ("endurance-sedan", "hero-gt", "graybox"):
+            raise ValueError("Vehicle render record names an unknown asset")
+        if any(type(record[key]) is not int or not 0 <= record[key] < 2**63 for key in integers):
+            raise ValueError("Vehicle render record has an invalid integer field")
+        if any(record[key] == 0 for key in identifiers):
+            raise ValueError("Vehicle render record has an invalid instance identity")
+        if (record["generation"] != self.rendered_vehicle_generation + 1
+                or record["generation"] > MAX_VEHICLE_RENDER_RECORDS):
+            raise ValueError("Vehicle render generation is repeated, skipped or out of bounds")
+        if any(record[key] == prior[key] for prior in self._vehicle_renders
+               for key in ("vehicle_instance_id", "panel_instance_id")):
+            raise ValueError("Vehicle render record reused a previous body or panel instance")
+        if record["post_draw_usec"] < record["pre_draw_usec"] or any(
+            record[f"pre_{kind}"] != record[f"post_{kind}"] for kind in frame_kinds
+        ):
+            raise ValueError("Vehicle render record does not describe one ordered draw")
+        self._vehicle_renders.append(record)
 
     async def stop(self) -> None:
+        self._stopping = True
+        self._vehicle_render_event.set()
         cancellation: asyncio.CancelledError | None = None
         try:
             if self.client is not None:
