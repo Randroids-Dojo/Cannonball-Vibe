@@ -161,6 +161,15 @@ public partial class VehicleContactShading : Node3D
             foreach (var child in collider.GetChildren())
                 if (child is MeshInstance3D mesh) group.Meshes.Add(mesh);
         }
+        else if (OS.IsDebugBuild() && collider.Name == "InspectionFloorContact" &&
+            collider.GetParent() is { Name: var fixtureName } fixture && fixtureName == "SedanPresentationFixture" &&
+            fixture.GetNodeOrNull<MeshInstance3D>("InspectionFloor") is { } inspectionFloor)
+        {
+            // The posed inspection fixture deliberately separates its visible
+            // floor and collider. Only this exact debug fixture sibling is a
+            // receiver; arbitrary collision objects and nearby meshes are not.
+            group.Meshes.Add(inspectionFloor);
+        }
         if (group.Meshes.Any(mesh => (mesh.Layers & ReceiverLayer) != 0))
             throw new InvalidOperationException("The contact-shading receiver layer is already owned.");
         foreach (var mesh in group.Meshes) mesh.Layers |= ReceiverLayer;

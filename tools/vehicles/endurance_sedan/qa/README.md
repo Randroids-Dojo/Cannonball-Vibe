@@ -15,19 +15,36 @@ zero completed stages and fails at the first unsuccessful stage. Only the exact
 complete ordered inventory can pass. A successful process with a driver,
 Python, missing-image or native-fatal diagnostic fails acceptance.
 
-The fourteen stages are:
+The nineteen stages are:
 
 1. Native evaluated topology and all three LOD inventories, including editable
    preview geometry validity;645 actual source poses and provisional Q044 caps.
-2.109 source instrument, steering/pedal, wiper, indicator, warning-priority and
+   Every raw native corner normal must be finite, nonzero and unit within1e-6
+   before Blender's exporter can substitute or normalize it.
+2. Exact self-intersection checks of every original LOD0 authored mesh. Integer
+   separation certificates and rational triangle clipping distinguish strict
+   crossings from indexed shared edges/vertices; the existing1um guard remains.
+3. Native self-check rejection controls and exhaustive enumeration/predicate
+   fixtures, including source binding, malformed input and incomplete coverage.
+4. Final LOD1/2 indexed connected-shell closure, winding and exact self checks.
+   Cross-shell candidates are counted explicitly as a separate assembly domain;
+   coincident vertices are not welded and stale component ranges are not used.
+5. Twenty native lower-LOD controls, including connected folds, disconnected
+   crossings, missing LODs, malformed topology and incomplete report coverage.
+6.109 source instrument, steering/pedal, wiper, indicator, warning-priority and
    exact float32 threshold states.
-3.12 head/tail/brake/reverse preview states, actual emitter bindings, and four
+7.12 head/tail/brake/reverse preview states, actual emitter bindings, and four
    beam pivots, directions and powers. These explicit source controls do not
    simulate engine, gear or braking physics.
-4. All six saved opening driver expressions, axes, pivots and descendants.
-5. Actual saved wheel, wiper and cockpit-control driver contracts.
-6. All231 rear optical internal pairs and24 finite shared interface seats.
-7.152 named fixed interfaces and selected packaging, cabin, mirrors, aero and
+8. All six saved opening driver expressions, axes, pivots and descendants.
+9. Actual saved wheel, wiper and cockpit-control driver contracts.
+10. All231 rear optical internal pairs and24 finite shared interface seats.
+11. All42 finite finish interfaces: two complete A/header butt sections,
+    four fitted latch flanges, eight recessed screw seats, and28 complete
+    upholstery support domains. Eight shifted copies and an independently
+    crossing second pad layer must reject. Every thread
+    span needs continuous contact and bounded complete-surface penetration.
+12.152 named fixed interfaces and selected packaging, cabin, mirrors, aero and
    rear optical assemblies versus every other LOD0 mesh. Revision14 includes
    the finite roof flange, crossover caps and sixteen complete cabin-tray pad
    faces. Three deliberately intruding copies must fail these constraints.
@@ -36,19 +53,23 @@ The fourteen stages are:
    checks and two full intersection bounds inside actual convex rear guides.
    Five further controls must reject tongue intrusion, an8mm disconnected
    tongue, coplanar and nonplanar cloth crossings, and a guide-region escape.
-8. Continuous all-angle clearance for each opening, including independently
+   The two new header joints require the successful source/payload-bound finite
+   certificate from stage11 before being treated as mating interfaces.
+   Two additional controls isolate clearance and region escape for the short
+   header returns outside the roof projection.
+13. Continuous all-angle clearance for each opening, including independently
    positioned adjacent openings. Whole-domain bounding boxes and adaptive
    projection bounds prove clearance; a sampled pose or exhausted search does
    not pass.
-9. Initial solid containment in both directions for the exact opening pair
+14. Initial solid containment in both directions for the exact opening pair
    inventory, using connected components and three agreeing unambiguous rays.
-10. Actual tire/tread/sipe envelopes over all rolling angles, full32-degree
+15. Actual tire/tread/sipe envelopes over all rolling angles, full32-degree
     steering, full suspension travel and independently positioned openings.
-11. Analytic full wiper sweep against actual windshield planes and aperture.
-12. Continuous cross-wiper, independent opening, cockpit-control, tire-envelope
+16. Analytic full wiper sweep against actual windshield planes and aperture.
+17. Continuous cross-wiper, independent opening, cockpit-control, tire-envelope
     and fixed-mesh separation over the declared domains.
-13. Initial solid containment for that exact wiper pair inventory.
-14. Seventeen native positive/rejection controls: malformed topology, hidden
+18. Initial solid containment for that exact wiper pair inventory.
+19. Seventeen native positive/rejection controls: malformed topology, hidden
     containment, interface intrusion, collision occurring only at an intermediate
     opening angle, invalid/corrected drivers, wiper geometry and extrema, and
     a missing-stage inventory. Synthetic fixtures are identified as such.

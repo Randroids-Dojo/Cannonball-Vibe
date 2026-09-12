@@ -214,6 +214,8 @@ def evaluated_counts(obj):
     bm.from_mesh(data)
     triangle_keys=Counter(tuple(sorted(t.vertices)) for t in data.loop_triangles)
     triangle_edges=Counter(tuple(sorted((t.vertices[i],t.vertices[(i+1)%3]))) for t in data.loop_triangles for i in range(3))
+    native_normals=[tuple(float(c) for c in value.vector) for value in data.corner_normals]
+    lengths=[math.hypot(*value) for value in native_normals if all(math.isfinite(c) for c in value)]
     result = {"vertices":len(data.vertices),"triangles":len(data.loop_triangles),
               "duplicate_faces":sum(count-1 for count in Counter(tuple(sorted(p.vertices)) for p in data.polygons).values()),
               "nonmanifold_edges":sum(not edge.is_manifold for edge in bm.edges),
@@ -221,7 +223,13 @@ def evaluated_counts(obj):
               "degenerate_triangles":sum(area <= 1e-12 for area in triangle_areas),
               "triangulated_duplicate_faces":sum(count-1 for count in triangle_keys.values()),
               "triangulated_nonmanifold_edges":sum(count!=2 for count in triangle_edges.values()),
-              "uv_layers":len(data.uv_layers)}
+              "uv_layers":len(data.uv_layers),
+              "normal_corners":len(native_normals),
+              "nonfinite_corner_normals":len(native_normals)-len(lengths),
+              "zero_corner_normals":sum(value<=1e-12 for value in lengths),
+              "nonunit_corner_normals":sum(abs(value-1)>1e-6 for value in lengths),
+              "normal_length_min":min(lengths,default=None),
+              "normal_length_max":max(lengths,default=None)}
     bm.free()
     evaluated.to_mesh_clear()
     return result

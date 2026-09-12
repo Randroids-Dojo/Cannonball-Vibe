@@ -32,6 +32,8 @@ if (vehicle === "endurance-sedan") {
   const normalization = "tools/vehicles/pack_imported_scene.gd";
   const validation = "tools/vehicles/validate_import.gd";
   const uvBake = "data/assets/vehicles/endurance-sedan.uv-bake.json";
+  const cornerBake = "data/assets/vehicles/endurance-sedan.corner-bake.json";
+  const exportProfile = JSON.parse(readFileSync(profile, "utf8"));
   const walk = (directory, extension) => readdirSync(directory, { withFileTypes: true }).flatMap(entry => {
     const path = join(directory, entry.name).replaceAll("\\", "/");
     return entry.isDirectory() ? walk(path, extension) : path.endsWith(extension) ? [path] : [];
@@ -48,12 +50,30 @@ if (vehicle === "endurance-sedan") {
       blender.budget_contract_sha256 !== hash("tools/vehicles/vehicle_contract.json") ||
       blender.export_validator_sha256 !== hash(exportScript) || blender.gltf_profile_sha256 !== hash(profile) ||
       blender.source_preview_only !== false || blender.validation_scope !== "evaluated_and_exported_runtime_asset" ||
+      blender.evaluated_corner_bake?.bake_sha256 !== hash(cornerBake) || blender.evaluated_corner_bake?.source_sha256 !== hash(source) ||
+      blender.evaluated_corner_bake?.glb_sha256 !== hash(glb) || blender.raw_glb_geometry?.status !== "passed" ||
+      blender.evaluated_corner_bake?.validator_sha256 !== hash("tools/vehicles/endurance_sedan/corner_bake.py") ||
+      blender.raw_glb_geometry?.sha256 !== blender.evaluated_corner_bake?.raw_glb_sha256 ||
+      blender.evaluated_corner_bake?.measurements?.oriented_triangles_checked !== blender.triangle_total ||
+      JSON.stringify(canonical(blender.evaluated_corner_bake?.limits)) !== JSON.stringify(canonical(exportProfile.evaluated_corner_bake.limits)) ||
       blender.evaluated_uv_bake?.bake_sha256 !== hash(uvBake) || blender.evaluated_uv_bake?.source_sha256 !== hash(source) ||
       blender.evaluated_uv_bake?.glb_sha256 !== hash(glb) || blender.evaluated_uv_bake?.maximum_allowed_uv_error !== 0.00001 ||
       !Number.isFinite(blender.evaluated_uv_bake?.maximum_measured_uv_error) ||
       !(blender.evaluated_uv_bake?.maximum_measured_uv_error >= 0 && blender.evaluated_uv_bake?.maximum_measured_uv_error <= 0.00001) ||
       JSON.stringify(canonical(blender.export_options)) !== JSON.stringify(canonical(JSON.parse(readFileSync(profile, "utf8")))))
     throw new Error("Sedan inventories do not describe the delivered source, GLB and normalized wrapper");
+  const corner = blender.evaluated_corner_bake.measurements;
+  for (const [metric, limit] of [["maximum_position_distance_m", "position_distance_m"],
+    ["maximum_normal_angle_degrees", "normal_angle_degrees"], ["maximum_uv_component_error", "uv_component_error"]]) {
+    if (!Number.isFinite(corner[metric]) || corner[metric] < 0 || corner[metric] > exportProfile.evaluated_corner_bake.limits[limit])
+      throw new Error(`Sedan corner measurement is invalid: ${metric}`);
+  }
+  if (corner.triangle_area_threshold_m2 !== 1e-12 ||
+      ![corner.minimum_raw_triangle_area_m2, corner.minimum_reference_triangle_area_m2].every(x => Number.isFinite(x) && x > 1e-12) ||
+      corner.triangles !== blender.triangle_total || corner.corners !== 3 * blender.triangle_total ||
+      ![corner.primitives, corner.attributes_checked, corner.embedded_images, corner.changed_position_corners,
+        corner.changed_normal_corners, corner.changed_uv_corners].every(x => Number.isSafeInteger(x) && x >= 0))
+    throw new Error("Sedan corner measurement coverage is invalid");
   if (!godot.transitive_release_dependencies || Object.keys(godot.transitive_release_dependencies).length === 0)
     throw new Error("Sedan inventory is missing its transitive release dependency hashes");
   for (const [path, expected] of Object.entries(godot.transitive_release_dependencies)) {
@@ -74,7 +94,7 @@ if (vehicle === "endurance-sedan") {
     "docs/vehicles/endurance-sedan/production-plan.md", "docs/vehicles/endurance-sedan/production-reference-appendix.md",
     creation, ...walk("tools/vehicles/endurance_sedan", ".py")];
   if (spec.original_packaging?.revision_record) constructionInputs.push(spec.original_packaging.revision_record);
-  const exportInputs = [source, uvBake, ...constructionInputs, "tools/vehicles/validate_and_export_hero_gt.py", "tools/vehicles/glb_geometry.py"];
+  const exportInputs = [source, cornerBake, uvBake, ...constructionInputs, "tools/vehicles/validate_and_export_hero_gt.py", "tools/vehicles/glb_geometry.py"];
   const texturePaths = [...new Set(Object.values(JSON.parse(readFileSync(bindings, "utf8")).materials)
     .flatMap(slots => Object.values(slots)))].sort().map(path => {
       if (!path.startsWith("res://assets/vehicles/endurance-sedan/") || path.includes("\\") || path.split("/").includes(".."))

@@ -141,12 +141,17 @@ def main():
     stages = [
         ('extraction', 'extract.py', ['--source', source, '--output', output, '--opening-steps', '100'],
          [geometry, output / 'evaluated-inventory.json']),
+        ('self-intersections', 'self_intersections.py', ['--source', source, '--geometry', geometry, '--output', paths['self-intersections']], [paths['self-intersections']]),
+        ('self-controls', 'self_controls.py', ['--blender', blender, '--source', source, '--geometry', geometry, '--output', output / 'self-controls-native', '--report', paths['self-controls']], [paths['self-controls']]),
+        ('lod-self-intersections', 'lod_self_intersections.py', ['--source', source, '--output', paths['lod-self-intersections']], [paths['lod-self-intersections']]),
+        ('lod-self-controls', 'lod_self_controls.py', ['--blender', blender, '--source', source, '--output', output / 'lod-self-controls-native', '--report', paths['lod-self-controls']], [paths['lod-self-controls']]),
         ('source-controls', 'source_controls.py', ['--source', source, '--output', paths['source-controls']], [paths['source-controls']]),
         ('source-lights', 'source_lights.py', ['--source', source, '--output', paths['source-lights']], [paths['source-lights']]),
         ('opening-drivers', 'opening_drivers.py', ['--source', source, '--output', opening], [opening]),
         ('motion-drivers', 'motion_drivers.py', ['--source', source, '--output', motion], [motion]),
         ('optical-seats', 'optical_seats.py', ['--geometry', geometry, '--output', paths['optical-seats']], [paths['optical-seats']]),
-        ('static-interfaces', 'static_interfaces.py', ['--geometry', geometry, '--optical-report', paths['optical-seats'], '--output', paths['static-interfaces']], [paths['static-interfaces'], output / 'static-interfaces.intersection-solids.json.gz']),
+        ('finish-interfaces', 'finish_interfaces.py', ['--geometry', geometry, '--output', paths['finish-interfaces']], [paths['finish-interfaces']]),
+        ('static-interfaces', 'static_interfaces.py', ['--geometry', geometry, '--optical-report', paths['optical-seats'], '--finish-report', paths['finish-interfaces'], '--output', paths['static-interfaces']], [paths['static-interfaces'], output / 'static-interfaces.intersection-solids.json.gz']),
         ('openings', 'openings.py', ['--input', geometry, '--drivers', opening, '--output', paths['openings']], [paths['openings']]),
         ('opening-containment', 'initial_containment.py', ['--geometry', geometry, '--certificate', paths['openings'], '--kind', 'openings', '--output', paths['opening-containment']], [paths['opening-containment']]),
         ('tires', 'tires.py', ['--input', geometry, '--drivers', motion, '--openings', opening, '--output', paths['tires']], [paths['tires']]),
@@ -157,7 +162,7 @@ def main():
     ]
     try:
         for name, script, arguments, outputs in stages:
-            runner.command(name, script, arguments, outputs, native=name != 'negative-controls')
+            runner.command(name, script, arguments, outputs, native=name not in ('negative-controls','self-controls','lod-self-controls'))
             if name == 'extraction':
                 metrics = inventory(json_read(output / 'evaluated-inventory.json'), geometry, runner.source_sha)
             else:

@@ -49,6 +49,20 @@ build_fixture() {
     --chunk-meters 100 --output "$destination"
 }
 
+build_verification_fixture() {
+  local source_root="$1" destination="$2"
+  # The default launcher remains on official-corridor. The sedan verifier
+  # needs the same locked longer corridor used by its source-tree suite.
+  uv run --project "$source_root/tools/map_pipeline" --frozen cannonball-map build \
+    --source "$source_root/data/sources/fixtures/nhpn-boulder-westminster-us36.geojson" \
+    --manifest "$source_root/data/sources/fixtures/nhpn-boulder-westminster-us36.manifest.json" \
+    --catalog "$source_root/data/sources/catalog.json" \
+    --elevation "$source_root/data/sources/fixtures/usgs-13-n40w106-boulder-westminster.tif" \
+    --elevation-metadata "$source_root/data/sources/fixtures/usgs-13-n40w106-boulder-westminster.metadata.json" \
+    --acquisition-lock "$source_root/data/sources/representative-corridor-lock.json" \
+    --chunk-meters 2000 --output "$destination"
+}
+
 build_once() {
   local platform="$1" iteration="$2"
   local stage="$output_root/work/$platform-$iteration"
@@ -71,6 +85,9 @@ build_once() {
   GODOT_BIN="$godot_bin" RuntimeIdentifiers="$runtime_id" "$source_root/scripts/godot.sh" --headless --path "$source_root" --export-release "$preset" "$export_path"
   build_fixture "$source_root" "$stage/fixture"
   node "$source_root/scripts/release/package-tools.mjs" copy-content "$stage/fixture" "$stage/package/content/official-corridor"
+  build_verification_fixture "$source_root" "$stage/verification-fixture"
+  node "$source_root/scripts/release/package-tools.mjs" copy-content "$stage/verification-fixture" \
+    "$stage/package/verification/fixtures/representative-corridor"
   route_relative="$(node -p 'require(process.argv[1]).root_relative_path' "$stage/package/content/official-corridor/current-package.json")"
   if [[ "$platform" == linux ]]; then
     {

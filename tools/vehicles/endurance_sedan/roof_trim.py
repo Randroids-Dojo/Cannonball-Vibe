@@ -5,6 +5,7 @@ from collections import Counter
 import bpy
 
 from . import geometry as geo
+from . import surface_clip
 
 
 def evaluated_vertices(obj):
@@ -29,26 +30,8 @@ def install(collection, lod, mats, headliner):
     evaluated.to_mesh_clear()
     if not underside:raise RuntimeError('Headliner underside is absent')
 
-    def clip(poly,axis,bound,keep_greater):
-        result=[]
-        for a,b in zip(poly,poly[1:]+poly[:1]):
-            inside_a=a[axis]>=bound if keep_greater else a[axis]<=bound
-            inside_b=b[axis]>=bound if keep_greater else b[axis]<=bound
-            if inside_a:result.append(a.copy())
-            if inside_a!=inside_b:result.append(a+(b-a)*((bound-a[axis])/(b[axis]-a[axis])))
-        return result
-
     def patch(rect):
-        result=[]
-        for triangle in underside:
-            poly=[v.copy() for v in triangle]
-            for axis,bound,keep in ((0,rect[0],True),(0,rect[1],False),(1,rect[2],True),(1,rect[3],False)):
-                if poly:poly=clip(poly,axis,bound,keep)
-            for i in range(1,len(poly)-1):
-                tri=[poly[0],poly[i],poly[i+1]]
-                if (tri[1]-tri[0]).cross(tri[2]-tri[0]).length/2>1e-12:result.append(tri)
-        if not result:raise RuntimeError('Cabin fitting lies beyond its headliner support')
-        return result
+        return surface_clip.patch(underside,rect)
 
     def pad(name,rect,bottom,component):
         # Preserve the actual underside triangulation, so the mount is flush
@@ -57,7 +40,7 @@ def install(collection, lod, mats, headliner):
         for triangle in patch(rect):
             face=[]
             for point in triangle:
-                key=tuple(round(v,8) for v in point)
+                key=tuple(point)
                 if key not in indices:indices[key]=len(vertices);vertices.append(list(point))
                 face.append(indices[key])
             faces.append(tuple(face))
@@ -72,6 +55,7 @@ def install(collection, lod, mats, headliner):
         obj=geo.mesh(name,vertices,faces,mats['trim'],collection,lod)
         obj['assembly_boundary']='Upper face mates with actual headliner underside; lower face mates with '+component
         obj['mounted_component']=component
+        obj['support_clipping']='Exact shared-edge clipping, one float32 encoding; no rounded welding keys'
         return obj
 
     def fit_below(obj):

@@ -19,6 +19,88 @@ case "$vehicle" in
   *) echo "Unknown vehicle: $vehicle" >&2; exit 2 ;;
 esac
 
+# The asset gate imports isolated projects, not this checkout. Prepare this
+# actual runtime root explicitly and keep even exit-zero importer diagnostics.
+suite_root="${output_root:-$repo_root/reports/p1-018/runtime}"
+if [[ -z "$output_root" && "$blockout" == "true" ]]; then suite_root="$suite_root/blockout"; fi
+import_output="$(realpath -m "$suite_root/import-$vehicle")"
+if [[ -e "$import_output" ]]; then
+  echo "Preserve existing import evidence and use a fresh --output-root: $import_output" >&2
+  exit 1
+fi
+mkdir -p "$import_output"
+node - "$import_output" <<'NODE'
+const fs = require('node:fs'), path = require('node:path'), crypto = require('node:crypto');
+const hash = file => crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
+const inputs = {};
+function walk(directory) {
+  for (const entry of fs.readdirSync(directory, {withFileTypes:true})) {
+    const file = path.join(directory, entry.name);
+    if (entry.isDirectory()) walk(file);
+    else if (/\.(?:png|jpe?g|hdr|exr|webp|svg)\.import$/i.test(file) && fs.existsSync(file.slice(0,-7))) {
+      inputs[file] = {sha256:hash(file), source_sha256:hash(file.slice(0,-7))};
+    }
+  }
+}
+walk('assets');
+fs.writeFileSync(path.join(process.argv[2], 'before.json'), JSON.stringify({
+  started_utc:new Date().toISOString(), imported_cache_existed:fs.existsSync('.godot/imported'),
+  wrapper_sha256:hash('scripts/godot.sh'), project_sha256:hash('project.godot'), texture_inputs:inputs
+}, null, 2)+'\n');
+NODE
+set +e
+dotnet build "$repo_root/Cannonball.sln" --nologo >"$import_output/build.log" 2>&1
+build_exit=$?
+import_exit=-1
+if [[ "$build_exit" == 0 ]]; then
+  ./scripts/godot.sh --headless --path "$repo_root" --import \
+    --log-file "$import_output/engine.log" >"$import_output/transcript.log" 2>&1
+  import_exit=$?
+fi
+set -e
+node - "$import_output" "$build_exit" "$import_exit" "$repo_root" <<'NODE'
+const fs = require('node:fs'), path = require('node:path'), crypto = require('node:crypto');
+const [out, buildExit, importExit, root] = process.argv.slice(2);
+const hash = file => crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
+const before = JSON.parse(fs.readFileSync(path.join(out,'before.json'),'utf8'));
+const failures = [], outputs = {}, textures = {};
+let logs = '';
+for (const name of ['build.log','engine.log','transcript.log']) {
+  const file = path.join(out,name);
+  if (!fs.existsSync(file)) { failures.push('missing '+name); continue; }
+  outputs[name] = hash(file);
+  logs += '\n'+fs.readFileSync(file,'utf8');
+}
+const known = new Set(['WARNING: Ignoring unsupported header information in HDR: GAMMA=1.',
+  'WARNING: Ignoring unsupported header information in HDR: PRIMARIES=0 0 0 0 0 0 0 0.']);
+logs = logs.replace(/\x1b\[[0-?]*[ -/]*[@-~]/g,'').replace(/\r/g,'');
+const acceptedHeaderWarnings = logs.split('\n').filter(line => known.has(line));
+const checked = logs.split('\n').filter(line => !known.has(line)).join('\n');
+if (Number(buildExit) !== 0 || Number(importExit) !== 0) failures.push('build/import command failed');
+if (/(?:^|\n)(?:ERROR|WARNING|SCRIPT ERROR):|Unhandled exception|Fatal error|AccessViolationException|SIGSEGV|Segmentation fault|Leaked unsafe reference|ObjectDB instances leaked|resources still in use/i.test(checked))
+  failures.push('strict import diagnostic policy failed');
+for (const [file,input] of Object.entries(before.texture_inputs)) {
+  if (hash(file.slice(0,-7)) !== input.source_sha256) failures.push('texture source changed: '+file);
+  const settings = fs.readFileSync(file,'utf8');
+  for (const match of settings.matchAll(/^path(?:\.[\w]+)?="res:\/\/(\.godot\/imported\/[^"\r\n]+)"/gm)) {
+    const cache = match[1];
+    if (!fs.existsSync(cache)) { failures.push('missing imported texture: '+cache); continue; }
+    textures[cache] = {sha256:hash(cache),bytes:fs.statSync(cache).size,
+      header_hex:fs.readFileSync(cache).subarray(0,32).toString('hex')};
+  }
+}
+if (!Object.keys(textures).length) failures.push('no actual imported texture artifacts');
+const gate = {task_id:'P1-018',status:failures.length?'failed':'passed',
+  scope:'Actual runtime-root editor import before headless scenarios; two existing exact HDR header warnings only.',
+  started_utc:before.started_utc,finished_utc:new Date().toISOString(),platform:process.platform,node:process.version,
+  command:['./scripts/godot.sh','--headless','--path',root,'--import','--log-file',path.join(out,'engine.log')],
+  build_exit:Number(buildExit),import_exit:Number(importExit),before,imported_textures:textures,
+  accepted_header_warnings:[...new Set(acceptedHeaderWarnings)],outputs,failures,human_approval_reference:null};
+fs.writeFileSync(path.join(out,'gate.json'),JSON.stringify(gate,null,2)+'\n');
+if (failures.length) { console.error(failures.join('\n')); process.exit(1); }
+console.log(`CANNONBALL_SEDAN_IMPORT_OK textures=${Object.keys(textures).length}`);
+NODE
+
 for variant in "${vehicles[@]}"; do
   output="$repo_root/reports/p1-018/runtime/$variant"
   extra_args=()

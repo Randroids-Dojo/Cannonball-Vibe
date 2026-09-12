@@ -134,7 +134,10 @@ def lower_body(collection, lod, mats):
             # samples, not longitudinal density or normals, as the ripple.
             # Refine only the front shoulder; preserve other body tessellation.
             if y>=1.82:parameters=sorted(set(parameters+[5+i/9 for i in range(19)]))
-            half=[(monotone_curve(t,xp),monotone_curve(t,zp)) for t in parameters]
+            from .shoulder_profile import profile as shoulder_profile
+            half=[tuple(axis[0] for axis in shoulder_profile(t,y,w,top))
+                  if y>1.90 and 5.65<t<6.35 else
+                  (monotone_curve(t,xp),monotone_curve(t,zp)) for t in parameters]
         else:parameters=list(range(len(half)))
         loop=half+[(-x,z) for x,z in half[-2:0:-1]]
         keys=parameters+[16-t for t in reversed(parameters[1:-1])]
@@ -305,6 +308,10 @@ def formed_a_pillar(roof_obj, side, symbol, collection, lod, material):
     for index,p in enumerate(list(vertices)):
         s=(index%(cross_spans+1))/cross_spans
         inward=windshield_normal.lerp(Vector((side,0,.48)).normalized(),s).normalized()
+        fraction=max(0.,min(1.,(p.z-1.10)/.14))
+        weight=fraction*fraction*(3-2*fraction)
+        common=Vector((side*.5,.289,.624)).normalized()
+        inward=inward.lerp(common,weight).normalized()
         vertices.append(p-inward*.018)
     stride=cross_spans+1;layer=(spans+1)*stride;faces=[]
     for i in range(spans):
@@ -319,6 +326,7 @@ def formed_a_pillar(roof_obj, side, symbol, collection, lod, material):
     pillar=geo.mesh('LOD0_PillarA_'+symbol,vertices,faces,material,collection,lod,smooth=True)
     pillar['assembly_boundary']='Original formed ribbon; upper boundary butts against evaluated roof underside'
     pillar['formed_return_m']=.018
+    pillar['inner_return_sections']='Coherent common inward direction above Z1.24; smooth transition from original lower section over Z1.10..1.24m; depth18mm'
     return pillar
 
 

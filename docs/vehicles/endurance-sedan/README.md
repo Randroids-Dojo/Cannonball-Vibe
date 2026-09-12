@@ -114,9 +114,13 @@ Use a fresh evidence directory for each attempt. Preserve failures. The sedan
 asset gate reopens the source, exports twice, imports twice into clean staging
 projects and compares shipping bytes, including normalized resources and release
 packs. It also exercises deliberately invalid source and wrapper controls.
-The [evaluated UV bake](export-uv-bake.md) preserves the reviewed UV coordinates
-against measured Blender float variation. A source edit requires an explicit
-new bake; every non-UV export byte remains strictly checked.
+The [ordered-corner encoding bake](export-corner-bake.md) checks raw exported
+triangle winding, position, normal and both UV channels against the reviewed
+source-bound encoding. Scene, material and embedded-image payloads must match
+exactly. Both the raw pre-corner export and the subsequent pre-UV export are
+retained. The [evaluated UV bake](export-uv-bake.md) remains a separate check.
+A source edit requires explicit new corner and UV bakes and a new review;
+neither lock is refreshed implicitly by normal export or verification.
 See [qa-plan.md](qa-plan.md) and [defects.json](defects.json) for independent review
 requirements and observed defects. A successful command is not human approval.
 
@@ -131,7 +135,9 @@ python tools/vehicles/endurance_sedan/qa/run.py `
 ```
 
 It copies its exact QA tools into the new evidence directory and records all
-fourteen required stages. Partial output or a successful native process alone
+nineteen required stages, including exact authored-mesh and final lower-LOD
+self checks, plus complete formed-header, latch and upholstery interfaces.
+Partial output or a successful native process alone
 does not satisfy that gate. [Retained construction evidence](../../../data/assets/vehicles/endurance-sedan-review/evidence/README.md)
 preserves original checkpoints, before/after images, failures and corrections.
 

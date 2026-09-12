@@ -652,6 +652,7 @@ public sealed class EnduranceSedanPresentationScenario : IDisposable
     private async Task CaptureAsync(string stage)
     {
         await _parent.ToSignal(RenderingServer.Singleton, RenderingServer.SignalName.FramePostDraw);
+        var contactShading = CaptureRenderedContactShading();
         var viewport = _vehicle.GetViewport();
         var texture = viewport.GetTexture();
         using var image = texture.GetImage();
@@ -667,7 +668,7 @@ public sealed class EnduranceSedanPresentationScenario : IDisposable
                 applied_tier = viewport.GetMeta("render_quality", "missing").AsString(),
                 applied_directional_shadow_size = viewport.GetMeta("directional_shadow_size", -1).AsInt32(),
                 global_quality_basis = "Atlas/tier are applied-call metadata; MSAA is a live Viewport property.",
-            }, lod = _rig.ActiveLod });
+            }, lod = _rig.ActiveLod, contact_shading = contactShading });
         if (stage is "cockpit" or "instruments-forward" || WarningStages.ContainsKey(stage))
         {
             var display = _presentation.InstrumentViewport.GetTexture();
@@ -676,6 +677,48 @@ public sealed class EnduranceSedanPresentationScenario : IDisposable
             if (WarningStages.TryGetValue(stage, out var expectedWarning)) VerifyWarningVisibility(image, displayImage, expectedWarning);
         }
         _captured = true;
+    }
+
+    private object CaptureRenderedContactShading()
+    {
+        var shading = _vehicle.ContactShading;
+        Require(shading is not null, "selected sedan has no contact-shading component");
+        var floorTransform = _floor.GetGlobalTransformInterpolated();
+        var floorTop = floorTransform * new Vector3(0, 0.06f, 0);
+        var floorNormal = floorTransform.Basis.Y.Normalized();
+        var stance = Enumerable.Range(0, 4).Select(index =>
+        {
+            var suffix = new[] { "FL", "FR", "RL", "RR" }[index];
+            var ray = _vehicle.SuspensionRay(index);
+            var center = _rig.ResolveAnchor("Wheel_" + suffix).GetGlobalTransformInterpolated().Origin;
+            if (shading!.SupportedRenderer)
+            {
+                var state = shading.ReadWheel(index);
+                Require(state.Supported && state.EligibleReceiver && state.Visible,
+                    "actual inspection contact shading is not visible on all four supported wheels: " + suffix);
+                Require(ray.GetCollider() is Node collider && collider.Name == "InspectionFloorContact" && collider.GetParent() == _fixture,
+                    "inspection contact ray did not hit this fixture's actual floor: " + suffix);
+                Require(state.DerivedDisplayErrorMeters <= 0.001f && state.WheelTangentialErrorMeters <= 0.001f && state.ContactPlaneErrorMeters <= 0.001f,
+                    "displayed contact shading is displaced from the interpolated wheel/contact plane: " + suffix);
+            }
+            return new { wheel = suffix, displayed_center = Vec(center), nominal_tire_bottom_above_floor_m = (center - floorTop).Dot(floorNormal) - _vehicle.RigSetup.TireRadiusMeters };
+        }).ToArray();
+        if (shading!.SupportedRenderer)
+        {
+            Require((_floor.Layers & VehicleContactShading.ReceiverLayer) != 0,
+                "actual visible inspection floor is missing the contact-shading receiver layer");
+            Require(Descendants(_fixture).OfType<MeshInstance3D>().All(mesh => mesh == _floor || (mesh.Layers & VehicleContactShading.ReceiverLayer) == 0),
+                "contact shading registered an unrelated inspection mesh");
+        }
+        return new
+        {
+            boundary = "native-frame-post-draw", process_frame = Engine.GetProcessFrames(), physics_frame = Engine.GetPhysicsFrames(), drawn_frame = Engine.GetFramesDrawn(),
+            status = shading.SupportedRenderer ? "passed" : "unsupported-renderer",
+            snapshot = shading.CaptureSnapshot(), floor_path = _floor.GetPath().ToString(), floor_layers = _floor.Layers,
+            floor_visible = _floor.IsVisibleInTree(), displayed_floor_origin = Vec(floorTransform.Origin), displayed_floor_top = Vec(floorTop), displayed_floor_normal = Vec(floorNormal),
+            displayed_chassis_origin = Vec(_vehicle.GetGlobalTransformInterpolated().Origin), stance,
+            scope = "Actual contact eligibility, layers and displayed alignment; visual quality and performance need independent review.",
+        };
     }
 
     private void VerifyWarningVisibility(Image cockpitImage, Image displayImage, string expectedWarning)
@@ -780,7 +823,7 @@ public sealed class EnduranceSedanPresentationScenario : IDisposable
     {
         var inputs = new Dictionary<string, string>();
         var unavailableInputs = new List<string>();
-        foreach (var relative in new[] { "game/Automation/EnduranceSedanPresentationScenario.cs", "game/Vehicle/EnduranceSedanPresentation.cs", "game/Vehicle/EnduranceSedanPresentationSetup.cs", "game/Vehicle/Setups/EnduranceSedanPresentation.tres", "game/Vehicle/VehicleInspectionPanel.cs", "game/Main.cs", "game/Vehicle/Setups/EnduranceSedan.tres", "game/Vehicle/Visuals/EnduranceSedan.tscn", "docs/vehicles/endurance-sedan/specification.json", "data/assets/vehicles/derived/endurance-sedan.glb", "assets/vehicles/endurance-sedan/endurance-sedan.generated.tscn" })
+        foreach (var relative in new[] { "game/Automation/EnduranceSedanPresentationScenario.cs", "game/Vehicle/VehicleContactShading.cs", "game/Vehicle/EnduranceSedanPresentation.cs", "game/Vehicle/EnduranceSedanPresentationSetup.cs", "game/Vehicle/Setups/EnduranceSedanPresentation.tres", "game/Vehicle/VehicleInspectionPanel.cs", "game/Main.cs", "game/Vehicle/Setups/EnduranceSedan.tres", "game/Vehicle/Visuals/EnduranceSedan.tscn", "docs/vehicles/endurance-sedan/specification.json", "data/assets/vehicles/derived/endurance-sedan.glb", "assets/vehicles/endurance-sedan/endurance-sedan.generated.tscn" })
         {
             var absolute = ProjectSettings.GlobalizePath("res://" + relative);
             if (File.Exists(absolute)) inputs[relative] = Hash(absolute);

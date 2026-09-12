@@ -308,7 +308,7 @@ async function verifyAsset() {
     "tools/vehicles/mutate_endurance_sedan.py", "tools/vehicles/verify_endurance_sedan.mjs", "scripts/verify-vehicle-asset.sh",
     "tools/assets/validate_manifest.mjs", "tools/assets/validate_release_pack.mjs", "data/assets/manifest.schema.json",
     "tools/assets/toolchain.json", spec, profile, godotProfile, source, importSettings, "project.godot", "export_presets.cfg",
-    "data/assets/vehicles/endurance-sedan.uv-bake.json",
+    "data/assets/vehicles/endurance-sedan.uv-bake.json", "data/assets/vehicles/endurance-sedan.corner-bake.json",
     "docs/vehicles/endurance-sedan/research.md", "docs/vehicles/endurance-sedan/reference-values.json",
     "docs/vehicles/endurance-sedan/production-plan.md", "docs/vehicles/endurance-sedan/production-reference-appendix.md",
     ...(revisionRecord ? [revisionRecord] : []), "scripts/godot.sh", "scripts/tool-versions.sh", "scripts/release/pck-inspect.mjs",
@@ -361,6 +361,16 @@ async function verifyAsset() {
   }
   const [first, second] = stages;
   compare("two GLB exports", join(first.directory, `${asset}.glb`), join(second.directory, `${asset}.glb`));
+  await run("corner-bake-controls", blender, ["--background", "--factory-startup", "--python-exit-code", "1",
+    "--python", "tools/vehicles/endurance_sedan/corner_bake_controls.py", "--", "--source", source,
+    "--raw-glb", join(first.directory, `${asset}.pre-corner-bake.glb`),
+    "--bake", "data/assets/vehicles/endurance-sedan.corner-bake.json", "--output", join(output, "corner-bake-controls")],
+    { expectedText: "CANNONBALL_CORNER_BAKE_CONTROLS_OK cases=31", timeout: 600000 });
+  const cornerControls = load(join(output, "corner-bake-controls/evidence.json"));
+  if (cornerControls.status !== "passed" || cornerControls.cases.length !== 31 || cornerControls.cases.some(row => row.status !== "passed"))
+    throw new Error("Evaluated corner bake controls incomplete");
+  report.negative_controls.push({ mutation: "evaluated-corner-bake-corruption", status: "passed", cases: 31,
+    evidence: pathLabel(join(output, "corner-bake-controls/evidence.json")), evidence_sha256: hash(join(output, "corner-bake-controls/evidence.json")) });
   await run("uv-bake-controls", blender, ["--background", "--factory-startup", "--python-exit-code", "1",
     "--python", "tools/vehicles/endurance_sedan/uv_bake_controls.py", "--", "--source", source,
     "--raw-glb", join(first.directory, `${asset}.pre-uv-bake.glb`),
@@ -418,6 +428,7 @@ async function verifyAsset() {
     ["import-profile", godotProfile, "Sedan inventories do not describe"], ["validator", "tools/vehicles/validate_import.gd", "Sedan inventories do not describe"],
     ["export-profile", profile, "Sedan inventories do not describe"], ["export-validator", "tools/vehicles/validate_and_export_endurance_sedan.py", "Sedan inventories do not describe"],
     ["uv-bake", "data/assets/vehicles/endurance-sedan.uv-bake.json", "Sedan inventories do not describe"],
+    ["corner-bake", "data/assets/vehicles/endurance-sedan.corner-bake.json", "Sedan inventories do not describe"],
     ["adapter", "game/Vehicle/EnduranceSedanPresentation.cs", "runtime adapter input is stale"]]) {
     const input = join(first.project, path), original = readFileSync(input), before = hash(input);
     try {

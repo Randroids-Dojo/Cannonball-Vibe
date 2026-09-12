@@ -108,12 +108,56 @@ def relative_height(row, charts):
             'method': 'Every complete input triangle partitioned by actual roof XY facets; affine height extrema at all fragment vertices. Boundary arithmetic guard 1e-12 m; acceptance guard 1e-6 m.'}
 
 
+def separated_header_returns(fragments, roof, side):
+    """Bound every out-of-chart return polygon below the entire native roof.
+
+    This is a complete convex-polygon halfspace certificate, not a sampled
+    distance or an omitted area. The narrow original-design region prevents
+    unrelated uncharted rail geometry from acquiring this interface policy.
+    """
+    roof_minimum=min(p[2] for p in roof['vertices'])
+    sign=-1 if side=='L' else 1
+    results=[]
+    for fragment in fragments:
+        points=fragment['polygon_m']
+        if not points or not all(math.isfinite(value) for p in points for value in p):
+            raise ValueError('Empty or nonfinite uncharted return polygon')
+        finite=max(max(.682-sign*p[0],sign*p[0]-.697,.100-p[1],p[1]-.1051,
+                       1.342-p[2],p[2]-1.392) for p in points)
+        gap=roof_minimum-max(p[2] for p in points)-GUARD
+        results.append({'triangle':fragment['triangle'],'polygon_m':points,
+                        'finite_region_residual_m':finite,'whole_roof_clearance_lower_bound_m':gap,
+                        'status':'passed' if finite<=GUARD and gap>=.001 else 'failed'})
+    return {'status':'passed' if all(row['status']=='passed' for row in results) else 'failed',
+            'minimum_entire_roof_z_m':roof_minimum,'required_clearance_m':.001,'guard_m':GUARD,
+            'finite_region_m':{'signed_x':[.682,.697],'y':[.100,.1051],'z':[1.342,1.392]},
+            'complete_polygons':results}
+
+
+def roof_return_controls(rows):
+    roof=rows['LOD0_Roof']
+    original=relative_height(rows['LOD0_RoofSideRail_L'],roof_charts(roof,True))['uncovered']
+    assert original and separated_header_returns(original,roof,'L')['status']=='passed'
+    close=copy.deepcopy(original[:1])
+    shifted_roof=copy.deepcopy(roof)
+    shift=max(p[2] for p in close[0]['polygon_m'])+.0005-min(p[2] for p in roof['vertices'])
+    shifted_roof['vertices']=[[x,y,z+shift] for x,y,z in roof['vertices']]
+    escaped=copy.deepcopy(original[:1])
+    escaped[0]['polygon_m'][0][1]=.1062
+    result=[{'name':'return500um-whole-roof-gap','synthetic_roof_z_translation_m':shift,
+             'result':separated_header_returns(close,shifted_roof,'L')},
+            {'name':'return1100um-finite-region-escape','result':separated_header_returns(escaped,roof,'L')}]
+    assert all(row['result']['status']=='failed' for row in result)
+    return result
+
+
 def roof_joint(rows, side):
     name = 'LOD0_RoofSideRail_' + side
     roof, rail = rows['LOD0_Roof'], rows[name]
     outer, inner = roof_charts(roof, True), roof_charts(roof, False)
     solid = intersection(roof, rail)
     actual = relative_height(rail, outer)
+    separated=separated_header_returns(actual['uncovered'],roof,side)
     exterior = relative_height(solid, outer) if solid['triangles'] else None
     interior = relative_height(solid, inner) if solid['triangles'] else None
     finite = max((max(.592 - abs(p[0]), abs(p[0]) - .741, -1.230 - p[1], p[1] - .100)
@@ -121,7 +165,7 @@ def roof_joint(rows, side):
     quality = solid['quality']
     passed = (solid['triangles'] and quality['nonmanifold_edges'] == quality['duplicate_triangles'] == 0
               and abs(quality['signed_volume_m3']) > 0 and quality['minimum_area_m2'] > 0
-              and not actual['uncovered'] and not exterior['uncovered'] and not interior['uncovered']
+              and separated['status']=='passed' and not exterior['uncovered'] and not interior['uncovered']
               and finite <= GUARD and actual['maximum_relative_z_m'] <= -.00055 + GUARD
               and exterior['maximum_relative_z_m'] <= -.00055 + GUARD
               and interior['minimum_relative_z_m'] >= -GUARD
@@ -130,6 +174,7 @@ def roof_joint(rows, side):
             'policy': 'Revision14 finite formed reinforcement flange, not a zero-volume seat',
             'guard_m': GUARD, 'maximum_inner_penetration_m': .00065, 'minimum_remaining_outer_skin_m': .00055,
             'complete_rail_relative_outer_roof': actual, 'intersection_relative_outer_roof': exterior,
+            'complete_uncharted_return_clearance':separated,
             'intersection_relative_inner_roof': interior, 'finite_xy_residual_m': finite if math.isfinite(finite) else None,
             'intersection_quality': quality}, solid
 

@@ -16,6 +16,11 @@
   "export_lights": false,
   "export_materials": "EXPORT",
   "image_format": "AUTO",
+  "evaluated_corner_bake": {
+    "path": "data/assets/vehicles/endurance-sedan.corner-bake.json",
+    "limits": {"position_distance_m": 0.0000002, "normal_angle_degrees": 0.025, "normal_length_error": 0.000001, "uv_component_error": 0.00001},
+    "policy": "Exact editable source and complete ordered triangle corners, oriented nondegenerate faces, semantic/material metadata and embedded image bytes validate before restoring explicitly reviewed canonical encoding. Retain raw GLB and raw geometry report. Source changes require a new explicit bake; no topology or geometry relaxation."
+  },
   "evaluated_uv_bake": {
     "path": "data/assets/vehicles/endurance-sedan.uv-bake.json",
     "maximum_uv_error": 0.00001,

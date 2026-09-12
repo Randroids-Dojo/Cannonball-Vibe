@@ -50,7 +50,7 @@ def door_seals(collection, lod, mats, pivots):
             seal['contact_policy']='Compressible closure seal at its parked stop only'
             # Visible rolled inner flange belongs to the moving door assembly.
             if axle=='R':
-                outline_hem=[(-.668,.981),(-.655,.316),(-.950,.316)]+[(-1.46+.514*math.cos(math.radians(a)),.3433+.514*math.sin(math.radians(a))) for a in (-3,15,35,55,75)]+[(-1.606,.981)]
+                outline_hem=[(-.668,.981),(-.655,.316)]+[(-1.46+.514*math.cos(math.radians(a)),.3433+.514*math.sin(math.radians(a))) for a in (-3,15,35,55,75)]+[(-1.606,.981)]
             else:
                 outline_hem=[(y,min(z,.981)) for y,z in model.inset_polygon(model.split_door_outlines()[axle],.017)]
             lower=[(side*.812,y,z) for y,z in outline_hem]

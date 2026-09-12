@@ -8,8 +8,8 @@
     "configuration": "four-door, left-hand-drive, all-wheel-drive endurance performance sedan",
     "status": "project-original fictional identity; final human art/rights review pending"
   },
-  "status": "locked_original_specification_v18",
-  "locked_utc": "2026-09-12T01:40:46.745263+00:00",
+  "status": "locked_original_specification_v17",
+  "locked_utc": "2026-09-11T19:44:25.424854+00:00",
   "benchmark": {
     "id": "audi_s6_2016_us",
     "model_year": 2016,
@@ -1224,7 +1224,7 @@
       "change": "Rear mirror Y .20 and camera Y .16; explicit mechanism axis spaces; original side mirror housing sets exact 2.10m width"
     }
   ],
-  "specification_revision": 18,
+  "specification_revision": 17,
   "original_packaging": {
     "auxiliary_cell_center_source_m": [
       0,
@@ -2161,12 +2161,6 @@
       "reason": "Before implementation, candidate10 cloth self-crossings and rear guide grip extent invalidated revision16. Preserve that unbuilt lock; use continuous ribbon across vectors and measured rear guides from candidate11. No route, seat, body, rail-anchor or triangle-count change.",
       "record": "docs/vehicles/endurance-sedan/packaging-revision-v17.md",
       "construction_acceptance": "Native candidate cloth and40 finite interface checks passed before build; source34 and all affected final gates remain pending"
-    },
-    {
-      "revision": 18,
-      "reason": "Correct original formed surfaces, A/header construction, glass/hem bends, fitted latch and upholstery interfaces, headliner clipping and Boolean diagonals; strengthen authored/final-LOD self and shading checks. Engineering dimensions, hardpoints, physics and gameplay limits remain fixed.",
-      "record": "docs/vehicles/endurance-sedan/packaging-revision-v18.md",
-      "construction_acceptance": "Candidate scope and geometric targets locked before fresh source35 construction. Retained pilots and independent finite/normal controls support implementation; final source/export/runtime/platform/performance/visual/human gates remain required."
     }
   ]
 }

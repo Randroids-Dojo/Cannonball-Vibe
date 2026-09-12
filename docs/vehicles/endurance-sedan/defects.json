@@ -8864,6 +8864,31 @@
         "bytes": 5680
       },
       "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-FRESH35-PREVIEW02-VISUAL",
+      "task_id": "P1-018",
+      "milestone": "M5",
+      "utc": "2026-09-12T02:35:13.580420+00:00",
+      "git_revision": "de8991b09f769dddbfb604e2371a8ebb51dffe3b",
+      "platform": "Windows-11-10.0.26200-SP0",
+      "kind": "actual-matched-neutral-still-and-complete-finite-interface-review",
+      "source_sha256": "60528b431a14b59893ef0ad3135abff580b99282a5c20e5a7ba41c0565fd1638",
+      "status": "reviewed-with-open-visual-defects-and-bounded-corrections",
+      "evidence": [
+        {
+          "path": "reports/p1-018/qa/fresh35-preview02-visual-review01/review.json",
+          "sha256": "6196fd93b6afaa349f1564bc076a1b1bd4a527fb93a31c35ca7bf41610977279",
+          "bytes": 38048
+        }
+      ],
+      "observations": [
+        "Three actual fresh02 originals and three historical source34 originals independently viewed at 2560x1440; camera and declared neutral recipe match.",
+        "Tapered mirrors, formed window sections and rounder padded surfaces visibly improve; the upper header termination, fascia/arch transitions and broader material/shape finish remain open.",
+        "All42 finite finish interfaces and9 effective controls pass on exact fresh02; its1002 authored meshes have zero reported strict self crossings. LOD0 is150418, so budget acceptance fails."
+      ],
+      "limits": "Three current fixed neutral stills only; source35-preview02 is over budget and is not the pending full03/04 source. Final complete source/LOD/export/cross-platform/native presentation/motion/performance and human art/rights/driving/usability gates remain open. Historical source34 media is a baseline, not transferred approval.",
+      "human_approval_reference": null
     }
   ],
   "defects": [
@@ -13627,6 +13652,291 @@
           "bytes": 5843
         }
       ]
+    },
+    {
+      "id": "P1-018-D065",
+      "visual_refinement_id": "VF35-01",
+      "severity": "major",
+      "status": "open",
+      "category": "vehicle-visual-finish",
+      "assigned_owner": "lead-modeling",
+      "observed_utc": "2026-09-12T02:35:13.580420+00:00",
+      "observed_revision": "de8991b09f769dddbfb604e2371a8ebb51dffe3b",
+      "observed_source_sha256": "60528b431a14b59893ef0ad3135abff580b99282a5c20e5a7ba41c0565fd1638",
+      "summary": "Upper roof/window construction retains an abrupt exposed termination after the connected-return correction.",
+      "actual": [
+        "The rounded upper sash and backed A-to-header corridor visibly replace the open strip and thin angular source34 sections.",
+        "The long return now has a continuous controlled highlight; the older triangular normal contamination is substantially reduced.",
+        "A short square-ended step remains at the upper A/roof-rail termination. In the grazing view it still reads as abruptly meeting strips despite the independently certified complete joint.",
+        "At whole-car scale the roof and upper window silhouette retain long flat planes and hard corner changes. The fixed view does not establish a physical dimensional or proportion violation."
+      ],
+      "expected": "Resolve the exposed termination as a coherent formed finish and judge its highlight in matching grazing and exterior views while preserving the proved fixed/moving geometry and finite joint.",
+      "correction": "partly_corrected_visual_finish_open",
+      "verification": "Exact fresh35-preview02 visual and finite-geometry evidence is linked; no full changed-source, native, performance or human acceptance is inferred.",
+      "related_defects": [
+        "P1-018-D039",
+        "P1-018-D048"
+      ],
+      "evidence": [
+        {
+          "path": "reports/p1-018/qa/fresh35-preview02-visual-review01/review.json",
+          "sha256": "6196fd93b6afaa349f1564bc076a1b1bd4a527fb93a31c35ca7bf41610977279",
+          "bytes": 38048
+        }
+      ],
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-D066",
+      "visual_refinement_id": "VF35-02",
+      "severity": "major",
+      "status": "open",
+      "category": "vehicle-visual-finish",
+      "assigned_owner": "lead-modeling",
+      "observed_utc": "2026-09-12T02:35:13.580420+00:00",
+      "observed_revision": "de8991b09f769dddbfb604e2371a8ebb51dffe3b",
+      "observed_source_sha256": "60528b431a14b59893ef0ad3135abff580b99282a5c20e5a7ba41c0565fd1638",
+      "summary": "Mirror shape improves, but the broad flat fascia and rectangular aperture transitions remain visually unfinished.",
+      "actual": [
+        "Both visible mirror housings have tapered curved volumes rather than the historical rectangular boxes; this local exterior change is supported by the matched images.",
+        "The cooling grid shows depth, but a broad near-vertical fascia still dominates between the hood edge, rectangular lamps, grille and lower apron.",
+        "The grille and slot transitions remain very straight and abrupt compared with the rounder fender shoulder. Usable mirror pixels and airflow are not established by this exterior view."
+      ],
+      "expected": "Fair the local fascia/aperture and bumper-corner transitions with the lamp/cooling hardpoints retained; require matching views and source/runtime mirror checks.",
+      "correction": "mirrors_improved_fascia_finish_open",
+      "verification": "Exact fresh35-preview02 visual and finite-geometry evidence is linked; no full changed-source, native, performance or human acceptance is inferred.",
+      "related_defects": [
+        "P1-018-D042"
+      ],
+      "evidence": [
+        {
+          "path": "reports/p1-018/qa/fresh35-preview02-visual-review01/review.json",
+          "sha256": "6196fd93b6afaa349f1564bc076a1b1bd4a527fb93a31c35ca7bf41610977279",
+          "bytes": 38048
+        }
+      ],
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-D067",
+      "visual_refinement_id": "VF35-03",
+      "severity": "major",
+      "status": "open",
+      "category": "vehicle-visual-finish",
+      "assigned_owner": "lead-modeling",
+      "observed_utc": "2026-09-12T02:35:13.580420+00:00",
+      "observed_revision": "de8991b09f769dddbfb604e2371a8ebb51dffe3b",
+      "observed_source_sha256": "60528b431a14b59893ef0ad3135abff580b99282a5c20e5a7ba41c0565fd1638",
+      "summary": "Lower arch/return transitions remain abrupt; fitted latch seating does not approve the hidden open-door finish.",
+      "actual": [
+        "The visible wheel arches retain abrupt vertical/flat terminations at their lower apron and rocker junctions. The front lower corner has a pointed step beside the tire.",
+        "Closed doors hide the stamped inner returns and fitted latches, so these three new stills cannot approve their appearance or the complete open-door treatment.",
+        "The twelve fitted flange/socket/head interfaces pass the actual fresh02 complete finite stage. This is mechanical seating evidence and is separate from those hidden visual surfaces."
+      ],
+      "expected": "Finish the actual lower arch and pressed return transitions under matching open/under views, retaining full independent door travel and the finite latch interfaces.",
+      "correction": "finite_latch_seats_corrected_broader_returns_open",
+      "verification": "Exact fresh35-preview02 visual and finite-geometry evidence is linked; no full changed-source, native, performance or human acceptance is inferred.",
+      "related_defects": [
+        "P1-018-D031",
+        "P1-018-D047"
+      ],
+      "evidence": [
+        {
+          "path": "reports/p1-018/qa/fresh35-preview02-visual-review01/review.json",
+          "sha256": "6196fd93b6afaa349f1564bc076a1b1bd4a527fb93a31c35ca7bf41610977279",
+          "bytes": 38048
+        }
+      ],
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-D068",
+      "visual_refinement_id": "VF35-04",
+      "severity": "major",
+      "status": "open",
+      "category": "vehicle-visual-finish",
+      "assigned_owner": "lead-modeling",
+      "observed_utc": "2026-09-12T02:35:13.580420+00:00",
+      "observed_revision": "de8991b09f769dddbfb604e2371a8ebb51dffe3b",
+      "observed_source_sha256": "60528b431a14b59893ef0ad3135abff580b99282a5c20e5a7ba41c0565fd1638",
+      "summary": "Seat contours and seam support improve, while complete cabin and door-card finish remains unverified.",
+      "actual": [
+        "The seat pad, bolsters and center armrest have visibly rounder padded transitions than source34.",
+        "The thin cushion lines follow the visible pad surface; the new complete route proof confirms all twenty cushion seams and eight back-piping routes are supported at their declared burial.",
+        "The large console lid and long straight door pull/button plinth still have simple block-like transitions. The cropped neutral view hides the complete door card, seat mounts, headrest and rear seating.",
+        "No new floating seam is established by these pixels. The older unsupported pilot27 intervals remain real historical failures."
+      ],
+      "expected": "Retain the proven fine seam support and evaluate the remaining console/door-card transitions in the complete lit cabin and opening views before final art approval.",
+      "correction": "seat_shape_and_support_improved_full_cabin_open",
+      "verification": "Exact fresh35-preview02 visual and finite-geometry evidence is linked; no full changed-source, native, performance or human acceptance is inferred.",
+      "related_defects": [
+        "P1-018-D035",
+        "P1-018-D061"
+      ],
+      "evidence": [
+        {
+          "path": "reports/p1-018/qa/fresh35-preview02-visual-review01/review.json",
+          "sha256": "6196fd93b6afaa349f1564bc076a1b1bd4a527fb93a31c35ca7bf41610977279",
+          "bytes": 38048
+        }
+      ],
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-D069",
+      "visual_refinement_id": "VF35-05",
+      "severity": "major",
+      "status": "open",
+      "category": "vehicle-visual-finish",
+      "assigned_owner": "lead-modeling",
+      "observed_utc": "2026-09-12T02:35:13.580420+00:00",
+      "observed_revision": "de8991b09f769dddbfb604e2371a8ebb51dffe3b",
+      "observed_source_sha256": "60528b431a14b59893ef0ad3135abff580b99282a5c20e5a7ba41c0565fd1638",
+      "summary": "Broad reflections and uninterrupted body planes still dominate the sedan finish.",
+      "actual": [
+        "Neutral lighting still creates broad silver-grey reflections on the hood, doors and fascia, plus strong glass/A-border highlights. The small shoulder treatment does not transform the overall surface response.",
+        "The high shoulder, upright greenhouse and uninterrupted roof/side/fascia planes produce a heavy block-like visual read in this front-three-quarter view. This is a qualitative finish finding, not a change to the locked dimensions or fictional identity.",
+        "The broad lower bumper highlight knee and front corner transition remain visible; coat or roughness changes must not conceal a remaining shape/normal defect.",
+        "A neutral still cannot determine final black-paint balance, cockpit reflection readability or native lighting quality. Physical glass and dielectric paint behavior remain required."
+      ],
+      "expected": "Compare complete same-camera five-lighting and grazing-surface views, separate shape/normal causes from material balance, and retain the original dimensional envelope.",
+      "correction": "material_and_shoulder_finish_open",
+      "verification": "Exact fresh35-preview02 visual and finite-geometry evidence is linked; no full changed-source, native, performance or human acceptance is inferred.",
+      "related_defects": [
+        "P1-018-D039",
+        "P1-018-D040",
+        "P1-018-D050"
+      ],
+      "evidence": [
+        {
+          "path": "reports/p1-018/qa/fresh35-preview02-visual-review01/review.json",
+          "sha256": "6196fd93b6afaa349f1564bc076a1b1bd4a527fb93a31c35ca7bf41610977279",
+          "bytes": 38048
+        }
+      ],
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-D070",
+      "external_finding_id": "N34-LOD-01",
+      "severity": "major",
+      "status": "open",
+      "category": "lower-lod-surface-normal-continuity",
+      "assigned_owner": "lead-modeling-and-runtime",
+      "observed_utc": "2026-09-12T02:35:13.580420+00:00",
+      "observed_revision": "de8991b09f769dddbfb604e2371a8ebb51dffe3b",
+      "summary": "Actual source34 rear paint visibly pops across a lower-LOD transition, and later native probes expose hidden zero normals and self folds.",
+      "actual": "Consecutive actual source34 driving frames show an abrupt rear paint highlight change at the LOD0/1 boundary. Exported paint material is unchanged; retained geometric diagnosis identifies a large corner-normal change with almost unchanged surface position. Native lower-LOD probes also find raw zero normals before official exporter fallback and connected-shell self folds.",
+      "expected": "Valid raw native corner fields, closed self-clear lower shells and visibly controlled LOD transitions for the final whole car, under the unchanged total triangle budget.",
+      "correction": "Protected rear/trunk/hood paint and seventeen selectively rebuilt lower-LOD semantic groups are source30-based candidates. The handoff reports210 composed batches/848 shells and valid raw normals, with cross-shell fit explicitly unassessed.",
+      "verification": "Original source34 film and source30 candidate are separately bound. The latest source35 build, total budget, cross-shell fit, complete car LOD views and actual native transitions remain pending.",
+      "evidence": [
+        {
+          "path": "reports/p1-018/qa/native34-driving-reviewed-01/review.json",
+          "sha256": "30262e9bb58155dd18e703484c80a21a0c3b8add81553353793a850fca076de4",
+          "bytes": 521971
+        },
+        {
+          "path": "reports/p1-018/qa/native34-presentation-reviewed-01/review.json",
+          "sha256": "ae3049f344b432cf78670fe407f92d8fbfe88146e010762316334f462c1331ef",
+          "bytes": 2383712
+        },
+        {
+          "path": "reports/p1-018/research/lod34-pop-01/review01.json",
+          "sha256": "204577adecf57e1e8a6005805ece3688d559d41ef967068b857094c07c2dd2b7",
+          "bytes": 126228
+        },
+        {
+          "path": "reports/p1-018/research/lod35-shells-01/handoff16.json",
+          "sha256": "160a0fa9f2b66f35a6d79144a19006f4e35fd6725358384e5a14e8025dce45b3",
+          "bytes": 123018
+        }
+      ],
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-D071",
+      "severity": "major",
+      "status": "open",
+      "category": "authored-mesh-self-intersection-and-gate-coverage",
+      "assigned_owner": "lead-modeling-and-qa",
+      "observed_utc": "2026-09-12T02:35:13.580420+00:00",
+      "observed_revision": "de8991b09f769dddbfb604e2371a8ebb51dffe3b",
+      "summary": "Closed edge incidence did not detect self-intersecting authored sheets and Boolean pockets.",
+      "actual": "The complete exact pilot22 audit confirms383 crossing pairs in15 authored meshes, including A ribbons, window frames/seals, rear hems, door/pocket and mounting geometry. Earlier approximate witnesses include394 false positives and remain separate from the exact defects.",
+      "expected": "Every final authored mesh must pass complete strict triangle-domain self checks in addition to incidence, area and assembly checks.",
+      "correction": "Coherent inner A sections, circular frame/seal/hem bends and attributed local Boolean diagonal/mount repairs are present in fresh35-preview02. Its actual source-bound report processes1002 meshes/150418 triangles/1246796 candidate pairs with zero strict crossings.",
+      "verification": "Fresh02 evidence is a bounded correction, still over budget. The next changed source must rerun the complete source front door; prior fourteen-stage acceptance does not gain retrospective self-intersection coverage.",
+      "evidence": [
+        {
+          "path": "reports/p1-018/research/self35-pilot22-01/full-exact04.json",
+          "sha256": "ceeede99d70eacdf6171bbd20dfe944018e29cee81d0e558c67a783be75b39f9",
+          "bytes": 2429
+        },
+        {
+          "path": "reports/p1-018/source35-fresh-preview02/self-intersections01.json",
+          "sha256": "4e815eaa85342698120bfa38aaee0eb704be5535b126f03afef41b92f9004d30",
+          "bytes": 537630
+        },
+        {
+          "path": "reports/p1-018/qa/fresh35-preview02-visual-review01/review.json",
+          "sha256": "6196fd93b6afaa349f1564bc076a1b1bd4a527fb93a31c35ca7bf41610977279",
+          "bytes": 38048
+        }
+      ],
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-D072",
+      "severity": "major",
+      "status": "resolved",
+      "category": "finish-reader-multilayer-applicability",
+      "assigned_owner": "independent-qa",
+      "observed_utc": "2026-09-12T02:35:13.580420+00:00",
+      "observed_revision": "de8991b09f769dddbfb604e2371a8ebb51dffe3b",
+      "summary": "The first cloth support reader could ignore an intersecting upper pad layer after a lower chart covered the thread footprint.",
+      "actual": "The frozen d2e0335 reader accepts a closed added pad slab despite eight exact thread intersections. Its first matching height chart consumes the projected footprint and masks the second layer.",
+      "expected": "Every overlapping outward pad facet must bound complete thread burial independently, with footprint coverage proved separately; malformed or incomplete certificates must reject.",
+      "correction": "Frozen finish_interfaces b31b4f6f6436d5f3b22535335f96a73ec206fd92a6084bc045c9949434c2429e evaluates every positive-normal chart. The standard-library validator1129f1cd3d6e5d1682deb0fc1bff9801f39d8894b171afc11db0fac133c49c95 checks complete typed quantitative proof inventories.",
+      "verification": "Independent original-slab and steep-pyramid controls reject8 and6 exact intersections, respectively; clean geometry passes. Actual fresh02 passes42 interfaces/9 geometric controls, historical27 still rejects18 unsupported seams, and37 malformed certificate controls reject. This closure is limited to the frozen reader applicability defect; full-source/asset/native/human gates are unaffected.",
+      "evidence": [
+        {
+          "path": "reports/p1-018/runtime/finish-interface-review35-03/evidence.json",
+          "sha256": "0f2c1df77946f147d8621c5b2f69a69b1c80a4e50af7eb3b316b8e14481d66e6",
+          "bytes": 31774
+        },
+        {
+          "path": "reports/p1-018/runtime/finish-interface-review35-04/evidence.json",
+          "sha256": "38f8c5ad2f7b86df37967b2991c94163931d7e6d6a26baa568bcaef24aea1f05",
+          "bytes": 54345
+        },
+        {
+          "path": "reports/p1-018/runtime/finish-wiring-review35-02/evidence.json",
+          "sha256": "866a1c4337bbc4cea972022f210bf2835e0c6a75f6f57a3a54e02cfa3f0b944e",
+          "bytes": 58854
+        },
+        {
+          "path": "reports/p1-018/runtime/finish-interface-reviewed-execution35-01/process.json",
+          "sha256": "e19117590075a5e85c80f54ba35d58c8ccf8c0643a0d0aacefac2e3818cf9be1",
+          "bytes": 10544
+        },
+        {
+          "path": "reports/p1-018/qa/finish-reader-controls-04/review.json",
+          "sha256": "b97ac3f1b021633fc3fe08f1e0799f27b9da0caeeaffa237c3f8deaa630f6e14",
+          "bytes": 35905
+        },
+        {
+          "path": "reports/p1-018/qa/finish-interfaces-reader27-03.json",
+          "sha256": "7a50a758555aa075d536d6788ab7e2aa864af1fef361f3a73f361057cb496875",
+          "bytes": 1638877
+        },
+        {
+          "path": "reports/p1-018/qa/finish-interfaces-fresh35-preview02-03.json",
+          "sha256": "ca1fead97a154366d352bc3d65d0231b4523fd4aea11045b69da759f24f022f8",
+          "bytes": 2073545
+        }
+      ],
+      "human_approval_reference": null
     }
   ],
   "qa_gaps": [
@@ -13768,5 +14078,5 @@
       "approval_reference": null
     }
   ],
-  "updated_utc": "2026-09-11T20:01:50.138904+00:00"
+  "updated_utc": "2026-09-12T02:35:13.580420+00:00"
 }

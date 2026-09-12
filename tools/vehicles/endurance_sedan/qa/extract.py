@@ -9,6 +9,7 @@ from datetime import datetime, timezone
 import gzip
 import hashlib
 import json
+import math
 from pathlib import Path
 import sys
 import time
@@ -83,6 +84,9 @@ def main():
         triangle_keys = Counter(tuple(sorted(triangle)) for triangle in indices)
         triangle_edges = Counter(tuple(sorted((triangle[i], triangle[(i + 1) % 3])))
                                  for triangle in indices for i in range(3))
+        normals=[tuple(float(c) for c in value.vector) for value in data.corner_normals]
+        lengths=[math.sqrt(math.fsum(c*c for c in value)) for value in normals
+                 if all(math.isfinite(c) for c in value)]
         row = {"name": obj.name, "ancestors": ancestors, "rest_world_matrix": matrix(world),
                "vertices": vertices, "triangles": indices,
                "properties": {key: obj[key] for key in obj.keys() if isinstance(obj[key], (str, float, int, bool))},
@@ -97,6 +101,12 @@ def main():
                           "nonmanifold_edges": sum(count != 2 for count in edge_counts.values()),
                           "duplicate_loop_triangles": sum(count - 1 for count in triangle_keys.values()),
                           "triangulated_nonmanifold_edges": sum(count != 2 for count in triangle_edges.values()),
+                          "normal_corners":len(normals),
+                          "nonfinite_corner_normals":len(normals)-len(lengths),
+                          "zero_corner_normals":sum(value<=1e-12 for value in lengths),
+                          "nonunit_corner_normals":sum(abs(value-1)>1e-6 for value in lengths),
+                          "normal_length_min":min(lengths,default=None),
+                          "normal_length_max":max(lengths,default=None),
                           "bounds_source_m": [[min((p[i] for p in vertices), default=None) for i in range(3)],
                                               [max((p[i] for p in vertices), default=None) for i in range(3)]]})
         evaluated.to_mesh_clear()

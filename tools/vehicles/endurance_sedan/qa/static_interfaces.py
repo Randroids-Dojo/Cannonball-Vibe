@@ -8,16 +8,15 @@ finite declared scope, not permission for unnamed construction intersections.
 import argparse
 from datetime import datetime, timezone
 import gzip
-import hashlib
-import itertools
 import json
 from pathlib import Path
 import sys
 import time
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from gate import json_read, sha
-from fitted_interfaces import negative_controls as fitted_negative_controls, prove as prove_fitted
+from gate import json_read, sha, stage_report
+from finish_interfaces import inventory as finish_inventory
+from fitted_interfaces import negative_controls as fitted_negative_controls, prove as prove_fitted, roof_return_controls
 from geometry import bounds, box_distance2
 from initial_containment import check_pair
 from solid_interfaces import GUARD, prove_join
@@ -95,9 +94,14 @@ def contract(rows):
     return selected, rules
 
 
-def inspect(data, optical_report):
+def inspect(data, optical_report, finish_report):
     rows = {name: row for name, row in data['meshes'].items() if not row['properties'].get('source_preview_only')}
     selected, rules = contract(rows)
+    stage_report('finish-interfaces',finish_report,data['source_sha256'])
+    expected=[{'kind':kind,'pair':[a,b]} for kind,a,b in finish_inventory(rows)]
+    if finish_report['exact_named_inventory']!=expected:
+        raise ValueError('Finish certificate does not cover the actual required source interfaces')
+    finish_pairs={tuple(sorted(row['pair'])):row for row in finish_report['results']}
     assert optical_report['status'] == 'passed' and optical_report['source_sha256'] == data['source_sha256']
     optical_pairs = {tuple(sorted(row['pair'])) for row in optical_report['pairs']}
     assert len(optical_pairs) == 231
@@ -113,6 +117,7 @@ def inspect(data, optical_report):
     broad, near, joints, failures = [], [], [], []
     intersections = {}
     seen = set()
+    finish_used=[]
     for a in sorted(selected):
         for b in sorted(rows):
             if a == b:
@@ -121,6 +126,9 @@ def inspect(data, optical_report):
             if pair in seen or pair in optical_pairs:
                 continue
             seen.add(pair)
+            if pair in finish_pairs:
+                finish_used.append(finish_pairs[pair])
+                continue
             if pair in rules:
                 result, mesh = (prove_fitted(rows, rules[pair]) if 'fitted_kind' in rules[pair]
                                 else prove_join(rows, rules[pair]))
@@ -153,7 +161,10 @@ def inspect(data, optical_report):
     return {'status': 'failed' if failures else 'passed', 'selected_components': sorted(selected),
             'named_interface_count': len(rules), 'named_interfaces': joints,
             'finite_interface_negative_controls': controls,
+            'roof_return_negative_controls':roof_return_controls(rows),
             'restraint_checks': restraint_checks,
+            'finish_interfaces_checked_separately':len(finish_pairs),
+            'finish_joint_certificates_used':finish_used,
             'optical_internal_pairs_checked_separately': len(optical_pairs),
             'whole_aabb_certificates': broad, 'near_nonmating_pairs': near, 'failures': failures}, intersections
 
@@ -162,18 +173,22 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--geometry', type=Path, required=True)
     parser.add_argument('--optical-report', type=Path, required=True)
+    parser.add_argument('--finish-report', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args(sys.argv[sys.argv.index('--') + 1:])
     assert not args.output.exists()
     start = time.perf_counter()
     data = json.loads(gzip.decompress(args.geometry.read_bytes()))
     optical = json_read(args.optical_report)
+    finish=json_read(args.finish_report)
     assert any(row['sha256'] == sha(args.geometry) for row in optical['inputs']), 'Optics report used different geometry'
-    result, intersections = inspect(data, optical)
+    if finish.get('geometry_payload_sha256')!=sha(args.geometry):
+        raise ValueError('Finish report used different actual geometry')
+    result, intersections = inspect(data, optical, finish)
     target = args.output.with_suffix('.intersection-solids.json.gz')
     assert not target.exists()
     target.write_bytes(gzip.compress(json.dumps(intersections, separators=(',', ':'), allow_nan=False).encode(), mtime=0))
-    dependencies = [args.geometry, args.optical_report, *sorted(Path(__file__).parent.glob('*.py')),
+    dependencies = [args.geometry, args.optical_report, args.finish_report, *sorted(Path(__file__).parent.glob('*.py')),
                     Path(__file__).with_name('static-interface-rules.json'),
                     Path(__file__).with_name('restraint-interface-rules.json')]
     result.update(task_id='P1-018', milestone='M5', utc=datetime.now(timezone.utc).isoformat(),

@@ -75,6 +75,80 @@ def inventory(root):
     return dict(sorted(result.items()))
 
 
+def verification_fixture(root, manifest, files):
+    fixtures = manifest.get("verification_fixtures", [])
+    if len(fixtures) != 1:
+        raise ValueError("Package must declare its single locked representative verification fixture")
+    fixture = fixtures[0]
+    prefix = "verification/fixtures/representative-corridor/"
+    if (fixture.get("fixture") != "representative-corridor"
+            or fixture.get("purpose") != "endurance-sedan-functional-verification"
+            or fixture.get("default_launcher") is not False or fixture.get("continental_coverage_claim") is not False):
+        raise ValueError("Verification fixture scope or identity mismatch")
+    for name in ("pointer", "route_root", "metadata", "provenance"):
+        relative = fixture[name]
+        file = package_path(root, relative)
+        if (not relative.startswith(prefix) or relative not in files
+                or sha(file) != fixture[name + "_sha256"]):
+            raise ValueError("Verification fixture artifact binding mismatch: " + name)
+    pointer = json.loads(package_path(root, fixture["pointer"]).read_text())
+    metadata = json.loads(package_path(root, fixture["metadata"]).read_text())
+    provenance = json.loads(package_path(root, fixture["provenance"]).read_text())
+    if (pointer["schema_version"] != 1 or metadata["schema_version"] != 5
+            or pointer["content_version"] != fixture["content_version"]
+            or metadata["content_version"] != fixture["content_version"]
+            or prefix + pointer["root_relative_path"] != fixture["route_root"]
+            or prefix + pointer["metadata_relative_path"] != fixture["metadata"]):
+        raise ValueError("Verification fixture pointer/metadata correspondence mismatch")
+    if (provenance.get("fixture") != fixture["fixture"] or provenance.get("purpose") != fixture["purpose"]
+            or provenance.get("default_launcher") is not False
+            or provenance.get("continental_coverage_claim") is not False
+            or provenance.get("chunk_meters") != 2000 or provenance.get("source") != metadata.get("source")):
+        raise ValueError("Verification fixture provenance scope mismatch")
+    required = {
+        "data/sources/catalog.json", "data/sources/representative-corridor-lock.json",
+        "data/sources/fixtures/nhpn-boulder-westminster-us36.geojson",
+        "data/sources/fixtures/nhpn-boulder-westminster-us36.manifest.json",
+        "data/sources/fixtures/usgs-13-n40w106-boulder-westminster.tif",
+        "data/sources/fixtures/usgs-13-n40w106-boulder-westminster.metadata.json",
+    }
+    inputs = {row["path"]: row for row in provenance["inputs"]}
+    build_inputs = {row["path"]: row["sha256"] for row in manifest["build"]["inputs"]}
+    if (len(inputs) != len(provenance["inputs"]) or set(inputs) != required
+            or any(build_inputs.get(name) != item["sha256"] or item["bytes"] <= 0 for name, item in inputs.items())
+            or metadata["source"]["acquisition_lock_sha256"] != inputs["data/sources/representative-corridor-lock.json"]["sha256"]
+            or metadata["source"]["sha256"] != inputs["data/sources/fixtures/nhpn-boulder-westminster-us36.geojson"]["sha256"]):
+        raise ValueError("Verification fixture locked build-input provenance mismatch")
+    records = provenance["retained_source_records"]
+    if (len(records) != 4 or {row["source_path"] for row in records} != {name for name in required if name.endswith(".json")}):
+        raise ValueError("Verification fixture source record inventory mismatch")
+    for row in records:
+        file = package_path(root, row["path"])
+        item = inputs[row["source_path"]]
+        if (not row["path"].startswith(prefix + "provenance/") or row["path"] not in files
+                or sha(file) != row["sha256"] or row["sha256"] != item["sha256"] or file.stat().st_size != item["bytes"]):
+            raise ValueError("Verification fixture retained source record mismatch")
+    expected_chunks = sorted((row["chunk_id"], prefix + row["relative_path"], row["content_hash"], row["byte_count"])
+                             for row in metadata["chunks"])
+    actual_chunks = sorted((row["id"], row["path"], row["sha256"], row["bytes"]) for row in fixture["chunks"])
+    if not expected_chunks or expected_chunks != actual_chunks or len({row[0] for row in actual_chunks}) != len(actual_chunks):
+        raise ValueError("Verification fixture chunk inventory mismatch")
+    for _, name, digest, count in actual_chunks:
+        file = package_path(root, name)
+        if (not name.startswith(prefix + "chunks/" + fixture["content_version"] + "/") or name not in files
+                or sha(file) != digest or file.stat().st_size != count):
+            raise ValueError("Verification fixture chunk bytes mismatch")
+    miles = sum(float(edge["length_meters"]) for edge in metadata["edges"]) / 1609.344
+    if not miles > 1 or abs(miles - fixture["unique_route_miles"]) > 1e-9:
+        raise ValueError("Verification fixture measured route extent mismatch")
+    sbom = json.loads(package_path(root, "metadata/sbom.cdx.json").read_text())
+    components = [row for row in sbom["components"] if row["name"] == "Cannonball representative-corridor verification fixture"]
+    if (len(components) != 1 or components[0]["version"] != fixture["content_version"]
+            or components[0]["hashes"] != [{"alg": "SHA-256", "content": fixture["route_root_sha256"]}]):
+        raise ValueError("Verification fixture SBOM binding mismatch")
+    return fixture
+
+
 def validate_package(root, actual):
     manifest = json.loads((root / "metadata/manifest.json").read_text(encoding="utf-8-sig"))
     expected = {}
@@ -117,6 +191,7 @@ def validate_package(root, actual):
         raise ValueError("Package is missing actual PCK or game assembly bytes")
     if native_binary(manifest) not in expected:
         raise ValueError("Declared native runtime binary is not inventory-listed")
+    verification_fixture(root, manifest, expected)
     return manifest
 
 
@@ -148,6 +223,10 @@ def verify_case(case, mode, log, home, root, package_files, manifest):
     arguments = summary["scenario_arguments"] if mode == "driving" else summary["arguments"]
     if "--vehicle=endurance-sedan" not in arguments or "--sedan-blockout" in arguments:
         raise ValueError("Packaged execution did not select the complete sedan")
+    fixture = manifest["verification_fixtures"][0]
+    routes = [argument for argument in arguments if argument.startswith("--route-package")]
+    if routes != ["--route-package=" + str(package_path(root, fixture["route_root"]))]:
+        raise ValueError("Packaged execution must use exactly the manifest-bound verification route")
     if summary["engine"] != "4.7.1-stable (official)":
         raise ValueError("Actual runtime engine differs from the pinned official version")
     prefix = "CANNONBALL_ENDURANCE_SEDAN" if mode == "driving" else "CANNONBALL_SEDAN_PRESENTATION"
@@ -216,6 +295,7 @@ def verify_case(case, mode, log, home, root, package_files, manifest):
     return {"status": "passed", "stage_count": len(expected), "frame_count": len(physics),
             "expected_stages": expected, "actual_executable": str(executable),
             "declared_binary": manifest["artifact"]["binary"], "expected_native_binary": native_binary(manifest),
+            "verification_fixture": fixture["fixture"], "route_root_sha256": fixture["route_root_sha256"],
             "actual_user_data_directory": summary["user_data_directory"], "source_files_absent": True,
             "engine": summary["engine"], "runtime_is_debug_build": summary["runtime_is_debug_build"]}
 
@@ -235,10 +315,6 @@ def main():
         parser.error("Choose a new evidence directory disjoint from the immutable package")
     if not 30 <= args.timeout_seconds <= 600:
         parser.error("--timeout-seconds must be within 30..600")
-    # These paths become arguments of an existing .cmd launcher. Reject cmd
-    # expansion/control characters before invoking it; spaces are quoted normally.
-    if os.name == "nt" and any(character in str(root) + str(out) for character in '%!&|<>^()"\r\n'):
-        parser.error("Windows package/evidence paths cannot contain cmd expansion or control characters")
     out.mkdir(parents=True)
     shutil.copy2(__file__, out / "verifier-input.py")
     record = {"task_id": "P1-018", "milestone": "M5", "status": "failed", "started_utc": utc(),
@@ -255,6 +331,9 @@ def main():
         record["source_revision"] = manifest["source"]["revision"]
         record["declared_build"] = manifest["build"]
         record["packaged_content"] = manifest["content"]
+        fixture = manifest["verification_fixtures"][0]
+        record["verification_fixture"] = fixture
+        record["default_launcher_invoked"] = False
         record["shipping_runtime_hashes"] = {key: value for key, value in before.items() if key.endswith((".pck", ".dll", ".exe", ".x86_64"))}
         if not args.validate_only:
             for mode in (["driving", "presentation"] if args.mode == "all" else [args.mode]):
@@ -272,21 +351,24 @@ def main():
                     for key in list(environment):
                         if key.startswith("PLAYGODOT_"):
                             environment.pop(key)
-                    arguments = [str(root / manifest["artifact"]["launcher"]), "--vehicle=endurance-sedan",
+                    arguments = [str(package_path(root, native_binary(manifest))), "--headless",
+                                 "--rendering-method", "gl_compatibility", "--fixed-fps", "120",
+                                 "--log-file", str(case / "engine.log"), "--",
+                                 "--route-package=" + str(package_path(root, fixture["route_root"])), "--vehicle=endurance-sedan",
                                  "--endurance-sedan-profile" if mode == "driving" else "--sedan-presentation-profile",
                                  "--sedan-evidence-dir=" + str(case), "--run-save-path=" + str(case / "run-save.json"),
                                  "--telemetry-path=" + str(case / "telemetry.jsonl")]
                     command = {"argv": arguments, "cwd": str(home), "started_utc": utc(), "timed_out": False,
-                               "shell": os.name == "nt", "environment": {key: environment[key] for key in (
+                               "shell": False, "environment": {key: environment.get(key) for key in (
                                    "HOME", "XDG_DATA_HOME", "APPDATA", "LOCALAPPDATA", "DOTNET_ROOT", "DOTNET_ROOT_X64",
-                                   "DOTNET_MULTILEVEL_LOOKUP", "DOTNET_GCgen0size", "CANNONBALL_RELEASE_SMOKE", "CANNONBALL_GIT_REVISION")}}
+                                   "DOTNET_MULTILEVEL_LOOKUP", "DOTNET_GCgen0size", "DOTNET_ROLL_FORWARD", "CANNONBALL_RELEASE_SMOKE", "CANNONBALL_GIT_REVISION")}}
                     record["commands"].append(command)
                     logs = []
                     command["exit_status"] = None
                     try:
                         with (case / "stdout.log").open("wb") as stdout, (case / "stderr.log").open("wb") as stderr:
                             process = subprocess.Popen(arguments, cwd=home, env=environment, stdout=stdout, stderr=stderr,
-                                                       shell=os.name == "nt", start_new_session=os.name != "nt",
+                                                       shell=False, start_new_session=os.name != "nt",
                                                        creationflags=subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0)
                             command["pid"] = process.pid
                             try:
@@ -311,18 +393,18 @@ def main():
                             retained = case / f"user-{index:02d}-{path.name}"
                             shutil.copy2(path, retained)
                             logs.append(retained)
-                        logs += [path for path in (case / "stdout.log", case / "stderr.log") if path.is_file()]
+                        logs += [path for path in (case / "stdout.log", case / "stderr.log", case / "engine.log") if path.is_file()]
                         command["logs"] = {path.name: sha(path) for path in logs}
                     log = "\n".join(path.read_text(encoding="utf-8-sig", errors="replace") for path in logs)
                     log = re.sub(r"\x1B\[[0-?]*[ -/]*[@-~]", "", log).replace("\r", "")
                     if command["exit_status"] != 0 or command["timed_out"] or FATAL.search(log) or "PLAYGODOT_" in log:
                         raise ValueError(mode + " process failed, timed out or reported a forbidden runtime diagnostic")
-                    if f"content_version={manifest['content']['content_version']}" not in log:
+                    if f"content_version={fixture['content_version']}" not in log:
                         raise ValueError("Packaged route content identity is absent")
-                    # Duplicated engine file/stdout lines are expected; use the
-                    # process stdout for the unique save-path declaration.
-                    stdout_text = (case / "stdout.log").read_text(encoding="utf-8-sig", errors="replace").replace("\r", "")
-                    record["cases"][mode] = verify_case(case, mode, stdout_text, home, root, before, manifest)
+                    # The native Windows GUI executable may have no console.
+                    # Its explicit engine log is the single authoritative copy.
+                    engine_text = (case / "engine.log").read_text(encoding="utf-8-sig", errors="replace").replace("\r", "")
+                    record["cases"][mode] = verify_case(case, mode, engine_text, home, root, before, manifest)
                 command["disposable_user_data_removed"] = not home.exists()
         record["status"] = "package_hashes_validated_no_runtime_claim" if args.validate_only else "passed"
     except Exception as error:

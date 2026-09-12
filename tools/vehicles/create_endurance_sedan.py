@@ -17,7 +17,7 @@ import bpy
 from mathutils import Vector
 
 sys.path.insert(0,str(Path(__file__).resolve().parent))
-from endurance_sedan import geometry as geo, materials, model  # noqa: E402
+from endurance_sedan import geometry as geo, materials, model, finish_refinement  # noqa: E402
 
 
 def arguments():
@@ -131,6 +131,7 @@ def main():
         if checkpoint['status']!='passed' or len(checkpoint['variants'])!=3:
             raise RuntimeError('Production surfaces require the recorded three-variant blockout proof')
         model.build_production(asset,lods[0],mats,pivots,controls,spec)
+        finish_refinement.apply()
     else:
         model.build_blockout(asset,lods[0],mats,pivots,spec)
     bpy.context.view_layer.update()

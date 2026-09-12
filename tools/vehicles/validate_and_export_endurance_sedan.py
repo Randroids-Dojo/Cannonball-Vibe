@@ -28,6 +28,7 @@ def main():
     parser.add_argument('--inspect-only',action='store_true',help='Write evaluated diagnostics only; never export or claim optimized delivery')
     parser.add_argument('--unbatched-output',type=Path,help='Optional nonshipping GLB for independent component-to-batch correspondence QA')
     parser.add_argument('--prepare-uv-bake',type=Path,help='Explicitly create a NEW evaluated UV bake after source edits; never overwrites the current bake')
+    parser.add_argument('--prepare-corner-bake',type=Path,help='Explicitly create a NEW evaluated corner encoding after source edits; existing bakes are never overwritten')
     args=parser.parse_args(sys.argv[sys.argv.index('--')+1:])
     root=Path(__file__).resolve().parents[2]
     spec_path=root/'docs/vehicles/endurance-sedan/specification.json'
@@ -64,6 +65,9 @@ def main():
         if info['nonmanifold_edges']:errors.append(obj.name+': nonmanifold evaluated edges '+str(info['nonmanifold_edges']))
         if info['triangulated_duplicate_faces'] or info['triangulated_nonmanifold_edges']:
             errors.append(obj.name+': evaluated polygon tessellation is not a closed unique triangle mesh')
+        if (not info['normal_corners'] or info['nonfinite_corner_normals']
+                or info['zero_corner_normals'] or info['nonunit_corner_normals']):
+            errors.append(obj.name+': invalid raw native corner normals before exporter fallback')
         if not info['uv_layers']:errors.append(obj.name+': missing UVs')
         for slot in obj.material_slots:
             if slot.material:materials[slot.material.name]=slot.material
@@ -127,10 +131,14 @@ def main():
         inventory['batch_counts_diagnostic']={name:info['triangles'] for name,info in sorted(batch_counts.items())}
         args.inventory.write_text(json.dumps(inventory,indent=2,sort_keys=True)+'\n',newline='\n')
         raise ValueError('Batching changed the evaluated triangle count')
-    if any(info['nonmanifold_edges'] or info['degenerate_triangles'] or info['degenerate_faces'] or info['duplicate_faces'] or info['triangulated_duplicate_faces'] or info['triangulated_nonmanifold_edges'] for info in batch_counts.values()):
+    def invalid_batch(info):
+        return (any(info[key] for key in ('nonmanifold_edges','degenerate_triangles','degenerate_faces',
+                'duplicate_faces','triangulated_duplicate_faces','triangulated_nonmanifold_edges',
+                'nonfinite_corner_normals','zero_corner_normals','nonunit_corner_normals')) or not info['normal_corners'])
+    if any(invalid_batch(info) for info in batch_counts.values()):
         inventory['status']='failed'
         inventory['errors'].append('Batching produced invalid evaluated geometry')
-        inventory['invalid_batches']={name:info for name,info in batch_counts.items() if info['nonmanifold_edges'] or info['degenerate_triangles'] or info['degenerate_faces'] or info['duplicate_faces'] or info['triangulated_duplicate_faces'] or info['triangulated_nonmanifold_edges']}
+        inventory['invalid_batches']={name:info for name,info in batch_counts.items() if invalid_batch(info)}
         args.inventory.write_text(json.dumps(inventory,indent=2,sort_keys=True)+'\n',newline='\n')
         raise ValueError('Batching produced invalid evaluated geometry')
     inventory['meshes']=[{'name':name,**info} for name,info in sorted(batch_counts.items())]
@@ -139,9 +147,28 @@ def main():
     inventory['runtime_mesh_count']=len(batch_counts)
     # Same pinned exporter options and axis conversion as the existing adapter.
     export_glb(args.output.resolve(),profile)
+    from endurance_sedan import corner_bake
+    raw_corner_export=args.output.with_name(args.output.stem+'.pre-corner-bake.glb')
+    if raw_corner_export.exists():raise ValueError('Use a fresh output directory; raw corner export evidence already exists')
+    shutil.copyfile(args.output,raw_corner_export)
+    inventory['raw_glb_geometry']=inspect_geometry(raw_corner_export)
+    if inventory['raw_glb_geometry']['status']!='passed':
+        inventory['status']='failed'
+        inventory['errors'].append('Actual pre-bake exported triangle bytes failed geometry validation')
+        args.inventory.write_text(json.dumps(inventory,indent=2,sort_keys=True)+'\n',newline='\n')
+        raise ValueError(inventory['errors'])
+    corner_path=args.prepare_corner_bake or root/profile['evaluated_corner_bake']['path']
+    if profile['evaluated_corner_bake']['limits']!=corner_bake.LIMITS:
+        raise ValueError('Evaluated corner bake tolerances differ from the pinned profile')
+    if args.prepare_corner_bake:
+        corner_bake.create(args.source,args.output,corner_path)
+    inventory['evaluated_corner_bake']=corner_bake.apply(args.source,args.output,corner_path)
+    inventory['evaluated_corner_bake']['validator_sha256']=digest(Path(corner_bake.__file__))
+    inventory['evaluated_corner_bake']['path']=corner_path.relative_to(root).as_posix() if corner_path.is_absolute() and corner_path.is_relative_to(root) else corner_path.as_posix()
+    inventory['evaluated_corner_bake']['raw_export_path']=raw_corner_export.as_posix()
     # Blender's evaluated bevel UVs vary by a few float ULPs across processes.
-    # Retain that raw export, then restore only the reviewed, source-bound UV
-    # bytes. Every non-UV byte and the exact source must still match the bake.
+    # This separately retained stage preserves the original UV-only contract
+    # after validated corner encoding; original exporter bytes remain above.
     from endurance_sedan import uv_bake
     raw_export=args.output.with_name(args.output.stem+'.pre-uv-bake.glb')
     if raw_export.exists():raise ValueError('Use a fresh output directory; raw export evidence already exists')
