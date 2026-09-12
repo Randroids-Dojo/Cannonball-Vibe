@@ -37,6 +37,8 @@ var _allowed_capabilities: Array[String] = ["read"]
 var _pending_signals: Dictionary = {}
 var _signal_results: Dictionary = {}
 var _close_after_response := false
+var _quit_requested := false
+var _quit_resources: Dictionary = {}
 var _transcript_path := ""
 var _id_regex := RegEx.new()
 var _pressed_actions: Array[String] = []
@@ -102,7 +104,7 @@ func _parse_allowed_capabilities(raw: String) -> Array[String]:
 	var result: Array[String] = ["read"]
 	for value in raw.split(",", false):
 		var capability := value.strip_edges()
-		if capability in ["read", "input", "screenshot"] and not result.has(capability):
+		if capability in ["read", "input", "screenshot", "shutdown"] and not result.has(capability):
 			result.append(capability)
 	return result
 
@@ -113,10 +115,20 @@ func _fail_start(message: String) -> void:
 
 
 func _process(_delta: float) -> void:
-	_accept_connection()
+	if not _quit_requested:
+		_accept_connection()
 	_poll_connection()
-	_poll_pending_signals()
+	if not _quit_requested:
+		_poll_pending_signals()
 	_flush_outbound()
+	if _quit_requested and _peer == null:
+		# Accepted authorization survives a disconnected peer. Both a completed
+		# write and peer loss pass through the same session resource cleanup.
+		_quit_resources["pending_waits_after"] = _pending_signals.size()
+		_quit_resources["held_inputs_after"] = _owned_input_count()
+		print("PLAYGODOT_QUIT " + JSON.stringify(_quit_resources))
+		set_process(false)
+		get_tree().quit(0)
 
 
 func _accept_connection() -> void:
@@ -262,6 +274,8 @@ func _dispatch(method: String, params: Dictionary, request_id: Variant) -> Dicti
 		"session.close":
 			_close_after_response = true
 			return {"result": {"closed": true}}
+		"session.quit":
+			return _require("shutdown", func(): return _session_quit(params))
 		"scene.current":
 			return _require("read", func(): return _scene_current())
 		"scene.tree":
@@ -304,6 +318,24 @@ func _require(capability: String, operation: Callable) -> Dictionary:
 	if not _granted_capabilities.has(capability):
 		return _error(-32003, "CAPABILITY_DENIED", "Capability is not granted")
 	return operation.call()
+
+
+func _owned_input_count() -> int:
+	return _pressed_actions.size() + _pressed_keys.size() + _joy_axes.size() + _pressed_joy_buttons.size() + int(_application_focus_out)
+
+
+func _session_quit(params: Dictionary) -> Dictionary:
+	if not params.is_empty():
+		return _error(-32602, "INVALID_PARAMS", "session.quit accepts no parameters")
+	_quit_requested = true
+	_quit_resources = {
+		"pending_waits_before": _pending_signals.size(),
+		"held_inputs_before": _owned_input_count(),
+	}
+	print("PLAYGODOT_QUIT_ACCEPTED")
+	_listener.stop()
+	_close_after_response = true
+	return {"result": {"quitting": true}}
 
 
 func _session_hello(params: Dictionary) -> Dictionary:
@@ -353,7 +385,7 @@ func _capability_document() -> Dictionary:
 	return {
 		"granted": _granted_capabilities,
 		"methods": [
-			"session.ping", "session.capabilities", "session.close",
+			"session.ping", "session.capabilities", "session.close", "session.quit",
 			"scene.current", "scene.tree", "node.find", "node.describe",
 			"node.children", "ui.describe", "ui.focused", "signal.wait",
 			"input.action", "input.key", "input.joypad_motion",
@@ -582,8 +614,11 @@ func _signal_wait(params: Dictionary, request_id: Variant) -> Dictionary:
 	var key := str(request_id)
 	if _pending_signals.has(key):
 		return _error(-32600, "INVALID_REQUEST", "Request ID is already pending")
-	var callback := Callable(self, "_on_pending_signal").bind(key)
-	node.connect(signal_name, callback, CONNECT_ONE_SHOT)
+	# Each pending request needs a distinct native connection identity.
+	var callback := func(): _on_pending_signal(key)
+	var connection_error := node.connect(signal_name, callback, CONNECT_ONE_SHOT)
+	if connection_error != OK:
+		return _error(-32603, "INTERNAL_ERROR", "Signal wait connection failed")
 	_pending_signals[key] = {
 		"id": request_id,
 		"node": node,
@@ -608,7 +643,7 @@ func _poll_pending_signals() -> void:
 			_pending_signals.erase(key)
 			_signal_results.erase(key)
 		elif Time.get_ticks_msec() >= pending["deadline"]:
-			var node: Node = pending["node"]
+			var node = pending["node"]
 			if is_instance_valid(node) and node.is_connected(pending["signal"], pending["callback"]):
 				node.disconnect(pending["signal"], pending["callback"])
 			_send_error(pending["id"], -32008, "TIMEOUT", "Signal wait timed out")
@@ -961,7 +996,7 @@ func _record(request_id: Variant, method: String, outcome: String, started_ms: i
 
 func _clear_connection() -> void:
 	for pending in _pending_signals.values():
-		var node: Node = pending["node"]
+		var node = pending["node"]
 		if is_instance_valid(node) and node.is_connected(pending["signal"], pending["callback"]):
 			node.disconnect(pending["signal"], pending["callback"])
 		_record(pending["id"], "signal.wait", "cancelled", pending["started"])

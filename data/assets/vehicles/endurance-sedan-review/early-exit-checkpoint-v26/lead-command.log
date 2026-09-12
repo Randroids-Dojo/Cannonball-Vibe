@@ -1,0 +1,2 @@
+{"status": "passed", "entries": 846, "output": "C:\\Dev\\Cannonball-Vibe-sedan\\data\\assets\\vehicles\\endurance-sedan-review\\early-exit-checkpoint-v26\\early-exit-checkpoint-v26.zip", "sha256": "3a027dca13ddc634c12437b6cabd264a2a7437fdede68baff74229bea2d3281d"}
+{"task_id": "P1-018", "utc": "2026-09-12T19:15:29.005717+00:00", "archive_sha256": "3a027dca13ddc634c12437b6cabd264a2a7437fdede68baff74229bea2d3281d", "archive_bytes": 44963804, "inputs": 846, "directly_byte_compared": true, "lead_reread_all_member_sha256_and_crc_twice": true, "human_approval_reference": null}

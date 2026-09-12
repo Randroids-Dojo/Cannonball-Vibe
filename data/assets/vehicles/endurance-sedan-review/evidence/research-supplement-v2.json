@@ -1,0 +1,599 @@
+{
+  "task_id": "P1-018",
+  "milestone": "M5",
+  "status": "passed",
+  "started_utc": "2026-09-11T17:49:42.229656+00:00",
+  "git_revision": "eb5703e55f3656e91bd80fb79502f10ce250554b",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.14.6",
+  "zlib_runtime": "1.3.1.zlib-ng",
+  "tool_sha256": "1310e66035402d9eccaef4c0b2fe6d474f0b56958e914138d3f57be6285b18ff",
+  "input_manifest": {
+    "path": "reports/p1-018/research/retention-supplement-v2.json",
+    "sha256": "c777fabf37345d44442c5ed974cc270dcc345b4894845c73b83961c746301263"
+  },
+  "entries": [
+    {
+      "path": "reports/p1-018/research/decal-cost-source-01/REVIEW.md",
+      "sha256": "6aa476fbdf3847bef7c979dfed70212b2671681d1b37a42933615295c5d7a11c",
+      "bytes": 3186,
+      "reason": "Original exact-engine source analysis of decal resource, internal cluster draw and monitor boundaries"
+    },
+    {
+      "path": "reports/p1-018/research/decal-cost-source-01/review.json",
+      "sha256": "13b90ce6aa892cb193f1df824d56cf96b5e1241b994339a2d1d94ccdab890b24",
+      "bytes": 21560,
+      "reason": "Original exact-engine source analysis of decal resource, internal cluster draw and monitor boundaries"
+    },
+    {
+      "path": "reports/p1-018/research/decal-cost-source-01/sources-02.json",
+      "sha256": "1f13ae9b0ca4f4d8bbc3521ee50f0e54af40d44a53f3a57cfb4abe2f5f6e77e6",
+      "bytes": 5263,
+      "reason": "Original exact-engine source analysis of decal resource, internal cluster draw and monitor boundaries"
+    },
+    {
+      "path": "reports/p1-018/research/decal-cost-source-01/sources-03.json",
+      "sha256": "a0ddb71c289ed4ecadbf9cb2c4d1fbd7db61842675cd711c1989e3f4c71d24f6",
+      "bytes": 3418,
+      "reason": "Original exact-engine source analysis of decal resource, internal cluster draw and monitor boundaries"
+    },
+    {
+      "path": "reports/p1-018/research/decal-cost-source-01/sources.json",
+      "sha256": "bf1aba607128b5d571d987a24d187a41145fbc5f599e7084e365ee018a5941b3",
+      "bytes": 8903,
+      "reason": "Original exact-engine source analysis of decal resource, internal cluster draw and monitor boundaries"
+    },
+    {
+      "path": "reports/p1-018/research/pedal-view-33-01/HANDOFF-01.md",
+      "sha256": "887b032d16458e1d850b216eced632161500a723cbe96f2879b8d293075e1a03",
+      "bytes": 2215,
+      "reason": "Source33 camera containment/ray proofs, retained failed diagnostic, exact before/after native stills and final measured camera handoff"
+    },
+    {
+      "path": "reports/p1-018/research/pedal-view-33-01/actual-verification-05/7e0f0ba3c4b1-pedals.png",
+      "sha256": "7e0f0ba3c4b1ac6f013da6a9bf29f0d303de43e711d728c235612b3ea9776706",
+      "bytes": 3237334,
+      "reason": "Source33 camera containment/ray proofs, retained failed diagnostic, exact before/after native stills and final measured camera handoff"
+    },
+    {
+      "path": "reports/p1-018/research/pedal-view-33-01/actual-verification-05/a7afbb6381bf-20260911T174116.483905Z-source33-cabin-worklight-stills-02.json",
+      "sha256": "a7afbb6381bf30b29776af4849fdc835fcaff841e469d174292fc2c2692b62a3",
+      "bytes": 1704,
+      "reason": "Source33 camera containment/ray proofs, retained failed diagnostic, exact before/after native stills and final measured camera handoff"
+    },
+    {
+      "path": "reports/p1-018/research/pedal-view-33-01/actual-verification-05/c75246f8c721-render.py",
+      "sha256": "c75246f8c72139d78fc8da0760a3488d87c214fed4b56da49d6d1861686b39d1",
+      "bytes": 16768,
+      "reason": "Source33 camera containment/ray proofs, retained failed diagnostic, exact before/after native stills and final measured camera handoff"
+    },
+    {
+      "path": "reports/p1-018/research/pedal-view-33-01/actual-verification-05/cf0bc709ae4a-manifest.json",
+      "sha256": "cf0bc709ae4aa9a2f737237851414e3a70558739c3c3246639f52833ecaec8d4",
+      "bytes": 3914,
+      "reason": "Source33 camera containment/ray proofs, retained failed diagnostic, exact before/after native stills and final measured camera handoff"
+    },
+    {
+      "path": "reports/p1-018/research/pedal-view-33-01/actual-verification-05/review.json",
+      "sha256": "fd3f861402c5963735d6e56765b706838840d84db969ec3cb411c7eb2455bc94",
+      "bytes": 4706,
+      "reason": "Source33 camera containment/ray proofs, retained failed diagnostic, exact before/after native stills and final measured camera handoff"
+    },
+    {
+      "path": "reports/p1-018/research/pedal-view-33-01/articulation-03.log",
+      "sha256": "4fe1294ac4d26739578ff6a6f174db20f95d917ae184627667e9fd2b47f5361a",
+      "bytes": 1876,
+      "reason": "Source33 camera containment/ray proofs, retained failed diagnostic, exact before/after native stills and final measured camera handoff"
+    },
+    {
+      "path": "reports/p1-018/research/pedal-view-33-01/articulation-04.log",
+      "sha256": "ed7cfe8a5bdbd4768b9cd1bd190c85c823e636b9a3543b36cd54b89d35ca7bdf",
+      "bytes": 812,
+      "reason": "Source33 camera containment/ray proofs, retained failed diagnostic, exact before/after native stills and final measured camera handoff"
+    },
+    {
+      "path": "reports/p1-018/research/pedal-view-33-01/articulation-04/articulation.json",
+      "sha256": "cefba8f554a0076fd39e6f8addda0a18fdfa512e7b2e3b1b79431ff0a680c3ee",
+      "bytes": 3529398,
+      "reason": "Source33 camera containment/ray proofs, retained failed diagnostic, exact before/after native stills and final measured camera handoff"
+    },
+    {
+      "path": "reports/p1-018/research/pedal-view-33-01/geometry-01/geometry.json",
+      "sha256": "a89139cd030cb8d15e93bef10a14095be7f6a133c1e96cb63f0ed0dc84d24619",
+      "bytes": 335714,
+      "reason": "Source33 camera containment/ray proofs, retained failed diagnostic, exact before/after native stills and final measured camera handoff"
+    },
+    {
+      "path": "reports/p1-018/research/pedal-view-33-01/geometry-02.log",
+      "sha256": "ec79097ade80e7aad0c596af4c49e4d19f646003ee6aedb8553b89d8c7311380",
+      "bytes": 4582,
+      "reason": "Source33 camera containment/ray proofs, retained failed diagnostic, exact before/after native stills and final measured camera handoff"
+    },
+    {
+      "path": "reports/p1-018/research/pedal-view-33-01/geometry-02/geometry.json",
+      "sha256": "b137c60a541874bca1d0a500fa5cd04bf85e68e7a0c62dd26710685977f8af82",
+      "bytes": 757267,
+      "reason": "Source33 camera containment/ray proofs, retained failed diagnostic, exact before/after native stills and final measured camera handoff"
+    },
+    {
+      "path": "reports/p1-018/research/pedal-view-33-01/handoff-01.json",
+      "sha256": "2a314dca5296f88e553f4d8c6abb971e816d18c6069a0893e1d3f66c816af9e6",
+      "bytes": 13461,
+      "reason": "Source33 camera containment/ray proofs, retained failed diagnostic, exact before/after native stills and final measured camera handoff"
+    },
+    {
+      "path": "reports/p1-018/research/pedal-view-33-01/inputs-01.json",
+      "sha256": "bf3df87762a2d0802151a6e8608f1b988b92e2c81d47e49a4235a0c83d832383",
+      "bytes": 1964,
+      "reason": "Source33 camera containment/ray proofs, retained failed diagnostic, exact before/after native stills and final measured camera handoff"
+    },
+    {
+      "path": "reports/p1-018/research/pedal-view-33-01/inputs/08b7c868fe0b-render.py",
+      "sha256": "08b7c868fe0bd8b32e4cfa99c10aeb0655ae2ef32325d5ed501029e0dd73e057",
+      "bytes": 16373,
+      "reason": "Source33 camera containment/ray proofs, retained failed diagnostic, exact before/after native stills and final measured camera handoff"
+    },
+    {
+      "path": "reports/p1-018/research/pedal-view-33-01/inputs/3603d261b1a8-pedals.png",
+      "sha256": "3603d261b1a8f8a3fd6eff74767d2601f9081f665ad2150a42cacac3d73afe3c",
+      "bytes": 3046153,
+      "reason": "Source33 camera containment/ray proofs, retained failed diagnostic, exact before/after native stills and final measured camera handoff"
+    },
+    {
+      "path": "reports/p1-018/research/pedal-view-33-01/inputs/6502d96dd00a-specification.json",
+      "sha256": "6502d96dd00a9595c8e9989c45f0bdb38148996dbf5cc4ff638114b8bafa6eda",
+      "bytes": 51775,
+      "reason": "Source33 camera containment/ray proofs, retained failed diagnostic, exact before/after native stills and final measured camera handoff"
+    },
+    {
+      "path": "reports/p1-018/research/pedal-view-33-01/inputs/affe4d292c5d-cabin.py",
+      "sha256": "affe4d292c5dcc8f0a790d82ba3ff0d32827ac8191855f69c110d3ae42557c61",
+      "bytes": 16044,
+      "reason": "Source33 camera containment/ray proofs, retained failed diagnostic, exact before/after native stills and final measured camera handoff"
+    },
+    {
+      "path": "reports/p1-018/research/pedal-view-33-01/inputs/f54de3844adf-manifest.json",
+      "sha256": "f54de3844adfa56ece4f03b6274770023fb3b1caed6d549aced08471918a95d4",
+      "bytes": 3447,
+      "reason": "Source33 camera containment/ray proofs, retained failed diagnostic, exact before/after native stills and final measured camera handoff"
+    },
+    {
+      "path": "reports/p1-018/research/pedal-view-33-01/inputs/fbc92e0c9b6d-mechanisms.py",
+      "sha256": "fbc92e0c9b6d6efcf19e171af866f0f0d62943f8b71949f0ef3539575efdde88",
+      "bytes": 5975,
+      "reason": "Source33 camera containment/ray proofs, retained failed diagnostic, exact before/after native stills and final measured camera handoff"
+    },
+    {
+      "path": "reports/p1-018/research/pedal-view-33-01/probe_articulation_03.py",
+      "sha256": "d59d22127374474704df64c78fc04ef05016ced69f9ba77126a36cf7f59620cb",
+      "bytes": 6572,
+      "reason": "Source33 camera containment/ray proofs, retained failed diagnostic, exact before/after native stills and final measured camera handoff"
+    },
+    {
+      "path": "reports/p1-018/research/pedal-view-33-01/probe_articulation_04.py",
+      "sha256": "49aba334f7ad4e1d3772afefafbb6629ba03744fcf8f098cf7905e5702e5b5b5",
+      "bytes": 9297,
+      "reason": "Source33 camera containment/ray proofs, retained failed diagnostic, exact before/after native stills and final measured camera handoff"
+    },
+    {
+      "path": "reports/p1-018/research/pedal-view-33-01/probe_camera_01.py",
+      "sha256": "d833e64668d9dc4195c28bc96e2f925d68c1ca08d8dbc45bce63fcc32bc10cdd",
+      "bytes": 8847,
+      "reason": "Source33 camera containment/ray proofs, retained failed diagnostic, exact before/after native stills and final measured camera handoff"
+    },
+    {
+      "path": "reports/p1-018/research/pedal-view-33-01/probe_camera_02.py",
+      "sha256": "d205045b22c34470d5666ab68a896475b0a95e302445187d7cafd943667b95ff",
+      "bytes": 11562,
+      "reason": "Source33 camera containment/ray proofs, retained failed diagnostic, exact before/after native stills and final measured camera handoff"
+    },
+    {
+      "path": "reports/p1-018/research/production-plan-addendum-01/after.md",
+      "sha256": "15ab5be6812f5359f741ca88019a79a97c687e1e782c9b38f5ccc60ecf863b90",
+      "bytes": 2705,
+      "reason": "Original claim chronology and minimal dated selection/status clarification"
+    },
+    {
+      "path": "reports/p1-018/research/production-plan-addendum-01/before.md",
+      "sha256": "e72233a32548e06709aaabe311eea3bd7a718809af79ab96ba866bb90d96fec3",
+      "bytes": 1818,
+      "reason": "Original claim chronology and minimal dated selection/status clarification"
+    },
+    {
+      "path": "reports/p1-018/research/production-plan-addendum-01/verification.json",
+      "sha256": "b5a4ba7508be34d4a3b9cab6edb4866074fcd54294e3030ce6f287b402d22c2d",
+      "bytes": 943,
+      "reason": "Original claim chronology and minimal dated selection/status clarification"
+    },
+    {
+      "path": "reports/p1-018/research/source-input-binding-33/asset-input-inventory.json",
+      "sha256": "19d3737331125984cd11f736516f386aac0f843f234021148e9c25e41733b653",
+      "bytes": 25638,
+      "reason": "Reopened promoted canonical source33, six original packed textures and Bfont-derived lettering source ancestry; final GLB binding pending"
+    },
+    {
+      "path": "reports/p1-018/research/source-input-binding-33/inputs/046cef29dfdace8a7a1e941e72fc19a20aab2b2ac56025143a4c19b4a6d993cc-microtextures.py",
+      "sha256": "046cef29dfdace8a7a1e941e72fc19a20aab2b2ac56025143a4c19b4a6d993cc",
+      "bytes": 3357,
+      "reason": "Reopened promoted canonical source33, six original packed textures and Bfont-derived lettering source ancestry; final GLB binding pending"
+    },
+    {
+      "path": "reports/p1-018/research/source-input-binding-33/inputs/08b7c868fe0bd8b32e4cfa99c10aeb0655ae2ef32325d5ed501029e0dd73e057-render.py",
+      "sha256": "08b7c868fe0bd8b32e4cfa99c10aeb0655ae2ef32325d5ed501029e0dd73e057",
+      "bytes": 16373,
+      "reason": "Reopened promoted canonical source33, six original packed textures and Bfont-derived lettering source ancestry; final GLB binding pending"
+    },
+    {
+      "path": "reports/p1-018/research/source-input-binding-33/inputs/0e9fad40b0d14ba1265958bd6836d133fde89474efd6f988860f46fc2cde2b90-geometry.py",
+      "sha256": "0e9fad40b0d14ba1265958bd6836d133fde89474efd6f988860f46fc2cde2b90",
+      "bytes": 11807,
+      "reason": "Reopened promoted canonical source33, six original packed textures and Bfont-derived lettering source ancestry; final GLB binding pending"
+    },
+    {
+      "path": "reports/p1-018/research/source-input-binding-33/inputs/1310e66035402d9eccaef4c0b2fe6d474f0b56958e914138d3f57be6285b18ff-retain_evidence.py",
+      "sha256": "1310e66035402d9eccaef4c0b2fe6d474f0b56958e914138d3f57be6285b18ff",
+      "bytes": 5910,
+      "reason": "Reopened promoted canonical source33, six original packed textures and Bfont-derived lettering source ancestry; final GLB binding pending"
+    },
+    {
+      "path": "reports/p1-018/research/source-input-binding-33/inputs/1ef3d2e30ef59df81fe1ff678573129c1850762274a24e6412c68dc15e586de7-create_endurance_sedan.py",
+      "sha256": "1ef3d2e30ef59df81fe1ff678573129c1850762274a24e6412c68dc15e586de7",
+      "bytes": 9496,
+      "reason": "Reopened promoted canonical source33, six original packed textures and Bfont-derived lettering source ancestry; final GLB binding pending"
+    },
+    {
+      "path": "reports/p1-018/research/source-input-binding-33/inputs/2177a8fca3b500f25d65edfcb12a6e8a6a4d3991968f9860c3b6d0bef161c43e-wheels.py",
+      "sha256": "2177a8fca3b500f25d65edfcb12a6e8a6a4d3991968f9860c3b6d0bef161c43e",
+      "bytes": 6147,
+      "reason": "Reopened promoted canonical source33, six original packed textures and Bfont-derived lettering source ancestry; final GLB binding pending"
+    },
+    {
+      "path": "reports/p1-018/research/source-input-binding-33/inputs/230827eb0257dd454e9429ddd3dd68e51107b540d58f6e18e893542196805fb7-review_overlays.py",
+      "sha256": "230827eb0257dd454e9429ddd3dd68e51107b540d58f6e18e893542196805fb7",
+      "bytes": 7740,
+      "reason": "Reopened promoted canonical source33, six original packed textures and Bfont-derived lettering source ancestry; final GLB binding pending"
+    },
+    {
+      "path": "reports/p1-018/research/source-input-binding-33/inputs/238751b551f42b3b7c8a80475e63b83f167f47987459d0e8a8d11eb524ae6a9d-materials.py",
+      "sha256": "238751b551f42b3b7c8a80475e63b83f167f47987459d0e8a8d11eb524ae6a9d",
+      "bytes": 3562,
+      "reason": "Reopened promoted canonical source33, six original packed textures and Bfont-derived lettering source ancestry; final GLB binding pending"
+    },
+    {
+      "path": "reports/p1-018/research/source-input-binding-33/inputs/34b2fc7df07083961f7c2b5ab1290424d0bf9eaaa583ce076a89e28c891d6404-__init__.py",
+      "sha256": "34b2fc7df07083961f7c2b5ab1290424d0bf9eaaa583ce076a89e28c891d6404",
+      "bytes": 70,
+      "reason": "Reopened promoted canonical source33, six original packed textures and Bfont-derived lettering source ancestry; final GLB binding pending"
+    },
+    {
+      "path": "reports/p1-018/research/source-input-binding-33/inputs/36f1728a6db5b8faab777aa8b4c55a67b2b55d695c90e53b745ff8f749531768-cabin_floor_panels.py",
+      "sha256": "36f1728a6db5b8faab777aa8b4c55a67b2b55d695c90e53b745ff8f749531768",
+      "bytes": 1850,
+      "reason": "Reopened promoted canonical source33, six original packed textures and Bfont-derived lettering source ancestry; final GLB binding pending"
+    },
+    {
+      "path": "reports/p1-018/research/source-input-binding-33/inputs/468bf1f954b98c8bfeace471f014110ffd29aebb3de4f1ba0b5da538557048c1-roof_trim.py",
+      "sha256": "468bf1f954b98c8bfeace471f014110ffd29aebb3de4f1ba0b5da538557048c1",
+      "bytes": 5674,
+      "reason": "Reopened promoted canonical source33, six original packed textures and Bfont-derived lettering source ancestry; final GLB binding pending"
+    },
+    {
+      "path": "reports/p1-018/research/source-input-binding-33/inputs/4eabaf93243aae87a1b82d21e3311998bd4f338dd7564ff928431104ab5932c7-pillar_joints.py",
+      "sha256": "4eabaf93243aae87a1b82d21e3311998bd4f338dd7564ff928431104ab5932c7",
+      "bytes": 6166,
+      "reason": "Reopened promoted canonical source33, six original packed textures and Bfont-derived lettering source ancestry; final GLB binding pending"
+    },
+    {
+      "path": "reports/p1-018/research/source-input-binding-33/inputs/5386efcdf1f13b97d61f09c10811003365e23341f0f37c9e07d993c58fa004c4-model.py",
+      "sha256": "5386efcdf1f13b97d61f09c10811003365e23341f0f37c9e07d993c58fa004c4",
+      "bytes": 27786,
+      "reason": "Reopened promoted canonical source33, six original packed textures and Bfont-derived lettering source ancestry; final GLB binding pending"
+    },
+    {
+      "path": "reports/p1-018/research/source-input-binding-33/inputs/5cbce1dd66215eb66d97489d50a9ae64fe355f36c8ab17e06ee9001ac51ee861-rear_optics.py",
+      "sha256": "5cbce1dd66215eb66d97489d50a9ae64fe355f36c8ab17e06ee9001ac51ee861",
+      "bytes": 3734,
+      "reason": "Reopened promoted canonical source33, six original packed textures and Bfont-derived lettering source ancestry; final GLB binding pending"
+    },
+    {
+      "path": "reports/p1-018/research/source-input-binding-33/inputs/6502d96dd00a9595c8e9989c45f0bdb38148996dbf5cc4ff638114b8bafa6eda-specification.json",
+      "sha256": "6502d96dd00a9595c8e9989c45f0bdb38148996dbf5cc4ff638114b8bafa6eda",
+      "bytes": 51775,
+      "reason": "Reopened promoted canonical source33, six original packed textures and Bfont-derived lettering source ancestry; final GLB binding pending"
+    },
+    {
+      "path": "reports/p1-018/research/source-input-binding-33/inputs/79723d411879c86904eea57ac3947cd213e4d7e2ee186a691a9f551222f26ec0-source_dashboard.py",
+      "sha256": "79723d411879c86904eea57ac3947cd213e4d7e2ee186a691a9f551222f26ec0",
+      "bytes": 8594,
+      "reason": "Reopened promoted canonical source33, six original packed textures and Bfont-derived lettering source ancestry; final GLB binding pending"
+    },
+    {
+      "path": "reports/p1-018/research/source-input-binding-33/inputs/84c05fe0c314f03e6001bb21e016c3b59c381d565ddeecbf75ab64a003c6c2b3-construction.py",
+      "sha256": "84c05fe0c314f03e6001bb21e016c3b59c381d565ddeecbf75ab64a003c6c2b3",
+      "bytes": 5929,
+      "reason": "Reopened promoted canonical source33, six original packed textures and Bfont-derived lettering source ancestry; final GLB binding pending"
+    },
+    {
+      "path": "reports/p1-018/research/source-input-binding-33/inputs/8a132925906e5ebbe55457ba5f9c6c3176b496fdea2c44d93b071b6728dc0fee-review.py",
+      "sha256": "8a132925906e5ebbe55457ba5f9c6c3176b496fdea2c44d93b071b6728dc0fee",
+      "bytes": 16437,
+      "reason": "Reopened promoted canonical source33, six original packed textures and Bfont-derived lettering source ancestry; final GLB binding pending"
+    },
+    {
+      "path": "reports/p1-018/research/source-input-binding-33/inputs/8ed24deceaff8e76f9c3fe254b9541cbcf82eb63b43109aa238e871397f3deb4-powertrain.py",
+      "sha256": "8ed24deceaff8e76f9c3fe254b9541cbcf82eb63b43109aa238e871397f3deb4",
+      "bytes": 16213,
+      "reason": "Reopened promoted canonical source33, six original packed textures and Bfont-derived lettering source ancestry; final GLB binding pending"
+    },
+    {
+      "path": "reports/p1-018/research/source-input-binding-33/inputs/975220e0eee903f2cb66f580e92af96ccf2a98c8ef061ba00c0920a4208fa84e-exterior.py",
+      "sha256": "975220e0eee903f2cb66f580e92af96ccf2a98c8ef061ba00c0920a4208fa84e",
+      "bytes": 17788,
+      "reason": "Reopened promoted canonical source33, six original packed textures and Bfont-derived lettering source ancestry; final GLB binding pending"
+    },
+    {
+      "path": "reports/p1-018/research/source-input-binding-33/inputs/affe4d292c5dcc8f0a790d82ba3ff0d32827ac8191855f69c110d3ae42557c61-cabin.py",
+      "sha256": "affe4d292c5dcc8f0a790d82ba3ff0d32827ac8191855f69c110d3ae42557c61",
+      "bytes": 16044,
+      "reason": "Reopened promoted canonical source33, six original packed textures and Bfont-derived lettering source ancestry; final GLB binding pending"
+    },
+    {
+      "path": "reports/p1-018/research/source-input-binding-33/inputs/b23c129aaf7bda19242f2d945f596bf96a95a4c56ce990480ecbeaab95a64b51-optimization.py",
+      "sha256": "b23c129aaf7bda19242f2d945f596bf96a95a4c56ce990480ecbeaab95a64b51",
+      "bytes": 9585,
+      "reason": "Reopened promoted canonical source33, six original packed textures and Bfont-derived lettering source ancestry; final GLB binding pending"
+    },
+    {
+      "path": "reports/p1-018/research/source-input-binding-33/inputs/b2c6506aa412b0ef97217e7a29069c4fa76eb74162c1386d85dd3c69f2df5cf8-tire_surface.py",
+      "sha256": "b2c6506aa412b0ef97217e7a29069c4fa76eb74162c1386d85dd3c69f2df5cf8",
+      "bytes": 3757,
+      "reason": "Reopened promoted canonical source33, six original packed textures and Bfont-derived lettering source ancestry; final GLB binding pending"
+    },
+    {
+      "path": "reports/p1-018/research/source-input-binding-33/inputs/e17a7c2461bf87837e755eab19845f219f91938d13065e0432672f1c29e234ab-floor_panels.py",
+      "sha256": "e17a7c2461bf87837e755eab19845f219f91938d13065e0432672f1c29e234ab",
+      "bytes": 12525,
+      "reason": "Reopened promoted canonical source33, six original packed textures and Bfont-derived lettering source ancestry; final GLB binding pending"
+    },
+    {
+      "path": "reports/p1-018/research/source-input-binding-33/inputs/e7b0aa7b71231eb02c034e930ecb3cf3a4ed0c97a2bb586793cab55de97ee1fe-partition_evidence.py",
+      "sha256": "e7b0aa7b71231eb02c034e930ecb3cf3a4ed0c97a2bb586793cab55de97ee1fe",
+      "bytes": 5693,
+      "reason": "Reopened promoted canonical source33, six original packed textures and Bfont-derived lettering source ancestry; final GLB binding pending"
+    },
+    {
+      "path": "reports/p1-018/research/source-input-binding-33/inputs/e967d03409b017e870dae3a52379da5e8dd4a2f0012bfcb0d747191ed73b23db-capture_suite.py",
+      "sha256": "e967d03409b017e870dae3a52379da5e8dd4a2f0012bfcb0d747191ed73b23db",
+      "bytes": 10743,
+      "reason": "Reopened promoted canonical source33, six original packed textures and Bfont-derived lettering source ancestry; final GLB binding pending"
+    },
+    {
+      "path": "reports/p1-018/research/source-input-binding-33/inputs/fbc92e0c9b6d6efcf19e171af866f0f0d62943f8b71949f0ef3539575efdde88-mechanisms.py",
+      "sha256": "fbc92e0c9b6d6efcf19e171af866f0f0d62943f8b71949f0ef3539575efdde88",
+      "bytes": 5975,
+      "reason": "Reopened promoted canonical source33, six original packed textures and Bfont-derived lettering source ancestry; final GLB binding pending"
+    },
+    {
+      "path": "reports/p1-018/research/source-input-binding-33/inputs/ff7e466c7b68cf670b21907ffccc058c568635d52d1a11aa5692d695ea36625e-blockout-integration.json",
+      "sha256": "ff7e466c7b68cf670b21907ffccc058c568635d52d1a11aa5692d695ea36625e",
+      "bytes": 46083,
+      "reason": "Reopened promoted canonical source33, six original packed textures and Bfont-derived lettering source ancestry; final GLB binding pending"
+    },
+    {
+      "path": "reports/p1-018/research/source-input-binding-33/native-command.json",
+      "sha256": "0b91edaa87d9139737c4eb1376e5726ebd811680308ad0e7368acddc48664b7a",
+      "bytes": 16282,
+      "reason": "Reopened promoted canonical source33, six original packed textures and Bfont-derived lettering source ancestry; final GLB binding pending"
+    },
+    {
+      "path": "reports/p1-018/research/source-input-binding-33/native-inputs.json",
+      "sha256": "8e4635cfb20a2f8c8bf2ff34529914cd36f8cc75a1d4531ec4a7eab76532a018",
+      "bytes": 64449,
+      "reason": "Reopened promoted canonical source33, six original packed textures and Bfont-derived lettering source ancestry; final GLB binding pending"
+    },
+    {
+      "path": "reports/p1-018/research/source-input-binding-33/native.stderr.log",
+      "sha256": "39cd4ceb56b034adf6a3cdb1c1d1ed30046653ef5e0bda605b2735db4c12a363",
+      "bytes": 420,
+      "reason": "Reopened promoted canonical source33, six original packed textures and Bfont-derived lettering source ancestry; final GLB binding pending"
+    },
+    {
+      "path": "reports/p1-018/research/source-input-binding-33/native.stdout.log",
+      "sha256": "f55f003a5382d7d8610c9ee8b1e9f1828073f92a3922892d4afbc168f09f0ebc",
+      "bytes": 367,
+      "reason": "Reopened promoted canonical source33, six original packed textures and Bfont-derived lettering source ancestry; final GLB binding pending"
+    },
+    {
+      "path": "reports/p1-018/research/source33-provenance-preparation-01/inputs/__init__.py",
+      "sha256": "34b2fc7df07083961f7c2b5ab1290424d0bf9eaaa583ce076a89e28c891d6404",
+      "bytes": 70,
+      "reason": "Exact source33 build-input recovery; old renderer versus later capture edit distinguished"
+    },
+    {
+      "path": "reports/p1-018/research/source33-provenance-preparation-01/inputs/blockout-integration.json",
+      "sha256": "ff7e466c7b68cf670b21907ffccc058c568635d52d1a11aa5692d695ea36625e",
+      "bytes": 46083,
+      "reason": "Exact source33 build-input recovery; old renderer versus later capture edit distinguished"
+    },
+    {
+      "path": "reports/p1-018/research/source33-provenance-preparation-01/inputs/cabin.py",
+      "sha256": "affe4d292c5dcc8f0a790d82ba3ff0d32827ac8191855f69c110d3ae42557c61",
+      "bytes": 16044,
+      "reason": "Exact source33 build-input recovery; old renderer versus later capture edit distinguished"
+    },
+    {
+      "path": "reports/p1-018/research/source33-provenance-preparation-01/inputs/cabin_floor_panels.py",
+      "sha256": "36f1728a6db5b8faab777aa8b4c55a67b2b55d695c90e53b745ff8f749531768",
+      "bytes": 1850,
+      "reason": "Exact source33 build-input recovery; old renderer versus later capture edit distinguished"
+    },
+    {
+      "path": "reports/p1-018/research/source33-provenance-preparation-01/inputs/capture_suite.py",
+      "sha256": "e967d03409b017e870dae3a52379da5e8dd4a2f0012bfcb0d747191ed73b23db",
+      "bytes": 10743,
+      "reason": "Exact source33 build-input recovery; old renderer versus later capture edit distinguished"
+    },
+    {
+      "path": "reports/p1-018/research/source33-provenance-preparation-01/inputs/construction.py",
+      "sha256": "84c05fe0c314f03e6001bb21e016c3b59c381d565ddeecbf75ab64a003c6c2b3",
+      "bytes": 5929,
+      "reason": "Exact source33 build-input recovery; old renderer versus later capture edit distinguished"
+    },
+    {
+      "path": "reports/p1-018/research/source33-provenance-preparation-01/inputs/create_endurance_sedan.py",
+      "sha256": "1ef3d2e30ef59df81fe1ff678573129c1850762274a24e6412c68dc15e586de7",
+      "bytes": 9496,
+      "reason": "Exact source33 build-input recovery; old renderer versus later capture edit distinguished"
+    },
+    {
+      "path": "reports/p1-018/research/source33-provenance-preparation-01/inputs/exterior.py",
+      "sha256": "975220e0eee903f2cb66f580e92af96ccf2a98c8ef061ba00c0920a4208fa84e",
+      "bytes": 17788,
+      "reason": "Exact source33 build-input recovery; old renderer versus later capture edit distinguished"
+    },
+    {
+      "path": "reports/p1-018/research/source33-provenance-preparation-01/inputs/floor_panels.py",
+      "sha256": "e17a7c2461bf87837e755eab19845f219f91938d13065e0432672f1c29e234ab",
+      "bytes": 12525,
+      "reason": "Exact source33 build-input recovery; old renderer versus later capture edit distinguished"
+    },
+    {
+      "path": "reports/p1-018/research/source33-provenance-preparation-01/inputs/geometry.py",
+      "sha256": "0e9fad40b0d14ba1265958bd6836d133fde89474efd6f988860f46fc2cde2b90",
+      "bytes": 11807,
+      "reason": "Exact source33 build-input recovery; old renderer versus later capture edit distinguished"
+    },
+    {
+      "path": "reports/p1-018/research/source33-provenance-preparation-01/inputs/materials.py",
+      "sha256": "238751b551f42b3b7c8a80475e63b83f167f47987459d0e8a8d11eb524ae6a9d",
+      "bytes": 3562,
+      "reason": "Exact source33 build-input recovery; old renderer versus later capture edit distinguished"
+    },
+    {
+      "path": "reports/p1-018/research/source33-provenance-preparation-01/inputs/mechanisms.py",
+      "sha256": "fbc92e0c9b6d6efcf19e171af866f0f0d62943f8b71949f0ef3539575efdde88",
+      "bytes": 5975,
+      "reason": "Exact source33 build-input recovery; old renderer versus later capture edit distinguished"
+    },
+    {
+      "path": "reports/p1-018/research/source33-provenance-preparation-01/inputs/microtextures.py",
+      "sha256": "046cef29dfdace8a7a1e941e72fc19a20aab2b2ac56025143a4c19b4a6d993cc",
+      "bytes": 3357,
+      "reason": "Exact source33 build-input recovery; old renderer versus later capture edit distinguished"
+    },
+    {
+      "path": "reports/p1-018/research/source33-provenance-preparation-01/inputs/model.py",
+      "sha256": "5386efcdf1f13b97d61f09c10811003365e23341f0f37c9e07d993c58fa004c4",
+      "bytes": 27786,
+      "reason": "Exact source33 build-input recovery; old renderer versus later capture edit distinguished"
+    },
+    {
+      "path": "reports/p1-018/research/source33-provenance-preparation-01/inputs/optimization.py",
+      "sha256": "b23c129aaf7bda19242f2d945f596bf96a95a4c56ce990480ecbeaab95a64b51",
+      "bytes": 9585,
+      "reason": "Exact source33 build-input recovery; old renderer versus later capture edit distinguished"
+    },
+    {
+      "path": "reports/p1-018/research/source33-provenance-preparation-01/inputs/partition_evidence.py",
+      "sha256": "e7b0aa7b71231eb02c034e930ecb3cf3a4ed0c97a2bb586793cab55de97ee1fe",
+      "bytes": 5693,
+      "reason": "Exact source33 build-input recovery; old renderer versus later capture edit distinguished"
+    },
+    {
+      "path": "reports/p1-018/research/source33-provenance-preparation-01/inputs/pillar_joints.py",
+      "sha256": "4eabaf93243aae87a1b82d21e3311998bd4f338dd7564ff928431104ab5932c7",
+      "bytes": 6166,
+      "reason": "Exact source33 build-input recovery; old renderer versus later capture edit distinguished"
+    },
+    {
+      "path": "reports/p1-018/research/source33-provenance-preparation-01/inputs/powertrain.py",
+      "sha256": "8ed24deceaff8e76f9c3fe254b9541cbcf82eb63b43109aa238e871397f3deb4",
+      "bytes": 16213,
+      "reason": "Exact source33 build-input recovery; old renderer versus later capture edit distinguished"
+    },
+    {
+      "path": "reports/p1-018/research/source33-provenance-preparation-01/inputs/rear_optics.py",
+      "sha256": "5cbce1dd66215eb66d97489d50a9ae64fe355f36c8ab17e06ee9001ac51ee861",
+      "bytes": 3734,
+      "reason": "Exact source33 build-input recovery; old renderer versus later capture edit distinguished"
+    },
+    {
+      "path": "reports/p1-018/research/source33-provenance-preparation-01/inputs/render.py",
+      "sha256": "08b7c868fe0bd8b32e4cfa99c10aeb0655ae2ef32325d5ed501029e0dd73e057",
+      "bytes": 16373,
+      "reason": "Exact source33 build-input recovery; old renderer versus later capture edit distinguished"
+    },
+    {
+      "path": "reports/p1-018/research/source33-provenance-preparation-01/inputs/retain_evidence.py",
+      "sha256": "1310e66035402d9eccaef4c0b2fe6d474f0b56958e914138d3f57be6285b18ff",
+      "bytes": 5910,
+      "reason": "Exact source33 build-input recovery; old renderer versus later capture edit distinguished"
+    },
+    {
+      "path": "reports/p1-018/research/source33-provenance-preparation-01/inputs/review.py",
+      "sha256": "8a132925906e5ebbe55457ba5f9c6c3176b496fdea2c44d93b071b6728dc0fee",
+      "bytes": 16437,
+      "reason": "Exact source33 build-input recovery; old renderer versus later capture edit distinguished"
+    },
+    {
+      "path": "reports/p1-018/research/source33-provenance-preparation-01/inputs/review_overlays.py",
+      "sha256": "230827eb0257dd454e9429ddd3dd68e51107b540d58f6e18e893542196805fb7",
+      "bytes": 7740,
+      "reason": "Exact source33 build-input recovery; old renderer versus later capture edit distinguished"
+    },
+    {
+      "path": "reports/p1-018/research/source33-provenance-preparation-01/inputs/roof_trim.py",
+      "sha256": "468bf1f954b98c8bfeace471f014110ffd29aebb3de4f1ba0b5da538557048c1",
+      "bytes": 5674,
+      "reason": "Exact source33 build-input recovery; old renderer versus later capture edit distinguished"
+    },
+    {
+      "path": "reports/p1-018/research/source33-provenance-preparation-01/inputs/source_dashboard.py",
+      "sha256": "79723d411879c86904eea57ac3947cd213e4d7e2ee186a691a9f551222f26ec0",
+      "bytes": 8594,
+      "reason": "Exact source33 build-input recovery; old renderer versus later capture edit distinguished"
+    },
+    {
+      "path": "reports/p1-018/research/source33-provenance-preparation-01/inputs/specification.json",
+      "sha256": "6502d96dd00a9595c8e9989c45f0bdb38148996dbf5cc4ff638114b8bafa6eda",
+      "bytes": 51775,
+      "reason": "Exact source33 build-input recovery; old renderer versus later capture edit distinguished"
+    },
+    {
+      "path": "reports/p1-018/research/source33-provenance-preparation-01/inputs/tire_surface.py",
+      "sha256": "b2c6506aa412b0ef97217e7a29069c4fa76eb74162c1386d85dd3c69f2df5cf8",
+      "bytes": 3757,
+      "reason": "Exact source33 build-input recovery; old renderer versus later capture edit distinguished"
+    },
+    {
+      "path": "reports/p1-018/research/source33-provenance-preparation-01/inputs/wheels.py",
+      "sha256": "2177a8fca3b500f25d65edfcb12a6e8a6a4d3991968f9860c3b6d0bef161c43e",
+      "bytes": 6147,
+      "reason": "Exact source33 build-input recovery; old renderer versus later capture edit distinguished"
+    },
+    {
+      "path": "reports/p1-018/research/source33-provenance-preparation-01/preparation.json",
+      "sha256": "4a631d81311ffd646dfa57da451948fd3785ee4f53547c1344402e21a4c01051",
+      "bytes": 8981,
+      "reason": "Exact source33 build-input recovery; old renderer versus later capture edit distinguished"
+    }
+  ],
+  "archives": [
+    {
+      "path": "data/assets/vehicles/endurance-sedan-review/evidence/research-supplement-v2.zip",
+      "sha256": "fa64379854563f6887bb43cbf905937f5ae2bc82740479081a410c2ec10cdee2",
+      "bytes": 6948240,
+      "crc_and_member_sha256_verified": true
+    },
+    {
+      "path": "reports/p1-018/retention/research-supplement-v2-repeat.zip",
+      "sha256": "fa64379854563f6887bb43cbf905937f5ae2bc82740479081a410c2ec10cdee2",
+      "bytes": 6948240,
+      "crc_and_member_sha256_verified": true
+    }
+  ],
+  "human_approval_reference": null,
+  "limits": "Evidence retention and byte identity only; individual reports retain their own scope, failures and approval status.",
+  "byte_reproducible": true,
+  "finished_utc": "2026-09-11T17:49:42.844190+00:00"
+}

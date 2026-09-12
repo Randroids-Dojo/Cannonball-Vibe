@@ -1,0 +1,121 @@
+{
+  "source": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\checkpoints\\production-34.blend",
+  "configuration": {
+    "source_sha256": "0b4220d5c3f0024054de17a3c36add3388a4f52be2046cc2b837f3bac9edf793",
+    "renderer_sha256": "62a91929e55512a48483a5dd79faca86e5e5db183ab018bb453b5cd17cdc4f2d",
+    "blender": "5.1.2",
+    "build_hash": "ec6e62d40fa9",
+    "engine": "CYCLES",
+    "device": "GPU",
+    "devices": [
+      {
+        "name": "NVIDIA GeForce RTX 3080 Ti",
+        "type": "CUDA",
+        "enabled": false
+      },
+      {
+        "name": "AMD Ryzen 9 5900X 12-Core Processor",
+        "type": "CPU",
+        "enabled": false
+      },
+      {
+        "name": "NVIDIA GeForce RTX 3080 Ti",
+        "type": "OPTIX",
+        "enabled": true
+      }
+    ],
+    "size": [
+      2560,
+      1440
+    ],
+    "samples": 64,
+    "denoising": true,
+    "view_transform": "AgX",
+    "look": "AgX - Medium High Contrast",
+    "exposure": 0.0,
+    "clay": false,
+    "source_controls": {},
+    "lighting": "neutral",
+    "sequence": "none",
+    "frame_count": 2,
+    "fps": 30,
+    "views": "front_belt_left,rear_seats",
+    "ray_bounces": 10,
+    "source_timeline_fps": 60,
+    "inspection_fill_watts": 20.0,
+    "inspection_fill_disk_diameter_m": {
+      "default": 0.35,
+      "pedals": 0.14,
+      "rear_seats": 0.2,
+      "front_belt_left": 0.2
+    },
+    "inspection_fill_camera_local_m": [
+      0,
+      0,
+      0.025
+    ],
+    "denoiser": "OPENIMAGEDENOISE",
+    "denoising_use_gpu": true,
+    "denoising_prefilter": "ACCURATE",
+    "technical_overlay": null,
+    "review_overlay_tool_sha256": "230827eb0257dd454e9429ddd3dd68e51107b540d58f6e18e893542196805fb7",
+    "review_geometry_tool_sha256": "0e9fad40b0d14ba1265958bd6836d133fde89474efd6f988860f46fc2cde2b90",
+    "material_swatches": {}
+  },
+  "configuration_sha256": "c03fa04a195ff216e1628a093ceb0d0c1f6fc81e2b666affaf31e9a87df11643",
+  "status": "completed",
+  "frames": [
+    {
+      "view": "front_belt_left",
+      "capture_view": "front_belt_left",
+      "path": "front_belt_left.png",
+      "sha256": "ce7ab180ace3118d33aa335f4a96d51d1e86bd63d90f542db70f33484271df69",
+      "seconds": 5.764038199995412,
+      "cold": true,
+      "camera_location": [
+        0.1,
+        -1.07,
+        1.03
+      ],
+      "camera_target": [
+        -0.715,
+        -0.622,
+        0.8
+      ],
+      "orthographic": false,
+      "lens_mm": 22.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 1,
+      "time_seconds": 0.0,
+      "animated_controls": {},
+      "inspection_fill_watts": 20.0,
+      "inspection_fill_disk_diameter_m": 0.20000000298023224
+    },
+    {
+      "view": "rear_seats",
+      "capture_view": "rear_seats",
+      "path": "rear_seats.png",
+      "sha256": "b475c167cc4524d85e67fac6f83f216afda7f334e1cafed000e68f335f4ba393",
+      "seconds": 5.186860099995101,
+      "cold": false,
+      "camera_location": [
+        0,
+        -0.52,
+        1.24
+      ],
+      "camera_target": [
+        0,
+        -1.22,
+        0.674
+      ],
+      "orthographic": false,
+      "lens_mm": 18.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 1,
+      "time_seconds": 0.0,
+      "animated_controls": {},
+      "inspection_fill_watts": 20.0,
+      "inspection_fill_disk_diameter_m": 0.20000000298023224
+    }
+  ]
+}

@@ -21,6 +21,10 @@ jobs:
       DOTNET_ROLL_FORWARD: Major
     steps:
       - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+        env:
+          GIT_CONFIG_COUNT: "1"
+          GIT_CONFIG_KEY_0: lfs.fetchexclude
+          GIT_CONFIG_VALUE_0: data/assets/vehicles/endurance-sedan-review/**
         with:
           lfs: true
           persist-credentials: false
@@ -58,5 +62,99 @@ jobs:
         with:
           name: p1-002-assets-${{ github.run_attempt }}
           path: reports/assets/
+          if-no-files-found: error
+          retention-days: 14
+
+  endurance-sedan:
+    name: Meridian S8R assets and runtime (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-latest]
+    env:
+      DOTNET_ROLL_FORWARD: Major
+      DOTNET_GCgen0size: "800000"
+      CANNONBALL_GIT_REVISION: ${{ github.sha }}
+    steps:
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+        env:
+          GIT_CONFIG_COUNT: "1"
+          GIT_CONFIG_KEY_0: lfs.fetchexclude
+          GIT_CONFIG_VALUE_0: data/assets/vehicles/endurance-sedan-review/**
+        with:
+          lfs: true
+          persist-credentials: false
+      - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5
+        with:
+          dotnet-version: |
+            8.0.423
+            10.0.102
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 22.22.1
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: 3.13.11
+      - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990 # v8.3.2
+        with:
+          version: "0.9.24"
+          enable-cache: true
+      - uses: chickensoft-games/setup-godot@f166999204a4f2722c6fe042fbaa3b3ea0d9c789 # v2
+        with:
+          version: 4.7.1
+          use-dotnet: true
+          include-templates: true
+      - name: Install pinned Git LFS
+        uses: ./.github/actions/pinned-git-lfs
+      - name: Install headless rendering runtime
+        if: ${{ runner.os == 'Linux' }}
+        shell: bash
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends --yes libegl1
+      - name: Install pinned Blender for the declared platform
+        shell: bash
+        run: |
+          platform="linux_x64"
+          extension="tar.xz"
+          if [[ "$RUNNER_OS" == "Windows" ]]; then
+            platform="windows_x64"
+            extension="zip"
+          fi
+          url="$(node -p 'require("./tools/assets/toolchain.json").blender[process.argv[1] + "_url"]' "$platform")"
+          expected="$(node -p 'require("./tools/assets/toolchain.json").blender[process.argv[1] + "_sha256"]' "$platform")"
+          [[ "$url" == https://download.blender.org/release/Blender5.1/* && "$expected" =~ ^[a-f0-9]{64}$ ]]
+          archive="$RUNNER_TEMP/blender.$extension"
+          curl --fail --location --retry 3 --output "$archive" "$url"
+          printf '%s  %s\n' "$expected" "$archive" | sha256sum --check --strict
+          if [[ "$RUNNER_OS" == "Windows" ]]; then
+            unzip -q "$archive" -d "$RUNNER_TEMP"
+            echo "BLENDER_BIN=$RUNNER_TEMP/blender-5.1.2-windows-x64/blender.exe" >> "$GITHUB_ENV"
+          else
+            tar -xJf "$archive" -C "$RUNNER_TEMP"
+            echo "BLENDER_BIN=$RUNNER_TEMP/blender-5.1.2-linux-x64/blender" >> "$GITHUB_ENV"
+          fi
+      - name: Verify pinned machine toolchain
+        shell: bash
+        run: ./scripts/doctor.sh
+      - name: Verify sedan export, clean imports, byte reproducibility and rejection controls
+        shell: bash
+        run: ./scripts/verify-vehicle-asset.sh --vehicle endurance-sedan --all-lods --output "$PWD/reports/assets/p1-018/$RUNNER_OS"
+      - name: Verify sedan presentation and all vehicle driving variants
+        shell: bash
+        run: ./scripts/verify-endurance-sedan.sh --vehicle all --output-root "$PWD/reports/p1-018/runtime/ci/$RUNNER_OS"
+      - name: Verify unchanged Hero GT source, exports and all LODs
+        shell: bash
+        run: ./scripts/verify-vehicle-asset.sh --vehicle hero-gt --all-lods
+      - name: Upload sedan platform evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: p1-018-sedan-${{ runner.os }}-${{ github.run_attempt }}
+          path: |
+            reports/assets/
+            reports/p1-018/runtime/ci/
           if-no-files-found: error
           retention-days: 14

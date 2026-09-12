@@ -45,6 +45,12 @@ public static class GameInputMap
     public static readonly StringName UiLeft = "ui_left";
     public static readonly StringName UiRight = "ui_right";
     public static readonly StringName PauseMenu = "pause_menu";
+    public static readonly StringName VehicleInspection = "vehicle_inspection";
+    public static readonly StringName VehicleHeadlights = "vehicle_headlights";
+    public static readonly StringName VehicleIndicatorLeft = "vehicle_indicator_left";
+    public static readonly StringName VehicleIndicatorRight = "vehicle_indicator_right";
+    public static readonly StringName VehicleHazards = "vehicle_hazards";
+    public static readonly StringName VehicleWipers = "vehicle_wipers";
 
     public static void Configure()
     {
@@ -74,6 +80,12 @@ public static class GameInputMap
         AddKeyAction(TripMapPrevious, Key.Pageup);
         AddKeyAction(TripMapNext, Key.Pagedown);
         AddKeyAction(PauseMenu, Key.Escape);
+        AddKeyAction(VehicleInspection, Key.F2);
+        AddKeyAction(VehicleHeadlights, Key.H);
+        AddKeyAction(VehicleIndicatorLeft, Key.Comma);
+        AddKeyAction(VehicleIndicatorRight, Key.Period);
+        AddKeyAction(VehicleHazards, Key.Slash);
+        AddKeyAction(VehicleWipers, Key.T);
 
         // Driving follows the de-facto Xbox/Steam Input gamepad layout.
         AddJoyAxisAction(AccelerateController, JoyAxis.TriggerRight, 1);
@@ -91,6 +103,7 @@ public static class GameInputMap
         AddJoyAxisAction(CameraLookDown, JoyAxis.RightY, 1);
         AddJoyButtonAction(ToggleTripMap, JoyButton.Back);
         AddJoyButtonAction(PauseMenu, JoyButton.Start);
+        AddJoyButtonAction(VehicleInspection, JoyButton.RightShoulder);
 
         // The trip map uses the right stick and shoulders so its focused buttons
         // remain free to use the standard D-pad/left-stick and A/B UI contract.

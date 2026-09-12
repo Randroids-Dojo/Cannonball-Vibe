@@ -46,6 +46,9 @@ run_step "pytest-map-pipeline" uv run --project tools/map_pipeline --frozen \
   python -m pytest tools/map_pipeline/tests --junitxml "$report_root/python/junit.xml"
 run_step "pytest-playgodot-unit" uv run --project automation/playgodot --frozen \
   python -m pytest automation/playgodot/tests/test_client.py automation/playgodot/tests/test_cli.py \
+  automation/playgodot/tests/test_launcher.py \
+  automation/playgodot/tests/test_camera_cast_state.py \
+  automation/playgodot/tests/test_save_clock_state.py \
   --junitxml "$report_root/python/playgodot-unit.xml"
 run_step "release-smoke-unit" node --test "$repo_root/scripts/release/smoke.test.mjs"
 run_step "godot-smoke" env \

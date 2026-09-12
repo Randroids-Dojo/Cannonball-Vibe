@@ -1,0 +1,185 @@
+{
+  "task_id": "P1-018",
+  "milestone": "M5",
+  "status": "passed",
+  "started_utc": "2026-09-11T18:01:44.531209+00:00",
+  "git_revision": "eb5703e55f3656e91bd80fb79502f10ce250554b",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.14.6",
+  "zlib_runtime": "1.3.1.zlib-ng",
+  "tool_sha256": "1310e66035402d9eccaef4c0b2fe6d474f0b56958e914138d3f57be6285b18ff",
+  "input_manifest": {
+    "path": "reports/p1-018/research/retention-supplement-v3.json",
+    "sha256": "1a9dece85f320b6963f34c8eb9ad813cff502c3b578ec50b82e1868cfb76f25b"
+  },
+  "entries": [
+    {
+      "path": "reports/p1-018/research/runtime-contact-contract-02/REVIEW-01.md",
+      "sha256": "ae5a038c13380195cb6385d87fb497020a2de284f6f7568ca2a96feedaeae690",
+      "bytes": 1698,
+      "reason": "Independent frozen final contact-component and UID inventory audit; exact original source snapshots and conditional RCC-01 collider-recreation witness"
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-contract-02/additional-inputs-02.json",
+      "sha256": "d01a8ccb22611310bcc44d51573d2f1254353754293b15eed8491256db2182ee",
+      "bytes": 390,
+      "reason": "Independent frozen final contact-component and UID inventory audit; exact original source snapshots and conditional RCC-01 collider-recreation witness"
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-contract-02/inputs.json",
+      "sha256": "bc0c06ed74a0b67dae2e662ec8498be0f7a45b78dcc598b83f5e8526c31f666f",
+      "bytes": 5310,
+      "reason": "Independent frozen final contact-component and UID inventory audit; exact original source snapshots and conditional RCC-01 collider-recreation witness"
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-contract-02/inputs/0120d02f9d0d-validate_import.gd",
+      "sha256": "0120d02f9d0da29c6b107f4c3cdf7c432e8c2c2aa74017d98035a3b4136fa033",
+      "bytes": 18618,
+      "reason": "Independent frozen final contact-component and UID inventory audit; exact original source snapshots and conditional RCC-01 collider-recreation witness"
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-contract-02/inputs/111e0b2c1cef-CannonballVehicle.cs",
+      "sha256": "111e0b2c1cefdfe4320c4224c7271d7e091a77eb4d3079737e14567389042536",
+      "bytes": 30923,
+      "reason": "Independent frozen final contact-component and UID inventory audit; exact original source snapshots and conditional RCC-01 collider-recreation witness"
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-contract-02/inputs/12141c277249-EnduranceSedan.tres",
+      "sha256": "12141c277249d25cefbe5f9c896dc1c2c3dbb7830b7419178101d3d6e6888678",
+      "bytes": 1367,
+      "reason": "Independent frozen final contact-component and UID inventory audit; exact original source snapshots and conditional RCC-01 collider-recreation witness"
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-contract-02/inputs/128aa36890a5-HeroGt.tres",
+      "sha256": "128aa36890a5e3ce25c6fbaadeffe862df78895dfa7a939cbecd9b5b10a4af11",
+      "bytes": 215,
+      "reason": "Independent frozen final contact-component and UID inventory audit; exact original source snapshots and conditional RCC-01 collider-recreation witness"
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-contract-02/inputs/249349a841a0-VehicleContactShading.cs.uid",
+      "sha256": "249349a841a0501e2463b54d8feda37b7bb98531f01fd8f0bab579ce1d8fece3",
+      "bytes": 20,
+      "reason": "Independent frozen final contact-component and UID inventory audit; exact original source snapshots and conditional RCC-01 collider-recreation witness"
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-contract-02/inputs/3bfa4a309970-VehicleVisualRig.cs",
+      "sha256": "3bfa4a30997076beaf6e05fe3d5777b505165fd0be443d0ff0e2ec28b5cbc9ba",
+      "bytes": 30774,
+      "reason": "Independent frozen final contact-component and UID inventory audit; exact original source snapshots and conditional RCC-01 collider-recreation witness"
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-contract-02/inputs/40196e5f18be-project.godot",
+      "sha256": "40196e5f18be822adde0ae30ca07a456cb15391ceeb52fb81356985455c2dc71",
+      "bytes": 2225,
+      "reason": "Independent frozen final contact-component and UID inventory audit; exact original source snapshots and conditional RCC-01 collider-recreation witness"
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-contract-02/inputs/55d98423a6f0-OriginRebase.cs",
+      "sha256": "55d98423a6f004a47dc7403a9f47eae6b43cfc10146342faf55db53ed966b35d",
+      "bytes": 677,
+      "reason": "Independent frozen final contact-component and UID inventory audit; exact original source snapshots and conditional RCC-01 collider-recreation witness"
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-contract-02/inputs/598cdff8b4dd-ReferencePerformanceScenario.cs",
+      "sha256": "598cdff8b4dd38daed002f19a30d978b96c1b5a0086dd672fcdbe08d4b67859b",
+      "bytes": 89873,
+      "reason": "Independent frozen final contact-component and UID inventory audit; exact original source snapshots and conditional RCC-01 collider-recreation witness"
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-contract-02/inputs/614f44639098-VehicleVisualRig.cs",
+      "sha256": "614f44639098960327f32c64fd2e32f89642b3a530e8e5ec4046888a9a0ca76a",
+      "bytes": 33343,
+      "reason": "Independent frozen final contact-component and UID inventory audit; exact original source snapshots and conditional RCC-01 collider-recreation witness"
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-contract-02/inputs/67866f613804-verify_endurance_sedan.mjs",
+      "sha256": "67866f6138041b7c128972791c6f5337a2b3da9f8cd5c784739d6a33991b59c4",
+      "bytes": 33977,
+      "reason": "Independent frozen final contact-component and UID inventory audit; exact original source snapshots and conditional RCC-01 collider-recreation witness"
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-contract-02/inputs/6ea88a91117a-Main.cs",
+      "sha256": "6ea88a91117aa3446a7449122e6f3b94baf6d91178b038ff2f1bbd66e13d6d8d",
+      "bytes": 170941,
+      "reason": "Independent frozen final contact-component and UID inventory audit; exact original source snapshots and conditional RCC-01 collider-recreation witness"
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-contract-02/inputs/70e7adcf478f-VehicleContactShading.cs",
+      "sha256": "70e7adcf478febe71940dcfdfa964f8561bdbd533db558520d5d45ef0fceef62",
+      "bytes": 13290,
+      "reason": "Independent frozen final contact-component and UID inventory audit; exact original source snapshots and conditional RCC-01 collider-recreation witness"
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-contract-02/inputs/7607f2a7331c-generate_manifest.mjs",
+      "sha256": "7607f2a7331cfccb8c397a502c1b5b224ba5930403d5cf0eddfb5371ea62af96",
+      "bytes": 13831,
+      "reason": "Independent frozen final contact-component and UID inventory audit; exact original source snapshots and conditional RCC-01 collider-recreation witness"
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-contract-02/inputs/7890736c826e-VehicleRigSetup.cs",
+      "sha256": "7890736c826eb271b1b1069ec262e8ac018707191f43d6282c98c1605813113b",
+      "bytes": 7600,
+      "reason": "Independent frozen final contact-component and UID inventory audit; exact original source snapshots and conditional RCC-01 collider-recreation witness"
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-contract-02/inputs/8176995ef5e7-WorldStreamer.cs",
+      "sha256": "8176995ef5e7c94123ec049e206739fba501f08a2aeeb799901be9ffaa464658",
+      "bytes": 83099,
+      "reason": "Independent frozen final contact-component and UID inventory audit; exact original source snapshots and conditional RCC-01 collider-recreation witness"
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-contract-02/inputs/894ead3cea3e-EnduranceSedanScenario.cs",
+      "sha256": "894ead3cea3e8fd4e640846e0e42bfc4290d10a7577af331055978a3718bf10a",
+      "bytes": 56136,
+      "reason": "Independent frozen final contact-component and UID inventory audit; exact original source snapshots and conditional RCC-01 collider-recreation witness"
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-contract-02/inputs/a6cf39703166-runtime-plan.md",
+      "sha256": "a6cf39703166466c1ed363df89c034e490c4c70601658e3e3433cb763af636ea",
+      "bytes": 50454,
+      "reason": "Independent frozen final contact-component and UID inventory audit; exact original source snapshots and conditional RCC-01 collider-recreation witness"
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-contract-02/inputs/f869fb697913-RoadChunk.cs",
+      "sha256": "f869fb697913fa38b6215f408d19da04b2e8883cd96827138df42efad07e1ddb",
+      "bytes": 70361,
+      "reason": "Independent frozen final contact-component and UID inventory audit; exact original source snapshots and conditional RCC-01 collider-recreation witness"
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-contract-02/review-01.json",
+      "sha256": "e00b42142e96ef10f10b75fdaccec45ce359737e06dc941333052529fab5109f",
+      "bytes": 10085,
+      "reason": "Independent frozen final contact-component and UID inventory audit; exact original source snapshots and conditional RCC-01 collider-recreation witness"
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-contract-02/source-locations.json",
+      "sha256": "68d9b015d86d8c2a493721fa335cc88e6b05bf46f59cdf274c14e6a409b22c92",
+      "bytes": 2319,
+      "reason": "Independent frozen final contact-component and UID inventory audit; exact original source snapshots and conditional RCC-01 collider-recreation witness"
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-contract-02/uid-path-review.json",
+      "sha256": "d6d7c9ee808cdd52bb230af0e6f6a540b94021c81fe8c5c438c9277f6bd6f417",
+      "bytes": 5929,
+      "reason": "Independent frozen final contact-component and UID inventory audit; exact original source snapshots and conditional RCC-01 collider-recreation witness"
+    }
+  ],
+  "archives": [
+    {
+      "path": "data/assets/vehicles/endurance-sedan-review/evidence/research-supplement-v3.zip",
+      "sha256": "ea0393175668983213625d855858a69d942bfa65eb17f6a5ae9210bd578b2594",
+      "bytes": 184853,
+      "crc_and_member_sha256_verified": true
+    },
+    {
+      "path": "reports/p1-018/retention/research-supplement-v3-repeat.zip",
+      "sha256": "ea0393175668983213625d855858a69d942bfa65eb17f6a5ae9210bd578b2594",
+      "bytes": 184853,
+      "crc_and_member_sha256_verified": true
+    }
+  ],
+  "human_approval_reference": null,
+  "limits": "Evidence retention and byte identity only; individual reports retain their own scope, failures and approval status.",
+  "byte_reproducible": true,
+  "finished_utc": "2026-09-11T18:01:44.659508+00:00"
+}

@@ -1,0 +1,249 @@
+{
+  "source": "C:\\Dev\\Cannonball-Vibe-sedan\\data\\assets\\vehicles\\sources\\endurance-sedan.blend",
+  "configuration": {
+    "source_sha256": "8ddb88bfcf82b68ef7cccfa86dbfedf502a4de1fa4e9f0924cffe6609f8d7a50",
+    "renderer_sha256": "c75246f8c72139d78fc8da0760a3488d87c214fed4b56da49d6d1861686b39d1",
+    "blender": "5.1.2",
+    "build_hash": "ec6e62d40fa9",
+    "engine": "CYCLES",
+    "device": "GPU",
+    "devices": [
+      {
+        "name": "NVIDIA GeForce RTX 3080 Ti",
+        "type": "CUDA",
+        "enabled": false
+      },
+      {
+        "name": "AMD Ryzen 9 5900X 12-Core Processor",
+        "type": "CPU",
+        "enabled": false
+      },
+      {
+        "name": "NVIDIA GeForce RTX 3080 Ti",
+        "type": "OPTIX",
+        "enabled": true
+      }
+    ],
+    "size": [
+      2560,
+      1440
+    ],
+    "samples": 64,
+    "denoising": true,
+    "view_transform": "AgX",
+    "look": "AgX - Medium High Contrast",
+    "exposure": 0.0,
+    "clay": false,
+    "source_controls": {},
+    "lighting": "neutral",
+    "sequence": "none",
+    "frame_count": 7,
+    "fps": 30,
+    "views": "cockpit,rear_cabin,rear_seats,pedals,upholstery,roof_front,roof_rear",
+    "ray_bounces": 10,
+    "source_timeline_fps": 60,
+    "inspection_fill_watts": 0,
+    "inspection_fill_disk_diameter_m": {
+      "default": 0.35,
+      "pedals": 0.14
+    },
+    "inspection_fill_camera_local_m": [
+      0,
+      0,
+      0.025
+    ],
+    "denoiser": "OPENIMAGEDENOISE",
+    "denoising_use_gpu": true,
+    "denoising_prefilter": "ACCURATE",
+    "technical_overlay": null,
+    "review_overlay_tool_sha256": "230827eb0257dd454e9429ddd3dd68e51107b540d58f6e18e893542196805fb7",
+    "review_geometry_tool_sha256": "0e9fad40b0d14ba1265958bd6836d133fde89474efd6f988860f46fc2cde2b90",
+    "material_swatches": {}
+  },
+  "configuration_sha256": "f0ba32e6dd5bf37fd0cf4614bec879fcf2e0c13f6e544587c2d2137306cade1e",
+  "status": "completed",
+  "frames": [
+    {
+      "view": "cockpit",
+      "capture_view": "cockpit",
+      "path": "cockpit.png",
+      "sha256": "bee7bb3dc577cb4adacf326e3b2bba1a787b5dc54886674f7c43a7cba4f6024d",
+      "seconds": 5.920155899999372,
+      "cold": true,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 1,
+      "time_seconds": 0.0,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "rear_cabin",
+      "capture_view": "rear_cabin",
+      "path": "rear_cabin.png",
+      "sha256": "f3dc2feb64f32228fdc000c7bcfbde4ad1c00032af5480c566a468e71e14cefd",
+      "seconds": 5.169623200003116,
+      "cold": false,
+      "camera_location": [
+        0.0,
+        -1.2,
+        1.22
+      ],
+      "camera_target": [
+        0,
+        0.38,
+        0.72
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 1,
+      "time_seconds": 0.0,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "rear_seats",
+      "capture_view": "rear_seats",
+      "path": "rear_seats.png",
+      "sha256": "5e53e8cf090d964732a4f49c8857965afea3b101cef4320d5634a35041440f7a",
+      "seconds": 5.487973499999498,
+      "cold": false,
+      "camera_location": [
+        0,
+        0.08,
+        1.24
+      ],
+      "camera_target": [
+        0,
+        -1.3,
+        0.73
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 1,
+      "time_seconds": 0.0,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "pedals",
+      "capture_view": "pedals",
+      "path": "pedals.png",
+      "sha256": "1f4479bcdb8b08566d7999c1f9950d54c0d60ae6205991366fb1441b5dd144b8",
+      "seconds": 4.911412300003576,
+      "cold": false,
+      "camera_location": [
+        -0.56,
+        0.2,
+        0.52
+      ],
+      "camera_target": [
+        -0.375,
+        0.6635,
+        0.349
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 1,
+      "time_seconds": 0.0,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "upholstery",
+      "capture_view": "upholstery",
+      "path": "upholstery.png",
+      "sha256": "ebd35e3221bd9d2c09582de1282cf7609d872d09de32e239716cdbca1d952f9d",
+      "seconds": 5.262324399998761,
+      "cold": false,
+      "camera_location": [
+        0.02,
+        0.3,
+        1.12
+      ],
+      "camera_target": [
+        -0.4,
+        -0.28,
+        0.62
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 1,
+      "time_seconds": 0.0,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "roof_front",
+      "capture_view": "roof_front",
+      "path": "roof_front.png",
+      "sha256": "23a5d79338cea4f8110fa1fb0df763787abf10003dd0f2f2c4bf44fa1a56509f",
+      "seconds": 5.385869700003241,
+      "cold": false,
+      "camera_location": [
+        0.15,
+        -0.4,
+        1.03
+      ],
+      "camera_target": [
+        0,
+        0.005,
+        1.34
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 1,
+      "time_seconds": 0.0,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "roof_rear",
+      "capture_view": "roof_rear",
+      "path": "roof_rear.png",
+      "sha256": "7e29f351def3df8efa41ceaf8fef870b9076e91e65f75dfc2cff7ea9271f0f6a",
+      "seconds": 5.485207400000945,
+      "cold": false,
+      "camera_location": [
+        0,
+        -0.75,
+        1.04
+      ],
+      "camera_target": [
+        -0.45,
+        -0.72,
+        1.35
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 1,
+      "time_seconds": 0.0,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    }
+  ]
+}

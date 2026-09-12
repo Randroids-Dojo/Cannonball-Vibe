@@ -17,6 +17,11 @@ The game targets C# 12 and .NET 8 while the repository pins the available .NET
 10.0.102 SDK. Forward+ is the shipping renderer, Godot Jolt is the default
 physics backend, and the physics loop runs at 120 Hz.
 
+The shared Godot wrapper preserves the official editor host selection for
+editor/import/export operations while keeping native game and test host
+settings. Evidence records the actual managed host version separately from the
+.NET8 target framework. See the [editor-host investigation](audits/2026-09-11-godot-editor-host-selection.md).
+
 The engine recommendation in GDD 0.1 is superseded for the prototype by this
 decision. The route graph and run state remain portable so another renderer or
 engine could consume them without rewriting game rules or content.
@@ -271,9 +276,11 @@ PSSM shadows, applied as presets by every visual scenario.
 sets the first production reference target at 2560×1440 High and a stable 60
 FPS on the declared Ryzen 9 5900X, RTX 3080 Ti 12 GB, and 64 GB Windows 11 PC.
 After warm-up, provisional gates require p95 presented-frame time at or below
-16.67 ms, p99 at or below 20 ms, no steady-driving stall above 50 ms, no more
+16.67 ms, p99 at or below 20 ms, no steady-driving stall above 20 ms, no more
 than 9.5 GB of GPU memory, no more than 16 GB of process working set, and no
-sustained positive memory growth over a 30-minute steady-state run.
+sustained memory growth over a 30-minute steady-state run (failure requires a fitted
+slope above 1 MiB/min and R-squared at least 0.5). Capped presentation uses the
+ADR cap-adherence criteria instead of the uncapped p95 limit.
 Budgets are layered across whole-scene outcomes, subsystem allocations, and
 content-class geometry, draw-call, material, texture-residency, instancing, LOD,
 and pop-in limits. Fixture thresholds remain provisional; production limits
@@ -305,6 +312,19 @@ technical baseline is documented in
 the owner selected the project-original Hero GT direction, while final
 silhouette, readability, renderer budgets, and exact rights evidence remain
 P1-008 acceptance gates.
+
+P1-018 adds the original Meridian S8R four-door endurance sedan through that
+same contract. `VehicleRigSetup` supplies each vehicle's dimensions, wheel
+radius and resource paths to the shared custom four-raycast simulation and
+visual adapter. A project-owned presentation component drives the sedan's
+openings, wipers, lights, instruments and cockpit mirrors from runtime state.
+Vehicle selection is a separate local presentation setting; it does not change
+the authoritative route/save contract or the Starter/HighSpeedValidation speed
+policies. The editable source, engineering references, fictional design choices,
+feature matrix and explicit modeled-versus-simulated boundaries are documented
+in [the sedan guide](vehicles/endurance-sedan/README.md). Its vehicle-specific
+asset and runtime gates include Hero GT and graybox regressions. Final human
+art, rights, driving and usability approval remains an independent P1-018 gate.
 
 P1-009 now exercises the same boundary for highway visuals. The procedural road
 generator consumes one shared `RoadVisualKit` with production and graybox

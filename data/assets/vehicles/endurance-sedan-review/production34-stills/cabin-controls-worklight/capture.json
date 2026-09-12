@@ -1,0 +1,147 @@
+{
+  "source": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\checkpoints\\production-34.blend",
+  "configuration": {
+    "source_sha256": "0b4220d5c3f0024054de17a3c36add3388a4f52be2046cc2b837f3bac9edf793",
+    "renderer_sha256": "62a91929e55512a48483a5dd79faca86e5e5db183ab018bb453b5cd17cdc4f2d",
+    "blender": "5.1.2",
+    "build_hash": "ec6e62d40fa9",
+    "engine": "CYCLES",
+    "device": "GPU",
+    "devices": [
+      {
+        "name": "NVIDIA GeForce RTX 3080 Ti",
+        "type": "CUDA",
+        "enabled": false
+      },
+      {
+        "name": "AMD Ryzen 9 5900X 12-Core Processor",
+        "type": "CPU",
+        "enabled": false
+      },
+      {
+        "name": "NVIDIA GeForce RTX 3080 Ti",
+        "type": "OPTIX",
+        "enabled": true
+      }
+    ],
+    "size": [
+      2560,
+      1440
+    ],
+    "samples": 64,
+    "denoising": true,
+    "view_transform": "AgX",
+    "look": "AgX - Medium High Contrast",
+    "exposure": 0.0,
+    "clay": false,
+    "source_controls": {},
+    "lighting": "neutral",
+    "sequence": "none",
+    "frame_count": 3,
+    "fps": 30,
+    "views": "pedals,roof_front,roof_rear",
+    "ray_bounces": 10,
+    "source_timeline_fps": 60,
+    "inspection_fill_watts": 20.0,
+    "inspection_fill_disk_diameter_m": {
+      "default": 0.35,
+      "pedals": 0.14,
+      "rear_seats": 0.2,
+      "front_belt_left": 0.2
+    },
+    "inspection_fill_camera_local_m": [
+      0,
+      0,
+      0.025
+    ],
+    "denoiser": "OPENIMAGEDENOISE",
+    "denoising_use_gpu": true,
+    "denoising_prefilter": "ACCURATE",
+    "technical_overlay": null,
+    "review_overlay_tool_sha256": "230827eb0257dd454e9429ddd3dd68e51107b540d58f6e18e893542196805fb7",
+    "review_geometry_tool_sha256": "0e9fad40b0d14ba1265958bd6836d133fde89474efd6f988860f46fc2cde2b90",
+    "material_swatches": {}
+  },
+  "configuration_sha256": "b29bb290ae76e4bda7abcc9dc7d6a7abfae59ccd317f215aa1eaf02af4497b0b",
+  "status": "completed",
+  "frames": [
+    {
+      "view": "pedals",
+      "capture_view": "pedals",
+      "path": "pedals.png",
+      "sha256": "de0d4573d6449ad4db79b09ed7ac2dbebaf4dc05f518c42e65c12f4f37b2e877",
+      "seconds": 5.546480600001814,
+      "cold": true,
+      "camera_location": [
+        -0.56,
+        0.2,
+        0.52
+      ],
+      "camera_target": [
+        -0.375,
+        0.6635,
+        0.349
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 1,
+      "time_seconds": 0.0,
+      "animated_controls": {},
+      "inspection_fill_watts": 20.0,
+      "inspection_fill_disk_diameter_m": 0.14000000059604645
+    },
+    {
+      "view": "roof_front",
+      "capture_view": "roof_front",
+      "path": "roof_front.png",
+      "sha256": "697b0c9804f4cb595a44dbcfa2ed202e1a08b773c462f56c159129a78e98ea4c",
+      "seconds": 5.086071899997478,
+      "cold": false,
+      "camera_location": [
+        0.15,
+        -0.4,
+        1.03
+      ],
+      "camera_target": [
+        0,
+        0.005,
+        1.34
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 1,
+      "time_seconds": 0.0,
+      "animated_controls": {},
+      "inspection_fill_watts": 20.0,
+      "inspection_fill_disk_diameter_m": 0.3499999940395355
+    },
+    {
+      "view": "roof_rear",
+      "capture_view": "roof_rear",
+      "path": "roof_rear.png",
+      "sha256": "ce4b40585e5a7022f4b93aeb0fa594de96ebb21cd3d91b9f5d62a9386044844a",
+      "seconds": 5.2487161999961245,
+      "cold": false,
+      "camera_location": [
+        0,
+        -0.75,
+        1.04
+      ],
+      "camera_target": [
+        -0.45,
+        -0.72,
+        1.35
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 1,
+      "time_seconds": 0.0,
+      "animated_controls": {},
+      "inspection_fill_watts": 20.0,
+      "inspection_fill_disk_diameter_m": 0.3499999940395355
+    }
+  ]
+}

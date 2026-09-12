@@ -1,0 +1,15 @@
+{
+  "task_id": "P1-018",
+  "status": "retained-camera-checkpoint",
+  "archive_path": "data/assets/vehicles/endurance-sedan-review/camera-checkpoint-v26/camera-checkpoint-v26.zip",
+  "archive_sha256": "a052365a52246b4bb9890adfce4d22cf9f3583e018f253ae1c5ff04f542dbb81",
+  "archive_bytes": 12365072,
+  "manifest_sha256": "92f6bf170038063f78981de97d1a121e8a364bf483a388fe8ec39e54d849a2f1",
+  "input_count": 610,
+  "input_bytes": 15991210,
+  "two_archives_byte_identical": true,
+  "every_member_sha256_verified": true,
+  "crc_verified": true,
+  "human_approval_reference": null,
+  "scope": "Retention reproducibility only; not shipping Blender/GLB export equivalence."
+}

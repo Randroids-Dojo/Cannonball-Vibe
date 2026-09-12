@@ -1,0 +1,18 @@
+REVERIFIED_PART 1
+REVERIFIED_PART 2
+REVERIFIED_PART 3
+{"status": "passed", "entries": 443, "output": "C:\\Dev\\Cannonball-Vibe-sedan\\data\\assets\\vehicles\\endurance-sedan-review\\art-checkpoint-v26\\art-checkpoint-v26-04.zip", "sha256": "5e9f425c4bf9f7fff36aba7c09309822eb33572ad410296d720ed67860f94b51"}
+RETAINED_PART 4
+{"status": "passed", "entries": 603, "output": "C:\\Dev\\Cannonball-Vibe-sedan\\data\\assets\\vehicles\\endurance-sedan-review\\art-checkpoint-v26\\art-checkpoint-v26-05.zip", "sha256": "59866d6d53546dab0b365aafb1bc300fbf1dc0db0c27e592bec15a62326d7cdd"}
+RETAINED_PART 5
+{"status": "passed", "entries": 382, "output": "C:\\Dev\\Cannonball-Vibe-sedan\\data\\assets\\vehicles\\endurance-sedan-review\\art-checkpoint-v26\\art-checkpoint-v26-06.zip", "sha256": "7223e6ddd5fb4b4227cbafa451c93a765cbb4542635437be6d039ca22015593d"}
+RETAINED_PART 6
+{"status": "passed", "entries": 664, "output": "C:\\Dev\\Cannonball-Vibe-sedan\\data\\assets\\vehicles\\endurance-sedan-review\\art-checkpoint-v26\\art-checkpoint-v26-07.zip", "sha256": "a4e453b84e1f3ffdedd475d45e2d8424b21f04f60a9628338dfbe0160ef92c3f"}
+RETAINED_PART 7
+{"status": "passed", "entries": 659, "output": "C:\\Dev\\Cannonball-Vibe-sedan\\data\\assets\\vehicles\\endurance-sedan-review\\art-checkpoint-v26\\art-checkpoint-v26-08.zip", "sha256": "8eb7b7ed5a7cdcd11f298401a10a4fd97fa4dc965995cbb76430ef2814164d72"}
+RETAINED_PART 8
+{"status": "passed", "entries": 105, "output": "C:\\Dev\\Cannonball-Vibe-sedan\\data\\assets\\vehicles\\endurance-sedan-review\\art-checkpoint-v26\\art-checkpoint-v26-09.zip", "sha256": "5591a3d910c82e1fed6916e2514180448243cddd395fd4d5394265735e45784d"}
+RETAINED_PART 9
+{"status": "passed", "entries": 1030, "output": "C:\\Dev\\Cannonball-Vibe-sedan\\data\\assets\\vehicles\\endurance-sedan-review\\art-checkpoint-v26\\art-checkpoint-v26-10.zip", "sha256": "34d9bb8be6bcdcd8eac65f0baece3ee1eb15dda66e60ee5cba8a39069c4b15e0"}
+RETAINED_PART 10
+{"parts": 10, "entries": 4392, "archive_bytes": 996313566}

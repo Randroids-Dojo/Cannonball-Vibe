@@ -1,0 +1,271 @@
+{
+  "schema_version": 1,
+  "task_id": "P1-018",
+  "specification": "specification.json",
+  "qa_plan": "qa-plan.md",
+  "status": "pending",
+  "rows": [
+    {
+      "id": "Q01",
+      "stage": "specification",
+      "required_evidence": "Referenced dimension sheet with exact year/market/trim/configuration, width definitions, units, confidence, stock/modified/fictional labels and model/runtime mapping; comparison with chosen engineering benchmark",
+      "failure_condition": "Missing key packaging value, inconsistent PS/hp/kW or width definition, unresolved conflicting dimensions, or reference estimate presented as a factory fact",
+      "status": "pending",
+      "evidence": [],
+      "human_approval_reference": null
+    },
+    {
+      "id": "Q02",
+      "stage": "originality",
+      "required_evidence": "Lead-authored design rationale and front/rear/profile/cabin comparison with engineering references; provenance inventory for every external input",
+      "failure_condition": "Unacknowledged borrowed logo/model identity, untracked texture/reference ancestry, or fictional styling represented as a licensed replica; human rights/art gate remains separate",
+      "status": "pending",
+      "evidence": [],
+      "human_approval_reference": null
+    },
+    {
+      "id": "B01",
+      "stage": "blockout geometry",
+      "required_evidence": "Fresh blend and exported blockout; orthographic front/rear/left/right/top/underside with scale rulers, wheel/contact/COM/collision/camera/occupant overlays",
+      "failure_condition": "Scale/axes/origin mismatch, missing fourth door or usable cabin envelope, wrong wheelbase/tracks/radius, mismatch between visible tire and contact markers",
+      "status": "pending",
+      "evidence": [],
+      "human_approval_reference": null
+    },
+    {
+      "id": "B02",
+      "stage": "blockout driving",
+      "required_evidence": "Continuous official-engine footage and synchronized telemetry of acceleration, throttle release, braking, reverse, left/right turn and settling after a bump, with rigid body unfrozen",
+      "failure_condition": "Body transform or wheel telemetry posed to satisfy stage; expected motion/sign absent, sustained unintended slip/contact loss, fall-through, unstable settling or contact supported by wrong geometry",
+      "status": "pending",
+      "evidence": [],
+      "human_approval_reference": null
+    },
+    {
+      "id": "B03",
+      "stage": "blockout lifecycle",
+      "required_evidence": "Actual collision, recovery/reset, chase/cockpit/rear-view changes, local-origin shift and save/resume; route/system state comparisons",
+      "failure_condition": "Collision misses; reset/resume does not restore bounded supported state; origin shift changes authoritative route or causes visible jump; wrong setup after resume; captured camera clips",
+      "status": "pending",
+      "evidence": [],
+      "human_approval_reference": null
+    },
+    {
+      "id": "B04",
+      "stage": "preserved variants",
+      "required_evidence": "Equivalent explicit sedan/Hero GT/graybox shared-adapter checks and existing vehicle dynamics/camera/input/save regressions",
+      "failure_condition": "Hero or graybox cannot load/drive, sedan radius or dimensions leak into another variant, undocumented speed-policy change, missing fallback",
+      "status": "pending",
+      "evidence": [],
+      "human_approval_reference": null
+    },
+    {
+      "id": "V01",
+      "stage": "proportions",
+      "required_evidence": "Neutral clay orthographic and matched perspective views before microdetail; same views after each proportion correction",
+      "failure_condition": "Sedan silhouette/occupant packaging inconsistent with lock, asymmetry not designed, wheels poorly fitted to arches, hidden bad proportions concealed by extreme lens or darkness",
+      "status": "pending",
+      "evidence": [],
+      "human_approval_reference": null
+    },
+    {
+      "id": "V02",
+      "stage": "surface quality",
+      "required_evidence": "Full exterior turntable and slow moving grazing reflections; evaluated geometry/normals inspection after modifiers",
+      "failure_condition": "Pinching, faceting, discontinuous curvature, wavy reflections, shading seams, nonmanifold defects or unintended intersections at gameplay and inspection distances",
+      "status": "pending",
+      "evidence": [],
+      "human_approval_reference": null
+    },
+    {
+      "id": "V03",
+      "stage": "body construction",
+      "required_evidence": "Four distinct doors, hood, trunk, roof/pillars/fenders/bumpers/rockers; measured gaps, thickness, jamb/seal/hinge views with openings closed/partial/full",
+      "failure_condition": "Missing assembly, razor-thin visible edge, inconsistent gap, floating fastener/handle, absent recess, opening reveals void, or unmodeled closure interior",
+      "status": "pending",
+      "evidence": [],
+      "human_approval_reference": null
+    },
+    {
+      "id": "V04",
+      "stage": "wheels and brakes",
+      "required_evidence": "Each tire/wheel in side, oblique and inner-barrel views; tread/sidewall/rim/hub/fasteners/disc/caliper details; full steering and bump/droop sequence",
+      "failure_condition": "Wrong OD/width/offset/rotor size, tire/body contact, detached tire, rotating caliper, static rotor with rolling wheel, reversed roll sign, implausible brake/barrel fit",
+      "status": "pending",
+      "evidence": [],
+      "human_approval_reference": null
+    },
+    {
+      "id": "V05",
+      "stage": "glazing and seals",
+      "required_evidence": "Exterior and interior matched views through every window, glass edges and mirror mounts, daylight/overcast/night",
+      "failure_condition": "Opaque or invisible intended glass, inverted/twice-dark glass, incorrect sorting, missing thickness/seal, exterior reflections obscuring all cabin sightlines, holes exposed by reverse viewpoints",
+      "status": "pending",
+      "evidence": [],
+      "human_approval_reference": null
+    },
+    {
+      "id": "V06",
+      "stage": "lamps/grille/exhaust",
+      "required_evidence": "Close-ups of lens/housing/projector/reflector/light guide, genuine grille/opening depth and exhaust termination; five-lighting comparison",
+      "failure_condition": "Painted-on flat opening, floating lamp component, light leaks through housings, visible backside void, exhaust/grille not connected to plausible depth",
+      "status": "pending",
+      "evidence": [],
+      "human_approval_reference": null
+    },
+    {
+      "id": "V07",
+      "stage": "black materials",
+      "required_evidence": "Locked neutral studio clay and material views; paint grazing highlight close-ups; adjacent paint/trim/rubber/leather/fabric/metal/glass swatches in scene",
+      "failure_condition": "Black crush hides construction under neutral exposure, pure mirror/chrome response on intended paint, flat plastic response, oversized noise, smeared UVs, inconsistent physical texture scale or wrong color space",
+      "status": "pending",
+      "evidence": [],
+      "human_approval_reference": null
+    },
+    {
+      "id": "V08",
+      "stage": "front cabin",
+      "required_evidence": "Seated driver eye view, center console, instruments, vents, column/wheel/pedals, door cards/switches, seats/headrests/belts, carpet/headliner and storage",
+      "failure_condition": "Missing required assembly, clipped controls or sightline, unsupported seat/column, floating belt, inaccessible control, text unreadable at intended view; human comprehension remains open",
+      "status": "pending",
+      "evidence": [],
+      "human_approval_reference": null
+    },
+    {
+      "id": "V09",
+      "stage": "rear cabin",
+      "required_evidence": "Both rear-door entry views and rear-seat eye view, seats/headrests/belts, floor, roof/pillars and parcel shelf",
+      "failure_condition": "Front-only cabin, empty rear shell, insufficient locked occupant envelope, opening exposes missing trim/structure, rear-facing camera or mirror sees cut-away roof",
+      "status": "pending",
+      "evidence": [],
+      "human_approval_reference": null
+    },
+    {
+      "id": "V10",
+      "stage": "visible systems",
+      "required_evidence": "Hood/trunk/underside views and inspection motion showing cooling/intake/exhaust, engine/transmission housing, suspension/undertrays, fuel/luggage/endurance equipment packaging",
+      "failure_condition": "Modeled mechanism has nowhere to fit, fuel/equipment intersects occupants or openings, major visible systems absent, implausible disconnected packaging, or modeled engine bay described as simulated mechanics",
+      "status": "pending",
+      "evidence": [],
+      "human_approval_reference": null
+    },
+    {
+      "id": "F01",
+      "stage": "input and motion",
+      "required_evidence": "Keyboard and controller-contract drive segments; wheel steering/rolling/suspension, chassis response, steering wheel and pedals visible with matching runtime readbacks",
+      "failure_condition": "Input conflict/focus theft, stale/fabricated rig state, wheel rotation inconsistent with signed motion and declared radius, steering/pedal direction wrong, suspension moves past declared stops",
+      "status": "pending",
+      "evidence": [],
+      "human_approval_reference": null
+    },
+    {
+      "id": "F02",
+      "stage": "lights",
+      "required_evidence": "Night wall/road illumination plus exterior/cockpit footage: head/tail on/off, brake with lamps off/on, reverse stationary/moving, left/right signals, hazards and cancellation",
+      "failure_condition": "Emissive-only headlight proof, brake state confused with tail state, wrong side flashes, missing center brake, reverse disagrees with actual selected reverse state, stuck emission after toggle/camera/LOD/reset",
+      "status": "pending",
+      "evidence": [],
+      "human_approval_reference": null
+    },
+    {
+      "id": "F03",
+      "stage": "instruments",
+      "required_evidence": "Continuous dashboard close-up during accelerate/shift/brake/reverse, changed saved fuel, low-fuel/damage and implemented warning states; raw state/value/unit overlay in fixture",
+      "failure_condition": "Static labels, speed/gear/RPM/fuel disagree with explicit source/rounding, display obstructed, values jump on camera switch, fabricated temperature/pressure simulation; estimated gear/RPM must be documented",
+      "status": "pending",
+      "evidence": [],
+      "human_approval_reference": null
+    },
+    {
+      "id": "F04",
+      "stage": "wipers",
+      "required_evidence": "At least three uninterrupted sweep/park cycles from driver/exterior/oblique camera, slow diagnostic cycle and swept-area/contact overlay",
+      "failure_condition": "Incorrect pivot or handedness, blade passes through glass/trim, lifts off claimed contact span, blades collide, misses declared driver critical region, does not repeat park, freezes/jumps after camera/rebase/LOD",
+      "status": "pending",
+      "evidence": [],
+      "human_approval_reference": null
+    },
+    {
+      "id": "F05",
+      "stage": "mirrors",
+      "required_evidence": "Each mirror shows the moving numbered off-main-screen target; cabin pan, turn/reverse/rebase, day/night, on/off/update telemetry and cost comparisons",
+      "failure_condition": "Static/frozen view, wrong side/orientation, target absent despite expected visibility, self-recursion, hidden cabin omitted incorrectly, excessive declared latency or resolution that prevents intended review",
+      "status": "pending",
+      "evidence": [],
+      "human_approval_reference": null
+    },
+    {
+      "id": "F06",
+      "stage": "openings",
+      "required_evidence": "Separate and simultaneous continuous four-door/hood/trunk open-close cycles, 0/25/50/75/100% stills and hinge/jamb/strut views; repeated close from partial travel",
+      "failure_condition": "Wrong pivot, panel/body/inter-panel collision, interior void, detached glass/trim, wrong travel or stop, closure cannot return to recorded pose, UI inaccessible from keyboard/controller",
+      "status": "pending",
+      "evidence": [],
+      "human_approval_reference": null
+    },
+    {
+      "id": "F07",
+      "stage": "state lifecycle",
+      "required_evidence": "Lights, wipers, openings, instruments and mirrors across camera change/reset/rebase/selector/save/resume, with documented persistence policy",
+      "failure_condition": "Presentation stale or leaks between vehicles; existing authoritative save changed unintentionally; fixture changes cannot be distinguished from player operation",
+      "status": "pending",
+      "evidence": [],
+      "human_approval_reference": null
+    },
+    {
+      "id": "O01",
+      "stage": "LODs",
+      "required_evidence": "Fixed-camera LOD0/1/2 comparisons at intended sizes and continuous distance crossings in both directions during driving",
+      "failure_condition": "Functional lights/moving wheels disappear, body/color/glass changes materially, silhouette pops beyond review trigger, wrong cockpit/opening override or uncontrolled threshold chatter",
+      "status": "pending",
+      "evidence": [],
+      "human_approval_reference": null
+    },
+    {
+      "id": "O02",
+      "stage": "collision and damage",
+      "required_evidence": "Collision proxies overlaid on closed body; real barrier/ground contacts; damage-zone readback and visible mappings on each LOD",
+      "failure_condition": "Detailed visual collision replaces declared proxy, excess collision budget, proxy permits obvious ground/wall penetration, wrong or missing semantic damage zones; opening colliders are only claimed if implemented",
+      "status": "pending",
+      "evidence": [],
+      "human_approval_reference": null
+    },
+    {
+      "id": "O03",
+      "stage": "portable artifacts",
+      "required_evidence": "Lead's saved blend reopened, dependencies inventory, evaluated mesh/UV checks, two locked exports and every shipping-byte comparison; fresh official Godot import instantiates final project wrapper",
+      "failure_condition": "Absolute/local-only texture dependency, missing packed assets, stale generated scene, duplicate semantics, material/resource import error, wrapper not exercised, nondeterministic shipping bytes",
+      "status": "pending",
+      "evidence": [],
+      "human_approval_reference": null
+    },
+    {
+      "id": "O04",
+      "stage": "cost and performance",
+      "required_evidence": "Active/total content inventory and actual native 1440p Forward+ captures with mirrors/lights/cockpit, standalone timing and 30-minute growth data",
+      "failure_condition": "Provisional content ceiling exceeded without governance resolution; declared reference gate violated; movie-render throughput or headless FPS substituted for actual presentation cost",
+      "status": "pending",
+      "evidence": [],
+      "human_approval_reference": null
+    },
+    {
+      "id": "D01",
+      "stage": "delivery",
+      "required_evidence": "Final source/tooling/runtime/setup/LODs/collision/docs/media/evidence inventory plus exact open/select/inspect/drive instructions replayed by QA",
+      "failure_condition": "Missing file, stale hashes/revision, undocumented limitation/control, failed required platform check, required human gate marked complete by an agent",
+      "status": "pending",
+      "evidence": [],
+      "human_approval_reference": null
+    }
+  ],
+  "technical_thresholds_source": "specification.json:tolerances",
+  "performance_authority": "ADR-0023 including2026-08-16 stall20ms addendum",
+  "human_gates": [
+    "original art direction",
+    "source and asset rights",
+    "30-minute driving enjoyment",
+    "physical wheel calibration and feel when supported",
+    "player comprehension and accessibility usability"
+  ],
+  "human_gates_status": "pending"
+}
