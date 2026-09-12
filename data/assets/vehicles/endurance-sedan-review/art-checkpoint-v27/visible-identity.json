@@ -1,0 +1,15 @@
+{
+  "task_id": "P1-018",
+  "utc": "2026-09-12T22:08:22.638428+00:00",
+  "pid": 34132,
+  "filepath": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\fresh-construction26-pilot05\\fresh05\\source.blend",
+  "blender": "5.1.2",
+  "build": "ec6e62d40fa9",
+  "scene": "Scene",
+  "engine": "BLENDER_EEVEE",
+  "visible_3d_areas": 1,
+  "solid_view_only": true,
+  "source_saved": false,
+  "source_sha256": "db7a04ce82561985c7955adc5e54aaf7d6e568f753e636f44c16a6a658bbbb73",
+  "human_visual_or_editability_approval": null
+}

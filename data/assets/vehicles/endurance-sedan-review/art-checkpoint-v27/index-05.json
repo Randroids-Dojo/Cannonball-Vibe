@@ -1,0 +1,1080 @@
+{
+  "task_id": "P1-018",
+  "milestone": "M5",
+  "status": "passed",
+  "started_utc": "2026-09-12T22:07:20.833973+00:00",
+  "git_revision": "0fd5c81677c3084ccaa1237d2689658334888e94",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.14.6",
+  "zlib_runtime": "1.3.1.zlib-ng",
+  "tool_sha256": "1310e66035402d9eccaef4c0b2fe6d474f0b56958e914138d3f57be6285b18ff",
+  "input_manifest": {
+    "path": "reports/p1-018/art-checkpoint27-retention01/manifest-05.json",
+    "sha256": "63257e32e4de5d43a8dc21a198f9dc27a848536acdeb29928443b48c4a993b52"
+  },
+  "entries": [
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/render46/Original-front3q.png",
+      "sha256": "9b1db9bac75b27ea10fbf66be6d926f27f4d75d90c4fa892940bef585f57acc7",
+      "bytes": 2453104
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/render46/Ratio065-front3q.png",
+      "sha256": "5dd7db413406732aeb80120f0e3a37830a3cd892d4a2d08c4fcdc5c6b1a77efd",
+      "bytes": 2263417
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/render46/Ratio13-front3q.png",
+      "sha256": "0810af0511d4e2e73481825bbf14d872f1c5352cf63f1a114f8d7f9e4534a480",
+      "bytes": 2449069
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/render46/manifest.json",
+      "sha256": "1dfd34e02b93d24f1602db793aa3f2a9996f2c0741f3984dd36fd5cfedc21ce8",
+      "bytes": 196172
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/review03.json",
+      "sha256": "dbc1f5aa3722e04347b55583453fa5c62dc0b0b7d6a747f06461f97a9a1c9551",
+      "bytes": 2633
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/review06.json",
+      "sha256": "4e0bd27a3ec142b94d44dd2e6021ce0c8cf77549fa57b18a7e618161d4eeceb5",
+      "bytes": 1401
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/review15.json",
+      "sha256": "88ea4073ecbdc3613afe7364da4da59694ccacaffa49b690da4f4e70edf0f01f",
+      "bytes": 2763457
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/review21.json",
+      "sha256": "2c10f5f3d03be1510c43845f1e43d4f91bd1ea1d46b1ff068c5016e1251ae286",
+      "bytes": 278111
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/review23.json",
+      "sha256": "4e85373aeda7f504f965a70fd22043cacf801835265dfdfcaba3d75fd840d62f",
+      "bytes": 278110
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/review25.json",
+      "sha256": "6c38d2d536d206773b00f67ea6f5757feb9dc6400c212f0a49d1c5ac326b4b35",
+      "bytes": 979304
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/review32.json",
+      "sha256": "5010d439b3eefac54a9232fc75eb5431dc7a12694b5279eb47e3c6e19ec267e5",
+      "bytes": 3426648
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/review36.json",
+      "sha256": "1ae02d054a8c59cefdbf9945d9349f88ad7614ec33dd6b77adf705b54e4f0b52",
+      "bytes": 3426647
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/review46.json",
+      "sha256": "572aad0794f95bda994e3ad64fc070b7c44c7c784837f98c3dba120d646c7093",
+      "bytes": 584
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/run02.py",
+      "sha256": "2d5223a802045f0f43dfdee890131291af88eec06c5b6c195eee19fc8c508f26",
+      "bytes": 2205
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/run36.py",
+      "sha256": "b8ef616d5de0cbeb37386d290462234ec37efbdd162b08f7dc6be0e363b3e57d",
+      "bytes": 2254
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/section19.json",
+      "sha256": "537b4fd06764c500cdd008090fc00fb06ab4090eea340a9552353f54fe853b45",
+      "bytes": 147208
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/section19.py",
+      "sha256": "3828d6f2b245751eff7d93d07e9c8107e8594ea32cea44f7f8621d467a09a988",
+      "bytes": 3328
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/shell17-command.json",
+      "sha256": "49b45982d1534e66eb228c82e04abe9dda53705835e2631c05bac006f2254b46",
+      "bytes": 978
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/shell17.json",
+      "sha256": "94541f1cd42b05e8773da872577597b14684e6d562baf7a14d10bc8111850e4b",
+      "bytes": 2141666
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/shell17.py",
+      "sha256": "aed19d7edd578710338e62e01edf9590b429a721b2f6f72521e014aef77cd8fd",
+      "bytes": 2407
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/shell17.stderr.log",
+      "sha256": "fe99b74fa544b439c18cd33417569170a5e3124d5123885ebb8a3f37513b942a",
+      "bytes": 383
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/shell17.stdout.log",
+      "sha256": "cc3acc3bdbe5cf36b57598c7582be0ca0666a68c06d02afc4f23fd8aa9b76b84",
+      "bytes": 18772
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/docs/vehicles/endurance-sedan/specification.json",
+      "sha256": "bb853914b031a9052fc75624de740fd4198bd7d86abf20c0ad692795c805f3f9",
+      "bytes": 77760
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/create_endurance_sedan.py",
+      "sha256": "1127097440de3f14e0bcc8556f8d49df1f233fa1dad3b783df19b84547d77f28",
+      "bytes": 9760
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/__init__.py",
+      "sha256": "34b2fc7df07083961f7c2b5ab1290424d0bf9eaaa583ce076a89e28c891d6404",
+      "bytes": 70
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/boolean_surface.py",
+      "sha256": "17b2cf5fd34a91dafaea8b74118d96bec0384d82ccc4437c856303da7b2bd706",
+      "bytes": 10568
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/cabin.py",
+      "sha256": "8dc36b6dd5f388989c70383f1cf65e183262aff81474c92f55c9a276e68e57c0",
+      "bytes": 15542
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/cabin_floor_panels.py",
+      "sha256": "36f1728a6db5b8faab777aa8b4c55a67b2b55d695c90e53b745ff8f749531768",
+      "bytes": 1850
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/capture_suite.py",
+      "sha256": "e967d03409b017e870dae3a52379da5e8dd4a2f0012bfcb0d747191ed73b23db",
+      "bytes": 10743
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/construction.py",
+      "sha256": "a3fdd08edaae20fbd770773428510903352dd9c098cd8ba250cf67585bf8ba11",
+      "bytes": 6949
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/corner_bake.py",
+      "sha256": "b9cf8d726173b593ed5d87f8cdbebe68e26d3e1ea1aaee044f3bbe8e011d1027",
+      "bytes": 18004
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/corner_bake_controls.py",
+      "sha256": "5adc33ba819092e9eadfbefe27ad809b220e0d171ab1cb231b08931f39327264",
+      "bytes": 14076
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/cupholders.py",
+      "sha256": "ff2f97f433e464485940d47058eb9cee45463bd90ce6d52da362c1bf89b3fbb1",
+      "bytes": 6606
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/exterior.py",
+      "sha256": "e07a000eaf270c7748f0233a203e635a3f68f7683ecd1c7db71c0974868487f3",
+      "bytes": 18067
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/fascia_side_field.py",
+      "sha256": "76b40fe9089d2367292c5c0f010a223e301eb58ca478dc10b1c431bd56add897",
+      "bytes": 6347
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/fascia_surface.py",
+      "sha256": "b58a13b2f018a6bb4c5820904811a402f8de2f5df97ffec884e05441a509f167",
+      "bytes": 6105
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/fender_field.py",
+      "sha256": "d611a7f218d69ed6d86d1ccb4084528aae03a56cc54f2d985652ec0a62391ad6",
+      "bytes": 10182
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/finish_refinement.py",
+      "sha256": "a7379269716aa7316fa7ffcae27c39b4e0c96f2a61006c60275f3cf2c021a9d8",
+      "bytes": 49580
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/floor_panels.py",
+      "sha256": "dadf5562d15cf3c874aae2ef43903e7aa1822fe4af0fb23012aa6fc543d5a933",
+      "bytes": 13037
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/geometry.py",
+      "sha256": "0b2386b99c18e503fe4562a085996a4e8462f40d38dad53583eeb63bec7cb9ee",
+      "bytes": 12409
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/header_return.py",
+      "sha256": "9eba4cfed250539ef3e6b4c1549bd2dc7d0fd701eeb7e7e7bb8ec01ca51693c2",
+      "bytes": 15986
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/lod_paint.py",
+      "sha256": "adfbde043c7acb8b31af8bcd6564e2c751b3223b36d1016cab49a1e89a580bdb",
+      "bytes": 5353
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/materials.py",
+      "sha256": "238751b551f42b3b7c8a80475e63b83f167f47987459d0e8a8d11eb524ae6a9d",
+      "bytes": 3562
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/mechanisms.py",
+      "sha256": "fbc92e0c9b6d6efcf19e171af866f0f0d62943f8b71949f0ef3539575efdde88",
+      "bytes": 5975
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/microtextures.py",
+      "sha256": "046cef29dfdace8a7a1e941e72fc19a20aab2b2ac56025143a4c19b4a6d993cc",
+      "bytes": 3357
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/model.py",
+      "sha256": "2799368a7a0953c21dc8adc74df29d3aba40f385af37613e4b556ff8264ccff1",
+      "bytes": 32476
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/optimization.py",
+      "sha256": "d97f270d187cdff013291d9a478c0967d4c049d6ca07280870d854d47b95e9f0",
+      "bytes": 12832
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/partition_evidence.py",
+      "sha256": "e7b0aa7b71231eb02c034e930ecb3cf3a4ed0c97a2bb586793cab55de97ee1fe",
+      "bytes": 5693
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/pillar_joints.py",
+      "sha256": "4eabaf93243aae87a1b82d21e3311998bd4f338dd7564ff928431104ab5932c7",
+      "bytes": 6166
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/powertrain.py",
+      "sha256": "0433e6197eb78b2971f4b2017b48263346fb0186318ea1d877ddae0f6929e58c",
+      "bytes": 17168
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/qa/__init__.py",
+      "sha256": "64e634a0372701a56e43932418fff910132f00bdf6bc794fa0a755b53a952336",
+      "bytes": 72
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/qa/compose_candidate.py",
+      "sha256": "7c72de866db12615bed73b7c84652814be4d5bf95cbc31a4dd759ca3102f71bf",
+      "bytes": 2375
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/qa/contacts.py",
+      "sha256": "0e24a62f67e6faadbd9b865b2e3f026800218939e63f2a6a80c720b3753ea9fc",
+      "bytes": 6666
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/qa/cupholder_interfaces.py",
+      "sha256": "bbbc837a16b348c315661f94f7c4b80af4742a52fcd48bb77d303ae14d65eaf2",
+      "bytes": 34143
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/qa/driver_fixture.py",
+      "sha256": "ac3989356c436cadc54b1e34ba838593cfec1b4a4483e4c03255296e32d62b80",
+      "bytes": 1380
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/qa/exact_triangles.py",
+      "sha256": "deeb297f158a9673e344f062726e687ce86bb294d94d188b2abbdcfe86b1d106",
+      "bytes": 3388
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/qa/extract.py",
+      "sha256": "04f44003f0d8db500f47dfd70f9f9a9e871601cd2b906839b2d9d7a4c5144a68",
+      "bytes": 10723
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/qa/finish_interfaces.py",
+      "sha256": "b31b4f6f6436d5f3b22535335f96a73ec206fd92a6084bc045c9949434c2429e",
+      "bytes": 33714
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/qa/finish_report.py",
+      "sha256": "1129f1cd3d6e5d1682deb0fc1bff9801f39d8894b171afc11db0fac133c49c95",
+      "bytes": 12740
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/qa/fitted_interfaces.py",
+      "sha256": "679eb6ef74604328d0ba5e5c29a328749d58ec54f93f4904e07deb7a86cf79c9",
+      "bytes": 16107
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/qa/gate.py",
+      "sha256": "4198dda0a08271832c95b7c96f11d1c51eeb6d641bee5f23780939d8bdd7b934",
+      "bytes": 25062
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/qa/geometry.py",
+      "sha256": "49ba453c158f7831106ba5cee231105ec8824b3162bd520e16fe5127af2b57e1",
+      "bytes": 6154
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/qa/initial_containment.py",
+      "sha256": "70a7d97cfc11a953dd3cdc1b39e10e68da4725a6853440d969b98d0680282130",
+      "bytes": 6092
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/qa/lod_self_controls.py",
+      "sha256": "5b8cf6458b272f78b4f76a35a9db6d231ad59e85adafa3282bd1bee79e558f33",
+      "bytes": 30407
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/qa/lod_self_intersections.py",
+      "sha256": "7b9630a9709f0fceb9938a628a9a6c485574e34708392c160c0b1d884ec29d6c",
+      "bytes": 7206
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/qa/motion_drivers.py",
+      "sha256": "70e76d1d95c0ada11812fce303ee2b1b629df8109ee67af63876a6e35bfd1083",
+      "bytes": 13250
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/qa/negative_controls.py",
+      "sha256": "7c5eb3f3da75d9b3d342562226e47d7ef3a331abcbef98514d464231a19cc769",
+      "bytes": 9043
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/qa/negative_fixtures.py",
+      "sha256": "15e6e4d5805ecd9e7c60ce9ec91b1459145d5236eaf0881c6015406f271f5ebf",
+      "bytes": 8577
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/qa/opening_drivers.py",
+      "sha256": "5983d073051c57dd89a238c0dad7af50695b3fa6a55784954ae4f5f4ce7bd0e2",
+      "bytes": 4591
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/qa/openings.py",
+      "sha256": "68348725709cb7b32aea1dc79913e70f1186a05237a7c66940461b1cfac4931b",
+      "bytes": 13332
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/qa/optical_seats.py",
+      "sha256": "1b9d57e7049a021610fad0c607b2d16ca305f7f46d9b5d40dd7a7849dd11ca4e",
+      "bytes": 9465
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/qa/precision.py",
+      "sha256": "ecf51ea1f89527a4be23aeff92f1747c667212be110064f0a943c8241693b0c0",
+      "bytes": 2438
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/qa/restraint_interfaces.py",
+      "sha256": "70a6e1a79b279697c50d65f81eb88a6fb4894a316e78bcab83212d4a8d3f3c72",
+      "bytes": 4446
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/qa/ribbon_self.py",
+      "sha256": "fd05d89f976a014adf7fe9a45b937e012fd93faffa979d82258c8ef6a83e282f",
+      "bytes": 4600
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/qa/run.py",
+      "sha256": "5157f62e8d36fee350431ecbea52306cd43ec060b30ad1da0b01fab1f0668aeb",
+      "bytes": 17220
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/qa/seat_finish_interfaces.py",
+      "sha256": "eb818616820d7255d472bba806b91d7cbf983c95e934166469b23e7775969bad",
+      "bytes": 17555
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/qa/seat_finish_report.py",
+      "sha256": "cf05129715fc563694416df3262e168896f01a4308222f016b0954418d3a38e7",
+      "bytes": 20123
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/qa/seat_finite_geometry.py",
+      "sha256": "ec418b1a9fa36b20cd3caceec8d363d19464a0e51cd89adbebf13fc4c8320a13",
+      "bytes": 17056
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/qa/self_controls.py",
+      "sha256": "81db5fb81fa8293cdb56b90692eb457ddea49b371ca16499eac251d3dd494ed6",
+      "bytes": 34897
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/qa/self_geometry.py",
+      "sha256": "280983d38d6c3d88dc45922787f95298139b42edd452b381621fe0ed0ce7c7b2",
+      "bytes": 4665
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/qa/self_intersections.py",
+      "sha256": "5430397a37fb809609bc5ff17d5ed5c57bfe4dfa5964e3a732eb7b679e1a59ca",
+      "bytes": 7248
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/qa/shoulder_check.py",
+      "sha256": "5d3c1259319673108b6bda83dd1227ad49311b4b52a2b1c148bd9739258f1464",
+      "bytes": 6996
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/qa/shoulder_checkpoint.py",
+      "sha256": "ae67889778b6b4106d201d45e0ca7825fa0eec6f2317572874c487dea656c092",
+      "bytes": 6049
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/qa/shoulder_report.py",
+      "sha256": "98e71b802a100d88af8a945e771825d31fde19cc9b1888611a6c86b9a9d045aa",
+      "bytes": 22423
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/qa/solid_interfaces.py",
+      "sha256": "52bc74a5f5ae0c011c6acbde98a261844ac78d76ca2a72400793087fda91cd21",
+      "bytes": 13528
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/qa/source_controls.py",
+      "sha256": "e94d13c3303aeaf081206b669c683261983cb98779865044918b75fac1623ceb",
+      "bytes": 11076
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/qa/source_lights.py",
+      "sha256": "de53b916bf82a3142a3d5ed61097e2cf3335038dfe54acd46a76a769286c1f63",
+      "bytes": 7420
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/qa/static_interfaces.py",
+      "sha256": "6d0af77239e30e6f68d840312fec5ad583e01826408a85db11cdd0c8fad1ffb0",
+      "bytes": 14458
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/qa/surface_minimum.py",
+      "sha256": "636b49100e92c5ad08e55896e92380c9024a6ded6df597424ad0d08ed2418188",
+      "bytes": 3050
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/qa/tires.py",
+      "sha256": "a5bfc2f27e4c913fd4c698b3956a24899616713d9333323ae2e115442713d917",
+      "bytes": 15357
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/qa/wiper_initial.py",
+      "sha256": "6bbdf58006b9f45f9352a28fe4e20b521f379106635e51d214063bb04d92fa15",
+      "bytes": 6259
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/qa/wiper_interassembly.py",
+      "sha256": "478c1fff4dc51543ead18ea3d8e906bbc91c2f765e9fba1d44e2b4a18f0164d1",
+      "bytes": 13432
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/qa/wiper_negative_controls.py",
+      "sha256": "bfe316d1e0a917e10ff329e9390d92a89812edfa18f7a2ac8e8ec814c351dafc",
+      "bytes": 4883
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/qa/wipers.py",
+      "sha256": "c54c206544f18e381782d2dcc05f99503b08eadc289fecc8c9391b848b93918a",
+      "bytes": 12263
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/rear_optics.py",
+      "sha256": "5cbce1dd66215eb66d97489d50a9ae64fe355f36c8ab17e06ee9001ac51ee861",
+      "bytes": 3734
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/render.py",
+      "sha256": "62a91929e55512a48483a5dd79faca86e5e5db183ab018bb453b5cd17cdc4f2d",
+      "bytes": 17139
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/restraints.py",
+      "sha256": "0b502b4d2ed4a45c667bd7b0b4758bae63b644e9502a558dfeb79ba26d745e6f",
+      "bytes": 8956
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/retain_evidence.py",
+      "sha256": "1310e66035402d9eccaef4c0b2fe6d474f0b56958e914138d3f57be6285b18ff",
+      "bytes": 5910
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/review.py",
+      "sha256": "c42dc8f64e3984bd888d02ed510011561c2449cec1e36d4c1a16f80e8c3c629c",
+      "bytes": 16458
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/review_overlays.py",
+      "sha256": "230827eb0257dd454e9429ddd3dd68e51107b540d58f6e18e893542196805fb7",
+      "bytes": 7740
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/roof_leading.py",
+      "sha256": "7de8a3a5ddb20850905cf445caf6686a8e323d367bc056cd4c9105547da0e1dc",
+      "bytes": 9716
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/roof_trim.py",
+      "sha256": "79eb1fc10ac8a6ff64b892733be23e0671f5648472e7100ee5482fb505387ff4",
+      "bytes": 4863
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/selective_lod.py",
+      "sha256": "1fce28b1ce6532af31faa45aa9abddbd9c55d7e272ca9f536043a2c6c1b2df6e",
+      "bytes": 12073
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/shoulder_profile.py",
+      "sha256": "4597945ce812d68069b7d09b53826bee3b36b983edc013bb50178f884a6970e6",
+      "bytes": 2048
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/source_dashboard.py",
+      "sha256": "79723d411879c86904eea57ac3947cd213e4d7e2ee186a691a9f551222f26ec0",
+      "bytes": 8594
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/surface_clip.py",
+      "sha256": "4e02c84e1a2a1d1cf989427ecc9a02f41d96f67d813492987f1b245ff813b1ce",
+      "bytes": 2692
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/surface_normals.py",
+      "sha256": "2dd3b738c80c4edd41ba1ee9ece587d9e9bfca245ef18a8e55325166a8a13e7a",
+      "bytes": 4669
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/tire_surface.py",
+      "sha256": "b2c6506aa412b0ef97217e7a29069c4fa76eb74162c1386d85dd3c69f2df5cf8",
+      "bytes": 3757
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/upholstery_seams.py",
+      "sha256": "4f25c489069398913116385ef8ea4176484b74b99ae7805a63d652b17229f478",
+      "bytes": 3845
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/uv_bake.py",
+      "sha256": "aaa8ac6be9c46c2395c0abca7dffc4742256f4e7ff148aa4e8714295bd2b43a5",
+      "bytes": 9663
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/uv_bake_controls.py",
+      "sha256": "5e89a9262a956aa9a9c8eebbae3b418070d0d3e0b349fcf19c62c2a129a9d341",
+      "bytes": 6300
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/snapshot01/tools/vehicles/endurance_sedan/wheels.py",
+      "sha256": "05034d74b4422ace534670820bf3778e931f75beac4f18d26ece9a922a4201fd",
+      "bytes": 6903
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/uv-deltas39.json",
+      "sha256": "847f310c16cb5a6b0cf37fc7bca6dd5baf2c5307d14f7160619e4dd290b8f603",
+      "bytes": 2062
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/visual41.json",
+      "sha256": "fce5f8569fc1acb1b931a832e1d698a161253c780648ef28cb5b08721f1e1f42",
+      "bytes": 8818
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/visual41.py",
+      "sha256": "7b21c4ff491f294c0e94c976d124449369dcbd3c181db9889ad96662cb68c627",
+      "bytes": 5564
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/visual47.json",
+      "sha256": "4d3ef2640dd8a3de525517924324e22f4688b970bbd0c844507e4bec748c13b4",
+      "bytes": 3322
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/visual47.py",
+      "sha256": "bdc877319c2a81035128126dc4727f5869d2cd210523688a1eea29ef55b28f47",
+      "bytes": 3001
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/FIT02.md",
+      "sha256": "0644672528117ea896137f6e4fa6c467b2a70ff1659e6fce3e4785c7b2811109",
+      "bytes": 651
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/IMPORT-RETRY02.md",
+      "sha256": "10975462e8c1e6b36858b2191f3dbcd459c954663481e32d5788fde718ba3d9e",
+      "bytes": 770
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/IMPORT-RETRY05.md",
+      "sha256": "8b7206f075588887ffb30aa0b1759ba3919a074e6bc05cb83ae1658917b6d8df",
+      "bytes": 519
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/PLAN01.md",
+      "sha256": "a09ae99900dff205308d5ff7f3d5bb2aa9e01fead0bf17732bfac2ded0a655c6",
+      "bytes": 1765
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/RETRY03.md",
+      "sha256": "4515881a3eda22d20b341346541648d6a76cba1edb3825940fba69da81432f59",
+      "bytes": 836
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/VERIFY04.md",
+      "sha256": "7d7c52badf65bab3eb2b5154f0cb1c73529cdd909e3312a1b184f09eae682ad8",
+      "bytes": 1201
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/atlas01.py",
+      "sha256": "7ab97791538ceecc00b6201f51a115b84a1c8c4a90c4ea5487b2f6b3f7ec0efa",
+      "bytes": 9112
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/atlas03.py",
+      "sha256": "2f4cd7ef624202db886a4165da3991091a223f4cacb0e3bf3a0c3fb26b0ecced",
+      "bytes": 9113
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/build01.py",
+      "sha256": "934a5b1f8f0d84fc7ac3f37949a87c3a7647080397a1f8f61ebf507f27dd72c7",
+      "bytes": 4097
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/build03.py",
+      "sha256": "86c5d67a2fd9bf8abcfd453dfc2ba8b5b8e53dcfd9a7173c5ec1e6a33e319ee9",
+      "bytes": 4097
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/export01.py",
+      "sha256": "9b8cd4ef506da7fd6600ea78f1c1435838c9bc1216c2e7c1209087b4bc4b668c",
+      "bytes": 2945
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/export01/first/export.json",
+      "sha256": "6f44ce4790c29c952b0f3172cd03675ad99e67bf62b2a11b5057762e224d2a07",
+      "bytes": 5708
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/export01/first/labels.glb",
+      "sha256": "653f63bfcf338d3126157ff98b5eafba36261ba87e712e9f15f48957ad05740c",
+      "bytes": 183876
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/export01/reproducibility.json",
+      "sha256": "eef791b05d3fb35439e3c8e51a84ba86b251158b20a0cf6e6db584fa75d6fea9",
+      "bytes": 419
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/export01/second/export.json",
+      "sha256": "02292f1fbac2c4409da06d9176c9a3adea748af5c3a3e1b87e14d6d7139a5354",
+      "bytes": 5709
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/export01/second/labels.glb",
+      "sha256": "653f63bfcf338d3126157ff98b5eafba36261ba87e712e9f15f48957ad05740c",
+      "bytes": 183876
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/export04.py",
+      "sha256": "f07d9bfdf60806c4f69f43a51fe85c9ce7ef373bfc85de0fb971b7980bc9f619",
+      "bytes": 2945
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/export04/first/export.json",
+      "sha256": "853ab73cbd821397ddbd1c21efe4b8ab2bc51800dfc092927c4cb69d297f40f0",
+      "bytes": 5708
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/export04/first/labels.glb",
+      "sha256": "36613e9ef0ff897a2c9d3c4c9459d03bfaf31d5c8628ac1f54c314583144e509",
+      "bytes": 198156
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/export04/reproducibility.json",
+      "sha256": "674b6bb50c097f570f3dcfa1ce30ca17479aa5a1dadaec4ddb655ee34ad9bebe",
+      "bytes": 415
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/export04/second/export.json",
+      "sha256": "fd14ca7a552a24a3adec5b8a58d2b13e33bf580619315e4ec2a67d53e6274515",
+      "bytes": 5709
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/export04/second/labels.glb",
+      "sha256": "36613e9ef0ff897a2c9d3c4c9459d03bfaf31d5c8628ac1f54c314583144e509",
+      "bytes": 198156
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/fit02-preparation.json",
+      "sha256": "1fa83479ed2341d8342a2f879cfbac9ac92bd156c2abacbfcae62d27897e5484",
+      "bytes": 371
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/fit02.py",
+      "sha256": "563b6b60d3f6d1006682a19457f3301ed732199330b46a1d8ff5a4aab0cf0c39",
+      "bytes": 6193
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/fit02/actual-meshes.json.gz",
+      "sha256": "f361cd129599773a362c8015c1fcb1ec94eb687d2ca658b246104624395e322d",
+      "bytes": 17794353
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/fit02/fit.json.gz",
+      "sha256": "e50b0734dae753b9095841fa55131970a46910bb2f2cf2d592c3d8081882f53c",
+      "bytes": 78185
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/fit02/near-progress.jsonl",
+      "sha256": "549b77dfc02c54e1f14ad14c3ff10c323972aa868d747f5b222aa69512842282",
+      "bytes": 9617
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/fit02/self-checks.json.gz",
+      "sha256": "f14e93360841ae4d8dbccbf37ca171e907cdc25f5a03edb29fe518285daa2806",
+      "bytes": 455
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/fit02/summary.json",
+      "sha256": "4457b93e6a7ed41dd193707c3506b3ed5d754266f030002a25f9b90a2c10401b",
+      "bytes": 422
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/import01/inspection.json",
+      "sha256": "d693c31197a80ec8314f13fa2558b72d7961a6fd91764d950e6d83604b24c5d2",
+      "bytes": 1518
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/import01/inspection02.json",
+      "sha256": "1e2a6e6afe387d690c33783a29c2cd4c01193357f6441ace8f4c9cde1f4566f8",
+      "bytes": 2063
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/import01/preparation02.json",
+      "sha256": "606ed0502d9ea286e0f56b325053f5fb62e3629d6ef3bbf50ba60d404934b984",
+      "bytes": 379
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/import01/probe.json",
+      "sha256": "7dbaed332c118165f2fdcb85fa437d1ee56ed9c44912b4ea3f610c1e85ccb570",
+      "bytes": 787
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/import01/project/inspect.gd",
+      "sha256": "c88f3751c745ec397c8e19864bb852dc77ebd5714cce9400713468427a4f7acf",
+      "bytes": 3553
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/import01/project/inspect.gd.uid",
+      "sha256": "4dd38b2536c0523335e08b934fe6b06614ee362198b5969e4e65b57cced1e48b",
+      "bytes": 19
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/import01/project/inspect02.gd",
+      "sha256": "7b6f4734d5e16652394610c342c3f2b6a9722c849cd8f8e94d67f285568195c0",
+      "bytes": 3588
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/import01/project/labels.glb",
+      "sha256": "653f63bfcf338d3126157ff98b5eafba36261ba87e712e9f15f48957ad05740c",
+      "bytes": 183876
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/import01/project/labels.glb.import",
+      "sha256": "a026ac5c819c5b0a5fd992e9fe17c75d5b8d4f092659abe29bd865f87322a103",
+      "bytes": 1132
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/import01/project/labels_Meridian_StaticLabels_v26.png",
+      "sha256": "47f926cf914b9ec59d3bde82bb1c1f043f93046a38a38d463ccad97fbef37f2e",
+      "bytes": 10072
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/import01/project/labels_Meridian_StaticLabels_v26.png.import",
+      "sha256": "15c47461daadbb0d18f77d885881ff306a3a1dc1f4da1fd962a88b8f11e77046",
+      "bytes": 1066
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/import01/project/probe.gd",
+      "sha256": "92d40004b46ef2a24c6bedacb351af138c8c454a5ae0e91c511d9ae7e302a863",
+      "bytes": 795
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/import01/project/project.godot",
+      "sha256": "fe6fc96732b98bcd311c17515f71c13988adec0aa9e132ae5d7e0ddac276921e",
+      "bytes": 140
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/import04/inspection05.json",
+      "sha256": "3d906b50e9046d96a5cf1cdb6ca1e99f7a52d59a92795499c033a0af9d1d8412",
+      "bytes": 2815
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/import04/project/authored-atlas.png",
+      "sha256": "d8a3f31ab6ad87f11cb62a13dfc0d23b3c81d4c1c7c4ce92e7a525e42f262d88",
+      "bytes": 24347
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/import04/project/authored-atlas.png.import",
+      "sha256": "f6bab7139b80df1cff85017a61df87f35120ecdc6e9a2b4e674e68365d1764e6",
+      "bytes": 946
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/import04/project/inspect.gd",
+      "sha256": "9c3fc5a1e52d02ae5f24102e65bd68023cfd6f09d8b22af45f3e9bb79810117a",
+      "bytes": 3985
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/import04/project/inspect.gd.uid",
+      "sha256": "064babd5180bc3385a917c38cff2b7da3b205c176f6f66aab922304fe1fd3b25",
+      "bytes": 20
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/import04/project/inspect05.gd",
+      "sha256": "0958cba64caaa55c0b2b109bf727fe8f2c9e0da3a828ace16216746a5d617cd8",
+      "bytes": 4257
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/import04/project/labels.glb",
+      "sha256": "36613e9ef0ff897a2c9d3c4c9459d03bfaf31d5c8628ac1f54c314583144e509",
+      "bytes": 198156
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/import04/project/labels.glb.import",
+      "sha256": "c6ba5ce51106155e1212a240205b5c8e511c3852577584c393e7ff5cd224ed05",
+      "bytes": 1132
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/import04/project/labels_Meridian_StaticLabels_v26.png",
+      "sha256": "d8a3f31ab6ad87f11cb62a13dfc0d23b3c81d4c1c7c4ce92e7a525e42f262d88",
+      "bytes": 24347
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/import04/project/labels_Meridian_StaticLabels_v26.png.import",
+      "sha256": "6fee12821862d16812bf8e9cbe99a2698be401031521079c387f93102256c46b",
+      "bytes": 1065
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/import04/project/project.godot",
+      "sha256": "1ea86f1807f7244c1f565a4ebbf4405b631cb560f26d140911e29fbeb71878f4",
+      "bytes": 151
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/inspect01.gd",
+      "sha256": "c88f3751c745ec397c8e19864bb852dc77ebd5714cce9400713468427a4f7acf",
+      "bytes": 3553
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/inspect04.gd",
+      "sha256": "9c3fc5a1e52d02ae5f24102e65bd68023cfd6f09d8b22af45f3e9bb79810117a",
+      "bytes": 3985
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/preparation03.json",
+      "sha256": "a9ec58a14148a6ecfac1dc19922f748642f58525525cc3cfb7f45c8a01c3d4f8",
+      "bytes": 423
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/preparation04.json",
+      "sha256": "881c360b305e2877c7b221fccfacffede46c0575be5365fed8a7e10f81bb0b89",
+      "bytes": 1178
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/preparation05.json",
+      "sha256": "72c0da2f948449eeb145b367f43e2a7f099e7098ce0736db51c334da36f5bdea",
+      "bytes": 283
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/prepare-fit02.py",
+      "sha256": "625b9211d7e6f5970e96902fc3c2acf056a885dd31f0ac9bc6eddc1500ebb35c",
+      "bytes": 1632
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/prepare-import01.py",
+      "sha256": "d24f69c448cdc15da5a561420817e6abb2c0d922e96a73006a002d78ca5e2724",
+      "bytes": 1159
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/prepare-import04.py",
+      "sha256": "e009be27f7ea028c996b21df37a90df0db200462bca13db187c15f4c829a76ca",
+      "bytes": 1377
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/prepare-inspect02.py",
+      "sha256": "8bba8ba2298b434431526d25014eea35e0a68e51e0d45c12e09ae42594e2f118",
+      "bytes": 900
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/prepare03.py",
+      "sha256": "f399862ce6dc071aadc88ad4666cb8d1f0e4ad741bc80ef151505d99a36d0665",
+      "bytes": 1228
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/prepare04.py",
+      "sha256": "8c74fd3e717235156bcce87cc3fc33a5b744776727b5f3ddbf30f8519c9034f0",
+      "bytes": 2417
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/prepare05.py",
+      "sha256": "d4e919cd7c136ab91c0521f00d44efdd3e015818ebaab31b08a3cc20a9a27a9e",
+      "bytes": 1279
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/render01.py",
+      "sha256": "0f0b61d9e91a999a57f02660cfdcd5ccb66a733def2271014d1eccac3134cc6e",
+      "bytes": 1159
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/render01/baseline/atlas_climate.png",
+      "sha256": "92b77c14b8e10d184e1e76e3d3d19b196a5a731ce11e9a5ab8816feeffb2ff81",
+      "bytes": 3043231
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/render01/baseline/atlas_navigation.png",
+      "sha256": "7a0afbbe1f35ca12f5e4027fad72ab842b4313b20fdef181f335a044ebc52f54",
+      "bytes": 2982286
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/render01/baseline/atlas_radio.png",
+      "sha256": "a4e666460dd1e1475c4d1d09f8899194b3f874da30f9d77e89ff208270d05fc9",
+      "bytes": 3021921
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/render01/baseline/camera-override.json",
+      "sha256": "7ceb936f78fa5518c4f3279eae36c981e04a80cfaa3a9c5a07f3247d0d23e032",
+      "bytes": 363
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/render01/baseline/cockpit.png",
+      "sha256": "54c681344e5aff6fe2e57feb66b312aab02bb213eb6dea65a35d2df19222e12a",
+      "bytes": 3386571
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/render01/baseline/manifest.json",
+      "sha256": "a092bc2b8b3acffd9c231a7391a138f54b26fc34073cae697ef20d230aabc2da",
+      "bytes": 4723
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/render01/candidate/atlas_climate.png",
+      "sha256": "902653bb1754ed163860c14f048090c4aa78076b82da6828f8cc2f9e658e425b",
+      "bytes": 3054204
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/render01/candidate/atlas_navigation.png",
+      "sha256": "ea3310457bc945ffb3ba56c92e6f7db1f08bc96cd0d672be4815a4b47756ff7c",
+      "bytes": 2997853
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/render01/candidate/atlas_radio.png",
+      "sha256": "7c831863f19079b8a860da5cfebc77adf0b2312ec2887bb3707dea662a14f3e8",
+      "bytes": 3027929
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/render01/candidate/camera-override.json",
+      "sha256": "7ceb936f78fa5518c4f3279eae36c981e04a80cfaa3a9c5a07f3247d0d23e032",
+      "bytes": 363
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/render01/candidate/cockpit.png",
+      "sha256": "973eeed7de68fa2e876a4e53730de67db4a22f01199c3218bba999f84d016772",
+      "bytes": 3386793
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/render01/candidate/manifest.json",
+      "sha256": "d85811fecea3bb551e991e93fbc44cba0aec326ccb32f66977a90c89e6851651",
+      "bytes": 4717
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/render03/candidate/atlas_climate.png",
+      "sha256": "ee874a27cea7f3e278d895bf9d31724774e36801e9cc2d3e0f3b9e61123da1e1",
+      "bytes": 3050747
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/render03/candidate/atlas_navigation.png",
+      "sha256": "5ad8888ead5fea5edd042b4aa3b182a2b51059c1e1060c52c1f372474765906b",
+      "bytes": 2990001
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/render03/candidate/atlas_radio.png",
+      "sha256": "355678841d814509f4d0bacdf1f473f83f0f23ae9897a45ba2fc36d739c763f4",
+      "bytes": 3022535
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/render03/candidate/camera-override.json",
+      "sha256": "7ceb936f78fa5518c4f3279eae36c981e04a80cfaa3a9c5a07f3247d0d23e032",
+      "bytes": 363
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/render03/candidate/cockpit.png",
+      "sha256": "0c8e053681c3899c7d982b24625b96e34b4af657ed0d38dc265614e533a83e21",
+      "bytes": 3385857
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/render03/candidate/manifest.json",
+      "sha256": "fdaabfa6899a63517285bcc80cdc8ddbdd38a39b5d18077b590cfe07befde575",
+      "bytes": 4718
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/saved01/construction.json",
+      "sha256": "fbc13834902b63024714427f7ffcf3be466aeda380dedee3ca4c8c82c0a440a3",
+      "bytes": 18996
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/saved01/pre-reopen-fields.json.gz",
+      "sha256": "b1c91234fe7a766cf0e735137974dfb8f216fcc847ceed2b7809ea993ca31516",
+      "bytes": 8264509
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/saved01/source.blend",
+      "sha256": "2f9f1582c0dc32047330ca2f3e4d106947d4ee830fe11c565a7f5b18fbd0730e",
+      "bytes": 5088907
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/saved01/textures/Meridian_StaticLabels_v26.png",
+      "sha256": "47f926cf914b9ec59d3bde82bb1c1f043f93046a38a38d463ccad97fbef37f2e",
+      "bytes": 10072
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/saved03/construction.json",
+      "sha256": "baeeb9ab1e0db000c232d66935e0d8c23310e66ccf3ff5520b0b8b8fe2893506",
+      "bytes": 19005
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/saved03/pre-reopen-fields.json.gz",
+      "sha256": "a22140ac07281c5bc8178d8ed0d8b226f83749b7974f105d6aeb83d1994eec44",
+      "bytes": 8264513
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/saved03/source.blend",
+      "sha256": "ce45b840e7709c25902b8691832ea5329cd9de50a733dd7ed4f674801cb10b42",
+      "bytes": 5100634
+    },
+    {
+      "path": "reports/p1-018/static-label26-atlas01/saved03/textures/Meridian_StaticLabels_v26.png",
+      "sha256": "d8a3f31ab6ad87f11cb62a13dfc0d23b3c81d4c1c7c4ce92e7a525e42f262d88",
+      "bytes": 24347
+    }
+  ],
+  "archives": [
+    {
+      "path": "data/assets/vehicles/endurance-sedan-review/art-checkpoint-v27/art-checkpoint-v27-05.zip",
+      "sha256": "ceb793b60f1ba0c01cf5ff39aab223ac736eb23070689ec0b677c7d7bb1c7310",
+      "bytes": 90314756,
+      "crc_and_member_sha256_verified": true
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-retention01/art-checkpoint-v27-05-repeat.zip",
+      "sha256": "ceb793b60f1ba0c01cf5ff39aab223ac736eb23070689ec0b677c7d7bb1c7310",
+      "bytes": 90314756,
+      "crc_and_member_sha256_verified": true
+    }
+  ],
+  "human_approval_reference": null,
+  "limits": "Evidence retention and byte identity only; individual reports retain their own scope, failures and approval status.",
+  "byte_reproducible": true,
+  "finished_utc": "2026-09-12T22:07:25.987727+00:00"
+}

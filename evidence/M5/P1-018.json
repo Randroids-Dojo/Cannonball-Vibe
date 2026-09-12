@@ -1043,5 +1043,169 @@
       "Installedproduction34, final Blender/LOD/export/runtime/performance and human gates remain open."
     ],
     "human_approval_reference": null
+  },
+  "art_construction_checkpoint_v27": {
+    "utc": "2026-09-12T22:11:33.823673+00:00",
+    "git_base_revision": "0fd5c81677c3084ccaa1237d2689658334888e94",
+    "status": "retained-fresh-editable-surface-prototype",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "blender": {
+      "version": "5.1.2",
+      "build": "ec6e62d40fa9"
+    },
+    "index": {
+      "path": "data/assets/vehicles/endurance-sedan-review/art-checkpoint-v27/index.json",
+      "sha256": "ce9cbd8f0aee36a01def4cac19269e9acddc2eb299494ab07f4b233f28173409",
+      "bytes": 9549
+    },
+    "source": {
+      "path": "reports/p1-018/fresh-construction26-pilot05/fresh05/source.blend",
+      "sha256": "db7a04ce82561985c7955adc5e54aaf7d6e568f753e636f44c16a6a658bbbb73",
+      "bytes": 5112598
+    },
+    "reopened": {
+      "path": "reports/p1-018/fresh-construction26-pilot05/fresh05/reopened.json",
+      "sha256": "b46d231b7fe4addfad2cfcc26fcb4c6b8974d92602f893bc2c8a8f89f2ed3b4d",
+      "bytes": 12366
+    },
+    "lead_command": {
+      "path": "data/assets/vehicles/endurance-sedan-review/art-checkpoint-v27/lead-command.json",
+      "sha256": "037d30cacca81f67b8ef9ffc460af58d7abf5edd3cf1d66a4e79e38737f7ff35",
+      "bytes": 999,
+      "exit_status": 0
+    },
+    "metrics": {
+      "archives": 5,
+      "input_files": 2734,
+      "archive_bytes": 532230984,
+      "byte_identical_archive_builds": 2,
+      "lod0_triangles": 148820,
+      "lod0_ceiling": 150000,
+      "lod0_headroom": 1180,
+      "raw_meshes_and_modifiers_exact_after_reopen": 1102,
+      "source_control_cases": 109,
+      "source_light_states": 12,
+      "static_label_triangle_saving": 1168
+    },
+    "actual_empty_scene_construction": true,
+    "old_scene_input": null,
+    "native_visible_open": {
+      "path": "data/assets/vehicles/endurance-sedan-review/art-checkpoint-v27/visible-identity.json",
+      "sha256": "a9b1be15e446b74539ac1f059eaa8668d7a8706ec9c8a7cee91c32b4edf82007",
+      "bytes": 515
+    },
+    "documentation": "docs/vehicles/endurance-sedan/art-checkpoint-v27.md",
+    "retention_retry_count": 0,
+    "limitations": [
+      "Surface preview has no LOD1/2 and is not the installed asset.",
+      "Nine-part label GLB byte identity is not final shipping sedan reproducibility.",
+      "Component checks retain source bindings and do not close full assembly or motion.",
+      "Roof, fascia, brake finish, chosen LODs, full source/runtime/performance/platform checks and human gates remain open."
+    ],
+    "human_approval_reference": null,
+    "windows_m0": {
+      "status": "passed",
+      "git_base_revision": "0fd5c81677c3084ccaa1237d2689658334888e94",
+      "finished_utc": "2026-09-12T22:16:20.238408+00:00",
+      "steps": [
+        {
+          "name": "doctor",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/doctor.log"
+        },
+        {
+          "name": "dotnet-build",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/dotnet-build.log"
+        },
+        {
+          "name": "dotnet-test",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/dotnet-test.log"
+        },
+        {
+          "name": "ruff",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/ruff.log"
+        },
+        {
+          "name": "frame-allocations",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/frame-allocations.log"
+        },
+        {
+          "name": "continental-route",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/continental-route.log"
+        },
+        {
+          "name": "pytest-map-pipeline",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/pytest-map-pipeline.log"
+        },
+        {
+          "name": "pytest-playgodot-unit",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/pytest-playgodot-unit.log"
+        },
+        {
+          "name": "release-smoke-unit",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/release-smoke-unit.log"
+        },
+        {
+          "name": "godot-smoke",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/godot-smoke.log"
+        },
+        {
+          "name": "managed-shutdown",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/managed-shutdown.log"
+        },
+        {
+          "name": "camera-interpolation",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/camera-interpolation.log"
+        },
+        {
+          "name": "starter-speed",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/starter-speed.log"
+        }
+      ],
+      "inputs_unchanged_during_check": true,
+      "evidence_retention": {
+        "task_id": "P1-018",
+        "utc": "2026-09-12T22:21:11.511214+00:00",
+        "every_archive_byte_equal": true,
+        "all_members_sha256_and_crc_verified_twice": true,
+        "index": {
+          "path": "data/assets/vehicles/endurance-sedan-review/art-checkpoint-v27/frontdoor-index.json",
+          "sha256": "bccc5a09a29c2c97489f722fbe78f0a75f4e1354bda7de04ea02ac14d8a873b9"
+        },
+        "archive": {
+          "path": "data/assets/vehicles/endurance-sedan-review/art-checkpoint-v27/frontdoor.zip",
+          "sha256": "8fe01b3123faabb55c6f7819b0ad9e9855c5ff4a708629fd5d08c04a3cea1025",
+          "bytes": 585214
+        },
+        "human_approval_reference": null
+      },
+      "other_platforms_for_new_commit": "pending",
+      "human_approval_reference": null
+    }
   }
 }

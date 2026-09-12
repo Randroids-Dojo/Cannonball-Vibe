@@ -4010,7 +4010,7 @@
           "bytes": 0
         }
       ],
-      "scope": "All digits0\u20139, R/N/1\u20137, idle/cruise/reverse, left/right/hazard phases and the low-fuel boundary decode correctly from actual evaluated source-preview geometry. No invalid drivers. This is source preview logic, not an engine or fuel-system simulation."
+      "scope": "All digits0\u00e2\u20ac\u201c9, R/N/1\u00e2\u20ac\u201c7, idle/cruise/reverse, left/right/hazard phases and the low-fuel boundary decode correctly from actual evaluated source-preview geometry. No invalid drivers. This is source preview logic, not an engine or fuel-system simulation."
     },
     {
       "task_id": "P1-018",
@@ -9180,7 +9180,7 @@
         "O03"
       ],
       "summary": "Blockout attempt 01 had zero-area evaluated polygons from thin-object bevels and LOD simplification.",
-      "expected": "No evaluated polygon area below 1e-12 m\u00c2\u00b2 and no unintended nonmanifold edges.",
+      "expected": "No evaluated polygon area below 1e-12 m\u00c3\u201a\u00c2\u00b2 and no unintended nonmanifold edges.",
       "actual": {
         "degenerate_faces": 343,
         "affected_meshes": [
@@ -9320,7 +9320,7 @@
         "O03"
       ],
       "summary": "Attempt 02 GLB still has 14 degenerate triangles despite its polygon inventory passing.",
-      "expected": "Every exported triangle has area greater than the locked 1e-12 m\u00b2 degeneracy threshold.",
+      "expected": "Every exported triangle has area greater than the locked 1e-12 m\u00c2\u00b2 degeneracy threshold.",
       "actual": {
         "degenerate_triangles": 14,
         "triangles": 53552,
@@ -11868,7 +11868,7 @@
         {
           "utc": "2026-09-11T02:12:13.982593+00:00",
           "source_sha256": "997b38cf570991265b2c58e145927f6a24d014a0cef5e100e7494f1cf7285801",
-          "observation": "Source 20 InstrumentShade crosses the actual left wiper rubber at 60\u2013100% sweep. Root is moving the shade behind the windshield; fresh mesh and view verification is required.",
+          "observation": "Source 20 InstrumentShade crosses the actual left wiper rubber at 60\u00e2\u20ac\u201c100% sweep. Root is moving the shade behind the windshield; fresh mesh and view verification is required.",
           "evidence": [
             {
               "path": "reports/p1-018/qa/production-surface-20/contact-regression-review.json",
@@ -13776,7 +13776,20 @@
           "bytes": 22833
         }
       ],
-      "human_approval_reference": null
+      "human_approval_reference": null,
+      "checkpoint_updates": [
+        {
+          "utc": "2026-09-12T22:11:33.823673+00:00",
+          "checkpoint": {
+            "path": "data/assets/vehicles/endurance-sedan-review/art-checkpoint-v27/index.json",
+            "sha256": "ce9cbd8f0aee36a01def4cac19269e9acddc2eb299494ab07f4b233f28173409",
+            "bytes": 9549
+          },
+          "finding": "The retained five-mesh roof proposal is visually rejected for skin dents and its ledge. A new shared-section proposal is separately in progress.",
+          "status": "open",
+          "human_approval_reference": null
+        }
+      ]
     },
     {
       "id": "P1-018-D066",
@@ -13807,7 +13820,20 @@
           "bytes": 38048
         }
       ],
-      "human_approval_reference": null
+      "human_approval_reference": null,
+      "checkpoint_updates": [
+        {
+          "utc": "2026-09-12T22:11:33.823673+00:00",
+          "checkpoint": {
+            "path": "data/assets/vehicles/endurance-sedan-review/art-checkpoint-v27/index.json",
+            "sha256": "ce9cbd8f0aee36a01def4cac19269e9acddc2eb299494ab07f4b233f28173409",
+            "bytes": 9549
+          },
+          "finding": "Swept lamps reduce the excess hood wedge; all64 affected mesh checks and63712 pair comparison pass locally. Broad center fascia and forked shoulder reflection remain visibly open.",
+          "status": "open",
+          "human_approval_reference": null
+        }
+      ]
     },
     {
       "id": "P1-018-D067",
@@ -13949,7 +13975,20 @@
           "bytes": 123018
         }
       ],
-      "human_approval_reference": null
+      "human_approval_reference": null,
+      "checkpoint_updates": [
+        {
+          "utc": "2026-09-12T22:11:33.823673+00:00",
+          "checkpoint": {
+            "path": "data/assets/vehicles/endurance-sedan-review/art-checkpoint-v27/index.json",
+            "sha256": "ce9cbd8f0aee36a01def4cac19269e9acddc2eb299494ab07f4b233f28173409",
+            "bytes": 9549
+          },
+          "finding": "Complete native LOD candidate32 passes206 batches/748 indexed shells but its actual front reflection is rejected. Later protected-feature work is outside this checkpoint.",
+          "status": "open",
+          "human_approval_reference": null
+        }
+      ]
     },
     {
       "id": "P1-018-D071",
@@ -14164,6 +14203,19 @@
           "sha256": "6460b24ed1ae298ec7d984543fb47baefa301be0c1775ba8bd8a77e8184754bd",
           "bytes": 22833
         }
+      ],
+      "checkpoint_updates": [
+        {
+          "utc": "2026-09-12T22:11:33.823673+00:00",
+          "checkpoint": {
+            "path": "data/assets/vehicles/endurance-sedan-review/art-checkpoint-v27/index.json",
+            "sha256": "ce9cbd8f0aee36a01def4cac19269e9acddc2eb299494ab07f4b233f28173409",
+            "bytes": 9549
+          },
+          "finding": "Fresh construction includes field-corrected radiator, formed charge coolers and six curved pipes. Complete local pipe port/rest/opening evidence passes; final whole-source runtime evidence remains open.",
+          "status": "open",
+          "human_approval_reference": null
+        }
       ]
     },
     {
@@ -14195,6 +14247,19 @@
           "path": "reports/p1-018/visual26-root-review01/surface-trials03.json",
           "sha256": "6460b24ed1ae298ec7d984543fb47baefa301be0c1775ba8bd8a77e8184754bd",
           "bytes": 22833
+        }
+      ],
+      "checkpoint_updates": [
+        {
+          "utc": "2026-09-12T22:11:33.823673+00:00",
+          "checkpoint": {
+            "path": "data/assets/vehicles/endurance-sedan-review/art-checkpoint-v27/index.json",
+            "sha256": "ce9cbd8f0aee36a01def4cac19269e9acddc2eb299494ab07f4b233f28173409",
+            "bytes": 9549
+          },
+          "finding": "Fresh source includes four compact Bfont atlas patches; independent matched review and isolated actual Godot exact-RGBA import pass. Final cockpit runtime and usability remain open.",
+          "status": "open",
+          "human_approval_reference": null
         }
       ]
     },
@@ -14228,7 +14293,20 @@
           "bytes": 818
         }
       ],
-      "human_approval_reference": null
+      "human_approval_reference": null,
+      "checkpoint_updates": [
+        {
+          "utc": "2026-09-12T22:11:33.823673+00:00",
+          "checkpoint": {
+            "path": "data/assets/vehicles/endurance-sedan-review/art-checkpoint-v27/index.json",
+            "sha256": "ce9cbd8f0aee36a01def4cac19269e9acddc2eb299494ab07f4b233f28173409",
+            "bytes": 9549
+          },
+          "finding": "Fresh source includes24 rotor vents with local finite/wheel-motion evidence; polygonal friction disc rim and caliper finish require the separate current brake-edge proposal.",
+          "status": "open",
+          "human_approval_reference": null
+        }
+      ]
     },
     {
       "id": "P1-018-D078",
@@ -14244,7 +14322,20 @@
       "correction": "Bounded33-part native field correction described in cylinder-finish26-pilot01/DESIGN.md; no geometry/material changes.",
       "verification": "Pending actual saved/reopened native fields and matched render inspection.",
       "assigned_owner": "lead",
-      "resolution_evidence": []
+      "resolution_evidence": [],
+      "checkpoint_updates": [
+        {
+          "utc": "2026-09-12T22:11:33.823673+00:00",
+          "checkpoint": {
+            "path": "data/assets/vehicles/endurance-sedan-review/art-checkpoint-v27/index.json",
+            "sha256": "ce9cbd8f0aee36a01def4cac19269e9acddc2eb299494ab07f4b233f28173409",
+            "bytes": 9549
+          },
+          "finding": "Fresh native radiator/cooler construction preserves declared retained UV/normal fields with complete local packets. Full final source and runtime acceptance remain open.",
+          "status": "open",
+          "human_approval_reference": null
+        }
+      ]
     }
   ],
   "qa_gaps": [
@@ -14386,5 +14477,5 @@
       "approval_reference": null
     }
   ],
-  "updated_utc": "2026-09-12T17:49:34.796388+00:00"
+  "updated_utc": "2026-09-12T22:11:33.823673+00:00"
 }
