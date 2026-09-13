@@ -597,7 +597,7 @@ async def test_quit_does_not_retry_arbitrary_protocol_errors(
 
 @pytest.mark.asyncio
 async def test_full_eight_second_deadline_includes_a_stuck_process_and_pipe(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, record_property,
 ) -> None:
     from cannonball_playgodot import launcher
 
@@ -607,17 +607,91 @@ async def test_full_eight_second_deadline_includes_a_stuck_process_and_pipe(
     process.log_path.write_text("")
     process.process = child = _Child()
     monkeypatch.setattr(process, "_request_quit", AsyncMock(side_effect=TimeoutError))
-    monkeypatch.setattr(process, "_signal_process", lambda *, force: None)
+    signals, deadlines = [], []
+    monkeypatch.setattr(process, "_signal_process", lambda *, force: signals.append(force))
+    before = process._before
+
+    async def observe_deadline(awaitable, deadline):
+        deadlines.append(deadline - process.teardown_result["started_monotonic_seconds"])
+        return await before(awaitable, deadline)
+
+    monkeypatch.setattr(process, "_before", observe_deadline)
     started = asyncio.get_running_loop().time()
-    with pytest.raises(ShutdownError):
-        await process.stop()
-    elapsed = asyncio.get_running_loop().time() - started
-    # Scheduler dispatch adds small test-host overhead; production retains the
-    # strict 8.0 comparison and reports this intentionally stuck case failed.
-    assert 7.9 <= elapsed < 8.3
-    assert process.teardown_result["phase_seconds"] == [5.0, 1.0, 1.0, 1.0]
-    assert process.process is child and process.teardown_result["status"] == "failed"
-    child.finish()
+    try:
+        with pytest.raises(ShutdownError):
+            await process.stop()
+        elapsed = asyncio.get_running_loop().time() - started
+        record_property("shutdown_wall_elapsed_seconds", elapsed)
+        # Event-loop dispatch can resume late. Verify the deadlines passed to
+        # the real waits; a late failed owner remains a failure, never success.
+        assert elapsed >= 7.9
+        assert deadlines == pytest.approx([5.0, 6.0, 7.0, 8.0], abs=1e-8)
+        result = process.teardown_result
+        assert result["phase_seconds"] == [5.0, 1.0, 1.0, 1.0]
+        assert result["total_budget_seconds"] == 8.0
+        assert signals == [False, True] and result["fallback"] == ["terminate", "kill"]
+        assert process.process is child and result["status"] == "failed"
+        assert result["exit_status"] is None and not result["output_eof"]
+        assert not result["bookkeeping_completed"]
+        assert {row["phase"] for row in result["phase_errors"]} >= {"output-drain", "bookkeeping"}
+    finally:
+        child.finish()
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("completion_elapsed, passed", [
+    (7.99, True), (8.0, True), (8.000001, False), (8.324299, False),
+])
+async def test_owner_finalization_never_passes_beyond_absolute_eight_seconds(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, completion_elapsed: float, passed: bool,
+) -> None:
+    from cannonball_playgodot import launcher
+
+    assert launcher.SHUTDOWN_TIMEOUT_SECONDS == 8.0
+    process = PlayGodotProcess(tmp_path, tmp_path / "route")
+    process.process = child = _Child()
+    loop = asyncio.get_running_loop()
+    clock = [1000.0]
+    before = process._before
+
+    async def quit_child(_deadline, record):
+        record.update(quit_requested=True, quit_acknowledged=True)
+        _quit_marker(process)
+        child.finish()
+
+    def bookkeeping(_record):
+        future = loop.create_future()
+        future.set_result({"profile_removed": False})
+        process._bookkeeping_future = future
+        return future
+
+    async def observe_completion(awaitable, deadline):
+        result = await before(awaitable, deadline)
+        if process._bookkeeping_future is not None:
+            # Advance only the owner's observed completion time, after the
+            # successful wait, so every other success prerequisite holds.
+            clock[0] = 1000.0 + completion_elapsed
+        return result
+
+    with monkeypatch.context() as patch:
+        patch.setattr(
+            launcher.asyncio, "get_running_loop", lambda: SimpleNamespace(time=lambda: clock[0]),
+        )
+        patch.setattr(process, "_request_quit", quit_child)
+        patch.setattr(process, "_start_bookkeeping", bookkeeping)
+        patch.setattr(process, "_before", observe_completion)
+        if passed:
+            await process.stop()
+        else:
+            with pytest.raises(ShutdownError):
+                await process.stop()
+    result = process.teardown_result
+    assert result["elapsed_seconds"] == pytest.approx(completion_elapsed, abs=1e-8)
+    assert result["total_budget_seconds"] == 8.0
+    assert result["exit_status"] == 0 and result["output_eof"] and result["bookkeeping_completed"]
+    assert not result["fallback"] and not result["phase_errors"] and not result["diagnostics"]
+    assert result["unfinished_operations"] == 0 and process.process is None
+    assert result["status"] == ("passed" if passed else "failed")
 
 
 @pytest.mark.asyncio

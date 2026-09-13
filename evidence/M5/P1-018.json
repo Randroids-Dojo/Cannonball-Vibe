@@ -3,8 +3,8 @@
   "task_id": "P1-018",
   "milestone": "M5",
   "status": "in_progress",
-  "utc": "2026-09-13T08:06:50.959876+00:00",
-  "git_revision": "eb5703e55f3656e91bd80fb79502f10ce250554b",
+  "utc": "2026-09-13T09:14:22.739028+00:00",
+  "git_revision": "a7dccc8586b04fa165f784b5b93a4db96905ed57",
   "git_state": "Measured source34 worktree checkpoint before the implementation commit; committed-build runtime/performance/platform acceptance remains outstanding.",
   "platform": "Windows-11-10.0.26200-SP0",
   "tool_versions": {
@@ -1811,5 +1811,148 @@
       "Human visual/rights/driving/wheel-feel/usability approvals"
     ],
     "human_approval_reference": null
+  },
+  "showroom_ci_deadline_v33": {
+    "schema_version": 1,
+    "task_id": "P1-018",
+    "milestone": "M5",
+    "utc": "2026-09-13T09:14:22.739028+00:00",
+    "git_revision": "a7dccc8586b04fa165f784b5b93a4db96905ed57",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "status": "test_correction_and_full_windows_frontdoor_passed_remote_recovery_pending",
+    "input_test": {
+      "path": "automation/playgodot/tests/test_launcher.py",
+      "bytes": 48622,
+      "sha256": "5653fb2aaf6b56432651d332fb9c7331cb4181aef669f2fcf5aad317c7316c72"
+    },
+    "protected_launcher": {
+      "path": "automation/playgodot/src/cannonball_playgodot/launcher.py",
+      "bytes": 33970,
+      "sha256": "edf258c044c7a027993c923248140943d0c65c0786fca20288c31b24712e0d78",
+      "unchanged": true
+    },
+    "archive": {
+      "path": "data/assets/vehicles/endurance-sedan-review/ci-deadline-v33/evidence.zip",
+      "bytes": 186318,
+      "sha256": "38f833f0b525575fa20cb38a539fff42beaa8fa1cab6c44a6c2c63973490d2fe"
+    },
+    "inventory": {
+      "path": "reports/p1-018/ci-deadline33-retention01/inventory02.json",
+      "bytes": 35975,
+      "sha256": "37bd213e50e6f13d2997342eff890c9ba4cb1b5cee787abf9442102cfc5d910c"
+    },
+    "shipping_archive_bytes_identical": true,
+    "independent_archive_builds": 2,
+    "all_members_reread_and_verified": true,
+    "full_frontdoor": {
+      "schema_version": 1,
+      "status": "passed",
+      "platform": "MINGW64_NT-10.0-26200",
+      "commit": "a7dccc8586b04fa165f784b5b93a4db96905ed57",
+      "started_at": "2026-09-13T09:04:41Z",
+      "finished_at": "2026-09-13T09:09:24Z",
+      "steps": [
+        {
+          "name": "doctor",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/doctor.log"
+        },
+        {
+          "name": "dotnet-build",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/dotnet-build.log"
+        },
+        {
+          "name": "dotnet-test",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/dotnet-test.log"
+        },
+        {
+          "name": "ruff",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/ruff.log"
+        },
+        {
+          "name": "frame-allocations",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/frame-allocations.log"
+        },
+        {
+          "name": "continental-route",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/continental-route.log"
+        },
+        {
+          "name": "pytest-map-pipeline",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/pytest-map-pipeline.log"
+        },
+        {
+          "name": "pytest-playgodot-unit",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/pytest-playgodot-unit.log"
+        },
+        {
+          "name": "release-smoke-unit",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/release-smoke-unit.log"
+        },
+        {
+          "name": "godot-smoke",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/godot-smoke.log"
+        },
+        {
+          "name": "managed-shutdown",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/managed-shutdown.log"
+        },
+        {
+          "name": "camera-interpolation",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/camera-interpolation.log"
+        },
+        {
+          "name": "starter-speed",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/starter-speed.log"
+        }
+      ]
+    },
+    "focused_launcher_client_cases": 135,
+    "full_frontdoor_playgodot_cases": 190,
+    "warning": "pytest record_property emits its xunit2 compatibility warning; all190 cases pass. Elapsed diagnostics are retained.",
+    "actual_macos_failure": {
+      "revision": "a7dccc8586b04fa165f784b5b93a4db96905ed57",
+      "run_id": 34746950401,
+      "job_id": 103696508641,
+      "observed_wall_seconds": 8.324298999999996,
+      "other_cases_passed": 205,
+      "skipped": 6,
+      "actual_showroom_passed": true
+    },
+    "runtime_deadline_seconds": 8.0,
+    "human_approval_reference": null,
+    "remote_recovery_reference": null,
+    "asset_scope_note": "Newly recorded geometry scopes already present in ledger notes are retained here; their in-progress proposals are not claimed complete.",
+    "retained_index": {
+      "path": "data/assets/vehicles/endurance-sedan-review/ci-deadline-v33/index.json",
+      "bytes": 4168,
+      "sha256": "00a839f04d9f76d5cfbfd70a53d0e7eaa78874c95453fab6e31b4262cb7661bc"
+    },
+    "audit": "docs/vehicles/endurance-sedan/ci-deadline-v33.md"
   }
 }
