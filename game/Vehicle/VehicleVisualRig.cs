@@ -500,6 +500,7 @@ public sealed partial class VehicleVisualRig : Node3D
                     // Explicit source response is authoritative. In particular,
                     // dark polymer trim must not inherit Hero's metallic fallback.
                     case "standard":
+                        ApplyDeclaredStandardCoat(material, extras);
                         break;
                     case "car_paint" when paintShader is not null:
                         if (!paintMaterials.TryGetValue(name, out var paint))
@@ -563,6 +564,29 @@ public sealed partial class VehicleVisualRig : Node3D
             paint.Dispose();
         }
         paintShader?.Dispose();
+    }
+
+    private static void ApplyDeclaredStandardCoat(StandardMaterial3D material, Godot.Collections.Dictionary extras)
+    {
+        var hasWeight = extras.TryGetValue("coat_weight", out var weightValue);
+        var hasRoughness = extras.TryGetValue("coat_roughness", out var roughnessValue);
+        if (!hasWeight && !hasRoughness) return;
+        if (!hasWeight || !hasRoughness ||
+            weightValue.VariantType is not (Variant.Type.Int or Variant.Type.Float) ||
+            roughnessValue.VariantType is not (Variant.Type.Int or Variant.Type.Float))
+        {
+            throw new InvalidOperationException($"Material '{material.ResourceName}' must declare a numeric coat_weight and coat_roughness pair.");
+        }
+        var weight = weightValue.AsDouble();
+        var roughness = roughnessValue.AsDouble();
+        if (!double.IsFinite(weight) || !double.IsFinite(roughness) ||
+            weight is < 0 or > 1 || roughness is < 0 or > 1)
+        {
+            throw new InvalidOperationException($"Material '{material.ResourceName}' coat_weight and coat_roughness must be finite values in [0, 1].");
+        }
+        material.ClearcoatEnabled = weight > 0;
+        material.Clearcoat = (float)weight;
+        material.ClearcoatRoughness = (float)roughness;
     }
 
     private static string FamilyFromName(string name)

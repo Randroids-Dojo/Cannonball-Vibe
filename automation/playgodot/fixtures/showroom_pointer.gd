@@ -209,7 +209,10 @@ func _run() -> void:
 	var window = get_window()
 	window.size = Vector2i(1600, 900)
 	await _settle()
-	_check("live-resize-render-viewport", window.size == Vector2i(1600, 900) and Vector2i(_state()["viewport_width"], _state()["viewport_height"]) == window.size, {"actual_window": [window.size.x, window.size.y], "state": _state()})
+	# The desktop compositor can clamp a requested window to its usable area.
+	# A real resize must occur and the private render target must follow it.
+	var resized_window = window.size
+	_check("live-resize-render-viewport", resized_window.x > 0 and resized_window.y > 0 and resized_window != original_window_size and Vector2i(_state()["viewport_width"], _state()["viewport_height"]) == resized_window, {"requested_window": [1600, 900], "original_window": [original_window_size.x, original_window_size.y], "actual_window": [resized_window.x, resized_window.y], "state": _state()})
 	await _capture("04-resized")
 	var before_resize_drag = _state()
 	_mouse(point, MOUSE_BUTTON_LEFT, true)
