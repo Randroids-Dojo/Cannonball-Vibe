@@ -3,9 +3,9 @@
   "task_id": "P1-018",
   "milestone": "M5",
   "status": "in_progress",
-  "utc": "2026-09-13T10:52:05.281334+00:00",
-  "git_revision": "96b9bc6ca21a7726270712227d1351a113d92bd7",
-  "git_state": "Measured source34 worktree checkpoint before the implementation commit; committed-build runtime/performance/platform acceptance remains outstanding.",
+  "utc": "2026-09-13T12:36:06.591439+00:00",
+  "git_revision": "6be5deba1dd6a1342b638efc662b77b7f2da4240",
+  "git_state": "Measured viewer35 worktree checkpoint before implementation commit; installed model production34 and continuing art repairs remain separate.",
   "platform": "Windows-11-10.0.26200-SP0",
   "tool_versions": {
     "blender": "Blender 5.1.2\r\n\tbuild date: 2026-05-19\r\n\tbuild time: 01:37:34\r\n\tbuild commit date: 2026-05-18\r\n\tbuild commit time: 13:43\r\n\tbuild hash: ec6e62d40fa9\r\n\tbuild branch: blender-v5.1-release\r\n\tbuild platform: Windows\r\n\tbuild type: Release\r\n\tbuild c flags:  -Wall -Werror=implicit-function-declaration -Werror=return-type -Wno-tautological-compare -Wno-unknown-pragmas -Wno-char-subscripts -Wstrict-prototypes -Wmissing-prototypes -Wunused-parameter -Wundef -Wundef-prefix -Werror=unguarded-availability-new /W3 -Wno-c++98-compat -Wno-old-style-cast -Wno-unsafe-buffer-usage -Wno-missing-prototypes -Wno-sign-conversion -Wno-missing-field-initializers -Wno-extra-semi -Wno-language-extension-token -Wno-implicit-float-conversion -Wno-c++98-compat-pedantic -Wno-implicit-int-float-conversion -Wno-double-promotion -Wno-pre-c++17-compat -Wno-shorten-64-to-32 -Wno-c++98-compat-local-type-template-args -Wno-reserved-identifier -Wno-cast-align -Wno-documentation -Wno-disabled-macro-expansion -Wno-extra-semi-stmt -Wno-zero-as-null-pointer-constant -Wno-float-conversion -Wno-reserved-macro-identifier -Wno-cast-function-type-strict -Wno-float-equal -Wno-implicit-int-conversion -Wno-shadow -Wno-shadow-field-in-constructor -Wno-cast-qual -Wno-pre-c++14-compat -Wno-global-constructors -Wno-switch-enum -Wno-exit-time-destructors -Wno-ctad-maybe-unsupported -Wno-undefined-func-template -Wno-c++98-compat-extra-semi -Wno-cast-function-type -Wno-nullability-extension -Wno-shadow-field -Wno-conditional-uninitialized -Wno-unused-parameter -Wno-suggest-destructor-override -Wno-shadow-uncaptured-local -Wno-unused-macros -Wno-covered-switch-default -Wno-signed-enum-bitfield -Wno-declaration-after-statement -Wno-implicit-fallthrough -Wno-non-virtual-dtor -Wno-nested-anon-types -Wno-gnu-zero-variadic-macro-arguments -Wno-unreachable-code-break -Wno-inconsistent-missing-destructor-override -Wno-format-pedantic -Wno-nonportable-system-include-path -Wno-undef -Wno-ignored-qualifiers -Wno-used-but-marked-unused -Wno-header-hygiene -Wno-char-subscripts -Wno-unreachable-code-return -Wno-unused-template -Wno-gnu-anonymous-struct -Wno-deprecated-copy-with-user-provided-dtor -Wno-inconsistent-missing-override -Wno-unreachable-code -Wno-deprecated-dynamic-exception-spec -Wno-bad-function-cast -Wno-microsoft-enum-value -Wno-deprecated-copy-with-user-provided-copy -Wno-zero-length-array -Wno-unused-function -Wno-pedantic -Wno-deprecated-copy-with-dtor -Wno-documentation-unknown-command -Wno-undefined-reinterpret-cast -Wno-format-nonliteral -Wno-comma -Wno-documentation-deprecated-sync -Wno-shift-sign-overflow -Wno-pre-c++17-compat-pedantic -Wno-c++98-compat-unnamed-type-template-args -Wno-sign-compare -Wno-format -Wno-c++98-compat-bind-to-temporary-copy -Wno-enum-enum-conversion -Wno-anon-enum-enum-conversion -Wno-range-loop-bind-reference -Wno-enum-float-conversion -Wno-keyword-macro -Wno-deprecated-copy -Wno-unused-member-function -Wno-missing-noreturn -Wno-missing-variable-declarations -Wno-documentation-html -Wno-gnu-redeclared-enum -Wno-deprecated-declarations -Wno-overloaded-virtual -Wno-c++98-c++11-compat-binary-literal -Wno-deprecated-redundant-constexpr-static-def -Wno-missing-braces -Wno-c99-extensions -Wno-strict-prototypes -Wno-unreachable-code-loop-increment -Wno-gnu-case-range -Wno-duplicate-enum -Wno-null-pointer-subtraction -Wno-deprecated-literal-operator -Wno-newline-eof -Wno-microsoft-cast -Wno-date-time -Wno-delete-non-abstract-non-virtual-dtor -Wno-unused-private-field -Wno-flexible-array-extensions -Wno-string-conversion -Wno-final-dtor-non-final-class -Wno-microsoft-unqualified-friend -Wno-invalid-noreturn -Wno-invalid-utf8 -Wno-four-char-constants -Wno-parentheses -Wno-pessimizing-move -Wno-deprecated-non-prototype -Wno-bitfield-enum-conversion -Wno-unused-lambda-capture -Wno-shadow-field-in-constructor-modified -Wno-switch-default -Wno-nan-infinity-disabled -Wno-pre-c11-compat /DWIN32 /D_WINDOWS  /MP /nologo /J /Gy /Gd /showFilenames -Wno-unused-command-line-argument -Wno-microsoft-enum-forward-reference /clang:-funsigned-char /clang:-fno-strict-aliasing /clang:-ffp-contract=off -march=x86-64-v2 \r\n\tbuild c++ flags:  -Wall -Wno-tautological-compare -Wno-unknown-pragmas -Wno-char-subscripts -Wno-overloaded-virtual -Wno-sign-compare -Wno-invalid-offsetof -Wno-suggest-override -Wundef -Wundef-prefix -Wunused-parameter -Wmismatched-tags -Werror=unguarded-availability-new /W3 -Wno-c++98-compat -Wno-old-style-cast -Wno-unsafe-buffer-usage -Wno-missing-prototypes -Wno-sign-conversion -Wno-missing-field-initializers -Wno-extra-semi -Wno-language-extension-token -Wno-implicit-float-conversion -Wno-c++98-compat-pedantic -Wno-implicit-int-float-conversion -Wno-double-promotion -Wno-pre-c++17-compat -Wno-shorten-64-to-32 -Wno-c++98-compat-local-type-template-args -Wno-reserved-identifier -Wno-cast-align -Wno-documentation -Wno-disabled-macro-expansion -Wno-extra-semi-stmt -Wno-zero-as-null-pointer-constant -Wno-float-conversion -Wno-reserved-macro-identifier -Wno-cast-function-type-strict -Wno-float-equal -Wno-implicit-int-conversion -Wno-shadow -Wno-shadow-field-in-constructor -Wno-cast-qual -Wno-pre-c++14-compat -Wno-global-constructors -Wno-switch-enum -Wno-exit-time-destructors -Wno-ctad-maybe-unsupported -Wno-undefined-func-template -Wno-c++98-compat-extra-semi -Wno-cast-function-type -Wno-nullability-extension -Wno-shadow-field -Wno-conditional-uninitialized -Wno-unused-parameter -Wno-suggest-destructor-override -Wno-shadow-uncaptured-local -Wno-unused-macros -Wno-covered-switch-default -Wno-signed-enum-bitfield -Wno-declaration-after-statement -Wno-implicit-fallthrough -Wno-non-virtual-dtor -Wno-nested-anon-types -Wno-gnu-zero-variadic-macro-arguments -Wno-unreachable-code-break -Wno-inconsistent-missing-destructor-override -Wno-format-pedantic -Wno-nonportable-system-include-path -Wno-undef -Wno-ignored-qualifiers -Wno-used-but-marked-unused -Wno-header-hygiene -Wno-char-subscripts -Wno-unreachable-code-return -Wno-unused-template -Wno-gnu-anonymous-struct -Wno-deprecated-copy-with-user-provided-dtor -Wno-inconsistent-missing-override -Wno-unreachable-code -Wno-deprecated-dynamic-exception-spec -Wno-bad-function-cast -Wno-microsoft-enum-value -Wno-deprecated-copy-with-user-provided-copy -Wno-zero-length-array -Wno-unused-function -Wno-pedantic -Wno-deprecated-copy-with-dtor -Wno-documentation-unknown-command -Wno-undefined-reinterpret-cast -Wno-format-nonliteral -Wno-comma -Wno-documentation-deprecated-sync -Wno-shift-sign-overflow -Wno-pre-c++17-compat-pedantic -Wno-c++98-compat-unnamed-type-template-args -Wno-sign-compare -Wno-format -Wno-c++98-compat-bind-to-temporary-copy -Wno-enum-enum-conversion -Wno-anon-enum-enum-conversion -Wno-range-loop-bind-reference -Wno-enum-float-conversion -Wno-keyword-macro -Wno-deprecated-copy -Wno-unused-member-function -Wno-missing-noreturn -Wno-missing-variable-declarations -Wno-documentation-html -Wno-gnu-redeclared-enum -Wno-deprecated-declarations -Wno-overloaded-virtual -Wno-c++98-c++11-compat-binary-literal -Wno-deprecated-redundant-constexpr-static-def -Wno-missing-braces -Wno-c99-extensions -Wno-strict-prototypes -Wno-unreachable-code-loop-increment -Wno-gnu-case-range -Wno-duplicate-enum -Wno-null-pointer-subtraction -Wno-deprecated-literal-operator -Wno-newline-eof -Wno-microsoft-cast -Wno-date-time -Wno-delete-non-abstract-non-virtual-dtor -Wno-unused-private-field -Wno-flexible-array-extensions -Wno-string-conversion -Wno-final-dtor-non-final-class -Wno-microsoft-unqualified-friend -Wno-invalid-noreturn -Wno-invalid-utf8 -Wno-four-char-constants -Wno-parentheses -Wno-pessimizing-move -Wno-deprecated-non-prototype -Wno-bitfield-enum-conversion -Wno-unused-lambda-capture -Wno-shadow-field-in-constructor-modified -Wno-switch-default -Wno-nan-infinity-disabled -Wno-pre-c11-compat /DWIN32 /D_WINDOWS   /EHsc  /Gy /MP /nologo /J /Gd /showFilenames /EHsc -Wno-unused-command-line-argument -Wno-microsoft-enum-forward-reference /clang:-funsigned-char /clang:-fno-strict-aliasing /clang:-ffp-contract=off -march=x86-64-v2 \r\n\tbuild link flags: /MACHINE:X64  /SUBSYSTEM:CONSOLE /STACK:2097152 /ignore:4049 /ignore:4217 /ignore:4221\r\n\tbuild system: CMake",
@@ -2187,5 +2187,66 @@
       "bytes": 3081
     },
     "ledger_complete": false
+  },
+  "interactive_showroom_checkpoint_v35": {
+    "schema_version": 1,
+    "task_id": "P1-018",
+    "milestone": "M5",
+    "git_revision": "6be5deba1dd6a1342b638efc662b77b7f2da4240",
+    "utc": "2026-09-13T12:33:53.902177+00:00",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "status": "local_viewer_and_test_contract_verified_asset_production_in_progress",
+    "archive": {
+      "path": "data/assets/vehicles/endurance-sedan-review/viewer-v35/evidence.zip",
+      "sha256": "482f51b2e4479af578a6a1cd73f4d276edebc496f21180e32be99daee93a262e",
+      "bytes": 105647865
+    },
+    "inventory": {
+      "path": "reports/p1-018/viewer35-retention01/inputs01.json",
+      "sha256": "5ae83d1cb545f3ab6e175bbba4ba55937da6f5f02ca05574af0d5cb405b9fc89",
+      "bytes": 274490
+    },
+    "file_count": 1149,
+    "builds": 2,
+    "every_archive_byte_identical": true,
+    "every_member_reread_verified": true,
+    "all_locked_inputs_unchanged": true,
+    "root_review": {
+      "path": "reports/p1-018/viewer35-retention01/review01.json",
+      "sha256": "22f88c0b36231fadf9a3ca6f00da4323ff9f0b81e0ce104ca77777730734a10f",
+      "bytes": 8419
+    },
+    "agent_summary": {
+      "path": "reports/p1-018/runtime/ci-owner35-diagnosis01/summary08.json",
+      "sha256": "d5a89cd5c05905d416f47b9323ed243e430ee76406160ec81597e19b3adf5ff4",
+      "bytes": 25316
+    },
+    "agent_handoff": {
+      "path": "reports/p1-018/runtime/ci-owner35-diagnosis01/HANDOFF08.md",
+      "sha256": "380d462c2070bcc6abdb1cd85939945e94491a13b6c683daf37de00f161aba99",
+      "bytes": 3360
+    },
+    "full_frontdoor": {
+      "path": "reports/p1-018/viewer35-frontdoor02/summary.json",
+      "sha256": "af89cf52bf7f60c166ab832768f441eb3cbd4dea440cc806c66d2b0922fe49f1",
+      "bytes": 1482
+    },
+    "independent_visual_review": {
+      "path": "reports/p1-018/qa/showroom-shading35-01/review02.json",
+      "sha256": "35b1182afb9f5fb83c5b8db7efd7426f93f921db401d92c4164aa16e1a7cd4e3",
+      "bytes": 62951
+    },
+    "human_approval_reference": null,
+    "ledger_complete": false,
+    "retained_index": {
+      "path": "data/assets/vehicles/endurance-sedan-review/viewer-v35/index.json",
+      "sha256": "db0efa6b83b88326759adcb03ee7fd73e7ec5ab853db348055f4a75cbbb92ee0",
+      "bytes": 1912
+    },
+    "audit": {
+      "path": "docs/vehicles/endurance-sedan/showroom-checkpoint-v35.md",
+      "sha256": "8117ecf96be46e6ff6a8801cf550a32e5b6e9d24a47982f7679da1c9a36873f2",
+      "bytes": 4216
+    }
   }
 }

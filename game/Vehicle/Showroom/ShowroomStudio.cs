@@ -26,7 +26,7 @@ public partial class VehicleShowroom
             LightEnergy = 2.1f, LightColor = new Color(1, .96f, .9f),
             ShadowEnabled = true, ShadowBias = .1f, ShadowNormalBias = 1,
             DirectionalShadowMode = DirectionalLight3D.ShadowMode.Orthogonal,
-            DirectionalShadowMaxDistance = 20, LightAngularDistance = 8,
+            DirectionalShadowMaxDistance = 20, LightAngularDistance = 2,
         };
         _fill = new DirectionalLight3D
         {
@@ -63,7 +63,7 @@ public partial class VehicleShowroom
         _skyMaterial.SetShaderParameter("base_energy", preset == 2 ? .12f : preset == 1 ? .65f : .20f);
         _skyMaterial.SetShaderParameter("horizon_fill", preset == 2 ? .24f : 0f);
         _key.LightEnergy = preset == 2 ? .45f : preset == 1 ? 2.6f : 2.1f;
-        _key.LightAngularDistance = preset == 1 ? .6f : 8;
+        _key.LightAngularDistance = preset == 1 ? .6f : 2;
         _key.LightColor = preset == 2 ? new Color(.55f, .69f, 1) : new Color(1, .96f, .9f);
         _fill.LightEnergy = preset == 2 ? .9f : .65f;
         _environment.AmbientLightEnergy = preset == 2 ? .5f : preset == 1 ? .8f : .6f;

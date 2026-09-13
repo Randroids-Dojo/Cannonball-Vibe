@@ -15105,6 +15105,24 @@
         }
       ],
       "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-SHADOW35-D01",
+      "status": "corrected_verified",
+      "severity": "medium",
+      "category": "showroom-lighting",
+      "summary": "Large8degree directional PCSS causes repeated cockpit/floor grain in actual1440p Forward+ frames. SSAO off retains it. With2degrees shadows remain softly grounded and this grain is absent at matched cockpit/exterior views;0/0.6make unnecessarily sharp ground shadows. Hood/roof fine pattern persists and is a distinct unclosed material/reflection issue.",
+      "correction": "Only studio/night key angular distance8 to2degrees; daylight0.6, all geometry, materials, light intensity, SSAO, global graphics profiles and render quality unchanged.",
+      "scope_path": "reports/p1-018/showroom-shading35-01/correction-scope04.json",
+      "evidence": [
+        "reports/p1-018/showroom-shading35-01/native01/showroom-pointer/native-results.json",
+        "reports/p1-018/showroom-shading35-01/angles03/showroom-pointer/native-results.json",
+        "reports/p1-018/showroom-shading35-01/final08/showroom-pointer/native-results.json",
+        "reports/p1-018/qa/showroom-shading35-01/review02.json",
+        "data/assets/vehicles/endurance-sedan-review/viewer-v35/index.json"
+      ],
+      "confirming_verification": "Final actual1440p studio/night8/2degree pairs, independent review of all10 originals,27 native pointer cases per renderer and complete11-view/six-hinge semantic regression pass. Two14second VSync-on actual orbit metrics retained; reference-PC budget and human visual approval remain open. Fine paint grid and dark broad panels are separate unclosed defects.",
+      "human_approval_reference": null
     }
   ],
   "qa_gaps": [

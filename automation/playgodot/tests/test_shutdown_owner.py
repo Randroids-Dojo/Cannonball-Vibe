@@ -12,6 +12,8 @@ import pytest
 from cannonball_playgodot import PlayGodotProcess
 from cannonball_playgodot.launcher import ShutdownError
 
+from .shutdown_support import assert_clean_owned_shutdown
+
 ROOT = Path(__file__).resolve().parents[3]
 BRIDGE = ROOT / "addons/playgodot/server.gd"
 pytestmark = [
@@ -44,11 +46,7 @@ def _result(process: PlayGodotProcess, out: Path) -> dict:
 
 def _assert_clean(process: PlayGodotProcess, out: Path) -> str:
     result = _result(process, out)
-    assert result["status"] == "passed"
-    assert result["exit_status"] == 0 and result["output_eof"]
-    assert result["fallback"] == [] and result["phase_errors"] == []
-    assert result["diagnostics"] == []
-    assert result["bookkeeping_completed"] and result["elapsed_seconds"] <= 8.0
+    assert_clean_owned_shutdown(result)
     return (out / "godot.log").read_text()
 
 
@@ -272,6 +270,7 @@ application_quit_owner = NodePath("../VehicleShowroom")
         ROOT,
         _route_package(),
         vehicle="endurance-sedan" if scene_kind != "main" else "graybox",
+        startup_timeout=60, request_timeout=30,
         capabilities=("read", "input"),
         isolate_user_data=True,
         log_path=out / "godot.log",

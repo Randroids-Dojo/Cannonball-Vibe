@@ -10,8 +10,8 @@ Machine verification and the required human art, rights, handling and usability
 reviews are separate. This vehicle is a review candidate until those gates close.
 
 The [v34 construction checkpoint](art-checkpoint-v34.md) retains the fresh Blender
-recipe, reopened source and actual surface-review captures. The [showroom checkpoint](showroom-checkpoint-v29.md) records its
-separate interactive viewer and Windows verification. The installed source and Godot GLB are
+recipe, reopened source and actual surface-review captures. The [current showroom checkpoint](showroom-checkpoint-v35.md) records
+the interactive viewer, native pointer checks, lighting correction and Windows verification. The installed source and Godot GLB are
 still the previous production34 candidate while internal assembly repairs finish.
 
 ## Open and inspect the model
