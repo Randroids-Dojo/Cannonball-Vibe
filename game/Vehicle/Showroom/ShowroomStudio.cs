@@ -7,7 +7,7 @@ public partial class VehicleShowroom
     private void BuildStudio()
     {
         _skyMaterial = new ShaderMaterial { Shader = GD.Load<Shader>("res://game/Vehicle/Showroom/studio_sky.gdshader") };
-        using var sky = new Sky { SkyMaterial = _skyMaterial, RadianceSize = Sky.RadianceSizeEnum.Size256, ProcessMode = Sky.ProcessModeEnum.Realtime };
+        using var sky = new Sky { SkyMaterial = _skyMaterial, RadianceSize = Sky.RadianceSizeEnum.Size256, ProcessMode = Sky.ProcessModeEnum.Incremental };
         _environment = new Godot.Environment
         {
             BackgroundMode = Godot.Environment.BGMode.Sky, Sky = sky,

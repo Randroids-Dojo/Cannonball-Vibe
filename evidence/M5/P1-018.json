@@ -2324,5 +2324,71 @@
       "bytes": 1162,
       "sha256": "c31644b63d5d9a8d180cc2e06e48915d0a7bbfa6fabf87ebf06c5ad17bfbdc31"
     }
+  },
+  "interactive_showroom_checkpoint_v37": {
+    "schema_version": 1,
+    "task_id": "P1-018",
+    "milestone": "M5",
+    "git_revision": "79fa4ba9594b810dfd9602ae1fe96f54d1998cd0",
+    "utc": "2026-09-13T15:47:24.999113+00:00",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "status": "final_local_showroom_lighting_controls_and_modal_flow_verified_model_production_in_progress",
+    "archive": {
+      "path": "data/assets/vehicles/endurance-sedan-review/viewer-v37/evidence.zip",
+      "bytes": 219623835,
+      "sha256": "0140aae5a4c209f270835d0c7d1ce41ff6fa813d519b63df9f55a45510659cb2"
+    },
+    "inventory": {
+      "path": "reports/p1-018/viewer37-retention01/inputs01.json",
+      "bytes": 180088,
+      "sha256": "b7869bdf977c9b23de85f66bde7beccca671365738d5c8a390995cf46fbb05b7"
+    },
+    "root_review": {
+      "path": "reports/p1-018/viewer37-retention01/review01.json",
+      "bytes": 6194,
+      "sha256": "516f87b499cdba99ef6e82a07c6e95437dbd77bdea091b9b2aa7b558dda6089a"
+    },
+    "file_count": 864,
+    "builds": 2,
+    "every_archive_byte_identical": true,
+    "every_member_reread_verified": true,
+    "all_locked_inputs_unchanged": true,
+    "full_frontdoor": {
+      "path": "reports/p1-018/showroom37-frontdoor02/summary.json",
+      "bytes": 1482,
+      "sha256": "69f4985787ae2b3c55a442f87c819394e1decc6ed37730b57a61825aa0adde77"
+    },
+    "independent_sky_notice_review": {
+      "path": "reports/p1-018/qa/sky36-final01/review01.json",
+      "bytes": 256824,
+      "sha256": "a9d062b1416e30f17e389e69f892adfa18b73c21ea3615699c689df69bfce10e"
+    },
+    "independent_modal_review": {
+      "path": "reports/p1-018/qa/showroom37-modal01/review01.json",
+      "bytes": 62662,
+      "sha256": "76cb894743ada82d8865f7d1065fdfd8b5342fc795358840e7749c1bf50d863d"
+    },
+    "final_modal_supplement": {
+      "path": "reports/p1-018/qa/showroom37-modal01/supplement02.json",
+      "bytes": 94819,
+      "sha256": "71aade1e70708dd92bde9c3d88545f307f136dc255357ef4625a4ee81ec3b018"
+    },
+    "human_approval_reference": null,
+    "ledger_complete": false,
+    "retained_index": {
+      "path": "data/assets/vehicles/endurance-sedan-review/viewer-v37/index.json",
+      "sha256": "0a519ed05f2a9668f7342a5ac77553e0e68150d5cbfd82e74065f47d5f500676",
+      "bytes": 1940
+    },
+    "audit": {
+      "path": "docs/vehicles/endurance-sedan/showroom-checkpoint-v37.md",
+      "sha256": "7c61b2bea14189fad3f4d7219168f77a7cef21335b4e31dc7bcb540914777310",
+      "bytes": 5988
+    },
+    "retention_command": {
+      "path": "data/assets/vehicles/endurance-sedan-review/viewer-v37/retention-command.json",
+      "sha256": "477eaf57cb10ea26afaf26f10f8481d9faf3203b6397c10c6541d24ccb83f703",
+      "bytes": 821
+    }
   }
 }

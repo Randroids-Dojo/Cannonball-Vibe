@@ -409,12 +409,21 @@ public partial class VehicleShowroom : CanvasLayer
         UpdateInterface();
     }
     private void ToggleOrbit() { if (_interior) SelectView("overview"); _autoOrbit = !_autoOrbit; UpdateInterface(); }
+    private const string ShowControlsNotice = "F1 / R3 to show controls";
     private void SetInterfaceVisible(bool visible)
     {
         _uiVisible = visible; _interface.Visible = visible;
         GetViewport().GuiReleaseFocus();
-        if (visible) _homeButton.GrabFocus();
-        else Notice("F1 / R3 to show controls");
+        if (visible)
+        {
+            _homeButton.GrabFocus();
+            if (_notice.Text == ShowControlsNotice)
+            {
+                _noticeRemaining = 0;
+                _noticePanel.Hide();
+            }
+        }
+        else Notice(ShowControlsNotice);
     }
     private void Notice(string message)
     {

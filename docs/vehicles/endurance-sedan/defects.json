@@ -15144,11 +15144,11 @@
     {
       "id": "P1-018-VIEWER36-T01",
       "severity": "medium",
-      "status": "corrected_local_remote_pending",
+      "status": "corrected_verified",
       "category": "native-test-window-assumption",
       "summary": "The macOS pointer fixture expected exactly1600x900 after requesting a resize, although the window manager returned1600x645 and the viewer viewport correctly matched it.",
       "correction": "Assert actual nonzero changed Window.Size and exact viewport agreement with that resolved size, retaining requested/original/actual dimensions in evidence.",
-      "verification": "Original macOS archive retained:26 other cases pass. Recorded-data predicate controls reject stale viewport, unchanged and zero dimensions. Actual Windows27-case rerun passes with clean owned shutdown. Fresh remote macOS rerun remains pending.",
+      "verification": "Original macOS archive retained:26 other cases pass. Recorded-data predicate controls reject stale viewport, unchanged and zero dimensions. Actual Windows27-case rerun passes with clean owned shutdown. Fresh remote macOS rerun remains pending. Follow-up79fa4ba macOS actual27-case fixture passes with clean exit0; retained retry original and native result in viewer-v37. Whole Windows suite outer timeout is separate.",
       "evidence": [
         "reports/p1-018/ci-head36-01/macos-original01.json",
         "reports/p1-018/ci-head36-01/pointer-resize-replay03.json",
@@ -15169,6 +15169,84 @@
         "reports/p1-018/showroom-movie36-01/delivery06/summary.json",
         "reports/p1-018/qa/showroom36-portable01/review01.json",
         "reports/p1-018/showroom-browser36-01/review01.json"
+      ],
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-SKY37-D01",
+      "severity": "medium",
+      "status": "corrected_forward_plus_compatibility_limits_open",
+      "category": "runtime-reflection-filter",
+      "summary": "Realtime Sky filtering gives cloudy broad paint reflections in the showroom.",
+      "correction": "Use Incremental at unchanged256 radiance size.",
+      "verification": "Actual35-case final-default runs in both renderers; independent16-original Sky review and bounded87-check/8832-frame comparison. Compatibility grid/moire remains open.",
+      "evidence": [
+        "data/assets/vehicles/endurance-sedan-review/viewer-v37/index.json"
+      ],
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-VIEWER37-D01",
+      "severity": "minor",
+      "status": "corrected_verified",
+      "category": "inspection-notice",
+      "summary": "Temporary F1/R3 show-controls hint remained visible after controls were restored.",
+      "correction": "Retire only the exact hint on restoration; preserve focus and other notices.",
+      "verification": "Native baseline reproduction; both corrected41-case runs; independent actual images. Specific existing non-hint restoration branch is code-inspected, not separately native-tested.",
+      "evidence": [
+        "data/assets/vehicles/endurance-sedan-review/viewer-v37/index.json"
+      ],
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-CI37-T01",
+      "severity": "medium",
+      "status": "correction_implemented_native_windows_pending",
+      "category": "outer-ci-job-budget",
+      "summary": "Serialized Windows native suite reaches the outer15minute CI job ceiling before full showroom completion.",
+      "correction": "Only Windows PlayGodot outer job becomes25minutes.",
+      "verification": "Two original15minute terminations and raw archives retained; parsed single-field comparison and final full frontdoor pass. Native new-revision Windows completion required. Original fail-fast attribution corrected from actual fail-fast-false workflow.",
+      "evidence": [
+        "data/assets/vehicles/endurance-sedan-review/viewer-v37/index.json"
+      ],
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-MOD37-V01",
+      "severity": "major",
+      "status": "open",
+      "category": "independent-modal-visual-observation",
+      "summary": "Heavy layered roof/window rails, stepped arch ends, boxlike fascia/lamp forms, visible closure hardware and coarse engine/underbody parts remain.",
+      "correction": "Pending production model/rendering/readability follow-up. No new viewer framing defect observed.",
+      "verification": "Independent actual modal06 and modal08 images at1440p; final21 originals reviewed.",
+      "evidence": [
+        "data/assets/vehicles/endurance-sedan-review/viewer-v37/index.json"
+      ],
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-MOD37-V02",
+      "severity": "medium",
+      "status": "open",
+      "category": "independent-modal-visual-observation",
+      "summary": "Fine dither/speckling at ground shadows, glass/trim and cockpit surfaces is visible; cockpit appears more stippled than standalone Sky04. Context is not locked for a causal attribution.",
+      "correction": "Pending production model/rendering/readability follow-up. No new viewer framing defect observed.",
+      "verification": "Independent actual modal06 and modal08 images at1440p; final21 originals reviewed.",
+      "evidence": [
+        "data/assets/vehicles/endurance-sedan-review/viewer-v37/index.json"
+      ],
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-MOD37-V03",
+      "severity": "medium",
+      "status": "open",
+      "category": "independent-modal-visual-observation",
+      "summary": "Night silhouette is readable, but large door panels and small cabin controls remain weak. No all-angle or human accessibility approval.",
+      "correction": "Pending production model/rendering/readability follow-up. No new viewer framing defect observed.",
+      "verification": "Independent actual modal06 and modal08 images at1440p; final21 originals reviewed.",
+      "evidence": [
+        "data/assets/vehicles/endurance-sedan-review/viewer-v37/index.json"
       ],
       "human_approval_reference": null
     }
@@ -15312,5 +15390,5 @@
       "approval_reference": null
     }
   ],
-  "updated_utc": "2026-09-13T14:38:14.266637+00:00"
+  "updated_utc": "2026-09-13T15:51:53.339779+00:00"
 }
