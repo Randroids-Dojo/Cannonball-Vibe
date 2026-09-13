@@ -104,10 +104,12 @@ def main():
         historical_profile = historical_source.with_suffix('.shoulder-profile.json')
         tire_revision = records.read(project / 'docs/vehicles/endurance-sedan/specification.json')['original_packaging'].get('tire_groove_revision38')
         tire_checkpoint = [pre_lod.parent / 'pre-grooves/source.blend'] if tire_revision is not None else []
+        detail_policy = records.read(project / 'docs/vehicles/endurance-sedan/specification.json')['original_packaging']
+        detail_checkpoint = [pre_lod.parent / 'pre-detail/source.blend'] if 'repeated_detail_revision38' in detail_policy else []
         first = native('fresh-construction', 'tools/vehicles/create_endurance_sedan.py',
             ['--output', pre_lod, '--stage', 'production', '--surface-preview'],
             [pre_lod, pre_lod.with_suffix('.construction.json.gz'), pre_front, historical_source,
-             historical_packet, historical_profile, *tire_checkpoint])
+             historical_packet, historical_profile, *tire_checkpoint, *detail_checkpoint])
         shutil.copyfile(pre_lod.with_suffix('.construction.json.gz'), construction)
         companion = records.read(construction)
         constructors = companion['construction_inputs']

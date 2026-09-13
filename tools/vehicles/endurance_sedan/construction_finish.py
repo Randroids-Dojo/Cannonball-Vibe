@@ -101,6 +101,26 @@ def apply(collection,parent,mats,root,constructor,texture_output):
         proof['tire_grooves38']=tire_proof
         bpy.context.scene['tire_groove_phase']='constructed'
         print('FRESH38 original recessed grooves; actual pre-groove source retained',flush=True)
+    # Keep this after all current source repairs and before the final count.
+    # Lower LOD generation consumes the subsequently saved actual source.
+    from . import repeated_detail38
+    specification=json.loads(bpy.context.scene['specification'])
+    if 'repeated_detail_revision38' in specification['original_packaging']:
+        if specification['original_packaging']['repeated_detail_revision38']!=repeated_detail38.POLICY:
+            raise ValueError('Unknown repeated detail revision38')
+        directory=stage_root/'pre-detail';directory.mkdir(parents=True,exist_ok=False)
+        checkpoint=directory/'source.blend'
+        bpy.context.view_layer.update()
+        bpy.context.scene['repeated_detail_phase']='pre-construction-checkpoint'
+        bpy.context.preferences.filepaths.save_version=0
+        bpy.ops.wm.save_as_mainfile(filepath=str(checkpoint),compress=True,check_existing=False)
+        detail_proof=repeated_detail38.apply(
+            specification,objects={obj.name:obj for obj in collection.all_objects})
+        detail_proof.update(checkpoint=source_generation.file_row(checkpoint,root),
+            constructor=source_generation.file_row(Path(repeated_detail38.__file__),root),
+            encoder=source_generation.file_row(Path(__file__).with_name('corner_encoding.py'),root))
+        proof['repeated_detail38']=detail_proof
+        bpy.context.scene['repeated_detail_phase']='constructed'
     bpy.context.view_layer.update();graph=bpy.context.evaluated_depsgraph_get();count=0
     for obj in collection.all_objects:
         if obj.type!='MESH' or not obj.name.startswith('LOD0_') or obj.get('source_preview_only'):continue

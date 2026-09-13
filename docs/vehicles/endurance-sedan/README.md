@@ -193,6 +193,13 @@ Partial output or a successful native process alone
 does not satisfy that gate. [Retained construction evidence](../../../data/assets/vehicles/endurance-sedan-review/evidence/README.md)
 preserves original checkpoints, before/after images, failures and corrections.
 
+The current construction revision also retains
+`pre-lod/pre-detail/source.blend` immediately before reducing ten airbox ribs
+and 36 cooling fins. The new geometry comes from those actual native members;
+its companion binds the checkpoint and construction tools. Independent source
+verification for this declared revision adds a 25th stage and is still being
+integrated. The existing 24-stage result cannot approve this revised source.
+
 The actual native capture front door uses a fresh output directory and validates
 the complete movie, stage inventory, image resolution and unchanged inputs:
 
