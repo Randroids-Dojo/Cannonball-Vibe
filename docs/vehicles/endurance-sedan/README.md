@@ -9,8 +9,8 @@ The authoritative completion record is [P1-018](../../DELIVERY_LEDGER.json).
 Machine verification and the required human art, rights, handling and usability
 reviews are separate. This vehicle is a review candidate until those gates close.
 
-The [v27 construction checkpoint](art-checkpoint-v27.md) retains newer Blender
-surface work. The [showroom checkpoint](showroom-checkpoint-v29.md) records its
+The [v34 construction checkpoint](art-checkpoint-v34.md) retains the fresh Blender
+recipe, reopened source and actual surface-review captures. The [showroom checkpoint](showroom-checkpoint-v29.md) records its
 separate interactive viewer and Windows verification. The installed source and Godot GLB are
 still the previous production34 candidate while internal assembly repairs finish.
 

@@ -1,5 +1,10 @@
 extends Node
 
+# Trusted scene configuration, never a remote target or method.
+@export var application_quit_owner: NodePath
+var _application_quit_owner: Node
+var _application_quit_owner_path: NodePath
+
 const PROTOCOL_VERSION := "1.0"
 const REQUIRED_ENGINE := "4.7.1-stable (official)"
 const MAX_REQUEST_BYTES := 65_536
@@ -81,6 +86,17 @@ func _ready() -> void:
 		"preparation_ms": Time.get_ticks_msec() - preparation_started,
 		"process_frames": Engine.get_process_frames(),
 	}))
+	_application_quit_owner_path = application_quit_owner
+	if not application_quit_owner.is_empty():
+		if application_quit_owner.is_absolute() or application_quit_owner.get_subname_count() != 0:
+			_fail_start("application quit owner must be a relative node path")
+			get_tree().quit(1)
+			return
+		_application_quit_owner = get_node_or_null(application_quit_owner)
+		if not _valid_application_quit_owner():
+			_fail_start("configured application quit owner is missing or invalid")
+			get_tree().quit(1)
+			return
 	_listener = TCPServer.new()
 	var error := _listener.listen(0, "127.0.0.1")
 	if error != OK:
@@ -128,7 +144,38 @@ func _process(_delta: float) -> void:
 		_quit_resources["held_inputs_after"] = _owned_input_count()
 		print("PLAYGODOT_QUIT " + JSON.stringify(_quit_resources))
 		set_process(false)
+		_dispatch_application_quit()
+
+
+func _valid_application_quit_owner() -> bool:
+	return is_instance_valid(_application_quit_owner) and _application_quit_owner != self \
+		and _application_quit_owner.is_inside_tree() and not _application_quit_owner.is_queued_for_deletion() \
+		and _application_quit_owner.get_tree() == get_tree() \
+		and application_quit_owner == _application_quit_owner_path \
+		and get_node_or_null(_application_quit_owner_path) == _application_quit_owner
+
+
+func _dispatch_application_quit() -> void:
+	if application_quit_owner != _application_quit_owner_path:
+		push_error("PLAYGODOT_QUIT_OWNER_FAILED configured owner path changed")
+		get_tree().quit(1)
+		return
+	if _application_quit_owner_path.is_empty():
+		print("PLAYGODOT_QUIT_OWNER " + JSON.stringify({"mode": "direct"}))
 		get_tree().quit(0)
+		return
+	if not _valid_application_quit_owner():
+		push_error("PLAYGODOT_QUIT_OWNER_FAILED configured owner changed or disappeared")
+		get_tree().quit(1)
+		return
+	print("PLAYGODOT_QUIT_OWNER " + JSON.stringify({
+		"mode": "application", "path": str(_application_quit_owner.get_path()),
+		"instance_id": _application_quit_owner.get_instance_id(),
+	}))
+	# The owner already handles ordinary application-close requests. Keep its
+	# producer stop/finalizer drain alive; the process owner still enforces its
+	# original absolute deadline and actual native exit/diagnostic checks.
+	_application_quit_owner.notification(NOTIFICATION_WM_CLOSE_REQUEST)
 
 
 func _accept_connection() -> void:
