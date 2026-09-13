@@ -3,7 +3,7 @@
   "task_id": "P1-018",
   "milestone": "M5",
   "status": "in_progress",
-  "utc": "2026-09-12T17:49:34.796388+00:00",
+  "utc": "2026-09-13T08:06:50.959876+00:00",
   "git_revision": "eb5703e55f3656e91bd80fb79502f10ce250554b",
   "git_state": "Measured source34 worktree checkpoint before the implementation commit; committed-build runtime/performance/platform acceptance remains outstanding.",
   "platform": "Windows-11-10.0.26200-SP0",
@@ -1560,5 +1560,256 @@
       "sha256": "86918d48285d76761494ad826160458afee90d5d7bf88263e1cd333365288a58",
       "bytes": 850
     }
+  },
+  "art_construction_checkpoint_v32": {
+    "utc": "2026-09-13T08:00:31.173588+00:00",
+    "git_base_revision": "b1cf65b64512508931eb3398af435f857926a503",
+    "status": "retained-combined-editable-pilot-with-open-production-gates",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "blender": {
+      "version": "5.1.2",
+      "build": "ec6e62d40fa9"
+    },
+    "index": {
+      "path": "data/assets/vehicles/endurance-sedan-review/art-checkpoint-v32/index.json",
+      "sha256": "5c2bd7dd50e0326fbf6c7f3af5fee8fcf7dcbea0ad858f1a15035d42f70cfba6",
+      "bytes": 18371
+    },
+    "inventory": {
+      "path": "data/assets/vehicles/endurance-sedan-review/art-checkpoint-v32/inventory.json",
+      "sha256": "ab2a7d775c2bb3935de369e6eba6709ac8981f8efa5e310c7bdae4c2644a12e5",
+      "bytes": 793542
+    },
+    "lead_command": {
+      "path": "data/assets/vehicles/endurance-sedan-review/art-checkpoint-v32/retention-command.json",
+      "sha256": "f31a93618b998f5c4e4cb9c0c7c8d01f083cbe63902425268f22e908ec77c9de",
+      "bytes": 1017,
+      "exit_status": 0
+    },
+    "source": {
+      "bytes": 5083385,
+      "path": "reports/p1-018/combined-form29-pilot01/uv04/source.blend",
+      "sha256": "27e24adc70da451047181063a0fd29263e4f54a7452928da6ba5054f4710a73b"
+    },
+    "composed_render_source": {
+      "bytes": 5076786,
+      "path": "reports/p1-018/combined-form29-pilot01/composed02/source.blend",
+      "sha256": "d51d62ee2ac6c127ae4cc6ba1b672cd9ce39ee4c8a18e28960a6d77a87c93ddc"
+    },
+    "composition": {
+      "path": "reports/p1-018/combined-form29-pilot01/composed02/record.json",
+      "sha256": "ef163f9ac4121faf41ab7436f1003e65cef9c0019c3ef96133104a375194790d",
+      "bytes": 9095
+    },
+    "reopen": {
+      "path": "reports/p1-018/combined-form29-pilot01/render03/reopen.json",
+      "sha256": "0bb513884c8a0465410d77aac50aa9f694a5083290428974012808e39b179e42",
+      "bytes": 532
+    },
+    "UV_adoption": {
+      "path": "reports/p1-018/combined-form29-pilot01/uv04/record.json",
+      "sha256": "f7320878044d6712c602ce22f1abe991af09d21ba301fa137b86e1b2ebcf6c3a",
+      "bytes": 1760
+    },
+    "actual_whole_form_review": {
+      "path": "reports/p1-018/combined-form29-pilot01/review06.json",
+      "sha256": "69610117583b58d942300dfeb2a646dd31ccc43f9c0cc68a663880f823729f61",
+      "bytes": 13034
+    },
+    "independent_valance_review": {
+      "path": "reports/p1-018/qa/valance-field29-review01/observations02.json",
+      "sha256": "4f94ddaac51c798f599005fa0e97c2f27707bbc48ec2de82b61f900f94119a6a",
+      "bytes": 2885
+    },
+    "metrics": {
+      "archives": 10,
+      "input_files": 3436,
+      "input_bytes": 1224896583,
+      "archive_bytes": 1045828721,
+      "byte_identical_archive_builds": 2,
+      "referenced_unchanged_v26_v27_payloads": 10,
+      "LOD0_triangles": 148898,
+      "LOD0_ceiling": 150000,
+      "LOD0_headroom": 1102,
+      "combined_changed_meshes": 14,
+      "combined_other_raw_meshes_modifiers_exact": 1090,
+      "reopened_changed_native_meshes_exact": 14,
+      "UV_changed_closures": 2,
+      "UV_other_raw_meshes_modifiers_exact": 1102,
+      "UV_maximum_change": 9.5367431640625e-07,
+      "UV_limit": 1e-06,
+      "combined_actual_stills": 8,
+      "body_complete_field_triangles": 21926,
+      "body_complete_max_degrees": 0.024995246980950823,
+      "valance_complete_triangles": 324,
+      "valance_complete_max_degrees": 0.002277631891821923,
+      "isolated_lower_policy_total": 199442,
+      "arithmetic_with_C_delta": 200072,
+      "final_composed_all_LOD_total": null,
+      "all_LOD_limit": 200000
+    },
+    "fresh_source_construction": "fresh02 was generated from an empty scene with188 locked inputs. The later composed02 andUV04 are explicit source-derived editable pilots, not a new empty-scene production-generation claim.",
+    "failures_and_retries": [
+      "Rear cap original-field restoration rejected visually despite numerical field pass; side-only bumper restoration did not address the distinct valance semantic.",
+      "Initial valance narrow-triangle finite ownership rejection corrected with independently scoped complete convex-distance proof; geometry and existing guards unchanged.",
+      "Initial combined launch failed before mutation on missing declared QA import path; literal runner correction completed.",
+      "Cabin LOD candidate remains historically failed strict UV preservation. Separate source-derived deterministic native UV carrier passes; final current-source lower LODs remain pending.",
+      "First retention inventory treated lane-relative manifest paths as repository-relative and stopped before snapshots/archives. Explicit manifest domains fixed preparation02. All10 archive builds then passed first attempt."
+    ],
+    "retention_preparation_retry_count": 1,
+    "archive_retry_count": 0,
+    "canonical_source_or_exports_replaced": false,
+    "documentation": "docs/vehicles/endurance-sedan/art-checkpoint-v32.md",
+    "windows_frontdoor": {
+      "status": "passed",
+      "utc": "2026-09-13T08:06:50.959876+00:00",
+      "git_base_revision": "b1cf65b64512508931eb3398af435f857926a503",
+      "started_utc": "2026-09-13T08:01:17Z",
+      "finished_utc": "2026-09-13T08:05:16Z",
+      "steps": [
+        {
+          "name": "doctor",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/doctor.log"
+        },
+        {
+          "name": "dotnet-build",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/dotnet-build.log"
+        },
+        {
+          "name": "dotnet-test",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/dotnet-test.log"
+        },
+        {
+          "name": "ruff",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/ruff.log"
+        },
+        {
+          "name": "frame-allocations",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/frame-allocations.log"
+        },
+        {
+          "name": "continental-route",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/continental-route.log"
+        },
+        {
+          "name": "pytest-map-pipeline",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/pytest-map-pipeline.log"
+        },
+        {
+          "name": "pytest-playgodot-unit",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/pytest-playgodot-unit.log"
+        },
+        {
+          "name": "release-smoke-unit",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/release-smoke-unit.log"
+        },
+        {
+          "name": "godot-smoke",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/godot-smoke.log"
+        },
+        {
+          "name": "managed-shutdown",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/managed-shutdown.log"
+        },
+        {
+          "name": "camera-interpolation",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/camera-interpolation.log"
+        },
+        {
+          "name": "starter-speed",
+          "status": "passed",
+          "exit_code": 0,
+          "log": "logs/starter-speed.log"
+        }
+      ],
+      "inputs_unchanged_during_check": true,
+      "input_count": 23,
+      "tool_versions": [
+        {
+          "name": "dotnet",
+          "expected": "10.0.102",
+          "actual": "10.0.102",
+          "status": "passed"
+        },
+        {
+          "name": "uv",
+          "expected": "0.9.24",
+          "actual": "0.9.24",
+          "status": "passed"
+        },
+        {
+          "name": "git-lfs",
+          "expected": "3.7.1",
+          "actual": "3.7.1",
+          "status": "passed"
+        },
+        {
+          "name": "perl",
+          "expected": "available",
+          "actual": "available",
+          "status": "passed"
+        },
+        {
+          "name": "godot",
+          "expected": "4.7.1.stable.mono.official.a13da4feb",
+          "actual": "4.7.1.stable.mono.official.a13da4feb",
+          "status": "passed"
+        }
+      ],
+      "retention_index": {
+        "path": "data/assets/vehicles/endurance-sedan-review/art-checkpoint-v32/frontdoor-index.json",
+        "sha256": "f32588af782e124920114d0a08de559d7df170fdf57bc8472ddaf6f1a50aa64c",
+        "bytes": 6746
+      },
+      "archive": {
+        "path": "data/assets/vehicles/endurance-sedan-review/art-checkpoint-v32/frontdoor.zip",
+        "sha256": "601d7816000f940b1f13f074054fd2df82d7ab67647fb45419a8b35e1d23c7c4",
+        "bytes": 69656
+      },
+      "command": {
+        "path": "data/assets/vehicles/endurance-sedan-review/art-checkpoint-v32/frontdoor-command.json",
+        "sha256": "c3bf9aa27115253503f0694ae5d68de6e1c21d55f09aaf339323a73a9bc3ea56",
+        "bytes": 851,
+        "exit_status": 0
+      },
+      "every_archive_byte_compared": true,
+      "all_members_sha256_and_crc_verified_twice": true,
+      "retry_count": 0,
+      "scope": "Windows repository working-input gate. Installed production34 source asset failures, new pilot final asset/runtime/platform/performance evidence and human gates remain separate.",
+      "human_approval_reference": null
+    },
+    "remaining": [
+      "Finite lamp-to-shoulder surface correction and upper roof/window/C assembly fit",
+      "Lower bumper/splitter/valance end construction finish",
+      "Actual combined LOD geometry/field/semantic/total budget and in-motion transitions",
+      "Fresh final reproducible constructor, final source reopen, two identical shipping GLBs and clean import",
+      "Full source opening/fit/motion, runtime footage, reference performance and required platform asset gates",
+      "Human visual/rights/driving/wheel-feel/usability approvals"
+    ],
+    "human_approval_reference": null
   }
 }

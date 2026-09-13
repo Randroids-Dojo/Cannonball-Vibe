@@ -1,0 +1,175 @@
+{
+  "task_id": "P1-018",
+  "milestone": "M5",
+  "status": "passed",
+  "started_utc": "2026-09-13T08:06:50.808018+00:00",
+  "git_revision": "b1cf65b64512508931eb3398af435f857926a503",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.14.6",
+  "zlib_runtime": "1.3.1.zlib-ng",
+  "tool_sha256": "1310e66035402d9eccaef4c0b2fe6d474f0b56958e914138d3f57be6285b18ff",
+  "input_manifest": {
+    "path": "reports/p1-018/art-checkpoint32-retention01/frontdoor-manifest.json",
+    "sha256": "50e89bbe7ebee8ae1a3cb3308c5c92a57ebebb6e555a300061f6e990b99fde21"
+  },
+  "entries": [
+    {
+      "path": "reports/p1-018/art-checkpoint32-retention01/finish_frontdoor.py",
+      "sha256": "e1849a4c217bd8663076fb8f1f1f7918925f37af250b165b0fb2f0d664a68650",
+      "bytes": 4267
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint32-retention01/frontdoor01-bindings.json",
+      "sha256": "a90ff9d7e72c28fb6bd7c3596eac1cf3484663e3371f91db5c45069b4040b380",
+      "bytes": 5481
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint32-retention01/frontdoor01.py",
+      "sha256": "4b515c4b83e7bacfb4da9e8904f4c52f97285988f11894a93052abac8b0ab864",
+      "bytes": 2064
+    },
+    {
+      "path": "reports/p1-018/art32-frontdoor01/doctor.json",
+      "sha256": "33cb1935e7bc974bbc4cc89452ab1f85a6648768cd2301f08b7df88be56e1dca",
+      "bytes": 545
+    },
+    {
+      "path": "reports/p1-018/art32-frontdoor01/dotnet/core-tests.trx",
+      "sha256": "091848dab3fe6d54d7a85a112ad6d4c584140d3c4f98b4ab0fb480e94b8e1ee4",
+      "bytes": 220844
+    },
+    {
+      "path": "reports/p1-018/art32-frontdoor01/godot/godot.log",
+      "sha256": "e90e0af47e8330b3156fdcba459d9de590837bdba5dd6c5ad37a0fcf357628d7",
+      "bytes": 691
+    },
+    {
+      "path": "reports/p1-018/art32-frontdoor01/godot/managed-shutdown/runtime.log",
+      "sha256": "3e98d67d47c1c801f62ac1d736dcbbd9a5faf99378d58da2c4e2d74967f09d3d",
+      "bytes": 1481
+    },
+    {
+      "path": "reports/p1-018/art32-frontdoor01/godot/managed-shutdown/summary.json",
+      "sha256": "b9792fbbc8954e54703f3edb35a425f30de0e9b985c6d7564f9acd4ba0fd96bf",
+      "bytes": 305
+    },
+    {
+      "path": "reports/p1-018/art32-frontdoor01/godot/scenario.json",
+      "sha256": "86937fdd43e64f22acd081f4aed63e11cb7647936f54f9ea4e31a1831dc808c0",
+      "bytes": 189
+    },
+    {
+      "path": "reports/p1-018/art32-frontdoor01/godot/starter-speed.json",
+      "sha256": "8d460fd503e155a42cff6fe795afcbe5eb4a48c15edb4d06bead41d4333c85f9",
+      "bytes": 6038
+    },
+    {
+      "path": "reports/p1-018/art32-frontdoor01/logs/camera-interpolation.log",
+      "sha256": "412aedfb7cb14257d14f1517bb64d016ca6bb134d8f092d05fde73d0e7889291",
+      "bytes": 233
+    },
+    {
+      "path": "reports/p1-018/art32-frontdoor01/logs/continental-route.log",
+      "sha256": "b6d849612dc6360b7410bda3ba3ceac7646512c09d2fdbb875b38b2eaf709c70",
+      "bytes": 2213
+    },
+    {
+      "path": "reports/p1-018/art32-frontdoor01/logs/doctor.log",
+      "sha256": "8de1c8a367b33fb698a6a74b2f2b427ecdf589bcedb52eed78d0735e8df5b7af",
+      "bytes": 407
+    },
+    {
+      "path": "reports/p1-018/art32-frontdoor01/logs/dotnet-build.log",
+      "sha256": "0c922bdaf63c1dc49a988fd8cdb60af452806d7be55ede66e0837178c51616cd",
+      "bytes": 488
+    },
+    {
+      "path": "reports/p1-018/art32-frontdoor01/logs/dotnet-test.log",
+      "sha256": "afeb3edaaee6e274af4c5ec0604587684c03b3b0c8ffb304ce809e14bb7968e7",
+      "bytes": 424
+    },
+    {
+      "path": "reports/p1-018/art32-frontdoor01/logs/frame-allocations.log",
+      "sha256": "1fb668e8dfc00678638d88cf9241472749abefb243ea12151ce5669b6f8fa859",
+      "bytes": 56
+    },
+    {
+      "path": "reports/p1-018/art32-frontdoor01/logs/godot-smoke.log",
+      "sha256": "035e77643ff4db8ceea77a186d4d9dd22cd3668eb57b7324e3c986bd202f6b74",
+      "bytes": 1351
+    },
+    {
+      "path": "reports/p1-018/art32-frontdoor01/logs/managed-shutdown.log",
+      "sha256": "3c0e4faa4eed30ebaff874b4758de9066e4256523da8fca3a75e7eb47e54642b",
+      "bytes": 1759
+    },
+    {
+      "path": "reports/p1-018/art32-frontdoor01/logs/pytest-map-pipeline.log",
+      "sha256": "1189301616629d5326846d6f5ae156e625ed77294d2645f1d433ea8efdb10326",
+      "bytes": 449
+    },
+    {
+      "path": "reports/p1-018/art32-frontdoor01/logs/pytest-playgodot-unit.log",
+      "sha256": "fbc11fc04459e63bf6e1fcb732e531b1f0abafc844a0ce172aa68032b261cafa",
+      "bytes": 265
+    },
+    {
+      "path": "reports/p1-018/art32-frontdoor01/logs/release-smoke-unit.log",
+      "sha256": "7844455d3901f713c4e2091a4174d5af658165ab901f303459e8f839e0587c3a",
+      "bytes": 905
+    },
+    {
+      "path": "reports/p1-018/art32-frontdoor01/logs/ruff.log",
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "bytes": 19
+    },
+    {
+      "path": "reports/p1-018/art32-frontdoor01/logs/starter-speed.log",
+      "sha256": "96acac6d06166f4aaf47ed87d1a0ba002479c497f58744ab85bb307942b53c6e",
+      "bytes": 4018
+    },
+    {
+      "path": "reports/p1-018/art32-frontdoor01/python/junit.xml",
+      "sha256": "25e509683d976299648b835aaf216e1feed18f6f856fc1cc08a2b38869ae56bf",
+      "bytes": 45254
+    },
+    {
+      "path": "reports/p1-018/art32-frontdoor01/python/playgodot-unit.xml",
+      "sha256": "f276c9c949a8608657d82828a30dd20545f1b1dfe1ea56b19eb846a4a9d2d6a3",
+      "bytes": 29758
+    },
+    {
+      "path": "reports/p1-018/art32-frontdoor01/summary.json",
+      "sha256": "b73c64c3c8c5a84c4247854c79bbb1d4de6ae39a0024db72dd6c9d3ec558578f",
+      "bytes": 1482
+    },
+    {
+      "path": "reports/p1-018/commands/20260913T080117.269728Z-art32-full-windows-frontdoor.json",
+      "sha256": "c3bf9aa27115253503f0694ae5d68de6e1c21d55f09aaf339323a73a9bc3ea56",
+      "bytes": 851
+    },
+    {
+      "path": "reports/p1-018/commands/20260913T080117.269728Z-art32-full-windows-frontdoor.log",
+      "sha256": "ce0b6e313e0041b0510e69b989e70b5c2eed7fbfaa189cd394898b4790e673e2",
+      "bytes": 13072
+    }
+  ],
+  "archives": [
+    {
+      "path": "data/assets/vehicles/endurance-sedan-review/art-checkpoint-v32/frontdoor.zip",
+      "sha256": "601d7816000f940b1f13f074054fd2df82d7ab67647fb45419a8b35e1d23c7c4",
+      "bytes": 69656,
+      "crc_and_member_sha256_verified": true
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint32-retention01/frontdoor-repeat.zip",
+      "sha256": "601d7816000f940b1f13f074054fd2df82d7ab67647fb45419a8b35e1d23c7c4",
+      "bytes": 69656,
+      "crc_and_member_sha256_verified": true
+    }
+  ],
+  "human_approval_reference": null,
+  "limits": "Evidence retention and byte identity only; individual reports retain their own scope, failures and approval status.",
+  "byte_reproducible": true,
+  "finished_utc": "2026-09-13T08:06:50.943166+00:00"
+}
