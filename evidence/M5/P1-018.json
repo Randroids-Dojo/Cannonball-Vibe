@@ -1367,5 +1367,198 @@
       "sha256": "ab0c67b9901b195019e97e2878972d7ab7d602445e3c37219c74c79fa30b24e7",
       "bytes": 994
     }
+  },
+  "showroom_ci_recovery_v31": {
+    "index_path": "data/assets/vehicles/endurance-sedan-review/showroom-ci-recovery-v31/index.json",
+    "index_sha256": "51206410827998f36541a053b20f7ee13b8b871e20d83528b6a735e2c00a265d",
+    "task_id": "P1-018",
+    "milestone": "M5",
+    "utc": "2026-09-13T05:51:14.443475+00:00",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "git_head_revision": "bd57332280ae5846b76066127174224fefc68273",
+    "tested_merge_revision": "a59ecda97e9e6dc94dbbb5e163a41870980bcf8f",
+    "tested_main_base_revision": "827bb14618e99a85d709e89cdd828877b6ff1566",
+    "status": "launcher_cross_platform_recovery_verified_asset_defects_still_open",
+    "exact_m0_tools": {
+      "dotnet_sdk": "10.0.102",
+      "uv": "0.9.24",
+      "godot": "4.7.1.stable.mono.official.a13da4feb"
+    },
+    "archive": {
+      "path": "data/assets/vehicles/endurance-sedan-review/showroom-ci-recovery-v31/evidence.zip",
+      "sha256": "eab06dd12f3b1f889cc65226f3fa33f10bd58eb1983ddb556a23f42c777e1b55",
+      "bytes": 6238388
+    },
+    "inventory": {
+      "path": "data/assets/vehicles/endurance-sedan-review/showroom-ci-recovery-v31/inventory.json",
+      "sha256": "6ef6f9f1bde502052d10ded56dbcb7fd448ba03187adfad4583d67bc76c02850"
+    },
+    "retained_files": 100,
+    "retained_raw_bytes": 8364291,
+    "literal_identical_archive_builds": 2,
+    "every_member_crc_and_bytes_verified_twice": true,
+    "jobs": [
+      {
+        "label": "m0-linux",
+        "job_id": 103675148189,
+        "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34738917157/job/103675148189",
+        "conclusion": "success",
+        "started_utc": "2026-09-13T04:52:32Z",
+        "completed_utc": "2026-09-13T04:56:53Z",
+        "log_path": "reports/p1-018/showroom-ci31-recovery01/m0-linux.log",
+        "log_sha256": "883c47d93a306650efe1b1702c6512f9d872317893c4cde25c24335bdfb680b1"
+      },
+      {
+        "label": "m0-windows",
+        "job_id": 103675148123,
+        "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34738917157/job/103675148123",
+        "conclusion": "success",
+        "started_utc": "2026-09-13T04:52:32Z",
+        "completed_utc": "2026-09-13T04:59:26Z",
+        "log_path": "reports/p1-018/showroom-ci31-recovery01/m0-windows.log",
+        "log_sha256": "04e6e8df2d81185883ebcb8a6f748ccebc8f9b6a33f2b133f74ddaf168d9155a"
+      },
+      {
+        "label": "semantic-linux",
+        "job_id": 103675148257,
+        "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34738917157/job/103675148257",
+        "conclusion": "success",
+        "started_utc": "2026-09-13T04:52:32Z",
+        "completed_utc": "2026-09-13T05:02:20Z",
+        "log_path": "reports/p1-018/showroom-ci31-recovery01/semantic-linux.log",
+        "log_sha256": "5b51ce442c3cafbc7ddd619e7402178707c5ecc07d5dea8cbf563cf5a2136507"
+      },
+      {
+        "label": "semantic-macos",
+        "job_id": 103675148253,
+        "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34738917157/job/103675148253",
+        "conclusion": "success",
+        "started_utc": "2026-09-13T04:52:38Z",
+        "completed_utc": "2026-09-13T04:58:44Z",
+        "log_path": "reports/p1-018/showroom-ci31-recovery01/semantic-macos.log",
+        "log_sha256": "6f61b5b797b5d587974421f65fb1299999014bd4dab74d4e419417d990366103"
+      },
+      {
+        "label": "semantic-windows",
+        "job_id": 103675148265,
+        "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34738917157/job/103675148265",
+        "conclusion": "success",
+        "started_utc": "2026-09-13T04:52:32Z",
+        "completed_utc": "2026-09-13T05:03:27Z",
+        "log_path": "reports/p1-018/showroom-ci31-recovery01/semantic-windows.log",
+        "log_sha256": "cf2d6531a191c99dca0d27184abf0bd382ea563bdc84750cb0992dd4833bce2c"
+      },
+      {
+        "label": "exports-build",
+        "job_id": 103675148254,
+        "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34738917163/job/103675148254",
+        "conclusion": "success",
+        "started_utc": "2026-09-13T04:52:32Z",
+        "completed_utc": "2026-09-13T05:20:59Z",
+        "log_path": "reports/p1-018/showroom-ci31-recovery01/exports-build.log",
+        "log_sha256": "d57556f6380905318b5bd4f635efe8528c61a8def48b85d29f45b578b721187c"
+      },
+      {
+        "label": "exports-linux-smoke",
+        "job_id": 103678187493,
+        "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34738917163/job/103678187493",
+        "conclusion": "success",
+        "started_utc": "2026-09-13T05:21:01Z",
+        "completed_utc": "2026-09-13T05:22:23Z",
+        "log_path": "reports/p1-018/showroom-ci31-recovery01/exports-linux-smoke.log",
+        "log_sha256": "9d6085cac8dd1bd18750ce9798efc363cccdcf196f04a11ba133bf8885419281"
+      },
+      {
+        "label": "exports-windows-smoke",
+        "job_id": 103678187547,
+        "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34738917163/job/103678187547",
+        "conclusion": "success",
+        "started_utc": "2026-09-13T05:21:02Z",
+        "completed_utc": "2026-09-13T05:26:01Z",
+        "log_path": "reports/p1-018/showroom-ci31-recovery01/exports-windows-smoke.log",
+        "log_sha256": "648ec5ce48a8f9fb1fb609c9330c9b068912256aec837b4bbd47bf90bfca2314"
+      },
+      {
+        "label": "asset-linux",
+        "job_id": 103675148246,
+        "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34738917154/job/103675148246",
+        "conclusion": "failure",
+        "started_utc": "2026-09-13T04:52:32Z",
+        "completed_utc": "2026-09-13T04:54:05Z",
+        "log_path": "reports/p1-018/showroom-ci31-recovery01/asset-linux.log",
+        "log_sha256": "80458fe1753a417ad0d0ff2d2d86edf41c22acefb552a210f2a09881fd7cd6bd"
+      },
+      {
+        "label": "asset-windows",
+        "job_id": 103675148318,
+        "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34738917154/job/103675148318",
+        "conclusion": "failure",
+        "started_utc": "2026-09-13T04:52:33Z",
+        "completed_utc": "2026-09-13T04:55:55Z",
+        "log_path": "reports/p1-018/showroom-ci31-recovery01/asset-windows.log",
+        "log_sha256": "63b5194c6afbe50c81ee89da5e32132c5654e069a88c08b43971569a4da688b2"
+      }
+    ],
+    "actual_package_evidence": [
+      {
+        "platform": "linux",
+        "artifact_id": 10311904053,
+        "tested_merge_revision": "a59ecda97e9e6dc94dbbb5e163a41870980bcf8f",
+        "archive_sha256": "354f1844b2a589f1b09380d7fb70df5c8ee52bf105d6f614b1a7ae9f9003637b",
+        "members_verified": 47,
+        "structured_pass_summaries": [
+          "package-sedan/driving/summary.json",
+          "package-sedan/evidence.json",
+          "package-sedan/presentation/presentation-summary.json",
+          "package-smoke/summary.json"
+        ]
+      },
+      {
+        "platform": "windows",
+        "artifact_id": 10311459379,
+        "tested_merge_revision": "a59ecda97e9e6dc94dbbb5e163a41870980bcf8f",
+        "archive_sha256": "77ad41627ba5ad004271327b451143b243cdca9e4c13b204fd7e39d743975870",
+        "members_verified": 47,
+        "structured_pass_summaries": [
+          "package-sedan/driving/summary.json",
+          "package-sedan/evidence.json",
+          "package-sedan/presentation/presentation-summary.json",
+          "package-smoke/summary.json"
+        ]
+      }
+    ],
+    "acceptance": {
+      "linux_windows_M0": "passed;157 Core tests and345 map tests plus1skip on each; launcher units180pass6skip Linux and186pass Windows",
+      "rendered_semantic": "Linux206pass6skip,macOS206pass6skip,Windows212pass; includes actual showroom and vehicle-selection scenarios",
+      "exports": "Each fixture platform built twice successfully; clean-package smoke10/10 and packaged sedan driving/presentation pass on Linux and Windows",
+      "renderer_assertion_defect": "P1-018-SR29-018 corrected and verified on all three semantic platforms",
+      "asset_export": "Both sedan asset jobs remain failed on unchanged installed production34; separate Blender/LOD repair remains active"
+    },
+    "unchanged_local_runtime_inputs": {
+      "game/Vehicle/Showroom/ShowroomInterface.cs": "944705d9c63c4ae632cbe43d1715a3bb128909fc68de4aba0c73ac72ada12ec5",
+      "game/Vehicle/Showroom/ShowroomInterface.cs.uid": "0c3a96a8ac49476b813762ea0352fdaf29df665be539493bddcb3f793d0868bc",
+      "game/Vehicle/Showroom/ShowroomMetrics.cs": "dc630a75659bbdeb20d179fe62c98ddca036b79cfed921f25668e2010d6e1330",
+      "game/Vehicle/Showroom/ShowroomMetrics.cs.uid": "0f3c4ea6a4cb839c7a7056dfa59f5ec55d174b214edafcad8d40530598b7ed3e",
+      "game/Vehicle/Showroom/ShowroomStudio.cs": "8e6c1ee0b22d1fede2ae634f8d1a937a08e33613510dac476302e02f5c9a6bfd",
+      "game/Vehicle/Showroom/ShowroomStudio.cs.uid": "82c9b55a5681fc873b651697fc27961f3f73cf5d12d14159d64cc5d1575d4dfe",
+      "game/Vehicle/Showroom/studio_sky.gdshader": "047ba72d7ed90ac8480260533d2b9f556ac4adeb33ef29de322ce4278f1ff13f",
+      "game/Vehicle/Showroom/studio_sky.gdshader.uid": "2869766af68b6bef90392a5e65ee4f71028bb00b50ea54e5f3d5a07240652a43",
+      "game/Vehicle/Showroom/VehicleShowroom.cs": "9c995b913583b59401b0cd1ba81dec3a0604b7d579d002e218b122d54dd94a0a",
+      "game/Vehicle/Showroom/VehicleShowroom.cs.uid": "9737a755815c22dba32069dceb21ad170d5701b637e1da17158cfa6e208370e4",
+      "game/Vehicle/Showroom/VehicleShowroom.tscn": "fa76f0ca1e943b7f38f495ae4b9d5ec2e5a58f67e2f27a2d74f781848741f394",
+      "game/Main.cs": "a127414b5960f3b443350e15cfa1cf8705a050c52a638e0c9d5231df141c8820",
+      "game/Vehicle/VehicleInspectionPanel.cs": "d006b321010a90145986f11385abd171d3891a375a3590a64daa51398e3d5494",
+      "automation/playgodot/src/cannonball_playgodot/launcher.py": "edf258c044c7a027993c923248140943d0c65c0786fca20288c31b24712e0d78",
+      "automation/playgodot/tests/test_launcher.py": "14b3118ce33bfc644e2640ad2b79d214bb1b5456dd02a7945ddcf8c896455019",
+      "automation/playgodot/tests/test_vehicle_showroom.py": "60c02b60e0067a439ad850fea0872c43daf6e8c2921944cd1181eaec5fa25898"
+    },
+    "limits": "CI tests the recorded temporary PR merge, not a claimed mainline merge. Package evidence covers installed production34. This retention repeat is not new GLB reproducibility or final art/handling/performance/rights approval. P1-018 remains in_progress.",
+    "failure_recovery": "First retention attempt incorrectly required package-only smoke logs to contain a Git checkout head. It stopped before output creation. The corrected binding keeps job metadata head plus actual immutable merge-named artifact, and retains the rejected builder and command/log. No runtime test was weakened or rerun.",
+    "human_approval_reference": null,
+    "retention_command": {
+      "path": "data/assets/vehicles/endurance-sedan-review/showroom-ci-recovery-v31/retention-command.json",
+      "sha256": "86918d48285d76761494ad826160458afee90d5d7bf88263e1cd333365288a58",
+      "bytes": 850
+    }
   }
 }

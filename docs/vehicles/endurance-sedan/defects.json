@@ -14862,14 +14862,14 @@
     {
       "id": "P1-018-SR29-018",
       "severity": "major",
-      "status": "corrected_pending_remote_verification",
+      "status": "corrected_verified",
       "category": "launcher-platform-unit-contract",
       "assigned_owner": "lead-viewer",
       "observed_utc": "2026-09-13T04:52:10.049685+00:00",
       "summary": "Renderer unit assertions reject virtual-environment executable symlinks and Linux Xvfb prefix.",
       "actual": "Linux M0/exports and Linux/macOS semantic suites at00c033d fail exactly the two renderer assertions; actual showroom and selection cases pass.",
       "correction": "Preserve the configured lexical executable and exercise both direct and Linux-Xvfb argument prefixes in the existing mocked renderer case. Production launcher unchanged.",
-      "verification": "120 focused launcher cases, Ruff and all13 required Windows frontdoor steps pass, including186 PlayGodot unit cases. Linux/macOS rerun still pending.",
+      "verification": "The correction head bd57332280ae5846b76066127174224fefc68273 was tested in temporary PR merge a59ecda97e9e6dc94dbbb5e163a41870980bcf8f: Linux/Windows M0 pass; rendered semantic Linux206pass6skip,macOS206pass6skip,Windows212pass. Reproducible fixture exports and both clean-package10/10 smokes plus actual packaged-sedan driving/presentation pass. Source asset failures remain a separate open issue.",
       "evidence": [
         {
           "path": "data/assets/vehicles/endurance-sedan-review/showroom-ci-v30/index.json",
@@ -14885,9 +14885,25 @@
           "path": "data/assets/vehicles/endurance-sedan-review/showroom-ci-v30/retention-command.json",
           "sha256": "ab0c67b9901b195019e97e2878972d7ab7d602445e3c37219c74c79fa30b24e7",
           "bytes": 994
+        },
+        {
+          "path": "data/assets/vehicles/endurance-sedan-review/showroom-ci-recovery-v31/index.json",
+          "sha256": "51206410827998f36541a053b20f7ee13b8b871e20d83528b6a735e2c00a265d",
+          "bytes": 10195
+        },
+        {
+          "path": "data/assets/vehicles/endurance-sedan-review/showroom-ci-recovery-v31/inventory.json",
+          "sha256": "6ef6f9f1bde502052d10ded56dbcb7fd448ba03187adfad4583d67bc76c02850",
+          "bytes": 20208
+        },
+        {
+          "path": "data/assets/vehicles/endurance-sedan-review/showroom-ci-recovery-v31/retention-command.json",
+          "sha256": "86918d48285d76761494ad826160458afee90d5d7bf88263e1cd333365288a58",
+          "bytes": 850
         }
       ],
-      "human_approval_reference": null
+      "human_approval_reference": null,
+      "verified_utc": "2026-09-13T05:52:35.596521+00:00"
     }
   ],
   "qa_gaps": [
@@ -15029,5 +15045,5 @@
       "approval_reference": null
     }
   ],
-  "updated_utc": "2026-09-13T04:52:10.049685+00:00"
+  "updated_utc": "2026-09-13T05:52:35.596521+00:00"
 }

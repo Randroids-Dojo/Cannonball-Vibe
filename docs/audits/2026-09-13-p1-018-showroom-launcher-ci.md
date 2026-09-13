@@ -29,3 +29,11 @@ invocations, full local results and a byte-verified archive. The task evidence
 is [P1-018](../../evidence/M5/P1-018.json). PR #144 remains a draft while model
 and asset defects are corrected; P1-018 and all outstanding human gates remain
 open.
+
+## Recorded platform recovery
+
+The corrected head `bd57332280ae5846b76066127174224fefc68273` passed both M0 checks and the rendered semantic suites on Linux, macOS and Windows. CI checked the temporary PR merge `a59ecda97e9e6dc94dbbb5e163a41870980bcf8f` against main `827bb14618e99a85d709e89cdd828877b6ff1566`; this is not a mainline merge claim. Semantic totals are206passed6skipped on Linux and macOS,212passed on Windows.
+
+Both fixture exports built twice successfully. Actual clean-package evidence contains10/10 launch smokes and passed sedan driving/presentation summaries on Linux and Windows. The two original sedan asset-export jobs still fail on the installed production34 source; their raw logs remain alongside the recovery evidence. `P1-018-SR29-018` is corrected and verified; final source/art, LODs, performance and human task gates remain open.
+
+The [v31 evidence index](../../data/assets/vehicles/endurance-sedan-review/showroom-ci-recovery-v31/index.json) binds the exact completed jobs, actual package evidence, input hashes, raw failures and archive verification. The archive was built twice and compared byte for byte; this is evidence retention, not new GLB reproducibility.
