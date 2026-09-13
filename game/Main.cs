@@ -1179,6 +1179,7 @@ public sealed partial class Main : Node3D
         AddChild(_streamer);
         AddChild(_vehicle);
         _vehicle.InspectionPanel.VehicleSelected += id => _pendingVehicleSelection = id;
+        _vehicle.InspectionPanel.ShowroomRequested += OpenVehicleShowroom;
     }
 
     private void ApplyPendingVehicleSelection()
@@ -3702,6 +3703,26 @@ public sealed partial class Main : Node3D
             _lastRestartLinearSpeedMetersPerSecond;
         _runAutomationState["last_restart_angular_speed_radps"] =
             _lastRestartAngularSpeedRadiansPerSecond;
+    }
+
+    private void OpenVehicleShowroom()
+    {
+        if (_shutdownStarted || GetTree().Paused || !_vehicle.InspectionActive) return;
+        _vehicle.DrivingInputController.ClearAndSuppress("showroom_opened");
+        _tripMapPauseStartedTicks = Time.GetTicksMsec();
+        UpdateRunAutomationState();
+        var showroom = new Vehicle.Showroom.VehicleShowroom
+        {
+            AssetId = _vehicle.UsesGrayboxVisual ? "graybox" : _vehicle.RigSetup.AssetId,
+        };
+        showroom.Closed += () =>
+        {
+            OnTripMapClosed();
+            _vehicle.DrivingInputController.ClearAndSuppress("showroom_closed");
+            UpdateRunAutomationState();
+            _vehicle.InspectionPanel.RestoreInspectionFocus();
+        };
+        showroom.OpenOver(this);
     }
 
     private void OpenTripMap()

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import os
 import shutil
 import sys
 import threading
@@ -39,6 +40,13 @@ async def test_explicit_vehicle_and_disposable_profile_preserve_default_launch(
         await process.start()
     command = spawn.call_args.args
     environment = spawn.call_args.kwargs["env"]
+    renderer_index = command.index("--rendering-method")
+    assert command.count("--rendering-method") == 1
+    assert renderer_index < command.index("--")
+    assert command[renderer_index + 1] == "gl_compatibility"
+    assert process.rendering_method == "gl_compatibility"
+    assert process.window_size is None
+    assert "--windowed" not in command and "--resolution" not in command
     if vehicle is None:
         intended = "hero-gt" if production_vehicle else "graybox"
         assert [arg for arg in command if arg.startswith("--vehicle=")] == [f"--vehicle={intended}"]
@@ -61,6 +69,112 @@ async def test_explicit_vehicle_and_disposable_profile_preserve_default_launch(
 def test_unknown_explicit_vehicle_is_rejected_before_launch(tmp_path: Path) -> None:
     with pytest.raises(ValueError, match="Unknown explicit PlayGodot vehicle"):
         PlayGodotProcess(tmp_path, tmp_path / "fixture.cbrg", vehicle="unclaimed")
+
+
+@pytest.mark.parametrize("rendering_method", ["gl_compatibility", "forward_plus"])
+@pytest.mark.asyncio
+async def test_explicit_renderer_changes_only_the_engine_renderer_argument(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, rendering_method: str,
+) -> None:
+    route = tmp_path / "fixture.cbrg"
+    route.write_bytes(b"fixture")
+    child = SimpleNamespace(stdout=asyncio.StreamReader(), pid=100, returncode=0)
+    child.stdout.feed_eof()
+    spawn = AsyncMock(return_value=child)
+    monkeypatch.setattr(asyncio, "create_subprocess_exec", spawn)
+    process = PlayGodotProcess(
+        tmp_path, route, godot_bin=Path(sys.executable), vehicle="endurance-sedan",
+        isolate_user_data=True, rendering_method=rendering_method,
+    )
+    monkeypatch.setattr(process, "_read_ready", AsyncMock(side_effect=RuntimeError("stop probe")))
+    with pytest.raises(RuntimeError, match="stop probe"):
+        await process.start()
+    spawn.assert_awaited_once()
+    command = spawn.call_args.args
+    renderer_index = command.index("--rendering-method")
+    assert command.count("--rendering-method") == 1
+    assert renderer_index < command.index("--")
+    assert command[renderer_index + 1] == rendering_method
+    assert command[0] == str(Path(sys.executable).resolve())
+    assert "--vehicle=endurance-sedan" in command
+    assert "--graybox-vehicle" not in command
+    assert f"--route-package={route.resolve()}" in command
+    assert process.capabilities == ("read",)
+    assert process.request_timeout == 10.0 and process.startup_timeout == 20.0
+    environment = spawn.call_args.kwargs["env"]
+    assert set(environment["PLAYGODOT_CAPABILITIES"].split(",")) == {"read", "shutdown"}
+    assert environment["PLAYGODOT_TOKEN"] not in " ".join(command)
+    assert process._runtime_directory is None
+    assert not Path(environment["HOME"]).exists()
+
+
+@pytest.mark.parametrize("rendering_method", [
+    None, "", "mobile", "Forward+", "forward_plus --quit", ["forward_plus"], False, 0,
+])
+def test_invalid_renderer_is_rejected_before_engine_discovery_or_launch(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, rendering_method: object,
+) -> None:
+    def forbidden_discovery():
+        pytest.fail("Invalid renderer reached engine discovery")
+
+    monkeypatch.setattr(PlayGodotProcess, "_godot_from_environment", forbidden_discovery)
+    spawn = AsyncMock()
+    monkeypatch.setattr(asyncio, "create_subprocess_exec", spawn)
+    with pytest.raises(ValueError, match="Unknown PlayGodot rendering method"):
+        PlayGodotProcess(tmp_path, tmp_path / "fixture.cbrg", rendering_method=rendering_method)
+    spawn.assert_not_called()
+
+
+@pytest.mark.parametrize("window_size", [(960, 540), (2560, 1440), (7680, 4320)])
+@pytest.mark.asyncio
+async def test_explicit_window_size_stays_in_engine_arguments(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, window_size: tuple[int, int],
+) -> None:
+    route = tmp_path / "fixture.cbrg"
+    route.write_bytes(b"fixture")
+    child = SimpleNamespace(stdout=asyncio.StreamReader(), pid=100, returncode=0)
+    child.stdout.feed_eof()
+    spawn = AsyncMock(return_value=child)
+    monkeypatch.setattr(asyncio, "create_subprocess_exec", spawn)
+    process = PlayGodotProcess(
+        tmp_path, route, godot_bin=Path(sys.executable), rendering_method="forward_plus",
+        window_size=window_size,
+    )
+    monkeypatch.setattr(process, "_read_ready", AsyncMock(side_effect=RuntimeError("stop probe")))
+    with pytest.raises(RuntimeError, match="stop probe"):
+        await process.start()
+    spawn.assert_awaited_once()
+    command = spawn.call_args.args
+    separator = command.index("--")
+    assert command.count("--windowed") == command.count("--resolution") == 1
+    assert command.index("--windowed") < separator
+    size_index = command.index("--resolution")
+    assert size_index < separator
+    assert command[size_index + 1] == f"{window_size[0]}x{window_size[1]}"
+    assert command[command.index("--rendering-method") + 1] == "forward_plus"
+    assert "--vehicle=graybox" in command and "--graybox-vehicle" in command
+    assert f"--route-package={route.resolve()}" in command
+    assert process.window_size == window_size and process.capabilities == ("read",)
+    assert process.request_timeout == 10 and process.startup_timeout == 20
+    assert process._runtime_directory is None
+
+
+@pytest.mark.parametrize("window_size", [
+    (), (1280,), (1280, 720, 1), (959, 540), (960, 539), (7681, 4320), (7680, 4321),
+    (1280.0, 720), (1280, True), [1280, 720], "1280x720", "1280x720 --quit",
+])
+def test_invalid_window_size_is_rejected_before_engine_discovery_or_launch(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, window_size: object,
+) -> None:
+    def forbidden_discovery():
+        pytest.fail("Invalid window size reached engine discovery")
+
+    monkeypatch.setattr(PlayGodotProcess, "_godot_from_environment", forbidden_discovery)
+    spawn = AsyncMock()
+    monkeypatch.setattr(asyncio, "create_subprocess_exec", spawn)
+    with pytest.raises(ValueError, match="Invalid PlayGodot window size"):
+        PlayGodotProcess(tmp_path, tmp_path / "fixture.cbrg", window_size=window_size)
+    spawn.assert_not_called()
 
 
 @pytest.mark.asyncio
@@ -669,7 +783,8 @@ async def test_early_native_exit_uses_only_the_remaining_absolute_budget(
     before = process._before
 
     def bounded_slow_remove(path):
-        assert path.resolve().is_relative_to(tmp_path.resolve())
+        assert path.samefile(profile)
+        assert profile.resolve().is_relative_to(tmp_path.resolve())
         # Longer than the .25s final reservation, within the same .45s cap.
         loop.call_soon_threadsafe(loop.call_later, .30, release.set)
         assert release.wait(2), "The test must release its bookkeeping worker"
@@ -715,7 +830,8 @@ async def test_slow_bookkeeping_cannot_block_or_write_late_success(
     remove = shutil.rmtree
 
     def blocked_remove(path):
-        assert path.resolve().is_relative_to(tmp_path.resolve())
+        assert path.samefile(profile)
+        assert profile.resolve().is_relative_to(tmp_path.resolve())
         entered.set()
         assert release.wait(2), "The test must release its blocked filesystem fixture"
         remove(path)
@@ -775,3 +891,110 @@ async def test_shutdown_log_write_is_off_loop_and_failure_remains_visible(
     assert process.teardown_result["status"] == "failed"
     assert {"phase": "bookkeeping", "type": "OSError"} in process.teardown_result["phase_errors"]
     assert process.teardown_result["output_eof"] and process.process is None
+
+
+@pytest.mark.skipif(os.name != "nt", reason="Actual Windows MAX_PATH filesystem regression")
+@pytest.mark.asyncio
+async def test_owned_profile_removes_actual_long_shader_cache_without_relaxing_exit(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    process, child, signals = _cleanup_fixture(tmp_path, monkeypatch)
+    profile = tmp_path / "owned-profile"
+    profile.mkdir()
+    process._runtime_directory = profile
+    cache = (profile / "appdata/Godot/app_userdata/Cannonball Run/shader_cache"
+             / "CanvasOcclusionShaderRD" / ("b" * 64) / (("c" * 40) + ".vulkan.cache"))
+    assert profile.resolve().is_relative_to(tmp_path.resolve())
+    assert len(str(cache)) > 260
+    extended_cache = Path("\\\\?\\" + str(cache))
+    extended_cache.parent.mkdir(parents=True)
+    extended_cache.write_bytes(b"actual long-name cleanup control")
+
+    async def quit_child(_deadline, record):
+        record.update(quit_requested=True, quit_acknowledged=True)
+        _quit_marker(process)
+        child.finish()
+
+    monkeypatch.setattr(process, "_request_quit", quit_child)
+    await process.stop()
+    result = process.teardown_result
+    assert result["status"] == "passed" and result["exit_status"] == 0
+    assert result["output_eof"] and result["bookkeeping_completed"]
+    assert not result["fallback"] and not result["phase_errors"] and not signals
+    assert process._runtime_directory is None
+    assert not profile.exists() and not extended_cache.exists()
+    assert result["native_log"]["sha256"]
+    observation = json.loads(process.log_path.with_suffix(".shutdown.json").read_text())
+    assert observation["status"] == "native-observation"
+    assert observation["owner_finalization_required"] is True
+
+
+@pytest.mark.skipif(os.name != "nt", reason="Actual Windows profile filesystem errors")
+@pytest.mark.parametrize("mode", ["missing", "readonly"])
+@pytest.mark.asyncio
+async def test_windows_profile_path_fix_keeps_missing_and_permission_errors(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, mode: str,
+) -> None:
+    import stat
+
+    process, child, _signals = _cleanup_fixture(tmp_path, monkeypatch)
+    profile = tmp_path / "owned-profile"
+    process._runtime_directory = profile
+    cache = profile / "cache.bin"
+    if mode == "readonly":
+        profile.mkdir()
+        cache.write_bytes(b"permission error must remain visible")
+        cache.chmod(stat.S_IREAD)
+
+    async def quit_child(_deadline, record):
+        record.update(quit_requested=True, quit_acknowledged=True)
+        _quit_marker(process)
+        child.finish()
+
+    monkeypatch.setattr(process, "_request_quit", quit_child)
+    try:
+        with pytest.raises(ShutdownError):
+            await process.stop()
+        result = process.teardown_result
+        assert result["status"] == "failed" and result["exit_status"] == 0
+        assert result["output_eof"] and not result["bookkeeping_completed"]
+        expected = "FileNotFoundError" if mode == "missing" else "PermissionError"
+        assert {"phase": "bookkeeping", "type": expected} in result["phase_errors"]
+        assert process._runtime_directory == profile
+    finally:
+        if cache.exists():
+            assert profile.resolve().is_relative_to(tmp_path.resolve())
+            cache.chmod(stat.S_IWRITE | stat.S_IREAD)
+            shutil.rmtree(profile)
+
+
+@pytest.mark.skipif(os.name != "nt", reason="Windows owned-root cleanup guard")
+@pytest.mark.parametrize("mode", ["relative", "symlink", "junction"])
+@pytest.mark.asyncio
+async def test_windows_cleanup_rejects_changed_root_before_recursive_delete(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, mode: str,
+) -> None:
+    from unittest.mock import Mock
+
+    process, child, _signals = _cleanup_fixture(tmp_path, monkeypatch)
+    profile = Path("relative-profile") if mode == "relative" else tmp_path / "owned-profile"
+    process._runtime_directory = profile
+    if mode != "relative":
+        profile.mkdir()
+        name = "is_symlink" if mode == "symlink" else "is_junction"
+        original = getattr(Path, name)
+        monkeypatch.setattr(Path, name, lambda path: True if path == profile else original(path))
+    remove = Mock()
+    monkeypatch.setattr("cannonball_playgodot.launcher.shutil.rmtree", remove)
+
+    async def quit_child(_deadline, record):
+        record.update(quit_requested=True, quit_acknowledged=True)
+        _quit_marker(process)
+        child.finish()
+
+    monkeypatch.setattr(process, "_request_quit", quit_child)
+    with pytest.raises(ShutdownError):
+        await process.stop()
+    remove.assert_not_called()
+    assert {"phase": "bookkeeping", "type": "OSError"} in process.teardown_result["phase_errors"]
+    assert process._runtime_directory == profile

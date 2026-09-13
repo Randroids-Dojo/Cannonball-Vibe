@@ -53,6 +53,8 @@ class PlayGodotProcess:
         production_vehicle: bool = False,
         vehicle: str | None = None,
         isolate_user_data: bool = False,
+        rendering_method: str = "gl_compatibility",
+        window_size: tuple[int, int] | None = None,
     ) -> None:
         self.repo_root = repo_root.resolve()
         self.route_package = route_package.resolve()
@@ -62,6 +64,16 @@ class PlayGodotProcess:
             raise ValueError("Unknown explicit PlayGodot vehicle")
         self.vehicle = vehicle
         self.isolate_user_data = isolate_user_data
+        if rendering_method not in ("gl_compatibility", "forward_plus"):
+            raise ValueError("Unknown PlayGodot rendering method")
+        self.rendering_method = rendering_method
+        if window_size is not None and (
+            not isinstance(window_size, tuple) or len(window_size) != 2
+            or any(type(size) is not int for size in window_size)
+            or not 960 <= window_size[0] <= 7680 or not 540 <= window_size[1] <= 4320
+        ):
+            raise ValueError("Invalid PlayGodot window size")
+        self.window_size = window_size
         self.godot_bin = godot_bin or self._godot_from_environment()
         self.startup_timeout = startup_timeout
         self.request_timeout = request_timeout
@@ -205,7 +217,9 @@ class PlayGodotProcess:
             "--audio-driver",
             "Dummy",
             "--rendering-method",
-            "gl_compatibility",
+            self.rendering_method,
+            *(["--windowed", "--resolution", f"{self.window_size[0]}x{self.window_size[1]}"]
+              if self.window_size is not None else []),
             "--path",
             str(self.repo_root),
             "addons/playgodot/bootstrap.tscn",
@@ -514,7 +528,21 @@ class PlayGodotProcess:
                     }
                     result["native_log"] = snapshot["native_log"]
                 if profile is not None:
-                    shutil.rmtree(profile)
+                    cleanup_path = profile
+                    if os.name == "nt":
+                        # Vulkan cache filenames can exceed MAX_PATH. Keep the
+                        # exact owned root and strict rmtree errors; never follow
+                        # a substituted profile link/junction to another tree.
+                        if (not profile.is_absolute() or profile.is_symlink()
+                                or profile.is_junction()):
+                            raise OSError("Owned PlayGodot profile root changed before cleanup")
+                        resolved = profile.resolve(strict=True)
+                        value = str(resolved)
+                        if not value.startswith("\\\\?\\"):
+                            value = ("\\\\?\\UNC\\" + value[2:] if value.startswith("\\\\")
+                                     else "\\\\?\\" + value)
+                        cleanup_path = Path(value)
+                    shutil.rmtree(cleanup_path)
                     result["profile_removed"] = True
                 if log_path is not None:
                     snapshot["observation_write_started_seconds"] = (

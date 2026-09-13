@@ -22,6 +22,7 @@ public partial class VehicleInspectionPanel : CanvasLayer
     private readonly Godot.Collections.Dictionary _automationState = new();
 
     public event Action<string>? VehicleSelected;
+    public event Action? ShowroomRequested;
     public bool IsOpen => _vehicle.InspectionActive;
     public void Configure(CannonballVehicle vehicle) => _vehicle = vehicle;
 
@@ -53,7 +54,7 @@ public partial class VehicleInspectionPanel : CanvasLayer
         _panel.OffsetBottom = 315;
         using var style = new StyleBoxFlat { BgColor = new Color(0.035f, 0.045f, 0.055f, 0.97f), ContentMarginLeft = 20, ContentMarginRight = 20, ContentMarginTop = 16, ContentMarginBottom = 16 };
         _panel.AddThemeStyleboxOverride("panel", style);
-        var scroll = new ScrollContainer { HorizontalScrollMode = ScrollContainer.ScrollMode.Disabled };
+        var scroll = new ScrollContainer { HorizontalScrollMode = ScrollContainer.ScrollMode.Disabled, FollowFocus = true };
         _panel.AddChild(scroll);
         var column = new VBoxContainer { SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
         column.AddThemeConstantOverride("separation", 10);
@@ -64,6 +65,7 @@ public partial class VehicleInspectionPanel : CanvasLayer
         _state = new Label { Text = "Parked", AutowrapMode = TextServer.AutowrapMode.WordSmart };
         _state.SetMeta("automation_id", "vehicle.inspection.status");
         column.AddChild(_state);
+        AddButton(column, "Explore in showroom", "vehicle.inspection.showroom", () => ShowroomRequested?.Invoke());
         var presentation = _vehicle.VisualRig?.Presentation;
         if (presentation is not null)
         {
@@ -166,6 +168,11 @@ public partial class VehicleInspectionPanel : CanvasLayer
         _vehicle.ResetPhysicsInterpolation();
         GetViewport().GuiReleaseFocus();
         UpdateState();
+    }
+
+    public void RestoreInspectionFocus()
+    {
+        if (IsOpen) _close.GrabFocus();
     }
 
     public override void _Process(double delta)

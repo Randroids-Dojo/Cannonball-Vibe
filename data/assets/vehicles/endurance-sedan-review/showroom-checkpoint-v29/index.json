@@ -1,0 +1,57 @@
+{
+  "task_id": "P1-018",
+  "milestone": "M5",
+  "utc": "2026-09-13T04:12:34.624251+00:00",
+  "git_revision": "f10e133a133b71d57b7bf3822d281958fe31c2dc",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "inventory": {
+    "path": "reports/p1-018/showroom-checkpoint29-retention01/inventory.json",
+    "sha256": "8856ad7fbbc81d39100c674de449e947be59d9a0d7635c2fddbc0cb06353e7e1"
+  },
+  "parts": [
+    {
+      "part": 1,
+      "command": [
+        "C:\\Users\\randr\\AppData\\Local\\Programs\\Python\\Python314\\python.exe",
+        "tools/vehicles/endurance_sedan/retain_evidence.py",
+        "--manifest",
+        "reports\\p1-018\\showroom-checkpoint29-retention01\\manifest-01.json",
+        "--output",
+        "data\\assets\\vehicles\\endurance-sedan-review\\showroom-checkpoint-v29\\showroom-checkpoint-v29-01.zip",
+        "--repeat-output",
+        "reports\\p1-018\\showroom-checkpoint29-retention01\\showroom-checkpoint-v29-01-repeat.zip",
+        "--index",
+        "data\\assets\\vehicles\\endurance-sedan-review\\showroom-checkpoint-v29\\index-01.json"
+      ],
+      "started_utc": "2026-09-13T04:12:25.866935+00:00",
+      "finished_utc": "2026-09-13T04:12:34.281765+00:00",
+      "exit_status": 0,
+      "archive": {
+        "path": "data/assets/vehicles/endurance-sedan-review/showroom-checkpoint-v29/showroom-checkpoint-v29-01.zip",
+        "sha256": "bc8e1e058be6d9138955da4df8a8db5158e86894b4cb9c921c1134fd4fbc69a7",
+        "bytes": 96146133,
+        "crc_and_member_sha256_verified": true
+      },
+      "repeat": {
+        "path": "reports/p1-018/showroom-checkpoint29-retention01/showroom-checkpoint-v29-01-repeat.zip",
+        "sha256": "bc8e1e058be6d9138955da4df8a8db5158e86894b4cb9c921c1134fd4fbc69a7",
+        "bytes": 96146133,
+        "crc_and_member_sha256_verified": true
+      },
+      "index": {
+        "path": "data/assets/vehicles/endurance-sedan-review/showroom-checkpoint-v29/index-01.json",
+        "sha256": "1f011c362dbb78ead769f8818239ecf2ad83033ef23610ee45d589eecc5a0836"
+      },
+      "entries": 979,
+      "manifest_sha256": "bb7692b98aab3a7ed8e62152a3a0858c383ff2cb07c5997c0a1adf9e2d2693d7",
+      "every_archive_byte_compared": true
+    }
+  ],
+  "all_parts_directly_byte_compared": true,
+  "all_members_sha256_and_crc_verified_twice": true,
+  "entry_count": 979,
+  "archive_bytes": 96146133,
+  "retention_retries": 0,
+  "scope": "Interactive showroom source, actual Windows control/render/photo/cleanup evidence, exact final Windows front door, independent visual review and retained failures. Installed production34 is unchanged. No final sedan-art, reference-PC, remote platform or human acceptance.",
+  "human_approval_reference": null
+}

@@ -4010,7 +4010,7 @@
           "bytes": 0
         }
       ],
-      "scope": "All digits0\u00e2\u20ac\u201c9, R/N/1\u00e2\u20ac\u201c7, idle/cruise/reverse, left/right/hazard phases and the low-fuel boundary decode correctly from actual evaluated source-preview geometry. No invalid drivers. This is source preview logic, not an engine or fuel-system simulation."
+      "scope": "All digits0–9, R/N/1–7, idle/cruise/reverse, left/right/hazard phases and the low-fuel boundary decode correctly from actual evaluated source-preview geometry. No invalid drivers. This is source preview logic, not an engine or fuel-system simulation."
     },
     {
       "task_id": "P1-018",
@@ -9180,7 +9180,7 @@
         "O03"
       ],
       "summary": "Blockout attempt 01 had zero-area evaluated polygons from thin-object bevels and LOD simplification.",
-      "expected": "No evaluated polygon area below 1e-12 m\u00c3\u201a\u00c2\u00b2 and no unintended nonmanifold edges.",
+      "expected": "No evaluated polygon area below 1e-12 mÂ² and no unintended nonmanifold edges.",
       "actual": {
         "degenerate_faces": 343,
         "affected_meshes": [
@@ -9320,7 +9320,7 @@
         "O03"
       ],
       "summary": "Attempt 02 GLB still has 14 degenerate triangles despite its polygon inventory passing.",
-      "expected": "Every exported triangle has area greater than the locked 1e-12 m\u00c2\u00b2 degeneracy threshold.",
+      "expected": "Every exported triangle has area greater than the locked 1e-12 m² degeneracy threshold.",
       "actual": {
         "degenerate_triangles": 14,
         "triangles": 53552,
@@ -11868,7 +11868,7 @@
         {
           "utc": "2026-09-11T02:12:13.982593+00:00",
           "source_sha256": "997b38cf570991265b2c58e145927f6a24d014a0cef5e100e7494f1cf7285801",
-          "observation": "Source 20 InstrumentShade crosses the actual left wiper rubber at 60\u00e2\u20ac\u201c100% sweep. Root is moving the shade behind the windshield; fresh mesh and view verification is required.",
+          "observation": "Source 20 InstrumentShade crosses the actual left wiper rubber at 60–100% sweep. Root is moving the shade behind the windshield; fresh mesh and view verification is required.",
           "evidence": [
             {
               "path": "reports/p1-018/qa/production-surface-20/contact-regression-review.json",
@@ -13788,6 +13788,26 @@
           "finding": "The retained five-mesh roof proposal is visually rejected for skin dents and its ledge. A new shared-section proposal is separately in progress.",
           "status": "open",
           "human_approval_reference": null
+        },
+        {
+          "utc": "2026-09-12T23:38:07.418142+00:00",
+          "scope_record": {
+            "path": "reports/p1-018/geometry-scope28-01/scope.json",
+            "sha256": "a7a818c3cdc9f62ba10a6741b0c263515ac4dc72a330539ba16a5ad672181b1c"
+          },
+          "status": "open",
+          "finding": "The material33/clay33 matched C-joint views still show a projecting tab and new bright fold. The thin lap candidate is rejected; prepare the coherent C wrap and a real body receiving pocket with original structural tube and hardpoints unchanged.",
+          "human_approval_reference": null
+        },
+        {
+          "utc": "2026-09-13T00:57:52.318842+00:00",
+          "scope_record": {
+            "path": "reports/p1-018/geometry-scope28-01/c_pressing67.json",
+            "sha256": "6064c3874eea7d2f07b897797c6cf2edf8273a094eb849f3eb10f106ea9995c6"
+          },
+          "status": "open",
+          "finding": "Root and QA reject current63/66. The wrap covers the exposed member but the upper C shoulder is swollen and the lower end reads as a projecting cap/undercut. +932 triangles before body receivers is not accepted.",
+          "human_approval_reference": null
         }
       ]
     },
@@ -14336,6 +14356,508 @@
           "human_approval_reference": null
         }
       ]
+    },
+    {
+      "id": "P1-018-D079",
+      "severity": "major",
+      "status": "open",
+      "category": "hood-evaluated-edge-normals",
+      "assigned_owner": "lead-modeling",
+      "observed_utc": "2026-09-13T01:12:25.131023+00:00",
+      "observed_revision": "f10e133a133b71d57b7bf3822d281958fe31c2dc",
+      "summary": "The evaluated hood has four invalid corner normals despite a valid raw source surface.",
+      "actual": "Full actual source inventory finds four zero and nonunit evaluated hood corner normals. Its raw 247-vertex surface has valid normals. The original 1.2 mm bevel with overlap clamping is as wide as the 1.2 mm sheet thickness.",
+      "expected": "Editable physical sheet and edge modifiers produce finite unit normals, valid closed geometry and appropriate fit throughout the opening range.",
+      "correction": "Use a 0.45 mm, two-segment manufactured perimeter bevel for the 1.2 mm hood sheet. Preserve every raw surface vertex, polygon, UV, material, hinge hardpoint and thickness. This is an editable modifier parameter correction, with evaluated geometry changes separately measured.",
+      "verification": "Native trial has zero invalid normal corners, unchanged 1528 triangles, unchanged raw surface, and no exact self-intersections. No source file was saved. Final source, affected fit/motion and visual acceptance remain open.",
+      "evidence": [
+        {
+          "path": "reports/p1-018/geometry-scope28-01/hood05.json",
+          "sha256": "c00628740d9cd8df83a44d2a4d87accf4549cdecab41fb650d0a7fd07683c42e",
+          "bytes": 1906
+        }
+      ],
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-SR29-001",
+      "severity": "major",
+      "status": "resolved",
+      "category": "controller-hidden-ui-recovery",
+      "assigned_owner": "lead-viewer",
+      "observed_utc": "2026-09-13T04:08:49.790997+00:00",
+      "summary": "Hiding the interface loses the controller focus route back to controls.",
+      "actual": "Hiding the interface loses the controller focus route back to controls.",
+      "correction": "R3 toggles controls; restoring releases stale GUI focus and focuses Exterior.",
+      "verification": "Actual controller-only Hide, R3 restore, focus navigation and Photo pass in native07/11.",
+      "evidence": [
+        {
+          "path": "reports/p1-018/runtime/showroom29-plan01/handoff13/readback.json",
+          "sha256": "82982fa8d9372826b43627b7da6696272eef5d6d3ff611642cbf2f87fad1386e",
+          "bytes": 41641
+        },
+        {
+          "path": "reports/p1-018/runtime/showroom29-plan01/lighting17-handoff/readback.json",
+          "sha256": "dc4442f17700c8178422a5c60ff5a9c9e4f7ba125d9496c50820088d9e95322e",
+          "bytes": 19434
+        },
+        {
+          "path": "reports/p1-018/qa/showroom29-review01/REVIEW16.md",
+          "sha256": "42eef5aa1bd33c091d36b20a7f1a594112716d6733882de060948aa90d1155b4",
+          "bytes": 5678
+        }
+      ],
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-SR29-002",
+      "severity": "moderate",
+      "status": "resolved",
+      "category": "exterior-framing",
+      "assigned_owner": "lead-viewer",
+      "observed_utc": "2026-09-13T04:08:49.790997+00:00",
+      "summary": "Exterior framing shifted the car toward the control panel.",
+      "actual": "Exterior framing shifted the car toward the control panel.",
+      "correction": "Correct the camera-right framing basis.",
+      "verification": "Actual exterior views frame the car left of the controls.",
+      "evidence": [
+        {
+          "path": "reports/p1-018/runtime/showroom29-plan01/handoff13/readback.json",
+          "sha256": "82982fa8d9372826b43627b7da6696272eef5d6d3ff611642cbf2f87fad1386e",
+          "bytes": 41641
+        },
+        {
+          "path": "reports/p1-018/runtime/showroom29-plan01/lighting17-handoff/readback.json",
+          "sha256": "dc4442f17700c8178422a5c60ff5a9c9e4f7ba125d9496c50820088d9e95322e",
+          "bytes": 19434
+        },
+        {
+          "path": "reports/p1-018/qa/showroom29-review01/REVIEW16.md",
+          "sha256": "42eef5aa1bd33c091d36b20a7f1a594112716d6733882de060948aa90d1155b4",
+          "bytes": 5678
+        }
+      ],
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-SR29-003",
+      "severity": "moderate",
+      "status": "resolved",
+      "category": "studio-self-shadow",
+      "assigned_owner": "lead-viewer",
+      "observed_utc": "2026-09-13T04:08:49.790997+00:00",
+      "summary": "Dense floor stripes obscure the scene.",
+      "actual": "Dense floor stripes obscure the scene.",
+      "correction": "Tune local studio shadow bias against rendered evidence.",
+      "verification": "Dense floor stripes are gone in native07/11. Existing patterned source surfaces are a separate defect.",
+      "evidence": [
+        {
+          "path": "reports/p1-018/runtime/showroom29-plan01/handoff13/readback.json",
+          "sha256": "82982fa8d9372826b43627b7da6696272eef5d6d3ff611642cbf2f87fad1386e",
+          "bytes": 41641
+        },
+        {
+          "path": "reports/p1-018/runtime/showroom29-plan01/lighting17-handoff/readback.json",
+          "sha256": "dc4442f17700c8178422a5c60ff5a9c9e4f7ba125d9496c50820088d9e95322e",
+          "bytes": 19434
+        },
+        {
+          "path": "reports/p1-018/qa/showroom29-review01/REVIEW16.md",
+          "sha256": "42eef5aa1bd33c091d36b20a7f1a594112716d6733882de060948aa90d1155b4",
+          "bytes": 5678
+        }
+      ],
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-SR29-004",
+      "severity": "moderate",
+      "status": "resolved",
+      "category": "help-contrast",
+      "assigned_owner": "lead-viewer",
+      "observed_utc": "2026-09-13T04:08:49.790997+00:00",
+      "summary": "Bottom interaction hints are small and poorly contrasted.",
+      "actual": "Bottom interaction hints are small and poorly contrasted.",
+      "correction": "Use larger type and a dark hint panel.",
+      "verification": "Actual native originals show readable help. Human accessibility approval remains pending.",
+      "evidence": [
+        {
+          "path": "reports/p1-018/runtime/showroom29-plan01/handoff13/readback.json",
+          "sha256": "82982fa8d9372826b43627b7da6696272eef5d6d3ff611642cbf2f87fad1386e",
+          "bytes": 41641
+        },
+        {
+          "path": "reports/p1-018/runtime/showroom29-plan01/lighting17-handoff/readback.json",
+          "sha256": "dc4442f17700c8178422a5c60ff5a9c9e4f7ba125d9496c50820088d9e95322e",
+          "bytes": 19434
+        },
+        {
+          "path": "reports/p1-018/qa/showroom29-review01/REVIEW16.md",
+          "sha256": "42eef5aa1bd33c091d36b20a7f1a594112716d6733882de060948aa90d1155b4",
+          "bytes": 5678
+        }
+      ],
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-SR29-005",
+      "severity": "moderate",
+      "status": "resolved",
+      "category": "rear-seat-camera",
+      "assigned_owner": "lead-viewer",
+      "observed_utc": "2026-09-13T04:08:49.790997+00:00",
+      "summary": "Front headrests dominate the rear cabin preset.",
+      "actual": "Front headrests dominate the rear cabin preset.",
+      "correction": "Move the inspection eye rearward and face the bench.",
+      "verification": "All three rear headrests/backrests are visible; front seats still limit the outer cushions.",
+      "evidence": [
+        {
+          "path": "reports/p1-018/runtime/showroom29-plan01/handoff13/readback.json",
+          "sha256": "82982fa8d9372826b43627b7da6696272eef5d6d3ff611642cbf2f87fad1386e",
+          "bytes": 41641
+        },
+        {
+          "path": "reports/p1-018/runtime/showroom29-plan01/lighting17-handoff/readback.json",
+          "sha256": "dc4442f17700c8178422a5c60ff5a9c9e4f7ba125d9496c50820088d9e95322e",
+          "bytes": 19434
+        },
+        {
+          "path": "reports/p1-018/qa/showroom29-review01/REVIEW16.md",
+          "sha256": "42eef5aa1bd33c091d36b20a7f1a594112716d6733882de060948aa90d1155b4",
+          "bytes": 5678
+        }
+      ],
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-SR29-006",
+      "severity": "moderate",
+      "status": "resolved",
+      "category": "inspection-view-composition",
+      "assigned_owner": "lead-viewer",
+      "observed_utc": "2026-09-13T04:08:49.790997+00:00",
+      "summary": "Above/underbody framing clips the long car and cockpit controls conceal the lower wheel.",
+      "actual": "Above/underbody framing clips the long car and cockpit controls conceal the lower wheel.",
+      "correction": "Orient top/underbody horizontally and look farther down from the unchanged cockpit eye.",
+      "verification": "Actual native11 top/underbody fit; lighting16 full-UI720 cockpit clears the complete wheel.1440 cockpit is UI-free, not full-UI evidence.",
+      "evidence": [
+        {
+          "path": "reports/p1-018/runtime/showroom29-plan01/handoff13/readback.json",
+          "sha256": "82982fa8d9372826b43627b7da6696272eef5d6d3ff611642cbf2f87fad1386e",
+          "bytes": 41641
+        },
+        {
+          "path": "reports/p1-018/runtime/showroom29-plan01/lighting17-handoff/readback.json",
+          "sha256": "dc4442f17700c8178422a5c60ff5a9c9e4f7ba125d9496c50820088d9e95322e",
+          "bytes": 19434
+        },
+        {
+          "path": "reports/p1-018/qa/showroom29-review01/REVIEW16.md",
+          "sha256": "42eef5aa1bd33c091d36b20a7f1a594112716d6733882de060948aa90d1155b4",
+          "bytes": 5678
+        }
+      ],
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-SR29-007",
+      "severity": "moderate",
+      "status": "resolved",
+      "category": "underbody-illumination",
+      "assigned_owner": "lead-viewer",
+      "observed_utc": "2026-09-13T04:08:49.790997+00:00",
+      "summary": "Underside parts remain black in inspection.",
+      "actual": "Underside parts remain black in inspection.",
+      "correction": "Hide floor below the car and enable a local underside inspection fill.",
+      "verification": "Actual native07/11 underside makes visible parts inspectable.",
+      "evidence": [
+        {
+          "path": "reports/p1-018/runtime/showroom29-plan01/handoff13/readback.json",
+          "sha256": "82982fa8d9372826b43627b7da6696272eef5d6d3ff611642cbf2f87fad1386e",
+          "bytes": 41641
+        },
+        {
+          "path": "reports/p1-018/runtime/showroom29-plan01/lighting17-handoff/readback.json",
+          "sha256": "dc4442f17700c8178422a5c60ff5a9c9e4f7ba125d9496c50820088d9e95322e",
+          "bytes": 19434
+        },
+        {
+          "path": "reports/p1-018/qa/showroom29-review01/REVIEW16.md",
+          "sha256": "42eef5aa1bd33c091d36b20a7f1a594112716d6733882de060948aa90d1155b4",
+          "bytes": 5678
+        }
+      ],
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-SR29-008",
+      "severity": "major",
+      "status": "resolved",
+      "category": "exterior-minimum-zoom",
+      "assigned_owner": "lead-viewer",
+      "observed_utc": "2026-09-13T04:08:49.790997+00:00",
+      "summary": "Minimum exterior zoom puts the camera inside the cabin.",
+      "actual": "Minimum exterior zoom puts the camera inside the cabin.",
+      "correction": "Require conservative clearance from actual visible mesh bounds, updated with opening transforms.",
+      "verification": "The reproduced native11 minimum-zoom witness stays outside. This is not exhaustive triangle-level camera collision proof.",
+      "evidence": [
+        {
+          "path": "reports/p1-018/runtime/showroom29-plan01/handoff13/readback.json",
+          "sha256": "82982fa8d9372826b43627b7da6696272eef5d6d3ff611642cbf2f87fad1386e",
+          "bytes": 41641
+        },
+        {
+          "path": "reports/p1-018/runtime/showroom29-plan01/lighting17-handoff/readback.json",
+          "sha256": "dc4442f17700c8178422a5c60ff5a9c9e4f7ba125d9496c50820088d9e95322e",
+          "bytes": 19434
+        },
+        {
+          "path": "reports/p1-018/qa/showroom29-review01/REVIEW16.md",
+          "sha256": "42eef5aa1bd33c091d36b20a7f1a594112716d6733882de060948aa90d1155b4",
+          "bytes": 5678
+        }
+      ],
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-SR29-009",
+      "severity": "moderate",
+      "status": "resolved",
+      "category": "daylight-title-contrast",
+      "assigned_owner": "lead-viewer",
+      "observed_utc": "2026-09-13T04:08:49.790997+00:00",
+      "summary": "Daylight background obscures the vehicle heading.",
+      "actual": "Daylight background obscures the vehicle heading.",
+      "correction": "Add a dark heading panel.",
+      "verification": "Actual daylight originals show a readable title.",
+      "evidence": [
+        {
+          "path": "reports/p1-018/runtime/showroom29-plan01/handoff13/readback.json",
+          "sha256": "82982fa8d9372826b43627b7da6696272eef5d6d3ff611642cbf2f87fad1386e",
+          "bytes": 41641
+        },
+        {
+          "path": "reports/p1-018/runtime/showroom29-plan01/lighting17-handoff/readback.json",
+          "sha256": "dc4442f17700c8178422a5c60ff5a9c9e4f7ba125d9496c50820088d9e95322e",
+          "bytes": 19434
+        },
+        {
+          "path": "reports/p1-018/qa/showroom29-review01/REVIEW16.md",
+          "sha256": "42eef5aa1bd33c091d36b20a7f1a594112716d6733882de060948aa90d1155b4",
+          "bytes": 5678
+        }
+      ],
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-SR29-010",
+      "severity": "moderate",
+      "status": "open",
+      "category": "night-body-readability",
+      "assigned_owner": "lead-viewer",
+      "observed_utc": "2026-09-13T04:08:49.790997+00:00",
+      "summary": "Night broad doors, rear quarter and lower fascia lose inspection detail.",
+      "actual": "Night broad doors, rear quarter and lower fascia lose inspection detail.",
+      "correction": "Raised night fill/ambient and added low cool horizon reflection. Further material/source review remains needed.",
+      "verification": "Lighting14/16 improve contours but independent actual review still finds broad panels too dark. Studio/daylight remain more useful for inspection.",
+      "evidence": [
+        {
+          "path": "reports/p1-018/runtime/showroom29-plan01/handoff13/readback.json",
+          "sha256": "82982fa8d9372826b43627b7da6696272eef5d6d3ff611642cbf2f87fad1386e",
+          "bytes": 41641
+        },
+        {
+          "path": "reports/p1-018/runtime/showroom29-plan01/lighting17-handoff/readback.json",
+          "sha256": "dc4442f17700c8178422a5c60ff5a9c9e4f7ba125d9496c50820088d9e95322e",
+          "bytes": 19434
+        },
+        {
+          "path": "reports/p1-018/qa/showroom29-review01/REVIEW16.md",
+          "sha256": "42eef5aa1bd33c091d36b20a7f1a594112716d6733882de060948aa90d1155b4",
+          "bytes": 5678
+        }
+      ],
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-SR29-011",
+      "severity": "major",
+      "status": "resolved",
+      "category": "camera-grazing-bounds",
+      "assigned_owner": "lead-viewer",
+      "observed_utc": "2026-09-13T04:08:49.790997+00:00",
+      "summary": "Simple local margin expansion does not conservatively cover a grazing camera sphere under rotated/nonuniform transforms.",
+      "actual": "Simple local margin expansion does not conservatively cover a grazing camera sphere under rotated/nonuniform transforms.",
+      "correction": "Transform the world sphere with inverse-basis row lengths and include the near-plane diagonal.",
+      "verification": "Five retained host geometry controls and the native minimum-zoom witness support the correction; bounds remain conservative AABBs.",
+      "evidence": [
+        {
+          "path": "reports/p1-018/runtime/showroom29-plan01/handoff13/readback.json",
+          "sha256": "82982fa8d9372826b43627b7da6696272eef5d6d3ff611642cbf2f87fad1386e",
+          "bytes": 41641
+        },
+        {
+          "path": "reports/p1-018/runtime/showroom29-plan01/lighting17-handoff/readback.json",
+          "sha256": "dc4442f17700c8178422a5c60ff5a9c9e4f7ba125d9496c50820088d9e95322e",
+          "bytes": 19434
+        },
+        {
+          "path": "reports/p1-018/qa/showroom29-review01/REVIEW16.md",
+          "sha256": "42eef5aa1bd33c091d36b20a7f1a594112716d6733882de060948aa90d1155b4",
+          "bytes": 5678
+        }
+      ],
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-SR29-012",
+      "severity": "moderate",
+      "status": "resolved",
+      "category": "metrics-population-consistency",
+      "assigned_owner": "lead-viewer",
+      "observed_utc": "2026-09-13T04:08:49.790997+00:00",
+      "summary": "Sample count and quantiles can describe different timing populations.",
+      "actual": "Sample count and quantiles can describe different timing populations.",
+      "correction": "Publish count, elapsed time and quantiles together; label sampled working-set maximum.",
+      "verification": "Code and actual readbacks corroborate one atomic population; short-window and non-GPU limitations remain explicit.",
+      "evidence": [
+        {
+          "path": "reports/p1-018/runtime/showroom29-plan01/handoff13/readback.json",
+          "sha256": "82982fa8d9372826b43627b7da6696272eef5d6d3ff611642cbf2f87fad1386e",
+          "bytes": 41641
+        },
+        {
+          "path": "reports/p1-018/runtime/showroom29-plan01/lighting17-handoff/readback.json",
+          "sha256": "dc4442f17700c8178422a5c60ff5a9c9e4f7ba125d9496c50820088d9e95322e",
+          "bytes": 19434
+        },
+        {
+          "path": "reports/p1-018/qa/showroom29-review01/REVIEW16.md",
+          "sha256": "42eef5aa1bd33c091d36b20a7f1a594112716d6733882de060948aa90d1155b4",
+          "bytes": 5678
+        }
+      ],
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-SR29-013",
+      "severity": "moderate",
+      "status": "resolved",
+      "category": "underbody-background-card",
+      "assigned_owner": "lead-viewer",
+      "observed_utc": "2026-09-13T04:08:49.790997+00:00",
+      "summary": "A white studio softbox appears behind the underside.",
+      "actual": "A white studio softbox appears behind the underside.",
+      "correction": "Contribute original lighting cards only during the sky cubemap pass.",
+      "verification": "Actual native08/11 underside has a neutral background while keeping reflections.",
+      "evidence": [
+        {
+          "path": "reports/p1-018/runtime/showroom29-plan01/handoff13/readback.json",
+          "sha256": "82982fa8d9372826b43627b7da6696272eef5d6d3ff611642cbf2f87fad1386e",
+          "bytes": 41641
+        },
+        {
+          "path": "reports/p1-018/runtime/showroom29-plan01/lighting17-handoff/readback.json",
+          "sha256": "dc4442f17700c8178422a5c60ff5a9c9e4f7ba125d9496c50820088d9e95322e",
+          "bytes": 19434
+        },
+        {
+          "path": "reports/p1-018/qa/showroom29-review01/REVIEW16.md",
+          "sha256": "42eef5aa1bd33c091d36b20a7f1a594112716d6733882de060948aa90d1155b4",
+          "bytes": 5678
+        }
+      ],
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-SR29-015",
+      "severity": "moderate",
+      "status": "open",
+      "category": "inspection-reflection-glare",
+      "assigned_owner": "lead-viewer",
+      "observed_utc": "2026-09-13T04:08:49.790997+00:00",
+      "summary": "Strong white lamp/backlight/windshield/body reflections hide local detail.",
+      "actual": "Strong white lamp/backlight/windshield/body reflections hide local detail.",
+      "correction": "Pending causal source/material/lighting diagnosis; imported materials remain preserved in this viewer.",
+      "verification": "Actual rear/luggage/close-windshield/engine originals retain the glare. No exclusive cause is asserted.",
+      "evidence": [
+        {
+          "path": "reports/p1-018/runtime/showroom29-plan01/handoff13/readback.json",
+          "sha256": "82982fa8d9372826b43627b7da6696272eef5d6d3ff611642cbf2f87fad1386e",
+          "bytes": 41641
+        },
+        {
+          "path": "reports/p1-018/runtime/showroom29-plan01/lighting17-handoff/readback.json",
+          "sha256": "dc4442f17700c8178422a5c60ff5a9c9e4f7ba125d9496c50820088d9e95322e",
+          "bytes": 19434
+        },
+        {
+          "path": "reports/p1-018/qa/showroom29-review01/REVIEW16.md",
+          "sha256": "42eef5aa1bd33c091d36b20a7f1a594112716d6733882de060948aa90d1155b4",
+          "bytes": 5678
+        }
+      ],
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-SR29-016",
+      "severity": "moderate",
+      "status": "resolved",
+      "category": "photo-notice-overflow",
+      "assigned_owner": "lead-viewer",
+      "observed_utc": "2026-09-13T04:08:49.790997+00:00",
+      "summary": "The full photo path overlaps Explore/Above controls and has weak daylight contrast.",
+      "actual": "The full photo path overlaps Explore/Above controls and has weak daylight contrast.",
+      "correction": "Constrain the notice to a dark ellipsized panel; keep complete text in its tooltip.",
+      "verification": "Actual1440 lighting14/16 images show the154-character path contained clear of controls. Tooltip code retains full text; physical hover remains untested.",
+      "evidence": [
+        {
+          "path": "reports/p1-018/runtime/showroom29-plan01/handoff13/readback.json",
+          "sha256": "82982fa8d9372826b43627b7da6696272eef5d6d3ff611642cbf2f87fad1386e",
+          "bytes": 41641
+        },
+        {
+          "path": "reports/p1-018/runtime/showroom29-plan01/lighting17-handoff/readback.json",
+          "sha256": "dc4442f17700c8178422a5c60ff5a9c9e4f7ba125d9496c50820088d9e95322e",
+          "bytes": 19434
+        },
+        {
+          "path": "reports/p1-018/qa/showroom29-review01/REVIEW16.md",
+          "sha256": "42eef5aa1bd33c091d36b20a7f1a594112716d6733882de060948aa90d1155b4",
+          "bytes": 5678
+        }
+      ],
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-SR29-017",
+      "severity": "major",
+      "status": "resolved",
+      "category": "windows-disposable-profile-cleanup",
+      "assigned_owner": "lead-viewer",
+      "observed_utc": "2026-09-13T04:08:49.790997+00:00",
+      "summary": "Actual native08 cleanup fails on generated long shader-cache paths.",
+      "actual": "Actual native08 cleanup fails on generated long shader-cache paths.",
+      "correction": "Use extended absolute Windows paths for the verified owned profile with unchanged strict errors and deadline.",
+      "verification": "129 host controls and subsequent actual native cleanups pass. Original failed profile/logs remain; its exact failing filename was not recorded.",
+      "evidence": [
+        {
+          "path": "reports/p1-018/runtime/showroom29-plan01/handoff13/readback.json",
+          "sha256": "82982fa8d9372826b43627b7da6696272eef5d6d3ff611642cbf2f87fad1386e",
+          "bytes": 41641
+        },
+        {
+          "path": "reports/p1-018/runtime/showroom29-plan01/lighting17-handoff/readback.json",
+          "sha256": "dc4442f17700c8178422a5c60ff5a9c9e4f7ba125d9496c50820088d9e95322e",
+          "bytes": 19434
+        },
+        {
+          "path": "reports/p1-018/qa/showroom29-review01/REVIEW16.md",
+          "sha256": "42eef5aa1bd33c091d36b20a7f1a594112716d6733882de060948aa90d1155b4",
+          "bytes": 5678
+        }
+      ],
+      "human_approval_reference": null
     }
   ],
   "qa_gaps": [
@@ -14477,5 +14999,5 @@
       "approval_reference": null
     }
   ],
-  "updated_utc": "2026-09-12T22:11:33.823673+00:00"
+  "updated_utc": "2026-09-13T04:08:49.790997+00:00"
 }

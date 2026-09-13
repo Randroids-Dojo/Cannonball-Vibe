@@ -1207,5 +1207,118 @@
       "other_platforms_for_new_commit": "pending",
       "human_approval_reference": null
     }
+  },
+  "interactive_showroom_checkpoint_v29": {
+    "utc": "2026-09-13T04:14:29.462374+00:00",
+    "git_base_revision": "f10e133a133b71d57b7bf3822d281958fe31c2dc",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "status": "windows_viewer_verified_with_open_art_platform_and_human_gates",
+    "index": {
+      "path": "data/assets/vehicles/endurance-sedan-review/showroom-checkpoint-v29/index.json",
+      "sha256": "2ac55191a584526fc15b375734ac17e99095e38d5e285051b79554a37e3f5ecb",
+      "bytes": 2684
+    },
+    "documentation": "docs/vehicles/endurance-sedan/showroom-checkpoint-v29.md",
+    "source_scene": "game/Vehicle/Showroom/VehicleShowroom.tscn",
+    "tools": {
+      "godot": "4.7.1.stable.mono.official.a13da4feb",
+      "dotnet_sdk": "10.0.102",
+      "uv": "0.9.24",
+      "git_lfs": "3.7.1",
+      "renderer": "forward_plus",
+      "workstation_gpu": "NVIDIA GeForce RTX 3080 Ti"
+    },
+    "input_output_retention": {
+      "files": 979,
+      "archive_bytes": 96146133,
+      "archives": 1,
+      "literal_identical_builds": 2,
+      "every_member_sha256_and_crc_verified_twice": true
+    },
+    "final_windows_frontdoor": {
+      "command": {
+        "path": "data/assets/vehicles/endurance-sedan-review/showroom-checkpoint-v29/frontdoor-command.json",
+        "sha256": "8296007158fe35459ce006056729b9ff117b6c34177ca2d53d76772efc21fd2d",
+        "bytes": 2085
+      },
+      "exit_status": 0,
+      "steps_passed": 13,
+      "summary": {
+        "path": "reports/p1-018/showroom29-frontdoor02/summary.json",
+        "sha256": "8e9e74504da28f2ca54f42beccb96ef71fd95024eda65f593a05a361c866d941",
+        "bytes": 1482
+      },
+      "unchanged_source_hashes": {
+        "path": "reports/p1-018/showroom29/frontdoor02-bindings.json",
+        "sha256": "081ba23014abe51e4f3bc2e628ac272a902aeef1eae661da344f986881f1e5bd",
+        "bytes": 3928
+      }
+    },
+    "native_evidence": {
+      "complete_sequence": {
+        "path": "reports/p1-018/runtime/showroom29-plan01/handoff13/readback.json",
+        "sha256": "82982fa8d9372826b43627b7da6696272eef5d6d3ff611642cbf2f87fad1386e",
+        "bytes": 41641
+      },
+      "final_focused_delta": {
+        "path": "reports/p1-018/runtime/showroom29-plan01/lighting17-handoff/readback.json",
+        "sha256": "dc4442f17700c8178422a5c60ff5a9c9e4f7ba125d9496c50820088d9e95322e",
+        "bytes": 19434
+      },
+      "complete_runtime_inventory": {
+        "path": "reports/p1-018/runtime/showroom29-terminal-inventory18/manifest.json",
+        "sha256": "8cf3b0e10bc6e998e97e314b6437a6897328cc841d294afe0530e98ec4135f5b",
+        "bytes": 238027
+      },
+      "independent_visual_qa": {
+        "path": "reports/p1-018/qa/showroom29-review01/REVIEW16.md",
+        "sha256": "42eef5aa1bd33c091d36b20a7f1a594112716d6733882de060948aa90d1155b4",
+        "bytes": 5678
+      },
+      "independent_qa_inventory": {
+        "path": "reports/p1-018/qa/showroom29-review01/retention16.json",
+        "sha256": "4a5b00367a4379c50e7065cc0aafa25f534ee3ad995a9189ab69bff66a91ef82",
+        "bytes": 17528
+      },
+      "full_forward_plus_sequence_pass_seconds": 86.97,
+      "unchanged_variant_regression_pass_seconds": 37.63,
+      "final_focused_forward_plus_pass_seconds": 35.28,
+      "full_sequence_unchanged_inputs": 55,
+      "final_focused_unchanged_inputs": 55,
+      "launcher_client_controls_passed": 129
+    },
+    "failure_and_recovery": [
+      "Native03 initialization/NOT_FOUND and cleanup diagnostics,04 stale immediate camera observation and05 unsupported test key remain retained; corrected06/07 complete.",
+      "Native08 exact screenshot limit and separate Windows long-path cleanup failure remain retained. Native09 passes cleanup after the bounded path fix but fails camera-settling equality.",
+      "Convergence10 reproduces1.728mm camera drift; capture11 waits for complete unchanged-pose convergence without changing the RPC limit or51 canonical assertions. Native11 then passes.",
+      "Final1440 cockpit full-UI PNG still exceeds the unchanged limit; retain its actual UI-free Photo and separately verify full-UI cockpit at1280x720. No missing image is represented as a visual pass."
+    ],
+    "metrics_scope": "Fourteen short debug windows; monotonic frame intervals, private viewport render counters and sampled process memory with concurrent user apps. VSync1/fps_cap0. Not GPU timing or reference-PC acceptance.",
+    "metrics": {
+      "frame_p95_range_ms": [
+        17.6175,
+        18.0232
+      ],
+      "sampled_working_set_high_range_mib": [
+        921.512,
+        934.887
+      ],
+      "render_video_high_range_mib": [
+        590.569,
+        608.986
+      ],
+      "viewport_draw_calls_range": [
+        83,
+        157
+      ]
+    },
+    "limitations": [
+      "Installed production34 artwork is unchanged; newer Blender prototypes and their failures are not integrated by this viewer checkpoint.",
+      "Night broad-panel readability and strong reflection glare remain open.",
+      "Actual pointer/wheel/focus-loss/live-resize black-box checks were unavailable because the configured native Computer Use pipe could not connect.",
+      "Current revision remote platform checks, Q-047 showroom budget, full final source/export/runtime/driving performance and all required human gates remain open.",
+      "Archive repeatability is evidence retention, not a new shipping-GLB reproducibility claim."
+    ],
+    "human_approval_reference": null
   }
 }

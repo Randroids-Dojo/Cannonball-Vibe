@@ -9,8 +9,9 @@ The authoritative completion record is [P1-018](../../DELIVERY_LEDGER.json).
 Machine verification and the required human art, rights, handling and usability
 reviews are separate. This vehicle is a review candidate until those gates close.
 
-The [v25 construction checkpoint](checkpoint-v25.md) retains the newer Blender
-surface work, geometry checks and Windows verification. The installed source and Godot GLB are
+The [v27 construction checkpoint](art-checkpoint-v27.md) retains newer Blender
+surface work. The [showroom checkpoint](showroom-checkpoint-v29.md) records its
+separate interactive viewer and Windows verification. The installed source and Godot GLB are
 still the previous production34 candidate while internal assembly repairs finish.
 
 ## Open and inspect the model
@@ -47,6 +48,29 @@ and [acceptance matrix](acceptance.json) distinguish factory values, source
 uncertainty, original choices and modeling tolerances.
 
 ## Select and drive
+
+For the interactive showroom, build the project and launch the dedicated scene:
+
+```bash
+dotnet build Cannonball.csproj
+./scripts/godot.sh --path "$PWD" res://game/Vehicle/Showroom/VehicleShowroom.tscn
+```
+
+During a drive, stop, press **F2**, and choose **Explore in showroom**. The
+viewer pauses that run and returns to its parked inspection panel on exit.
+Drag to orbit, use the wheel to zoom, and right-drag to pan. **I/J/K/L** orbit,
+**W/A/S/D** pan, **+/-** zoom, **R** resets, and **F1** hides/shows the interface.
+On a controller, the right stick orbits, triggers zoom, D-pad/A operate controls,
+shoulder buttons cycle viewpoints, X opens/closes all panels, Y resets, and B
+returns. Click the right stick (**R3**) to hide or restore the controls. The
+sidebar exposes all six hinges and neutral studio/daylight/night
+lighting. Exterior, cabin, engine and luggage buttons set inspection viewpoints;
+the underbody view removes the display floor. **Save photo** writes the actual
+car viewport without UI to `user://showroom/photos/`. The confirmation truncates
+long paths to fit; its tooltip retains the complete path.
+
+The showroom uses the current integrated model. It does not include unexported
+Blender refinement candidates or imply that their visual gates have passed.
 
 Use Git Bash with the pinned prerequisites described in the main repository
 README. Build the official fixture, then launch manual driving:
