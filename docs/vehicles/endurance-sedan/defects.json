@@ -14858,6 +14858,36 @@
         }
       ],
       "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-SR29-018",
+      "severity": "major",
+      "status": "corrected_pending_remote_verification",
+      "category": "launcher-platform-unit-contract",
+      "assigned_owner": "lead-viewer",
+      "observed_utc": "2026-09-13T04:52:10.049685+00:00",
+      "summary": "Renderer unit assertions reject virtual-environment executable symlinks and Linux Xvfb prefix.",
+      "actual": "Linux M0/exports and Linux/macOS semantic suites at00c033d fail exactly the two renderer assertions; actual showroom and selection cases pass.",
+      "correction": "Preserve the configured lexical executable and exercise both direct and Linux-Xvfb argument prefixes in the existing mocked renderer case. Production launcher unchanged.",
+      "verification": "120 focused launcher cases, Ruff and all13 required Windows frontdoor steps pass, including186 PlayGodot unit cases. Linux/macOS rerun still pending.",
+      "evidence": [
+        {
+          "path": "data/assets/vehicles/endurance-sedan-review/showroom-ci-v30/index.json",
+          "sha256": "517e957778f91c2952a1dac5176945c3e81072a8073623f8ab4c25062d7d7c0b",
+          "bytes": 2646
+        },
+        {
+          "path": "data/assets/vehicles/endurance-sedan-review/showroom-ci-v30/inventory.json",
+          "sha256": "2639fae8bddfb9b8c7e7d4dd59ce7abc93c901f105e1a6e0bb9167fa9786f3a5",
+          "bytes": 29852
+        },
+        {
+          "path": "data/assets/vehicles/endurance-sedan-review/showroom-ci-v30/retention-command.json",
+          "sha256": "ab0c67b9901b195019e97e2878972d7ab7d602445e3c37219c74c79fa30b24e7",
+          "bytes": 994
+        }
+      ],
+      "human_approval_reference": null
     }
   ],
   "qa_gaps": [
@@ -14999,5 +15029,5 @@
       "approval_reference": null
     }
   ],
-  "updated_utc": "2026-09-13T04:08:49.790997+00:00"
+  "updated_utc": "2026-09-13T04:52:10.049685+00:00"
 }

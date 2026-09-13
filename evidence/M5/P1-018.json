@@ -1320,5 +1320,52 @@
       "Archive repeatability is evidence retention, not a new shipping-GLB reproducibility claim."
     ],
     "human_approval_reference": null
+  },
+  "showroom_ci_checkpoint_v30": {
+    "index_path": "data/assets/vehicles/endurance-sedan-review/showroom-ci-v30/index.json",
+    "index_sha256": "517e957778f91c2952a1dac5176945c3e81072a8073623f8ab4c25062d7d7c0b",
+    "task_id": "P1-018",
+    "utc": "2026-09-13T04:51:19.431035+00:00",
+    "git_base_revision": "00c033dfc5662d1e2495ab683927d6632cfc6219",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "status": "local_correction_passed_remote_recovery_pending",
+    "archive": {
+      "path": "data/assets/vehicles/endurance-sedan-review/showroom-ci-v30/evidence.zip",
+      "bytes": 593496,
+      "sha256": "43f7a5b07dfac2f5ce8e1e13d0ab2f693851cf3eadf595b4163eb847218d40c2"
+    },
+    "inventory": {
+      "path": "data/assets/vehicles/endurance-sedan-review/showroom-ci-v30/inventory.json",
+      "sha256": "2639fae8bddfb9b8c7e7d4dd59ce7abc93c901f105e1a6e0bb9167fa9786f3a5"
+    },
+    "retained_files": 145,
+    "retained_raw_bytes": 3127432,
+    "literal_identical_archive_builds": 2,
+    "every_member_crc_and_sha_verified_twice": true,
+    "correction_test_sha256": "14b3118ce33bfc644e2640ad2b79d214bb1b5456dd02a7945ddcf8c896455019",
+    "unchanged_runtime_launcher_sha256": "edf258c044c7a027993c923248140943d0c65c0786fca20288c31b24712e0d78",
+    "local_checks": {
+      "full_frontdoor_steps_passed": 13,
+      "launcher_cases_passed": 120,
+      "playgodot_frontdoor_unit_cases_passed": 186,
+      "ruff_exit_status": 0,
+      "summary_path_in_archive": "reports/p1-018/showroom29-frontdoor03/summary.json",
+      "bindings_path_in_archive": "reports/p1-018/showroom29/frontdoor03-bindings.json"
+    },
+    "prior_remote": {
+      "revision": "00c033dfc5662d1e2495ab683927d6632cfc6219",
+      "linux_and_macos_semantic": "202passed6skipped2failed each; both failures are executable-prefix assertions. Actual showroom and sedan-selection cases passed.",
+      "linux_m0_and_fixture_exports": "Same two incorrect executable symlink assertions fail.",
+      "windows": "M0 and semantic UI passed.",
+      "asset_export_linux_and_windows": "Both fail on exactly four invalid raw lower-LOD normal groups in the unchanged production34 source; complete stderr and artifacts retained."
+    },
+    "failure_recovery": "Preserve both absent-uv.exe invocation empty logs and scope-fix02 explanation, early passing direct-path check, final four direct/Xvfb renderer parameterizations, all remote failure logs and exact complete Windows frontdoor. The first retention driver incorrectly required gh JSON mode to exit1 for failed job states; it stopped before any retention output, and its original source/command/log are included. Corrected driver checks actual FAILURE states and records CLI status separately. Remote rerun is still required.",
+    "limits": "This is CI evidence retention, not new shipping GLB reproducibility, visual acceptance, final platform recovery or any human approval.",
+    "human_approval_reference": null,
+    "retention_command": {
+      "path": "data/assets/vehicles/endurance-sedan-review/showroom-ci-v30/retention-command.json",
+      "sha256": "ab0c67b9901b195019e97e2878972d7ab7d602445e3c37219c74c79fa30b24e7",
+      "bytes": 994
+    }
   }
 }

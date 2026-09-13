@@ -72,10 +72,14 @@ def test_unknown_explicit_vehicle_is_rejected_before_launch(tmp_path: Path) -> N
 
 
 @pytest.mark.parametrize("rendering_method", ["gl_compatibility", "forward_plus"])
+@pytest.mark.parametrize("xvfb", [False, True])
 @pytest.mark.asyncio
 async def test_explicit_renderer_changes_only_the_engine_renderer_argument(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch, rendering_method: str,
+    xvfb: bool,
 ) -> None:
+    monkeypatch.setattr("cannonball_playgodot.launcher.platform.system", lambda: "Linux")
+    monkeypatch.setenv("PLAYGODOT_XVFB", "1" if xvfb else "0")
     route = tmp_path / "fixture.cbrg"
     route.write_bytes(b"fixture")
     child = SimpleNamespace(stdout=asyncio.StreamReader(), pid=100, returncode=0)
@@ -95,7 +99,9 @@ async def test_explicit_renderer_changes_only_the_engine_renderer_argument(
     assert command.count("--rendering-method") == 1
     assert renderer_index < command.index("--")
     assert command[renderer_index + 1] == rendering_method
-    assert command[0] == str(Path(sys.executable).resolve())
+    # Keep the configured executable, including a virtual-environment symlink.
+    prefix = ("xvfb-run", "-a") if xvfb else ()
+    assert command[:len(prefix) + 1] == (*prefix, str(Path(sys.executable)))
     assert "--vehicle=endurance-sedan" in command
     assert "--graybox-vehicle" not in command
     assert f"--route-package={route.resolve()}" in command
