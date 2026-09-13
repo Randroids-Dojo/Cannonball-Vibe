@@ -20,7 +20,9 @@ import seat_finish_report as finish_validation
 GUARD = 1e-6
 
 
-def contract(rows):
+def contract(rows, profile='revision17'):
+    if profile not in ('revision17', 'production38'):
+        raise ValueError('Unknown static interface profile: ' + str(profile))
     path = Path(__file__).with_name('static-interface-rules.json')
     document = json_read(path)
     assert document['numerical_guard_m'] == GUARD
@@ -87,12 +89,15 @@ def contract(rows):
         'LOD0_RoofConsole', 'LOD0_ReadingLens_', 'LOD0_PillarA_', 'LOD0_RearMirror',
         'LOD0_Mirror_RearHousing', 'LOD0_FrontUndertray_', 'LOD0_FrontSplitter')))
     assert all(name in rows for rule in rules.values() for name in rule['pair'])
+    if profile == 'production38':
+        from current_static import apply_contract
+        apply_contract(rows, selected, rules)
     return selected, rules
 
 
-def selected_scope(rows, optical_report):
+def selected_scope(rows, optical_report, profile='revision17'):
     """Re-derive the native selected domain using only locked semantic inputs."""
-    selected, rules = contract(rows)
+    selected, rules = contract(rows, profile)
     assert optical_report['status'] == 'passed'
     optical_pairs = {tuple(sorted(row['pair'])) for row in optical_report['pairs']}
     assert len(optical_pairs) == 231
@@ -112,7 +117,7 @@ def selected_scope(rows, optical_report):
     return selected, rules, optical_pairs
 
 
-def inspect(data, optical_report, finish_report):
+def inspect(data, optical_report, finish_report, profile='revision17'):
     from seat_finish_interfaces import inventory as finish_inventory
     from fitted_interfaces import negative_controls as fitted_negative_controls, prove as prove_fitted, roof_return_controls
     from geometry import bounds, box_distance2
@@ -128,7 +133,7 @@ def inspect(data, optical_report, finish_report):
         raise ValueError('Finish certificate does not cover the actual required source interfaces')
     finish_pairs = finish_validation.validated_binary_pairs(finish_report, data['source_sha256'])
     assert optical_report['source_sha256'] == data['source_sha256']
-    selected, rules, optical_pairs = selected_scope(rows, optical_report)
+    selected, rules, optical_pairs = selected_scope(rows, optical_report, profile)
     restraint_names, restraint_rules = restraint_contract(rows)
     assert restraint_names <= selected and all(rules[k] == v for k, v in restraint_rules.items())
     boxes = {name: bounds(row['vertices']) for name, row in rows.items()}
@@ -150,8 +155,12 @@ def inspect(data, optical_report, finish_report):
                 finish_used.append(finish_pairs[pair])
                 continue
             if pair in rules:
-                result, mesh = (prove_fitted(rows, rules[pair]) if 'fitted_kind' in rules[pair]
-                                else prove_join(rows, rules[pair]))
+                if rules[pair].get('interface_profile') == 'production38':
+                    from current_static import prove as prove_current
+                    result, mesh = prove_current(rows, rules[pair])
+                else:
+                    result, mesh = (prove_fitted(rows, rules[pair]) if 'fitted_kind' in rules[pair]
+                                    else prove_join(rows, rules[pair]))
                 joints.append(result)
                 if mesh is not None:
                     intersections['|'.join(pair)] = mesh
@@ -178,10 +187,27 @@ def inspect(data, optical_report, finish_report):
     restraint_checks = inspect_restraints(rows, intersections)
     if restraint_checks['status'] != 'passed':
         failures.append({'kind': 'restraint-extra-checks', **restraint_checks})
-    return {'status': 'failed' if failures else 'passed', 'selected_components': sorted(selected),
+    try:
+        roof_controls = roof_return_controls(rows)
+    except Exception as error:
+        roof_controls = []
+        failures.append({'kind': 'roof-return-control-precondition',
+                         'status': 'failed', 'error_type': type(error).__name__, 'error': str(error)})
+    current_checks = None
+    if profile == 'production38':
+        try:
+            from current_static import extra_checks, validate_report
+            current_checks = extra_checks(rows)
+            validate_report(current_checks, rows)
+        except Exception as error:
+            failures.append({'kind': 'current-cargo-checks', 'status': 'failed',
+                             'error_type': type(error).__name__, 'error': str(error)})
+    return {'status': 'failed' if failures else 'passed', 'profile': profile,
+            'selected_components': sorted(selected),
             'named_interface_count': len(rules), 'named_interfaces': joints,
             'finite_interface_negative_controls': controls,
-            'roof_return_negative_controls':roof_return_controls(rows),
+            'roof_return_negative_controls': roof_controls,
+            'current_cargo_checks': current_checks,
             'restraint_checks': restraint_checks,
             'finish_interfaces_checked_separately':len(expected),
             'finish_group_count':len(expected), 'finish_binary_pair_count':len(finish_pairs),
@@ -196,6 +222,7 @@ def main():
     parser.add_argument('--optical-report', type=Path, required=True)
     parser.add_argument('--finish-report', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--profile', choices=('revision17', 'production38'), default='revision17')
     args = parser.parse_args(sys.argv[sys.argv.index('--') + 1:])
     assert not args.output.exists()
     start = time.perf_counter()
@@ -209,7 +236,7 @@ def main():
         args.geometry, Path(data['source_path']),
         *[Path(__file__).with_name(n) for n in finish_validation.DEPENDENCIES])}
     check_seat_report(finish, data['source_sha256'], sha(args.geometry), expected_inputs, finish_validation)
-    result, intersections = inspect(data, optical, finish)
+    result, intersections = inspect(data, optical, finish, args.profile)
     target = args.output.with_suffix('.intersection-solids.json.gz')
     assert not target.exists()
     target.write_bytes(gzip.compress(json.dumps(intersections, separators=(',', ':'), allow_nan=False).encode(), mtime=0))

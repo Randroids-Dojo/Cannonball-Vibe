@@ -13,6 +13,8 @@ STAGES = ('extraction', 'shoulder-field', 'self-intersections', 'self-controls',
           'optical-seats', 'finish-interfaces', 'cupholder-interfaces', 'static-interfaces', 'openings', 'opening-containment',
           'tires', 'wiper-glass', 'wiper-interassembly', 'wiper-containment',
           'negative-controls')
+STAGES_V2 = ('extraction', 'historical-extraction', 'historical-shoulder-field',
+             'current-front-field', 'distance-fields', *STAGES[2:])
 DIAGNOSTIC = re.compile(
     r'Traceback \(most recent call last\)|(?:Error in )?PyDriver|SyntaxError:|ERROR[^\r\n]*\bDriver\b|'
     r'(?:image|texture)[^\r\n]*(?:not available|not found|missing|unable to|cannot|failed)|'
@@ -100,10 +102,25 @@ def inventory(report, payload, source_sha):
 
 
 def stage_report(name, report, source_sha, *, context=None):
+    if name == 'historical-shoulder-field':
+        require(context is not None and context['source_lock'].pipeline is not None,
+                'Explicit historical source context required')
+        historical = context['source_lock'].pipeline.historical
+        result = stage_report('shoulder-field', report, historical.source.sha256,
+                              context=context['historical_context'])
+        return {**result, 'validated_source_sha256': historical.source.sha256}
     if report.get('status') != 'passed' or report.get('source_sha256') != source_sha:
         raise ValueError(name + ' is failed, incomplete, or bound to a different source')
     if report.get('human_approval_reference') is not None:
         raise ValueError('Automated QA must not introduce a human approval reference')
+    if name in ('current-front-field', 'distance-fields'):
+        if __package__:
+            from .source_binding_v2 import validate_stage
+        else:
+            from source_binding_v2 import validate_stage
+        require(context is not None, 'Current source caller context required')
+        return validate_stage(report, context['source_lock'],
+                              'front' if name == 'current-front-field' else 'lower')
     if name == 'self-intersections':
         rows=report['rows']
         if (report['components_filter'] or report['strict_crossing_pairs'] != 0
@@ -163,10 +180,14 @@ def stage_report(name, report, source_sha, *, context=None):
         validate_report(report, source_sha)
         return {'status': 'passed', 'finite_interfaces': report['interface_count'],
                 'geometric_negative_controls': report['negative_control_count']}
-    if name == 'static-interfaces' and (report['named_interface_count'] != 152
-                                       or len(report['finite_interface_negative_controls']) != 3):
-        raise ValueError('Revision17 requires152 finite named joints and3 original fitted interface controls')
     if name == 'static-interfaces':
+        require(context is not None, 'Caller-locked static context required')
+        expected_profile = 'production38' if context['source_lock'].pipeline is not None else 'revision17'
+        expected_count = 171 if expected_profile == 'production38' else 152
+        if (report.get('profile', 'revision17') != expected_profile
+                or report['named_interface_count'] != expected_count
+                or len(report['finite_interface_negative_controls']) != 3):
+            raise ValueError('Caller-bound static profile, complete named joints and3 original fitted controls required')
         if (len(report['roof_return_negative_controls'])!=2
                 or any(row['result']['status']!='failed' for row in report['roof_return_negative_controls'])):
             raise ValueError('Uncharted roof-return separation and region-escape controls are required')
@@ -180,7 +201,10 @@ def stage_report(name, report, source_sha, *, context=None):
         require(data['source_sha256'] == source_sha, 'Wrong static source payload')
         rows = {n: r for n, r in data['meshes'].items()
                 if not r['properties'].get('source_preview_only')}
-        selected, rules, optical_pairs = selected_scope(rows, context['optical_report'])
+        selected, rules, optical_pairs = selected_scope(rows, context['optical_report'], expected_profile)
+        if expected_profile == 'production38':
+            from current_static import validate_report as validate_current_static
+            validate_current_static(report['current_cargo_checks'], rows)
         pairs = seat_finish_report.validated_binary_pairs(finish, source_sha)
         expected = expected_consumed_pairs(pairs, selected, rows, optical_pairs)
         require(report['selected_components'] == sorted(selected), 'Static semantic scope changed')
@@ -201,8 +225,8 @@ def stage_report(name, report, source_sha, *, context=None):
     return {'status': 'passed'}
 
 
-def completed_inventory(rows):
-    check_stage_inventory(rows)
+def completed_inventory(rows, stages=STAGES):
+    check_stage_inventory(rows, stages)
 
 
 SINGLE_ROLES = ('specification', 'constructor', 'normal_module', 'ownership_module')
@@ -307,6 +331,7 @@ class SourceLock:
     ownership: Input
     constructor_inputs_sha256: str
     inputs: tuple[Input, ...]
+    pipeline: object | None = None
 
     def verify(self):
         for row in self.inputs:
@@ -331,6 +356,12 @@ def load_source_binding(path, source, construction_root, output):
     source = Path(source).resolve(strict=True)
     binding = Input(path, sha(path), path.stat().st_size)
     document = strict_json(path)
+    if document.get('schema') == 'endurance-sedan-source-generation-binding.v2':
+        if __package__:
+            from .source_binding_v2 import load
+        else:
+            from source_binding_v2 import load
+        return load(path, source, root, output, load_source_binding)
     keys(document, ('schema', 'source', 'construction_packet', 'shoulder_profile',
                     'reference_builder', 'builder_inputs', 'construction_inputs',
                     'constructor_inputs_sha256', 'generation_record'), 'source binding')
@@ -385,9 +416,10 @@ def load_source_binding(path, source, construction_root, output):
     return lock
 
 
-def check_stage_inventory(rows):
-    require(type(rows) is list and tuple(row.get('name') for row in rows) == STAGES,
-            'Complete ordered 21-stage inventory required')
+def check_stage_inventory(rows, stages=STAGES):
+    require(stages in (STAGES, STAGES_V2), 'Unknown source stage contract')
+    require(type(rows) is list and tuple(row.get('name') for row in rows) == stages,
+            'Complete ordered ' + str(len(stages)) + '-stage inventory required')
     require(all(row.get('status') == 'passed' for row in rows), 'Every stage must pass')
 
 

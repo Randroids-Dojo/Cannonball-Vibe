@@ -1,6 +1,7 @@
 """Original Meridian exterior assemblies, authored in meters and editable."""
 
 import math
+import bpy
 
 from mathutils import Euler, Vector
 
@@ -109,6 +110,10 @@ def fascia(body, collection, lod, mats, pivots, spec):
     geo.box('LOD0_RegistrationRecess', (0, -2.463, .606), (.49, .018, .126), mats['trim'], collection, lod, radius=.012)
     geo.box('LOD0_RegistrationPlate', (0, -2.520, .606), (.43, .002, .098), mats['plate'], collection, lod, radius=.0005)
     fascia_strip('LOD0_RearLowerValance',0,.288,1.64,.101,tail_y,lambda x:tail_y(x)+.065,mats['trim'],collection,lod)
+    from .finishing34 import valance_fields
+    global ORIGINAL_VALANCE34
+    bpy.context.view_layer.update()
+    ORIGINAL_VALANCE34=valance_fields.capture_original(bpy.data.objects['LOD0_RearLowerValance'])
     fascia_strip('LOD0_FrontSplitter',0,.219,1.73,.024,nose_y,lambda x:nose_y(x)-.14,mats['trim'],collection,lod)
     for side, symbol in ((-1, 'L'), (1, 'R')):
         for j in (-1, 1):

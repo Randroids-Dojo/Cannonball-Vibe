@@ -13,7 +13,7 @@ import sys
 import time
 import traceback
 
-from gate import STAGES, completed_inventory, inventory, json_read, positive_process, sha, stage_report, load_source_binding
+from gate import STAGES, STAGES_V2, completed_inventory, inventory, json_read, positive_process, sha, stage_report, load_source_binding
 
 
 def utc():
@@ -43,7 +43,7 @@ class Runner:
                 expected_exit=0, positive=True):
         self.sequence += 1
         prefix = self.output / 'commands' / f'{self.sequence:02d}-{name}'
-        argv = ([str(self.blender), '--background', '--factory-startup', '--python-exit-code', '1',
+        argv = ([str(self.blender), '--background', '--factory-startup', '--threads', '2', '--python-exit-code', '1',
                  '--python', str(self.scripts / script), '--', *map(str, arguments)] if native else
                 [sys.executable, str(self.scripts / script), *map(str, arguments)])
         before = {str(path): sha(path) for path in (self.source, self.blender, *sorted(self.scripts.glob('*')))
@@ -132,6 +132,7 @@ def main():
         write(output / 'evidence.json', result)
         print(json.dumps({'status': 'failed', 'stage': result['stage'], 'evidence': str(output / 'evidence.json')}), flush=True)
         return 1
+    stage_names = STAGES_V2 if source_lock.pipeline is not None else STAGES
     output.mkdir(parents=True)
     scripts = output / 'tools'
     scripts.mkdir()
@@ -153,7 +154,7 @@ def main():
               'constructor_inputs_sha256': source_lock.constructor_inputs_sha256,
               'source_generation_inputs': [{'path': str(r.path), 'sha256': r.sha256, 'bytes': r.bytes} for r in source_lock.inputs],
               'blender': str(blender), 'blender_sha256': runner.blender_sha,
-              'required_stages': list(STAGES), 'completed_stages': 0, 'stages': [],
+              'required_stages': list(stage_names), 'completed_stages': 0, 'stages': [],
               'status': 'running', 'human_approval_reference': None,
               'scope': 'Independent source geometry/control certificates only. Export byte reproducibility, runtime behavior/media/performance/platform and human approvals are separate required evidence.'}
     summary = output / 'evidence.json'
@@ -161,7 +162,7 @@ def main():
     geometry = output / 'evaluated-meshes.json.gz'
     opening = output / 'opening-drivers.json'
     motion = output / 'motion-drivers.json'
-    paths = {name: output / (name + '.json') for name in STAGES}
+    paths = {name: output / (name + '.json') for name in stage_names}
     paths['shoulder-field'] = output / 'shoulder-field' / 'report.json'
     import seat_finish_report
     context = {'source_lock': source_lock, 'geometry': geometry}
@@ -197,6 +198,35 @@ def main():
         ('wiper-containment', 'initial_containment.py', ['--geometry', geometry, '--certificate', paths['wiper-interassembly'], '--kind', 'wipers', '--output', paths['wiper-containment']], [paths['wiper-containment']]),
         ('negative-controls', 'negative_controls.py', ['--blender', blender, '--source', source, '--geometry', geometry, '--motion-contract', motion, '--opening-contract', opening, '--output', output / 'negative', '--report', paths['negative-controls']], [paths['negative-controls']]),
     ]
+    if source_lock.pipeline is not None:
+        historical = source_lock.pipeline.historical
+        historical_output = output / 'historical-source'
+        historical_geometry = historical_output / 'evaluated-meshes.json.gz'
+        historical_inventory = historical_output / 'evaluated-inventory.json'
+        paths['historical-shoulder-field'] = output / 'historical-shoulder-field/report.json'
+        context['historical_context'] = {'source_lock': historical, 'geometry': historical_geometry,
+                                         'shoulder_tools': context['shoulder_tools']}
+        stages[1:2] = [
+            ('historical-extraction', 'extract.py', ['--source', historical.source.path,
+             '--output', historical_output, '--opening-steps', '100'],
+             [historical_geometry, historical_inventory]),
+            ('historical-shoulder-field', 'shoulder_check.py', ['--source', historical.source.path,
+             '--packet', historical.packet.path, '--profile', historical.profile.path,
+             '--builder', historical.builder.path, '--geometry', historical_geometry,
+             '--helper', historical.helper.path, '--ownership', historical.ownership.path,
+             '--construction-root', historical.root, '--output', output / 'historical-shoulder-field'],
+             [paths['historical-shoulder-field'], output / 'historical-shoulder-field/native-payload.json.gz',
+              output / 'historical-shoulder-field/fresh-reference.json']),
+        ]
+        for index, (name, mode) in enumerate((('current-front-field', 'front'), ('distance-fields', 'lower'))):
+            stages.insert(3 + index, (name, 'current_source.py', [
+                '--source', source, '--source-binding', source_lock.binding.path,
+                '--expected-binding-sha256', source_lock.binding.sha256,
+                '--construction-root', source_lock.root, '--mode', mode, '--output', paths[name]],
+                [paths[name], paths[name].with_suffix('.payload.json.gz')]))
+        for name, script, arguments, outputs in stages:
+            if name == 'static-interfaces':
+                arguments.extend(('--profile', 'production38'))
     try:
         for name, script, arguments, outputs in stages:
             runner.command(name, script, arguments, outputs, native=name not in ('negative-controls','self-controls','lod-self-controls'))
@@ -210,6 +240,16 @@ def main():
                     'source_sha256': runner.source_sha, 'geometry_sha256': context['geometry_sha256'],
                     'seat_inputs': context['seat_inputs'], 'shoulder_tools': context['shoulder_tools']})
                 runner.locked_outputs[str(output / 'run-binding.json')] = sha(output / 'run-binding.json')
+            elif name == 'historical-extraction':
+                actual = json_read(historical_inventory)
+                if (actual['source_sha256'] != historical.source.sha256
+                        or actual['geometry_payload_sha256'] != sha(historical_geometry)
+                        or actual['opening_sample_steps'] != 100 or actual['pose_count'] != 645
+                        or (actual['blender_version'], actual['blender_build']) != ('5.1.2', 'ec6e62d40fa9')):
+                    raise ValueError('Historical native extraction does not match its explicit source')
+                metrics = {'status': 'passed', 'validated_source_sha256': historical.source.sha256,
+                           'native_sampled_poses': 645,
+                           'scope': 'Historical front checkpoint only; no final-source geometry or budget acceptance.'}
             else:
                 if name == 'static-interfaces':
                     context['finish_report'] = json_read(paths['finish-interfaces'])
@@ -219,7 +259,7 @@ def main():
             result['completed_stages'] = len(result['stages'])
             result['commands'] = runner.commands
             write(summary, result)
-        completed_inventory(result['stages'])
+        completed_inventory(result['stages'], stage_names)
         source_lock.verify()
         result['status'] = 'passed'
     except Exception as failure:

@@ -12,6 +12,7 @@ from . import geometry as geo
 
 CURVED_PROFILES = False
 BODY_UPPER_SURFACE = None
+BODY_FRONT_PREFIX_FIELD = None
 BODY_FRONT_FENDER_REFERENCE = None
 
 
@@ -124,7 +125,7 @@ def fascia_roll(z):
     return radius-math.sqrt(radius*radius-(z-.550)**2)
 
 
-def lower_body(collection, lod, mats):
+def lower_body(collection, lod, mats, *, capture_provenance=False):
     ys=sorted(set([-2.54+i*4.94/48 for i in range(49)]+[-2.4,-1.94,-1.46,.74,1.46,1.82,2.17,2.4]))
     # Distinct Python stations can encode as exactly the same Blender float32.
     # Keep the first actual native Y station; avoid a zero-width closing ring.
@@ -133,7 +134,7 @@ def lower_body(collection, lod, mats):
         if not unique or Vector((0,station,0)).y!=Vector((0,unique[-1],0)).y:
             unique.append(station)
     ys=unique
-    vertices=[];rings=[]
+    vertices=[];rings=[];side_parameters=[]
     for y in ys:
         w=width(y); top=deck(y)
         half=[(0,.135),(.72*w,.135),(.91*w,.20),(.982*w,.39),(w,.67),(.996*w,top-.075),(.94*w,top+.016),(.80*w,top+.017),(0,top)]
@@ -145,13 +146,15 @@ def lower_body(collection, lod, mats):
             parameters=[i/3 for i in range(25)]
             # Refine front shoulder sampling; preserve the remaining body tessellation.
             if y>=1.82:parameters=sorted(set(parameters+[5+i/9 for i in range(19)]))
-            from .shoulder_profile import profile as shoulder_profile
-            half=[tuple(axis[0] for axis in shoulder_profile(t,y,w,top))
-                  if y>1.90 and 5.65<t<6.35 else
-                  (monotone_curve(t,xp),monotone_curve(t,zp)) for t in parameters]
+            from . import shoulder_profile, shoulder_roll27
+            half=[tuple(axis[0] for axis in shoulder_roll27.section(t,y,w,top,
+                  legacy_profile=shoulder_profile.profile,legacy_cubic=shoulder_profile.cubic,
+                  interpolate=monotone_curve)) for t in parameters]
         else:parameters=list(range(len(half)))
         loop=half+[(-x,z) for x,z in half[-2:0:-1]]
         keys=parameters+[16-t for t in reversed(parameters[1:-1])]
+        side_parameters.extend((t,y,1) for t in parameters)
+        side_parameters.extend((t,y,-1) for t in parameters[-2:0:-1])
         rings.append((list(range(len(vertices),len(vertices)+len(loop))),keys))
         for x,z in loop:
             adjusted_y=y
@@ -203,9 +206,17 @@ def lower_body(collection, lod, mats):
             previous=current
     else:
         faces.append(tuple(boundary))
+    if CURVED_PROFILES:
+        from . import front_prefix_refine29,front_prefix_sweep29,front_prefix_field29,corner_encoding
+        cap_indices=set(boundary)|{center_index}|set(range(center_index,len(vertices)))
+        side_parameters.extend([None]*(len(vertices)-len(side_parameters)))
+        sweep_kwargs={"legacy_profile":shoulder_profile.profile,"legacy_cubic":shoulder_profile.cubic,"interpolate":monotone_curve}
+        def prefix_point(t,y,side):return front_prefix_sweep29.point_and_normal(t,y,side,**sweep_kwargs)[0]
+        def prefix_normal(t,y,side):return front_prefix_sweep29.point_and_normal(t,y,side,**sweep_kwargs)[1]
+        vertices,faces,side_parameters,refinement=front_prefix_refine29.refine(vertices,faces,side_parameters,prefix_point)
     body=geo.mesh("LOD0_StructuralBody",vertices,faces,mats['paint'],collection,lod,smooth=True)
     if CURVED_PROFILES:
-        cap_indices=set(boundary)|{center_index}|set(range(center_index,len(vertices)))
+        prefix=front_prefix_field29.capture(body.data,side_parameters,prefix_point)
         cap_polygon_ids=[int(p.index) for p in body.data.polygons if set(p.vertices)<=cap_indices]
         cap_loop_vertices=[(int(i),int(body.data.loops[i].vertex_index)) for p in body.data.polygons if p.index in cap_polygon_ids for i in p.loop_indices]
         perimeter={tuple(sorted((a,b))) for a,b in zip(boundary,boundary[1:]+boundary[:1])}
@@ -236,6 +247,7 @@ def lower_body(collection, lod, mats):
             if marker.data[face.index].value==1 and strength.data[face.index].value!=16384:
                 marker.data[face.index].value=2
         body['formed_front_perimeter_m']=.018
+        prefix.after_bevel(body.data,prefix_normal)
         geo.project_uv(body)
     # C1 longitudinal profiles produce nonplanar quads at shoulder corners.
     # Give the exact solid boolean solver explicit planar faces first.
@@ -244,11 +256,26 @@ def lower_body(collection, lod, mats):
         bpy.context.view_layer.objects.active=body
         bpy.ops.object.modifier_apply(modifier=triangulate.name)
         geo.repair_triangulation(body)
+        global BODY_FRONT_PREFIX_FIELD
+        BODY_FRONT_PREFIX_FIELD=prefix.finish(body.data,corner_encoding.encode)
+        BODY_FRONT_PREFIX_FIELD["refinement"]=refinement
         global BODY_UPPER_SURFACE, BODY_FRONT_FENDER_REFERENCE
         bpy.context.view_layer.update()
         BODY_UPPER_SURFACE=BVHTree.FromObject(body,bpy.context.evaluated_depsgraph_get())
         from . import fender_field
         BODY_FRONT_FENDER_REFERENCE=fender_field.capture(body)
+        from . import rear_surface_field, shoulder_field02
+        global BODY_REAR_REFERENCE, BODY_FRONT_SHOULDER_REFERENCE
+        if capture_provenance:
+            BODY_REAR_REFERENCE=rear_surface_field.capture(body,rear_surface_field.PROFILE)
+            BODY_FRONT_SHOULDER_REFERENCE=shoulder_field02.capture(body,shoulder_field02.EXPECTED_PROFILE,authored_corner_targets=BODY_FRONT_PREFIX_FIELD["targets"])
+    if CURVED_PROFILES and capture_provenance:
+        from . import roof_feature26
+        from .finishing34.front_sheet import sheet_reference
+        global BODY_PREVOIDS_ROW34, BODY_PREVOIDS_SHEET34
+        bpy.context.view_layer.update()
+        BODY_PREVOIDS_ROW34=roof_feature26.row(body)
+        BODY_PREVOIDS_SHEET34=sheet_reference.capture_original(body)
     # Real holes are needed for a usable cockpit and later opening inspection.
     for name,center,size in [
         ('CabinVoid',(0,-.55,1.12),(1.64,2.62,1.76)),
@@ -336,7 +363,7 @@ def closures(collection,lod,mats,pivots):
             y=y0+(y1-y0)*v;x=(2*u-1)*halfwidth
             return (x,y,closure_z(name,x,y,halfwidth) if CURVED_PROFILES else deck(y)+.014*(x/halfwidth)**2)
         obj=surface('LOD0_'+name,f,12 if name=='Hood' else 10,18 if name=='Hood' else 10,.0012,mats['paint'],collection,lod)
-        geo.bevel(obj,.0012,2)
+        geo.bevel(obj,.00045 if name=='Hood' else .0012,2)
         geo.parent_at_pivot(obj,pivots['Hood_Hinge' if name=='Hood' else 'Trunk_Hinge'])
 
 
@@ -554,7 +581,7 @@ def build_production(collection, lod, mats, pivots, controls, spec):
     CURVED_PROFILES = True
     from . import fascia_surface
     fascia_surface.validate(spec['original_packaging']['fascia_revision21'])
-    body = lower_body(collection, lod, mats)
+    body = lower_body(collection, lod, mats, capture_provenance=True)
     split_doors(body, collection, mats, pivots)
     closures(collection, lod, mats, pivots)
     greenhouse(collection, lod, mats, pivots, spec)

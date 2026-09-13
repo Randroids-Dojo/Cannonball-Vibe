@@ -103,6 +103,19 @@ def coat_cut_faces(obj, material):
         face.material_index = 0
 
 
+def _sliver_authorship(mesh):
+    """Validate each present discrete face-ownership channel before cleanup."""
+    result = {}
+    for name in ('cb_fascia_cap', '__mod_weightednormals_faceweight'):
+        attribute = mesh.attributes.get(name)
+        if attribute is None:
+            continue
+        if attribute.domain != 'FACE' or attribute.data_type != 'INT':
+            raise ValueError('Invalid sliver-cleanup ownership attribute: ' + name)
+        result[name] = [value.value for value in attribute.data]
+    return result
+
+
 def clean_new_slivers(obj, original_vertices):
     """Dissolve only a new, sub-0.1 micrometer collinear Boolean vertex.
 
@@ -110,10 +123,18 @@ def clean_new_slivers(obj, original_vertices):
     surface comparison must stay below0.1 micrometer; this is not a general
     decimator or a relaxation of the exported triangle-validity gate.
     """
+    from . import sliver_faces, corner_encoding
     records = []
     original = {tuple(v) for v in original_vertices}
     for _ in range(12):
+        # A bounded dissolution can change a different n-gon's evaluated
+        # diagonal. Repair that partition before considering another vertex;
+        # the original input protection set and all ownership guards persist.
+        same_face = sliver_faces.repair(obj, corner_encoding.encode)
+        if same_face.get('changed') or same_face.get('attempted'):
+            records.append({'kind': 'same-original-face-triangulation', 'proof': same_face})
         mesh = obj.data
+        ownership = _sliver_authorship(mesh)
         mesh.calc_loop_triangles()
         bad = [t for t in mesh.loop_triangles
                if (mesh.vertices[t.vertices[1]].co - mesh.vertices[t.vertices[0]].co).cross(
@@ -132,10 +153,17 @@ def clean_new_slivers(obj, original_vertices):
             fraction = (point - a).dot(edge) / edge.length_squared
             distance = (point - (a + fraction * edge)).length
             if 0 <= fraction <= 1 and distance < 1e-7 and tuple(point) not in original:
-                options.append((distance, vertex.index, list(point)))
+                # Dissolving this vertex can merge every incident face, not
+                # just the selected thin triangle. Protect the entire star.
+                incident = [face.index for face in mesh.polygons if vertex.index in face.vertices]
+                domains = {name: sorted({values[i] for i in incident})
+                           for name, values in ownership.items()}
+                if any(len(values) != 1 for values in domains.values()):
+                    continue
+                options.append((distance, vertex.index, list(point), domains))
         if not options:
-            raise RuntimeError(f'No bounded new-vertex correction in {obj.name}: {tuple(triangle.vertices)}')
-        distance, index, point = min(options)
+            raise RuntimeError(f'No bounded same-authorship new-vertex correction in {obj.name}: {tuple(triangle.vertices)}')
+        distance, index, point, domains = min(options, key=lambda row: (row[0], row[1], row[2]))
         before_vertices = [v.co.copy() for v in mesh.vertices]
         before_triangles = [tuple(t.vertices) for t in mesh.loop_triangles]
         edit = bmesh.new()
@@ -156,7 +184,8 @@ def clean_new_slivers(obj, original_vertices):
             raise RuntimeError(f'Bounded sliver correction changed {obj.name} surface')
         records.append({'removed_new_vertex_m': point, 'edge_distance_m': distance,
                         'old_to_new_vertex_surface_max_m': old_to_new,
-                        'new_to_old_vertex_surface_max_m': new_to_old})
+                        'new_to_old_vertex_surface_max_m': new_to_old,
+                        'incident_face_authorship': domains})
     raise RuntimeError(f'Bounded sliver correction did not converge for {obj.name}')
 
 

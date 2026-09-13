@@ -21,11 +21,11 @@ def sector(name, parent, collection, material, center_x, thickness, inner, outer
 def build(collection, mats, pivots, spec):
     radius = spec['geometry']['wheel_radius_m']
     half = spec['geometry']['tire_width_m'] / 2
-    radial = spec['original_packaging']['wheel_tessellation_revision22']
+    radial = spec['original_packaging']['wheel_tessellation_revision29']
     detail = spec['original_packaging']['primitive_detail_revision24']
     if (detail['brake_hat_segments'], detail['caliper_bevel_segments']) != (24, 1):
         raise ValueError('Brake detail needs a new measured construction revision')
-    if tuple(radial[key] for key in ('tire_segments', 'rim_barrel_segments', 'friction_face_segments')) != (60, 36, 36):
+    if tuple(radial[key] for key in ('tire_segments', 'rim_barrel_segments', 'friction_face_segments')) != (52, 36, 36):
         raise ValueError('Wheel tessellation needs a new measured construction revision')
     profile = [(-half + .017, .2413), (-half + .004, .262), (-half, .287),
                (-half + .004, .311), (-half + .013, .328), (-half + .028, radius)]
@@ -84,8 +84,10 @@ def build(collection, mats, pivots, spec):
             geo.ring_x('LOD0_BrakeFace_' + suffix + str(face_side), [(-face_thickness / 2, .104), (-face_thickness / 2, r),
                        (face_thickness / 2, r), (face_thickness / 2, .104)], (offset, 0, 0), mats['metal'], collection, wheel, radial['friction_face_segments'])
         geo.ring_x('LOD0_BrakeHat_' + suffix, [(-.018, .043), (-.018, .106), (.018, .106), (.018, .043)], (disk_center, 0, 0), mats['alloy'], collection, wheel, detail['brake_hat_segments'])
-        for j in range(30):
-            a = j * math.tau / 30
+        vane_count=spec['original_packaging']['rotor_vanes_revision26']['count_per_rotor']
+        if vane_count!=24:raise ValueError('Expected locked original24-vane construction')
+        for j in range(vane_count):
+            a = j * math.tau / vane_count
             y0,z0=.111*math.sin(a),.111*math.cos(a)
             y1,z1=(r-.005)*math.sin(a+.10),(r-.005)*math.cos(a+.10)
             dy,dz=y1-y0,z1-z0

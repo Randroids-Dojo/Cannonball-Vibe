@@ -25,6 +25,7 @@ def main():
     parser.add_argument('--source',type=Path,required=True)
     parser.add_argument('--output',type=Path,required=True)
     parser.add_argument('--inventory',type=Path,required=True)
+    parser.add_argument('--source-binding',type=Path,help='Required current source-generation v2 binding before shipping export')
     parser.add_argument('--inspect-only',action='store_true',help='Write evaluated diagnostics only; never export or claim optimized delivery')
     parser.add_argument('--unbatched-output',type=Path,help='Optional nonshipping GLB for independent component-to-batch correspondence QA')
     parser.add_argument('--prepare-uv-bake',type=Path,help='Explicitly create a NEW evaluated UV bake after source edits; never overwrites the current bake')
@@ -37,6 +38,17 @@ def main():
     bpy.ops.wm.open_mainfile(filepath=str(args.source.resolve()))
     if bpy.app.version!=(5,1,2) or bpy.app.build_hash.decode()!='ec6e62d40fa9':raise RuntimeError('Blender pin drift')
     scene=bpy.context.scene
+    source_binding_check=None
+    current_source=(args.source_binding is not None
+        or scene.get('source_generation_schema')=='endurance-sedan-source-generation-binding.v2'
+        or spec.get('original_packaging',{}).get('tire_groove_revision38') is not None)
+    if not args.inspect_only and current_source:
+        if args.source_binding is None:raise ValueError('Current source export requires its source-generation binding')
+        from endurance_sedan.source_generation import verify_saved_lower
+        source_binding_check=verify_saved_lower(args.source.resolve(),args.source_binding.resolve(),root,
+            unused_output=args.inventory.resolve().with_suffix('.unused-source-preflight'))
+        scene=bpy.context.scene
+        if json.loads(scene['specification'])!=spec:raise ValueError('Actual current source specification differs from project input')
     if scene.unit_settings.system!='METRIC' or scene.unit_settings.scale_length!=1:raise ValueError('Meter scale drift')
     asset=bpy.data.collections['Asset'];objects=list(asset.all_objects)
     source_only=[o for o in objects if o.get('source_preview_only',False)]
@@ -104,6 +116,7 @@ def main():
     inventory['status']='failed' if errors else ('passed' if args.inspect_only else 'export_pending')
     inventory['source_preview_only']=bool(scene.get('surface_preview_only',False))
     inventory['export_validator_sha256']=digest(Path(__file__))
+    if source_binding_check is not None:inventory['source_generation_verification']=source_binding_check
     inventory['gltf_profile_sha256']=digest(root/'tools/assets/profiles/gltf2-endurance-sedan-v1.json')
     inventory['identity_transforms']=True
     inventory['validation_scope']='evaluated_source_only' if args.inspect_only else 'evaluated_and_exported_runtime_asset'

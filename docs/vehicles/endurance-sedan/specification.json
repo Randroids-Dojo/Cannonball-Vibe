@@ -1202,16 +1202,16 @@
     },
     {
       "id": "wheel_tire_segments",
-      "value": 60,
+      "value": 52,
       "units": "count",
       "classification": "fictional_design_choice",
       "source_confidence": "Explicit authored mesh density; not a factory measurement.",
       "reference_sources": [],
       "source_uncertainty": null,
       "modeling_tolerance": 0,
-      "model_parameter": "original_packaging.wheel_tessellation_revision22.tire_segments",
+      "model_parameter": "original_packaging.wheel_tessellation_revision29.tire_segments",
       "runtime_parameter": null,
-      "evidence_record": "docs/vehicles/endurance-sedan/packaging-revision-v22.md"
+      "evidence_record": "reports/p1-018/front-joined29-pilot01/scope02.json"
     },
     {
       "id": "wheel_rim_barrel_segments",
@@ -2531,6 +2531,158 @@
       "trial_source_sha256": "d2cd4d3e6f9cda6cd92a9677e741b1af193b2f6e29f1e0ce742213aa683ae439",
       "all_lods_sha256": "645eb363e57fa0340a79f4fe996598bcd2f2acf130d56241d7ae6eb1fdcbffba",
       "unchanged_lod0_and_other_native_meshes": 1299
+    },
+    "rotor_vanes_revision26": {
+      "count_per_rotor": 24,
+      "thickness_m": 0.0046,
+      "inner_radius_m": 0.111,
+      "outer_edge_inset_m": 0.005,
+      "sweep_rad": 0.1,
+      "classification": "Original fictional construction detail; no thermal performance claim",
+      "proof": "reports/p1-018/rotor-reserve26-proposal01/review20.json",
+      "visual_review": "reports/p1-018/qa/rotor-reserve26-review01/review01.json"
+    },
+    "static_labels_revision26": {
+      "labels": 4,
+      "native_cap_source": "Blender bundled Bfont, original literal project text",
+      "atlas_dimensions": [
+        2048,
+        512
+      ],
+      "texels_per_meter": 16384,
+      "padding_pixels": 32,
+      "rgba8_mip_residency_bytes": 5592406,
+      "scope": "Static labels only, existing runtime instruments unchanged",
+      "visual_acceptance": null,
+      "source_provenance": "Existing Bfont rights record; human final review open"
+    },
+    "pipe_bends_revision26": {
+      "construction": "Hermite interior rings preserving original port station rings",
+      "triangles_added": 304,
+      "fit_handoff_sha256": "c20affdececf68cffce3a5d00f95290178f056105779b441d05b959afd3cb730",
+      "full_assembly_acceptance": null
+    },
+    "brake_outline_revision27": {
+      "friction_outer_segments": 52,
+      "friction_inner_segments": 32,
+      "triangle_delta": 640,
+      "actual_radius_axial_stations_and_inner_rings_preserved": true,
+      "caliper_field": "Continuous manufactured radial strips with exact flat/end fields",
+      "fresh05_fit_handoff_sha256": "dc683bb82c6d4defca6b1d7b0b813027938edf93aa1ed002550bf81bbe2f5312",
+      "independent_visual_review_sha256": "f0bf86a6134288d5d80699fe40f98ebb286de5faef3c06deb7643c23607d54c7",
+      "full_source_runtime_acceptance": null,
+      "human_approval_reference": null
+    },
+    "front_form_revision27": {
+      "kind": "Original pre-cut forward shoulder roll and current physical fascia",
+      "source_y_blend_m": [
+        1.9,
+        2.17
+      ],
+      "shoulder_rise_m": 0.075,
+      "deck_width_fraction": 0.9,
+      "original_sample_inventory_preserved": true,
+      "native_encoding_guard_degrees": 0.025,
+      "engineering_hardpoints_unchanged": true,
+      "retreat_only": false,
+      "new_preboolean_reference_capture_required": true,
+      "upper_inlet_xz_m": [
+        [
+          -0.38,
+          0.783
+        ],
+        [
+          0.38,
+          0.783
+        ],
+        [
+          0.345,
+          0.708
+        ],
+        [
+          0.08,
+          0.695
+        ],
+        [
+          -0.08,
+          0.695
+        ],
+        [
+          -0.345,
+          0.708
+        ]
+      ],
+      "upper_inlet_slats": 2,
+      "upper_inlet_flow_simulation": false,
+      "full_fit_motion_runtime_acceptance": null,
+      "human_approval_reference": null
+    },
+    "wheel_tessellation_revision29": {
+      "tire_segments": 52,
+      "rim_barrel_segments": 36,
+      "friction_face_segments": 36,
+      "classification": "fictional_design_choice",
+      "engineering_dimensions_changed": false,
+      "status": "isolated_proposal_pending_final_fit_and_visual_acceptance",
+      "record": "reports/p1-018/front-joined29-pilot01/scope02.json",
+      "baseline_revision": "wheel_tessellation_revision22",
+      "component_evidence": [
+        {
+          "path": "reports/p1-018/research/tire-reserve29-proposal01/comparison12.json",
+          "sha256": "200c0c8724c4098652c7196906175e5aeec9a62699f8985ba2524613bdb1eb08"
+        },
+        {
+          "path": "reports/p1-018/tire29-view-pilot01/render60/construction.json",
+          "sha256": "f81a70f0b0aef7a5ac5fe83d6ec96aa9a006cdf596f0ef9e936e28ddf498ad14"
+        },
+        {
+          "path": "reports/p1-018/tire29-view-pilot01/render60/manifest.json",
+          "sha256": "b01f85f960afe06d3db30ecf28cf68f21a6f9a8eae43a90bf6961e51e08dae72"
+        },
+        {
+          "path": "reports/p1-018/tire29-view-pilot01/render52/construction.json",
+          "sha256": "23c0719a340e6b4dddb3c21929dd80b0ff1243189292a89a8a8a6e7f0321da5b"
+        },
+        {
+          "path": "reports/p1-018/tire29-view-pilot01/render52/manifest.json",
+          "sha256": "a856f9a945802ce319642658d956df8eba710af8bac518f5e189f6225d9226b9"
+        }
+      ],
+      "actual_four_tire_triangle_saving": 1648,
+      "bounded_surface_comparison_m": 0.001
+    },
+    "tire_groove_revision38": {
+      "schema": "source-tire-groove38.v1",
+      "members": [
+        "LOD0_Tire_FL",
+        "LOD0_Tire_FR",
+        "LOD0_Tire_RL",
+        "LOD0_Tire_RR"
+      ],
+      "original_radial_stations": 52,
+      "floor_radial_stations": 36,
+      "original_floor_radius_m": 0.3393,
+      "floor_radius_m": 0.339625,
+      "centers_x_m": [
+        -0.068,
+        -0.023,
+        0.023,
+        0.068
+      ],
+      "top_half_width_m": 0.003,
+      "floor_half_width_m": 0.002,
+      "tire_radius_m": 0.3433,
+      "tire_width_m": 0.255,
+      "uv_meters_per_repeat": 0.25,
+      "original_triangles_per_tire": 4728,
+      "new_triangles_per_tire": 4472,
+      "retained_triangles_per_tire": 3480,
+      "source_profile_ast_sha256": "d4e2e7fec17d985c6ca8b586ec10da2918ed85c1bd43fdea16635c5332c47af4",
+      "form_error_m": 0.001,
+      "native_normal_degrees": 0.025,
+      "raw_normal_unit_error": 1e-06,
+      "uv_error": 1e-06,
+      "identity": "Original fictional tessellation refinement; outer tire silhouette, original shoulder reliefs, sidewall and bead remain exact."
     }
   },
   "specification_corrections_during_production": [

@@ -4010,7 +4010,7 @@
           "bytes": 0
         }
       ],
-      "scope": "All digits0\u20139, R/N/1\u20137, idle/cruise/reverse, left/right/hazard phases and the low-fuel boundary decode correctly from actual evaluated source-preview geometry. No invalid drivers. This is source preview logic, not an engine or fuel-system simulation."
+      "scope": "All digits0–9, R/N/1–7, idle/cruise/reverse, left/right/hazard phases and the low-fuel boundary decode correctly from actual evaluated source-preview geometry. No invalid drivers. This is source preview logic, not an engine or fuel-system simulation."
     },
     {
       "task_id": "P1-018",
@@ -9004,6 +9004,221 @@
       ],
       "limits": "Production34 remains installed. New source has no lower LODs; final source/export/runtime/platform/human acceptance remains open.",
       "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-REFLECTIVE38-PAIRED-COMPARISON",
+      "task_id": "P1-018",
+      "milestone": "M5",
+      "utc": "2026-09-13T20:32:34.893994+00:00",
+      "git_revision": "ddc746cd6af2dce1f4776325cb6c6eb85f35d428",
+      "platform": "Windows-11-10.0.26200-SP0",
+      "kind": "actual-native-renders-and-guide-physical-normal-comparison",
+      "status": "local_visual_improvement_with_open_assembly_and_production_defects",
+      "evidence": [
+        {
+          "path": "reports/p1-018/reflective-comparison38-01/scope01.json",
+          "bytes": 7065,
+          "sha256": "dcb89ec9c233fb9fa642415a9ba7e6c1fa74f7e6df2a1e260dd23adaaa6ed02e"
+        },
+        {
+          "path": "reports/p1-018/reflective-comparison38-01/comparison04.json",
+          "bytes": 1440,
+          "sha256": "160dd259a66510b12879519ce1362f7d23690781b379486ba40e9ab5e56e7278"
+        },
+        {
+          "path": "reports/p1-018/reflective-comparison38-01/browser-check05.json",
+          "bytes": 2179,
+          "sha256": "e85a399d9e123f59c681f904c96ce7d996b8920f51444518c5e2d003b58e1cc1"
+        },
+        {
+          "path": "reports/p1-018/qa/reflective-comparison38-review01/review01.json",
+          "bytes": 112570,
+          "sha256": "4fb10b3e4d0bfcd950c4390d24ad1c7e97c952fbe2f1f6e200f64b731b2a245a"
+        },
+        {
+          "path": "reports/p1-018/qa/reflective-comparison38-review01/retention01.json",
+          "bytes": 19717,
+          "sha256": "70d087eb7b783e4b17fb2aa83ff3a6f1df40c8e43d2e1821413bba4864ff90fd"
+        },
+        {
+          "path": "reports/p1-018/research/upper-junction30-proposal01/GUIDE274.json",
+          "bytes": 20040,
+          "sha256": "32dd26b763d5303ced99cf94531a0087faa19b29a20558ea80a80e488aeaf171"
+        },
+        {
+          "path": "reports/p1-018/research/upper-junction30-proposal01/guide-sections273.json.gz",
+          "bytes": 832911,
+          "sha256": "d479bd0435d5d766720ad18721e483cd43e45660563a03898c8a082c258a2527"
+        },
+        {
+          "path": "reports/p1-018/research/upper-junction30-proposal01/guide-sections273.svg",
+          "bytes": 197228,
+          "sha256": "d5712e88613706a2e048fd64277390426d2adc387395f883ef7484371bf26b1a"
+        },
+        {
+          "path": "reports/p1-018/research/upper-junction30-proposal01/CURRENT271.json",
+          "bytes": 20154,
+          "sha256": "9f226f899c232e6fdd377ae05f2b7fb5a718d93906a37152c2610c6e0ee68a09"
+        },
+        {
+          "path": "reports/p1-018/upper-native38-01/result04.json",
+          "bytes": 837,
+          "sha256": "f66594374d5ee6dfbb07707a7bd4e4f841e73009123240d04620c5c7550dadf4"
+        },
+        {
+          "path": "reports/p1-018/upper-native38-01/result05.json",
+          "bytes": 99032,
+          "sha256": "4a19c8b1cdd48b2131b6b22d9191765aef5d162172bb280cefd818a53abc35d5"
+        }
+      ],
+      "observations": [
+        "The user-supplied research comparison is incorporated by the existing root scene owner and upper-geometry collaborator, using the actual rear C/roof-rail/rear-door joint and retained pre-C guide inputs.",
+        "Independent QA inspected all56 original paired images. The pinched upper elbow and moving strip hook improve locally, especially frames010 through020. The whole-car difference is subtle.",
+        "Heavy parallel window bands, the dark roof-edge recess, angular roof cap and projecting lower C foot remain visible. Their historical defect IDs remain open.",
+        "Baseline knuckle persists after actual custom-normal changes. All104 outer guide knots per side reproduce the baseline native vertices exactly, but sampled physical departures between knots reach1.484mm on the measured right section. Both variants retain a23.624-degree physical terminal section turn; the candidate has a35.349-degree nearby section turn. These finite observations support a shape/sampling contribution, not a normal-only explanation.",
+        "No production material was changed. Plain reflective material, automatic normals and evaluated modifier copies were diagnostic only; source bytes remained unchanged.",
+        "Private root candidate04 saves six changed meshes and retains1098 unowned meshes. Its original cold reopen failure is preserved; readback05 identifies and exercises the native hidden PANEL OPEN driver lifecycle, after which the complete expected fields and rig match. This is limited private-source proof, not current-source/export acceptance."
+      ],
+      "limits": "1280x720 stills and960x540 reflection frames, denoising and24 discrete light positions are an inexpensive pilot. Opposite-side/interior/final whole-source checks, full3D enclosure, final LOD composition, reproducible shipping exports, Godot/platform/performance/media and human gates remain. No formal G1/G2/Class-A or finished-art claim.",
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-SOURCE38-CARGO-AND-STAGE-PROGRESS",
+      "task_id": "P1-018",
+      "milestone": "M5",
+      "utc": "2026-09-13T22:02:25.578235+00:00",
+      "git_revision": "ddc746cd6af2dce1f4776325cb6c6eb85f35d428",
+      "platform": "Windows-11-10.0.26200-SP0",
+      "kind": "actual-saved-source-and-current-profile-verification",
+      "status": "cargo_verified_full_source_gate_failed_roof_revision_pending",
+      "source_sha256": "f419221be06bccde4b180c92c27d2afd6e6d28c3fb95833bc9af412496579001",
+      "evidence": [
+        {
+          "path": "reports/p1-018/source-pipeline38-01/full-source-qa22/evidence.json",
+          "bytes": 530870,
+          "sha256": "f4d20769044d1fc4b3bb810d01a526684a2a74497cac11e541b9e1a07f7fdd40"
+        },
+        {
+          "path": "reports/p1-018/source-pipeline38-01/static-diagnosis24.json",
+          "bytes": 679125,
+          "sha256": "664407ab3a665c700372d28909597b8146f8caa398d081f0c8cbcd3146b7d8b3"
+        },
+        {
+          "path": "reports/p1-018/source-pipeline38-01/remaining-stages25/evidence.json",
+          "bytes": 31483,
+          "sha256": "b8b4c5c4c2812ceb319ce9fdd6d7c08f841a21103ac3c49787b5a9f12db92e65"
+        },
+        {
+          "path": "reports/p1-018/current-static38-01/replay08/evidence.json",
+          "bytes": 48391,
+          "sha256": "b0157df16c0d3adbdcecef7d77afc4347d68ecb2edaa1176cfb8ffcd9db23fdf"
+        },
+        {
+          "path": "reports/p1-018/current-static38-01/replay08/focus07.json",
+          "bytes": 1975361,
+          "sha256": "59f84d0461cb8c65c29a6d9e85386c5423028b6dbb62ad35afb844f14c008e73"
+        },
+        {
+          "path": "reports/p1-018/current-static38-01/replay08/static-interfaces.json",
+          "bytes": 23385885,
+          "sha256": "143c7421a1dbce2de43be1c5731768b4846407aad72d606a9e3cec231436d335"
+        },
+        {
+          "path": "reports/p1-018/current-static38-01/host-profile09.json",
+          "bytes": 12521,
+          "sha256": "484ff45d8cd790a2be28d70ade68017d8eea7a00d1a8195efe00fb84fb035661"
+        },
+        {
+          "path": "reports/p1-018/runtime/current-static38-review01/review01.json",
+          "bytes": 40215,
+          "sha256": "b58325830d0c5f5f5754d0b4f3ff9e1becdca6b7cf5e71d3d1723084b40d6c35"
+        }
+      ],
+      "metrics": {
+        "required_full_source_stages": 24,
+        "completed_before_static_failure": 16,
+        "additional_independent_passed_stages": 7,
+        "current_named_joints": 171,
+        "current_passed_named_joints": 169,
+        "current_static_failed_rows": 7,
+        "complete_cargo_caps": 20,
+        "current_cargo_unique_rest_pairs": 10045,
+        "current_native_negative_controls": 12,
+        "certificate_corruption_rejections": 7
+      },
+      "observations": [
+        "Immutable source14 completed16 stages before its historical static checker failed. Seven remaining stages passed independently against the same source. This is23 exercised passing stages across separate commands, not a successful24-stage front door.",
+        "The explicit production38 cargo profile checks ten actual mounts, twenty finite bearing caps and every mount versus all other LOD0 components. It verifies the relocated gland against its actual raised deck and retains separate structural-body clearance.",
+        "All new native positive paths,12 geometry negative controls and7 serialized-certificate corruptions behave as required. An inner-radius corruption retains annular contact but is rejected by the actual gland inventory in the positive path. Host profile validation loads without native Blender/NumPy imports.",
+        "Static replay preserves two failed Roof/rail joints, four real rail/closure/stamped-C contact failures and the obsolete roof-return negative-control precondition. Finite Roof overlap already satisfies the unchanged remaining skin and inner-layer limits; the complete uncharted return classifier needs current finite-surface evidence.",
+        "The installed production34 source/runtime asset and all human approvals remain unchanged. Current geometry collaborators continue private bounded revisions."
+      ],
+      "limits": "No current complete-source acceptance, canonical source installation, LOD visual closure, reproducible GLB/export/import, new runtime/platform acceptance or human gate closure. Remaining-stage successes and expected diagnostic exit codes do not change the failed full gate.",
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-SHOULDER38-COMPARISON-AND-FINITE-ROOF-FAILURES",
+      "task_id": "P1-018",
+      "milestone": "M5",
+      "utc": "2026-09-13T22:52:25.615712+00:00",
+      "git_revision": "ddc746cd6af2dce1f4776325cb6c6eb85f35d428",
+      "platform": "Windows-11-10.0.26200-SP0",
+      "kind": "actual-render-review-and-native-finite-fit-diagnosis",
+      "status": "bounded_visual_improvement_fit_rejected",
+      "evidence": [
+        {
+          "path": "reports/p1-018/runtime/roof-return38-diagnosis01/manifest03.json",
+          "bytes": 19718,
+          "sha256": "c7715fb984747b39c27ad6d07c8e1a8465cdfc1b3991e8458713fee488c9945c"
+        },
+        {
+          "path": "reports/p1-018/runtime/roof-return38-diagnosis01/proposal03.json",
+          "bytes": 33659,
+          "sha256": "f3e936b3fcee9474fb2a79382bb1e3e7a4c3e060f92496a7df81ad2b5956c3e2"
+        },
+        {
+          "path": "reports/p1-018/qa/upper-reflective38-review02/review01.json",
+          "bytes": 111876,
+          "sha256": "ab7d24b590c29a891bf289fd60241e5f9b4acebde9d390fc903b302bcc77bde2"
+        },
+        {
+          "path": "reports/p1-018/research/upper-junction30-proposal01/CHECKPOINT315.json",
+          "bytes": 24863,
+          "sha256": "5bd8687e5b2d38bfc4012d1679e23a0d3ef2f3f5daab6e5f6bfc217e071fd514"
+        },
+        {
+          "path": "reports/p1-018/upper-reflective38-02/candidate02/manifest.json",
+          "bytes": 405638,
+          "sha256": "3dba8cf5711df8a57a74cb0eb9dfca539c224d8ab794ff62e99758c8f7453ad4"
+        }
+      ],
+      "metrics": {
+        "paired_original_images_independently_viewed": 56,
+        "rear_frame_clearance_m": 0.0007395301363430917,
+        "required_nonmate_clearance_m": 0.001001,
+        "source14_uncharted_free_fragments_failing": {
+          "L": 20,
+          "R": 17
+        },
+        "current_terminal_remaining_roof_skin_m": {
+          "L": 1.106306080256303e-05,
+          "R": 4.05600818687013e-06
+        },
+        "required_remaining_roof_skin_m": 0.00055,
+        "maximum_roof_inner_penetration_m": 0.00065,
+        "new_triangles_in_failed_trial": 222,
+        "accepted_budget_credit": 0
+      },
+      "observations": [
+        "Independent QA viewed all56 original paired images, with matched camera, control, material and lighting recipe. The upper C-to-rail turn looks smoother with both authored and automatic normals. The whole-car change is modest.",
+        "The broad band, stacked trim, dark roof-edge channel, small localized bright turn, angular termination and lower C ledge remain visible. These source/form defects remain open.",
+        "Static309 frame clearance is below the declared1.001mm guard. A separate unapplied continuous +1mm rim trial improves that gap locally to1.286312mm; the complete assembly is still rejected.",
+        "The actual source14 finite Roof diagnosis finds37 real close free-return polygons. They are not merely1um edge arithmetic and cannot be accepted through a whole-box or new-mate exception.",
+        "Current268/302 introduces a different terminal-cap failure: remaining Roof skin is11.063um left and4.056um right, versus550um required. Source14 does not share that measured cap violation. The saved sources and unsaved candidate must not be conflated.",
+        "The previously protected fore top edge is itself only124.785/111.842um from the Roof. Root selects one continuous recessed outer return with an integral inboard joggle and compliant common terminal cap. The exact new ownership mask is being inventoried before authoring; Roof, deeper attachment, weather lands and motion hardpoints remain fixed."
+      ],
+      "limits": "No source save or production adoption from these diagnostic renders. No changed numerical clearance/skin/penetration guard, accepted geometry cost, final LOD/export/import/runtime proof or human approval.",
+      "human_approval_reference": null
     }
   ],
   "defects": [
@@ -9213,7 +9428,7 @@
         "O03"
       ],
       "summary": "Blockout attempt 01 had zero-area evaluated polygons from thin-object bevels and LOD simplification.",
-      "expected": "No evaluated polygon area below 1e-12 m\u00c2\u00b2 and no unintended nonmanifold edges.",
+      "expected": "No evaluated polygon area below 1e-12 mÂ² and no unintended nonmanifold edges.",
       "actual": {
         "degenerate_faces": 343,
         "affected_meshes": [
@@ -9353,7 +9568,7 @@
         "O03"
       ],
       "summary": "Attempt 02 GLB still has 14 degenerate triangles despite its polygon inventory passing.",
-      "expected": "Every exported triangle has area greater than the locked 1e-12 m\u00b2 degeneracy threshold.",
+      "expected": "Every exported triangle has area greater than the locked 1e-12 m² degeneracy threshold.",
       "actual": {
         "degenerate_triangles": 14,
         "triangles": 53552,
@@ -11901,7 +12116,7 @@
         {
           "utc": "2026-09-11T02:12:13.982593+00:00",
           "source_sha256": "997b38cf570991265b2c58e145927f6a24d014a0cef5e100e7494f1cf7285801",
-          "observation": "Source 20 InstrumentShade crosses the actual left wiper rubber at 60\u2013100% sweep. Root is moving the shade behind the windshield; fresh mesh and view verification is required.",
+          "observation": "Source 20 InstrumentShade crosses the actual left wiper rubber at 60–100% sweep. Root is moving the shade behind the windshield; fresh mesh and view verification is required.",
           "evidence": [
             {
               "path": "reports/p1-018/qa/production-surface-20/contact-regression-review.json",
@@ -12728,7 +12943,42 @@
           ]
         }
       ],
-      "current_interpretation": "Actual source32 has a thin roof edge and exposed header recess: three measured image rays hit Headliner. Envelope04 closes those rays and clears232 complete-domain opening pairs (guarded minimum13.845516608mm). It must be integrated into the real rail, not accepted as overlapping extra geometry; final source/visual proof is pending. Correct closed-rail cost is+400triangles including end caps."
+      "current_interpretation": "Actual source32 has a thin roof edge and exposed header recess: three measured image rays hit Headliner. Envelope04 closes those rays and clears232 complete-domain opening pairs (guarded minimum13.845516608mm). It must be integrated into the real rail, not accepted as overlapping extra geometry; final source/visual proof is pending. Correct closed-rail cost is+400triangles including end caps.",
+      "checkpoint_updates": [
+        {
+          "utc": "2026-09-13T20:32:34.893994+00:00",
+          "checkpoint": {
+            "path": "reports/p1-018/reflective-comparison38-01/review05.json",
+            "bytes": 4560,
+            "sha256": "9cbfac27cdd0d4e6c93a4efeec0a3990dd6a91cfa501eff6d0bcfe3522943983"
+          },
+          "status": "open",
+          "finding": "Actual matched whole-car and grazing views retain a broad angular roof cap and heavy parallel window surrounds. The local upper elbow improves; overall greenhouse form remains open.",
+          "human_approval_reference": null
+        },
+        {
+          "utc": "2026-09-13T22:02:25.578235+00:00",
+          "checkpoint": {
+            "path": "reports/p1-018/source-pipeline38-01/progress30.json",
+            "bytes": 4190,
+            "sha256": "964e6836964a2ee2ef3e7f6022f26149108c145336748c6e69d468485ce05120"
+          },
+          "status": "open",
+          "finding": "Source14 technical stage and cargo progress is recorded separately; roof junction failures, final changed-source proof and source/runtime visual acceptance remain open.",
+          "human_approval_reference": null
+        },
+        {
+          "utc": "2026-09-13T22:52:25.615712+00:00",
+          "checkpoint": {
+            "path": "reports/p1-018/source-pipeline38-01/comparison37.json",
+            "bytes": 3656,
+            "sha256": "ec398aecda54edac8c6332d6f0aa190ab02f0c0d9a71fde2bfd525cfa5c4a3b1"
+          },
+          "status": "open",
+          "finding": "The shoulder reflection improves locally; frame clearance, real free roof return proximity and current trial cap penetration remain rejected. Coherent joint/contour correction and final source proof are pending.",
+          "human_approval_reference": null
+        }
+      ]
     },
     {
       "id": "P1-018-D040",
@@ -13841,6 +14091,39 @@
           "status": "open",
           "finding": "Root and QA reject current63/66. The wrap covers the exposed member but the upper C shoulder is swollen and the lower end reads as a projecting cap/undercut. +932 triangles before body receivers is not accepted.",
           "human_approval_reference": null
+        },
+        {
+          "utc": "2026-09-13T20:32:34.893994+00:00",
+          "checkpoint": {
+            "path": "reports/p1-018/reflective-comparison38-01/review05.json",
+            "bytes": 4560,
+            "sha256": "9cbfac27cdd0d4e6c93a4efeec0a3990dd6a91cfa501eff6d0bcfe3522943983"
+          },
+          "status": "open",
+          "finding": "Upper elbow/strip hook improves in the six-part candidate, while the dark channel, physical section turns and projecting lower C foot remain. Guide and normal-off comparisons support coherent section/sampling work; no candidate production adoption.",
+          "human_approval_reference": null
+        },
+        {
+          "utc": "2026-09-13T22:02:25.578235+00:00",
+          "checkpoint": {
+            "path": "reports/p1-018/source-pipeline38-01/progress30.json",
+            "bytes": 4190,
+            "sha256": "964e6836964a2ee2ef3e7f6022f26149108c145336748c6e69d468485ce05120"
+          },
+          "status": "open",
+          "finding": "Source14 technical stage and cargo progress is recorded separately; roof junction failures, final changed-source proof and source/runtime visual acceptance remain open.",
+          "human_approval_reference": null
+        },
+        {
+          "utc": "2026-09-13T22:52:25.615712+00:00",
+          "checkpoint": {
+            "path": "reports/p1-018/source-pipeline38-01/comparison37.json",
+            "bytes": 3656,
+            "sha256": "ec398aecda54edac8c6332d6f0aa190ab02f0c0d9a71fde2bfd525cfa5c4a3b1"
+          },
+          "status": "open",
+          "finding": "The shoulder reflection improves locally; frame clearance, real free roof return proximity and current trial cap penetration remain rejected. Coherent joint/contour correction and final source proof are pending.",
+          "human_approval_reference": null
         }
       ]
     },
@@ -13884,6 +14167,17 @@
           },
           "finding": "Swept lamps reduce the excess hood wedge; all64 affected mesh checks and63712 pair comparison pass locally. Broad center fascia and forked shoulder reflection remain visibly open.",
           "status": "open",
+          "human_approval_reference": null
+        },
+        {
+          "utc": "2026-09-13T20:32:34.893994+00:00",
+          "checkpoint": {
+            "path": "reports/p1-018/reflective-comparison38-01/review05.json",
+            "bytes": 4560,
+            "sha256": "9cbfac27cdd0d4e6c93a4efeec0a3990dd6a91cfa501eff6d0bcfe3522943983"
+          },
+          "status": "open",
+          "finding": "This comparison targets the rear roof joint and does not verify or resolve the separate front fascia/aperture defect. No closure is inferred from the roof result.",
           "human_approval_reference": null
         }
       ]
@@ -13990,7 +14284,20 @@
           "bytes": 38048
         }
       ],
-      "human_approval_reference": null
+      "human_approval_reference": null,
+      "checkpoint_updates": [
+        {
+          "utc": "2026-09-13T20:32:34.893994+00:00",
+          "checkpoint": {
+            "path": "reports/p1-018/reflective-comparison38-01/review05.json",
+            "bytes": 4560,
+            "sha256": "9cbfac27cdd0d4e6c93a4efeec0a3990dd6a91cfa501eff6d0bcfe3522943983"
+          },
+          "status": "open",
+          "finding": "Broad bright body/glass reflections and box-like whole-car planes remain in current paint. The plain dielectric material is diagnostic only and is not an adopted finish. Five-lighting final material assessment remains required.",
+          "human_approval_reference": null
+        }
+      ]
     },
     {
       "id": "P1-018-D070",
@@ -14040,6 +14347,17 @@
           "finding": "Complete native LOD candidate32 passes206 batches/748 indexed shells but its actual front reflection is rejected. Later protected-feature work is outside this checkpoint.",
           "status": "open",
           "human_approval_reference": null
+        },
+        {
+          "utc": "2026-09-13T22:02:25.578235+00:00",
+          "checkpoint": {
+            "path": "reports/p1-018/source-pipeline38-01/progress30.json",
+            "bytes": 4190,
+            "sha256": "964e6836964a2ee2ef3e7f6022f26149108c145336748c6e69d468485ce05120"
+          },
+          "status": "open",
+          "finding": "Source14 technical stage and cargo progress is recorded separately; roof junction failures, final changed-source proof and source/runtime visual acceptance remain open.",
+          "human_approval_reference": null
         }
       ]
     },
@@ -14073,7 +14391,31 @@
           "bytes": 38048
         }
       ],
-      "human_approval_reference": null
+      "human_approval_reference": null,
+      "checkpoint_updates": [
+        {
+          "utc": "2026-09-13T22:02:25.578235+00:00",
+          "checkpoint": {
+            "path": "reports/p1-018/source-pipeline38-01/progress30.json",
+            "bytes": 4190,
+            "sha256": "964e6836964a2ee2ef3e7f6022f26149108c145336748c6e69d468485ce05120"
+          },
+          "status": "open",
+          "finding": "Source14 technical stage and cargo progress is recorded separately; roof junction failures, final changed-source proof and source/runtime visual acceptance remain open.",
+          "human_approval_reference": null
+        },
+        {
+          "utc": "2026-09-13T22:52:25.615712+00:00",
+          "checkpoint": {
+            "path": "reports/p1-018/source-pipeline38-01/comparison37.json",
+            "bytes": 3656,
+            "sha256": "ec398aecda54edac8c6332d6f0aa190ab02f0c0d9a71fde2bfd525cfa5c4a3b1"
+          },
+          "status": "open",
+          "finding": "The shoulder reflection improves locally; frame clearance, real free roof return proximity and current trial cap penetration remain rejected. Coherent joint/contour correction and final source proof are pending.",
+          "human_approval_reference": null
+        }
+      ]
     },
     {
       "id": "P1-018-D072",
@@ -15390,5 +15732,5 @@
       "approval_reference": null
     }
   ],
-  "updated_utc": "2026-09-13T15:51:53.339779+00:00"
+  "updated_utc": "2026-09-13T22:52:25.615712+00:00"
 }

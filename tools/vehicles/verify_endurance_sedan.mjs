@@ -24,6 +24,7 @@ mkdirSync(output, { recursive: true });
 copyFileSync(join(root, "tools/vehicles/verify_endurance_sedan.mjs"), join(output, "verifier-input.mjs"));
 const asset = "endurance-sedan";
 const source = `data/assets/vehicles/sources/${asset}.blend`;
+const sourceBinding = `data/assets/vehicles/sources/${asset}.source-binding.json`;
 const glb = `data/assets/vehicles/derived/${asset}.glb`;
 const assetDirectory = `assets/vehicles/${asset}`;
 const generated = `${assetDirectory}/${asset}.generated.tscn`;
@@ -234,8 +235,10 @@ async function prepareExtractedTextures(name, stage, preparation) {
   record.status = "fresh_extraction_and_locked_texture_reimport_verified";
   saveReport();
 }
-const exporter = (input, destination) => ["--background", input, "--python-exit-code", "1", "--python", "tools/vehicles/validate_and_export_endurance_sedan.py", "--",
-  "--source", input, "--output", join(destination, `${asset}.glb`), "--inventory", join(destination, "blender.json")];
+const exporter = (input, destination, { inspectOnly = false,
+  binding = input === source && existsSync(sourceBinding) ? sourceBinding : null } = {}) => ["--background", input, "--python-exit-code", "1", "--python", "tools/vehicles/validate_and_export_endurance_sedan.py", "--",
+  "--source", input, "--output", join(destination, `${asset}.glb`), "--inventory", join(destination, "blender.json"),
+  ...(binding ? ["--source-binding", binding] : []), ...(inspectOnly ? ["--inspect-only"] : [])];
 const importArgs = outputPath => ["--script", "res://tools/vehicles/validate_import.gd", "--", "--vehicle", asset,
   "--specification", `res://${spec}`, "--wrapper", `res://${wrapper}`, "--glb", `res://${glb}`,
   "--generated-scene", `res://${generated}`, "--import-settings", `res://${importSettings}`,
@@ -303,6 +306,7 @@ print("CANNONBALL_BLENDER_DRIVER_PROBE_COMPLETE valid=" + str(curve.driver.is_va
 async function verifyAsset() {
   const revisionRecord = load(spec).original_packaging?.revision_record;
   const construction = ["tools/vehicles/create_endurance_sedan.py", "tools/vehicles/validate_and_export_endurance_sedan.py",
+    "tools/vehicles/build_endurance_sedan.py",
     "tools/vehicles/validate_and_export_hero_gt.py", "tools/vehicles/glb_geometry.py", "tools/vehicles/vehicle_contract.json",
     "tools/vehicles/pack_imported_scene.gd", "tools/vehicles/validate_import.gd", "tools/vehicles/generate_manifest.mjs",
     "tools/vehicles/mutate_endurance_sedan.py", "tools/vehicles/verify_endurance_sedan.mjs", "scripts/verify-vehicle-asset.sh",
@@ -315,7 +319,11 @@ async function verifyAsset() {
     "Cannonball.csproj", "global.json", "packages.lock.json", "packages.linux-x64.lock.json", "packages.win-x64.lock.json",
     "src/Cannonball.Core/Cannonball.Core.csproj", "src/Cannonball.Core/packages.lock.json",
     "assets/vehicles/hero-gt/shaders/car_paint.gdshader",
-    ...walk("tools/vehicles/endurance_sedan").filter(path => path.endsWith(".py")),
+    ...walk("tools/vehicles/endurance_sedan").filter(path => /\.(py|json)$/.test(path)),
+    ...(existsSync(sourceBinding) ? [sourceBinding,
+      "data/assets/vehicles/sources/endurance-sedan.construction.json.gz",
+      "data/assets/vehicles/sources/endurance-sedan.lower.json.gz",
+      ...walk("data/assets/vehicles/sources/endurance-sedan-generation")] : []),
     ...walk("game").filter(path => /\.(cs|tres|tscn|gdshader|uid)$/.test(path)),
     ...walk("src/Cannonball.Core").filter(path => path.endsWith(".cs") && !path.split(sep).some(part => ["bin", "obj"].includes(part))),
     ...walk(assetDirectory).filter(path => path.endsWith(".png.import"))];
@@ -402,8 +410,24 @@ async function verifyAsset() {
     const directory = join(output, `negative-${mutation}`), invalid = join(directory, "source.blend");
     mkdirSync(directory);
     await run(`mutate-${mutation}`, blender, ["--background", "--factory-startup", "--python-exit-code", "1", "--python", "tools/vehicles/mutate_endurance_sedan.py", "--", "--source", source, "--output", invalid, "--mutation", mutation]);
-    await run(`reject-${mutation}`, blender, exporter(invalid, directory), { expected: 1, expectedText, timeout: 600000 });
-    report.negative_controls.push({ mutation, status: "passed", rejected_input_sha256: hash(invalid), expected_exit: 1, expected_text: expectedText });
+    await run(`reject-${mutation}`, blender, exporter(invalid, directory, { inspectOnly: true }), { expected: 1, expectedText, timeout: 600000 });
+    if (existsSync(join(directory, `${asset}.glb`))) throw new Error("Native inspection control produced export bytes");
+    report.negative_controls.push({ mutation, status: "passed", scope: "native source diagnostics; no export",
+      rejected_input_sha256: hash(invalid), expected_exit: 1, expected_text: expectedText });
+  }
+  if (existsSync(sourceBinding)) {
+    for (const [mutation, input, binding, expectedText] of [
+      ["missing-source-generation-binding", source, null, "Current source export requires its source-generation binding"],
+      ["different-source-generation-binding", join(output, "negative-unapplied-scale/source.blend"), sourceBinding, "Wrong actual final source"],
+    ]) {
+      const directory = join(output, `negative-${mutation}`);
+      mkdirSync(directory);
+      await run(`reject-${mutation}`, blender, exporter(input, directory, { binding }), { expected: 1, expectedText, timeout: 600000 });
+      if (existsSync(join(directory, `${asset}.glb`))) throw new Error("Rejected source binding produced export bytes");
+      report.negative_controls.push({ mutation, status: "passed", scope: "current saved-source export authority",
+        rejected_input_sha256: hash(input), binding_sha256: binding ? hash(binding) : null,
+        expected_exit: 1, expected_text: expectedText });
+    }
   }
   const baseWrapper = readFileSync(join(first.project, wrapper), "utf8");
   const invalidDirectory = join(first.project, "game/Vehicle/Visuals/ValidationOnly"); mkdirSync(invalidDirectory);

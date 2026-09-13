@@ -17,6 +17,9 @@ import time
 
 import numpy as np
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from tire_support import whole_fixed_bound  # noqa: E402
+
 
 def box_gap(a, b):
     return float(np.linalg.norm(np.maximum(np.maximum(a[0] - b[1], b[0] - a[1]), 0)))
@@ -104,6 +107,13 @@ def certify(vertices, triangles, group, wheel, max_cells):
         batch = pending[-256:]; del pending[-len(batch):]
         cells += len(batch)
         if cells > max_cells:
+            if group is None:
+                complete = whole_fixed_bound(vertices, triangles, wheel)
+                if complete is not None:
+                    outside = outside_solid(vertices, triangles, wheel['actual_points'], guard)
+                    if outside is not None:
+                        return {**complete, 'cells': cells, 'centroid_bound_exhausted_cells': cells,
+                                'outside_target_witness': outside}
             return {'status': 'unresolved', 'reason': 'bounded-work-limit', 'cells': cells, 'remaining': len(pending) + len(batch)}
         raw = np.stack([r[0] for r in batch]); middle = raw.mean(axis=1)
         triangle_radius = np.linalg.norm(raw - middle[:, None, :], axis=2).max(axis=1)
@@ -227,7 +237,7 @@ def main():
               'inputs':[{'path':str(p),'sha256':sha(p)} for p in (args.input,args.drivers,args.openings,Path(__file__))],
               'required_m':required,'guard_m':guard,'numpy':np.__version__,'results':output,'failures':failures,
               'status':'passed' if not failures else 'unresolved','human_approval_reference':None,
-              'method':'Actual tread/sipe convex outer supports and exact projected-triangle inner-radius bounds contain the full rolling annular geometry, including its measured empty axle bore. Suspension is eliminated analytically, using the closest endpoint for outer supports and furthest endpoint for inner-radius clearance. Steering samples include a conservative inter-sample Hausdorff bound. Every independently moving target has its own full opening interval; triangle-radius and rigid-point displacement bounds cover all intermediate positions. Three-ray exterior classification excludes whole containment.',
+              'method':'Actual tread/sipe convex outer supports and exact projected-triangle inner-radius bounds contain the full rolling annular geometry, including its measured empty axle bore. Suspension is eliminated analytically, using the closest endpoint for outer supports and furthest endpoint for inner-radius clearance. Steering samples include a conservative inter-sample Hausdorff bound. Every independently moving target has its own full opening interval; triangle-radius and rigid-point displacement bounds cover all intermediate positions. Fixed zero-yaw targets may use complete triangle axial and projected triangle-to-suspension-segment supports when the centroid subdivision bound exhausts its work. Three-ray exterior classification excludes whole containment.',
               'limits':'Tread/sipe versus all other vehicle assemblies including independent six-opening motion. Each exact same-wheel suspension/brake/rim coassembly is individually listed outside this body-clearance domain and needs internal assembly QA. Wipers are at rest; disjoint swept boxes or the separate wiper certificate must cover their motion. An unresolved sufficient bound is not proof of a collision and is never a pass.'}
     args.output.write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8',newline='\n')
     print('QA_TIRES_COMPLETE '+json.dumps({'status':report['status'],'unresolved':len(failures)}),flush=True)

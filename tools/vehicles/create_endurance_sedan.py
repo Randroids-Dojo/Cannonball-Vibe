@@ -116,6 +116,8 @@ def preview(collection):
 
 def main():
     args=arguments();root=Path(__file__).resolve().parents[2]
+    if args.stage=='production' and not args.surface_preview:
+        raise ValueError('Full production uses tools/vehicles/build_endurance_sedan.py --blender-bin <pinned Blender> --output <new candidate directory>; use --surface-preview for an editable surface iteration')
     spec=json.loads((root/'docs/vehicles/endurance-sedan/specification.json').read_text())
     if bpy.app.version!=(5,1,2) or bpy.app.build_hash.decode()!='ec6e62d40fa9':raise RuntimeError('Pinned Blender identity mismatch')
     bpy.ops.wm.read_factory_settings(use_empty=True)
@@ -146,12 +148,15 @@ def main():
         bpy.ops.wm.save_as_mainfile(filepath=str(failed))
         raise
     print('SEDAN_STAGE evaluated LOD0 repair complete',flush=True)
+    if args.stage=='production':
+        from endurance_sedan import construction_finish
+        proof=construction_finish.apply(asset,lods[0],mats,root,Path(__file__),args.output.resolve().parent/'textures/Meridian_StaticLabels_v26.png')
     scene['surface_preview_only']=args.surface_preview
     if not args.surface_preview:
         distance_only_names=spec['original_packaging']['distance_lod_revision23']['maximum_lod_zero_names'] if args.stage=='production' else ()
         make_lods(asset,lods,distance_only_names)
         for obj in list(asset.objects):
-            if obj.type=='MESH':geo.repair_triangulation(obj)
+            if obj.type=='MESH' and obj.name.startswith(('LOD1_','LOD2_')):geo.repair_triangulation(obj)
     print('SEDAN_STAGE LOD construction complete',flush=True)
     preview(studio)
     scene.render.fps=60;scene.frame_end=600
@@ -160,7 +165,9 @@ def main():
         preview_illumination(studio,pivots,controls)
     bpy.context.preferences.filepaths.save_version=0
     args.output=args.output.resolve();args.output.parent.mkdir(parents=True,exist_ok=True)
+    scene['prototype_scope']='Fresh portable construction fixture including selected current roof, front housing, main cooling, finish and budget recipes. Final cooler/channel/fascia revisions, complete source/LOD/export/runtime and human acceptance remain open.'
     bpy.ops.wm.save_as_mainfile(filepath=str(args.output))
+    if args.stage=='production':construction_finish.retain(proof,args.output)
     print('CANNONBALL_SEDAN_SOURCE_OK '+json.dumps({'path':str(args.output),'objects':len(asset.objects),'stage':args.stage}))
 
 

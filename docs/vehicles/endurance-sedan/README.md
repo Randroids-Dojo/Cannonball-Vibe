@@ -118,15 +118,25 @@ auxiliary fuel-transfer simulation. No physical-wheel calibration is implied.
 
 ## Reproduce and verify
 
-The constructor starts with an empty Blender scene and reads the locked
-specification plus the recorded early integration proof. Use a fresh output
-path to preserve edited sources:
+The source builder snapshots the constructor, specification and early integration
+proof into a new candidate project, then starts with an empty Blender scene.
+Use a fresh output directory to preserve edited sources and earlier evidence:
 
 ```powershell
-& $sedanBlender --background --factory-startup --python-exit-code 1 `
-  --python tools/vehicles/create_endurance_sedan.py -- `
-  --output reports/p1-018/reconstruction.blend --stage production
+python tools/vehicles/build_endurance_sedan.py `
+  --blender-bin $sedanBlender --output reports/p1-018/reconstruction
 ```
+
+The candidate is under `reports/p1-018/reconstruction/project/`. Its
+`data/assets/vehicles/sources/` directory contains the editable final `.blend`,
+construction and lower-LOD companions, and a source-generation binding. The
+`endurance-sedan-generation/` subdirectory retains actual native checkpoints and
+separate command logs. Finalization builds the lower LODs, saves the final source,
+reopens it, and independently checks the current front and lower meshes.
+The current tire revision also retains the actual source before its groove edit.
+The command does not install the candidate; complete source, export, runtime and
+visual verification is still required. Direct `create_endurance_sedan.py` calls
+remain available for blockouts and explicit surface previews.
 
 Run the repository front doors from Git Bash with `BLENDER_BIN` set to the
 pinned executable and `GODOT_BIN` set to official Godot 4.7.1 .NET:
@@ -152,18 +162,29 @@ neither lock is refreshed implicitly by normal export or verification.
 See [qa-plan.md](qa-plan.md) and [defects.json](defects.json) for independent review
 requirements and observed defects. A successful command is not human approval.
 
-The independent source gate reopens the delivered Blender file and checks its
+The independent source gate reopens the selected Blender file and checks its
 evaluated geometry, control/light drivers, complete opening domains, tires,
 wipers, named construction interfaces and deliberate rejection controls:
 
 ```powershell
+$sedanCandidate = (Resolve-Path 'reports/p1-018/reconstruction/project').Path
 python tools/vehicles/endurance_sedan/qa/run.py `
-  --source data/assets/vehicles/sources/endurance-sedan.blend `
+  --source "$sedanCandidate/data/assets/vehicles/sources/endurance-sedan.blend" `
+  --source-binding "$sedanCandidate/data/assets/vehicles/sources/endurance-sedan.source-binding.json" `
+  --construction-root $sedanCandidate `
   --blender $sedanBlender --output reports/p1-018/fresh-source-qa
 ```
 
 It copies its exact QA tools into the new evidence directory and records all
-twenty required stages, including exact authored-mesh and final lower-LOD
+24 stages required by the current source binding. Historical v1 bindings retain
+their original 21-stage contract. Current validation separately exercises the
+actual historical shoulder checkpoint, the current front fields and the reopened
+final lower meshes. Its explicit current static profile checks all ten cargo
+mounts, their twenty complete bearing faces and every mount against the other
+LOD0 parts. The raised-floor gland is checked against its current dimensions and
+finite rubber contact region; this does not claim a pressure seal or mechanical
+fuel simulation. Historical bindings retain the original static profile.
+It also includes exact authored-mesh and final lower-LOD
 self checks, finite cupholder seats, formed-header, latch and the declared
 upholstery support interfaces. These selected interfaces do not certify every
 internal floor, drivetrain or upholstery contact; the defect ledger retains

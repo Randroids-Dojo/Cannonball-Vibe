@@ -4,6 +4,8 @@
 *.jpeg filter=lfs diff=lfs merge=lfs -text
 *.webp filter=lfs diff=lfs merge=lfs -text
 *.blend filter=lfs diff=lfs merge=lfs -text
+data/assets/vehicles/sources/endurance-sedan*.json.gz filter=lfs diff=lfs merge=lfs -text
+data/assets/vehicles/sources/endurance-sedan-generation/**/*.json.gz filter=lfs diff=lfs merge=lfs -text
 *.glb filter=lfs diff=lfs merge=lfs -text
 *.gltf filter=lfs diff=lfs merge=lfs -text
 *.hdr filter=lfs diff=lfs merge=lfs -text
