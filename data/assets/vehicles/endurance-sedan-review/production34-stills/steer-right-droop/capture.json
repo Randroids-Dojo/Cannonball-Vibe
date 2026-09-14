@@ -1,0 +1,176 @@
+{
+  "source": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\checkpoints\\production-34.blend",
+  "configuration": {
+    "source_sha256": "0b4220d5c3f0024054de17a3c36add3388a4f52be2046cc2b837f3bac9edf793",
+    "renderer_sha256": "62a91929e55512a48483a5dd79faca86e5e5db183ab018bb453b5cd17cdc4f2d",
+    "blender": "5.1.2",
+    "build_hash": "ec6e62d40fa9",
+    "engine": "CYCLES",
+    "device": "GPU",
+    "devices": [
+      {
+        "name": "NVIDIA GeForce RTX 3080 Ti",
+        "type": "CUDA",
+        "enabled": false
+      },
+      {
+        "name": "AMD Ryzen 9 5900X 12-Core Processor",
+        "type": "CPU",
+        "enabled": false
+      },
+      {
+        "name": "NVIDIA GeForce RTX 3080 Ti",
+        "type": "OPTIX",
+        "enabled": true
+      }
+    ],
+    "size": [
+      2560,
+      1440
+    ],
+    "samples": 48,
+    "denoising": true,
+    "view_transform": "AgX",
+    "look": "AgX - Medium High Contrast",
+    "exposure": 0.0,
+    "clay": false,
+    "source_controls": {
+      "steering": 1.0,
+      "suspension": -0.075
+    },
+    "lighting": "neutral",
+    "sequence": "none",
+    "frame_count": 4,
+    "fps": 30,
+    "views": "front3q,right,under,wheel",
+    "ray_bounces": 10,
+    "source_timeline_fps": 60,
+    "inspection_fill_watts": 0,
+    "inspection_fill_disk_diameter_m": {
+      "default": 0.35,
+      "pedals": 0.14,
+      "rear_seats": 0.2,
+      "front_belt_left": 0.2
+    },
+    "inspection_fill_camera_local_m": [
+      0,
+      0,
+      0.025
+    ],
+    "denoiser": "OPENIMAGEDENOISE",
+    "denoising_use_gpu": true,
+    "denoising_prefilter": "ACCURATE",
+    "technical_overlay": null,
+    "review_overlay_tool_sha256": "230827eb0257dd454e9429ddd3dd68e51107b540d58f6e18e893542196805fb7",
+    "review_geometry_tool_sha256": "0e9fad40b0d14ba1265958bd6836d133fde89474efd6f988860f46fc2cde2b90",
+    "material_swatches": {}
+  },
+  "configuration_sha256": "1e3c12d4b244f9d7ce64d51efa2ad27441685237b78ac9f45ed1873343dc022e",
+  "status": "completed",
+  "frames": [
+    {
+      "view": "front3q",
+      "capture_view": "front3q",
+      "path": "front3q.png",
+      "sha256": "9d9ff5cd802b74f00d8dccf90e563720650bd25c8dbc2205a08f68e247dab85a",
+      "seconds": 3.3302850000036415,
+      "cold": true,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 1,
+      "time_seconds": 0.0,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "right",
+      "capture_view": "right",
+      "path": "right.png",
+      "sha256": "07ef111c90c8991962215698264bc26262e3f37d3c6f40640e27c70539d54c1b",
+      "seconds": 1.6704157999993186,
+      "cold": false,
+      "camera_location": [
+        8,
+        0,
+        0.78
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.78
+      ],
+      "orthographic": true,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 1,
+      "time_seconds": 0.0,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "under",
+      "capture_view": "under",
+      "path": "under.png",
+      "sha256": "04b5e702a4afb46568cadd57f49c658293a620755bc9d094777e843e42b1781e",
+      "seconds": 1.4338294000044698,
+      "cold": false,
+      "camera_location": [
+        0,
+        0,
+        -8
+      ],
+      "camera_target": [
+        0,
+        0,
+        0
+      ],
+      "orthographic": true,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 9.800000190734863,
+      "source_frame": 1,
+      "time_seconds": 0.0,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "wheel",
+      "capture_view": "wheel",
+      "path": "wheel.png",
+      "sha256": "729e2b43a6c11845966a0060d40e33130058ff60d150279eba29f308ee19548d",
+      "seconds": 3.3301204000017606,
+      "cold": false,
+      "camera_location": [
+        -2.4,
+        1.5,
+        0.65
+      ],
+      "camera_target": [
+        -0.84,
+        1.46,
+        0.4
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 1,
+      "time_seconds": 0.0,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    }
+  ]
+}

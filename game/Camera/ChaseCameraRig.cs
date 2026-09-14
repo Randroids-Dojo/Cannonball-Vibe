@@ -64,15 +64,19 @@ public sealed partial class ChaseCameraRig : Node3D
         // This rig moves on render frames. Interpolating it again on the physics
         // clock makes the displayed camera lag and step relative to the car.
         PhysicsInterpolationMode = PhysicsInterpolationModeEnum.Off;
-        _arm = new SpringArm3D
-        {
-            Name = "ChaseCameraArm",
-            Position = new Vector3(0, FollowHeightMeters, ArmForwardOffsetMeters),
-            RotationDegrees = new Vector3(LookPitchDegrees(), 0, 0),
-            SpringLength = FollowDistanceMeters,
-            Margin = 0.15f,
-            CollisionMask = 1,
-        };
+#if DEBUG
+        _arm = Automation.AutomationInspection.Enabled
+            ? new SpringArmCastObserver()
+            : new SpringArm3D();
+#else
+        _arm = new SpringArm3D();
+#endif
+        _arm.Name = "ChaseCameraArm";
+        _arm.Position = new Vector3(0, FollowHeightMeters, ArmForwardOffsetMeters);
+        _arm.RotationDegrees = new Vector3(LookPitchDegrees(), 0, 0);
+        _arm.SpringLength = FollowDistanceMeters;
+        _arm.Margin = 0.15f;
+        _arm.CollisionMask = 1;
         _camera = new Camera3D
         {
             Name = "ChaseCamera",
@@ -83,6 +87,10 @@ public sealed partial class ChaseCameraRig : Node3D
         AddChild(_arm);
         SetMeta("automation_id", "camera.chase.rig");
         SetMeta("automation_state", _automationState);
+        if (_arm is SpringArmCastObserver observer)
+        {
+            observer.BindAutomationState(_automationState);
+        }
         SnapToTarget();
     }
 
@@ -175,6 +183,10 @@ public sealed partial class ChaseCameraRig : Node3D
 
     public void SnapToTarget()
     {
+        if (_arm is SpringArmCastObserver observer)
+        {
+            observer.InvalidateCompletedCast();
+        }
         _smoothedPosition = Target.GlobalPosition;
         _smoothedForward = HorizontalForward(Target.GlobalTransform.Basis);
         _headingChangeElapsed = 0;
@@ -235,6 +247,10 @@ public sealed partial class ChaseCameraRig : Node3D
         _automationState["inherits_vehicle_rotation"] = false;
         _automationState["heading_lag_degrees"] = snapshot.HeadingLagDegrees;
         _automationState["horizon_roll_degrees"] = snapshot.HorizonRollDegrees;
+        if (_arm is SpringArmCastObserver observer)
+        {
+            observer.WriteAutomationState(_automationState);
+        }
         _automationState["spring_length_m"] = snapshot.SpringLengthMeters;
         _automationState["spring_hit_length_m"] = snapshot.SpringHitLengthMeters;
         _automationState["collision_compression_m"] = snapshot.CollisionCompressionMeters;

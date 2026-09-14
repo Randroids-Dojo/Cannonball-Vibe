@@ -1,0 +1,2741 @@
+{
+  "task_id": "P1-018",
+  "milestone": "M5",
+  "status": "passed",
+  "started_utc": "2026-09-11T20:44:41.472425+00:00",
+  "git_revision": "eb5703e55f3656e91bd80fb79502f10ce250554b",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.14.6",
+  "zlib_runtime": "1.3.1.zlib-ng",
+  "tool_sha256": "1310e66035402d9eccaef4c0b2fe6d474f0b56958e914138d3f57be6285b18ff",
+  "input_manifest": {
+    "path": "reports/p1-018/root-source34-gates01.manifest.json",
+    "sha256": "66a61b489d85ab295689c0798d87df9f45af3a8a0067e475ecc1130f6c301605"
+  },
+  "entries": [
+    {
+      "path": "reports/m0/p1-018-final34-01/doctor.json",
+      "sha256": "33cb1935e7bc974bbc4cc89452ab1f85a6648768cd2301f08b7df88be56e1dca",
+      "bytes": 545,
+      "reason": "Complete final source34 local front-door result and logs"
+    },
+    {
+      "path": "reports/m0/p1-018-final34-01/dotnet/core-tests.trx",
+      "sha256": "942a34dbc98e846e7944f39430d7b7c181bbfedaa7ad1df9e6b896ec8d12d1af",
+      "bytes": 220844,
+      "reason": "Complete final source34 local front-door result and logs"
+    },
+    {
+      "path": "reports/m0/p1-018-final34-01/godot/godot.log",
+      "sha256": "ec289c58ced6e4533f06da7474d8129dfcb2686791eedc079dce40bf763b52c5",
+      "bytes": 691,
+      "reason": "Complete final source34 local front-door result and logs"
+    },
+    {
+      "path": "reports/m0/p1-018-final34-01/godot/managed-shutdown/runtime.log",
+      "sha256": "d3f9b73557650e583490327f448e19bcf049d6bccc7c337952aa61e0404c5850",
+      "bytes": 1481,
+      "reason": "Complete final source34 local front-door result and logs"
+    },
+    {
+      "path": "reports/m0/p1-018-final34-01/godot/managed-shutdown/summary.json",
+      "sha256": "87ede47fb30564727bccf246b2f143a527f1dd06da1a017ce33c63a553a850ed",
+      "bytes": 305,
+      "reason": "Complete final source34 local front-door result and logs"
+    },
+    {
+      "path": "reports/m0/p1-018-final34-01/godot/scenario.json",
+      "sha256": "86937fdd43e64f22acd081f4aed63e11cb7647936f54f9ea4e31a1831dc808c0",
+      "bytes": 189,
+      "reason": "Complete final source34 local front-door result and logs"
+    },
+    {
+      "path": "reports/m0/p1-018-final34-01/godot/starter-speed.json",
+      "sha256": "b07b041cc24e2711944ece70bad353a76e3f24527d818a0115129c659dfd0f9e",
+      "bytes": 6038,
+      "reason": "Complete final source34 local front-door result and logs"
+    },
+    {
+      "path": "reports/m0/p1-018-final34-01/logs/camera-interpolation.log",
+      "sha256": "412aedfb7cb14257d14f1517bb64d016ca6bb134d8f092d05fde73d0e7889291",
+      "bytes": 233,
+      "reason": "Complete final source34 local front-door result and logs"
+    },
+    {
+      "path": "reports/m0/p1-018-final34-01/logs/continental-route.log",
+      "sha256": "b6d849612dc6360b7410bda3ba3ceac7646512c09d2fdbb875b38b2eaf709c70",
+      "bytes": 2213,
+      "reason": "Complete final source34 local front-door result and logs"
+    },
+    {
+      "path": "reports/m0/p1-018-final34-01/logs/doctor.log",
+      "sha256": "7de6fcd0b1466615c6787ac936fef5ccd32845f391fb167bc2beab884810d985",
+      "bytes": 403,
+      "reason": "Complete final source34 local front-door result and logs"
+    },
+    {
+      "path": "reports/m0/p1-018-final34-01/logs/dotnet-build.log",
+      "sha256": "a37abf2749d21ab058b38a1363a6d93b9dd39633e67528d2f7b0755dcac682c5",
+      "bytes": 488,
+      "reason": "Complete final source34 local front-door result and logs"
+    },
+    {
+      "path": "reports/m0/p1-018-final34-01/logs/dotnet-test.log",
+      "sha256": "13db521adc229b5bee727d75cc1062cc124d06c61719978a54968b00b89647dd",
+      "bytes": 420,
+      "reason": "Complete final source34 local front-door result and logs"
+    },
+    {
+      "path": "reports/m0/p1-018-final34-01/logs/frame-allocations.log",
+      "sha256": "1fb668e8dfc00678638d88cf9241472749abefb243ea12151ce5669b6f8fa859",
+      "bytes": 56,
+      "reason": "Complete final source34 local front-door result and logs"
+    },
+    {
+      "path": "reports/m0/p1-018-final34-01/logs/godot-smoke.log",
+      "sha256": "5c31a9a791d023fa4abf57e0a0f6a527c1762b1b1a639f8caf7ad6848a02fb2d",
+      "bytes": 1351,
+      "reason": "Complete final source34 local front-door result and logs"
+    },
+    {
+      "path": "reports/m0/p1-018-final34-01/logs/managed-shutdown.log",
+      "sha256": "c4c30d18789080ab72a245f0d5a7cb1cc9c4d9ed09f08d650a1d682275d3afe2",
+      "bytes": 1759,
+      "reason": "Complete final source34 local front-door result and logs"
+    },
+    {
+      "path": "reports/m0/p1-018-final34-01/logs/pytest-map-pipeline.log",
+      "sha256": "5e143e759545cebf0928c051762cade10b4a3834b6b499fcc7211605cc10aedd",
+      "bytes": 449,
+      "reason": "Complete final source34 local front-door result and logs"
+    },
+    {
+      "path": "reports/m0/p1-018-final34-01/logs/pytest-playgodot-unit.log",
+      "sha256": "42c650d8f4f25f06a80674b695fa06b3290a57a97aec4982de1e678e4a4b99bf",
+      "bytes": 101,
+      "reason": "Complete final source34 local front-door result and logs"
+    },
+    {
+      "path": "reports/m0/p1-018-final34-01/logs/release-smoke-unit.log",
+      "sha256": "c54e6a948c69dcc960057a7998e9450b8e8ce406b5b6d2417dccbd33810ade64",
+      "bytes": 907,
+      "reason": "Complete final source34 local front-door result and logs"
+    },
+    {
+      "path": "reports/m0/p1-018-final34-01/logs/ruff.log",
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "bytes": 19,
+      "reason": "Complete final source34 local front-door result and logs"
+    },
+    {
+      "path": "reports/m0/p1-018-final34-01/logs/starter-speed.log",
+      "sha256": "9f701732e8de34192c461016857501f150293b1cd7ebc006f7e96d692a4dab43",
+      "bytes": 4245,
+      "reason": "Complete final source34 local front-door result and logs"
+    },
+    {
+      "path": "reports/m0/p1-018-final34-01/python/junit.xml",
+      "sha256": "7f3a86a601815692814b961ed108f9e35660d6b689cda1d3c6ac0d0238afc518",
+      "bytes": 45254,
+      "reason": "Complete final source34 local front-door result and logs"
+    },
+    {
+      "path": "reports/m0/p1-018-final34-01/python/playgodot-unit.xml",
+      "sha256": "a217bf47b5854f52544f135f348e96c00087c985fbc6ac400f5ea7edb987d578",
+      "bytes": 1754,
+      "reason": "Complete final source34 local front-door result and logs"
+    },
+    {
+      "path": "reports/m0/p1-018-final34-01/summary.json",
+      "sha256": "bc487d752a433aec1363c27a22ecc2c28805c78b151f9523e224d0b1db31076e",
+      "bytes": 1482,
+      "reason": "Complete final source34 local front-door result and logs"
+    },
+    {
+      "path": "reports/p1-018/add_front_belt_view34.py",
+      "sha256": "c7b5d28f122d3e0f549b89003368ea40711f2bd2c203546dc8cf6df687b51948",
+      "bytes": 2840,
+      "reason": "Root preparation/correction tool or immutable inventory"
+    },
+    {
+      "path": "reports/p1-018/add_wiper_overview34.py",
+      "sha256": "cae8010e8d81dab7817c0eab3788296ebab0970d228b2357c8e62356720a7170",
+      "bytes": 2601,
+      "reason": "Root preparation/correction tool or immutable inventory"
+    },
+    {
+      "path": "reports/p1-018/canonical-before-source34-generated/assets/vehicles/endurance-sedan/endurance-sedan.generated.textures.json",
+      "sha256": "2eb966adfc9853046385edd4431e79ca2ed13266d69edc27ac1310ce3bf91d35",
+      "bytes": 1164,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/canonical-before-source34-generated/assets/vehicles/endurance-sedan/endurance-sedan.generated.tscn",
+      "sha256": "8e70149274f401f2b8f604dc45770a411f22a5481ec5c861abf4b43420c90def",
+      "bytes": 10954061,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/canonical-before-source34-generated/assets/vehicles/endurance-sedan/endurance-sedan_Meridian_fabric_normal_v1.png",
+      "sha256": "f3f2a2901e1d02fa518d8e46367d1e26ab0fe88308e9b33d96319175fe326494",
+      "bytes": 431143,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/canonical-before-source34-generated/assets/vehicles/endurance-sedan/endurance-sedan_Meridian_fabric_normal_v1.png.import",
+      "sha256": "838f477c3fec0fa0626cf2f61527cb42f34350bf4c7b1d6c1724b07ba2caca73",
+      "bytes": 1174,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/canonical-before-source34-generated/assets/vehicles/endurance-sedan/endurance-sedan_Meridian_fabric_roughness_v1.png",
+      "sha256": "f06dcd0d2ba4b388b2070e781a0f022ec9b53dfa655367ce62fa85167e058117",
+      "bytes": 174368,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/canonical-before-source34-generated/assets/vehicles/endurance-sedan/endurance-sedan_Meridian_fabric_roughness_v1.png.import",
+      "sha256": "66e8229c300a49dca08294deca7c5c5726519a701f45b080879b5987cf049372",
+      "bytes": 1183,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/canonical-before-source34-generated/assets/vehicles/endurance-sedan/endurance-sedan_Meridian_leather_normal_v1.png",
+      "sha256": "90eec226e0e4cf92aac9dacf97bada11395a038972de6daa7c7432c06d1a1464",
+      "bytes": 332931,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/canonical-before-source34-generated/assets/vehicles/endurance-sedan/endurance-sedan_Meridian_leather_normal_v1.png.import",
+      "sha256": "99a20b48556e117fc4b1c6b4f4bda00427e02319b8650b720fc5e1bd87ccc028",
+      "bytes": 1177,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/canonical-before-source34-generated/assets/vehicles/endurance-sedan/endurance-sedan_Meridian_leather_roughness_v1.png",
+      "sha256": "86adaa53ba7059d148783ce8cd30409edf10cce7fbd06da6fb6ec141ac928228",
+      "bytes": 206491,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/canonical-before-source34-generated/assets/vehicles/endurance-sedan/endurance-sedan_Meridian_leather_roughness_v1.png.import",
+      "sha256": "763f6d8a89d13e73672f595d0636ea965915c08c129c1c665f956e68f1d66db4",
+      "bytes": 1186,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/canonical-before-source34-generated/assets/vehicles/endurance-sedan/endurance-sedan_Meridian_paint_normal_v1.png",
+      "sha256": "7e1ab964114d665f17cdf3047da20b3d1c86dbe6dedbabdc26b22bef1b8224d2",
+      "bytes": 168960,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/canonical-before-source34-generated/assets/vehicles/endurance-sedan/endurance-sedan_Meridian_paint_normal_v1.png.import",
+      "sha256": "503c01e8629d879be321cb5915886f3d1c734bb11e596e3394d8c318a4945537",
+      "bytes": 1171,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/canonical-before-source34-generated/assets/vehicles/endurance-sedan/endurance-sedan_Meridian_paint_roughness_v1.png",
+      "sha256": "eca7f1b0b9c7d734565ed343d68ae7ee1ad0991845eef9611245645e353e8a14",
+      "bytes": 159467,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/canonical-before-source34-generated/assets/vehicles/endurance-sedan/endurance-sedan_Meridian_paint_roughness_v1.png.import",
+      "sha256": "6eda2e78063b21f9ffda059f05837630a7bc8e7b15c3329e8eecf7dc8485ff78",
+      "bytes": 1180,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/canonical-before-source34-generated/canonical-regenerated.asset.json",
+      "sha256": "13913690e914fe13ad38ea7d7d384748703bc981df01ab753ecadbab7d8540cc",
+      "bytes": 51570,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/canonical-before-source34-generated/data/assets/vehicles/derived/endurance-sedan.glb",
+      "sha256": "130c7c053fcd3250b3f3ee626666b8c0deeb65948410dcc4f07f60967b09ef74",
+      "bytes": 11260508,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/canonical-before-source34-generated/data/assets/vehicles/endurance-sedan.asset.json",
+      "sha256": "97d6f1f38f6c2c3e2948eb5fd8653578a7f32811178152b5d256ac4d3d7c863c",
+      "bytes": 50198,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/canonical-before-source34-generated/data/assets/vehicles/endurance-sedan.blender.json",
+      "sha256": "0fe0bd41adee623c165c0bbc1d598a70a87a06766f3a6bc2a783943fe6aac231",
+      "bytes": 1443954,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/canonical-before-source34-generated/data/assets/vehicles/endurance-sedan.godot.json",
+      "sha256": "bd7c39ede65f1a7b9be1ed0bbb257685563918504eee9df11060f665880f2e01",
+      "bytes": 57606,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/canonical-before-source34-generated/manifest-command.log",
+      "sha256": "0065738298c7c18bb6565b7579d00b1598c9c1eed6f540863cff3302e466fda2",
+      "bytes": 200,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/canonical-before-source34-generated/promotion.json",
+      "sha256": "f9cdff3b6a99af126ef7b891c303450c0004d1dafb99ae670ae89fc8c63c8999",
+      "bytes": 12494,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/canonical-before-source34/data/assets/vehicles/endurance-sedan.uv-bake.json",
+      "sha256": "5c855e19ab63e057dd06173668e7025505b9b70f8f82ad2343976386959a0a4a",
+      "bytes": 2750852,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/canonical-before-source34/data/assets/vehicles/sources/endurance-sedan.blend",
+      "sha256": "8ddb88bfcf82b68ef7cccfa86dbfedf502a4de1fa4e9f0924cffe6609f8d7a50",
+      "bytes": 4971259,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/canonical-before-source34/docs/vehicles/endurance-sedan/export-uv-bake.md",
+      "sha256": "fc1b746a96018709da6508f0884168b63aa64ba8a18b119f86e8d3c00a16505c",
+      "bytes": 2788,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/canonical-before-source34/promotion.json",
+      "sha256": "d91f414648b169e716b74e9ab791784325bc68bbda1fe19d31656b0e00c01223",
+      "bytes": 2272,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/checkpoints/production-34.blend",
+      "sha256": "0b4220d5c3f0024054de17a3c36add3388a4f52be2046cc2b837f3bac9edf793",
+      "bytes": 5011955,
+      "reason": "Exact authoritative source34 checkpoint"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T192112.031021Z-root-history-uv33-inventory.json",
+      "sha256": "880a3340a92be14c2d7413da8825c20e6afdabb5de46eefa20d168177f433ded",
+      "bytes": 797,
+      "reason": "Completed exact root command record"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T192112.031021Z-root-history-uv33-inventory.log",
+      "sha256": "3ce0456a72ab4437757e30e249e47f37b4a43c900e6f6aca9bd7a37af816026d",
+      "bytes": 208,
+      "reason": "Hash-verified complete command log"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T192218.307371Z-root-history-uv33-retention.json",
+      "sha256": "6d0155601263f99a216dbac538315530394fbcbef935c70243565c7822a31027",
+      "bytes": 1159,
+      "reason": "Completed exact root command record"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T192218.307371Z-root-history-uv33-retention.log",
+      "sha256": "b0f1fac83bcd5f81089620a8991aa6a31ff74e512daed101fa18d570790df45b",
+      "bytes": 241,
+      "reason": "Hash-verified complete command log"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T192829.179099Z-hero-source33-all-lods-02.json",
+      "sha256": "3701fcb03258a01e71394c2b287ddfe815ce44c72d287ced824240a36c2e7be4",
+      "bytes": 1578,
+      "reason": "Completed exact root command record"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T192829.179099Z-hero-source33-all-lods-02.log",
+      "sha256": "d53f909df496e13d6e72b4ea26beb8787ca289b4a8aa9ede1c45a4e2e6c6c79a",
+      "bytes": 131322,
+      "reason": "Hash-verified complete command log"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T193203.303563Z-runtime-history05-retention.json",
+      "sha256": "fe17d09e1bcd0b04184f626cdaa8e083d10b6e87cc06e756485d95da849d7da7",
+      "bytes": 1188,
+      "reason": "Completed exact root command record"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T193203.303563Z-runtime-history05-retention.log",
+      "sha256": "b2726d4aadd5f765e0e061e42e31b7a6a90f124f533e258509bdaa626db5a4f8",
+      "bytes": 241,
+      "reason": "Hash-verified complete command log"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T193446.531534Z-package-source33-motion-history.json",
+      "sha256": "b35fa5c33452a020b46e6382c04883b546cfa4c038b1b4c3c7ff1bfccfacf63e",
+      "bytes": 1322,
+      "reason": "Completed exact root command record"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T193446.531534Z-package-source33-motion-history.log",
+      "sha256": "34698278a064990ac0c774e5a6739406ba17639992ad3c2d3593fdcd185a8f0a",
+      "bytes": 33,
+      "reason": "Hash-verified complete command log"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T195335.329285Z-source34-wiper-overview-01.json",
+      "sha256": "1485c78622624a40162d4d1d59c694dab6c5f0a8d680aaad2af4570964602085",
+      "bytes": 1286,
+      "reason": "Completed exact root command record"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T195335.329285Z-source34-wiper-overview-01.log",
+      "sha256": "3602acee60f5c886124466c7eab91c11f9acddbf867b61403dc81a2b44062d26",
+      "bytes": 1237,
+      "reason": "Hash-verified complete command log"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T195504.805161Z-source34-front-belt-camera-01.json",
+      "sha256": "ec551868ddae5769fdbb679af67f28ad57c69f34a9dfa745fcd952be81a02d1d",
+      "bytes": 1115,
+      "reason": "Completed exact root command record"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T195504.805161Z-source34-front-belt-camera-01.log",
+      "sha256": "43b33ca2f5c990878b3a1bcf1c34f5a3836b41469fdb471784d7f50341a7e504",
+      "bytes": 1175,
+      "reason": "Hash-verified complete command log"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T200639.312845Z-retained-history-index-v4.json",
+      "sha256": "daa0241122deefc1007b743f2a7a221207f7f7feaaca6ff5c9336da9bfc8dcbc",
+      "bytes": 1374,
+      "reason": "Completed exact root command record"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T200639.312845Z-retained-history-index-v4.log",
+      "sha256": "42e42cb769d55e40d0fbd2ce177b36eda01d888b9ad5366d84e3a6f9a3ec95da",
+      "bytes": 240,
+      "reason": "Hash-verified complete command log"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T201622.102021Z-promote-source34.json",
+      "sha256": "264a71428d9b16dfdf85490ecfb185d6a741d7f2679cd236dbfe4e8fb2f7dc81",
+      "bytes": 1439,
+      "reason": "Completed exact root command record"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T201622.102021Z-promote-source34.log",
+      "sha256": "63bcd47cac65a0db6c66c9cf030ae64e2d1162caff4a00556b8783e22f7e5fe2",
+      "bytes": 2077,
+      "reason": "Hash-verified complete command log"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T201622.838182Z-source34-candidate-gate-01.json",
+      "sha256": "05188348325e2059543590bbfd3d7e8dfd3901321331e0ef95e7c8309890a22f",
+      "bytes": 1477,
+      "reason": "Completed exact root command record"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T201622.838182Z-source34-candidate-gate-01.log",
+      "sha256": "f69f27c477d9c13150c19fccd6b35431cc1024aa5b9b3029e84b9b32f819c75f",
+      "bytes": 142,
+      "reason": "Hash-verified complete command log"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T202101.902406Z-promote-source34-candidate01.json",
+      "sha256": "38b2527ecc99ff1760d1c7a718c75e43fb5dcad459b74f920e874b52b787bb60",
+      "bytes": 1219,
+      "reason": "Completed exact root command record"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T202101.902406Z-promote-source34-candidate01.log",
+      "sha256": "348ab668f680de4b58f77818a2117c40211dddf05ffdc0833d8dde55096b4dda",
+      "bytes": 203,
+      "reason": "Hash-verified complete command log"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T202135.728969Z-source34-delivered-gate-01.json",
+      "sha256": "1accb68215bda38a13e98fa6dff0c1090363b69a1bbb73ac48c9c75c018d955a",
+      "bytes": 1478,
+      "reason": "Completed exact root command record"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T202135.728969Z-source34-delivered-gate-01.log",
+      "sha256": "5896377b3014da9d15f4922dce9d81c78bdeb3d96d5d50374d0fa3f92a4ff06b",
+      "bytes": 130,
+      "reason": "Hash-verified complete command log"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T202135.729823Z-final34-full-m0-01.json",
+      "sha256": "6a0a0dda40003c9a9f7c517a63bb379e9f163a5a2faabe2821c2705554597542",
+      "bytes": 1761,
+      "reason": "Completed exact root command record"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T202135.729823Z-final34-full-m0-01.log",
+      "sha256": "a827e3cea6f79f26f94aad067ae9fd24584f86540c03552579184a406b70c328",
+      "bytes": 13025,
+      "reason": "Hash-verified complete command log"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T202653.311640Z-research-supplement-v5-retention.json",
+      "sha256": "033615ddee44fc0d7a1029b508c9b00a2024b90db1949654126217cb13b52134",
+      "bytes": 1347,
+      "reason": "Completed exact root command record"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T202653.311640Z-research-supplement-v5-retention.log",
+      "sha256": "3d9f8c8de4d1438518dcfc6df5038d062c408a5dfe34035c13c38711fbe94112",
+      "bytes": 246,
+      "reason": "Hash-verified complete command log"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T203436.068893Z-readable-spec17-promotion-01.json",
+      "sha256": "2def1d7bd88d009f07a8c2edb70127a83d7e365458be24119dd739f84c96e9b0",
+      "bytes": 985,
+      "reason": "Completed exact root command record"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T203436.068893Z-readable-spec17-promotion-01.log",
+      "sha256": "f452ce84c743831c1762372dcc6adb14e9ccdbb4ae9865f46bb0be6887ca91ff",
+      "bytes": 1090,
+      "reason": "Hash-verified complete command log"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T203654.900610Z-package-source34-stills-01.json",
+      "sha256": "08c36cfc7f963b5c2092bd6276b5bdd637c9dfcd94593ae84c93b303b4fa0735",
+      "bytes": 1103,
+      "reason": "Completed exact root command record"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T203654.900610Z-package-source34-stills-01.log",
+      "sha256": "6902680932e139eb8e0864304e8d94c17da6a5f9b1cc9545dd0ee5a3516820cf",
+      "bytes": 198,
+      "reason": "Hash-verified complete command log"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T203732.324440Z-package-source34-stills-02.json",
+      "sha256": "655120987d472ea531315a111d5a748334f908cfe4fe5ef8b85f95a3068275ed",
+      "bytes": 1103,
+      "reason": "Completed exact root command record"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T203732.324440Z-package-source34-stills-02.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Hash-verified complete command log"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T203948.838336Z-evidence-source34-checkpoint-01.json",
+      "sha256": "95ed76baa4d5023e1e99d908091cf170097df25606fd1f5c84b1eab549a2ee1f",
+      "bytes": 809,
+      "reason": "Completed exact root command record"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T203948.838336Z-evidence-source34-checkpoint-01.log",
+      "sha256": "9efc61d9c4d0162830e9e81c3cc50f72164963f46bc62e42ac1146da3d91102b",
+      "bytes": 244,
+      "reason": "Hash-verified complete command log"
+    },
+    {
+      "path": "reports/p1-018/evidence-before-source34-01.json",
+      "sha256": "a35552aaf2d2ba319ebcd94252b4cec20464e26ad1a9951ed62246949d5eb18f",
+      "bytes": 12486,
+      "reason": "Root preparation/correction tool or immutable inventory"
+    },
+    {
+      "path": "reports/p1-018/implement_restraints17.py",
+      "sha256": "ab39bef1358bb9333d27deef6bee766594e5414c4327d39e00c0456cfc3128e8",
+      "bytes": 3784,
+      "reason": "Root preparation/correction tool or immutable inventory"
+    },
+    {
+      "path": "reports/p1-018/index_retained_history04.py",
+      "sha256": "cc3db3b980b5c20ec344141b9eea0ae9663ee26c06871c8691b23e7c686755ab",
+      "bytes": 2559,
+      "reason": "Root preparation/correction tool or immutable inventory"
+    },
+    {
+      "path": "reports/p1-018/lock_restraints_revision16.py",
+      "sha256": "1b059a605ed0fca4bfd91f9bee8e6a7543c04f906495b79eae436f87bb15cba1",
+      "bytes": 4404,
+      "reason": "Root preparation/correction tool or immutable inventory"
+    },
+    {
+      "path": "reports/p1-018/lock_restraints_revision17.py",
+      "sha256": "2797af9837699d4d1a884b337bd9f6697f2c7cc63acf9b0b21d4df34d3255997",
+      "bytes": 2834,
+      "reason": "Root preparation/correction tool or immutable inventory"
+    },
+    {
+      "path": "reports/p1-018/package_motion_history33.sh",
+      "sha256": "fb9d74ffa93fa2e2a28be67aedf3ed8aa124d160d73edc065667e023aa42a279",
+      "bytes": 1119,
+      "reason": "Root preparation/correction tool or immutable inventory"
+    },
+    {
+      "path": "reports/p1-018/package_stills34-before-pinned-uv.py",
+      "sha256": "a85153824785fc4c232ca6881ded66174403f5e959bea9b58efc673bb6ec4ed7",
+      "bytes": 1462,
+      "reason": "Root preparation/correction tool or immutable inventory"
+    },
+    {
+      "path": "reports/p1-018/package_stills34.py",
+      "sha256": "024ef832f9b99aa8ae406a95e886eae6c20a6e724bdb21f3c406557ea5f331af",
+      "bytes": 1521,
+      "reason": "Root preparation/correction tool or immutable inventory"
+    },
+    {
+      "path": "reports/p1-018/prepare_root_source34_gates01.py",
+      "sha256": "8b42303a93da7d86d9c2ef3db50bde6977c4c85eba78238741cd77f0bfa38d88",
+      "bytes": 4277,
+      "reason": "Root preparation/correction tool or immutable inventory"
+    },
+    {
+      "path": "reports/p1-018/production-34/endurance-sedan.glb",
+      "sha256": "f9a30e7b19ea799c526ce2b1788e646af3a8e4f2aa3b7e910340004b99bc8417",
+      "bytes": 11248552,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/production-34/endurance-sedan.pre-uv-bake.glb",
+      "sha256": "f9a30e7b19ea799c526ce2b1788e646af3a8e4f2aa3b7e910340004b99bc8417",
+      "bytes": 11248552,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/production-34/unbatched-qa.glb",
+      "sha256": "95ca556ea2c3a9026e6f296053f5e30b9c40c8452b79437b355a1e658a374a56",
+      "bytes": 11114736,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/promote_readable_spec17.py",
+      "sha256": "fe6c2ba717611f54f81694fbfdf22d0951ae106cf5535335fafa35bb4a04f72d",
+      "bytes": 4611,
+      "reason": "Root preparation/correction tool or immutable inventory"
+    },
+    {
+      "path": "reports/p1-018/promote_source34.py",
+      "sha256": "4cd72becd2c3aeeb6bfdf2d4171640887625a66df63cedf9da6d84563068c2c6",
+      "bytes": 5040,
+      "reason": "Root preparation/correction tool or immutable inventory"
+    },
+    {
+      "path": "reports/p1-018/readable-spec17-promotion-01/dimension-sheet.md",
+      "sha256": "8826da7b7acb6478bec586c762648e40cf02ac41b823e5e7dc8ee79368fedaf7",
+      "bytes": 42704,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/readable-spec17-promotion-01/dimension-sheet.md.before",
+      "sha256": "686bac91ab927808d0728ed77cbf2683af568638164e3d08b770b2b3eea4a509",
+      "bytes": 40482,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/readable-spec17-promotion-01/dimension-sheet.md.diff",
+      "sha256": "fa460a20e9058af75b5d0e25e80264007ee0635abe53197e6a000e8d09acf0cb",
+      "bytes": 3846,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/readable-spec17-promotion-01/original-design-rationale.md",
+      "sha256": "c68930f218489549c4c37d256409c5e6ca71f88d3e1043c9c59f2e3325743e62",
+      "bytes": 37004,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/readable-spec17-promotion-01/original-design-rationale.md.before",
+      "sha256": "d90e6221fc063fdcce0619fca33828b60cf44e0a2a091bb43700b7fe0e71651a",
+      "bytes": 35739,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/readable-spec17-promotion-01/original-design-rationale.md.diff",
+      "sha256": "9e102ddac7a601cdad9ca0ea8de414f373387b9b7bcc562a2bfdc5fc2d7a8978",
+      "bytes": 2647,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/readable-spec17-promotion-01/prepared.json",
+      "sha256": "44a868772cb74a54ec95177300bb704b55ff2549224a0e0d276c7a2a9b2ae498",
+      "bytes": 17619,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/readable-spec17-promotion-01/promotion.json",
+      "sha256": "8ece7898862867d5fb228620d7c316299a131e8c28d3fe2e1554cdaf6d45147a",
+      "bytes": 1187,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/root-history-uv33.manifest.json",
+      "sha256": "dd2f45c81dcc885aeb328f58a6ac0852056d68b2b4d5fc317aae89fab231b014",
+      "bytes": 225895,
+      "reason": "Root preparation/correction tool or immutable inventory"
+    },
+    {
+      "path": "reports/p1-018/run_candidate34_gate01.sh",
+      "sha256": "8d7f74c63fd0588e25cc38e00f9d3617191beacc76f3a66a848b1e040e562014",
+      "bytes": 552,
+      "reason": "Root preparation/correction tool or immutable inventory"
+    },
+    {
+      "path": "reports/p1-018/run_delivered34_gate01.sh",
+      "sha256": "c810f652485354dbabbb56b9598cbd620da53d14c4a48b4054ac29d821c04f31",
+      "bytes": 540,
+      "reason": "Root preparation/correction tool or immutable inventory"
+    },
+    {
+      "path": "reports/p1-018/run_final34_m0_01.py",
+      "sha256": "8088496662139ea6e76e2b1cdf30d22cdf79896e694b6601aec6cccff8ec9721",
+      "bytes": 869,
+      "reason": "Root preparation/correction tool or immutable inventory"
+    },
+    {
+      "path": "reports/p1-018/run_hero33_gate02.sh",
+      "sha256": "01d976a765691b8c1fce98abb364d7aae2c5be8dc92de024f035d5a7270bbe4c",
+      "bytes": 1491,
+      "reason": "Root preparation/correction tool or immutable inventory"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/blender-corrected-driver.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/blender-corrected-driver.stdout.log",
+      "sha256": "72af6babd2435a857c3289adad9484bdb8a57e236e4eed5f4143dd2dc1cfacf6",
+      "bytes": 133,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/blender-invalid-driver-division-by-zero-exit-zero.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/blender-invalid-driver-division-by-zero-exit-zero.stdout.log",
+      "sha256": "08e9e11eb35bf2633712426555d7c2c449fc3868c4f7d5ed1a436f72ac579d45",
+      "bytes": 204,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/blender-invalid-driver-unknown-name-exit-zero.stderr.log",
+      "sha256": "b03ff7ec6fd70dcbc0767fc4124b5e9d43bf4caed0b4931808c476480b121c89",
+      "bytes": 297,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/blender-invalid-driver-unknown-name-exit-zero.stdout.log",
+      "sha256": "4cc0e4505e5c49bd978c3a4194ab2f01dbf4103215aa92b365acf75246363fe9",
+      "bytes": 134,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/blender-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/blender-version.stdout.log",
+      "sha256": "a6c389381135b07e03380275f7b990251bb94e856a17700eff340bec06af3537",
+      "bytes": 8208,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/candidate-manifest.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/candidate-manifest.stdout.log",
+      "sha256": "afedd86b19fbf56b20e991c371ec33a0441c02a03c54728fdffa2db1230d0a8e",
+      "bytes": 135,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/corrected-driver.py",
+      "sha256": "8561fbb31fbf7282c31522e6e1b5c665db8fdb5363e9d564c14d26459deee2b4",
+      "bytes": 453,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/dotnet-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/dotnet-version.stdout.log",
+      "sha256": "3ccfabb187270882a308eb46f7bfdfdf2fbf7c14b9e4a704856cf8b1efb227aa",
+      "bytes": 10,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/evidence.json",
+      "sha256": "be1de311da80594451b6e59ac79bedb3aa2b80a551de1773e87e85ee680a8d10",
+      "bytes": 2040008,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/first-blender-export.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/first-blender-export.stdout.log",
+      "sha256": "ba403728f9638e9e59d5bb2be50c0d2f125064720c912c5924ad829fb479a6f8",
+      "bytes": 46416,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/first-build.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/first-build.stdout.log",
+      "sha256": "7ca0d234c88b7a40009017535c177e614decf89d128dac0b477ea62b53de94e8",
+      "bytes": 709,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/first-clean-import.stderr.log",
+      "sha256": "09b774ba42d9e3d28f67f8842661984e7fce11ff56006a6078091be582882a2a",
+      "bytes": 266,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/first-clean-import.stdout.log",
+      "sha256": "1e9f6bb5c8d051b4d21ca7b6f789b506699e0e927d9b43c92653ec55e8069fe2",
+      "bytes": 38112,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/first-locked-texture-import.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/first-locked-texture-import.stdout.log",
+      "sha256": "b86f7bbcc7a6bc152f3c87cee8f6e8c874d07d9fb81ba1e27441b2786e145cbc",
+      "bytes": 3296,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/first-normalize.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/first-normalize.stdout.log",
+      "sha256": "a92b651297c4a642c1cfb29438c4f22792e088072e2e1bd435cbf0e708503ebd",
+      "bytes": 329,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/first-normalized-only-rescan.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/first-normalized-only-rescan.stdout.log",
+      "sha256": "ab529b6d32c4d0e96c097b23c641f90aa70660c5d2baaec1691b3d16bd7c7087",
+      "bytes": 1320,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/first-normalized-only-wrapper.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/first-normalized-only-wrapper.stdout.log",
+      "sha256": "ef9b8b62239b4022e6a425d996836cf8ac5d99a2df1e054d401f24479e4ff6ee",
+      "bytes": 171,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/first-release-pack-asset-policy.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/first-release-pack-asset-policy.stdout.log",
+      "sha256": "6339db77a016a9b553e6a92c944e6b9534c622f2449b1f5f3cf13122fcaba0e5",
+      "bytes": 105,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/first-release-pack-build-policy.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/first-release-pack-build-policy.stdout.log",
+      "sha256": "3d9597b94f1e1f520574c1e38c10f85b388ecb4e769b4231c7a3f05bf29435d5",
+      "bytes": 49,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/first-release-pack.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/first-release-pack.stdout.log",
+      "sha256": "811ac1f778600629d1b43d5239b094ba096edc0f35ef234e20ed8dede6ec6d94",
+      "bytes": 6341,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/first-wrapper.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/first-wrapper.stdout.log",
+      "sha256": "ef9b8b62239b4022e6a425d996836cf8ac5d99a2df1e054d401f24479e4ff6ee",
+      "bytes": 171,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/first/blender.json",
+      "sha256": "e367d2a2ffb737623f9313d7e7ddabb5c74bb9f015cf5e100b5bf0a4b2eff332",
+      "bytes": 1461625,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/first/endurance-sedan.glb",
+      "sha256": "f9a30e7b19ea799c526ce2b1788e646af3a8e4f2aa3b7e910340004b99bc8417",
+      "bytes": 11248552,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/first/endurance-sedan.pck",
+      "sha256": "81960c8e82ff42093207dbf0c1277ceeb7ae73e9492753dbf0471500535734ce",
+      "bytes": 21055000,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/first/endurance-sedan.pre-uv-bake.glb",
+      "sha256": "a59921238558047672bfefa39367e6e886495caf2e2e2f87fa35942806478dc8",
+      "bytes": 11248552,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/first/godot.json",
+      "sha256": "be732c17fe7200f8f95ac43142760adb7f9d633dca55d17fef3bf36995c41c04",
+      "bytes": 57606,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/first/normalized-only.godot.json",
+      "sha256": "be732c17fe7200f8f95ac43142760adb7f9d633dca55d17fef3bf36995c41c04",
+      "bytes": 57606,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/godot-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/godot-version.stdout.log",
+      "sha256": "d1046084c2493a272b0b439dc2f6dc74b801cd74659c5010a67c1b2f3acc5866",
+      "bytes": 38,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/invalid-driver-division-by-zero.py",
+      "sha256": "1674d1b7ac06bb686364148235dccc8cbb6dfb82a52a89f7ec9f385c0c3a1c99",
+      "bytes": 453,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/invalid-driver-unknown-name.py",
+      "sha256": "f7134f995dc26532cb3ec0a007c86c196401b86c74b2cf24709725592d16d13c",
+      "bytes": 486,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/lfs-glb.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/lfs-glb.stdout.log",
+      "sha256": "70cecab580688ef629728c6585ea7ee3a8c66a2266d8b0ba52f1e905b70afa89",
+      "bytes": 62,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/lfs-source.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/lfs-source.stdout.log",
+      "sha256": "ceeb268c0f9a0bf3eb6d27524b9e2d883882c3934f7faf38d41e81b2971c53bd",
+      "bytes": 64,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/manifest-validation.json",
+      "sha256": "d87b98a212f9adff43bbf2a1cd582bbb6d84500fd67f9276da29deec6f9a1e5b",
+      "bytes": 27369,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/manifest-validation.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/manifest-validation.stdout.log",
+      "sha256": "2498cb4bb1126acd3f2bb0961a9829bf441476409c3a687ddaf3388d61d10fde",
+      "bytes": 73,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/mutate-degenerate-triangle.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/mutate-degenerate-triangle.stdout.log",
+      "sha256": "a47cb9394a1a7fa020e3eb4eff6d8539152b85267a965a4df538846f702f5e72",
+      "bytes": 300,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/mutate-external-texture.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/mutate-external-texture.stdout.log",
+      "sha256": "066a5000d997fe8bdc3d637527757825c2b1fdc016ef17100ec676a7408493bd",
+      "bytes": 297,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/mutate-hardpoint-drift.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/mutate-hardpoint-drift.stdout.log",
+      "sha256": "7c0c41c6422f3dcb0fbb3d2dba0f45af1c6784af625c9f4d335a43b1b8e9e03a",
+      "bytes": 296,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/mutate-missing-semantic-node.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/mutate-missing-semantic-node.stdout.log",
+      "sha256": "0e87f6108e05dfc0ecd984de2098842bcb27b96fd7308dd831ddf86bdb29536a",
+      "bytes": 302,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/mutate-unapplied-scale.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/mutate-unapplied-scale.stdout.log",
+      "sha256": "add29e20959040ebe3fb2c6680a028501f9f6aa2c17c177ac4daa3a43cd6c84b",
+      "bytes": 296,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/mutate-unparked-control.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/mutate-unparked-control.stdout.log",
+      "sha256": "a3cbcff089aa6ad0e33b87bda97ef89c67bc573bd6e8f2bfda0fe0049bf4cb74",
+      "bytes": 297,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/negative-degenerate-triangle/blender.json",
+      "sha256": "fd7a64a832142d196b8ec4663b1349b66795ea2cd7b840e6d1c8d336fcbb279a",
+      "bytes": 499979,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/negative-degenerate-triangle/source.blend",
+      "sha256": "734f8ef4acdb85b33f49a78782b9e0253fa2802da8790df3c90575a251e7aeb8",
+      "bytes": 5008746,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/negative-external-texture/source.blend",
+      "sha256": "6bced372d69ebeae86426445b0b23794c07e1f9d13345447309a840021f6d2b0",
+      "bytes": 5012693,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/negative-external-texture/source.png",
+      "sha256": "3274e3ea3c8a3fdbfa218f6eb64cd37dd4631013f679fb20b3cc65414877bed6",
+      "bytes": 249,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/negative-hardpoint-drift/blender.json",
+      "sha256": "874a75dfecc0807a92619a27d0ec022a20f483238987ce63ded5ff277eea9971",
+      "bytes": 499334,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/negative-hardpoint-drift/source.blend",
+      "sha256": "97774c923597b8779decf699c1ae5dc7c68e32cd6b10c3c532e18f23f5266267",
+      "bytes": 5008190,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/negative-missing-semantic-node/source.blend",
+      "sha256": "90122c264a70e19edc83360d203b2e3942bd7a7bbe06bb866ac2018f11161b22",
+      "bytes": 5008319,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/negative-unapplied-scale/blender.json",
+      "sha256": "456274b9088d99bac72ce466cd56e4cb91492ff968016cb3b66ef42f5b749c31",
+      "bytes": 499300,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/negative-unapplied-scale/source.blend",
+      "sha256": "e4a30196a233ec912a036c3e623c28de229c76e74c1caa27b5c08da1e264f6ce",
+      "bytes": 5007975,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/negative-unparked-control/source.blend",
+      "sha256": "42316cb22f2a98986e51976de5b741f665874d6c5595669994ecce45a90359e2",
+      "bytes": 5007958,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/reject-degenerate-triangle.stderr.log",
+      "sha256": "9fea0bb416e82b091cff17d416fbe0897c88a81dea03078171f03b20f02397b9",
+      "bytes": 928,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/reject-degenerate-triangle.stdout.log",
+      "sha256": "134c0a2bd838a70730e303d44e2e9bdc876dcb29816a47e367b9109b1abd5c8a",
+      "bytes": 388,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/reject-duplicate-semantic.stderr.log",
+      "sha256": "58a149e6f8e3b382183a3ab41ffea255811bac7bb0e60538ed90208fea9598b7",
+      "bytes": 286,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/reject-duplicate-semantic.stdout.log",
+      "sha256": "2ff117a2c228fcacd1ed53cb2bc6c0064a8ed8a5731f469e9bb2caae064e5009",
+      "bytes": 80,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/reject-external-texture.stderr.log",
+      "sha256": "8c90eff7868e778bc8b9b87d4a2df0077da66bfa259d1ced5b60287bf8059faf",
+      "bytes": 687,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/reject-external-texture.stdout.log",
+      "sha256": "6b7506d2316f675e15335a473ee8e2866c1ff6abf3598032fb8eff6a5ed3f2e4",
+      "bytes": 382,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/reject-hardpoint-drift.stderr.log",
+      "sha256": "0eacdcd168d3c8cc41060f47fe9ed51e8f361d55994ed886b8ca6de7ef1d8a6e",
+      "bytes": 678,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/reject-hardpoint-drift.stdout.log",
+      "sha256": "754536debcfd3a884f74829f7435a9fa2047c0fe586b4011c2f2fb89d0b84253",
+      "bytes": 380,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/reject-missing-semantic-node.stderr.log",
+      "sha256": "9380794a1fd5cef490b4959a8ebdda565922270446787d45532d7a6d51acccad",
+      "bytes": 698,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/reject-missing-semantic-node.stdout.log",
+      "sha256": "eecb9879d4eeb65583eae955155171ef51322cb2140749426f98f1a67d86feee",
+      "bytes": 392,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/reject-stale-adapter-inventory.stderr.log",
+      "sha256": "ebe71cdb6050e542be6b8410522437463b1dddbdba2075d5d0a8128f0f0e327e",
+      "bytes": 774,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/reject-stale-adapter-inventory.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/reject-stale-export-profile-inventory.stderr.log",
+      "sha256": "62b4e2123ec52dc97e6a1e9f92ab90652c2c40c71b1f56cccb1839a3bb2ae6bb",
+      "bytes": 753,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/reject-stale-export-profile-inventory.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/reject-stale-export-validator-inventory.stderr.log",
+      "sha256": "62b4e2123ec52dc97e6a1e9f92ab90652c2c40c71b1f56cccb1839a3bb2ae6bb",
+      "bytes": 753,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/reject-stale-export-validator-inventory.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/reject-stale-import-profile-inventory.stderr.log",
+      "sha256": "62b4e2123ec52dc97e6a1e9f92ab90652c2c40c71b1f56cccb1839a3bb2ae6bb",
+      "bytes": 753,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/reject-stale-import-profile-inventory.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/reject-stale-import-settings-inventory.stderr.log",
+      "sha256": "62b4e2123ec52dc97e6a1e9f92ab90652c2c40c71b1f56cccb1839a3bb2ae6bb",
+      "bytes": 753,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/reject-stale-import-settings-inventory.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/reject-stale-specification-inventory.stderr.log",
+      "sha256": "62b4e2123ec52dc97e6a1e9f92ab90652c2c40c71b1f56cccb1839a3bb2ae6bb",
+      "bytes": 753,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/reject-stale-specification-inventory.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/reject-stale-uv-bake-inventory.stderr.log",
+      "sha256": "62b4e2123ec52dc97e6a1e9f92ab90652c2c40c71b1f56cccb1839a3bb2ae6bb",
+      "bytes": 753,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/reject-stale-uv-bake-inventory.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/reject-stale-validator-inventory.stderr.log",
+      "sha256": "62b4e2123ec52dc97e6a1e9f92ab90652c2c40c71b1f56cccb1839a3bb2ae6bb",
+      "bytes": 753,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/reject-stale-validator-inventory.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/reject-stale-wrapper-inventory.stderr.log",
+      "sha256": "62b4e2123ec52dc97e6a1e9f92ab90652c2c40c71b1f56cccb1839a3bb2ae6bb",
+      "bytes": 753,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/reject-stale-wrapper-inventory.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/reject-transitive-build-dependency.stderr.log",
+      "sha256": "2f01da9e90a8ee362bfb863594d50eab4980241e3a3e7b9d601e9a7909bd4853",
+      "bytes": 489,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/reject-transitive-build-dependency.stdout.log",
+      "sha256": "2ff117a2c228fcacd1ed53cb2bc6c0064a8ed8a5731f469e9bb2caae064e5009",
+      "bytes": 80,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/reject-unapplied-scale.stderr.log",
+      "sha256": "7d99434d436c9e6ba4d219e4939a51e9dcbf23afcc33c17cb42db8cff52f53b1",
+      "bytes": 660,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/reject-unapplied-scale.stdout.log",
+      "sha256": "7a71ffa3feec44db89a72d1802b95d687ecfca79fb98b1833dd8ead3cb717d6a",
+      "bytes": 380,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/reject-unparked-control.stderr.log",
+      "sha256": "b611e0bbca22f311a6e22cd5b996057b7c0a8bdf5ede3257b751eaeaa8fcd735",
+      "bytes": 592,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/reject-unparked-control.stdout.log",
+      "sha256": "29735a8e645488ce6381011abc700ae0336f3c17576a21e5d39ba9756f4f5217",
+      "bytes": 382,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/second-blender-export.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/second-blender-export.stdout.log",
+      "sha256": "5cfd6bd09177d2002d50856e05b684afbba861f1e7e0c2e8ae593157753bfb4a",
+      "bytes": 46416,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/second-build.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/second-build.stdout.log",
+      "sha256": "f203281dacaaada7261c3be2a58c56580c5e397e018df4bb32348f0a60a3d099",
+      "bytes": 713,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/second-clean-import.stderr.log",
+      "sha256": "09b774ba42d9e3d28f67f8842661984e7fce11ff56006a6078091be582882a2a",
+      "bytes": 266,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/second-clean-import.stdout.log",
+      "sha256": "1e9f6bb5c8d051b4d21ca7b6f789b506699e0e927d9b43c92653ec55e8069fe2",
+      "bytes": 38112,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/second-locked-texture-import.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/second-locked-texture-import.stdout.log",
+      "sha256": "b86f7bbcc7a6bc152f3c87cee8f6e8c874d07d9fb81ba1e27441b2786e145cbc",
+      "bytes": 3296,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/second-normalize.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/second-normalize.stdout.log",
+      "sha256": "a92b651297c4a642c1cfb29438c4f22792e088072e2e1bd435cbf0e708503ebd",
+      "bytes": 329,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/second-normalized-only-rescan.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/second-normalized-only-rescan.stdout.log",
+      "sha256": "16d15b5a73d4997c8466f00f149a826cbe3ea9c8065b8a8523b0a1db7dc895d2",
+      "bytes": 1038,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/second-normalized-only-wrapper.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/second-normalized-only-wrapper.stdout.log",
+      "sha256": "ef9b8b62239b4022e6a425d996836cf8ac5d99a2df1e054d401f24479e4ff6ee",
+      "bytes": 171,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/second-release-pack-asset-policy.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/second-release-pack-asset-policy.stdout.log",
+      "sha256": "6339db77a016a9b553e6a92c944e6b9534c622f2449b1f5f3cf13122fcaba0e5",
+      "bytes": 105,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/second-release-pack-build-policy.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/second-release-pack-build-policy.stdout.log",
+      "sha256": "3d9597b94f1e1f520574c1e38c10f85b388ecb4e769b4231c7a3f05bf29435d5",
+      "bytes": 49,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/second-release-pack.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/second-release-pack.stdout.log",
+      "sha256": "811ac1f778600629d1b43d5239b094ba096edc0f35ef234e20ed8dede6ec6d94",
+      "bytes": 6341,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/second-wrapper.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/second-wrapper.stdout.log",
+      "sha256": "ef9b8b62239b4022e6a425d996836cf8ac5d99a2df1e054d401f24479e4ff6ee",
+      "bytes": 171,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/second/blender.json",
+      "sha256": "fdd995b26329d95772d4aec16062e200ceebbb7c70f6afab20e4757963b548d7",
+      "bytes": 1461628,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/second/endurance-sedan.glb",
+      "sha256": "f9a30e7b19ea799c526ce2b1788e646af3a8e4f2aa3b7e910340004b99bc8417",
+      "bytes": 11248552,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/second/endurance-sedan.pck",
+      "sha256": "81960c8e82ff42093207dbf0c1277ceeb7ae73e9492753dbf0471500535734ce",
+      "bytes": 21055000,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/second/endurance-sedan.pre-uv-bake.glb",
+      "sha256": "b060e6d4d071ccd098be66ed55c4c3f10adcf8576136b801b518e691cb78b9e1",
+      "bytes": 11248552,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/second/godot.json",
+      "sha256": "be732c17fe7200f8f95ac43142760adb7f9d633dca55d17fef3bf36995c41c04",
+      "bytes": 57606,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/second/normalized-only.godot.json",
+      "sha256": "be732c17fe7200f8f95ac43142760adb7f9d633dca55d17fef3bf36995c41c04",
+      "bytes": 57606,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/uv-bake-controls.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/uv-bake-controls.stdout.log",
+      "sha256": "33af142a66802319b8d8afd4b68830fb120e293974a6513ea82537d98a238900",
+      "bytes": 115,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/uv-bake-controls/actual-export-accepted/bake.json",
+      "sha256": "0380880cf79c35435ccdf456bf02a94bd9108b2a3cde3bd8dc46c7948fa390bf",
+      "bytes": 2730286,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/uv-bake-controls/actual-export-accepted/candidate.glb",
+      "sha256": "f9a30e7b19ea799c526ce2b1788e646af3a8e4f2aa3b7e910340004b99bc8417",
+      "bytes": 11248552,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/uv-bake-controls/changed-layout/bake.json",
+      "sha256": "e9c34c771875005b31fa54f3e2ffeef9cae33c2abcecda7224c4227ebfe5cd5a",
+      "bytes": 2730286,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/uv-bake-controls/changed-layout/candidate.glb",
+      "sha256": "a59921238558047672bfefa39367e6e886495caf2e2e2f87fa35942806478dc8",
+      "bytes": 11248552,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/uv-bake-controls/changed-tolerance/bake.json",
+      "sha256": "47fffffdbad9845afbfcbb9357df1c2e8f064dcb4dd59eed156b91f8cc3e7c01",
+      "bytes": 2730286,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/uv-bake-controls/changed-tolerance/candidate.glb",
+      "sha256": "a59921238558047672bfefa39367e6e886495caf2e2e2f87fa35942806478dc8",
+      "bytes": 11248552,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/uv-bake-controls/corrupt-payload/bake.json",
+      "sha256": "63f0442623f5dd7ba4482213a3436afabf40309b16d49b0d6fe78a330475bb62",
+      "bytes": 2730286,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/uv-bake-controls/corrupt-payload/candidate.glb",
+      "sha256": "a59921238558047672bfefa39367e6e886495caf2e2e2f87fa35942806478dc8",
+      "bytes": 11248552,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/uv-bake-controls/corrupt-reference-hash/bake.json",
+      "sha256": "d38225b34bee67889af50620d3523ef09ffb6ee6c8d6433b698d6a0841ca6624",
+      "bytes": 2730286,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/uv-bake-controls/corrupt-reference-hash/candidate.glb",
+      "sha256": "a59921238558047672bfefa39367e6e886495caf2e2e2f87fa35942806478dc8",
+      "bytes": 11248552,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/uv-bake-controls/evidence.json",
+      "sha256": "3b225f83e763b77075b4f3f13b778b5aef35fc765cd8b8bf076ae1ac31a2ab54",
+      "bytes": 5973,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/uv-bake-controls/excessive-uv-change/bake.json",
+      "sha256": "0380880cf79c35435ccdf456bf02a94bd9108b2a3cde3bd8dc46c7948fa390bf",
+      "bytes": 2730286,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/uv-bake-controls/excessive-uv-change/candidate.glb",
+      "sha256": "bc52e0b7a69e7f5ec48468afddc65b6a79343e0e2e388bedd7fea52e814aaa8f",
+      "bytes": 11248552,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/uv-bake-controls/nonfinite-reference/bake.json",
+      "sha256": "9dc3a2d1bda893a68f5a108dae408d27fee5e41cc6e39d3033b4f76605331356",
+      "bytes": 2730286,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/uv-bake-controls/nonfinite-reference/candidate.glb",
+      "sha256": "a59921238558047672bfefa39367e6e886495caf2e2e2f87fa35942806478dc8",
+      "bytes": 11248552,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/uv-bake-controls/nonfinite-uv/bake.json",
+      "sha256": "0380880cf79c35435ccdf456bf02a94bd9108b2a3cde3bd8dc46c7948fa390bf",
+      "bytes": 2730286,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/uv-bake-controls/nonfinite-uv/candidate.glb",
+      "sha256": "e49f4f3b79f0792ba257b1e951cbbbc1fedff15a2062d49f79950d6a21a0609e",
+      "bytes": 11248552,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/uv-bake-controls/overlapping-payload.glb",
+      "sha256": "f10b74b1b9f0f00243fc68e3d9f6fefc6fca959123491dc3504cdcc56d58b5b9",
+      "bytes": 11248568,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/uv-bake-controls/position-byte-change/bake.json",
+      "sha256": "0380880cf79c35435ccdf456bf02a94bd9108b2a3cde3bd8dc46c7948fa390bf",
+      "bytes": 2730286,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/uv-bake-controls/position-byte-change/candidate.glb",
+      "sha256": "3468f09fa3fb308eb4a66a0daa4847b2564a1a77306ab14dc3d17708f065808a",
+      "bytes": 11248552,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/uv-bake-controls/source-mismatch/bake.json",
+      "sha256": "0380880cf79c35435ccdf456bf02a94bd9108b2a3cde3bd8dc46c7948fa390bf",
+      "bytes": 2730286,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/uv-bake-controls/source-mismatch/candidate.glb",
+      "sha256": "a59921238558047672bfefa39367e6e886495caf2e2e2f87fa35942806478dc8",
+      "bytes": 11248552,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/uv-bake-controls/source-mismatch/changed-source.blend",
+      "sha256": "5470a7069e90bd75430b43fd61684e8aefb89f620072d3d3b5539c9a8bab6f1a",
+      "bytes": 5011969,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-candidate-gate-01/verifier-input.mjs",
+      "sha256": "8ffd8f74ebcc017bf39c922afe06b9ff86cc7bb8064f6520e7bde0f14ca11783",
+      "bytes": 41064,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/blender-corrected-driver.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/blender-corrected-driver.stdout.log",
+      "sha256": "72af6babd2435a857c3289adad9484bdb8a57e236e4eed5f4143dd2dc1cfacf6",
+      "bytes": 133,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/blender-invalid-driver-division-by-zero-exit-zero.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/blender-invalid-driver-division-by-zero-exit-zero.stdout.log",
+      "sha256": "733b21995c78f987e4719b806bc4f50df823168eea24d01ac54d5849f66edbf9",
+      "bytes": 204,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/blender-invalid-driver-unknown-name-exit-zero.stderr.log",
+      "sha256": "b03ff7ec6fd70dcbc0767fc4124b5e9d43bf4caed0b4931808c476480b121c89",
+      "bytes": 297,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/blender-invalid-driver-unknown-name-exit-zero.stdout.log",
+      "sha256": "4cc0e4505e5c49bd978c3a4194ab2f01dbf4103215aa92b365acf75246363fe9",
+      "bytes": 134,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/blender-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/blender-version.stdout.log",
+      "sha256": "a6c389381135b07e03380275f7b990251bb94e856a17700eff340bec06af3537",
+      "bytes": 8208,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/candidate-manifest.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/candidate-manifest.stdout.log",
+      "sha256": "afedd86b19fbf56b20e991c371ec33a0441c02a03c54728fdffa2db1230d0a8e",
+      "bytes": 135,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/corrected-driver.py",
+      "sha256": "8561fbb31fbf7282c31522e6e1b5c665db8fdb5363e9d564c14d26459deee2b4",
+      "bytes": 453,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/delivered-manifest.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/delivered-manifest.stdout.log",
+      "sha256": "15a211207b1ec25f4e62458bb99fa38466fda9015997d4ba634822c016e0f508",
+      "bytes": 179,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/delivered.asset.json",
+      "sha256": "13913690e914fe13ad38ea7d7d384748703bc981df01ab753ecadbab7d8540cc",
+      "bytes": 51570,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/dotnet-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/dotnet-version.stdout.log",
+      "sha256": "3ccfabb187270882a308eb46f7bfdfdf2fbf7c14b9e4a704856cf8b1efb227aa",
+      "bytes": 10,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/evidence.json",
+      "sha256": "e928fc878899aea3d8670b6479e6767a51166ecc2df08c2fd44df646da93e8c3",
+      "bytes": 2046376,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/first-blender-export.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/first-blender-export.stdout.log",
+      "sha256": "48d2ec43b158938e967f47079ae526e43c6d8a1fe7860c6029abb7606570c50a",
+      "bytes": 46416,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/first-build.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/first-build.stdout.log",
+      "sha256": "4d611e45860d0991c574b70bb87a0ef45a6842f2b9c35a1a3f716469baa537af",
+      "bytes": 709,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/first-clean-import.stderr.log",
+      "sha256": "09b774ba42d9e3d28f67f8842661984e7fce11ff56006a6078091be582882a2a",
+      "bytes": 266,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/first-clean-import.stdout.log",
+      "sha256": "1e9f6bb5c8d051b4d21ca7b6f789b506699e0e927d9b43c92653ec55e8069fe2",
+      "bytes": 38112,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/first-locked-texture-import.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/first-locked-texture-import.stdout.log",
+      "sha256": "b86f7bbcc7a6bc152f3c87cee8f6e8c874d07d9fb81ba1e27441b2786e145cbc",
+      "bytes": 3296,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/first-normalize.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/first-normalize.stdout.log",
+      "sha256": "a92b651297c4a642c1cfb29438c4f22792e088072e2e1bd435cbf0e708503ebd",
+      "bytes": 329,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/first-normalized-only-rescan.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/first-normalized-only-rescan.stdout.log",
+      "sha256": "ab529b6d32c4d0e96c097b23c641f90aa70660c5d2baaec1691b3d16bd7c7087",
+      "bytes": 1320,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/first-normalized-only-wrapper.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/first-normalized-only-wrapper.stdout.log",
+      "sha256": "ef9b8b62239b4022e6a425d996836cf8ac5d99a2df1e054d401f24479e4ff6ee",
+      "bytes": 171,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/first-release-pack-asset-policy.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/first-release-pack-asset-policy.stdout.log",
+      "sha256": "6339db77a016a9b553e6a92c944e6b9534c622f2449b1f5f3cf13122fcaba0e5",
+      "bytes": 105,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/first-release-pack-build-policy.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/first-release-pack-build-policy.stdout.log",
+      "sha256": "3d9597b94f1e1f520574c1e38c10f85b388ecb4e769b4231c7a3f05bf29435d5",
+      "bytes": 49,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/first-release-pack.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/first-release-pack.stdout.log",
+      "sha256": "811ac1f778600629d1b43d5239b094ba096edc0f35ef234e20ed8dede6ec6d94",
+      "bytes": 6341,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/first-wrapper.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/first-wrapper.stdout.log",
+      "sha256": "ef9b8b62239b4022e6a425d996836cf8ac5d99a2df1e054d401f24479e4ff6ee",
+      "bytes": 171,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/first/blender.json",
+      "sha256": "9927bfd708876f75176d76ea931286b4db7beb46c8e04872241282c65a250fc8",
+      "bytes": 1461625,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/first/endurance-sedan.glb",
+      "sha256": "f9a30e7b19ea799c526ce2b1788e646af3a8e4f2aa3b7e910340004b99bc8417",
+      "bytes": 11248552,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/first/endurance-sedan.pck",
+      "sha256": "81960c8e82ff42093207dbf0c1277ceeb7ae73e9492753dbf0471500535734ce",
+      "bytes": 21055000,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/first/endurance-sedan.pre-uv-bake.glb",
+      "sha256": "9ebb99d4f1ac6ba12f0621c8f3b6a5447b03710b92fb3479eadfbdad8680ee4f",
+      "bytes": 11248552,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/first/godot.json",
+      "sha256": "be732c17fe7200f8f95ac43142760adb7f9d633dca55d17fef3bf36995c41c04",
+      "bytes": 57606,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/first/normalized-only.godot.json",
+      "sha256": "be732c17fe7200f8f95ac43142760adb7f9d633dca55d17fef3bf36995c41c04",
+      "bytes": 57606,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/godot-version.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/godot-version.stdout.log",
+      "sha256": "d1046084c2493a272b0b439dc2f6dc74b801cd74659c5010a67c1b2f3acc5866",
+      "bytes": 38,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/invalid-driver-division-by-zero.py",
+      "sha256": "1674d1b7ac06bb686364148235dccc8cbb6dfb82a52a89f7ec9f385c0c3a1c99",
+      "bytes": 453,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/invalid-driver-unknown-name.py",
+      "sha256": "f7134f995dc26532cb3ec0a007c86c196401b86c74b2cf24709725592d16d13c",
+      "bytes": 486,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/lfs-glb.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/lfs-glb.stdout.log",
+      "sha256": "70cecab580688ef629728c6585ea7ee3a8c66a2266d8b0ba52f1e905b70afa89",
+      "bytes": 62,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/lfs-source.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/lfs-source.stdout.log",
+      "sha256": "ceeb268c0f9a0bf3eb6d27524b9e2d883882c3934f7faf38d41e81b2971c53bd",
+      "bytes": 64,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/manifest-validation.json",
+      "sha256": "b88dc1e658ba2cff7e14902bc523576da875ce97055854e8c08f62a040c635f2",
+      "bytes": 27369,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/manifest-validation.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/manifest-validation.stdout.log",
+      "sha256": "2498cb4bb1126acd3f2bb0961a9829bf441476409c3a687ddaf3388d61d10fde",
+      "bytes": 73,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/mutate-degenerate-triangle.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/mutate-degenerate-triangle.stdout.log",
+      "sha256": "12142c05f24db21564459d32ad07df362444fab74103778d84376e149a937b35",
+      "bytes": 300,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/mutate-external-texture.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/mutate-external-texture.stdout.log",
+      "sha256": "071add9d24eeee23950115b30222e28cc25008af7c766938d93c9ff3ac9167f1",
+      "bytes": 297,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/mutate-hardpoint-drift.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/mutate-hardpoint-drift.stdout.log",
+      "sha256": "96f7306c4657731860c89e5a7a466a8ba702668f5084aba6ef0297c41f87b29c",
+      "bytes": 296,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/mutate-missing-semantic-node.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/mutate-missing-semantic-node.stdout.log",
+      "sha256": "b0ebf84412897876542d965b1068f7e46c32ba006cbbf2168ae462b42cfb16f8",
+      "bytes": 302,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/mutate-unapplied-scale.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/mutate-unapplied-scale.stdout.log",
+      "sha256": "cc1828eb4f2406b99dccc4ab94ae76b2615733fac2aa09ce23aac9f97726323e",
+      "bytes": 296,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/mutate-unparked-control.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/mutate-unparked-control.stdout.log",
+      "sha256": "31d2ca256792cfb24c3b6afd3fd1dbc76641e88a6e8bcddd2adddbb8e78d59d2",
+      "bytes": 297,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/negative-degenerate-triangle/blender.json",
+      "sha256": "4c322fc8002d3f955f62f3cd757dd1d3de557594cb20579897bc30b9aa7f319b",
+      "bytes": 499979,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/negative-degenerate-triangle/source.blend",
+      "sha256": "f0929a7cefd69f82580140813047ea8ad4fb135fdc385b2c3ae9f6384c541c43",
+      "bytes": 5008692,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/negative-external-texture/source.blend",
+      "sha256": "fe2d3e365c721dec80dd4d4e992bd2b7383ce80bf88ff7e48f77f9ed23696c65",
+      "bytes": 5012692,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/negative-external-texture/source.png",
+      "sha256": "3274e3ea3c8a3fdbfa218f6eb64cd37dd4631013f679fb20b3cc65414877bed6",
+      "bytes": 249,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/negative-hardpoint-drift/blender.json",
+      "sha256": "38a68c1df0611957bf163403f8c129e27f537943cd454fd6815ae9c0cde729ba",
+      "bytes": 499334,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/negative-hardpoint-drift/source.blend",
+      "sha256": "134d7178ec8c222f40e630a64a444f22d2884b0241ab3f70f7d3738dfb238e80",
+      "bytes": 5008246,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/negative-missing-semantic-node/source.blend",
+      "sha256": "798489cba2050384761906f8668673e272a68ca577ea477cff3317626b98e6d4",
+      "bytes": 5008263,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/negative-unapplied-scale/blender.json",
+      "sha256": "f77f7e505f0e300bbe30eb2771596f7b95169ac5b81cb76c0a2e05019c80c0a5",
+      "bytes": 499300,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/negative-unapplied-scale/source.blend",
+      "sha256": "e4a30196a233ec912a036c3e623c28de229c76e74c1caa27b5c08da1e264f6ce",
+      "bytes": 5007975,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/negative-unparked-control/source.blend",
+      "sha256": "42316cb22f2a98986e51976de5b741f665874d6c5595669994ecce45a90359e2",
+      "bytes": 5007958,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/reject-degenerate-triangle.stderr.log",
+      "sha256": "9fea0bb416e82b091cff17d416fbe0897c88a81dea03078171f03b20f02397b9",
+      "bytes": 928,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/reject-degenerate-triangle.stdout.log",
+      "sha256": "6527763f83354c88322832821165f49d907af0a00b99db3b47ed1e9f02f6e2ac",
+      "bytes": 388,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/reject-duplicate-semantic.stderr.log",
+      "sha256": "58a149e6f8e3b382183a3ab41ffea255811bac7bb0e60538ed90208fea9598b7",
+      "bytes": 286,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/reject-duplicate-semantic.stdout.log",
+      "sha256": "2ff117a2c228fcacd1ed53cb2bc6c0064a8ed8a5731f469e9bb2caae064e5009",
+      "bytes": 80,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/reject-external-texture.stderr.log",
+      "sha256": "8c90eff7868e778bc8b9b87d4a2df0077da66bfa259d1ced5b60287bf8059faf",
+      "bytes": 687,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/reject-external-texture.stdout.log",
+      "sha256": "6a58bbc466b794cc6c1d8d1ac50a2bb8a9627a397083c874a184259b6d495c95",
+      "bytes": 382,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/reject-hardpoint-drift.stderr.log",
+      "sha256": "0eacdcd168d3c8cc41060f47fe9ed51e8f361d55994ed886b8ca6de7ef1d8a6e",
+      "bytes": 678,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/reject-hardpoint-drift.stdout.log",
+      "sha256": "1405305791d70270a27e111297d4e2471cc55b22610a6d7e95c54771beffacf2",
+      "bytes": 380,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/reject-missing-semantic-node.stderr.log",
+      "sha256": "9380794a1fd5cef490b4959a8ebdda565922270446787d45532d7a6d51acccad",
+      "bytes": 698,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/reject-missing-semantic-node.stdout.log",
+      "sha256": "4e97039f3a0d0781491b5c9f9f07f0cc0b6becb60955dea05a9767fb75c37578",
+      "bytes": 392,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/reject-stale-adapter-inventory.stderr.log",
+      "sha256": "e994419186f0e90f16ba379af2c74e178d0b3ad6cee9ba757f928de632d64c63",
+      "bytes": 774,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/reject-stale-adapter-inventory.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/reject-stale-export-profile-inventory.stderr.log",
+      "sha256": "882072a93037c498a12d699829e8e6516c5c911968250054f9f64b5c689c0299",
+      "bytes": 753,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/reject-stale-export-profile-inventory.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/reject-stale-export-validator-inventory.stderr.log",
+      "sha256": "882072a93037c498a12d699829e8e6516c5c911968250054f9f64b5c689c0299",
+      "bytes": 753,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/reject-stale-export-validator-inventory.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/reject-stale-import-profile-inventory.stderr.log",
+      "sha256": "882072a93037c498a12d699829e8e6516c5c911968250054f9f64b5c689c0299",
+      "bytes": 753,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/reject-stale-import-profile-inventory.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/reject-stale-import-settings-inventory.stderr.log",
+      "sha256": "882072a93037c498a12d699829e8e6516c5c911968250054f9f64b5c689c0299",
+      "bytes": 753,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/reject-stale-import-settings-inventory.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/reject-stale-specification-inventory.stderr.log",
+      "sha256": "882072a93037c498a12d699829e8e6516c5c911968250054f9f64b5c689c0299",
+      "bytes": 753,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/reject-stale-specification-inventory.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/reject-stale-uv-bake-inventory.stderr.log",
+      "sha256": "882072a93037c498a12d699829e8e6516c5c911968250054f9f64b5c689c0299",
+      "bytes": 753,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/reject-stale-uv-bake-inventory.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/reject-stale-validator-inventory.stderr.log",
+      "sha256": "882072a93037c498a12d699829e8e6516c5c911968250054f9f64b5c689c0299",
+      "bytes": 753,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/reject-stale-validator-inventory.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/reject-stale-wrapper-inventory.stderr.log",
+      "sha256": "882072a93037c498a12d699829e8e6516c5c911968250054f9f64b5c689c0299",
+      "bytes": 753,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/reject-stale-wrapper-inventory.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/reject-transitive-build-dependency.stderr.log",
+      "sha256": "2f01da9e90a8ee362bfb863594d50eab4980241e3a3e7b9d601e9a7909bd4853",
+      "bytes": 489,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/reject-transitive-build-dependency.stdout.log",
+      "sha256": "2ff117a2c228fcacd1ed53cb2bc6c0064a8ed8a5731f469e9bb2caae064e5009",
+      "bytes": 80,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/reject-unapplied-scale.stderr.log",
+      "sha256": "7d99434d436c9e6ba4d219e4939a51e9dcbf23afcc33c17cb42db8cff52f53b1",
+      "bytes": 660,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/reject-unapplied-scale.stdout.log",
+      "sha256": "ae38b16fa54e3452efe33d4842505d3b57e3de1604a577b89e348eae815d2eda",
+      "bytes": 380,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/reject-unparked-control.stderr.log",
+      "sha256": "b611e0bbca22f311a6e22cd5b996057b7c0a8bdf5ede3257b751eaeaa8fcd735",
+      "bytes": 592,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/reject-unparked-control.stdout.log",
+      "sha256": "d08f01eb0dae2adaae7d39c56e562d9e27f191cfb1ac3f3058f6fd7f2e5a6781",
+      "bytes": 382,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/second-blender-export.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/second-blender-export.stdout.log",
+      "sha256": "904c48238e447a98ac75ea4d693a0a172962d06830d091f30391b1ad7ec72d07",
+      "bytes": 46416,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/second-build.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/second-build.stdout.log",
+      "sha256": "338faf5329b41ad004d50083c07b3fdea3f813ac952a5f13773913b7a97aaf15",
+      "bytes": 713,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/second-clean-import.stderr.log",
+      "sha256": "09b774ba42d9e3d28f67f8842661984e7fce11ff56006a6078091be582882a2a",
+      "bytes": 266,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/second-clean-import.stdout.log",
+      "sha256": "1e9f6bb5c8d051b4d21ca7b6f789b506699e0e927d9b43c92653ec55e8069fe2",
+      "bytes": 38112,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/second-locked-texture-import.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/second-locked-texture-import.stdout.log",
+      "sha256": "b86f7bbcc7a6bc152f3c87cee8f6e8c874d07d9fb81ba1e27441b2786e145cbc",
+      "bytes": 3296,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/second-normalize.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/second-normalize.stdout.log",
+      "sha256": "a92b651297c4a642c1cfb29438c4f22792e088072e2e1bd435cbf0e708503ebd",
+      "bytes": 329,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/second-normalized-only-rescan.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/second-normalized-only-rescan.stdout.log",
+      "sha256": "16d15b5a73d4997c8466f00f149a826cbe3ea9c8065b8a8523b0a1db7dc895d2",
+      "bytes": 1038,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/second-normalized-only-wrapper.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/second-normalized-only-wrapper.stdout.log",
+      "sha256": "ef9b8b62239b4022e6a425d996836cf8ac5d99a2df1e054d401f24479e4ff6ee",
+      "bytes": 171,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/second-release-pack-asset-policy.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/second-release-pack-asset-policy.stdout.log",
+      "sha256": "6339db77a016a9b553e6a92c944e6b9534c622f2449b1f5f3cf13122fcaba0e5",
+      "bytes": 105,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/second-release-pack-build-policy.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/second-release-pack-build-policy.stdout.log",
+      "sha256": "3d9597b94f1e1f520574c1e38c10f85b388ecb4e769b4231c7a3f05bf29435d5",
+      "bytes": 49,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/second-release-pack.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/second-release-pack.stdout.log",
+      "sha256": "811ac1f778600629d1b43d5239b094ba096edc0f35ef234e20ed8dede6ec6d94",
+      "bytes": 6341,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/second-wrapper.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/second-wrapper.stdout.log",
+      "sha256": "ef9b8b62239b4022e6a425d996836cf8ac5d99a2df1e054d401f24479e4ff6ee",
+      "bytes": 171,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/second/blender.json",
+      "sha256": "b6b63fa7bae408969cfd53725608dc2daf5b51a50c08064fe01021c12165b7ff",
+      "bytes": 1461628,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/second/endurance-sedan.glb",
+      "sha256": "f9a30e7b19ea799c526ce2b1788e646af3a8e4f2aa3b7e910340004b99bc8417",
+      "bytes": 11248552,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/second/endurance-sedan.pck",
+      "sha256": "81960c8e82ff42093207dbf0c1277ceeb7ae73e9492753dbf0471500535734ce",
+      "bytes": 21055000,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/second/endurance-sedan.pre-uv-bake.glb",
+      "sha256": "3905f2d30f1940a9c971d8879fd9ba24fc3ab7bec3f00de21a7dc5f6b3646bf4",
+      "bytes": 11248552,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/second/godot.json",
+      "sha256": "be732c17fe7200f8f95ac43142760adb7f9d633dca55d17fef3bf36995c41c04",
+      "bytes": 57606,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/second/normalized-only.godot.json",
+      "sha256": "be732c17fe7200f8f95ac43142760adb7f9d633dca55d17fef3bf36995c41c04",
+      "bytes": 57606,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/uv-bake-controls.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/uv-bake-controls.stdout.log",
+      "sha256": "33af142a66802319b8d8afd4b68830fb120e293974a6513ea82537d98a238900",
+      "bytes": 115,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/uv-bake-controls/actual-export-accepted/bake.json",
+      "sha256": "0380880cf79c35435ccdf456bf02a94bd9108b2a3cde3bd8dc46c7948fa390bf",
+      "bytes": 2730286,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/uv-bake-controls/actual-export-accepted/candidate.glb",
+      "sha256": "f9a30e7b19ea799c526ce2b1788e646af3a8e4f2aa3b7e910340004b99bc8417",
+      "bytes": 11248552,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/uv-bake-controls/changed-layout/bake.json",
+      "sha256": "e9c34c771875005b31fa54f3e2ffeef9cae33c2abcecda7224c4227ebfe5cd5a",
+      "bytes": 2730286,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/uv-bake-controls/changed-layout/candidate.glb",
+      "sha256": "9ebb99d4f1ac6ba12f0621c8f3b6a5447b03710b92fb3479eadfbdad8680ee4f",
+      "bytes": 11248552,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/uv-bake-controls/changed-tolerance/bake.json",
+      "sha256": "47fffffdbad9845afbfcbb9357df1c2e8f064dcb4dd59eed156b91f8cc3e7c01",
+      "bytes": 2730286,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/uv-bake-controls/changed-tolerance/candidate.glb",
+      "sha256": "9ebb99d4f1ac6ba12f0621c8f3b6a5447b03710b92fb3479eadfbdad8680ee4f",
+      "bytes": 11248552,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/uv-bake-controls/corrupt-payload/bake.json",
+      "sha256": "63f0442623f5dd7ba4482213a3436afabf40309b16d49b0d6fe78a330475bb62",
+      "bytes": 2730286,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/uv-bake-controls/corrupt-payload/candidate.glb",
+      "sha256": "9ebb99d4f1ac6ba12f0621c8f3b6a5447b03710b92fb3479eadfbdad8680ee4f",
+      "bytes": 11248552,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/uv-bake-controls/corrupt-reference-hash/bake.json",
+      "sha256": "d38225b34bee67889af50620d3523ef09ffb6ee6c8d6433b698d6a0841ca6624",
+      "bytes": 2730286,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/uv-bake-controls/corrupt-reference-hash/candidate.glb",
+      "sha256": "9ebb99d4f1ac6ba12f0621c8f3b6a5447b03710b92fb3479eadfbdad8680ee4f",
+      "bytes": 11248552,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/uv-bake-controls/evidence.json",
+      "sha256": "b4b37d45a0690b00ccdfea8f43a6a770ac4b9f2cd25188ceca15c8edc3e8a896",
+      "bytes": 5973,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/uv-bake-controls/excessive-uv-change/bake.json",
+      "sha256": "0380880cf79c35435ccdf456bf02a94bd9108b2a3cde3bd8dc46c7948fa390bf",
+      "bytes": 2730286,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/uv-bake-controls/excessive-uv-change/candidate.glb",
+      "sha256": "4b154c6c6424c246f6013d535567f6e8945c29865ab3e7b3a4cc4b571ceff6ca",
+      "bytes": 11248552,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/uv-bake-controls/nonfinite-reference/bake.json",
+      "sha256": "9dc3a2d1bda893a68f5a108dae408d27fee5e41cc6e39d3033b4f76605331356",
+      "bytes": 2730286,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/uv-bake-controls/nonfinite-reference/candidate.glb",
+      "sha256": "9ebb99d4f1ac6ba12f0621c8f3b6a5447b03710b92fb3479eadfbdad8680ee4f",
+      "bytes": 11248552,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/uv-bake-controls/nonfinite-uv/bake.json",
+      "sha256": "0380880cf79c35435ccdf456bf02a94bd9108b2a3cde3bd8dc46c7948fa390bf",
+      "bytes": 2730286,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/uv-bake-controls/nonfinite-uv/candidate.glb",
+      "sha256": "7bd82e121d7bc4b3d780908e0eaa0a1db69639c44a8bff1455c2c11723c51e4a",
+      "bytes": 11248552,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/uv-bake-controls/overlapping-payload.glb",
+      "sha256": "5838ec1dad9d1d801e07dcdd8bbd001e8bf995cbd21d5cb5c48a09c97e51c5e6",
+      "bytes": 11248568,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/uv-bake-controls/position-byte-change/bake.json",
+      "sha256": "0380880cf79c35435ccdf456bf02a94bd9108b2a3cde3bd8dc46c7948fa390bf",
+      "bytes": 2730286,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/uv-bake-controls/position-byte-change/candidate.glb",
+      "sha256": "e95958caf9241ef04db153c59ee7ec77640e5df241c3ff4aee17d1d1401905ad",
+      "bytes": 11248552,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/uv-bake-controls/source-mismatch/bake.json",
+      "sha256": "0380880cf79c35435ccdf456bf02a94bd9108b2a3cde3bd8dc46c7948fa390bf",
+      "bytes": 2730286,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/uv-bake-controls/source-mismatch/candidate.glb",
+      "sha256": "9ebb99d4f1ac6ba12f0621c8f3b6a5447b03710b92fb3479eadfbdad8680ee4f",
+      "bytes": 11248552,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/uv-bake-controls/source-mismatch/changed-source.blend",
+      "sha256": "5470a7069e90bd75430b43fd61684e8aefb89f620072d3d3b5539c9a8bab6f1a",
+      "bytes": 5011969,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-delivered-gate-01/verifier-input.mjs",
+      "sha256": "8ffd8f74ebcc017bf39c922afe06b9ff86cc7bb8064f6520e7bde0f14ca11783",
+      "bytes": 41064,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-front-belt-camera-01/evidence.json",
+      "sha256": "6c8cae5e72088080fd7c3c7ebd7aef38781b040b4cacdace06528ddb0bcc817e",
+      "bytes": 1342,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-front-belt-camera-01/recipe-before.json",
+      "sha256": "55110156544780d5fbb5493465973af070ca7236b2255751b5c09ca29c9e539a",
+      "bytes": 6598,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-front-belt-camera-01/render-before.py",
+      "sha256": "e43420f44750b2273b40eccef53db408cd2cb9751a75b55bbf9d6004f75356ec",
+      "bytes": 16979,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-wiper-overview-01/evidence.json",
+      "sha256": "60972d24187411bb6b1b8931da8077582b89d2045f06dd54c0378e281aa24a6e",
+      "bytes": 1404,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-wiper-overview-01/recipe-before.json",
+      "sha256": "5f069fc4df3deb17aadf25a4298fba0d8d8e02249da737f74db92799d809dcf2",
+      "bytes": 6322,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/source34-wiper-overview-01/render-before.py",
+      "sha256": "81395d398f70ba07bdebc8aecb47a0297378929b90723816d5eecb99e210d380",
+      "bytes": 16865,
+      "reason": "Completed source34 construction/export/promotion/repeated-byte gate; copied projects excluded"
+    },
+    {
+      "path": "reports/p1-018/stage_owned34.py",
+      "sha256": "a282df841cb6499a15ec2ca0b270acd75a9dbc733ce769d9f00a2c280ca4045c",
+      "bytes": 3332,
+      "reason": "Root preparation/correction tool or immutable inventory"
+    },
+    {
+      "path": "reports/p1-018/write_evidence34_checkpoint01.py",
+      "sha256": "acf71650ad8216d5e7ce18f6b59ce511088d4ea0be0b4c5fa79574717b9ebfca",
+      "bytes": 11048,
+      "reason": "Root preparation/correction tool or immutable inventory"
+    }
+  ],
+  "archives": [
+    {
+      "path": "data/assets/vehicles/endurance-sedan-review/evidence/root-source34-gates01.zip",
+      "sha256": "7486a242639bb2994c5e2ce61fdfa177d41f31a604f4b1aeeae0ce534c824c34",
+      "bytes": 312332438,
+      "crc_and_member_sha256_verified": true
+    },
+    {
+      "path": "reports/p1-018/root-source34-gates01-repeat.zip",
+      "sha256": "7486a242639bb2994c5e2ce61fdfa177d41f31a604f4b1aeeae0ce534c824c34",
+      "bytes": 312332438,
+      "crc_and_member_sha256_verified": true
+    }
+  ],
+  "human_approval_reference": null,
+  "limits": "Evidence retention and byte identity only; individual reports retain their own scope, failures and approval status.",
+  "byte_reproducible": true,
+  "finished_utc": "2026-09-11T20:45:07.177568+00:00"
+}

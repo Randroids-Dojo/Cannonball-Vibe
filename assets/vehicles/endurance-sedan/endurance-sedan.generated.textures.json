@@ -1,0 +1,20 @@
+{
+  "materials": {
+    "Material_Fabric": {
+      "metallic_texture": "res://assets/vehicles/endurance-sedan/endurance-sedan_Meridian_fabric_roughness_v1.png",
+      "normal_texture": "res://assets/vehicles/endurance-sedan/endurance-sedan_Meridian_fabric_normal_v1.png",
+      "roughness_texture": "res://assets/vehicles/endurance-sedan/endurance-sedan_Meridian_fabric_roughness_v1.png"
+    },
+    "Material_Leather": {
+      "metallic_texture": "res://assets/vehicles/endurance-sedan/endurance-sedan_Meridian_leather_roughness_v1.png",
+      "normal_texture": "res://assets/vehicles/endurance-sedan/endurance-sedan_Meridian_leather_normal_v1.png",
+      "roughness_texture": "res://assets/vehicles/endurance-sedan/endurance-sedan_Meridian_leather_roughness_v1.png"
+    },
+    "Material_Paint": {
+      "metallic_texture": "res://assets/vehicles/endurance-sedan/endurance-sedan_Meridian_paint_roughness_v1.png",
+      "normal_texture": "res://assets/vehicles/endurance-sedan/endurance-sedan_Meridian_paint_normal_v1.png",
+      "roughness_texture": "res://assets/vehicles/endurance-sedan/endurance-sedan_Meridian_paint_roughness_v1.png"
+    }
+  },
+  "schema": 1
+}

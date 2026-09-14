@@ -6,6 +6,8 @@ cd "$repo_root"
 
 vehicle=""
 all_lods="false"
+candidate="false"
+output=""
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --vehicle)
@@ -20,14 +22,26 @@ while [[ $# -gt 0 ]]; do
       all_lods="true"
       shift
       ;;
+    --candidate)
+      candidate="true"
+      shift
+      ;;
+    --output)
+      output="${2:?--output requires a path}"
+      shift 2
+      ;;
     *)
       echo "Unknown argument: $1" >&2
       exit 2
       ;;
   esac
 done
-if [[ "$vehicle" != "hero-gt" || "$all_lods" != "true" ]]; then
-  echo "Usage: $0 --vehicle hero-gt --all-lods" >&2
+if [[ ! "$vehicle" =~ ^(hero-gt|endurance-sedan)$ || "$all_lods" != "true" ]]; then
+  echo "Usage: $0 --vehicle hero-gt|endurance-sedan --all-lods [sedan only: --candidate --output PATH]" >&2
+  exit 2
+fi
+if [[ "$vehicle" == "hero-gt" && ( "$candidate" == "true" || -n "$output" ) ]]; then
+  echo "--candidate/--output currently apply only to the isolated sedan pipeline." >&2
   exit 2
 fi
 
@@ -38,11 +52,21 @@ if [[ -z "$blender_bin" || ! -x "$blender_bin" ]]; then
 fi
 expected_blender="$(node -p 'require("./tools/assets/toolchain.json").blender.version')"
 expected_blender_hash="$(node -p 'require("./tools/assets/toolchain.json").blender.build_hash')"
-blender_version="$($blender_bin --version | awk 'NR==1 {print $2}')"
-blender_hash="$($blender_bin --version | awk '/build hash:/ {print $3}')"
+blender_version="$("$blender_bin" --version | awk 'NR==1 {print $2}')"
+blender_hash="$("$blender_bin" --version | awk '/build hash:/ {print $3}')"
 if [[ "$blender_version" != "$expected_blender" || "$blender_hash" != "$expected_blender_hash" ]]; then
   echo "Blender mismatch: expected $expected_blender+$expected_blender_hash, got $blender_version+$blender_hash" >&2
   exit 1
+fi
+
+if [[ "$vehicle" == "endurance-sedan" ]]; then
+  # Node receives a native absolute path; the remaining processes use argv
+  # arrays and retain exact commands/statuses instead of shell interpolation.
+  if [[ "${OS:-}" == "Windows_NT" ]]; then blender_bin="$(cygpath -w "$blender_bin")"; fi
+  sedan_args=(--blender-bin "$blender_bin")
+  if [[ "$candidate" == "true" ]]; then sedan_args+=(--candidate); fi
+  if [[ -n "$output" ]]; then sedan_args+=(--output "$output"); fi
+  exec node tools/vehicles/verify_endurance_sedan.mjs "${sedan_args[@]}"
 fi
 
 source_asset="data/assets/vehicles/sources/hero-gt.blend"
@@ -73,6 +97,7 @@ stage_project() {
   local destination="$1"
   mkdir -p "$destination"
   tar --exclude=.git --exclude=.godot --exclude=.tools --exclude=reports \
+    --exclude='./data/assets/vehicles/endurance-sedan-review' \
     --exclude='*/bin' --exclude='*/obj' --exclude='bin' --exclude='obj' \
     -cf - . | tar -xf - -C "$destination"
 }

@@ -1,0 +1,11 @@
+{
+  "task_id": "P1-018",
+  "utc": "2026-09-12T19:21:47.611603+00:00",
+  "path": "tools/vehicles/endurance_sedan/qa/seat_finite_geometry.py",
+  "before_sha256": "c3ec561725bdfcb0b2aea378155cbf32ebf2fef134ad50125350c6610be476f7",
+  "after_sha256": "ec418b1a9fa36b20cd3caceec8d363d19464a0e51cd89adbebf13fc4c8320a13",
+  "ast_identical": true,
+  "change": "Remove one extra blank line at EOF reported by staged diff check after full M0. Retained M0 input copy is unchanged.",
+  "tests_rerun": false,
+  "reason": "Whitespace only; complete parsed Python AST equality verified."
+}

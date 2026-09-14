@@ -59,6 +59,7 @@ public sealed class ReferencePerformanceScenario
     private const double LoopWrapAttributionSeconds = 0.75;
     private const double MinimumMovingSpeedMetersPerSecond = 1;
     private const double MinimumWarmupDistanceMeters = 60;
+    private const double MatchedComparisonWindowSeconds = 180;
 
     private readonly CannonballVehicle _vehicle;
     private readonly WorldStreamer _streamer;
@@ -77,8 +78,13 @@ public sealed class ReferencePerformanceScenario
     private readonly LatencyHistogram _engineDeltaMilliseconds = new();
     private readonly LatencyHistogram _cpuMilliseconds = new();
     private readonly LatencyHistogram _gpuMilliseconds = new();
+    private readonly LatencyHistogram _comparisonFrameMilliseconds = new();
+    private readonly LatencyHistogram _comparisonCpuMilliseconds = new();
+    private readonly LatencyHistogram _comparisonGpuMilliseconds = new();
     private readonly List<StallEvent> _stalls = new(MaximumRecordedStalls);
     private readonly List<MemorySample> _memorySamples = new(4_096);
+    private readonly List<IlluminationSample> _illuminationSamples = new(4_096);
+    private readonly List<ContactShadingSample> _contactShadingSamples = new(4_096);
     private readonly List<double> _loopWrapSeconds = new(64);
     private readonly List<AggregateRow> _aggregateRows = new(4_096);
     private readonly double[] _pendingWindow = new double[MaximumFramesPerAggregateRow];
@@ -169,6 +175,18 @@ public sealed class ReferencePerformanceScenario
     private RoadVisualSnapshot? _roadSnapshot;
     private EnvironmentStreamSnapshot? _environmentSnapshot;
     private VehicleVisualSnapshot? _vehicleSnapshot;
+    private object? _vehicleIdentity;
+    private VehicleRuntimeResourceInventory? _vehicleRuntimeResources;
+    private MirrorMeasurement[] _mirrorMeasurements = [];
+    private MirrorMeasurement[] _comparisonMirrorMeasurements = [];
+    private bool _mirrorUpdatesExpected;
+    private double _comparisonMeasuredSeconds;
+    private VehicleDrivingIllumination? _initialIllumination;
+    private VehicleDrivingIllumination? _finalIllumination;
+    private ulong _illuminationReadbackTotalUsec;
+    private ulong _illuminationReadbackMaxUsec;
+    private VehicleContactShading.Counters? _initialContactShading;
+    private VehicleContactShading.Counters? _finalContactShading;
 
     public ReferencePerformanceScenario(
         CannonballVehicle vehicle,
@@ -220,6 +238,14 @@ public sealed class ReferencePerformanceScenario
         _viewportNode = viewport;
         ApplyLighting(_options.Lighting);
         _vehicle.SetCameraMode(cockpit: _options.Camera == CameraView.Cockpit);
+        CaptureVehicleIdentity();
+        if (_vehicle.VisualRig?.Presentation is { } presentation)
+        {
+            presentation.MirrorsEnabled = _options.MirrorsEnabled;
+            _mirrorMeasurements = presentation.Mirrors.Select(mirror => new MirrorMeasurement(mirror)).ToArray();
+            _comparisonMirrorMeasurements = presentation.Mirrors.Select(mirror => new MirrorMeasurement(mirror)).ToArray();
+            _mirrorUpdatesExpected = _options.MirrorsEnabled && _options.Camera == CameraView.Cockpit;
+        }
         _vehicle.AutopilotEnabled = true;
         _vehicle.SampleManualInputDuringAutopilot = true;
         _vehicle.AutopilotSpeedLimitMetersPerSecond = (float)_options.TargetSpeedMetersPerSecond;
@@ -304,6 +330,10 @@ public sealed class ReferencePerformanceScenario
         _startingLoopCount = _streamer.CompletedShortCorridorLoops;
         _lastObservedLoopCount = _streamer.CompletedShortCorridorLoops;
         CaptureContentSnapshots();
+        _initialIllumination = _vehicle.VisualRig?.Presentation?.CaptureDrivingIllumination();
+        _initialContactShading = _vehicle.ContactShading?.ReadCounters();
+        foreach (var mirror in _mirrorMeasurements) mirror.Begin();
+        foreach (var mirror in _comparisonMirrorMeasurements) mirror.Begin();
         GD.Print(
             "CANNONBALL_REFERENCE_PERFORMANCE_WARMUP_DONE " +
             $"scenario={_options.ScenarioId} warmup_s={_warmupSeconds:0.000} " +
@@ -339,6 +369,14 @@ public sealed class ReferencePerformanceScenario
         _engineDeltaMilliseconds.Add(engineDelta * 1_000);
         _cpuMilliseconds.Add(cpuMilliseconds);
         _gpuMilliseconds.Add(gpuMilliseconds);
+        if (_measuredSeconds <= MatchedComparisonWindowSeconds)
+        {
+            _comparisonMeasuredSeconds = _measuredSeconds;
+            _comparisonFrameMilliseconds.Add(frameMilliseconds);
+            _comparisonCpuMilliseconds.Add(cpuMilliseconds);
+            _comparisonGpuMilliseconds.Add(gpuMilliseconds);
+        }
+        RecordMirrors();
         if (gpuMilliseconds > cpuMilliseconds)
         {
             _gpuBoundFrames++;
@@ -546,6 +584,17 @@ public sealed class ReferencePerformanceScenario
             GC.CollectionCount(0) - _startingGen0Collections,
             GC.CollectionCount(1) - _startingGen1Collections,
             GC.CollectionCount(2) - _startingGen2Collections));
+        if (_vehicle.VisualRig?.Presentation is { } presentation)
+        {
+            var started = Time.GetTicksUsec();
+            var state = presentation.CaptureDrivingIllumination();
+            var elapsed = Time.GetTicksUsec() - started;
+            _illuminationReadbackTotalUsec += elapsed;
+            _illuminationReadbackMaxUsec = Math.Max(_illuminationReadbackMaxUsec, elapsed);
+            _illuminationSamples.Add(new IlluminationSample(_measuredSeconds, state));
+        }
+        if (_vehicle.ContactShading is { } contact)
+            _contactShadingSamples.Add(new ContactShadingSample(_measuredSeconds, contact.VisibleDecals, contact.ReadCounters()));
     }
 
     private void SampleAggregate(double delta)
@@ -580,7 +629,125 @@ public sealed class ReferencePerformanceScenario
         _roadSnapshot = _streamer.CaptureRoadVisualSnapshot();
         _environmentSnapshot = _streamer.CaptureEnvironmentSnapshot();
         _vehicleSnapshot = _vehicle.VisualRig?.CaptureSnapshot();
+        _vehicleRuntimeResources = _vehicle.VisualRig?.CaptureRuntimeResourceInventory();
     }
+
+    private void CaptureVehicleIdentity()
+    {
+        var setup = _vehicle.RigSetup;
+        var id = _vehicle.UsesGrayboxVisual ? "graybox" : setup.AssetId;
+        var paths = new List<string> { setup.ResourcePath, "res://game/Vehicle/VehicleRigSetup.cs", "res://game/Vehicle/CannonballVehicle.cs" };
+        if (!_vehicle.UsesGrayboxVisual)
+        {
+            paths.AddRange([setup.WrapperPath, setup.TextureBindingsPath,
+                $"res://assets/vehicles/{id}/{id}.generated.tscn",
+                $"res://data/assets/vehicles/sources/{id}.blend", $"res://data/assets/vehicles/derived/{id}.glb",
+                "res://game/Vehicle/VehicleVisualRig.cs"]);
+            if (!string.IsNullOrWhiteSpace(setup.PaintShaderPath)) paths.Add(setup.PaintShaderPath);
+            using var bindings = JsonDocument.Parse(Godot.FileAccess.GetFileAsString(setup.TextureBindingsPath));
+            foreach (var material in bindings.RootElement.GetProperty("materials").EnumerateObject())
+                foreach (var slot in material.Value.EnumerateObject())
+                    paths.Add(slot.Value.GetString() ?? throw new InvalidOperationException("Empty benchmark texture binding"));
+            if (id == "endurance-sedan") paths.AddRange(["res://docs/vehicles/endurance-sedan/specification.json",
+                "res://game/Vehicle/EnduranceSedanPresentation.cs", "res://game/Vehicle/EnduranceSedanPresentationSetup.cs",
+                "res://game/Vehicle/VehicleContactShading.cs", "res://game/Vehicle/VehicleContactShading.cs.uid",
+                "res://game/Vehicle/Setups/EnduranceSedanPresentation.tres"]);
+        }
+        var hashes = new Dictionary<string, string>(StringComparer.Ordinal);
+        foreach (var path in paths.Distinct(StringComparer.Ordinal))
+        {
+            if (string.IsNullOrWhiteSpace(path) || !Godot.FileAccess.FileExists(path))
+                throw new InvalidOperationException("Reference performance identity input is absent: " + path);
+            hashes[path] = Godot.FileAccess.GetSha256(path);
+        }
+        _vehicleIdentity = new
+        {
+            selected_asset = id, setup_asset = setup.AssetId, setup_resource = setup.ResourcePath,
+            source_and_runtime_sha256 = hashes,
+            loaded_mass_kg = _vehicle.Mass, nominal_setup_mass_kg = setup.MassKilograms,
+            wheelbase_m = setup.WheelbaseMeters, front_track_m = setup.FrontTrackMeters, rear_track_m = setup.RearTrackMeters,
+            tire_radius_m = setup.TireRadiusMeters, spring_free_length_m = setup.SpringFreeLengthMeters,
+            static_compression_m = setup.StaticCompressionMeters, steering_limit_rad = setup.MaximumSteerRadians,
+            presenter_loaded = _vehicle.VisualRig?.Presentation is not null,
+        };
+    }
+
+    private void RecordMirrors()
+    {
+        if (_options.Headless) return;
+        var now = Time.GetTicksUsec();
+        for (var index = 0; index < _mirrorMeasurements.Length; index++)
+            _mirrorMeasurements[index].Sample(now, _mirrorUpdatesExpected);
+        if (_measuredSeconds <= MatchedComparisonWindowSeconds)
+            for (var index = 0; index < _comparisonMirrorMeasurements.Length; index++)
+                _comparisonMirrorMeasurements[index].Sample(now, _mirrorUpdatesExpected);
+    }
+
+    private object MirrorMetrics() => new
+    {
+        implementation = "Three nonrecursive shared-world SubViewports; completed FramePostDraw counters, no pixel readback during timing.",
+        native_measurement = !_options.Headless,
+        enabled_option = _options.MirrorsEnabled,
+        expected_active = _mirrorUpdatesExpected,
+        candidate_freshness_limit_ms = 100,
+        criterion_status = "Q-047 proposed mirror allocation; ADR-0023 whole-frame and memory gates remain authoritative.",
+        image_age_basis = "Monotonic elapsed wall time since the camera/scene sampling request of the last completed mirror image, including its render delay.",
+        content_proof_boundary = "Viewport update counters require separate native moving-target pixel and surface-binding evidence.",
+        viewports = _mirrorMeasurements.Select(measurement => measurement.Describe(_measuredSeconds, !_options.Headless, _mirrorUpdatesExpected)).ToArray(),
+    };
+
+    private object IlluminationMetrics()
+    {
+        var applicable = _vehicle.VisualRig?.Presentation is not null;
+        var expected = _options.Lighting == LightingMode.Night;
+        var mismatches = _illuminationSamples.Count(sample => !sample.State.Matches(expected));
+        return new
+        {
+            applicable, expected_head_tail_on = expected, sample_count = _illuminationSamples.Count,
+            sample_interval_s = MemorySampleIntervalSeconds, mismatch_count = mismatches,
+            content_state_verified = applicable ? (bool?)(_illuminationSamples.Count > 0 && mismatches == 0 &&
+                _initialIllumination?.Matches(expected) == true && _finalIllumination?.Matches(expected) == true) : null,
+            initial = _initialIllumination, final = _finalIllumination,
+            readback_total_ms = _illuminationReadbackTotalUsec / 1000.0,
+            readback_max_ms = _illuminationReadbackMaxUsec / 1000.0,
+            basis = "Actual head/tail material emission and headlamp beam visibility/energy; sampled value types at the memory interval, not inferred from the preset name.",
+        };
+    }
+
+    private object ContactShadingMetrics()
+    {
+        var start = _initialContactShading ?? default;
+        var finish = _finalContactShading ?? default;
+        return new
+        {
+            applicable = _vehicle.ContactShading is not null,
+            enabled_by_setup = _vehicle.RigSetup.ContactShadingEnabled,
+            supported_renderer = _vehicle.ContactShading?.SupportedRenderer ?? false,
+            measured_physics_updates = finish.PhysicsUpdates - start.PhysicsUpdates,
+            measured_physics_microseconds = finish.PhysicsMicroseconds - start.PhysicsMicroseconds,
+            measured_physics_allocated_bytes = finish.PhysicsAllocatedBytes - start.PhysicsAllocatedBytes,
+            measured_render_updates = finish.RenderUpdates - start.RenderUpdates,
+            measured_render_microseconds = finish.RenderMicroseconds - start.RenderMicroseconds,
+            measured_render_allocated_bytes = finish.RenderAllocatedBytes - start.RenderAllocatedBytes,
+            sample_count = _contactShadingSamples.Count, sample_interval_s = MemorySampleIntervalSeconds,
+            samples_with_visible_decals = _contactShadingSamples.Count(sample => sample.VisibleDecals > 0),
+            final_component = _vehicle.ContactShading?.CaptureMetrics(),
+            scope = "Component counters exclude warmup; whole-frame/GPU gates include decal cluster/texture/shader work. Detailed geometry readback is disabled during this timing capture.",
+        };
+    }
+
+    private object MatchedComparisonWindow() => new
+    {
+        requested_seconds = MatchedComparisonWindowSeconds,
+        observed_seconds = _comparisonMeasuredSeconds,
+        frames = _comparisonFrameMilliseconds.Count,
+        frame_time_ms = _comparisonFrameMilliseconds.Describe(),
+        render_cpu_ms = _comparisonCpuMilliseconds.Describe(),
+        render_gpu_ms = _comparisonGpuMilliseconds.Describe(),
+        steady_stalls_over_threshold = _stalls.Count(stall => !stall.NearLoopWrap && stall.Seconds <= _comparisonMeasuredSeconds && stall.FrameMilliseconds > StallAcceptanceThresholdMilliseconds),
+        mirrors = _comparisonMirrorMeasurements.Select(measurement => measurement.Describe(_comparisonMeasuredSeconds, !_options.Headless, _mirrorUpdatesExpected)).ToArray(),
+        scope = "First measured 180 seconds only, for equal-window mirror on/off cost comparison; no sustained-memory-growth acceptance is inferred from this window.",
+    };
 
     private bool NearLoopWrap(double seconds) =>
         _loopWrapSeconds.Exists(wrap => Math.Abs(seconds - wrap) <= LoopWrapAttributionSeconds);
@@ -619,6 +786,8 @@ public sealed class ReferencePerformanceScenario
     public void WriteArtifacts()
     {
         ValidateComplete();
+        _finalIllumination = _vehicle.VisualRig?.Presentation?.CaptureDrivingIllumination();
+        _finalContactShading = _vehicle.ContactShading?.ReadCounters();
         for (var index = 0; index < _stalls.Count; index++)
         {
             var stall = _stalls[index];
@@ -642,6 +811,7 @@ public sealed class ReferencePerformanceScenario
             measure_seconds_requested = _options.MeasureSeconds,
             configuration = Configuration(),
         }, options));
+        writer.WriteLine(JsonSerializer.Serialize(new { row = "matched_comparison_window", metrics = MatchedComparisonWindow() }, options));
         foreach (var aggregate in _aggregateRows)
         {
             writer.WriteLine(JsonSerializer.Serialize(new
@@ -675,6 +845,11 @@ public sealed class ReferencePerformanceScenario
                 gen2 = sample.Gen2Collections,
             }, options));
         }
+        foreach (var sample in _illuminationSamples)
+            writer.WriteLine(JsonSerializer.Serialize(new { row = "vehicle_illumination", t_s = sample.Seconds, state = sample.State }, options));
+        foreach (var sample in _contactShadingSamples)
+            writer.WriteLine(JsonSerializer.Serialize(new { row = "vehicle_contact_shading", t_s = sample.Seconds,
+                visible_decals = sample.VisibleDecals, counters = sample.Counters }, options));
         foreach (var stall in _stalls)
         {
             writer.WriteLine(JsonSerializer.Serialize(new
@@ -820,6 +995,11 @@ public sealed class ReferencePerformanceScenario
                 collision_removals = _streamer.CollisionRemovalCount,
             },
             content_class = ContentClass(),
+            mirrors = MirrorMetrics(),
+            vehicle_illumination = IlluminationMetrics(),
+            contact_shading = ContactShadingMetrics(),
+            vehicle_runtime_resources = _vehicleRuntimeResources,
+            matched_comparison_window = MatchedComparisonWindow(),
             acceptance = Acceptance(steadyStalls),
         };
 
@@ -839,6 +1019,7 @@ public sealed class ReferencePerformanceScenario
         actual_window_size = _options.Headless
             ? "headless"
             : $"{DisplayServer.WindowGetSize().X}x{DisplayServer.WindowGetSize().Y}",
+        actual_window_mode = _options.Headless ? "headless" : DisplayServer.WindowGetMode().ToString(),
         content_scale_size_2d = $"{_contentScaleSize.X:0}x{_contentScaleSize.Y:0}",
         three_d_render_size = _options.Headless
             ? "headless"
@@ -862,6 +1043,8 @@ public sealed class ReferencePerformanceScenario
             ProjectSettings.GetSetting("physics/common/physics_interpolation").AsBool(),
         lighting = _options.Lighting.ToString().ToLowerInvariant(),
         camera = _options.Camera.ToString().ToLowerInvariant(),
+        vehicle = _vehicleIdentity,
+        mirrors_enabled = _options.MirrorsEnabled,
         environment_quality = _environmentSnapshot?.ProfileId ?? "unmeasured",
         road_profile = _roadSnapshot?.ProfileId ?? "unmeasured",
         target_speed_mps = _options.TargetSpeedMetersPerSecond,
@@ -1431,6 +1614,7 @@ public sealed class ReferencePerformanceScenario
             $"headless={_options.Headless.ToString().ToLowerInvariant()} " +
             $"vsync={(_options.VsyncEnabled ? "on" : "off")} " +
             $"lighting={_options.Lighting.ToString().ToLowerInvariant()} " +
+            $"vehicle={(_vehicle.UsesGrayboxVisual ? "graybox" : _vehicle.RigSetup.AssetId)} mirrors={(_options.MirrorsEnabled ? "on" : "off")} " +
             $"environment_quality={_environmentSnapshot?.ProfileId ?? "unmeasured"} " +
             $"road={_roadSnapshot?.ProfileId ?? "unmeasured"} " +
             $"measured_s={_measuredSeconds:0.000} frames={_frameMilliseconds.Count} " +
@@ -1528,6 +1712,69 @@ public sealed class ReferencePerformanceScenario
             mean = Mean,
             bucket_resolution_ms = BucketMilliseconds,
             above_histogram_range_count = OverflowCount,
+        };
+    }
+
+    private sealed class MirrorMeasurement(EnduranceSedanPresentation.Mirror mirror)
+    {
+        private readonly LatencyHistogram _imageAge = new();
+        private readonly LatencyHistogram _completionInterval = new();
+        private readonly LatencyHistogram _cpu = new();
+        private readonly LatencyHistogram _gpu = new();
+        private int _startingUpdates;
+        private int _startingRequests;
+        private int _observedUpdates;
+        private int _observedRequests;
+        private ulong _previousCompletionTicks;
+        private long _activeFrames;
+        private long _missingImageFrames;
+        private long _inactiveFramesWhenExpected;
+        private long _peakDrawCalls;
+        private long _peakPrimitives;
+
+        public void Begin()
+        {
+            _startingUpdates = _observedUpdates = mirror.UpdateCount;
+            _startingRequests = _observedRequests = mirror.RequestCount;
+            _previousCompletionTicks = mirror.LastUpdateTicksUsec;
+        }
+
+        public void Sample(ulong now, bool expectedActive)
+        {
+            _observedRequests = mirror.RequestCount;
+            if (mirror.Active) _activeFrames++;
+            else if (expectedActive) _inactiveFramesWhenExpected++;
+            if (expectedActive)
+            {
+                if (mirror.UpdateCount == 0 || mirror.LastImageSampleTicksUsec == 0) _missingImageFrames++;
+                else _imageAge.Add((now - mirror.LastImageSampleTicksUsec) / 1000.0);
+            }
+            if (mirror.UpdateCount == _observedUpdates) return;
+            _observedUpdates = mirror.UpdateCount;
+            if (_previousCompletionTicks != 0)
+                _completionInterval.Add((mirror.LastUpdateTicksUsec - _previousCompletionTicks) / 1000.0);
+            _previousCompletionTicks = mirror.LastUpdateTicksUsec;
+            var viewport = mirror.Viewport.GetViewportRid();
+            _cpu.Add(RenderingServer.ViewportGetMeasuredRenderTimeCpu(viewport));
+            _gpu.Add(RenderingServer.ViewportGetMeasuredRenderTimeGpu(viewport));
+            _peakDrawCalls = Math.Max(_peakDrawCalls, mirror.Viewport.GetRenderInfo(Viewport.RenderInfoType.Visible, Viewport.RenderInfo.DrawCallsInFrame));
+            _peakPrimitives = Math.Max(_peakPrimitives, mirror.Viewport.GetRenderInfo(Viewport.RenderInfoType.Visible, Viewport.RenderInfo.PrimitivesInFrame));
+        }
+
+        public object Describe(double seconds, bool native, bool expectedActive) => new
+        {
+            name = mirror.Name, width = mirror.Viewport.Size.X, height = mirror.Viewport.Size.Y,
+            requests = _observedRequests - _startingRequests, completed_updates = _observedUpdates - _startingUpdates,
+            completed_updates_per_second = seconds > 0 ? (_observedUpdates - _startingUpdates) / seconds : 0,
+            active_sampled_frames = _activeFrames, missing_image_frames = _missingImageFrames, inactive_frames_when_expected = _inactiveFramesWhenExpected,
+            image_age_ms = _imageAge.Describe(), completion_interval_ms = _completionInterval.Describe(),
+            update_render_cpu_ms = _cpu.Describe(), update_render_gpu_ms = _gpu.Describe(),
+            render_timing_available = native && _cpu.Maximum > 0 && _gpu.Maximum > 0,
+            peak_update_draw_calls = _peakDrawCalls, peak_update_primitives = _peakPrimitives,
+            proposed_freshness_evaluated = native && expectedActive,
+            proposed_freshness_passed = native && expectedActive ? (bool?)(_imageAge.Count > 0 && _imageAge.Maximum <= 100 && _missingImageFrames == 0 && _inactiveFramesWhenExpected == 0) : null,
+            disabled_update_policy_evaluated = native && !expectedActive,
+            disabled_update_policy_passed = native && !expectedActive ? (bool?)(_observedRequests == _startingRequests && _observedUpdates == _startingUpdates) : null,
         };
     }
 
@@ -1635,6 +1882,9 @@ public sealed class ReferencePerformanceScenario
         double MaximumCollisionBuildMilliseconds,
         double MaximumEnvironmentBuildMilliseconds);
 
+    private readonly record struct IlluminationSample(double Seconds, VehicleDrivingIllumination State);
+    private readonly record struct ContactShadingSample(double Seconds, int VisibleDecals, VehicleContactShading.Counters Counters);
+
     private sealed record MemorySample(
         double Seconds,
         long WorkingSetBytes,
@@ -1680,7 +1930,8 @@ public sealed record ReferencePerformanceOptions(
     bool LoopCorridor,
     string SummaryPath,
     string SamplesPath,
-    CameraView Camera = CameraView.Chase);
+    CameraView Camera = CameraView.Chase,
+    bool MirrorsEnabled = true);
 
 /// <summary>
 /// Which camera the reference run drives from. Cockpit exists so a daylight

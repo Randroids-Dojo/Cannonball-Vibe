@@ -1,0 +1,380 @@
+{
+  "task_id": "P1-018",
+  "milestone": "M5",
+  "status": "passed",
+  "started_utc": "2026-09-12T22:06:58.941730+00:00",
+  "git_revision": "0fd5c81677c3084ccaa1237d2689658334888e94",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.14.6",
+  "zlib_runtime": "1.3.1.zlib-ng",
+  "tool_sha256": "1310e66035402d9eccaef4c0b2fe6d474f0b56958e914138d3f57be6285b18ff",
+  "input_manifest": {
+    "path": "reports/p1-018/art-checkpoint27-retention01/manifest-02.json",
+    "sha256": "fd3ecb1e250c6aa665baa3805372bd65f48cc604153e65d98897377137fb277a"
+  },
+  "entries": [
+    {
+      "path": "reports/p1-018/fascia-form26-pilot01/render14/front_lamps.png",
+      "sha256": "919e33c2b8b7c1246188e4680031a716f4358dca074936e3e17aaf72e30e935a",
+      "bytes": 3411110
+    },
+    {
+      "path": "reports/p1-018/fascia-form26-pilot01/render14/manifest.json",
+      "sha256": "42fd949158db5f30d409f0cab2f2b46ff5b405da8b403755be8e067d0808775d",
+      "bytes": 3898
+    },
+    {
+      "path": "reports/p1-018/fascia-form26-pilot01/render16/camera-override.json",
+      "sha256": "66c587f3d2aba2fa9bddd1bcaeaa54768b43510f7f315c0c713c14a4f9c251fb",
+      "bytes": 374
+    },
+    {
+      "path": "reports/p1-018/fascia-form26-pilot01/render16/front.png",
+      "sha256": "a249ef7585b03a11874a001c828ee8822096535803ca312d7fd27dd245583d29",
+      "bytes": 2711277
+    },
+    {
+      "path": "reports/p1-018/fascia-form26-pilot01/render16/front3q.png",
+      "sha256": "80ab80d6eab8231d94cfe31eefacb8c562d1d35d9313104e5a07934667cc151a",
+      "bytes": 3015861
+    },
+    {
+      "path": "reports/p1-018/fascia-form26-pilot01/render16/front_lamps.png",
+      "sha256": "8322b57328ae069a10c25337573dae52c427f3f7c8ae818800a44ddc017be0fb",
+      "bytes": 3420248
+    },
+    {
+      "path": "reports/p1-018/fascia-form26-pilot01/render16/manifest.json",
+      "sha256": "d41b68a3521082aa9db6876f69efe2fe964528301d0ec3cb9c515da8cda61ad3",
+      "bytes": 3892
+    },
+    {
+      "path": "reports/p1-018/fascia-form26-pilot01/saved01/scope.json",
+      "sha256": "63114d3fb2b6c95ba211899d6b8fb62074221e85b28a30317cc27157c85f7863",
+      "bytes": 2331
+    },
+    {
+      "path": "reports/p1-018/fascia-form26-pilot01/saved02/construction.json",
+      "sha256": "94a8965bb767c7d4b17dd973163897129ad5dcde2fe1869307200ebcc226b6d7",
+      "bytes": 533945
+    },
+    {
+      "path": "reports/p1-018/fascia-form26-pilot01/saved02/scope.json",
+      "sha256": "cbb5939e001f0cf89e3f3ad55c54a1b1826e608ad5bc2d1a19b419fdef261d24",
+      "bytes": 2331
+    },
+    {
+      "path": "reports/p1-018/fascia-form26-pilot01/saved02/source.failed.blend",
+      "sha256": "b73799c854c7f1baa9f78e09739a745e53d6f77f43975c0e96800303750dd7b6",
+      "bytes": 5441381
+    },
+    {
+      "path": "reports/p1-018/fascia-form26-pilot01/saved03/scope.json",
+      "sha256": "137da2611ddfb54a9cf8bc93b6bfec9d75616793680be3f603ffd201904828d8",
+      "bytes": 2331
+    },
+    {
+      "path": "reports/p1-018/fascia-form26-pilot01/saved03/source.failed.blend",
+      "sha256": "af37c3313b2a20979a6c8efd845909c144b107bb84668790ef0738105999165b",
+      "bytes": 5095625
+    },
+    {
+      "path": "reports/p1-018/fascia-form26-pilot01/saved04/construction.json",
+      "sha256": "943478aaaada56efbb1bbf03b192951455890ed1156ddd51d9e7aa724a218ff3",
+      "bytes": 465163
+    },
+    {
+      "path": "reports/p1-018/fascia-form26-pilot01/saved04/pre-save-native.json",
+      "sha256": "2842f07a9d1b616d6bd4ace496240c580dc28563aa950558ea6c81057aaa3034",
+      "bytes": 462988
+    },
+    {
+      "path": "reports/p1-018/fascia-form26-pilot01/saved04/scope.json",
+      "sha256": "965056ad3413d5cbe57ced02c85eebaa85464b950e817717d29cdf4a64c16630",
+      "bytes": 2331
+    },
+    {
+      "path": "reports/p1-018/fascia-form26-pilot01/saved04/source.failed.blend",
+      "sha256": "b790da0448eeead54ab8f4eaa3a3d4e13bb69b5dd55ef7f67859baa221916bbf",
+      "bytes": 5098305
+    },
+    {
+      "path": "reports/p1-018/fascia-form26-pilot01/saved05/construction.json",
+      "sha256": "e7cb73a69108f494c591885a05674863f11fa95facc43dfb7bf97b197e600a9e",
+      "bytes": 476196
+    },
+    {
+      "path": "reports/p1-018/fascia-form26-pilot01/saved05/pre-save-native.json",
+      "sha256": "6d45fef600e788811e372c0ea1a3268b20a47bcd6116a86d6bc404f1a18eccc2",
+      "bytes": 474021
+    },
+    {
+      "path": "reports/p1-018/fascia-form26-pilot01/saved05/scope.json",
+      "sha256": "2079e9775a485863b7f166eb9bcdd3e7b85c05da0f5e8cd83d158e4d13f4dc7e",
+      "bytes": 2331
+    },
+    {
+      "path": "reports/p1-018/fascia-form26-pilot01/saved05/source.failed.blend",
+      "sha256": "df7f194a392bdc415bd9afe916484fcc8b2cca7ea114ed82f000b475dbbff984",
+      "bytes": 5082279
+    },
+    {
+      "path": "reports/p1-018/fascia-form26-pilot01/saved06/construction.json",
+      "sha256": "6c9ae44be1ef37ab897deef3fd4874eef91d33871939ed213676ae50e14ee3c1",
+      "bytes": 28984
+    },
+    {
+      "path": "reports/p1-018/fascia-form26-pilot01/saved06/source.blend",
+      "sha256": "bff02859e3b66e2ca9794defb87e4db9c563393d9db085e0af6762224f72dc2e",
+      "bytes": 5081207
+    },
+    {
+      "path": "reports/p1-018/fascia-form26-pilot01/saved08/construction.json",
+      "sha256": "474cdcc5b1501d529d90e1515c75cc7f165bb37fa3aadf9244befdcc06edb7df",
+      "bytes": 507307
+    },
+    {
+      "path": "reports/p1-018/fascia-form26-pilot01/saved08/pre-save-native.json",
+      "sha256": "b0ad90d7d41e14d160ddf936292d8c0b87f47adf91d77d9423d5239735a1f389",
+      "bytes": 507104
+    },
+    {
+      "path": "reports/p1-018/fascia-form26-pilot01/saved08/scope.json",
+      "sha256": "d9b3bb3adcc67659f7382bc674b42857157968a0f97cc5ccaccc7385e6f2c684",
+      "bytes": 2331
+    },
+    {
+      "path": "reports/p1-018/fascia-form26-pilot01/saved08/source.failed.blend",
+      "sha256": "547875919a02222c2edf981394d126124f8cf219d97448cd80d2e3b8ebdf5006",
+      "bytes": 5081193
+    },
+    {
+      "path": "reports/p1-018/fascia-form26-pilot01/saved10/construction.json",
+      "sha256": "0ce88196a420a0eab03fda8ea3a4d3689ccfe003898f0f40cea66839a672294d",
+      "bytes": 51073
+    },
+    {
+      "path": "reports/p1-018/fascia-form26-pilot01/saved10/source.blend",
+      "sha256": "220b1b536414a890268c6d6f98f9b946770c129ebb9d2eb16a661e8db7fab2c3",
+      "bytes": 5080067
+    },
+    {
+      "path": "reports/p1-018/fascia-form26-pilot01/saved12/construction.json",
+      "sha256": "d1917b1c0efd3915efcb639cac002729516953eb5758a09a343f83d6d3bd5d4d",
+      "bytes": 504457
+    },
+    {
+      "path": "reports/p1-018/fascia-form26-pilot01/saved12/pre-save-native.json",
+      "sha256": "ee18815aa437cb74293f0d3ad2fb808d950802ae568a9fa1f9bed938b04ce9da",
+      "bytes": 504253
+    },
+    {
+      "path": "reports/p1-018/fascia-form26-pilot01/saved12/scope.json",
+      "sha256": "d7dcc1a5b868368d28338f139301e383e500873b4018cef05d0837bb43f7d1ec",
+      "bytes": 2331
+    },
+    {
+      "path": "reports/p1-018/fascia-form26-pilot01/saved12/source.blend",
+      "sha256": "c3011a964b48e3c5b22afc8a4abadfe1ddccb88194e24e23886a9805ff01a88c",
+      "bytes": 5083166
+    },
+    {
+      "path": "reports/p1-018/fascia-form26-pilot01/saved14/construction.json",
+      "sha256": "60123268c98aa192cd32ca03f4e36dd9bf08f8059bcbe34abf1f09ab0a188e44",
+      "bytes": 330271
+    },
+    {
+      "path": "reports/p1-018/fascia-form26-pilot01/saved14/pre-save-native.json",
+      "sha256": "e0db4b7d9d61f219e46e32511d455035f0a39b5306616e6d09b482370c5739f4",
+      "bytes": 330000
+    },
+    {
+      "path": "reports/p1-018/fascia-form26-pilot01/saved14/scope.json",
+      "sha256": "7366286fabd06ed7cc0c48f529d261097e61ff44de53e6b2b200bc576f1063a7",
+      "bytes": 1292
+    },
+    {
+      "path": "reports/p1-018/fascia-form26-pilot01/saved14/source.failed.blend",
+      "sha256": "cb17edb19d57b37016da1ee0d196ccde3035e9ec6b11a6231a42f09c5e249cd3",
+      "bytes": 5098988
+    },
+    {
+      "path": "reports/p1-018/fascia-form26-pilot01/saved15/construction.json",
+      "sha256": "cc5e63c8772684b7c18302383feaa48105fe5d65657eccb09651e0faec3ffcf8",
+      "bytes": 279604
+    },
+    {
+      "path": "reports/p1-018/fascia-form26-pilot01/saved15/pre-save-native.json",
+      "sha256": "28cfc5fbd3d1afd72f4765394bd1304a5b0acb2d74a531294840051e1cce30af",
+      "bytes": 279332
+    },
+    {
+      "path": "reports/p1-018/fascia-form26-pilot01/saved15/scope.json",
+      "sha256": "53608c956dbdb8d9bc2d31bd7360819beeefdc1873a4b3b1e3d4cba850fbcd1f",
+      "bytes": 1292
+    },
+    {
+      "path": "reports/p1-018/fascia-form26-pilot01/saved15/source.blend",
+      "sha256": "f7255835fc6f86688872555de469f83c9d1c3d4084ca878590cd42e714f38d24",
+      "bytes": 5098901
+    },
+    {
+      "path": "reports/p1-018/fresh-construction26-pilot05/PLAN.md",
+      "sha256": "d9dc2614123c0048650d2959400fa89d318dbdc3e06bb02954bb56e4c8127ee5",
+      "bytes": 1369
+    },
+    {
+      "path": "reports/p1-018/fresh-construction26-pilot05/PLAN09.md",
+      "sha256": "e6e4383d2f902c20a37fd11fab6ca61f1aa674aa7277bff89e6e78a74228aed4",
+      "bytes": 1269
+    },
+    {
+      "path": "reports/p1-018/fresh-construction26-pilot05/PLAN12.md",
+      "sha256": "776a65a8fd0c64e0300f5a5901fac9cba6e9c5801a10c7c9f0f74cb8a2389522",
+      "bytes": 1094
+    },
+    {
+      "path": "reports/p1-018/fresh-construction26-pilot05/RETRY06.md",
+      "sha256": "19e04f5ebcb060da6d3363cfd8c4ed4294b63b0c32f2b5d02acebb454b37cef6",
+      "bytes": 1371
+    },
+    {
+      "path": "reports/p1-018/fresh-construction26-pilot05/RETRY08.md",
+      "sha256": "9c62d74c9741ac2596b6b217a70aec75b390b45f1e9344e62d6e414de4252141",
+      "bytes": 556
+    },
+    {
+      "path": "reports/p1-018/fresh-construction26-pilot05/RETRY10.md",
+      "sha256": "db6de610fc1eede52db7dbcd3db5d6ec4a7a51173ff6c53ae94f465674e38b9d",
+      "bytes": 585
+    },
+    {
+      "path": "reports/p1-018/fresh-construction26-pilot05/component_finish26.py",
+      "sha256": "d5b26d6b4123b5b69f1ce70751578b534fc7b6d2dd28305bd808f65ca419dc50",
+      "bytes": 4777
+    },
+    {
+      "path": "reports/p1-018/fresh-construction26-pilot05/cooling_finish26.py",
+      "sha256": "2864c1f40d23c90949018e217a1e4661873b52ff6132cf892dc613adc15f9b80",
+      "bytes": 2791
+    },
+    {
+      "path": "reports/p1-018/fresh-construction26-pilot05/corner-only-diagnostic06.json",
+      "sha256": "b49ccadf3b70d906f89189ac570ca5802262401bb954bda618d479197039b214",
+      "bytes": 2382
+    },
+    {
+      "path": "reports/p1-018/fresh-construction26-pilot05/fresh01/source.failed.blend",
+      "sha256": "c7ef466a81f05b9def7b2f558b854477dc8129aec9b98302a5125eb7697d3939",
+      "bytes": 5078698
+    },
+    {
+      "path": "reports/p1-018/fresh-construction26-pilot05/fresh02/source.blend",
+      "sha256": "4ab6a9f38daf0381c26af855c1892f8843e1d7c1774c23926b452853836b9a26",
+      "bytes": 5038654
+    },
+    {
+      "path": "reports/p1-018/fresh-construction26-pilot05/fresh02/source.construction.json.gz",
+      "sha256": "9beedab5df5fb89c0e25f2299a6931e8be0154fa3cdc6f3d10b8c626d26bf9cd",
+      "bytes": 2590200
+    },
+    {
+      "path": "reports/p1-018/fresh-construction26-pilot05/fresh02/source.shoulder-profile.json",
+      "sha256": "c61117de292534d9ec0271d9392cbc065d9c4c9857e305d7707c389bddd6e2f7",
+      "bytes": 778
+    },
+    {
+      "path": "reports/p1-018/fresh-construction26-pilot05/fresh02/source.shoulder.json.gz",
+      "sha256": "b747f0dfd7d5364ebd0b5c46bbc3146ab95e462b9eec580d4fdff95b3a628ada",
+      "bytes": 1307918
+    },
+    {
+      "path": "reports/p1-018/fresh-construction26-pilot05/fresh03/pre-reopen-fields.json.gz",
+      "sha256": "650d39a0297712cec8cffebea9b80febcd68cdf934ebfa7da4746885a3304da6",
+      "bytes": 8268941
+    },
+    {
+      "path": "reports/p1-018/fresh-construction26-pilot05/fresh03/reopen-diagnostic.json",
+      "sha256": "109361aad8c07524573ddfc0878d15bc94554a928728503c12133f3d28ec25d8",
+      "bytes": 7387
+    },
+    {
+      "path": "reports/p1-018/fresh-construction26-pilot05/fresh03/reopen-recovery10.json",
+      "sha256": "1ad6df43d33cc8004a95855797ef45c85023cc27dc4a931305a239b07373e0a0",
+      "bytes": 91404
+    },
+    {
+      "path": "reports/p1-018/fresh-construction26-pilot05/fresh03/reopened-fields.json.gz",
+      "sha256": "548a26debe9f6f2b7498307aaba136bba32bb0a69f03263e926db6adaf63add2",
+      "bytes": 8268318
+    },
+    {
+      "path": "reports/p1-018/fresh-construction26-pilot05/fresh03/source.blend",
+      "sha256": "5935e05ed21780f26130a6992c30b2c87d4e79702d374084ad2cd0703810f5b6",
+      "bytes": 5035700
+    },
+    {
+      "path": "reports/p1-018/fresh-construction26-pilot05/fresh03/source.construction.json.gz",
+      "sha256": "e0d3ecac598b4be60dd8977eec861c626f73dfce1b922abe1f09a078d622a1fa",
+      "bytes": 2590229
+    },
+    {
+      "path": "reports/p1-018/fresh-construction26-pilot05/fresh03/source.shoulder-profile.json",
+      "sha256": "c61117de292534d9ec0271d9392cbc065d9c4c9857e305d7707c389bddd6e2f7",
+      "bytes": 778
+    },
+    {
+      "path": "reports/p1-018/fresh-construction26-pilot05/fresh03/source.shoulder.json.gz",
+      "sha256": "b747f0dfd7d5364ebd0b5c46bbc3146ab95e462b9eec580d4fdff95b3a628ada",
+      "bytes": 1307918
+    },
+    {
+      "path": "reports/p1-018/fresh-construction26-pilot05/fresh04/pre-reopen-fields.json.gz",
+      "sha256": "f52cce174e66174dcd41d487e489a1f2d5bd64d4a81ba9d3450d8eca8b3339a1",
+      "bytes": 8315696
+    },
+    {
+      "path": "reports/p1-018/fresh-construction26-pilot05/fresh04/reopened.json",
+      "sha256": "f18139f22aa4b7a5d7302505d4880ec6856b3a67c3ce92e59c8f34776c6a2916",
+      "bytes": 12366
+    },
+    {
+      "path": "reports/p1-018/fresh-construction26-pilot05/fresh04/source.blend",
+      "sha256": "dd971582a26cdd7d8b33f0d9b683f7dcb3013334123d623ee4f7257909e55fd1",
+      "bytes": 5103032
+    },
+    {
+      "path": "reports/p1-018/fresh-construction26-pilot05/fresh04/source.construction.json.gz",
+      "sha256": "f760104ed945f609cee86a1f0ab9978576d83a683170274ecd01a20fe95d00d2",
+      "bytes": 2784573
+    },
+    {
+      "path": "reports/p1-018/fresh-construction26-pilot05/fresh04/source.shoulder-profile.json",
+      "sha256": "c61117de292534d9ec0271d9392cbc065d9c4c9857e305d7707c389bddd6e2f7",
+      "bytes": 778
+    },
+    {
+      "path": "reports/p1-018/fresh-construction26-pilot05/fresh04/source.shoulder.json.gz",
+      "sha256": "cdad7d8bfe73a7757b86a42eef1356fc40155ea24af3ceb9420d591e96bf749f",
+      "bytes": 1308276
+    }
+  ],
+  "archives": [
+    {
+      "path": "data/assets/vehicles/endurance-sedan-review/art-checkpoint-v27/art-checkpoint-v27-02.zip",
+      "sha256": "0c896e760a950e1a11896a745ac019bfc98156a6c6f6af873e5ce2fa47ad334a",
+      "bytes": 120811337,
+      "crc_and_member_sha256_verified": true
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-retention01/art-checkpoint-v27-02-repeat.zip",
+      "sha256": "0c896e760a950e1a11896a745ac019bfc98156a6c6f6af873e5ce2fa47ad334a",
+      "bytes": 120811337,
+      "crc_and_member_sha256_verified": true
+    }
+  ],
+  "human_approval_reference": null,
+  "limits": "Evidence retention and byte identity only; individual reports retain their own scope, failures and approval status.",
+  "byte_reproducible": true,
+  "finished_utc": "2026-09-12T22:07:05.767134+00:00"
+}

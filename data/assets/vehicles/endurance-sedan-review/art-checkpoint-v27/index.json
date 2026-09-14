@@ -1,0 +1,205 @@
+{
+  "task_id": "P1-018",
+  "milestone": "M5",
+  "utc": "2026-09-12T22:07:26.866200+00:00",
+  "git_revision": "0fd5c81677c3084ccaa1237d2689658334888e94",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "inventory": {
+    "path": "reports/p1-018/art-checkpoint27-retention01/inventory.json",
+    "sha256": "8b2cb84e02346d8be8ebb4da1ab130f608786b3707c9a263d16a22c41927a03f"
+  },
+  "parts": [
+    {
+      "part": 1,
+      "command": [
+        "C:\\Users\\randr\\AppData\\Local\\Programs\\Python\\Python314\\python.exe",
+        "tools/vehicles/endurance_sedan/retain_evidence.py",
+        "--manifest",
+        "reports\\p1-018\\art-checkpoint27-retention01\\manifest-01.json",
+        "--output",
+        "data\\assets\\vehicles\\endurance-sedan-review\\art-checkpoint-v27\\art-checkpoint-v27-01.zip",
+        "--repeat-output",
+        "reports\\p1-018\\art-checkpoint27-retention01\\art-checkpoint-v27-01-repeat.zip",
+        "--index",
+        "data\\assets\\vehicles\\endurance-sedan-review\\art-checkpoint-v27\\index-01.json"
+      ],
+      "started_utc": "2026-09-12T22:06:51.271589+00:00",
+      "finished_utc": "2026-09-12T22:06:58.689298+00:00",
+      "exit_status": 0,
+      "archive": {
+        "path": "data/assets/vehicles/endurance-sedan-review/art-checkpoint-v27/art-checkpoint-v27-01.zip",
+        "sha256": "f12d3e6702d01bc91eecf3247fd2cfa243d7e23d440b60ffa3335896f7ee2fd8",
+        "bytes": 127216253,
+        "crc_and_member_sha256_verified": true
+      },
+      "repeat": {
+        "path": "reports/p1-018/art-checkpoint27-retention01/art-checkpoint-v27-01-repeat.zip",
+        "sha256": "f12d3e6702d01bc91eecf3247fd2cfa243d7e23d440b60ffa3335896f7ee2fd8",
+        "bytes": 127216253,
+        "crc_and_member_sha256_verified": true
+      },
+      "index": {
+        "path": "data/assets/vehicles/endurance-sedan-review/art-checkpoint-v27/index-01.json",
+        "sha256": "075ad376a1e49b50161558b9a096ca33f82b5ea9f074ca8d63b12f339ad14f14"
+      },
+      "entries": 299,
+      "manifest_sha256": "faa08970bbe68050d70e1cecc01c8e700a01dc37a4233af6b3dcd339808b45c6",
+      "every_archive_byte_compared": true
+    },
+    {
+      "part": 2,
+      "command": [
+        "C:\\Users\\randr\\AppData\\Local\\Programs\\Python\\Python314\\python.exe",
+        "tools/vehicles/endurance_sedan/retain_evidence.py",
+        "--manifest",
+        "reports\\p1-018\\art-checkpoint27-retention01\\manifest-02.json",
+        "--output",
+        "data\\assets\\vehicles\\endurance-sedan-review\\art-checkpoint-v27\\art-checkpoint-v27-02.zip",
+        "--repeat-output",
+        "reports\\p1-018\\art-checkpoint27-retention01\\art-checkpoint-v27-02-repeat.zip",
+        "--index",
+        "data\\assets\\vehicles\\endurance-sedan-review\\art-checkpoint-v27\\index-02.json"
+      ],
+      "started_utc": "2026-09-12T22:06:58.759093+00:00",
+      "finished_utc": "2026-09-12T22:07:05.780078+00:00",
+      "exit_status": 0,
+      "archive": {
+        "path": "data/assets/vehicles/endurance-sedan-review/art-checkpoint-v27/art-checkpoint-v27-02.zip",
+        "sha256": "0c896e760a950e1a11896a745ac019bfc98156a6c6f6af873e5ce2fa47ad334a",
+        "bytes": 120811337,
+        "crc_and_member_sha256_verified": true
+      },
+      "repeat": {
+        "path": "reports/p1-018/art-checkpoint27-retention01/art-checkpoint-v27-02-repeat.zip",
+        "sha256": "0c896e760a950e1a11896a745ac019bfc98156a6c6f6af873e5ce2fa47ad334a",
+        "bytes": 120811337,
+        "crc_and_member_sha256_verified": true
+      },
+      "index": {
+        "path": "data/assets/vehicles/endurance-sedan-review/art-checkpoint-v27/index-02.json",
+        "sha256": "64572b6aeae92c0d378827cd06318f5f4e14698a51a4da92f2e31b7a8350ea9f"
+      },
+      "entries": 69,
+      "manifest_sha256": "fd3ecb1e250c6aa665baa3805372bd65f48cc604153e65d98897377137fb277a",
+      "every_archive_byte_compared": true
+    },
+    {
+      "part": 3,
+      "command": [
+        "C:\\Users\\randr\\AppData\\Local\\Programs\\Python\\Python314\\python.exe",
+        "tools/vehicles/endurance_sedan/retain_evidence.py",
+        "--manifest",
+        "reports\\p1-018\\art-checkpoint27-retention01\\manifest-03.json",
+        "--output",
+        "data\\assets\\vehicles\\endurance-sedan-review\\art-checkpoint-v27\\art-checkpoint-v27-03.zip",
+        "--repeat-output",
+        "reports\\p1-018\\art-checkpoint27-retention01\\art-checkpoint-v27-03-repeat.zip",
+        "--index",
+        "data\\assets\\vehicles\\endurance-sedan-review\\art-checkpoint-v27\\index-03.json"
+      ],
+      "started_utc": "2026-09-12T22:07:05.844088+00:00",
+      "finished_utc": "2026-09-12T22:07:13.806290+00:00",
+      "exit_status": 0,
+      "archive": {
+        "path": "data/assets/vehicles/endurance-sedan-review/art-checkpoint-v27/art-checkpoint-v27-03.zip",
+        "sha256": "f5bebd7c6be0a4b538670cf4f218a4b93e335d4a74d9e21e8aeaa2d095374339",
+        "bytes": 91547263,
+        "crc_and_member_sha256_verified": true
+      },
+      "repeat": {
+        "path": "reports/p1-018/art-checkpoint27-retention01/art-checkpoint-v27-03-repeat.zip",
+        "sha256": "f5bebd7c6be0a4b538670cf4f218a4b93e335d4a74d9e21e8aeaa2d095374339",
+        "bytes": 91547263,
+        "crc_and_member_sha256_verified": true
+      },
+      "index": {
+        "path": "data/assets/vehicles/endurance-sedan-review/art-checkpoint-v27/index-03.json",
+        "sha256": "70c028a5269c2106ace4ff42f05bffb788ae5c3dabc6ba8c1decc1b114b2cfca"
+      },
+      "entries": 1657,
+      "manifest_sha256": "95b7bd17d253e50ca915399654b1b9a759ef12e2939813f30aebfbd93e48c3a0",
+      "every_archive_byte_compared": true
+    },
+    {
+      "part": 4,
+      "command": [
+        "C:\\Users\\randr\\AppData\\Local\\Programs\\Python\\Python314\\python.exe",
+        "tools/vehicles/endurance_sedan/retain_evidence.py",
+        "--manifest",
+        "reports\\p1-018\\art-checkpoint27-retention01\\manifest-04.json",
+        "--output",
+        "data\\assets\\vehicles\\endurance-sedan-review\\art-checkpoint-v27\\art-checkpoint-v27-04.zip",
+        "--repeat-output",
+        "reports\\p1-018\\art-checkpoint27-retention01\\art-checkpoint-v27-04-repeat.zip",
+        "--index",
+        "data\\assets\\vehicles\\endurance-sedan-review\\art-checkpoint-v27\\index-04.json"
+      ],
+      "started_utc": "2026-09-12T22:07:13.861049+00:00",
+      "finished_utc": "2026-09-12T22:07:20.562330+00:00",
+      "exit_status": 0,
+      "archive": {
+        "path": "data/assets/vehicles/endurance-sedan-review/art-checkpoint-v27/art-checkpoint-v27-04.zip",
+        "sha256": "44c6bcd28c27c9d8252d53afb19f5a6f9cadf76d98f43161fed1f6481f1094fb",
+        "bytes": 102341375,
+        "crc_and_member_sha256_verified": true
+      },
+      "repeat": {
+        "path": "reports/p1-018/art-checkpoint27-retention01/art-checkpoint-v27-04-repeat.zip",
+        "sha256": "44c6bcd28c27c9d8252d53afb19f5a6f9cadf76d98f43161fed1f6481f1094fb",
+        "bytes": 102341375,
+        "crc_and_member_sha256_verified": true
+      },
+      "index": {
+        "path": "data/assets/vehicles/endurance-sedan-review/art-checkpoint-v27/index-04.json",
+        "sha256": "101354213a486571a36db0ee612954625e000ca989fcdc32691e116394b01a0f"
+      },
+      "entries": 500,
+      "manifest_sha256": "5baae9dfa759845b265cedf73202755b0e26395ac8e9448186aafbe2f638b720",
+      "every_archive_byte_compared": true
+    },
+    {
+      "part": 5,
+      "command": [
+        "C:\\Users\\randr\\AppData\\Local\\Programs\\Python\\Python314\\python.exe",
+        "tools/vehicles/endurance_sedan/retain_evidence.py",
+        "--manifest",
+        "reports\\p1-018\\art-checkpoint27-retention01\\manifest-05.json",
+        "--output",
+        "data\\assets\\vehicles\\endurance-sedan-review\\art-checkpoint-v27\\art-checkpoint-v27-05.zip",
+        "--repeat-output",
+        "reports\\p1-018\\art-checkpoint27-retention01\\art-checkpoint-v27-05-repeat.zip",
+        "--index",
+        "data\\assets\\vehicles\\endurance-sedan-review\\art-checkpoint-v27\\index-05.json"
+      ],
+      "started_utc": "2026-09-12T22:07:20.622114+00:00",
+      "finished_utc": "2026-09-12T22:07:25.998323+00:00",
+      "exit_status": 0,
+      "archive": {
+        "path": "data/assets/vehicles/endurance-sedan-review/art-checkpoint-v27/art-checkpoint-v27-05.zip",
+        "sha256": "ceb793b60f1ba0c01cf5ff39aab223ac736eb23070689ec0b677c7d7bb1c7310",
+        "bytes": 90314756,
+        "crc_and_member_sha256_verified": true
+      },
+      "repeat": {
+        "path": "reports/p1-018/art-checkpoint27-retention01/art-checkpoint-v27-05-repeat.zip",
+        "sha256": "ceb793b60f1ba0c01cf5ff39aab223ac736eb23070689ec0b677c7d7bb1c7310",
+        "bytes": 90314756,
+        "crc_and_member_sha256_verified": true
+      },
+      "index": {
+        "path": "data/assets/vehicles/endurance-sedan-review/art-checkpoint-v27/index-05.json",
+        "sha256": "6681c1c16752e975f4eccb6b52139e95dad1ec2e079b167efbcdecabe69ddb90"
+      },
+      "entries": 209,
+      "manifest_sha256": "63257e32e4de5d43a8dc21a198f9dc27a848536acdeb29928443b48c4a993b52",
+      "every_archive_byte_compared": true
+    }
+  ],
+  "all_parts_directly_byte_compared": true,
+  "all_members_sha256_and_crc_verified_twice": true,
+  "entry_count": 2734,
+  "archive_bytes": 532230984,
+  "retention_retries": 0,
+  "scope": "Incremental editable fresh05 construction, labels, cooling and component fit evidence; actual native stills; failed attempts and recovery; rejected roof/fascia/LOD prototypes. No final full-source, shipping GLB, runtime or human acceptance.",
+  "human_approval_reference": null
+}

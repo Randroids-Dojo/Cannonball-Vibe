@@ -22,7 +22,7 @@ public sealed partial class CannonballVehicle : RigidBody3D
             (4 * VehicleDynamicsProfile.SpringStrengthNewtonsPerMeter)) +
         VehicleDynamicsProfile.WheelRadiusMeters;
 
-    private static readonly Vector3[] WheelPositions =
+    private readonly Vector3[] WheelPositions =
     [
         new(-0.82f, -0.18f, -1.42f),
         new(0.82f, -0.18f, -1.42f),
@@ -53,6 +53,16 @@ public sealed partial class CannonballVehicle : RigidBody3D
         get => _setup;
         set => _setup = value ?? throw new ArgumentNullException(nameof(value));
     }
+
+    public VehicleRigSetup RigSetup { get; set; } = null!;
+    public VehicleCondition Condition { get; set; } = new(82, 1, 1, 1, 0);
+    public bool InspectionActive { get; internal set; }
+    public VehicleInspectionPanel InspectionPanel { get; private set; } = null!;
+    public DriveInputState LastDriveInput { get; private set; }
+    public float SignedLongitudinalSpeedMetersPerSecond => LinearVelocity.Dot(-GlobalBasis.Z.Normalized());
+    public float CurrentSteeringRadians => _currentSteerAngleRadians;
+    public float SuspensionCompressionMeters(int wheel) => _wheelCompressionMeters[wheel];
+    public RayCast3D SuspensionRay(int wheel) => _suspensionRays[wheel];
 
     public bool AutopilotEnabled { get; set; }
 
@@ -105,17 +115,24 @@ public sealed partial class CannonballVehicle : RigidBody3D
     public float MaximumObservedSuspensionCompressionMeters { get; private set; }
     public int MaximumConsecutiveSuspensionBottomOutFrames { get; private set; }
     public VehicleVisualRig? VisualRig { get; private set; }
+    public VehicleContactShading? ContactShading { get; private set; }
     public DrivingInputController DrivingInputController { get; private set; } = null!;
     public ChaseCameraRig ChaseCameraRig { get; private set; } = null!;
     public CockpitCameraRig CockpitCameraRig { get; private set; } = null!;
     public bool UsesGrayboxVisual { get; private set; }
     public bool ForceGrayboxVisual { get; set; }
-    public string CurrentCameraMode => ChaseCameraRig.IsActive ? "chase" : "cockpit";
+    public string CurrentCameraMode => CockpitCameraRig.IsActive ? "cockpit" : "chase";
 
     public override void _Ready()
     {
         Name = "CannonballVehicle";
-        Mass = VehicleDynamicsProfile.VehicleMassKilograms;
+        RigSetup ??= VehicleRigSetup.Load("hero-gt");
+        RigSetup.Validate();
+        for (var index = 0; index < WheelPositions.Length; index++)
+        {
+            WheelPositions[index] = RigSetup.SpringAnchor(index);
+        }
+        Mass = RigSetup.MassKilograms;
         GravityScale = 1;
         LinearDampMode = DampMode.Replace;
         LinearDamp = 0;
@@ -124,7 +141,7 @@ public sealed partial class CannonballVehicle : RigidBody3D
         CanSleep = false;
         ContinuousCd = true;
         CenterOfMassMode = CenterOfMassModeEnum.Custom;
-        CenterOfMass = new Vector3(0, VehicleDynamicsProfile.CenterOfMassOffsetMeters, 0);
+        CenterOfMass = RigSetup.CenterOfMassOffset;
         ContactMonitor = true;
         MaxContactsReported = 12;
         CollisionLayer = 2;
@@ -133,6 +150,14 @@ public sealed partial class CannonballVehicle : RigidBody3D
         DrivingInputController = new DrivingInputController();
         AddChild(DrivingInputController);
         BuildCamera();
+        InspectionPanel = new VehicleInspectionPanel();
+        InspectionPanel.Configure(this);
+        AddChild(InspectionPanel);
+        if (RigSetup.ContactShadingEnabled && VisualRig is not null)
+        {
+            ContactShading = new VehicleContactShading();
+            AddChild(ContactShading);
+        }
     }
 
     public override void _PhysicsProcess(double delta)
@@ -151,6 +176,8 @@ public sealed partial class CannonballVehicle : RigidBody3D
         var input = AutomationInputOverride ?? (AutopilotEnabled
             ? ReadAutopilot()
             : DrivingInputController.Read(forwardSpeed, delta, AssistProfile));
+        LastDriveInput = input;
+        if (InspectionActive) return;
         if (GetTree().Paused)
         {
             // Main keeps this subtree in ProcessMode.Always, so these callbacks
@@ -235,7 +262,7 @@ public sealed partial class CannonballVehicle : RigidBody3D
         // Frozen at the static ride height, so the suspension rays report the
         // same compression a settled car has and the visual wheels sit on the
         // road exactly as they do while driving.
-        Position = point + Vector3.Up * VisualRigMountHeightMeters;
+        Position = point + Vector3.Up * RigSetup.ChassisOriginHeightMeters;
         Basis = Basis.LookingAt(forward, Vector3.Up);
         LinearVelocity = Vector3.Zero;
         AngularVelocity = Vector3.Zero;
@@ -249,7 +276,7 @@ public sealed partial class CannonballVehicle : RigidBody3D
         WellGroundedPhysicsFrames = 0;
         MaximumConsecutiveUnsupportedPhysicsFrames = 0;
         MinimumObservedSuspensionCompressionMeters =
-            VehicleDynamicsProfile.SpringRestLengthMeters;
+            RigSetup.SpringFreeLengthMeters;
         MaximumObservedSuspensionCompressionMeters = 0;
         _consecutiveUnsupportedPhysicsFrames = 0;
         _consecutiveSuspensionBottomOutFrames = 0;
@@ -332,7 +359,7 @@ public sealed partial class CannonballVehicle : RigidBody3D
             _ => 1.0f,
         };
         var steerAngle = input.Steering *
-            VehicleDynamicsProfile.MaximumSteerAngleRadians * steerScale * steerResponse;
+            RigSetup.MaximumSteerRadians * steerScale * steerResponse;
         _currentSteerAngleRadians = steerAngle;
         var groundedWheels = 0;
         var contactNormalSum = Vector3.Zero;
@@ -369,11 +396,11 @@ public sealed partial class CannonballVehicle : RigidBody3D
             contactNormalSum += normal;
             contactPositionSum += contact;
             var distance = rayStart.DistanceTo(contact) - 0.15f -
-                VehicleDynamicsProfile.WheelRadiusMeters;
+                RigSetup.TireRadiusMeters;
             var compression = Mathf.Clamp(
-                VehicleDynamicsProfile.SpringRestLengthMeters - distance,
+                RigSetup.SpringFreeLengthMeters - distance,
                 0,
-                VehicleDynamicsProfile.SpringRestLengthMeters);
+                RigSetup.SpringFreeLengthMeters);
             _wheelCompressionMeters[index] = compression;
             MinimumObservedSuspensionCompressionMeters = Math.Min(
                 MinimumObservedSuspensionCompressionMeters,
@@ -382,15 +409,15 @@ public sealed partial class CannonballVehicle : RigidBody3D
                 MaximumObservedSuspensionCompressionMeters,
                 compression);
             suspensionBottomedOut |=
-                compression >= VehicleDynamicsProfile.SuspensionBottomOutThresholdMeters;
+                compression >= RigSetup.SuspensionBottomOutThresholdMeters;
             var offset = contact - GlobalPosition;
             var pointVelocity = LinearVelocity + AngularVelocity.Cross(offset);
             var suspensionVelocity = pointVelocity.Dot(normal);
             var suspensionForce = VehicleDynamicsForces.SuspensionForceNewtons(
                 compression,
-                VehicleDynamicsProfile.SpringStrengthNewtonsPerMeter,
+                RigSetup.SpringRate(index),
                 suspensionVelocity,
-                VehicleDynamicsProfile.SpringDampingNewtonsPerMeterPerSecond,
+                RigSetup.SpringDamping(index),
                 Mass,
                 VehicleDynamicsProfile.GravityMetersPerSecondSquared,
                 VehicleDynamicsProfile.MaximumSuspensionLoadG,
@@ -475,12 +502,12 @@ public sealed partial class CannonballVehicle : RigidBody3D
             var lateralSpeed = LinearVelocity.Dot(roadRight);
             var forwardDrive = input.Throttle * (float)Setup.ForwardDriveScale(longitudinalSpeed);
             var driveForce = roadForward * (forwardDrive - input.Reverse) *
-                VehicleDynamicsProfile.EngineForceNewtons * contactAuthority;
+                RigSetup.EngineForceNewtons * contactAuthority;
             var brakingDirection = Math.Abs(longitudinalSpeed) < 0.05f
                 ? Vector3.Zero
                 : -roadForward * Math.Sign(longitudinalSpeed);
-            var brakingForce = (input.Brake * VehicleDynamicsProfile.BrakeForceNewtons +
-                input.Handbrake * VehicleDynamicsProfile.BrakeForceNewtons * 0.8f) *
+            var brakingForce = (input.Brake * RigSetup.BrakeForceNewtons +
+                input.Handbrake * RigSetup.BrakeForceNewtons * 0.8f) *
                 contactAuthority;
             var propulsionInput = Math.Max(input.Throttle, input.Reverse);
             var coastResistance = VehicleDynamicsForces.CoastResistanceForceNewtons(
@@ -513,10 +540,10 @@ public sealed partial class CannonballVehicle : RigidBody3D
             }
             var groundedDownforce = VehicleDynamicsForces.AerodynamicLoadNewtons(
                 speed,
-                VehicleDynamicsProfile.GroundedDownforceCoefficient,
+                RigSetup.GroundedDownforceCoefficient,
                 Mass,
                 VehicleDynamicsProfile.GravityMetersPerSecondSquared,
-                VehicleDynamicsProfile.MaximumGroundedDownforceG);
+                RigSetup.MaximumGroundedDownforceG);
             ApplyCentralForce(-roadNormal * (float)groundedDownforce);
         }
     }
@@ -566,7 +593,7 @@ public sealed partial class CannonballVehicle : RigidBody3D
     {
         ResetToRoadCount++;
         Freeze = true;
-        Position = TargetRoadPoint + Vector3.Up * 0.78f;
+        Position = TargetRoadPoint + Vector3.Up * RigSetup.SpawnHeightMeters;
         Basis = Basis.LookingAt(TargetRoadForward, Vector3.Up);
         LinearVelocity = Vector3.Zero;
         AngularVelocity = Vector3.Zero;
@@ -595,30 +622,36 @@ public sealed partial class CannonballVehicle : RigidBody3D
                 Position = WheelPositions[rayIndex] + new Vector3(0, 0.15f, 0),
                 TargetPosition = new Vector3(
                     0,
-                    -(VehicleDynamicsProfile.SpringRestLengthMeters +
-                        VehicleDynamicsProfile.WheelRadiusMeters + 0.15f),
+                    -(RigSetup.SpringFreeLengthMeters +
+                        RigSetup.TireRadiusMeters + 0.15f),
                     0),
             };
             _suspensionRays[rayIndex] = ray;
             AddChild(ray);
         }
-        using var shape = new BoxShape3D { Size = new Vector3(1.86f, 0.64f, 4.45f) };
-        AddChild(new CollisionShape3D { Name = "ChassisCollision", Shape = shape });
+        using var shape = new BoxShape3D { Size = RigSetup.CollisionBoxSize };
+        AddChild(new CollisionShape3D { Name = "ChassisCollision", Shape = shape, Position = RigSetup.CollisionBoxCenter });
+        if (RigSetup.CabinCollisionBoxSize.LengthSquared() > 0)
+        {
+            using var cabin = new BoxShape3D { Size = RigSetup.CabinCollisionBoxSize };
+            AddChild(new CollisionShape3D { Name = "CabinCollision", Shape = cabin, Position = RigSetup.CabinCollisionBoxCenter });
+        }
         UsesGrayboxVisual = ForceGrayboxVisual ||
             OS.GetCmdlineUserArgs().Contains("--graybox-vehicle", StringComparer.Ordinal);
         if (!UsesGrayboxVisual)
         {
             using var wrapper = ResourceLoader.Load<PackedScene>(
-                "res://game/Vehicle/Visuals/HeroGt.tscn");
+                RigSetup.WrapperPath);
             if (wrapper is null)
             {
-                throw new InvalidOperationException("Hero GT wrapper scene could not be loaded.");
+                throw new InvalidOperationException($"Vehicle wrapper scene could not be loaded: {RigSetup.WrapperPath}");
             }
             VisualRig = wrapper.Instantiate<VehicleVisualRig>();
+            VisualRig.RigSetup = RigSetup;
             // The rig's ground plane sits where the road is at static ride
             // height: the chassis origin rests VisualRigMountHeightMeters above
             // the contact points once the springs carry the vehicle.
-            VisualRig.Position = new Vector3(0, -VisualRigMountHeightMeters, 0);
+            VisualRig.Position = new Vector3(0, -RigSetup.ChassisOriginHeightMeters, 0);
             AddChild(VisualRig);
             return;
         }

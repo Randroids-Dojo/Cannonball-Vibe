@@ -1,0 +1,29 @@
+{
+  "task_id": "P1-018",
+  "start_utc": "2026-09-13T07:55:42.657760+00:00",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "cwd": "C:\\Dev\\Cannonball-Vibe-sedan",
+  "argv": [
+    "python",
+    "-X",
+    "utf8",
+    "reports/p1-018/art-checkpoint32-retention01/build02.py"
+  ],
+  "git_revision": "b1cf65b64512508931eb3398af435f857926a503",
+  "input_artifacts": [
+    {
+      "path": "reports\\p1-018\\art-checkpoint32-retention01\\build02.py",
+      "sha256": "97d6ac3e806681efaa7c6e6d39d9dfa3f673a478554ae55d258a41a1ed753e14"
+    },
+    {
+      "path": "reports\\p1-018\\art-checkpoint32-retention01\\inventory.json",
+      "sha256": "ab2a7d775c2bb3935de369e6eba6709ac8981f8efa5e310c7bdae4c2644a12e5"
+    }
+  ],
+  "log": "reports\\p1-018\\commands\\20260913T075542.657760Z-art32-two-archive-retention.log",
+  "human_approval_reference": null,
+  "environment": {},
+  "end_utc": "2026-09-13T07:56:54.008810+00:00",
+  "exit_status": 0,
+  "log_sha256": "c16579cbce63143f55b89f763b58be8a6d86b59a71afee9c99e554c1370c4247"
+}

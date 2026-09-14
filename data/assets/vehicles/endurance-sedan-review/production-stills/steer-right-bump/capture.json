@@ -1,0 +1,157 @@
+{
+  "source": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\checkpoints\\production-33.blend",
+  "configuration": {
+    "source_sha256": "8ddb88bfcf82b68ef7cccfa86dbfedf502a4de1fa4e9f0924cffe6609f8d7a50",
+    "renderer_sha256": "08b7c868fe0bd8b32e4cfa99c10aeb0655ae2ef32325d5ed501029e0dd73e057",
+    "blender": "5.1.2",
+    "build_hash": "ec6e62d40fa9",
+    "engine": "CYCLES",
+    "device": "GPU",
+    "devices": [
+      {
+        "name": "NVIDIA GeForce RTX 3080 Ti",
+        "type": "CUDA",
+        "enabled": false
+      },
+      {
+        "name": "AMD Ryzen 9 5900X 12-Core Processor",
+        "type": "CPU",
+        "enabled": false
+      },
+      {
+        "name": "NVIDIA GeForce RTX 3080 Ti",
+        "type": "OPTIX",
+        "enabled": true
+      }
+    ],
+    "size": [
+      2560,
+      1440
+    ],
+    "samples": 48,
+    "denoising": true,
+    "view_transform": "AgX",
+    "look": "AgX - Medium High Contrast",
+    "exposure": 0.0,
+    "clay": false,
+    "source_controls": {
+      "steering": 1.0,
+      "suspension": 0.085
+    },
+    "lighting": "neutral",
+    "sequence": "none",
+    "frame_count": 4,
+    "fps": 30,
+    "views": "front3q,right,under,wheel",
+    "ray_bounces": 10,
+    "source_timeline_fps": 60,
+    "inspection_fill_watts": 0,
+    "denoiser": "OPENIMAGEDENOISE",
+    "denoising_use_gpu": true,
+    "denoising_prefilter": "ACCURATE",
+    "technical_overlay": null,
+    "review_overlay_tool_sha256": "230827eb0257dd454e9429ddd3dd68e51107b540d58f6e18e893542196805fb7",
+    "review_geometry_tool_sha256": "0e9fad40b0d14ba1265958bd6836d133fde89474efd6f988860f46fc2cde2b90",
+    "material_swatches": {}
+  },
+  "configuration_sha256": "5311d7438ee7eacb70e0b9d4d49d7c5f26902c3ae8996814b3d1ba3cabe7d8fa",
+  "status": "completed",
+  "frames": [
+    {
+      "view": "front3q",
+      "capture_view": "front3q",
+      "path": "front3q.png",
+      "sha256": "00bb5039103fe94cb7415afd7adf38ab38f4db2403cb7d57901cb51b498306d5",
+      "seconds": 3.417035099999339,
+      "cold": true,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 1,
+      "time_seconds": 0.0,
+      "animated_controls": {}
+    },
+    {
+      "view": "right",
+      "capture_view": "right",
+      "path": "right.png",
+      "sha256": "60643bad788d6b10d6ebadfac25ae40dec21ece6fe45457f5120ca3cf00482d1",
+      "seconds": 1.7409878999969806,
+      "cold": false,
+      "camera_location": [
+        8,
+        0,
+        0.78
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.78
+      ],
+      "orthographic": true,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 1,
+      "time_seconds": 0.0,
+      "animated_controls": {}
+    },
+    {
+      "view": "under",
+      "capture_view": "under",
+      "path": "under.png",
+      "sha256": "19b163c26b1d547bf040f9c618a68e61067bba84bc421ae19ed5c97a109e4b33",
+      "seconds": 1.5277287999997498,
+      "cold": false,
+      "camera_location": [
+        0,
+        0,
+        -8
+      ],
+      "camera_target": [
+        0,
+        0,
+        0
+      ],
+      "orthographic": true,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 9.800000190734863,
+      "source_frame": 1,
+      "time_seconds": 0.0,
+      "animated_controls": {}
+    },
+    {
+      "view": "wheel",
+      "capture_view": "wheel",
+      "path": "wheel.png",
+      "sha256": "963d712de136e62d13305354ca35ce4fcd50da36c061e0e0563384b4f6e99d71",
+      "seconds": 3.3499950999976136,
+      "cold": false,
+      "camera_location": [
+        -2.4,
+        1.5,
+        0.65
+      ],
+      "camera_target": [
+        -0.84,
+        1.46,
+        0.4
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 1,
+      "time_seconds": 0.0,
+      "animated_controls": {}
+    }
+  ]
+}

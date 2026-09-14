@@ -1,0 +1,251 @@
+{
+  "source": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\checkpoints\\production-34.blend",
+  "configuration": {
+    "source_sha256": "0b4220d5c3f0024054de17a3c36add3388a4f52be2046cc2b837f3bac9edf793",
+    "renderer_sha256": "62a91929e55512a48483a5dd79faca86e5e5db183ab018bb453b5cd17cdc4f2d",
+    "blender": "5.1.2",
+    "build_hash": "ec6e62d40fa9",
+    "engine": "CYCLES",
+    "device": "GPU",
+    "devices": [
+      {
+        "name": "NVIDIA GeForce RTX 3080 Ti",
+        "type": "CUDA",
+        "enabled": false
+      },
+      {
+        "name": "AMD Ryzen 9 5900X 12-Core Processor",
+        "type": "CPU",
+        "enabled": false
+      },
+      {
+        "name": "NVIDIA GeForce RTX 3080 Ti",
+        "type": "OPTIX",
+        "enabled": true
+      }
+    ],
+    "size": [
+      2560,
+      1440
+    ],
+    "samples": 64,
+    "denoising": true,
+    "view_transform": "AgX",
+    "look": "AgX - Medium High Contrast",
+    "exposure": 0.0,
+    "clay": false,
+    "source_controls": {},
+    "lighting": "neutral",
+    "sequence": "none",
+    "frame_count": 7,
+    "fps": 30,
+    "views": "paint,panel_gap,front_lamps,rear_lamps,wheel,glass_seal,wipers",
+    "ray_bounces": 10,
+    "source_timeline_fps": 60,
+    "inspection_fill_watts": 0,
+    "inspection_fill_disk_diameter_m": {
+      "default": 0.35,
+      "pedals": 0.14,
+      "rear_seats": 0.2,
+      "front_belt_left": 0.2
+    },
+    "inspection_fill_camera_local_m": [
+      0,
+      0,
+      0.025
+    ],
+    "denoiser": "OPENIMAGEDENOISE",
+    "denoising_use_gpu": true,
+    "denoising_prefilter": "ACCURATE",
+    "technical_overlay": null,
+    "review_overlay_tool_sha256": "230827eb0257dd454e9429ddd3dd68e51107b540d58f6e18e893542196805fb7",
+    "review_geometry_tool_sha256": "0e9fad40b0d14ba1265958bd6836d133fde89474efd6f988860f46fc2cde2b90",
+    "material_swatches": {}
+  },
+  "configuration_sha256": "401409452ea5ce710a49a4bfbda615d7428bf124515de93c59ba26fab354bdd7",
+  "status": "completed",
+  "frames": [
+    {
+      "view": "paint",
+      "capture_view": "paint",
+      "path": "paint.png",
+      "sha256": "5fd1b7c78c8f4f42ced7ba255cd506b3fcfd5ab2d2c16e1ef3a7b8d7edf89a3a",
+      "seconds": 4.549295100005111,
+      "cold": true,
+      "camera_location": [
+        -2.5,
+        3.2,
+        1.9
+      ],
+      "camera_target": [
+        -0.48,
+        1.73,
+        0.84
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 1,
+      "time_seconds": 0.0,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "panel_gap",
+      "capture_view": "panel_gap",
+      "path": "panel_gap.png",
+      "sha256": "c134a3caae05a38a6c9039e315e1cd9b667c72c8ef2940bbd9a2aa980500ebc5",
+      "seconds": 4.4390954000045895,
+      "cold": false,
+      "camera_location": [
+        -1.52,
+        0.05,
+        1.18
+      ],
+      "camera_target": [
+        -0.89,
+        -0.62,
+        0.94
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 1,
+      "time_seconds": 0.0,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "front_lamps",
+      "capture_view": "front_lamps",
+      "path": "front_lamps.png",
+      "sha256": "4039840465ae2182efdcf4097ff224e12e8739c31b91e660e6989fc9e36b1c8d",
+      "seconds": 4.291489900002489,
+      "cold": false,
+      "camera_location": [
+        -2.05,
+        4.4,
+        1.35
+      ],
+      "camera_target": [
+        -0.34,
+        2.25,
+        0.69
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 1,
+      "time_seconds": 0.0,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "rear_lamps",
+      "capture_view": "rear_lamps",
+      "path": "rear_lamps.png",
+      "sha256": "7fe9054f753079b23641c1fefd4d5d3a8d3c19060d103667fc5e72c4036d8e51",
+      "seconds": 4.2937317000032635,
+      "cold": false,
+      "camera_location": [
+        2.0,
+        -4.4,
+        1.35
+      ],
+      "camera_target": [
+        0.3,
+        -2.42,
+        0.65
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 1,
+      "time_seconds": 0.0,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "wheel",
+      "capture_view": "wheel",
+      "path": "wheel.png",
+      "sha256": "e36342e7da0a5ac31c0ac8a72bb1e76738ed78a552b7c83f888541c27d6796ab",
+      "seconds": 3.9549268999980995,
+      "cold": false,
+      "camera_location": [
+        -2.4,
+        1.5,
+        0.65
+      ],
+      "camera_target": [
+        -0.84,
+        1.46,
+        0.4
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 1,
+      "time_seconds": 0.0,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "glass_seal",
+      "capture_view": "glass_seal",
+      "path": "glass_seal.png",
+      "sha256": "624be314cc921818096c730cffd08d142879e1b49a97db192c213c8cafe835e5",
+      "seconds": 6.549600300000748,
+      "cold": false,
+      "camera_location": [
+        -1.3,
+        0.3,
+        1.64
+      ],
+      "camera_target": [
+        -0.63,
+        0.02,
+        1.28
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 1,
+      "time_seconds": 0.0,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "wipers",
+      "capture_view": "wipers",
+      "path": "wipers.png",
+      "sha256": "b2893845fffd9b893b62435a172d5f1ad9a4254c83d78ee52eb2a99e533df29d",
+      "seconds": 7.457490100001451,
+      "cold": false,
+      "camera_location": [
+        -0.9,
+        1.8,
+        1.78
+      ],
+      "camera_target": [
+        -0.2,
+        0.54,
+        1.13
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 1,
+      "time_seconds": 0.0,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    }
+  ]
+}

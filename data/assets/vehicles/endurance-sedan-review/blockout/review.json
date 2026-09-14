@@ -1,0 +1,1036 @@
+{
+  "task_id": "P1-018",
+  "milestone": "M5",
+  "status": "completed",
+  "utc": "2026-09-11T14:42:01.188658+00:00",
+  "git_revision": "eb5703e55f3656e91bd80fb79502f10ce250554b",
+  "source": "C:\\Dev\\Cannonball-Vibe-sedan\\data\\assets\\vehicles\\sources\\endurance-sedan.blend",
+  "source_sha256": "4db9756aad26fbf45ccd1c5dcae2a39cbedc3fb134a6a8a3216b2ecf534b1263",
+  "tool_sha256": "8a132925906e5ebbe55457ba5f9c6c3176b496fdea2c44d93b071b6728dc0fee",
+  "python": "3.13.11",
+  "pillow": "11.3.0",
+  "commands": [
+    {
+      "argv": [
+        "C:\\Dev\\Cannonball-Vibe-sedan\\.tools\\ffmpeg-9.0.1\\ffmpeg-9.0.1-essentials_build\\bin\\ffmpeg.exe",
+        "-version"
+      ],
+      "started_utc": "2026-09-11T14:42:01.215252+00:00",
+      "finished_utc": "2026-09-11T14:42:01.234898+00:00",
+      "exit_status": 0,
+      "log": "ffmpeg-version.log",
+      "sha256": "548d07da79082ab0db5b6ab14edc7d2e4221996319ee19b2031ee3226416727b"
+    },
+    {
+      "argv": [
+        "C:\\Dev\\Cannonball-Vibe-sedan\\.tools\\ffmpeg-9.0.1\\ffmpeg-9.0.1-essentials_build\\bin\\ffmpeg.exe",
+        "-v",
+        "error",
+        "-n",
+        "-i",
+        "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\runtime\\blockout\\native-revalidation-05\\driving.ogv",
+        "-c:v",
+        "libx264",
+        "-preset",
+        "slow",
+        "-crf",
+        "18",
+        "-pix_fmt",
+        "yuv420p",
+        "-c:a",
+        "aac",
+        "-movflags",
+        "+faststart",
+        "C:\\Dev\\Cannonball-Vibe-sedan\\data\\assets\\vehicles\\endurance-sedan-review\\blockout\\driving\\inspection.mp4"
+      ],
+      "started_utc": "2026-09-11T14:42:02.057400+00:00",
+      "finished_utc": "2026-09-11T14:42:39.373759+00:00",
+      "exit_status": 0,
+      "log": "driving-encode.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "C:\\Dev\\Cannonball-Vibe-sedan\\.tools\\ffmpeg-9.0.1\\ffmpeg-9.0.1-essentials_build\\bin\\ffprobe.exe",
+        "-v",
+        "error",
+        "-select_streams",
+        "v:0",
+        "-count_frames",
+        "-show_entries",
+        "stream=width,height,nb_read_frames,avg_frame_rate,duration",
+        "-of",
+        "json",
+        "C:\\Dev\\Cannonball-Vibe-sedan\\data\\assets\\vehicles\\endurance-sedan-review\\blockout\\driving\\inspection.mp4"
+      ],
+      "started_utc": "2026-09-11T14:42:39.374394+00:00",
+      "finished_utc": "2026-09-11T14:43:02.057819+00:00",
+      "exit_status": 0,
+      "log": "driving-probe.log",
+      "sha256": "d9165e67e5af570148a3283581d8e9c198b4770d234364d6f92e090545ea85ae"
+    },
+    {
+      "argv": [
+        "C:\\Dev\\Cannonball-Vibe-sedan\\.tools\\ffmpeg-9.0.1\\ffmpeg-9.0.1-essentials_build\\bin\\ffmpeg.exe",
+        "-v",
+        "error",
+        "-xerror",
+        "-i",
+        "C:\\Dev\\Cannonball-Vibe-sedan\\data\\assets\\vehicles\\endurance-sedan-review\\blockout\\driving\\inspection.mp4",
+        "-f",
+        "null",
+        "-"
+      ],
+      "started_utc": "2026-09-11T14:43:02.058696+00:00",
+      "finished_utc": "2026-09-11T14:43:04.610715+00:00",
+      "exit_status": 0,
+      "log": "driving-decode.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "captures": [
+    {
+      "label": "technical",
+      "kind": "Blender capture",
+      "input_manifest": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\technical-overlay-repair-01\\blockout\\manifest.json",
+      "input_manifest_sha256": "b742b068c6091e5a33519487fe3de9854fa171df36f89075084552886e857d60",
+      "configuration": {
+        "source_sha256": "4db9756aad26fbf45ccd1c5dcae2a39cbedc3fb134a6a8a3216b2ecf534b1263",
+        "renderer_sha256": "08b7c868fe0bd8b32e4cfa99c10aeb0655ae2ef32325d5ed501029e0dd73e057",
+        "blender": "5.1.2",
+        "build_hash": "ec6e62d40fa9",
+        "engine": "CYCLES",
+        "device": "GPU",
+        "devices": [
+          {
+            "name": "NVIDIA GeForce RTX 3080 Ti",
+            "type": "CUDA",
+            "enabled": false
+          },
+          {
+            "name": "AMD Ryzen 9 5900X 12-Core Processor",
+            "type": "CPU",
+            "enabled": false
+          },
+          {
+            "name": "NVIDIA GeForce RTX 3080 Ti",
+            "type": "OPTIX",
+            "enabled": true
+          }
+        ],
+        "size": [
+          2560,
+          1440
+        ],
+        "samples": 32,
+        "denoising": true,
+        "view_transform": "AgX",
+        "look": "AgX - Medium High Contrast",
+        "exposure": 0.0,
+        "clay": false,
+        "source_controls": {},
+        "lighting": "neutral",
+        "sequence": "none",
+        "frame_count": 6,
+        "fps": 30,
+        "views": "front,rear,left,right,top,under",
+        "ray_bounces": 10,
+        "source_timeline_fps": 24,
+        "inspection_fill_watts": 0,
+        "denoiser": "OPENIMAGEDENOISE",
+        "denoising_use_gpu": true,
+        "denoising_prefilter": "ACCURATE",
+        "technical_overlay": {
+          "mode": "technical x-ray; temporary materials and geometry",
+          "source_specification_revision": null,
+          "ruler_minor_m": 0.5,
+          "ruler_major_m": 1,
+          "ruler_ticks": "crosses in both perpendicular planes",
+          "legend": {
+            "cyan": "wheel/contact/suspension",
+            "magenta": "camera",
+            "green": "occupant hip/eye/head envelope",
+            "yellow": "actual collision proxy",
+            "orange": "center of mass"
+          },
+          "markers": [
+            {
+              "name": "Wheel_FL",
+              "kind": "wheel",
+              "source_m": [
+                -0.8100000023841858,
+                1.4600000381469727,
+                0.3433000147342682
+              ]
+            },
+            {
+              "name": "Contact_FL",
+              "kind": "wheel",
+              "source_m": [
+                -0.8100000023841858,
+                1.4600000381469727,
+                0.0
+              ]
+            },
+            {
+              "name": "Suspension_FL",
+              "kind": "wheel",
+              "source_m": [
+                -0.8100000023841858,
+                1.4600000381469727,
+                0.3433000147342682
+              ]
+            },
+            {
+              "name": "Wheel_FR",
+              "kind": "wheel",
+              "source_m": [
+                0.8100000023841858,
+                1.4600000381469727,
+                0.3433000147342682
+              ]
+            },
+            {
+              "name": "Contact_FR",
+              "kind": "wheel",
+              "source_m": [
+                0.8100000023841858,
+                1.4600000381469727,
+                0.0
+              ]
+            },
+            {
+              "name": "Suspension_FR",
+              "kind": "wheel",
+              "source_m": [
+                0.8100000023841858,
+                1.4600000381469727,
+                0.3433000147342682
+              ]
+            },
+            {
+              "name": "Wheel_RL",
+              "kind": "wheel",
+              "source_m": [
+                -0.8050000071525574,
+                -1.4600000381469727,
+                0.3433000147342682
+              ]
+            },
+            {
+              "name": "Contact_RL",
+              "kind": "wheel",
+              "source_m": [
+                -0.8050000071525574,
+                -1.4600000381469727,
+                0.0
+              ]
+            },
+            {
+              "name": "Suspension_RL",
+              "kind": "wheel",
+              "source_m": [
+                -0.8050000071525574,
+                -1.4600000381469727,
+                0.3433000147342682
+              ]
+            },
+            {
+              "name": "Wheel_RR",
+              "kind": "wheel",
+              "source_m": [
+                0.8050000071525574,
+                -1.4600000381469727,
+                0.3433000147342682
+              ]
+            },
+            {
+              "name": "Contact_RR",
+              "kind": "wheel",
+              "source_m": [
+                0.8050000071525574,
+                -1.4600000381469727,
+                0.0
+              ]
+            },
+            {
+              "name": "Suspension_RR",
+              "kind": "wheel",
+              "source_m": [
+                0.8050000071525574,
+                -1.4600000381469727,
+                0.3433000147342682
+              ]
+            },
+            {
+              "name": "Camera_ChaseTarget",
+              "kind": "camera",
+              "source_m": [
+                0.0,
+                -0.10000000149011612,
+                0.8799999952316284
+              ]
+            },
+            {
+              "name": "Camera_Cockpit",
+              "kind": "camera",
+              "source_m": [
+                -0.4300000071525574,
+                -0.38999998569488525,
+                1.2100000381469727
+              ]
+            },
+            {
+              "name": "MirrorCamera_Left",
+              "kind": "camera",
+              "source_m": [
+                -1.0199999809265137,
+                0.6100000143051147,
+                1.065000057220459
+              ]
+            },
+            {
+              "name": "MirrorCamera_Rear",
+              "kind": "camera",
+              "source_m": [
+                0.0,
+                0.1599999964237213,
+                1.2929999828338623
+              ]
+            },
+            {
+              "name": "MirrorCamera_Right",
+              "kind": "camera",
+              "source_m": [
+                1.0199999809265137,
+                0.6100000143051147,
+                1.065000057220459
+              ]
+            },
+            {
+              "name": "CenterOfMass",
+              "kind": "com",
+              "source_m": [
+                0,
+                0.1168,
+                0.55
+              ]
+            },
+            {
+              "name": "front_left_hip",
+              "kind": "occupant",
+              "source_m": [
+                -0.43,
+                -0.16,
+                0.45
+              ]
+            },
+            {
+              "name": "front_left_eye",
+              "kind": "occupant",
+              "source_m": [
+                -0.43,
+                -0.39,
+                1.21
+              ]
+            },
+            {
+              "name": "front_right_hip",
+              "kind": "occupant",
+              "source_m": [
+                0.43,
+                -0.16,
+                0.45
+              ]
+            },
+            {
+              "name": "front_right_eye",
+              "kind": "occupant",
+              "source_m": [
+                0.43,
+                -0.39,
+                1.21
+              ]
+            },
+            {
+              "name": "rear_left_hip",
+              "kind": "occupant",
+              "source_m": [
+                -0.43,
+                -1.08,
+                0.48
+              ]
+            },
+            {
+              "name": "rear_left_eye",
+              "kind": "occupant",
+              "source_m": [
+                -0.43,
+                -1.34,
+                1.17
+              ]
+            },
+            {
+              "name": "rear_right_hip",
+              "kind": "occupant",
+              "source_m": [
+                0.43,
+                -1.08,
+                0.48
+              ]
+            },
+            {
+              "name": "rear_right_eye",
+              "kind": "occupant",
+              "source_m": [
+                0.43,
+                -1.34,
+                1.17
+              ]
+            },
+            {
+              "name": "CollisionProxy_Body",
+              "kind": "collision",
+              "source_vertices_m": [
+                [
+                  -0.9100000262260437,
+                  -2.429999828338623,
+                  0.1599999964237213
+                ],
+                [
+                  -0.9100000262260437,
+                  -2.429999828338623,
+                  0.7799999713897705
+                ],
+                [
+                  -0.9100000262260437,
+                  2.2899999618530273,
+                  0.1599999964237213
+                ],
+                [
+                  -0.9100000262260437,
+                  2.2899999618530273,
+                  0.7799999713897705
+                ],
+                [
+                  0.9100000262260437,
+                  -2.429999828338623,
+                  0.1599999964237213
+                ],
+                [
+                  0.9100000262260437,
+                  -2.429999828338623,
+                  0.7799999713897705
+                ],
+                [
+                  0.9100000262260437,
+                  2.2899999618530273,
+                  0.1599999964237213
+                ],
+                [
+                  0.9100000262260437,
+                  2.2899999618530273,
+                  0.7799999713897705
+                ]
+              ]
+            },
+            {
+              "name": "CollisionProxy_Cabin",
+              "kind": "collision",
+              "source_vertices_m": [
+                [
+                  -0.7099999785423279,
+                  -1.3199999332427979,
+                  0.73499995470047
+                ],
+                [
+                  -0.7099999785423279,
+                  -1.3199999332427979,
+                  1.3350000381469727
+                ],
+                [
+                  -0.7099999785423279,
+                  0.18000000715255737,
+                  0.73499995470047
+                ],
+                [
+                  -0.7099999785423279,
+                  0.18000000715255737,
+                  1.3350000381469727
+                ],
+                [
+                  0.7099999785423279,
+                  -1.3199999332427979,
+                  0.73499995470047
+                ],
+                [
+                  0.7099999785423279,
+                  -1.3199999332427979,
+                  1.3350000381469727
+                ],
+                [
+                  0.7099999785423279,
+                  0.18000000715255737,
+                  0.73499995470047
+                ],
+                [
+                  0.7099999785423279,
+                  0.18000000715255737,
+                  1.3350000381469727
+                ]
+              ]
+            }
+          ],
+          "source_saved": false
+        },
+        "review_overlay_tool_sha256": "230827eb0257dd454e9429ddd3dd68e51107b540d58f6e18e893542196805fb7",
+        "review_geometry_tool_sha256": "0e9fad40b0d14ba1265958bd6836d133fde89474efd6f988860f46fc2cde2b90",
+        "material_swatches": {}
+      },
+      "contact_sheet": "technical/contact-sheet.png",
+      "contact_sheet_sha256": "b23d64ed7a0f6b80428ac1148a59b9cb59bf23242c8736a1e9b1e0bc44467f9d",
+      "sampled_contact_sheet_frames": [
+        "front",
+        "rear",
+        "left",
+        "right",
+        "top",
+        "under"
+      ],
+      "actual_frame_count": 6
+    },
+    {
+      "label": "driving",
+      "kind": "actual native Godot historical blockout driving",
+      "historical_blockout_revalidation": true,
+      "process": "driving/process.json",
+      "process_sha256": "6291ed5d91da7da07b4672523301759270dac6f93889f2be5793579d9ec31fd4",
+      "normalized_scene_sha256": "b2769bae5e4327e67a3e0e1f7cb1c9c58373342eafa8f2adb7767d33ed1b32b5",
+      "retained_outputs": [
+        {
+          "path": "driving/01-static-ride.png",
+          "sha256": "0b9a94f94e59c2d0d7c7bf2b5dda19311a809099f7840f10d077703ad6802503"
+        },
+        {
+          "path": "driving/02-keyboard-acceleration.png",
+          "sha256": "3671aa5f492a530bcc7b74d1723ff5db1512924bb8ea4cab9eb6e242fee4ecf6"
+        },
+        {
+          "path": "driving/03-keyboard-braking.png",
+          "sha256": "f8ba89d4b384d13646147364db20d9b7fdf23b715e94afd075d90cb2f8b43425"
+        },
+        {
+          "path": "driving/04-controller-acceleration.png",
+          "sha256": "2b1e26d429e070a2c8ecfe1a05fd0507f8cf9ec771a46ab43b3c652e2a9b9e79"
+        },
+        {
+          "path": "driving/05-controller-braking.png",
+          "sha256": "3b10cc937cf50070ddfa0372818675501f0c12e46739b915d6ee12c27baff7d0"
+        },
+        {
+          "path": "driving/06-reverse.png",
+          "sha256": "5fe40d3281afa55377709940b83aea1f861e64f557756c370c5078fb2d95568f"
+        },
+        {
+          "path": "driving/07-steer-left.png",
+          "sha256": "03a594641064aef724533a305fc37f25b1d0a4c7cdef447069e1e47f5c2e6eaa"
+        },
+        {
+          "path": "driving/08-steer-right.png",
+          "sha256": "b0a8e5b2019c533f35a47211d73897513f9308cccfa62e0dd47c7829bde021a5"
+        },
+        {
+          "path": "driving/09-suspension.png",
+          "sha256": "08e3c27ffdc42a2fa59f9a39dc7116185a59f80b7c17210ae6da67aae72f95a4"
+        },
+        {
+          "path": "driving/10-collision.png",
+          "sha256": "91f30d8e35235f84fc31b99acef203c417b47118fd7ec670c43171dd8811baca"
+        },
+        {
+          "path": "driving/11-reset.png",
+          "sha256": "e9c4b886352d84ce3cbcce71ce900fd813c7105aeea721e82060c4e02f5742eb"
+        },
+        {
+          "path": "driving/12-cameras.png",
+          "sha256": "ea2db253a2dd6d8387937348adcbdb7300a57b98330e73ccdb6ead2e20917fb9"
+        },
+        {
+          "path": "driving/13-natural-rebase.png",
+          "sha256": "ef8c7a419cd78989608c94b9f8f6c11bee1f96b33960213341b25a4cbbdae881"
+        },
+        {
+          "path": "driving/14-forced-rebase.png",
+          "sha256": "783dffbdac38e13490e15a0c95a7ce12761b2244c2e631108f719114483b5154"
+        },
+        {
+          "path": "driving/15-save-resume.png",
+          "sha256": "6d8d2bfdd77be9936fcdcc22cc9c74d4edbd384b2c5782ea940fc712c6257e6b"
+        },
+        {
+          "path": "driving/16-starter-policy.png",
+          "sha256": "08b645c634f0612bcb0d564fa7a86ab5aefd8adfb84a1f41067c7832429123ec"
+        },
+        {
+          "path": "driving/capture-override.cfg",
+          "sha256": "b5e31897eea9e704115c60ae2ea5bba66eada5a8fc1d610322ed0faba0700fb6"
+        },
+        {
+          "path": "driving/frames.jsonl",
+          "sha256": "c0b8645bb58746a7ddf6830d8caf03c85636f909abcbc9e25f7ef04366bc5cf8"
+        },
+        {
+          "path": "driving/run-save.json",
+          "sha256": "c658f32965344c634ad456ad548c1d9bb165b0db83dd6ada2d972e294de08904"
+        },
+        {
+          "path": "driving/summary.json",
+          "sha256": "89595d4d77380be5beb6ffba332a906705b83c1bb22ca4fd695bf07716f266a4"
+        },
+        {
+          "path": "driving/telemetry.jsonl",
+          "sha256": "0e4e64714f01c374dee73fe1efb15a79239266cabb4f04eb7321fe28e1d4ed5f"
+        }
+      ],
+      "limitations": [
+        "Movie Maker is fixed-timestep inspection, not real-time performance evidence.",
+        "Driving uses actual InputMap-conditioned physics; presentation uses explicitly posed fixtures.",
+        "Human visual, handling, physical-device and rights approvals remain open.",
+        "Historical blockout only: production mechanisms, materials, interior controls, mirrors and final LOD-driving acceptance are omitted."
+      ],
+      "original_movie_sha256": "dec9353fd316dcd3aaa070b8b1dfc6a518e2233301b3ff3df00dc3303485f218",
+      "movie": {
+        "path": "driving/inspection.mp4",
+        "sha256": "9647234818b4e63f8159169988b037c29e8882824967e1202487ee18eab8a28d",
+        "bytes": 224246878,
+        "decoded_stream": {
+          "width": 2560,
+          "height": 1440,
+          "avg_frame_rate": "55560/1877",
+          "duration": "62.366667",
+          "nb_read_frames": "1852"
+        }
+      }
+    }
+  ],
+  "human_approval_reference": null,
+  "ffmpeg": "ffmpeg version 9.0.1-essentials_build-www.gyan.dev Copyright (c) 2000-2026 the FFmpeg developers",
+  "gallery_sha256": "50d2e50d5f76ebcff43f9695a1d9c5c002e03704e65e626b7eb3194a07091a28",
+  "technical_overlay_correction": {
+    "utc": "2026-09-11T16:41:52.098728+00:00",
+    "reason": "Restore readable longitudinal cross-ticks and complete ruler framing in top/under; opened historical source bytes unchanged.",
+    "original_review_sha256": "a5f247b0036ab5e0a56e3dd1f8763744d9eb9bb6cbd7a050e16abdff0f5b7a6f",
+    "candidate_review_sha256": "6df7dc020e40a9578b70bf7809ff250586e2c14e116dda4fbb2ae69c1c21fbfc",
+    "previous_technical_capture": {
+      "label": "technical",
+      "kind": "Blender capture",
+      "input_manifest": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\blockout-technical-orthos-02\\manifest.json",
+      "input_manifest_sha256": "fd33888df8d2c5f98a896a8ae9ef675a5fc8d3e5aed0d836dd2b9b07aa7b4914",
+      "configuration": {
+        "source_sha256": "4db9756aad26fbf45ccd1c5dcae2a39cbedc3fb134a6a8a3216b2ecf534b1263",
+        "renderer_sha256": "9932bab82cded62aa26a13ae132fea1c3ad72e13ae0a8633a72774227f065964",
+        "blender": "5.1.2",
+        "build_hash": "ec6e62d40fa9",
+        "engine": "CYCLES",
+        "device": "GPU",
+        "devices": [
+          {
+            "name": "NVIDIA GeForce RTX 3080 Ti",
+            "type": "CUDA",
+            "enabled": false
+          },
+          {
+            "name": "AMD Ryzen 9 5900X 12-Core Processor",
+            "type": "CPU",
+            "enabled": false
+          },
+          {
+            "name": "NVIDIA GeForce RTX 3080 Ti",
+            "type": "OPTIX",
+            "enabled": true
+          }
+        ],
+        "size": [
+          2560,
+          1440
+        ],
+        "samples": 32,
+        "denoising": true,
+        "view_transform": "AgX",
+        "look": "AgX - Medium High Contrast",
+        "exposure": 0.0,
+        "clay": false,
+        "source_controls": {},
+        "lighting": "neutral",
+        "sequence": "none",
+        "frame_count": 6,
+        "fps": 30,
+        "views": "front,rear,left,right,top,under",
+        "ray_bounces": 10,
+        "source_timeline_fps": 24,
+        "inspection_fill_watts": 0,
+        "denoiser": "OPENIMAGEDENOISE",
+        "denoising_use_gpu": true,
+        "denoising_prefilter": "ACCURATE",
+        "technical_overlay": {
+          "mode": "technical x-ray; temporary materials and geometry",
+          "source_specification_revision": null,
+          "ruler_minor_m": 0.5,
+          "ruler_major_m": 1,
+          "legend": {
+            "cyan": "wheel/contact/suspension",
+            "magenta": "camera",
+            "green": "occupant hip/eye/head envelope",
+            "yellow": "actual collision proxy",
+            "orange": "center of mass"
+          },
+          "markers": [
+            {
+              "name": "Wheel_FL",
+              "kind": "wheel",
+              "source_m": [
+                -0.8100000023841858,
+                1.4600000381469727,
+                0.3433000147342682
+              ]
+            },
+            {
+              "name": "Contact_FL",
+              "kind": "wheel",
+              "source_m": [
+                -0.8100000023841858,
+                1.4600000381469727,
+                0.0
+              ]
+            },
+            {
+              "name": "Suspension_FL",
+              "kind": "wheel",
+              "source_m": [
+                -0.8100000023841858,
+                1.4600000381469727,
+                0.3433000147342682
+              ]
+            },
+            {
+              "name": "Wheel_FR",
+              "kind": "wheel",
+              "source_m": [
+                0.8100000023841858,
+                1.4600000381469727,
+                0.3433000147342682
+              ]
+            },
+            {
+              "name": "Contact_FR",
+              "kind": "wheel",
+              "source_m": [
+                0.8100000023841858,
+                1.4600000381469727,
+                0.0
+              ]
+            },
+            {
+              "name": "Suspension_FR",
+              "kind": "wheel",
+              "source_m": [
+                0.8100000023841858,
+                1.4600000381469727,
+                0.3433000147342682
+              ]
+            },
+            {
+              "name": "Wheel_RL",
+              "kind": "wheel",
+              "source_m": [
+                -0.8050000071525574,
+                -1.4600000381469727,
+                0.3433000147342682
+              ]
+            },
+            {
+              "name": "Contact_RL",
+              "kind": "wheel",
+              "source_m": [
+                -0.8050000071525574,
+                -1.4600000381469727,
+                0.0
+              ]
+            },
+            {
+              "name": "Suspension_RL",
+              "kind": "wheel",
+              "source_m": [
+                -0.8050000071525574,
+                -1.4600000381469727,
+                0.3433000147342682
+              ]
+            },
+            {
+              "name": "Wheel_RR",
+              "kind": "wheel",
+              "source_m": [
+                0.8050000071525574,
+                -1.4600000381469727,
+                0.3433000147342682
+              ]
+            },
+            {
+              "name": "Contact_RR",
+              "kind": "wheel",
+              "source_m": [
+                0.8050000071525574,
+                -1.4600000381469727,
+                0.0
+              ]
+            },
+            {
+              "name": "Suspension_RR",
+              "kind": "wheel",
+              "source_m": [
+                0.8050000071525574,
+                -1.4600000381469727,
+                0.3433000147342682
+              ]
+            },
+            {
+              "name": "Camera_ChaseTarget",
+              "kind": "camera",
+              "source_m": [
+                0.0,
+                -0.10000000149011612,
+                0.8799999952316284
+              ]
+            },
+            {
+              "name": "Camera_Cockpit",
+              "kind": "camera",
+              "source_m": [
+                -0.4300000071525574,
+                -0.38999998569488525,
+                1.2100000381469727
+              ]
+            },
+            {
+              "name": "MirrorCamera_Left",
+              "kind": "camera",
+              "source_m": [
+                -1.0199999809265137,
+                0.6100000143051147,
+                1.065000057220459
+              ]
+            },
+            {
+              "name": "MirrorCamera_Rear",
+              "kind": "camera",
+              "source_m": [
+                0.0,
+                0.1599999964237213,
+                1.2929999828338623
+              ]
+            },
+            {
+              "name": "MirrorCamera_Right",
+              "kind": "camera",
+              "source_m": [
+                1.0199999809265137,
+                0.6100000143051147,
+                1.065000057220459
+              ]
+            },
+            {
+              "name": "CenterOfMass",
+              "kind": "com",
+              "source_m": [
+                0,
+                0.1168,
+                0.55
+              ]
+            },
+            {
+              "name": "front_left_hip",
+              "kind": "occupant",
+              "source_m": [
+                -0.43,
+                -0.16,
+                0.45
+              ]
+            },
+            {
+              "name": "front_left_eye",
+              "kind": "occupant",
+              "source_m": [
+                -0.43,
+                -0.39,
+                1.21
+              ]
+            },
+            {
+              "name": "front_right_hip",
+              "kind": "occupant",
+              "source_m": [
+                0.43,
+                -0.16,
+                0.45
+              ]
+            },
+            {
+              "name": "front_right_eye",
+              "kind": "occupant",
+              "source_m": [
+                0.43,
+                -0.39,
+                1.21
+              ]
+            },
+            {
+              "name": "rear_left_hip",
+              "kind": "occupant",
+              "source_m": [
+                -0.43,
+                -1.08,
+                0.48
+              ]
+            },
+            {
+              "name": "rear_left_eye",
+              "kind": "occupant",
+              "source_m": [
+                -0.43,
+                -1.34,
+                1.17
+              ]
+            },
+            {
+              "name": "rear_right_hip",
+              "kind": "occupant",
+              "source_m": [
+                0.43,
+                -1.08,
+                0.48
+              ]
+            },
+            {
+              "name": "rear_right_eye",
+              "kind": "occupant",
+              "source_m": [
+                0.43,
+                -1.34,
+                1.17
+              ]
+            },
+            {
+              "name": "CollisionProxy_Body",
+              "kind": "collision",
+              "source_vertices_m": [
+                [
+                  -0.9100000262260437,
+                  -2.429999828338623,
+                  0.1599999964237213
+                ],
+                [
+                  -0.9100000262260437,
+                  -2.429999828338623,
+                  0.7799999713897705
+                ],
+                [
+                  -0.9100000262260437,
+                  2.2899999618530273,
+                  0.1599999964237213
+                ],
+                [
+                  -0.9100000262260437,
+                  2.2899999618530273,
+                  0.7799999713897705
+                ],
+                [
+                  0.9100000262260437,
+                  -2.429999828338623,
+                  0.1599999964237213
+                ],
+                [
+                  0.9100000262260437,
+                  -2.429999828338623,
+                  0.7799999713897705
+                ],
+                [
+                  0.9100000262260437,
+                  2.2899999618530273,
+                  0.1599999964237213
+                ],
+                [
+                  0.9100000262260437,
+                  2.2899999618530273,
+                  0.7799999713897705
+                ]
+              ]
+            },
+            {
+              "name": "CollisionProxy_Cabin",
+              "kind": "collision",
+              "source_vertices_m": [
+                [
+                  -0.7099999785423279,
+                  -1.3199999332427979,
+                  0.73499995470047
+                ],
+                [
+                  -0.7099999785423279,
+                  -1.3199999332427979,
+                  1.3350000381469727
+                ],
+                [
+                  -0.7099999785423279,
+                  0.18000000715255737,
+                  0.73499995470047
+                ],
+                [
+                  -0.7099999785423279,
+                  0.18000000715255737,
+                  1.3350000381469727
+                ],
+                [
+                  0.7099999785423279,
+                  -1.3199999332427979,
+                  0.73499995470047
+                ],
+                [
+                  0.7099999785423279,
+                  -1.3199999332427979,
+                  1.3350000381469727
+                ],
+                [
+                  0.7099999785423279,
+                  0.18000000715255737,
+                  0.73499995470047
+                ],
+                [
+                  0.7099999785423279,
+                  0.18000000715255737,
+                  1.3350000381469727
+                ]
+              ]
+            }
+          ],
+          "source_saved": false
+        },
+        "review_overlay_tool_sha256": "12d29dbde1d5f2c97bd3240459db70f0b71bb8b38cba69c1a108f5882b0e85f5",
+        "review_geometry_tool_sha256": "0e9fad40b0d14ba1265958bd6836d133fde89474efd6f988860f46fc2cde2b90",
+        "material_swatches": {}
+      },
+      "contact_sheet": "technical/contact-sheet.png",
+      "contact_sheet_sha256": "e1dbabe144511a16776e6c9f59ee1a356c17e885298a1bf76c4a7d993e0b4eba",
+      "sampled_contact_sheet_frames": [
+        "front",
+        "rear",
+        "left",
+        "right",
+        "top",
+        "under"
+      ],
+      "actual_frame_count": 6
+    },
+    "source_geometry_modified": false,
+    "human_approval_reference": null
+  }
+}

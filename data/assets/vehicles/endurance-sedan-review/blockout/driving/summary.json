@@ -1,0 +1,2234 @@
+{
+  "schema_version": 1,
+  "task_id": "P1-018",
+  "milestone": "M5",
+  "status": "passed",
+  "stage_scope": "blockout-functional-integration",
+  "expected_stages": [
+    "static-ride",
+    "keyboard-acceleration",
+    "keyboard-braking",
+    "controller-acceleration",
+    "controller-braking",
+    "reverse",
+    "steer-left",
+    "steer-right",
+    "suspension",
+    "collision",
+    "reset",
+    "cameras",
+    "natural-rebase",
+    "forced-rebase",
+    "save-resume",
+    "starter-policy"
+  ],
+  "blockout_presentation_omitted": true,
+  "completed_stages": [
+    {
+      "stage": "static-ride",
+      "status": "passed",
+      "physics_frames": 240,
+      "signed_travel_m": -4.081566975795846E-05,
+      "wheel_rotation_rad": 0.00011730194091796875,
+      "maximum_speed_mps": 0.055212617,
+      "final_signed_speed_mps": -3.0248426E-05,
+      "minimum_grounded": 0,
+      "compression_min_m": 0,
+      "compression_max_m": 0.07540873,
+      "maximum_steer_rad": 0,
+      "teleports": 0,
+      "rebases": 0,
+      "resets": 0,
+      "vehicle_epoch": 0,
+      "observed_driving_lods": [],
+      "camera_direction_checks": null
+    },
+    {
+      "stage": "keyboard-acceleration",
+      "status": "passed",
+      "physics_frames": 360,
+      "signed_travel_m": 43.15412548343738,
+      "wheel_rotation_rad": -124.99000358581543,
+      "maximum_speed_mps": 29.657991,
+      "final_signed_speed_mps": 29.651997,
+      "minimum_grounded": 4,
+      "compression_min_m": 0.048031658,
+      "compression_max_m": 0.10911766,
+      "maximum_steer_rad": 0,
+      "teleports": 0,
+      "rebases": 0,
+      "resets": 0,
+      "vehicle_epoch": 0,
+      "observed_driving_lods": [],
+      "camera_direction_checks": null
+    },
+    {
+      "stage": "keyboard-braking",
+      "status": "passed",
+      "physics_frames": 480,
+      "signed_travel_m": 30.100933698053723,
+      "wheel_rotation_rad": -88.39647960662842,
+      "maximum_speed_mps": 29.712803,
+      "final_signed_speed_mps": -2.950686E-05,
+      "minimum_grounded": 4,
+      "compression_min_m": 0.027830929,
+      "compression_max_m": 0.11684188,
+      "maximum_steer_rad": 0,
+      "teleports": 0,
+      "rebases": 0,
+      "resets": 0,
+      "vehicle_epoch": 0,
+      "observed_driving_lods": [],
+      "camera_direction_checks": null
+    },
+    {
+      "stage": "controller-acceleration",
+      "status": "passed",
+      "physics_frames": 240,
+      "signed_travel_m": 11.053886540310486,
+      "wheel_rotation_rad": -31.92208766937256,
+      "maximum_speed_mps": 11.548393,
+      "final_signed_speed_mps": 11.547577,
+      "minimum_grounded": 4,
+      "compression_min_m": 0.059019238,
+      "compression_max_m": 0.09401944,
+      "maximum_steer_rad": 0,
+      "teleports": 0,
+      "rebases": 0,
+      "resets": 0,
+      "vehicle_epoch": 0,
+      "observed_driving_lods": [],
+      "camera_direction_checks": null
+    },
+    {
+      "stage": "controller-braking",
+      "status": "passed",
+      "physics_frames": 95,
+      "signed_travel_m": 4.981110786786303,
+      "wheel_rotation_rad": -14.76771330833435,
+      "maximum_speed_mps": 11.595055,
+      "final_signed_speed_mps": 0.45655605,
+      "minimum_grounded": 4,
+      "compression_min_m": 0.027573258,
+      "compression_max_m": 0.11523566,
+      "maximum_steer_rad": 0,
+      "teleports": 0,
+      "rebases": 0,
+      "resets": 0,
+      "vehicle_epoch": 0,
+      "observed_driving_lods": [],
+      "camera_direction_checks": null
+    },
+    {
+      "stage": "reverse",
+      "status": "passed",
+      "physics_frames": 240,
+      "signed_travel_m": -18.244987039997795,
+      "wheel_rotation_rad": 52.66618275642395,
+      "maximum_speed_mps": 19.309519,
+      "final_signed_speed_mps": -19.305597,
+      "minimum_grounded": 4,
+      "compression_min_m": 0.027855903,
+      "compression_max_m": 0.11518046,
+      "maximum_steer_rad": 0,
+      "teleports": 0,
+      "rebases": 0,
+      "resets": 0,
+      "vehicle_epoch": 0,
+      "observed_driving_lods": [],
+      "camera_direction_checks": null
+    },
+    {
+      "stage": "steer-left",
+      "status": "passed",
+      "physics_frames": 180,
+      "signed_travel_m": 15.940326787531376,
+      "wheel_rotation_rad": -46.38926124572754,
+      "maximum_speed_mps": 11.3128395,
+      "final_signed_speed_mps": 11.309488,
+      "minimum_grounded": 4,
+      "compression_min_m": 0.03392592,
+      "compression_max_m": 0.11676863,
+      "maximum_steer_rad": 0.36296362,
+      "teleports": 1,
+      "rebases": 0,
+      "resets": 0,
+      "vehicle_epoch": 0,
+      "observed_driving_lods": [],
+      "camera_direction_checks": null
+    },
+    {
+      "stage": "steer-right",
+      "status": "passed",
+      "physics_frames": 180,
+      "signed_travel_m": 15.993035554885864,
+      "wheel_rotation_rad": -46.5430850982666,
+      "maximum_speed_mps": 11.34788,
+      "final_signed_speed_mps": 11.344709,
+      "minimum_grounded": 4,
+      "compression_min_m": 0.033964127,
+      "compression_max_m": 0.116743654,
+      "maximum_steer_rad": 0.3628786,
+      "teleports": 1,
+      "rebases": 0,
+      "resets": 0,
+      "vehicle_epoch": 0,
+      "observed_driving_lods": [],
+      "camera_direction_checks": null
+    },
+    {
+      "stage": "suspension",
+      "status": "passed",
+      "physics_frames": 420,
+      "signed_travel_m": 32.441315807402134,
+      "wheel_rotation_rad": -94.53019905090332,
+      "maximum_speed_mps": 10,
+      "final_signed_speed_mps": 8.681007,
+      "minimum_grounded": 4,
+      "compression_min_m": 0.024485022,
+      "compression_max_m": 0.14609948,
+      "maximum_steer_rad": 0.3381765,
+      "teleports": 1,
+      "rebases": 0,
+      "resets": 0,
+      "vehicle_epoch": 0,
+      "observed_driving_lods": [],
+      "camera_direction_checks": null
+    },
+    {
+      "stage": "collision",
+      "status": "passed",
+      "physics_frames": 420,
+      "signed_travel_m": 19.41952894710581,
+      "wheel_rotation_rad": -56.910428047180176,
+      "maximum_speed_mps": 19.977434,
+      "final_signed_speed_mps": 3.8101985E-10,
+      "minimum_grounded": 4,
+      "compression_min_m": 0.048025995,
+      "compression_max_m": 0.107751876,
+      "maximum_steer_rad": 0,
+      "teleports": 1,
+      "rebases": 0,
+      "resets": 0,
+      "vehicle_epoch": 0,
+      "observed_driving_lods": [],
+      "camera_direction_checks": null
+    },
+    {
+      "stage": "reset",
+      "status": "passed",
+      "physics_frames": 120,
+      "signed_travel_m": -0.3135209323762399,
+      "wheel_rotation_rad": 0.9030952453613281,
+      "maximum_speed_mps": 7.6047215,
+      "final_signed_speed_mps": -3.3269993E-05,
+      "minimum_grounded": 0,
+      "compression_min_m": 0,
+      "compression_max_m": 0.09723434,
+      "maximum_steer_rad": 0,
+      "teleports": 2,
+      "rebases": 0,
+      "resets": 1,
+      "vehicle_epoch": 0,
+      "observed_driving_lods": [],
+      "camera_direction_checks": null
+    },
+    {
+      "stage": "cameras",
+      "status": "passed",
+      "physics_frames": 280,
+      "signed_travel_m": -5.587481973634567E-05,
+      "wheel_rotation_rad": 0.00019931793212890625,
+      "maximum_speed_mps": 0.04862345,
+      "final_signed_speed_mps": -3.2658165E-05,
+      "minimum_grounded": 4,
+      "compression_min_m": 0.074570745,
+      "compression_max_m": 0.075279325,
+      "maximum_steer_rad": 0,
+      "teleports": 0,
+      "rebases": 0,
+      "resets": 0,
+      "vehicle_epoch": 0,
+      "observed_driving_lods": [],
+      "camera_direction_checks": {
+        "right-down": {
+          "input": "right-down",
+          "camera_forward": [
+            0.517720103263855,
+            -0.4065294563770294,
+            -0.752794623374939
+          ],
+          "chassis_right": [
+            0.9999839067459106,
+            -0.00040197791531682014,
+            -0.00566072016954422
+          ],
+          "chassis_up": [
+            0.00040196283953264356,
+            0.9999999403953552,
+            -3.7990703276591375E-06
+          ],
+          "right_dot": 0.52213657,
+          "up_dot": -0.40631846,
+          "stabilization_degrees": 0,
+          "input_space_angles": {
+            "Active": true,
+            "VehicleLocal": true,
+            "LookYawDegrees": 34.833335876464844,
+            "LookPitchDegrees": 24,
+            "HorizonRollDegrees": 0.018822956830263138,
+            "PitchStabilizationDegrees": 0.026226043701171875,
+            "RollStabilizationDegrees": 0.04123511165380478
+          }
+        },
+        "left-up": {
+          "input": "left-up",
+          "camera_forward": [
+            -0.5299035906791687,
+            0.4061086177825928,
+            -0.7444984912872314
+          ],
+          "chassis_right": [
+            0.999948263168335,
+            0.0003995623847004026,
+            -0.01016626600176096
+          ],
+          "chassis_up": [
+            -0.00039955732063390315,
+            0.9999999403953552,
+            2.5286485652031843E-06
+          ],
+          "right_dot": -0.52214515,
+          "up_dot": 0.40631843,
+          "stabilization_degrees": 0,
+          "input_space_angles": {
+            "Active": true,
+            "VehicleLocal": true,
+            "LookYawDegrees": -34.833335876464844,
+            "LookPitchDegrees": -24,
+            "HorizonRollDegrees": 0.056419819593429565,
+            "PitchStabilizationDegrees": -0.026227951049804688,
+            "RollStabilizationDegrees": 0.041236430406570435
+          }
+        }
+      }
+    },
+    {
+      "stage": "natural-rebase",
+      "status": "passed",
+      "physics_frames": 3954,
+      "signed_travel_m": 1000.1608246635587,
+      "wheel_rotation_rad": -2913.3656039237976,
+      "maximum_speed_mps": 32.007214,
+      "final_signed_speed_mps": 31.993834,
+      "minimum_grounded": 0,
+      "compression_min_m": 0,
+      "compression_max_m": 0.11028418,
+      "maximum_steer_rad": 0.0016864178,
+      "teleports": 1,
+      "rebases": 1,
+      "resets": 0,
+      "vehicle_epoch": 0,
+      "observed_driving_lods": [],
+      "camera_direction_checks": null
+    },
+    {
+      "stage": "forced-rebase",
+      "status": "passed",
+      "physics_frames": 5,
+      "signed_travel_m": -0.5299695730209351,
+      "wheel_rotation_rad": -1.1920928955078125E-06,
+      "maximum_speed_mps": 31.99948,
+      "final_signed_speed_mps": -0,
+      "minimum_grounded": 0,
+      "compression_min_m": 0,
+      "compression_max_m": 0.07975617,
+      "maximum_steer_rad": 5.1550936E-10,
+      "teleports": 1,
+      "rebases": 1,
+      "resets": 0,
+      "vehicle_epoch": 0,
+      "observed_driving_lods": [],
+      "camera_direction_checks": null
+    },
+    {
+      "stage": "save-resume",
+      "status": "passed",
+      "physics_frames": 12,
+      "signed_travel_m": -7.481371812900761E-05,
+      "wheel_rotation_rad": -8.392333984375E-05,
+      "maximum_speed_mps": 0.14434855,
+      "final_signed_speed_mps": 0.0005047101,
+      "minimum_grounded": 0,
+      "compression_min_m": 0,
+      "compression_max_m": 0.050898284,
+      "maximum_steer_rad": 0,
+      "teleports": 0,
+      "rebases": 0,
+      "resets": 0,
+      "vehicle_epoch": 1,
+      "observed_driving_lods": [],
+      "camera_direction_checks": null
+    },
+    {
+      "stage": "starter-policy",
+      "status": "passed",
+      "physics_frames": 250,
+      "signed_travel_m": 4.729367627944057,
+      "wheel_rotation_rad": -13.778101444244385,
+      "maximum_speed_mps": 55.88,
+      "final_signed_speed_mps": 55.80223,
+      "minimum_grounded": 4,
+      "compression_min_m": 0.04455456,
+      "compression_max_m": 0.079158396,
+      "maximum_steer_rad": 0,
+      "teleports": 1,
+      "rebases": 0,
+      "resets": 0,
+      "vehicle_epoch": 1,
+      "observed_driving_lods": [],
+      "camera_direction_checks": null
+    }
+  ],
+  "vehicle": "endurance-sedan",
+  "loaded_asset": "endurance-sedan",
+  "git_revision": "eb5703e55f3656e91bd80fb79502f10ce250554b",
+  "utc": "2026-09-11T14:35:50.9660539+00:00",
+  "platform": "Windows",
+  "engine": "4.7.1-stable (official)",
+  "dotnet": ".NET 10.0.2",
+  "scenario_arguments": [
+    "--route-package=C:\\Dev\\Cannonball-Vibe-sedan\\.tools\\scenarios\\representative-corridor\\route_graph-e5d7032b991b4c4da5c94e6fbbacd4ed7992bb5dd7102b8e0181e622a2cb4fcc.cbrg",
+    "--vehicle=endurance-sedan",
+    "--environment-quality=high",
+    "--endurance-sedan-profile",
+    "--run-save-path=C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\runtime\\blockout\\native-revalidation-05\\run-save.json",
+    "--sedan-captures",
+    "--sedan-evidence-dir=C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\runtime\\blockout\\native-revalidation-05",
+    "--telemetry-path=C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\runtime\\blockout\\native-revalidation-05\\telemetry.jsonl",
+    "--sedan-blockout"
+  ],
+  "deterministic_seed": 20260714,
+  "physics_hz": 120,
+  "physics_frames": 7476,
+  "input_hashes": {
+    "game/Vehicle/CannonballVehicle.cs": "1735925778abfe6e87a024e93e1bb08306c7fa0a1cf638830ced4df43ef0cce5",
+    "game/Vehicle/VehicleVisualRig.cs": "d8ead150491c225a8b7330bb6e38dd541dd7ef80c697ed51c0c2e5b5cdc52ef7",
+    "game/Vehicle/VehicleRigSetup.cs": "2836fa0d2dd001a310c49535d7c7795beb269046bb4f23602483f7f8d12cb6dd",
+    "game/Vehicle/Setups/HeroGt.tres": "128aa36890a5e3ce25c6fbaadeffe862df78895dfa7a939cbecd9b5b10a4af11",
+    "game/Vehicle/Setups/EnduranceSedan.tres": "d381eeb0ee17f20437c07bcb33f957a34aed6dc7b222a8cfac209f06eb49fea4",
+    "game/Automation/EnduranceSedanScenario.cs": "7e982a1d763a429cccc2186c82fcd94c5eb12f003129762330bb8569333391b6",
+    "game/Main.cs": "7ea646dbd4c14744b3d3923955713ffb3c7200b0df7e42c2136109846049e8f1",
+    "game/Camera/CockpitCameraRig.cs": "0e81162082efa7dee2fc9ba32fadfc0d42b7ad7dc9a6d90e6fe26839713dd88c",
+    "game/Input/GameInputMap.cs": "95c86d2b30ed0edad7c875eb365e0125acec30b5ccfa4d24f340bd2142b31f1f",
+    "scripts/verify-endurance-sedan.sh": "081fbb131d6781a14c78430198b95172e44278514ef37ab31f15bc3d7f19833e",
+    "docs/vehicles/endurance-sedan/specification.json": "744f9a4695b5e1acab06e3cb5c0384ec31d8bd2ddecad36568540fbc6132f06e",
+    "tools/vehicles/vehicle_contract.json": "b14cff4f3611b57a2dfd7e3332aaa2b846be7e76c00299b91923a74a3f8aaa92",
+    "tools/assets/toolchain.json": "1739c26300e93aac24450ce64834ac302c35f6f98e7a610eefe82a05a040b1a1",
+    "data/assets/vehicles/sources/endurance-sedan.blend": "4db9756aad26fbf45ccd1c5dcae2a39cbedc3fb134a6a8a3216b2ecf534b1263",
+    "data/assets/vehicles/derived/endurance-sedan.glb": "483fe3c10c5d6e6589f0ba2e9bf38ab30f7b199240b092f3796d44a5aac948a9",
+    "assets/vehicles/endurance-sedan/endurance-sedan.generated.tscn": "b2769bae5e4327e67a3e0e1f7cb1c9c58373342eafa8f2adb7767d33ed1b32b5"
+  },
+  "human_approval": null,
+  "input_hash_scope": "physically available repository files; packaged PCK/assembly hashes are bound by the external package verifier",
+  "unavailable_input_paths": [],
+  "user_data_directory": "C:/Users/randr/AppData/Roaming/Godot/app_userdata/Cannonball Run",
+  "executable_path": "C:/Users/randr/AppData/Local/Microsoft/WinGet/Packages/GodotEngine.GodotEngine.Mono_Microsoft.Winget.Source_8wekyb3d8bbwe/Godot_v4.7.1-stable_mono_win64/Godot_v4.7.1-stable_mono_win64.exe",
+  "runtime_is_debug_build": true,
+  "modeled_fuel_capacity_l": 175,
+  "fixed_running_mass_kg": 2400,
+  "fuel_mass_simulated": false,
+  "rendered_captures": [
+    {
+      "stage": "static-ride",
+      "physics_frame": 92,
+      "render_frame": 22,
+      "camera": "chase",
+      "camera_position": [
+        -249.9676513671875,
+        2.9883832931518555,
+        68.92804718017578
+      ],
+      "camera_node": "ChaseCamera",
+      "camera_fov": 76.0013,
+      "frozen": false,
+      "renderer": "forward_plus",
+      "display_driver": "Windows",
+      "size": [
+        2560,
+        1440
+      ],
+      "render_quality": {
+        "actual_msaa_3d": "Msaa4X",
+        "applied_tier": "high",
+        "applied_directional_shadow_size": 8192,
+        "global_quality_basis": "Atlas/tier are applied-call metadata; MSAA is a live Viewport property."
+      },
+      "lighting": "day",
+      "before_draw": {
+        "stage": "static-ride",
+        "physics_frame": 92,
+        "render_frame": 22,
+        "vehicle_epoch": 0,
+        "local_origin": {
+          "OriginWorldX": 0,
+          "OriginWorldY": 0,
+          "OriginWorldZ": 0,
+          "LocalOriginRouteMeters": 0,
+          "RebaseCount": 0,
+          "LoadedChunkIds": [
+            "edge-3ca7f656b08e6f8c31fb-c0000"
+          ],
+          "CollisionChunkIds": [
+            "edge-3ca7f656b08e6f8c31fb-c0000"
+          ]
+        },
+        "active_lod": 0,
+        "camera_node": "ChaseCamera",
+        "body_position": [
+          -250.0001983642578,
+          0.6500475406646729,
+          60.00001907348633
+        ],
+        "displayed_body_position": [
+          -249.9998779296875,
+          0.6500475406646729,
+          60.00001525878906
+        ],
+        "camera_position": [
+          -249.9676513671875,
+          2.9883832931518555,
+          68.92804718017578
+        ],
+        "displayed_distance_m": 9.229225,
+        "lod_selection": null
+      },
+      "after_draw": {
+        "stage": "static-ride",
+        "physics_frame": 92,
+        "render_frame": 22,
+        "vehicle_epoch": 0,
+        "local_origin": {
+          "OriginWorldX": 0,
+          "OriginWorldY": 0,
+          "OriginWorldZ": 0,
+          "LocalOriginRouteMeters": 0,
+          "RebaseCount": 0,
+          "LoadedChunkIds": [
+            "edge-3ca7f656b08e6f8c31fb-c0000"
+          ],
+          "CollisionChunkIds": [
+            "edge-3ca7f656b08e6f8c31fb-c0000"
+          ]
+        },
+        "active_lod": 0,
+        "camera_node": "ChaseCamera",
+        "body_position": [
+          -250.0001983642578,
+          0.6500475406646729,
+          60.00001907348633
+        ],
+        "displayed_body_position": [
+          -249.9998779296875,
+          0.6500475406646729,
+          60.00001525878906
+        ],
+        "camera_position": [
+          -249.9676513671875,
+          2.9883832931518555,
+          68.92804718017578
+        ],
+        "displayed_distance_m": 9.229225,
+        "lod_selection": null
+      },
+      "path": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\runtime\\blockout\\native-revalidation-05\\01-static-ride.png",
+      "sha256": "0b9a94f94e59c2d0d7c7bf2b5dda19311a809099f7840f10d077703ad6802503"
+    },
+    {
+      "stage": "keyboard-acceleration",
+      "physics_frame": 420,
+      "render_frame": 104,
+      "camera": "chase",
+      "camera_position": [
+        -250.0121612548828,
+        2.9978370666503906,
+        59.96961975097656
+      ],
+      "camera_node": "ChaseCamera",
+      "camera_fov": 76.37118,
+      "frozen": false,
+      "renderer": "forward_plus",
+      "display_driver": "Windows",
+      "size": [
+        2560,
+        1440
+      ],
+      "render_quality": {
+        "actual_msaa_3d": "Msaa4X",
+        "applied_tier": "high",
+        "applied_directional_shadow_size": 8192,
+        "global_quality_basis": "Atlas/tier are applied-call metadata; MSAA is a live Viewport property."
+      },
+      "lighting": "day",
+      "before_draw": {
+        "stage": "keyboard-acceleration",
+        "physics_frame": 420,
+        "render_frame": 104,
+        "vehicle_epoch": 0,
+        "local_origin": {
+          "OriginWorldX": 0,
+          "OriginWorldY": 0,
+          "OriginWorldZ": 0,
+          "LocalOriginRouteMeters": 0,
+          "RebaseCount": 0,
+          "LoadedChunkIds": [
+            "edge-3ca7f656b08e6f8c31fb-c0000"
+          ],
+          "CollisionChunkIds": [
+            "edge-3ca7f656b08e6f8c31fb-c0000"
+          ]
+        },
+        "active_lod": 0,
+        "camera_node": "ChaseCamera",
+        "body_position": [
+          -250.22689819335938,
+          0.647026538848877,
+          49.92517852783203
+        ],
+        "displayed_body_position": [
+          -250.22418212890625,
+          0.64703369140625,
+          50.04465866088867
+        ],
+        "camera_position": [
+          -250.0121612548828,
+          2.9978370666503906,
+          59.96961975097656
+        ],
+        "displayed_distance_m": 10.201769,
+        "lod_selection": null
+      },
+      "after_draw": {
+        "stage": "keyboard-acceleration",
+        "physics_frame": 420,
+        "render_frame": 104,
+        "vehicle_epoch": 0,
+        "local_origin": {
+          "OriginWorldX": 0,
+          "OriginWorldY": 0,
+          "OriginWorldZ": 0,
+          "LocalOriginRouteMeters": 0,
+          "RebaseCount": 0,
+          "LoadedChunkIds": [
+            "edge-3ca7f656b08e6f8c31fb-c0000"
+          ],
+          "CollisionChunkIds": [
+            "edge-3ca7f656b08e6f8c31fb-c0000"
+          ]
+        },
+        "active_lod": 0,
+        "camera_node": "ChaseCamera",
+        "body_position": [
+          -250.22689819335938,
+          0.647026538848877,
+          49.92517852783203
+        ],
+        "displayed_body_position": [
+          -250.22418212890625,
+          0.64703369140625,
+          50.04465866088867
+        ],
+        "camera_position": [
+          -250.0121612548828,
+          2.9978370666503906,
+          59.96961975097656
+        ],
+        "displayed_distance_m": 10.201769,
+        "lod_selection": null
+      },
+      "path": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\runtime\\blockout\\native-revalidation-05\\02-keyboard-acceleration.png",
+      "sha256": "3671aa5f492a530bcc7b74d1723ff5db1512924bb8ea4cab9eb6e242fee4ecf6"
+    },
+    {
+      "stage": "keyboard-braking",
+      "physics_frame": 692,
+      "render_frame": 172,
+      "camera": "chase",
+      "camera_position": [
+        -251.18011474609375,
+        3.01684832572937,
+        8.591052055358887
+      ],
+      "camera_node": "ChaseCamera",
+      "camera_fov": 76.76033,
+      "frozen": false,
+      "renderer": "forward_plus",
+      "display_driver": "Windows",
+      "size": [
+        2560,
+        1440
+      ],
+      "render_quality": {
+        "actual_msaa_3d": "Msaa4X",
+        "applied_tier": "high",
+        "applied_directional_shadow_size": 8192,
+        "global_quality_basis": "Atlas/tier are applied-call metadata; MSAA is a live Viewport property."
+      },
+      "lighting": "day",
+      "before_draw": {
+        "stage": "keyboard-braking",
+        "physics_frame": 692,
+        "render_frame": 172,
+        "vehicle_epoch": 0,
+        "local_origin": {
+          "OriginWorldX": 0,
+          "OriginWorldY": 0,
+          "OriginWorldZ": 0,
+          "LocalOriginRouteMeters": 0,
+          "RebaseCount": 0,
+          "LoadedChunkIds": [
+            "edge-3ca7f656b08e6f8c31fb-c0000"
+          ],
+          "CollisionChunkIds": [
+            "edge-3ca7f656b08e6f8c31fb-c0000"
+          ]
+        },
+        "active_lod": 0,
+        "camera_node": "ChaseCamera",
+        "body_position": [
+          -251.4083251953125,
+          0.6518346071243286,
+          -2.0523126125335693
+        ],
+        "displayed_body_position": [
+          -251.40475463867188,
+          0.6518173217773438,
+          -1.895383596420288
+        ],
+        "camera_position": [
+          -251.18011474609375,
+          3.01684832572937,
+          8.591052055358887
+        ],
+        "displayed_distance_m": 10.752171,
+        "lod_selection": null
+      },
+      "after_draw": {
+        "stage": "keyboard-braking",
+        "physics_frame": 692,
+        "render_frame": 172,
+        "vehicle_epoch": 0,
+        "local_origin": {
+          "OriginWorldX": 0,
+          "OriginWorldY": 0,
+          "OriginWorldZ": 0,
+          "LocalOriginRouteMeters": 0,
+          "RebaseCount": 0,
+          "LoadedChunkIds": [
+            "edge-3ca7f656b08e6f8c31fb-c0000"
+          ],
+          "CollisionChunkIds": [
+            "edge-3ca7f656b08e6f8c31fb-c0000"
+          ]
+        },
+        "active_lod": 0,
+        "camera_node": "ChaseCamera",
+        "body_position": [
+          -251.4083251953125,
+          0.6518346071243286,
+          -2.0523126125335693
+        ],
+        "displayed_body_position": [
+          -251.40475463867188,
+          0.6518173217773438,
+          -1.895383596420288
+        ],
+        "camera_position": [
+          -251.18011474609375,
+          3.01684832572937,
+          8.591052055358887
+        ],
+        "displayed_distance_m": 10.752171,
+        "lod_selection": null
+      },
+      "path": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\runtime\\blockout\\native-revalidation-05\\03-keyboard-braking.png",
+      "sha256": "f8ba89d4b384d13646147364db20d9b7fdf23b715e94afd075d90cb2f8b43425"
+    },
+    {
+      "stage": "controller-acceleration",
+      "physics_frame": 1172,
+      "render_frame": 292,
+      "camera": "chase",
+      "camera_position": [
+        -251.1914520263672,
+        2.989436149597168,
+        -5.6828107833862305
+      ],
+      "camera_node": "ChaseCamera",
+      "camera_fov": 76.080505,
+      "frozen": false,
+      "renderer": "forward_plus",
+      "display_driver": "Windows",
+      "size": [
+        2560,
+        1440
+      ],
+      "render_quality": {
+        "actual_msaa_3d": "Msaa4X",
+        "applied_tier": "high",
+        "applied_directional_shadow_size": 8192,
+        "global_quality_basis": "Atlas/tier are applied-call metadata; MSAA is a live Viewport property."
+      },
+      "lighting": "day",
+      "before_draw": {
+        "stage": "controller-acceleration",
+        "physics_frame": 1172,
+        "render_frame": 292,
+        "vehicle_epoch": 0,
+        "local_origin": {
+          "OriginWorldX": 0,
+          "OriginWorldY": 0,
+          "OriginWorldZ": 0,
+          "LocalOriginRouteMeters": 0,
+          "RebaseCount": 0,
+          "LoadedChunkIds": [
+            "edge-3ca7f656b08e6f8c31fb-c0000"
+          ],
+          "CollisionChunkIds": [
+            "edge-3ca7f656b08e6f8c31fb-c0000"
+          ]
+        },
+        "active_lod": 0,
+        "camera_node": "ChaseCamera",
+        "body_position": [
+          -251.7513885498047,
+          0.6485920548439026,
+          -14.885720252990723
+        ],
+        "displayed_body_position": [
+          -251.749267578125,
+          0.6485919952392578,
+          -14.851829528808594
+        ],
+        "camera_position": [
+          -251.1914520263672,
+          2.989436149597168,
+          -5.6828107833862305
+        ],
+        "displayed_distance_m": 9.479537,
+        "lod_selection": null
+      },
+      "after_draw": {
+        "stage": "controller-acceleration",
+        "physics_frame": 1172,
+        "render_frame": 292,
+        "vehicle_epoch": 0,
+        "local_origin": {
+          "OriginWorldX": 0,
+          "OriginWorldY": 0,
+          "OriginWorldZ": 0,
+          "LocalOriginRouteMeters": 0,
+          "RebaseCount": 0,
+          "LoadedChunkIds": [
+            "edge-3ca7f656b08e6f8c31fb-c0000"
+          ],
+          "CollisionChunkIds": [
+            "edge-3ca7f656b08e6f8c31fb-c0000"
+          ]
+        },
+        "active_lod": 0,
+        "camera_node": "ChaseCamera",
+        "body_position": [
+          -251.7513885498047,
+          0.6485920548439026,
+          -14.885720252990723
+        ],
+        "displayed_body_position": [
+          -251.749267578125,
+          0.6485919952392578,
+          -14.851829528808594
+        ],
+        "camera_position": [
+          -251.1914520263672,
+          2.989436149597168,
+          -5.6828107833862305
+        ],
+        "displayed_distance_m": 9.479537,
+        "lod_selection": null
+      },
+      "path": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\runtime\\blockout\\native-revalidation-05\\04-controller-acceleration.png",
+      "sha256": "2b1e26d429e070a2c8ecfe1a05fd0507f8cf9ec771a46ab43b3c652e2a9b9e79"
+    },
+    {
+      "stage": "controller-braking",
+      "physics_frame": 1356,
+      "render_frame": 338,
+      "camera": "chase",
+      "camera_position": [
+        -251.95265197753906,
+        3.0027225017547607,
+        -17.87925148010254
+      ],
+      "camera_node": "ChaseCamera",
+      "camera_fov": 76.32126,
+      "frozen": false,
+      "renderer": "forward_plus",
+      "display_driver": "Windows",
+      "size": [
+        2560,
+        1440
+      ],
+      "render_quality": {
+        "actual_msaa_3d": "Msaa4X",
+        "applied_tier": "high",
+        "applied_directional_shadow_size": 8192,
+        "global_quality_basis": "Atlas/tier are applied-call metadata; MSAA is a live Viewport property."
+      },
+      "lighting": "day",
+      "before_draw": {
+        "stage": "controller-braking",
+        "physics_frame": 1356,
+        "render_frame": 338,
+        "vehicle_epoch": 0,
+        "local_origin": {
+          "OriginWorldX": 0,
+          "OriginWorldY": 0,
+          "OriginWorldZ": 0,
+          "LocalOriginRouteMeters": 0,
+          "RebaseCount": 0,
+          "LoadedChunkIds": [
+            "edge-3ca7f656b08e6f8c31fb-c0000"
+          ],
+          "CollisionChunkIds": [
+            "edge-3ca7f656b08e6f8c31fb-c0000"
+          ]
+        },
+        "active_lod": 0,
+        "camera_node": "ChaseCamera",
+        "body_position": [
+          -252.54257202148438,
+          0.6544519066810608,
+          -27.56410789489746
+        ],
+        "displayed_body_position": [
+          -252.5384063720703,
+          0.6544021368026733,
+          -27.497589111328125
+        ],
+        "camera_position": [
+          -251.95265197753906,
+          3.0027225017547607,
+          -17.87925148010254
+        ],
+        "displayed_distance_m": 9.918172,
+        "lod_selection": null
+      },
+      "after_draw": {
+        "stage": "controller-braking",
+        "physics_frame": 1356,
+        "render_frame": 338,
+        "vehicle_epoch": 0,
+        "local_origin": {
+          "OriginWorldX": 0,
+          "OriginWorldY": 0,
+          "OriginWorldZ": 0,
+          "LocalOriginRouteMeters": 0,
+          "RebaseCount": 0,
+          "LoadedChunkIds": [
+            "edge-3ca7f656b08e6f8c31fb-c0000"
+          ],
+          "CollisionChunkIds": [
+            "edge-3ca7f656b08e6f8c31fb-c0000"
+          ]
+        },
+        "active_lod": 0,
+        "camera_node": "ChaseCamera",
+        "body_position": [
+          -252.54257202148438,
+          0.6544519066810608,
+          -27.56410789489746
+        ],
+        "displayed_body_position": [
+          -252.5384063720703,
+          0.6544021368026733,
+          -27.497589111328125
+        ],
+        "camera_position": [
+          -251.95265197753906,
+          3.0027225017547607,
+          -17.87925148010254
+        ],
+        "displayed_distance_m": 9.918172,
+        "lod_selection": null
+      },
+      "path": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\runtime\\blockout\\native-revalidation-05\\05-controller-braking.png",
+      "sha256": "3b10cc937cf50070ddfa0372818675501f0c12e46739b915d6ee12c27baff7d0"
+    },
+    {
+      "stage": "reverse",
+      "physics_frame": 1508,
+      "render_frame": 376,
+      "camera": "chase",
+      "camera_position": [
+        -252.02297973632812,
+        2.9953155517578125,
+        -18.877647399902344
+      ],
+      "camera_node": "ChaseCamera",
+      "camera_fov": 76.14605,
+      "frozen": false,
+      "renderer": "forward_plus",
+      "display_driver": "Windows",
+      "size": [
+        2560,
+        1440
+      ],
+      "render_quality": {
+        "actual_msaa_3d": "Msaa4X",
+        "applied_tier": "high",
+        "applied_directional_shadow_size": 8192,
+        "global_quality_basis": "Atlas/tier are applied-call metadata; MSAA is a live Viewport property."
+      },
+      "lighting": "day",
+      "before_draw": {
+        "stage": "reverse",
+        "physics_frame": 1508,
+        "render_frame": 376,
+        "vehicle_epoch": 0,
+        "local_origin": {
+          "OriginWorldX": 0,
+          "OriginWorldY": 0,
+          "OriginWorldZ": 0,
+          "LocalOriginRouteMeters": 0,
+          "RebaseCount": 0,
+          "LoadedChunkIds": [
+            "edge-3ca7f656b08e6f8c31fb-c0000"
+          ],
+          "CollisionChunkIds": [
+            "edge-3ca7f656b08e6f8c31fb-c0000"
+          ]
+        },
+        "active_lod": 0,
+        "camera_node": "ChaseCamera",
+        "body_position": [
+          -252.5380401611328,
+          0.652191162109375,
+          -27.373382568359375
+        ],
+        "displayed_body_position": [
+          -252.54135131835938,
+          0.6521977782249451,
+          -27.429386138916016
+        ],
+        "camera_position": [
+          -252.02297973632812,
+          2.9953155517578125,
+          -18.877647399902344
+        ],
+        "displayed_distance_m": 8.882069,
+        "lod_selection": null
+      },
+      "after_draw": {
+        "stage": "reverse",
+        "physics_frame": 1508,
+        "render_frame": 376,
+        "vehicle_epoch": 0,
+        "local_origin": {
+          "OriginWorldX": 0,
+          "OriginWorldY": 0,
+          "OriginWorldZ": 0,
+          "LocalOriginRouteMeters": 0,
+          "RebaseCount": 0,
+          "LoadedChunkIds": [
+            "edge-3ca7f656b08e6f8c31fb-c0000"
+          ],
+          "CollisionChunkIds": [
+            "edge-3ca7f656b08e6f8c31fb-c0000"
+          ]
+        },
+        "active_lod": 0,
+        "camera_node": "ChaseCamera",
+        "body_position": [
+          -252.5380401611328,
+          0.652191162109375,
+          -27.373382568359375
+        ],
+        "displayed_body_position": [
+          -252.54135131835938,
+          0.6521977782249451,
+          -27.429386138916016
+        ],
+        "camera_position": [
+          -252.02297973632812,
+          2.9953155517578125,
+          -18.877647399902344
+        ],
+        "displayed_distance_m": 8.882069,
+        "lod_selection": null
+      },
+      "path": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\runtime\\blockout\\native-revalidation-05\\06-reverse.png",
+      "sha256": "5fe40d3281afa55377709940b83aea1f861e64f557756c370c5078fb2d95568f"
+    },
+    {
+      "stage": "steer-left",
+      "physics_frame": 1748,
+      "render_frame": 436,
+      "camera": "chase",
+      "camera_position": [
+        -248.6046905517578,
+        2.999821186065674,
+        61.63785934448242
+      ],
+      "camera_node": "ChaseCamera",
+      "camera_fov": 76.36629,
+      "frozen": false,
+      "renderer": "forward_plus",
+      "display_driver": "Windows",
+      "size": [
+        2560,
+        1440
+      ],
+      "render_quality": {
+        "actual_msaa_3d": "Msaa4X",
+        "applied_tier": "high",
+        "applied_directional_shadow_size": 8192,
+        "global_quality_basis": "Atlas/tier are applied-call metadata; MSAA is a live Viewport property."
+      },
+      "lighting": "day",
+      "before_draw": {
+        "stage": "steer-left",
+        "physics_frame": 1748,
+        "render_frame": 436,
+        "vehicle_epoch": 0,
+        "local_origin": {
+          "OriginWorldX": 0,
+          "OriginWorldY": 0,
+          "OriginWorldZ": 0,
+          "LocalOriginRouteMeters": 0,
+          "RebaseCount": 0,
+          "LoadedChunkIds": [
+            "edge-3ca7f656b08e6f8c31fb-c0000"
+          ],
+          "CollisionChunkIds": [
+            "edge-3ca7f656b08e6f8c31fb-c0000"
+          ]
+        },
+        "active_lod": 0,
+        "camera_node": "ChaseCamera",
+        "body_position": [
+          -251.81765747070312,
+          0.6487857699394226,
+          52.3561897277832
+        ],
+        "displayed_body_position": [
+          -251.77430725097656,
+          0.6487884521484375,
+          52.4343376159668
+        ],
+        "camera_position": [
+          -248.6046905517578,
+          2.999821186065674,
+          61.63785934448242
+        ],
+        "displayed_distance_m": 10.013922,
+        "lod_selection": null
+      },
+      "after_draw": {
+        "stage": "steer-left",
+        "physics_frame": 1748,
+        "render_frame": 436,
+        "vehicle_epoch": 0,
+        "local_origin": {
+          "OriginWorldX": 0,
+          "OriginWorldY": 0,
+          "OriginWorldZ": 0,
+          "LocalOriginRouteMeters": 0,
+          "RebaseCount": 0,
+          "LoadedChunkIds": [
+            "edge-3ca7f656b08e6f8c31fb-c0000"
+          ],
+          "CollisionChunkIds": [
+            "edge-3ca7f656b08e6f8c31fb-c0000"
+          ]
+        },
+        "active_lod": 0,
+        "camera_node": "ChaseCamera",
+        "body_position": [
+          -251.81765747070312,
+          0.6487857699394226,
+          52.3561897277832
+        ],
+        "displayed_body_position": [
+          -251.77430725097656,
+          0.6487884521484375,
+          52.4343376159668
+        ],
+        "camera_position": [
+          -248.6046905517578,
+          2.999821186065674,
+          61.63785934448242
+        ],
+        "displayed_distance_m": 10.013922,
+        "lod_selection": null
+      },
+      "path": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\runtime\\blockout\\native-revalidation-05\\07-steer-left.png",
+      "sha256": "03a594641064aef724533a305fc37f25b1d0a4c7cdef447069e1e47f5c2e6eaa"
+    },
+    {
+      "stage": "steer-right",
+      "physics_frame": 1928,
+      "render_frame": 481,
+      "camera": "chase",
+      "camera_position": [
+        -251.20941162109375,
+        2.99935245513916,
+        61.70687484741211
+      ],
+      "camera_node": "ChaseCamera",
+      "camera_fov": 76.35311,
+      "frozen": false,
+      "renderer": "forward_plus",
+      "display_driver": "Windows",
+      "size": [
+        2560,
+        1440
+      ],
+      "render_quality": {
+        "actual_msaa_3d": "Msaa4X",
+        "applied_tier": "high",
+        "applied_directional_shadow_size": 8192,
+        "global_quality_basis": "Atlas/tier are applied-call metadata; MSAA is a live Viewport property."
+      },
+      "lighting": "day",
+      "before_draw": {
+        "stage": "steer-right",
+        "physics_frame": 1928,
+        "render_frame": 481,
+        "vehicle_epoch": 0,
+        "local_origin": {
+          "OriginWorldX": 0,
+          "OriginWorldY": 0,
+          "OriginWorldZ": 0,
+          "LocalOriginRouteMeters": 0,
+          "RebaseCount": 0,
+          "LoadedChunkIds": [
+            "edge-3ca7f656b08e6f8c31fb-c0000"
+          ],
+          "CollisionChunkIds": [
+            "edge-3ca7f656b08e6f8c31fb-c0000"
+          ]
+        },
+        "active_lod": 0,
+        "camera_node": "ChaseCamera",
+        "body_position": [
+          -248.70559692382812,
+          0.6488040089607239,
+          52.20962905883789
+        ],
+        "displayed_body_position": [
+          -248.74256896972656,
+          0.6488080024719238,
+          52.29132080078125
+        ],
+        "camera_position": [
+          -251.20941162109375,
+          2.99935245513916,
+          61.70687484741211
+        ],
+        "displayed_distance_m": 10.013143,
+        "lod_selection": null
+      },
+      "after_draw": {
+        "stage": "steer-right",
+        "physics_frame": 1928,
+        "render_frame": 481,
+        "vehicle_epoch": 0,
+        "local_origin": {
+          "OriginWorldX": 0,
+          "OriginWorldY": 0,
+          "OriginWorldZ": 0,
+          "LocalOriginRouteMeters": 0,
+          "RebaseCount": 0,
+          "LoadedChunkIds": [
+            "edge-3ca7f656b08e6f8c31fb-c0000"
+          ],
+          "CollisionChunkIds": [
+            "edge-3ca7f656b08e6f8c31fb-c0000"
+          ]
+        },
+        "active_lod": 0,
+        "camera_node": "ChaseCamera",
+        "body_position": [
+          -248.70559692382812,
+          0.6488040089607239,
+          52.20962905883789
+        ],
+        "displayed_body_position": [
+          -248.74256896972656,
+          0.6488080024719238,
+          52.29132080078125
+        ],
+        "camera_position": [
+          -251.20941162109375,
+          2.99935245513916,
+          61.70687484741211
+        ],
+        "displayed_distance_m": 10.013143,
+        "lod_selection": null
+      },
+      "path": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\runtime\\blockout\\native-revalidation-05\\08-steer-right.png",
+      "sha256": "b0a8e5b2019c533f35a47211d73897513f9308cccfa62e0dd47c7829bde021a5"
+    },
+    {
+      "stage": "suspension",
+      "physics_frame": 2336,
+      "render_frame": 583,
+      "camera": "chase",
+      "camera_position": [
+        -279.37213134765625,
+        2.999072313308716,
+        -0.4622044563293457
+      ],
+      "camera_node": "ChaseCamera",
+      "camera_fov": 76.30267,
+      "frozen": false,
+      "renderer": "forward_plus",
+      "display_driver": "Windows",
+      "size": [
+        2560,
+        1440
+      ],
+      "render_quality": {
+        "actual_msaa_3d": "Msaa4X",
+        "applied_tier": "high",
+        "applied_directional_shadow_size": 8192,
+        "global_quality_basis": "Atlas/tier are applied-call metadata; MSAA is a live Viewport property."
+      },
+      "lighting": "day",
+      "before_draw": {
+        "stage": "suspension",
+        "physics_frame": 2336,
+        "render_frame": 583,
+        "vehicle_epoch": 0,
+        "local_origin": {
+          "OriginWorldX": 0,
+          "OriginWorldY": 0,
+          "OriginWorldZ": 0,
+          "LocalOriginRouteMeters": 0,
+          "RebaseCount": 0,
+          "LoadedChunkIds": [
+            "edge-3ca7f656b08e6f8c31fb-c0000"
+          ],
+          "CollisionChunkIds": [
+            "edge-3ca7f656b08e6f8c31fb-c0000"
+          ]
+        },
+        "active_lod": 0,
+        "camera_node": "ChaseCamera",
+        "body_position": [
+          -278.9906311035156,
+          0.6520503759384155,
+          -10.142014503479004
+        ],
+        "displayed_body_position": [
+          -278.99371337890625,
+          0.6511580348014832,
+          -10.067414283752441
+        ],
+        "camera_position": [
+          -279.37213134765625,
+          2.999072313308716,
+          -0.4622044563293457
+        ],
+        "displayed_distance_m": 9.895248,
+        "lod_selection": null
+      },
+      "after_draw": {
+        "stage": "suspension",
+        "physics_frame": 2336,
+        "render_frame": 583,
+        "vehicle_epoch": 0,
+        "local_origin": {
+          "OriginWorldX": 0,
+          "OriginWorldY": 0,
+          "OriginWorldZ": 0,
+          "LocalOriginRouteMeters": 0,
+          "RebaseCount": 0,
+          "LoadedChunkIds": [
+            "edge-3ca7f656b08e6f8c31fb-c0000"
+          ],
+          "CollisionChunkIds": [
+            "edge-3ca7f656b08e6f8c31fb-c0000"
+          ]
+        },
+        "active_lod": 0,
+        "camera_node": "ChaseCamera",
+        "body_position": [
+          -278.9906311035156,
+          0.6520503759384155,
+          -10.142014503479004
+        ],
+        "displayed_body_position": [
+          -278.99371337890625,
+          0.6511580348014832,
+          -10.067414283752441
+        ],
+        "camera_position": [
+          -279.37213134765625,
+          2.999072313308716,
+          -0.4622044563293457
+        ],
+        "displayed_distance_m": 9.895248,
+        "lod_selection": null
+      },
+      "path": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\runtime\\blockout\\native-revalidation-05\\09-suspension.png",
+      "sha256": "08e3c27ffdc42a2fa59f9a39dc7116185a59f80b7c17210ae6da67aae72f95a4"
+    },
+    {
+      "stage": "collision",
+      "physics_frame": 2676,
+      "render_frame": 668,
+      "camera": "chase",
+      "camera_position": [
+        -350.0365905761719,
+        3.003337860107422,
+        3.772066831588745
+      ],
+      "camera_node": "ChaseCamera",
+      "camera_fov": 76.544426,
+      "frozen": false,
+      "renderer": "forward_plus",
+      "display_driver": "Windows",
+      "size": [
+        2560,
+        1440
+      ],
+      "render_quality": {
+        "actual_msaa_3d": "Msaa4X",
+        "applied_tier": "high",
+        "applied_directional_shadow_size": 8192,
+        "global_quality_basis": "Atlas/tier are applied-call metadata; MSAA is a live Viewport property."
+      },
+      "lighting": "day",
+      "before_draw": {
+        "stage": "collision",
+        "physics_frame": 2676,
+        "render_frame": 668,
+        "vehicle_epoch": 0,
+        "local_origin": {
+          "OriginWorldX": 0,
+          "OriginWorldY": 0,
+          "OriginWorldZ": 0,
+          "LocalOriginRouteMeters": 0,
+          "RebaseCount": 0,
+          "LoadedChunkIds": [
+            "edge-3ca7f656b08e6f8c31fb-c0000"
+          ],
+          "CollisionChunkIds": [
+            "edge-3ca7f656b08e6f8c31fb-c0000"
+          ]
+        },
+        "active_lod": 0,
+        "camera_node": "ChaseCamera",
+        "body_position": [
+          -350.0451965332031,
+          0.646507740020752,
+          -6.714230060577393
+        ],
+        "displayed_body_position": [
+          -350.0448303222656,
+          0.6465176343917847,
+          -6.551304340362549
+        ],
+        "camera_position": [
+          -350.0365905761719,
+          3.003337860107422,
+          3.772066831588745
+        ],
+        "displayed_distance_m": 10.588988,
+        "lod_selection": null
+      },
+      "after_draw": {
+        "stage": "collision",
+        "physics_frame": 2676,
+        "render_frame": 668,
+        "vehicle_epoch": 0,
+        "local_origin": {
+          "OriginWorldX": 0,
+          "OriginWorldY": 0,
+          "OriginWorldZ": 0,
+          "LocalOriginRouteMeters": 0,
+          "RebaseCount": 0,
+          "LoadedChunkIds": [
+            "edge-3ca7f656b08e6f8c31fb-c0000"
+          ],
+          "CollisionChunkIds": [
+            "edge-3ca7f656b08e6f8c31fb-c0000"
+          ]
+        },
+        "active_lod": 0,
+        "camera_node": "ChaseCamera",
+        "body_position": [
+          -350.0451965332031,
+          0.646507740020752,
+          -6.714230060577393
+        ],
+        "displayed_body_position": [
+          -350.0448303222656,
+          0.6465176343917847,
+          -6.551304340362549
+        ],
+        "camera_position": [
+          -350.0365905761719,
+          3.003337860107422,
+          3.772066831588745
+        ],
+        "displayed_distance_m": 10.588988,
+        "lod_selection": null
+      },
+      "path": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\runtime\\blockout\\native-revalidation-05\\10-collision.png",
+      "sha256": "91f30d8e35235f84fc31b99acef203c417b47118fd7ec670c43171dd8811baca"
+    },
+    {
+      "stage": "reset",
+      "physics_frame": 2948,
+      "render_frame": 736,
+      "camera": "chase",
+      "camera_position": [
+        -250.00106811523438,
+        2.9894015789031982,
+        68.92985534667969
+      ],
+      "camera_node": "ChaseCamera",
+      "camera_fov": 76.00773,
+      "frozen": false,
+      "renderer": "forward_plus",
+      "display_driver": "Windows",
+      "size": [
+        2560,
+        1440
+      ],
+      "render_quality": {
+        "actual_msaa_3d": "Msaa4X",
+        "applied_tier": "high",
+        "applied_directional_shadow_size": 8192,
+        "global_quality_basis": "Atlas/tier are applied-call metadata; MSAA is a live Viewport property."
+      },
+      "lighting": "day",
+      "before_draw": {
+        "stage": "reset",
+        "physics_frame": 2948,
+        "render_frame": 736,
+        "vehicle_epoch": 0,
+        "local_origin": {
+          "OriginWorldX": 0,
+          "OriginWorldY": 0,
+          "OriginWorldZ": 0,
+          "LocalOriginRouteMeters": 0,
+          "RebaseCount": 0,
+          "LoadedChunkIds": [
+            "edge-3ca7f656b08e6f8c31fb-c0000"
+          ],
+          "CollisionChunkIds": [
+            "edge-3ca7f656b08e6f8c31fb-c0000"
+          ]
+        },
+        "active_lod": 0,
+        "camera_node": "ChaseCamera",
+        "body_position": [
+          -250.0014190673828,
+          0.6503589153289795,
+          60
+        ],
+        "displayed_body_position": [
+          -250.00108337402344,
+          0.6503793001174927,
+          60
+        ],
+        "camera_position": [
+          -250.00106811523438,
+          2.9894015789031982,
+          68.92985534667969
+        ],
+        "displayed_distance_m": 9.231107,
+        "lod_selection": null
+      },
+      "after_draw": {
+        "stage": "reset",
+        "physics_frame": 2948,
+        "render_frame": 736,
+        "vehicle_epoch": 0,
+        "local_origin": {
+          "OriginWorldX": 0,
+          "OriginWorldY": 0,
+          "OriginWorldZ": 0,
+          "LocalOriginRouteMeters": 0,
+          "RebaseCount": 0,
+          "LoadedChunkIds": [
+            "edge-3ca7f656b08e6f8c31fb-c0000"
+          ],
+          "CollisionChunkIds": [
+            "edge-3ca7f656b08e6f8c31fb-c0000"
+          ]
+        },
+        "active_lod": 0,
+        "camera_node": "ChaseCamera",
+        "body_position": [
+          -250.0014190673828,
+          0.6503589153289795,
+          60
+        ],
+        "displayed_body_position": [
+          -250.00108337402344,
+          0.6503793001174927,
+          60
+        ],
+        "camera_position": [
+          -250.00106811523438,
+          2.9894015789031982,
+          68.92985534667969
+        ],
+        "displayed_distance_m": 9.231107,
+        "lod_selection": null
+      },
+      "path": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\runtime\\blockout\\native-revalidation-05\\11-reset.png",
+      "sha256": "e9c4b886352d84ce3cbcce71ce900fd813c7105aeea721e82060c4e02f5742eb"
+    },
+    {
+      "stage": "cameras",
+      "physics_frame": 3088,
+      "render_frame": 771,
+      "camera": "cockpit",
+      "camera_position": [
+        -250.4275665283203,
+        1.2098772525787354,
+        60.39350891113281
+      ],
+      "camera_node": "CockpitCamera",
+      "camera_fov": 72,
+      "frozen": false,
+      "renderer": "forward_plus",
+      "display_driver": "Windows",
+      "size": [
+        2560,
+        1440
+      ],
+      "render_quality": {
+        "actual_msaa_3d": "Msaa4X",
+        "applied_tier": "high",
+        "applied_directional_shadow_size": 8192,
+        "global_quality_basis": "Atlas/tier are applied-call metadata; MSAA is a live Viewport property."
+      },
+      "lighting": "day",
+      "before_draw": {
+        "stage": "cameras",
+        "physics_frame": 3088,
+        "render_frame": 771,
+        "vehicle_epoch": 0,
+        "local_origin": {
+          "OriginWorldX": 0,
+          "OriginWorldY": 0,
+          "OriginWorldZ": 0,
+          "LocalOriginRouteMeters": 0,
+          "RebaseCount": 0,
+          "LoadedChunkIds": [
+            "edge-3ca7f656b08e6f8c31fb-c0000"
+          ],
+          "CollisionChunkIds": [
+            "edge-3ca7f656b08e6f8c31fb-c0000"
+          ]
+        },
+        "active_lod": 0,
+        "camera_node": "CockpitCamera",
+        "body_position": [
+          -250.00083923339844,
+          0.6500483751296997,
+          60.00004959106445
+        ],
+        "displayed_body_position": [
+          -250.00050354003906,
+          0.6500483751296997,
+          60.00004577636719
+        ],
+        "camera_position": [
+          -250.4275665283203,
+          1.2098772525787354,
+          60.39350891113281
+        ],
+        "displayed_distance_m": 0.8066005,
+        "lod_selection": null
+      },
+      "after_draw": {
+        "stage": "cameras",
+        "physics_frame": 3088,
+        "render_frame": 771,
+        "vehicle_epoch": 0,
+        "local_origin": {
+          "OriginWorldX": 0,
+          "OriginWorldY": 0,
+          "OriginWorldZ": 0,
+          "LocalOriginRouteMeters": 0,
+          "RebaseCount": 0,
+          "LoadedChunkIds": [
+            "edge-3ca7f656b08e6f8c31fb-c0000"
+          ],
+          "CollisionChunkIds": [
+            "edge-3ca7f656b08e6f8c31fb-c0000"
+          ]
+        },
+        "active_lod": 0,
+        "camera_node": "CockpitCamera",
+        "body_position": [
+          -250.00083923339844,
+          0.6500483751296997,
+          60.00004959106445
+        ],
+        "displayed_body_position": [
+          -250.00050354003906,
+          0.6500483751296997,
+          60.00004577636719
+        ],
+        "camera_position": [
+          -250.4275665283203,
+          1.2098772525787354,
+          60.39350891113281
+        ],
+        "displayed_distance_m": 0.8066005,
+        "lod_selection": null
+      },
+      "path": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\runtime\\blockout\\native-revalidation-05\\12-cameras.png",
+      "sha256": "ea2db253a2dd6d8387937348adcbdb7300a57b98330e73ccdb6ead2e20917fb9"
+    },
+    {
+      "stage": "natural-rebase",
+      "physics_frame": 5656,
+      "render_frame": 1413,
+      "camera": "chase",
+      "camera_position": [
+        -1.8000166416168213,
+        2.2609426975250244,
+        -574.64111328125
+      ],
+      "camera_node": "ChaseCamera",
+      "camera_fov": 77.06667,
+      "frozen": false,
+      "renderer": "forward_plus",
+      "display_driver": "Windows",
+      "size": [
+        2560,
+        1440
+      ],
+      "render_quality": {
+        "actual_msaa_3d": "Msaa4X",
+        "applied_tier": "high",
+        "applied_directional_shadow_size": 8192,
+        "global_quality_basis": "Atlas/tier are applied-call metadata; MSAA is a live Viewport property."
+      },
+      "lighting": "day",
+      "before_draw": {
+        "stage": "natural-rebase",
+        "physics_frame": 5656,
+        "render_frame": 1413,
+        "vehicle_epoch": 0,
+        "local_origin": {
+          "OriginWorldX": 0,
+          "OriginWorldY": 0,
+          "OriginWorldZ": 0,
+          "LocalOriginRouteMeters": 0,
+          "RebaseCount": 0,
+          "LoadedChunkIds": [
+            "edge-1317493220f63cb50421-c0000",
+            "edge-3155b4a926fa92026dfc-c0000",
+            "edge-36d4ea751d4c2a49ae38-c0000",
+            "edge-37dc9f22583336630ac3-c0000",
+            "edge-3ca7f656b08e6f8c31fb-c0000",
+            "edge-56959ae61164db7bf6b4-c0000",
+            "edge-5be63a1249560b359ef7-c0000",
+            "edge-d6d836af575d6df884ec-c0000",
+            "edge-dc935a7999b95c82b494-c0000",
+            "edge-f7ed686cfe7aec901d03-c0000"
+          ],
+          "CollisionChunkIds": [
+            "edge-36d4ea751d4c2a49ae38-c0000",
+            "edge-37dc9f22583336630ac3-c0000",
+            "edge-56959ae61164db7bf6b4-c0000",
+            "edge-dc935a7999b95c82b494-c0000"
+          ]
+        },
+        "active_lod": 0,
+        "camera_node": "ChaseCamera",
+        "body_position": [
+          -1.8000165224075317,
+          -0.1150735393166542,
+          -586.2685546875
+        ],
+        "displayed_body_position": [
+          -1.8000165224075317,
+          -0.11498544365167618,
+          -586.0018920898438
+        ],
+        "camera_position": [
+          -1.8000166416168213,
+          2.2609426975250244,
+          -574.64111328125
+        ],
+        "displayed_distance_m": 11.606564,
+        "lod_selection": null
+      },
+      "after_draw": {
+        "stage": "natural-rebase",
+        "physics_frame": 5656,
+        "render_frame": 1413,
+        "vehicle_epoch": 0,
+        "local_origin": {
+          "OriginWorldX": 0,
+          "OriginWorldY": 0,
+          "OriginWorldZ": 0,
+          "LocalOriginRouteMeters": 0,
+          "RebaseCount": 0,
+          "LoadedChunkIds": [
+            "edge-1317493220f63cb50421-c0000",
+            "edge-3155b4a926fa92026dfc-c0000",
+            "edge-36d4ea751d4c2a49ae38-c0000",
+            "edge-37dc9f22583336630ac3-c0000",
+            "edge-3ca7f656b08e6f8c31fb-c0000",
+            "edge-56959ae61164db7bf6b4-c0000",
+            "edge-5be63a1249560b359ef7-c0000",
+            "edge-d6d836af575d6df884ec-c0000",
+            "edge-dc935a7999b95c82b494-c0000",
+            "edge-f7ed686cfe7aec901d03-c0000"
+          ],
+          "CollisionChunkIds": [
+            "edge-36d4ea751d4c2a49ae38-c0000",
+            "edge-37dc9f22583336630ac3-c0000",
+            "edge-56959ae61164db7bf6b4-c0000",
+            "edge-dc935a7999b95c82b494-c0000"
+          ]
+        },
+        "active_lod": 0,
+        "camera_node": "ChaseCamera",
+        "body_position": [
+          -1.8000165224075317,
+          -0.1150735393166542,
+          -586.2685546875
+        ],
+        "displayed_body_position": [
+          -1.8000165224075317,
+          -0.11498544365167618,
+          -586.0018920898438
+        ],
+        "camera_position": [
+          -1.8000166416168213,
+          2.2609426975250244,
+          -574.64111328125
+        ],
+        "displayed_distance_m": 11.606564,
+        "lod_selection": null
+      },
+      "path": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\runtime\\blockout\\native-revalidation-05\\13-natural-rebase.png",
+      "sha256": "ef8c7a419cd78989608c94b9f8f6c11bee1f96b33960213341b25a4cbbdae881"
+    },
+    {
+      "stage": "forced-rebase",
+      "physics_frame": 7212,
+      "render_frame": 1802,
+      "camera": "chase",
+      "camera_position": [
+        1.0174325704574585,
+        1.075814127922058,
+        9.135422706604004
+      ],
+      "camera_node": "ChaseCamera",
+      "camera_fov": 77.0667,
+      "frozen": true,
+      "renderer": "forward_plus",
+      "display_driver": "Windows",
+      "size": [
+        2560,
+        1440
+      ],
+      "render_quality": {
+        "actual_msaa_3d": "Msaa4X",
+        "applied_tier": "high",
+        "applied_directional_shadow_size": 8192,
+        "global_quality_basis": "Atlas/tier are applied-call metadata; MSAA is a live Viewport property."
+      },
+      "lighting": "day",
+      "before_draw": {
+        "stage": "forced-rebase",
+        "physics_frame": 7212,
+        "render_frame": 1802,
+        "vehicle_epoch": 0,
+        "local_origin": {
+          "OriginWorldX": -52.67594349384308,
+          "OriginWorldY": 0,
+          "OriginWorldZ": -2797.5460815429688,
+          "LocalOriginRouteMeters": 2800.3979047239513,
+          "RebaseCount": 2,
+          "LoadedChunkIds": [
+            "edge-1317493220f63cb50421-c0000",
+            "edge-3155b4a926fa92026dfc-c0000",
+            "edge-36d4ea751d4c2a49ae38-c0000",
+            "edge-37dc9f22583336630ac3-c0000",
+            "edge-56959ae61164db7bf6b4-c0000",
+            "edge-5be63a1249560b359ef7-c0000",
+            "edge-d6d836af575d6df884ec-c0000",
+            "edge-dc935a7999b95c82b494-c0000",
+            "edge-f7ed686cfe7aec901d03-c0000"
+          ],
+          "CollisionChunkIds": [
+            "edge-1317493220f63cb50421-c0000",
+            "edge-3155b4a926fa92026dfc-c0000",
+            "edge-d6d836af575d6df884ec-c0000",
+            "edge-f7ed686cfe7aec901d03-c0000"
+          ]
+        },
+        "active_lod": 0,
+        "camera_node": "ChaseCamera",
+        "body_position": [
+          2.3589225861542218E-07,
+          -1.2994028329849243,
+          -3.339796239743009E-05
+        ],
+        "displayed_body_position": [
+          2.3589225861542218E-07,
+          -1.2994028329849243,
+          -3.339796239743009E-05
+        ],
+        "camera_position": [
+          1.0174325704574585,
+          1.075814127922058,
+          9.135422706604004
+        ],
+        "displayed_distance_m": 9.49386,
+        "lod_selection": null
+      },
+      "after_draw": {
+        "stage": "forced-rebase",
+        "physics_frame": 7212,
+        "render_frame": 1802,
+        "vehicle_epoch": 0,
+        "local_origin": {
+          "OriginWorldX": -52.67594349384308,
+          "OriginWorldY": 0,
+          "OriginWorldZ": -2797.5460815429688,
+          "LocalOriginRouteMeters": 2800.3979047239513,
+          "RebaseCount": 2,
+          "LoadedChunkIds": [
+            "edge-1317493220f63cb50421-c0000",
+            "edge-3155b4a926fa92026dfc-c0000",
+            "edge-36d4ea751d4c2a49ae38-c0000",
+            "edge-37dc9f22583336630ac3-c0000",
+            "edge-56959ae61164db7bf6b4-c0000",
+            "edge-5be63a1249560b359ef7-c0000",
+            "edge-d6d836af575d6df884ec-c0000",
+            "edge-dc935a7999b95c82b494-c0000",
+            "edge-f7ed686cfe7aec901d03-c0000"
+          ],
+          "CollisionChunkIds": [
+            "edge-1317493220f63cb50421-c0000",
+            "edge-3155b4a926fa92026dfc-c0000",
+            "edge-d6d836af575d6df884ec-c0000",
+            "edge-f7ed686cfe7aec901d03-c0000"
+          ]
+        },
+        "active_lod": 0,
+        "camera_node": "ChaseCamera",
+        "body_position": [
+          2.3589225861542218E-07,
+          -1.2994028329849243,
+          -3.339796239743009E-05
+        ],
+        "displayed_body_position": [
+          2.3589225861542218E-07,
+          -1.2994028329849243,
+          -3.339796239743009E-05
+        ],
+        "camera_position": [
+          1.0174325704574585,
+          1.075814127922058,
+          9.135422706604004
+        ],
+        "displayed_distance_m": 9.49386,
+        "lod_selection": null
+      },
+      "path": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\runtime\\blockout\\native-revalidation-05\\14-forced-rebase.png",
+      "sha256": "783dffbdac38e13490e15a0c95a7ce12761b2244c2e631108f719114483b5154"
+    },
+    {
+      "stage": "save-resume",
+      "physics_frame": 7224,
+      "render_frame": 1805,
+      "camera": "chase",
+      "camera_position": [
+        0.9882033467292786,
+        1.0371408462524414,
+        8.872976303100586
+      ],
+      "camera_node": "ChaseCamera",
+      "camera_fov": 76.0007,
+      "frozen": false,
+      "renderer": "forward_plus",
+      "display_driver": "Windows",
+      "size": [
+        2560,
+        1440
+      ],
+      "render_quality": {
+        "actual_msaa_3d": "Msaa4X",
+        "applied_tier": "high",
+        "applied_directional_shadow_size": 8192,
+        "global_quality_basis": "Atlas/tier are applied-call metadata; MSAA is a live Viewport property."
+      },
+      "lighting": "day",
+      "before_draw": {
+        "stage": "save-resume",
+        "physics_frame": 7224,
+        "render_frame": 1805,
+        "vehicle_epoch": 1,
+        "local_origin": {
+          "OriginWorldX": -52.67594349384308,
+          "OriginWorldY": 0,
+          "OriginWorldZ": -2797.5460815429688,
+          "LocalOriginRouteMeters": 2800.3979047239513,
+          "RebaseCount": 2,
+          "LoadedChunkIds": [
+            "edge-1317493220f63cb50421-c0000",
+            "edge-3155b4a926fa92026dfc-c0000",
+            "edge-36d4ea751d4c2a49ae38-c0000",
+            "edge-37dc9f22583336630ac3-c0000",
+            "edge-3a11c16ebb9b3a945413-c0000",
+            "edge-56959ae61164db7bf6b4-c0000",
+            "edge-5be63a1249560b359ef7-c0000",
+            "edge-d6d836af575d6df884ec-c0000",
+            "edge-dc935a7999b95c82b494-c0000",
+            "edge-f7ed686cfe7aec901d03-c0000"
+          ],
+          "CollisionChunkIds": [
+            "edge-1317493220f63cb50421-c0000",
+            "edge-3155b4a926fa92026dfc-c0000",
+            "edge-3a11c16ebb9b3a945413-c0000",
+            "edge-5be63a1249560b359ef7-c0000",
+            "edge-d6d836af575d6df884ec-c0000",
+            "edge-f7ed686cfe7aec901d03-c0000"
+          ]
+        },
+        "active_lod": 0,
+        "camera_node": "ChaseCamera",
+        "body_position": [
+          5.022622644901276E-06,
+          -1.305309772491455,
+          1.6100704669952393E-05
+        ],
+        "displayed_body_position": [
+          4.829838871955872E-06,
+          -1.3041383028030396,
+          6.251037120819092E-06
+        ],
+        "camera_position": [
+          0.9882033467292786,
+          1.0371408462524414,
+          8.872976303100586
+        ],
+        "displayed_distance_m": 9.229719,
+        "lod_selection": null
+      },
+      "after_draw": {
+        "stage": "save-resume",
+        "physics_frame": 7224,
+        "render_frame": 1805,
+        "vehicle_epoch": 1,
+        "local_origin": {
+          "OriginWorldX": -52.67594349384308,
+          "OriginWorldY": 0,
+          "OriginWorldZ": -2797.5460815429688,
+          "LocalOriginRouteMeters": 2800.3979047239513,
+          "RebaseCount": 2,
+          "LoadedChunkIds": [
+            "edge-1317493220f63cb50421-c0000",
+            "edge-3155b4a926fa92026dfc-c0000",
+            "edge-36d4ea751d4c2a49ae38-c0000",
+            "edge-37dc9f22583336630ac3-c0000",
+            "edge-3a11c16ebb9b3a945413-c0000",
+            "edge-56959ae61164db7bf6b4-c0000",
+            "edge-5be63a1249560b359ef7-c0000",
+            "edge-d6d836af575d6df884ec-c0000",
+            "edge-dc935a7999b95c82b494-c0000",
+            "edge-f7ed686cfe7aec901d03-c0000"
+          ],
+          "CollisionChunkIds": [
+            "edge-1317493220f63cb50421-c0000",
+            "edge-3155b4a926fa92026dfc-c0000",
+            "edge-3a11c16ebb9b3a945413-c0000",
+            "edge-5be63a1249560b359ef7-c0000",
+            "edge-d6d836af575d6df884ec-c0000",
+            "edge-f7ed686cfe7aec901d03-c0000"
+          ]
+        },
+        "active_lod": 0,
+        "camera_node": "ChaseCamera",
+        "body_position": [
+          5.022622644901276E-06,
+          -1.305309772491455,
+          1.6100704669952393E-05
+        ],
+        "displayed_body_position": [
+          4.829838871955872E-06,
+          -1.3041383028030396,
+          6.251037120819092E-06
+        ],
+        "camera_position": [
+          0.9882033467292786,
+          1.0371408462524414,
+          8.872976303100586
+        ],
+        "displayed_distance_m": 9.229719,
+        "lod_selection": null
+      },
+      "path": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\runtime\\blockout\\native-revalidation-05\\15-save-resume.png",
+      "sha256": "6d8d2bfdd77be9936fcdcc22cc9c74d4edbd384b2c5782ea940fc712c6257e6b"
+    },
+    {
+      "stage": "starter-policy",
+      "physics_frame": 7472,
+      "render_frame": 1867,
+      "camera": "chase",
+      "camera_position": [
+        -249.9741973876953,
+        2.9940972328186035,
+        408.0599060058594
+      ],
+      "camera_node": "ChaseCamera",
+      "camera_fov": 76.338776,
+      "frozen": false,
+      "renderer": "forward_plus",
+      "display_driver": "Windows",
+      "size": [
+        2560,
+        1440
+      ],
+      "render_quality": {
+        "actual_msaa_3d": "Msaa4X",
+        "applied_tier": "high",
+        "applied_directional_shadow_size": 8192,
+        "global_quality_basis": "Atlas/tier are applied-call metadata; MSAA is a live Viewport property."
+      },
+      "lighting": "day",
+      "before_draw": {
+        "stage": "starter-policy",
+        "physics_frame": 7472,
+        "render_frame": 1867,
+        "vehicle_epoch": 1,
+        "local_origin": {
+          "OriginWorldX": -52.67594349384308,
+          "OriginWorldY": 0,
+          "OriginWorldZ": -2797.5460815429688,
+          "LocalOriginRouteMeters": 2800.3979047239513,
+          "RebaseCount": 2,
+          "LoadedChunkIds": [
+            "edge-1317493220f63cb50421-c0000",
+            "edge-3155b4a926fa92026dfc-c0000",
+            "edge-36d4ea751d4c2a49ae38-c0000",
+            "edge-37dc9f22583336630ac3-c0000",
+            "edge-3a11c16ebb9b3a945413-c0000",
+            "edge-56959ae61164db7bf6b4-c0000",
+            "edge-5be63a1249560b359ef7-c0000",
+            "edge-d6d836af575d6df884ec-c0000",
+            "edge-dc935a7999b95c82b494-c0000",
+            "edge-f7ed686cfe7aec901d03-c0000"
+          ],
+          "CollisionChunkIds": [
+            "edge-1317493220f63cb50421-c0000",
+            "edge-3155b4a926fa92026dfc-c0000",
+            "edge-3a11c16ebb9b3a945413-c0000",
+            "edge-5be63a1249560b359ef7-c0000",
+            "edge-d6d836af575d6df884ec-c0000",
+            "edge-f7ed686cfe7aec901d03-c0000"
+          ]
+        },
+        "active_lod": 0,
+        "camera_node": "ChaseCamera",
+        "body_position": [
+          -250.0153350830078,
+          0.6484575867652893,
+          397.1312255859375
+        ],
+        "displayed_body_position": [
+          -250.012939453125,
+          0.6488328576087952,
+          397.5965270996094
+        ],
+        "camera_position": [
+          -249.9741973876953,
+          2.9940972328186035,
+          408.0599060058594
+        ],
+        "displayed_distance_m": 10.7230625,
+        "lod_selection": null
+      },
+      "after_draw": {
+        "stage": "starter-policy",
+        "physics_frame": 7472,
+        "render_frame": 1867,
+        "vehicle_epoch": 1,
+        "local_origin": {
+          "OriginWorldX": -52.67594349384308,
+          "OriginWorldY": 0,
+          "OriginWorldZ": -2797.5460815429688,
+          "LocalOriginRouteMeters": 2800.3979047239513,
+          "RebaseCount": 2,
+          "LoadedChunkIds": [
+            "edge-1317493220f63cb50421-c0000",
+            "edge-3155b4a926fa92026dfc-c0000",
+            "edge-36d4ea751d4c2a49ae38-c0000",
+            "edge-37dc9f22583336630ac3-c0000",
+            "edge-3a11c16ebb9b3a945413-c0000",
+            "edge-56959ae61164db7bf6b4-c0000",
+            "edge-5be63a1249560b359ef7-c0000",
+            "edge-d6d836af575d6df884ec-c0000",
+            "edge-dc935a7999b95c82b494-c0000",
+            "edge-f7ed686cfe7aec901d03-c0000"
+          ],
+          "CollisionChunkIds": [
+            "edge-1317493220f63cb50421-c0000",
+            "edge-3155b4a926fa92026dfc-c0000",
+            "edge-3a11c16ebb9b3a945413-c0000",
+            "edge-5be63a1249560b359ef7-c0000",
+            "edge-d6d836af575d6df884ec-c0000",
+            "edge-f7ed686cfe7aec901d03-c0000"
+          ]
+        },
+        "active_lod": 0,
+        "camera_node": "ChaseCamera",
+        "body_position": [
+          -250.0153350830078,
+          0.6484575867652893,
+          397.1312255859375
+        ],
+        "displayed_body_position": [
+          -250.012939453125,
+          0.6488328576087952,
+          397.5965270996094
+        ],
+        "camera_position": [
+          -249.9741973876953,
+          2.9940972328186035,
+          408.0599060058594
+        ],
+        "displayed_distance_m": 10.7230625,
+        "lod_selection": null
+      },
+      "path": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\runtime\\blockout\\native-revalidation-05\\16-starter-policy.png",
+      "sha256": "08b645c634f0612bcb0d564fa7a86ab5aefd8adfb84a1f41067c7832429123ec"
+    }
+  ],
+  "frames": {
+    "path": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\runtime\\blockout\\native-revalidation-05\\frames.jsonl",
+    "sha256": "c0b8645bb58746a7ddf6830d8caf03c85636f909abcbc9e25f7ef04366bc5cf8"
+  },
+  "limitations": [
+    "InputMap action fixture is not a physical keyboard/controller usability session",
+    "Functional JSONL capture is not a performance measurement",
+    "Human visual/handling/usability/rights approval remains open"
+  ]
+}

@@ -1,0 +1,843 @@
+{
+  "task_id": "P1-018",
+  "milestone": "M5",
+  "status": "passed",
+  "started_utc": "2026-09-11T17:00:34.441616+00:00",
+  "git_revision": "eb5703e55f3656e91bd80fb79502f10ce250554b",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.14.6",
+  "zlib_runtime": "1.3.1.zlib-ng",
+  "tool_sha256": "1310e66035402d9eccaef4c0b2fe6d474f0b56958e914138d3f57be6285b18ff",
+  "input_manifest": {
+    "path": "reports/p1-018/runtime-history01-parts/part-02.manifest.json",
+    "sha256": "9d9890d9bf2a9c50cf3ebcd395d2a92c213d46e33acae30689fb4d208e86beb4"
+  },
+  "entries": [
+    {
+      "path": "reports/p1-018/runtime/production18-lod-rebase-native-baseline-01/14-forced-rebase.png",
+      "sha256": "33dbb2974d59c2d7114d7009e2d596f0093f0fccb0511aa371fa3445becf037a",
+      "bytes": 3929698,
+      "reason": "actual image or declared diagnostic texture input; production18-lod-rebase-native-baseline-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-lod-rebase-native-baseline-01/14-forced-rebase.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-lod-rebase-native-baseline-01/15-save-resume.png",
+      "sha256": "95edb5090948cce2637cf4a500cd38f0036f95e36649b8eef2e7527dcd7ae219",
+      "bytes": 3927087,
+      "reason": "actual image or declared diagnostic texture input; production18-lod-rebase-native-baseline-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-lod-rebase-native-baseline-01/15-save-resume.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-lod-rebase-native-baseline-01/16-starter-policy.png",
+      "sha256": "8203f8103a1dddfffe1089557272faed970a441dc3c8debaf778c1100c1e697c",
+      "bytes": 721869,
+      "reason": "actual image or declared diagnostic texture input; production18-lod-rebase-native-baseline-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-lod-rebase-native-baseline-01/16-starter-policy.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-lod-rebase-native-baseline-01/17-lod-driving.png",
+      "sha256": "dcd37a4e416d372320670133a86243599664b83b9eb3cf71eb20d8f7e86fdbba",
+      "bytes": 632779,
+      "reason": "actual image or declared diagnostic texture input; production18-lod-rebase-native-baseline-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-lod-rebase-native-baseline-01/17-lod-driving.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-lod-rebase-native-baseline-01/driving.ogv",
+      "sha256": "2f12e5fea410333df6c36a081f4485c88b2d2e24bf8ed51613419f57dd53fa48",
+      "bytes": 334121443,
+      "reason": "full actual native movie; production18-lod-rebase-native-baseline-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-lod-rebase-native-baseline-01/driving.ogv"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-lod-rebase-native-baseline-01/engine.log",
+      "sha256": "096df53db0cc985c0177eae1741849eea55a87eaf7b832a0d327222aafbb4c7a",
+      "bytes": 3440,
+      "reason": "exact retained command or engine log; production18-lod-rebase-native-baseline-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-lod-rebase-native-baseline-01/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-lod-rebase-native-baseline-01/frames.jsonl",
+      "sha256": "96e88cfec6692936ade8327011f5ee8af3b80c0d5e5220214d6bf9f3d5fbd538",
+      "bytes": 24538932,
+      "reason": "raw per-frame telemetry or event trace; production18-lod-rebase-native-baseline-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-lod-rebase-native-baseline-01/frames.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-lod-rebase-native-baseline-01/godot.stdout.log",
+      "sha256": "fc9304436b75ce94aaef9b942b51cd4beeb322cf2afc1011f21bbfe65e50b85d",
+      "bytes": 4047,
+      "reason": "exact retained command or engine log; production18-lod-rebase-native-baseline-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-lod-rebase-native-baseline-01/godot.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-lod-rebase-native-baseline-01/movie-probe.stdout.log",
+      "sha256": "67616d83ea50936b1dec2682046a2f7bd94dd1d4cdb6772e47631aef2d9069b8",
+      "bytes": 420,
+      "reason": "exact retained command or engine log; production18-lod-rebase-native-baseline-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-lod-rebase-native-baseline-01/movie-probe.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-lod-rebase-native-baseline-01/process.json",
+      "sha256": "bab6720b901c699d937c2db49f65fe90f63d488c3ea3f3a07ad771ca0c48b181",
+      "bytes": 30028,
+      "reason": "structured command, input, metric, failure or comparison record; production18-lod-rebase-native-baseline-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-lod-rebase-native-baseline-01/process.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-lod-rebase-native-baseline-01/run-save.json",
+      "sha256": "30a9f214008fa28595c7658b39ae2e498613a5fa009fc07a9e37c4b300e825da",
+      "bytes": 4749,
+      "reason": "structured command, input, metric, failure or comparison record; production18-lod-rebase-native-baseline-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-lod-rebase-native-baseline-01/run-save.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-lod-rebase-native-baseline-01/run-save.json.bak",
+      "sha256": "d44322befc790e3d77e0e769e3e58d4d4809ebdc13e5069d50e012ffec0f19de",
+      "bytes": 4460,
+      "reason": "retained diagnostic input or recipe; production18-lod-rebase-native-baseline-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-lod-rebase-native-baseline-01/run-save.json.bak"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-lod-rebase-native-baseline-01/summary.json",
+      "sha256": "8a1f81dbedc32f59a54af22277b307b0629d7f722706ee0e7dac6343cf706db8",
+      "bytes": 83916,
+      "reason": "structured command, input, metric, failure or comparison record; production18-lod-rebase-native-baseline-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-lod-rebase-native-baseline-01/summary.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-lod-rebase-native-baseline-01/telemetry.jsonl",
+      "sha256": "57152910ea4172f7489e57903e41b573d1ea2ecbcc390df0c7468e6d49642607",
+      "bytes": 7788,
+      "reason": "raw per-frame telemetry or event trace; production18-lod-rebase-native-baseline-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-lod-rebase-native-baseline-01/telemetry.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-lod-rebase-native-corrected-01/14-forced-rebase.png",
+      "sha256": "ef20bfc81d812e6951b13bc6f6d004c6b26d84d385cb4e7b9551abf07b9be338",
+      "bytes": 3922869,
+      "reason": "actual image or declared diagnostic texture input; production18-lod-rebase-native-corrected-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-lod-rebase-native-corrected-01/14-forced-rebase.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-lod-rebase-native-corrected-01/build.stdout.log",
+      "sha256": "0db78725519a52c26d31160a8e0c5f065534650f4ba37c69b8c93d3d79560952",
+      "bytes": 496,
+      "reason": "exact retained command or engine log; production18-lod-rebase-native-corrected-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-lod-rebase-native-corrected-01/build.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-lod-rebase-native-corrected-01/engine.log",
+      "sha256": "0d2537f3132c70d9c51344575fbc8017488ff05273af67de5ebcab6a5b2dccef",
+      "bytes": 4995,
+      "reason": "exact retained command or engine log; production18-lod-rebase-native-corrected-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-lod-rebase-native-corrected-01/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-lod-rebase-native-corrected-01/frames.jsonl",
+      "sha256": "6feda71155769178c0ef0ecaf9246a89218e1c3fc05b434d036fad7dc03624c8",
+      "bytes": 19395495,
+      "reason": "raw per-frame telemetry or event trace; production18-lod-rebase-native-corrected-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-lod-rebase-native-corrected-01/frames.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-lod-rebase-native-corrected-01/godot.stderr.log",
+      "sha256": "9f889a417e7eb69edc700ccb2b449beff67346c52f1fce85d380b63d37b9598e",
+      "bytes": 2291,
+      "reason": "exact retained command or engine log; production18-lod-rebase-native-corrected-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-lod-rebase-native-corrected-01/godot.stderr.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-lod-rebase-native-corrected-01/godot.stdout.log",
+      "sha256": "e907faf93ec93b086ba8ea3650966ccd10761d9933bc1d5ab7e387df42791385",
+      "bytes": 3314,
+      "reason": "exact retained command or engine log; production18-lod-rebase-native-corrected-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-lod-rebase-native-corrected-01/godot.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-lod-rebase-native-corrected-01/import.stdout.log",
+      "sha256": "c26ced8f890c26ee3caa1f4de2f97b8b636b37b6e2859646e492782fd008aa55",
+      "bytes": 17190,
+      "reason": "exact retained command or engine log; production18-lod-rebase-native-corrected-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-lod-rebase-native-corrected-01/import.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-lod-rebase-native-corrected-01/movie-probe.stdout.log",
+      "sha256": "04b75484e3197631a67e52a5ee65f7c0404196ac8d5126c00cacd56b450fcf18",
+      "bytes": 420,
+      "reason": "exact retained command or engine log; production18-lod-rebase-native-corrected-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-lod-rebase-native-corrected-01/movie-probe.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-lod-rebase-native-corrected-01/process.json",
+      "sha256": "89e5dbefd7f9f2325b9e500fc5e5a3e5511b5b557b96998f27df3371923f4876",
+      "bytes": 122234,
+      "reason": "structured command, input, metric, failure or comparison record; production18-lod-rebase-native-corrected-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-lod-rebase-native-corrected-01/process.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-lod-rebase-native-corrected-01/run-save.json",
+      "sha256": "517a87ee7a58ca19224e8f8ea24d9134814e581e1e577f599613ce199773c61c",
+      "bytes": 4459,
+      "reason": "structured command, input, metric, failure or comparison record; production18-lod-rebase-native-corrected-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-lod-rebase-native-corrected-01/run-save.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-lod-rebase-native-corrected-01/telemetry.jsonl",
+      "sha256": "33eb3abcd74eeb3588b98963b24aae8131f396f9e9a8a97453c682571a558315",
+      "bytes": 5684,
+      "reason": "raw per-frame telemetry or event trace; production18-lod-rebase-native-corrected-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-lod-rebase-native-corrected-01/telemetry.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-lod-rebase-native-corrected-02/build.stdout.log",
+      "sha256": "d41cc84f2472b66760f0aa713ff126e0efc9d88c3b7c788567f2c95d08601ecd",
+      "bytes": 496,
+      "reason": "exact retained command or engine log; production18-lod-rebase-native-corrected-02 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-lod-rebase-native-corrected-02/build.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-lod-rebase-native-corrected-02/driving.ogv",
+      "sha256": "36b6ecb024e7c73fd077a95241837848a5a40699a419eeeaa84603262a85d011",
+      "bytes": 334120107,
+      "reason": "full actual native movie; production18-lod-rebase-native-corrected-02 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-lod-rebase-native-corrected-02/driving.ogv"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-lod-rebase-native-corrected-02/engine.log",
+      "sha256": "00d4aba4f5ab62d877d0350061bed370615b60414b297af934240fe6bec230c4",
+      "bytes": 3441,
+      "reason": "exact retained command or engine log; production18-lod-rebase-native-corrected-02 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-lod-rebase-native-corrected-02/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-lod-rebase-native-corrected-02/frames.jsonl",
+      "sha256": "62bbd8cf938755eadbb4015c41f58ae0b245b17831361ebdaaec74ddaf41efbe",
+      "bytes": 24637972,
+      "reason": "raw per-frame telemetry or event trace; production18-lod-rebase-native-corrected-02 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-lod-rebase-native-corrected-02/frames.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-lod-rebase-native-corrected-02/godot.stdout.log",
+      "sha256": "5df6ae1e5d30253650643b323a212f834e5328faaf4c3235f45b6901628e7d22",
+      "bytes": 4049,
+      "reason": "exact retained command or engine log; production18-lod-rebase-native-corrected-02 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-lod-rebase-native-corrected-02/godot.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-lod-rebase-native-corrected-02/process.json",
+      "sha256": "d05477c7522c5c95a94b6b85ecdf30f10dfbf0b7ba4cbe8290c6a1658326df82",
+      "bytes": 120869,
+      "reason": "structured command, input, metric, failure or comparison record; production18-lod-rebase-native-corrected-02 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-lod-rebase-native-corrected-02/process.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-lod-rebase-native-corrected-02/run-save.json",
+      "sha256": "3797ece5c70c7852e037a34f1e188223abe3eb95429de7cceb0e7ac580a572a9",
+      "bytes": 4727,
+      "reason": "structured command, input, metric, failure or comparison record; production18-lod-rebase-native-corrected-02 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-lod-rebase-native-corrected-02/run-save.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-lod-rebase-native-corrected-02/run-save.json.bak",
+      "sha256": "6744f13bb48d737304d55961e7cd14240ee7acde13e45b5e6e538d4d0273f2a0",
+      "bytes": 4460,
+      "reason": "retained diagnostic input or recipe; production18-lod-rebase-native-corrected-02 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-lod-rebase-native-corrected-02/run-save.json.bak"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-lod-rebase-native-corrected-02/summary.json",
+      "sha256": "9517928be4dbbf0375e442ba60d57480e2f28643a7da07c7d5e4eb5e5509cf7e",
+      "bytes": 86349,
+      "reason": "structured command, input, metric, failure or comparison record; production18-lod-rebase-native-corrected-02 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-lod-rebase-native-corrected-02/summary.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-lod-rebase-native-corrected-02/telemetry.jsonl",
+      "sha256": "a77b4cc8b9147733f2b4f28186edcff31a1b5d821c7792f23b2227db0959175b",
+      "bytes": 7798,
+      "reason": "raw per-frame telemetry or event trace; production18-lod-rebase-native-corrected-02 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-lod-rebase-native-corrected-02/telemetry.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-bounds-01/evidence.json",
+      "sha256": "d51d76a9fba1cd2efcd9f2960ffd41baa335eb061a15061575887c6db6bb04cc",
+      "bytes": 6905,
+      "reason": "structured command, input, metric, failure or comparison record; production18-mirror-bounds-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-bounds-01/evidence.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-bounds-01/glb_geometry-input.py",
+      "sha256": "8b8a393e56aa54d4a5c4977eec92fe521663d4921126cb16020b9a63afebecce",
+      "bytes": 5141,
+      "reason": "reproducible Python recipe; production18-mirror-bounds-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-bounds-01/glb_geometry-input.py"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-comparison-01/evidence.json",
+      "sha256": "832a59b40b91c0c6e098d2e944d0f919e29724ec41d28d31fafd66790a276b9d",
+      "bytes": 13505,
+      "reason": "structured command, input, metric, failure or comparison record; production18-mirror-comparison-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-comparison-01/evidence.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-baseline-01/01-mirrors-configuration.png",
+      "sha256": "960fa641c627a4cff9b9ca8a7d144ecbf66426af5a011432e122c8a720fca78e",
+      "bytes": 1724737,
+      "reason": "actual image or declared diagnostic texture input; production18-mirror-native-baseline-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-baseline-01/01-mirrors-configuration.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-baseline-01/engine.log",
+      "sha256": "ac1a31de4ce18d3281497aabb43234e8b2c236ac7cfc1dbf0d721867b21ec71b",
+      "bytes": 3603,
+      "reason": "exact retained command or engine log; production18-mirror-native-baseline-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-baseline-01/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-baseline-01/godot.stderr.log",
+      "sha256": "b1cb9ac45e2fea0500715bc3b5b01af12fa744a5ccd243cfe02abd4b666f0085",
+      "bytes": 2761,
+      "reason": "exact retained command or engine log; production18-mirror-native-baseline-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-baseline-01/godot.stderr.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-baseline-01/godot.stdout.log",
+      "sha256": "b14224ad1d90b62255159b03adb3124fc4cd8660403f03782b43f9d08f241995",
+      "bytes": 1429,
+      "reason": "exact retained command or engine log; production18-mirror-native-baseline-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-baseline-01/godot.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-baseline-01/mirror-Left-sample-01.png",
+      "sha256": "d089785167268eca36f1e2225a33f0eadc084d77e4d1bb2d52f98b257b767270",
+      "bytes": 20411,
+      "reason": "actual image or declared diagnostic texture input; production18-mirror-native-baseline-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-baseline-01/mirror-Left-sample-01.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-baseline-01/mirror-Rear-sample-01.png",
+      "sha256": "278edc086f0de3aeefc9c2a7715d0b71aad2d6e2012cbd9d21839cc9a6b0b73b",
+      "bytes": 41869,
+      "reason": "actual image or declared diagnostic texture input; production18-mirror-native-baseline-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-baseline-01/mirror-Rear-sample-01.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-baseline-01/mirror-Rear-sample-20.png",
+      "sha256": "a5246300528504f6604c13de62ae62cb7f8cb6b06c645425ce70aa9b2d2aa267",
+      "bytes": 41992,
+      "reason": "actual image or declared diagnostic texture input; production18-mirror-native-baseline-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-baseline-01/mirror-Rear-sample-20.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-baseline-01/mirror-Right-sample-01.png",
+      "sha256": "e52cd731dd0cecf7a3c17e3f6701c565916acfcba1c19432f7a72223b01a6713",
+      "bytes": 19923,
+      "reason": "actual image or declared diagnostic texture input; production18-mirror-native-baseline-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-baseline-01/mirror-Right-sample-01.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-baseline-01/mirror-samples.jsonl",
+      "sha256": "9eefe1b9e17b656c1f595427a3d469e09a51290484c7ad96758f062b87de8d20",
+      "bytes": 71219,
+      "reason": "raw per-frame telemetry or event trace; production18-mirror-native-baseline-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-baseline-01/mirror-samples.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-baseline-01/movie-probe.stdout.log",
+      "sha256": "02cbea53682fd65311dc908faed67cc016c4d0e2f1481e7f94b57e1d23a7242d",
+      "bytes": 416,
+      "reason": "exact retained command or engine log; production18-mirror-native-baseline-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-baseline-01/movie-probe.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-baseline-01/presentation-frames.jsonl",
+      "sha256": "c1e75598ad227fa224e5bd3c9c4b6cead3757a801e8f1ebb071d89ab3dc8cb88",
+      "bytes": 1491433,
+      "reason": "raw per-frame telemetry or event trace; production18-mirror-native-baseline-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-baseline-01/presentation-frames.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-baseline-01/presentation-summary.json",
+      "sha256": "7622947f7494a6a13f99dfdde981a538a36ef32f902ce685cf92ff7e153702ad",
+      "bytes": 146768,
+      "reason": "structured command, input, metric, failure or comparison record; production18-mirror-native-baseline-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-baseline-01/presentation-summary.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-baseline-01/presentation.ogv",
+      "sha256": "5be4ace7e3e9924fbbe62cb2c582488958f462c4854871400f393c5e7cd7f181",
+      "bytes": 661166,
+      "reason": "full actual native movie; production18-mirror-native-baseline-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-baseline-01/presentation.ogv"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-baseline-01/process.json",
+      "sha256": "94628413ea543fc90bf021da36f10d9b752e05c3fc8cb192bf68cd95fd0a49d8",
+      "bytes": 30768,
+      "reason": "structured command, input, metric, failure or comparison record; production18-mirror-native-baseline-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-baseline-01/process.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-baseline-01/telemetry.jsonl",
+      "sha256": "4885a0af8956589004e6ed9d5d6b09809e2e8272329d4b57102b3ad0798c7081",
+      "bytes": 475,
+      "reason": "raw per-frame telemetry or event trace; production18-mirror-native-baseline-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-baseline-01/telemetry.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-baseline-02/engine.log",
+      "sha256": "59f7a8ac9bb79686c5e855483b61cd998f75bb7ea6104f26aac5d85b5f543cba",
+      "bytes": 3602,
+      "reason": "exact retained command or engine log; production18-mirror-native-baseline-02 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-baseline-02/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-baseline-02/godot.stderr.log",
+      "sha256": "0813a34786e7debf0556513caf4b3c8c7e0ac55f6cd481f82dbfbad9df978e3f",
+      "bytes": 2761,
+      "reason": "exact retained command or engine log; production18-mirror-native-baseline-02 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-baseline-02/godot.stderr.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-baseline-02/godot.stdout.log",
+      "sha256": "b3637d3b688eaddae5f5423a86d84f49b67409ff52f2efd10bed29b70b388e59",
+      "bytes": 1428,
+      "reason": "exact retained command or engine log; production18-mirror-native-baseline-02 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-baseline-02/godot.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-baseline-02/mirror-Rear-01.png",
+      "sha256": "c7f4d6fb2e1b35f3a8a3e61b732b120398814b4a24f4d61e52197d1a23d9ba3d",
+      "bytes": 41918,
+      "reason": "actual image or declared diagnostic texture input; production18-mirror-native-baseline-02 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-baseline-02/mirror-Rear-01.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-baseline-02/mirror-Rear-20.png",
+      "sha256": "10a1d8f4fc14401857e9eb29ce1f62c90e107594e497e120a7f1ece7c85754f4",
+      "bytes": 42004,
+      "reason": "actual image or declared diagnostic texture input; production18-mirror-native-baseline-02 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-baseline-02/mirror-Rear-20.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-baseline-02/mirror-samples.jsonl",
+      "sha256": "4f6f71183f2a49be2b177fb21908711c44a375bc314fe19a9127b144ba5d8e0a",
+      "bytes": 73241,
+      "reason": "raw per-frame telemetry or event trace; production18-mirror-native-baseline-02 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-baseline-02/mirror-samples.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-baseline-02/movie-probe.stdout.log",
+      "sha256": "04b7886f7b96e7a610556f816ba53699622b1591555800bf6aa24f615fa99937",
+      "bytes": 416,
+      "reason": "exact retained command or engine log; production18-mirror-native-baseline-02 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-baseline-02/movie-probe.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-baseline-02/presentation-frames.jsonl",
+      "sha256": "52d3a7baa2d4c6b5d67b86bc57fc2a1e46da85f4e6381419d5869d340102fd57",
+      "bytes": 1491481,
+      "reason": "raw per-frame telemetry or event trace; production18-mirror-native-baseline-02 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-baseline-02/presentation-frames.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-baseline-02/presentation-summary.json",
+      "sha256": "ed4334d3e40ae22273f5b5f214bb116a3c0c19a26d96fd0a02621f718b1c8d1a",
+      "bytes": 148957,
+      "reason": "structured command, input, metric, failure or comparison record; production18-mirror-native-baseline-02 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-baseline-02/presentation-summary.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-baseline-02/presentation.ogv",
+      "sha256": "f25a6a741897e8dffabd699b70661dc6334d89ff960f4fb297b011430f5ca7f2",
+      "bytes": 661161,
+      "reason": "full actual native movie; production18-mirror-native-baseline-02 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-baseline-02/presentation.ogv"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-baseline-02/process.json",
+      "sha256": "24593aa96c5e27fa2aa77c608bc4aeceb780284021e698ed595b37fc4b7dead1",
+      "bytes": 31274,
+      "reason": "structured command, input, metric, failure or comparison record; production18-mirror-native-baseline-02 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-baseline-02/process.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-baseline-02/telemetry.jsonl",
+      "sha256": "3ac5702bcb31eab5a9f6464f3658fa08bbfcd647a06fe702729a7b221935d9e3",
+      "bytes": 475,
+      "reason": "raw per-frame telemetry or event trace; production18-mirror-native-baseline-02 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-baseline-02/telemetry.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-candidate-01/01-mirrors-configuration.png",
+      "sha256": "f4c26592d7d4f06fe75da2be3243783c68fd7a02da9877b969bbd9e8789f9a1b",
+      "bytes": 1730157,
+      "reason": "actual image or declared diagnostic texture input; production18-mirror-native-candidate-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-candidate-01/01-mirrors-configuration.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-candidate-01/engine.log",
+      "sha256": "a5fb6bfb0cf8ede95f67760f35787c2b754e619254ecebe57c58e16b4ddb52b2",
+      "bytes": 3604,
+      "reason": "exact retained command or engine log; production18-mirror-native-candidate-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-candidate-01/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-candidate-01/godot.stderr.log",
+      "sha256": "36a562956c48291a61a0735a29a00247eef6d11d5c893cfd3135e9501009e1cd",
+      "bytes": 2762,
+      "reason": "exact retained command or engine log; production18-mirror-native-candidate-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-candidate-01/godot.stderr.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-candidate-01/godot.stdout.log",
+      "sha256": "2edac8842160ea2e049bcbeee5a51dcf538a9632a36a9153c950662b168493f3",
+      "bytes": 1430,
+      "reason": "exact retained command or engine log; production18-mirror-native-candidate-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-candidate-01/godot.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-candidate-01/mirror-Left-01.png",
+      "sha256": "8dfd8b33a53ecd76adbcc0d6fcb80a248f5fc1bbad0c16251ca378c016c91384",
+      "bytes": 33048,
+      "reason": "actual image or declared diagnostic texture input; production18-mirror-native-candidate-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-candidate-01/mirror-Left-01.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-candidate-01/mirror-Left-20.png",
+      "sha256": "40e6e35528d63e76d67c6b03ec21c7f33b9bae2616578aa58797033a1ff2b8a3",
+      "bytes": 33003,
+      "reason": "actual image or declared diagnostic texture input; production18-mirror-native-candidate-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-candidate-01/mirror-Left-20.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-candidate-01/mirror-Left-sample-01.png",
+      "sha256": "4a6898b2620466ac5343ba591de834934f6a626641c9b5be86265535017c7370",
+      "bytes": 32898,
+      "reason": "actual image or declared diagnostic texture input; production18-mirror-native-candidate-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-candidate-01/mirror-Left-sample-01.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-candidate-01/mirror-Left-sample-20.png",
+      "sha256": "726dbefa10a2a9a086286995e98ae14bd9f464951707e24a6322c2f6e9947e70",
+      "bytes": 33005,
+      "reason": "actual image or declared diagnostic texture input; production18-mirror-native-candidate-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-candidate-01/mirror-Left-sample-20.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-candidate-01/mirror-Rear-sample-20.png",
+      "sha256": "2542db09577c01b20a64dae15827d8e532a2e6aae798f2c6e58166515db44ca0",
+      "bytes": 42000,
+      "reason": "actual image or declared diagnostic texture input; production18-mirror-native-candidate-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-candidate-01/mirror-Rear-sample-20.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-candidate-01/mirror-Right-sample-01.png",
+      "sha256": "999e0a5e6d06d39b4abae685b2f1474175471a47fc8b6f8a44e0aee49589a15d",
+      "bytes": 31746,
+      "reason": "actual image or declared diagnostic texture input; production18-mirror-native-candidate-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-candidate-01/mirror-Right-sample-01.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-candidate-01/mirror-Right-sample-20.png",
+      "sha256": "cba62ae3e7ca058479f6940d4627740dac6e68350bd8f60ee29f6d6c25350155",
+      "bytes": 31731,
+      "reason": "actual image or declared diagnostic texture input; production18-mirror-native-candidate-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-candidate-01/mirror-Right-sample-20.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-candidate-01/mirror-samples.jsonl",
+      "sha256": "b0f7e7fe4d9e1d99eaee7d12f34b37571409aaa7afc6461c2c9aaef3e7566189",
+      "bytes": 72704,
+      "reason": "raw per-frame telemetry or event trace; production18-mirror-native-candidate-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-candidate-01/mirror-samples.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-candidate-01/movie-probe.stdout.log",
+      "sha256": "17747e5397e1033bbb4e89c5d11f575adc754b00d1dce3bba77d00d9203bf654",
+      "bytes": 416,
+      "reason": "exact retained command or engine log; production18-mirror-native-candidate-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-candidate-01/movie-probe.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-candidate-01/presentation-frames.jsonl",
+      "sha256": "87359bf937601ec5c0c076149800b20f497c3e047913f871b6669a6a8b52bf17",
+      "bytes": 1492328,
+      "reason": "raw per-frame telemetry or event trace; production18-mirror-native-candidate-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-candidate-01/presentation-frames.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-candidate-01/presentation-summary.json",
+      "sha256": "a93a16797aa730928307b567196940d0c668f6fdee717c306be47b789cd04391",
+      "bytes": 148308,
+      "reason": "structured command, input, metric, failure or comparison record; production18-mirror-native-candidate-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-candidate-01/presentation-summary.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-candidate-01/presentation.ogv",
+      "sha256": "de71cc8aadfd075bae5fef3bf75020d985c63bd432961703ba9356808976e44f",
+      "bytes": 665417,
+      "reason": "full actual native movie; production18-mirror-native-candidate-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-candidate-01/presentation.ogv"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-candidate-01/process.json",
+      "sha256": "9adf03615acbd58678127f8341980eff1ef46cb1ec06fecff940b76ac38b6efa",
+      "bytes": 31059,
+      "reason": "structured command, input, metric, failure or comparison record; production18-mirror-native-candidate-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-candidate-01/process.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-candidate-01/telemetry.jsonl",
+      "sha256": "1bf8a05f0a5a101cd7fcf2e55ec3e74734fba9b26c2f10d1601af1bb6015e009",
+      "bytes": 476,
+      "reason": "raw per-frame telemetry or event trace; production18-mirror-native-candidate-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-candidate-01/telemetry.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-candidate-02/02-mirrors-live.png",
+      "sha256": "6ae8b21d3bf64724ad9d1c022feb14352469f2d73e352b43f2b621bec503b6b0",
+      "bytes": 1730307,
+      "reason": "actual image or declared diagnostic texture input; production18-mirror-native-candidate-02 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-candidate-02/02-mirrors-live.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-candidate-02/03-mirrors-door-follow.png",
+      "sha256": "8610ab4a226c4b80cc14f3fa16b738d02aed3c85d148b4103110c85443d1e6e1",
+      "bytes": 1849074,
+      "reason": "actual image or declared diagnostic texture input; production18-mirror-native-candidate-02 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-candidate-02/03-mirrors-door-follow.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-candidate-02/04-mirrors-disabled.png",
+      "sha256": "2b956155195adafdddacb05d4ff3402311f4362b3572605a1b4b6ff258be29fc",
+      "bytes": 745878,
+      "reason": "actual image or declared diagnostic texture input; production18-mirror-native-candidate-02 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-candidate-02/04-mirrors-disabled.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-candidate-02/engine.log",
+      "sha256": "b65ae24888aa2313b0b386f3b501e1335b6f40e7f8d02a154aecfbccca738b1b",
+      "bytes": 1464,
+      "reason": "exact retained command or engine log; production18-mirror-native-candidate-02 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-candidate-02/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-candidate-02/godot.stdout.log",
+      "sha256": "6c20f68245d4283851f82948c275749a54a681a029ea7451b85368920f81218b",
+      "bytes": 2051,
+      "reason": "exact retained command or engine log; production18-mirror-native-candidate-02 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-candidate-02/godot.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-candidate-02/mirror-Rear-01.png",
+      "sha256": "fbeee142ce40643f9ff233b20f7fa80d4b18cdf256816d66d1677405b1b2fdd8",
+      "bytes": 41922,
+      "reason": "actual image or declared diagnostic texture input; production18-mirror-native-candidate-02 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-candidate-02/mirror-Rear-01.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-candidate-02/mirror-Rear-20.png",
+      "sha256": "5e26808e430247a49e4c46eafc6e5e903644fd06987735c2ba79d6b7fca97632",
+      "bytes": 42011,
+      "reason": "actual image or declared diagnostic texture input; production18-mirror-native-candidate-02 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-candidate-02/mirror-Rear-20.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-candidate-02/mirror-Right-01.png",
+      "sha256": "d890651bcaf98549c7e27c48f85d78604c6d49137bdcc73ecc9ed220133e0c50",
+      "bytes": 31791,
+      "reason": "actual image or declared diagnostic texture input; production18-mirror-native-candidate-02 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-candidate-02/mirror-Right-01.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-candidate-02/mirror-Right-20.png",
+      "sha256": "ed6f03b35a3ede23989741131a2c02a6ddc30ac839b4233a2eb513c53c7a05bf",
+      "bytes": 31721,
+      "reason": "actual image or declared diagnostic texture input; production18-mirror-native-candidate-02 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-candidate-02/mirror-Right-20.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-candidate-02/mirror-samples.jsonl",
+      "sha256": "b514219c80549d6b4750fad571b1439d7f1f52d9e7ef89ac6d509e4d9ac16fd7",
+      "bytes": 75997,
+      "reason": "raw per-frame telemetry or event trace; production18-mirror-native-candidate-02 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-candidate-02/mirror-samples.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-candidate-02/movie-probe.stdout.log",
+      "sha256": "006ecd68c818c160d045a4c8d4739c36e4711b0fb64eb8387748bdaf60477c1c",
+      "bytes": 417,
+      "reason": "exact retained command or engine log; production18-mirror-native-candidate-02 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-candidate-02/movie-probe.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-candidate-02/presentation-frames.jsonl",
+      "sha256": "e3225231e4d757fa06cc1f11aef2a21e3327aa7076404bb3774bf7f4120863d2",
+      "bytes": 1986078,
+      "reason": "raw per-frame telemetry or event trace; production18-mirror-native-candidate-02 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-candidate-02/presentation-frames.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-candidate-02/presentation-summary.json",
+      "sha256": "962e16196e3044535bebd7fe87e9291447614b5d5aadcce104e627dd46cad8e8",
+      "bytes": 201157,
+      "reason": "structured command, input, metric, failure or comparison record; production18-mirror-native-candidate-02 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-candidate-02/presentation-summary.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-candidate-02/presentation.ogv",
+      "sha256": "7f37b56d649b4eaa46938ff8154bae425c8409794d02baca95910521cbc3e6e9",
+      "bytes": 1673595,
+      "reason": "full actual native movie; production18-mirror-native-candidate-02 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-candidate-02/presentation.ogv"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-candidate-02/process.json",
+      "sha256": "59e9a43a9e87bf0ae6fa100588a8dff3e9b86c1bf7f3fa7773bb04108a6b68fc",
+      "bytes": 30186,
+      "reason": "structured command, input, metric, failure or comparison record; production18-mirror-native-candidate-02 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-candidate-02/process.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-candidate-02/run-save.json",
+      "sha256": "9e214a517496020f7bfba65eb2ff911dc4451848ece8cf5a3313263d3c61222f",
+      "bytes": 3775,
+      "reason": "structured command, input, metric, failure or comparison record; production18-mirror-native-candidate-02 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-candidate-02/run-save.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-candidate-02/telemetry.jsonl",
+      "sha256": "0f58d5c37d590cb77633c2212a9a1cf2ed9f8c6dd8e8d31176cb85fa69c7f943",
+      "bytes": 951,
+      "reason": "raw per-frame telemetry or event trace; production18-mirror-native-candidate-02 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-mirror-native-candidate-02/telemetry.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-driving-01/capture-runner-input.py",
+      "sha256": "a41747974023ee17459127e530baac532d14634baa1d1678696a98734baca278",
+      "bytes": 15222,
+      "reason": "reproducible Python recipe; production18-native-driving-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-driving-01/capture-runner-input.py"
+    }
+  ],
+  "archives": [
+    {
+      "path": "data/assets/vehicles/endurance-sedan-review/evidence/runtime-history01-part-02.zip",
+      "sha256": "bf6c21bfa73aab203d071ce089fe53d2d3ffa6eb0e9c844927b51d878a6e164f",
+      "bytes": 695264479,
+      "crc_and_member_sha256_verified": true
+    },
+    {
+      "path": "reports/p1-018/retention/runtime-history01-part-02-repeat.zip",
+      "sha256": "bf6c21bfa73aab203d071ce089fe53d2d3ffa6eb0e9c844927b51d878a6e164f",
+      "bytes": 695264479,
+      "crc_and_member_sha256_verified": true
+    }
+  ],
+  "human_approval_reference": null,
+  "limits": "Evidence retention and byte identity only; individual reports retain their own scope, failures and approval status.",
+  "byte_reproducible": true,
+  "finished_utc": "2026-09-11T17:01:17.577952+00:00"
+}

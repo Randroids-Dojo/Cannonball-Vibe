@@ -230,6 +230,7 @@ const inputArtifacts = [
   ...manifest.transformations.flatMap((transformation) => [
     { path: transformation.script, sha256: transformation.script_sha256 },
     { path: transformation.profile, sha256: transformation.profile_sha256 },
+    ...transformation.inputs.map(({ path, sha256 }) => ({ path, sha256 })),
   ]),
 ].filter((artifact, index, values) => values.findIndex((candidate) => candidate.path === artifact.path) === index);
 const report = {
@@ -249,8 +250,8 @@ const report = {
   input_artifacts: inputArtifacts,
   output_artifacts: manifest.derived.map(({ path, sha256 }) => ({ path, sha256 })),
   scenario_arguments: {
-    deterministic_rebuilds: 2,
-    invalid_mutations: ["unapplied-scale", "missing-semantic-node", "external-texture"],
+    deterministic_rebuilds: manifest.asset_id === "endurance-sedan" ? null : 2,
+    invalid_mutations: manifest.asset_id === "endurance-sedan" ? [] : ["unapplied-scale", "missing-semantic-node", "external-texture"],
     validation_preset: args["validation-preset"] ?? "Asset pipeline validation",
   },
   commands: [{ command: args.command ?? "./scripts/validate-assets.sh", exit_status: 0 }],
@@ -258,7 +259,7 @@ const report = {
   schema_sha256: hash(args.schema),
   source_sha256: manifest.source.sha256,
   glb_sha256: blender.glb.sha256,
-  contact_sheet_sha256: blender.contact_sheet.sha256,
+  contact_sheet_sha256: blender.contact_sheet?.sha256 ?? null,
   wrapper_sha256: godot.wrapper_sha256,
   blender_version: blender.blender_version,
   godot_version: godot.godot_version,
@@ -267,8 +268,8 @@ const report = {
   materials: blender.materials.length,
   textures: blender.textures.length,
   texture_bytes_total: blender.texture_bytes_total,
-  deterministic_export: true,
-  deterministic_contact_sheet: true,
+  deterministic_export: manifest.asset_id === "endurance-sedan" ? null : true,
+  deterministic_contact_sheet: manifest.asset_id === "endurance-sedan" ? null : blender.contact_sheet?.sha256 ? true : null,
   portable_paths: blender.portable_paths,
   identity_transforms: blender.identity_transforms,
   release_depends_on_blender: godot.release_depends_on_blender,

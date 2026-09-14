@@ -1,0 +1,1240 @@
+{
+  "schema_version": 1,
+  "task_id": "P1-018",
+  "asset_id": "endurance-sedan",
+  "identity": {
+    "make": "Meridian",
+    "model": "S8R",
+    "configuration": "four-door, left-hand-drive, all-wheel-drive endurance performance sedan",
+    "status": "project-original fictional identity; final human art/rights review pending"
+  },
+  "status": "locked_original_specification_v6",
+  "locked_utc": "2026-09-11T00:02:17.853393+00:00",
+  "benchmark": {
+    "id": "audi_s6_2016_us",
+    "model_year": 2016,
+    "market": "US",
+    "generation": "C7 facelift / 4G",
+    "trim": "S6 Prestige",
+    "transmission": "7-speed S tronic",
+    "drive": "quattro",
+    "reference_options": [
+      "Black Optic",
+      "Individual Contour Seating"
+    ],
+    "identity_boundary": "Original fictional Meridian S8R candidate; lead owns final identity/styling. No factory trademark, fascia, lamp signature or cabin graphic is licensed by research."
+  },
+  "geometry": {
+    "length_m": 4.94,
+    "body_width_m": 1.9,
+    "mirror_width_m": 2.1,
+    "roof_height_m": 1.45,
+    "wheelbase_m": 2.92,
+    "front_track_m": 1.62,
+    "rear_track_m": 1.61,
+    "front_overhang_m": 0.94,
+    "rear_overhang_m": 1.08,
+    "ground_clearance_m": 0.135,
+    "wheel_radius_m": 0.3433,
+    "tire_width_m": 0.255,
+    "rim_diameter_m": 0.4826,
+    "rim_width_m": 0.2159,
+    "wheel_offset_m": 0.04,
+    "front_brake_diameter_m": 0.399,
+    "rear_brake_diameter_m": 0.356,
+    "front_rotor_thickness_m": 0.036,
+    "rear_rotor_thickness_m": 0.022,
+    "panel_gap_m": 0.0035,
+    "glass_thickness_m": 0.0045,
+    "panel_skin_thickness_m": 0.0012,
+    "door_hem_thickness_m": 0.003,
+    "static_compression_m": 0.075,
+    "bump_m": 0.085,
+    "droop_m": 0.075,
+    "spring_free_length_m": 0.16,
+    "chassis_origin_height_m": 0.65,
+    "center_of_mass_height_m": 0.55,
+    "center_of_mass_forward_m": 0.1168,
+    "steering_lock_deg": 32.0,
+    "cowl_y_m": 0.74,
+    "cowl_height_m": 0.97,
+    "windshield_header_y_m": 0.14,
+    "windshield_header_height_m": 1.395,
+    "rear_roof_y_m": -1.27,
+    "rear_roof_height_m": 1.37,
+    "backlight_base_y_m": -1.94,
+    "backlight_base_height_m": 0.99
+  },
+  "hardpoints_source_m": {
+    "Driver_Reference": [
+      -0.43,
+      -0.16,
+      0.45
+    ],
+    "Camera_Cockpit": [
+      -0.43,
+      -0.39,
+      1.21
+    ],
+    "Camera_ChaseTarget": [
+      0,
+      -0.1,
+      0.88
+    ],
+    "Door_FL": [
+      -0.915,
+      0.72,
+      0.5
+    ],
+    "Door_FR": [
+      0.915,
+      0.72,
+      0.5
+    ],
+    "Door_RL": [
+      -0.942,
+      -0.625,
+      0.5
+    ],
+    "Door_RR": [
+      0.942,
+      -0.625,
+      0.5
+    ],
+    "Hood_Hinge": [
+      0,
+      0.77,
+      0.972
+    ],
+    "Trunk_Hinge": [
+      0,
+      -1.996,
+      0.99
+    ],
+    "SteeringWheel_Pivot": [
+      -0.43,
+      0.21,
+      0.855
+    ],
+    "Pedal_Accelerator": [
+      -0.28,
+      0.72,
+      0.28
+    ],
+    "Pedal_Brake": [
+      -0.47,
+      0.72,
+      0.28
+    ],
+    "Wiper_L": [
+      -0.53,
+      0.735,
+      0.985
+    ],
+    "Wiper_R": [
+      0.06,
+      0.735,
+      0.985
+    ],
+    "Mirror_Left": [
+      -0.977,
+      0.6,
+      1.043
+    ],
+    "Mirror_Right": [
+      0.977,
+      0.6,
+      1.043
+    ],
+    "Mirror_Rear": [
+      0,
+      0.2,
+      1.293
+    ],
+    "MirrorCamera_Left": [
+      -1.02,
+      0.61,
+      1.065
+    ],
+    "MirrorCamera_Right": [
+      1.02,
+      0.61,
+      1.065
+    ],
+    "MirrorCamera_Rear": [
+      0,
+      0.16,
+      1.293
+    ],
+    "Instrument_Cluster": [
+      -0.43,
+      0.4,
+      1.06
+    ],
+    "Light_Head_FL": [
+      -0.635,
+      2.31,
+      0.735
+    ],
+    "Light_Head_FR": [
+      0.635,
+      2.31,
+      0.735
+    ],
+    "Light_Tail_RL": [
+      -0.65,
+      -2.485,
+      0.87
+    ],
+    "Light_Tail_RR": [
+      0.65,
+      -2.485,
+      0.87
+    ],
+    "Light_Brake_L": [
+      -0.65,
+      -2.49,
+      0.855
+    ],
+    "Light_Brake_R": [
+      0.65,
+      -2.49,
+      0.855
+    ],
+    "Light_Brake_Center": [
+      0,
+      -1.92,
+      1.014
+    ],
+    "Light_Reverse_L": [
+      -0.42,
+      -2.49,
+      0.84
+    ],
+    "Light_Reverse_R": [
+      0.42,
+      -2.49,
+      0.84
+    ],
+    "Light_Indicator_FL": [
+      -0.72,
+      2.32,
+      0.77
+    ],
+    "Light_Indicator_FR": [
+      0.72,
+      2.32,
+      0.77
+    ],
+    "Light_Indicator_RL": [
+      -0.79,
+      -2.49,
+      0.86
+    ],
+    "Light_Indicator_RR": [
+      0.79,
+      -2.49,
+      0.86
+    ],
+    "Exhaust_L": [
+      -0.63,
+      -2.48,
+      0.26
+    ],
+    "Exhaust_R": [
+      0.63,
+      -2.48,
+      0.26
+    ],
+    "Suspension_FL": [
+      -0.81,
+      1.46,
+      0.3433
+    ],
+    "Wheel_FL": [
+      -0.81,
+      1.46,
+      0.3433
+    ],
+    "Contact_FL": [
+      -0.81,
+      1.46,
+      0
+    ],
+    "Suspension_FR": [
+      0.81,
+      1.46,
+      0.3433
+    ],
+    "Wheel_FR": [
+      0.81,
+      1.46,
+      0.3433
+    ],
+    "Contact_FR": [
+      0.81,
+      1.46,
+      0
+    ],
+    "Suspension_RL": [
+      -0.805,
+      -1.46,
+      0.3433
+    ],
+    "Wheel_RL": [
+      -0.805,
+      -1.46,
+      0.3433
+    ],
+    "Contact_RL": [
+      -0.805,
+      -1.46,
+      0
+    ],
+    "Suspension_RR": [
+      0.805,
+      -1.46,
+      0.3433
+    ],
+    "Wheel_RR": [
+      0.805,
+      -1.46,
+      0.3433
+    ],
+    "Contact_RR": [
+      0.805,
+      -1.46,
+      0
+    ]
+  },
+  "mechanisms": {
+    "Door_FL": {
+      "axis_source": [
+        0,
+        0,
+        1
+      ],
+      "open_deg": -62,
+      "axis_space": "parent_source"
+    },
+    "Door_FR": {
+      "axis_source": [
+        0,
+        0,
+        1
+      ],
+      "open_deg": 62,
+      "axis_space": "parent_source"
+    },
+    "Door_RL": {
+      "axis_source": [
+        0,
+        0,
+        1
+      ],
+      "open_deg": -58,
+      "axis_space": "parent_source"
+    },
+    "Door_RR": {
+      "axis_source": [
+        0,
+        0,
+        1
+      ],
+      "open_deg": 58,
+      "axis_space": "parent_source"
+    },
+    "Hood_Hinge": {
+      "axis_source": [
+        1,
+        0,
+        0
+      ],
+      "open_deg": 68,
+      "axis_space": "parent_source"
+    },
+    "Trunk_Hinge": {
+      "axis_source": [
+        1,
+        0,
+        0
+      ],
+      "open_deg": -72,
+      "axis_space": "parent_source"
+    },
+    "SteeringWheel_Pivot": {
+      "axis_source": [
+        0,
+        1,
+        0
+      ],
+      "rest_rotation_x_deg": -20,
+      "ratio": 14.5,
+      "axis_space": "local_rest"
+    },
+    "Pedal_Accelerator": {
+      "axis_source": [
+        1,
+        0,
+        0
+      ],
+      "open_deg": -18,
+      "axis_space": "parent_source"
+    },
+    "Pedal_Brake": {
+      "axis_source": [
+        1,
+        0,
+        0
+      ],
+      "open_deg": -12,
+      "axis_space": "parent_source"
+    },
+    "Wiper_L": {
+      "axis_source": [
+        0,
+        0.578,
+        0.816
+      ],
+      "rest_rotation_x_deg": -35.31,
+      "park_deg": 0,
+      "sweep_deg": -78,
+      "period_s": 1.35,
+      "axis_space": "parent_source"
+    },
+    "Wiper_R": {
+      "axis_source": [
+        0,
+        0.578,
+        0.816
+      ],
+      "rest_rotation_x_deg": -35.31,
+      "park_deg": 0,
+      "sweep_deg": -74,
+      "period_s": 1.35,
+      "axis_space": "parent_source"
+    }
+  },
+  "coordinate_contract": {
+    "source": [
+      "+X right",
+      "+Y forward",
+      "+Z up"
+    ],
+    "godot_mapping": "(x,y,z) -> (x,z,-y)",
+    "origin": "axle midpoint at design ground",
+    "wheel_parenting": "Suspension_* at static wheel center, Wheel_* child local zero; parent steers, child rolls",
+    "rigidbody_origin_source_m": [
+      0,
+      0,
+      0.65
+    ],
+    "visual_offset_godot_m": [
+      0,
+      -0.65,
+      0
+    ],
+    "lod_layout": "unique semantic pivots outside Visual_LOD groups; distributed child mesh LOD0_/LOD1_/LOD2_ prefixes; fixed pieces under matching group; force LOD0 during opening/cockpit inspection"
+  },
+  "mass_and_fuel": {
+    "nominal_fixed_running_mass_kg": 2400,
+    "base_curb_with_full75L_kg": 2040,
+    "preparation_dry_kg": 31,
+    "auxiliary_fuel_l": 100,
+    "nominal_fuel_density_kg_l": 0.745,
+    "crew_kg": 240,
+    "luggage_kg": 14.5,
+    "front_weight_fraction": 0.54,
+    "primary_fuel_capacity_l": 75,
+    "total_fuel_capacity_l": 175,
+    "auxiliary_gross_envelope_m": [
+      0.9,
+      0.48,
+      0.28
+    ],
+    "auxiliary_center_source_m": [
+      0,
+      -1.92,
+      0.56
+    ],
+    "runtime_mass_changes_with_fuel": false,
+    "initial_gameplay_fuel_l": 82,
+    "fuel_state_source": "existing saved VehicleCondition; no save migration or change to initial fuel"
+  },
+  "gameplay": {
+    "starter_speed_cap_mph": 125,
+    "validation_speed_cap_mph": 250,
+    "engine_force_n": 25000,
+    "brake_force_n": 36000,
+    "downforce_coefficient_n_per_mps2": 1,
+    "max_downforce_g": 1,
+    "front_spring_rate_n_m": 84729.3696,
+    "rear_spring_rate_n_m": 72177.0304,
+    "ray_anchor_height_source_m": 0.4283,
+    "performance_claim": "Existing gameplay force laws; no claim of Audi acceleration/top speed or mechanical engine/transmission simulation"
+  },
+  "collision_boxes_godot_ground": [
+    {
+      "name": "Body",
+      "center": [
+        0,
+        0.47,
+        0.07
+      ],
+      "size": [
+        1.82,
+        0.62,
+        4.72
+      ]
+    },
+    {
+      "name": "Cabin",
+      "center": [
+        0,
+        1.035,
+        0.57
+      ],
+      "size": [
+        1.42,
+        0.6,
+        1.5
+      ]
+    }
+  ],
+  "occupant_envelopes": [
+    {
+      "seat": "front_left",
+      "hip": [
+        -0.43,
+        -0.16,
+        0.45
+      ],
+      "eye": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "head_radius_m": 0.105
+    },
+    {
+      "seat": "front_right",
+      "hip": [
+        0.43,
+        -0.16,
+        0.45
+      ],
+      "eye": [
+        0.43,
+        -0.39,
+        1.21
+      ],
+      "head_radius_m": 0.105
+    },
+    {
+      "seat": "rear_left",
+      "hip": [
+        -0.43,
+        -1.08,
+        0.48
+      ],
+      "eye": [
+        -0.43,
+        -1.34,
+        1.17
+      ],
+      "head_radius_m": 0.1
+    },
+    {
+      "seat": "rear_right",
+      "hip": [
+        0.43,
+        -1.08,
+        0.48
+      ],
+      "eye": [
+        0.43,
+        -1.34,
+        1.17
+      ],
+      "head_radius_m": 0.1
+    }
+  ],
+  "tolerances": {
+    "overall_final_m": 0.005,
+    "overall_blockout_m": 0.01,
+    "hardpoint_m": 0.002,
+    "wheelbase_track_radius_m": 0.0005,
+    "hinge_axis_deg": 0.1,
+    "degenerate_face_area_m2": 1e-12,
+    "unintended_penetration_m_max": 0.001,
+    "tire_clearance_m_min": 0.005,
+    "moving_solid_clearance_m_min": 0.001,
+    "panel_gap_m_range": [
+      0.0025,
+      0.0045
+    ],
+    "wiper_contact_m_range": [
+      0,
+      0.002
+    ],
+    "wiper_contact_span_fraction_min": 0.9,
+    "wiper_park_repeat_deg_max": 1,
+    "mirror_age_ms_max": 100,
+    "presentation_latency_frames_max": 2,
+    "lod_silhouette_jump_px_review_trigger": 2
+  },
+  "mirrors": {
+    "side_resolution": [
+      256,
+      128
+    ],
+    "rear_resolution": [
+      384,
+      128
+    ],
+    "refresh_hz": 15,
+    "update_policy": "cockpit only; shared world; no recursive mirror rendering",
+    "classification": "provisional implementation to measure; no approved subsystem time allocation"
+  },
+  "parameters": [
+    {
+      "id": "length_m",
+      "value": 4.94,
+      "units": "m",
+      "classification": "fictional_design_choice",
+      "source_confidence": "explicit choice; not a measured factory value",
+      "reference_sources": [
+        "AUDI-US-2016",
+        "AUDI-UK-2016"
+      ],
+      "source_uncertainty": null,
+      "modeling_tolerance": 0.005,
+      "model_parameter": "geometry.length_m",
+      "runtime_parameter": null
+    },
+    {
+      "id": "body_width_m",
+      "value": 1.9,
+      "units": "m",
+      "classification": "fictional_design_choice",
+      "source_confidence": "explicit choice; not a measured factory value",
+      "reference_sources": [
+        "AUDI-US-2016",
+        "AUDI-UK-2016"
+      ],
+      "source_uncertainty": null,
+      "modeling_tolerance": 0.005,
+      "model_parameter": "geometry.body_width_m",
+      "runtime_parameter": null
+    },
+    {
+      "id": "mirror_width_m",
+      "value": 2.1,
+      "units": "m",
+      "classification": "fictional_design_choice",
+      "source_confidence": "explicit choice; not a measured factory value",
+      "reference_sources": [
+        "AUDI-US-2016",
+        "AUDI-UK-2016"
+      ],
+      "source_uncertainty": null,
+      "modeling_tolerance": 0.005,
+      "model_parameter": "geometry.mirror_width_m",
+      "runtime_parameter": null
+    },
+    {
+      "id": "roof_height_m",
+      "value": 1.45,
+      "units": "m",
+      "classification": "fictional_design_choice",
+      "source_confidence": "explicit choice; not a measured factory value",
+      "reference_sources": [
+        "AUDI-US-2016",
+        "AUDI-UK-2016"
+      ],
+      "source_uncertainty": null,
+      "modeling_tolerance": 0.005,
+      "model_parameter": "geometry.roof_height_m",
+      "runtime_parameter": null
+    },
+    {
+      "id": "wheelbase_m",
+      "value": 2.92,
+      "units": "m",
+      "classification": "fictional_design_choice",
+      "source_confidence": "explicit choice; not a measured factory value",
+      "reference_sources": [
+        "AUDI-US-2016",
+        "AUDI-UK-2016"
+      ],
+      "source_uncertainty": null,
+      "modeling_tolerance": 0.0005,
+      "model_parameter": "geometry.wheelbase_m",
+      "runtime_parameter": "VehicleRigSetup; matched fields validated on import"
+    },
+    {
+      "id": "front_track_m",
+      "value": 1.62,
+      "units": "m",
+      "classification": "fictional_design_choice",
+      "source_confidence": "explicit choice; not a measured factory value",
+      "reference_sources": [
+        "AUDI-US-2016",
+        "AUDI-UK-2016"
+      ],
+      "source_uncertainty": null,
+      "modeling_tolerance": 0.0005,
+      "model_parameter": "geometry.front_track_m",
+      "runtime_parameter": "VehicleRigSetup; matched fields validated on import"
+    },
+    {
+      "id": "rear_track_m",
+      "value": 1.61,
+      "units": "m",
+      "classification": "fictional_design_choice",
+      "source_confidence": "explicit choice; not a measured factory value",
+      "reference_sources": [
+        "AUDI-US-2016",
+        "AUDI-UK-2016"
+      ],
+      "source_uncertainty": null,
+      "modeling_tolerance": 0.0005,
+      "model_parameter": "geometry.rear_track_m",
+      "runtime_parameter": "VehicleRigSetup; matched fields validated on import"
+    },
+    {
+      "id": "front_overhang_m",
+      "value": 0.94,
+      "units": "m",
+      "classification": "fictional_design_choice",
+      "source_confidence": "explicit choice; not a measured factory value",
+      "reference_sources": [
+        "AUDI-US-2016",
+        "AUDI-UK-2016"
+      ],
+      "source_uncertainty": null,
+      "modeling_tolerance": 0.005,
+      "model_parameter": "geometry.front_overhang_m",
+      "runtime_parameter": null
+    },
+    {
+      "id": "rear_overhang_m",
+      "value": 1.08,
+      "units": "m",
+      "classification": "fictional_design_choice",
+      "source_confidence": "explicit choice; not a measured factory value",
+      "reference_sources": [
+        "AUDI-US-2016",
+        "AUDI-UK-2016"
+      ],
+      "source_uncertainty": null,
+      "modeling_tolerance": 0.005,
+      "model_parameter": "geometry.rear_overhang_m",
+      "runtime_parameter": null
+    },
+    {
+      "id": "ground_clearance_m",
+      "value": 0.135,
+      "units": "m",
+      "classification": "fictional_design_choice",
+      "source_confidence": "explicit choice; not a measured factory value",
+      "reference_sources": [
+        "AUDI-US-2016",
+        "AUDI-UK-2016"
+      ],
+      "source_uncertainty": null,
+      "modeling_tolerance": 0.005,
+      "model_parameter": "geometry.ground_clearance_m",
+      "runtime_parameter": null
+    },
+    {
+      "id": "wheel_radius_m",
+      "value": 0.3433,
+      "units": "m",
+      "classification": "fictional_design_choice",
+      "source_confidence": "explicit choice; not a measured factory value",
+      "reference_sources": [
+        "AUDI-US-2016",
+        "AUDI-UK-2016"
+      ],
+      "source_uncertainty": null,
+      "modeling_tolerance": 0.0005,
+      "model_parameter": "geometry.wheel_radius_m",
+      "runtime_parameter": "VehicleRigSetup; matched fields validated on import"
+    },
+    {
+      "id": "tire_width_m",
+      "value": 0.255,
+      "units": "m",
+      "classification": "fictional_design_choice",
+      "source_confidence": "explicit choice; not a measured factory value",
+      "reference_sources": [
+        "AUDI-US-2016",
+        "AUDI-UK-2016"
+      ],
+      "source_uncertainty": null,
+      "modeling_tolerance": 0.005,
+      "model_parameter": "geometry.tire_width_m",
+      "runtime_parameter": null
+    },
+    {
+      "id": "rim_diameter_m",
+      "value": 0.4826,
+      "units": "m",
+      "classification": "fictional_design_choice",
+      "source_confidence": "explicit choice; not a measured factory value",
+      "reference_sources": [
+        "AUDI-US-2016",
+        "AUDI-UK-2016"
+      ],
+      "source_uncertainty": null,
+      "modeling_tolerance": 0.005,
+      "model_parameter": "geometry.rim_diameter_m",
+      "runtime_parameter": null
+    },
+    {
+      "id": "rim_width_m",
+      "value": 0.2159,
+      "units": "m",
+      "classification": "fictional_design_choice",
+      "source_confidence": "explicit choice; not a measured factory value",
+      "reference_sources": [
+        "AUDI-US-2016",
+        "AUDI-UK-2016"
+      ],
+      "source_uncertainty": null,
+      "modeling_tolerance": 0.005,
+      "model_parameter": "geometry.rim_width_m",
+      "runtime_parameter": null
+    },
+    {
+      "id": "wheel_offset_m",
+      "value": 0.04,
+      "units": "m",
+      "classification": "fictional_design_choice",
+      "source_confidence": "explicit choice; not a measured factory value",
+      "reference_sources": [
+        "AUDI-US-2016",
+        "AUDI-UK-2016"
+      ],
+      "source_uncertainty": null,
+      "modeling_tolerance": 0.005,
+      "model_parameter": "geometry.wheel_offset_m",
+      "runtime_parameter": "VehicleRigSetup; matched fields validated on import"
+    },
+    {
+      "id": "front_brake_diameter_m",
+      "value": 0.399,
+      "units": "m",
+      "classification": "fictional_design_choice",
+      "source_confidence": "explicit choice; not a measured factory value",
+      "reference_sources": [
+        "AUDI-US-2016",
+        "AUDI-UK-2016"
+      ],
+      "source_uncertainty": null,
+      "modeling_tolerance": 0.005,
+      "model_parameter": "geometry.front_brake_diameter_m",
+      "runtime_parameter": null
+    },
+    {
+      "id": "rear_brake_diameter_m",
+      "value": 0.356,
+      "units": "m",
+      "classification": "fictional_design_choice",
+      "source_confidence": "explicit choice; not a measured factory value",
+      "reference_sources": [
+        "AUDI-US-2016",
+        "AUDI-UK-2016"
+      ],
+      "source_uncertainty": null,
+      "modeling_tolerance": 0.005,
+      "model_parameter": "geometry.rear_brake_diameter_m",
+      "runtime_parameter": null
+    },
+    {
+      "id": "front_rotor_thickness_m",
+      "value": 0.036,
+      "units": "m",
+      "classification": "fictional_design_choice",
+      "source_confidence": "explicit choice; not a measured factory value",
+      "reference_sources": [
+        "AUDI-US-2016",
+        "AUDI-UK-2016"
+      ],
+      "source_uncertainty": null,
+      "modeling_tolerance": 0.0005,
+      "model_parameter": "geometry.front_rotor_thickness_m",
+      "runtime_parameter": null
+    },
+    {
+      "id": "rear_rotor_thickness_m",
+      "value": 0.022,
+      "units": "m",
+      "classification": "fictional_design_choice",
+      "source_confidence": "explicit choice; not a measured factory value",
+      "reference_sources": [
+        "AUDI-US-2016",
+        "AUDI-UK-2016"
+      ],
+      "source_uncertainty": null,
+      "modeling_tolerance": 0.0005,
+      "model_parameter": "geometry.rear_rotor_thickness_m",
+      "runtime_parameter": null
+    },
+    {
+      "id": "panel_gap_m",
+      "value": 0.0035,
+      "units": "m",
+      "classification": "fictional_design_choice",
+      "source_confidence": "explicit choice; not a measured factory value",
+      "reference_sources": [
+        "AUDI-US-2016",
+        "AUDI-UK-2016"
+      ],
+      "source_uncertainty": null,
+      "modeling_tolerance": 0.0005,
+      "model_parameter": "geometry.panel_gap_m",
+      "runtime_parameter": null
+    },
+    {
+      "id": "glass_thickness_m",
+      "value": 0.0045,
+      "units": "m",
+      "classification": "fictional_design_choice",
+      "source_confidence": "explicit choice; not a measured factory value",
+      "reference_sources": [
+        "AUDI-US-2016",
+        "AUDI-UK-2016"
+      ],
+      "source_uncertainty": null,
+      "modeling_tolerance": 0.0005,
+      "model_parameter": "geometry.glass_thickness_m",
+      "runtime_parameter": null
+    },
+    {
+      "id": "panel_skin_thickness_m",
+      "value": 0.0012,
+      "units": "m",
+      "classification": "fictional_design_choice",
+      "source_confidence": "explicit choice; not a measured factory value",
+      "reference_sources": [
+        "AUDI-US-2016",
+        "AUDI-UK-2016"
+      ],
+      "source_uncertainty": null,
+      "modeling_tolerance": 0.0005,
+      "model_parameter": "geometry.panel_skin_thickness_m",
+      "runtime_parameter": null
+    },
+    {
+      "id": "door_hem_thickness_m",
+      "value": 0.003,
+      "units": "m",
+      "classification": "fictional_design_choice",
+      "source_confidence": "explicit choice; not a measured factory value",
+      "reference_sources": [
+        "AUDI-US-2016",
+        "AUDI-UK-2016"
+      ],
+      "source_uncertainty": null,
+      "modeling_tolerance": 0.0005,
+      "model_parameter": "geometry.door_hem_thickness_m",
+      "runtime_parameter": null
+    },
+    {
+      "id": "static_compression_m",
+      "value": 0.075,
+      "units": "m",
+      "classification": "fictional_design_choice",
+      "source_confidence": "explicit choice; not a measured factory value",
+      "reference_sources": [
+        "AUDI-US-2016",
+        "AUDI-UK-2016"
+      ],
+      "source_uncertainty": null,
+      "modeling_tolerance": 0.005,
+      "model_parameter": "geometry.static_compression_m",
+      "runtime_parameter": "VehicleRigSetup; matched fields validated on import"
+    },
+    {
+      "id": "bump_m",
+      "value": 0.085,
+      "units": "m",
+      "classification": "fictional_design_choice",
+      "source_confidence": "explicit choice; not a measured factory value",
+      "reference_sources": [
+        "AUDI-US-2016",
+        "AUDI-UK-2016"
+      ],
+      "source_uncertainty": null,
+      "modeling_tolerance": 0.005,
+      "model_parameter": "geometry.bump_m",
+      "runtime_parameter": "VehicleRigSetup; matched fields validated on import"
+    },
+    {
+      "id": "droop_m",
+      "value": 0.075,
+      "units": "m",
+      "classification": "fictional_design_choice",
+      "source_confidence": "explicit choice; not a measured factory value",
+      "reference_sources": [
+        "AUDI-US-2016",
+        "AUDI-UK-2016"
+      ],
+      "source_uncertainty": null,
+      "modeling_tolerance": 0.005,
+      "model_parameter": "geometry.droop_m",
+      "runtime_parameter": "VehicleRigSetup; matched fields validated on import"
+    },
+    {
+      "id": "spring_free_length_m",
+      "value": 0.16,
+      "units": "m",
+      "classification": "fictional_design_choice",
+      "source_confidence": "explicit choice; not a measured factory value",
+      "reference_sources": [
+        "AUDI-US-2016",
+        "AUDI-UK-2016"
+      ],
+      "source_uncertainty": null,
+      "modeling_tolerance": 0.005,
+      "model_parameter": "geometry.spring_free_length_m",
+      "runtime_parameter": "VehicleRigSetup; matched fields validated on import"
+    },
+    {
+      "id": "chassis_origin_height_m",
+      "value": 0.65,
+      "units": "m",
+      "classification": "fictional_design_choice",
+      "source_confidence": "explicit choice; not a measured factory value",
+      "reference_sources": [
+        "AUDI-US-2016",
+        "AUDI-UK-2016"
+      ],
+      "source_uncertainty": null,
+      "modeling_tolerance": 0.005,
+      "model_parameter": "geometry.chassis_origin_height_m",
+      "runtime_parameter": "VehicleRigSetup; matched fields validated on import"
+    },
+    {
+      "id": "center_of_mass_height_m",
+      "value": 0.55,
+      "units": "m",
+      "classification": "fictional_design_choice",
+      "source_confidence": "explicit choice; not a measured factory value",
+      "reference_sources": [
+        "AUDI-US-2016",
+        "AUDI-UK-2016"
+      ],
+      "source_uncertainty": null,
+      "modeling_tolerance": 0.005,
+      "model_parameter": "geometry.center_of_mass_height_m",
+      "runtime_parameter": "VehicleRigSetup; matched fields validated on import"
+    },
+    {
+      "id": "center_of_mass_forward_m",
+      "value": 0.1168,
+      "units": "m",
+      "classification": "fictional_design_choice",
+      "source_confidence": "explicit choice; not a measured factory value",
+      "reference_sources": [
+        "AUDI-US-2016",
+        "AUDI-UK-2016"
+      ],
+      "source_uncertainty": null,
+      "modeling_tolerance": 0.005,
+      "model_parameter": "geometry.center_of_mass_forward_m",
+      "runtime_parameter": "VehicleRigSetup; matched fields validated on import"
+    },
+    {
+      "id": "steering_lock_deg",
+      "value": 32.0,
+      "units": "degree",
+      "classification": "fictional_design_choice",
+      "source_confidence": "explicit choice; not a measured factory value",
+      "reference_sources": [
+        "AUDI-US-2016",
+        "AUDI-UK-2016"
+      ],
+      "source_uncertainty": null,
+      "modeling_tolerance": 0.005,
+      "model_parameter": "geometry.steering_lock_deg",
+      "runtime_parameter": "VehicleRigSetup; matched fields validated on import"
+    },
+    {
+      "id": "cowl_y_m",
+      "value": 0.74,
+      "units": "m",
+      "classification": "fictional_design_choice",
+      "source_confidence": "explicit choice; not a measured factory value",
+      "reference_sources": [
+        "AUDI-US-2016",
+        "AUDI-UK-2016"
+      ],
+      "source_uncertainty": null,
+      "modeling_tolerance": 0.005,
+      "model_parameter": "geometry.cowl_y_m",
+      "runtime_parameter": null
+    },
+    {
+      "id": "cowl_height_m",
+      "value": 0.97,
+      "units": "m",
+      "classification": "fictional_design_choice",
+      "source_confidence": "explicit choice; not a measured factory value",
+      "reference_sources": [
+        "AUDI-US-2016",
+        "AUDI-UK-2016"
+      ],
+      "source_uncertainty": null,
+      "modeling_tolerance": 0.005,
+      "model_parameter": "geometry.cowl_height_m",
+      "runtime_parameter": null
+    },
+    {
+      "id": "windshield_header_y_m",
+      "value": 0.14,
+      "units": "m",
+      "classification": "fictional_design_choice",
+      "source_confidence": "explicit choice; not a measured factory value",
+      "reference_sources": [
+        "AUDI-US-2016",
+        "AUDI-UK-2016"
+      ],
+      "source_uncertainty": null,
+      "modeling_tolerance": 0.005,
+      "model_parameter": "geometry.windshield_header_y_m",
+      "runtime_parameter": null
+    },
+    {
+      "id": "windshield_header_height_m",
+      "value": 1.395,
+      "units": "m",
+      "classification": "fictional_design_choice",
+      "source_confidence": "explicit choice; not a measured factory value",
+      "reference_sources": [
+        "AUDI-US-2016",
+        "AUDI-UK-2016"
+      ],
+      "source_uncertainty": null,
+      "modeling_tolerance": 0.005,
+      "model_parameter": "geometry.windshield_header_height_m",
+      "runtime_parameter": null
+    },
+    {
+      "id": "rear_roof_y_m",
+      "value": -1.27,
+      "units": "m",
+      "classification": "fictional_design_choice",
+      "source_confidence": "explicit choice; not a measured factory value",
+      "reference_sources": [
+        "AUDI-US-2016",
+        "AUDI-UK-2016"
+      ],
+      "source_uncertainty": null,
+      "modeling_tolerance": 0.005,
+      "model_parameter": "geometry.rear_roof_y_m",
+      "runtime_parameter": null
+    },
+    {
+      "id": "rear_roof_height_m",
+      "value": 1.37,
+      "units": "m",
+      "classification": "fictional_design_choice",
+      "source_confidence": "explicit choice; not a measured factory value",
+      "reference_sources": [
+        "AUDI-US-2016",
+        "AUDI-UK-2016"
+      ],
+      "source_uncertainty": null,
+      "modeling_tolerance": 0.005,
+      "model_parameter": "geometry.rear_roof_height_m",
+      "runtime_parameter": null
+    },
+    {
+      "id": "backlight_base_y_m",
+      "value": -1.94,
+      "units": "m",
+      "classification": "fictional_design_choice",
+      "source_confidence": "explicit choice; not a measured factory value",
+      "reference_sources": [
+        "AUDI-US-2016",
+        "AUDI-UK-2016"
+      ],
+      "source_uncertainty": null,
+      "modeling_tolerance": 0.005,
+      "model_parameter": "geometry.backlight_base_y_m",
+      "runtime_parameter": null
+    },
+    {
+      "id": "backlight_base_height_m",
+      "value": 0.99,
+      "units": "m",
+      "classification": "fictional_design_choice",
+      "source_confidence": "explicit choice; not a measured factory value",
+      "reference_sources": [
+        "AUDI-US-2016",
+        "AUDI-UK-2016"
+      ],
+      "source_uncertainty": null,
+      "modeling_tolerance": 0.005,
+      "model_parameter": "geometry.backlight_base_height_m",
+      "runtime_parameter": null
+    }
+  ],
+  "human_approval_reference": null,
+  "instruments": {
+    "forward_ratios": [
+      3.6,
+      2.19,
+      1.52,
+      1.15,
+      0.9,
+      0.72,
+      0.59
+    ],
+    "reverse_ratio": 3.4,
+    "final_drive": 3.76,
+    "idle_rpm": 750,
+    "redline_rpm": 6500,
+    "classification": "original fictional kinematic presentation; not authoritative gearing or engine torque"
+  },
+  "specification_corrections_before_model": [
+    {
+      "reason": "QA windshield-plane check placed the original rear-view mirror outside the cabin",
+      "change": "Rear mirror Y .20 and camera Y .16; explicit mechanism axis spaces; original side mirror housing sets exact 2.10m width"
+    }
+  ],
+  "specification_revision": 6,
+  "original_packaging": {
+    "auxiliary_cell_center_source_m": [
+      0,
+      -1.92,
+      0.56
+    ],
+    "auxiliary_cell_external_size_m": [
+      0.9,
+      0.48,
+      0.28
+    ],
+    "auxiliary_cell_usable_l": 100,
+    "main_reservoir_nominal_usable_l": 75,
+    "door_mirror_parenting": "Each side mirror assembly and camera follow its front door; parked world locations remain locked",
+    "hood_skin_leading_y_m": 2.226,
+    "hood_skin_hinge_edge_y_m": 0.803,
+    "trunk_skin_leading_y_m": -2.02,
+    "trunk_skin_trailing_y_m": -2.432,
+    "revision_record": "docs/vehicles/endurance-sedan/packaging-revision-v6.md"
+  },
+  "specification_corrections_during_production": [
+    {
+      "revision": 3,
+      "reason": "Independent dense104pose front-shell sweep refined the frontY candidate from.700 to.720; current source production09 remains a retained candidate with its exact embedded metadata, not the locked final deliverable."
+    },
+    {
+      "revision": 3,
+      "reason": "Reconcile legacy mass_and_fuel auxiliary-center field with the explicit revision2 packaging center before next construction; capacities/fixedphysics unchanged."
+    }
+  ]
+}

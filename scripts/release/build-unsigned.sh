@@ -49,6 +49,20 @@ build_fixture() {
     --chunk-meters 100 --output "$destination"
 }
 
+build_verification_fixture() {
+  local source_root="$1" destination="$2"
+  # The default launcher remains on official-corridor. The sedan verifier
+  # needs the same locked longer corridor used by its source-tree suite.
+  uv run --project "$source_root/tools/map_pipeline" --frozen cannonball-map build \
+    --source "$source_root/data/sources/fixtures/nhpn-boulder-westminster-us36.geojson" \
+    --manifest "$source_root/data/sources/fixtures/nhpn-boulder-westminster-us36.manifest.json" \
+    --catalog "$source_root/data/sources/catalog.json" \
+    --elevation "$source_root/data/sources/fixtures/usgs-13-n40w106-boulder-westminster.tif" \
+    --elevation-metadata "$source_root/data/sources/fixtures/usgs-13-n40w106-boulder-westminster.metadata.json" \
+    --acquisition-lock "$source_root/data/sources/representative-corridor-lock.json" \
+    --chunk-meters 2000 --output "$destination"
+}
+
 build_once() {
   local platform="$1" iteration="$2"
   local stage="$output_root/work/$platform-$iteration"
@@ -68,9 +82,12 @@ build_once() {
   RuntimeIdentifiers="$runtime_id" dotnet build "$source_root/Cannonball.csproj" -c Release --no-restore --nologo -p:GodotTargetPlatform="$target_platform"
   export_path="$stage/package/CannonballRun${platform/linux/.x86_64}"
   if [[ "$platform" == windows ]]; then export_path="$stage/package/CannonballRun.exe"; fi
-  RuntimeIdentifiers="$runtime_id" "$godot_bin" --headless --path "$source_root" --export-release "$preset" "$export_path"
+  GODOT_BIN="$godot_bin" RuntimeIdentifiers="$runtime_id" "$source_root/scripts/godot.sh" --headless --path "$source_root" --export-release "$preset" "$export_path"
   build_fixture "$source_root" "$stage/fixture"
   node "$source_root/scripts/release/package-tools.mjs" copy-content "$stage/fixture" "$stage/package/content/official-corridor"
+  build_verification_fixture "$source_root" "$stage/verification-fixture"
+  node "$source_root/scripts/release/package-tools.mjs" copy-content "$stage/verification-fixture" \
+    "$stage/package/verification/fixtures/representative-corridor"
   route_relative="$(node -p 'require(process.argv[1]).root_relative_path' "$stage/package/content/official-corridor/current-package.json")"
   if [[ "$platform" == linux ]]; then
     {
@@ -92,6 +109,7 @@ build_once() {
   fi
   cp "$source_root/scripts/release/smoke.mjs" "$source_root/scripts/release/pck-inspect.mjs" \
     "$source_root/scripts/release/verify-package.sh" "$stage/package/verification/"
+  cp "$source_root/tools/vehicles/verify_packaged_sedan.py" "$stage/package/verification/"
   node "$source_root/scripts/release/package-tools.mjs" metadata "$stage/package" "$source_root" "$platform" "$revision" "$epoch" "$preset" "$binary" "$launcher" \
     "$CANNONBALL_RELEASE_TEMPLATE_SHA256" "$CANNONBALL_RELEASE_TEMPLATE_VERSION" "$CANNONBALL_RELEASE_GODOT_VERSION" \
     "$CANNONBALL_RELEASE_DOTNET_VERSION" "$CANNONBALL_RELEASE_RUNTIME_VERSION" "$CANNONBALL_RELEASE_UV_VERSION" \

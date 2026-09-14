@@ -1,0 +1,560 @@
+{
+  "task_id": "P1-018",
+  "milestone": "M5",
+  "status": "passed",
+  "started_utc": "2026-09-12T18:47:32.422098+00:00",
+  "git_revision": "568252ce674997d9d20a6959a557c7922e2fbe91",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.14.6",
+  "zlib_runtime": "1.3.1.zlib-ng",
+  "tool_sha256": "1310e66035402d9eccaef4c0b2fe6d474f0b56958e914138d3f57be6285b18ff",
+  "input_manifest": {
+    "path": "reports/p1-018/art-checkpoint26-retention01/manifest02-09.json",
+    "sha256": "39756f889dc9944cfc5f8ce491b663d9db776cb1e4644f9fa7210b1272f5b004"
+  },
+  "entries": [
+    {
+      "path": "reports/p1-018/roof-continuity26-pilot02/saved01/source.blend",
+      "sha256": "75322d7e5cbc5be1f80c648a5a0594da044051f21bb3326ceb1f9da47d2a3d98",
+      "bytes": 6445468
+    },
+    {
+      "path": "reports/p1-018/roof-end26-feature-loft01/apply01.py",
+      "sha256": "921435a31bf398cbc525d0844340128a53a86361460bbcd26b2dfe117ea58d03",
+      "bytes": 4625
+    },
+    {
+      "path": "reports/p1-018/roof-end26-feature-loft01/build.py",
+      "sha256": "ba8b4c15ccd3c74a93a60451f6a39a35f83638be83a87bdeb9818f96333ce734",
+      "bytes": 3258
+    },
+    {
+      "path": "reports/p1-018/roof-end26-feature-loft01/candidate01.py",
+      "sha256": "4d9d4ca78a2f92c75f6ff5bd83b99d078da4844706c85befe30c20b2b022504a",
+      "bytes": 14188
+    },
+    {
+      "path": "reports/p1-018/roof-end26-feature-loft01/preparation.json",
+      "sha256": "676ebf297a6fc59c49cc3a14018c649178a0fd065a81bf53bf2f98bf466b83ad",
+      "bytes": 860
+    },
+    {
+      "path": "reports/p1-018/roof-end26-feature-loft01/prepare.py",
+      "sha256": "31121bdae61b676ca34652aa079b74e32cd9f0926bf19afc4bfc251f09e2afbf",
+      "bytes": 3834
+    },
+    {
+      "path": "reports/p1-018/roof-end26-feature-loft02/apply01.py",
+      "sha256": "921435a31bf398cbc525d0844340128a53a86361460bbcd26b2dfe117ea58d03",
+      "bytes": 4625
+    },
+    {
+      "path": "reports/p1-018/roof-end26-feature-loft02/build.py",
+      "sha256": "ba8b4c15ccd3c74a93a60451f6a39a35f83638be83a87bdeb9818f96333ce734",
+      "bytes": 3258
+    },
+    {
+      "path": "reports/p1-018/roof-end26-feature-loft02/candidate01.py",
+      "sha256": "f19643f65300db3d6db374908da29aca38e1dc8bbc82ab0ed0f98da8988a0786",
+      "bytes": 14263
+    },
+    {
+      "path": "reports/p1-018/roof-end26-feature-loft02/preparation.json",
+      "sha256": "e2874f65b7531732df54f2e09af5aa625924e19a8f8e3ada557868f0ee2c0a19",
+      "bytes": 794
+    },
+    {
+      "path": "reports/p1-018/roof-end26-feature-loft02/prepare.py",
+      "sha256": "397e3cb2d991391d57139f9f861287de3aa360259b17abe98ce23222433240b7",
+      "bytes": 1488
+    },
+    {
+      "path": "reports/p1-018/roof-end26-feature-loft02/render01/camera-override.json",
+      "sha256": "66c587f3d2aba2fa9bddd1bcaeaa54768b43510f7f315c0c713c14a4f9c251fb",
+      "bytes": 374
+    },
+    {
+      "path": "reports/p1-018/roof-end26-feature-loft02/render01/joint_front.png",
+      "sha256": "4341eb8e062fc0d2ff27ac9cc0454c695821ada6adbb253824b87c06b9341cbd",
+      "bytes": 3690876
+    },
+    {
+      "path": "reports/p1-018/roof-end26-feature-loft02/render01/joint_rear.png",
+      "sha256": "2ee94bfba0ae82df0478f2d3d11f2301beddd2c0e0f074d93bdbe735eb1cc194",
+      "bytes": 2885124
+    },
+    {
+      "path": "reports/p1-018/roof-end26-feature-loft02/render01/manifest.json",
+      "sha256": "73fccb04361a36fb247a8426835b4d75fa6cbb3c3b7293286be95c1baee011e5",
+      "bytes": 3928
+    },
+    {
+      "path": "reports/p1-018/roof-end26-feature-loft02/render01/rear3q.png",
+      "sha256": "73b10d511f25421683545a89938ae8d63ded94ad8f6c3a4be3c8fd33c4219c90",
+      "bytes": 3024261
+    },
+    {
+      "path": "reports/p1-018/roof-end26-feature-loft02/saved01/construction-details.json.gz",
+      "sha256": "3b1318202b46465649801b88ec220ef4d19da3a9d3c397b5622625bd64ce60c3",
+      "bytes": 130746
+    },
+    {
+      "path": "reports/p1-018/roof-end26-feature-loft02/saved01/construction.json",
+      "sha256": "adc87692d4ff176fc384e212daf2f23b05318ee9afd09b15f9b6add036f39a17",
+      "bytes": 15073
+    },
+    {
+      "path": "reports/p1-018/roof-end26-feature-loft02/saved01/source.blend",
+      "sha256": "9b0621c98544c4f78fac042eba4932cfb46c4e3352d7e90abab510cd610449ba",
+      "bytes": 6419944
+    },
+    {
+      "path": "reports/p1-018/roof-end26-field01/build_flat01.py",
+      "sha256": "6122a13258cc179b6ec1c167869d6608746fb34085f3f847de8b2e6e7f987850",
+      "bytes": 4191
+    },
+    {
+      "path": "reports/p1-018/roof-end26-field01/flat01/construction.json",
+      "sha256": "7ee93f85170056870c55dd55547b40f526836773b081803f3c102507cfd4ca4b",
+      "bytes": 440374
+    },
+    {
+      "path": "reports/p1-018/roof-end26-field01/flat01/render01/camera-override.json",
+      "sha256": "66c587f3d2aba2fa9bddd1bcaeaa54768b43510f7f315c0c713c14a4f9c251fb",
+      "bytes": 374
+    },
+    {
+      "path": "reports/p1-018/roof-end26-field01/flat01/render01/joint_rear.png",
+      "sha256": "d6e0a47459b518408e5b290b08da5d214e69e87a058106d17a79fd97922a8b0d",
+      "bytes": 2892866
+    },
+    {
+      "path": "reports/p1-018/roof-end26-field01/flat01/render01/manifest.json",
+      "sha256": "bb7f5ec269455ae2631ca377b264a9cf6127260624fb187d59fc19fa7c93aae0",
+      "bytes": 2600
+    },
+    {
+      "path": "reports/p1-018/roof-end26-field01/flat01/source.blend",
+      "sha256": "14019a4466d132a7c7bec6361a59a3d376fafadddb2e7cb9e8455d27f75d3fbf",
+      "bytes": 6447752
+    },
+    {
+      "path": "reports/p1-018/roof-end26-field01/inspect.py",
+      "sha256": "685ba04dc5bea82e35ae5b3d07a0958c5553d6b41be64f3ec7345a8aed428b42",
+      "bytes": 1305
+    },
+    {
+      "path": "reports/p1-018/roof-end26-field01/inspect01.json",
+      "sha256": "954a9308a889de6e3385d062d6d2b87ffb54bd1da3ff9eb374e6648e3c2cb2fc",
+      "bytes": 183913
+    },
+    {
+      "path": "reports/p1-018/roof-end26-field01/visual01.json",
+      "sha256": "13cc2b2ddf5c81a0169aef783b7beb9bb5c2867f020cf3feb9b6a2f7c6861f5d",
+      "bytes": 2872
+    },
+    {
+      "path": "reports/p1-018/roof-end26-field01/visual01.py",
+      "sha256": "4cc421bbbc3991392d3ea52e27dd850b41273305bbc84a07c4681cb6d3cace90",
+      "bytes": 1998
+    },
+    {
+      "path": "reports/p1-018/roof-end26-surface-pilot01/build.py",
+      "sha256": "dd56ab5e48cee25d8c9726d166984be73955ecad392ec1d2a9bf84ac1298a123",
+      "bytes": 3232
+    },
+    {
+      "path": "reports/p1-018/roof-end26-surface-pilot01/render01/camera-override.json",
+      "sha256": "66c587f3d2aba2fa9bddd1bcaeaa54768b43510f7f315c0c713c14a4f9c251fb",
+      "bytes": 374
+    },
+    {
+      "path": "reports/p1-018/roof-end26-surface-pilot01/render01/joint_front.png",
+      "sha256": "9d44e7e9d1be0f202847e66e78408cda3d64f7595914c51e95e1ad8c2672877a",
+      "bytes": 3691592
+    },
+    {
+      "path": "reports/p1-018/roof-end26-surface-pilot01/render01/joint_rear.png",
+      "sha256": "e143d180f6658f538841417277339768d349275d9006f1b55d0b9049a5fbb856",
+      "bytes": 2891380
+    },
+    {
+      "path": "reports/p1-018/roof-end26-surface-pilot01/render01/manifest.json",
+      "sha256": "81ca9ed4551e9f9a06eaf8bcaeb33fa42f3276d5286f7633346800967b8c167b",
+      "bytes": 3931
+    },
+    {
+      "path": "reports/p1-018/roof-end26-surface-pilot01/render01/rear3q.png",
+      "sha256": "712138fcf8b31f138b0758b2f499f6110158cf25d863e1da97b7b28c518cc38f",
+      "bytes": 3024289
+    },
+    {
+      "path": "reports/p1-018/roof-end26-surface-pilot01/saved01/construction-details.json.gz",
+      "sha256": "b2fc7b1ceab4d84d21bf93bcfc577d6d1a72cc634629f5688ed6278b44ad3b94",
+      "bytes": 130049
+    },
+    {
+      "path": "reports/p1-018/roof-end26-surface-pilot01/saved01/construction.json",
+      "sha256": "21605d2ce11bd817c19d5a5742ac8f27cc7916637a1e72d5e1c170dcc955d787",
+      "bytes": 14563
+    },
+    {
+      "path": "reports/p1-018/roof-end26-surface-pilot01/saved01/source.blend",
+      "sha256": "f9902470226a25c582c1cc673486d49da67ae52cc59efc1b59688f7c542d222f",
+      "bytes": 6442948
+    },
+    {
+      "path": "reports/p1-018/roof-fair26-pilot01/build.py",
+      "sha256": "26974a703ed65f61f3188cc6a296fdb858f0b222313e8b27ea198ce5a54745cb",
+      "bytes": 5178
+    },
+    {
+      "path": "reports/p1-018/roof-fair26-pilot01/prepare.py",
+      "sha256": "8c91ad1ffbe0660dba41bcda5660d0d537e62a53d1eae299254e9638d4dcd573",
+      "bytes": 1943
+    },
+    {
+      "path": "reports/p1-018/roof-fair26-pilot01/render01/camera-override.json",
+      "sha256": "66c587f3d2aba2fa9bddd1bcaeaa54768b43510f7f315c0c713c14a4f9c251fb",
+      "bytes": 374
+    },
+    {
+      "path": "reports/p1-018/roof-fair26-pilot01/render01/joint_rear.png",
+      "sha256": "2c44ed5a159d423601e96736b3f93f8ad6fdfae1aa7e7d1db6561e671679c4c0",
+      "bytes": 2880907
+    },
+    {
+      "path": "reports/p1-018/roof-fair26-pilot01/render01/manifest.json",
+      "sha256": "5a9f5c36e90a76c0654ba790edb51a10f94da6e2844afc1d4f96d77a52bf53c9",
+      "bytes": 3247
+    },
+    {
+      "path": "reports/p1-018/roof-fair26-pilot01/render01/rear3q.png",
+      "sha256": "ce65bd3350ea396942ccd74b1d4846bf64f1188a7ca1feaa7bca60095e5b9cc8",
+      "bytes": 3040711
+    },
+    {
+      "path": "reports/p1-018/roof-fair26-pilot01/saved01/construction.json",
+      "sha256": "b4c7683d3cc388820e73160df9d609b80d985dd63fe897ce43b070cc7424eaa3",
+      "bytes": 1694
+    },
+    {
+      "path": "reports/p1-018/roof-fair26-pilot01/saved01/details.json.gz",
+      "sha256": "e3205688f4bf5376c6ded3069c0ad425a17338aa88cbee3a9a4f4ee28eb74e5c",
+      "bytes": 21869
+    },
+    {
+      "path": "reports/p1-018/roof-fair26-pilot01/saved01/source.blend",
+      "sha256": "a812e93f5d54ac39f0f673856c3979d6450164248eedafbe5ceb4b4e34bf61ac",
+      "bytes": 6458562
+    },
+    {
+      "path": "reports/p1-018/roof-long26-pilot01/build.py",
+      "sha256": "7b1c83f34fc6a0b693a92d0609ca19416a6cc8e7baa2d22210a0a158b3c00084",
+      "bytes": 3982
+    },
+    {
+      "path": "reports/p1-018/roof-long26-pilot01/prepare.py",
+      "sha256": "947774df94252ec4c13686d82c5855ec907c97b810f654de3eb62c236d258708",
+      "bytes": 2130
+    },
+    {
+      "path": "reports/p1-018/roof-long26-pilot01/render01/camera-override.json",
+      "sha256": "66c587f3d2aba2fa9bddd1bcaeaa54768b43510f7f315c0c713c14a4f9c251fb",
+      "bytes": 374
+    },
+    {
+      "path": "reports/p1-018/roof-long26-pilot01/render01/joint_rear.png",
+      "sha256": "f31dc1fa85a64ddb7cf083764af9b310b462a34c16895817d072315dc0eb61dc",
+      "bytes": 2863615
+    },
+    {
+      "path": "reports/p1-018/roof-long26-pilot01/render01/manifest.json",
+      "sha256": "b4a680ec7a6f5439c458948bf1aadf5737b1fba05d6a598c76a59165e4aff1c8",
+      "bytes": 3247
+    },
+    {
+      "path": "reports/p1-018/roof-long26-pilot01/render01/rear3q.png",
+      "sha256": "3bfa38bad5bf8aedd929da44426a5902e368dac28f92e762b3065ea19231a116",
+      "bytes": 3037028
+    },
+    {
+      "path": "reports/p1-018/roof-long26-pilot01/saved01/construction.json",
+      "sha256": "99d485e981e2b6d00ff4c84f45f603bea9760714626d461e8765f2956c6be1c2",
+      "bytes": 759403
+    },
+    {
+      "path": "reports/p1-018/roof-long26-pilot01/saved01/source.blend",
+      "sha256": "e07e023e91f2e49db79f5062769986e7f4333fdd2dc3e5e41a6b18fc5b2dafa9",
+      "bytes": 6442211
+    },
+    {
+      "path": "reports/p1-018/roof-long26-pilot01/scope.json",
+      "sha256": "b5e1422a4097a7908fcdcc6eeeb03f72ed51df9199dbd56d16f92b3b3ab54241",
+      "bytes": 450
+    },
+    {
+      "path": "reports/p1-018/roof-outer26-pilot01/build.py",
+      "sha256": "4355a7d3f89289eacc8587bb6276b58fe371c9ac69b3aa0f114a22dd2622c9b2",
+      "bytes": 4952
+    },
+    {
+      "path": "reports/p1-018/roof-outer26-pilot01/render01/camera-override.json",
+      "sha256": "66c587f3d2aba2fa9bddd1bcaeaa54768b43510f7f315c0c713c14a4f9c251fb",
+      "bytes": 374
+    },
+    {
+      "path": "reports/p1-018/roof-outer26-pilot01/render01/joint_rear.png",
+      "sha256": "63a97241fda55bb6189b5a1724e40207cba178ccb68e106f69e7437dcc0aab6e",
+      "bytes": 2886978
+    },
+    {
+      "path": "reports/p1-018/roof-outer26-pilot01/render01/manifest.json",
+      "sha256": "fc367bbfcb91f46e187d02a185c7e508fc15227ac232ff5d365eb830f1d40ec2",
+      "bytes": 3248
+    },
+    {
+      "path": "reports/p1-018/roof-outer26-pilot01/render01/rear3q.png",
+      "sha256": "2d68a08da092dfaa55a733bbef899d9fe1318c1749563147812a3587a8f02f18",
+      "bytes": 3043015
+    },
+    {
+      "path": "reports/p1-018/roof-outer26-pilot01/saved01/construction.json",
+      "sha256": "8b4dfbc45d6c86defa9555609cd52d9e15c5dc3c66e45a8d0194426ad5f83048",
+      "bytes": 1694
+    },
+    {
+      "path": "reports/p1-018/roof-outer26-pilot01/saved01/details.json.gz",
+      "sha256": "69d4c916b56a88f4d320a429392dcf9be0f453c22b3b35033119c20b1e2719b3",
+      "bytes": 11654
+    },
+    {
+      "path": "reports/p1-018/roof-outer26-pilot01/saved01/source.blend",
+      "sha256": "e2448d3aa63f0ada9c1cac354cdbdd00dacc5fb19bc0de109e56753c390f5f3a",
+      "bytes": 6442403
+    },
+    {
+      "path": "reports/p1-018/roof-resection26-pilot01/build.py",
+      "sha256": "4a1ffae9a74e217ec114032214fa1a12113a7e71a467d71a1097b22af39c473b",
+      "bytes": 4885
+    },
+    {
+      "path": "reports/p1-018/roof-resection26-pilot01/preparation.json",
+      "sha256": "16ca948a5712c823188f05a2bbd03a95bd8c19667e570727ad81f1fd8dd11d51",
+      "bytes": 2254
+    },
+    {
+      "path": "reports/p1-018/roof-resection26-pilot01/prepare.py",
+      "sha256": "71a1d565ed44947dea178b7d7ea3100ba92651b8a099a6ed8a162c368b5c804d",
+      "bytes": 2860
+    },
+    {
+      "path": "reports/p1-018/roof-resection26-pilot01/render01/camera-override.json",
+      "sha256": "66c587f3d2aba2fa9bddd1bcaeaa54768b43510f7f315c0c713c14a4f9c251fb",
+      "bytes": 374
+    },
+    {
+      "path": "reports/p1-018/roof-resection26-pilot01/render01/joint_rear.png",
+      "sha256": "a9dc0017a169cba6d7c7ce16c5f863cb545579162440a85441408ece6a965f93",
+      "bytes": 2880132
+    },
+    {
+      "path": "reports/p1-018/roof-resection26-pilot01/render01/manifest.json",
+      "sha256": "37d9024b786c8ae7c9ed2273feb5447ac72b2fb1507a8403ca9c23d07bde82f2",
+      "bytes": 3253
+    },
+    {
+      "path": "reports/p1-018/roof-resection26-pilot01/render01/rear3q.png",
+      "sha256": "79b86ae191ada237a4e67da1e49335af40a04443d41bb5a3d6720535dbfbe4d3",
+      "bytes": 3023856
+    },
+    {
+      "path": "reports/p1-018/roof-resection26-pilot01/saved01/construction.json",
+      "sha256": "50f319ec77d7d1dc04da998ab0e16363ec1b842ca0e63f358e60da025cc0ee29",
+      "bytes": 1728
+    },
+    {
+      "path": "reports/p1-018/roof-resection26-pilot01/saved01/details.json.gz",
+      "sha256": "41300b6fd3df80f7de97fbea44c2dbf93feb55d3e67d53e59d79094da381a958",
+      "bytes": 37172
+    },
+    {
+      "path": "reports/p1-018/roof-resection26-pilot01/saved01/source.blend",
+      "sha256": "c5b7caf8e276c1700f7c003bd57fc105dc2519823d859f73692f40d24a590823",
+      "bytes": 6435545
+    },
+    {
+      "path": "reports/p1-018/roof-ribs26-pilots01/build.py",
+      "sha256": "0ef73a15a5dbc930841efd7d6834967155f47f009f1c74cda16b66f0ff2daff3",
+      "bytes": 5660
+    },
+    {
+      "path": "reports/p1-018/roof-ribs26-pilots02/build.py",
+      "sha256": "ff0cab71185fa54437dadaea890cf7379e7a6f82199e64d878c3fcee179f7155",
+      "bytes": 5670
+    },
+    {
+      "path": "reports/p1-018/roof-ribs26-pilots02/prepare.py",
+      "sha256": "a868670cb6eca2defa553f80d8628897584f27e1906f618ff9a0042345e0a968",
+      "bytes": 733
+    },
+    {
+      "path": "reports/p1-018/roof-ribs26-pilots02/ribs01/construction.json",
+      "sha256": "adc05e559b1c6d7f9c085111e6ffaae3f450a16968d8326f83101e7db86ea037",
+      "bytes": 1926
+    },
+    {
+      "path": "reports/p1-018/roof-ribs26-pilots02/ribs01/details.json.gz",
+      "sha256": "52d153a6eb9e4047db3708545d94be922b7a3a342cf9a11e0023af5ef1295d5e",
+      "bytes": 3880
+    },
+    {
+      "path": "reports/p1-018/roof-ribs26-pilots02/ribs01/render01/manifest.json",
+      "sha256": "9b775ca5d1e918a5c25d10c9fa645aad8fe58b1eab03874ffbd9863646a02924",
+      "bytes": 3326
+    },
+    {
+      "path": "reports/p1-018/roof-ribs26-pilots02/ribs01/render01/trunk.png",
+      "sha256": "05690e2fe2fcbcdc5a7f160fdeb7ae13fac229f452ea48d1f226be4b147c5a5b",
+      "bytes": 3652556
+    },
+    {
+      "path": "reports/p1-018/roof-ribs26-pilots02/ribs01/render01/trunk_hinge.png",
+      "sha256": "ec9c35b30afda4f4ec11dbc5d4ff4547f7d7c89968976bce9140816ec641a014",
+      "bytes": 3330751
+    },
+    {
+      "path": "reports/p1-018/roof-ribs26-pilots02/ribs01/source.blend",
+      "sha256": "4f8041c399b0f77096b882a2ec7b25473df1b90c358549a6abcc8e9b93355a6c",
+      "bytes": 6437047
+    },
+    {
+      "path": "reports/p1-018/roof-ribs26-pilots02/web01/construction.json",
+      "sha256": "0b75dccec6dad53d9d90e9c3d20a8881c8966d447987bdcecb3087793e77f208",
+      "bytes": 1937
+    },
+    {
+      "path": "reports/p1-018/roof-ribs26-pilots02/web01/details.json.gz",
+      "sha256": "171ac33092d6b6fc5aba2c5b683cceddbcfca4ac2f3787477cd93d484bf99734",
+      "bytes": 2352
+    },
+    {
+      "path": "reports/p1-018/roof-ribs26-pilots02/web01/render01/camera-override.json",
+      "sha256": "66c587f3d2aba2fa9bddd1bcaeaa54768b43510f7f315c0c713c14a4f9c251fb",
+      "bytes": 374
+    },
+    {
+      "path": "reports/p1-018/roof-ribs26-pilots02/web01/render01/joint_rear.png",
+      "sha256": "68993f1887ab817f35ff528322ebd02f0c77f27c39848a2627960b061bb29ed7",
+      "bytes": 2890075
+    },
+    {
+      "path": "reports/p1-018/roof-ribs26-pilots02/web01/render01/manifest.json",
+      "sha256": "af6118d6978a0fb3f1531fe13dd0f782cfecbe513460b5ad0b76a571abf9f725",
+      "bytes": 3246
+    },
+    {
+      "path": "reports/p1-018/roof-ribs26-pilots02/web01/render01/rear3q.png",
+      "sha256": "80978c37907f9e589d06f3b2ba40bb75089265040f5580c550d34ee37fc87781",
+      "bytes": 3023161
+    },
+    {
+      "path": "reports/p1-018/roof-ribs26-pilots02/web01/source.blend",
+      "sha256": "2995a357341ec93c44227a28979b755d0957777e154ae2ff0b91ade7f15fe0fc",
+      "bytes": 6424057
+    },
+    {
+      "path": "reports/p1-018/roof-shading26-scope01/authorization.json",
+      "sha256": "2a2b7178e565a14b0d7c56af131b15194c0fe6858f9e6ac4516138f7f7264c1c",
+      "bytes": 1860
+    },
+    {
+      "path": "reports/p1-018/roof-shading26-scope01/record.py",
+      "sha256": "88bcb2788e60a8277f7a66550827466077488149cc9d86dded9d17adee2a547a",
+      "bytes": 2348
+    },
+    {
+      "path": "reports/p1-018/roof-shape26-diagnostic01/clay01/camera-override.json",
+      "sha256": "c5805d3cdeeac3e6134bebcfa8a154c3921ab22620b2ab9d8d667e9580af5f35",
+      "bytes": 563
+    },
+    {
+      "path": "reports/p1-018/roof-shape26-diagnostic01/clay01/front3q.png",
+      "sha256": "e1598ab9462dcec2e91c3ddde8049f3343160ed76bbbdbf81ef1d797eb4334a1",
+      "bytes": 2591685
+    },
+    {
+      "path": "reports/p1-018/roof-shape26-diagnostic01/clay01/joint_rear.png",
+      "sha256": "319e7c2e1b242000af0ed026e611ac4dd25cb702494483e6b9008d8fe6f0de09",
+      "bytes": 2207215
+    },
+    {
+      "path": "reports/p1-018/roof-shape26-diagnostic01/clay01/manifest.json",
+      "sha256": "5c4220e47bc916e220f6add5a71f3267f48be01b66955af872f4077d35fb5681",
+      "bytes": 3893
+    },
+    {
+      "path": "reports/p1-018/roof-shape26-diagnostic01/clay01/rear3q.png",
+      "sha256": "9770f152d3a63b5bacb9fb1d6b7ca2d13f75a7d20f4b8a66b28af1ba90e8eaf8",
+      "bytes": 2545850
+    },
+    {
+      "path": "reports/p1-018/roof-shape26-diagnostic01/render.py",
+      "sha256": "ef32629719a11e2efd3d5bae9420b90a9b2b6d59b93c231ad31a6523d9e07f5b",
+      "bytes": 1544
+    },
+    {
+      "path": "reports/p1-018/runtime/brake-field26-visual01/HANDOFF01.md",
+      "sha256": "2a8153dace06f70ec334c0b4555738929cbf94997122d01344b8a0936147ae16",
+      "bytes": 2015
+    },
+    {
+      "path": "reports/p1-018/runtime/brake-field26-visual01/freeze01.json",
+      "sha256": "a5fcf1579e372ec5ae629dec5c9bf951efaa7b391f4ec2f77229b5f76636c37a",
+      "bytes": 1013
+    },
+    {
+      "path": "reports/p1-018/runtime/brake-field26-visual01/review01.json",
+      "sha256": "9a5d3864dd6ffff8807ec1a66b390e842e54cffddc6f6cdac0a73d428fb37113",
+      "bytes": 9423
+    },
+    {
+      "path": "reports/p1-018/runtime/brake-field26-visual01/review01.py",
+      "sha256": "151f72ffefc5951fe0d68ccde6916c418b140b9a16f4e5b12f94e6145a2e8496",
+      "bytes": 7732
+    },
+    {
+      "path": "reports/p1-018/runtime/detail-reserve26-next01/HANDOFF18.md",
+      "sha256": "ab62b3beb6ed9d9aa342f77e57814aa665ac99146b43b90416d1396ae1f0d018",
+      "bytes": 2519
+    },
+    {
+      "path": "reports/p1-018/runtime/detail-reserve26-next01/adaptation12.json",
+      "sha256": "863907a6a411b51ff5369b184d44a5404c7dd5f278e74cf86dee003194987e0e",
+      "bytes": 700
+    },
+    {
+      "path": "reports/p1-018/runtime/detail-reserve26-next01/adaptations11.json",
+      "sha256": "28d2374905caf497760e0a77f2f99cb79c3c2103b7f7ac0829a01acc3421ccbf",
+      "bytes": 1500
+    }
+  ],
+  "archives": [
+    {
+      "path": "data/assets/vehicles/endurance-sedan-review/art-checkpoint-v26/art-checkpoint-v26-09.zip",
+      "sha256": "5591a3d910c82e1fed6916e2514180448243cddd395fd4d5394265735e45784d",
+      "bytes": 130704822,
+      "crc_and_member_sha256_verified": true
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint26-retention01/art-checkpoint-v26-09-repeat.zip",
+      "sha256": "5591a3d910c82e1fed6916e2514180448243cddd395fd4d5394265735e45784d",
+      "bytes": 130704822,
+      "crc_and_member_sha256_verified": true
+    }
+  ],
+  "human_approval_reference": null,
+  "limits": "Evidence retention and byte identity only; individual reports retain their own scope, failures and approval status.",
+  "byte_reproducible": true,
+  "finished_utc": "2026-09-12T18:47:41.105076+00:00"
+}
