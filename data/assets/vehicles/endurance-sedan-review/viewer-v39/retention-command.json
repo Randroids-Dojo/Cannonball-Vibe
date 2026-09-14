@@ -1,0 +1,31 @@
+{
+  "task_id": "P1-018",
+  "start_utc": "2026-09-14T14:39:07.343695+00:00",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "cwd": "C:\\Dev\\Cannonball-Vibe-sedan",
+  "argv": [
+    "python",
+    "tools/vehicles/endurance_sedan/retain_evidence.py",
+    "--manifest",
+    "data/assets/vehicles/endurance-sedan-review/viewer-v39/manifest.json",
+    "--output",
+    "data/assets/vehicles/endurance-sedan-review/viewer-v39/evidence.zip",
+    "--repeat-output",
+    "reports/p1-018/source-pipeline38-01/viewer-v39-evidence-repeat235.zip",
+    "--index",
+    "data/assets/vehicles/endurance-sedan-review/viewer-v39/index.json"
+  ],
+  "git_revision": "02d578cfdd77f3e27e0f530df0c6a18b266c2b8a",
+  "input_artifacts": [
+    {
+      "path": "data\\assets\\vehicles\\endurance-sedan-review\\viewer-v39\\manifest.json",
+      "sha256": "c3e30764228a560560894c99a17a893142136317b2b0ffacce0dd0527f81e839"
+    }
+  ],
+  "log": "reports\\p1-018\\source-pipeline38-01\\commands\\20260914T143907.343695Z-retain235.log",
+  "human_approval_reference": null,
+  "environment": {},
+  "end_utc": "2026-09-14T14:39:17.835616+00:00",
+  "exit_status": 0,
+  "log_sha256": "1849c54fc9554f5aa638dcfae3c9e81e4270f3d2e4e79de5b99729bdc350353a"
+}

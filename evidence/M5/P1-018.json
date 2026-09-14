@@ -3,9 +3,9 @@
   "task_id": "P1-018",
   "milestone": "M5",
   "status": "in_progress",
-  "utc": "2026-09-14T13:29:31.026924+00:00",
-  "git_revision": "4b55b061349eda31dd7cfb56f5fcaafae72d2116",
-  "git_state": "Dirty P1-018 checkpoint207; exact current tooling passes all13local gates and focused native205. Installedproduction34 unchanged; finite art/mirror and final platform/human gates open.",
+  "utc": "2026-09-14T14:36:58.807575+00:00",
+  "git_revision": "02d578cfdd77f3e27e0f530df0c6a18b266c2b8a",
+  "git_state": "P1-018 viewer methods verified by full local front door230; final sedan source and human gates remain open.",
   "platform": "Windows-11-10.0.26200-SP0",
   "tool_versions": {
     "blender": "Blender 5.1.2\r\n\tbuild date: 2026-05-19\r\n\tbuild time: 01:37:34\r\n\tbuild commit date: 2026-05-18\r\n\tbuild commit time: 13:43\r\n\tbuild hash: ec6e62d40fa9\r\n\tbuild branch: blender-v5.1-release\r\n\tbuild platform: Windows\r\n\tbuild type: Release\r\n\tbuild c flags:  -Wall -Werror=implicit-function-declaration -Werror=return-type -Wno-tautological-compare -Wno-unknown-pragmas -Wno-char-subscripts -Wstrict-prototypes -Wmissing-prototypes -Wunused-parameter -Wundef -Wundef-prefix -Werror=unguarded-availability-new /W3 -Wno-c++98-compat -Wno-old-style-cast -Wno-unsafe-buffer-usage -Wno-missing-prototypes -Wno-sign-conversion -Wno-missing-field-initializers -Wno-extra-semi -Wno-language-extension-token -Wno-implicit-float-conversion -Wno-c++98-compat-pedantic -Wno-implicit-int-float-conversion -Wno-double-promotion -Wno-pre-c++17-compat -Wno-shorten-64-to-32 -Wno-c++98-compat-local-type-template-args -Wno-reserved-identifier -Wno-cast-align -Wno-documentation -Wno-disabled-macro-expansion -Wno-extra-semi-stmt -Wno-zero-as-null-pointer-constant -Wno-float-conversion -Wno-reserved-macro-identifier -Wno-cast-function-type-strict -Wno-float-equal -Wno-implicit-int-conversion -Wno-shadow -Wno-shadow-field-in-constructor -Wno-cast-qual -Wno-pre-c++14-compat -Wno-global-constructors -Wno-switch-enum -Wno-exit-time-destructors -Wno-ctad-maybe-unsupported -Wno-undefined-func-template -Wno-c++98-compat-extra-semi -Wno-cast-function-type -Wno-nullability-extension -Wno-shadow-field -Wno-conditional-uninitialized -Wno-unused-parameter -Wno-suggest-destructor-override -Wno-shadow-uncaptured-local -Wno-unused-macros -Wno-covered-switch-default -Wno-signed-enum-bitfield -Wno-declaration-after-statement -Wno-implicit-fallthrough -Wno-non-virtual-dtor -Wno-nested-anon-types -Wno-gnu-zero-variadic-macro-arguments -Wno-unreachable-code-break -Wno-inconsistent-missing-destructor-override -Wno-format-pedantic -Wno-nonportable-system-include-path -Wno-undef -Wno-ignored-qualifiers -Wno-used-but-marked-unused -Wno-header-hygiene -Wno-char-subscripts -Wno-unreachable-code-return -Wno-unused-template -Wno-gnu-anonymous-struct -Wno-deprecated-copy-with-user-provided-dtor -Wno-inconsistent-missing-override -Wno-unreachable-code -Wno-deprecated-dynamic-exception-spec -Wno-bad-function-cast -Wno-microsoft-enum-value -Wno-deprecated-copy-with-user-provided-copy -Wno-zero-length-array -Wno-unused-function -Wno-pedantic -Wno-deprecated-copy-with-dtor -Wno-documentation-unknown-command -Wno-undefined-reinterpret-cast -Wno-format-nonliteral -Wno-comma -Wno-documentation-deprecated-sync -Wno-shift-sign-overflow -Wno-pre-c++17-compat-pedantic -Wno-c++98-compat-unnamed-type-template-args -Wno-sign-compare -Wno-format -Wno-c++98-compat-bind-to-temporary-copy -Wno-enum-enum-conversion -Wno-anon-enum-enum-conversion -Wno-range-loop-bind-reference -Wno-enum-float-conversion -Wno-keyword-macro -Wno-deprecated-copy -Wno-unused-member-function -Wno-missing-noreturn -Wno-missing-variable-declarations -Wno-documentation-html -Wno-gnu-redeclared-enum -Wno-deprecated-declarations -Wno-overloaded-virtual -Wno-c++98-c++11-compat-binary-literal -Wno-deprecated-redundant-constexpr-static-def -Wno-missing-braces -Wno-c99-extensions -Wno-strict-prototypes -Wno-unreachable-code-loop-increment -Wno-gnu-case-range -Wno-duplicate-enum -Wno-null-pointer-subtraction -Wno-deprecated-literal-operator -Wno-newline-eof -Wno-microsoft-cast -Wno-date-time -Wno-delete-non-abstract-non-virtual-dtor -Wno-unused-private-field -Wno-flexible-array-extensions -Wno-string-conversion -Wno-final-dtor-non-final-class -Wno-microsoft-unqualified-friend -Wno-invalid-noreturn -Wno-invalid-utf8 -Wno-four-char-constants -Wno-parentheses -Wno-pessimizing-move -Wno-deprecated-non-prototype -Wno-bitfield-enum-conversion -Wno-unused-lambda-capture -Wno-shadow-field-in-constructor-modified -Wno-switch-default -Wno-nan-infinity-disabled -Wno-pre-c11-compat /DWIN32 /D_WINDOWS  /MP /nologo /J /Gy /Gd /showFilenames -Wno-unused-command-line-argument -Wno-microsoft-enum-forward-reference /clang:-funsigned-char /clang:-fno-strict-aliasing /clang:-ffp-contract=off -march=x86-64-v2 \r\n\tbuild c++ flags:  -Wall -Wno-tautological-compare -Wno-unknown-pragmas -Wno-char-subscripts -Wno-overloaded-virtual -Wno-sign-compare -Wno-invalid-offsetof -Wno-suggest-override -Wundef -Wundef-prefix -Wunused-parameter -Wmismatched-tags -Werror=unguarded-availability-new /W3 -Wno-c++98-compat -Wno-old-style-cast -Wno-unsafe-buffer-usage -Wno-missing-prototypes -Wno-sign-conversion -Wno-missing-field-initializers -Wno-extra-semi -Wno-language-extension-token -Wno-implicit-float-conversion -Wno-c++98-compat-pedantic -Wno-implicit-int-float-conversion -Wno-double-promotion -Wno-pre-c++17-compat -Wno-shorten-64-to-32 -Wno-c++98-compat-local-type-template-args -Wno-reserved-identifier -Wno-cast-align -Wno-documentation -Wno-disabled-macro-expansion -Wno-extra-semi-stmt -Wno-zero-as-null-pointer-constant -Wno-float-conversion -Wno-reserved-macro-identifier -Wno-cast-function-type-strict -Wno-float-equal -Wno-implicit-int-conversion -Wno-shadow -Wno-shadow-field-in-constructor -Wno-cast-qual -Wno-pre-c++14-compat -Wno-global-constructors -Wno-switch-enum -Wno-exit-time-destructors -Wno-ctad-maybe-unsupported -Wno-undefined-func-template -Wno-c++98-compat-extra-semi -Wno-cast-function-type -Wno-nullability-extension -Wno-shadow-field -Wno-conditional-uninitialized -Wno-unused-parameter -Wno-suggest-destructor-override -Wno-shadow-uncaptured-local -Wno-unused-macros -Wno-covered-switch-default -Wno-signed-enum-bitfield -Wno-declaration-after-statement -Wno-implicit-fallthrough -Wno-non-virtual-dtor -Wno-nested-anon-types -Wno-gnu-zero-variadic-macro-arguments -Wno-unreachable-code-break -Wno-inconsistent-missing-destructor-override -Wno-format-pedantic -Wno-nonportable-system-include-path -Wno-undef -Wno-ignored-qualifiers -Wno-used-but-marked-unused -Wno-header-hygiene -Wno-char-subscripts -Wno-unreachable-code-return -Wno-unused-template -Wno-gnu-anonymous-struct -Wno-deprecated-copy-with-user-provided-dtor -Wno-inconsistent-missing-override -Wno-unreachable-code -Wno-deprecated-dynamic-exception-spec -Wno-bad-function-cast -Wno-microsoft-enum-value -Wno-deprecated-copy-with-user-provided-copy -Wno-zero-length-array -Wno-unused-function -Wno-pedantic -Wno-deprecated-copy-with-dtor -Wno-documentation-unknown-command -Wno-undefined-reinterpret-cast -Wno-format-nonliteral -Wno-comma -Wno-documentation-deprecated-sync -Wno-shift-sign-overflow -Wno-pre-c++17-compat-pedantic -Wno-c++98-compat-unnamed-type-template-args -Wno-sign-compare -Wno-format -Wno-c++98-compat-bind-to-temporary-copy -Wno-enum-enum-conversion -Wno-anon-enum-enum-conversion -Wno-range-loop-bind-reference -Wno-enum-float-conversion -Wno-keyword-macro -Wno-deprecated-copy -Wno-unused-member-function -Wno-missing-noreturn -Wno-missing-variable-declarations -Wno-documentation-html -Wno-gnu-redeclared-enum -Wno-deprecated-declarations -Wno-overloaded-virtual -Wno-c++98-c++11-compat-binary-literal -Wno-deprecated-redundant-constexpr-static-def -Wno-missing-braces -Wno-c99-extensions -Wno-strict-prototypes -Wno-unreachable-code-loop-increment -Wno-gnu-case-range -Wno-duplicate-enum -Wno-null-pointer-subtraction -Wno-deprecated-literal-operator -Wno-newline-eof -Wno-microsoft-cast -Wno-date-time -Wno-delete-non-abstract-non-virtual-dtor -Wno-unused-private-field -Wno-flexible-array-extensions -Wno-string-conversion -Wno-final-dtor-non-final-class -Wno-microsoft-unqualified-friend -Wno-invalid-noreturn -Wno-invalid-utf8 -Wno-four-char-constants -Wno-parentheses -Wno-pessimizing-move -Wno-deprecated-non-prototype -Wno-bitfield-enum-conversion -Wno-unused-lambda-capture -Wno-shadow-field-in-constructor-modified -Wno-switch-default -Wno-nan-infinity-disabled -Wno-pre-c11-compat /DWIN32 /D_WINDOWS   /EHsc  /Gy /MP /nologo /J /Gd /showFilenames /EHsc -Wno-unused-command-line-argument -Wno-microsoft-enum-forward-reference /clang:-funsigned-char /clang:-fno-strict-aliasing /clang:-ffp-contract=off -march=x86-64-v2 \r\n\tbuild link flags: /MACHINE:X64  /SUBSYSTEM:CONSOLE /STACK:2097152 /ignore:4049 /ignore:4217 /ignore:4221\r\n\tbuild system: CMake",
@@ -8526,6 +8526,333 @@
       "path": "reports/p1-018/source-pipeline38-01/checkpoint207.json",
       "bytes": 10459,
       "sha256": "30f896b92817c4f05081deeafbe466716b8b322ec89d00a2b41fe989314474d9"
+    }
+  },
+  "source_learning_checkpoint_v44": {
+    "task_id": "P1-018",
+    "milestone": "M5",
+    "utc": "2026-09-14T13:42:26.134600+00:00",
+    "git_revision": "02d578cfdd77f3e27e0f530df0c6a18b266c2b8a",
+    "status": "independent focused source proof and eighth global skill update verified",
+    "source205_review": {
+      "path": "reports/p1-018/qa/valance-cover39-source205-review01/review02.json",
+      "bytes": 132105,
+      "sha256": "bfcbb92685e7dd23236b588819c60791e34915ac429e6fa9f6eea448616efa07"
+    },
+    "source205_retention": {
+      "path": "reports/p1-018/qa/valance-cover39-source205-review01/retention02.json",
+      "bytes": 112619,
+      "sha256": "0c4e9649d90e03dda6fc7ac4f7cc9348b6578d42559154dfdd39140f52a57d81"
+    },
+    "scope": "Independent host consumption of actual source193/native205:61 actual imports,1014 globals,1102 protected meshes;30 hidden observations include16 mismatched displays plus14 unchanged digit meshes. Full source/motion/exports/runtime remain open.",
+    "skill_update": {
+      "receipt": {
+        "path": "reports/p1-018/skill-update42-01/completion-receipt07.json",
+        "bytes": 11380,
+        "sha256": "08d2a0d88c15300a3358cac0c1bc2383deeb62afdd36b81b3fe624984c08c20d"
+      },
+      "revision": "006fd49c9cdfa3a8e2a972057c19ad52a8878f1f",
+      "ci": "https://github.com/Randroids-Dojo/skills/actions/runs/34850313692",
+      "installed_exact_files": 16,
+      "failures": 0,
+      "scope": "Hidden native transform evaluation, unchanged strict fields/hashes, exception-safe visibility restoration and cold-open distinction. Two guidance files only."
+    },
+    "hosted_ci": {
+      "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34849764456",
+      "head": "02d578cfdd77f3e27e0f530df0c6a18b266c2b8a",
+      "status": "in_progress",
+      "conclusion": "",
+      "jobs": [
+        {
+          "name": "M0 (ubuntu-latest)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "PlayGodot semantic UI (ubuntu-latest)",
+          "status": "in_progress",
+          "conclusion": ""
+        },
+        {
+          "name": "PlayGodot semantic UI (windows-latest)",
+          "status": "in_progress",
+          "conclusion": ""
+        },
+        {
+          "name": "M0 (windows-latest)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Deterministic 500-mile (ubuntu-latest)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Deterministic 500-mile (windows-latest)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "PlayGodot semantic UI (macos-latest)",
+          "status": "in_progress",
+          "conclusion": ""
+        },
+        {
+          "name": "P1-018 source34 selection diagnosis (Windows, diagnostic only)",
+          "status": "completed",
+          "conclusion": "skipped"
+        }
+      ]
+    },
+    "merge_state": "Both required M0 checks pass on02d578; PR144 remains a draft because implementation/asset work is unfinished. No human gate claimed complete; no auto-merge armed.",
+    "human_approval_reference": null,
+    "receipt": {
+      "path": "reports/p1-018/source-pipeline38-01/checkpoint214.json",
+      "bytes": 3054,
+      "sha256": "7d5499d68d9b69c5cb66f357f7da9af14ea6e2a72711a4372f94c88437871cc3"
+    }
+  },
+  "viewer_runtime_checkpoint_v45": {
+    "task_id": "P1-018",
+    "milestone": "M5",
+    "utc": "2026-09-14T14:36:58.807575+00:00",
+    "git_revision": "02d578cfdd77f3e27e0f530df0c6a18b266c2b8a",
+    "platform": "Windows AMD64",
+    "status": "viewer presentation adopted and verified; source shape and mirror usability remain in progress",
+    "tool_versions": {
+      "blender": "5.1.2 ec6e62d40fa9",
+      "godot": "4.7.1.stable.mono.official.a13da4feb",
+      "dotnet_sdk": "10.0.102",
+      "uv": "0.9.24",
+      "git_lfs": "3.7.1"
+    },
+    "viewer": {
+      "adoption": {
+        "path": "reports/p1-018/viewer39-presentation217/adoption229.json",
+        "bytes": 1103,
+        "sha256": "459af3d6eb8b5ad0f60f3d00596e4f01deca7bb00620857b082559148710d27f"
+      },
+      "reader": {
+        "path": "reports/p1-018/viewer39-presentation217/review228.json",
+        "bytes": 56440,
+        "sha256": "f998461e85d183217e9b2a50620f06c5aa3206113064f2c0769ab7821c9a004e"
+      },
+      "independent_visual_review": {
+        "path": "reports/p1-018/qa/showroom39-presentation-review01/review01.json",
+        "bytes": 10321,
+        "sha256": "9eaca2609484fff2b581629ff0e85fa87a023fbe862e2369c751725b5efebd16"
+      },
+      "regression_review": {
+        "path": "reports/p1-018/qa/showroom39-presentation-review01/review02.json",
+        "bytes": 17925,
+        "sha256": "8b47b8133ef6eea430e2ab82e615a2566188c17994ae0394886abebe1c89eebd"
+      },
+      "regression": {
+        "path": "reports/p1-018/viewer39-regression221/result221.json",
+        "bytes": 9427,
+        "sha256": "2f9e9958ab6d70c8d2b4718ffa13848c3081fd202aa3dc15ab5257a63b9e3363"
+      },
+      "actual_images_1440p": 12,
+      "actual_regression_images": 25,
+      "regression_image_limits": "24 full1280x720 frames and one334x420 inspection region; synthetic controller input is not hardware calibration.",
+      "changed_methods": "SelectView: front/rear radius8 to6.4m. SetLighting: Neutral Studio horizon fill0 to0.10; other lighting settings unchanged.",
+      "metrics": {
+        "front_projected_width_before_after_px": [
+          599.83,
+          799.83
+        ],
+        "rear_projected_width_before_after_px": [
+          607.0,
+          841.45
+        ],
+        "closed_bottom_clearance_front_rear_px": [
+          97.52,
+          61.33
+        ],
+        "minimum_bottom_clearance_px": 48,
+        "visible_meshes_checked": 154,
+        "framing_controls": 15,
+        "regression_tests": 2,
+        "regression_seconds": 97.01640720001888
+      },
+      "scope": "Source60 diagnostic GLB; all six openings, view controls, vehicle selection, HeroGT and graybox regression. High quality comparison reduces shadow/edge noise; broad paint/shape defects remain. Canonical production34 installed source is unchanged."
+    },
+    "upper": {
+      "render": {
+        "path": "reports/p1-018/upper-whole39-07/capture227/manifest.json",
+        "bytes": 857476,
+        "sha256": "ef63fb807ba15d7af9539c9287766fb5d4d9faa783ac71b792cc20468ec63430"
+      },
+      "independent_review": {
+        "path": "reports/p1-018/qa/upper-whole39-review07/review01.json",
+        "bytes": 19400,
+        "sha256": "d171e45ff2247e2023553ece34d9818390758a3dabdc26effdf82585cc732fa4"
+      },
+      "retention": {
+        "path": "reports/p1-018/qa/upper-whole39-review07/retention01.json",
+        "bytes": 69362,
+        "sha256": "f74a1b0e76e972edf88b7a3c7d29a9e28597b784f5f0ff4480168d510959a080"
+      },
+      "actual_images": 12,
+      "verdict": "507 narrows the local clay wedge but does not resolve projecting glazing tips, abrupt junction or overall roof form; unaccepted. Two C/Backlight clearance tests and projected geometry ceilings still fail.",
+      "projected_triangles": {
+        "LOD0": 150536,
+        "all": 200446,
+        "ceilings": [
+          150000,
+          200000
+        ]
+      },
+      "historical_binding_note": "227 finished with all inputs unchanged before viewer adoption229. Its old canonical camera-reference bytes remain in the immutable baseline copy; current229 file is intentionally different.",
+      "next_direction": "Existing geometry owner is measuring one coherent shared roof/header/upper-glass outline correction. The user handoff is applied through that owner. No second scene writer or source save/export."
+    },
+    "mirror": {
+      "runs": {
+        "daylight": {
+          "execution": {
+            "path": "reports/p1-018/rear-fov39-222/daylight/execution.json",
+            "bytes": 15354,
+            "sha256": "4d87a9ea0201c35cfdf35ef5c67a74702fe42e08fe7d700768ad783cd0d72a23"
+          },
+          "reader": {
+            "path": "reports/p1-018/rear-fov39-222/daylight/review225.json",
+            "bytes": 93648,
+            "sha256": "b586705541ebc2ac68254990ddcee4b2f5830ddaf875b7ca0949e20c21a15c07"
+          },
+          "native_seconds": 32.510375699959695,
+          "actual_images": 18
+        },
+        "night": {
+          "execution": {
+            "path": "reports/p1-018/rear-fov39-222/night/execution.json",
+            "bytes": 15181,
+            "sha256": "6ea18074398b17a8a2deb5a7203e3db329d2fac47c204f578181dd499f794f97"
+          },
+          "reader": {
+            "path": "reports/p1-018/rear-fov39-222/night/review225.json",
+            "bytes": 93581,
+            "sha256": "1cd43f5451514529d4af6488d398ef292b39288771f414fb23468120bce048d0"
+          },
+          "native_seconds": 32.790812199993525,
+          "actual_images": 18
+        }
+      },
+      "independent_review": {
+        "path": "reports/p1-018/qa/rear-fov39-review02/review01.json",
+        "bytes": 444888,
+        "sha256": "07a6df73335aaac2746fc7610f8348c6d2d08f1b8a04fd5ad1df122d8b161a0d"
+      },
+      "retention": {
+        "path": "reports/p1-018/qa/rear-fov39-review02/retention01.json",
+        "bytes": 162850,
+        "sha256": "935437f4010baa25eb5e709e051aee1376413d0b8056206826d550c46733c713"
+      },
+      "verdict": "Native exact transforms, complete optics/body state and restoration pass. 4.5degree view remains too cropped at10m; at30m both adjacent cars are only partly visible. Night proxies have no active lamps. Six ground-height queries per run use height-zero fallback; no road/traffic proof.",
+      "production_adoption": false,
+      "next_scope": {
+        "path": "reports/p1-018/geometry-scope28-01/rear_mirror231.json",
+        "bytes": 3912,
+        "sha256": "979eb5f48e4f017f1c3ef2259390fc52327287f0cf65b3ace9a4fb01d3a2b0a7"
+      },
+      "observer_scope": {
+        "path": "reports/p1-018/geometry-scope28-01/rear_mirror_observer232.json",
+        "bytes": 893,
+        "sha256": "85d976a11a2e2c74545c3154dea91317d299bff4ee5611f427ff32762a38a55c"
+      },
+      "next_candidate": "30degree fixed rendering viewpoint behind headrests, explicitly an approximation rather than a physically correct flat mirror. Actual native trial and usefulness review pending."
+    },
+    "front_door": {
+      "summary": {
+        "path": "reports/p1-018/source39-frontdoor230/summary.json",
+        "bytes": 1482,
+        "sha256": "883fb64e69521a9faf158f8500e8cd00522a60eeddd1e768e8d57f737e4ee2c9"
+      },
+      "binding": {
+        "path": "reports/p1-018/source-pipeline38-01/full-gate230-bindings.json",
+        "bytes": 176065,
+        "sha256": "fc5918c9650e2508fb93fba7e5ef234fe3fceec35debbbdcf7eb678464880f66"
+      },
+      "status": "passed",
+      "steps": 13,
+      "unchanged_inputs": 702,
+      "platform": "local Windows"
+    },
+    "hosted": {
+      "path": "reports/p1-018/hosted39-233/receipt233.json",
+      "bytes": 32241,
+      "sha256": "16bd2fabcd2c738bc8055d59e5b79badcffb114ff8c34d3328360302014431d7"
+    },
+    "skill_update": {
+      "receipt": {
+        "path": "reports/p1-018/skill-update43-01/completion-receipt07.json",
+        "bytes": 11148,
+        "sha256": "08ae63aafb19daad48736b8caece89f5f0eb2bd32776e20a0edb1129ea568925"
+      },
+      "revision": "76b7e13f71b65a49be9429b2ff9cf6dbce0502cb",
+      "ci": "https://github.com/Randroids-Dojo/skills/actions/runs/34856121039",
+      "exact_committed_source_global_files": 16,
+      "retries": 0,
+      "scope": "Native writer/reader pilots, lossless values, engine camera normalization, actual quality observations and complete per-mesh UI framing. Two guidance files only."
+    },
+    "failures_and_retries": [
+      {
+        "stage": "216",
+        "failure": "Abbreviated native JSON lost exact promoted binary32 values.",
+        "recovery": "217 native writer uses full precision;218 reran both complete image sets."
+      },
+      {
+        "stage": "220",
+        "failure": "Whole-car UI rectangle combined disjoint hood/door extrema into false overlap.",
+        "recovery": "228 retains full image bounds and48px closed-view clearance, checks complete154 visible mesh envelopes against UI, and passes15 valid/bad controls."
+      },
+      {
+        "stage": "224",
+        "failure": "Root Python lacked Pillow before independent image reader executed.",
+        "recovery": "225 uses pinned PlayGodot venv; day and night readers pass; failed command retained."
+      },
+      {
+        "stage": "229",
+        "failure": "Receipt path formatter assumed every QA input was repository-local; stopped before mutations.",
+        "recovery": "New retained retry formats external tool paths correctly; exact two-method adoption succeeded."
+      },
+      {
+        "stage": "231",
+        "failure": "Scope reader expected files but proposal16 manifest uses payloads; stopped before mutations.",
+        "recovery": "New retained retry validates the actual declared schema; camera/observer scopes are recorded before helper authorship."
+      }
+    ],
+    "canonical_delivery": "Installed editable source and GLB remain production34. Fresh source193 and source60 runtime are separate candidates. This checkpoint does not satisfy final construction, full geometry/motion, export portability, performance, final media, platform or human gates.",
+    "human_approval_reference": null,
+    "receipt": {
+      "path": "reports/p1-018/source-pipeline38-01/checkpoint234.json",
+      "bytes": 9579,
+      "sha256": "a5ec02f6c1a9913460c34e77dfe914e09d7f173e01e67bf3e7ee4ba1056bc33e"
+    },
+    "portable_retention": {
+      "index": {
+        "path": "data/assets/vehicles/endurance-sedan-review/viewer-v39/index.json",
+        "bytes": 108169,
+        "sha256": "837af06b2afe2a37fa87ade3771f947a06d4088fa38a40bc3417a6904bf26256"
+      },
+      "manifest": {
+        "path": "data/assets/vehicles/endurance-sedan-review/viewer-v39/manifest.json",
+        "bytes": 107208,
+        "sha256": "c3e30764228a560560894c99a17a893142136317b2b0ffacce0dd0527f81e839"
+      },
+      "command": {
+        "path": "data/assets/vehicles/endurance-sedan-review/viewer-v39/retention-command.json",
+        "bytes": 1208,
+        "sha256": "3251efe8d88266d3169a37e8325dd4c53032299bc8ac75ec6f3db5d21367c4dc"
+      },
+      "archive": {
+        "path": "data/assets/vehicles/endurance-sedan-review/viewer-v39/evidence.zip",
+        "sha256": "0f888cfe11ac5e7643b7e9ced15aac587d1f08dda50199d09af96a2844d99f56",
+        "bytes": 64864832,
+        "crc_and_member_sha256_verified": true
+      },
+      "locked_entries": 492,
+      "byte_reproducible": true
     }
   }
 }

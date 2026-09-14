@@ -379,7 +379,7 @@ public partial class VehicleShowroom : CanvasLayer
         if (_presentation is not null) _presentation.MirrorsEnabled = _interior;
         (_yaw, _pitch, _distance) = view switch
         {
-            "front" => (0, .12f, 8), "rear" => (Mathf.Pi, .12f, 8),
+            "front" => (0, .12f, 6.4f), "rear" => (Mathf.Pi, .12f, 6.4f),
             "left" => (-Mathf.Pi / 2, .12f, 8.6f), "right" => (Mathf.Pi / 2, .12f, 8.6f),
             "top" => (Mathf.Pi / 2, 1.55f, 8.1f), "underside" => (Mathf.Pi / 2, -1.35f, 8.1f),
             "engine" => (-.18f, .97f, 2.75f), "luggage" => (Mathf.Pi, .73f, 2.8f),

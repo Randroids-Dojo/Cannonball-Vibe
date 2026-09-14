@@ -9837,6 +9837,16 @@
         "sha256": "30f896b92817c4f05081deeafbe466716b8b322ec89d00a2b41fe989314474d9"
       },
       "scope": "Actual saved193/focused205 cover source proof, independent hidden-observation/upper visual audits and full Windows frontdoor208. Whole asset/human gates remain open."
+    },
+    {
+      "id": "P1-018-VIEWER45",
+      "utc": "2026-09-14T14:36:58.807575+00:00",
+      "evidence": {
+        "path": "reports/p1-018/source-pipeline38-01/checkpoint234.json",
+        "bytes": 9579,
+        "sha256": "a5ec02f6c1a9913460c34e77dfe914e09d7f173e01e67bf3e7ee4ba1056bc33e"
+      },
+      "scope": "Verified two-method viewer improvement, full Windows gate230, independent actual-image reviews, retained rejected mirror/upper trials, hosted integration outcomes and ninth global skill update. Final human gates remain open."
     }
   ],
   "defects": [
@@ -13498,6 +13508,11 @@
         {
           "path": "reports/p1-018/qa/render-pilot-17/review.json",
           "sha256": "fae3e5a10cc75ebe23362bb2246c6dbef5f73aba69e7050ab6e6540b11c78113"
+        },
+        {
+          "path": "reports/p1-018/source-pipeline38-01/checkpoint234.json",
+          "bytes": 9579,
+          "sha256": "a5ec02f6c1a9913460c34e77dfe914e09d7f173e01e67bf3e7ee4ba1056bc33e"
         }
       ],
       "assigned_owner": "lead",
@@ -13596,7 +13611,8 @@
           "finding": "The shoulder reflection improves locally; frame clearance, real free roof return proximity and current trial cap penetration remain rejected. Coherent joint/contour correction and final source proof are pending.",
           "human_approval_reference": null
         }
-      ]
+      ],
+      "latest_checkpoint234": "Actual227 twelve paired Blender renders: local wedge improves; broad form, projecting tips and physical upper gaps remain.507 is not accepted. Existing owner is proposing a shared outline correction with measured glass-boundary changes."
     },
     {
       "id": "P1-018-D040",
@@ -14680,6 +14696,11 @@
           "path": "reports/p1-018/visual26-root-review01/surface-trials03.json",
           "sha256": "6460b24ed1ae298ec7d984543fb47baefa301be0c1775ba8bd8a77e8184754bd",
           "bytes": 22833
+        },
+        {
+          "path": "reports/p1-018/source-pipeline38-01/checkpoint234.json",
+          "bytes": 9579,
+          "sha256": "a5ec02f6c1a9913460c34e77dfe914e09d7f173e01e67bf3e7ee4ba1056bc33e"
         }
       ],
       "human_approval_reference": null,
@@ -14748,7 +14769,8 @@
           "finding": "The shoulder reflection improves locally; frame clearance, real free roof return proximity and current trial cap penetration remain rejected. Coherent joint/contour correction and final source proof are pending.",
           "human_approval_reference": null
         }
-      ]
+      ],
+      "latest_checkpoint234": "Actual227 twelve paired Blender renders: local wedge improves; broad form, projecting tips and physical upper gaps remain.507 is not accepted. Existing owner is proposing a shared outline correction with measured glass-boundary changes."
     },
     {
       "id": "P1-018-D066",
@@ -16401,7 +16423,7 @@
       "observed_utc": "2026-09-14T11:51:37.168481+00:00",
       "summary": "Lead viewed actual daylight/night Rear feeds and daylight cockpit capture. Most image area is cabin/headrests; small rear window limits exterior visibility. Native target/update tests pass; usability remains open.",
       "correction": null,
-      "verification": "Actual2124.5degree daylight imagery makes exterior cars visible; intended-transform/body guards fail, so diagnostic remains failed. Original4stages pass, source/canonical camera unchanged. Exact composition correction and night/usefulness review pending.",
+      "verification": "Actual223/225 native day/night comparison passes complete transform/body/optics/restoration checks. Independent QA viewed all36 originals and rejected4.5degree general usefulness due to cropping/side coverage/night limits. Fixed behind-headrest30degree trial17 is scoped231/232, not adopted.",
       "evidence": [
         {
           "path": "reports/p1-018/source-pipeline38-01/checkpoint184.json",
@@ -16422,6 +16444,11 @@
           "path": "reports/p1-018/source-pipeline38-01/checkpoint207.json",
           "bytes": 10459,
           "sha256": "30f896b92817c4f05081deeafbe466716b8b322ec89d00a2b41fe989314474d9"
+        },
+        {
+          "path": "reports/p1-018/source-pipeline38-01/checkpoint234.json",
+          "bytes": 9579,
+          "sha256": "a5ec02f6c1a9913460c34e77dfe914e09d7f173e01e67bf3e7ee4ba1056bc33e"
         }
       ],
       "human_approval_reference": null
@@ -16566,5 +16593,5 @@
       "approval_reference": null
     }
   ],
-  "updated_utc": "2026-09-14T13:29:31.026924+00:00"
+  "updated_utc": "2026-09-14T14:36:58.807575+00:00"
 }
