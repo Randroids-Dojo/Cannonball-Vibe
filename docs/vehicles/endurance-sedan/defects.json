@@ -9793,6 +9793,23 @@
       "failure_and_retry": "Prior Windows hosted main-owner case timed out after native quit acknowledgment and32 queued wrappers. The earlier unmodified NVIDIA test also passed. These local results validate the changed lifecycle but do not establish the hosted failure cause or its recovery.",
       "human_approval_reference": null,
       "ledger_complete": false
+    },
+    {
+      "id": "P1-018-SOURCE38-PHASE-AND-LATCH-RECOVERY",
+      "utc": "2026-09-14T00:22:01.318383+00:00",
+      "status": "local_affected_checks_and_frontdoor_passed_final_source_and_hosted_recovery_pending",
+      "evidence": [
+        {
+          "path": "reports/p1-018/source-pipeline38-01/phase-checkpoint67.json",
+          "bytes": 10064,
+          "sha256": "b193500c24521ed1a504abd39295716c55fb90c3a98856926c4a87a420c65d87"
+        }
+      ],
+      "observations": [
+        "Failed before detail assignment on premature lod_index0 requirement. Actual pre-detail checkpoint retained; independent native phase regression passes. New empty build60 is separate and not yet approved.",
+        "Windows UI256pass/1fail. All32 wrappers now finalize and managed shutdown logs1534.600ms, but native process still needs termination after the5s graceful window. The fixed sleep fixture is corrected; new hosted evidence is required."
+      ],
+      "human_approval_reference": null
     }
   ],
   "defects": [
@@ -16171,9 +16188,9 @@
       "severity": "major",
       "status": "open",
       "category": "Windows-CI-application-shutdown",
-      "summary": "256 passed; main graybox managed-shutdown case failed after quit acknowledgment. Runner terminated after session-close/graceful timeouts; native log ended with32 wrappers queued on ANGLE Microsoft Basic Render Driver.",
-      "correction": "Stop new rendering on actual quit; continue engine logic, producer cleanup and both asynchronous finalizer drains with unchanged deadlines.",
-      "verification": "Changed source passes all three existing rendered owner cases and the full13-step repository front door locally. Hosted Windows recovery remains pending; no cause is inferred from the local pass.",
+      "summary": "Windows UI256pass/1fail. All32 wrappers now finalize and managed shutdown logs1534.600ms, but native process still needs termination after the5s graceful window. The fixed sleep fixture is corrected; new hosted evidence is required.",
+      "correction": "Stop new draws on actual quit, then use the deterministic blocked-finalizer fixture without a fixed sleep. Preserve native producer/finalizer cleanup and all acceptance deadlines.",
+      "verification": "All three changed local native owners and the13-step repository front door pass, including the strengthened32-blocked/32-finalized proof. New hosted Windows result remains required.",
       "evidence": [
         {
           "path": "reports/p1-018/source-pipeline38-01/checkpoint50.json",
@@ -16184,6 +16201,28 @@
           "path": "reports/p1-018/ci-source38-01/recovery09.json",
           "bytes": 6052,
           "sha256": "0a78044c9a49758b898a77f6c0e0674cdd202bd50b3f5d875d544a632df17630"
+        },
+        {
+          "path": "reports/p1-018/source-pipeline38-01/phase-checkpoint67.json",
+          "bytes": 10064,
+          "sha256": "b193500c24521ed1a504abd39295716c55fb90c3a98856926c4a87a420c65d87"
+        }
+      ],
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-SOURCE38-PHASE",
+      "severity": "major",
+      "status": "open",
+      "category": "reproducible-source-construction",
+      "summary": "Fresh construction49 requires lod_index before the later LOD phase assigns it.",
+      "correction": "Use explicit pre-lod/final-source construction context, retaining exact phase-specific metadata guards.",
+      "verification": "Actual native phase positives and22 rejections pass;46 members rebuild while1122 unowned raw objects remain exact. Full empty build60 and the new source gate remain pending.",
+      "evidence": [
+        {
+          "path": "reports/p1-018/source-pipeline38-01/phase-checkpoint67.json",
+          "bytes": 10064,
+          "sha256": "b193500c24521ed1a504abd39295716c55fb90c3a98856926c4a87a420c65d87"
         }
       ],
       "human_approval_reference": null
@@ -16328,5 +16367,5 @@
       "approval_reference": null
     }
   ],
-  "updated_utc": "2026-09-13T23:51:28.469324+00:00"
+  "updated_utc": "2026-09-14T00:22:01.318383+00:00"
 }

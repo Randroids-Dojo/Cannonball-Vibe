@@ -115,7 +115,7 @@ def apply(collection,parent,mats,root,constructor,texture_output):
         bpy.context.preferences.filepaths.save_version=0
         bpy.ops.wm.save_as_mainfile(filepath=str(checkpoint),compress=True,check_existing=False)
         detail_proof=repeated_detail38.apply(
-            specification,objects={obj.name:obj for obj in collection.all_objects})
+            specification,objects={obj.name:obj for obj in collection.all_objects},source_phase='pre-lod')
         detail_proof.update(checkpoint=source_generation.file_row(checkpoint,root),
             constructor=source_generation.file_row(Path(repeated_detail38.__file__),root),
             encoder=source_generation.file_row(Path(__file__).with_name('corner_encoding.py'),root))

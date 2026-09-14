@@ -7,23 +7,41 @@ namespace Cannonball.Game.Automation;
 public static class ManagedShutdownScenario
 {
     private static readonly ManualResetEventSlim FinalizerEntered = new(false);
+    private static readonly ManualResetEventSlim FinalizerRelease = new(false);
     private static WeakReference<StandardMaterial3D>[]? _finalizationReferences;
+    private static int _backlogTimedOut;
 
     public static void Prepare()
     {
-        QueueFinalizerBacklog();
-        GC.Collect();
-        if (!FinalizerEntered.Wait(TimeSpan.FromSeconds(2)))
+        FinalizerEntered.Reset();
+        FinalizerRelease.Reset();
+        Volatile.Write(ref _backlogTimedOut, 0);
+        try
         {
-            throw new InvalidOperationException("Shutdown probe did not enter its finalizer backlog.");
+            QueueFinalizerBacklog();
+            GC.Collect();
+            if (!FinalizerEntered.Wait(TimeSpan.FromSeconds(2)))
+            {
+                throw new InvalidOperationException("Shutdown probe did not enter its finalizer backlog.");
+            }
+            var references = QueueResourceWrappers();
+            GC.Collect();
+            var inaccessible = references.Count(reference => !reference.TryGetTarget(out _));
+            var unfinalized = _finalizationReferences!.Count(reference =>
+                reference.TryGetTarget(out var resource) && resource.NativeInstance != IntPtr.Zero);
+            if (inaccessible != references.Length || unfinalized != references.Length
+                || Volatile.Read(ref _backlogTimedOut) != 0)
+            {
+                throw new InvalidOperationException("Shutdown probe did not hold every queued resource wrapper.");
+            }
+            GD.Print($"CANNONBALL_SHUTDOWN_PROBE_QUEUED wrappers={references.Length} inaccessible={inaccessible} pending={GC.GetGCMemoryInfo().FinalizationPendingCount}");
+            GD.Print($"CANNONBALL_SHUTDOWN_PROBE_BLOCKED wrappers={references.Length} unfinalized={unfinalized}");
         }
-        var references = QueueResourceWrappers();
-        GC.Collect();
-        var inaccessible = references.Count(reference => !reference.TryGetTarget(out _));
-        GD.Print($"CANNONBALL_SHUTDOWN_PROBE_QUEUED wrappers={references.Length} inaccessible={inaccessible} pending={GC.GetGCMemoryInfo().FinalizationPendingCount}");
-        if (inaccessible != references.Length)
+        finally
         {
-            throw new InvalidOperationException("Shutdown probe did not queue every resource wrapper.");
+            // Hold the backlog until it is observed, without spending an
+            // arbitrary portion of the application's cleanup deadline.
+            FinalizerRelease.Set();
         }
     }
 
@@ -31,6 +49,10 @@ public static class ManagedShutdownScenario
     {
         var references = _finalizationReferences
             ?? throw new InvalidOperationException("Shutdown probe was not prepared.");
+        if (Volatile.Read(ref _backlogTimedOut) != 0)
+        {
+            throw new InvalidOperationException("Shutdown probe finalizer handshake timed out.");
+        }
         var finalized = references.Count(reference =>
             !reference.TryGetTarget(out var resource) || resource.NativeInstance == IntPtr.Zero);
         if (finalized != references.Length)
@@ -62,7 +84,10 @@ public static class ManagedShutdownScenario
         ~FinalizerBacklog()
         {
             FinalizerEntered.Set();
-            Thread.Sleep(1500);
+            if (!FinalizerRelease.Wait(TimeSpan.FromSeconds(10)))
+            {
+                Volatile.Write(ref _backlogTimedOut, 1);
+            }
         }
     }
 }

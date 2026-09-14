@@ -2803,7 +2803,274 @@
     "remaining": "Fresh current25-stage source acceptance, upper/valance geometry completion, full combined budget, final LOD/UV/bakes, identical double exports, clean imports, runtime/platform/performance/media and required human approvals.",
     "retention": "Referenced source38 reports are retained locally; a final reproducible review archive and source-package retention are still required.",
     "ledger_complete": false,
-    "human_approval_reference": null
+    "human_approval_reference": null,
+    "phase_recovery": {
+      "id": "P1-018-SOURCE38-PHASE-AND-LATCH-RECOVERY",
+      "task_id": "P1-018",
+      "milestone": "M5",
+      "utc": "2026-09-14T00:22:01.318383+00:00",
+      "platform": "Windows-11-10.0.26200-SP0",
+      "git_revision": "9ea77a1495a46d96bc6b07d67da3c31a10b11df8",
+      "status": "local_affected_checks_and_frontdoor_passed_final_source_and_hosted_recovery_pending",
+      "phase_fix": {
+        "change": "Use explicit pre-lod/final-source construction context, retaining exact phase-specific metadata guards.",
+        "native_rejections": 22,
+        "fresh_rebuilt_members": 46,
+        "unowned_raw_exact_objects": 1122,
+        "triangles_before": 1448,
+        "triangles_after": 1000,
+        "verified_bound_files": 575
+      },
+      "quit_fixture": {
+        "change": "Hold the finalizer with an entered/release handshake until32 queued wrappers are proven inaccessible and still native. Release in finally and retain both actual drains.",
+        "cases": [
+          {
+            "owner": "main",
+            "status": "passed",
+            "cleanup_seconds": 0.27775819998350926,
+            "exit_status": 0,
+            "fallback": []
+          },
+          {
+            "owner": "embedded",
+            "status": "passed",
+            "cleanup_seconds": 0.4100445999938529,
+            "exit_status": 0,
+            "fallback": []
+          },
+          {
+            "owner": "standalone",
+            "status": "passed",
+            "cleanup_seconds": 0.2833703000214882,
+            "exit_status": 0,
+            "fallback": []
+          }
+        ],
+        "absolute_cleanup_cap_seconds": 8,
+        "phase_seconds": [
+          5,
+          1,
+          1,
+          1
+        ]
+      },
+      "frontdoor": {
+        "passed_steps": 13,
+        "unchanged_inputs": 560,
+        "start_utc": "2026-09-14T00:16:35Z",
+        "finish_utc": "2026-09-14T00:21:40Z"
+      },
+      "failure_and_retry": {
+        "fresh49": "Failed before detail assignment on premature lod_index0 requirement. Actual pre-detail checkpoint retained; independent native phase regression passes. New empty build60 is separate and not yet approved.",
+        "hosted9ea": "Windows UI256pass/1fail. All32 wrappers now finalize and managed shutdown logs1534.600ms, but native process still needs termination after the5s graceful window. The fixed sleep fixture is corrected; new hosted evidence is required."
+      },
+      "evidence": [
+        {
+          "path": "reports/p1-018/source-pipeline38-01/phase-regression59.json",
+          "bytes": 144188,
+          "sha256": "5ae9ab38d409a8d132f98643139c40d794b90872b3d8f12be0df9ee49308e381"
+        },
+        {
+          "path": "reports/p1-018/source-pipeline38-01/detail-phase55.json",
+          "bytes": 38434,
+          "sha256": "8decd674ab9db97f3fddca1ffcf1f711752ae15ca96379c555604f5add488e38"
+        },
+        {
+          "path": "reports/p1-018/source-pipeline38-01/commit-binding57.json",
+          "bytes": 211775,
+          "sha256": "24452b5d7ec21b32d2c22646858939169467ac377ac17385fb10ad56e9a2d9c6"
+        },
+        {
+          "path": "reports/p1-018/source-pipeline38-01/full-gate66-bindings.json",
+          "bytes": 139662,
+          "sha256": "f82ba1c6a29cac375a129232e935bdc8f7835072c28ea78c2e7c5c69738eb059"
+        },
+        {
+          "path": "reports/p1-018/source-pipeline38-01/repeated-detail49/build-result.json",
+          "bytes": 46992,
+          "sha256": "5d01d70155f11c3c63a84a3d5930d6a0871cba71f9bc688bd0c6b469e5acae0a"
+        },
+        {
+          "path": "reports/p1-018/source38-frontdoor04/summary.json",
+          "bytes": 1482,
+          "sha256": "1715274c94a80559164786d24ea12a4702d19bd5e2562aefaae9e635be4e4b01"
+        },
+        {
+          "path": "reports/p1-018/source38-frontdoor04/doctor.json",
+          "bytes": 545,
+          "sha256": "33cb1935e7bc974bbc4cc89452ab1f85a6648768cd2301f08b7df88be56e1dca"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/scope63.json",
+          "bytes": 3314,
+          "sha256": "153a5f1fe22c2f7996572aaf69a9e173e2299cffd12afc8c696fa884774ad806"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/latched-shutdown65/tests.xml",
+          "bytes": 654,
+          "sha256": "b698879f16d3430e6cd6245ab9e1976015a56804a37cd51a0e6745b81236ecfe"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/latched-shutdown65/shutdown-owner-main/godot.log",
+          "bytes": 1491,
+          "sha256": "7d2c6789c103c1982d4de92e0dddf584d7f8425eea96e90f93bb5959e83b259b"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/latched-shutdown65/shutdown-owner-main/owner-result.json",
+          "bytes": 1047,
+          "sha256": "88d56507bed135ec235034129b1b47c21831ddc43feb4803a96afc527927d2f5"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/latched-shutdown65/shutdown-owner-main/commands.json",
+          "bytes": 885,
+          "sha256": "c5fe2f07f1e678b4f6cc1cf7c3840bd28945c4fa76bfcf6efb31c2d6442a80fb"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/latched-shutdown65/shutdown-owner-main/wire.jsonl",
+          "bytes": 311,
+          "sha256": "f40a528f0d54f2923a9c29d8b45c5eba9196ed30350f28a34b1428f7e762f761"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/latched-shutdown65/shutdown-owner-embedded/godot.log",
+          "bytes": 1408,
+          "sha256": "bb70cb87b3e811067ead29c2ead7df8fbc35dcc4cb1579d968a3a3d41e300649"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/latched-shutdown65/shutdown-owner-embedded/owner-result.json",
+          "bytes": 1051,
+          "sha256": "90d7ec1787c2f8776433f62b3365b8370e0cf06ffb141e4ef4738f002daebb17"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/latched-shutdown65/shutdown-owner-embedded/commands.json",
+          "bytes": 864,
+          "sha256": "6b45459d9062159d3adfb761c2364ac9eb2c609e4921a7885135d90a938c2162"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/latched-shutdown65/shutdown-owner-embedded/wire.jsonl",
+          "bytes": 842,
+          "sha256": "e1b0f2d207981f5d3792f2ad8f54c3d3938b44a89017b99cee3834790a840bc1"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/latched-shutdown65/shutdown-owner-standalone/godot.log",
+          "bytes": 801,
+          "sha256": "cb4ef658379780eab3f7ba44f56543270ae420f83c403a514d39d04f33629320"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/latched-shutdown65/shutdown-owner-standalone/owner-result.json",
+          "bytes": 1052,
+          "sha256": "3def15d6d29c732c8a1c037ba470f06da687e16cd92fbf44d2a946869e4d6994"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/latched-shutdown65/shutdown-owner-standalone/commands.json",
+          "bytes": 866,
+          "sha256": "bdb9d870c07107456233610d84978a7d047789326fed1b6d216f66f8f1525217"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/latched-shutdown65/shutdown-owner-standalone/wire.jsonl",
+          "bytes": 387,
+          "sha256": "d015716611f32216259e45036dabc00c7ebcaf81ee7f424494c75b130460d701"
+        }
+      ],
+      "commands": [
+        {
+          "record": {
+            "path": "reports/p1-018/commands/20260913T233153.623941Z-repeated-detail38-fresh-source49.json",
+            "bytes": 1341,
+            "sha256": "5807b48ec7a615279de090cc0ca1fa4b3b02a1870234409c5af9ccf04f748fb9"
+          },
+          "exit_status": 1
+        },
+        {
+          "record": {
+            "path": "reports/p1-018/commands/20260913T235509.528642Z-repeated-detail38-phase-probe55.json",
+            "bytes": 1291,
+            "sha256": "375bdac29af12e424d9659578c40751c5cb7d4aeea81f0c9243217d39a70cfa3"
+          },
+          "exit_status": 0
+        },
+        {
+          "record": {
+            "path": "reports/p1-018/commands/20260913T235709.679067Z-repeated-detail38-phase-fix56.json",
+            "bytes": 1022,
+            "sha256": "9a50e8364656725e2a7c952cce493842d2152d266c5814ef6b43135687661e66"
+          },
+          "exit_status": 0
+        },
+        {
+          "record": {
+            "path": "reports/p1-018/commands/20260914T000405.530828Z-source38-hardware-commit-binding57.json",
+            "bytes": 1023,
+            "sha256": "d9cf31fe6ba716b1f33fec74c09ce50e43339e97e496137be1bf4cac661243f9"
+          },
+          "exit_status": 0
+        },
+        {
+          "record": {
+            "path": "reports/p1-018/commands/20260914T000903.465820Z-repeated-detail38-phase-regression59.json",
+            "bytes": 1219,
+            "sha256": "0f36b8684c2d14fff692e7131d351faaccf865a3bf469f7a0bd1a3cc1dce2e84"
+          },
+          "exit_status": 0
+        },
+        {
+          "record": {
+            "path": "reports/p1-018/commands/20260914T001012.910575Z-windows-playgodot-9ea-failure61.json",
+            "bytes": 647,
+            "sha256": "7cdfe001c717dec13dc0ef01418367e86581267b2391c5995ea7e60c9e7c82d5"
+          },
+          "exit_status": 0
+        },
+        {
+          "record": {
+            "path": "reports/p1-018/commands/20260914T001042.452460Z-windows-playgodot-9ea-download62.json",
+            "bytes": 736,
+            "sha256": "e3f9adcb349f7a1bb6e8779b0fd043299660205ffbc6181e861c8e34e50ccec5"
+          },
+          "exit_status": 0
+        },
+        {
+          "record": {
+            "path": "reports/p1-018/commands/20260914T001356.046734Z-shutdown-latched-probe-scope63.json",
+            "bytes": 833,
+            "sha256": "13f1ac49793f75bfdcb6e29add378ee38a2a76606edef839c49171f96033a760"
+          },
+          "exit_status": 0
+        },
+        {
+          "record": {
+            "path": "reports/p1-018/commands/20260914T001437.941264Z-shutdown-latched-probe-build64.json",
+            "bytes": 1098,
+            "sha256": "4f219c5e60afad8545fc25815ba0201b591e1b260484b6af2f73031fed9dd838"
+          },
+          "exit_status": 0
+        },
+        {
+          "record": {
+            "path": "reports/p1-018/commands/20260914T001531.162615Z-shutdown-latched-probe-native65.json",
+            "bytes": 1680,
+            "sha256": "90923858fb9823d43ddd84804e70e64b0c8291e26ee974fdc39d23af59482a8d"
+          },
+          "exit_status": 0
+        },
+        {
+          "record": {
+            "path": "reports/p1-018/commands/20260914T001634.560041Z-source38-phase-and-latched-shutdown-frontdoor66.json",
+            "bytes": 1495,
+            "sha256": "2f7a60ac86add72320796487c991bd13322cd0877b0638c41b5616c5e710ff62"
+          },
+          "exit_status": 0
+        }
+      ],
+      "remaining": [
+        "Complete fresh source60 and independent25-stage source QA.",
+        "Roof/rear valance corrections and whole-asset visual review.",
+        "Combined LOD budget, two identical shipping exports, clean import and source retention.",
+        "Final runtime/performance/platform/media evidence and required human gates."
+      ],
+      "installed_source": "production34 unchanged",
+      "ledger_complete": false,
+      "human_approval_reference": null
+    }
   },
   "application_quit_checkpoint_v38": {
     "id": "P1-018-CI38-LOCAL-SHUTDOWN-RECOVERY",
@@ -2963,6 +3230,38 @@
     ],
     "failure_and_retry": "Prior Windows hosted main-owner case timed out after native quit acknowledgment and32 queued wrappers. The earlier unmodified NVIDIA test also passed. These local results validate the changed lifecycle but do not establish the hosted failure cause or its recovery.",
     "human_approval_reference": null,
-    "ledger_complete": false
+    "ledger_complete": false,
+    "latched_backlog_recovery": {
+      "evidence": {
+        "path": "reports/p1-018/source-pipeline38-01/phase-checkpoint67.json",
+        "bytes": 10064,
+        "sha256": "b193500c24521ed1a504abd39295716c55fb90c3a98856926c4a87a420c65d87"
+      },
+      "cases": [
+        {
+          "owner": "main",
+          "status": "passed",
+          "cleanup_seconds": 0.27775819998350926,
+          "exit_status": 0,
+          "fallback": []
+        },
+        {
+          "owner": "embedded",
+          "status": "passed",
+          "cleanup_seconds": 0.4100445999938529,
+          "exit_status": 0,
+          "fallback": []
+        },
+        {
+          "owner": "standalone",
+          "status": "passed",
+          "cleanup_seconds": 0.2833703000214882,
+          "exit_status": 0,
+          "fallback": []
+        }
+      ],
+      "hosted_recovery": "pending",
+      "human_approval_reference": null
+    }
   }
 }

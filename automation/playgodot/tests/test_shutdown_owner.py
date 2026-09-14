@@ -324,6 +324,7 @@ application_quit_owner = NodePath("../VehicleShowroom")
         )
         if scene_kind == "main":
             assert "CANNONBALL_SHUTDOWN_PROBE_QUEUED wrappers=32 inaccessible=32" in log
+            assert "CANNONBALL_SHUTDOWN_PROBE_BLOCKED wrappers=32 unfinalized=32" in log
             assert "CANNONBALL_SHUTDOWN_PROBE_OK wrappers=32 finalized=32" in log
     finally:
         _result(process, out)

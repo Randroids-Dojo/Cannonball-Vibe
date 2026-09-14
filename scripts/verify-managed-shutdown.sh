@@ -26,6 +26,7 @@ required = [
     "CANNONBALL_SAVE_OK",
     "CANNONBALL_SMOKE_OK",
     "CANNONBALL_SHUTDOWN_PROBE_QUEUED wrappers=32 inaccessible=32",
+    "CANNONBALL_SHUTDOWN_PROBE_BLOCKED wrappers=32 unfinalized=32",
     "CANNONBALL_SHUTDOWN_PROBE_OK wrappers=32 finalized=32",
     "CANNONBALL_SHUTDOWN_OK drains=2 producers_stopped=true",
 ]
@@ -39,6 +40,7 @@ result = {
     "status": "passed" if passed else "failed",
     "scenario_exit_code": exit_code,
     "queued_wrappers_required": 32,
+    "blocked_unfinalized_wrappers_required": 32,
     "finalized_wrappers_required": 32,
     "shutdown_milliseconds": float(duration[1]) if duration else None,
     "missing_markers": missing,

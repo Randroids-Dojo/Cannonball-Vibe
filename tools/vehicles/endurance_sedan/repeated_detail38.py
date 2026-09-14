@@ -116,7 +116,11 @@ def capture(obj):
     return {'raw': raw(obj), 'evaluated': evaluated(obj)}
 
 
-def _preconditions(objects):
+def _preconditions(objects, source_phase):
+    require(source_phase in ('pre-lod', 'final-source'), 'Unknown source construction phase')
+    if source_phase == 'pre-lod':
+        require(bpy.context.scene.get('repeated_detail_phase') == 'pre-construction-checkpoint',
+                'Wrong pre-detail scene phase')
     require(all(name in objects for name in NAMES + RECEIVERS), 'Missing member or finite receiver')
     require(all(objects[name].name == name and objects[name].type == 'MESH'
                 for name in NAMES + RECEIVERS), 'Wrong semantic target mapping')
@@ -132,7 +136,9 @@ def _preconditions(objects):
         material = 'Material_Trim' if name in RIBS else 'Material_Metal'
         require(r['material_links'] == [[material, 'DATA']] and old['materials'] == [material], 'Changed material: ' + name)
         require(not r['shape_keys'] and not r['vertex_groups'] and not r['constraints'] and not r['animation'], 'Unexpected deformation: ' + name)
-        require(r['properties'].get('maximum_lod') == 0 and r['properties'].get('lod_index') == 0
+        lod_matches = ('lod_index' not in r['properties'] if source_phase == 'pre-lod'
+                       else type(r['properties'].get('lod_index')) is int and r['properties']['lod_index'] == 0)
+        require(r['properties'].get('maximum_lod') == 0 and lod_matches
                 and r['properties'].get('uv_meters_per_repeat') == .25, 'Changed source representation: ' + name)
         require(set(old['uvs']) == {'SurfaceMeters'}, 'Changed UV layer domain: ' + name)
         require(all(abs(math.hypot(*n)-1) <= 1e-6 for n in old['normals']), 'Invalid source normal: ' + name)
@@ -157,14 +163,15 @@ def _preconditions(objects):
     return rows, landing_y
 
 
-def prepare(specification, *, objects):
+def prepare(specification, *, objects, source_phase='final-source'):
     require((bpy.app.version, bpy.app.build_hash.decode()) == ((5, 1, 2), 'ec6e62d40fa9'),
             'Expected pinned native Blender5.1.2')
     declared = specification.get('original_packaging', {}).get('repeated_detail_revision38')
     require(declared == POLICY, 'Missing or unknown repeated detail revision38')
     bpy.context.view_layer.update()
-    rows, landing_y = _preconditions(objects)
+    rows, landing_y = _preconditions(objects, source_phase)
     return {'schema': 'source-repeated-detail-context38.v1', 'policy': deepcopy(POLICY),
+            'source_phase': source_phase,
             'before': rows, 'landing_world_y': landing_y,
             'native': {'version': bpy.app.version_string, 'build': bpy.app.build_hash.decode()}}
 
@@ -173,7 +180,7 @@ def _validate_context(context, expected_digest, objects):
     require(digest(context) == expected_digest and context['schema'] == 'source-repeated-detail-context38.v1'
             and context['policy'] == POLICY, 'Wrong held construction context')
     bpy.context.view_layer.update()
-    rows, landing_y = _preconditions(objects)
+    rows, landing_y = _preconditions(objects, context['source_phase'])
     require(rows == context['before'] and landing_y == context['landing_world_y'], 'Stale native source context')
     require(context['native'] == {'version': bpy.app.version_string, 'build': bpy.app.build_hash.decode()}, 'Changed native engine')
 
@@ -207,7 +214,8 @@ def stage(context, *, expected_context_digest, objects):
         # Actual source preimages remain exact while all donors are constructed.
         _validate_context(context, expected_context_digest, objects)
         staged['proof'] = {'schema': 'source-repeated-detail-construction38.v1', 'policy': deepcopy(POLICY),
-            'context_digest': expected_context_digest, 'before': deepcopy(context['before']),
+            'context_digest': expected_context_digest, 'source_phase': context['source_phase'],
+            'before': deepcopy(context['before']),
             'after_evaluated': {name: evaluated(donor) for name, donor in staged['members'].items()},
             'local': local, 'modifier_removals': list(RIBS),
             'triangles_before': 1448, 'triangles_after': 1000, 'lod0_saving': 448,
@@ -261,8 +269,8 @@ def install(staged, *, expected_stage_digest, objects):
         discard(staged)
 
 
-def apply(specification, *, objects):
-    context = prepare(specification, objects=objects)
+def apply(specification, *, objects, source_phase='final-source'):
+    context = prepare(specification, objects=objects, source_phase=source_phase)
     staged = stage(context, expected_context_digest=digest(context), objects=objects)
     return install(staged, expected_stage_digest=digest(staged['proof']), objects=objects)
 
