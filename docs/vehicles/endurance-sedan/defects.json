@@ -9857,6 +9857,26 @@
         "sha256": "1c89308545fab4b82cb1efead99a119c10785ccef48c820a579cd0ffa0a4a06e"
       },
       "scope": "Canonical save and ancestry repairs, actual UI266, full local265, rejected upper260 and mirror243 comparisons, and tenth verified global Blender skill update."
+    },
+    {
+      "id": "P1-018-CHECKPOINT47",
+      "utc": "2026-09-14T17:06:20.908544+00:00",
+      "evidence": {
+        "path": "reports/p1-018/source-pipeline38-01/checkpoint283.json",
+        "bytes": 9933,
+        "sha256": "bc09c18b5d7b501da11e8194b6fb517c0ca726745366bd47bef59ea4cc0d146d"
+      },
+      "scope": "Hosted recovery, actual failed282, read-only whole-form intake and eleventh verified global Blender skill update."
+    },
+    {
+      "id": "P1-018-CHECKPOINT48",
+      "utc": "2026-09-14T17:52:26.050976+00:00",
+      "evidence": {
+        "path": "reports/p1-018/source-pipeline38-01/checkpoint296.json",
+        "bytes": 9945,
+        "sha256": "730f6b725fb02ab9e48b940694a9a31c3a1d6d48cea22a386b4012a34149204e"
+      },
+      "scope": "Verified material ownership, complete-input legacy behavior, full local gate, hosted package completion and twelfth globally reinstalled skill update."
     }
   ],
   "defects": [
@@ -16483,7 +16503,7 @@
     {
       "id": "P1-018-SAVE46",
       "severity": "major",
-      "status": "corrected_locally_platform_reverification_pending",
+      "status": "corrected_verified",
       "observed": "Hosted Windows vehicle selection/F5 failed at atomic File.Move with UnauthorizedAccessException while the run clock continued correctly.",
       "correction": "Retry only Windows atomic-move access/sharing/lock errors for at most 21 attempts with 20 cancellable 50 ms waits; retain complete primary and flushed temporary file.",
       "verification": "Original native Windows handle error reproduced. Release, persistent lock and cancellation cases pass. Unchanged actual inspection test retains all three F5 saves and existing clock assertions; normal owner shutdown exits 0 without diagnostics/fallback.",
@@ -16492,14 +16512,20 @@
           "path": "reports/p1-018/source-pipeline38-01/checkpoint270.json",
           "bytes": 10947,
           "sha256": "1c89308545fab4b82cb1efead99a119c10785ccef48c820a579cd0ffa0a4a06e"
+        },
+        {
+          "path": "reports/p1-018/source-pipeline38-01/checkpoint283.json",
+          "bytes": 9933,
+          "sha256": "bc09c18b5d7b501da11e8194b6fb517c0ca726745366bd47bef59ea4cc0d146d"
         }
       ],
-      "human_approval_reference": null
+      "human_approval_reference": null,
+      "hosted_checkpoint283": "CI2413 passes both M0, all three UI platforms and both500-mile jobs. Windows330/330 includes all three exact F5 saves. Source-generation-command contract passes both asset platforms; the current source itself still lacks generation binding."
     },
     {
       "id": "P1-018-ANCESTRY46",
       "severity": "major",
-      "status": "corrected_locally_platform_reverification_pending",
+      "status": "corrected_verified",
       "observed": "SM39-QA01 found coordinated malformed native command output records accepted by host ancestry checks; unchanged actual export binding still rejected them.",
       "correction": "Current manifests bind actual two-phase source generation, complete unique phase output inventories and role-derived command destinations. Full v2 source loader and actual export-binding guards remain authoritative.",
       "verification": "Real source60 and193 positives, both exact original negative cases and independent host review pass.",
@@ -16508,6 +16534,49 @@
           "path": "reports/p1-018/source-pipeline38-01/checkpoint270.json",
           "bytes": 10947,
           "sha256": "1c89308545fab4b82cb1efead99a119c10785ccef48c820a579cd0ffa0a4a06e"
+        },
+        {
+          "path": "reports/p1-018/source-pipeline38-01/checkpoint283.json",
+          "bytes": 9933,
+          "sha256": "bc09c18b5d7b501da11e8194b6fb517c0ca726745366bd47bef59ea4cc0d146d"
+        }
+      ],
+      "human_approval_reference": null,
+      "hosted_checkpoint283": "CI2413 passes both M0, all three UI platforms and both500-mile jobs. Windows330/330 includes all three exact F5 saves. Source-generation-command contract passes both asset platforms; the current source itself still lacks generation binding."
+    },
+    {
+      "id": "P1-018-RUNTIME47-SETTLE",
+      "severity": "major",
+      "status": "open",
+      "observed": "Three actual configured zero-input cars retain four live road contacts but fail0.05rad/s angular settling in the15-second pilot.902 consecutive samples retained; canonical Windows UI also observes parked angular motion.",
+      "correction": "Causal analysis under the existing runtime owner; no repair adopted.",
+      "verification": "Actual282 fails and is retained. Existing thresholds/restoration contract remain required.",
+      "evidence": [
+        {
+          "path": "reports/p1-018/source-pipeline38-01/checkpoint283.json",
+          "bytes": 9933,
+          "sha256": "bc09c18b5d7b501da11e8194b6fb517c0ca726745366bd47bef59ea4cc0d146d"
+        }
+      ],
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-RUNTIME47-LAMPS",
+      "severity": "major",
+      "status": "corrected_verified",
+      "observed": "Creating temporary sedan instances changes two original shared lamp emission multipliers; exact original render restoration fails after all temporary cars are deleted.",
+      "correction": "VehicleVisualRig leaves presenter-owned sedan lamps to their existing owner. Its legacy shared-source emission pass runs only when Presentation is null. The original failed source60 trial remains failed; production34 reproduction and correction provide separate evidence.",
+      "verification": "Uncorrected286 fails; corrected288/289 and complete-input legacy295 pass, independently reviewed; full local292 passes. Historical source60 grounded282 recovery remains a separate open scenario.",
+      "evidence": [
+        {
+          "path": "reports/p1-018/source-pipeline38-01/checkpoint283.json",
+          "bytes": 9933,
+          "sha256": "bc09c18b5d7b501da11e8194b6fb517c0ca726745366bd47bef59ea4cc0d146d"
+        },
+        {
+          "path": "reports/p1-018/source-pipeline38-01/checkpoint296.json",
+          "bytes": 9945,
+          "sha256": "730f6b725fb02ab9e48b940694a9a31c3a1d6d48cea22a386b4012a34149204e"
         }
       ],
       "human_approval_reference": null
@@ -16652,5 +16721,5 @@
       "approval_reference": null
     }
   ],
-  "updated_utc": "2026-09-14T16:14:06.451450+00:00"
+  "updated_utc": "2026-09-14T17:52:26.050976+00:00"
 }

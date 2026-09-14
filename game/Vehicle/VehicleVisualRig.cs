@@ -255,7 +255,12 @@ public sealed partial class VehicleVisualRig : Node3D
         {
             lamp.Visible = on;
         }
-        ApplyLampEmission(on);
+        // The sedan presenter owns its lamp materials. The legacy pass mutates
+        // shared imported sources and can douse another sedan's base material.
+        if (Presentation is null)
+        {
+            ApplyLampEmission(on);
+        }
         _automationState["headlights_on"] = on;
         _automationState["lamp_count"] = _lamps.Count;
         _automationState["beam_shadows"] = _lamps.OfType<SpotLight3D>().Any(beam => beam.ShadowEnabled);

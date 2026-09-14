@@ -165,17 +165,21 @@ func _outside(body: Node) -> String:
 		hash.update(var_to_bytes([
 			str(_rig(body).get_path_to(mesh)), mesh.transform, _mesh_hash(mesh.mesh)]))
 		for surface in range(mesh.mesh.get_surface_count()):
-			var material := mesh.get_active_material(surface)
-			hash.update(var_to_bytes(_rid(material)))
-			if material == null or seen.has(material.get_instance_id()): continue
-			seen[material.get_instance_id()] = true
-			for field in material.get_property_list():
-				if int(field.usage) & PROPERTY_USAGE_STORAGE:
-					var value: Variant = material.get(field.name)
-					if value is Resource:
-						value = [value.get_class(), str(value.get_instance_id()),
-							value.resource_path]
-					hash.update(var_to_bytes([str(field.name), value]))
+			# An active override can hide a shared source material that another rig
+			# still mutates during creation. Both resource layers must stay exact.
+			for binding in ["active", "source"]:
+				var material: Material = (mesh.get_active_material(surface) if binding == "active"
+					else mesh.mesh.surface_get_material(surface))
+				hash.update(var_to_bytes([binding, _rid(material)]))
+				if material == null or seen.has(material.get_instance_id()): continue
+				seen[material.get_instance_id()] = true
+				for field in material.get_property_list():
+					if int(field.usage) & PROPERTY_USAGE_STORAGE:
+						var value: Variant = material.get(field.name)
+						if value is Resource:
+							value = [value.get_class(), str(value.get_instance_id()),
+								value.resource_path]
+						hash.update(var_to_bytes([str(field.name), value]))
 	return hash.finish().hex_encode()
 
 func _copy_body(original: Node) -> SubViewport:
@@ -365,6 +369,8 @@ func _run() -> void:
 	var outside := _outside(body)
 	var copy_world := _copy_body(body)
 	var second: Node = copy_world.get_child(0)
+	second.call("SetHeadlights", false)
+	_check(outside == _outside(body), "dousing second vehicle mutated primary source materials")
 	var second_packet := _positive(second, "simultaneous-second")
 	_check(first.world != second_packet.world, "simultaneous private World3D")
 	_check(first.channels[0].members[0].material != second_packet.channels[0].members[0].material,
@@ -395,6 +401,8 @@ func _run() -> void:
 	await _free_copy(copy_world, second_packet)
 	copy_world = _copy_body(body)
 	second = copy_world.get_child(0)
+	second.call("SetHeadlights", false)
+	_check(outside == _outside(body), "dousing recreated vehicle mutated primary source materials")
 	var third := _positive(second, "recreated-second")
 	_check(third.channels[0].texture != second_packet.channels[0].texture,
 		"recreated viewport reused stale RID")

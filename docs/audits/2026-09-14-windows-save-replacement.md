@@ -59,3 +59,22 @@ Evidence: `reports/p1-018/source39-frontdoor265/summary.json`,
 `reports/p1-018/save-replace39-251/runtime266/result266.json`. This local result
 does not declare hosted platform recovery, a clean asset import, final sedan
 assets, source rights, driving feel or human usability complete.
+
+Hosted recovery was subsequently verified at revision
+`2413b9ee5b4e27105ad9eb425ac4c58be6dbfa29`. CI run34868305673 passed both M0
+jobs, Windows/Linux/macOS semantic UI and both 500-mile jobs. The Windows UI
+job passed all 330 tests. Its downloaded inspection evidence contains valid
+F5 saves for Hero GT, graybox and sedan, each with an advancing run clock and
+the expected exact save hash. The inspection process acknowledged normal
+shutdown, exited 0 in 1.593 seconds and reported no diagnostics or fallback.
+The native-observation record retains `bookkeeping_completed=false`; passing
+context/profile cleanup assertions provide separate owner evidence.
+
+Root inspected the four actual hosted images: three full 1028x578 captures
+and one 269x338 panel crop. They confirm the inspection panel, opening
+silhouettes and Escape behavior, while the small dark car cannot establish
+close assembly quality. The terminal CI metadata, full Windows artifact and
+save comparisons are retained in `reports/p1-018/hosted39-280/` and
+`reports/p1-018/source-pipeline38-01/checkpoint283.json`. Both sedan asset
+jobs still fail the separate current-source generation-binding requirement;
+the save recovery does not close that asset gate or any human gate.

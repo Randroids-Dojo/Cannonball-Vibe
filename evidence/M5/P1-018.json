@@ -3,9 +3,9 @@
   "task_id": "P1-018",
   "milestone": "M5",
   "status": "in_progress",
-  "utc": "2026-09-14T16:14:06.451450+00:00",
-  "git_revision": "1c44669f9efcaaa44b8220251fd2dcb997a3f2bf",
-  "git_state": "P1-018 canonical save/ancestry repairs verified by full local265 and actual UI266; final source and human gates remain open.",
+  "utc": "2026-09-14T17:52:26.050976+00:00",
+  "git_revision": "2413b9ee5b4e27105ad9eb425ac4c58be6dbfa29",
+  "git_state": "Material ownership correction verified locally; source/form, low-speed physics and final human gates remain open.",
   "platform": "Windows-11-10.0.26200-SP0",
   "tool_versions": {
     "blender": "Blender 5.1.2\r\n\tbuild date: 2026-05-19\r\n\tbuild time: 01:37:34\r\n\tbuild commit date: 2026-05-18\r\n\tbuild commit time: 13:43\r\n\tbuild hash: ec6e62d40fa9\r\n\tbuild branch: blender-v5.1-release\r\n\tbuild platform: Windows\r\n\tbuild type: Release\r\n\tbuild c flags:  -Wall -Werror=implicit-function-declaration -Werror=return-type -Wno-tautological-compare -Wno-unknown-pragmas -Wno-char-subscripts -Wstrict-prototypes -Wmissing-prototypes -Wunused-parameter -Wundef -Wundef-prefix -Werror=unguarded-availability-new /W3 -Wno-c++98-compat -Wno-old-style-cast -Wno-unsafe-buffer-usage -Wno-missing-prototypes -Wno-sign-conversion -Wno-missing-field-initializers -Wno-extra-semi -Wno-language-extension-token -Wno-implicit-float-conversion -Wno-c++98-compat-pedantic -Wno-implicit-int-float-conversion -Wno-double-promotion -Wno-pre-c++17-compat -Wno-shorten-64-to-32 -Wno-c++98-compat-local-type-template-args -Wno-reserved-identifier -Wno-cast-align -Wno-documentation -Wno-disabled-macro-expansion -Wno-extra-semi-stmt -Wno-zero-as-null-pointer-constant -Wno-float-conversion -Wno-reserved-macro-identifier -Wno-cast-function-type-strict -Wno-float-equal -Wno-implicit-int-conversion -Wno-shadow -Wno-shadow-field-in-constructor -Wno-cast-qual -Wno-pre-c++14-compat -Wno-global-constructors -Wno-switch-enum -Wno-exit-time-destructors -Wno-ctad-maybe-unsupported -Wno-undefined-func-template -Wno-c++98-compat-extra-semi -Wno-cast-function-type -Wno-nullability-extension -Wno-shadow-field -Wno-conditional-uninitialized -Wno-unused-parameter -Wno-suggest-destructor-override -Wno-shadow-uncaptured-local -Wno-unused-macros -Wno-covered-switch-default -Wno-signed-enum-bitfield -Wno-declaration-after-statement -Wno-implicit-fallthrough -Wno-non-virtual-dtor -Wno-nested-anon-types -Wno-gnu-zero-variadic-macro-arguments -Wno-unreachable-code-break -Wno-inconsistent-missing-destructor-override -Wno-format-pedantic -Wno-nonportable-system-include-path -Wno-undef -Wno-ignored-qualifiers -Wno-used-but-marked-unused -Wno-header-hygiene -Wno-char-subscripts -Wno-unreachable-code-return -Wno-unused-template -Wno-gnu-anonymous-struct -Wno-deprecated-copy-with-user-provided-dtor -Wno-inconsistent-missing-override -Wno-unreachable-code -Wno-deprecated-dynamic-exception-spec -Wno-bad-function-cast -Wno-microsoft-enum-value -Wno-deprecated-copy-with-user-provided-copy -Wno-zero-length-array -Wno-unused-function -Wno-pedantic -Wno-deprecated-copy-with-dtor -Wno-documentation-unknown-command -Wno-undefined-reinterpret-cast -Wno-format-nonliteral -Wno-comma -Wno-documentation-deprecated-sync -Wno-shift-sign-overflow -Wno-pre-c++17-compat-pedantic -Wno-c++98-compat-unnamed-type-template-args -Wno-sign-compare -Wno-format -Wno-c++98-compat-bind-to-temporary-copy -Wno-enum-enum-conversion -Wno-anon-enum-enum-conversion -Wno-range-loop-bind-reference -Wno-enum-float-conversion -Wno-keyword-macro -Wno-deprecated-copy -Wno-unused-member-function -Wno-missing-noreturn -Wno-missing-variable-declarations -Wno-documentation-html -Wno-gnu-redeclared-enum -Wno-deprecated-declarations -Wno-overloaded-virtual -Wno-c++98-c++11-compat-binary-literal -Wno-deprecated-redundant-constexpr-static-def -Wno-missing-braces -Wno-c99-extensions -Wno-strict-prototypes -Wno-unreachable-code-loop-increment -Wno-gnu-case-range -Wno-duplicate-enum -Wno-null-pointer-subtraction -Wno-deprecated-literal-operator -Wno-newline-eof -Wno-microsoft-cast -Wno-date-time -Wno-delete-non-abstract-non-virtual-dtor -Wno-unused-private-field -Wno-flexible-array-extensions -Wno-string-conversion -Wno-final-dtor-non-final-class -Wno-microsoft-unqualified-friend -Wno-invalid-noreturn -Wno-invalid-utf8 -Wno-four-char-constants -Wno-parentheses -Wno-pessimizing-move -Wno-deprecated-non-prototype -Wno-bitfield-enum-conversion -Wno-unused-lambda-capture -Wno-shadow-field-in-constructor-modified -Wno-switch-default -Wno-nan-infinity-disabled -Wno-pre-c11-compat /DWIN32 /D_WINDOWS  /MP /nologo /J /Gy /Gd /showFilenames -Wno-unused-command-line-argument -Wno-microsoft-enum-forward-reference /clang:-funsigned-char /clang:-fno-strict-aliasing /clang:-ffp-contract=off -march=x86-64-v2 \r\n\tbuild c++ flags:  -Wall -Wno-tautological-compare -Wno-unknown-pragmas -Wno-char-subscripts -Wno-overloaded-virtual -Wno-sign-compare -Wno-invalid-offsetof -Wno-suggest-override -Wundef -Wundef-prefix -Wunused-parameter -Wmismatched-tags -Werror=unguarded-availability-new /W3 -Wno-c++98-compat -Wno-old-style-cast -Wno-unsafe-buffer-usage -Wno-missing-prototypes -Wno-sign-conversion -Wno-missing-field-initializers -Wno-extra-semi -Wno-language-extension-token -Wno-implicit-float-conversion -Wno-c++98-compat-pedantic -Wno-implicit-int-float-conversion -Wno-double-promotion -Wno-pre-c++17-compat -Wno-shorten-64-to-32 -Wno-c++98-compat-local-type-template-args -Wno-reserved-identifier -Wno-cast-align -Wno-documentation -Wno-disabled-macro-expansion -Wno-extra-semi-stmt -Wno-zero-as-null-pointer-constant -Wno-float-conversion -Wno-reserved-macro-identifier -Wno-cast-function-type-strict -Wno-float-equal -Wno-implicit-int-conversion -Wno-shadow -Wno-shadow-field-in-constructor -Wno-cast-qual -Wno-pre-c++14-compat -Wno-global-constructors -Wno-switch-enum -Wno-exit-time-destructors -Wno-ctad-maybe-unsupported -Wno-undefined-func-template -Wno-c++98-compat-extra-semi -Wno-cast-function-type -Wno-nullability-extension -Wno-shadow-field -Wno-conditional-uninitialized -Wno-unused-parameter -Wno-suggest-destructor-override -Wno-shadow-uncaptured-local -Wno-unused-macros -Wno-covered-switch-default -Wno-signed-enum-bitfield -Wno-declaration-after-statement -Wno-implicit-fallthrough -Wno-non-virtual-dtor -Wno-nested-anon-types -Wno-gnu-zero-variadic-macro-arguments -Wno-unreachable-code-break -Wno-inconsistent-missing-destructor-override -Wno-format-pedantic -Wno-nonportable-system-include-path -Wno-undef -Wno-ignored-qualifiers -Wno-used-but-marked-unused -Wno-header-hygiene -Wno-char-subscripts -Wno-unreachable-code-return -Wno-unused-template -Wno-gnu-anonymous-struct -Wno-deprecated-copy-with-user-provided-dtor -Wno-inconsistent-missing-override -Wno-unreachable-code -Wno-deprecated-dynamic-exception-spec -Wno-bad-function-cast -Wno-microsoft-enum-value -Wno-deprecated-copy-with-user-provided-copy -Wno-zero-length-array -Wno-unused-function -Wno-pedantic -Wno-deprecated-copy-with-dtor -Wno-documentation-unknown-command -Wno-undefined-reinterpret-cast -Wno-format-nonliteral -Wno-comma -Wno-documentation-deprecated-sync -Wno-shift-sign-overflow -Wno-pre-c++17-compat-pedantic -Wno-c++98-compat-unnamed-type-template-args -Wno-sign-compare -Wno-format -Wno-c++98-compat-bind-to-temporary-copy -Wno-enum-enum-conversion -Wno-anon-enum-enum-conversion -Wno-range-loop-bind-reference -Wno-enum-float-conversion -Wno-keyword-macro -Wno-deprecated-copy -Wno-unused-member-function -Wno-missing-noreturn -Wno-missing-variable-declarations -Wno-documentation-html -Wno-gnu-redeclared-enum -Wno-deprecated-declarations -Wno-overloaded-virtual -Wno-c++98-c++11-compat-binary-literal -Wno-deprecated-redundant-constexpr-static-def -Wno-missing-braces -Wno-c99-extensions -Wno-strict-prototypes -Wno-unreachable-code-loop-increment -Wno-gnu-case-range -Wno-duplicate-enum -Wno-null-pointer-subtraction -Wno-deprecated-literal-operator -Wno-newline-eof -Wno-microsoft-cast -Wno-date-time -Wno-delete-non-abstract-non-virtual-dtor -Wno-unused-private-field -Wno-flexible-array-extensions -Wno-string-conversion -Wno-final-dtor-non-final-class -Wno-microsoft-unqualified-friend -Wno-invalid-noreturn -Wno-invalid-utf8 -Wno-four-char-constants -Wno-parentheses -Wno-pessimizing-move -Wno-deprecated-non-prototype -Wno-bitfield-enum-conversion -Wno-unused-lambda-capture -Wno-shadow-field-in-constructor-modified -Wno-switch-default -Wno-nan-infinity-disabled -Wno-pre-c11-compat /DWIN32 /D_WINDOWS   /EHsc  /Gy /MP /nologo /J /Gd /showFilenames /EHsc -Wno-unused-command-line-argument -Wno-microsoft-enum-forward-reference /clang:-funsigned-char /clang:-fno-strict-aliasing /clang:-ffp-contract=off -march=x86-64-v2 \r\n\tbuild link flags: /MACHINE:X64  /SUBSYSTEM:CONSOLE /STACK:2097152 /ignore:4049 /ignore:4217 /ignore:4221\r\n\tbuild system: CMake",
@@ -9112,6 +9112,519 @@
         "sha256": "65cfcbf6d8dbd1a61e70cdaa607c7cac7ee1cf4e83caf3fe408b939af3a8af0d"
       },
       "entries": 397,
+      "byte_reproducible": true,
+      "all_member_hashes_and_crc_verified": true,
+      "scope": "Evidence retention and byte identity only; individual reports retain their own scope, failures and approval status."
+    }
+  },
+  "grounded_source_checkpoint_v47": {
+    "task_id": "P1-018",
+    "milestone": "M5",
+    "utc": "2026-09-14T17:06:20.908544+00:00",
+    "git_revision": "2413b9ee5b4e27105ad9eb425ac4c58be6dbfa29",
+    "platform": "Windows AMD64",
+    "status": "hosted save recovery confirmed; grounded diagnostic defects remain open",
+    "hosted": {
+      "receipt": {
+        "path": "reports/p1-018/hosted39-280/receipt280.json",
+        "bytes": 342425,
+        "sha256": "e5b7f4b5273a14889c41d5d0ada6c2c4fceca6ae39af369019586ece283e8c7a"
+      },
+      "ci": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34868305673",
+      "merge_contexts": "Both M0 checks passed; draft PR144 is not yet offered for integration.",
+      "ui_platforms_passed": [
+        "Windows",
+        "Linux",
+        "macOS"
+      ],
+      "windows_tests_passed": 330,
+      "long_route_platforms_passed": [
+        "Windows",
+        "Linux"
+      ],
+      "windows_saves": [
+        {
+          "asset": "hero-gt",
+          "artifact": {
+            "path": "reports/p1-018/hosted39-280/windows-ui/reports/playgodot/sedan-selection-hero-gt-save.json",
+            "bytes": 2721,
+            "sha256": "7e077589ff9e517d6d5e0dd8bc5ef314a6667634b68dd97e61df0bd4e99d6c08"
+          },
+          "saved_seconds": 111.163,
+          "barrier_seconds": 111.457,
+          "following_seconds": 111.683
+        },
+        {
+          "asset": "graybox",
+          "artifact": {
+            "path": "reports/p1-018/hosted39-280/windows-ui/reports/playgodot/sedan-selection-graybox-save.json",
+            "bytes": 2720,
+            "sha256": "0513be607c5a609c4433634968e190df30ca3dcd6722cd024f666d10683d7b23"
+          },
+          "saved_seconds": 121.505,
+          "barrier_seconds": 121.737,
+          "following_seconds": 121.9
+        },
+        {
+          "asset": "endurance-sedan",
+          "artifact": {
+            "path": "reports/p1-018/hosted39-280/windows-ui/reports/playgodot/sedan-selection-endurance-sedan-save.json",
+            "bytes": 2720,
+            "sha256": "2c6e9d4fe29411aecfa901cfdb0ab145b9931335060cea40fb01ebb6fd92a068"
+          },
+          "saved_seconds": 128.743,
+          "barrier_seconds": 129.254,
+          "following_seconds": 129.509
+        }
+      ],
+      "images_opened_by_root": [
+        {
+          "path": "reports/p1-018/hosted39-280/windows-ui/reports/playgodot/sedan-inspection-controller.png",
+          "bytes": 53066,
+          "sha256": "03df323f2c0aec1c4450d478198107bc715a70ebe5f8c12ff81ca56ea8a010a7",
+          "width_height": [
+            269,
+            338
+          ]
+        },
+        {
+          "path": "reports/p1-018/hosted39-280/windows-ui/reports/playgodot/sedan-inspection-escape.png",
+          "bytes": 688839,
+          "sha256": "001e25498e9fce8c2c51de356ecbb0b6f39ff133f9a89c08877aa16df7e46fb6",
+          "width_height": [
+            1028,
+            578
+          ]
+        },
+        {
+          "path": "reports/p1-018/hosted39-280/windows-ui/reports/playgodot/sedan-inspection-keyboard.png",
+          "bytes": 646301,
+          "sha256": "d6b9feed94a30d5599cfbb83cac0bcec0d36f1bce652c0cae88d2ac9aee1a2e3",
+          "width_height": [
+            1028,
+            578
+          ]
+        },
+        {
+          "path": "reports/p1-018/hosted39-280/windows-ui/reports/playgodot/sedan-inspection-openings.png",
+          "bytes": 646296,
+          "sha256": "0ecb0216a90469401cc487c23c47d2b28d8346f8c920b60fcf637ec35bcbd884",
+          "width_height": [
+            1028,
+            578
+          ]
+        }
+      ],
+      "visual_observation": "Inspection controls and selected labels are readable; openings change the silhouette and Escape removes the panel. The small dark vehicle does not provide close assembly or art acceptance. Three full1028x578 images and one269x338 panel crop.",
+      "shutdown": {
+        "path": "reports/p1-018/hosted39-280/windows-ui/reports/playgodot/sedan-inspection-godot.shutdown.json",
+        "bytes": 1053,
+        "sha256": "8fa490b6cbbc431119d5539b8b8d5dbbbd16c14878515622e0375b72ec8a38c9"
+      },
+      "shutdown_seconds": 1.5929793000000245,
+      "shutdown_limit": "The native-observation JSON reports bookkeeping_completed=false; passing context/profile cleanup assertions are separate owner evidence.",
+      "asset_result": "Both sedan jobs fail first Blender export: Current source export requires its source-generation binding. Both source-generation-command contract stages pass; Hero GT pipeline passes.",
+      "unsigned_result_at_capture": "in_progress",
+      "scope_limit": "Committed production34 runtime only; no new source promotion, full asset gate or human acceptance."
+    },
+    "grounded": {
+      "scope": {
+        "path": "reports/p1-018/geometry-scope28-01/rear_grounded_trace277.json",
+        "bytes": 2204,
+        "sha256": "6ccf300f7bcbbae58d4c750ede48ec85cab00792e7558120c1064d98d4a78f00"
+      },
+      "packet": {
+        "path": "reports/p1-018/runtime/mirror-material39-integration01/rear-grounded22/manifest22.json",
+        "bytes": 11738,
+        "sha256": "3bed2e3fec6f32f8eb09cc6a00544f88e88ae78a785b095b73d560bf79b55bc2"
+      },
+      "build": {
+        "path": "reports/p1-018/rear-grounded39-281/build281.json",
+        "bytes": 166021,
+        "sha256": "41862025528d7c78e652576126fc66cca9c5e65c1c8f632fe0d445d77dca5701"
+      },
+      "seal": {
+        "path": "reports/p1-018/rear-grounded39-281/seal281.json",
+        "bytes": 1186,
+        "sha256": "726cc2626d76fa6b1b179229d55010f93145a8af5e3dbb2bf65e54717307957a"
+      },
+      "parse": {
+        "path": "reports/p1-018/rear-grounded39-281/daylight/parse282.json",
+        "bytes": 987,
+        "sha256": "03c453aa0db97de41dc813f07f2897da97e931b845ca431d6d30c5a932277c76"
+      },
+      "execution": {
+        "path": "reports/p1-018/rear-grounded39-281/daylight/execution282.json",
+        "bytes": 16115,
+        "sha256": "c0ab23cdfa871457f8516a334666483f107443554eb24aacf3b2d91557866eb1"
+      },
+      "independent_reader": {
+        "path": "reports/p1-018/rear-grounded39-281/daylight/review282.json",
+        "bytes": 6533,
+        "sha256": "8487f991370632ad6b2988bc2d957dc7c19a055a41c0d9411d3fe3f1b7a16e65"
+      },
+      "trace": {
+        "path": "reports/p1-018/rear-grounded39-281/daylight/trace22.json",
+        "bytes": 59018187,
+        "sha256": "f0ab6815d26336a744da775131e049bc7be3ed8daa3d3d8ff24681dad0c81a4d"
+      },
+      "native_exit_status": 0,
+      "outer_verification_exit_status": 1,
+      "native_seconds": 48.72534220002126,
+      "native_diagnostic_count": 0,
+      "complete_cases": 0,
+      "consecutive_trace_samples": 902,
+      "sampled_simulation_seconds": 7.51666666666683,
+      "phase_wall_seconds": 15.007855,
+      "observations": "Disabling only temporary cosmetic callbacks removed all1811 repeated native ownership errors seen in274. Live four-contact cars still exceed angular settling limit; two original lamp-material emission multipliers mutate on temporary creation and fail exact restoration. All original four scenario stages and normal owner shutdown pass.",
+      "restored_exactly": [
+        "original body",
+        "route",
+        "origin",
+        "settled collision membership"
+      ],
+      "not_restored_exactly": [
+        {
+          "path": "$.materials[8]<material:8345121456169>.properties.emission_energy_multiplier",
+          "before": "\"030000008FC2F53D\"",
+          "after": "\"03000000C56E5939\""
+        },
+        {
+          "path": "$.materials[18]<material:8813272891443>.properties.emission_energy_multiplier",
+          "before": "\"030000008FC2F53D\"",
+          "after": "\"03000000C56E5939\""
+        }
+      ],
+      "temporary_instances_freed": true,
+      "limits": "Force values are reconstructions, not applied-impulse getters. No camera changes or pilot images; no force law repair, traffic or performance acceptance."
+    },
+    "whole_form": {
+      "current_capture": {
+        "path": "reports/p1-018/upper-whole39-09/capture260/manifest.json",
+        "bytes": 762000,
+        "sha256": "1a274b45d4c91e5a7d3e3f37728ec9cdb71ba80ca9ff07692d8a9412fd3e6fdd"
+      },
+      "front_intake": {
+        "path": "reports/p1-018/qa/front-carrier39-intake01/review01.json",
+        "bytes": 29113,
+        "sha256": "77a1a2ebdaa4495d405f9bbcb0db03875598b12d1900d07ba024e710a08952e5"
+      },
+      "sash_scope": {
+        "path": "reports/p1-018/geometry-scope28-01/upper_rear_sash275.json",
+        "bytes": 505754,
+        "sha256": "bb10037217c5b0b7836da5ab17976f957c96dbf5d55c94744107ca31e6bc4ea7"
+      },
+      "root_reinspection": "Actual529 front/rear three-quarter and level-side images still show cap-like greenhouse, dominant bright window borders and upright slab-like fascia. Existing owner retains sash275 then coherent front-carrier comparison; no seal-tip polish or final geometry acceptance.",
+      "budget": "150536 LOD0 /200446 total before new sash and lower-LOD regeneration already exceed150000/200000 ceilings. Additional savings and native checks remain required."
+    },
+    "skill": {
+      "receipt": {
+        "path": "reports/p1-018/skill-update45-01/completion-receipt07.json",
+        "bytes": 11235,
+        "sha256": "f7b89b50d55196cc596fdd6c6c943d59f76f63b2a1644acc306992aa45049dde"
+      },
+      "revision": "6dca94a70cae2a5ea0b96f8497362650b8c9688f",
+      "ci": "https://github.com/Randroids-Dojo/skills/actions/runs/34871309412",
+      "committed_source_global_files_exact": 16,
+      "scope": "Exercise the complete preparation phase, including post-build sealing; syntax/preflight success does not cover later control flow or native execution."
+    },
+    "failures_and_retries": [
+      {
+        "stage": "267",
+        "failure": "Source Path shadowed by final preparation loop after actual build.",
+        "recovery": "20 controls and fresh273 stage/build/seal pass;274 native remains failed."
+      },
+      {
+        "stage": "274",
+        "failure": "Contact-shading ownership diagnostics, angular settling and exact render restoration failed.",
+        "recovery": "22/281/282 remove native ownership errors and retain full causal observations; settling and render restoration still fail."
+      }
+    ],
+    "source_promotion": false,
+    "canonical_source": "production34; private source193 and source60 remain distinct",
+    "human_approval_reference": null,
+    "receipt": {
+      "path": "reports/p1-018/source-pipeline38-01/checkpoint283.json",
+      "bytes": 9933,
+      "sha256": "bc09c18b5d7b501da11e8194b6fb517c0ca726745366bd47bef59ea4cc0d146d"
+    },
+    "portable_retention": {
+      "index": {
+        "path": "data/assets/vehicles/endurance-sedan-review/material-ownership-v48/index.json",
+        "bytes": 413327,
+        "sha256": "b8f826d8e16690ac333f2576b7daccf5502f0582f2a9fc0ea2a483f8c904cc2a"
+      },
+      "manifest": {
+        "path": "data/assets/vehicles/endurance-sedan-review/material-ownership-v48/inputs.json",
+        "bytes": 412511,
+        "sha256": "15c814b644498e91b51b2f4b91a6d0defbbce53006d0344adc7069866ae8c633"
+      },
+      "archive": {
+        "path": "data/assets/vehicles/endurance-sedan-review/material-ownership-v48/evidence.zip",
+        "bytes": 122747817,
+        "sha256": "51ead2d19e140a4b2cc13b81d2647cbc9f63194f98076faf53418cd1e892a66a"
+      },
+      "entries": 1745,
+      "byte_reproducible": true,
+      "all_member_hashes_and_crc_verified": true,
+      "scope": "Evidence retention and byte identity only; individual reports retain their own scope, failures and approval status."
+    }
+  },
+  "material_ownership_checkpoint_v48": {
+    "task_id": "P1-018",
+    "milestone": "M5",
+    "utc": "2026-09-14T17:52:26.050976+00:00",
+    "git_revision": "2413b9ee5b4e27105ad9eb425ac4c58be6dbfa29",
+    "platform": "Windows AMD64",
+    "status": "bounded material ownership correction verified; production remains in progress",
+    "tool_versions": {
+      "blender": "5.1.2 ec6e62d40fa9",
+      "godot": "4.7.1.stable.mono.official.a13da4feb",
+      "dotnet_sdk": "10.0.102",
+      "uv": "0.9.24",
+      "git_lfs": "3.7.1"
+    },
+    "scope": {
+      "path": "reports/p1-018/geometry-scope28-01/shared_lamps284.json",
+      "bytes": 2732,
+      "sha256": "95c4ba93cabbbd05d153d1cb89df8e8457597472c9102da1727dd5f733568a73"
+    },
+    "previous_checkpoint": {
+      "path": "reports/p1-018/source-pipeline38-01/checkpoint283.json",
+      "bytes": 9933,
+      "sha256": "bc09c18b5d7b501da11e8194b6fb517c0ca726745366bd47bef59ea4cc0d146d"
+    },
+    "correction": "VehicleVisualRig leaves presenter-owned sedan lamps to their existing owner. Its legacy shared-source emission pass runs only when Presentation is null. The original failed source60 trial remains failed; production34 reproduction and correction provide separate evidence.",
+    "code": [
+      {
+        "path": "game/Vehicle/VehicleVisualRig.cs",
+        "bytes": 36968,
+        "sha256": "1ec0a84f89a47a75f4f230f4136152323373b44d9c05344b49cd538b48f73b22"
+      },
+      {
+        "path": "automation/playgodot/tests/test_mirror_material.py",
+        "bytes": 27610,
+        "sha256": "c9e571e7fa0b4e3a993a20ed247fa2e5aeeac31bac0de6307d9a6f0e0673af3f"
+      }
+    ],
+    "actual_build": [
+      {
+        "path": ".godot/mono/temp/bin/Debug/Cannonball.dll",
+        "bytes": 1621504,
+        "sha256": "ea7e319942f8f51466bd327026ce7b3aa28bc32434aec4802cb0cc425e83f38e"
+      },
+      {
+        "path": ".godot/mono/temp/bin/Debug/Cannonball.Core.dll",
+        "bytes": 432640,
+        "sha256": "bc10292a7d71a2274304587e724ea27ea8b017abfd0e5c9c1f3834b9afcc2531"
+      }
+    ],
+    "runs": {
+      "before285": {
+        "receipt": {
+          "path": "reports/p1-018/lamp-isolation39-284/before285/result.json",
+          "bytes": 16483,
+          "sha256": "f47bef402c24640c575331ee99102a714fcd57b2ba316cfc07d5a1738788eb52"
+        },
+        "native_status": "completed",
+        "seconds": 12.259300200035796,
+        "errors": [],
+        "pixel_pairs": 16,
+        "lifecycle_cases": 2
+      },
+      "before286": {
+        "receipt": {
+          "path": "reports/p1-018/lamp-isolation39-284/before286/result.json",
+          "bytes": 16659,
+          "sha256": "beb8189688d5243319167f4adedee2af5c643f2f294bfb9c06f1d5b52c74f621"
+        },
+        "native_status": "failed",
+        "seconds": 13.114850600017235,
+        "errors": [
+          "dousing second vehicle mutated primary source materials",
+          "dousing recreated vehicle mutated primary source materials",
+          "nonmirror fields/materials/rig changed"
+        ],
+        "pixel_pairs": 16,
+        "lifecycle_cases": 2
+      },
+      "after288": {
+        "receipt": {
+          "path": "reports/p1-018/lamp-isolation39-284/after288/result.json",
+          "bytes": 16421,
+          "sha256": "89f7da3726d4f530e29ca983ede263d670ce964b7a79dac597e105081872f1fa"
+        },
+        "native_status": "completed",
+        "seconds": 12.87934210000094,
+        "errors": [],
+        "pixel_pairs": 16,
+        "lifecycle_cases": 2
+      },
+      "after289": {
+        "receipt": {
+          "path": "reports/p1-018/lamp-isolation39-284/after289/result.json",
+          "bytes": 16451,
+          "sha256": "414bde9a0e2b9ab3c0bb72355bdcd8af410396d38c2e52fb613df23cefc9011d"
+        },
+        "native_status": "completed",
+        "seconds": 9.601248799997848,
+        "errors": [],
+        "pixel_pairs": 16,
+        "lifecycle_cases": 2
+      }
+    },
+    "legacy": {
+      "hero-gt": {
+        "receipt": {
+          "path": "reports/p1-018/lamp-isolation39-284/legacy295/hero-gt/result.json",
+          "bytes": 181914,
+          "sha256": "50a4b6a5d058efa683dfe798bde625dbbea0a9344347a1ba72eac662e35aa531"
+        },
+        "input_rows": 696,
+        "cycles": 5,
+        "renderer": "gl_compatibility",
+        "normal_shutdown": "passed",
+        "actual_images_opened_by_root": [
+          {
+            "path": "reports/p1-018/lamp-isolation39-284/legacy295/hero-gt/on.png",
+            "bytes": 1040693,
+            "sha256": "30b9ed5d8292cccc568df1cff1fb339e75622aa41c102bd529d2909fb400c9fd"
+          },
+          {
+            "path": "reports/p1-018/lamp-isolation39-284/legacy295/hero-gt/off.png",
+            "bytes": 1019996,
+            "sha256": "3f140936ffe417dac8bb21d55327419efde9cd53047493336a954e9af7b3b2ff"
+          }
+        ]
+      },
+      "graybox": {
+        "receipt": {
+          "path": "reports/p1-018/lamp-isolation39-284/legacy295/graybox/result.json",
+          "bytes": 176057,
+          "sha256": "aca99092b5d9c31dae2a6e5a29a23a8bd19fc9e03c1f007fad645d4214d5ce1b"
+        },
+        "input_rows": 696,
+        "cycles": 5,
+        "renderer": "gl_compatibility",
+        "normal_shutdown": "passed",
+        "actual_images_opened_by_root": [
+          {
+            "path": "reports/p1-018/lamp-isolation39-284/legacy295/graybox/on.png",
+            "bytes": 1016424,
+            "sha256": "c492b71122fae8e554ac3e5ca19fd5be3b5e723fe6b0354cc4566e22c0164110"
+          },
+          {
+            "path": "reports/p1-018/lamp-isolation39-284/legacy295/graybox/off.png",
+            "bytes": 1016424,
+            "sha256": "c492b71122fae8e554ac3e5ca19fd5be3b5e723fe6b0354cc4566e22c0164110"
+          }
+        ]
+      }
+    },
+    "independent_review": {
+      "review": {
+        "path": "reports/p1-018/qa/lamp-isolation39-review01/review02.json",
+        "bytes": 5013,
+        "sha256": "6343a6a191e84625ba8f1c35bfa09a9126731771387e41d52fa3f37c93896a26"
+      },
+      "retention": {
+        "path": "reports/p1-018/qa/lamp-isolation39-review01/retention02.json",
+        "bytes": 216896,
+        "sha256": "1dea42bb805414dce0ac80a2eb6788f4678cdaacfe8c0637ade6e4df72843c82"
+      },
+      "original_images_viewed": 90,
+      "retained_and_readback_files": 1023,
+      "scope": "Both fixed renderer runs, exact causal reproduction, new complete-inventory legacy295 and local292 result. No source60 recovery or final art approval."
+    },
+    "interpretation": "The two corrupted source properties were inactive: emission disabled and black emission. This establishes resource ownership corruption, not measured visible dimming. The old285 pass omitted explicit dousing;286 reproduces the actual write. Exact original failures are preserved.",
+    "pixel_scope": "All32 fixed shared/reference pairs were independently recomputed. Natural-feed differences <=1/255, all24 authored-color positive pairs exact, wrong flip rejected. Compatibility natural Right source-point error is7/255; the unchanged0.025 source-sample assertion applies only to authored-color phases. Mirror usefulness is unaccepted.",
+    "legacy_observation": "Actual Hero headlights illuminate the road and tail lamps spill red light when on; those contributions disappear when off. Five cycles preserve4/.48 and5/.60 source strengths and six native lights. Graybox remains a no-rig safe no-op. Actual1280x720 captures are held observations, not driving/performance proof.",
+    "front_door": {
+      "summary": {
+        "path": "reports/p1-018/source39-frontdoor292/summary.json",
+        "bytes": 1482,
+        "sha256": "39c8d7cdd09b62cc03108b27cd6dc90f606bfc1c621d15ac6cbe3d144c0e6009"
+      },
+      "bindings": {
+        "path": "reports/p1-018/source-pipeline38-01/full-gate292-bindings.json",
+        "bytes": 176923,
+        "sha256": "38731d47ea65a46ce35d7528f80973d8c7449fec838b9ca083e4e37e022b4a88"
+      },
+      "steps_passed": 13,
+      "unchanged_inputs": 706
+    },
+    "hosted_previous_commit": {
+      "receipt": {
+        "path": "reports/p1-018/hosted39-293/receipt293.json",
+        "bytes": 14831,
+        "sha256": "9088eb760bf64ff95159f68acbea422044e9fe728cc76bef50dbd130d8a146af"
+      },
+      "revision": "2413b9ee5b4e27105ad9eb425ac4c58be6dbfa29",
+      "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34868305574",
+      "result": "Reproducible fixture exports and both Windows/Linux clean-machine package smokes passed. This predates the material guard. Both M0 and hosted UI/long-route passes remain at2413; source-generation binding still fails sedan assets."
+    },
+    "skill_update": {
+      "receipt": {
+        "path": "reports/p1-018/skill-update48-01/completion-receipt07.json",
+        "bytes": 11156,
+        "sha256": "fe0f93335370b9097df7db1fc840d80f257319e3ac8d9e1b53f1b5a6a346b12f"
+      },
+      "revision": "bb54a544e55665df710766b3ba377587afb8a64f",
+      "files_exact": 16,
+      "ci": "https://github.com/Randroids-Dojo/skills/actions/runs/34876859928",
+      "scope": "Shared source materials beneath active overrides, explicit state-dependent writes and single mutable-channel ownership."
+    },
+    "ongoing_private_scopes": [
+      {
+        "path": "reports/p1-018/geometry-scope28-01/tire_step290.json",
+        "bytes": 5738,
+        "sha256": "adfbfee92fe11d7d6f4d08b301a67f93a03b3ab52324fe42f8e18a8098b745c6"
+      },
+      {
+        "path": "reports/p1-018/geometry-scope28-01/upper_rear_receiver294.json",
+        "bytes": 116846,
+        "sha256": "134469672d9312b3073e1c105a32487f7bcc26c413b8477ac9fffce3931e79e3"
+      }
+    ],
+    "failures_and_retries": [
+      {
+        "stage": "before285",
+        "result": "Passed with incomplete state coverage; not absence-of-defect evidence."
+      },
+      {
+        "stage": "before286",
+        "result": "Three exact ownership assertions fail before correction; both corrected renderer runs pass."
+      },
+      {
+        "stage": "legacy291",
+        "result": "Actual behavior passed but only8 execution inputs were bound; new295 repeats unchanged logic with696 exact inputs."
+      }
+    ],
+    "canonical_delivery": "Current source/GLB remain production34. Private193/529 sash assembly and source60 mirrors/physics remain separate. Both final geometry budgets, source binding, complete exports, motion/performance/platform evidence and human visual/usability/driving/rights gates remain open.",
+    "source_promotion": false,
+    "human_approval_reference": null,
+    "receipt": {
+      "path": "reports/p1-018/source-pipeline38-01/checkpoint296.json",
+      "bytes": 9945,
+      "sha256": "730f6b725fb02ab9e48b940694a9a31c3a1d6d48cea22a386b4012a34149204e"
+    },
+    "portable_retention": {
+      "index": {
+        "path": "data/assets/vehicles/endurance-sedan-review/material-ownership-v48/index.json",
+        "bytes": 413327,
+        "sha256": "b8f826d8e16690ac333f2576b7daccf5502f0582f2a9fc0ea2a483f8c904cc2a"
+      },
+      "manifest": {
+        "path": "data/assets/vehicles/endurance-sedan-review/material-ownership-v48/inputs.json",
+        "bytes": 412511,
+        "sha256": "15c814b644498e91b51b2f4b91a6d0defbbce53006d0344adc7069866ae8c633"
+      },
+      "archive": {
+        "path": "data/assets/vehicles/endurance-sedan-review/material-ownership-v48/evidence.zip",
+        "bytes": 122747817,
+        "sha256": "51ead2d19e140a4b2cc13b81d2647cbc9f63194f98076faf53418cd1e892a66a"
+      },
+      "entries": 1745,
       "byte_reproducible": true,
       "all_member_hashes_and_crc_verified": true,
       "scope": "Evidence retention and byte identity only; individual reports retain their own scope, failures and approval status."
