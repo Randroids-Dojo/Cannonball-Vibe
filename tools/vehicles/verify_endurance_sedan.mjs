@@ -312,6 +312,8 @@ async function verifyAsset() {
     "tools/vehicles/pack_imported_scene.gd", "tools/vehicles/validate_import.gd", "tools/vehicles/generate_manifest.mjs",
     "tools/vehicles/mutate_endurance_sedan.py", "tools/vehicles/verify_endurance_sedan.mjs", "scripts/verify-vehicle-asset.sh",
     "tools/vehicles/corner_control_contract.mjs", "tools/vehicles/corner_control_contract.test.mjs",
+    "tools/vehicles/source_generation_manifest.mjs", "tools/vehicles/source_generation_manifest.py",
+    "tools/vehicles/source_generation_manifest.test.mjs", "tools/vehicles/test_source_generation_manifest.py",
     "tools/assets/validate_manifest.mjs", "tools/assets/validate_release_pack.mjs", "data/assets/manifest.schema.json",
     "tools/assets/toolchain.json", spec, profile, godotProfile, source, importSettings, "project.godot", "export_presets.cfg",
     "data/assets/vehicles/endurance-sedan.uv-bake.json", "data/assets/vehicles/endurance-sedan.corner-bake.json",
@@ -331,6 +333,7 @@ async function verifyAsset() {
     ...walk(assetDirectory).filter(path => path.endsWith(".png.import"))];
   report.input_hashes = Object.fromEntries([...new Set(construction)].sort().map(path => [path.split(sep).join("/"), hash(path)]));
   await run("corner-control-report-contract", process.execPath, ["--test", "tools/vehicles/corner_control_contract.test.mjs"]);
+  await run("source-generation-command-contract", process.execPath, ["--test", "tools/vehicles/source_generation_manifest.test.mjs"]);
   const hero = ["data/assets/vehicles/sources/hero-gt.blend", "data/assets/vehicles/derived/hero-gt.glb",
     "assets/vehicles/hero-gt/hero-gt.generated.tscn", "assets/vehicles/hero-gt/hero-gt.generated.textures.json"];
   report.preserved_hero_before = Object.fromEntries(hero.map(path => [path, hash(path)]));

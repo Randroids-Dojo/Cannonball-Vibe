@@ -9847,6 +9847,16 @@
         "sha256": "a5ec02f6c1a9913460c34e77dfe914e09d7f173e01e67bf3e7ee4ba1056bc33e"
       },
       "scope": "Verified two-method viewer improvement, full Windows gate230, independent actual-image reviews, retained rejected mirror/upper trials, hosted integration outcomes and ninth global skill update. Final human gates remain open."
+    },
+    {
+      "id": "P1-018-CHECKPOINT46",
+      "utc": "2026-09-14T16:14:06.451450+00:00",
+      "evidence": {
+        "path": "reports/p1-018/source-pipeline38-01/checkpoint270.json",
+        "bytes": 10947,
+        "sha256": "1c89308545fab4b82cb1efead99a119c10785ccef48c820a579cd0ffa0a4a06e"
+      },
+      "scope": "Canonical save and ancestry repairs, actual UI266, full local265, rejected upper260 and mirror243 comparisons, and tenth verified global Blender skill update."
     }
   ],
   "defects": [
@@ -13513,6 +13523,11 @@
           "path": "reports/p1-018/source-pipeline38-01/checkpoint234.json",
           "bytes": 9579,
           "sha256": "a5ec02f6c1a9913460c34e77dfe914e09d7f173e01e67bf3e7ee4ba1056bc33e"
+        },
+        {
+          "path": "reports/p1-018/source-pipeline38-01/checkpoint270.json",
+          "bytes": 10947,
+          "sha256": "1c89308545fab4b82cb1efead99a119c10785ccef48c820a579cd0ffa0a4a06e"
         }
       ],
       "assigned_owner": "lead",
@@ -13612,7 +13627,8 @@
           "human_approval_reference": null
         }
       ],
-      "latest_checkpoint234": "Actual227 twelve paired Blender renders: local wedge improves; broad form, projecting tips and physical upper gaps remain.507 is not accepted. Existing owner is proposing a shared outline correction with measured glass-boundary changes."
+      "latest_checkpoint234": "Actual227 twelve paired Blender renders: local wedge improves; broad form, projecting tips and physical upper gaps remain.507 is not accepted. Existing owner is proposing a shared outline correction with measured glass-boundary changes.",
+      "latest_checkpoint270": "529 modestly reduces seal peaks relative to 521 but retains both true-level tips, the diagonal opening, front highlight and rear streak. No whole-form or fit acceptance. Existing geometry owner is preparing one integral rear sash/receiving assembly correction, including real lower attachment. No further pixel-only seal-tip iteration."
     },
     {
       "id": "P1-018-D040",
@@ -14701,6 +14717,11 @@
           "path": "reports/p1-018/source-pipeline38-01/checkpoint234.json",
           "bytes": 9579,
           "sha256": "a5ec02f6c1a9913460c34e77dfe914e09d7f173e01e67bf3e7ee4ba1056bc33e"
+        },
+        {
+          "path": "reports/p1-018/source-pipeline38-01/checkpoint270.json",
+          "bytes": 10947,
+          "sha256": "1c89308545fab4b82cb1efead99a119c10785ccef48c820a579cd0ffa0a4a06e"
         }
       ],
       "human_approval_reference": null,
@@ -14770,7 +14791,8 @@
           "human_approval_reference": null
         }
       ],
-      "latest_checkpoint234": "Actual227 twelve paired Blender renders: local wedge improves; broad form, projecting tips and physical upper gaps remain.507 is not accepted. Existing owner is proposing a shared outline correction with measured glass-boundary changes."
+      "latest_checkpoint234": "Actual227 twelve paired Blender renders: local wedge improves; broad form, projecting tips and physical upper gaps remain.507 is not accepted. Existing owner is proposing a shared outline correction with measured glass-boundary changes.",
+      "latest_checkpoint270": "529 modestly reduces seal peaks relative to 521 but retains both true-level tips, the diagonal opening, front highlight and rear streak. No whole-form or fit acceptance. Existing geometry owner is preparing one integral rear sash/receiving assembly correction, including real lower attachment. No further pixel-only seal-tip iteration."
     },
     {
       "id": "P1-018-D066",
@@ -16423,7 +16445,7 @@
       "observed_utc": "2026-09-14T11:51:37.168481+00:00",
       "summary": "Lead viewed actual daylight/night Rear feeds and daylight cockpit capture. Most image area is cabin/headrests; small rear window limits exterior visibility. Native target/update tests pass; usability remains open.",
       "correction": null,
-      "verification": "Actual223/225 native day/night comparison passes complete transform/body/optics/restoration checks. Independent QA viewed all36 originals and rejected4.5degree general usefulness due to cropping/side coverage/night limits. Fixed behind-headrest30degree trial17 is scoped231/232, not adopted.",
+      "verification": "Typed integer index correction passes complete day/night18 guards. 30-degree rendering approximation is not adopted: far proxies remain too small and night proxies lack active lamps. Actual configured temporary cars on loaded road with verified live four-wheel support and existing headlamps. Pilot19 compiled, but source Path shadowing failed seal before engine parse; corrected fresh pilot pending.",
       "evidence": [
         {
           "path": "reports/p1-018/source-pipeline38-01/checkpoint184.json",
@@ -16449,6 +16471,43 @@
           "path": "reports/p1-018/source-pipeline38-01/checkpoint234.json",
           "bytes": 9579,
           "sha256": "a5ec02f6c1a9913460c34e77dfe914e09d7f173e01e67bf3e7ee4ba1056bc33e"
+        },
+        {
+          "path": "reports/p1-018/source-pipeline38-01/checkpoint270.json",
+          "bytes": 10947,
+          "sha256": "1c89308545fab4b82cb1efead99a119c10785ccef48c820a579cd0ffa0a4a06e"
+        }
+      ],
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-SAVE46",
+      "severity": "major",
+      "status": "corrected_locally_platform_reverification_pending",
+      "observed": "Hosted Windows vehicle selection/F5 failed at atomic File.Move with UnauthorizedAccessException while the run clock continued correctly.",
+      "correction": "Retry only Windows atomic-move access/sharing/lock errors for at most 21 attempts with 20 cancellable 50 ms waits; retain complete primary and flushed temporary file.",
+      "verification": "Original native Windows handle error reproduced. Release, persistent lock and cancellation cases pass. Unchanged actual inspection test retains all three F5 saves and existing clock assertions; normal owner shutdown exits 0 without diagnostics/fallback.",
+      "evidence": [
+        {
+          "path": "reports/p1-018/source-pipeline38-01/checkpoint270.json",
+          "bytes": 10947,
+          "sha256": "1c89308545fab4b82cb1efead99a119c10785ccef48c820a579cd0ffa0a4a06e"
+        }
+      ],
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-ANCESTRY46",
+      "severity": "major",
+      "status": "corrected_locally_platform_reverification_pending",
+      "observed": "SM39-QA01 found coordinated malformed native command output records accepted by host ancestry checks; unchanged actual export binding still rejected them.",
+      "correction": "Current manifests bind actual two-phase source generation, complete unique phase output inventories and role-derived command destinations. Full v2 source loader and actual export-binding guards remain authoritative.",
+      "verification": "Real source60 and193 positives, both exact original negative cases and independent host review pass.",
+      "evidence": [
+        {
+          "path": "reports/p1-018/source-pipeline38-01/checkpoint270.json",
+          "bytes": 10947,
+          "sha256": "1c89308545fab4b82cb1efead99a119c10785ccef48c820a579cd0ffa0a4a06e"
         }
       ],
       "human_approval_reference": null
@@ -16593,5 +16652,5 @@
       "approval_reference": null
     }
   ],
-  "updated_utc": "2026-09-14T14:36:58.807575+00:00"
+  "updated_utc": "2026-09-14T16:14:06.451450+00:00"
 }

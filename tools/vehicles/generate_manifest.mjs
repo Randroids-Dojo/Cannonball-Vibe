@@ -3,6 +3,7 @@
 import { createHash } from "node:crypto";
 import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+import { generationRequired, loadSourceGeneration } from "./source_generation_manifest.mjs";
 
 const args = Object.fromEntries(process.argv.slice(2).reduce((pairs, value, index, values) => {
   if (value.startsWith("--") && index + 1 < values.length) pairs.push([value.slice(2), values[index + 1]]);
@@ -41,6 +42,8 @@ if (vehicle === "endurance-sedan") {
   const spec = JSON.parse(readFileSync(specification, "utf8"));
   const blender = JSON.parse(readFileSync(`${base}.blender.json`, "utf8"));
   const godot = JSON.parse(readFileSync(`${base}.godot.json`, "utf8"));
+  const generation = generationRequired(spec, blender, existsSync("data/assets/vehicles/sources/endurance-sedan.source-binding.json"))
+    ? loadSourceGeneration(`${base}.blender.json`) : null;
   if (blender.asset_id !== vehicle || godot.asset_id !== vehicle || blender.status !== "passed" ||
       !godot.all_required_nodes_resolved || blender.source.sha256 !== hash(source) || blender.glb.sha256 !== hash(glb) ||
       godot.glb_sha256 !== hash(glb) || godot.generated_scene_sha256 !== hash(generated) ||
@@ -94,6 +97,7 @@ if (vehicle === "endurance-sedan") {
     "docs/vehicles/endurance-sedan/production-plan.md", "docs/vehicles/endurance-sedan/production-reference-appendix.md",
     creation, ...walk("tools/vehicles/endurance_sedan", ".py")];
   if (spec.original_packaging?.revision_record) constructionInputs.push(spec.original_packaging.revision_record);
+  if (generation) constructionInputs.push(...generation.artifacts.map(row => row.path));
   const exportInputs = [source, cornerBake, uvBake, ...constructionInputs, "tools/vehicles/validate_and_export_hero_gt.py", "tools/vehicles/glb_geometry.py"];
   const texturePaths = [...new Set(Object.values(JSON.parse(readFileSync(bindings, "utf8")).materials)
     .flatMap(slots => Object.values(slots)))].sort().map(path => {
@@ -111,6 +115,7 @@ if (vehicle === "endurance-sedan") {
     ...walk("game/Vehicle/Setups", ".tres").map(path => artifact(path, "vehicle-setup-resource")),
     ...texturePaths.map(path => artifact(path, "project-original-runtime-texture")),
     ...texturePaths.filter(path => existsSync(path + ".import")).map(path => artifact(path + ".import", "texture-import-settings"))];
+  if (generation) derived.push(...generation.derived_paths.map(path => artifact(path, "source-generation-ancestry")));
   // A contact sheet is evidence only when explicitly supplied. Its presence
   // never turns pending human visual or rights review into an approval.
   if (args["contact-sheet"]) derived.push(artifact(args["contact-sheet"], "renderer-contact-sheet"));
@@ -120,13 +125,18 @@ if (vehicle === "endurance-sedan") {
   const manifest = {
     schema_version: 1, asset_id: vehicle, asset_kind: "vehicle",
     authorship: { creator: "Randroid's Dojo", creation_date: spec.locked_utc.slice(0, 10),
-      method: "Project-original editable procedural Blender construction; referenced engineering, fictional Meridian S8R styling and original material inputs",
-      creation_script: creation, creation_script_sha256: hash(creation) },
+      method: generation
+        ? "Project-original editable Blender construction from an empty scene, separately finalized and reopened; exact historical checkpoints and both native command records retained; fictional Meridian S8R styling and original material inputs"
+        : "Project-original editable procedural Blender construction; referenced engineering, fictional Meridian S8R styling and original material inputs",
+      creation_script: generation ? generation.builder.path : creation,
+      creation_script_sha256: hash(generation ? generation.builder.path : creation) },
     license: { spdx: "LicenseRef-Meridian-S8R-Output-Rights-Pending-Review", redistributable: false, status: "pending-human-review",
       attribution: "Cannonball-Vibe original Meridian S8R design and procedural material inputs. Label outlines derive from Blender Bfont; its byte-identical font source data carries copyright 2001-2002 NaN Holding BV and GPL-2.0-or-later. Engineering references and exact font ancestry are identified in the provenance dossier. Glyph-mesh/output treatment and final source/asset rights approval remain a human gate." },
     source: artifact(source, "blender-source"),
     transformations: [
-      transform("endurance-sedan-construction-v1", "Blender", "5.1.2+ec6e62d40fa9", creation, specification, constructionInputs),
+      ...(generation ? generation.phases.map(phase => transform(`endurance-sedan-${phase.label}-v2`,
+        "Blender", "5.1.2+ec6e62d40fa9", phase.script.path, specification, phase.inputs.map(row => row.path)))
+        : [transform("endurance-sedan-construction-v1", "Blender", "5.1.2+ec6e62d40fa9", creation, specification, constructionInputs)]),
       transform("endurance-sedan-blender-export-v1", "Blender", "5.1.2+ec6e62d40fa9", exportScript, profile, exportInputs),
       transform("endurance-sedan-godot-normalization-v1", "Godot", "4.7.1.stable.mono.official.a13da4feb", normalization, godotProfile, [glb, `${base}.glb.import`]),
       transform("endurance-sedan-wrapper-validation-v1", "Godot", "4.7.1.stable.mono.official.a13da4feb", validation, godotProfile,
