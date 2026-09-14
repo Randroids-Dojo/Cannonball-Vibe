@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 from datetime import datetime, timezone
+import importlib.util
 import json
 import os
 from pathlib import Path
@@ -13,7 +14,8 @@ import sys
 import time
 import traceback
 
-from gate import STAGES, STAGES_V2, completed_inventory, inventory, json_read, positive_process, sha, stage_report, load_source_binding
+from gate import (STAGES, artifact, completed_inventory, inventory, json_read, positive_process,
+                  sha, source_stages, stage_report, load_source_binding)
 
 
 def utc():
@@ -22,6 +24,21 @@ def utc():
 
 def write(path, document):
     path.write_text(json.dumps(document, indent=2, allow_nan=False) + '\n', encoding='utf8', newline='\n')
+
+
+def staged_reader(path):
+    path = path.resolve(strict=True)
+    held = sha(path)
+    name = '_source_qa_repeated_detail_report'
+    specification = importlib.util.spec_from_file_location(name, path)
+    if specification is None or specification.loader is None:
+        raise ValueError('Missing independent repeated-detail report checker')
+    module = importlib.util.module_from_spec(specification)
+    sys.modules[name] = module
+    specification.loader.exec_module(module)
+    if Path(module.__file__).resolve() != path or sha(path) != held:
+        raise ValueError('Independent report checker changed while loading')
+    return module
 
 
 class Runner:
@@ -132,7 +149,7 @@ def main():
         write(output / 'evidence.json', result)
         print(json.dumps({'status': 'failed', 'stage': result['stage'], 'evidence': str(output / 'evidence.json')}), flush=True)
         return 1
-    stage_names = STAGES_V2 if source_lock.pipeline is not None else STAGES
+    stage_names = source_stages(source_lock)
     output.mkdir(parents=True)
     scripts = output / 'tools'
     scripts.mkdir()
@@ -141,6 +158,8 @@ def main():
             shutil.copyfile(path, scripts / path.name)
     (output / 'commands').mkdir()
     runner = Runner(source, blender, output, scripts)
+    detail = source_lock.pipeline.repeated_detail if source_lock.pipeline is not None else None
+    detail_reader = staged_reader(scripts / 'repeated_detail_report.py') if detail is not None else None
     runner.initial_inputs.update({str(p): sha(p) for p in original.iterdir() if p.is_file() and p.suffix in (".py", ".json")})
     runner.initial_inputs.update({str(row.path): row.sha256 for row in source_lock.inputs})
     try:
@@ -227,8 +246,33 @@ def main():
         for name, script, arguments, outputs in stages:
             if name == 'static-interfaces':
                 arguments.extend(('--profile', 'production38'))
+    if detail is not None:
+        position = next(i for i, row in enumerate(stages) if row[0] == 'motion-drivers') + 1
+        stages.insert(position, ('repeated-detail', 'repeated_detail.py', [
+            '--source', source, '--source-binding', source_lock.binding.path,
+            '--expected-binding-sha256', source_lock.binding.sha256,
+            '--construction-root', source_lock.root, '--geometry', geometry,
+            '--opening-contract', opening, '--motion-contract', motion,
+            '--lower-report', paths['distance-fields'],
+            '--lower-payload', paths['distance-fields'].with_suffix('.payload.json.gz'),
+            '--output', paths['repeated-detail']],
+            [paths['repeated-detail'], paths['repeated-detail'].with_suffix('.payload.json.gz')]))
     try:
         for name, script, arguments, outputs in stages:
+            if name == 'repeated-detail':
+                invocation_path = output / 'repeated-detail-inputs.json'
+                invocation_args = argparse.Namespace(geometry=geometry, opening_contract=opening,
+                    motion_contract=motion, lower_report=paths['distance-fields'],
+                    lower_payload=paths['distance-fields'].with_suffix('.payload.json.gz'))
+                specification_input = artifact(source_lock.pipeline.portable_input_lock['roles']['specification'], source_lock.root)
+                held = detail_reader.capture_run_binding(invocation_args, source_lock, detail,
+                                                         specification_input, tool_directory=scripts)
+                write(invocation_path, held)
+                runner.locked_outputs[str(invocation_path)] = sha(invocation_path)
+                arguments.extend(('--run-binding', invocation_path, '--expected-run-binding-sha256',
+                                  runner.locked_outputs[str(invocation_path)]))
+                context['repeated_detail'] = {'reader': detail_reader, 'held': held,
+                    'invocation': invocation_path, 'payload': outputs[1], 'opening': opening, 'motion': motion}
             runner.command(name, script, arguments, outputs, native=name not in ('negative-controls','self-controls','lod-self-controls'))
             if name == 'extraction':
                 metrics = inventory(json_read(output / 'evaluated-inventory.json'), geometry, runner.source_sha)

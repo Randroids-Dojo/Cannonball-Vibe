@@ -3070,6 +3070,231 @@
       "installed_source": "production34 unchanged",
       "ledger_complete": false,
       "human_approval_reference": null
+    },
+    "fresh_source60": {
+      "task_id": "P1-018",
+      "milestone": "M5",
+      "utc": "2026-09-14T00:56:05.296005+00:00",
+      "status": "fresh_source_saved_reopened_and_locked_inputs_verified",
+      "platform": "Windows-11-10.0.26200-SP0",
+      "build_start_revision": "9ea77a1495a46d96bc6b07d67da3c31a10b11df8",
+      "matching_committed_input_revision": "a3deb76820bae83fc65383fabd03a71e42c1a9eb",
+      "verified_committed_input_files": 278,
+      "locked_snapshot_inputs_unchanged": true,
+      "original_worktree_inputs_unchanged": false,
+      "actual_original_worktree_changes": [
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/gate.py",
+          "snapshot_sha256": "2d16b2370204d85cb87638ce2371e821fcc528d74afa215035716bc0d15cb949",
+          "current_sha256": "627160d8b1a2ca8138a80785dc9a3c0b25d305d9f35d6423ac7b3e5d3318ac55"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/run.py",
+          "snapshot_sha256": "76e97a8f646316583ed5636a7364a3a89a2f4f3951fd11f0619ce7d0a7c82d16",
+          "current_sha256": "6e26dfd1a60b371d6b5ad587cd17e3cb5476bd79e0c57127f0c93935d90709d7"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/source_binding_v2.py",
+          "snapshot_sha256": "0c83586190415ead829b0b1f9aff78f27f92e4a6e95007e40cc84d0da5412fad",
+          "current_sha256": "dc71581b65011d420125016252fca52796a5275b3c282f22b3cf62b65e033211"
+        }
+      ],
+      "worktree_change_explanation": "The separately scoped independent QA integration changed three existing checker files during the locked build and added two new files. All278 copied build inputs stayed exact and now match committed a3 blobs. The build is not relabeled as using the newer checker; that checker will be separately snapshotted for25-stage QA.",
+      "source": {
+        "path": "reports/p1-018/source-pipeline38-01/repeated-detail60/project/data/assets/vehicles/sources/endurance-sedan.blend",
+        "bytes": 7895166,
+        "sha256": "adb1109cbf61ef7872fb523a0268958fce4053d419d18758cfcefd8bea807ae1"
+      },
+      "native_version": "5.1.2",
+      "native_build": "ec6e62d40fa9",
+      "phases": [
+        {
+          "label": "fresh-construction",
+          "exit_status": 0,
+          "start_utc": "2026-09-14T00:09:17.795571+00:00",
+          "end_utc": "2026-09-14T00:31:41.020228+00:00",
+          "elapsed_seconds": 1343.2072754999972
+        },
+        {
+          "label": "finalize-and-reopen",
+          "exit_status": 0,
+          "start_utc": "2026-09-14T00:32:02.615287+00:00",
+          "end_utc": "2026-09-14T00:52:42.463824+00:00",
+          "elapsed_seconds": 1239.8324772999913
+        }
+      ],
+      "source_saves": 1,
+      "source_reopened": true,
+      "source_bytes_unchanged_after_reopen": true,
+      "original_objects_preserved": 1178,
+      "original_meshes_preserved": 1104,
+      "original_inventory_sha256": "d38a250dcbe9bbe0d49f8a9cdc2d1479855844287ed92ba668a156f2c7cacaa7",
+      "budget": {
+        "collision": {
+          "CollisionProxy_Body": 12,
+          "CollisionProxy_Cabin": 12
+        },
+        "counts": {
+          "0": 147426,
+          "1": 27156,
+          "2": 22226
+        },
+        "material_count": 26,
+        "materials": [
+          "Material_AcousticCloth",
+          "Material_Alloy",
+          "Material_BrakeLight",
+          "Material_CabinLetteringAtlas",
+          "Material_Caliper",
+          "Material_Carpet",
+          "Material_CoolingCore",
+          "Material_Fabric",
+          "Material_Glass",
+          "Material_GlassPrivacy",
+          "Material_Headlight",
+          "Material_IndicatorLeft",
+          "Material_IndicatorRight",
+          "Material_Leather",
+          "Material_Metal",
+          "Material_Mirror",
+          "Material_OpticalGlass",
+          "Material_Paint",
+          "Material_Plate",
+          "Material_ReverseLight",
+          "Material_Rubber",
+          "Material_Screen",
+          "Material_Stitch",
+          "Material_Taillight",
+          "Material_Trim",
+          "Material_Wheel"
+        ],
+        "passed": true,
+        "total": 196832
+      },
+      "outputs": [
+        {
+          "path": "reports/p1-018/source-pipeline38-01/repeated-detail60/project/data/assets/vehicles/sources/endurance-sedan.blend",
+          "bytes": 7895166,
+          "sha256": "adb1109cbf61ef7872fb523a0268958fce4053d419d18758cfcefd8bea807ae1"
+        },
+        {
+          "path": "reports/p1-018/source-pipeline38-01/repeated-detail60/project/data/assets/vehicles/sources/endurance-sedan-generation/pre-lod/source.blend",
+          "bytes": 5123884,
+          "sha256": "961d7031953749e2ca974ca51f0d69a667bc2447bf28616df9cca252133161e0"
+        },
+        {
+          "path": "reports/p1-018/source-pipeline38-01/repeated-detail60/project/data/assets/vehicles/sources/endurance-sedan-generation/pre-lod/pre-front/source.blend",
+          "bytes": 4972390,
+          "sha256": "a19bad40aeb351c74d346723af82891028f838f241c61e1c650ce4521992576c"
+        },
+        {
+          "path": "reports/p1-018/source-pipeline38-01/repeated-detail60/project/data/assets/vehicles/sources/endurance-sedan.construction.json.gz",
+          "bytes": 75749640,
+          "sha256": "3228abfa3d51d72a9fbbf37aa2f1b6a2a989b96dd4deb1053d020b73539dcaf0"
+        },
+        {
+          "path": "reports/p1-018/source-pipeline38-01/repeated-detail60/project/data/assets/vehicles/sources/endurance-sedan.lower.json.gz",
+          "bytes": 10499622,
+          "sha256": "cf40f4d5a98d2332e0f5408ef35c092e7fd2c4370f4cdeb2d237101210af29a1"
+        },
+        {
+          "path": "reports/p1-018/source-pipeline38-01/repeated-detail60/project/data/assets/vehicles/sources/endurance-sedan-generation/historical-source-binding.json",
+          "bytes": 88295,
+          "sha256": "5a6ba6a2f5ee90c994a827281cd91dd48a1d9bbb8f4297bb5203e00979b109ad"
+        },
+        {
+          "path": "reports/p1-018/source-pipeline38-01/repeated-detail60/project/data/assets/vehicles/sources/endurance-sedan-generation/native-finalization.json",
+          "bytes": 10479,
+          "sha256": "99e241eb0c0e88e7079c96efacd39f51eb36cc0e367985a0d90d44b798d3b44d"
+        },
+        {
+          "path": "reports/p1-018/source-pipeline38-01/repeated-detail60/project/data/assets/vehicles/sources/endurance-sedan.source-binding.json",
+          "bytes": 99537,
+          "sha256": "45685d7394ed74120b45f0782a98fc569b8ac3396a2fbc3579edc526423f49bc"
+        }
+      ],
+      "command": {
+        "record": {
+          "path": "reports/p1-018/commands/20260914T000916.650153Z-repeated-detail38-fresh-source60.json",
+          "bytes": 1667,
+          "sha256": "d3047ab2414a32470f9c4313cf839076c27f3e57175323a4ecc1affb29dfdcb1"
+        },
+        "exit_status": 0
+      },
+      "prior_failure": {
+        "source49": {
+          "path": "reports/p1-018/source-pipeline38-01/repeated-detail49/build-result.json",
+          "bytes": 46992,
+          "sha256": "5d01d70155f11c3c63a84a3d5930d6a0871cba71f9bc688bd0c6b469e5acae0a"
+        },
+        "correction": "Explicit pre-LOD representation guards, verified in phase59; premature lod_index requirement removed for that phase only.",
+        "fresh_build_retry_count": 1
+      },
+      "limitations": "This establishes fresh construction and preserved native lower-LOD finalization. New independent25-stage QA, current roof/valance and broad-form revisions, combined budgets, two identical shipping exports, clean runtime import, platform/media/performance evidence and human gates remain open. No installed source or GLB replacement and no export occurred.",
+      "human_approval_reference": null
+    },
+    "independent_detail_qa_integration": {
+      "task_id": "P1-018",
+      "milestone": "M5",
+      "utc": "2026-09-14T01:04:09.382718+00:00",
+      "git_revision": "a3deb76820bae83fc65383fabd03a71e42c1a9eb",
+      "status": "tested_implementation_checkpoint_full_source_gate_and_delivery_open",
+      "implementation": "Declared repeated-detail source revision now adds the mandatory independent25th stage, preserving historical21/24 contracts. The native stage binds actual saved checkpoint, replay, lower-stage ancestry, current fields, finite supports and continuous motion; caller metadata controls stage selection. Controller lifecycle setup now recovers cleared startup input while preserving direct focus/disconnect assertions.",
+      "frontdoor": {
+        "status": "passed",
+        "steps": 13,
+        "unchanged_input_files": 563,
+        "started_utc": "2026-09-14T00:57:02Z",
+        "finished_utc": "2026-09-14T01:02:15Z",
+        "summary": {
+          "path": "reports/p1-018/source38-frontdoor05/summary.json",
+          "bytes": 1482,
+          "sha256": "751bf4cbd332fbed8f96803ddfed8fb3bc242958058cdbf1de5a955642bc1a1c"
+        },
+        "doctor": {
+          "path": "reports/p1-018/source38-frontdoor05/doctor.json",
+          "bytes": 545,
+          "sha256": "33cb1935e7bc974bbc4cc89452ab1f85a6648768cd2301f08b7df88be56e1dca"
+        },
+        "bindings": {
+          "path": "reports/p1-018/source-pipeline38-01/full-gate86-bindings.json",
+          "bytes": 140453,
+          "sha256": "d4c9f60da2e95e7f48dd703bbf479b391e98dc9a899d1817d3c8fc2250aad6d6"
+        }
+      },
+      "evidence": [
+        {
+          "path": "reports/p1-018/source-pipeline38-01/sourceqa-handoff88.json",
+          "bytes": 3421,
+          "sha256": "8d106946e9ca568f89e3ed9accbb43b43ce00de7539034b8a286f315ef26ad63"
+        },
+        {
+          "path": "reports/p1-018/source-pipeline38-01/source60-checkpoint85.json",
+          "bytes": 7002,
+          "sha256": "2eba59b8c63944e63ae8b823abd6910ae71ead9bc213595a83256be9a3f8276e"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/checkpoint84.json",
+          "bytes": 16887,
+          "sha256": "a6e84381357228ed462d9174ef3d52000ade3179e60b44f9fe59fdf7ee9fca8e"
+        }
+      ],
+      "source_gate_observation": {
+        "utc": "2026-09-14T01:04:09.382718+00:00",
+        "status": "running",
+        "completed_stages": 4,
+        "path": "reports/p1-018/source-pipeline38-01/source60-qa87/evidence.json",
+        "meaning": "Live progress only, not a frozen passing result or complete source acceptance."
+      },
+      "remaining": [
+        "Complete and correct the full final-source25-stage gate.",
+        "Resolve roof/valance physical fit and broad form; inspect coherent combined source.",
+        "Regenerate all final LOD/export/collision assets within combined budgets; compare both shipping exports byte-for-byte.",
+        "Clean Godot import, final runtime/performance/platform/media/source-retention evidence and required human gates."
+      ],
+      "installed_source": "production34 unchanged",
+      "human_approval_reference": null,
+      "ledger_complete": false
     }
   },
   "application_quit_checkpoint_v38": {
@@ -3261,6 +3486,405 @@
         }
       ],
       "hosted_recovery": "pending",
+      "human_approval_reference": null
+    },
+    "hosted_recovery_a3": {
+      "task_id": "P1-018",
+      "milestone": "M5",
+      "utc": "2026-09-14T00:53:47.769451+00:00",
+      "git_revision": "a3deb76820bae83fc65383fabd03a71e42c1a9eb",
+      "status": "hosted_shutdown_recovered_local_controller_setup_passed_visual_form_open",
+      "hosted_run": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34792534558",
+      "hosted_windows": {
+        "passed_tests": 257,
+        "pytest_seconds": 735.86,
+        "job_started_utc": "2026-09-14T00:23:13Z",
+        "job_completed_utc": "2026-09-14T00:39:54Z"
+      },
+      "shutdown_cases": [
+        {
+          "platform": "Windows",
+          "owner": "main",
+          "elapsed_seconds": 3.5857275000000755,
+          "status": "passed",
+          "exit_status": 0,
+          "fallback": [],
+          "phase_errors": [
+            {
+              "phase": "session-close",
+              "type": "TimeoutError"
+            }
+          ]
+        },
+        {
+          "platform": "Windows",
+          "owner": "embedded",
+          "elapsed_seconds": 1.1555407000000741,
+          "status": "passed",
+          "exit_status": 0,
+          "fallback": [],
+          "phase_errors": []
+        },
+        {
+          "platform": "Windows",
+          "owner": "standalone",
+          "elapsed_seconds": 1.140863900000113,
+          "status": "passed",
+          "exit_status": 0,
+          "fallback": [],
+          "phase_errors": []
+        },
+        {
+          "platform": "Linux",
+          "owner": "main",
+          "elapsed_seconds": 1.4038009839999859,
+          "status": "passed",
+          "exit_status": 0,
+          "fallback": [],
+          "phase_errors": []
+        },
+        {
+          "platform": "Linux",
+          "owner": "embedded",
+          "elapsed_seconds": 0.8675244880000719,
+          "status": "passed",
+          "exit_status": 0,
+          "fallback": [],
+          "phase_errors": []
+        },
+        {
+          "platform": "Linux",
+          "owner": "standalone",
+          "elapsed_seconds": 1.4235490350000646,
+          "status": "passed",
+          "exit_status": 0,
+          "fallback": [],
+          "phase_errors": []
+        },
+        {
+          "platform": "macOS",
+          "owner": "main",
+          "elapsed_seconds": 0.4685988339999767,
+          "status": "passed",
+          "exit_status": 0,
+          "fallback": [],
+          "phase_errors": []
+        },
+        {
+          "platform": "macOS",
+          "owner": "embedded",
+          "elapsed_seconds": 0.5037253749999877,
+          "status": "passed",
+          "exit_status": 0,
+          "fallback": [],
+          "phase_errors": []
+        },
+        {
+          "platform": "macOS",
+          "owner": "standalone",
+          "elapsed_seconds": 0.3448392500000068,
+          "status": "passed",
+          "exit_status": 0,
+          "fallback": [],
+          "phase_errors": []
+        }
+      ],
+      "platform_evidence": [
+        {
+          "path": "reports/p1-018/ci-source38-01/hosted-windows83.log",
+          "bytes": 111342,
+          "sha256": "247b9e3926ff39f55f87c277de5b37c4981ac50f102b4cdf51cf49044e02c899"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/hosted-a3-79-jobs.json",
+          "bytes": 25729,
+          "sha256": "d8f0d9b05b54091050793dab0a931edf52991ef1fecd7c9515c3c4aad780cd44"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/hosted-a3-78/playgodot-Windows-1/reports/playgodot/shutdown-owner-main/owner-result.json",
+          "bytes": 1098,
+          "sha256": "89feffcd5e292ff8152c5fc24c7f8900b712e6f0019e89226acbb61cf85860e5"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/hosted-a3-78/playgodot-Windows-1/reports/playgodot/shutdown-owner-main/godot.log",
+          "bytes": 1811,
+          "sha256": "af9dc3a60bb796e73d353bc482a59fcdcac7f3d7f02e8b161f26546f0c650be4"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/hosted-a3-78/playgodot-Windows-1/reports/playgodot/shutdown-owner-main/commands.json",
+          "bytes": 707,
+          "sha256": "fd94ceb1b067e705a4d13073e09a759f557ffc5c62d94417f39e2f1c50a2745e"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/hosted-a3-78/playgodot-Windows-1/reports/playgodot/shutdown-owner-main/wire.jsonl",
+          "bytes": 311,
+          "sha256": "7ea71a34d3fc54489f9c7ed205101bb629de5d1305ac842ee54b4961c6299a11"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/hosted-a3-78/playgodot-Windows-1/reports/playgodot/shutdown-owner-embedded/owner-result.json",
+          "bytes": 1023,
+          "sha256": "8402e3bce582e924b6adf0c0f776f557dd674538899bab29a24a2e91ce15c34c"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/hosted-a3-78/playgodot-Windows-1/reports/playgodot/shutdown-owner-embedded/godot.log",
+          "bytes": 1727,
+          "sha256": "04ca6da56f016092b71ac8c4e3c793701ba968e9e6aa0223f1e4fdc63c49429a"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/hosted-a3-78/playgodot-Windows-1/reports/playgodot/shutdown-owner-embedded/commands.json",
+          "bytes": 686,
+          "sha256": "e2fdeac2196045ab47753c7c780544f76602d81cf2376e09d58386a21b75970b"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/hosted-a3-78/playgodot-Windows-1/reports/playgodot/shutdown-owner-embedded/wire.jsonl",
+          "bytes": 842,
+          "sha256": "dca81d93d2c2aac1d82fc409e3bf93f72538d1f6d3a6d1b14066fd528c66346c"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/hosted-a3-78/playgodot-Windows-1/reports/playgodot/shutdown-owner-standalone/owner-result.json",
+          "bytes": 1024,
+          "sha256": "5bd679efb0070c953a7b203d7e8e810ea97fbd81fc0173ec1f571a66785ff74c"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/hosted-a3-78/playgodot-Windows-1/reports/playgodot/shutdown-owner-standalone/godot.log",
+          "bytes": 1119,
+          "sha256": "aa73af1f0d332c872304259976554d5c3b1404bf0ee545fead012f062c600491"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/hosted-a3-78/playgodot-Windows-1/reports/playgodot/shutdown-owner-standalone/commands.json",
+          "bytes": 688,
+          "sha256": "90ffd9dc25aaf838d7756f6aa0cc0a9132d2e11be8753426d7bd57bc3e86658f"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/hosted-a3-78/playgodot-Windows-1/reports/playgodot/shutdown-owner-standalone/wire.jsonl",
+          "bytes": 387,
+          "sha256": "1a4a2530a0cb686f5064c6ac4f48c31ba29935e0bb28c9a87fcede55756b468e"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/hosted-a3-78/playgodot-Linux-1/reports/playgodot/shutdown-owner-main/owner-result.json",
+          "bytes": 985,
+          "sha256": "fca066cbff3cc8256b547c388cde17abda449f668a4e02269ee204f62757658f"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/hosted-a3-78/playgodot-Linux-1/reports/playgodot/shutdown-owner-main/godot.log",
+          "bytes": 1694,
+          "sha256": "07c83022cf67eb517b2524c5d769c202832ec7f240621b6d943f62388e9055f7"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/hosted-a3-78/playgodot-Linux-1/reports/playgodot/shutdown-owner-main/commands.json",
+          "bytes": 676,
+          "sha256": "a3c6532722861ae84bd972a4e5313aab5f124026f65abe56962f88d768366c19"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/hosted-a3-78/playgodot-Linux-1/reports/playgodot/shutdown-owner-main/wire.jsonl",
+          "bytes": 311,
+          "sha256": "d909eb1bc17357419ba879ca877f63628aeac5421f0679eefa91fbfe67c33be3"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/hosted-a3-78/playgodot-Linux-1/reports/playgodot/shutdown-owner-embedded/owner-result.json",
+          "bytes": 988,
+          "sha256": "3bdaf1bbdca512d91ac5c63d2a6a1d21e6ab025f009fa4b78243ce978c8fd505"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/hosted-a3-78/playgodot-Linux-1/reports/playgodot/shutdown-owner-embedded/godot.log",
+          "bytes": 1613,
+          "sha256": "39ee39c37d7e4416f24751a7eea1b0fa85cab1945b61d19a37009afd96fee0af"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/hosted-a3-78/playgodot-Linux-1/reports/playgodot/shutdown-owner-embedded/commands.json",
+          "bytes": 656,
+          "sha256": "c5532f4f6fb9c7bc64ab7db60101259d70b55d894f06ade5a1d2546cfc17a091"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/hosted-a3-78/playgodot-Linux-1/reports/playgodot/shutdown-owner-embedded/wire.jsonl",
+          "bytes": 842,
+          "sha256": "297e9feff5f2948e83afc29db02fa50bd61909f3992e634fa23f2799cc2ca6f3"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/hosted-a3-78/playgodot-Linux-1/reports/playgodot/shutdown-owner-standalone/owner-result.json",
+          "bytes": 991,
+          "sha256": "616ab066b5d612b9a44fe5f44d7c6488aaed4d5525a46e59ea131c5fedee27ab"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/hosted-a3-78/playgodot-Linux-1/reports/playgodot/shutdown-owner-standalone/godot.log",
+          "bytes": 1004,
+          "sha256": "2b30b55d752f339ff27538dc5f2a78fb2711358480d8f57cf1af86b629014dd9"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/hosted-a3-78/playgodot-Linux-1/reports/playgodot/shutdown-owner-standalone/commands.json",
+          "bytes": 658,
+          "sha256": "6c26b31d4d56248edfa72596711a91d32a328fbc7482dc535dc85f9aa322a2f4"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/hosted-a3-78/playgodot-Linux-1/reports/playgodot/shutdown-owner-standalone/wire.jsonl",
+          "bytes": 387,
+          "sha256": "06238ca7e262a6d28aefc4607551554f02f96a9761493c07d4da083c67630bb9"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/hosted-a3-78/playgodot-macOS-1/reports/playgodot/shutdown-owner-main/owner-result.json",
+          "bytes": 987,
+          "sha256": "578fb47f74802bc0ef176c4aeeac1c2452ff5122f24e60b61b6c0338c2e11ea3"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/hosted-a3-78/playgodot-macOS-1/reports/playgodot/shutdown-owner-main/godot.log",
+          "bytes": 1730,
+          "sha256": "4c76fffa6c5b6a0788fc59e979a9331f91d04161ce9d369347f855164e38f8ef"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/hosted-a3-78/playgodot-macOS-1/reports/playgodot/shutdown-owner-main/commands.json",
+          "bytes": 705,
+          "sha256": "7ffda4181f5b3e6a2630b76bf6980ed036ace76b59ad14492692238aa3bd3d74"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/hosted-a3-78/playgodot-macOS-1/reports/playgodot/shutdown-owner-main/wire.jsonl",
+          "bytes": 311,
+          "sha256": "557364ce02c25c38fde981cf23e6ecc66e15f125851f5922d36467927601ce85"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/hosted-a3-78/playgodot-macOS-1/reports/playgodot/shutdown-owner-embedded/owner-result.json",
+          "bytes": 991,
+          "sha256": "83ba1b12a854a94a329581d0adb7c777d425c3b6440b5fe5a3aa8e9752c1f1b9"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/hosted-a3-78/playgodot-macOS-1/reports/playgodot/shutdown-owner-embedded/godot.log",
+          "bytes": 1646,
+          "sha256": "8d9ca7b1702b4ec05a8d536f424a8f4d66d9443e6b8ff3d862af8c98cc13786e"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/hosted-a3-78/playgodot-macOS-1/reports/playgodot/shutdown-owner-embedded/commands.json",
+          "bytes": 685,
+          "sha256": "29bb6fbbfbc3baed57452b1a88383ff9bf1a56bf961e8e1cb5b7e12dafa0899d"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/hosted-a3-78/playgodot-macOS-1/reports/playgodot/shutdown-owner-embedded/wire.jsonl",
+          "bytes": 842,
+          "sha256": "8e7e9d0869d812fdcb2dfaa52d2fabe02ce7ee80485a81390bc2eac4ace1ef03"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/hosted-a3-78/playgodot-macOS-1/reports/playgodot/shutdown-owner-standalone/owner-result.json",
+          "bytes": 993,
+          "sha256": "f53205f0cbda394e84d29109965847a16c9c814b1471719e9b91e3b2c179faa5"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/hosted-a3-78/playgodot-macOS-1/reports/playgodot/shutdown-owner-standalone/godot.log",
+          "bytes": 1039,
+          "sha256": "b1ad3632d788729ec0beda06e2de563177bb0a48bc2e6986ebd49a459b50ede1"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/hosted-a3-78/playgodot-macOS-1/reports/playgodot/shutdown-owner-standalone/commands.json",
+          "bytes": 687,
+          "sha256": "97fa5f7d466357f9d12031d15a57dc3d1840cc405c5f115c9898b08be23e99db"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/hosted-a3-78/playgodot-macOS-1/reports/playgodot/shutdown-owner-standalone/wire.jsonl",
+          "bytes": 387,
+          "sha256": "d1478b7b5f1e09c608e551e6f5ddc4ac606feb482cb06fc3a4043fc24b8c6994"
+        }
+      ],
+      "controller_setup": {
+        "host_cases": 6,
+        "original_native_lifecycle": "passed",
+        "injected_native_focus_reset": "passed",
+        "deadline_seconds": 2,
+        "hosted_macos_recovery": "pending",
+        "evidence": [
+          {
+            "path": "reports/p1-018/ci-source38-01/focus-scope79.json",
+            "bytes": 3066,
+            "sha256": "9b90673f978e58adb45b2e6be0dd7b98160846c26514ad14522b4e884ffc83f7"
+          },
+          {
+            "path": "reports/p1-018/ci-source38-01/controller-host80.xml",
+            "bytes": 1073,
+            "sha256": "6c4d56615377d384fc7768e85d13e28a7bda55a76b7cec8f02f3694e87913a94"
+          },
+          {
+            "path": "reports/p1-018/ci-source38-01/controller-native81/tests.xml",
+            "bytes": 380,
+            "sha256": "5bf5b72b4cd498b1cdd33b5d5da4089e9771880045de5083b3a58e4618906c3b"
+          },
+          {
+            "path": "reports/p1-018/ci-source38-01/controlled-focus82/result.json",
+            "bytes": 3326,
+            "sha256": "f7d158c062cc63ad67bc871814d9c64c24ae70308e8ba3c433fa2d94ddf29c65"
+          }
+        ]
+      },
+      "upper_visual": {
+        "review": {
+          "path": "reports/p1-018/qa/upper-reflective38-review03/review01.json",
+          "bytes": 80082,
+          "sha256": "08074649178f74e3e35d68fd2688f2ad66cf9acd0dd0d944642606c72676eaec"
+        },
+        "retention": {
+          "path": "reports/p1-018/qa/upper-reflective38-review03/retention01.json",
+          "bytes": 34301,
+          "sha256": "c9672b7fe6b15eaf1ed76c16e9d6b377ab2e5ec80b2166331060704b7381fdcd"
+        },
+        "verified_bound_files": 143,
+        "status": "limited local highlight change; conspicuous roof-edge seam and broader form remain open",
+        "agent_viewed_originals": 56,
+        "paired_cameras_and_lights": 28,
+        "lead_actual_inspection": "Matched neutral context, close authored/automatic normals and selected strip frames including000/012/023. Root did not inspect every motion frame; independent QA did.",
+        "decision": "Keep the local highlight change unaccepted: the thin roof seam is more conspicuous and broad/layered form remains. Finish the bounded fit checkpoint, then propose the smallest coherent broad Roof/C/rail/foot revision through the existing geometry owner. Required physical contact tests remain separate.",
+        "clip_range_limit": "New03 records0.1/1000m. Prior02 did not record ranges; unchanged camera construction is evidence of setup continuity, not a measured historical clip value."
+      },
+      "commands": [
+        {
+          "record": {
+            "path": "reports/p1-018/commands/20260914T004206.027017Z-a3-hosted-playgodot-download78.json",
+            "bytes": 728,
+            "sha256": "b22ea86f8f3a2c06798203c402fd0c7f2bd57a1ae1b6a9457ec77a92ae717ba0"
+          },
+          "exit_status": 0
+        },
+        {
+          "record": {
+            "path": "reports/p1-018/commands/20260914T004417.853651Z-mac-controller-startup-scope79.json",
+            "bytes": 843,
+            "sha256": "c21efa497df1e171f57ca17c1f65bb16b586c7cf22379cb1c6d9fb38571f5262"
+          },
+          "exit_status": 0
+        },
+        {
+          "record": {
+            "path": "reports/p1-018/commands/20260914T004538.247561Z-controller-startup-helper-host80.json",
+            "bytes": 1271,
+            "sha256": "a9a5acb7b9008a0e3cb1e6dcf2935ecb61d5e903ba0a6dde396f1c9f3488fae9"
+          },
+          "exit_status": 0
+        },
+        {
+          "record": {
+            "path": "reports/p1-018/commands/20260914T004638.687808Z-controller-startup-lifecycle-native81.json",
+            "bytes": 1530,
+            "sha256": "7663d8ef23224646cc0cd95eb44c7a37ba03fca9c253fedfb4684cec517efcfd"
+          },
+          "exit_status": 0
+        },
+        {
+          "record": {
+            "path": "reports/p1-018/commands/20260914T004652.837545Z-controller-startup-injected-focus-native82.json",
+            "bytes": 1278,
+            "sha256": "a719e312b3fed6c2783260f615f350d00ca0ebf8edef426e497aa44b6923770c"
+          },
+          "exit_status": 0
+        },
+        {
+          "record": {
+            "path": "reports/p1-018/commands/20260914T002955.831555Z-upper-shared-seam-actual-render75.json",
+            "bytes": 1970,
+            "sha256": "accb30319feac2a1847c68609b97f41add5f3c51a5a93fe99be59130e39639a8"
+          },
+          "exit_status": 0
+        }
+      ],
+      "recorder_failure_and_retry": {
+        "original": "record-hosted-and-visual83 incorrectly required an empty phase_errors array, which is stricter than the existing native-owner acceptance. It failed before any ledger/defect/evidence mutation; the command and downloaded log are retained.",
+        "actual": "Windows main records a session-close TimeoutError, then exits0 in3.585728s within the unchanged5s graceful budget. Native drain markers, acknowledgments, EOF, completed bookkeeping, no fallback and no diagnostics pass the existing test. This event is retained rather than labeled absent.",
+        "retry_count": 1
+      },
+      "limitations": "Current CI overall remains failed on macOS startup setup. Installed source and GLB remain production34; source60 post-reopen checks, independent25-stage QA, final exported/runtime/platform/media evidence and human approvals remain required.",
       "human_approval_reference": null
     }
   }

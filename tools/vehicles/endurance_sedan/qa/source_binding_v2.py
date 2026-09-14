@@ -12,15 +12,18 @@ class PipelineLock:
     lower_bundle: object
     generation: object
     portable_input_lock: dict
+    repeated_detail: object | None = None
 
 
 def load(path, source, root, output, legacy_loader):
     if __package__:
         from .gate import (Input, SourceLock, artifact, digest, keys, positive_process,
                            require, sha, strict_json)
+        from .repeated_detail_report import lock_optional
     else:
         from gate import (Input, SourceLock, artifact, digest, keys, positive_process,
                           require, sha, strict_json)
+        from repeated_detail_report import lock_optional
 
     path, source, root = Path(path).resolve(strict=True), Path(source).resolve(strict=True), Path(root).resolve(strict=True)
     document = strict_json(path)
@@ -56,6 +59,7 @@ def load(path, source, root, output, legacy_loader):
             'Both actual source phases are required')
     logs = []
     phase_outputs = []
+    fresh_outputs = []
     for command in commands:
         require(command['exit_status'] == 0 and not command.get('timed_out'), 'Failed native generation phase')
         require(isinstance(command['argv'], list) and command['argv'] and
@@ -65,7 +69,10 @@ def load(path, source, root, output, legacy_loader):
         require(actual_logs[0].path != actual_logs[1].path, 'Aliased native logs')
         positive_process(0, '\n'.join(row.path.read_text(encoding='utf-8', errors='replace') for row in actual_logs))
         logs.extend(actual_logs)
-        phase_outputs.extend(artifact(row, root) for row in command['outputs'])
+        actual_phase_outputs = [artifact(row, root) for row in command['outputs']]
+        phase_outputs.extend(actual_phase_outputs)
+        if command['label'] == 'fresh-construction':
+            fresh_outputs = actual_phase_outputs
     source_outputs = generation['source_outputs']
     expected_roles = {'source', 'pre_lod_source', 'pre_front_source', 'construction', 'lower_bundle', 'historical_binding', 'native_finalization'}
     require(len(source_outputs) == len(expected_roles) and {row['role'] for row in source_outputs} == expected_roles,
@@ -115,14 +122,22 @@ def load(path, source, root, output, legacy_loader):
         tire_inputs = [artifact(tire[key], root) for key in ('checkpoint', 'constructor', 'encoder')]
         require(tire_inputs[0] in phase_outputs, 'Actual pre-groove checkpoint is absent from generation outputs')
         require(all(row in input_files for row in tire_inputs[1:]), 'Tire constructor/encoder absent from locked generation inputs')
+    logical_paths = {'constructor': root / 'tools/vehicles/endurance_sedan/repeated_detail38.py',
+                     'encoder': root / 'tools/vehicles/endurance_sedan/corner_encoding.py'}
+    detail = lock_optional(strict_json(role_rows['specification'].path), construction,
+        is_pipeline=True, artifact=lambda row: artifact(row, root), generation_inputs=input_files,
+        phase_outputs=fresh_outputs,
+        source_artifacts=[*files.values(), historical_source, *role_rows.values(), *tire_inputs],
+        logical_files={key: row for key, logical in logical_paths.items() for row in input_files if row.path == logical})
+    detail_inputs = [] if detail is None else [detail.checkpoint, detail.constructor, detail.encoder]
     binding = Input(path, sha(path), path.stat().st_size)
     inputs = (binding, *files.values(), *historical.inputs, *input_files, *logs,
-              *phase_outputs, *actual_outputs.values(), *role_rows.values(), *lower_inputs, *tire_inputs)
+              *phase_outputs, *actual_outputs.values(), *role_rows.values(), *lower_inputs, *tire_inputs, *detail_inputs)
     destination = Path(output).resolve()
     require(not destination.exists() and all(not row.path.is_relative_to(destination) for row in inputs),
             'New QA output must not contain locked source inputs')
     pipeline = PipelineLock(historical, files['pre_lod_source'], files['pre_front_source'], files['construction'],
-                            files['lower_bundle'], files['generation_record'], portable)
+                            files['lower_bundle'], files['generation_record'], portable, repeated_detail=detail)
     lock = SourceLock(root, binding, files['source'], historical.packet, historical.profile,
                       historical.builder, historical.helper, historical.ownership,
                       historical.constructor_inputs_sha256, tuple(inputs), pipeline=pipeline)

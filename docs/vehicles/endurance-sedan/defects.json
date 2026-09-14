@@ -9810,6 +9810,23 @@
         "Windows UI256pass/1fail. All32 wrappers now finalize and managed shutdown logs1534.600ms, but native process still needs termination after the5s graceful window. The fixed sleep fixture is corrected; new hosted evidence is required."
       ],
       "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-UPPER38-REVIEW03-AND-HOSTED-RECOVERY",
+      "utc": "2026-09-14T00:53:47.769451+00:00",
+      "status": "hosted_shutdown_recovered_local_controller_setup_passed_visual_form_open",
+      "evidence": [
+        {
+          "path": "reports/p1-018/ci-source38-01/checkpoint84.json",
+          "bytes": 16887,
+          "sha256": "a6e84381357228ed462d9174ef3d52000ade3179e60b44f9fe59fdf7ee9fca8e"
+        }
+      ],
+      "observations": [
+        "limited local highlight change; conspicuous roof-edge seam and broader form remain open",
+        "Keep the local highlight change unaccepted: the thin roof seam is more conspicuous and broad/layered form remains. Finish the bounded fit checkpoint, then propose the smallest coherent broad Roof/C/rail/foot revision through the existing geometry owner. Required physical contact tests remain separate."
+      ],
+      "human_approval_reference": null
     }
   ],
   "defects": [
@@ -16134,13 +16151,18 @@
     {
       "id": "P1-018-CI37-T01",
       "severity": "medium",
-      "status": "correction_implemented_native_windows_pending",
+      "status": "corrected_verified",
       "category": "outer-ci-job-budget",
       "summary": "Serialized Windows native suite reaches the outer15minute CI job ceiling before full showroom completion.",
       "correction": "Only Windows PlayGodot outer job becomes25minutes.",
-      "verification": "Two original15minute terminations and raw archives retained; parsed single-field comparison and final full frontdoor pass. Native new-revision Windows completion required. Original fail-fast attribution corrected from actual fail-fast-false workflow.",
+      "verification": "The complete hosted Windows PlayGodot job finishes successfully at a3 in16min41s, exercising257 tests including the showroom; it now fits the declared job cap. This is suite completion evidence, not runtime frame-time acceptance.",
       "evidence": [
-        "data/assets/vehicles/endurance-sedan-review/viewer-v37/index.json"
+        "data/assets/vehicles/endurance-sedan-review/viewer-v37/index.json",
+        {
+          "path": "reports/p1-018/ci-source38-01/checkpoint84.json",
+          "bytes": 16887,
+          "sha256": "a6e84381357228ed462d9174ef3d52000ade3179e60b44f9fe59fdf7ee9fca8e"
+        }
       ],
       "human_approval_reference": null
     },
@@ -16186,11 +16208,11 @@
     {
       "id": "P1-018-CI38-SHUTDOWN",
       "severity": "major",
-      "status": "open",
+      "status": "corrected_verified",
       "category": "Windows-CI-application-shutdown",
       "summary": "Windows UI256pass/1fail. All32 wrappers now finalize and managed shutdown logs1534.600ms, but native process still needs termination after the5s graceful window. The fixed sleep fixture is corrected; new hosted evidence is required.",
       "correction": "Stop new draws on actual quit, then use the deterministic blocked-finalizer fixture without a fixed sleep. Preserve native producer/finalizer cleanup and all acceptance deadlines.",
-      "verification": "All three changed local native owners and the13-step repository front door pass, including the strengthened32-blocked/32-finalized proof. New hosted Windows result remains required.",
+      "verification": "Hosted a3 Windows257 tests pass. Main/embedded/standalone owners pass on Windows/Linux/macOS: normal exit0, no fallback, unchanged8s absolute/[5,1,1,1] phase limits;32 actually held then finalized in every main probe. Windows main retains a session-close TimeoutError before normal exit within5s; existing owner acceptance passes. Earlier9ea termination failure remains retained.",
       "evidence": [
         {
           "path": "reports/p1-018/source-pipeline38-01/checkpoint50.json",
@@ -16206,6 +16228,11 @@
           "path": "reports/p1-018/source-pipeline38-01/phase-checkpoint67.json",
           "bytes": 10064,
           "sha256": "b193500c24521ed1a504abd39295716c55fb90c3a98856926c4a87a420c65d87"
+        },
+        {
+          "path": "reports/p1-018/ci-source38-01/checkpoint84.json",
+          "bytes": 16887,
+          "sha256": "a6e84381357228ed462d9174ef3d52000ade3179e60b44f9fe59fdf7ee9fca8e"
         }
       ],
       "human_approval_reference": null
@@ -16223,6 +16250,23 @@
           "path": "reports/p1-018/source-pipeline38-01/phase-checkpoint67.json",
           "bytes": 10064,
           "sha256": "b193500c24521ed1a504abd39295716c55fb90c3a98856926c4a87a420c65d87"
+        }
+      ],
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-CI38-FOCUS",
+      "severity": "medium",
+      "status": "correction_implemented_hosted_macos_pending",
+      "category": "runtime-verification",
+      "summary": "An unexpected startup focus reset clears the single synthetic throttle event before the controller lifecycle test establishes its precondition.",
+      "correction": "Neutralize while suppressed and reapply the held axis only if its raw target was cleared during initial setup; keep the2s predicate and all later lifecycle assertions.",
+      "verification": "Six host behavior cases, original native lifecycle and deliberately injected native startup focus reset pass. Hosted macOS recovery pending.",
+      "evidence": [
+        {
+          "path": "reports/p1-018/ci-source38-01/checkpoint84.json",
+          "bytes": 16887,
+          "sha256": "a6e84381357228ed462d9174ef3d52000ade3179e60b44f9fe59fdf7ee9fca8e"
         }
       ],
       "human_approval_reference": null
@@ -16367,5 +16411,5 @@
       "approval_reference": null
     }
   ],
-  "updated_utc": "2026-09-14T00:22:01.318383+00:00"
+  "updated_utc": "2026-09-14T00:53:47.769451+00:00"
 }

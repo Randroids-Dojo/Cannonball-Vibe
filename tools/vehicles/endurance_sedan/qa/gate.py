@@ -15,6 +15,8 @@ STAGES = ('extraction', 'shoulder-field', 'self-intersections', 'self-controls',
           'negative-controls')
 STAGES_V2 = ('extraction', 'historical-extraction', 'historical-shoulder-field',
              'current-front-field', 'distance-fields', *STAGES[2:])
+STAGES_V2_DETAIL = (*STAGES_V2[:STAGES_V2.index('motion-drivers')+1], 'repeated-detail',
+                   *STAGES_V2[STAGES_V2.index('motion-drivers')+1:])
 DIAGNOSTIC = re.compile(
     r'Traceback \(most recent call last\)|(?:Error in )?PyDriver|SyntaxError:|ERROR[^\r\n]*\bDriver\b|'
     r'(?:image|texture)[^\r\n]*(?:not available|not found|missing|unable to|cannot|failed)|'
@@ -121,6 +123,16 @@ def stage_report(name, report, source_sha, *, context=None):
         require(context is not None, 'Current source caller context required')
         return validate_stage(report, context['source_lock'],
                               'front' if name == 'current-front-field' else 'lower')
+    if name == 'repeated-detail':
+        require(context is not None and context['source_lock'].pipeline is not None
+                and context['source_lock'].pipeline.repeated_detail is not None,
+                'Caller-selected current repeated-detail context required')
+        detail = context['repeated_detail']
+        value = detail['reader'].validate_report(report, strict_json(detail['payload']),
+            lock=context['source_lock'], held=detail['held'], invocation_path=detail['invocation'],
+            payload_path=detail['payload'], extraction=strict_json(context['geometry']),
+            opening=strict_json(detail['opening']), motion=strict_json(detail['motion']))
+        return {'status': 'passed', **value}
     if name == 'self-intersections':
         rows=report['rows']
         if (report['components_filter'] or report['strict_crossing_pairs'] != 0
@@ -347,7 +359,7 @@ class SourceLock:
                 'construction_root': self.root}
 
 
-def load_source_binding(path, source, construction_root, output):
+def load_source_binding(path, source, construction_root, output, *, _historical=False):
     """Resolve the caller's binding BEFORE any subprocess; no report is an input."""
     root = Path(construction_root).resolve(strict=True)
     require(root.is_dir(), 'Construction root must be a directory')
@@ -361,7 +373,9 @@ def load_source_binding(path, source, construction_root, output):
             from .source_binding_v2 import load
         else:
             from source_binding_v2 import load
-        return load(path, source, root, output, load_source_binding)
+        require(not _historical, 'Nested historical source must use v1')
+        return load(path, source, root, output,
+                    lambda p, s, r, o: load_source_binding(p, s, r, o, _historical=True))
     keys(document, ('schema', 'source', 'construction_packet', 'shoulder_profile',
                     'reference_builder', 'builder_inputs', 'construction_inputs',
                     'constructor_inputs_sha256', 'generation_record'), 'source binding')
@@ -409,6 +423,10 @@ def load_source_binding(path, source, construction_root, output):
     require(not output.exists(), 'Choose a fresh output directory')
     require(all(not row.path.is_relative_to(output) for row in all_inputs), 'Output contains a locked input')
     by_role = {row['role']: item for row, item in zip(rows, constructors) if row['role'] != 'constructor_component'}
+    if not _historical:
+        specification = strict_json(by_role['specification'].path)
+        require('repeated_detail_revision38' not in specification.get('original_packaging', {}),
+                'Declared current detail revision requires binding v2')
     lock = SourceLock(root, binding, files['source'], files['construction_packet'],
                       files['shoulder_profile'], files['reference_builder'], by_role['normal_module'],
                       by_role['ownership_module'], digest(rows), tuple(all_inputs))
@@ -417,10 +435,17 @@ def load_source_binding(path, source, construction_root, output):
 
 
 def check_stage_inventory(rows, stages=STAGES):
-    require(stages in (STAGES, STAGES_V2), 'Unknown source stage contract')
+    require(stages in (STAGES, STAGES_V2, STAGES_V2_DETAIL), 'Unknown source stage contract')
     require(type(rows) is list and tuple(row.get('name') for row in rows) == stages,
             'Complete ordered ' + str(len(stages)) + '-stage inventory required')
     require(all(row.get('status') == 'passed' for row in rows), 'Every stage must pass')
+
+
+def source_stages(lock):
+    """Only the already-validated caller binding selects the required stages."""
+    if lock.pipeline is None:
+        return STAGES
+    return STAGES_V2 if lock.pipeline.repeated_detail is None else STAGES_V2_DETAIL
 
 
 def check_report_inputs(report_rows, expected):
