@@ -6,6 +6,7 @@ import { createHash } from "node:crypto";
 import { spawn, execFileSync } from "node:child_process";
 import { closeSync, copyFileSync, cpSync, existsSync, mkdirSync, openSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { dirname, join, relative, resolve, sep } from "node:path";
+import { cornerControlRequirements, validateCornerControlReport } from "./corner_control_contract.mjs";
 
 const options = {};
 for (let i = 2; i < process.argv.length; i++) {
@@ -310,6 +311,7 @@ async function verifyAsset() {
     "tools/vehicles/validate_and_export_hero_gt.py", "tools/vehicles/glb_geometry.py", "tools/vehicles/vehicle_contract.json",
     "tools/vehicles/pack_imported_scene.gd", "tools/vehicles/validate_import.gd", "tools/vehicles/generate_manifest.mjs",
     "tools/vehicles/mutate_endurance_sedan.py", "tools/vehicles/verify_endurance_sedan.mjs", "scripts/verify-vehicle-asset.sh",
+    "tools/vehicles/corner_control_contract.mjs", "tools/vehicles/corner_control_contract.test.mjs",
     "tools/assets/validate_manifest.mjs", "tools/assets/validate_release_pack.mjs", "data/assets/manifest.schema.json",
     "tools/assets/toolchain.json", spec, profile, godotProfile, source, importSettings, "project.godot", "export_presets.cfg",
     "data/assets/vehicles/endurance-sedan.uv-bake.json", "data/assets/vehicles/endurance-sedan.corner-bake.json",
@@ -328,6 +330,7 @@ async function verifyAsset() {
     ...walk("src/Cannonball.Core").filter(path => path.endsWith(".cs") && !path.split(sep).some(part => ["bin", "obj"].includes(part))),
     ...walk(assetDirectory).filter(path => path.endsWith(".png.import"))];
   report.input_hashes = Object.fromEntries([...new Set(construction)].sort().map(path => [path.split(sep).join("/"), hash(path)]));
+  await run("corner-control-report-contract", process.execPath, ["--test", "tools/vehicles/corner_control_contract.test.mjs"]);
   const hero = ["data/assets/vehicles/sources/hero-gt.blend", "data/assets/vehicles/derived/hero-gt.glb",
     "assets/vehicles/hero-gt/hero-gt.generated.tscn", "assets/vehicles/hero-gt/hero-gt.generated.textures.json"];
   report.preserved_hero_before = Object.fromEntries(hero.map(path => [path, hash(path)]));
@@ -369,15 +372,18 @@ async function verifyAsset() {
   }
   const [first, second] = stages;
   compare("two GLB exports", join(first.directory, `${asset}.glb`), join(second.directory, `${asset}.glb`));
+  const cornerRequirements = cornerControlRequirements(readFileSync(join(first.directory, `${asset}.pre-corner-bake.glb`)));
   await run("corner-bake-controls", blender, ["--background", "--factory-startup", "--python-exit-code", "1",
     "--python", "tools/vehicles/endurance_sedan/corner_bake_controls.py", "--", "--source", source,
     "--raw-glb", join(first.directory, `${asset}.pre-corner-bake.glb`),
     "--bake", "data/assets/vehicles/endurance-sedan.corner-bake.json", "--output", join(output, "corner-bake-controls")],
-    { expectedText: "CANNONBALL_CORNER_BAKE_CONTROLS_OK cases=31", timeout: 600000 });
+    { expectedText: `CANNONBALL_CORNER_BAKE_CONTROLS_OK cases=${Object.keys(cornerRequirements.cases).length}`, timeout: 600000 });
   const cornerControls = load(join(output, "corner-bake-controls/evidence.json"));
-  if (cornerControls.status !== "passed" || cornerControls.cases.length !== 31 || cornerControls.cases.some(row => row.status !== "passed"))
-    throw new Error("Evaluated corner bake controls incomplete");
-  report.negative_controls.push({ mutation: "evaluated-corner-bake-corruption", status: "passed", cases: 31,
+  const cornerCoverage = validateCornerControlReport(cornerControls, cornerRequirements,
+    [hash(source), hash("data/assets/vehicles/endurance-sedan.corner-bake.json"), hash("tools/vehicles/endurance_sedan/corner_bake_controls.py")]);
+  if (!cornerRequirements.hasUv1 && hash(cornerControls.synthetic_dual_uv_fixture.path) !== cornerControls.synthetic_dual_uv_fixture.sha256)
+    throw new Error("Synthetic dual-UV fixture bytes changed");
+  report.negative_controls.push({ mutation: "evaluated-corner-bake-corruption", status: "passed", ...cornerCoverage,
     evidence: pathLabel(join(output, "corner-bake-controls/evidence.json")), evidence_sha256: hash(join(output, "corner-bake-controls/evidence.json")) });
   await run("uv-bake-controls", blender, ["--background", "--factory-startup", "--python-exit-code", "1",
     "--python", "tools/vehicles/endurance_sedan/uv_bake_controls.py", "--", "--source", source,
@@ -393,7 +399,7 @@ async function verifyAsset() {
   if (JSON.stringify(Object.keys(first.textures)) !== JSON.stringify(Object.keys(second.textures))) throw new Error("Clean-import texture inventory drift");
   for (const path of Object.keys(first.textures)) compare(`two clean texture outputs: ${path}`, first.textures[path], second.textures[path]);
   const blenderFields = ["required_nodes", "triangles", "triangle_total", "lod0_triangle_total", "collision_triangle_total", "materials", "textures", "texture_bytes_total", "budgets", "bounds_meters", "hardpoints", "specification_sha256", "budget_contract_sha256", "export_validator_sha256", "gltf_profile_sha256", "source_preview_only", "validation_scope", "export_options"];
-  const godotFields = ["required_nodes", "all_required_nodes_resolved", "script_reference_present", "automation_id", "glb_sha256", "generated_scene_sha256", "wrapper_sha256", "specification_sha256", "import_settings_sha256", "profile_sha256", "validator_sha256", "transitive_release_dependencies", "runtime_adapter_input_sha256", "wheelbase_meters", "track_meters", "rear_track_meters", "lod_count", "damage_zone_count", "hardpoint_measurements", "runtime_setup_values", "collision_policy_verified", "measured_dimensions_m"];
+  const godotFields = ["required_nodes", "all_required_nodes_resolved", "script_reference_present", "automation_id", "glb_sha256", "generated_scene_sha256", "wrapper_sha256", "specification_sha256", "import_settings_sha256", "profile_sha256", "validator_sha256", "transitive_release_dependencies", "runtime_adapter_input_sha256", "wheelbase_meters", "track_meters", "rear_track_meters", "lod_count", "damage_zone_count", "hardpoint_measurements", "runtime_setup_values", "collision_policy_verified", "measured_dimensions_m", "screen_specular"];
   compareFields("Blender repeat", load(join(first.directory, "blender.json")), load(join(second.directory, "blender.json")), blenderFields);
   compareFields("Exported triangle inspection repeat", load(join(first.directory, "blender.json")).glb_geometry,
     load(join(second.directory, "blender.json")).glb_geometry, ["status", "sha256", "triangles", "minimum_triangle_area_m2", "area_threshold_m2", "defects"]);

@@ -246,6 +246,148 @@ func _fail(message: String) -> void:
 	quit(1)
 
 
+func _expected_screen_specular(path: String) -> Dictionary:
+	# Independent of the packer and saved metadata: expected response comes from the GLB.
+	var data := FileAccess.get_file_as_bytes(path)
+	if data.size() < 20 or data.decode_u32(0) != 0x46546c67 or data.decode_u32(4) != 2 or data.decode_u32(8) != data.size() or data.decode_u32(16) != 0x4e4f534a:
+		_fail("SCREEN_SPECULAR: invalid source GLB header")
+		return {}
+	var length := int(data.decode_u32(12))
+	if length % 4 != 0 or length + 20 > data.size():
+		_fail("SCREEN_SPECULAR: invalid source JSON bounds")
+		return {}
+	var document: Variant = JSON.parse_string(data.slice(20, 20 + length).get_string_from_utf8())
+	if not document is Dictionary or not document.get("materials", []) is Array:
+		_fail("SCREEN_SPECULAR: invalid source material inventory")
+		return {}
+	var material_index := -1
+	var factor := 1.0
+	var names := 0
+	for index in document.get("materials", []).size():
+		var material: Variant = document.materials[index]
+		if not material is Dictionary or not material.get("extensions", {}) is Dictionary:
+			_fail("SCREEN_SPECULAR: invalid source material")
+			return {}
+		if material.get("name", "") == "Material_Screen":
+			names += 1
+		if not material.get("extensions", {}).has("KHR_materials_specular"):
+			continue
+		var extension: Variant = material.extensions.KHR_materials_specular
+		if material_index != -1 or not extension is Dictionary or extension.size() > 1 or (extension.size() == 1 and not extension.has("specularFactor")):
+			_fail("SCREEN_SPECULAR: unsupported source scalar declaration")
+			return {}
+		var value: Variant = extension.get("specularFactor", 1.0)
+		var pbr: Variant = material.get("pbrMetallicRoughness", {})
+		var extras: Variant = material.get("extras", {})
+		if typeof(value) not in [TYPE_FLOAT, TYPE_INT] or not is_finite(float(value)) or float(value) < 0.0 or float(value) > 1.0 or material.get("name", "") != "Material_Screen" or not extras is Dictionary or extras.get("cv_shader") != "standard" or not pbr is Dictionary or typeof(pbr.get("metallicFactor")) not in [TYPE_FLOAT, TYPE_INT] or float(pbr.metallicFactor) != 0.0 or pbr.has("metallicRoughnessTexture"):
+			_fail("SCREEN_SPECULAR: source is not the declared scalar dielectric Screen")
+			return {}
+		for unsupported in ["KHR_materials_ior", "KHR_materials_transmission", "KHR_materials_volume", "KHR_materials_pbrSpecularGlossiness", "KHR_materials_unlit"]:
+			if material.extensions.has(unsupported):
+				_fail("SCREEN_SPECULAR: unsupported source combination")
+				return {}
+		material_index = index
+		factor = float(value)
+	if material_index == -1:
+		return {"occurrences": {}}
+	if names != 1 or not document.get("extensionsUsed", []) is Array or "KHR_materials_specular" not in document.get("extensionsUsed", []) or not document.get("extensionsRequired", []) is Array or "KHR_materials_specular" in document.get("extensionsRequired", []):
+		_fail("SCREEN_SPECULAR: ambiguous or required source declaration")
+		return {}
+	var nodes: Variant = document.get("nodes")
+	var meshes: Variant = document.get("meshes")
+	if not nodes is Array or not meshes is Array:
+		_fail("SCREEN_SPECULAR: missing source membership")
+		return {}
+	var parents := {}
+	for index in nodes.size():
+		if not nodes[index] is Dictionary or not nodes[index].get("children", []) is Array:
+			_fail("SCREEN_SPECULAR: malformed source node")
+			return {}
+		for child in nodes[index].get("children", []):
+			if typeof(child) not in [TYPE_INT, TYPE_FLOAT] or float(child) != int(child) or int(child) < 0 or int(child) >= nodes.size() or parents.has(int(child)):
+				_fail("SCREEN_SPECULAR: ambiguous source ancestry")
+				return {}
+			parents[int(child)] = index
+	var occurrences := {}
+	for index in nodes.size():
+		if not nodes[index].has("mesh"):
+			continue
+		var mesh_index: Variant = nodes[index].mesh
+		if typeof(mesh_index) not in [TYPE_INT, TYPE_FLOAT] or float(mesh_index) != int(mesh_index) or int(mesh_index) < 0 or int(mesh_index) >= meshes.size() or not meshes[int(mesh_index)] is Dictionary or not meshes[int(mesh_index)].get("primitives") is Array:
+			_fail("SCREEN_SPECULAR: malformed source primitive inventory")
+			return {}
+		var primitives: Array = meshes[int(mesh_index)].primitives
+		for surface in primitives.size():
+			if not primitives[surface] is Dictionary:
+				_fail("SCREEN_SPECULAR: malformed primitive")
+				return {}
+			if primitives[surface].get("material", -1) != material_index:
+				continue
+			var chain: PackedStringArray = []
+			var seen := {}
+			var cursor: int = index
+			while cursor >= 0:
+				var name: Variant = nodes[cursor].get("name")
+				if seen.has(cursor) or not name is String or name.is_empty() or "/" in name or ":" in name or name in [".", ".."]:
+					_fail("SCREEN_SPECULAR: invalid source path")
+					return {}
+				seen[cursor] = true
+				chain.insert(0, name)
+				cursor = int(parents.get(cursor, -1))
+			var key := "/".join(chain) + "#" + str(surface)
+			if occurrences.has(key):
+				_fail("SCREEN_SPECULAR: duplicate source path")
+				return {}
+			occurrences[key] = primitives.size()
+	if occurrences.is_empty():
+		_fail("SCREEN_SPECULAR: declaration has no source surfaces")
+		return {}
+	return {"occurrences": occurrences, "factor": factor}
+
+
+func _validate_screen_specular(asset: Node, expected: Dictionary) -> Dictionary:
+	var remaining: Dictionary = expected.occurrences.duplicate()
+	var rows: Array = []
+	var stack: Array[Node] = [asset]
+	while not stack.is_empty():
+		var node := stack.pop_back() as Node
+		for child in node.get_children():
+			stack.append(child)
+		if not node is MeshInstance3D or node.mesh == null:
+			continue
+		for surface in node.mesh.get_surface_count():
+			var material: Material = node.get_active_material(surface)
+			if material == null:
+				continue
+			var declared := material.has_meta("cannonball_specular_response")
+			if expected.occurrences.is_empty():
+				if declared:
+					_fail("SCREEN_SPECULAR: saved declaration absent from actual GLB")
+					return {}
+				continue
+			if material.resource_name != "Material_Screen" and not declared:
+				continue
+			var path := str(asset.get_path_to(node))
+			var key := path + "#" + str(surface)
+			if not remaining.has(key):
+				key = str(asset.name) + "/" + key
+			var metadata: Variant = material.get_meta("cannonball_specular_response") if declared else null
+			if not remaining.has(key) or not metadata is Dictionary or metadata.size() != 2 or metadata.get("schema") != "khr-specular-f0.v1" or typeof(metadata.get("specular_factor")) not in [TYPE_INT, TYPE_FLOAT] or metadata.specular_factor != expected.factor:
+				_fail("SCREEN_SPECULAR: missing, unexpected or stale saved declaration: " + path)
+				return {}
+			var target := PackedFloat32Array([0.5 * sqrt(expected.factor)])[0]
+			var extras: Variant = material.get_meta("extras", {})
+			if not material is StandardMaterial3D or material.resource_name != "Material_Screen" or not extras is Dictionary or extras.get("cv_shader") != "standard" or material.metallic != 0.0 or material.shading_mode != BaseMaterial3D.SHADING_MODE_PER_PIXEL or material.specular_mode != BaseMaterial3D.SPECULAR_SCHLICK_GGX or material.metallic_specular != target or node.mesh.get_surface_count() != remaining[key]:
+				_fail("SCREEN_SPECULAR: actual post-Ready response or membership differs: " + path)
+				return {}
+			rows.append({"path": path, "surface": surface, "source_factor": expected.factor, "metallic_specular": material.metallic_specular, "f0_only": true})
+			remaining.erase(key)
+	if not remaining.is_empty():
+		_fail("SCREEN_SPECULAR: missing source surfaces: " + str(remaining.keys()))
+		return {}
+	return {"declared": not expected.occurrences.is_empty(), "surfaces": rows, "mapping": "normal-incidence F0 only; grazing response differs"}
+
+
 func _validate() -> void:
 	var args := _arguments()
 	var vehicle: String = args.get("vehicle", "hero-gt")
@@ -317,6 +459,15 @@ func _validate() -> void:
 	if asset == null:
 		_fail("Instantiated wrapper has no ImportedAsset child")
 		return
+	if vehicle == "endurance-sedan":
+		var expected_specular := _expected_screen_specular(args.glb)
+		if not _errors.is_empty():
+			instance.free()
+			return
+		inventory.screen_specular = _validate_screen_specular(asset, expected_specular)
+		if not _errors.is_empty():
+			instance.free()
+			return
 	_visit(asset, nodes, inventory)
 	for required in required_nodes:
 		if not nodes.has(required):

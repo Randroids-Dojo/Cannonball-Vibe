@@ -4010,7 +4010,7 @@
           "bytes": 0
         }
       ],
-      "scope": "All digits0–9, R/N/1–7, idle/cruise/reverse, left/right/hazard phases and the low-fuel boundary decode correctly from actual evaluated source-preview geometry. No invalid drivers. This is source preview logic, not an engine or fuel-system simulation."
+      "scope": "All digits0\u20139, R/N/1\u20137, idle/cruise/reverse, left/right/hazard phases and the low-fuel boundary decode correctly from actual evaluated source-preview geometry. No invalid drivers. This is source preview logic, not an engine or fuel-system simulation."
     },
     {
       "task_id": "P1-018",
@@ -10036,7 +10036,7 @@
         "O03"
       ],
       "summary": "Blockout attempt 01 had zero-area evaluated polygons from thin-object bevels and LOD simplification.",
-      "expected": "No evaluated polygon area below 1e-12 mÂ² and no unintended nonmanifold edges.",
+      "expected": "No evaluated polygon area below 1e-12 m\u00c2\u00b2 and no unintended nonmanifold edges.",
       "actual": {
         "degenerate_faces": 343,
         "affected_meshes": [
@@ -10176,7 +10176,7 @@
         "O03"
       ],
       "summary": "Attempt 02 GLB still has 14 degenerate triangles despite its polygon inventory passing.",
-      "expected": "Every exported triangle has area greater than the locked 1e-12 m² degeneracy threshold.",
+      "expected": "Every exported triangle has area greater than the locked 1e-12 m\u00b2 degeneracy threshold.",
       "actual": {
         "degenerate_triangles": 14,
         "triangles": 53552,
@@ -12724,7 +12724,7 @@
         {
           "utc": "2026-09-11T02:12:13.982593+00:00",
           "source_sha256": "997b38cf570991265b2c58e145927f6a24d014a0cef5e100e7494f1cf7285801",
-          "observation": "Source 20 InstrumentShade crosses the actual left wiper rubber at 60–100% sweep. Root is moving the shade behind the windshield; fresh mesh and view verification is required.",
+          "observation": "Source 20 InstrumentShade crosses the actual left wiper rubber at 60\u2013100% sweep. Root is moving the shade behind the windshield; fresh mesh and view verification is required.",
           "evidence": [
             {
               "path": "reports/p1-018/qa/production-surface-20/contact-regression-review.json",
@@ -16257,18 +16257,80 @@
     {
       "id": "P1-018-CI38-FOCUS",
       "severity": "medium",
-      "status": "correction_implemented_hosted_macos_pending",
+      "status": "corrected_verified",
       "category": "runtime-verification",
       "summary": "An unexpected startup focus reset clears the single synthetic throttle event before the controller lifecycle test establishes its precondition.",
       "correction": "Neutralize while suppressed and reapply the held axis only if its raw target was cleared during initial setup; keep the2s predicate and all later lifecycle assertions.",
-      "verification": "Six host behavior cases, original native lifecycle and deliberately injected native startup focus reset pass. Hosted macOS recovery pending.",
+      "verification": "Hosted66 full PlayGodot passes on Windows263, macOS257+6 platform skips and Linux. The controller lifecycle precondition and direct lifecycle assertions pass without changing the2s policy. Prior local6-case/native focus-reset evidence remains retained.",
       "evidence": [
         {
           "path": "reports/p1-018/ci-source38-01/checkpoint84.json",
           "bytes": 16887,
           "sha256": "a6e84381357228ed462d9174ef3d52000ade3179e60b44f9fe59fdf7ee9fca8e"
+        },
+        {
+          "path": "reports/p1-018/source-pipeline38-01/checkpoint115.json",
+          "bytes": 133275,
+          "sha256": "5d31aaab083e2656e97db19b5b47c04b109989657aa6e28b312f40621fee7757"
         }
       ],
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-EXPORT38-SPEC",
+      "severity": "high",
+      "status": "runtime_scalar_corrected_appearance_pending",
+      "observed": "Pinned Blender writes optional KHR_materials_specular only for Material_Screen, factor0.11999999731779099. corner_bake rejects it before fresh bake creation. Pinned official Godot4.7.1 imports the raw diagnostic GLB but does not declare this extension and leaves native Screen metallic_specular0.5. Native import success is not material equivalence. Three chassis Screen batches are separate from the dynamic cluster replacement.",
+      "evidence": [
+        {
+          "path": "reports/p1-018/source-pipeline38-01/source60-export95/result96.json",
+          "bytes": 4152,
+          "sha256": "2b1563b71f066ff1366420a9662a3b8fbd9c3c4c9ac9fed81ceaa172815946c9"
+        },
+        {
+          "path": "reports/p1-018/source-pipeline38-01/specular-import98/result98.json",
+          "bytes": 7090,
+          "sha256": "71e1e174889e1af2256d83430157d9d143336347af94f94a0baab0cb3deea780"
+        },
+        {
+          "path": "reports/p1-018/geometry-scope28-01/export_scalar_compatibility100.json",
+          "bytes": 3075,
+          "sha256": "fc7b8ae676205e849da433f9bdcd6cdc5b0e86d44c2abe5ef533cd669104481e"
+        },
+        {
+          "path": "reports/p1-018/source-pipeline38-01/checkpoint115.json",
+          "bytes": 133275,
+          "sha256": "5d31aaab083e2656e97db19b5b47c04b109989657aa6e28b312f40621fee7757"
+        },
+        {
+          "path": "reports/p1-018/source-pipeline38-01/checkpoint138.json",
+          "bytes": 26820,
+          "sha256": "35f82dc50764c373cb076c0140fb51426d17a683ce843cb3ac6d2e39283785d3"
+        }
+      ],
+      "correction": "Scoped optional scalar extension preservation plus separately scoped actual Godot scalar mapping; no source change.",
+      "verification": "66 focused native tests pass. Actual fresh source60 GLB clean import, adapter and wrapper independently validate all6 Screen occurrences across3 LODs; F0 maps to float32 .17320507764816284. Normal/oblique appearance comparison and final material budget remain open; no full angular BRDF equivalence claim.",
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-RUNTIME39-MATERIALS",
+      "severity": "major",
+      "status": "open",
+      "observed": "Actual fresh source60 native Forward+ render measured33 material RIDs against32 in13 LOD0 states. Matrix stops on incompatible simultaneous service brake/reverse request. Final state maximum incldamage and LOD1/2 not measured.",
+      "evidence": [
+        {
+          "path": "reports/p1-018/source-pipeline38-01/checkpoint138.json",
+          "bytes": 26820,
+          "sha256": "35f82dc50764c373cb076c0140fb51426d17a683ce843cb3ac6d2e39283785d3"
+        },
+        {
+          "path": "reports/p1-018/source-pipeline38-01/source60-runtime123/resource-native134/validation.json",
+          "bytes": 1117,
+          "sha256": "7d7c6dc32b19138d30007d5df53cad27e95770bf71735cc0f2b3cad5e03621bc"
+        }
+      ],
+      "correction": null,
+      "verification": "Failed native134 retained with all268 inputs unchanged and normal owned exit0 in.635s. Corrected reachable fixture and full property dump pending before optimization.",
       "human_approval_reference": null
     }
   ],
@@ -16411,5 +16473,5 @@
       "approval_reference": null
     }
   ],
-  "updated_utc": "2026-09-14T00:53:47.769451+00:00"
+  "updated_utc": "2026-09-14T09:42:58.004925+00:00"
 }

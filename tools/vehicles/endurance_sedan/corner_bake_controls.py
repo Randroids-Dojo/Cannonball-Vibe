@@ -91,9 +91,11 @@ def main():
               'cases': [], 'human_approval_reference': None}
 
     def check(name, expected=None, mutate=None, lock_change=None, source_change=False,
-              candidate=reference, raw_change=None):
+              candidate=None, raw_change=None, reference_glb=reference, reference_lock=lock):
         folder = args.output / name
         folder.mkdir()
+        if candidate is None:
+            candidate = reference_glb
         if mutate:
             doc, binary = parts(candidate)
             mutate(doc, binary)
@@ -102,7 +104,7 @@ def main():
             candidate = raw_change(candidate)
         target = folder / 'candidate.glb'
         target.write_bytes(candidate)
-        changed_lock = copy.deepcopy(lock)
+        changed_lock = copy.deepcopy(reference_lock)
         if lock_change:
             lock_change(changed_lock)
         bake = folder / 'bake.json'
@@ -118,7 +120,7 @@ def main():
         except (ValueError, KeyError, struct.error) as error:
             failure = str(error)
         if expected is None:
-            assert failure is None and target.read_bytes() == reference, (name, failure)
+            assert failure is None and target.read_bytes() == reference_glb, (name, failure)
         else:
             assert failure and expected in failure, (name, failure, expected)
             assert target.read_bytes() == candidate, 'Rejected candidate was changed'
@@ -140,8 +142,47 @@ def main():
         check('reversed-normal', 'Normal exceeds', mutate=attribute_mutation('NORMAL', flip=True))
         check('nonfinite-position', 'Nonfinite corner', mutate=attribute_mutation('POSITION', nonfinite=True))
         check('changed-uv0', 'UV exceeds', mutate=attribute_mutation('TEXCOORD_0', 0.001))
-        check('changed-uv1-only', 'UV exceeds', mutate=attribute_mutation('TEXCOORD_1', 0.001, separate=True))
+        uv_document, uv_binary = parts(reference)
+        if any('TEXCOORD_1' in p['attributes'] for m in uv_document['meshes'] for p in m['primitives']):
+            check('changed-uv1-only', 'UV exceeds', mutate=attribute_mutation('TEXCOORD_1', 0.001, separate=True))
+        else:
+            # A valid exported asset may use only UV0. Keep independent UV1
+            # corruption coverage with an explicit nonshipping dual-UV fixture.
+            primitive = uv_document['meshes'][0]['primitives'][0]
+            primitive['attributes']['TEXCOORD_1'] = primitive['attributes']['TEXCOORD_0']
+            uv_reference = encode(uv_document, uv_binary)
+            uv_path = args.output / 'synthetic-dual-uv-reference.glb'
+            uv_path.write_bytes(uv_reference)
+            uv_bake = args.output / 'synthetic-dual-uv-bake.json'
+            uv_lock = corner_bake.create(args.source, uv_path, uv_bake)
+            report['synthetic_dual_uv_fixture'] = {'path': str(uv_path),
+                'sha256': corner_bake.digest(uv_reference), 'shipping_asset_has_uv1': False}
+            check('dual-uv-fixture', reference_glb=uv_reference, reference_lock=uv_lock)
+            check('changed-uv1-only', 'UV exceeds', mutate=attribute_mutation('TEXCOORD_1', 0.001, separate=True),
+                  reference_glb=uv_reference, reference_lock=uv_lock)
         check('changed-semantic', 'metadata changed', mutate=lambda d, b: d['nodes'][0].__setitem__('name', 'Wrong_Root'))
+        reference_document, _ = parts(reference)
+        specular_indices = [i for i, m in enumerate(reference_document.get('materials', []))
+                            if 'KHR_materials_specular' in m.get('extensions', {})]
+        report['scalar_specular_materials'] = len(specular_indices)
+        if specular_indices:
+            def specular_change(key, value):
+                def mutate(d, _):
+                    d['materials'][specular_indices[0]]['extensions']['KHR_materials_specular'][key] = value
+                return mutate
+            factor = reference_document['materials'][specular_indices[0]]['extensions']['KHR_materials_specular'].get('specularFactor', 1)
+            check('changed-specular-factor', 'metadata changed',
+                  mutate=specular_change('specularFactor', .5 if factor != .5 else .25))
+            check('boolean-specular-factor', 'Invalid scalar specularFactor',
+                  mutate=specular_change('specularFactor', True))
+            check('out-of-range-specular-factor', 'Invalid scalar specularFactor',
+                  mutate=specular_change('specularFactor', 1.01))
+            check('specular-color-unsupported', 'Only declared scalar',
+                  mutate=specular_change('specularColorFactor', [1, 1, 1]))
+            check('specular-texture-unsupported', 'Only declared scalar',
+                  mutate=specular_change('specularTexture', {'index': 0}))
+            check('required-specular-unsupported', 'must remain optional',
+                  mutate=lambda d, b: d.setdefault('extensionsRequired', []).append('KHR_materials_specular'))
         def image_change(d, b):
             view = d['bufferViews'][d['images'][0]['bufferView']]
             start = view.get('byteOffset', 0)

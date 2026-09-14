@@ -486,6 +486,8 @@ public sealed partial class VehicleVisualRig : Node3D
                 using var surfaceMaterial = mesh.SurfaceGetMaterial(surface);
                 if (surfaceMaterial is not StandardMaterial3D material)
                 {
+                    if (surfaceMaterial?.HasMeta("cannonball_specular_response") == true)
+                        throw new InvalidOperationException("Declared specular response requires StandardMaterial3D.");
                     continue;
                 }
                 var name = material.ResourceName;
@@ -495,6 +497,7 @@ public sealed partial class VehicleVisualRig : Node3D
                 var family = extras.TryGetValue("cv_shader", out var shaderValue)
                     ? shaderValue.AsString()
                     : FamilyFromName(name);
+                ApplyDeclaredScreenSpecular(material, family);
                 switch (family)
                 {
                     // Explicit source response is authoritative. In particular,
@@ -587,6 +590,32 @@ public sealed partial class VehicleVisualRig : Node3D
         material.ClearcoatEnabled = weight > 0;
         material.Clearcoat = (float)weight;
         material.ClearcoatRoughness = (float)roughness;
+    }
+
+    private static void ApplyDeclaredScreenSpecular(StandardMaterial3D material, string family)
+    {
+        const string key = "cannonball_specular_response";
+        if (!material.HasMeta(key)) return;
+        if (material.GetMeta(key).Obj is not Godot.Collections.Dictionary declaration)
+            throw new InvalidOperationException($"Material '{material.ResourceName}' specular response must be a dictionary.");
+        using (declaration)
+        {
+            if (declaration.Count != 2 ||
+                !declaration.TryGetValue("schema", out var schema) || schema.VariantType != Variant.Type.String ||
+                schema.AsString() != "khr-specular-f0.v1" ||
+                !declaration.TryGetValue("specular_factor", out var value) ||
+                value.VariantType is not (Variant.Type.Int or Variant.Type.Float))
+                throw new InvalidOperationException($"Material '{material.ResourceName}' has an invalid specular response declaration.");
+            var factor = value.AsDouble();
+            if (!double.IsFinite(factor) || factor is < 0 or > 1 || family != "standard" ||
+                material.ResourceName != "Material_Screen" || material.Metallic != 0 ||
+                material.ShadingMode != BaseMaterial3D.ShadingModeEnum.PerPixel ||
+                material.SpecularMode != BaseMaterial3D.SpecularModeEnum.SchlickGgx)
+                throw new InvalidOperationException($"Material '{material.ResourceName}' requires a finite [0, 1] specular factor on the standard dielectric Screen domain.");
+            // Godot 4.7.1 uses F0=.16*SPECULAR^2; scalar-only glTF uses F0=.04*factor.
+            // This matches normal incidence only: Godot derives a different grazing F90.
+            material.MetallicSpecular = (float)(0.5 * Math.Sqrt(factor));
+        }
     }
 
     private static string FamilyFromName(string name)

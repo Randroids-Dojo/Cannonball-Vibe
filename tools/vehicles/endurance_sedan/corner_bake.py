@@ -27,7 +27,8 @@ MINIMUM_TRIANGLE_AREA_M2 = 1e-12
 ATTRIBUTES = {'POSITION': 'VEC3', 'NORMAL': 'VEC3', 'TEXCOORD_0': 'VEC2', 'TEXCOORD_1': 'VEC2'}
 ROOT_KEYS = {'asset', 'scene', 'scenes', 'nodes', 'meshes', 'materials', 'textures', 'images',
              'samplers', 'accessors', 'bufferViews', 'buffers', 'extensionsUsed', 'extensionsRequired'}
-EXTENSIONS = {'KHR_materials_clearcoat', 'KHR_materials_transmission', 'KHR_materials_ior'}
+EXTENSIONS = {'KHR_materials_clearcoat', 'KHR_materials_transmission', 'KHR_materials_ior',
+              'KHR_materials_specular'}
 
 
 def digest(raw):
@@ -94,6 +95,20 @@ def parse(raw):
             'Unsupported or nonfinite GLB metadata')
     require(set(document.get('extensionsUsed', [])) <= EXTENSIONS and
             set(document.get('extensionsRequired', [])) <= EXTENSIONS, 'Unsupported GLB extension')
+    # Preserve the authored scalar as exact metadata. The pinned Godot adapter
+    # must map it explicitly; native import does not support this extension.
+    require('KHR_materials_specular' not in document.get('extensionsRequired', []),
+            'KHR_materials_specular must remain optional for the pinned Godot adapter')
+    for material in document.get('materials', []):
+        extensions = material.get('extensions', {})
+        if 'KHR_materials_specular' in extensions:
+            specular = extensions['KHR_materials_specular']
+            require('KHR_materials_specular' in document.get('extensionsUsed', []) and
+                    isinstance(specular, dict) and set(specular) <= {'specularFactor'},
+                    'Only declared scalar KHR_materials_specular is supported')
+            factor = specular.get('specularFactor', 1)
+            require(type(factor) in (int, float) and 0 <= factor <= 1,
+                    'Invalid scalar specularFactor')
     buffers = document['buffers']
     require(len(buffers) == 1 and set(buffers[0]) == {'byteLength'}, 'External or multiple buffers rejected')
     logical_size = buffers[0]['byteLength']

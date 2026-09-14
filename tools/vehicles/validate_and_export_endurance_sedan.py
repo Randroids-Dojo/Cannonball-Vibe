@@ -2,6 +2,8 @@
 
 import argparse
 import hashlib
+import importlib
+import importlib.util
 import json
 import math
 import shutil
@@ -20,19 +22,44 @@ from validate_and_export_hero_gt import REQUIRED_NODES, export_glb, inspect_glb 
 def digest(path):return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def saved_source_verifier(construction_root, export_root):
+    if construction_root == export_root.resolve():
+        from endurance_sedan.source_generation import verify_saved_lower
+        return verify_saved_lower
+    # Source verification checks its constructor module paths as well as bytes.
+    # Load the unchanged construction package in its own namespace; replacing
+    # that package with updated export tools would invalidate the source lock.
+    package_root=construction_root/'tools/vehicles/endurance_sedan'
+    name='_cannonball_locked_sedan_construction'
+    if name in sys.modules:
+        raise ValueError('Construction verification package is already loaded')
+    definition=importlib.util.spec_from_file_location(name,package_root/'__init__.py',
+        submodule_search_locations=[str(package_root)])
+    if definition is None or definition.loader is None:
+        raise ValueError('Cannot load the locked construction verification package')
+    module=importlib.util.module_from_spec(definition)
+    sys.modules[name]=module
+    definition.loader.exec_module(module)
+    return importlib.import_module(name+'.source_generation').verify_saved_lower
+
+
 def main():
     parser=argparse.ArgumentParser()
     parser.add_argument('--source',type=Path,required=True)
     parser.add_argument('--output',type=Path,required=True)
     parser.add_argument('--inventory',type=Path,required=True)
     parser.add_argument('--source-binding',type=Path,help='Required current source-generation v2 binding before shipping export')
+    parser.add_argument('--construction-root',type=Path,help='Immutable source-generation project; defaults to the export tool project. Requires --source-binding.')
     parser.add_argument('--inspect-only',action='store_true',help='Write evaluated diagnostics only; never export or claim optimized delivery')
     parser.add_argument('--unbatched-output',type=Path,help='Optional nonshipping GLB for independent component-to-batch correspondence QA')
     parser.add_argument('--prepare-uv-bake',type=Path,help='Explicitly create a NEW evaluated UV bake after source edits; never overwrites the current bake')
     parser.add_argument('--prepare-corner-bake',type=Path,help='Explicitly create a NEW evaluated corner encoding after source edits; existing bakes are never overwritten')
     args=parser.parse_args(sys.argv[sys.argv.index('--')+1:])
     root=Path(__file__).resolve().parents[2]
-    spec_path=root/'docs/vehicles/endurance-sedan/specification.json'
+    if args.construction_root is not None and args.source_binding is None:
+        raise ValueError('A separate construction root requires the actual source-generation binding')
+    construction_root=(args.construction_root or root).resolve(strict=True)
+    spec_path=construction_root/'docs/vehicles/endurance-sedan/specification.json'
     contract_path=root/'tools/vehicles/vehicle_contract.json'
     spec=json.loads(spec_path.read_text());contract=json.loads(contract_path.read_text())
     bpy.ops.wm.open_mainfile(filepath=str(args.source.resolve()))
@@ -44,8 +71,8 @@ def main():
         or spec.get('original_packaging',{}).get('tire_groove_revision38') is not None)
     if not args.inspect_only and current_source:
         if args.source_binding is None:raise ValueError('Current source export requires its source-generation binding')
-        from endurance_sedan.source_generation import verify_saved_lower
-        source_binding_check=verify_saved_lower(args.source.resolve(),args.source_binding.resolve(),root,
+        verify_saved_lower=saved_source_verifier(construction_root,root)
+        source_binding_check=verify_saved_lower(args.source.resolve(),args.source_binding.resolve(),construction_root,
             unused_output=args.inventory.resolve().with_suffix('.unused-source-preflight'))
         scene=bpy.context.scene
         if json.loads(scene['specification'])!=spec:raise ValueError('Actual current source specification differs from project input')
@@ -116,7 +143,9 @@ def main():
     inventory['status']='failed' if errors else ('passed' if args.inspect_only else 'export_pending')
     inventory['source_preview_only']=bool(scene.get('surface_preview_only',False))
     inventory['export_validator_sha256']=digest(Path(__file__))
-    if source_binding_check is not None:inventory['source_generation_verification']=source_binding_check
+    if source_binding_check is not None:
+        inventory['source_generation_verification']=source_binding_check
+        inventory['source_generation_root']=str(construction_root)
     inventory['gltf_profile_sha256']=digest(root/'tools/assets/profiles/gltf2-endurance-sedan-v1.json')
     inventory['identity_transforms']=True
     inventory['validation_scope']='evaluated_source_only' if args.inspect_only else 'evaluated_and_exported_runtime_asset'
