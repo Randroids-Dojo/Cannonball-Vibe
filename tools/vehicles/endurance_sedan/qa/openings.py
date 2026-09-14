@@ -26,6 +26,7 @@ p.add_argument('--mode',choices=('moving-moving','moving-fixed','all'),default='
 p.add_argument('--max-cells-per-pair',type=int,default=30000)
 p.add_argument('--include-group',action='append',default=[])
 p.add_argument('--include-component',action='append',default=[])
+p.add_argument('--require-valance-cover',action='store_true')
 a=p.parse_args(sys.argv[sys.argv.index('--')+1:])
 assert not a.output.exists()
 qa=Path(__file__).resolve().parent
@@ -219,6 +220,9 @@ report={'task_id':'P1-018','milestone':'M5','start_utc':utc,'end_utc':datetime.n
         'method':'Analytic vertex-coordinate sine/cosine extrema bound each swept component AABB. Unresolved intervals use midpoint triangle clearance minus the exact maximal point-displacement bound2R*sin(half-angular-width/2). Each independent moving group has its own parameter interval. Every accepted interval has a conservative gap bound; subdivision alone is not acceptance.',
         'limits':'Actual retained evaluated LOD0 surfaces and six proportional opening drivers only. Other controls remain at their retained rest geometry; steering/suspension and wipers require separate swept envelopes. Same-rigid assembly construction interfaces need separate static QA. Named pin/bore cases are certified for positive separation only and require separate nominal radius/axial interface measurement. Exact rear rubber zone is individually bounded; all other pairs retain1 mm. Numerical1um margin is retained. Native rest-state intersection diagnostics must independently exclude preexisting solid containment.',
         'human_approval_reference':None}
+if a.require_valance_cover:
+    from valance_cover_report import validate_opening_coverage
+    report['valance_cover_pair_coverage'] = validate_opening_coverage(report, d, contract)
 a.output.write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8',newline='\n')
 print('QA_CONTINUOUS_COMPLETE '+json.dumps({'status':status,'pairs':len(results),'whole_domain_aabb_pairs':aabb_certified}),flush=True)
 raise SystemExit(0 if status=='passed' else 1)

@@ -9827,6 +9827,16 @@
         "Keep the local highlight change unaccepted: the thin roof seam is more conspicuous and broad/layered form remains. Finish the bounded fit checkpoint, then propose the smallest coherent broad Roof/C/rail/foot revision through the existing geometry owner. Required physical contact tests remain separate."
       ],
       "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-SOURCE43",
+      "utc": "2026-09-14T13:29:31.026924+00:00",
+      "evidence": {
+        "path": "reports/p1-018/source-pipeline38-01/checkpoint207.json",
+        "bytes": 10459,
+        "sha256": "30f896b92817c4f05081deeafbe466716b8b322ec89d00a2b41fe989314474d9"
+      },
+      "scope": "Actual saved193/focused205 cover source proof, independent hidden-observation/upper visual audits and full Windows frontdoor208. Whole asset/human gates remain open."
     }
   ],
   "defects": [
@@ -14362,7 +14372,7 @@
     },
     {
       "severity": "major",
-      "status": "open",
+      "status": "corrected_in_source60_runtime_diagnostic",
       "observed_utc": "2026-09-11T18:03:38.927014+00:00",
       "observed_revision": "eb5703e55f3656e91bd80fb79502f10ce250554b",
       "evidence": [
@@ -14370,11 +14380,16 @@
           "path": "reports/p1-018/qa/runtime-resource-defects-01/review.json",
           "sha256": "6471557b79ddab8b3038db0e05d809ddde840dabf9d7cc1f30215c92ec5d973a",
           "bytes": 5680
+        },
+        {
+          "path": "reports/p1-018/source-pipeline38-01/checkpoint184.json",
+          "bytes": 9965,
+          "sha256": "3c44b6ce385446dd241471d0f60427f8988fb02726950213a695cfcc52577d7d"
         }
       ],
       "assigned_owner": "runtime",
-      "correction": null,
-      "verification": "Open: actual active runtime material resources must be rebound after the final source/import/presenter composition. The earlier shutdown note was misattributed to this material-budget defect; see the dated lifecycle audits for its separate evidence.",
+      "correction": "One per-presentation shader material shares three independently selected native mirror viewport feeds.",
+      "verification": "All60 native states peak32/32materials;1615 nonmirror property snapshots preserved. Both actual renderers pass15 positive pixel pairs plus wrongflip and lifecycle controls. Final promoted-source resource check remains required.",
       "id": "P1-018-D057",
       "category": "runtime-material-resource-budget",
       "summary": "Actual active runtime material resources exceed the unchanged 32-material ceiling at every LOD.",
@@ -16279,7 +16294,7 @@
     {
       "id": "P1-018-EXPORT38-SPEC",
       "severity": "high",
-      "status": "runtime_scalar_corrected_appearance_pending",
+      "status": "corrected_in_source60_runtime_diagnostic",
       "observed": "Pinned Blender writes optional KHR_materials_specular only for Material_Screen, factor0.11999999731779099. corner_bake rejects it before fresh bake creation. Pinned official Godot4.7.1 imports the raw diagnostic GLB but does not declare this extension and leaves native Screen metallic_specular0.5. Native import success is not material equivalence. Three chassis Screen batches are separate from the dynamic cluster replacement.",
       "evidence": [
         {
@@ -16306,17 +16321,27 @@
           "path": "reports/p1-018/source-pipeline38-01/checkpoint138.json",
           "bytes": 26820,
           "sha256": "35f82dc50764c373cb076c0140fb51426d17a683ce843cb3ac6d2e39283785d3"
+        },
+        {
+          "path": "reports/p1-018/source-pipeline38-01/checkpoint155.json",
+          "bytes": 22262,
+          "sha256": "3bd90b4d61184e15f0cdf941e3a55b1bb7048d301475ec97052a4672b27dafdb"
+        },
+        {
+          "path": "reports/p1-018/source-pipeline38-01/checkpoint160.json",
+          "bytes": 5204,
+          "sha256": "c9b37ebe5192bbdf31471935ddbd0d81cfb7db6cd8b341b057d49354cc46a61b"
         }
       ],
       "correction": "Scoped optional scalar extension preservation plus separately scoped actual Godot scalar mapping; no source change.",
-      "verification": "66 focused native tests pass. Actual fresh source60 GLB clean import, adapter and wrapper independently validate all6 Screen occurrences across3 LODs; F0 maps to float32 .17320507764816284. Normal/oblique appearance comparison and final material budget remain open; no full angular BRDF equivalence claim.",
+      "verification": "66 focused native tests pass. Actual fresh source60 GLB clean import, adapter and wrapper independently validate all6 Screen occurrences across3 LODs; F0 maps to float32 .17320507764816284. Normal/oblique appearance comparison and final material budget remain open; no full angular BRDF equivalence claim. Native153 now captures four actual2560x1440 normal/60-degree NavigationScreen scalar comparisons with six source-derived memberships and exact scene/material restoration. Independent appearance assessment pending; no full BRDF or cabin readability claim. IndependentQA now reviews all4actualoriginals and full-pixel projected masks: bounded scalar reflection reduction with exact distantbackground/restoration. Nearblack8bit diagnostic does not accept fullBRDF or cabinreadability. Receipt checkpoint160.",
       "human_approval_reference": null
     },
     {
       "id": "P1-018-RUNTIME39-MATERIALS",
       "severity": "major",
-      "status": "open",
-      "observed": "Actual fresh source60 native Forward+ render measured33 material RIDs against32 in13 LOD0 states. Matrix stops on incompatible simultaneous service brake/reverse request. Final state maximum incldamage and LOD1/2 not measured.",
+      "status": "corrected_in_source60_runtime_diagnostic",
+      "observed": "Actual147 completes60 reachable states; LOD0 costs33 materials or34 with damage against32. LOD1/2 cost28/29; texture maximum12. No budget waiver.",
       "evidence": [
         {
           "path": "reports/p1-018/source-pipeline38-01/checkpoint138.json",
@@ -16327,10 +16352,78 @@
           "path": "reports/p1-018/source-pipeline38-01/source60-runtime123/resource-native134/validation.json",
           "bytes": 1117,
           "sha256": "7d7c6dc32b19138d30007d5df53cad27e95770bf71735cc0f2b3cad5e03621bc"
+        },
+        {
+          "path": "reports/p1-018/source-pipeline38-01/checkpoint155.json",
+          "bytes": 22262,
+          "sha256": "3bd90b4d61184e15f0cdf941e3a55b1bb7048d301475ec97052a4672b27dafdb"
+        },
+        {
+          "path": "reports/p1-018/source-pipeline38-01/checkpoint184.json",
+          "bytes": 9965,
+          "sha256": "3c44b6ce385446dd241471d0f60427f8988fb02726950213a695cfcc52577d7d"
         }
       ],
+      "correction": "One per-presentation shader material shares three independently selected native mirror viewport feeds.",
+      "verification": "All60 native states peak32/32materials;1615 nonmirror property snapshots preserved. Both actual renderers pass15 positive pixel pairs plus wrongflip and lifecycle controls. Final promoted-source resource check remains required.",
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-FORM39-REAR",
+      "severity": "major",
+      "status": "open",
+      "category": "surface-continuity",
+      "assigned_owner": "lead-vehicle-art",
+      "observed_utc": "2026-09-14T10:42:58.455591+00:00",
+      "summary": "Dark reflector-adjacent RearBumper triangle remains conspicuous in matched rear-end closeups. Samepaint and exact edgeUVs; existing noncoplanar facets/nativefield divisions predate cover440.",
       "correction": null,
-      "verification": "Failed native134 retained with all268 inputs unchanged and normal owned exit0 in.635s. Corrected reachable fixture and full property dump pending before optimization.",
+      "verification": "Native44299 primaryrays and causal443exactprelate geometry/nativefield correspondence. Lighting/normaltexture contributions not separately isolated; first earlier authoring operation not identified.",
+      "evidence": [
+        {
+          "path": "reports/p1-018/qa/valance-form30-proposal01/causal443.json",
+          "bytes": 44122,
+          "sha256": "acbe1775fb1717157f62bc09e0ac81ec945f80ec575580b1e0f0303b97260a4d"
+        },
+        {
+          "path": "reports/p1-018/source-pipeline38-01/checkpoint160.json",
+          "bytes": 5204,
+          "sha256": "c9b37ebe5192bbdf31471935ddbd0d81cfb7db6cd8b341b057d49354cc46a61b"
+        }
+      ],
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-RUNTIME39-REARVIEW",
+      "severity": "major",
+      "status": "open",
+      "category": "runtime-usability",
+      "assigned_owner": "lead-runtime",
+      "observed_utc": "2026-09-14T11:51:37.168481+00:00",
+      "summary": "Lead viewed actual daylight/night Rear feeds and daylight cockpit capture. Most image area is cabin/headrests; small rear window limits exterior visibility. Native target/update tests pass; usability remains open.",
+      "correction": null,
+      "verification": "Actual2124.5degree daylight imagery makes exterior cars visible; intended-transform/body guards fail, so diagnostic remains failed. Original4stages pass, source/canonical camera unchanged. Exact composition correction and night/usefulness review pending.",
+      "evidence": [
+        {
+          "path": "reports/p1-018/source-pipeline38-01/checkpoint184.json",
+          "bytes": 9965,
+          "sha256": "3c44b6ce385446dd241471d0f60427f8988fb02726950213a695cfcc52577d7d"
+        },
+        {
+          "path": "reports/p1-018/mirror-baseline39-180/mirrors-daylight/mirror-Rear-01.png",
+          "bytes": 44113,
+          "sha256": "ab3f6a2111e6496644177ed5f78b881a6f6ad872b62b6006451e0c840e97fe47"
+        },
+        {
+          "path": "reports/p1-018/mirror-baseline39-180/mirrors-night/mirror-Rear-01.png",
+          "bytes": 40951,
+          "sha256": "6752d9a94e223b3d2e80be2a36754b296f25107dbc83dce7b3da7c4b3fdce0a3"
+        },
+        {
+          "path": "reports/p1-018/source-pipeline38-01/checkpoint207.json",
+          "bytes": 10459,
+          "sha256": "30f896b92817c4f05081deeafbe466716b8b322ec89d00a2b41fe989314474d9"
+        }
+      ],
       "human_approval_reference": null
     }
   ],
@@ -16473,5 +16566,5 @@
       "approval_reference": null
     }
   ],
-  "updated_utc": "2026-09-14T09:42:58.004925+00:00"
+  "updated_utc": "2026-09-14T13:29:31.026924+00:00"
 }

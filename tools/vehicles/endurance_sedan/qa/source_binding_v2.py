@@ -13,6 +13,7 @@ class PipelineLock:
     generation: object
     portable_input_lock: dict
     repeated_detail: object | None = None
+    valance_cover: object | None = None
 
 
 def load(path, source, root, output, legacy_loader):
@@ -20,10 +21,12 @@ def load(path, source, root, output, legacy_loader):
         from .gate import (Input, SourceLock, artifact, digest, keys, positive_process,
                            require, sha, strict_json)
         from .repeated_detail_report import lock_optional
+        from .valance_cover_report import lock_optional as lock_cover
     else:
         from gate import (Input, SourceLock, artifact, digest, keys, positive_process,
                           require, sha, strict_json)
         from repeated_detail_report import lock_optional
+        from valance_cover_report import lock_optional as lock_cover
 
     path, source, root = Path(path).resolve(strict=True), Path(source).resolve(strict=True), Path(root).resolve(strict=True)
     document = strict_json(path)
@@ -130,14 +133,24 @@ def load(path, source, root, output, legacy_loader):
         source_artifacts=[*files.values(), historical_source, *role_rows.values(), *tire_inputs],
         logical_files={key: row for key, logical in logical_paths.items() for row in input_files if row.path == logical})
     detail_inputs = [] if detail is None else [detail.checkpoint, detail.constructor, detail.encoder]
+    cover_paths = {'constructor': root / 'tools/vehicles/endurance_sedan/valance_cover39/construction.py',
+                   'encoder': root / 'tools/vehicles/endurance_sedan/corner_encoding.py'}
+    cover = lock_cover(strict_json(role_rows['specification'].path), construction,
+        is_pipeline=True, artifact=lambda row: artifact(row, root), generation_inputs=input_files,
+        phase_outputs=fresh_outputs,
+        source_artifacts=[*files.values(), historical_source, *role_rows.values(), *tire_inputs, *detail_inputs],
+        logical_files={key: row for key, logical in cover_paths.items()
+                       for row in input_files if row.path == logical})
+    cover_inputs = [] if cover is None else [cover.checkpoint, cover.requested, cover.constructor, cover.encoder]
     binding = Input(path, sha(path), path.stat().st_size)
     inputs = (binding, *files.values(), *historical.inputs, *input_files, *logs,
-              *phase_outputs, *actual_outputs.values(), *role_rows.values(), *lower_inputs, *tire_inputs, *detail_inputs)
+              *phase_outputs, *actual_outputs.values(), *role_rows.values(), *lower_inputs, *tire_inputs, *detail_inputs, *cover_inputs)
     destination = Path(output).resolve()
     require(not destination.exists() and all(not row.path.is_relative_to(destination) for row in inputs),
             'New QA output must not contain locked source inputs')
     pipeline = PipelineLock(historical, files['pre_lod_source'], files['pre_front_source'], files['construction'],
-                            files['lower_bundle'], files['generation_record'], portable, repeated_detail=detail)
+                            files['lower_bundle'], files['generation_record'], portable,
+                            repeated_detail=detail, valance_cover=cover)
     lock = SourceLock(root, binding, files['source'], historical.packet, historical.profile,
                       historical.builder, historical.helper, historical.ownership,
                       historical.constructor_inputs_sha256, tuple(inputs), pipeline=pipeline)

@@ -568,10 +568,14 @@ public sealed class EnduranceSedanPresentationScenario : IDisposable
         var expectedTexture = viewport.GetTexture();
         foreach (var mesh in meshes)
         {
-            var material = mesh.MaterialOverride as StandardMaterial3D;
-            Require(material?.AlbedoTexture?.GetRid() == expectedTexture.GetRid(), "display uses a different viewport texture: " + name);
-            if (!mirror)
+            if (mirror)
+                VerifyMirrorSurface(mesh, name["Mirror_".Length..], expectedTexture);
+            else
+            {
+                var material = mesh.MaterialOverride as StandardMaterial3D;
+                Require(material?.AlbedoTexture?.GetRid() == expectedTexture.GetRid(), "display uses a different viewport texture: " + name);
                 Require(material!.Uv1Scale.IsEqualApprox(Vector3.One) && material.Uv1Offset.IsZeroApprox(), "instrument material changes the authored UV transform");
+            }
             var transform = anchor.GlobalTransform.AffineInverse() * mesh.GlobalTransform;
             for (var surface = 0; surface < mesh.Mesh.GetSurfaceCount(); surface++)
             {
@@ -621,11 +625,28 @@ public sealed class EnduranceSedanPresentationScenario : IDisposable
         var meshes = Descendants(_rig.ResolveAnchor("Mirror_" + mirror.Name)).OfType<MeshInstance3D>().ToArray();
         Require(meshes.Length > 0, "mirror has no display surfaces: " + mirror.Name);
         foreach (var mesh in meshes)
+            VerifyMirrorSurface(mesh, mirror.Name, expectedTexture);
+    }
+
+    private void VerifyMirrorSurface(MeshInstance3D mesh, string name, Texture2D expectedTexture)
+    {
+        var channel = name switch { "Left" => 0, "Right" => 1, "Rear" => 2, _ => -1 };
+        var material = mesh.MaterialOverride as ShaderMaterial;
+        Require(channel >= 0 && material?.Shader?.ResourcePath == "res://game/Vehicle/mirror_display.gdshader",
+            "mirror has no actual project shader override: " + name);
+        var selector = mesh.GetInstanceShaderParameter("mirror_index");
+        Require(selector.VariantType == Variant.Type.Int && selector.AsInt32() == channel,
+            "mirror surface instance selects a different channel: " + name);
+        Require(material!.GetShaderParameter("mirror_" + name.ToLowerInvariant()).AsGodotObject() is Texture2D texture &&
+            texture.GetRid() == expectedTexture.GetRid() && mesh.Layers == EnduranceSedanPresentation.MirrorSurfaceLayer,
+            "mirror surface texture identity or self-exclusion layer differs: " + name);
+        foreach (var other in _presentation.Mirrors)
         {
-            var material = mesh.MaterialOverride as StandardMaterial3D;
-            Require(material is not null, "mirror has no actual StandardMaterial override");
-            var texture = material!.AlbedoTexture;
-            Require(texture is not null && texture.GetRid() == expectedTexture.GetRid() && material.Uv1Scale.IsEqualApprox(new Vector3(-1, 1, 1)) && material.Uv1Offset.IsEqualApprox(new Vector3(1, 0, 0)), "mirror surface texture identity or horizontal reflection differs from its matching viewport: " + mirror.Name);
+            var expected = other.Viewport.GetTexture();
+            Require(material.GetShaderParameter("mirror_" + other.Name.ToLowerInvariant()).AsGodotObject() is Texture2D bound &&
+                bound.GetRid() == expected.GetRid(), "shared mirror material crosses presentation feeds");
+            foreach (var member in Descendants(_rig.ResolveAnchor("Mirror_" + other.Name)).OfType<MeshInstance3D>())
+                Require(member.MaterialOverride?.GetRid() == material.GetRid(), "mirror materials are not shared across all LOD descendants");
         }
     }
 
@@ -823,7 +844,7 @@ public sealed class EnduranceSedanPresentationScenario : IDisposable
     {
         var inputs = new Dictionary<string, string>();
         var unavailableInputs = new List<string>();
-        foreach (var relative in new[] { "game/Automation/EnduranceSedanPresentationScenario.cs", "game/Vehicle/VehicleContactShading.cs", "game/Vehicle/EnduranceSedanPresentation.cs", "game/Vehicle/EnduranceSedanPresentationSetup.cs", "game/Vehicle/Setups/EnduranceSedanPresentation.tres", "game/Vehicle/VehicleInspectionPanel.cs", "game/Main.cs", "game/Vehicle/Setups/EnduranceSedan.tres", "game/Vehicle/Visuals/EnduranceSedan.tscn", "docs/vehicles/endurance-sedan/specification.json", "data/assets/vehicles/derived/endurance-sedan.glb", "assets/vehicles/endurance-sedan/endurance-sedan.generated.tscn" })
+        foreach (var relative in new[] { "game/Automation/EnduranceSedanPresentationScenario.cs", "game/Vehicle/VehicleContactShading.cs", "game/Vehicle/EnduranceSedanPresentation.cs", "game/Vehicle/mirror_display.gdshader", "game/Vehicle/mirror_display.gdshader.uid", "game/Vehicle/EnduranceSedanPresentationSetup.cs", "game/Vehicle/Setups/EnduranceSedanPresentation.tres", "game/Vehicle/VehicleInspectionPanel.cs", "game/Main.cs", "game/Vehicle/Setups/EnduranceSedan.tres", "game/Vehicle/Visuals/EnduranceSedan.tscn", "docs/vehicles/endurance-sedan/specification.json", "data/assets/vehicles/derived/endurance-sedan.glb", "assets/vehicles/endurance-sedan/endurance-sedan.generated.tscn" })
         {
             var absolute = ProjectSettings.GlobalizePath("res://" + relative);
             if (File.Exists(absolute)) inputs[relative] = Hash(absolute);

@@ -3,9 +3,9 @@
   "task_id": "P1-018",
   "milestone": "M5",
   "status": "in_progress",
-  "utc": "2026-09-13T12:36:06.591439+00:00",
-  "git_revision": "6be5deba1dd6a1342b638efc662b77b7f2da4240",
-  "git_state": "Measured viewer35 worktree checkpoint before implementation commit; installed model production34 and continuing art repairs remain separate.",
+  "utc": "2026-09-14T13:29:31.026924+00:00",
+  "git_revision": "4b55b061349eda31dd7cfb56f5fcaafae72d2116",
+  "git_state": "Dirty P1-018 checkpoint207; exact current tooling passes all13local gates and focused native205. Installedproduction34 unchanged; finite art/mirror and final platform/human gates open.",
   "platform": "Windows-11-10.0.26200-SP0",
   "tool_versions": {
     "blender": "Blender 5.1.2\r\n\tbuild date: 2026-05-19\r\n\tbuild time: 01:37:34\r\n\tbuild commit date: 2026-05-18\r\n\tbuild commit time: 13:43\r\n\tbuild hash: ec6e62d40fa9\r\n\tbuild branch: blender-v5.1-release\r\n\tbuild platform: Windows\r\n\tbuild type: Release\r\n\tbuild c flags:  -Wall -Werror=implicit-function-declaration -Werror=return-type -Wno-tautological-compare -Wno-unknown-pragmas -Wno-char-subscripts -Wstrict-prototypes -Wmissing-prototypes -Wunused-parameter -Wundef -Wundef-prefix -Werror=unguarded-availability-new /W3 -Wno-c++98-compat -Wno-old-style-cast -Wno-unsafe-buffer-usage -Wno-missing-prototypes -Wno-sign-conversion -Wno-missing-field-initializers -Wno-extra-semi -Wno-language-extension-token -Wno-implicit-float-conversion -Wno-c++98-compat-pedantic -Wno-implicit-int-float-conversion -Wno-double-promotion -Wno-pre-c++17-compat -Wno-shorten-64-to-32 -Wno-c++98-compat-local-type-template-args -Wno-reserved-identifier -Wno-cast-align -Wno-documentation -Wno-disabled-macro-expansion -Wno-extra-semi-stmt -Wno-zero-as-null-pointer-constant -Wno-float-conversion -Wno-reserved-macro-identifier -Wno-cast-function-type-strict -Wno-float-equal -Wno-implicit-int-conversion -Wno-shadow -Wno-shadow-field-in-constructor -Wno-cast-qual -Wno-pre-c++14-compat -Wno-global-constructors -Wno-switch-enum -Wno-exit-time-destructors -Wno-ctad-maybe-unsupported -Wno-undefined-func-template -Wno-c++98-compat-extra-semi -Wno-cast-function-type -Wno-nullability-extension -Wno-shadow-field -Wno-conditional-uninitialized -Wno-unused-parameter -Wno-suggest-destructor-override -Wno-shadow-uncaptured-local -Wno-unused-macros -Wno-covered-switch-default -Wno-signed-enum-bitfield -Wno-declaration-after-statement -Wno-implicit-fallthrough -Wno-non-virtual-dtor -Wno-nested-anon-types -Wno-gnu-zero-variadic-macro-arguments -Wno-unreachable-code-break -Wno-inconsistent-missing-destructor-override -Wno-format-pedantic -Wno-nonportable-system-include-path -Wno-undef -Wno-ignored-qualifiers -Wno-used-but-marked-unused -Wno-header-hygiene -Wno-char-subscripts -Wno-unreachable-code-return -Wno-unused-template -Wno-gnu-anonymous-struct -Wno-deprecated-copy-with-user-provided-dtor -Wno-inconsistent-missing-override -Wno-unreachable-code -Wno-deprecated-dynamic-exception-spec -Wno-bad-function-cast -Wno-microsoft-enum-value -Wno-deprecated-copy-with-user-provided-copy -Wno-zero-length-array -Wno-unused-function -Wno-pedantic -Wno-deprecated-copy-with-dtor -Wno-documentation-unknown-command -Wno-undefined-reinterpret-cast -Wno-format-nonliteral -Wno-comma -Wno-documentation-deprecated-sync -Wno-shift-sign-overflow -Wno-pre-c++17-compat-pedantic -Wno-c++98-compat-unnamed-type-template-args -Wno-sign-compare -Wno-format -Wno-c++98-compat-bind-to-temporary-copy -Wno-enum-enum-conversion -Wno-anon-enum-enum-conversion -Wno-range-loop-bind-reference -Wno-enum-float-conversion -Wno-keyword-macro -Wno-deprecated-copy -Wno-unused-member-function -Wno-missing-noreturn -Wno-missing-variable-declarations -Wno-documentation-html -Wno-gnu-redeclared-enum -Wno-deprecated-declarations -Wno-overloaded-virtual -Wno-c++98-c++11-compat-binary-literal -Wno-deprecated-redundant-constexpr-static-def -Wno-missing-braces -Wno-c99-extensions -Wno-strict-prototypes -Wno-unreachable-code-loop-increment -Wno-gnu-case-range -Wno-duplicate-enum -Wno-null-pointer-subtraction -Wno-deprecated-literal-operator -Wno-newline-eof -Wno-microsoft-cast -Wno-date-time -Wno-delete-non-abstract-non-virtual-dtor -Wno-unused-private-field -Wno-flexible-array-extensions -Wno-string-conversion -Wno-final-dtor-non-final-class -Wno-microsoft-unqualified-friend -Wno-invalid-noreturn -Wno-invalid-utf8 -Wno-four-char-constants -Wno-parentheses -Wno-pessimizing-move -Wno-deprecated-non-prototype -Wno-bitfield-enum-conversion -Wno-unused-lambda-capture -Wno-shadow-field-in-constructor-modified -Wno-switch-default -Wno-nan-infinity-disabled -Wno-pre-c11-compat /DWIN32 /D_WINDOWS  /MP /nologo /J /Gy /Gd /showFilenames -Wno-unused-command-line-argument -Wno-microsoft-enum-forward-reference /clang:-funsigned-char /clang:-fno-strict-aliasing /clang:-ffp-contract=off -march=x86-64-v2 \r\n\tbuild c++ flags:  -Wall -Wno-tautological-compare -Wno-unknown-pragmas -Wno-char-subscripts -Wno-overloaded-virtual -Wno-sign-compare -Wno-invalid-offsetof -Wno-suggest-override -Wundef -Wundef-prefix -Wunused-parameter -Wmismatched-tags -Werror=unguarded-availability-new /W3 -Wno-c++98-compat -Wno-old-style-cast -Wno-unsafe-buffer-usage -Wno-missing-prototypes -Wno-sign-conversion -Wno-missing-field-initializers -Wno-extra-semi -Wno-language-extension-token -Wno-implicit-float-conversion -Wno-c++98-compat-pedantic -Wno-implicit-int-float-conversion -Wno-double-promotion -Wno-pre-c++17-compat -Wno-shorten-64-to-32 -Wno-c++98-compat-local-type-template-args -Wno-reserved-identifier -Wno-cast-align -Wno-documentation -Wno-disabled-macro-expansion -Wno-extra-semi-stmt -Wno-zero-as-null-pointer-constant -Wno-float-conversion -Wno-reserved-macro-identifier -Wno-cast-function-type-strict -Wno-float-equal -Wno-implicit-int-conversion -Wno-shadow -Wno-shadow-field-in-constructor -Wno-cast-qual -Wno-pre-c++14-compat -Wno-global-constructors -Wno-switch-enum -Wno-exit-time-destructors -Wno-ctad-maybe-unsupported -Wno-undefined-func-template -Wno-c++98-compat-extra-semi -Wno-cast-function-type -Wno-nullability-extension -Wno-shadow-field -Wno-conditional-uninitialized -Wno-unused-parameter -Wno-suggest-destructor-override -Wno-shadow-uncaptured-local -Wno-unused-macros -Wno-covered-switch-default -Wno-signed-enum-bitfield -Wno-declaration-after-statement -Wno-implicit-fallthrough -Wno-non-virtual-dtor -Wno-nested-anon-types -Wno-gnu-zero-variadic-macro-arguments -Wno-unreachable-code-break -Wno-inconsistent-missing-destructor-override -Wno-format-pedantic -Wno-nonportable-system-include-path -Wno-undef -Wno-ignored-qualifiers -Wno-used-but-marked-unused -Wno-header-hygiene -Wno-char-subscripts -Wno-unreachable-code-return -Wno-unused-template -Wno-gnu-anonymous-struct -Wno-deprecated-copy-with-user-provided-dtor -Wno-inconsistent-missing-override -Wno-unreachable-code -Wno-deprecated-dynamic-exception-spec -Wno-bad-function-cast -Wno-microsoft-enum-value -Wno-deprecated-copy-with-user-provided-copy -Wno-zero-length-array -Wno-unused-function -Wno-pedantic -Wno-deprecated-copy-with-dtor -Wno-documentation-unknown-command -Wno-undefined-reinterpret-cast -Wno-format-nonliteral -Wno-comma -Wno-documentation-deprecated-sync -Wno-shift-sign-overflow -Wno-pre-c++17-compat-pedantic -Wno-c++98-compat-unnamed-type-template-args -Wno-sign-compare -Wno-format -Wno-c++98-compat-bind-to-temporary-copy -Wno-enum-enum-conversion -Wno-anon-enum-enum-conversion -Wno-range-loop-bind-reference -Wno-enum-float-conversion -Wno-keyword-macro -Wno-deprecated-copy -Wno-unused-member-function -Wno-missing-noreturn -Wno-missing-variable-declarations -Wno-documentation-html -Wno-gnu-redeclared-enum -Wno-deprecated-declarations -Wno-overloaded-virtual -Wno-c++98-c++11-compat-binary-literal -Wno-deprecated-redundant-constexpr-static-def -Wno-missing-braces -Wno-c99-extensions -Wno-strict-prototypes -Wno-unreachable-code-loop-increment -Wno-gnu-case-range -Wno-duplicate-enum -Wno-null-pointer-subtraction -Wno-deprecated-literal-operator -Wno-newline-eof -Wno-microsoft-cast -Wno-date-time -Wno-delete-non-abstract-non-virtual-dtor -Wno-unused-private-field -Wno-flexible-array-extensions -Wno-string-conversion -Wno-final-dtor-non-final-class -Wno-microsoft-unqualified-friend -Wno-invalid-noreturn -Wno-invalid-utf8 -Wno-four-char-constants -Wno-parentheses -Wno-pessimizing-move -Wno-deprecated-non-prototype -Wno-bitfield-enum-conversion -Wno-unused-lambda-capture -Wno-shadow-field-in-constructor-modified -Wno-switch-default -Wno-nan-infinity-disabled -Wno-pre-c11-compat /DWIN32 /D_WINDOWS   /EHsc  /Gy /MP /nologo /J /Gd /showFilenames /EHsc -Wno-unused-command-line-argument -Wno-microsoft-enum-forward-reference /clang:-funsigned-char /clang:-fno-strict-aliasing /clang:-ffp-contract=off -march=x86-64-v2 \r\n\tbuild link flags: /MACHINE:X64  /SUBSYSTEM:CONSOLE /STACK:2097152 /ignore:4049 /ignore:4217 /ignore:4221\r\n\tbuild system: CMake",
@@ -7350,6 +7350,1182 @@
       "path": "reports/p1-018/source-pipeline38-01/checkpoint138.json",
       "bytes": 26820,
       "sha256": "35f82dc50764c373cb076c0140fb51426d17a683ce843cb3ac6d2e39283785d3"
+    }
+  },
+  "resource_visual_checkpoint_v40": {
+    "task_id": "P1-018",
+    "milestone": "M5",
+    "utc": "2026-09-14T10:30:22.468992+00:00",
+    "git_revision": "4b55b061349eda31dd7cfb56f5fcaafae72d2116",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "status": "verified development checkpoint; machine and human delivery work remains",
+    "tool_versions": {
+      "Blender": "5.1.2 ec6e62d40fa9",
+      "Godot": {
+        "build": "official",
+        "hash": "a13da4feb8d8aefc283c3763d33a2f170a18d541",
+        "hex": 263937,
+        "major": 4,
+        "minor": 7,
+        "patch": 1,
+        "status": "stable",
+        "string": "4.7.1-stable (official)",
+        "timestamp": 0
+      },
+      "GPU": "NVIDIA GeForce RTX 3080 Ti",
+      "dotnet_sdk": "10.0.102"
+    },
+    "prior_implementation": "Commit4b55 contains export/scalar work verified by fullfrontdoor125 all13 with566 exact bound inputs and66 focused native cases. Current mirror/CI work requires a new frontdoor; no inherited pass for new edits.",
+    "runtime_resources": {
+      "status": "failed",
+      "completed_actual_cases": 60,
+      "limits": {
+        "materials_max": 32,
+        "textures_max": 48,
+        "texture_bytes_max": 96000000
+      },
+      "maxima": {
+        "materials": 34,
+        "textures_including_contact": 12
+      },
+      "LOD0_materials_off_damage": [
+        33,
+        34
+      ],
+      "LOD1_and_LOD2_materials_off_damage": [
+        28,
+        29
+      ],
+      "non_budget_guards": "All pass in corrected replay of the unchanged actual147 native bytes.",
+      "reader_correction": "Godot RefCounted ObjectID may stringify as negative signedint64. Original148 rejected it; private corrected reader retains nonzero/range/RID guards.39 host controls pass.",
+      "diagnosis": "253 passive/source pairs have differing properties.180 mirror pairs across60states differ only in viewport texture across138 readable properties. Shared three-sampler per-presentation material scoped150; projected32 maximum unverified.",
+      "shutdown": {
+        "schema_version": 1,
+        "pid": 38676,
+        "started_monotonic_seconds": 275430.6771741,
+        "total_budget_seconds": 8.0,
+        "phase_seconds": [
+          5.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "quit_requested": true,
+        "quit_acknowledged": true,
+        "connection_turnover_retries": 0,
+        "fallback": [],
+        "phase_errors": [],
+        "phase_events": [
+          {
+            "phase": "graceful",
+            "elapsed_seconds": 0.6264203999890015
+          }
+        ],
+        "exit_status": 0,
+        "output_eof": true,
+        "status": "passed",
+        "quit_cleanup": {
+          "held_inputs_after": 0,
+          "held_inputs_before": 0,
+          "pending_waits_after": 0,
+          "pending_waits_before": 0
+        },
+        "diagnostics": [],
+        "elapsed_seconds": 0.6821267000050284,
+        "bookkeeping_completed": true,
+        "native_log": {
+          "path": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\source-pipeline38-01\\source60-resource144\\native147\\godot.log",
+          "bytes": 1331,
+          "sha256": "839dea729018daa05a19da7099bb8037e0f810f28d1fee411b1c7c9b25c7f1c4"
+        },
+        "unfinished_operations": 0
+      },
+      "original_failure_preserved": true
+    },
+    "upper_visual": {
+      "actual_paired_images": 10,
+      "independent_review": "qa review01 agrees candidate415 is unsuitable for adoption; whole-car improvement small and clay corner bulged.",
+      "causal_clarification": "Read-only420 rays identify the apparent high side-view tips as far glass/seal surfaces below the roof envelope, not above-roof protrusions. The41x guide/normal causes require shared-form changes; scope149 pilots bowed planar headers and a new crown before detailed physical qualification.",
+      "source_installed": false
+    },
+    "rear_valance": {
+      "actual_paired_images": 10,
+      "lead_independent_visual_decision": "Accept bounded cover440 for portable integration: repeated vertical bands removed, continuous lower surface, no obvious new exhaust obstruction in matched views. Whole-car styling/human acceptance remains open.",
+      "UV_review": {
+        "receipt": {
+          "path": "reports/p1-018/qa/valance-form30-proposal01/uv_capture441.json",
+          "bytes": 220758,
+          "sha256": "d1e87c67c05b4738222c156f93643f0d8c5e46acb0de6cbab57f5afb90ade05b"
+        },
+        "maximum_component_error": 4.76837158203125e-07,
+        "existing_guard": 1e-05,
+        "negative_controls_rejected": 4
+      },
+      "physical_and_raw": "Five actual installed fields match native430;1103 unowned raw/physical/normal fields remain exact. Render-time evaluated UV rounding is bounded separately without changing guards.",
+      "source_installed": false,
+      "retained_failures": "141/142 aborted on exact evaluated aggregate changes.145 retained full UV differences;441 confirms existing1e-5 field guard. No underlying cache cause is claimed."
+    },
+    "screen_response": {
+      "status": "four actual native images captured and restored",
+      "source_memberships": 6,
+      "pixels": [
+        2560,
+        1440
+      ],
+      "angles_degrees": [
+        0,
+        60
+      ],
+      "scalars": [
+        0.5,
+        0.17320507764816284
+      ],
+      "scene_restoration_exact": true,
+      "bound_inputs_unchanged": true,
+      "lead_visual": "Actual isolated screen appears darker after scalar mapping at both matched angles. Independent pixel and visual QA pending.",
+      "scope": "F0-only diagnostic; no full angularBRDF equivalence, cabin readability, resource-budget or final vehicle acceptance."
+    },
+    "skill_update": {
+      "revision": "ccb78e38671f61f544ed22ef144fb953370d5f30",
+      "commit_url": "https://github.com/Randroids-Dojo/skills/commit/ccb78e38671f61f544ed22ef144fb953370d5f30",
+      "installed_files_independently_verified": 16,
+      "receipt": {
+        "path": "reports/p1-018/skill-update39-01/completion-receipt07.json",
+        "bytes": 12524,
+        "sha256": "6efa9dc23bea1582b611530e53e8335bfa1841f37f4f9550328c396f5a0862a8"
+      },
+      "practices": "Measure actual active/retained resource costs in reachable states; prove independently animated material semantics before consolidation."
+    },
+    "hosted": {
+      "run": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/34829523060",
+      "states": {
+        "Deterministic 500-mile (windows-latest)": "success",
+        "Deterministic 500-mile (ubuntu-latest)": "success",
+        "PlayGodot semantic UI (macos-latest)": "success",
+        "PlayGodot semantic UI (ubuntu-latest)": "cancelled",
+        "PlayGodot semantic UI (windows-latest)": "success",
+        "M0 (ubuntu-latest)": "success",
+        "M0 (windows-latest)": "success",
+        "P1-018 source34 selection diagnosis (Windows, diagnostic only)": "skipped"
+      },
+      "linux_pytest_passed": 323,
+      "linux_pytest_skipped": 6,
+      "linux_pytest_seconds": 817.85,
+      "job_conclusion": "cancelled"
+    },
+    "retention": [
+      {
+        "manifest": {
+          "path": "reports/p1-018/runtime/material-budget39-correction03/manifest04.json",
+          "bytes": 10743,
+          "sha256": "53ed8d89995cf0599227e58c95800036f3ae8933a2cdb5049b246789cf65a490"
+        },
+        "verified_files": 22
+      },
+      {
+        "manifest": {
+          "path": "reports/p1-018/qa/upper-whole38-review04/retention01.json",
+          "bytes": 71018,
+          "sha256": "b2cd33711c415abc34d0ee41d4b9c41abae41889f5e20ad0b3953fcef1ed232b"
+        },
+        "verified_files": 3
+      }
+    ],
+    "artifacts": [
+      {
+        "path": "reports/p1-018/qa/valance-form30-proposal01/uv_capture441.json",
+        "bytes": 220758,
+        "sha256": "d1e87c67c05b4738222c156f93643f0d8c5e46acb0de6cbab57f5afb90ade05b"
+      },
+      {
+        "path": "reports/p1-018/valance-whole39-01/capture145/manifest.json",
+        "bytes": 70137,
+        "sha256": "a11851097e0902fd62038d3211155b67346843cd7dfb8c0640227aab2e31e480"
+      },
+      {
+        "path": "reports/p1-018/runtime/material-budget39-correction03/inspection02.json",
+        "bytes": 250514,
+        "sha256": "a1099061111093acb6933786a7961e5406800280709aeb7e4bba560f1cc5c3d4"
+      },
+      {
+        "path": "reports/p1-018/skill-update39-01/completion-receipt07.json",
+        "bytes": 12524,
+        "sha256": "6efa9dc23bea1582b611530e53e8335bfa1841f37f4f9550328c396f5a0862a8"
+      },
+      {
+        "path": "reports/p1-018/qa/upper-whole38-review04/review01.json",
+        "bytes": 81070,
+        "sha256": "393be894536c7006ecd0e14d4339b6c2ccd8383ba5d303dde520ef3c48c7b35d"
+      },
+      {
+        "path": "reports/p1-018/research/upper-junction30-proposal01/HANDOFF422.json",
+        "bytes": 3734,
+        "sha256": "cd4d9d750b0295b08b0a0d4917abb79e8b1ad0e510ad7b9fbec3f30d6e5a7015"
+      },
+      {
+        "path": "reports/p1-018/research/upper-junction30-proposal01/REVIEW420.json",
+        "bytes": 63844,
+        "sha256": "150fb71cafe81536f256ac6f524884bc80ee7ae761b2bd283c68cddf0fd0ce3b"
+      },
+      {
+        "path": "reports/p1-018/geometry-scope28-01/upper_bowed_header149.json",
+        "bytes": 7335,
+        "sha256": "44c063be5140b64ab1648032ee807ef66151dadd71bc1eee42e00f202fe705e4"
+      },
+      {
+        "path": "reports/p1-018/geometry-scope28-01/mirror_material150.json",
+        "bytes": 10784,
+        "sha256": "dbf5310c90f7bb411112e725ed6708434accaf09cc9b060c75b78d6d1e2d62ab"
+      },
+      {
+        "path": "reports/p1-018/source-pipeline38-01/source60-screen151/scope151.json",
+        "bytes": 6396,
+        "sha256": "d50941b7e953425db140538f03dec38358472356f6a83500109249b38caabb10"
+      },
+      {
+        "path": "reports/p1-018/source-pipeline38-01/hosted154/scope154.json",
+        "bytes": 3118,
+        "sha256": "800be896177c5c9efdd5d8aa830639f00ccf10a4c5f21ae0668f17219e14e2f2"
+      },
+      {
+        "path": "reports/p1-018/source-pipeline38-01/hosted154/result154.json",
+        "bytes": 1652,
+        "sha256": "16c32acad4a1309881e2cee794f64285a203cb5425987ed8791e416c4f0c36cb"
+      },
+      {
+        "path": "reports/p1-018/source-pipeline38-01/source60-resource144/scope144.json",
+        "bytes": 15927,
+        "sha256": "2da869a3df57098079a138116227c076960d3385099d0aa2eadb15ea65f8f54f"
+      },
+      {
+        "path": "reports/p1-018/source-pipeline38-01/source60-resource144/prepared146/binding.json",
+        "bytes": 113564,
+        "sha256": "ad60fdfb90759e083dd6b4d16563d987c59861ce26d66187c31af1472ea67e4e"
+      },
+      {
+        "path": "reports/p1-018/runtime/material-budget39-correction03/mirror-observations03.json",
+        "bytes": 475846,
+        "sha256": "b5b106195a36efdb457c8c2b1c10ffb9193cfcf2cdc5deeb28865271cf8f64bc"
+      },
+      {
+        "path": "reports/p1-018/runtime/material-budget39-correction03/PROPOSAL03.json",
+        "bytes": 6222,
+        "sha256": "934f9d42e080beffc64da86b3963be3dc2783dfb7e8064f74f7a6cd1b1b0438d"
+      },
+      {
+        "path": "reports/p1-018/source-pipeline38-01/source60-resource144/native147/config.json",
+        "bytes": 432,
+        "sha256": "58a0e13f79c439662cdb1cc9dc764c2fa815cc2a3acbe0f372eb91ba44ac44c2"
+      },
+      {
+        "path": "reports/p1-018/source-pipeline38-01/source60-resource144/native147/execution.json",
+        "bytes": 6137,
+        "sha256": "8599be9b386c1e18eadaca3731bfa47de7135bd114f81a1b8b682ddb3dd26fdc"
+      },
+      {
+        "path": "reports/p1-018/source-pipeline38-01/source60-resource144/native147/godot.log",
+        "bytes": 1331,
+        "sha256": "839dea729018daa05a19da7099bb8037e0f810f28d1fee411b1c7c9b25c7f1c4"
+      },
+      {
+        "path": "reports/p1-018/source-pipeline38-01/source60-resource144/native147/godot.shutdown.json",
+        "bytes": 1084,
+        "sha256": "a4e97c5f517d51f5ea543af3c247cafb65cd22870c23f22c3381572187986e37"
+      },
+      {
+        "path": "reports/p1-018/source-pipeline38-01/source60-resource144/native147/native.json",
+        "bytes": 6121713,
+        "sha256": "ba2606f93b7f58156b2ea552e1bffc28d241847d8f983cffc8b9d5c85cd80e8e"
+      },
+      {
+        "path": "reports/p1-018/source-pipeline38-01/source60-resource144/native147/session.jsonl",
+        "bytes": 10815,
+        "sha256": "fc9b2136d141241ebdba91528ebe8a9dff39f62e52d4017edc9cedf2634d27fc"
+      },
+      {
+        "path": "reports/p1-018/source-pipeline38-01/source60-resource144/native147/start-after-draw.json",
+        "bytes": 504,
+        "sha256": "fc53358c87d395914a54f7e48197afc8880d0e194d480a6b94d0d6901cb8ca55"
+      },
+      {
+        "path": "reports/p1-018/source-pipeline38-01/source60-resource144/native147/validation.json",
+        "bytes": 5717,
+        "sha256": "8ce4aba4d5172aa10fc57374faaaa3e78af505b6d490aac48eca0a863c283a1d"
+      },
+      {
+        "path": "reports/p1-018/source-pipeline38-01/source60-screen151/capture152/config.json",
+        "bytes": 49153,
+        "sha256": "74d8e73b13b3c270d031ea3297bc2702a7e31348fd15392e0a38625cd6cb27ca"
+      },
+      {
+        "path": "reports/p1-018/source-pipeline38-01/source60-screen151/capture152/engine.log",
+        "bytes": 232,
+        "sha256": "ae53d3a4389aa8ed2b29d956ab686fdef47c7f6e60a3873614c70ebbe46259cd"
+      },
+      {
+        "path": "reports/p1-018/source-pipeline38-01/source60-screen151/capture152/native.json",
+        "bytes": 385640,
+        "sha256": "dc2246c170d797b59d7a2001bfd163b0751496ecb3fdd2047fc26e3e172343d8"
+      },
+      {
+        "path": "reports/p1-018/source-pipeline38-01/source60-screen151/capture152/normal-corrected.png",
+        "bytes": 16394,
+        "sha256": "75f370bd4fce5e2b4f1f0df774fc2e6b97efbe823b50c6d692eba6b126f259b6"
+      },
+      {
+        "path": "reports/p1-018/source-pipeline38-01/source60-screen151/capture152/normal-importer-default.png",
+        "bytes": 16394,
+        "sha256": "853ed30e458efbebdd27a0fac9cec5f239df6a0476516f008cbaa84ec78a44a0"
+      },
+      {
+        "path": "reports/p1-018/source-pipeline38-01/source60-screen151/capture152/oblique60-corrected.png",
+        "bytes": 16839,
+        "sha256": "00c710677f5f9557d0d360e3ea6295be6d17ebe59ec42080c86a475d548cdba8"
+      },
+      {
+        "path": "reports/p1-018/source-pipeline38-01/source60-screen151/capture152/oblique60-importer-default.png",
+        "bytes": 17552,
+        "sha256": "85b1fa2e474904a8dfb1c2174b1f415228ff3be7048a1b3a0cfd1d2fd1a3935f"
+      },
+      {
+        "path": "reports/p1-018/source-pipeline38-01/source60-screen151/capture152/run.json",
+        "bytes": 1320,
+        "sha256": "244615783f6f20e479c25d1f82748326c13b0cb6f4cca382be25eab76da10b37"
+      },
+      {
+        "path": "reports/p1-018/source-pipeline38-01/source60-screen151/capture152/stdio.log",
+        "bytes": 236,
+        "sha256": "da5f490e8bccca948f85383efe1dc284cda3c8895929f7aaa830820d7d437950"
+      },
+      {
+        "path": "reports/p1-018/valance-whole39-01/capture145/actual-native.json.gz",
+        "bytes": 121072,
+        "sha256": "c69b95943e377f1c4076ad65cefa193aa9733829da35d5efbe01c1c94c43ee07"
+      },
+      {
+        "path": "reports/p1-018/valance-whole39-01/capture145/baseline-evaluated-difference.json.gz",
+        "bytes": 8161,
+        "sha256": "fd00050af849d87140c4e85c3a99240e396af1a5a009122dee46ecf7f27c4118"
+      },
+      {
+        "path": "reports/p1-018/valance-whole39-01/capture145/baseline-low-rear.png",
+        "bytes": 791132,
+        "sha256": "5a907f81c77a6b46b665d5c99a9b85ec2bb2a2cb15a642710dc2e503c2b7562d"
+      },
+      {
+        "path": "reports/p1-018/valance-whole39-01/capture145/baseline-rear-three-quarter.png",
+        "bytes": 809813,
+        "sha256": "b006a797d17a2a60762dc88d89a463689c0608c18ff217654a091c38d1e46eea"
+      },
+      {
+        "path": "reports/p1-018/valance-whole39-01/capture145/baseline-rear.png",
+        "bytes": 669307,
+        "sha256": "3d26c3dafe7cbd306cdffbe800cc98aac6636a73e60945ced2b8d092f1fcdcac"
+      },
+      {
+        "path": "reports/p1-018/valance-whole39-01/capture145/baseline-right-end.png",
+        "bytes": 746966,
+        "sha256": "62255c61e09a97a44aa0de45e99734d4b996a5d966e01dac4d4ada034c696828"
+      },
+      {
+        "path": "reports/p1-018/valance-whole39-01/capture145/baseline-underside.png",
+        "bytes": 706787,
+        "sha256": "e763a3e0d84698fdb8eca1d95a2cdbab4cad56a5e4f08ed34421bdbf8e3c4e39"
+      },
+      {
+        "path": "reports/p1-018/valance-whole39-01/capture145/candidate440-evaluated-difference.json.gz",
+        "bytes": 4653,
+        "sha256": "3de138ea553fb117e76873b27dd65b658796903fb4ec6d5a32c43ed4a0e38056"
+      },
+      {
+        "path": "reports/p1-018/valance-whole39-01/capture145/candidate440-low-rear.png",
+        "bytes": 792331,
+        "sha256": "70db63396d7a0f041d08d8ce1b2b3814a906e1e940f46becf95dc9747a7025ad"
+      },
+      {
+        "path": "reports/p1-018/valance-whole39-01/capture145/candidate440-rear-three-quarter.png",
+        "bytes": 810864,
+        "sha256": "521cb03346fcd7537c0cdbdf345b70694e292cd9067b2da5bbffec4e0ed31dd7"
+      },
+      {
+        "path": "reports/p1-018/valance-whole39-01/capture145/candidate440-rear.png",
+        "bytes": 669302,
+        "sha256": "3258329c3f589b1213d7b326ca354f91345475d5eb1c3c71f61939be3d83d20d"
+      },
+      {
+        "path": "reports/p1-018/valance-whole39-01/capture145/candidate440-right-end.png",
+        "bytes": 746247,
+        "sha256": "58624900d10a9a72cbddfccc4077006d5a549d9b85f17f20ac812017d61e78f0"
+      },
+      {
+        "path": "reports/p1-018/valance-whole39-01/capture145/candidate440-underside.png",
+        "bytes": 704982,
+        "sha256": "a09871d6a352b5098f7b0944e7e7deb5608d7f57a5c60e567b6f68ed11bf0392"
+      },
+      {
+        "path": "reports/p1-018/valance-whole39-01/capture145/installation-evaluated-UV-differences.json.gz",
+        "bytes": 4651,
+        "sha256": "1c661dc9ac214a3ff1f74d1cdbce75395eeecc837966ef4d78e6afd24479df43"
+      },
+      {
+        "path": "reports/p1-018/valance-whole39-01/capture145/manifest.json",
+        "bytes": 70137,
+        "sha256": "a11851097e0902fd62038d3211155b67346843cd7dfb8c0640227aab2e31e480"
+      },
+      {
+        "path": "reports/p1-018/valance-whole39-01/capture145/requested-before-encoding.json.gz",
+        "bytes": 162071,
+        "sha256": "1d05c9a30cdfdd2b87336c3fd927cf1f790a446477832397c06ee31bc4c260fc"
+      }
+    ],
+    "commands": [
+      {
+        "record": {
+          "path": "reports/p1-018/commands/20260914T095534.737441Z-valance-matched-scope140.json",
+          "bytes": 988,
+          "sha256": "a2d8a493bb2188be7447e24098a95e9af9adb67ace0ce759e94c3490b9a293c1"
+        },
+        "exit_status": 0
+      },
+      {
+        "record": {
+          "path": "reports/p1-018/commands/20260914T095544.781505Z-valance-native-matched-render141.json",
+          "bytes": 1155,
+          "sha256": "c59f853173460a68da1f42b7b799e8d1d48912f04e66f68f9efad083f3715da5"
+        },
+        "exit_status": 1
+      },
+      {
+        "record": {
+          "path": "reports/p1-018/commands/20260914T095830.517401Z-valance-native-diagnostic-render142.json",
+          "bytes": 1158,
+          "sha256": "5cdfdf0c7b58b4d6c52b6e9e5939d463c92fbbb079899ba9a65b95b14eb79232"
+        },
+        "exit_status": 1
+      },
+      {
+        "record": {
+          "path": "reports/p1-018/commands/20260914T095955.725362Z-source60-corrected-resource-stage143.json",
+          "bytes": 859,
+          "sha256": "e0c2357db27b85dc3bfd189448bd514388b8dbbc2604557cecc94ae9d004f474"
+        },
+        "exit_status": 1
+      },
+      {
+        "record": {
+          "path": "reports/p1-018/commands/20260914T100151.919324Z-source60-corrected-resource-stage144.json",
+          "bytes": 859,
+          "sha256": "eb02ec6762b20b6e84e47f72178852665671fb131922500246091bc76148fac3"
+        },
+        "exit_status": 0
+      },
+      {
+        "record": {
+          "path": "reports/p1-018/commands/20260914T100300.750125Z-source60-corrected-resource-bind146.json",
+          "bytes": 852,
+          "sha256": "cb01bbfcf8868ab7654eb736616e60a9e0aec5cfd4da462012cd21404bc65e1b"
+        },
+        "exit_status": 0
+      },
+      {
+        "record": {
+          "path": "reports/p1-018/commands/20260914T100325.096819Z-source60-corrected-resource-native147.json",
+          "bytes": 1176,
+          "sha256": "8171f0bdefafa1b2a8221b0d0377a00fcc1bd762aafc38cc714e1cb9e47049a1"
+        },
+        "exit_status": 1
+      },
+      {
+        "record": {
+          "path": "reports/p1-018/commands/20260914T100517.571267Z-source60-native-resource-inspection148.json",
+          "bytes": 1285,
+          "sha256": "38159dfecb79cdc05aa56269a83dc381def7a3c174be7944879dbe8f91dd2963"
+        },
+        "exit_status": 0
+      },
+      {
+        "record": {
+          "path": "reports/p1-018/commands/20260914T100517.586684Z-valance-native-matched-render145.json",
+          "bytes": 1155,
+          "sha256": "a54fb03840db9d401b0e25891c7fb5b52f26e1fffac928578081296d41645e4a"
+        },
+        "exit_status": 0
+      },
+      {
+        "record": {
+          "path": "reports/p1-018/commands/20260914T101404.657735Z-upper-bowed-header-scope149.json",
+          "bytes": 842,
+          "sha256": "6fdcca0884f12bccc0620cdfaa102e69b1d23f5044f79a0cc594b08111e29e0b"
+        },
+        "exit_status": 0
+      },
+      {
+        "record": {
+          "path": "reports/p1-018/commands/20260914T102218.583266Z-mirror-material-scope150.json",
+          "bytes": 829,
+          "sha256": "721543880de595c76436e3d5717e527ef96cf2fc1d3f66f8e0db9326e0500cee"
+        },
+        "exit_status": 0
+      },
+      {
+        "record": {
+          "path": "reports/p1-018/commands/20260914T102335.082255Z-source60-screen-stage151.json",
+          "bytes": 831,
+          "sha256": "8e3d68846fa397d8a9d0a50c68bd5a422879f52e753fc684c322597393cf5c76"
+        },
+        "exit_status": 0
+      },
+      {
+        "record": {
+          "path": "reports/p1-018/commands/20260914T102351.959145Z-source60-screen-config152.json",
+          "bytes": 1360,
+          "sha256": "8c64f42b5fb13e172d4b049bd955b8dcd0ca0fa16ada6c65e114109e89efcbb3"
+        },
+        "exit_status": 0
+      },
+      {
+        "record": {
+          "path": "reports/p1-018/commands/20260914T102410.469642Z-source60-screen-native153.json",
+          "bytes": 1493,
+          "sha256": "f79fb9449ce906cf61ea2b46a8406adb7de8a5893774826bf97bdf01a3aed08d"
+        },
+        "exit_status": 0
+      },
+      {
+        "record": {
+          "path": "reports/p1-018/commands/20260914T102739.263789Z-linux-ui-outer-allowance154.json",
+          "bytes": 830,
+          "sha256": "ad31d596795d69e52acab7989f7d5d17cf385d5458f438a942065e12575eaadb"
+        },
+        "exit_status": 0
+      }
+    ],
+    "human_approval_reference": null,
+    "delivery_limits": [
+      "Canonical production34 source and runtime assets remain installed; no new source promotion.",
+      "Source60 full QA still17/25 with static interface failure; combined roof/valance, later openings/wipers, final LOD/export/import gates remain.",
+      "Mirrors require rendered capability/equivalence/lifecycle/resource validation. CI allowance requires a completed hosted Linux UI result.",
+      "Final full gameplay media, performance and platform evidence and human visual/usability/driving/rights approvals remain open."
+    ],
+    "receipt": {
+      "path": "reports/p1-018/source-pipeline38-01/checkpoint155.json",
+      "bytes": 22262,
+      "sha256": "3bd90b4d61184e15f0cdf941e3a55b1bb7048d301475ec97052a4672b27dafdb"
+    }
+  },
+  "mirror_screen_checkpoint_v41": {
+    "task_id": "P1-018",
+    "milestone": "M5",
+    "utc": "2026-09-14T10:42:58.455591+00:00",
+    "git_revision": "4b55b061349eda31dd7cfb56f5fcaafae72d2116",
+    "status": "bounded screen appearance verified; mirror full-vehicle validation and source integration pending",
+    "screen_independent_QA": {
+      "review": {
+        "path": "reports/p1-018/qa/source60-screen39-review01/review01.json",
+        "bytes": 81804,
+        "sha256": "12213d95103370ee5c20b96f3e498050d4db5c559fcfce164a4d3412a2e899ee"
+      },
+      "retention": {
+        "path": "reports/p1-018/qa/source60-screen39-review01/retention01.json",
+        "bytes": 51830,
+        "sha256": "b4154a449c76ac124612bc70767fadb1477c821b1b9a8d2c4152efe2bdeda875"
+      },
+      "original_images_viewed": 4,
+      "retained_rows_independently_rehashed": 22,
+      "result": "Both actual projected interiors darken; distant backgrounds exact.164 original execution inputs match;333 scene entries and light masks restore.",
+      "normal_inset_pixels": 1368432,
+      "normal_before_RGB": [
+        6,
+        6,
+        6
+      ],
+      "normal_after_RGB": [
+        1,
+        1,
+        2
+      ],
+      "oblique_inset_pixels": 677144,
+      "oblique_maximum_8bit_difference": 9,
+      "limitation": "Near-black8bit levels/plain illumination establish scalar-response reduction only, not useful glare-shape,cabin readability or complete angularBRDF equivalence."
+    },
+    "mirror_capabilities": [
+      {
+        "renderer": "forward_plus",
+        "engine": {
+          "build": "official",
+          "hash": "a13da4feb8d8aefc283c3763d33a2f170a18d541",
+          "hex": 263937,
+          "major": 4,
+          "minor": 7,
+          "patch": 1,
+          "status": "stable",
+          "string": "4.7.1-stable (official)",
+          "timestamp": 0
+        },
+        "device": "NVIDIA GeForce RTX 3080 Ti",
+        "status": "passed",
+        "surface": {
+          "path": "reports/p1-018/source-pipeline38-01/mirror-capability156/forward_plus/surface.png",
+          "bytes": 1127,
+          "sha256": "2cbdce846d608b06ab1efe9a4722dcb74525c805e8170a997657897e8b4852b9"
+        },
+        "result": {
+          "path": "reports/p1-018/source-pipeline38-01/mirror-capability156/forward_plus/result.json",
+          "bytes": 2033,
+          "sha256": "61ccc22f6cdfe4b04f65f031bec75b3d791b18b5a26da58745b2fb2946062283"
+        },
+        "command": {
+          "path": "reports/p1-018/source-pipeline38-01/mirror-capability156/forward_plus/command.json",
+          "bytes": 2946,
+          "sha256": "8a3141d649f82eac05c927609c52c4d1b6f9ee4f0a8dc4e86a6a7c3c7973f2cd"
+        },
+        "lead_visual": "Viewed actual640x360surface: distinct yellow/red,cyan/green,magenta/blue feeds; each source pair reversed once."
+      },
+      {
+        "renderer": "gl_compatibility",
+        "engine": {
+          "build": "official",
+          "hash": "a13da4feb8d8aefc283c3763d33a2f170a18d541",
+          "hex": 263937,
+          "major": 4,
+          "minor": 7,
+          "patch": 1,
+          "status": "stable",
+          "string": "4.7.1-stable (official)",
+          "timestamp": 0
+        },
+        "device": "NVIDIA GeForce RTX 3080 Ti",
+        "status": "passed",
+        "surface": {
+          "path": "reports/p1-018/source-pipeline38-01/mirror-capability156/gl_compatibility/surface.png",
+          "bytes": 1855,
+          "sha256": "c89459e89a8ffc83a810692ef8c529cadac331f096ff9ed14cb807a47c291b86"
+        },
+        "result": {
+          "path": "reports/p1-018/source-pipeline38-01/mirror-capability156/gl_compatibility/result.json",
+          "bytes": 2032,
+          "sha256": "436b287cb85122a7a18a95db8c62896ec9661cd2c89771ea98757b70eef8e72c"
+        },
+        "command": {
+          "path": "reports/p1-018/source-pipeline38-01/mirror-capability156/gl_compatibility/command.json",
+          "bytes": 2962,
+          "sha256": "6208670a7bc47f6ae60de664f47eb6f87fb5661af22f1c51c4b022b5874c84b9"
+        },
+        "lead_visual": "Viewed actual640x360surface: distinct yellow/red,cyan/green,magenta/blue feeds; each source pair reversed once."
+      }
+    ],
+    "mirror_build": {
+      "path": "reports/p1-018/source-pipeline38-01/runtime-build158/result.json",
+      "bytes": 72163,
+      "sha256": "e8ac97da414ca29cf509ac25ccf2704630fd3c5fbf9ab8634640bed8500147cb"
+    },
+    "mirror_status": "Scope150 four implementation inputs compile with0warnings/0errors. Tests still pending; projected maximum32 unverified onactual vehicle.",
+    "rear_bumper_defect": {
+      "evidence": {
+        "path": "reports/p1-018/qa/valance-form30-proposal01/causal443.json",
+        "bytes": 44122,
+        "sha256": "acbe1775fb1717157f62bc09e0ac81ec945f80ec575580b1e0f0303b97260a4d"
+      },
+      "observation": "Unchanged dark triangle above outer right reflector is existing painted RearBumper1268, not a cover face or material/UV discontinuity. Flat native field matches its facet and predates late assembly; neighboring geometric/normal splits expose tessellation.",
+      "next": "Repair requires a separately bounded connected transition/field proposal preserving reflector receiving geometry. No wholebody smoothing or geometry edit authorized by this receipt."
+    },
+    "source_delivery": "Cover portable integration scope159 recorded; roof149 coarse packet pending. Existing installed source/runtime remain unchanged.",
+    "human_approval_reference": null,
+    "receipt": {
+      "path": "reports/p1-018/source-pipeline38-01/checkpoint160.json",
+      "bytes": 5204,
+      "sha256": "c9b37ebe5192bbdf31471935ddbd0d81cfb7db6cd8b341b057d49354cc46a61b"
+    }
+  },
+  "material_viewer_checkpoint_v42": {
+    "task_id": "P1-018",
+    "milestone": "M5",
+    "utc": "2026-09-14T11:51:37.168481+00:00",
+    "git_revision": "4b55b061349eda31dd7cfb56f5fcaafae72d2116",
+    "status": "bounded source60 runtime material and viewer checks passed; final asset and human gates open",
+    "material_resources": {
+      "independent_review": {
+        "path": "reports/p1-018/runtime/mirror-material39-integration01/resource164-review07.json",
+        "bytes": 18382,
+        "sha256": "2a786547653fdf2f2f9a140d411673d0febf8a55d0aa8e82a0c0b06d75a3c9cd"
+      },
+      "complete_reachable_states": 60,
+      "peak_materials": 32,
+      "material_limit": 32,
+      "remaining_material_headroom": 0,
+      "peak_textures_including_contact": 12,
+      "texture_limit": 48,
+      "nonmirror_property_snapshots_preserved": 1615,
+      "comparison_limit": "Complete property descriptors/typed values/shader settings are exact after discarding process-specific resource instance IDs/RIDs. ViewportTexture references must retain their independently observed semantic channel; source paths/names and all other values remain. Nonmirror material sharing domains and all visible instance/surface triangle rows stay exact. This is not cross-process RID identity or a new geometry-array proof.",
+      "teardown_seconds": 0.6600995000335388
+    },
+    "material_pixels": {
+      "independent_review": {
+        "path": "reports/p1-018/runtime/mirror-material39-integration01/review08/pixel-review08.json",
+        "bytes": 17873,
+        "sha256": "f268268ba0b07d8ebce96209a26c929e57fa0cffe4dcb9a85b0f92d9a9700058"
+      },
+      "retention": {
+        "path": "reports/p1-018/runtime/mirror-material39-integration01/review08/manifest08.json",
+        "bytes": 2971,
+        "sha256": "867df39cf902d5fd233018dca7d4f2aff7c9144dc92904ebe608806a959002da"
+      },
+      "all15_payloads_rehashed": true,
+      "runs": [
+        {
+          "renderer": "forward_plus",
+          "actual_pairs": 16,
+          "positive_pairs": 15,
+          "positive_maximum_RGB_code_difference": 1,
+          "wrong_flip_RGB_code_difference": 199,
+          "positive_binding_checks": 4,
+          "negative_binding_controls": 8,
+          "independent_lifetime_observations": 2,
+          "teardown_seconds": 0.5802982000168413,
+          "result": {
+            "path": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\mirror-pixel39-171\\forward_plus\\native172\\result172.json",
+            "bytes": 14037,
+            "sha256": "91cd161774607ea9482dcc0d1cc3ecb7d798903864f2b0f419fe49e363f2c6df"
+          }
+        },
+        {
+          "renderer": "gl_compatibility",
+          "actual_pairs": 16,
+          "positive_pairs": 15,
+          "positive_maximum_RGB_code_difference": 1,
+          "wrong_flip_RGB_code_difference": 202,
+          "positive_binding_checks": 4,
+          "negative_binding_controls": 8,
+          "independent_lifetime_observations": 2,
+          "teardown_seconds": 0.3514119999599643,
+          "result": {
+            "path": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\mirror-pixel39-171\\gl_compatibility\\native172\\result172.json",
+            "bytes": 14274,
+            "sha256": "937e29a6cfdd4f5851bc8ff2cadd042d73178ac4a5de7952c9940246326ea5d0"
+          }
+        }
+      ],
+      "limit": "Actual meshes with same frozen scene feeds/target patterns in private worlds. Does not accept in-scene framing or subjective usability."
+    },
+    "original_mirror_scenarios": [
+      {
+        "lighting": "daylight",
+        "summary": {
+          "path": "reports/p1-018/mirror-baseline39-180/mirrors-daylight/presentation-summary.json",
+          "bytes": 246676,
+          "sha256": "08ee2a0dd5d4f02e84f47da46f7e0fb25050778850b5cf5da010fc84a93839a8"
+        },
+        "execution": {
+          "path": "reports/p1-018/mirror-baseline39-180/mirrors-daylight/execution180.json",
+          "bytes": 7803,
+          "sha256": "bb524845d4e23eafa972007d6be2da9c95dce66f70e2929ac0c7f0b8a3601de0"
+        },
+        "stages": [
+          "mirrors-configuration",
+          "mirrors-live",
+          "mirrors-door-follow",
+          "mirrors-disabled"
+        ],
+        "frame_samples": 1123,
+        "lead_viewed_rear_feed": {
+          "path": "reports/p1-018/mirror-baseline39-180/mirrors-daylight/mirror-Rear-01.png",
+          "bytes": 44113,
+          "sha256": "ab3f6a2111e6496644177ed5f78b881a6f6ad872b62b6006451e0c840e97fe47"
+        }
+      },
+      {
+        "lighting": "night",
+        "summary": {
+          "path": "reports/p1-018/mirror-baseline39-180/mirrors-night/presentation-summary.json",
+          "bytes": 246661,
+          "sha256": "2c7c05f802210509d0623371ea4e937c49925f3035e1864b0c9895b6220ffc4d"
+        },
+        "execution": {
+          "path": "reports/p1-018/mirror-baseline39-180/mirrors-night/execution180.json",
+          "bytes": 7707,
+          "sha256": "eaf4622e508f72dba6360224ec5fcda56e68036c62906f9c4ecea91b6e7ff01b"
+        },
+        "stages": [
+          "mirrors-configuration",
+          "mirrors-live",
+          "mirrors-door-follow",
+          "mirrors-disabled"
+        ],
+        "frame_samples": 1123,
+        "lead_viewed_rear_feed": {
+          "path": "reports/p1-018/mirror-baseline39-180/mirrors-night/mirror-Rear-01.png",
+          "bytes": 40951,
+          "sha256": "6752d9a94e223b3d2e80be2a36754b296f25107dbc83dce7b3da7c4b3fdce0a3"
+        }
+      }
+    ],
+    "rear_mirror_observation": "Lead viewed actual daylight/night Rear feeds and daylight cockpit capture. Most image area is cabin/headrests; small rear window limits exterior visibility. Native target/update tests pass; usability remains open.",
+    "viewer": {
+      "result": {
+        "path": "reports/p1-018/source60-viewer39-178/result178.json",
+        "bytes": 6644,
+        "sha256": "9809fa7f01be5fbaf654ca2d7597c071eaede0d7e4a193ee3db9f23bb7a4badf"
+      },
+      "resolution": [
+        1280,
+        720
+      ],
+      "actual_captures": 21,
+      "behavior": "Unmodified showroom test passes11 views,6 openings, keyboard/controller, orbit/pan/zoom/turntable, photos and modal return. Separate original inspection/selection test passed in177.",
+      "lead_viewed": [
+        "showroom-view-overview.png",
+        "showroom-view-engine.png",
+        "showroom-view-underside.png"
+      ],
+      "limit": "177 full1440p viewer request hit unchanged1.4MB screenshot transport cap;178720p recovery does not certify full1440p capture or final human usability."
+    },
+    "upper_geometry": {
+      "independent_review": {
+        "path": "reports/p1-018/qa/upper-whole39-review05/review01.json",
+        "bytes": 111774,
+        "sha256": "6107ee9774deefb143f4b48a41de818fda54f881d99615b0a7b14c37531a228a"
+      },
+      "retention": {
+        "path": "reports/p1-018/qa/upper-whole39-review05/retention01.json",
+        "bytes": 98423,
+        "sha256": "01c85387e190feeb700df6c88c072d2149f4b2bda32d4653787d29205161e884"
+      },
+      "reviewed_images": 15,
+      "current_paired_images": 10,
+      "verdict": "Coarse bow improves direction; projecting tips, dark/broken perimeter channel and bright exposed rail remain unresolved.",
+      "next_scope": {
+        "path": "reports/p1-018/geometry-scope28-01/upper_rail182.json",
+        "bytes": 2355,
+        "sha256": "70d00b64a925676897b39cd59e6ec5d76737f343cc4e0ed36b289fd7a218cdd5"
+      }
+    },
+    "cover_constructor": {
+      "boundary_fixture": {
+        "path": "reports/p1-018/source-pipeline38-01/valance-boundary176/result176.json",
+        "bytes": 8097,
+        "sha256": "c9486464eda440cd11ea79485201ee824914a77f2c200838a9f9fb14c94773eb"
+      },
+      "binding_controls": {
+        "path": "reports/p1-018/source-pipeline38-01/valance-controls179/result179.json",
+        "bytes": 5214,
+        "sha256": "9892182a5809043135b9b5d2ad10f12f8052b7ae458f909ca1597a492dff8f47"
+      },
+      "exact_native_parts": 5,
+      "protected_raw_checkpoint_meshes": 1104,
+      "negative_binding_controls": 21,
+      "scope": "Installed pure constructor and real pre-cover/request capture work on fixture176. Independent source-QA CLI/stage integration, fresh combined source and final exports remain pending."
+    },
+    "skill_update": {
+      "receipt": {
+        "path": "reports/p1-018/skill-update40-01/completion-receipt07.json",
+        "bytes": 11543,
+        "sha256": "2e2f738034ad6dd7802b567dd86097e3ae4b43a7178890974d9f833edf5e24d6"
+      },
+      "revision": "12fe76e4bfb68932c6c8552d88a44c7eb47894cb",
+      "installed_exact_files": 16,
+      "hosted_validation": "https://github.com/Randroids-Dojo/skills/actions/runs/34839699663",
+      "status": "pushed_full_CI_passed_and_exact_global_installation_verified"
+    },
+    "failures_and_retries": [
+      {
+        "stage": "pixels168",
+        "failure": "Incomplete copied route package prevented vehicle creation.",
+        "recovery": "All8 route companions included in short stages171; both172 renderers pass."
+      },
+      {
+        "stage": "staging169",
+        "failure": "Windows path length exceeded on route audit companion.",
+        "recovery": "Short independent stages171; no missing route artifacts."
+      },
+      {
+        "stage": "preflight170",
+        "failure": "Recorder rejected missing scope169 input before engine launch.",
+        "recovery": "Complete bound scope171 used by172."
+      },
+      {
+        "stage": "viewer177",
+        "failure": "1440p screenshot exceeded existing1.4MB transport cap.",
+        "recovery": "Unchanged showroom at1280x720 passes178;1440p remains separately required."
+      },
+      {
+        "stage": "rear-fov183",
+        "failure": "Private helper09 GDScript line169 could not infer String type. Original4-stage scenario passed but diagnostic failed and is not accepted.",
+        "record": {
+          "path": "reports/p1-018/rear-fov39-181/daylight/execution183.json",
+          "bytes": 9815,
+          "sha256": "81174794a1ccae92e388cd11e24287234fdd2162c7de1b6b5ad653ae0850478c"
+        },
+        "recovery": "Minimal typed helper retry pending; original55 production camera untouched."
+      }
+    ],
+    "canonical_delivery": "Source60 remains an unpromoted candidate. Installed production34 asset/source unchanged. New cover/upper must complete combined construction, source gates, deterministic export, clean import, media and platform evidence.",
+    "human_approval_reference": null,
+    "receipt": {
+      "path": "reports/p1-018/source-pipeline38-01/checkpoint184.json",
+      "bytes": 9965,
+      "sha256": "3c44b6ce385446dd241471d0f60427f8988fb02726950213a695cfcc52577d7d"
+    }
+  },
+  "saved_source_checkpoint_v43": {
+    "task_id": "P1-018",
+    "milestone": "M5",
+    "utc": "2026-09-14T13:29:31.026924+00:00",
+    "git_revision": "4b55b061349eda31dd7cfb56f5fcaafae72d2116",
+    "platform": "Windows AMD64",
+    "status": "fresh saved-source focused cover gate passed; whole asset remains in progress",
+    "fresh_source": {
+      "source": {
+        "path": ".tools/v39s193/build/project/data/assets/vehicles/sources/endurance-sedan.blend",
+        "bytes": 7916752,
+        "sha256": "3d784a2ca441cee4022b764fa031c4cf3006fc9667cc88771d592d0514d06b77"
+      },
+      "binding": {
+        "path": ".tools/v39s193/build/project/data/assets/vehicles/sources/endurance-sedan.source-binding.json",
+        "bytes": 117247,
+        "sha256": "c186cafe27f661d199590fc422f9255e2f211439b61765de5148bf7c83244beb"
+      },
+      "generation": {
+        "path": ".tools/v39s193/build/project/data/assets/vehicles/sources/endurance-sedan-generation/generation-record.json",
+        "bytes": 172974,
+        "sha256": "1241fd5e862f92887687e07664b6d6c1a87033a4d0b5da3b8f6ed488833797b2"
+      },
+      "commands": [
+        {
+          "label": "fresh-construction",
+          "seconds": 1164.4830933000194,
+          "exit_status": 0
+        },
+        {
+          "label": "finalize-and-reopen",
+          "seconds": 1090.5529519999982,
+          "exit_status": 0
+        }
+      ],
+      "editable_source_saved_and_reopened": true,
+      "canonical_installed": false
+    },
+    "cover_native": {
+      "result": {
+        "path": "reports/p1-018/source-pipeline38-01/focused-cover205/result.json",
+        "bytes": 24020,
+        "sha256": "79f57d11df8d1b3f954e6d73f1834b57f940b46319839d4b6948ebf03f1d6a88"
+      },
+      "report": {
+        "path": "reports/p1-018/source-pipeline38-01/focused-cover205/valance-cover.json",
+        "bytes": 1004,
+        "sha256": "715a60e3fed260762f9a12ea75171bd7b69167e6493313e22813cfe0dfca5873"
+      },
+      "payload": {
+        "path": "reports/p1-018/source-pipeline38-01/focused-cover205/valance-cover.payload.json.gz",
+        "bytes": 989531,
+        "sha256": "b167c6757afd2ca362820381eec84b809029c98dbbf82c12c2571d18e6a0f59c"
+      },
+      "summary": {
+        "members": 5,
+        "finite_joints": 8,
+        "complete_rest_pairs": 5055,
+        "sheet_pairs": 7,
+        "pocket_rays": 91,
+        "complete_cap_controls": 24,
+        "source_triangle_delta": 1026
+      },
+      "metrics": {
+        "shipping_lod_triangles": {
+          "0": 148452,
+          "1": 27362,
+          "2": 22524
+        },
+        "shipping_collision_triangles": 24,
+        "shipping_triangle_total": 198362,
+        "shipping_materials": [
+          "Material_AcousticCloth",
+          "Material_Alloy",
+          "Material_BrakeLight",
+          "Material_CabinLetteringAtlas",
+          "Material_Caliper",
+          "Material_Carpet",
+          "Material_CoolingCore",
+          "Material_Fabric",
+          "Material_Glass",
+          "Material_GlassPrivacy",
+          "Material_Headlight",
+          "Material_IndicatorLeft",
+          "Material_IndicatorRight",
+          "Material_Leather",
+          "Material_Metal",
+          "Material_Mirror",
+          "Material_OpticalGlass",
+          "Material_Paint",
+          "Material_Plate",
+          "Material_ReverseLight",
+          "Material_Rubber",
+          "Material_Screen",
+          "Material_Stitch",
+          "Material_Taillight",
+          "Material_Trim",
+          "Material_Wheel"
+        ],
+        "shipping_degenerate_loop_triangles": 0,
+        "shipping_nonmanifold_edges": 0,
+        "shipping_duplicate_loop_triangles": 0
+      },
+      "source_saved_by_checker": false,
+      "scope": "Actual checkpoint and final source opened independently; complete current physical mesh inventory observed, all strict protected hashes checked, seven sheet sections, finite joints and5055rest pairs verified. Full static/opening/motion/export remain separate."
+    },
+    "independent_reviews": {
+      "cover_report_observations": {
+        "retention": {
+          "path": "reports/p1-018/qa/valance-cover39-integration-review01/retention06.json",
+          "bytes": 91145,
+          "sha256": "78685660f39a21be4c6552ad12eb374eadc02a4e0552d23032af6c8afc9272d4"
+        },
+        "verified_rows": 364
+      },
+      "upper_visual": {
+        "retention": {
+          "path": "reports/p1-018/qa/upper-whole39-review06/retention01.json",
+          "bytes": 55292,
+          "sha256": "180ca1fdc36aa77cc4102ba67d23a16af85d8936315023677ae54a3e918f52db"
+        },
+        "verified_rows": 248
+      },
+      "hidden_visibility": {
+        "retention": {
+          "path": "reports/p1-018/qa/valance-cover39-visibility01/retention01.json",
+          "bytes": 6588,
+          "sha256": "4cd37c11eac821e3a14c01aae00420f1c11a593dfde982e0e30fb2f13b2120cb"
+        },
+        "verified_rows": 30
+      }
+    },
+    "upper_geometry": {
+      "capture": {
+        "path": "reports/p1-018/upper-whole39-06/capture197/manifest.json",
+        "bytes": 876473,
+        "sha256": "c3f966ddc6489d4ede0c10a4adcf37ce05735597731b2c2901b3ccd6fc3413e5"
+      },
+      "review": {
+        "path": "reports/p1-018/qa/upper-whole39-review06/review01.json",
+        "bytes": 109358,
+        "sha256": "3e82c75cd932e4a53190a59fb6f7a960ad6212af33b8044c2a088e19a9484828"
+      },
+      "actual_images": 12,
+      "verdict": "471 improves roof streak and long window slit; aft wedge, upper pillar field and broader C/body concerns remain. Far-pane projection distinguished from rail topology.",
+      "next_scope": {
+        "path": "reports/p1-018/geometry-scope28-01/upper_perimeter198.json",
+        "bytes": 11664,
+        "sha256": "1a031fd674a518bd62fa227b83254610b0afb7bcc930a6bbd59eaff77c38a003"
+      }
+    },
+    "viewer": {
+      "review": {
+        "path": "reports/p1-018/qa/source60-viewer39-review01/review01.json",
+        "bytes": 50155,
+        "sha256": "de929e78423176b17e2651e5e256eaa1c8071533dbc5e17014c5635133ac92e4"
+      },
+      "scope": {
+        "path": "reports/p1-018/geometry-scope28-01/viewer_presentation206.json",
+        "bytes": 19764,
+        "sha256": "2957492156a96eb6f210bbf3285eab43cd7c3d3dc6215dc38d162b1a7fd9fcfa"
+      },
+      "status": "Existing720p11-view/six-opening controls passed; tighter front/rear and neutral-fill1440p native comparison prepared, not yet rendered.",
+      "quality_limit": "Prior178 inherits Graybox test quality; new art comparison must bind actual reference-quality values."
+    },
+    "front_door": {
+      "summary": {
+        "path": "reports/p1-018/source39-frontdoor208/summary.json",
+        "bytes": 1482,
+        "sha256": "ac967a618a6ec3a8ddae6850b788e3d93ab95636e2c059a9f34d6c3a6c6456d5"
+      },
+      "binding": {
+        "path": "reports/p1-018/source-pipeline38-01/full-gate208-bindings.json",
+        "bytes": 175982,
+        "sha256": "37a836828ed95429f1f17cc67878510c43b4e2a5af02f1ae47c682ca2ae82190"
+      },
+      "steps": 13,
+      "status": "passed",
+      "unchanged_inputs": 702,
+      "platform_limit": "Local Windows only; new hosted revision still pending."
+    },
+    "skill_update": {
+      "receipt": {
+        "path": "reports/p1-018/skill-update41-01/completion-receipt07.json",
+        "bytes": 12541,
+        "sha256": "b57b576e076f9e2167e030eaa7003ce2104954cf31a5d53d23f078ee6e0b760c"
+      },
+      "revision": "e9b6530ecac5d748cdc1eccb8c6e3e245d84069d",
+      "hosted_ci": "https://github.com/Randroids-Dojo/skills/actions/runs/34845442362",
+      "committed_source_global_exact_files": 16,
+      "retries": 1
+    },
+    "failures_and_retries": [
+      {
+        "stage": "checkpoint207",
+        "failure": "Reader expected owned instead of the visibility receipt owned_files key; stopped before evidence mutations.",
+        "recovery": "New retained207-retry reads each declared schema correctly."
+      },
+      {
+        "stage": "191",
+        "failure": "Metadata row compared with three-field file identity before mutations.",
+        "recovery": "New191-192retry compares declared identity/CRC; verifier07 installed, old06 retained."
+      },
+      {
+        "stage": "201",
+        "failure": "Strict actual pre-cover raw context guard rejected16 hidden preview glyph matrices after reopen.",
+        "record": {
+          "path": "reports/p1-018/source-pipeline38-01/focused-cover201/result.json",
+          "bytes": 22307,
+          "sha256": "0246f86ffbfeecd42ddce9ef3e1b92445f23b22edb9cb783d886d1358f67a73d"
+        },
+        "diagnosis": {
+          "path": "reports/p1-018/source-pipeline38-01/precover-raw202/result202.json",
+          "bytes": 16086,
+          "sha256": "296a13907f090aa6e49fcc95a666e39b03d006e341f5afa73739e04f79defb29"
+        },
+        "confirmation": {
+          "path": "reports/p1-018/source-pipeline38-01/precover-visibility204/result204.json",
+          "bytes": 30438,
+          "sha256": "573b634320ea2675419e6dd4a570948d9d3f516588557bf5d226954015d42737"
+        },
+        "recovery": "Native visibility evaluation changed only cached matrices; all16 complete hashes became exact and flags restored.205current native CLI passes unchanged strict hash/geometry guards; QA9 host exception/control cases pass."
+      },
+      {
+        "stage": "200",
+        "failure": "New mirror helper emitted no diagnostic before ordinary owner exit; raw JSON double readiness equality.",
+        "record": {
+          "path": "reports/p1-018/rear-fov39-199/daylight/execution.json",
+          "bytes": 9598,
+          "sha256": "a22adca085fbfed450463db8d5e5c0c4aaec63056d2fafa8582c5e514421ebc9"
+        },
+        "recovery": "Version13 uses native binary32 identity and immediate entry/readiness records; comparison remains unaccepted."
+      },
+      {
+        "stage": "210",
+        "failure": "GDScript could not infer matches variable type.",
+        "record": {
+          "path": "reports/p1-018/rear-fov39-209/daylight/execution.json",
+          "bytes": 9817,
+          "sha256": "bd2d203bf10c85d20a45235d75d63d41d639df9058b5b5ae18ca04b18de28a22"
+        },
+        "recovery": "Only explicitbool annotation in14; native headless check-only212 passes before rendering."
+      },
+      {
+        "stage": "212",
+        "failure": "Actual18 daylight images produced, but three intended candidate transform/body comparisons fail.",
+        "record": {
+          "path": "reports/p1-018/rear-fov39-211/daylight/execution.json",
+          "bytes": 15336,
+          "sha256": "7ecbd7c1ea057d56398a775d7f40540e0a02468d242eba3ef9e4ae8bc9af2c72"
+        },
+        "recovery": "Direct images under review; exact native transform composition diagnosis pending. Original4stages stillpass; no canonical camera change."
+      }
+    ],
+    "canonical_delivery": "Installed source/GLB remainproduction34. Fresh193 and source60 runtime are separate diagnostic candidates. No final new source/export/import/media/platform or human completion.",
+    "human_approval_reference": null,
+    "receipt": {
+      "path": "reports/p1-018/source-pipeline38-01/checkpoint207.json",
+      "bytes": 10459,
+      "sha256": "30f896b92817c4f05081deeafbe466716b8b322ec89d00a2b41fe989314474d9"
     }
   }
 }

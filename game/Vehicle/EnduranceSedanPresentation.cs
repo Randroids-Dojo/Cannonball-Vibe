@@ -18,7 +18,7 @@ public partial class EnduranceSedanPresentation : Node
     private readonly Dictionary<string, Joint> _joints = new(StringComparer.Ordinal);
     private readonly Dictionary<string, Lamp> _lamps = new(StringComparer.Ordinal);
     private readonly List<Mirror> _mirrors = [];
-    private readonly List<StandardMaterial3D> _ownedMaterials = [];
+    private readonly List<Material> _ownedMaterials = [];
     private readonly Dictionary<(ulong SourceRid, string Channel), StandardMaterial3D> _lampMaterialCache = [];
     private readonly Godot.Collections.Dictionary _automationState = new();
     private VehicleVisualRig _rig = null!;
@@ -303,7 +303,7 @@ public partial class EnduranceSedanPresentation : Node
         _fuelBar = new ProgressBar { Position = new Vector2(306, 126), Size = new Vector2(174, 7), MaxValue = _setup.FuelCapacityLiters, ShowPercentage = false };
         background.AddChild(_rpmBar);
         background.AddChild(_fuelBar);
-        BindScreen(_rig.ResolveAnchor("Instrument_Cluster"), _instruments, mirror: false);
+        BindScreen(_rig.ResolveAnchor("Instrument_Cluster"), _instruments);
     }
 
     private static Label DisplayLabel(Control parent, Vector2 position, Vector2 size, int fontSize, string text)
@@ -368,11 +368,28 @@ public partial class EnduranceSedanPresentation : Node
             RenderingServer.ViewportSetMeasureRenderTime(viewport.GetViewportRid(), true);
             var mirror = new Mirror(suffix, viewport, camera, _rig.ResolveAnchor($"MirrorCamera_{suffix}"), yaw);
             _mirrors.Add(mirror);
-            BindScreen(_rig.ResolveAnchor($"Mirror_{suffix}"), viewport, mirror: true);
+        }
+        // Each presentation owns one material and its own three live feeds.
+        // Only the immutable shader is shared between vehicles/showrooms.
+        var material = new ShaderMaterial { Shader = GD.Load<Shader>("res://game/Vehicle/mirror_display.gdshader") };
+        _ownedMaterials.Add(material);
+        foreach (var mirror in _mirrors)
+            material.SetShaderParameter("mirror_" + mirror.Name.ToLowerInvariant(), mirror.Viewport.GetTexture());
+        for (var index = 0; index < _mirrors.Count; index++)
+        {
+            var anchor = _rig.ResolveAnchor("Mirror_" + _mirrors[index].Name);
+            var instances = Meshes(anchor).ToArray();
+            if (instances.Length == 0) throw new InvalidOperationException($"Screen {anchor.Name} has no descendant display mesh.");
+            foreach (var instance in instances)
+            {
+                instance.MaterialOverride = material;
+                instance.SetInstanceShaderParameter("mirror_index", index);
+                instance.Layers = MirrorSurfaceLayer;
+            }
         }
     }
 
-    private void BindScreen(Node3D anchor, SubViewport viewport, bool mirror)
+    private void BindScreen(Node3D anchor, SubViewport viewport)
     {
         var instances = Meshes(anchor).ToArray();
         if (instances.Length == 0) throw new InvalidOperationException($"Screen {anchor.Name} has no descendant display mesh.");
@@ -382,13 +399,9 @@ public partial class EnduranceSedanPresentation : Node
             ShadingMode = BaseMaterial3D.ShadingModeEnum.Unshaded,
             AlbedoColor = Colors.White, AlbedoTexture = texture, Roughness = 1,
         };
-        if (mirror) { material.Uv1Scale = new Vector3(-1, 1, 1); material.Uv1Offset = new Vector3(1, 0, 0); }
         _ownedMaterials.Add(material);
         foreach (var instance in instances)
-        {
             instance.MaterialOverride = material;
-            if (mirror) instance.Layers = MirrorSurfaceLayer;
-        }
     }
 
     private void UpdateMirrors()

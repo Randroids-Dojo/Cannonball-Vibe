@@ -17,6 +17,10 @@ STAGES_V2 = ('extraction', 'historical-extraction', 'historical-shoulder-field',
              'current-front-field', 'distance-fields', *STAGES[2:])
 STAGES_V2_DETAIL = (*STAGES_V2[:STAGES_V2.index('motion-drivers')+1], 'repeated-detail',
                    *STAGES_V2[STAGES_V2.index('motion-drivers')+1:])
+STAGES_V2_COVER = (*STAGES_V2[:STAGES_V2.index('static-interfaces')], 'valance-cover',
+                  *STAGES_V2[STAGES_V2.index('static-interfaces'):])
+STAGES_V2_DETAIL_COVER = (*STAGES_V2_DETAIL[:STAGES_V2_DETAIL.index('static-interfaces')],
+                         'valance-cover', *STAGES_V2_DETAIL[STAGES_V2_DETAIL.index('static-interfaces'):])
 DIAGNOSTIC = re.compile(
     r'Traceback \(most recent call last\)|(?:Error in )?PyDriver|SyntaxError:|ERROR[^\r\n]*\bDriver\b|'
     r'(?:image|texture)[^\r\n]*(?:not available|not found|missing|unable to|cannot|failed)|'
@@ -133,6 +137,15 @@ def stage_report(name, report, source_sha, *, context=None):
             payload_path=detail['payload'], extraction=strict_json(context['geometry']),
             opening=strict_json(detail['opening']), motion=strict_json(detail['motion']))
         return {'status': 'passed', **value}
+    if name == 'valance-cover':
+        require(context is not None and context['source_lock'].pipeline is not None and
+                context['source_lock'].pipeline.valance_cover is not None,
+                'Caller-selected current cover context required')
+        cover = context['valance_cover']
+        value = cover['reader'].validate_report(report, strict_json(cover['payload']),
+            lock=context['source_lock'], held=cover['held'], invocation_path=cover['invocation'],
+            payload_path=cover['payload'], extraction=strict_json(context['geometry']))
+        return {'status': 'passed', **value}
     if name == 'self-intersections':
         rows=report['rows']
         if (report['components_filter'] or report['strict_crossing_pairs'] != 0
@@ -213,7 +226,16 @@ def stage_report(name, report, source_sha, *, context=None):
         require(data['source_sha256'] == source_sha, 'Wrong static source payload')
         rows = {n: r for n, r in data['meshes'].items()
                 if not r['properties'].get('source_preview_only')}
-        selected, rules, optical_pairs = selected_scope(rows, context['optical_report'], expected_profile)
+        cover_pairs = None
+        if 'valance_cover' in context:
+            cover = context['valance_cover']
+            cover_pairs = cover['reader'].validated_binary_pairs(strict_json(cover['report']),
+                strict_json(cover['payload']), data)
+        selected, rules, optical_pairs = selected_scope(rows, context['optical_report'], expected_profile, cover_pairs)
+        from valance_cover_report import certificate_reference
+        expected_cover = sorted((certificate_reference(v) for v in (cover_pairs or {}).values()), key=lambda r: r['pair'])
+        require(report.get('cover_joint_certificates_used', []) == expected_cover,
+                'Static cover finite-certificate consumption differs')
         if expected_profile == 'production38':
             from current_static import validate_report as validate_current_static
             validate_current_static(report['current_cargo_checks'], rows)
@@ -232,6 +254,11 @@ def stage_report(name, report, source_sha, *, context=None):
             raise ValueError('Complete restraint self-contact, convex guides and rejection controls are required')
     if name == 'openings' and (report['mode'] != 'all' or report['groups_filter'] or report['components_filter']):
         raise ValueError('Final opening certificate cannot contain diagnostic filters')
+    if name == 'openings' and context is not None and 'valance_cover' in context:
+        cover = context['valance_cover']
+        expected = cover['reader'].validate_opening_coverage(report, strict_json(context['geometry']),
+                                                           strict_json(cover['opening']))
+        require(report.get('valance_cover_pair_coverage') == expected, 'Missing current cover continuous opening domain')
     if name == 'negative-controls' and report.get('expected_controls') != report.get('completed_controls'):
         raise ValueError('Negative control inventory incomplete')
     return {'status': 'passed'}
@@ -427,6 +454,8 @@ def load_source_binding(path, source, construction_root, output, *, _historical=
         specification = strict_json(by_role['specification'].path)
         require('repeated_detail_revision38' not in specification.get('original_packaging', {}),
                 'Declared current detail revision requires binding v2')
+        require('valance_cover_revision39' not in specification.get('original_packaging', {}),
+                'Declared current cover revision requires binding v2')
     lock = SourceLock(root, binding, files['source'], files['construction_packet'],
                       files['shoulder_profile'], files['reference_builder'], by_role['normal_module'],
                       by_role['ownership_module'], digest(rows), tuple(all_inputs))
@@ -435,7 +464,8 @@ def load_source_binding(path, source, construction_root, output, *, _historical=
 
 
 def check_stage_inventory(rows, stages=STAGES):
-    require(stages in (STAGES, STAGES_V2, STAGES_V2_DETAIL), 'Unknown source stage contract')
+    require(stages in (STAGES, STAGES_V2, STAGES_V2_DETAIL, STAGES_V2_COVER, STAGES_V2_DETAIL_COVER),
+            'Unknown source stage contract')
     require(type(rows) is list and tuple(row.get('name') for row in rows) == stages,
             'Complete ordered ' + str(len(stages)) + '-stage inventory required')
     require(all(row.get('status') == 'passed' for row in rows), 'Every stage must pass')
@@ -445,6 +475,8 @@ def source_stages(lock):
     """Only the already-validated caller binding selects the required stages."""
     if lock.pipeline is None:
         return STAGES
+    if lock.pipeline.valance_cover is not None:
+        return STAGES_V2_COVER if lock.pipeline.repeated_detail is None else STAGES_V2_DETAIL_COVER
     return STAGES_V2 if lock.pipeline.repeated_detail is None else STAGES_V2_DETAIL
 
 

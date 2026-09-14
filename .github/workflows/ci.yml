@@ -72,7 +72,7 @@ jobs:
   playgodot:
     name: PlayGodot semantic UI (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
-    timeout-minutes: ${{ matrix.os == 'windows-latest' && 25 || 15 }}
+    timeout-minutes: ${{ matrix.os == 'macos-latest' && 15 || 25 }}
     strategy:
       fail-fast: false
       matrix:

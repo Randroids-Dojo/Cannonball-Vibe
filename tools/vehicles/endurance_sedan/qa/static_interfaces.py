@@ -95,7 +95,7 @@ def contract(rows, profile='revision17'):
     return selected, rules
 
 
-def selected_scope(rows, optical_report, profile='revision17'):
+def selected_scope(rows, optical_report, profile='revision17', cover_pairs=None):
     """Re-derive the native selected domain using only locked semantic inputs."""
     selected, rules = contract(rows, profile)
     assert optical_report['status'] == 'passed'
@@ -114,10 +114,22 @@ def selected_scope(rows, optical_report, profile='revision17'):
     assert not set(rules).intersection(restraint_rules)
     selected.update(restraint_names)
     rules.update(restraint_rules)
+    from valance_cover_report import NAMES, RECEIVER
+    present = set(NAMES[1:]).intersection(rows)
+    if present:
+        expected_cover = {tuple(sorted((mount, other))) for mount in NAMES[1:]
+                          for other in (NAMES[0], RECEIVER)}
+        if present != set(NAMES[1:]) or cover_pairs is None or set(cover_pairs) != expected_cover:
+            raise ValueError('All four cover mounts require all eight current finite certificates')
+        if set(cover_pairs).intersection(rules) or set(cover_pairs).intersection(optical_pairs):
+            raise ValueError('Cover certificates overlap a different interface contract')
+        selected.update(NAMES)
+    elif cover_pairs:
+        raise ValueError('Cover certificates require the actual cover assembly')
     return selected, rules, optical_pairs
 
 
-def inspect(data, optical_report, finish_report, profile='revision17'):
+def inspect(data, optical_report, finish_report, profile='revision17', cover_pairs=None):
     from seat_finish_interfaces import inventory as finish_inventory
     from fitted_interfaces import negative_controls as fitted_negative_controls, prove as prove_fitted, roof_return_controls
     from geometry import bounds, box_distance2
@@ -133,7 +145,11 @@ def inspect(data, optical_report, finish_report, profile='revision17'):
         raise ValueError('Finish certificate does not cover the actual required source interfaces')
     finish_pairs = finish_validation.validated_binary_pairs(finish_report, data['source_sha256'])
     assert optical_report['source_sha256'] == data['source_sha256']
-    selected, rules, optical_pairs = selected_scope(rows, optical_report, profile)
+    selected, rules, optical_pairs = selected_scope(rows, optical_report, profile, cover_pairs)
+    from valance_cover_report import certificate_reference
+    cover_pairs = cover_pairs or {}
+    if set(cover_pairs).intersection(finish_pairs):
+        raise ValueError('Cover and finish certificates overlap')
     restraint_names, restraint_rules = restraint_contract(rows)
     assert restraint_names <= selected and all(rules[k] == v for k, v in restraint_rules.items())
     boxes = {name: bounds(row['vertices']) for name, row in rows.items()}
@@ -143,6 +159,7 @@ def inspect(data, optical_report, finish_report, profile='revision17'):
     intersections = {}
     seen = set()
     finish_used=[]
+    cover_used=[]
     for a in sorted(selected):
         for b in sorted(rows):
             if a == b:
@@ -151,6 +168,9 @@ def inspect(data, optical_report, finish_report, profile='revision17'):
             if pair in seen or pair in optical_pairs:
                 continue
             seen.add(pair)
+            if pair in cover_pairs:
+                cover_used.append(certificate_reference(cover_pairs[pair]))
+                continue
             if pair in finish_pairs:
                 finish_used.append(finish_pairs[pair])
                 continue
@@ -183,6 +203,8 @@ def inspect(data, optical_report, finish_report, profile='revision17'):
                 print('QA_STATIC_FAILURE ' + json.dumps(result), flush=True)
     untested = sorted(set(rules) - seen)
     assert not untested, ('Declared interfaces omitted from selected scope', untested)
+    if {tuple(row['pair']) for row in cover_used} != set(cover_pairs):
+        raise ValueError('Static scope did not consume every cover certificate')
     controls = fitted_negative_controls(rows)
     restraint_checks = inspect_restraints(rows, intersections)
     if restraint_checks['status'] != 'passed':
@@ -212,6 +234,7 @@ def inspect(data, optical_report, finish_report, profile='revision17'):
             'finish_interfaces_checked_separately':len(expected),
             'finish_group_count':len(expected), 'finish_binary_pair_count':len(finish_pairs),
             'finish_joint_certificates_used':sorted(finish_used, key=lambda row: row['pair']),
+            'cover_joint_certificates_used':sorted(cover_used, key=lambda row: row['pair']),
             'optical_internal_pairs_checked_separately': len(optical_pairs),
             'whole_aabb_certificates': broad, 'near_nonmating_pairs': near, 'failures': failures}, intersections
 
@@ -221,6 +244,8 @@ def main():
     parser.add_argument('--geometry', type=Path, required=True)
     parser.add_argument('--optical-report', type=Path, required=True)
     parser.add_argument('--finish-report', type=Path, required=True)
+    parser.add_argument('--valance-cover-report', type=Path)
+    parser.add_argument('--valance-cover-payload', type=Path)
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--profile', choices=('revision17', 'production38'), default='revision17')
     args = parser.parse_args(sys.argv[sys.argv.index('--') + 1:])
@@ -236,13 +261,27 @@ def main():
         args.geometry, Path(data['source_path']),
         *[Path(__file__).with_name(n) for n in finish_validation.DEPENDENCIES])}
     check_seat_report(finish, data['source_sha256'], sha(args.geometry), expected_inputs, finish_validation)
-    result, intersections = inspect(data, optical, finish, args.profile)
+    cover_pairs = None
+    if args.valance_cover_report or args.valance_cover_payload:
+        if not args.valance_cover_report or not args.valance_cover_payload:
+            raise ValueError('Cover report and complete payload must be supplied together')
+        from valance_cover_report import read_document, file_row, validated_binary_pairs
+        cover_report = read_document(args.valance_cover_report)
+        cover_payload = read_document(args.valance_cover_payload)
+        if cover_report.get('geometry_sha256') != sha(args.geometry):
+            raise ValueError('Cover report used different actual geometry')
+        if cover_report.get('payload') != file_row(args.valance_cover_payload):
+            raise ValueError('Cover report does not bind the supplied complete payload')
+        cover_pairs = validated_binary_pairs(cover_report, cover_payload, data)
+    result, intersections = inspect(data, optical, finish, args.profile, cover_pairs)
     target = args.output.with_suffix('.intersection-solids.json.gz')
     assert not target.exists()
     target.write_bytes(gzip.compress(json.dumps(intersections, separators=(',', ':'), allow_nan=False).encode(), mtime=0))
     dependencies = [args.geometry, args.optical_report, args.finish_report, *sorted(Path(__file__).parent.glob('*.py')),
                     Path(__file__).with_name('static-interface-rules.json'),
                     Path(__file__).with_name('restraint-interface-rules.json')]
+    if cover_pairs is not None:
+        dependencies.extend((args.valance_cover_report, args.valance_cover_payload))
     result.update(task_id='P1-018', milestone='M5', utc=datetime.now(timezone.utc).isoformat(),
                   source_sha256=data['source_sha256'], elapsed_seconds=time.perf_counter() - start,
                   inputs=[{'path': str(path.resolve()), 'sha256': sha(path)} for path in dependencies],

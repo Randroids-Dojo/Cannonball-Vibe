@@ -84,6 +84,10 @@ def apply(collection,parent,mats,root,constructor,texture_output):
     assert proof['front_form27']['field_packet']['core']['initial']==proof['front_before_native']
     from .finishing34 import finish
     proof['current_surface34']=finish.apply(proof)
+    from .valance_cover39.construction import construct as construct_cover
+    cover = construct_cover(proof, root, stage_root)
+    if cover is not None:
+        proof['valance_cover39'] = cover
     from . import tire_grooves38, source_generation
     declared=json.loads(bpy.context.scene['specification'])['original_packaging'].get('tire_groove_revision38')
     if declared is not None:

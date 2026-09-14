@@ -16,6 +16,7 @@ import traceback
 
 from gate import (STAGES, artifact, completed_inventory, inventory, json_read, positive_process,
                   sha, source_stages, stage_report, load_source_binding)
+from valance_cover_report import tool_files
 
 
 def utc():
@@ -26,10 +27,9 @@ def write(path, document):
     path.write_text(json.dumps(document, indent=2, allow_nan=False) + '\n', encoding='utf8', newline='\n')
 
 
-def staged_reader(path):
+def staged_reader(path, name='_source_qa_repeated_detail_report'):
     path = path.resolve(strict=True)
     held = sha(path)
-    name = '_source_qa_repeated_detail_report'
     specification = importlib.util.spec_from_file_location(name, path)
     if specification is None or specification.loader is None:
         raise ValueError('Missing independent repeated-detail report checker')
@@ -49,7 +49,7 @@ class Runner:
         self.sequence = 0
         self.commands = []
         self.locked_outputs = {}
-        self.initial_inputs = {str(path): sha(path) for path in (source, blender, *sorted(scripts.glob('*')))
+        self.initial_inputs = {str(path): sha(path) for path in (source, blender, *tool_files(scripts))
                                if path.is_file()}
         self.environment = dict(os.environ)
         self.environment.update(BLENDER_USER_CONFIG=str(output / 'blender-user-config'),
@@ -63,7 +63,7 @@ class Runner:
         argv = ([str(self.blender), '--background', '--factory-startup', '--threads', '2', '--python-exit-code', '1',
                  '--python', str(self.scripts / script), '--', *map(str, arguments)] if native else
                 [sys.executable, str(self.scripts / script), *map(str, arguments)])
-        before = {str(path): sha(path) for path in (self.source, self.blender, *sorted(self.scripts.glob('*')))
+        before = {str(path): sha(path) for path in (self.source, self.blender, *tool_files(self.scripts))
                   if path.is_file()}
         for path in arguments:
             if isinstance(path, Path) and path.is_file() and path not in outputs:
@@ -153,14 +153,17 @@ def main():
     output.mkdir(parents=True)
     scripts = output / 'tools'
     scripts.mkdir()
-    for path in sorted(original.iterdir()):
-        if path.is_file() and path.suffix in ('.py', '.json'):
-            shutil.copyfile(path, scripts / path.name)
+    for path in tool_files(original):
+        target = scripts / path.relative_to(original)
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(path, target)
     (output / 'commands').mkdir()
     runner = Runner(source, blender, output, scripts)
     detail = source_lock.pipeline.repeated_detail if source_lock.pipeline is not None else None
     detail_reader = staged_reader(scripts / 'repeated_detail_report.py') if detail is not None else None
-    runner.initial_inputs.update({str(p): sha(p) for p in original.iterdir() if p.is_file() and p.suffix in (".py", ".json")})
+    cover = source_lock.pipeline.valance_cover if source_lock.pipeline is not None else None
+    cover_reader = staged_reader(scripts / 'valance_cover_report.py', '_source_qa_valance_cover_report') if cover is not None else None
+    runner.initial_inputs.update({str(p): sha(p) for p in tool_files(original)})
     runner.initial_inputs.update({str(row.path): row.sha256 for row in source_lock.inputs})
     try:
         revision = subprocess.check_output(['git', '-C', str(original), 'rev-parse', 'HEAD'], text=True).strip()
@@ -257,8 +260,32 @@ def main():
             '--lower-payload', paths['distance-fields'].with_suffix('.payload.json.gz'),
             '--output', paths['repeated-detail']],
             [paths['repeated-detail'], paths['repeated-detail'].with_suffix('.payload.json.gz')]))
+    if cover is not None:
+        position = next(i for i, row in enumerate(stages) if row[0] == 'static-interfaces')
+        stages.insert(position, ('valance-cover', 'valance_cover.py', [
+            '--source', source, '--source-binding', source_lock.binding.path,
+            '--expected-binding-sha256', source_lock.binding.sha256,
+            '--construction-root', source_lock.root, '--geometry', geometry,
+            '--output', paths['valance-cover']],
+            [paths['valance-cover'], paths['valance-cover'].with_suffix('.payload.json.gz')]))
+        for name, script, arguments, outputs in stages:
+            if name == 'static-interfaces':
+                arguments.extend(('--valance-cover-report', paths['valance-cover'],
+                                  '--valance-cover-payload', paths['valance-cover'].with_suffix('.payload.json.gz')))
+            if name == 'openings':
+                arguments.append('--require-valance-cover')
     try:
         for name, script, arguments, outputs in stages:
+            if name == 'valance-cover':
+                invocation_path = output / 'valance-cover-inputs.json'
+                held = cover_reader.capture_run_binding(argparse.Namespace(geometry=geometry), source_lock,
+                                                        tool_directory=scripts)
+                write(invocation_path, held)
+                runner.locked_outputs[str(invocation_path)] = sha(invocation_path)
+                arguments.extend(('--run-binding', invocation_path, '--expected-run-binding-sha256',
+                                  runner.locked_outputs[str(invocation_path)]))
+                context['valance_cover'] = {'reader': cover_reader, 'held': held,
+                    'invocation': invocation_path, 'payload': outputs[1], 'report': outputs[0], 'opening': opening}
             if name == 'repeated-detail':
                 invocation_path = output / 'repeated-detail-inputs.json'
                 invocation_args = argparse.Namespace(geometry=geometry, opening_contract=opening,
@@ -311,7 +338,7 @@ def main():
     finally:
         result.update(end_utc=utc(), source_unchanged=sha(source) == runner.source_sha,
                       blender_unchanged=sha(blender) == runner.blender_sha, commands=runner.commands,
-                      tool_snapshot=[{'path': str(path), 'sha256': sha(path)} for path in sorted(scripts.iterdir()) if path.is_file()])
+                      tool_snapshot=[{'path': str(path), 'sha256': sha(path)} for path in tool_files(scripts)])
         result['all_locked_inputs_unchanged'] = all(Path(p).is_file() and sha(Path(p)) == h
                                                    for p, h in (runner.initial_inputs | runner.locked_outputs).items())
         if not result['source_unchanged'] or not result['blender_unchanged'] or not result['all_locked_inputs_unchanged']:
