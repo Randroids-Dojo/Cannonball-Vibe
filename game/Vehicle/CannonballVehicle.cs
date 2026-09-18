@@ -203,7 +203,7 @@ public sealed partial class CannonballVehicle : RigidBody3D
             return;
         }
 
-        ApplySuspensionAndTireForces(input);
+        ApplySuspensionAndTireForces(input, delta);
         ApplyPowerAndStability(input);
         VisualRig?.ApplyPhysicsState(
             _currentSteerAngleRadians,
@@ -344,7 +344,7 @@ public sealed partial class CannonballVehicle : RigidBody3D
         return new DriveInputState(throttle, brake, 0, 0, steering, false, false);
     }
 
-    private void ApplySuspensionAndTireForces(DriveInputState input)
+    private void ApplySuspensionAndTireForces(DriveInputState input, double delta)
     {
         var chassisUp = GlobalTransform.Basis.Y.Normalized();
         var chassisForward = -GlobalTransform.Basis.Z.Normalized();
@@ -367,6 +367,15 @@ public sealed partial class CannonballVehicle : RigidBody3D
         var suspensionBottomedOut = false;
         var tuning = VehicleDynamicsProfile.For(AssistProfile);
         Array.Clear(_wheelCompressionMeters);
+        // Reuse the existing native wrapper and its existing predelete disposal.
+        _physicsState ??= PhysicsServer3D.BodyGetDirectState(GetRid());
+        if (_physicsState is null)
+        {
+            throw new InvalidOperationException("No native body state for tire step.");
+        }
+        var tireCenterOfMass = _physicsState.Transform.Origin + _physicsState.CenterOfMass;
+        var tireInverseInertia = _physicsState.InverseInertiaTensor;
+        var tireInverseMass = (double)_physicsState.InverseMass;
 
         for (var index = 0; index < WheelPositions.Length; index++)
         {
@@ -428,8 +437,12 @@ public sealed partial class CannonballVehicle : RigidBody3D
                 ? chassisForward.Rotated(normal, -steerAngle).Normalized()
                 : chassisForward;
             var wheelRight = wheelForward.Cross(normal).Normalized();
-            var lateralSpeed = pointVelocity.Dot(wheelRight);
-            var longitudinalSpeed = pointVelocity.Dot(wheelForward);
+            // Only tire slip uses the true COM lever. Suspension retains its
+            // existing origin-relative point velocity and force placement.
+            var tireLever = contact - tireCenterOfMass;
+            var tirePointVelocity = LinearVelocity + AngularVelocity.Cross(tireLever);
+            var lateralSpeed = tirePointVelocity.Dot(wheelRight);
+            var longitudinalSpeed = tirePointVelocity.Dot(wheelForward);
             var gripScale = Mathf.Lerp(1.0f, 0.68f, Mathf.Clamp(speed / 100.0f, 0, 1));
             var lateralForce = VehicleDynamicsForces.LateralTireForceNewtons(
                 lateralSpeed,
@@ -441,9 +454,12 @@ public sealed partial class CannonballVehicle : RigidBody3D
                 Mass,
                 VehicleDynamicsProfile.MaximumLateralAccelerationMetersPerSecondSquared,
                 WheelPositions.Length);
-            ApplyForce(
-                wheelRight * (float)lateralForce,
-                offset);
+            var tireMoment = tireLever.Cross(wheelRight);
+            var tireEffectiveInverseMass = tireInverseMass +
+                (double)tireMoment.Dot(tireInverseInertia * tireMoment);
+            var tireSubmission = VehicleDynamicsForces.StepLimitedLateralTireForceNewtons(
+                lateralForce, lateralSpeed, tireEffectiveInverseMass, delta, WheelPositions.Length);
+            ApplyForce(wheelRight * tireSubmission, offset);
         }
 
         GroundedWheelCount = groundedWheels;
