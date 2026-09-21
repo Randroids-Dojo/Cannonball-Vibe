@@ -5,10 +5,15 @@ import bpy
 def build(source,parent,collection,*,feature,encoder,paint,selective,geometry,shell_certificate,reference):
     if parent is None or parent.name not in {'Visual_LOD1','Visual_LOD2'}:
         raise ValueError('Mixed current front applies only to both declared lower levels')
+    suffixes={'LOD0_FrontBumper':'MixedProtectedFront',
+              'LOD0_FrontFender_L':'ProtectedFrontFender_L',
+              'LOD0_FrontFender_R':'ProtectedFrontFender_R'}
+    if source.name not in suffixes:
+        raise ValueError('Unexpected current front source component')
     adapter=feature.Adapter(source,paint,encoder,reference)
     attempts=[]
     for ratio in selective.ratios(.065):
-        obj=source.copy();obj.data=source.data.copy();obj.name='LOD'+parent.name[-1]+'_MixedProtectedFront'
+        obj=source.copy();obj.data=source.data.copy();obj.name='LOD'+parent.name[-1]+'_'+suffixes[source.name]
         collection.objects.link(obj);world=source.matrix_world.copy();obj.parent=parent;obj.matrix_world=world
         bpy.context.view_layer.update();item={'ratio':ratio};accepted=False
         try:

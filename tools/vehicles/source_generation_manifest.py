@@ -91,6 +91,10 @@ def phase_output_contract(root, generation, historical, portable, pre_lod):
         checkpoints.append('pre-detail/source.blend')
     if 'valance_cover_revision39' in packaging:
         checkpoints += ['pre-cover/source.blend', 'pre-cover/requested.json.gz']
+    if 'front_finish_revision40' in packaging:
+        checkpoints += ['pre-front40/source.blend', 'pre-front40/requested.json.gz']
+    if 'upper_finish_revision40' in packaging:
+        checkpoints += ['pre-upper40/source.blend', 'pre-upper40/requested.json.gz']
     fresh += [file_row(current_path(root, (base.parent / name).as_posix()), root) for name in checkpoints]
     final = [portable['roles']['source'], by_role['lower_bundle'], by_role['native_finalization']]
     return [(fresh, {'--output': pre_lod}),

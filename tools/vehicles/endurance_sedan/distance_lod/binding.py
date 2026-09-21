@@ -111,8 +111,24 @@ def check_generation_inputs(construction, rows):
         check_file(row)
 
 
+def legacy_dependencies():
+    """Unchanged legacy numerical helpers, shared by current and checkpoint readers."""
+    package_name = __package__.rsplit('.', 1)[0]
+    return {name: importlib.import_module(package_name + '.' + relative) for name, relative in {
+        'sheet': 'finishing34.front_sheet.sheet_reference', 'support': 'finishing34.front_sheet.field_support',
+        'finite_bevel': 'finishing34.front_sheet.finite_bevel', 'carrier': 'finishing34.front_sheet.front_carrier',
+        'normal_application': 'finishing34.front_sheet.normal_application', 'lamp': 'finishing34.lamp_surface',
+        'ownership': 'surface_normals', 'projection': 'triangle_projection', 'transport': 'front_target_transport28',
+        'bend': 'front_bend27', 'optical': 'front_lamp27', 'arch': 'arch_finish26',
+        'recorder': 'front_field_capture27', 'snapshot_fields': 'shoulder_field02',
+        'planar_glass': 'finishing34.planar_glass', 'native_fields': 'reserve_correspondence26',
+    }.items()}
+
+
 def prepare(lock, *, expected_lock_digest, high_tire_observation=None,
-            expected_high_tire_observation_digest=None):
+            expected_high_tire_observation_digest=None, front_observation=None,
+            expected_front_observation_digest=None, upper_observation=None,
+            expected_upper_observation_digest=None):
     """Prepare from the already-open source and explicit immutable file lock.
 
     The owner opens the exact pre-LOD source first and retains the returned
@@ -140,25 +156,45 @@ def prepare(lock, *, expected_lock_digest, high_tire_observation=None,
     package = importlib.import_module(package_name)
     require(package.lod_paint is lod_paint and package.selective_lod is selective_lod,
             'Ordinary optimizer dependencies are already overridden')
-    dependencies = {name: importlib.import_module(package_name + '.' + relative) for name, relative in {
-        'sheet': 'finishing34.front_sheet.sheet_reference', 'support': 'finishing34.front_sheet.field_support',
-        'finite_bevel': 'finishing34.front_sheet.finite_bevel', 'carrier': 'finishing34.front_sheet.front_carrier',
-        'normal_application': 'finishing34.front_sheet.normal_application', 'lamp': 'finishing34.lamp_surface',
-        'ownership': 'surface_normals', 'projection': 'triangle_projection', 'transport': 'front_target_transport28',
-        'bend': 'front_bend27', 'optical': 'front_lamp27', 'arch': 'arch_finish26',
-        'recorder': 'front_field_capture27', 'snapshot_fields': 'shoulder_field02',
-        'planar_glass': 'finishing34.planar_glass', 'native_fields': 'reserve_correspondence26',
-    }.items()}
-    packet = current_front.make_packet(bpy.data.objects['LOD0_FrontBumper'], construction,
-        lock['roles']['source']['sha256'], dependencies, shoulder_checkpoint.material_fields)
+    dependencies = legacy_dependencies()
+    from ..qa.front_finish_report import revision_requested, LOWER_POLICY
+    current_revision = revision_requested(specification, construction, is_pipeline=True)
+    if current_revision:
+        from ..front_finish40.verification import make_packet
+        require(profile.get('current_front_revision40') == LOWER_POLICY,
+                'Current front requires its explicitly selected lower profile')
+        packet = make_packet(construction, lock['roles']['source']['sha256'],
+            Path(__file__).resolve().parents[4], front_observation, expected_front_observation_digest)
+        front_schema = 'current-guide-front-source-binding40.v1'
+    else:
+        require('current_front_revision40' not in profile and front_observation is None and
+                expected_front_observation_digest is None, 'Undeclared current front profile/observation')
+        packet = current_front.make_packet(bpy.data.objects['LOD0_FrontBumper'], construction,
+            lock['roles']['source']['sha256'], dependencies, shoulder_checkpoint.material_fields)
+        front_schema = 'current-finite-front-source-binding36.v1'
     files = plain(lock['input_files'])
-    expected = {'schema': 'current-finite-front-source-binding36.v1', 'source_path': str(roles['source']),
+    expected = {'schema': front_schema, 'source_path': str(roles['source']),
         'source_sha256': lock['roles']['source']['sha256'], 'construction_sha256': lock['roles']['construction']['sha256'],
         'field_core_sha256': packet['sha256'], 'input_files_sha256': digest(files),
         'profile_sha256': digest(profile), 'specification_sha256': digest(specification)}
     front_context = {'expected': expected, 'expected_binding_digest': digest(expected), 'observed': dict(expected),
         'input_files': files, 'profile': profile, 'packet': packet, 'dependencies': dependencies,
-        'material_capture': shoulder_checkpoint.material_fields, 'construction_path': str(roles['construction'])}
+        'material_capture': shoulder_checkpoint.material_fields, 'construction_path': str(roles['construction']),
+        'current_revision40': current_revision}
+    from ..qa.upper_finish_report import revision_requested as upper_requested, LOWER_POLICY as UPPER_LOWER
+    upper_packet = None
+    if upper_requested(specification, construction, is_pipeline=True):
+        from ..upper_finish40.verification import make_packet as upper_make_packet
+        require(profile.get('current_upper_revision40') == UPPER_LOWER,
+                'Current upper requires its explicitly selected formed-pane lower profile')
+        upper_packet = upper_make_packet(construction, lock['roles']['source']['sha256'],
+            Path(__file__).resolve().parents[4], upper_observation, expected_upper_observation_digest)
+        expected['upper_packet_sha256'] = upper_packet['sha256']
+        front_context.update(expected_binding_digest=digest(expected), observed=dict(expected),
+                             upper_packet=upper_packet)
+    else:
+        require('current_upper_revision40' not in profile and upper_observation is None and
+                expected_upper_observation_digest is None, 'Undeclared current upper profile/observation')
     tire_inputs = {role: {'path': str(roles[name]), 'sha256': lock['roles'][name]['sha256']}
         for role, name in [('source', 'source'), ('construction', 'construction'), ('constructor', 'constructor'),
             ('geometry', 'geometry'), ('specification', 'specification'), ('base_profile', 'profile')]}

@@ -109,10 +109,17 @@ def main():
         cover_outputs = ([pre_lod.parent / 'pre-cover/source.blend',
                           pre_lod.parent / 'pre-cover/requested.json.gz']
                          if 'valance_cover_revision39' in detail_policy else [])
+        front_outputs = ([pre_lod.parent / 'pre-front40/source.blend',
+                          pre_lod.parent / 'pre-front40/requested.json.gz']
+                         if 'front_finish_revision40' in detail_policy else [])
+        upper_outputs = ([pre_lod.parent / 'pre-upper40/source.blend',
+                          pre_lod.parent / 'pre-upper40/requested.json.gz']
+                         if 'upper_finish_revision40' in detail_policy else [])
         first = native('fresh-construction', 'tools/vehicles/create_endurance_sedan.py',
             ['--output', pre_lod, '--stage', 'production', '--surface-preview'],
             [pre_lod, pre_lod.with_suffix('.construction.json.gz'), pre_front, historical_source,
-             historical_packet, historical_profile, *tire_checkpoint, *detail_checkpoint, *cover_outputs])
+             historical_packet, historical_profile, *tire_checkpoint, *detail_checkpoint,
+             *cover_outputs, *front_outputs, *upper_outputs])
         shutil.copyfile(pre_lod.with_suffix('.construction.json.gz'), construction)
         companion = records.read(construction)
         constructors = companion['construction_inputs']

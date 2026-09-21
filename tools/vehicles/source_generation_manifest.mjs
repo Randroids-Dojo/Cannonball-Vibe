@@ -16,7 +16,7 @@ const requireValue = (value, reason) => { if (!value) throw new Error(reason); }
 export function generationRequired(spec, inventory, bindingExists) {
   const packaging = spec.original_packaging ?? {};
   return bindingExists || inventory.source_generation_verification != null ||
-    ["tire_groove_revision38", "repeated_detail_revision38", "valance_cover_revision39"].some(key => Object.hasOwn(packaging, key));
+    ["tire_groove_revision38", "repeated_detail_revision38", "valance_cover_revision39", "front_finish_revision40", "upper_finish_revision40"].some(key => Object.hasOwn(packaging, key));
 }
 
 function logicalPath(path) {

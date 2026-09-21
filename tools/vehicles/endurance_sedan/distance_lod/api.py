@@ -141,12 +141,18 @@ def verify_live(collection, lower, entries, *, original_names, expected_members,
         if obj.parent is None or entry.get('parent') != obj.parent.name:
             raise ValueError('Final rigid parent differs from construction metadata')
         used = {obj.data.materials[p.material_index].name for p in obj.data.polygons}
-        if sources == ['LOD0_FrontBumper']:
-            if obj.name != 'LOD' + level + '_MixedProtectedFront':
-                raise ValueError('Unexpected current mixed-front identity')
+        protected_fronts = {
+            'LOD' + level + '_MixedProtectedFront': 'LOD0_FrontBumper',
+            'LOD' + level + '_ProtectedFrontFender_L': 'LOD0_FrontFender_L',
+            'LOD' + level + '_ProtectedFrontFender_R': 'LOD0_FrontFender_R',
+        }
+        if sources == ['LOD0_FrontBumper'] or obj.name in protected_fronts:
+            if obj.name not in protected_fronts or sources != [protected_fronts[obj.name]]:
+                raise ValueError('Unexpected current protected-front identity')
             actual_material = hook.load('front_feature_mixed').material_metadata(obj)
-            if actual_material['materials'] != ['Material_Paint', 'Material_Trim'] or any(entry.get(k) != v for k, v in actual_material.items()):
-                raise ValueError('Final mixed material metadata differs from actual native triangles')
+            expected_materials = ['Material_Paint', 'Material_Trim'] if sources == ['LOD0_FrontBumper'] else ['Material_Paint']
+            if actual_material['materials'] != expected_materials or any(entry.get(k) != v for k, v in actual_material.items()):
+                raise ValueError('Final protected front material metadata differs from actual native triangles')
         elif used != {entry.get('material')}:
             raise ValueError('Final material differs from construction metadata')
     expected = {str(level): collections.Counter(names) for level, names in expected_members.items()}
@@ -192,10 +198,15 @@ def apply(collection, lods, *, package, optimization, geometry, surfaces, shell_
     if (bpy.app.version, bpy.app.build_hash.decode()) != ((5, 1, 2), 'ec6e62d40fa9'):
         raise ValueError('Pinned Blender identity required')
     feature, encoder = hook.load('front_feature_mixed'), hook.load('codec')
+    front_names = ('LOD0_FrontBumper',)
+    if front_context.get('current_revision40') is True:
+        from . import front_feature40 as feature
+        from ..qa.front_finish_report import NAMES as front_names
     boundary_feature = hook.load('front_feature')
     boundary, subset = load('boundary', 'boundary_field'), load('subset', 'boundary_subset')
     # Bind the reviewed current mixed-front domain before any ordinary LOD mutation.
-    feature.capture(bpy.data.objects['LOD0_FrontBumper'], context=front_context)
+    for name in front_names:
+        feature.capture(bpy.data.objects[name], context=front_context)
     before = source_snapshot(raw_capture, modifier_capture)
     empties = empty_fields()
     lower, base, payload = hook.apply(collection, lods, package=package, optimization=optimization,
@@ -276,11 +287,13 @@ def apply(collection, lods, *, package, optimization, geometry, surfaces, shell_
         if proof['status'] != 'passed':
             raise ValueError('Final actual indexed-shell self failed: ' + obj.name)
         proofs.append(proof)
-    fronts = [obj for obj in final if json.loads(obj['source_components']) == ['LOD0_FrontBumper']]
-    if len(fronts) != 2 or {obj['lod_index'] for obj in fronts} != {1, 2}:
-        raise ValueError('Missing current mixed front at either level')
-    front_reference = feature.capture(bpy.data.objects['LOD0_FrontBumper'], context=front_context)
-    front_field = {obj.name: feature.verify(obj, front_reference) for obj in fronts}
+    front_field = {}
+    for name in front_names:
+        fronts = [obj for obj in final if json.loads(obj['source_components']) == [name]]
+        if len(fronts) != 2 or {obj['lod_index'] for obj in fronts} != {1, 2}:
+            raise ValueError('Missing current protected front at either level: ' + name)
+        front_reference = feature.capture(bpy.data.objects[name], context=front_context)
+        front_field.update({obj.name: feature.verify(obj, front_reference) for obj in fronts})
     report = {'status': 'passed-native-construction' if live['budget']['passed'] else 'failed-budget',
         'profile_digest': expected_profile_digest, 'live': live, 'superseded_private_batches_removed': removed_names,
         'original_raw_mesh_modifier_hashes': {name: hook.digest(row) for name, row in before.items()},

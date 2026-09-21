@@ -1,0 +1,168 @@
+{
+  "task_id": "P1-018",
+  "milestone": "M5",
+  "utc": "2026-09-21T08:05:32.741186+00:00",
+  "status": "corrected-verified-export-staging-only",
+  "pr_head_revision": "93aaf6bc1de143c7642bbdd24cdcff2ed0a3bad6",
+  "actual_package_source_revision": "ca5a5c94cd3d7fb4fcd63c76aa5bd5ae25edcf24",
+  "hosted_run": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/35571757518",
+  "archive": {
+    "path": "data/assets/vehicles/endurance-sedan-review/validation-v72/evidence.zip",
+    "bytes": 5469192,
+    "sha256": "4eac0400876792a700eb57e9010578946f536475c70b979b8354ffc57df88afb"
+  },
+  "independent_review": {
+    "path": "data/assets/vehicles/endurance-sedan-review/validation-v72/independent-review.json",
+    "bytes": 62324,
+    "sha256": "1c22c37306efc8a7c46d8584d5401c9a89af762a3ba0c4cf1fb04390b8b0ab38"
+  },
+  "entry_count": 27,
+  "entries": [
+    {
+      "path": ".github/workflows/unsigned-exports.yml",
+      "bytes": 7375,
+      "sha256": "a890d4c07a7b3a2b41338082fc15d9eaeba8c16fd1b788308481204268d819dc"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted67/artifacts.json",
+      "bytes": 3249,
+      "sha256": "d346f39c97870d945733b78da7aaca5342bcaa3e2f49e6f84c356a2433ad1523"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted67/artifacts.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted67/package-smoke-linux.zip",
+      "bytes": 3106713,
+      "sha256": "15ca6a7547240b6883355b4f3998c70bd0a67b1981ae77f60bc4fb260409100b"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted67/package-smoke-linux.zip.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted67/package-smoke-windows.zip",
+      "bytes": 3158668,
+      "sha256": "14cb2e632aa1538663adf339b5bd9f2f2080c835d58e070cc8f304c20052858c"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted67/package-smoke-windows.zip.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted67/receipt.json",
+      "bytes": 25568,
+      "sha256": "53500475fa50d747a7c04dfb211a1c6bb89d2c55bb6b50e0b7e0344f77d99114"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted67/run.json",
+      "bytes": 7540,
+      "sha256": "235bd36f3ad7e7463e8034301c47f9a7a786cd18b33613b13ead2f0332fdd986"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted67/run.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted67/run.log",
+      "bytes": 850182,
+      "sha256": "9340e73d4dac8f5106772f98a4f59a7ad29b5a40095f77a31ea219feda748f22"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted67/run.log.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/retain_hosted67.py",
+      "bytes": 3998,
+      "sha256": "9934d2ffd0bb9d01601a1dae1f331d484c4e8ed44ef489a33a6342043faa8685"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/retain_hosted72.py",
+      "bytes": 4806,
+      "sha256": "94bbf12c021c734db8cea9fd9d6cefff75999c06ee38753813b2877c6aaa91e2"
+    },
+    {
+      "path": "reports/p1-018/qa/hosted67-review01/REVIEW01.md",
+      "bytes": 1689,
+      "sha256": "52680067fd42c4e6957f0731cbd9924fed87c858e74ad9cb4aa3cb94c8d5057d"
+    },
+    {
+      "path": "reports/p1-018/qa/hosted67-review01/members01.json",
+      "bytes": 23202,
+      "sha256": "01947970620a17a796ee4d1272b8d2862b624668efc7c629bbbd697c72eff987"
+    },
+    {
+      "path": "reports/p1-018/qa/hosted67-review01/readback01.py",
+      "bytes": 13972,
+      "sha256": "2dec1d1fb9d73413f9077bdfa97cd2ebaea1edf6df1e92b714f9ba67ad416232"
+    },
+    {
+      "path": "reports/p1-018/qa/hosted67-review01/retention01.json",
+      "bytes": 4760,
+      "sha256": "ec568ec2b585f96b89454b8276d146d6245a3a38b7ca7fe3b8a4d305e7d54aec"
+    },
+    {
+      "path": "reports/p1-018/qa/hosted67-review01/review01.json",
+      "bytes": 62324,
+      "sha256": "1c22c37306efc8a7c46d8584d5401c9a89af762a3ba0c4cf1fb04390b8b0ab38"
+    },
+    {
+      "path": "reports/p1-018/qa/hosted67-review01/verifier-input.py",
+      "bytes": 29591,
+      "sha256": "ed1f768b2fc54320a5e18a35e04c97c1381b2cdacde9bceee4587282c6d856bb"
+    },
+    {
+      "path": "reports/p1-018/qa/unsigned58-review01/AUDIT01.md",
+      "bytes": 2868,
+      "sha256": "b291f1cac96330ee7170a8cd2b09ae3d922485d286c13f5ab022b4482f9d92f5"
+    },
+    {
+      "path": "reports/p1-018/qa/unsigned58-review01/audit01.json",
+      "bytes": 95837,
+      "sha256": "8b48469e547257f063d69ea03d95f910305d40861f572e77b4dabe193103e87d"
+    },
+    {
+      "path": "reports/p1-018/qa/unsigned58-review01/patch01.diff",
+      "bytes": 905,
+      "sha256": "9e933a6039b1d2887c775299268ed4eae9536a5c02c3f46ba64e45892b41233d"
+    },
+    {
+      "path": "reports/p1-018/qa/unsigned58-review01/retention01.json",
+      "bytes": 5037,
+      "sha256": "0f727579a822fb6e3c996229c9e1858f4358e71ac13752c8a7d73be5f8ae3f91"
+    },
+    {
+      "path": "scripts/release/build-unsigned.sh",
+      "bytes": 9772,
+      "sha256": "f1e1b0d47950bf44ff46b189749787753cfadece4df541e55ce53c73d8211e0e"
+    },
+    {
+      "path": "scripts/verify-packaged-sedan.sh",
+      "bytes": 276,
+      "sha256": "43851a3c7126de83287fc116a5e112c48212e89269d01444365b085585a31954"
+    },
+    {
+      "path": "tools/vehicles/verify_packaged_sedan.py",
+      "bytes": 29591,
+      "sha256": "ed1f768b2fc54320a5e18a35e04c97c1381b2cdacde9bceee4587282c6d856bb"
+    }
+  ],
+  "byte_reproducible": true,
+  "CRC_passed": true,
+  "all_members_readback_exact": true,
+  "verified": "All four hosted exports, both platform byte comparisons, and both actual packaged native Linux/Windows sedan smokes passed. Independently verified both downloaded smoke ZIPs,94 members, hashes, CRC and native summaries.",
+  "limits": "Installed historical vehicle asset only. Full game ZIP byte comparisons were executed by hosted jobs, not repeated locally. Actual package revision is the PR merge commit. Final source, rendered footage, performance, final-platform evidence and human approvals remain open.",
+  "prior_failure_evidence": {
+    "path": "data/assets/vehicles/endurance-sedan-review/validation-v62/review.json",
+    "bytes": 36366,
+    "sha256": "90c5a742a957eb92fd46859268f5c5b31146fce6e4920d03e0c3ef108b2ce6b8"
+  },
+  "human_approval_reference": null
+}

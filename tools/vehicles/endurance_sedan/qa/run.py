@@ -246,6 +246,13 @@ def main():
                 '--expected-binding-sha256', source_lock.binding.sha256,
                 '--construction-root', source_lock.root, '--mode', mode, '--output', paths[name]],
                 [paths[name], paths[name].with_suffix('.payload.json.gz')]))
+        if source_lock.pipeline.front_finish is not None:
+            name = 'current-front-controls'
+            stages.insert(5, (name, 'current_source.py', [
+                '--source', source, '--source-binding', source_lock.binding.path,
+                '--expected-binding-sha256', source_lock.binding.sha256,
+                '--construction-root', source_lock.root, '--mode', 'front-controls', '--output', paths[name]],
+                [paths[name], paths[name].with_suffix('.payload.json.gz')]))
         for name, script, arguments, outputs in stages:
             if name == 'static-interfaces':
                 arguments.extend(('--profile', 'production38'))

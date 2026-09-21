@@ -14,6 +14,8 @@ class PipelineLock:
     portable_input_lock: dict
     repeated_detail: object | None = None
     valance_cover: object | None = None
+    front_finish: object | None = None
+    upper_finish: object | None = None
 
 
 def load(path, source, root, output, legacy_loader):
@@ -22,11 +24,15 @@ def load(path, source, root, output, legacy_loader):
                            require, sha, strict_json)
         from .repeated_detail_report import lock_optional
         from .valance_cover_report import lock_optional as lock_cover
+        from .front_finish_report import lock_optional as lock_front
+        from .upper_finish_report import lock_optional as lock_upper
     else:
         from gate import (Input, SourceLock, artifact, digest, keys, positive_process,
                           require, sha, strict_json)
         from repeated_detail_report import lock_optional
         from valance_cover_report import lock_optional as lock_cover
+        from front_finish_report import lock_optional as lock_front
+        from upper_finish_report import lock_optional as lock_upper
 
     path, source, root = Path(path).resolve(strict=True), Path(source).resolve(strict=True), Path(root).resolve(strict=True)
     document = strict_json(path)
@@ -142,15 +148,41 @@ def load(path, source, root, output, legacy_loader):
         logical_files={key: row for key, logical in cover_paths.items()
                        for row in input_files if row.path == logical})
     cover_inputs = [] if cover is None else [cover.checkpoint, cover.requested, cover.constructor, cover.encoder]
+    front_paths = {'constructor': root / 'tools/vehicles/endurance_sedan/front_finish40/construction.py',
+                   'generator': root / 'tools/vehicles/endurance_sedan/front_compact40/__init__.py',
+                   'encoder': root / 'tools/vehicles/endurance_sedan/corner_encoding.py'}
+    front = lock_front(strict_json(role_rows['specification'].path), construction,
+        is_pipeline=True, artifact=lambda row: artifact(row, root), generation_inputs=input_files,
+        phase_outputs=fresh_outputs,
+        source_artifacts=[*files.values(), historical_source, *role_rows.values(), *tire_inputs,
+                          *detail_inputs, *cover_inputs],
+        logical_files={key: row for key, logical in front_paths.items()
+                       for row in input_files if row.path == logical})
+    front_inputs = [] if front is None else [front.checkpoint, front.requested, front.constructor,
+                                            front.generator, front.encoder]
+    upper_paths = {'constructor': root / 'tools/vehicles/endurance_sedan/upper_finish40/construction.py',
+                   'generator': root / 'tools/vehicles/endurance_sedan/upper_sections40/__init__.py',
+                   'encoder': root / 'tools/vehicles/endurance_sedan/corner_encoding.py',
+                   'design': root / 'tools/vehicles/endurance_sedan/upper_sections40/sections.json'}
+    upper = lock_upper(strict_json(role_rows['specification'].path), construction,
+        is_pipeline=True, artifact=lambda row: artifact(row, root), generation_inputs=input_files,
+        phase_outputs=fresh_outputs,
+        source_artifacts=[*files.values(), historical_source, *role_rows.values(), *tire_inputs,
+                          *detail_inputs, *cover_inputs, *front_inputs],
+        logical_files={key: row for key, logical in upper_paths.items()
+                       for row in input_files if row.path == logical})
+    upper_inputs = [] if upper is None else [upper.checkpoint, upper.requested, upper.constructor,
+                                            upper.generator, upper.encoder, upper.design]
     binding = Input(path, sha(path), path.stat().st_size)
     inputs = (binding, *files.values(), *historical.inputs, *input_files, *logs,
-              *phase_outputs, *actual_outputs.values(), *role_rows.values(), *lower_inputs, *tire_inputs, *detail_inputs, *cover_inputs)
+              *phase_outputs, *actual_outputs.values(), *role_rows.values(), *lower_inputs, *tire_inputs,
+              *detail_inputs, *cover_inputs, *front_inputs, *upper_inputs)
     destination = Path(output).resolve()
     require(not destination.exists() and all(not row.path.is_relative_to(destination) for row in inputs),
             'New QA output must not contain locked source inputs')
     pipeline = PipelineLock(historical, files['pre_lod_source'], files['pre_front_source'], files['construction'],
                             files['lower_bundle'], files['generation_record'], portable,
-                            repeated_detail=detail, valance_cover=cover)
+                            repeated_detail=detail, valance_cover=cover, front_finish=front, upper_finish=upper)
     lock = SourceLock(root, binding, files['source'], historical.packet, historical.profile,
                       historical.builder, historical.helper, historical.ownership,
                       historical.constructor_inputs_sha256, tuple(inputs), pipeline=pipeline)
@@ -160,9 +192,11 @@ def load(path, source, root, output, legacy_loader):
 
 def validate_stage(report, lock, mode):
     if __package__:
-        from .gate import require
+        from .gate import require, strict_json
+        from .front_finish_report import NAMES
     else:
-        from gate import require
+        from gate import require, strict_json
+        from front_finish_report import NAMES
     require(lock.pipeline is not None and report['mode'] == mode, 'Missing current source stage context')
     require(report['status'] == 'passed' and report['source_sha256'] == lock.source.sha256
             and report['source_binding_sha256'] == lock.binding.sha256
@@ -170,9 +204,112 @@ def validate_stage(report, lock, mode):
             'Current native stage is incomplete or bound to another source')
     require(report['human_approval_reference'] is None, 'Native stage cannot supply human approval')
     if mode == 'front':
+        upper = getattr(lock.pipeline, 'upper_finish', None)
+        if upper is not None:
+            if __package__:
+                from .upper_finish_report import NAMES as UPPER_NAMES
+            else:
+                from upper_finish_report import NAMES as UPPER_NAMES
+            proof = report.get('current_upper')
+            requested_upper = strict_json(upper.requested.path)['parts']
+            require(type(proof) is dict and report.get('native_upper_checkpoint_observed') is True
+                    and proof['status'] == 'passed-current-upper-chain'
+                    and proof['checkpoint_sha256'] == upper.checkpoint.sha256
+                    and proof['members'] == list(UPPER_NAMES)
+                    and set(proof['panels']) == set(requested_upper) == set(UPPER_NAMES)
+                    and proof['original_windshield_and_aperture_seals_retained'] is True,
+                    'Current upper lacks the complete actual input and native output proof')
+            for name in UPPER_NAMES:
+                count = len(requested_upper[name]['triangles'])
+                fields = proof['panels'][name]
+                require(fields['triangles'] == count and fields['corners'] == 3 * count
+                        and len(fields['complete_target_fields']) == count,
+                        'Current upper field inventory differs: ' + name)
+            require(proof['source_corners'] == sum(row['corners'] for row in proof['panels'].values()),
+                    'Current upper aggregate field inventory differs')
+        else:
+            require(report.get('current_upper') is None and
+                    report.get('native_upper_checkpoint_observed', False) is False,
+                    'Legacy source unexpectedly claims current upper proof')
         require(report['pre_front_source_sha256'] == lock.pipeline.pre_front.sha256
                 and report['actual_pre_front_checkpoint_exact'] is True and report['source_corners'] > 0,
                 'Historical-to-current front chain is incomplete')
+        if lock.pipeline.front_finish is not None:
+            current = lock.pipeline.front_finish
+            requested = strict_json(current.requested.path)['parts']
+            require(report.get('native_completed_legacy_front_observed') is True and
+                    report.get('completed_legacy_front_sha256') == current.checkpoint.sha256,
+                    'Current front lacks the actual completed legacy checkpoint')
+            panels = report.get('current_front_panels', {})
+            require(report.get('current_front_members') == list(NAMES) and
+                    set(panels) == set(requested) == set(NAMES),
+                    'Current front stage must exercise all three current panels')
+            for name in NAMES:
+                count = len(requested[name]['triangles'])
+                require(panels[name]['triangles'] == count and panels[name]['corners'] == 3 * count
+                        and len(panels[name]['complete_target_fields']) == count,
+                        'Current front panel field inventory differs from bound request: ' + name)
+            require(report['source_corners'] == sum(row['corners'] for row in panels.values()),
+                    'Current front aggregate field inventory differs')
+        else:
+            require(report.get('native_completed_legacy_front_observed') is False and
+                    not any(key in report for key in ('current_front_members', 'current_front_panels',
+                                                     'completed_legacy_front_sha256')),
+                    'Legacy source stage unexpectedly claims current front revision')
+    elif mode == 'front-controls':
+        if __package__:
+            from .front_controls40 import EXPECTED_NAMES, GROUPS
+        else:
+            from front_controls40 import EXPECTED_NAMES, GROUPS
+        require(lock.pipeline.front_finish is not None and
+                report.get('native_completed_legacy_front_observed') is True,
+                'Current-front controls require the selected observed revision')
+        value = report['current_front_controls']
+        require(value['schema'] == 'current-front-controls40.v1' and value['status'] == 'passed'
+                and value['selected_current_front'] is True and value['source_sha256'] == lock.source.sha256
+                and all(value[key] is False for key in ('source_saved', 'exported', 'GPU')),
+                'Current-front controls are incomplete or bound to another source')
+        controls = value['controls']
+        require(value['expected_names'] == list(EXPECTED_NAMES)
+                and value['negative_count'] == len(controls) == len(EXPECTED_NAMES)
+                and {row['name'] for row in controls} == set(EXPECTED_NAMES),
+                'Incomplete current-front counterexample identity inventory')
+        require(set(value['groups']) == set(GROUPS)
+                and all(value['groups'][group] == [row['name'] for row in controls if row['group'] == group]
+                        and value['groups'][group] for group in GROUPS),
+                'Incomplete current-front counterexample groups')
+        require(all(row['status'] == 'rejected' and row['observed_exception'] == 'ValueError'
+                    and row['group'] in GROUPS and row['required_predicates']
+                    and any(text in row['observed_predicate'] for text in row['required_predicates'])
+                    for row in controls), 'Current-front counterexample accepted or wrong predicate')
+        positive = value['positive_current']
+        require(positive['source']['sha256'] == lock.source.sha256
+                and positive['context_digest'] == value['context_digest']
+                and positive['current_packet_digest'] == value['packet_digest']
+                and positive['legacy_observation_sha256'] == value['observation_digest']
+                and positive['proof']['members'] == list(NAMES),
+                'Current-front control baseline lacks the held current proof')
+        suffixes = ('MixedProtectedFront', 'ProtectedFrontFender_L', 'ProtectedFrontFender_R')
+        expected_lower = {'LOD' + str(level) + '_' + suffix: name
+                          for level in (1, 2) for name, suffix in zip(NAMES, suffixes, strict=True)}
+        require(set(value['positive_lower_fields']) == set(expected_lower)
+                and all(value['positive_lower_fields'][name]['source'] == source
+                        for name, source in expected_lower.items()),
+                'Current-front controls lack all six actual lower baselines')
+        budget = value['actual_budget']
+        require(budget['passed'] is True and set(budget['counts']) == {'0', '1', '2'}
+                and budget['counts']['0'] <= 150000
+                and budget['total'] == sum(budget['counts'].values()) + sum(budget['collision'].values())
+                and budget['total'] <= 200000 and budget['material_count'] <= 32,
+                'Current-front controls lack an actual within-budget baseline')
+        restored = value['restoration']
+        require(all(restored[key] is True for key in (
+                    'all_actual_object_fields_and_materials_exact', 'all_mesh_datablock_identities_exact',
+                    'held_inputs_exact', 'caller_chain_proof_presence_and_identity_restored', 'feature_cache_restored'))
+                and restored['object_count'] > 0 and restored['mesh_count'] > 0
+                and restored['before_native_digest'] == restored['after_native_digest']
+                and restored['before_inputs'] == restored['after_inputs'],
+                'Current-front controls did not restore all actual inputs')
     else:
         require(report['complete_final_lower_count'] > 0 and report['indexed_shell_count'] > 0
                 and report['budget']['passed'] is True, 'Current lower source validation is incomplete')

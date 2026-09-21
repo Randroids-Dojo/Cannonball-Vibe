@@ -21,6 +21,9 @@ STAGES_V2_COVER = (*STAGES_V2[:STAGES_V2.index('static-interfaces')], 'valance-c
                   *STAGES_V2[STAGES_V2.index('static-interfaces'):])
 STAGES_V2_DETAIL_COVER = (*STAGES_V2_DETAIL[:STAGES_V2_DETAIL.index('static-interfaces')],
                          'valance-cover', *STAGES_V2_DETAIL[STAGES_V2_DETAIL.index('static-interfaces'):])
+V2_STAGE_CONTRACTS = (STAGES_V2, STAGES_V2_DETAIL, STAGES_V2_COVER, STAGES_V2_DETAIL_COVER)
+FRONT40_STAGE_CONTRACTS = tuple((*stages[:5], 'current-front-controls', *stages[5:])
+                                for stages in V2_STAGE_CONTRACTS)
 DIAGNOSTIC = re.compile(
     r'Traceback \(most recent call last\)|(?:Error in )?PyDriver|SyntaxError:|ERROR[^\r\n]*\bDriver\b|'
     r'(?:image|texture)[^\r\n]*(?:not available|not found|missing|unable to|cannot|failed)|'
@@ -119,14 +122,15 @@ def stage_report(name, report, source_sha, *, context=None):
         raise ValueError(name + ' is failed, incomplete, or bound to a different source')
     if report.get('human_approval_reference') is not None:
         raise ValueError('Automated QA must not introduce a human approval reference')
-    if name in ('current-front-field', 'distance-fields'):
+    if name in ('current-front-field', 'distance-fields', 'current-front-controls'):
         if __package__:
             from .source_binding_v2 import validate_stage
         else:
             from source_binding_v2 import validate_stage
         require(context is not None, 'Current source caller context required')
-        return validate_stage(report, context['source_lock'],
-                              'front' if name == 'current-front-field' else 'lower')
+        modes = {'current-front-field': 'front', 'distance-fields': 'lower',
+                 'current-front-controls': 'front-controls'}
+        return validate_stage(report, context['source_lock'], modes[name])
     if name == 'repeated-detail':
         require(context is not None and context['source_lock'].pipeline is not None
                 and context['source_lock'].pipeline.repeated_detail is not None,
@@ -456,6 +460,10 @@ def load_source_binding(path, source, construction_root, output, *, _historical=
                 'Declared current detail revision requires binding v2')
         require('valance_cover_revision39' not in specification.get('original_packaging', {}),
                 'Declared current cover revision requires binding v2')
+        require('front_finish_revision40' not in specification.get('original_packaging', {}),
+                'Declared current front revision requires binding v2')
+        require('upper_finish_revision40' not in specification.get('original_packaging', {}),
+                'Declared current upper revision requires binding v2')
     lock = SourceLock(root, binding, files['source'], files['construction_packet'],
                       files['shoulder_profile'], files['reference_builder'], by_role['normal_module'],
                       by_role['ownership_module'], digest(rows), tuple(all_inputs))
@@ -464,7 +472,7 @@ def load_source_binding(path, source, construction_root, output, *, _historical=
 
 
 def check_stage_inventory(rows, stages=STAGES):
-    require(stages in (STAGES, STAGES_V2, STAGES_V2_DETAIL, STAGES_V2_COVER, STAGES_V2_DETAIL_COVER),
+    require(stages in (STAGES, *V2_STAGE_CONTRACTS, *FRONT40_STAGE_CONTRACTS),
             'Unknown source stage contract')
     require(type(rows) is list and tuple(row.get('name') for row in rows) == stages,
             'Complete ordered ' + str(len(stages)) + '-stage inventory required')
@@ -476,8 +484,12 @@ def source_stages(lock):
     if lock.pipeline is None:
         return STAGES
     if lock.pipeline.valance_cover is not None:
-        return STAGES_V2_COVER if lock.pipeline.repeated_detail is None else STAGES_V2_DETAIL_COVER
-    return STAGES_V2 if lock.pipeline.repeated_detail is None else STAGES_V2_DETAIL
+        stages = STAGES_V2_COVER if lock.pipeline.repeated_detail is None else STAGES_V2_DETAIL_COVER
+    else:
+        stages = STAGES_V2 if lock.pipeline.repeated_detail is None else STAGES_V2_DETAIL
+    if lock.pipeline.front_finish is not None:
+        return (*stages[:5], 'current-front-controls', *stages[5:])
+    return stages
 
 
 def check_report_inputs(report_rows, expected):

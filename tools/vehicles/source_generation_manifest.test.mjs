@@ -36,11 +36,25 @@ test("Python native-command protocol rejects inconsistent destinations and outpu
     env: { ...process.env, PYTHONDONTWRITEBYTECODE: "1" } });
 });
 
+test("Python front companion protocol preserves phase and ownership boundaries", () => {
+  execFileSync("uv", ["run", "--project", "tools/map_pipeline", "--frozen", "python", "-B",
+    fileURLToPath(new URL("./test_front_finish40_binding.py", import.meta.url))],
+  { cwd: process.cwd(), windowsHide: true, stdio: "pipe", timeout: 60000,
+    env: { ...process.env, PYTHONDONTWRITEBYTECODE: "1" } });
+});
+
+test("Python upper companion protocol preserves pane and source boundaries", () => {
+  execFileSync("uv", ["run", "--project", "tools/map_pipeline", "--frozen", "python", "-B",
+    fileURLToPath(new URL("./test_upper_finish40_binding.py", import.meta.url))],
+  { cwd: process.cwd(), windowsHide: true, stdio: "pipe", timeout: 60000,
+    env: { ...process.env, PYTHONDONTWRITEBYTECODE: "1" } });
+});
+
 test("v2 declarations require ancestry even for explicit null", () => {
   assert.equal(generationRequired({}, {}, false), false);
   assert.equal(generationRequired({}, {}, true), true);
   assert.equal(generationRequired({}, { source_generation_verification: {} }, false), true);
-  for (const key of ["tire_groove_revision38", "repeated_detail_revision38", "valance_cover_revision39"])
+  for (const key of ["tire_groove_revision38", "repeated_detail_revision38", "valance_cover_revision39", "front_finish_revision40", "upper_finish_revision40"])
     assert.equal(generationRequired({ original_packaging: { [key]: null } }, {}, false), true);
 });
 

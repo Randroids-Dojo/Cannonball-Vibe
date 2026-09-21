@@ -515,6 +515,10 @@ def require_front_context(context, binding, hook):
         and Path(expected.get('source_path', '')).resolve() == Path(binding['inputs']['source']['path']),
         'Current front context belongs to another source; no stale packet/hash substitution')
     # Existing whole-face and geometric provenance guards remain authoritative.
+    if context.get('current_revision40') is True:
+        from . import front_feature40
+        from ..qa.front_finish_report import NAMES
+        return {name: front_feature40.capture(bpy.data.objects[name], context=context) for name in NAMES}
     return hook.load('front_feature_mixed').capture(bpy.data.objects['LOD0_FrontBumper'], context=context)
 
 def apply(collection, lods, *, binding, expected_binding_digest, reference, api, material_capture, **base_args):

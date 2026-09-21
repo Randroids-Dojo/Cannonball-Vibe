@@ -95,10 +95,24 @@ def verify_result(context, before, material_before, lower, proof, payload):
         shell = context['shell_certificate'](selective_lod.native_row(obj))
         require(shell['status'] == 'passed', 'Independent final indexed shell failed: ' + obj.name)
         independent_shells.append(shell)
-    reference = feature.capture(bpy.data.objects['LOD0_FrontBumper'], context=context['front_context'])
-    front_fields = {obj.name: feature.verify(obj, reference) for obj in lower
-        if obj.name in ('LOD1_MixedProtectedFront', 'LOD2_MixedProtectedFront')}
-    require(len(front_fields) == 2, 'Missing complete current protected front outputs')
+    if context['front_context'].get('current_revision40') is True:
+        from ..distance_lod import front_feature40 as feature
+        from .front_finish_report import NAMES
+        references = {name: feature.capture(bpy.data.objects[name], context=context['front_context']) for name in NAMES}
+        front_fields = {}
+        for level in (1, 2):
+            for name in NAMES:
+                matches = [obj for obj in lower if obj.parent.name == 'Visual_LOD' + str(level)
+                           and recipe.json.loads(obj['source_components']) == [name]]
+                require(len(matches) == 1, 'Missing or duplicate current front panel at a lower level')
+                obj = matches[0]
+                front_fields[obj.name] = feature.verify(obj, references[name])
+        require(len(front_fields) == 6, 'Missing complete three-panel lower front outputs')
+    else:
+        reference = feature.capture(bpy.data.objects['LOD0_FrontBumper'], context=context['front_context'])
+        front_fields = {obj.name: feature.verify(obj, reference) for obj in lower
+            if obj.name in ('LOD1_MixedProtectedFront', 'LOD2_MixedProtectedFront')}
+        require(len(front_fields) == 2, 'Missing complete current protected front outputs')
     glass_proofs = proof['base_before_tire_replacement']['base_proof']['glass_fields']
     glass_fields = {}
     for witness in glass_proofs:
@@ -106,7 +120,8 @@ def verify_result(context, before, material_before, lower, proof, payload):
             and recipe.json.loads(obj['source_components']) == [witness['source']]]
         require(len(matches) == 1, 'Missing or duplicate current pane member')
         obj = matches[0]
-        glass_fields[obj.name] = glass_field.verify_output(obj, witness, digest(witness))
+        glass_fields[obj.name] = glass_field.verify_output(obj, witness, digest(witness),
+                                                         context=context['front_context'])
     require(len(glass_fields) == 4, 'Missing complete current pane outputs')
     after = objects(api, recipe, context['modifier_capture'])
     metadata_changes = {}

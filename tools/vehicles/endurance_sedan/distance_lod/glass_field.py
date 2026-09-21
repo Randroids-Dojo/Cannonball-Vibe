@@ -57,7 +57,11 @@ def preflight(source,parent,context):
     import bpy
     from . import front_feature_current
     require(parent is not None and parent.name in {'Visual_LOD1','Visual_LOD2'},'Wrong current lower pane parent')
-    front_feature_current.bind(bpy.data.objects['LOD0_FrontBumper'],context)
+    if context.get('current_revision40') is True:
+        from . import front_feature40
+        front_feature40.bind(bpy.data.objects['LOD0_FrontBumper'],context)
+    else:
+        front_feature_current.bind(bpy.data.objects['LOD0_FrontBumper'],context)
     require(context['profile']['current_glass']==CURRENT_GLASS,'Changed authorized current glass domain profile')
     expected=context['expected']
     require(sha(context['construction_path'])==expected['construction_sha256'],'Changed current glass construction companion')
@@ -75,8 +79,11 @@ def preflight(source,parent,context):
     return result
 
 
-def verify_output(obj,proof,expected_digest):
+def verify_output(obj,proof,expected_digest, *, context=None):
     """Full native output witness; no aggregate report flag grants acceptance."""
+    if proof.get('schema') == 'formed-backlight-lower40.v1':
+        from . import formed_glass40
+        return formed_glass40.verify_output(obj, proof, expected_digest, context=context)
     from . import front_feature_current
     require(digest(proof)==expected_digest,'Caller current pane witness digest mismatch')
     mesh=obj.data;mesh.calc_loop_triangles()
@@ -142,6 +149,9 @@ def physical(mesh):
 
 
 def build(source, parent, collection, *, bake_batch, surfaces, encoder, certificate, context):
+    if source.name == 'LOD0_Backlight' and 'upper_packet' in context:
+        from . import formed_glass40
+        return formed_glass40.build(source, parent, collection, context=context, certificate=certificate)
     current = preflight(source, parent, context)
     if source.name not in {'LOD0_Windshield', 'LOD0_Backlight'} or source.parent is None or source.parent.name != 'Visual_LOD0':
         raise ValueError('Exact cabin-pane source semantics required')

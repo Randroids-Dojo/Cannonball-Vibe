@@ -11,12 +11,12 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from gate import load_source_binding, sha
 
 
-def load_independent_checker():
-    path = Path(__file__).resolve().with_name('distance_lod.py')
+def load_independent_checker(filename='distance_lod.py', function='verify_result',
+                             name='endurance_sedan.qa._source_qa_distance_lod'):
+    path = Path(__file__).resolve().with_name(filename)
     if not path.is_file():
         raise ValueError('Missing staged distance-LOD checker')
     expected_sha = sha(path)
-    name = 'endurance_sedan.qa._source_qa_distance_lod'
     spec = importlib.util.spec_from_file_location(name, path)
     if spec is None or spec.loader is None:
         raise ValueError('Cannot load staged distance-LOD checker')
@@ -24,7 +24,7 @@ def load_independent_checker():
     sys.modules[name] = checker
     try:
         spec.loader.exec_module(checker)
-        if not callable(getattr(checker, 'verify_result', None)):
+        if not callable(getattr(checker, function, None)):
             raise ValueError('Staged distance-LOD checker has no verifier')
         if Path(checker.__file__).resolve() != path or sha(path) != expected_sha:
             raise ValueError('Staged distance-LOD checker changed while loading')
@@ -40,7 +40,7 @@ def main():
     for name in ('source', 'source-binding', 'construction-root', 'output'):
         parser.add_argument('--' + name, type=Path, required=True)
     parser.add_argument('--expected-binding-sha256', required=True)
-    parser.add_argument('--mode', choices=('front', 'lower'), required=True)
+    parser.add_argument('--mode', choices=('front', 'lower', 'front-controls'), required=True)
     args = parser.parse_args(sys.argv[sys.argv.index('--') + 1:])
     assert not args.output.exists() and sha(args.source_binding) == args.expected_binding_sha256
     lock = load_source_binding(args.source_binding, args.source, args.construction_root,
@@ -67,16 +67,23 @@ def main():
                         'Actual pre-front source differs from the current-chain starting checkpoint')
         result.update(pre_front_source_sha256=pre_front.sha256,
                       actual_pre_front_checkpoint_exact=True)
-    observation = records.observe_high_tire_checkpoint(lock.root, construction)
+    observations = records.observe_source_checkpoints(lock.root, construction)
     bpy.ops.wm.open_mainfile(filepath=str(lock.source.path), load_ui=False, use_scripts=False)
     context = distance_lod.prepare(native_lock, expected_lock_digest=expected,
-                                   **records.observation_arguments(observation))
-    result['native_high_tire_checkpoint_observed'] = observation is not None
+                                   **records.source_observation_arguments(observations))
+    result['native_high_tire_checkpoint_observed'] = observations['high_tire'] is not None
+    result['native_completed_legacy_front_observed'] = observations['front_finish'] is not None
+    result['native_upper_checkpoint_observed'] = observations['upper_finish'] is not None
     held = context['context_digest']
     if args.mode == 'front':
         payload = distance_lod.verify_current_front(context=context, expected_context_digest=held)
         result['source_corners'] = payload['proof']['source_corners']
-    else:
+        result['current_upper'] = distance_lod.verify_current_upper(context=context, expected_context_digest=held)
+        if observations['front_finish'] is not None:
+            result['current_front_members'] = payload['proof']['members']
+            result['completed_legacy_front_sha256'] = payload['legacy_checkpoint_sha256']
+            result['current_front_panels'] = payload['proof']['panels']
+    elif args.mode == 'lower':
         bundle = records.read(lock.pipeline.lower_bundle.path)
         lower = [bpy.data.objects[row['name']] for row in bundle['payload']['meshes']]
         payload = checker.verify_result(context, bundle['before'], bundle['material_before'],
@@ -84,6 +91,15 @@ def main():
         result.update(complete_final_lower_count=len(lower),
                       indexed_shell_count=bundle['proof']['indexed_shell_count'],
                       budget=payload['live']['budget'])
+    else:
+        records.require(lock.pipeline.front_finish is not None, 'Selected current-front controls require revision40')
+        controls, control_input = load_independent_checker('front_controls40.py', 'run',
+            'endurance_sedan.qa._source_qa_front_controls40')
+        lock.verify()
+        payload = controls.run(context, observations, records.read(lock.pipeline.lower_bundle.path))
+        records.require(sha(Path(control_input['path'])) == control_input['sha256'],
+                        'Staged current-front controls changed during verification')
+        result.update(independent_controls=control_input, current_front_controls=payload)
     records.require(sha(Path(checker_input['path'])) == checker_input['sha256'],
                     'Staged distance-LOD checker changed during verification')
     lock.verify()

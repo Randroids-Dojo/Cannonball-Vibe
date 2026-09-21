@@ -103,6 +103,23 @@ def _validate_repaired_profile(profile, expected_digest):
 
 
 def validate_profile(profile, expected_digest):
+    if 'current_upper_revision40' in profile:
+        from ..qa.upper_finish_report import LOWER_POLICY as UPPER_LOWER
+        if digest(profile) != expected_digest or profile.get('current_upper_revision40') != UPPER_LOWER:
+            raise ValueError('Caller-locked current upper LOD profile mismatch')
+        baseline = dict(profile)
+        baseline.pop('current_upper_revision40')
+        validate_profile(baseline, digest(baseline))
+        return
+    if profile.get('schema') == 'p1-018-distance-lod-cabin40-v1':
+        from ..qa.front_finish_report import LOWER_POLICY
+        if digest(profile) != expected_digest or profile.get('current_front_revision40') != LOWER_POLICY:
+            raise ValueError('Caller-locked current three-panel LOD profile mismatch')
+        baseline = dict(profile)
+        baseline.pop('current_front_revision40')
+        baseline['schema'] = 'p1-018-distance-lod-cabin29-v1'
+        validate_profile(baseline, digest(baseline))
+        return
     if digest(profile) != expected_digest or profile.get('schema') != 'p1-018-distance-lod-cabin29-v1':
         raise ValueError('Caller-locked cabin LOD profile mismatch')
     from .binding import validate_domain_profiles
@@ -138,7 +155,10 @@ def apply(collection, lods, *, package, optimization, geometry, surfaces, shell_
     omitted = set(inherited_distance_only_names) | set(profile['maximum_LOD_zero_additions'])
     if omitted - names:
         raise ValueError('Missing declared current source omission: ' + ', '.join(sorted(omitted - names)))
-    required = {'LOD0_FrontBumper', *profile['field_panes'], *profile['component_ratio_overrides']}
+    current_front = front_context.get('current_revision40') is True
+    from ..qa.front_finish_report import NAMES
+    front_names = NAMES if current_front else ('LOD0_FrontBumper',)
+    required = {*front_names, *profile['field_panes'], *profile['component_ratio_overrides']}
     if not required <= names or required & omitted:
         raise ValueError('Missing or omitted protected current source member')
     # Predict the unchanged make_lods eligibility before it writes metadata.
@@ -162,25 +182,33 @@ def apply(collection, lods, *, package, optimization, geometry, surfaces, shell_
         'properties': {k: v for k, v in o.items() if isinstance(v, (str, int, float, bool))}} for o in collection.objects if o.type == 'EMPTY'}
     paint, selective = load('lod_paint'), load('selective_lod')
     feature, encoder, front_builder, glass = load('front_feature_mixed'), load('codec'), load('front_builder_mixed'), load('glass_field')
-    front_reference = feature.capture(bpy.data.objects['LOD0_FrontBumper'], context=front_context)
+    if current_front:
+        from . import front_feature40 as feature
+    front_references = {name: feature.capture(bpy.data.objects[name], context=front_context) for name in front_names}
     ordinary_groups, original_keys = optimization.groups, optimization.SELECTIVE_LOD_GROUPS
     saved_package = {name: getattr(package, name, None) for name in ('lod_paint', 'selective_lod')}
     saved_modules = {package.__name__ + '.' + name: sys.modules.get(package.__name__ + '.' + name) for name in saved_package}
     ordinary_simplify = selective.simplify_group
     additions = {tuple(k) for k in profile['selective_additions']}
+    upper_additions = {tuple(key) for key in profile.get('current_upper_revision40', {}).get('selective_groups', [])}
+    if upper_additions:
+        from . import upper_groups40
+        if upper_additions != set(upper_groups40.SELECTIVE_GROUPS):
+            raise ValueError('Current upper selective group contract differs')
     paint_key = (1, 'Visual_LOD0', 'Material_Paint')
     if len(original_keys) != 24 or additions & original_keys or paint_key in original_keys:
         raise ValueError('Unexpected original selective policy; explicit source-policy rebind required')
-    expected_paint = sorted(o.name for o in originals if o.parent == lods[0] and expected_eligibility[o.name] >= 1
+    expected_paint = sorted(o.name for o in originals if o.name not in front_names
+        and o.parent == lods[0] and expected_eligibility[o.name] >= 1
         and {o.material_slots[i].material.name if o.material_slots[i].material else None
              for i in {p.material_index for p in o.data.polygons}} == {'Material_Paint'})
-    if 'LOD0_FrontBumper' in expected_paint or expected_eligibility['LOD0_FrontBumper'] != 2:
-        raise ValueError('Mixed current front must remain separate and eligible at both levels')
+    if set(front_names).intersection(expected_paint) or any(expected_eligibility[name] != 2 for name in front_names):
+        raise ValueError('Current front components must remain separate and eligible at both levels')
 
     def groups(objects, lod_index, target_parent=None):
         result, found = [], 0
-        private_inputs = [o for o in objects if o.name != 'LOD0_FrontBumper']
-        if len(private_inputs) != len(objects) - 1 or lod_index not in (1, 2):
+        private_inputs = [o for o in objects if o.name not in front_names]
+        if len(private_inputs) != len(objects) - len(front_names) or lod_index not in (1, 2):
             raise ValueError('Missing/ambiguous current front exclusion before grouping')
         for key, members in ordinary_groups(private_inputs, lod_index, target_parent):
             if key == ('Visual_LOD' + str(lod_index), 'Material_Paint'):
@@ -204,6 +232,15 @@ def apply(collection, lods, *, package, optimization, geometry, surfaces, shell_
                 kwargs['component_requested_ratios'] = dict(kwargs.get('component_requested_ratios', {})) | overrides
         if key == paint_key:
             ratio = profile['paint_requested_ratio']
+        if upper_additions and key in upper_groups40.GROUPS:
+            from ..reserve_correspondence26 import evaluated
+            bake, frames = upper_groups40.adapter(key, members, parent, kwargs['bake_batch'], evaluated)
+            kwargs['bake_batch'] = bake
+            result = ordinary_simplify(name, members, parent, target_collection, material, ratio, **kwargs)
+            if sorted(row['source'] for row in frames) != list(upper_groups40.MEMBERS[key]):
+                raise ValueError('Incomplete original-frame current upper source coverage')
+            result[1]['current_upper_initial_frames'] = frames
+            return result
         return ordinary_simplify(name, members, parent, target_collection, material, ratio, **kwargs)
 
     try:
@@ -211,7 +248,7 @@ def apply(collection, lods, *, package, optimization, geometry, surfaces, shell_
             setattr(package, name, module)
             sys.modules[package.__name__ + '.' + name] = module
         optimization.groups = groups
-        optimization.SELECTIVE_LOD_GROUPS = original_keys | additions | {paint_key} | {tuple(k) for k in profile['selective_shell_repair_additions']} | {tuple(profile['cabin_lod1']['selective_addition'])}
+        optimization.SELECTIVE_LOD_GROUPS = original_keys | additions | upper_additions | {paint_key} | {tuple(k) for k in profile['selective_shell_repair_additions']} | {tuple(profile['cabin_lod1']['selective_addition'])}
         selective.simplify_group = simplify
         cabin.make_lods(optimization, package, shell_certificate, collection, lods, omitted, policy=profile['cabin_lod1'], seen=cabin_seen)
         cabin.verify_seen(cabin_seen, profile['cabin_lod1'])
@@ -220,14 +257,15 @@ def apply(collection, lods, *, package, optimization, geometry, surfaces, shell_
             geometry.repair_triangulation(obj)
         entries = json.loads(bpy.context.scene['lod_construction'])
         fronts, front_proofs = [], []
-        for level in (1, 2):
-            front, front_proof = front_builder.build(bpy.data.objects['LOD0_FrontBumper'], lods[level], collection,
-                feature=feature, encoder=encoder.encode, paint=paint, selective=selective, geometry=geometry, shell_certificate=shell_certificate, reference=front_reference)
-            front['source_components'], front['lod_index'] = json.dumps(['LOD0_FrontBumper']), level
+        for level, source_name in ((level, name) for level in (1, 2) for name in front_names):
+            front, front_proof = front_builder.build(bpy.data.objects[source_name], lods[level], collection,
+                feature=feature, encoder=encoder.encode, paint=paint, selective=selective, geometry=geometry,
+                shell_certificate=shell_certificate, reference=front_references[source_name])
+            front['source_components'], front['lod_index'] = json.dumps([source_name]), level
             front.hide_render = True
             front.hide_set(True)
             entries.append({'batch': front.name, 'lod': level, 'parent': front.parent.name,
-                **feature.material_metadata(front), 'triangles_after': len(front.data.loop_triangles), 'source_component': 'LOD0_FrontBumper',
+                **feature.material_metadata(front), 'triangles_after': len(front.data.loop_triangles), 'source_component': source_name,
                 'method': 'Separate complete current mixed front; no subsequent rebatch', 'field_proof': json.loads(json.dumps(front_proof, allow_nan=False))})
             lower.append(front)
             fronts.append(front)
@@ -291,7 +329,7 @@ def apply(collection, lods, *, package, optimization, geometry, surfaces, shell_
         materials = sorted({m.name for o in originals + lower for m in o.data.materials if m})
         budget = {'passed': counts['0'] <= 150000 and total <= 200000 and len(materials) <= 32,
             'counts': counts, 'actual_collision_triangles': collision, 'total': total, 'material_count': len(materials), 'materials': materials}
-        final_front = {obj.name: feature.verify(obj, front_reference) for obj in fronts}
+        final_front = {obj.name: feature.verify(obj, front_references[json.loads(obj['source_components'])[0]]) for obj in fronts}
         bpy.context.scene['lod_construction'] = json.dumps(entries, sort_keys=True)
         report = {'status': 'passed-native-construction' if budget['passed'] else 'failed-budget',
             'profile_digest': expected_profile_digest, 'original_LOD0_raw_field_hashes': before,

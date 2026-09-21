@@ -2,6 +2,20 @@
 from .binding import digest, prepare, validate_context
 
 
+def verify_current_upper(*, context, expected_context_digest):
+    validate_context(context, expected_context_digest)
+    front = context['front_context']
+    if 'upper_packet' not in front:
+        if 'upper_packet_sha256' in front['expected']:
+            raise ValueError('Missing declared current upper packet')
+        return None
+    if digest(front['expected']) != front['expected_binding_digest']:
+        raise ValueError('Caller current upper binding differs')
+    from ..upper_finish40.verification import verify_packet
+    return verify_packet(front['upper_packet'],
+                         expected_packet_digest=front['expected']['upper_packet_sha256'])
+
+
 def verify_current_front(*, context, expected_context_digest):
     """Verify the current front against its locked ordered construction chain.
 
@@ -13,6 +27,21 @@ def verify_current_front(*, context, expected_context_digest):
     from . import front_feature_current
     validate_context(context, expected_context_digest)
     front = context['front_context']
+    if front.get('current_revision40') is True:
+        from . import front_feature40
+        front_feature40.bind(bpy.data.objects['LOD0_FrontBumper'], front)
+        core = front['packet']['core']
+        return {'schema': 'distance-lod-current-front-check40.v1',
+            'input_lock_digest': context['expected_lock_digest'],
+            'context_digest': expected_context_digest,
+            'source': dict(context['input_lock']['roles']['source']),
+            'construction': dict(context['input_lock']['roles']['construction']),
+            'legacy_checkpoint_sha256': core['legacy_checkpoint']['sha256'],
+            'legacy_packet_sha256': core['legacy_packet_sha256'],
+            'legacy_observation_sha256': core['legacy_observation_sha256'],
+            'current_packet_digest': front['packet']['sha256'],
+            'front_binding_digest': front['expected_binding_digest'],
+            'proof': front['current_native_chain_proof']}
     front_feature_current.bind(bpy.data.objects['LOD0_FrontBumper'], front)
     core = front['packet']['core']
     return {'schema': 'distance-lod-current-front-check38.v1',
@@ -44,4 +73,4 @@ def apply(collection, lods, *, context, expected_context_digest):
         front_context=context['front_context'])
 
 
-__all__ = ['apply', 'prepare', 'digest', 'verify_current_front']
+__all__ = ['apply', 'prepare', 'digest', 'verify_current_front', 'verify_current_upper']

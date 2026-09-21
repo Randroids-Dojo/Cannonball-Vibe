@@ -16324,9 +16324,19 @@
       "category": "independent-modal-visual-observation",
       "summary": "Heavy layered roof/window rails, stepped arch ends, boxlike fascia/lamp forms, visible closure hardware and coarse engine/underbody parts remain.",
       "correction": "Pending production model/rendering/readability follow-up. No new viewer framing defect observed.",
-      "verification": "Independent actual modal06 and modal08 images at1440p; final21 originals reviewed.",
+      "verification": "Independent actual modal06 and modal08 images at1440p; final21 originals reviewed. Root92 and independent871 review inspect all ten fixed-camera originals. The sharp upper-grille cap reflection jut is corrected locally; the hard polygon patch beside the lamp, doubled shoulder highlight and pointed layered lip remain visible. Final revised upper-body and full lighting/motion review remain open.",
       "evidence": [
-        "data/assets/vehicles/endurance-sedan-review/viewer-v37/index.json"
+        "data/assets/vehicles/endurance-sedan-review/viewer-v37/index.json",
+        {
+          "path": "reports/p1-018/finish-branch40/front-copy-review92.json",
+          "bytes": 11612,
+          "sha256": "296a5604b5f3a9f94699a9b46391eda6b457820f6468be28d4e4657e5b0363ab"
+        },
+        {
+          "path": "reports/p1-018/qa/front871-review01/review01.json",
+          "bytes": 19919,
+          "sha256": "d38bdf6d05e511d0c0256f6f7444f21cccfd5418e0cdb84585b3bea005f6bcbe"
+        }
       ],
       "human_approval_reference": null
     },
@@ -16734,15 +16744,135 @@
     {
       "id": "P1-018-RELEASE58-REVIEW-LFS",
       "severity": "major",
-      "status": "open",
+      "status": "corrected_verified",
       "observed": "Unsigned-export run35562167695 timed out after repeated source staging hydrated346 review-media LFS files, about14.35GB displayed size, before the first restore.",
       "correction": "Exclude only data/assets/vehicles/endurance-sedan-review from the git-archive source tree; preserve normal LFS hydration for required assets and all existing export/hash guards.",
-      "verification": "Independent real Git/LFS fixture proves exact shipping bytes and sibling retention, missing-review recovery and missing-shipping rejection. Full hosted four-build reproducibility and package-smoke recovery still await the new pushed revision.",
+      "verification": "All four hosted exports, both platform byte comparisons, and both actual packaged native Linux/Windows sedan smokes passed. Independently verified both downloaded smoke ZIPs,94 members, hashes, CRC and native summaries. Installed historical vehicle asset only. Full game ZIP byte comparisons were executed by hosted jobs, not repeated locally. Actual package revision is the PR merge commit. Final source, rendered footage, performance, final-platform evidence and human approvals remain open.",
       "evidence": [
         {
           "path": "data/assets/vehicles/endurance-sedan-review/validation-v62/review.json",
           "bytes": 36366,
           "sha256": "90c5a742a957eb92fd46859268f5c5b31146fce6e4920d03e0c3ef108b2ce6b8"
+        },
+        {
+          "path": "data/assets/vehicles/endurance-sedan-review/validation-v72/review.json",
+          "bytes": 6765,
+          "sha256": "3de50d570c2b59c1eda57e4437ddcfd885b6a4cb60c2b4688772e154b8178d89"
+        }
+      ],
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-RUNTIME70-MIRROR-INTERPOLATION",
+      "severity": "major",
+      "status": "open",
+      "observed": "Native reverse07 used a delayed effective rear mirror camera pose inside the center headrest, hiding340 of357 target pixels. Only17 remained and the10.552px projection error exceeded the declared5px guard.",
+      "correction": "Scope70: disable inherited physics interpolation only on the three mirror Camera3D nodes already assigned explicitly interpolated anchor poses. Keep target placement, optics,15Hz schedule, materials, main cameras and authoritative physics unchanged.",
+      "verification": "The frozen09B native daylight run retains1118 before/after pose rows and1029 successful visible checks (maximum1.2094517px); it then correctly rejects five eligible green components including foliage. Native09 is a failed supplement, not completed mirror acceptance. Scope89 adds intrinsic optical target identity independent of projection; private10 host/native replay, original mirror/lifecycle regressions, final-source captures and performance remain required.",
+      "evidence": [
+        {
+          "path": "reports/p1-018/finish-branch40/mirror-interpolation-scope70.json",
+          "bytes": 3724,
+          "sha256": "2bd7f5ddabdb14efc6dc2f1c883e5f053882faa5ae40c32886e50e530000c2eb"
+        },
+        {
+          "path": "reports/p1-018/qa/runtime-capture70-review01/review01.json",
+          "bytes": 71252,
+          "sha256": "2a55c7f3d9bd6ac2a7cdc467458a31849acfcf17c98efb317cf44ab297859504"
+        },
+        {
+          "path": "reports/p1-018/runtime/final-capture57-01/native-observation08/retention08.json",
+          "bytes": 24368,
+          "sha256": "3d0401ad5a9a700b726af3e031fd40b36bac5cecbc37936fefb26d5e09abf5ea"
+        },
+        {
+          "path": "reports/p1-018/finish-branch40/capture-native-lease73.json",
+          "bytes": 2370,
+          "sha256": "b85d1141d8da43a72a41d38ceaa94e9090e0397f274fdab74647198bdf8417ff"
+        },
+        {
+          "path": "reports/p1-018/finish-branch40/optical-marker-scope89.json",
+          "bytes": 3443,
+          "sha256": "a469d32e95e3d513237ea663576b3852f44b8a092b3283153d63d8f6432b07b5"
+        }
+      ],
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-UPPER40-HINGE-BAKE",
+      "severity": "major",
+      "status": "open",
+      "category": "evaluated-export-geometry",
+      "observed": "The original current upper84 right rear door passes exact indexed-shell checks. Actual optimization.bake_batch into its original hinge parent changes world positions by at most1.1920928955078125e-7m and creates two exact triangle crossings at the lower receiving-channel corner. Whole lower construction88 stops before decimation.",
+      "correction": "Current upper883 removes unnecessary receiving-band cuts below their active height. Actual original-parent bakes now pass. Current selected lower recipe additionally avoids unnecessary initial front-door coordinate bakes and uses component simplification for rear-left rubber. Final combined source remains unpromoted.",
+      "verification": "Actual100 saved/reopened upper source and101 all28 original/baked components pass. Actual122 whole lower construction passes every indexed shell but fails the literal budget. Earlier90/91 failures remain retained. Final corrected combined generation and continuous physical clearance remain required.",
+      "evidence": [
+        {
+          "path": "reports/p1-018/finish-branch40/upper-whole-lower-cost88.json.gz",
+          "bytes": 4077,
+          "sha256": "141f1ca6f5bc5210d70036d2cefa5445abe32e7a70e0beff9d5f4ba0f7d13133"
+        },
+        {
+          "path": "reports/p1-018/finish-branch40/rear-door-shell90.json.gz",
+          "bytes": 832686,
+          "sha256": "8a788a47067519d0bf5cb3f2d4787b37160d766b903c6e9ebec3e37dc13e8912"
+        },
+        {
+          "path": "reports/p1-018/finish-branch40/upper-bake-shell91.json.gz",
+          "bytes": 3421409,
+          "sha256": "16cf739f79351052c4ec2a4fbfffe9cdb6f4ab2dd3e14a5adcd64ef6c0026b36"
+        },
+        {
+          "path": "reports/p1-018/finish-branch40/upper-opening-drivers96.json",
+          "bytes": 34123,
+          "sha256": "641d25062a3b329f8a6f9d0af61707fc55bd8b43a2379479adf36ea8245e9081"
+        },
+        {
+          "path": "reports/p1-018/finish-branch40/upper-motion-drivers96.json",
+          "bytes": 59540,
+          "sha256": "110ada7685188adf41cda31e3a9ee3a67f9ac57f365bc5dcfb396497143c5c12"
+        },
+        {
+          "path": "reports/p1-018/finish-branch40/upper-native-chain100.json.gz",
+          "bytes": 6306417,
+          "sha256": "792e256786349e9a896daefe80c82c9ea4175fdd83de6092a3d7b8b557e7d1d7"
+        },
+        {
+          "path": "reports/p1-018/finish-branch40/upper-bake-shell101.json.gz",
+          "bytes": 3402780,
+          "sha256": "444d242963ca148fce86e4fb6bf959e646799ea37ef91ea7f0d78e60384a7e9f"
+        },
+        {
+          "path": "reports/p1-018/finish-branch40/upper-whole-lower-cost122.json.gz",
+          "bytes": 7804667,
+          "sha256": "32ccb65358e0eb9df5222fb271f85636add57fbdaf814f23bc2762169ad9d521"
+        }
+      ],
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-UPPER40-BUDGET",
+      "severity": "major",
+      "status": "open",
+      "category": "runtime-asset-cost",
+      "observed": "Actual122 complete upper883 lower construction passes indexed shells but reports155318/31646/25278 triangles before final tire replacement,212266 total including24 collision triangles. Composing the independently measured current-front and unchanged tire deltas predicts150412LOD0 and206912 total; the150000/200000 ceilings remain unchanged.",
+      "correction": "Measure distance-model cost by actual source component and preserve exposed surfaces while simplifying concealed structure. No intermediate ratio or new geometry economy is adopted.",
+      "verification": "Actual current900 six-panel127 lower build passes6156 triangles with all1108 original mesh fields unchanged. Full combined-source cost, distance silhouettes and transition verification remain outstanding.",
+      "evidence": [
+        {
+          "path": "reports/p1-018/finish-branch40/upper-whole-lower-cost122.json.gz",
+          "bytes": 7804667,
+          "sha256": "32ccb65358e0eb9df5222fb271f85636add57fbdaf814f23bc2762169ad9d521"
+        },
+        {
+          "path": "reports/p1-018/finish-branch40/front-cost127.json.gz",
+          "bytes": 1538984,
+          "sha256": "99e1c5907cc2cadf0f3e7af5df394a67862b8287fe87c13f16dd533350acddcb"
+        },
+        {
+          "path": "reports/p1-018/finish-branch40/lower-budget128.json.gz",
+          "bytes": 2742858,
+          "sha256": "8939a3008511ea1fe1ea3c430b64d5cbb3205fdbc6728914907081377c45e8c3"
         }
       ],
       "human_approval_reference": null
@@ -16889,5 +17019,5 @@
       "approval_reference": null
     }
   ],
-  "updated_utc": "2026-09-21T07:10:46.658835+00:00"
+  "updated_utc": "2026-09-21T11:12:02.087338+00:00"
 }

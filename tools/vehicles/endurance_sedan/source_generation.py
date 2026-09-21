@@ -20,6 +20,11 @@ def digest(value):
                                      allow_nan=False).encode()).hexdigest()
 
 
+def read_plain(value):
+    """Copy JSON-compatible native values without accepting NaN or infinity."""
+    return json.loads(json.dumps(value, allow_nan=False))
+
+
 def read(path):
     def unique(pairs):
         result = {}
@@ -159,6 +164,25 @@ def observation_arguments(observation):
         'expected_high_tire_observation_digest': digest(observation)}
 
 
+def observe_source_checkpoints(root, construction):
+    """Return held observations; caller reopens the actual current source next."""
+    from .front_finish40.observation import observe
+    from .upper_finish40.observation import observe as observe_upper
+    return {'high_tire': observe_high_tire_checkpoint(root, construction),
+            'front_finish': observe(root, construction), 'upper_finish': observe_upper(root, construction)}
+
+
+def source_observation_arguments(observations):
+    result = observation_arguments(observations['high_tire'])
+    front = observations['front_finish']
+    if front is not None:
+        result.update(front_observation=front, expected_front_observation_digest=digest(front))
+    upper = observations.get('upper_finish')
+    if upper is not None:
+        result.update(upper_observation=upper, expected_upper_observation_digest=digest(upper))
+    return result
+
+
 def verify_saved_lower(source, binding_path, root, *, unused_output):
     """Re-extract the already-open saved source before any exporter mutation."""
     import bpy
@@ -168,14 +192,15 @@ def verify_saved_lower(source, binding_path, root, *, unused_output):
     lock = load_source_binding(binding_path, source, root, unused_output)
     require(lock.pipeline is not None, 'Current source export requires a v2 source binding')
     require(Path(bpy.data.filepath).resolve() == lock.source.path, 'Exporter scene differs from source binding')
-    observation = observe_high_tire_checkpoint(lock.root, read(lock.pipeline.construction.path))
-    if observation is not None:
+    observations = observe_source_checkpoints(lock.root, read(lock.pipeline.construction.path))
+    if any(value is not None for value in observations.values()):
         bpy.ops.wm.open_mainfile(filepath=str(lock.source.path), load_ui=False, use_scripts=False)
     native = absolute_lock(lock.pipeline.portable_input_lock, lock.root)
     context = distance_lod.prepare(native, expected_lock_digest=digest(native),
-                                   **observation_arguments(observation))
+                                   **source_observation_arguments(observations))
     held = context['context_digest']
     front = distance_lod.verify_current_front(context=context, expected_context_digest=held)
+    upper = distance_lod.verify_current_upper(context=context, expected_context_digest=held)
     bundle = read(lock.pipeline.lower_bundle.path)
     lower = [bpy.data.objects[row['name']] for row in bundle['payload']['meshes']]
     result = checker.verify_result(context, bundle['before'], bundle['material_before'],
@@ -185,6 +210,7 @@ def verify_saved_lower(source, binding_path, root, *, unused_output):
             'binding_sha256': lock.binding.sha256, 'construction_sha256': lock.pipeline.construction.sha256,
             'lower_bundle_sha256': lock.pipeline.lower_bundle.sha256,
             'current_front_proof_sha256': digest(front), 'source_corners': front['proof']['source_corners'],
+            'current_upper_proof_sha256': None if upper is None else digest(upper),
             'complete_lower_meshes': len(lower), 'indexed_shell_count': bundle['proof']['indexed_shell_count'],
             'budget': result['live']['budget'], 'raw_normal_maximum_unit_error': result['raw_normal_max'],
             'source_saved': False, 'all_locked_inputs_unchanged': True,

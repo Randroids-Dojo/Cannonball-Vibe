@@ -42,8 +42,8 @@ def main():
         print('SEDAN_FINAL_SOURCE_PHASE ' + str(row), flush=True)
 
     try:
-        observation = records.observe_high_tire_checkpoint(root, records.read(lock['roles']['construction']['path']))
-        observation_args = records.observation_arguments(observation)
+        observations = records.observe_source_checkpoints(root, records.read(lock['roles']['construction']['path']))
+        observation_args = records.source_observation_arguments(observations)
         bpy.ops.wm.open_mainfile(filepath=lock['roles']['source']['path'], load_ui=False, use_scripts=False)
         phase('checkpoint-observed-and-current-source-opened')
         context = distance_lod.prepare(lock, expected_lock_digest=args.expected_lock_digest, **observation_args)
