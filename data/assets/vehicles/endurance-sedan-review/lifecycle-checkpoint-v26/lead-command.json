@@ -1,0 +1,27 @@
+{
+  "task_id": "P1-018",
+  "start_utc": "2026-09-12T17:47:22.666753+00:00",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "cwd": "C:\\Dev\\Cannonball-Vibe-sedan",
+  "argv": [
+    "python",
+    "reports/p1-018/lifecycle26-promotion01/promote.py"
+  ],
+  "git_revision": "72b225ab0fd5513a16a6a6045ff27ac86b8c5d77",
+  "input_artifacts": [
+    {
+      "path": "reports\\p1-018\\lifecycle26-promotion01\\promote.py",
+      "sha256": "b6586ce6dff0f81ff9bad705d3695d7e45fbc59a464544f1ab2b466e1f539248"
+    },
+    {
+      "path": "reports\\p1-018\\lifecycle26-retention01\\manifest.json",
+      "sha256": "e198930cc6d78133af829cb0edbe49d6b62f007513f6b9ca4b4b85fd572977ef"
+    }
+  ],
+  "log": "reports\\p1-018\\commands\\20260912T174722.666753Z-lifecycle26-lead-retention-promotion.log",
+  "human_approval_reference": null,
+  "environment": {},
+  "end_utc": "2026-09-12T17:47:23.522918+00:00",
+  "exit_status": 0,
+  "log_sha256": "d0bc78c9b0611fbfb1cc821a70bb4ad26a149f30c49e4c7e73021dd014ee933c"
+}

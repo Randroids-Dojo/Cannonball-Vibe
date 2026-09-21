@@ -25,6 +25,9 @@ public sealed class RuntimeShutdown
     {
         var elapsed = Stopwatch.StartNew();
         var tree = root.GetTree();
+        // A quit request no longer needs new draws. Keep engine logic running
+        // so slow software rendering cannot delay idle cleanup continuations.
+        RenderingServer.RenderLoopEnabled = false;
         try
         {
             // Some scenarios request quit from a physics callback. Move the

@@ -1,0 +1,689 @@
+{
+  "task_id": "P1-018",
+  "milestone": "M5",
+  "utc": "2026-09-21T07:10:46.658835+00:00",
+  "status": "verified-tooling-checkpoint-final-source-pending",
+  "checkpoint": {
+    "task_id": "P1-018",
+    "milestone": "M5",
+    "utc": "2026-09-21T06:41:25.804109+00:00",
+    "git_revision": "92278e1405224c2cff4178831afd104d97d6efac",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "status": "verified-tooling-checkpoint-final-source-in-progress",
+    "scope": "Current actual-settings observation, source inspection helpers and bounded unsigned-export staging repair. Installed production34 and historical source193 pilot have distinct identities; neither becomes a final accepted model through this checkpoint.",
+    "tool_versions": {
+      "dotnet": "10.0.102",
+      "uv": "0.9.24",
+      "git-lfs": "3.7.1",
+      "perl": "available",
+      "godot": "4.7.1.stable.mono.official.a13da4feb"
+    },
+    "native_engine_artifacts": [
+      {
+        "path": "C:/Users/randr/AppData/Local/Microsoft/WinGet/Packages/GodotEngine.GodotEngine.Mono_Microsoft.Winget.Source_8wekyb3d8bbwe/Godot_v4.7.1-stable_mono_win64/Godot_v4.7.1-stable_mono_win64_console.exe",
+        "bytes": 198152,
+        "sha256": "b2c334ff6bf1e07ded41b80bd6f4785485650db6ddbb2740b802930f35237c26"
+      },
+      {
+        "path": "C:/Users/randr/AppData/Local/Microsoft/WinGet/Packages/GodotEngine.GodotEngine.Mono_Microsoft.Winget.Source_8wekyb3d8bbwe/Godot_v4.7.1-stable_mono_win64/Godot_v4.7.1-stable_mono_win64.exe",
+        "bytes": 179589128,
+        "sha256": "8ec33ba6a6a953226170cda2a56a58810f6617261a71d6bd6d6ba7cce5e7b79d"
+      }
+    ],
+    "software_frontdoor": {
+      "result": {
+        "path": "reports/p1-018/finish-branch40/regressions62/frontdoor/result.json",
+        "bytes": 431174,
+        "sha256": "86d58dde19ef5a2e52f6d1bf2f2b628375ad9d33d21e0ab464c04d3a10af029f"
+      },
+      "summary": {
+        "path": "reports/p1-018/finish-branch40/regressions62/frontdoor/m0/summary.json",
+        "bytes": 1482,
+        "sha256": "81f5b46959c1310e36df3e74d008de712cd78646082fc4311a1306737dac31c8"
+      },
+      "passed_steps": 13,
+      "total_steps": 13,
+      "unchanged_source_rows": 956
+    },
+    "supporting_evidence": [
+      {
+        "path": "reports/p1-018/finish-branch40/promote56.json",
+        "bytes": 1265,
+        "sha256": "a8a532535adb401273d209158b74e6596387ce1844d99d6c74b7d149ec3a33d2"
+      },
+      {
+        "path": "reports/p1-018/runtime/performance-readback53-01/viewport56/manifest56-terminal.json",
+        "bytes": 30863,
+        "sha256": "9bf246b33440294ec7771fdb7552bab8bf533bdd73ad5536277d106314e01b17"
+      },
+      {
+        "path": "reports/p1-018/qa/performance-readback53-review01/review03.json",
+        "bytes": 29981,
+        "sha256": "74eaea69e171c884b92daaa4df58a961fd6a14ce37e6457f62d017bb4e897b2c"
+      },
+      {
+        "path": "reports/p1-018/qa/source-capture57-review01/review01.json",
+        "bytes": 9663,
+        "sha256": "d94b344e49972f3bd90215ea1ddd4aed798d03d75b5db44c8ee15cb25fca84d0"
+      },
+      {
+        "path": "reports/p1-018/qa/source-capture57-review01/review02.json",
+        "bytes": 139483,
+        "sha256": "95bf44cb9fbd32f5ad5952c3956bb9268c771d9c059d667d185704790a6140c7"
+      },
+      {
+        "path": "reports/p1-018/qa/source-capture57-review01/review03.json",
+        "bytes": 48368,
+        "sha256": "6ad054740979edece0b7a94327713572e461a682a2b1507c489484a92729037c"
+      },
+      {
+        "path": "reports/p1-018/qa/source-capture57-review01/review04.json",
+        "bytes": 78807,
+        "sha256": "54c6ccd5754739fb1ec81e65b552fda12fe715fb308eaf75b80976006def531f"
+      },
+      {
+        "path": "reports/p1-018/qa/source-capture57-review01/review05.json",
+        "bytes": 63570,
+        "sha256": "b176a72d1bfeeb3bfa85733a2ffc9e56df464478ac4fb40c392c3874dfbd0359"
+      },
+      {
+        "path": "reports/p1-018/qa/unsigned58-review01/audit01.json",
+        "bytes": 95837,
+        "sha256": "8b48469e547257f063d69ea03d95f910305d40861f572e77b4dabe193103e87d"
+      },
+      {
+        "path": "reports/p1-018/finish-branch40/unsigned58/fixture-result.json",
+        "bytes": 7413,
+        "sha256": "4aca858d04a9ad8a83afd54ca861932a5a6437eb9368a73bbd8f85bc1e904cfd"
+      },
+      {
+        "path": "reports/p1-018/finish-branch40/capture62-hostcheck.json",
+        "bytes": 1479,
+        "sha256": "379ec14496d43caf1a6d18ae4c0d0d1cdf9f8e1242058c3859bb038c4f9b8dab"
+      },
+      {
+        "path": "reports/p1-018/finish-branch40/capture62-pilot01/receipt.json",
+        "bytes": 4980,
+        "sha256": "4859ef397b74aa3d9af17b507481cba17badea310db46755d4221127fd7503bd"
+      },
+      {
+        "path": "reports/p1-018/skill-update58-01/completion.json",
+        "bytes": 11008,
+        "sha256": "96e2102f5c5c837d0da7d646da3ea604fd2bab191333e777107656c38eadc171"
+      },
+      {
+        "path": "reports/p1-018/finish-branch40/hosted54/checkpoint.json",
+        "bytes": 106391,
+        "sha256": "73f5edf01e366277549305f6951b105555254ec7fdaf40200d1c0eeb0d5f9527"
+      }
+    ],
+    "scope_records": [
+      {
+        "path": "reports/p1-018/finish-branch40/performance-readback-scope53.json",
+        "bytes": 3042,
+        "sha256": "6d7156138d90d613dc91b54eadb664e7c015399b61f042abc58d4aadfe517468"
+      },
+      {
+        "path": "reports/p1-018/finish-branch40/normal-domain-scope54.json",
+        "bytes": 3586,
+        "sha256": "07c841297b65ec3aec46adab302bdf5858cabe32215ceb5884b9b98fc26f2485"
+      },
+      {
+        "path": "reports/p1-018/finish-branch40/viewport-readback-scope55.json",
+        "bytes": 4542,
+        "sha256": "25bb32e6f5dd661465df9e0e4d0d2a91796e9c94afde936ebe93089ed5a23fc8"
+      },
+      {
+        "path": "reports/p1-018/finish-branch40/final-capture-scope57.json",
+        "bytes": 3851,
+        "sha256": "f39ab279eea84fc4027ff2b3f2c6e83b67267b4be25eb6f1d7e7123377aa4808"
+      },
+      {
+        "path": "reports/p1-018/finish-branch40/final-capture-scope57-closure.json",
+        "bytes": 588,
+        "sha256": "07a7634c454209a1dafed54f15baa9f8a5ab8eb660c4bebe02df525121038e02"
+      },
+      {
+        "path": "reports/p1-018/finish-branch40/unsigned-scope58.json",
+        "bytes": 1880,
+        "sha256": "9505132b8d6f4ed26bd28bef9ad5aaf326f478dcc12d7a8b932b3af637260273"
+      },
+      {
+        "path": "reports/p1-018/finish-branch40/capture-clay60-scope.json",
+        "bytes": 869,
+        "sha256": "d710a7657c3006a948c2de61ae5a9d0118823a5e9881eb95abc6e1f615f480a0"
+      }
+    ],
+    "native_settings": {
+      "rendered_output": [
+        2560,
+        1440
+      ],
+      "raw_texture_getters": [
+        3413,
+        1920
+      ],
+      "disposed_readback_ms": [
+        16.807,
+        19.85
+      ],
+      "native_identity_roles": 22,
+      "headless_output_image": null,
+      "limit": "Two-second observation diagnostic only. Rendered timing wrapper rejected 39percent background GPU against the unchanged10percent ceiling. No reference performance acceptance."
+    },
+    "source_capture_helpers": {
+      "original_recipe_cases_preserved": 26,
+      "supplemental_cases": 11,
+      "historical_source": {
+        "path": ".tools/v39s193/build/project/data/assets/vehicles/sources/endurance-sedan.blend",
+        "bytes": 7916752,
+        "sha256": "3d784a2ca441cee4022b764fa031c4cf3006fc9667cc88771d592d0514d06b77"
+      },
+      "reviewed_camera_pilot_originals": 64,
+      "final_caption_originals": 2,
+      "clay_shader": "Explicit18percent-linear Principled BaseColor; unchanged source light/exposure/materials.",
+      "caption_review_status": "caption readability and sweep framing resolved in two historical193 helper views",
+      "limit": "Short960x540/16sample camera pilots and sampled overlays do not replace final-source full-resolution films, complete openings, continuous wiper contact or human visual approval."
+    },
+    "unsigned_staging": {
+      "excluded_path_only": "data/assets/vehicles/endurance-sedan-review",
+      "observed_review_lfs_downloads": 346,
+      "observed_rounded_review_bytes": 14354313800,
+      "fixture": "Actual Git/LFS archive preserves and hydrates all four nonreview files; missing review object is bypassed only by this exclusion, while missing shipping object still fails. Original failed unrestricted archive retained.",
+      "limit": "Hosted four-build byte comparison and package smokes must rerun on a new pushed revision. This fixture does not establish their result."
+    },
+    "skill_publication": {
+      "revision": "b6fa8ae56d877c3d789394d3d86232e3a3f91cec",
+      "files": 16,
+      "global_install_byte_verified": true,
+      "hosted_runs": [
+        35566166867,
+        35566165983
+      ]
+    },
+    "mainline_health": {
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "--label",
+        "red-main",
+        "--state",
+        "open",
+        "--json",
+        "number,title,url"
+      ],
+      "exit_status": 0,
+      "stdout": "[]\n",
+      "stderr": ""
+    },
+    "fetched_main": "827bb14618e99a85d709e89cdd828877b6ff1566",
+    "failures_and_retries": [
+      "First observation promotion used the wrong git-apply strip depth and failed before mutation; exact-p0 retry passed.",
+      "First wiper pilot treated an approximate driver axis as the exact pane normal and failed the unchanged planarity bound. Actual evaluated pane SVD supplies the exact plane; source geometry and bound unchanged.",
+      "Actual wheel/opening/roof-light camera defects were corrected in59. Rear inner barrels retain real rail/tub occlusion.",
+      "Caption60 improved contrast but covered upper sweep traces. Caption61 still used a pre-shot lens;62 positions after actual shot projection. Both failed pilots retained.",
+      "Unsigned hosted-log acquisition completed, then console printing failed on BOM encoding; saved raw log/receipt retained. Independent recount corrects the earlier292 estimate to346 downloads.",
+      "Fullfrontdoor59 passed; capture-caption source changed afterward, so fullfrontdoor62 was run against the final helper bytes."
+    ],
+    "outstanding_machine_work": [
+      "Finish and natively verify complete rear support/header/front form, final glass/wiper/trim fit, all LODs and geometry budgets.",
+      "Fresh canonical construction, complete26-stage source gate, native reopen, paired current bakes, two shipping exports and clean Godot import/package comparisons.",
+      "Final-source actual motion, driving, lighting, cockpit, mirror, opening and LOD captures plus lifecycle51 runs and independent visual/functional QA.",
+      "Uncontended declared1440p High Forward+ reference performance and30-minute memory growth, required platform/export/soak evidence, final defect/acceptance reconciliation.",
+      "Final portable artifacts and PR-only auto-squash when machine eligibility is established."
+    ],
+    "source_blocker": "Correct complete front shape/normal field and verify rear/header/wiper assembly within declared geometry budgets, then run fresh complete source/export/import gates. Rejected private front variants and their estimated savings remain unaccepted.",
+    "human_approval_reference": null,
+    "human_gates": "Final visual/rights/usability/driving enjoyment/physical-input feel reviews remain open. P1-018 cannot be marked complete from this checkpoint."
+  },
+  "checkpoint_record": {
+    "path": "reports/p1-018/finish-branch40/checkpoint62.json",
+    "bytes": 10716,
+    "sha256": "88cf6c71633d4c0861e12670d62820fa87ed3b1c4f011782a14d31fe4603d0f5"
+  },
+  "portable_retention": {
+    "index": {
+      "path": "data/assets/vehicles/endurance-sedan-review/validation-v62/index.json",
+      "bytes": 133040,
+      "sha256": "9d454591995656bc2ef493e26d1cea80e1015db21db7ccd848e9a75f87cbed10"
+    },
+    "manifest": {
+      "path": "data/assets/vehicles/endurance-sedan-review/validation-v62/inputs.json",
+      "bytes": 132920,
+      "sha256": "78d2660d7545936350ddbba31b1a5f90a94a2e68d73cbb84ee4752095eeda0f2"
+    },
+    "archive": {
+      "path": "data/assets/vehicles/endurance-sedan-review/validation-v62/evidence.zip",
+      "bytes": 82576200,
+      "sha256": "7e827f19671e1d915c4c9891e74e95759d582e5ad35908d1cfc8b1f712f9d36b"
+    },
+    "entries": 606,
+    "byte_reproducible": true,
+    "all_member_hashes_and_crc_verified": true,
+    "limits": "Evidence retention and byte identity only; individual reports retain their own scope, failures and approval status.",
+    "recovery_supplement": {
+      "manifest": {
+        "path": "data/assets/vehicles/endurance-sedan-review/validation-v62/recovery-inputs.json",
+        "bytes": 27172,
+        "sha256": "0768f340e7118008d5df53ab768fbfc4e32ad6049e67c70b1b63dc03a592b45c"
+      },
+      "index": {
+        "path": "data/assets/vehicles/endurance-sedan-review/validation-v62/recovery-index.json",
+        "bytes": 27447,
+        "sha256": "5881cc2d132ab1a03f960ca8c37465ad1f4a95cc283c2d28d32e853ee8f89d44"
+      },
+      "archive": {
+        "path": "data/assets/vehicles/endurance-sedan-review/validation-v62/recovery.zip",
+        "bytes": 5920640,
+        "sha256": "dd0b419c93055c12d6b210dfeb37160581939c3f3be9981c052d37550d4f6871"
+      },
+      "entries": 121,
+      "byte_reproducible": true,
+      "scope": "Exact missing historical report/source payloads and two independently hash-verified historical source reconstructions. Original606-entry archive remains unchanged."
+    }
+  },
+  "independent_retention_review": {
+    "artifact": {
+      "path": "reports/p1-018/qa/checkpoint62-retention-review01/readback04.json",
+      "bytes": 14833,
+      "sha256": "2b14ab6c3427cdac8002b60d1014fbfeed8508a74e0cce068fa08efaaeec727d"
+    },
+    "report": {
+      "task_id": "P1-018",
+      "milestone": "M5",
+      "utc": "2026-09-21T07:04:18.708591+00:00",
+      "status": "passed-portable-tooling-evidence-recovery-final-delivery-open",
+      "unresolved_inputs": 0,
+      "scope": "Declared hashed source/report reference closure of validation62 plus its additive recovery package; no final runtime or geometry delivery claim.",
+      "git_revision": "92278e1405224c2cff4178831afd104d97d6efac",
+      "checkpoint": {
+        "path": "reports/p1-018/finish-branch40/checkpoint62.json",
+        "bytes": 10716,
+        "sha256": "88cf6c71633d4c0861e12670d62820fa87ed3b1c4f011782a14d31fe4603d0f5"
+      },
+      "packages": [
+        {
+          "manifest": {
+            "path": "data/assets/vehicles/endurance-sedan-review/validation-v62/inputs.json",
+            "bytes": 132920,
+            "sha256": "78d2660d7545936350ddbba31b1a5f90a94a2e68d73cbb84ee4752095eeda0f2"
+          },
+          "index": {
+            "path": "data/assets/vehicles/endurance-sedan-review/validation-v62/index.json",
+            "bytes": 133040,
+            "sha256": "9d454591995656bc2ef493e26d1cea80e1015db21db7ccd848e9a75f87cbed10"
+          },
+          "archives": [
+            {
+              "path": "data/assets/vehicles/endurance-sedan-review/validation-v62/evidence.zip",
+              "bytes": 82576200,
+              "sha256": "7e827f19671e1d915c4c9891e74e95759d582e5ad35908d1cfc8b1f712f9d36b"
+            },
+            {
+              "path": "reports/p1-018/finish-branch40/retention62-repeat.zip",
+              "bytes": 82576200,
+              "sha256": "7e827f19671e1d915c4c9891e74e95759d582e5ad35908d1cfc8b1f712f9d36b"
+            }
+          ],
+          "entry_count": 606,
+          "all_member_crc_sha256_size_verified": true,
+          "embedded_manifest_exact": true,
+          "current_retained_inputs_exact": true
+        },
+        {
+          "manifest": {
+            "path": "data/assets/vehicles/endurance-sedan-review/validation-v62/recovery-inputs.json",
+            "bytes": 27172,
+            "sha256": "0768f340e7118008d5df53ab768fbfc4e32ad6049e67c70b1b63dc03a592b45c"
+          },
+          "index": {
+            "path": "data/assets/vehicles/endurance-sedan-review/validation-v62/recovery-index.json",
+            "bytes": 27447,
+            "sha256": "5881cc2d132ab1a03f960ca8c37465ad1f4a95cc283c2d28d32e853ee8f89d44"
+          },
+          "archives": [
+            {
+              "path": "data/assets/vehicles/endurance-sedan-review/validation-v62/recovery.zip",
+              "bytes": 5920640,
+              "sha256": "dd0b419c93055c12d6b210dfeb37160581939c3f3be9981c052d37550d4f6871"
+            },
+            {
+              "path": "reports/p1-018/finish-branch40/retention62-recovery-repeat.zip",
+              "bytes": 5920640,
+              "sha256": "dd0b419c93055c12d6b210dfeb37160581939c3f3be9981c052d37550d4f6871"
+            }
+          ],
+          "entry_count": 121,
+          "all_member_crc_sha256_size_verified": true,
+          "embedded_manifest_exact": true,
+          "current_retained_inputs_exact": true
+        }
+      ],
+      "prior_packages_verified": [
+        {
+          "archive": {
+            "path": "data/assets/vehicles/endurance-sedan-review/runtime-completion-v52/evidence.zip",
+            "bytes": 76024105,
+            "sha256": "ca91c65ba73c92786ff908b91d9660c62234ad4ad49944acdb69aea69a625b8a"
+          },
+          "index": {
+            "path": "data/assets/vehicles/endurance-sedan-review/runtime-completion-v52/index.json",
+            "bytes": 174087,
+            "sha256": "f9dad32584db93a80ad722dba0e19a7f20e3d906dc2bdf851e5ef31c041b1573"
+          },
+          "manifest": {
+            "path": "data/assets/vehicles/endurance-sedan-review/runtime-completion-v52/inputs.json",
+            "bytes": 174950,
+            "sha256": "aa00c99dfbc1127418f090161d48c16f77f60d1c88118446bc461136fffbc0ac"
+          },
+          "entries": 737,
+          "uncompressed_bytes": 175594235,
+          "all_member_crc_sha_size": true,
+          "embedded_manifest_exact": true
+        },
+        {
+          "archive": {
+            "path": "data/assets/vehicles/endurance-sedan-review/runtime-completion-v49/evidence.zip",
+            "bytes": 209123002,
+            "sha256": "d64a2ce3ba6c4df433a24b6babd5eeda9251c978504d9d05b8a3e749ead6a4c2"
+          },
+          "index": {
+            "path": "data/assets/vehicles/endurance-sedan-review/runtime-completion-v49/index.json",
+            "bytes": 117301,
+            "sha256": "12cedd1c8d4eb43cc63d0af048bd46af40e6553c70e75c3cc8d59e1f55bb783f"
+          },
+          "manifest": {
+            "path": "data/assets/vehicles/endurance-sedan-review/runtime-completion-v49/inputs.json",
+            "bytes": 116983,
+            "sha256": "d6a6cc23937df502626710280a3f33767b1309e2b3bec8cb8981a2acb8899a35"
+          },
+          "entries": 535,
+          "uncompressed_bytes": 490170501,
+          "all_member_crc_sha_size": true,
+          "embedded_manifest_exact": true
+        }
+      ],
+      "primary_archive_unchanged": true,
+      "reference_closure": {
+        "path_hash_pairs": 8985,
+        "resolved_to_retained_or_git": 6808,
+        "excluded_observations_or_tools": 2177,
+        "excluded_by_kind": {
+          "external_pinned_tool": 3,
+          "generated_observation": 2174
+        },
+        "unhashed_route_aliases_rebound_to_retained_hashes": 53,
+        "method": "Read explicit path/file/resource SHA rows and path-key hash maps from148 primary JSONs; recursively inspect newly required JSON inputs until no missing payload remains. Match by complete bytes SHA/size, retaining path aliases. Revalidate each resolved hash against archived bytes, immutable Git or exact LFS payload."
+      },
+      "canonical_snapshot_binding": {
+        "path": "reports/p1-018/finish-branch40/canonical62/binding.json",
+        "bytes": 3497,
+        "sha256": "be54c0f8d36ad96479c171e2c7734a206320e3a5bbe5dedfeccf118e691f651a"
+      },
+      "canonical_snapshots": [
+        {
+          "canonical": {
+            "path": "game/Automation/ReferencePerformanceScenario.cs",
+            "bytes": 102667,
+            "sha256": "1516bb9a517aaff8349e59959b785efed45cc11dc861c7467ca2760782ae70a5"
+          },
+          "snapshot": {
+            "path": "reports/p1-018/finish-branch40/canonical62/game/Automation/ReferencePerformanceScenario.cs",
+            "bytes": 102667,
+            "sha256": "1516bb9a517aaff8349e59959b785efed45cc11dc861c7467ca2760782ae70a5"
+          }
+        },
+        {
+          "canonical": {
+            "path": "scripts/release/build-unsigned.sh",
+            "bytes": 9772,
+            "sha256": "f1e1b0d47950bf44ff46b189749787753cfadece4df541e55ce53c73d8211e0e"
+          },
+          "snapshot": {
+            "path": "reports/p1-018/finish-branch40/canonical62/scripts/release/build-unsigned.sh",
+            "bytes": 9772,
+            "sha256": "f1e1b0d47950bf44ff46b189749787753cfadece4df541e55ce53c73d8211e0e"
+          }
+        },
+        {
+          "canonical": {
+            "path": "tools/vehicles/endurance_sedan/capture-recipe.json",
+            "bytes": 11361,
+            "sha256": "97da5b2b020d65292c5628097fa106ceb36cda44d2761ad74a53c85dd3bfbb4d"
+          },
+          "snapshot": {
+            "path": "reports/p1-018/finish-branch40/canonical62/tools/vehicles/endurance_sedan/capture-recipe.json",
+            "bytes": 11361,
+            "sha256": "97da5b2b020d65292c5628097fa106ceb36cda44d2761ad74a53c85dd3bfbb4d"
+          }
+        },
+        {
+          "canonical": {
+            "path": "tools/vehicles/endurance_sedan/capture_suite.py",
+            "bytes": 10786,
+            "sha256": "67feb85052e769bba4abeb709f54d5e1c55052f130805c9f8c39fa3521437a79"
+          },
+          "snapshot": {
+            "path": "reports/p1-018/finish-branch40/canonical62/tools/vehicles/endurance_sedan/capture_suite.py",
+            "bytes": 10786,
+            "sha256": "67feb85052e769bba4abeb709f54d5e1c55052f130805c9f8c39fa3521437a79"
+          }
+        },
+        {
+          "canonical": {
+            "path": "tools/vehicles/endurance_sedan/render.py",
+            "bytes": 20292,
+            "sha256": "5bb660c0210997f6c95cc16c029ffc351e89854bec670a92a870de75b8891205"
+          },
+          "snapshot": {
+            "path": "reports/p1-018/finish-branch40/canonical62/tools/vehicles/endurance_sedan/render.py",
+            "bytes": 20292,
+            "sha256": "5bb660c0210997f6c95cc16c029ffc351e89854bec670a92a870de75b8891205"
+          }
+        },
+        {
+          "canonical": {
+            "path": "tools/vehicles/endurance_sedan/review_overlays.py",
+            "bytes": 18878,
+            "sha256": "1e59167ff432de5be10cd5c9bf78b2fb5ce51a0d3e8446592bcaed07e7e8e5ad"
+          },
+          "snapshot": {
+            "path": "reports/p1-018/finish-branch40/canonical62/tools/vehicles/endurance_sedan/review_overlays.py",
+            "bytes": 18878,
+            "sha256": "1e59167ff432de5be10cd5c9bf78b2fb5ce51a0d3e8446592bcaed07e7e8e5ad"
+          }
+        },
+        {
+          "canonical": {
+            "path": "tools/vehicles/endurance_sedan/review_sequences.py",
+            "bytes": 4336,
+            "sha256": "b3be3cbe23f090e8d7c8f493ac61bddc365e0e6f13aa54a328ae50210a674f76"
+          },
+          "snapshot": {
+            "path": "reports/p1-018/finish-branch40/canonical62/tools/vehicles/endurance_sedan/review_sequences.py",
+            "bytes": 4336,
+            "sha256": "b3be3cbe23f090e8d7c8f493ac61bddc365e0e6f13aa54a328ae50210a674f76"
+          }
+        },
+        {
+          "canonical": {
+            "path": "docs/vehicles/endurance-sedan/qa-plan.md",
+            "bytes": 37187,
+            "sha256": "80bb5fd04af6559aaebae46f84e349dc57d6b9619d0fc865d2ef6b079a86b81a"
+          },
+          "snapshot": {
+            "path": "reports/p1-018/finish-branch40/canonical62/docs/vehicles/endurance-sedan/qa-plan.md",
+            "bytes": 37187,
+            "sha256": "80bb5fd04af6559aaebae46f84e349dc57d6b9619d0fc865d2ef6b079a86b81a"
+          }
+        }
+      ],
+      "all_eight_current_canonical_and_archived_snapshot_bytes_equal": true,
+      "git_tree_sha256": "ede9035dfa195bd2e6616ea49be081f0dd7d24081673888cdfb88d683b97a97a",
+      "required_git_blob_paths_verified": 846,
+      "git_lfs_payloads": [
+        {
+          "path": "data/assets/vehicles/sources/endurance-sedan.blend",
+          "bytes": 5011955,
+          "sha256": "0b4220d5c3f0024054de17a3c36add3388a4f52be2046cc2b837f3bac9edf793",
+          "git_revision": "92278e1405224c2cff4178831afd104d97d6efac",
+          "git_blob": "f24eb0bf67e96c9526fca26d9210254f4f312c99",
+          "requires": "Exact LFS object must be fetched; pointer bytes alone do not recover payload."
+        },
+        {
+          "path": "data/assets/vehicles/sources/hero-gt.blend",
+          "bytes": 23958660,
+          "sha256": "a87a0ea01e5a920de477e1d3a821a68c7c1fe486470c37a3fc3693e8f78b3bd7",
+          "git_revision": "92278e1405224c2cff4178831afd104d97d6efac",
+          "git_blob": "5e35042a2117d8fcd8e566c8827205f4749f4fcb",
+          "requires": "Exact LFS object must be fetched; pointer bytes alone do not recover payload."
+        }
+      ],
+      "retained_tar_recovery": [
+        {
+          "container": {
+            "path": "reports/p1-018/skill-update58-01/candidate.tar",
+            "bytes": 931840,
+            "sha256": "0ba3f566c9829952c61c14419b178f735983f7b52272960f08a2fb315d17b21b"
+          },
+          "file_members_verified": 180
+        },
+        {
+          "container": {
+            "path": "reports/p1-018/finish-branch40/unsigned58/narrow-exclusion.tar",
+            "bytes": 10240,
+            "sha256": "1e89828f1d62cccab9ab61de205b9848bc03b6b7b6e228d92015c19c45d3d966"
+          },
+          "file_members_verified": 4
+        }
+      ],
+      "external_native_tools_verified_not_bundled": [
+        {
+          "path": "C:/Program Files/Blender/blender-5.1.2-windows-x64/blender.exe",
+          "bytes": 108687832,
+          "sha256": "a7d09b04df8f78d432bc45d32c08f25387a78c76d12d2a6f5de07d8e1066e8f8"
+        },
+        {
+          "path": "C:/Users/randr/AppData/Local/Microsoft/WinGet/Packages/GodotEngine.GodotEngine.Mono_Microsoft.Winget.Source_8wekyb3d8bbwe/Godot_v4.7.1-stable_mono_win64/Godot_v4.7.1-stable_mono_win64_console.exe",
+          "bytes": 198152,
+          "sha256": "b2c334ff6bf1e07ded41b80bd6f4785485650db6ddbb2740b802930f35237c26"
+        },
+        {
+          "path": "C:/Users/randr/AppData/Local/Microsoft/WinGet/Packages/GodotEngine.GodotEngine.Mono_Microsoft.Winget.Source_8wekyb3d8bbwe/Godot_v4.7.1-stable_mono_win64/Godot_v4.7.1-stable_mono_win64.exe",
+          "bytes": 179589128,
+          "sha256": "8ec33ba6a6a953226170cda2a56a58810f6617261a71d6bd6d6ba7cce5e7b79d"
+        }
+      ],
+      "historical_reconstructions": [
+        {
+          "path": "reports/p1-018/qa/checkpoint62-retention-review01/historical03/render.py",
+          "bytes": 19622,
+          "sha256": "de590bf8f1a882f4a5e9045693fb4a9e1679b90b304d04d412767b9ca00d2d37"
+        },
+        {
+          "path": "reports/p1-018/qa/checkpoint62-retention-review01/historical03/review_overlays.py",
+          "bytes": 15685,
+          "sha256": "90f9a9f8a6e6caa04c1a9820e3b093aa15fa8d2a5e4c4e834cb4a565b919ff6d"
+        }
+      ],
+      "reconstruction_method": "Only invert the two documented SC57 metadata corrections in retained snapshot01; require exact original hostcheck hashes. No canonical edits.",
+      "initial_failure": {
+        "record": {
+          "path": "reports/p1-018/qa/checkpoint62-retention-review01/readback02.json",
+          "bytes": 2069661,
+          "sha256": "669196c5fd70db038577e98f8f8928ad9145a8b23446a60509e33254f11e2337"
+        },
+        "unresolved_path_hash_pairs": 89,
+        "unique_payload_hashes": 82,
+        "recovery_entries": 121,
+        "status": "Preserved; recursive121-member supplement subsequently closes missing payloads."
+      },
+      "diagnostic193_actual_source": {
+        "path": ".tools/v39s193/build/project/data/assets/vehicles/sources/endurance-sedan.blend",
+        "bytes": 7916752,
+        "sha256": "3d784a2ca441cee4022b764fa031c4cf3006fc9667cc88771d592d0514d06b77"
+      },
+      "limits": [
+        "Generated build/import/DLL/cache and incidental old test output rows record historical observations; these payloads are excluded, not portable runtime deliveries, and exact regenerated bytes are not promised.",
+        "Pinned official native tools are prerequisites, not bundled. LFS payload retrieval remains required for Git LFS recoveries.",
+        "Original source193 is a diagnostic historical source, not promoted final geometry. The hardware64 planning scope is not a geometry test.",
+        "Final source/export/import/motion, full moving capture coverage, uncontended performance, hosted unsigned recovery and human gates remain open.",
+        "No QA native run, build, scene save/export, canonical edit or archive creation occurred."
+      ],
+      "audit_files": [
+        {
+          "path": "reports/p1-018/qa/checkpoint62-retention-review01/scan01.py",
+          "bytes": 10970,
+          "sha256": "ac21c2ec28c2f501413f47595a17db82d86189b74ac41685f96d1521fc24b19f"
+        },
+        {
+          "path": "reports/p1-018/qa/checkpoint62-retention-review01/classify02.py",
+          "bytes": 6019,
+          "sha256": "5762215833840f9ab227fd83c21bd87ce1525f25e3d5595ceb55c96c1164bd4b"
+        },
+        {
+          "path": "reports/p1-018/qa/checkpoint62-retention-review01/prepare03.py",
+          "bytes": 8220,
+          "sha256": "c3f59eabd10184debd4a73234c9753195fa2f3335cd517c8937a761600f6f1cb"
+        },
+        {
+          "path": "reports/p1-018/qa/checkpoint62-retention-review01/final04.py",
+          "bytes": 12006,
+          "sha256": "ef6a6337970788f84ab2b62db52393ce57e9c4d497c5366efa6eec62d10a269c"
+        },
+        {
+          "path": "reports/p1-018/qa/checkpoint62-retention-review01/REVIEW04.md",
+          "bytes": 1831,
+          "sha256": "6441067f7dcafb537fe4f5f1591241952d0b4ffa6b73e22ca2f2e54db6e5e0e6"
+        }
+      ],
+      "human_approval_reference": null
+    }
+  },
+  "retention_commands": [
+    {
+      "path": "reports/p1-018/finish-branch40/commands/20260921T064144.207998Z-retention62.json",
+      "bytes": 892,
+      "sha256": "505780231b96fd5ac31eb0fabc3aeaa21690b4bc238e8310c25110b8094cfc8a"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/commands/20260921T065933.266999Z-retention62-recovery.json",
+      "bytes": 1016,
+      "sha256": "424161e84376a5b391a8ba20320dbbec1330921f385c0bc922eadc6e7f9cf7ad"
+    }
+  ],
+  "recovery_execution_tools": [
+    {
+      "artifact": {
+        "path": "reports/p1-018/finish-branch40/retain62_recovery.py",
+        "bytes": 1231,
+        "sha256": "a7b39ed514a53f5da36d1ef47a2572e6e906d4de3ebf48f4c9046aa9d60902ec"
+      },
+      "text": "\"\"\"Add exact missing historical inputs without altering the first archive.\"\"\"\nfrom pathlib import Path\nimport hashlib\nimport json\nimport shutil\nimport subprocess\n\nroot = Path.cwd().resolve()\nhere = Path(__file__).resolve().parent\ndestination = root / 'data/assets/vehicles/endurance-sedan-review/validation-v62'\nsource = root / 'reports/p1-018/qa/checkpoint62-retention-review01/supplement-inputs03.json'\nlock = destination / 'recovery-inputs.json'\nassert not lock.exists()\nvalue = json.loads(source.read_bytes())\nassert value['task_id'] == 'P1-018' and len(value['entries']) == 121\nbefore = hashlib.sha256(source.read_bytes()).hexdigest()\nshutil.copyfile(source, lock)\nassert hashlib.sha256(lock.read_bytes()).hexdigest() == before\nsubprocess.run(['python', 'tools/vehicles/endurance_sedan/retain_evidence.py',\n    '--manifest', str(lock), '--output', str(destination / 'recovery.zip'),\n    '--repeat-output', str(here / 'retention62-recovery-repeat.zip'),\n    '--index', str(destination / 'recovery-index.json')], check=True)\nassert hashlib.sha256(source.read_bytes()).hexdigest() == before\nprint(json.dumps({'status': 'supplement-retained-original-archive-unchanged',\n                  'entries': 121, 'input_sha256': before}))\n"
+    },
+    {
+      "artifact": {
+        "path": "reports/p1-018/finish-branch40/finalize62_recovered.py",
+        "bytes": 2214,
+        "sha256": "250a12eb8d797685e2e86becbf622fb358ddfcf630f9487c581d23f555fc9c81"
+      },
+      "text": "\"\"\"Finalize the original checkpoint plus its separately preserved recovery archive.\"\"\"\nfrom pathlib import Path\nimport hashlib\nimport shutil\n\nhere = Path(__file__).resolve().parent\nroot = Path.cwd().resolve()\ndirectory = root / 'data/assets/vehicles/endurance-sedan-review/validation-v62'\nscope = here / 'hardware-end-scope64.json'\ncopied_scope = directory / 'hardware-scope64.json'\nassert not copied_scope.exists()\nshutil.copyfile(scope, copied_scope)\nassert hashlib.sha256(scope.read_bytes()).digest() == hashlib.sha256(copied_scope.read_bytes()).digest()\nsource = here / 'finalize62.py'\ncode = source.read_text(encoding='utf8')\ninsertion = '''recovery = read(destination / 'recovery-index.json')\nassert recovery['status'] == 'passed' and recovery['byte_reproducible']\nassert len(recovery['entries']) == 121\nfor item in recovery['archives']:\n    assert row(item['path']) == {key: item[key] for key in ('path', 'bytes', 'sha256')}\nretention['recovery_supplement'] = {\n    'manifest': row(destination / 'recovery-inputs.json'),\n    'index': row(destination / 'recovery-index.json'),\n    'archive': row(destination / 'recovery.zip'),\n    'entries': 121, 'byte_reproducible': True,\n    'scope': 'Exact missing historical report/source payloads and two independently hash-verified historical source reconstructions. Original606-entry archive remains unchanged.'}\n'''\nassert code.count('review = {') == 1\ncode = code.replace('review = {', insertion + 'review = {')\ncode = code.replace(\"glob('*-retention62.json')\", \"glob('*-retention62*.json')\")\ncode = code.replace(\"'limits': checkpoint['scope']\", \"'recovery_execution_tools': [{'artifact': row(here / name), 'text': (here / name).read_text(encoding='utf8')} for name in ('retain62_recovery.py', 'finalize62_recovered.py', 'publish62_recovered.py')],\\n    'planned_hardware_scope': row(destination / 'hardware-scope64.json'),\\n    'limits': checkpoint['scope']\")\ncode = code.replace(\"write(ledger_path, ledger)\", \"task['notes'] = task['notes'].replace('reports/p1-018/finish-branch40/hardware-end-scope64.json', 'data/assets/vehicles/endurance-sedan-review/validation-v62/hardware-scope64.json')\\nwrite(ledger_path, ledger)\")\nexec(compile(code, str(source), 'exec'))\n"
+    },
+    {
+      "artifact": {
+        "path": "reports/p1-018/finish-branch40/publish62_recovered.py",
+        "bytes": 1014,
+        "sha256": "0bb3ce376ec37604c03ce38d754a30c9a1cd8c055d396d2c15fe5011cd539586"
+      },
+      "text": "\"\"\"Publish the verified primary archive and explicit historical recovery supplement.\"\"\"\nfrom pathlib import Path\nsource = Path(__file__).with_name('publish62.py')\ncode = source.read_text(encoding='utf8')\ncheck = '''recovery = json.loads((directory / 'recovery-index.json').read_bytes())\nassert recovery['status'] == 'passed' and recovery['byte_reproducible']\nfor item in recovery['archives']:\n    assert row(item['path']) == {key: item[key] for key in ('path', 'bytes', 'sha256')}\n'''\nassert code.count('paths = [') == 1\ncode = code.replace('paths = [', check + 'paths = [')\ncode = code.replace(\"for name in ('evidence.zip', 'inputs.json', 'index.json', 'review.json')\",\n                    \"for name in ('evidence.zip', 'inputs.json', 'index.json', 'review.json', 'recovery.zip', 'recovery-inputs.json', 'recovery-index.json', 'hardware-scope64.json')\")\nassert code.count('len(set(paths)) == 15') == 1\ncode = code.replace('len(set(paths)) == 15', 'len(set(paths)) == 19')\nexec(compile(code, str(source), 'exec'))\n"
+    }
+  ],
+  "planned_hardware_scope": {
+    "path": "data/assets/vehicles/endurance-sedan-review/validation-v62/hardware-scope64.json",
+    "bytes": 23616,
+    "sha256": "f18c5f98c9a6007579b0da5dc8becec69bf9ce8b17f4f951f348fe8726490646"
+  },
+  "limits": "Current actual-settings observation, source inspection helpers and bounded unsigned-export staging repair. Installed production34 and historical source193 pilot have distinct identities; neither becomes a final accepted model through this checkpoint. Final source/export/import/motion/performance, hosted export recovery and human gates remain open.",
+  "human_approval_reference": null
+}

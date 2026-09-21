@@ -2,14 +2,14 @@ from __future__ import annotations
 
 import asyncio
 import contextlib
+import hashlib
 import json
 import os
-import platform
-import signal
 import socket
+import subprocess
+import time
 from collections.abc import AsyncIterator
 from pathlib import Path
-from typing import BinaryIO
 
 import pytest
 from PIL import Image
@@ -24,7 +24,6 @@ from cannonball_playgodot import (
 from .input_support import wait_for_describe, wait_for_key_conditioner
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
-MAX_RAW_LOG_BYTES = 2_000_000
 
 
 def _route_package() -> Path:
@@ -42,89 +41,25 @@ def _artifact_directory(tmp_path: Path) -> Path:
 
 @contextlib.asynccontextmanager
 async def _raw_server(tmp_path: Path) -> AsyncIterator[tuple[str, int, str, Path]]:
-    token = "integration-test-token-0123456789abcdef"
     transcript = tmp_path / "hostile.jsonl"
-    runtime_log = tmp_path / "raw-godot.log"
-    environment = os.environ.copy()
-    environment.update(
-        PLAYGODOT_TOKEN=token,
-        PLAYGODOT_CAPABILITIES="read,input,screenshot",
-        PLAYGODOT_TRANSCRIPT=str(transcript),
+    process = PlayGodotProcess(
+        REPO_ROOT, _route_package(), capabilities=("read", "input", "screenshot"),
+        transcript=transcript, log_path=tmp_path / "raw-godot.log",
     )
-    command = [
-        environment["GODOT_BIN"],
-        "--audio-driver",
-        "Dummy",
-        "--rendering-method",
-        "gl_compatibility",
-        "--path",
-        str(REPO_ROOT),
-        "addons/playgodot/bootstrap.tscn",
-        "--",
-        "--playgodot",
-        "--graybox-environment-assets",
-        # The raw-socket tests measure the bridge in 2 s windows; the
-        # production car's first draw stalls the main thread longer than that
-        # on the software renderers, and the launcher already runs graybox.
-        "--graybox-vehicle",
-        f"--route-package={_route_package()}",
-        f"--telemetry-path={tmp_path / 'telemetry.jsonl'}",
-    ]
-    if platform.system() == "Linux" and os.environ.get("PLAYGODOT_XVFB") == "1":
-        command = ["xvfb-run", "-a", *command]
-    process = await asyncio.create_subprocess_exec(
-        *command,
-        stdout=asyncio.subprocess.PIPE,
-        stderr=asyncio.subprocess.STDOUT,
-        env=environment,
-        start_new_session=os.name == "posix",
-    )
-    assert process.stdout is not None
-    drain_task: asyncio.Task[None] | None = None
-    log = runtime_log.open("wb")
+    original: BaseException | None = None
     try:
-        loop = asyncio.get_running_loop()
-        deadline = loop.time() + 20
-        while True:
-            remaining = deadline - loop.time()
-            if remaining <= 0:
-                raise TimeoutError("Godot did not become ready within 20 seconds")
-            line = await asyncio.wait_for(process.stdout.readline(), remaining)
-            if not line:
-                raise RuntimeError("Godot exited before the hostile-input fixture was ready")
-            _write_bounded_log(log, line)
-            decoded = line.decode(errors="replace").rstrip()
-            if decoded.startswith("PLAYGODOT_READY "):
-                ready = json.loads(decoded.removeprefix("PLAYGODOT_READY "))
-                drain_task = asyncio.create_task(_drain_process_output(process.stdout, log))
-                yield ready["address"], ready["port"], token, transcript
-                break
+        client = await process.start()
+        # Raw probes retain their own wire-level handshakes. Close only this
+        # connection; the same process owner remains responsible for quit/exit.
+        await client.close()
+        process.client = None
+        assert process._shutdown_endpoint is not None and process._shutdown_token is not None
+        yield (*process._shutdown_endpoint, process._shutdown_token, transcript)
+    except BaseException as error:
+        original = error
+        raise
     finally:
-        with contextlib.suppress(ProcessLookupError):
-            if os.name == "posix":
-                os.killpg(process.pid, signal.SIGTERM)
-            else:
-                process.terminate()
-        try:
-            await asyncio.wait_for(process.wait(), 5)
-        except TimeoutError:
-            process.kill()
-            await process.wait()
-        if drain_task is not None:
-            await drain_task
-        log.close()
-
-
-async def _drain_process_output(stream: asyncio.StreamReader, log: BinaryIO) -> None:
-    while line := await stream.readline():
-        _write_bounded_log(log, line)
-
-
-def _write_bounded_log(log: BinaryIO, line: bytes) -> None:
-    remaining = MAX_RAW_LOG_BYTES - log.tell()
-    if remaining > 0:
-        log.write(line[:remaining])
-        log.flush()
+        await process._stop_preserving(original)
 
 
 async def _raw_request(
@@ -932,3 +867,289 @@ async def test_hostile_requests_fail_closed_and_are_transcribed(tmp_path: Path) 
 
     outcomes = {json.loads(line)["outcome"] for line in transcript.read_text().splitlines()}
     assert {"auth_required", "parse_error", "auth_failed"} <= outcomes
+    # The capacity probe must not pass by timing out phantom, unconnected waits.
+    assert "already connected" not in (_artifact_directory(tmp_path) / "raw-godot.log").read_text()
+
+
+@pytest.mark.skipif("GODOT_BIN" not in os.environ, reason="GODOT_BIN enables live 4.7.1 tests")
+@pytest.mark.asyncio
+async def test_owned_quit_capability_and_connection_only_close(tmp_path: Path) -> None:
+    artifacts = _artifact_directory(tmp_path) / "owned-quit-grants"
+    async with _raw_server(artifacts) as (host, port, token, transcript):
+        unauthenticated = await _raw_request(
+            host, port, b'{"jsonrpc":"2.0","id":1,"method":"session.quit","params":{}}',
+        )
+        assert unauthenticated["error"]["name"] == "AUTH_REQUIRED"
+        client = await _connect_after_session_cleanup(host, port, token=token)
+        capabilities = await client.request("session.capabilities")
+        assert capabilities["granted"] == ["read"]
+        with pytest.raises(PlayGodotError) as denied:
+            await client.request("session.quit")
+        assert denied.value.name == "CAPABILITY_DENIED"
+        assert await client.request("session.ping") == {"ok": True}
+        await client.close()
+        # Close releases only the connection; the same endpoint still serves
+        # a new ordinary client without adding the owner's shutdown grant.
+        client = await _connect_after_session_cleanup(host, port, token=token)
+        assert await client.request("session.ping") == {"ok": True}
+        await client.close()
+        owner = await _connect_after_session_cleanup(
+            host, port, token=token, capabilities=("shutdown",),
+        )
+        for parameters in ({"exit_code": 1}, {"unexpected": True}):
+            with pytest.raises(PlayGodotError) as malformed:
+                await owner.request("session.quit", parameters)
+            assert malformed.value.name == "INVALID_PARAMS"
+            assert await owner.request("session.ping") == {"ok": True}
+        await owner.close()
+    result = json.loads((artifacts / "raw-godot.shutdown.json").read_text())
+    assert result["status"] == "native-observation" and result["exit_status"] == 0
+    assert result["owner_finalization_required"]
+    assert result["quit_acknowledged"] and result["output_eof"] and not result["fallback"]
+    assert not result["diagnostics"]
+    assert token not in transcript.read_text() and token not in json.dumps(result)
+
+
+@pytest.mark.skipif("GODOT_BIN" not in os.environ, reason="GODOT_BIN enables live 4.7.1 tests")
+@pytest.mark.asyncio
+@pytest.mark.parametrize("disconnect_without_reading", [False, True])
+async def test_authorized_quit_releases_pending_resources_and_exits_zero(
+    tmp_path: Path, disconnect_without_reading: bool,
+) -> None:
+    artifacts = _artifact_directory(tmp_path) / (
+        "owned-quit-peer-loss" if disconnect_without_reading else "owned-quit-resources"
+    )
+    async with _raw_server(artifacts) as (host, port, token, _transcript):
+        client = await _connect_after_session_cleanup(
+            host, port, token=token, capabilities=("read", "input", "shutdown"),
+        )
+        await client.request("input.action", {"action": "ui_accept", "state": "press"})
+        pending = asyncio.create_task(client.request("signal.wait", {
+            "automation_id": "playgodot.fixture.button", "signal": "pressed", "timeout_ms": 5_000,
+        }))
+        # A subsequent correlated response is a wire-order barrier: the server
+        # has processed the earlier wait before accepting the quit request.
+        await asyncio.sleep(0)
+        assert await client.request("session.ping") == {"ok": True}
+        if disconnect_without_reading:
+            # Use this owned session's next valid ID, with no client future:
+            # the peer abandons the response immediately after sending quit.
+            payload = {"jsonrpc": "2.0", "id": client._next_id,
+                       "method": "session.quit", "params": {}}
+            client._writer.write((json.dumps(payload) + "\n").encode())
+            await client._writer.drain()
+            client._writer.close()
+        else:
+            assert await client.request("session.quit") == {"quitting": True}
+        with pytest.raises((ProtocolError, ConnectionError)):
+            await pending
+        await client.close(abort=True)
+    result = json.loads((artifacts / "raw-godot.shutdown.json").read_text())
+    assert result["status"] == "native-observation" and result["exit_status"] == 0
+    assert result["owner_finalization_required"]
+    assert result["output_eof"] and not result["fallback"] and not result["diagnostics"]
+    assert result["quit_cleanup"] == {
+        "pending_waits_before": 1, "held_inputs_before": 1,
+        "pending_waits_after": 0, "held_inputs_after": 0,
+    }
+
+
+@pytest.mark.skipif("GODOT_BIN" not in os.environ, reason="GODOT_BIN enables live 4.7.1 tests")
+@pytest.mark.asyncio
+async def test_concurrent_signal_waits_all_receive_one_native_emission(tmp_path: Path) -> None:
+    artifacts = _artifact_directory(tmp_path) / "signal-all-eight"
+    process = PlayGodotProcess(
+        REPO_ROOT, _route_package(), capabilities=("read", "input"),
+        transcript=artifacts / "requests.jsonl", log_path=artifacts / "godot.log",
+    )
+    async with process as client:
+        async with asyncio.TaskGroup() as group:
+            waits = [group.create_task(client.request("signal.wait", {
+                "automation_id": "playgodot.fixture.button", "signal": "pressed",
+                "timeout_ms": 2_000,
+            })) for _ in range(8)]
+            await asyncio.sleep(0)
+            # This response is a wire-order barrier after the eight wait requests.
+            assert await client.request("session.ping") == {"ok": True}
+            with pytest.raises(PlayGodotError, match="BUSY"):
+                await client.request("signal.wait", {
+                    "automation_id": "playgodot.fixture.button", "signal": "pressed",
+                    "timeout_ms": 2_000,
+                })
+            await client.request("input.click", {"automation_id": "playgodot.fixture.button"})
+            assert await asyncio.gather(*waits) == [{"signal": "pressed"}] * 8
+        # One-shot callbacks cannot produce stale duplicate responses on another click.
+        await client.request("input.click", {"automation_id": "playgodot.fixture.button"})
+        assert await client.request("session.ping") == {"ok": True}
+    entries = [json.loads(line) for line in (artifacts / "requests.jsonl").read_text().splitlines()]
+    successes = [row for row in entries if row["method"] == "signal.wait"
+                 and row["outcome"] == "success"]
+    assert len(successes) == len({row["request_id"] for row in successes}) == 8
+    assert process.teardown_result["status"] == "passed"
+    assert not process.teardown_result["diagnostics"]
+
+
+@pytest.mark.skipif("GODOT_BIN" not in os.environ, reason="GODOT_BIN enables live 4.7.1 tests")
+@pytest.mark.asyncio
+async def test_signal_timeout_does_not_disconnect_another_pending_wait(tmp_path: Path) -> None:
+    artifacts = _artifact_directory(tmp_path) / "signal-staggered"
+    process = PlayGodotProcess(
+        REPO_ROOT, _route_package(), capabilities=("read", "input"),
+        transcript=artifacts / "requests.jsonl", log_path=artifacts / "godot.log",
+    )
+    async with process as client:
+        long_wait = asyncio.create_task(client.request("signal.wait", {
+            "automation_id": "playgodot.fixture.button", "signal": "pressed", "timeout_ms": 2_000,
+        }))
+        await asyncio.sleep(0)
+        short_wait = asyncio.create_task(client.request("signal.wait", {
+            "automation_id": "playgodot.fixture.button", "signal": "pressed", "timeout_ms": 20,
+        }))
+        try:
+            await asyncio.sleep(0)
+            assert await client.request("session.ping") == {"ok": True}
+            with pytest.raises(PlayGodotError, match="TIMEOUT"):
+                await short_wait
+            assert not long_wait.done()
+            await client.request("input.click", {"automation_id": "playgodot.fixture.button"})
+            assert await long_wait == {"signal": "pressed"}
+        finally:
+            for task in (long_wait, short_wait):
+                if not task.done():
+                    task.cancel()
+            await asyncio.gather(long_wait, short_wait, return_exceptions=True)
+    entries = [json.loads(line) for line in (artifacts / "requests.jsonl").read_text().splitlines()]
+    waits = [row for row in entries if row["method"] == "signal.wait"]
+    assert sorted(row["outcome"] for row in waits) == ["success", "timeout"]
+    assert len({row["request_id"] for row in waits}) == 2
+    assert process.teardown_result["status"] == "passed"
+    assert not process.teardown_result["diagnostics"]
+
+
+_SIGNAL_NATIVE_HARNESS = '''extends "res://server.gd"
+var replies: Array[Dictionary] = []
+var outcomes: Array[Dictionary] = []
+func _ready() -> void:
+    _id_regex.compile(TARGET_ID_PATTERN)
+    set_process(false)
+func _send(response: Dictionary) -> void:
+    replies.append(response.duplicate(true))
+func _record(id: Variant, method: String, outcome: String, _started: int) -> void:
+    outcomes.append({"id": id, "method": method, "outcome": outcome})
+'''
+
+_SIGNAL_NATIVE_CONTROL = '''extends Node
+func _ready() -> void:
+    call_deferred("run")
+func run() -> void:
+    var target = Node.new()
+    target.add_user_signal("ping")
+    target.set_meta("automation_id", "signal.fixture")
+    add_child(target)
+    var server = load("res://harness.gd").new()
+    add_child(server)
+    var mode := "__MODE__"
+    var returned = server._signal_wait({"automation_id": "signal.fixture",
+        "signal": "ping", "timeout_ms": 20}, 1)
+    if mode == "freed-disconnect":
+        server._signal_wait({"automation_id": "signal.fixture",
+            "signal": "ping", "timeout_ms": 500}, 2)
+    var connections := target.get_signal_connection_list("ping").size()
+    target.free()
+    if mode == "freed-timeout":
+        var deadline := Time.get_ticks_msec() + 30
+        while Time.get_ticks_msec() < deadline:
+            await get_tree().process_frame
+        server._poll_pending_signals()
+    elif mode == "freed-disconnect":
+        server._clear_connection()
+    var output := {"mode": mode, "returned": returned, "connections_before_free": connections,
+        "pending": server._pending_signals.keys(), "results": server._signal_results.keys(),
+        "replies": server.replies.duplicate(true), "outcomes": server.outcomes.duplicate(true)}
+    server._clear_connection()
+    server.free()
+    print("PLAYGODOT_SIGNAL_CONTROL " + JSON.stringify(output))
+    get_tree().quit(0)
+'''
+
+
+@pytest.mark.skipif("GODOT_BIN" not in os.environ, reason="GODOT_BIN enables live 4.7.1 tests")
+@pytest.mark.parametrize("mode", ["freed-timeout", "freed-disconnect", "connect-failure"])
+def test_signal_wait_native_lifetime_and_connection_failure(tmp_path: Path, mode: str) -> None:
+    """Actual copied server methods/native signals; no game, renderer or remote invoke API."""
+    artifacts = _artifact_directory(tmp_path) / f"signal-native-{mode}"
+    fixture = artifacts / "fixture"
+    fixture.mkdir(parents=True)
+    source = (REPO_ROOT / "addons/playgodot/server.gd").read_bytes()
+    candidate = source
+    if mode == "connect-failure":
+        needle = b"var callback := func(): _on_pending_signal(key)"
+        assert candidate.count(needle) == 1
+        # Deliberately invalid native callable: connect must fail before reservation.
+        candidate = candidate.replace(needle, b"var callback := Callable()")
+    (fixture / "server.gd").write_bytes(candidate)
+    (fixture / "harness.gd").write_text(_SIGNAL_NATIVE_HARNESS, encoding="utf-8")
+    (fixture / "control.gd").write_text(
+        _SIGNAL_NATIVE_CONTROL.replace("__MODE__", mode), encoding="utf-8",
+    )
+    (fixture / "project.godot").write_text(
+        'config_version=5\n[application]\nrun/main_scene="res://main.tscn"\n', encoding="utf-8",
+    )
+    (fixture / "main.tscn").write_text(
+        '[gd_scene load_steps=2 format=3]\n'
+        '[ext_resource type="Script" path="res://control.gd" id="1"]\n'
+        '[node name="SignalControl" type="Node"]\nscript = ExtResource("1")\n', encoding="utf-8",
+    )
+    executable = PlayGodotProcess._godot_from_environment().resolve()
+    if executable.name.endswith("_console.exe"):
+        # A timeout must own/kill the actual engine, not leave its console child alive.
+        executable = executable.with_name(executable.name.replace("_console.exe", ".exe"))
+    assert executable.is_file()
+    argv = [str(executable), "--headless", "--audio-driver", "Dummy", "--path", str(fixture)]
+    started = time.monotonic()
+    try:
+        result = subprocess.run(argv, capture_output=True, timeout=15, check=False)
+        code, stdout, stderr = result.returncode, result.stdout, result.stderr
+    except subprocess.TimeoutExpired as error:
+        code, stdout, stderr = 124, error.stdout or b"", error.stderr or b""
+    (artifacts / "stdout.log").write_bytes(stdout)
+    (artifacts / "stderr.log").write_bytes(stderr)
+    (artifacts / "command.json").write_text(json.dumps({
+        "argv": argv, "exit_status": code, "elapsed_seconds": time.monotonic() - started,
+        "timeout_seconds": 15, "timeout_kills_direct_engine": code == 124,
+        "engine_sha256": hashlib.sha256(executable.read_bytes()).hexdigest(),
+        "source_sha256": hashlib.sha256(source).hexdigest(),
+        "fixture_server_sha256": hashlib.sha256(candidate).hexdigest(),
+        "environment": {key: os.environ.get(key) for key in (
+            "DOTNET_ROLL_FORWARD", "DOTNET_GCgen0size", "HOME", "APPDATA", "LOCALAPPDATA",
+        )},
+    }, indent=2) + "\n", encoding="utf-8")
+    assert code == 0, stderr.decode(errors="replace")
+    assert b"Godot Engine v4.7.1.stable.mono.official." in stdout
+    records = [json.loads(line.removeprefix("PLAYGODOT_SIGNAL_CONTROL "))
+               for line in stdout.decode().splitlines()
+               if line.startswith("PLAYGODOT_SIGNAL_CONTROL ")]
+    assert len(records) == 1
+    record = records[0]
+    assert record["mode"] == mode and record["pending"] == record["results"] == []
+    if mode == "connect-failure":
+        assert record["returned"]["error"]["name"] == "INTERNAL_ERROR"
+        assert record["returned"]["error"]["code"] == -32603
+        assert record["connections_before_free"] == 0 and not record["replies"]
+        # This one native error is the declared negative, never a production log filter.
+        errors = [line for line in stderr.decode().splitlines() if line.startswith("ERROR:")]
+        assert errors == ["ERROR: Cannot connect to 'ping': the provided callable is null."]
+        assert b"SCRIPT ERROR:" not in stderr
+    else:
+        assert not stderr, stderr.decode(errors="replace")
+        assert record["returned"] == {"pending": True}
+        if mode == "freed-timeout":
+            assert record["connections_before_free"] == 1
+            assert len(record["replies"]) == 1
+            assert record["replies"][0]["error"]["name"] == "TIMEOUT"
+        else:
+            assert record["connections_before_free"] == 2 and not record["replies"]
+            assert record["outcomes"] == [
+                {"id": number, "method": "signal.wait", "outcome": "cancelled"}
+                for number in (1, 2)
+            ]

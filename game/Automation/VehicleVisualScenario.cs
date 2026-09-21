@@ -31,6 +31,9 @@ public sealed class VehicleVisualScenario
     private readonly HashSet<string> _completedStages = new(StringComparer.Ordinal);
     private int _stageIndex;
     private int _stageFrames;
+    private int _rollingGeometryChecks;
+    private int _steeringGeometryChecks;
+    private WheelGeometry[]? _wheelGeometry;
 
     public VehicleVisualScenario(
         Node parent,
@@ -79,7 +82,19 @@ public sealed class VehicleVisualScenario
         }
         var rig = _vehicle.VisualRig ??
             throw new InvalidOperationException("Vehicle visual profile requires the Hero GT rig.");
+        var rollingWitnesses = _stageIndex == 0 ? CaptureRollingWitnesses(rig) : [];
         ConfigureStage(rig, _stageIndex, _stageFrames);
+        foreach (var witness in rollingWitnesses)
+        {
+            var tireAfter = _vehicle.ToLocal(witness.Geometry.Tire.ToGlobal(witness.TireVertex));
+            var rimAfter = _vehicle.ToLocal(witness.Geometry.Rim.ToGlobal(witness.RimVertex));
+            // Forward travel is local -Z: the bottom tread moves +Z relative
+            // to the body while the top of the rim moves -Z. These are actual
+            // imported vertices, independent of the configured rolling sign.
+            if (tireAfter.Z <= witness.TireBefore.Z + 0.001f || rimAfter.Z >= witness.RimBefore.Z - 0.001f)
+                throw new InvalidOperationException("Hero tire-bottom/rim-top motion opposes forward rolling.");
+            _rollingGeometryChecks++;
+        }
         _stageFrames++;
         var framesNeeded = _review ? ReviewFramesPerStage : 3;
         if (_stageFrames < framesNeeded)
@@ -107,7 +122,8 @@ public sealed class VehicleVisualScenario
         GD.Print(
             "CANNONBALL_VEHICLE_VISUAL_OK " +
             $"semantic_nodes={snapshot.SemanticNodeCount} lods=3 damage_zones={snapshot.DamageZoneCount} " +
-            $"wheelbase_m=2.84 track_m=1.64 graybox_equivalent={_graybox.UsesGrayboxVisual}");
+            $"wheelbase_m=2.84 track_m=1.64 graybox_equivalent={_graybox.UsesGrayboxVisual} " +
+            $"rolling_geometry_checks={_rollingGeometryChecks} steering_geometry_checks={_steeringGeometryChecks}");
     }
 
     private void ConfigureStage(VehicleVisualRig rig, int stage, int frame)
@@ -196,6 +212,22 @@ public sealed class VehicleVisualScenario
         {
             throw new InvalidOperationException("Hero GT semantic rig did not resolve completely.");
         }
+        if (stage == 3)
+        {
+            foreach (var geometry in WheelGeometryFor(rig))
+            {
+                var axis = (geometry.Tire.ToGlobal(geometry.RightBandCenter) -
+                    geometry.Tire.ToGlobal(geometry.LeftBandCenter)).Normalized();
+                var up = _vehicle.GlobalBasis.Y.Normalized();
+                var forward = -_vehicle.GlobalBasis.Z.Normalized();
+                var heading = up.Cross(axis).Normalized();
+                if (heading.Dot(forward) < 0) heading = -heading;
+                var expected = geometry.Front ? forward.Rotated(up, -0.38f) : forward;
+                if (heading.AngleTo(expected) > Mathf.DegToRad(0.01f))
+                    throw new InvalidOperationException("Hero tire plane disagrees with the physical steering heading.");
+                _steeringGeometryChecks++;
+            }
+        }
         switch (stage)
         {
             case 0 when rig.HeadlightsOn:
@@ -227,4 +259,45 @@ public sealed class VehicleVisualScenario
             _light,
             _environment,
             daylight ? World.Environments.LightingPreset.Day : World.Environments.LightingPreset.Night);
+
+    private readonly record struct WheelGeometry(MeshInstance3D Tire, Vector3[] TireVertices,
+        MeshInstance3D Rim, Vector3[] RimVertices, Vector3 LeftBandCenter, Vector3 RightBandCenter, bool Front);
+    private readonly record struct RollingWitness(WheelGeometry Geometry, Vector3 TireVertex,
+        Vector3 RimVertex, Vector3 TireBefore, Vector3 RimBefore);
+
+    private RollingWitness[] CaptureRollingWitnesses(VehicleVisualRig rig) => WheelGeometryFor(rig).Select(geometry =>
+    {
+        var bodyInverse = _vehicle.GlobalTransform.AffineInverse();
+        var tireTransform = bodyInverse * geometry.Tire.GlobalTransform;
+        var rimTransform = bodyInverse * geometry.Rim.GlobalTransform;
+        var tirePoint = geometry.TireVertices.MinBy(point => (tireTransform * point).Y);
+        var rimPoint = geometry.RimVertices.MaxBy(point => (rimTransform * point).Y);
+        return new RollingWitness(geometry, tirePoint, rimPoint, tireTransform * tirePoint, rimTransform * rimPoint);
+    }).ToArray();
+
+    private WheelGeometry[] WheelGeometryFor(VehicleVisualRig rig) => _wheelGeometry ??= new[] { "FL", "FR", "RL", "RR" }.Select(suffix =>
+    {
+        var root = rig.ResolveAnchor("Wheel_" + suffix);
+        var tire = root.GetNode<MeshInstance3D>("LOD0_Tyre_" + suffix);
+        var rim = root.GetNode<MeshInstance3D>("LOD0_Rim_" + suffix + "_Spokes");
+        var vertices = Vertices(tire);
+        var minX = vertices.Min(point => point.X);
+        var maxX = vertices.Max(point => point.X);
+        var left = vertices.Where(point => point.X < minX + 0.005f).ToArray();
+        var right = vertices.Where(point => point.X > maxX - 0.005f).ToArray();
+        return new WheelGeometry(tire, vertices, rim, Vertices(rim),
+            left.Aggregate(Vector3.Zero, (sum, point) => sum + point) / left.Length,
+            right.Aggregate(Vector3.Zero, (sum, point) => sum + point) / right.Length, suffix.StartsWith('F'));
+    }).ToArray();
+
+    private static Vector3[] Vertices(MeshInstance3D node)
+    {
+        var result = new List<Vector3>();
+        for (var surface = 0; surface < node.Mesh.GetSurfaceCount(); surface++)
+        {
+            using var arrays = node.Mesh.SurfaceGetArrays(surface);
+            result.AddRange(arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array());
+        }
+        return result.ToArray();
+    }
 }

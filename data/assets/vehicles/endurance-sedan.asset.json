@@ -1,0 +1,1203 @@
+{
+  "schema_version": 1,
+  "asset_id": "endurance-sedan",
+  "asset_kind": "vehicle",
+  "authorship": {
+    "creator": "Randroid's Dojo",
+    "creation_date": "2026-09-11",
+    "method": "Project-original editable procedural Blender construction; referenced engineering, fictional Meridian S8R styling and original material inputs",
+    "creation_script": "tools/vehicles/create_endurance_sedan.py",
+    "creation_script_sha256": "1ef3d2e30ef59df81fe1ff678573129c1850762274a24e6412c68dc15e586de7"
+  },
+  "license": {
+    "spdx": "LicenseRef-Meridian-S8R-Output-Rights-Pending-Review",
+    "redistributable": false,
+    "status": "pending-human-review",
+    "attribution": "Cannonball-Vibe original Meridian S8R design and procedural material inputs. Label outlines derive from Blender Bfont; its byte-identical font source data carries copyright 2001-2002 NaN Holding BV and GPL-2.0-or-later. Engineering references and exact font ancestry are identified in the provenance dossier. Glyph-mesh/output treatment and final source/asset rights approval remain a human gate."
+  },
+  "source": {
+    "path": "data/assets/vehicles/sources/endurance-sedan.blend",
+    "sha256": "0b4220d5c3f0024054de17a3c36add3388a4f52be2046cc2b837f3bac9edf793",
+    "kind": "blender-source"
+  },
+  "transformations": [
+    {
+      "id": "endurance-sedan-construction-v1",
+      "tool": "Blender",
+      "tool_version": "5.1.2+ec6e62d40fa9",
+      "script": "tools/vehicles/create_endurance_sedan.py",
+      "script_sha256": "1ef3d2e30ef59df81fe1ff678573129c1850762274a24e6412c68dc15e586de7",
+      "profile": "docs/vehicles/endurance-sedan/specification.json",
+      "profile_sha256": "e18b9c6aae54be01696ced16fae9be978872a922835a8cbe8ae974e0608813b9",
+      "inputs": [
+        {
+          "path": "docs/vehicles/endurance-sedan/specification.json",
+          "sha256": "e18b9c6aae54be01696ced16fae9be978872a922835a8cbe8ae974e0608813b9",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/vehicle_contract.json",
+          "sha256": "b14cff4f3611b57a2dfd7e3332aaa2b846be7e76c00299b91923a74a3f8aaa92",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/assets/toolchain.json",
+          "sha256": "1739c26300e93aac24450ce64834ac302c35f6f98e7a610eefe82a05a040b1a1",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "docs/vehicles/endurance-sedan/research.md",
+          "sha256": "ae785be632cabf11a7fc384c3c95ff481893d55c5e9330df17f0ca93c258c2ec",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "docs/vehicles/endurance-sedan/reference-values.json",
+          "sha256": "8733d2eab2af03c96334ac89ef00230e260987e7fe3afd431bd1087b0b6828d2",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "docs/vehicles/endurance-sedan/production-plan.md",
+          "sha256": "1745880830ccedf41920fc206b6108afc9e09d34899fb36ebf23a02f7493ce7c",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "docs/vehicles/endurance-sedan/production-reference-appendix.md",
+          "sha256": "758e68daae26c537ea193ad48eae808d57a85b3f4cec46929aa89e3a4e604e66",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/create_endurance_sedan.py",
+          "sha256": "1ef3d2e30ef59df81fe1ff678573129c1850762274a24e6412c68dc15e586de7",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/__init__.py",
+          "sha256": "34b2fc7df07083961f7c2b5ab1290424d0bf9eaaa583ce076a89e28c891d6404",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/cabin.py",
+          "sha256": "459ae1d02b1ac028824498d6dc6979b16a31f50167882e4ec9ad6a97dd04fb2f",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/cabin_floor_panels.py",
+          "sha256": "36f1728a6db5b8faab777aa8b4c55a67b2b55d695c90e53b745ff8f749531768",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/capture_suite.py",
+          "sha256": "e967d03409b017e870dae3a52379da5e8dd4a2f0012bfcb0d747191ed73b23db",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/construction.py",
+          "sha256": "84c05fe0c314f03e6001bb21e016c3b59c381d565ddeecbf75ab64a003c6c2b3",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/exterior.py",
+          "sha256": "975220e0eee903f2cb66f580e92af96ccf2a98c8ef061ba00c0920a4208fa84e",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/floor_panels.py",
+          "sha256": "e17a7c2461bf87837e755eab19845f219f91938d13065e0432672f1c29e234ab",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/geometry.py",
+          "sha256": "0e9fad40b0d14ba1265958bd6836d133fde89474efd6f988860f46fc2cde2b90",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/materials.py",
+          "sha256": "238751b551f42b3b7c8a80475e63b83f167f47987459d0e8a8d11eb524ae6a9d",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/mechanisms.py",
+          "sha256": "fbc92e0c9b6d6efcf19e171af866f0f0d62943f8b71949f0ef3539575efdde88",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/microtextures.py",
+          "sha256": "046cef29dfdace8a7a1e941e72fc19a20aab2b2ac56025143a4c19b4a6d993cc",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/model.py",
+          "sha256": "5386efcdf1f13b97d61f09c10811003365e23341f0f37c9e07d993c58fa004c4",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/optimization.py",
+          "sha256": "b23c129aaf7bda19242f2d945f596bf96a95a4c56ce990480ecbeaab95a64b51",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/partition_evidence.py",
+          "sha256": "e7b0aa7b71231eb02c034e930ecb3cf3a4ed0c97a2bb586793cab55de97ee1fe",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/pillar_joints.py",
+          "sha256": "4eabaf93243aae87a1b82d21e3311998bd4f338dd7564ff928431104ab5932c7",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/powertrain.py",
+          "sha256": "8ed24deceaff8e76f9c3fe254b9541cbcf82eb63b43109aa238e871397f3deb4",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/__init__.py",
+          "sha256": "64e634a0372701a56e43932418fff910132f00bdf6bc794fa0a755b53a952336",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/compose_candidate.py",
+          "sha256": "7c72de866db12615bed73b7c84652814be4d5bf95cbc31a4dd759ca3102f71bf",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/contacts.py",
+          "sha256": "0e24a62f67e6faadbd9b865b2e3f026800218939e63f2a6a80c720b3753ea9fc",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/driver_fixture.py",
+          "sha256": "ac3989356c436cadc54b1e34ba838593cfec1b4a4483e4c03255296e32d62b80",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/extract.py",
+          "sha256": "9d9d3844f94a57ec49e78bcde7b52e4442d90bb3fba8195320c6d52ec7bc30da",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/fitted_interfaces.py",
+          "sha256": "e0879b0355326c7d71542ef4c17cf4a91df86032b81c27c0d3156013bf24492d",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/gate.py",
+          "sha256": "0fd62e810d29212a1f4e0103343c20ef9027c56bda2f408e4bd71b5a21ebab28",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/geometry.py",
+          "sha256": "49ba453c158f7831106ba5cee231105ec8824b3162bd520e16fe5127af2b57e1",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/initial_containment.py",
+          "sha256": "70a7d97cfc11a953dd3cdc1b39e10e68da4725a6853440d969b98d0680282130",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/motion_drivers.py",
+          "sha256": "70e76d1d95c0ada11812fce303ee2b1b629df8109ee67af63876a6e35bfd1083",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/negative_controls.py",
+          "sha256": "7c5eb3f3da75d9b3d342562226e47d7ef3a331abcbef98514d464231a19cc769",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/negative_fixtures.py",
+          "sha256": "15e6e4d5805ecd9e7c60ce9ec91b1459145d5236eaf0881c6015406f271f5ebf",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/opening_drivers.py",
+          "sha256": "5983d073051c57dd89a238c0dad7af50695b3fa6a55784954ae4f5f4ce7bd0e2",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/openings.py",
+          "sha256": "68348725709cb7b32aea1dc79913e70f1186a05237a7c66940461b1cfac4931b",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/optical_seats.py",
+          "sha256": "1b9d57e7049a021610fad0c607b2d16ca305f7f46d9b5d40dd7a7849dd11ca4e",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/precision.py",
+          "sha256": "ecf51ea1f89527a4be23aeff92f1747c667212be110064f0a943c8241693b0c0",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/restraint_interfaces.py",
+          "sha256": "70a6e1a79b279697c50d65f81eb88a6fb4894a316e78bcab83212d4a8d3f3c72",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/ribbon_self.py",
+          "sha256": "fd05d89f976a014adf7fe9a45b937e012fd93faffa979d82258c8ef6a83e282f",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/run.py",
+          "sha256": "40c55732d210725da68101978859e62ab248f36eeb622915e0e7f3a4cbf67494",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/solid_interfaces.py",
+          "sha256": "52bc74a5f5ae0c011c6acbde98a261844ac78d76ca2a72400793087fda91cd21",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/source_controls.py",
+          "sha256": "e94d13c3303aeaf081206b669c683261983cb98779865044918b75fac1623ceb",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/source_lights.py",
+          "sha256": "de53b916bf82a3142a3d5ed61097e2cf3335038dfe54acd46a76a769286c1f63",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/static_interfaces.py",
+          "sha256": "e78c5073f0e0ca8b4fe3923c1bdb59fd4a63343eae92cfbcf9c321c857240a08",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/surface_minimum.py",
+          "sha256": "636b49100e92c5ad08e55896e92380c9024a6ded6df597424ad0d08ed2418188",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/tires.py",
+          "sha256": "a5bfc2f27e4c913fd4c698b3956a24899616713d9333323ae2e115442713d917",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/wiper_initial.py",
+          "sha256": "6bbdf58006b9f45f9352a28fe4e20b521f379106635e51d214063bb04d92fa15",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/wiper_interassembly.py",
+          "sha256": "478c1fff4dc51543ead18ea3d8e906bbc91c2f765e9fba1d44e2b4a18f0164d1",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/wiper_negative_controls.py",
+          "sha256": "bfe316d1e0a917e10ff329e9390d92a89812edfa18f7a2ac8e8ec814c351dafc",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/wipers.py",
+          "sha256": "c54c206544f18e381782d2dcc05f99503b08eadc289fecc8c9391b848b93918a",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/rear_optics.py",
+          "sha256": "5cbce1dd66215eb66d97489d50a9ae64fe355f36c8ab17e06ee9001ac51ee861",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/render.py",
+          "sha256": "62a91929e55512a48483a5dd79faca86e5e5db183ab018bb453b5cd17cdc4f2d",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/restraints.py",
+          "sha256": "0b502b4d2ed4a45c667bd7b0b4758bae63b644e9502a558dfeb79ba26d745e6f",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/retain_evidence.py",
+          "sha256": "1310e66035402d9eccaef4c0b2fe6d474f0b56958e914138d3f57be6285b18ff",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/review.py",
+          "sha256": "c42dc8f64e3984bd888d02ed510011561c2449cec1e36d4c1a16f80e8c3c629c",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/review_overlays.py",
+          "sha256": "230827eb0257dd454e9429ddd3dd68e51107b540d58f6e18e893542196805fb7",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/roof_trim.py",
+          "sha256": "468bf1f954b98c8bfeace471f014110ffd29aebb3de4f1ba0b5da538557048c1",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/source_dashboard.py",
+          "sha256": "79723d411879c86904eea57ac3947cd213e4d7e2ee186a691a9f551222f26ec0",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/tire_surface.py",
+          "sha256": "b2c6506aa412b0ef97217e7a29069c4fa76eb74162c1386d85dd3c69f2df5cf8",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/uv_bake.py",
+          "sha256": "aaa8ac6be9c46c2395c0abca7dffc4742256f4e7ff148aa4e8714295bd2b43a5",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/uv_bake_controls.py",
+          "sha256": "5e89a9262a956aa9a9c8eebbae3b418070d0d3e0b349fcf19c62c2a129a9d341",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/wheels.py",
+          "sha256": "2177a8fca3b500f25d65edfcb12a6e8a6a4d3991968f9860c3b6d0bef161c43e",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "docs/vehicles/endurance-sedan/packaging-revision-v17.md",
+          "sha256": "22e6ae157c5882b7281656cbbb0d24f9a99d1bd427073c15a0a338ae87b876f8",
+          "kind": "locked-transformation-input"
+        }
+      ]
+    },
+    {
+      "id": "endurance-sedan-blender-export-v1",
+      "tool": "Blender",
+      "tool_version": "5.1.2+ec6e62d40fa9",
+      "script": "tools/vehicles/validate_and_export_endurance_sedan.py",
+      "script_sha256": "39ac10fd702be1683422030160e4c076a609477e2ceb1bdaecf5b2dc3f154efe",
+      "profile": "tools/assets/profiles/gltf2-endurance-sedan-v1.json",
+      "profile_sha256": "53b1962ffd19b0c30c44f0d09a815670bad44896f30108293aee056c17402c88",
+      "inputs": [
+        {
+          "path": "data/assets/vehicles/sources/endurance-sedan.blend",
+          "sha256": "0b4220d5c3f0024054de17a3c36add3388a4f52be2046cc2b837f3bac9edf793",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "data/assets/vehicles/endurance-sedan.uv-bake.json",
+          "sha256": "c1f17f39d4d49bac0e66fbc2c9964c60e1ab300b9b74470e610eebff250020ee",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "docs/vehicles/endurance-sedan/specification.json",
+          "sha256": "e18b9c6aae54be01696ced16fae9be978872a922835a8cbe8ae974e0608813b9",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/vehicle_contract.json",
+          "sha256": "b14cff4f3611b57a2dfd7e3332aaa2b846be7e76c00299b91923a74a3f8aaa92",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/assets/toolchain.json",
+          "sha256": "1739c26300e93aac24450ce64834ac302c35f6f98e7a610eefe82a05a040b1a1",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "docs/vehicles/endurance-sedan/research.md",
+          "sha256": "ae785be632cabf11a7fc384c3c95ff481893d55c5e9330df17f0ca93c258c2ec",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "docs/vehicles/endurance-sedan/reference-values.json",
+          "sha256": "8733d2eab2af03c96334ac89ef00230e260987e7fe3afd431bd1087b0b6828d2",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "docs/vehicles/endurance-sedan/production-plan.md",
+          "sha256": "1745880830ccedf41920fc206b6108afc9e09d34899fb36ebf23a02f7493ce7c",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "docs/vehicles/endurance-sedan/production-reference-appendix.md",
+          "sha256": "758e68daae26c537ea193ad48eae808d57a85b3f4cec46929aa89e3a4e604e66",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/create_endurance_sedan.py",
+          "sha256": "1ef3d2e30ef59df81fe1ff678573129c1850762274a24e6412c68dc15e586de7",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/__init__.py",
+          "sha256": "34b2fc7df07083961f7c2b5ab1290424d0bf9eaaa583ce076a89e28c891d6404",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/cabin.py",
+          "sha256": "459ae1d02b1ac028824498d6dc6979b16a31f50167882e4ec9ad6a97dd04fb2f",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/cabin_floor_panels.py",
+          "sha256": "36f1728a6db5b8faab777aa8b4c55a67b2b55d695c90e53b745ff8f749531768",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/capture_suite.py",
+          "sha256": "e967d03409b017e870dae3a52379da5e8dd4a2f0012bfcb0d747191ed73b23db",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/construction.py",
+          "sha256": "84c05fe0c314f03e6001bb21e016c3b59c381d565ddeecbf75ab64a003c6c2b3",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/exterior.py",
+          "sha256": "975220e0eee903f2cb66f580e92af96ccf2a98c8ef061ba00c0920a4208fa84e",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/floor_panels.py",
+          "sha256": "e17a7c2461bf87837e755eab19845f219f91938d13065e0432672f1c29e234ab",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/geometry.py",
+          "sha256": "0e9fad40b0d14ba1265958bd6836d133fde89474efd6f988860f46fc2cde2b90",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/materials.py",
+          "sha256": "238751b551f42b3b7c8a80475e63b83f167f47987459d0e8a8d11eb524ae6a9d",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/mechanisms.py",
+          "sha256": "fbc92e0c9b6d6efcf19e171af866f0f0d62943f8b71949f0ef3539575efdde88",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/microtextures.py",
+          "sha256": "046cef29dfdace8a7a1e941e72fc19a20aab2b2ac56025143a4c19b4a6d993cc",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/model.py",
+          "sha256": "5386efcdf1f13b97d61f09c10811003365e23341f0f37c9e07d993c58fa004c4",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/optimization.py",
+          "sha256": "b23c129aaf7bda19242f2d945f596bf96a95a4c56ce990480ecbeaab95a64b51",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/partition_evidence.py",
+          "sha256": "e7b0aa7b71231eb02c034e930ecb3cf3a4ed0c97a2bb586793cab55de97ee1fe",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/pillar_joints.py",
+          "sha256": "4eabaf93243aae87a1b82d21e3311998bd4f338dd7564ff928431104ab5932c7",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/powertrain.py",
+          "sha256": "8ed24deceaff8e76f9c3fe254b9541cbcf82eb63b43109aa238e871397f3deb4",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/__init__.py",
+          "sha256": "64e634a0372701a56e43932418fff910132f00bdf6bc794fa0a755b53a952336",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/compose_candidate.py",
+          "sha256": "7c72de866db12615bed73b7c84652814be4d5bf95cbc31a4dd759ca3102f71bf",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/contacts.py",
+          "sha256": "0e24a62f67e6faadbd9b865b2e3f026800218939e63f2a6a80c720b3753ea9fc",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/driver_fixture.py",
+          "sha256": "ac3989356c436cadc54b1e34ba838593cfec1b4a4483e4c03255296e32d62b80",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/extract.py",
+          "sha256": "9d9d3844f94a57ec49e78bcde7b52e4442d90bb3fba8195320c6d52ec7bc30da",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/fitted_interfaces.py",
+          "sha256": "e0879b0355326c7d71542ef4c17cf4a91df86032b81c27c0d3156013bf24492d",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/gate.py",
+          "sha256": "0fd62e810d29212a1f4e0103343c20ef9027c56bda2f408e4bd71b5a21ebab28",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/geometry.py",
+          "sha256": "49ba453c158f7831106ba5cee231105ec8824b3162bd520e16fe5127af2b57e1",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/initial_containment.py",
+          "sha256": "70a7d97cfc11a953dd3cdc1b39e10e68da4725a6853440d969b98d0680282130",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/motion_drivers.py",
+          "sha256": "70e76d1d95c0ada11812fce303ee2b1b629df8109ee67af63876a6e35bfd1083",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/negative_controls.py",
+          "sha256": "7c5eb3f3da75d9b3d342562226e47d7ef3a331abcbef98514d464231a19cc769",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/negative_fixtures.py",
+          "sha256": "15e6e4d5805ecd9e7c60ce9ec91b1459145d5236eaf0881c6015406f271f5ebf",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/opening_drivers.py",
+          "sha256": "5983d073051c57dd89a238c0dad7af50695b3fa6a55784954ae4f5f4ce7bd0e2",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/openings.py",
+          "sha256": "68348725709cb7b32aea1dc79913e70f1186a05237a7c66940461b1cfac4931b",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/optical_seats.py",
+          "sha256": "1b9d57e7049a021610fad0c607b2d16ca305f7f46d9b5d40dd7a7849dd11ca4e",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/precision.py",
+          "sha256": "ecf51ea1f89527a4be23aeff92f1747c667212be110064f0a943c8241693b0c0",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/restraint_interfaces.py",
+          "sha256": "70a6e1a79b279697c50d65f81eb88a6fb4894a316e78bcab83212d4a8d3f3c72",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/ribbon_self.py",
+          "sha256": "fd05d89f976a014adf7fe9a45b937e012fd93faffa979d82258c8ef6a83e282f",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/run.py",
+          "sha256": "40c55732d210725da68101978859e62ab248f36eeb622915e0e7f3a4cbf67494",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/solid_interfaces.py",
+          "sha256": "52bc74a5f5ae0c011c6acbde98a261844ac78d76ca2a72400793087fda91cd21",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/source_controls.py",
+          "sha256": "e94d13c3303aeaf081206b669c683261983cb98779865044918b75fac1623ceb",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/source_lights.py",
+          "sha256": "de53b916bf82a3142a3d5ed61097e2cf3335038dfe54acd46a76a769286c1f63",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/static_interfaces.py",
+          "sha256": "e78c5073f0e0ca8b4fe3923c1bdb59fd4a63343eae92cfbcf9c321c857240a08",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/surface_minimum.py",
+          "sha256": "636b49100e92c5ad08e55896e92380c9024a6ded6df597424ad0d08ed2418188",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/tires.py",
+          "sha256": "a5bfc2f27e4c913fd4c698b3956a24899616713d9333323ae2e115442713d917",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/wiper_initial.py",
+          "sha256": "6bbdf58006b9f45f9352a28fe4e20b521f379106635e51d214063bb04d92fa15",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/wiper_interassembly.py",
+          "sha256": "478c1fff4dc51543ead18ea3d8e906bbc91c2f765e9fba1d44e2b4a18f0164d1",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/wiper_negative_controls.py",
+          "sha256": "bfe316d1e0a917e10ff329e9390d92a89812edfa18f7a2ac8e8ec814c351dafc",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/qa/wipers.py",
+          "sha256": "c54c206544f18e381782d2dcc05f99503b08eadc289fecc8c9391b848b93918a",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/rear_optics.py",
+          "sha256": "5cbce1dd66215eb66d97489d50a9ae64fe355f36c8ab17e06ee9001ac51ee861",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/render.py",
+          "sha256": "62a91929e55512a48483a5dd79faca86e5e5db183ab018bb453b5cd17cdc4f2d",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/restraints.py",
+          "sha256": "0b502b4d2ed4a45c667bd7b0b4758bae63b644e9502a558dfeb79ba26d745e6f",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/retain_evidence.py",
+          "sha256": "1310e66035402d9eccaef4c0b2fe6d474f0b56958e914138d3f57be6285b18ff",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/review.py",
+          "sha256": "c42dc8f64e3984bd888d02ed510011561c2449cec1e36d4c1a16f80e8c3c629c",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/review_overlays.py",
+          "sha256": "230827eb0257dd454e9429ddd3dd68e51107b540d58f6e18e893542196805fb7",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/roof_trim.py",
+          "sha256": "468bf1f954b98c8bfeace471f014110ffd29aebb3de4f1ba0b5da538557048c1",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/source_dashboard.py",
+          "sha256": "79723d411879c86904eea57ac3947cd213e4d7e2ee186a691a9f551222f26ec0",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/tire_surface.py",
+          "sha256": "b2c6506aa412b0ef97217e7a29069c4fa76eb74162c1386d85dd3c69f2df5cf8",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/uv_bake.py",
+          "sha256": "aaa8ac6be9c46c2395c0abca7dffc4742256f4e7ff148aa4e8714295bd2b43a5",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/uv_bake_controls.py",
+          "sha256": "5e89a9262a956aa9a9c8eebbae3b418070d0d3e0b349fcf19c62c2a129a9d341",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/endurance_sedan/wheels.py",
+          "sha256": "2177a8fca3b500f25d65edfcb12a6e8a6a4d3991968f9860c3b6d0bef161c43e",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "docs/vehicles/endurance-sedan/packaging-revision-v17.md",
+          "sha256": "22e6ae157c5882b7281656cbbb0d24f9a99d1bd427073c15a0a338ae87b876f8",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/validate_and_export_hero_gt.py",
+          "sha256": "ef896c2108ac0bb19fe93655aece2e89724e0e39aa7049a8861f91c20642ce92",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/glb_geometry.py",
+          "sha256": "8b8a393e56aa54d4a5c4977eec92fe521663d4921126cb16020b9a63afebecce",
+          "kind": "locked-transformation-input"
+        }
+      ]
+    },
+    {
+      "id": "endurance-sedan-godot-normalization-v1",
+      "tool": "Godot",
+      "tool_version": "4.7.1.stable.mono.official.a13da4feb",
+      "script": "tools/vehicles/pack_imported_scene.gd",
+      "script_sha256": "d79a18b9619c57aa21e78875d33210de8e176bb7cacfc6375ebe849917c5e8a1",
+      "profile": "tools/assets/profiles/godot-4.7.1-v1.json",
+      "profile_sha256": "22feccfc894d853a070bbcfd3ba04963165d72adfa918dbfdb657b2dbbfc5645",
+      "inputs": [
+        {
+          "path": "data/assets/vehicles/derived/endurance-sedan.glb",
+          "sha256": "f9a30e7b19ea799c526ce2b1788e646af3a8e4f2aa3b7e910340004b99bc8417",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "data/assets/vehicles/endurance-sedan.glb.import",
+          "sha256": "8316e81ad6cb9f8e228e3183554ffbdfcb3d6c1ca626fce266fc2119747e40ae",
+          "kind": "locked-transformation-input"
+        }
+      ]
+    },
+    {
+      "id": "endurance-sedan-wrapper-validation-v1",
+      "tool": "Godot",
+      "tool_version": "4.7.1.stable.mono.official.a13da4feb",
+      "script": "tools/vehicles/validate_import.gd",
+      "script_sha256": "0120d02f9d0da29c6b107f4c3cdf7c432e8c2c2aa74017d98035a3b4136fa033",
+      "profile": "tools/assets/profiles/godot-4.7.1-v1.json",
+      "profile_sha256": "22feccfc894d853a070bbcfd3ba04963165d72adfa918dbfdb657b2dbbfc5645",
+      "inputs": [
+        {
+          "path": "assets/vehicles/endurance-sedan/endurance-sedan.generated.tscn",
+          "sha256": "a93782d73adb87809dfd3bf264242f3524f940f19cfdf2dabac7846cc8c77ed3",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "assets/vehicles/endurance-sedan/endurance-sedan.generated.textures.json",
+          "sha256": "2eb966adfc9853046385edd4431e79ca2ed13266d69edc27ac1310ce3bf91d35",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "game/Vehicle/Visuals/EnduranceSedan.tscn",
+          "sha256": "2bf66baf9874b7001a033cce751835ecabed47756532ba8dea3dca680e09bdc1",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "docs/vehicles/endurance-sedan/specification.json",
+          "sha256": "e18b9c6aae54be01696ced16fae9be978872a922835a8cbe8ae974e0608813b9",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "tools/vehicles/vehicle_contract.json",
+          "sha256": "b14cff4f3611b57a2dfd7e3332aaa2b846be7e76c00299b91923a74a3f8aaa92",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "game/Vehicle/CannonballVehicle.cs",
+          "sha256": "111e0b2c1cefdfe4320c4224c7271d7e091a77eb4d3079737e14567389042536",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "game/Vehicle/DrivingInputController.cs",
+          "sha256": "9eb579bb7d3b14115d1e7dc30f29b05667f9be30ec09d343cd6e7e1f956c170d",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "game/Vehicle/EnduranceSedanPresentation.cs",
+          "sha256": "253321c8a2f061b3bb69d642cd5fbaf1521068d2fc0d397c54d513e19ebafba7",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "game/Vehicle/EnduranceSedanPresentationSetup.cs",
+          "sha256": "3e6135462d92c833f73a2f5f1c7859f3305f3ade25265ff75635b74d2c34f19a",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "game/Vehicle/VehicleContactShading.cs",
+          "sha256": "d79e44c9bf54ed996defad350c3895b4c24964a34221ad4f8249bd33350ac8a5",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "game/Vehicle/VehicleDynamicsProfile.cs",
+          "sha256": "c5e2c948db15fb7fcaf5f425ac2b365b3960e6fa9128f54964d9ba3074f94021",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "game/Vehicle/VehicleInspectionPanel.cs",
+          "sha256": "ac81eb66f0bafff6aa62f08dd2191d191b6a50c540d0463d998306d37531376f",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "game/Vehicle/VehicleRigSetup.cs",
+          "sha256": "7890736c826eb271b1b1069ec262e8ac018707191f43d6282c98c1605813113b",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "game/Vehicle/VehicleSelectionSettings.cs",
+          "sha256": "661fb51858f1aeb53f8e9c8161fae63f02ffaf873cda1dee8ff4fd11ec729c08",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "game/Vehicle/VehicleVisualRig.cs",
+          "sha256": "bd0d6d3584f037dd349287db83eb8c20cbcd65403bcb8d4103bcb2970660f83e",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "game/Vehicle/CannonballVehicle.cs.uid",
+          "sha256": "64a192199f590396663af72b8e9d6a2934021754ad4332521c515db3155ef283",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "game/Vehicle/DrivingInputController.cs.uid",
+          "sha256": "da0c6f8cc4193a76983d769fc4dce7e278bbc87cc8b400c81fb9705898b60966",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "game/Vehicle/EnduranceSedanPresentation.cs.uid",
+          "sha256": "ad9cc9c0126eaa5ab825e636842653b2aa98c933aadb54c1e805f73a72079bbc",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "game/Vehicle/EnduranceSedanPresentationSetup.cs.uid",
+          "sha256": "042449906318b3b5c205e5b77548bef246e284248d5d4800a5cec2561987dd2f",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "game/Vehicle/VehicleContactShading.cs.uid",
+          "sha256": "249349a841a0501e2463b54d8feda37b7bb98531f01fd8f0bab579ce1d8fece3",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "game/Vehicle/VehicleDynamicsProfile.cs.uid",
+          "sha256": "e725ab582dcb77e60c15ca6648c2c10bb1f0bba9b773c731233ee790f70bf48d",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "game/Vehicle/VehicleInspectionPanel.cs.uid",
+          "sha256": "cf8123e664b9da5a3d9660e4a8a5ed7b073de26cda7da4c19f8fe491a429132f",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "game/Vehicle/VehicleRigSetup.cs.uid",
+          "sha256": "a7e2be6d0b0968d95477b7837db9a54c3ecd2fb9761cd8cbbfe1f679f55326ee",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "game/Vehicle/VehicleSelectionSettings.cs.uid",
+          "sha256": "40130384f9552e13faa027440bd234896c2489009d496e60e36cb5d525c534f6",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "game/Vehicle/VehicleVisualRig.cs.uid",
+          "sha256": "5b8d2cb3090581fa8d088b51b6beea5f5cf30f8b709efc33a6866f890ee6bbee",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "game/Vehicle/Setups/EnduranceSedan.tres",
+          "sha256": "12141c277249d25cefbe5f9c896dc1c2c3dbb7830b7419178101d3d6e6888678",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "game/Vehicle/Setups/EnduranceSedanPresentation.tres",
+          "sha256": "547594005699a8750e216e53bc4ea54dbf2a1cfd83793bc971f7ed89da014202",
+          "kind": "locked-transformation-input"
+        },
+        {
+          "path": "game/Vehicle/Setups/HeroGt.tres",
+          "sha256": "128aa36890a5e3ce25c6fbaadeffe862df78895dfa7a939cbecd9b5b10a4af11",
+          "kind": "locked-transformation-input"
+        }
+      ]
+    }
+  ],
+  "derived": [
+    {
+      "path": "data/assets/vehicles/derived/endurance-sedan.glb",
+      "sha256": "f9a30e7b19ea799c526ce2b1788e646af3a8e4f2aa3b7e910340004b99bc8417",
+      "kind": "gltf-binary"
+    },
+    {
+      "path": "assets/vehicles/endurance-sedan/endurance-sedan.generated.tscn",
+      "sha256": "a93782d73adb87809dfd3bf264242f3524f940f19cfdf2dabac7846cc8c77ed3",
+      "kind": "godot-generated-scene"
+    },
+    {
+      "path": "assets/vehicles/endurance-sedan/endurance-sedan.generated.textures.json",
+      "sha256": "2eb966adfc9853046385edd4431e79ca2ed13266d69edc27ac1310ce3bf91d35",
+      "kind": "godot-texture-bindings"
+    },
+    {
+      "path": "game/Vehicle/Visuals/EnduranceSedan.tscn",
+      "sha256": "2bf66baf9874b7001a033cce751835ecabed47756532ba8dea3dca680e09bdc1",
+      "kind": "godot-wrapper"
+    },
+    {
+      "path": "data/assets/vehicles/endurance-sedan.glb.import",
+      "sha256": "8316e81ad6cb9f8e228e3183554ffbdfcb3d6c1ca626fce266fc2119747e40ae",
+      "kind": "godot-import-settings"
+    },
+    {
+      "path": "data/assets/vehicles/endurance-sedan.blender.json",
+      "sha256": "e367d2a2ffb737623f9313d7e7ddabb5c74bb9f015cf5e100b5bf0a4b2eff332",
+      "kind": "blender-inventory"
+    },
+    {
+      "path": "data/assets/vehicles/endurance-sedan.godot.json",
+      "sha256": "be732c17fe7200f8f95ac43142760adb7f9d633dca55d17fef3bf36995c41c04",
+      "kind": "godot-inventory"
+    },
+    {
+      "path": "assets/vehicles/hero-gt/shaders/car_paint.gdshader",
+      "sha256": "45bce1db524d5cecdbddba1fc939ef835898887197a8724824d59f0bcbd594b1",
+      "kind": "shared-runtime-shader"
+    },
+    {
+      "path": "game/Vehicle/CannonballVehicle.cs",
+      "sha256": "111e0b2c1cefdfe4320c4224c7271d7e091a77eb4d3079737e14567389042536",
+      "kind": "runtime-adapter-source"
+    },
+    {
+      "path": "game/Vehicle/DrivingInputController.cs",
+      "sha256": "9eb579bb7d3b14115d1e7dc30f29b05667f9be30ec09d343cd6e7e1f956c170d",
+      "kind": "runtime-adapter-source"
+    },
+    {
+      "path": "game/Vehicle/EnduranceSedanPresentation.cs",
+      "sha256": "253321c8a2f061b3bb69d642cd5fbaf1521068d2fc0d397c54d513e19ebafba7",
+      "kind": "runtime-adapter-source"
+    },
+    {
+      "path": "game/Vehicle/EnduranceSedanPresentationSetup.cs",
+      "sha256": "3e6135462d92c833f73a2f5f1c7859f3305f3ade25265ff75635b74d2c34f19a",
+      "kind": "runtime-adapter-source"
+    },
+    {
+      "path": "game/Vehicle/VehicleContactShading.cs",
+      "sha256": "d79e44c9bf54ed996defad350c3895b4c24964a34221ad4f8249bd33350ac8a5",
+      "kind": "runtime-adapter-source"
+    },
+    {
+      "path": "game/Vehicle/VehicleDynamicsProfile.cs",
+      "sha256": "c5e2c948db15fb7fcaf5f425ac2b365b3960e6fa9128f54964d9ba3074f94021",
+      "kind": "runtime-adapter-source"
+    },
+    {
+      "path": "game/Vehicle/VehicleInspectionPanel.cs",
+      "sha256": "ac81eb66f0bafff6aa62f08dd2191d191b6a50c540d0463d998306d37531376f",
+      "kind": "runtime-adapter-source"
+    },
+    {
+      "path": "game/Vehicle/VehicleRigSetup.cs",
+      "sha256": "7890736c826eb271b1b1069ec262e8ac018707191f43d6282c98c1605813113b",
+      "kind": "runtime-adapter-source"
+    },
+    {
+      "path": "game/Vehicle/VehicleSelectionSettings.cs",
+      "sha256": "661fb51858f1aeb53f8e9c8161fae63f02ffaf873cda1dee8ff4fd11ec729c08",
+      "kind": "runtime-adapter-source"
+    },
+    {
+      "path": "game/Vehicle/VehicleVisualRig.cs",
+      "sha256": "bd0d6d3584f037dd349287db83eb8c20cbcd65403bcb8d4103bcb2970660f83e",
+      "kind": "runtime-adapter-source"
+    },
+    {
+      "path": "game/Vehicle/CannonballVehicle.cs.uid",
+      "sha256": "64a192199f590396663af72b8e9d6a2934021754ad4332521c515db3155ef283",
+      "kind": "runtime-adapter-uid"
+    },
+    {
+      "path": "game/Vehicle/DrivingInputController.cs.uid",
+      "sha256": "da0c6f8cc4193a76983d769fc4dce7e278bbc87cc8b400c81fb9705898b60966",
+      "kind": "runtime-adapter-uid"
+    },
+    {
+      "path": "game/Vehicle/EnduranceSedanPresentation.cs.uid",
+      "sha256": "ad9cc9c0126eaa5ab825e636842653b2aa98c933aadb54c1e805f73a72079bbc",
+      "kind": "runtime-adapter-uid"
+    },
+    {
+      "path": "game/Vehicle/EnduranceSedanPresentationSetup.cs.uid",
+      "sha256": "042449906318b3b5c205e5b77548bef246e284248d5d4800a5cec2561987dd2f",
+      "kind": "runtime-adapter-uid"
+    },
+    {
+      "path": "game/Vehicle/VehicleContactShading.cs.uid",
+      "sha256": "249349a841a0501e2463b54d8feda37b7bb98531f01fd8f0bab579ce1d8fece3",
+      "kind": "runtime-adapter-uid"
+    },
+    {
+      "path": "game/Vehicle/VehicleDynamicsProfile.cs.uid",
+      "sha256": "e725ab582dcb77e60c15ca6648c2c10bb1f0bba9b773c731233ee790f70bf48d",
+      "kind": "runtime-adapter-uid"
+    },
+    {
+      "path": "game/Vehicle/VehicleInspectionPanel.cs.uid",
+      "sha256": "cf8123e664b9da5a3d9660e4a8a5ed7b073de26cda7da4c19f8fe491a429132f",
+      "kind": "runtime-adapter-uid"
+    },
+    {
+      "path": "game/Vehicle/VehicleRigSetup.cs.uid",
+      "sha256": "a7e2be6d0b0968d95477b7837db9a54c3ecd2fb9761cd8cbbfe1f679f55326ee",
+      "kind": "runtime-adapter-uid"
+    },
+    {
+      "path": "game/Vehicle/VehicleSelectionSettings.cs.uid",
+      "sha256": "40130384f9552e13faa027440bd234896c2489009d496e60e36cb5d525c534f6",
+      "kind": "runtime-adapter-uid"
+    },
+    {
+      "path": "game/Vehicle/VehicleVisualRig.cs.uid",
+      "sha256": "5b8d2cb3090581fa8d088b51b6beea5f5cf30f8b709efc33a6866f890ee6bbee",
+      "kind": "runtime-adapter-uid"
+    },
+    {
+      "path": "game/Vehicle/Setups/EnduranceSedan.tres",
+      "sha256": "12141c277249d25cefbe5f9c896dc1c2c3dbb7830b7419178101d3d6e6888678",
+      "kind": "vehicle-setup-resource"
+    },
+    {
+      "path": "game/Vehicle/Setups/EnduranceSedanPresentation.tres",
+      "sha256": "547594005699a8750e216e53bc4ea54dbf2a1cfd83793bc971f7ed89da014202",
+      "kind": "vehicle-setup-resource"
+    },
+    {
+      "path": "game/Vehicle/Setups/HeroGt.tres",
+      "sha256": "128aa36890a5e3ce25c6fbaadeffe862df78895dfa7a939cbecd9b5b10a4af11",
+      "kind": "vehicle-setup-resource"
+    },
+    {
+      "path": "assets/vehicles/endurance-sedan/endurance-sedan_Meridian_fabric_normal_v1.png",
+      "sha256": "f3f2a2901e1d02fa518d8e46367d1e26ab0fe88308e9b33d96319175fe326494",
+      "kind": "project-original-runtime-texture"
+    },
+    {
+      "path": "assets/vehicles/endurance-sedan/endurance-sedan_Meridian_fabric_roughness_v1.png",
+      "sha256": "f06dcd0d2ba4b388b2070e781a0f022ec9b53dfa655367ce62fa85167e058117",
+      "kind": "project-original-runtime-texture"
+    },
+    {
+      "path": "assets/vehicles/endurance-sedan/endurance-sedan_Meridian_leather_normal_v1.png",
+      "sha256": "90eec226e0e4cf92aac9dacf97bada11395a038972de6daa7c7432c06d1a1464",
+      "kind": "project-original-runtime-texture"
+    },
+    {
+      "path": "assets/vehicles/endurance-sedan/endurance-sedan_Meridian_leather_roughness_v1.png",
+      "sha256": "86adaa53ba7059d148783ce8cd30409edf10cce7fbd06da6fb6ec141ac928228",
+      "kind": "project-original-runtime-texture"
+    },
+    {
+      "path": "assets/vehicles/endurance-sedan/endurance-sedan_Meridian_paint_normal_v1.png",
+      "sha256": "7e1ab964114d665f17cdf3047da20b3d1c86dbe6dedbabdc26b22bef1b8224d2",
+      "kind": "project-original-runtime-texture"
+    },
+    {
+      "path": "assets/vehicles/endurance-sedan/endurance-sedan_Meridian_paint_roughness_v1.png",
+      "sha256": "eca7f1b0b9c7d734565ed343d68ae7ee1ad0991845eef9611245645e353e8a14",
+      "kind": "project-original-runtime-texture"
+    },
+    {
+      "path": "assets/vehicles/endurance-sedan/endurance-sedan_Meridian_fabric_normal_v1.png.import",
+      "sha256": "838f477c3fec0fa0626cf2f61527cb42f34350bf4c7b1d6c1724b07ba2caca73",
+      "kind": "texture-import-settings"
+    },
+    {
+      "path": "assets/vehicles/endurance-sedan/endurance-sedan_Meridian_fabric_roughness_v1.png.import",
+      "sha256": "66e8229c300a49dca08294deca7c5c5726519a701f45b080879b5987cf049372",
+      "kind": "texture-import-settings"
+    },
+    {
+      "path": "assets/vehicles/endurance-sedan/endurance-sedan_Meridian_leather_normal_v1.png.import",
+      "sha256": "99a20b48556e117fc4b1c6b4f4bda00427e02319b8650b720fc5e1bd87ccc028",
+      "kind": "texture-import-settings"
+    },
+    {
+      "path": "assets/vehicles/endurance-sedan/endurance-sedan_Meridian_leather_roughness_v1.png.import",
+      "sha256": "763f6d8a89d13e73672f595d0636ea965915c08c129c1c665f956e68f1d66db4",
+      "kind": "texture-import-settings"
+    },
+    {
+      "path": "assets/vehicles/endurance-sedan/endurance-sedan_Meridian_paint_normal_v1.png.import",
+      "sha256": "503c01e8629d879be321cb5915886f3d1c734bb11e596e3394d8c318a4945537",
+      "kind": "texture-import-settings"
+    },
+    {
+      "path": "assets/vehicles/endurance-sedan/endurance-sedan_Meridian_paint_roughness_v1.png.import",
+      "sha256": "6eda2e78063b21f9ffda059f05837630a7bc8e7b15c3329e8eecf7dc8485ff78",
+      "kind": "texture-import-settings"
+    }
+  ],
+  "semantic_contract": {
+    "required_nodes": [
+      "AssetRoot",
+      "Camera_ChaseTarget",
+      "Camera_Cockpit",
+      "Chassis",
+      "CollisionProxy",
+      "Contact_FL",
+      "Contact_FR",
+      "Contact_RL",
+      "Contact_RR",
+      "Damage_Front",
+      "Damage_Left",
+      "Damage_Rear",
+      "Damage_Right",
+      "Damage_Roof",
+      "Door_FL",
+      "Door_FR",
+      "Door_RL",
+      "Door_RR",
+      "Driver_Reference",
+      "Exhaust_L",
+      "Exhaust_R",
+      "Hood_Hinge",
+      "Instrument_Cluster",
+      "Light_Brake_Center",
+      "Light_Brake_L",
+      "Light_Brake_R",
+      "Light_Head_FL",
+      "Light_Head_FR",
+      "Light_Indicator_FL",
+      "Light_Indicator_FR",
+      "Light_Indicator_RL",
+      "Light_Indicator_RR",
+      "Light_Reverse_L",
+      "Light_Reverse_R",
+      "Light_Tail_RL",
+      "Light_Tail_RR",
+      "MaterialGroup_Body",
+      "MaterialGroup_Glass",
+      "MaterialGroup_Interior",
+      "MaterialGroup_Lights",
+      "MaterialGroup_Wheels",
+      "MirrorCamera_Left",
+      "MirrorCamera_Rear",
+      "MirrorCamera_Right",
+      "Mirror_Left",
+      "Mirror_Rear",
+      "Mirror_Right",
+      "Pedal_Accelerator",
+      "Pedal_Brake",
+      "RigControls",
+      "SteeringWheel_Pivot",
+      "Suspension_FL",
+      "Suspension_FR",
+      "Suspension_RL",
+      "Suspension_RR",
+      "Trunk_Hinge",
+      "Visual_LOD0",
+      "Visual_LOD1",
+      "Visual_LOD2",
+      "Wheel_FL",
+      "Wheel_FR",
+      "Wheel_RL",
+      "Wheel_RR",
+      "Wiper_L",
+      "Wiper_R"
+    ],
+    "forward_axis": "-Z",
+    "up_axis": "+Y",
+    "unit_meters": 1,
+    "bounds_meters": [
+      2.0999999046325684,
+      1.4498310089111328,
+      4.940000057220459
+    ],
+    "wrapper_scene": "game/Vehicle/Visuals/EnduranceSedan.tscn",
+    "automation_id": "vehicle.endurance-sedan.visual-rig"
+  },
+  "budgets": {
+    "collision_triangles_max": 128,
+    "materials_max": 32,
+    "texture_bytes_max": 96000000,
+    "textures_max": 48,
+    "triangles_lod0_max": 150000,
+    "triangles_total_max": 200000
+  }
+}

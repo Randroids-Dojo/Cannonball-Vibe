@@ -7,6 +7,7 @@ using Godot;
 using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json;
 
 namespace Cannonball.Game.Automation;
 
@@ -91,6 +92,15 @@ public sealed class VehicleDynamicsScenario
         _streamer = streamer;
         _review = review;
         _runs = BuildRuns(profiles, speedBands, fixtures);
+        GD.Print("CANNONBALL_VEHICLE_DYNAMICS_IDENTITY " + JsonSerializer.Serialize(new
+        {
+            asset_id = _vehicle.RigSetup.AssetId,
+            force_graybox = _vehicle.ForceGrayboxVisual, uses_graybox = _vehicle.UsesGrayboxVisual,
+            mass_kg = _vehicle.Mass, center_of_mass_mode = _vehicle.CenterOfMassMode.ToString(),
+            configured_com = new double[] { _vehicle.CenterOfMass.X, _vehicle.CenterOfMass.Y, _vehicle.CenterOfMass.Z },
+            setup_id = _vehicle.Setup.Id, forward_top_speed_mph = _vehicle.Setup.ForwardTopSpeedMph,
+            physics_hz = Engine.PhysicsTicksPerSecond,
+        }));
         _streamer.ProcessMode = Node.ProcessModeEnum.Disabled;
         BuildCourses(parent);
         var semanticNode = new Node { Name = "VehicleDynamicsScenario" };

@@ -1,0 +1,18 @@
+{
+  "status": "passed",
+  "utc": "2026-09-11T18:39:59.131416+00:00",
+  "path": "encoded-attempt-0013.mp4",
+  "sha256": "7298ac880ce06e64c344433add0415e3fb29f5c1d9f243085c1374583ad1e9f7",
+  "binding_sha256": "e8d6250c5e7723bcc8400da7f5f1a5f7246d93fa4ef1c10b201537297f7d569f",
+  "source_sha256": "8ddb88bfcf82b68ef7cccfa86dbfedf502a4de1fa4e9f0924cffe6609f8d7a50",
+  "decoded_stream": {
+    "width": 2560,
+    "height": 1440,
+    "avg_frame_rate": "30/1",
+    "duration": "18.200000",
+    "nb_read_frames": "546"
+  },
+  "encoder": "ffmpeg version 9.0.1-essentials_build-www.gyan.dev Copyright (c) 2000-2026 the FFmpeg developers",
+  "suite_commands": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\source33-full-motion-suite-01\\suite.json",
+  "human_approval_reference": null
+}

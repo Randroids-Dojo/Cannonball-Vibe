@@ -1,0 +1,733 @@
+{
+  "task_id": "P1-018",
+  "utc": "2026-09-13T04:51:19.431035+00:00",
+  "git_base_revision": "00c033dfc5662d1e2495ab683927d6632cfc6219",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "members": [
+    {
+      "path": "automation/playgodot/src/cannonball_playgodot/launcher.py",
+      "bytes": 33970,
+      "sha256": "edf258c044c7a027993c923248140943d0c65c0786fca20288c31b24712e0d78"
+    },
+    {
+      "path": "automation/playgodot/tests/test_launcher.py",
+      "bytes": 45338,
+      "sha256": "14b3118ce33bfc644e2640ad2b79d214bb1b5456dd02a7945ddcf8c896455019"
+    },
+    {
+      "path": "automation/playgodot/tests/test_vehicle_showroom.py",
+      "bytes": 30934,
+      "sha256": "60c02b60e0067a439ad850fea0872c43daf6e8c2921944cd1181eaec5fa25898"
+    },
+    {
+      "path": "game/Main.cs",
+      "bytes": 171799,
+      "sha256": "a127414b5960f3b443350e15cfa1cf8705a050c52a638e0c9d5231df141c8820"
+    },
+    {
+      "path": "game/Vehicle/Showroom/ShowroomInterface.cs",
+      "bytes": 11178,
+      "sha256": "944705d9c63c4ae632cbe43d1715a3bb128909fc68de4aba0c73ac72ada12ec5"
+    },
+    {
+      "path": "game/Vehicle/Showroom/ShowroomInterface.cs.uid",
+      "bytes": 20,
+      "sha256": "0c3a96a8ac49476b813762ea0352fdaf29df665be539493bddcb3f793d0868bc"
+    },
+    {
+      "path": "game/Vehicle/Showroom/ShowroomMetrics.cs",
+      "bytes": 3581,
+      "sha256": "dc630a75659bbdeb20d179fe62c98ddca036b79cfed921f25668e2010d6e1330"
+    },
+    {
+      "path": "game/Vehicle/Showroom/ShowroomMetrics.cs.uid",
+      "bytes": 20,
+      "sha256": "0f3c4ea6a4cb839c7a7056dfa59f5ec55d174b214edafcad8d40530598b7ed3e"
+    },
+    {
+      "path": "game/Vehicle/Showroom/ShowroomStudio.cs",
+      "bytes": 4175,
+      "sha256": "8e6c1ee0b22d1fede2ae634f8d1a937a08e33613510dac476302e02f5c9a6bfd"
+    },
+    {
+      "path": "game/Vehicle/Showroom/ShowroomStudio.cs.uid",
+      "bytes": 19,
+      "sha256": "82c9b55a5681fc873b651697fc27961f3f73cf5d12d14159d64cc5d1575d4dfe"
+    },
+    {
+      "path": "game/Vehicle/Showroom/VehicleShowroom.cs",
+      "bytes": 23515,
+      "sha256": "9c995b913583b59401b0cd1ba81dec3a0604b7d579d002e218b122d54dd94a0a"
+    },
+    {
+      "path": "game/Vehicle/Showroom/VehicleShowroom.cs.uid",
+      "bytes": 19,
+      "sha256": "9737a755815c22dba32069dceb21ad170d5701b637e1da17158cfa6e208370e4"
+    },
+    {
+      "path": "game/Vehicle/Showroom/VehicleShowroom.tscn",
+      "bytes": 200,
+      "sha256": "fa76f0ca1e943b7f38f495ae4b9d5ec2e5a58f67e2f27a2d74f781848741f394"
+    },
+    {
+      "path": "game/Vehicle/Showroom/studio_sky.gdshader",
+      "bytes": 1487,
+      "sha256": "047ba72d7ed90ac8480260533d2b9f556ac4adeb33ef29de322ce4278f1ff13f"
+    },
+    {
+      "path": "game/Vehicle/Showroom/studio_sky.gdshader.uid",
+      "bytes": 20,
+      "sha256": "2869766af68b6bef90392a5e65ee4f71028bb00b50ea54e5f3d5a07240652a43"
+    },
+    {
+      "path": "game/Vehicle/VehicleInspectionPanel.cs",
+      "bytes": 11397,
+      "sha256": "d006b321010a90145986f11385abd171d3891a375a3590a64daa51398e3d5494"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-linux-artifact.json",
+      "bytes": 5920,
+      "sha256": "26ae0b8b67524c622b2873da1a550b9fd7569e3343de0b1a5ff61d7f800113bc"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-linux.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-linux.zip",
+      "bytes": 80304,
+      "sha256": "7508c605989581864707845ee0eeb941df42e1028d8635a74207f1c1faa940bb"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-linux/assets/p1-018/Linux/blender-corrected-driver.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-linux/assets/p1-018/Linux/blender-corrected-driver.stdout.log",
+      "bytes": 132,
+      "sha256": "3dd7eadb6c11f0f966752b35c3d8c6e7eed3e55d02dc4715c95f6e05ef8f982b"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-linux/assets/p1-018/Linux/blender-invalid-driver-division-by-zero-exit-zero.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-linux/assets/p1-018/Linux/blender-invalid-driver-division-by-zero-exit-zero.stdout.log",
+      "bytes": 203,
+      "sha256": "34158b2d7b9f4e673103c539f8afb21e6908709bd683296397e0651a7422a882"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-linux/assets/p1-018/Linux/blender-invalid-driver-unknown-name-exit-zero.stderr.log",
+      "bytes": 297,
+      "sha256": "b03ff7ec6fd70dcbc0767fc4124b5e9d43bf4caed0b4931808c476480b121c89"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-linux/assets/p1-018/Linux/blender-invalid-driver-unknown-name-exit-zero.stdout.log",
+      "bytes": 133,
+      "sha256": "7b84c424afb766749bfed5005c6c1ed0be9fd93c4c260bfc35337c8dc314d5ae"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-linux/assets/p1-018/Linux/blender-version.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-linux/assets/p1-018/Linux/blender-version.stdout.log",
+      "bytes": 1631,
+      "sha256": "32c7e9c3b4e65d0802e4bc31edefb9b3945b5ec35fc1c89780c736aa9065021c"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-linux/assets/p1-018/Linux/corrected-driver.py",
+      "bytes": 453,
+      "sha256": "8561fbb31fbf7282c31522e6e1b5c665db8fdb5363e9d564c14d26459deee2b4"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-linux/assets/p1-018/Linux/dotnet-version.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-linux/assets/p1-018/Linux/dotnet-version.stdout.log",
+      "bytes": 9,
+      "sha256": "2ffb6ba329ebd56312219550c980c9a2993a3d7fbb320175b5efa05c8402000f"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-linux/assets/p1-018/Linux/evidence.json",
+      "bytes": 52475,
+      "sha256": "e94d8409cb6c54c60ee1413c91c5c12d44ba97148138ff55a5f7093b2ab32565"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-linux/assets/p1-018/Linux/first-blender-export.stderr.log",
+      "bytes": 1082,
+      "sha256": "024560ff5e473dbe14b4d2f466b82701f6627a7c05cf790351e451c26328dda3"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-linux/assets/p1-018/Linux/first-blender-export.stdout.log",
+      "bytes": 364,
+      "sha256": "d4c9cc91168f8de7ea740056c904715964c2a9559158fc7aa2286c0817017c56"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-linux/assets/p1-018/Linux/first/blender.json",
+      "bytes": 773287,
+      "sha256": "876725c1ed21153efade4fbf9fd63c57bce1c5d89360c24cdba7c563a22c4eaa"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-linux/assets/p1-018/Linux/godot-version.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-linux/assets/p1-018/Linux/godot-version.stdout.log",
+      "bytes": 37,
+      "sha256": "e8e9e0f31b0b27890085f6ba6167aadd9ee965c20fa9bf8e25a1bbdc80594646"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-linux/assets/p1-018/Linux/invalid-driver-division-by-zero.py",
+      "bytes": 453,
+      "sha256": "1674d1b7ac06bb686364148235dccc8cbb6dfb82a52a89f7ec9f385c0c3a1c99"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-linux/assets/p1-018/Linux/invalid-driver-unknown-name.py",
+      "bytes": 486,
+      "sha256": "f7134f995dc26532cb3ec0a007c86c196401b86c74b2cf24709725592d16d13c"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-linux/assets/p1-018/Linux/lfs-glb.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-linux/assets/p1-018/Linux/lfs-glb.stdout.log",
+      "bytes": 62,
+      "sha256": "70cecab580688ef629728c6585ea7ee3a8c66a2266d8b0ba52f1e905b70afa89"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-linux/assets/p1-018/Linux/lfs-source.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-linux/assets/p1-018/Linux/lfs-source.stdout.log",
+      "bytes": 64,
+      "sha256": "ceeb268c0f9a0bf3eb6d27524b9e2d883882c3934f7faf38d41e81b2971c53bd"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-linux/assets/p1-018/Linux/verifier-input.mjs",
+      "bytes": 42281,
+      "sha256": "8e98db46b0788e4bc35609ce89d1e66bbae171cde17d4366563f4b10a3715c94"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-windows-artifact.json",
+      "bytes": 6019,
+      "sha256": "a44e0218591ad6fb8db36208d9da5d8641b301379a67fde33c1ff24a0e4dccc2"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-windows.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-windows.zip",
+      "bytes": 82635,
+      "sha256": "1bc81e695b437a3da75605ea4207eff6193f32075d1f7f5cbd17fad28ffa1f2b"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-windows/assets/p1-018/Windows/blender-corrected-driver.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-windows/assets/p1-018/Windows/blender-corrected-driver.stdout.log",
+      "bytes": 133,
+      "sha256": "72af6babd2435a857c3289adad9484bdb8a57e236e4eed5f4143dd2dc1cfacf6"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-windows/assets/p1-018/Windows/blender-invalid-driver-division-by-zero-exit-zero.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-windows/assets/p1-018/Windows/blender-invalid-driver-division-by-zero-exit-zero.stdout.log",
+      "bytes": 204,
+      "sha256": "8d1214748c56b651a7b9af1cb97e7d1828bc41c13b61581db11b3f3b41c1482a"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-windows/assets/p1-018/Windows/blender-invalid-driver-unknown-name-exit-zero.stderr.log",
+      "bytes": 297,
+      "sha256": "b03ff7ec6fd70dcbc0767fc4124b5e9d43bf4caed0b4931808c476480b121c89"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-windows/assets/p1-018/Windows/blender-invalid-driver-unknown-name-exit-zero.stdout.log",
+      "bytes": 134,
+      "sha256": "4cc0e4505e5c49bd978c3a4194ab2f01dbf4103215aa92b365acf75246363fe9"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-windows/assets/p1-018/Windows/blender-version.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-windows/assets/p1-018/Windows/blender-version.stdout.log",
+      "bytes": 8208,
+      "sha256": "a6c389381135b07e03380275f7b990251bb94e856a17700eff340bec06af3537"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-windows/assets/p1-018/Windows/corrected-driver.py",
+      "bytes": 453,
+      "sha256": "8561fbb31fbf7282c31522e6e1b5c665db8fdb5363e9d564c14d26459deee2b4"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-windows/assets/p1-018/Windows/dotnet-version.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-windows/assets/p1-018/Windows/dotnet-version.stdout.log",
+      "bytes": 10,
+      "sha256": "3ccfabb187270882a308eb46f7bfdfdf2fbf7c14b9e4a704856cf8b1efb227aa"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-windows/assets/p1-018/Windows/evidence.json",
+      "bytes": 58983,
+      "sha256": "c9c7a051b46c05f693347ca535aeaf68b2c2b9b1ff92938412ca39d5ab73da3c"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-windows/assets/p1-018/Windows/first-blender-export.stderr.log",
+      "bytes": 1064,
+      "sha256": "46232e2282a0b0a35a6ccc3bd4e870e2f9afcf010756e6b897b788f19aa6cd03"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-windows/assets/p1-018/Windows/first-blender-export.stdout.log",
+      "bytes": 338,
+      "sha256": "6b42cc466a3bc50b7875507f59a9ca7ad54753b35f4617644fbb20ec957d13dc"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-windows/assets/p1-018/Windows/first/blender.json",
+      "bytes": 773300,
+      "sha256": "a43b7b26754380695d40951bc42813da72540e483942f502a5e35ca0d90ee1a1"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-windows/assets/p1-018/Windows/godot-version.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-windows/assets/p1-018/Windows/godot-version.stdout.log",
+      "bytes": 38,
+      "sha256": "d1046084c2493a272b0b439dc2f6dc74b801cd74659c5010a67c1b2f3acc5866"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-windows/assets/p1-018/Windows/invalid-driver-division-by-zero.py",
+      "bytes": 453,
+      "sha256": "1674d1b7ac06bb686364148235dccc8cbb6dfb82a52a89f7ec9f385c0c3a1c99"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-windows/assets/p1-018/Windows/invalid-driver-unknown-name.py",
+      "bytes": 486,
+      "sha256": "f7134f995dc26532cb3ec0a007c86c196401b86c74b2cf24709725592d16d13c"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-windows/assets/p1-018/Windows/lfs-glb.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-windows/assets/p1-018/Windows/lfs-glb.stdout.log",
+      "bytes": 62,
+      "sha256": "70cecab580688ef629728c6585ea7ee3a8c66a2266d8b0ba52f1e905b70afa89"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-windows/assets/p1-018/Windows/lfs-source.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-windows/assets/p1-018/Windows/lfs-source.stdout.log",
+      "bytes": 64,
+      "sha256": "ceeb268c0f9a0bf3eb6d27524b9e2d883882c3934f7faf38d41e81b2971c53bd"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/asset-windows/assets/p1-018/Windows/verifier-input.mjs",
+      "bytes": 42281,
+      "sha256": "8e98db46b0788e4bc35609ce89d1e66bbae171cde17d4366563f4b10a3715c94"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/extend-fix.py",
+      "bytes": 2488,
+      "sha256": "3a6a5c5565d342f9401f7a4b98936499096011c822b3ab03c0ebb9c28c2609c6"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/fetch-asset-artifacts.py",
+      "bytes": 2419,
+      "sha256": "277fa51704bc0022d0629638cce74840311ffed3f452af2ee3e8308b5e3b13e7"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/fetch-playgodot.py",
+      "bytes": 490,
+      "sha256": "3bb14df3c7ad93afc83e69601d88fd28704e6dda49b8f7e3619e1f6711b34a3f"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/fetch.py",
+      "bytes": 1175,
+      "sha256": "e1a5379071700f58052449a3cbb56b3fe6100789b680f234bec652383e7f3a3b"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/fixture-exports.json",
+      "bytes": 410,
+      "sha256": "f2ade039570d8c5aa028750630158084538d8c60767ea6082952f2d9d4e82451"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/fixture-exports.log",
+      "bytes": 91699,
+      "sha256": "314ccdd535590ac34ab3b90c7569110021f07bc2f91e7c5f83f58a2c70df8cca"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/fixture-exports.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/m0-linux.json",
+      "bytes": 410,
+      "sha256": "ae1dc29ef8da93d80d7fbb9a28741bb0285a1ba3325922ad5f56ee68f94e83af"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/m0-linux.log",
+      "bytes": 79332,
+      "sha256": "611df1235078cde45465650bc3cac47328bd4acfa819b544b093a44d7a93ee7a"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/m0-linux.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/playgodot-linux.json",
+      "bytes": 410,
+      "sha256": "60bc7da15040aca28cd202cca0862cbb0959d977bff10589e42c2bfff55f4aad"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/playgodot-linux.log",
+      "bytes": 59515,
+      "sha256": "49b9ee97ad52086d1a80b2882b08f423c3c20b987ecb058f313a48c7d04053b8"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/playgodot-linux.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/playgodot-macos.json",
+      "bytes": 410,
+      "sha256": "f74be061ad97ef1195f4aecfc36b5b7ab8517575715875f18ddd37803bc5ec7b"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/playgodot-macos.log",
+      "bytes": 73553,
+      "sha256": "4a4727536c13425ef3bd612f0b6039967247fa46621f241d487d84679a4fc3af"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/playgodot-macos.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/prepare-fix.py",
+      "bytes": 3009,
+      "sha256": "f2fa0559ce71d6016063b705ec43b49bda5fdbef56754d79847e0fdde488a668"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/remote-checks-command.json",
+      "bytes": 437,
+      "sha256": "f7f2fcff92b04df686a4f45d49fabcb8afe51f5389de68906afc8a6c1d775252"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/remote-checks.json",
+      "bytes": 3598,
+      "sha256": "caa366868d5b31c3540b961d1921419024bc005445942be4e09ba0eadb7c6a86"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/scope-fix.json",
+      "bytes": 2038,
+      "sha256": "71aa74048b3ffb5f4a1d3ea84d437ec2b9cd812d8d71e82ddd5ffd4022aa1e09"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/scope-fix02.json",
+      "bytes": 1811,
+      "sha256": "e84f8d9aab059280af1dce09088596895590fe71494563c6d20a3371e80c83a2"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/sedan-linux.json",
+      "bytes": 410,
+      "sha256": "363fe696766cae999ddb55d4f9cf0a5d6f1eb37c462b0501becc9895ac964bb7"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/sedan-linux.log",
+      "bytes": 77801,
+      "sha256": "0d1c0aed36b80acebaf72f5f017f6294317a6e5f83b6d1a08dc76ad83d6d240c"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/sedan-linux.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/sedan-windows.json",
+      "bytes": 410,
+      "sha256": "7ec069da0e907533fd661baf99a7721b2ecad18a77d319f4edd78c41536b395e"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/sedan-windows.log",
+      "bytes": 74623,
+      "sha256": "4ab6b4da6fdd88c3a553b1bb50f26f3954a07ddb18b47bc6d9e7e7669d7d7346"
+    },
+    {
+      "path": "reports/p1-018/ci-showroom29-01/sedan-windows.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/commands/20260913T043539.408904Z-showroom29-ci-executable-scope.json",
+      "bytes": 829,
+      "sha256": "c7abfb2ddfb630f77e51a561b7973f73362b2148aefb6aac613bb95b32e21349"
+    },
+    {
+      "path": "reports/p1-018/commands/20260913T043539.408904Z-showroom29-ci-executable-scope.log",
+      "bytes": 1883,
+      "sha256": "5fd911d2ab7517dd9d792aaa6f886e8e1b183df05ee95eaa302a2d23baa0bc53"
+    },
+    {
+      "path": "reports/p1-018/commands/20260913T043605.325647Z-showroom29-ci-launcher-ruff.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/commands/20260913T043605.325724Z-showroom29-ci-launcher-focus.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/commands/20260913T043720.847384Z-showroom29-ci-launcher-focus02.json",
+      "bytes": 1130,
+      "sha256": "ed5fef0ea1e74057c926e8ecf3e10f274a0e8bf2ee471e298f68390bd7c18b4b"
+    },
+    {
+      "path": "reports/p1-018/commands/20260913T043720.847384Z-showroom29-ci-launcher-focus02.log",
+      "bytes": 162,
+      "sha256": "8e79c1d60ff1aa1da38cb424ff5c1206cf2ea45f131628af5b9130b27e7132cb"
+    },
+    {
+      "path": "reports/p1-018/commands/20260913T043720.852268Z-showroom29-ci-launcher-ruff02.json",
+      "bytes": 945,
+      "sha256": "4920a9b84fefe9de949c9792dafae6162e3cd3bc3d89143822ea76d08ac53467"
+    },
+    {
+      "path": "reports/p1-018/commands/20260913T043720.852268Z-showroom29-ci-launcher-ruff02.log",
+      "bytes": 19,
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    {
+      "path": "reports/p1-018/commands/20260913T043854.528034Z-showroom29-ci-xvfb-scope.json",
+      "bytes": 821,
+      "sha256": "33c8537d5513d065cb324e68422e67d5d22243d625eea5423d40a37449088519"
+    },
+    {
+      "path": "reports/p1-018/commands/20260913T043854.528034Z-showroom29-ci-xvfb-scope.log",
+      "bytes": 1704,
+      "sha256": "e88966cddd22ac4b36ed573d1b8594bafb8027ca1d4eb6ad393a853b84e4bdb1"
+    },
+    {
+      "path": "reports/p1-018/commands/20260913T043923.475670Z-showroom29-ci-launcher-ruff03.json",
+      "bytes": 945,
+      "sha256": "5c43c49125bbb00a726e62ef3ab11bc2a9da72dde027c76d5444b14c6ffda9ee"
+    },
+    {
+      "path": "reports/p1-018/commands/20260913T043923.475670Z-showroom29-ci-launcher-ruff03.log",
+      "bytes": 19,
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    {
+      "path": "reports/p1-018/commands/20260913T043923.476096Z-showroom29-ci-launcher-focus03.json",
+      "bytes": 1130,
+      "sha256": "acfd65e907fa4a5898d082803b05b816dbf22560954be318ef87bd861b2cd92d"
+    },
+    {
+      "path": "reports/p1-018/commands/20260913T043923.476096Z-showroom29-ci-launcher-focus03.log",
+      "bytes": 162,
+      "sha256": "a1922c829b8e2da75ada21a471caa47eda9b573df88fb9aee71ca716f55405d5"
+    },
+    {
+      "path": "reports/p1-018/commands/20260913T044039.790270Z-showroom29-ci-windows-frontdoor03.json",
+      "bytes": 1155,
+      "sha256": "2c6348065044894672176e9826f578974b5d148423eaa73011067edf2fc8ab6e"
+    },
+    {
+      "path": "reports/p1-018/commands/20260913T044039.790270Z-showroom29-ci-windows-frontdoor03.log",
+      "bytes": 13092,
+      "sha256": "c4ae900444cd26093ebe6c8ac7599f1bb96efd5b04ab6a7e725b56587d04e041"
+    },
+    {
+      "path": "reports/p1-018/commands/20260913T044138.433607Z-showroom29-current-asset-ci-retain.json",
+      "bytes": 853,
+      "sha256": "5450764e537c3b781567dc329c080a563e10275905174bb8f0997d794dee5afb"
+    },
+    {
+      "path": "reports/p1-018/commands/20260913T044138.433607Z-showroom29-current-asset-ci-retain.log",
+      "bytes": 10519,
+      "sha256": "89cb668efed86f4f65982eb4c24bc7cc12eb2c2813782de424019065d9abe55f"
+    },
+    {
+      "path": "reports/p1-018/commands/20260913T045023.223692Z-showroom30-ci-retention.json",
+      "bytes": 988,
+      "sha256": "8614896a39c7ff31d462cb30be0d0265ce0272fffc41c0dbfc4e6c803e05f82c"
+    },
+    {
+      "path": "reports/p1-018/commands/20260913T045023.223692Z-showroom30-ci-retention.log",
+      "bytes": 329,
+      "sha256": "1a92c8566b41d8b1e2a33fd654015124e6b7170d99d72a506603ce36d9ac0234"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci30-retention01/build.py",
+      "bytes": 7277,
+      "sha256": "227ac29f52c7c8cd63791230ff7f81007b99b0727c69b38eee5003fbe9735b90"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci30-retention01/build02.py",
+      "bytes": 7744,
+      "sha256": "b84250e4a0ba5ae610b31424814ab5177059f8b45613dfaa86ed4aa73dee2592"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci30-retention01/prepare02.py",
+      "bytes": 1681,
+      "sha256": "2aaa2553656b39341de2e91e5bee0aba6d2dcf8c483b8c00c6f39039aa5924e6"
+    },
+    {
+      "path": "reports/p1-018/showroom29-frontdoor03/doctor.json",
+      "bytes": 545,
+      "sha256": "33cb1935e7bc974bbc4cc89452ab1f85a6648768cd2301f08b7df88be56e1dca"
+    },
+    {
+      "path": "reports/p1-018/showroom29-frontdoor03/dotnet/core-tests.trx",
+      "bytes": 220844,
+      "sha256": "35c2f58b4ed10764a7ad2795d58f42ca1dd2cd677f2563bf722bf648641fa3ee"
+    },
+    {
+      "path": "reports/p1-018/showroom29-frontdoor03/godot/godot.log",
+      "bytes": 691,
+      "sha256": "faea3352e13d1af7d48bef17f311ddb8cc10ff55ae59c0690b5c0c79ba0f8cfa"
+    },
+    {
+      "path": "reports/p1-018/showroom29-frontdoor03/godot/managed-shutdown/runtime.log",
+      "bytes": 1481,
+      "sha256": "6ceeb0fd64e556f140e79cfbf104d556525d25306796244a124513cd117461fe"
+    },
+    {
+      "path": "reports/p1-018/showroom29-frontdoor03/godot/managed-shutdown/summary.json",
+      "bytes": 305,
+      "sha256": "c458b048b220000ebeee37210c9ce38ced3a65320d6662de09ba7fc9665740e8"
+    },
+    {
+      "path": "reports/p1-018/showroom29-frontdoor03/godot/scenario.json",
+      "bytes": 189,
+      "sha256": "86937fdd43e64f22acd081f4aed63e11cb7647936f54f9ea4e31a1831dc808c0"
+    },
+    {
+      "path": "reports/p1-018/showroom29-frontdoor03/godot/starter-speed.json",
+      "bytes": 6038,
+      "sha256": "a745b15e4a075ea033f95b4a2236dbd3badd1e08dae34127cb3f3cd1dd7f2e95"
+    },
+    {
+      "path": "reports/p1-018/showroom29-frontdoor03/logs/camera-interpolation.log",
+      "bytes": 233,
+      "sha256": "412aedfb7cb14257d14f1517bb64d016ca6bb134d8f092d05fde73d0e7889291"
+    },
+    {
+      "path": "reports/p1-018/showroom29-frontdoor03/logs/continental-route.log",
+      "bytes": 2213,
+      "sha256": "b6d849612dc6360b7410bda3ba3ceac7646512c09d2fdbb875b38b2eaf709c70"
+    },
+    {
+      "path": "reports/p1-018/showroom29-frontdoor03/logs/doctor.log",
+      "bytes": 412,
+      "sha256": "75e808d5e35a2553cbb4d364e0527ee7977e65a12928e51af7d702143a651868"
+    },
+    {
+      "path": "reports/p1-018/showroom29-frontdoor03/logs/dotnet-build.log",
+      "bytes": 488,
+      "sha256": "916ffc79f3b7ba76c72a89979cadb582731037b39a9091d4051c24f068aceb26"
+    },
+    {
+      "path": "reports/p1-018/showroom29-frontdoor03/logs/dotnet-test.log",
+      "bytes": 429,
+      "sha256": "5c4c1fc47b19537d4043dc210ffd7a07385cb7aea6734ab018f3a025c01f2d8e"
+    },
+    {
+      "path": "reports/p1-018/showroom29-frontdoor03/logs/frame-allocations.log",
+      "bytes": 56,
+      "sha256": "1fb668e8dfc00678638d88cf9241472749abefb243ea12151ce5669b6f8fa859"
+    },
+    {
+      "path": "reports/p1-018/showroom29-frontdoor03/logs/godot-smoke.log",
+      "bytes": 1351,
+      "sha256": "f055cb335e495b3e492a57a13bfdfc099a558b2f25051bedadddbae7140a2313"
+    },
+    {
+      "path": "reports/p1-018/showroom29-frontdoor03/logs/managed-shutdown.log",
+      "bytes": 1759,
+      "sha256": "5e168241b00b54cae84bb4f7980e2e0cc730c4ff7c4fb6197f987bf769f203c8"
+    },
+    {
+      "path": "reports/p1-018/showroom29-frontdoor03/logs/pytest-map-pipeline.log",
+      "bytes": 449,
+      "sha256": "df647668c6e084e1426caeedaddc0316d4a7918203382eddc025d24706b3aa59"
+    },
+    {
+      "path": "reports/p1-018/showroom29-frontdoor03/logs/pytest-playgodot-unit.log",
+      "bytes": 265,
+      "sha256": "7896bc02ae2cf8ae8555f292ffeff826e41a42db181a95ea9e707e8b60c83468"
+    },
+    {
+      "path": "reports/p1-018/showroom29-frontdoor03/logs/release-smoke-unit.log",
+      "bytes": 905,
+      "sha256": "950a8aaad815393b9d3367972ea44951c8803354f8ece2f367dfb3322f4e52ac"
+    },
+    {
+      "path": "reports/p1-018/showroom29-frontdoor03/logs/ruff.log",
+      "bytes": 19,
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    {
+      "path": "reports/p1-018/showroom29-frontdoor03/logs/starter-speed.log",
+      "bytes": 4018,
+      "sha256": "96acac6d06166f4aaf47ed87d1a0ba002479c497f58744ab85bb307942b53c6e"
+    },
+    {
+      "path": "reports/p1-018/showroom29-frontdoor03/python/junit.xml",
+      "bytes": 45254,
+      "sha256": "31e6217ff75545c0345e17f37790ac449bf01ada3aaf46486856bcc17967eaaf"
+    },
+    {
+      "path": "reports/p1-018/showroom29-frontdoor03/python/playgodot-unit.xml",
+      "bytes": 29758,
+      "sha256": "8384958eabd549098dbcc706527d2a8cf23676ff4b85a98cac2ef6504869cc60"
+    },
+    {
+      "path": "reports/p1-018/showroom29-frontdoor03/summary.json",
+      "bytes": 1482,
+      "sha256": "314e9fed4a72b60232d9ccad5a901d9d8a23f3760292ca5a6755543c84eac3b3"
+    },
+    {
+      "path": "reports/p1-018/showroom29/frontdoor03-bindings.json",
+      "bytes": 3928,
+      "sha256": "79e2a067f212fb31f92f73f38a02a547d98df2a8beb3b44484915e025476fa09"
+    },
+    {
+      "path": "reports/p1-018/showroom29/frontdoor03.py",
+      "bytes": 1978,
+      "sha256": "d4a25bc25ff27b8eb5faf357d78a2bc2d9949a25dee62d7fbae712ace6bc5099"
+    }
+  ]
+}

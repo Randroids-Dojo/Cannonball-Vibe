@@ -1,0 +1,105 @@
+{
+  "task_id": "P1-018",
+  "milestone": "M5",
+  "status": "passed",
+  "started_utc": "2026-09-13T07:56:13.138781+00:00",
+  "git_revision": "b1cf65b64512508931eb3398af435f857926a503",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.14.6",
+  "zlib_runtime": "1.3.1.zlib-ng",
+  "tool_sha256": "1310e66035402d9eccaef4c0b2fe6d474f0b56958e914138d3f57be6285b18ff",
+  "input_manifest": {
+    "path": "reports/p1-018/art-checkpoint32-retention01/manifest-05.json",
+    "sha256": "9b88aa9b4597e22352aa12d9de06eb83e03b3dd8c9e9c31a11174bf3ad7ea3b3"
+  },
+  "entries": [
+    {
+      "path": "reports/p1-018/front-joined29-pilot01/fresh02/front-fields/native-stage.json.gz",
+      "sha256": "5a0230c0c5cbd74bda076e872a3e711a441b7b50198e43bbdd0f83ebb8cb7805",
+      "bytes": 31035474
+    },
+    {
+      "path": "reports/p1-018/front-joined29-pilot01/fresh02/pre-front/native-stage.json.gz",
+      "sha256": "868dcc016b28f99ebbaaa588c9ebcca81a69e7428455920900a4ff2527b4605b",
+      "bytes": 1113878
+    },
+    {
+      "path": "reports/p1-018/front-joined29-pilot01/fresh02/pre-front/source.blend",
+      "sha256": "eae4f6d94c69e1ee18bfb8010c918870ef4cf214e52a1d5c4ea41bc759dd2735",
+      "bytes": 5003881
+    },
+    {
+      "path": "reports/p1-018/front-joined29-pilot01/fresh02/pre-front/source.construction.json.gz",
+      "sha256": "3010a1059173d20965e02c638f4254ad84c9f8e67727a7b07a41490337a47d85",
+      "bytes": 6912853
+    },
+    {
+      "path": "reports/p1-018/front-joined29-pilot01/fresh02/pre-front/source.shoulder-profile.json",
+      "sha256": "c61117de292534d9ec0271d9392cbc065d9c4c9857e305d7707c389bddd6e2f7",
+      "bytes": 778
+    },
+    {
+      "path": "reports/p1-018/front-joined29-pilot01/fresh02/pre-front/source.shoulder.json.gz",
+      "sha256": "96a06ddb07b0952fc729cec19a92ad3419ae7e4fcabd5cd5c4ea0317d91e11c5",
+      "bytes": 1369079
+    },
+    {
+      "path": "reports/p1-018/front-joined29-pilot01/fresh02/pre-inlet/native-stage.json.gz",
+      "sha256": "79d597825862bcb65d0bc972e0f3b8115f9deb6cd3b549feae2d89e41913ca3c",
+      "bytes": 25792809
+    },
+    {
+      "path": "reports/p1-018/front-joined29-pilot01/fresh02/pre-inlet/source.blend",
+      "sha256": "11d70657f39ec402a0928f55c745a3627dc07522da270edc58b611d1a05b363c",
+      "bytes": 5078802
+    },
+    {
+      "path": "reports/p1-018/front-joined29-pilot01/fresh02/pre-inlet/source.construction.json.gz",
+      "sha256": "3010a1059173d20965e02c638f4254ad84c9f8e67727a7b07a41490337a47d85",
+      "bytes": 6912853
+    },
+    {
+      "path": "reports/p1-018/front-joined29-pilot01/fresh02/pre-inlet/source.shoulder-profile.json",
+      "sha256": "c61117de292534d9ec0271d9392cbc065d9c4c9857e305d7707c389bddd6e2f7",
+      "bytes": 778
+    },
+    {
+      "path": "reports/p1-018/front-joined29-pilot01/fresh02/pre-inlet/source.shoulder.json.gz",
+      "sha256": "96a06ddb07b0952fc729cec19a92ad3419ae7e4fcabd5cd5c4ea0317d91e11c5",
+      "bytes": 1369079
+    },
+    {
+      "path": "reports/p1-018/front-joined29-pilot01/fresh02/pre-reopen-fields.json.gz",
+      "sha256": "be611886d5a10b5dca926d5c5fdb9fdbd6df2ede896b15ce346074836b0e31b4",
+      "bytes": 8380872
+    },
+    {
+      "path": "reports/p1-018/front-joined29-pilot01/fresh02/reopened.json",
+      "sha256": "c6761d5b3adb0c40d1e6865a9960ee84115f20b5481745793f03af1e4752e570",
+      "bytes": 12354
+    },
+    {
+      "path": "reports/p1-018/front-joined29-pilot01/fresh02/source.blend",
+      "sha256": "3cd45a2906b8c95168c4de46dbb418088320c8c670ff452805964896bbaeeee3",
+      "bytes": 5073374
+    }
+  ],
+  "archives": [
+    {
+      "path": "data/assets/vehicles/endurance-sedan-review/art-checkpoint-v32/art-checkpoint-v32-05.zip",
+      "sha256": "e327d57e659dcc61a1aec5b52cca5df08c101e1cfcf23dc86ae16b2f96c554e5",
+      "bytes": 97189436,
+      "crc_and_member_sha256_verified": true
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint32-retention01/art-checkpoint-v32-05-repeat.zip",
+      "sha256": "e327d57e659dcc61a1aec5b52cca5df08c101e1cfcf23dc86ae16b2f96c554e5",
+      "bytes": 97189436,
+      "crc_and_member_sha256_verified": true
+    }
+  ],
+  "human_approval_reference": null,
+  "limits": "Evidence retention and byte identity only; individual reports retain their own scope, failures and approval status.",
+  "byte_reproducible": true,
+  "finished_utc": "2026-09-13T07:56:18.738780+00:00"
+}

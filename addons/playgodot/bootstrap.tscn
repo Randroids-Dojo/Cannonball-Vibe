@@ -10,6 +10,7 @@ script = ExtResource("3_bootstrap")
 [node name="PlayGodotServer" type="Node" parent="."]
 process_priority = -1000000
 script = ExtResource("2_server")
+application_quit_owner = NodePath("../Main")
 
 [node name="Main" parent="." instance=ExtResource("1_main")]
 

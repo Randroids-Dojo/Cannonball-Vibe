@@ -1,0 +1,4307 @@
+{
+  "source": "C:\\Dev\\Cannonball-Vibe-sedan\\data\\assets\\vehicles\\sources\\endurance-sedan.blend",
+  "configuration": {
+    "source_sha256": "8ddb88bfcf82b68ef7cccfa86dbfedf502a4de1fa4e9f0924cffe6609f8d7a50",
+    "renderer_sha256": "c75246f8c72139d78fc8da0760a3488d87c214fed4b56da49d6d1861686b39d1",
+    "blender": "5.1.2",
+    "build_hash": "ec6e62d40fa9",
+    "engine": "CYCLES",
+    "device": "GPU",
+    "devices": [
+      {
+        "name": "NVIDIA GeForce RTX 3080 Ti",
+        "type": "CUDA",
+        "enabled": false
+      },
+      {
+        "name": "AMD Ryzen 9 5900X 12-Core Processor",
+        "type": "CPU",
+        "enabled": false
+      },
+      {
+        "name": "NVIDIA GeForce RTX 3080 Ti",
+        "type": "OPTIX",
+        "enabled": true
+      }
+    ],
+    "size": [
+      2560,
+      1440
+    ],
+    "samples": 24,
+    "denoising": true,
+    "view_transform": "AgX",
+    "look": "AgX - Medium High Contrast",
+    "exposure": 0.0,
+    "clay": false,
+    "source_controls": {
+      "wipers_running": 1.0
+    },
+    "lighting": "neutral",
+    "sequence": "hold",
+    "frame_count": 163,
+    "fps": 30,
+    "views": "cockpit",
+    "ray_bounces": 10,
+    "source_timeline_fps": 60,
+    "inspection_fill_watts": 0,
+    "inspection_fill_disk_diameter_m": {
+      "default": 0.35,
+      "pedals": 0.14
+    },
+    "inspection_fill_camera_local_m": [
+      0,
+      0,
+      0.025
+    ],
+    "denoiser": "OPENIMAGEDENOISE",
+    "denoising_use_gpu": true,
+    "denoising_prefilter": "ACCURATE",
+    "technical_overlay": null,
+    "review_overlay_tool_sha256": "230827eb0257dd454e9429ddd3dd68e51107b540d58f6e18e893542196805fb7",
+    "review_geometry_tool_sha256": "0e9fad40b0d14ba1265958bd6836d133fde89474efd6f988860f46fc2cde2b90",
+    "material_swatches": {}
+  },
+  "configuration_sha256": "8d9275a7485c588531959035a28ed07eb26711016920bae5b510697c88efda27",
+  "status": "completed",
+  "frames": [
+    {
+      "view": "000001",
+      "capture_view": "cockpit",
+      "path": "000001.png",
+      "sha256": "b6567e644c02a5d6b4dcd466d329b153f85def818f894a83808eb06f4f5e66db",
+      "seconds": 3.2926384000020334,
+      "cold": true,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 1.0,
+      "time_seconds": 0.0,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000002",
+      "capture_view": "cockpit",
+      "path": "000002.png",
+      "sha256": "d167784472e0378c75b12fc91cd83af0c0b53f3a6843c516204089cb12fa1626",
+      "seconds": 2.7313809000042966,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 3.0,
+      "time_seconds": 0.03333333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000003",
+      "capture_view": "cockpit",
+      "path": "000003.png",
+      "sha256": "a88d539287a5dbc790b85f8530003da0ce2ad22db29a6f622e653676bb4045de",
+      "seconds": 2.749211499998637,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 5.0,
+      "time_seconds": 0.06666666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000004",
+      "capture_view": "cockpit",
+      "path": "000004.png",
+      "sha256": "b03512ac26b7958f86042dd34dc8d76eece006d6b2a9b7fdce3be60c95c6411a",
+      "seconds": 2.692966599999636,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 7.0,
+      "time_seconds": 0.1,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000005",
+      "capture_view": "cockpit",
+      "path": "000005.png",
+      "sha256": "957061ef7980ff9b00a5851ce42b554e0ecbbc3cbf70697e6b4c216899234f26",
+      "seconds": 2.706964799996058,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 9.0,
+      "time_seconds": 0.13333333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000006",
+      "capture_view": "cockpit",
+      "path": "000006.png",
+      "sha256": "d2f243844198cee2ec1f38e67eaf4e9ea5e7e1b55d662ed7cb711495b2c11bfe",
+      "seconds": 2.6471283999999287,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 11.0,
+      "time_seconds": 0.16666666666666666,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000007",
+      "capture_view": "cockpit",
+      "path": "000007.png",
+      "sha256": "4d3e0d7291b33e5221975b5c8c17d564231310a776ddf4f6109554857864e4db",
+      "seconds": 2.697614099997736,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 13.0,
+      "time_seconds": 0.2,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000008",
+      "capture_view": "cockpit",
+      "path": "000008.png",
+      "sha256": "990d7440d3390c6944d2d7aad0e5f989c105f911df3d5ef190510b0484167241",
+      "seconds": 2.686394800002745,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 15.0,
+      "time_seconds": 0.23333333333333334,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000009",
+      "capture_view": "cockpit",
+      "path": "000009.png",
+      "sha256": "55c43fbf8c1ec276cdaa2f1e5b28038b281302009e3125f3b1e2ac4254c755b9",
+      "seconds": 2.6828038999956334,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 17.0,
+      "time_seconds": 0.26666666666666666,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000010",
+      "capture_view": "cockpit",
+      "path": "000010.png",
+      "sha256": "bd463019cf2bd495409cd2cef78b8af658a8fc07e47b794d80dade25e4258c0c",
+      "seconds": 2.6431288000021596,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 19.0,
+      "time_seconds": 0.3,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000011",
+      "capture_view": "cockpit",
+      "path": "000011.png",
+      "sha256": "e8cd74f2e87fd90f9e9f0e445975c76cfa204850a9f3253519bef85c596a1d41",
+      "seconds": 2.73692559999472,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 21.0,
+      "time_seconds": 0.3333333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000012",
+      "capture_view": "cockpit",
+      "path": "000012.png",
+      "sha256": "d2ab8341a9657ea96b358ea1d8c68d86933180817eea5bc3a4da73ff269626f8",
+      "seconds": 2.705106800000067,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 23.0,
+      "time_seconds": 0.36666666666666664,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000013",
+      "capture_view": "cockpit",
+      "path": "000013.png",
+      "sha256": "cfeac4d419fbf24b05b8bfd2658ae564f7d00da2ee8dd0429ae8d34a86308581",
+      "seconds": 2.6574442999990424,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 25.0,
+      "time_seconds": 0.4,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000014",
+      "capture_view": "cockpit",
+      "path": "000014.png",
+      "sha256": "ab610864d584f34c8a4b391322bf9ee418fb808fc077393a34ae3046b36c67fd",
+      "seconds": 2.7177596999972593,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 27.0,
+      "time_seconds": 0.43333333333333335,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000015",
+      "capture_view": "cockpit",
+      "path": "000015.png",
+      "sha256": "f0319bf7193519064631f39f58dc6b9d5b27dd31667f634a0489198542120d31",
+      "seconds": 2.7500087000007625,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 29.0,
+      "time_seconds": 0.4666666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000016",
+      "capture_view": "cockpit",
+      "path": "000016.png",
+      "sha256": "cdfdfaed3fbaee3ed73f095a81b75056a24ab41c6cc4e9c067dc420ba03adc33",
+      "seconds": 2.7844029999978375,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 31.0,
+      "time_seconds": 0.5,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000017",
+      "capture_view": "cockpit",
+      "path": "000017.png",
+      "sha256": "d70aeaa96c7f7a6a5c7afbec749fa5acc95b14caa5c1fcd9e53e5b352fd0aaa4",
+      "seconds": 2.734181099993293,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 33.0,
+      "time_seconds": 0.5333333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000018",
+      "capture_view": "cockpit",
+      "path": "000018.png",
+      "sha256": "85f07a3247c7542332dc103ac36c4955bace1e815cbf6e3b09d978ea1c52eefb",
+      "seconds": 2.737090900001931,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 35.0,
+      "time_seconds": 0.5666666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000019",
+      "capture_view": "cockpit",
+      "path": "000019.png",
+      "sha256": "0704d98b4407e4ad44ab1dc09dee27c9801df384c41d9f7b5915f190dfc7d372",
+      "seconds": 2.697553699996206,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 37.0,
+      "time_seconds": 0.6,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000020",
+      "capture_view": "cockpit",
+      "path": "000020.png",
+      "sha256": "7ceb45a080d04cf860dc57fb399647bd5339fc9a4183e5228d7c86be4817edb5",
+      "seconds": 2.718678400000499,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 39.0,
+      "time_seconds": 0.6333333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000021",
+      "capture_view": "cockpit",
+      "path": "000021.png",
+      "sha256": "4a6ff1dfa4b3f41be620d16f8a5070115d14519e4621ec5bc7a5c958d52ece74",
+      "seconds": 2.7415546999982325,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 41.0,
+      "time_seconds": 0.6666666666666666,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000022",
+      "capture_view": "cockpit",
+      "path": "000022.png",
+      "sha256": "a968dfd8a5519a5fc04804948e1725e27fafc3cc0bffeb1a417bbcc94dac60a3",
+      "seconds": 2.6539189999966766,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 43.0,
+      "time_seconds": 0.7,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000023",
+      "capture_view": "cockpit",
+      "path": "000023.png",
+      "sha256": "309b54cb46344dec543bb586d03c78539a83de490e977909b756319ba3523be7",
+      "seconds": 2.6957197000010638,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 45.0,
+      "time_seconds": 0.7333333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000024",
+      "capture_view": "cockpit",
+      "path": "000024.png",
+      "sha256": "ec6c0497a4aaf87bad5cb479061e51ac1417e514e1df7b886102a13e8ff57113",
+      "seconds": 2.729081400000723,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 47.0,
+      "time_seconds": 0.7666666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000025",
+      "capture_view": "cockpit",
+      "path": "000025.png",
+      "sha256": "1ba24632e289df9054c888ef9c097e842168fa0f2ea259b7aebe1029e67ed7dd",
+      "seconds": 2.734909799997695,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 49.0,
+      "time_seconds": 0.8,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000026",
+      "capture_view": "cockpit",
+      "path": "000026.png",
+      "sha256": "d6c1c0b61faff1c2234d4caec1cd4b469b45f8f55ed958ec8574ce1ecd01ec97",
+      "seconds": 2.7054673000020557,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 51.0,
+      "time_seconds": 0.8333333333333334,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000027",
+      "capture_view": "cockpit",
+      "path": "000027.png",
+      "sha256": "854c40b210a625048acda33d37b47acfca763e460dc9693621ea280f5a517d50",
+      "seconds": 2.6937899999975343,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 53.0,
+      "time_seconds": 0.8666666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000028",
+      "capture_view": "cockpit",
+      "path": "000028.png",
+      "sha256": "631a65848eb7b71e8f56bacae2a0974ada8bf7c60c1d0f1dfba3d130d39b6f63",
+      "seconds": 2.724098499995307,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 55.0,
+      "time_seconds": 0.9,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000029",
+      "capture_view": "cockpit",
+      "path": "000029.png",
+      "sha256": "9516160489f5b4060213ff36208eb3f551b36f5859ab44b6640ced9afcfcd956",
+      "seconds": 2.7106540000022505,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 57.0,
+      "time_seconds": 0.9333333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000030",
+      "capture_view": "cockpit",
+      "path": "000030.png",
+      "sha256": "a8f45ca53f61b299032f0955a45e539ddb5bd2d02f2ca6f7a74c79ef9c116275",
+      "seconds": 2.7351790000029723,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 59.0,
+      "time_seconds": 0.9666666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000031",
+      "capture_view": "cockpit",
+      "path": "000031.png",
+      "sha256": "1d8bc4ce83c030f575db3a4540e897be80b316a7f214428f35c5eced88249a32",
+      "seconds": 2.6937348999999813,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 61.0,
+      "time_seconds": 1.0,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000032",
+      "capture_view": "cockpit",
+      "path": "000032.png",
+      "sha256": "dc96bb98ac25c9c1cf81bec92997015797c857ac900bc5f2920c9cd58bce9bb9",
+      "seconds": 2.719493299999158,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 63.0,
+      "time_seconds": 1.0333333333333334,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000033",
+      "capture_view": "cockpit",
+      "path": "000033.png",
+      "sha256": "f40a68968134c7077f33f8b5c4594bf99fa579639a16ade5d700fc1136014407",
+      "seconds": 2.6619319999954314,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 65.0,
+      "time_seconds": 1.0666666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000034",
+      "capture_view": "cockpit",
+      "path": "000034.png",
+      "sha256": "7bc3aad03ad4a039acf6c5eb27975257b997d00ad36bcd358d8db801109e40bb",
+      "seconds": 2.7037940000009257,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 67.0,
+      "time_seconds": 1.1,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000035",
+      "capture_view": "cockpit",
+      "path": "000035.png",
+      "sha256": "2405c6e74951613ca430f6abe4997b9c8e7bd43a5f5a01ead5fe5451a6fcc24e",
+      "seconds": 2.7289594000030775,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 69.0,
+      "time_seconds": 1.1333333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000036",
+      "capture_view": "cockpit",
+      "path": "000036.png",
+      "sha256": "2ae0758df43c3c2dfdda1f313d54e034df77d2c333140703e3cee073d09d0d20",
+      "seconds": 2.75313240000105,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 71.0,
+      "time_seconds": 1.1666666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000037",
+      "capture_view": "cockpit",
+      "path": "000037.png",
+      "sha256": "db63cbe9441698019194ac3f3389b9f9d11765226c34ac3293a3c5bf1c30efbf",
+      "seconds": 2.715543300000718,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 73.0,
+      "time_seconds": 1.2,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000038",
+      "capture_view": "cockpit",
+      "path": "000038.png",
+      "sha256": "448091486b09dc05bb7c2c1ff0b725cd0e2b39f79896128d76e0af7bee05db61",
+      "seconds": 2.664315499998338,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 75.0,
+      "time_seconds": 1.2333333333333334,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000039",
+      "capture_view": "cockpit",
+      "path": "000039.png",
+      "sha256": "f0c45262d11800f8f8f4e027a4b60552f3a04b346cde4ebbe43c3ab9fdc658ad",
+      "seconds": 2.669315999999526,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 77.0,
+      "time_seconds": 1.2666666666666666,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000040",
+      "capture_view": "cockpit",
+      "path": "000040.png",
+      "sha256": "e7d07164caac165263a47b0e8f6d691228e94a3c8ff792efa523ffe48b086033",
+      "seconds": 2.688435700001719,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 79.0,
+      "time_seconds": 1.3,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000041",
+      "capture_view": "cockpit",
+      "path": "000041.png",
+      "sha256": "b7830917990838313c15aa4dbfff8640764f2cb00a4f06f12cb20d7092971acc",
+      "seconds": 2.752911800002039,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 81.0,
+      "time_seconds": 1.3333333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000042",
+      "capture_view": "cockpit",
+      "path": "000042.png",
+      "sha256": "1bfa76bb028b0f30bc919c27a2cb12c6518c8708b4887ad4ed3de2a8541d7eb7",
+      "seconds": 2.69774850000249,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 83.0,
+      "time_seconds": 1.3666666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000043",
+      "capture_view": "cockpit",
+      "path": "000043.png",
+      "sha256": "84a60740f959f8f0683b16ffea9694b9df0dba88635a5746eb79bf16f011df7d",
+      "seconds": 2.6796415999997407,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 85.0,
+      "time_seconds": 1.4,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000044",
+      "capture_view": "cockpit",
+      "path": "000044.png",
+      "sha256": "cea73b4df2dd6004cc34cdcb6dd56ee36f667fd1c45da07860d3c1c4c5c858d8",
+      "seconds": 2.650755599999684,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 87.0,
+      "time_seconds": 1.4333333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000045",
+      "capture_view": "cockpit",
+      "path": "000045.png",
+      "sha256": "bc54d2fa17147f5c0546062059923f0a8647b8dd8c2a9620b4dd2811e83ad92f",
+      "seconds": 2.656937100000505,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 89.0,
+      "time_seconds": 1.4666666666666666,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000046",
+      "capture_view": "cockpit",
+      "path": "000046.png",
+      "sha256": "f07e4c3fd8ab4320a2c14df426a628b1a63a599f8986bf8dc11f28aed978deb7",
+      "seconds": 2.6975673000051756,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 91.0,
+      "time_seconds": 1.5,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000047",
+      "capture_view": "cockpit",
+      "path": "000047.png",
+      "sha256": "5cb7cea9295119fd669d847b52572bab562188a4b2bb208d0e10c9435012e5e3",
+      "seconds": 2.6560422999973525,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 93.0,
+      "time_seconds": 1.5333333333333334,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000048",
+      "capture_view": "cockpit",
+      "path": "000048.png",
+      "sha256": "27121ebc9677b5b6e21665b2de7ab8668a938a097cd192703f80ea74854f6c8c",
+      "seconds": 2.6801957999996375,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 95.0,
+      "time_seconds": 1.5666666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000049",
+      "capture_view": "cockpit",
+      "path": "000049.png",
+      "sha256": "62820b4c45aea801910580d07f3a85cf07dc639c7606a413fe6dfc5c7b092aec",
+      "seconds": 2.649990899997647,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 97.0,
+      "time_seconds": 1.6,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000050",
+      "capture_view": "cockpit",
+      "path": "000050.png",
+      "sha256": "01ce62392cd7cf7e603eacf99c9965b3563ce46f7e45771cf7ae32c24e50a024",
+      "seconds": 2.662862600001972,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 99.0,
+      "time_seconds": 1.6333333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000051",
+      "capture_view": "cockpit",
+      "path": "000051.png",
+      "sha256": "d58f316cb2ea2a90571471792dd9ca8e3f8882c547b81f9f65aba51dd140057d",
+      "seconds": 2.652904300004593,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 101.0,
+      "time_seconds": 1.6666666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000052",
+      "capture_view": "cockpit",
+      "path": "000052.png",
+      "sha256": "1faf590295d04b42fded5ad5cbb9e7bca8c7fdc7b5146cf8f41b79e98bb89f0e",
+      "seconds": 2.667256199994881,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 103.0,
+      "time_seconds": 1.7,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000053",
+      "capture_view": "cockpit",
+      "path": "000053.png",
+      "sha256": "70c83bf9e7d323c178731c89184c749f27061c6f602dfda4ef37d9df1f48b317",
+      "seconds": 2.6718276999963564,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 105.0,
+      "time_seconds": 1.7333333333333334,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000054",
+      "capture_view": "cockpit",
+      "path": "000054.png",
+      "sha256": "d95234129ae2c28781ca52b9515de7373dfba06a1310a3a4c2ca4022b7f937aa",
+      "seconds": 2.6779967000038596,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 107.0,
+      "time_seconds": 1.7666666666666666,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000055",
+      "capture_view": "cockpit",
+      "path": "000055.png",
+      "sha256": "303771b015cf0503b7a45ca92479d500e9117164f6a96d3c11b88aa351388db5",
+      "seconds": 2.687821100000292,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 109.0,
+      "time_seconds": 1.8,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000056",
+      "capture_view": "cockpit",
+      "path": "000056.png",
+      "sha256": "2931ae92a3e9c61d220706114d06b3713582f454257495467ab7aba4a6920213",
+      "seconds": 2.6921890000012354,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 111.0,
+      "time_seconds": 1.8333333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000057",
+      "capture_view": "cockpit",
+      "path": "000057.png",
+      "sha256": "5297e73c1856e6270b00db0316cbe5c7e27e5e527887b624f70c6ae558c02115",
+      "seconds": 2.680014999998093,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 113.0,
+      "time_seconds": 1.8666666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000058",
+      "capture_view": "cockpit",
+      "path": "000058.png",
+      "sha256": "4474a4bddfd4bf94f9a621b1d1dc5f62d39b536ca244cbc037d0b80ac38e8c8b",
+      "seconds": 2.6689919999989797,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 115.0,
+      "time_seconds": 1.9,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000059",
+      "capture_view": "cockpit",
+      "path": "000059.png",
+      "sha256": "50463c72bfa167ef5a44742f0819ee58aa9155c1d3babab7af1189d84078f566",
+      "seconds": 2.6788807999982964,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 117.0,
+      "time_seconds": 1.9333333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000060",
+      "capture_view": "cockpit",
+      "path": "000060.png",
+      "sha256": "35a1b0c3f65e51a07793ad9e06363816d3e069f7c0cdc58986e8a4f61092247d",
+      "seconds": 2.6967494000055012,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 119.0,
+      "time_seconds": 1.9666666666666666,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000061",
+      "capture_view": "cockpit",
+      "path": "000061.png",
+      "sha256": "5c221def0aa89711efe15f2222b53e17b04ca8cfdb2c1cb551a64d76c36cc0b9",
+      "seconds": 2.6762106999958633,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 121.0,
+      "time_seconds": 2.0,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000062",
+      "capture_view": "cockpit",
+      "path": "000062.png",
+      "sha256": "e31cc83bf8963a63ffc2707f3faef4223b7555ebf9b11359be636f1b6875580b",
+      "seconds": 2.664715000006254,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 123.0,
+      "time_seconds": 2.033333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000063",
+      "capture_view": "cockpit",
+      "path": "000063.png",
+      "sha256": "45fb0cf567cb6e782b099a24db235355dbf8b5c64c65023f2f73dc4fad086a30",
+      "seconds": 2.697150599997258,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 125.0,
+      "time_seconds": 2.066666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000064",
+      "capture_view": "cockpit",
+      "path": "000064.png",
+      "sha256": "54368b64ae44fbc765cc9c6f017cec0333a57f09f0635ba258a3ce5d693ff1b5",
+      "seconds": 2.6938426999986405,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 127.0,
+      "time_seconds": 2.1,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000065",
+      "capture_view": "cockpit",
+      "path": "000065.png",
+      "sha256": "a4f097763cc608ea4b6b4dba1b80ff0c497375159288a05f54699576468cc1bf",
+      "seconds": 2.6889947000017855,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 129.0,
+      "time_seconds": 2.1333333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000066",
+      "capture_view": "cockpit",
+      "path": "000066.png",
+      "sha256": "6d4d2f5be922c4af21060fdc099e77a251ac8975805a05c8942f45ffbbb417a0",
+      "seconds": 2.6778971000021556,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 131.0,
+      "time_seconds": 2.1666666666666665,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000067",
+      "capture_view": "cockpit",
+      "path": "000067.png",
+      "sha256": "dc8de0e0f8dce359672acdf7ea9a04c231460a32a40a573bc87feca8258fc40a",
+      "seconds": 2.68510100000276,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 133.0,
+      "time_seconds": 2.2,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000068",
+      "capture_view": "cockpit",
+      "path": "000068.png",
+      "sha256": "6fbcc63cd7a2cf515ab5ba812454d23f5feb8423d75980801f7e1eabef770992",
+      "seconds": 2.68472749999637,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 135.0,
+      "time_seconds": 2.2333333333333334,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000069",
+      "capture_view": "cockpit",
+      "path": "000069.png",
+      "sha256": "397dc23b0e36362b1b13e3e0820f7e95866c6cc9496cf13498af9e8fa7c31d70",
+      "seconds": 2.6797461999958614,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 137.0,
+      "time_seconds": 2.2666666666666666,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000070",
+      "capture_view": "cockpit",
+      "path": "000070.png",
+      "sha256": "da73064f6159c76d75cfcefd1617804a0bff57b73b59a14c4731624c3227cacc",
+      "seconds": 2.6731852000011713,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 139.0,
+      "time_seconds": 2.3,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000071",
+      "capture_view": "cockpit",
+      "path": "000071.png",
+      "sha256": "861bc7397189840064cbf56a65c7e4ed882da51d38944ef91f9121b79d8b1129",
+      "seconds": 2.668391100000008,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 141.0,
+      "time_seconds": 2.3333333333333335,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000072",
+      "capture_view": "cockpit",
+      "path": "000072.png",
+      "sha256": "e55342f6e101c2c97ed6afe3d8cb8248867f0688074c80098583fbd93e7d974e",
+      "seconds": 2.6912978000036674,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 143.0,
+      "time_seconds": 2.3666666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000073",
+      "capture_view": "cockpit",
+      "path": "000073.png",
+      "sha256": "b4d4c8499edb4d777af77b00e44f0b1193b804a54342fb4e7cec9ee18717bb0d",
+      "seconds": 2.7354125999991084,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 145.0,
+      "time_seconds": 2.4,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000074",
+      "capture_view": "cockpit",
+      "path": "000074.png",
+      "sha256": "63c55da5e2b65b5bc383e431520da55739eb7d7006f3b977a5123f9a8fea9070",
+      "seconds": 2.7518924999967567,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 147.0,
+      "time_seconds": 2.433333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000075",
+      "capture_view": "cockpit",
+      "path": "000075.png",
+      "sha256": "6d58156846771e2c80c7ec722ff2cb6e04abdb319cc412bfdea1a5b9f2f45e0b",
+      "seconds": 2.697537200001534,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 149.0,
+      "time_seconds": 2.466666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000076",
+      "capture_view": "cockpit",
+      "path": "000076.png",
+      "sha256": "1a208625df9a978e0959de960d6d9db4343c903a37c9c1153518b67d0332912d",
+      "seconds": 2.716189699996903,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 151.0,
+      "time_seconds": 2.5,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000077",
+      "capture_view": "cockpit",
+      "path": "000077.png",
+      "sha256": "c23621b85ceee1370afc7d030b917ea5f6bb5cbc9aabf77acce060432cdbe902",
+      "seconds": 2.7584247999984655,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 153.0,
+      "time_seconds": 2.533333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000078",
+      "capture_view": "cockpit",
+      "path": "000078.png",
+      "sha256": "fdb1a4c00b9a1e0639f321ca40ee41885ee0b7d6ddfe94ab24342784989c0ad3",
+      "seconds": 2.7360207000019727,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 155.0,
+      "time_seconds": 2.566666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000079",
+      "capture_view": "cockpit",
+      "path": "000079.png",
+      "sha256": "fcf1e2f73bdaf072c4399873d529b84686cf2e63fb64196c178c5ecb118c0b7d",
+      "seconds": 2.7293928999933996,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 157.0,
+      "time_seconds": 2.6,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000080",
+      "capture_view": "cockpit",
+      "path": "000080.png",
+      "sha256": "e924e30152ae62e62795a80b64dfc6953f8d346f8572413b23ad159bdf266595",
+      "seconds": 2.698333200001798,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 159.0,
+      "time_seconds": 2.6333333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000081",
+      "capture_view": "cockpit",
+      "path": "000081.png",
+      "sha256": "790eb1515792a1ba8d8ac71b07e8ae1223b64520b5fe93e4c70f1fe78021de3a",
+      "seconds": 2.6589844999980414,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 161.0,
+      "time_seconds": 2.6666666666666665,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000082",
+      "capture_view": "cockpit",
+      "path": "000082.png",
+      "sha256": "c0c408b4d78abefb24bcb079eacfaf2335feffbe76aeed87104454c4041aef3f",
+      "seconds": 2.716331199997512,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 163.0,
+      "time_seconds": 2.7,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000083",
+      "capture_view": "cockpit",
+      "path": "000083.png",
+      "sha256": "6f097de4ac09b0a4c5c0d4c21494464f45f196a0b6795acb11a1be2010db6568",
+      "seconds": 2.7681506000008085,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 165.0,
+      "time_seconds": 2.7333333333333334,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000084",
+      "capture_view": "cockpit",
+      "path": "000084.png",
+      "sha256": "2d23e68029c52fd8aecffdb1246f28de6195fddd7e9b85820d707b35efc6b679",
+      "seconds": 2.6750929999980144,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 167.0,
+      "time_seconds": 2.7666666666666666,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000085",
+      "capture_view": "cockpit",
+      "path": "000085.png",
+      "sha256": "cf53912396936fc3bc3445180e6aa98d1f81828ba1cdba472e784a5aecb70330",
+      "seconds": 2.7102934999929857,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 169.0,
+      "time_seconds": 2.8,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000086",
+      "capture_view": "cockpit",
+      "path": "000086.png",
+      "sha256": "0ee087cd66d66e86e03543a90cfdbf415363be2fd03e7514b5f9895fe4c59ff9",
+      "seconds": 2.6900186999992,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 171.0,
+      "time_seconds": 2.8333333333333335,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000087",
+      "capture_view": "cockpit",
+      "path": "000087.png",
+      "sha256": "c2ed704b804e4b7a8cbc7c41ccb3fa1f2fa3ac8e2911ad90f91312cdff560958",
+      "seconds": 2.648143500002334,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 173.0,
+      "time_seconds": 2.8666666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000088",
+      "capture_view": "cockpit",
+      "path": "000088.png",
+      "sha256": "1a3a96ac5d209741cac54e4516907f7390b71c491760788234b81cf52d5b722d",
+      "seconds": 2.6701204999990296,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 175.0,
+      "time_seconds": 2.9,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000089",
+      "capture_view": "cockpit",
+      "path": "000089.png",
+      "sha256": "cbbfad84af09ecf6dfb046587f99462c1818d7947326c1310b6a9878b604ff3e",
+      "seconds": 2.6560363000025973,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 177.0,
+      "time_seconds": 2.933333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000090",
+      "capture_view": "cockpit",
+      "path": "000090.png",
+      "sha256": "ca840461a7380767665be1d61c47ac6651ed03fbc1f56ca190c0266f4f71f705",
+      "seconds": 2.646008099996834,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 179.0,
+      "time_seconds": 2.966666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000091",
+      "capture_view": "cockpit",
+      "path": "000091.png",
+      "sha256": "e807c8bb6d0d49ea9b8d969d417879fae5b47a4f565c8df0fc6ed3f6ed8c7f89",
+      "seconds": 2.664462699998694,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 181.0,
+      "time_seconds": 3.0,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000092",
+      "capture_view": "cockpit",
+      "path": "000092.png",
+      "sha256": "c7bc3281961e48634354ab1382acae839730e8e838fb5249973b7dc6bff87170",
+      "seconds": 2.660120699998515,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 183.0,
+      "time_seconds": 3.033333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000093",
+      "capture_view": "cockpit",
+      "path": "000093.png",
+      "sha256": "e0924dc14c8330af08273760a59a39fc077692b744e87a8655cc1d380e5eb867",
+      "seconds": 2.681379100002232,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 185.0,
+      "time_seconds": 3.066666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000094",
+      "capture_view": "cockpit",
+      "path": "000094.png",
+      "sha256": "8ce08445f200fff7bc4dd7a4161132f2ac8e770fc8bfb83d47893b79cca271c8",
+      "seconds": 2.7016129000039655,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 187.0,
+      "time_seconds": 3.1,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000095",
+      "capture_view": "cockpit",
+      "path": "000095.png",
+      "sha256": "5441d98ddca8887d4a1bdb78cd51883bca32ba0e4dfc83695ad9af51f26959b2",
+      "seconds": 2.715753600001335,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 189.0,
+      "time_seconds": 3.1333333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000096",
+      "capture_view": "cockpit",
+      "path": "000096.png",
+      "sha256": "1db3a62d0c31be21e588559041390541e88d4c7437ecf1b5511a34ade527d0db",
+      "seconds": 2.6942009999984293,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 191.0,
+      "time_seconds": 3.1666666666666665,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000097",
+      "capture_view": "cockpit",
+      "path": "000097.png",
+      "sha256": "4a3f9713af8f74982740803d5fefe9faa10f04f36030507c1b372b36d3833265",
+      "seconds": 2.6849787999963155,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 193.0,
+      "time_seconds": 3.2,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000098",
+      "capture_view": "cockpit",
+      "path": "000098.png",
+      "sha256": "bc4ba4a2e2c1d6d8caa0c31688e0e300bea5c81d88cbaeb217c6d37cc8185a60",
+      "seconds": 2.678495300002396,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 195.0,
+      "time_seconds": 3.2333333333333334,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000099",
+      "capture_view": "cockpit",
+      "path": "000099.png",
+      "sha256": "50f3d07c5564db0c4187f682094ebf57c9b29b1e007ccd3d9790b15852698234",
+      "seconds": 2.667501199997787,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 197.0,
+      "time_seconds": 3.2666666666666666,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000100",
+      "capture_view": "cockpit",
+      "path": "000100.png",
+      "sha256": "0e23e18eccf419d9a7fcca25f4e623a410b1cbaed23da711d269b5a106434492",
+      "seconds": 2.6831195000049775,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 199.0,
+      "time_seconds": 3.3,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000101",
+      "capture_view": "cockpit",
+      "path": "000101.png",
+      "sha256": "a87de019dcf89a0f8ac024af3bea5cdcb5dcddf17869900cbe088fe518125203",
+      "seconds": 2.663506099997903,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 201.0,
+      "time_seconds": 3.3333333333333335,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000102",
+      "capture_view": "cockpit",
+      "path": "000102.png",
+      "sha256": "483659a1b5fa4b39e2f148ad241f0e844524916749eb914d9d15679ec3f2458f",
+      "seconds": 2.693738400004804,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 203.0,
+      "time_seconds": 3.3666666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000103",
+      "capture_view": "cockpit",
+      "path": "000103.png",
+      "sha256": "1c5dfcd5480c07cb492ae7767b9c8c2140afad3233beed73c02fdb49a1b91e1e",
+      "seconds": 2.6864850999991177,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 205.0,
+      "time_seconds": 3.4,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000104",
+      "capture_view": "cockpit",
+      "path": "000104.png",
+      "sha256": "9220a20ca18151540a26b6156d2b90582f89a8ac90e617dedc6e1bf195a40869",
+      "seconds": 2.678101500001503,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 207.0,
+      "time_seconds": 3.433333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000105",
+      "capture_view": "cockpit",
+      "path": "000105.png",
+      "sha256": "746fb9612687446bcfd497d8a7c366fcdcb8da5af740ae12a551a3f069def461",
+      "seconds": 2.6931289000058314,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 209.0,
+      "time_seconds": 3.466666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000106",
+      "capture_view": "cockpit",
+      "path": "000106.png",
+      "sha256": "6decc8ad93929ff035d4ce7c5adb53a2948e13f41ef1523f43678c1da9309c32",
+      "seconds": 2.678056499993545,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 211.0,
+      "time_seconds": 3.5,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000107",
+      "capture_view": "cockpit",
+      "path": "000107.png",
+      "sha256": "f624d05031d32f329385290ee8fb22aa8acc4187318bc16f666ec8ea0f56f504",
+      "seconds": 2.6670510999974795,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 213.0,
+      "time_seconds": 3.533333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000108",
+      "capture_view": "cockpit",
+      "path": "000108.png",
+      "sha256": "afa1ecedde2823266f69dfc2589ebf005613cd7c276a05eaec11e2265ca832e2",
+      "seconds": 2.697299600004044,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 215.0,
+      "time_seconds": 3.566666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000109",
+      "capture_view": "cockpit",
+      "path": "000109.png",
+      "sha256": "29465934257401931f19c21aea85e8b8a5cdbf03d625d55cb13603b71ba6cbbc",
+      "seconds": 2.689113100001123,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 217.0,
+      "time_seconds": 3.6,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000110",
+      "capture_view": "cockpit",
+      "path": "000110.png",
+      "sha256": "87e6ceb2559a0229fe0274971f20cf49d576503bffe7028e8f84be74bf543f27",
+      "seconds": 2.668279400000756,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 219.0,
+      "time_seconds": 3.6333333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000111",
+      "capture_view": "cockpit",
+      "path": "000111.png",
+      "sha256": "ce98c6f115811d45cac561aef9dea8b222c6d6c05b29ae605547d094b80070eb",
+      "seconds": 2.687444900002447,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 221.0,
+      "time_seconds": 3.6666666666666665,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000112",
+      "capture_view": "cockpit",
+      "path": "000112.png",
+      "sha256": "f82bf23d52ac1b31dd80fa49f3f24fc36cf588577a92e9df508e787bd2f9e231",
+      "seconds": 2.6741383999979007,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 223.0,
+      "time_seconds": 3.7,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000113",
+      "capture_view": "cockpit",
+      "path": "000113.png",
+      "sha256": "f22e2c722e19b3c2fc4ecd5b17282e33954dc1dbd115912cd9266fc304f34093",
+      "seconds": 2.6872720000028494,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 225.0,
+      "time_seconds": 3.7333333333333334,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000114",
+      "capture_view": "cockpit",
+      "path": "000114.png",
+      "sha256": "9a9265fc69078735427d8ed858b9dae88ca2fe32403c2414bf4a9d1b004e35e9",
+      "seconds": 2.6560604000042076,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 227.0,
+      "time_seconds": 3.7666666666666666,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000115",
+      "capture_view": "cockpit",
+      "path": "000115.png",
+      "sha256": "04c31979b8ed1d0a0304275a774ff4b75b9826e7c4644756d61c9b03c9f1fd4c",
+      "seconds": 2.6499691999997594,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 229.0,
+      "time_seconds": 3.8,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000116",
+      "capture_view": "cockpit",
+      "path": "000116.png",
+      "sha256": "4f7f4b6759f0eeb8f6e70509d1873bf067dd75aa680a50e59d48b65717687e7b",
+      "seconds": 2.671351199998753,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 231.0,
+      "time_seconds": 3.8333333333333335,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000117",
+      "capture_view": "cockpit",
+      "path": "000117.png",
+      "sha256": "c7ae938f2c96a8a3268d0738fc6d381458a88415ecc81114c4d63dd240469656",
+      "seconds": 2.6544483000034234,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 233.0,
+      "time_seconds": 3.8666666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000118",
+      "capture_view": "cockpit",
+      "path": "000118.png",
+      "sha256": "72db60ea0457b4f90ea2896c8801a3c903a149bb39bf03a96d549b53cc5e4f5a",
+      "seconds": 2.6429463000022224,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 235.0,
+      "time_seconds": 3.9,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000119",
+      "capture_view": "cockpit",
+      "path": "000119.png",
+      "sha256": "4baef49cb7fdfc9ddb67624d40ef9744231d16494b1f09b53d42958ac77f63f6",
+      "seconds": 2.6511829999944894,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 237.0,
+      "time_seconds": 3.933333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000120",
+      "capture_view": "cockpit",
+      "path": "000120.png",
+      "sha256": "63d5e7249d58cb8a29efc82c168f80b9749d032178ee14a480231fdbc223f8a5",
+      "seconds": 2.641469500005769,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 239.0,
+      "time_seconds": 3.966666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000121",
+      "capture_view": "cockpit",
+      "path": "000121.png",
+      "sha256": "814b273d87072a72c92fa8eaa74b488b0afcef1112cc55d0600bdea593b3c999",
+      "seconds": 2.6284434999979567,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 241.0,
+      "time_seconds": 4.0,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000122",
+      "capture_view": "cockpit",
+      "path": "000122.png",
+      "sha256": "25a5c4bf433ab20a7765b9c35dce44c988f87cb97e1a063c5bc9e8120635e8d5",
+      "seconds": 2.652883800001291,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 243.0,
+      "time_seconds": 4.033333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000123",
+      "capture_view": "cockpit",
+      "path": "000123.png",
+      "sha256": "953a091e62f1d4afca5d72e574164b5e4062ef16bbbe73fa555772818a3538ef",
+      "seconds": 2.676986599995871,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 245.0,
+      "time_seconds": 4.066666666666666,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000124",
+      "capture_view": "cockpit",
+      "path": "000124.png",
+      "sha256": "3cf82f728c15f885f2c84ec85450d1ff8f72a1940a2e8901433e20348ccbe629",
+      "seconds": 2.6538978000025963,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 247.0,
+      "time_seconds": 4.1,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000125",
+      "capture_view": "cockpit",
+      "path": "000125.png",
+      "sha256": "9994f1cef3703abddbd14c9ddcbfa351117643f8c5f7b5d2b12b6b2d7fc1f6c9",
+      "seconds": 2.6529479999953764,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 249.0,
+      "time_seconds": 4.133333333333334,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000126",
+      "capture_view": "cockpit",
+      "path": "000126.png",
+      "sha256": "c82dd70601b9c9fb5fcf60db4556f3c6bc55ec5e08c06a529b5f254b237f1286",
+      "seconds": 2.6508230000035837,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 251.0,
+      "time_seconds": 4.166666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000127",
+      "capture_view": "cockpit",
+      "path": "000127.png",
+      "sha256": "c872537781c339b892bbfb24092e90d9df8e533493414c9534fcc6ed18634488",
+      "seconds": 2.673092299999553,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 253.0,
+      "time_seconds": 4.2,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000128",
+      "capture_view": "cockpit",
+      "path": "000128.png",
+      "sha256": "338d649a19e1d59b729bd7f1eeccb480403a5cd41d96910ee9de704cf941b47c",
+      "seconds": 2.6408350999990944,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 255.0,
+      "time_seconds": 4.233333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000129",
+      "capture_view": "cockpit",
+      "path": "000129.png",
+      "sha256": "f7ba5ffac5104a045337c3f2b3df027d44c3edba2a1490659fa8166f7cd6ef05",
+      "seconds": 2.640762700000778,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 257.0,
+      "time_seconds": 4.266666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000130",
+      "capture_view": "cockpit",
+      "path": "000130.png",
+      "sha256": "06a7a9f77d8760448dea289d965b82bd5725c1997807d8f4b1802e13ecf929d1",
+      "seconds": 2.6435598000025493,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 259.0,
+      "time_seconds": 4.3,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000131",
+      "capture_view": "cockpit",
+      "path": "000131.png",
+      "sha256": "d55a93f913ff9e621436c5199a11dca9f14d3ae4517a48b93bfc266b5119db20",
+      "seconds": 2.6517609000002267,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 261.0,
+      "time_seconds": 4.333333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000132",
+      "capture_view": "cockpit",
+      "path": "000132.png",
+      "sha256": "9213585ae81d83b181140b3a25d2c3f2a79f35278d3a2c04b6789da3724ee738",
+      "seconds": 2.695680300006643,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 263.0,
+      "time_seconds": 4.366666666666666,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000133",
+      "capture_view": "cockpit",
+      "path": "000133.png",
+      "sha256": "aa25f96aebb42c958f1a36e5b62c91827ca74e76ec2861812ad92758be2eb47d",
+      "seconds": 2.678574400000798,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 265.0,
+      "time_seconds": 4.4,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000134",
+      "capture_view": "cockpit",
+      "path": "000134.png",
+      "sha256": "c8aecbe9cbe5c2ad03a8cb2c9179c6c3b523191b00683e091391cf543aef0b62",
+      "seconds": 2.6850062999947113,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 267.0,
+      "time_seconds": 4.433333333333334,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000135",
+      "capture_view": "cockpit",
+      "path": "000135.png",
+      "sha256": "0aa8047f30eacde902a5810caf94e69a02feb6eb5f17a65b87f834b22a86b84f",
+      "seconds": 2.713124900001276,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 269.0,
+      "time_seconds": 4.466666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000136",
+      "capture_view": "cockpit",
+      "path": "000136.png",
+      "sha256": "a88555408c8b42eb4c4685a89a10e14b820130bb8b6bffb3bfdb0391683b3e2e",
+      "seconds": 2.6800460000013118,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 271.0,
+      "time_seconds": 4.5,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000137",
+      "capture_view": "cockpit",
+      "path": "000137.png",
+      "sha256": "11222691c377c4d9c2110042d51f0e846c21610bc1342d155691feb7790ab1c0",
+      "seconds": 2.691867599998659,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 273.0,
+      "time_seconds": 4.533333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000138",
+      "capture_view": "cockpit",
+      "path": "000138.png",
+      "sha256": "366d509fabd81f7f0b25cc7b68bd818112adbc40232c891da26653460a84dad8",
+      "seconds": 2.6878327000013087,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 275.0,
+      "time_seconds": 4.566666666666666,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000139",
+      "capture_view": "cockpit",
+      "path": "000139.png",
+      "sha256": "08df7eaa2ec8585750e482cc4c533bfd7b78b770489eb7fba2dd61d4d12b2b2b",
+      "seconds": 2.6916603999998188,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 277.0,
+      "time_seconds": 4.6,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000140",
+      "capture_view": "cockpit",
+      "path": "000140.png",
+      "sha256": "664c38b89e922d05dafe3dcf60a3323d7f5a0c1d6a6b2e60b22b8eaea1122794",
+      "seconds": 2.692114200006472,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 279.0,
+      "time_seconds": 4.633333333333334,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000141",
+      "capture_view": "cockpit",
+      "path": "000141.png",
+      "sha256": "5127e757f3d7e8e8e5ae5fb471b954fcd5ea2dc3dbd4888f9dd7b59d2b4b18e5",
+      "seconds": 2.7462245999995503,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 281.0,
+      "time_seconds": 4.666666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000142",
+      "capture_view": "cockpit",
+      "path": "000142.png",
+      "sha256": "6efbcd04e704311f2403f7fd30a39085e5add72b41373be9996fd011fd84ed68",
+      "seconds": 2.7126619999980903,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 283.0,
+      "time_seconds": 4.7,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000143",
+      "capture_view": "cockpit",
+      "path": "000143.png",
+      "sha256": "b57b2a1a05c4182c0cda173850889915f7da7e782ad4304ef9433fdbe946fbb3",
+      "seconds": 2.697118500000215,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 285.0,
+      "time_seconds": 4.733333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000144",
+      "capture_view": "cockpit",
+      "path": "000144.png",
+      "sha256": "d874f0bc2fa02cf08c2d13254ad4f9b1ca16036e74e237306642330bb2a6dd99",
+      "seconds": 2.6891032999992603,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 287.0,
+      "time_seconds": 4.766666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000145",
+      "capture_view": "cockpit",
+      "path": "000145.png",
+      "sha256": "cec92991cb94b4726f81872d819cc2397159eb1591d8b08cd56963e2862b2449",
+      "seconds": 2.698005699996429,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 289.0,
+      "time_seconds": 4.8,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000146",
+      "capture_view": "cockpit",
+      "path": "000146.png",
+      "sha256": "5bc59ab4d2930fab5103a48d6358e940eaf500121b3ab946c19ca36867ebd9db",
+      "seconds": 2.6888793999969494,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 291.0,
+      "time_seconds": 4.833333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000147",
+      "capture_view": "cockpit",
+      "path": "000147.png",
+      "sha256": "1d1c692fc9797aa68647ccbad68c5232adb2bf80459bebb654afd0af83df6de3",
+      "seconds": 2.6902909000054933,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 293.0,
+      "time_seconds": 4.866666666666666,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000148",
+      "capture_view": "cockpit",
+      "path": "000148.png",
+      "sha256": "df48392d3949ddd0c366371f83010fa548071d638158d1b67b50bae553c1aaab",
+      "seconds": 2.6909507000018493,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 295.0,
+      "time_seconds": 4.9,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000149",
+      "capture_view": "cockpit",
+      "path": "000149.png",
+      "sha256": "b08d82fc913f06cc915f26e4906e403368de57bdcdaa7aeb6f1009b032fe447c",
+      "seconds": 2.684907099996053,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 297.0,
+      "time_seconds": 4.933333333333334,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000150",
+      "capture_view": "cockpit",
+      "path": "000150.png",
+      "sha256": "69948caf3c5d9c62951bc14c5f00cccd83fe1c772a04dafc638d29aba5d39f55",
+      "seconds": 2.681096599997545,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 299.0,
+      "time_seconds": 4.966666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000151",
+      "capture_view": "cockpit",
+      "path": "000151.png",
+      "sha256": "bbeb459b83ca8e3275ffb33cf084e846a3c7d959a351201ee0935a994e5398eb",
+      "seconds": 2.710128500002611,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 301.0,
+      "time_seconds": 5.0,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000152",
+      "capture_view": "cockpit",
+      "path": "000152.png",
+      "sha256": "2cda5c5005979e0f7524ea688a399af0c7b6606102128fecc113541235021be8",
+      "seconds": 2.6873312999960035,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 303.0,
+      "time_seconds": 5.033333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000153",
+      "capture_view": "cockpit",
+      "path": "000153.png",
+      "sha256": "8fa72d95158b9fa0600931aed54ec8b672de7c482d2a6b214cda9caf458ac34f",
+      "seconds": 2.6723038999989512,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 305.0,
+      "time_seconds": 5.066666666666666,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000154",
+      "capture_view": "cockpit",
+      "path": "000154.png",
+      "sha256": "b93484ef58f7151445cda25c6f761d7388800a470f9436637dbc262bcf5d69e5",
+      "seconds": 2.670289600006072,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 307.0,
+      "time_seconds": 5.1,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000155",
+      "capture_view": "cockpit",
+      "path": "000155.png",
+      "sha256": "803b01b8f70f93022eede06a9a29239612f981c869cd706ff2157166229525bc",
+      "seconds": 2.660289900006319,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 309.0,
+      "time_seconds": 5.133333333333334,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000156",
+      "capture_view": "cockpit",
+      "path": "000156.png",
+      "sha256": "ed0a3c666d42b1432fd4f2105965b90ebc207a7656e94d1e15bfae08d562c49c",
+      "seconds": 2.6598005999985617,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 311.0,
+      "time_seconds": 5.166666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000157",
+      "capture_view": "cockpit",
+      "path": "000157.png",
+      "sha256": "680de8ee7ad40e8f379f5928b834bdbf24edfbf4e534f5b9eb45a295c8897a22",
+      "seconds": 2.669823300006101,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 313.0,
+      "time_seconds": 5.2,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000158",
+      "capture_view": "cockpit",
+      "path": "000158.png",
+      "sha256": "c896b718b077dddf69f790f4d5e06fb88e0173078ba91eb034d7853c35ce46c0",
+      "seconds": 2.657796100000269,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 315.0,
+      "time_seconds": 5.233333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000159",
+      "capture_view": "cockpit",
+      "path": "000159.png",
+      "sha256": "e010d3e0a2e42ac1730f4ffb3996a7da2a96080157ad30bacbdb3c4148fb56a3",
+      "seconds": 2.650895999999193,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 317.0,
+      "time_seconds": 5.266666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000160",
+      "capture_view": "cockpit",
+      "path": "000160.png",
+      "sha256": "be1e8ef0adcf95301a1a6ebee57c2486b50e73fdf12a51bd9abbdf32c86f40db",
+      "seconds": 2.6452721999958158,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 319.0,
+      "time_seconds": 5.3,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000161",
+      "capture_view": "cockpit",
+      "path": "000161.png",
+      "sha256": "7d5fed041c351e08580c82c5c00393f430839aca6a2f38810fde1759affbc3a8",
+      "seconds": 2.656322499999078,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 321.0,
+      "time_seconds": 5.333333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000162",
+      "capture_view": "cockpit",
+      "path": "000162.png",
+      "sha256": "53e3210e151668a59a058e528193d7f6381a24bf0cd0c43b3ef644f7cfd81591",
+      "seconds": 2.6636357000024873,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 323.0,
+      "time_seconds": 5.366666666666666,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000163",
+      "capture_view": "cockpit",
+      "path": "000163.png",
+      "sha256": "187515f76f566949dee2ff64450605df74f711494b32c294789b827b31a72732",
+      "seconds": 2.648693399998592,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 325.0,
+      "time_seconds": 5.4,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    }
+  ]
+}

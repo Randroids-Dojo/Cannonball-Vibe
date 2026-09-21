@@ -1,0 +1,422 @@
+{
+  "source": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\checkpoints\\production-34.blend",
+  "configuration": {
+    "source_sha256": "0b4220d5c3f0024054de17a3c36add3388a4f52be2046cc2b837f3bac9edf793",
+    "renderer_sha256": "62a91929e55512a48483a5dd79faca86e5e5db183ab018bb453b5cd17cdc4f2d",
+    "blender": "5.1.2",
+    "build_hash": "ec6e62d40fa9",
+    "engine": "CYCLES",
+    "device": "GPU",
+    "devices": [
+      {
+        "name": "NVIDIA GeForce RTX 3080 Ti",
+        "type": "CUDA",
+        "enabled": false
+      },
+      {
+        "name": "AMD Ryzen 9 5900X 12-Core Processor",
+        "type": "CPU",
+        "enabled": false
+      },
+      {
+        "name": "NVIDIA GeForce RTX 3080 Ti",
+        "type": "OPTIX",
+        "enabled": true
+      }
+    ],
+    "size": [
+      2560,
+      1440
+    ],
+    "samples": 64,
+    "denoising": true,
+    "view_transform": "AgX",
+    "look": "AgX - Medium High Contrast",
+    "exposure": 0.0,
+    "clay": false,
+    "source_controls": {},
+    "lighting": "neutral",
+    "sequence": "none",
+    "frame_count": 10,
+    "fps": 30,
+    "views": "swatch_board,swatch_Paint,swatch_Trim,swatch_Rubber,swatch_Leather,swatch_Carpet,swatch_Fabric,swatch_Alloy,swatch_Metal,swatch_Glass",
+    "ray_bounces": 10,
+    "source_timeline_fps": 60,
+    "inspection_fill_watts": 0,
+    "inspection_fill_disk_diameter_m": {
+      "default": 0.35,
+      "pedals": 0.14,
+      "rear_seats": 0.2,
+      "front_belt_left": 0.2
+    },
+    "inspection_fill_camera_local_m": [
+      0,
+      0,
+      0.025
+    ],
+    "denoiser": "OPENIMAGEDENOISE",
+    "denoising_use_gpu": true,
+    "denoising_prefilter": "ACCURATE",
+    "technical_overlay": null,
+    "review_overlay_tool_sha256": "230827eb0257dd454e9429ddd3dd68e51107b540d58f6e18e893542196805fb7",
+    "review_geometry_tool_sha256": "0e9fad40b0d14ba1265958bd6836d133fde89474efd6f988860f46fc2cde2b90",
+    "material_swatches": {
+      "Paint": {
+        "source_material": "Material_Paint",
+        "sphere_diameter_m": 0.86,
+        "uv_meters_per_repeat": 0.25
+      },
+      "Trim": {
+        "source_material": "Material_Trim",
+        "sphere_diameter_m": 0.86,
+        "uv_meters_per_repeat": 0.25
+      },
+      "Rubber": {
+        "source_material": "Material_Rubber",
+        "sphere_diameter_m": 0.86,
+        "uv_meters_per_repeat": 0.25
+      },
+      "Leather": {
+        "source_material": "Material_Leather",
+        "sphere_diameter_m": 0.86,
+        "uv_meters_per_repeat": 0.25
+      },
+      "Carpet": {
+        "source_material": "Material_Carpet",
+        "sphere_diameter_m": 0.86,
+        "uv_meters_per_repeat": 0.25
+      },
+      "Fabric": {
+        "source_material": "Material_Fabric",
+        "sphere_diameter_m": 0.86,
+        "uv_meters_per_repeat": 0.25
+      },
+      "Alloy": {
+        "source_material": "Material_Alloy",
+        "sphere_diameter_m": 0.86,
+        "uv_meters_per_repeat": 0.25
+      },
+      "Metal": {
+        "source_material": "Material_Metal",
+        "sphere_diameter_m": 0.86,
+        "uv_meters_per_repeat": 0.25
+      },
+      "Glass": {
+        "source_material": "Material_Glass",
+        "sphere_diameter_m": 0.86,
+        "uv_meters_per_repeat": 0.25
+      }
+    },
+    "swatch_board_source_centers_m": {
+      "Paint": [
+        -1.05,
+        0,
+        2.56
+      ],
+      "Trim": [
+        0.0,
+        0,
+        2.56
+      ],
+      "Rubber": [
+        1.05,
+        0,
+        2.56
+      ],
+      "Leather": [
+        -1.05,
+        0,
+        1.51
+      ],
+      "Carpet": [
+        0.0,
+        0,
+        1.51
+      ],
+      "Fabric": [
+        1.05,
+        0,
+        1.51
+      ],
+      "Alloy": [
+        -1.05,
+        0,
+        0.46
+      ],
+      "Metal": [
+        0.0,
+        0,
+        0.46
+      ],
+      "Glass": [
+        1.05,
+        0,
+        0.46
+      ]
+    }
+  },
+  "configuration_sha256": "06fe679eb447b08952797dfb62380ecb2c63533b7a8f6e8037dc25349b7d33c9",
+  "status": "completed",
+  "frames": [
+    {
+      "view": "swatch_board",
+      "capture_view": "swatch_board",
+      "path": "swatch_board.png",
+      "sha256": "9f7a6baff67933cfd1a2edd9c99bd4ad2903cf10bef92f6d2930ea118ba3d6b3",
+      "seconds": 1.7678172000014456,
+      "cold": true,
+      "camera_location": [
+        0,
+        8,
+        1.52
+      ],
+      "camera_target": [
+        0,
+        0,
+        1.52
+      ],
+      "orthographic": true,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 1,
+      "time_seconds": 0.0,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "swatch_Paint",
+      "capture_view": "swatch_Paint",
+      "path": "swatch_Paint.png",
+      "sha256": "701c58f13fccd678092e1c84662e8d065d66126aad2372569525dc538b7b9fa8",
+      "seconds": 2.6205979000005755,
+      "cold": false,
+      "camera_location": [
+        1.8,
+        2.6,
+        1.3
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.45
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 1,
+      "time_seconds": 0.0,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "swatch_Trim",
+      "capture_view": "swatch_Trim",
+      "path": "swatch_Trim.png",
+      "sha256": "4ef719806b32ec0ed565a67d21857f4764a834214fb265265ed5f94910109ec2",
+      "seconds": 2.5156669999996666,
+      "cold": false,
+      "camera_location": [
+        1.8,
+        2.6,
+        1.3
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.45
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 1,
+      "time_seconds": 0.0,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "swatch_Rubber",
+      "capture_view": "swatch_Rubber",
+      "path": "swatch_Rubber.png",
+      "sha256": "3f4cfe8edc76ae46df9b02f781fc46f20d7def28289422d123c4956f06d02364",
+      "seconds": 2.4830604000017047,
+      "cold": false,
+      "camera_location": [
+        1.8,
+        2.6,
+        1.3
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.45
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 1,
+      "time_seconds": 0.0,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "swatch_Leather",
+      "capture_view": "swatch_Leather",
+      "path": "swatch_Leather.png",
+      "sha256": "652eb259d53c83b97ebc9b389fb3d6025fce83127fec147cd9a083b3ba153b9b",
+      "seconds": 2.499659499997506,
+      "cold": false,
+      "camera_location": [
+        1.8,
+        2.6,
+        1.3
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.45
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 1,
+      "time_seconds": 0.0,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "swatch_Carpet",
+      "capture_view": "swatch_Carpet",
+      "path": "swatch_Carpet.png",
+      "sha256": "c146e5ea31857d68cca7b4f95eb86476a46b901d7153ebefb99b93fd7e2cb8e9",
+      "seconds": 2.478683599998476,
+      "cold": false,
+      "camera_location": [
+        1.8,
+        2.6,
+        1.3
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.45
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 1,
+      "time_seconds": 0.0,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "swatch_Fabric",
+      "capture_view": "swatch_Fabric",
+      "path": "swatch_Fabric.png",
+      "sha256": "66cf89f5d56ba5b2c5603066a75c505affa9a3e22847a73a7219077e08794685",
+      "seconds": 2.472223500000837,
+      "cold": false,
+      "camera_location": [
+        1.8,
+        2.6,
+        1.3
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.45
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 1,
+      "time_seconds": 0.0,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "swatch_Alloy",
+      "capture_view": "swatch_Alloy",
+      "path": "swatch_Alloy.png",
+      "sha256": "b01b266ce1e8e6ae3ac259bfdd3be9868b83cd7d8b76105251319d9b4c4cb5d7",
+      "seconds": 2.480597599998873,
+      "cold": false,
+      "camera_location": [
+        1.8,
+        2.6,
+        1.3
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.45
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 1,
+      "time_seconds": 0.0,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "swatch_Metal",
+      "capture_view": "swatch_Metal",
+      "path": "swatch_Metal.png",
+      "sha256": "56794338fb62527414f7a4dc5b1d094336da4f60bb40ea154d401710f225bec9",
+      "seconds": 2.4567344000024605,
+      "cold": false,
+      "camera_location": [
+        1.8,
+        2.6,
+        1.3
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.45
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 1,
+      "time_seconds": 0.0,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "swatch_Glass",
+      "capture_view": "swatch_Glass",
+      "path": "swatch_Glass.png",
+      "sha256": "a7c85b798c2b7f77f5df80d8bf9f6deb044e863a6cb7ca0ce073754a6817fb74",
+      "seconds": 3.32866980000108,
+      "cold": false,
+      "camera_location": [
+        1.8,
+        2.6,
+        1.3
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.45
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 1,
+      "time_seconds": 0.0,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    }
+  ]
+}

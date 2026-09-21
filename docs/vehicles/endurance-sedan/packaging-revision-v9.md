@@ -1,0 +1,21 @@
+# Meridian S8R packaging revision 9
+
+2026-09-11. Source20 removed the exposed hinge holes, smoothed the bumper shoulder and eliminated the large reflected instrument digits in matched native renders. Full assembly QA nevertheless found the rebuilt rear hinge hardware overlapping the original front-door trailing area, the new roof rail meeting moving window frames, and the instrument shade reaching the wiper/glass plane. These remain failed candidates until corrected.
+
+The front door trailing boundary, glazing, aperture seal, inner hem and latch move 64 mm forward as one assembly. The resulting wider fixed B-pillar houses the concealed rear hinge at the previously tested X=+/-0.915 m, Y=-0.585 m axis. A formed outer B-pillar panel closes the window surround. Front door access remains over one meter long; the locked seat, eye, wheelbase and external dimensions are unchanged. All four door sweeps require new evidence, including the neighboring closed doors.
+
+The roof-side beam now returns inward beneath the roof, placing its lower structure inside the moving glazing envelope. Its structural depth is not allowed to cross a window's swept path. The instrument shade front edge retracts 75 mm, preserving its rear overhang and locked display/eye relationship while clearing the actual windshield and wipers. Fixed-eye glare and readability must be checked again.
+
+The folded hinge arm now joins tangentially to the outside of its separate moving bearing sleeve. The sleeve retains the real bore and pin. This replaces the redundant bore cut through a capped curved arm: native source20 polygons appeared closed, but Blender's ngon triangulation duplicated one triangle per arm and made the batched mesh invalid. The retained diagnostic is `reports/p1-018/batch-arm-20/diagnostic.json`. No invalid triangle is deleted or waived to pass the gate.
+
+The front arm knee moves 12 mm inward to correct its measured 0.751 mm body interference at full opening. Its tube radius, bearing and door attachment remain unchanged; the complete sweep must demonstrate at least 1 mm clearance to unrelated rigid parts.
+
+Side mirror cameras move from source Y=0.610 m to 0.547 m, retaining X=+/-1.020 m and Z=1.065 m. Exact imported triangles showed the old cameras inside the opaque housing. A native candidate with only the anchor moved passes moving-target, projection, door-follow and disabled-view tests at the same 15 Hz update rate; targets-hidden negative images contain no detections. The old anchors fail the corrected detector. Evidence: `reports/p1-018/runtime/production18-mirror-native-candidate-02/` and the retained baseline. These tests justify the authored position; final exported-source verification remains required.
+
+The detached interior mirror stem is replaced by a 3.5 mm radius bent arm between the actual housing face and a 34 x 26 x 3 mm windshield mounting button. Both ends have defined flush attachment faces. Native isolated triangle checks show no housing penetration and at least 1.609 mm clearance inside the windshield plane; the first 4.5 mm candidate failed and remains retained. Exact points, pad orientation and observed bounds are in `reports/p1-018/research/surface-mirror-20/mirror-candidate.json`. Final cabin, mirror and wiper checks still apply. The reflective surface and rear camera do not move.
+
+Screen UV coordinates are derived from the inverse authored screen transform. Native Godot18 proved that tilted face-loop reordering had rotated and stretched the instrument image; the viewport itself was upright. This correction must pass imported mesh UV-direction tests and actual cockpit captures.
+
+The exact rear shell/rubber-seal near-stop zone is separately measured in `reports/p1-018/qa/rear-axis-18/seal-engagement-01.json`: closed gap 0.520289 mm, crossing 1 mm between 0.3944 and 0.4002 degrees of opening. This is a named compliant perimeter-seal interface within 0.41 degrees of the closed stop, not permission for other moving parts to miss the 1 mm clearance requirement. New full-assembly evidence must reconfirm its bound.
+
+Revision8 remains immutable. Source20, invalid source19 LOD generation and prior native defects are retained. Engineering references, gameplay policies and human approval gates remain unchanged.

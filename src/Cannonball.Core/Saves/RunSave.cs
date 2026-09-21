@@ -179,13 +179,37 @@ public sealed class JsonRunStateRepository : IRunStateRepository
                     // Preserve the last known-good backup when the primary is not durable.
                 }
             }
-            File.Move(temporaryPath, _path, overwrite: true);
+            await ReplacePrimaryAsync(temporaryPath, cancellationToken);
         }
         finally
         {
             if (File.Exists(temporaryPath))
             {
                 File.Delete(temporaryPath);
+            }
+        }
+    }
+
+    private async Task ReplacePrimaryAsync(string temporaryPath, CancellationToken cancellationToken)
+    {
+        const int maximumAttempts = 21;
+        for (var attempt = 1; ; attempt++)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            try
+            {
+                File.Move(temporaryPath, _path, overwrite: true);
+                return;
+            }
+            catch (Exception error) when (
+                OperatingSystem.IsWindows() && attempt < maximumAttempts &&
+                error is IOException or UnauthorizedAccessException &&
+                (error.HResult & 0xffff) is 5 or 32 or 33)
+            {
+                // A reader can briefly deny destination replacement on Windows.
+                // Keep the complete old primary and flushed temporary file intact;
+                // Retry waits total one second; persistent access errors propagate.
+                await Task.Delay(50, cancellationToken);
             }
         }
     }

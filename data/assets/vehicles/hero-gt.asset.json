@@ -42,7 +42,7 @@
       "tool": "Godot",
       "tool_version": "4.7.1.stable.mono.official.a13da4feb",
       "script": "tools/vehicles/pack_imported_scene.gd",
-      "script_sha256": "fbb354608fa2aed7c2bf318626fe1ce8b058f85e9c3d3f3ae62f1f01ff354fa5",
+      "script_sha256": "d79a18b9619c57aa21e78875d33210de8e176bb7cacfc6375ebe849917c5e8a1",
       "profile": "tools/assets/profiles/godot-4.7.1-v1.json",
       "profile_sha256": "22feccfc894d853a070bbcfd3ba04963165d72adfa918dbfdb657b2dbbfc5645",
       "inputs": [
@@ -58,7 +58,7 @@
       "tool": "Godot",
       "tool_version": "4.7.1.stable.mono.official.a13da4feb",
       "script": "tools/vehicles/validate_import.gd",
-      "script_sha256": "06ac418c5709f98228d410d2ffb21273408cd59167cbd6665f340706fd5c97a0",
+      "script_sha256": "0120d02f9d0da29c6b107f4c3cdf7c432e8c2c2aa74017d98035a3b4136fa033",
       "profile": "tools/assets/profiles/godot-4.7.1-v1.json",
       "profile_sha256": "22feccfc894d853a070bbcfd3ba04963165d72adfa918dbfdb657b2dbbfc5645",
       "inputs": [
@@ -93,7 +93,7 @@
     },
     {
       "path": "game/Vehicle/VehicleVisualRig.cs",
-      "sha256": "e27bc7e9a9087a268ae2a9bbd6c81896c7fbaaa41a08eca76850ea4aaba6f1f4",
+      "sha256": "bd0d6d3584f037dd349287db83eb8c20cbcd65403bcb8d4103bcb2970660f83e",
       "kind": "runtime-adapter"
     },
     {
@@ -108,12 +108,12 @@
     },
     {
       "path": "data/assets/vehicles/hero-gt.blender.json",
-      "sha256": "48f9f9a6cd60064cce9a80e1ead2ec5987839a6dfe4588a18c0c92fcf4dcca4e",
+      "sha256": "0209fbe37f06228042b7462d401e1e6c8a04d98f6c7850303721fcc762087492",
       "kind": "blender-inventory"
     },
     {
       "path": "data/assets/vehicles/hero-gt.godot.json",
-      "sha256": "c0dee4fd80aa0c3c506f0c254ab44faadad67442e3fda74e98bd3f870e9bc80f",
+      "sha256": "3a0dedb2b63117490f23a67a41b055ce57cbc33d1aea4aeed4e02413d717e96c",
       "kind": "godot-inventory"
     }
   ],

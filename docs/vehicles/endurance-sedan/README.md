@@ -1,0 +1,307 @@
+# Meridian S8R
+
+An original four-door endurance sedan built for Cannonball-Vibe. Its engineering
+benchmark is the documented 2016 US Audi S6 configuration in [research.md](research.md);
+the identity, exterior, cabin and preparation layout are fictional. The existing
+Hero GT remains available.
+
+The authoritative completion record is [P1-018](../../DELIVERY_LEDGER.json).
+Machine verification and the required human art, rights, handling and usability
+reviews are separate. This vehicle is a review candidate until those gates close.
+
+The [v34 construction checkpoint](art-checkpoint-v34.md) retains the fresh Blender
+recipe, reopened source and actual surface-review captures. The [current showroom checkpoint](showroom-checkpoint-v37.md) records
+the interactive viewer, corrected paint reflections and controls, actual modal captures, retained recorded walkthrough, pointer checks and Windows verification. The installed source and Godot GLB are
+still the previous production34 candidate while internal assembly repairs finish.
+
+## Open and inspect the model
+
+From the repository root in PowerShell:
+
+```powershell
+$sedanBlender = 'C:\Program Files\Blender\blender-5.1.2-windows-x64\blender.exe'
+& $sedanBlender 'data/assets/vehicles/sources/endurance-sedan.blend'
+```
+
+`Asset` contains the model, editable LOD0 assemblies, semantic pivots and derived
+LOD1/LOD2 meshes. `Preview` contains the original studio, camera and source-only
+illumination. Units are meters; +Y points forward and +Z points up. The origin is
+on the ground midway between the axles. Godot converts source `(x,y,z)` to `(x,z,-y)`.
+
+Select `RigControls` in the Outliner and edit **Object Properties > Custom
+Properties**. Set `Door_FL_open`, `Door_FR_open`, `Door_RL_open`, `Door_RR_open`,
+`Hood_Hinge_open` or `Trunk_Hinge_open` between 0 and 1. `steering` spans -1 to 1;
+`wheel_roll` is radians and `suspension` spans -0.075 to +0.085 meters. The
+`accelerator`, `brake`, lamp and signal properties preview their named functions.
+Use `wiper_sweep` for a fixed pose or `wipers_running=1` and play the timeline.
+`source_sim_*` properties preview dashboard values. These are editable inspection
+controls; Godot supplies actual runtime state through the imported pivots.
+
+Edit the individual LOD0 meshes and modifier stacks. Derived LODs and export
+batches can be regenerated. Return all ordinary preview controls to zero before
+export; the exporter rejects an unparked source. No script-handler installation,
+linked library or external texture folder is needed to inspect the saved source.
+
+The readable [dimension sheet](dimension-sheet.md), locked
+[specification](specification.json), [design rationale](original-design-rationale.md)
+and [acceptance matrix](acceptance.json) distinguish factory values, source
+uncertainty, original choices and modeling tolerances.
+
+## Select and drive
+
+For the interactive showroom, build the project and launch the dedicated scene:
+
+```bash
+dotnet build Cannonball.csproj
+./scripts/godot.sh --path "$PWD" res://game/Vehicle/Showroom/VehicleShowroom.tscn
+```
+
+During a drive, stop, press **F2**, and choose **Explore in showroom**. The
+viewer pauses that run and returns to its parked inspection panel on exit.
+Drag to orbit, use the wheel to zoom, and right-drag to pan. **I/J/K/L** orbit,
+**W/A/S/D** pan, **+/-** zoom, **R** resets, and **F1** hides/shows the interface.
+On a controller, the right stick orbits, triggers zoom, D-pad/A operate controls,
+shoulder buttons cycle viewpoints, X opens/closes all panels, Y resets, and B
+returns. Click the right stick (**R3**) to hide or restore the controls. The
+sidebar exposes all six hinges and neutral studio/daylight/night
+lighting. Exterior, cabin, engine and luggage buttons set inspection viewpoints;
+the underbody view removes the display floor. **Save photo** writes the actual
+car viewport without UI to `user://showroom/photos/`. The confirmation truncates
+long paths to fit; its tooltip retains the complete path.
+
+The showroom uses the current integrated model. It does not include unexported
+Blender refinement candidates or imply that their visual gates have passed.
+
+Use Git Bash with the pinned prerequisites described in the main repository
+README. Build the official fixture, then launch manual driving:
+
+```bash
+./scripts/run-scenario.sh --fixture official-corridor --smoke-test
+package="$(node -p 'require("./.tools/scenarios/official-corridor/current-package.json").root_relative_path')"
+./scripts/godot.sh --path "$PWD" -- \
+  "--route-package=$PWD/.tools/scenarios/official-corridor/$package" \
+  --vehicle=endurance-sedan
+```
+
+| Action | Keyboard | Controller |
+| --- | --- | --- |
+| Accelerate / brake | W / S | RT / LT |
+| Steer | A / D | Left stick |
+| Reverse | Q | Hold LT at a stop |
+| Handbrake / recover | Space / R | X / Y |
+| Chase / cockpit | V | Right-stick click |
+| Look / rear view | I J K L / hold B | Right stick / hold LB |
+| Save checkpoint | F5 | No existing binding |
+| Parked inspection | F2 | RB |
+
+Stop below 0.5 m/s to inspect. The labeled panel operates all four doors, hood,
+trunk, lights, wipers and cameras. Navigate with arrows/D-pad and Enter/Space/A
+or the mouse. F2/RB/Esc/B returns to driving. Its selector changes between
+Meridian S8R, Hero GT and graybox at the current route position. The selected
+presentation is saved separately from authoritative run state. F5 saves a
+checkpoint while driving continues. Wait for `CANNONBALL_SAVE_OK` in the
+console before closing. Add `--resume` to the same manual launch command to
+load the saved checkpoint.
+
+H cycles auto/on/off headlights; T toggles wipers; comma/period toggle left/right
+indicators and slash toggles hazards. Brake and reverse lamps follow driving
+state. Cockpit instruments show speed in mph, gear, RPM, fuel in liters and
+relevant indications. Mirrors render live rearward views while the cockpit is
+active; their implementation and measured costs belong to the runtime evidence.
+
+Open `game/Vehicle/Visuals/EnduranceSedan.tscn` in Godot to inspect the owned
+wrapper. The existing custom four-raycast rigid-body simulation remains
+authoritative. Starter and HighSpeedValidation policies are unchanged. Modeled
+engine, transmission, cooling, fuel-cell and underbody assemblies are inspection
+geometry; they do not implement thermodynamics, mechanical engine internals or
+auxiliary fuel-transfer simulation. No physical-wheel calibration is implied.
+
+## Reproduce and verify
+
+The source builder snapshots the constructor, specification and early integration
+proof into a new candidate project, then starts with an empty Blender scene.
+Use a fresh output directory to preserve edited sources and earlier evidence:
+
+```powershell
+python tools/vehicles/build_endurance_sedan.py `
+  --blender-bin $sedanBlender --output reports/p1-018/reconstruction
+```
+
+The source-only candidate is under `reports/p1-018/reconstruction/project/`. Its
+`data/assets/vehicles/sources/` directory contains the editable final `.blend`,
+construction and lower-LOD companions, and a source-generation binding. The
+`endurance-sedan-generation/` subdirectory retains actual native checkpoints and
+separate command logs. Finalization builds the lower LODs, saves the final source,
+reopens it, and independently checks the current front and lower meshes.
+The current tire revision also retains the actual source before its groove edit.
+The snapshot contains the vehicle Python/JSON tools and the specification and
+blockout proof. It is not a runnable Godot project or a complete copy of the
+Node/shell asset verifier. The command does not install the candidate; complete
+source, export, runtime and visual verification is still required. Direct
+`create_endurance_sedan.py` calls remain available for blockouts and explicit
+surface previews.
+
+After the owner promotes a coherent source/runtime package, run the repository
+front doors from Git Bash with `BLENDER_BIN` set to the
+pinned executable and `GODOT_BIN` set to official Godot 4.7.1 .NET:
+
+```bash
+./scripts/check.sh
+./scripts/verify-vehicle-asset.sh --vehicle endurance-sedan --all-lods
+./scripts/verify-vehicle-asset.sh --vehicle hero-gt --all-lods
+./scripts/verify-endurance-sedan.sh --output-root reports/p1-018/fresh-runtime-check
+```
+
+Use a fresh evidence directory for each attempt. Preserve failures. The sedan
+asset gate reopens the source, exports twice, imports twice into clean staging
+projects and compares shipping bytes, including normalized resources and release
+packs. It also exercises deliberately invalid source and wrapper controls.
+The [ordered-corner encoding bake](export-corner-bake.md) checks raw exported
+triangle winding, position, normal and both UV channels against the reviewed
+source-bound encoding. Scene, material and embedded-image payloads must match
+exactly. Both the raw pre-corner export and the subsequent pre-UV export are
+retained. The [evaluated UV bake](export-uv-bake.md) remains a separate check.
+A source edit requires explicit new corner and UV bakes and a new review;
+neither lock is refreshed implicitly by normal export or verification.
+See [qa-plan.md](qa-plan.md) and [defects.json](defects.json) for independent review
+requirements and observed defects. A successful command is not human approval.
+
+The independent source gate reopens the selected Blender file and checks its
+evaluated geometry, control/light drivers, complete opening domains, tires,
+wipers, named construction interfaces and deliberate rejection controls:
+
+```powershell
+$sedanCandidate = (Resolve-Path 'reports/p1-018/reconstruction/project').Path
+python tools/vehicles/endurance_sedan/qa/run.py `
+  --source "$sedanCandidate/data/assets/vehicles/sources/endurance-sedan.blend" `
+  --source-binding "$sedanCandidate/data/assets/vehicles/sources/endurance-sedan.source-binding.json" `
+  --construction-root $sedanCandidate `
+  --blender $sedanBlender --output reports/p1-018/fresh-source-qa
+```
+
+It copies its exact QA tools into the new evidence directory. The validated
+binding selects 21 stages for historical v1, 24 for base v2, 25 with either the
+repeated-detail or valance-cover policy, and 26 with both. The current
+specification declares both; the complete ordered inventory is defined by
+[the source gate](../../../tools/vehicles/endurance_sedan/qa/README.md).
+Current validation separately exercises the
+actual historical shoulder checkpoint, the current front fields and the reopened
+final lower meshes. Its explicit current static profile checks all ten cargo
+mounts, their twenty complete bearing faces and every mount against the other
+LOD0 parts. The raised-floor gland is checked against its current dimensions and
+finite rubber contact region; this does not claim a pressure seal or mechanical
+fuel simulation. Historical bindings retain the original static profile.
+It also includes exact authored-mesh and final lower-LOD
+self checks, finite cupholder seats, formed-header, latch and the declared
+upholstery support interfaces. These selected interfaces do not certify every
+internal floor, drivetrain or upholstery contact; the defect ledger retains
+newly discovered assembly interference until its affected domain is verified.
+Partial output or a successful native process alone
+does not satisfy that gate. [Retained construction evidence](../../../data/assets/vehicles/endurance-sedan-review/evidence/README.md)
+preserves original checkpoints, before/after images, failures and corrections.
+
+The current construction revision also retains
+`pre-lod/pre-detail/source.blend` immediately before reducing ten airbox ribs
+and 36 cooling fins. The new geometry comes from those actual native members;
+its companion binds the checkpoint and construction tools. Its independent
+stage runs after driver extraction. The valance-cover revision also retains
+`pre-lod/pre-cover/source.blend` and `requested.json.gz`; its stage runs before
+static interfaces. Static QA consumes the complete finite joint certificate,
+and subsequent opening verification covers all five cover members. Historical
+partial or shorter inventories cannot approve the current revised source.
+
+Prepare fresh corner and UV locks explicitly after a source change. With
+`$sedanCandidate` set as above, create an unused export directory and run:
+
+```powershell
+$sedanExport = 'reports/p1-018/final-export-NEW'
+New-Item -ItemType Directory -Path $sedanExport -ErrorAction Stop | Out-Null
+& $sedanBlender --background --factory-startup --threads 2 --python-exit-code 1 `
+  --python tools/vehicles/validate_and_export_endurance_sedan.py -- `
+  --source "$sedanCandidate/data/assets/vehicles/sources/endurance-sedan.blend" `
+  --source-binding "$sedanCandidate/data/assets/vehicles/sources/endurance-sedan.source-binding.json" `
+  --construction-root $sedanCandidate `
+  --output "$sedanExport/endurance-sedan.glb" --inventory "$sedanExport/blender.json" `
+  --prepare-corner-bake "$sedanExport/endurance-sedan.corner-bake.json" `
+  --prepare-uv-bake "$sedanExport/endurance-sedan.uv-bake.json"
+```
+
+This prepares source-bound export bytes and new locks. It does not install them
+or establish complete asset acceptance. Review the actual source, raw/final
+GLBs, recorded correspondence and imported result before promoting either lock.
+
+For the complete asset candidate gate, the source owner must first stage a
+complete isolated repository/runtime project containing the mutually bound
+source, sibling binding and companions, the entire referenced
+`endurance-sedan-generation/` tree, exact constructor Python/JSON closure and
+specification, reviewed paired bakes, current export/gate tools, wrappers,
+setups, import settings and declared textures/environment assets. Preserve the
+immutable constructor inputs. The full verifier has no separate construction
+root option: its own project paths must satisfy the binding.
+
+From that complete staged project, run:
+
+```bash
+./scripts/verify-vehicle-asset.sh --vehicle endurance-sedan --all-lods --candidate --output reports/p1-018/final-asset-candidate-NEW
+```
+
+`--candidate` defers equality with installed generated outputs; it does not
+select a separately constructed source or install results. The gate still
+requires two exports, clean imports, shipping-byte comparison and corruption
+controls. Its `candidate_outputs` and source-generation manifests identify the
+delivery files. Promote the coherent source package, paired locks and runtime
+outputs together, then run the ordinary delivered gate without `--candidate`.
+A GLB-only copy is insufficient.
+
+The actual native capture front door uses a fresh output directory and validates
+the complete movie, stage inventory, image resolution and unchanged inputs:
+
+```bash
+package="$(node -p 'require("./.tools/scenarios/representative-corridor/current-package.json").root_relative_path')"
+route="$PWD/.tools/scenarios/representative-corridor/$package"
+./scripts/capture-endurance-sedan.sh --mode driving \
+  --route-package "$route" --output reports/p1-018/native-driving
+./scripts/capture-endurance-sedan.sh --mode presentation \
+  --route-package "$route" --output reports/p1-018/native-presentation
+./scripts/capture-endurance-sedan.sh --mode presentation --probe mirrors --lighting night \
+  --route-package "$route" --output reports/p1-018/native-mirrors-night
+```
+
+`tools/vehicles/endurance_sedan/render.py` captures the saved Blender file with
+fixed cameras, five named lighting rigs, clay materials and full turntable,
+interior, separate-opening or simultaneous-opening sequences. Run it through
+the pinned Blender with `--python-exit-code 1`; each new output directory gets
+its exact source, configuration and per-frame hashes. It does not save changes
+to the source. Capture timing is rendering throughput, not gameplay performance.
+
+`--gpu-denoising` uses OpenImageDenoise on the OptiX GPU. `--technical-overlays`
+creates explicitly labeled temporary x-ray views with actual anchors, occupant
+envelopes, collision proxies and 0.5/1 meter rulers. `--views swatch_board`
+compares nine actual source materials in one fixed scene. These diagnostic
+overlays and swatch objects are never saved or exported with the vehicle.
+
+The complete fixed capture recipe is `tools/vehicles/endurance_sedan/capture-recipe.json`.
+Run `python tools/vehicles/endurance_sedan/capture_suite.py --help` for the
+sequential, resumable Blender capture front door. Supply the locked source,
+pinned Blender and FFmpeg executables, and a new output directory. A changed
+source, renderer or recipe cannot reuse existing frames. Each complete sequence
+is encoded and fully decoded before the next case starts.
+
+`uv run tools/vehicles/endurance_sedan/review.py --help` describes the review
+packer. It verifies source and frame hashes, copies full-size stills unchanged,
+creates labeled contact sheets, encodes complete movies, and checks them with
+a full decode. Its local `index.html` links the actual media and provenance.
+Runtime captures must match the explicitly supplied normalized sedan scene.
+
+To verify a delivered unsigned package on its actual target OS, run its included
+standalone Python 3.13 tool:
+
+```bash
+python "$package_root/verification/verify_packaged_sedan.py" \
+  --package "$package_root" --output "$evidence_root/selected-sedan"
+```
+
+This validates the immutable package inventory and runs the selected sedan's
+driving and presentation scenarios through the packaged launcher. The equivalent
+repository front door is `./scripts/verify-packaged-sedan.sh`. Keep the output
+outside the package and use a new directory for each attempt.

@@ -1,0 +1,1858 @@
+{
+  "task_id": "P1-018",
+  "milestone": "M5",
+  "utc": "2026-09-21T04:42:47.566850+00:00",
+  "status": "verified-current-camera-and-software-checkpoint-final-source-pending",
+  "retained_checkpoint": {
+    "path": "reports/p1-018/finish-branch40/checkpoint52.json",
+    "bytes": 114010,
+    "sha256": "08436c58c2ca45c7a37b3dfd4eaac956fa058d2f64e2021afd2bd23d8ca27be7"
+  },
+  "current_checkpoint": {
+    "task_id": "P1-018",
+    "milestone": "M5",
+    "utc": "2026-09-21T04:34:02.826047+00:00",
+    "git_revision": "c2336a0e61b76e64988478796b51aa32f38e2fc3",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "status": "verified-runtime-camera-checkpoint-final-source-in-progress",
+    "scope": "Adopted runtime rear-view projection, actual production-environment visibility diagnostics, persistent material/lifecycle tests and current full software front door. Canonical production34 asset remains installed; this is not final-source acceptance.",
+    "tool_versions": {
+      "dotnet": "10.0.102",
+      "uv": "0.9.24",
+      "git-lfs": "3.7.1",
+      "perl": "available",
+      "godot": "4.7.1.stable.mono.official.a13da4feb"
+    },
+    "native_engine_artifacts": [
+      {
+        "path": "C:/Users/randr/AppData/Local/Microsoft/WinGet/Packages/GodotEngine.GodotEngine.Mono_Microsoft.Winget.Source_8wekyb3d8bbwe/Godot_v4.7.1-stable_mono_win64/Godot_v4.7.1-stable_mono_win64_console.exe",
+        "bytes": 198152,
+        "sha256": "b2c334ff6bf1e07ded41b80bd6f4785485650db6ddbb2740b802930f35237c26"
+      },
+      {
+        "path": "C:/Users/randr/AppData/Local/Microsoft/WinGet/Packages/GodotEngine.GodotEngine.Mono_Microsoft.Winget.Source_8wekyb3d8bbwe/Godot_v4.7.1-stable_mono_win64/Godot_v4.7.1-stable_mono_win64.exe",
+        "bytes": 179589128,
+        "sha256": "8ec33ba6a6a953226170cda2a56a58810f6617261a71d6bd6d6ba7cce5e7b79d"
+      }
+    ],
+    "software_frontdoor": {
+      "result": {
+        "path": "reports/p1-018/finish-branch40/regressions52/frontdoor/result.json",
+        "bytes": 430755,
+        "sha256": "0029c70bdd113f53624250a6cc3fc519788aa242f9d4d22a072fea54141ab181"
+      },
+      "summary": {
+        "path": "reports/p1-018/finish-branch40/regressions52/frontdoor/m0/summary.json",
+        "bytes": 1482,
+        "sha256": "0a5434e97c19e5ba6b6623c0b90f9865ae6e31a147fa86a3ba703987e04d41a1"
+      },
+      "passed_steps": 13,
+      "total_steps": 13,
+      "unchanged_source_rows": 955
+    },
+    "mirrors": [
+      {
+        "renderer": "gl_compatibility",
+        "result": {
+          "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/result.json",
+          "bytes": 431104,
+          "sha256": "428b97ff316807c783f022569537d44453dbfdc099d944bb45e57792353b84f2"
+        },
+        "native": {
+          "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/native.json",
+          "bytes": 100781,
+          "sha256": "c1639b2e471ed97c4a222d0c635da1767a65c2392ee1917b8391dd3974992cb5"
+        },
+        "teardown": {
+          "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/teardown.json",
+          "bytes": 1074,
+          "sha256": "98dad91744ef20a93764fec8702696504c7c7a40bc8a6c6b43e8e9fa91d105e8"
+        }
+      },
+      {
+        "renderer": "forward_plus",
+        "result": {
+          "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/result.json",
+          "bytes": 431080,
+          "sha256": "49f7f219033eeac6b081c65a5aa02eabcac75bca26688bf0cfc07281f2830ccb"
+        },
+        "native": {
+          "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/native.json",
+          "bytes": 100763,
+          "sha256": "3341af99e241b4ae5cd7ab2271a7bccf9207472a02ef3818a541526c15e8ec56"
+        },
+        "teardown": {
+          "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/teardown.json",
+          "bytes": 1070,
+          "sha256": "e2ec2eee9f198db05cfce57e1bb593dc1b8a882171bd23cbc4f909cbc423b11f"
+        }
+      }
+    ],
+    "mirror_metrics": {
+      "paired_pixel_cases_per_renderer": 16,
+      "positive_pairs_per_renderer": 15,
+      "deliberate_wrong_mapping_per_renderer": 1,
+      "positive_binding_snapshots_per_renderer": 4,
+      "rejected_binding_corruptions_per_renderer": 8,
+      "lifecycle_cases_per_renderer": 2,
+      "source_snapshots_per_renderer": 6,
+      "grounded_environment_originals": 24
+    },
+    "acceptance_limits": "Existing pixel/material/ownership/shutdown guards are unchanged. Grounded source60 diagnostics and canonical production34 tests have different source identities. The rear feed is an anchor-relative projection approximation, not physical flat-mirror optics. Thirty-metre follower awareness does not prove fine detail or human usability.",
+    "supporting_evidence": [
+      {
+        "path": "reports/p1-018/qa/rear-grounded40-review01/review08.json",
+        "bytes": 15163,
+        "sha256": "8ea1bb9896862a94aaeed8c65fbbb84537d13a52e7b7ec780b1af25ce94bd7f1"
+      },
+      {
+        "path": "reports/p1-018/qa/rear-grounded40-review01/persistent51/review09.json",
+        "bytes": 6442,
+        "sha256": "2c6ec623e12ad8486ff355e7e303f54fa056a89b6a0af2f3ef6a957a9052d9d7"
+      },
+      {
+        "path": "reports/p1-018/qa/final-delivery40-plan01/applied50/review03.json",
+        "bytes": 6298,
+        "sha256": "db7165c95696f3efaf6785480e8bf4c745effd6fd6fd1d102a51196acc630dc4"
+      },
+      {
+        "path": "reports/p1-018/qa/research40-freshness01/readback01.json",
+        "bytes": 25721,
+        "sha256": "4724ae02d98a10b70c6ea014147b6c6e1c11414a0e2503349bc5f94aa050ca82"
+      },
+      {
+        "path": "reports/p1-018/qa/research40-freshness01/applied51/review02.json",
+        "bytes": 13545,
+        "sha256": "e340143831fa23ba1688e3cc38bd14024e70da74c1149e4690a5d50a49dc795d"
+      },
+      {
+        "path": "reports/p1-018/runtime/final-lifecycle51-01/manifest01.json",
+        "bytes": 82560,
+        "sha256": "53dc044a73fb53042305cb60ea92eebd64d91349d9c27f9238d46ccc63252537"
+      },
+      {
+        "path": "reports/p1-018/skill-update51-01/completion.json",
+        "bytes": 5888,
+        "sha256": "320e954075a0113cca4d4e353a9ac292383fdb472afb27ab1c261de9c672a44e"
+      }
+    ],
+    "scope_records": [
+      {
+        "path": "reports/p1-018/finish-branch40/cover-policy-scope50.json",
+        "bytes": 2710,
+        "sha256": "d0b2afe2311ba3b6dd365cede819af17765b62be52f68feea476502bd9c72638"
+      },
+      {
+        "path": "reports/p1-018/finish-branch40/cover-policy-adoption50.json",
+        "bytes": 494,
+        "sha256": "51fdbd00bfe73e9b572613dc8e160175945a2efc093e5e0c198c1162a2f41f32"
+      },
+      {
+        "path": "reports/p1-018/finish-branch40/runtime-history50.json",
+        "bytes": 2500,
+        "sha256": "edf6e58a520962cbb48f68afb6fe2d83d505291ef40885f62d523e54f93abc88"
+      },
+      {
+        "path": "reports/p1-018/finish-branch40/rail-receiving-scope51.json",
+        "bytes": 1719,
+        "sha256": "ff4237ba21171132f3f15e92488619b5a19362bcead20b9d57feeb34b17c0543"
+      },
+      {
+        "path": "reports/p1-018/finish-branch40/rail-receiving-scope52.json",
+        "bytes": 2002,
+        "sha256": "6eae7cb1337542a871b47ad5ce582980a255cc8686dc822247d75b256f5bf932"
+      },
+      {
+        "path": "reports/p1-018/finish-branch40/windshield-direction53.json",
+        "bytes": 3742,
+        "sha256": "2569762b6f73792327e1caf3fde13a4d08c82502ac537cf4166fff6a94d8381e"
+      },
+      {
+        "path": "reports/p1-018/finish-branch40/mirror-evidence52.json",
+        "bytes": 2222,
+        "sha256": "f111a07f84ee2528b8901c592e1634aa500f1e65ba3f01c6b9b92fb53304769f"
+      },
+      {
+        "path": "reports/p1-018/finish-branch40/research-evidence51.json",
+        "bytes": 1192,
+        "sha256": "f5531537a39f9c8978599383c06e27229fe39c5fdbf7dde897e19fdb5cd287c1"
+      },
+      {
+        "path": "reports/p1-018/finish-branch40/design-docs51/result.json",
+        "bytes": 788,
+        "sha256": "b1ee025ed54e472a52073aef2deba907f495a32b9ed42570c6e1c893cd93bf85"
+      },
+      {
+        "path": "reports/p1-018/finish-branch40/mirrors51/adoption.json",
+        "bytes": 2767,
+        "sha256": "91ff2ea05d5a39a662601a17265bf525de3fb91f33c9fed549122c25df6056e9"
+      }
+    ],
+    "mainline_health": {
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "--label",
+        "red-main",
+        "--state",
+        "open",
+        "--json",
+        "number,title,url"
+      ],
+      "exit_status": 0,
+      "stdout": "[]\n",
+      "stderr": ""
+    },
+    "fetched_main": "827bb14618e99a85d709e89cdd828877b6ff1566",
+    "hosted_predecessor": [
+      {
+        "execution": {
+          "argv": [
+            "gh",
+            "run",
+            "view",
+            "35557106856",
+            "--json",
+            "databaseId,headSha,status,conclusion,jobs,url"
+          ],
+          "exit_status": 0,
+          "stdout": "{\"conclusion\":\"success\",\"databaseId\":35557106856,\"headSha\":\"c2336a0e61b76e64988478796b51aa32f38e2fc3\",\"jobs\":[{\"completedAt\":\"2026-09-21T03:37:28Z\",\"conclusion\":\"success\",\"databaseId\":106202757500,\"name\":\"PlayGodot semantic UI (windows-latest)\",\"startedAt\":\"2026-09-21T03:18:57Z\",\"status\":\"completed\",\"steps\":[{\"completedAt\":\"2026-09-21T03:19:01Z\",\"conclusion\":\"success\",\"name\":\"Set up job\",\"number\":1,\"startedAt\":\"2026-09-21T03:18:58Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:19:25Z\",\"conclusion\":\"success\",\"name\":\"Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10\",\"number\":2,\"startedAt\":\"2026-09-21T03:19:01Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:20:21Z\",\"conclusion\":\"success\",\"name\":\"Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1\",\"number\":3,\"startedAt\":\"2026-09-21T03:19:25Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:20:24Z\",\"conclusion\":\"success\",\"name\":\"Run astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990\",\"number\":4,\"startedAt\":\"2026-09-21T03:20:21Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:20:27Z\",\"conclusion\":\"success\",\"name\":\"Run chickensoft-games/setup-godot@f166999204a4f2722c6fe042fbaa3b3ea0d9c789\",\"number\":5,\"startedAt\":\"2026-09-21T03:20:24Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:37:18Z\",\"conclusion\":\"success\",\"name\":\"Verify required PlayGodot semantic UI\",\"number\":6,\"startedAt\":\"2026-09-21T03:20:27Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:37:23Z\",\"conclusion\":\"success\",\"name\":\"Upload PlayGodot evidence\",\"number\":7,\"startedAt\":\"2026-09-21T03:37:18Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:37:24Z\",\"conclusion\":\"success\",\"name\":\"Post Run astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990\",\"number\":12,\"startedAt\":\"2026-09-21T03:37:23Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:37:24Z\",\"conclusion\":\"success\",\"name\":\"Post Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1\",\"number\":13,\"startedAt\":\"2026-09-21T03:37:24Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:37:26Z\",\"conclusion\":\"success\",\"name\":\"Post Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10\",\"number\":14,\"startedAt\":\"2026-09-21T03:37:24Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:37:26Z\",\"conclusion\":\"success\",\"name\":\"Complete job\",\"number\":15,\"startedAt\":\"2026-09-21T03:37:26Z\",\"status\":\"completed\"}],\"url\":\"https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/35557106856/job/106202757500\"},{\"completedAt\":\"2026-09-21T03:22:42Z\",\"conclusion\":\"success\",\"databaseId\":106202757608,\"name\":\"Deterministic 500-mile (windows-latest)\",\"startedAt\":\"2026-09-21T03:18:57Z\",\"status\":\"completed\",\"steps\":[{\"completedAt\":\"2026-09-21T03:18:59Z\",\"conclusion\":\"success\",\"name\":\"Set up job\",\"number\":1,\"startedAt\":\"2026-09-21T03:18:57Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:19:15Z\",\"conclusion\":\"success\",\"name\":\"Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10\",\"number\":2,\"startedAt\":\"2026-09-21T03:18:59Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:20:14Z\",\"conclusion\":\"success\",\"name\":\"Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1\",\"number\":3,\"startedAt\":\"2026-09-21T03:19:15Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:20:19Z\",\"conclusion\":\"success\",\"name\":\"Run astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990\",\"number\":4,\"startedAt\":\"2026-09-21T03:20:14Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:20:21Z\",\"conclusion\":\"success\",\"name\":\"Run chickensoft-games/setup-godot@f166999204a4f2722c6fe042fbaa3b3ea0d9c789\",\"number\":5,\"startedAt\":\"2026-09-21T03:20:19Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:22:36Z\",\"conclusion\":\"success\",\"name\":\"Traverse deterministic 500-mile route\",\"number\":6,\"startedAt\":\"2026-09-21T03:20:21Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:22:37Z\",\"conclusion\":\"success\",\"name\":\"Upload long-route evidence\",\"number\":7,\"startedAt\":\"2026-09-21T03:22:36Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:22:37Z\",\"conclusion\":\"success\",\"name\":\"Post Run astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990\",\"number\":12,\"startedAt\":\"2026-09-21T03:22:37Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:22:38Z\",\"conclusion\":\"success\",\"name\":\"Post Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1\",\"number\":13,\"startedAt\":\"2026-09-21T03:22:37Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:22:40Z\",\"conclusion\":\"success\",\"name\":\"Post Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10\",\"number\":14,\"startedAt\":\"2026-09-21T03:22:38Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:22:40Z\",\"conclusion\":\"success\",\"name\":\"Complete job\",\"number\":15,\"startedAt\":\"2026-09-21T03:22:40Z\",\"status\":\"completed\"}],\"url\":\"https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/35557106856/job/106202757608\"},{\"completedAt\":\"2026-09-21T03:22:45Z\",\"conclusion\":\"success\",\"databaseId\":106202757630,\"name\":\"M0 (ubuntu-latest)\",\"startedAt\":\"2026-09-21T03:18:56Z\",\"status\":\"completed\",\"steps\":[{\"completedAt\":\"2026-09-21T03:19:01Z\",\"conclusion\":\"success\",\"name\":\"Set up job\",\"number\":1,\"startedAt\":\"2026-09-21T03:18:57Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:19:09Z\",\"conclusion\":\"success\",\"name\":\"Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10\",\"number\":2,\"startedAt\":\"2026-09-21T03:19:01Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:19:30Z\",\"conclusion\":\"success\",\"name\":\"Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1\",\"number\":3,\"startedAt\":\"2026-09-21T03:19:09Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:19:33Z\",\"conclusion\":\"success\",\"name\":\"Run astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990\",\"number\":4,\"startedAt\":\"2026-09-21T03:19:30Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:19:35Z\",\"conclusion\":\"success\",\"name\":\"Run chickensoft-games/setup-godot@f166999204a4f2722c6fe042fbaa3b3ea0d9c789\",\"number\":5,\"startedAt\":\"2026-09-21T03:19:33Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:19:35Z\",\"conclusion\":\"success\",\"name\":\"Install pinned Git LFS\",\"number\":6,\"startedAt\":\"2026-09-21T03:19:35Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:22:31Z\",\"conclusion\":\"success\",\"name\":\"Verify complete M0 gate\",\"number\":7,\"startedAt\":\"2026-09-21T03:19:35Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:22:41Z\",\"conclusion\":\"success\",\"name\":\"Verify integrated visual slice\",\"number\":8,\"startedAt\":\"2026-09-21T03:22:31Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:22:42Z\",\"conclusion\":\"success\",\"name\":\"Upload M0 evidence\",\"number\":9,\"startedAt\":\"2026-09-21T03:22:41Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:22:42Z\",\"conclusion\":\"success\",\"name\":\"Post Run astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990\",\"number\":16,\"startedAt\":\"2026-09-21T03:22:42Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:22:42Z\",\"conclusion\":\"success\",\"name\":\"Post Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1\",\"number\":17,\"startedAt\":\"2026-09-21T03:22:42Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:22:43Z\",\"conclusion\":\"success\",\"name\":\"Post Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10\",\"number\":18,\"startedAt\":\"2026-09-21T03:22:42Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:22:43Z\",\"conclusion\":\"success\",\"name\":\"Complete job\",\"number\":19,\"startedAt\":\"2026-09-21T03:22:43Z\",\"status\":\"completed\"}],\"url\":\"https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/35557106856/job/106202757630\"},{\"completedAt\":\"2026-09-21T03:21:01Z\",\"conclusion\":\"success\",\"databaseId\":106202757637,\"name\":\"Deterministic 500-mile (ubuntu-latest)\",\"startedAt\":\"2026-09-21T03:18:56Z\",\"status\":\"completed\",\"steps\":[{\"completedAt\":\"2026-09-21T03:18:57Z\",\"conclusion\":\"success\",\"name\":\"Set up job\",\"number\":1,\"startedAt\":\"2026-09-21T03:18:56Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:19:06Z\",\"conclusion\":\"success\",\"name\":\"Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10\",\"number\":2,\"startedAt\":\"2026-09-21T03:18:57Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:19:20Z\",\"conclusion\":\"success\",\"name\":\"Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1\",\"number\":3,\"startedAt\":\"2026-09-21T03:19:06Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:19:22Z\",\"conclusion\":\"success\",\"name\":\"Run astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990\",\"number\":4,\"startedAt\":\"2026-09-21T03:19:20Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:19:24Z\",\"conclusion\":\"success\",\"name\":\"Run chickensoft-games/setup-godot@f166999204a4f2722c6fe042fbaa3b3ea0d9c789\",\"number\":5,\"startedAt\":\"2026-09-21T03:19:22Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:20:59Z\",\"conclusion\":\"success\",\"name\":\"Traverse deterministic 500-mile route\",\"number\":6,\"startedAt\":\"2026-09-21T03:19:24Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:20:59Z\",\"conclusion\":\"success\",\"name\":\"Upload long-route evidence\",\"number\":7,\"startedAt\":\"2026-09-21T03:20:59Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:21:00Z\",\"conclusion\":\"success\",\"name\":\"Post Run astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990\",\"number\":12,\"startedAt\":\"2026-09-21T03:20:59Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:21:00Z\",\"conclusion\":\"success\",\"name\":\"Post Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1\",\"number\":13,\"startedAt\":\"2026-09-21T03:21:00Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:21:00Z\",\"conclusion\":\"success\",\"name\":\"Post Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10\",\"number\":14,\"startedAt\":\"2026-09-21T03:21:00Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:21:00Z\",\"conclusion\":\"success\",\"name\":\"Complete job\",\"number\":15,\"startedAt\":\"2026-09-21T03:21:00Z\",\"status\":\"completed\"}],\"url\":\"https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/35557106856/job/106202757637\"},{\"completedAt\":\"2026-09-21T03:35:30Z\",\"conclusion\":\"success\",\"databaseId\":106202757661,\"name\":\"PlayGodot semantic UI (ubuntu-latest)\",\"startedAt\":\"2026-09-21T03:18:56Z\",\"status\":\"completed\",\"steps\":[{\"completedAt\":\"2026-09-21T03:18:59Z\",\"conclusion\":\"success\",\"name\":\"Set up job\",\"number\":1,\"startedAt\":\"2026-09-21T03:18:57Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:19:07Z\",\"conclusion\":\"success\",\"name\":\"Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10\",\"number\":2,\"startedAt\":\"2026-09-21T03:18:59Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:19:22Z\",\"conclusion\":\"success\",\"name\":\"Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1\",\"number\":3,\"startedAt\":\"2026-09-21T03:19:07Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:19:24Z\",\"conclusion\":\"success\",\"name\":\"Run astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990\",\"number\":4,\"startedAt\":\"2026-09-21T03:19:22Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:19:26Z\",\"conclusion\":\"success\",\"name\":\"Run chickensoft-games/setup-godot@f166999204a4f2722c6fe042fbaa3b3ea0d9c789\",\"number\":5,\"startedAt\":\"2026-09-21T03:19:24Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:35:26Z\",\"conclusion\":\"success\",\"name\":\"Verify required PlayGodot semantic UI\",\"number\":6,\"startedAt\":\"2026-09-21T03:19:26Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:35:28Z\",\"conclusion\":\"success\",\"name\":\"Upload PlayGodot evidence\",\"number\":7,\"startedAt\":\"2026-09-21T03:35:26Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:35:29Z\",\"conclusion\":\"success\",\"name\":\"Post Run astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990\",\"number\":12,\"startedAt\":\"2026-09-21T03:35:28Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:35:29Z\",\"conclusion\":\"success\",\"name\":\"Post Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1\",\"number\":13,\"startedAt\":\"2026-09-21T03:35:29Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:35:29Z\",\"conclusion\":\"success\",\"name\":\"Post Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10\",\"number\":14,\"startedAt\":\"2026-09-21T03:35:29Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:35:29Z\",\"conclusion\":\"success\",\"name\":\"Complete job\",\"number\":15,\"startedAt\":\"2026-09-21T03:35:29Z\",\"status\":\"completed\"}],\"url\":\"https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/35557106856/job/106202757661\"},{\"completedAt\":\"2026-09-21T03:26:37Z\",\"conclusion\":\"success\",\"databaseId\":106202757829,\"name\":\"M0 (windows-latest)\",\"startedAt\":\"2026-09-21T03:18:56Z\",\"status\":\"completed\",\"steps\":[{\"completedAt\":\"2026-09-21T03:18:58Z\",\"conclusion\":\"success\",\"name\":\"Set up job\",\"number\":1,\"startedAt\":\"2026-09-21T03:18:57Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:19:16Z\",\"conclusion\":\"success\",\"name\":\"Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10\",\"number\":2,\"startedAt\":\"2026-09-21T03:18:58Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:20:13Z\",\"conclusion\":\"success\",\"name\":\"Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1\",\"number\":3,\"startedAt\":\"2026-09-21T03:19:16Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:20:21Z\",\"conclusion\":\"success\",\"name\":\"Run astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990\",\"number\":4,\"startedAt\":\"2026-09-21T03:20:13Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:20:23Z\",\"conclusion\":\"success\",\"name\":\"Run chickensoft-games/setup-godot@f166999204a4f2722c6fe042fbaa3b3ea0d9c789\",\"number\":5,\"startedAt\":\"2026-09-21T03:20:21Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:20:23Z\",\"conclusion\":\"success\",\"name\":\"Install pinned Git LFS\",\"number\":6,\"startedAt\":\"2026-09-21T03:20:23Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:26:15Z\",\"conclusion\":\"success\",\"name\":\"Verify complete M0 gate\",\"number\":7,\"startedAt\":\"2026-09-21T03:20:23Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:26:32Z\",\"conclusion\":\"success\",\"name\":\"Verify integrated visual slice\",\"number\":8,\"startedAt\":\"2026-09-21T03:26:15Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:26:33Z\",\"conclusion\":\"success\",\"name\":\"Upload M0 evidence\",\"number\":9,\"startedAt\":\"2026-09-21T03:26:32Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:26:33Z\",\"conclusion\":\"success\",\"name\":\"Post Run astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990\",\"number\":16,\"startedAt\":\"2026-09-21T03:26:33Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:26:33Z\",\"conclusion\":\"success\",\"name\":\"Post Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1\",\"number\":17,\"startedAt\":\"2026-09-21T03:26:33Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:26:35Z\",\"conclusion\":\"success\",\"name\":\"Post Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10\",\"number\":18,\"startedAt\":\"2026-09-21T03:26:33Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:26:36Z\",\"conclusion\":\"success\",\"name\":\"Complete job\",\"number\":19,\"startedAt\":\"2026-09-21T03:26:35Z\",\"status\":\"completed\"}],\"url\":\"https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/35557106856/job/106202757829\"},{\"completedAt\":\"2026-09-21T03:27:36Z\",\"conclusion\":\"success\",\"databaseId\":106202757907,\"name\":\"PlayGodot semantic UI (macos-latest)\",\"startedAt\":\"2026-09-21T03:18:59Z\",\"status\":\"completed\",\"steps\":[{\"completedAt\":\"2026-09-21T03:19:02Z\",\"conclusion\":\"success\",\"name\":\"Set up job\",\"number\":1,\"startedAt\":\"2026-09-21T03:19:00Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:19:12Z\",\"conclusion\":\"success\",\"name\":\"Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10\",\"number\":2,\"startedAt\":\"2026-09-21T03:19:02Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:19:40Z\",\"conclusion\":\"success\",\"name\":\"Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1\",\"number\":3,\"startedAt\":\"2026-09-21T03:19:12Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:19:42Z\",\"conclusion\":\"success\",\"name\":\"Run astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990\",\"number\":4,\"startedAt\":\"2026-09-21T03:19:40Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:19:45Z\",\"conclusion\":\"success\",\"name\":\"Run chickensoft-games/setup-godot@f166999204a4f2722c6fe042fbaa3b3ea0d9c789\",\"number\":5,\"startedAt\":\"2026-09-21T03:19:42Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:27:29Z\",\"conclusion\":\"success\",\"name\":\"Verify required PlayGodot semantic UI\",\"number\":6,\"startedAt\":\"2026-09-21T03:19:45Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:27:32Z\",\"conclusion\":\"success\",\"name\":\"Upload PlayGodot evidence\",\"number\":7,\"startedAt\":\"2026-09-21T03:27:29Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:27:32Z\",\"conclusion\":\"success\",\"name\":\"Post Run astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990\",\"number\":12,\"startedAt\":\"2026-09-21T03:27:32Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:27:32Z\",\"conclusion\":\"success\",\"name\":\"Post Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1\",\"number\":13,\"startedAt\":\"2026-09-21T03:27:32Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:27:33Z\",\"conclusion\":\"success\",\"name\":\"Post Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10\",\"number\":14,\"startedAt\":\"2026-09-21T03:27:32Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:27:34Z\",\"conclusion\":\"success\",\"name\":\"Complete job\",\"number\":15,\"startedAt\":\"2026-09-21T03:27:33Z\",\"status\":\"completed\"}],\"url\":\"https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/35557106856/job/106202757907\"},{\"completedAt\":\"2026-09-21T03:18:54Z\",\"conclusion\":\"skipped\",\"databaseId\":106202758137,\"name\":\"P1-018 source34 selection diagnosis (Windows, diagnostic only)\",\"startedAt\":\"2026-09-21T03:18:54Z\",\"status\":\"completed\",\"steps\":[],\"url\":\"https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/35557106856/job/106202758137\"}],\"status\":\"completed\",\"url\":\"https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/35557106856\"}\n",
+          "stderr": ""
+        },
+        "result": {
+          "conclusion": "success",
+          "databaseId": 35557106856,
+          "headSha": "c2336a0e61b76e64988478796b51aa32f38e2fc3",
+          "jobs": [
+            {
+              "completedAt": "2026-09-21T03:37:28Z",
+              "conclusion": "success",
+              "databaseId": 106202757500,
+              "name": "PlayGodot semantic UI (windows-latest)",
+              "startedAt": "2026-09-21T03:18:57Z",
+              "status": "completed",
+              "steps": [
+                {
+                  "completedAt": "2026-09-21T03:19:01Z",
+                  "conclusion": "success",
+                  "name": "Set up job",
+                  "number": 1,
+                  "startedAt": "2026-09-21T03:18:58Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:19:25Z",
+                  "conclusion": "success",
+                  "name": "Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10",
+                  "number": 2,
+                  "startedAt": "2026-09-21T03:19:01Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:20:21Z",
+                  "conclusion": "success",
+                  "name": "Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1",
+                  "number": 3,
+                  "startedAt": "2026-09-21T03:19:25Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:20:24Z",
+                  "conclusion": "success",
+                  "name": "Run astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990",
+                  "number": 4,
+                  "startedAt": "2026-09-21T03:20:21Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:20:27Z",
+                  "conclusion": "success",
+                  "name": "Run chickensoft-games/setup-godot@f166999204a4f2722c6fe042fbaa3b3ea0d9c789",
+                  "number": 5,
+                  "startedAt": "2026-09-21T03:20:24Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:37:18Z",
+                  "conclusion": "success",
+                  "name": "Verify required PlayGodot semantic UI",
+                  "number": 6,
+                  "startedAt": "2026-09-21T03:20:27Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:37:23Z",
+                  "conclusion": "success",
+                  "name": "Upload PlayGodot evidence",
+                  "number": 7,
+                  "startedAt": "2026-09-21T03:37:18Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:37:24Z",
+                  "conclusion": "success",
+                  "name": "Post Run astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990",
+                  "number": 12,
+                  "startedAt": "2026-09-21T03:37:23Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:37:24Z",
+                  "conclusion": "success",
+                  "name": "Post Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1",
+                  "number": 13,
+                  "startedAt": "2026-09-21T03:37:24Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:37:26Z",
+                  "conclusion": "success",
+                  "name": "Post Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10",
+                  "number": 14,
+                  "startedAt": "2026-09-21T03:37:24Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:37:26Z",
+                  "conclusion": "success",
+                  "name": "Complete job",
+                  "number": 15,
+                  "startedAt": "2026-09-21T03:37:26Z",
+                  "status": "completed"
+                }
+              ],
+              "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/35557106856/job/106202757500"
+            },
+            {
+              "completedAt": "2026-09-21T03:22:42Z",
+              "conclusion": "success",
+              "databaseId": 106202757608,
+              "name": "Deterministic 500-mile (windows-latest)",
+              "startedAt": "2026-09-21T03:18:57Z",
+              "status": "completed",
+              "steps": [
+                {
+                  "completedAt": "2026-09-21T03:18:59Z",
+                  "conclusion": "success",
+                  "name": "Set up job",
+                  "number": 1,
+                  "startedAt": "2026-09-21T03:18:57Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:19:15Z",
+                  "conclusion": "success",
+                  "name": "Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10",
+                  "number": 2,
+                  "startedAt": "2026-09-21T03:18:59Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:20:14Z",
+                  "conclusion": "success",
+                  "name": "Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1",
+                  "number": 3,
+                  "startedAt": "2026-09-21T03:19:15Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:20:19Z",
+                  "conclusion": "success",
+                  "name": "Run astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990",
+                  "number": 4,
+                  "startedAt": "2026-09-21T03:20:14Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:20:21Z",
+                  "conclusion": "success",
+                  "name": "Run chickensoft-games/setup-godot@f166999204a4f2722c6fe042fbaa3b3ea0d9c789",
+                  "number": 5,
+                  "startedAt": "2026-09-21T03:20:19Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:22:36Z",
+                  "conclusion": "success",
+                  "name": "Traverse deterministic 500-mile route",
+                  "number": 6,
+                  "startedAt": "2026-09-21T03:20:21Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:22:37Z",
+                  "conclusion": "success",
+                  "name": "Upload long-route evidence",
+                  "number": 7,
+                  "startedAt": "2026-09-21T03:22:36Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:22:37Z",
+                  "conclusion": "success",
+                  "name": "Post Run astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990",
+                  "number": 12,
+                  "startedAt": "2026-09-21T03:22:37Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:22:38Z",
+                  "conclusion": "success",
+                  "name": "Post Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1",
+                  "number": 13,
+                  "startedAt": "2026-09-21T03:22:37Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:22:40Z",
+                  "conclusion": "success",
+                  "name": "Post Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10",
+                  "number": 14,
+                  "startedAt": "2026-09-21T03:22:38Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:22:40Z",
+                  "conclusion": "success",
+                  "name": "Complete job",
+                  "number": 15,
+                  "startedAt": "2026-09-21T03:22:40Z",
+                  "status": "completed"
+                }
+              ],
+              "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/35557106856/job/106202757608"
+            },
+            {
+              "completedAt": "2026-09-21T03:22:45Z",
+              "conclusion": "success",
+              "databaseId": 106202757630,
+              "name": "M0 (ubuntu-latest)",
+              "startedAt": "2026-09-21T03:18:56Z",
+              "status": "completed",
+              "steps": [
+                {
+                  "completedAt": "2026-09-21T03:19:01Z",
+                  "conclusion": "success",
+                  "name": "Set up job",
+                  "number": 1,
+                  "startedAt": "2026-09-21T03:18:57Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:19:09Z",
+                  "conclusion": "success",
+                  "name": "Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10",
+                  "number": 2,
+                  "startedAt": "2026-09-21T03:19:01Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:19:30Z",
+                  "conclusion": "success",
+                  "name": "Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1",
+                  "number": 3,
+                  "startedAt": "2026-09-21T03:19:09Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:19:33Z",
+                  "conclusion": "success",
+                  "name": "Run astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990",
+                  "number": 4,
+                  "startedAt": "2026-09-21T03:19:30Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:19:35Z",
+                  "conclusion": "success",
+                  "name": "Run chickensoft-games/setup-godot@f166999204a4f2722c6fe042fbaa3b3ea0d9c789",
+                  "number": 5,
+                  "startedAt": "2026-09-21T03:19:33Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:19:35Z",
+                  "conclusion": "success",
+                  "name": "Install pinned Git LFS",
+                  "number": 6,
+                  "startedAt": "2026-09-21T03:19:35Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:22:31Z",
+                  "conclusion": "success",
+                  "name": "Verify complete M0 gate",
+                  "number": 7,
+                  "startedAt": "2026-09-21T03:19:35Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:22:41Z",
+                  "conclusion": "success",
+                  "name": "Verify integrated visual slice",
+                  "number": 8,
+                  "startedAt": "2026-09-21T03:22:31Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:22:42Z",
+                  "conclusion": "success",
+                  "name": "Upload M0 evidence",
+                  "number": 9,
+                  "startedAt": "2026-09-21T03:22:41Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:22:42Z",
+                  "conclusion": "success",
+                  "name": "Post Run astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990",
+                  "number": 16,
+                  "startedAt": "2026-09-21T03:22:42Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:22:42Z",
+                  "conclusion": "success",
+                  "name": "Post Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1",
+                  "number": 17,
+                  "startedAt": "2026-09-21T03:22:42Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:22:43Z",
+                  "conclusion": "success",
+                  "name": "Post Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10",
+                  "number": 18,
+                  "startedAt": "2026-09-21T03:22:42Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:22:43Z",
+                  "conclusion": "success",
+                  "name": "Complete job",
+                  "number": 19,
+                  "startedAt": "2026-09-21T03:22:43Z",
+                  "status": "completed"
+                }
+              ],
+              "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/35557106856/job/106202757630"
+            },
+            {
+              "completedAt": "2026-09-21T03:21:01Z",
+              "conclusion": "success",
+              "databaseId": 106202757637,
+              "name": "Deterministic 500-mile (ubuntu-latest)",
+              "startedAt": "2026-09-21T03:18:56Z",
+              "status": "completed",
+              "steps": [
+                {
+                  "completedAt": "2026-09-21T03:18:57Z",
+                  "conclusion": "success",
+                  "name": "Set up job",
+                  "number": 1,
+                  "startedAt": "2026-09-21T03:18:56Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:19:06Z",
+                  "conclusion": "success",
+                  "name": "Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10",
+                  "number": 2,
+                  "startedAt": "2026-09-21T03:18:57Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:19:20Z",
+                  "conclusion": "success",
+                  "name": "Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1",
+                  "number": 3,
+                  "startedAt": "2026-09-21T03:19:06Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:19:22Z",
+                  "conclusion": "success",
+                  "name": "Run astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990",
+                  "number": 4,
+                  "startedAt": "2026-09-21T03:19:20Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:19:24Z",
+                  "conclusion": "success",
+                  "name": "Run chickensoft-games/setup-godot@f166999204a4f2722c6fe042fbaa3b3ea0d9c789",
+                  "number": 5,
+                  "startedAt": "2026-09-21T03:19:22Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:20:59Z",
+                  "conclusion": "success",
+                  "name": "Traverse deterministic 500-mile route",
+                  "number": 6,
+                  "startedAt": "2026-09-21T03:19:24Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:20:59Z",
+                  "conclusion": "success",
+                  "name": "Upload long-route evidence",
+                  "number": 7,
+                  "startedAt": "2026-09-21T03:20:59Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:21:00Z",
+                  "conclusion": "success",
+                  "name": "Post Run astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990",
+                  "number": 12,
+                  "startedAt": "2026-09-21T03:20:59Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:21:00Z",
+                  "conclusion": "success",
+                  "name": "Post Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1",
+                  "number": 13,
+                  "startedAt": "2026-09-21T03:21:00Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:21:00Z",
+                  "conclusion": "success",
+                  "name": "Post Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10",
+                  "number": 14,
+                  "startedAt": "2026-09-21T03:21:00Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:21:00Z",
+                  "conclusion": "success",
+                  "name": "Complete job",
+                  "number": 15,
+                  "startedAt": "2026-09-21T03:21:00Z",
+                  "status": "completed"
+                }
+              ],
+              "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/35557106856/job/106202757637"
+            },
+            {
+              "completedAt": "2026-09-21T03:35:30Z",
+              "conclusion": "success",
+              "databaseId": 106202757661,
+              "name": "PlayGodot semantic UI (ubuntu-latest)",
+              "startedAt": "2026-09-21T03:18:56Z",
+              "status": "completed",
+              "steps": [
+                {
+                  "completedAt": "2026-09-21T03:18:59Z",
+                  "conclusion": "success",
+                  "name": "Set up job",
+                  "number": 1,
+                  "startedAt": "2026-09-21T03:18:57Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:19:07Z",
+                  "conclusion": "success",
+                  "name": "Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10",
+                  "number": 2,
+                  "startedAt": "2026-09-21T03:18:59Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:19:22Z",
+                  "conclusion": "success",
+                  "name": "Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1",
+                  "number": 3,
+                  "startedAt": "2026-09-21T03:19:07Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:19:24Z",
+                  "conclusion": "success",
+                  "name": "Run astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990",
+                  "number": 4,
+                  "startedAt": "2026-09-21T03:19:22Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:19:26Z",
+                  "conclusion": "success",
+                  "name": "Run chickensoft-games/setup-godot@f166999204a4f2722c6fe042fbaa3b3ea0d9c789",
+                  "number": 5,
+                  "startedAt": "2026-09-21T03:19:24Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:35:26Z",
+                  "conclusion": "success",
+                  "name": "Verify required PlayGodot semantic UI",
+                  "number": 6,
+                  "startedAt": "2026-09-21T03:19:26Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:35:28Z",
+                  "conclusion": "success",
+                  "name": "Upload PlayGodot evidence",
+                  "number": 7,
+                  "startedAt": "2026-09-21T03:35:26Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:35:29Z",
+                  "conclusion": "success",
+                  "name": "Post Run astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990",
+                  "number": 12,
+                  "startedAt": "2026-09-21T03:35:28Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:35:29Z",
+                  "conclusion": "success",
+                  "name": "Post Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1",
+                  "number": 13,
+                  "startedAt": "2026-09-21T03:35:29Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:35:29Z",
+                  "conclusion": "success",
+                  "name": "Post Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10",
+                  "number": 14,
+                  "startedAt": "2026-09-21T03:35:29Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:35:29Z",
+                  "conclusion": "success",
+                  "name": "Complete job",
+                  "number": 15,
+                  "startedAt": "2026-09-21T03:35:29Z",
+                  "status": "completed"
+                }
+              ],
+              "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/35557106856/job/106202757661"
+            },
+            {
+              "completedAt": "2026-09-21T03:26:37Z",
+              "conclusion": "success",
+              "databaseId": 106202757829,
+              "name": "M0 (windows-latest)",
+              "startedAt": "2026-09-21T03:18:56Z",
+              "status": "completed",
+              "steps": [
+                {
+                  "completedAt": "2026-09-21T03:18:58Z",
+                  "conclusion": "success",
+                  "name": "Set up job",
+                  "number": 1,
+                  "startedAt": "2026-09-21T03:18:57Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:19:16Z",
+                  "conclusion": "success",
+                  "name": "Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10",
+                  "number": 2,
+                  "startedAt": "2026-09-21T03:18:58Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:20:13Z",
+                  "conclusion": "success",
+                  "name": "Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1",
+                  "number": 3,
+                  "startedAt": "2026-09-21T03:19:16Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:20:21Z",
+                  "conclusion": "success",
+                  "name": "Run astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990",
+                  "number": 4,
+                  "startedAt": "2026-09-21T03:20:13Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:20:23Z",
+                  "conclusion": "success",
+                  "name": "Run chickensoft-games/setup-godot@f166999204a4f2722c6fe042fbaa3b3ea0d9c789",
+                  "number": 5,
+                  "startedAt": "2026-09-21T03:20:21Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:20:23Z",
+                  "conclusion": "success",
+                  "name": "Install pinned Git LFS",
+                  "number": 6,
+                  "startedAt": "2026-09-21T03:20:23Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:26:15Z",
+                  "conclusion": "success",
+                  "name": "Verify complete M0 gate",
+                  "number": 7,
+                  "startedAt": "2026-09-21T03:20:23Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:26:32Z",
+                  "conclusion": "success",
+                  "name": "Verify integrated visual slice",
+                  "number": 8,
+                  "startedAt": "2026-09-21T03:26:15Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:26:33Z",
+                  "conclusion": "success",
+                  "name": "Upload M0 evidence",
+                  "number": 9,
+                  "startedAt": "2026-09-21T03:26:32Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:26:33Z",
+                  "conclusion": "success",
+                  "name": "Post Run astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990",
+                  "number": 16,
+                  "startedAt": "2026-09-21T03:26:33Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:26:33Z",
+                  "conclusion": "success",
+                  "name": "Post Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1",
+                  "number": 17,
+                  "startedAt": "2026-09-21T03:26:33Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:26:35Z",
+                  "conclusion": "success",
+                  "name": "Post Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10",
+                  "number": 18,
+                  "startedAt": "2026-09-21T03:26:33Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:26:36Z",
+                  "conclusion": "success",
+                  "name": "Complete job",
+                  "number": 19,
+                  "startedAt": "2026-09-21T03:26:35Z",
+                  "status": "completed"
+                }
+              ],
+              "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/35557106856/job/106202757829"
+            },
+            {
+              "completedAt": "2026-09-21T03:27:36Z",
+              "conclusion": "success",
+              "databaseId": 106202757907,
+              "name": "PlayGodot semantic UI (macos-latest)",
+              "startedAt": "2026-09-21T03:18:59Z",
+              "status": "completed",
+              "steps": [
+                {
+                  "completedAt": "2026-09-21T03:19:02Z",
+                  "conclusion": "success",
+                  "name": "Set up job",
+                  "number": 1,
+                  "startedAt": "2026-09-21T03:19:00Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:19:12Z",
+                  "conclusion": "success",
+                  "name": "Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10",
+                  "number": 2,
+                  "startedAt": "2026-09-21T03:19:02Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:19:40Z",
+                  "conclusion": "success",
+                  "name": "Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1",
+                  "number": 3,
+                  "startedAt": "2026-09-21T03:19:12Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:19:42Z",
+                  "conclusion": "success",
+                  "name": "Run astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990",
+                  "number": 4,
+                  "startedAt": "2026-09-21T03:19:40Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:19:45Z",
+                  "conclusion": "success",
+                  "name": "Run chickensoft-games/setup-godot@f166999204a4f2722c6fe042fbaa3b3ea0d9c789",
+                  "number": 5,
+                  "startedAt": "2026-09-21T03:19:42Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:27:29Z",
+                  "conclusion": "success",
+                  "name": "Verify required PlayGodot semantic UI",
+                  "number": 6,
+                  "startedAt": "2026-09-21T03:19:45Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:27:32Z",
+                  "conclusion": "success",
+                  "name": "Upload PlayGodot evidence",
+                  "number": 7,
+                  "startedAt": "2026-09-21T03:27:29Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:27:32Z",
+                  "conclusion": "success",
+                  "name": "Post Run astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990",
+                  "number": 12,
+                  "startedAt": "2026-09-21T03:27:32Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:27:32Z",
+                  "conclusion": "success",
+                  "name": "Post Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1",
+                  "number": 13,
+                  "startedAt": "2026-09-21T03:27:32Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:27:33Z",
+                  "conclusion": "success",
+                  "name": "Post Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10",
+                  "number": 14,
+                  "startedAt": "2026-09-21T03:27:32Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:27:34Z",
+                  "conclusion": "success",
+                  "name": "Complete job",
+                  "number": 15,
+                  "startedAt": "2026-09-21T03:27:33Z",
+                  "status": "completed"
+                }
+              ],
+              "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/35557106856/job/106202757907"
+            },
+            {
+              "completedAt": "2026-09-21T03:18:54Z",
+              "conclusion": "skipped",
+              "databaseId": 106202758137,
+              "name": "P1-018 source34 selection diagnosis (Windows, diagnostic only)",
+              "startedAt": "2026-09-21T03:18:54Z",
+              "status": "completed",
+              "steps": [],
+              "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/35557106856/job/106202758137"
+            }
+          ],
+          "status": "completed",
+          "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/35557106856"
+        }
+      },
+      {
+        "execution": {
+          "argv": [
+            "gh",
+            "run",
+            "view",
+            "35557106827",
+            "--json",
+            "databaseId,headSha,status,conclusion,jobs,url"
+          ],
+          "exit_status": 0,
+          "stdout": "{\"conclusion\":\"success\",\"databaseId\":35557106827,\"headSha\":\"c2336a0e61b76e64988478796b51aa32f38e2fc3\",\"jobs\":[{\"completedAt\":\"2026-09-21T03:45:45Z\",\"conclusion\":\"success\",\"databaseId\":106202757391,\"name\":\"Build reproducible fixture exports\",\"startedAt\":\"2026-09-21T03:18:56Z\",\"status\":\"completed\",\"steps\":[{\"completedAt\":\"2026-09-21T03:18:58Z\",\"conclusion\":\"success\",\"name\":\"Set up job\",\"number\":1,\"startedAt\":\"2026-09-21T03:18:57Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:19:06Z\",\"conclusion\":\"success\",\"name\":\"Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10\",\"number\":2,\"startedAt\":\"2026-09-21T03:18:58Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:19:22Z\",\"conclusion\":\"success\",\"name\":\"Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1\",\"number\":3,\"startedAt\":\"2026-09-21T03:19:06Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:19:26Z\",\"conclusion\":\"success\",\"name\":\"Run actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38\",\"number\":4,\"startedAt\":\"2026-09-21T03:19:22Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:19:35Z\",\"conclusion\":\"success\",\"name\":\"Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1\",\"number\":5,\"startedAt\":\"2026-09-21T03:19:26Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:19:37Z\",\"conclusion\":\"success\",\"name\":\"Run astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990\",\"number\":6,\"startedAt\":\"2026-09-21T03:19:35Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:19:38Z\",\"conclusion\":\"success\",\"name\":\"Run chickensoft-games/setup-godot@f166999204a4f2722c6fe042fbaa3b3ea0d9c789\",\"number\":7,\"startedAt\":\"2026-09-21T03:19:37Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:20:00Z\",\"conclusion\":\"success\",\"name\":\"Install exact export templates\",\"number\":8,\"startedAt\":\"2026-09-21T03:19:38Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:20:01Z\",\"conclusion\":\"success\",\"name\":\"Install pinned Git LFS\",\"number\":9,\"startedAt\":\"2026-09-21T03:20:00Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:23:59Z\",\"conclusion\":\"success\",\"name\":\"Verify repository gate before artifact build\",\"number\":10,\"startedAt\":\"2026-09-21T03:20:01Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:45:27Z\",\"conclusion\":\"success\",\"name\":\"Build each export twice\",\"number\":11,\"startedAt\":\"2026-09-21T03:23:59Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:45:33Z\",\"conclusion\":\"success\",\"name\":\"Upload immutable Linux artifact\",\"number\":12,\"startedAt\":\"2026-09-21T03:45:27Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:45:40Z\",\"conclusion\":\"success\",\"name\":\"Upload immutable Windows artifact\",\"number\":13,\"startedAt\":\"2026-09-21T03:45:33Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:45:40Z\",\"conclusion\":\"success\",\"name\":\"Post Run astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990\",\"number\":22,\"startedAt\":\"2026-09-21T03:45:40Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:45:41Z\",\"conclusion\":\"success\",\"name\":\"Post Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1\",\"number\":23,\"startedAt\":\"2026-09-21T03:45:40Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:45:41Z\",\"conclusion\":\"success\",\"name\":\"Post Run actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38\",\"number\":24,\"startedAt\":\"2026-09-21T03:45:41Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:45:41Z\",\"conclusion\":\"success\",\"name\":\"Post Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1\",\"number\":25,\"startedAt\":\"2026-09-21T03:45:41Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:45:41Z\",\"conclusion\":\"success\",\"name\":\"Post Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10\",\"number\":26,\"startedAt\":\"2026-09-21T03:45:41Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:45:41Z\",\"conclusion\":\"success\",\"name\":\"Complete job\",\"number\":27,\"startedAt\":\"2026-09-21T03:45:41Z\",\"status\":\"completed\"}],\"url\":\"https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/35557106827/job/106202757391\"},{\"completedAt\":\"2026-09-21T03:47:08Z\",\"conclusion\":\"success\",\"databaseId\":106207022459,\"name\":\"Clean-machine smoke (linux)\",\"startedAt\":\"2026-09-21T03:45:47Z\",\"status\":\"completed\",\"steps\":[{\"completedAt\":\"2026-09-21T03:45:49Z\",\"conclusion\":\"success\",\"name\":\"Set up job\",\"number\":1,\"startedAt\":\"2026-09-21T03:45:48Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:45:51Z\",\"conclusion\":\"success\",\"name\":\"Download immutable package only\",\"number\":2,\"startedAt\":\"2026-09-21T03:45:49Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:45:58Z\",\"conclusion\":\"success\",\"name\":\"Install standalone verification interpreter\",\"number\":3,\"startedAt\":\"2026-09-21T03:45:51Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:46:50Z\",\"conclusion\":\"success\",\"name\":\"Verify and launch package\",\"number\":4,\"startedAt\":\"2026-09-21T03:45:58Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:47:05Z\",\"conclusion\":\"success\",\"name\":\"Select and exercise the packaged endurance sedan\",\"number\":5,\"startedAt\":\"2026-09-21T03:46:50Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:47:07Z\",\"conclusion\":\"success\",\"name\":\"Retain native shutdown smoke evidence\",\"number\":6,\"startedAt\":\"2026-09-21T03:47:05Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:47:07Z\",\"conclusion\":\"success\",\"name\":\"Post Install standalone verification interpreter\",\"number\":12,\"startedAt\":\"2026-09-21T03:47:07Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:47:07Z\",\"conclusion\":\"success\",\"name\":\"Complete job\",\"number\":13,\"startedAt\":\"2026-09-21T03:47:07Z\",\"status\":\"completed\"}],\"url\":\"https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/35557106827/job/106207022459\"},{\"completedAt\":\"2026-09-21T03:50:42Z\",\"conclusion\":\"success\",\"databaseId\":106207022533,\"name\":\"Clean-machine smoke (windows)\",\"startedAt\":\"2026-09-21T03:45:47Z\",\"status\":\"completed\",\"steps\":[{\"completedAt\":\"2026-09-21T03:45:49Z\",\"conclusion\":\"success\",\"name\":\"Set up job\",\"number\":1,\"startedAt\":\"2026-09-21T03:45:48Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:45:52Z\",\"conclusion\":\"success\",\"name\":\"Download immutable package only\",\"number\":2,\"startedAt\":\"2026-09-21T03:45:49Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:46:40Z\",\"conclusion\":\"success\",\"name\":\"Install standalone verification interpreter\",\"number\":3,\"startedAt\":\"2026-09-21T03:45:52Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:50:18Z\",\"conclusion\":\"success\",\"name\":\"Verify and launch package\",\"number\":4,\"startedAt\":\"2026-09-21T03:46:40Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:50:39Z\",\"conclusion\":\"success\",\"name\":\"Select and exercise the packaged endurance sedan\",\"number\":5,\"startedAt\":\"2026-09-21T03:50:18Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:50:41Z\",\"conclusion\":\"success\",\"name\":\"Retain native shutdown smoke evidence\",\"number\":6,\"startedAt\":\"2026-09-21T03:50:39Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:50:41Z\",\"conclusion\":\"success\",\"name\":\"Post Install standalone verification interpreter\",\"number\":12,\"startedAt\":\"2026-09-21T03:50:41Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:50:41Z\",\"conclusion\":\"success\",\"name\":\"Complete job\",\"number\":13,\"startedAt\":\"2026-09-21T03:50:41Z\",\"status\":\"completed\"}],\"url\":\"https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/35557106827/job/106207022533\"}],\"status\":\"completed\",\"url\":\"https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/35557106827\"}\n",
+          "stderr": ""
+        },
+        "result": {
+          "conclusion": "success",
+          "databaseId": 35557106827,
+          "headSha": "c2336a0e61b76e64988478796b51aa32f38e2fc3",
+          "jobs": [
+            {
+              "completedAt": "2026-09-21T03:45:45Z",
+              "conclusion": "success",
+              "databaseId": 106202757391,
+              "name": "Build reproducible fixture exports",
+              "startedAt": "2026-09-21T03:18:56Z",
+              "status": "completed",
+              "steps": [
+                {
+                  "completedAt": "2026-09-21T03:18:58Z",
+                  "conclusion": "success",
+                  "name": "Set up job",
+                  "number": 1,
+                  "startedAt": "2026-09-21T03:18:57Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:19:06Z",
+                  "conclusion": "success",
+                  "name": "Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10",
+                  "number": 2,
+                  "startedAt": "2026-09-21T03:18:58Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:19:22Z",
+                  "conclusion": "success",
+                  "name": "Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1",
+                  "number": 3,
+                  "startedAt": "2026-09-21T03:19:06Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:19:26Z",
+                  "conclusion": "success",
+                  "name": "Run actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38",
+                  "number": 4,
+                  "startedAt": "2026-09-21T03:19:22Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:19:35Z",
+                  "conclusion": "success",
+                  "name": "Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+                  "number": 5,
+                  "startedAt": "2026-09-21T03:19:26Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:19:37Z",
+                  "conclusion": "success",
+                  "name": "Run astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990",
+                  "number": 6,
+                  "startedAt": "2026-09-21T03:19:35Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:19:38Z",
+                  "conclusion": "success",
+                  "name": "Run chickensoft-games/setup-godot@f166999204a4f2722c6fe042fbaa3b3ea0d9c789",
+                  "number": 7,
+                  "startedAt": "2026-09-21T03:19:37Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:20:00Z",
+                  "conclusion": "success",
+                  "name": "Install exact export templates",
+                  "number": 8,
+                  "startedAt": "2026-09-21T03:19:38Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:20:01Z",
+                  "conclusion": "success",
+                  "name": "Install pinned Git LFS",
+                  "number": 9,
+                  "startedAt": "2026-09-21T03:20:00Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:23:59Z",
+                  "conclusion": "success",
+                  "name": "Verify repository gate before artifact build",
+                  "number": 10,
+                  "startedAt": "2026-09-21T03:20:01Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:45:27Z",
+                  "conclusion": "success",
+                  "name": "Build each export twice",
+                  "number": 11,
+                  "startedAt": "2026-09-21T03:23:59Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:45:33Z",
+                  "conclusion": "success",
+                  "name": "Upload immutable Linux artifact",
+                  "number": 12,
+                  "startedAt": "2026-09-21T03:45:27Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:45:40Z",
+                  "conclusion": "success",
+                  "name": "Upload immutable Windows artifact",
+                  "number": 13,
+                  "startedAt": "2026-09-21T03:45:33Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:45:40Z",
+                  "conclusion": "success",
+                  "name": "Post Run astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990",
+                  "number": 22,
+                  "startedAt": "2026-09-21T03:45:40Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:45:41Z",
+                  "conclusion": "success",
+                  "name": "Post Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+                  "number": 23,
+                  "startedAt": "2026-09-21T03:45:40Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:45:41Z",
+                  "conclusion": "success",
+                  "name": "Post Run actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38",
+                  "number": 24,
+                  "startedAt": "2026-09-21T03:45:41Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:45:41Z",
+                  "conclusion": "success",
+                  "name": "Post Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1",
+                  "number": 25,
+                  "startedAt": "2026-09-21T03:45:41Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:45:41Z",
+                  "conclusion": "success",
+                  "name": "Post Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10",
+                  "number": 26,
+                  "startedAt": "2026-09-21T03:45:41Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:45:41Z",
+                  "conclusion": "success",
+                  "name": "Complete job",
+                  "number": 27,
+                  "startedAt": "2026-09-21T03:45:41Z",
+                  "status": "completed"
+                }
+              ],
+              "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/35557106827/job/106202757391"
+            },
+            {
+              "completedAt": "2026-09-21T03:47:08Z",
+              "conclusion": "success",
+              "databaseId": 106207022459,
+              "name": "Clean-machine smoke (linux)",
+              "startedAt": "2026-09-21T03:45:47Z",
+              "status": "completed",
+              "steps": [
+                {
+                  "completedAt": "2026-09-21T03:45:49Z",
+                  "conclusion": "success",
+                  "name": "Set up job",
+                  "number": 1,
+                  "startedAt": "2026-09-21T03:45:48Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:45:51Z",
+                  "conclusion": "success",
+                  "name": "Download immutable package only",
+                  "number": 2,
+                  "startedAt": "2026-09-21T03:45:49Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:45:58Z",
+                  "conclusion": "success",
+                  "name": "Install standalone verification interpreter",
+                  "number": 3,
+                  "startedAt": "2026-09-21T03:45:51Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:46:50Z",
+                  "conclusion": "success",
+                  "name": "Verify and launch package",
+                  "number": 4,
+                  "startedAt": "2026-09-21T03:45:58Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:47:05Z",
+                  "conclusion": "success",
+                  "name": "Select and exercise the packaged endurance sedan",
+                  "number": 5,
+                  "startedAt": "2026-09-21T03:46:50Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:47:07Z",
+                  "conclusion": "success",
+                  "name": "Retain native shutdown smoke evidence",
+                  "number": 6,
+                  "startedAt": "2026-09-21T03:47:05Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:47:07Z",
+                  "conclusion": "success",
+                  "name": "Post Install standalone verification interpreter",
+                  "number": 12,
+                  "startedAt": "2026-09-21T03:47:07Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:47:07Z",
+                  "conclusion": "success",
+                  "name": "Complete job",
+                  "number": 13,
+                  "startedAt": "2026-09-21T03:47:07Z",
+                  "status": "completed"
+                }
+              ],
+              "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/35557106827/job/106207022459"
+            },
+            {
+              "completedAt": "2026-09-21T03:50:42Z",
+              "conclusion": "success",
+              "databaseId": 106207022533,
+              "name": "Clean-machine smoke (windows)",
+              "startedAt": "2026-09-21T03:45:47Z",
+              "status": "completed",
+              "steps": [
+                {
+                  "completedAt": "2026-09-21T03:45:49Z",
+                  "conclusion": "success",
+                  "name": "Set up job",
+                  "number": 1,
+                  "startedAt": "2026-09-21T03:45:48Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:45:52Z",
+                  "conclusion": "success",
+                  "name": "Download immutable package only",
+                  "number": 2,
+                  "startedAt": "2026-09-21T03:45:49Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:46:40Z",
+                  "conclusion": "success",
+                  "name": "Install standalone verification interpreter",
+                  "number": 3,
+                  "startedAt": "2026-09-21T03:45:52Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:50:18Z",
+                  "conclusion": "success",
+                  "name": "Verify and launch package",
+                  "number": 4,
+                  "startedAt": "2026-09-21T03:46:40Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:50:39Z",
+                  "conclusion": "success",
+                  "name": "Select and exercise the packaged endurance sedan",
+                  "number": 5,
+                  "startedAt": "2026-09-21T03:50:18Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:50:41Z",
+                  "conclusion": "success",
+                  "name": "Retain native shutdown smoke evidence",
+                  "number": 6,
+                  "startedAt": "2026-09-21T03:50:39Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:50:41Z",
+                  "conclusion": "success",
+                  "name": "Post Install standalone verification interpreter",
+                  "number": 12,
+                  "startedAt": "2026-09-21T03:50:41Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:50:41Z",
+                  "conclusion": "success",
+                  "name": "Complete job",
+                  "number": 13,
+                  "startedAt": "2026-09-21T03:50:41Z",
+                  "status": "completed"
+                }
+              ],
+              "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/35557106827/job/106207022533"
+            }
+          ],
+          "status": "completed",
+          "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/35557106827"
+        }
+      },
+      {
+        "execution": {
+          "argv": [
+            "gh",
+            "run",
+            "view",
+            "35557106825",
+            "--json",
+            "databaseId,headSha,status,conclusion,jobs,url"
+          ],
+          "exit_status": 0,
+          "stdout": "{\"conclusion\":\"failure\",\"databaseId\":35557106825,\"headSha\":\"c2336a0e61b76e64988478796b51aa32f38e2fc3\",\"jobs\":[{\"completedAt\":\"2026-09-21T03:23:58Z\",\"conclusion\":\"success\",\"databaseId\":106202757298,\"name\":\"Blender and Godot asset pipeline\",\"startedAt\":\"2026-09-21T03:18:55Z\",\"status\":\"completed\",\"steps\":[{\"completedAt\":\"2026-09-21T03:18:57Z\",\"conclusion\":\"success\",\"name\":\"Set up job\",\"number\":1,\"startedAt\":\"2026-09-21T03:18:56Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:19:06Z\",\"conclusion\":\"success\",\"name\":\"Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10\",\"number\":2,\"startedAt\":\"2026-09-21T03:18:57Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:19:20Z\",\"conclusion\":\"success\",\"name\":\"Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1\",\"number\":3,\"startedAt\":\"2026-09-21T03:19:06Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:19:31Z\",\"conclusion\":\"success\",\"name\":\"Run chickensoft-games/setup-godot@f166999204a4f2722c6fe042fbaa3b3ea0d9c789\",\"number\":4,\"startedAt\":\"2026-09-21T03:19:20Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:19:50Z\",\"conclusion\":\"success\",\"name\":\"Install headless rendering runtime\",\"number\":5,\"startedAt\":\"2026-09-21T03:19:31Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:20:11Z\",\"conclusion\":\"success\",\"name\":\"Install pinned Blender\",\"number\":6,\"startedAt\":\"2026-09-21T03:19:50Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:23:55Z\",\"conclusion\":\"success\",\"name\":\"Validate deterministic asset pipeline\",\"number\":7,\"startedAt\":\"2026-09-21T03:20:11Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:23:55Z\",\"conclusion\":\"success\",\"name\":\"Upload asset evidence\",\"number\":8,\"startedAt\":\"2026-09-21T03:23:55Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:23:56Z\",\"conclusion\":\"success\",\"name\":\"Post Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1\",\"number\":15,\"startedAt\":\"2026-09-21T03:23:55Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:23:56Z\",\"conclusion\":\"success\",\"name\":\"Post Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10\",\"number\":16,\"startedAt\":\"2026-09-21T03:23:56Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:23:56Z\",\"conclusion\":\"success\",\"name\":\"Complete job\",\"number\":17,\"startedAt\":\"2026-09-21T03:23:56Z\",\"status\":\"completed\"}],\"url\":\"https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/35557106825/job/106202757298\"},{\"completedAt\":\"2026-09-21T03:20:25Z\",\"conclusion\":\"failure\",\"databaseId\":106202757411,\"name\":\"Meridian S8R assets and runtime (ubuntu-24.04)\",\"startedAt\":\"2026-09-21T03:18:56Z\",\"status\":\"completed\",\"steps\":[{\"completedAt\":\"2026-09-21T03:18:57Z\",\"conclusion\":\"success\",\"name\":\"Set up job\",\"number\":1,\"startedAt\":\"2026-09-21T03:18:56Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:19:06Z\",\"conclusion\":\"success\",\"name\":\"Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10\",\"number\":2,\"startedAt\":\"2026-09-21T03:18:57Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:19:21Z\",\"conclusion\":\"success\",\"name\":\"Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1\",\"number\":3,\"startedAt\":\"2026-09-21T03:19:06Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:19:25Z\",\"conclusion\":\"success\",\"name\":\"Run actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38\",\"number\":4,\"startedAt\":\"2026-09-21T03:19:21Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:19:34Z\",\"conclusion\":\"success\",\"name\":\"Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1\",\"number\":5,\"startedAt\":\"2026-09-21T03:19:25Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:19:36Z\",\"conclusion\":\"success\",\"name\":\"Run astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990\",\"number\":6,\"startedAt\":\"2026-09-21T03:19:34Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:19:50Z\",\"conclusion\":\"success\",\"name\":\"Run chickensoft-games/setup-godot@f166999204a4f2722c6fe042fbaa3b3ea0d9c789\",\"number\":7,\"startedAt\":\"2026-09-21T03:19:36Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:19:50Z\",\"conclusion\":\"success\",\"name\":\"Install pinned Git LFS\",\"number\":8,\"startedAt\":\"2026-09-21T03:19:50Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:20:01Z\",\"conclusion\":\"success\",\"name\":\"Install headless rendering runtime\",\"number\":9,\"startedAt\":\"2026-09-21T03:19:50Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:20:17Z\",\"conclusion\":\"success\",\"name\":\"Install pinned Blender for the declared platform\",\"number\":10,\"startedAt\":\"2026-09-21T03:20:01Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:20:17Z\",\"conclusion\":\"success\",\"name\":\"Verify pinned machine toolchain\",\"number\":11,\"startedAt\":\"2026-09-21T03:20:17Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:20:23Z\",\"conclusion\":\"failure\",\"name\":\"Verify sedan export, clean imports, byte reproducibility and rejection controls\",\"number\":12,\"startedAt\":\"2026-09-21T03:20:17Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:20:23Z\",\"conclusion\":\"skipped\",\"name\":\"Verify sedan presentation and all vehicle driving variants\",\"number\":13,\"startedAt\":\"2026-09-21T03:20:23Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:20:23Z\",\"conclusion\":\"skipped\",\"name\":\"Verify unchanged Hero GT source, exports and all LODs\",\"number\":14,\"startedAt\":\"2026-09-21T03:20:23Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:20:23Z\",\"conclusion\":\"success\",\"name\":\"Upload sedan platform evidence\",\"number\":15,\"startedAt\":\"2026-09-21T03:20:23Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:20:23Z\",\"conclusion\":\"skipped\",\"name\":\"Post Run astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990\",\"number\":26,\"startedAt\":\"2026-09-21T03:20:23Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:20:23Z\",\"conclusion\":\"skipped\",\"name\":\"Post Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1\",\"number\":27,\"startedAt\":\"2026-09-21T03:20:23Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:20:23Z\",\"conclusion\":\"skipped\",\"name\":\"Post Run actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38\",\"number\":28,\"startedAt\":\"2026-09-21T03:20:23Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:20:23Z\",\"conclusion\":\"skipped\",\"name\":\"Post Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1\",\"number\":29,\"startedAt\":\"2026-09-21T03:20:23Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:20:24Z\",\"conclusion\":\"success\",\"name\":\"Post Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10\",\"number\":30,\"startedAt\":\"2026-09-21T03:20:23Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:20:24Z\",\"conclusion\":\"success\",\"name\":\"Complete job\",\"number\":31,\"startedAt\":\"2026-09-21T03:20:24Z\",\"status\":\"completed\"}],\"url\":\"https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/35557106825/job/106202757411\"},{\"completedAt\":\"2026-09-21T03:22:01Z\",\"conclusion\":\"failure\",\"databaseId\":106202757430,\"name\":\"Meridian S8R assets and runtime (windows-latest)\",\"startedAt\":\"2026-09-21T03:18:56Z\",\"status\":\"completed\",\"steps\":[{\"completedAt\":\"2026-09-21T03:18:58Z\",\"conclusion\":\"success\",\"name\":\"Set up job\",\"number\":1,\"startedAt\":\"2026-09-21T03:18:56Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:19:12Z\",\"conclusion\":\"success\",\"name\":\"Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10\",\"number\":2,\"startedAt\":\"2026-09-21T03:18:58Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:20:05Z\",\"conclusion\":\"success\",\"name\":\"Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1\",\"number\":3,\"startedAt\":\"2026-09-21T03:19:12Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:20:13Z\",\"conclusion\":\"success\",\"name\":\"Run actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38\",\"number\":4,\"startedAt\":\"2026-09-21T03:20:05Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:21:02Z\",\"conclusion\":\"success\",\"name\":\"Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1\",\"number\":5,\"startedAt\":\"2026-09-21T03:20:13Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:21:05Z\",\"conclusion\":\"success\",\"name\":\"Run astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990\",\"number\":6,\"startedAt\":\"2026-09-21T03:21:02Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:21:19Z\",\"conclusion\":\"success\",\"name\":\"Run chickensoft-games/setup-godot@f166999204a4f2722c6fe042fbaa3b3ea0d9c789\",\"number\":7,\"startedAt\":\"2026-09-21T03:21:05Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:21:20Z\",\"conclusion\":\"success\",\"name\":\"Install pinned Git LFS\",\"number\":8,\"startedAt\":\"2026-09-21T03:21:19Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:21:20Z\",\"conclusion\":\"skipped\",\"name\":\"Install headless rendering runtime\",\"number\":9,\"startedAt\":\"2026-09-21T03:21:20Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:21:45Z\",\"conclusion\":\"success\",\"name\":\"Install pinned Blender for the declared platform\",\"number\":10,\"startedAt\":\"2026-09-21T03:21:20Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:21:46Z\",\"conclusion\":\"success\",\"name\":\"Verify pinned machine toolchain\",\"number\":11,\"startedAt\":\"2026-09-21T03:21:45Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:21:57Z\",\"conclusion\":\"failure\",\"name\":\"Verify sedan export, clean imports, byte reproducibility and rejection controls\",\"number\":12,\"startedAt\":\"2026-09-21T03:21:46Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:21:57Z\",\"conclusion\":\"skipped\",\"name\":\"Verify sedan presentation and all vehicle driving variants\",\"number\":13,\"startedAt\":\"2026-09-21T03:21:57Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:21:57Z\",\"conclusion\":\"skipped\",\"name\":\"Verify unchanged Hero GT source, exports and all LODs\",\"number\":14,\"startedAt\":\"2026-09-21T03:21:57Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:21:57Z\",\"conclusion\":\"success\",\"name\":\"Upload sedan platform evidence\",\"number\":15,\"startedAt\":\"2026-09-21T03:21:57Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:21:57Z\",\"conclusion\":\"skipped\",\"name\":\"Post Run astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990\",\"number\":26,\"startedAt\":\"2026-09-21T03:21:57Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:21:57Z\",\"conclusion\":\"skipped\",\"name\":\"Post Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1\",\"number\":27,\"startedAt\":\"2026-09-21T03:21:57Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:21:57Z\",\"conclusion\":\"skipped\",\"name\":\"Post Run actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38\",\"number\":28,\"startedAt\":\"2026-09-21T03:21:57Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:21:57Z\",\"conclusion\":\"skipped\",\"name\":\"Post Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1\",\"number\":29,\"startedAt\":\"2026-09-21T03:21:57Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:21:59Z\",\"conclusion\":\"success\",\"name\":\"Post Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10\",\"number\":30,\"startedAt\":\"2026-09-21T03:21:57Z\",\"status\":\"completed\"},{\"completedAt\":\"2026-09-21T03:22:00Z\",\"conclusion\":\"success\",\"name\":\"Complete job\",\"number\":31,\"startedAt\":\"2026-09-21T03:21:59Z\",\"status\":\"completed\"}],\"url\":\"https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/35557106825/job/106202757430\"}],\"status\":\"completed\",\"url\":\"https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/35557106825\"}\n",
+          "stderr": ""
+        },
+        "result": {
+          "conclusion": "failure",
+          "databaseId": 35557106825,
+          "headSha": "c2336a0e61b76e64988478796b51aa32f38e2fc3",
+          "jobs": [
+            {
+              "completedAt": "2026-09-21T03:23:58Z",
+              "conclusion": "success",
+              "databaseId": 106202757298,
+              "name": "Blender and Godot asset pipeline",
+              "startedAt": "2026-09-21T03:18:55Z",
+              "status": "completed",
+              "steps": [
+                {
+                  "completedAt": "2026-09-21T03:18:57Z",
+                  "conclusion": "success",
+                  "name": "Set up job",
+                  "number": 1,
+                  "startedAt": "2026-09-21T03:18:56Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:19:06Z",
+                  "conclusion": "success",
+                  "name": "Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10",
+                  "number": 2,
+                  "startedAt": "2026-09-21T03:18:57Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:19:20Z",
+                  "conclusion": "success",
+                  "name": "Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1",
+                  "number": 3,
+                  "startedAt": "2026-09-21T03:19:06Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:19:31Z",
+                  "conclusion": "success",
+                  "name": "Run chickensoft-games/setup-godot@f166999204a4f2722c6fe042fbaa3b3ea0d9c789",
+                  "number": 4,
+                  "startedAt": "2026-09-21T03:19:20Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:19:50Z",
+                  "conclusion": "success",
+                  "name": "Install headless rendering runtime",
+                  "number": 5,
+                  "startedAt": "2026-09-21T03:19:31Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:20:11Z",
+                  "conclusion": "success",
+                  "name": "Install pinned Blender",
+                  "number": 6,
+                  "startedAt": "2026-09-21T03:19:50Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:23:55Z",
+                  "conclusion": "success",
+                  "name": "Validate deterministic asset pipeline",
+                  "number": 7,
+                  "startedAt": "2026-09-21T03:20:11Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:23:55Z",
+                  "conclusion": "success",
+                  "name": "Upload asset evidence",
+                  "number": 8,
+                  "startedAt": "2026-09-21T03:23:55Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:23:56Z",
+                  "conclusion": "success",
+                  "name": "Post Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1",
+                  "number": 15,
+                  "startedAt": "2026-09-21T03:23:55Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:23:56Z",
+                  "conclusion": "success",
+                  "name": "Post Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10",
+                  "number": 16,
+                  "startedAt": "2026-09-21T03:23:56Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:23:56Z",
+                  "conclusion": "success",
+                  "name": "Complete job",
+                  "number": 17,
+                  "startedAt": "2026-09-21T03:23:56Z",
+                  "status": "completed"
+                }
+              ],
+              "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/35557106825/job/106202757298"
+            },
+            {
+              "completedAt": "2026-09-21T03:20:25Z",
+              "conclusion": "failure",
+              "databaseId": 106202757411,
+              "name": "Meridian S8R assets and runtime (ubuntu-24.04)",
+              "startedAt": "2026-09-21T03:18:56Z",
+              "status": "completed",
+              "steps": [
+                {
+                  "completedAt": "2026-09-21T03:18:57Z",
+                  "conclusion": "success",
+                  "name": "Set up job",
+                  "number": 1,
+                  "startedAt": "2026-09-21T03:18:56Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:19:06Z",
+                  "conclusion": "success",
+                  "name": "Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10",
+                  "number": 2,
+                  "startedAt": "2026-09-21T03:18:57Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:19:21Z",
+                  "conclusion": "success",
+                  "name": "Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1",
+                  "number": 3,
+                  "startedAt": "2026-09-21T03:19:06Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:19:25Z",
+                  "conclusion": "success",
+                  "name": "Run actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38",
+                  "number": 4,
+                  "startedAt": "2026-09-21T03:19:21Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:19:34Z",
+                  "conclusion": "success",
+                  "name": "Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+                  "number": 5,
+                  "startedAt": "2026-09-21T03:19:25Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:19:36Z",
+                  "conclusion": "success",
+                  "name": "Run astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990",
+                  "number": 6,
+                  "startedAt": "2026-09-21T03:19:34Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:19:50Z",
+                  "conclusion": "success",
+                  "name": "Run chickensoft-games/setup-godot@f166999204a4f2722c6fe042fbaa3b3ea0d9c789",
+                  "number": 7,
+                  "startedAt": "2026-09-21T03:19:36Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:19:50Z",
+                  "conclusion": "success",
+                  "name": "Install pinned Git LFS",
+                  "number": 8,
+                  "startedAt": "2026-09-21T03:19:50Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:20:01Z",
+                  "conclusion": "success",
+                  "name": "Install headless rendering runtime",
+                  "number": 9,
+                  "startedAt": "2026-09-21T03:19:50Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:20:17Z",
+                  "conclusion": "success",
+                  "name": "Install pinned Blender for the declared platform",
+                  "number": 10,
+                  "startedAt": "2026-09-21T03:20:01Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:20:17Z",
+                  "conclusion": "success",
+                  "name": "Verify pinned machine toolchain",
+                  "number": 11,
+                  "startedAt": "2026-09-21T03:20:17Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:20:23Z",
+                  "conclusion": "failure",
+                  "name": "Verify sedan export, clean imports, byte reproducibility and rejection controls",
+                  "number": 12,
+                  "startedAt": "2026-09-21T03:20:17Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:20:23Z",
+                  "conclusion": "skipped",
+                  "name": "Verify sedan presentation and all vehicle driving variants",
+                  "number": 13,
+                  "startedAt": "2026-09-21T03:20:23Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:20:23Z",
+                  "conclusion": "skipped",
+                  "name": "Verify unchanged Hero GT source, exports and all LODs",
+                  "number": 14,
+                  "startedAt": "2026-09-21T03:20:23Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:20:23Z",
+                  "conclusion": "success",
+                  "name": "Upload sedan platform evidence",
+                  "number": 15,
+                  "startedAt": "2026-09-21T03:20:23Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:20:23Z",
+                  "conclusion": "skipped",
+                  "name": "Post Run astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990",
+                  "number": 26,
+                  "startedAt": "2026-09-21T03:20:23Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:20:23Z",
+                  "conclusion": "skipped",
+                  "name": "Post Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+                  "number": 27,
+                  "startedAt": "2026-09-21T03:20:23Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:20:23Z",
+                  "conclusion": "skipped",
+                  "name": "Post Run actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38",
+                  "number": 28,
+                  "startedAt": "2026-09-21T03:20:23Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:20:23Z",
+                  "conclusion": "skipped",
+                  "name": "Post Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1",
+                  "number": 29,
+                  "startedAt": "2026-09-21T03:20:23Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:20:24Z",
+                  "conclusion": "success",
+                  "name": "Post Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10",
+                  "number": 30,
+                  "startedAt": "2026-09-21T03:20:23Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:20:24Z",
+                  "conclusion": "success",
+                  "name": "Complete job",
+                  "number": 31,
+                  "startedAt": "2026-09-21T03:20:24Z",
+                  "status": "completed"
+                }
+              ],
+              "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/35557106825/job/106202757411"
+            },
+            {
+              "completedAt": "2026-09-21T03:22:01Z",
+              "conclusion": "failure",
+              "databaseId": 106202757430,
+              "name": "Meridian S8R assets and runtime (windows-latest)",
+              "startedAt": "2026-09-21T03:18:56Z",
+              "status": "completed",
+              "steps": [
+                {
+                  "completedAt": "2026-09-21T03:18:58Z",
+                  "conclusion": "success",
+                  "name": "Set up job",
+                  "number": 1,
+                  "startedAt": "2026-09-21T03:18:56Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:19:12Z",
+                  "conclusion": "success",
+                  "name": "Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10",
+                  "number": 2,
+                  "startedAt": "2026-09-21T03:18:58Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:20:05Z",
+                  "conclusion": "success",
+                  "name": "Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1",
+                  "number": 3,
+                  "startedAt": "2026-09-21T03:19:12Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:20:13Z",
+                  "conclusion": "success",
+                  "name": "Run actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38",
+                  "number": 4,
+                  "startedAt": "2026-09-21T03:20:05Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:21:02Z",
+                  "conclusion": "success",
+                  "name": "Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+                  "number": 5,
+                  "startedAt": "2026-09-21T03:20:13Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:21:05Z",
+                  "conclusion": "success",
+                  "name": "Run astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990",
+                  "number": 6,
+                  "startedAt": "2026-09-21T03:21:02Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:21:19Z",
+                  "conclusion": "success",
+                  "name": "Run chickensoft-games/setup-godot@f166999204a4f2722c6fe042fbaa3b3ea0d9c789",
+                  "number": 7,
+                  "startedAt": "2026-09-21T03:21:05Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:21:20Z",
+                  "conclusion": "success",
+                  "name": "Install pinned Git LFS",
+                  "number": 8,
+                  "startedAt": "2026-09-21T03:21:19Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:21:20Z",
+                  "conclusion": "skipped",
+                  "name": "Install headless rendering runtime",
+                  "number": 9,
+                  "startedAt": "2026-09-21T03:21:20Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:21:45Z",
+                  "conclusion": "success",
+                  "name": "Install pinned Blender for the declared platform",
+                  "number": 10,
+                  "startedAt": "2026-09-21T03:21:20Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:21:46Z",
+                  "conclusion": "success",
+                  "name": "Verify pinned machine toolchain",
+                  "number": 11,
+                  "startedAt": "2026-09-21T03:21:45Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:21:57Z",
+                  "conclusion": "failure",
+                  "name": "Verify sedan export, clean imports, byte reproducibility and rejection controls",
+                  "number": 12,
+                  "startedAt": "2026-09-21T03:21:46Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:21:57Z",
+                  "conclusion": "skipped",
+                  "name": "Verify sedan presentation and all vehicle driving variants",
+                  "number": 13,
+                  "startedAt": "2026-09-21T03:21:57Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:21:57Z",
+                  "conclusion": "skipped",
+                  "name": "Verify unchanged Hero GT source, exports and all LODs",
+                  "number": 14,
+                  "startedAt": "2026-09-21T03:21:57Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:21:57Z",
+                  "conclusion": "success",
+                  "name": "Upload sedan platform evidence",
+                  "number": 15,
+                  "startedAt": "2026-09-21T03:21:57Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:21:57Z",
+                  "conclusion": "skipped",
+                  "name": "Post Run astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990",
+                  "number": 26,
+                  "startedAt": "2026-09-21T03:21:57Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:21:57Z",
+                  "conclusion": "skipped",
+                  "name": "Post Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+                  "number": 27,
+                  "startedAt": "2026-09-21T03:21:57Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:21:57Z",
+                  "conclusion": "skipped",
+                  "name": "Post Run actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38",
+                  "number": 28,
+                  "startedAt": "2026-09-21T03:21:57Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:21:57Z",
+                  "conclusion": "skipped",
+                  "name": "Post Run actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1",
+                  "number": 29,
+                  "startedAt": "2026-09-21T03:21:57Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:21:59Z",
+                  "conclusion": "success",
+                  "name": "Post Run actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10",
+                  "number": 30,
+                  "startedAt": "2026-09-21T03:21:57Z",
+                  "status": "completed"
+                },
+                {
+                  "completedAt": "2026-09-21T03:22:00Z",
+                  "conclusion": "success",
+                  "name": "Complete job",
+                  "number": 31,
+                  "startedAt": "2026-09-21T03:21:59Z",
+                  "status": "completed"
+                }
+              ],
+              "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/35557106825/job/106202757430"
+            }
+          ],
+          "status": "completed",
+          "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/35557106825"
+        }
+      }
+    ],
+    "hosted_asset_failure": "Both sedan asset jobs reject the installed older source because its current source-generation binding is absent. Hero asset job passes. A coherent freshly generated source/binding package must replace the historical asset; the guard remains unchanged.",
+    "failures_and_retries": [
+      "Environment06 native day/night runs succeeded. First host reader expected four emitters but actual source contains twelve across three LODs; reader07 derives the complete source inventory and requires four visible LOD0 emitters. Original reader failure retained; no native rerun or tolerance relaxation.",
+      "Environment06 before/restored image pairs differ although actual local/global/effective camera matrices match. Cause unassigned; no pixel-equivalence claim.",
+      "Skill publishing first helper rejected an ambiguous validate/quick-validate receipt match before staging; exact-label retry succeeded, pushed d1ff178 and reinstalled all16 files byte-exactly.",
+      "Old rail underside attachment crossed its neighbors; rejected candidates retained. Scope52 permits the complete concealed receiver domain without modifying exterior, gasket, hardpoints or numeric limits.",
+      "Optional curved windshield trial breaks the existing sweep by13.507/7.304mm in recorded witnesses. Scope53 retains proved source193 contact geometry and requires final combined interface verification."
+    ],
+    "outstanding_machine_work": [
+      "Finish and natively verify complete rear support/header/front form, final glass/wiper/trim fit, all LODs and geometry budgets.",
+      "Fresh canonical construction, complete26-stage source gate, native reopen, paired current bakes, two shipping exports and clean Godot import/package comparisons.",
+      "Final-source actual motion, driving, lighting, cockpit, mirror, opening and LOD captures plus lifecycle51 runs and independent visual/functional QA.",
+      "Uncontended declared1440p High Forward+ reference performance and30-minute memory growth, required platform/export/soak evidence, final defect/acceptance reconciliation.",
+      "Final portable artifacts and PR-only auto-squash when machine eligibility is established."
+    ],
+    "human_approval_reference": null,
+    "human_gates": "Final visual/rights/usability/driving enjoyment/physical-input feel reviews remain open. P1-018 cannot be marked complete from this checkpoint."
+  },
+  "portable_retention": {
+    "index": {
+      "path": "data/assets/vehicles/endurance-sedan-review/runtime-completion-v52/index.json",
+      "bytes": 174087,
+      "sha256": "f9dad32584db93a80ad722dba0e19a7f20e3d906dc2bdf851e5ef31c041b1573"
+    },
+    "manifest": {
+      "path": "data/assets/vehicles/endurance-sedan-review/runtime-completion-v52/inputs.json",
+      "bytes": 174950,
+      "sha256": "aa00c99dfbc1127418f090161d48c16f77f60d1c88118446bc461136fffbc0ac"
+    },
+    "archive": {
+      "path": "data/assets/vehicles/endurance-sedan-review/runtime-completion-v52/evidence.zip",
+      "bytes": 76024105,
+      "sha256": "ca91c65ba73c92786ff908b91d9660c62234ad4ad49944acdb69aea69a625b8a"
+    },
+    "entries": 737,
+    "byte_reproducible": true,
+    "all_member_hashes_and_crc_verified": true,
+    "limits": "Evidence retention and byte identity only; individual reports retain their own scope, failures and approval status."
+  },
+  "retention_review": [
+    {
+      "artifact": {
+        "path": "reports/p1-018/qa/checkpoint52-retention01/RECOVERY.md",
+        "bytes": 4974,
+        "sha256": "199c708929141b08af0cbddfe8347dcaa8783a9202caa1748d9878abbba39d23"
+      },
+      "text": "# Checkpoint52 portable evidence inventory\n\n`inputs.json` is the explicit allowlist for the existing `retain_evidence.py`. It adds the closed runtime/docs/skill evidence since49, terminal frontdoor52 and root checkpoint52, and scope53's four cited original images/proposal518. It is a retention inventory, not a new audit or asset approval. QA created no archive and ran no engine, build, capture or geometry operation.\n\nThe archive preserves both mirrors51 native regression trees (original PNGs, fixtures, before/after inputs, logs, native results and completed teardown), complete grounded environment06 day/night evidence and reader07, the frozen QA08\u201309 reviews, docs50/51 readbacks, research freshness, skill-update51 records, the final-lifecycle51 host/compile harness and terminal root scope/update/command records. Lifecycle51 remains final-native-pending. The current15 modified canonical files are copied under `snapshots/current/` after F05 and scope53, including the ledger; later M5/checkpoint append/index/archive outputs are outside this freeze.\n\nRecovery uses `(original path, SHA256, byte size)`, not path alone. `recovery-map.json` lists every requested version and its exact provider:\n\n1. `archive_payload`: read `retained_path` from this archive. Restore aliases only in a separate recovery workspace; historical and current versions of the same canonical path must not overwrite one another. One historical acceptance snapshot was reconstructed by undoing only F05 with the retained timestamp; its original SHA256 was required exactly before retention.\n2. `immutable_git_blob`: recover the raw object with `git cat-file blob <git_blob>` at the listed revision/path. Do not rely on checkout newline conversion. Current-tree objects were independently read; reused older49 object references were also read back during finalization.\n3. `immutable_git_lfs`: fetch the listed Git LFS object and verify its content SHA256/size. Checking out the pointer without fetching its content is insufficient. Source assets and import settings retain their original provenance and approval limits.\n4. `prior_v49_archive`: recover the exact named member from `data/assets/vehicles/endurance-sedan-review/runtime-completion-v49/evidence.zip`, SHA256 `d64a2ce3ba6c4df433a24b6babd5eeda9251c978504d9d05b8a3e749ead6a4c2`,209123002 bytes. That archive itself has a Git LFS recovery row. Its retained manifest/index recorded repeated byte identity and member verification. Source193's glass/motion receipts use this route. Earlier49 bulk is not duplicated here.\n5. `external_pinned_tool`: obtain the exact official executable identified by the retained hash. The two Godot executables are not redistributed in this evidence package.\n6. `excluded_transient_or_duplicate`: imported texture/mesh caches and the redundant114706387-byte environment06 ZIP are not packaged. Their original execution/member hashes remain in the reports. Recover source assets/import settings through the other mappings, use the pinned tools in a fresh stage, then create new import/native bindings. Regenerated cache or ZIP bytes are **not** certified identical. Private isolated user profiles, pipeline/shader caches, interpreter caches and `.git` metadata are also excluded. Required saves/telemetry were already copied to explicit evidence paths.\n\nThe environment06 aggregate ZIP is replaced here by per-file retention/recovery of its declared inputs; it is not an independent extra asset source. Historical fallback05 and source193 artifacts remain labeled comparisons. Persistent51 tests use installed production34; grounded06 uses private source60. None proves the final combined source or human/performance/rights gates. Old absolute paths in original receipts are preserved as historical execution context, not rewritten into a claim of portable native replay. Use the current parameterized lifecycle harness only after root supplies an independently held final imported project and ancestry receipt.\n\nRoot can perform the deterministic double archive using fresh output paths:\n\n```powershell\nautomation/playgodot/.venv/Scripts/python.exe -B tools/vehicles/endurance_sedan/retain_evidence.py --manifest reports/p1-018/qa/checkpoint52-retention01/inputs.json --output data/assets/vehicles/endurance-sedan-review/runtime-completion-v52/evidence.zip --repeat-output reports/p1-018/finish-branch40/retention52-repeat.zip --index data/assets/vehicles/endurance-sedan-review/runtime-completion-v52/index.json\n```\n\nThe tool writes both archives in one invocation and compares their complete bytes. All three output paths must be new. This command is a handoff, not a claim that retention has run. Only the explicit `entries` are inputs: earlier preparation drafts/local duplicate payloads are intentionally outside the allowlist, as are any unfinished command logs and future evidence/M5 edits. Each included current file was rehashed at finalization; the archive tool will reject any later drift.\n"
+    },
+    {
+      "artifact": {
+        "path": "reports/p1-018/qa/checkpoint52-retention01/readback03.json",
+        "bytes": 1916,
+        "sha256": "63ac121326a592c916f075ee0212d34c623efb2587ca764195f23150fffd300c"
+      },
+      "text": "{\n  \"task_id\": \"P1-018\",\n  \"milestone\": \"M5\",\n  \"utc\": \"2026-09-21T04:40:34.425498+00:00\",\n  \"status\": \"inventory_complete_ready_for_root_double_retention\",\n  \"git_revision\": \"c2336a0e61b76e64988478796b51aa32f38e2fc3\",\n  \"platform\": \"Windows-11-10.0.26200-SP0\",\n  \"python\": \"3.13.11\",\n  \"requested_path_hash_pairs\": 3860,\n  \"unresolved_inputs\": 0,\n  \"current_snapshots\": 15,\n  \"storage_counts\": {\n    \"immutable_git_lfs\": 351,\n    \"archive_payload\": 808,\n    \"immutable_git_blob\": 1809,\n    \"prior_v49_archive\": 121,\n    \"excluded_transient_or_duplicate\": 769,\n    \"external_pinned_tool\": 2\n  },\n  \"git_objects_read_preparation\": 1952,\n  \"additional_prior_git_blobs_verified\": 2,\n  \"frontdoor52\": {\n    \"terminal_result\": {\n      \"path\": \"reports/p1-018/finish-branch40/regressions52/frontdoor/result.json\",\n      \"bytes\": 430755,\n      \"sha256\": \"0029c70bdd113f53624250a6cc3fc519788aa242f9d4d22a072fea54141ab181\"\n    },\n    \"summary\": {\n      \"path\": \"reports/p1-018/finish-branch40/regressions52/frontdoor/m0/summary.json\",\n      \"bytes\": 1482,\n      \"sha256\": \"0a5434e97c19e5ba6b6623c0b90f9865ae6e31a147fa86a3ba703987e04d41a1\"\n    },\n    \"scope\": \"Retained terminal report only; no test rerun.\"\n  },\n  \"root_checkpoint\": {\n    \"path\": \"reports/p1-018/finish-branch40/checkpoint52.json\",\n    \"bytes\": 114010,\n    \"sha256\": \"08436c58c2ca45c7a37b3dfd4eaac956fa058d2f64e2021afd2bd23d8ca27be7\"\n  },\n  \"scope53\": {\n    \"path\": \"reports/p1-018/finish-branch40/windshield-direction53.json\",\n    \"bytes\": 3742,\n    \"sha256\": \"2569762b6f73792327e1caf3fde13a4d08c82502ac537cf4166fff6a94d8381e\"\n  },\n  \"recovery_map\": {\n    \"path\": \"reports/p1-018/qa/checkpoint52-retention01/recovery-map.json\",\n    \"bytes\": 2522078,\n    \"sha256\": \"56d163a2d6704896671cd7ce236c9351f7fcdb7295bf8d0684a8f1ab09697246\"\n  },\n  \"native_runs\": 0,\n  \"builds\": 0,\n  \"archives_created\": 0,\n  \"canonical_edits\": 0,\n  \"human_approval_reference\": null\n}\n"
+    }
+  ],
+  "recovery_map": {
+    "path": "reports/p1-018/qa/checkpoint52-retention01/recovery-map.json",
+    "bytes": 2522078,
+    "sha256": "56d163a2d6704896671cd7ce236c9351f7fcdb7295bf8d0684a8f1ab09697246"
+  },
+  "retention_commands": [
+    {
+      "path": "reports/p1-018/finish-branch40/commands/20260921T044119.200463Z-retention52.json",
+      "bytes": 1399,
+      "sha256": "ba3894d0a898f65ff2201d67df1b2350cc3917d086de281d995569c3987262ca"
+    }
+  ],
+  "limits": "Recorded machine checks pass in their declared source/configuration scopes. Final combined source, native geometry/export/import/motion/performance and human reviews remain outstanding. Archive identity is not asset acceptance.",
+  "human_approval_reference": null
+}

@@ -70,6 +70,12 @@ second confirmation and returns to the starting line. See
 [docs/CONTROLLER_CONTROLS.md](docs/CONTROLLER_CONTROLS.md) for the complete
 keyboard and controller layout.
 
+The original Meridian S8R four-door endurance sedan is selectable with
+`--vehicle=endurance-sedan` or the parked F2/controller RB inspection panel.
+See [its vehicle guide](docs/vehicles/endurance-sedan/README.md) for Blender
+inspection, driving, opening panels, lights, wipers, instruments and verification.
+Its human art, rights, handling and usability reviews remain open in P1-018.
+
 ## Verify everything
 
 ```

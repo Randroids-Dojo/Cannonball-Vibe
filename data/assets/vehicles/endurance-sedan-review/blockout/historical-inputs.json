@@ -1,0 +1,45 @@
+{
+    "task_id":  "P1-018",
+    "stage":  "historical blockout03 inputs and early proof",
+    "recorded_utc":  "2026-09-11T14:47:07.8094351+00:00",
+    "artifacts":  [
+                      {
+                          "source_path":  "data/assets/vehicles/sources/endurance-sedan.blend",
+                          "path":  "inputs/endurance-sedan.blend",
+                          "sha256":  "4db9756aad26fbf45ccd1c5dcae2a39cbedc3fb134a6a8a3216b2ecf534b1263",
+                          "bytes":  980681
+                      },
+                      {
+                          "source_path":  "data/assets/vehicles/derived/endurance-sedan.glb",
+                          "path":  "inputs/endurance-sedan.glb",
+                          "sha256":  "483fe3c10c5d6e6589f0ba2e9bf38ab30f7b199240b092f3796d44a5aac948a9",
+                          "bytes":  2588172
+                      },
+                      {
+                          "source_path":  "data/assets/vehicles/endurance-sedan.blender.json",
+                          "path":  "inputs/endurance-sedan.blender.json",
+                          "sha256":  "1cf19a72b4eea46b27421eae03aebf7b7cb791e454143ff2e6d8b43a1e62fa15",
+                          "bytes":  129528
+                      },
+                      {
+                          "source_path":  "assets/vehicles/endurance-sedan/endurance-sedan.generated.tscn",
+                          "path":  "inputs/endurance-sedan.generated.tscn",
+                          "sha256":  "b2769bae5e4327e67a3e0e1f7cb1c9c58373342eafa8f2adb7767d33ed1b32b5",
+                          "bytes":  3342145
+                      },
+                      {
+                          "source_path":  "assets/vehicles/endurance-sedan/endurance-sedan.generated.textures.json",
+                          "path":  "inputs/endurance-sedan.generated.textures.json",
+                          "sha256":  "7a0ed975c2e2b68092d14df0d6010d5be4dce66eb8fc48bd38f996e34b8dc815",
+                          "bytes":  37
+                      },
+                      {
+                          "source_path":  "docs/vehicles/endurance-sedan/blockout-integration.json",
+                          "path":  "inputs/blockout-integration.json",
+                          "sha256":  "ff7e466c7b68cf670b21907ffccc058c568635d52d1a11aa5692d695ea36625e",
+                          "bytes":  46083
+                      }
+                  ],
+    "later_revalidation":  "driving/process.json",
+    "human_approval_reference":  null
+}

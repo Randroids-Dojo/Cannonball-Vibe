@@ -1,0 +1,2687 @@
+{
+  "task_id": "P1-018",
+  "milestone": "M5",
+  "status": "passed",
+  "started_utc": "2026-09-11T17:45:58.281717+00:00",
+  "git_revision": "eb5703e55f3656e91bd80fb79502f10ce250554b",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.14.6",
+  "zlib_runtime": "1.3.1.zlib-ng",
+  "tool_sha256": "1310e66035402d9eccaef4c0b2fe6d474f0b56958e914138d3f57be6285b18ff",
+  "input_manifest": {
+    "path": "reports/p1-018/root-history-through33.manifest.json",
+    "sha256": "cd7c0ab8271fbbc9ab3ebfd6034b3e386d9401f5e2a7e168f322c8f759501e1b"
+  },
+  "entries": [
+    {
+      "path": "reports/p1-018/apply_ci_lfs_exclusion01.py",
+      "sha256": "e3ef2148a656aa2653016cdd5424241eefabb66d80647589d11c3610e621a056",
+      "bytes": 1802,
+      "reason": "Immutable root diagnostic, correction, scope or capture-tool snapshot"
+    },
+    {
+      "path": "reports/p1-018/blockout-technical-delivery-before04/README.md",
+      "sha256": "158915d7c9886582eb1435107e574936c48a9aa4083d96de05aad2cb463df258",
+      "bytes": 1270,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/blockout-technical-delivery-before04/correction.json",
+      "sha256": "701d848098076c6c4915bff223558f1d5ead3349b314816666aaf3f950dd7d86",
+      "bytes": 16376,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/blockout-technical-delivery-before04/index.html",
+      "sha256": "50d2e50d5f76ebcff43f9695a1d9c5c002e03704e65e626b7eb3194a07091a28",
+      "bytes": 2687,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/blockout-technical-delivery-before04/review.json",
+      "sha256": "a5f247b0036ab5e0a56e3dd1f8763744d9eb9bb6cbd7a050e16abdff0f5b7a6f",
+      "bytes": 19793,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/blockout-technical-delivery-before04/technical/capture.json",
+      "sha256": "fd33888df8d2c5f98a896a8ae9ef675a5fc8d3e5aed0d836dd2b9b07aa7b4914",
+      "bytes": 12975,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/blockout-technical-delivery-before04/technical/contact-sheet.png",
+      "sha256": "e1dbabe144511a16776e6c9f59ee1a356c17e885298a1bf76c4a7d993e0b4eba",
+      "bytes": 251223,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/blockout-technical-delivery-before04/technical/front.png",
+      "sha256": "17d5963b00351df9419aa062489dc246d2224a19f22c4a54f9d8941e881fa61b",
+      "bytes": 2774656,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/blockout-technical-delivery-before04/technical/left.png",
+      "sha256": "1ab2ab87b4c522856a7771182200278c2f072d7923ab6fdb4eb601454d14da1b",
+      "bytes": 2751819,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/blockout-technical-delivery-before04/technical/rear.png",
+      "sha256": "7d5e7a5f5c19dbda9065e600d22d497b8094685dcf2494ccf47c1f1e2130de2c",
+      "bytes": 2378098,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/blockout-technical-delivery-before04/technical/right.png",
+      "sha256": "f358a69c8492e0f772170530ea89aa6d902890ad77874130d1f55f23367f37d0",
+      "bytes": 2524326,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/blockout-technical-delivery-before04/technical/top.png",
+      "sha256": "4641beb5a90efe4f7df23645e8d94abb82524100eccabb415bfadbefd2823ec1",
+      "bytes": 2640881,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/blockout-technical-delivery-before04/technical/under.png",
+      "sha256": "be78a52edcf410a229555fd742816d5dc4a03f4871097f7b90e7a63ab98cf7e4",
+      "bytes": 2749265,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/budget-refinement-diagnostic-01/measurement.json",
+      "sha256": "d652b89374ff36021a32f6418e97206b542f59027ccde5bbfac7d41e9b86b4cf",
+      "bytes": 19637,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/budget_refinement_diagnostic.py",
+      "sha256": "7a96f07f43b5eb57969bb87c50ecc4852ed4a487f33f981a3d9e009e0b839b60",
+      "bytes": 6152,
+      "reason": "Immutable root diagnostic, correction, scope or capture-tool snapshot"
+    },
+    {
+      "path": "reports/p1-018/canonical-before-source33/endurance-sedan.blend",
+      "sha256": "4db9756aad26fbf45ccd1c5dcae2a39cbedc3fb134a6a8a3216b2ecf534b1263",
+      "bytes": 980681,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/canonical-before-source33/promotion.json",
+      "sha256": "87244a845763bddd052b247648637805f698595af86e599eab2d633208b883d1",
+      "bytes": 1016,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-recipe-through33-stills.json",
+      "sha256": "7bf60c340042683c5d5b5c067794f758a53c934e365266ff48339b8e33d4f90c",
+      "bytes": 3904,
+      "reason": "Immutable root diagnostic, correction, scope or capture-tool snapshot"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/0001-blender-version.log",
+      "sha256": "a6c389381135b07e03380275f7b990251bb94e856a17700eff340bec06af3537",
+      "bytes": 8208,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/0002-ffmpeg-version.log",
+      "sha256": "548d07da79082ab0db5b6ab14edc7d2e4221996319ee19b2031ee3226416727b",
+      "bytes": 1500,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/0003-neutral-exterior-render.log",
+      "sha256": "24f462d9c8da5d6ad50ff8a4d48bb9fbe5c6cd16ebd28369dcd15cefe8147d6f",
+      "bytes": 4737,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/0004-neutral-clay-render.log",
+      "sha256": "ba4a8768d2f7082788f368f8009d8918d4c42b05ceb34e5989f9ec0b4c547306",
+      "bytes": 5029,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/0005-technical-orthos-render.log",
+      "sha256": "a55e4a95fb1ef3f9d00d9dba6cb30dab7c1e298721e8224aa3c216587cf48d91",
+      "bytes": 3611,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/0006-material-swatches-render.log",
+      "sha256": "a0beb0069779c6d89f81867f06707a7583176daadac58d19424c5ee965ab9fda",
+      "bytes": 6199,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/0007-neutral-closeups-render.log",
+      "sha256": "4d6b42fd12f67dec4fe2a6f7dd94f078020c462aaaae712555f2ca644203a291",
+      "bytes": 4363,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/0008-neutral-cabin-render.log",
+      "sha256": "43f074e0be4a2dc39290fe7acfef186ddcd669982265f4bde3ab2e71d804fde9",
+      "bytes": 4355,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/0009-daylight-render.log",
+      "sha256": "7ef96174deeed2a802bed4a0457b4f7b3e8470d7206bf723a7aff5f32f8aea7c",
+      "bytes": 3657,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/0010-overcast-render.log",
+      "sha256": "567999c3c6cc3b37541dc1aebe9241d70e27db2e0a66d132514d9fc23b766653",
+      "bytes": 3726,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/0011-dusk-render.log",
+      "sha256": "c58b87f5807dc3f754c122c0b959a315dde7a6c0358a93a5b16badf6a0812488",
+      "bytes": 3635,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/0012-night-render.log",
+      "sha256": "3ee3aabd037c4f2363836c2014f95aeb35e2ade0ee4d84dd0886c7ddf78911a9",
+      "bytes": 3639,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/0013-open-inspection-worklight-render.log",
+      "sha256": "e3da34b67e7695a9a725c2112ed4c8e19c4a7a23b99496f20b0b4073f42c08b5",
+      "bytes": 5035,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/0014-steer-left-bump-render.log",
+      "sha256": "a6c3e22baa9405395ce2b17dde7583466bbefa5bdac2ea235ccf4d577f779431",
+      "bytes": 2525,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/0015-steer-right-bump-render.log",
+      "sha256": "d418a6f4dba21d8a460c59623f23e93048d613c9f0d910f2806358a9d987e721",
+      "bytes": 2535,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/0016-steer-left-droop-render.log",
+      "sha256": "3a5c648e3601ea59eb396b6ea07310f380e6f8b004bcc3a079cb57f762d517de",
+      "bytes": 2601,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/0017-steer-right-droop-render.log",
+      "sha256": "f8e0b5013b13bd4a05ed40ff483069b0a4b7e5218fa3e34da9f941beb6f9511f",
+      "bytes": 2540,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/daylight/cockpit.png",
+      "sha256": "ee156f2d51ef840f1d5ab4c08235b3d03d184fb4bd355d56b5f330a9c42daa17",
+      "bytes": 2919332,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/daylight/front3q.png",
+      "sha256": "583dabf3dec10c7c2c93f68f0369df096da9c5d7a3d0fc14dda06c3476f14152",
+      "bytes": 3360176,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/daylight/left.png",
+      "sha256": "a65b97719d88e393e89c10818ccca5b28fefefefcf5bc6b101ecff2a6d943d3a",
+      "bytes": 2976760,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/daylight/manifest.json",
+      "sha256": "f7935d0586264590b3e8c54a213ad75c6ef569ceed7d8f7e09902ab8fbff2d7c",
+      "bytes": 5108,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/daylight/paint.png",
+      "sha256": "8c2aa6ddea8f2511f16977eaa26780fcda09c12e29f5a823d525f9395ba421ad",
+      "bytes": 3527304,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/daylight/rear3q.png",
+      "sha256": "f8a9ec03f7a0a514bf0cf2deeb2cf0add71effc094498086647c8362d2ef7775",
+      "bytes": 3297548,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/daylight/rear_cabin.png",
+      "sha256": "ea45a3a23c6fd397650236365208037e7a435cd97ebca45db7b7fd350859fedc",
+      "bytes": 2515233,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/dusk/cockpit.png",
+      "sha256": "17a17b7c81d94c00064b48e19335198ac757722c9a6f345117129300baf3b37e",
+      "bytes": 2181328,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/dusk/front3q.png",
+      "sha256": "df2a873ef9989ce4ee5e1cdbd539a5d40f13b9121a5aff16ef6fc32288a56179",
+      "bytes": 3073171,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/dusk/left.png",
+      "sha256": "194b257fae25369084375caff963466c4533be651bb60b75e69aaedc1e99dc12",
+      "bytes": 2882440,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/dusk/manifest.json",
+      "sha256": "2df30feb1eccbd49a5eef31c323f6aea74f90288c1f4f0996140ac9453f69c8b",
+      "bytes": 5135,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/dusk/paint.png",
+      "sha256": "e03d25866b198a1c35010a1bb67cca31e7216d7c85d7a6945e5c87fd50d97b1a",
+      "bytes": 3178132,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/dusk/rear3q.png",
+      "sha256": "01965afa26df6b99db37951b4a410e2c559ce64714472a9b0ef6aac4c3875395",
+      "bytes": 3012115,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/dusk/rear_cabin.png",
+      "sha256": "6869335d3d6f3ebe32a3164dda8b8efa81355b80045471215ab15f35866a5342",
+      "bytes": 1634638,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/material-swatches/manifest.json",
+      "sha256": "d0c1027fe50e1ddf7042678b12efe8c27f22673e392a0a0b1b898f415bd83871",
+      "bytes": 9516,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/material-swatches/swatch_Alloy.png",
+      "sha256": "fbc5d655b63f7d003fd956f505cdc80a0a1cf875f8df6b6d26d3c7abc6c109a1",
+      "bytes": 2435638,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/material-swatches/swatch_Carpet.png",
+      "sha256": "422cda9f2bb0c7e700380a9aca59cf4187ade9df9bcb5c81bd4543c421b3b043",
+      "bytes": 2415112,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/material-swatches/swatch_Fabric.png",
+      "sha256": "ed2db738b1955336e967e32543575c0f03c85733aa59238a9bf9f31d4a722cff",
+      "bytes": 2769823,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/material-swatches/swatch_Glass.png",
+      "sha256": "fc48e7890cc3f166a8b9918e3cac473200c15527f3e5f201eb223d6f885cc7c7",
+      "bytes": 2378474,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/material-swatches/swatch_Leather.png",
+      "sha256": "7732747fc999b5f3e1ffc3d037b1d07fd4338ed8650bba565d3a0dbac05d9feb",
+      "bytes": 2664170,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/material-swatches/swatch_Metal.png",
+      "sha256": "8e9510b64a053411c2c4d48641fa9d4b4c5d48be3070c580a445263f88326f46",
+      "bytes": 2391324,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/material-swatches/swatch_Paint.png",
+      "sha256": "1cae6798e8619cbfa167220d02bf64b94db70a8880fc8ae24da95b32c8031a61",
+      "bytes": 2556771,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/material-swatches/swatch_Rubber.png",
+      "sha256": "3946472f33c19f98503bea7e60b290c909817bdd8cd5d3e828ae8612ff1d6366",
+      "bytes": 2400889,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/material-swatches/swatch_Trim.png",
+      "sha256": "938c765b2f40738ec5e826a651aea1be6df0175654f7af353e89c7b6b782c660",
+      "bytes": 2432916,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/material-swatches/swatch_board.png",
+      "sha256": "d68aa89397ac082af4db57fbf370ff4fb17437be46d4d069955cf1ee47262719",
+      "bytes": 2703358,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/neutral-cabin/cockpit.png",
+      "sha256": "c37c34b1a220062681a24a754f7c26852821a114c29b154a61ad73e3e6dbd53b",
+      "bytes": 3386136,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/neutral-cabin/manifest.json",
+      "sha256": "33c07c9ed8ac51c3989e4f0a1f39ae02ec86f622213b118372448fb83bf520df",
+      "bytes": 5778,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/neutral-cabin/pedals.png",
+      "sha256": "e35ec57f1ec757b99aef1027f50a184c972b85f004c92ec48b1454e701a58f56",
+      "bytes": 1436347,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/neutral-cabin/rear_cabin.png",
+      "sha256": "da295e377b47148688d49e352b399ae0e6560c23bf1ef05711314ad00a0a66cb",
+      "bytes": 3226248,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/neutral-cabin/rear_seats.png",
+      "sha256": "313c4da429df43acf62d60be07363a9803563bbe677e8a4bbab7c15a2eafa8a9",
+      "bytes": 3071549,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/neutral-cabin/roof_front.png",
+      "sha256": "3b95df3160a9c32c82544bdc5d3f29b4e4c811d0b3be7fc64c73d8cb33577b1d",
+      "bytes": 3089769,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/neutral-cabin/roof_rear.png",
+      "sha256": "a3187a6f6456962e1f12baee3cd2479a992fc856be2c3dc9fb85ba36eb0f961d",
+      "bytes": 2798878,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/neutral-cabin/upholstery.png",
+      "sha256": "fc6d28cd524d6056787ad810e3a41d93116cccbbdf041f50c379969ad677b5d5",
+      "bytes": 3286982,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/neutral-clay/front.png",
+      "sha256": "a3a845b96e2a09dca5973602d9a6494b6ed57b133344f07b435adc43875db23a",
+      "bytes": 2604014,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/neutral-clay/front3q.png",
+      "sha256": "bcee9d285b21a433627011902e6e72bcca18caadab48a4234d69538fd8d20f27",
+      "bytes": 2416494,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/neutral-clay/left.png",
+      "sha256": "2bb2bba99fa9a842d358ed0c3744740df188f0a889dd72e00e0a556cecc4929c",
+      "bytes": 2602105,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/neutral-clay/manifest.json",
+      "sha256": "af57be37f0fc70e7254611b627f476a2d8794ab9566845fb3f5ed5097899e7a3",
+      "bytes": 6135,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/neutral-clay/rear.png",
+      "sha256": "0140c010e96acf718bf51670cb7ff06a60affa619e75805c1ab8e36b37232c4e",
+      "bytes": 2522126,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/neutral-clay/rear3q.png",
+      "sha256": "8d2989a627ebd819bcf44995afe179c21a7590318c83b9eb7a38b4d7e4c9c9ad",
+      "bytes": 2388891,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/neutral-clay/right.png",
+      "sha256": "7910c2f19f5dcffb365abc8174e4f5d6ea67777c88939562df225f753b9e9b00",
+      "bytes": 2607863,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/neutral-clay/top.png",
+      "sha256": "c7d4095adbd91a685f30f78a877eef9241e9a06856f02c858b4a35224d40bed1",
+      "bytes": 2106764,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/neutral-clay/under.png",
+      "sha256": "1d6a44ce3a9814c7491b6a582d6b58083c2eb761a99d70c9982d418ee09c2cac",
+      "bytes": 2266369,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/neutral-closeups/front_lamps.png",
+      "sha256": "dc4ec99a42f4a3517b11207efef5f42719f25e21755dadb0f44f30c17968b2db",
+      "bytes": 3548297,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/neutral-closeups/glass_seal.png",
+      "sha256": "3ab6e209b55bebcbf703daed1b1dd0e4089656740871233711075a9c6515087a",
+      "bytes": 3503071,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/neutral-closeups/manifest.json",
+      "sha256": "2328dc85cf702ab7f1c83bcfb7a2ab07be72a5230d0df0f10cf8b411ced3d0b1",
+      "bytes": 5765,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/neutral-closeups/paint.png",
+      "sha256": "71b1e7296268a2d4ee5c8418fb346a24c0107f214d96984d521fa84f4c217504",
+      "bytes": 3468690,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/neutral-closeups/panel_gap.png",
+      "sha256": "444b26a4021ead416904c51ab54fccb112c616028f06ae1c55190ed747896a0e",
+      "bytes": 3410760,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/neutral-closeups/rear_lamps.png",
+      "sha256": "667aac8425c40a58ebf71c3e5c38f04225a39feaf667a7c5bcc46f99d73854e2",
+      "bytes": 3532268,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/neutral-closeups/wheel.png",
+      "sha256": "0ebe0e17667a55bdf138fd96edf6c7921126b816bdf592b6bf82e4a580ae970b",
+      "bytes": 3222449,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/neutral-closeups/wipers.png",
+      "sha256": "612c0fc4af9e8a6021cde13deccadc6ce790e5c0cb04802b11bf3ba6552495a2",
+      "bytes": 3472806,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/neutral-exterior/front.png",
+      "sha256": "ad67589d06828db81117cf043cbac3f10e7b6f79a2877d4cbe798e996740515b",
+      "bytes": 2614059,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/neutral-exterior/front3q.png",
+      "sha256": "9446b48f75856e022fe146ec42540cfbb39f1905a5cca2c0de8e8f5f3d0aef32",
+      "bytes": 3024852,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/neutral-exterior/left.png",
+      "sha256": "db5263b951e7a2eaccb28f09e49be5bf0464473873ca093cec5d20eca123be65",
+      "bytes": 2628016,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/neutral-exterior/manifest.json",
+      "sha256": "42333da28cae9602d88cd93cb605e8fb841be32e67a9675c8e998f4d64b2e92a",
+      "bytes": 6139,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/neutral-exterior/rear.png",
+      "sha256": "c70c318875da9de3eb276c66a52af001d7437c4ccd496e4ac4308642f2bf38b0",
+      "bytes": 2335260,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/neutral-exterior/rear3q.png",
+      "sha256": "f304bd18851068bb6964f394adde3a0f8cf7df7a0046fc83a27a0227a8a25729",
+      "bytes": 2999853,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/neutral-exterior/right.png",
+      "sha256": "9129b1312fb67b11e525db9ff063ad433fa528b70ce18d3c45beae5efbf19915",
+      "bytes": 2520807,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/neutral-exterior/top.png",
+      "sha256": "42d9ed5103445b5039cbcc2ba7d148848e86839d090a85497a778e39d5d890a5",
+      "bytes": 2720541,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/neutral-exterior/under.png",
+      "sha256": "873875db967830d2bbab7a7ac7e29a22c05a2372393006e95718731c358108e6",
+      "bytes": 2704436,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/night/cockpit.png",
+      "sha256": "650e9f692384cf0091600feb4b2215d431668a7bfdd19c832f3786b913fdb447",
+      "bytes": 1688028,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/night/front3q.png",
+      "sha256": "25cce75bd6e4f56efdd74253f1a291976a822b6a1d20b31479f757aab4631146",
+      "bytes": 2557705,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/night/left.png",
+      "sha256": "dd17c55dd3485c6aed7b104bad2aa6b2ab91d674fad93e82faf0c9cc924c626a",
+      "bytes": 2300350,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/night/manifest.json",
+      "sha256": "bf0c659c3ac8911581c451720637fcdf6c556193351ccd0edc5c5bbcaf7b376f",
+      "bytes": 5134,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/night/paint.png",
+      "sha256": "3143b87439c97a13b34b1a111af66f45a9e7a90c8072447eb23ba1b3e2a18800",
+      "bytes": 2631136,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/night/rear3q.png",
+      "sha256": "1ad8559101276843ca4de1a0dd2754eb7330c1c2baf2019eee46fc80cdf1b52f",
+      "bytes": 2578626,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/night/rear_cabin.png",
+      "sha256": "4198e91d7dd42d2d8fc043f9f2a59bc4401fbad3977d57b0163bf3d787a0196e",
+      "bytes": 1259528,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/open-inspection-worklight/engine.png",
+      "sha256": "7a33dbfecb22bba78e23e2bf221a402af88f2c917e229bcf4feb5908f5058377",
+      "bytes": 3628834,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/open-inspection-worklight/front_door.png",
+      "sha256": "def6ed5ceda9b43024a0f87efa4acb68959709bfcb32f09bfd68ed98dde77a7a",
+      "bytes": 3855225,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/open-inspection-worklight/hood_hinge.png",
+      "sha256": "e87df184d2c16c3a8fc8ad945553fd24534b5362efe13027c091885c1eb8c8de",
+      "bytes": 3527714,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/open-inspection-worklight/manifest.json",
+      "sha256": "ed8b5d85d24d1e1d9f82e5fc87063ba819b79a6ee44fd5770e36cd22011c1cc7",
+      "bytes": 6541,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/open-inspection-worklight/rear_door.png",
+      "sha256": "c638cd85a4b155fbf45617c1f5b1f30b70938b0205104922bdd8e009cefa84f5",
+      "bytes": 3859783,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/open-inspection-worklight/rear_seats.png",
+      "sha256": "44d28c040d18f48991492763cd1008fef8e2315291de2a91a3a71ce65c8f5759",
+      "bytes": 3559184,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/open-inspection-worklight/trunk.png",
+      "sha256": "3a5fda4b3cbb6b78a19fa29607abcecd3ca24d5793a0718548986d38f2a62c73",
+      "bytes": 3712734,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/open-inspection-worklight/trunk_hinge.png",
+      "sha256": "aa2cc94ea60fa989ab31488ca4d32c62974c066d546456085189131cfd8da797",
+      "bytes": 3362774,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/open-inspection-worklight/upholstery.png",
+      "sha256": "b896d929c6943e91a8c49d36fbc4ba22de8967c1bab1d2ef8499cacf4060ab5a",
+      "bytes": 3553468,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/overcast/cockpit.png",
+      "sha256": "1341d671f69491c549db60dc8fcb3906a4ad92bfe6991278e6488bf55a902ea0",
+      "bytes": 3179498,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/overcast/front3q.png",
+      "sha256": "e626a4e5386b3dc141c4c0f18024df624878474ebc760332e0280db5d533e39f",
+      "bytes": 3351782,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/overcast/left.png",
+      "sha256": "a2d22e7f19990721f4c3410a280b438e1896bd87ed2f139ee9c03f83d6b68a61",
+      "bytes": 3096878,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/overcast/manifest.json",
+      "sha256": "5bb1787e817bee0dfacf89064a2476faf1f57beedeacca88581ce13474f8fefd",
+      "bytes": 5109,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/overcast/paint.png",
+      "sha256": "ba5398f3a6ff53edc645a0d12a1774b5014f77e545977a295d957d36e50db350",
+      "bytes": 3597348,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/overcast/rear3q.png",
+      "sha256": "a7515bc55b9434558fe3f05b292818c6e3db95dad76f5a94b16a64b57bf70feb",
+      "bytes": 3273819,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/overcast/rear_cabin.png",
+      "sha256": "7c69e8ed14a60daad63d3b030549472d64a2fc9d99fcaa720549c1374f6d8ef7",
+      "bytes": 3003782,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/steer-left-bump/front3q.png",
+      "sha256": "9bcbe2f2cc5d186913068ec1d97ed61d92e6d57413a778044e8845a1d2ccaa62",
+      "bytes": 3005493,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/steer-left-bump/left.png",
+      "sha256": "e0986480a374a6d9f9f9e73334a339b99c3f4f2bfcea7fef6bdd1f1a128d3d06",
+      "bytes": 2767045,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/steer-left-bump/manifest.json",
+      "sha256": "524e50dd3f439de3abcaeb6fd203cedb7d24f5af57ee1634a3dde300e007bd4c",
+      "bytes": 3986,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/steer-left-bump/under.png",
+      "sha256": "5d07257cb7feee541a93593225e620bfb77e888e423e1b1793e2ce047802367e",
+      "bytes": 2673424,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/steer-left-bump/wheel.png",
+      "sha256": "7e5786b139b7e80d70b539d462bbcb095c24e948c4e307c33c357c6b5856c6c2",
+      "bytes": 3270416,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/steer-left-droop/front3q.png",
+      "sha256": "f286e7759516dafc316f86775fa7cf35cbd67245f9431bfe5bd0d4fb03771336",
+      "bytes": 3026963,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/steer-left-droop/left.png",
+      "sha256": "43e3a7bdc644bd42020d2f4689b5dde68ec33ccda2a20377bf8d3f5d8e3c1aa1",
+      "bytes": 2785531,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/steer-left-droop/manifest.json",
+      "sha256": "db6f2b9deaa99cf115b6a694992e1a3788fd4518a621b5dd753865e9a3c109c7",
+      "bytes": 3991,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/steer-left-droop/under.png",
+      "sha256": "91aaf56628709d52d6fcb835c2afcc820526817440b88f8453c76a6d2dc517c4",
+      "bytes": 2737348,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/steer-left-droop/wheel.png",
+      "sha256": "1fffafd653ccb7a8b8af41b0e1e7e1b40ca2b539b5371f9f339a64bc46a15f25",
+      "bytes": 3265903,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/steer-right-bump/front3q.png",
+      "sha256": "1c8adcbc0317fd1aac958c1924fa947cc19acf73c56d461db7b1088aa8c022e5",
+      "bytes": 3022140,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/steer-right-bump/manifest.json",
+      "sha256": "ef4168ec14605612edc1a9438820cfad75e7b37e819b8cbb5552c543b2e8d6ef",
+      "bytes": 3991,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/steer-right-bump/right.png",
+      "sha256": "2a74901d6632e0a80bf244dd6458f473cdc16e03c4c7165e2929f09e58b38e77",
+      "bytes": 2728478,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/steer-right-bump/under.png",
+      "sha256": "830d489253feed9fa7e4cab5e35892304c1f46b872448cd794c077ab1922ea41",
+      "bytes": 2747045,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/steer-right-bump/wheel.png",
+      "sha256": "e25e343726ebf7dad63c3a4f589cec59c1a3a79a7fa3e000e0b50bc3481baf73",
+      "bytes": 3166553,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/steer-right-droop/front3q.png",
+      "sha256": "bf849ac5fd2d84e839db578c75d74ed67f25cbf5c9a219ca7dd52948361db158",
+      "bytes": 3037483,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/steer-right-droop/manifest.json",
+      "sha256": "392a660920e405641215ad1a081510007a8168f396cda87c944dfd44594c7170",
+      "bytes": 3993,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/steer-right-droop/right.png",
+      "sha256": "abc9d1fde441fcf3c791614c5f6ece4ffaf060175fca33184ba1a9dfb43b66ee",
+      "bytes": 2779167,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/steer-right-droop/under.png",
+      "sha256": "f3b99b2f72a3d1cb863e3d87dcd21bf1782141fe287c122cc9c88ea34cae9dac",
+      "bytes": 2725164,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/steer-right-droop/wheel.png",
+      "sha256": "b6918ccee15ce81e71e34126a6bc58435c36ee30ed2945efd80a84fc47461e0f",
+      "bytes": 3136997,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/suite.json",
+      "sha256": "3cdefbff032ddabe4679285075fd852843fc67fff058f9105cf00e14d2d72542",
+      "bytes": 28636,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/technical-orthos/front.png",
+      "sha256": "20f37a98223035e71504dc42133d4f8ed42704831c290bb580f5dec364ecb07e",
+      "bytes": 2638929,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/technical-orthos/left.png",
+      "sha256": "f467dbfedc3d47a7c441f215046092273c0950063002c587c63cddc210ac9013",
+      "bytes": 2951171,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/technical-orthos/manifest.json",
+      "sha256": "b96109da90406c2844bbdb7ceafde299e0eb2f1aa596c48d1b203638df6b39c2",
+      "bytes": 12970,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/technical-orthos/rear.png",
+      "sha256": "85de166fd3c791f25f434f68df9fdbe2a0a549ba3f533f0c53ed3876335f659f",
+      "bytes": 2717300,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/technical-orthos/right.png",
+      "sha256": "945bb198a8619e1a62bce09c5df47a4de5a5b08c8a73bb0341d395948c67dcd2",
+      "bytes": 2885231,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/technical-orthos/top.png",
+      "sha256": "f5e83bfd4759a607e66c9997e814461a6844b5a601fd6d6d1eb8017f9f51fbc9",
+      "bytes": 2626114,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-32-01/technical-orthos/under.png",
+      "sha256": "e40f6bc6a5fedda53f7d14de605286ee715d38e208c39bf34a210d6dc1d9251b",
+      "bytes": 2758881,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/0001-blender-version.log",
+      "sha256": "a6c389381135b07e03380275f7b990251bb94e856a17700eff340bec06af3537",
+      "bytes": 8208,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/0002-ffmpeg-version.log",
+      "sha256": "548d07da79082ab0db5b6ab14edc7d2e4221996319ee19b2031ee3226416727b",
+      "bytes": 1500,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/0003-neutral-exterior-render.log",
+      "sha256": "38757dca00fdefe50ec8d1e61404ea750035be69b5781de4d04f5b3f8437e5bb",
+      "bytes": 4734,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/0004-neutral-clay-render.log",
+      "sha256": "930b43e0f1ce8d9c615c58a825a3f369f92b0c08a1c84b24fa67ccac9eb95318",
+      "bytes": 4963,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/0005-technical-orthos-render.log",
+      "sha256": "161c96833a79b2d8ed451d12f899eb5c03ad94c54282b3da7a400eed06b2750f",
+      "bytes": 3611,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/0006-material-swatches-render.log",
+      "sha256": "d001dfcee16b5ffdfec14e77394448062d7314f63b17184c221d5194fceeac0d",
+      "bytes": 6202,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/0007-neutral-closeups-render.log",
+      "sha256": "5240f77605d0a7a98ead7357e6c22fe9f8f1c5df0b2ba5dc596fec18f6bd3c73",
+      "bytes": 4360,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/0008-neutral-cabin-render.log",
+      "sha256": "59810c92e99f5a4fb5e6b94c622edfcf1d684aa89f0dfb6fe81b28d13205cf14",
+      "bytes": 4355,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/0009-daylight-render.log",
+      "sha256": "06e17a6765de8db032347c00beeeda67d43520576c41644c34f5f43e5e832061",
+      "bytes": 3659,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/0010-overcast-render.log",
+      "sha256": "c8bd3d3f5443c04948c8f5b752a7b67c716bd485fd9946402e013e8630c0f4c5",
+      "bytes": 3659,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/0011-dusk-render.log",
+      "sha256": "b08700d019c9c5dde7716a611751c34e9426714dee67826ea8ef7e1069e57419",
+      "bytes": 3636,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/0012-night-render.log",
+      "sha256": "16c60bbaec216c59995987eba2d9f5fd35ce2b1b6ae7a149600cb55d69ee0c58",
+      "bytes": 3641,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/0013-open-inspection-worklight-render.log",
+      "sha256": "b8df97a41cfa896708acc46d7eee53f21d0d3877de7e687ce67317e6e98e9b80",
+      "bytes": 5105,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/0014-steer-left-bump-render.log",
+      "sha256": "704b5568013cf5eef7d21b10023c15ac12bc062e2e661bab7c04481eba1bceb7",
+      "bytes": 2531,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/0015-steer-right-bump-render.log",
+      "sha256": "a1392234d1d1ec9a8d45cb2e44dd65044ac37d2776f5b39396d98c70e2338c9f",
+      "bytes": 2537,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/0016-steer-left-droop-render.log",
+      "sha256": "2be6a79557afe96ff3cb3780ca039cc5aee4097461c67804b00218f82c8d0dc6",
+      "bytes": 2534,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/0017-steer-right-droop-render.log",
+      "sha256": "f068320a633e049f4d904c9ca196c4047ebf735851b4a95d6f490f33dcd6e030",
+      "bytes": 2540,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/daylight/cockpit.png",
+      "sha256": "3b0785f816732deb4ae239c6ff90a12dcf3877a235d1748204459fba8e92e3d6",
+      "bytes": 2904516,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/daylight/front3q.png",
+      "sha256": "baf5a76556d20d11e8c5dacc8d100810602c31965e3866c7564ac06cc88fa58c",
+      "bytes": 3363781,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/daylight/left.png",
+      "sha256": "3c0783ce7fe41f3d57ff0bc111b355c4a8d02f4bee1e551f3df22636eb68e2a4",
+      "bytes": 2978177,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/daylight/manifest.json",
+      "sha256": "b8eb92fa509308f5d6c830733178b59d3de03eed9ec149182f88a551f07b5186",
+      "bytes": 5110,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/daylight/paint.png",
+      "sha256": "76e833138ccb74c4740f156ef81f0f9b3f7eeaaaa44cb27b623c8b9ea04e2eb0",
+      "bytes": 3542836,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/daylight/rear3q.png",
+      "sha256": "ff59f8e4c0f2c97e8bc104ecce227078069ece29c52e7f96da3032979ac52e96",
+      "bytes": 3296627,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/daylight/rear_cabin.png",
+      "sha256": "bb7ded509aa62f1762b96e1d9042e287e623afe4de1c3923c917285dc72a3e78",
+      "bytes": 2508672,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/dusk/cockpit.png",
+      "sha256": "02dc26483c8a7fa7ae06b2aaf02d7055c75894edc21e908c21661e6837f0e38c",
+      "bytes": 2208505,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/dusk/front3q.png",
+      "sha256": "34fe91531aed04c8427a27b6ca375af15eea20f828b7cce56d00418053adaea0",
+      "bytes": 3074104,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/dusk/left.png",
+      "sha256": "6805366d837e87fe8739ee1f2d7946b60f56ae04745e494baef87a7abef0be98",
+      "bytes": 2885842,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/dusk/manifest.json",
+      "sha256": "2ffe8c9c45bf4a21a8f0f4fd7731858cb46ec73de33740938e804db8129d9c17",
+      "bytes": 5136,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/dusk/paint.png",
+      "sha256": "e66f9001520f3bd9ee09e9e2492eae80b09ed3547335c24996bbc129e6611496",
+      "bytes": 3180365,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/dusk/rear3q.png",
+      "sha256": "f6013cb9a50d493956cc9cc38cf2e357da9077127d647aeaed7b75ca570d7ad8",
+      "bytes": 3006833,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/dusk/rear_cabin.png",
+      "sha256": "0aed4a86ba6cb6905bb445e785ae0b042d2ea18e865f678902f944a96aaf279b",
+      "bytes": 1619735,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/material-swatches/manifest.json",
+      "sha256": "18fde72f9bf558d4f36745724bd1d7c053ef9e01140508f17508c9ea89364171",
+      "bytes": 9519,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/material-swatches/swatch_Alloy.png",
+      "sha256": "13eaf61ccd300d22e625ec25a112027968c814c1f5cceb2ac5aa1ff812281650",
+      "bytes": 2435372,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/material-swatches/swatch_Carpet.png",
+      "sha256": "a3cff5e6468810bcfce3cf3e525078456acd9097f22f3d1a04cd39264a7f540b",
+      "bytes": 2414727,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/material-swatches/swatch_Fabric.png",
+      "sha256": "165b35ea32355c63dc7fca7953540d908087201168d7696946e70e91c479d7e6",
+      "bytes": 2769477,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/material-swatches/swatch_Glass.png",
+      "sha256": "3d22e2847df3f6b5ef5215219ba94ae468073ab6414e043418ce53c3eaa202d7",
+      "bytes": 2380931,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/material-swatches/swatch_Leather.png",
+      "sha256": "bbeca96911898a8890a3cabb2eadd4d9650165dde790b75e2afcb9345ef74311",
+      "bytes": 2663168,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/material-swatches/swatch_Metal.png",
+      "sha256": "48d364751436d027219a3b9be517f6a2887d89d751adbe245e72c34033bb0492",
+      "bytes": 2391136,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/material-swatches/swatch_Paint.png",
+      "sha256": "7c2faa7168e4755fa9f7d40a918e2c56c6df15b5df0f9dce7e186d3a6881a29d",
+      "bytes": 2557113,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/material-swatches/swatch_Rubber.png",
+      "sha256": "883694700c5f75770b79654d214a39514691323689f74ea9cd792b18e51e2a29",
+      "bytes": 2401084,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/material-swatches/swatch_Trim.png",
+      "sha256": "f8def5ef24e14d646c69fe866bcd7bf1ee6ff2a08ea3cf1883352b33158b7b06",
+      "bytes": 2432363,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/material-swatches/swatch_board.png",
+      "sha256": "1e45c1cab1aaf053e2c716cbd4aaf998537764bd51c4905448558546d4d25eef",
+      "bytes": 2704650,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/neutral-cabin/cockpit.png",
+      "sha256": "820ef71d99622426d3d85ed43d9908f6d4c9342a0abc7eb7578a03b8485c6f25",
+      "bytes": 3339839,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/neutral-cabin/manifest.json",
+      "sha256": "72a344eca48f518a3bc35a510e14fd077145cbccb6fa62ce6ed03c34fccd85b4",
+      "bytes": 5778,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/neutral-cabin/pedals.png",
+      "sha256": "a14e2d5b4ea806358166486ea857db548b5901424e746598cc8bf9cf6fc37253",
+      "bytes": 1435455,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/neutral-cabin/rear_cabin.png",
+      "sha256": "4bfb39b87f2f7004b1599853c260a442517c1b941da62ccdb1f1d1b3dd228160",
+      "bytes": 3210764,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/neutral-cabin/rear_seats.png",
+      "sha256": "fe7d9bd5ea6cec3ae0137e788f8f834762c79e8d8b0af5aee6d56d3b5227a478",
+      "bytes": 3067373,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/neutral-cabin/roof_front.png",
+      "sha256": "0a87c8b61f0c7fe1c2c0f82c2cd6a3114b33df31b77217c4511528a7d71e2cdd",
+      "bytes": 3074433,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/neutral-cabin/roof_rear.png",
+      "sha256": "43d8da463f4c439db3f849e778bc48f18e9eb38165cdd03ddad715a759cb8370",
+      "bytes": 2792457,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/neutral-cabin/upholstery.png",
+      "sha256": "1ff81c61fb2f9d9518399aee28b2df18ca6349b1074163993e31d720a108c96a",
+      "bytes": 3284977,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/neutral-clay/front.png",
+      "sha256": "253a10711e67b7c7bab70338cacd830d19e45fa398bbed095dc55d342099b1aa",
+      "bytes": 2604650,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/neutral-clay/front3q.png",
+      "sha256": "4c7b11b0f3562110542aaec6e14917ecc0859a97d85075565c6b02369da407db",
+      "bytes": 2418267,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/neutral-clay/left.png",
+      "sha256": "12bece16bf4903ad9cbb1c02115bb542b33314666b4fa351e6e7a025c56ba827",
+      "bytes": 2600317,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/neutral-clay/manifest.json",
+      "sha256": "e9a810bcf2ddb0352c4dfcff08a406e072429593627dec51ad9e88fabbcb4518",
+      "bytes": 6137,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/neutral-clay/rear.png",
+      "sha256": "8d5deddbe2bcae49ba6173b8e05328659538ab2269fcc093d2d62dcd61cdacaa",
+      "bytes": 2523539,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/neutral-clay/rear3q.png",
+      "sha256": "6bc4f2fab2a3ef1b62030cfc535fe4acf66329cd9fac9e85d9ebb0e6f5bb9c4f",
+      "bytes": 2390024,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/neutral-clay/right.png",
+      "sha256": "453ac2483b7154981cc4c6f531c727490fd4b2f826802bbc104cddae22ed5613",
+      "bytes": 2605930,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/neutral-clay/top.png",
+      "sha256": "6c09a58eefa692036fa6a9e90953a0b5cb4ec6ce632bac00e6bfc57d18684af9",
+      "bytes": 2107953,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/neutral-clay/under.png",
+      "sha256": "51c1790092b82d5ea8e82d72b24b76602597c96be71c28b3d8b97ea336159264",
+      "bytes": 2267763,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/neutral-closeups/front_lamps.png",
+      "sha256": "14d7fcde7141a004ddd7053b636a3a49fe4f15d86d93a8d3b52970d9950f5b5e",
+      "bytes": 3547448,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/neutral-closeups/glass_seal.png",
+      "sha256": "c3e8d3f0f7138044908d7e5847952dbe171177d1a18dcba31eb15a4f1c52c90f",
+      "bytes": 3505448,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/neutral-closeups/manifest.json",
+      "sha256": "bcc3eb7dff827a8a3279409067fe382341656cbabb2c1dca20aadc3c58d968bb",
+      "bytes": 5762,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/neutral-closeups/paint.png",
+      "sha256": "c148c310896cb92d25637324993bd017f4ffcf9aca139e36b0b5f3d193d3c547",
+      "bytes": 3467255,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/neutral-closeups/panel_gap.png",
+      "sha256": "4482c06f559bf15c4eaefaa2185586b60c94d8fd8c619575d33b603822e8ac9c",
+      "bytes": 3409783,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/neutral-closeups/rear_lamps.png",
+      "sha256": "ddbf56862bf590f74e4ced4fe87d5fad2849290fce0b85708756f9be0453711c",
+      "bytes": 3532398,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/neutral-closeups/wheel.png",
+      "sha256": "afa6ea9e3f6fc43ccfa2117ac4c6d506fea5d45866c49c3d7f1621beaad2516d",
+      "bytes": 3223978,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/neutral-closeups/wipers.png",
+      "sha256": "4eec10bf34e399574e093f6acba084cdf364a6e63f2c4e4f5046887fd4888a49",
+      "bytes": 3376580,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/neutral-exterior/front.png",
+      "sha256": "f369ef56347f033e844ed76e1303738bf0377f847b1fbdc069185a4222d19160",
+      "bytes": 2616992,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/neutral-exterior/front3q.png",
+      "sha256": "2fc3fe79d4e011cb7c87e23a5dfe5ccfd0b069be11976865ff60f9315f755fda",
+      "bytes": 3029943,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/neutral-exterior/left.png",
+      "sha256": "9de73ee82382906bc72df3843d6f87dee2c3424c444b0ffadf372c86f4de33ac",
+      "bytes": 2630683,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/neutral-exterior/manifest.json",
+      "sha256": "08cb90b1f0d0ab4b7daf731c07ea118490ae850a0b5312bfb302d7dd96fec091",
+      "bytes": 6136,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/neutral-exterior/rear.png",
+      "sha256": "b88f1da211aeb70b2020b6de8493aeeb7e2aa2e91b461fce7c28774a774b10c7",
+      "bytes": 2340337,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/neutral-exterior/rear3q.png",
+      "sha256": "2b763589666df304c4de1ef2206dd5afa52d5995280878fc7d6adc67268bddd1",
+      "bytes": 2986984,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/neutral-exterior/right.png",
+      "sha256": "4a6ca420e00ae65a077cb98285cb34719d22254a91f8a180f05ee70cc5f47f57",
+      "bytes": 2524077,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/neutral-exterior/top.png",
+      "sha256": "5be7040776a90d438e31e001f0b6766070b88be9f8e20b22901f42336b4975c1",
+      "bytes": 2720086,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/neutral-exterior/under.png",
+      "sha256": "7c39fb7252e3f781f2af9ecbbcc7285ffd5893063c6a2402696d7f7daa9f3ff6",
+      "bytes": 2705100,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/night/cockpit.png",
+      "sha256": "d424d50537333f4146cde68209366329f3382a35694cab0a64cef85174fc3125",
+      "bytes": 1643519,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/night/front3q.png",
+      "sha256": "16491070e56f9147b38997689f93c071da70423bc598c951d0d04dd33d56c288",
+      "bytes": 2555540,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/night/left.png",
+      "sha256": "66ed6ccc74549269534e56af9bd6c5033920b3959d40edd9e28e292fdcdb340a",
+      "bytes": 2302433,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/night/manifest.json",
+      "sha256": "706699809343af48e4b0f48d67e77d648670a9c8e936c07db79c4fa2db31c817",
+      "bytes": 5136,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/night/paint.png",
+      "sha256": "6b4153586b8f29c4509158963414342f214ae874cd7cdad1929ce47ff940076b",
+      "bytes": 2631215,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/night/rear3q.png",
+      "sha256": "a48b9ade56dc705783e955106e496c9178f9e023e093522a550f4bb02109bb32",
+      "bytes": 2577175,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/night/rear_cabin.png",
+      "sha256": "66f3bd95a2e1530222026cd594769af9487475c8226ade0924e96d075b79e388",
+      "bytes": 1214892,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/open-inspection-worklight/engine.png",
+      "sha256": "63736ff899e560323399dea40cbb30c46b936e1c623a68435b49023fb2b9c119",
+      "bytes": 3629366,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/open-inspection-worklight/front_door.png",
+      "sha256": "5fa9530a75ad2ff0fe1665304120f53b04e254b05f62c770d505daabb66983d5",
+      "bytes": 3826986,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/open-inspection-worklight/hood_hinge.png",
+      "sha256": "6dfdec02eeabbca69399995c153441a8dbb41e9f73bd78b99149c755b55c7791",
+      "bytes": 3508144,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/open-inspection-worklight/manifest.json",
+      "sha256": "f1832b15039ff5d6f67156829cdf68487aec43b71a3b16053f3c4550d89e1295",
+      "bytes": 6543,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/open-inspection-worklight/rear_door.png",
+      "sha256": "4a7660258271739b8aa4591ed72b234f10d8aeeae7ce877285c9f6d0fc75c97e",
+      "bytes": 3858250,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/open-inspection-worklight/rear_seats.png",
+      "sha256": "96eb21540116d14c2db193e5c91d6116635c9ba3335056d1ee2b837a6df071c2",
+      "bytes": 3559010,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/open-inspection-worklight/trunk.png",
+      "sha256": "ae1c3fc19771e7ebab97dd0252a86cddd53d0b47789433d91cdf091357f4b927",
+      "bytes": 3711864,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/open-inspection-worklight/trunk_hinge.png",
+      "sha256": "d6a38bf670df8340f8a68c207cc728655347e5fb8644c348d95ea8361422b028",
+      "bytes": 3363263,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/open-inspection-worklight/upholstery.png",
+      "sha256": "21c3964d8143c7cc4c5b18c4f11a97c5acc56134e99945833b56369da6bf493d",
+      "bytes": 3553994,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/overcast/cockpit.png",
+      "sha256": "c6b1c94e13c55b8a041b190c9c3a947123343b1ada1b7df5077fc774be904c32",
+      "bytes": 3150454,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/overcast/front3q.png",
+      "sha256": "e3a90a6687ef79ce61370515b48133c3ad27d04a59673202c703f7acba539ba5",
+      "bytes": 3351326,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/overcast/left.png",
+      "sha256": "ea5ec878534b52c4331cf64cee0520c120233ea1bbca9aa954f2420537c51d19",
+      "bytes": 3094448,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/overcast/manifest.json",
+      "sha256": "87e3eeab65b2e843e7852633def9591b7d178b84fdc2bb5a3ec370a6783c7cec",
+      "bytes": 5110,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/overcast/paint.png",
+      "sha256": "4535f42a609c32cca12a6f6e1fde1977eafd724510c71b78c478b9c0d8b0d5c7",
+      "bytes": 3602038,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/overcast/rear3q.png",
+      "sha256": "05e7c8465099d2e6cec0541c19217a8c18342c6c8f108c835c36a78153ab3c38",
+      "bytes": 3302725,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/overcast/rear_cabin.png",
+      "sha256": "1db4dd38057e79c68b46964f367189fef6a6870ac42615e54eb237f866be6dcc",
+      "bytes": 2992231,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/steer-left-bump/front3q.png",
+      "sha256": "f7d579fc570576f2fa9984b24b9bd60ad7ce85c73a4eb139d8cf3852db63efd0",
+      "bytes": 3003125,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/steer-left-bump/left.png",
+      "sha256": "a85f67b763e95333b399f6f2a1e5cf5d4fdaa417a73aa10142054543b5a1c1bb",
+      "bytes": 2769473,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/steer-left-bump/manifest.json",
+      "sha256": "ad7431f690e8fea7ab8a1c6ba9b58d662c5a2a4c7fc0377f89b3b8bfce8f2d3b",
+      "bytes": 3992,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/steer-left-bump/under.png",
+      "sha256": "6003b926bbaf99f4c877779c458addfa17253189215c3ba5148a2fb1addbecbc",
+      "bytes": 2674251,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/steer-left-bump/wheel.png",
+      "sha256": "2e70ce451edca559ba3fcfd7a2559b5bf2c072889212cf4c19714a8b6af0bbe2",
+      "bytes": 3270893,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/steer-left-droop/front3q.png",
+      "sha256": "d35f2ea1355c4d2c6aa19098c9fa53d5ff953b382e7e6a3774df105cb5d3d673",
+      "bytes": 3021415,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/steer-left-droop/left.png",
+      "sha256": "716ccf09be837cab9c65d60899f5da70b3223be7f16c1ad035ff3fa19a358625",
+      "bytes": 2787736,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/steer-left-droop/manifest.json",
+      "sha256": "9c538f69f6a2f5b216eced855853f2d34c62b46d9f413dff1f8f78b93886b6e0",
+      "bytes": 3992,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/steer-left-droop/under.png",
+      "sha256": "5ccfb34af86da39a5dd0a5922e43dcfd64444ef236f60d557676ccef010b9b7b",
+      "bytes": 2738573,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/steer-left-droop/wheel.png",
+      "sha256": "b59d5783a97147eff5f0e294ae77bcde8c456b84af941d2b051eb2e27594852c",
+      "bytes": 3266142,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/steer-right-bump/front3q.png",
+      "sha256": "00bb5039103fe94cb7415afd7adf38ab38f4db2403cb7d57901cb51b498306d5",
+      "bytes": 3019804,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/steer-right-bump/manifest.json",
+      "sha256": "cb29d72efef774a9f2e41c6836782b566d006af5ed798316b665647b9b652c84",
+      "bytes": 3993,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/steer-right-bump/right.png",
+      "sha256": "60643bad788d6b10d6ebadfac25ae40dec21ece6fe45457f5120ca3cf00482d1",
+      "bytes": 2733522,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/steer-right-bump/under.png",
+      "sha256": "19b163c26b1d547bf040f9c618a68e61067bba84bc421ae19ed5c97a109e4b33",
+      "bytes": 2746113,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/steer-right-bump/wheel.png",
+      "sha256": "963d712de136e62d13305354ca35ce4fcd50da36c061e0e0563384b4f6e99d71",
+      "bytes": 3166993,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/steer-right-droop/front3q.png",
+      "sha256": "c07d3f3f35f4b07c4990d92a6df287b98959b0ca198c44b1d2a0abd7e027dd42",
+      "bytes": 3034069,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/steer-right-droop/manifest.json",
+      "sha256": "a6e1fdc7624193f08f1690a8c7d14bc2365b7a06d74655bbc5668218ec093ed7",
+      "bytes": 3993,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/steer-right-droop/right.png",
+      "sha256": "187c46be4e87cb3a88b71744154b57d0be4204022b439a2a13380320a3800d64",
+      "bytes": 2781551,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/steer-right-droop/under.png",
+      "sha256": "054675027255d87cb125b651b5d6778b9ff9922e736ce3c0c7351dff8233fa6c",
+      "bytes": 2727174,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/steer-right-droop/wheel.png",
+      "sha256": "1205624e8af4dd15d7f7dfeeca673a632c10ce81f36c99cdfac5919e05ef85f5",
+      "bytes": 3142755,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/suite.json",
+      "sha256": "6450df238790159b292883211d6b834f2c459d63d92254bef043e9369d6f5005",
+      "bytes": 28152,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/technical-orthos/front.png",
+      "sha256": "6eadff8185986e60424c53ae059ea422bfb415f7b97a92edf5decd8ef6c27ccb",
+      "bytes": 2633283,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/technical-orthos/left.png",
+      "sha256": "21d1c445cbbb744c3aaafa4b2a2cf214b42c13ba5fe2aa24339425d1188d1b97",
+      "bytes": 2943895,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/technical-orthos/manifest.json",
+      "sha256": "b3f16940bc527c880f483225859db447984ffbf72dda803cae58982d197cfdfb",
+      "bytes": 13031,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/technical-orthos/rear.png",
+      "sha256": "5df84a4822caaed9916f66e01e0b75d19cfbd80ecf306409c3cf8201efb4c0b2",
+      "bytes": 2623197,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/technical-orthos/right.png",
+      "sha256": "34d5bac877897d15a0ff4d3c41d414b962765e50b68d8d22bdcd1e4598c15211",
+      "bytes": 2873407,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/technical-orthos/top.png",
+      "sha256": "60d2052febfed3544a2c9a8a83dd2b2a35368046661a6dd75a889da86e63d0a7",
+      "bytes": 2657742,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/capture-suite-stills-33-01/technical-orthos/under.png",
+      "sha256": "da4bb228fe08032a029d680eb73960bc3da9a658a35900fa723ef1803ac83926",
+      "bytes": 2756258,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/checkpoints/production-32.blend",
+      "sha256": "71d549436301d0f593cfe835929130d6dbf58fbd7e50663bc7831b24054f2a01",
+      "bytes": 5027791,
+      "reason": "Original source checkpoint and evaluated inventory, including failed attempts"
+    },
+    {
+      "path": "reports/p1-018/checkpoints/production-33.blend",
+      "sha256": "8ddb88bfcf82b68ef7cccfa86dbfedf502a4de1fa4e9f0924cffe6609f8d7a50",
+      "bytes": 4971259,
+      "reason": "Original source checkpoint and evaluated inventory, including failed attempts"
+    },
+    {
+      "path": "reports/p1-018/ci-lfs-exclusion-01/assets-before.yml",
+      "sha256": "7ad7a8efc81ec0372d873b23fa6eebb55051353ef27e2353b9dde5ab05e0c382",
+      "bytes": 5981,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/ci-lfs-exclusion-01/ci-before.yml",
+      "sha256": "f9853f963372262ec2749eed87f77dd71e7cd665ba16ea86f9efb14b07cc8b5d",
+      "bytes": 5215,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/ci-lfs-exclusion-01/edit.json",
+      "sha256": "fc86c9e0d4b853e4162084712bd33507bde0161afbd4b5361fd1230323987411",
+      "bytes": 1493,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/ci-lfs-exclusion-01/unsigned-exports-before.yml",
+      "sha256": "c88861eced11497f1d7b2fc6b80af2a5fe16d462d71a6e20acddc7a6700563c9",
+      "bytes": 7208,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/ci-lfs-exclusion-01/windows-stress-before.yml",
+      "sha256": "6151a2dfeb330022cc42a4d55fdcb7eae940f61918c2d741487369c469745437",
+      "bytes": 1577,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T154021.556871Z-root-history-through31-inventory-02.json",
+      "sha256": "a763bf52a8d981228d7a3f740e50798813c4e8630ea2a09f91c0135a4615cc91",
+      "bytes": 807,
+      "reason": "Completed root command with exact input hashes and native status"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T154021.556871Z-root-history-through31-inventory-02.log",
+      "sha256": "8644f9387f822ad80658838abef9b8bb86415008daa24cf4c490088d46134661",
+      "bytes": 228,
+      "reason": "Completed command log with verified recorded hash"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T154042.278561Z-root-history-through31-retention-01.json",
+      "sha256": "78f45ed24b6b167638d479f51fe4c69f457c61e806d494f03052e82304b02f3e",
+      "bytes": 1353,
+      "reason": "Completed root command with exact input hashes and native status"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T154042.278561Z-root-history-through31-retention-01.log",
+      "sha256": "196f0620ee5c130a88394263d6e0cb02e3a8ea4dc9d78723ac2b92e91f2019d0",
+      "bytes": 246,
+      "reason": "Completed command log with verified recorded hash"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T154528.529543Z-specification-v14-lock.json",
+      "sha256": "2bb5ff972715cd7738fb5a8b7765826487e699bb0cca626cc0772a2dc6cfb144",
+      "bytes": 1650,
+      "reason": "Completed root command with exact input hashes and native status"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T154528.529543Z-specification-v14-lock.log",
+      "sha256": "b4580ec68ec5c38b64a59b0aabee8293e549791d6c4bb8fed2dbf8ef38e8278d",
+      "bytes": 511,
+      "reason": "Completed command log with verified recorded hash"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T154656.284617Z-production-source-32.json",
+      "sha256": "a9abe3b414a9613cc7d1639e08fd5c5e14ec78ccb5ee8c639866b464e014920d",
+      "bytes": 5839,
+      "reason": "Completed root command with exact input hashes and native status"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T154656.284617Z-production-source-32.log",
+      "sha256": "7f5802fbccc70384b4af1a129497e9d02a43a85ccc54c4b4f34dd0dadf03bcc3",
+      "bytes": 1109,
+      "reason": "Completed command log with verified recorded hash"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T154910.178267Z-production-export-32.json",
+      "sha256": "a465cf84a53db2c885b01bfe75a5c61dc31723050014b007c31a7218a47900d7",
+      "bytes": 1934,
+      "reason": "Completed root command with exact input hashes and native status"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T154910.178267Z-production-export-32.log",
+      "sha256": "52239e071846d08e2ac73a84d9d7dff1055ae53c2b15b2e5bc051b2a982c3af1",
+      "bytes": 203958,
+      "reason": "Completed command log with verified recorded hash"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T155055.612220Z-geometry-review-32.json",
+      "sha256": "12d90a2f232d1d8f850e7b6c83f5988f117b0f6496fdeb80503b28cd8e12747e",
+      "bytes": 1752,
+      "reason": "Completed root command with exact input hashes and native status"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T155055.612220Z-geometry-review-32.log",
+      "sha256": "184c3587c93dc72b3c01da96d177e992aa859ffc313ee27a7f01695f5b3eda40",
+      "bytes": 857,
+      "reason": "Completed command log with verified recorded hash"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T155122.651990Z-geometry-review-32-02.json",
+      "sha256": "071a41517ec8d70aafebe35d81f474acadb3fd2e84b030b8dabb52263901ab1a",
+      "bytes": 1753,
+      "reason": "Completed root command with exact input hashes and native status"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T155122.651990Z-geometry-review-32-02.log",
+      "sha256": "8cc29514f840d6e672c1276c25cf280848cce160ed4c4119ffcfe5be7dc99a9d",
+      "bytes": 4018,
+      "reason": "Completed command log with verified recorded hash"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T155402.257215Z-geometry-review-32-observations.json",
+      "sha256": "d75938d8f63214b0b8f2f6ed972e119edaaabfdd643b272a760f5e1de72f0e81",
+      "bytes": 1319,
+      "reason": "Completed root command with exact input hashes and native status"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T155402.257215Z-geometry-review-32-observations.log",
+      "sha256": "e1581e803be51b645b27129c693574dbff2edd8bd0aecbe12f4cc72a23ca234c",
+      "bytes": 236,
+      "reason": "Completed command log with verified recorded hash"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T155842.931837Z-runtime-history01-partition.json",
+      "sha256": "58e90ae5557e8400a1368a19184ed08c434c843ca578226f28d0427dea145f70",
+      "bytes": 1096,
+      "reason": "Completed root command with exact input hashes and native status"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T155842.931837Z-runtime-history01-partition.log",
+      "sha256": "b5776023630ff247255603961a5761c8e6dac9ecea3a22ee25ce85e2f1d45536",
+      "bytes": 229,
+      "reason": "Completed command log with verified recorded hash"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T160526.770203Z-research-history-v3-retention.json",
+      "sha256": "4e80eafa4b33a8a12e381bd8825e245bcbd8476c5bd3225a1c5e1bd758559dd1",
+      "bytes": 1331,
+      "reason": "Completed root command with exact input hashes and native status"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T160526.770203Z-research-history-v3-retention.log",
+      "sha256": "2d76105f11660c265914ef6a72ddeee6c4dfafd0f45a157b635e066bafd4fb11",
+      "bytes": 244,
+      "reason": "Completed command log with verified recorded hash"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T160704.115260Z-capture-suite-stills-32-01.json",
+      "sha256": "cbbb6e6c3f41592579092bbe321dcc2cca0ebc4e97c08747f8518a3f070daf0d",
+      "bytes": 2250,
+      "reason": "Completed root command with exact input hashes and native status"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T160704.115260Z-capture-suite-stills-32-01.log",
+      "sha256": "c0c6625238870c35ab2fecb4dab12c67765fd2964d2545697a593cf12f44a064",
+      "bytes": 519,
+      "reason": "Completed command log with verified recorded hash"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T162007.851495Z-runtime-contract-correction-scope-01.json",
+      "sha256": "38a18fc2d15415216d8756dbce12d201ed9b5a97ffcacea2b005cd6c1458b438",
+      "bytes": 950,
+      "reason": "Completed root command with exact input hashes and native status"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T162007.851495Z-runtime-contract-correction-scope-01.log",
+      "sha256": "37963fc2d7225385c2886328aa2ac39a69cf3787bcddf759d4882d7ed3a0244f",
+      "bytes": 71,
+      "reason": "Completed command log with verified recorded hash"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T162933.932139Z-tire-cut-diagnostic-01.json",
+      "sha256": "5e6b4d345bc13ff598c70bb157345f294f12b709e4a1ccec0639b35dacce2fc7",
+      "bytes": 1515,
+      "reason": "Completed root command with exact input hashes and native status"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T162933.932139Z-tire-cut-diagnostic-01.log",
+      "sha256": "c3427d1a9a0d4dc41596d93f218bd8e7e30aa7576364a3a74d8105af62555d29",
+      "bytes": 3948,
+      "reason": "Completed command log with verified recorded hash"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T163234.946473Z-tire-cut-diagnostic-02.json",
+      "sha256": "a87654bed8a6f233dea2957fbf7fda46b48985265372b025dc897e35896f58c6",
+      "bytes": 1521,
+      "reason": "Completed root command with exact input hashes and native status"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T163234.946473Z-tire-cut-diagnostic-02.log",
+      "sha256": "43912f8eda69f61f4b68cb26ffd7f5003c8dd4f2b1ebab5d0491553170fcf711",
+      "bytes": 4116,
+      "reason": "Completed command log with verified recorded hash"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T163330.942664Z-production32-technical-overlay-02.json",
+      "sha256": "6b98203d74cf04d4b26129ed403945f64f24d9137887463136ffd9558ba3763d",
+      "bytes": 1645,
+      "reason": "Completed root command with exact input hashes and native status"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T163330.942664Z-production32-technical-overlay-02.log",
+      "sha256": "f4c597888c9e4c72a9c15e463bf6ea6e74d27ec013355fbf62be68e109777cf7",
+      "bytes": 3593,
+      "reason": "Completed command log with verified recorded hash"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T163347.767303Z-blockout-technical-overlay-03.json",
+      "sha256": "5f8031d09129f26c3cf12cd9629897f425edcd1b99f05d779f89c6d621a21f94",
+      "bytes": 1710,
+      "reason": "Completed root command with exact input hashes and native status"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T163347.767303Z-blockout-technical-overlay-03.log",
+      "sha256": "8a7da86b567820f95110f86ca8470d63e7d68bd289ba1e4b29c47c1a0caa07a7",
+      "bytes": 3604,
+      "reason": "Completed command log with verified recorded hash"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T164044.357685Z-blockout-technical-delivery-03.json",
+      "sha256": "d58db4bf2cecc5faa363ca3694b00ddbe2094526c316b71ac0cd94e3c8ae1b38",
+      "bytes": 1161,
+      "reason": "Completed root command with exact input hashes and native status"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T164044.357685Z-blockout-technical-delivery-03.log",
+      "sha256": "25fe5af59082ba0f9816cc973a10f2bd1de53309d9e85eaaea901b8ffcf7fa9a",
+      "bytes": 270,
+      "reason": "Completed command log with verified recorded hash"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T164151.724256Z-blockout-technical-delivery-04.json",
+      "sha256": "0cff27745e2740e3e3289aca0843098ba323b7e05cd1014a7dee6c40db6f78d7",
+      "bytes": 1161,
+      "reason": "Completed root command with exact input hashes and native status"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T164151.724256Z-blockout-technical-delivery-04.log",
+      "sha256": "1ee617a33b8965787e7f5354768d41529ad8bfaf78ae8eae1d79de5894d83123",
+      "bytes": 81,
+      "reason": "Completed command log with verified recorded hash"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T165250.836213Z-budget-refinement-diagnostic-01.json",
+      "sha256": "8f69a31bf200154a75e823eee516ae48adbcf5c157acad43f4fa8c92198dc056",
+      "bytes": 1553,
+      "reason": "Completed root command with exact input hashes and native status"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T165250.836213Z-budget-refinement-diagnostic-01.log",
+      "sha256": "20a5dd578323ab19363bd8a94fd7312f1cffdeca826b3d3c55dfed556c8ab61e",
+      "bytes": 14356,
+      "reason": "Completed command log with verified recorded hash"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T165555.666434Z-specification-v15-lock.json",
+      "sha256": "72caf91829fa8526444ca3d1c04bd53ea1f27d1269c702555aef47fdc9a7539e",
+      "bytes": 1296,
+      "reason": "Completed root command with exact input hashes and native status"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T165555.666434Z-specification-v15-lock.log",
+      "sha256": "3be7c8ef41bd3c82ea8ae5ac52fa7f3574489a0164a72bf758be6d6b599d0801",
+      "bytes": 271,
+      "reason": "Completed command log with verified recorded hash"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T165827.662854Z-production-source-33.json",
+      "sha256": "234cab68b14f3baed5ae77c27e34746fcf1b963e598463d9a89528f34b527373",
+      "bytes": 6235,
+      "reason": "Completed root command with exact input hashes and native status"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T165827.662854Z-production-source-33.log",
+      "sha256": "621a598355401287266e8d4fd9f4d34f916ff05eb764a5c4d7d357163683166b",
+      "bytes": 1110,
+      "reason": "Completed command log with verified recorded hash"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T165955.385779Z-runtime-history01-retention-part-01.json",
+      "sha256": "0085534b34b3c05b9dbd3841f431b70ec11514981a438c8f2ce573f3005d4f5c",
+      "bytes": 1385,
+      "reason": "Completed root command with exact input hashes and native status"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T165955.385779Z-runtime-history01-retention-part-01.log",
+      "sha256": "680399a6182c15aaa6edad9cc8ec95b277eff048b437e5b9c2fc5f32dd1b4202",
+      "bytes": 249,
+      "reason": "Completed command log with verified recorded hash"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T170018.404176Z-production-export-33.json",
+      "sha256": "ba37d52fc31f84608cf657893170a7340c885b39d9ba35774a7d6d56b89d886b",
+      "bytes": 1607,
+      "reason": "Completed root command with exact input hashes and native status"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T170018.404176Z-production-export-33.log",
+      "sha256": "88af8d69a346ace60cac9a13f87fd075ae30d398538b7d4d48ced2a51d80a988",
+      "bytes": 178780,
+      "reason": "Completed command log with verified recorded hash"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T170033.844171Z-runtime-history01-retention-part-02.json",
+      "sha256": "862325f8689dfca564b87b836c8067eb2557980d5f8e83b26176a1e9fa46ef39",
+      "bytes": 1385,
+      "reason": "Completed root command with exact input hashes and native status"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T170033.844171Z-runtime-history01-retention-part-02.log",
+      "sha256": "946030655dfcbe67b88bdb2f6c6b0e1cab948f36a1583903b4b8af0b672ffb9a",
+      "bytes": 249,
+      "reason": "Completed command log with verified recorded hash"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T170055.536209Z-production33-finish-stills-01.json",
+      "sha256": "18187cafacdd91aaa11681faf89e7e08816574ce099cdf82c72b4a0c2081f4cf",
+      "bytes": 1639,
+      "reason": "Completed root command with exact input hashes and native status"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T170055.536209Z-production33-finish-stills-01.log",
+      "sha256": "ca278b755467b315152d58729fc9f2e196b254b51a91f7c2ec73f51a76226ce3",
+      "bytes": 4849,
+      "reason": "Completed command log with verified recorded hash"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T170117.673259Z-runtime-history01-retention-part-03.json",
+      "sha256": "1b8fb641bb39c7a8c86cad11c2b0cfa963e78455c207b7b682a5fb33bc4992fa",
+      "bytes": 1385,
+      "reason": "Completed root command with exact input hashes and native status"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T170117.673259Z-runtime-history01-retention-part-03.log",
+      "sha256": "2316f2a32a5036e275f7b2b8bb5c0c773b90c98a9b98e213991eae56f8f67914",
+      "bytes": 249,
+      "reason": "Completed command log with verified recorded hash"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T170145.310389Z-runtime-history01-retention-part-04.json",
+      "sha256": "60a85f827bce6d03d4b800c527fd80bad92b43c0af7f2b2ba304306b5ed06f70",
+      "bytes": 1385,
+      "reason": "Completed root command with exact input hashes and native status"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T170145.310389Z-runtime-history01-retention-part-04.log",
+      "sha256": "cc27421bec96feca7f1e84cb0c66ed7cac6fe912b6f02694164e97d499d2ac1c",
+      "bytes": 249,
+      "reason": "Completed command log with verified recorded hash"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T170223.834491Z-runtime-history01-retention-part-05.json",
+      "sha256": "6c3a8a8a2bdd1a7b4d449ce6ea404de28752803c3f297131184e7c03187f0734",
+      "bytes": 1385,
+      "reason": "Completed root command with exact input hashes and native status"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T170223.834491Z-runtime-history01-retention-part-05.log",
+      "sha256": "76790568e56015965eb950ad93c12392a48a26f8ba1b02923d42e6a97fd89ad8",
+      "bytes": 249,
+      "reason": "Completed command log with verified recorded hash"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T170254.205601Z-capture-suite-stills-33-01.json",
+      "sha256": "1b9008c90492df0a9c1825aa8abc74900223c7ee21105f13f75e75e7419b29aa",
+      "bytes": 2416,
+      "reason": "Completed root command with exact input hashes and native status"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T170254.205601Z-capture-suite-stills-33-01.log",
+      "sha256": "c0c6625238870c35ab2fecb4dab12c67765fd2964d2545697a593cf12f44a064",
+      "bytes": 519,
+      "reason": "Completed command log with verified recorded hash"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T170258.386108Z-runtime-history01-retention-part-06.json",
+      "sha256": "706be5c0e2d7470557381cfb2b68f5378343671a59eb52028d19fa4c960ad717",
+      "bytes": 1385,
+      "reason": "Completed root command with exact input hashes and native status"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T170258.386108Z-runtime-history01-retention-part-06.log",
+      "sha256": "91deae6cd216be83de082aeaaaf3d1d4beadb170766afd7ec3624982e4802bf5",
+      "bytes": 248,
+      "reason": "Completed command log with verified recorded hash"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T170516.657786Z-retained-history-index-v1.json",
+      "sha256": "eca0fa4f83c9fda1483f0a81217ef3b4ed67dea127f997593fab5f8462451dcf",
+      "bytes": 793,
+      "reason": "Completed root command with exact input hashes and native status"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T170516.657786Z-retained-history-index-v1.log",
+      "sha256": "1af314bcf4de27ab953649bab7fb5f1af0de7a5c0d67bfd7550b127d01f7eba3",
+      "bytes": 240,
+      "reason": "Completed command log with verified recorded hash"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T170831.647621Z-runtime-lifecycle-correction-scope-02.json",
+      "sha256": "ff387a7117b2626a44b9511fab0eb86b628a3c158cce79fb2c0597aace5f34fd",
+      "bytes": 961,
+      "reason": "Completed root command with exact input hashes and native status"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T170831.647621Z-runtime-lifecycle-correction-scope-02.log",
+      "sha256": "95ada9fc6c1df0f049aac263be554bccf7003dd7a87adc656246639fb09bf5b6",
+      "bytes": 81,
+      "reason": "Completed command log with verified recorded hash"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T172202.465935Z-capture-recipe-worklight-supplement-02.json",
+      "sha256": "567171b174d60076e9e602cf649fd148a2baf6b58db201462c3e69fd014ea699",
+      "bytes": 973,
+      "reason": "Completed root command with exact input hashes and native status"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T172202.465935Z-capture-recipe-worklight-supplement-02.log",
+      "sha256": "2cef9ca925ca2bcfe2b86d348dd0cc62bfc0152bc9a810a6ef243e3418817405",
+      "bytes": 487,
+      "reason": "Completed command log with verified recorded hash"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T172202.676658Z-source33-cabin-worklight-stills-01.json",
+      "sha256": "1c42abb7c61f127c790f425208eb88c73138713ce6d7882eabaff9404e359e18",
+      "bytes": 1778,
+      "reason": "Completed root command with exact input hashes and native status"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T172202.676658Z-source33-cabin-worklight-stills-01.log",
+      "sha256": "040556872e2dd520371539051a8a51c515359ac8cb6f7b9b9edc856b0fee8eb2",
+      "bytes": 45,
+      "reason": "Completed command log with verified recorded hash"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T172325.042457Z-ci-lfs-scope-01.json",
+      "sha256": "500b9b0becec9931d80c49d33866ea02a630f2f04a9b1ae114f4382cf215f6b6",
+      "bytes": 917,
+      "reason": "Completed root command with exact input hashes and native status"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T172325.042457Z-ci-lfs-scope-01.log",
+      "sha256": "f91b6d386019cd838ab9b7dd6dfcec601426a22aa0a121d8d7bb802f2638b353",
+      "bytes": 57,
+      "reason": "Completed command log with verified recorded hash"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T172325.251891Z-ci-lfs-exclusion-edit-01.json",
+      "sha256": "f05b98af3b9ed47719bdad248272743fffdc092be625f4d50ed7424e96a4e6d2",
+      "bytes": 972,
+      "reason": "Completed root command with exact input hashes and native status"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T172325.251891Z-ci-lfs-exclusion-edit-01.log",
+      "sha256": "47e9e0f988d289b6687a318b1e59782c094b45cfa1c5478a0d637baae63fe2e4",
+      "bytes": 84,
+      "reason": "Completed command log with verified recorded hash"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T172802.319733Z-research-supplement-v1-retention.json",
+      "sha256": "b186242a5a77182716533b0f1a5329a9f19d72b2598d3f62adc0a21fa0214150",
+      "bytes": 1357,
+      "reason": "Completed root command with exact input hashes and native status"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T172802.319733Z-research-supplement-v1-retention.log",
+      "sha256": "f7ff75ee8b6401bbf1474c15ed1a680794e0cac17ac9f37736133e3d1ad3e798",
+      "bytes": 246,
+      "reason": "Completed command log with verified recorded hash"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T174056.668219Z-pedal-capture-correction-01.json",
+      "sha256": "1be534c98a8b4c1950d313ffa45e708e380b51ccf73f1d05e6e039553cadff83",
+      "bytes": 950,
+      "reason": "Completed root command with exact input hashes and native status"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T174056.668219Z-pedal-capture-correction-01.log",
+      "sha256": "1d8b95b38d518967929e200852d9901c4de412f9f8bca74f5588c0bf3ee946ff",
+      "bytes": 819,
+      "reason": "Completed command log with verified recorded hash"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T174116.483905Z-source33-cabin-worklight-stills-02.json",
+      "sha256": "a7afbb6381bf30b29776af4849fdc835fcaff841e469d174292fc2c2692b62a3",
+      "bytes": 1704,
+      "reason": "Completed root command with exact input hashes and native status"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T174116.483905Z-source33-cabin-worklight-stills-02.log",
+      "sha256": "040556872e2dd520371539051a8a51c515359ac8cb6f7b9b9edc856b0fee8eb2",
+      "bytes": 45,
+      "reason": "Completed command log with verified recorded hash"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T174353.120040Z-promote-source33.json",
+      "sha256": "0b8ab5642fd3d29fa4dbbeffe1ad257d767c56bc6e2d8972becb8904e2b4bd4f",
+      "bytes": 931,
+      "reason": "Completed root command with exact input hashes and native status"
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T174353.120040Z-promote-source33.log",
+      "sha256": "c19aaf577b2c28bf13d65157442eaf2149ef0c6672255c033dc1e68d0646d373",
+      "bytes": 981,
+      "reason": "Completed command log with verified recorded hash"
+    },
+    {
+      "path": "reports/p1-018/correct_pedal_capture01.py",
+      "sha256": "0732acb0293a02a26399bee4ae7780a487905d185a3dbd1ab98067b0608919a7",
+      "bytes": 2912,
+      "reason": "Immutable root diagnostic, correction, scope or capture-tool snapshot"
+    },
+    {
+      "path": "reports/p1-018/extend_capture_recipe_02.py",
+      "sha256": "58a3e504852944630425f9e3b89fe9beeefc390a3e13e3fdd1c0e271359befa5",
+      "bytes": 1464,
+      "reason": "Immutable root diagnostic, correction, scope or capture-tool snapshot"
+    },
+    {
+      "path": "reports/p1-018/geometry-review-32/front.png",
+      "sha256": "48c1894e6da6f17f0c5048d4658d1aa2ed11b91f04ac8382ac7e46beef06b1b8",
+      "bytes": 2618377,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/geometry-review-32/front3q.png",
+      "sha256": "eb8980ca4661153faf791333f7e27fe4f6d4ddeb76f599813973035be96c0973",
+      "bytes": 3028919,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/geometry-review-32/left.png",
+      "sha256": "eee02f33d89c8b28606e043b3c3a2485b6512b8fb331488f3b94a3dcae770a9c",
+      "bytes": 2637862,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/geometry-review-32/manifest.json",
+      "sha256": "4347b58c6868c210e938ece72b8d2e03ffa3c6edc6e742a6cc818605a6aceb71",
+      "bytes": 5595,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/geometry-review-32/rear.png",
+      "sha256": "8d279a6435816444eb4e38b0bdc15e0a4144343ea55bcd837652e2248bb7e2b3",
+      "bytes": 2335529,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/geometry-review-32/rear3q.png",
+      "sha256": "5fecd2f7d0aadf7ca69f6e6fff3a29febbd4b257a3c6fcc7d107aa95ddb703b7",
+      "bytes": 3007219,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/geometry-review-32/right.png",
+      "sha256": "1154c1d5cb840ee3d30653ffd56888eb015cf7c4cc9fa6a2b30187fa85d91b38",
+      "bytes": 2523298,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/geometry-review-32/root-review.json",
+      "sha256": "2682e69334cef4deb85fa2534c211d071c361a3b29098ae54e102b45244980df",
+      "bytes": 2979,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/geometry-review-32/under.png",
+      "sha256": "687fc4518fbe6105e37c2f800656c5bc5ea06f4c044467c05cac10d1ab89ab3e",
+      "bytes": 2706366,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/index_retained_history01.py",
+      "sha256": "f40c8cf80c0118d84b04fcc50b827320b967c5ae551672096e5442f7a06441d5",
+      "bytes": 3008,
+      "reason": "Immutable root diagnostic, correction, scope or capture-tool snapshot"
+    },
+    {
+      "path": "reports/p1-018/lock_specification_v14.py",
+      "sha256": "bb4e7aec99bfe6ee6a9fbb90f8c22752e3ffbc2eee8b070b62ff10fcdacd2aac",
+      "bytes": 4422,
+      "reason": "Immutable root diagnostic, correction, scope or capture-tool snapshot"
+    },
+    {
+      "path": "reports/p1-018/lock_specification_v15.py",
+      "sha256": "7370c99c3b07b473678747bc2b1e2b619480f0ad7e864bccd117c716f8c7b0e2",
+      "bytes": 6322,
+      "reason": "Immutable root diagnostic, correction, scope or capture-tool snapshot"
+    },
+    {
+      "path": "reports/p1-018/pedal-capture-correction-01.json",
+      "sha256": "c7ac0075cc70e3a5436396cf3ed528800f2134933b92f432cecbbab2a6764a15",
+      "bytes": 842,
+      "reason": "Immutable root diagnostic, correction, scope or capture-tool snapshot"
+    },
+    {
+      "path": "reports/p1-018/prepare_root_history_33.py",
+      "sha256": "4decf1becbbf3b6e0a61cb8ba1ce8dba20e068c81254a7da07368e80de3b04fe",
+      "bytes": 3833,
+      "reason": "Exact bounded inventory recipe"
+    },
+    {
+      "path": "reports/p1-018/production-32/blender.json",
+      "sha256": "53502456525f885f64ebb531ecc9917b3a12f199449c483b3b72345677d7a86d",
+      "bytes": 1708260,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/production-32/endurance-sedan.glb",
+      "sha256": "f9b0a230acd53c81ca15365bf1633e0ff8ea16275ae606babeb51740e96b0d41",
+      "bytes": 11119072,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/production-32/qa/endurance-sedan-unbatched.glb",
+      "sha256": "02ed46dbd5e3317871e43b868957f4a20f29a06e5831c5f4dd44c4211c2638be",
+      "bytes": 11106684,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/production-33/blender.json",
+      "sha256": "d7287507421667c3c1ba12839b97234a2bb3f6e4bcb3a0e221184112ea4bfd6d",
+      "bytes": 1442819,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/production-33/endurance-sedan.glb",
+      "sha256": "130c7c053fcd3250b3f3ee626666b8c0deeb65948410dcc4f07f60967b09ef74",
+      "bytes": 11260508,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/production-33/qa/endurance-sedan-unbatched.glb",
+      "sha256": "9e9279e35547981db54496302d52323537161f6f035e999b277fedeb58a151a0",
+      "bytes": 11088760,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/production33-finish-stills-01/cockpit.png",
+      "sha256": "0a3f4bb953279b00ff7f2dad966763d7412273cce4d179b5119d9da3ec3f1461",
+      "bytes": 3339802,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/production33-finish-stills-01/front3q.png",
+      "sha256": "e5442bbac7564b7bb7acba18302691bc8bc9e143adf4ca0c37a903b6486f6ad6",
+      "bytes": 3035677,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/production33-finish-stills-01/front_lamps.png",
+      "sha256": "ca6c82eb01bea0d34aa88523d58b935871923bdaa075203e4524740c52033a13",
+      "bytes": 3560901,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/production33-finish-stills-01/glass_seal.png",
+      "sha256": "8289f0056d2578bcf7c30b58ced89d8a8f1616c1f42dff6310f9676d676da088",
+      "bytes": 3504102,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/production33-finish-stills-01/manifest.json",
+      "sha256": "3cc1f8614016ebbd2180eb66e3ca9a4b5b139b1b70639c9ef2d7fbdba4a6cd40",
+      "bytes": 6295,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/production33-finish-stills-01/rear3q.png",
+      "sha256": "c5b82b42942553bac48e9575cb7d9a5bef708a9f69f84265a4a6a10e5f907b19",
+      "bytes": 2994327,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/production33-finish-stills-01/rear_lamps.png",
+      "sha256": "b9170308a2c765b6601068c7b1c4e9b5f3b77fd702c73c0999152272b12e510e",
+      "bytes": 3548400,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/production33-finish-stills-01/under.png",
+      "sha256": "601a37647208fad0ba27b5f25a6be98f3eb796b558556555e5b08136d8e6ad98",
+      "bytes": 2707575,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/production33-finish-stills-01/wheel.png",
+      "sha256": "f3b587202e3e6feee0a56bf02371023103c8f14abab03eae6b8861001b086349",
+      "bytes": 3231893,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/promote_blockout_technical03.py",
+      "sha256": "f1758b2af5a42288cac036c7cd9605c8941e433f6b06506f1f75cfaf864d1cc5",
+      "bytes": 3526,
+      "reason": "Immutable root diagnostic, correction, scope or capture-tool snapshot"
+    },
+    {
+      "path": "reports/p1-018/promote_blockout_technical04.py",
+      "sha256": "946e202f8809953e7908c74ad99772fe2685304202aa82089fa92cb4151b82b9",
+      "bytes": 3529,
+      "reason": "Immutable root diagnostic, correction, scope or capture-tool snapshot"
+    },
+    {
+      "path": "reports/p1-018/promote_source33.py",
+      "sha256": "8d1f3d16afdfffa7d72857e581b59c30ddcb336a888edfe0b9f58bc44b085796",
+      "bytes": 2170,
+      "reason": "Immutable root diagnostic, correction, scope or capture-tool snapshot"
+    },
+    {
+      "path": "reports/p1-018/record_ci_lfs_scope01.py",
+      "sha256": "563007dfc98ba9f9d97cfcdad11590ad1d5e19ad780c1032fd5f0d244a5bf2d8",
+      "bytes": 1553,
+      "reason": "Immutable root diagnostic, correction, scope or capture-tool snapshot"
+    },
+    {
+      "path": "reports/p1-018/record_geometry_review_32.py",
+      "sha256": "9de890ea124e3eeba86bced74199fd10de5b0267179149eee679c514a46eddab",
+      "bytes": 3334,
+      "reason": "Immutable root diagnostic, correction, scope or capture-tool snapshot"
+    },
+    {
+      "path": "reports/p1-018/record_runtime_lifecycle_scope02.py",
+      "sha256": "8ae6ad604fa9660842ad32a4fe449782c1a7cd3fd75fd34e6c346f45d9828c82",
+      "bytes": 1781,
+      "reason": "Immutable root diagnostic, correction, scope or capture-tool snapshot"
+    },
+    {
+      "path": "reports/p1-018/record_runtime_review_scope.py",
+      "sha256": "ff1d3b82367c8bc56affc6d06b1d2a03f2535384169ddf20c4b1843a110db0ae",
+      "bytes": 1637,
+      "reason": "Immutable root diagnostic, correction, scope or capture-tool snapshot"
+    },
+    {
+      "path": "reports/p1-018/render-through33-stills.py",
+      "sha256": "08b7c868fe0bd8b32e4cfa99c10aeb0655ae2ef32325d5ed501029e0dd73e057",
+      "bytes": 16373,
+      "reason": "Immutable root diagnostic, correction, scope or capture-tool snapshot"
+    },
+    {
+      "path": "reports/p1-018/root-history-through31-v2.manifest.json",
+      "sha256": "0f354b88f8dce536a7b77d167437ec567ca694678dde77bdc3bc3fac74bad70c",
+      "bytes": 180998,
+      "reason": "Immutable root diagnostic, correction, scope or capture-tool snapshot"
+    },
+    {
+      "path": "reports/p1-018/runtime-history-01.json",
+      "sha256": "8f8ff3821d9863f8a64cbf1237aff0dcb8fa3d0a5af4e9304a57fcc70bbd0350",
+      "bytes": 1310080,
+      "reason": "Immutable root diagnostic, correction, scope or capture-tool snapshot"
+    },
+    {
+      "path": "reports/p1-018/source33-cabin-worklight-stills-01/0001-blender-version.log",
+      "sha256": "a6c389381135b07e03380275f7b990251bb94e856a17700eff340bec06af3537",
+      "bytes": 8208,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/source33-cabin-worklight-stills-01/0002-ffmpeg-version.log",
+      "sha256": "548d07da79082ab0db5b6ab14edc7d2e4221996319ee19b2031ee3226416727b",
+      "bytes": 1500,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/source33-cabin-worklight-stills-01/0003-cabin-controls-worklight-render.log",
+      "sha256": "3e8b1ef40f9f6be2bc8bb133662ebf64ceec6be067432b835e4eb1c97cec765c",
+      "bytes": 2090,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/source33-cabin-worklight-stills-01/cabin-controls-worklight/manifest.json",
+      "sha256": "f54de3844adfa56ece4f03b6274770023fb3b1caed6d549aced08471918a95d4",
+      "bytes": 3447,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/source33-cabin-worklight-stills-01/cabin-controls-worklight/pedals.png",
+      "sha256": "3603d261b1a8f8a3fd6eff74767d2601f9081f665ad2150a42cacac3d73afe3c",
+      "bytes": 3046153,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/source33-cabin-worklight-stills-01/cabin-controls-worklight/roof_front.png",
+      "sha256": "a0277348994846f933576e307eeb7e81623ca10038199dace6851d28043924af",
+      "bytes": 3831964,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/source33-cabin-worklight-stills-01/cabin-controls-worklight/roof_rear.png",
+      "sha256": "6a4057da91ac34e368f9fe7df907604fe3fc64ff0f4a3598aa59b7ba44395a1c",
+      "bytes": 4001424,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/source33-cabin-worklight-stills-01/suite.json",
+      "sha256": "17d6517918d6d60ef8e82cab776178aba37afd0d301c9d57a2676ba25c44a3ed",
+      "bytes": 4941,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/source33-cabin-worklight-stills-02/0001-blender-version.log",
+      "sha256": "a6c389381135b07e03380275f7b990251bb94e856a17700eff340bec06af3537",
+      "bytes": 8208,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/source33-cabin-worklight-stills-02/0002-ffmpeg-version.log",
+      "sha256": "548d07da79082ab0db5b6ab14edc7d2e4221996319ee19b2031ee3226416727b",
+      "bytes": 1500,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/source33-cabin-worklight-stills-02/0003-cabin-controls-worklight-render.log",
+      "sha256": "24a11bea3db5b6c45fe7ff167be187aae0f1ef634aa194a54391698a8647a452",
+      "bytes": 2352,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/source33-cabin-worklight-stills-02/cabin-controls-worklight/manifest.json",
+      "sha256": "cf0bc709ae4aa9a2f737237851414e3a70558739c3c3246639f52833ecaec8d4",
+      "bytes": 3914,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/source33-cabin-worklight-stills-02/cabin-controls-worklight/pedals.png",
+      "sha256": "7e0f0ba3c4b1ac6f013da6a9bf29f0d303de43e711d728c235612b3ea9776706",
+      "bytes": 3237334,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/source33-cabin-worklight-stills-02/cabin-controls-worklight/roof_front.png",
+      "sha256": "73cbe7ab74c0c1d860ef5af4f6663c708364de4ac4d0e53d60948ee34b6568f2",
+      "bytes": 3830473,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/source33-cabin-worklight-stills-02/cabin-controls-worklight/roof_rear.png",
+      "sha256": "b978ecb82cd38cb5a9273dfb82eb87c8ecd8214434459ebdb5d91ab3c558e46c",
+      "bytes": 3999572,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/source33-cabin-worklight-stills-02/suite.json",
+      "sha256": "b9db7ea2370c886cabf5607bbdf6c1e901e5190ddd70947567c2ab2f41c29074",
+      "bytes": 4941,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/technical-overlay-repair-01/blockout/front.png",
+      "sha256": "d5f55a45b53aec8ce60eeaff26849346c1af84045368b3754ae641dfde2c1334",
+      "bytes": 2618761,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/technical-overlay-repair-01/blockout/left.png",
+      "sha256": "cc9436f0026a2816091d016d06b273d41d6877cdc0c354ce07932643116bb950",
+      "bytes": 2738768,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/technical-overlay-repair-01/blockout/manifest.json",
+      "sha256": "b742b068c6091e5a33519487fe3de9854fa171df36f89075084552886e857d60",
+      "bytes": 13073,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/technical-overlay-repair-01/blockout/rear.png",
+      "sha256": "c4dac0163d3beed40af7ba13e93b0745ead1c8c8cd2ffd8f6947906fdb343611",
+      "bytes": 2352553,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/technical-overlay-repair-01/blockout/right.png",
+      "sha256": "72cb4be4a7a896c8c15b37c62f9ef27d4fdbafac3e36abd4820d942ab632caac",
+      "bytes": 2849552,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/technical-overlay-repair-01/blockout/top.png",
+      "sha256": "c06d3d9f5948ab3c8e18e1efbfc5ff666c2c5af70653bd371d8b31cef2ad03bf",
+      "bytes": 2556497,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/technical-overlay-repair-01/blockout/under.png",
+      "sha256": "6da75285be98ae39013bfc89e5ac916e42516421f9214112ee22e6c16c6fd34e",
+      "bytes": 2624191,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/technical-overlay-repair-01/production32/front.png",
+      "sha256": "964744f4a268ad1bf7c62dee6de24913f2a4c2c9fa1c94821d7751da841041cc",
+      "bytes": 2632814,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/technical-overlay-repair-01/production32/left.png",
+      "sha256": "5db34a8bce36f03835bc47dd2d03ac3c3d90a84bae3ca477c1fd433f9816ff57",
+      "bytes": 2935801,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/technical-overlay-repair-01/production32/manifest.json",
+      "sha256": "6808c7519926b219b0a648f178f73acc5d045379ef91806ea3634cb7c94a5fbb",
+      "bytes": 13031,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/technical-overlay-repair-01/production32/rear.png",
+      "sha256": "9988a871883724e90045e99d90503e9e4739939599ce9fa6839b900fcfa47d96",
+      "bytes": 2620992,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/technical-overlay-repair-01/production32/right.png",
+      "sha256": "6c9e63a8db67022bb07199b0a1adf5de61be5a0aac2dcdd5f8f9906520235da0",
+      "bytes": 2868935,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/technical-overlay-repair-01/production32/top.png",
+      "sha256": "00653e8ed1edbda087f829a57f71897d25a3db23ecdcc2f24cae5e4d1fe4373e",
+      "bytes": 2656766,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/technical-overlay-repair-01/production32/under.png",
+      "sha256": "dc21dec77fb084469d2d56819fdd9c312abe0bfc0a595493a2b4fbe59a4d7010",
+      "bytes": 2754390,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/technical-overlay-repair-01/render-before.py",
+      "sha256": "9932bab82cded62aa26a13ae132fea1c3ad72e13ae0a8633a72774227f065964",
+      "bytes": 16166,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/technical-overlay-repair-01/review_overlays-before.py",
+      "sha256": "12d29dbde1d5f2c97bd3240459db70f0b71bb8b38cba69c1a108f5882b0e85f5",
+      "bytes": 7225,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/tire-cut-diagnostic-01/measurement.json",
+      "sha256": "14ff4671e6cf47e4baf19665953d8fbca6d7bd300dc9c47d1492ba48f4f3d4f7",
+      "bytes": 124699,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/tire-cut-diagnostic-01/rendered/front3q.png",
+      "sha256": "36a3e98aa5438576d47e4631c5ec3eff660bc8a2c23e573e1be0216670522289",
+      "bytes": 3026487,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/tire-cut-diagnostic-01/rendered/manifest.json",
+      "sha256": "9debaf6ae4a1bb3e549719edbee4e7081ddb3adb3435156439561dc68daf65a8",
+      "bytes": 3144,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/tire-cut-diagnostic-01/rendered/wheel.png",
+      "sha256": "da1e18a1cc1084a34fd6993b4d68eabaee5217ae8e64d0cefcb53876c7d8ff6c",
+      "bytes": 3230435,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/tire-cut-diagnostic-02/measurement.json",
+      "sha256": "c7be12cdf9ed759706df257059b7d6db4215219513b7b4b8dcf19c5b9bb3a81a",
+      "bytes": 124899,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/tire-cut-diagnostic-02/rendered/front3q.png",
+      "sha256": "966ac5aea2303a42cdf085ff00e890cad0dc16b91ad5466c11545cdd46843525",
+      "bytes": 3024825,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/tire-cut-diagnostic-02/rendered/manifest.json",
+      "sha256": "56c21e6ee9963a092268c2d3d93d805c9b1b48efb621451fb4dc5287c6c7572e",
+      "bytes": 3144,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/tire-cut-diagnostic-02/rendered/wheel.png",
+      "sha256": "eab6e49ab57f8f63fcd8944fefc58a7e234324a04a555e07d179edf4150c1d52",
+      "bytes": 3222789,
+      "reason": "Completed original source32/33 trial, correction, measured export or unchanged actual still; includes rejected views"
+    },
+    {
+      "path": "reports/p1-018/tire_cut_diagnostic.py",
+      "sha256": "8eb72675e317a479a615bded2e2909b760131c80e3c830782c5311e810f7fdb7",
+      "bytes": 5386,
+      "reason": "Immutable root diagnostic, correction, scope or capture-tool snapshot"
+    },
+    {
+      "path": "reports/p1-018/tire_cut_diagnostic_02.py",
+      "sha256": "e25877e1999c99b9d649775885c48997f23e7865fd7608bb602f7816b9c47577",
+      "bytes": 7202,
+      "reason": "Immutable root diagnostic, correction, scope or capture-tool snapshot"
+    }
+  ],
+  "archives": [
+    {
+      "path": "data/assets/vehicles/endurance-sedan-review/evidence/root-history-through33.zip",
+      "sha256": "0eaaa8ac4c12757a6d0976975520a6d3ac4241b607fb66ef1065226bd948feee",
+      "bytes": 697851415,
+      "crc_and_member_sha256_verified": true
+    },
+    {
+      "path": "reports/p1-018/retention/root-history-through33-repeat.zip",
+      "sha256": "0eaaa8ac4c12757a6d0976975520a6d3ac4241b607fb66ef1065226bd948feee",
+      "bytes": 697851415,
+      "crc_and_member_sha256_verified": true
+    }
+  ],
+  "human_approval_reference": null,
+  "limits": "Evidence retention and byte identity only; individual reports retain their own scope, failures and approval status.",
+  "byte_reproducible": true,
+  "finished_utc": "2026-09-11T17:46:32.739620+00:00"
+}

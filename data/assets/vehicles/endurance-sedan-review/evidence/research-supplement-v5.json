@@ -1,0 +1,977 @@
+{
+  "task_id": "P1-018",
+  "milestone": "M5",
+  "status": "passed",
+  "started_utc": "2026-09-11T20:26:53.582677+00:00",
+  "git_revision": "eb5703e55f3656e91bd80fb79502f10ce250554b",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.14.6",
+  "zlib_runtime": "1.3.1.zlib-ng",
+  "tool_sha256": "1310e66035402d9eccaef4c0b2fe6d474f0b56958e914138d3f57be6285b18ff",
+  "input_manifest": {
+    "path": "reports/p1-018/research/retention-supplement-v5.json",
+    "sha256": "188839e16009618b75645092e24b2ab0459bee598fb7c6e36b930b507c45fd2b"
+  },
+  "entries": [
+    {
+      "path": "reports/p1-018/commands/20260911T194006.957770Z-restraints-revision16-lock.json",
+      "sha256": "40a40f85f5866a23bf7f7159814dcdd73bccd11e2d8b49af8e89a32ddbe1ff42",
+      "bytes": 981,
+      "reason": "Actual source34 build/export/capture and spec16-unbuilt/spec17 preimplementation command with hashes/exit status."
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T194006.957770Z-restraints-revision16-lock.log",
+      "sha256": "2606b486ffa0f289a3da2690244a72421f5fb619cf65c51f36ea78a54afba9fa",
+      "bytes": 410,
+      "reason": "Actual native command log bound by the source34 handoff."
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T194425.301292Z-restraints-revision17-lock.json",
+      "sha256": "48ed7f170e07e2f7fc213685f1a14a4658e2ee1b98dd8cbb49318e4f2c058219",
+      "bytes": 798,
+      "reason": "Actual source34 build/export/capture and spec16-unbuilt/spec17 preimplementation command with hashes/exit status."
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T194425.301292Z-restraints-revision17-lock.log",
+      "sha256": "26413d14b0fc67e749c88f456b0f5a67fa6d7a78e1254702fbe9c0b2f6713a32",
+      "bytes": 322,
+      "reason": "Actual native command log bound by the source34 handoff."
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T194425.890671Z-restraints-revision17-implementation.json",
+      "sha256": "4a7eff90ffb56fba0d19b2e30daf09e16e2556d3f7549af2e93607f0ee9d9888",
+      "bytes": 983,
+      "reason": "Actual source34 build/export/capture and spec16-unbuilt/spec17 preimplementation command with hashes/exit status."
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T194425.890671Z-restraints-revision17-implementation.log",
+      "sha256": "e947743ff9850d501f4fc616b7cf0a149fd0c4b4b2043a5fff0d9b3d3c3a9081",
+      "bytes": 483,
+      "reason": "Actual native command log bound by the source34 handoff."
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T195201.117017Z-build-production34.json",
+      "sha256": "2a63f977a64bf03a1efd89c0d7c15aac7904d024f2a2f02215c481f48794912a",
+      "bytes": 6815,
+      "reason": "Actual source34 build/export/capture and spec16-unbuilt/spec17 preimplementation command with hashes/exit status."
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T195201.117017Z-build-production34.log",
+      "sha256": "826f4204928c67f748c719c5f4d86a4d79f8928a09383d07950823edfd6b84e0",
+      "bytes": 1108,
+      "reason": "Actual native command log bound by the source34 handoff."
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T195349.911114Z-export-production34.json",
+      "sha256": "00f31e8a302152c48e042dc7247ec431a35d5dfc6a739497d21d22322d458f0d",
+      "bytes": 2330,
+      "reason": "Actual source34 build/export/capture and spec16-unbuilt/spec17 preimplementation command with hashes/exit status."
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T195349.911114Z-export-production34.log",
+      "sha256": "446d542b46c99df83da79fb9866dcb33146b37bd59955a53227e6545c16976eb",
+      "bytes": 180455,
+      "reason": "Actual native command log bound by the source34 handoff."
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T195519.061232Z-source34-restraints-stills-01.json",
+      "sha256": "453feb902e2d52dc0f6b54f09228ff2fa17eca2a0949ecc2015ded072ecbaa99",
+      "bytes": 1472,
+      "reason": "Actual source34 build/export/capture and spec16-unbuilt/spec17 preimplementation command with hashes/exit status."
+    },
+    {
+      "path": "reports/p1-018/commands/20260911T195519.061232Z-source34-restraints-stills-01.log",
+      "sha256": "b6f93eaac3db0da292c16e5bd493f4c0be783c8102f3efc632474243652353f7",
+      "bytes": 1638,
+      "reason": "Actual native command log bound by the source34 handoff."
+    },
+    {
+      "path": "reports/p1-018/production-34/blender.json",
+      "sha256": "e5440d0f7a878b6f2c605cb9abfeff53da5575dc6d6a76fecc06acc4dcec61a7",
+      "bytes": 1461717,
+      "reason": "Exact completed source34 export inventory or newly prepared source-bound UV bake; full GLBs remain with the artifact owner."
+    },
+    {
+      "path": "reports/p1-018/production-34/endurance-sedan.uv-bake.json",
+      "sha256": "c1f17f39d4d49bac0e66fbc2c9964c60e1ab300b9b74470e610eebff250020ee",
+      "bytes": 2744872,
+      "reason": "Exact completed source34 export inventory or newly prepared source-bound UV bake; full GLBs remain with the artifact owner."
+    },
+    {
+      "path": "reports/p1-018/qa/belt-candidate11-independent-01/review.json",
+      "sha256": "03425f76b761ea7085771380065a6f64c8c830f3dd8d3a5732a54d7340a734fc",
+      "bytes": 17815,
+      "reason": "Independent QA replay of candidate11 static/all-opening finite domains; full QA payloads are retained by their owner."
+    },
+    {
+      "path": "reports/p1-018/qa/belt-candidate11-static-independent-01/geometry.json",
+      "sha256": "5b783730c38160bd37d40a4c759dee6adeb6acbda9795c0bb6c39917d024f9dc",
+      "bytes": 4447171,
+      "reason": "Independent QA replay of candidate11 static/all-opening finite domains; full QA payloads are retained by their owner."
+    },
+    {
+      "path": "reports/p1-018/qa/source33-interior-reviewed-02/review.json",
+      "sha256": "b3bffd7e78b8fe60f2aea7b97771d6671eef3bc622ab0560190208db3a699fb5",
+      "bytes": 132009,
+      "reason": "Independent actual source33 interior coverage finding that triggered the rear-bench inspection."
+    },
+    {
+      "path": "reports/p1-018/research/acceptance-research-source34-02/dimension-sheet-revision17.md",
+      "sha256": "aaca8a0af8734da6239cf1f5d1119b571b58875a7a7be71f6f266e92184cd995",
+      "bytes": 43041,
+      "reason": "Q01/Q02 evidence mapping, checked current17 arithmetic/links, original design comparison and reports-only current readable copies."
+    },
+    {
+      "path": "reports/p1-018/research/acceptance-research-source34-02/original-design-rationale-revision17.md",
+      "sha256": "faae3ce0e696a77c8c5f8ad888b724de2a0e7cad081431fb58d8bb38ac86afed",
+      "bytes": 37282,
+      "reason": "Q01/Q02 evidence mapping, checked current17 arithmetic/links, original design comparison and reports-only current readable copies."
+    },
+    {
+      "path": "reports/p1-018/research/acceptance-research-source34-02/review.json",
+      "sha256": "6f7f660cb3e3f321828cd2c38090785ab19d1bd4e1e68c9e8ab96f3da88071b8",
+      "bytes": 26756,
+      "reason": "Q01/Q02 evidence mapping, checked current17 arithmetic/links, original design comparison and reports-only current readable copies."
+    },
+    {
+      "path": "reports/p1-018/research/audit_external_archive_inputs_01.py",
+      "sha256": "a5dfed85d0e128c29bfdc40f995e083ce354465a48dd5ae44b7a0bcc178afef9",
+      "bytes": 7686,
+      "reason": "Reports-only reproducible preparation/audit script or retained failed metadata assertion; no production input was changed."
+    },
+    {
+      "path": "reports/p1-018/research/external-retention-review-01/review.json",
+      "sha256": "252bfed8a6d074d257a1db339212ce65267f6807b2d438e672226c4ce48a0a4f",
+      "bytes": 2111303,
+      "reason": "Actual ZIP-member and identified existing environment-payload audit; research URL/hash/rights boundaries without external reference image bytes."
+    },
+    {
+      "path": "reports/p1-018/research/freeze_source34_handoff.py",
+      "sha256": "96f8d53b8edbae43c84b7b6a5b1fd4a0227dac63ea476a189eb508b11853c91c",
+      "bytes": 11987,
+      "reason": "Reports-only reproducible preparation/audit script or retained failed metadata assertion; no production input was changed."
+    },
+    {
+      "path": "reports/p1-018/research/prepare_q01_q02_source34.py",
+      "sha256": "f46d1b6879f92194f17e909bcc12e3cd43174f8950073027b74557b78f5418e9",
+      "bytes": 16722,
+      "reason": "Reports-only reproducible preparation/audit script or retained failed metadata assertion; no production input was changed."
+    },
+    {
+      "path": "reports/p1-018/research/prepare_q01_q02_source34_02.py",
+      "sha256": "dafadaed02384b2bf189abbe2513ba2dfc856da2594492fb46f612e7214adbf6",
+      "bytes": 16775,
+      "reason": "Reports-only reproducible preparation/audit script or retained failed metadata assertion; no production input was changed."
+    },
+    {
+      "path": "reports/p1-018/research/prepare_retention_supplement_v5.py",
+      "sha256": "820bfe7464b3f75ac4a9767776e1ec6226491d52bfc1dac5be2387d515a17628",
+      "bytes": 12213,
+      "reason": "Reports-only reproducible preparation/audit script or retained failed metadata assertion; no production input was changed."
+    },
+    {
+      "path": "reports/p1-018/research/prepare_source34_binding.py",
+      "sha256": "a17585437e2b00730534d2d4fdf41c520f7dff68d02403fb56a758f059321700",
+      "bytes": 2340,
+      "reason": "Reports-only reproducible preparation/audit script or retained failed metadata assertion; no production input was changed."
+    },
+    {
+      "path": "reports/p1-018/research/q01-q02-attempt01-failure.json",
+      "sha256": "c8863f84205ab331d4a22061e6755ac8bacbd67bbc61e0355e9b03a605a5b629",
+      "bytes": 678,
+      "reason": "Reports-only reproducible preparation/audit script or retained failed metadata assertion; no production input was changed."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/BELT-CANDIDATE-11-HANDOFF.md",
+      "sha256": "4a54f53bb8196ab6fa72640cbb6131840ed04e416f737dfe9a019fb3feff433f",
+      "bytes": 10033,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/belt-07.log",
+      "sha256": "37e2ec32ffc347614c9ba362d0cf33e8dda73eb228ce164f6781e785d99ee407",
+      "bytes": 16444,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/belt-07/geometry.json",
+      "sha256": "29e0b7ae3c2fa4be758fbb943310fa1eab339da3065a451f2827c87e50256259",
+      "bytes": 14166,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/belt-08.log",
+      "sha256": "67e33aaf72dc2cdbf1e5544664aacea64080c3f155e12f734e046745a3cd517b",
+      "bytes": 63214,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/belt-08/candidate-meshes.json.gz",
+      "sha256": "1f22e4f2b7f052affe8a93579614ccd56b4b221ef31cffae3fadba366041a38f",
+      "bytes": 4401,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/belt-08/review.json",
+      "sha256": "009405bdaabcb6a37b1bcbd255a9c0c1d528f160469c31f00a478e480ad5b820",
+      "bytes": 97149,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/belt-09.log",
+      "sha256": "f808d4f1116b75ecc7e20fc235b9878b82178814b83b4c8cfdd115df3cefd653",
+      "bytes": 47596,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/belt-09/candidate-meshes.json.gz",
+      "sha256": "d09c1c09736491b55dcacf10f0d1bef7949b638a117b6de5f39553d218d6f3a2",
+      "bytes": 4701,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/belt-09/review.json",
+      "sha256": "e6eff638d1ecdbe0cb4df347314b60c7f25e3ebd3a26983157ee1d8ac36fc2ba",
+      "bytes": 88880,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/belt-10-interfaces.log",
+      "sha256": "155e623b62402ffbed711656af089a3d3670145afc3acfcd8f9dc3d64097e736",
+      "bytes": 37398,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/belt-10-interfaces/native-intersections.json.gz",
+      "sha256": "a5da14c18c7eaaec60e4cb92810f1735ba92578baa5fd1c009dac9018eae3ee7",
+      "bytes": 15100,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/belt-10-interfaces/review.json",
+      "sha256": "514e783e034985a4613e69bbf4cb7e225f2ccf34cc5d92e2eb5bf67451d4a4e9",
+      "bytes": 147884,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/belt-10.log",
+      "sha256": "4d844090e725a3f410f83cfc9e96a78d2e28c7896fda7af65204f00480ed398d",
+      "bytes": 54214,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/belt-10/candidate-meshes.json.gz",
+      "sha256": "998aeaf42f9931cc8966acb5d9f9a6aaf0df4716ce5089c0c41eb0469be2316a",
+      "bytes": 5702,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/belt-10/review.json",
+      "sha256": "dafa4b3c34cc7ef4243b3c89b702c1b1afd3eb68b5952efa7a06ed72abb3ad17",
+      "bytes": 99551,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/belt-11-all-triangle-self-control.json",
+      "sha256": "481c1d34d6fac64ca20d1590867368bf8a6639c4c64db2a78c1a95434c7029f6",
+      "bytes": 19068,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/belt-11-guide-containment.json",
+      "sha256": "d06ac10322a685957315bdfa73132670a6c91850eca7b5d4cdf43e381649c47b",
+      "bytes": 1917,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/belt-11-interfaces.log",
+      "sha256": "c793180b14e581b48fb4c3fdbff352eba5a43ca4275896634d35f9e1c4298b5f",
+      "bytes": 31442,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/belt-11-interfaces/native-intersections.json.gz",
+      "sha256": "02cb25df5b41e76a2b018a851ff758cd41de33c9ea3aa47a296aec22c3d7b2fa",
+      "bytes": 13950,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/belt-11-interfaces/review.json",
+      "sha256": "e5ba33e1df42fa511c59b8da84f846292458a45b76b818bc65643b309519073a",
+      "bytes": 144740,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/belt-11.log",
+      "sha256": "06d2c9bae9f3e3ac7142d74342f8864836ab6f464909417ebd693d3520c59422",
+      "bytes": 54966,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/belt-11/candidate-meshes.json.gz",
+      "sha256": "cc7e6f4d33e09165aee0da0517cab167dac53e51554e1ca9420ccf067775f408",
+      "bytes": 5764,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/belt-11/review.json",
+      "sha256": "ea18f7f8aec22ceb22cb276ccb3fce9f75485f4c8b0cd667997da8b5c6f832cb",
+      "bytes": 100639,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/belt_candidate_08.py",
+      "sha256": "d698f81523848f7b9becd2aab4d38d213a08f15f037c062705eaa013fdbdfdcd",
+      "bytes": 6526,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/belt_candidate_09.py",
+      "sha256": "4f7138b88841ae395968e7afeb4ec97de0307a1e7ccf564e55aaf1c9c0a4d79a",
+      "bytes": 8504,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/belt_candidate_10.py",
+      "sha256": "7fc05584a1a05904602cb15bee746a23d069643dfdd129d701bf48679825e152",
+      "bytes": 9173,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/belt_candidate_11.py",
+      "sha256": "9920bd6ec7240419f6e87dcc16c07c39981c5436566b2313118f82569b892a6f",
+      "bytes": 9180,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/candidate-views-13.log",
+      "sha256": "9d4699d04f96c0d9afd70bb1071fd7490ee51bb460fdc10a6a57e8a9c90d9199",
+      "bytes": 17490,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/candidate-views-13/review.json",
+      "sha256": "f9f2edb48fa0d91b0df794b15d467ad6c9030c701ae771032e100b078bd1ffa5",
+      "bytes": 70728,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/geometry-01.log",
+      "sha256": "d4ef6c266d9793caf581f2ff806682c2a787fc9f1eda3e80062080505cf32744",
+      "bytes": 1834,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/geometry-02.log",
+      "sha256": "8cf2600c10f840869d88ec983871fa584babc95dd5318b98478da9e995cae300",
+      "bytes": 17120,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/geometry-02/geometry.json",
+      "sha256": "3ec48f92679733955de50fe36c963732b72e0e0d42e97199fa5ab240065536c3",
+      "bytes": 3899969,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/geometry-03.log",
+      "sha256": "923c1219faec99df6ef0e4d3cd4db531bad0bcca74c8ab6e892610e66ab83dc3",
+      "bytes": 8092,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/geometry-03/geometry.json",
+      "sha256": "66db1e824c4cf8f60448d437947b65bf2888df5b4865865d40204150497aef2c",
+      "bytes": 3873306,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/geometry-04.log",
+      "sha256": "a0dfefd9096d65789ece3a0a1d400bef77974239cc46f228d7b7e9c97f895d3d",
+      "bytes": 1914,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/geometry-05.log",
+      "sha256": "d9933ab6ddab4ac598cb2d0264ae0706dfbf76a6d9020213928617d3fe9f939d",
+      "bytes": 3644,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/geometry-06.log",
+      "sha256": "c56d1679a38f41efe4d5cd65e1cd2d64b97fc6ff6175be19cc05707f62e1bd64",
+      "bytes": 8148,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/geometry-06/geometry.json",
+      "sha256": "9e63a8706a14edd96f239d0e59e3c5a5da64d8a314283fe9ded37f7484fbae15",
+      "bytes": 368930,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/original-belt-contacts-12.json",
+      "sha256": "93492c0e9cee39c40bf2fa47a390dcce39746015f3b108730d4807fa75ae8d35",
+      "bytes": 57212,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/original-belt-contacts-12.log",
+      "sha256": "e928e34da784920b861456b2fe280443336a63be595693e65b90b52114a41e58",
+      "bytes": 4356,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/probe_actual34_joint_controls.py",
+      "sha256": "7c3575c9987dd69ed35af0a38e952a32154a8bc6186b6243e5bbf022cdafe3b1",
+      "bytes": 6995,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/probe_belt_07.py",
+      "sha256": "14786ace8e06ba27699bc7344d83863dfab150ac62cedb2bbfa919b5c8059bbf",
+      "bytes": 4483,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/probe_belt_08.py",
+      "sha256": "c52a5e779ddebd7ce8adf760792f8f70a3e6525aca06ec25b17b821ed1021c26",
+      "bytes": 4357,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/probe_belt_09.py",
+      "sha256": "d37d5de00cde70262e936cad5e09c806205621eb9b7bcf5186e9f1f3efbccdb7",
+      "bytes": 4357,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/probe_belt_10.py",
+      "sha256": "88238fbceda96596ebaf0a49dbd98a1177b2e05ecaf4554cf72aae6aeea9a930",
+      "bytes": 4357,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/probe_belt_11.py",
+      "sha256": "dfbb4a7daf3c9c96a0fca5cf49b5058246fbfa715e368c76fa77eade959101bb",
+      "bytes": 4357,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/probe_belt_interfaces_10.py",
+      "sha256": "753e07aaaecd4fa979d213bbae25f17ee47bf35597e564ba3ab1d88e5b14c30a",
+      "bytes": 9045,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/probe_belt_interfaces_11.py",
+      "sha256": "d1fbe9556e05f4a582c795342387bc4aee91cbab4436f1dc5f2844d59acee9f5",
+      "bytes": 9045,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/probe_camera_01.py",
+      "sha256": "69498cdf8fdb0b2f9b4214c58f484a8a91c5012f2c817e62be83e15115c4088b",
+      "bytes": 11685,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/probe_camera_02.py",
+      "sha256": "3742aef203ad8f199cfa5d8703f4adc23ecef8fcac8dcc4460a1b5d6091a64f7",
+      "bytes": 11691,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/probe_camera_03.py",
+      "sha256": "85f66d0f31f58e4bdf609c073079590370b411386c77de2f56d209cfde96782f",
+      "bytes": 2970,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/probe_camera_04.py",
+      "sha256": "09d58f9a9134ae53767dae530882ba9515e6584297ee60900948d2fcd3daf6a6",
+      "bytes": 6256,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/probe_camera_05.py",
+      "sha256": "3605ba230e3e21b77533d742e5e4362f90ab390a7e53a794fd4021743097b77e",
+      "bytes": 6428,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/probe_camera_06.py",
+      "sha256": "64adcff8719c386cfb791a4d93a147a9b273e9df0096c11ed055af1797da6f24",
+      "bytes": 6428,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/probe_candidate_views_13.py",
+      "sha256": "d0e0c6c829597a2a8270b59dc81b2a9612eb31f096a5fb800319d69bf49983f8",
+      "bytes": 6182,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/probe_original_belt_contacts_12.py",
+      "sha256": "5131dd6d96c512bad76483946c3e61d06f185b71c36d3b655f5aa10df568fe1d",
+      "bytes": 2727,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/probe_source34_restraints.py",
+      "sha256": "6f150ded0e9f318f6345e43a6781817e73a1ddf5b16bcb6eac20dc2caa0f2d79",
+      "bytes": 7322,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/prove_guide_containment_11.py",
+      "sha256": "5c6c8d5c9a09a8d0a40cb3ed3b6d1f28378e6d4fd19a7c4d4c229a6b43cefb6b",
+      "bytes": 3414,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/source34-correspondence-01.log",
+      "sha256": "468b9bd89c02903955106fa1c5c65e88b66709140e6d98b8bf741742347c1664",
+      "bytes": 894,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/source34-correspondence-01/actual-selected-meshes.json.gz",
+      "sha256": "d647585781452579b38c1a3a13fd2c5fe5fb27e2b58598d1ee5721075356cd29",
+      "bytes": 43056,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/source34-correspondence-01/review.json",
+      "sha256": "db47af2cea23cf815b36328d750a9bf026c458769e20718e5bc16377ccc1be4e",
+      "bytes": 311486,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/source34-joint-controls-01.log",
+      "sha256": "a653cc45be040772c0084e76e1c33cd4b6af928864d91c52b33bf906463b3eaf",
+      "bytes": 3600,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/source34-joint-controls-01/review.json",
+      "sha256": "32852f315c82abae4c2bef233afb8b31a9ff01c071fd395e85357b4c8d752259",
+      "bytes": 142452,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/rear-seat-view-33-01/verify_ribbon_all_pairs_11.py",
+      "sha256": "fb9891571b256b27e66596a273eaf9e18cd27787c64c19969401291094e81575",
+      "bytes": 6282,
+      "reason": "Measured rear/front inspection cameras, actual original restraint defects, rejected07\u201310 recipes, accepted11 proofs and exact rebuilt34 joint/self/guide/correspondence evidence."
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-negative-04/bind_negative-attempt01.py",
+      "sha256": "5f7897dd1f6c4bfa275274b43fa2180eae6556ff8afa9265c14daeaa88187a65",
+      "bytes": 6563,
+      "reason": "Independent final effective/ineffective material-cache negative-control review and failed binding preparations."
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-negative-04/bind_negative-attempt02.py",
+      "sha256": "b07cd54d29cb8ea91042168cc3800b22b1eacfab51528ff46172a03843621574",
+      "bytes": 6925,
+      "reason": "Independent final effective/ineffective material-cache negative-control review and failed binding preparations."
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-negative-04/bind_negative.py",
+      "sha256": "129a611e69459879a48ef65b6607712a217fb461ba5bb7d7f35349f35b309d7c",
+      "bytes": 7036,
+      "reason": "Independent final effective/ineffective material-cache negative-control review and failed binding preparations."
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-negative-04/binding-attempt01-failure.json",
+      "sha256": "501897c7dae77557dda88819c5682fe874a9eee256a11063f7bc750d671490f1",
+      "bytes": 681,
+      "reason": "Independent final effective/ineffective material-cache negative-control review and failed binding preparations."
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-negative-04/binding-attempt02-failure.json",
+      "sha256": "dc18045b5e4c40a088ad5c19b10ddf6a744fd4efe46860fe72aae43019b1881f",
+      "bytes": 574,
+      "reason": "Independent final effective/ineffective material-cache negative-control review and failed binding preparations."
+    },
+    {
+      "path": "reports/p1-018/research/runtime-contact-negative-04/review.json",
+      "sha256": "9ad86ccd61df568f879d47f97223c9a3e0dd074c4062058ef3dcae674db3c124",
+      "bytes": 56288,
+      "reason": "Independent final effective/ineffective material-cache negative-control review and failed binding preparations."
+    },
+    {
+      "path": "reports/p1-018/research/source-input-binding-34/asset-input-inventory.json",
+      "sha256": "cd86109b272108c8d489b7511aab8b42556e0614ef4cec45fc383fedbc103080",
+      "bytes": 25308,
+      "reason": "Native reopened source34 appearance provenance, exact six original packed-image bytes and separate Bfont outline ancestry."
+    },
+    {
+      "path": "reports/p1-018/research/source-input-binding-34/inputs/0b502b4d2ed4a45c667bd7b0b4758bae63b644e9502a558dfeb79ba26d745e6f-restraints.py",
+      "sha256": "0b502b4d2ed4a45c667bd7b0b4758bae63b644e9502a558dfeb79ba26d745e6f",
+      "bytes": 8956,
+      "reason": "Native reopened source34 appearance provenance, exact six original packed-image bytes and separate Bfont outline ancestry."
+    },
+    {
+      "path": "reports/p1-018/research/source-input-binding-34/inputs/459ae1d02b1ac028824498d6dc6979b16a31f50167882e4ec9ad6a97dd04fb2f-cabin.py",
+      "sha256": "459ae1d02b1ac028824498d6dc6979b16a31f50167882e4ec9ad6a97dd04fb2f",
+      "bytes": 15565,
+      "reason": "Native reopened source34 appearance provenance, exact six original packed-image bytes and separate Bfont outline ancestry."
+    },
+    {
+      "path": "reports/p1-018/research/source-input-binding-34/inputs/e18b9c6aae54be01696ced16fae9be978872a922835a8cbe8ae974e0608813b9-specification.json",
+      "sha256": "e18b9c6aae54be01696ced16fae9be978872a922835a8cbe8ae974e0608813b9",
+      "bytes": 59324,
+      "reason": "Native reopened source34 appearance provenance, exact six original packed-image bytes and separate Bfont outline ancestry."
+    },
+    {
+      "path": "reports/p1-018/research/source-input-binding-34/native-command.json",
+      "sha256": "bba93bce7678aa1bda3ff2f32f00861f4d27208759ef6b74c8db1dc023c9a5ed",
+      "bytes": 17611,
+      "reason": "Native reopened source34 appearance provenance, exact six original packed-image bytes and separate Bfont outline ancestry."
+    },
+    {
+      "path": "reports/p1-018/research/source-input-binding-34/native-inputs.json",
+      "sha256": "817b015a351cbe4af806b3aec0db919cc029d64c7626baa0f7fec47a80f7624f",
+      "bytes": 72670,
+      "reason": "Native reopened source34 appearance provenance, exact six original packed-image bytes and separate Bfont outline ancestry."
+    },
+    {
+      "path": "reports/p1-018/research/source-input-binding-34/native.stdout.log",
+      "sha256": "3f83773142b5b675499f0ecf4848a3ca8f0a721311e263fecaf5ef9dc58317bb",
+      "bytes": 363,
+      "reason": "Native reopened source34 appearance provenance, exact six original packed-image bytes and separate Bfont outline ancestry."
+    },
+    {
+      "path": "reports/p1-018/research/source34-binding-preparation-01/preparation.json",
+      "sha256": "b06c3ca13f4d752299bb690a4a9aef5a05b5fded320a21480fffe7a9f32017a2",
+      "bytes": 12802,
+      "reason": "Exact source34 input recovery, preserving the build renderer before later camera-only edits."
+    },
+    {
+      "path": "reports/p1-018/research/source34-handoff-01/HANDOFF.md",
+      "sha256": "3b686bfff1f4f6557d3a5402a52d853300367b8e06198be838d1024e1c678416",
+      "bytes": 1798,
+      "reason": "Compact exact source34 build/export/specification/failure-history and actual frame-review handoff."
+    },
+    {
+      "path": "reports/p1-018/research/source34-handoff-01/actual-frame-review.json",
+      "sha256": "b69586c3c60b80b741c7a08c2c79caccb6327a40ebf3693f2bcc5e3002adf221",
+      "bytes": 5731,
+      "reason": "Compact exact source34 build/export/specification/failure-history and actual frame-review handoff."
+    },
+    {
+      "path": "reports/p1-018/research/source34-handoff-01/handoff.json",
+      "sha256": "28294c80ab4a7feca3bfbbf9d688c00c8b7108eb664313daa2520f2a58b57d50",
+      "bytes": 16110,
+      "reason": "Compact exact source34 build/export/specification/failure-history and actual frame-review handoff."
+    },
+    {
+      "path": "reports/p1-018/research/source34-handoff-01/inputs/packaging-revision-v16.md",
+      "sha256": "a1e5e0f641fdb66a43af2ff3f5fa09c7ff177d052bb63bb125c5e57b659cb6b8",
+      "bytes": 1967,
+      "reason": "Compact exact source34 build/export/specification/failure-history and actual frame-review handoff."
+    },
+    {
+      "path": "reports/p1-018/research/source34-handoff-01/inputs/packaging-revision-v17.md",
+      "sha256": "22e6ae157c5882b7281656cbbb0d24f9a99d1bd427073c15a0a338ae87b876f8",
+      "bytes": 1064,
+      "reason": "Compact exact source34 build/export/specification/failure-history and actual frame-review handoff."
+    },
+    {
+      "path": "reports/p1-018/research/source34-handoff-01/inputs/specification-v16.json",
+      "sha256": "c9e8b0c16f2756e2a1706c77ba456f5c642130f92b2e50cf8dff2cc20f8f8b95",
+      "bytes": 57438,
+      "reason": "Compact exact source34 build/export/specification/failure-history and actual frame-review handoff."
+    },
+    {
+      "path": "reports/p1-018/research/uv-bake-review-01/bind_integration.py",
+      "sha256": "1d9b63f738be28f46599aafc669f76014ee7330d9618af48af08b5af1c409031",
+      "bytes": 11860,
+      "reason": "Independent strict UV-bake acceptance/rejection and repeated-bake/integration review; exact retained controls and input snapshots."
+    },
+    {
+      "path": "reports/p1-018/research/uv-bake-review-01/cases/bake-accessor-offset/result.json",
+      "sha256": "0e991bac84369fb318edcf95bb39fd2361d4c4506fca66cc2ec0f1f302206631",
+      "bytes": 815,
+      "reason": "Independent strict UV-bake acceptance/rejection and repeated-bake/integration review; exact retained controls and input snapshots."
+    },
+    {
+      "path": "reports/p1-018/research/uv-bake-review-01/cases/bake-duplicate-span/result.json",
+      "sha256": "17ded8924ef8e439ecf79f03937b0d3f616ce9dc459a142dd8366cb3e1c36376",
+      "bytes": 813,
+      "reason": "Independent strict UV-bake acceptance/rejection and repeated-bake/integration review; exact retained controls and input snapshots."
+    },
+    {
+      "path": "reports/p1-018/research/uv-bake-review-01/cases/candidate-first/result.json",
+      "sha256": "5ebb378687146575fa17bbfa5001de2af96e88ef73ccf3ba875ab68667cbfdc6",
+      "bytes": 1509,
+      "reason": "Independent strict UV-bake acceptance/rejection and repeated-bake/integration review; exact retained controls and input snapshots."
+    },
+    {
+      "path": "reports/p1-018/research/uv-bake-review-01/cases/candidate-second/result.json",
+      "sha256": "06fa5ad71e1f6bae60765198f8a911924999dd2a52c5be4bd8653ea2f65f30ef",
+      "bytes": 1512,
+      "reason": "Independent strict UV-bake acceptance/rejection and repeated-bake/integration review; exact retained controls and input snapshots."
+    },
+    {
+      "path": "reports/p1-018/research/uv-bake-review-01/cases/corrupt-bake-payload/result.json",
+      "sha256": "b7ebddc76f6a1f261ec41411ee71a47e2ff8a4bf7173b70b281ef281973781e1",
+      "bytes": 829,
+      "reason": "Independent strict UV-bake acceptance/rejection and repeated-bake/integration review; exact retained controls and input snapshots."
+    },
+    {
+      "path": "reports/p1-018/research/uv-bake-review-01/cases/corrupt-reference-sha/result.json",
+      "sha256": "356def833bc3113911e96ba7b2f02ea48cd8d9c0db22210d39979a52ac1d0092",
+      "bytes": 881,
+      "reason": "Independent strict UV-bake acceptance/rejection and repeated-bake/integration review; exact retained controls and input snapshots."
+    },
+    {
+      "path": "reports/p1-018/research/uv-bake-review-01/cases/excessive-uv-bound/result.json",
+      "sha256": "ae2eac8315b9a469b955a9ae66852cee231b665668b60b5f9da568c450e95ceb",
+      "bytes": 909,
+      "reason": "Independent strict UV-bake acceptance/rejection and repeated-bake/integration review; exact retained controls and input snapshots."
+    },
+    {
+      "path": "reports/p1-018/research/uv-bake-review-01/cases/invalid-accessor-count/result.json",
+      "sha256": "bf67e512a9a69f456299021734cb2f21b8681634396ea4a91e45278f4ad0ba3f",
+      "bytes": 863,
+      "reason": "Independent strict UV-bake acceptance/rejection and repeated-bake/integration review; exact retained controls and input snapshots."
+    },
+    {
+      "path": "reports/p1-018/research/uv-bake-review-01/cases/nan-uv/result.json",
+      "sha256": "d0f89bf880120dd39fdb61bbcd5d617ab24c20108e14f5ede8fcbf713bfb3d2d",
+      "bytes": 850,
+      "reason": "Independent strict UV-bake acceptance/rejection and repeated-bake/integration review; exact retained controls and input snapshots."
+    },
+    {
+      "path": "reports/p1-018/research/uv-bake-review-01/cases/negative-infinity-uv/result.json",
+      "sha256": "5858b45f6613f39e5a9f1531c026bcc3c3aab4a46c7c2e71320d9f49733fbb9b",
+      "bytes": 878,
+      "reason": "Independent strict UV-bake acceptance/rejection and repeated-bake/integration review; exact retained controls and input snapshots."
+    },
+    {
+      "path": "reports/p1-018/research/uv-bake-review-01/cases/non-uv-image-byte/result.json",
+      "sha256": "2271e61abe5caf010e2573ba5a79d5dc0a5528df26174dadfb41e529ed51c36f",
+      "bytes": 887,
+      "reason": "Independent strict UV-bake acceptance/rejection and repeated-bake/integration review; exact retained controls and input snapshots."
+    },
+    {
+      "path": "reports/p1-018/research/uv-bake-review-01/cases/non-uv-json-copyright/result.json",
+      "sha256": "61ea96f8b2a4b1235cf2cf56a0545ea5d921c7c2404adf740095772202bc02a3",
+      "bytes": 853,
+      "reason": "Independent strict UV-bake acceptance/rejection and repeated-bake/integration review; exact retained controls and input snapshots."
+    },
+    {
+      "path": "reports/p1-018/research/uv-bake-review-01/cases/non-uv-position-byte/result.json",
+      "sha256": "7371c4298e4329b3551ed8d958d86b732b82307fc7729a57183c8d2515f8c7e6",
+      "bytes": 892,
+      "reason": "Independent strict UV-bake acceptance/rejection and repeated-bake/integration review; exact retained controls and input snapshots."
+    },
+    {
+      "path": "reports/p1-018/research/uv-bake-review-01/cases/nonfinite-bake-payload/result.json",
+      "sha256": "c530adff88899229eea884fca61b00b6d71b649624e0a1c2d6670fa04d0e9755",
+      "bytes": 842,
+      "reason": "Independent strict UV-bake acceptance/rejection and repeated-bake/integration review; exact retained controls and input snapshots."
+    },
+    {
+      "path": "reports/p1-018/research/uv-bake-review-01/cases/positive-infinity-uv/result.json",
+      "sha256": "2026809304217013bc9570f8605fa21e5732e7964242ba22a82e196b70222d16",
+      "bytes": 878,
+      "reason": "Independent strict UV-bake acceptance/rejection and repeated-bake/integration review; exact retained controls and input snapshots."
+    },
+    {
+      "path": "reports/p1-018/research/uv-bake-review-01/cases/rehashed-payload-wrong-reference/result.json",
+      "sha256": "c646b5c75a28aad51eed27e05b6dce4fd1ea1ae676424dad939504a5656ff8e1",
+      "bytes": 903,
+      "reason": "Independent strict UV-bake acceptance/rejection and repeated-bake/integration review; exact retained controls and input snapshots."
+    },
+    {
+      "path": "reports/p1-018/research/uv-bake-review-01/cases/relaxed-bake-tolerance/result.json",
+      "sha256": "41a0cc17de2dd8085447d8c7f46ccc47db80f44b28a5d5c8f1095bc7719a4426",
+      "bytes": 839,
+      "reason": "Independent strict UV-bake acceptance/rejection and repeated-bake/integration review; exact retained controls and input snapshots."
+    },
+    {
+      "path": "reports/p1-018/research/uv-bake-review-01/cases/reviewed-reference/result.json",
+      "sha256": "c83d12a5ab0bde4123440b5c8836b0e68cb77bfc0ab9f3d48d4cfa4a3e8d6dd6",
+      "bytes": 1478,
+      "reason": "Independent strict UV-bake acceptance/rejection and repeated-bake/integration review; exact retained controls and input snapshots."
+    },
+    {
+      "path": "reports/p1-018/research/uv-bake-review-01/cases/single-thread-first/result.json",
+      "sha256": "18b5e5c0e0fad5a16283b5a6128636bc071ae9403e9751be99f751dadea1431f",
+      "bytes": 1523,
+      "reason": "Independent strict UV-bake acceptance/rejection and repeated-bake/integration review; exact retained controls and input snapshots."
+    },
+    {
+      "path": "reports/p1-018/research/uv-bake-review-01/cases/single-thread-second/result.json",
+      "sha256": "23352c72ce15047a417f539f78ea675bb30bb2dd1ddb0e0b7110d5453aa6f3a2",
+      "bytes": 1526,
+      "reason": "Independent strict UV-bake acceptance/rejection and repeated-bake/integration review; exact retained controls and input snapshots."
+    },
+    {
+      "path": "reports/p1-018/research/uv-bake-review-01/cases/source-byte-changed/result.json",
+      "sha256": "3086d7050012fa7b918bf8fa2c1fcf75be45fb495aee5f51ffb052e88c9a2a6c",
+      "bytes": 845,
+      "reason": "Independent strict UV-bake acceptance/rejection and repeated-bake/integration review; exact retained controls and input snapshots."
+    },
+    {
+      "path": "reports/p1-018/research/uv-bake-review-01/cases/uv-used-as-position/result.json",
+      "sha256": "afd036d0a3143bb4c75dfe2d6e7ac8a440211b1df25217ca4a9ab14342cb6d38",
+      "bytes": 840,
+      "reason": "Independent strict UV-bake acceptance/rejection and repeated-bake/integration review; exact retained controls and input snapshots."
+    },
+    {
+      "path": "reports/p1-018/research/uv-bake-review-01/cases/within-uv-bound/result.json",
+      "sha256": "1df128a76b949b287081071b3535b69aa63d70ff224290993736efb5c2754d6d",
+      "bytes": 1514,
+      "reason": "Independent strict UV-bake acceptance/rejection and repeated-bake/integration review; exact retained controls and input snapshots."
+    },
+    {
+      "path": "reports/p1-018/research/uv-bake-review-01/evidence-01.json",
+      "sha256": "07e4287b557e7cc0fa3ef7df42bb6cad2e962b8e6d9fd839907b0a2243dc6250",
+      "bytes": 28697,
+      "reason": "Independent strict UV-bake acceptance/rejection and repeated-bake/integration review; exact retained controls and input snapshots."
+    },
+    {
+      "path": "reports/p1-018/research/uv-bake-review-01/integration-01/inputs.json",
+      "sha256": "e10db333c6b7c685d1930db7c5dd7ca8df264b7c340bbff0648fb21b3ff56567",
+      "bytes": 4022,
+      "reason": "Independent strict UV-bake acceptance/rejection and repeated-bake/integration review; exact retained controls and input snapshots."
+    },
+    {
+      "path": "reports/p1-018/research/uv-bake-review-01/integration-01/inputs/tools/assets/profiles/gltf2-endurance-sedan-v1.json",
+      "sha256": "53b1962ffd19b0c30c44f0d09a815670bad44896f30108293aee056c17402c88",
+      "bytes": 1370,
+      "reason": "Independent strict UV-bake acceptance/rejection and repeated-bake/integration review; exact retained controls and input snapshots."
+    },
+    {
+      "path": "reports/p1-018/research/uv-bake-review-01/integration-01/inputs/tools/vehicles/generate_manifest.mjs",
+      "sha256": "29bf87b979a9f052b00385282e12961f1bb71a3cd8d06a85084a07317e5afc60",
+      "bytes": 14380,
+      "reason": "Independent strict UV-bake acceptance/rejection and repeated-bake/integration review; exact retained controls and input snapshots."
+    },
+    {
+      "path": "reports/p1-018/research/uv-bake-review-01/integration-01/review.json",
+      "sha256": "6949f4c2cc951326ad138b9a33086dc4d6c179eb8b7e5c040462b0012f0875af",
+      "bytes": 10971,
+      "reason": "Independent strict UV-bake acceptance/rejection and repeated-bake/integration review; exact retained controls and input snapshots."
+    },
+    {
+      "path": "reports/p1-018/research/uv-bake-review-01/probe_bake.py",
+      "sha256": "e73d3a7ccf08fcdc4648928d43e0ad6e7e2277bc93d0e780856b77b88133f9a2",
+      "bytes": 11014,
+      "reason": "Independent strict UV-bake acceptance/rejection and repeated-bake/integration review; exact retained controls and input snapshots."
+    },
+    {
+      "path": "reports/p1-018/research/uv-reproducibility-33-01/candidate-pair-01.json",
+      "sha256": "53f6fd0ed7a0dd180f48d30d951e8b05321220e2b131c6cf31a7c3be33cb9900",
+      "bytes": 566130,
+      "reason": "Actual repeated-export UV drift, failed single-thread/quantization trials and exact five-container comparison."
+    },
+    {
+      "path": "reports/p1-018/research/uv-reproducibility-33-01/compare_exports.py",
+      "sha256": "79e39fe7f13894fa3393597f90e51331cb4289359c1a1d1db278f1e014ab91bf",
+      "bytes": 12910,
+      "reason": "Actual repeated-export UV drift, failed single-thread/quantization trials and exact five-container comparison."
+    },
+    {
+      "path": "reports/p1-018/research/uv-reproducibility-33-01/comparison-01.json",
+      "sha256": "793ac0b9a25bb2dd10febeae280bc478238d430e3171b82dd8bd742e58988446",
+      "bytes": 129025,
+      "reason": "Actual repeated-export UV drift, failed single-thread/quantization trials and exact five-container comparison."
+    },
+    {
+      "path": "reports/p1-018/research/uv-reproducibility-33-01/quantization-01.json",
+      "sha256": "dfdb4d94909404f55290be119469ae01746281176c2b10b79331886fb59eaff7",
+      "bytes": 3325545,
+      "reason": "Actual repeated-export UV drift, failed single-thread/quantization trials and exact five-container comparison."
+    },
+    {
+      "path": "reports/p1-018/research/uv-reproducibility-33-01/uv-envelope-01.json",
+      "sha256": "82d3d4898e20a293ae0346a2bafee0e21be72ff4982d3ab5bb32022eb049af0e",
+      "bytes": 1209227,
+      "reason": "Actual repeated-export UV drift, failed single-thread/quantization trials and exact five-container comparison."
+    },
+    {
+      "path": "reports/p1-018/source33-full-motion-suite-01/interior-worklight/000210.png",
+      "sha256": "70a0dd018005df92e5e05597497383592d13141bb3887b4df49774e9cd891e18",
+      "bytes": 3460146,
+      "reason": "Actual historical source33 rear-cabin obstruction frame; camera correction did not substitute for the independently corrected belt defect."
+    },
+    {
+      "path": "reports/p1-018/source34-full-capture-suite-01/neutral-cabin/cockpit.png",
+      "sha256": "7584584e8b143074b942711c3876d886b0eae12488b19b5fcbfafbbd4c88a243",
+      "bytes": 3340476,
+      "reason": "Actual independently viewed source34 front/rear/profile/cockpit image supporting original-design comparison."
+    },
+    {
+      "path": "reports/p1-018/source34-full-capture-suite-01/neutral-cabin/manifest.json",
+      "sha256": "76e862f50e280ef743326d3049384b3eda061d049e79248b4ebccebbbc7ff6f9",
+      "bytes": 6576,
+      "reason": "Exact actual source34 view settings/frame hashes; the enclosing capture suite is still separately owned."
+    },
+    {
+      "path": "reports/p1-018/source34-full-capture-suite-01/neutral-exterior/front.png",
+      "sha256": "a97e147e71e81f584dceda451c37f7ba1dc4df7a26cf9f8d3cbe1838a17599b0",
+      "bytes": 2611683,
+      "reason": "Actual independently viewed source34 front/rear/profile/cockpit image supporting original-design comparison."
+    },
+    {
+      "path": "reports/p1-018/source34-full-capture-suite-01/neutral-exterior/left.png",
+      "sha256": "48cf1a8617498d87be30dc5c32de6b708f56b338e2c4526bb5e0a2ae05c96ff6",
+      "bytes": 2630405,
+      "reason": "Actual independently viewed source34 front/rear/profile/cockpit image supporting original-design comparison."
+    },
+    {
+      "path": "reports/p1-018/source34-full-capture-suite-01/neutral-exterior/manifest.json",
+      "sha256": "f22838ffaf9a90220287454ae282b810137f2cfcd4336f74c96d0abff0b3ca6e",
+      "bytes": 7011,
+      "reason": "Exact actual source34 view settings/frame hashes; the enclosing capture suite is still separately owned."
+    },
+    {
+      "path": "reports/p1-018/source34-full-capture-suite-01/neutral-exterior/rear.png",
+      "sha256": "df43ad4c8fe74f7da87d49b0d857c2890839c3a5b6c2565794c821795d0cb0fc",
+      "bytes": 2339116,
+      "reason": "Actual independently viewed source34 front/rear/profile/cockpit image supporting original-design comparison."
+    },
+    {
+      "path": "reports/p1-018/source34-restraints-stills-01/front_belt_left.png",
+      "sha256": "dc9b0da7db4b31a4771c4956670fdfc598e53cef679229b236305f4e9677313d",
+      "bytes": 3610924,
+      "reason": "Actual independently viewed native source34 repaired restraint image; generated project geometry, no external reference raster."
+    },
+    {
+      "path": "reports/p1-018/source34-restraints-stills-01/manifest.json",
+      "sha256": "1cffa36bc4ac70b88d2b3ce65e3d91ecb1081331d65171f6e620d7b08f79c6de",
+      "bytes": 3319,
+      "reason": "Actual source34 two-view restraint render configuration and frame hashes."
+    },
+    {
+      "path": "reports/p1-018/source34-restraints-stills-01/rear_seats.png",
+      "sha256": "1f932b0bc062233f2c3773fdfd8159888ed8ccd610b1323cf5aa8b54bb2b0810",
+      "bytes": 3556214,
+      "reason": "Actual independently viewed native source34 repaired restraint image; generated project geometry, no external reference raster."
+    }
+  ],
+  "archives": [
+    {
+      "path": "data/assets/vehicles/endurance-sedan-review/evidence/research-supplement-v5.zip",
+      "sha256": "1137b881499078725066a2bf2a578405ad317013d31fa9da5dbcbea12ee48f77",
+      "bytes": 24946431,
+      "crc_and_member_sha256_verified": true
+    },
+    {
+      "path": "reports/p1-018/research-supplement-v5-repeat.zip",
+      "sha256": "1137b881499078725066a2bf2a578405ad317013d31fa9da5dbcbea12ee48f77",
+      "bytes": 24946431,
+      "crc_and_member_sha256_verified": true
+    }
+  ],
+  "human_approval_reference": null,
+  "limits": "Evidence retention and byte identity only; individual reports retain their own scope, failures and approval status.",
+  "byte_reproducible": true,
+  "finished_utc": "2026-09-11T20:26:55.646970+00:00"
+}

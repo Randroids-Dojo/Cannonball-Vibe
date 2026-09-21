@@ -1,0 +1,78 @@
+name: P1-018 optical12 managed diagnostic
+
+on:
+  pull_request:
+    paths:
+      - .github/workflows/p1-018-optical-diagnostic.yml
+      - tools/vehicles/diagnostics/p1-018-optical12.zip
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  managed-optical:
+    name: Optical12 managed helper (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+    env:
+      DOTNET_ROLL_FORWARD: Major
+      DOTNET_CLI_TELEMETRY_OPTOUT: "1"
+      PYTHONDONTWRITEBYTECODE: "1"
+    steps:
+      - name: Check out the exact dispatched diagnostic recipe
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+        with:
+          ref: ${{ github.sha }}
+          sparse-checkout: tools/vehicles/diagnostics/p1-018-optical12.zip
+          sparse-checkout-cone-mode: false
+          lfs: false
+          persist-credentials: false
+      - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1
+        with:
+          dotnet-version: |
+            8.0.x
+            10.0.102
+      - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990
+        with:
+          version: "0.9.24"
+          python-version: "3.13.11"
+          enable-cache: true
+      - name: Build and validate the immutable managed-only recipe
+        shell: bash
+        run: |
+          uv run --no-project --python 3.13.11 python - <<'PY'
+          import hashlib, io, pathlib, subprocess, sys, zipfile
+          payload = pathlib.Path("tools/vehicles/diagnostics/p1-018-optical12.zip").read_bytes()
+          assert hashlib.sha256(payload).hexdigest() == "cc6f3bac60176aade8680bed426595acd87d1e2b30150d1043f069a74f8bb162"
+          destination = pathlib.Path("reports/optical12-recipe")
+          destination.mkdir(parents=True, exist_ok=False)
+          with zipfile.ZipFile(io.BytesIO(payload)) as bundle:
+              assert len(bundle.infolist()) == len(set(bundle.namelist())) == 123
+              assert bundle.testzip() is None
+              for member in bundle.infolist():
+                  name = pathlib.PurePosixPath(member.filename)
+                  assert not name.is_absolute() and ".." not in name.parts
+                  assert "\\" not in member.filename and ":" not in member.filename
+                  assert 0 < member.file_size < 32_000_000
+                  assert (member.external_attr >> 16) & 0o170000 != 0o120000
+              bundle.extractall(destination)
+          raise SystemExit(subprocess.call([sys.executable, "-B", str(destination / "remote_run12.py"),
+              "--package", str(destination), "--output", "reports/optical12-output", "--execute-managed"]))
+          PY
+      - name: Retain actual hosted platform, outputs and failures
+        if: ${{ always() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: optical12-managed-${{ runner.os }}-${{ github.run_attempt }}
+          path: |
+            reports/optical12-output/
+            reports/optical12-recipe/manifest.json
+            reports/optical12-recipe/project/.godot/mono/temp/bin/Debug/Cannonball*.dll
+            reports/optical12-recipe/project/.godot/mono/temp/bin/Debug/GodotSharp.dll
+          if-no-files-found: error
+          retention-days: 14

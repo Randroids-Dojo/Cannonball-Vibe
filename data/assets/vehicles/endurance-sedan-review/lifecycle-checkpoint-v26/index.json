@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "task_id": "P1-018",
+  "status": "retained-lifecycle-checkpoint",
+  "utc": "2026-09-12T17:40:58.806240+00:00",
+  "archives": [
+    {
+      "path": "reports/p1-018/lifecycle26-retention01/lifecycle-checkpoint-v26.zip",
+      "sha256": "8d59a307e58f5e988f2d476e73bec4f87c8e9448c5b2d1370dec1f2e8d527af3",
+      "bytes": 54707049
+    },
+    {
+      "path": "reports/p1-018/lifecycle26-retention01/lifecycle-checkpoint-v26-repeat.zip",
+      "sha256": "8d59a307e58f5e988f2d476e73bec4f87c8e9448c5b2d1370dec1f2e8d527af3",
+      "bytes": 54707049
+    }
+  ],
+  "manifest": {
+    "path": "reports/p1-018/lifecycle26-retention01/manifest.json",
+    "sha256": "e198930cc6d78133af829cb0edbe49d6b62f007513f6b9ca4b4b85fd572977ef",
+    "bytes": 614990
+  },
+  "member_inventory": {
+    "path": "reports/p1-018/lifecycle26-retention01/members01.json",
+    "sha256": "05ec91167fd456c62cee9471cfc6b0ab63d5bf9f0b0d9e4e72a9bb3bcaee0e76",
+    "bytes": 257948
+  },
+  "input_count": 893,
+  "input_bytes": 64631008,
+  "archive_member_count": 894,
+  "manifest_stored_as_additional_member": true,
+  "two_archives_byte_identical": true,
+  "every_member_sha256_and_crc_verified_twice": true,
+  "all_included_inputs_unchanged_after_both_builds": true,
+  "omitted_count": 355,
+  "omitted_bytes": 481848174,
+  "original_api_archives_verified": 5,
+  "recipe_exit_status": 0,
+  "human_approval_reference": null,
+  "scope": "Retention reproducibility only; no new native/runtime/asset acceptance"
+}

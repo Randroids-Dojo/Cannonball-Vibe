@@ -1,0 +1,11 @@
+{
+  "task_id": "P1-018",
+  "status": "verified",
+  "utc": "2026-09-12T17:41:06.216475+00:00",
+  "index_sha256": "200bb514c451f65b0630b90b66573167869448f4085e8441d0617c07bb6176de",
+  "archive_members_checked_per_archive": 894,
+  "two_archives_byte_identical": true,
+  "payload_hashes_crc_and_source_rechecks_pass": true,
+  "omission_and_external_binding_hashes_rechecked": true,
+  "exit_status": 0
+}

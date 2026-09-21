@@ -1,0 +1,1792 @@
+{
+  "task_id": "P1-018",
+  "milestone": "M5",
+  "utc": "2026-09-12T15:06:16.660297+00:00",
+  "git_base_revision": "a159ba1de94820bc41d50c1cf925c697ce3431b2",
+  "working_inputs": "Windows M0 tested the recorded base plus twelve hash-bound working files: the three F5 test paths and nine source-QA paths. It did not test a clean committed revision.",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.14.6 (tags/v3.14.6:c63aec6, Jun 10 2026, 10:26:10) [MSC v.1944 64 bit (AMD64)]",
+  "zlib": "1.3.1.zlib-ng",
+  "scope": "F5 test-observation correction and Windows verification only. Original Mac failure retained; new-head Mac rerun and shutdown diagnosis pending. No new asset, final source QA, export, performance or human approval claim.",
+  "windows_frontdoor": {
+    "status": "passed",
+    "steps": 13,
+    "started_at": "2026-09-12T14:32:07Z",
+    "finished_at": "2026-09-12T14:36:30Z"
+  },
+  "input_files": [
+    {
+      "path": "automation/playgodot/tests/test_endurance_sedan.py",
+      "sha256": "90aac46d024e33f814fbc6c489bbcfeea0dc950fb28d17fde05e94e0db67cae6",
+      "bytes": 17334
+    },
+    {
+      "path": "automation/playgodot/tests/test_save_clock_state.py",
+      "sha256": "c3eb49d71adee6854ace2bf4616f96501f23366e513375673b60b22e5ca4af33",
+      "bytes": 7963
+    },
+    {
+      "path": "docs/audits/2026-09-12-sedan-save-clock-observation.md",
+      "sha256": "9468a059086147f9400ef78578bb3741534fdbb27b470c7c7b0abfeca1b3fdcc",
+      "bytes": 2913
+    },
+    {
+      "path": "reports/p1-018/commands/20260912T143207.127015Z-qa26-save-clock-working-frontdoor.json",
+      "sha256": "d5c1d0d98ae0951065923634849956f7f7f9679572792a1f75c808b855db648b",
+      "bytes": 1633
+    },
+    {
+      "path": "reports/p1-018/commands/20260912T143207.127015Z-qa26-save-clock-working-frontdoor.log",
+      "sha256": "a13b551131cb2d6c68d7e81f658a89b93a4fa7f22d42bc751a24c3358e2167da",
+      "bytes": 12357
+    },
+    {
+      "path": "reports/p1-018/environment35-doctor01/check.sh",
+      "sha256": "4968b6adb8d99465eef7197950ce45e58c1938f96bb473ea38b8b28218e4ca53",
+      "bytes": 319
+    },
+    {
+      "path": "reports/p1-018/qa26-frontdoor01/evidence.json",
+      "sha256": "81f679ac63719613500887beaf2f038269c79c542f04e0ac6879a0cb936066bd",
+      "bytes": 4900
+    },
+    {
+      "path": "reports/p1-018/qa26-frontdoor01/m0/doctor.json",
+      "sha256": "33cb1935e7bc974bbc4cc89452ab1f85a6648768cd2301f08b7df88be56e1dca",
+      "bytes": 545
+    },
+    {
+      "path": "reports/p1-018/qa26-frontdoor01/m0/dotnet/core-tests.trx",
+      "sha256": "390d3a3f9b3e938362d570664b07ae5d70d24e8401eea957d915659f434f727d",
+      "bytes": 220844
+    },
+    {
+      "path": "reports/p1-018/qa26-frontdoor01/m0/godot/godot.log",
+      "sha256": "84714bd6ffd637577f7dfb2ea46ad447cb1d6131797e9cc986da5802272febf9",
+      "bytes": 691
+    },
+    {
+      "path": "reports/p1-018/qa26-frontdoor01/m0/godot/managed-shutdown/runtime.log",
+      "sha256": "0e80a67579f8d0703578c343126f8c5d9675dabce48ebbaabc172d7484149d42",
+      "bytes": 1481
+    },
+    {
+      "path": "reports/p1-018/qa26-frontdoor01/m0/godot/managed-shutdown/summary.json",
+      "sha256": "55933dcb7b4257e25e7f5a23cf1aa9e528e4a2cb33e1c1c3ee825a0d5d2e32c1",
+      "bytes": 305
+    },
+    {
+      "path": "reports/p1-018/qa26-frontdoor01/m0/godot/scenario.json",
+      "sha256": "86937fdd43e64f22acd081f4aed63e11cb7647936f54f9ea4e31a1831dc808c0",
+      "bytes": 189
+    },
+    {
+      "path": "reports/p1-018/qa26-frontdoor01/m0/godot/starter-speed.json",
+      "sha256": "c8e3421279e5fe1db38a3dae8655a734f3849b30142450d7c0bd32293b0b5977",
+      "bytes": 6038
+    },
+    {
+      "path": "reports/p1-018/qa26-frontdoor01/m0/logs/camera-interpolation.log",
+      "sha256": "412aedfb7cb14257d14f1517bb64d016ca6bb134d8f092d05fde73d0e7889291",
+      "bytes": 233
+    },
+    {
+      "path": "reports/p1-018/qa26-frontdoor01/m0/logs/continental-route.log",
+      "sha256": "b6d849612dc6360b7410bda3ba3ceac7646512c09d2fdbb875b38b2eaf709c70",
+      "bytes": 2213
+    },
+    {
+      "path": "reports/p1-018/qa26-frontdoor01/m0/logs/doctor.log",
+      "sha256": "c5acd49756f8fb5c71172ee8d1a029d31c7e5ca175a590b7c31dc6aeb8592ab7",
+      "bytes": 385
+    },
+    {
+      "path": "reports/p1-018/qa26-frontdoor01/m0/logs/dotnet-build.log",
+      "sha256": "b275b5c01dc2b7615132d1c7229e978d767bfeb160b4d346711ace7b73c3510b",
+      "bytes": 488
+    },
+    {
+      "path": "reports/p1-018/qa26-frontdoor01/m0/logs/dotnet-test.log",
+      "sha256": "cf28f2488af4d2a36066d23ce5d1aca73d5eac95b62f8906c427bd7ea59c629e",
+      "bytes": 402
+    },
+    {
+      "path": "reports/p1-018/qa26-frontdoor01/m0/logs/frame-allocations.log",
+      "sha256": "1fb668e8dfc00678638d88cf9241472749abefb243ea12151ce5669b6f8fa859",
+      "bytes": 56
+    },
+    {
+      "path": "reports/p1-018/qa26-frontdoor01/m0/logs/godot-smoke.log",
+      "sha256": "0d5969d7d938602555285660ee1ea0e213f875c83ea42de62d331360e75adeff",
+      "bytes": 1351
+    },
+    {
+      "path": "reports/p1-018/qa26-frontdoor01/m0/logs/managed-shutdown.log",
+      "sha256": "13675b93ae43cefb9652d44342f36750518a714a7870632b0b84647ae27df8aa",
+      "bytes": 1759
+    },
+    {
+      "path": "reports/p1-018/qa26-frontdoor01/m0/logs/pytest-map-pipeline.log",
+      "sha256": "d894670fb91d49b0acc75956d537c01aa7fc468f7ad90a9213c96578e3afc296",
+      "bytes": 449
+    },
+    {
+      "path": "reports/p1-018/qa26-frontdoor01/m0/logs/pytest-playgodot-unit.log",
+      "sha256": "63e51c326a5d6b9260bb54abe01a975c6c7bd472b52a85b2000ec1df7eb979d3",
+      "bytes": 183
+    },
+    {
+      "path": "reports/p1-018/qa26-frontdoor01/m0/logs/release-smoke-unit.log",
+      "sha256": "1a382713a6f24518fb50e5bbc657247c234984de36be9828e5478d618e800e60",
+      "bytes": 438
+    },
+    {
+      "path": "reports/p1-018/qa26-frontdoor01/m0/logs/ruff.log",
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "bytes": 19
+    },
+    {
+      "path": "reports/p1-018/qa26-frontdoor01/m0/logs/starter-speed.log",
+      "sha256": "96acac6d06166f4aaf47ed87d1a0ba002479c497f58744ab85bb307942b53c6e",
+      "bytes": 4018
+    },
+    {
+      "path": "reports/p1-018/qa26-frontdoor01/m0/python/junit.xml",
+      "sha256": "e1cb83580e376c19c51b20c25233b3ab3e661a6ef8d9f055978c1559d33a590b",
+      "bytes": 45255
+    },
+    {
+      "path": "reports/p1-018/qa26-frontdoor01/m0/python/playgodot-unit.xml",
+      "sha256": "16e91bd4d225b1e98a366aeb6bed9663d3175f78a12ad2f2d257249f8d3e3300",
+      "bytes": 20194
+    },
+    {
+      "path": "reports/p1-018/qa26-frontdoor01/m0/summary.json",
+      "sha256": "ccffd2ab86bc84a94c974ac589b24cc7329464200b75fa58462beccec343397c",
+      "bytes": 1482
+    },
+    {
+      "path": "reports/p1-018/qa26-frontdoor01/working-inputs/automation/playgodot/tests/test_endurance_sedan.py",
+      "sha256": "90aac46d024e33f814fbc6c489bbcfeea0dc950fb28d17fde05e94e0db67cae6",
+      "bytes": 17334
+    },
+    {
+      "path": "reports/p1-018/qa26-frontdoor01/working-inputs/automation/playgodot/tests/test_save_clock_state.py",
+      "sha256": "c3eb49d71adee6854ace2bf4616f96501f23366e513375673b60b22e5ca4af33",
+      "bytes": 7963
+    },
+    {
+      "path": "reports/p1-018/qa26-frontdoor01/working-inputs/scripts/check.sh",
+      "sha256": "46cea9921f445b264d88278d9f7789a98c367b219a84a5299a6b348f18125e33",
+      "bytes": 4117
+    },
+    {
+      "path": "reports/p1-018/qa26-frontdoor01/working-inputs/tools/vehicles/endurance_sedan/qa/gate.py",
+      "sha256": "4198dda0a08271832c95b7c96f11d1c51eeb6d641bee5f23780939d8bdd7b934",
+      "bytes": 25062
+    },
+    {
+      "path": "reports/p1-018/qa26-frontdoor01/working-inputs/tools/vehicles/endurance_sedan/qa/run.py",
+      "sha256": "5157f62e8d36fee350431ecbea52306cd43ec060b30ad1da0b01fab1f0668aeb",
+      "bytes": 17220
+    },
+    {
+      "path": "reports/p1-018/qa26-frontdoor01/working-inputs/tools/vehicles/endurance_sedan/qa/seat_finish_interfaces.py",
+      "sha256": "eb818616820d7255d472bba806b91d7cbf983c95e934166469b23e7775969bad",
+      "bytes": 17555
+    },
+    {
+      "path": "reports/p1-018/qa26-frontdoor01/working-inputs/tools/vehicles/endurance_sedan/qa/seat_finish_report.py",
+      "sha256": "cf05129715fc563694416df3262e168896f01a4308222f016b0954418d3a38e7",
+      "bytes": 20123
+    },
+    {
+      "path": "reports/p1-018/qa26-frontdoor01/working-inputs/tools/vehicles/endurance_sedan/qa/seat_finite_geometry.py",
+      "sha256": "c3ec561725bdfcb0b2aea378155cbf32ebf2fef134ad50125350c6610be476f7",
+      "bytes": 17057
+    },
+    {
+      "path": "reports/p1-018/qa26-frontdoor01/working-inputs/tools/vehicles/endurance_sedan/qa/shoulder_check.py",
+      "sha256": "5d3c1259319673108b6bda83dd1227ad49311b4b52a2b1c148bd9739258f1464",
+      "bytes": 6996
+    },
+    {
+      "path": "reports/p1-018/qa26-frontdoor01/working-inputs/tools/vehicles/endurance_sedan/qa/shoulder_checkpoint.py",
+      "sha256": "ae67889778b6b4106d201d45e0ca7825fa0eec6f2317572874c487dea656c092",
+      "bytes": 6049
+    },
+    {
+      "path": "reports/p1-018/qa26-frontdoor01/working-inputs/tools/vehicles/endurance_sedan/qa/shoulder_report.py",
+      "sha256": "98e71b802a100d88af8a945e771825d31fde19cc9b1888611a6c86b9a9d045aa",
+      "bytes": 22423
+    },
+    {
+      "path": "reports/p1-018/qa26-frontdoor01/working-inputs/tools/vehicles/endurance_sedan/qa/static_interfaces.py",
+      "sha256": "6d0af77239e30e6f68d840312fec5ad583e01826408a85db11cdd0c8fad1ffb0",
+      "bytes": 14458
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/HANDOFF01.md",
+      "sha256": "b44adf1f1693ff4efce91252c73f3cbc8a89b54299163888b7b7fada845c5d67",
+      "bytes": 3618
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/before/AGENTS.md",
+      "sha256": "419d40ff360ea02e064b6b4513dfa923d339fa1fbbe09ecd884d4e44829fae29",
+      "bytes": 10626
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/before/addons/playgodot/server.gd",
+      "sha256": "ba7e18f5472e3103aeb7f2a1cf7991c4e92e43242f67e3797627b13f5a2ae90c",
+      "bytes": 37078
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/before/automation/playgodot/pyproject.toml",
+      "sha256": "5c5ebac8693ed76ec6a05df5d2eee47b9068ca5cb71c891df3a06c7b8116987f",
+      "bytes": 719
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/before/automation/playgodot/src/cannonball_playgodot/launcher.py",
+      "sha256": "9b534d3c07aee06ed9a38442639e2e93e2f0bff9732666f8e4ec8d707063af2e",
+      "bytes": 16264
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/before/automation/playgodot/tests/input_support.py",
+      "sha256": "85a20d436bcf89fe5260c6c3407e133193c94d4afb689ea49bc3a6a91bf2bf51",
+      "bytes": 2745
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/before/automation/playgodot/tests/test_endurance_sedan.py",
+      "sha256": "a37b9aad637b11a8f28cbf76eaf37137c92af99355170df1f21b759659260255",
+      "bytes": 16626
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/before/automation/playgodot/uv.lock",
+      "sha256": "561af7a80a75620f3a55871add7541df1c2bf210b22275ac0a6803c6862e61da",
+      "bytes": 28971
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/before/docs/DELIVERY_LEDGER.json",
+      "sha256": "6fd5b79731dfc53c2898b504b06b1978e6f087c2bd3b3a2c7ff838f625f86f61",
+      "bytes": 254583
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/before/docs/vehicles/endurance-sedan/refinement-review-v26.md",
+      "sha256": "805f4beaf46f6e07de8e3f20a5710b36cfe145d877a59c05abe5a25832e0fc5e",
+      "bytes": 7782
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/before/export_presets.cfg",
+      "sha256": "aa145597353db7da7b0df884a610102806abde9442da178423a77dea03840f71",
+      "bytes": 3546
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/before/game/Main.cs",
+      "sha256": "6ea88a91117aa3446a7449122e6f3b94baf6d91178b038ff2f1bbd66e13d6d8d",
+      "bytes": 170941
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/before/project.godot",
+      "sha256": "40196e5f18be822adde0ae30ca07a456cb15391ceeb52fb81356985455c2dc71",
+      "bytes": 2225
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/before/scripts/check.sh",
+      "sha256": "793be6b1c2a0fea3dd93b8bcec0e18b149217d54cae6e206c9d5962d85c4543f",
+      "bytes": 4061
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/build01/command.json",
+      "sha256": "834145fd07e96ec76de03142d07366a10b3ad12fe6ffcc9e22f4e78c83dde4b0",
+      "bytes": 1349
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/build01/stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/build01/stdout.log",
+      "sha256": "a8b037a93e8e9c0b7d8fc3e61ad053c6c99e70e54cd450ffefa32f97420a8aac",
+      "bytes": 488
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/candidate01/automation/playgodot/tests/test_endurance_sedan.py",
+      "sha256": "90aac46d024e33f814fbc6c489bbcfeea0dc950fb28d17fde05e94e0db67cae6",
+      "bytes": 17334
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/candidate01/automation/playgodot/tests/test_save_clock_state.py",
+      "sha256": "c3eb49d71adee6854ace2bf4616f96501f23366e513375673b60b22e5ca4af33",
+      "bytes": 7963
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/candidate01/scripts/check.sh",
+      "sha256": "46cea9921f445b264d88278d9f7789a98c367b219a84a5299a6b348f18125e33",
+      "bytes": 4117
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/check-inputs01.json",
+      "sha256": "6b3fc3c08b7aa00d672b93e9adaf3af7693d176cab3e885a19d1db0306d5c5a5",
+      "bytes": 116814
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/finalize01.py",
+      "sha256": "5b80b73b1683387241ad0b22f2c74a0035b1ec01e137cb821f79ce6cfa13f79a",
+      "bytes": 9339
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/host01.sh",
+      "sha256": "84c0855e0c14949118a213ad4181766d5493ba39d10d56e3b9cc2b4fd7ef7042",
+      "bytes": 801
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/host01/command.json",
+      "sha256": "15561120e264b1884ea9cb80b01d85f0e523ec9a1baed9906bd6a6eaa6d22b6e",
+      "bytes": 1591
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/host01/junit.xml",
+      "sha256": "37a4053a2b418ef732b070c3534bbecbd0579e0419f521f671a81db25bb9a8b1",
+      "bytes": 20194
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/host01/stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/host01/stdout.log",
+      "sha256": "c0aba04ee9fccf33c5a307e7cfecf5fb8e73199b10c5ebd5ef6f7cc047e8a372",
+      "bytes": 235
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/import01/command.json",
+      "sha256": "3920480e58d5ba49abb4adadd445dbaad7987d3fc162167a67e4fa646d0af977",
+      "bytes": 1745
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/import01/stderr.log",
+      "sha256": "dd5972081be4efbb87ec80208fe881df384a168904fc4c7c81547f2167141d59",
+      "bytes": 82
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/import01/stdout.log",
+      "sha256": "16d15b5a73d4997c8466f00f149a826cbe3ea9c8065b8a8523b0a1db7dc895d2",
+      "bytes": 1038
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/integration01.patch",
+      "sha256": "cd8420b419a38e1f0ede89613402b2eac2d2b51df1f05728adb030a12751e2f8",
+      "bytes": 10969
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/inventory01.json",
+      "sha256": "3c6ffc3525107bb58fdcdabfd2af9bad2faca13b6d496a0cc1f9c5a73c49343f",
+      "bytes": 9773
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/native01.sh",
+      "sha256": "83205088a244faee2223874d847fe5fd8d21aec624e04c96849e7f02466b209a",
+      "bytes": 404
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/native01/artifacts/sedan-inspection-controller.png",
+      "sha256": "4e6eba8a8d6b069e5227bab093eeddf83e6423d14eda16c8e09b9a206c8b9f75",
+      "bytes": 67664
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/native01/artifacts/sedan-inspection-escape.png",
+      "sha256": "52dbda302fa5453cb5adcf777505425390fb624a2f46c41f84e86eb191e68b92",
+      "bytes": 1023741
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/native01/artifacts/sedan-inspection-godot.log",
+      "sha256": "52c846f79056c4d8e3d878df1e68c137ac9bc307b6ff256ef98fdcb02d5943e7",
+      "bytes": 2914
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/native01/artifacts/sedan-inspection-keyboard.png",
+      "sha256": "1ccdb390ba8538adb01dede4972da26272faf9ee35525375c3a8ad5c10905a03",
+      "bytes": 952264
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/native01/artifacts/sedan-inspection-openings.png",
+      "sha256": "6e60c5dba3b958f2d48d1d63f6b8722f5f9b32c40be70c589dc205408b41b657",
+      "bytes": 951925
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/native01/artifacts/sedan-inspection-settings.cfg",
+      "sha256": "69a4552ff974dd6883911b2fe4b0d49245a11f95533fbdd1dd93c7e07f390fb4",
+      "bytes": 38
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/native01/artifacts/sedan-inspection-summary.json",
+      "sha256": "28dadb9d119cece997600d21533abfd40ee8d0e25df7d1c0f6042780a114afd2",
+      "bytes": 42437
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/native01/artifacts/sedan-inspection.jsonl",
+      "sha256": "6e6aedc1739a6929fec821cd7b1d3a0f7326670ccb719a9632cc350ad6d09de0",
+      "bytes": 39294
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/native01/artifacts/sedan-selection-clock-observations.json",
+      "sha256": "ac8d83b401b7d3f02e083748dd9d19b6a51a0cf968bbabe77680e396097fe838",
+      "bytes": 38642
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/native01/artifacts/sedan-selection-endurance-sedan-save.json",
+      "sha256": "02494db3e7a12b2d9200f25dc332332d0812747289df3578519f0ae3734568ab",
+      "bytes": 2747
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/native01/artifacts/sedan-selection-graybox-save.json",
+      "sha256": "f8ec9a3fdfd3cfe74ae8630d6c13785589def5e56977268fea4ed80dc56f3225",
+      "bytes": 2741
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/native01/artifacts/sedan-selection-hero-gt-save.json",
+      "sha256": "3294215ee52bddd25c0393bed8f5062931e730a91665f476a15010bb467a4ea1",
+      "bytes": 2716
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/native01/command.json",
+      "sha256": "f9e36b04f60e76e5a2e1f93494ad0c63ae95813f00eb896d7fd7b13232f27e6a",
+      "bytes": 4938
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/native01/home/appdata/uv/tools/.gitignore",
+      "sha256": "684888c0ebb17f374298b65ee2807526c066094c701bcc7ebbe1c1095f494fc1",
+      "bytes": 1
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/native01/home/appdata/uv/tools/.lock",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/native01/junit.xml",
+      "sha256": "4a46a503d1b300fd1123ab34a69eff8655adb704961bf14374a52cf19ca6f8ce",
+      "bytes": 375
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/native01/stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/native01/stdout.log",
+      "sha256": "fd7db344f191fabc191b69430721317724ead38b4bce840460428e4404ac0d95",
+      "bytes": 488
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/prepare01.py",
+      "sha256": "ef13b20dd883b8fe5027005c94c339dfa0baf6a4dc0dd387df951fa38c385b36",
+      "bytes": 2582
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/prepare_checks01.py",
+      "sha256": "bf54100ea63e657e46bbc7dec49e434e3694e660897d746d75e9906710d70506",
+      "bytes": 2629
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/process-release01.json",
+      "sha256": "26c6b40dc9fe8d125668dbf0dc1bcdb01733535a14763c4528d7a45375246c89",
+      "bytes": 128
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/review01.json",
+      "sha256": "0a573bc087a4104380460c40ff9c2bec07d62b9bb94530242fb8fa60ac9e0407",
+      "bytes": 30719
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/rib-visual01.json",
+      "sha256": "549dc0601352c1f3661215b58563bcefadfd42837fe2219d870ddcf2988ed896",
+      "bytes": 3655
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/run_check01.py",
+      "sha256": "0d05df7f9785eb3d35a4380aa5561151706fd6075863b5e2f45b1cfb3b9b2ebd",
+      "bytes": 3677
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/scope01.json",
+      "sha256": "151b2ae4a317decc0638d52fc4fdf012583a41008b7707522d3a22a3c402aa57",
+      "bytes": 2877
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-integration01/versions01.json",
+      "sha256": "df5213b7978944f1442d93877001a49f751271e6814331a5b3c74036dba04044",
+      "bytes": 1074
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/REVIEW06.md",
+      "sha256": "7d120eca543de6e44c077b13749788f7a4c85d864421093a874bf3c1bc83cf63",
+      "bytes": 6283
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact.zip",
+      "sha256": "25cfb609cd62f3663d707241abd28a7a4171adccc9b39ef9e662e0483e8ba7fd",
+      "bytes": 5686724
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact.zip.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact/.tools/scenarios/official-corridor/audit/route-v5-8b1cc594881101d9/6f2552ab579a2152ae6c54210aa6bff11cdbb6b51d8cb3ae5e429793a2824ee0-normalized.gpkg",
+      "sha256": "6f2552ab579a2152ae6c54210aa6bff11cdbb6b51d8cb3ae5e429793a2824ee0",
+      "bytes": 155648
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact/.tools/scenarios/official-corridor/chunks/route-v5-8b1cc594881101d9/93de5b31c90ec10dbf488d5002d83c30581e2b851f5cef4f4c4321599d55789c.cbck",
+      "sha256": "219b58079ae834f129d688962019ab44e163527d82f8a044aacc901de8a96258",
+      "bytes": 464
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact/.tools/scenarios/official-corridor/chunks/route-v5-8b1cc594881101d9/a7696d74c694d2bfde058e0925e10baf58dd6146a1e81fd644c6db7a44beb4b7.cbck",
+      "sha256": "bdc646253e23168433c54a74bdc068e2737a697f01322c0e1830c4036ebdd4b0",
+      "bytes": 456
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact/.tools/scenarios/official-corridor/chunks/route-v5-8b1cc594881101d9/e37c53f5de01b7b84536a27786db2de3a5211f8623786c9b60808d395a2a6639.cbck",
+      "sha256": "367730589482ff3d821a8d09cd0dfeca969a9e4e42d63951a4a649fddcf06bd9",
+      "bytes": 464
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact/.tools/scenarios/official-corridor/chunks/route-v5-8b1cc594881101d9/ef3be8b24af023a4624873f42f9f0646edaa515f72048cd8e404dbaa586a029f.cbck",
+      "sha256": "ed6632977afd91e03cb68326a9cab1186e3bf72fbd1d03f8e7ce6384822913ab",
+      "bytes": 408
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact/.tools/scenarios/official-corridor/current-package.json",
+      "sha256": "558d431943a58e55b90ea146cff0908c7c49719cb5939f0f7d97074dd6a7bf9d",
+      "bytes": 298
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact/.tools/scenarios/official-corridor/route_graph-966f3932ff0b33fcc96f330dca0c2a7c3c592665647443d2a1237226555b7e8e.cbrg",
+      "sha256": "43c2af9596d52a17dabfcffc37e94b31c41681a80e46770c0e6fa8ba305f265c",
+      "bytes": 6504
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact/.tools/scenarios/official-corridor/route_graph-966f3932ff0b33fcc96f330dca0c2a7c3c592665647443d2a1237226555b7e8e.json",
+      "sha256": "6b0e08122f0706b936c62ba15f00fe573f3035d563192b3f1d09efe6fd7435ce",
+      "bytes": 18213
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact/reports/playgodot/camera-handling-final.png",
+      "sha256": "545bc5b1b357e00d152bf7bc622a883b5108caba6222deda955602efd07f6ef9",
+      "bytes": 686720
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact/reports/playgodot/camera-handling-godot.log",
+      "sha256": "3054a9fd67c8dafc59a122baa6b1a3e632c6a659754a923fe06cfdb6ce306c0f",
+      "bytes": 2457
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact/reports/playgodot/camera-handling.jsonl",
+      "sha256": "2f71980f749a7e8dbd6b3b3756ff96ba4d355dc961b08bc2c1b4b28f40d524e3",
+      "bytes": 4439
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact/reports/playgodot/camera-steering.png",
+      "sha256": "a31e1840664362cf21123fb05135f14edf0a6a75dabd7d39bb4f03f7069fb3e7",
+      "bytes": 649510
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact/reports/playgodot/chase-camera-damping-godot.log",
+      "sha256": "4083cce4c338adc3693b6940a377e6ce165cf38a830e3f69a0da0a6b1d622178",
+      "bytes": 2216
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact/reports/playgodot/chase-camera-damping.jsonl",
+      "sha256": "fb4b4d88b11fa37c1744baa0ba0afcd9863c3f0d890897d6d1aed1d27b5111cb",
+      "bytes": 2074
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact/reports/playgodot/cockpit-forward.png",
+      "sha256": "690c2d3f63e3984e3075eb2df1eb5bfa717f99e53bb8e3d0e5d2de82b8c53a03",
+      "bytes": 162278
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact/reports/playgodot/color.png",
+      "sha256": "286947b7d647c4ad1af2039faf01c15d2e9c5827e9e1428c5e209a9c46b98733",
+      "bytes": 169
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact/reports/playgodot/driver-menu.png",
+      "sha256": "a5a0ba9613a95e8791534cd880a7073bf25d3cdb35c0407d2e8f22026cbf9718",
+      "bytes": 54737
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact/reports/playgodot/driving-input-controller-godot.log",
+      "sha256": "2b066ca5cff5731b8704258f65f8b41ee3ed172a691d2f729de1fd0588cad90a",
+      "bytes": 2216
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact/reports/playgodot/driving-input-controller-lifecycle-godot.log",
+      "sha256": "974994d3addc7d93044301fea2a22bf08326f17956d2712a1be633f084d0e19d",
+      "bytes": 2216
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact/reports/playgodot/driving-input-controller-lifecycle.jsonl",
+      "sha256": "eddc9f876fc50b0c05a9102f91e82d189e595a69a067ea3b88267d0bd8080d70",
+      "bytes": 1550
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact/reports/playgodot/driving-input-controller-restart-godot.log",
+      "sha256": "de45bc03992ad9a2cfbaf71ffe63b253b21721eb06b259cd5233846d38c762c5",
+      "bytes": 6089
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact/reports/playgodot/driving-input-controller-restart.jsonl",
+      "sha256": "71ceda4bb04098c088c4612ed7cacceed21689abc1b9258e9e6e341ae13be68f",
+      "bytes": 3849
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact/reports/playgodot/driving-input-controller.jsonl",
+      "sha256": "b4343d8172f61d4d750e35b82cc92ca34e8b67e4dc0457699b049e270e5e5bd7",
+      "bytes": 4785
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact/reports/playgodot/driving-input-hold-godot.log",
+      "sha256": "25a2981ac45c78e052b9db7649c445820ca0362f030a6a229dd6c4819e5ed56d",
+      "bytes": 2089
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact/reports/playgodot/driving-input-hold.jsonl",
+      "sha256": "81ca63089db6b4d3ca2f3f7f171d51b6b0ddb922550a2c1bb01a3ec2d5f44823",
+      "bytes": 308
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact/reports/playgodot/driving-input-keyboard-godot.log",
+      "sha256": "b082e8a830a7d0af669cb07bc976e3b2902c2845ab2aa9b395e104451ca8cadd",
+      "bytes": 2216
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact/reports/playgodot/driving-input-keyboard.jsonl",
+      "sha256": "785b0c3c50ce322ca9e2de74e673dc9c09b3c64c5cf3d37bf9e66f9a1e3bc100",
+      "bytes": 2009
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact/reports/playgodot/driving-input-pause-godot.log",
+      "sha256": "ec3b3fb357851982260d08a491022d86a645a9c15af612a98a57c3401e7030fd",
+      "bytes": 2447
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact/reports/playgodot/driving-input-pause.jsonl",
+      "sha256": "dd3ca5b249bde22f711d4f2973df0b1352e2d3ffaf55a4cc762a6a5601d55f08",
+      "bytes": 1524
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact/reports/playgodot/godot.log",
+      "sha256": "cb9f7c2bccc20333fb0928f7c2b7e96bce977982b4639caed855d4ed8e69c818",
+      "bytes": 2447
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact/reports/playgodot/hostile.jsonl",
+      "sha256": "ea91a61db3473a39cece81efdba238807dd22a37a1311183cd5b4968edffb46f",
+      "bytes": 1645
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact/reports/playgodot/input-steering.png",
+      "sha256": "17e54157f3318b819bf9d98f5922e18d19ebab4631c84d64181422b29671f15c",
+      "bytes": 672503
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact/reports/playgodot/raw-godot.log",
+      "sha256": "b465705ad3708db05301857e3c191b324511454704179f978e6327261790c799",
+      "bytes": 6766
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact/reports/playgodot/renderer-warmup-godot.log",
+      "sha256": "0689b2f87a0055ab1c5e67f06b22af91f57eca053588c343a0667bcf5272ce0e",
+      "bytes": 2218
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact/reports/playgodot/renderer-warmup-summary.json",
+      "sha256": "ee1419bd178f43d0c2013b2c83642ae8db185948eba821030ac844c44ba60558",
+      "bytes": 360
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact/reports/playgodot/renderer-warmup.jsonl",
+      "sha256": "f073a3eef480fa467eda0dce952a7fe705377487121581345075e0ba5f8008cc",
+      "bytes": 318
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact/reports/playgodot/renderer-warmup.png",
+      "sha256": "3e1517d908fc33b43b64dbb3348a74e6ac35dd2f7271bf19b687ae1ec9ef7696",
+      "bytes": 672878
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact/reports/playgodot/round-trip.jsonl",
+      "sha256": "bf620f9b62340f982cb6568ed4b2900e5d712b51d68931dac1af16c7bdc0e343",
+      "bytes": 4207
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact/reports/playgodot/sedan-inspection-controller.png",
+      "sha256": "4c37f54c5354b03c93597f0b91d8472e62a6e94a0a90e4c4d265a40eb299822b",
+      "bytes": 51520
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact/reports/playgodot/sedan-inspection-escape.png",
+      "sha256": "d241c2445ea56b5e87e5499a998fadf1f4af35dd58309b7676d094dafffca29a",
+      "bytes": 677652
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact/reports/playgodot/sedan-inspection-godot.log",
+      "sha256": "16c1f4c101c6a8074938799715b42f8d08e9a3583675b4421819d52b0a9b16e3",
+      "bytes": 3203
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact/reports/playgodot/sedan-inspection-keyboard.png",
+      "sha256": "ae96757ca933bd990b3f1646fb058221c7a36ed1cc3088ee2d6f2fd011cdd993",
+      "bytes": 639206
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact/reports/playgodot/sedan-inspection-openings.png",
+      "sha256": "614293e1d9e70252b0c4c7a448c13fffadc47d797be9e9270477a09cd6a1cf28",
+      "bytes": 640166
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact/reports/playgodot/sedan-inspection.jsonl",
+      "sha256": "f3da3b8ce3ac84dda5823883d2c03ddfbf6bbbb94281ec0c68a4ead63c282986",
+      "bytes": 17585
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact/reports/playgodot/sedan-selection-clock-observations.json",
+      "sha256": "a7fdac958ac9ff48e98c3759ad3ad58d32244b32e9de151de8f011242965d28f",
+      "bytes": 16312
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact/reports/playgodot/speed.png",
+      "sha256": "34bbec2cf627c7d0e0e2875b1c0ae4176443c90c11be02cfd6142da7d5588263",
+      "bytes": 1503
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact/reports/playgodot/telemetry.jsonl",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact/reports/playgodot/trip-map-resume-godot.log",
+      "sha256": "799a3a329481e8dc95d18ee4fa0dbfdf2a6058360eddf8c8b15f3bb5aeae116f",
+      "bytes": 2457
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact/reports/playgodot/trip-map-resume.jsonl",
+      "sha256": "381c648aedd2e19949bcb69dda86d499bc517c44b8e370aec6a4515d971734e2",
+      "bytes": 3058
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact/reports/playgodot/trip-map.png",
+      "sha256": "6f7e1e3ae6e6a641d6c1c450140ad302bc5c501ae20abde6afa9e85ba380cc06",
+      "bytes": 68230
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifact/reports/playgodot/viewport.png",
+      "sha256": "70de23fe6e0d089d875cda2ce8cacd6544f50512b25743c6d8d1b88abb50c6fb",
+      "bytes": 672190
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifacts.json",
+      "sha256": "6a9e64897c4a21e53e6bfa9bb1b7e41ae903cb1f828627e657fd0d51c0e5c9fa",
+      "bytes": 5143
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/artifacts.json.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/collect01.py",
+      "sha256": "d78ab777aa5098f41419e87a32928f0e8aec0a387ecf907ad8ae9c0fa9849561",
+      "bytes": 4780
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/collection-commands01.json",
+      "sha256": "4b543f0ddd4a88bc022e0bbeebef82163b2415a5d54a83b59f1a88bb248f71c0",
+      "bytes": 5577
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/collection01.json",
+      "sha256": "16e8c143640832e0fd000c7ac6fcb746f5fd7f5902c6d30168978cdddd4d285c",
+      "bytes": 19679
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/controls03.command.json",
+      "sha256": "edc969f009d72ece0766d01191a80ea51a22a49862ab0653e8fc72a5759c0a98",
+      "bytes": 1923
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/controls03.stderr.log",
+      "sha256": "72281bb902f692533ef62762e491ba7d65c741a4b862f9131d9bd7ad2cb22557",
+      "bytes": 1874
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/controls03.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/controls04.command.json",
+      "sha256": "0d6d63fa1009d2ac9506f6e4f059791b59c18f6697cf20798c9074ae3ad06ea7",
+      "bytes": 1922
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/controls04.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/controls04.stdout.log",
+      "sha256": "d4054abe36266c60eb7a26637331976641cf7794524fa7b194a6fa5b6235a733",
+      "bytes": 136
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/controls05.command.json",
+      "sha256": "3e960ac2e7123e3ff53004711783f62da45123c5b3bd8f9dd1c3250517ff22ba",
+      "bytes": 1922
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/controls05.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/controls05.stdout.log",
+      "sha256": "d4054abe36266c60eb7a26637331976641cf7794524fa7b194a6fa5b6235a733",
+      "bytes": 136
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/freeze06.py",
+      "sha256": "1fa9dc93245f0a6ffec6b852c3299a14ab0eea57184f69748c66290359a9dd49",
+      "bytes": 6640
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/inputs/.github/workflows/ci.yml",
+      "sha256": "78600c0ddaf9692d48bc61d9b82dc2e596fe4710f1a016297bce47bcc6bd72b4",
+      "bytes": 9700
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/inputs/AGENTS.md",
+      "sha256": "419d40ff360ea02e064b6b4513dfa923d339fa1fbbe09ecd884d4e44829fae29",
+      "bytes": 10626
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/inputs/addons/playgodot/bootstrap.gd",
+      "sha256": "43df130861addfe2627f67a9b88d737210122d0350fd634ceb83937f04415967",
+      "bytes": 4603
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/inputs/addons/playgodot/server.gd",
+      "sha256": "ba7e18f5472e3103aeb7f2a1cf7991c4e92e43242f67e3797627b13f5a2ae90c",
+      "bytes": 37078
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/inputs/automation/playgodot/src/cannonball_playgodot/client.py",
+      "sha256": "faeadbe556715c283767e44dc2fa123570d3f4a20e3126eea0bba09905487caa",
+      "bytes": 11265
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/inputs/automation/playgodot/src/cannonball_playgodot/launcher.py",
+      "sha256": "9b534d3c07aee06ed9a38442639e2e93e2f0bff9732666f8e4ec8d707063af2e",
+      "bytes": 16264
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/inputs/automation/playgodot/tests/input_support.py",
+      "sha256": "85a20d436bcf89fe5260c6c3407e133193c94d4afb689ea49bc3a6a91bf2bf51",
+      "bytes": 2745
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/inputs/automation/playgodot/tests/test_camera_handling.py",
+      "sha256": "89097d78615d2d0b82f8335851f176bd1be2f49a82833bd237e788f221ee1a6a",
+      "bytes": 14004
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/inputs/automation/playgodot/tests/test_endurance_sedan.py",
+      "sha256": "a37b9aad637b11a8f28cbf76eaf37137c92af99355170df1f21b759659260255",
+      "bytes": 16626
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/inputs/game/Main.cs",
+      "sha256": "6ea88a91117aa3446a7449122e6f3b94baf6d91178b038ff2f1bbd66e13d6d8d",
+      "bytes": 170941
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/inventory06.json",
+      "sha256": "447e7fd36f5ca6483eaf143879f345998b476b4904f4d74b1589bdd76de4d66d",
+      "bytes": 60637
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/job.json",
+      "sha256": "df5787f1c68e261268b5c8ff8983e4afd013c93c4fdb4fa30e065597586244ec",
+      "bytes": 3075
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/job.json.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/job.log",
+      "sha256": "c191ded0de39d6c987b230e1ffb01bd6d03974da95124391432fe87f90117524",
+      "bytes": 83703
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/job.log.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/prepare_proposal02.py",
+      "sha256": "8e2031f4d77b538888108546b59d674450caddb49aa46ce52d623849cd993e1d",
+      "bytes": 3059
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/prepare_proposal05.py",
+      "sha256": "219d94cea3139656f0945faf1a015b97a03ed8dff7d5eb6de208814b6af1dd3a",
+      "bytes": 2066
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/proposal02.json",
+      "sha256": "86565385a4d0e1aaae80243cd8db251ab1b639d9e7303e58c910d70180c1e99b",
+      "bytes": 619
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/proposal02.patch",
+      "sha256": "f71bc10beec279b643abb06fd680c610e79862370f3a89ad550843f4c5f3caae",
+      "bytes": 2158
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/proposal02/automation/playgodot/tests/test_endurance_sedan.py",
+      "sha256": "c04a2b2d2beedbf3d1c2e3e24269df47ea2da14a4d3c2c2f4c58356a53de5661",
+      "bytes": 17261
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/proposal05.json",
+      "sha256": "ad64733a2931f4f9ad231aac567a7a1c82be45b3447aba18aaf616586c88ee82",
+      "bytes": 442
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/proposal05.patch",
+      "sha256": "09575e5ffaa30f26cb5c0d1a3cc2b8cb2d215cc90af64258b608c08b940baef2",
+      "bytes": 2232
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/proposal05/automation/playgodot/tests/test_endurance_sedan.py",
+      "sha256": "90aac46d024e33f814fbc6c489bbcfeea0dc950fb28d17fde05e94e0db67cae6",
+      "bytes": 17334
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/review06.json",
+      "sha256": "86e9c45d0852f0a30ead3360d81b4456db827a341aa0989f42ecbdbb305d5b4f",
+      "bytes": 9083
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/run.json",
+      "sha256": "8e11f47cf595793b5895eade81c39f3d976b05b82d969b06fc6e73b14b4fceca",
+      "bytes": 13902
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/run.json.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/run_controls03.py",
+      "sha256": "f2043dc7e8ea1570a046292e1e21be68e380b9258316b5770b024e7ab271d166",
+      "bytes": 2055
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/run_controls04.py",
+      "sha256": "e25585001e2deea87a5c41e862c5e76131ed0e86f788fcb49c2bb8c5fcd89fdb",
+      "bytes": 2055
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/run_controls05.py",
+      "sha256": "6991d7aa94e37d80531842e8f58b9deea30e5c6631c3fa1eb658a07a06db83e1",
+      "bytes": 2055
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule-controls04.json",
+      "sha256": "b29abc4c82923ced2f17c5efaa6c2a11ff8fa045472b736933dcf5ff24af69fc",
+      "bytes": 1030479
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule-controls05.json",
+      "sha256": "841491c632ccb24a18eb56652c47f60b0314707c9e92eec39d5a19c21bb95e05",
+      "bytes": 1030479
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/already_fresh_sample/old/control.json",
+      "sha256": "087fdf45c0a005dab3bf077571a1d641170f1a47981e909b6524cb3473936145",
+      "bytes": 10704
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/already_fresh_sample/old/sedan-selection-clock-observations.json",
+      "sha256": "723b3b059c8048685bc8f5a0ec24e8d4927aac6d5b93ddca70280b9053515495",
+      "bytes": 5509
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/already_fresh_sample/old/sedan-selection-hero-gt-save.json",
+      "sha256": "0bdaee8a0a7a099ce77dce7ceed81eda2d17f07c0423aa9a94dc59388d00ce17",
+      "bytes": 35
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/already_fresh_sample/old/user/runs/suspended-run.json",
+      "sha256": "0bdaee8a0a7a099ce77dce7ceed81eda2d17f07c0423aa9a94dc59388d00ce17",
+      "bytes": 35
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/already_fresh_sample/proposal/control.json",
+      "sha256": "6474c2aea5be65385e99e7017b82c533704286174ecb97e253e007411ce1cf2f",
+      "bytes": 14818
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/already_fresh_sample/proposal/sedan-selection-clock-observations.json",
+      "sha256": "5a82ab74ebe2b253e0f353b5145b9be80f8a6893f94a5444ec91e2e22c713525",
+      "bytes": 8357
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/already_fresh_sample/proposal/sedan-selection-hero-gt-save.json",
+      "sha256": "0bdaee8a0a7a099ce77dce7ceed81eda2d17f07c0423aa9a94dc59388d00ce17",
+      "bytes": 35
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/already_fresh_sample/proposal/user/runs/suspended-run.json",
+      "sha256": "0bdaee8a0a7a099ce77dce7ceed81eda2d17f07c0423aa9a94dc59388d00ce17",
+      "bytes": 35
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/deducted_pause_clock_regression/old/control.json",
+      "sha256": "4fc58fed2a2cbc353d2d99879947d2c8ae154384e8ebf605f5d4d91c68c1858c",
+      "bytes": 8877
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/deducted_pause_clock_regression/old/sedan-selection-clock-observations.json",
+      "sha256": "c45ddd3de3a50d40720d937245f62e86e3d5478f39bc5eb41e408d47e481620f",
+      "bytes": 5495
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/deducted_pause_clock_regression/proposal/control.json",
+      "sha256": "1c13ee3ba3cc17c9de545228263e581e3f5ea1e7edd795d3d1b0afd95e652ab3",
+      "bytes": 8882
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/deducted_pause_clock_regression/proposal/sedan-selection-clock-observations.json",
+      "sha256": "c45ddd3de3a50d40720d937245f62e86e3d5478f39bc5eb41e408d47e481620f",
+      "bytes": 5495
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/disk_replaced_after_verified_read/old/control.json",
+      "sha256": "1f333737ed57fb97f023571d466739d60ea885ed9893455f184247fe37d5ebcf",
+      "bytes": 10715
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/disk_replaced_after_verified_read/old/sedan-selection-clock-observations.json",
+      "sha256": "723b3b059c8048685bc8f5a0ec24e8d4927aac6d5b93ddca70280b9053515495",
+      "bytes": 5509
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/disk_replaced_after_verified_read/old/sedan-selection-hero-gt-save.json",
+      "sha256": "c91c33d48588aa66ce02be7df9e55a8f9bd238c3bb844b5b80e441fc54861cb5",
+      "bytes": 33
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/disk_replaced_after_verified_read/old/user/runs/suspended-run.json",
+      "sha256": "c91c33d48588aa66ce02be7df9e55a8f9bd238c3bb844b5b80e441fc54861cb5",
+      "bytes": 33
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/disk_replaced_after_verified_read/proposal/control.json",
+      "sha256": "627d81eef4354362b7fc11e3b470bb8f0f14a497dd718c432d8f1671f8d37114",
+      "bytes": 14831
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/disk_replaced_after_verified_read/proposal/sedan-selection-clock-observations.json",
+      "sha256": "5a82ab74ebe2b253e0f353b5145b9be80f8a6893f94a5444ec91e2e22c713525",
+      "bytes": 8357
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/disk_replaced_after_verified_read/proposal/sedan-selection-hero-gt-save.json",
+      "sha256": "0bdaee8a0a7a099ce77dce7ceed81eda2d17f07c0423aa9a94dc59388d00ce17",
+      "bytes": 35
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/disk_replaced_after_verified_read/proposal/user/runs/suspended-run.json",
+      "sha256": "c91c33d48588aa66ce02be7df9e55a8f9bd238c3bb844b5b80e441fc54861cb5",
+      "bytes": 33
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/frozen_cache/old/control.json",
+      "sha256": "bee8f7f0b6dcebfdd6c31ab332c39f6a531d4669bab16984d98d437727dd924a",
+      "bytes": 10429
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/frozen_cache/old/sedan-selection-clock-observations.json",
+      "sha256": "723b3b059c8048685bc8f5a0ec24e8d4927aac6d5b93ddca70280b9053515495",
+      "bytes": 5509
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/frozen_cache/old/user/runs/suspended-run.json",
+      "sha256": "0bdaee8a0a7a099ce77dce7ceed81eda2d17f07c0423aa9a94dc59388d00ce17",
+      "bytes": 35
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/frozen_cache/proposal/control.json",
+      "sha256": "ae7a44d489b6656eed5ccb044ae5f0b2c6a40749fecddbf30873a2c1ae098629",
+      "bytes": 718922
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/frozen_cache/proposal/sedan-selection-clock-observations.json",
+      "sha256": "723b3b059c8048685bc8f5a0ec24e8d4927aac6d5b93ddca70280b9053515495",
+      "bytes": 5509
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/frozen_cache/proposal/user/runs/suspended-run.json",
+      "sha256": "0bdaee8a0a7a099ce77dce7ceed81eda2d17f07c0423aa9a94dc59388d00ce17",
+      "bytes": 35
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/future_save_beyond_first_new_sample/old/control.json",
+      "sha256": "37cbf8a4d07b3ddb0910d68ad5547cfe103b8831979c23db2709fca312620a38",
+      "bytes": 10452
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/future_save_beyond_first_new_sample/old/sedan-selection-clock-observations.json",
+      "sha256": "723b3b059c8048685bc8f5a0ec24e8d4927aac6d5b93ddca70280b9053515495",
+      "bytes": 5509
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/future_save_beyond_first_new_sample/old/user/runs/suspended-run.json",
+      "sha256": "21691397a21cba2d94169c474a134577612a27f202ee5ff33010923efb5bf223",
+      "bytes": 35
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/future_save_beyond_first_new_sample/proposal/control.json",
+      "sha256": "bb03b2013a0010db36445086bc1a8ee9aa214773aacd57285e8dca14c1b63147",
+      "bytes": 14837
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/future_save_beyond_first_new_sample/proposal/sedan-selection-clock-observations.json",
+      "sha256": "8376084bfe92df2b163af3b1283298ba970945ad319e435fe268946bdb6c68d5",
+      "bytes": 8357
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/future_save_beyond_first_new_sample/proposal/sedan-selection-hero-gt-save.json",
+      "sha256": "21691397a21cba2d94169c474a134577612a27f202ee5ff33010923efb5bf223",
+      "bytes": 35
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/future_save_beyond_first_new_sample/proposal/user/runs/suspended-run.json",
+      "sha256": "21691397a21cba2d94169c474a134577612a27f202ee5ff33010923efb5bf223",
+      "bytes": 35
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/measured_stale_sample/old/control.json",
+      "sha256": "c4c3b52c7dbf14289a6508deff61598b6165f125bea1c1033cf239b9ac958adf",
+      "bytes": 10438
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/measured_stale_sample/old/sedan-selection-clock-observations.json",
+      "sha256": "723b3b059c8048685bc8f5a0ec24e8d4927aac6d5b93ddca70280b9053515495",
+      "bytes": 5509
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/measured_stale_sample/old/user/runs/suspended-run.json",
+      "sha256": "0bdaee8a0a7a099ce77dce7ceed81eda2d17f07c0423aa9a94dc59388d00ce17",
+      "bytes": 35
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/measured_stale_sample/proposal/control.json",
+      "sha256": "42d6fc688131a74a65dc079023d42297cb5da29ee359cedf35d41f340423c871",
+      "bytes": 14819
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/measured_stale_sample/proposal/sedan-selection-clock-observations.json",
+      "sha256": "12f2b444e42a714ec42bead9b4b13e3b19c09909665bb6af623752876c89dc83",
+      "bytes": 8357
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/measured_stale_sample/proposal/sedan-selection-hero-gt-save.json",
+      "sha256": "0bdaee8a0a7a099ce77dce7ceed81eda2d17f07c0423aa9a94dc59388d00ce17",
+      "bytes": 35
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/measured_stale_sample/proposal/user/runs/suspended-run.json",
+      "sha256": "0bdaee8a0a7a099ce77dce7ceed81eda2d17f07c0423aa9a94dc59388d00ce17",
+      "bytes": 35
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/new_timestamp_but_regressed_elapsed/old/control.json",
+      "sha256": "1e4ecf7331c1660ca5b40506302abe9cd5f67b0b680382171388e484ed510156",
+      "bytes": 10452
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/new_timestamp_but_regressed_elapsed/old/sedan-selection-clock-observations.json",
+      "sha256": "723b3b059c8048685bc8f5a0ec24e8d4927aac6d5b93ddca70280b9053515495",
+      "bytes": 5509
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/new_timestamp_but_regressed_elapsed/old/user/runs/suspended-run.json",
+      "sha256": "0bdaee8a0a7a099ce77dce7ceed81eda2d17f07c0423aa9a94dc59388d00ce17",
+      "bytes": 35
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/new_timestamp_but_regressed_elapsed/proposal/control.json",
+      "sha256": "c1484b5ca5c1cb8ef8156f8c7c8d5408b53bb2a7d9e2ad30395b5003cb12a84e",
+      "bytes": 14831
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/new_timestamp_but_regressed_elapsed/proposal/sedan-selection-clock-observations.json",
+      "sha256": "6d4aeec20256fcea48ea0a135dab27126fd6da2cf0dfb113a1ba86847789a96e",
+      "bytes": 8353
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/new_timestamp_but_regressed_elapsed/proposal/sedan-selection-hero-gt-save.json",
+      "sha256": "0bdaee8a0a7a099ce77dce7ceed81eda2d17f07c0423aa9a94dc59388d00ce17",
+      "bytes": 35
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/new_timestamp_but_regressed_elapsed/proposal/user/runs/suspended-run.json",
+      "sha256": "0bdaee8a0a7a099ce77dce7ceed81eda2d17f07c0423aa9a94dc59388d00ce17",
+      "bytes": 35
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/old_twenty_metre_selection_teleport/old/control.json",
+      "sha256": "3234b93b2508acc958a08b2b37c0c1954fd6fcaa92b61cea28b7b43de9bc39b4",
+      "bytes": 4626
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/old_twenty_metre_selection_teleport/old/sedan-selection-clock-observations.json",
+      "sha256": "6b659be980ae7f783d33ccd3466b5c356e075c40969fbecad4a80c6ae6b414ea",
+      "bytes": 2750
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/old_twenty_metre_selection_teleport/proposal/control.json",
+      "sha256": "2d33f9befb9b56b349acfc65894df85054e09c631ff867bd484cb28940b25620",
+      "bytes": 4631
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/old_twenty_metre_selection_teleport/proposal/sedan-selection-clock-observations.json",
+      "sha256": "6b659be980ae7f783d33ccd3466b5c356e075c40969fbecad4a80c6ae6b414ea",
+      "bytes": 2750
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/repeated_stale_sample/old/control.json",
+      "sha256": "7b593df8b9019c355b383a1aeb9d42a7aa1623107da966962c1199a09904c255",
+      "bytes": 10438
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/repeated_stale_sample/old/sedan-selection-clock-observations.json",
+      "sha256": "723b3b059c8048685bc8f5a0ec24e8d4927aac6d5b93ddca70280b9053515495",
+      "bytes": 5509
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/repeated_stale_sample/old/user/runs/suspended-run.json",
+      "sha256": "0bdaee8a0a7a099ce77dce7ceed81eda2d17f07c0423aa9a94dc59388d00ce17",
+      "bytes": 35
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/repeated_stale_sample/proposal/control.json",
+      "sha256": "1a160e6a2ea068a14aa7b04cdd07486f787b49529fa76bb6d3d23d37dab3e30a",
+      "bytes": 17638
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/repeated_stale_sample/proposal/sedan-selection-clock-observations.json",
+      "sha256": "12f2b444e42a714ec42bead9b4b13e3b19c09909665bb6af623752876c89dc83",
+      "bytes": 8357
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/repeated_stale_sample/proposal/sedan-selection-hero-gt-save.json",
+      "sha256": "0bdaee8a0a7a099ce77dce7ceed81eda2d17f07c0423aa9a94dc59388d00ce17",
+      "bytes": 35
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/repeated_stale_sample/proposal/user/runs/suspended-run.json",
+      "sha256": "0bdaee8a0a7a099ce77dce7ceed81eda2d17f07c0423aa9a94dc59388d00ce17",
+      "bytes": 35
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/stale_save_on_disk/old/control.json",
+      "sha256": "54061c474cae8539774fb14046040cc0843a30d90d69f4ddb941310ba178547e",
+      "bytes": 9081
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/stale_save_on_disk/old/sedan-selection-clock-observations.json",
+      "sha256": "723b3b059c8048685bc8f5a0ec24e8d4927aac6d5b93ddca70280b9053515495",
+      "bytes": 5509
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/stale_save_on_disk/old/user/runs/suspended-run.json",
+      "sha256": "350824f8d531a0138597c5665b75744d7ae2549b54b8dd86bde85170e5dd74c5",
+      "bytes": 33
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/stale_save_on_disk/proposal/control.json",
+      "sha256": "4a9917230a3fe8ce25f81a2b6537db2f1df80a822daf0900a1d34571fbcd7220",
+      "bytes": 9086
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/stale_save_on_disk/proposal/sedan-selection-clock-observations.json",
+      "sha256": "723b3b059c8048685bc8f5a0ec24e8d4927aac6d5b93ddca70280b9053515495",
+      "bytes": 5509
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule04/stale_save_on_disk/proposal/user/runs/suspended-run.json",
+      "sha256": "350824f8d531a0138597c5665b75744d7ae2549b54b8dd86bde85170e5dd74c5",
+      "bytes": 33
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/already_fresh_sample/old/control.json",
+      "sha256": "087fdf45c0a005dab3bf077571a1d641170f1a47981e909b6524cb3473936145",
+      "bytes": 10704
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/already_fresh_sample/old/sedan-selection-clock-observations.json",
+      "sha256": "723b3b059c8048685bc8f5a0ec24e8d4927aac6d5b93ddca70280b9053515495",
+      "bytes": 5509
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/already_fresh_sample/old/sedan-selection-hero-gt-save.json",
+      "sha256": "0bdaee8a0a7a099ce77dce7ceed81eda2d17f07c0423aa9a94dc59388d00ce17",
+      "bytes": 35
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/already_fresh_sample/old/user/runs/suspended-run.json",
+      "sha256": "0bdaee8a0a7a099ce77dce7ceed81eda2d17f07c0423aa9a94dc59388d00ce17",
+      "bytes": 35
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/already_fresh_sample/proposal/control.json",
+      "sha256": "fc597304db60145ee36603e930f186e6c6268fb7fb9a84f7c56eff5d5a7e9fbf",
+      "bytes": 14818
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/already_fresh_sample/proposal/sedan-selection-clock-observations.json",
+      "sha256": "5a82ab74ebe2b253e0f353b5145b9be80f8a6893f94a5444ec91e2e22c713525",
+      "bytes": 8357
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/already_fresh_sample/proposal/sedan-selection-hero-gt-save.json",
+      "sha256": "0bdaee8a0a7a099ce77dce7ceed81eda2d17f07c0423aa9a94dc59388d00ce17",
+      "bytes": 35
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/already_fresh_sample/proposal/user/runs/suspended-run.json",
+      "sha256": "0bdaee8a0a7a099ce77dce7ceed81eda2d17f07c0423aa9a94dc59388d00ce17",
+      "bytes": 35
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/deducted_pause_clock_regression/old/control.json",
+      "sha256": "4fc58fed2a2cbc353d2d99879947d2c8ae154384e8ebf605f5d4d91c68c1858c",
+      "bytes": 8877
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/deducted_pause_clock_regression/old/sedan-selection-clock-observations.json",
+      "sha256": "c45ddd3de3a50d40720d937245f62e86e3d5478f39bc5eb41e408d47e481620f",
+      "bytes": 5495
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/deducted_pause_clock_regression/proposal/control.json",
+      "sha256": "60f60d1283b2c39c1abf9424fa573b30540bb0dd7a2fb5854bbc7316176ceff7",
+      "bytes": 8882
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/deducted_pause_clock_regression/proposal/sedan-selection-clock-observations.json",
+      "sha256": "c45ddd3de3a50d40720d937245f62e86e3d5478f39bc5eb41e408d47e481620f",
+      "bytes": 5495
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/disk_replaced_after_verified_read/old/control.json",
+      "sha256": "1f333737ed57fb97f023571d466739d60ea885ed9893455f184247fe37d5ebcf",
+      "bytes": 10715
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/disk_replaced_after_verified_read/old/sedan-selection-clock-observations.json",
+      "sha256": "723b3b059c8048685bc8f5a0ec24e8d4927aac6d5b93ddca70280b9053515495",
+      "bytes": 5509
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/disk_replaced_after_verified_read/old/sedan-selection-hero-gt-save.json",
+      "sha256": "c91c33d48588aa66ce02be7df9e55a8f9bd238c3bb844b5b80e441fc54861cb5",
+      "bytes": 33
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/disk_replaced_after_verified_read/old/user/runs/suspended-run.json",
+      "sha256": "c91c33d48588aa66ce02be7df9e55a8f9bd238c3bb844b5b80e441fc54861cb5",
+      "bytes": 33
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/disk_replaced_after_verified_read/proposal/control.json",
+      "sha256": "e3b1af8d61a620bba6cf35bf6cb49af33e1f73e9cb512a239bd22bbf2a6c7d70",
+      "bytes": 14831
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/disk_replaced_after_verified_read/proposal/sedan-selection-clock-observations.json",
+      "sha256": "5a82ab74ebe2b253e0f353b5145b9be80f8a6893f94a5444ec91e2e22c713525",
+      "bytes": 8357
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/disk_replaced_after_verified_read/proposal/sedan-selection-hero-gt-save.json",
+      "sha256": "0bdaee8a0a7a099ce77dce7ceed81eda2d17f07c0423aa9a94dc59388d00ce17",
+      "bytes": 35
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/disk_replaced_after_verified_read/proposal/user/runs/suspended-run.json",
+      "sha256": "c91c33d48588aa66ce02be7df9e55a8f9bd238c3bb844b5b80e441fc54861cb5",
+      "bytes": 33
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/frozen_cache/old/control.json",
+      "sha256": "bee8f7f0b6dcebfdd6c31ab332c39f6a531d4669bab16984d98d437727dd924a",
+      "bytes": 10429
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/frozen_cache/old/sedan-selection-clock-observations.json",
+      "sha256": "723b3b059c8048685bc8f5a0ec24e8d4927aac6d5b93ddca70280b9053515495",
+      "bytes": 5509
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/frozen_cache/old/user/runs/suspended-run.json",
+      "sha256": "0bdaee8a0a7a099ce77dce7ceed81eda2d17f07c0423aa9a94dc59388d00ce17",
+      "bytes": 35
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/frozen_cache/proposal/control.json",
+      "sha256": "e21dc5fc814246c6dbc9f551166bca4e4f929a9b3f5c7b64c7265ed419d50120",
+      "bytes": 718922
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/frozen_cache/proposal/sedan-selection-clock-observations.json",
+      "sha256": "723b3b059c8048685bc8f5a0ec24e8d4927aac6d5b93ddca70280b9053515495",
+      "bytes": 5509
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/frozen_cache/proposal/user/runs/suspended-run.json",
+      "sha256": "0bdaee8a0a7a099ce77dce7ceed81eda2d17f07c0423aa9a94dc59388d00ce17",
+      "bytes": 35
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/future_save_beyond_first_new_sample/old/control.json",
+      "sha256": "37cbf8a4d07b3ddb0910d68ad5547cfe103b8831979c23db2709fca312620a38",
+      "bytes": 10452
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/future_save_beyond_first_new_sample/old/sedan-selection-clock-observations.json",
+      "sha256": "723b3b059c8048685bc8f5a0ec24e8d4927aac6d5b93ddca70280b9053515495",
+      "bytes": 5509
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/future_save_beyond_first_new_sample/old/user/runs/suspended-run.json",
+      "sha256": "21691397a21cba2d94169c474a134577612a27f202ee5ff33010923efb5bf223",
+      "bytes": 35
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/future_save_beyond_first_new_sample/proposal/control.json",
+      "sha256": "5b564897d9d83f19bd8611b99452d1f6a391792c0060c784c1bffc67aca25973",
+      "bytes": 14837
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/future_save_beyond_first_new_sample/proposal/sedan-selection-clock-observations.json",
+      "sha256": "8376084bfe92df2b163af3b1283298ba970945ad319e435fe268946bdb6c68d5",
+      "bytes": 8357
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/future_save_beyond_first_new_sample/proposal/sedan-selection-hero-gt-save.json",
+      "sha256": "21691397a21cba2d94169c474a134577612a27f202ee5ff33010923efb5bf223",
+      "bytes": 35
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/future_save_beyond_first_new_sample/proposal/user/runs/suspended-run.json",
+      "sha256": "21691397a21cba2d94169c474a134577612a27f202ee5ff33010923efb5bf223",
+      "bytes": 35
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/measured_stale_sample/old/control.json",
+      "sha256": "c4c3b52c7dbf14289a6508deff61598b6165f125bea1c1033cf239b9ac958adf",
+      "bytes": 10438
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/measured_stale_sample/old/sedan-selection-clock-observations.json",
+      "sha256": "723b3b059c8048685bc8f5a0ec24e8d4927aac6d5b93ddca70280b9053515495",
+      "bytes": 5509
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/measured_stale_sample/old/user/runs/suspended-run.json",
+      "sha256": "0bdaee8a0a7a099ce77dce7ceed81eda2d17f07c0423aa9a94dc59388d00ce17",
+      "bytes": 35
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/measured_stale_sample/proposal/control.json",
+      "sha256": "0d91e0aa6f2c75414c8e9d896ce138caddb39f16001393c3bcd8af42c336075b",
+      "bytes": 14819
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/measured_stale_sample/proposal/sedan-selection-clock-observations.json",
+      "sha256": "12f2b444e42a714ec42bead9b4b13e3b19c09909665bb6af623752876c89dc83",
+      "bytes": 8357
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/measured_stale_sample/proposal/sedan-selection-hero-gt-save.json",
+      "sha256": "0bdaee8a0a7a099ce77dce7ceed81eda2d17f07c0423aa9a94dc59388d00ce17",
+      "bytes": 35
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/measured_stale_sample/proposal/user/runs/suspended-run.json",
+      "sha256": "0bdaee8a0a7a099ce77dce7ceed81eda2d17f07c0423aa9a94dc59388d00ce17",
+      "bytes": 35
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/new_timestamp_but_regressed_elapsed/old/control.json",
+      "sha256": "1e4ecf7331c1660ca5b40506302abe9cd5f67b0b680382171388e484ed510156",
+      "bytes": 10452
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/new_timestamp_but_regressed_elapsed/old/sedan-selection-clock-observations.json",
+      "sha256": "723b3b059c8048685bc8f5a0ec24e8d4927aac6d5b93ddca70280b9053515495",
+      "bytes": 5509
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/new_timestamp_but_regressed_elapsed/old/user/runs/suspended-run.json",
+      "sha256": "0bdaee8a0a7a099ce77dce7ceed81eda2d17f07c0423aa9a94dc59388d00ce17",
+      "bytes": 35
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/new_timestamp_but_regressed_elapsed/proposal/control.json",
+      "sha256": "709bd8a25f87c21f29f18ec6e0b506d8347251050e0a360f9ad5f265709264a9",
+      "bytes": 14831
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/new_timestamp_but_regressed_elapsed/proposal/sedan-selection-clock-observations.json",
+      "sha256": "6d4aeec20256fcea48ea0a135dab27126fd6da2cf0dfb113a1ba86847789a96e",
+      "bytes": 8353
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/new_timestamp_but_regressed_elapsed/proposal/sedan-selection-hero-gt-save.json",
+      "sha256": "0bdaee8a0a7a099ce77dce7ceed81eda2d17f07c0423aa9a94dc59388d00ce17",
+      "bytes": 35
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/new_timestamp_but_regressed_elapsed/proposal/user/runs/suspended-run.json",
+      "sha256": "0bdaee8a0a7a099ce77dce7ceed81eda2d17f07c0423aa9a94dc59388d00ce17",
+      "bytes": 35
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/old_twenty_metre_selection_teleport/old/control.json",
+      "sha256": "3234b93b2508acc958a08b2b37c0c1954fd6fcaa92b61cea28b7b43de9bc39b4",
+      "bytes": 4626
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/old_twenty_metre_selection_teleport/old/sedan-selection-clock-observations.json",
+      "sha256": "6b659be980ae7f783d33ccd3466b5c356e075c40969fbecad4a80c6ae6b414ea",
+      "bytes": 2750
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/old_twenty_metre_selection_teleport/proposal/control.json",
+      "sha256": "a6bac4060e342b4ecbb82934de939c8778f46ce61270e110fe0de25aec2ec320",
+      "bytes": 4631
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/old_twenty_metre_selection_teleport/proposal/sedan-selection-clock-observations.json",
+      "sha256": "6b659be980ae7f783d33ccd3466b5c356e075c40969fbecad4a80c6ae6b414ea",
+      "bytes": 2750
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/repeated_stale_sample/old/control.json",
+      "sha256": "7b593df8b9019c355b383a1aeb9d42a7aa1623107da966962c1199a09904c255",
+      "bytes": 10438
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/repeated_stale_sample/old/sedan-selection-clock-observations.json",
+      "sha256": "723b3b059c8048685bc8f5a0ec24e8d4927aac6d5b93ddca70280b9053515495",
+      "bytes": 5509
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/repeated_stale_sample/old/user/runs/suspended-run.json",
+      "sha256": "0bdaee8a0a7a099ce77dce7ceed81eda2d17f07c0423aa9a94dc59388d00ce17",
+      "bytes": 35
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/repeated_stale_sample/proposal/control.json",
+      "sha256": "88c694f670e40e094cde11d1051cc277871b4056de1930e266d3802eb4f4493b",
+      "bytes": 17638
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/repeated_stale_sample/proposal/sedan-selection-clock-observations.json",
+      "sha256": "12f2b444e42a714ec42bead9b4b13e3b19c09909665bb6af623752876c89dc83",
+      "bytes": 8357
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/repeated_stale_sample/proposal/sedan-selection-hero-gt-save.json",
+      "sha256": "0bdaee8a0a7a099ce77dce7ceed81eda2d17f07c0423aa9a94dc59388d00ce17",
+      "bytes": 35
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/repeated_stale_sample/proposal/user/runs/suspended-run.json",
+      "sha256": "0bdaee8a0a7a099ce77dce7ceed81eda2d17f07c0423aa9a94dc59388d00ce17",
+      "bytes": 35
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/stale_save_on_disk/old/control.json",
+      "sha256": "54061c474cae8539774fb14046040cc0843a30d90d69f4ddb941310ba178547e",
+      "bytes": 9081
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/stale_save_on_disk/old/sedan-selection-clock-observations.json",
+      "sha256": "723b3b059c8048685bc8f5a0ec24e8d4927aac6d5b93ddca70280b9053515495",
+      "bytes": 5509
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/stale_save_on_disk/old/user/runs/suspended-run.json",
+      "sha256": "350824f8d531a0138597c5665b75744d7ae2549b54b8dd86bde85170e5dd74c5",
+      "bytes": 33
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/stale_save_on_disk/proposal/control.json",
+      "sha256": "02bb1cd11e81b3a684a7e30ae128f01cee6044f9df9dd133d1ababa26706732e",
+      "bytes": 9086
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/stale_save_on_disk/proposal/sedan-selection-clock-observations.json",
+      "sha256": "723b3b059c8048685bc8f5a0ec24e8d4927aac6d5b93ddca70280b9053515495",
+      "bytes": 5509
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule05/stale_save_on_disk/proposal/user/runs/suspended-run.json",
+      "sha256": "350824f8d531a0138597c5665b75744d7ae2549b54b8dd86bde85170e5dd74c5",
+      "bytes": 33
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule_controls03.py",
+      "sha256": "10117582e8e44e014d23f8cdea3b3a8ffe6240f8d2cbfc631e13c9f6f1c142e6",
+      "bytes": 7808
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule_controls04.py",
+      "sha256": "7856b806ea8a66842ac1de7eaf4c2c0818351cca6f9194235233ec7eeedf4a9b",
+      "bytes": 7883
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/schedule_controls05.py",
+      "sha256": "e466aca8c7fbba1d95ab0ff569fae41b0cd0e61c0fc3833a70aaedadd070c13c",
+      "bytes": 7883
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/source-api-00.json",
+      "sha256": "4ed74b6ffa7d01b943c4a4cb89579fa2774330a647fa7fb2ac736e77eaca3f23",
+      "bytes": 15675
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/source-api-00.json.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/source-api-01.json",
+      "sha256": "69ecd94069d245fc97c3f22d95f526241f825866ab3ced3a71f2a2778af5ecf2",
+      "bytes": 236572
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/source-api-01.json.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/source-api-02.json",
+      "sha256": "1ade8d30839b318e307849e97ed5121d43acdfffee702e4a6b8947415bdd5373",
+      "bytes": 24201
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/source-api-02.json.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/source-api-03.json",
+      "sha256": "34c95cbbdaf9e030c05c07c049e3eb2a127150f78855d1e750ac44a9b5f53a33",
+      "bytes": 5025
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/source-api-03.json.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/source-api-04.json",
+      "sha256": "4fceac93be07a0ec0ee14a5a7d5f5900ffe96bff6ad9167db87a4f5fad8403b1",
+      "bytes": 20589
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/source-api-04.json.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/source-api-05.json",
+      "sha256": "9efe5363197fce381127552e4d6ddd758a044541c7af334053367b88ac0078eb",
+      "bytes": 23735
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/source-api-05.json.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/source-api-06.json",
+      "sha256": "12c34128095c594faf54f603c20e126e189609f6125e01f8c973ac5146d2fdde",
+      "bytes": 16831
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/source-api-06.json.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/source-api-07.json",
+      "sha256": "37062a7b947374d9e4f4cc15d9c319df62fc72953d24e3b08565c068c331dada",
+      "bytes": 52223
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/source-api-07.json.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/source-api-08.json",
+      "sha256": "a00f187f33f1c2385779ca6c767088773d6272e997190f4bedad5a601df81aa3",
+      "bytes": 7501
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/source-api-08.json.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/source-api-09.json",
+      "sha256": "a1df42c509e3bb60bb164d886fd0211355b7d6a6590ae4943a13da5ce4bb3f35",
+      "bytes": 14487
+    },
+    {
+      "path": "reports/p1-018/runtime/macos-save-clock26-triage01/source-api-09.json.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/save-clock26-retention01/retain.py",
+      "sha256": "9a2e550b448210efca47389c0e61043f39b5c3fc2b87aad044df16882179292f",
+      "bytes": 5790
+    },
+    {
+      "path": "scripts/check.sh",
+      "sha256": "46cea9921f445b264d88278d9f7789a98c367b219a84a5299a6b348f18125e33",
+      "bytes": 4117
+    }
+  ],
+  "input_count": 354,
+  "input_bytes": 21285573,
+  "human_approval_reference": null
+}

@@ -1,0 +1,15 @@
+{
+  "task_id": "P1-018",
+  "status": "retained-save-clock-checkpoint",
+  "archive_path": "data/assets/vehicles/endurance-sedan-review/save-clock-checkpoint-v26/save-clock-checkpoint-v26.zip",
+  "archive_sha256": "0934fd228b25af314f7e898bec0ee34f2a235edea2dff024a3872a6f6289c289",
+  "archive_bytes": 15172981,
+  "manifest_sha256": "88c676e89a7437603eb60c207bbb99d5ce7bfe2f1b18024d60ed6e83ec069df0",
+  "input_count": 354,
+  "input_bytes": 21285573,
+  "two_archives_byte_identical": true,
+  "every_member_sha256_verified": true,
+  "crc_verified": true,
+  "human_approval_reference": null,
+  "scope": "Retention reproducibility only; not shipping Blender/GLB export equivalence."
+}

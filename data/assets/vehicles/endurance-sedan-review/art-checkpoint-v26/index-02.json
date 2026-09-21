@@ -1,0 +1,420 @@
+{
+  "task_id": "P1-018",
+  "milestone": "M5",
+  "status": "passed",
+  "started_utc": "2026-09-12T18:41:54.703488+00:00",
+  "git_revision": "568252ce674997d9d20a6959a557c7922e2fbe91",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.14.6",
+  "zlib_runtime": "1.3.1.zlib-ng",
+  "tool_sha256": "1310e66035402d9eccaef4c0b2fe6d474f0b56958e914138d3f57be6285b18ff",
+  "input_manifest": {
+    "path": "reports/p1-018/art-checkpoint26-retention01/manifest-02.json",
+    "sha256": "dee4592f3d7ed2e553447510336a059dfa6d9f5b0788659713b74f7acd50767b"
+  },
+  "entries": [
+    {
+      "path": "reports/p1-018/assembly26-detail01/speaker-candidate01/speaker_front.png",
+      "sha256": "f3f9211c5342e2b5fe688fff0fef7ec063d2cb677d1311b3fd35780d4da4f1e4",
+      "bytes": 3411924
+    },
+    {
+      "path": "reports/p1-018/assembly26-detail01/speaker-candidate01/speaker_rear.png",
+      "sha256": "84480aeaecf4d2395b6550e02b6ab3d66e6d18c85273f7f1815521e32a5b8ce7",
+      "bytes": 3678557
+    },
+    {
+      "path": "reports/p1-018/assembly26-detail01/speaker-candidate01/speaker_shelf.png",
+      "sha256": "0b4cfc697ac40bf10e0974b2b655e144ead6b7950a6f187fdd846199baabd480",
+      "bytes": 3682516
+    },
+    {
+      "path": "reports/p1-018/assembly26-detail02/construction.json",
+      "sha256": "94da36b8bbb3d75ccec77273b943dd53a70d2f327c5e7047517c9a5bf60b1df6",
+      "bytes": 292576
+    },
+    {
+      "path": "reports/p1-018/assembly26-detail02/source.blend",
+      "sha256": "809182e0a687bb4635f12174d86d977daf4170ba4d34a6da868efbcb32291728",
+      "bytes": 6437720
+    },
+    {
+      "path": "reports/p1-018/assembly26-detail02/speaker-candidate01/camera-override.json",
+      "sha256": "fa5b56bcc78db5fadcee0d474d42fc8195695cfb6ee5fe35f690f2a0300d60b2",
+      "bytes": 880
+    },
+    {
+      "path": "reports/p1-018/assembly26-detail02/speaker-candidate01/manifest.json",
+      "sha256": "68f7c88d1172bbecc12d13c860b6220739c14355ffbb39fdf53cb3d82ff15e13",
+      "bytes": 4029
+    },
+    {
+      "path": "reports/p1-018/assembly26-detail02/speaker-candidate01/speaker_front.png",
+      "sha256": "4ea38ff8db1cce71ff29ef69ca01f8c61e36192901bf7813d9a428a3299a6ecf",
+      "bytes": 3560788
+    },
+    {
+      "path": "reports/p1-018/assembly26-detail02/speaker-candidate01/speaker_rear.png",
+      "sha256": "1d9944f5d19cdc1d578de0d3909a466e30634480bc1ec3e9658f5e78fc07e780",
+      "bytes": 3768477
+    },
+    {
+      "path": "reports/p1-018/assembly26-detail02/speaker-candidate01/speaker_shelf.png",
+      "sha256": "38dc0fd05f2a75dd7f715c768982f13669b067abcac346b53a4f01e97b06c963",
+      "bytes": 3763744
+    },
+    {
+      "path": "reports/p1-018/assembly26-detail03/construction.json",
+      "sha256": "9295d26a42c780a3ba59d2702068aa7f953758de3c8d3f3dcf0dd7957b61cf54",
+      "bytes": 292689
+    },
+    {
+      "path": "reports/p1-018/assembly26-detail03/source.blend",
+      "sha256": "3374fa0f524568385c869e32f61ed165e7b10bc290146eda20deedde76fadcc0",
+      "bytes": 6436596
+    },
+    {
+      "path": "reports/p1-018/assembly26-detail03/speaker-candidate01/camera-override.json",
+      "sha256": "fa5b56bcc78db5fadcee0d474d42fc8195695cfb6ee5fe35f690f2a0300d60b2",
+      "bytes": 880
+    },
+    {
+      "path": "reports/p1-018/assembly26-detail03/speaker-candidate02/camera-override.json",
+      "sha256": "fa5b56bcc78db5fadcee0d474d42fc8195695cfb6ee5fe35f690f2a0300d60b2",
+      "bytes": 880
+    },
+    {
+      "path": "reports/p1-018/assembly26-detail03/speaker-candidate02/manifest.json",
+      "sha256": "4b567a30ab2b9eca487764a3c079adbeb69870edbf337b6745634a8be9e5df7e",
+      "bytes": 4029
+    },
+    {
+      "path": "reports/p1-018/assembly26-detail03/speaker-candidate02/speaker_front.png",
+      "sha256": "e6bb61c729e21ca50c263ff448d49eb228d92c42011f6f28de100e921c0d36d7",
+      "bytes": 3558618
+    },
+    {
+      "path": "reports/p1-018/assembly26-detail03/speaker-candidate02/speaker_rear.png",
+      "sha256": "b53ee8c8c044fe61036b720e841fe91ec52dda138d989d3b42f4c165d6ab70e4",
+      "bytes": 3767952
+    },
+    {
+      "path": "reports/p1-018/assembly26-detail03/speaker-candidate02/speaker_shelf.png",
+      "sha256": "3ecb93b80c039a3f7b5c61d6575b05b55984910accfe3d5d16dbd804959fcad2",
+      "bytes": 3762522
+    },
+    {
+      "path": "reports/p1-018/assembly26-finaltools01/preparation.json",
+      "sha256": "600ed78fcd23f2e3d848e0ffcd529a5103615cd68fa46aae65e8bbdca97e4759",
+      "bytes": 1577
+    },
+    {
+      "path": "reports/p1-018/assembly26-finaltools01/prepare.py",
+      "sha256": "3c347579412d4a7b70b7d22a5d88a57eb7a16b598750fd215af85f416ef8217a",
+      "bytes": 2634
+    },
+    {
+      "path": "reports/p1-018/assembly26-finaltools01/proposed/assembly_finish.py",
+      "sha256": "e25acaf4f67ec090fc4c2fbdc11ac16d594157506b6130d68d61107bd46b62e1",
+      "bytes": 2502
+    },
+    {
+      "path": "reports/p1-018/assembly26-finaltools01/proposed/rear_seat_field.py",
+      "sha256": "e5f6e7dc2d94b42d6283029faa33f381b7ab0e5c6f8948733e1f9ffaab3ddffd",
+      "bytes": 9434
+    },
+    {
+      "path": "reports/p1-018/assembly26-finaltools01/proposed/seat_ordering.py",
+      "sha256": "ac513a44ab7412f8104ff6be0f2bfeec7fe381b5d1724b5cef73da4a430a4528",
+      "bytes": 4098
+    },
+    {
+      "path": "reports/p1-018/assembly26-integration01/acoustic02-preparation.json",
+      "sha256": "48f50c32b5df67f67d1006930a0b2a9eb896cebb6feddb32a6a48227098cd471",
+      "bytes": 1288
+    },
+    {
+      "path": "reports/p1-018/assembly26-integration01/assembly_finish.py",
+      "sha256": "ca1eb99ec9c1c7e7b6f756fe62da95997a21dd3dbf7c01015fc36d0cac4d8c62",
+      "bytes": 2311
+    },
+    {
+      "path": "reports/p1-018/assembly26-integration01/build.py",
+      "sha256": "1c0e3011eec7171df2f63b12374400c138c602beae5bcc34afdea2a60f6d28eb",
+      "bytes": 3398
+    },
+    {
+      "path": "reports/p1-018/assembly26-integration01/build_acoustic.py",
+      "sha256": "536c533ee627308a3b5f75847f9861e375c818df58a2699d14f69058320aead9",
+      "bytes": 2002
+    },
+    {
+      "path": "reports/p1-018/assembly26-integration01/build_acoustic02.py",
+      "sha256": "443f012a8e32a7fe78e6d58ca1bb76eec8b728225daf8b89f8c66d0500e8ce24",
+      "bytes": 2023
+    },
+    {
+      "path": "reports/p1-018/assembly26-integration01/build_details.py",
+      "sha256": "90596707198462cf5fc0a04e84e81148ec99e588ee387c57f4ef52cc67746745",
+      "bytes": 2805
+    },
+    {
+      "path": "reports/p1-018/assembly26-integration01/build_roof.py",
+      "sha256": "f7f01a1845842f64bf403a45eb5992bdd65c3314bb0bbc0f9355cd09fc5d95b1",
+      "bytes": 2735
+    },
+    {
+      "path": "reports/p1-018/assembly26-integration01/compare.py",
+      "sha256": "e5fae7a0d9afb8a633fd2fd27afbe5b3591688a5e5c1886c9baa29a30c43c20c",
+      "bytes": 3812
+    },
+    {
+      "path": "reports/p1-018/assembly26-integration01/compare02.py",
+      "sha256": "755c8eb36014d8a22e5f30644d5c42a3a24757fc15f9f5f5569f4709a6894bc7",
+      "bytes": 5898
+    },
+    {
+      "path": "reports/p1-018/assembly26-integration01/details-preparation.json",
+      "sha256": "ea50d0f183a61780eec36b713cc568bbfade8c1e2ab19ddf29a8344526be7c53",
+      "bytes": 1020
+    },
+    {
+      "path": "reports/p1-018/assembly26-integration01/position_diagnosis.py",
+      "sha256": "eddb8d999ae18d0f921072ca3dc9b29e5fc24e0540b894b2b43a1f5adbae8ca3",
+      "bytes": 2320
+    },
+    {
+      "path": "reports/p1-018/assembly26-integration01/preparation.json",
+      "sha256": "9b5be95675fec159e49e92114d540a9ef56d13d01d81dfca8ed4f716275fa337",
+      "bytes": 4876
+    },
+    {
+      "path": "reports/p1-018/assembly26-integration01/prepare.py",
+      "sha256": "42428d37c532fe890d2d14f4d88ca642439117e7ef4bf9255814f760ce7b2221",
+      "bytes": 3367
+    },
+    {
+      "path": "reports/p1-018/assembly26-integration01/prepare_acoustic02.py",
+      "sha256": "3b4946903077048ceb3d40f27ce80a7e26d02ce5dc756f562d60a8c4692d04d6",
+      "bytes": 2379
+    },
+    {
+      "path": "reports/p1-018/assembly26-integration01/prepare_compare02.py",
+      "sha256": "b4f158d0053c3ef274e47a0f8cf89e325b23c36e172d7ad09087399508cca676",
+      "bytes": 3021
+    },
+    {
+      "path": "reports/p1-018/assembly26-integration01/prepare_details.py",
+      "sha256": "37590543c2ff7d3e8e0005e59ced7f3f60a68ff0e0eb3c713e28084214ac9c92",
+      "bytes": 2708
+    },
+    {
+      "path": "reports/p1-018/assembly26-integration01/proposed/acoustic_finish.py",
+      "sha256": "572872d91bff6aa253d2a80968ff2b05e64ba6ad175f06729f8d6d898ed103c4",
+      "bytes": 6551
+    },
+    {
+      "path": "reports/p1-018/assembly26-integration01/proposed/acoustic_finish02.py",
+      "sha256": "de87e9fade6782f5e2440a0cb705ee122fe1f7a27a643a5fd513d5a1c6b72afb",
+      "bytes": 6601
+    },
+    {
+      "path": "reports/p1-018/assembly26-integration01/proposed/assembly_fields.py",
+      "sha256": "42e0aa6a5c60a678cda2c39a01ffcb14b112a1020937b6a01855ad21f6f9ceb9",
+      "bytes": 4270
+    },
+    {
+      "path": "reports/p1-018/assembly26-integration01/proposed/assembly_sections.py",
+      "sha256": "0593edf470912fe7136e9a9f493a597dc9956b51cbeab08442d19f501f9dd795",
+      "bytes": 2694
+    },
+    {
+      "path": "reports/p1-018/assembly26-integration01/proposed/assembly_structure.py",
+      "sha256": "75324b9cf646ea7381f542e3ba0d43015fbd1bb64c14bcc350b3498b688f483f",
+      "bytes": 19678
+    },
+    {
+      "path": "reports/p1-018/assembly26-integration01/proposed/cooling_core.py",
+      "sha256": "a7fbd218e1d56a70be83d40eb8395b93d216cc4ab843909007b98bde621ecad2",
+      "bytes": 4060
+    },
+    {
+      "path": "reports/p1-018/assembly26-integration01/proposed/corner_encoding.py",
+      "sha256": "7015e709d2cc36b278b310edb78cb70e7256ad0cdcd71c78abc8732196bc041a",
+      "bytes": 5939
+    },
+    {
+      "path": "reports/p1-018/assembly26-integration01/proposed/document_storage.py",
+      "sha256": "af68e3e7fc09b8f76bec408952bae91e4988bc4cb416446c0cd9f528414e2b50",
+      "bytes": 7485
+    },
+    {
+      "path": "reports/p1-018/assembly26-integration01/proposed/door_sills.py",
+      "sha256": "cb0b0a13cf30e8bf0cda9cdc0bf0acb76fe4f3cf96f42666048a0b22d20bbcbe",
+      "bytes": 3424
+    },
+    {
+      "path": "reports/p1-018/assembly26-integration01/proposed/rear_wheelhouse.py",
+      "sha256": "9a71cffa1e24f79b2ecbb9031c2b22fd5d93a30ba280553746769fbe097085b1",
+      "bytes": 4264
+    },
+    {
+      "path": "reports/p1-018/assembly26-integration01/proposed/seat_assemblies.py",
+      "sha256": "3aca3a45aa13680545b53ececd5634eb1d716bcdb4c658af2d02b655f3692f58",
+      "bytes": 18947
+    },
+    {
+      "path": "reports/p1-018/assembly26-integration01/proposed/seat_install.py",
+      "sha256": "554d81a8ee986bdb69277909c340c8f400f4062b28d29033253ee948c08981bf",
+      "bytes": 3095
+    },
+    {
+      "path": "reports/p1-018/assembly26-integration01/proposed/sound_grilles.py",
+      "sha256": "2146a021105f8b7140b833a4d6b43a0761aa98f5baac723fea4b00305ce20f0f",
+      "bytes": 8579
+    },
+    {
+      "path": "reports/p1-018/assembly26-integration01/proposed/triangle_projection.py",
+      "sha256": "f8a311e88c3a4f38016fb4456de3cd1b8eaeee6f5f1d132683a6a864ea3fc68a",
+      "bytes": 1251
+    },
+    {
+      "path": "reports/p1-018/assembly26-integration01/render_speakers.py",
+      "sha256": "e13373202821dc1f18b9fbf068188c7ba834e7c85ad73e1b852741f0223cc772",
+      "bytes": 1411
+    },
+    {
+      "path": "reports/p1-018/assembly26-integration01/topology_diagnosis.py",
+      "sha256": "2b0995c866ca080b6fa351ede6125d974e4f6924bf4e3ffd1e715719a6993e09",
+      "bytes": 3285
+    },
+    {
+      "path": "reports/p1-018/assembly26-integration02/build.py",
+      "sha256": "060a876efedd263ca88a124d8e6916574b77b1daa2bc75b6a0aad0605ca0181d",
+      "bytes": 4383
+    },
+    {
+      "path": "reports/p1-018/assembly26-integration02/prepare.py",
+      "sha256": "36be2ef22ca4d3bf69942c2b377e9bc0fa72f4d214dd5934086fc60b2d514dbb",
+      "bytes": 3989
+    },
+    {
+      "path": "reports/p1-018/assembly26-integration02/scope.json",
+      "sha256": "6b360b4a2c991c6b4b8be4766eeba920d6b07f827f761cf0d562adb21049ecc0",
+      "bytes": 2067
+    },
+    {
+      "path": "reports/p1-018/assembly26-pilot01/construction-details.json.gz",
+      "sha256": "a77da59ab388ac76a810c9fdf3d25115916ee3ca287a81e12da42b86693ddd94",
+      "bytes": 38681
+    },
+    {
+      "path": "reports/p1-018/assembly26-pilot01/construction.json",
+      "sha256": "f42abd3c179b7f487803d927fa5786fbce8d5bf98f442678adedbeab4390ee0a",
+      "bytes": 7796
+    },
+    {
+      "path": "reports/p1-018/assembly26-pilot01/correspondence01.json",
+      "sha256": "0817ccf797efbef8c373d20d753fcf33dcf21efd949c735becc845fd8a5df2ce",
+      "bytes": 2349802
+    },
+    {
+      "path": "reports/p1-018/assembly26-pilot01/correspondence02.json",
+      "sha256": "3bfd4c947b7bf829564a109973d505f0690181c1efeeade5ab21edac6b3d5f40",
+      "bytes": 2746464
+    },
+    {
+      "path": "reports/p1-018/assembly26-pilot01/extraction01/evaluated-inventory.json",
+      "sha256": "51353a13b3f2796a33d5f83ed0a42d25ed705ef505d5bb794e8b03bab4e17dbb",
+      "bytes": 1386735
+    },
+    {
+      "path": "reports/p1-018/assembly26-pilot01/extraction01/evaluated-meshes.json.gz",
+      "sha256": "f4054773db22d8fdf656972f236472093dbff4840f2ab91af58033622ca8d3c4",
+      "bytes": 1572589
+    },
+    {
+      "path": "reports/p1-018/assembly26-pilot01/native01.json.gz",
+      "sha256": "961c64fb5058a3b5fad7ddcc0a65616034aa96834817e9bbfd35649c28d2ce02",
+      "bytes": 24792716
+    },
+    {
+      "path": "reports/p1-018/assembly26-pilot01/position-diagnosis01.json",
+      "sha256": "b06db51a6a851dfda72f430065f9aa72868c8f7764fa503a93f1429810f0b3b1",
+      "bytes": 3456
+    },
+    {
+      "path": "reports/p1-018/assembly26-pilot01/previous-native01.json.gz",
+      "sha256": "68c728393f5cb7a4ed596a20d61d2a9f6e5ee5298dbded45e7d1b5d17213a439",
+      "bytes": 24767954
+    },
+    {
+      "path": "reports/p1-018/assembly26-pilot01/rear-seat-self01.json",
+      "sha256": "f8accaa93044c0314cd07b2614c712063cd88d2968df9c217d6b5654f3b572eb",
+      "bytes": 7138
+    },
+    {
+      "path": "reports/p1-018/assembly26-pilot01/seat-finish01.json",
+      "sha256": "46a7164d960bc7c122800792f0c1c79c4a41e0f73d2b75628957277b5ff5868d",
+      "bytes": 15741140
+    },
+    {
+      "path": "reports/p1-018/assembly26-pilot01/source.blend",
+      "sha256": "0e2dbf8442d1f4d700af3977b193986582a28239e06586acfa9e201c3d3434bd",
+      "bytes": 6431294
+    },
+    {
+      "path": "reports/p1-018/assembly26-pilot01/topology-diagnosis01.json",
+      "sha256": "5177f146fbe5b4db0246369390a06bfe5dd33d118ee573ac05447ee3c6683415",
+      "bytes": 64492
+    },
+    {
+      "path": "reports/p1-018/assembly26-pilot02/construction-details.json.gz",
+      "sha256": "3974343b41da3c32e346a028ca9c0c11b711315e3f888d49c5a8fbab4bc4dc4f",
+      "bytes": 227591
+    },
+    {
+      "path": "reports/p1-018/assembly26-pilot02/construction.json",
+      "sha256": "1cbea7ff746fd698bc72953b9144571205287152951ab98736ade789f6c5ea66",
+      "bytes": 8840
+    },
+    {
+      "path": "reports/p1-018/assembly26-pilot02/seat-baseline01/manifest.json",
+      "sha256": "7d7349c8f5ed67da65c6cf610bf8b05b7ffb22af50bd1175889a21c5fc0beede",
+      "bytes": 3295
+    },
+    {
+      "path": "reports/p1-018/assembly26-pilot02/seat-baseline01/rear_seats.png",
+      "sha256": "9872db6184c868493b06c8f83cfd1f947573ea959d0a0e412b0f3cd7b4858201",
+      "bytes": 3651328
+    },
+    {
+      "path": "reports/p1-018/assembly26-pilot02/seat-baseline01/upholstery.png",
+      "sha256": "cc73b0e1adbab55beebf4f0ded27f00bda80f19d05c0babadb3570e0bf4644fb",
+      "bytes": 3639013
+    },
+    {
+      "path": "reports/p1-018/assembly26-pilot02/seat-candidate01/manifest.json",
+      "sha256": "9a0492954971385b0416b0d86bfbdf1d10393d5e86d6dc112fc992211d7b1357",
+      "bytes": 3295
+    }
+  ],
+  "archives": [
+    {
+      "path": "data/assets/vehicles/endurance-sedan-review/art-checkpoint-v26/art-checkpoint-v26-02.zip",
+      "sha256": "0f8e333bda298d0851afe96b271c65b5d183ac365e5491f6c99752cf6d0ad7b3",
+      "bytes": 110254181,
+      "crc_and_member_sha256_verified": true
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint26-retention01/art-checkpoint-v26-02-repeat.zip",
+      "sha256": "0f8e333bda298d0851afe96b271c65b5d183ac365e5491f6c99752cf6d0ad7b3",
+      "bytes": 110254181,
+      "crc_and_member_sha256_verified": true
+    }
+  ],
+  "human_approval_reference": null,
+  "limits": "Evidence retention and byte identity only; individual reports retain their own scope, failures and approval status.",
+  "byte_reproducible": true,
+  "finished_utc": "2026-09-12T18:42:01.904686+00:00"
+}
