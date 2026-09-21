@@ -105,6 +105,8 @@ def main():
         tire_revision = records.read(project / 'docs/vehicles/endurance-sedan/specification.json')['original_packaging'].get('tire_groove_revision38')
         tire_checkpoint = [pre_lod.parent / 'pre-grooves/source.blend'] if tire_revision is not None else []
         detail_policy = records.read(project / 'docs/vehicles/endurance-sedan/specification.json')['original_packaging']
+        current_tire_outputs = ([pre_lod.parent / 'pre-tire40/source.blend']
+                                if 'tire_radial_revision40' in detail_policy else [])
         detail_checkpoint = [pre_lod.parent / 'pre-detail/source.blend'] if 'repeated_detail_revision38' in detail_policy else []
         cover_outputs = ([pre_lod.parent / 'pre-cover/source.blend',
                           pre_lod.parent / 'pre-cover/requested.json.gz']
@@ -113,13 +115,15 @@ def main():
                           pre_lod.parent / 'pre-front40/requested.json.gz']
                          if 'front_finish_revision40' in detail_policy else [])
         upper_outputs = ([pre_lod.parent / 'pre-upper40/source.blend',
+                          pre_lod.parent / 'pre-upper40/base-requested.json.gz',
+                          pre_lod.parent / 'pre-upper40/native-intermediate.json.gz',
                           pre_lod.parent / 'pre-upper40/requested.json.gz']
                          if 'upper_finish_revision40' in detail_policy else [])
         first = native('fresh-construction', 'tools/vehicles/create_endurance_sedan.py',
             ['--output', pre_lod, '--stage', 'production', '--surface-preview'],
             [pre_lod, pre_lod.with_suffix('.construction.json.gz'), pre_front, historical_source,
              historical_packet, historical_profile, *tire_checkpoint, *detail_checkpoint,
-             *cover_outputs, *front_outputs, *upper_outputs])
+             *cover_outputs, *front_outputs, *upper_outputs, *current_tire_outputs])
         shutil.copyfile(pre_lod.with_suffix('.construction.json.gz'), construction)
         companion = records.read(construction)
         constructors = companion['construction_inputs']

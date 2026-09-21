@@ -217,11 +217,20 @@ def high_tire_controls(e, observation, expected_observation_digest, controls):
     corruptions are restored in memory; this function never opens or saves.
     """
     from ..distance_lod import tire
-    from .. import tire_grooves38
+    from .. import tire_grooves38, tire_finish40, corner_encoding
     inputs = e['tire_binding']['inputs']
     spec, construction = e['embedded_specification'], e['construction']
     captured = e['tire_binding']['high_source']
     reject = lambda name, call, text: reject_control(controls, name, call, text)
+    radial = tire_finish40.prepare(inputs, spec, construction, observation, expected_observation_digest)
+    if radial is not None:
+        # Historical contract cases still exercise the actual historical
+        # observation. The complete current wrapper has its own caller-held
+        # digest and independently replayed source binding above.
+        observation = observation['legacy']
+        expected_observation_digest = digest(observation)
+    live_difference = ('Actual high tire differs' if radial is None else
+                       'Actual current44 native tire differs')
 
     def contract(s=spec, c=construction, o=observation, held=expected_observation_digest):
         return tire.high_source_contract(inputs, s, c, o, held)
@@ -284,17 +293,17 @@ def high_tire_controls(e, observation, expected_observation_digest, controls):
         uv = list(modified.uv_layers.active.data[0].uv)
         modified.uv_layers.active.data[0].uv[0] += 1e-4
         reject('high-tire-corrupted-native-UV-after-replay',
-            lambda: tire.validate_high_source(inputs, spec, captured), 'Actual high tire differs')
+            lambda: tire.validate_high_source(inputs, spec, captured), live_difference)
         modified.uv_layers.active.data[0].uv = uv
         codes = modified.attributes['custom_normal']
         original_code = list(codes.data[0].value)
         codes.data[0].value = [original_code[0] + (-1 if original_code[0] == 32767 else 1), original_code[1]]
         reject('high-tire-corrupted-native-code-after-replay',
-            lambda: tire.validate_high_source(inputs, spec, captured), 'Actual high tire differs')
+            lambda: tire.validate_high_source(inputs, spec, captured), live_difference)
         codes.data[0].value = original_code
         modified.vertices[0].co.x += .001
         reject('high-tire-corrupted-native-position-after-replay',
-            lambda: tire.validate_high_source(inputs, spec, captured), 'Actual high tire differs')
+            lambda: tire.validate_high_source(inputs, spec, captured), live_difference)
     finally:
         obj.data = original_mesh
         bpy.data.meshes.remove(modified)
@@ -302,7 +311,7 @@ def high_tire_controls(e, observation, expected_observation_digest, controls):
     try:
         original_mesh.materials[0] = bpy.data.materials['Material_Trim']
         reject('high-tire-corrupted-native-material-after-replay',
-            lambda: tire.validate_high_source(inputs, spec, captured), 'Actual high tire differs')
+            lambda: tire.validate_high_source(inputs, spec, captured), live_difference)
     finally:
         original_mesh.materials[0] = material
     parent = obj.parent
@@ -310,7 +319,7 @@ def high_tire_controls(e, observation, expected_observation_digest, controls):
         obj.parent = bpy.data.objects['Wheel_FR']
         bpy.context.view_layer.update()
         reject('high-tire-corrupted-native-parent-after-replay',
-            lambda: tire.validate_high_source(inputs, spec, captured), 'Actual high tire differs')
+            lambda: tire.validate_high_source(inputs, spec, captured), live_difference)
     finally:
         obj.parent = parent
         bpy.context.view_layer.update()
@@ -318,6 +327,23 @@ def high_tire_controls(e, observation, expected_observation_digest, controls):
     # still match. This rejects before the expensive complete surface bound.
     changed_witness = copy.deepcopy(construction['tire_grooves38']['tires'][obj.name])
     changed_witness['construction']['targets'][0] = [0., 0., 0.]
-    reject('high-tire-corrupted-replay-target', lambda: tire_grooves38.verify_current(obj, changed_witness),
-        'constructor/domain/target replay differs')
+    legacy_mesh = None
+    try:
+        if radial is not None:
+            # Restore only a temporary exact historical mesh generated from
+            # the independently observed original checkpoint. Do not pretend
+            # the current44 mesh is the historical52 construction result.
+            witness = construction['tire_grooves38']['tires'][obj.name]
+            legacy_mesh, replay = tire_grooves38.build_mesh(witness['before_native']['mesh'],
+                list(original_mesh.materials), '_HistoricalTireQA', corner_encoding)
+            require(tire_grooves38.plain(replay) == witness['construction'],
+                    'Historical tire QA regeneration differs')
+            obj.data = legacy_mesh
+            tire_grooves38.current_matches(obj, witness)
+        reject('high-tire-corrupted-replay-target', lambda: tire_grooves38.verify_current(obj, changed_witness),
+            'constructor/domain/target replay differs')
+    finally:
+        obj.data = original_mesh
+        if legacy_mesh is not None:
+            bpy.data.meshes.remove(legacy_mesh)
     tire.validate_high_source(inputs, spec, captured)

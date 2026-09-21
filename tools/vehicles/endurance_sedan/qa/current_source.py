@@ -74,6 +74,12 @@ def main():
     result['native_high_tire_checkpoint_observed'] = observations['high_tire'] is not None
     result['native_completed_legacy_front_observed'] = observations['front_finish'] is not None
     result['native_upper_checkpoint_observed'] = observations['upper_finish'] is not None
+    from endurance_sedan import tire_finish40
+    result['native_current_tire_checkpoint_observed'] = (
+        isinstance(observations['high_tire'], dict)
+        and observations['high_tire'].get('schema') == tire_finish40.OBSERVATION_SCHEMA)
+    if result['native_current_tire_checkpoint_observed']:
+        result['current_tires'] = tire_finish40.verify_current(construction[tire_finish40.COMPANION])
     held = context['context_digest']
     if args.mode == 'front':
         payload = distance_lod.verify_current_front(context=context, expected_context_digest=held)

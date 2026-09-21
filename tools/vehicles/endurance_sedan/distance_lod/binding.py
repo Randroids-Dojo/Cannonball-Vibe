@@ -52,12 +52,14 @@ def read(path):
 
 def validate_domain_profiles(profile):
     from .tire import POLICY, HIGH_SOURCE_POLICY
+    from ..tire_policy40 import POLICY as CURRENT_TIRE_POLICY
     require(profile.get('current_front_protection') == CURRENT_FRONT_PROTECTION,
             'Changed finite lamp protection profile')
     require(profile.get('current_glass') == CURRENT_GLASS,
             'Changed authorized current glass domain profile')
     supported = dict(POLICY, high_source_revisions=[HIGH_SOURCE_POLICY])
-    require(profile.get('distant_tire') in (POLICY, supported), 'Changed distant tire profile')
+    current = dict(supported, current_source_revisions=[CURRENT_TIRE_POLICY])
+    require(profile.get('distant_tire') in (POLICY, supported, current), 'Changed distant tire profile')
 
 
 def check_file(row):

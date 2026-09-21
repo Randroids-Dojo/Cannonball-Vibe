@@ -103,6 +103,14 @@ def _validate_repaired_profile(profile, expected_digest):
 
 
 def validate_profile(profile, expected_digest):
+    if 'distant_lids40' in profile:
+        from .lid_policy40 import POLICY as LID_POLICY
+        if digest(profile) != expected_digest or profile['distant_lids40'] != LID_POLICY:
+            raise ValueError('Caller-locked distant lid representation differs')
+        baseline = dict(profile)
+        baseline.pop('distant_lids40')
+        validate_profile(baseline, digest(baseline))
+        return
     if 'current_upper_revision40' in profile:
         from ..qa.upper_finish_report import LOWER_POLICY as UPPER_LOWER
         if digest(profile) != expected_digest or profile.get('current_upper_revision40') != UPPER_LOWER:
@@ -158,7 +166,8 @@ def apply(collection, lods, *, package, optimization, geometry, surfaces, shell_
     current_front = front_context.get('current_revision40') is True
     from ..qa.front_finish_report import NAMES
     front_names = NAMES if current_front else ('LOD0_FrontBumper',)
-    required = {*front_names, *profile['field_panes'], *profile['component_ratio_overrides']}
+    lid_names = tuple(profile.get('distant_lids40', {}).get('members', []))
+    required = {*front_names, *lid_names, *profile['field_panes'], *profile['component_ratio_overrides']}
     if not required <= names or required & omitted:
         raise ValueError('Missing or omitted protected current source member')
     # Predict the unchanged make_lods eligibility before it writes metadata.
@@ -207,9 +216,10 @@ def apply(collection, lods, *, package, optimization, geometry, surfaces, shell_
 
     def groups(objects, lod_index, target_parent=None):
         result, found = [], 0
-        private_inputs = [o for o in objects if o.name not in front_names]
-        if len(private_inputs) != len(objects) - len(front_names) or lod_index not in (1, 2):
-            raise ValueError('Missing/ambiguous current front exclusion before grouping')
+        separate = set(front_names) | set(lid_names)
+        private_inputs = [o for o in objects if o.name not in separate]
+        if len(private_inputs) != len(objects) - len(separate) or lod_index not in (1, 2):
+            raise ValueError('Missing/ambiguous separate current component before grouping')
         for key, members in ordinary_groups(private_inputs, lod_index, target_parent):
             if key == ('Visual_LOD' + str(lod_index), 'Material_Paint'):
                 if sorted(o.name for o in members) != expected_paint:
@@ -256,6 +266,23 @@ def apply(collection, lods, *, package, optimization, geometry, surfaces, shell_
         for obj in lower:
             geometry.repair_triangulation(obj)
         entries = json.loads(bpy.context.scene['lod_construction'])
+        lid_proofs = []
+        if lid_names:
+            from . import lids40
+            for level in (1, 2):
+                for source_name in lid_names:
+                    obj, proof = lids40.build(bpy.data.objects[source_name], level, collection, shell_certificate)
+                    obj.hide_render = True
+                    obj.hide_set(True)
+                    entries.append({'batch': obj.name, 'lod': level, 'parent': obj.parent.name,
+                        'material': obj.data.materials[0].name, 'triangles_after': proof['triangles'],
+                        'source_component': source_name,
+                        'method': 'Complete source-field distant lid; original moving parent, no subsequent rebatch',
+                        'components': [{'source_component': source_name, 'vertex_start': 0,
+                            'vertex_count': len(obj.data.vertices), 'triangle_start': 0,
+                            'triangle_count': proof['triangles'], 'range_domain': 'Complete final single-source lid'}]})
+                    lower.append(obj)
+                    lid_proofs.append(proof)
         fronts, front_proofs = [], []
         for level, source_name in ((level, name) for level in (1, 2) for name in front_names):
             front, front_proof = front_builder.build(bpy.data.objects[source_name], lods[level], collection,
@@ -338,6 +365,7 @@ def apply(collection, lods, *, package, optimization, geometry, surfaces, shell_
             'actual_maximum_lod_zero': sorted(o.name for o in originals if o.get('maximum_lod', 2) == 0),
             'complete_indexed_shell_proofs': shells, 'mesh_count': len(rows), 'shell_count': sum(p['shell_count'] for p in shells),
             'budget': budget, 'front_field': final_front, 'front_attempts': front_proofs, 'glass_fields': pane_proofs,
+            'distant_lid_fields': lid_proofs,
             'unmodified_original_mesh_count': len(originals), 'semantic_empty_fields_unchanged': True,
             'limits': profile['limits'], 'source_saves': 0, 'exports': 0, 'human_approval_reference': None,
             'scope': 'Actual current native LOD construction, raw fields, complete indexed-shell validity and literal composed budget. Cross-shell contacts, final exports, runtime transitions and human acceptance remain separate. Scene lod_index/maximum_lod metadata are intentionally set by the existing distance-eligibility policy; source mesh fields are preserved.'}

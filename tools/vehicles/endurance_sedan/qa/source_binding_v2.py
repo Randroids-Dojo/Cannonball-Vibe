@@ -16,6 +16,7 @@ class PipelineLock:
     valance_cover: object | None = None
     front_finish: object | None = None
     upper_finish: object | None = None
+    current_tire: object | None = None
 
 
 def load(path, source, root, output, legacy_loader):
@@ -26,6 +27,7 @@ def load(path, source, root, output, legacy_loader):
         from .valance_cover_report import lock_optional as lock_cover
         from .front_finish_report import lock_optional as lock_front
         from .upper_finish_report import lock_optional as lock_upper
+        from .tire_finish_report import lock_optional as lock_tire, HELPERS as TIRE_HELPERS
     else:
         from gate import (Input, SourceLock, artifact, digest, keys, positive_process,
                           require, sha, strict_json)
@@ -33,6 +35,7 @@ def load(path, source, root, output, legacy_loader):
         from valance_cover_report import lock_optional as lock_cover
         from front_finish_report import lock_optional as lock_front
         from upper_finish_report import lock_optional as lock_upper
+        from tire_finish_report import lock_optional as lock_tire, HELPERS as TIRE_HELPERS
 
     path, source, root = Path(path).resolve(strict=True), Path(source).resolve(strict=True), Path(root).resolve(strict=True)
     document = strict_json(path)
@@ -163,7 +166,12 @@ def load(path, source, root, output, legacy_loader):
     upper_paths = {'constructor': root / 'tools/vehicles/endurance_sedan/upper_finish40/construction.py',
                    'generator': root / 'tools/vehicles/endurance_sedan/upper_sections40/__init__.py',
                    'encoder': root / 'tools/vehicles/endurance_sedan/corner_encoding.py',
-                   'design': root / 'tools/vehicles/endurance_sedan/upper_sections40/sections.json'}
+                   'design': root / 'tools/vehicles/endurance_sedan/upper_sections40/sections.json',
+                   **{role: root / 'tools/vehicles/endurance_sedan/upper_sections40/native_sections' / filename
+                      for role, filename in (
+                          ('native_generator', '__init__.py'), ('roof_generator', 'roof.py'),
+                          ('roof_design', 'roof_sections.json'), ('frame_generator', 'frames.py'),
+                          ('frame_design', 'frame_sections.json'))}}
     upper = lock_upper(strict_json(role_rows['specification'].path), construction,
         is_pipeline=True, artifact=lambda row: artifact(row, root), generation_inputs=input_files,
         phase_outputs=fresh_outputs,
@@ -171,18 +179,25 @@ def load(path, source, root, output, legacy_loader):
                           *detail_inputs, *cover_inputs, *front_inputs],
         logical_files={key: row for key, logical in upper_paths.items()
                        for row in input_files if row.path == logical})
-    upper_inputs = [] if upper is None else [upper.checkpoint, upper.requested, upper.constructor,
-                                            upper.generator, upper.encoder, upper.design]
+    upper_inputs = [] if upper is None else list(upper.artifacts)
+    tire_paths = {key: root / 'tools/vehicles/endurance_sedan' / name for key, name in TIRE_HELPERS.items()}
+    current_tire = lock_tire(strict_json(role_rows['specification'].path), construction,
+        artifact=lambda row: artifact(row, root), generation_inputs=input_files, phase_outputs=fresh_outputs,
+        source_artifacts=[*files.values(), historical_source, *role_rows.values(), *tire_inputs,
+                          *detail_inputs, *cover_inputs, *front_inputs, *upper_inputs],
+        logical_files={key: row for key, logical in tire_paths.items() for row in input_files if row.path == logical})
+    current_tire_inputs = [] if current_tire is None else list(current_tire.artifacts)
     binding = Input(path, sha(path), path.stat().st_size)
     inputs = (binding, *files.values(), *historical.inputs, *input_files, *logs,
               *phase_outputs, *actual_outputs.values(), *role_rows.values(), *lower_inputs, *tire_inputs,
-              *detail_inputs, *cover_inputs, *front_inputs, *upper_inputs)
+              *detail_inputs, *cover_inputs, *front_inputs, *upper_inputs, *current_tire_inputs)
     destination = Path(output).resolve()
     require(not destination.exists() and all(not row.path.is_relative_to(destination) for row in inputs),
             'New QA output must not contain locked source inputs')
     pipeline = PipelineLock(historical, files['pre_lod_source'], files['pre_front_source'], files['construction'],
                             files['lower_bundle'], files['generation_record'], portable,
-                            repeated_detail=detail, valance_cover=cover, front_finish=front, upper_finish=upper)
+                            repeated_detail=detail, valance_cover=cover, front_finish=front, upper_finish=upper,
+                            current_tire=current_tire)
     lock = SourceLock(root, binding, files['source'], historical.packet, historical.profile,
                       historical.builder, historical.helper, historical.ownership,
                       historical.constructor_inputs_sha256, tuple(inputs), pipeline=pipeline)

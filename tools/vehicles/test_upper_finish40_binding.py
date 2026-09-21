@@ -22,24 +22,31 @@ class UpperBindingTests(unittest.TestCase):
 
     def setUp(self):
         self.spec = {'original_packaging': {upper.SELECTOR: deepcopy(upper.POLICY)}}
-        self.proof = {'schema': 'source-upper-construction40.v1', 'policy': deepcopy(upper.POLICY),
+        self.proof = {'schema': upper.CONSTRUCTION_SCHEMA, 'policy': deepcopy(upper.POLICY),
             'source_phase': 'pre-lod', 'before': {name: {} for name in upper.INPUTS},
             'before_frames': {name: {} for name in upper.INPUTS},
             'before_material_response': {name: {} for name in upper.INPUTS},
             'native': {'after': {name: {} for name in upper.NAMES}},
+            'base_native': {'after': {name: {} for name in upper.NAMES}},
             'unowned_raw_before': {name: 'a' * 64 for name in upper.RETAINED},
             'unowned_raw_unchanged': True}
         self.construction = {upper.COMPANION: self.proof}
         self.files = {key: File(Path(path)) for key, path in {
             'checkpoint': 'data/pre-upper40/source.blend', 'requested': 'data/pre-upper40/requested.json.gz',
+            'base_requested': 'data/pre-upper40/base-requested.json.gz',
+            'native_intermediate': 'data/pre-upper40/native-intermediate.json.gz',
             'constructor': 'tools/upper_finish40/construction.py', 'generator': 'tools/upper_sections40/__init__.py',
-            'encoder': 'tools/corner_encoding.py', 'design': 'tools/upper_sections40/sections.json'}.items()}
+            'encoder': 'tools/corner_encoding.py', 'design': 'tools/upper_sections40/sections.json',
+            **{role: 'tools/upper_sections40/native_sections/' + filename for role, filename in (
+                ('native_generator', '__init__.py'), ('roof_generator', 'roof.py'),
+                ('roof_design', 'roof_sections.json'), ('frame_generator', 'frames.py'),
+                ('frame_design', 'frame_sections.json'))}}.items()}
         self.proof.update(self.files)
         self.arguments = {'is_pipeline': True, 'artifact': lambda row: row,
-            'generation_inputs': [self.files[key] for key in ('constructor', 'generator', 'encoder', 'design')],
-            'phase_outputs': [self.files[key] for key in ('checkpoint', 'requested')],
+            'generation_inputs': [self.files[key] for key in upper.HELPER_ROLES],
+            'phase_outputs': [self.files[key] for key in upper.PHASE_NAMES],
             'source_artifacts': [File(Path('data/current.blend'))],
-            'logical_files': {key: self.files[key] for key in ('constructor', 'generator', 'encoder', 'design')}}
+            'logical_files': {key: self.files[key] for key in upper.HELPER_ROLES}}
 
     def lock(self):
         return upper.lock_optional(self.spec, self.construction, **self.arguments)
@@ -85,6 +92,38 @@ class UpperBindingTests(unittest.TestCase):
         self.proof['native']['after']['LOD0_Windshield'] = {}
         with self.assertRaisesRegex(ValueError, 'output domain'):
             self.lock()
+
+    def test_complete_intermediate_native_roles_are_required(self):
+        original = deepcopy(self.proof['base_native'])
+        for name in upper.NAMES:
+            self.proof['base_native'] = deepcopy(original)
+            del self.proof['base_native']['after'][name]
+            with self.subTest(role=name), self.assertRaisesRegex(ValueError, 'intermediate domain'):
+                self.lock()
+        self.proof['base_native'] = deepcopy(original)
+        self.proof['base_native']['after']['LOD0_Unrelated'] = {}
+        with self.assertRaisesRegex(ValueError, 'intermediate domain'):
+            self.lock()
+
+    def test_base_request_and_intermediate_cannot_alias_or_substitute(self):
+        for role in ('base_requested', 'native_intermediate'):
+            original = self.proof[role]
+            self.proof[role] = self.proof['requested']
+            with self.subTest(role=role), self.assertRaisesRegex(ValueError, 'Aliased'):
+                self.lock()
+            self.proof[role] = File(Path('data/pre-upper40/other.json.gz'))
+            with self.subTest(role=role), self.assertRaisesRegex(ValueError, 'stage artifact'):
+                self.lock()
+            self.proof[role] = original
+
+    def test_all_native_design_and_helper_roles_are_required(self):
+        for role in ('native_generator', 'roof_generator', 'roof_design', 'frame_generator', 'frame_design'):
+            original = self.proof[role]
+            del self.proof[role]
+            with self.subTest(role=role), self.assertRaisesRegex(ValueError, 'Missing upper'):
+                self.lock()
+            self.proof[role] = original
+        self.assertEqual(set(self.lock().artifacts), set(self.files.values()))
 
     def test_retained_pane_cannot_be_omitted(self):
         self.proof['unowned_raw_before'].pop('LOD0_Windshield')

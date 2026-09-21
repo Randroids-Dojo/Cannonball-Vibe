@@ -30,8 +30,15 @@ def capture_mesh(mesh):
             'materials': [f.material_index for f in mesh.loop_triangles]}
 
 
-def build_mesh(old, materials, mesh_name, encoder):
-    require(len(old['faces']) == 4728 and set(old['uvs']) == {'SurfaceMeters'},
+def build_mesh(old, materials, mesh_name, encoder, *, source_stations=52):
+    # Default52 preserves the historical groove38 stage. Current44 is a
+    # separately selected and verified construction using the same four strips.
+    require(type(source_stations) is int and source_stations in (52, 44),
+            'Unmeasured tire station policy')
+    expected_raw = {52: 4728, 44: 4268}[source_stations]
+    saving = 16 * (source_stations - SEGMENTS)
+    expected_final = expected_raw - saving
+    require(len(old['faces']) == expected_raw and set(old['uvs']) == {'SurfaceMeters'},
             'Changed original tire inventory')
     vertices = list(old['vertices'])
     incident = defaultdict(list)
@@ -48,8 +55,8 @@ def build_mesh(old, materials, mesh_name, encoder):
         ids = [i for i, v in enumerate(old['vertices']) if abs(v[0]-x) < 1e-7
                and math.hypot(v[1], v[2]) > .338]
         ids.sort(key=theta)
-        require(len(ids) == 52, 'Missing complete original groove ring')
-        require(all(abs(theta(i)-j*math.tau/52) < 1e-6 for j, i in enumerate(ids)),
+        require(len(ids) == source_stations, 'Missing complete original groove ring')
+        require(all(abs(theta(i)-j*math.tau/source_stations) < 1e-6 for j, i in enumerate(ids)),
                 'Wrong original angular station')
         return ids
 
@@ -61,7 +68,7 @@ def build_mesh(old, materials, mesh_name, encoder):
         original_rings = [ring(center+dx) for dx in (-.003, -.002, .002, .003)]
         allowed_vertices = set(sum(original_rings, []))
         old_faces = [i for i, face in enumerate(old['faces']) if set(face) <= allowed_vertices]
-        require(len(old_faces) == 312 and not removed.intersection(old_faces),
+        require(len(old_faces) == 6 * source_stations and not removed.intersection(old_faces),
                 'Changed finite groove strip domain')
         removed.update(old_faces)
         rings = [original_rings[0]]
@@ -73,9 +80,9 @@ def build_mesh(old, materials, mesh_name, encoder):
                 index = len(vertices)
                 vertices.append((x, RADIUS*math.sin(angle), RADIUS*math.cos(angle)))
                 generated.append(index)
-                u = angle*52/math.tau
-                left = int(math.floor(u)) % 52
-                right = (left+1) % 52
+                u = angle*source_stations/math.tau
+                left = int(math.floor(u)) % source_stations
+                right = (left+1) % source_stations
                 a, b = Vector(vertices[source_ring[left]]), Vector(vertices[source_ring[right]])
                 # Intersect the original polygonal ring edge with this radial ray.
                 tangent = Vector((0., math.cos(angle), -math.sin(angle)))
@@ -104,7 +111,7 @@ def build_mesh(old, materials, mesh_name, encoder):
                 else:
                     triangles.append((a,b,right[(j+1) % len(right)]))
                     j += 1
-        require(len(triangles) == 248, 'Incomplete mixed-ring tessellation')
+        require(len(triangles) == 2 * source_stations + 4 * SEGMENTS, 'Incomplete mixed-ring tessellation')
         strips.extend(triangles)
         grooves.append({'center_x_m': center, 'original_faces': old_faces,
                         'original_rings': original_rings, 'new_rings': rings,
@@ -138,7 +145,7 @@ def build_mesh(old, materials, mesh_name, encoder):
     encoding = encoder.encode(mesh, targets)
     require(encoding['passed'], 'Native groove normal encoding guard failed')
     mesh.calc_loop_triangles()
-    require(len(mesh.loop_triangles) == 4472, 'Unexpected final tire triangle count')
+    require(len(mesh.loop_triangles) == expected_final, 'Unexpected final tire triangle count')
     after = capture_mesh(mesh)
     max_outside_angle = 0.
     max_outside_uv = 0.
@@ -156,7 +163,7 @@ def build_mesh(old, materials, mesh_name, encoder):
             'new_modified_face_indices': list(range(len(retained), len(faces))),
             'outside_maximum_normal_degrees': max_outside_angle,
             'outside_maximum_uv_error': max_outside_uv, 'encoding': encoding,
-            'grooves': grooves, 'triangle_saving': 256}
+            'grooves': grooves, 'triangle_saving': saving}
 
 
 def plain(value):

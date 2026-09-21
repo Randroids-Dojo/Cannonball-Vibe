@@ -80,9 +80,12 @@ def install(plans):
         after_frames = {name: frame(obj) for name, obj in originals.items()}
         require(after_frames == {name: dict(value, modifiers=[]) for name, value in before_frames.items()},
                 'Current upper installation changed an original rig frame')
-        return {'after': actual, 'encoding': encodings, 'complete_fields': fields,
+        # The companion crosses a JSON/file boundary before cold observation.
+        # Native encoder diagnostics include integer keys and tuple values;
+        # normalize them here so warm and reopened proof comparisons agree.
+        return records.read_plain({'after': actual, 'encoding': encodings, 'complete_fields': fields,
                 'before_frames': before_frames, 'after_frames': after_frames,
-                'source_saved': False, 'exported': False}
+                'source_saved': False, 'exported': False})
     finally:
         for obj in staged.values():
             mesh = obj.data

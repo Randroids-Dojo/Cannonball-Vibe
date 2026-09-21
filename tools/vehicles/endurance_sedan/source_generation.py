@@ -153,9 +153,11 @@ def observe_high_tire_checkpoint(root, construction):
     require(observed == {name: value['before_native'] for name, value in proof['tires'].items()},
             'Actual saved pre-groove native tire fields differ from current companion')
     verify_rows([expected])
-    return {'schema': 'source-tire-groove-observation38.v1', 'checkpoint': expected,
+    observed_legacy = {'schema': 'source-tire-groove-observation38.v1', 'checkpoint': expected,
             'policy': tire_grooves38.POLICY, 'tires': observed,
             'native': {'version': bpy.app.version_string, 'build': bpy.app.build_hash.decode()}}
+    from .tire_finish40 import observe
+    return observe(root, construction, observed_legacy)
 
 
 def observation_arguments(observation):

@@ -18,12 +18,20 @@ RETAINED = ('LOD0_DoorApertureSeal_RL', 'LOD0_DoorApertureSeal_RR', 'LOD0_Windsh
 INPUTS = tuple(sorted((*NAMES, *RETAINED)))
 SELECTOR = 'upper_finish_revision40'
 COMPANION = 'upper_finish40'
+CONSTRUCTION_SCHEMA = 'source-upper-construction40.v2'
+OBSERVATION_SCHEMA = 'source-upper-observation40.v2'
+PHASE_NAMES = {'checkpoint': 'source.blend', 'base_requested': 'base-requested.json.gz',
+               'native_intermediate': 'native-intermediate.json.gz', 'requested': 'requested.json.gz'}
+HELPER_ROLES = ('constructor', 'generator', 'encoder', 'design', 'native_generator',
+                'roof_generator', 'roof_design', 'frame_generator', 'frame_design')
+FILE_ROLES = (*PHASE_NAMES, *HELPER_ROLES)
 POLICY = {
-    'schema': 'source-upper-sections40.v1', 'members': list(NAMES), 'inputs': list(INPUTS),
+    'schema': 'source-upper-sections40.v2', 'members': list(NAMES), 'inputs': list(INPUTS),
     'retained': list(RETAINED), 'normal_angle_degrees': .025,
     'normal_unit_error': .000001, 'uv_absolute': .00001,
     'geometry': 'Explicit current-input sections with original retained boundary references',
-    'source': 'Versioned editable upper_sections40/sections.json; no historical scene or report input',
+    'source': 'Versioned editable upper_sections40 designs; no historical scene or report input',
+    'native_intermediate': 'Regenerate and encode all28 base parts before observing inputs to six authored native sections',
     'windshield': 'Original planar raw mesh, flat native field and live Solidify retained',
     'frames': 'Original objects, parents, transforms, drivers and rest pose retained',
 }
@@ -48,7 +56,7 @@ def revision_requested(specification, construction, *, is_pipeline):
     require(digest(packaging[SELECTOR]) == digest(POLICY), 'Unknown/null current upper revision')
     require(COMPANION in construction, 'Missing declared current upper companion')
     proof = construction[COMPANION]
-    require(type(proof) is dict and proof.get('schema') == 'source-upper-construction40.v1'
+    require(type(proof) is dict and proof.get('schema') == CONSTRUCTION_SCHEMA
             and proof.get('policy') == POLICY and proof.get('source_phase') == 'pre-lod',
             'Wrong current upper construction policy or phase')
     for key in ('before', 'before_material_response', 'before_frames'):
@@ -56,6 +64,8 @@ def revision_requested(specification, construction, *, is_pipeline):
                 'Incomplete actual upper input domain: ' + key)
     require(type(proof.get('native')) is dict and set(proof['native'].get('after', {})) == set(NAMES),
             'Incomplete current upper native output domain')
+    require(type(proof.get('base_native')) is dict and set(proof['base_native'].get('after', {})) == set(NAMES),
+            'Incomplete actual native intermediate domain')
     require(proof.get('unowned_raw_unchanged') is True and
             type(proof.get('unowned_raw_before')) is dict and
             set(RETAINED) <= set(proof['unowned_raw_before']) and
@@ -67,12 +77,23 @@ def revision_requested(specification, construction, *, is_pipeline):
 @dataclass(frozen=True)
 class UpperFinishLock:
     checkpoint: object
+    base_requested: object
+    native_intermediate: object
     requested: object
     constructor: object
     generator: object
     encoder: object
     design: object
+    native_generator: object
+    roof_generator: object
+    roof_design: object
+    frame_generator: object
+    frame_design: object
     policy_sha256: str
+
+    @property
+    def artifacts(self):
+        return tuple(getattr(self, role) for role in FILE_ROLES)
 
 
 def lock_optional(specification, construction, *, is_pipeline, artifact,
@@ -80,20 +101,20 @@ def lock_optional(specification, construction, *, is_pipeline, artifact,
     if not revision_requested(specification, construction, is_pipeline=is_pipeline):
         return None
     proof = construction[COMPANION]
-    roles = ('checkpoint', 'requested', 'constructor', 'generator', 'encoder', 'design')
+    roles = FILE_ROLES
     require(all(key in proof for key in roles), 'Missing upper checkpoint/request/helper/design')
     files = {key: artifact(proof[key]) for key in roles}
     require(len({row.path for row in files.values()}) == len(roles), 'Aliased current upper files')
     checkpoint, requested = files['checkpoint'], files['requested']
     require(checkpoint.path.name == 'source.blend' and checkpoint.path.parent.name == 'pre-upper40'
             and checkpoint.bytes > 0, 'Actual pre-upper checkpoint required')
-    require(requested.path.name == 'requested.json.gz' and requested.path.parent == checkpoint.path.parent
-            and requested.bytes > 0, 'Actual pre-encoding upper request required')
-    for key in ('checkpoint', 'requested'):
+    for key, filename in PHASE_NAMES.items():
+        require(files[key].path.name == filename and files[key].path.parent == checkpoint.path.parent
+                and files[key].bytes > 0, 'Actual upper stage artifact required: ' + key)
         require(files[key] in phase_outputs, 'Upper phase missing from fresh outputs: ' + key)
         require(files[key].path not in {row.path for row in source_artifacts},
                 'Upper phase aliases another source artifact')
-    helpers = {'constructor', 'generator', 'encoder', 'design'}
+    helpers = set(HELPER_ROLES)
     require(set(logical_files) == helpers, 'Incomplete upper logical helper roles')
     for key in helpers:
         require(files[key] == logical_files[key] and files[key] in generation_inputs,

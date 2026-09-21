@@ -171,7 +171,11 @@ def high_source_contract(inputs, spec, construction, observation, expected_obser
 def prepare_high_source(inputs, spec, construction, observation, expected_observation_digest):
     """Replay each declared tire once; subsequent uses require exact recapture."""
     check_inputs(inputs)
-    contract = high_source_contract(inputs, spec, construction, observation, expected_observation_digest)
+    from .. import tire_finish40
+    radial = tire_finish40.prepare(inputs, spec, construction, observation, expected_observation_digest)
+    legacy_observation = observation if radial is None else observation['legacy']
+    legacy_digest = expected_observation_digest if radial is None else digest(legacy_observation)
+    contract = high_source_contract(inputs, spec, construction, legacy_observation, legacy_digest)
     if contract is None:
         return None
     from .. import tire_grooves38
@@ -185,12 +189,16 @@ def prepare_high_source(inputs, spec, construction, observation, expected_observ
         'after_sha256': {name: digest(proof['tires'][name]['after_native']) for name in NAMES},
     }
     key = digest(captured)
+    if radial is not None:
+        captured['radial_current'] = copy.deepcopy(radial['binding'])
+        key = digest(captured)
     if key not in _HIGH_SOURCE_CONTEXTS:
-        replay = {name: tire_grooves38.verify_current(bpy.data.objects[name], proof['tires'][name])
-                  for name in NAMES}
+        replay = (radial['observation']['legacy_replay'] if radial is not None else
+                  {name: tire_grooves38.verify_current(bpy.data.objects[name], proof['tires'][name]) for name in NAMES})
         _HIGH_SOURCE_CONTEXTS[key] = {
             'binding': copy.deepcopy(captured), 'proof': copy.deepcopy(proof),
             'observation': copy.deepcopy(observation), 'replay': copy.deepcopy(replay),
+            'radial_current': copy.deepcopy(radial),
         }
     validate_high_source(inputs, spec, captured)
     return captured
@@ -223,10 +231,19 @@ def validate_high_source(inputs, spec, captured):
             'Changed actual high-tire constructor/encoder module')
     require(bpy.context.scene.get('tire_groove_phase') == 'constructed',
             'Current source is not the constructed high-tire phase')
-    for name in NAMES:
-        obj = bpy.data.objects.get(name)
-        require(obj is not None and obj.type == 'MESH', 'Missing current high-tire member: ' + name)
-        tire_grooves38.current_matches(obj, cached['proof']['tires'][name])
+    from .. import tire_finish40
+    if tire_finish40.SELECTOR in spec['original_packaging']:
+        require(spec['original_packaging'][tire_finish40.SELECTOR] == tire_finish40.POLICY
+                and cached['radial_current'] is not None and 'radial_current' in captured,
+                'Missing independently verified current44 tire context')
+        tire_finish40.validate_cached(cached['radial_current'], captured['radial_current'])
+    else:
+        require(cached['radial_current'] is None and 'radial_current' not in captured,
+                'Undeclared current44 tire context')
+        for name in NAMES:
+            obj = bpy.data.objects.get(name)
+            require(obj is not None and obj.type == 'MESH', 'Missing current high-tire member: ' + name)
+            tire_grooves38.current_matches(obj, cached['proof']['tires'][name])
     return cached
 
 
@@ -265,6 +282,14 @@ def capture_binding(inputs, *, reference, hook, modifier_capture, material_captu
     if declared is not None:
         require(base_profile['distant_tire'].get('high_source_revisions') == [HIGH_SOURCE_POLICY],
                 'Profile does not authorize declared high-tire source revision')
+    from ..tire_policy40 import POLICY as CURRENT_TIRE_POLICY
+    current_radial = high_source is not None and 'radial_current' in high_source
+    if current_radial:
+        require(base_profile['distant_tire'].get('current_source_revisions') == [CURRENT_TIRE_POLICY],
+                'Profile does not authorize current44 source tires')
+    else:
+        require('current_source_revisions' not in base_profile['distant_tire'],
+                'Undeclared current44 lower-source profile')
     rows = {}
     bpy.context.view_layer.update()
     for name in NAMES:
@@ -274,7 +299,7 @@ def capture_binding(inputs, *, reference, hook, modifier_capture, material_captu
         require(matrix(obj.matrix_basis) == IDENTITY and matrix(obj.matrix_parent_inverse) == IDENTITY, 'Changed tire local transform: ' + name)
         require(not obj.modifiers, 'Unexpected current high tire modifier: ' + name)
         obj.data.calc_loop_triangles()
-        require(len(obj.data.loop_triangles) == (4728 if declared is None else 4472),
+        require(len(obj.data.loop_triangles) == (4140 if current_radial else 4728 if declared is None else 4472),
                 'Changed current high tire triangle inventory: ' + name)
         used = {obj.data.materials[p.material_index].name if obj.data.materials[p.material_index] else None for p in obj.data.polygons}
         require(used == {'Material_Rubber'}, 'Wrong used tire material: ' + name)

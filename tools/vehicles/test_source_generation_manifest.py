@@ -27,10 +27,11 @@ class CommandOutputContractTests(unittest.TestCase):
             ('pre_front_source', self.file(self.base + 'pre-front/source.blend')),
             ('lower_bundle', self.lower), ('native_finalization', self.report))]}
         self.portable = {'roles': {'source': self.source, 'construction': self.construction}}
-        for name in ('pre-grooves/source.blend', 'pre-detail/source.blend',
+        for name in ('pre-grooves/source.blend', 'pre-tire40/source.blend', 'pre-detail/source.blend',
                      'pre-cover/source.blend', 'pre-cover/requested.json.gz',
                      'pre-front40/source.blend', 'pre-front40/requested.json.gz',
-                     'pre-upper40/source.blend', 'pre-upper40/requested.json.gz'):
+                     'pre-upper40/source.blend', 'pre-upper40/base-requested.json.gz',
+                     'pre-upper40/native-intermediate.json.gz', 'pre-upper40/requested.json.gz'):
             self.file(self.base + name)
         self.packaging({})
 
@@ -105,10 +106,12 @@ class CommandOutputContractTests(unittest.TestCase):
     def test_packaging_selected_checkpoints_cannot_be_omitted(self):
         for key, names in (
             ('tire_groove_revision38', ['pre-grooves/source.blend']),
+            ('tire_radial_revision40', ['pre-tire40/source.blend']),
             ('repeated_detail_revision38', ['pre-detail/source.blend']),
             ('valance_cover_revision39', ['pre-cover/source.blend', 'pre-cover/requested.json.gz']),
             ('front_finish_revision40', ['pre-front40/source.blend', 'pre-front40/requested.json.gz']),
-            ('upper_finish_revision40', ['pre-upper40/source.blend', 'pre-upper40/requested.json.gz']),
+            ('upper_finish_revision40', ['pre-upper40/source.blend', 'pre-upper40/base-requested.json.gz',
+                                         'pre-upper40/native-intermediate.json.gz', 'pre-upper40/requested.json.gz']),
         ):
             self.packaging({key: {}})
             contract = self.contracts()[0]

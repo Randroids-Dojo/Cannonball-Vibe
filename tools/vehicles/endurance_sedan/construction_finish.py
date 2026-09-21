@@ -113,6 +113,10 @@ def apply(collection,parent,mats,root,constructor,texture_output):
         proof['tire_grooves38']=tire_proof
         bpy.context.scene['tire_groove_phase']='constructed'
         print('FRESH38 original recessed grooves; actual pre-groove source retained',flush=True)
+    from .tire_finish40 import construct as construct_current_tires
+    current_tires = construct_current_tires(proof, root, stage_root)
+    if current_tires is not None:
+        proof['tire_radial40'] = current_tires
     # Keep this after all current source repairs and before the final count.
     # Lower LOD generation consumes the subsequently saved actual source.
     from . import repeated_detail38

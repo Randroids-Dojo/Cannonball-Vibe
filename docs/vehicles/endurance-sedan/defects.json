@@ -16857,7 +16857,7 @@
       "category": "runtime-asset-cost",
       "observed": "Actual122 complete upper883 lower construction passes indexed shells but reports155318/31646/25278 triangles before final tire replacement,212266 total including24 collision triangles. Composing the independently measured current-front and unchanged tire deltas predicts150412LOD0 and206912 total; the150000/200000 ceilings remain unchanged.",
       "correction": "Measure distance-model cost by actual source component and preserve exposed surfaces while simplifying concealed structure. No intermediate ratio or new geometry economy is adopted.",
-      "verification": "Actual current900 six-panel127 lower build passes6156 triangles with all1108 original mesh fields unchanged. Full combined-source cost, distance silhouettes and transition verification remain outstanding.",
+      "verification": "Actual171c upper and181 current tires independently pass native source replay;176b constructs four measured distant lids. Composing these with current front predicts149354LOD0/204978total, not a complete census. Paint175 offers1652conditional saving; single FR tire17 measures146. A40/inner-wall/cabin packages rejected and receive zero credit. Combined final fit/visual/cost remain open.",
       "evidence": [
         {
           "path": "reports/p1-018/finish-branch40/upper-whole-lower-cost122.json.gz",
@@ -16873,6 +16873,101 @@
           "path": "reports/p1-018/finish-branch40/lower-budget128.json.gz",
           "bytes": 2742858,
           "sha256": "8939a3008511ea1fe1ea3c430b64d5cbb3205fdbc6728914907081377c45e8c3"
+        },
+        {
+          "path": "reports/p1-018/finish-branch40/upper-native-chain171c.json.gz",
+          "bytes": 6444450,
+          "sha256": "d8f0dd5ba964d3e13fcdf3f1d49cb03512434035f461872afd5b3b5f7fddf1f7"
+        },
+        {
+          "path": "reports/p1-018/finish-branch40/lid-adapter176b.json.gz",
+          "bytes": 590986,
+          "sha256": "7d7d1f2eaf0855972a464e0cf00093fe7ddf0112f20e08227ae3bc7b7690f03e"
+        },
+        {
+          "path": "reports/p1-018/finish-branch40/tire-pipeline181.json.gz",
+          "bytes": 3748,
+          "sha256": "be0ea3da2d4c53cce5d19bfb93a7a64d44902698844781642a3a46b1f66f693b"
+        },
+        {
+          "path": "reports/p1-018/finish-branch40/lower-budget175.json.gz",
+          "bytes": 2754910,
+          "sha256": "e03197452decac5ffae646dd0a1a183c674fc75e73de561dabfb351fcce8b2c4"
+        }
+      ],
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-UPPER160-FORE-CORNER",
+      "severity": "major",
+      "status": "corrected_verified_scoped_candidate",
+      "category": "finite-assembly-clearance",
+      "observed": "Actual source100 fore witnesses0.894335893/0.896015331mm were more than17mm beyond the finite floor foot and failed the then-current strict classification. Later current964 foot-connected witnesses are0.445842/0.447827mm at8.52mm beyond the floor. QA28 separately establishes the fixed-boundary contradiction; these distances alone do not dictate another geometry change.",
+      "correction": "Paired fore correction160 plus complete original manufacturing attachment/departure scopes165/167. No receiving-foot expansion or whole-pair exemption.",
+      "verification": "Independent departure07/confinement09 pass all12 installed/parent-baked cases: scoped stock minimum1.201098mm, terminal gap minimum1.010447mm, complete penetration confined to581 original receiver feet. All15,006,432 surface pairs and2,332 actual Boolean triangles accounted with zero forbidden remainder. Final source binding and continuous motion remain required.",
+      "evidence": [
+        "reports/p1-018/finish-branch40/frame-corner-scope160.json",
+        "reports/p1-018/research/upper-junction30-proposal01/upper-current964.json.gz",
+        "reports/p1-018/research/upper-junction30-proposal01/frame-rebind966.json.gz",
+        "reports/p1-018/qa/upper-interfaces78-proposal01/pair100-03/transition20/review28.json",
+        "reports/p1-018/finish-branch40/upper-contact-scope165.json",
+        {
+          "path": "reports/p1-018/qa/upper-interfaces78-proposal01/pair100-03/consume165-01/departure-review07.json",
+          "bytes": 6108,
+          "sha256": "24522a60a0db88e6779adbb7e62a422ff4f753fda2a9df18fb14cd5af2dc86f4"
+        },
+        {
+          "path": "reports/p1-018/qa/upper-interfaces78-proposal01/pair100-03/consume165-01/confinement-review09.json",
+          "bytes": 25441,
+          "sha256": "58039d1dabe2e68703adee31bffadc8dd0a8f1b3f847e84cfb27ff971b33e63e"
+        }
+      ],
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-UPPER163-AFT-CORNER",
+      "severity": "major",
+      "status": "corrected_verified_scoped_candidate",
+      "category": "attachment-boundary-contract",
+      "observed": "Exact aft Frame edge midpoints are approximately0.8093mm from Door receivers and20.3917mm beyond the existing floor. QA retains all27 remaining pairs and complete12-triangle paired sections with10 fixed perimeter edges per side. Both source100 and combined964 retain the defect.",
+      "correction": "Paired fore correction160 plus complete original manufacturing attachment/departure scopes165/167. No receiving-foot expansion or whole-pair exemption.",
+      "verification": "Independent departure07/confinement09 pass all12 installed/parent-baked cases: scoped stock minimum1.201098mm, terminal gap minimum1.010447mm, complete penetration confined to581 original receiver feet. All15,006,432 surface pairs and2,332 actual Boolean triangles accounted with zero forbidden remainder. Final source binding and continuous motion remain required.",
+      "evidence": [
+        "reports/p1-018/qa/upper-interfaces78-proposal01/pair100-03/transition20/aft-witness21.json",
+        "reports/p1-018/qa/upper-interfaces78-proposal01/pair100-03/transition20/aft23.json.gz",
+        "reports/p1-018/qa/upper-interfaces78-proposal01/pair100-03/transition20/review28.json",
+        "reports/p1-018/finish-branch40/upper-contact-scope165.json",
+        {
+          "path": "reports/p1-018/qa/upper-interfaces78-proposal01/pair100-03/consume165-01/departure-review07.json",
+          "bytes": 6108,
+          "sha256": "24522a60a0db88e6779adbb7e62a422ff4f753fda2a9df18fb14cd5af2dc86f4"
+        },
+        {
+          "path": "reports/p1-018/qa/upper-interfaces78-proposal01/pair100-03/consume165-01/confinement-review09.json",
+          "bytes": 25441,
+          "sha256": "58039d1dabe2e68703adee31bffadc8dd0a8f1b3f847e84cfb27ff971b33e63e"
+        }
+      ],
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-UPPER184-COMMON-CAP",
+      "severity": "major",
+      "status": "open",
+      "category": "finite-assembly-overlap",
+      "observed": "Exact982 ray parity and complete finite boundary distance prove positive overlap beneath both common cap crests. Current L witness lies9.9662um inside C/26.4414um inside rail; R9.96794/14.51738um. Source100 has the same construction defect.",
+      "correction": "Scope184 authorizes complete complementary25-face C closures and10L/15R receiving rail caps with only concealed incident first paired sections. Exposed root, Roof, complete first station, other lands and existing stock/clearance/budget limits remain. No positive overlap waiver.",
+      "verification": "Repair not yet verified. All remaining joint intersections, native encoding, full fit and final source/motion remain open.",
+      "evidence": [
+        {
+          "path": "reports/p1-018/research/upper-junction30-proposal01/cap-proposal983.json.gz",
+          "bytes": 128617,
+          "sha256": "7084031f41294ac92f920a73f34e9c6f0d00c45769232c5f93478d74782fbc85"
+        },
+        {
+          "path": "reports/p1-018/finish-branch40/common-cap-scope184.json",
+          "bytes": 2199,
+          "sha256": "0be93cdd288732daf57f4225ddb74e097e42f8854256a12fe17552d2097c01f6"
         }
       ],
       "human_approval_reference": null
@@ -17019,5 +17114,5 @@
       "approval_reference": null
     }
   ],
-  "updated_utc": "2026-09-21T11:12:02.087338+00:00"
+  "updated_utc": "2026-09-21T14:51:24.311337+00:00"
 }

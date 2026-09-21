@@ -123,6 +123,17 @@ def verify_result(context, before, material_before, lower, proof, payload):
         glass_fields[obj.name] = glass_field.verify_output(obj, witness, digest(witness),
                                                          context=context['front_context'])
     require(len(glass_fields) == 4, 'Missing complete current pane outputs')
+    lid_fields = {}
+    if 'distant_lids40' in context['profile']:
+        from ..distance_lod import lids40
+        for level in (1, 2):
+            for name in context['profile']['distant_lids40']['members']:
+                matches = [obj for obj in lower if obj.get('lod_index') == level
+                           and recipe.json.loads(obj['source_components']) == [name]]
+                require(len(matches) == 1, 'Missing or duplicate complete distant lid')
+                obj = matches[0]
+                lid_fields[obj.name] = lids40.verify(obj, bpy.data.objects[name], level, context['shell_certificate'])
+        require(len(lid_fields) == 4, 'Missing complete four-member distant lid outputs')
     after = objects(api, recipe, context['modifier_capture'])
     metadata_changes = {}
     adjusted = copy.deepcopy(before)
@@ -145,5 +156,6 @@ def verify_result(context, before, material_before, lower, proof, payload):
         'metadata_changes': metadata_changes, 'original_before_digest': digest(before),
         'original_after_digest': digest({name: after[name] for name in before}),
         'independent_shells': independent_shells, 'front_fields': front_fields, 'glass_fields': glass_fields,
+        'distant_lid_fields': lid_fields,
         'raw_normal_max': maximum_unit_error, 'final_inventory': after,
         'scope': 'Complete original native fields and actual final members, indexed shells, materials, UVs, normals and budget; no assembly/visual/export acceptance.'}

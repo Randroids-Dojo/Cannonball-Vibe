@@ -6,25 +6,29 @@ import bpy
 from . import native
 from .. import source_generation as records
 from ..qa import shoulder_checkpoint
-from ..qa.upper_finish_report import COMPANION, INPUTS, NAMES, RETAINED, POLICY, require
+from ..qa.upper_finish_report import COMPANION, INPUTS, NAMES, RETAINED, OBSERVATION_SCHEMA, POLICY, require
 
 
 def make_packet(construction, source_sha, root, observation, expected_observation_digest):
     proof = construction[COMPANION]
     require(type(observation) is dict and records.digest(observation) == expected_observation_digest,
             'Current upper lacks caller-held actual input observation')
-    require(observation.get('schema') == 'source-upper-observation40.v1' and
+    require(observation.get('schema') == OBSERVATION_SCHEMA and
             observation.get('policy') == POLICY and observation.get('source_saved') is False and
             observation.get('native') == {'version': '5.1.2', 'build': 'ec6e62d40fa9'},
             'Wrong current upper observation')
     files = {key: records.file_row(Path(root) / proof[key]['path'])
-             for key in ('checkpoint', 'requested', 'design')}
+             for key in ('checkpoint', 'base_requested', 'native_intermediate', 'requested', 'design')}
     require(all(observation[key] == row for key, row in files.items()),
             'Current upper observation belongs to another input/request/design')
     require(observation['before'] == proof['before'] and observation['frames'] == proof['before_frames']
             and observation['materials'] == proof['before_material_response'],
             'Current upper actual-input observation differs')
     requested = records.read(files['requested']['path'])
+    intermediate = records.read(files['native_intermediate']['path'])
+    require(intermediate == proof['base_native']['after'] and
+            records.digest(intermediate) == observation['regenerated_native_intermediate_sha256'],
+            'Current upper native intermediate was not independently regenerated')
     require(records.digest(requested) == observation['regenerated_request_sha256'],
             'Current upper request was not independently regenerated')
     actual = {name: native.capture(bpy.data.objects[name]) for name in NAMES}
@@ -40,6 +44,7 @@ def make_packet(construction, source_sha, root, observation, expected_observatio
     require(materials == proof['before_material_response'], 'Current upper changed original material responses')
     core = {'schema': 'current-upper-fields40.v1', 'current_source_sha256': source_sha,
             'policy': POLICY, 'observation_sha256': expected_observation_digest, 'files': files,
+            'native_intermediate_sha256': records.digest(intermediate),
             'requested': requested, 'current_native': actual, 'frames': frames,
             'retained': retained, 'materials': materials,
             'complete_fields': native.verify_fields(actual, requested['parts'])}
@@ -55,6 +60,8 @@ def verify_packet(packet, *, expected_packet_digest):
             'Wrong current upper policy')
     records.verify_rows(core['files'].values())
     require(records.read(core['files']['requested']['path']) == core['requested'], 'Current upper request bytes differ')
+    require(records.digest(records.read(core['files']['native_intermediate']['path']))
+            == core['native_intermediate_sha256'], 'Current upper native intermediate bytes differ')
     actual = {name: native.capture(bpy.data.objects[name]) for name in NAMES}
     require(actual == core['current_native'], 'Actual current upper native fields differ')
     require({name: native.frame(bpy.data.objects[name]) for name in INPUTS} == core['frames'],
