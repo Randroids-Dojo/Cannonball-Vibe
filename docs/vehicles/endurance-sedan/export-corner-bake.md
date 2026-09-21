@@ -34,3 +34,12 @@ overwritten by these options. Normal verification rejects a changed source.
 This encoding step does not approve visual quality, asset rights or gameplay.
 Every shipping byte must still match across two exports and clean imports from
 the final locked inputs, with the task's required platform evidence.
+
+## Current saved-source usage
+
+Current v2 sources also require their actual `--source-binding` and matching
+`--construction-root`. Prepare both locks at fresh paths in the same explicit
+export, preserving the immutable constructor closure. The complete current
+[preparation and staging commands](README.md#reproduce-and-verify) cover these
+arguments. The source34 results above remain historical evidence; they do not
+approve a revised source or its new encodings.

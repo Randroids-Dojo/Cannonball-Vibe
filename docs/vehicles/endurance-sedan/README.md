@@ -127,18 +127,22 @@ python tools/vehicles/build_endurance_sedan.py `
   --blender-bin $sedanBlender --output reports/p1-018/reconstruction
 ```
 
-The candidate is under `reports/p1-018/reconstruction/project/`. Its
+The source-only candidate is under `reports/p1-018/reconstruction/project/`. Its
 `data/assets/vehicles/sources/` directory contains the editable final `.blend`,
 construction and lower-LOD companions, and a source-generation binding. The
 `endurance-sedan-generation/` subdirectory retains actual native checkpoints and
 separate command logs. Finalization builds the lower LODs, saves the final source,
 reopens it, and independently checks the current front and lower meshes.
 The current tire revision also retains the actual source before its groove edit.
-The command does not install the candidate; complete source, export, runtime and
-visual verification is still required. Direct `create_endurance_sedan.py` calls
-remain available for blockouts and explicit surface previews.
+The snapshot contains the vehicle Python/JSON tools and the specification and
+blockout proof. It is not a runnable Godot project or a complete copy of the
+Node/shell asset verifier. The command does not install the candidate; complete
+source, export, runtime and visual verification is still required. Direct
+`create_endurance_sedan.py` calls remain available for blockouts and explicit
+surface previews.
 
-Run the repository front doors from Git Bash with `BLENDER_BIN` set to the
+After the owner promotes a coherent source/runtime package, run the repository
+front doors from Git Bash with `BLENDER_BIN` set to the
 pinned executable and `GODOT_BIN` set to official Godot 4.7.1 .NET:
 
 ```bash
@@ -175,9 +179,12 @@ python tools/vehicles/endurance_sedan/qa/run.py `
   --blender $sedanBlender --output reports/p1-018/fresh-source-qa
 ```
 
-It copies its exact QA tools into the new evidence directory and records all
-24 stages required by the current source binding. Historical v1 bindings retain
-their original 21-stage contract. Current validation separately exercises the
+It copies its exact QA tools into the new evidence directory. The validated
+binding selects 21 stages for historical v1, 24 for base v2, 25 with either the
+repeated-detail or valance-cover policy, and 26 with both. The current
+specification declares both; the complete ordered inventory is defined by
+[the source gate](../../../tools/vehicles/endurance_sedan/qa/README.md).
+Current validation separately exercises the
 actual historical shoulder checkpoint, the current front fields and the reopened
 final lower meshes. Its explicit current static profile checks all ten cargo
 mounts, their twenty complete bearing faces and every mount against the other
@@ -196,9 +203,55 @@ preserves original checkpoints, before/after images, failures and corrections.
 The current construction revision also retains
 `pre-lod/pre-detail/source.blend` immediately before reducing ten airbox ribs
 and 36 cooling fins. The new geometry comes from those actual native members;
-its companion binds the checkpoint and construction tools. Independent source
-verification for this declared revision adds a 25th stage and is still being
-integrated. The existing 24-stage result cannot approve this revised source.
+its companion binds the checkpoint and construction tools. Its independent
+stage runs after driver extraction. The valance-cover revision also retains
+`pre-lod/pre-cover/source.blend` and `requested.json.gz`; its stage runs before
+static interfaces. Static QA consumes the complete finite joint certificate,
+and subsequent opening verification covers all five cover members. Historical
+partial or shorter inventories cannot approve the current revised source.
+
+Prepare fresh corner and UV locks explicitly after a source change. With
+`$sedanCandidate` set as above, create an unused export directory and run:
+
+```powershell
+$sedanExport = 'reports/p1-018/final-export-NEW'
+New-Item -ItemType Directory -Path $sedanExport -ErrorAction Stop | Out-Null
+& $sedanBlender --background --factory-startup --threads 2 --python-exit-code 1 `
+  --python tools/vehicles/validate_and_export_endurance_sedan.py -- `
+  --source "$sedanCandidate/data/assets/vehicles/sources/endurance-sedan.blend" `
+  --source-binding "$sedanCandidate/data/assets/vehicles/sources/endurance-sedan.source-binding.json" `
+  --construction-root $sedanCandidate `
+  --output "$sedanExport/endurance-sedan.glb" --inventory "$sedanExport/blender.json" `
+  --prepare-corner-bake "$sedanExport/endurance-sedan.corner-bake.json" `
+  --prepare-uv-bake "$sedanExport/endurance-sedan.uv-bake.json"
+```
+
+This prepares source-bound export bytes and new locks. It does not install them
+or establish complete asset acceptance. Review the actual source, raw/final
+GLBs, recorded correspondence and imported result before promoting either lock.
+
+For the complete asset candidate gate, the source owner must first stage a
+complete isolated repository/runtime project containing the mutually bound
+source, sibling binding and companions, the entire referenced
+`endurance-sedan-generation/` tree, exact constructor Python/JSON closure and
+specification, reviewed paired bakes, current export/gate tools, wrappers,
+setups, import settings and declared textures/environment assets. Preserve the
+immutable constructor inputs. The full verifier has no separate construction
+root option: its own project paths must satisfy the binding.
+
+From that complete staged project, run:
+
+```bash
+./scripts/verify-vehicle-asset.sh --vehicle endurance-sedan --all-lods --candidate --output reports/p1-018/final-asset-candidate-NEW
+```
+
+`--candidate` defers equality with installed generated outputs; it does not
+select a separately constructed source or install results. The gate still
+requires two exports, clean imports, shipping-byte comparison and corruption
+controls. Its `candidate_outputs` and source-generation manifests identify the
+delivery files. Promote the coherent source package, paired locks and runtime
+outputs together, then run the ordinary delivered gate without `--candidate`.
+A GLB-only copy is insufficient.
 
 The actual native capture front door uses a fresh output directory and validates
 the complete movie, stage inventory, image resolution and unchanged inputs:

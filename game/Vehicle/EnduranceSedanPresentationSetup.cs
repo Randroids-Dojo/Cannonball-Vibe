@@ -22,6 +22,10 @@ public partial class EnduranceSedanPresentationSetup : Resource
     [Export] public float RedlineRpm { get; set; } = 6500;
     [Export] public Vector2I SideMirrorResolution { get; set; } = new(256, 128);
     [Export] public Vector2I RearMirrorResolution { get; set; } = new(384, 128);
+    // Rear-only rendering approximation; defaults preserve the original anchor view.
+    [Export] public Vector3 RearMirrorCameraOffset { get; set; } = Vector3.Zero;
+    [Export] public float RearMirrorFovDegrees { get; set; } = 55;
+    [Export] public float RearMirrorPitchRadians { get; set; } = -0.03f;
     [Export] public float MirrorRefreshHz { get; set; } = 15;
     [Export] public float Lod1DistanceMeters { get; set; } = 28;
     [Export] public float Lod2DistanceMeters { get; set; } = 65;
@@ -34,6 +38,9 @@ public partial class EnduranceSedanPresentationSetup : Resource
             new[] { OpeningDurationSeconds, SteeringRatio, WiperPeriodSeconds, FuelCapacityLiters, ReverseGearRatio,
                 FinalDriveRatio, IdleRpm, RedlineRpm, MirrorRefreshHz, Lod1DistanceMeters, Lod2DistanceMeters }
                 .Any(value => !float.IsFinite(value) || value <= 0) || RedlineRpm <= IdleRpm || Lod2DistanceMeters <= Lod1DistanceMeters ||
+            !RearMirrorCameraOffset.IsFinite() || !float.IsFinite(RearMirrorFovDegrees) ||
+            RearMirrorFovDegrees is < 1 or > 179 || !float.IsFinite(RearMirrorPitchRadians) ||
+            Math.Abs(RearMirrorPitchRadians) >= Mathf.Pi / 2 ||
             SideMirrorResolution.X <= 0 || SideMirrorResolution.Y <= 0 || RearMirrorResolution.X <= 0 || RearMirrorResolution.Y <= 0)
             throw new InvalidOperationException("Sedan presentation setup has invalid mechanism, display or mirror parameters.");
     }

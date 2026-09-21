@@ -14406,7 +14406,7 @@
         }
       ],
       "assigned_owner": "runtime",
-      "correction": null,
+      "correction": "Main.ApplyPendingWorldReconstruction executes at SceneTree.PhysicsFrame before native spring-arm child placement. The driving capture now records and validates the first three actual consecutive save/resume draws and their native camera/arm readbacks.",
       "verification": null,
       "followup_observations": [
         {
@@ -14420,7 +14420,26 @@
             }
           ]
         }
-      ]
+      ],
+      "current_assessment": "Implementation correction exists and historical clear/wall/paused controls are retained. The old selection fixture selects Hero GT from the sedan; it does not establish selection into the final sedan. Final imported-source save/resume and both selection directions remain to be verified with actual consecutive images.",
+      "current_assessment_evidence": [
+        {
+          "path": "reports/p1-018/qa/runtime-defects40-plan01/PLAN01.md",
+          "bytes": 6112,
+          "sha256": "76e20879fdd3da9a8749dfa839848f2f42e4e8f2b7c98e48bc2f3cd52885e493"
+        },
+        {
+          "path": "reports/p1-018/qa/runtime-defects40-plan01/readback01.json",
+          "bytes": 31114,
+          "sha256": "8f7f2028d14c53ad2bc6d8b9f307436d9f55dd0ed312fb9201813915a62d02c5"
+        },
+        {
+          "path": "reports/p1-018/qa/runtime-defects40-plan01/retention01.json",
+          "bytes": 6849,
+          "sha256": "6576df193f5518463b455835ccffa070a366a46ff33a57b3ac16fecc9f8712c9"
+        }
+      ],
+      "current_assessment_utc": "2026-09-21T03:46:38.922740+00:00"
     },
     {
       "severity": "major",
@@ -14462,14 +14481,33 @@
         }
       ],
       "assigned_owner": "runtime",
-      "correction": null,
+      "correction": "VehicleContactShading.InspectReceiver prunes stale receiver ownership before replacement claims and preflights all receivers for foreign ownership before changing any mask.",
       "verification": null,
       "id": "P1-018-D058",
       "category": "runtime-contact-receiver-lifecycle",
       "summary": "Recreating a RoadChunk collider before periodic pruning falsely rejects the contact component's own receiver bit.",
       "actual": "After first contact, collision off/on invalidates the old collider while preserving the visual and layer mask 65541. Recontact throws \"The contact-shading receiver layer is already owned.\" The official process exits 1; teardown restores the live visual mask to 5.",
       "expected": "Prune stale collider ownership before rebinding the unchanged visual; preserve foreign-ownership rejection and restore the original layer mask on component teardown.",
-      "evidence_basis": "Actual RoadChunk body recreation and native exception with exact old/new collider and visual readbacks."
+      "evidence_basis": "Actual RoadChunk body recreation and native exception with exact old/new collider and visual readbacks.",
+      "current_assessment": "Historical official-engine direct-method evidence exercises actual RoadChunk collider replacement, 65541 receiver ownership and restoration to5; the foreign second-receiver control rejects with5/65545 unchanged. No periodic physics update rescues the probe. This does not establish rendered decal motion. Final imported-source lifecycle rerun remains pending.",
+      "current_assessment_evidence": [
+        {
+          "path": "reports/p1-018/qa/runtime-defects40-plan01/PLAN01.md",
+          "bytes": 6112,
+          "sha256": "76e20879fdd3da9a8749dfa839848f2f42e4e8f2b7c98e48bc2f3cd52885e493"
+        },
+        {
+          "path": "reports/p1-018/qa/runtime-defects40-plan01/readback01.json",
+          "bytes": 31114,
+          "sha256": "8f7f2028d14c53ad2bc6d8b9f307436d9f55dd0ed312fb9201813915a62d02c5"
+        },
+        {
+          "path": "reports/p1-018/qa/runtime-defects40-plan01/retention01.json",
+          "bytes": 6849,
+          "sha256": "6576df193f5518463b455835ccffa070a366a46ff33a57b3ac16fecc9f8712c9"
+        }
+      ],
+      "current_assessment_utc": "2026-09-21T03:46:38.922757+00:00"
     },
     {
       "id": "P1-018-D059",
@@ -16494,8 +16532,8 @@
       "assigned_owner": "lead-runtime",
       "observed_utc": "2026-09-14T11:51:37.168481+00:00",
       "summary": "Lead viewed actual daylight/night Rear feeds and daylight cockpit capture. Most image area is cabin/headrests; small rear window limits exterior visibility. Native target/update tests pass; usability remains open.",
-      "correction": null,
-      "verification": "Typed integer index correction passes complete day/night18 guards. 30-degree rendering approximation is not adopted: far proxies remain too small and night proxies lack active lamps. Actual configured temporary cars on loaded road with verified live four-wheel support and existing headlamps. Pilot19 compiled, but source Path shadowing failed seal before engine parse; corrected fresh pilot pending.",
+      "correction": "Adopted rear-camera anchor-relative offset (0,-0.11610118299722672,1.6802663803100586)m, vertical FOV30 degrees and pitch0 in runtime setup. Modeled anchors and side cameras remain unchanged. This is a rearward rendering approximation behind the rear headrests, not physical flat-mirror optics or a modeled digital camera.",
+      "verification": "Actual source60 diagnostic grounded traffic captures with loaded production daylight/night environments support the new framing. Canonical production34 persistent material/lifecycle tests pass in Compatibility and Forward+: each16 paired pixel cases, four successful binding snapshots, eight rejected binding corruptions, two freed/recreated presentations, six source snapshots and clean native exit0. Independent QA recomputed all32 pairs and inspected actual originals. Final combined-source visibility, moving traffic, turn/reverse/rebase and reference performance remain pending.",
       "evidence": [
         {
           "path": "reports/p1-018/source-pipeline38-01/checkpoint184.json",
@@ -16528,7 +16566,42 @@
           "sha256": "1c89308545fab4b82cb1efead99a119c10785ccef48c820a579cd0ffa0a4a06e"
         }
       ],
-      "human_approval_reference": null
+      "human_approval_reference": null,
+      "historical_verification_before_adoption51": "Typed integer index correction passes complete day/night18 guards. 30-degree rendering approximation is not adopted: far proxies remain too small and night proxies lack active lamps. Actual configured temporary cars on loaded road with verified live four-wheel support and existing headlamps. Pilot19 compiled, but source Path shadowing failed seal before engine parse; corrected fresh pilot pending.",
+      "current_assessment": "Camera correction is implemented and bounded visual/material checks pass. At30m the diagnostic followers provide awareness, not detail. Final-source proof and human usability remain open; the historical failure and environment06 control pixel differences are retained.",
+      "current_assessment_evidence": [
+        {
+          "path": "reports/p1-018/finish-branch40/mirrors51/adoption.json",
+          "bytes": 2767,
+          "sha256": "91ff2ea05d5a39a662601a17265bf525de3fb91f33c9fed549122c25df6056e9"
+        },
+        {
+          "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/result.json",
+          "bytes": 431104,
+          "sha256": "428b97ff316807c783f022569537d44453dbfdc099d944bb45e57792353b84f2"
+        },
+        {
+          "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/result.json",
+          "bytes": 431080,
+          "sha256": "49f7f219033eeac6b081c65a5aa02eabcac75bca26688bf0cfc07281f2830ccb"
+        },
+        {
+          "path": "reports/p1-018/qa/rear-grounded40-review01/review08.json",
+          "bytes": 15163,
+          "sha256": "8ea1bb9896862a94aaeed8c65fbbb84537d13a52e7b7ec780b1af25ce94bd7f1"
+        },
+        {
+          "path": "reports/p1-018/qa/rear-grounded40-review01/persistent51/review09.json",
+          "bytes": 6442,
+          "sha256": "2c6ec623e12ad8486ff355e7e303f54fa056a89b6a0af2f3ef6a957a9052d9d7"
+        },
+        {
+          "path": "reports/p1-018/qa/rear-grounded40-review01/persistent51/retention09.json",
+          "bytes": 217851,
+          "sha256": "3ce7248f4b8a35e597058ffc8e3e2e0f3e053817469b15320dc9cd01ea9a7ee1"
+        }
+      ],
+      "current_assessment_utc": "2026-09-21T04:24:49.266437+00:00"
     },
     {
       "id": "P1-018-SAVE46",
@@ -16758,5 +16831,5 @@
       "approval_reference": null
     }
   ],
-  "updated_utc": "2026-09-21T03:12:11.530676+00:00"
+  "updated_utc": "2026-09-21T04:24:49.266437+00:00"
 }

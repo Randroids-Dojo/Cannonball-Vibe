@@ -612,7 +612,26 @@
     ],
     "refresh_hz": 15,
     "update_policy": "cockpit only; shared world; no recursive mirror rendering",
-    "classification": "provisional implementation to measure; no approved subsystem time allocation"
+    "classification": "provisional implementation to measure; no approved subsystem time allocation",
+    "rear_view_projection": {
+      "classification": "original runtime rendering approximation; not physical flat-mirror optics or modeled camera hardware",
+      "anchor": "MirrorCamera_Rear",
+      "camera_offset_anchor_local_godot_m": [
+        0,
+        -0.11610118299722672,
+        1.6802663803100586
+      ],
+      "vertical_fov_degrees": 30,
+      "pitch_radians": 0,
+      "runtime_parameters": [
+        "EnduranceSedanPresentationSetup.RearMirrorCameraOffset",
+        "EnduranceSedanPresentationSetup.RearMirrorFovDegrees",
+        "EnduranceSedanPresentationSetup.RearMirrorPitchRadians"
+      ],
+      "source_anchor_and_mirror_geometry_unchanged": true,
+      "evidence": "reports/p1-018/runtime/finish40-01/rear-final03/environment-reader07/handoff07.json",
+      "final_source_performance_and_human_usability": "pending"
+    }
   },
   "parameters": [
     {
@@ -2752,6 +2771,28 @@
       "rib_replacement_triangles": 28,
       "rib_section_points": 8,
       "schema": "source-repeated-detail38.v1"
+    },
+    "valance_cover_revision39": {
+      "schema": "source-valance-cover39.v1",
+      "members": [
+        "LOD0_RearLowerValance",
+        "LOD0_RearValanceMount_L1",
+        "LOD0_RearValanceMount_L2",
+        "LOD0_RearValanceMount_R1",
+        "LOD0_RearValanceMount_R2"
+      ],
+      "receiver": "LOD0_RearBumper",
+      "original_triangles": 324,
+      "cover_triangles": 1226,
+      "mount_triangles": 124,
+      "sheet_stock_m": 0.0012,
+      "stock_encoding_guard_m": 1e-06,
+      "rest_clearance_m": 0.001001,
+      "surface_correspondence_m": 2e-07,
+      "normal_angle_degrees": 0.025,
+      "uv_absolute": 1e-05,
+      "finite_normal_domains": 5,
+      "pocket_rays": 91
     }
   },
   "specification_corrections_during_production": [

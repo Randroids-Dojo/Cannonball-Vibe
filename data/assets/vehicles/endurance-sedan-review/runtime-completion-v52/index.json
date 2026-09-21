@@ -1,0 +1,3720 @@
+{
+  "task_id": "P1-018",
+  "milestone": "M5",
+  "status": "passed",
+  "started_utc": "2026-09-21T04:41:19.841827+00:00",
+  "git_revision": "c2336a0e61b76e64988478796b51aa32f38e2fc3",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.11",
+  "zlib_runtime": "1.3.1",
+  "tool_sha256": "1310e66035402d9eccaef4c0b2fe6d474f0b56958e914138d3f57be6285b18ff",
+  "input_manifest": {
+    "path": "reports/p1-018/qa/checkpoint52-retention01/inputs.json",
+    "sha256": "aa00c99dfbc1127418f090161d48c16f77f60d1c88118446bc461136fffbc0ac"
+  },
+  "entries": [
+    {
+      "path": "reports/p1-018/finish-branch40/adopt_mirrors51.py",
+      "bytes": 6010,
+      "sha256": "ef4a0c494b737ea4875f73654ce125aee81f28e24f957031cbc00c473cf2b587"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/checkpoint52.json",
+      "bytes": 114010,
+      "sha256": "08436c58c2ca45c7a37b3dfd4eaac956fa058d2f64e2021afd2bd23d8ca27be7"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/checkpoint52.py",
+      "bytes": 7994,
+      "sha256": "6a5768c2597174e96455c178ebe9d4a19ac250687d3451de0518767ceef143d2"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/commands/20260921T031351.005951Z-retention49-retry02.json",
+      "bytes": 821,
+      "sha256": "41bcaf0045be06ed7f18a5fcc3c44c4286fb47298c7f502fd343577e7e153db4"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/commands/20260921T031351.005951Z-retention49-retry02.log",
+      "bytes": 415,
+      "sha256": "da799d5be929dbc85e378eebf5d0f7448c66699be79d66c4c5567c89f97a932d"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/commands/20260921T031832.848108Z-finalize49.json",
+      "bytes": 895,
+      "sha256": "8b25fc5faa872a59df010c367911ed773e8fd0127b41deb76897510987588ecf"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/commands/20260921T031832.848108Z-finalize49.log",
+      "bytes": 262,
+      "sha256": "8afc1552a3e9a916e9675cdf9954aa583c177ed50e3ac2f5e77e063200acfdbe"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/commands/20260921T031833.676462Z-publish49.json",
+      "bytes": 957,
+      "sha256": "459715ba0f53c82b2014650e01aabcea2f58bd0d5e3be7ef572eb4ea04fb8da9"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/commands/20260921T031833.676462Z-publish49.log",
+      "bytes": 1101,
+      "sha256": "84e035ef13b3966cd42fc0e0298d618a8e5bccf0fc500495490b6ac5ef23a3b1"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/commands/20260921T032104.224966Z-cover-policy50.json",
+      "bytes": 812,
+      "sha256": "354913852db7865cf98e196ba6fe145296632644b9786cc78c6e2392b59e62f5"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/commands/20260921T032104.224966Z-cover-policy50.log",
+      "bytes": 451,
+      "sha256": "5028aef2d8de0c0fc0148ab8194d5bb3df0e548f8457e7bd6c9f18d28a65a1d5"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/commands/20260921T033000.747894Z-geometry-native-lease50.json",
+      "bytes": 825,
+      "sha256": "66c051d34a253b4147f01df9620d2eaac93fd596a297963a8302e00948396f0a"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/commands/20260921T033000.747894Z-geometry-native-lease50.log",
+      "bytes": 81,
+      "sha256": "11d338de19e396c48f6bfceb6ad10e4d4d2746b81904dfd7aee561bdd8c3c03b"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/commands/20260921T033409.652308Z-generation-python50.json",
+      "bytes": 818,
+      "sha256": "dcf3e650929a05b7f6cda01332e7974f449123b72d7883fce3f6e43ffa3ba346"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/commands/20260921T033409.652308Z-generation-python50.log",
+      "bytes": 109,
+      "sha256": "08080f056b8cc1e83a5a3970d93d5b1a7060b1bd786a8c0ca4db4c9bee5c0986"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/commands/20260921T033409.765869Z-generation-node50.json",
+      "bytes": 898,
+      "sha256": "b537fff5a36d96b2583cd91061a01ea4d84026e078a3034f4ce112c2cef37f05"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/commands/20260921T033409.765869Z-generation-node50.log",
+      "bytes": 2587,
+      "sha256": "6ad8908da261c20506ee59c1b4475e079c6b008d0d197f1d025932be0eb68e67"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/commands/20260921T034142.667830Z-gpu-loan50.json",
+      "bytes": 800,
+      "sha256": "9129d4557d93e14badcd705ba5a75be9124d2de9563d096b70e8489033ff1e66"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/commands/20260921T034142.667830Z-gpu-loan50.log",
+      "bytes": 68,
+      "sha256": "9a93fac7ea18d2dda5a51b5bce657f8ff68fdd8b4ee1d35b63eec30818a88c87"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/commands/20260921T034237.572023Z-hosted49.json",
+      "bytes": 794,
+      "sha256": "b849afa2734e7be0a7408e7bb5d84035e055da1902d39a30264bc99c32e92adb"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/commands/20260921T034237.572023Z-hosted49.log",
+      "bytes": 141,
+      "sha256": "6408b639290ed3f91ff0561a613c18228d777b593e55cc3ff228b6a5aaed37eb"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/commands/20260921T034638.767838Z-runtime-history50.json",
+      "bytes": 997,
+      "sha256": "de99db676a92455027a835b6e5e58122abe13cedbdbda752134ee31082e3bc79"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/commands/20260921T034638.767838Z-runtime-history50.log",
+      "bytes": 85,
+      "sha256": "b1fdfb94c6baef60e673bf42da6a352851299cc031065483435ba74faa9d1cda"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/commands/20260921T035112.641750Z-docs50-before.json",
+      "bytes": 809,
+      "sha256": "1aaf99f1e2640272afc8e79a11c96f4f414df2f4888813acc7bcd1d8fe083ccb"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/commands/20260921T035112.641750Z-docs50-before.log",
+      "bytes": 241,
+      "sha256": "5f313861499e6751b199d126ed400443481042ee9516f8013f74d6c0c2548c19"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/commands/20260921T035434.364186Z-docs50-after.json",
+      "bytes": 807,
+      "sha256": "1150d8a598a78dd36cfab8762f3a7a250ab7befad0ae6d88f5c6ec36be26ce0e"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/commands/20260921T035434.364186Z-docs50-after.log",
+      "bytes": 276,
+      "sha256": "ab661d6e666f966543cccfe88f21456661623a2a32ef0097eefc656e1a162b78"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/commands/20260921T040307.552655Z-rail-scope51.json",
+      "bytes": 806,
+      "sha256": "43bc04805dbd2b265630b878913ea95f19207b36605cd1f5258daf37dd46148c"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/commands/20260921T040307.552655Z-rail-scope51.log",
+      "bytes": 157,
+      "sha256": "1f4f905263ca86d45812d9e85f88cc8f70d782f52d5eb8366aec25343fb385f9"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/commands/20260921T040622.126513Z-adopt-mirrors51.json",
+      "bytes": 815,
+      "sha256": "335d19477500d57543fed922cd2dd6d6cc47cff772fda7d6cbad2a6c23a6bbb6"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/commands/20260921T040622.126513Z-adopt-mirrors51.log",
+      "bytes": 233,
+      "sha256": "12907b25d4fe6b9d93f7d0d66b70c4157adbde468ecc2e14ba96a95789fac454"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/commands/20260921T040717.269191Z-mirror51-compatibility.json",
+      "bytes": 1026,
+      "sha256": "a2ea9591503e7a80fbb274ea87d87cf3bbaf1e75d38fde326fd35798725c7f1f"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/commands/20260921T040717.269191Z-mirror51-compatibility.log",
+      "bytes": 427,
+      "sha256": "5a65660b1e7bcdaa968bb1d1b7d3d78626f171a555df8837615a26597f504644"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/commands/20260921T040824.523873Z-mirror51-forward.json",
+      "bytes": 1016,
+      "sha256": "7a41b8bc7d5ae3aeb04bf7e062a5a658c92dd0f3f07235907a5b251d1cbad2e6"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/commands/20260921T040824.523873Z-mirror51-forward.log",
+      "bytes": 415,
+      "sha256": "b92531c9b23d597902c053b55ca1d4c89771b8880e4680ad4e7b30e75bbff181"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/commands/20260921T041015.347696Z-research-evidence51.json",
+      "bytes": 827,
+      "sha256": "ce7b1b9e6214cddeee02c2be8bf41140e00dc7829f029befea5ed518c9f1beb2"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/commands/20260921T041015.347696Z-research-evidence51.log",
+      "bytes": 63,
+      "sha256": "8ef4128a5989941f1bead4ab18b7eca683783027998cde9a587b3465b2d4f2bd"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/commands/20260921T041332.163567Z-design-docs51.json",
+      "bytes": 809,
+      "sha256": "13f9a83da27d442e41e4d813ad5274bfb1bb11f64adb63005375ffe2b0264096"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/commands/20260921T041332.163567Z-design-docs51.log",
+      "bytes": 179,
+      "sha256": "ef96520511397da6351bc5c7cc5feeb9fd7c61aa237704f52e0b47eb89741f59"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/commands/20260921T042220.252656Z-rail-scope52.json",
+      "bytes": 806,
+      "sha256": "878a4397d355286723ef7444494915d55586d3d2d86aa306586bee8edeef428e"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/commands/20260921T042220.252656Z-rail-scope52.log",
+      "bytes": 182,
+      "sha256": "4c4704028ea90ec3a9c1af7141c9a3802564f9ac6b0fd0b84f5941d1c736198c"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/commands/20260921T042449.125140Z-mirror-evidence52.json",
+      "bytes": 821,
+      "sha256": "56ab0e4a66a0d6b8e8e1c2dd870d7e2517d2e9cd2404d3ca1a8a6d2cb21b62a7"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/commands/20260921T042449.125140Z-mirror-evidence52.log",
+      "bytes": 85,
+      "sha256": "dfda462a82d49771280a3f683026fd063a3b115f81fe1120897246b963d5e577"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/commands/20260921T042554.380946Z-frontdoor52.json",
+      "bytes": 822,
+      "sha256": "091ed7ec8cbe946a843775750e5447b38593fa64383a75488526d42cbf404d71"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/commands/20260921T042554.380946Z-frontdoor52.log",
+      "bytes": 350,
+      "sha256": "8d4ebcf2d190f5bf411c6d24195d198a2a7b26c7ccc12259eb8d4292ab543cdf"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/commands/20260921T043017.285837Z-windshield-scope53.json",
+      "bytes": 824,
+      "sha256": "bac5e4c81451226a5ee3b895c532a0c1e5fc01f5e1e315593788491c8821cb73"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/commands/20260921T043017.285837Z-windshield-scope53.log",
+      "bytes": 185,
+      "sha256": "657e4e9fb4b7d2afba745e338ca19fa0142f60fa7f56ea215ed19e6ecc5d1673"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/commands/20260921T043358.320130Z-checkpoint52.json",
+      "bytes": 806,
+      "sha256": "df5a95d6b7b848444fabdd0c5e2a19c3f6f79901813737c455c136db6147cc19"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/commands/20260921T043358.320130Z-checkpoint52.log",
+      "bytes": 136,
+      "sha256": "7a489e446a48479772ef4af0fab26ef086a0bfa390881e4a4146081bebcbf079"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/cover-policy-adoption50.json",
+      "bytes": 494,
+      "sha256": "51fdbd00bfe73e9b572613dc8e160175945a2efc093e5e0c198c1162a2f41f32"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/cover-policy-scope50.json",
+      "bytes": 2710,
+      "sha256": "d0b2afe2311ba3b6dd365cede819af17765b62be52f68feea476502bd9c72638"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/cover_policy50.py",
+      "bytes": 3429,
+      "sha256": "9de8418d0937d2a169425b5f315025bb6e0b7d5b7bfd56bccaaf8359fc83dfe3"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/design-docs51/result.json",
+      "bytes": 788,
+      "sha256": "b1ee025ed54e472a52073aef2deba907f495a32b9ed42570c6e1c893cd93bf85"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/design-docs51/scope.json",
+      "bytes": 1231,
+      "sha256": "5f6b097857f63da95ec8a145b915354ebf591312254ba45f2ce1ba9afbdce805"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/design_docs51.py",
+      "bytes": 6660,
+      "sha256": "f98ce56e3971517170a582eb4630a4f84fb921a001f54474fcee1639f976c8af"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/docs50.py",
+      "bytes": 2591,
+      "sha256": "f2d488df9695b26dbd8077e7b4abe00270fcfd80e37e0772336bb574f4b997e5"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/docs50/qa-readme.md",
+      "bytes": 4922,
+      "sha256": "bae829e520f167cf6b2b90d0375737cafeffa7b3cb1c57ff8809399cbbc679af"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/docs50/result.json",
+      "bytes": 1150,
+      "sha256": "0b3c9714dfc03082144d60518b8b8dfd1c7b3ad4799ef79529350b659f6f24f2"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/docs50/scope.json",
+      "bytes": 3020,
+      "sha256": "692f766c0932af6817fd60ace152741868069eec9fdbc6cb84f628fd74196dda"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/finalize49.py",
+      "bytes": 5166,
+      "sha256": "48b6e6e9b1363648cae4b71fec157e1f4d25ec37b48f6e2c8bea0e3b4b8efd34"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/geometry-native-lease50.json",
+      "bytes": 2057,
+      "sha256": "8d8d139875bcadcda9a2cc5a399212e6762e1af36db8c8543587479828ddb819"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/geometry_lease50.py",
+      "bytes": 2597,
+      "sha256": "42f9d8590946274e3e5ae83e5b8c2ab115496c36abd21dce7ae9fed6c7805483"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/gpu-loan50.json",
+      "bytes": 1395,
+      "sha256": "aadcd0b498cfc8b3a4b345b4d71f8b11897b9112bffc1eda33108df6c5a8f57a"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/gpu_loan50.py",
+      "bytes": 1899,
+      "sha256": "925370e8a6c94f91a95b59cf1c427bcb66ca84c0b4379785f69b00a73eba07a9"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted49.py",
+      "bytes": 2457,
+      "sha256": "68099b531545eddc5ea35e157c19903f4f0585d804bf811cd18494bb730d79b8"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted49/checkpoint.json",
+      "bytes": 105249,
+      "sha256": "864ec3e9e6c95be2c8faa4b5829d755de56bbce7bfe7cc094d439f6fc7e45db9"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted49/p1-018-sedan-Linux-1/assets/p1-018/Linux/blender-corrected-driver.stdout.log",
+      "bytes": 132,
+      "sha256": "3dd7eadb6c11f0f966752b35c3d8c6e7eed3e55d02dc4715c95f6e05ef8f982b"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted49/p1-018-sedan-Linux-1/assets/p1-018/Linux/blender-invalid-driver-division-by-zero-exit-zero.stdout.log",
+      "bytes": 203,
+      "sha256": "bb8ed058ca0cf5e33ebd1e83f553d4e835d234519e03092f88d5b8c86c35ceb7"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted49/p1-018-sedan-Linux-1/assets/p1-018/Linux/blender-invalid-driver-unknown-name-exit-zero.stderr.log",
+      "bytes": 297,
+      "sha256": "b03ff7ec6fd70dcbc0767fc4124b5e9d43bf4caed0b4931808c476480b121c89"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted49/p1-018-sedan-Linux-1/assets/p1-018/Linux/blender-invalid-driver-unknown-name-exit-zero.stdout.log",
+      "bytes": 133,
+      "sha256": "7b84c424afb766749bfed5005c6c1ed0be9fd93c4c260bfc35337c8dc314d5ae"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted49/p1-018-sedan-Linux-1/assets/p1-018/Linux/blender-version.stdout.log",
+      "bytes": 1631,
+      "sha256": "32c7e9c3b4e65d0802e4bc31edefb9b3945b5ec35fc1c89780c736aa9065021c"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted49/p1-018-sedan-Linux-1/assets/p1-018/Linux/corner-control-report-contract.stdout.log",
+      "bytes": 2656,
+      "sha256": "5cf88fa5d6f96b5fb2d87d533f8009e7aae4defc7e16e24b640d378435b8d3bf"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted49/p1-018-sedan-Linux-1/assets/p1-018/Linux/corrected-driver.py",
+      "bytes": 453,
+      "sha256": "8561fbb31fbf7282c31522e6e1b5c665db8fdb5363e9d564c14d26459deee2b4"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted49/p1-018-sedan-Linux-1/assets/p1-018/Linux/dotnet-version.stdout.log",
+      "bytes": 9,
+      "sha256": "2ffb6ba329ebd56312219550c980c9a2993a3d7fbb320175b5efa05c8402000f"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted49/p1-018-sedan-Linux-1/assets/p1-018/Linux/evidence.json",
+      "bytes": 83211,
+      "sha256": "31dc0ea40022b74694349f1d5f06006dc33d77de29c93fee1d95fc9a307a67a3"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted49/p1-018-sedan-Linux-1/assets/p1-018/Linux/first-blender-export.stderr.log",
+      "bytes": 772,
+      "sha256": "c3b37297edc7ae15f380cb38275317d8e33e8aaf74ba6f715b120cf868a320f1"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted49/p1-018-sedan-Linux-1/assets/p1-018/Linux/first-blender-export.stdout.log",
+      "bytes": 364,
+      "sha256": "a959880de1a86950c8f35d972e8c4c5ab5a12c146f16529da9e8b7ac826fc212"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted49/p1-018-sedan-Linux-1/assets/p1-018/Linux/godot-version.stdout.log",
+      "bytes": 37,
+      "sha256": "e8e9e0f31b0b27890085f6ba6167aadd9ee965c20fa9bf8e25a1bbdc80594646"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted49/p1-018-sedan-Linux-1/assets/p1-018/Linux/invalid-driver-division-by-zero.py",
+      "bytes": 453,
+      "sha256": "1674d1b7ac06bb686364148235dccc8cbb6dfb82a52a89f7ec9f385c0c3a1c99"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted49/p1-018-sedan-Linux-1/assets/p1-018/Linux/invalid-driver-unknown-name.py",
+      "bytes": 486,
+      "sha256": "f7134f995dc26532cb3ec0a007c86c196401b86c74b2cf24709725592d16d13c"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted49/p1-018-sedan-Linux-1/assets/p1-018/Linux/lfs-glb.stdout.log",
+      "bytes": 62,
+      "sha256": "70cecab580688ef629728c6585ea7ee3a8c66a2266d8b0ba52f1e905b70afa89"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted49/p1-018-sedan-Linux-1/assets/p1-018/Linux/lfs-source.stdout.log",
+      "bytes": 64,
+      "sha256": "ceeb268c0f9a0bf3eb6d27524b9e2d883882c3934f7faf38d41e81b2971c53bd"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted49/p1-018-sedan-Linux-1/assets/p1-018/Linux/source-generation-command-contract.stdout.log",
+      "bytes": 2629,
+      "sha256": "6fd2d33980cdd4f405a3565397a630ef3466229be19fc6e8938d0901ea571321"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted49/p1-018-sedan-Windows-1/assets/p1-018/Windows/blender-corrected-driver.stdout.log",
+      "bytes": 133,
+      "sha256": "72af6babd2435a857c3289adad9484bdb8a57e236e4eed5f4143dd2dc1cfacf6"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted49/p1-018-sedan-Windows-1/assets/p1-018/Windows/blender-invalid-driver-division-by-zero-exit-zero.stdout.log",
+      "bytes": 204,
+      "sha256": "2dac45afb042a860ddac4a9de7203d6522ea0e6b78025a7d6b4ac44e600e7b95"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted49/p1-018-sedan-Windows-1/assets/p1-018/Windows/blender-invalid-driver-unknown-name-exit-zero.stderr.log",
+      "bytes": 297,
+      "sha256": "b03ff7ec6fd70dcbc0767fc4124b5e9d43bf4caed0b4931808c476480b121c89"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted49/p1-018-sedan-Windows-1/assets/p1-018/Windows/blender-invalid-driver-unknown-name-exit-zero.stdout.log",
+      "bytes": 134,
+      "sha256": "4cc0e4505e5c49bd978c3a4194ab2f01dbf4103215aa92b365acf75246363fe9"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted49/p1-018-sedan-Windows-1/assets/p1-018/Windows/blender-version.stdout.log",
+      "bytes": 8208,
+      "sha256": "a6c389381135b07e03380275f7b990251bb94e856a17700eff340bec06af3537"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted49/p1-018-sedan-Windows-1/assets/p1-018/Windows/corner-control-report-contract.stdout.log",
+      "bytes": 2623,
+      "sha256": "d56aff7a44c5a6d82a78210a0fdd56e3b5e8c4911b78c15848e755cb3ee33a4b"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted49/p1-018-sedan-Windows-1/assets/p1-018/Windows/corrected-driver.py",
+      "bytes": 453,
+      "sha256": "8561fbb31fbf7282c31522e6e1b5c665db8fdb5363e9d564c14d26459deee2b4"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted49/p1-018-sedan-Windows-1/assets/p1-018/Windows/dotnet-version.stdout.log",
+      "bytes": 10,
+      "sha256": "3ccfabb187270882a308eb46f7bfdfdf2fbf7c14b9e4a704856cf8b1efb227aa"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted49/p1-018-sedan-Windows-1/assets/p1-018/Windows/evidence.json",
+      "bytes": 89731,
+      "sha256": "cd366cc4c64520f227a1552d28962f3ff38f3b36894e39ffd45c498669cf1e98"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted49/p1-018-sedan-Windows-1/assets/p1-018/Windows/first-blender-export.stderr.log",
+      "bytes": 754,
+      "sha256": "495ed06f9dc1088fefdd36fef530eee2ca2b26e2de0d3ce779a602a01c282f55"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted49/p1-018-sedan-Windows-1/assets/p1-018/Windows/first-blender-export.stdout.log",
+      "bytes": 338,
+      "sha256": "eaf0d2def311ee3bbfc5d9f4c34dade2890bdc9913f5ddba6a23611576daf5a5"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted49/p1-018-sedan-Windows-1/assets/p1-018/Windows/godot-version.stdout.log",
+      "bytes": 38,
+      "sha256": "d1046084c2493a272b0b439dc2f6dc74b801cd74659c5010a67c1b2f3acc5866"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted49/p1-018-sedan-Windows-1/assets/p1-018/Windows/invalid-driver-division-by-zero.py",
+      "bytes": 453,
+      "sha256": "1674d1b7ac06bb686364148235dccc8cbb6dfb82a52a89f7ec9f385c0c3a1c99"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted49/p1-018-sedan-Windows-1/assets/p1-018/Windows/invalid-driver-unknown-name.py",
+      "bytes": 486,
+      "sha256": "f7134f995dc26532cb3ec0a007c86c196401b86c74b2cf24709725592d16d13c"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted49/p1-018-sedan-Windows-1/assets/p1-018/Windows/lfs-glb.stdout.log",
+      "bytes": 62,
+      "sha256": "70cecab580688ef629728c6585ea7ee3a8c66a2266d8b0ba52f1e905b70afa89"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted49/p1-018-sedan-Windows-1/assets/p1-018/Windows/lfs-source.stdout.log",
+      "bytes": 64,
+      "sha256": "ceeb268c0f9a0bf3eb6d27524b9e2d883882c3934f7faf38d41e81b2971c53bd"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted49/p1-018-sedan-Windows-1/assets/p1-018/Windows/source-generation-command-contract.stdout.log",
+      "bytes": 2589,
+      "sha256": "ccb653d28e7b89c1648c714155d3604b036e7d43de5ad7dbb52bbf090a801e31"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirror-evidence52.json",
+      "bytes": 2222,
+      "sha256": "f111a07f84ee2528b8901c592e1634aa500f1e65ba3f01c6b9b92fb53304769f"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirror_evidence52.py",
+      "bytes": 4323,
+      "sha256": "f195fa5f54f83d41f81981432e5c8f6f3fa973f7951b37d37cb0a1a13bd68769"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirror_regression51.py",
+      "bytes": 1538,
+      "sha256": "4650a12e99da57a221253beac9ef5a4c0e4216ef100cc3a097dd376b1095e237"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/adoption.json",
+      "bytes": 2767,
+      "sha256": "91ff2ea05d5a39a662601a17265bf525de3fb91f33c9fed549122c25df6056e9"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/before/docs/vehicles/endurance-sedan/specification.json",
+      "bytes": 85814,
+      "sha256": "32f869f6ff57d8042409f9b67cd9f33af8bb5763bac9837b67452f70128aab72"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/Left-lod0-phase-1-shared.png",
+      "bytes": 53996,
+      "sha256": "05001eb1390a5353d81f4146604a754d90a01e6a625192a153410e080faa5832"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/Left-lod0-phase-1-standard.png",
+      "bytes": 53974,
+      "sha256": "78d150dea94b1001ae637ee0825cc8f5dc623d64e9158f80f413626f47f3be06"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/Left-lod0-phase0-shared.png",
+      "bytes": 899,
+      "sha256": "5b4b8ab728f31ae0d751178a8947ada9b8046f4d92baa56841836a0ae3bca768"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/Left-lod0-phase0-standard.png",
+      "bytes": 899,
+      "sha256": "5b4b8ab728f31ae0d751178a8947ada9b8046f4d92baa56841836a0ae3bca768"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/Left-lod0-phase0-wrong-flip-shared.png",
+      "bytes": 899,
+      "sha256": "644489b9afcd64e2ed9c545824eefa9bf7ea507af8874d7cc9e592c04f08de82"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/Left-lod0-phase0-wrong-flip-standard.png",
+      "bytes": 899,
+      "sha256": "5b4b8ab728f31ae0d751178a8947ada9b8046f4d92baa56841836a0ae3bca768"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/Left-lod0-phase1-shared.png",
+      "bytes": 899,
+      "sha256": "644489b9afcd64e2ed9c545824eefa9bf7ea507af8874d7cc9e592c04f08de82"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/Left-lod0-phase1-standard.png",
+      "bytes": 899,
+      "sha256": "644489b9afcd64e2ed9c545824eefa9bf7ea507af8874d7cc9e592c04f08de82"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/Left-lod1-phase0-shared.png",
+      "bytes": 899,
+      "sha256": "5b4b8ab728f31ae0d751178a8947ada9b8046f4d92baa56841836a0ae3bca768"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/Left-lod1-phase0-standard.png",
+      "bytes": 899,
+      "sha256": "5b4b8ab728f31ae0d751178a8947ada9b8046f4d92baa56841836a0ae3bca768"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/Left-lod2-phase0-shared.png",
+      "bytes": 899,
+      "sha256": "5b4b8ab728f31ae0d751178a8947ada9b8046f4d92baa56841836a0ae3bca768"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/Left-lod2-phase0-standard.png",
+      "bytes": 899,
+      "sha256": "5b4b8ab728f31ae0d751178a8947ada9b8046f4d92baa56841836a0ae3bca768"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/Rear-lod0-phase-1-shared.png",
+      "bytes": 26117,
+      "sha256": "e6fa9d2f1d95bea4e29d3dd1283a03bba9b1443d1849227ef9cae19b22405569"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/Rear-lod0-phase-1-standard.png",
+      "bytes": 26118,
+      "sha256": "644bb0c4110bc002fd5cb642097fa413d8da47d3a57f93227366b491f8905c05"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/Rear-lod0-phase0-shared.png",
+      "bytes": 731,
+      "sha256": "c391b1eb229a61a4605999609ddc0b49b27259625e6c23bd293da34b956f8b00"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/Rear-lod0-phase0-standard.png",
+      "bytes": 731,
+      "sha256": "c391b1eb229a61a4605999609ddc0b49b27259625e6c23bd293da34b956f8b00"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/Rear-lod0-phase1-shared.png",
+      "bytes": 731,
+      "sha256": "776f6cb008d8eee5d339a8c4dd0c47eb1bcafbc3dd1dc97f67c20bc8f35cc9a8"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/Rear-lod0-phase1-standard.png",
+      "bytes": 731,
+      "sha256": "776f6cb008d8eee5d339a8c4dd0c47eb1bcafbc3dd1dc97f67c20bc8f35cc9a8"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/Rear-lod1-phase0-shared.png",
+      "bytes": 731,
+      "sha256": "c391b1eb229a61a4605999609ddc0b49b27259625e6c23bd293da34b956f8b00"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/Rear-lod1-phase0-standard.png",
+      "bytes": 731,
+      "sha256": "c391b1eb229a61a4605999609ddc0b49b27259625e6c23bd293da34b956f8b00"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/Rear-lod2-phase0-shared.png",
+      "bytes": 731,
+      "sha256": "c391b1eb229a61a4605999609ddc0b49b27259625e6c23bd293da34b956f8b00"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/Rear-lod2-phase0-standard.png",
+      "bytes": 731,
+      "sha256": "c391b1eb229a61a4605999609ddc0b49b27259625e6c23bd293da34b956f8b00"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/Right-lod0-phase-1-shared.png",
+      "bytes": 56655,
+      "sha256": "03952758be04469447eb85bf80d2cd658f2a3582e5ccf758e9b34e43ff0fe791"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/Right-lod0-phase-1-standard.png",
+      "bytes": 56670,
+      "sha256": "9731391d5ec1851f8f8a9ca4a6f912c7aa4d9e9b19ad98d872f843dc0fbfa77f"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/Right-lod0-phase0-shared.png",
+      "bytes": 899,
+      "sha256": "51c385817a89e7e061e44546a7fc14a57c8d09f2aff7b0a15f27b7371ae4b917"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/Right-lod0-phase0-standard.png",
+      "bytes": 899,
+      "sha256": "51c385817a89e7e061e44546a7fc14a57c8d09f2aff7b0a15f27b7371ae4b917"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/Right-lod0-phase1-shared.png",
+      "bytes": 899,
+      "sha256": "5a92d3b727b91a8f9b28f26a23a546d9c369d0e51174222f35d5eeafe9174004"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/Right-lod0-phase1-standard.png",
+      "bytes": 899,
+      "sha256": "5a92d3b727b91a8f9b28f26a23a546d9c369d0e51174222f35d5eeafe9174004"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/Right-lod1-phase0-shared.png",
+      "bytes": 899,
+      "sha256": "51c385817a89e7e061e44546a7fc14a57c8d09f2aff7b0a15f27b7371ae4b917"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/Right-lod1-phase0-standard.png",
+      "bytes": 899,
+      "sha256": "51c385817a89e7e061e44546a7fc14a57c8d09f2aff7b0a15f27b7371ae4b917"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/Right-lod2-phase0-shared.png",
+      "bytes": 899,
+      "sha256": "51c385817a89e7e061e44546a7fc14a57c8d09f2aff7b0a15f27b7371ae4b917"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/Right-lod2-phase0-standard.png",
+      "bytes": 899,
+      "sha256": "51c385817a89e7e061e44546a7fc14a57c8d09f2aff7b0a15f27b7371ae4b917"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/commands.json",
+      "bytes": 878,
+      "sha256": "5274173bebee2324f3b9abc667962ef709cda2e398ac566218794bf5f91b57cf"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/first-draw.json",
+      "bytes": 523,
+      "sha256": "56f3818deaa3f54f037bf864c511251a9b5ec6644e9f861b2a11da645a390d2f"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/fixture/fixture.tscn",
+      "bytes": 1746,
+      "sha256": "bbe48a9d80ee1fdcb49391dfc1696b4c54421f131b83652903fa8752012e4379"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/fixture/probe.gd",
+      "bytes": 21394,
+      "sha256": "9b1d1f906e21fd0f14dcb9d6cd3d5e802df8464f9be9b11ce47aec198e3e92a2"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/godot.log",
+      "bytes": 1295,
+      "sha256": "9d3ab5c219d9cafed98d740176b979d09dda19e27d0b25b732ba9763a14ccfab"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/godot.shutdown.json",
+      "bytes": 1111,
+      "sha256": "829d214e435e18671d151de86b313520b71a436f71f2d62b44dbfe9074186fbf"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/inputs-after.json",
+      "bytes": 65707,
+      "sha256": "84e94e82d1695358dc4777cd2a168eccd6d05f54eb82528b76c20d2b70087bdc"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/inputs-before.json",
+      "bytes": 65707,
+      "sha256": "84e94e82d1695358dc4777cd2a168eccd6d05f54eb82528b76c20d2b70087bdc"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/native.json",
+      "bytes": 100763,
+      "sha256": "3341af99e241b4ae5cd7ab2271a7bccf9207472a02ef3818a541526c15e8ec56"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/original-3d-Left.png",
+      "bytes": 30190,
+      "sha256": "01dcf0b769dae0fb218a89084f09bdfec13516935c6858ffe53bef193de7f727"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/original-3d-Rear.png",
+      "bytes": 28962,
+      "sha256": "ee044fac9e3c16774742b8ec12401b0bc87e5c26800fe8a2bb5e9783f7ba43d6"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/original-3d-Right.png",
+      "bytes": 31461,
+      "sha256": "76e5dcaf9d8d721cbd9addc13d927365a247302d8a967f4653fb92ac769ed1d1"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/source-Left-phase0.png",
+      "bytes": 448,
+      "sha256": "837bdfc114a68ba0c7a71099de522b3b9809ea28d7a6fe1f23df9c2cd70fa974"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/source-Left-phase1.png",
+      "bytes": 447,
+      "sha256": "4a33f47a12840fd50f11b3cacc97f166e1ddc7e12edaab86c59a773610463312"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/source-Rear-phase0.png",
+      "bytes": 513,
+      "sha256": "82c60e3dff15539d6bf0f73828845c380d0dac8ca6cd058f1e3da56ce4390ce3"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/source-Rear-phase1.png",
+      "bytes": 514,
+      "sha256": "e3c66df20726bbb69b621a661852e545b8fdb172efc11b22ede7723031d4b333"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/source-Right-phase0.png",
+      "bytes": 448,
+      "sha256": "8a9e32784c53a9f619dbcf226b28de71598edfab2bb5431ec8167c111131d937"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/source-Right-phase1.png",
+      "bytes": 448,
+      "sha256": "134df166d5ef70afecc92de5633bb4cdf160f63c35cc872bb5d69ed36cd85acf"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/start",
+      "bytes": 49,
+      "sha256": "12d1b36a685588ce715b8a8bb61dcf3337218374eeca992ac7be2c5ef7eaf0cb"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/teardown.json",
+      "bytes": 1070,
+      "sha256": "e2ec2eee9f198db05cfce57e1bb593dc1b8a882171bd23cbc4f909cbc423b11f"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/mirror-material/wire.jsonl",
+      "bytes": 2306,
+      "sha256": "bd6069dec01f78c5e9a0500ad87a7d60cf7afe3cd49775e2ed61c10b380045c7"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/renderer-warmup-godot.log",
+      "bytes": 1304,
+      "sha256": "0e61287dc414f104981563bd1ae4bef1e44011a25b7c851c2c75b1c211a3bc37"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/renderer-warmup-godot.shutdown.json",
+      "bytes": 1110,
+      "sha256": "48445814bf08d4ec20304af9d8978c49242339310594bef8391cb6a7c23690af"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/renderer-warmup-summary.json",
+      "bytes": 374,
+      "sha256": "8b35393148e56a1573de5982edf8b8ab85d1de3b61a24033f04175d6142a8854"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/renderer-warmup.jsonl",
+      "bytes": 473,
+      "sha256": "c09d0e8c407f40e8791045c0953282ab7d229abf16a1dcf4354f7748aa717c69"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/rendered/renderer-warmup.png",
+      "bytes": 1017698,
+      "sha256": "e767f2752a3124de7d62cadeecdd1eee2a5b2dc5ff9d5f28e9da15aea38a7a8f"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/result.json",
+      "bytes": 431080,
+      "sha256": "49f7f219033eeac6b081c65a5aa02eabcac75bca26688bf0cfc07281f2830ccb"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/transcript.log",
+      "bytes": 1141,
+      "sha256": "a8e76e484d1f123615d8d77be4411484095d1b790955cf39098dfc250458bbbc"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/Left-lod0-phase-1-shared.png",
+      "bytes": 43169,
+      "sha256": "70285c6b8117c5a980b6e6a41b8b270489a1ab20c3650cf110dce94a73b008c5"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/Left-lod0-phase-1-standard.png",
+      "bytes": 43175,
+      "sha256": "75ab47ce648dafa966c29e89bbcba1ba781e6cdd53c31e10f44b08af9616f6bc"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/Left-lod0-phase0-shared.png",
+      "bytes": 1217,
+      "sha256": "5b6adc67d99746b033d553e29777f0a95718d1a6bacb36b67a054dccfb954f59"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/Left-lod0-phase0-standard.png",
+      "bytes": 1217,
+      "sha256": "5b6adc67d99746b033d553e29777f0a95718d1a6bacb36b67a054dccfb954f59"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/Left-lod0-phase0-wrong-flip-shared.png",
+      "bytes": 1218,
+      "sha256": "5100a4aa88999f67c386af3bfb515393aece4433691d3602e791a6ed47f56124"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/Left-lod0-phase0-wrong-flip-standard.png",
+      "bytes": 1217,
+      "sha256": "5b6adc67d99746b033d553e29777f0a95718d1a6bacb36b67a054dccfb954f59"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/Left-lod0-phase1-shared.png",
+      "bytes": 1218,
+      "sha256": "5100a4aa88999f67c386af3bfb515393aece4433691d3602e791a6ed47f56124"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/Left-lod0-phase1-standard.png",
+      "bytes": 1218,
+      "sha256": "5100a4aa88999f67c386af3bfb515393aece4433691d3602e791a6ed47f56124"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/Left-lod1-phase0-shared.png",
+      "bytes": 1217,
+      "sha256": "5b6adc67d99746b033d553e29777f0a95718d1a6bacb36b67a054dccfb954f59"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/Left-lod1-phase0-standard.png",
+      "bytes": 1217,
+      "sha256": "5b6adc67d99746b033d553e29777f0a95718d1a6bacb36b67a054dccfb954f59"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/Left-lod2-phase0-shared.png",
+      "bytes": 1217,
+      "sha256": "5b6adc67d99746b033d553e29777f0a95718d1a6bacb36b67a054dccfb954f59"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/Left-lod2-phase0-standard.png",
+      "bytes": 1217,
+      "sha256": "5b6adc67d99746b033d553e29777f0a95718d1a6bacb36b67a054dccfb954f59"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/Rear-lod0-phase-1-shared.png",
+      "bytes": 11737,
+      "sha256": "3cfa2075a663866f8d3d4a6bea4137fa9f5a21c9d747385f13466c564d22b720"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/Rear-lod0-phase-1-standard.png",
+      "bytes": 11738,
+      "sha256": "f32cba90c817e4c9e85acc7cd8e76fdc27ae8cfea25bbb48015f539027e41ae4"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/Rear-lod0-phase0-shared.png",
+      "bytes": 1209,
+      "sha256": "d64dc2b41dacf027b8e33e72b54208be8e23e70b9bac6417bb3e97c5461ef285"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/Rear-lod0-phase0-standard.png",
+      "bytes": 1209,
+      "sha256": "d64dc2b41dacf027b8e33e72b54208be8e23e70b9bac6417bb3e97c5461ef285"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/Rear-lod0-phase1-shared.png",
+      "bytes": 1210,
+      "sha256": "0dfc5ce5d21ce8a589ba2ee20ed17b793b3b5dfb63246e8f5fa7d923bab2ddbe"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/Rear-lod0-phase1-standard.png",
+      "bytes": 1210,
+      "sha256": "0dfc5ce5d21ce8a589ba2ee20ed17b793b3b5dfb63246e8f5fa7d923bab2ddbe"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/Rear-lod1-phase0-shared.png",
+      "bytes": 1209,
+      "sha256": "d64dc2b41dacf027b8e33e72b54208be8e23e70b9bac6417bb3e97c5461ef285"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/Rear-lod1-phase0-standard.png",
+      "bytes": 1209,
+      "sha256": "d64dc2b41dacf027b8e33e72b54208be8e23e70b9bac6417bb3e97c5461ef285"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/Rear-lod2-phase0-shared.png",
+      "bytes": 1209,
+      "sha256": "d64dc2b41dacf027b8e33e72b54208be8e23e70b9bac6417bb3e97c5461ef285"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/Rear-lod2-phase0-standard.png",
+      "bytes": 1209,
+      "sha256": "d64dc2b41dacf027b8e33e72b54208be8e23e70b9bac6417bb3e97c5461ef285"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/Right-lod0-phase-1-shared.png",
+      "bytes": 60362,
+      "sha256": "06883d6f7a6d40fc8d45c2990b54c5a1c8939de4e3ccfc0affd0d7eb9bef6100"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/Right-lod0-phase-1-standard.png",
+      "bytes": 60363,
+      "sha256": "1f9bc6042d8b1b3a3eb64906af3762c3b843c8187c24ede87c11c848148f7fb2"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/Right-lod0-phase0-shared.png",
+      "bytes": 1215,
+      "sha256": "978c4ae6c43629ea1d343de2467c3bf725888e17d3ba49387b931474f2174933"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/Right-lod0-phase0-standard.png",
+      "bytes": 1215,
+      "sha256": "978c4ae6c43629ea1d343de2467c3bf725888e17d3ba49387b931474f2174933"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/Right-lod0-phase1-shared.png",
+      "bytes": 1215,
+      "sha256": "a2765d8bcfd2f46cd70d92e8b413e4a95b86471c484cdd697670e6c1e5aa5642"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/Right-lod0-phase1-standard.png",
+      "bytes": 1215,
+      "sha256": "a2765d8bcfd2f46cd70d92e8b413e4a95b86471c484cdd697670e6c1e5aa5642"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/Right-lod1-phase0-shared.png",
+      "bytes": 1215,
+      "sha256": "978c4ae6c43629ea1d343de2467c3bf725888e17d3ba49387b931474f2174933"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/Right-lod1-phase0-standard.png",
+      "bytes": 1215,
+      "sha256": "978c4ae6c43629ea1d343de2467c3bf725888e17d3ba49387b931474f2174933"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/Right-lod2-phase0-shared.png",
+      "bytes": 1215,
+      "sha256": "978c4ae6c43629ea1d343de2467c3bf725888e17d3ba49387b931474f2174933"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/Right-lod2-phase0-standard.png",
+      "bytes": 1215,
+      "sha256": "978c4ae6c43629ea1d343de2467c3bf725888e17d3ba49387b931474f2174933"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/commands.json",
+      "bytes": 886,
+      "sha256": "d1b5b5065c9d25b19dab73376228190f6d01b08e1d6c005e02accf6c43c85fa4"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/first-draw.json",
+      "bytes": 522,
+      "sha256": "afd861e70ebf02985f32ae814e40cc55234bd32aa70940f0c4d5421b3de2b5e1"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/fixture/fixture.tscn",
+      "bytes": 1750,
+      "sha256": "b02ac22b89f4913593fc40f5237e97ed17e1e539202b0e6ef537888fbbac2a64"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/fixture/probe.gd",
+      "bytes": 21402,
+      "sha256": "801bf849044f274554e37fc8395db8d219fb006c9924e93bbf28e54b1281cf77"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/godot.log",
+      "bytes": 1313,
+      "sha256": "4c7a511d1118ec0f61945fad90743ae767148943ec5a6d51d1ea05e446c89f12"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/godot.shutdown.json",
+      "bytes": 1114,
+      "sha256": "cf958175fa802dd8bac63b85208b988d239a0ed09c3dd6d099b319700c7acb29"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/inputs-after.json",
+      "bytes": 65715,
+      "sha256": "3dd00b0c59347151ab08f556c608495303e9203c5af21c91a6dcb0e68723e588"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/inputs-before.json",
+      "bytes": 65715,
+      "sha256": "3dd00b0c59347151ab08f556c608495303e9203c5af21c91a6dcb0e68723e588"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/native.json",
+      "bytes": 100781,
+      "sha256": "c1639b2e471ed97c4a222d0c635da1767a65c2392ee1917b8391dd3974992cb5"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/original-3d-Left.png",
+      "bytes": 29858,
+      "sha256": "3e7e972603ab5ab67b2f52693279469fc2afce2ac9126debb44addd5fa2780a8"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/original-3d-Rear.png",
+      "bytes": 16404,
+      "sha256": "d42ee5a81213d3ae8180cef2751da50eddf6f3ac256bcab3972bc7d53d7c3ed4"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/original-3d-Right.png",
+      "bytes": 39473,
+      "sha256": "47fb4aa7e5433826286bc131f420daa67d383692f80eaa3c76add2fe90bb5f25"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/source-Left-phase0.png",
+      "bytes": 497,
+      "sha256": "44d7eb27e355a3a42d3cdc4b4035e04c50388f79884d8fa621e5a34ff842a29c"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/source-Left-phase1.png",
+      "bytes": 496,
+      "sha256": "65b2d682c8f9b481cecc2c565c2a0054850dd871e737965e3c9e4ee85dfc9b41"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/source-Rear-phase0.png",
+      "bytes": 561,
+      "sha256": "cfa9cbf212b01eadb32e0fc980fb80bd0ed90c5bece3f7ead21ac1739b843e60"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/source-Rear-phase1.png",
+      "bytes": 561,
+      "sha256": "926a469c2be8550a5b29081603d902a305c88c1b9c4ab0be88f6bcef48fe77c1"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/source-Right-phase0.png",
+      "bytes": 497,
+      "sha256": "abb8678ab54bcb5b34c4854a700beb6d5ac120337cc8daa33cb497f49b33636d"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/source-Right-phase1.png",
+      "bytes": 497,
+      "sha256": "e5e743afffb15d5bffd6489bdd8cb7ce8a385608586a54e25ca56a051e880866"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/start",
+      "bytes": 49,
+      "sha256": "12d1b36a685588ce715b8a8bb61dcf3337218374eeca992ac7be2c5ef7eaf0cb"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/teardown.json",
+      "bytes": 1074,
+      "sha256": "98dad91744ef20a93764fec8702696504c7c7a40bc8a6c6b43e8e9fa91d105e8"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/mirror-material/wire.jsonl",
+      "bytes": 2383,
+      "sha256": "b5f5ffe23ea74c48c95ca30f453a5db36cc94d480081683fdd52f4e4c45c4be6"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/renderer-warmup-godot.log",
+      "bytes": 1304,
+      "sha256": "e6e5eb30e5543990a21a2c4a85d701801149a84e8b2779852e1a8db6162f029e"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/renderer-warmup-godot.shutdown.json",
+      "bytes": 1112,
+      "sha256": "7935bbe79423987dfd76909eb5a399446481153376e297598a1d521fe54de698"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/renderer-warmup-summary.json",
+      "bytes": 374,
+      "sha256": "1d4b3fcb5b48a1b5592e99d4b171e860bb8de3565fa7f5e0643cf6c0b1cf1569"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/renderer-warmup.jsonl",
+      "bytes": 473,
+      "sha256": "4eb828533b4760daa33727d8a2a0356609e8203bc0735a8fb22f16a7406f1f87"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/rendered/renderer-warmup.png",
+      "bytes": 1016807,
+      "sha256": "7bfb12c77d8fad42db9df634977dc0f8ef712602e0398a97028f0020937c2ac3"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/result.json",
+      "bytes": 431104,
+      "sha256": "428b97ff316807c783f022569537d44453dbfdc099d944bb45e57792353b84f2"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/transcript.log",
+      "bytes": 1139,
+      "sha256": "6254d63ede37ddcf73664f72ee2dca2196060e12228932e81672561fce37c9c9"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/mirrors51/scope.json",
+      "bytes": 2945,
+      "sha256": "004bd3eab4a35ecc7d927ebe11318a674dd1777f1397c48f99994c92a043b75b"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/native-loan52.json",
+      "bytes": 527,
+      "sha256": "d72c9c3ce645cee3639ce7e7e4320476299c37b45960f0d2fe97d17b54ad2e9c"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/publish49.py",
+      "bytes": 4077,
+      "sha256": "b675ff47c4b1f79b8decbcb3763c4839463cd28e50947e6968d904c757d4cd74"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/rail-receiving-scope51.json",
+      "bytes": 1719,
+      "sha256": "ff4237ba21171132f3f15e92488619b5a19362bcead20b9d57feeb34b17c0543"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/rail-receiving-scope52.json",
+      "bytes": 2002,
+      "sha256": "6eae7cb1337542a871b47ad5ce582980a255cc8686dc822247d75b256f5bf932"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/rail_scope51.py",
+      "bytes": 3275,
+      "sha256": "c173924baf7a42175ec0cd35e6a80ac24cede36b45647ec9440b71cc714437e1"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/rail_scope52.py",
+      "bytes": 3833,
+      "sha256": "4c2d76d03201d8dde0e3163ce03a89fcb8cbf3a1eb6610ceab6a074761d73b44"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/regression52.py",
+      "bytes": 4677,
+      "sha256": "c79fdab9139907e043719822558ef48cb09c55381bdb0ce208e738e418c016cb"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/regressions52/frontdoor/m0/dotnet/core-tests.trx",
+      "bytes": 237410,
+      "sha256": "1fc525ba35c4a9662015bcfcf29842ca2c4a9ab16fcaa33a941235d4d8e25f41"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/regressions52/frontdoor/m0/godot/godot.log",
+      "bytes": 691,
+      "sha256": "0b0076b6fa237bed85e4b86dac01a6ab830d7774b4cb1d204e6996ef9a437d25"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/regressions52/frontdoor/m0/godot/managed-shutdown/runtime.log",
+      "bytes": 1541,
+      "sha256": "d50045ec4c6427d9319decb1de66af98759f76412d5cd608bab4c1c254cad59d"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/regressions52/frontdoor/m0/godot/managed-shutdown/summary.json",
+      "bytes": 351,
+      "sha256": "986568ebec42e50d78674674804493d6f9569fd6c3fc6231d2813f8fe7a691a8"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/regressions52/frontdoor/m0/godot/starter-speed.json",
+      "bytes": 6057,
+      "sha256": "121783775c19345d0fe1aed0205e8f5393e4a56379daa94d8fbd937f43628f4b"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/regressions52/frontdoor/m0/logs/doctor.log",
+      "bytes": 432,
+      "sha256": "3ba9169ecbe99a80f8ddd7388f3a598ce75016a201ed007bfdce2a7ce7c962b3"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/regressions52/frontdoor/m0/logs/dotnet-build.log",
+      "bytes": 488,
+      "sha256": "678f27691d8643bc6adb63585db7f4d8b63edba4c57cd1b9ef491de7e2fbea7e"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/regressions52/frontdoor/m0/logs/dotnet-test.log",
+      "bytes": 446,
+      "sha256": "ec1b5271bf86c003b132f36465fbbb7caef0f0efb1b4fd02357128087b4bbab5"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/regressions52/frontdoor/m0/logs/godot-smoke.log",
+      "bytes": 1351,
+      "sha256": "68f06cdb154172afe0e108d1f6ffbd73a51b315801cbd103d7e9c632c05631f5"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/regressions52/frontdoor/m0/logs/managed-shutdown.log",
+      "bytes": 1862,
+      "sha256": "499f11fdc90cec76ca113ce258437fa31441152718ff7dba0c60fca4788d951e"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/regressions52/frontdoor/m0/logs/pytest-map-pipeline.log",
+      "bytes": 449,
+      "sha256": "d40fd1dc48203cda6804838d6680381b1c6105f8496f6c691a6e357414f68b7f"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/regressions52/frontdoor/m0/logs/pytest-playgodot-unit.log",
+      "bytes": 681,
+      "sha256": "0b2ae46c34f1462301f7c96e19942fef4e7a35924333154ac55171602b8a99b0"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/regressions52/frontdoor/m0/logs/release-smoke-unit.log",
+      "bytes": 906,
+      "sha256": "6fed81a359aa907d169eab118c0a658d0ef7d9e22e543da950af6e7b73fb8547"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/regressions52/frontdoor/m0/python/junit.xml",
+      "bytes": 45254,
+      "sha256": "971b2277c1060824eed2768793bf0fdc84dd5761ca82b8ba7dc1fb23d41caad3"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/regressions52/frontdoor/m0/python/playgodot-unit.xml",
+      "bytes": 34327,
+      "sha256": "5d70882314d4496744d502f1e0d65c37625f0bec4f6d4769f694c19cb9ddfb45"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/regressions52/frontdoor/m0/summary.json",
+      "bytes": 1482,
+      "sha256": "0a5434e97c19e5ba6b6623c0b90f9865ae6e31a147fa86a3ba703987e04d41a1"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/regressions52/frontdoor/result.json",
+      "bytes": 430755,
+      "sha256": "0029c70bdd113f53624250a6cc3fc519788aa242f9d4d22a072fea54141ab181"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/regressions52/frontdoor/transcript.log",
+      "bytes": 13596,
+      "sha256": "09311ef519963ec2a0ce7bb0e34655624ab30da4bc75ba4402126aa417045fbf"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/research-evidence51.json",
+      "bytes": 1192,
+      "sha256": "f5531537a39f9c8978599383c06e27229fe39c5fdbf7dde897e19fdb5cd287c1"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/research_evidence51.py",
+      "bytes": 2500,
+      "sha256": "2aa432c4e34addc03daddb85f58f021e90679a6567b1705275fd63794a46e182"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/runtime-history50.json",
+      "bytes": 2500,
+      "sha256": "edf6e58a520962cbb48f68afb6fe2d83d505291ef40885f62d523e54f93abc88"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/runtime_history50.py",
+      "bytes": 3236,
+      "sha256": "cb1f0fd39152688baba5733493e3e7bc4723d9d54420dafe413682ac4c821de9"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/skill-retention51.json",
+      "bytes": 5377,
+      "sha256": "35c684d3248922985f1e515431f17078b9da76f3e97f64930e90779b29d1388f"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/windshield-direction53.json",
+      "bytes": 3742,
+      "sha256": "2569762b6f73792327e1caf3fde13a4d08c82502ac537cf4166fff6a94d8381e"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/windshield_scope53.py",
+      "bytes": 4652,
+      "sha256": "ae9e6d12fe5fc712e8d93ee301951e2fdc86707b6eb982ca9a16c0019f32e3f3"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/RECOVERY.md",
+      "bytes": 4974,
+      "sha256": "199c708929141b08af0cbddfe8347dcaa8783a9202caa1748d9878abbba39d23"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/freeze03.py",
+      "bytes": 6514,
+      "sha256": "4c303bffb8aeb0b579aa11121bdfc48a8fcfdeda386b4624779a4d0a7905b624"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/inventory02.py",
+      "bytes": 17409,
+      "sha256": "443472077d6de387230b95fa22acbfb9569b4d2c5ea18a96f64b63086433032e"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/006a81e9c0fc752cdff3c37ce8d83e6ad6ebe8215b99fd434005fec7f4f9fe0d/presentation-summary.json",
+      "bytes": 221481,
+      "sha256": "006a81e9c0fc752cdff3c37ce8d83e6ad6ebe8215b99fd434005fec7f4f9fe0d"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/0182fc501f3ffb1ecb13ae72d71be738dcac2100b29458d4805605760dae5de6/Cannonball.Core.dll",
+      "bytes": 433664,
+      "sha256": "0182fc501f3ffb1ecb13ae72d71be738dcac2100b29458d4805605760dae5de6"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/061278da711b91a466a66e7ba473df41a9c34a266c0bd066f070a91cf41b4dcb/review05.json",
+      "bytes": 19729,
+      "sha256": "061278da711b91a466a66e7ba473df41a9c34a266c0bd066f070a91cf41b4dcb"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/0725d70bc7923a15753d67a942d9e68b897ec70ff1845f691f0c0761957bee7c/bmw-us-2015-m5-technical.pdf",
+      "bytes": 156723,
+      "sha256": "0725d70bc7923a15753d67a942d9e68b897ec70ff1845f691f0c0761957bee7c"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/08066e615c7e05a939f0a218165cc244f2131d1f148550496c7eb7f3deeef8c8/ground145-before55-rear.png",
+      "bytes": 33913,
+      "sha256": "08066e615c7e05a939f0a218165cc244f2131d1f148550496c7eb7f3deeef8c8"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/09b964918994dc1c5a8d91883a3c74e5eee8de8a5dbaf37eb480b63bdd1f4809/ground145-before55-cockpit.png",
+      "bytes": 167634,
+      "sha256": "09b964918994dc1c5a8d91883a3c74e5eee8de8a5dbaf37eb480b63bdd1f4809"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/0e826a71d0292a8a580cc58b3ce74e44bfd848ab77165538e781271b6237c2d5/Cannonball.pdb",
+      "bytes": 513020,
+      "sha256": "0e826a71d0292a8a580cc58b3ce74e44bfd848ab77165538e781271b6237c2d5"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/0f36917d9378856af6978dc01881138b1e93ae683ba7cc055e91926ea616e273/capture03.json",
+      "bytes": 1750774,
+      "sha256": "0f36917d9378856af6978dc01881138b1e93ae683ba7cc055e91926ea616e273"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/1036123cb2f905e108505b711c726252d38b8c924dfe0a4803310e3dc264ee61/ground145-candidate30-cockpit.png",
+      "bytes": 168031,
+      "sha256": "1036123cb2f905e108505b711c726252d38b8c924dfe0a4803310e3dc264ee61"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/10d2acd4a39ebdee0985c6331ad061d5f830afa4143632289820ce9a0e9a8b2b/Cannonball.dll",
+      "bytes": 1881088,
+      "sha256": "10d2acd4a39ebdee0985c6331ad061d5f830afa4143632289820ce9a0e9a8b2b"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/16705c5a68618f33fdc683aef8945ecd53434230aefe2af065069d389deb25c7/prepare03.py",
+      "bytes": 13652,
+      "sha256": "16705c5a68618f33fdc683aef8945ecd53434230aefe2af065069d389deb25c7"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/1c88827185691012382c4e9cbc7a63e8b7d57d7e7ccdab4978a123e91f8adbfe/manifest03.json",
+      "bytes": 2631,
+      "sha256": "1c88827185691012382c4e9cbc7a63e8b7d57d7e7ccdab4978a123e91f8adbfe"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/206a1042aad5d7b396667e0e93f55920825ca8686c8737735b96c311b7b36afc/ground165-before55-rear.png",
+      "bytes": 11593,
+      "sha256": "206a1042aad5d7b396667e0e93f55920825ca8686c8737735b96c311b7b36afc"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/20c7a3b9f4256f3614cf42fec077ffaa37cde5e52d5621f3cd258fdf3074ba2c/candidate507-level-side-extra.png",
+      "bytes": 701864,
+      "sha256": "20c7a3b9f4256f3614cf42fec077ffaa37cde5e52d5621f3cd258fdf3074ba2c"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/252bfed8a6d074d257a1db339212ce65267f6807b2d438e672226c4ce48a0a4f/review.json",
+      "bytes": 2111303,
+      "sha256": "252bfed8a6d074d257a1db339212ce65267f6807b2d438e672226c4ce48a0a4f"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/2e398bdee00fbdac3c84973c2f71c496604ad509b05f257a9cfbd9907e7273d7/REPORT.md",
+      "bytes": 4686,
+      "sha256": "2e398bdee00fbdac3c84973c2f71c496604ad509b05f257a9cfbd9907e7273d7"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/30572d89e9654b346d1411c851ea9d9c20346792049c40a3e66ec90d75936fae/run03.py",
+      "bytes": 8499,
+      "sha256": "30572d89e9654b346d1411c851ea9d9c20346792049c40a3e66ec90d75936fae"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/30b5cd5a438e2af64db3055dcfee17ed0b35ebff2d4c6ca2708a83342b4b9d93/preparation01.json",
+      "bytes": 216522,
+      "sha256": "30b5cd5a438e2af64db3055dcfee17ed0b35ebff2d4c6ca2708a83342b4b9d93"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/315bde89d0138afb4457475cc967242a82fecbab4dc8d0b3c04e8ead741cbca9/ground145-candidate30-rear.png",
+      "bytes": 21697,
+      "sha256": "315bde89d0138afb4457475cc967242a82fecbab4dc8d0b3c04e8ead741cbca9"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/3172daf19cb7859b86789f86e8a193779db776d165945c2721fc029bcd628fc9/witness.json",
+      "bytes": 3719,
+      "sha256": "3172daf19cb7859b86789f86e8a193779db776d165945c2721fc029bcd628fc9"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/324d93ab918133ca30067be07210d1e1c8a81a3119830eff45926580738c6705/ground165-candidate30-cockpit.png",
+      "bytes": 395586,
+      "sha256": "324d93ab918133ca30067be07210d1e1c8a81a3119830eff45926580738c6705"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/35c7979807412b52c694d40b2c542e12b596620055eb3cb2986eafc15cd2252e/SelectionCameraProbe.cs",
+      "bytes": 8517,
+      "sha256": "35c7979807412b52c694d40b2c542e12b596620055eb3cb2986eafc15cd2252e"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/3737ad26c7a1145a77443089e153a1680b19d413d079013fded0eedf39811c8b/method-correspondence.json",
+      "bytes": 968,
+      "sha256": "3737ad26c7a1145a77443089e153a1680b19d413d079013fded0eedf39811c8b"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/3b4a87c0ee1c93fa5ccf83517e48995ac4d651df7b03ac0fe2c3e036b5c08c01/audi-uk-2016-a6-s6-brochure.pdf",
+      "bytes": 6263648,
+      "sha256": "3b4a87c0ee1c93fa5ccf83517e48995ac4d651df7b03ac0fe2c3e036b5c08c01"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/3c1d4b555ed37889eb4a82da8e88fc0d080350df1146d4f5035460b7c8805959/process03.log",
+      "bytes": 1464,
+      "sha256": "3c1d4b555ed37889eb4a82da8e88fc0d080350df1146d4f5035460b7c8805959"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/3d3d4c5b82857b5e1d0159d9d1fa4d120ac01c97649358fdb4a17293519bfaf8/Cannonball.Core.pdb",
+      "bytes": 240092,
+      "sha256": "3d3d4c5b82857b5e1d0159d9d1fa4d120ac01c97649358fdb4a17293519bfaf8"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/45bf55892b86f6356c9ed3d221e86de4f3d94af19a173591839d624b9cb928ba/Cannonball.pdb",
+      "bytes": 840932,
+      "sha256": "45bf55892b86f6356c9ed3d221e86de4f3d94af19a173591839d624b9cb928ba"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/4db4b0db07038bd74d26711a0c91d661dcf111538b33e81464467fa134d99c6e/handoff05.json",
+      "bytes": 70208,
+      "sha256": "4db4b0db07038bd74d26711a0c91d661dcf111538b33e81464467fa134d99c6e"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/5105a5c94c0d816543eb177db2db414eb625c57ce04328883a8210fa3ab6ec75/manifest05.json",
+      "bytes": 8593,
+      "sha256": "5105a5c94c0d816543eb177db2db414eb625c57ce04328883a8210fa3ab6ec75"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/5632874f25721b63598be3b89b6b5eed56dcb80008f97bceff1d4fa2621968d1/process03.log",
+      "bytes": 1467,
+      "sha256": "5632874f25721b63598be3b89b6b5eed56dcb80008f97bceff1d4fa2621968d1"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/579396c3e2fba7e1a36521c237484cf2b84cf37dba613aa4560ae3282c88af8c/ground145-before55-rear.png",
+      "bytes": 16515,
+      "sha256": "579396c3e2fba7e1a36521c237484cf2b84cf37dba613aa4560ae3282c88af8c"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/5801009ebc76933388cef1ba67b384f221997930d3ce7c1129e03e67d15873a0/recipe.py",
+      "bytes": 7745,
+      "sha256": "5801009ebc76933388cef1ba67b384f221997930d3ce7c1129e03e67d15873a0"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/64796217be28466d2cc371c07e4219506b3a313f0703aeaaab59cf6658b04b1b/audi-us-2016-a6-s6-brochure.pdf",
+      "bytes": 9248854,
+      "sha256": "64796217be28466d2cc371c07e4219506b3a313f0703aeaaab59cf6658b04b1b"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/6a4a80db4313227cf6258ff1a1d37adf286a5e8672bcdf65950af142fa350ac9/execution03.json",
+      "bytes": 22174,
+      "sha256": "6a4a80db4313227cf6258ff1a1d37adf286a5e8672bcdf65950af142fa350ac9"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/6d88b3862bd490d1d3bd31048dcc099cab3ffa2959f6ed8529453cf4a0befcf3/Cannonball.Core.dll",
+      "bytes": 432128,
+      "sha256": "6d88b3862bd490d1d3bd31048dcc099cab3ffa2959f6ed8529453cf4a0befcf3"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/6e84fa04d78c22ed46df9f828b9e6f359bbab40c7f472cc56d6d685102053262/evidence.json",
+      "bytes": 809053,
+      "sha256": "6e84fa04d78c22ed46df9f828b9e6f359bbab40c7f472cc56d6d685102053262"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/6ea88a91117aa3446a7449122e6f3b94baf6d91178b038ff2f1bbd66e13d6d8d/Main.cs",
+      "bytes": 170941,
+      "sha256": "6ea88a91117aa3446a7449122e6f3b94baf6d91178b038ff2f1bbd66e13d6d8d"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/6f5e0d0bf1229ea9d0b132e91263f3506a84a56a398cd5ffe1015932e0cbe047/ground165-before55-cockpit.png",
+      "bytes": 163521,
+      "sha256": "6f5e0d0bf1229ea9d0b132e91263f3506a84a56a398cd5ffe1015932e0cbe047"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/6f7f660cb3e3f321828cd2c38090785ab19d1bd4e1e68c9e8ab96f3da88071b8/review.json",
+      "bytes": 26756,
+      "sha256": "6f7f660cb3e3f321828cd2c38090785ab19d1bd4e1e68c9e8ab96f3da88071b8"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/6feaffea887b31ac3c04250feccecd017df4ef04f9f8cc9dfdfa7ed02a1b1871/witness.json",
+      "bytes": 3978,
+      "sha256": "6feaffea887b31ac3c04250feccecd017df4ef04f9f8cc9dfdfa7ed02a1b1871"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/715f5cd1b339d0925724e945c236eb6b16b73afdf6d0720d0ef1074d15cf5a4a/capture03.json",
+      "bytes": 1746756,
+      "sha256": "715f5cd1b339d0925724e945c236eb6b16b73afdf6d0720d0ef1074d15cf5a4a"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/80fb849eb12e8219fb8130cd25981975ab825d6e8a2087d7c9a0a0c661dcb343/review04.py",
+      "bytes": 12743,
+      "sha256": "80fb849eb12e8219fb8130cd25981975ab825d6e8a2087d7c9a0a0c661dcb343"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/815fddb43c93092ca6d1e0e9dcccb04148f824b05e282282349b8444776c5fe0/ground165-before55-cockpit.png",
+      "bytes": 395979,
+      "sha256": "815fddb43c93092ca6d1e0e9dcccb04148f824b05e282282349b8444776c5fe0"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/817b015a351cbe4af806b3aec0db919cc029d64c7626baa0f7fec47a80f7624f/native-inputs.json",
+      "bytes": 72670,
+      "sha256": "817b015a351cbe4af806b3aec0db919cc029d64c7626baa0f7fec47a80f7624f"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/81aa4bae0116577f26ccd6d4e15b9e5adfe44208e38b0bab116ea4b3e7e5ee3b/lock01.json",
+      "bytes": 136074,
+      "sha256": "81aa4bae0116577f26ccd6d4e15b9e5adfe44208e38b0bab116ea4b3e7e5ee3b"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/86b24a54b3f6835f4660988c026a713dd497d29cd2e7f22adec0ef09427b7446/pilot19.json",
+      "bytes": 469130,
+      "sha256": "86b24a54b3f6835f4660988c026a713dd497d29cd2e7f22adec0ef09427b7446"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/882e8f816acd2bb1b9a728171fcb94962d73289dac8755d2b46233ce56a9750c/fallback05.json",
+      "bytes": 5277,
+      "sha256": "882e8f816acd2bb1b9a728171fcb94962d73289dac8755d2b46233ce56a9750c"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/889b48b611edfa8321aa324f12d5791414aad3f3f2b05ba6a3c0c470ab28c8f6/build03.json",
+      "bytes": 124139,
+      "sha256": "889b48b611edfa8321aa324f12d5791414aad3f3f2b05ba6a3c0c470ab28c8f6"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/8a5f19c207bee6aab5f270970120c1703f5fe448be268e45f2eb2fc83a5d05d8/Cannonball.Core.dll",
+      "bytes": 432128,
+      "sha256": "8a5f19c207bee6aab5f270970120c1703f5fe448be268e45f2eb2fc83a5d05d8"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/8b9e0a821a1bc413047479395b684fb5d3bbcb76564bf398cd4e37bb61656a4f/candidate529-front-three-quarter.png",
+      "bytes": 819936,
+      "sha256": "8b9e0a821a1bc413047479395b684fb5d3bbcb76564bf398cd4e37bb61656a4f"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/8d432e4f14427fcf0b4e3632f41de2fc5f43f2562dda291abd3682f42f2503e6/audi-qrs-2014.pdf",
+      "bytes": 5923859,
+      "sha256": "8d432e4f14427fcf0b4e3632f41de2fc5f43f2562dda291abd3682f42f2503e6"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/8d8b11636d9315a2e086a10b433d21ead997cb8dd6dd612de69fac6d380e65ed/candidate529-level-side-extra.png",
+      "bytes": 701353,
+      "sha256": "8d8b11636d9315a2e086a10b433d21ead997cb8dd6dd612de69fac6d380e65ed"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/911db570ffe833a77ed273fba60bad8c8ec4aec3d329ec764e4e4c13e8516f06/candidate507-front-three-quarter.png",
+      "bytes": 821702,
+      "sha256": "911db570ffe833a77ed273fba60bad8c8ec4aec3d329ec764e4e4c13e8516f06"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/95e34ccdde6d5678ffbc7a23ec08cc8dc994612e3fc27e9e3df1a27d7aaeece6/ground165-before55-rear.png",
+      "bytes": 34115,
+      "sha256": "95e34ccdde6d5678ffbc7a23ec08cc8dc994612e3fc27e9e3df1a27d7aaeece6"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/96d6c9725f666ccca9815a95e44a4a005ad99b32125d098342efcc7e616a888f/ground165-candidate30-rear.png",
+      "bytes": 12911,
+      "sha256": "96d6c9725f666ccca9815a95e44a4a005ad99b32125d098342efcc7e616a888f"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/984ad71c60a09edd75813df7bf62f00780b4b6b2c491e9e40e442f248681295b/Cannonball.dll",
+      "bytes": 1643520,
+      "sha256": "984ad71c60a09edd75813df7bf62f00780b4b6b2c491e9e40e442f248681295b"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/9cd1ecc865bf5d49daafcf6f2717fd2980da5421a5dbc87401f518262469875f/execution03.json",
+      "bytes": 23414,
+      "sha256": "9cd1ecc865bf5d49daafcf6f2717fd2980da5421a5dbc87401f518262469875f"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/9d88bff7a1a5a0d08ab6582cb74803cf9e5a04e0c8572061cd3da20cf0379286/ground165-candidate30-rear.png",
+      "bytes": 29808,
+      "sha256": "9d88bff7a1a5a0d08ab6582cb74803cf9e5a04e0c8572061cd3da20cf0379286"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/a1ba7521f55af48e5110167147c2ca79edf5ee550389dda5f720850a81df2028/ground165-candidate30-cockpit.png",
+      "bytes": 163285,
+      "sha256": "a1ba7521f55af48e5110167147c2ca79edf5ee550389dda5f720850a81df2028"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/a33954fdab9fb09b9d308cb7f970518293128922ffc523c0a22b3b314a9a56c6/bfont.pfb",
+      "bytes": 25181,
+      "sha256": "a33954fdab9fb09b9d308cb7f970518293128922ffc523c0a22b3b314a9a56c6"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/a405f266a9dd1afb38ee17b2af767e0a1b2504a1cfd1dba99559557925a94f6e/build_reference_values.py",
+      "bytes": 35514,
+      "sha256": "a405f266a9dd1afb38ee17b2af767e0a1b2504a1cfd1dba99559557925a94f6e"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/a9dd50791ef9fd9d06185c32c529f2b34904b37f496b5bd5c510ff947781590e/toman-e63.html",
+      "bytes": 137985,
+      "sha256": "a9dd50791ef9fd9d06185c32c529f2b34904b37f496b5bd5c510ff947781590e"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/aaca8a0af8734da6239cf1f5d1119b571b58875a7a7be71f6f266e92184cd995/dimension-sheet-revision17.md",
+      "bytes": 43041,
+      "sha256": "aaca8a0af8734da6239cf1f5d1119b571b58875a7a7be71f6f266e92184cd995"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/acc561c4383b169b21519c6fa7fa18d0b773c771f5313db4c3627e0d4b9e15e6/evidence.json",
+      "bytes": 15525,
+      "sha256": "acc561c4383b169b21519c6fa7fa18d0b773c771f5313db4c3627e0d4b9e15e6"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/accd21ae84ecbb34f1d55af6d28f96d8ea404258bd38aab8cc6add8650015a05/Cannonball.Core.pdb",
+      "bytes": 240092,
+      "sha256": "accd21ae84ecbb34f1d55af6d28f96d8ea404258bd38aab8cc6add8650015a05"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/adb1109cbf61ef7872fb523a0268958fce4053d419d18758cfcefd8bea807ae1/endurance-sedan.blend",
+      "bytes": 7895166,
+      "sha256": "adb1109cbf61ef7872fb523a0268958fce4053d419d18758cfcefd8bea807ae1"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/af60b3404427c9a31bc3fad4dc7fbcded6bb7b7c869613c0653315bdd29c6c2f/Cannonball.pdb",
+      "bytes": 836932,
+      "sha256": "af60b3404427c9a31bc3fad4dc7fbcded6bb7b7c869613c0653315bdd29c6c2f"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/b803ddcebad2cb3588a49f23e44e291850677b60c34fd2ef6f6aea3db398eaf4/HANDOFF03.md",
+      "bytes": 2421,
+      "sha256": "b803ddcebad2cb3588a49f23e44e291850677b60c34fd2ef6f6aea3db398eaf4"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/bc87cfd93277702b937249ea5804d819cb10c948e1c385df14f3b5c94506a768/readable-docs-evidence.json",
+      "bytes": 41676,
+      "sha256": "bc87cfd93277702b937249ea5804d819cb10c948e1c385df14f3b5c94506a768"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/bcb45d36b01a5329523eb69ed54b61b17dcccb6aa1c9fde1740d4a3de550e3a1/runner-input.py",
+      "bytes": 11150,
+      "sha256": "bcb45d36b01a5329523eb69ed54b61b17dcccb6aa1c9fde1740d4a3de550e3a1"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/c05a127a5ce0b01701998d3cef28d7134c8531fffaef93ac51c5582485bea143/source-capture-manifest.json",
+      "bytes": 7452,
+      "sha256": "c05a127a5ce0b01701998d3cef28d7134c8531fffaef93ac51c5582485bea143"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/c064869bc66f4e61d0e9b8d6280249e1a15961edf0af1a4a198ee2f36e53128e/witness.json",
+      "bytes": 3846,
+      "sha256": "c064869bc66f4e61d0e9b8d6280249e1a15961edf0af1a4a198ee2f36e53128e"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/c2031da809889d8a0978c32e1b4590eb96b8839d38ae083005ed77b81039cbc7/license-chain.json",
+      "bytes": 9968,
+      "sha256": "c2031da809889d8a0978c32e1b4590eb96b8839d38ae083005ed77b81039cbc7"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/c2c9ac33292de3f7201f5f55c2859cf525cab70dc6fc25ded80f4409dbe0608b/Cannonball.Core.pdb",
+      "bytes": 140308,
+      "sha256": "c2c9ac33292de3f7201f5f55c2859cf525cab70dc6fc25ded80f4409dbe0608b"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/c31b4bc73ed4c6ca7ddaaa28fc146610c5f176cf628122c99f83cdd1efdb58cb/ground145-candidate30-rear.png",
+      "bytes": 25248,
+      "sha256": "c31b4bc73ed4c6ca7ddaaa28fc146610c5f176cf628122c99f83cdd1efdb58cb"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/c5fe97a759a44e78014592a377570d8bf8f6e52046a702a942729bf974e241fb/audi-21h7.pdf",
+      "bytes": 4473046,
+      "sha256": "c5fe97a759a44e78014592a377570d8bf8f6e52046a702a942729bf974e241fb"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/c62e0bff6f2ff975f6faa921988aa4f66b431a347fba97ce48f53e5dad5e04f7/evidence.json",
+      "bytes": 52326,
+      "sha256": "c62e0bff6f2ff975f6faa921988aa4f66b431a347fba97ce48f53e5dad5e04f7"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/cd86109b272108c8d489b7511aab8b42556e0614ef4cec45fc383fedbc103080/asset-input-inventory.json",
+      "bytes": 25308,
+      "sha256": "cd86109b272108c8d489b7511aab8b42556e0614ef4cec45fc383fedbc103080"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/d057b3464cefc8baff5db32ff148efc1ccf9ef33a4b44285cc9558f1172cbe04/verify_research.py",
+      "bytes": 8160,
+      "sha256": "d057b3464cefc8baff5db32ff148efc1ccf9ef33a4b44285cc9558f1172cbe04"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/d184ace1b745f06f77198292346808009567b1bcd2963b9ad8a16c06c1f03368/retention05.json",
+      "bytes": 39969,
+      "sha256": "d184ace1b745f06f77198292346808009567b1bcd2963b9ad8a16c06c1f03368"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/d4324d5a5b9cdfe17db69691229e398771957efdbd4b1ccccfeb80309a369887/review05.json",
+      "bytes": 19718,
+      "sha256": "d4324d5a5b9cdfe17db69691229e398771957efdbd4b1ccccfeb80309a369887"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/d47a3e0049ebb8f8e5f7c33723c60f1e144b49888022c16f896f26382db4a789/resource-probe.json",
+      "bytes": 750302,
+      "sha256": "d47a3e0049ebb8f8e5f7c33723c60f1e144b49888022c16f896f26382db4a789"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/d4e189be287a8c97ee2d842e0d9c47bd7360580dd2c6d87268f00158a030b594/resource-probe.json",
+      "bytes": 1220011,
+      "sha256": "d4e189be287a8c97ee2d842e0d9c47bd7360580dd2c6d87268f00158a030b594"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/d63c29b582dbf2403c84ed2e3a36cefe0ef1756c871e858ed68ff2cd67e5a526/review.json",
+      "bytes": 15887,
+      "sha256": "d63c29b582dbf2403c84ed2e3a36cefe0ef1756c871e858ed68ff2cd67e5a526"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/d79e44c9bf54ed996defad350c3895b4c24964a34221ad4f8249bd33350ac8a5/VehicleContactShading.cs",
+      "bytes": 13524,
+      "sha256": "d79e44c9bf54ed996defad350c3895b4c24964a34221ad4f8249bd33350ac8a5"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/db5cda945840af8d26fada8846984f3f4be12b6dfe92e58b27127fe84c467e7f/PROPOSAL518.md",
+      "bytes": 7701,
+      "sha256": "db5cda945840af8d26fada8846984f3f4be12b6dfe92e58b27127fe84c467e7f"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/dc84ff6890f15cce0602543605da8ed98ae555dd748a0c7c09a222ac84a0c489/mercedes-us-2016-eclass-brochure.pdf",
+      "bytes": 10026770,
+      "sha256": "dc84ff6890f15cce0602543605da8ed98ae555dd748a0c7c09a222ac84a0c489"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/e4bcedce49ad08906eaea49bf2699e2de003153a94339086ae85812180b4a1f4/evidence.json",
+      "bytes": 320846,
+      "sha256": "e4bcedce49ad08906eaea49bf2699e2de003153a94339086ae85812180b4a1f4"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/e5679e12676870479f347cef2ccda1acb4cf087e3518d0c4a0f80bdd2d155a76/preparation01.json",
+      "bytes": 216546,
+      "sha256": "e5679e12676870479f347cef2ccda1acb4cf087e3518d0c4a0f80bdd2d155a76"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/e6f77ef2377e073d410b02b04d7c8dfbe6053baccf1e3203ee69dc61b5d90cb9/witness.json",
+      "bytes": 3806,
+      "sha256": "e6f77ef2377e073d410b02b04d7c8dfbe6053baccf1e3203ee69dc61b5d90cb9"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/e729c095903f168e5e0564e4cc81abe75efc9ea63704ed967717221f30145dbf/ground145-before55-cockpit.png",
+      "bytes": 395941,
+      "sha256": "e729c095903f168e5e0564e4cc81abe75efc9ea63704ed967717221f30145dbf"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/e86620dfc2c8cda3bdfbdc9acea4fd45e5e547c2558140a50704433cc49f1426/Cannonball.dll",
+      "bytes": 1849856,
+      "sha256": "e86620dfc2c8cda3bdfbdc9acea4fd45e5e547c2558140a50704433cc49f1426"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/e9feff4e37e0e036d430a0119779eda20259de3e17e727a116c8fe61708bab6d/historical-Bfont.c",
+      "bytes": 115890,
+      "sha256": "e9feff4e37e0e036d430a0119779eda20259de3e17e727a116c8fe61708bab6d"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/ea9fa6b643235bd6101a704b5f9f6adf9906b3b8362bdc78453b2fc95f5da159/pilot19.json",
+      "bytes": 469106,
+      "sha256": "ea9fa6b643235bd6101a704b5f9f6adf9906b3b8362bdc78453b2fc95f5da159"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/eb93e8f3844b10f9e724ada7275a370ead2eba0c074e4f1053e518881dceb992/ground145-candidate30-cockpit.png",
+      "bytes": 394968,
+      "sha256": "eb93e8f3844b10f9e724ada7275a370ead2eba0c074e4f1053e518881dceb992"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/f135bcb42404825d66a1a04d2441642df256496be6d282998d9901bacc5c73f2/evidence.json",
+      "bytes": 53998,
+      "sha256": "f135bcb42404825d66a1a04d2441642df256496be6d282998d9901bacc5c73f2"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/f20a4f6eca1fec985055ccfbc4177bc804cb07542bb0c8087076fcaebe8f5905/toman-s6.html",
+      "bytes": 135249,
+      "sha256": "f20a4f6eca1fec985055ccfbc4177bc804cb07542bb0c8087076fcaebe8f5905"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/f582a4c5269afa1fd70850ca4fd754dc38229d836cb61b5f0f074d965b670c32/witness.json",
+      "bytes": 3723,
+      "sha256": "f582a4c5269afa1fd70850ca4fd754dc38229d836cb61b5f0f074d965b670c32"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/f6c7569584fa2e051930d42246f71eb02fd27e6087c8be597ffb54f9b907162d/frozen05.zip",
+      "bytes": 119564,
+      "sha256": "f6c7569584fa2e051930d42246f71eb02fd27e6087c8be597ffb54f9b907162d"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/fa848006e268f149944006c91f859c10ec10c1e991c514ac01000b481d43f444/GroundedRearCapture40.cs",
+      "bytes": 21390,
+      "sha256": "fa848006e268f149944006c91f859c10ec10c1e991c514ac01000b481d43f444"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/faa5f4752ead06cc4b03c1cacc0e571926bad3fb8ac3d8f858acb1012acbabe0/presentation-summary.json",
+      "bytes": 228847,
+      "sha256": "faa5f4752ead06cc4b03c1cacc0e571926bad3fb8ac3d8f858acb1012acbabe0"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/payloads/faae3ce0e696a77c8c5f8ad888b724de2a0e7cad081431fb58d8bb38ac86afed/original-design-rationale-revision17.md",
+      "bytes": 37282,
+      "sha256": "faae3ce0e696a77c8c5f8ad888b724de2a0e7cad081431fb58d8bb38ac86afed"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/readback03.json",
+      "bytes": 1916,
+      "sha256": "63ac121326a592c916f075ee0212d34c623efb2587ca764195f23150fffd300c"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/recovery-map.json",
+      "bytes": 2522078,
+      "sha256": "56d163a2d6704896671cd7ce236c9351f7fcdb7295bf8d0684a8f1ab09697246"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/snapshots/current/automation/playgodot/tests/test_mirror_material.py",
+      "bytes": 27687,
+      "sha256": "c3cb199a4109906dcb04cc1df7c302439ca8bda9a56fa56bfd25e513c2a8cf3f"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/snapshots/current/docs/DELIVERY_LEDGER.json",
+      "bytes": 355331,
+      "sha256": "c4e70d9a18dd8d208937b17674c109884fa7d284992bbab6236e281d4dc234ca"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/snapshots/current/docs/vehicles/endurance-sedan/README.md",
+      "bytes": 17533,
+      "sha256": "8d9e4dfc61139b503a800a48ce2753eb50f1f7c39d8a41b23e85026debc4e4ac"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/snapshots/current/docs/vehicles/endurance-sedan/acceptance.json",
+      "bytes": 29169,
+      "sha256": "2d0be175393ce82e96c2d034dd184cb90d8eeca9a8e8913403eee2ec17d34f9c"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/snapshots/current/docs/vehicles/endurance-sedan/defects.json",
+      "bytes": 736293,
+      "sha256": "55ee2d53e8ffa52a11d4ef8050db38c34909cc9df2293494befbc6730208b40d"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/snapshots/current/docs/vehicles/endurance-sedan/dimension-sheet.md",
+      "bytes": 44973,
+      "sha256": "42dfce8bf13e9597bdfcc3dd782e37538b99a4cc86905af4386007fa96aea7c2"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/snapshots/current/docs/vehicles/endurance-sedan/export-corner-bake.md",
+      "bytes": 2745,
+      "sha256": "d0ac6a5273d09f69d0069dfcd6dafd3c8548901e83a5618a67e8aa489a5cef5a"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/snapshots/current/docs/vehicles/endurance-sedan/export-uv-bake.md",
+      "bytes": 3482,
+      "sha256": "dcc0aaf8a4b226a2a523ac080e01518ecd8526a259be2825b1e3f48b515f734e"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/snapshots/current/docs/vehicles/endurance-sedan/original-design-rationale.md",
+      "bytes": 37817,
+      "sha256": "aeae80420defd0f2458f93f455c5eb26f16b203d5a17a636df19cd7c0ea2b1e6"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/snapshots/current/docs/vehicles/endurance-sedan/runtime-plan.md",
+      "bytes": 52575,
+      "sha256": "e4225178903eb33077a07ccd32804779e9836ba08f0109b76dd141ef76fd2cad"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/snapshots/current/docs/vehicles/endurance-sedan/specification.json",
+      "bytes": 86661,
+      "sha256": "c140fcbe9e53c76b3912a4c603c2c34ad220a104348ee04ca232e28f985cff0f"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/snapshots/current/game/Vehicle/EnduranceSedanPresentation.cs",
+      "bytes": 33679,
+      "sha256": "add801221acf9bb65c051817a0bc09e3a97152bb4dcb3b8a51ecc7bfbcde82ee"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/snapshots/current/game/Vehicle/EnduranceSedanPresentationSetup.cs",
+      "bytes": 3191,
+      "sha256": "8d8ae19bfb7eabbb73b02b600c83277bf5c6c81e623e5750523af6136f413ea0"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/snapshots/current/game/Vehicle/Setups/EnduranceSedanPresentation.tres",
+      "bytes": 1029,
+      "sha256": "43d901cd221ed6e98c59e80ef246f9fa3052e42ed69193c9a5465a0150998769"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/snapshots/current/tools/vehicles/endurance_sedan/qa/README.md",
+      "bytes": 4922,
+      "sha256": "bae829e520f167cf6b2b90d0375737cafeffa7b3cb1c57ff8809399cbbc679af"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint52-retention01/snapshots/historical/6c6ac1b3cdffacac90d1a80846dcbad6f31d12f37e7455becb3f5827589c6169/acceptance.json",
+      "bytes": 27477,
+      "sha256": "6c6ac1b3cdffacac90d1a80846dcbad6f31d12f37e7455becb3f5827589c6169"
+    },
+    {
+      "path": "reports/p1-018/qa/final-delivery40-plan01/PROPOSAL01.md",
+      "bytes": 6927,
+      "sha256": "702e84d42d1f6cf4900499e450ba60901c97296c046e0dbbcf0d83581754ac01"
+    },
+    {
+      "path": "reports/p1-018/qa/final-delivery40-plan01/applied50/failure02.json",
+      "bytes": 310,
+      "sha256": "682ebc5c846185567d3c342c3e5a10ad2b8cc5c1bf6482bfd77ab73ef6a05b08"
+    },
+    {
+      "path": "reports/p1-018/qa/final-delivery40-plan01/applied50/inputs03/docs/vehicles/endurance-sedan/README.md",
+      "bytes": 17533,
+      "sha256": "8d9e4dfc61139b503a800a48ce2753eb50f1f7c39d8a41b23e85026debc4e4ac"
+    },
+    {
+      "path": "reports/p1-018/qa/final-delivery40-plan01/applied50/inputs03/docs/vehicles/endurance-sedan/export-corner-bake.md",
+      "bytes": 2745,
+      "sha256": "d0ac6a5273d09f69d0069dfcd6dafd3c8548901e83a5618a67e8aa489a5cef5a"
+    },
+    {
+      "path": "reports/p1-018/qa/final-delivery40-plan01/applied50/inputs03/docs/vehicles/endurance-sedan/export-uv-bake.md",
+      "bytes": 3482,
+      "sha256": "dcc0aaf8a4b226a2a523ac080e01518ecd8526a259be2825b1e3f48b515f734e"
+    },
+    {
+      "path": "reports/p1-018/qa/final-delivery40-plan01/applied50/inputs03/tools/vehicles/endurance_sedan/qa/README.md",
+      "bytes": 4922,
+      "sha256": "bae829e520f167cf6b2b90d0375737cafeffa7b3cb1c57ff8809399cbbc679af"
+    },
+    {
+      "path": "reports/p1-018/qa/final-delivery40-plan01/applied50/readback02.py",
+      "bytes": 4112,
+      "sha256": "dbf1947010ce4f331a4b72455f94b8638eb0451936418b3e0256fad11f5d2809"
+    },
+    {
+      "path": "reports/p1-018/qa/final-delivery40-plan01/applied50/readback03.py",
+      "bytes": 4112,
+      "sha256": "eaf5e5bcb0110b5c426aa85f0069834f47ef1c4d464a68e5f5b64411c97cae1c"
+    },
+    {
+      "path": "reports/p1-018/qa/final-delivery40-plan01/applied50/retention03.json",
+      "bytes": 4378,
+      "sha256": "ec3d511e653cd667393a51dc81d20f65cf2fa36b7b34c838d2aa35b8a3fa00c0"
+    },
+    {
+      "path": "reports/p1-018/qa/final-delivery40-plan01/applied50/review03.json",
+      "bytes": 6298,
+      "sha256": "db7165c95696f3efaf6785480e8bf4c745effd6fd6fd1d102a51196acc630dc4"
+    },
+    {
+      "path": "reports/p1-018/qa/final-delivery40-plan01/freeze01.py",
+      "bytes": 1661,
+      "sha256": "18d8f57d8084d8e99318439f54d7da449bafc7a662fce385df8d3dd9613df91d"
+    },
+    {
+      "path": "reports/p1-018/qa/final-delivery40-plan01/inputs01/docs/vehicles/endurance-sedan/specification.json",
+      "bytes": 85814,
+      "sha256": "32f869f6ff57d8042409f9b67cd9f33af8bb5763bac9837b67452f70128aab72"
+    },
+    {
+      "path": "reports/p1-018/qa/final-delivery40-plan01/read01.py",
+      "bytes": 7202,
+      "sha256": "00f7f95d1dd019ee51ddfa65f7e628fa955044efd22fd25d79c1c00f33ccf535"
+    },
+    {
+      "path": "reports/p1-018/qa/final-delivery40-plan01/readback01.json",
+      "bytes": 15929,
+      "sha256": "8c89f9a06b258d18e66976b6835e7d47aee21744917172b7348fd0496a2fe61f"
+    },
+    {
+      "path": "reports/p1-018/qa/final-delivery40-plan01/retention01.json",
+      "bytes": 6148,
+      "sha256": "11315f4908e468afed75c0259cf2148e7281be7462a85765bf62ad49d7bcc77e"
+    },
+    {
+      "path": "reports/p1-018/qa/rear-grounded40-review01/REVIEW04.md",
+      "bytes": 3734,
+      "sha256": "0904a52c43629ba72c81c3170694f0235ad181e65273d9053339c5d9a4197ee8"
+    },
+    {
+      "path": "reports/p1-018/qa/rear-grounded40-review01/REVIEW08.md",
+      "bytes": 6116,
+      "sha256": "45fa82f72fad3c62d6fe05cd195dd9d99ad4b2494553b8d5b12a35dd2ca87db6"
+    },
+    {
+      "path": "reports/p1-018/qa/rear-grounded40-review01/analysis03.json",
+      "bytes": 664760,
+      "sha256": "684fd2572f1061c6b535f7742cf36a4d39b441f2603c969c1252af3fd6a9b6e1"
+    },
+    {
+      "path": "reports/p1-018/qa/rear-grounded40-review01/analysis08.json",
+      "bytes": 826508,
+      "sha256": "da28cf8bc4f5cfa7017f9553bc40c83d51aacf888ece9d65b394ac5488528f6c"
+    },
+    {
+      "path": "reports/p1-018/qa/rear-grounded40-review01/analyze02.py",
+      "bytes": 10213,
+      "sha256": "81fc5dcd7297bca1d6b2fb64f0d1ba5c72af6903cea819fe4213288ba70200b6"
+    },
+    {
+      "path": "reports/p1-018/qa/rear-grounded40-review01/analyze03.py",
+      "bytes": 10220,
+      "sha256": "58d31b6be95674e4557af49ca15b354c719dfc650f61eab0eb2a6c01e67461c6"
+    },
+    {
+      "path": "reports/p1-018/qa/rear-grounded40-review01/analyze06.py",
+      "bytes": 14962,
+      "sha256": "1fbd881d76dada36b58d4a274c08a3bfb76d391e4f1b28feb6693437a2a1a324"
+    },
+    {
+      "path": "reports/p1-018/qa/rear-grounded40-review01/analyze07.py",
+      "bytes": 15085,
+      "sha256": "76880bbbe085ed92193d6dc5dd30c1264bf6393f07b1629a9d487938ebe7de66"
+    },
+    {
+      "path": "reports/p1-018/qa/rear-grounded40-review01/analyze08.py",
+      "bytes": 15160,
+      "sha256": "a88bf572c3c53a5c0a2be070ad7897d0ca954c590f720f6b5a650dcc1f69cff1"
+    },
+    {
+      "path": "reports/p1-018/qa/rear-grounded40-review01/failure02.json",
+      "bytes": 548,
+      "sha256": "0f43c78423c934e425eb8bd4c592ed1d6271ef7015e2691ffea78d3988e9af28"
+    },
+    {
+      "path": "reports/p1-018/qa/rear-grounded40-review01/failure06.json",
+      "bytes": 320,
+      "sha256": "86c0d45d514667f32ce0b10329d745a931c540579d84c04c0ae3a33ffdd1edee"
+    },
+    {
+      "path": "reports/p1-018/qa/rear-grounded40-review01/failure07.json",
+      "bytes": 395,
+      "sha256": "4f39c13d115c47de4b2f7c6d26ed0be749f506825ba072ee1d38dbb040215bc0"
+    },
+    {
+      "path": "reports/p1-018/qa/rear-grounded40-review01/freeze04.py",
+      "bytes": 6002,
+      "sha256": "d32d06cf0d6e81191ab081978f2c667f6a97aa6dfe7028ce7828d225538d529a"
+    },
+    {
+      "path": "reports/p1-018/qa/rear-grounded40-review01/freeze08.py",
+      "bytes": 4894,
+      "sha256": "b71a7a44acfb7d98de0a46c088b15c4ebfd148a9c83965052c4beb6ff9828c0e"
+    },
+    {
+      "path": "reports/p1-018/qa/rear-grounded40-review01/persistent51/REVIEW09.md",
+      "bytes": 3910,
+      "sha256": "d3aa23a5847e9576f0528f67181f169c0382f9721c024c7b5a3c0decd913b459"
+    },
+    {
+      "path": "reports/p1-018/qa/rear-grounded40-review01/persistent51/freeze09.py",
+      "bytes": 2867,
+      "sha256": "d4b3812d79f94dcaca9da51f1dab530a3ae2b83a814331bd6cb1315b573746ec"
+    },
+    {
+      "path": "reports/p1-018/qa/rear-grounded40-review01/persistent51/read09.py",
+      "bytes": 10401,
+      "sha256": "4016a961b5c730c6f424533849b146ebb011d7fd04be52751a7ee19f54f545a3"
+    },
+    {
+      "path": "reports/p1-018/qa/rear-grounded40-review01/persistent51/readback09.json",
+      "bytes": 278603,
+      "sha256": "3990babca02e2ebca9247f75b7b439916f82f8cf5bc687731051cd0fc0b1584b"
+    },
+    {
+      "path": "reports/p1-018/qa/rear-grounded40-review01/persistent51/retention09.json",
+      "bytes": 217851,
+      "sha256": "3ce7248f4b8a35e597058ffc8e3e2e0f3e053817469b15320dc9cd01ea9a7ee1"
+    },
+    {
+      "path": "reports/p1-018/qa/rear-grounded40-review01/persistent51/review09.json",
+      "bytes": 6442,
+      "sha256": "2c6ec623e12ad8486ff355e7e303f54fa056a89b6a0af2f3ef6a957a9052d9d7"
+    },
+    {
+      "path": "reports/p1-018/qa/rear-grounded40-review01/preview01.json",
+      "bytes": 8906,
+      "sha256": "7d6e80be637f59af98a02d00e5d02b5f90d82b58560719ad45e98b4938aa150a"
+    },
+    {
+      "path": "reports/p1-018/qa/rear-grounded40-review01/preview01.py",
+      "bytes": 3807,
+      "sha256": "90275a4fec2eb4721843a64c864dc5f3157dc6335f3f8fa6c73d0407a8341a3b"
+    },
+    {
+      "path": "reports/p1-018/qa/rear-grounded40-review01/retention04.json",
+      "bytes": 162250,
+      "sha256": "36dd1eb3320c8b20fdb0b98a2cb7777c73e0d19f5d78c979ab0cca7fef36de39"
+    },
+    {
+      "path": "reports/p1-018/qa/rear-grounded40-review01/retention08.json",
+      "bytes": 220174,
+      "sha256": "bd970ce4b79aeddc8c4f994d6b263c5ce757f1b664a8825b0be0bbd20c6112ae"
+    },
+    {
+      "path": "reports/p1-018/qa/rear-grounded40-review01/review04.json",
+      "bytes": 27590,
+      "sha256": "7d924dd910166c711a0849ce0a0300385e8b72f426b1d359b0d93f2fbf1b746a"
+    },
+    {
+      "path": "reports/p1-018/qa/rear-grounded40-review01/review08.json",
+      "bytes": 15163,
+      "sha256": "8ea1bb9896862a94aaeed8c65fbbb84537d13a52e7b7ec780b1af25ce94bd7f1"
+    },
+    {
+      "path": "reports/p1-018/qa/research40-freshness01/REVIEW01.md",
+      "bytes": 6697,
+      "sha256": "e63883dfd6f31568111a0d33efcf1ece3f8af99c1ed4fb152c974938ad1beb6a"
+    },
+    {
+      "path": "reports/p1-018/qa/research40-freshness01/applied51/REVIEW02.md",
+      "bytes": 1849,
+      "sha256": "f7a144a096eb18d614d2ba7c93ec7cd5372ec70254df67ee90c81df8d59ada36"
+    },
+    {
+      "path": "reports/p1-018/qa/research40-freshness01/applied51/freeze02.py",
+      "bytes": 1385,
+      "sha256": "41901e024a8c826f337310d44031493266cde45ebeff2f5af62c5dcb34bd6a7e"
+    },
+    {
+      "path": "reports/p1-018/qa/research40-freshness01/applied51/inputs02/dimension-sheet.md",
+      "bytes": 44973,
+      "sha256": "42dfce8bf13e9597bdfcc3dd782e37538b99a4cc86905af4386007fa96aea7c2"
+    },
+    {
+      "path": "reports/p1-018/qa/research40-freshness01/applied51/inputs02/original-design-rationale.md",
+      "bytes": 37817,
+      "sha256": "aeae80420defd0f2458f93f455c5eb26f16b203d5a17a636df19cd7c0ea2b1e6"
+    },
+    {
+      "path": "reports/p1-018/qa/research40-freshness01/applied51/read02.py",
+      "bytes": 6978,
+      "sha256": "34cc27a9b9b4624522f150d3f381e6df6200321ba377eced68dc1f975417d03c"
+    },
+    {
+      "path": "reports/p1-018/qa/research40-freshness01/applied51/retention02.json",
+      "bytes": 6422,
+      "sha256": "ec157de23afc428775841e1844485bfd86bb741320513dce6ec6f39bcde6299d"
+    },
+    {
+      "path": "reports/p1-018/qa/research40-freshness01/applied51/review02.json",
+      "bytes": 13545,
+      "sha256": "e340143831fa23ba1688e3cc38bd14024e70da74c1149e4690a5d50a49dc795d"
+    },
+    {
+      "path": "reports/p1-018/qa/research40-freshness01/audit01.py",
+      "bytes": 12424,
+      "sha256": "4a41e7ec1da9aacad33a32ea304a639936e511a0491f7d25b97b55c42ed8c8e4"
+    },
+    {
+      "path": "reports/p1-018/qa/research40-freshness01/freeze01.py",
+      "bytes": 1422,
+      "sha256": "83b9ed541388c55d6578163d295c77aaf17f2bb0dc2279131cc32f6310543b16"
+    },
+    {
+      "path": "reports/p1-018/qa/research40-freshness01/inputs01/docs/vehicles/endurance-sedan/specification.json",
+      "bytes": 85814,
+      "sha256": "32f869f6ff57d8042409f9b67cd9f33af8bb5763bac9837b67452f70128aab72"
+    },
+    {
+      "path": "reports/p1-018/qa/research40-freshness01/readback01.json",
+      "bytes": 25721,
+      "sha256": "4724ae02d98a10b70c6ea014147b6c6e1c11414a0e2503349bc5f94aa050ca82"
+    },
+    {
+      "path": "reports/p1-018/qa/research40-freshness01/retention01.json",
+      "bytes": 13105,
+      "sha256": "332f71193f287559c5705c406aff2766b857a3f185dd2f9bd01173128057070c"
+    },
+    {
+      "path": "reports/p1-018/qa/runtime-defects40-plan01/PLAN01.md",
+      "bytes": 6112,
+      "sha256": "76e20879fdd3da9a8749dfa839848f2f42e4e8f2b7c98e48bc2f3cd52885e493"
+    },
+    {
+      "path": "reports/p1-018/qa/runtime-defects40-plan01/analyze01.py",
+      "bytes": 8390,
+      "sha256": "f8d155ccc609afcbaf596743664d76b89a52631726614a5e7b089e2f99104207"
+    },
+    {
+      "path": "reports/p1-018/qa/runtime-defects40-plan01/readback01.json",
+      "bytes": 31114,
+      "sha256": "8f7f2028d14c53ad2bc6d8b9f307436d9f55dd0ed312fb9201813915a62d02c5"
+    },
+    {
+      "path": "reports/p1-018/qa/runtime-defects40-plan01/retention01.json",
+      "bytes": 6849,
+      "sha256": "6576df193f5518463b455835ccffa070a366a46ff33a57b3ac16fecc9f8712c9"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/HANDOFF01.md",
+      "bytes": 2058,
+      "sha256": "cd729761a0d448ea26abf79f1221f69c21f33629cd2157172d8e4526e4557078"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/RUN01.md",
+      "bytes": 4317,
+      "sha256": "619dd77a9385b6d1833335e8f2d765ca204e518b11bce8eb633c4e01c909b30b"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/compile01.py",
+      "bytes": 3940,
+      "sha256": "6d49055315b1784f8ca43cb6839afe3014420d7d480030ec57ed5c36262d68ba"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/compile01/build.log",
+      "bytes": 605,
+      "sha256": "a5d02e1202bcfd323d8730f81f4774b5936dc6ff8742302b1c622fa9e5c1833d"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/compile01/inputs01.json",
+      "bytes": 118943,
+      "sha256": "172a457e36c241ce95dae781c36bcc34e8bc44526b3c41b81ff829a296179948"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/compile01/result01.json",
+      "bytes": 1935,
+      "sha256": "59f295d774612c23dae2db9ced2c761a64a400a191a035b302681ffbdf9e9cff"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/compile01/sdk.log",
+      "bytes": 10,
+      "sha256": "3ccfabb187270882a308eb46f7bfdfdf2fbf7c14b9e4a704856cf8b1efb227aa"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/current-compile01.zip",
+      "bytes": 1126447,
+      "sha256": "2291a54efeaade28058dd72e773353298df77d1bf513d51a4103752a3dcc027a"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/derivation01.json",
+      "bytes": 1692,
+      "sha256": "8a5a511dd12fcd87106aa81abc67d97058059faba205dbb59489e9ef8575a875"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/derive01.py",
+      "bytes": 6886,
+      "sha256": "08bc98ffc8d4139517c03668f8b36e63d07c594d1bee1d55233ce3d135f088d9"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/freeze01.py",
+      "bytes": 3122,
+      "sha256": "d2aee0fc5f3e5859ae0e71bca018014d7b65a8dcc63a7f79e3bf00271fe1ef65"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/game/Automation/ContactResourceProbe.cs",
+      "bytes": 15975,
+      "sha256": "edb8f3d6290f82795244883021acfe0b498b642967afc337b30a29fd16502536"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/game/Automation/ContactResourceProbe.tscn",
+      "bytes": 197,
+      "sha256": "d4542b582429bcb0d30d6fe802777de73f40b48adf86ab1561e7b01182e8e6e9"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/game/Automation/SelectionCameraProbe.cs",
+      "bytes": 10133,
+      "sha256": "9ba2bcf797fd879844efba501c37b135884c673f9e60c524896dc13ae69ac836"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01.py",
+      "bytes": 7127,
+      "sha256": "07ac8770386eb953a5fc5808659388b3b3a67be6ccccaa15241ce1a44863e354"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/build-synthetic.json",
+      "bytes": 302,
+      "sha256": "fc1684275b706c8ddd13a701598c17078865f4b2ddc04430206d596813a85fff"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/import-synthetic.json",
+      "bytes": 613,
+      "sha256": "93c425ddf34abdf3cd9335a50d41a9c50be38ddbfed2f573b1319a7c9b1aafcb"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/prepared/endurance-sedan-to-hero-gt-clear/launch.gd",
+      "bytes": 493,
+      "sha256": "fb3b8067655b6cf5a8c3f81065c5b2582e980221d873f5607eab010f89855862"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/prepared/endurance-sedan-to-hero-gt-wall-pause/launch.gd",
+      "bytes": 496,
+      "sha256": "e96713bb33528a4c60cafd09020f60cbfd7838ba6d577cb8902526ca28a22f36"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/prepared/endurance-sedan-to-hero-gt-wall/launch.gd",
+      "bytes": 491,
+      "sha256": "31cfa0a6967cf599492143306affe0cab7680c74672050ffd1c2720f5a0135b0"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/prepared/hero-gt-to-endurance-sedan-clear/launch.gd",
+      "bytes": 493,
+      "sha256": "1a7281d6aba42b18f863902e76876b2fc93f00b9940b6b59e25454b0720411d3"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/prepared/hero-gt-to-endurance-sedan-wall-pause/launch.gd",
+      "bytes": 496,
+      "sha256": "c08dc7a6c46a965861f7fbd165a29f4a9849b866d1351c646d4067b11a958ac0"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/prepared/hero-gt-to-endurance-sedan-wall/launch.gd",
+      "bytes": 491,
+      "sha256": "94648ff759675b2304dc842f4f4a9e4322a6d9b18af68755ed76249fceb9837a"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/prepared/prepared01.json",
+      "bytes": 36570,
+      "sha256": "5bcb65693034d086badfb1bc7733f0ccd703b036287a6e3d411f4739171e33d5"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/prepared/sealed01.json",
+      "bytes": 47844,
+      "sha256": "e1bdcc3e4b12076a9a626512c9fbea4a5f70d274237cf5972410fa28e8acc24a"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/result01.json",
+      "bytes": 4714,
+      "sha256": "251b1f32113620effaa13826c3f733b5e8ec131869696d95157f1973e68f5421"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/route-directory-control/extra.bin",
+      "bytes": 8,
+      "sha256": "d4010cacbafbb3d65ef7a55779575e0fc0d45d77d55c3219731674171f1178ae"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/route-directory-control/index.bin",
+      "bytes": 9,
+      "sha256": "b45efebe82bfe9603172efa4bb67b8c384e3e17db5b875585da362321708c9c4"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/stage/project/.godot/mono/temp/bin/Debug/Cannonball.Core.dll",
+      "bytes": 433664,
+      "sha256": "21a6413e1f18302f8bedab7e492c255a193016972ff3c3ad339a1ca17905c769"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/stage/project/.godot/mono/temp/bin/Debug/Cannonball.dll",
+      "bytes": 1708032,
+      "sha256": "86ae696200149f6b8b8b30bb4f9e84568d45d1495f8eeed4b19d092674280544"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/stage/project/Cannonball.csproj",
+      "bytes": 37,
+      "sha256": "f3a7c377fe2ac645ee70c607d51b3a1658907e02969c64f8bccf0983fa96d060"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/stage/project/Directory.Build.props",
+      "bytes": 41,
+      "sha256": "8bdde8411c5dbb3876f53072b70277a6a2f4acf71c8b7d4dfc065be73b8180cb"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/stage/project/assets/vehicles/endurance-sedan/endurance-sedan.generated.textures.json",
+      "bytes": 91,
+      "sha256": "e95bebb58cf459e5753c095f534e560784f2e525cc1d3786ec12dc6d37d5fa6b"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/stage/project/assets/vehicles/endurance-sedan/endurance-sedan.generated.tscn",
+      "bytes": 82,
+      "sha256": "a209b37b574e8ef1f878c483f5cf6fa9c364fdbe49653e1d31cb51194d3eb37f"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/stage/project/assets/vehicles/endurance-sedan/endurance-sedan.glb",
+      "bytes": 71,
+      "sha256": "2077e7bc2ef82635e4e3d60c984197694535dc50e1a63dcaa1f3b1d6782a8b0a"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/stage/project/data/assets/vehicles/derived/endurance-sedan.glb",
+      "bytes": 68,
+      "sha256": "e1c288e0d4e1182b208fe526e8b465d95a7d1716404aedab4e2b71476f022323"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/stage/project/data/assets/vehicles/sources/endurance-sedan.blend",
+      "bytes": 70,
+      "sha256": "8e4bb2fc990c77c226c030a206a544e5c99cb4786539ab25085cf4ece7b2ceb0"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/stage/project/data/assets/vehicles/sources/endurance-sedan.source-binding.json",
+      "bytes": 84,
+      "sha256": "85f2711dd37a4b0922155c48f6c86d0229c95f2952255d9ffbe5c5f3577273a6"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/stage/project/docs/vehicles/endurance-sedan/specification.json",
+      "bytes": 68,
+      "sha256": "9084ebd26106609ca50eff7aad84c16655b8a20b4c975718f97e486ece4e84dc"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/stage/project/game/Automation/ContactResourceProbe.cs",
+      "bytes": 15975,
+      "sha256": "edb8f3d6290f82795244883021acfe0b498b642967afc337b30a29fd16502536"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/stage/project/game/Automation/ContactResourceProbe.tscn",
+      "bytes": 197,
+      "sha256": "d4542b582429bcb0d30d6fe802777de73f40b48adf86ab1561e7b01182e8e6e9"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/stage/project/game/Automation/SelectionCameraProbe.cs",
+      "bytes": 10133,
+      "sha256": "9ba2bcf797fd879844efba501c37b135884c673f9e60c524896dc13ae69ac836"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/stage/project/game/Lifecycle/RuntimeShutdown.cs",
+      "bytes": 53,
+      "sha256": "2e3315bda02a683a1954a427663c7d1e22ff800f87dc8ab58ebefb0a2b2721bf"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/stage/project/game/Main.cs",
+      "bytes": 32,
+      "sha256": "98b08bce42fe9e0c1c1246a7823ae7407706a8e98183ba0c6b773a85ce66b54f"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/stage/project/game/Vehicle/VehicleContactShading.cs",
+      "bytes": 57,
+      "sha256": "d82d9a72ff6fff24a2727e681b8d049d5dd7873bd492028b3a1b18d7b175bb83"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/stage/project/global.json",
+      "bytes": 31,
+      "sha256": "641bb6374d0dafda57d449ae59e06a2afdfb722b7f5d4e40d6efaaf5d77f24d1"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/stage/project/override.cfg",
+      "bytes": 26,
+      "sha256": "c7a147cb7cd04a4c134090a0b8556a7bb11fbd62eaf4bf6e4a1a799342561d6c"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/stage/project/project.godot",
+      "bytes": 33,
+      "sha256": "0986b0ea4f981f8a7f9252a6c224e43b724d6b4f9d595cc8b7a11c31422ae974"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/stage/project/tools/assets/toolchain.json",
+      "bytes": 47,
+      "sha256": "161b94086f6288a6f1e5710a5ceecb0d0963c1b1a31b30654af1e2aa5ac9ba0f"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/stage/project/tools/vehicles/capture_endurance_sedan.py",
+      "bytes": 43,
+      "sha256": "ce623e471869a3960b003d82cbf51fe0abe1f05b332cd9eac683decf5bb7bed2"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/stage/project/tools/vehicles/vehicle_contract.json",
+      "bytes": 56,
+      "sha256": "dcdbf9faa82b4fb7a8b97769f582337b26b43f7ce322b45e44895ae021888300"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/synthetic-ancestry.json",
+      "bytes": 93,
+      "sha256": "beb2c52407e6b3f719a800782238f9cc4c0c2d0f6c4bb40a1ed64660c8cbc4a0"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/synthetic-project/Cannonball.csproj",
+      "bytes": 37,
+      "sha256": "f3a7c377fe2ac645ee70c607d51b3a1658907e02969c64f8bccf0983fa96d060"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/synthetic-project/Directory.Build.props",
+      "bytes": 41,
+      "sha256": "8bdde8411c5dbb3876f53072b70277a6a2f4acf71c8b7d4dfc065be73b8180cb"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/synthetic-project/assets/vehicles/endurance-sedan/endurance-sedan.generated.textures.json",
+      "bytes": 91,
+      "sha256": "e95bebb58cf459e5753c095f534e560784f2e525cc1d3786ec12dc6d37d5fa6b"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/synthetic-project/assets/vehicles/endurance-sedan/endurance-sedan.generated.tscn",
+      "bytes": 82,
+      "sha256": "a209b37b574e8ef1f878c483f5cf6fa9c364fdbe49653e1d31cb51194d3eb37f"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/synthetic-project/assets/vehicles/endurance-sedan/endurance-sedan.glb",
+      "bytes": 71,
+      "sha256": "2077e7bc2ef82635e4e3d60c984197694535dc50e1a63dcaa1f3b1d6782a8b0a"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/synthetic-project/data/assets/vehicles/derived/endurance-sedan.glb",
+      "bytes": 68,
+      "sha256": "e1c288e0d4e1182b208fe526e8b465d95a7d1716404aedab4e2b71476f022323"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/synthetic-project/data/assets/vehicles/sources/endurance-sedan.blend",
+      "bytes": 70,
+      "sha256": "8e4bb2fc990c77c226c030a206a544e5c99cb4786539ab25085cf4ece7b2ceb0"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/synthetic-project/data/assets/vehicles/sources/endurance-sedan.source-binding.json",
+      "bytes": 84,
+      "sha256": "85f2711dd37a4b0922155c48f6c86d0229c95f2952255d9ffbe5c5f3577273a6"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/synthetic-project/docs/vehicles/endurance-sedan/specification.json",
+      "bytes": 68,
+      "sha256": "9084ebd26106609ca50eff7aad84c16655b8a20b4c975718f97e486ece4e84dc"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/synthetic-project/game/Lifecycle/RuntimeShutdown.cs",
+      "bytes": 53,
+      "sha256": "2e3315bda02a683a1954a427663c7d1e22ff800f87dc8ab58ebefb0a2b2721bf"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/synthetic-project/game/Main.cs",
+      "bytes": 32,
+      "sha256": "98b08bce42fe9e0c1c1246a7823ae7407706a8e98183ba0c6b773a85ce66b54f"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/synthetic-project/game/Vehicle/VehicleContactShading.cs",
+      "bytes": 57,
+      "sha256": "d82d9a72ff6fff24a2727e681b8d049d5dd7873bd492028b3a1b18d7b175bb83"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/synthetic-project/global.json",
+      "bytes": 31,
+      "sha256": "641bb6374d0dafda57d449ae59e06a2afdfb722b7f5d4e40d6efaaf5d77f24d1"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/synthetic-project/project.godot",
+      "bytes": 33,
+      "sha256": "0986b0ea4f981f8a7f9252a6c224e43b724d6b4f9d595cc8b7a11c31422ae974"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/synthetic-project/tools/assets/toolchain.json",
+      "bytes": 47,
+      "sha256": "161b94086f6288a6f1e5710a5ceecb0d0963c1b1a31b30654af1e2aa5ac9ba0f"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/synthetic-project/tools/vehicles/capture_endurance_sedan.py",
+      "bytes": 43,
+      "sha256": "ce623e471869a3960b003d82cbf51fe0abe1f05b332cd9eac683decf5bb7bed2"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/synthetic-project/tools/vehicles/vehicle_contract.json",
+      "bytes": 56,
+      "sha256": "dcdbf9faa82b4fb7a8b97769f582337b26b43f7ce322b45e44895ae021888300"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host01/synthetic-route.cbrg",
+      "bytes": 15,
+      "sha256": "81a22fa895af297840933285b159a8db7bdb8daf5c8dfe1986919898a8faa3e6"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host02.json",
+      "bytes": 1815,
+      "sha256": "af7051e726b20eea1339e93a9a2fa1d021a18e169231c5d83e7e1eb605df2027"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host02.py",
+      "bytes": 2867,
+      "sha256": "5d629e0ba7ab7698781cde8196e32cfe7d5c95cdba19be011fd6bc200dbda96d"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host03.json",
+      "bytes": 885,
+      "sha256": "80195881555a772e6ec18e8627e068ed94aead7869ebc5163c34b3219834f1f1"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/host03.py",
+      "bytes": 1675,
+      "sha256": "0c7af46f46cbdb3ebfdca20d065b14798d9052b56d083e592a10dc25583baffd"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/manifest01.json",
+      "bytes": 82560,
+      "sha256": "53dc044a73fb53042305cb60ea92eebd64d91349d9c27f9238d46ccc63252537"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/prepare01.py",
+      "bytes": 12576,
+      "sha256": "b3c2d4ea67dba679fb24d39cafd9934293b2d6e2e5721097b1ae74d2530236c0"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/probe-port01.diff",
+      "bytes": 6948,
+      "sha256": "138b09cfb848a3625657edf0a7d044d6d3cbed658ce2441b82b13d2a6a1535cc"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/review01.py",
+      "bytes": 11376,
+      "sha256": "12a932b327f301274a8ae13de83596387dc13385fa10181a9eca573376831c68"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-lifecycle51-01/scope01.json",
+      "bytes": 1920,
+      "sha256": "60ceb6badece1f9715467761d0ad9170d6e7d42030e6c38b49139976f11bb454"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment-reader07/HANDOFF07.md",
+      "bytes": 1602,
+      "sha256": "c89810d7f552b86d93ce543c1fe82a81c38fd9ad4ec213a22530ed2336ab22f3"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment-reader07/adoption07.diff",
+      "bytes": 4595,
+      "sha256": "e2be87569dcd6d74d6663a4ca1e15cd427496532129e4d894a9bf6072644523d"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment-reader07/comparison07.json",
+      "bytes": 23152,
+      "sha256": "04083e72cfa6cbf6b9fbd1aa992146220b66209d17d94a85f14af83dc1db021b"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment-reader07/controls07.json",
+      "bytes": 3226,
+      "sha256": "9eec303a25841c85fbcfde4ca0024a062882cf93232ee9ebb674d8478e71ed64"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment-reader07/controls07.py",
+      "bytes": 2023,
+      "sha256": "5b4f318ca90ca130fe923c7a7a5bbdad9de37f33b36b2f14b50c65211e05388d"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment-reader07/finalize07.py",
+      "bytes": 8963,
+      "sha256": "cd7245ecaab6936b28e0bd531eb2aa053ff67d9b6fd7c4682fc6be34e3df80f3"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment-reader07/handoff07.json",
+      "bytes": 6912,
+      "sha256": "a01ad5c2cf5706c792e6cf4370231b1cb40a90f13b7cb34859504432871a0358"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment-reader07/retention07.json",
+      "bytes": 296522,
+      "sha256": "c558099215f804e307a295099a90ef497652d92732f4ddfb9a983671c7090ba5"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment-reader07/review07.py",
+      "bytes": 4111,
+      "sha256": "be6d4ab1cb581714f999c11d3de5097c2b2a757dfdef34aa06839ca82cd40a52"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment-reader07/scope07.json",
+      "bytes": 782,
+      "sha256": "d3137031d5d39b3249497198b35516856bcda96a4b1073d5ff72be17012a2c7e"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/README06.md",
+      "bytes": 2159,
+      "sha256": "038c4ab00b807c995fd838a68349ccdf97503e170e87b0cc52e58ecb1f47e93f"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/automation/playgodot/tests/test_mirror_material.py",
+      "bytes": 27687,
+      "sha256": "c3cb199a4109906dcb04cc1df7c302439ca8bda9a56fa56bfd25e513c2a8cf3f"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/camera_3d.cpp",
+      "bytes": 30550,
+      "sha256": "d0abe5ffd9bd294faf4f965097b06d6132d7e7ac308d6c63baa72b75e3cd7ff6"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/controls05.json",
+      "bytes": 1068,
+      "sha256": "27219e288c0c6cac021436077d77a79d7f444a5d699bf88ac20b80254b3cd46b"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/controls06.json",
+      "bytes": 4867,
+      "sha256": "39eb84d56f39a27d5731e79bd079acaef22e769cc78a6e0e3086eca21de3b224"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/correction-controls04.json",
+      "bytes": 830,
+      "sha256": "cd302de70cd2d05e9c4f9aebf832baa2d2e7b64a349cbf661ba79858588efb4a"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/environment-inputs06.json",
+      "bytes": 108841,
+      "sha256": "1f37e34e64b6f7e92267ab94f8c9048dcf32bed9a66f33138a9c844f05226b9e"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/environment_review06.py",
+      "bytes": 2701,
+      "sha256": "510e055f7384b7169552765ca92c1da705ecf7570863bda38ebe947894dcb695"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/game/Automation/GroundedRearCapture40.cs",
+      "bytes": 21479,
+      "sha256": "173805da9ed08d3eae08f59ff7f42c442adf545d79fcc9d2e15147d9a083cf0a"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/game/Automation/GroundedRearEnvironment40.cs",
+      "bytes": 6351,
+      "sha256": "e5b08b74bb1de04a1204bb2b1d43574d8f9b351fa1baf1d04b05140ca8468331"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/game/Automation/GroundedRearPilot19.cs",
+      "bytes": 46255,
+      "sha256": "5091431b80a6e8a51290bb0acbff47d688950d26f1fe1fd80ae362cea5096450"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/game/Vehicle/EnduranceSedanPresentation.cs",
+      "bytes": 33679,
+      "sha256": "add801221acf9bb65c051817a0bc09e3a97152bb4dcb3b8a51ecc7bfbcde82ee"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/game/Vehicle/EnduranceSedanPresentationSetup.cs",
+      "bytes": 3191,
+      "sha256": "8d8ae19bfb7eabbb73b02b600c83277bf5c6c81e623e5750523af6136f413ea0"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/game/Vehicle/Setups/EnduranceSedanPresentation.tres",
+      "bytes": 1029,
+      "sha256": "43d901cd221ed6e98c59e80ef246f9fa3052e42ed69193c9a5465a0150998769"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/host03.py",
+      "bytes": 12134,
+      "sha256": "b0198338bdf708cde8c28259b5e8f6b77297e9709786b38be4e227bf66d535e0"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/host03/controls03.json",
+      "bytes": 5713,
+      "sha256": "5a2c9c73f3725fe020788c27d39ba34fb51096b5a5c78b1a518c6b560fdfa941"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/host06.py",
+      "bytes": 4913,
+      "sha256": "32b570ee9c1fed9933438494540df8946432359b0578bbebb3f93b6ff668b6d1"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/lock01.json",
+      "bytes": 205278,
+      "sha256": "9a50ce1259ced981c1916ca177b49c3878d54e763db32de475a2cf37c9d1de25"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/manifest06.json",
+      "bytes": 81862,
+      "sha256": "b275b065528465bfbde41bfdd04490af56a0dbbf3da6be19bca19263bb1603d0"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/baseline-scenario/01-mirrors-configuration.png",
+      "bytes": 486451,
+      "sha256": "08366a26eedc30912926a1267b7126ecf1368cee6880f9f87d4835ecf380a352"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/baseline-scenario/02-mirrors-live.png",
+      "bytes": 486569,
+      "sha256": "8f708cb310d4b2ac80018b7048aa6b2ef685aef555426790fe36f3cee35b77b6"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/baseline-scenario/03-mirrors-door-follow.png",
+      "bytes": 512982,
+      "sha256": "ec8cf363c90179e2419a84a14042b4fabbc06b3945faf01c8ee8a24249950b59"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/baseline-scenario/04-mirrors-disabled.png",
+      "bytes": 256905,
+      "sha256": "d9dc333c92d09deb187b7ac857d0d893353c042a3c9100542c6b4021f2f0fae5"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/baseline-scenario/mirror-Left-01.png",
+      "bytes": 34971,
+      "sha256": "a066a5d1a34c9caf513a46a438e14cad6307c6449822b60fadf9871f14aaed18"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/baseline-scenario/mirror-Left-20.png",
+      "bytes": 34952,
+      "sha256": "4abdbba80756d676b57522c147acb50aa29449c687cf136f4292984e95c9caba"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/baseline-scenario/mirror-Left-sample-01.png",
+      "bytes": 34820,
+      "sha256": "6ed33b41a1545b8c30fa12f148be694e3e428d06c43019c867f5923be5c0b92b"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/baseline-scenario/mirror-Left-sample-20.png",
+      "bytes": 34938,
+      "sha256": "656f19a0a9ff5100de4e0227dfcc1d3c35981ee28be291f264495063dd2d843a"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/baseline-scenario/mirror-Left-targets-hidden.png",
+      "bytes": 34820,
+      "sha256": "6ed33b41a1545b8c30fa12f148be694e3e428d06c43019c867f5923be5c0b92b"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/baseline-scenario/mirror-Rear-01.png",
+      "bytes": 32295,
+      "sha256": "5bf137dbad8d03cb4a7a400281e0918b42931828b9c44bd085157ca63ddeb80b"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/baseline-scenario/mirror-Rear-20.png",
+      "bytes": 32222,
+      "sha256": "141608dacd0aaa4313bffda555d6e4a1fd4a9fa191b5bfdaa85bd0db22f63deb"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/baseline-scenario/mirror-Rear-sample-01.png",
+      "bytes": 32130,
+      "sha256": "1013f21cc03324ef417789e5b273916082bb238a230e1c961577b595bf9ef36b"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/baseline-scenario/mirror-Rear-sample-20.png",
+      "bytes": 32361,
+      "sha256": "1711b383e7dd9b2bfc63aaa0cc7fea2fb41d9afdedd97d59c48408c8ff36a8d2"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/baseline-scenario/mirror-Rear-targets-hidden.png",
+      "bytes": 32130,
+      "sha256": "1013f21cc03324ef417789e5b273916082bb238a230e1c961577b595bf9ef36b"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/baseline-scenario/mirror-Right-01.png",
+      "bytes": 33009,
+      "sha256": "b835fdd2805bb2b4e085caa186699efa53c1d553c07a2044277610cf6d0bf6e4"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/baseline-scenario/mirror-Right-20.png",
+      "bytes": 32968,
+      "sha256": "d02039ccdf77e718eb21ba10aa4d6044aaea68774dc9f9e6d8fe5cde2416a0aa"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/baseline-scenario/mirror-Right-sample-01.png",
+      "bytes": 33036,
+      "sha256": "c849a7edddbe8117258ef014be5f5b91170d14d97f70ca865edc4adf71a8b928"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/baseline-scenario/mirror-Right-sample-20.png",
+      "bytes": 32943,
+      "sha256": "d8a2ba3573b8e1bf18189c7b76b7be463a69a2f70d5b374c1f5a199e08baf8c7"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/baseline-scenario/mirror-Right-targets-hidden.png",
+      "bytes": 33036,
+      "sha256": "c849a7edddbe8117258ef014be5f5b91170d14d97f70ca865edc4adf71a8b928"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/baseline-scenario/mirror-samples.jsonl",
+      "bytes": 66442,
+      "sha256": "1f7ddabf12b2ab7cec4ea88e8390b9a2327f0dd6e1a6731a746d88a2fa208331"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/baseline-scenario/presentation-frames.jsonl",
+      "bytes": 4458468,
+      "sha256": "a72d9643814be90bbdec48ac47826faeabe6e11807139d554e9d9cabfc0bad97"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/baseline-scenario/presentation-summary.json",
+      "bytes": 230343,
+      "sha256": "ed7f1b3b04f166a3a66c9b1af2be9e07634e3f628eb898ea1391e5cd0edb3780"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/before19.json",
+      "bytes": 2754,
+      "sha256": "bf3448f49c9399b19afbed2fa50847937a1f2dac074846c28276774b8e13896c"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/build.log",
+      "bytes": 609,
+      "sha256": "9fa647d76d9e92555178698a672828707eec4006955cd460d9562819614dfb96"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/build03.json",
+      "bytes": 148452,
+      "sha256": "889a3ccf7d104983c6f8b5e7ebd87c1b1af2a3db887c9320290bf6467655f325"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/capture03.json",
+      "bytes": 2457398,
+      "sha256": "7a4f5288f2fa9b6a4a8429114003b78c8f9a19369e85a4e4a55d38db3f519b3a"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/engine-version.log",
+      "bytes": 38,
+      "sha256": "d1046084c2493a272b0b439dc2f6dc74b801cd74659c5010a67c1b2f3acc5866"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/engine.log",
+      "bytes": 1455,
+      "sha256": "b31794544c7655b6c37b95732226eb831856c2edef578f9cc58855c413caae0e"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/entry19.json",
+      "bytes": 390,
+      "sha256": "1df60fcc9329b2d21fb9d4b66e988ce35b7540a0c1e7002a87ebb8ed208f7671"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/execution03.json",
+      "bytes": 23809,
+      "sha256": "fa210b22f43401212ee212136eed28aab8ea0ebd14f4c7899d0d06913264c4c4"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/ground145-before55-cockpit.png",
+      "bytes": 609359,
+      "sha256": "65b0612a82f4191efe590d06cc0651bda51e242729f58d4c484d452cf0f92aed"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/ground145-before55-rear.png",
+      "bytes": 48506,
+      "sha256": "24a36681b69ba98bc0327ab854a59819ff8cc762342b1d513a9a7ee093b31e55"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/ground145-candidate30-cockpit.png",
+      "bytes": 608300,
+      "sha256": "8d14bab77eaee81c6b084b349c4617fbd6530045587525178d04a23003848cae"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/ground145-candidate30-rear.png",
+      "bytes": 48351,
+      "sha256": "70dd13dd8f56b48157f663caec7b537e175ca52c9edbe63192d10eeca1cf1e2b"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/ground145-restored55-cockpit.png",
+      "bytes": 608909,
+      "sha256": "65b37644500443c78ada70dfbf2a27e6f8b7468b015444750c52de29516558b9"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/ground145-restored55-rear.png",
+      "bytes": 48545,
+      "sha256": "e7618476093514aea4a0a9541ffab7f46ba00ded1a11243df4cba2fb774126f8"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/ground165-before55-cockpit.png",
+      "bytes": 609458,
+      "sha256": "2fe70227f1b6b5a0dae593a0bc9583be106b59bf3e35770c54d82e74338368d1"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/ground165-before55-rear.png",
+      "bytes": 48737,
+      "sha256": "2f2919ffc549e2f3a74e893e5409086df4f29899da7d0d84dca5841641d79d6c"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/ground165-candidate30-cockpit.png",
+      "bytes": 609307,
+      "sha256": "22d5130b5f39c3e2b4d0015253b4eacb2a3a78ee338bce54f682724e6a3146f7"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/ground165-candidate30-rear.png",
+      "bytes": 52022,
+      "sha256": "e6718277c66b04f8e02cd8633f48368d4b354a751face3b81984516681c34a18"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/ground165-restored55-cockpit.png",
+      "bytes": 609402,
+      "sha256": "db8e4b86dada78d0ba9374654c2788b4300fd042c0e7647a05eb5cabc4d55321"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/ground165-restored55-rear.png",
+      "bytes": 48688,
+      "sha256": "72048b17baefd6462af85719b777a340584f1a55cd202e4c8fdb6e946dfe750f"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/parse_before_render.json",
+      "bytes": 934,
+      "sha256": "334b2630c31cac7536e0d39cd5364d9a35aa98e8cdd5a9cf89934d51ae9b1540"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/parse_before_render.log",
+      "bytes": 80,
+      "sha256": "2ff117a2c228fcacd1ed53cb2bc6c0064a8ed8a5731f469e9bb2caae064e5009"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/parse_native_math_before_render.json",
+      "bytes": 947,
+      "sha256": "3e03cddf52d24b94ca297c644b4093a68ec7cce2b50453721863c79c0a22dfd4"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/parse_native_math_before_render.log",
+      "bytes": 80,
+      "sha256": "2ff117a2c228fcacd1ed53cb2bc6c0064a8ed8a5731f469e9bb2caae064e5009"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/pilot19.json",
+      "bytes": 469158,
+      "sha256": "10d9f765d6a48a23b68983298bbd3b4df5585c274fea850cce067a22d80e8b09"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/preparation01.json",
+      "bytes": 258513,
+      "sha256": "2760cefca5c2417cc1b6da260b3dcd77feb209d6086515615966c478405eaee8"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/process03.log",
+      "bytes": 1472,
+      "sha256": "4410676e2972d22e11c33a3f814b50453d388e80a7097d1cc73151f1f3679dde"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/progress19.json",
+      "bytes": 35636,
+      "sha256": "873a19cf757556e24e6672a0256127f86deee47b69f3d603db4c6c4823e03ae4"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/readiness19.json",
+      "bytes": 411399,
+      "sha256": "f3da93886a806d4de5dc7ac96bf34caa3f597c4578ba7ad70e2d9b53b848d168"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/render22-00-hold.json",
+      "bytes": 569138,
+      "sha256": "6c1beb255b20697174b7e1e2c71887e20e37a4873f93f86d9b8733453f1b89dd"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/render22-01-after-create-subject.json",
+      "bytes": 569380,
+      "sha256": "ec9d76e3d61274e4d328f72b03cfad9c4b5e86db2e1131033738b199c5240a6f"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/render22-02-after-configure-subject.json",
+      "bytes": 569157,
+      "sha256": "b1c9cea5c4815bd505881f903aea67e32c58e144d43093008f93960e3a382253"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/render22-03-after-create-same-lane.json",
+      "bytes": 569382,
+      "sha256": "ba77424dc2396539a7d7c46c1dd8f1da7027d747b887431f876146d2579deeb5"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/render22-04-after-configure-same-lane.json",
+      "bytes": 569159,
+      "sha256": "2ed00fc9faec01ceb37dd97b5ba93090b8a398e466b531abd6f3d0337130d55d"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/render22-05-after-create-adjacent-lane.json",
+      "bytes": 569386,
+      "sha256": "e7b938274292360588ccc8162c1a9f44d5b2a6dc02c75ad9b62bf85401c13feb"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/render22-06-after-configure-adjacent-lane.json",
+      "bytes": 569163,
+      "sha256": "b3d59f09146ae21ba2f0a307be7eead3b30bd257c4f0598bbd95074bd92f4cb1"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/render22-07-after-warmup.json",
+      "bytes": 569146,
+      "sha256": "92a336771dc7906c4443c3f54391ca5eb3d9502f7f4461d1e631c42f6de8c376"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/render22-08-after-placement-165.json",
+      "bytes": 569153,
+      "sha256": "daa1fbf4c979a08b2fc09353b6e631a78db8f29ea212b827cb26c048b6605fbd"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/render22-09-after-freeze-165.json",
+      "bytes": 569151,
+      "sha256": "3c9d7ffe31c128c588af2f82086d42bdb05a3f68ff1cc62ca3f97cec103d9bf5"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/render22-10-after-placement-145.json",
+      "bytes": 569155,
+      "sha256": "2f1c4b65c4cc52479120aa7ba301e3f345748c2d006b5d64f431606b997dcffa"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/render22-11-after-freeze-145.json",
+      "bytes": 569152,
+      "sha256": "f9d9c4c6903402eab44826ce533db7d15c9a992c45afad3d43ac7d4a1f8ed62f"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/render22-12-restore-entry.json",
+      "bytes": 569150,
+      "sha256": "c48ecf6b662025f42484f8b3513d4ae1324622839303c1ff5ff7618e9739b145"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/render22-13-restored-before-free.json",
+      "bytes": 569157,
+      "sha256": "61943e3eb9d14799bcf879b6d6b69bec67de4b13d617ec3cf62010a43157fe83"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/render22-14-after-temporary-cleanup.json",
+      "bytes": 569160,
+      "sha256": "ac92c722a6961bcc9e2150b18045c7cc91c3c82ee8a0f745f926147f3c3b4c7e"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/review06.json",
+      "bytes": 4067,
+      "sha256": "270079386afeb1c45acf96d0a21d621dbca1a2e80c4261b354a234b69b21c89f"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/review07.json",
+      "bytes": 27061,
+      "sha256": "eef18196c25c63776305270ed79e4845eed205b1fbfb08323e4ea2983da1b289"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/run-save.json",
+      "bytes": 2491,
+      "sha256": "7b2a08560cb016ad83399b7b7e8630f3ae5430e219a08b4722aaf9377566197b"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/sdk-version.log",
+      "bytes": 10,
+      "sha256": "3ccfabb187270882a308eb46f7bfdfdf2fbf7c14b9e4a704856cf8b1efb227aa"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/stage01.json",
+      "bytes": 500130,
+      "sha256": "9244a78a9c0f930464310c28e15069c6d4c39b7f751bdbc70b422e13b1589b02"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/telemetry.jsonl",
+      "bytes": 954,
+      "sha256": "2aafc7ebe620901910aadd4223409a54975eda982cb0f025cfb7735319b327e2"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/trace22.json",
+      "bytes": 18544104,
+      "sha256": "14935b2f8e0e0f23cebee7f841d6abd52a9a10c53fdde838430fb019959c8f49"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/daylight/warmup19.json",
+      "bytes": 16317,
+      "sha256": "d8166a10ebd8512e245315194f99ed87f4112ce1e7b007ad11e6630dac9b745b"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/lease-release06.json",
+      "bytes": 1228,
+      "sha256": "69411f9bfd3058cc5e3d270d3dfa7cb0faa0cb3206756216133ed40129b5ff54"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/baseline-scenario/01-mirrors-configuration.png",
+      "bytes": 482567,
+      "sha256": "248ff9a3eaba623150ed11943c2d432a49631875b2ba5686a2b97dbc60c8672c"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/baseline-scenario/02-mirrors-live.png",
+      "bytes": 482589,
+      "sha256": "0f47df1501b7110d64bd00ee5534cce71ec49fde51485810764857dcde302160"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/baseline-scenario/03-mirrors-door-follow.png",
+      "bytes": 520333,
+      "sha256": "e8b84a6a2b7fa0a0c39feedf20170b2e07cc945e686d46eb43037086d244172c"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/baseline-scenario/04-mirrors-disabled.png",
+      "bytes": 294674,
+      "sha256": "de1da68c3e8751ca7267df02dc4e4c60b7b788c9f6ad148d941b98752b731618"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/baseline-scenario/mirror-Left-01.png",
+      "bytes": 35551,
+      "sha256": "ac6ece8a8a53101fc6cca06d6d9039c2381eabb4ec854a45912665aee451777d"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/baseline-scenario/mirror-Left-20.png",
+      "bytes": 35637,
+      "sha256": "9a71908221626846102246de90eded3a51bcc3fa6a41f8b44c7614ed77d2a667"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/baseline-scenario/mirror-Left-sample-01.png",
+      "bytes": 33292,
+      "sha256": "073323c0b70ca335f9403dcf179da8596325095351ae8ba2c551502fafe8db86"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/baseline-scenario/mirror-Left-sample-20.png",
+      "bytes": 35609,
+      "sha256": "2eec7c2d2cd277fbf76b4598b70cc79b0999594ba60b32c4b0e91ab93b1eb614"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/baseline-scenario/mirror-Left-targets-hidden.png",
+      "bytes": 33292,
+      "sha256": "073323c0b70ca335f9403dcf179da8596325095351ae8ba2c551502fafe8db86"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/baseline-scenario/mirror-Rear-01.png",
+      "bytes": 29456,
+      "sha256": "3b828891b64b901b82f8df8479dac5a6279bb43e2104efb07d7c2e8e0308c02b"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/baseline-scenario/mirror-Rear-20.png",
+      "bytes": 29094,
+      "sha256": "0d5b654ead920f9e4806daa51f4889a4476f286dfdb901c20c74e8669c5d91ff"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/baseline-scenario/mirror-Rear-sample-01.png",
+      "bytes": 30462,
+      "sha256": "57048124e20bff24d33f6477c4374ef14175210796f3e8ac474c07bd8a3d380c"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/baseline-scenario/mirror-Rear-sample-20.png",
+      "bytes": 29073,
+      "sha256": "7ebbd925beb29b848eba2e0ed10b34c192c09749608d6934fa34af9e1212ddbf"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/baseline-scenario/mirror-Rear-targets-hidden.png",
+      "bytes": 30462,
+      "sha256": "57048124e20bff24d33f6477c4374ef14175210796f3e8ac474c07bd8a3d380c"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/baseline-scenario/mirror-Right-01.png",
+      "bytes": 37558,
+      "sha256": "847927ac925d529cd6f2f98c52d677d01e4c5b9ea95101358048155da0e1c6c0"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/baseline-scenario/mirror-Right-20.png",
+      "bytes": 37608,
+      "sha256": "b2c2a38fc3febf998c01de8483511d2d213e1e37964cb0e0458ddcb0e0436486"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/baseline-scenario/mirror-Right-sample-01.png",
+      "bytes": 37706,
+      "sha256": "e5c9c5fbaf3aefd838282cbdf98378a037c8e132eec779916e144ef225127be6"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/baseline-scenario/mirror-Right-sample-20.png",
+      "bytes": 37605,
+      "sha256": "0e28c5eb1a2a24556cdc8c1d5d3af5210e1de3525d969e6f34f5aa52a7cb2139"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/baseline-scenario/mirror-Right-targets-hidden.png",
+      "bytes": 37706,
+      "sha256": "e5c9c5fbaf3aefd838282cbdf98378a037c8e132eec779916e144ef225127be6"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/baseline-scenario/mirror-samples.jsonl",
+      "bytes": 64698,
+      "sha256": "ed402840fa614c94ece702c9d676107354a6bbd5d82e1e3a090e89761cf99bf6"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/baseline-scenario/presentation-frames.jsonl",
+      "bytes": 4474314,
+      "sha256": "dc25c91405963492745a6ffec2700eec464f5bde2bc7521d7ca106c45913ff02"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/baseline-scenario/presentation-summary.json",
+      "bytes": 227398,
+      "sha256": "33b1e16eae19bbc694f0ff0466a9fe4d2c760c09a8af30d7db72ca299fe4e07e"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/before19.json",
+      "bytes": 2754,
+      "sha256": "bf3448f49c9399b19afbed2fa50847937a1f2dac074846c28276774b8e13896c"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/capture03.json",
+      "bytes": 2456858,
+      "sha256": "8073f539369ee942a1a1288e8c0eb7ad647c99242cfd3f1664814566a7345f1a"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/engine.log",
+      "bytes": 1453,
+      "sha256": "dbd84627e3652985fda70feafec3be13388e5ae520d1b89f230815eecfdd3d9a"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/entry19.json",
+      "bytes": 390,
+      "sha256": "1df60fcc9329b2d21fb9d4b66e988ce35b7540a0c1e7002a87ebb8ed208f7671"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/execution03.json",
+      "bytes": 22549,
+      "sha256": "dcb751673a16dc31ce341e3f0166a7781868baf03d0f158974dab70014411c79"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/ground145-before55-cockpit.png",
+      "bytes": 551864,
+      "sha256": "de2333af07f9c1f6f2291a9cc778361d037be351e9cc9ff94fd3dbfc93acecb2"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/ground145-before55-rear.png",
+      "bytes": 45659,
+      "sha256": "a8cab66054ecb7b609d5b7271cf6c47d7bc3d1ab28f1c0e80fb7a9675265fffa"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/ground145-candidate30-cockpit.png",
+      "bytes": 554606,
+      "sha256": "255a789900cb1dfec480bac194a6747a39a75481b74001828b83a48fc8b0b20c"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/ground145-candidate30-rear.png",
+      "bytes": 55582,
+      "sha256": "9aca0ccd728e3c4d66bfb4bea875b73b5d0825d17b862c8f0fde625fc3bba783"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/ground145-restored55-cockpit.png",
+      "bytes": 551637,
+      "sha256": "6a6ed66cf9ebf6e798b2bfe2df4dc397b285798eacaeb515d9b0cf969f32ea94"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/ground145-restored55-rear.png",
+      "bytes": 45743,
+      "sha256": "ef53ee20bd6549cb70fba10518e3995a76a5049b545baff56619964c7e246ff5"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/ground165-before55-cockpit.png",
+      "bytes": 549870,
+      "sha256": "cb69eeff006b82464cec1d3ff64ea41340e7a2cdd30b680a9fdc64339e52fdfe"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/ground165-before55-rear.png",
+      "bytes": 44687,
+      "sha256": "23abb8b63fbdf417db4c866c2bb159434e580fd9761850093f176f8e746340d3"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/ground165-candidate30-cockpit.png",
+      "bytes": 552101,
+      "sha256": "19acbc44b5b69d460cf7f16d58cb2e7b14fab79c6d1d97abed04f6736fd1096b"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/ground165-candidate30-rear.png",
+      "bytes": 51711,
+      "sha256": "377d26467030f21e015b559ee36f4c45cafe24ab894bfd086b0a1f5281157b47"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/ground165-restored55-cockpit.png",
+      "bytes": 550026,
+      "sha256": "ddf7c897b81571047b24940f4bd049560eb74f9fa012b4fd78c508e2f6ac0281"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/ground165-restored55-rear.png",
+      "bytes": 44599,
+      "sha256": "5795c462225e5bf604d61dbe8317abcf36a6c6c9b58787163c47df7a5f5b2108"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/parse_before_render.json",
+      "bytes": 931,
+      "sha256": "c1c9bca8f33f5fbc819675dbb1d520b3bae74d35b250614de86d649087714653"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/parse_before_render.log",
+      "bytes": 80,
+      "sha256": "2ff117a2c228fcacd1ed53cb2bc6c0064a8ed8a5731f469e9bb2caae064e5009"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/parse_native_math_before_render.json",
+      "bytes": 944,
+      "sha256": "91c80db4052b10778b91e269ded5b637672eb06606e829e6bfd0e9cf320b2971"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/parse_native_math_before_render.log",
+      "bytes": 80,
+      "sha256": "2ff117a2c228fcacd1ed53cb2bc6c0064a8ed8a5731f469e9bb2caae064e5009"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/pilot19.json",
+      "bytes": 469087,
+      "sha256": "d571023226b76a5d9aa86dd526fabe1045daa7285dea3e2c671b9c4f5fddae4b"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/preparation01.json",
+      "bytes": 258489,
+      "sha256": "949e501e622c3235594c1cb0ff16312d5c3b6512d1fd4f81cb415c2b42716aa7"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/process03.log",
+      "bytes": 1470,
+      "sha256": "a319ebb6cf930e0ef7b8cd4d37c19cd8d032ebba8e236d96386f6484bdb03129"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/progress19.json",
+      "bytes": 35625,
+      "sha256": "a4fac894a4cd81824cabf4a3cbc13f1ca0621ea936c500f0a9b003e5934664de"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/readiness19.json",
+      "bytes": 411328,
+      "sha256": "c7047cd907256bb084464fd4b393917f3cd222bfa82662639b9bf6c3e9a54001"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/render22-00-hold.json",
+      "bytes": 569136,
+      "sha256": "3179918e510699c037fc9bcfe4328f6397940456b273237e4dfa7f46aa788107"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/render22-01-after-create-subject.json",
+      "bytes": 569378,
+      "sha256": "0ba17dbcdaf2544ebd0550ff94ff48bbc94734449382c89bbef0c307d9449439"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/render22-02-after-configure-subject.json",
+      "bytes": 569155,
+      "sha256": "76862976d4ee6f58e52576dd6a0079a6e6ee606c0dac0d9452d95461b8139fbc"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/render22-03-after-create-same-lane.json",
+      "bytes": 569380,
+      "sha256": "a4499a3d8e7da2893157e2bc53f1dba89047e6ad1826d56b36f95220a64ec279"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/render22-04-after-configure-same-lane.json",
+      "bytes": 569157,
+      "sha256": "c2a0dcbed9d72bb76c3127e40ad50f6e948e4ebd73951182e1ae67114293df51"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/render22-05-after-create-adjacent-lane.json",
+      "bytes": 569384,
+      "sha256": "03d9a890e3000a7c1f74af1f62ac88e32851aa11c0c57fe1d85b592a4285c9d4"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/render22-06-after-configure-adjacent-lane.json",
+      "bytes": 569161,
+      "sha256": "bce98edcb0a2b6ac5482a63b8993279d869acf398119049489383c508e23470d"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/render22-07-after-warmup.json",
+      "bytes": 569144,
+      "sha256": "e3b55650001568b79175c90262ca087e67df71e69259d6694687816f88ecfc3a"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/render22-08-after-placement-165.json",
+      "bytes": 569151,
+      "sha256": "0221e823c526123129d139936eda14c512d1d3b823bf7af349b5f2b38de7bb5e"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/render22-09-after-freeze-165.json",
+      "bytes": 569149,
+      "sha256": "c96a5399179ef85a8f5154465c66d52bfb7e53f3a6bd0e2d37febd653f0a8207"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/render22-10-after-placement-145.json",
+      "bytes": 569153,
+      "sha256": "d4c2f5a9faafeb22e4052808c1624d5269364945558e81036a4d02926a4aa61e"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/render22-11-after-freeze-145.json",
+      "bytes": 569150,
+      "sha256": "f49c64ec824e7f8037fd16597dffc513ad08b7ad04a2acab6bfb8a7402adc23f"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/render22-12-restore-entry.json",
+      "bytes": 569148,
+      "sha256": "41c31d1a3c4748746e34608b208d03ee6a67e91b1d71e4bfd6ed015d272e0690"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/render22-13-restored-before-free.json",
+      "bytes": 569155,
+      "sha256": "398d5fdc46aba7db9c24295c151b9a7632d3b2610926936ec266adabbc922109"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/render22-14-after-temporary-cleanup.json",
+      "bytes": 569158,
+      "sha256": "7435ddab5268efb92044f8b61cd75d76b58ccb02283623fc8a603aa676b61642"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/review07.json",
+      "bytes": 26234,
+      "sha256": "fdfa26c4c548f9f3d15e4f33310f067a94b649675c8f31a0a19979dfd65c77f1"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/run-save.json",
+      "bytes": 2491,
+      "sha256": "159b238f1b3f4184f5df856fa8c50b76f2f84100aeb8a94492a6c2e2a058dc36"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/stage01.json",
+      "bytes": 500130,
+      "sha256": "9244a78a9c0f930464310c28e15069c6d4c39b7f751bdbc70b422e13b1589b02"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/telemetry.jsonl",
+      "bytes": 956,
+      "sha256": "d33bce35c38517967123c975c4ae9c723cb25eba683059be93666660e2e498b8"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/trace22.json",
+      "bytes": 18544105,
+      "sha256": "8f0eb2fdbb31a1ea9b412872535421233841df600eba8bbe939f6b3080d49992"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/native06/night/warmup19.json",
+      "bytes": 16317,
+      "sha256": "8c9cbb3e12c8446c789321f80a8d60bf56cd48be33fa058e3391ea9df07ed454"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/prepare03.py",
+      "bytes": 15238,
+      "sha256": "7260577b8ee107f568309d1cbe07bc372d8c4efc00a8ddeb7a546c1ebd7ba529"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/rear-grounded19/entry19.gd",
+      "bytes": 166,
+      "sha256": "5b3699f3a7a66b7635191f1926c14098a0d22759ff824345866a5ec7b7f96ce4"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/rear-grounded19/intent03.gd",
+      "bytes": 4637,
+      "sha256": "ccf00ccc7da3f9396357d34504118fb8f9e8372e6797c1af9dbccab72e1275e7"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/rear-grounded19/pose-binding18.json",
+      "bytes": 15357,
+      "sha256": "69aad80f8b4597297125b7da1eb08baf253a36045c5227d6011f4255d6292a2f"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/rear-grounded19/scene19.tscn",
+      "bytes": 718,
+      "sha256": "b5e42f7862b5358c0816d43f3163934c4e88b73bd192eb780b43d12478f7c1af"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/review03.py",
+      "bytes": 11861,
+      "sha256": "c1566ca6959a6a560ca0dc8b69502e5222410cf76c2d477c26d60be17f8ff6a8"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/review04.py",
+      "bytes": 13034,
+      "sha256": "188352d2ae0170f135062c51f48e2a7875abfb40d7aa9a98a9595396ab90f31c"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/review19.py",
+      "bytes": 8570,
+      "sha256": "aa0cf9eebffc4b417595cfb6f5234bedfbe1cb80dac1d64386b4d57d7da52aa2"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/review22.py",
+      "bytes": 14278,
+      "sha256": "643ad59632929bf8c15589518f3691bc1ed59021b7ad92687b3463f85168817d"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/run03.py",
+      "bytes": 8671,
+      "sha256": "1e88a2c760001aa981da3e7c6867e9d9843c3d128fe1d66700f2610fcce2ebe0"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/runtime03.diff",
+      "bytes": 3936,
+      "sha256": "1bc296127607ca14a7cf406c6221ba868547d7ab684a3c3b42b8264a6888de1f"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/scope05.json",
+      "bytes": 1666,
+      "sha256": "ef2ba0596c6857c0ffa343f20fdb76295b7e1666650ae86dfa9d79df122dc7a5"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/scope06.json",
+      "bytes": 54917,
+      "sha256": "0cd39e1e1f28b247c2f35997f1a614d2d2ef171dc6b0863305ef3198957c8bda"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/syntax03.py",
+      "bytes": 714,
+      "sha256": "c8aed11d8eb03ed78f8c88583c3ead9b5267ac89ce736f38bb248c51513d38b1"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/test-contract06.diff",
+      "bytes": 659,
+      "sha256": "3ec15dc932c8df31869502ef7a1a39ff351559608388fda3beae96a5046d6589"
+    },
+    {
+      "path": "reports/p1-018/runtime/finish40-01/rear-final03/environment06/test-contract06.json",
+      "bytes": 881,
+      "sha256": "afaf1fa970665cf0faaced9129c2f1d1b8d0b56fc23e6f6cefdba91998c6fe5d"
+    },
+    {
+      "path": "reports/p1-018/skill-update51-01/candidate.tar",
+      "bytes": 931840,
+      "sha256": "0257fb96c5bf88e3e86d561da8135393859d48acd69de571211069d3cec518be"
+    },
+    {
+      "path": "reports/p1-018/skill-update51-01/commands/20260921T035922.028783Z-prepare.json",
+      "bytes": 949,
+      "sha256": "f944058d0c665050b7d35d9a04661694dca0ff2880e96e0f36f4053127e28c09"
+    },
+    {
+      "path": "reports/p1-018/skill-update51-01/commands/20260921T035922.028783Z-prepare.log",
+      "bytes": 198,
+      "sha256": "8757db710843e62c01fda5103ecc272d17a5ffd4577f9e48091368225efe4d99"
+    },
+    {
+      "path": "reports/p1-018/skill-update51-01/commands/20260921T035949.452579Z-quick-validate.json",
+      "bytes": 832,
+      "sha256": "57ec2f16757ab1a0a7f627ffb93d4d706ce87e48ca4dd742b6e167550f7263cd"
+    },
+    {
+      "path": "reports/p1-018/skill-update51-01/commands/20260921T035949.453559Z-validate.json",
+      "bytes": 980,
+      "sha256": "4cb753c285122c899a6b05de5589b3b1c26415ba701eb4c6187ac11bfdda77d6"
+    },
+    {
+      "path": "reports/p1-018/skill-update51-01/commands/20260921T035949.453559Z-validate.log",
+      "bytes": 1947,
+      "sha256": "286ef119421346b05255b25f4485cba30f33512435bda68df4daabcbae30b724"
+    },
+    {
+      "path": "reports/p1-018/skill-update51-01/commands/20260921T040046.048398Z-publish.json",
+      "bytes": 958,
+      "sha256": "9d6a5ba989c08c5ee02145fb9684825933c1d73eb40a6f9f499f0e97b4d1f809"
+    },
+    {
+      "path": "reports/p1-018/skill-update51-01/commands/20260921T040046.048398Z-publish.log",
+      "bytes": 348,
+      "sha256": "2577634ff7a12df0a8afb3ce2ea46740c79616a95a3eb3147438e480b0761b60"
+    },
+    {
+      "path": "reports/p1-018/skill-update51-01/commands/20260921T040115.467641Z-publish-retry.json",
+      "bytes": 976,
+      "sha256": "de3dfc1334ee706c1191b49779cc32f9a2bd6a32fa10394becce6e0a14917b39"
+    },
+    {
+      "path": "reports/p1-018/skill-update51-01/commands/20260921T040115.467641Z-publish-retry.log",
+      "bytes": 337,
+      "sha256": "4422d682ae0d4de275852adcf29bb8e1269041115932086667c2c515a8e3ced0"
+    },
+    {
+      "path": "reports/p1-018/skill-update51-01/commands/20260921T040134.815081Z-reinstall.json",
+      "bytes": 964,
+      "sha256": "9b6b7ecd5b443718df53725f0dbef9953c5654163f8dd8b816f0e3b0980cbf91"
+    },
+    {
+      "path": "reports/p1-018/skill-update51-01/commands/20260921T040139.649481Z-verify-install.json",
+      "bytes": 979,
+      "sha256": "2fe4c50e1e7d35a6f1b4e101b843b92393cd3add88adb0090c4ac89e5ba883f5"
+    },
+    {
+      "path": "reports/p1-018/skill-update51-01/commands/20260921T040139.649481Z-verify-install.log",
+      "bytes": 128,
+      "sha256": "cd78a881b827c2759e0ef28a547c8a075ada1150c8377d2365597318dcc4361e"
+    },
+    {
+      "path": "reports/p1-018/skill-update51-01/commands/20260921T040805.837169Z-complete.json",
+      "bytes": 961,
+      "sha256": "5c241f76f7c9a0151efd7e895d2bc6d74ebdf6f8de6ab2891a60a0959376b08b"
+    },
+    {
+      "path": "reports/p1-018/skill-update51-01/commands/20260921T040805.837169Z-complete.log",
+      "bytes": 114,
+      "sha256": "c4ed53e06b79f75913b1d896e2a1244a306e3f0580c97d1d63902c70b777d698"
+    },
+    {
+      "path": "reports/p1-018/skill-update51-01/complete.py",
+      "bytes": 1667,
+      "sha256": "4be61557fd1c583ba2841326d1cc58f0a9c60c923342b5e90c04f97f474ff775"
+    },
+    {
+      "path": "reports/p1-018/skill-update51-01/completion.json",
+      "bytes": 5888,
+      "sha256": "320e954075a0113cca4d4e353a9ac292383fdb472afb27ab1c261de9c672a44e"
+    },
+    {
+      "path": "reports/p1-018/skill-update51-01/hosted-validation.json",
+      "bytes": 4994,
+      "sha256": "2edf5904686157f6b0502be3d90b38fef32470b375a9eaa84b9e6977dfc804e2"
+    },
+    {
+      "path": "reports/p1-018/skill-update51-01/installation-verification.json",
+      "bytes": 3101,
+      "sha256": "b2d3ac597c9ed02ea2700122fe1429425474f3b052167afabfa319729d311648"
+    },
+    {
+      "path": "reports/p1-018/skill-update51-01/installer06.json",
+      "bytes": 340,
+      "sha256": "4d87eb52624fc40329f758eae72dc6626db61fd2b817ffa271a8f7de0942eda3"
+    },
+    {
+      "path": "reports/p1-018/skill-update51-01/prepare.py",
+      "bytes": 2887,
+      "sha256": "daf661d85e77b8bf70f4126aff838b04fcd0e7178fa4ea16d12debabcb3ae664"
+    },
+    {
+      "path": "reports/p1-018/skill-update51-01/publish.json",
+      "bytes": 122,
+      "sha256": "d2dc75e87d222ceb309ecd8d243f24c49d2b51566049ccc2ab65beb720970d2b"
+    },
+    {
+      "path": "reports/p1-018/skill-update51-01/publish.py",
+      "bytes": 1780,
+      "sha256": "38a30ba4fc3a2261de5ac60b73e5efbe34eeb87b9f827a6f3b84e1785cd76f14"
+    },
+    {
+      "path": "reports/p1-018/skill-update51-01/publish_retry.py",
+      "bytes": 490,
+      "sha256": "ade99746e76878dc4ff70ee3f8012cab506e3fa78927cec59e9dd5aa7843fad5"
+    },
+    {
+      "path": "reports/p1-018/skill-update51-01/scope.json",
+      "bytes": 3397,
+      "sha256": "2d24cb7118a0b1e39b0d2c39804305a191ab08664a5088e89a314c2598693722"
+    },
+    {
+      "path": "reports/p1-018/skill-update51-01/validate.sh",
+      "bytes": 426,
+      "sha256": "9395fd1f017bcc537f1ec74c3c44d3b8bd77ce5ed835254820d2e56da1077e04"
+    },
+    {
+      "path": "reports/p1-018/skill-update51-01/validation-path.txt",
+      "bytes": 39,
+      "sha256": "fe10364382f7a0e1123f26fdea9118624c5373f283c2bedec173f7f57c037df3"
+    },
+    {
+      "path": "reports/p1-018/skill-update51-01/verify_install.py",
+      "bytes": 1944,
+      "sha256": "210f62fc313e7a67c3514d249985395327322c9d1bb3343fad85951656eeee56"
+    },
+    {
+      "path": "reports/p1-018/upper-whole39-07/capture227/manifest.json",
+      "bytes": 857476,
+      "sha256": "ef63fb807ba15d7af9539c9287766fb5d4d9faa783ac71b792cc20468ec63430"
+    },
+    {
+      "path": "reports/p1-018/upper-whole39-09/capture260/manifest.json",
+      "bytes": 762000,
+      "sha256": "1a274b45d4c91e5a7d3e3f37728ec9cdb71ba80ca9ff07692d8a9412fd3e6fdd"
+    }
+  ],
+  "archives": [
+    {
+      "path": "data/assets/vehicles/endurance-sedan-review/runtime-completion-v52/evidence.zip",
+      "sha256": "ca91c65ba73c92786ff908b91d9660c62234ad4ad49944acdb69aea69a625b8a",
+      "bytes": 76024105,
+      "crc_and_member_sha256_verified": true
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/retention52-repeat.zip",
+      "sha256": "ca91c65ba73c92786ff908b91d9660c62234ad4ad49944acdb69aea69a625b8a",
+      "bytes": 76024105,
+      "crc_and_member_sha256_verified": true
+    }
+  ],
+  "human_approval_reference": null,
+  "limits": "Evidence retention and byte identity only; individual reports retain their own scope, failures and approval status.",
+  "byte_reproducible": true,
+  "finished_utc": "2026-09-21T04:41:28.816285+00:00"
+}

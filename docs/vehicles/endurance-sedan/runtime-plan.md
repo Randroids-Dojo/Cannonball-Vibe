@@ -138,6 +138,19 @@ No static image passes mirror QA. The native real-time benchmark remains the
 freshness/frame-budget gate; Movie Maker and pixel-readback runs are inspection
 evidence and cannot supply that performance gate.
 
+The current rear view uses an explicit anchor-local Godot offset
+`(0, -0.11610118299722672, 1.6802663803100586)` m, a 30-degree vertical FOV and
+zero pitch. The source mirror and anchor stay fixed; this moves only the
+rendering camera behind the rear headrests. It is a fixed rearward-view
+approximation, not physical flat-mirror optics or modeled camera hardware.
+Side views retain 55 degrees and their original placement. Defaults for
+undeclared setups retain the original rear placement, 55 degrees and -0.03 rad.
+The matching parameters are declared in `specification.json:mirrors` and the
+project-owned presentation setup. Source60 day/night grounded comparisons
+support this framing; final-source motion, 1440p performance and human usability
+remain separate requirements. Isolated visual fixtures must include and read
+back the production sky rather than silently accepting its fallback.
+
 Selection is explicit `--vehicle=endurance-sedan|hero-gt|graybox` and a visible
 parked-vehicle selector. The lead-approved implementation persists the selected
 asset ID in `user://vehicle-presentation.cfg` and reinstantiates before loading an existing run;

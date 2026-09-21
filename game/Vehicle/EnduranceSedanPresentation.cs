@@ -362,7 +362,7 @@ public partial class EnduranceSedanPresentation : Node
                 RenderTargetUpdateMode = SubViewport.UpdateMode.Disabled,
                 Msaa3D = Viewport.Msaa.Disabled,
             };
-            var camera = new Camera3D { Name = $"MirrorView_{suffix}", Current = true, Fov = 55, Near = 0.035f, Far = 180, CullMask = ((1u << 20) - 1) & ~MirrorSurfaceLayer };
+            var camera = new Camera3D { Name = $"MirrorView_{suffix}", Current = true, Fov = suffix == "Rear" ? _setup.RearMirrorFovDegrees : 55, Near = 0.035f, Far = 180, CullMask = ((1u << 20) - 1) & ~MirrorSurfaceLayer };
             viewport.AddChild(camera);
             AddChild(viewport);
             RenderingServer.ViewportSetMeasureRenderTime(viewport.GetViewportRid(), true);
@@ -420,8 +420,11 @@ public partial class EnduranceSedanPresentation : Node
                 continue;
             }
             if (mirror.PendingUpdate || _elapsed + 0.000001 < mirror.NextUpdateSeconds) continue;
+            var rear = mirror.Name == "Rear";
             mirror.Camera.GlobalTransform = mirror.Anchor.GetGlobalTransformInterpolated() *
-                new Transform3D(new Basis(Vector3.Up, Mathf.Pi + mirror.Yaw) * new Basis(Vector3.Right, -0.03f), Vector3.Zero);
+                new Transform3D(new Basis(Vector3.Up, Mathf.Pi + mirror.Yaw) *
+                    new Basis(Vector3.Right, rear ? _setup.RearMirrorPitchRadians : -0.03f),
+                    rear ? _setup.RearMirrorCameraOffset : Vector3.Zero);
             mirror.Viewport.RenderTargetUpdateMode = SubViewport.UpdateMode.Once;
             mirror.RequestedAtSeconds = _elapsed;
             mirror.RequestedAtTicksUsec = Time.GetTicksUsec();

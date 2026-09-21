@@ -1,6 +1,6 @@
 # Meridian S8R original design rationale
 
-P1-018, refreshed 2026-09-11 against specification revision **17**. This document explains
+P1-018, current constructor notes refreshed 2026-09-21 against specification **25**. Source-numbered paragraphs retain their historical scope. This document explains
 the vehicle's identity and construction choices. The [production plan](production-plan.md)
 owns the workflow; [specification.json](specification.json) owns current targets;
 the [dimension sheet](dimension-sheet.md) presents their values. Neither this
@@ -52,8 +52,9 @@ source/asset rights review; this document does not establish trademark clearance
 ## Black materials that remain readable
 
 Paint, trim, rubber, leather, fabric, glass and exposed metal use different
-material responses. The construction source currently gives paint a dark
-blue-neutral base with roughness 0.25 and a separate clearcoat response;
+material responses. The current constructor targets a linear paint base
+`(.004, .005, .006)`, roughness centered at 0.14 with 0.02 modulation,
+and coat roughness 0.055;
 trim, rubber, leather, fabric and carpet use progressively broader reflections
 and distinct surface structure. Dark wheel metal and exposed alloy remain
 separate metallic groups. Those numerical responses are authored shader inputs,
@@ -79,6 +80,16 @@ rights review remains pending, and the typography is not claimed as original
 font design or blanket CC0. Actual
 neutral, daylight, overcast, dusk and night comparisons must establish the
 finished material response and black-surface readability.
+
+The current paint recipe deliberately regenerates the packed roughness
+texture while retaining the seeded normal map. The source193 diagnostic export
+contains seven embedded textures, including `Meridian_StaticLabels_v26`
+(2048 x 512, 24,347 encoded bytes), whereas source34's historical input inventory
+contains six. The atlas rasterizes Bfont-derived outlines; it is not wholly
+original font artwork. Source PNGs and exported packed metallic/roughness PNGs
+have different representations and must be inventoried separately. These
+diagnostic counts do not replace the final scene/export/import provenance and
+rights review. [Bounded evidence audit](../../../reports/p1-018/qa/research40-freshness01/REVIEW01.md).
 
 ## Cabin and endurance equipment
 

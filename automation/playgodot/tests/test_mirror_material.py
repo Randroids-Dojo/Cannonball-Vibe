@@ -115,7 +115,8 @@ func _binding_errors(packet: Dictionary) -> Array[String]:
 		if channel.name != NAMES[index] or channel.size != [SIZES[index].x, SIZES[index].y]:
 			errors.append("channel size/name")
 		if channel.world != packet.world: errors.append("different world")
-		if (channel.fov != 55.0 or absf(channel.near - .035) > 1e-8
+		var expected_fov: float = 30.0 if channel.name == "Rear" else 55.0
+		if (channel.fov != expected_fov or absf(channel.near - .035) > 1e-8
 			or channel.far != 180.0 or channel.mask & (1 << 18)):
 			errors.append("camera contract")
 		var lods: Dictionary = {}

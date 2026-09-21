@@ -1,10 +1,42 @@
 # Meridian S8R dimension sheet
 
-Rebound 2026-09-11T20:21:52.782119+00:00 to locked specification **17**, SHA-256 `e18b9c6aae54be01696ced16fae9be978872a922835a8cbe8ae974e0608813b9`, and actual source34 `0b4220d5c3f0024054de17a3c36add3388a4f52be2046cc2b837f3bac9edf793`. This current sheet carries forward the unchanged revision15 target tables. Native comparison confirms all fourteen stable engineering/runtime fields match source33; the added revision17 restraint section below is the only new local assembly. Historical construction paragraphs keep their original candidate scope. [Canonical specification](specification.json).
+Current constructor targets follow specification **25** and its explicit later
+packaging policies in [specification.json](specification.json). The engineering
+tables retain their original dimensions; the 2026-09-21 evidence audit confirms
+the stable engineering values and distinguishes later construction choices.
+This is a target sheet, not a claim that the final combined source has passed.
+
+Historical source34 was bound on 2026-09-11 to specification17
+(`e18b9c6aae54be01696ced16fae9be978872a922835a8cbe8ae974e0608813b9`)
+and source `0b4220d5c3f0024054de17a3c36add3388a4f52be2046cc2b837f3bac9edf793`.
+Its source-numbered construction paragraphs below retain that historical scope.
+They do not describe every later constructor or prove the current assembly.
 
 The engineering benchmark is the **2016 US Audi S6 Prestige, C7 facelift/4G, 7-speed S tronic, quattro**, with Black Optic and Individual Contour Seating as reference options. The fictional vehicle is **Meridian S8R**. Option selection does not establish the options fitted to the historic record car. [Audi US brochure, pp43 and 50–51](https://cdn.dealereprocess.org/cdn/brochures/audi/2016-a6.pdf).
 
 **F** means a published factory reference; **M** a firsthand modified-car claim; **O** an explicit original design choice; **D** a calculation from declared inputs; **U** an unverified factory value. Factory publication confidence is high unless noted, while its measurement/manufacturing uncertainty remains unstated. Original choices have exact declared targets, not measured factory confidence. Unit conversions do not add source precision. The full source IDs, locators and uncertainties remain in [reference-values.json](reference-values.json).
+
+## Later original construction choices
+
+The following are original implementation choices under `original_packaging`,
+not factory measurements. Their exact input fields and current source gate
+remain authoritative; isolated historical triangle savings cannot be added up
+to establish the final budget.
+
+| Active policy group | Current target and verification boundary |
+| --- | --- |
+| `finish_revision19`, `cabin_revision20`, `fascia_revision21` | Formed body/cabin interfaces and revised finish construction; full combined fit and appearance still require the final source. |
+| `wheel_tessellation_revision22` / `29` | The later policy retains 52 tire outer stations and 36 rim/barrel and friction-face stations. The historical 64-segment description below is superseded. Tire dimensions stay fixed. |
+| `distance_lod_revision23`, `primitive_detail_revision24`, `brake_lod_revision25`, `rotor_vanes_revision26`, `pipe_bends_revision26`, `brake_outline_revision27` | Explicit lower-tier and detail construction; use final evaluated/imported counts and silhouettes rather than planning totals. |
+| `static_labels_revision26` | Four static labels in one 2048 x 512 atlas derived from bundled Bfont outlines. Original text does not make the font artwork original; final output-rights review remains open. |
+| `front_form_revision27` | Current original front construction and field checkpoints; later private form trials remain proposals until source-owner adoption. |
+| `tire_groove_revision38`, `repeated_detail_revision38`, `valance_cover_revision39` | 36 groove-floor stations, declared rib/fin reduction and complete valance cover. Actual pre-edit checkpoints and all selected source-gate stages are required. |
+
+The rear rendering projection is separately declared under `mirrors` and in
+the [runtime plan](runtime-plan.md). It changes the runtime camera view, not the
+modeled mirror anchor or physical cabin dimensions. Early research proposals
+for 8 mm tire and 3 mm opening clearance remain historical; current authoritative
+targets are 5 mm and 1 mm with their declared finite contact exceptions.
 
 ## Overall proportions
 

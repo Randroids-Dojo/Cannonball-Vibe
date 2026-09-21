@@ -1,5 +1,11 @@
 # Evaluated UV bake
 
+This article retains the production33/34 investigation and preparation recipe.
+For a current v2 source, use the [current saved-source commands](README.md#reproduce-and-verify):
+provide its actual source binding and matching construction root, and prepare
+both corner and UV locks at fresh paths. The historical source-specific hashes
+below cannot accept an edited source.
+
 On 2026-09-11 the production33 two-export gate rejected different GLB bytes.
 Five retained exports, including two with Blender restricted to one thread,
 have identical JSON, positions, normals, indices, materials and embedded images.

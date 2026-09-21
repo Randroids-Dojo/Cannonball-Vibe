@@ -11,8 +11,30 @@
       "required_evidence": "Referenced dimension sheet with exact year/market/trim/configuration, width definitions, units, confidence, stock/modified/fictional labels and model/runtime mapping; comparison with chosen engineering benchmark",
       "failure_condition": "Missing key packaging value, inconsistent PS/hp/kW or width definition, unresolved conflicting dimensions, or reference estimate presented as a factory fact",
       "status": "pending",
-      "evidence": [],
-      "human_approval_reference": null
+      "evidence": [
+        {
+          "path": "reports/p1-018/qa/research40-freshness01/REVIEW01.md",
+          "bytes": 6697,
+          "sha256": "e63883dfd6f31568111a0d33efcf1ece3f8af99c1ed4fb152c974938ad1beb6a"
+        },
+        {
+          "path": "reports/p1-018/qa/research40-freshness01/readback01.json",
+          "bytes": 25721,
+          "sha256": "4724ae02d98a10b70c6ea014147b6c6e1c11414a0e2503349bc5f94aa050ca82"
+        },
+        {
+          "path": "reports/p1-018/qa/research40-freshness01/retention01.json",
+          "bytes": 13105,
+          "sha256": "332f71193f287559c5705c406aff2766b857a3f185dd2f9bd01173128057070c"
+        },
+        {
+          "path": "data/assets/vehicles/endurance-sedan-review/runtime-completion-v52/review.json",
+          "bytes": 127278,
+          "sha256": "3be33d15aefac52f53415a3b88840e22d5abc8df30a1ab6f64efdadf6873b2f8"
+        }
+      ],
+      "human_approval_reference": null,
+      "verified_scope": "The retained research registry, metadata, conflicts and core arithmetic are verified within their recorded scope:135 value records,17 conversions and8 cached sources. Six web-reviewed sources were not cached. Current reference documents retain their historical hashes. The comparison with specification25 was recorded before the separate51 rear-view rendering metadata addition; original engineering anchors remain unchanged. Final readable construction/source bindings remain pending."
     },
     {
       "id": "Q02",
@@ -20,8 +42,30 @@
       "required_evidence": "Lead-authored design rationale and front/rear/profile/cabin comparison with engineering references; provenance inventory for every external input",
       "failure_condition": "Unacknowledged borrowed logo/model identity, untracked texture/reference ancestry, or fictional styling represented as a licensed replica; human rights/art gate remains separate",
       "status": "pending",
-      "evidence": [],
-      "human_approval_reference": null
+      "evidence": [
+        {
+          "path": "reports/p1-018/qa/research40-freshness01/REVIEW01.md",
+          "bytes": 6697,
+          "sha256": "e63883dfd6f31568111a0d33efcf1ece3f8af99c1ed4fb152c974938ad1beb6a"
+        },
+        {
+          "path": "reports/p1-018/qa/research40-freshness01/readback01.json",
+          "bytes": 25721,
+          "sha256": "4724ae02d98a10b70c6ea014147b6c6e1c11414a0e2503349bc5f94aa050ca82"
+        },
+        {
+          "path": "reports/p1-018/qa/research40-freshness01/retention01.json",
+          "bytes": 13105,
+          "sha256": "332f71193f287559c5705c406aff2766b857a3f185dd2f9bd01173128057070c"
+        },
+        {
+          "path": "data/assets/vehicles/endurance-sedan-review/runtime-completion-v52/review.json",
+          "bytes": 127278,
+          "sha256": "3be33d15aefac52f53415a3b88840e22d5abc8df30a1ab6f64efdadf6873b2f8"
+        }
+      ],
+      "human_approval_reference": null,
+      "verified_scope": "Historical source34 comparison and input ancestry are verified only for those exact artifacts, including the retained Bfont-data chain. Source193 is diagnostic counterevidence to stale six-texture metadata: it adds a Bfont-derived label atlas and deliberately regenerates paint roughness. Final geometry comparison, complete current input inventory and human art/output-rights decisions remain pending."
     },
     {
       "id": "B01",
@@ -202,9 +246,46 @@
       "stage": "mirrors",
       "required_evidence": "Each mirror shows the moving numbered off-main-screen target; cabin pan, turn/reverse/rebase, day/night, on/off/update telemetry and cost comparisons",
       "failure_condition": "Static/frozen view, wrong side/orientation, target absent despite expected visibility, self-recursion, hidden cabin omitted incorrectly, excessive declared latency or resolution that prevents intended review",
-      "status": "pending",
-      "evidence": [],
-      "human_approval_reference": null
+      "status": "partial",
+      "evidence": [
+        {
+          "path": "reports/p1-018/finish-branch40/mirrors51/adoption.json",
+          "bytes": 2767,
+          "sha256": "91ff2ea05d5a39a662601a17265bf525de3fb91f33c9fed549122c25df6056e9"
+        },
+        {
+          "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/result.json",
+          "bytes": 431104,
+          "sha256": "428b97ff316807c783f022569537d44453dbfdc099d944bb45e57792353b84f2"
+        },
+        {
+          "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/result.json",
+          "bytes": 431080,
+          "sha256": "49f7f219033eeac6b081c65a5aa02eabcac75bca26688bf0cfc07281f2830ccb"
+        },
+        {
+          "path": "reports/p1-018/qa/rear-grounded40-review01/review08.json",
+          "bytes": 15163,
+          "sha256": "8ea1bb9896862a94aaeed8c65fbbb84537d13a52e7b7ec780b1af25ce94bd7f1"
+        },
+        {
+          "path": "reports/p1-018/qa/rear-grounded40-review01/persistent51/review09.json",
+          "bytes": 6442,
+          "sha256": "2c6ec623e12ad8486ff355e7e303f54fa056a89b6a0af2f3ef6a957a9052d9d7"
+        },
+        {
+          "path": "reports/p1-018/qa/rear-grounded40-review01/persistent51/retention09.json",
+          "bytes": 217851,
+          "sha256": "3ce7248f4b8a35e597058ffc8e3e2e0f3e053817469b15320dc9cd01ea9a7ee1"
+        },
+        {
+          "path": "data/assets/vehicles/endurance-sedan-review/runtime-completion-v52/review.json",
+          "bytes": 127278,
+          "sha256": "3be33d15aefac52f53415a3b88840e22d5abc8df30a1ab6f64efdadf6873b2f8"
+        }
+      ],
+      "human_approval_reference": null,
+      "verified_scope": "Rear-camera approximation adopted. Source60 grounded production-environment daylight/night visibility and production34 canonical material/lifecycle regressions pass in their explicitly separate scopes. Final-source moving targets, cabin/turn/reverse/rebase, telemetry/cost and human usability remain outstanding."
     },
     {
       "id": "F06",
@@ -324,9 +405,14 @@
           "path": "data/assets/vehicles/endurance-sedan-review/runtime-completion-v49/review.json",
           "bytes": 64314,
           "sha256": "519ae3ccc0971c1e34a9cf06d1be1f461d8f4102dded86414fbfac18bdcda4ba"
+        },
+        {
+          "path": "data/assets/vehicles/endurance-sedan-review/runtime-completion-v52/review.json",
+          "bytes": 127278,
+          "sha256": "3be33d15aefac52f53415a3b88840e22d5abc8df30a1ab6f64efdadf6873b2f8"
         }
       ],
-      "verified_scope": "Current full local Compatibility showroom scenario passes while preserving all51 assertion sites and52 input/request/capture sites; conditional paths are not all executed by this invocation. Final owned shutdown0.350s. Hosted corrected revision and human usability remain required.",
+      "verified_scope": "Full local Compatibility showroom scenario passes with all51 assertion sites and52 action/request/capture sites preserved; conditional paths are not all exercised by one invocation. Hosted complete PlayGodot suites pass on Linux, Windows and macOS at c2336a0. Final-source showroom rebind and human usability remain required.",
       "human_approval_reference": null
     },
     {
@@ -448,5 +534,5 @@
     "player comprehension and accessibility usability"
   ],
   "human_gates_status": "pending",
-  "updated_utc": "2026-09-21T03:12:11.530676+00:00"
+  "updated_utc": "2026-09-21T04:42:47.566850+00:00"
 }
