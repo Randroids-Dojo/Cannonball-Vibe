@@ -63,3 +63,38 @@ Final source generation, deterministic double export, clean import, all required
 media, performance runs, and final platform checks follow those corrections.
 Human art, rights, usability, and driving/physical-control gates remain pending.
 PR #144 stays draft; no source promotion or merge eligibility is asserted here.
+
+## Hosted managed diagnostic
+
+The pushed `6107f01` checkpoint passes Linux and Windows M0, all three
+PlayGodot platforms, both deterministic long-route jobs, and the unsigned
+exports and packaged smoke jobs. Downloaded sedan asset logs from run
+`35592892686` confirm that both platforms stop at the first export because
+the installed source lacks its current source-generation binding. Remote main
+was refreshed to `827bb146` on 2026-09-21; this branch contains that revision.
+
+The revised optical marker test requires each RGB channel to independently
+decode the same six-bit pattern. It keeps the existing component, visibility,
+pose, and pixel-error guards. Both private builds and 213 source/Python checks
+pass, but local Windows Application Control denies loading the test assembly
+before any managed cases execute. Those checks are not a managed or native pass.
+
+Scope139 adds a separate, path-limited diagnostic workflow and an immutable
+source recipe at `tools/vehicles/diagnostics/p1-018-optical12.zip`. Windows and
+Linux runners build the exact sources and execute the existing helper's 66
+cases and 100 assertions. Root and independent QA verified all 123 archive
+members, 122 manifest inputs, and 112 base Git blobs before publication.
+The workflow records its actual runner, revision, commands, and assembly hashes.
+Its result does not resolve local Windows trust or establish final rendering,
+mirror usefulness, or performance. Existing required workflows and merge gates
+are unchanged.
+
+The full Windows `scripts/check.sh` front door passed again after this scoped
+workflow addition (`reports/p1-018/finish-branch40/m0-144/summary.json`, all
+13 steps). This verifies the current canonical project; the private compiled
+helper still needs its own hosted execution result.
+
+Scope146 separately permits a bounded correction to the two lower stamped-C
+inner bands, where complete finite footprints measured original stock below
+1.2 mm. The exterior, fixed boundaries, topology, and physical tolerances stay
+fixed. This correction and the new distant-lid budget trials remain unpromoted.
