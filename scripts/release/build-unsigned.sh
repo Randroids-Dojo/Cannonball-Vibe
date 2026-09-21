@@ -70,7 +70,10 @@ build_once() {
   rm -rf "$stage"
   source_root="$stage/source"
   mkdir -p "$stage/package/content/official-corridor" "$stage/package/verification" "$stage/fixture" "$source_root"
-  git archive "$revision" | tar -x -C "$source_root"
+  # Review evidence is retained separately and never ships in the game. Keep
+  # git archive from hydrating that large LFS subtree on every export attempt;
+  # the remaining source and shipping assets still use normal LFS conversion.
+  git archive "$revision" -- . ':(exclude)data/assets/vehicles/endurance-sedan-review' | tar -x -C "$source_root"
   if [[ "$platform" == linux ]]; then
     preset="Linux x86_64"; binary="CannonballRun.x86_64"; launcher="run-cannonball.sh"; runtime_id="linux-x64"; target_platform="linuxbsd"
   else

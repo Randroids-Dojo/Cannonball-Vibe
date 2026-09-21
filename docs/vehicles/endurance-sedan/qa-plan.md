@@ -345,10 +345,11 @@ required human approvals remain separate acceptance requirements.
 
 The implemented entry point is
 [`tools/vehicles/endurance_sedan/qa/run.py`](../../../tools/vehicles/endurance_sedan/qa/run.py),
-with the exact command, fourteen ordered stages and scope in its
+with the exact command, current26-stage inventory and scope in its
 [`README.md`](../../../tools/vehicles/endurance_sedan/qa/README.md).
 It snapshots executable QA inputs into a fresh output directory and fails first;
-partial-stage success cannot become overall acceptance. It includes109 source
+partial-stage success cannot become overall acceptance. The historical source32
+fourteen-stage run described below included109 source
 control states, a separate12-state head/tail/brake/reverse and four-beam check,
 all-angle opening/tire/wiper certificates with initial containment, and17 native
 rejection/positive controls. Revision14 adds complete finite roof/crossover and
@@ -390,3 +391,37 @@ explicitly preserves this failed visual transition; later runtime repair cannot
 retroactively make the historical movie continuous. The one23-byte Blender
 shutdown allocation in source33 worklight captures remains recorded separately
 from their valid completed PNGs and from Godot runtime memory evidence.
+
+The capture57 supplement preserves all26 existing source cases and appends11
+cases in `capture-recipe.json`. Six close grazing shots use recorded moving
+physical strip lights and the original vehicle paint. Opposed rear entry and
+exterior/cabin glazing views, all four wheel obliques and underside inner-barrel
+views require direct framing review; no vehicle mesh is hidden for those views.
+Five closure sets record0/25/50/75/100percent travel. A separate six-shot movie
+reverses each saved closure driver below full opening, reopens it, and returns
+it closed. These source animations are inspection controls, not dynamics.
+
+The quarter-speed wiper film advances the actual saved running drivers through
+one complete1.35-second source cycle over a5.4-second output sample span
+(163 frames at30fps, encoded duration5.433seconds). The separately
+labeled sampled overlay projects actual evaluated lower rubber boundaries at21
+saved-driver poses onto the actual planar outer glass. Its2mm display lift makes
+the lines legible; signed sample gaps and source coordinates remain in the
+manifest. This image is not a continuous-contact certificate or rain simulation.
+The existing continuous glass/motion gates and ordinary unobscured films remain
+required. The renderer and suite hash the added helper so changes invalidate
+frame reuse. All supplemental views are pending until inspected on the final
+locked source and must be rerun after any relevant geometry correction.
+
+Actual source193 pilot inspection corrected cropped wheel views and opening
+shots: the supplement now uses wider oblique wheels, measured inner-barrel
+sightlines and complete hood/trunk context, while preserving the original detail
+views. Rear inner-barrel visibility remains partly occluded by the assembled
+rail/tub; no vehicle geometry is hidden to manufacture a clearance view. The
+opposed full-windshield diagnostic places its dark-backed caption in the image
+margin after applying each shot's actual lens and projection. Roof grazing
+lights are placed on the reflected side of the upward-facing panel. Temporary
+clay captures set the actual Principled Base Color to18percent linear gray,
+matching their viewport color, with unchanged lighting and exposure. Historical
+failed captures remain retained; these tooling corrections do not accept193 as
+the final model or substitute for final-source review.

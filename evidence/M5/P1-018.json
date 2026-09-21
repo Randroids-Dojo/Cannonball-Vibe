@@ -3,9 +3,9 @@
   "task_id": "P1-018",
   "milestone": "M5",
   "status": "in_progress",
-  "utc": "2026-09-21T04:42:47.566850+00:00",
-  "git_revision": "7db4e0589be61c1b4793f2666250104ebcd70074",
-  "git_state": "Tire correction, explicit vehicle regressions and showroom deadline correction verified locally; final source, mirror, reference-performance and human gates remain open.",
+  "utc": "2026-09-21T07:10:46.658835+00:00",
+  "git_revision": "92278e1405224c2cff4178831afd104d97d6efac",
+  "git_state": "Verified actual-settings observation, capture helpers and export-staging repair with exact dirty-input closure in tooling checkpoint62. Final source replacement and its delivery gates remain open.",
   "platform": "Windows-11-10.0.26200-SP0",
   "tool_versions": {
     "blender": "Blender 5.1.2\r\n\tbuild date: 2026-05-19\r\n\tbuild time: 01:37:34\r\n\tbuild commit date: 2026-05-18\r\n\tbuild commit time: 13:43\r\n\tbuild hash: ec6e62d40fa9\r\n\tbuild branch: blender-v5.1-release\r\n\tbuild platform: Windows\r\n\tbuild type: Release\r\n\tbuild c flags:  -Wall -Werror=implicit-function-declaration -Werror=return-type -Wno-tautological-compare -Wno-unknown-pragmas -Wno-char-subscripts -Wstrict-prototypes -Wmissing-prototypes -Wunused-parameter -Wundef -Wundef-prefix -Werror=unguarded-availability-new /W3 -Wno-c++98-compat -Wno-old-style-cast -Wno-unsafe-buffer-usage -Wno-missing-prototypes -Wno-sign-conversion -Wno-missing-field-initializers -Wno-extra-semi -Wno-language-extension-token -Wno-implicit-float-conversion -Wno-c++98-compat-pedantic -Wno-implicit-int-float-conversion -Wno-double-promotion -Wno-pre-c++17-compat -Wno-shorten-64-to-32 -Wno-c++98-compat-local-type-template-args -Wno-reserved-identifier -Wno-cast-align -Wno-documentation -Wno-disabled-macro-expansion -Wno-extra-semi-stmt -Wno-zero-as-null-pointer-constant -Wno-float-conversion -Wno-reserved-macro-identifier -Wno-cast-function-type-strict -Wno-float-equal -Wno-implicit-int-conversion -Wno-shadow -Wno-shadow-field-in-constructor -Wno-cast-qual -Wno-pre-c++14-compat -Wno-global-constructors -Wno-switch-enum -Wno-exit-time-destructors -Wno-ctad-maybe-unsupported -Wno-undefined-func-template -Wno-c++98-compat-extra-semi -Wno-cast-function-type -Wno-nullability-extension -Wno-shadow-field -Wno-conditional-uninitialized -Wno-unused-parameter -Wno-suggest-destructor-override -Wno-shadow-uncaptured-local -Wno-unused-macros -Wno-covered-switch-default -Wno-signed-enum-bitfield -Wno-declaration-after-statement -Wno-implicit-fallthrough -Wno-non-virtual-dtor -Wno-nested-anon-types -Wno-gnu-zero-variadic-macro-arguments -Wno-unreachable-code-break -Wno-inconsistent-missing-destructor-override -Wno-format-pedantic -Wno-nonportable-system-include-path -Wno-undef -Wno-ignored-qualifiers -Wno-used-but-marked-unused -Wno-header-hygiene -Wno-char-subscripts -Wno-unreachable-code-return -Wno-unused-template -Wno-gnu-anonymous-struct -Wno-deprecated-copy-with-user-provided-dtor -Wno-inconsistent-missing-override -Wno-unreachable-code -Wno-deprecated-dynamic-exception-spec -Wno-bad-function-cast -Wno-microsoft-enum-value -Wno-deprecated-copy-with-user-provided-copy -Wno-zero-length-array -Wno-unused-function -Wno-pedantic -Wno-deprecated-copy-with-dtor -Wno-documentation-unknown-command -Wno-undefined-reinterpret-cast -Wno-format-nonliteral -Wno-comma -Wno-documentation-deprecated-sync -Wno-shift-sign-overflow -Wno-pre-c++17-compat-pedantic -Wno-c++98-compat-unnamed-type-template-args -Wno-sign-compare -Wno-format -Wno-c++98-compat-bind-to-temporary-copy -Wno-enum-enum-conversion -Wno-anon-enum-enum-conversion -Wno-range-loop-bind-reference -Wno-enum-float-conversion -Wno-keyword-macro -Wno-deprecated-copy -Wno-unused-member-function -Wno-missing-noreturn -Wno-missing-variable-declarations -Wno-documentation-html -Wno-gnu-redeclared-enum -Wno-deprecated-declarations -Wno-overloaded-virtual -Wno-c++98-c++11-compat-binary-literal -Wno-deprecated-redundant-constexpr-static-def -Wno-missing-braces -Wno-c99-extensions -Wno-strict-prototypes -Wno-unreachable-code-loop-increment -Wno-gnu-case-range -Wno-duplicate-enum -Wno-null-pointer-subtraction -Wno-deprecated-literal-operator -Wno-newline-eof -Wno-microsoft-cast -Wno-date-time -Wno-delete-non-abstract-non-virtual-dtor -Wno-unused-private-field -Wno-flexible-array-extensions -Wno-string-conversion -Wno-final-dtor-non-final-class -Wno-microsoft-unqualified-friend -Wno-invalid-noreturn -Wno-invalid-utf8 -Wno-four-char-constants -Wno-parentheses -Wno-pessimizing-move -Wno-deprecated-non-prototype -Wno-bitfield-enum-conversion -Wno-unused-lambda-capture -Wno-shadow-field-in-constructor-modified -Wno-switch-default -Wno-nan-infinity-disabled -Wno-pre-c11-compat /DWIN32 /D_WINDOWS  /MP /nologo /J /Gy /Gd /showFilenames -Wno-unused-command-line-argument -Wno-microsoft-enum-forward-reference /clang:-funsigned-char /clang:-fno-strict-aliasing /clang:-ffp-contract=off -march=x86-64-v2 \r\n\tbuild c++ flags:  -Wall -Wno-tautological-compare -Wno-unknown-pragmas -Wno-char-subscripts -Wno-overloaded-virtual -Wno-sign-compare -Wno-invalid-offsetof -Wno-suggest-override -Wundef -Wundef-prefix -Wunused-parameter -Wmismatched-tags -Werror=unguarded-availability-new /W3 -Wno-c++98-compat -Wno-old-style-cast -Wno-unsafe-buffer-usage -Wno-missing-prototypes -Wno-sign-conversion -Wno-missing-field-initializers -Wno-extra-semi -Wno-language-extension-token -Wno-implicit-float-conversion -Wno-c++98-compat-pedantic -Wno-implicit-int-float-conversion -Wno-double-promotion -Wno-pre-c++17-compat -Wno-shorten-64-to-32 -Wno-c++98-compat-local-type-template-args -Wno-reserved-identifier -Wno-cast-align -Wno-documentation -Wno-disabled-macro-expansion -Wno-extra-semi-stmt -Wno-zero-as-null-pointer-constant -Wno-float-conversion -Wno-reserved-macro-identifier -Wno-cast-function-type-strict -Wno-float-equal -Wno-implicit-int-conversion -Wno-shadow -Wno-shadow-field-in-constructor -Wno-cast-qual -Wno-pre-c++14-compat -Wno-global-constructors -Wno-switch-enum -Wno-exit-time-destructors -Wno-ctad-maybe-unsupported -Wno-undefined-func-template -Wno-c++98-compat-extra-semi -Wno-cast-function-type -Wno-nullability-extension -Wno-shadow-field -Wno-conditional-uninitialized -Wno-unused-parameter -Wno-suggest-destructor-override -Wno-shadow-uncaptured-local -Wno-unused-macros -Wno-covered-switch-default -Wno-signed-enum-bitfield -Wno-declaration-after-statement -Wno-implicit-fallthrough -Wno-non-virtual-dtor -Wno-nested-anon-types -Wno-gnu-zero-variadic-macro-arguments -Wno-unreachable-code-break -Wno-inconsistent-missing-destructor-override -Wno-format-pedantic -Wno-nonportable-system-include-path -Wno-undef -Wno-ignored-qualifiers -Wno-used-but-marked-unused -Wno-header-hygiene -Wno-char-subscripts -Wno-unreachable-code-return -Wno-unused-template -Wno-gnu-anonymous-struct -Wno-deprecated-copy-with-user-provided-dtor -Wno-inconsistent-missing-override -Wno-unreachable-code -Wno-deprecated-dynamic-exception-spec -Wno-bad-function-cast -Wno-microsoft-enum-value -Wno-deprecated-copy-with-user-provided-copy -Wno-zero-length-array -Wno-unused-function -Wno-pedantic -Wno-deprecated-copy-with-dtor -Wno-documentation-unknown-command -Wno-undefined-reinterpret-cast -Wno-format-nonliteral -Wno-comma -Wno-documentation-deprecated-sync -Wno-shift-sign-overflow -Wno-pre-c++17-compat-pedantic -Wno-c++98-compat-unnamed-type-template-args -Wno-sign-compare -Wno-format -Wno-c++98-compat-bind-to-temporary-copy -Wno-enum-enum-conversion -Wno-anon-enum-enum-conversion -Wno-range-loop-bind-reference -Wno-enum-float-conversion -Wno-keyword-macro -Wno-deprecated-copy -Wno-unused-member-function -Wno-missing-noreturn -Wno-missing-variable-declarations -Wno-documentation-html -Wno-gnu-redeclared-enum -Wno-deprecated-declarations -Wno-overloaded-virtual -Wno-c++98-c++11-compat-binary-literal -Wno-deprecated-redundant-constexpr-static-def -Wno-missing-braces -Wno-c99-extensions -Wno-strict-prototypes -Wno-unreachable-code-loop-increment -Wno-gnu-case-range -Wno-duplicate-enum -Wno-null-pointer-subtraction -Wno-deprecated-literal-operator -Wno-newline-eof -Wno-microsoft-cast -Wno-date-time -Wno-delete-non-abstract-non-virtual-dtor -Wno-unused-private-field -Wno-flexible-array-extensions -Wno-string-conversion -Wno-final-dtor-non-final-class -Wno-microsoft-unqualified-friend -Wno-invalid-noreturn -Wno-invalid-utf8 -Wno-four-char-constants -Wno-parentheses -Wno-pessimizing-move -Wno-deprecated-non-prototype -Wno-bitfield-enum-conversion -Wno-unused-lambda-capture -Wno-shadow-field-in-constructor-modified -Wno-switch-default -Wno-nan-infinity-disabled -Wno-pre-c11-compat /DWIN32 /D_WINDOWS   /EHsc  /Gy /MP /nologo /J /Gd /showFilenames /EHsc -Wno-unused-command-line-argument -Wno-microsoft-enum-forward-reference /clang:-funsigned-char /clang:-fno-strict-aliasing /clang:-ffp-contract=off -march=x86-64-v2 \r\n\tbuild link flags: /MACHINE:X64  /SUBSYSTEM:CONSOLE /STACK:2097152 /ignore:4049 /ignore:4217 /ignore:4221\r\n\tbuild system: CMake",
@@ -11711,6 +11711,286 @@
       "path": "data/assets/vehicles/endurance-sedan-review/runtime-completion-v52/review.json",
       "bytes": 127278,
       "sha256": "3be33d15aefac52f53415a3b88840e22d5abc8df30a1ab6f64efdadf6873b2f8"
+    }
+  },
+  "tooling_checkpoint_v62": {
+    "task_id": "P1-018",
+    "milestone": "M5",
+    "utc": "2026-09-21T06:41:25.804109+00:00",
+    "git_revision": "92278e1405224c2cff4178831afd104d97d6efac",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "status": "verified-tooling-checkpoint-final-source-in-progress",
+    "scope": "Current actual-settings observation, source inspection helpers and bounded unsigned-export staging repair. Installed production34 and historical source193 pilot have distinct identities; neither becomes a final accepted model through this checkpoint.",
+    "tool_versions": {
+      "dotnet": "10.0.102",
+      "uv": "0.9.24",
+      "git-lfs": "3.7.1",
+      "perl": "available",
+      "godot": "4.7.1.stable.mono.official.a13da4feb"
+    },
+    "native_engine_artifacts": [
+      {
+        "path": "C:/Users/randr/AppData/Local/Microsoft/WinGet/Packages/GodotEngine.GodotEngine.Mono_Microsoft.Winget.Source_8wekyb3d8bbwe/Godot_v4.7.1-stable_mono_win64/Godot_v4.7.1-stable_mono_win64_console.exe",
+        "bytes": 198152,
+        "sha256": "b2c334ff6bf1e07ded41b80bd6f4785485650db6ddbb2740b802930f35237c26"
+      },
+      {
+        "path": "C:/Users/randr/AppData/Local/Microsoft/WinGet/Packages/GodotEngine.GodotEngine.Mono_Microsoft.Winget.Source_8wekyb3d8bbwe/Godot_v4.7.1-stable_mono_win64/Godot_v4.7.1-stable_mono_win64.exe",
+        "bytes": 179589128,
+        "sha256": "8ec33ba6a6a953226170cda2a56a58810f6617261a71d6bd6d6ba7cce5e7b79d"
+      }
+    ],
+    "software_frontdoor": {
+      "result": {
+        "path": "reports/p1-018/finish-branch40/regressions62/frontdoor/result.json",
+        "bytes": 431174,
+        "sha256": "86d58dde19ef5a2e52f6d1bf2f2b628375ad9d33d21e0ab464c04d3a10af029f"
+      },
+      "summary": {
+        "path": "reports/p1-018/finish-branch40/regressions62/frontdoor/m0/summary.json",
+        "bytes": 1482,
+        "sha256": "81f5b46959c1310e36df3e74d008de712cd78646082fc4311a1306737dac31c8"
+      },
+      "passed_steps": 13,
+      "total_steps": 13,
+      "unchanged_source_rows": 956
+    },
+    "supporting_evidence": [
+      {
+        "path": "reports/p1-018/finish-branch40/promote56.json",
+        "bytes": 1265,
+        "sha256": "a8a532535adb401273d209158b74e6596387ce1844d99d6c74b7d149ec3a33d2"
+      },
+      {
+        "path": "reports/p1-018/runtime/performance-readback53-01/viewport56/manifest56-terminal.json",
+        "bytes": 30863,
+        "sha256": "9bf246b33440294ec7771fdb7552bab8bf533bdd73ad5536277d106314e01b17"
+      },
+      {
+        "path": "reports/p1-018/qa/performance-readback53-review01/review03.json",
+        "bytes": 29981,
+        "sha256": "74eaea69e171c884b92daaa4df58a961fd6a14ce37e6457f62d017bb4e897b2c"
+      },
+      {
+        "path": "reports/p1-018/qa/source-capture57-review01/review01.json",
+        "bytes": 9663,
+        "sha256": "d94b344e49972f3bd90215ea1ddd4aed798d03d75b5db44c8ee15cb25fca84d0"
+      },
+      {
+        "path": "reports/p1-018/qa/source-capture57-review01/review02.json",
+        "bytes": 139483,
+        "sha256": "95bf44cb9fbd32f5ad5952c3956bb9268c771d9c059d667d185704790a6140c7"
+      },
+      {
+        "path": "reports/p1-018/qa/source-capture57-review01/review03.json",
+        "bytes": 48368,
+        "sha256": "6ad054740979edece0b7a94327713572e461a682a2b1507c489484a92729037c"
+      },
+      {
+        "path": "reports/p1-018/qa/source-capture57-review01/review04.json",
+        "bytes": 78807,
+        "sha256": "54c6ccd5754739fb1ec81e65b552fda12fe715fb308eaf75b80976006def531f"
+      },
+      {
+        "path": "reports/p1-018/qa/source-capture57-review01/review05.json",
+        "bytes": 63570,
+        "sha256": "b176a72d1bfeeb3bfa85733a2ffc9e56df464478ac4fb40c392c3874dfbd0359"
+      },
+      {
+        "path": "reports/p1-018/qa/unsigned58-review01/audit01.json",
+        "bytes": 95837,
+        "sha256": "8b48469e547257f063d69ea03d95f910305d40861f572e77b4dabe193103e87d"
+      },
+      {
+        "path": "reports/p1-018/finish-branch40/unsigned58/fixture-result.json",
+        "bytes": 7413,
+        "sha256": "4aca858d04a9ad8a83afd54ca861932a5a6437eb9368a73bbd8f85bc1e904cfd"
+      },
+      {
+        "path": "reports/p1-018/finish-branch40/capture62-hostcheck.json",
+        "bytes": 1479,
+        "sha256": "379ec14496d43caf1a6d18ae4c0d0d1cdf9f8e1242058c3859bb038c4f9b8dab"
+      },
+      {
+        "path": "reports/p1-018/finish-branch40/capture62-pilot01/receipt.json",
+        "bytes": 4980,
+        "sha256": "4859ef397b74aa3d9af17b507481cba17badea310db46755d4221127fd7503bd"
+      },
+      {
+        "path": "reports/p1-018/skill-update58-01/completion.json",
+        "bytes": 11008,
+        "sha256": "96e2102f5c5c837d0da7d646da3ea604fd2bab191333e777107656c38eadc171"
+      },
+      {
+        "path": "reports/p1-018/finish-branch40/hosted54/checkpoint.json",
+        "bytes": 106391,
+        "sha256": "73f5edf01e366277549305f6951b105555254ec7fdaf40200d1c0eeb0d5f9527"
+      }
+    ],
+    "scope_records": [
+      {
+        "path": "reports/p1-018/finish-branch40/performance-readback-scope53.json",
+        "bytes": 3042,
+        "sha256": "6d7156138d90d613dc91b54eadb664e7c015399b61f042abc58d4aadfe517468"
+      },
+      {
+        "path": "reports/p1-018/finish-branch40/normal-domain-scope54.json",
+        "bytes": 3586,
+        "sha256": "07c841297b65ec3aec46adab302bdf5858cabe32215ceb5884b9b98fc26f2485"
+      },
+      {
+        "path": "reports/p1-018/finish-branch40/viewport-readback-scope55.json",
+        "bytes": 4542,
+        "sha256": "25bb32e6f5dd661465df9e0e4d0d2a91796e9c94afde936ebe93089ed5a23fc8"
+      },
+      {
+        "path": "reports/p1-018/finish-branch40/final-capture-scope57.json",
+        "bytes": 3851,
+        "sha256": "f39ab279eea84fc4027ff2b3f2c6e83b67267b4be25eb6f1d7e7123377aa4808"
+      },
+      {
+        "path": "reports/p1-018/finish-branch40/final-capture-scope57-closure.json",
+        "bytes": 588,
+        "sha256": "07a7634c454209a1dafed54f15baa9f8a5ab8eb660c4bebe02df525121038e02"
+      },
+      {
+        "path": "reports/p1-018/finish-branch40/unsigned-scope58.json",
+        "bytes": 1880,
+        "sha256": "9505132b8d6f4ed26bd28bef9ad5aaf326f478dcc12d7a8b932b3af637260273"
+      },
+      {
+        "path": "reports/p1-018/finish-branch40/capture-clay60-scope.json",
+        "bytes": 869,
+        "sha256": "d710a7657c3006a948c2de61ae5a9d0118823a5e9881eb95abc6e1f615f480a0"
+      }
+    ],
+    "native_settings": {
+      "rendered_output": [
+        2560,
+        1440
+      ],
+      "raw_texture_getters": [
+        3413,
+        1920
+      ],
+      "disposed_readback_ms": [
+        16.807,
+        19.85
+      ],
+      "native_identity_roles": 22,
+      "headless_output_image": null,
+      "limit": "Two-second observation diagnostic only. Rendered timing wrapper rejected 39percent background GPU against the unchanged10percent ceiling. No reference performance acceptance."
+    },
+    "source_capture_helpers": {
+      "original_recipe_cases_preserved": 26,
+      "supplemental_cases": 11,
+      "historical_source": {
+        "path": ".tools/v39s193/build/project/data/assets/vehicles/sources/endurance-sedan.blend",
+        "bytes": 7916752,
+        "sha256": "3d784a2ca441cee4022b764fa031c4cf3006fc9667cc88771d592d0514d06b77"
+      },
+      "reviewed_camera_pilot_originals": 64,
+      "final_caption_originals": 2,
+      "clay_shader": "Explicit18percent-linear Principled BaseColor; unchanged source light/exposure/materials.",
+      "caption_review_status": "caption readability and sweep framing resolved in two historical193 helper views",
+      "limit": "Short960x540/16sample camera pilots and sampled overlays do not replace final-source full-resolution films, complete openings, continuous wiper contact or human visual approval."
+    },
+    "unsigned_staging": {
+      "excluded_path_only": "data/assets/vehicles/endurance-sedan-review",
+      "observed_review_lfs_downloads": 346,
+      "observed_rounded_review_bytes": 14354313800,
+      "fixture": "Actual Git/LFS archive preserves and hydrates all four nonreview files; missing review object is bypassed only by this exclusion, while missing shipping object still fails. Original failed unrestricted archive retained.",
+      "limit": "Hosted four-build byte comparison and package smokes must rerun on a new pushed revision. This fixture does not establish their result."
+    },
+    "skill_publication": {
+      "revision": "b6fa8ae56d877c3d789394d3d86232e3a3f91cec",
+      "files": 16,
+      "global_install_byte_verified": true,
+      "hosted_runs": [
+        35566166867,
+        35566165983
+      ]
+    },
+    "mainline_health": {
+      "argv": [
+        "gh",
+        "issue",
+        "list",
+        "--label",
+        "red-main",
+        "--state",
+        "open",
+        "--json",
+        "number,title,url"
+      ],
+      "exit_status": 0,
+      "stdout": "[]\n",
+      "stderr": ""
+    },
+    "fetched_main": "827bb14618e99a85d709e89cdd828877b6ff1566",
+    "failures_and_retries": [
+      "First observation promotion used the wrong git-apply strip depth and failed before mutation; exact-p0 retry passed.",
+      "First wiper pilot treated an approximate driver axis as the exact pane normal and failed the unchanged planarity bound. Actual evaluated pane SVD supplies the exact plane; source geometry and bound unchanged.",
+      "Actual wheel/opening/roof-light camera defects were corrected in59. Rear inner barrels retain real rail/tub occlusion.",
+      "Caption60 improved contrast but covered upper sweep traces. Caption61 still used a pre-shot lens;62 positions after actual shot projection. Both failed pilots retained.",
+      "Unsigned hosted-log acquisition completed, then console printing failed on BOM encoding; saved raw log/receipt retained. Independent recount corrects the earlier292 estimate to346 downloads.",
+      "Fullfrontdoor59 passed; capture-caption source changed afterward, so fullfrontdoor62 was run against the final helper bytes."
+    ],
+    "outstanding_machine_work": [
+      "Finish and natively verify complete rear support/header/front form, final glass/wiper/trim fit, all LODs and geometry budgets.",
+      "Fresh canonical construction, complete26-stage source gate, native reopen, paired current bakes, two shipping exports and clean Godot import/package comparisons.",
+      "Final-source actual motion, driving, lighting, cockpit, mirror, opening and LOD captures plus lifecycle51 runs and independent visual/functional QA.",
+      "Uncontended declared1440p High Forward+ reference performance and30-minute memory growth, required platform/export/soak evidence, final defect/acceptance reconciliation.",
+      "Final portable artifacts and PR-only auto-squash when machine eligibility is established."
+    ],
+    "source_blocker": "Correct complete front shape/normal field and verify rear/header/wiper assembly within declared geometry budgets, then run fresh complete source/export/import gates. Rejected private front variants and their estimated savings remain unaccepted.",
+    "human_approval_reference": null,
+    "human_gates": "Final visual/rights/usability/driving enjoyment/physical-input feel reviews remain open. P1-018 cannot be marked complete from this checkpoint.",
+    "portable_retention": {
+      "index": {
+        "path": "data/assets/vehicles/endurance-sedan-review/validation-v62/index.json",
+        "bytes": 133040,
+        "sha256": "9d454591995656bc2ef493e26d1cea80e1015db21db7ccd848e9a75f87cbed10"
+      },
+      "manifest": {
+        "path": "data/assets/vehicles/endurance-sedan-review/validation-v62/inputs.json",
+        "bytes": 132920,
+        "sha256": "78d2660d7545936350ddbba31b1a5f90a94a2e68d73cbb84ee4752095eeda0f2"
+      },
+      "archive": {
+        "path": "data/assets/vehicles/endurance-sedan-review/validation-v62/evidence.zip",
+        "bytes": 82576200,
+        "sha256": "7e827f19671e1d915c4c9891e74e95759d582e5ad35908d1cfc8b1f712f9d36b"
+      },
+      "entries": 606,
+      "byte_reproducible": true,
+      "all_member_hashes_and_crc_verified": true,
+      "limits": "Evidence retention and byte identity only; individual reports retain their own scope, failures and approval status.",
+      "recovery_supplement": {
+        "manifest": {
+          "path": "data/assets/vehicles/endurance-sedan-review/validation-v62/recovery-inputs.json",
+          "bytes": 27172,
+          "sha256": "0768f340e7118008d5df53ab768fbfc4e32ad6049e67c70b1b63dc03a592b45c"
+        },
+        "index": {
+          "path": "data/assets/vehicles/endurance-sedan-review/validation-v62/recovery-index.json",
+          "bytes": 27447,
+          "sha256": "5881cc2d132ab1a03f960ca8c37465ad1f4a95cc283c2d28d32e853ee8f89d44"
+        },
+        "archive": {
+          "path": "data/assets/vehicles/endurance-sedan-review/validation-v62/recovery.zip",
+          "bytes": 5920640,
+          "sha256": "dd0b419c93055c12d6b210dfeb37160581939c3f3be9981c052d37550d4f6871"
+        },
+        "entries": 121,
+        "byte_reproducible": true,
+        "scope": "Exact missing historical report/source payloads and two independently hash-verified historical source reconstructions. Original606-entry archive remains unchanged."
+      }
+    },
+    "review": {
+      "path": "data/assets/vehicles/endurance-sedan-review/validation-v62/review.json",
+      "bytes": 36366,
+      "sha256": "90c5a742a957eb92fd46859268f5c5b31146fce6e4920d03e0c3ef108b2ce6b8"
     }
   }
 }

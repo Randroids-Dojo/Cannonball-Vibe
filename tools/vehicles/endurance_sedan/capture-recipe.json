@@ -338,6 +338,196 @@
         "--frames",
         "163"
       ]
+    },
+    {
+      "name": "moving-grazing-closeups",
+      "arguments": [
+        "--samples",
+        "32",
+        "--sequence",
+        "grazing",
+        "--frames",
+        "366"
+      ]
+    },
+    {
+      "name": "opposed-entry-and-glass",
+      "arguments": [
+        "--samples",
+        "48",
+        "--inspection-fill-watts",
+        "20",
+        "--control",
+        "Door_RR_open=1",
+        "--views",
+        "rear_door_right,glass_seal_right,rear_glass_left,rear_glass_right,rear_glass_cabin_left,rear_glass_cabin_right"
+      ]
+    },
+    {
+      "name": "all-wheel-oblique-and-inner",
+      "arguments": [
+        "--samples",
+        "48",
+        "--inspection-fill-watts",
+        "20",
+        "--views",
+        "wheel_oblique_FL,wheel_inner_FL,wheel_oblique_FR,wheel_inner_FR,wheel_oblique_RL,wheel_inner_RL,wheel_oblique_RR,wheel_inner_RR"
+      ]
+    },
+    {
+      "name": "closure-steps-000",
+      "arguments": [
+        "--samples",
+        "32",
+        "--inspection-fill-watts",
+        "20",
+        "--views",
+        "front_door,front_door_right,rear_door,rear_door_right,hood_context,trunk_context",
+        "--control",
+        "Door_FL_open=0.0",
+        "--control",
+        "Door_FR_open=0.0",
+        "--control",
+        "Door_RL_open=0.0",
+        "--control",
+        "Door_RR_open=0.0",
+        "--control",
+        "Hood_Hinge_open=0.0",
+        "--control",
+        "Trunk_Hinge_open=0.0"
+      ]
+    },
+    {
+      "name": "closure-steps-025",
+      "arguments": [
+        "--samples",
+        "32",
+        "--inspection-fill-watts",
+        "20",
+        "--views",
+        "front_door,front_door_right,rear_door,rear_door_right,hood_context,trunk_context",
+        "--control",
+        "Door_FL_open=0.25",
+        "--control",
+        "Door_FR_open=0.25",
+        "--control",
+        "Door_RL_open=0.25",
+        "--control",
+        "Door_RR_open=0.25",
+        "--control",
+        "Hood_Hinge_open=0.25",
+        "--control",
+        "Trunk_Hinge_open=0.25"
+      ]
+    },
+    {
+      "name": "closure-steps-050",
+      "arguments": [
+        "--samples",
+        "32",
+        "--inspection-fill-watts",
+        "20",
+        "--views",
+        "front_door,front_door_right,rear_door,rear_door_right,hood_context,trunk_context",
+        "--control",
+        "Door_FL_open=0.5",
+        "--control",
+        "Door_FR_open=0.5",
+        "--control",
+        "Door_RL_open=0.5",
+        "--control",
+        "Door_RR_open=0.5",
+        "--control",
+        "Hood_Hinge_open=0.5",
+        "--control",
+        "Trunk_Hinge_open=0.5"
+      ]
+    },
+    {
+      "name": "closure-steps-075",
+      "arguments": [
+        "--samples",
+        "32",
+        "--inspection-fill-watts",
+        "20",
+        "--views",
+        "front_door,front_door_right,rear_door,rear_door_right,hood_context,trunk_context",
+        "--control",
+        "Door_FL_open=0.75",
+        "--control",
+        "Door_FR_open=0.75",
+        "--control",
+        "Door_RL_open=0.75",
+        "--control",
+        "Door_RR_open=0.75",
+        "--control",
+        "Hood_Hinge_open=0.75",
+        "--control",
+        "Trunk_Hinge_open=0.75"
+      ]
+    },
+    {
+      "name": "closure-steps-100",
+      "arguments": [
+        "--samples",
+        "32",
+        "--inspection-fill-watts",
+        "20",
+        "--views",
+        "front_door,front_door_right,rear_door,rear_door_right,hood_context,trunk_context",
+        "--control",
+        "Door_FL_open=1.0",
+        "--control",
+        "Door_FR_open=1.0",
+        "--control",
+        "Door_RL_open=1.0",
+        "--control",
+        "Door_RR_open=1.0",
+        "--control",
+        "Hood_Hinge_open=1.0",
+        "--control",
+        "Trunk_Hinge_open=1.0"
+      ]
+    },
+    {
+      "name": "six-partial-opening-reversals",
+      "arguments": [
+        "--samples",
+        "24",
+        "--inspection-fill-watts",
+        "20",
+        "--sequence",
+        "partial-openings",
+        "--frames",
+        "366"
+      ]
+    },
+    {
+      "name": "wipers-quarter-speed",
+      "arguments": [
+        "--samples",
+        "24",
+        "--sequence",
+        "hold",
+        "--timeline-rate",
+        ".25",
+        "--views",
+        "wiper_overview",
+        "--control",
+        "wipers_running=1",
+        "--frames",
+        "163"
+      ]
+    },
+    {
+      "name": "wiper-sampled-contact-overlay",
+      "arguments": [
+        "--samples",
+        "48",
+        "--wiper-overlay",
+        "--views",
+        "wiper_overview,wiper_overview_right"
+      ]
     }
   ]
 }

@@ -64,6 +64,7 @@ def main():
     parser.add_argument('--height',type=int,default=720)
     parser.add_argument('--clay',action='store_true')
     parser.add_argument('--technical-overlays',action='store_true',help='Explicit temporary x-ray geometry, actual anchors/proxies and meter rulers')
+    parser.add_argument('--wiper-overlay',action='store_true',help='Separate labeled diagnostic of21 sampled saved-driver poses against the actual glass')
     parser.add_argument('--control',action='append',default=[],help='Source RigControls property=value')
     parser.add_argument('--samples',type=int,default=64)
     parser.add_argument('--engine',choices=('cycles','eevee'),default='cycles')
@@ -71,12 +72,19 @@ def main():
     parser.add_argument('--gpu-denoising',action='store_true',help='Use the same OpenImageDenoise algorithm on the configured GPU')
     parser.add_argument('--lighting',choices=('neutral','daylight','overcast','dusk','night'),default='neutral')
     parser.add_argument('--inspection-fill-watts',type=float,default=0,help='Explicit camera-mounted area work light for enclosed cabin inspection')
-    parser.add_argument('--sequence',choices=('none','hold','turntable','interior','openings','all-openings'),default='none')
+    parser.add_argument('--sequence',choices=('none','hold','turntable','interior','openings','all-openings','grazing','partial-openings'),default='none')
+    parser.add_argument('--timeline-rate',type=float,default=1.,help='Source timeline seconds per output second;0.25 is a labeled quarter-speed diagnostic')
     parser.add_argument('--frames',type=int,default=360)
     parser.add_argument('--fps',type=int,default=30)
     args=parser.parse_args(sys.argv[sys.argv.index('--')+1:])
     if args.technical_overlays and (args.clay or args.sequence!='none'):
         raise ValueError('Technical overlays require a separate non-clay still set')
+    if args.wiper_overlay and (args.clay or args.technical_overlays or args.sequence!='none'):
+        raise ValueError('Wiper overlay requires a separate unobscured-material still set')
+    if not 0 < args.timeline_rate <= 1 or (args.timeline_rate != 1 and args.sequence != 'hold'):
+        raise ValueError('Timeline slowdown is supported only for continuous hold diagnostics')
+    if args.sequence=='grazing' and (args.clay or args.lighting!='neutral' or args.inspection_fill_watts):
+        raise ValueError('Moving grazing review requires original materials, neutral lighting and no camera work light')
     if args.gpu_denoising and (args.engine!='cycles' or args.device!='GPU'):
         raise ValueError('GPU denoising requires Cycles GPU rendering')
     args.output.mkdir(parents=True,exist_ok=True)
@@ -104,7 +112,8 @@ def main():
     for obj in list(bpy.data.collections['Asset'].all_objects):
         if obj.type=='MESH':obj.hide_render=obj.name.startswith(('LOD1_','LOD2_','CollisionProxy'))
     if args.clay:
-        mat=bpy.data.materials.new('QA_NeutralClay');mat.diffuse_color=(.42,.42,.42,1);mat.use_nodes=True
+        mat=bpy.data.materials.new('QA_NeutralClay');mat.diffuse_color=(.18,.18,.18,1);mat.use_nodes=True
+        mat.node_tree.nodes['Principled BSDF'].inputs['Base Color'].default_value=(.18,.18,.18,1)
         mat.node_tree.nodes['Principled BSDF'].inputs['Roughness'].default_value=.42
         scene.view_layers[0].material_override=mat
     views={'front3q':((-6,7,3.4),(0,0,.75),False),'rear3q':((6,-7,3.2),(0,0,.75),False),
@@ -135,7 +144,9 @@ def main():
            'front_belt_left':((.10,-1.07,1.03),(-.715,-.622,.80),False),
            'wipers':((-.9,1.8,1.78),(-.20,.54,1.13),False)}
     sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
-    from endurance_sedan import review_overlays
+    from endurance_sedan import review_overlays, review_sequences
+    wheel_centers={suffix:list(bpy.data.objects['Wheel_'+suffix].matrix_world.translation) for suffix in ('FL','FR','RL','RR')}
+    views.update(review_sequences.extra_views(views,wheel_centers))
     swatch_objects={}
     swatch_views=[name for name in args.views.split(',') if name.startswith('swatch_')]
     if swatch_views:
@@ -147,8 +158,18 @@ def main():
             views['swatch_'+name]=((1.8,2.6,1.3),(0,0,.45),False)
         views['swatch_board']=((0,8,1.52),(0,0,1.52),True)
     overlay=review_overlays.technical(scene) if args.technical_overlays else None
+    wiper_overlay=review_overlays.wiper_sweep(scene,controls,camera) if args.wiper_overlay else None
+    grazing_lights=review_overlays.grazing_lights(scene) if args.sequence=='grazing' else []
     config={'source_sha256':hashlib.sha256(Path(bpy.data.filepath).read_bytes()).hexdigest(),'renderer_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),'blender':bpy.app.version_string,'build_hash':bpy.app.build_hash.decode(),'engine':scene.render.engine,'device':args.device,'devices':devices,'size':[args.width,args.height],'samples':args.samples,'denoising':bool(scene.cycles.use_denoising) if args.engine=='cycles' else False,'view_transform':scene.view_settings.view_transform,'look':scene.view_settings.look,'exposure':scene.view_settings.exposure,'clay':args.clay,'source_controls':pose,'lighting':args.lighting,'sequence':args.sequence,'frame_count':args.frames if args.sequence!='none' else len(args.views.split(',')),'fps':args.fps,'views':args.views,'ray_bounces':10 if args.engine=='cycles' else None,'source_timeline_fps':scene.render.fps}
     config['inspection_fill_watts']=args.inspection_fill_watts
+    config['clay_override']={'base_color_linear_rgba':list(mat.node_tree.nodes['Principled BSDF'].inputs['Base Color'].default_value),'roughness':float(mat.node_tree.nodes['Principled BSDF'].inputs['Roughness'].default_value)} if args.clay else None
+    config['timeline_rate']=args.timeline_rate
+    config['output_duration_seconds']=(args.frames/args.fps) if args.sequence!='none' else None
+    config['output_sample_span_seconds']=((args.frames-1)/args.fps) if args.sequence!='none' else None
+    config['wiper_overlay']=wiper_overlay
+    config['grazing_light_rig']=review_overlays.GRAZING_CONFIG if grazing_lights else None
+    config['actual_wheel_centers_source_m']=wheel_centers
+    config['review_sequences_tool_sha256']=hashlib.sha256(Path(review_sequences.__file__).read_bytes()).hexdigest()
     config['inspection_fill_disk_diameter_m']={'default':.35,'pedals':.14,'rear_seats':.20,'front_belt_left':.20}
     config['inspection_fill_camera_local_m']=[0,0,.025]
     config['denoiser']=scene.cycles.denoiser if args.engine=='cycles' else None
@@ -175,7 +196,7 @@ def main():
         if ',' in args.views:raise ValueError('A continuous hold requires exactly one named view')
         location,target,ortho=views[args.views]
         for i in range(args.frames):
-            jobs.append((f'{i+1:06d}',location,target,ortho,1+i*scene.render.fps/args.fps,{},args.views))
+            jobs.append((f'{i+1:06d}',location,target,ortho,1+i*scene.render.fps/args.fps*args.timeline_rate,{},args.views))
     elif args.sequence=='turntable':
         for i in range(args.frames):
             angle=math.atan2(7,-6)-math.tau*i/args.frames
@@ -188,6 +209,8 @@ def main():
             phase=(i*len(shots)/args.frames)%1
             location=(location[0]+.035*math.sin((phase-.5)*math.pi),location[1],location[2])
             jobs.append((f'{i+1:06d}',location,target,ortho,1+i*scene.render.fps/args.fps,{},shots[index]))
+    elif args.sequence in ('grazing','partial-openings'):
+        jobs=review_sequences.supplemental_jobs(args.sequence,args.frames,args.fps,scene.render.fps,args.timeline_rate,views)
     else:
         actions=(('Door_FL_open','front_door'),('Door_FR_open','front_door'),('Door_RL_open','rear_door'),('Door_RR_open','rear_door'),('Hood_Hinge_open','engine'),('Trunk_Hinge_open','trunk'))
         for i in range(args.frames):
@@ -203,7 +226,7 @@ def main():
             jobs.append((f'{i+1:06d}',location,target,ortho,1+i*scene.render.fps/args.fps,{a[0]:value if args.sequence=='all-openings' or a[0]==control else 0. for a in actions},view))
     def save_manifest():
         temporary=manifest_path.with_suffix('.partial.json');temporary.write_text(json.dumps(manifest,indent=2)+'\n',newline='\n');temporary.replace(manifest_path)
-    for name,location,target,ortho,source_frame,animated,capture_view in jobs:
+    for job_index,(name,location,target,ortho,source_frame,animated,capture_view) in enumerate(jobs):
         if (args.output/'STOP').exists():manifest['status']='stopped';save_manifest();raise RuntimeError('Capture STOP requested')
         for key,value in animated.items():
             if key not in controls:raise ValueError('Unknown animated source control '+key)
@@ -213,12 +236,14 @@ def main():
             obj.hide_render=capture_view not in ('swatch_'+swatch,'swatch_board')
             obj.location=((index%3-1)*1.05,0,(2-index//3)*1.05) if capture_view=='swatch_board' else (0,0,0)
         camera.location=location;camera.rotation_euler=(Vector(target)-camera.location).to_track_quat('-Z','Y').to_euler()
+        grazing_state=review_overlays.pose_grazing(grazing_lights,location,target,review_sequences.shot_phase(job_index,args.frames,6)[1],capture_view) if grazing_lights else None
         camera.data.type='ORTHO' if ortho else 'PERSP'
         # Technical rulers span +/-3 m; include their ends and ticks with a
         # margin in the shorter dimension of the 16:9 top/underside frames.
         camera.data.ortho_scale=(11.6 if args.technical_overlays else 9.8) if capture_view in ('top','under') else 6.6
-        camera.data.lens=22 if capture_view=='front_belt_left' else 35 if capture_view=='wiper_overview' else 18 if capture_view=='rear_seats' else 24 if capture_view in ('cockpit','rear_cabin','rear_seats','pedals','upholstery','front_door','rear_door','roof_front','roof_rear') else 55
-        bpy.data.objects['PreviewFloor'].hide_render=capture_view in ('under','swatch_board') or args.technical_overlays
+        camera.data.lens=22 if capture_view=='front_belt_left' else 35 if capture_view.startswith(('wiper_overview','wheel_oblique_')) or capture_view in ('hood_context','trunk_context') else 18 if capture_view=='rear_seats' else 24 if capture_view.startswith('wheel_inner_') or capture_view in ('cockpit','rear_cabin','rear_seats','pedals','upholstery','front_door','rear_door','front_door_right','rear_door_right','roof_front','roof_rear','rear_glass_cabin_left','rear_glass_cabin_right') else 55
+        wiper_caption=review_overlays.pose_wiper_caption(scene,camera) if wiper_overlay else None
+        bpy.data.objects['PreviewFloor'].hide_render=capture_view in ('under','swatch_board') or capture_view.startswith('wheel_inner_') or args.technical_overlays
         under_lamp.hide_render=capture_view!='under'
         if fill_data is not None:
             fill_data.size=.14 if capture_view=='pedals' else .20 if capture_view in ('rear_seats','front_belt_left') else .35
@@ -229,7 +254,7 @@ def main():
         temporary=path.with_name(path.stem+'.partial.png');scene.render.filepath=str(temporary)
         before=time.perf_counter();bpy.ops.render.render(write_still=True);elapsed=time.perf_counter()-before
         temporary.replace(path)
-        manifest['frames'].append({'view':name,'capture_view':capture_view,'path':path.name,'sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'seconds':elapsed,'cold':len(manifest['frames'])==0,'camera_location':list(location),'camera_target':list(target),'orthographic':ortho,'lens_mm':camera.data.lens,'ortho_scale_m':camera.data.ortho_scale,'source_frame':source_frame,'time_seconds':(source_frame-1)/scene.render.fps,'animated_controls':animated,'inspection_fill_watts':args.inspection_fill_watts,'inspection_fill_disk_diameter_m':float(fill_data.size) if fill_data is not None else None})
+        manifest['frames'].append({'view':name,'capture_view':capture_view,'path':path.name,'sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'seconds':elapsed,'cold':len(manifest['frames'])==0,'camera_location':list(location),'camera_target':list(target),'orthographic':ortho,'lens_mm':camera.data.lens,'ortho_scale_m':camera.data.ortho_scale,'source_frame':source_frame,'time_seconds':(source_frame-1)/scene.render.fps,'output_time_seconds':job_index/args.fps if args.sequence!='none' else None,'animated_controls':animated,'grazing_lights':grazing_state,'wiper_caption':wiper_caption,'inspection_fill_watts':args.inspection_fill_watts,'inspection_fill_disk_diameter_m':float(fill_data.size) if fill_data is not None else None})
         save_manifest()
         print('SEDAN_RENDER_FRAME '+json.dumps(manifest['frames'][-1]))
     manifest['status']='completed';save_manifest()

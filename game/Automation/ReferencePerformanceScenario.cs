@@ -177,6 +177,8 @@ public sealed class ReferencePerformanceScenario
     private VehicleVisualSnapshot? _vehicleSnapshot;
     private object? _vehicleIdentity;
     private VehicleRuntimeResourceInventory? _vehicleRuntimeResources;
+    private object? _initialActualSettings;
+    private object? _finalActualSettings;
     private MirrorMeasurement[] _mirrorMeasurements = [];
     private MirrorMeasurement[] _comparisonMirrorMeasurements = [];
     private bool _mirrorUpdatesExpected;
@@ -316,6 +318,7 @@ public sealed class ReferencePerformanceScenario
         {
             _contentScaleSize = _viewportNode.GetVisibleRect().Size;
         }
+        _initialActualSettings = CaptureActualSettings();
         _process.Refresh();
         _startingWorkingSetBytes = _process.WorkingSet64;
         _peakWorkingSetBytes = _startingWorkingSetBytes;
@@ -786,6 +789,7 @@ public sealed class ReferencePerformanceScenario
     public void WriteArtifacts()
     {
         ValidateComplete();
+        _finalActualSettings = CaptureActualSettings();
         _finalIllumination = _vehicle.VisualRig?.Presentation?.CaptureDrivingIllumination();
         _finalContactShading = _vehicle.ContactShading?.ReadCounters();
         for (var index = 0; index < _stalls.Count; index++)
@@ -1012,8 +1016,208 @@ public sealed class ReferencePerformanceScenario
             }) + System.Environment.NewLine);
     }
 
+    // These getters run only before process/GC baselines and after Complete.
+    // Hold JSON primitives, not Godot objects, and leave timed callbacks unchanged.
+    private object CaptureActualSettings()
+    {
+        var started = Time.GetTicksUsec();
+        var allocated = GC.GetAllocatedBytesForCurrentThread();
+        var viewport = _viewportNode ?? throw new InvalidOperationException("Reference viewport is absent.");
+        var viewportTexture = viewport.GetTexture();
+        var viewportImage = _options.Headless ? null : ActualViewportImage(viewportTexture);
+        var camera = viewport.GetCamera3D();
+        var world = viewport.FindWorld3D();
+        var cameraEnvironment = camera?.Environment;
+        var worldEnvironment = world?.Environment;
+        var fallbackEnvironment = world?.FallbackEnvironment;
+        var environment = cameraEnvironment ?? worldEnvironment ?? fallbackEnvironment;
+        var cameraAttributes = camera?.Attributes;
+        var attributes = cameraAttributes ?? world?.CameraAttributes;
+        var presentation = _vehicle.VisualRig?.Presentation;
+        var settings = new
+        {
+            schema = "reference-actual-settings55.v1",
+            process_frame = Engine.GetProcessFrames(),
+            physics_frame = Engine.GetPhysicsFrames(),
+            actual_camera_mode = _vehicle.CurrentCameraMode,
+            camera = ActualCamera(camera),
+            camera_belongs_to_vehicle = camera is not null && _vehicle.IsAncestorOf(camera),
+            environment_precedence = cameraEnvironment is not null ? "camera_override" :
+                worldEnvironment is not null ? "world" : fallbackEnvironment is not null ? "world_fallback" : "absent",
+            environment_is_configured_resource = environment is not null && environment.GetInstanceId() == _environment.GetInstanceId(),
+            configured_environment = ActualResource(_environment),
+            environment = ActualEnvironment(environment),
+            camera_attributes_precedence = cameraAttributes is not null ? "camera" : attributes is not null ? "world" : "absent",
+            camera_attributes = attributes is null ? null : new
+            {
+                resource = ActualResource(attributes), exposure_multiplier = attributes.ExposureMultiplier,
+                exposure_sensitivity = attributes.ExposureSensitivity, auto_exposure_enabled = attributes.AutoExposureEnabled,
+                auto_exposure_scale = attributes.AutoExposureScale, auto_exposure_speed = attributes.AutoExposureSpeed,
+            },
+            light = new
+            {
+                path = _light.GetPath().ToString(), instance_id = _light.GetInstanceId(),
+                color = ActualColor(_light.LightColor), energy = _light.LightEnergy,
+                rotation_degrees = ActualVector(_light.RotationDegrees), visible = _light.IsVisibleInTree(),
+                shadow_enabled = _light.ShadowEnabled,
+            },
+            renderer = RenderingServer.GetCurrentRenderingMethod(),
+            rendering_driver = RenderingServer.GetCurrentRenderingDriverName(),
+            video_adapter = RenderingServer.GetVideoAdapterName(),
+            video_adapter_api_version = RenderingServer.GetVideoAdapterApiVersion(),
+            window = _options.Headless ? null : new
+            {
+                size = ActualSize(DisplayServer.WindowGetSize()),
+                mode = DisplayServer.WindowGetMode().ToString(),
+                vsync = DisplayServer.WindowGetVsyncMode().ToString(),
+                screen = DisplayServer.WindowGetCurrentScreen(),
+                screen_size = ActualSize(DisplayServer.ScreenGetSize(DisplayServer.WindowGetCurrentScreen())),
+                refresh_hz = DisplayServer.ScreenGetRefreshRate(DisplayServer.WindowGetCurrentScreen()),
+            },
+            viewport = new
+            {
+                path = viewport.GetPath().ToString(), rid = viewport.GetViewportRid().Id,
+                visible_rect_size = new float[] { viewport.GetVisibleRect().Size.X, viewport.GetVisibleRect().Size.Y },
+                texture = ActualTexture(viewportTexture),
+                texture_getter_semantics = "Pinned a13da4feb ViewportTexture width/height multiply viewport size by stretch; these getters are not direct framebuffer dimensions.",
+                image = viewportImage,
+                image_observation = _options.Headless ? "not-applicable-headless" : "disposed-rendered-output",
+                msaa_3d = viewport.Msaa3D.ToString(), screen_space_aa = viewport.ScreenSpaceAA.ToString(),
+                use_taa = viewport.UseTaa, scaling_3d_mode = viewport.Scaling3DMode.ToString(), scaling_3d_scale = viewport.Scaling3DScale,
+                applied_call_metadata = new
+                {
+                    render_quality = viewport.GetMeta("render_quality", "").AsString(),
+                    msaa_3d = viewport.GetMeta("msaa_3d", -1).AsInt32(),
+                    directional_shadow_size = viewport.GetMeta("directional_shadow_size", -1).AsInt32(),
+                    boundary = "Applied-call metadata; directional atlas/filter has no independent getter here.",
+                },
+            },
+            engine_max_fps = Engine.MaxFps,
+            physics_ticks_per_second = Engine.PhysicsTicksPerSecond,
+            mirrors_enabled = presentation?.MirrorsEnabled,
+            mirrors = presentation?.Mirrors.Select(mirror => new
+            {
+                name = mirror.Name, size = ActualSize(mirror.Viewport.Size),
+                viewport_rid = mirror.Viewport.GetViewportRid().Id,
+                update_mode = mirror.Viewport.RenderTargetUpdateMode.ToString(),
+                msaa_3d = mirror.Viewport.Msaa3D.ToString(),
+                camera = ActualCamera(mirror.Camera),
+            }).ToArray(),
+            scalar_encoding = "Native binary32 values serialized as float primitives/arrays with System.Text.Json round-trip precision; IDs are unsigned integers.",
+        };
+        return new
+        {
+            capture_started_ticks_usec = started,
+            payload_capture_usec = Time.GetTicksUsec() - started,
+            payload_allocated_bytes_current_thread = GC.GetAllocatedBytesForCurrentThread() - allocated,
+            overhead_scope = "Payload construction including disposed viewport image readback/synchronization, excluding this envelope and artifact serialization. Managed allocation counts exclude native image storage; no measured-frame sampling and no zero-indirect-effect claim.",
+            settings,
+        };
+    }
+
+    private static object ActualViewportImage(ViewportTexture texture)
+    {
+        var started = Time.GetTicksUsec();
+        var allocated = GC.GetAllocatedBytesForCurrentThread();
+        int width;
+        int height;
+        string format;
+        bool empty;
+        // A one-time GPU readback may synchronize and allocate native memory.
+        // Dispose it before returning primitive observations to the baseline.
+        using (var image = texture.GetImage())
+        {
+            if (image is null) throw new InvalidOperationException("Reference viewport image is absent.");
+            width = image.GetWidth();
+            height = image.GetHeight();
+            format = image.GetFormat().ToString();
+            empty = image.IsEmpty();
+        }
+        return new
+        {
+            width, height, format, empty, disposed_before_return = true,
+            readback_and_disposal_usec = Time.GetTicksUsec() - started,
+            managed_allocated_bytes_current_thread = GC.GetAllocatedBytesForCurrentThread() - allocated,
+            boundary = "Disposed complete viewport output image dimensions, not a separately queried internal 3D attachment. Native allocation and GPU synchronization may have indirect effects; no image is retained or sampled during measurement.",
+        };
+    }
+
+    private object? ActualCamera(Camera3D? camera) => camera is null ? null : new
+    {
+        name = camera.Name.ToString(), path = camera.GetPath().ToString(), instance_id = camera.GetInstanceId(),
+        current = camera.Current, local_transform = ActualTransform(camera.Transform),
+        global_transform = ActualTransform(camera.GlobalTransform), camera_transform = ActualTransform(camera.GetCameraTransform()),
+        projection = camera.Projection.ToString(), fov_degrees = camera.Fov, keep_aspect = camera.KeepAspect.ToString(),
+        near_m = camera.Near, far_m = camera.Far, cull_mask = camera.CullMask,
+        pose_basis = "Native node/camera getters at this observation; not a completed interpolated image readback.",
+    };
+
+    private static object? ActualEnvironment(Godot.Environment? environment) => environment is null ? null : new
+    {
+        resource = ActualResource(environment), background_mode = environment.BackgroundMode.ToString(),
+        background_energy_multiplier = environment.BackgroundEnergyMultiplier,
+        tonemap = environment.TonemapMode.ToString(), exposure = environment.TonemapExposure,
+        ambient_source = environment.AmbientLightSource.ToString(), ambient_energy = environment.AmbientLightEnergy,
+        ambient_color = ActualColor(environment.AmbientLightColor), reflected_source = environment.ReflectedLightSource.ToString(),
+        glow_enabled = environment.GlowEnabled, fog_enabled = environment.FogEnabled,
+        sky_rotation = ActualVector(environment.SkyRotation),
+        sky = ActualSky(environment.Sky),
+        applied_preset_metadata = environment.GetMeta("lighting_preset", "").AsString(),
+        applied_sky_source_metadata = environment.GetMeta("sky_source", "").AsString(),
+    };
+
+    private static object? ActualSky(Sky? sky)
+    {
+        if (sky is null) return null;
+        var material = sky.SkyMaterial;
+        return new
+        {
+            resource = ActualResource(sky), process_mode = sky.ProcessMode.ToString(), radiance_size = sky.RadianceSize.ToString(),
+            material = ActualResource(material),
+            panorama = material is PanoramaSkyMaterial panorama ? new
+            {
+                texture = ActualTexture(panorama.Panorama), energy_multiplier = panorama.EnergyMultiplier, filter = panorama.Filter,
+            } : null,
+            procedural = material is ProceduralSkyMaterial procedural ? new
+            {
+                sky_energy_multiplier = procedural.SkyEnergyMultiplier, ground_energy_multiplier = procedural.GroundEnergyMultiplier,
+                sky_top_color = ActualColor(procedural.SkyTopColor), sky_horizon_color = ActualColor(procedural.SkyHorizonColor),
+                ground_horizon_color = ActualColor(procedural.GroundHorizonColor),
+            } : null,
+            shader = material is ShaderMaterial shader ? ActualResource(shader.Shader) : null,
+            hash_boundary = "Actual paths/RIDs only; source and imported-cache hashes belong to the host input receipt, outside this scenario.",
+        };
+    }
+
+    private static object? ActualResource(Resource? resource) => resource is null ? null : new
+    {
+        path = resource.ResourcePath, name = resource.ResourceName, resource_type = resource.GetClass().ToString(),
+        instance_id = resource.GetInstanceId(), rid = resource.GetRid().Id,
+    };
+
+    private static object? ActualTexture(Texture2D? texture) => texture is null ? null : new
+    {
+        resource = ActualResource(texture), width = texture.GetWidth(), height = texture.GetHeight(),
+    };
+
+    private static float[] ActualVector(Vector3 value) => [value.X, value.Y, value.Z];
+    private static float[] ActualColor(Color value) => [value.R, value.G, value.B, value.A];
+    private static int[] ActualSize(Vector2I value) => [value.X, value.Y];
+    private static float[] ActualTransform(Transform3D value) =>
+    [
+        value.Basis.X.X, value.Basis.X.Y, value.Basis.X.Z,
+        value.Basis.Y.X, value.Basis.Y.Y, value.Basis.Y.Z,
+        value.Basis.Z.X, value.Basis.Z.Y, value.Basis.Z.Z,
+        value.Origin.X, value.Origin.Y, value.Origin.Z,
+    ];
+
     private object Configuration() => new
     {
+        actual_settings = new
+        {
+            initial = _initialActualSettings, final = _finalActualSettings,
+            allocation_boundary = "Initial payload precedes process/GC baselines. Final payload and artifact serialization follow measurement and remain included in legacy diagnostic allocation totals; frame/memory samples and acceptance are unchanged.",
+        },
         width_pixels = _options.WidthPixels,
         height_pixels = _options.HeightPixels,
         actual_window_size = _options.Headless

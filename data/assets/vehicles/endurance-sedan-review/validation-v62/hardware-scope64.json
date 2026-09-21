@@ -1,0 +1,777 @@
+{
+  "task_id": "P1-018",
+  "milestone": "M5",
+  "utc": "2026-09-21T06:56:26.112739+00:00",
+  "git_revision": "92278e1405224c2cff4178831afd104d97d6efac",
+  "status": "authorized-finite-geometry-comparison-before-authorship",
+  "purpose": "Recover required geometry headroom without dropping promised visible assemblies or changing broad vehicle design.",
+  "ownership": {
+    "research": "Private candidate constructor/geometry/proofs in its existing reports directory only.",
+    "root": "Only canonical constructor/spec/gate/source/export writer after exact handoff review.",
+    "qa": "Independent actual image, field/fit and export review."
+  },
+  "inputs": [
+    {
+      "path": "reports/p1-018/research/upper-junction30-proposal01/PROPOSAL514.md",
+      "bytes": 1570,
+      "sha256": "ec70187194cba8cd410943316181c72bdab8767419ff8f0e641ee96543b226f9"
+    },
+    {
+      "path": "reports/p1-018/research/upper-junction30-proposal01/PROPOSAL514.json",
+      "bytes": 115706,
+      "sha256": "deafd7c951d26191c5c61c64b71ca4811c53e7b814ab7234700d66df81ea7c55"
+    },
+    {
+      "path": "reports/p1-018/research/upper-junction30-proposal01/budget-hardware513.json.gz",
+      "bytes": 45735,
+      "sha256": "0829b8fa7e4dd4ab7eb479a8718a4dbe8a798501401ee3bdb08aa2324dd05b75"
+    },
+    {
+      "path": "reports/p1-018/qa/budget39-recovery01/PLAN01.md",
+      "bytes": 7169,
+      "sha256": "81669811a98e3c2abf18de9b39615fe365ae6f76809c18514ef27a6279b6586c"
+    },
+    {
+      "path": "reports/p1-018/qa/budget39-recovery01/review01.json",
+      "bytes": 57040,
+      "sha256": "6730a200c8aadcc021d58cddfcd713b949bc1aac5159b46cae3644508d2815ac"
+    },
+    {
+      "path": "reports/p1-018/qa/budget39-recovery01/families04.json",
+      "bytes": 145594,
+      "sha256": "557417e96b432e10af0d8193f431803502d24f6f392ecd637bc7003bdfa8c439"
+    },
+    {
+      "path": "reports/p1-018/qa/budget39-recovery01/sections05.json",
+      "bytes": 137587,
+      "sha256": "c1382861f4d7ad51fa8c855643c30840e3829c33329cb997dae23a2121c66d2c"
+    }
+  ],
+  "domains": {
+    "BR39-A": "Exact40 PROPOSAL514 members:16 vent louvers,16 fixed door mounts,8 fixed hood/trunk mounts; only their two actual1mm terminal slabs.",
+    "BR39-B": [
+      {
+        "name": "LOD0_AuxFillerGrip",
+        "axis_local": 0,
+        "finite_end_slabs_local_m": [
+          [
+            -0.5814999938011169,
+            -0.5795000195503235
+          ],
+          [
+            -0.5404999852180481,
+            -0.5385000109672546
+          ]
+        ],
+        "reference_geometry_sha256": "bf7ca2ff34ad26c3bff7d7d16604ccf447c3dadbaf0725798c6ff7dcf81b1713"
+      },
+      {
+        "name": "LOD0_BatteryClamp",
+        "axis_local": 1,
+        "finite_end_slabs_local_m": [
+          [
+            -2.2674999237060547,
+            -2.2654998302459717
+          ],
+          [
+            -1.9924999475479126,
+            -1.9904999732971191
+          ]
+        ],
+        "reference_geometry_sha256": "bf4dd64d50696d9175e419a68ff68c2ef7ce7ebf09b929a1200922375330ce8b"
+      },
+      {
+        "name": "LOD0_ClimateSwitch_-0.062",
+        "axis_local": 0,
+        "finite_end_slabs_local_m": [
+          [
+            -0.08699999749660492,
+            -0.08299999684095383
+          ],
+          [
+            -0.04100000113248825,
+            -0.03700000047683716
+          ]
+        ],
+        "reference_geometry_sha256": "fef8dc11778b9bc11d3e8c984861281030dd16d5ecf32a435ebf4b30fc205dd1"
+      },
+      {
+        "name": "LOD0_ClimateSwitch_0",
+        "axis_local": 0,
+        "finite_end_slabs_local_m": [
+          [
+            -0.02500000037252903,
+            -0.020999999716877937
+          ],
+          [
+            0.020999999716877937,
+            0.02500000037252903
+          ]
+        ],
+        "reference_geometry_sha256": "0f8854cbc07dbc718efc3d9bc18376eff6d797c248b9e4eb5828d823786dee27"
+      },
+      {
+        "name": "LOD0_ClimateSwitch_0.062",
+        "axis_local": 0,
+        "finite_end_slabs_local_m": [
+          [
+            0.03700000047683716,
+            0.04100000113248825
+          ],
+          [
+            0.08299999684095383,
+            0.08699999749660492
+          ]
+        ],
+        "reference_geometry_sha256": "e10a2bc7221b9022a8097ce426ef0bd1f61c172bd630cb8a2d57be3c60c3925f"
+      },
+      {
+        "name": "LOD0_CoilPack_-10",
+        "axis_local": 0,
+        "finite_end_slabs_local_m": [
+          [
+            -0.30650001764297485,
+            -0.3005000054836273
+          ],
+          [
+            -0.22550000250339508,
+            -0.21950000524520874
+          ]
+        ],
+        "reference_geometry_sha256": "79ff77233a272dfe875598d14b73f8af626d217e2340d5ec34af6cc1b015101b"
+      },
+      {
+        "name": "LOD0_CoilPack_-11",
+        "axis_local": 0,
+        "finite_end_slabs_local_m": [
+          [
+            -0.30650001764297485,
+            -0.3005000054836273
+          ],
+          [
+            -0.22550000250339508,
+            -0.21950000524520874
+          ]
+        ],
+        "reference_geometry_sha256": "03d0305db7572b3365d689da9f725016498035a06cc54db843633ced04fd4d31"
+      },
+      {
+        "name": "LOD0_CoilPack_-12",
+        "axis_local": 0,
+        "finite_end_slabs_local_m": [
+          [
+            -0.30650001764297485,
+            -0.3005000054836273
+          ],
+          [
+            -0.22550000250339508,
+            -0.21950000524520874
+          ]
+        ],
+        "reference_geometry_sha256": "1e0b222c329bf19408d8360afae80f9218c455338d3550eb079dee7bf8408b5a"
+      },
+      {
+        "name": "LOD0_CoilPack_-13",
+        "axis_local": 0,
+        "finite_end_slabs_local_m": [
+          [
+            -0.30650001764297485,
+            -0.3005000054836273
+          ],
+          [
+            -0.22550000250339508,
+            -0.21950000524520874
+          ]
+        ],
+        "reference_geometry_sha256": "b079d62feba9f7ec147fb7e0676c97aa17fa017cb1698d20a102857aeafc23e9"
+      },
+      {
+        "name": "LOD0_CoilPack_10",
+        "axis_local": 0,
+        "finite_end_slabs_local_m": [
+          [
+            0.21950000524520874,
+            0.22550000250339508
+          ],
+          [
+            0.3005000054836273,
+            0.30650001764297485
+          ]
+        ],
+        "reference_geometry_sha256": "2b8940f0bb3c0819885d5e7b3ca6235671b08ba251a3105d0b8d6fa7e912c607"
+      },
+      {
+        "name": "LOD0_CoilPack_11",
+        "axis_local": 0,
+        "finite_end_slabs_local_m": [
+          [
+            0.21950000524520874,
+            0.22550000250339508
+          ],
+          [
+            0.3005000054836273,
+            0.30650001764297485
+          ]
+        ],
+        "reference_geometry_sha256": "6bb6c2a8c1bdac130df37b8f692b1264427c646d3fb2024b1fcd7376c4daeeff"
+      },
+      {
+        "name": "LOD0_CoilPack_12",
+        "axis_local": 0,
+        "finite_end_slabs_local_m": [
+          [
+            0.21950000524520874,
+            0.22550000250339508
+          ],
+          [
+            0.3005000054836273,
+            0.30650001764297485
+          ]
+        ],
+        "reference_geometry_sha256": "89fed59302a4160d88bb4e9bd2e98790c8c6da4de181920a09d3d56bbbd27cf0"
+      },
+      {
+        "name": "LOD0_CoilPack_13",
+        "axis_local": 0,
+        "finite_end_slabs_local_m": [
+          [
+            0.21950000524520874,
+            0.22550000250339508
+          ],
+          [
+            0.3005000054836273,
+            0.30650001764297485
+          ]
+        ],
+        "reference_geometry_sha256": "2f4ed76b2de4c5aab113c069b94d74acb2c0b1cf0d2e6ec2f475c4502e9c590f"
+      },
+      {
+        "name": "LOD0_FrontLSeatSwitch",
+        "axis_local": 1,
+        "finite_end_slabs_local_m": [
+          [
+            -0.25850000977516174,
+            -0.25450000166893005
+          ],
+          [
+            -0.17549999058246613,
+            -0.17149999737739563
+          ]
+        ],
+        "reference_geometry_sha256": "02d3678b5408c75a78f092b0c9e57fc8e98231d9e8eef100a0750c387a607b53"
+      },
+      {
+        "name": "LOD0_FrontRSeatSwitch",
+        "axis_local": 1,
+        "finite_end_slabs_local_m": [
+          [
+            -0.25850000977516174,
+            -0.25450000166893005
+          ],
+          [
+            -0.17549999058246613,
+            -0.17149999737739563
+          ]
+        ],
+        "reference_geometry_sha256": "a2307979f2ab4c71182a7bcc60c8b6d7bd92e7f4ddbb00f08397b71b48c3e8ce"
+      },
+      {
+        "name": "LOD0_GloveboxHandle",
+        "axis_local": 0,
+        "finite_end_slabs_local_m": [
+          [
+            0.43050000071525574,
+            0.4325000047683716
+          ],
+          [
+            0.4934999942779541,
+            0.49549999833106995
+          ]
+        ],
+        "reference_geometry_sha256": "d87330afb0c2d9d589317a977538922b8707fbfb4dd6105c49cff42a099b22c5"
+      },
+      {
+        "name": "LOD0_HandleTouch_FL",
+        "axis_local": 1,
+        "finite_end_slabs_local_m": [
+          [
+            -0.34450000524520874,
+            -0.3440000116825104
+          ],
+          [
+            -0.33000001311302185,
+            -0.3295000195503235
+          ]
+        ],
+        "reference_geometry_sha256": "a5500d5d9ed0f815a268470d356553abb46aecfb0051fa12ae5819d86ae2842e"
+      },
+      {
+        "name": "LOD0_HandleTouch_FR",
+        "axis_local": 1,
+        "finite_end_slabs_local_m": [
+          [
+            -0.34450000524520874,
+            -0.3440000116825104
+          ],
+          [
+            -0.33000001311302185,
+            -0.3295000195503235
+          ]
+        ],
+        "reference_geometry_sha256": "feaa76307021dd11a7337deaf789c793781ccacf1227482d6eeefeb0b6315286"
+      },
+      {
+        "name": "LOD0_HandleTouch_RL",
+        "axis_local": 1,
+        "finite_end_slabs_local_m": [
+          [
+            -1.0444999933242798,
+            -1.0440000295639038
+          ],
+          [
+            -1.029999852180481,
+            -1.029499888420105
+          ]
+        ],
+        "reference_geometry_sha256": "fbbc82d6c8216852f4acc18f1edf7d37c508262043280d2937229accae301d7f"
+      },
+      {
+        "name": "LOD0_HandleTouch_RR",
+        "axis_local": 1,
+        "finite_end_slabs_local_m": [
+          [
+            -1.0444999933242798,
+            -1.0440000295639038
+          ],
+          [
+            -1.029999852180481,
+            -1.029499888420105
+          ]
+        ],
+        "reference_geometry_sha256": "b7dbf131f348a3bcbdee6267a806dccdd635f55dcff31a4b4155108c34e767fa"
+      },
+      {
+        "name": "LOD0_Pedal_AcceleratorGrip0",
+        "axis_local": 0,
+        "finite_end_slabs_local_m": [
+          [
+            -0.019270002841949463,
+            -0.018869996070861816
+          ],
+          [
+            0.018869996070861816,
+            0.019270002841949463
+          ]
+        ],
+        "reference_geometry_sha256": "347908d2e8f4f3439865bcba0f0b731623d2403812ae4e10b53a908d23c9628c"
+      },
+      {
+        "name": "LOD0_Pedal_AcceleratorGrip1",
+        "axis_local": 0,
+        "finite_end_slabs_local_m": [
+          [
+            -0.019270002841949463,
+            -0.018869996070861816
+          ],
+          [
+            0.018869996070861816,
+            0.019270002841949463
+          ]
+        ],
+        "reference_geometry_sha256": "3a5416bc773bdc8bfbfcacd8dcf276c5c3b2616a6cc6a4af20a4a696839392e8"
+      },
+      {
+        "name": "LOD0_Pedal_AcceleratorGrip2",
+        "axis_local": 0,
+        "finite_end_slabs_local_m": [
+          [
+            -0.019270002841949463,
+            -0.018869996070861816
+          ],
+          [
+            0.018869996070861816,
+            0.019270002841949463
+          ]
+        ],
+        "reference_geometry_sha256": "22ee28163b94fdd71efd8957f02aeeb54794b8c02a8b5c17b6ab3a27b0b7568a"
+      },
+      {
+        "name": "LOD0_Pedal_AcceleratorGrip3",
+        "axis_local": 0,
+        "finite_end_slabs_local_m": [
+          [
+            -0.019270002841949463,
+            -0.018869996070861816
+          ],
+          [
+            0.018869996070861816,
+            0.019270002841949463
+          ]
+        ],
+        "reference_geometry_sha256": "d3bd2e8b15ed62fb536c55b16b13edd4c8ed7640a8b04f32d2113dd52013a871"
+      },
+      {
+        "name": "LOD0_Pedal_AcceleratorGrip4",
+        "axis_local": 0,
+        "finite_end_slabs_local_m": [
+          [
+            -0.019270002841949463,
+            -0.018869996070861816
+          ],
+          [
+            0.018869996070861816,
+            0.019270002841949463
+          ]
+        ],
+        "reference_geometry_sha256": "0e93943c24912474882e71fc15a3eb139917914f12f0a971ddcf927760968b9b"
+      },
+      {
+        "name": "LOD0_Pedal_BrakeGrip0",
+        "axis_local": 0,
+        "finite_end_slabs_local_m": [
+          [
+            -0.03525999188423157,
+            -0.03485998511314392
+          ],
+          [
+            0.03485998511314392,
+            0.03525999188423157
+          ]
+        ],
+        "reference_geometry_sha256": "c61f8ca71b4898ef9b32e8b6cb81983c49d31158715d41dcae86ce80de9e1873"
+      },
+      {
+        "name": "LOD0_Pedal_BrakeGrip1",
+        "axis_local": 0,
+        "finite_end_slabs_local_m": [
+          [
+            -0.03525999188423157,
+            -0.03485998511314392
+          ],
+          [
+            0.03485998511314392,
+            0.03525999188423157
+          ]
+        ],
+        "reference_geometry_sha256": "bd780de79b99ec0d80ea305ad568b5be26ae590d5fafbf203b0d7fcaa34820b4"
+      },
+      {
+        "name": "LOD0_Pedal_BrakeGrip2",
+        "axis_local": 0,
+        "finite_end_slabs_local_m": [
+          [
+            -0.03525999188423157,
+            -0.03485998511314392
+          ],
+          [
+            0.03485998511314392,
+            0.03525999188423157
+          ]
+        ],
+        "reference_geometry_sha256": "86855a6eb26fd31de4d8ef5b5824760756f480c8c8d1dccf5ea4d0f0b79c23c0"
+      },
+      {
+        "name": "LOD0_Pedal_BrakeGrip3",
+        "axis_local": 0,
+        "finite_end_slabs_local_m": [
+          [
+            -0.03525999188423157,
+            -0.03485998511314392
+          ],
+          [
+            0.03485998511314392,
+            0.03525999188423157
+          ]
+        ],
+        "reference_geometry_sha256": "59ffae6d85557714ea843985ed2afafced0d0242e5e3c8ccf142d19e61d9c860"
+      },
+      {
+        "name": "LOD0_Pedal_BrakeGrip4",
+        "axis_local": 0,
+        "finite_end_slabs_local_m": [
+          [
+            -0.03525999188423157,
+            -0.03485998511314392
+          ],
+          [
+            0.03485998511314392,
+            0.03525999188423157
+          ]
+        ],
+        "reference_geometry_sha256": "99599cef8384eb2c2ebb53b064db16344c0799eb3b85b0b792a81df5c865b417"
+      },
+      {
+        "name": "LOD0_SteeringButton_-10",
+        "axis_local": 2,
+        "finite_end_slabs_local_m": [
+          [
+            0.010000002213633275,
+            0.01100002672111515
+          ],
+          [
+            0.024999971545046743,
+            0.026000015536607964
+          ]
+        ],
+        "reference_geometry_sha256": "4d49aa581c0e27b9a34aa83e802e85d150ac678f5ef84974884bf4ee83d92e6e"
+      },
+      {
+        "name": "LOD0_SteeringButton_-11",
+        "axis_local": 2,
+        "finite_end_slabs_local_m": [
+          [
+            0.010000002213633275,
+            0.01100002672111515
+          ],
+          [
+            0.024999971545046743,
+            0.026000015536607964
+          ]
+        ],
+        "reference_geometry_sha256": "7506dac2f92ac90fd626e3113b2d82a3806b76f553b35e72b60d7d313cd2b274"
+      },
+      {
+        "name": "LOD0_SteeringButton_-12",
+        "axis_local": 2,
+        "finite_end_slabs_local_m": [
+          [
+            0.010000002213633275,
+            0.01100002672111515
+          ],
+          [
+            0.024999971545046743,
+            0.026000015536607964
+          ]
+        ],
+        "reference_geometry_sha256": "998bc1e113ab465e0a443c6ce2bb235cb436812ea622bf89a6157223a6726fde"
+      },
+      {
+        "name": "LOD0_SteeringButton_10",
+        "axis_local": 2,
+        "finite_end_slabs_local_m": [
+          [
+            0.010000002213633275,
+            0.01100002672111515
+          ],
+          [
+            0.024999971545046743,
+            0.026000015536607964
+          ]
+        ],
+        "reference_geometry_sha256": "7cad96485758d00b5a07f296bb99bca6feaff29eaed5d92e5694dd98634bf886"
+      },
+      {
+        "name": "LOD0_SteeringButton_11",
+        "axis_local": 2,
+        "finite_end_slabs_local_m": [
+          [
+            0.010000002213633275,
+            0.01100002672111515
+          ],
+          [
+            0.024999971545046743,
+            0.026000015536607964
+          ]
+        ],
+        "reference_geometry_sha256": "6adf7469845d5491e1359232b2f6efec54fc87bee2f4a3b53d9082e8a4cda032"
+      },
+      {
+        "name": "LOD0_SteeringButton_12",
+        "axis_local": 2,
+        "finite_end_slabs_local_m": [
+          [
+            0.010000002213633275,
+            0.01100002672111515
+          ],
+          [
+            0.024999971545046743,
+            0.026000015536607964
+          ]
+        ],
+        "reference_geometry_sha256": "69a5b5382c0f13457b3dcf9b2b9005a8b334cca4b65f6ff331fbd6e436ede00e"
+      },
+      {
+        "name": "LOD0_WindowSwitchPod_FL",
+        "axis_local": 1,
+        "finite_end_slabs_local_m": [
+          [
+            -0.031000003218650818,
+            -0.0280000027269125
+          ],
+          [
+            0.1080000028014183,
+            0.11100000143051147
+          ]
+        ],
+        "reference_geometry_sha256": "8218fc399118d664b588f64ebccc52465966b335e4996d88ee1f26fd6a74d444"
+      },
+      {
+        "name": "LOD0_WindowSwitchPod_FR",
+        "axis_local": 1,
+        "finite_end_slabs_local_m": [
+          [
+            -0.031000003218650818,
+            -0.0280000027269125
+          ],
+          [
+            0.1080000028014183,
+            0.11100000143051147
+          ]
+        ],
+        "reference_geometry_sha256": "9d6dd600ae0dfdfbb9056cf9b920e660b82167f567c5813087a840b2ebe1fe97"
+      },
+      {
+        "name": "LOD0_WindowSwitchPod_RL",
+        "axis_local": 1,
+        "finite_end_slabs_local_m": [
+          [
+            -0.8809999823570251,
+            -0.8779999613761902
+          ],
+          [
+            -0.7420000433921814,
+            -0.7390000224113464
+          ]
+        ],
+        "reference_geometry_sha256": "06768d7afca47c05f39b49419357052d497076e0ea5354a60dce9a18aa8e73e7"
+      },
+      {
+        "name": "LOD0_WindowSwitchPod_RR",
+        "axis_local": 1,
+        "finite_end_slabs_local_m": [
+          [
+            -0.8809999823570251,
+            -0.8779999613761902
+          ],
+          [
+            -0.7420000433921814,
+            -0.7390000224113464
+          ]
+        ],
+        "reference_geometry_sha256": "9ca402e61e9d1e7075cf1fe0287562975cab6883159cea2da2a0f5c594eac73a"
+      },
+      {
+        "name": "LOD0_WindowSwitch_FL0",
+        "axis_local": 1,
+        "finite_end_slabs_local_m": [
+          [
+            -0.011499999091029167,
+            -0.010499998927116394
+          ],
+          [
+            0.01850000023841858,
+            0.019500000402331352
+          ]
+        ],
+        "reference_geometry_sha256": "b108f2758ed634354807564b85f55f09373e5ea54c4243e727bee8e881e75406"
+      },
+      {
+        "name": "LOD0_WindowSwitch_FL1",
+        "axis_local": 1,
+        "finite_end_slabs_local_m": [
+          [
+            0.03750000149011612,
+            0.03849999979138374
+          ],
+          [
+            0.06749999523162842,
+            0.06849999725818634
+          ]
+        ],
+        "reference_geometry_sha256": "d5a2a3f20160f8f7c0388a8a85ba4e36e12450def26097febebe1e2c09f91e7b"
+      },
+      {
+        "name": "LOD0_WindowSwitch_FR0",
+        "axis_local": 1,
+        "finite_end_slabs_local_m": [
+          [
+            -0.011499999091029167,
+            -0.010499998927116394
+          ],
+          [
+            0.01850000023841858,
+            0.019500000402331352
+          ]
+        ],
+        "reference_geometry_sha256": "6c6a48ab90ee9fb8617bb6007fb8eb1d3fece087fa4a92f2bd5b6eebf9a49c2d"
+      },
+      {
+        "name": "LOD0_WindowSwitch_FR1",
+        "axis_local": 1,
+        "finite_end_slabs_local_m": [
+          [
+            0.03750000149011612,
+            0.03849999979138374
+          ],
+          [
+            0.06749999523162842,
+            0.06849999725818634
+          ]
+        ],
+        "reference_geometry_sha256": "b9f921a913ae65b29ff1824238418301ccd71eef5b19c57355fdeb6377abd488"
+      },
+      {
+        "name": "LOD0_WindowSwitch_RL0",
+        "axis_local": 1,
+        "finite_end_slabs_local_m": [
+          [
+            -0.8615000247955322,
+            -0.8605000376701355
+          ],
+          [
+            -0.8314999938011169,
+            -0.8305000066757202
+          ]
+        ],
+        "reference_geometry_sha256": "03b48eba01e8127e7a0a702d912585850644ca173ef39f8447d922fc13802cd0"
+      },
+      {
+        "name": "LOD0_WindowSwitch_RR0",
+        "axis_local": 1,
+        "finite_end_slabs_local_m": [
+          [
+            -0.8615000247955322,
+            -0.8605000376701355
+          ],
+          [
+            -0.8314999938011169,
+            -0.8305000066757202
+          ]
+        ],
+        "reference_geometry_sha256": "2fabbcf56aa4507e63c055d1435f39b2344503d73cc5cd53569ab4b8a8dcdf2e"
+      }
+    ],
+    "B_scope_boundary": "46 current parts, actual end depths0.4 to6.000012mm. The A1mm scope is not applied to them. Two instrument shade wings are excluded."
+  },
+  "construction": "Reuse actual eight-point middle sections and long chamfers; extend that section to each original terminal plane with closed caps. Derive all inputs from the current actual constructor rows, never install archived mesh payloads.",
+  "preserve": [
+    "All86 semantic members, LOD0-only metadata, dimensions, centers, transforms and terminal planes.",
+    "Actual unchanged middle geometry and complete original normal/UV/material fields outside the declared terminal domains.",
+    "All pins, bores, arms, receiving assemblies, body/tires/lights, cabin medium forms and authored mechanisms.",
+    "Existing0.025degree,1e-5 UV,1micrometer finite geometry contracts and full contact/clearance/motion guards."
+  ],
+  "new_terminal_fields": "Declare and validate coherent fields only inside the explicitly changed end domains. No claim of old-interior field equivalence there; no tolerance relaxation elsewhere.",
+  "first_comparison": [
+    "One actual6mm-end coil pack",
+    "one bright pedal grip",
+    "one steering button",
+    "one mounted seat switch"
+  ],
+  "acceptance": [
+    "Four-case native closed/self/field/fit proof and matched engine/cockpit/door/seat close/grazing views before batching.",
+    "Full86-member inventory, all finite supports/nonmates and affected steering/pedal/six-opening motions.",
+    "Complete unaffected field correspondence, actual source and imported-runtime views, complete source gate and regenerated lower tiers.",
+    "Final native active/total budgets after all changes, deterministic shipping-byte comparison and clean import."
+  ],
+  "projected_saving_only": {
+    "A_parts": 40,
+    "A_triangles": 640,
+    "B_parts": 46,
+    "B_triangles": 736,
+    "total_lod0_triangles": 1376,
+    "accepted_saving": 0,
+    "lower_lod_delta": "All86 are currently LOD0-only; final regeneration remains to be measured."
+  },
+  "exclusions": "No thread bake, shader/material atlas, deleted inspection assembly, shade-wing reduction or broader source restyling.",
+  "human_approval_reference": null
+}

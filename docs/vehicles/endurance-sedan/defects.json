@@ -9877,6 +9877,16 @@
         "sha256": "730f6b725fb02ab9e48b940694a9a31c3a1d6d48cea22a386b4012a34149204e"
       },
       "scope": "Verified material ownership, complete-input legacy behavior, full local gate, hosted package completion and twelfth globally reinstalled skill update."
+    },
+    {
+      "id": "P1-018-CHECKPOINT62",
+      "utc": "2026-09-21T07:10:46.658835+00:00",
+      "evidence": {
+        "path": "data/assets/vehicles/endurance-sedan-review/validation-v62/review.json",
+        "bytes": 36366,
+        "sha256": "90c5a742a957eb92fd46859268f5c5b31146fce6e4920d03e0c3ef108b2ce6b8"
+      },
+      "scope": "Current actual-settings observation, source inspection helpers and bounded unsigned-export staging repair. Installed production34 and historical source193 pilot have distinct identities; neither becomes a final accepted model through this checkpoint."
     }
   ],
   "defects": [
@@ -16688,6 +16698,54 @@
         }
       ],
       "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-CAPTURE57-FRAMING",
+      "severity": "major",
+      "status": "corrected_verified",
+      "observed": "Actual pilot images cropped four wheel obliques, obscured rear inner-barrel details, missed complete lid paths and rear-roof grazing strips. Wiper captions were first unreadable and then covered sweep traces.",
+      "correction": "Use wider obliques, actual-source inner-wheel sightlines, complete hood/trunk context, opposed full-windshield views and reflected-side roof strips. Position a readable caption after actual per-shot lens/projection. Set the temporary clay Principled color explicitly.",
+      "verification": "Independent actual-image review covers64 corrected camera originals, two readable clay originals and the final opposed caption pair. Vehicle geometry remains visible; real rear rail/tub occlusion is retained. This resolves helper framing at the historical193 pilot settings; final-source full-resolution movies remain required.",
+      "evidence": [
+        {
+          "path": "data/assets/vehicles/endurance-sedan-review/validation-v62/review.json",
+          "bytes": 36366,
+          "sha256": "90c5a742a957eb92fd46859268f5c5b31146fce6e4920d03e0c3ef108b2ce6b8"
+        }
+      ],
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-RUNTIME56-OUTPUT-OBSERVATION",
+      "severity": "major",
+      "status": "corrected_verified",
+      "observed": "Requested dimensions and raw viewport texture getters alone did not establish the rendered output configuration. Actual raw getters report3413x1920 while complete output images are2560x1440.",
+      "correction": "Record actual native window, viewport, camera, environment, sky, lights and mirror identities. Dispose output readbacks before measurement baselines and after completion; headless records image null.",
+      "verification": "Rendered and headless observations pass independently reviewed guards, including22 native identity roles. Readbacks cost16.807/19.850ms; background GPU39percent rejects timing against10percent. No final performance gate is closed.",
+      "evidence": [
+        {
+          "path": "data/assets/vehicles/endurance-sedan-review/validation-v62/review.json",
+          "bytes": 36366,
+          "sha256": "90c5a742a957eb92fd46859268f5c5b31146fce6e4920d03e0c3ef108b2ce6b8"
+        }
+      ],
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-RELEASE58-REVIEW-LFS",
+      "severity": "major",
+      "status": "open",
+      "observed": "Unsigned-export run35562167695 timed out after repeated source staging hydrated346 review-media LFS files, about14.35GB displayed size, before the first restore.",
+      "correction": "Exclude only data/assets/vehicles/endurance-sedan-review from the git-archive source tree; preserve normal LFS hydration for required assets and all existing export/hash guards.",
+      "verification": "Independent real Git/LFS fixture proves exact shipping bytes and sibling retention, missing-review recovery and missing-shipping rejection. Full hosted four-build reproducibility and package-smoke recovery still await the new pushed revision.",
+      "evidence": [
+        {
+          "path": "data/assets/vehicles/endurance-sedan-review/validation-v62/review.json",
+          "bytes": 36366,
+          "sha256": "90c5a742a957eb92fd46859268f5c5b31146fce6e4920d03e0c3ef108b2ce6b8"
+        }
+      ],
+      "human_approval_reference": null
     }
   ],
   "qa_gaps": [
@@ -16831,5 +16889,5 @@
       "approval_reference": null
     }
   ],
-  "updated_utc": "2026-09-21T04:24:49.266437+00:00"
+  "updated_utc": "2026-09-21T07:10:46.658835+00:00"
 }

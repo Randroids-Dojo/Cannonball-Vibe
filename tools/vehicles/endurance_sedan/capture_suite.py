@@ -76,7 +76,7 @@ def main():
         parser.error('Unknown selected case')
     cases = [case for case in cases if not args.case or case['name'] in args.case]
     output = args.output.resolve()
-    inputs = {str(path): digest(path) for path in (source, recipe_path, renderer, overlays, renderer.with_name('geometry.py'), renderer.with_name('__init__.py'), Path(__file__).resolve(), blender, ffmpeg, ffprobe)}
+    inputs = {str(path): digest(path) for path in (source, recipe_path, renderer, overlays, renderer.with_name('review_sequences.py'), renderer.with_name('geometry.py'), renderer.with_name('__init__.py'), Path(__file__).resolve(), blender, ffmpeg, ffprobe)}
     configuration = {'inputs': inputs, 'cases': [case['name'] for case in cases]}
     state_path = output / 'suite.json'
     if output.exists() and not state_path.is_file():
