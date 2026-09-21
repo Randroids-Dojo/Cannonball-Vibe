@@ -209,7 +209,7 @@ async def test_vehicle_showroom_controls_and_modal_return(tmp_path: Path) -> Non
         record("image-" + name, image=images[-1])
 
     try:
-        async with asyncio.timeout(240), process as client:
+        async with process as client, asyncio.timeout(240):
             initial = (await client.describe(PANEL))["test_state"]
             assert initial["selected_asset"] == "endurance-sedan" and initial["open"] is False
             assert process._runtime_directory is not None

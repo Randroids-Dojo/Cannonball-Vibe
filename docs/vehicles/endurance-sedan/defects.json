@@ -14487,11 +14487,17 @@
           "path": "reports/p1-018/qa/export-reproducibility-defect-01/review.json",
           "sha256": "9346fdb9465b10315b16f9c79b0a5d77134804a680f987feb928ae0cfc3fed34",
           "bytes": 6585
+        },
+        {
+          "path": "reports/p1-018/qa/finish40-runtime-review01/PROPOSAL03.md",
+          "bytes": 5828,
+          "sha256": "9198269cddb1d07b3f577acd4630e1c237abc8c746f0f3a49537e5536b6eb26e"
         }
       ],
       "assigned_owner": "lead-and-research",
       "correction": null,
-      "verification": null
+      "verification": null,
+      "current_assessment": "Historical source33 export nondeterminism is corrected in the source60 shipping GLB pair; source193 single diagnostic export passes. Final-source double export/common bakes/clean import remain required."
     },
     {
       "severity": "major",
@@ -14531,8 +14537,14 @@
           "path": "reports/p1-018/qa/source33-camera-stills-reviewed-01/review.json",
           "sha256": "4ae4f29a5b6926fa2d20afc8fb865a2019a44b3d089b208f8fdcd327d3b9f789",
           "bytes": 22985
+        },
+        {
+          "path": "reports/p1-018/qa/finish40-runtime-review01/PROPOSAL03.md",
+          "bytes": 5828,
+          "sha256": "9198269cddb1d07b3f577acd4630e1c237abc8c746f0f3a49537e5536b6eb26e"
         }
-      ]
+      ],
+      "current_assessment": "Source33 camera-placement defect is corrected in source34; independent review covered546 consecutive frames and49 originals. New showroom verifies six hinge endpoints and modal lifecycle. Changed final trim/jamb continuous clearances still require final-source evidence."
     },
     {
       "severity": "major",
@@ -14577,8 +14589,14 @@
           "path": "reports/p1-018/qa/belt-candidate11-static-independent-01/geometry.json",
           "sha256": "5b783730c38160bd37d40a4c759dee6adeb6acbda9795c0bb6c39917d024f9dc",
           "bytes": 4447171
+        },
+        {
+          "path": "reports/p1-018/qa/finish40-runtime-review01/PROPOSAL03.md",
+          "bytes": 5828,
+          "sha256": "9198269cddb1d07b3f577acd4630e1c237abc8c746f0f3a49537e5536b6eb26e"
         }
-      ]
+      ],
+      "current_assessment": "Source34 actual300-frame interior review plus26 originals shows repaired footwell and three connected rear restraint routes. Final attachments/occupants/LOD/export and finish remain open."
     },
     {
       "severity": "major",
@@ -14613,8 +14631,14 @@
           "path": "reports/p1-018/qa/wiper-overview-camera33-03/geometry.json",
           "sha256": "2744e29bf26d6035a47e97efe43d66c875cdc6ba798963a5f4469a377b6bad5a",
           "bytes": 231970
+        },
+        {
+          "path": "reports/p1-018/qa/finish40-runtime-review01/PROPOSAL03.md",
+          "bytes": 5828,
+          "sha256": "9198269cddb1d07b3f577acd4630e1c237abc8c746f0f3a49537e5536b6eb26e"
         }
-      ]
+      ],
+      "current_assessment": "Source34 actual163-frame film plus27 originals verifies both wipers framed over at least three cycles. Fresh source193 drivers and full-domain glass clearance pass for that glass only. Final changed glass, interassembly contacts and runtime sweep/park transitions remain open."
     },
     {
       "severity": "major",
@@ -16319,7 +16343,7 @@
     {
       "id": "P1-018-SOURCE38-PHASE",
       "severity": "major",
-      "status": "open",
+      "status": "corrected_verified",
       "category": "reproducible-source-construction",
       "summary": "Fresh construction49 requires lod_index before the later LOD phase assigns it.",
       "correction": "Use explicit pre-lod/final-source construction context, retaining exact phase-specific metadata guards.",
@@ -16329,9 +16353,15 @@
           "path": "reports/p1-018/source-pipeline38-01/phase-checkpoint67.json",
           "bytes": 10064,
           "sha256": "b193500c24521ed1a504abd39295716c55fb90c3a98856926c4a87a420c65d87"
+        },
+        {
+          "path": "reports/p1-018/qa/finish40-runtime-review01/PROPOSAL03.md",
+          "bytes": 5828,
+          "sha256": "9198269cddb1d07b3f577acd4630e1c237abc8c746f0f3a49537e5536b6eb26e"
         }
       ],
-      "human_approval_reference": null
+      "human_approval_reference": null,
+      "current_assessment": "The premature lod_index constructor defect is corrected: fresh60 and fresh193 complete empty-build/save/reopen. Final full source acceptance remains open for the unchanged upper physical assembly, not this former construction exception."
     },
     {
       "id": "P1-018-CI38-FOCUS",
@@ -16547,15 +16577,20 @@
     {
       "id": "P1-018-RUNTIME47-SETTLE",
       "severity": "major",
-      "status": "open",
+      "status": "corrected_verified",
       "observed": "Three actual configured zero-input cars retain four live road contacts but fail0.05rad/s angular settling in the15-second pilot.902 consecutive samples retained; canonical Windows UI also observes parked angular motion.",
-      "correction": "Causal analysis under the existing runtime owner; no repair adopted.",
-      "verification": "Actual282 fails and is retained. Existing thresholds/restoration contract remain required.",
+      "correction": "Adopted step-limited coupled-contact tire force311 about the actual centre of mass at7db4e0. Existing four-raycast rigid-body authority and all readiness/gameplay limits remain unchanged.",
+      "verification": "Actual308 passes both original grounded stations. Same-fixture317 old physics fails while corrected candidate passes; unchanged-reader replay succeeds after supplying the omitted contract. Current explicit-Hero79, all-vehicle17/16/16, showroom/input and13-step frontdoor pass. This corrects the bounded zero-input settling defect; final-source integration and human handling remain separate.",
       "evidence": [
         {
           "path": "reports/p1-018/source-pipeline38-01/checkpoint283.json",
           "bytes": 9933,
           "sha256": "bc09c18b5d7b501da11e8194b6fb517c0ca726745366bd47bef59ea4cc0d146d"
+        },
+        {
+          "path": "reports/p1-018/finish-branch40/checkpoint49.json",
+          "bytes": 8343,
+          "sha256": "8be5369d9be8e315532578d1ec7acf51aebdd3cc5f6cd0121bdc0ae9c65af555"
         }
       ],
       "human_approval_reference": null
@@ -16645,7 +16680,8 @@
       ],
       "required_evidence": "Explicit sedan verification, measured evaluated bounds/active geometry, final wrapper instantiation, duplicate-semantic checks, and Hero/graybox regressions.",
       "assigned_owner": "lead-and-runtime",
-      "resolution_evidence": []
+      "resolution_evidence": [],
+      "current_assessment": "Dedicated sedan pipeline and all-variant verifier now exist and are exercised in retained scopes. Final promoted asset and complete native/export/import/platform gates remain outstanding."
     },
     {
       "id": "P1-018-G003",
@@ -16677,7 +16713,8 @@
       "partial_evidence": [
         "reports/p1-018/qa/counter-correction-03/review.json",
         "reports/p1-018/qa/runtime-capture-01/capture-review.json"
-      ]
+      ],
+      "current_assessment": "Reference capture supports explicit sedan and mirror settings and validates actual configuration. Final1440p High Forward+ single-car/reference timing and30-minute growth remain outstanding; short UI captures are not that gate."
     },
     {
       "id": "P1-018-G004",
@@ -16721,5 +16758,5 @@
       "approval_reference": null
     }
   ],
-  "updated_utc": "2026-09-14T17:52:26.050976+00:00"
+  "updated_utc": "2026-09-21T03:12:11.530676+00:00"
 }

@@ -3,9 +3,9 @@
   "task_id": "P1-018",
   "milestone": "M5",
   "status": "in_progress",
-  "utc": "2026-09-14T17:52:26.050976+00:00",
-  "git_revision": "2413b9ee5b4e27105ad9eb425ac4c58be6dbfa29",
-  "git_state": "Material ownership correction verified locally; source/form, low-speed physics and final human gates remain open.",
+  "utc": "2026-09-21T03:18:33.410044+00:00",
+  "git_revision": "7db4e0589be61c1b4793f2666250104ebcd70074",
+  "git_state": "Tire correction, explicit vehicle regressions and showroom deadline correction verified locally; final source, mirror, reference-performance and human gates remain open.",
   "platform": "Windows-11-10.0.26200-SP0",
   "tool_versions": {
     "blender": "Blender 5.1.2\r\n\tbuild date: 2026-05-19\r\n\tbuild time: 01:37:34\r\n\tbuild commit date: 2026-05-18\r\n\tbuild commit time: 13:43\r\n\tbuild hash: ec6e62d40fa9\r\n\tbuild branch: blender-v5.1-release\r\n\tbuild platform: Windows\r\n\tbuild type: Release\r\n\tbuild c flags:  -Wall -Werror=implicit-function-declaration -Werror=return-type -Wno-tautological-compare -Wno-unknown-pragmas -Wno-char-subscripts -Wstrict-prototypes -Wmissing-prototypes -Wunused-parameter -Wundef -Wundef-prefix -Werror=unguarded-availability-new /W3 -Wno-c++98-compat -Wno-old-style-cast -Wno-unsafe-buffer-usage -Wno-missing-prototypes -Wno-sign-conversion -Wno-missing-field-initializers -Wno-extra-semi -Wno-language-extension-token -Wno-implicit-float-conversion -Wno-c++98-compat-pedantic -Wno-implicit-int-float-conversion -Wno-double-promotion -Wno-pre-c++17-compat -Wno-shorten-64-to-32 -Wno-c++98-compat-local-type-template-args -Wno-reserved-identifier -Wno-cast-align -Wno-documentation -Wno-disabled-macro-expansion -Wno-extra-semi-stmt -Wno-zero-as-null-pointer-constant -Wno-float-conversion -Wno-reserved-macro-identifier -Wno-cast-function-type-strict -Wno-float-equal -Wno-implicit-int-conversion -Wno-shadow -Wno-shadow-field-in-constructor -Wno-cast-qual -Wno-pre-c++14-compat -Wno-global-constructors -Wno-switch-enum -Wno-exit-time-destructors -Wno-ctad-maybe-unsupported -Wno-undefined-func-template -Wno-c++98-compat-extra-semi -Wno-cast-function-type -Wno-nullability-extension -Wno-shadow-field -Wno-conditional-uninitialized -Wno-unused-parameter -Wno-suggest-destructor-override -Wno-shadow-uncaptured-local -Wno-unused-macros -Wno-covered-switch-default -Wno-signed-enum-bitfield -Wno-declaration-after-statement -Wno-implicit-fallthrough -Wno-non-virtual-dtor -Wno-nested-anon-types -Wno-gnu-zero-variadic-macro-arguments -Wno-unreachable-code-break -Wno-inconsistent-missing-destructor-override -Wno-format-pedantic -Wno-nonportable-system-include-path -Wno-undef -Wno-ignored-qualifiers -Wno-used-but-marked-unused -Wno-header-hygiene -Wno-char-subscripts -Wno-unreachable-code-return -Wno-unused-template -Wno-gnu-anonymous-struct -Wno-deprecated-copy-with-user-provided-dtor -Wno-inconsistent-missing-override -Wno-unreachable-code -Wno-deprecated-dynamic-exception-spec -Wno-bad-function-cast -Wno-microsoft-enum-value -Wno-deprecated-copy-with-user-provided-copy -Wno-zero-length-array -Wno-unused-function -Wno-pedantic -Wno-deprecated-copy-with-dtor -Wno-documentation-unknown-command -Wno-undefined-reinterpret-cast -Wno-format-nonliteral -Wno-comma -Wno-documentation-deprecated-sync -Wno-shift-sign-overflow -Wno-pre-c++17-compat-pedantic -Wno-c++98-compat-unnamed-type-template-args -Wno-sign-compare -Wno-format -Wno-c++98-compat-bind-to-temporary-copy -Wno-enum-enum-conversion -Wno-anon-enum-enum-conversion -Wno-range-loop-bind-reference -Wno-enum-float-conversion -Wno-keyword-macro -Wno-deprecated-copy -Wno-unused-member-function -Wno-missing-noreturn -Wno-missing-variable-declarations -Wno-documentation-html -Wno-gnu-redeclared-enum -Wno-deprecated-declarations -Wno-overloaded-virtual -Wno-c++98-c++11-compat-binary-literal -Wno-deprecated-redundant-constexpr-static-def -Wno-missing-braces -Wno-c99-extensions -Wno-strict-prototypes -Wno-unreachable-code-loop-increment -Wno-gnu-case-range -Wno-duplicate-enum -Wno-null-pointer-subtraction -Wno-deprecated-literal-operator -Wno-newline-eof -Wno-microsoft-cast -Wno-date-time -Wno-delete-non-abstract-non-virtual-dtor -Wno-unused-private-field -Wno-flexible-array-extensions -Wno-string-conversion -Wno-final-dtor-non-final-class -Wno-microsoft-unqualified-friend -Wno-invalid-noreturn -Wno-invalid-utf8 -Wno-four-char-constants -Wno-parentheses -Wno-pessimizing-move -Wno-deprecated-non-prototype -Wno-bitfield-enum-conversion -Wno-unused-lambda-capture -Wno-shadow-field-in-constructor-modified -Wno-switch-default -Wno-nan-infinity-disabled -Wno-pre-c11-compat /DWIN32 /D_WINDOWS  /MP /nologo /J /Gy /Gd /showFilenames -Wno-unused-command-line-argument -Wno-microsoft-enum-forward-reference /clang:-funsigned-char /clang:-fno-strict-aliasing /clang:-ffp-contract=off -march=x86-64-v2 \r\n\tbuild c++ flags:  -Wall -Wno-tautological-compare -Wno-unknown-pragmas -Wno-char-subscripts -Wno-overloaded-virtual -Wno-sign-compare -Wno-invalid-offsetof -Wno-suggest-override -Wundef -Wundef-prefix -Wunused-parameter -Wmismatched-tags -Werror=unguarded-availability-new /W3 -Wno-c++98-compat -Wno-old-style-cast -Wno-unsafe-buffer-usage -Wno-missing-prototypes -Wno-sign-conversion -Wno-missing-field-initializers -Wno-extra-semi -Wno-language-extension-token -Wno-implicit-float-conversion -Wno-c++98-compat-pedantic -Wno-implicit-int-float-conversion -Wno-double-promotion -Wno-pre-c++17-compat -Wno-shorten-64-to-32 -Wno-c++98-compat-local-type-template-args -Wno-reserved-identifier -Wno-cast-align -Wno-documentation -Wno-disabled-macro-expansion -Wno-extra-semi-stmt -Wno-zero-as-null-pointer-constant -Wno-float-conversion -Wno-reserved-macro-identifier -Wno-cast-function-type-strict -Wno-float-equal -Wno-implicit-int-conversion -Wno-shadow -Wno-shadow-field-in-constructor -Wno-cast-qual -Wno-pre-c++14-compat -Wno-global-constructors -Wno-switch-enum -Wno-exit-time-destructors -Wno-ctad-maybe-unsupported -Wno-undefined-func-template -Wno-c++98-compat-extra-semi -Wno-cast-function-type -Wno-nullability-extension -Wno-shadow-field -Wno-conditional-uninitialized -Wno-unused-parameter -Wno-suggest-destructor-override -Wno-shadow-uncaptured-local -Wno-unused-macros -Wno-covered-switch-default -Wno-signed-enum-bitfield -Wno-declaration-after-statement -Wno-implicit-fallthrough -Wno-non-virtual-dtor -Wno-nested-anon-types -Wno-gnu-zero-variadic-macro-arguments -Wno-unreachable-code-break -Wno-inconsistent-missing-destructor-override -Wno-format-pedantic -Wno-nonportable-system-include-path -Wno-undef -Wno-ignored-qualifiers -Wno-used-but-marked-unused -Wno-header-hygiene -Wno-char-subscripts -Wno-unreachable-code-return -Wno-unused-template -Wno-gnu-anonymous-struct -Wno-deprecated-copy-with-user-provided-dtor -Wno-inconsistent-missing-override -Wno-unreachable-code -Wno-deprecated-dynamic-exception-spec -Wno-bad-function-cast -Wno-microsoft-enum-value -Wno-deprecated-copy-with-user-provided-copy -Wno-zero-length-array -Wno-unused-function -Wno-pedantic -Wno-deprecated-copy-with-dtor -Wno-documentation-unknown-command -Wno-undefined-reinterpret-cast -Wno-format-nonliteral -Wno-comma -Wno-documentation-deprecated-sync -Wno-shift-sign-overflow -Wno-pre-c++17-compat-pedantic -Wno-c++98-compat-unnamed-type-template-args -Wno-sign-compare -Wno-format -Wno-c++98-compat-bind-to-temporary-copy -Wno-enum-enum-conversion -Wno-anon-enum-enum-conversion -Wno-range-loop-bind-reference -Wno-enum-float-conversion -Wno-keyword-macro -Wno-deprecated-copy -Wno-unused-member-function -Wno-missing-noreturn -Wno-missing-variable-declarations -Wno-documentation-html -Wno-gnu-redeclared-enum -Wno-deprecated-declarations -Wno-overloaded-virtual -Wno-c++98-c++11-compat-binary-literal -Wno-deprecated-redundant-constexpr-static-def -Wno-missing-braces -Wno-c99-extensions -Wno-strict-prototypes -Wno-unreachable-code-loop-increment -Wno-gnu-case-range -Wno-duplicate-enum -Wno-null-pointer-subtraction -Wno-deprecated-literal-operator -Wno-newline-eof -Wno-microsoft-cast -Wno-date-time -Wno-delete-non-abstract-non-virtual-dtor -Wno-unused-private-field -Wno-flexible-array-extensions -Wno-string-conversion -Wno-final-dtor-non-final-class -Wno-microsoft-unqualified-friend -Wno-invalid-noreturn -Wno-invalid-utf8 -Wno-four-char-constants -Wno-parentheses -Wno-pessimizing-move -Wno-deprecated-non-prototype -Wno-bitfield-enum-conversion -Wno-unused-lambda-capture -Wno-shadow-field-in-constructor-modified -Wno-switch-default -Wno-nan-infinity-disabled -Wno-pre-c11-compat /DWIN32 /D_WINDOWS   /EHsc  /Gy /MP /nologo /J /Gd /showFilenames /EHsc -Wno-unused-command-line-argument -Wno-microsoft-enum-forward-reference /clang:-funsigned-char /clang:-fno-strict-aliasing /clang:-ffp-contract=off -march=x86-64-v2 \r\n\tbuild link flags: /MACHINE:X64  /SUBSYSTEM:CONSOLE /STACK:2097152 /ignore:4049 /ignore:4217 /ignore:4221\r\n\tbuild system: CMake",
@@ -173,7 +173,7 @@
       "bytes": 929
     }
   ],
-  "canonical_artifact_state": "Production34/specification17 promoted. Editable source and matching evaluated-UV bake are current; redundant raw GLB is absent from the Godot runtime folder.",
+  "canonical_artifact_state": "Production34 remains installed and lacks the newer source-generation binding. Source193 is a private diagnostic export positive; final corrected source and matching construction/bake/runtime package are not yet promoted.",
   "metrics": {
     "shipping_lod_triangles": [
       149428,
@@ -658,14 +658,12 @@
     }
   },
   "outstanding_machine_work": [
-    "Final45resource state/phase samples; initial isolated editor import failed before any resource probe",
-    "Complete remaining source34 motion capture/review and gallery; turntable360 and interior300 actual-frame reviews passed",
-    "Native17 driving,55 presentation,4night-mirror stages and full movie/frame inspection",
-    "Full local and declared-platform PlayGodot",
-    "Clean committed Linux/Windows unsigned builds twice; all package bytes equal and native packaged scenarios",
-    "Five uncontended reference-machine performance cases at one exact commit using unchanged ADR0023 thresholds",
-    "Current declared remote platform checks and Windows soak",
-    "Final defect/feature reconciliation, retained evidence inventory and PR auto-squash integration"
+    "Complete rear sash/rail/B-pillar construction and coherent front form; full source validity, stock, clearance and motion gates.",
+    "Measure optimized final LODs and live resources against150000LOD0/200000total and other declared ceilings.",
+    "Fresh current generation closure including final constructors and cover policy; final source/save/reopen, common bakes, two shipping exports and clean Godot import.",
+    "Useful production-scheduled mirrors with actual grounded day/night cars, final-source motion/cabin/lighting/LOD and driving captures.",
+    "Declared uncontended1440p High Forward+ reference-performance cases and30-minute memory growth; current platform/export/soak evidence.",
+    "Final independent visual/functional review, defect/acceptance reconciliation, retained artifacts and PR-only auto-squash integration."
   ],
   "human_gates": [
     {
@@ -9629,5 +9627,270 @@
       "all_member_hashes_and_crc_verified": true,
       "scope": "Evidence retention and byte identity only; individual reports retain their own scope, failures and approval status."
     }
+  },
+  "prior_top_level_summary_v48": {
+    "utc": "2026-09-14T17:52:26.050976+00:00",
+    "git_revision": "2413b9ee5b4e27105ad9eb425ac4c58be6dbfa29",
+    "git_state": "Material ownership correction verified locally; source/form, low-speed physics and final human gates remain open.",
+    "canonical_artifact_state": "Production34/specification17 promoted. Editable source and matching evaluated-UV bake are current; redundant raw GLB is absent from the Godot runtime folder.",
+    "outstanding_machine_work": [
+      "Final45resource state/phase samples; initial isolated editor import failed before any resource probe",
+      "Complete remaining source34 motion capture/review and gallery; turntable360 and interior300 actual-frame reviews passed",
+      "Native17 driving,55 presentation,4night-mirror stages and full movie/frame inspection",
+      "Full local and declared-platform PlayGodot",
+      "Clean committed Linux/Windows unsigned builds twice; all package bytes equal and native packaged scenarios",
+      "Five uncontended reference-machine performance cases at one exact commit using unchanged ADR0023 thresholds",
+      "Current declared remote platform checks and Windows soak",
+      "Final defect/feature reconciliation, retained evidence inventory and PR auto-squash integration"
+    ]
+  },
+  "runtime_completion_checkpoint_v49": {
+    "task_id": "P1-018",
+    "milestone": "M5",
+    "utc": "2026-09-21T03:18:33.410044+00:00",
+    "git_revision": "7db4e0589be61c1b4793f2666250104ebcd70074",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "status": "verified-runtime-checkpoint-final-asset-work-in-progress",
+    "scope": "Installed production34 asset and current uninstrumented311 tire correction with persistent313 verifier and one-line showroom deadline ownership correction. No new Blender source or GLB was promoted.",
+    "tool_versions": {
+      "dotnet": "10.0.102",
+      "uv": "0.9.24",
+      "git-lfs": "3.7.1",
+      "perl": "available",
+      "godot": "4.7.1.stable.mono.official.a13da4feb"
+    },
+    "source_blender": "5.1.2 ec6e62d40fa9",
+    "deterministic_seed": "Existing named fixture streams; complete exact native arguments and route identities are retained in each regression.",
+    "commands": [
+      {
+        "suite": "dynamics",
+        "result": {
+          "path": "reports/p1-018/finish-branch40/regressions/dynamics/result.json",
+          "bytes": 430746,
+          "sha256": "c8ce7c06be934c03b60755432a218c3e655080575a39f6ea6a046ff7ac948fb8"
+        },
+        "command": [
+          "C:/Program Files/Git/bin/bash.exe",
+          "--noprofile",
+          "--norc",
+          "scripts/verify-vehicle-dynamics.sh"
+        ],
+        "exit_status": 0,
+        "source_inputs_unchanged": true
+      },
+      {
+        "suite": "vehicles",
+        "result": {
+          "path": "reports/p1-018/finish-branch40/regressions/vehicles/result.json",
+          "bytes": 430889,
+          "sha256": "323d5880f38f75897baf96d01f4c4c7cc01dffbc26b8f646241e8b9fef0d8373"
+        },
+        "command": [
+          "C:/Program Files/Git/bin/bash.exe",
+          "--noprofile",
+          "--norc",
+          "scripts/verify-endurance-sedan.sh",
+          "--vehicle",
+          "all",
+          "--output-root",
+          "C:/Dev/Cannonball-Vibe-sedan/reports/p1-018/finish-branch40/regressions/vehicles/vehicles"
+        ],
+        "exit_status": 0,
+        "source_inputs_unchanged": true
+      },
+      {
+        "suite": "showroom",
+        "result": {
+          "path": "reports/p1-018/finish-branch40/regressions/showroom/result.json",
+          "bytes": 562174,
+          "sha256": "fe15e81a510905f5d844ad07251655dd8ed566efdb8121f0815b9c5a806a3def"
+        },
+        "command": [
+          "C:/Program Files/Git/bin/bash.exe",
+          "--noprofile",
+          "--norc",
+          "scripts/verify-playgodot.sh",
+          "--test-filter",
+          "vehicle_showroom"
+        ],
+        "exit_status": 0,
+        "source_inputs_unchanged": true
+      },
+      {
+        "suite": "input",
+        "result": {
+          "path": "reports/p1-018/finish-branch40/regressions/input/result.json",
+          "bytes": 562191,
+          "sha256": "54c38038afcdae4bc65a505f4f0c6dc545a882703028fc3083198fa7eba17304"
+        },
+        "command": [
+          "C:/Program Files/Git/bin/bash.exe",
+          "--noprofile",
+          "--norc",
+          "scripts/verify-driving-input.sh",
+          "--devices",
+          "keyboard,controller",
+          "--profiles",
+          "all"
+        ],
+        "exit_status": 0,
+        "source_inputs_unchanged": true
+      },
+      {
+        "suite": "frontdoor",
+        "result": {
+          "path": "reports/p1-018/finish-branch40/regressions/frontdoor/result.json",
+          "bytes": 430732,
+          "sha256": "971ac2e3b0e5c0a5e9b61a88f452ea89c3827917d13e04c5c652a645f09b8b19"
+        },
+        "command": [
+          "C:/Program Files/Git/bin/bash.exe",
+          "--noprofile",
+          "--norc",
+          "scripts/check.sh"
+        ],
+        "exit_status": 0,
+        "source_inputs_unchanged": true
+      }
+    ],
+    "metrics": {
+      "frontdoor_passed_steps": 13,
+      "frontdoor_total_steps": 13,
+      "dynamics_pure_tests": 29,
+      "explicit_hero_dynamics_cases": 79,
+      "dynamics_fps": [
+        30,
+        60,
+        144
+      ],
+      "rounded_summary_hashes_equal": true,
+      "native_driving_stages": {
+        "endurance-sedan": 17,
+        "hero-gt": 16,
+        "graybox": 16
+      },
+      "headless_presentation_stages": 52,
+      "showroom_full_tests": 1,
+      "input_pure_tests": 38,
+      "input_rendered_tests": 6,
+      "actual_reviewed_images": 24,
+      "image_resolution": [
+        1280,
+        720
+      ],
+      "actual_renderer": "Compatibility/OpenGL; RTX3080Ti",
+      "showroom_final_owned_shutdown_seconds": 0.35000249999575317,
+      "showroom_shutdown_diagnostics": 0,
+      "frontdoor_exact_source_input_rows": 955
+    },
+    "independent_review": [
+      {
+        "path": "reports/p1-018/qa/finish40-runtime-review01/REVIEW02.md",
+        "bytes": 4915,
+        "sha256": "7700a16819236571917a3e0522a204ca691e278fddf837b03fe5eb4433ce1f28"
+      },
+      {
+        "path": "reports/p1-018/qa/finish40-runtime-review01/PROPOSAL03.md",
+        "bytes": 5828,
+        "sha256": "9198269cddb1d07b3f577acd4630e1c237abc8c746f0f3a49537e5536b6eb26e"
+      },
+      {
+        "path": "reports/p1-018/qa/finish40-runtime-review01/analysis01.json",
+        "bytes": 296439,
+        "sha256": "29c05b37b04dc4e0075d68a3715b915d199dcb018e699d61fa5d98787a67975b"
+      },
+      {
+        "path": "reports/p1-018/qa/finish40-runtime-review01/proposal03.json",
+        "bytes": 7011,
+        "sha256": "bfaf48a13b5e9f37b8336af422a800c5d3dd1e4412bdd106b231ae9b57aff506"
+      }
+    ],
+    "source_preflight": {
+      "export": {
+        "path": "reports/p1-018/finish-branch40/source193-export/blender.json",
+        "bytes": 1790497,
+        "sha256": "487b36b78aa49d6f235bce1b78d1358f20401c7b27100b20c8fbb0f57abea4f8"
+      },
+      "wipers": {
+        "path": "reports/p1-018/finish-branch40/source193-wipers/glass.json",
+        "bytes": 13942,
+        "sha256": "01f04ebd1d2ee1efc347a75102310d5b078ce270e0987730c63153d2d4e3c61c"
+      },
+      "drivers": {
+        "path": "reports/p1-018/finish-branch40/source193-wipers/motion.json",
+        "bytes": 61828,
+        "sha256": "34ef003bee387e1eba2aeb4d29fd5f33d7cf3f2464891ea0e83318eedf9b2acf"
+      },
+      "limits": "One successful source193 diagnostic export and current planar-glass driver/contact proof. This is not a double final export, repaired upper assembly or promotion."
+    },
+    "failures_and_retries": {
+      "neutral_static": "Original physics actual317 exceeds the14,400-frame cap on observed frame14,401 with zero qualifying stable frames. Corrected same-fixture candidate passes17 stages; omitted private contract corrected by replaying the unchanged reader over unchanged native outputs. Original failed gate remains retained.",
+      "showroom": "Hosted Windows35306823590 used42.539seconds in startup inside the old240second scenario timeout. Move the existing240second context inside the process owner; keep every assertion and separate startup/connect/shutdown limits. New local full test passes; corrected hosted rerun remains required.",
+      "reader_replay": {
+        "path": "reports/p1-018/finish-branch40/reader-replay/result.json",
+        "bytes": 8479,
+        "sha256": "80b01e15e0d40085cab62a3eb094ec91655b2d9a68e03359ce041ea1a54b21a9"
+      },
+      "original_reader_rejection": {
+        "path": "reports/p1-018/finish-branch40/reader-replay/original-failed-gate.json",
+        "bytes": 1471,
+        "sha256": "b0204b159229ece1f88c7090a4e713a2b028df22a4d2290ccc78a409ac5eeea7"
+      }
+    },
+    "skill_update": {
+      "path": "reports/p1-018/skill-update49-01/completion.json",
+      "bytes": 5748,
+      "sha256": "131c5594c8c308b77e4a006884ff7d6d9db72e9388397ae3c7e521eadba27c93"
+    },
+    "outstanding_machine_work": [
+      "Complete rear sash/rail/B-pillar construction and coherent front form; full source validity, stock, clearance and motion gates.",
+      "Measure optimized final LODs and live resources against150000LOD0/200000total and other declared ceilings.",
+      "Fresh current generation closure including final constructors and cover policy; final source/save/reopen, common bakes, two shipping exports and clean Godot import.",
+      "Useful production-scheduled mirrors with actual grounded day/night cars, final-source motion/cabin/lighting/LOD and driving captures.",
+      "Declared uncontended1440p High Forward+ reference-performance cases and30-minute memory growth; current platform/export/soak evidence.",
+      "Final independent visual/functional review, defect/acceptance reconciliation, retained artifacts and PR-only auto-squash integration."
+    ],
+    "human_approval_reference": null,
+    "human_gates": "Final art/rights, driving enjoyment and30-minute handling, physical-device calibration/feel and accessibility/usability remain open. Machine evidence cannot replace them.",
+    "assertion_scope": "The full local showroom scenario passes while preserving all51 assertion sites and52 action/request/capture sites. Conditional branches, including an unrequested explicit window-size branch, are not all executed in this one invocation.",
+    "portable_retention": {
+      "index": {
+        "path": "data/assets/vehicles/endurance-sedan-review/runtime-completion-v49/index.json",
+        "bytes": 117301,
+        "sha256": "12cedd1c8d4eb43cc63d0af048bd46af40e6553c70e75c3cc8d59e1f55bb783f"
+      },
+      "manifest": {
+        "path": "data/assets/vehicles/endurance-sedan-review/runtime-completion-v49/inputs.json",
+        "bytes": 116983,
+        "sha256": "d6a6cc23937df502626710280a3f33767b1309e2b3bec8cb8981a2acb8899a35"
+      },
+      "archive": {
+        "path": "data/assets/vehicles/endurance-sedan-review/runtime-completion-v49/evidence.zip",
+        "bytes": 209123002,
+        "sha256": "d64a2ce3ba6c4df433a24b6babd5eeda9251c978504d9d05b8a3e749ead6a4c2"
+      },
+      "entries": 535,
+      "byte_reproducible": true,
+      "all_member_hashes_and_crc_verified": true,
+      "scope": "Evidence retention and byte identity only; individual reports retain their own scope, failures and approval status."
+    },
+    "final_review_supplement": {
+      "path": "data/assets/vehicles/endurance-sedan-review/runtime-completion-v49/review.json",
+      "bytes": 64314,
+      "sha256": "519ae3ccc0971c1e34a9cf06d1be1f461d8f4102dded86414fbfac18bdcda4ba"
+    }
+  },
+  "historical_top_level_fields": {
+    "scope": "The named fields below describe the installed production34 snapshot and its historical verification. Their specification17 input hashes and old test counts are not current49 measurements. Current runtime results, exact input closures, new source193 diagnostic limits and open delivery work are in runtime_completion_checkpoint_v49.",
+    "fields": [
+      "tool_versions",
+      "scenario_arguments",
+      "input_artifacts",
+      "output_artifacts",
+      "metrics",
+      "completed_machine_evidence",
+      "evidence_artifacts",
+      "commands"
+    ]
   }
 }

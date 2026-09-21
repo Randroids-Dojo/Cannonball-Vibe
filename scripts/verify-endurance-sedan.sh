@@ -135,6 +135,73 @@ const expected = ['static-ride','keyboard-acceleration','keyboard-braking','cont
   'controller-braking','reverse','steer-left','steer-right','suspension','collision','reset','cameras',
   'natural-rebase','forced-rebase','save-resume','starter-policy'];
 if (vehicle === 'endurance-sedan' && blockout !== 'true') expected.push('lod-driving');
+// BEGIN scoped neutral static-ride reader
+function checkStaticRide(events, summary) {
+  const failures = [];
+  const fail = reason => failures.push(`neutral static-ride: ${reason}`);
+  const finiteVector = v => Array.isArray(v) && v.length === 3 && v.every(Number.isFinite);
+  const norm = v => Math.sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
+  const same = (a, b) => Array.isArray(a) && a.length === b.length && a.every((v, i) => v === b[i]);
+  const neutral = input => input && ['Throttle', 'Brake', 'Reverse', 'Handbrake', 'Steering'].every(k => input[k] === 0) &&
+    input.StationaryHold === false && input.Reset === false;
+  const entries = events.filter(r => r.kind === 'static-neutral-entry');
+  const exits = events.filter(r => r.kind === 'static-neutral-exit');
+  const frames = events.filter(r => r.kind === 'physics-frame' && r.stage === 'static-ride');
+  const result = summary.completed_stages?.find(r => r.stage === 'static-ride');
+  if (entries.length !== 1 || exits.length !== 1 || frames.length < 240 || !result?.static_neutral)
+    return ['neutral static-ride: incomplete entry/exit/frame/summary inventory'];
+  const entry = entries[0], e = entry.state, exit = exits[0], s = result.static_neutral;
+  if (entry.stage !== 'static-ride' || exit.stage !== 'static-ride' ||
+      !Number.isSafeInteger(e.started_usec) || e.started_usec < 0 || typeof e.pad_instance !== 'string' || !/^[1-9][0-9]*$/.test(e.pad_instance) ||
+      !Number.isSafeInteger(e.reset_count) || e.reset_count < 0 || e.minimum_frames !== 240 ||
+      e.warmup_frames !== 120 || e.required_consecutive !== 24 || e.deadline_usec !== 15000000 ||
+      e.first_observation !== 'entry-before-first-neutral-physics-step') fail('entry policy/receiver mismatch');
+  if (!same(e.local_linear, [Math.fround(0.04), 0, 0]) || !same(e.local_angular, [0, 0, Math.fround(-0.10)]) ||
+      !Array.isArray(e.basis) || e.basis.length !== 3 || !e.basis.every(finiteVector)) fail('seed local fields/basis mismatch');
+  else {
+    const linear = e.basis[0].map(v => Math.fround(v * Math.fround(0.04)));
+    const angular = e.basis[2].map(v => Math.fround(v * Math.fround(-0.10)));
+    if (!same(e.assigned_linear, linear) || !same(e.assigned_angular, angular)) fail('seed native basis/velocity mismatch');
+  }
+  const first = frames[0];
+  if (!same(first.velocity, e.assigned_linear) || !same(first.angular_velocity, e.assigned_angular) ||
+      !Array.isArray(first.basis) || first.basis.length !== 3 ||
+      first.basis.some((column, i) => !same(column, e.basis[i]))) fail('actual first-row seed differs from entry');
+  let consecutive = 0, previousUsec = e.started_usec;
+  for (let i = 0; i < frames.length; i++) {
+    const f = frames[i], n = f.static_neutral;
+    if (f.stage_frame !== i + 1 || f.frame !== entry.frame + i || f.vehicle_epoch !== 0 ||
+        f.input_source !== 'explicit-neutral-fixture' || f.frozen !== false || !n || n.live !== true ||
+        n.override_neutral !== true || n.autopilot !== false || n.resets !== e.reset_count || n.teleports !== 0 ||
+        (i > 0 && !neutral(f.input))) { fail(`live/input/frame continuity at${i + 1}`); continue; }
+    if (!Number.isSafeInteger(n.observed_usec) || n.observed_usec < previousUsec ||
+        n.elapsed_usec !== n.observed_usec - e.started_usec || n.elapsed_usec < 0 || n.elapsed_usec > 15000000)
+      fail(`wall clock at${i + 1}`);
+    previousUsec = n.observed_usec;
+    if (!finiteVector(f.velocity) || !finiteVector(f.angular_velocity) || !finiteVector(f.position) ||
+        !Array.isArray(f.basis) || f.basis.length !== 3 || !f.basis.every(finiteVector)) { fail(`nonfinite state at${i + 1}`); continue; }
+    if (!Array.isArray(f.wheels) || f.wheels.length !== 4 || f.wheels.some((w, j) => w.index !== j)) {
+      fail(`wheel inventory at${i + 1}`); continue;
+    }
+    const supported = n.grounded === 4 && f.wheels.every(w => w.contact === true && w.body === 'EndurancePad' &&
+      w.body_instance === e.pad_instance && finiteVector(w.position) && Number.isFinite(w.compression_m) && w.compression_m > 0);
+    const qualifies = i + 1 > 120 && supported && norm(f.velocity) <= 0.1 && norm(f.angular_velocity) <= 0.05;
+    consecutive = qualifies ? consecutive + 1 : 0;
+    if (n.supported !== supported || n.qualifies !== qualifies || n.consecutive !== consecutive)
+      fail(`native readiness disagrees at${i + 1}`);
+  }
+  if (consecutive < 24 || result.physics_frames !== frames.length || result.teleports !== 0 || result.resets !== 0 ||
+      s.minimum_frames !== 240 || s.warmup_frames !== 120 || s.required_consecutive !== 24 || s.consecutive !== consecutive ||
+      s.maximum_linear_mps !== 0.1 || s.maximum_angular_radps !== 0.05 || s.deadline_usec !== 15000000 ||
+      s.started_usec !== e.started_usec || s.decision_usec !== frames.at(-1).static_neutral?.observed_usec ||
+      exit.frame !== frames.at(-1).frame || exit.state.override_cleared !== true) fail('final readiness/restoration summary');
+  const next = events.find(r => r.kind === 'physics-frame' && r.stage === 'keyboard-acceleration');
+  if (!next || next.input_source !== 'InputMap-action-fixture' || next.static_neutral !== null || next.frozen !== false)
+    fail('InputMap acceleration did not resume');
+  return failures;
+}
+// END scoped neutral static-ride reader
+
 const failures = [];
 const outputs = {};
 const read = name => {
@@ -214,6 +281,7 @@ try {
     failures.push('process result did not pass');
   const events = frameText.trim().split(/\r?\n/).map(line => JSON.parse(line));
   const frames = events.filter(f => f.kind === 'physics-frame');
+  failures.push(...checkStaticRide(events, summary));
   if (frames.length !== summary.physics_frames) failures.push('frame inventory count mismatch');
   for (const stage of expected) if (!frames.some(f => f.stage === stage)) failures.push(`no captured frames: ${stage}`);
   for (const stage of ['keyboard-acceleration','keyboard-braking','controller-acceleration','controller-braking','reverse','steer-left','steer-right','suspension','collision','natural-rebase'])

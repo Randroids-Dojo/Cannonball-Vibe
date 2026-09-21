@@ -28,6 +28,17 @@ public sealed class EnduranceSedanScenario : IDisposable
         GameInputMap.CameraLookUp, GameInputMap.CameraLookDown,
     ];
     private static readonly JsonSerializerOptions JsonOptions = new() { WriteIndented = true };
+    private static readonly DriveInputState StaticNeutralInput = new(0, 0, 0, 0, 0, false, false);
+    private const int StaticMinimumFrames = 240;
+    private const int StaticWarmupFrames = 120;
+    private const int StaticConsecutiveFrames = 24;
+    private const ulong StaticDeadlineUsec = 15_000_000;
+    private StaticBody3D _staticPad = null!;
+    private ulong _staticStartUsec;
+    private ulong _staticSampleUsec;
+    private int _staticConsecutive;
+    private bool _staticSupported;
+    private bool _staticQualifies;
     private readonly Node3D _course = new() { Name = "EnduranceSedanIntegrationCourse" };
     private readonly StreamWriter _frames;
     private readonly string _evidenceDirectory;
@@ -121,6 +132,7 @@ public sealed class EnduranceSedanScenario : IDisposable
         parent.AddChild(_course);
         _course.SetMeta("automation_id", "vehicle.endurance-sedan.integration-course");
         BuildBox("Pad", new Vector3(-300, -0.2f, 0), new Vector3(320, 0.4f, 1200), new Color("59636a"));
+        _staticPad = _course.GetNode<StaticBody3D>("EndurancePad");
         BuildBox("Bump", new Vector3(-280, 0.035f, -12), new Vector3(7, 0.07f, 1.4f), new Color("b5a879"));
         BuildBox("Barrier", new Vector3(-350, 0.65f, -10), new Vector3(9, 1.3f, 0.6f), new Color("d06c47"));
         Place(new Vector3(-250, 0, 60));
@@ -142,6 +154,7 @@ public sealed class EnduranceSedanScenario : IDisposable
             _begun = true;
         }
         _stageFrames++;
+        if (CurrentStage == "static-ride") ObserveStaticRide();
         if (_vehicle.VisualRig is { } activeRig)
         {
             var key = $"epoch-{_vehicleEpoch}-lod-{activeRig.ActiveLod}";
@@ -208,11 +221,24 @@ public sealed class EnduranceSedanScenario : IDisposable
             teleports = _teleports, rebases = _streamer.RebaseCount - _initialRebases,
             resets = _vehicle.ResetToRoadCount - _initialResets,
             vehicle_epoch = _vehicleEpoch,
+            static_neutral = CurrentStage == "static-ride" ? new
+            {
+                minimum_frames = StaticMinimumFrames, warmup_frames = StaticWarmupFrames,
+                required_consecutive = StaticConsecutiveFrames, consecutive = _staticConsecutive,
+                maximum_linear_mps = 0.1, maximum_angular_radps = 0.05,
+                deadline_usec = StaticDeadlineUsec, started_usec = _staticStartUsec,
+                decision_usec = _staticSampleUsec,
+            } : null,
             observed_driving_lods = CurrentStage == "lod-driving" ? _drivingLods.Order().ToArray() : [],
             camera_direction_checks = CurrentStage == "cameras" ? _cameraDirectionChecks : null,
         };
         _results.Add(result);
         GD.Print($"CANNONBALL_ENDURANCE_SEDAN_STAGE_OK vehicle={_selectedVehicle} stage={CurrentStage} frames={_stageFrames}");
+        if (CurrentStage == "static-ride")
+        {
+            _vehicle.AutomationInputOverride = null;
+            WriteEvent("static-neutral-exit", new { override_cleared = _vehicle.AutomationInputOverride is null });
+        }
         _frames.Flush();
         ReleaseActions();
         _stageIndex++;
@@ -432,6 +458,24 @@ public sealed class EnduranceSedanScenario : IDisposable
                 Require(_vehicle.RigSetup.AssetId == (_selectedVehicle == "graybox" ? "hero-gt" : _selectedVehicle), "loaded vehicle identity mismatch");
                 Require(_selectedVehicle != "graybox" || _vehicle.UsesGrayboxVisual, "graybox fallback not selected");
                 Require(_vehicle.UsesGrayboxVisual || _vehicle.VisualRig?.ContractResolved == true, "visual contract unresolved");
+                _vehicle.AutomationInputOverride = StaticNeutralInput;
+                var perturbationBasis = _vehicle.GlobalBasis;
+                // Scope313: Godot local forward is -Z. Seed once; never clamp settling motion.
+                _vehicle.LinearVelocity = perturbationBasis * (Vector3.Right * 0.04f);
+                _vehicle.AngularVelocity = perturbationBasis * (Vector3.Forward * 0.10f);
+                _staticStartUsec = Time.GetTicksUsec();
+                _staticConsecutive = 0;
+                WriteEvent("static-neutral-entry", new
+                {
+                    started_usec = _staticStartUsec,
+                    local_linear = Vector(Vector3.Right * 0.04f), local_angular = Vector(Vector3.Forward * 0.10f),
+                    basis = new[] { Vector(perturbationBasis.X), Vector(perturbationBasis.Y), Vector(perturbationBasis.Z) },
+                    assigned_linear = Vector(_vehicle.LinearVelocity), assigned_angular = Vector(_vehicle.AngularVelocity),
+                    pad_instance = _staticPad.GetInstanceId().ToString(), reset_count = _initialResets,
+                    minimum_frames = StaticMinimumFrames, warmup_frames = StaticWarmupFrames,
+                    required_consecutive = StaticConsecutiveFrames, deadline_usec = StaticDeadlineUsec,
+                    first_observation = "entry-before-first-neutral-physics-step",
+                });
                 break;
             case "keyboard-acceleration": Godot.Input.ActionPress(GameInputMap.Accelerate); break;
             case "keyboard-braking": Godot.Input.ActionPress(GameInputMap.Brake); break;
@@ -532,7 +576,7 @@ public sealed class EnduranceSedanScenario : IDisposable
 
     private bool StageFinished() => CurrentStage switch
     {
-        "static-ride" => _stageFrames >= 240,
+        "static-ride" => _stageFrames >= StaticMinimumFrames && _staticConsecutive >= StaticConsecutiveFrames,
         "keyboard-acceleration" => _stageFrames >= 360,
         "keyboard-braking" => _stageFrames >= 480,
         "controller-acceleration" or "reverse" => _stageFrames >= 240,
@@ -564,6 +608,8 @@ public sealed class EnduranceSedanScenario : IDisposable
                     "contact-shading setup selection mismatch");
                 if (_vehicle.ContactShading is { SupportedRenderer: true })
                     Require(_contactVisibleWheelSamples > 0, "native contact shading never reached a contacted receiver");
+                Require(_stageFrames >= StaticMinimumFrames && _staticConsecutive >= StaticConsecutiveFrames,
+                    "neutral static ride lacks consecutive supported low-speed observations");
                 Require(_vehicle.GroundedWheelCount == 4, "static ride lacks four contacts");
                 Require(Math.Abs(_vehicle.RideHeightMeters - _vehicle.RigSetup.ChassisOriginHeightMeters) <= 0.02, "static ride height differs by more than20mm");
                 var collisionShapes = _vehicle.GetChildren().OfType<CollisionShape3D>().ToArray();
@@ -655,6 +701,40 @@ public sealed class EnduranceSedanScenario : IDisposable
         }
     }
 
+    private static double StaticVectorLength(Vector3 value)
+    {
+        double x = value.X, y = value.Y, z = value.Z;
+        return Math.Sqrt(x * x + y * y + z * z);
+    }
+
+    private void ObserveStaticRide()
+    {
+        _staticSampleUsec = Time.GetTicksUsec();
+        Require(_staticSampleUsec - _staticStartUsec <= StaticDeadlineUsec,
+            "neutral static ride exceeded15second settling deadline");
+        Require(!_vehicle.Freeze && !_vehicle.Sleeping && !_vehicle.CanSleep && !_parent.GetTree().Paused && !_vehicle.InspectionActive,
+            "neutral static ride was not an active unslept body");
+        Require(!_vehicle.AutopilotEnabled && _vehicle.AutomationInputOverride == StaticNeutralInput,
+            "neutral static ride override or autopilot changed");
+        // BeginStage assigns the override before the first complete neutral physics step.
+        if (_stageFrames > 1) Require(_vehicle.LastDriveInput == StaticNeutralInput, "neutral static ride received hold/brake/input");
+        Require(_vehicle.LinearVelocity.IsFinite() && _vehicle.AngularVelocity.IsFinite() && _vehicle.GlobalTransform.IsFinite(),
+            "neutral static ride produced nonfinite state");
+        Require(_vehicle.ResetToRoadCount == _initialResets && _teleports == 0,
+            "neutral static ride was reset or teleported");
+        _staticSupported = _vehicle.GroundedWheelCount == 4;
+        for (var wheel = 0; wheel < 4; wheel++)
+        {
+            var ray = _vehicle.SuspensionRay(wheel);
+            var compression = _vehicle.SuspensionCompressionMeters(wheel);
+            _staticSupported &= ray.IsColliding() && ray.GetCollider() == _staticPad &&
+                ray.GetCollisionPoint().IsFinite() && float.IsFinite(compression) && compression > 0;
+        }
+        _staticQualifies = _stageFrames > StaticWarmupFrames && _staticSupported &&
+            StaticVectorLength(_vehicle.LinearVelocity) <= 0.1 && StaticVectorLength(_vehicle.AngularVelocity) <= 0.05;
+        _staticConsecutive = _staticQualifies ? _staticConsecutive + 1 : 0;
+    }
+
     private void Sample()
     {
         var forward = -_vehicle.GlobalBasis.Z.Normalized();
@@ -677,10 +757,11 @@ public sealed class EnduranceSedanScenario : IDisposable
             _maximumCompression = Math.Max(_maximumCompression, compression);
             _minimumCompression = Math.Min(_minimumCompression, compression);
             var colliding = ray.IsColliding();
+            var collider = colliding ? ray.GetCollider() as Node : null;
             wheels[index] = new
             {
                 index, contact = colliding,
-                body = colliding ? (ray.GetCollider() as Node)?.Name.ToString() : null,
+                body = collider?.Name.ToString(), body_instance = collider?.GetInstanceId().ToString(),
                 position = colliding ? Vector(ray.GetCollisionPoint()) : null,
                 compression_m = compression,
                 displacement_from_static_m = compression - _vehicle.RigSetup.StaticCompressionMeters,
@@ -690,7 +771,17 @@ public sealed class EnduranceSedanScenario : IDisposable
         {
             kind = "physics-frame", frame = _physicsFrames, stage = CurrentStage, stage_frame = _stageFrames,
             vehicle_epoch = _vehicleEpoch,
-            input_source = _vehicle.AutopilotEnabled ? "route-autopilot" : "InputMap-action-fixture",
+            input_source = CurrentStage == "static-ride" ? "explicit-neutral-fixture" :
+                _vehicle.AutopilotEnabled ? "route-autopilot" : "InputMap-action-fixture",
+            static_neutral = CurrentStage == "static-ride" ? new
+            {
+                observed_usec = _staticSampleUsec, elapsed_usec = _staticSampleUsec - _staticStartUsec,
+                live = !_vehicle.Freeze && !_vehicle.Sleeping && !_vehicle.CanSleep && !_parent.GetTree().Paused && !_vehicle.InspectionActive,
+                override_neutral = _vehicle.AutomationInputOverride == StaticNeutralInput,
+                autopilot = _vehicle.AutopilotEnabled, grounded = _vehicle.GroundedWheelCount,
+                supported = _staticSupported, qualifies = _staticQualifies, consecutive = _staticConsecutive,
+                resets = _vehicle.ResetToRoadCount, teleports = _teleports,
+            } : null,
             frozen = _vehicle.Freeze, position = Vector(_vehicle.Position), velocity = Vector(_vehicle.LinearVelocity),
             basis = new[] { Vector(_vehicle.GlobalBasis.X), Vector(_vehicle.GlobalBasis.Y), Vector(_vehicle.GlobalBasis.Z) },
             angular_velocity = Vector(_vehicle.AngularVelocity), input = _vehicle.LastDriveInput,

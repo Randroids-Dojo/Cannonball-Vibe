@@ -181,9 +181,21 @@
       "stage": "wipers",
       "required_evidence": "At least three uninterrupted sweep/park cycles from driver/exterior/oblique camera, slow diagnostic cycle and swept-area/contact overlay",
       "failure_condition": "Incorrect pivot or handedness, blade passes through glass/trim, lifts off claimed contact span, blades collide, misses declared driver critical region, does not repeat park, freezes/jumps after camera/rebase/LOD",
-      "status": "pending",
-      "evidence": [],
-      "human_approval_reference": null
+      "status": "partial",
+      "evidence": [
+        {
+          "path": "reports/p1-018/finish-branch40/checkpoint49.json",
+          "bytes": 8343,
+          "sha256": "8be5369d9be8e315532578d1ec7acf51aebdd3cc5f6cd0121bdc0ae9c65af555"
+        },
+        {
+          "path": "data/assets/vehicles/endurance-sedan-review/runtime-completion-v49/review.json",
+          "bytes": 64314,
+          "sha256": "519ae3ccc0971c1e34a9cf06d1be1f461d8f4102dded86414fbfac18bdcda4ba"
+        }
+      ],
+      "human_approval_reference": null,
+      "verified_scope": "Source34 continuous wiper visibility review and fresh source193 driver/glass results pass in their recorded scopes. Final glass/interface/runtime motion rebind remains required."
     },
     {
       "id": "F05",
@@ -199,9 +211,21 @@
       "stage": "openings",
       "required_evidence": "Separate and simultaneous continuous four-door/hood/trunk open-close cycles, 0/25/50/75/100% stills and hinge/jamb/strut views; repeated close from partial travel",
       "failure_condition": "Wrong pivot, panel/body/inter-panel collision, interior void, detached glass/trim, wrong travel or stop, closure cannot return to recorded pose, UI inaccessible from keyboard/controller",
-      "status": "pending",
-      "evidence": [],
-      "human_approval_reference": null
+      "status": "partial",
+      "evidence": [
+        {
+          "path": "reports/p1-018/finish-branch40/checkpoint49.json",
+          "bytes": 8343,
+          "sha256": "8be5369d9be8e315532578d1ec7acf51aebdd3cc5f6cd0121bdc0ae9c65af555"
+        },
+        {
+          "path": "data/assets/vehicles/endurance-sedan-review/runtime-completion-v49/review.json",
+          "bytes": 64314,
+          "sha256": "519ae3ccc0971c1e34a9cf06d1be1f461d8f4102dded86414fbfac18bdcda4ba"
+        }
+      ],
+      "human_approval_reference": null,
+      "verified_scope": "Source34 continuous all-door framing review and current six-hinge endpoint/lifecycle showroom pass. Final-source changed jamb/trim/interassembly motion remains required."
     },
     {
       "id": "F07",
@@ -244,9 +268,21 @@
       "stage": "cost and performance",
       "required_evidence": "Active/total content inventory and actual native 1440p Forward+ captures with mirrors/lights/cockpit, standalone timing and 30-minute growth data",
       "failure_condition": "Provisional content ceiling exceeded without governance resolution; declared reference gate violated; movie-render throughput or headless FPS substituted for actual presentation cost",
-      "status": "pending",
-      "evidence": [],
-      "human_approval_reference": null
+      "status": "partial",
+      "evidence": [
+        {
+          "path": "reports/p1-018/finish-branch40/checkpoint49.json",
+          "bytes": 8343,
+          "sha256": "8be5369d9be8e315532578d1ec7acf51aebdd3cc5f6cd0121bdc0ae9c65af555"
+        },
+        {
+          "path": "data/assets/vehicles/endurance-sedan-review/runtime-completion-v49/review.json",
+          "bytes": 64314,
+          "sha256": "519ae3ccc0971c1e34a9cf06d1be1f461d8f4102dded86414fbfac18bdcda4ba"
+        }
+      ],
+      "human_approval_reference": null,
+      "verified_scope": "Explicit sedan/mirror reference capture selection exists; final reference performance and30-minute growth evidence remain pending."
     },
     {
       "id": "D01",
@@ -278,9 +314,19 @@
           "path": "reports/p1-018/qa/showroom29-review01/REVIEW16.md",
           "sha256": "42eef5aa1bd33c091d36b20a7f1a594112716d6733882de060948aa90d1155b4",
           "bytes": 5678
+        },
+        {
+          "path": "reports/p1-018/finish-branch40/checkpoint49.json",
+          "bytes": 8343,
+          "sha256": "8be5369d9be8e315532578d1ec7acf51aebdd3cc5f6cd0121bdc0ae9c65af555"
+        },
+        {
+          "path": "data/assets/vehicles/endurance-sedan-review/runtime-completion-v49/review.json",
+          "bytes": 64314,
+          "sha256": "519ae3ccc0971c1e34a9cf06d1be1f461d8f4102dded86414fbfac18bdcda4ba"
         }
       ],
-      "verified_scope": "Windows Compatibility/full and Forward+/full scenarios pass; final focused delta passes. Remote platforms for this revision remain pending.",
+      "verified_scope": "Current full local Compatibility showroom scenario passes while preserving all51 assertion sites and52 input/request/capture sites; conditional paths are not all executed by this invocation. Final owned shutdown0.350s. Hosted corrected revision and human usability remain required.",
       "human_approval_reference": null
     },
     {
@@ -304,9 +350,19 @@
           "path": "reports/p1-018/qa/showroom29-review01/REVIEW16.md",
           "sha256": "42eef5aa1bd33c091d36b20a7f1a594112716d6733882de060948aa90d1155b4",
           "bytes": 5678
+        },
+        {
+          "path": "reports/p1-018/finish-branch40/checkpoint49.json",
+          "bytes": 8343,
+          "sha256": "8be5369d9be8e315532578d1ec7acf51aebdd3cc5f6cd0121bdc0ae9c65af555"
+        },
+        {
+          "path": "data/assets/vehicles/endurance-sedan-review/runtime-completion-v49/review.json",
+          "bytes": 64314,
+          "sha256": "519ae3ccc0971c1e34a9cf06d1be1f461d8f4102dded86414fbfac18bdcda4ba"
         }
       ],
-      "verified_scope": "Tested minimum-zoom witness, underside and cockpit UI overlap are corrected. Night broad panels and reflection glare remain open. Some1440 images are explicitly UI-free after the unchanged screenshot limit.",
+      "verified_scope": "Twenty-one current showroom outputs plus warmup reviewed at1280x720: eleven useful views, wheel/UI clearance, rear row, underside, engine and luggage coverage. Dark panels, hood stippling and current form remain visible; final-art/Forward+ acceptance is separate.",
       "human_approval_reference": null
     },
     {
@@ -330,9 +386,19 @@
           "path": "reports/p1-018/qa/showroom29-review01/REVIEW16.md",
           "sha256": "42eef5aa1bd33c091d36b20a7f1a594112716d6733882de060948aa90d1155b4",
           "bytes": 5678
+        },
+        {
+          "path": "reports/p1-018/finish-branch40/checkpoint49.json",
+          "bytes": 8343,
+          "sha256": "8be5369d9be8e315532578d1ec7acf51aebdd3cc5f6cd0121bdc0ae9c65af555"
+        },
+        {
+          "path": "data/assets/vehicles/endurance-sedan-review/runtime-completion-v49/review.json",
+          "bytes": 64314,
+          "sha256": "519ae3ccc0971c1e34a9cf06d1be1f461d8f4102dded86414fbfac18bdcda4ba"
         }
       ],
-      "verified_scope": "Actual photos, controller hide/recover and bounded154-character notice pass. Physical pointer/focus/resize and human usability remain pending.",
+      "verified_scope": "Actual native-resolution UI-free Photo pair, keyboard/controller hide and R3 recovery, controller Photo and returned-driving image pass. Physical-input and accessibility reviews remain open.",
       "human_approval_reference": null
     },
     {
@@ -382,5 +448,5 @@
     "player comprehension and accessibility usability"
   ],
   "human_gates_status": "pending",
-  "updated_utc": "2026-09-13T04:08:49.790997+00:00"
+  "updated_utc": "2026-09-21T03:12:11.530676+00:00"
 }
