@@ -7,6 +7,7 @@ namespace Cannonball.Game.UI;
 public sealed partial class PrototypeHud : CanvasLayer
 {
     public event Action? TripOverviewRequested;
+    public event Action? ShowroomRequested;
     public event Action? RestartRunRequested;
 
     private Label _speed = null!;
@@ -103,8 +104,8 @@ public sealed partial class PrototypeHud : CanvasLayer
         _driverMenu = new ColorRect
         {
             Name = "DriverMenu",
-            Position = new Vector2(660, 188),
-            Size = new Vector2(600, 704),
+            Position = new Vector2(660, 142),
+            Size = new Vector2(600, 796),
             Color = new Color(0.018f, 0.024f, 0.04f, 0.96f),
             Visible = false,
             MouseFilter = Control.MouseFilterEnum.Stop,
@@ -148,11 +149,21 @@ public sealed partial class PrototypeHud : CanvasLayer
                 CancelRestartConfirmation();
                 OpenTripOverview();
             });
+        CreateMenuButton(
+            "ExploreVehicle",
+            "menu.driver.showroom",
+            "EXPLORE VEHICLE (SHOWROOM)",
+            474,
+            () =>
+            {
+                CancelRestartConfirmation();
+                OpenShowroom();
+            });
         _restartRun = CreateMenuButton(
             "RestartRun",
             "menu.driver.restart-run",
             "RESTART RUN",
-            474,
+            566,
             ArmOrConfirmRestartRun);
 
         _menuStatus = CreateMenuLabel(
@@ -160,7 +171,7 @@ public sealed partial class PrototypeHud : CanvasLayer
             "menu.driver.status",
             "Paused at current route position",
             18,
-            566);
+            658);
         _menuStatus.HorizontalAlignment = HorizontalAlignment.Center;
 
         var hint = CreateMenuLabel(
@@ -168,7 +179,7 @@ public sealed partial class PrototypeHud : CanvasLayer
             "menu.driver.hint",
             "ESC/B closes  //  arrows/D-pad move  //  ENTER/A selects",
             16,
-            646);
+            738);
         hint.HorizontalAlignment = HorizontalAlignment.Center;
         SetDriverMenuState(false, "closed");
     }
@@ -247,6 +258,21 @@ public sealed partial class PrototypeHud : CanvasLayer
         TripOverviewRequested?.Invoke();
     }
 
+    private void OpenShowroom()
+    {
+        // The showroom pauses the run itself and hands control back through
+        // ReturnFromShowroom, so leaving it lands on this menu, not the road.
+        SetDriverMenuOpen(false);
+        ShowroomRequested?.Invoke();
+    }
+
+    public void ReturnFromShowroom(string status)
+    {
+        SetDriverMenuOpen(true);
+        _driverMenu.GetNode<Button>("ExploreVehicle").GrabFocus();
+        SetMenuStatus(status);
+    }
+
     private void ArmOrConfirmRestartRun()
     {
         if (!_restartConfirmationArmed)
@@ -283,7 +309,7 @@ public sealed partial class PrototypeHud : CanvasLayer
             {
                 ["open"] = open,
                 ["status"] = status,
-                ["button_count"] = 4,
+                ["button_count"] = 5,
                 ["simulation_paused"] = open,
                 ["restart_confirmation_armed"] = _restartConfirmationArmed,
             });

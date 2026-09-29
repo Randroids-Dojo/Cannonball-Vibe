@@ -239,7 +239,7 @@ async def test_official_engine_semantic_round_trip(tmp_path: Path) -> None:
         driver_menu = await client.describe("menu.driver.root")
         assert driver_menu["visible"] is True
         assert driver_menu["test_state"] == {
-            "button_count": 4,
+            "button_count": 5,
             "open": True,
             "restart_confirmation_armed": False,
             "simulation_paused": True,
@@ -279,7 +279,7 @@ async def test_official_engine_semantic_round_trip(tmp_path: Path) -> None:
         closed_menu = await client.describe("menu.driver.root")
         assert closed_menu["visible"] is False
         assert closed_menu["test_state"] == {
-            "button_count": 4,
+            "button_count": 5,
             "open": False,
             "restart_confirmation_armed": False,
             "simulation_paused": False,

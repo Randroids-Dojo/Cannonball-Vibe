@@ -9,6 +9,7 @@ public partial class VehicleShowroom : CanvasLayer
 {
     public const string ScenePath = "res://game/Vehicle/Showroom/VehicleShowroom.tscn";
     [Export] public string AssetId { get; set; } = "endurance-sedan";
+    public string ReturnDestination { get; init; } = "inspection";
     public event Action? Closed;
     private readonly Godot.Collections.Dictionary _state = new();
     private readonly List<(Node Node, ProcessModeEnum Mode)> _hostModes = [];

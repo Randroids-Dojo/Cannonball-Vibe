@@ -589,3 +589,102 @@ async def test_vehicle_showroom_controls_and_modal_return(tmp_path: Path) -> Non
         "metrics_scope": "Short frame intervals; no GPU duration or reference-PC performance pass",
         "metrics_statistics_refresh_seconds": 1,
     }, indent=2, allow_nan=False) + "\n", encoding="utf-8")
+
+
+@pytest.mark.skipif("GODOT_BIN" not in os.environ, reason="GODOT_BIN enables live 4.7.1 tests")
+@pytest.mark.asyncio
+async def test_pause_menu_explores_vehicle_and_returns_to_menu(tmp_path: Path) -> None:
+    """Reach the showroom from the driver menu and come back to the same paused menu."""
+    package_root = REPO_ROOT / ".tools/scenarios/official-corridor"
+    pointer = json.loads((package_root / "current-package.json").read_text())
+    artifacts = Path(os.environ.get("PLAYGODOT_ARTIFACT_DIR", str(tmp_path)))
+    artifacts.mkdir(parents=True, exist_ok=True)
+    process = PlayGodotProcess(
+        REPO_ROOT, package_root / pointer["root_relative_path"],
+        vehicle="endurance-sedan", isolate_user_data=True,
+        capabilities=("read", "input", "screenshot"), startup_timeout=60, request_timeout=30,
+        transcript=artifacts / "menu-showroom.jsonl",
+        log_path=artifacts / "menu-showroom-godot.log",
+        rendering_method=os.environ.get("PLAYGODOT_SHOWROOM_RENDERER", "gl_compatibility"),
+    )
+    menu = "menu.driver.root"
+
+    async def menu_state(predicate: Callable[[dict], bool], reason: str) -> dict:
+        described = await wait_for_describe(
+            client, menu, lambda value: predicate(value["test_state"]), reason, timeout=10,
+        )
+        return described["test_state"]
+
+    async with process as client, asyncio.timeout(180):
+        await wait_for_describe(
+            client, "run.session",
+            lambda value: value["test_state"]["linear_speed_mps"] <= 0.5
+            and value["test_state"]["grounded_wheel_count"] == 4,
+            "The sedan did not settle before the menu case", timeout=10,
+        )
+        await _key(client, "Escape")
+        opened_menu = await menu_state(lambda value: value["open"], "Escape did not open the menu")
+        assert opened_menu["button_count"] == 5 and opened_menu["simulation_paused"] is True
+        entry = await client.describe("menu.driver.showroom")
+        assert entry["visible"] and entry["enabled"]
+        assert entry["text"] == "EXPLORE VEHICLE (SHOWROOM)"
+
+        await _click(client, "menu.driver.showroom")
+        viewer = await _state(
+            client, lambda value: value["view"] == "overview" and value["rendered_frames"] > 0,
+            "The driver menu did not open the showroom",
+        )
+        showroom_opened = asyncio.get_running_loop().time()
+        parked = (await client.describe("run.session"))["test_state"]
+        assert not (await client.describe(menu))["visible"]
+        assert (await client.describe("showroom.close"))["text"] == "Back to menu   Esc"
+        await _click(client, "showroom.open-all")
+        await _state(
+            client, lambda value: _openings_match(value, set(OPENINGS)),
+            "Open all did not reach every signed hinge angle from the menu path",
+        )
+        await client.screenshot(artifacts / "menu-showroom-open-all.png")
+
+        showroom_seconds = asyncio.get_running_loop().time() - showroom_opened
+        assert showroom_seconds >= 0.5
+        await _key(client, "Escape")
+        returned = await menu_state(
+            lambda value: value["open"] and value["status"] == "Returned from showroom",
+            "Escape did not return from the showroom to the driver menu",
+        )
+        assert returned["simulation_paused"] is True
+        assert (await client.request("ui.focused"))["automation_id"] == "menu.driver.showroom"
+        after = (await wait_for_describe(
+            client, "run.session",
+            lambda value: value["test_state"]["clock_ticks_msec"] > parked["clock_ticks_msec"],
+            "Main did not refresh its run state at the menu return", timeout=10,
+        ))["test_state"]
+        assert {key: after[key] for key in PARKED_RUN_FIELDS} == {
+            key: parked[key] for key in PARKED_RUN_FIELDS
+        }, "The menu showroom changed the hidden driving actor or run state"
+        # The run clock keeps counting under the driver menu, as it always has,
+        # but none of the time spent in the showroom may reach it.
+        wall_seconds = (after["clock_ticks_msec"] - parked["clock_ticks_msec"]) / 1000
+        gained = after["elapsed_seconds"] - parked["elapsed_seconds"]
+        assert 0 <= gained <= wall_seconds - showroom_seconds + 0.05, (
+            "Showroom wall time leaked into the run clock", gained, wall_seconds, showroom_seconds,
+        )
+
+        # The controller reaches the same entry and B returns to the menu.
+        await _joy_button(client, "a")
+        reopened = await _state(
+            client, lambda value: value["view"] == "overview" and value["rendered_frames"] > 0,
+            "Controller A on the focused menu entry did not reopen the showroom",
+        )
+        assert reopened["vehicle_instance_id"] != viewer["vehicle_instance_id"]
+        await _joy_button(client, "b")
+        await menu_state(
+            lambda value: value["open"] and value["status"] == "Returned from showroom",
+            "Controller B did not return from the showroom to the driver menu",
+        )
+
+        await client.request("input.click", {"automation_id": "menu.driver.resume"})
+        resumed = await menu_state(
+            lambda value: not value["open"], "Resume did not close the driver menu",
+        )
+        assert resumed["simulation_paused"] is False

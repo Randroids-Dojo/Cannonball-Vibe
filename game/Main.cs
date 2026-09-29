@@ -511,6 +511,7 @@ public sealed partial class Main : Node3D
             _hud = new PrototypeHud { Name = "PrototypeHud" };
             AddChild(_hud);
             _hud.TripOverviewRequested += OpenTripMap;
+            _hud.ShowroomRequested += OpenVehicleShowroomFromMenu;
             _hud.RestartRunRequested += RequestRestartRun;
             _tripMap = new TripMapHud { Name = "TripMapHud" };
             AddChild(_tripMap);
@@ -3707,20 +3708,32 @@ public sealed partial class Main : Node3D
 
     private void OpenVehicleShowroom()
     {
-        if (_shutdownStarted || GetTree().Paused || !_vehicle.InspectionActive) return;
+        if (!_vehicle.InspectionActive) return;
+        ShowVehicleShowroom("inspection", _vehicle.InspectionPanel.RestoreInspectionFocus);
+    }
+
+    // The pause menu reaches the showroom at any speed: the modal pauses the
+    // hidden run and its body keeps its velocity until the menu resumes it.
+    private void OpenVehicleShowroomFromMenu() =>
+        ShowVehicleShowroom("menu", () => _hud.ReturnFromShowroom("Returned from showroom"));
+
+    private void ShowVehicleShowroom(string returnDestination, Action returned)
+    {
+        if (_shutdownStarted || GetTree().Paused) return;
         _vehicle.DrivingInputController.ClearAndSuppress("showroom_opened");
         _tripMapPauseStartedTicks = Time.GetTicksMsec();
         UpdateRunAutomationState();
         var showroom = new Vehicle.Showroom.VehicleShowroom
         {
             AssetId = _vehicle.UsesGrayboxVisual ? "graybox" : _vehicle.RigSetup.AssetId,
+            ReturnDestination = returnDestination,
         };
         showroom.Closed += () =>
         {
             OnTripMapClosed();
             _vehicle.DrivingInputController.ClearAndSuppress("showroom_closed");
             UpdateRunAutomationState();
-            _vehicle.InspectionPanel.RestoreInspectionFocus();
+            returned();
         };
         showroom.OpenOver(this);
     }

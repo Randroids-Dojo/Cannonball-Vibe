@@ -85,7 +85,7 @@ public partial class VehicleShowroom
         _orbitButton = Button(column, "Start turntable", "showroom.orbit", ToggleOrbit);
         Button(column, "Save photo", "showroom.photo", SavePhoto).TooltipText = "Save the car view without interface elements";
         Button(column, "Hide controls   F1 / R3", "showroom.hide-ui", () => SetInterfaceVisible(false));
-        Button(column, _host is null ? "Exit showroom   Esc" : "Back to inspection   Esc", "showroom.close", Close);
+        Button(column, _host is null ? "Exit showroom   Esc" : $"Back to {ReturnDestination}   Esc", "showroom.close", Close);
 
         var lowerPanel = new PanelContainer { MouseFilter = Control.MouseFilterEnum.Ignore };
         _interface.AddChild(lowerPanel); lowerPanel.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.BottomWide);

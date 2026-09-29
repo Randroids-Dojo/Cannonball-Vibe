@@ -47,6 +47,10 @@ starting world and restores the deterministic seed, starting economy and vehicle
 condition, route progress, run clock, motion, assist profile, and chase camera.
 It does not delete or rewrite an existing suspend save.
 
+Explore Vehicle in the driver menu opens the showroom for the current car at
+any speed. The run stays paused and its clock excludes showroom time. Escape,
+B or Back to menu returns to the paused driver menu.
+
 ## Menus and trip map
 
 | Action | Keyboard | Controller |

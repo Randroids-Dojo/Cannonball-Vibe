@@ -605,11 +605,11 @@ async def test_controller_camera_recover_menu_and_confirmed_restart_are_distinct
                 "Start button did not open the driver menu",
             )
         )["test_state"]
-        assert menu["button_count"] == 4
+        assert menu["button_count"] == 5
         assert menu["restart_confirmation_armed"] is False
         assert (await client.request("ui.focused"))["automation_id"] == "menu.driver.resume"
 
-        for _ in range(3):
+        for _ in range(4):
             await _joy_button(client, "dpad_down", device=2)
         focus_deadline = asyncio.get_running_loop().time() + 2.0
         while True:

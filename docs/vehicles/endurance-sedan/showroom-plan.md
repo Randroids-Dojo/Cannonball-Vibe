@@ -101,3 +101,19 @@ same occupant anchor, with unchanged field of view, so the controls can be
 inspected with the interface visible. Actual full-UI captures must verify this
 composition at their declared resolution. These changes do not approve the
 vehicle's material response or driving camera.
+
+## Driver-menu entry (2026-09-29)
+
+On 2026-09-29 the owner asked for a driver-menu option that opens this same
+showroom. The driver menu gains `EXPLORE VEHICLE (SHOWROOM)`
+(`menu.driver.showroom`) between trip overview and the destructive restart
+entry. It opens the selected vehicle's showroom at any speed, not only when
+parked. The modal pauses and hides the run exactly as the inspection entry
+does. The driving body keeps its transform and velocity, and showroom time is
+excluded from the run clock. Leaving the showroom (Esc, B or `Back to menu`)
+returns to the paused driver menu, not to the road, so the player chooses
+when to resume. The focused entry reopens the showroom. The parked inspection
+entry is unchanged and still returns to its panel. The live case
+`test_pause_menu_explores_vehicle_and_returns_to_menu` enters from the menu,
+opens all six panels, returns by keyboard and by controller, and compares the
+authoritative run fields at the boundary.
