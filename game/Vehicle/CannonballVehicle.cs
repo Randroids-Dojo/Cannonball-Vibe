@@ -244,8 +244,6 @@ public sealed partial class CannonballVehicle : RigidBody3D
         {
             _physicsState?.Dispose();
             _physicsState = null;
-            // Each vehicle loads its own uncached setup; free it on the main thread.
-            RigSetup?.Dispose();
         }
     }
 

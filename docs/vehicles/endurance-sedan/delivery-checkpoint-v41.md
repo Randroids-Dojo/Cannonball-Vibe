@@ -120,9 +120,9 @@ Retained evidence: `data/assets/vehicles/endurance-sedan-review/delivery-v41/`.
 
 After #144 merged, the main CI run's Linux PlayGodot suite crashed once when a
 showroom test reopened the viewer. The crash was in `GodotObject.Finalize` for a
-C#-scripted `VehicleRigSetup` resource. Each vehicle build left its
-wrapper-authored cached setup, and its own uncached setup, for the GC finalizer
-to free on another thread, where that can race the next load of the same cached
-resource. Vehicles now release both on the main thread
+C#-scripted `VehicleRigSetup` resource. Each vehicle build replaced its
+wrapper-authored, cached setup without releasing it. The GC finalizer then freed
+it on another thread, where that can race the next load of the same cached
+resource. Vehicles now release the replaced setup on the main thread
 (`P1-018-RUNTIME41-SETUP-FINALIZER`). The sedan Godot inventory and manifest
 refresh the changed adapter hash; asset bytes are unchanged.
