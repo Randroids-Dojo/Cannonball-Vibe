@@ -48,7 +48,7 @@
       "attributes_checked": 1785258,
       "changed_normal_corners": 0,
       "changed_position_corners": 0,
-      "changed_uv_corners": 17,
+      "changed_uv_corners": 12,
       "corners": 595086,
       "embedded_images": 7,
       "maximum_normal_angle_degrees": 0.0,
@@ -62,8 +62,8 @@
       "triangles": 198362
     },
     "path": "data/assets/vehicles/endurance-sedan.corner-bake.json",
-    "raw_export_path": "C:/Dev/cv-sedan-finish/reports/p1-018/claude-default03/candidate-gate01/first/endurance-sedan.pre-corner-bake.glb",
-    "raw_glb_sha256": "143eee640ae6a09e1c434231e613e214cfef75734de84413aa75cfa7762c15fb",
+    "raw_export_path": "C:/Dev/cv-sedan-finish/reports/p1-018/claude-red-main-146/candidate-gate01/first/endurance-sedan.pre-corner-bake.glb",
+    "raw_glb_sha256": "9da8fbbec90f25eea29aefae02b46fc413a6ed5de7a7944c0299f72a60d0f600",
     "scope": "Ordered rigid triangle corners, every UV channel, scene/material metadata and exact embedded images; canonical encoding only",
     "source_sha256": "c7dcd907efab91433a43539fba642f61b8e451cb5faecb2c202af99472992aef",
     "validator_sha256": "7d3728f55d921c6204c62d7966ff4b54b252c5701bee09fd4bc1ae46d66d73e0"
@@ -77,7 +77,7 @@
     "maximum_allowed_uv_error": 1e-05,
     "maximum_measured_uv_error": 0.0,
     "path": "data/assets/vehicles/endurance-sedan.uv-bake.json",
-    "raw_export_path": "C:/Dev/cv-sedan-finish/reports/p1-018/claude-default03/candidate-gate01/first/endurance-sedan.pre-uv-bake.glb",
+    "raw_export_path": "C:/Dev/cv-sedan-finish/reports/p1-018/claude-red-main-146/candidate-gate01/first/endurance-sedan.pre-uv-bake.glb",
     "raw_glb_sha256": "1501414aad94cc5bb64fabc97305cb107b3b165a07b003814af5b3b6f23b5837",
     "scope": "Original reviewed UV float bytes only; all other GLB bytes must match exactly",
     "source_sha256": "c7dcd907efab91433a43539fba642f61b8e451cb5faecb2c202af99472992aef",
@@ -34654,7 +34654,7 @@
       "Wiper_L",
       "Wiper_R"
     ],
-    "path": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\candidate-gate01\\first\\endurance-sedan.glb",
+    "path": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-red-main-146\\candidate-gate01\\first\\endurance-sedan.glb",
     "scene_count": 1,
     "sha256": "1501414aad94cc5bb64fabc97305cb107b3b165a07b003814af5b3b6f23b5837"
   },
@@ -34662,7 +34662,7 @@
     "area_threshold_m2": 1e-12,
     "defects": [],
     "minimum_triangle_area_m2": 1.1297629498585593e-12,
-    "path": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\candidate-gate01\\first\\endurance-sedan.glb",
+    "path": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-red-main-146\\candidate-gate01\\first\\endurance-sedan.glb",
     "sha256": "1501414aad94cc5bb64fabc97305cb107b3b165a07b003814af5b3b6f23b5837",
     "status": "passed",
     "triangles": 198362
@@ -41642,8 +41642,8 @@
     "area_threshold_m2": 1e-12,
     "defects": [],
     "minimum_triangle_area_m2": 1.1297629498585593e-12,
-    "path": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\candidate-gate01\\first\\endurance-sedan.pre-corner-bake.glb",
-    "sha256": "143eee640ae6a09e1c434231e613e214cfef75734de84413aa75cfa7762c15fb",
+    "path": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-red-main-146\\candidate-gate01\\first\\endurance-sedan.pre-corner-bake.glb",
+    "sha256": "9da8fbbec90f25eea29aefae02b46fc413a6ed5de7a7944c0299f72a60d0f600",
     "status": "passed",
     "triangles": 198362
   },

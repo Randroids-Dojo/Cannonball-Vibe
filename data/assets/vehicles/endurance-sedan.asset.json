@@ -6136,7 +6136,7 @@
         },
         {
           "path": "game/Vehicle/CannonballVehicle.cs",
-          "sha256": "562bbf32b7d783ee82b7fe8fd11f4e9b8b08c640348329217d5f39a1dd7d75ad",
+          "sha256": "c4fe1c25bb9f0c8c3ed82637ac74e8da28413ef4a79ae5788680219c5249a56d",
           "kind": "locked-transformation-input"
         },
         {
@@ -6330,12 +6330,12 @@
     },
     {
       "path": "data/assets/vehicles/endurance-sedan.blender.json",
-      "sha256": "8c658a797b075d4ad772e6716a2dc7695c7e751cd7bd3cfc2b7c845668bfb877",
+      "sha256": "85c8d75bd97152ce2e0f63dbd76b1e5b5b8540733e9910fa19297e888ba112b3",
       "kind": "blender-inventory"
     },
     {
       "path": "data/assets/vehicles/endurance-sedan.godot.json",
-      "sha256": "fb68aeee4f5b8211aad848eaf9f5497386a0fb9c136966b64f2f47e41f127f27",
+      "sha256": "d4ac4f0e7ea8f1737f1869877c80ea12b2a915561810e0a047dd5be899b19b25",
       "kind": "godot-inventory"
     },
     {
@@ -6345,7 +6345,7 @@
     },
     {
       "path": "game/Vehicle/CannonballVehicle.cs",
-      "sha256": "562bbf32b7d783ee82b7fe8fd11f4e9b8b08c640348329217d5f39a1dd7d75ad",
+      "sha256": "c4fe1c25bb9f0c8c3ed82637ac74e8da28413ef4a79ae5788680219c5249a56d",
       "kind": "runtime-adapter-source"
     },
     {

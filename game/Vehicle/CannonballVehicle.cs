@@ -244,6 +244,8 @@ public sealed partial class CannonballVehicle : RigidBody3D
         {
             _physicsState?.Dispose();
             _physicsState = null;
+            // Each vehicle loads its own uncached setup; free it on the main thread.
+            RigSetup?.Dispose();
         }
     }
 
@@ -656,14 +658,22 @@ public sealed partial class CannonballVehicle : RigidBody3D
             OS.GetCmdlineUserArgs().Contains("--graybox-vehicle", StringComparer.Ordinal);
         if (!UsesGrayboxVisual)
         {
-            using var wrapper = ResourceLoader.Load<PackedScene>(
-                RigSetup.WrapperPath);
-            if (wrapper is null)
+            VehicleRigSetup? authored;
+            using (var wrapper = ResourceLoader.Load<PackedScene>(RigSetup.WrapperPath))
             {
-                throw new InvalidOperationException($"Vehicle wrapper scene could not be loaded: {RigSetup.WrapperPath}");
+                if (wrapper is null)
+                {
+                    throw new InvalidOperationException($"Vehicle wrapper scene could not be loaded: {RigSetup.WrapperPath}");
+                }
+                VisualRig = wrapper.Instantiate<VehicleVisualRig>();
+                authored = VisualRig.RigSetup;
             }
-            VisualRig = wrapper.Instantiate<VehicleVisualRig>();
             VisualRig.RigSetup = RigSetup;
+            // The wrapper scene's cached setup is replaced by this vehicle's own.
+            // Release it here, on the main thread. If the GC finalizer frees it
+            // instead, that can race the next load of the same cached resource,
+            // such as a showroom reopen, and crash in GodotObject.Finalize.
+            if (authored is not null && !ReferenceEquals(authored, RigSetup)) authored.Dispose();
             // The rig's ground plane sits where the road is at static ride
             // height: the chassis origin rests VisualRigMountHeightMeters above
             // the contact points once the springs carry the vehicle.
