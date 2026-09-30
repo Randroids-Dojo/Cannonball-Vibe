@@ -151,12 +151,11 @@ jobs:
       - name: Verify sedan presentation and all vehicle driving variants
         shell: bash
         run: ./scripts/verify-endurance-sedan.sh --vehicle all --output-root "$PWD/reports/p1-018/runtime/ci/$RUNNER_OS"
-      - name: Verify unchanged Hero GT source, exports and all LODs
-        # Hero GLBs match byte for byte on Linux, but its tracked contact sheet
-        # is a Windows render and renders are platform-specific.
-        if: ${{ runner.os == 'Windows' }}
-        shell: bash
-        run: ./scripts/verify-vehicle-asset.sh --vehicle hero-gt --all-lods
+      # The Hero GT asset gate stays local (verify-vehicle-asset.sh --vehicle
+      # hero-gt --all-lods): its contact sheet needs a GPU render. Hosted
+      # Windows crashes creating the OpenGL context, and hosted Linux renders
+      # differ from the tracked sheet (P1-018-CI41-LINUX-REPLAY, Q-048). The
+      # runtime step above still drives the Hero GT on both platforms.
       - name: Upload sedan platform evidence
         if: ${{ always() }}
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
