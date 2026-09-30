@@ -126,3 +126,10 @@ it on another thread, where that can race the next load of the same cached
 resource. Vehicles now release the replaced setup on the main thread
 (`P1-018-RUNTIME41-SETUP-FINALIZER`). The sedan Godot inventory and manifest
 refresh the changed adapter hash; asset bytes are unchanged.
+
+On main after that repair, hosted Linux passed. Hosted macOS then twice timed
+out waiting for an embedded showroom's first frame: shader compilation under
+ANGLE blocks the engine for about 10 seconds, the whole fixed wait. Showroom
+first-frame waits now allow 60 seconds (`P1-018-TEST41-MACOS-FIRST-FRAME`). A
+one-off Windows M0 `release-smoke-unit` temp-file error on the same commit
+passed on rerun and is unrelated to P1-018.
