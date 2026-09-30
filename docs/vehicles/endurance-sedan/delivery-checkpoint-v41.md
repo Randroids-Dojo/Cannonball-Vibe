@@ -84,6 +84,11 @@ and a full source-QA pass.
   frames. The rear mirror draws last on a 15 Hz wall-clock schedule, so fast
   renderers often read it black. That happened on production34 too. The probe
   now also waits 250 ms, and its coverage threshold is unchanged.
+- The first hosted run of the full gate passed the Windows asset gate. The
+  next project import then scanned that gate's retained evidence inside
+  `reports/` and failed its strict diagnostic policy. The verifier now marks
+  its evidence directory `.gdignore`, and the sedan job timeout rises from 45
+  to 75 minutes.
 
 ## Not changed and still open
 

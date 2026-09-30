@@ -68,7 +68,8 @@ jobs:
   endurance-sedan:
     name: Meridian S8R assets and runtime (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 45
+    # The bound source's full gate alone takes about 22 minutes on Windows.
+    timeout-minutes: 75
     strategy:
       fail-fast: false
       matrix:

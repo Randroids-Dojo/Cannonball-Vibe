@@ -22,6 +22,9 @@ const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
 const output = resolve(options.output ?? `reports/assets/p1-018/${timestamp}`);
 if (existsSync(output)) throw new Error(`Evidence directory already exists; preserve it and use a new --output: ${output}`);
 mkdirSync(output, { recursive: true });
+// Evidence inside the project retains staged projects and mutated sources;
+// keep later Godot imports of the real project from scanning them.
+writeFileSync(join(output, ".gdignore"), "");
 copyFileSync(join(root, "tools/vehicles/verify_endurance_sedan.mjs"), join(output, "verifier-input.mjs"));
 const asset = "endurance-sedan";
 const source = `data/assets/vehicles/sources/${asset}.blend`;

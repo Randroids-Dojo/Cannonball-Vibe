@@ -17057,6 +17057,23 @@
         }
       ],
       "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-CI41-EVIDENCE-IMPORT",
+      "severity": "major",
+      "status": "corrected_pending_hosted_verification",
+      "category": "ci-verification-coverage",
+      "observed_utc": "2026-09-30T15:04:55.279549+00:00",
+      "summary": "On hosted Windows, the sedan runtime step failed its strict import policy after the asset gate passed.",
+      "observed": "Run 36729049389 (443a467): the asset gate passed (CANNONBALL_ENDURANCE_SEDAN_ASSET_OK). The next project import then scanned the gate evidence retained under reports/assets/p1-018/Windows. It warned about the nested staging project.godot and raised a Blender-path error for a retained .blend. Local runs hid this behind a local reports/.gdignore, and earlier hosted runs never got past the gate. The same run also showed the job needs more than its 45-minute limit.",
+      "correction": "verify_endurance_sedan.mjs writes a .gdignore into its evidence directory. The sedan job timeout rises to 75 minutes.",
+      "verification": "Pending the next hosted assets run.",
+      "evidence": [
+        {
+          "path": "data/assets/vehicles/endurance-sedan-review/delivery-v41/review.json"
+        }
+      ],
+      "human_approval_reference": null
     }
   ],
   "qa_gaps": [
@@ -17200,5 +17217,5 @@
       "approval_reference": null
     }
   ],
-  "updated_utc": "2026-09-30T14:17:53.229797+00:00"
+  "updated_utc": "2026-09-30T15:04:55.279549+00:00"
 }
